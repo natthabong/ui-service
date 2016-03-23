@@ -1,3 +1,18 @@
+debug: true
+server:
+  port: 8080
+spring:
+  application:
+    name: ui-service
+ 
 security:
   user:
     password: password
+zuul:
+  routes:
+    resource:
+      path: /resource/**
+      url: http://localhost:9002/
+logging:
+  level:
+    org.springframework.security: DEBUG

@@ -76,7 +76,7 @@ function($rootScope, $http, $location, $route) {
 	var self = this;
 	$http.get('token').success(function(token) {
 		$http({
-			url : 'http://localhost:9002',
+			url : '/resource',
 			method : 'GET',
 			headers : {
 				'X-Auth-Token' : token.token
