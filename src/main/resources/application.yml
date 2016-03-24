@@ -1,13 +1,30 @@
 debug: true
 server:
   port: 8080
+
 spring:
   application:
     name: ui-service
+  datasource:
+    url: jdbc:sqlserver://;serverName=127.0.0.1;portNumber=1433;databaseName=GECSCF;
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: sa
+    password: gecadmin
+    platform: mssql
+    testWhileIdle: true
+    validationQuery: SELECT 1
+  jpa:
+    generate-ddl: true
+    hibernate.ddl-auto: create-drop
+    naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        format_sql: true
  
 security:
   user:
-    password: password
+    password: none
+    
 zuul:
   routes:
     resource:
