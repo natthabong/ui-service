@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>GEC Supply Chain Financing</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link th:href="@{/js/bower_components/bootstrap/dist/css/bootstrap.min.css}" href="../../static/js/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- MetisMenu CSS -->
+    <link th:href="@{/js/bower_components/metisMenu/dist/metisMenu.min.css}" href="../../static/js/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet" />
+
+    <!-- Timeline CSS -->
+    <link th:href="@{/css/timeline.css}" href="../../static/css/timeline.css" rel="stylesheet" />
+
+    <!-- GECSCF CSS -->
+    <link th:href="@{/css/gecscf.css}" href="../../static/css/gecscf.css" rel="stylesheet" />
+
+
+    <!-- Custom Fonts -->
+    <link th:href="@{/js/bower_components/font-awesome/css/font-awesome.min.css}" href="../../static/js/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" th:href="@{/}" href="/">GEC Supply Chain Financing</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					Thanunchai.kun [General Electronic Commerce Services]<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a th:src="@{/logout}" href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>Read All Messages</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-messages -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-tasks">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 1</strong>
+                                        <span class="pull-right text-muted">40% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 2</strong>
+                                        <span class="pull-right text-muted">20% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                            <span class="sr-only">20% Complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 3</strong>
+                                        <span class="pull-right text-muted">60% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                            <span class="sr-only">60% Complete (warning)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 4</strong>
+                                        <span class="pull-right text-muted">80% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                            <span class="sr-only">80% Complete (danger)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Tasks</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-tasks -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-comment fa-fw"></i> New Comment
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-tasks fa-fw"></i> New Task
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-alerts -->
+                </li>
+
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation" th:replace="fragments/sidebar :: sidebar">
+                <!-- ============================================================================ -->
+                <!-- This content is only used for static prototyping purposes (natural templates)-->
+                <!-- and is therefore entirely optional, as this markup fragment will be included -->
+                <!-- from "fragments/header.html" at runtime.                                     -->
+                <!-- ============================================================================ -->
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search..." />
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="flot.html">Flot Charts</a>
+                                </li>
+                                <li>
+                                    <a href="morris.html">Morris.js Charts</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Create Loan Request - Create</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <div class="row">
+
+                <!-- Start Column Panel-->
+                <div class="col-md-12">
+                    <div class="stepwizard bottom-1em ">
+                        <div class="stepwizard-row">
+                            <div class="stepwizard-step">
+                                <button type="button" class="btn btn-primary btn-circle">1</button>
+                                <p><b>Create</b></p>
+                            </div>
+                            <div class="stepwizard-step">
+                                <button type="button" class="btn btn-default btn-circle" disabled="disabled">2</button>
+                                <p><b>Validate and Submit</b></p>
+                            </div>
+                            <div class="stepwizard-step">
+                                <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
+                                <p><b>Summary</b></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form name="createForm" class="form-horizontal" ng-submit="payCtrl.createPayment()">
+                        <div class="form-group">
+                            <label for="sponsor" class="col-md-2 col-sm-3 col-xs-12 control-label">Sponsor : </label>
+                            <div class="form-inline">
+                                <div class="col-md-5 col-sm-5 col-xs-12">
+                                    <select id="sponsor" class="form-control">
+                                        <option>บริษัท ร่วมใจ จำกัด</option>
+                                        <option>บริษัท อยู่สุขสบาย จำกัด</option>
+                                    </select>
+                                    <button type="button" class="form-control">Select</button>
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-sm-4"></div>
+                        </div>
+
+                        <!-- Start Payment Field-->
+                        <div class="form-group">
+                            <label for="paymentDate" class="col-md-2 col-sm-3 col-xs-12 control-label">Loan Request Date : </label>
+                            <div class="col-md-2 col-sm-3 col-xs-12">
+                                <p class="input-group">
+                                    <input id="paymentDate" type="text" class="form-control" readonly="true" uib-datepicker-popup="dd/MM/yyyy" ng-model="payCtrl.paymentModel.paymentDate" is-open="payCtrl.dateoption.opendate" close-text="Close" />
+                                    <span class="input-group-btn">
+											<button id="btnPayDate" type="button" class="btn btn-default" ng-click="payCtrl.popUpDate()">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</span>
+                                </p>
+                            </div>
+
+                            <label for="instrument" class="col-md-2 col-sm-3 col-xs-12 control-label">Instrument Type. : </label>
+                            <div class="col-md-2 col-sm-3 col-xs-12">
+                                <label class="radio-inline">
+                                    <input type="radio" name="instrument" />&nbsp;P/N</label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="instrument" />&nbsp;O/D</label>
+
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="accNo" class="col-md-2 col-sm-3 col-xs-12 control-label">Loan Account No. : </label>
+                            <div class="col-md-2 col-sm-3 col-xs-12">
+                                <select id="accNo" class="form-control" ng-model="payCtrl.paymentModel.accountNo">
+                                    <option id="accNo_1" value=""></option>
+                                    <option id="accNo_2" value="0001122226">000-1-12222-6</option>
+                                    <option id="accNo_3" value="0001444446">000-1-44444-6</option>
+                                    <option id="accNo_4" value="0001124556">000-1-12455-6</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 col-md-8"></div>
+                        </div>
+                        <!-- End Payment Field-->
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="col-md-4">
+                                            <label>Ledger Balance: </label> <span>1,000,000 Baht</span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Available Balance: </label> <span>1,000,000 Baht</span>
+                                        </div>
+                                        <div class="col-md-4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <span class="total-record">Total of Record(s): 2</span>
+                        </div>
+                    </div>
+
+                    <!-- Start Table-->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <table id="paymentGrid" class="table table-bordered">
+                                <thead>
+                                    <tr class="bg-primary">
+                                        <th class="tr-2em text-center">
+                                            <input type="checkbox" />
+                                        </th>
+                                        <th class="tr-4em text-center">#</th>
+                                        <th class="tr-8em text-center">Doc. No</th>
+                                        <th class="tr-8em text-center">Sponsor Code</th>
+                                        <th class="tr-10em text-center">Sponsor Name</th>
+                                        <th class="tr-8em text-center">Doc date</th>
+                                        <th class="tr-6em text-center">W/T Tax Amount</th>
+                                        <th class="tr-8em text-center">Amount</th>
+                                        <th class="tr-6em text-center">Total Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <input type="checkbox" checked="checked" />
+                                        </td>
+                                        <td class="text-right">
+                                            <span class="text-space">1</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-space">D00001</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-space">00001</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-space">บริษัท ร่วมใจ จำกัด</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="text-space">15/03/2016</span>
+                                        </td>
+                                        <td class="text-right"><span class="text-space">30.00</span></td>
+                                        <td class="text-right"><span class="text-space">100.00</span></td>
+                                        <td class="text-right"><span class="text-space">70.00</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            <input type="checkbox" />
+                                        </td>
+                                        <td class="text-right"><span class="text-space">2</span></td>
+                                        <td><span class="text-space">D00002</span></td>
+                                        <td><span class="text-space">00001</span></td>
+                                        <td><span class="text-space">บริษัท ร่วมใจ จำกัด</span></td>
+                                        <td class="text-center"><span class="text-space">15/03/2016</span></td>
+                                        <td class="text-right"><span class="text-space">0.00</span></td>
+                                        <td class="text-right"><span class="text-space">100.00</span></td>
+                                        <td class="text-right"><span class="text-space">100.00</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-9 text-right">
+                                            <label>Total Amount: </label>
+                                        </div>
+                                        <div class="col-md-3 text-right">
+                                            <span>170.00 <b>Baht</b></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-9 text-right">
+                                            <label>Total WHT Amount: </label>
+                                        </div>
+                                        <div class="col-md-3 text-right">
+                                            <span>30.00 <b>Baht</b></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-1 text-left">
+                                            <form method="get" th:action="@{/loan/create-validate}">
+                                                <button type="submit" class="btn btn-default">Create</button>
+                                            </form>
+                                            
+                                        </div>
+                                        <div class="col-md-8 text-right">
+                                            <label>Gran Total Amount: </label>
+                                        </div>
+                                        <div class="col-md-3 text-right">
+                                            <span>200.00 <b>Baht</b></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Column Panel-->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script th:src="@{/js/bower_components/jquery/dist/jquery.min.js}" src="../../static/js/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script th:src="@{/js/bower_components/bootstrap/dist/js/bootstrap.min.js}" src="../../static/js/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script th:src="@{/js/bower_components/metisMenu/dist/metisMenu.min.js}" src="../../static/js/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+
+    <!-- Custom Theme JavaScript -->
+    <script th:src="@{/js/gecscf.js}" src="../static/js/gecscf.js"></script>
+
+</body>
+
+</html>
