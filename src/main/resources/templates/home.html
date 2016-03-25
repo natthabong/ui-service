@@ -27,11 +27,9 @@
     <!-- Custom Fonts -->
     <link th:href="@{/js/bower_components/font-awesome/css/font-awesome.min.css}" href="../static/js/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 
-
-
 </head>
 
-<body>
+<body ng-app="scfApp" ng-controller="ScfHomeCtrl as scfCtrl">
 
     <div id="wrapper">
 
@@ -55,7 +53,7 @@
 					Thanunchai.kun [General Electronic Commerce Services]<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> {{'myprofile' | translate}}</a>
                         </li>
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
@@ -255,6 +253,11 @@
                     </ul>
                     <!-- /.dropdown-alerts -->
                 </li>
+				
+				<li class="dropdown">
+					 <button class="btn btn-default btn-xs" ng-click="scfCtrl.changeLanguage('en_EN')">EN</button>
+					<button class="btn btn-default btn-xs" ng-click="scfCtrl.changeLanguage('th_TH')">TH</button>
+				</li>
 
             </ul>
             <!-- /.navbar-top-links -->
@@ -304,7 +307,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
+                    <h1 class="page-header" ng-bind="('dashboard' | translate)"></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -858,6 +861,16 @@
 
     <!-- Custom Theme JavaScript -->
     <script th:src="@{/js/gecscf.js}" src="../static/js/gecscf.js"></script>
+
+	
+	<!-- Angular -->
+	<script th:src="@{/js/bower_components/angular/angular.min.js}" src="../static/js/bower_components/angular/angular.min.js"></script>
+	<!-- Angular Translate -->
+	<script th:src="@{/js/bower_components/angular-translate/angular-translate.min.js}" src="../static/js/bower_components/angular-translate/angular-translate.min.js"></script>
+	<script th:src="@{/js/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min.js}" src="../static/js/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min.js"></script>
+	
+	<!-- controller -->
+	<script th:src="@{/js/scf-app.js}" src="../static/js/scf-app.js"></script>
 
 </body>
 
