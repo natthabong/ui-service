@@ -5,6 +5,8 @@ server:
 spring:
   application:
     name: ui-service
+  thymeleaf:
+    cache: false
   datasource:
     url: jdbc:sqlserver://;serverName=127.0.0.1;portNumber=1433;databaseName=GECSCF;
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
@@ -20,7 +22,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
- 
 security:
   user:
     password: none

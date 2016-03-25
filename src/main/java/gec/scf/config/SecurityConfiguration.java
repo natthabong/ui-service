@@ -22,10 +22,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
@@ -36,12 +38,17 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
+	@Autowired
+	private AuthenticationSuccessHandler loginSuccessHandler;
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.httpBasic().and().logout().and().authorizeRequests()
-				.antMatchers("/index.html", "/home.html", "/login.html", "/").permitAll().anyRequest().authenticated()
-				.and().csrf().csrfTokenRepository(csrfTokenRepository()).and()
-				.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
+		http.formLogin().successHandler(loginSuccessHandler).defaultSuccessUrl("/").loginPage("/login").and().logout()
+				.and().authorizeRequests().antMatchers("/login").permitAll().anyRequest().authenticated();
+		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+		http.csrf().csrfTokenRepository(csrfTokenRepository()).and().addFilterAfter(csrfHeaderFilter(),
+				CsrfFilter.class);
+
 	}
 
 	private Filter csrfHeaderFilter() {

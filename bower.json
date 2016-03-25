@@ -1,0 +1,27 @@
+{
+  "name": "ui-service",
+  "authors": [
+    "Natthapong <natthapong.noo@gec.co.th>"
+  ],
+  "license": "Apache",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/main/resources/static/js/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "font-awesome": "^4.5.0",
+    "angular": "^1.5.2",
+    "metisMenu": "^2.4.3"
+  },
+  "description": "",
+  "main": "",
+  "moduleType": [
+    "node"
+  ],
+  "homepage": ""
+}
