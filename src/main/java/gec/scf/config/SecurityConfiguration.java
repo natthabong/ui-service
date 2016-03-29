@@ -43,7 +43,7 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.formLogin().successHandler(loginSuccessHandler).defaultSuccessUrl("/").loginPage("/login").and().logout()
+		http.formLogin().successHandler(loginSuccessHandler).loginPage("/login").and().logout()
 				.and().authorizeRequests().antMatchers("/login").permitAll().anyRequest().authenticated();
 		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 		http.csrf().csrfTokenRepository(csrfTokenRepository()).and().addFilterAfter(csrfHeaderFilter(),

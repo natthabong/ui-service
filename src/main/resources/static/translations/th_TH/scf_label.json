@@ -1,8 +1,8 @@
 {
-"myprofile": "ข้อมูลของฉัน",
-"dashboard": "แผงควบคุม",
-"btnSave": "บันทึก",
-"btnBack": "กลับ",
-"thai": "ไทย",
-"english": "อังกฤษ"
+    "myprofile": "ข้อมูลของฉัน",
+    "dashboard": "แผงควบคุม",
+    "thai": "ไทย",
+    "english": "อังกฤษ",
+    "loan-request": "คำร้องขอกู้",
+    "loan-request-create": "สร้างคำร้องขอกู้"
 }
