@@ -12,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import gec.scf.domain.Menu;
+import gec.scf.domain.MenuRepository;
+import gec.scf.domain.MenuType;
 import gec.scf.domain.Privilege;
 import gec.scf.domain.PrivilegeRepository;
 import gec.scf.domain.Role;
@@ -30,6 +33,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 	private RoleRepository roleRepository;
 	@Autowired
 	private PrivilegeRepository privilegeRepository;
+	@Autowired
+	private MenuRepository menuRepository;
 
 	@Override
 	@Transactional
@@ -53,6 +58,23 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		user.setEnabled(true);
 		userRepository.save(user);
 
+		// Generate Menu
+		Menu loanMenu = new Menu();
+		loanMenu.setMenuId("loan-request");
+		loanMenu.setIcon("fa-usd");
+		loanMenu.setRoles(Arrays.asList(adminRole));
+		loanMenu.setMenuType(MenuType.MAIN);
+		menuRepository.save(loanMenu);
+
+		Menu loanCreateMenu = new Menu();
+		loanCreateMenu.setMenuId("loan-request-create");
+		loanCreateMenu.setUrl("/loan/create");
+		loanCreateMenu.setRoles(Arrays.asList(adminRole));
+		loanCreateMenu.setParent(loanMenu);
+		loanCreateMenu.setMenuType(MenuType.SUB);
+		loanMenu.add(loanCreateMenu);
+
+		menuRepository.save(loanCreateMenu);
 		alreadySetup = true;
 	}
 

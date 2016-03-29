@@ -31,7 +31,7 @@
 
 </head>
 
-<body>
+<body ng-app="scfApp" >
 
     <div id="wrapper">
 
@@ -489,7 +489,7 @@
                                             <form method="get" th:action="@{/loan/create-validate}">
                                                 <button type="submit" class="btn btn-default">Create</button>
                                             </form>
-                                            
+
                                         </div>
                                         <div class="col-md-8 text-right">
                                             <label>Gran Total Amount: </label>
@@ -513,18 +513,30 @@
     </div>
     <!-- /#wrapper -->
 
+    <!-- /#wrapper -->
+
     <!-- jQuery -->
-    <script th:src="@{/js/bower_components/jquery/dist/jquery.min.js}" src="../../static/js/bower_components/jquery/dist/jquery.min.js"></script>
+    <script th:src="@{/js/bower_components/jquery/dist/jquery.min.js}" src="../static/js/bower_components/jquery/dist/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script th:src="@{/js/bower_components/bootstrap/dist/js/bootstrap.min.js}" src="../../static/js/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/bower_components/bootstrap/dist/js/bootstrap.min.js}" src="../static/js/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script th:src="@{/js/bower_components/metisMenu/dist/metisMenu.min.js}" src="../../static/js/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <script th:src="@{/js/bower_components/metisMenu/dist/metisMenu.min.js}" src="../static/js/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
 
     <!-- Custom Theme JavaScript -->
     <script th:src="@{/js/gecscf.js}" src="../static/js/gecscf.js"></script>
+
+
+    <!-- Angular -->
+    <script th:src="@{/js/bower_components/angular/angular.min.js}" src="../static/js/bower_components/angular/angular.min.js"></script>
+    <!-- Angular Translate -->
+    <script th:src="@{/js/bower_components/angular-translate/angular-translate.min.js}" src="../static/js/bower_components/angular-translate/angular-translate.min.js"></script>
+    <script th:src="@{/js/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min.js}" src="../static/js/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min.js"></script>
+
+    <!-- controller -->
+    <script th:src="@{/js/scf-app.js}" src="../static/js/scf-app.js"></script>
 
 </body>
 

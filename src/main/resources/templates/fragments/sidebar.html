@@ -41,7 +41,7 @@
         <!-- and is therefore entirely optional, as this markup fragment will be included -->
         <!-- from "fragments/header.html" at runtime.                                     -->
         <!-- ============================================================================ -->
-        <div class="sidebar-nav navbar-collapse">
+        <div class="sidebar-nav navbar-collapse" ng-controller="ScfHomeCtrl as sidebarCtrl">
             <ul class="nav" id="side-menu">
                 <li class="sidebar-search">
                     <div class="input-group custom-search-form">
@@ -54,20 +54,15 @@
                     </div>
                     <!-- /input-group -->
                 </li>
-                <li>
-                    <a href="#"><i class="fa fa-usd fa-fw"></i> Loan<span class="fa arrow"></span></a>
+                <li th:each="menu : ${session.menus}">
+                    <a th:href="${menu.url?:'#'}" th:id="${menu.menuId+'-menu'}" href="#">
+                        <i th:class="${'fa ' + menu.icon + ' fa-fw'}"></i> <span th:inline="text">{{ '[[${menu.menuId}]]'  | translate }}</span><span class="fa arrow"></span>
+                    </a>
                     <ul class="nav nav-second-level">
-                        <li>
-                            <a th:href="@{/loan/create}" href="#">Create Loan Request</a>
-                        </li>
-                        <li>
-                            <a th:href="@{/loan/check}" href="#">Check Loan Request</a>
-                        </li>
-                        <li>
-                            <a th:href="@{/loan/approve}" href="#">Approve Loan Request</a>
+                        <li th:each="children : ${menu.children}">
+                            <a th:href="${children.url?:'#'}" th:id="${children.menuId+'-menu'}"><span th:inline="text">{{ '[[${children.menuId}]]' | translate}}</span></a>
                         </li>
                     </ul>
-                    <!-- /.nav-second-level -->
                 </li>
                 <li>
                     <a href="tables.html"><i class="fa fa-table fa-fw"></i> Logs</a>

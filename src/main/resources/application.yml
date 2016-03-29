@@ -31,6 +31,6 @@ zuul:
     resource:
       path: /resource/**
       url: http://localhost:9002/
-logging:
-  level:
-    org.springframework.security: DEBUG
+#logging:
+#  level:
+#    org.springframework.security: DEBUG

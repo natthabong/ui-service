@@ -1,8 +1,8 @@
 {
-"myprofile": "My Profile",
-"dashboard": "Dashboard",
-"btnSave": "Save",
-"btnBack": "Back",
-"thai": "Thai",
-"english": "Eng"
+    "myprofile": "My Profile",
+    "dashboard": "Dashboard",
+    "thai": "Thai",
+    "english": "Eng",
+    "loan-request": "Loan Request",
+    "loan-request-create": "Create Loan Request"
 }

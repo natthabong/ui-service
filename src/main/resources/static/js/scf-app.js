@@ -20,6 +20,7 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
     function($translate, $translatePartialLoader, scfFactory) {
         var self = this;
 		self.sysMessage = "";
+        self.menus = [];
         self.changeLanguage = function(lang) {
             $translatePartialLoader.addPart('translations');
             $translate.use(lang);
@@ -34,12 +35,24 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 			});
 			
 		};
+        
+        self.getMyMenu = function(){
+            var defered = scfFactory.getMyMenu();
+            defered.promise.then(function(response){
+                console.log(response);
+                self.menus = response;
+            }).catch(function(){
+                
+            });
+        };
+        self.getMyMenu();
     }
 ]);
 
 app.factory('scfFactory', ['$http', '$q', function($http, $q) {
     return {
-        getErrorMsg: getErrorMsg
+        getErrorMsg: getErrorMsg,
+        getMyMenu: getMyMenu,
     };
 
     function getErrorMsg(lang) {
@@ -52,6 +65,23 @@ app.factory('scfFactory', ['$http', '$q', function($http, $q) {
                 headers: {
                     'X-Auth-Token': token.token,
                     'Accept-Language': lang
+                }
+            }).success(function(response){
+				deferred.resolve(response);
+			});
+        });
+        return deferred;
+    }
+    
+    function getMyMenu() {
+    	var deferred = $q.defer();
+        $http.get('token').success(function(token) {
+			
+            $http({
+                url: 'http://localhost:9002/menus/me',
+                method: 'GET',
+                headers: {
+                    'X-Auth-Token': token.token
                 }
             }).success(function(response){
 				deferred.resolve(response);
