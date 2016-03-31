@@ -1,4 +1,4 @@
-var app = angular.module('scfApp', ['pascalprecht.translate'])
+var app = angular.module('scfApp', ['pascalprecht.translate','ui.bootstrap'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider',
         function($httpProvider, $translateProvider, $translatePartialLoaderProvider) {
 
@@ -48,6 +48,18 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
         self.getMyMenu();
     }
 ]);
+
+    app.controller('CreateLoanRequestCtrl', [function() {
+        var self = this;
+
+        self.isOpenLoanReq = false;
+        self.dateFormat = "dd/MM/yyyy";
+
+        self.loanReqDate = new Date();
+        self.openCalLoanDate = function() {		
+            self.isOpenLoanReq = true;
+        };
+    }]);
 
 app.factory('scfFactory', ['$http', '$q', function($http, $q) {
     return {

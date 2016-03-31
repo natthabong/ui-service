@@ -4,5 +4,6 @@
     "thai": "Thai",
     "english": "Eng",
     "loan-request": "Loan Request",
-    "loan-request-create": "Create Loan Request"
+    "loan-request-create": "Create Loan Request",
+    "loan-request-create-flow": "Create Loan Request Flow"
 }

@@ -28,9 +28,9 @@ class CorsFilter implements Filter {
 		response.setHeader("X-Frame-Options", "DENY");
 		response.setHeader("X-XSS-Protection", "1; mode=block");
 		response.setHeader("X-Content-Type-Options", "nosniff");
-		response.setHeader("Content-Security-Policy", "default-src 'self'"); // Chrome 25+, Firefox 23+, safari 7+, ie Edge 12 build 10240+
+//		response.setHeader("Content-Security-Policy", "default-src 'self'"); // Chrome 25+, Firefox 23+, safari 7+, ie Edge 12 build 10240+
 		response.setHeader("X-Content-Security-Policy", "default-src 'self'"); //Firefox 4+, ie 10+ Limited
-		response.setHeader("X-Webkit-CSP", "default-src 'self'"); //Chrome 14+, safari 6+
+//		response.setHeader("X-Webkit-CSP", "default-src 'self'"); //Chrome 14+, safari 6+
 		if (request.getMethod() != "OPTIONS") {
 			chain.doFilter(req, res);
 		} else {

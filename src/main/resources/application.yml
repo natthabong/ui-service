@@ -21,7 +21,7 @@ spring:
     naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
-        format_sql: true
+        format_sql: true  
 security:
   user:
     password: none

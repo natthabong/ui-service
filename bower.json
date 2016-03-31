@@ -18,7 +18,8 @@
     "angular": "^1.5.2",
     "metisMenu": "^2.4.3",
     "angular-translate": "^2.11.0",
-    "angular-translate-loader-partial": "^2.11.0"
+    "angular-translate-loader-partial": "^2.11.0",
+    "angular-bootstrap": "^1.2.5"
   },
   "description": "",
   "main": "",

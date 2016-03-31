@@ -48,8 +48,6 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 		http.csrf().csrfTokenRepository(csrfTokenRepository()).and().addFilterAfter(csrfHeaderFilter(),
 				CsrfFilter.class);
-		http.headers()
-		.httpStrictTransportSecurity().includeSubDomains(true).maxAgeInSeconds(31536000);
 
 	}
 
@@ -65,8 +63,6 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					if (cookie == null || token != null && !token.equals(cookie.getValue())) {
 						cookie = new Cookie("XSRF-TOKEN", token);
 						cookie.setPath("/");
-						cookie.setSecure(true);
-						cookie.setHttpOnly(true);
 						response.addCookie(cookie);
 					}
 				}

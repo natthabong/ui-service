@@ -73,8 +73,17 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		loanCreateMenu.setParent(loanMenu);
 		loanCreateMenu.setMenuType(MenuType.SUB);
 		loanMenu.add(loanCreateMenu);
+		
+		Menu loanCreateFlowMenu = new Menu();
+		loanCreateFlowMenu.setMenuId("loan-request-create-flow");
+		loanCreateFlowMenu.setUrl("/loans");
+		loanCreateFlowMenu.setRoles(Arrays.asList(adminRole));
+		loanCreateFlowMenu.setParent(loanMenu);
+		loanCreateFlowMenu.setMenuType(MenuType.SUB);
+		loanMenu.add(loanCreateFlowMenu);
 
 		menuRepository.save(loanCreateMenu);
+		menuRepository.save(loanCreateFlowMenu);
 		alreadySetup = true;
 	}
 

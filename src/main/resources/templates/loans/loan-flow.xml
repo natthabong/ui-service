@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="
+	  	http://www.springframework.org/schema/webflow
+	  	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<on-start>
+		<evaluate expression="loanController.createLoanRequest()" result="flowScope.createLoanRequest" />
+	</on-start>
+	<view-state id="create" view="/loans/create" model="createLoanRequest">
+		<binder>
+			<binding property="sponsorId" required="true"/>
+			<binding property="loanReqDate" required="true"/>
+			<binding property="instrumentType" required="true"/>
+			<binding property="loanAccountNo" required="true"/>
+			<binding property="documentNos" required="false"/>
+		</binder>
+		<transition on="createNewLoan" to="createValidate" history="discard">
+			<evaluate expression="loanController.verifyLoanRequest(createLoanRequest)" result="flowScope.createLoanRequest"/>
+		</transition>
+	</view-state>
+	
+	<view-state id="createValidate" view="/loans/create-validate" model="createLoanRequest">
+		<binder>
+			<binding property="sponsorId" required="true"/>
+			<binding property="loanReqDate" required="true"/>
+			<binding property="instrumentType" required="true"/>
+			<binding property="loanAccountNo" required="true"/>
+			<binding property="documentNos" required="false"/>
+		</binder>
+		<transition on="confirmNewLoan" to="createLoanSuccess" history="discard">
+			<evaluate expression="loanController.confirmLoanCreate(createLoanRequest, externalContext)"></evaluate>
+		</transition>
+		<transition on="backNewLoan" to="create"></transition>
+	</view-state>
+	
+	<end-state id="createLoanSuccess" view="externalRedirect:loans"></end-state>
+</flow>
