@@ -21,25 +21,17 @@ import gec.scf.config.WebFlowConfig;
 @Configuration
 public class WebConfiguration extends WebMvcConfigurerAdapter {
 
-//	private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {"/", "classpath:/META-INF/resources/",
-//			"classpath:/resources/", "classpath:/static/", "classpath:/public/" };
-
-//	private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {"/", "classpath:/resources/",
-//			"classpath:/templates/loans/"};
-	
 	@Autowired
 	private WebFlowConfig webFlowConfig;
-	
+
 	@Autowired
 	private SpringTemplateEngine springTemplateEngine;
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("home");
-		registry.addViewController("/home").setViewName("home");
 		registry.addViewController("/login").setViewName("login");
 	}
-	
+
 	@Override
 	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
 		configurer.favorPathExtension(true).favorParameter(true);
@@ -49,7 +41,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 	public FilterRegistrationBean hiddenFilterRegistrationBean() {
 		return new FilterRegistrationBean(new HiddenHttpMethodFilter());
 	}
-	
+
 	@Bean
 	public FlowHandlerMapping flowHandlerMapping() {
 		FlowHandlerMapping handlerMapping = new FlowHandlerMapping();
@@ -65,15 +57,15 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 		handlerAdapter.setSaveOutputToFlashScopeOnRedirect(true);
 		return handlerAdapter;
 	}
-	
+
 	@Bean
 	public AjaxThymeleafViewResolver ajaxThymeleafViewResolver() {
 		AjaxThymeleafViewResolver viewResolver = new AjaxThymeleafViewResolver();
 		viewResolver.setViewClass(FlowAjaxThymeleafView.class);
 		viewResolver.setTemplateEngine(springTemplateEngine);
 		return viewResolver;
-	}	
-	
+	}
+
 	@Bean
 	public ServletContextTemplateResolver templateResolver() {
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
@@ -86,6 +78,5 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
 	}
-	
-	
+
 }

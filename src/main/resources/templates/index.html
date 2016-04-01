@@ -58,7 +58,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a th:src="@{/logout}" href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li ng-controller="LogoutController as logoutCtroller"><a href="#" ng-click="logoutCtroller.logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -867,12 +867,15 @@
     <!-- Angular -->
     <script th:src="@{/js/bower_components/angular/angular.min.js}" src="../static/js/bower_components/angular/angular.min.js"></script>
     <script th:src="@{/js/bower_components/angular-ui-router/release/angular-ui-router.js}" src="../static/js/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+     <script th:src="@{/js/bower_components/angular-cookies/angular-cookies.min.js}" src="../static/js/bower_components/angular-cookies/angular-cookies.min.js"></script>
     <!-- Angular Translate -->
     <script th:src="@{/js/bower_components/angular-translate/angular-translate.min.js}" src="../static/js/bower_components/angular-translate/angular-translate.min.js"></script>
     <script th:src="@{/js/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min.js}" src="../static/js/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min.js"></script>
-	<script th:src="@{/js/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js}" src="../static/js/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script th:src="@{/js/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js}" src="../static/js/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <!-- controller -->
     <script th:src="@{/js/scf-app.js}" src="../static/js/scf-app.js"></script>
+
+    <script th:src="@{/js/authentication.js}" src="../static/js/authentication.js"></script>
 
 </body>
 

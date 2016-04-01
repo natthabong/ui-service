@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     var app = angular.module('authenApp', ['ngCookies']).config(function ($httpProvider) {
-        
+
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         $httpProvider.defaults.headers.common['Accept'] = 'application/json';
@@ -12,7 +12,7 @@
             return $.param(data);
         }
     });
-    app.controller('LoginController', ['$location', 'AuthenticationService', function ($location, AuthenticationService) {
+    app.controller('LoginController', ['$window', 'AuthenticationService', function ($window, AuthenticationService) {
         var self = this;
 
         self.login = login;
@@ -28,19 +28,37 @@
                 console.log(response);
                 if (response.success) {
                     AuthenticationService.SetCredentials(self.username, self.password);
-                    $location.path('/');
+                    $window.location.href = '/';
                 } else {
                     self.dataLoading = false;
                 }
             });
         };
     }]);
+    app.controller('LogoutController', ['$window', 'AuthenticationService', function ($window, AuthenticationService) {
+
+        var vm = this;
+        vm.logout = function () {
+
+            AuthenticationService.Logout(function (response) {
+                console.log(response);
+                if (response.success) {
+                    $window.location.href = '/';
+                } else {
+                    self.dataLoading = false;
+                }
+            });
+        };
+
+}]);
+
 
 
     app.factory('AuthenticationService', ['$http', '$cookieStore', '$rootScope', '$timeout', function ($http, $cookieStore, $rootScope, $timeout) {
         var service = {};
 
         service.Login = Login;
+        service.Logout = Logout;
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
 
@@ -50,10 +68,21 @@
 
             /* Use this for real authentication
              ----------------------------------------------*/
-            $http.post('http://gecscf.com:9002/api/authenticate', {
+            $http.post('/api/authenticate', {
                     username: username,
                     password: password
                 })
+                .success(function (response) {
+                    callback(response);
+                });
+
+        }
+
+        function Logout(callback) {
+            ClearCredentials();
+            /* Use this for real authentication
+             ----------------------------------------------*/
+            $http.get('/api/logout', {})
                 .success(function (response) {
                     callback(response);
                 });

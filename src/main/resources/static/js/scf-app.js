@@ -1,4 +1,4 @@
-var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap'])
+var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider) {
 
