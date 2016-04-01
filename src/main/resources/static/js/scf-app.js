@@ -1,4 +1,4 @@
-var app = angular.module('scfApp', ['pascalprecht.translate',  'ui.router','ui.bootstrap'])
+var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider) {
 
@@ -22,9 +22,9 @@ var app = angular.module('scfApp', ['pascalprecht.translate',  'ui.router','ui.b
                     url: "/loan/create",
                     templateUrl: "/loan/create",
                     resolve: {
-						load: function($timeout) {
-							return $timeout(angular.noop, 1200);
-						}
+                        load: function ($timeout) {
+                            return $timeout(angular.noop, 1200);
+                        }
                     }
                 });
 
@@ -54,21 +54,23 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
     }
 ]);
 
-   app.controller('CreateLoanRequestCtrl', [function() {
-        var self = this;
+app.controller('CreateLoanRequestCtrl', [function () {
+    var self = this;
 
-        self.isOpenLoanReq = false;
-        self.dateFormat = "dd/MM/yyyy";
+    self.isOpenLoanReq = false;
+    self.dateFormat = "dd/MM/yyyy";
 
-        self.loanReqDate = new Date();
-        self.openCalLoanDate = function() {		
-            self.isOpenLoanReq = true;
-        };
+    self.loanReqDate = new Date();
+    self.openCalLoanDate = function () {
+        self.isOpenLoanReq = true;
+    };
     }]);
+
 
 app.factory('scfFactory', ['$http', '$q', function ($http, $q) {
     return {
         getErrorMsg: getErrorMsg
+
     };
 
     function getErrorMsg(lang) {
@@ -90,18 +92,18 @@ app.factory('scfFactory', ['$http', '$q', function ($http, $q) {
     }
 }]);
 
-app.run(function($rootScope){
+app.run(function ($rootScope) {
 
     $rootScope
-        .$on('$stateChangeStart', 
-            function(event, toState, toParams, fromState, fromParams){ 
+        .$on('$stateChangeStart',
+            function (event, toState, toParams, fromState, fromParams) {
                 // Show loading here
-        });
+            });
 
     $rootScope
         .$on('$stateChangeSuccess',
-            function(event, toState, toParams, fromState, fromParams){ 
-              // Hide loading here
-        });
+            function (event, toState, toParams, fromState, fromParams) {
+                // Hide loading here
+            });
 
 });
