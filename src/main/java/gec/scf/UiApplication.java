@@ -8,9 +8,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @RestController
@@ -29,6 +31,11 @@ public class UiApplication {
 	@ResponseBody
 	public Map<String, String> token(HttpSession session) {
 		return Collections.singletonMap("token", session.getId());
+	}
+
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
 	}
 
 }

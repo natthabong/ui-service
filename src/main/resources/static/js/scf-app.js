@@ -1,6 +1,6 @@
-var app = angular.module('scfApp', ['pascalprecht.translate'])
-    .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider',
-        function($httpProvider, $translateProvider, $translatePartialLoaderProvider) {
+var app = angular.module('scfApp', ['pascalprecht.translate',  'ui.router'])
+    .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider',
+        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider) {
 
             $translateProvider.useLoader('$translatePartialLoader', {
                 urlTemplate: '../{part}/{lang}/scf_label.json'
@@ -8,57 +8,61 @@ var app = angular.module('scfApp', ['pascalprecht.translate'])
 
             $translateProvider.preferredLanguage('en_EN');
             $translatePartialLoaderProvider.addPart('translations');
-			$translateProvider.useSanitizeValueStrategy('escapeParameters');
-			
+            $translateProvider.useSanitizeValueStrategy('escapeParameters');
+
             $httpProvider.defaults.headers.common['Accept-Language'] = 'en_EN';
             $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+            $stateProvider
+                .state('/home', {
+                    url: "/home",
+                    templateUrl: "/home"
+                })
+                .state('/loan/create', {
+                    url: "/loan/create",
+                    templateUrl: "/loan/create",
+                    resolve: {
+						load: function($timeout) {
+							return $timeout(angular.noop, 1200);
+						}
+                    }
+                });
 
         }
     ]);
 
 app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFactory',
-    function($translate, $translatePartialLoader, scfFactory) {
+    function ($translate, $translatePartialLoader, scfFactory) {
         var self = this;
-		self.sysMessage = "";
+        self.sysMessage = "";
         self.menus = [];
-        self.changeLanguage = function(lang) {
+        self.changeLanguage = function (lang) {
             $translatePartialLoader.addPart('translations');
             $translate.use(lang);
             $translate.refresh(lang);
         };
-		
-		self.getMessage = function() {
-			
-			var defered = scfFactory.getErrorMsg($translate.use());
-			defered.promise.then(function(response){
-				self.sysMessage = response.content;
-			});
-			
-		};
-        
-        self.getMyMenu = function(){
-            var defered = scfFactory.getMyMenu();
-            defered.promise.then(function(response){
-                console.log(response);
-                self.menus = response;
-            }).catch(function(){
-                
+
+        self.getMessage = function () {
+
+            var defered = scfFactory.getErrorMsg($translate.use());
+            defered.promise.then(function (response) {
+                self.sysMessage = response.content;
             });
+
         };
-        self.getMyMenu();
+
     }
 ]);
 
-app.factory('scfFactory', ['$http', '$q', function($http, $q) {
+app.factory('scfFactory', ['$http', '$q', function ($http, $q) {
     return {
-        getErrorMsg: getErrorMsg,
-        getMyMenu: getMyMenu,
+        getErrorMsg: getErrorMsg
     };
 
     function getErrorMsg(lang) {
-    	var deferred = $q.defer();
-        $http.get('token').success(function(token) {
-			
+        var deferred = $q.defer();
+        $http.get('token').success(function (token) {
+
             $http({
                 url: 'http://localhost:9002/message',
                 method: 'GET',
@@ -66,27 +70,26 @@ app.factory('scfFactory', ['$http', '$q', function($http, $q) {
                     'X-Auth-Token': token.token,
                     'Accept-Language': lang
                 }
-            }).success(function(response){
-				deferred.resolve(response);
-			});
-        });
-        return deferred;
-    }
-    
-    function getMyMenu() {
-    	var deferred = $q.defer();
-        $http.get('token').success(function(token) {
-			
-            $http({
-                url: 'http://localhost:9002/menus/me',
-                method: 'GET',
-                headers: {
-                    'X-Auth-Token': token.token
-                }
-            }).success(function(response){
-				deferred.resolve(response);
-			});
+            }).success(function (response) {
+                deferred.resolve(response);
+            });
         });
         return deferred;
     }
 }]);
+
+app.run(function($rootScope){
+
+    $rootScope
+        .$on('$stateChangeStart', 
+            function(event, toState, toParams, fromState, fromParams){ 
+                // Show loading here
+        });
+
+    $rootScope
+        .$on('$stateChangeSuccess',
+            function(event, toState, toParams, fromState, fromParams){ 
+              // Hide loading here
+        });
+
+});

@@ -31,7 +31,7 @@
 
 </head>
 
-<body ng-app="scfApp" >
+<body ng-app="scfApp">
 
     <div id="wrapper">
 
@@ -300,213 +300,214 @@
             </div>
             <!-- /.navbar-static-side -->
         </nav>
-
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Create Loan Request - Create</h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <div class="row">
-
-                <!-- Start Column Panel-->
-                <div class="col-md-12">
-                    <div class="stepwizard bottom-1em ">
-                        <div class="stepwizard-row">
-                            <div class="stepwizard-step">
-                                <button type="button" class="btn btn-primary btn-circle">1</button>
-                                <p><b>Create</b></p>
-                            </div>
-                            <div class="stepwizard-step">
-                                <button type="button" class="btn btn-default btn-circle" disabled="disabled">2</button>
-                                <p><b>Validate and Submit</b></p>
-                            </div>
-                            <div class="stepwizard-step">
-                                <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
-                                <p><b>Summary</b></p>
-                            </div>
-                        </div>
+        <div ui-view="">
+            <div id="page-wrapper" th:fragment="content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Create Loan Request - Create</h1>
                     </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <div class="row">
 
-                    <form name="createForm" class="form-horizontal" ng-submit="payCtrl.createPayment()">
-                        <div class="form-group">
-                            <label for="sponsor" class="col-md-2 col-sm-3 col-xs-12 control-label">Sponsor : </label>
-                            <div class="form-inline">
-                                <div class="col-md-5 col-sm-5 col-xs-12">
-                                    <select id="sponsor" class="form-control">
-                                        <option>บริษัท ร่วมใจ จำกัด</option>
-                                        <option>บริษัท อยู่สุขสบาย จำกัด</option>
-                                    </select>
-                                    <button type="button" class="form-control">Select</button>
+                    <!-- Start Column Panel-->
+                    <div class="col-md-12">
+                        <div class="stepwizard bottom-1em ">
+                            <div class="stepwizard-row">
+                                <div class="stepwizard-step">
+                                    <button type="button" class="btn btn-primary btn-circle">1</button>
+                                    <p><b>Create</b></p>
+                                </div>
+                                <div class="stepwizard-step">
+                                    <button type="button" class="btn btn-default btn-circle" disabled="disabled">2</button>
+                                    <p><b>Validate and Submit</b></p>
+                                </div>
+                                <div class="stepwizard-step">
+                                    <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
+                                    <p><b>Summary</b></p>
                                 </div>
                             </div>
-                            <div class="col-md-5 col-sm-4"></div>
                         </div>
 
-                        <!-- Start Payment Field-->
-                        <div class="form-group">
-                            <label for="paymentDate" class="col-md-2 col-sm-3 col-xs-12 control-label">Loan Request Date : </label>
-                            <div class="col-md-2 col-sm-3 col-xs-12">
-                                <p class="input-group">
-                                    <input id="paymentDate" type="text" class="form-control" readonly="true" uib-datepicker-popup="dd/MM/yyyy" ng-model="payCtrl.paymentModel.paymentDate" is-open="payCtrl.dateoption.opendate" close-text="Close" />
-                                    <span class="input-group-btn">
+                        <form name="createForm" class="form-horizontal" ng-submit="payCtrl.createPayment()">
+                            <div class="form-group">
+                                <label for="sponsor" class="col-md-2 col-sm-3 col-xs-12 control-label">Sponsor : </label>
+                                <div class="form-inline">
+                                    <div class="col-md-5 col-sm-5 col-xs-12">
+                                        <select id="sponsor" class="form-control">
+                                            <option>บริษัท ร่วมใจ จำกัด</option>
+                                            <option>บริษัท อยู่สุขสบาย จำกัด</option>
+                                        </select>
+                                        <button type="button" class="form-control">Select</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-sm-4"></div>
+                            </div>
+
+                            <!-- Start Payment Field-->
+                            <div class="form-group">
+                                <label for="paymentDate" class="col-md-2 col-sm-3 col-xs-12 control-label">Loan Request Date : </label>
+                                <div class="col-md-2 col-sm-3 col-xs-12">
+                                    <p class="input-group">
+                                        <input id="paymentDate" type="text" class="form-control" readonly="true" uib-datepicker-popup="dd/MM/yyyy" ng-model="payCtrl.paymentModel.paymentDate" is-open="payCtrl.dateoption.opendate" close-text="Close" />
+                                        <span class="input-group-btn">
 											<button id="btnPayDate" type="button" class="btn btn-default" ng-click="payCtrl.popUpDate()">
 												<i class="glyphicon glyphicon-calendar"></i>
 											</button>
 										</span>
-                                </p>
-                            </div>
-
-                            <label for="instrument" class="col-md-2 col-sm-3 col-xs-12 control-label">Instrument Type. : </label>
-                            <div class="col-md-2 col-sm-3 col-xs-12">
-                                <label class="radio-inline">
-                                    <input type="radio" name="instrument" />&nbsp;P/N</label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="instrument" />&nbsp;O/D</label>
-
-                            </div>
-                            <div class="col-md-4"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="accNo" class="col-md-2 col-sm-3 col-xs-12 control-label">Loan Account No. : </label>
-                            <div class="col-md-2 col-sm-3 col-xs-12">
-                                <select id="accNo" class="form-control" ng-model="payCtrl.paymentModel.accountNo">
-                                    <option id="accNo_1" value=""></option>
-                                    <option id="accNo_2" value="0001122226">000-1-12222-6</option>
-                                    <option id="accNo_3" value="0001444446">000-1-44444-6</option>
-                                    <option id="accNo_4" value="0001124556">000-1-12455-6</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-6 col-md-8"></div>
-                        </div>
-                        <!-- End Payment Field-->
-
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <div class="col-md-4">
-                                            <label>Ledger Balance: </label> <span>1,000,000 Baht</span>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>Available Balance: </label> <span>1,000,000 Baht</span>
-                                        </div>
-                                        <div class="col-md-4"></div>
-                                    </div>
+                                    </p>
                                 </div>
+
+                                <label for="instrument" class="col-md-2 col-sm-3 col-xs-12 control-label">Instrument Type. : </label>
+                                <div class="col-md-2 col-sm-3 col-xs-12">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="instrument" />&nbsp;P/N</label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="instrument" />&nbsp;O/D</label>
+
+                                </div>
+                                <div class="col-md-4"></div>
                             </div>
-                        </div>
-                    </form>
 
-                    <div class="row">
-                        <div class="col-md-12 text-right">
-                            <span class="total-record">Total of Record(s): 2</span>
-                        </div>
-                    </div>
+                            <div class="form-group">
+                                <label for="accNo" class="col-md-2 col-sm-3 col-xs-12 control-label">Loan Account No. : </label>
+                                <div class="col-md-2 col-sm-3 col-xs-12">
+                                    <select id="accNo" class="form-control" ng-model="payCtrl.paymentModel.accountNo">
+                                        <option id="accNo_1" value=""></option>
+                                        <option id="accNo_2" value="0001122226">000-1-12222-6</option>
+                                        <option id="accNo_3" value="0001444446">000-1-44444-6</option>
+                                        <option id="accNo_4" value="0001124556">000-1-12455-6</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6 col-md-8"></div>
+                            </div>
+                            <!-- End Payment Field-->
 
-                    <!-- Start Table-->
-                    <div class="row">
-                        <div class="col-md-12">
-
-                            <table id="paymentGrid" class="table table-bordered">
-                                <thead>
-                                    <tr class="bg-primary">
-                                        <th class="tr-2em text-center">
-                                            <input type="checkbox" />
-                                        </th>
-                                        <th class="tr-4em text-center">#</th>
-                                        <th class="tr-8em text-center">Doc. No</th>
-                                        <th class="tr-8em text-center">Sponsor Code</th>
-                                        <th class="tr-10em text-center">Sponsor Name</th>
-                                        <th class="tr-8em text-center">Doc date</th>
-                                        <th class="tr-6em text-center">W/T Tax Amount</th>
-                                        <th class="tr-8em text-center">Amount</th>
-                                        <th class="tr-6em text-center">Total Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input type="checkbox" checked="checked" />
-                                        </td>
-                                        <td class="text-right">
-                                            <span class="text-space">1</span>
-                                        </td>
-                                        <td>
-                                            <span class="text-space">D00001</span>
-                                        </td>
-                                        <td>
-                                            <span class="text-space">00001</span>
-                                        </td>
-                                        <td>
-                                            <span class="text-space">บริษัท ร่วมใจ จำกัด</span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="text-space">15/03/2016</span>
-                                        </td>
-                                        <td class="text-right"><span class="text-space">30.00</span></td>
-                                        <td class="text-right"><span class="text-space">100.00</span></td>
-                                        <td class="text-right"><span class="text-space">70.00</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td class="text-right"><span class="text-space">2</span></td>
-                                        <td><span class="text-space">D00002</span></td>
-                                        <td><span class="text-space">00001</span></td>
-                                        <td><span class="text-space">บริษัท ร่วมใจ จำกัด</span></td>
-                                        <td class="text-center"><span class="text-space">15/03/2016</span></td>
-                                        <td class="text-right"><span class="text-space">0.00</span></td>
-                                        <td class="text-right"><span class="text-space">100.00</span></td>
-                                        <td class="text-right"><span class="text-space">100.00</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-9 text-right">
-                                            <label>Total Amount: </label>
-                                        </div>
-                                        <div class="col-md-3 text-right">
-                                            <span>170.00 <b>Baht</b></span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-9 text-right">
-                                            <label>Total WHT Amount: </label>
-                                        </div>
-                                        <div class="col-md-3 text-right">
-                                            <span>30.00 <b>Baht</b></span>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="col-md-4">
+                                                <label>Ledger Balance: </label> <span>1,000,000 Baht</span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Available Balance: </label> <span>1,000,000 Baht</span>
+                                            </div>
+                                            <div class="col-md-4"></div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-1 text-left">
-                                            <form method="get" th:action="@{/loan/create-validate}">
-                                                <button type="submit" class="btn btn-default">Create</button>
-                                            </form>
+                                </div>
+                            </div>
+                        </form>
 
-                                        </div>
-                                        <div class="col-md-8 text-right">
-                                            <label>Gran Total Amount: </label>
-                                        </div>
-                                        <div class="col-md-3 text-right">
-                                            <span>200.00 <b>Baht</b></span>
-                                        </div>
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <span class="total-record">Total of Record(s): 2</span>
+                            </div>
+                        </div>
 
+                        <!-- Start Table-->
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <table id="paymentGrid" class="table table-bordered">
+                                    <thead>
+                                        <tr class="bg-primary">
+                                            <th class="tr-2em text-center">
+                                                <input type="checkbox" />
+                                            </th>
+                                            <th class="tr-4em text-center">#</th>
+                                            <th class="tr-8em text-center">Doc. No</th>
+                                            <th class="tr-8em text-center">Sponsor Code</th>
+                                            <th class="tr-10em text-center">Sponsor Name</th>
+                                            <th class="tr-8em text-center">Doc date</th>
+                                            <th class="tr-6em text-center">W/T Tax Amount</th>
+                                            <th class="tr-8em text-center">Amount</th>
+                                            <th class="tr-6em text-center">Total Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">
+                                                <input type="checkbox" checked="checked" />
+                                            </td>
+                                            <td class="text-right">
+                                                <span class="text-space">1</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-space">D00001</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-space">00001</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-space">บริษัท ร่วมใจ จำกัด</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="text-space">15/03/2016</span>
+                                            </td>
+                                            <td class="text-right"><span class="text-space">30.00</span></td>
+                                            <td class="text-right"><span class="text-space">100.00</span></td>
+                                            <td class="text-right"><span class="text-space">70.00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <input type="checkbox" />
+                                            </td>
+                                            <td class="text-right"><span class="text-space">2</span></td>
+                                            <td><span class="text-space">D00002</span></td>
+                                            <td><span class="text-space">00001</span></td>
+                                            <td><span class="text-space">บริษัท ร่วมใจ จำกัด</span></td>
+                                            <td class="text-center"><span class="text-space">15/03/2016</span></td>
+                                            <td class="text-right"><span class="text-space">0.00</span></td>
+                                            <td class="text-right"><span class="text-space">100.00</span></td>
+                                            <td class="text-right"><span class="text-space">100.00</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-9 text-right">
+                                                <label>Total Amount: </label>
+                                            </div>
+                                            <div class="col-md-3 text-right">
+                                                <span>170.00 <b>Baht</b></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-9 text-right">
+                                                <label>Total WHT Amount: </label>
+                                            </div>
+                                            <div class="col-md-3 text-right">
+                                                <span>30.00 <b>Baht</b></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-1 text-left">
+                                                <form method="get" th:action="@{/loan/create-validate}">
+                                                    <button type="submit" class="btn btn-default">Create</button>
+                                                </form>
+
+                                            </div>
+                                            <div class="col-md-8 text-right">
+                                                <label>Gran Total Amount: </label>
+                                            </div>
+                                            <div class="col-md-3 text-right">
+                                                <span>200.00 <b>Baht</b></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- End Column Panel-->
                 </div>
-                <!-- End Column Panel-->
+                <!-- /.row -->
             </div>
-            <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
 
@@ -531,6 +532,7 @@
 
     <!-- Angular -->
     <script th:src="@{/js/bower_components/angular/angular.min.js}" src="../static/js/bower_components/angular/angular.min.js"></script>
+    <script th:src="@{/js/bower_components/angular-ui-router/release/angular-ui-router.js}" src="../static/js/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <!-- Angular Translate -->
     <script th:src="@{/js/bower_components/angular-translate/angular-translate.min.js}" src="../static/js/bower_components/angular-translate/angular-translate.min.js"></script>
     <script th:src="@{/js/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min.js}" src="../static/js/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min.js"></script>

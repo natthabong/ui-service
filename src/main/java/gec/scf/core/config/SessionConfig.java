@@ -1,4 +1,4 @@
-package gec.scf.config;
+package gec.scf.core.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;

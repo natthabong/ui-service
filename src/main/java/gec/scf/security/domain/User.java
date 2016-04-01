@@ -1,26 +1,12 @@
-package gec.scf.domain;
+package gec.scf.security.domain;
 
 import java.io.Serializable;
 import java.util.Collection;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="user_info")
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 5449863904849782028L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
 
 	private String firstName;
@@ -30,9 +16,14 @@ public class User implements Serializable {
 	private boolean enabled;
 	private boolean tokenExpired;
 
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "userId") , inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "roleId") )
 	private Collection<Role> roles;
+
+	public User(String email) {
+		this.email = email;
+	}
+
+	public User() {
+	}
 
 	public String getFirstName() {
 		return firstName;
