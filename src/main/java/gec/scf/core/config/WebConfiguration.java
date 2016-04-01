@@ -1,4 +1,4 @@
-package gec.scf.config;
+package gec.scf.core.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
@@ -15,6 +15,8 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.AjaxThymeleafViewResolver;
 import org.thymeleaf.spring4.view.FlowAjaxThymeleafView;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+
+import gec.scf.config.WebFlowConfig;
 
 @Configuration
 public class WebConfiguration extends WebMvcConfigurerAdapter {

@@ -60,7 +60,7 @@
                     </a>
                     <ul class="nav nav-second-level">
                         <li th:each="children : ${menu.children}">
-                            <a th:href="${children.url?:'#'}" th:id="${children.menuId+'-menu'}"><span th:inline="text">{{ '[[${children.menuId}]]' | translate}}</span></a>
+                            <a th:attr="ui-sref=${children.url?:'#'}" th:id="${children.menuId+'-menu'}"><span th:inline="text">{{ '[[${children.menuId}]]' | translate}}</span></a>
                         </li>
                     </ul>
                 </li>

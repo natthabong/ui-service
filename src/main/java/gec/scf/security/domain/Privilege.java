@@ -1,28 +1,19 @@
-package gec.scf.domain;
+package gec.scf.security.domain;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.UUID;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
-@Entity
-@Table
 public class Privilege implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 9096985984623604049L;
 
-	@Id
 	private String privilegeId;
 
 	private String name;
 
-	@ManyToMany(mappedBy = "privileges")
 	private Collection<Role> roles;
 
 	public Privilege() {

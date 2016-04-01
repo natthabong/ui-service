@@ -17,8 +17,8 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
-import gec.scf.domain.Menu;
-import gec.scf.domain.MenuRepository;
+import gec.scf.memu.domain.Menu;
+import gec.scf.memu.domain.MenuRepository;
 
 @Service
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {

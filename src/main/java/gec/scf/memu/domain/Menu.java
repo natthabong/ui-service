@@ -1,32 +1,17 @@
-package gec.scf.domain;
+package gec.scf.memu.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity
-@Table
+import gec.scf.security.domain.Role;
+
 public class Menu implements Serializable {
 
 	private static final long serialVersionUID = 5934200035457191381L;
 
-	@Id
 	private String menuId;
 
 	private String icon;
@@ -35,19 +20,12 @@ public class Menu implements Serializable {
 
 	private int sequence;
 
-	@JsonIgnoreProperties
-	@ManyToOne
 	private Menu parent;
 
-	@OneToMany(mappedBy = "parent", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST }, orphanRemoval = true)
 	private Collection<Menu> children;
 
-	@JsonIgnoreProperties
-	@ManyToMany(cascade = { CascadeType.PERSIST })
-	@JoinTable(name = "roles_menus", joinColumns = @JoinColumn(name = "menu_id", referencedColumnName = "menuId"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "roleId"))
 	private Collection<Role> roles;
 
-	@Enumerated(EnumType.STRING)
 	private MenuType menuType;
 
 	public String getMenuId() {

@@ -14,6 +14,7 @@ import org.springframework.webflow.executor.FlowExecutor;
 import org.springframework.webflow.mvc.builder.MvcViewFactoryCreator;
 import org.springframework.webflow.security.SecurityFlowExecutionListener;
 
+import gec.scf.core.config.WebConfiguration;
 import gec.scf.web.loan.flow.LoanFlowHandler;
 
 @Configuration

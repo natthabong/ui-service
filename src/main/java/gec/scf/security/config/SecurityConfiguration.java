@@ -1,4 +1,4 @@
-package gec.scf.config;
+package gec.scf.security.config;
 
 import java.io.IOException;
 
