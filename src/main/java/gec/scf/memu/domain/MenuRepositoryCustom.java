@@ -1,4 +1,4 @@
-package gec.scf.domain;
+package gec.scf.memu.domain;
 
 import java.util.Collection;
 
