@@ -62,7 +62,18 @@
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>gec.scf</groupId>
+			<artifactId>api-service</artifactId>
+			<version>0.1-SNAPSHOT</version>
+			<classifier>client</classifier>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 
 	<properties>
