@@ -1,4 +1,4 @@
-package gec.scf.security;
+package gec.scf.security.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,10 +12,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import gec.scf.domain.Privilege;
-import gec.scf.domain.Role;
-import gec.scf.domain.User;
-import gec.scf.domain.UserRepository;
+import gec.scf.security.domain.Privilege;
+import gec.scf.security.domain.Role;
+import gec.scf.security.domain.User;
+import gec.scf.security.domain.UserRepository;
 
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
