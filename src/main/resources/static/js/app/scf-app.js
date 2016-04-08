@@ -18,9 +18,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
             $stateProvider
                 .state('/home', {
                     url: "/home",
-                    templateUrl: "/index.html"
-                });
-			$locationProvider.html5Mode(true).hashPrefix('');
+                    templateUrl: "/home"
+                })
         }
     ]);
 
@@ -85,17 +84,17 @@ app.factory('scfFactory', ['$http', '$q', function ($http, $q) {
 }]);
 
 app.run(['$rootScope', '$q', '$http', '$urlRouter', function ($rootScope, $q, $http, $urlRouter) {
-//	$http.get('/api/menus').success(function(response){
-//		angular.forEach(response, function(data){
-//			var state = {
-//				'url': data,
-//				'templateUrl': data
-//			}			
-//			$stateProviderRef.state(data, state);
-//		});
-//		$urlRouter.sync();
-//        $urlRouter.listen();		
-//	});
+	$http.get('/api/menus').success(function(response){
+		angular.forEach(response, function(data){
+			var state = {
+				'url': data,
+				'templateUrl': data
+			}			
+			$stateProviderRef.state(data, state);
+		});
+		$urlRouter.sync();
+        $urlRouter.listen();		
+	});
 
     $rootScope
         .$on('$stateChangeStart',
