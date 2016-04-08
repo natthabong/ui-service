@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    var app = angular.module('authenApp', ['ngCookies']).config(function ($httpProvider) {
+    var app = angular.module('authenApp', ['ngCookies']).config(['$httpProvider', function ($httpProvider) {
 
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -11,14 +11,13 @@
             }
             return $.param(data);
         }
-    });
+    }]);
     app.controller('LoginController', ['$window', 'AuthenticationService', function ($window, AuthenticationService) {
         var self = this;
 
         self.login = login;
 
         (function initController() {
-            // reset login status
             AuthenticationService.ClearCredentials();
         })();
 

@@ -34,13 +34,7 @@
 <body>
 
     <!-- Sidebar -->
-
     <div class="navbar-default sidebar" role="navigation" th:fragment="sidebar">
-        <!-- ============================================================================ -->
-        <!-- This content is only used for static prototyping purposes (natural templates)-->
-        <!-- and is therefore entirely optional, as this markup fragment will be included -->
-        <!-- from "fragments/header.html" at runtime.                                     -->
-        <!-- ============================================================================ -->
         <div class="sidebar-nav navbar-collapse" ng-controller="ScfHomeCtrl as sidebarCtrl">
             <ul class="nav" id="side-menu">
                 <li class="sidebar-search">
@@ -60,7 +54,7 @@
                     </a>
                     <ul class="nav nav-second-level">
                         <li th:each="children : ${menu.children}">
-                            <a th:attr="ui-sref=${children.url?:'#'}" th:id="${children.menuId+'-menu'}"><span th:inline="text">{{ '[[${children.menuId}]]' | translate}}</span></a>
+                            <a th:attr="ui-sref=${children.url?:'#'}" th:href="${children.url?:'#'}" th:id="${children.menuId+'-menu'}"><span th:inline="text">{{ '[[${children.menuId}]]' | translate}}</span></a>
                         </li>
                     </ul>
                 </li>

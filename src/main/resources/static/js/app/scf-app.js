@@ -1,6 +1,8 @@
+var $stateProviderRef = null;
+
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp'])
-    .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider',
-        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider) {
+    .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider',
+        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider) {
 
             $translateProvider.useLoader('$translatePartialLoader', {
                 urlTemplate: '../{part}/{lang}/scf_label.json'
@@ -12,22 +14,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 
             $httpProvider.defaults.headers.common['Accept-Language'] = 'en_EN';
             $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
+			$stateProviderRef = $stateProvider;
             $stateProvider
                 .state('/home', {
                     url: "/home",
-                    templateUrl: "/home"
-                })
-                .state('/loan/create', {
-                    url: "/loan/create",
-                    templateUrl: "/loan/create",
-                    resolve: {
-                        load: function ($timeout) {
-                            return $timeout(angular.noop, 1200);
-                        }
-                    }
+                    templateUrl: "/index.html"
                 });
-
+			$locationProvider.html5Mode(true).hashPrefix('');
         }
     ]);
 
@@ -70,7 +63,6 @@ app.controller('CreateLoanRequestCtrl', [function () {
 app.factory('scfFactory', ['$http', '$q', function ($http, $q) {
     return {
         getErrorMsg: getErrorMsg
-
     };
 
     function getErrorMsg(lang) {
@@ -92,7 +84,18 @@ app.factory('scfFactory', ['$http', '$q', function ($http, $q) {
     }
 }]);
 
-app.run(function ($rootScope) {
+app.run(['$rootScope', '$q', '$http', '$urlRouter', function ($rootScope, $q, $http, $urlRouter) {
+//	$http.get('/api/menus').success(function(response){
+//		angular.forEach(response, function(data){
+//			var state = {
+//				'url': data,
+//				'templateUrl': data
+//			}			
+//			$stateProviderRef.state(data, state);
+//		});
+//		$urlRouter.sync();
+//        $urlRouter.listen();		
+//	});
 
     $rootScope
         .$on('$stateChangeStart',
@@ -106,4 +109,4 @@ app.run(function ($rootScope) {
                 // Hide loading here
             });
 
-});
+}]);
