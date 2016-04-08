@@ -1,4 +1,4 @@
-package gec.scf.config;
+package gec.scf.web;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;

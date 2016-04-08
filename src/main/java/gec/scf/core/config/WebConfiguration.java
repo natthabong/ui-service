@@ -18,8 +18,6 @@ import org.thymeleaf.spring4.view.AjaxThymeleafViewResolver;
 import org.thymeleaf.spring4.view.FlowAjaxThymeleafView;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import gec.scf.config.WebFlowConfig;
-
 @Configuration
 public class WebConfiguration extends WebMvcConfigurerAdapter {
 	@Autowired
