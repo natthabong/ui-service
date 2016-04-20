@@ -10,7 +10,6 @@
 
             if ($rippler.children("a").first()) {
                 $rippler.children("a").first().append($ink);
-                console.log("found");
             }
             else {
                 $rippler.append($ink);
@@ -121,7 +120,7 @@
             else {
                 $('#left-menu .sub-left-menu').show();
                 $('#left-menu .sub-left-menu').animate({ 'width': '230px' }, 'slow');
-                $('#content').animate({ 'padding-left': '250px','padding-right':'0px'}, 'slow');
+                $('#content').animate({ 'padding-left': '50px','padding-right':'250px'}, 'slow');
                 $('.overlay').hide();
                       $('.opener-left-menu').removeClass('is-closed');
                       $('.opener-left-menu').addClass('is-open');

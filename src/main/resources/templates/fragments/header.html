@@ -2,17 +2,10 @@
 <header th:fragment="header">
      <!-- start: Header -->
         <nav class="navbar navbar-default header navbar-fixed-top">
-          <div class="col-md-12 nav-wrapper">
-            <div class="navbar-header" style="width:100%;">
-              <div class="opener-left-menu is-open">
-                <span class="top"></span>
-                <span class="middle"></span>
-                <span class="bottom"></span>
-              </div>
-                <a href="index.html" class="navbar-brand"> 
-                 <b>MIMIN</b>
+          <div class="col-md-12 nav-wrapper">            
+                <a ui-sref="/home" class="navbar-brand"> 
+                 <b>GEC Supply Chain Financing</b>
                 </a>
-
               <ul class="nav navbar-nav search-nav">
                 
               </ul>
@@ -34,9 +27,22 @@
                     </li>
                   </ul>
                 </li>
-                <li ><a href="#" class="opener-right-menu"><span class="fa fa-coffee"></span></a></li>
+                <li><a ui-sref="/home" class="header-menu-icon" title="Home"><span class="fa fa-home"></span></a></li>
+                <li><a href="#" class="opener-right-menu" title="Notification"><span class="fa fa-bell"></span></a></li>
+                <li ng-controller="LogoutController as logoutCtroller"><a href="#" ng-click="logoutCtroller.logout()" class="header-menu-signout" title="Sign Out"><span class="fa fa-power-off "></span></a></li>
+                
+                <li>
+                	<div class="navbar-header" style="width:100%;">
+		              	<div class="opener-left-menu is-open">
+		                	<span class="top"></span>
+		                	<span class="middle"></span>
+		            		<span class="bottom"></span>
+						</div>
+					</div>
+                </li>
               </ul>
-            </div>
+              
+              
           </div>
         </nav>
       <!-- end: Header -->

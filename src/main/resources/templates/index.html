@@ -11,8 +11,8 @@
 		<header th:replace="fragments/header :: header"></header>
        	<nav th:replace="fragments/sidebar :: sidebar"></nav>
        	
-        <div ui-view="">
-        <div class="container-fluid mimin-wrapper">        	
+
+        <div class="container-fluid mimin-wrapper" ui-view="">        	
             <div id="content"  th:fragment="content">
                 <div class="row">
                     <div class="col-lg-12">
@@ -553,7 +553,7 @@
                 </div>
                 <!-- /.row -->
             </div>
-            </div>
+
         </div>
         <!-- /#page-wrapper -->
 

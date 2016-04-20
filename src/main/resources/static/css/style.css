@@ -1953,7 +1953,8 @@ ul li a:focus {
 
 #left-menu .sub-left-menu {
   background-color: #fff;
-  left: 0;
+  /*left: 0;*/
+  right: 0;
   padding-top: 50px;
   z-index: 222;
   width: 230px;
@@ -2690,7 +2691,8 @@ ul li a:focus {
   margin-top: 51px;
   padding: 0px;
   padding-bottom: 10px;
-  padding-left: 250px;
+  padding-right: 250px;
+  padding-left: 50px;
   width: 100%;
   color: #918C8C;
 }
