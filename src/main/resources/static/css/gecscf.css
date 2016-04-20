@@ -391,6 +391,10 @@ table.dataTable thead .sorting:after {
     position: relative;
 }
 
+.form-horizontal .control-label{
+	text-align: left;
+	margin-right: 20px;
+}
 
 /*End Step Wizard*/
 
