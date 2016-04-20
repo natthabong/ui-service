@@ -5,5 +5,7 @@
     "english": "Eng",
     "loan-request": "Loan Request",
     "loan-request-create": "Create Loan Request",
-    "loan-request-create-flow": "Create Loan Request Flow"
+    "loan-request-create-flow": "Create Loan Request Flow",
+    "user": "User",
+    "user-new": "Create User"
 }

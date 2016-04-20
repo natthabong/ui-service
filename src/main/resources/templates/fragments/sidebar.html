@@ -18,6 +18,7 @@
                       <ul th:each="children : ${menu.children}" class="nav nav-list tree">
                           <li>
                           	<a th:attr="ui-sref=${children.url?:'#'}" th:href="${children.url?:'#'}" th:id="${children.menuId+'-menu'}">
+                          		<span th:class="${'fa ' + children.icon + ' fa-fw'}"></span> 
                           		<span th:inline="text">{{ '[[${children.menuId}]]' | translate}}</span>
                           	</a>
                           </li>                          
