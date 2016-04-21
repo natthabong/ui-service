@@ -1,6 +1,5 @@
 package gec.scf;
 
-import java.security.Principal;
 import java.util.Collections;
 import java.util.Map;
 
@@ -23,11 +22,6 @@ public class UiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UiApplication.class, args);
 	}
-
-//	@RequestMapping("/user")
-//	public Principal user(Principal user) {
-//		return user;
-//	}
 
 	@RequestMapping("/token")
 	@ResponseBody

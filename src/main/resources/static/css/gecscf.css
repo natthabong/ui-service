@@ -391,10 +391,11 @@ table.dataTable thead .sorting:after {
     position: relative;
 }
 
-.form-horizontal .control-label{
-	text-align: left;
-	margin-right: 20px;
+.form-horizontal .control-label {
+    text-align: left;
+    margin-right: 20px;
 }
+
 
 /*End Step Wizard*/
 
@@ -413,11 +414,24 @@ Custom
 }
 
 .header-menu-icon span {
-	font-size: 25px;
+    font-size: 25px;
     color: #0c66ae;
 }
 
 .header-menu-signout span {
-	font-size: 25px;
+    font-size: 25px;
     color: rgba(236, 79, 79, 0.9);
+}
+
+.bottom-sticker-inner {
+    background: #fff none repeat scroll 0 0 !important;
+    box-shadow: 0 3px 8px 1px #fff;
+    margin: 0 0 0 -15px;
+    padding-left: 15px;
+}
+
+button[type='submit'] {
+    background-color: #0c66ae !important;
+    border: medium none !important;
+    color: #fff !important;
 }
