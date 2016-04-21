@@ -170,14 +170,14 @@
                       $('.opener-left-menu').addClass('is-closed');
                 });
 
-                $('#content').animate({ 'padding-left': '0px'}, 'slow');
+                $('#content').animate({ 'padding-left': '50px'}, 'slow');
             }
 
             if($('#right-menu').is(':visible') ) {
                 $('#right-menu').animate({ 'width': '0px' }, 'slow', function(){
                     $('#right-menu').hide();
                 });
-                $('#content').animate({ 'padding-right': '0px'}, 'slow');
+                $('#content').animate({ 'padding-right': '50px'}, 'slow');
             }
             else {
                 $('#right-menu').show();
