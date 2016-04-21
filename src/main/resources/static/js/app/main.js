@@ -118,9 +118,9 @@
 
             }
             else {
-                $('#left-menu .sub-left-menu').show();
-                $('#left-menu .sub-left-menu').animate({ 'width': '230px' }, 'slow');
-                $('#content').animate({ 'padding-left': '50px','padding-right':'250px'}, 'slow');
+            	$('#left-menu .sub-left-menu').show();
+                $('#left-menu .sub-left-menu').animate({ 'width': '230px' }, 'slow');                
+//                $('#content').animate({ 'padding-left': '50px','padding-right':'50px'}, 'slow');
                 $('.overlay').hide();
                       $('.opener-left-menu').removeClass('is-closed');
                       $('.opener-left-menu').addClass('is-open');
@@ -170,7 +170,7 @@
                       $('.opener-left-menu').addClass('is-closed');
                 });
 
-                $('#content').animate({ 'padding-left': '50px'}, 'slow');
+//                $('#content').animate({ 'padding-left': '50px'}, 'slow');
             }
 
             if($('#right-menu').is(':visible') ) {
@@ -182,7 +182,7 @@
             else {
                 $('#right-menu').show();
                 $('#right-menu').animate({ 'width': '230px' }, 'slow');
-                $('#content').animate({ 'padding-right': '250px'}, 'slow');
+                $('#content').animate({ 'padding-right': '50px'}, 'slow');
             }
         });
     };

@@ -1966,6 +1966,7 @@ ul li a:focus {
   -ms-box-shadow: 0 2px 5px 0 rgba(239, 235, 235, 0.16), 0 2px 10px 0 rgba(72, 70, 70, 0.12);
   -o-box-shadow: 0 2px 5px 0 rgba(239, 235, 235, 0.16), 0 2px 10px 0 rgba(72, 70, 70, 0.12);
   box-shadow: 0 2px 5px 0 rgba(239, 235, 235, 0.16), 0 2px 10px 0 rgba(72, 70, 70, 0.12);
+  display: none;
 }
 
 #left-menu .sub-left-menu a {
@@ -2691,7 +2692,7 @@ ul li a:focus {
   margin-top: 51px;
   padding: 0px;
   padding-bottom: 10px;
-  padding-right: 250px;
+  padding-right: 50px;
   padding-left: 50px;
   width: 100%;
   color: #918C8C;

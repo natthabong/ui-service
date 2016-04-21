@@ -33,7 +33,7 @@
                 
                 <li>
                 	<div class="navbar-header" style="width:100%;">
-		              	<div class="opener-left-menu is-open">
+		              	<div class="opener-left-menu is-closed">
 		                	<span class="top"></span>
 		                	<span class="middle"></span>
 		            		<span class="bottom"></span>
@@ -46,4 +46,24 @@
           </div>
         </nav>
       <!-- end: Header -->
+      
+      <nav class="navbar navbar-default navbar-fixed-top gec-menu-bar">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="hd-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+					<li class="dropdown" th:each="menu : ${session.menus}">
+						<a th:href="${menu.url?:'#'}" th:id="${menu.menuId+'-menu'}" class="dropdown-toggle" data-toggle="dropdown">
+						<span th:inline="text">{{ '[[${menu.menuId}]]'  | translate }}</span><span class="caret"></span></a>
+						<ul class="dropdown-menu" th:each="children : ${menu.children}">
+                            <li>
+                                <a th:attr="ui-sref=${children.url?:'#'}" th:href="${children.url?:'#'}" 
+                                th:id="${children.menuId+'-menu'}" data-toggle="collapse" 
+                                data-target=".navbar-collapse"><span th:inline="text">{{ '[[${children.menuId}]]' | translate}}</span></a>
+							</li>                    
+                        </ul>
+                    </li>                    
+                </ul>                
+            </div>
+        </div>
+    </nav>
 </header>

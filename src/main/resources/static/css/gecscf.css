@@ -435,3 +435,25 @@ button[type='submit'] {
     border: medium none !important;
     color: #fff !important;
 }
+
+footer .footer-below {
+    padding: 15px 0;
+    background-color: #233140;
+    color: white;
+}
+
+.gec-menu-bar {
+    margin-top: 55px;
+    background-color: #ffffff;
+    min-height: 45px;
+    height: 45px;
+    z-index: 250
+}
+
+.gec-menu-bar > .container-fluid > .navbar-collapse > .navbar-nav > .dropdown{
+	height: 45px;
+}
+
+#content {
+	margin-top: 90px;
+}
