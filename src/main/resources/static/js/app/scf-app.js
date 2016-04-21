@@ -20,6 +20,10 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
                     url: "/home",
                     templateUrl: "/home"
                 })
+                .state('/user', {
+					url: "/user",
+					templateUrl: "/user"
+				})
         }
     ]);
 

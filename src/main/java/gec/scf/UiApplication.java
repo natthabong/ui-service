@@ -24,10 +24,10 @@ public class UiApplication {
 		SpringApplication.run(UiApplication.class, args);
 	}
 
-	@RequestMapping("/user")
-	public Principal user(Principal user) {
-		return user;
-	}
+//	@RequestMapping("/user")
+//	public Principal user(Principal user) {
+//		return user;
+//	}
 
 	@RequestMapping("/token")
 	@ResponseBody

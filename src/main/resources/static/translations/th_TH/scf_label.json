@@ -5,5 +5,7 @@
     "english": "อังกฤษ",
     "loan-request": "คำร้องขอกู้",
     "loan-request-create": "สร้างคำร้องขอกู้"
-    "loan-request-create-flow": "สร้างคำร้องขอกู้ แบบมีลำดับ"
+    "loan-request-create-flow": "สร้างคำร้องขอกู้ แบบมีลำดับ",
+    "user": "จัดการข้อมูลผู้ใช้งาน",
+    "user-new": "สร้างผู้ใช้งานใหม่"
 }
