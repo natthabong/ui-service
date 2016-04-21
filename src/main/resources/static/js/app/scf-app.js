@@ -31,6 +31,7 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
     function ($translate, $translatePartialLoader, scfFactory) {
         var self = this;
         self.sysMessage = "";
+		self.displayName = "";
         self.menus = [];
         self.changeLanguage = function (lang) {
             $translatePartialLoader.addPart('translations');
@@ -46,6 +47,15 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
             });
 
         };
+		
+		self.getUserInfo = function(){
+			var defered = scfFactory.getUserInfo();
+			defered.promise.then(function(response){
+				self.displayName = response.displayName;
+			});
+		};
+		
+		self.getUserInfo();
 
     }
 ]);
@@ -63,9 +73,10 @@ app.controller('CreateLoanRequestCtrl', [function () {
     }]);
 
 
-app.factory('scfFactory', ['$http', '$q', function ($http, $q) {
+app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $cookieStore) {
     return {
-        getErrorMsg: getErrorMsg
+        getErrorMsg: getErrorMsg,
+        getUserInfo: getUserInfo
     };
 
     function getErrorMsg(lang) {
@@ -85,6 +96,22 @@ app.factory('scfFactory', ['$http', '$q', function ($http, $q) {
         });
         return deferred;
     }
+    
+    function getUserInfo(){
+    	console.log("UserInfo");
+		currentUser = $cookieStore.get('globals').currentUser;
+    	var deferred = $q.defer();
+    	$http.get('/api/user-info', {
+			params : {loginName: currentUser.username}
+		}).success(function(response){
+			deferred.resolve(response);
+			return deferred;
+		}).catch(function(response){
+			deferred.reject("User Info Error");
+			return deferred;
+		});
+    	return deferred;
+    }
 }]);
 
 app.run(['$rootScope', '$q', '$http', '$urlRouter', function ($rootScope, $q, $http, $urlRouter) {
@@ -93,7 +120,7 @@ app.run(['$rootScope', '$q', '$http', '$urlRouter', function ($rootScope, $q, $h
 			var state = {
 				'url': data,
 				'templateUrl': data
-			}			
+			}
 			$stateProviderRef.state(data, state);
 		});
 		$urlRouter.sync();
