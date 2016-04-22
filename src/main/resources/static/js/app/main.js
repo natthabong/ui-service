@@ -48,17 +48,6 @@
           });
         }
 
-        var $myCarousel          = this;
-        var $firstAnimatingElems = $myCarousel.find('.item:first')
-                                              .find('[data-animation ^= "animated"]');
-
-        doAnimations($firstAnimatingElems);
-        $myCarousel.carousel('pause');
-        $myCarousel.on('slide.bs.carousel', function (e) {
-          var $animatingElems = $(e.relatedTarget)
-          .find("[data-animation ^= 'animated']");
-          doAnimations($animatingElems);
-        });
     };
 
 
@@ -328,7 +317,7 @@
     });
 
 
-    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+   
     leftMenu();
     rightMenu();
     treeMenu();
