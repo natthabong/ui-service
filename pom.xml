@@ -186,6 +186,7 @@
 						<artifactId>angular-bootstrap</artifactId>
 						<version>1.2.5</version>
 					</dependency>
+			
 				</dependencies>
 			</plugin>
 			<plugin>
@@ -252,6 +253,58 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack-uib</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+								    <groupId>org.webjars.bower</groupId>
+								    <artifactId>angular-ui-bootstrap</artifactId>
+								    <version>1.1.2</version>
+									<type>jar</type>
+									<overWrite>false</overWrite>
+								</artifactItem>
+							</artifactItems>
+							<includes>**/template/datepicker/*</includes>
+							<outputDirectory>${project.build.directory}/unpacked</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>			
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-uib</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/generated-resources/static/uib/template</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.build.directory}/unpacked/META-INF/resources/webjars/angular-ui-bootstrap/1.1.2/template</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+						
 		</plugins>
 		<pluginManagement>
 			<plugins>
