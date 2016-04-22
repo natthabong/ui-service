@@ -79,6 +79,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
+		<wro4j.version>1.8.0</wro4j.version>
 	</properties>
 
 	<build>
@@ -95,7 +96,199 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<!-- Serves *only* to filter the wro.xml so it can get an absolute 
+							path for the project -->
+						<id>copy-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/wro</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/wro</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>ro.isdc.wro4j</groupId>
+				<artifactId>wro4j-maven-plugin</artifactId>
+				<version>${wro4j.version}</version>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
+					<cssDestinationFolder>${project.build.directory}/generated-resources/static/css</cssDestinationFolder>
+					<jsDestinationFolder>${project.build.directory}/generated-resources/static/js</jsDestinationFolder>
+					<wroFile>${project.build.directory}/wro/wro.xml</wroFile>
+					<extraConfigFile>${basedir}/src/main/wro/wro.properties</extraConfigFile>
+					<contextFolder>${basedir}/src/main/wro</contextFolder>
+				</configuration>
+				<dependencies>
+					<dependency>
+					    <groupId>org.webjars.bower</groupId>
+					    <artifactId>bootstrap</artifactId>
+					    <version>3.2.0</version>
+					</dependency>					
+					<dependency>
+						<groupId>org.webjars.bower</groupId>
+						<artifactId>font-awesome</artifactId>
+						<version>4.5.0</version>
+					</dependency>
+					
+					<dependency>
+						<groupId>org.webjars.bower</groupId>
+						<artifactId>jquery</artifactId>
+						<version>2.1.0</version>
+					</dependency>	
+					<dependency>
+					    <groupId>org.webjars.bower</groupId>
+					    <artifactId>angular</artifactId>
+					    <version>1.5.2</version>
+					</dependency>
+					<dependency>
+						<groupId>org.webjars.bower</groupId>
+						<artifactId>angular-cookies</artifactId>
+						<version>1.5.2</version>
+					</dependency>
+					<dependency>
+					    <groupId>org.webjars.bower</groupId>
+					    <artifactId>angular-ui-router</artifactId>
+					    <version>0.2.18</version>
+					</dependency>				
+					<dependency>
+						<groupId>org.webjars.bower</groupId>
+						<artifactId>angular-translate</artifactId>
+						<version>2.11.0</version>
+					</dependency>
+					<dependency>
+						<groupId>org.webjars.bower</groupId>
+						<artifactId>angular-translate-loader-partial</artifactId>
+						<version>2.11.0</version>
+					</dependency>
+					<dependency>
+						<groupId>org.webjars.bower</groupId>
+						<artifactId>angular-bootstrap</artifactId>
+						<version>1.2.5</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack-fonts</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.webjars</groupId>
+									<artifactId>bootstrap</artifactId>
+									<version>3.2.0</version>
+									<type>jar</type>
+									<overWrite>false</overWrite>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.webjars</groupId>
+									<artifactId>font-awesome</artifactId>
+									<version>4.5.0</version>
+									<type>jar</type>
+									<overWrite>false</overWrite>
+								</artifactItem>
+							</artifactItems>
+							<includes>**/fonts/**/*</includes>
+							<outputDirectory>${project.build.directory}/unpacked</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-fonts</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/generated-resources/static/fonts</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.build.directory}/unpacked/META-INF/resources/webjars/bootstrap/3.2.0/fonts</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+									<filtering>false</filtering>
+								</resource>
+								<resource>
+									<directory>${project.build.directory}/unpacked/META-INF/resources/webjars/font-awesome/4.5.0/fonts</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-dependency-plugin
+										</artifactId>
+										<versionRange>
+											[2.10,)
+										</versionRange>
+										<goals>
+											<goal>unpack</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<repositories>
