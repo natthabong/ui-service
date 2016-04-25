@@ -313,7 +313,8 @@
         datetime2 = $('.time p');
         $(window).scroll(function () {
             if ($("#bottom-sticker").length) {
-                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 50) {
+//                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 50 ) {
+            	if ($(window).scrollTop() + $(window).height() > $("#footer").offset().top) {
                     $("#bottom-sticker").css({
                         "position": "relative",
                         "bottom": "0",

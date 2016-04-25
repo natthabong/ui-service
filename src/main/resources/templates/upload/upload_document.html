@@ -1,0 +1,296 @@
+        <div id="content" th:fragment="content">
+			<div class="panel box-shadow-none content-header">
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <h3 class="animated fadeInLeft">Upload Doucment</h3>
+
+                        </div>
+                    </div>
+                </div>            
+            <br/>
+
+
+            <div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-11">
+
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <input type="text" class="form-control"/>
+                            <button type="button" class="btn btn-default" aria-label="Left Align">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Select File</button>
+                            <button type="button" class="btn btn-default" aria-label="Left Align">
+                                <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>&nbsp;Start Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <span class="panel-title">File Upload Confirmation</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+				<div class="col-md-1"></div>
+                <div class="col-md-11">
+
+                            <b>File Name:</b>bigc-document.txt &nbsp;&nbsp;
+                            <b>File Upload Status:</b>&nbsp;Partail Fail &nbsp;&nbsp;
+                            <b>Pass:</b>7 &nbsp;&nbsp;
+                            <b>Fail:</b>3
+
+
+                            <div class="row">
+                                <div class="col-md-12">&nbsp;</div>
+                                <div class="col-md-12">
+
+                                    <button class="btn btn-default btn-sm" type="button">
+                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Confirm
+                                    </button>
+
+                                    <button type="button" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Cancel
+                                    </button>
+                                </div>
+                                <div class="col-md-12">&nbsp;</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr class="bg-primary">
+                                                    <th class="tr-6em text-center">Line No.</th>
+                                                    <th class="tr-12em text-center">Category</th>
+                                                    <th class="text-center">Description</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">1</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td>
+                                                        <a href="#" class="visible-xs text-space" data-toggle="modal" data-target="#myModal">ER001</a>
+                                                        <span class="hidden-xs text-space">ER001: Document date is invalid format</span>
+                                                    </td>
+                                                </tr>
+                                                <tr class="info">
+                                                    <td class="text-right"><span class="text-space">2</span></td>
+                                                    <td class="text-center">Verify</td>
+                                                    <td>
+                                                        <a href="#" class="visible-xs text-space" data-toggle="modal" data-target="#">ER002</a>
+                                                        <span class="hidden-xs text-space">ER002: Supplier code not found in system</span>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">3</span></td>
+                                                    <td class="text-center">Error</td>
+                                                    <td>
+                                                        <a href="#" class="visible-xs text-space" data-toggle="modal" data-target="#">ER003</a>
+                                                        <span class="hidden-xs text-space">ER003: Document Date overdue</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">4</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER001: Document date is invalid format</span></td>
+                                                </tr>
+                                                <tr class="info">
+                                                    <td class="text-right"><span class="text-space">5</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER002: Supplier code not found in system</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">6</span></td>
+                                                    <td class="text-center">Error</td>
+                                                    <td><span class="text-space">ER003: Document Date overdue</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">7</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER001: Document date is invalid format</span></td>
+                                                </tr>
+                                                <tr class="info">
+                                                    <td class="text-right"><span class="text-space">8</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER002: Supplier code not found in system</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">9</span></td>
+                                                    <td class="text-center">Error</td>
+                                                    <td><span class="text-space">ER003: Document Date overdue</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">10</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER001: Document date is invalid format</span></td>
+                                                </tr>
+                                                <tr class="info">
+                                                    <td class="text-right"><span class="text-space">11</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER002: Supplier code not found in system</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">12</span></td>
+                                                    <td class="text-center">Error</td>
+                                                    <td><span class="text-space">ER003: Document Date overdue</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">13</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER001: Document date is invalid format</span></td>
+                                                </tr>
+                                                <tr class="info">
+                                                    <td class="text-right"><span class="text-space">14</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER002: Supplier code not found in system</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">15</span></td>
+                                                    <td class="text-center">Error</td>
+                                                    <td><span class="text-space">ER003: Document Date overdue</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">16</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER001: Document date is invalid format</span></td>
+                                                </tr>
+                                                <tr class="info">
+                                                    <td class="text-right"><span class="text-space">17</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER002: Supplier code not found in system</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">18</span></td>
+                                                    <td class="text-center">Error</td>
+                                                    <td><span class="text-space">ER003: Document Date overdue</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">19</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER001: Document date is invalid format</span></td>
+                                                </tr>
+                                                <tr class="info">
+                                                    <td class="text-right"><span class="text-space">20</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER002: Supplier code not found in system</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">21</span></td>
+                                                    <td class="text-center">Error</td>
+                                                    <td><span class="text-space">ER003: Document Date overdue</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">22</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER001: Document date is invalid format</span></td>
+                                                </tr>
+                                                <tr class="info">
+                                                    <td class="text-right"><span class="text-space">23</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER002: Supplier code not found in system</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">24</span></td>
+                                                    <td class="text-center">Error</td>
+                                                    <td><span class="text-space">ER003: Document Date overdue</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">25</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER001: Document date is invalid format</span></td>
+                                                </tr>
+                                                <tr class="info">
+                                                    <td class="text-right"><span class="text-space">26</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER002: Supplier code not found in system</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">27</span></td>
+                                                    <td class="text-center">Error</td>
+                                                    <td><span class="text-space">ER003: Document Date overdue</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">28</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER001: Document date is invalid format</span></td>
+                                                </tr>
+                                                <tr class="info">
+                                                    <td class="text-right"><span class="text-space">29</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER002: Supplier code not found in system</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">30</span></td>
+                                                    <td class="text-center">Error</td>
+                                                    <td><span class="text-space">ER003: Document Date overdue</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">31</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER001: Document date is invalid format</span></td>
+                                                </tr>
+                                                <tr class="info">
+                                                    <td class="text-right"><span class="text-space">32</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER002: Supplier code not found in system</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">33</span></td>
+                                                    <td class="text-center">Error</td>
+                                                    <td><span class="text-space">ER003: Document Date overdue</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">34</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER001: Document date is invalid format</span></td>
+                                                </tr>
+                                                <tr class="info">
+                                                    <td class="text-right"><span class="text-space">35</span></td>
+                                                    <td class="text-center">Validate</td>
+                                                    <td><span class="text-space">ER002: Supplier code not found in system</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right"><span class="text-space">36</span></td>
+                                                    <td class="text-center">Error</td>
+                                                    <td><span class="text-space">ER003: Document Date overdue</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+   
+                </div>
+            </div>
+
+        </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">File Upload Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <b>ER001</b>: Document date is invalid format
+                </div>
+            </div>
+        </div>
+    </div>
