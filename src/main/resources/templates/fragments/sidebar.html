@@ -4,26 +4,33 @@
               <div class="sub-left-menu scroll">
                 <ul class="nav nav-list">
                     <li><div class="left-bg"></div></li>
-                    <li class="time">
-                      <h1 class="animated fadeInLeft">21:00</h1>
-                      <p class="animated fadeInRight">Sat,October 1st 2029</p>
+                    <li class="ripple">
+                    	<a class="tree-toggle nav-header" href="#">
+                    		<span>General Electrolnic Commerce Services</span>
+                    		<span class="fa-angle-right fa right-arrow text-right"></span>
+                    	</a>
+                    	<ul class="nav nav-list tree">
+                    		<li>
+				                <a href="#"><span>Company A1</span></a>				                
+				            </li>
+				            <li>
+				                <a href="#"><span>Company A2</span></a>				                
+				            </li>
+                    	</ul>
                     </li>
                     
-                    <li th:each="menu : ${session.menus}" class="ripple">
-                      <a th:href="${menu.url?:'#'}" th:id="${menu.menuId+'-menu'}" class="tree-toggle nav-header" >
-                      	<span th:class="${'fa ' + menu.icon + ' fa-fw'}"></span> 
-                      	<span th:inline="text">{{ '[[${menu.menuId}]]'  | translate }}</span>
-                        <span class="fa-angle-right fa right-arrow text-right"></span>
-                      </a>
-                      <ul th:each="children : ${menu.children}" class="nav nav-list tree">
-                          <li>
-                          	<a th:attr="ui-sref=${children.url?:'#'}" th:href="${children.url?:'#'}" th:id="${children.menuId+'-menu'}">
-                          		<span th:inline="text">{{ '[[${children.menuId}]]' | translate}}</span>
-                          	</a>
-                          </li>                          
-                      </ul>                      
+                     <li class="ripple">
+                    	<a class="tree-toggle nav-header" href="#">
+                    		<span>Activity</span>
+                    		<span class="fa-angle-right fa right-arrow text-right"></span>
+                    	</a>
+                    	<ul class="nav nav-list tree">
+                    		<li>
+				                <a href="#"><span>ActivityLog</span></a>				                
+				            </li>
+                    	</ul>
                     </li>
-                   
+                    
                   </ul>
                 </div>
             </div>

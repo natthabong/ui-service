@@ -19,11 +19,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
                 .state('/home', {
                     url: "/home",
                     templateUrl: "/home"
-                })
-                .state('/user', {
-					url: "/user",
-					templateUrl: "/user"
-				})
+                });
         }
     ]);
 
@@ -98,7 +94,6 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
     }
     
     function getUserInfo(){
-    	console.log("UserInfo");
 		currentUser = $cookieStore.get('globals').currentUser;
     	var deferred = $q.defer();
     	$http.get('/api/user-info', {
