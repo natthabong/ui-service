@@ -15,7 +15,7 @@ public class UserController {
 	private String BANK_NEW_USER = "user/new";
 	
 	//@PreAuthorize("isAuthenticated()")
-	@RequestMapping(path={"/user2"}, method = RequestMethod.GET)
+	@RequestMapping(path={"/user"}, method = RequestMethod.GET)
 	public String bankNewUser(HttpServletRequest req) {
 		String requestedWith = req.getHeader("X-Requested-With");
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
