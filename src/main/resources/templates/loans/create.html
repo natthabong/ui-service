@@ -33,11 +33,11 @@
                                             <p><b>Create</b></p>
                                         </div>
                                         <div class="stepwizard-step">
-                                            <button type="button" class="btn btn-default btn-circle" disabled="disabled">2</button>
+                                            <button type="button" class="btn btn-next-step btn-circle" disabled="disabled">2</button>
                                             <p><b>Validate and Submit</b></p>
                                         </div>
                                         <div class="stepwizard-step">
-                                            <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
+                                            <button type="button" class="btn btn-next-step btn-circle" disabled="disabled">3</button>
                                             <p><b>Summary</b></p>
                                         </div>
                                     </div>
@@ -52,8 +52,19 @@
                                                 <select id="sponsor" class="form-control" th:field="*{sponsorId}">
                                                     <option th:value="0001">บริษัท ร่วมใจ จำกัด</option>
                                                     <option th:value="0002">บริษัท อยู่สุขสบาย จำกัด</option>
+                                                </select>                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 col-sm-4"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label">Dealer Code : </label>
+                                        <div class="form-inline">
+                                            <div class="col-md-5 col-sm-5 col-xs-12">
+                                                <select id="dealerCode" class="form-control">
+                                                    <option selected="selected">Dealer 1</option>
+                                                    <option>Dealer 2</option>
                                                 </select>
-                                                <button type="button" class="form-control">Select</button>
                                             </div>
                                         </div>
                                         <div class="col-md-5 col-sm-4"></div>
@@ -63,27 +74,28 @@
                                     <div class="form-group">
                                         <label for="paymentDate" class="col-md-2 col-sm-3 col-xs-12 control-label">Loan Request Date : </label>
                                         <div class="col-md-2 col-sm-3 col-xs-12">
-
                                             <p class="input-group">
                                                 <input id="paymentDate" type="text" th:field="*{loanReqDate}" class="form-control" readonly="true" uib-datepicker-popup="dd/MM/yyyy" ng-model="createLoanCtrl.loanReqDate" is-open="createLoanCtrl.isOpenLoanReq" close-text="Close" />
                                                 <span class="input-group-btn">
-											<button id="btnPayDate" type="button" class="btn btn-default" 
-													ng-click="createLoanCtrl.openCalLoanDate()">
-												<i class="glyphicon glyphicon-calendar"></i>
-											</button>
-										</span>
+													<button id="btnPayDate" type="button" class="btn btn-default form-control" 
+															ng-click="createLoanCtrl.openCalLoanDate()">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</span>
                                             </p>
-                                        </div>
-
-                                        <label for="instrument" class="col-md-2 col-sm-3 col-xs-12 control-label">Instrument Type. : </label>
-                                        <div class="col-md-2 col-sm-3 col-xs-12">
+                                        </div>                                        
+                                        <div class="col-md-8 col-sm-6"></div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                    	<label for="instrument" class="col-md-2 col-sm-3 col-xs-12 control-label">Instrument Type. : </label>
+                                    	<div class="col-md-2 col-sm-3 col-xs-12">
                                             <label class="radio-inline">
                                                 <input type="radio" name="instrument" th:field="*{instrumentType}" th:value="PN" />&nbsp;P/N</label>
                                             <label class="radio-inline">
                                                 <input type="radio" name="instrument" th:field="*{instrumentType}" th:value="OD" />&nbsp;O/D</label>
 
                                         </div>
-                                        <div class="col-md-4"></div>
                                     </div>
 
                                     <div class="form-group">
@@ -119,7 +131,34 @@
 
 
                                     <div class="row">
-                                        <div class="col-md-12 text-right">
+                                    	<div class="col-md-10">
+                                    		<div class="form-inline">                                    		
+											  <div class="form-group gec-form-group">
+											  	<label for="exampleInputEmail2">Doc Date.</label>
+												   <p class="input-group">											    	
+		                                                <input id="fDocDate" type="text"  class="form-control" readonly="true" 
+		                                                uib-datepicker-popup="dd/MM/yyyy"
+		                                                is-open="createLoanCtrl.isOpenLoanReq" close-text="Close" />
+		                                                <span class="input-group-btn">
+															<button id="btnFDocDate" type="button" class="btn btn-default form-control">
+																<i class="glyphicon glyphicon-calendar"></i>
+															</button>
+														</span>
+		                                            </p>
+											  </div>
+											  <div class="form-group gec-form-group">
+											    <label for="exampleInputEmail2">Doc No.</label>
+											    <p class="input-group">
+											    <input type="text" class="form-control" id="fDocNo"/>
+											    </p>
+											  </div>
+											  <p class="input-group">
+											  <button type="submit" class="btn btn-default">Filter</button>
+											  </p>											
+                                    		</div>
+                                    	</div>
+                                    	
+                                        <div class="col-md-2 text-right">
                                             <span class="total-record">Total of Record(s): 2</span>
                                         </div>
                                     </div>

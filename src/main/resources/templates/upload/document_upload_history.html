@@ -4,173 +4,184 @@
 		<div class="panel-body">
 			<div class="col-md-12">
 				<h3 class="animated fadeInLeft">Document Upload File History</h3>
+
 			</div>
 		</div>
 	</div>
 
-	<div class="row">
-		<!-- Start Column Panel-->
-		<div class="col-md-12 col-sm-12 col-xs-12">
+	<div class="form-element">
+		<div class="panel panel-default col-md-12 padding-0">
+			<div class="panel-body" style="padding-bottom: 30px;">
+				<div class="row">
+					<!-- Start Column Panel-->
+					<div class="col-md-12 col-sm-12 col-xs-12">
 
-			<!--navbar search -->
-			<div class="panel panel-default">
-				<div class="panel-heading gec-pannel-heading">
-					<div class="row">
-						<div class="col-xs-9">
-							<h4>Search</h4>
+						<!--navbar search -->
+						<div class="panel panel-default">
+							<div class="panel-heading gec-pannel-heading">
+								<div class="row">
+									<div class="col-xs-12">
+										<span>Search</span>
+										<button type="button" class="btn btn-default"
+											data-toggle="collapse"
+											data-target="#bs-example-navebar-collapse1"
+											aria-expanded="false">
+											<span class="sr-only">Toggle navigation</span> <span
+												class="glyphicon glyphicon-menu-hamburger"></span>
+										</button>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="panel-body collapse"
+								id="bs-example-navebar-collapse1">
+								<div class="col-md-12">&nbsp;</div>
+								<form class="form-horizontal">
+									<div class="form-group">
+										<label class="col-md-2 control-label" for="uploadDateFrom">Upload
+											Date From: </label>
+										<div class="col-md-3">
+											<p class="input-group">
+												<input id="uploadDateFrom" type="text" class="form-control"
+													readonly="readonly" uib-datepicker-popup="dd/MM/yyyy"
+													close-text="Close" /> <span class="input-group-btn">
+													<button id="btnUploadDate" type="button"
+														class="btn btn-default">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</span>
+											</p>
+										</div>
+
+										<label class="col-md-2 control-label" for="uploadDateTo">Upload
+											Date To: </label>
+										<div class="col-md-3">
+											<p class="input-group">
+												<input id="uploadDateTo" type="text" class="form-control"
+													readonly="readonly" uib-datepicker-popup="dd/MM/yyyy"
+													close-text="Close" /> <span class="input-group-btn">
+													<button id="btnUploadDate" type="button"
+														class="btn btn-default">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</span>
+											</p>
+										</div>
+										<div class="col-md-2"></div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-2 control-label" for="uploadDateTo">Upload
+											Date To: </label>
+										<div class="col-md-3">
+											<select id="uploadDateTo" class="form-control">
+												<option>All</option>
+											</select>
+										</div>
+										<div class="col-md-7"></div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-md-12">
+											<button type="button" class="btn btn-default"
+												data-toggle="collapse"
+												data-target="#bs-example-navebar-collapse1">Search</button>
+											<button type="button" class="btn btn-default"
+												data-toggle="collapse"
+												data-target="#bs-example-navebar-collapse1">Clear</button>
+
+										</div>
+
+									</div>
+								</form>
+							</div>
 						</div>
-						<div class="col-xs-3 text-right">
-							<button type="button" class="btn btn-default"
-								data-toggle="collapse"
-								data-target="#bs-example-navebar-collapse1" aria-expanded="false">
-								<span class="sr-only">Toggle navigation</span> <span
-									class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-							</button>
+						<!--End navbar search -->
+
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-12 text-right">
+								<span class="total-record">Total of Record(s): 2</span>
+							</div>
 						</div>
+
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-12">
+								<div class="table-responsive">
+									<table class="table table-bordered">
+										<thead>
+											<tr class="bg-primary">
+												<th class="tr-4em text-center">#</th>
+												<th class="tr-8em text-center">File Name</th>
+												<th class="tr-8em text-center">Chanel</th>
+												<th class="tr-12em text-center">Start Upload Date</th>
+												<th class="tr-12em text-center">Finish Upload Date</th>
+												<th class="tr-8em text-center">Pass</th>
+												<th class="tr-8em text-center">Fail</th>
+												<th class="tr-8em text-center">Status</th>
+												<th class="text-center">Upload By</th>
+												<th class="text-center gec-col-action">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="text-center">1</td>
+												<td><span>SFP_001.txt</span></td>
+												<td>Web</td>
+												<td class="text-center">01/03/2016 01:00:00</td>
+												<td class="text-center">01/03/2016 01:00:05</td>
+												<td class="text-center">8</td>
+												<td class="text-center">2</td>
+												<td class="text-center">Partial Fail</td>
+												<td class="text-left">BigC user</td>
+												<td>
+													<button type="button" class="btn btn-default gec-btn-action"
+														aria-label="View" title="View">
+														<span class="glyphicon glyphicon-list-alt"
+															aria-hidden="true"></span>
+													</button>
+													<button type="button" class="btn btn-default gec-btn-action"
+														aria-label="Download" title="Download">
+														<span class="glyphicon glyphicon-floppy-save"
+															aria-hidden="true"></span>
+													</button>
+												</td>
+											</tr>
+											<tr>
+												<td class="text-center">2</td>
+												<td><span>SFP_002.txt</span></td>
+												<td>Batch</td>
+												<td class="text-center">01/03/2016 01:00:05</td>
+												<td class="text-center">01/03/2016 01:00:15</td>
+												<td class="text-center">100</td>
+												<td class="text-center">0</td>
+												<td class="text-center">Success</td>
+												<td class="text-left">BigC user</td>
+												<td >
+													<button type="button" class="btn btn-default gec-btn-action"
+														aria-label="View" title="View">
+														<span class="glyphicon glyphicon-list-alt"
+															aria-hidden="true"></span>
+													</button>
+													<button type="button" class="btn btn-default gec-btn-action"
+														aria-label="Download" title="Download">
+														<span class="glyphicon glyphicon-floppy-save"
+															aria-hidden="true"></span>
+													</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+						</div>
+
 					</div>
 				</div>
-
-				<div class="panel-body collapse" id="bs-example-navebar-collapse1">
-					<div class="col-md-12">&nbsp;</div>
-					<form class="form-horizontal">
-						<div class="form-group">
-							<label class="col-md-2 control-label" for="uploadDateFrom">Upload
-								Date From: </label>
-							<div class="col-md-3">
-								<p class="input-group">
-									<input id="uploadDateFrom" type="text" class="form-control"
-										readonly="readonly" uib-datepicker-popup="dd/MM/yyyy" close-text="Close" />
-									<span class="input-group-btn">
-										<button id="btnUploadDate" type="button"
-											class="btn btn-default">
-											<i class="glyphicon glyphicon-calendar"></i>
-										</button>
-									</span>
-								</p>
-							</div>
-
-							<label class="col-md-2 control-label" for="uploadDateTo">Upload
-								Date To: </label>
-							<div class="col-md-3">
-								<p class="input-group">
-									<input id="uploadDateTo" type="text" class="form-control"
-										readonly="readonly" uib-datepicker-popup="dd/MM/yyyy" close-text="Close" />
-									<span class="input-group-btn">
-										<button id="btnUploadDate" type="button"
-											class="btn btn-default">
-											<i class="glyphicon glyphicon-calendar"></i>
-										</button>
-									</span>
-								</p>
-							</div>
-							<div class="col-md-2"></div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-md-2 control-label" for="uploadDateTo">Upload
-								Date To: </label>
-							<div class="col-md-3">
-								<select id="uploadDateTo" class="form-control">
-									<option>All</option>
-								</select>
-							</div>
-							<div class="col-md-7"></div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-12 text-center">
-								<button type="button" class="btn btn-default"
-									data-toggle="collapse"
-									data-target="#bs-example-navebar-collapse1">Search</button>
-								<button type="button" class="btn btn-default"
-									data-toggle="collapse"
-									data-target="#bs-example-navebar-collapse1">Clear</button>
-
-							</div>
-
-						</div>
-					</form>
-				</div>
+				<!-- End Panel-->
 			</div>
-			<!--End navbar search -->
-
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12 text-right">
-					<span class="total-record">Total of Record(s): 2</span>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<div class="table-responsive">
-						<table class="table table-bordered">
-							<thead>
-								<tr class="bg-primary">
-									<th class="tr-4em text-center">#</th>
-									<th class="tr-8em text-center">File Name</th>
-									<th class="tr-8em text-center">Chanel</th>
-									<th class="tr-12em text-center">Start Upload Date</th>
-									<th class="tr-12em text-center">Finish Upload Date</th>
-									<th class="tr-8em text-center">Pass</th>
-									<th class="tr-8em text-center">Fail</th>
-									<th class="tr-8em text-center">Status</th>
-									<th class="text-center">Upload By</th>
-									<th class="text-center">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td class="text-center">1</td>
-									<td><span>SFP_001.txt</span></td>
-									<td>Web</td>
-									<td class="text-center">01/03/2016 01:00:00</td>
-									<td class="text-center">01/03/2016 01:00:05</td>
-									<td class="text-center">8</td>
-									<td class="text-center">2</td>
-									<td class="text-center">Partial Fail</td>
-									<td class="text-left">BigC user</td>
-									<td class="text-center">
-										<button type="button" class="btn btn-default btn-xs"
-											aria-label="View" title="View">
-											<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-										</button>
-										<button type="button" class="btn btn-default btn-xs"
-											aria-label="Download" title="Download">
-											<span class="glyphicon glyphicon-cloud-download"
-												aria-hidden="true"></span>
-										</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="text-center">2</td>
-									<td><span>SFP_002.txt</span></td>
-									<td>Batch</td>
-									<td class="text-center">01/03/2016 01:00:05</td>
-									<td class="text-center">01/03/2016 01:00:15</td>
-									<td class="text-center">100</td>
-									<td class="text-center">0</td>
-									<td class="text-center">Success</td>
-									<td class="text-left">BigC user</td>
-									<td class="text-center">
-										<button type="button" class="btn btn-default btn-xs"
-											aria-label="View" title="View">
-											<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-										</button>
-										<button type="button" class="btn btn-default btn-xs"
-											aria-label="Download" title="Download">
-											<span class="glyphicon glyphicon-cloud-download"
-												aria-hidden="true"></span>
-										</button>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
-				</div>
-			</div>
-
 		</div>
 	</div>
-	<!-- End Panel-->
+
 </div>

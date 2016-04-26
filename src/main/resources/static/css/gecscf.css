@@ -4,7 +4,7 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 body {
-	background-color: #f8f8f8;
+	background-color: #DDD;
 }
 
 #wrapper {
@@ -246,13 +246,13 @@ table.dataTable thead .sorting:after {
 	color: rgba(50, 50, 50, .5);
 }
 
-.btn-circle {
-	width: 30px;
-	height: 30px;
+.btn.btn-circle {
+	width: 40px;
+	height: 40px;
 	padding: 6px 0;
 	border-radius: 15px;
 	text-align: center;
-	font-size: 12px;
+	font-size: 1.5em;
 	line-height: 1.428571429;
 }
 
@@ -489,4 +489,38 @@ footer .footer-below {
 
 .navbar .navbar-brand{
 	padding: 15px 15px 15px 0px;
+}
+
+.gec-form-group{
+	margin-left:0 !important;
+	margin-right: 0 !important;
+}
+
+.btn-pass {
+    color: #fff !important;
+    border: none !important;
+    background-color: #249A53 !important;
+}
+
+.btn-next-step {
+	border: none !important;
+	background-color: #DDDDDD !important;
+}
+
+.gec-pannel-heading{
+	font-size: 18px;
+	white-space: nowrap;
+}
+
+.gec-col-action{
+	width: 12em;
+}
+
+.gec-btn-action {
+	padding: 0 10px;
+	font-size: 12px;
+}
+
+.gec-col-checkbox {
+	width: 5px;
 }

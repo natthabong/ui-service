@@ -8,89 +8,147 @@
 	<div id="wrapper">
 
 		<div th:replace="fragments/header :: header"></div>
+		<nav th:replace="fragments/sidebar :: sidebar"></nav>
 
-		<div id="page-wrapper" th:fragment="content">
-			<div class="row">
-				<div class="col-lg-12">
-					<h1 class="page-header">Create Loan Request - Validate and
-						Submit</h1>
-				</div>
-				<!-- /.col-lg-12 -->
-			</div>
-			<form th:method="post" th:object="${createLoanRequest}"
-				th:action="${flowExecutionUrl}">
-				<div class="row">
-					<div class="col-md-12 col-sm-12 col-xs-12">
-
-						<div class="stepwizard bottom-1em ">
-							<div class="stepwizard-row">
-								<div class="stepwizard-step">
-									<button type="button" class="btn btn-default btn-circle"
-										disabled="disabled">1</button>
-									<p>Create</p>
-								</div>
-								<div class="stepwizard-step">
-									<button type="button" class="btn btn-primary btn-circle">2</button>
-									<p>Validate and Submit</p>
-								</div>
-								<div class="stepwizard-step">
-									<button type="button" class="btn btn-default btn-circle"
-										disabled="disabled">3</button>
-									<p>Summary</p>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<label class="col-md-2 text-right">Transaction Type: </label> <span
-								class="col-md-2">Loan</span> <label class="col-md-2 text-right">Instrument
-								Type: </label> <span class="col-md-6"
-								th:text="${createLoanRequest.instrumentType}">P/N</span>
-						</div>
-
-						<div class="row">
-							<label class="col-md-2 text-right">Loan Date: </label> <span
-								class="col-md-2" th:text="${createLoanRequest.loanReqDate}">24/02/2016</span>
-
-							<label class="col-md-2 text-right">Loan Amount: </label> <span
-								class="col-md-6">5,000.00 Baht</span>
-						</div>
-
-						<div class="row">
-							<label class="col-md-2 text-right">Maturity Date: </label> <span
-								class="col-md-2">30/03/2016</span>
-							<div class="col-md-8"></div>
-						</div>
-
-						<div class="row">
-							<label class="col-md-2 text-right">Loan Account: </label> <span
-								class="col-md-2" th:text="${createLoanRequest.loanAccountNo}">
-								000-1-44422-6</span>
-							<div class="col-md-8"></div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">&nbsp;</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-12">
-								<button class="btn btn-default" type="submit"
-									name="_eventId_confirmNewLoan">Confirm</button>
-								<button type="submit" name="_eventId_backNewLoan"
-									class="btn btn-default">Back</button>
-							</div>
-						</div>
+		<div id="content" th:fragment="content">
+			<div class="panel box-shadow-none content-header">
+				<div class="panel-body">
+					<div class="col-md-12">
+						<h3 class="animated fadeInLeft">Create Loan Request -
+							Validate and Submit</h3>
 					</div>
-
 				</div>
-			</form>
-			<!-- /.row -->
+			</div>
+			<div class="form-element">
+				<div class="panel panel-default col-md-12 padding-0">
+					<div class="panel-body" style="padding-bottom: 30px;">
+						<form th:method="post" th:object="${createLoanRequest}"
+							th:action="${flowExecutionUrl}">
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+
+									<div class="stepwizard bottom-1em ">
+										<div class="stepwizard-row">
+											<div class="stepwizard-step">
+												<button type="button" class="btn btn-pass btn-circle"
+													disabled="disabled">1</button>
+												<p>Create</p>
+											</div>
+											<div class="stepwizard-step">
+												<button type="button" class="btn btn-primary btn-circle">2</button>
+												<p>Validate and Submit</p>
+											</div>
+											<div class="stepwizard-step">
+												<button type="button" class="btn btn-next-step btn-circle"
+													disabled="disabled">3</button>
+												<p>Summary</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<label class="col-md-2 text-right">Transaction Type: </label>
+										<span class="col-md-2">Loan</span> <label
+											class="col-md-2 text-right">Instrument Type: </label> <span
+											class="col-md-6"
+											th:text="${createLoanRequest.instrumentType}">P/N</span>
+									</div>
+
+									<div class="row">
+										<label class="col-md-2 text-right">Loan Date: </label> <span
+											class="col-md-2" th:text="${createLoanRequest.loanReqDate}">24/02/2016</span>
+
+										<label class="col-md-2 text-right">Loan Amount: </label> <span
+											class="col-md-6">5,000.00 Baht</span>
+									</div>
+
+									<div class="row">
+										<label class="col-md-2 text-right">Maturity Date: </label> <span
+											class="col-md-2">30/03/2016</span>
+										<div class="col-md-8"></div>
+									</div>
+
+									<div class="row">
+										<label class="col-md-2 text-right">Loan Account: </label> <span
+											class="col-md-2" th:text="${createLoanRequest.loanAccountNo}">
+											000-1-44422-6</span>
+										<div class="col-md-8"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">&nbsp;</div>
+									</div>
+
+									<div class="row">
+										<div class="col-md-12">
+
+											<table id="paymentGrid" class="table table-bordered">
+												<thead>
+													<tr class="bg-primary">
+														<th class="tr-4em text-center">#</th>
+														<th class="tr-8em text-center">Doc. No</th>
+														<th class="tr-8em text-center">Sponsor Code</th>
+														<th class="tr-10em text-center">Sponsor Name</th>
+														<th class="tr-8em text-center">Doc date</th>
+														<th class="tr-6em text-center">W/T Tax Amount</th>
+														<th class="tr-8em text-center">Amount</th>
+														<th class="tr-6em text-center">Total Amount</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td class="text-right"><span class="text-space">1</span>
+														</td>
+														<td><span class="text-space">D00001</span></td>
+														<td><span class="text-space">00001</span></td>
+														<td><span class="text-space">บริษัท ร่วมใจ
+																จำกัด</span></td>
+														<td class="text-center"><span class="text-space">15/03/2016</span>
+														</td>
+														<td class="text-right"><span class="text-space">30.00</span></td>
+														<td class="text-right"><span class="text-space">100.00</span></td>
+														<td class="text-right"><span class="text-space">70.00</span></td>
+													</tr>
+													<tr>
+														<td class="text-right"><span class="text-space">2</span></td>
+														<td><span class="text-space">D00002</span></td>
+														<td><span class="text-space">00001</span></td>
+														<td><span class="text-space">บริษัท ร่วมใจ
+																จำกัด</span></td>
+														<td class="text-center"><span class="text-space">15/03/2016</span></td>
+														<td class="text-right"><span class="text-space">0.00</span></td>
+														<td class="text-right"><span class="text-space">100.00</span></td>
+														<td class="text-right"><span class="text-space">100.00</span></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+									<div class="row">
+										<div id="bottom-sticker" class="col-md-12">
+											<div class="bottom-sticker-inner">
+												<button class="btn btn-default" type="submit"
+													name="_eventId_confirmNewLoan">Confirm</button>
+												<button type="submit" name="_eventId_backNewLoan"
+													class="btn btn-default">Edit</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</form>
+						<!-- /.row -->
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<!-- /#page-wrapper -->
 
 	</div>
 	<!-- /#wrapper -->
+	<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 
 </html>

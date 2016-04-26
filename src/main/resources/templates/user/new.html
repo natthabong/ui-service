@@ -9,119 +9,124 @@
 		<header th:replace="fragments/header :: header"></header>
 		<nav th:replace="fragments/sidebar :: sidebar"></nav>
 		<div ui-view="">
-			<div class="container-fluid mimin-wrapper">
-				<div id="content" th:fragment="content">
-					<div class="panel box-shadow-none content-header">
-						<div class="panel-body">
-							<div class="col-md-12">
-								<h3 class="animated fadeInLeft">Create User</h3>
-								
-							</div>
+			<div id="content" th:fragment="content">
+				<div class="panel box-shadow-none content-header">
+					<div class="panel-body">
+						<div class="col-md-12">
+							<h3 class="animated fadeInLeft">Create User</h3>
+
 						</div>
 					</div>
-					<div class="col-md-12">
-						<div class="panel form-element-padding">
-							<div class="panel-body" style="padding-bottom: 30px;">
-								<form class="form-horizontal">
-									<div class="form-group">
-										<label for="fullName" class="col-sm-2 control-label">Display
-											Name <span style="color: red;">*</span>:
-										</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="fullName"
-												placeholder="Display name" />
-										</div>
-										<div class="col-sm-6">
-											<div class="error-msg" role="alert" ng-show="ctrl.isError">
-												<h6>Display Name is required.</h6>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="fullName" class="col-sm-2 control-label">Full
-											Name <span style="color: red;">*</span>:
-										</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="fullName"
-												placeholder="Your name" />
-										</div>
-										<div class="col-sm-6">
-											<div class="error-msg" role="alert" ng-show="ctrl.isError">
-												<h6>Full Name is required.</h6>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="loginName" class="col-sm-2 control-label">Login
-											Name <span style="color: red;">*</span>:
-										</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="loginName"
-												placeholder="User login name" />
-											<div style="font-size: 0.8em;">
-												(a-z, A-Z, 0-9, _)1 - 10 Character <span style="color: red;">Auto
-													convert login name to lowcase</span>
-											</div>
-										</div>
-										<div class="col-sm-6">
-											<div class="error-msg" role="alert" ng-show="ctrl.isError">
-												<h6>Login Name is required.</h6>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="authentication" class="col-sm-2 control-label">Authentication/Authorization:</label>
-										<div class="col-sm-4">
-											<select id="authentication" class="form-control">
-												<option>&nbsp;</option>
-												<option>User/Password</option>
-											</select>
-										</div>
-										<div class="col-sm-6"></div>
-									</div>
-									<div class="form-group">
-										<label for="email" class="col-sm-2 control-label">E-mail
-											Address <span style="color: red;">*</span>:
-										</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="emain" />
-										</div>
-										<div class="col-sm-6">
-											<div class="error-msg" role="alert" ng-show="ctrl.isError">
-												<h6>E-mail Address is required.</h6>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="telephone" class="col-sm-2 control-label">Telephone:</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="telephone" />
-										</div>
-										<div class="col-sm-6"></div>
-									</div>
-									<div class="form-group">
-										<label for="mobileNo" class="col-sm-2 control-label">Mobile
-											No:</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="mobileNo" />
-										</div>
-										<div class="col-sm-6"></div>
-									</div>
-									<div class="form-group">
-										<label for="mobileNo" class="col-sm-2 control-label">Expiry
-											Date:</label>
-										<div class="col-sm-4">
-											<p class="input-group">
-												<input type="text" id="datepk" class="form-control"
-													readonly="readonly" ng-model="ctrl.inputTxtModel"
-													uib-datepicker-popup="dd/MM/yyyy"
-													is-open="ctrl.openFromDate" close-text="Close" /> <span
-													class="input-group-btn"><button type="button"
-														class="btn btn-default" ng-click="ctrl.openCal()">
-														<i class="glyphicon glyphicon-calendar"></i>
-													</button></span>
-											</p>
-											<!--
+				</div>
+
+				<div class="form-element">
+					<div class="panel panel-default col-md-12 padding-0">
+						<div class="panel-body" style="padding-bottom: 30px;">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="panel form-element-padding">
+										<div class="panel-body" style="padding-bottom: 30px;">
+											<form class="form-horizontal">
+												<div class="form-group">
+													<label for="fullName" class="col-sm-2 control-label">Display
+														Name <span style="color: red;">*</span>:
+													</label>
+													<div class="col-sm-4">
+														<input type="text" class="form-control" id="fullName"
+															placeholder="Display name" />
+													</div>
+													<div class="col-sm-6">
+														<div class="error-msg" role="alert" ng-show="ctrl.isError">
+															<h6>Display Name is required.</h6>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="fullName" class="col-sm-2 control-label">Full
+														Name <span style="color: red;">*</span>:
+													</label>
+													<div class="col-sm-4">
+														<input type="text" class="form-control" id="fullName"
+															placeholder="Your name" />
+													</div>
+													<div class="col-sm-6">
+														<div class="error-msg" role="alert" ng-show="ctrl.isError">
+															<h6>Full Name is required.</h6>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="loginName" class="col-sm-2 control-label">Login
+														Name <span style="color: red;">*</span>:
+													</label>
+													<div class="col-sm-4">
+														<input type="text" class="form-control" id="loginName"
+															placeholder="User login name" />
+														<div style="font-size: 0.8em;">
+															(a-z, A-Z, 0-9, _)1 - 10 Character <span
+																style="color: red;">Auto convert login name to
+																lowcase</span>
+														</div>
+													</div>
+													<div class="col-sm-6">
+														<div class="error-msg" role="alert" ng-show="ctrl.isError">
+															<h6>Login Name is required.</h6>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="authentication" class="col-sm-2 control-label">Authentication/Authorization:</label>
+													<div class="col-sm-4">
+														<select id="authentication" class="form-control">
+															<option>&nbsp;</option>
+															<option>User/Password</option>
+														</select>
+													</div>
+													<div class="col-sm-6"></div>
+												</div>
+												<div class="form-group">
+													<label for="email" class="col-sm-2 control-label">E-mail
+														Address <span style="color: red;">*</span>:
+													</label>
+													<div class="col-sm-4">
+														<input type="text" class="form-control" id="emain" />
+													</div>
+													<div class="col-sm-6">
+														<div class="error-msg" role="alert" ng-show="ctrl.isError">
+															<h6>E-mail Address is required.</h6>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="telephone" class="col-sm-2 control-label">Telephone:</label>
+													<div class="col-sm-4">
+														<input type="text" class="form-control" id="telephone" />
+													</div>
+													<div class="col-sm-6"></div>
+												</div>
+												<div class="form-group">
+													<label for="mobileNo" class="col-sm-2 control-label">Mobile
+														No:</label>
+													<div class="col-sm-4">
+														<input type="text" class="form-control" id="mobileNo" />
+													</div>
+													<div class="col-sm-6"></div>
+												</div>
+												<div class="form-group">
+													<label for="mobileNo" class="col-sm-2 control-label">Expiry
+														Date:</label>
+													<div class="col-sm-4">
+														<p class="input-group">
+															<input type="text" id="datepk" class="form-control"
+																readonly="readonly" ng-model="ctrl.inputTxtModel"
+																uib-datepicker-popup="dd/MM/yyyy"
+																is-open="ctrl.openFromDate" close-text="Close" /> <span
+																class="input-group-btn"><button type="button"
+																	class="btn btn-default" ng-click="ctrl.openCal()">
+																	<i class="glyphicon glyphicon-calendar"></i>
+																</button></span>
+														</p>
+														<!--
                                 <p class="input-group">									
                                     <input type="text" class="form-control" id="mobileNo">
                                     <span class="input-group-btn">
@@ -131,42 +136,50 @@
 									</span>
                                 </p>
                                 -->
+													</div>
+													<div class="col-sm-6"></div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label">User status:</label>
+													<div class="col-sm-4">
+														<label class="radio-inline"> <input type="radio"
+															name="instrument" checked="checked" />&nbsp;Active
+														</label> <label class="radio-inline"> <input type="radio"
+															name="instrument" />&nbsp;Inactive
+														</label>
+													</div>
+													<div class="col-sm-6"></div>
+												</div>
+												<div class="form-group">
+													<label for="inactiveReason" class="col-sm-2 control-label">Inactive
+														Reason:</label>
+													<div class="col-sm-4">
+														<textarea id="inactiveReason" class="form-control"
+															rows="5"></textarea>
+													</div>
+													<div class="col-sm-6"></div>
+												</div>
+												<div class="form-group">
+													<div class="col-sm-12">
+														<button type="submit" class="btn btn-default"
+															ng-click="ctrl.showError()">Save</button>
+														&nbsp;
+														<button class="btn btn-default"
+															ng-click="ctrl.hideError()">Back</button>
+													</div>
+												</div>
+											</form>
 										</div>
-										<div class="col-sm-6"></div>
 									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">User status:</label>
-										<div class="col-sm-4">
-											<label class="radio-inline"> <input type="radio"
-												name="instrument" checked="checked" />&nbsp;Active
-											</label> <label class="radio-inline"> <input type="radio"
-												name="instrument" />&nbsp;Inactive
-											</label>
-										</div>
-										<div class="col-sm-6"></div>
-									</div>
-									<div class="form-group">
-										<label for="inactiveReason" class="col-sm-2 control-label">Inactive
-											Reason:</label>
-										<div class="col-sm-4">
-											<textarea id="inactiveReason" class="form-control" rows="5"></textarea>
-										</div>
-										<div class="col-sm-6"></div>
-									</div>
-									<div class="form-group">
-										<div class="col-sm-12">
-											<button class="btn btn-default" ng-click="ctrl.showError()">Save</button>
-											&nbsp;
-											<button class="btn btn-default" ng-click="ctrl.hideError()">Back</button>
-										</div>
-									</div>
-								</form>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</div>
+
 		<!-- /#page-wrapper -->
 	</div>
 	<!-- /#wrapper -->
