@@ -1,221 +1,93 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="../lib/css/bootstrap-3.3.6-dist\css\bootstrap.css">
-    <link href="../lib/css/common.css" rel="stylesheet" type="text/css">
-    <link href="../lib/css/slidemenu.css" rel="stylesheet" type="text/css">
+<div id="content" th:fragment="content">
 
-    <script type="text/javascript" src="../lib/js/jquery-2.2.2.js"></script>
-    <script type="text/javascript" src="../lib/css/bootstrap-3.3.6-dist/js/bootstrap.js"></script>
-	
-</head>
+	<div class="panel box-shadow-none content-header">
+		<div class="panel-body">
+			<div class="col-md-12">
+				<h3 class="animated fadeInLeft">Loan Summary</h3>
 
-<body>
-    <nav class="menu-right">
-        <ul class="list-unstyled main-menu">
-            <li><a href="#">Sign Out <span class="icon"></span></a></li>
-            <li>
-                <label class="menu-title">General Electrolnic Commerce Services</label>
-                <br/>
-                <a href="#">Company A1 <span class="icon"></span></a>
-                <br/>
-                <a href="#">Company A2 <span class="icon"></span></a>
-            </li>
-            <li>
-                <label class="menu-title">Setting</label>
-                <br/>
-                <a href="#">My Profile <span class="icon"></span></a>
-                <br/>
-                <a href="#">Change Password <span class="icon"></span></a>
-                <br/>
-                <a href="#">Notifications <span class="icon"></span></a>
-            </li>
+			</div>
+		</div>
+	</div>
 
-            <li>
-                <a href="#">ActivityLog <span class="icon"></span></a>
-                <br/>
-                <a href="#">Sign In log <span class="icon"></span></a>
-            </li>
+	<div class="form-element">
+		<div class="panel panel-default col-md-12 padding-0">
+			<div class="panel-body" style="padding-bottom: 30px;">
+				<div class="row">
+					<!-- Start Column Panel-->
+					<div class="col-md-12 col-sm-12 col-xs-12">
 
-        </ul>
-    </nav>
+						<div class="stepwizard bottom-1em ">
+							<div class="stepwizard-row">
+								<div class="stepwizard-step">
+									<button type="button" class="btn btn-pass btn-circle"
+										disabled="disabled">1</button>
+									<p>Create</p>
+								</div>
+								<div class="stepwizard-step">
+									<button type="button" class="btn btn-pass btn-circle">2</button>
+									<p>Validate and Submit</p>
+								</div>
+								<div class="stepwizard-step">
+									<button type="button" class="btn btn-primary btn-circle"
+										disabled="disabled">3</button>
+									<p>Summary</p>
+								</div>
+							</div>
+						</div>
 
-    <header>
-        <div class="container-fluid">
-
-            <div class="hidden-xs hidden-sm col-md-6">
-                <h5>GEC Supply Chain Financing</h5>
-            </div>
-
-            <div class="col-md-5">
-
-                <h5 class="pull-right">
-					<span class="glyphicon glyphicon-user "></span>
-					Thanunchai.kun [General Electronic Commerce Services]
-                </h5>
-            </div>
-            <div class="com-md-1">
-                <h5>					
-					<ul class="list-inline">
-						<li>
-							<a href="#" id="nav-expander">
-								<span class="glyphicon glyphicon-triangle-bottom icon-white"></span>
-							</a>
-						</li>
-						<li>
-							<a href="#"><span class="glyphicon glyphicon-bell icon-white"></span></a>
-						</li>
-					</ul>                
-                
-				</h5>
-
-            </div>
-        </div>
-    </header>
-    <nav class="navbar navbar-default navbar-fixed-top gec-menu-bar">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="hd-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown"><a id="paymentMenu" class="dropdown-toggle" data-toggle="dropdown" href="#">Payment<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a id="createPaymentMobile" class="hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse" ui-sref="createpayment">Create
-										Payment</a>
-                                <a id="createPayment" class="visible-md visible-lg" ui-sref="createpayment">Create Payment</a></li>
-                            <li>
-                                <a id="paymentRequestMobile" class="hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse" ui-sref="listpayment">Payment
-										Request</a>
-                                <a id="paymentRequest" class="visible-md visible-lg" ui-sref="listpayment">Payment
-										Request</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown"><a id="logMenu" class="dropdown-toggle" data-toggle="dropdown" href="#">Log<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a id="wsLogMobile" class="hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse" ui-sref="ws-log">Web Service
-										Log</a>
-                                <a id="wsLog" class="visible-md visible-lg" ui-sref="ws-log">Web
-										Service Log</a></li>
-                        </ul>
-                    </li>
-                </ul>
-
-            </div>
-        </div>
-    </nav>
-    <main>
-        <div class="container-fluid">
-            <div class="row">
-
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <span class="panel-title">ผลการสร้างรายการขอกู้</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <br/>
-
-
-
-            <div class="row">
-                <!-- Start Column Panel-->
-                <div class="col-md-12 col-sm-12 col-xs-12">
-
-
-                    <div class="stepwizard bottom-1em ">
-                        <div class="stepwizard-row">
-                            <div class="stepwizard-step">
-                                <button type="button" class="btn btn-default btn-circle" disabled="disabled">1</button>
-                                <p><b>สร้างรายการ</b></p>
-                            </div>
-                            <div class="stepwizard-step">
-                                <button type="button" class="btn btn-default btn-circle" disabled="disabled">2</button>
-                                <p><b>Confirmation</b></p>
-                            </div>
-                            <div class="stepwizard-step">
-                                <button type="button" class="btn btn-primary btn-circle">3</button>
-                                <p><b>Summary</b></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right">
-                            <label>Loan Request No: </label>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8">
-                            <span>GEC29022016162300</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right">
-                            <label>Loan Request Date: </label>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8">
-                            <span>02/03/2016</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right">
-                            <label>Maturity Date: </label>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8">
-                            <span>01/05/2016</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right">
-                            <label>Loan Amount: </label>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8">
-                            <span>500,000.00 <b>Baht</b></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right">
-                            <label>Status: </label>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8">
-                            <span>Wait for Approval</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <button type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
-                            </button>
-                            <button type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Create New
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </div>
-
-        </div>
-    </main>
-    <!-- Footer -->
-    <footer class="text-center">
-        <div class="footer-below">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        2013 Copyright &copy; Copyright General Electronic Commerce Services Co., Ltd. 971, 973 President Tower, 9th Floor Ploenchit Road, Lumpini, Patumwan Bangkok 10330
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-</body>
-<script type="text/javascript" src="../lib/js/slidemenu.js"></script>
-
-</html>
+						<div class="row">
+							<div class="col-md-3 col-sm-4 col-xs-4 text-right">
+								<label><b>Loan Request No: </b></label>
+							</div>
+							<div class="col-md-9 col-sm-8 col-xs-8">
+								<span>GEC29022016162300</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3 col-sm-4 col-xs-4 text-right">
+								<label><b>Loan Request Date: </b></label>
+							</div>
+							<div class="col-md-9 col-sm-8 col-xs-8">
+								<span>02/03/2016</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3 col-sm-4 col-xs-4 text-right">
+								<label><b>Maturity Date: </b></label>
+							</div>
+							<div class="col-md-9 col-sm-8 col-xs-8">
+								<span>01/05/2016</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3 col-sm-4 col-xs-4 text-right">
+								<label><b>Loan Amount: </b></label>
+							</div>
+							<div class="col-md-9 col-sm-8 col-xs-8">
+								<span>500,000.00 <b>Baht</b></span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3 col-sm-4 col-xs-4 text-right">
+								<label><b>Status: </b></label>
+							</div>
+							<div class="col-md-9 col-sm-8 col-xs-8">
+								<span>Wait for Approval</span>
+							</div>
+						</div>
+						<br/>
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<button type="button" class="btn btn-default">View loan
+									request</button>
+								<button type="submit" class="btn btn-default">Create
+									New</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

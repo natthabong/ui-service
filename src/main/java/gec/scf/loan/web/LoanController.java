@@ -33,6 +33,7 @@ public class LoanController {
 	private HttpSession session;
 
 	private static final String CREATE_LOAN_VIEW_NAME = "loans/create";
+	private static final String CREATE_LOAN_SUMARY = "loans/create_payment_status";
 
 	@RequestMapping(path = "/create", method = RequestMethod.GET)
 	public String createLoan(@RequestHeader("X-Requested-With") String requestedWith) {
@@ -82,5 +83,13 @@ public class LoanController {
 		URI uri = new URI("http://localhost:9002/loan-request/new");
 		resTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
 
+	}
+	
+	@RequestMapping(path = "/sumary", method = RequestMethod.GET)
+	public String createLoanSumary(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return CREATE_LOAN_SUMARY.concat(" :: content");
+		}
+		return CREATE_LOAN_SUMARY;
 	}
 }
