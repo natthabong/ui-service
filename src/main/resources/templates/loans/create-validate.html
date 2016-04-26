@@ -80,10 +80,58 @@
 
 									<div class="row">
 										<div class="col-md-12">
-											<button class="btn btn-default" type="submit"
-												name="_eventId_confirmNewLoan">Confirm</button>
-											<button type="submit" name="_eventId_backNewLoan"
-												class="btn btn-default">Edit</button>
+
+											<table id="paymentGrid" class="table table-bordered">
+												<thead>
+													<tr class="bg-primary">
+														<th class="tr-4em text-center">#</th>
+														<th class="tr-8em text-center">Doc. No</th>
+														<th class="tr-8em text-center">Sponsor Code</th>
+														<th class="tr-10em text-center">Sponsor Name</th>
+														<th class="tr-8em text-center">Doc date</th>
+														<th class="tr-6em text-center">W/T Tax Amount</th>
+														<th class="tr-8em text-center">Amount</th>
+														<th class="tr-6em text-center">Total Amount</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td class="text-right"><span class="text-space">1</span>
+														</td>
+														<td><span class="text-space">D00001</span></td>
+														<td><span class="text-space">00001</span></td>
+														<td><span class="text-space">บริษัท ร่วมใจ
+																จำกัด</span></td>
+														<td class="text-center"><span class="text-space">15/03/2016</span>
+														</td>
+														<td class="text-right"><span class="text-space">30.00</span></td>
+														<td class="text-right"><span class="text-space">100.00</span></td>
+														<td class="text-right"><span class="text-space">70.00</span></td>
+													</tr>
+													<tr>
+														<td class="text-right"><span class="text-space">2</span></td>
+														<td><span class="text-space">D00002</span></td>
+														<td><span class="text-space">00001</span></td>
+														<td><span class="text-space">บริษัท ร่วมใจ
+																จำกัด</span></td>
+														<td class="text-center"><span class="text-space">15/03/2016</span></td>
+														<td class="text-right"><span class="text-space">0.00</span></td>
+														<td class="text-right"><span class="text-space">100.00</span></td>
+														<td class="text-right"><span class="text-space">100.00</span></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+									<div class="row">
+										<div id="bottom-sticker" class="col-md-12">
+											<div class="bottom-sticker-inner">
+												<button class="btn btn-default" type="submit"
+													name="_eventId_confirmNewLoan">Confirm</button>
+												<button type="submit" name="_eventId_backNewLoan"
+													class="btn btn-default">Edit</button>
+											</div>
 										</div>
 									</div>
 								</div>

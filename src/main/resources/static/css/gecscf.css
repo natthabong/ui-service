@@ -506,3 +506,21 @@ footer .footer-below {
 	border: none !important;
 	background-color: #DDDDDD !important;
 }
+
+.gec-pannel-heading{
+	font-size: 18px;
+	white-space: nowrap;
+}
+
+.gec-col-action{
+	width: 12em;
+}
+
+.gec-btn-action {
+	padding: 0 10px;
+	font-size: 12px;
+}
+
+.gec-col-checkbox {
+	width: 5px;
+}
