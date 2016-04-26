@@ -141,10 +141,10 @@
 				</configuration>
 				<dependencies>
 					<dependency>
-					    <groupId>org.webjars.bower</groupId>
-					    <artifactId>bootstrap</artifactId>
-					    <version>3.2.0</version>
-					</dependency>					
+						<groupId>org.webjars.bower</groupId>
+						<artifactId>bootstrap</artifactId>
+						<version>3.3.6</version>
+					</dependency>
 					<dependency>
 						<groupId>org.webjars.bower</groupId>
 						<artifactId>font-awesome</artifactId>
@@ -152,14 +152,14 @@
 					</dependency>
 					
 					<dependency>
-						<groupId>org.webjars.bower</groupId>
-						<artifactId>jquery</artifactId>
-						<version>2.1.0</version>
-					</dependency>	
-					<dependency>
 					    <groupId>org.webjars.bower</groupId>
-					    <artifactId>angular</artifactId>
-					    <version>1.5.2</version>
+					    <artifactId>jquery</artifactId>
+					    <version>1.11.3</version>
+					</dependency>
+					<dependency>
+						<groupId>org.webjars.bower</groupId>
+						<artifactId>angular</artifactId>
+						<version>1.5.2</version>
 					</dependency>
 					<dependency>
 						<groupId>org.webjars.bower</groupId>
@@ -167,10 +167,10 @@
 						<version>1.5.2</version>
 					</dependency>
 					<dependency>
-					    <groupId>org.webjars.bower</groupId>
-					    <artifactId>angular-ui-router</artifactId>
-					    <version>0.2.18</version>
-					</dependency>				
+						<groupId>org.webjars.bower</groupId>
+						<artifactId>angular-ui-router</artifactId>
+						<version>0.2.18</version>
+					</dependency>
 					<dependency>
 						<groupId>org.webjars.bower</groupId>
 						<artifactId>angular-translate</artifactId>
@@ -186,7 +186,7 @@
 						<artifactId>angular-bootstrap</artifactId>
 						<version>1.2.5</version>
 					</dependency>
-			
+		
 				</dependencies>
 			</plugin>
 			<plugin>
@@ -204,7 +204,7 @@
 								<artifactItem>
 									<groupId>org.webjars</groupId>
 									<artifactId>bootstrap</artifactId>
-									<version>3.2.0</version>
+									<version>3.3.6</version>
 									<type>jar</type>
 									<overWrite>false</overWrite>
 								</artifactItem>
@@ -235,7 +235,7 @@
 							<outputDirectory>${project.build.directory}/generated-resources/static/fonts</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${project.build.directory}/unpacked/META-INF/resources/webjars/bootstrap/3.2.0/fonts</directory>
+									<directory>${project.build.directory}/unpacked/META-INF/resources/webjars/bootstrap/3.3.6/fonts</directory>
 									<includes>
 										<include>**/*</include>
 									</includes>
@@ -267,9 +267,9 @@
 						<configuration>
 							<artifactItems>
 								<artifactItem>
-								    <groupId>org.webjars.bower</groupId>
-								    <artifactId>angular-ui-bootstrap</artifactId>
-								    <version>1.1.2</version>
+									<groupId>org.webjars.bower</groupId>
+									<artifactId>angular-ui-bootstrap</artifactId>
+									<version>1.1.2</version>
 									<type>jar</type>
 									<overWrite>false</overWrite>
 								</artifactItem>
@@ -279,7 +279,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>			
+			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
@@ -304,7 +304,7 @@
 					</execution>
 				</executions>
 			</plugin>
-						
+
 		</plugins>
 		<pluginManagement>
 			<plugins>

@@ -1,14 +1,15 @@
 <groups xmlns="http://www.isdc.ro/wro">
 	<group name="angular-bootstrap">
-		<css>webjar:bootstrap/3.2.0/less/bootstrap.less</css>
+		<css>webjar:bootstrap/3.3.6/less/bootstrap.less</css>	
 		<css>file:@project.basedir@/src/main/wro/main.less</css>
-		<css>webjar:font-awesome/4.5.0/less/font-awesome.less</css>	
-		<js>webjar:jquery/2.1.0/dist/jquery.min.js</js>	
+		<css>webjar:font-awesome/4.5.0/less/font-awesome.less</css>			
+		<js>webjar:jquery/1.11.3/dist/jquery.min.js</js>	
 		<js>webjar:angular/1.5.2/angular.min.js</js>
 		<js>webjar:angular-cookies/1.5.2/angular-cookies.min.js</js>
 		<js>webjar:angular-ui-router/0.2.18/release/angular-ui-router.min.js</js>
 		<js>webjar:angular-translate/2.11.0/angular-translate.min.js</js>
 		<js>webjar:angular-translate-loader-partial/2.11.0/angular-translate-loader-partial.min.js</js>
-		<js>webjar:angular-bootstrap/1.2.5/ui-bootstrap.min.js</js>	
-	</group>	
+		<js>webjar:angular-bootstrap/1.2.5/ui-bootstrap.min.js</js>		
+		<js>webjar:bootstrap/3.3.6/dist/js/bootstrap.min.js</js>		
+	</group>		
 </groups>
