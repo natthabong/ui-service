@@ -1,6 +1,11 @@
 debug: true
 server:
-  port: 8080
+  port: 433
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: gecadmin
+    keyStoreType: PKCS12
+    keyAlias: gecscf
 spring:
   application:
     name: ui-service
