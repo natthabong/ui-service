@@ -12,7 +12,7 @@
 		<js>webjar:angular-bootstrap/1.2.5/ui-bootstrap.min.js</js>		
 		<js>webjar:bootstrap/3.3.6/dist/js/bootstrap.min.js</js>		
 	</group>
-	<group name="gecscf">		
+	<group name="login">		
 		<js>file:@project.basedir@/src/main/resources/static/js/app/authen/authentication.min.js</js>	
 	</group>		
 </groups>
