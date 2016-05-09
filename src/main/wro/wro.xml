@@ -13,6 +13,6 @@
 		<js>webjar:bootstrap/3.3.6/dist/js/bootstrap.min.js</js>		
 	</group>
 	<group name="gecscf">		
-		<js>file:@project.basedir@/src/main/resources/static/js/app/authentication.min.js</js>	
+		<js>file:@project.basedir@/src/main/resources/static/js/app/authen/authentication.min.js</js>	
 	</group>		
 </groups>
