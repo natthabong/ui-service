@@ -101,7 +101,8 @@ displayModule.controller('DisplayController', [
                     documentGroupingFields: [],
                     displayNegativeDocument: null,
                     reasonCodeMappingId: null,
-                    supportPartial: false
+                    supportPartial: false,
+                    supportSpecialDebit : null
                 };
 
 
@@ -118,6 +119,9 @@ displayModule.controller('DisplayController', [
                 // data and accounting transaction type is RECEIVABLE
                 if (vm.dataModel.displayNegativeDocument == null && vm.accountingTransactionType == "RECEIVABLE") {
                     vm.dataModel.displayNegativeDocument = true;
+                }
+                if (vm.dataModel.supportSpecialDebit == null && vm.accountingTransactionType == "RECEIVABLE") {
+                    vm.dataModel.supportSpecialDebit = false;
                 }
 
                 if (vm.dataModel.documentSelection != DOCUMENT_SELECTION_ITEM.anyDocument) {
@@ -196,7 +200,8 @@ displayModule.controller('DisplayController', [
                 log.error('Load data type error');
             });
         }
-
+        
+        
         var init = function () {
             loadDataTypes();
             loadDocumentCondition();
@@ -317,6 +322,7 @@ displayModule.controller('DisplayController', [
         vm.backToSponsorConfigPage = function () {
             PageNavigation.gotoPreviousPage();
         }
+        
 
         vm.save = function () {
             var preCloseCallback = function () {
@@ -336,13 +342,21 @@ displayModule.controller('DisplayController', [
                         409: 'Display document has been deleted.',
                         405: 'Display document has been used.'
                     };
+                    if(response.status==404){
+                    	vm.isNotTradeFinance = true;
+                    }
                     UIFactory.showFailDialog({
                         data: {
                             headerMessage: 'Edit display document configuration fail.',
                             bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
                         },
                         preCloseCallback: function () {
-                            vm.backToSponsorConfigPage();
+                            if(response.status!=404){
+                            	vm.backToSponsorConfigPage();
+                            }else{
+                            	vm.isNotTradeFinance = true;
+                            	vm.dataModel.supportSpecialDebit = false;
+                            }
                         }
                     });
                 },
@@ -360,7 +374,14 @@ displayModule.controller('DisplayController', [
                 }
             });
         }
-
+        	
+            $scope.errors = {};
+			    $scope.errors.isNotTradeFinance = {
+				message : 'Please setup trade finance before creating special direct debit.'
+			    }
+  
+        
+        
         $scope.confirmSave = function () {
             if (vm.dataModel.documentSelection == DOCUMENT_SELECTION_ITEM.groupBy) {
                 if (vm.accountingTransactionType == "RECEIVABLE") {
