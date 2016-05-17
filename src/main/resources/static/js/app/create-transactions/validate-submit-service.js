@@ -6,12 +6,12 @@ function validateAndSubmitService($http, $q) {
     	submitTransaction: submitTransaction
     };	
     
-    function prepareTransactionOnValidatePage(paymentDate, maturityDate) {
+    function prepareTransactionOnValidatePage(sponsorPaymentDate, maturityDate) {
         var deffered = $q.defer();
 
         $http.post('api/create-transaction/validate-submit/transaction/prepare', {
                 params: {
-                	paymentDate: paymentDate,
+                	paymentDate: sponsorPaymentDate,
                 	maturityDate: maturityDate
                 }
             })
