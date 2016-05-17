@@ -1,6 +1,11 @@
 var createapp = angular.module('scfApp');
-createapp.controller('CreateTransactionController', ['CreateTransactionService', '$state', function(CreateTransactionService, $state) {
+createapp.controller('CreateTransactionController', ['CreateTransactionService', '$state', '$scope', '$window',
+													 function(CreateTransactionService, $state, $scope, $window) {
     var vm = this;
+	//Initail Data 
+	$scope.validateDataFailPopup = false;
+	vm.errorMsg = "Insufficient Fund"
+	// Data Sponsor
     vm.sponsorCodes = [{
         label: 'TESCO CO,LTD.',
         value: '0017551'
@@ -13,13 +18,15 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         label: 'Please Select',
         value: 'Please Select'
     }];
-
+	// End Data Sponsor
+	//Model for transaction
     vm.createTransactionModel = {
         sponsorCode: vm.sponsorCodes[0].value,
         supplierCode: vm.supplierCodes[0].value,
         sponsorPaymentDate: vm.sponsorPaymentDates[0].value
     };
 
+	// Init data paging
     vm.pageSizeList = [{
         label: '10',
         value: '10'
@@ -36,6 +43,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 		console.log(pagingModel);
     };
 
+	// Load Sponsor paymentDate
     vm.loadSupplierDate = function() {
         var sponsorCode = vm.createTransactionModel.sponsorCode;
         var supplierCode = vm.createTransactionModel.supplierCode;
@@ -51,7 +59,11 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
     vm.loadSupplierDate();
 	
 	vm.nextStep = function(){
-		console.log($state);
-		$state.go('/create-transaction/validate-submit');
+		console.log($state.parrentState);
+//		$state.go('/create-transaction/validate-submit');
+//		$window.scrollTo(0, 0);
+		$scope.validateDataFailPopup = true;
 	};
+	
+	
 }]);
