@@ -44,12 +44,12 @@
                                 </div>
 
                                 <!-- <form name="createForm" class="form-horizontal" ng-submit="payCtrl.createPayment()"> -->
-                                <form name="createForm" class="form-horizontal" th:object="${createLoanRequest}" th:method="post" th:action="${flowExecutionUrl}">
+                                <form name="createForm" class="form-horizontal">
                                     <div class="form-group">
                                         <label for="sponsor" class="col-md-2 col-sm-3 col-xs-12 control-label">Sponsor : </label>
                                         <div class="form-inline">
                                             <div class="col-md-5 col-sm-5 col-xs-12">
-                                                <select id="sponsor" class="form-control" th:field="*{sponsorId}">
+                                                <select id="sponsor" class="form-control">
                                                     <option th:value="0001">บริษัท ร่วมใจ จำกัด</option>
                                                     <option th:value="0002">บริษัท อยู่สุขสบาย จำกัด</option>
                                                 </select>                                                
@@ -75,7 +75,7 @@
                                         <label for="paymentDate" class="col-md-2 col-sm-3 col-xs-12 control-label">Loan Request Date : </label>
                                         <div class="col-md-2 col-sm-3 col-xs-12">
                                             <p class="input-group">
-                                                <input id="paymentDate" type="text" th:field="*{loanReqDate}" class="form-control" readonly="true" uib-datepicker-popup="dd/MM/yyyy" ng-model="createLoanCtrl.loanReqDate" is-open="createLoanCtrl.isOpenLoanReq" close-text="Close" />
+                                                <input id="paymentDate" type="text" class="form-control" readonly="true" uib-datepicker-popup="dd/MM/yyyy" ng-model="createLoanCtrl.loanReqDate" is-open="createLoanCtrl.isOpenLoanReq" close-text="Close" />
                                                 <span class="input-group-btn">
 													<button id="btnPayDate" type="button" class="btn btn-default form-control" 
 															ng-click="createLoanCtrl.openCalLoanDate()">
@@ -91,9 +91,9 @@
                                     	<label for="instrument" class="col-md-2 col-sm-3 col-xs-12 control-label">Instrument Type. : </label>
                                     	<div class="col-md-2 col-sm-3 col-xs-12">
                                             <label class="radio-inline">
-                                                <input type="radio" name="instrument" th:field="*{instrumentType}" th:value="PN" />&nbsp;P/N</label>
+                                                <input type="radio" name="instrument" />&nbsp;P/N</label>
                                             <label class="radio-inline">
-                                                <input type="radio" name="instrument" th:field="*{instrumentType}" th:value="OD" />&nbsp;O/D</label>
+                                                <input type="radio" name="instrument" />&nbsp;O/D</label>
 
                                         </div>
                                     </div>
@@ -102,7 +102,7 @@
                                         <label for="accNo" class="col-md-2 col-sm-3 col-xs-12 control-label">Loan Account No. : </label>
                                         <div class="col-md-2 col-sm-3 col-xs-12">
                                             <!--<select id="accNo" class="form-control" ng-model="payCtrl.paymentModel.accountNo" th:field="*{}">-->
-                                            <select id="accNo" class="form-control" th:field="*{loanAccountNo}">
+                                            <select id="accNo" class="form-control">
                                                 <option id="accNo_1" th:value="select" value="select">-- Select --</option>
                                                 <option id="accNo_2" th:value="0001122226">000-1-12222-6</option>
                                                 <option id="accNo_3" th:value="0001444446">000-1-44444-6</option>
@@ -186,7 +186,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td class="text-center">
-                                                            <input type="checkbox" th:field="*{documentNos}" th:value="D00001" />
+                                                            <input type="checkbox"/>
                                                         </td>
                                                         <td class="text-right">
                                                             <span class="text-space">1</span>
@@ -209,7 +209,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="text-center">
-                                                            <input type="checkbox" th:field="*{documentNos}" th:value="D00002" />
+                                                            <input type="checkbox"/>
                                                         </td>
                                                         <td class="text-right"><span class="text-space">2</span></td>
                                                         <td><span class="text-space">D00002</span></td>

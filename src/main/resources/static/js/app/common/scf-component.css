@@ -6,6 +6,9 @@
     background-color: #EFEFEF;
 }
 
+.scf-paging{
+	padding: 0;
+}
 .scf-paging > li {
     display: inline-block;
     padding-right: 4px;

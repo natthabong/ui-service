@@ -1,16 +1,226 @@
 
 <div id="content" th:fragment="content">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 class="animated fadeInLeft">Create Transaction</h3>
+				</div>
+			</div>
+		</div>
 
-	<div class="panel box-shadow-none content-header">
-		<div class="panel-body">
-			<div class="col-md-12">
-				<h3 class="animated fadeInLeft">Create Transaction</h3>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body" style="padding-bottom: 30px;">
+					<!-- Start Column Panel-->
+					<div class="col-md-12" ng-controller="CreateTransactionController as createTransactionCtrl">						
+						<form name="createForm" class="form-horizontal">
+							<div class="form-group">
+								<label for="sponsor"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">Sponsor: </label>
+								<div class="form-inline">
+									<div class="col-md-5 col-sm-5 col-xs-12">
+										<scf-dropdown id="sponsor-dropdown" ng-model="createTransactionCtrl.createTransactionModel.sponsorCode"
+													  component-data="createTransactionCtrl.sponsorCodes"></scf-dropdown>
+									</div>
+								</div>
+								<div class="col-md-5 col-sm-4"></div>
+							</div>
+							<div class="form-group">
+								<label for="dealer"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">Supplier Code : </label>
+								<div class="form-inline">
+									<div class="col-md-5 col-sm-5 col-xs-12">
+										<scf-dropdown id="supplier-code-dropdown" 
+													  ng-model="createTransactionCtrl.createTransactionModel.supplierCode"
+													  component-data="createTransactionCtrl.supplierCodes"></scf-dropdown>
+									</div>
+								</div>
+								<div class="col-md-5 col-sm-4"></div>
+							</div>
+
+							<!-- Start Payment Field-->
+							<div class="form-group">
+								<label for="paymentDate"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">Sponsor payment Date: </label>
+								<div class="col-md-5 col-sm-3 col-xs-12">
+									<div class="row">
+										<div class="col-md-6">
+											<scf-dropdown id="sponsor-payment-date-dropdown" 
+													  ng-model="createTransactionCtrl.createTransactionModel.sponsorPaymentDate"
+													  component-data="createTransactionCtrl.sponsorPaymentDates"></scf-dropdown>
+										</div>
+										<div class="col-md-6">
+											<scf-button id="search-button" ng-click="createTransactionCtrl.searchDocument()">Search</scf-button>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-7 col-sm-6"></div>
+							</div>							
+							<!-- End Payment Field-->
+
+							<div class="form-group">
+								<div class="col-md-12">
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-md-2">
+													<label>วงเงินกู้: </label>
+												</div>
+												<div class="col-md-3">
+													 <span>1,000,000.00 THB</span>
+												</div>
+												<div class="col-md-2">
+													<label>วงเงินกู้ที่สามารถเบิกถอนได้: </label>
+												</div>
+												<div class="col-md-3">
+													<span>1,000,000 THB</span>
+												</div>
+												<div class="col-md-2"></div>
+											</div>
+											<div class="row">
+												<div class="col-md-2">
+													<label>ยอดเงินกู้ที่เบิกถอนแล้ว:</label>
+												</div>
+												<div class="col-md-3">
+													<span>100,000.00 THB</span>
+												</div>
+												<div class="col-md-2">
+													<label>ยอดเงินกู้ล่วงหน้า: </label>
+												</div>
+												<div class="col-md-3">
+													 <span>50,000.00 THB</span>
+												</div>
+												<div class="col-md-2"></div>
+											</div>
+											<div class="row">
+												<div class="col-md-2">
+													<label>Pre-Dradown Percentag: </label>
+												</div>
+												<div class="col-md-3">
+													 <span>80.00%</span>
+												</div>
+												<div class="col-md-2">
+													<label>อัตราดอกเบี้ยเงินกู้: </label>
+												</div>
+												<div class="col-md-3">
+													<span>50,000.00 THB</span>
+												</div>
+												<div class="col-md-2"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-1"></div>
+								<div class="col-md-3">Select: 2 Records</div>
+								<div class="col-md-8 text-right">
+									<div class="row">
+										<div class="col-md-7">1 - 10 of 20</div>
+										<div class="col-md-5">
+											<scf-pagination page-size-model="createTransactionCtrl.pageSizeSelectModel" 
+													total-page="createTransactionCtrl.pageModel.totalRecord" 
+													current-page="createTransactionCtrl.pageModel.currentPage" 
+													page-size-list="createTransactionCtrl.pageSizeList" 
+													page-action="createTransactionCtrl.searchDocument"></scf-pagination>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Start Table-->
+							<div class="row">
+								<div class="col-md-12">
+									<table id="paymentGrid" class="table table-bordered">
+										<thead>
+											<tr class="bg-primary">
+												<th class="tr-2em text-center"><input type="checkbox" />
+												</th>
+												<th class="tr-4em text-center">#</th>
+												<th class="tr-8em text-center">Doc. No</th>
+												<th class="tr-8em text-center">Sponsor Code</th>
+												<th class="tr-10em text-center">Sponsor Name</th>
+												<th class="tr-8em text-center">Doc date</th>
+												<th class="tr-6em text-center">W/T Tax Amount</th>
+												<th class="tr-8em text-center">Amount</th>
+												<th class="tr-6em text-center">Total Amount</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="text-center"><input type="checkbox"/></td>
+												<td class="text-right"><span class="text-space">1</span>
+												</td>
+												<td><span class="text-space">D00001</span></td>
+												<td><span class="text-space">00001</span></td>
+												<td><span class="text-space">บริษัท ร่วมใจ จำกัด</span>
+												</td>
+												<td class="text-center"><span class="text-space">15/03/2016</span>
+												</td>
+												<td class="text-right"><span class="text-space">30.00</span></td>
+												<td class="text-right"><span class="text-space">100.00</span></td>
+												<td class="text-right"><span class="text-space">70.00</span></td>
+											</tr>
+											<tr>
+												<td class="text-center"><input type="checkbox"/></td>
+												<td class="text-right"><span class="text-space">2</span></td>
+												<td><span class="text-space">D00002</span></td>
+												<td><span class="text-space">00001</span></td>
+												<td><span class="text-space">บริษัท ร่วมใจ จำกัด</span></td>
+												<td class="text-center"><span class="text-space">15/03/2016</span></td>
+												<td class="text-right"><span class="text-space">0.00</span></td>
+												<td class="text-right"><span class="text-space">100.00</span></td>
+												<td class="text-right"><span class="text-space">100.00</span></td>
+											</tr>
+										</tbody>
+									</table>
+									
+									<div class="row" >
+										<div class="form-horizontal">
+										<div class="col-md-11">
+											<div class="form-group">
+											<div class="row">
+												<div class="col-md-3">
+													<span><b>Transaction Amount: </b></span>
+												</div>
+												<div class="col-md-9">
+													<span id="transaction-amount-label">xxx,xxx.00</span>THB
+												</div>
+											</div>
+											</div>
+										</div>
+										<div class="col-md-11">
+											<div class="row">
+												<div class="form-group">
+												<div class="col-md-3">
+													<span><b>Transaction Date: </b></span>
+												</div>
+												<div class="col-md-2">
+													<scf-dropdown id="supplier-code-dropdown" 
+													  ng-model="createTransactionCtrl.createTransactionModel.supplierCode"
+													  component-data="createTransactionCtrl.supplierCodes"></scf-dropdown>
+												</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-11 text-right">
+											<scf-button id="submit-button" type="submit">Next</scf-button>
+											
+										</div>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+
+						</form>
+
+					</div>
+					<!-- End Column Panel-->
+
+				</div>
+
 			</div>
 		</div>
 	</div>
-
-	<div class="form-element">
-		<!-- Panel-->
-	</div>
-	
 </div>

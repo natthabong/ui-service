@@ -23,7 +23,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 			.state('/create-transaction', {
 				url: '/create-transaction',
 				templateUrl: '/create-transaction',
-				resolve: load(['js/app/create-transactions/create.js', 'js/app/common/scf-component.js'])
+				resolve: load(['js/app/create-transactions/create-service.js','js/app/create-transactions/create.js', 'js/app/common/scf-component.js'])
 			});
 			
 			
@@ -41,7 +41,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
                                 promise = deferred.promise;
                             }
                             angular.forEach(srcs, function (src) {
-								console.log(src);
                                 promise = promise.then(function () {
                                     return $ocLazyLoad.load(src);
                                 });
