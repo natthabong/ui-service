@@ -10,6 +10,7 @@
 		<js>webjar:angular-translate/2.11.0/angular-translate.min.js</js>
 		<js>webjar:angular-translate-loader-partial/2.11.0/angular-translate-loader-partial.min.js</js>
 		<js>webjar:angular-bootstrap/1.2.5/ui-bootstrap.min.js</js>		
-		<js>webjar:bootstrap/3.3.6/dist/js/bootstrap.min.js</js>		
+		<js>webjar:bootstrap/3.3.6/dist/js/bootstrap.min.js</js>
+		<js>webjar:oclazyload/1.0.9/dist/ocLazyLoad.min.js</js>
 	</group>	
 </groups>
