@@ -4,11 +4,14 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         var vm = this;
         //Initail Data 
         $scope.validateDataFailPopup = false;
-        vm.errorMsg = "Insufficient Fund"
+		vm.showInfomation = false;
+        vm.errorMsgPopup = "Insufficient Fund"
+		vm.showErrorMsg = false;
+		vm.errorMsgGroups= 'transaction-error-msg-payment-date';
             // Data Sponsor
         vm.sponsorCodes = [{
             label: 'TESCO CO,LTD.',
-            value: '0017551'
+            value: '00017551'
         }];
         vm.supplierCodes = [{
             label: 'JINTANA INTERTRADE CO,LTD.',
@@ -16,13 +19,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         }];
         vm.sponsorPaymentDates = [{
             label: 'Please Select',
-            value: 'Please Select'
-        }, {
-            label: '27/05/2016',
-            value: '27/05/2016'
-        }, {
-            label: '25/05/2016',
-            value: '25/05/2016'
+            value: 'PleaseSelect'
         }];
         vm.transactionDates = [];
         // End Data Sponsor
@@ -50,9 +47,16 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.searchDocument = function(pagingModel) {
             var sponsorCode = vm.createTransactionModel.sponsorCode;
             var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
-            if (pagingModel === undefined) {
+			//validate SponsorPayment Date is Select
+			if(validateSponsorPaymentDate(sponsorPaymentDate)){
+				if (pagingModel === undefined) {
                 vm.loadTransactionDate(sponsorCode, sponsorPaymentDate);
-            }
+				}
+				vm.showInfomation = true;
+			}else{
+				vm.showErrorMsg = true;
+			}
+            
         };
 
         // Load Sponsor paymentDate
@@ -62,7 +66,13 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
             var deffered = CreateTransactionService.getSponsorPaymentDate(sponsorCode, supplierCode);
             deffered.promise.then(function(response) {
-                    console.log(response);
+				var supplierDates = response.data;
+				supplierDates.forEach(function(data){
+					vm.sponsorPaymentDates.push({
+						label: data,
+						value: data
+					})
+				});
                 })
                 .catch(function(response) {
                     console.log(response);
@@ -71,10 +81,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.loadSupplierDate();
 
         vm.nextStep = function() {
-            console.log($state.parrentState);
-            		$state.go('/create-transaction/validate-submit');
-            		$window.scrollTo(0, 0);
-//            $scope.validateDataFailPopup = true;
+            $state.go('/create-transaction/validate-submit');
+            //            $scope.validateDataFailPopup = true;
         };
 
         //Load Transaction Date
@@ -111,21 +119,21 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 field: 'dueDate',
                 label: 'วันครบกำหนดชำระ',
                 sortData: false,
-                cssTemplate: 'text-center'
+                cssTemplate: 'text-center',
+				filterType: 'date',
+                filterFormat: 'dd/MM/yyyy'
             }, {
                 field: 'documentDate',
                 label: 'วันที่เอกสาร',
                 sortData: false,
                 cssTemplate: 'text-center',
-				filterType: 'date',
+                filterType: 'date',
                 filterFormat: 'dd/MM/yyyy'
             }, {
                 field: 'documentNo',
                 label: 'เลขที่เอกสาร',
                 sortData: true,
                 cssTemplate: 'text-center',
-                filterType: 'date',
-                filterFormat: 'dd/MM/yyyy'
             }, {
                 field: 'documentType',
                 label: 'ประเภทเอกสาร',
@@ -141,13 +149,42 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 label: 'จำนวนเงินตามเอกสาร',
                 sortData: false,
                 cssTemplate: 'text-right',
-				filterType: 'number',
-				filterFormat: '2'
+                filterType: 'number',
+                filterFormat: '2'
             }]
         };
-		
-		vm.tableRowCollection = {
-			
-		};
+
+        vm.tableRowCollection = [{
+            dueDate: new Date('2016-06-30'),
+            documentDate: new Date('2016-05-10'),
+            documentNo: '151712',
+            documentType: 'RV',
+            supplierCode: '30002',
+            documentAmount: '10000'
+        }, {
+            dueDate: new Date('2016-06-30'),
+            documentDate: new Date('2016-05-10'),
+            documentNo: '151713',
+            documentType: 'RV',
+            supplierCode: '30002',
+            documentAmount: '10000'
+        }, {
+            dueDate: new Date('2016-06-30'),
+            documentDate: new Date('2016-05-10'),
+            documentNo: '151714',
+            documentType: 'RV',
+            supplierCode: '30002',
+            documentAmount: '10000'
+        }, {
+            dueDate: new Date('2016-06-30'),
+            documentDate: new Date('2016-05-10'),
+            documentNo: '151715',
+            documentType: 'RV',
+            supplierCode: '30002',
+            documentAmount: '10000'
+        }];
+		function validateSponsorPaymentDate(paymentDate){
+			return paymentDate === 'PleaseSelect'? false: true;
+		}
     }
 ]);

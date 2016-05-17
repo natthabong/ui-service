@@ -10,8 +10,14 @@
 		</div>
 
 		<div class="form-element">
+			
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body" style="padding-bottom: 30px;">
+					<div class="col-md-12">
+						<div class="alert alert-danger" role="alert">
+							<span ng-bind="createTransactionCtrl.errorMsgGroups | translate"></span>
+						</div>
+					</div>
 					<!-- Start Column Panel-->
 					<div class="col-md-12">						
 						<form name="createForm" class="form-horizontal">
@@ -58,7 +64,7 @@
 								<div class="col-md-7 col-sm-6"></div>
 							</div>							
 							<!-- End Payment Field-->
-
+							<div ng-show="createTransactionCtrl.showInfomation">
 							<div class="form-group">
 								<div class="col-md-12">
 									<div class="panel panel-default">
@@ -170,7 +176,7 @@
 									</div>
 								</div>
 							</div>
-
+							</div>
 						</form>
 
 					</div>
@@ -186,14 +192,14 @@
 		<div class="modal-content">
 					<div class="modal-header">
 						<div class="row">
-							<div class="col-md-4 text-right"><image width="50" height="50" ng-src="img/sign-error-icon.png"></image></div>
+							<div class="col-md-4 text-right"><image width="50" height="50" ng-src="img/Icon-check.png"></image></div>
 							<div class="col-md-8" style="color:red;"><h2 ng-bind="'transaction-create-popup-fail' | translate">fail</h2></div>
 						</div>
 					</div>
 					<div class="modal-body">
 						<div class="row">
 							<div class="col-xs-12 text-center">
-								<h3 ng-bind="createTransactionCtrl.errorMsg" style="color:red;"></h3>
+								<h3 ng-bind="createTransactionCtrl.errorMsgPopup" style="color:red;"></h3>
 							</div>
 							<div class="col-xs-12 text-center">
 									<scf-button data-dismiss="modal" ng-bind="'transaction-ok-btn' | translate"></scf-button>

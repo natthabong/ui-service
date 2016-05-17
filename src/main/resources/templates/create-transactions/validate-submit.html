@@ -128,5 +128,26 @@
 			</div>
 		</div>
 	</div>
+	<scf-modal visible="validateDataPopup">
+		<div class="modal-content">
+					<div class="modal-header">
+						<div class="row">
+							<div class="col-md-4 text-right"><image width="50" height="50" ng-src="img/Icon-check.png"></image></div>
+							<div class="col-md-8"><h2 ng-bind="'validate-create-popup-success' | translate">SUCCESS</h2></div>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-xs-12">
+								<h2 id="transaction-no"><b>Transaction No:</b> <span ng-bind="validateAndSubmitCtrl.transactionMsg"></span></h2>
+							</div>
+							<div class="col-xs-12 text-right">
+									<scf-button type="submit" data-dismiss="modal" 
+												id="create-new-transaction-button" ng-click="validateAndSubmitCtrl.createNewAction()" ng-bind="'validate-create-new-btn' | translate"></scf-button>
+							</div>
+						</div>
+					</div>
+				</div>
+	</scf-modal>
 	<!-- End Panel-->
 </div>

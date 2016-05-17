@@ -10,10 +10,8 @@ function createTransactionService($http, $q) {
         var deffered = $q.defer();
 
         $http.post('api/create-transaction/sponsor-payment-dates/get', {
-                params: {
-                    sponsorId: sponsorId,
-                    supplierCode: supplierCode
-                }
+                sponsorId: sponsorId,
+                supplierCode: supplierCode
             })
             .then(function(response) {
                 deffered.resolve(response);

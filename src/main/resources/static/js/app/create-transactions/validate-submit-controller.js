@@ -1,9 +1,10 @@
 var validateandsubmit = angular.module('scfApp');
 validateandsubmit.controller('ValidateAndSubmitController', [
-		'CreateTransactionService', '$state', '$scope', '$window',
-		function(CreateTransactionService, $state, $scope, $window) {
+		'CreateTransactionService', '$state', '$scope', '$window', '$timeout',
+		function(CreateTransactionService, $state, $scope, $window, $timeout) {
 			var vm = this;
-
+			$scope.validateDataPopup = false;
+			vm.transactionMsg = "TES00125482345";
 			vm.pageSizeList = [ {
 				label : '10',
 				value : '10'
@@ -104,6 +105,16 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 				supplierCode : '30001',
 				documentAmount : '19356.48'
 			} ];
+
+
+			vm.submitTransaction = function() {
+				$scope.validateDataPopup = true;				
+			};
+			vm.createNewAction = function(){
+				$timeout(function(){
+					$state.go('/create-transaction');
+				}, 30);					
+			};
 
 			// vm.changePageSize = function(page, pageSize) {
 			// var deffered =
