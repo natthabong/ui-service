@@ -4,7 +4,133 @@
 	<div class="panel box-shadow-none content-header">
 		<div class="panel-body">
 			<div class="col-md-12">
-				<h3 class="animated fadeInLeft">Validate and Submit</h3>
+				<h3 class="animated fadeInLeft">{{ 'validate-and-submit' | translate}}</h3>
+			</div>
+		</div>
+	</div>
+	<div class="form-element">
+		<div class="panel panel-default col-md-12 padding-0">
+			<div class="panel-body" style="padding-bottom: 30px;">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="row">
+						<span class="col-md-1"></span> <label class="col-md-2">{{
+							'sponsor-name' | translate}}: </label> <span class="col-md-9">-</span>
+					</div>
+					<div class="row">
+						<span class="col-md-1"></span><label class="col-md-2">{{
+							'financing-documents' | translate}}: </label> <span class="col-md-2">-</span><label
+							class="col-md-2">{{ 'transaction-type' | translate}}: </label><span
+							class="col-md-5">Loan</span>
+					</div>
+					<div class="row">
+						<span class="col-md-1"></span><label class="col-md-2">{{
+							'value-and-document' | translate}}: </label> <span class="col-md-2">-</span><label
+							class="col-md-2">{{ 'sponsor-payment-date' | translate}}:
+						</label><span class="col-md-5">-</span>
+					</div>
+					<div class="row">
+						<span class="col-md-1"></span><label class="col-md-2">{{
+							'pre-percentage' | translate}}: </label> <span class="col-md-2">80.00%</span><label
+							class="col-md-2">{{ 'transaction-date' | translate}}: </label><span
+							class="col-md-5">-</span>
+					</div>
+					<div class="row">
+						<span class="col-md-1"></span><label class="col-md-2">{{
+							'transaction-amount' | translate}}: </label> <span class="col-md-1">-</span><span
+							class="col-md-1">{{ 'thai-bath' | translate}}</span><label
+							class="col-md-2">{{ 'loan-maturity-date' | translate}}: </label><span
+							class="col-md-5">-</span>
+					</div>
+					<div class="row">
+						<div class="col-md-12">&nbsp;</div>
+					</div>
+
+					<div class="row" ng-controller="pagingController as ctrl">
+						<div class="col-md-4 text-left text-bottom">
+							<label>{{ 'selected' | translate}} - {{ 'records' |
+								translate}}</label>
+						</div>
+						<div class="col-md-8 text-right">
+							<scf-pagination page-size-model="ctrl.pagingDropDown"
+								total-page="10" current-page="ctrl.currentPage"
+								page-size-list="ctrl.pagingList" page-action="ctrl.searchPage"></scf-pagination>
+						</div>
+					</div>
+
+					<table class="table table-bordered">
+						<thead>
+							<tr class="bg-primary">
+								<th class="text-center tr-4em">{{ 'numbero' | translate}}</th>
+								<th class="text-center tr-10em">{{ 'payment-date' |
+									translate}}</th>
+								<th class="text-center tr-8em">{{ 'document-date' |
+									translate}}</th>
+								<th class="text-center tr-10em">{{ 'document-numbero' |
+									translate}}</th>
+								<th class="text-center tr-8em">{{ 'document-type' |
+									translate}}</th>
+								<th class="text-center tr-8em">{{ 'supplier-code' |
+									translate}}</th>
+								<th class="text-center tr-8em">{{ 'document-amount' |
+									translate}}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="text-center"><span class="text-space">1</span></td>
+								<td class="text-center"><span class="text-space">30/06/2016</span></td>
+								<td class="text-center"><span class="text-space">10/05/2016</span></td>
+								<td class="text-left"><span class="text-space">463868</span></td>
+								<td class="text-center"><span class="text-space">RV</span></td>
+								<td class="text-center"><span class="text-space">30001</span></td>
+								<td class="text-right"><span class="text-space">19356.48</span></td>
+							</tr>
+							<tr>
+								<td class="text-center"><span class="text-space">2</span></td>
+								<td class="text-center"><span class="text-space">30/06/2016</span></td>
+								<td class="text-center"><span class="text-space">10/05/2016</span></td>
+								<td class="text-left"><span class="text-space">463867</span></td>
+								<td class="text-center"><span class="text-space">RV</span></td>
+								<td class="text-center"><span class="text-space">30001</span></td>
+								<td class="text-right"><span class="text-space">19356.48</span></td>
+							</tr>
+							<tr>
+								<td class="text-center"><span class="text-space">3</span></td>
+								<td class="text-center"><span class="text-space">30/06/2016</span></td>
+								<td class="text-center"><span class="text-space">10/05/2016</span></td>
+								<td class="text-left"><span class="text-space">463866</span></td>
+								<td class="text-center"><span class="text-space">RV</span></td>
+								<td class="text-center"><span class="text-space">30001</span></td>
+								<td class="text-right"><span class="text-space">19356.48</span></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="row">
+						<div class="col-md-12">&nbsp;</div>
+					</div>
+
+					<div class="row">
+						<div id="bottom-sticker" class="col-md-11 text-right">
+							<div class="bottom-sticker-inner">
+								<div class="col-md-12 text-left">
+									<span class="col-md-1"></span> <label
+										class="col-md-2 text-left">{{ 'transaction-amount' |
+										translate}}:</label> <span class="col-md-1 text-left">-</span> <span
+										class="text-left">{{ 'thai-bath' | translate}}</span>
+								</div>
+								<div class="col-md-12 text-left">
+									<span class="col-md-1"></span> <label
+										class="col-md-2 text-left">{{ 'transaction-date' |
+										translate}}:</label> <span class="col-md-1 text-left">-</span>
+								</div>
+								<button class="btn btn-default" type="submit">{{
+									'submit' | translate}}</button>
+							</div>
+						</div>
+						<div class="col-md-1"></div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
