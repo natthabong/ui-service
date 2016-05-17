@@ -72,9 +72,9 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
         vm.nextStep = function() {
             console.log($state.parrentState);
-            //		$state.go('/create-transaction/validate-submit');
-            //		$window.scrollTo(0, 0);
-            $scope.validateDataFailPopup = true;
+            		$state.go('/create-transaction/validate-submit');
+            		$window.scrollTo(0, 0);
+//            $scope.validateDataFailPopup = true;
         };
 
         //Load Transaction Date
