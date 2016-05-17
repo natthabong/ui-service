@@ -28,5 +28,7 @@
     "loan-maturity-date": "Loan Maturity Date",
     "submit": "Submit",
     "selected": "Selected",
-    "records": "Records"
+    "records": "Records",
+	"transaction-create-popup-fail": "FAIL",
+	"transaction-ok-btn": "OK"
 }
