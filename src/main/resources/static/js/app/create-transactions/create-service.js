@@ -27,18 +27,16 @@ function createTransactionService($http, $q) {
     function getTransactionDate(sponsorId, sponsorPaymentDate) {
         var deffered = $q.defer();
 
-        $http.post('api/transaction-dates/get', {
-                params: {
-                    sponsorId: sponsorId,
-                    sponsorPaymentDate: sponsorPaymentDate
-                }
+        $http.post('api/create-transaction/transaction-dates/get', {
+                sponsorId: sponsorId,
+                sponsorPaymentDate: sponsorPaymentDate
             })
             .then(function(response) {
-				deffered.resolve(response);
+                deffered.resolve(response);
             })
             .catch(function(response) {
-				deffered.reject(response);
+                deffered.reject(response);
             });
-		return deffered;
+        return deffered;
     }
 }

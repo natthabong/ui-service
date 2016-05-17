@@ -131,49 +131,8 @@
 							<!-- Start Table-->
 							<div class="row">
 								<div class="col-md-12">
-									<table id="paymentGrid" class="table table-bordered">
-										<thead>
-											<tr class="bg-primary">
-												<th class="tr-2em text-center"><input type="checkbox" />
-												</th>
-												<th class="tr-4em text-center">#</th>
-												<th class="tr-8em text-center">Doc. No</th>
-												<th class="tr-8em text-center">Sponsor Code</th>
-												<th class="tr-10em text-center">Sponsor Name</th>
-												<th class="tr-8em text-center">Doc date</th>
-												<th class="tr-6em text-center">W/T Tax Amount</th>
-												<th class="tr-8em text-center">Amount</th>
-												<th class="tr-6em text-center">Total Amount</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td class="text-center"><input type="checkbox"/></td>
-												<td class="text-right"><span class="text-space">1</span>
-												</td>
-												<td><span class="text-space">D00001</span></td>
-												<td><span class="text-space">00001</span></td>
-												<td><span class="text-space">บริษัท ร่วมใจ จำกัด</span>
-												</td>
-												<td class="text-center"><span class="text-space">15/03/2016</span>
-												</td>
-												<td class="text-right"><span class="text-space">30.00</span></td>
-												<td class="text-right"><span class="text-space">100.00</span></td>
-												<td class="text-right"><span class="text-space">70.00</span></td>
-											</tr>
-											<tr>
-												<td class="text-center"><input type="checkbox"/></td>
-												<td class="text-right"><span class="text-space">2</span></td>
-												<td><span class="text-space">D00002</span></td>
-												<td><span class="text-space">00001</span></td>
-												<td><span class="text-space">บริษัท ร่วมใจ จำกัด</span></td>
-												<td class="text-center"><span class="text-space">15/03/2016</span></td>
-												<td class="text-right"><span class="text-space">0.00</span></td>
-												<td class="text-right"><span class="text-space">100.00</span></td>
-												<td class="text-right"><span class="text-space">100.00</span></td>
-											</tr>
-										</tbody>
-									</table>
+									<scf-data-table component-config="createTransactionCtrl.dataTable" 
+													component-datas="createTransactionCtrl.tableRowCollection"></scf-data-table>
 									
 									<div class="row" >
 										<div class="form-horizontal">
@@ -197,8 +156,8 @@
 												</div>
 												<div class="col-md-2">
 													<scf-dropdown id="supplier-code-dropdown" 
-													  ng-model="createTransactionCtrl.createTransactionModel.supplierCode"
-													  component-data="createTransactionCtrl.supplierCodes"></scf-dropdown>
+													  ng-model="createTransactionCtrl.createTransactionModel.transactionDate"
+													  component-data="createTransactionCtrl.transactionDates"></scf-dropdown>
 												</div>
 												</div>
 											</div>
