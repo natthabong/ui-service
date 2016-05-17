@@ -32,5 +32,6 @@
 	"transaction-create-popup-fail": "FAIL",
 	"transaction-ok-btn": "OK",
 	"validate-create-new-btn": "Create New",
-	"transaction-create-popup-success": "SUCCESS"
+	"validate-create-popup-success": "SUCCESS",
+	"transaction-error-msg-payment-date": "Please Select Sponsor Payment Date"
 }

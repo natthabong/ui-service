@@ -147,7 +147,7 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
     }
 }]);
 
-//app.run(['$rootScope', '$q', '$http', '$urlRouter', function ($rootScope, $q, $http, $urlRouter) {
+app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', function ($rootScope, $q, $http, $urlRouter, $window) {
 //	$http.get('/api/menus').success(function(response){
 //		angular.forEach(response, function(data){
 //			var state = {
@@ -160,16 +160,16 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
 //        $urlRouter.listen();		
 //	});
 //
-//    $rootScope
-//        .$on('$stateChangeStart',
-//            function (event, toState, toParams, fromState, fromParams) {
-//                // Show loading here
-//            });
-//
-//    $rootScope
-//        .$on('$stateChangeSuccess',
-//            function (event, toState, toParams, fromState, fromParams) {
-//                // Hide loading here
-//            });
-//
-//}]);
+    $rootScope
+        .$on('$stateChangeStart',
+            function (event, toState, toParams, fromState, fromParams) {
+                // Show loading here
+            });
+
+    $rootScope
+        .$on('$stateChangeSuccess',
+            function (event, toState, toParams, fromState, fromParams) {
+                $window.scrollTo(0, 0);
+            });
+
+}]);
