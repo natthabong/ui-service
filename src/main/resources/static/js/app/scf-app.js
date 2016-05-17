@@ -17,9 +17,42 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 			$stateProviderRef = $stateProvider;
             $stateProvider
                 .state('/home', {
-                    url: "/home",
-                    templateUrl: "/home"
-                });
+                    url: '/home',
+                    templateUrl: '/home'
+                })
+			.state('/create-transaction', {
+				url: '/create-transaction',
+				templateUrl: '/create-transaction',
+				resolve: load(['js/app/create-transactions/create.js', 'js/app/common/scf-component.js'])
+			});
+			
+			
+			
+			function load(srcs, callback) {
+                return {                    
+                    deps: ['$ocLazyLoad', '$q',
+                                function ($ocLazyLoad, $q) {
+                            var deferred = $q.defer();
+                            var promise = false;
+                            var name;
+                            srcs = angular.isArray(srcs) ? srcs : srcs.split(/\s+/);
+									
+                            if (!promise) {
+                                promise = deferred.promise;
+                            }
+                            angular.forEach(srcs, function (src) {
+								console.log(src);
+                                promise = promise.then(function () {
+                                    return $ocLazyLoad.load(src);
+                                });
+                            });
+                            deferred.resolve();
+                            return callback ? promise.then(function () {
+                                return callback();
+                            }) : promise;
+                                }]
+                }
+            }
         }
     ]);
 
@@ -109,29 +142,29 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
     }
 }]);
 
-app.run(['$rootScope', '$q', '$http', '$urlRouter', function ($rootScope, $q, $http, $urlRouter) {
-	$http.get('/api/menus').success(function(response){
-		angular.forEach(response, function(data){
-			var state = {
-				'url': data,
-				'templateUrl': data
-			}
-			$stateProviderRef.state(data, state);
-		});
-		$urlRouter.sync();
-        $urlRouter.listen();		
-	});
-
-    $rootScope
-        .$on('$stateChangeStart',
-            function (event, toState, toParams, fromState, fromParams) {
-                // Show loading here
-            });
-
-    $rootScope
-        .$on('$stateChangeSuccess',
-            function (event, toState, toParams, fromState, fromParams) {
-                // Hide loading here
-            });
-
-}]);
+//app.run(['$rootScope', '$q', '$http', '$urlRouter', function ($rootScope, $q, $http, $urlRouter) {
+//	$http.get('/api/menus').success(function(response){
+//		angular.forEach(response, function(data){
+//			var state = {
+//				'url': data,
+//				'templateUrl': data
+//			}
+//			$stateProviderRef.state(data, state);
+//		});
+//		$urlRouter.sync();
+//        $urlRouter.listen();		
+//	});
+//
+//    $rootScope
+//        .$on('$stateChangeStart',
+//            function (event, toState, toParams, fromState, fromParams) {
+//                // Show loading here
+//            });
+//
+//    $rootScope
+//        .$on('$stateChangeSuccess',
+//            function (event, toState, toParams, fromState, fromParams) {
+//                // Hide loading here
+//            });
+//
+//}]);
