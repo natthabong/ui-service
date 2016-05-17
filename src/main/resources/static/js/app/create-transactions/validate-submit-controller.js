@@ -27,6 +27,19 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 				selected : '3',
 			};
 
+			// vm.tradingPatnerData.loanMaturityDate =
+			// function(sponsorPaymentDate,
+			// maturityDate) {
+			// var deffered =
+			// ValidateAndSubmitService.prepareTransactionOnValidatePage(sponsorCode,
+			// sponsorPaymentDate);
+			// deffered.promise.then(function(response) {
+			// vm.tradingPatnerData.loanMaturityDate = response.data;
+			// }).catch(function(response) {
+			// console.log(response);
+			// });
+			// };
+
 			vm.dataTable = {
 				columns : [ {
 					label : 'No.',
@@ -92,7 +105,38 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 				documentAmount : '19356.48'
 			} ];
 
-			vm.submitTransaction = function() {
-				console.log($state);
-			};
+			// vm.changePageSize = function(page, pageSize) {
+			// var deffered =
+			// ValidateAndSubmitService.getDocumentOnValidatePage(page,
+			// pageSize);
+			// deffered.promise.then(function(response) {
+			// //clear list transaction date
+			// vm.tableRowCollection = [];
+			// var transactionResponse = response.data;
+			// transactionResponse.forEach(function(data) {
+			// vm.tableRowCollection.push({
+			// dueDate: data.dueDate,
+			// documentDate: data.documentDate,
+			// documentNo: data.documentNo,
+			// documentType: data.documentType,
+			// supplierCode: data.supplierCode,
+			// documentDate: data.documentDate
+			// });
+			// });
+			// //set select default value
+			// vm.createTransactionModel.transactionDate =
+			// vm.transactionDates[0].value;
+			// }).catch(function(response) {
+			// console.log(response);
+			// });
+			// };
+
+			// vm.submitTransaction = function() {
+			// var deffered = ValidateAndSubmitService.submitTransaction();
+			// deffered.promise.then(function(response) {
+			// console.log($state);
+			// }).catch(function(response) {
+			// console.log(response);
+			// });
+
 		} ]);
