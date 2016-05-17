@@ -29,67 +29,67 @@ import gec.scf.util.AjaxUtils;
 @RequestMapping("/loan")
 public class LoanController {
 	
-	@Autowired
-	private HttpSession session;
+//	@Autowired
+//	private HttpSession session;
 
-	private static final String CREATE_LOAN_VIEW_NAME = "loans/create";
-	private static final String CREATE_LOAN_SUMARY = "loans/create_payment_status";
-
-	@RequestMapping(path = "/create", method = RequestMethod.GET)
-	public String createLoan(@RequestHeader("X-Requested-With") String requestedWith) {
-		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return CREATE_LOAN_VIEW_NAME.concat(" :: content");
-		}
-		return CREATE_LOAN_VIEW_NAME;
-	}
-
-	@RequestMapping(path = "/create-validate", method = RequestMethod.GET)
-	public String createValidateLoan() {
-		return "loans/create-validate";
-	}
-
-	public CreateLoanRequest createLoanRequest() {
-		System.out.println("Create new Loan Request");
-		return new CreateLoanRequest();
-	}
-
-	public CreateLoanRequest verifyLoanRequest(CreateLoanRequest loanReq) {
-		System.out.println(loanReq.getLoanAccountNo());
-		System.out.println(loanReq.getLoanReqDate());
-		System.out.println(loanReq.getDocumentNos().size());
-		System.out.println("Verify LoanRequest");
-		return loanReq;
-	}
-
-	public void confirmLoanCreate(CreateLoanRequest loanReq, MvcExternalContext mvcExternalContext)
-			throws RestClientException, URISyntaxException {
-		System.out.println(session.getId());
-		RestTemplate resTemplate = new RestTemplate();
-
-		ObjectMapper objMapper = new ObjectMapper();
-		String loanRequestJson = null;
-		try {
-			loanRequestJson = objMapper.writeValueAsString(loanReq);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.set("x-auth-token", session.getId());
-		HttpEntity<String> entity = new HttpEntity<String>(
-				loanRequestJson.toString(), headers);
-
-		URI uri = new URI("http://localhost:9002/loan-request/new");
-		resTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
-
-	}
-	
-	@RequestMapping(path = "/sumary", method = RequestMethod.GET)
-	public String createLoanSumary(@RequestHeader("X-Requested-With") String requestedWith) {
-		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return CREATE_LOAN_SUMARY.concat(" :: content");
-		}
-		return CREATE_LOAN_SUMARY;
-	}
+//	private static final String CREATE_LOAN_VIEW_NAME = "loans/create";
+//	private static final String CREATE_LOAN_SUMARY = "loans/create_payment_status";
+//
+//	@RequestMapping(path = "/create", method = RequestMethod.GET)
+//	public String createLoan(@RequestHeader("X-Requested-With") String requestedWith) {
+//		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+//			return CREATE_LOAN_VIEW_NAME.concat(" :: content");
+//		}
+//		return CREATE_LOAN_VIEW_NAME;
+//	}
+//
+//	@RequestMapping(path = "/create-validate", method = RequestMethod.GET)
+//	public String createValidateLoan() {
+//		return "loans/create-validate";
+//	}
+//
+//	public CreateLoanRequest createLoanRequest() {
+//		System.out.println("Create new Loan Request");
+//		return new CreateLoanRequest();
+//	}
+//
+//	public CreateLoanRequest verifyLoanRequest(CreateLoanRequest loanReq) {
+//		System.out.println(loanReq.getLoanAccountNo());
+//		System.out.println(loanReq.getLoanReqDate());
+//		System.out.println(loanReq.getDocumentNos().size());
+//		System.out.println("Verify LoanRequest");
+//		return loanReq;
+//	}
+//
+//	public void confirmLoanCreate(CreateLoanRequest loanReq, MvcExternalContext mvcExternalContext)
+//			throws RestClientException, URISyntaxException {
+//		System.out.println(session.getId());
+//		RestTemplate resTemplate = new RestTemplate();
+//
+//		ObjectMapper objMapper = new ObjectMapper();
+//		String loanRequestJson = null;
+//		try {
+//			loanRequestJson = objMapper.writeValueAsString(loanReq);
+//		} catch (JsonProcessingException e) {
+//			e.printStackTrace();
+//		}
+//
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.setContentType(MediaType.APPLICATION_JSON);
+//		headers.set("x-auth-token", session.getId());
+//		HttpEntity<String> entity = new HttpEntity<String>(
+//				loanRequestJson.toString(), headers);
+//
+//		URI uri = new URI("http://localhost:9002/loan-request/new");
+//		resTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
+//
+//	}
+//	
+//	@RequestMapping(path = "/sumary", method = RequestMethod.GET)
+//	public String createLoanSumary(@RequestHeader("X-Requested-With") String requestedWith) {
+//		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+//			return CREATE_LOAN_SUMARY.concat(" :: content");
+//		}
+//		return CREATE_LOAN_SUMARY;
+//	}
 }
