@@ -30,5 +30,7 @@
     "selected": "Selected",
     "records": "Records",
 	"transaction-create-popup-fail": "FAIL",
-	"transaction-ok-btn": "OK"
+	"transaction-ok-btn": "OK",
+	"validate-create-new-btn": "Create New",
+	"transaction-create-popup-success": "SUCCESS"
 }
