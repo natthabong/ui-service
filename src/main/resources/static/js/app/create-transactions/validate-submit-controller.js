@@ -28,41 +28,84 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 				selected : '3',
 			};
 
-			vm.document = {
-				no : '',
-				paymentDate : '',
-				documentDate : '',
-				documentNo : '',
-				documentType : '',
-				supplierCode : '',
-				documentAmount : '',
-			};
+			// vm.tradingPatnerData.loanMaturityDate =
+			// function(sponsorPaymentDate,
+			// maturityDate) {
+			// var deffered =
+			// ValidateAndSubmitService.prepareTransactionOnValidatePage(sponsorCode,
+			// sponsorPaymentDate);
+			// deffered.promise.then(function(response) {
+			// vm.tradingPatnerData.loanMaturityDate = response.data;
+			// }).catch(function(response) {
+			// console.log(response);
+			// });
+			// };
 
-			vm.selectedDocuments = [ {
-				no : '1',
-				paymentDate : '30/06/2016',
+			vm.dataTable = {
+				columns : [ {
+					label : 'No.',
+					cssTemplate : 'text-center',
+					showRowNo : true
+				}, {
+					field : 'dueDate',
+					label : 'วันครบกำหนดชำระ',
+					sortData : false,
+					cssTemplate : 'text-center'
+				}, {
+					field : 'documentDate',
+					label : 'วันที่เอกสาร',
+					sortData : false,
+					cssTemplate : 'text-center',
+					filterType : 'date',
+					filterFormat : 'dd/MM/yyyy'
+				}, {
+					field : 'documentNo',
+					label : 'เลขที่เอกสาร',
+					sortData : true,
+					cssTemplate : 'text-center',
+				}, {
+					field : 'documentType',
+					label : 'ประเภทเอกสาร',
+					sortData : false,
+					cssTemplate : 'text-center',
+				}, {
+					field : 'supplierCode',
+					label : 'รหัสลูกค้า',
+					sortData : false,
+					cssTemplate : 'text-center'
+				}, {
+					field : 'documentAmount',
+					label : 'จำนวนเงินตามเอกสาร',
+					sortData : false,
+					cssTemplate : 'text-right',
+					filterType : 'number',
+					filterFormat : '2'
+				} ]
+			}
+
+			vm.tableRowCollection = [ {
+				dueDate : '30/06/2016',
 				documentDate : '10/05/2016',
 				documentNo : '463868',
 				documentType : 'RV',
 				supplierCode : '30001',
 				documentAmount : '19356.48'
 			}, {
-				no : '2',
-				paymentDate : '30/06/2016',
+				dueDate : '30/06/2016',
 				documentDate : '10/05/2016',
 				documentNo : '463867',
 				documentType : 'RV',
 				supplierCode : '30001',
 				documentAmount : '19356.48'
 			}, {
-				no : '3',
-				paymentDate : '30/06/2016',
+				dueDate : '30/06/2016',
 				documentDate : '10/05/2016',
 				documentNo : '463866',
 				documentType : 'RV',
 				supplierCode : '30001',
 				documentAmount : '19356.48'
 			} ];
+
 
 			vm.submitTransaction = function() {
 				$scope.validateDataPopup = true;				
@@ -72,4 +115,39 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 					$state.go('/create-transaction');
 				}, 30);					
 			};
+
+			// vm.changePageSize = function(page, pageSize) {
+			// var deffered =
+			// ValidateAndSubmitService.getDocumentOnValidatePage(page,
+			// pageSize);
+			// deffered.promise.then(function(response) {
+			// //clear list transaction date
+			// vm.tableRowCollection = [];
+			// var transactionResponse = response.data;
+			// transactionResponse.forEach(function(data) {
+			// vm.tableRowCollection.push({
+			// dueDate: data.dueDate,
+			// documentDate: data.documentDate,
+			// documentNo: data.documentNo,
+			// documentType: data.documentType,
+			// supplierCode: data.supplierCode,
+			// documentDate: data.documentDate
+			// });
+			// });
+			// //set select default value
+			// vm.createTransactionModel.transactionDate =
+			// vm.transactionDates[0].value;
+			// }).catch(function(response) {
+			// console.log(response);
+			// });
+			// };
+
+			// vm.submitTransaction = function() {
+			// var deffered = ValidateAndSubmitService.submitTransaction();
+			// deffered.promise.then(function(response) {
+			// console.log($state);
+			// }).catch(function(response) {
+			// console.log(response);
+			// });
+
 		} ]);
