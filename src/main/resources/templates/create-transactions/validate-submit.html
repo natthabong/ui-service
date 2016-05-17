@@ -79,41 +79,9 @@
 							</div>
 						</div>
 					</div>
-					<table class="table table-bordered">
-						<thead>
-							<tr class="bg-primary">
-								<th class="text-center tr-4em">{{ 'numbero' | translate}}</th>
-								<th class="text-center tr-10em">{{ 'payment-date' |
-									translate}}</th>
-								<th class="text-center tr-8em">{{ 'document-date' |
-									translate}}</th>
-								<th class="text-center tr-10em">{{ 'document-numbero' |
-									translate}}</th>
-								<th class="text-center tr-8em">{{ 'document-type' |
-									translate}}</th>
-								<th class="text-center tr-8em">{{ 'supplier-code' |
-									translate}}</th>
-								<th class="text-center tr-8em">{{ 'document-amount' |
-									translate}}</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr
-								ng-if="validateAndSubmitCtrl.selectedDocuments.length === undefined">
-								<td collabel="2" class="text-center">No Data found</td>
-							</tr>
-							<tr ng-if="validateAndSubmitCtrl.selectedDocuments.length > 0"
-								ng-repeat="document in validateAndSubmitCtrl.selectedDocuments">
-								<td class="text-center"><label class="text-space">{{document.no}}</label></td>
-								<td class="text-center"><label class="text-space">{{document.paymentDate}}</label></td>
-								<td class="text-center"><label class="text-space">{{document.documentDate}}</label></td>
-								<td class="text-left"><label class="text-space">{{document.documentNo}}</label></td>
-								<td class="text-center"><label class="text-space">{{document.documentType}}</label></td>
-								<td class="text-center"><label class="text-space">{{document.supplierCode}}</label></td>
-								<td class="text-right"><label class="text-space">{{document.documentAmount}}</label></td>
-							</tr>
-						</tbody>
-					</table>
+					<scf-data-table component-config="validateAndSubmitCtrl.dataTable"
+						component-datas="validateAndSubmitCtrl.tableRowCollection">
+					</scf-data-table>
 
 					<div class="row">
 						<div class="col-md-12">&#32;</div>
