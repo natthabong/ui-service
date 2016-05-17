@@ -24,9 +24,11 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/create-transaction',
 				templateUrl: '/create-transaction',
 				resolve: load(['js/app/create-transactions/create.js', 'js/app/common/scf-component.js'])
+			}).state('/create-transaction/validate-submit', {
+				url: '/create-transaction/validate-submit',
+				templateUrl: '/create-transaction/validate-submit',
+				resolve: load(['js/app/create-transactions/validate-submit.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			});
-			
-			
 			
 			function load(srcs, callback) {
                 return {                    
