@@ -1,9 +1,10 @@
+
 <div id="content" th:fragment="content">
+
 	<div class="panel box-shadow-none content-header">
 		<div class="panel-body">
 			<div class="col-md-12">
-				<h3 class="animated fadeInLeft">{{ 'validate-and-submit' |
-					translate}}</h3>
+				<h3 class="animated fadeInLeft">{{ 'validate-and-submit' | translate}}</h3>
 			</div>
 		</div>
 	</div>
@@ -12,73 +13,50 @@
 			<div class="panel-body" style="padding-bottom: 30px;">
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<div class="row">
-						<label class="col-md-2 col-sm-3 col-xs-12 control-label">{{
-							'sponsor' | translate}}: </label> <label id="sponsor-label"
-							class="col-md-10 col-sm-9 col-xs-12 control-label">{{validateAndSubmitCtrl.tradingPatnerData.sponsorName}}</label>
-					</div>
-					<div class="form-group">
-						<div class="col-md-12">
-							<div class="panel panel-default">
-								<div class="panel-body">
-									<div class="row">
-										<label class="col-md-2">{{ 'financing-documents' |
-											translate}}: </label> <label id="financing-document-label"
-											class="col-md-4">{{validateAndSubmitCtrl.tradingPatnerData.financingDocuments}}</label><label
-											class="col-md-2">{{ 'transaction-type' | translate}}:
-										</label><label id="transaction-type-label" class="col-md-4">Loan</label>
-									</div>
-									<div class="row">
-										<label class="col-md-2">{{ 'value-of-document' |
-											translate}}: </label> <label id="value-of-document-label"
-											class="col-md-4">{{validateAndSubmitCtrl.tradingPatnerData.valueOfDocument}}</label><label
-											class="col-md-2">{{ 'sponsor-payment-date' |
-											translate}}: </label><label id="sponsor-payment-date-label"
-											class="col-md-4">{{validateAndSubmitCtrl.tradingPatnerData.sponsorPaymentDate}}</label>
-									</div>
-									<div class="row">
-										<label class="col-md-2">{{ 'pre-percentage' |
-											translate}}: </label> <label id="pre-drawdown-label" class="col-md-4">{{validateAndSubmitCtrl.tradingPatnerData.prePercentage}}</label><label
-											class="col-md-2">{{ 'transaction-date' | translate}}:
-										</label><label id="header-transaction-date-label" class="col-md-4">{{validateAndSubmitCtrl.tradingPatnerData.transactionDate}}</label>
-									</div>
-									<div class="row">
-										<label class="col-md-2">{{ 'transaction-amount' |
-											translate}}: </label> <label id="header-transaction-amount-label"
-											class="col-md-4">{{validateAndSubmitCtrl.tradingPatnerData.transactionAmount}}&#32;{{
-											'thai-bath' | translate}}</label><label class="col-md-2">{{
-											'loan-maturity-date' | translate}}: </label><label
-											id="loan-maturity-date-label" class="col-md-4">{{validateAndSubmitCtrl.tradingPatnerData.loanMaturityDate}}</label>
-									</div>
-								</div>
-							</div>
-						</div>
+						<span class="col-md-1"></span> <label class="col-md-2">{{
+							'sponsor-name' | translate}}: </label> <span class="col-md-9">-</span>
 					</div>
 					<div class="row">
-						<div class="col-md-12">&#32;</div>
+						<span class="col-md-1"></span><label class="col-md-2">{{
+							'financing-documents' | translate}}: </label> <span class="col-md-2">-</span><label
+							class="col-md-2">{{ 'transaction-type' | translate}}: </label><span
+							class="col-md-5">Loan</span>
 					</div>
 					<div class="row">
-						<div class="col-md-1"></div>
-						<div class="col-md-3">
-							<label id="total-select-doc-label">{{ 'selected' |
-								translate}}&#32;{{validateAndSubmitCtrl.tradingPatnerData.selected}}&#32;{{
-								'records' | translate}}</label>
+						<span class="col-md-1"></span><label class="col-md-2">{{
+							'value-and-document' | translate}}: </label> <span class="col-md-2">-</span><label
+							class="col-md-2">{{ 'sponsor-payment-date' | translate}}:
+						</label><span class="col-md-5">-</span>
+					</div>
+					<div class="row">
+						<span class="col-md-1"></span><label class="col-md-2">{{
+							'pre-percentage' | translate}}: </label> <span class="col-md-2">80.00%</span><label
+							class="col-md-2">{{ 'transaction-date' | translate}}: </label><span
+							class="col-md-5">-</span>
+					</div>
+					<div class="row">
+						<span class="col-md-1"></span><label class="col-md-2">{{
+							'transaction-amount' | translate}}: </label> <span class="col-md-1">-</span><span
+							class="col-md-1">{{ 'thai-bath' | translate}}</span><label
+							class="col-md-2">{{ 'loan-maturity-date' | translate}}: </label><span
+							class="col-md-5">-</span>
+					</div>
+					<div class="row">
+						<div class="col-md-12">&nbsp;</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4 text-left text-bottom">
+							<label>{{ 'selected' | translate}} - {{ 'records' |
+								translate}}</label>
 						</div>
 						<div class="col-md-8 text-right">
-							<div class="row">
-								<div class="col-md-7">
-									<label id="current_page_label">1 - 10 of 20</label>
-								</div>
-								<div class="col-md-5">					
-									<scf-pagination
-										page-size-model="validateAndSubmitCtrl.pageSizeSelectModel"
-										total-page="validateAndSubmitCtrl.pageModel.totalRecord"
-										current-page="validateAndSubmitCtrl.pageModel.currentPage"
-										page-size-list="validateAndSubmitCtrl.pageSizeList"
-										page-action="validateAndSubmitCtrl.searchDocument"></scf-pagination>
-								</div>
-							</div>
+							<scf-pagination page-size-model="ctrl.pagingDropDown"
+								total-page="10" current-page="ctrl.currentPage"
+								page-size-list="ctrl.pagingList" page-action="ctrl.searchPage"></scf-pagination>
 						</div>
 					</div>
+
 					<table class="table table-bordered">
 						<thead>
 							<tr class="bg-primary">
@@ -98,67 +76,64 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr
-								ng-if="validateAndSubmitCtrl.selectedDocuments.length === undefined">
-								<td collabel="2" class="text-center">No Data found</td>
+							<tr>
+								<td class="text-center"><span class="text-space">1</span></td>
+								<td class="text-center"><span class="text-space">30/06/2016</span></td>
+								<td class="text-center"><span class="text-space">10/05/2016</span></td>
+								<td class="text-left"><span class="text-space">463868</span></td>
+								<td class="text-center"><span class="text-space">RV</span></td>
+								<td class="text-center"><span class="text-space">30001</span></td>
+								<td class="text-right"><span class="text-space">19356.48</span></td>
 							</tr>
-							<tr ng-if="validateAndSubmitCtrl.selectedDocuments.length > 0"
-								ng-repeat="document in validateAndSubmitCtrl.selectedDocuments">
-								<td class="text-center"><label class="text-space">{{document.no}}</label></td>
-								<td class="text-center"><label class="text-space">{{document.paymentDate}}</label></td>
-								<td class="text-center"><label class="text-space">{{document.documentDate}}</label></td>
-								<td class="text-left"><label class="text-space">{{document.documentNo}}</label></td>
-								<td class="text-center"><label class="text-space">{{document.documentType}}</label></td>
-								<td class="text-center"><label class="text-space">{{document.supplierCode}}</label></td>
-								<td class="text-right"><label class="text-space">{{document.documentAmount}}</label></td>
+							<tr>
+								<td class="text-center"><span class="text-space">2</span></td>
+								<td class="text-center"><span class="text-space">30/06/2016</span></td>
+								<td class="text-center"><span class="text-space">10/05/2016</span></td>
+								<td class="text-left"><span class="text-space">463867</span></td>
+								<td class="text-center"><span class="text-space">RV</span></td>
+								<td class="text-center"><span class="text-space">30001</span></td>
+								<td class="text-right"><span class="text-space">19356.48</span></td>
+							</tr>
+							<tr>
+								<td class="text-center"><span class="text-space">3</span></td>
+								<td class="text-center"><span class="text-space">30/06/2016</span></td>
+								<td class="text-center"><span class="text-space">10/05/2016</span></td>
+								<td class="text-left"><span class="text-space">463866</span></td>
+								<td class="text-center"><span class="text-space">RV</span></td>
+								<td class="text-center"><span class="text-space">30001</span></td>
+								<td class="text-right"><span class="text-space">19356.48</span></td>
 							</tr>
 						</tbody>
 					</table>
 
 					<div class="row">
-						<div class="col-md-12">&#32;</div>
+						<div class="col-md-12">&nbsp;</div>
 					</div>
 
 					<div class="row">
-						<div class="form-horizontal">
-							<div class="col-md-11">
-								<div class="form-group">
-									<div class="row">
-										<div class="col-md-3">
-											<label><b>{{ 'transaction-amount' | translate}}:
-											</b></label>
-										</div>
-										<div class="col-md-9">
-											<label id="transaction-amount-label">{{validateAndSubmitCtrl.tradingPatnerData.transactionAmount}}</label>&#32;{{
-											'thai-bath' | translate}}
-										</div>
-									</div>
+						<div id="bottom-sticker" class="col-md-11 text-right">
+							<div class="bottom-sticker-inner">
+								<div class="col-md-12 text-left">
+									<span class="col-md-1"></span> <label
+										class="col-md-2 text-left">{{ 'transaction-amount' |
+										translate}}:</label> <span class="col-md-1 text-left">-</span> <span
+										class="text-left">{{ 'thai-bath' | translate}}</span>
 								</div>
-							</div>
-							<div class="col-md-11">
-								<div class="row">
-									<div class="form-group">
-										<div class="col-md-3">
-											<label><b>{{ 'transaction-date' | translate}}: </b></label>
-										</div>
-										<div class="col-md-2">
-											<label id="transaction-date-label">{{validateAndSubmitCtrl.tradingPatnerData.transactionDate}}</label>
-										</div>
-									</div>
+								<div class="col-md-12 text-left">
+									<span class="col-md-1"></span> <label
+										class="col-md-2 text-left">{{ 'transaction-date' |
+										translate}}:</label> <span class="col-md-1 text-left">-</span>
 								</div>
-							</div>
-							<div class="col-md-11 text-right">
-								<scf-button id="submit-button" class="btn btn-default"
-									type="submit"
-									ng-click="validateAndSubmitCtrl.submitTransaction()">{{
-								'submit' | translate}}</scf-button>
+								<button class="btn btn-default" type="submit">{{
+									'submit' | translate}}</button>
 							</div>
 						</div>
-
+						<div class="col-md-1"></div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<!-- End Panel-->
 </div>
