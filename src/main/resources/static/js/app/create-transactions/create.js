@@ -1,5 +1,5 @@
 var createapp = angular.module('scfApp');
-createapp.controller('CreateTransactionController', ['CreateTransactionService', function(CreateTransactionService) {
+createapp.controller('CreateTransactionController', ['CreateTransactionService', '$state', function(CreateTransactionService, $state) {
     var vm = this;
     vm.sponsorCodes = [{
         label: 'TESCO CO,LTD.',
@@ -50,4 +50,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
     }
     vm.loadSupplierDate();
 	
+	vm.nextStep = function(){
+		console.log($state);
+		$state.go('/create-transaction/validate-submit');
+	};
 }]);

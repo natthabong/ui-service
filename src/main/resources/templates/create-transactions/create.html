@@ -13,7 +13,7 @@
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body" style="padding-bottom: 30px;">
 					<!-- Start Column Panel-->
-					<div class="col-md-12" ng-controller="CreateTransactionController as createTransactionCtrl">						
+					<div class="col-md-12">						
 						<form name="createForm" class="form-horizontal">
 							<div class="form-group">
 								<label for="sponsor"
@@ -204,8 +204,7 @@
 											</div>
 										</div>
 										<div class="col-md-11 text-right">
-											<scf-button id="submit-button" type="submit">Next</scf-button>
-											
+											<scf-button id="submit-button" type="submit" ng-click="createTransactionCtrl.nextStep()">Next</scf-button>											
 										</div>
 										</div>
 										
