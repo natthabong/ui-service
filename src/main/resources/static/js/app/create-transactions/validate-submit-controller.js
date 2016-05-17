@@ -2,33 +2,28 @@ var validateandsubmit = angular.module('gecscfApp', [ 'scf-component',
 		'ui.bootstrap' ]);
 validateandsubmit.controller('ValidateAndSubmitController', [ function() {
 	var vm = this;
-	vm.pagingList = [ {
-		label : '10',
-		value : 10
-	}, {
-		label : '20',
-		value : 20
-	}, {
-		label : '50',
-		value : 50
-	} ];
-	vm.pagingDropDown = '10';
-	vm.currentPage = 0;
-	vm.searchPage = function(pageModel) {
-		vm.currentPage = pageModel.page;
-		console.log(pageModel);
-	};
+	
+    vm.pageSizeList = [{
+        label: '10',
+        value: '10'
+    }];
+    vm.pageSizeSelectModel = '10';
+    vm.pageModel = {
+        pageSizeSelectModel: '10',
+        totalRecord: '10',
+        currentPage: 0
+    };
 
 	vm.tradingPatnerData = {
 		sponsorName : 'TESCO CO,LTD.',
-		financingDocuments : '0',
-		valueOfDocument : '0',
-		sponsorPaymentDate : '-',
+		financingDocuments : '3',
+		valueOfDocument : '58069.44',
+		sponsorPaymentDate : '25/05/2016',
 		prePercentage : '80.00%',
-		transactionDate : '-',
-		transactionAmount : '0.00',
-		loanMaturityDate : '-',
-		selected : '0',
+		transactionDate : '23/05/2016',
+		transactionAmount : '46455.55',
+		loanMaturityDate : '25/05/2016',
+		selected : '3',
 	};
 
 	vm.document = {
