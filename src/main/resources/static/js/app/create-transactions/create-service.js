@@ -3,7 +3,8 @@ angular.module('scfApp').factory('CreateTransactionService', ['$http', '$q', cre
 function createTransactionService($http, $q) {
     return {
         getSponsorPaymentDate: getSponsorPaymentDate,
-        getTransactionDate: getTransactionDate
+        getTransactionDate: getTransactionDate,
+		getDocument: getDocument
     };
 
     function getSponsorPaymentDate(sponsorId, supplierCode) {
@@ -28,6 +29,25 @@ function createTransactionService($http, $q) {
         $http.post('api/create-transaction/transaction-dates/get', {
                 sponsorId: sponsorId,
                 sponsorPaymentDate: sponsorPaymentDate
+            })
+            .then(function(response) {
+                deffered.resolve(response);
+            })
+            .catch(function(response) {
+                deffered.reject(response);
+            });
+        return deffered;
+    }
+
+    function getDocument(sponsorId, supplierCode, sponsorPaymentDate, page, pageSize) {
+        var deffered = $q.defer();
+
+        $http.post('api/create-transaction/documents/get', {
+                sponsorId: sponsorId,
+                supplierCode: supplierCode,
+                sponsorPaymentDate: sponsorPaymentDate,
+                page: page,
+                pageSize: pageSize
             })
             .then(function(response) {
                 deffered.resolve(response);
