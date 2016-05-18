@@ -9,8 +9,6 @@ import org.springframework.web.servlet.config.annotation.ContentNegotiationConfi
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.webflow.mvc.servlet.FlowHandlerAdapter;
-import org.springframework.webflow.mvc.servlet.FlowHandlerMapping;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.AjaxThymeleafViewResolver;
 import org.thymeleaf.spring4.view.FlowAjaxThymeleafView;
@@ -18,8 +16,6 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 @Configuration
 public class WebConfiguration extends WebMvcConfigurerAdapter {
-//	@Autowired
-//	private WebFlowConfig webFlowConfig;
 
 	@Autowired
 	private SpringTemplateEngine springTemplateEngine;
@@ -38,22 +34,6 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 	public FilterRegistrationBean hiddenFilterRegistrationBean() {
 		return new FilterRegistrationBean(new HiddenHttpMethodFilter());
 	}
-
-//	@Bean
-//	public FlowHandlerMapping flowHandlerMapping() {
-//		FlowHandlerMapping handlerMapping = new FlowHandlerMapping();
-//		handlerMapping.setOrder(-1);
-//		handlerMapping.setFlowRegistry(this.webFlowConfig.flowRegistry());
-//		return handlerMapping;
-//	}
-//
-//	@Bean
-//	public FlowHandlerAdapter flowHandlerAdapter() {
-//		FlowHandlerAdapter handlerAdapter = new FlowHandlerAdapter();
-//		handlerAdapter.setFlowExecutor(this.webFlowConfig.flowExecutor());
-//		handlerAdapter.setSaveOutputToFlashScopeOnRedirect(true);
-//		return handlerAdapter;
-//	}
 
 	@Bean
 	public AjaxThymeleafViewResolver ajaxThymeleafViewResolver() {

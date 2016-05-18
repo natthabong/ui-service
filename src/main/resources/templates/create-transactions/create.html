@@ -123,7 +123,7 @@
 								<div class="col-md-3">Select: <span ng-bind="createTransactionCtrl.documentSelects.length"></span> Records</div>
 								<div class="col-md-8 text-right">
 									<div class="row">
-										<div class="col-md-7">1 - 10 of 20</div>
+										<div class="col-md-7"><span id="current-page-label">{{(createTransactionCtrl.pageModel.currentPage )+1 }} - {{ (createTransactionCtrl.pageModel.totalRecord > ((createTransactionCtrl.pageModel.currentPage+1) * createTransactionCtrl.pageModel.pageSizeSelectModel)?createTransactionCtrl.pageModel.totalRecord:((createTransactionCtrl.pageModel.currentPage+1) * createTransactionCtrl.pageModel.pageSizeSelectModel))}} of {{createTransactionCtrl.pageModel.totalRecord}}</span></div>
 										<div class="col-md-5">
 											<scf-pagination page-size-model="createTransactionCtrl.pageSizeSelectModel" 
 													total-page="createTransactionCtrl.pageModel.totalRecord" 
