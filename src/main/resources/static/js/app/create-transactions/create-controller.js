@@ -11,16 +11,16 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 		vm.documentSelects = [];
         // Data Sponsor
         vm.sponsorCodes = [{
-            label: 'TESCO CO,LTD.',
+            label: 'TESCO CO., LTD.',
             value: '00017551'
         }];
         vm.supplierCodes = [{
-            label: 'JINTANA INTERTRADE CO,LTD.',
+            label: '32001',
             value: '32001'
         }];
         vm.sponsorPaymentDates = [{
             label: 'Please Select',
-            value: 'PleaseSelect'
+            value: ''
         }];
         vm.transactionDates = [];
 		vm.submitTransactionAmount = 0.00;
@@ -40,7 +40,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         }];
         vm.pageSizeSelectModel = '10';
         vm.pageModel = {
-            pageSizeSelectModel: '10',
+            pageSizeSelectModel: 10,
             totalRecord: '10',
             currentPage: 0
         };
@@ -162,7 +162,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 label: '<input type="checkbox" name="checkData" ng-click="createTransactionCtrl.checkAll(data)"/>',
                 showCheckBox: true,
                 cssTemplate: 'text-center',
-                cellTemplate: '<input type="checkbox" checklist-model="createTransactionCtrl.documentSelects" checklist-value="data" id="document-{{data.documentId}}" ng-click="createTransactionCtrl.selectDocument(data)"/>'
+                cellTemplate: '<input type="checkbox" checklist-model="createTransactionCtrl.documentSelects" checklist-value="data" id="document-{{data.documentId}}-checkbox" ng-click="createTransactionCtrl.selectDocument(data)"/>'
             }, {
                 label: 'No.',
                 cssTemplate: 'text-center',
