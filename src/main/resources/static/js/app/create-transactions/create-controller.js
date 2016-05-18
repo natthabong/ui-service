@@ -217,7 +217,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 		vm.selectDocument = function(document){
 			var sumAmount = 0;
 			vm.documentSelects.forEach(function(document){
-				sumAmount += document.documentAmount;
+				sumAmount += document.outstandingAmount;
 			});
 			vm.submitTransactionAmount = TransactionService.calculateTransactionAmount(sumAmount, 80.00);
 		};
