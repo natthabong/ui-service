@@ -1,7 +1,7 @@
 var validateandsubmit = angular.module('scfApp');
 validateandsubmit.controller('ValidateAndSubmitController', [
-		'CreateTransactionService', '$state', '$scope', '$window', '$timeout',
-		function(CreateTransactionService, $state, $scope, $window, $timeout) {
+		'ValidateAndSubmitService', '$state', '$scope', '$window', '$timeout',
+		function(ValidateAndSubmitService, $state, $scope, $window, $timeout) {
 			var vm = this;
 			$scope.validateDataPopup = false;
 			vm.transactionMsg = "TES00125482345";
@@ -28,18 +28,15 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 				selected : '3',
 			};
 
-			// vm.tradingPatnerData.loanMaturityDate =
-			// function(sponsorPaymentDate,
-			// maturityDate) {
-			// var deffered =
-			// ValidateAndSubmitService.prepareTransactionOnValidatePage(sponsorCode,
-			// sponsorPaymentDate);
-			// deffered.promise.then(function(response) {
-			// vm.tradingPatnerData.loanMaturityDate = response.data;
-			// }).catch(function(response) {
-			// console.log(response);
-			// });
-			// };
+			vm.loadLoanMaturityDate = function() {
+				var deffered = ValidateAndSubmitService.prepareTransactionOnValidatePage();
+				deffered.promise.then(function(response) {
+					vm.tradingPatnerData.loanMaturityDate = response.data;
+				}).catch(function(response) {
+					console.log(response);
+				});
+			};
+			vm.loadLoanMaturityDate();
 
 			vm.dataTable = {
 				columns : [ {
