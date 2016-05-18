@@ -13,7 +13,7 @@
 			
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body" style="padding-bottom: 30px;">
-					<div class="col-md-12">
+					<div class="col-md-12" ng-show="createTransactionCtrl.showErrorMsg">
 						<div class="alert alert-danger" role="alert">
 							<span ng-bind="createTransactionCtrl.errorMsgGroups | translate"></span>
 						</div>
@@ -120,7 +120,7 @@
 							</div>
 							<div class="row">
 								<div class="col-md-1"></div>
-								<div class="col-md-3">Select: 2 Records</div>
+								<div class="col-md-3">Select: <span ng-bind="createTransactionCtrl.documentSelects.length"></span> Records</div>
 								<div class="col-md-8 text-right">
 									<div class="row">
 										<div class="col-md-7">1 - 10 of 20</div>
@@ -149,7 +149,8 @@
 													<span><b>Transaction Amount: </b></span>
 												</div>
 												<div class="col-md-9">
-													<span id="transaction-amount-label">xxx,xxx.00</span>THB
+													<span id="transaction-amount-label" 
+														  ng-bind="createTransactionCtrl.submitTransactionAmount | number: 2">xxx,xxx.00</span><span ng-bind="'thai-bath' | translate"></span>
 												</div>
 											</div>
 											</div>
@@ -169,7 +170,7 @@
 											</div>
 										</div>
 										<div class="col-md-11 text-right">
-											<scf-button id="submit-button" type="submit" ng-click="createTransactionCtrl.nextStep()">Next</scf-button>											
+											<scf-button id="next-button" type="submit" ng-click="createTransactionCtrl.nextStep()">Next</scf-button>											
 										</div>
 										</div>
 										
