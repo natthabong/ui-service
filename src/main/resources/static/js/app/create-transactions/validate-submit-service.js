@@ -6,20 +6,19 @@ function validateAndSubmitService($http, $q) {
     	submitTransaction: submitTransaction
     };	
     
-    function prepareTransactionOnValidatePage(sponsorPaymentDate, maturityDate) {
+    function prepareTransactionOnValidatePage() {
         var deffered = $q.defer();
 
         $http.post('api/create-transaction/validate-submit/transaction/prepare', {
                 params: {
-                	paymentDate: sponsorPaymentDate,
-                	maturityDate: maturityDate
+                	http: $http
                 }
             })
             .then(function(response) {
                 deffered.resolve(response);
             })
             .catch(function(response) {
-                deffered.reject('Cannot load supplierCode');
+                deffered.reject('Cannot load sponsorPaymentDate, supplierCode');
             });
         return deffered;
     }
@@ -37,7 +36,7 @@ function validateAndSubmitService($http, $q) {
                 deffered.resolve(response);
             })
             .catch(function(response) {
-                deffered.reject('Cannot load supplierCode');
+                deffered.reject('Cannot load page, pageSize ');
             });
         return deffered;
     }
@@ -50,7 +49,7 @@ function validateAndSubmitService($http, $q) {
                 deffered.resolve(response);
             })
             .catch(function(response) {
-                deffered.reject('Cannot load supplierCode');
+                deffered.reject('Cannot submitTransaction');
             });
         return deffered;
     }    
