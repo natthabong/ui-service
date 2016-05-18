@@ -11,7 +11,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 		vm.documentSelects = [];
         // Data Sponsor
         vm.sponsorCodes = [{
-            label: 'TESCO CO., LTD.',
+            label: 'TESCO CO.,LTD.',
             value: '00017551'
         }];
         vm.supplierCodes = [{
@@ -151,7 +151,9 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 					supplierCode: document.supplierCode,
 					supplierId: document.supplierId,
 					supplierName: document.supplierName,
-					dueDate: new Date(document.sponsorPaymentDate)
+					dueDate: new Date(document.sponsorPaymentDate),
+					outstandingAmount: document.outstandingAmount
+					
 				});
 			});
 			return documentJsons;
@@ -197,7 +199,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 sortData: false,
                 cssTemplate: 'text-center'
             }, {
-                field: 'documentAmount',
+                field: 'outstandingAmount',
                 label: 'จำนวนเงินตามเอกสาร',
                 sortData: false,
                 cssTemplate: 'text-right',
