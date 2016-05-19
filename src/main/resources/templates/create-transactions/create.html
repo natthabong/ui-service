@@ -125,8 +125,8 @@
 									<div class="row">
 										<div class="col-md-7"><span id="current-page-label">{{(createTransactionCtrl.pageModel.currentPage )+1 }} - {{ (createTransactionCtrl.pageModel.totalRecord > ((createTransactionCtrl.pageModel.currentPage+1) * createTransactionCtrl.pageModel.pageSizeSelectModel)?createTransactionCtrl.pageModel.totalRecord:((createTransactionCtrl.pageModel.currentPage+1) * createTransactionCtrl.pageModel.pageSizeSelectModel))}} of {{createTransactionCtrl.pageModel.totalRecord}}</span></div>
 										<div class="col-md-5">
-											<scf-pagination page-size-model="createTransactionCtrl.pageSizeSelectModel" 
-													total-page="createTransactionCtrl.pageModel.totalRecord" 
+											<scf-pagination page-size-model="createTransactionCtrl.pageModel.pageSizeSelectModel" 
+													total-page="createTransactionCtrl.pageModel.totalPage" 
 													current-page="createTransactionCtrl.pageModel.currentPage" 
 													page-size-list="createTransactionCtrl.pageSizeList" 
 													page-action="createTransactionCtrl.searchDocument"></scf-pagination>
@@ -138,7 +138,9 @@
 							<div class="row">
 								<div class="col-md-12">
 									<scf-data-table component-config="createTransactionCtrl.dataTable" 
-													component-datas="createTransactionCtrl.tableRowCollection"></scf-data-table>
+													component-datas="createTransactionCtrl.tableRowCollection" 
+                                                    current-page="createTransactionCtrl.pageModel.currentPage"
+                                                    record-per-page="createTransactionCtrl.pageModel.pageSizeSelectModel"></scf-data-table>
 									
 									<div class="row" >
 										<div class="form-horizontal">

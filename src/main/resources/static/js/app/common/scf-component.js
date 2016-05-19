@@ -24,9 +24,9 @@
 							+'</thead>'
                 
 						   +'<tbody>'
-						   +'<tr ng-repeat="data in componentDatas track by $index" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
+						   +'<tr ng-repeat="data in componentDatas track by $id(data)" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
 						   	+'<td ng-if="showCheckBox" ng-class="{\'{{checkBoxField.cssTemplate}}\': true}" render-html="checkBoxField.cellTemplate"></td>'
-                             +'<td ng-if="showRowNo" ng-class="{\'{{rowNoField.cssTemplate}}\': true}" ng-bind="(currentPage * perpage)+($index + 1)"></td>'
+                             +'<td ng-if="showRowNo" ng-class="{\'{{rowNoField.cssTemplate}}\': true}" ng-bind="(currentPage * recordPerPage)+($index + 1)"></td>'
                 
 						     +'<td ng-repeat="column in tableColumns" ng-class="{\'{{column.cssTemplate}}\': true}">'
 						        +'<span ng-switch on="column.cellTemplate">'
@@ -235,6 +235,7 @@
                     if(attrs.componentId != undefined){
                         element[0].children[0].id = attrs.componentId;
                     }
+                    
 				},
 				controller: ['$scope', '$element', '$attrs', '$window', '$document', function($scope, $element, $attrs, $window, $document){
 					var vm = $scope;
@@ -245,17 +246,18 @@
 					vm.rowNoField ={};
                     vm.showRowNo = false;
 					vm.showCheckBox = false;
-					vm.checkBoxField = {};
-                    vm.currentPage = $attrs.currentPage;
-                    vm.totalPage = $attrs.totalPage;
-                    vm.currentPage = 0;
-                    vm.perpage = 10;
+					vm.checkBoxField = {};                 
                     
+                    vm.$watch($attrs.currentPage, function(data){
+                        vm.currentPage = data;
+                    });
+                    
+                    vm.$watch($attrs.recordPerPage, function(data){
+                        vm.recordPerPage = data;
+                    });
                     
                     vm.$watch($attrs.componentConfig, function(dataConfig){
                         var tableOption = dataConfig.options;
-//                        vm.pageScroll = (tableOption.tabelScroll === 'undefined') ? false: tableOption.tabelScroll;
-//                        vm.fnSearch = tableOption.searchFunction;
                         dataConfig.columns.forEach(function(data){
                             if(data['showRowNo']){
                                  vm.showRowNo = true;
@@ -283,21 +285,10 @@
                         });
                     });                                    
                     
-                    vm.$watch($attrs.componentDatas, function(data){
+                    vm.$watch($attrs.componentDatas, function(data){                        
                         vm.componentDatas = data;
                     });
-                    
-                    function paginationScroll(){
-                        angular.element($window).bind('scroll', function(){
-                                if($window.pageYOffset + $window.innerHeight >=$document[0].body.clientHeight){                                    
-                                    if(vm.currentPage < vm.totalPage){
-                                        var nextPage = parseInt(vm.currentPage) + 1;
-                                        vm.fnSearch(nextPage);
-                                    }
-                                    
-                                }
-                            });
-                    }
+
 				}],
 				templateUrl: 'ui/template/data_table.html'
 			};
@@ -384,7 +375,7 @@
                 currentPage: '=',
                 pageSizeModel: '=',
                 pageSizeList: '<',
-                totalPage: '<',
+                totalPage: '=',
                 pageAction: '='
             },
             link: fieldLink,
@@ -393,11 +384,10 @@
         };
         
         function fieldLink(scope, element, attrs){
-            scope.$watch('currentPage', function(){
+            scope.$watch(function(value){
                 disableButton(scope, element);
             });
-            
-            
+        
             scope.scfPaginationAction = function(btnAction){
                 var pageModel = {
                     page: scope.currentPage,
@@ -410,7 +400,7 @@
                 }else if(btnAction === 'next'){
                     pageModel.page += 1;
                 }else if(btnAction === 'last'){
-                    pageModel.page = scope.totalPage;
+                    pageModel.page = scope.totalPage-1;
                 }
                 scope.pageAction(pageModel);
             };
@@ -428,7 +418,7 @@
                 element[0].children[1].children[0].disabled = false;
             } 
             
-            if(scope.currentPage === scope.totalPage){
+            if(scope.currentPage === (scope.totalPage -1)){
                 /* disable button Next, Last page */
                  element[0].children[3].children[0].disabled = true;                    
                  element[0].children[4].children[0].disabled = true;                    

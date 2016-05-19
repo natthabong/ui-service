@@ -9,6 +9,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.showErrorMsg = false;
         vm.errorMsgGroups = 'transaction-error-msg-payment-date';
 		vm.documentSelects = [];
+		vm.checkAllModel = false;
         // Data Sponsor
         vm.sponsorCodes = [{
             label: 'TESCO CO.,LTD.',
@@ -40,7 +41,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         }];
         vm.pageSizeSelectModel = '10';
         vm.pageModel = {
-            pageSizeSelectModel: 10,
+            pageSizeSelectModel: '10',
             totalRecord: '10',
             currentPage: 0
         };
@@ -48,14 +49,13 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         //Search Document
         vm.searchDocument = function(pagingModel) {
             var sponsorCode = vm.createTransactionModel.sponsorCode;
-            var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
+            var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;			
             //validate SponsorPayment Date is Select			
             if (validateSponsorPaymentDate(sponsorPaymentDate)) {
                 if (pagingModel === undefined) {
                     vm.loadDocument();
                     vm.loadTransactionDate(sponsorCode, sponsorPaymentDate);
                 } else {
-                    console.log(pagingModel);
                     vm.pageModel.pageSizeSelectModel = pagingModel.pageSize;
                     vm.pageModel.currentPage = pagingModel.page;
                     vm.loadDocument();
@@ -71,7 +71,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.loadSupplierDate = function() {
             var sponsorCode = vm.createTransactionModel.sponsorCode;
             var supplierCode = vm.createTransactionModel.supplierCode;
-
             var deffered = CreateTransactionService.getSponsorPaymentDate(sponsorCode, supplierCode);
             deffered.promise.then(function(response) {
                     var supplierDates = response.data;
@@ -101,14 +100,18 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 //clear list transaction date
                 vm.transactionDates = [];
                 var transactionResponse = response.data;
-                transactionResponse.forEach(function(data) {
-                    vm.transactionDates.push({
-                        label: data,
-                        value: data
-                    });
-                });
-                //set select default value
-                vm.createTransactionModel.transactionDate = vm.transactionDates[0].value;
+				
+				if(transactionResponse.length > 0){
+					transactionResponse.forEach(function(data) {
+						vm.transactionDates.push({
+							label: data,
+							value: data
+						});
+					});
+					//set select default value
+					vm.createTransactionModel.transactionDate = vm.transactionDates[0].value;
+				}
+               
             }).catch(function(response) {
                 console.log(response);
             });
@@ -117,6 +120,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.loadDocument = function() {
             var sponsorCode = vm.createTransactionModel.sponsorCode;
             var supplierCode = vm.createTransactionModel.supplierCode;
+			
             var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
             var page = vm.pageModel.currentPage;
             var pageSize = vm.pageModel.pageSizeSelectModel;
@@ -127,7 +131,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     //response success
                     vm.pageModel.totalRecord = response.data.totalElements;
                     vm.pageModel.currentPage = response.data.number;
-					console.log(response);
+					vm.pageModel.totalPage = response.data.totalPages;
                     //Generate Document for display
 					 vm.tableRowCollection = convertDocumentJSON(response.data.content);
                 })
@@ -161,7 +165,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
         vm.dataTable = {
             columns: [{
-                label: '<input type="checkbox" name="checkData" ng-click="createTransactionCtrl.checkAll(data)"/>',
+                label: '<input type="checkbox" name="checkData" ng-model="createTransactionCtrl.checkAllModel" ng-click="createTransactionCtrl.checkAllDocument()"/>',
                 showCheckBox: true,
                 cssTemplate: 'text-center',
                 cellTemplate: '<input type="checkbox" checklist-model="createTransactionCtrl.documentSelects" checklist-value="data" id="document-{{data.documentId}}-checkbox" ng-click="createTransactionCtrl.selectDocument(data)"/>'
@@ -211,7 +215,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.tableRowCollection = [];
 
         function validateSponsorPaymentDate(paymentDate) {
-            return paymentDate === 'PleaseSelect' ? false : true;
+            return paymentDate === '' ? false : true;
         }
 		
 		vm.selectDocument = function(document){
@@ -222,5 +226,14 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 			vm.submitTransactionAmount = TransactionService.calculateTransactionAmount(sumAmount, 80.00);
 		};
 		vm.selectDocument();
+		
+		vm.checkAllDocument = function(){
+			if(vm.checkAllModel){
+				vm.documentSelects = angular.copy(vm.tableRowCollection);
+			}else{
+				vm.documentSelects = [];
+			}
+			console.log(vm.checkAllModel);
+		}
     }
 ]);
