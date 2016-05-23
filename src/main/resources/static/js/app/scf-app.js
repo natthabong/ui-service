@@ -3,7 +3,7 @@ var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider) {
-
+	
             $translateProvider.useLoader('$translatePartialLoader', {
                 urlTemplate: '../{part}/{lang}/scf_label.json'
             });
@@ -25,7 +25,9 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'CreateTransactionController',
 				controllerAs: 'createTransactionCtrl',
 				templateUrl: '/create-transaction',
-				resolve: load(['js/app/create-transactions/create-service.js','js/app/create-transactions/create-controller.js', 'js/app/common/scf-component.js', 'js/app/create-transactions/transaction-service.js'])
+				resolve: load(['js/app/create-transactions/create-service.js','js/app/create-transactions/create-controller.js',
+				               'js/app/common/scf-component.js', 'js/app/create-transactions/transaction-service.js',
+				               'js/app/common/scf-common-service.js'])
 			}).state('/create-transaction/validate-submit', {
 				url: '/create-transaction/validate-submit',
 				controller: 'ValidateAndSubmitController',

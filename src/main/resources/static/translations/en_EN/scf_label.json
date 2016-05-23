@@ -1,11 +1,8 @@
 {
     "myprofile": "My Profile",
     "dashboard": "Dashboard",
-    "thai": "Thai",
-    "english": "Eng",
     "loan-request": "Loan Request",
     "loan-request-create": "Create Loan Request",
-    "loan-request-create-flow": "Create Loan Request Flow",
     "user": "User",
     "user-new": "Create User",
     "validate-and-submit": "Validate and Submit",
@@ -34,5 +31,5 @@
 	"transaction-ok-btn": "OK",
 	"validate-create-new-btn": "Create New",
 	"validate-create-popup-success": "SUCCESS",
-	"transaction-error-msg-payment-date": "Please Select Sponsor Payment Date"
+	"transaction-error-msg-payment-date": "Sponsor Payment Date is require."
 }

@@ -5,7 +5,7 @@
           <div class="col-md-12 nav-wrapper">
 			<ul class="nav navbar-nav search-nav">
                 <li>
-                	<img src="/img/avatar.jpg" class="img-circle avatar" alt="user name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"/>
+                	<img ng-src="img/logo.png" class="img-circle avatar" alt="user name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"/>
                 </li>
             </ul>
                 <a ui-sref="/home" class="navbar-brand"> 
@@ -18,12 +18,14 @@
 						<span class="glyphicon glyphicon-user"></span>
 					</span>                     
                 </li>
-                <li class="user-name"><span ng-bind="scfCtrl.displayName">Avanta</span></li>
+                <li class="user-name"><span ng-bind="scfCtrl.displayName">Avanta</span> | <span>JINTANA INTERTRADE CO.,LTD.</span></li>
                   
                 <li><a ui-sref="/home" class="header-menu-icon icon-home" title="Home"><span class="fa fa-home"></span></a></li>
-                <li><a href="#" class="opener-right-menu icon-alert" title="Notification"><span class="fa fa-bell"></span></a></li>
+                <li><a href="#" class="opener-right-menu header-menu-icon icon-alert" title="Notification"><span class="fa fa-bell"></span></a></li>
                 <li ng-controller="LogoutController as logoutCtroller"><a id="logout-link" href="#" ng-click="logoutCtroller.logout()" class="header-menu-icon icon-signout" title="Sign Out"><span class="fa fa-power-off "></span></a></li>
-                
+                <li class="nav-lang">
+                	<img id="change-lang-th-link" width="25px" height="15px" ng-src="img/th.png" ng-click="scfCtrl.changeLanguage('th_TH')"/> | <img id="change-lang-en-link" width="25px" height="15px" ng-src="img/eng.jpg" ng-click="scfCtrl.changeLanguage('en_EN')"/>
+                </li>
                 <li>
                 	<div class="navbar-header" style="width:100%;">
 		              	<div class="opener-left-menu is-closed">
@@ -47,7 +49,7 @@
 						<span th:inline="text">{{ '[[${menu.menuId}]]'  | translate }}</span><span class="caret"></span></a>
 						<ul class="dropdown-menu" >
                             <li th:each="children : ${menu.children}">
-                                <a th:attr="ui-sref=${children.url?:'#'}" th:href="${children.url?:'#'}" 
+                                <a th:attr="ui-sref=${children.url?:'#'}" ui-sref-opts="{reload: true}" th:href="${children.url?:'#'}" 
                                 th:id="${children.menuId+'-menu'}" data-toggle="collapse" 
                                 data-target=".navbar-collapse"><span th:inline="text">{{ '[[${children.menuId}]]' | translate}}</span></a>
 							</li>                    
