@@ -1658,7 +1658,7 @@ ul li a:focus {
   .avatar {
     height: 40px;
     width: 40px;
-    border: 4px solid #108DB6 !important;
+    /* border: 4px solid #108DB6 !important; */
     margin-top: 5px;
   }
 
@@ -6275,10 +6275,12 @@ ul li a:focus {
 
 /*========Responsive========*/
 @media (max-width: 1200px) {
+/*
   #content{
     padding-left: 250px;
     padding-right: 0px
   }
+*/
   .profile-v1 .profile-v1-cover{margin-bottom: 0px !important;min-height: inherit !important;max-height: inherit !important;}
   .profile-v1 .profile-v1-cover-wrap{padding: 0px !important;}
   .profile-v1 .profile-v1-right-wrap,.profile-v1 .profile-v1-body{padding-left:inherit !important;padding: 0px !important;}

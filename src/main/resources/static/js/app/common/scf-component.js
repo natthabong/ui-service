@@ -5,7 +5,7 @@
         $templateCache.put('ui/template/calendar.html',
             '<p class="input-group">' 
 						   + '<input type="text" class="form-control" readonly ng-model="textModel" uib-datepicker-popup="{{dateFormat}}" is-open="isOpen" close-text="Close" min-date="minDate" max-date="maxDate"/>' 
-						   + '<span class="input-group-btn">' + '<button type="button" class="btn btn-default" ng-click="openCalendar()">' 
+						   + '<span class="input-group-btn">' + '<button type="button" class="btn btn-default" ng-click="openCalendarAction()">' 
 						   + '<i class="glyphicon glyphicon-calendar"></i>' + '</button>' + "</span>" + '</p>');
 		
 		$templateCache.put('ui/template/data_table.html',
@@ -93,6 +93,7 @@
         .directive('scfTextArea', [function() {
             return {
                 restrict: 'AE',
+                replace: true,
                 scope: {
                     componentModel: '=',
                     componentDisabled: '=',
@@ -126,6 +127,7 @@
         .directive('scfRadio', [function() {
             return {
                 restrict: 'AE',
+                replace: true,
                 scope: {
                     componentModel: '=',
                     componentValue: '<',
@@ -157,19 +159,20 @@
         .directive('scfDatePicker', ['$templateCache', '$compile', function($templateCache, $compile) {
             return {
                 restrict: 'AE',
+                replace: true,
                 scope: {
                     textModel: '=',
                     dateFormat: '@',
                     isOpen: '=',
-                    openCalendar: '&',
+                    openCalendarAction: '&',
                 },
                 link: function(scope, element, attrs) {
-                    if (attrs.textId != undefined) {
-                    	element[0].children[0].children[0].id = attrs.textId;
+                    if (attrs.textId !== undefined) {
+                    	element[0].children[0].id = attrs.textId;
                     }
                     
-                    if(attrs.buttonId != undefined){                    	
-                    	element[0].children[0].children[2].children[0].id = attrs.buttonId;
+                    if(attrs.buttonId !== undefined){                    	
+                    	element[0].children[2].children[0].id = attrs.buttonId;
                     }
                 },
                 templateUrl: 'ui/template/calendar.html'
@@ -179,25 +182,24 @@
 		.directive('scfDatePickerFrom', ['$templateCache', '$compile', function($templateCache, $compile) {
             return {
                 restrict: 'AE',
+                replace: true,
                 scope: {
                     textModel: '=',
                     dateFormat: '@',
                     isOpen: '=',
-                    openCalendar: '&',
+                    openCalendarAction: '&',
                     maxDate: '='
 
                 },
                 link: function(scope, element, attrs) {
                     scope.minDate = null;
-                    if (attrs.textId != undefined) {
-                    	element[0].children[0].children[0].id = attrs.textId;
+                    if (attrs.textId !== undefined) {
+                    	element[0].children[0].id = attrs.textId;
                     }
                     
-                    if(attrs.buttonId != undefined){                    	
-                    	element[0].children[0].children[2].children[0].id = attrs.buttonId;
+                    if(attrs.buttonId !== undefined){                    	
+                    	element[0].children[2].children[0].id = attrs.buttonId;
                     }
-
-
                 },
                 templateUrl: 'ui/template/calendar.html'
             };
@@ -205,22 +207,22 @@
 		.directive('scfDatePickerTo', ['$templateCache', '$compile', function($templateCache, $compile) {
             return {
                 restrict: 'AE',
-
+                replace: true,
                 scope: {
                     textModel: '=textModel',
                     dateFormat: '@',
                     isOpen: '=',
-                    openCalendar: '&',
+                    openCalendarAction: '&',
                     minDate: '='
                 },
                 link: function(scope, element, attrs) {
                     scope.maxDate = null;
-                    if (attrs.textId != undefined) {
-                    	element[0].children[0].children[0].id = attrs.textId;
+                    if (attrs.textId !== undefined) {
+                    	element[0].children[0].id = attrs.textId;
                     }
                     
-                    if(attrs.buttonId != undefined){                    	
-                    	element[0].children[0].children[2].children[0].id = attrs.buttonId;
+                    if(attrs.buttonId !== undefined){                    	
+                    	element[0].children[2].children[0].id = attrs.buttonId;
                     }
                 },
                 templateUrl: 'ui/template/calendar.html'
@@ -230,6 +232,7 @@
 			return {
 				restrict: 'AE',
                 transclude: true,
+				replace: true,
                 scope: true,
 				link: function(scope, element, attrs){
                     if(attrs.componentId != undefined){
@@ -262,9 +265,10 @@
                             if(data['showRowNo']){
                                  vm.showRowNo = true;
                                 vm.rowNoField = {
-										   label: data['label'],
-                                    cssTemplate: data['cssTemplate']
-										   };
+									label: data['label'],
+                                    cssTemplate: data['cssTemplate'],										
+									id: data['id']
+								};
                             }else if(data['showCheckBox']){
 								vm.showCheckBox = true;
 								vm.checkBoxField  = {
@@ -384,7 +388,8 @@
         };
         
         function fieldLink(scope, element, attrs){
-            scope.$watch(function(value){
+            
+            scope.$watch('[totalPage, currentPage]',function(value){
                 disableButton(scope, element);
             });
         
@@ -404,6 +409,10 @@
                 }
                 scope.pageAction(pageModel);
             };
+			
+			if(attrs.dropdownId != undefined){
+				element[0].children[2].children[0].id=attrs.dropdownId
+			}
         }
         
         function disableButton(scope, element){
@@ -434,8 +443,8 @@
                 +'<li><scf-button type="button" ng-click="scfPaginationAction(\'first\')" class="btn-sm" id="first-page-button"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></scf-button></li>'
                 +'<li><scf-button type="button" ng-click="scfPaginationAction(\'back\')" class="btn-sm" id="back-page-button"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></scf-button></li>'
                 +'<li><scf-dropdown ng-model="pageSizeModel" ng-change="scfPaginationAction(\'changeSize\')" component-data="pageSizeList"></scf-dropdown</li>'
-                +'<li><button type="button" ng-click="scfPaginationAction(\'next\')" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button></li>'
-                +'<li><button type="button" ng-click="scfPaginationAction(\'last\')" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button></li>'
+                +'<li><button type="button" ng-click="scfPaginationAction(\'next\')" class="btn btn-default btn-sm" id="next-page-button"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button></li>'
+                +'<li><button type="button" ng-click="scfPaginationAction(\'last\')" class="btn btn-default btn-sm" id="last-page-button"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button></li>'
                 +'</ul>';
             return template;
         }
@@ -474,6 +483,6 @@
         });
       }
     };
-  });;
+  });
 
 })();

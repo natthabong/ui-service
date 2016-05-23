@@ -3,7 +3,17 @@
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
+
+@font-face {
+    font-family: 'supermarketregular';
+    src: url('font/supermarket-webfont.woff2') format('woff2'),
+         url('font/supermarket-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
+	font-family: "supermarketregular", "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
 	background-color: #DDD;
 }
 
@@ -402,6 +412,8 @@ Custom
 
 .header-menu-icon {
 	font-size: 20px;
+	padding-left: 5px !important;
+	padding-right: 5px !important;
 	color: #0c66ae;
 }
 
@@ -457,7 +469,7 @@ footer .footer-below {
 
 #content {
 	margin-top: 90px;
-	height: 1024px;
+	min-height: 950px;
 }
 
 .opener-right-menu span {
@@ -524,3 +536,40 @@ footer .footer-below {
 .gec-col-checkbox {
 	width: 5px;
 }
+
+.gec-fix-position {
+    position: fixed;
+    bottom: 5px;
+    z-index: 50px;
+    width: 93%;
+    background-color: #ffffff;
+}
+
+@media (max-width: 1200px){
+	.gec-fix-position {
+		width: 90%;
+	}
+}
+
+.gec-select{
+    bottom: -3px;
+}
+
+.table-bordered > thead > tr > th{
+	border: 1px solid #f4f4f4;
+}
+
+.nav-lang{
+	padding-top: 15px;
+	padding-left: 5px;
+}
+
+.content-header{
+	background-color: #FFFFFF;
+	margin-bottom: 5px;
+}
+
+.user-name span{
+	font-family: "supermarketregular", "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
