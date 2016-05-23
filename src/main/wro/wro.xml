@@ -13,5 +13,9 @@
 		<js>webjar:bootstrap/3.3.6/dist/js/bootstrap.min.js</js>
 		<js>webjar:oclazyload/1.0.9/dist/ocLazyLoad.min.js</js>
 		<js>webjar:checklist-model/0.9.0/checklist-model.js</js>
+	</group>
+	
+	<group name="angular-mock">
+		<js>webjar:angular-mocks/1.5.5/angular-mocks.js</js>
 	</group>	
 </groups>
