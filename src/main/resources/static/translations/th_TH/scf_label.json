@@ -2,7 +2,7 @@
     "myprofile": "ข้อมูลของฉัน",
     "dashboard": "กระดานข่าว",
     "loan-request": "คำขอเงินกู้",
-    "loan-request-create": "สร้างรายการขอกู้",
+    "create-loan-request": "สร้างรายการขอกู้",
     "user": "User",
     "user-new": "Create User",
     "validate-and-submit": "Validate and Submit",
