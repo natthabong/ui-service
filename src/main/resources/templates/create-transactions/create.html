@@ -1,130 +1,122 @@
-
 <div id="content" th:fragment="content">
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3 class="animated fadeInLeft">Create Transaction</h3>
-				</div>
-			</div>
-		</div>
+    <div id="wrapper">
+        <div class="panel box-shadow-none content-header">
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <h3 class="animated fadeInLeft">Create Transaction</h3>
+                </div>
+            </div>
+        </div>
 
-		<div class="form-element">
-			
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<div class="col-md-12" ng-show="createTransactionCtrl.showErrorMsg">
-						<div class="alert alert-danger" role="alert">
-							<span id="message-alert-label" ng-bind="createTransactionCtrl.errorMsgGroups | translate"></span>
-						</div>
-					</div>
-					<!-- Start Column Panel-->
-					<div class="col-md-12">						
-						<form name="createForm" class="form-horizontal">
-							<div class="form-group">
-								<label for="sponsor"
-									class="col-md-2 col-sm-3 col-xs-12 control-label">Sponsor: </label>
-									<div class="col-md-3 col-sm-5 col-xs-12">
-										<scf-dropdown id="sponsor-dropdown" ng-model="createTransactionCtrl.createTransactionModel.sponsorCode"
-													  component-data="createTransactionCtrl.sponsorCodes"></scf-dropdown>
-									</div>								
-								<div class="col-md-5 col-sm-4"></div>
-							</div>
-							<div class="form-group">
-								<label for="dealer"
-									class="col-md-2 col-sm-3 col-xs-12 control-label">Supplier Code : </label>
-								
-									<div class="col-md-2 col-sm-5 col-xs-12">
-										<scf-dropdown id="supplier-code-dropdown" 
-													  ng-model="createTransactionCtrl.createTransactionModel.supplierCode"
-													  component-data="createTransactionCtrl.supplierCodes"></scf-dropdown>
-									</div>
-								
-								<div class="col-md-5 col-sm-4"></div>
-							</div>
+        <div class="form-element">
 
-							<!-- Start Payment Field-->
-							<div class="form-group">
-								<label for="paymentDate" class="col-md-2 col-sm-3 col-xs-12 control-label">Sponsor payment Date: </label>
-								<div class="col-md-2 col-sm-3 col-xs-12">
-									<scf-dropdown id="sponsor-payment-date-dropdown" 
-													  ng-model="createTransactionCtrl.createTransactionModel.sponsorPaymentDate"
-													  component-data="createTransactionCtrl.sponsorPaymentDates"></scf-dropdown>
-								</div>
-								<div class="col-md-6 col-sm-6">
-									<scf-button id="search-button" ng-click="createTransactionCtrl.searchDocument()">Search</scf-button>
-								</div>
-							</div>
-                            </form>
-							<!-- End Payment Field-->
-							<div ng-show="createTransactionCtrl.showInfomation">
-                            
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="panel panel-default">
-                                            <div class="panel-body">
-                                                <div class="row">
-                                                    <div class="col-md-2">
-                                                        <label>วงเงินกู้: </label>
-                                                    </div>
-                                                    <div class="col-md-2 text-right">
-                                                         <span>1,000,000.00</span>
-                                                    </div>
-													<div class="col-md-1">THB</div>
-													
-                                                    <div class="col-md-2">
-                                                        <label>วงเงินกู้ที่สามารถเบิกถอนได้: </label>
-                                                    </div>
-                                                    <div class="col-md-2 text-right">
-                                                        <span>850,000.00</span>
-                                                    </div>
-                                                    <div class="col-md-3">THB</div>
+            <div class="panel panel-default col-md-12 padding-0">
+                <div class="panel-body">
+                    <div class="col-md-12" ng-show="createTransactionCtrl.showErrorMsg">
+                        <div class="alert alert-danger" role="alert">
+                            <span id="message-alert-label" ng-bind="createTransactionCtrl.errorMsgGroups | translate"></span>
+                        </div>
+                    </div>
+                    <!-- Start Column Panel-->
+                    <div class="col-md-12">
+                        <form name="createForm" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="sponsor" class="col-md-2 col-sm-3 col-xs-12 control-label">Sponsor: </label>
+                                <div class="col-md-3 col-sm-5 col-xs-12">
+                                    <scf-dropdown id="sponsor-dropdown" ng-model="createTransactionCtrl.createTransactionModel.sponsorCode" component-data="createTransactionCtrl.sponsorCodes"></scf-dropdown>
+                                </div>
+                                <div class="col-md-5 col-sm-4"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label">Supplier Code : </label>
+
+                                <div class="col-md-2 col-sm-5 col-xs-12">
+                                    <scf-dropdown id="supplier-code-dropdown" ng-model="createTransactionCtrl.createTransactionModel.supplierCode" component-data="createTransactionCtrl.supplierCodes"></scf-dropdown>
+                                </div>
+
+                                <div class="col-md-5 col-sm-4"></div>
+                            </div>
+
+                            <!-- Start Payment Field-->
+                            <div class="form-group">
+                                <label for="paymentDate" class="col-md-2 col-sm-3 col-xs-12 control-label">Sponsor payment Date: </label>
+                                <div class="col-md-2 col-sm-3 col-xs-12">
+                                    <scf-dropdown id="sponsor-payment-date-dropdown" ng-model="createTransactionCtrl.createTransactionModel.sponsorPaymentDate" component-data="createTransactionCtrl.sponsorPaymentDates"></scf-dropdown>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <scf-button id="search-button" ng-click="createTransactionCtrl.searchDocument()">Search</scf-button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- End Payment Field-->
+                        <div ng-show="createTransactionCtrl.showInfomation">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label>วงเงินกู้: </label>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-2">
-                                                        <label>ยอดเงินกู้ที่เบิกถอนแล้ว:</label>
-                                                    </div>
-                                                    <div class="col-md-2 text-right">
-                                                        <span>100,000.00</span>
-                                                    </div>													
-													<div class="col-md-1">THB</div>	
-                                                    <div class="col-md-2">
-                                                        <label>ยอดเงินกู้ล่วงหน้า: </label>
-                                                    </div>
-                                                    <div class="col-md-2 text-right">
-                                                         <span>50,000.00</span>
-                                                    </div>
-                                                    <div class="col-md-3">THB</div>
+                                                <div class="col-md-2 text-right">
+                                                    <span>1,000,000.00</span>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-2">
-                                                        <label>Pre-Dradown Percentag: </label>
-                                                    </div>
-                                                    <div class="col-md-2 text-right"> 
-														<span>80.00 %</span>
-                                                    </div>
-													<div class="col-md-1"></div>	
-                                                    <div class="col-md-2">
-                                                        <label>อัตราดอกเบี้ยเงินกู้: </label>
-                                                    </div>
-                                                    <div class="col-md-2 text-right">
-                                                        <span>6.000000 %</span>
-                                                    </div>
-                                                    <div class="col-md-3"></div>
+                                                <div class="col-md-1">THB</div>
+
+                                                <div class="col-md-2">
+                                                    <label>วงเงินกู้ที่สามารถเบิกถอนได้: </label>
                                                 </div>
+                                                <div class="col-md-2 text-right">
+                                                    <span>850,000.00</span>
+                                                </div>
+                                                <div class="col-md-3">THB</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label>ยอดเงินกู้ที่เบิกถอนแล้ว:</label>
+                                                </div>
+                                                <div class="col-md-2 text-right">
+                                                    <span>100,000.00</span>
+                                                </div>
+                                                <div class="col-md-1">THB</div>
+                                                <div class="col-md-2">
+                                                    <label>ยอดเงินกู้ล่วงหน้า: </label>
+                                                </div>
+                                                <div class="col-md-2 text-right">
+                                                    <span>50,000.00</span>
+                                                </div>
+                                                <div class="col-md-3">THB</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label>Pre-Dradown Percentag: </label>
+                                                </div>
+                                                <div class="col-md-2 text-right">
+                                                    <span>80.00 %</span>
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-2">
+                                                    <label>อัตราดอกเบี้ยเงินกู้: </label>
+                                                </div>
+                                                <div class="col-md-2 text-right">
+                                                    <span>6.000000 %</span>
+                                                </div>
+                                                <div class="col-md-3"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-4 gec-select">
-                                        <div><b>Select: <span ng-bind="createTransactionCtrl.documentSelects.length"></span> Records</b></div>
-                                    </div>
-                                    <div class="col-md-8 text-right">
-                                        <div class="row">
-                                            <div class="col-md-12">                                            
-                                                <span>
-                                               <!-- {{(createTransactionCtrl.pageModel.currentPage )+1 }} - {{ (createTransactionCtrl.pageModel.totalRecord > ((createTransactionCtrl.pageModel.currentPage+1) * createTransactionCtrl.pageModel.pageSizeSelectModel)?createTransactionCtrl.pageModel.totalRecord:((createTransactionCtrl.pageModel.currentPage+1) * createTransactionCtrl.pageModel.pageSizeSelectModel))}} of -->
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 gec-select">
+                                    <div><b>Select: <span ng-bind="createTransactionCtrl.documentSelects.length"></span> Records</b></div>
+                                </div>
+                                <div class="col-md-8 text-right">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span>
+                                               
                                                     <b ng-bind="createTransactionCtrl.splitePageTxt" id="document-paging-label"></b>
                                                     &nbsp;&nbsp;
                                                 <scf-pagination dropdown-id="page-limit-dropdown" page-size-model="createTransactionCtrl.pageModel.pageSizeSelectModel" 
@@ -134,112 +126,76 @@
                                                         page-action="createTransactionCtrl.searchDocument"></scf-pagination>
                                                 </span>
 
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Start Table-->
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <scf-data-table id="document-table" component-config="createTransactionCtrl.dataTable" 
-                                                        component-datas="createTransactionCtrl.tableRowCollection" 
-                                                        current-page="createTransactionCtrl.pageModel.currentPage"
-                                                        record-per-page="createTransactionCtrl.pageModel.pageSizeSelectModel"></scf-data-table>
-                                    </div>
+                            </div>
+                            <!-- Start Table-->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <scf-data-table id="document-table" component-config="createTransactionCtrl.dataTable" component-datas="createTransactionCtrl.tableRowCollection" current-page="createTransactionCtrl.pageModel.currentPage" record-per-page="createTransactionCtrl.pageModel.pageSizeSelectModel"></scf-data-table>
                                 </div>
-                                
-                                <!--<div class="row">
-                                    <div id="bottom-sticker">
-										<div class="col-md-12">
-											<div class="form-horizontal">
-												<div class="form-group">
-													<label class="col-md-2 control-label"><b>Transaction Amount: </b></label>
-													<div class="col-md-9 control-label">
-														<span id="transaction-amount-label" 
-															ng-bind="createTransactionCtrl.submitTransactionAmount | number: 2">xxx,xxx.00</span>&nbsp;
-														<span ng-bind="'thai-bath' | translate"></span>
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-md-2 control-label"><b>Transaction Date: </b></label>
-													<div class="col-md-2">
-													   <scf-dropdown id="supplier-code-dropdown" 
-														ng-model="createTransactionCtrl.createTransactionModel.transactionDate"
-														component-data="createTransactionCtrl.transactionDates"></scf-dropdown>
-													</div>
-													 <div class="col-md-8"></div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 text-right">
-												<scf-button id="next-button" type="submit" ng-click="createTransactionCtrl.nextStep()">Next</scf-button>											
-											</div>
-									</div>
-								</div>-->
-							</div>
-						
+                            </div>
+                        </div>
 
-					</div>
-					<!-- End Column Panel-->
 
-				</div>
-				<div class="panel-body" ng-show="createTransactionCtrl.showInfomation" style="padding-bottom: 30px;">
-					<div class="row">
-                                    <div id="bottom-sticker">
-										<div class="col-md-12">
-											<div class="form-horizontal">
-<!--												<div class="form-group">-->
-													<label class="col-md-2 control-label"><b>Transaction Amount: </b></label>
-													<div class="col-md-9 control-label">
-														<span id="transaction-amount-label" 
-															ng-bind="createTransactionCtrl.submitTransactionAmount | number: 2">xxx,xxx.00</span>&nbsp;
-														<span ng-bind="'thai-bath' | translate"></span>
-													</div>
-<!--												</div>-->
-<!--												<div class="form-group">-->
-													<label class="col-md-2 control-label"><b>Transaction Date: </b></label>
-													<div class="col-md-2">
-													   <scf-dropdown id="supplier-code-dropdown" 
-														ng-model="createTransactionCtrl.createTransactionModel.transactionDate"
-														component-data="createTransactionCtrl.transactionDates"></scf-dropdown>
-													</div>
-													 <div class="col-md-8"></div>
-												</div>
-											</div>
-<!--										</div>-->
-										<div class="col-md-12 text-right">
-												<scf-button id="next-button" type="submit" ng-click="createTransactionCtrl.nextStep()">Next</scf-button>											
-											</div>
-									</div>
-								</div>
-					
-				</div>
-				
-			</div>
-			
-			
-			
-		</div>
-	</div>
-	
-	<scf-modal visible="validateDataFailPopup">
-		<div class="modal-content">
-					<div class="modal-header">
-						<div class="row">
-							<div class="col-md-4 text-right"><image width="50" height="50" ng-src="img/Icon-check.png"></image></div>
-							<div class="col-md-8" style="color:red;"><h2 ng-bind="'transaction-create-popup-fail' | translate">fail</h2></div>
-						</div>
-					</div>
-					<div class="modal-body">
-						<div class="row">
-							<div class="col-xs-12 text-center">
-								<h3 ng-bind="createTransactionCtrl.errorMsgPopup" style="color:red;"></h3>
-							</div>
-							<div class="col-xs-12 text-center">
-									<scf-button data-dismiss="modal" ng-bind="'transaction-ok-btn' | translate"></scf-button>
-							</div>
-						</div>
-					</div>
-				</div>
-	</scf-modal>
+                    </div>
+                    <!-- End Column Panel-->
+
+                </div>
+                <div class="panel-body" ng-show="createTransactionCtrl.showInfomation" style="padding-bottom: 30px;">
+                    <div class="row">
+                        <div id="bottom-sticker">
+                            <div class="col-md-12">
+                                <div class="form-horizontal">
+                                    <label class="col-md-2 control-label"><b>Transaction Amount: </b></label>
+                                    <div class="col-md-9 control-label">
+                                        <span id="transaction-amount-label" ng-bind="createTransactionCtrl.submitTransactionAmount | number: 2">xxx,xxx.00</span>&nbsp;
+                                        <span ng-bind="'thai-bath' | translate"></span>
+                                    </div>
+                                    <label class="col-md-2 control-label"><b>Transaction Date: </b></label>
+                                    <div class="col-md-2">
+                                        <scf-dropdown id="supplier-code-dropdown" ng-model="createTransactionCtrl.createTransactionModel.transactionDate" component-data="createTransactionCtrl.transactionDates"></scf-dropdown>
+                                    </div>
+                                    <div class="col-md-8"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-right">
+                                <scf-button id="next-button" type="submit" ng-click="createTransactionCtrl.nextStep()">Next</scf-button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <scf-modal visible="validateDataFailPopup">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-4 text-right">
+                        <image width="50" height="50" ng-src="img/Icon-check.png"></image>
+                    </div>
+                    <div class="col-md-8" style="color:red;">
+                        <h2 ng-bind="'transaction-create-popup-fail' | translate">fail</h2></div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <h3 ng-bind="createTransactionCtrl.errorMsgPopup" style="color:red;"></h3>
+                    </div>
+                    <div class="col-xs-12 text-center">
+                        <scf-button data-dismiss="modal" ng-bind="'transaction-ok-btn' | translate"></scf-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </scf-modal>
 </div>

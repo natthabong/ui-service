@@ -321,13 +321,16 @@
     $(document).ready(function () {
         
         $(window).scroll(function () {
-            var footerPosition = $("#footer").offset().top -150;
+            var footerPosition = $("#footer").offset().top -100;
             
             if ($(window).scrollTop() + $(window).height() >= footerPosition) {
                 $("#bottom-sticker").removeClass("gec-fix-position");
 
             } else {
                 $('#bottom-sticker').addClass("gec-fix-position");
+                var new_width = $('#wrapper').width();
+                $("#bottom-sticker").width(new_width-100);
+                
             }
         });
     });
