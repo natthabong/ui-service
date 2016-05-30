@@ -48,6 +48,6 @@
 	"validate-create-popup-confirm": "Confirm create transaction ?",
     
     "_comment": "System Error Code",
-    "E1002": "Insufficient Fund",
+    "E1002": "Insufficient funds",
     "E1001": "Invalid Transaction Amount"
 }

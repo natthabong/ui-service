@@ -172,7 +172,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 documents: vm.documentSelects,
                 transactionAmount: vm.submitTransactionAmount,
                 sponsorId: vm.createTransactionModel.sponsorIdSelected,
-                payeeAccountId: vm.tradingpartnerInfoModel.accountId
+                payerAccountId: vm.tradingpartnerInfoModel.accountId
             });
             var sponsorNameSelect = '';
             vm.sponsorCodes.forEach(function (sponsorObj) {
