@@ -192,6 +192,9 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 	                    sponsorNameSelect = sponsorObj.label;
 	                }
 	            });
+	            
+	            transactionModel.sponsorPaymentDate = convertStringTodate(transactionModel.sponsorPaymentDate);
+	            transactionModel.transactionDate = convertStringTodate(transactionModel.transactionDate);
 	
 	            var deffered = CreateTransactionService.verifyTransaction(transactionModel);
 	            deffered.promise.then(function (response) {
@@ -429,3 +432,23 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         }
     }
 ]);
+
+function convertDate(dateTime){
+	var result = '';
+	if(dateTime != undefined && dateTime != ''){
+		var date = dateTime.getDate();		
+		var month = (dateTime.getMonth() + 1);
+		var year = dateTime.getFullYear();
+		result =  date +'/' + month + '/' + year;
+	}
+	return result;
+}
+
+function convertStringTodate(date){
+	result = '';
+	if(date != undefined && date != ''){
+		var dateSplite = date.toString().split('/');
+		result = new Date(dateSplite[2] + '-'+ dateSplite[1]+ '-' + dateSplite[0]);
+	}
+	return result
+}
