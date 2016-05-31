@@ -101,7 +101,7 @@
 	"DRAWDOWN_SUCCESS": "Drawdown success",
 	"FAIL_TO_CANCELED": "Fail to cancelled",
 	"FAIL_TO_DRAWDOWN": "Fail to drawdown",
-	"FAIL_TO_DRAWDOWN_RETRIABLE": "Fail to drawdown retriable",
+	"FAIL_TO_DRAWDOWN_RETRIABLE": "Fail to drawdown (retriable)",
 	"FAIL_TO_REJECTED": "Fail to rejected",
 	"REJECT_BY_APPROVER": "Rejected by approver",
 	"REJECT_BY_CHECKER": "Rejected by checker",
