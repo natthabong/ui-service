@@ -114,9 +114,9 @@ angular.module('scfApp').controller(
 				                })
 				                .catch(function (response) {
 					               	 console.log('Cannot Approve');
-					               	 var errorResponse = response.data.messages;
-					               	 vm.errorMessageModel.errorMessage = errorResponse.actionOn;
-					               	 vm.errorMessageModel.modifyName = errorResponse.lastModifiedBy;
+					               	 var errorResponse = response.data;
+					               	 vm.errorMessageModel.errorMessage = errorResponse.attributes.actionOn;
+					               	 vm.errorMessageModel.modifyName = errorResponse.attributes.lastModifiedBy;
 					               	 vm.errorMsgPopup = response.data.errorCode;
 									 $scope.verifyFailPopup = true;									 
 				                });
