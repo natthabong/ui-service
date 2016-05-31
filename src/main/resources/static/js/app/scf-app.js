@@ -3,6 +3,7 @@ var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model',  'cfp.loadingBar', 'angular-loading-bar'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','cfpLoadingBarProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider,cfpLoadingBarProvider) {
+    		var version = (new Date()).getTime();
     	    cfpLoadingBarProvider.includeSpinner = false;
 		    cfpLoadingBarProvider.latencyThreshold = 300;
 		    
@@ -91,7 +92,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
                             if (!promise) {
                                 promise = deferred.promise;
                             }
-                            angular.forEach(srcs, function (src) {							
+                            angular.forEach(srcs, function (src) {
+                            	src = src + '?v' + version;
                                 promise = promise.then(function () {
                                     return $ocLazyLoad.load(src);
                                 });

@@ -2,7 +2,7 @@ var createapp = angular.module('scfApp');
 createapp.controller('CreateTransactionController', ['CreateTransactionService', '$state', '$scope', 'TransactionService', 'SCFCommonService', '$stateParams',
     function (CreateTransactionService, $state, $scope, TransactionService, SCFCommonService, $stateParams) {
         var vm = this;
-        // Initail Data
+        // Initail Data        
         $scope.validateDataFailPopup = false;
         vm.showInfomation = false;
         vm.errorMsgPopup = 'Insufficient Fund'
@@ -64,6 +64,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     if(actionBack === false){
                         vm.documentSelects = [];
                     }
+                    vm.pageModel.pageSizeSelectModel = '20';
+                    vm.pageModel.currentPage = 0;
                     
                     vm.loadDocument();
                     vm.loadTransactionDate(sponsorCode, sponsorPaymentDate);
