@@ -31,11 +31,12 @@ angular
 
 							vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
 							var orderItems = splitCriteriaSortOrderData(vm.dashboardItem.orderItems);
+							vm.transactionCriteria.orders = orderItems;
 							splitCriteriaFilterData(vm.dashboardItem.filterItems);
 							vm.pageModel = {
 								pageSizeSelectModel : '20',
 								totalRecord : 0,
-								currentPage : 0,
+								currentPage : 1,
 								clearSortOrder : false
 							};
 
@@ -144,40 +145,26 @@ angular
 									vm.transactionCriteria[filterItem[0]] = filterItem[1];
 								});
 							}
-
-//							function splitCriteriaFilterData(data) {
-//								var dataSplit = data.split(",");
-//								var count = 0;
-//								dataSplit.forEach(function(filterData) {
-//									var filterItem = filterData.split(":");
-//									if("statusGroup" == filterItem[0]){
-//										if(count>0){
-//											vm.transactionCriteria.statusGroup = vm.transactionCriteria.statusGroup+","+filterItem[1];
-//										}else{
-//											vm.transactionCriteria.statusGroup = filterItem[1];
-//										}
-//										count+=1;
-//									}else if("statusCode" == filterItem[0]){
-//										vm.transactionCriteria.statusCode = filterItem[1];
-//									}
-//								});
-//							}
-
+							
 							vm.decodeBase64 = function(data) {
 								return atob(data);
 							}
-							vm.searchTransactionService = function() {									
+							
+							vm.initLoad = function() {
+								vm.searchTransaction();	
+							}
+							
+							vm.searchTransactionService = function() {			
+								console.log(vm.transactionCriteria);
 								var dataSource = Service.requestURL('/api/list-transaction/search',vm.transactionCriteria);
 								dataSource.promise.then(function(response) {
 									vm.data = response.content;
 					                vm.pageModel.totalRecord = response.totalElements;
-					                vm.pageModel.totalPage = response.totalPages;
-								}).catch();
+					                vm.pageModel.totalPage = response.totalPages;		
+					                vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+								}).catch();								
 							}
-							
-							vm.searchTransactionService();						
-							vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-							
+
 							vm.searchTransaction = function(criteria){
 						            if (criteria === undefined) {
 						                vm.pageModel.currentPage = '0';
@@ -193,5 +180,7 @@ angular
 						            }
 						            vm.searchTransactionService();
 							};
+							
+							vm.initLoad();
 							
 						} ]);
