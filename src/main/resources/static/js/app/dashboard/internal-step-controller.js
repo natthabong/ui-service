@@ -36,7 +36,7 @@ angular
 							vm.pageModel = {
 								pageSizeSelectModel : '20',
 								totalRecord : 0,
-								currentPage : 1,
+								currentPage : 0,
 								clearSortOrder : false
 							};
 
@@ -151,6 +151,11 @@ angular
 							}
 							
 							vm.initLoad = function() {
+				                vm.pageModel.currentPage = 0;
+				                vm.pageModel.pageSizeSelectModel = '20';
+								vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
+				                vm.transactionCriteria.page = 0;
+				                vm.transactionCriteria.pageSize = 20;
 								vm.searchTransaction();	
 							}
 							
@@ -166,11 +171,11 @@ angular
 
 							vm.searchTransaction = function(criteria){
 						            if (criteria === undefined) {
-						                vm.pageModel.currentPage = '0';
+						                vm.pageModel.currentPage = 0;
 						                vm.pageModel.pageSizeSelectModel = '20';
 										vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
-						                vm.transactionCriteria.page = '0';
-						                vm.transactionCriteria.pageSize = '20';
+						                vm.transactionCriteria.page = 0;
+						                vm.transactionCriteria.pageSize = 20;
 						            } else {
 						                vm.pageModel.currentPage = criteria.page;
 						                vm.pageModel.pageSizeSelectModel = criteria.pageSize;	
