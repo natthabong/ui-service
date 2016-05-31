@@ -2,7 +2,7 @@ var createapp = angular.module('scfApp');
 createapp.controller('CreateTransactionController', ['CreateTransactionService', '$state', '$scope', 'TransactionService', 'SCFCommonService',
     function(CreateTransactionService, $state, $scope, TransactionService, SCFCommonService) {
         var vm = this;
-        //Initail Data 
+        // Initail Data
         $scope.validateDataFailPopup = false;
         vm.showInfomation = false;
         vm.errorMsgPopup = "Insufficient Fund"
@@ -27,7 +27,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.transactionDates = [];
 		vm.submitTransactionAmount = 0.00;
         // End Data Sponsor
-        //Model for transaction
+        // Model for transaction
         vm.createTransactionModel = {
             sponsorCode: vm.sponsorCodes[0].value,
             supplierCode: vm.supplierCodes[0].value,
@@ -53,15 +53,15 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             currentPage: 0
         };
 
-        //Search Document
+        // Search Document
         vm.searchDocument = function(pagingModel) {
             var sponsorCode = vm.createTransactionModel.sponsorCode;
             var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
             vm.checkAllModel = false;
-            //validate SponsorPayment Date is Select			
+            // validate SponsorPayment Date is Select
             if (validateSponsorPaymentDate(sponsorPaymentDate)) {
                 if (pagingModel === undefined) {
-                    //Clear list document selected
+                    // Clear list document selected
                     vm.documentSelects = [];
                     vm.loadDocument();
                     vm.loadTransactionDate(sponsorCode, sponsorPaymentDate);
@@ -98,17 +98,17 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         }
         vm.loadSupplierDate();
 
-        //next to page verify and submit
+        // next to page verify and submit
         vm.nextStep = function() {
             $state.go('/create-transaction/validate-submit');
-            //            $scope.validateDataFailPopup = true;
+            // $scope.validateDataFailPopup = true;
         };
 
-        //Load Transaction Date
+        // Load Transaction Date
         vm.loadTransactionDate = function(sponsorCode, sponsorPaymentDate) {
             var deffered = CreateTransactionService.getTransactionDate(sponsorCode, sponsorPaymentDate);
             deffered.promise.then(function(response) {
-                //clear list transaction date
+                // clear list transaction date
                 vm.transactionDates = [];
                 var transactionResponse = response.data;
 				
@@ -119,7 +119,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 							value: data
 						});
 					});
-					//set select default value
+					// set select default value
 					vm.createTransactionModel.transactionDate = vm.transactionDates[0].value;
 				}
                
@@ -135,19 +135,20 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
             var page = vm.pageModel.currentPage;
             var pageSize = vm.pageModel.pageSizeSelectModel;
-            //Call Service
+            // Call Service
             var deffered = CreateTransactionService.getDocument(sponsorCode, supplierCode, sponsorPaymentDate, page, pageSize);
             deffered.promise
                 .then(function(response) {
-                    //response success
+                    // response success
                     vm.pageModel.totalRecord = response.data.totalElements;
                     vm.pageModel.currentPage = response.data.number;
 					vm.pageModel.totalPage = response.data.totalPages;
-                    //Generate Document for display
-//					 vm.tableRowCollection = convertDocumentJSON(response.data.content);
+                    // Generate Document for display
+
                 vm.tableRowCollection = response.data.content;
-				//Calculate Display page
+				// Calculate Display page
 				vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+				vm.watchCheckAll();
                 })
                 .catch(function(response) {
                     console.log(response);
@@ -155,16 +156,15 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         }
 		
         vm.dataTable = {
-            columns: [{
-                label: '<input type="checkbox" name="checkData" ng-model="createTransactionCtrl.checkAllModel" ng-click="createTransactionCtrl.checkAllDocument()"/>',
-                showCheckBox: true,
-                cssTemplate: 'text-center',
-                cellTemplate: '<input type="checkbox" checklist-model="createTransactionCtrl.documentSelects" checklist-value="data" id="document-{{data.documentId}}-checkbox" ng-click="createTransactionCtrl.selectDocument()"/>'
-            }, {
-                label: 'No.',
-                cssTemplate: 'text-center',
-                showRowNo: true
-            }, {
+        		options: {
+        			displayRowNo: {},
+                    displaySelect: {label: '<input type="checkbox" ng-model="createTransactionCtrl.checkAllModel" ng-click="createTransactionCtrl.checkAllDocument()"/>',
+                                     cssTemplate:'text-center',
+                                     cellTemplate: '<input type="checkbox" checklist-model="createTransactionCtrl.documentSelects" checklist-value="data" id="document-{{data.documentId}}-checkbox" ng-click="createTransactionCtrl.selectDocument()"/>'
+                                    	 , displayPosition: 'first'}
+        		},
+            columns: [
+            {
                 field: 'sponsorPaymentDate',
                 label: 'วันครบกำหนดชำระ',
                 sortData: false,
@@ -211,20 +211,56 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 		
 		vm.selectDocument = function(){
             vm.checkAllModel = false;
-			calculateTransactionAmount(vm.documentSelects, 80.00);			
+			calculateTransactionAmount(vm.documentSelects, 80.00);
+
 		};
 		
-        //Select All in page
-		vm.checkAllDocument = function(){
-			if(vm.checkAllModel){
-				vm.documentSelects=angular.copy(vm.tableRowCollection);
-			}else{
-                var foundDoc = 0;
-                var index = 0;
-                var comparator = angular.equals;
-                vm.documentSelects = [];
+		vm.watchCheckAll = function(){
+			var comparator = angular.equals;
+			var countRecordData = 0;
+			vm.tableRowCollection.forEach(function(document){
+				for(var index = vm.documentSelects.length; index--;){
+					if(comparator(document, vm.documentSelects[index])){
+						countRecordData ++;
+						break;
+					}
+				}
+			});
+			if(countRecordData === vm.tableRowCollection.length){
+				vm.checkAllModel = true;
 			}
-			//Call calculate Document
+		}		
+        // Select All in page
+		vm.checkAllDocument = function(){			
+			var comparator = angular.equals;
+			var documentSelectClone = angular.copy(vm.documentSelects);
+			if(vm.checkAllModel){
+				vm.tableRowCollection.forEach(function(document){
+					var foundDataSelect = false;
+					for(var index = documentSelectClone.length; index--;){
+						if(comparator(document, documentSelectClone[index])){
+							foundDataSelect = true;
+							break;
+						}
+					}
+					
+					if(!foundDataSelect){
+						documentSelectClone.push(document);
+					}
+				});
+				vm.documentSelects = angular.copy(documentSelectClone);
+			}else{
+				vm.tableRowCollection.forEach(function(document){
+					for(var index = documentSelectClone.length; index--;){
+						if(comparator(document, documentSelectClone[index])){
+							documentSelectClone.splice(index, 1);
+							break;
+						}
+					}
+				});
+				
+				vm.documentSelects = documentSelectClone;
+			}			
             calculateTransactionAmount(vm.documentSelects, 80.00);
 		};
         
@@ -234,6 +270,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 				sumAmount += document.outstandingAmount;
 			});
             vm.submitTransactionAmount = TransactionService.calculateTransactionAmount(sumAmount, prepercentagDrawdown);
-        }		
+        }
     }
 ]);
