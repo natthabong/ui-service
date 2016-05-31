@@ -172,7 +172,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 documents: vm.documentSelects,
                 transactionAmount: vm.submitTransactionAmount,
                 sponsorId: vm.createTransactionModel.sponsorIdSelected,
-                payeeAccountId: vm.tradingpartnerInfoModel.accountId
+                payeeAccountNo: vm.tradingpartnerInfoModel.accountNo
             });
             var sponsorNameSelect = '';
             vm.sponsorCodes.forEach(function (sponsorObj) {
@@ -252,7 +252,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 });
 
             //Get Tradingpartner Info
-            var tradingInfo = CreateTransactionService.getTradingInfo(sponsorCode, supplierCode);
+            var tradingInfo = CreateTransactionService.getTradingInfo(sponsorCode);
             tradingInfo.promise.then(function (response) {
                 vm.tradingpartnerInfoModel = response.data;
             }).catch(function (response) {
