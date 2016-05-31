@@ -426,7 +426,7 @@
 	            return template;
 	        }
     }])
-    .directive('scfModal', function () {
+    .directive('scfModal', [function () {
 	    return {
 	      template: '<div class="modal" data-keyboard="false" data-backdrop="static">' + 
 	          '<div class="modal-dialog">' + 
@@ -457,6 +457,93 @@
 	        });
 	      }
 	    };
-  });
+  }])
+	.directive('scfCheckAll', [function(){
+		function postLinkFn(scope, element, attrs){			
+			
+			element.bind('click', function(){
+				var checkListModelData = scope.$eval(attrs.scfCheckAllListModel);
+				var dataList = scope.$eval(attrs.scfDataList);
+				var checked = element[0].checked;				
+				scope.$parent[attrs.scfCheckAllListModel] = addRemoveValue(checkListModelData, dataList, checked);
+				element[0].checked = checked;
+			});
+			
+			scope.$watch(element[0].checked, function(){
+				console.log('DataSelect');
+			});
+			
+			scope.$watch(attrs.scfDataList, function(){
+				var checkListModelData = scope.$eval(attrs.scfCheckAllListModel);
+				var dataList = scope.$eval(attrs.scfDataList);
+				console.log('DataList');
+				var checked = elementCheckAll(checkListModelData, dataList);
+				scope.$parent[attrs.scfCheckAllListModel] = addRemoveValue(checkListModelData, dataList, checked);
+				element[0].checked = checked;
+			});
+		}
+		
+		function elementCheckAll(checkListModelData, dataList){
+			var comparator = angular.equals;
+			var countRecordData = 0;
+			dataList.forEach(function(document){
+				for(var index = checkListModelData.length; index--;){
+					if(comparator(document, checkListModelData[index])){
+						countRecordData ++;
+						break;
+					}
+				}
+			});
+			if(countRecordData === dataList.length && countRecordData > 0){
+				return true;
+			}
+			return false;
+		}
+		
+		function addRemoveValue(checkListModelData, dataList, checked){
+			var comparator = angular.equals;
+			var documentSelectClone = angular.copy(checkListModelData);
+			var documentSelects = [];
+			if(checked){
+				dataList.forEach(function(document){
+					var foundDataSelect = false;
+					for(var index = documentSelectClone.length; index--;){
+						if(comparator(document, documentSelectClone[index])){
+							foundDataSelect = true;
+							break;
+						}
+					}
+					
+					if(!foundDataSelect){
+						documentSelectClone.push(document);
+					}
+				});
+				documentSelects = angular.copy(documentSelectClone);
+			}else{
+				dataList.forEach(function(document){
+					for(var index = documentSelectClone.length; index--;){
+						if(comparator(document, documentSelectClone[index])){
+							documentSelectClone.splice(index, 1);
+							break;
+						}
+					}
+				});
+				
+				documentSelects = documentSelectClone;
+			}
+			return documentSelects;
+		}
+		
+		return{
+			restrict: 'A',
+			terminal: true,
+			scope: true,
+			compile: function() {
+				return postLinkFn
+			},
+		};
+		
+		
+	}]);
 
 })();

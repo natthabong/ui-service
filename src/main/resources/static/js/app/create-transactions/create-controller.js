@@ -144,10 +144,11 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     vm.pageModel.currentPage = response.data.number;
 					vm.pageModel.totalPage = response.data.totalPages;
                     // Generate Document for display
-// vm.tableRowCollection = convertDocumentJSON(response.data.content);
+
                 vm.tableRowCollection = response.data.content;
 				// Calculate Display page
 				vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+				vm.watchCheckAll();
                 })
                 .catch(function(response) {
                     console.log(response);
@@ -157,7 +158,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.dataTable = {
         		options: {
         			displayRowNo: {},
-                    displaySelect: {label: '<input type="checkbox" name="checkData" ng-model="createTransactionCtrl.checkAllModel" ng-click="createTransactionCtrl.checkAllDocument()"/>',
+                    displaySelect: {label: '<input type="checkbox" ng-model="createTransactionCtrl.checkAllModel" ng-click="createTransactionCtrl.checkAllDocument()"/>',
                                      cssTemplate:'text-center',
                                      cellTemplate: '<input type="checkbox" checklist-model="createTransactionCtrl.documentSelects" checklist-value="data" id="document-{{data.documentId}}-checkbox" ng-click="createTransactionCtrl.selectDocument()"/>'
                                     	 , displayPosition: 'first'}
@@ -210,19 +211,46 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 		
 		vm.selectDocument = function(){
             vm.checkAllModel = false;
-			calculateTransactionAmount(vm.documentSelects, 80.00);			
+			calculateTransactionAmount(vm.documentSelects, 80.00);
+
 		};
 		
+		vm.watchCheckAll = function(){
+			var comparator = angular.equals;
+			var countRecordData = 0;
+			vm.tableRowCollection.forEach(function(document){
+				for(var index = vm.documentSelects.length; index--;){
+					if(comparator(document, vm.documentSelects[index])){
+						countRecordData ++;
+						break;
+					}
+				}
+			});
+			if(countRecordData === vm.tableRowCollection.length){
+				vm.checkAllModel = true;
+			}
+		}		
         // Select All in page
-		vm.checkAllDocument = function(){
+		vm.checkAllDocument = function(){			
 			var comparator = angular.equals;
 			var documentSelectClone = angular.copy(vm.documentSelects);
-			
 			if(vm.checkAllModel){
-				vm.documentSelects = angular.copy(vm.tableRowCollection);
+				vm.tableRowCollection.forEach(function(document){
+					var foundDataSelect = false;
+					for(var index = documentSelectClone.length; index--;){
+						if(comparator(document, documentSelectClone[index])){
+							foundDataSelect = true;
+							break;
+						}
+					}
+					
+					if(!foundDataSelect){
+						documentSelectClone.push(document);
+					}
+				});
+				vm.documentSelects = angular.copy(documentSelectClone);
 			}else{
 				vm.tableRowCollection.forEach(function(document){
-					var foundData = false;
 					for(var index = documentSelectClone.length; index--;){
 						if(comparator(document, documentSelectClone[index])){
 							documentSelectClone.splice(index, 1);
@@ -232,7 +260,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 				});
 				
 				vm.documentSelects = documentSelectClone;
-			}
+			}			
             calculateTransactionAmount(vm.documentSelects, 80.00);
 		};
         
