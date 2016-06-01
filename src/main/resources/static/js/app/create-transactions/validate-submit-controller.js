@@ -1,7 +1,7 @@
 var validateandsubmit = angular.module('scfApp');
 validateandsubmit.controller('ValidateAndSubmitController', [
-		'ValidateAndSubmitService', '$state', '$scope', '$window', '$timeout',
-		function(ValidateAndSubmitService, $state, $scope, $window, $timeout) {
+		'ValidateAndSubmitService', '$state', '$scope', '$window', '$timeout','$stateParams',
+		function(ValidateAndSubmitService, $state, $scope, $window, $timeout, $stateParams) {
 			var vm = this;
 			$scope.validateDataPopup = false;
 			vm.transactionMsg = "TES00125482345";
@@ -15,93 +15,74 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 				totalRecord : '10',
 				currentPage : 0
 			};
-
-			vm.tradingPatnerData = {
+			vm.tableRowCollection = $stateParams.documentSelects;
+			vm.transactionModel = {
 				sponsorName : 'TESCO CO,LTD.',
-				financingDocuments : '3',
+				documents : vm.tableRowCollection,
 				valueOfDocument : '58069.44',
-				sponsorPaymentDate : '25/05/2016',
+				sponsorPaymentDate : $stateParams.sponsorPaymentDate,
 				prePercentage : '80.00%',
 				transactionDate : '23/05/2016',
 				transactionAmount : '46455.55',
-				loanMaturityDate : '25/05/2016',
-				selected : '3',
+				maturityDate : '25/05/2016'
 			};
 
-			vm.loadLoanMaturityDate = function() {
-				var deffered = ValidateAndSubmitService.prepareTransactionOnValidatePage();
+			vm.loadMaturityDate = function() {
+				var deffered = ValidateAndSubmitService.prepareTransactionOnValidatePage(vm.transactionModel);
 				deffered.promise.then(function(response) {
-					vm.tradingPatnerData.loanMaturityDate = response.data;
+					vm.transactionModel = response.data;
+					
 				}).catch(function(response) {
 					console.log(response);
 				});
 			};
-			vm.loadLoanMaturityDate();
+			vm.loadMaturityDate();
 
 			vm.dataTable = {
-				columns : [ {
-					label : 'No.',
-					cssTemplate : 'text-center',
-					showRowNo : true
-				}, {
-					field : 'dueDate',
-					label : 'วันครบกำหนดชำระ',
-					sortData : false,
-					cssTemplate : 'text-center'
-				}, {
-					field : 'documentDate',
-					label : 'วันที่เอกสาร',
-					sortData : false,
-					cssTemplate : 'text-center',
-					filterType : 'date',
-					filterFormat : 'dd/MM/yyyy'
-				}, {
-					field : 'documentNo',
-					label : 'เลขที่เอกสาร',
-					sortData : true,
-					cssTemplate : 'text-center',
-				}, {
-					field : 'documentType',
-					label : 'ประเภทเอกสาร',
-					sortData : false,
-					cssTemplate : 'text-center',
-				}, {
-					field : 'supplierCode',
-					label : 'รหัสลูกค้า',
-					sortData : false,
-					cssTemplate : 'text-center'
-				}, {
-					field : 'documentAmount',
-					label : 'จำนวนเงินตามเอกสาร',
-					sortData : false,
-					cssTemplate : 'text-right',
-					filterType : 'number',
-					filterFormat : '2'
-				} ]
+					options: {
+	        			displayRowNo: {}
+					},
+				columns : [
+				            {
+				                field: 'sponsorPaymentDate',
+				                label: 'วันครบกำหนดชำระ',
+				                sortData: false,
+				                cssTemplate: 'text-center',
+				                filterType: 'date',
+				                filterFormat: 'dd/MM/yyyy'
+				            }, {
+				                field: 'sponsorPaymentDate',
+				                label: 'วันที่เอกสาร',
+				                sortData: false,
+				                cssTemplate: 'text-center',
+				                filterType: 'date',
+				                filterFormat: 'dd/MM/yyyy'
+				            }, {
+				                field: 'documentNo',
+				                label: 'เลขที่เอกสาร',
+				                sortData: false,
+				                cssTemplate: 'text-center',
+				            }, {
+				                field: 'documentType',
+				                label: 'ประเภทเอกสาร',
+				                sortData: false,
+				                cssTemplate: 'text-center',
+				            }, {
+				                field: 'supplierCode',
+				                label: 'รหัสลูกค้า',
+				                sortData: false,
+				                cssTemplate: 'text-center'
+				            }, {
+				                field: 'outstandingAmount',
+				                label: 'จำนวนเงินตามเอกสาร',
+				                sortData: false,
+				                cssTemplate: 'text-right',
+				                filterType: 'number',
+				                filterFormat: '2'
+				            }]
 			}
 
-			vm.tableRowCollection = [ {
-				dueDate : '30/06/2016',
-				documentDate : '10/05/2016',
-				documentNo : '463868',
-				documentType : 'RV',
-				supplierCode : '30001',
-				documentAmount : '19356.48'
-			}, {
-				dueDate : '30/06/2016',
-				documentDate : '10/05/2016',
-				documentNo : '463867',
-				documentType : 'RV',
-				supplierCode : '30001',
-				documentAmount : '19356.48'
-			}, {
-				dueDate : '30/06/2016',
-				documentDate : '10/05/2016',
-				documentNo : '463866',
-				documentType : 'RV',
-				supplierCode : '30001',
-				documentAmount : '19356.48'
-			} ];
+			
 
 
 			vm.submitTransaction = function() {

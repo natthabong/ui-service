@@ -191,7 +191,7 @@
                     });
                     
                     vm.$watch($attrs.componentConfig, function(dataConfig){
-                        var tableOption = dataConfig.options;                        
+                        var tableOption = dataConfig.options || {};                        
                         dataConfig.columns.forEach(function(data){
                             	var rowData = {field: data['field'],
                                                id:data['id'],
@@ -205,7 +205,7 @@
                         });
                         
                         //Check option set to Show row number.
-                        if(tableOption.displayRowNo !== undefined){
+                        if( tableOption.displayRowNo !== undefined){
                             var rowData = {
                                     field: 'no',
                                     label: 'No.', 

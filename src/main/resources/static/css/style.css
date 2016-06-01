@@ -4,7 +4,7 @@
 
 body {
   font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   background-color:#f0f3f4;
   line-height: 1.42857143 !important;
   color: #58666e !important;
@@ -2695,7 +2695,7 @@ ul li a:focus {
   padding-right: 50px;
   padding-left: 50px;
   width: 100%;
-  color: #918C8C;
+  color: #000000;
 }
 
 

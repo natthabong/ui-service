@@ -100,7 +100,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
         // next to page verify and submit
         vm.nextStep = function() {
-            $state.go('/create-transaction/validate-submit');
+            $state.go('/create-transaction/validate-submit', {sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate , documentSelects: vm.documentSelects});
             // $scope.validateDataFailPopup = true;
         };
 

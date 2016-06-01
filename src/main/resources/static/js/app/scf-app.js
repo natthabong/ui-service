@@ -1,9 +1,11 @@
 var $stateProviderRef = null;
 
-var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model'])
-    .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider',
-        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider) {
-	
+var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model',  'cfp.loadingBar', 'angular-loading-bar'])
+    .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','cfpLoadingBarProvider',
+        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider,cfpLoadingBarProvider) {
+    	    cfpLoadingBarProvider.includeSpinner = false;
+		    cfpLoadingBarProvider.latencyThreshold = 300;
+		    
             $translateProvider.useLoader('$translatePartialLoader', {
                 urlTemplate: '../{part}/{lang}/scf_label.json'
             });
@@ -33,6 +35,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'ValidateAndSubmitController',
 				controllerAs: 'validateAndSubmitCtrl',
 				templateUrl: '/create-transaction/validate-submit',
+				params: { sponsorPaymentDate: null, documentSelects:[]},
 				resolve: load(['js/app/create-transactions/validate-submit-service.js','js/app/create-transactions/validate-submit-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			});
 			
@@ -150,17 +153,17 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
 }]);
 
 app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', function ($rootScope, $q, $http, $urlRouter, $window) {
-//	$http.get('/api/menus').success(function(response){
-//		angular.forEach(response, function(data){
-//			var state = {
-//				'url': data,
-//				'templateUrl': data
-//			}
-//			$stateProviderRef.state(data, state);
-//		});
-//		$urlRouter.sync();
-//        $urlRouter.listen();		
-//	});
+// $http.get('/api/menus').success(function(response){
+// angular.forEach(response, function(data){
+// var state = {
+// 'url': data,
+// 'templateUrl': data
+// }
+// $stateProviderRef.state(data, state);
+// });
+// $urlRouter.sync();
+// $urlRouter.listen();
+// });
 //
     $rootScope
         .$on('$stateChangeStart',

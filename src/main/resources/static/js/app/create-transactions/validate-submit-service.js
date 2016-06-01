@@ -6,14 +6,10 @@ function validateAndSubmitService($http, $q) {
     	submitTransaction: submitTransaction
     };	
     
-    function prepareTransactionOnValidatePage() {
+    function prepareTransactionOnValidatePage(params) {
         var deffered = $q.defer();
 
-        $http.post('api/create-transaction/validate-submit/transaction/prepare', {
-                params: {
-                	http: $http
-                }
-            })
+        $http.post('api/create-transaction/validate-submit/transaction/prepare', params)
             .then(function(response) {
                 deffered.resolve(response);
             })

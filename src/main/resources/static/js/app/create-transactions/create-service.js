@@ -10,9 +10,22 @@ function createTransactionService($http, $q) {
     function getSponsorPaymentDate(sponsorId, supplierCode) {
         var deffered = $q.defer();
 
-        $http.post('api/create-transaction/sponsor-payment-dates/get', {
-                sponsorId: sponsorId,
-                supplierCode: supplierCode
+        $http({
+        	    url :'api/create-transaction/sponsor-payment-dates/get',
+            	method: 'POST',
+            	headers : {
+            		'Content-Type': 'application/x-www-form-urlencoded'
+            	},
+            	data:{
+            		 sponsorId: sponsorId,
+                     supplierCode: supplierCode
+            	},
+		        transformRequest :function (data) {
+		            if (data === undefined) {
+		                return data;
+		            }
+		            return $.param(data);
+		        }
             })
             .then(function(response) {
                 deffered.resolve(response);
@@ -26,9 +39,22 @@ function createTransactionService($http, $q) {
     function getTransactionDate(sponsorId, sponsorPaymentDate) {
         var deffered = $q.defer();
 
-        $http.post('api/create-transaction/transaction-dates/get', {
-                sponsorId: sponsorId,
-                sponsorPaymentDate: sponsorPaymentDate
+        $http({
+        	    url :'api/create-transaction/transaction-dates/get',
+            	method: 'POST',
+            	headers : {
+            		'Content-Type': 'application/x-www-form-urlencoded'
+            	},
+            	data: {
+            		 sponsorId: sponsorId,
+            		 sponsorPaymentDate: sponsorPaymentDate
+            	},
+		        transformRequest :function (data) {
+		            if (data === undefined) {
+		                return data;
+		            }
+		            return $.param(data);
+		        }
             })
             .then(function(response) {
                 deffered.resolve(response);
@@ -42,14 +68,26 @@ function createTransactionService($http, $q) {
     function getDocument(sponsorId, supplierCode, sponsorPaymentDate, page, pageSize) {
         var deffered = $q.defer();
 
-        $http.post('api/create-transaction/documents/get', {
-                sponsorId: sponsorId,
-                supplierCode: supplierCode,
-                sponsorPaymentDate: sponsorPaymentDate,
-                page: page,
-                pageSize: pageSize
-            })
-            .then(function(response) {
+        $http({
+    	    url : 'api/create-transaction/documents/get',
+        	method: 'POST',
+        	headers : {
+        		'Content-Type': 'application/x-www-form-urlencoded'
+        	},
+        	data: {
+        		 sponsorId: sponsorId,
+                 supplierCode: supplierCode,
+                 sponsorPaymentDate: sponsorPaymentDate,
+                 page: page,
+                 pageSize: pageSize
+        	},
+	        transformRequest :function (data) {
+	            if (data === undefined) {
+	                return data;
+	            }
+	            return $.param(data);
+	        }
+        }).then(function(response) {
                 deffered.resolve(response);
             })
             .catch(function(response) {
