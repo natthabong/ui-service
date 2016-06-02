@@ -2,7 +2,7 @@
 	<div class="panel box-shadow-none content-header">
 		<div class="panel-body">
 			<div class="col-md-12">
-				<h3 class="animated fadeInLeft">{{ 'validate-and-submit' |
+				<h3 id="header-message-label" class="animated fadeInLeft">{{ 'validate-and-submit' |
 					translate}}</h3>
 			</div>
 		</div>
@@ -149,7 +149,7 @@
 											</b></label>:
 										</div>
 										<div class="col-md-9">
-											<label id="transaction-amount-label">{{validateAndSubmitCtrl.transactionModel.transactionAmount
+											<label id="validate-transaction-amount-label">{{validateAndSubmitCtrl.transactionModel.transactionAmount
 												| number:2}}</label>:&#32;{{ 'thai-bath' | translate}}
 										</div>
 									</div>
