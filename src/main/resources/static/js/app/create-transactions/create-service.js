@@ -4,7 +4,8 @@ function createTransactionService($http, $q) {
     return {
         getSponsorPaymentDate: getSponsorPaymentDate,
         getTransactionDate: getTransactionDate,
-		getDocument: getDocument
+		getDocument: getDocument,
+		verifyTransaction: verifyTransaction
     };
 
     function getSponsorPaymentDate(sponsorId, supplierCode) {
@@ -88,6 +89,19 @@ function createTransactionService($http, $q) {
 	            return $.param(data);
 	        }
         }).then(function(response) {
+                deffered.resolve(response);
+            })
+            .catch(function(response) {
+                deffered.reject(response);
+            });
+        return deffered;
+    }
+    
+    function verifyTransaction(transaction){
+    	var deffered = $q.defer();
+
+        $http.post('api/create-transaction/transaction/verify', transaction)
+            .then(function(response) {
                 deffered.resolve(response);
             })
             .catch(function(response) {

@@ -15,18 +15,11 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 				totalRecord : '10',
 				currentPage : 0
 			};
-			vm.tableRowCollection = $stateParams.documentSelects;
-			vm.transactionModel = {
-				sponsorName : 'TESCO CO,LTD.',
-				documents : vm.tableRowCollection,
-				valueOfDocument : '58069.44',
-				sponsorPaymentDate : $stateParams.sponsorPaymentDate,
-				prePercentage : '80.00%',
-				transactionDate : '23/05/2016',
-				transactionAmount : '46455.55',
-				maturityDate : '25/05/2016'
-			};
-
+			
+			vm.transactionModel = $stateParams.transactionModel;
+			vm.tradingModel = {sponsorName : 'TESCO CO,LTD.'};
+			vm.valueOfDocument = $stateParams.totalDocumentAmount;
+			
 			vm.loadMaturityDate = function() {
 				var deffered = ValidateAndSubmitService.prepareTransactionOnValidatePage(vm.transactionModel);
 				deffered.promise.then(function(response) {
@@ -86,7 +79,14 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 
 
 			vm.submitTransaction = function() {
-				$scope.validateDataPopup = true;				
+					
+				var deffered = ValidateAndSubmitService.submitTransaction(vm.transactionModel);
+				 deffered.promise.then(function(response) {
+					 console.log($state);
+					 $scope.validateDataPopup = true;
+				 }).catch(function(response) {
+					 console.log(response);
+				 });
 			};
 			vm.createNewAction = function(){
 				$timeout(function(){
@@ -120,12 +120,5 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			// });
 			// };
 
-			// vm.submitTransaction = function() {
-			// var deffered = ValidateAndSubmitService.submitTransaction();
-			// deffered.promise.then(function(response) {
-			// console.log($state);
-			// }).catch(function(response) {
-			// console.log(response);
-			// });
 
 		} ]);
