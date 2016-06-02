@@ -31,5 +31,13 @@
 	"transaction-ok-btn": "OK",
 	"validate-create-new-btn": "Create New",
 	"validate-create-popup-success": "SUCCESS",
-	"transaction-error-msg-payment-date": "Sponsor Payment Date is require."
+	"transaction-error-msg-payment-date": "Sponsor Payment Date is require.",
+	
+	"_comment": "Page Create Transaction",
+	"transaction-create-creditLimit": "Credit Limit",
+	"transaction-create-available": "Available",
+	"transaction-create-outstanding": "Outstanding",
+	"transaction-create-featureDrawdown": "Feature Drawdown",
+	"transaction-create-preDrawdownPercentage": "Pre-Drawdown percentage",
+	"transaction-create-interestRate": "Interest Rate"
 }

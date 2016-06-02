@@ -31,5 +31,13 @@
 	"transaction-ok-btn": "ตกลง",
 	"validate-create-new-btn": "สร้างรายการ",
 	"validate-create-popup-success": "สำเร็จ",
-	"transaction-error-msg-payment-date": "กรุณาระบุ Sponsor Payment Date"
+	"transaction-error-msg-payment-date": "กรุณาระบุ Sponsor Payment Date",
+	
+	"_comment": "Page Create Transaction",
+	"transaction-create-creditLimit": "วงเงินกู้",
+	"transaction-create-available": "วงเงินกู้ที่สามารถเบิกถอนได้",
+	"transaction-create-outstanding": "ยอดเงินกู้ที่เบิกถอนแล้ว",
+	"transaction-create-featureDrawdown": "ยอดเงินกู้ล่วงหน้า",
+	"transaction-create-preDrawdownPercentage": "Pre-Drawdown percentage",
+	"transaction-create-interestRate": "อัตราดอกเบี้ยเงินกู้"
 }
