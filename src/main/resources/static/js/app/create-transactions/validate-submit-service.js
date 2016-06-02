@@ -37,10 +37,10 @@ function validateAndSubmitService($http, $q) {
         return deffered;
     }
     
-    function submitTransaction() {
+    function submitTransaction(transaction) {
         var deffered = $q.defer();
 
-        $http.post('api/create-transaction/validate-submit/transaction/submit')
+        $http.post('api/create-transaction/validate-submit/transaction/submit',transaction)
             .then(function(response) {
                 deffered.resolve(response);
             })

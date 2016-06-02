@@ -32,6 +32,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             sponsorCode: vm.sponsorCodes[0].value,
             supplierCode: vm.supplierCodes[0].value,
             sponsorPaymentDate: vm.sponsorPaymentDates[0].value,
+            prePercentage: 80.00,
             transactionDate: '',
 			tradingpartnerInfo: {}
         };
@@ -101,8 +102,19 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
         // next to page verify and submit
         vm.nextStep = function() {
-            $state.go('/create-transaction/validate-submit', {sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate , documentSelects: vm.documentSelects});
-            // $scope.validateDataFailPopup = true;
+        	var transactionModel =  angular.extend(vm.createTransactionModel, {
+        		documents: vm.documentSelects,
+        		transactionAmount:  vm.submitTransactionAmount,
+        		sponsorId: vm.createTransactionModel.sponsorCode,
+        		payeeAccountId: 1
+        	});
+        	 var deffered = CreateTransactionService.verifyTransaction(transactionModel);
+             deffered.promise.then(function(response) {
+                var transaction = response.data;
+ 				$state.go('/create-transaction/validate-submit', {transactionModel: transaction, totalDocumentAmount:vm.totalDocumentAmount});
+             }).catch(function(response) {
+            	 $scope.validateDataFailPopup = true;
+             });
         };
 
         // Load Transaction Date
@@ -220,7 +232,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 		
 		vm.selectDocument = function(){
             vm.checkAllModel = false;
-			calculateTransactionAmount(vm.documentSelects, 80.00);
+			calculateTransactionAmount(vm.documentSelects, vm.createTransactionModel.prePercentage);
 
 		};
 		
@@ -278,6 +290,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 			documentSelects.forEach(function(document){
 				sumAmount += document.outstandingAmount;
 			});
+			vm.totalDocumentAmount = sumAmount;
             vm.submitTransactionAmount = TransactionService.calculateTransactionAmount(sumAmount, prepercentagDrawdown);
         }
     }
