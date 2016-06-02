@@ -57,50 +57,50 @@
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="col-md-2">
-                                                    <label>วงเงินกู้: </label>
+                                                    <label ng-bind="'transaction-create-creditLimit' | translate">วงเงินกู้: </label>
                                                 </div>
                                                 <div class="col-md-2 text-right">
-                                                    <span>1,000,000.00</span>
+                                                    <span ng-bind="createTransactionCtrl.tradingpartnerInfoModel.creditLimit | number:2">0.00</span>
                                                 </div>
                                                 <div class="col-md-1">THB</div>
 
                                                 <div class="col-md-2">
-                                                    <label>วงเงินกู้ที่สามารถเบิกถอนได้: </label>
+                                                    <label ng-bind="'transaction-create-available' | translate">วงเงินกู้ที่สามารถเบิกถอนได้: </label>
                                                 </div>
                                                 <div class="col-md-2 text-right">
-                                                    <span>850,000.00</span>
+                                                    <span ng-bind="createTransactionCtrl.tradingpartnerInfoModel.availableAmount | number:2">0.00</span>
                                                 </div>
                                                 <div class="col-md-3">THB</div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-2">
-                                                    <label>ยอดเงินกู้ที่เบิกถอนแล้ว:</label>
+                                                    <label ng-bind="'transaction-create-outstanding' | translate">ยอดเงินกู้ที่เบิกถอนแล้ว:</label>
                                                 </div>
                                                 <div class="col-md-2 text-right">
-                                                    <span>100,000.00</span>
+                                                    <span ng-bind="createTransactionCtrl.tradingpartnerInfoModel.outstandingAmount | number:2">0.00</span>
                                                 </div>
                                                 <div class="col-md-1">THB</div>
                                                 <div class="col-md-2">
-                                                    <label>ยอดเงินกู้ล่วงหน้า: </label>
+                                                    <label ng-bind="'transaction-create-featureDrawdown' | translate">ยอดเงินกู้ล่วงหน้า: </label>
                                                 </div>
                                                 <div class="col-md-2 text-right">
-                                                    <span>50,000.00</span>
+                                                    <span ng-bind="createTransactionCtrl.tradingpartnerInfoModel.featureDrawdawnAmount | number:2">0.00</span>
                                                 </div>
                                                 <div class="col-md-3">THB</div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-2">
-                                                    <label>Pre-Dradown Percentag: </label>
+                                                    <label ng-bind="'transaction-create-preDrawdownPercentage' | translate">Pre-Dradown Percentag: </label>
                                                 </div>
                                                 <div class="col-md-2 text-right">
-                                                    <span>80.00 %</span>
+                                                    <span ng-bind="createTransactionCtrl.tradingpartnerInfoModel.prePercentageDrawdawn | number:2">0.00</span>
                                                 </div>
-                                                <div class="col-md-1"></div>
+                                                <div class="col-md-1">%</div>
                                                 <div class="col-md-2">
-                                                    <label>อัตราดอกเบี้ยเงินกู้: </label>
+                                                    <label ng-bind="'transaction-create-interestRate' | translate">อัตราดอกเบี้ยเงินกู้: </label>
                                                 </div>
                                                 <div class="col-md-2 text-right">
-                                                    <span>6.000000 %</span>
+                                                    <span ng-bind="createTransactionCtrl.tradingpartnerInfoModel.interestRate">0.000000 %</span>
                                                 </div>
                                                 <div class="col-md-3"></div>
                                             </div>

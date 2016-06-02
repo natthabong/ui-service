@@ -17,6 +17,8 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			};
 			
 			vm.transactionModel = $stateParams.transactionModel;
+			vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
+			console.log($stateParams);
 			vm.tradingModel = {sponsorName : 'TESCO CO,LTD.'};
 			vm.valueOfDocument = $stateParams.totalDocumentAmount;
 			

@@ -35,7 +35,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'ValidateAndSubmitController',
 				controllerAs: 'validateAndSubmitCtrl',
 				templateUrl: '/create-transaction/validate-submit',
-				params: { transactionModel: null, totalDocumentAmount:0.00},
+				params: { transactionModel: null, totalDocumentAmount:0.00, tradingpartnerInfoModel: null},
 				resolve: load(['js/app/create-transactions/validate-submit-service.js','js/app/create-transactions/validate-submit-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			});
 			

@@ -11,7 +11,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 		vm.documentSelects = [];
 		vm.checkAllModel = false;
 		vm.splitePageTxt = '';
-        // Data Sponsor
+        // Data Sponsor for select box
         vm.sponsorCodes = [{
             label: 'TESCO CO.,LTD.',
             value: '00017551'
@@ -32,9 +32,10 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             sponsorCode: vm.sponsorCodes[0].value,
             supplierCode: vm.supplierCodes[0].value,
             sponsorPaymentDate: vm.sponsorPaymentDates[0].value,
-            prePercentage: 80.00,
-            transactionDate: ''
+            transactionDate: ''			
         };
+		
+		vm.tradingpartnerInfoModel = {};
 
         // Init data paging
         vm.pageSizeList = [{
@@ -97,6 +98,16 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     console.log(response);
                 });
         }
+		
+		vm.loadSponsor = function(){
+			var sponsorCodeSelect = CreateTransactionService.getSponsor();
+			sponsorCodeSelect.promise.then(function(response){
+				console.log(response);
+//				vm.sponsorCodes
+			}).catch(function(response){
+				console.log(response);	
+			});
+		}
         vm.loadSupplierDate();
 
         // next to page verify and submit
@@ -105,12 +116,12 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         		documents: vm.documentSelects,
         		transactionAmount:  vm.submitTransactionAmount,
         		sponsorId: vm.createTransactionModel.sponsorCode,
-        		payeeAccountId: 1
+        		payeeAccountId: vm.tradingpartnerInfoModel.accountId
         	});
         	 var deffered = CreateTransactionService.verifyTransaction(transactionModel);
              deffered.promise.then(function(response) {
                 var transaction = response.data;
- 				$state.go('/create-transaction/validate-submit', {transactionModel: transaction, totalDocumentAmount:vm.totalDocumentAmount});
+ 				$state.go('/create-transaction/validate-submit', {transactionModel: transaction, totalDocumentAmount:vm.totalDocumentAmount, tradingpartnerInfoModel: vm.tradingpartnerInfoModel});
              }).catch(function(response) {
             	 $scope.validateDataFailPopup = true;
              });
@@ -165,6 +176,14 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 .catch(function(response) {
                     console.log(response);
                 });
+			
+			//Get Tradingpartner Info
+			 var tradingInfo = CreateTransactionService.getTradingInfo(sponsorCode, supplierCode);
+            tradingInfo.promise.then(function(response){
+				vm.tradingpartnerInfoModel = response.data;
+            }).catch(function(response){
+                console.log(response);
+            });
         }
 		
         vm.dataTable = {
@@ -223,7 +242,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 		
 		vm.selectDocument = function(){
             vm.checkAllModel = false;
-			calculateTransactionAmount(vm.documentSelects, vm.createTransactionModel.prePercentage);
+			calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdawn);
 
 		};
 		
@@ -273,7 +292,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 				
 				vm.documentSelects = documentSelectClone;
 			}			
-            calculateTransactionAmount(vm.documentSelects, 80.00);
+            calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdawn);
 		};
         
         function calculateTransactionAmount(documentSelects, prepercentagDrawdown){
