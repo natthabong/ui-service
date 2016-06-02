@@ -32,7 +32,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             sponsorCode: vm.sponsorCodes[0].value,
             supplierCode: vm.supplierCodes[0].value,
             sponsorPaymentDate: vm.sponsorPaymentDates[0].value,
-            transactionDate: ''
+            transactionDate: '',
+			tradingpartnerInfo: {}
         };
 
         // Init data paging
@@ -153,6 +154,14 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 .catch(function(response) {
                     console.log(response);
                 });
+			
+			//Get Tradingpartner Info
+			 var tradingInfo = CreateTransactionService.getSponsor(sponsorCode, supplierCode);
+            tradingInfo.promise.then(function(response){
+				vm.createTransactionModel.tradingpartnerInfo = response;
+            }).catch(function(response){
+                console.log(response);
+            });
         }
 		
         vm.dataTable = {

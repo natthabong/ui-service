@@ -4,7 +4,8 @@ function createTransactionService($http, $q) {
     return {
         getSponsorPaymentDate: getSponsorPaymentDate,
         getTransactionDate: getTransactionDate,
-		getDocument: getDocument
+		getDocument: getDocument,
+		getSponsor: getSponsor
     };
 
     function getSponsorPaymentDate(sponsorId, supplierCode) {
@@ -93,6 +94,27 @@ function createTransactionService($http, $q) {
             .catch(function(response) {
                 deffered.reject(response);
             });
+        return deffered;
+    }
+	
+	 function getSponsor(sponsorId, supplierId){
+        var deffered = $q.defer();
+
+        $http({
+            method: 'POST',
+            url: 'api/create-transaction/sponsor/get',
+			headers : {
+				'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: {
+                sponsorId: sponsorId,
+                supplierId: supplierId
+            }
+        }).then(function(response){
+            deffered.resolve(response);
+        }).catch(function(response){
+            deffered.reject(response);
+        });
         return deffered;
     }
 }
