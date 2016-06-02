@@ -4,7 +4,8 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 		function(ValidateAndSubmitService, $state, $scope, $window, $timeout, $stateParams) {
 			var vm = this;
 			$scope.validateDataPopup = false;
-			vm.transactionMsg = "TES00125482345";
+			$scope.confirmPopup = false;
+			vm.transactionNo = '';
 			vm.pageSizeList = [ {
 				label : '10',
 				value : '10'
@@ -18,7 +19,6 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			
 			vm.transactionModel = $stateParams.transactionModel;
 			vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
-			console.log($stateParams);
 			vm.tradingModel = {sponsorName : 'TESCO CO,LTD.'};
 			vm.valueOfDocument = $stateParams.totalDocumentAmount;
 			
@@ -77,14 +77,15 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 				            }]
 			}
 
-			
-
-
+			vm.submitPopup = function(){
+				$scope.confirmPopup = true;
+			}
 			vm.submitTransaction = function() {
 					
 				var deffered = ValidateAndSubmitService.submitTransaction(vm.transactionModel);
 				 deffered.promise.then(function(response) {
-					 console.log($state);
+					 vm.transactionNo = response.data.transactionNo;
+					 $scope.confirmPopup = false;
 					 $scope.validateDataPopup = true;
 				 }).catch(function(response) {
 					 console.log(response);

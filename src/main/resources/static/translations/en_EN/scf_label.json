@@ -5,6 +5,7 @@
     "create-loan-request": "Create Loan Request",
     "user": "User",
     "user-new": "Create User",
+    "btn-cancel": "Cancel",
     "validate-and-submit": "Validate and Submit",
     "sponsor": "Sponsor",
     "financing-documents": "Financing Documents",
@@ -39,5 +40,8 @@
 	"transaction-create-outstanding": "Outstanding",
 	"transaction-create-featureDrawdown": "Feature Drawdown",
 	"transaction-create-preDrawdownPercentage": "Pre-Drawdown percentage",
-	"transaction-create-interestRate": "Interest Rate"
+	"transaction-create-interestRate": "Interest Rate",
+	
+	"_comment": "Page Validate Create Transaction",
+	"validate-create-popup-confirm": "Confirm create transaction ?"
 }

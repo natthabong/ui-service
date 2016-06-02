@@ -23,7 +23,7 @@
                             <div class="form-group">
                                 <label for="sponsor" class="col-md-2 col-sm-3 col-xs-12 control-label">Sponsor: </label>
                                 <div class="col-md-3 col-sm-5 col-xs-12">
-                                    <scf-dropdown id="sponsor-dropdown" ng-model="createTransactionCtrl.createTransactionModel.sponsorCode" component-data="createTransactionCtrl.sponsorCodes"></scf-dropdown>
+                                    <scf-dropdown id="sponsor-dropdown" ng-change="createTransactionCtrl.loadSupplierCode()" ng-model="createTransactionCtrl.createTransactionModel.sponsorCode" component-data="createTransactionCtrl.sponsorCodes"></scf-dropdown>
                                 </div>
                                 <div class="col-md-5 col-sm-4"></div>
                             </div>
@@ -31,7 +31,7 @@
                                 <label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label">Supplier Code : </label>
 
                                 <div class="col-md-2 col-sm-5 col-xs-12">
-                                    <scf-dropdown id="supplier-code-dropdown" ng-model="createTransactionCtrl.createTransactionModel.supplierCode" component-data="createTransactionCtrl.supplierCodes"></scf-dropdown>
+                                    <scf-dropdown id="supplier-code-dropdown" ng-change="createTransactionCtrl.loadSupplierDate()" ng-model="createTransactionCtrl.createTransactionModel.supplierCode" component-data="createTransactionCtrl.supplierCodes"></scf-dropdown>
                                 </div>
 
                                 <div class="col-md-5 col-sm-4"></div>
@@ -44,7 +44,7 @@
                                     <scf-dropdown id="sponsor-payment-date-dropdown" ng-model="createTransactionCtrl.createTransactionModel.sponsorPaymentDate" component-data="createTransactionCtrl.sponsorPaymentDates"></scf-dropdown>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
-                                    <scf-button id="search-button" ng-click="createTransactionCtrl.searchDocument()">Search</scf-button>
+                                    <scf-button id="search-button" class="btn-default" ng-click="createTransactionCtrl.searchDocument()">Search</scf-button>
                                 </div>
                             </div>
                         </form>
