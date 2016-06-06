@@ -555,3 +555,7 @@ footer .footer-below {
 .user-name span{
 	font-family: "supermarketregular", "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+
+.gec-select{
+      bottom: -6px;
+ }
