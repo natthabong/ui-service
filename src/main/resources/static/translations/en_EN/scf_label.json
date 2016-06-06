@@ -35,6 +35,8 @@
 	"popup-success": "SUCCESS",
 	"transaction-error-msg-payment-date": "Sponsor Payment Date is require.",
 	
+	"_comment": "Menu",
+	
 	"_comment": "Page Create Transaction",
 	"transaction-create-creditLimit": "Credit Limit",
 	"transaction-create-available": "Available",
@@ -46,6 +48,9 @@
 	
 	"_comment": "Page Validate Create Transaction",
 	"validate-create-popup-confirm": "Confirm create transaction ?",
+	
+	"_comment": "Page List Transaction",
+	"list-transaction-header": "Transaction List",
     
     "_comment": "System Error Code",
     "E1002": "Insufficient Fund",

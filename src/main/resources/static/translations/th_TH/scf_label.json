@@ -35,6 +35,8 @@
 	"popup-success": "สำเร็จ",
 	"transaction-error-msg-payment-date": "กรุณาระบุ Sponsor Payment Date",
 	
+	"_comment": "Menu",
+	
 	"_comment": "Page Create Transaction",
 	"transaction-create-creditLimit": "วงเงินกู้",
 	"transaction-create-available": "วงเงินกู้ที่สามารถเบิกถอนได้",
@@ -46,6 +48,9 @@
     
     "_comment": "Page Validate Create Transaction",
 	"validate-create-popup-confirm": "ยืนยันทำรายการขอกู้",
+	
+	"_comment": "Page List Transaction",
+	"list-transaction-header": "Transaction List",
     
     "_comment": "System Error Code",
     "E1002": "จำนวนเงินไม่สำหรับการขอกู้",

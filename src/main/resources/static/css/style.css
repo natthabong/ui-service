@@ -6419,9 +6419,7 @@ ul li a:focus {
   .user-nav li{
     float: left;
   }
-  .user-nav .user-name{
-    padding-top: 10px !important;
-  }
+
   .user-nav .dropdown{
     margin-top: -4px !important; 
   }
