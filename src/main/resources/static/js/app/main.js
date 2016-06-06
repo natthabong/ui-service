@@ -321,7 +321,7 @@
     $(document).ready(function () {
         
         $(window).scroll(function () {
-            var footerPosition = $("#footer").offset().top -100;
+            var footerPosition = $("#fixed-bottom").offset().top -70;
             
             if ($(window).scrollTop() + $(window).height() >= footerPosition) {
                 $("#bottom-sticker").removeClass("gec-fix-position");

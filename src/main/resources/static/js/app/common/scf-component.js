@@ -47,7 +47,7 @@
             
             function btnTemplate(element, attrs){
                 var btnType = (typeof attrs.type === 'undefined') ? 'button': attrs.type;
-                return '<button type="'+ btnType +'" class="btn btn-default">'
+                return '<button type="'+ btnType +'" class="btn">'
                 + '<ng-transclude></ng-transclude>'
                 + '</button>';
             }

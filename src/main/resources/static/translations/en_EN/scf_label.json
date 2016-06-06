@@ -5,6 +5,9 @@
     "create-loan-request": "Create Loan Request",
     "user": "User",
     "user-new": "Create User",
+    "btn-cancel": "Cancel",
+    "btn-back": "Back",
+    "submit": "Submit",
     "validate-and-submit": "Validate and Submit",
     "sponsor": "Sponsor",
     "financing-documents": "Financing Documents",
@@ -23,14 +26,13 @@
     "transaction-amount": "Transaction Amount",
     "transaction-date": "Transaction Date",
     "thai-bath": "THB",
-    "loan-maturity-date": "Loan Maturity Date",
-    "submit": "Submit",
+    "loan-maturity-date": "Loan Maturity Date",    
     "selected": "Selected",
     "records": "Records",
-	"transaction-create-popup-fail": "FAIL",
-	"transaction-ok-btn": "OK",
-	"validate-create-new-btn": "Create New",
-	"validate-create-popup-success": "SUCCESS",
+	"popup-fail": "FAIL",
+	"ok-btn": "OK",
+	"create-new-btn": "Create New",
+	"popup-success": "SUCCESS",
 	"transaction-error-msg-payment-date": "Sponsor Payment Date is require.",
 	
 	"_comment": "Page Create Transaction",
@@ -39,5 +41,13 @@
 	"transaction-create-outstanding": "Outstanding",
 	"transaction-create-featureDrawdown": "Feature Drawdown",
 	"transaction-create-preDrawdownPercentage": "Pre-Drawdown percentage",
-	"transaction-create-interestRate": "Interest Rate"
+	"transaction-create-interestRate": "Interest Rate",
+    "transaction-no": "Transaction No.:",
+	
+	"_comment": "Page Validate Create Transaction",
+	"validate-create-popup-confirm": "Confirm create transaction ?",
+    
+    "_comment": "System Error Code",
+    "E1002": "Insufficient Fund",
+    "E1001": "Invalid Transaction Amount"
 }

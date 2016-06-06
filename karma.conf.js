@@ -10,7 +10,8 @@ module.exports = function(config){
 			'src/main/resources/static/js/app/authen/authentication.js',
 			'src/main/resources/static/js/app/common/scf-common-service.js',
 			
-			'src/main/resources/static/js/test/common/scf-component-splatepage-test.js'
+			'src/main/resources/static/js/test/common/scf-common-service-splitepage-test.js',
+//            'src/main/resources/static/js/test/common/scf-common-service-clientpaging-test.js'
 			
 		]
 	});

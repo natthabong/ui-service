@@ -514,16 +514,6 @@ footer .footer-below {
     background-color: #249A53 !important;
 }
 
-.btn-next-step {
-	border: none !important;
-	background-color: #DDDDDD !important;
-}
-
-.gec-pannel-heading{
-	font-size: 18px;
-	white-space: nowrap;
-}
-
 .gec-col-action{
 	width: 12em;
 }
@@ -533,26 +523,19 @@ footer .footer-below {
 	font-size: 12px;
 }
 
-.gec-col-checkbox {
-	width: 5px;
-}
-
 .gec-fix-position {
     position: fixed;
     bottom: 5px;
     z-index: 50;
     width: inherit;
     background-color: #ffffff;
+    padding-bottom: 20px;
 }
 
 @media (max-width: 1200px){
 	.gec-fix-position {
 		width: 90%;
 	}
-}
-
-.gec-select{
-    bottom: -3px;
 }
 
 .table-bordered > thead > tr > th{
@@ -572,4 +555,3 @@ footer .footer-below {
 .user-name span{
 	font-family: "supermarketregular", "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
-
