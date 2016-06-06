@@ -53,6 +53,6 @@
 	"list-transaction-header": "Transaction List",
     
     "_comment": "System Error Code",
-    "E1002": "Insufficient Fund",
+    "E1002": "Insufficient funds",
     "E1001": "Invalid Transaction Amount"
 }

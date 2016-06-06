@@ -36,7 +36,7 @@
             AuthenticationService.Logout(function (response) {
                 console.log(response);
                 if (response.success) {
-                    $window.location.href = '/';
+                    $window.location.href = '/login';
                 } else {
                     self.dataLoading = false;
                 }
