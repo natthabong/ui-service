@@ -252,7 +252,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 });
 
             //Get Tradingpartner Info
-            var tradingInfo = CreateTransactionService.getTradingInfo(sponsorCode, supplierCode);
+            var tradingInfo = CreateTransactionService.getTradingInfo(sponsorCode);
             tradingInfo.promise.then(function (response) {
                 vm.tradingpartnerInfoModel = response.data;
             }).catch(function (response) {

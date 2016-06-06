@@ -100,7 +100,7 @@ function createTransactionService($http, $q) {
         return deffered;
     }
 	
-	 function getTradingInfo(sponsorId, supplierId){
+	 function getTradingInfo(sponsorId){
         var deffered = $q.defer();
 
         $http({
@@ -111,8 +111,14 @@ function createTransactionService($http, $q) {
             },
             data: {
                 sponsorId: sponsorId,
-                supplierId: supplierId
-            }
+                accountId: ''
+            },
+	        transformRequest :function (data) {
+	            if (data === undefined) {
+	                return data;
+	            }
+	            return $.param(data);
+	        }
         }).then(function(response){
             deffered.resolve(response);
         }).catch(function(response){
@@ -149,15 +155,29 @@ function createTransactionService($http, $q) {
 	}
 	
 	function getSupplier(sponsorId){
-		var deffered = $q.defer();
+        var deffered = $q.defer();
 
-        $http.post('api/create-transaction/supplier/get', {sponsorId: sponsorId})
-            .then(function(response) {
+        $http({
+    	    url : 'api/create-transaction/supplier/get',
+        	method: 'POST',
+        	headers : {
+        		'Content-Type': 'application/x-www-form-urlencoded'
+        	},
+        	data: {
+        		sponsorId: sponsorId
+        	},
+	        transformRequest :function (data) {
+	            if (data === undefined) {
+	                return data;
+	            }
+	            return $.param(data);
+	        }
+        }).then(function(response) {
                 deffered.resolve(response);
-            })
-            .catch(function(response) {
+        }).catch(function(response) {
                 deffered.reject(response);
-            });
+        });
+
         return deffered;
 	}
 }
