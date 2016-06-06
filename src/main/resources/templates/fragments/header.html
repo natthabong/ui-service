@@ -3,7 +3,7 @@
      <!-- start: Header -->
         <nav class="navbar navbar-default header navbar-fixed-top">
           <div class="col-md-12 nav-wrapper">
-			<ul class="nav navbar-nav search-nav">
+			<ul class="nav navbar-nav search-nav hidden-sm">
                 <li>
                 	<img ng-src="img/logo.png" class="img-circle avatar" alt="user name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"/>
                 </li>
@@ -21,7 +21,6 @@
                 <li class="user-name"><span ng-bind="scfCtrl.displayName">Avanta</span> | <span>JINTANA INTERTRADE CO.,LTD.</span></li>
                   
                 <li><a ui-sref="/home" class="header-menu-icon icon-home" title="Home"><span class="fa fa-home"></span></a></li>
-                <li><a href="#" class="opener-right-menu header-menu-icon icon-alert" title="Notification"><span class="fa fa-bell"></span></a></li>
                 <li ng-controller="LogoutController as logoutCtroller"><a id="logout-link" href="#" ng-click="logoutCtroller.logout()" class="header-menu-icon icon-signout" title="Sign Out"><span class="fa fa-power-off "></span></a></li>
                 <li class="nav-lang">
                 	<img id="change-lang-th-link" width="25px" height="15px" ng-src="img/th.png" ng-click="scfCtrl.changeLanguage('th_TH')"/> | <img id="change-lang-en-link" width="25px" height="15px" ng-src="img/eng.jpg" ng-click="scfCtrl.changeLanguage('en_EN')"/>

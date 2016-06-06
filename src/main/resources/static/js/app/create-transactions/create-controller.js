@@ -7,7 +7,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.showInfomation = false;
         vm.errorMsgPopup = "Insufficient Fund"
         vm.showErrorMsg = false;
-        vm.errorMsgGroups = 'transaction-error-msg-payment-date';
+        vm.errorMsgGroups = '';
         vm.documentSelects = [];
         vm.tableRowCollection = [];
         vm.checkAllModel = false;
@@ -78,6 +78,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 vm.createTransactionModel.supplierCodeSelected = vm.createTransactionModel.supplierCode;
                 vm.createTransactionModel.sponsorIdSelected = vm.createTransactionModel.sponsorCode;
             } else {
+            	vm.errorMsgGroups = 'transaction-error-msg-payment-date';
                 vm.showErrorMsg = true;
             }
         };
@@ -168,37 +169,43 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
         // next to page verify and submit
         vm.nextStep = function () {
-            var transactionModel = angular.extend(vm.createTransactionModel, {
-                documents: vm.documentSelects,
-                transactionAmount: vm.submitTransactionAmount,
-                sponsorId: vm.createTransactionModel.sponsorIdSelected,
-                payerAccountId: vm.tradingpartnerInfoModel.accountId
-            });
-            var sponsorNameSelect = '';
-            vm.sponsorCodes.forEach(function (sponsorObj) {
-                if (vm.createTransactionModel.sponsorIdSelected === sponsorObj.value) {
-                    sponsorNameSelect = sponsorObj.label;
-                }
-            });
-
-            var deffered = CreateTransactionService.verifyTransaction(transactionModel);
-            deffered.promise.then(function (response) {
-                var tradingpartnerInfoExtend = angular.extend(vm.tradingpartnerInfoModel, {
-                    sponsorName: sponsorNameSelect,
-                    supplierCodeSelected: vm.createTransactionModel.supplierCodeSelected
-                });
-                var transaction = response.data;
-                SCFCommonService.parentStatePage().saveCurrentState('/create-transaction');
-                $state.go('/create-transaction/validate-submit', {
-                    transactionModel: transaction,
-                    totalDocumentAmount: vm.totalDocumentAmount,
-                    tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
-                    documentSelects: vm.documentSelects
-                });
-            }).catch(function (response) {
-                vm.errorMsgPopup = response.data.errorCode;
-                $scope.validateDataFailPopup = true;
-            });
+        	if(vm.documentSelects.length === 0){
+        		vm.errorMsgGroups = 'transaction-error-document';
+        		vm.showErrorMsg = true;
+        	}else{
+        	
+	            var transactionModel = angular.extend(vm.createTransactionModel, {
+	                documents: vm.documentSelects,
+	                transactionAmount: vm.submitTransactionAmount,
+	                sponsorId: vm.createTransactionModel.sponsorIdSelected,
+	                payerAccountId: vm.tradingpartnerInfoModel.accountId
+	            });
+	            var sponsorNameSelect = '';
+	            vm.sponsorCodes.forEach(function (sponsorObj) {
+	                if (vm.createTransactionModel.sponsorIdSelected === sponsorObj.value) {
+	                    sponsorNameSelect = sponsorObj.label;
+	                }
+	            });
+	
+	            var deffered = CreateTransactionService.verifyTransaction(transactionModel);
+	            deffered.promise.then(function (response) {
+	                var tradingpartnerInfoExtend = angular.extend(vm.tradingpartnerInfoModel, {
+	                    sponsorName: sponsorNameSelect,
+	                    supplierCodeSelected: vm.createTransactionModel.supplierCodeSelected
+	                });
+	                var transaction = response.data;
+	                SCFCommonService.parentStatePage().saveCurrentState('/create-transaction');
+	                $state.go('/create-transaction/validate-submit', {
+	                    transactionModel: transaction,
+	                    totalDocumentAmount: vm.totalDocumentAmount,
+	                    tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
+	                    documentSelects: vm.documentSelects
+	                });
+	            }).catch(function (response) {
+	                vm.errorMsgPopup = response.data.errorCode;
+	                $scope.validateDataFailPopup = true;
+	            });
+        	}
         };
 
         // Load Transaction Date

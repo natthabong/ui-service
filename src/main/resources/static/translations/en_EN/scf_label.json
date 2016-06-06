@@ -35,6 +35,8 @@
 	"popup-success": "SUCCESS",
 	"transaction-error-msg-payment-date": "Sponsor Payment Date is require.",
 	
+	"_comment": "Menu",
+	
 	"_comment": "Page Create Transaction",
 	"transaction-create-creditLimit": "Credit Limit",
 	"transaction-create-available": "Available",
@@ -43,11 +45,15 @@
 	"transaction-create-preDrawdownPercentage": "Pre-Drawdown percentage",
 	"transaction-create-interestRate": "Interest Rate",
     "transaction-no": "Transaction No.:",
+    "transaction-error-document": "Please select document.",
 	
 	"_comment": "Page Validate Create Transaction",
 	"validate-create-popup-confirm": "Confirm create transaction ?",
+	
+	"_comment": "Page List Transaction",
+	"list-transaction-header": "Transaction List",
     
     "_comment": "System Error Code",
     "E1002": "Insufficient funds",
-    "E1001": "Invalid Transaction Amount"
+    "E1001": "Transaction amount must be greater than zero"
 }
