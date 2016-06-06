@@ -45,6 +45,7 @@
 	"transaction-create-preDrawdownPercentage": "Pre-Drawdown percentage",
 	"transaction-create-interestRate": "Interest Rate",
     "transaction-no": "Transaction No.:",
+    "transaction-error-document": "Please select document.",
 	
 	"_comment": "Page Validate Create Transaction",
 	"validate-create-popup-confirm": "Confirm create transaction ?",
