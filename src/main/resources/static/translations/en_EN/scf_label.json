@@ -54,5 +54,5 @@
     
     "_comment": "System Error Code",
     "E1002": "Insufficient funds",
-    "E1001": "Invalid Transaction Amount"
+    "E1001": "Transaction amount must be greater than zero"
 }
