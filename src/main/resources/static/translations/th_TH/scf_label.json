@@ -5,6 +5,9 @@
     "create-loan-request": "สร้างรายการขอกู้",
     "user": "User",
     "user-new": "Create User",
+    "btn-cancel": "ยกเลิก",
+    "btn-back": "กลับ",
+    "submit": "Submit",
     "validate-and-submit": "Validate and Submit",
     "sponsor": "Sponsor",
     "financing-documents": "Financing Documents",
@@ -24,13 +27,12 @@
     "transaction-date": "Transaction Date",
     "thai-bath": "THB",
     "loan-maturity-date": "Loan Maturity Date",
-    "submit": "Submit",
     "selected": "Selected",
     "records": "Records",
-	"transaction-create-popup-fail": "เกิดข้อผิดพลาด",
-	"transaction-ok-btn": "ตกลง",
-	"validate-create-new-btn": "สร้างรายการ",
-	"validate-create-popup-success": "สำเร็จ",
+	"popup-fail": "เกิดข้อผิดพลาด",
+	"ok-btn": "ตกลง",
+	"create-new-btn": "สร้างรายการ",
+	"popup-success": "สำเร็จ",
 	"transaction-error-msg-payment-date": "กรุณาระบุ Sponsor Payment Date",
 	
 	"_comment": "Page Create Transaction",
@@ -39,5 +41,13 @@
 	"transaction-create-outstanding": "ยอดเงินกู้ที่เบิกถอนแล้ว",
 	"transaction-create-featureDrawdown": "ยอดเงินกู้ล่วงหน้า",
 	"transaction-create-preDrawdownPercentage": "Pre-Drawdown percentage",
-	"transaction-create-interestRate": "อัตราดอกเบี้ยเงินกู้"
+	"transaction-create-interestRate": "อัตราดอกเบี้ยเงินกู้",
+    "transaction-no": "หมายเลขรายการ:",
+    
+    "_comment": "Page Validate Create Transaction",
+	"validate-create-popup-confirm": "ยืนยันทำรายการขอกู้",
+    
+    "_comment": "System Error Code",
+    "E1002": "จำนวนเงินไม่สำหรับการขอกู้",
+    "E1001": "จำนวนเงินไม่ถูกต้อง"
 }

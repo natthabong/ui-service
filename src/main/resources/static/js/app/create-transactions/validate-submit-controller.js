@@ -1,7 +1,7 @@
 var validateandsubmit = angular.module('scfApp');
 validateandsubmit.controller('ValidateAndSubmitController', [
-		'ValidateAndSubmitService', '$state', '$scope', '$window', '$timeout','$stateParams',
-		function(ValidateAndSubmitService, $state, $scope, $window, $timeout, $stateParams) {
+		'ValidateAndSubmitService', '$state', '$scope', '$window', '$timeout','$stateParams', 'SCFCommonService',
+		function(ValidateAndSubmitService, $state, $scope, $window, $timeout, $stateParams, SCFCommonService) {
 			var vm = this;
 			$scope.validateDataPopup = false;
 			$scope.confirmPopup = false;
@@ -17,10 +17,18 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 				currentPage : 0
 			};
 			
-			vm.transactionModel = $stateParams.transactionModel;
-			vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
-			vm.tradingModel = {sponsorName : 'TESCO CO,LTD.'};
-			vm.valueOfDocument = $stateParams.totalDocumentAmount;
+			vm.initLoadData = function(){
+                vm.transactionModel = $stateParams.transactionModel;
+                vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
+//                vm.tradingModel = {sponsorName : 'TESCO CO,LTD.'};
+                vm.valueOfDocument = $stateParams.totalDocumentAmount;
+
+                if(vm.transactionModel === null){
+                    $state.go('/create-transaction');
+                }else{
+                    vm.loadMaturityDate();
+                }
+            }
 			
 			vm.loadMaturityDate = function() {
 				var deffered = ValidateAndSubmitService.prepareTransactionOnValidatePage(vm.transactionModel);
@@ -31,7 +39,6 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 					console.log(response);
 				});
 			};
-			vm.loadMaturityDate();
 
 			vm.dataTable = {
 					options: {
@@ -81,7 +88,6 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 				$scope.confirmPopup = true;
 			}
 			vm.submitTransaction = function() {
-					
 				var deffered = ValidateAndSubmitService.submitTransaction(vm.transactionModel);
 				 deffered.promise.then(function(response) {
 					 vm.transactionNo = response.data.transactionNo;
@@ -93,9 +99,15 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			};
 			vm.createNewAction = function(){
 				$timeout(function(){
-					$state.go('/create-transaction');
+					$state.go(SCFCommonService.parentStatePage().getParentState());
 				}, 30);					
 			};
+			
+            vm.backToCreate = function(){
+                $state.go(SCFCommonService.parentStatePage().getParentState(), {actionBack: true, transactionModel: vm.transactionModel, tradingpartnerInfoModel: vm.tradingpartnerInfoModel, documentSelects: $stateParams.documentSelects});
+            };
+            
+			vm.initLoadData();
 
 			// vm.changePageSize = function(page, pageSize) {
 			// var deffered =

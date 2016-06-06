@@ -1,6 +1,6 @@
 var createapp = angular.module('scfApp');
-createapp.controller('CreateTransactionController', ['CreateTransactionService', '$state', '$scope', 'TransactionService', 'SCFCommonService',
-    function(CreateTransactionService, $state, $scope, TransactionService, SCFCommonService) {
+createapp.controller('CreateTransactionController', ['CreateTransactionService', '$state', '$scope', 'TransactionService', 'SCFCommonService', '$stateParams',
+    function (CreateTransactionService, $state, $scope, TransactionService, SCFCommonService, $stateParams) {
         var vm = this;
         // Initail Data
         $scope.validateDataFailPopup = false;
@@ -18,13 +18,16 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.sponsorPaymentDates = [];
         vm.transactionDates = [];
         vm.submitTransactionAmount = 0.00;
+        var actionBack = $stateParams.actionBack;
         // End Data Sponsor
         // Model for transaction
         vm.createTransactionModel = {
             sponsorCode: '',
             supplierCode: '',
             sponsorPaymentDate: '',
-            transactionDate: ''
+            transactionDate: '',
+            supplierCodeSelected: '',
+            sponsorIdSelected: ''
         };
 
         vm.tradingpartnerInfoModel = {};
@@ -47,7 +50,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         };
 
         // Search Document
-        vm.searchDocument = function(pagingModel) {
+        vm.searchDocument = function (pagingModel) {
             var sponsorCode = vm.createTransactionModel.sponsorCode;
             var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
             vm.checkAllModel = false;
@@ -55,7 +58,11 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             if (validateSponsorPaymentDate(sponsorPaymentDate)) {
                 if (pagingModel === undefined) {
                     // Clear list document selected
-                    vm.documentSelects = [];
+                    //Clear list document when actionBack is false
+                    if(actionBack === false){
+                        vm.documentSelects = [];
+                    }
+                    
                     vm.loadDocument();
                     vm.loadTransactionDate(sponsorCode, sponsorPaymentDate);
                 } else {
@@ -66,43 +73,56 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
                 vm.showInfomation = true;
                 vm.showErrorMsg = false;
+
+                //set supplierCode after search
+                vm.createTransactionModel.supplierCodeSelected = vm.createTransactionModel.supplierCode;
+                vm.createTransactionModel.sponsorIdSelected = vm.createTransactionModel.sponsorCode;
             } else {
                 vm.showErrorMsg = true;
             }
         };
 
         // Load Sponsor paymentDate
-        vm.loadSupplierDate = function() {
+        vm.loadSupplierDate = function () {
             var sponsorCode = vm.createTransactionModel.sponsorCode;
             var supplierCode = vm.createTransactionModel.supplierCode;
+
             vm.sponsorPaymentDates = [{
                 label: 'Please Select',
                 value: ''
             }];
+
             // Reset SponsorPaymentDate of User selected
-            vm.createTransactionModel.sponsorPaymentDate = vm.sponsorPaymentDates[0].value;
+            //Check action come from page validate and sumbit
+            if(actionBack === false){
+                vm.createTransactionModel.sponsorPaymentDate = vm.sponsorPaymentDates[0].value;
+            }
+            
+            //reset actionBank is false
+            actionBack = false;
+            
             var deffered = CreateTransactionService.getSponsorPaymentDate(sponsorCode, supplierCode);
-            deffered.promise.then(function(response) {
+            deffered.promise.then(function (response) {
                     var supplierDates = response.data;
 
-                    supplierDates.forEach(function(data) {
+                    supplierDates.forEach(function (data) {
                         vm.sponsorPaymentDates.push({
                             label: data,
                             value: data
                         })
                     });
                 })
-                .catch(function(response) {
+                .catch(function (response) {
                     console.log(response);
                 });
         }
 
-        vm.loadSponsor = function() {
+        vm.loadSponsor = function () {
             var sponsorDeffered = CreateTransactionService.getSponsor();
-            sponsorDeffered.promise.then(function(response) {
+            sponsorDeffered.promise.then(function (response) {
                 var sponsorCodeList = response.data;
                 if (sponsorCodeList !== undefined) {
-                    sponsorCodeList.forEach(function(obj) {
+                    sponsorCodeList.forEach(function (obj) {
                         var selectObj = {
                             label: obj.sponsorName,
                             value: obj.sponsorId
@@ -110,79 +130,87 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
                         vm.sponsorCodes.push(selectObj);
                     });
-                    vm.createTransactionModel.sponsorCode = vm.sponsorCodes[0].value;
+                    //Check action come from page validate and sumbit
+                    if(actionBack === false){
+                        vm.createTransactionModel.sponsorCode = vm.sponsorCodes[0].value;
+                    }
                     vm.loadSupplierCode();
                 }
-            }).catch(function(response) {
+            }).catch(function (response) {
                 console.log(response);
             });
         };
 
-        vm.loadSupplierCode = function() {
+        vm.loadSupplierCode = function () {
             var sponsorId = vm.createTransactionModel.sponsorCode;
             var supplierDeffered = CreateTransactionService.getSupplier(sponsorId);
-            supplierDeffered.promise.then(function(response) {
+            supplierDeffered.promise.then(function (response) {
                 var supplilerCodeList = response.data;
                 if (supplilerCodeList.length > 0) {
-                    supplilerCodeList.forEach(function(obj) {
+                    supplilerCodeList.forEach(function (obj) {
                         var supplierCode = {
                             label: obj,
                             value: obj
                         }
                         vm.supplierCodes.push(supplierCode);
                     });
+                    //Check action come from page validate and sumbit
+                    if(actionBack === false){
                     vm.createTransactionModel.supplierCode = vm.supplierCodes[0].value;
+                    }
                     vm.loadSupplierDate();
                 }
 
-            }).catch(function(response) {
+            }).catch(function (response) {
                 console.log(response);
             });
         };
-        vm.loadSponsor();
 
         // next to page verify and submit
-        vm.nextStep = function() {
+        vm.nextStep = function () {
             var transactionModel = angular.extend(vm.createTransactionModel, {
                 documents: vm.documentSelects,
                 transactionAmount: vm.submitTransactionAmount,
-                sponsorId: vm.createTransactionModel.sponsorCode,
+                sponsorId: vm.createTransactionModel.sponsorIdSelected,
                 payeeAccountId: vm.tradingpartnerInfoModel.accountId
             });
-            var sponsorSelect = '';
-            vm.sponsorCodes.forEach(function(sponsorObj) {
-                if (vm.createTransactionModel.sponsorCode == sponsorObj.value) {
+            var sponsorNameSelect = '';
+            vm.sponsorCodes.forEach(function (sponsorObj) {
+                if (vm.createTransactionModel.sponsorIdSelected === sponsorObj.value) {
                     sponsorNameSelect = sponsorObj.label;
                 }
             });
 
             var deffered = CreateTransactionService.verifyTransaction(transactionModel);
-            deffered.promise.then(function(response) {
-				var tradingpartnerInfoExtend = angular.extend(vm.tradingpartnerInfoModel, {
-                    sponsorName: sponsorNameSelect
+            deffered.promise.then(function (response) {
+                var tradingpartnerInfoExtend = angular.extend(vm.tradingpartnerInfoModel, {
+                    sponsorName: sponsorNameSelect,
+                    supplierCodeSelected: vm.createTransactionModel.supplierCodeSelected
                 });
-                var transaction = response.data;                
+                var transaction = response.data;
+                SCFCommonService.parentStatePage().saveCurrentState('/create-transaction');
                 $state.go('/create-transaction/validate-submit', {
                     transactionModel: transaction,
                     totalDocumentAmount: vm.totalDocumentAmount,
                     tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
-
+                    documentSelects: vm.documentSelects
                 });
-            }).catch(function(response) {
+            }).catch(function (response) {
+                vm.errorMsgPopup = response.data.errorCode;
                 $scope.validateDataFailPopup = true;
             });
         };
 
         // Load Transaction Date
-        vm.loadTransactionDate = function(sponsorCode, sponsorPaymentDate) {
+        vm.loadTransactionDate = function (sponsorCode, sponsorPaymentDate) {
             var deffered = CreateTransactionService.getTransactionDate(sponsorCode, sponsorPaymentDate);
-            deffered.promise.then(function(response) {
+            deffered.promise.then(function (response) {
                 // clear list transaction date
                 vm.transactionDates = [];
                 var transactionResponse = response.data;
 
                 if (transactionResponse.length > 0) {
-                    transactionResponse.forEach(function(data) {
+                    transactionResponse.forEach(function (data) {
                         vm.transactionDates.push({
                             label: data,
                             value: data
@@ -192,12 +220,12 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     vm.createTransactionModel.transactionDate = vm.transactionDates[0].value;
                 }
 
-            }).catch(function(response) {
+            }).catch(function (response) {
                 console.log(response);
             });
         };
 
-        vm.loadDocument = function() {
+        vm.loadDocument = function () {
             var sponsorCode = vm.createTransactionModel.sponsorCode;
             var supplierCode = vm.createTransactionModel.supplierCode;
 
@@ -207,7 +235,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             // Call Service
             var deffered = CreateTransactionService.getDocument(sponsorCode, supplierCode, sponsorPaymentDate, page, pageSize);
             deffered.promise
-                .then(function(response) {
+                .then(function (response) {
                     // response success
                     vm.pageModel.totalRecord = response.data.totalElements;
                     vm.pageModel.currentPage = response.data.number;
@@ -219,18 +247,43 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
                     vm.watchCheckAll();
                 })
-                .catch(function(response) {
+                .catch(function (response) {
                     console.log(response);
                 });
 
             //Get Tradingpartner Info
             var tradingInfo = CreateTransactionService.getTradingInfo(sponsorCode, supplierCode);
-            tradingInfo.promise.then(function(response) {
+            tradingInfo.promise.then(function (response) {
                 vm.tradingpartnerInfoModel = response.data;
-            }).catch(function(response) {
+            }).catch(function (response) {
                 console.log(response);
             });
         }
+        
+        vm.initLoad = function () {
+
+            if ($stateParams.actionBack === true) {
+                actionBack = true;
+                var tradingPartnerInfo = $stateParams.tradingpartnerInfoModel;
+                var transactionModel = $stateParams.transactionModel;
+                vm.tradingpartnerInfoModel = tradingPartnerInfo;
+                vm.createTransactionModel = {
+                    sponsorCode: tradingPartnerInfo.sponsorId,
+                    supplierCode: tradingPartnerInfo.supplierCodeSelected,
+                    sponsorPaymentDate: transactionModel.sponsorPaymentDate,
+                    transactionDate: transactionModel.transactionDate
+                };
+                
+                vm.documentSelects = $stateParams.documentSelects;
+                vm.searchDocument();
+                calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+            }
+
+            vm.loadSponsor();
+            
+        }
+
+        vm.initLoad();
 
         vm.dataTable = {
             options: {
@@ -285,15 +338,15 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             return paymentDate === '' ? false : true;
         }
 
-        vm.selectDocument = function() {
+        vm.selectDocument = function () {
             vm.checkAllModel = false;
-            calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdawn);
+            calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
         };
 
-        vm.watchCheckAll = function() {
+        vm.watchCheckAll = function () {
                 var comparator = angular.equals;
                 var countRecordData = 0;
-                vm.tableRowCollection.forEach(function(document) {
+                vm.tableRowCollection.forEach(function (document) {
                     for (var index = vm.documentSelects.length; index--;) {
                         if (comparator(document, vm.documentSelects[index])) {
                             countRecordData++;
@@ -306,11 +359,11 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 }
             }
             // Select All in page
-        vm.checkAllDocument = function() {
+        vm.checkAllDocument = function () {
             var comparator = angular.equals;
             var documentSelectClone = angular.copy(vm.documentSelects);
             if (vm.checkAllModel) {
-                vm.tableRowCollection.forEach(function(document) {
+                vm.tableRowCollection.forEach(function (document) {
                     var foundDataSelect = false;
                     for (var index = documentSelectClone.length; index--;) {
                         if (comparator(document, documentSelectClone[index])) {
@@ -325,7 +378,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 });
                 vm.documentSelects = angular.copy(documentSelectClone);
             } else {
-                vm.tableRowCollection.forEach(function(document) {
+                vm.tableRowCollection.forEach(function (document) {
                     for (var index = documentSelectClone.length; index--;) {
                         if (comparator(document, documentSelectClone[index])) {
                             documentSelectClone.splice(index, 1);
@@ -336,12 +389,12 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
                 vm.documentSelects = documentSelectClone;
             }
-            calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdawn);
+            calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
         };
 
         function calculateTransactionAmount(documentSelects, prepercentagDrawdown) {
             var sumAmount = 0;
-            documentSelects.forEach(function(document) {
+            documentSelects.forEach(function (document) {
                 sumAmount += document.outstandingAmount;
             });
             vm.totalDocumentAmount = sumAmount;

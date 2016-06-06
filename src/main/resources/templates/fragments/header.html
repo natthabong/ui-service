@@ -49,7 +49,7 @@
 						<span th:inline="text">{{ '[[${menu.menuId}]]'  | translate }}</span><span class="caret"></span></a>
 						<ul class="dropdown-menu" >
                             <li th:each="children : ${menu.children}">
-                                <a th:attr="ui-sref=${children.url?:'#'}" ui-sref-opts="{reload: true}" th:href="${children.url?:'#'}" 
+                                <a th:attr="ui-sref=${children.url?:'#'}" ui-sref-opts="{reload: true, inherit: false}" th:href="${children.url?:'#'}" 
                                 th:id="${children.menuId+'-menu'}" data-toggle="collapse" 
                                 data-target=".navbar-collapse"><span th:inline="text">{{ '[[${children.menuId}]]' | translate}}</span></a>
 							</li>                    

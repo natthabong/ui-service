@@ -11,4 +11,25 @@ angular.module('scfApp').service('SCFCommonService', [function() {
 
         return recordDisplay;
     };
+    
+    var fromState = '';
+    vm.parentStatePage = function(){
+      
+        return{
+            saveCurrentState: saveCurrentState,
+            getParentState: getParentState,
+            clearParentState: clearParentState
+        }
+        function saveCurrentState(currentState){
+            fromState = currentState;
+        }
+        
+        function getParentState(){
+            return fromState;
+        }
+        
+        function clearParentState(){
+            fromState = '';
+        }
+    };
 }]);
