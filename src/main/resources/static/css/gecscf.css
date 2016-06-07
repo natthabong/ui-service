@@ -559,3 +559,15 @@ footer .footer-below {
 .gec-select{
       bottom: -6px;
  }
+
+.gec-calendar-group{
+	display: inline-flex;
+}
+
+.gec-calendar-group > p{
+	width: 80%;
+}
+
+.gec-table-sort {
+	color: black;
+}
