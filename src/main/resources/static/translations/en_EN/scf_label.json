@@ -63,5 +63,11 @@
     
     "_comment": "System Error Code",
     "E1002": "Insufficient funds",
-    "E1001": "Transaction amount must be greater than zero"
+    "E1001": "Transaction amount must be greater than zero",
+    
+    "drawdown_fail": "Drawdown Fail",
+	"drawdown_success": "Drawdown Success",
+	"internal_step": "Internal Step",
+	"retrievable_transaction": "Retrievable Transaction",
+	"wait_for_drawdown_result": "Wait for Drawdown Result"
 }

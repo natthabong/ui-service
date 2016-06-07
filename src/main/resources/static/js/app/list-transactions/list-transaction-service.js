@@ -4,7 +4,8 @@ angular.module('scfApp').factory('ListTransactionService', ['$http', '$q', ListT
 
 function ListTransactionServices($http, $q){
 	return {
-		getSponsors: getSponsors
+		getSponsors: getSponsors,
+		getTransactionStatusGroups: getTransactionStatusGroups
 	}
 	
 	function getSponsors(){
@@ -15,5 +16,15 @@ function ListTransactionServices($http, $q){
 			deffered.reject(response);
 		});	
 		return deffered;
+	};
+	
+	function getTransactionStatusGroups(){
+		var deffered = $q.defer();
+		$http.post('api/list-transaction/transaction-status-group/get').then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});	
+		return deffered;		
 	};
 }

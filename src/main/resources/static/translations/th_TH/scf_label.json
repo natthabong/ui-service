@@ -63,5 +63,11 @@
     
     "_comment": "System Error Code",
     "E1002": "ระบบไม่สามารถทำรายการได้ เนื่องจากวงเงินคงเหลือไม่พอ",
-    "E1001": "ระบบไม่สามารถทำรายการได้ เนื่องจากจำนวนเงินที่ทำรายการต้องมากกว่าศูนย์  0"
+    "E1001": "ระบบไม่สามารถทำรายการได้ เนื่องจากจำนวนเงินที่ทำรายการต้องมากกว่าศูนย์  0",
+    
+	"drawdown_fail": "ทดสอบ",
+	"drawdown_success": "Drawdown Success",
+	"internal_step": "Internal Step",
+	"retrievable_transaction": "Retrievable Transaction",
+	"wait_for_drawdown_result": "Wait for Drawdown Result"
 }

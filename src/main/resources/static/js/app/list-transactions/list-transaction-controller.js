@@ -7,9 +7,10 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             maturityDate: 'maturityDate'
         }
         // Data Sponsor for select box
-    vm.sponsorCodeDropdowns = [];
+    vm.sponsorCodeDropdown = [];
+    vm.transactionStatusGroupDropdown = [];
 	
-	//Datepicker
+	// Datepicker
 	vm.openDateFrom = false;
 	vm.dateFormat = 'dd/MM/yyyy';
 	vm.openDateTo = false;
@@ -41,7 +42,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         currentPage: 0
     };
 
-    //Load sponsor Code
+    // Load sponsor Code
     vm.loadSponsorCode = function() {
         var sponsorCodesDefered = ListTransactionService.getSponsors();
         sponsorCodesDefered.promise.then(function(response) {
@@ -52,17 +53,37 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                         label: obj.sponsorName,
                         value: obj.sponsorId
                     }
-                    vm.sponsorCodeDropdowns.push(selectObj);
+                    vm.sponsorCodeDropdown.push(selectObj);
                 });
-                vm.listTransactionModel.sponsorCode = vm.sponsorCodeDropdowns[0].value;
+                vm.listTransactionModel.sponsorCode = vm.sponsorCodeDropdown[0].value;
             }
         }).catch(function(response) {
 			console.log('Load Sponsor Fail');
         });
     };
+    
+    vm.loadTransactionGroup = function(){
+        var transactionStatusGroupDefered = ListTransactionService.getTransactionStatusGroups();
+        transactionStatusGroupDefered.promise.then(function(response) {
+            var transactionStatusGroupList = response.data;
+            if (transactionStatusGroupList !== undefined) {
+                transactionStatusGroupList.forEach(function(obj) {
+                    var selectObj = {
+                        label: obj.statusMessageKey,
+                        value: obj.statusGroup
+                    }
+                    vm.transactionStatusGroupDropdown.push(selectObj);
+                });
+                vm.listTransactionModel.groupStatus = vm.transactionStatusGroupDropdown[0].value;
+            }
+        }).catch(function(response) {
+			console.log('Load TransactionStatusGroup Fail');
+        });    	
+    }
 
     vm.initLoad = function() {
         vm.loadSponsorCode();
+        vm.loadTransactionGroup();
     };
 
     vm.initLoad();

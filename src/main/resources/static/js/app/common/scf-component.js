@@ -67,10 +67,10 @@
                     componentData: '<'
                 },
                 link: function(scope, element, attrs) {
-                    
+                    scope.translateLable = attrs.translateLabel;
                 },
                 template: '<select class="form-control">' 
-                + '<option ng-repeat="option in componentData track by option.value" value="{{option.value}}">{{option.label}}</option>' 
+                + '<option ng-repeat="option in componentData track by option.value" value="{{option.value}}">{{translateLable? (option.label | translate) :  option.label}}</option>' 
                 + '</select>'
             };
         }])
