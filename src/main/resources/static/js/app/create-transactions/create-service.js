@@ -112,7 +112,13 @@ function createTransactionService($http, $q) {
             data: {
                 sponsorId: sponsorId,
                 supplierId: supplierId
-            }
+            },
+	        transformRequest :function (data) {
+	            if (data === undefined) {
+	                return data;
+	            }
+	            return $.param(data);
+	        }
         }).then(function(response){
             deffered.resolve(response);
         }).catch(function(response){
