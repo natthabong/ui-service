@@ -170,7 +170,7 @@
 								type="submit" ng-click="validateAndSubmitCtrl.backToCreate()">{{
 							'btn-back' | translate}}</scf-button>
 							<scf-button id="submit-button" class="btn btn-default"
-								type="submit" ng-click="validateAndSubmitCtrl.submitPopup()">{{
+								type="submit" ng-click="validateAndSubmitCtrl.submitTransaction()">{{
 							'submit' | translate}}</scf-button>
 						</div>
 					</div>
@@ -205,7 +205,7 @@
 				<div class="col-xs-12 text-right">
 					<scf-button type="submit" data-dismiss="modal"
 						id="create-new-transaction-button"
-						ng-click="validateAndSubmitCtrl.submitTransaction()"
+						ng-click="validateAndSubmitCtrl.createNewAction()"
 						ng-bind="'create-new-btn' | translate"></scf-button>
 				</div>
 			</div>

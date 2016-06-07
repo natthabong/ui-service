@@ -7,7 +7,10 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             maturityDate: 'maturityDate'
         }
         // Data Sponsor for select box
-    vm.sponsorCodeDropdowns = [];
+    vm.sponsorCodeDropdowns = [{
+		label: 'All',
+		value: ''
+	}];
 	
 	//Datepicker
 	vm.openDateFrom = false;
