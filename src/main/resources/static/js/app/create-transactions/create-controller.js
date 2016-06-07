@@ -121,6 +121,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.loadSponsor = function () {
             var sponsorDeffered = CreateTransactionService.getSponsor();
             sponsorDeffered.promise.then(function (response) {
+				vm.sponsorCodes = [];
                 var sponsorCodeList = response.data;
                 if (sponsorCodeList !== undefined) {
                     sponsorCodeList.forEach(function (obj) {
