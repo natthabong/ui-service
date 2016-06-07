@@ -146,6 +146,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             var sponsorId = vm.createTransactionModel.sponsorCode;
             var supplierDeffered = CreateTransactionService.getSupplier(sponsorId);
             supplierDeffered.promise.then(function (response) {
+            	vm.supplierCodes = [];
                 var supplilerCodeList = response.data;
                 if (supplilerCodeList.length > 0) {
                     supplilerCodeList.forEach(function (obj) {
