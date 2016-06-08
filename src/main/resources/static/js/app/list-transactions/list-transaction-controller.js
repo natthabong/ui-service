@@ -1,6 +1,6 @@
 angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', function(ListTransactionService) {
     var vm = this;
-    vm.showInfomation = true;
+    vm.showInfomation = false;
     
     vm.transactionType = {
             transactionDate: 'transactionDate',
@@ -111,9 +111,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             field: 'transactionDate',
             label: 'Transaction Date',
             sortData: true,
-            cssTemplate: 'text-center',
-            filterType: 'date',
-            filterFormat: 'dd/MM/yyyy'
+            cssTemplate: 'text-center'
         }, {
             field: 'transactionNo',
             label: 'Transaction No',
@@ -154,15 +152,21 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             field: 'maturityDate',
             label: 'Maturity Date',
             sortData: true,
-            cssTemplate: 'text-center',
-            filterType: 'date',
-            filterFormat: 'dd/MM/yyyy'
+            cssTemplate: 'text-center'
         }, {
             field: 'statusMessageKey',
             label: 'Status',
             sortData: true,
             cssTemplate: 'text-center',
-        }]
+        },{
+			label: 'Action',
+			cssTemplate: 'text-center',
+			sortData: false,
+			cellTemplate: '<scf-button id="view-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
+			+'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>'+
+			'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></scf-button>'+
+			'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></scf-button>'
+		}]
     };
 
 	vm.openCalendarDateFrom = function(){
@@ -180,6 +184,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		});
 		var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
 		transactionDifferd.promise.then(function(response){
+			vm.showInfomation = true;
 			var transactionDocs = response.data;
 			vm.tableRowCollection = transactionDocs.content;
 			console.log(response);
