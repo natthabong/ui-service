@@ -4,16 +4,16 @@ angular.module('scfApp').factory('VerifyTransactionService', ['$http', '$q', Ver
 
 function VerifyTransactionService($http, $q){
 	return {
-		getSponsors: getSponsors
+		prepare: prepare
 	}
 	
 
-	function getTransactionDocument(listTransactionModel){
+	function prepare(transaction){
 		var deffered = $q.defer();
 		$http({
-			url: 'api/list-transaction/search',
+			url: 'api/verify-transaction/prepare',
 			method: 'POST',
-			data: listTransactionModel
+			data: transaction
 		}).then(function(response){
 			deffered.resolve(response);
 		}).catch(function(response){

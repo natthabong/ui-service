@@ -21,7 +21,7 @@
 										</div>
 										<div class="col-md-9 col-sm-9">
 											<span id="sponsor-label"
-												ng-bind="verifyTxnCtrl.tradingpartnerInfoModel.sponsorName"></span>
+												ng-bind="verifyTxnCtrl.transactionModel.sponsor"></span>
 										</div>
 
 									</div>
@@ -49,7 +49,7 @@
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="value-of-document-label"
-												ng-bind="verifyTxnCtrl.valueOfDocument | number:2"></span>
+												ng-bind="verifyTxnCtrl.transactionModel.valueOfDocument | number:2"></span>
 										</div>
 										<div class="col-md-1 col-sm-1">
 											<span ng-bind="'thai-bath' | translate"></span>
@@ -59,7 +59,7 @@
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="sponsor-payment-date-label"
-												ng-bind="verifyTxnCtrl.transactionModel.sponsorPaymentDate"></span>
+												ng-bind="verifyTxnCtrl.transactionModel.sponsorPaymentDate | date: 'dd/MM/yyyy'"></span>
 										</div>
 										<div class="col-md-3 col-sm-1"></div>
 									</div>
@@ -69,8 +69,8 @@
 												ng-bind="'transaction-create-preDrawdownPercentage' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
-											<span id="pre-drawdown-label"
-												ng-bind="verifyTxnCtrl.tradingpartnerInfoModel.prePercentageDrawdown | number:2"></span>
+											<span id="predrawdown-percentage-label"
+												ng-bind="verifyTxnCtrl.transactionModel.prePercentageDrawdown | number:2"></span>
 										</div>
 										<div class="col-md-1 col-sm-1">
 											<span>%</span>
@@ -80,7 +80,7 @@
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="header-transaction-date-label"
-												ng-bind="verifyTxnCtrl.transactionModel.transactionDate"></span>
+												ng-bind="verifyTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy'"></span>
 										</div>
 										<div class="col-md-3 col-sm-1"></div>
 									</div>
@@ -99,8 +99,27 @@
 											<label ng-bind="'loan-maturity-date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
-											<span id="loan-maturity-date-label"
-												ng-bind="verifyTxnCtrl.transactionModel.maturityDate"></span>
+											<span id="loan-matuality-label"
+												ng-bind="verifyTxnCtrl.transactionModel.maturityDate | date: 'dd/MM/yyyy'"></span>
+										</div>
+										<div class="col-md-3 col-sm-1"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-2 col-sm-3">
+											<label ng-bind="'create-by' |translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2 text-right">
+											<span id="create-by-label"
+												ng-bind="verifyTxnCtrl.transactionModel.createdBy"></span>
+										</div>
+										<div class="col-md-1 col-sm-1">
+										</div>
+										<div class="col-md-2 col-sm-3">
+											<label ng-bind="'create-date' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="create-date-label"
+												ng-bind="verifyTxnCtrl.transactionModel.createdTime | date: 'dd/MM/yyyy HH:mm'"></span>
 										</div>
 										<div class="col-md-3 col-sm-1"></div>
 									</div>
@@ -124,7 +143,7 @@
 								</div>
 								<div class="col-md-5">
 									<scf-pagination
-										page-size-model="verifyTxnCtrl.pageSizeSelectModel"
+										page-size-model="verifyTxnCtrl.pageModel.pageSizeSelectModel"
 										total-page="verifyTxnCtrl.pageModel.totalRecord"
 										current-page="verifyTxnCtrl.pageModel.currentPage"
 										page-size-list="verifyTxnCtrl.pageSizeList"
@@ -152,7 +171,7 @@
 								<label class="col-md-2 control-label"><b
 									ng-bind="'transaction-amount' | translate"></b>:</label>
 								<div class="col-md-9 control-label">
-									<span id="validate-transaction-amount-label"
+									<span id="footer-transaction-amount-label"
 										ng-bind="verifyTxnCtrl.transactionModel.transactionAmount | number:2"></span>
 									&nbsp; <span ng-bind="'thai-bath' | translate"></span>
 								</div>
@@ -160,19 +179,19 @@
 								<label class="col-md-2 control-label"><b
 									ng-bind="'transaction-date' | translate"></b>:</label>
 								<div class="col-md-9 control-label">
-									<label id="transaction-date-label">{{verifyTxnCtrl.transactionModel.transactionDate}}</label>
+									<label id="footer-transaction-date-label">{{verifyTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy'}}</label>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-12 text-right">
 							<scf-button id="back-button" class="btn btn-default"
-								type="button" ng-click="verifyTxnCtrl.back()">{{
+								type="submit" ng-click="verifyTxnCtrl.back()">{{
 							'btn-back' | translate}}</scf-button>
 							<scf-button id="approve-button" class="btn btn-default"
 								type="submit" ng-click="verifyTxnCtrl.approve()">{{
 							'approve' | translate}}</scf-button>
 							<scf-button id="reject-button" class="btn btn-default"
-								type="button" ng-click="verifyTxnCtrl.reject()">{{
+								type="submit" ng-click="verifyTxnCtrl.reject()">{{
 							'reject' | translate}}</scf-button>
 						</div>
 					</div>

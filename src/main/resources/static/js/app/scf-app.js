@@ -48,6 +48,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'VerifyTransactionController',
 				controllerAs: 'verifyTxnCtrl',
 				templateUrl: '/verify-transaction',
+				params: { transactionModel: null},
 				resolve: load(['js/app/verify-transactions/verify-transaction-service.js', 'js/app/verify-transactions/verify-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			});
 			

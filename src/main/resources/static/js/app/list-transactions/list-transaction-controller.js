@@ -114,6 +114,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         }, {
             field: 'transactionDate',
             label: 'Transaction Date',
+            filterType: 'date',
+            filterFormat: 'dd/MM/yyyy',
             sortData: true,
             cssTemplate: 'text-center'
         }, {
@@ -155,6 +157,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         }, {
             field: 'maturityDate',
             label: 'Maturity Date',
+            filterType: 'date',
+            filterFormat: 'dd/MM/yyyy',
             sortData: true,
             cssTemplate: 'text-center'
         }, {
