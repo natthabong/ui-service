@@ -8,7 +8,10 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         }
         // Data Sponsor for select box
 
-    vm.transactionStatusGroupDropdown = [];
+    vm.transactionStatusGroupDropdown = [{
+		label: 'All',
+		value: ''
+	}];
 
     vm.sponsorCodeDropdown = [{
 		label: 'All',
@@ -171,7 +174,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			label: 'Action',
 			cssTemplate: 'text-center',
 			sortData: false,
-			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.verify(data)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>'+
+			cellTemplate: '<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.verify(data)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="view-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+

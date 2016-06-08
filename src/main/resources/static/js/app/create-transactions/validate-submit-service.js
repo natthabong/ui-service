@@ -45,7 +45,7 @@ function validateAndSubmitService($http, $q) {
                 deffered.resolve(response);
             })
             .catch(function(response) {
-                deffered.reject('Cannot submitTransaction');
+                deffered.reject(response);
             });
         return deffered;
     }    

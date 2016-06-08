@@ -79,7 +79,7 @@
 											<label ng-bind="'transaction-date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
-											<span id="header-transaction-date-label"
+											<span id="transaction-date-label"
 												ng-bind="verifyTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy'"></span>
 										</div>
 										<div class="col-md-3 col-sm-1"></div>
@@ -89,7 +89,7 @@
 											<label ng-bind="'transaction-amount' |translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
-											<span id="header-transaction-amount-label"
+											<span id="transaction-amount-label"
 												ng-bind="verifyTxnCtrl.transactionModel.transactionAmount | number:2"></span>
 										</div>
 										<div class="col-md-1 col-sm-1">
@@ -139,7 +139,7 @@
 						<div class="col-md-8 text-right">
 							<div class="row">
 								<div class="col-md-7">
-									<label id="current_page_label">1 - 10 of 20</label>:
+									<label id="document-paging-label" ng-bind="verifyTxnCtrl.splitePageTxt"></label>
 								</div>
 								<div class="col-md-5">
 									<scf-pagination
@@ -154,7 +154,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<scf-data-table component-config="verifyTxnCtrl.dataTable"
+							<scf-data-table component-config="verifyTxnCtrl.dataTable" id="document-table"
 								component-datas="verifyTxnCtrl.transactionModel.documents">
 							</scf-data-table>
 						</div>
@@ -188,7 +188,7 @@
 								type="submit" ng-click="verifyTxnCtrl.back()">{{
 							'btn-back' | translate}}</scf-button>
 							<scf-button id="approve-button" class="btn btn-default"
-								type="submit" ng-click="verifyTxnCtrl.approve()">{{
+								type="submit" ng-click="verifyTxnCtrl.confirmApprove()">{{
 							'approve' | translate}}</scf-button>
 							<scf-button id="reject-button" class="btn btn-default"
 								type="submit" ng-click="verifyTxnCtrl.reject()">{{
@@ -199,5 +199,26 @@
 			</div>
 		</div>
 	</div>
+	<scf-modal visible="showConfirmPopup">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 ng-bind="'verify-popup-confirm' | translate"></h1>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 text-right">
+                        <scf-button type="submit"  data-dismiss="modal" id="yes-button" ng-click="verifyTxnCtrl.approve()" ng-bind="'yes-btn' | translate">
+                        </scf-button>
+                        <scf-button type="button" class="btn-danger" data-dismiss="modal" id="no-button" ng-bind="'no-btn' | translate">
+                        </scf-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </scf-modal>
 	<!-- End Panel-->
 </div>

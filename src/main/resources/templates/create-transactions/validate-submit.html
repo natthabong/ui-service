@@ -170,7 +170,8 @@
 								type="submit" ng-click="validateAndSubmitCtrl.backToCreate()">{{
 							'btn-back' | translate}}</scf-button>
 							<scf-button id="submit-button" class="btn btn-default"
-								type="submit" ng-click="validateAndSubmitCtrl.submitTransaction()">{{
+								type="submit"
+								ng-click="validateAndSubmitCtrl.submitTransaction()">{{
 							'submit' | translate}}</scf-button>
 						</div>
 					</div>
@@ -212,6 +213,35 @@
 		</div>
 	</div>
 	</scf-modal>
-
+	<scf-modal visible="submitFailPopup">
+	<div class="modal-content">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-2 col-sm-2">
+					<image width="70" height="70" ng-src="img/error-icon.png"></image>
+				</div>
+				<div class="col-md-10 col-sm-10" style="color: red;">
+					<h2 ng-bind="'popup-fail' | translate">fail</h2>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-xs-12 text-center">
+					<h3 id="error-message-label"
+						ng-bind="validateAndSubmitCtrl.errorMsgPopup | translate"></h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="back-button" data-dismiss="modal"
+						ng-bind="'btn-back' | translate"></scf-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</scf-modal>
 	<!-- End Panel-->
 </div>

@@ -4,6 +4,7 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 		function(ValidateAndSubmitService, $state, $scope, $window, $timeout, $stateParams, SCFCommonService) {
 			var vm = this;
 			$scope.validateDataPopup = false;
+			$scope.submitFailPopup = false;
 			$scope.confirmPopup = false;
 			vm.transactionNo = '';
 			vm.pageSizeList = [ {
@@ -20,7 +21,6 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			vm.initLoadData = function(){
                 vm.transactionModel = $stateParams.transactionModel;
                 vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
-//                vm.tradingModel = {sponsorName : 'TESCO CO,LTD.'};
                 vm.valueOfDocument = $stateParams.totalDocumentAmount;
 
                 if(vm.transactionModel === null){
@@ -95,6 +95,8 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 					 $scope.validateDataPopup = true;
 				 }).catch(function(response) {
 					 console.log(response);
+					 $scope.submitFailPopup = true;
+					 vm.errorMsgPopup = response.data.errorCode;
 				 });
 			};
 			vm.createNewAction = function(){

@@ -1,21 +1,28 @@
 angular.module('scfApp').controller(
 		'VerifyTransactionController',
-		[ 'VerifyTransactionService', '$stateParams',
-				function(VerifyTransactionService, $stateParams) {
+		[ 'VerifyTransactionService', '$stateParams','SCFCommonService','$scope',
+				function(VerifyTransactionService, $stateParams, SCFCommonService,$scope) {
 					var vm = this;
-
+					$scope.showConfirmPopup = false; 
+					vm.pageModel = {
+							pageSizeSelectModel : '20',
+							totalRecord : 0,
+							currentPage : 0
+						};
 					vm.transactionModel = $stateParams.transactionModel;
-					
+					vm.splitePageTxt = '';
 					function init(){
 					     var deffered = VerifyTransactionService.prepare(vm.transactionModel);
 				            deffered.promise.then(function (response) {
 				            	  vm.transactionModel = angular.extend(vm.transactionModel, response.data);
-
+				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
+				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 				                })
 				                .catch(function (response) {
 				                    console.log(response);
 				                });
 					}
+					
 					init();
 					vm.pageSizeList = [ {
 						label : '10',
@@ -28,11 +35,7 @@ angular.module('scfApp').controller(
 						value : '50'
 					} ];
 
-					vm.pageModel = {
-						pageSizeSelectModel : '20',
-						totalRecord : 0,
-						currentPage : 0
-					};
+					
 					
 					vm.dataTable = {
 						options : {
@@ -75,6 +78,22 @@ angular.module('scfApp').controller(
 							filterType : 'number',
 							filterFormat : '2'
 						} ]
+					}
+					
+					vm.confirmApprove = function(){
+						$scope.showConfirmPopup = true; 
+					}
+					
+					vm.approve = function(){
+						 var deffered = VerifyTransactionService.approve(vm.transactionModel);
+				            deffered.promise.then(function (response) {
+				            	  vm.transactionModel = angular.extend(vm.transactionModel, response.data);
+				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
+				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+				                })
+				                .catch(function (response) {
+				                    console.log(response);
+				                });
 					}
 
 				} ]);
