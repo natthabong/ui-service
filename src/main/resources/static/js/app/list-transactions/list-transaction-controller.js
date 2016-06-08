@@ -1,4 +1,5 @@
 angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'SCFCommonService', '$scope', function(ListTransactionService, SCFCommonService, $scope) {
+
     var vm = this;
     vm.showInfomation = false;
     vm.splitePageTxt = '';
@@ -117,6 +118,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         }, {
             field: 'transactionDate',
             label: 'Transaction Date',
+            filterType: 'date',
+            filterFormat: 'dd/MM/yyyy',
             sortData: true,
             cssTemplate: 'text-center'
         }, {
@@ -158,6 +161,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         }, {
             field: 'maturityDate',
             label: 'Maturity Date',
+            filterType: 'date',
+            filterFormat: 'dd/MM/yyyy',
             sortData: true,
             cssTemplate: 'text-center'
         }, {
@@ -176,6 +181,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                 '<scf-button id="search-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-pring-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>' +
                 '<scf-button id="view-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
         }]
+
     };
 
     vm.openCalendarDateFrom = function() {
@@ -230,6 +236,12 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		vm.listTransactionModel.orderBy = orderBy;
 		vm.searchTransactionService();
 	};
+	
+	vm.verify = function(data){
+		$state.go('/verify-transaction', {
+            transactionModel: data
+        });
+	}
 
 }]);
 
