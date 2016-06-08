@@ -1,34 +1,37 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', function(ListTransactionService) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'SCFCommonService', '$scope', function(ListTransactionService, SCFCommonService, $scope) {
     var vm = this;
     vm.showInfomation = false;
-    
+    vm.splitePageTxt = '';
     vm.transactionType = {
             transactionDate: 'transactionDate',
             maturityDate: 'maturityDate'
         }
         // Data Sponsor for select box
 
-    vm.transactionStatusGroupDropdown = [];
+    vm.transactionStatusGroupDropdown = [{
+        label: 'All',
+        value: ''
+    }];
 
     vm.sponsorCodeDropdown = [{
-		label: 'All',
-		value: ''
-	}];
+        label: 'All',
+        value: ''
+    }];
 
     vm.tableRowCollection = [];
 
-	
-	// Datepicker
-	vm.openDateFrom = false;
-	vm.dateFormat = 'dd/MM/yyyy';
-	vm.openDateTo = false;
-	
-	vm.dateModel = {
-		dateFrom: '',
-		dateTo: ''
-	}
-	// Model mapping whith page list
-   vm.listTransactionModel = {
+
+    // Datepicker
+    vm.openDateFrom = false;
+    vm.dateFormat = 'dd/MM/yyyy';
+    vm.openDateTo = false;
+
+    vm.dateModel = {
+            dateFrom: '',
+            dateTo: ''
+        }
+        // Model mapping whith page list
+    vm.listTransactionModel = {
             dateType: vm.transactionType.transactionDate,
             dateFrom: '',
             dateTo: '',
@@ -36,7 +39,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             supplierId: '',
             groupStatus: '',
             order: '',
-            orderBy:''
+            orderBy: ''
         }
         // Init data paging
     vm.pageSizeList = [{
@@ -72,11 +75,11 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                 vm.listTransactionModel.sponsorCode = vm.sponsorCodeDropdown[0].value;
             }
         }).catch(function(response) {
-			console.log('Load Sponsor Fail');
+            console.log('Load Sponsor Fail');
         });
     };
-    
-    vm.loadTransactionGroup = function(){
+
+    vm.loadTransactionGroup = function() {
         var transactionStatusGroupDefered = ListTransactionService.getTransactionStatusGroups();
         transactionStatusGroupDefered.promise.then(function(response) {
             var transactionStatusGroupList = response.data;
@@ -91,8 +94,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                 vm.listTransactionModel.groupStatus = vm.transactionStatusGroupDropdown[0].value;
             }
         }).catch(function(response) {
-			console.log('Load TransactionStatusGroup Fail');
-        });    	
+            console.log('Load TransactionStatusGroup Fail');
+        });
     }
 
     vm.initLoad = function() {
@@ -162,59 +165,81 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             label: 'Status',
             sortData: true,
             cssTemplate: 'text-center',
-        },{
-			field: 'action',
-			label: 'Action',
-			cssTemplate: 'text-center',
-			sortData: false,
-			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>'+
-			'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></scf-button>'+
-			'<scf-button id="view-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
-			'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
-			'<scf-button id="view-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
-		}]
+        }, {
+            field: 'action',
+            label: 'Action',
+            cssTemplate: 'text-center',
+            sortData: false,
+            cellTemplate: '<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>' +
+                '<scf-button id="search-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></scf-button>' +
+                '<scf-button id="view-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-retry-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>' +
+                '<scf-button id="search-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-pring-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>' +
+                '<scf-button id="view-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
+        }]
     };
 
-	vm.openCalendarDateFrom = function(){
-		vm.openDateFrom = true;
-	};
+    vm.openCalendarDateFrom = function() {
+        vm.openDateFrom = true;
+    };
+
+    vm.openCalendarDateTo = function() {
+        vm.openDateTo = true;
+    };
+
+    vm.searchTransaction = function(criteria) {
+        var dateFrom = vm.dateModel.dateFrom;
+        var dateTo = vm.dateModel.dateTo;
+
+        vm.listTransactionModel.dateFrom = convertDate(dateFrom);
+        vm.listTransactionModel.dateTo = convertDate(dateTo);
+
+        if (criteria === undefined) {
+            vm.pageModel.currentPage = '0';
+            vm.pageModel.pageSizeSelectModel = '20';
+        } else {			
+			vm.pageModel.currentPage = criteria.page;
+            vm.pageModel.pageSizeSelectModel = criteria.pageSize;
+        }
+
+        vm.searchTransactionService();
+
+    };
+
+    vm.searchTransactionService = function() {
+		var transactionModel = angular.extend(vm.listTransactionModel, {
+            page: vm.pageModel.currentPage,
+            pageSize: vm.pageModel.pageSizeSelectModel
+        });
+        var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
+        transactionDifferd.promise.then(function(response) {
+            vm.showInfomation = true;
+            var transactionDocs = response.data;
+            vm.tableRowCollection = transactionDocs.content;
+            vm.pageModel.totalRecord = transactionDocs.totalElements;
+			vm.pageModel.totalPage = transactionDocs.totalPages;
+			
+            // Calculate Display page
+            vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+        }).catch(function(response) {
+            console.log('Cannot search document');
+        });
+    };
 	
-	vm.openCalendarDateTo = function(){
-		vm.openDateTo = true;
-	};
-	
-	vm.searchTransaction = function(){
-		var dateFrom = vm.dateModel.dateFrom;
-		var dateTo = vm.dateModel.dateTo;
-		
-		vm.listTransactionModel.dateFrom = convertDate(dateFrom);
-		vm.listTransactionModel.dateTo = convertDate(dateTo);
-		
-		var transactionModel = angular.extend(vm.listTransactionModel,{
-			page: vm.pageModel.currentPage,
-			pageSize: vm.pageModel.pageSizeSelectModel
-		});
-		
-		var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
-		transactionDifferd.promise.then(function(response){
-			vm.showInfomation = true;
-			var transactionDocs = response.data;
-			vm.tableRowCollection = transactionDocs.content;
-			console.log(response);
-		}).catch(function(response){
-			console.log('Cannot search document');
-		});
+	$scope.sortData = function(order, orderBy){
+		vm.listTransactionModel.order = order;
+		vm.listTransactionModel.orderBy = orderBy;
+		vm.searchTransactionService();
 	};
 
 }]);
 
-function convertDate(dateTime){
-	var result = '';
-	if(dateTime != undefined && dateTime != ''){
-		var date = dateTime.getDate();		
-		var month = (dateTime.getMonth() + 1);
-		var year = dateTime.getFullYear();
-		result =  date +'/' + month + '/' + year;
-	}
-	return result;
+function convertDate(dateTime) {
+    var result = '';
+    if (dateTime != undefined && dateTime != '') {
+        var date = dateTime.getDate();
+        var month = (dateTime.getMonth() + 1);
+        var year = dateTime.getFullYear();
+        result = date + '/' + month + '/' + year;
+    }
+    return result;
 }

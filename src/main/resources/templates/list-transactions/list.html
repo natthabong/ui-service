@@ -89,13 +89,14 @@
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 text-right">
                                     <span>                                              
-										<b ng-bind="createTransactionCtrl.splitePageTxt" id="document-paging-label"></b>
+										<b ng-bind="listTransactionController.splitePageTxt" id="document-paging-label"></b>
                                         &nbsp;&nbsp;
-                                        <scf-pagination dropdown-id="page-limit-dropdown" page-size-model="listTransactionController.pageModel.pageSizeSelectModel" 
+                                        <scf-pagination dropdown-id="page-limit-dropdown" 
+														page-size-model="listTransactionController.pageModel.pageSizeSelectModel" 
                                         	total-page="listTransactionController.pageModel.totalPage" 
                                             current-page="listTransactionController.pageModel.currentPage" 
                                             page-size-list="listTransactionController.pageSizeList" 
-                                            page-action="listTransactionController.searchTrasactionDocument"></scf-pagination>
+                                            page-action="listTransactionController.searchTransaction"></scf-pagination>
 									</span>
 
                                 </div>
