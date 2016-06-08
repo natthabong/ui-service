@@ -1,4 +1,4 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', function(ListTransactionService) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state', function(ListTransactionService, $state) {
     var vm = this;
     vm.showInfomation = false;
     
@@ -167,7 +167,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			label: 'Action',
 			cssTemplate: 'text-center',
 			sortData: false,
-			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>'+
+			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.verify(data)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="view-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
@@ -205,6 +205,12 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			console.log('Cannot search document');
 		});
 	};
+	
+	vm.verify = function(data){
+		$state.go('/verify-transaction', {
+            transactionModel: data
+        });
+	}
 
 }]);
 
