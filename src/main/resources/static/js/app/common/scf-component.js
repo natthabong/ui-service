@@ -308,7 +308,9 @@
                 
                 var result = '';
                 if(filterType === 'date'){
+					console.log(data);
                     var pDate = Date.parse(data);
+					
                     result = $filter(filterType)(new Date(pDate), filterFormat);
                 }else{
                     result = $filter(filterType)(data, filterFormat);
