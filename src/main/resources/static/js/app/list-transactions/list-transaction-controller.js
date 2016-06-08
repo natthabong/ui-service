@@ -15,6 +15,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		value: ''
 	}];
 
+    vm.tableRowCollection = [];
+
 	
 	// Datepicker
 	vm.openDateFrom = false;
@@ -22,13 +24,15 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	vm.openDateTo = false;
 	
 	// Model mapping whith page list
-    vm.listTransactionModel = {
-            transactionDateType: vm.transactionType.transactionDate,
+   vm.listTransactionModel = {
+            dateType: vm.transactionType.transactionDate,
             dateFrom: '',
             dateTo: '',
-            sponsorCode: '',
-            supplierCode: '',
-            groupStatus: ''
+            sponsorId: '',
+            supplierId: '',
+            groupStatus: '',
+            order: '',
+            orderBy:''
         }
         // Init data paging
     vm.pageSizeList = [{
@@ -121,7 +125,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             sortData: true,
             cssTemplate: 'text-center',
         }, {
-            field: 'interestRate',
+            field: 'interest',
             label: 'interest',
             sortData: false,
             cssTemplate: 'text-right',
@@ -154,7 +158,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             filterType: 'date',
             filterFormat: 'dd/MM/yyyy'
         }, {
-            field: 'status',
+            field: 'statusMessageKey',
             label: 'Status',
             sortData: true,
             cssTemplate: 'text-center',
@@ -167,6 +171,21 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	
 	vm.openCalendarDateTo = function(){
 		vm.openDateTo = true;
+	};
+	
+	vm.searchTransaction = function(){
+		var transactionModel = angular.extend(vm.listTransactionModel,{
+			page: vm.pageModel.currentPage,
+			pageSize: vm.pageModel.pageSizeSelectModel
+		});
+		var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
+		transactionDifferd.promise.then(function(response){
+			var transactionDocs = response.data;
+			vm.tableRowCollection = transactionDocs.content;
+			console.log(response);
+		}).catch(function(response){
+			console.log('Cannot search document');
+		});
 	};
 
 

@@ -29,17 +29,12 @@ function ListTransactionServices($http, $q){
 		return deffered;		
 	};
 
-	function getTransactionDocument(transactionModel){
+	function getTransactionDocument(listTransactionModel){
 		var deffered = $q.defer();
 		$http({
-			url:'api/list-transaction/search',
+			url: 'api/list-transaction/search',
 			method: 'POST',
-			headers : {
-            		'Content-Type': 'application/x-www-form-urlencoded'
-            },
-			data:{
-				dateType: transactionModel.transactionDateType
-			}
+			data: listTransactionModel
 		}).then(function(response){
 			deffered.resolve(response);
 		}).catch(function(response){
