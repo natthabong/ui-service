@@ -34,22 +34,22 @@
                                     <label for="date-from-calendar" class="control-label">From: </label>
                                     <scf-date-picker-from text-id="date-from-calendar" 
 														  button-id="date-from-calendar-button" 
-														  text-model="listTransactionController.listTransactionModel.dateFrom"
+														  text-model="listTransactionController.dateModel.dateFrom"
 														  date-format="{{listTransactionController.dateFormat}}" 
 														  is-open="listTransactionController.openDateFrom"
 														  open-calendar-action="listTransactionController.openCalendarDateFrom()"
-														  max-date="listTransactionController.listTransactionModel.dateTo">
+														  max-date="listTransactionController.dateModel.dateTo">
 									</scf-date-picker-from>
 
                                 </div>
                                 <div class="col-md-3 col-sm-3 gec-calendar-group">
                                     <label for="date-to-calendar" class="control-label">To: </label>
                                     <scf-date-picker-to text-id="date-to-calendar" button-id="date-to-calendar-button" 
-														text-model="listTransactionController.listTransactionModel.dateTo" 
+														text-model="listTransactionController.dateModel.dateTo" 
 														date-format="{{listTransactionController.dateFormat}}" 
 														is-open="listTransactionController.openDateTo" 
 														open-calendar-action="listTransactionController.openCalendarDateTo()" 
-														min-date="listTransactionController.listTransactionModel.dateFrom">
+														min-date="listTransactionController.dateModel.dateFrom">
 									</scf-date-picker-to>
                                 </div>
                                 <div class="col-md-4 col-sm-3"></div>

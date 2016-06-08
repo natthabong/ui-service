@@ -23,6 +23,10 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	vm.dateFormat = 'dd/MM/yyyy';
 	vm.openDateTo = false;
 	
+	vm.dateModel = {
+		dateFrom: '',
+		dateTo: ''
+	}
 	// Model mapping whith page list
    vm.listTransactionModel = {
             dateType: vm.transactionType.transactionDate,
@@ -159,13 +163,15 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             sortData: true,
             cssTemplate: 'text-center',
         },{
+			field: 'action',
 			label: 'Action',
 			cssTemplate: 'text-center',
 			sortData: false,
-			cellTemplate: '<scf-button id="view-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
-			+'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>'+
+			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></scf-button>'+
-			'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></scf-button>'
+			'<scf-button id="view-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
+			'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
+			'<scf-button id="view-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
 		}]
     };
 
@@ -178,10 +184,17 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	};
 	
 	vm.searchTransaction = function(){
+		var dateFrom = vm.dateModel.dateFrom;
+		var dateTo = vm.dateModel.dateTo;
+		
+		vm.listTransactionModel.dateFrom = convertDate(dateFrom);
+		vm.listTransactionModel.dateTo = convertDate(dateTo);
+		
 		var transactionModel = angular.extend(vm.listTransactionModel,{
 			page: vm.pageModel.currentPage,
 			pageSize: vm.pageModel.pageSizeSelectModel
 		});
+		
 		var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
 		transactionDifferd.promise.then(function(response){
 			vm.showInfomation = true;
@@ -193,5 +206,15 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		});
 	};
 
-
 }]);
+
+function convertDate(dateTime){
+	var result = '';
+	if(dateTime != undefined && dateTime != ''){
+		var date = dateTime.getDate();		
+		var month = (dateTime.getMonth() + 1);
+		var year = dateTime.getFullYear();
+		result =  date +'/' + month + '/' + year;
+	}
+	return result;
+}
