@@ -37,7 +37,7 @@
 	
 	"_comment": "Menu",
 	"transaction": "Transaction",
-	"list-transaction": "Transaction List",
+	"transaction-list": "Transaction List",
 	
 	"_comment": "Page Create Transaction",
 	"transaction-create-creditLimit": "วงเงินกู้",

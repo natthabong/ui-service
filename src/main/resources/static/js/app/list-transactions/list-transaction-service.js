@@ -5,7 +5,8 @@ angular.module('scfApp').factory('ListTransactionService', ['$http', '$q', ListT
 function ListTransactionServices($http, $q){
 	return {
 		getSponsors: getSponsors,
-		getTransactionStatusGroups: getTransactionStatusGroups
+		getTransactionStatusGroups: getTransactionStatusGroups,
+		getTransactionDocument: getTransactionDocument
 	}
 	
 	function getSponsors(){
@@ -27,4 +28,23 @@ function ListTransactionServices($http, $q){
 		});	
 		return deffered;		
 	};
+
+	function getTransactionDocument(transactionModel){
+		var deffered = $q.defer();
+		$http({
+			url:'api/list-transaction/search',
+			method: 'POST',
+			headers : {
+            		'Content-Type': 'application/x-www-form-urlencoded'
+            },
+			data:{
+				dateType: transactionModel.transactionDateType
+			}
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});	
+		return deffered;
+	}
 }
