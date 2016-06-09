@@ -7,6 +7,7 @@ function ListTransactionServices($http, $q){
 		getSponsors: getSponsors,
 		getTransactionStatusGroups: getTransactionStatusGroups,
 		getTransactionDocument: getTransactionDocument,
+		summaryInternalStep: summaryInternalStep,
 		exportCSVFile: exportCSVFile,
 	}
 	
@@ -43,7 +44,21 @@ function ListTransactionServices($http, $q){
 		});	
 		return deffered;
 	}
-	
+
+	function summaryInternalStep(listTransactionModel){
+		var deffered = $q.defer();
+		$http({
+			url: 'api/list-transaction/summary-internal-step',
+			method: 'POST',
+			data: listTransactionModel
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});	
+		return deffered;
+	}
+
 	function exportCSVFile(listTransactionModel,$translate){
         $http({
             url : 'api/list-transaction/exportCSVFile',

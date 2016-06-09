@@ -1,13 +1,15 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', function(ListTransactionService, $state,$translate) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', '$scope', 'SCFCommonService', function(ListTransactionService, $state,$translate, $scope, SCFCommonService) {
     var vm = this;
     vm.showInfomation = false;
-    
+     vm.splitePageTxt = '';
     vm.transactionType = {
             transactionDate: 'transactionDate',
             maturityDate: 'maturityDate'
         }
         // Data Sponsor for select box
-
+	vm.verify = false;
+	vm.approve = false;
+	
     vm.transactionStatusGroupDropdown = [{
 		label: 'All',
 		value: ''
@@ -20,7 +22,34 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 
     vm.tableRowCollection = [];
 
-	
+	vm.summaryInternalStep = {
+            wait_for_verify: {
+                statusMessageKey: 'wait-for-verify',
+                totalRecord: 0,
+                totalAmount: 0
+            },
+            wait_for_approve: {
+                statusMessageKey: 'wait-for-approve',
+                totalRecord: 0,
+                totalAmount: 0
+            },
+            reject_by_checker: {
+                statusMessageKey: 'reject-by-checker',
+                totalRecord: 0,
+                totalAmount: 0
+            },
+            reject_by_approver: {
+                statusMessageKey: 'reject-by-approver',
+                totalRecord: 0,
+                totalAmount: 0
+            },
+            canceled_by_supplier: {
+                statusMessageKey: 'canceled-by-supplier',
+                totalRecord: 0,
+                totalAmount: 0
+            }
+        };
+        
 	// Datepicker
 	vm.openDateFrom = false;
 	vm.dateFormat = 'dd/MM/yyyy';
@@ -176,8 +205,9 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			label: 'Action',
 			cssTemplate: 'text-center',
 			sortData: false,
-			cellTemplate: '<scf-button class="btn-default gec-btn-action" sec:authorize="hasRole(\'ROLE_ADMIN\')" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.verify(data)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.view(data)"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></scf-button>'+
+			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!listTransactionController.verify" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.verifyTransaction(data)"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
+			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!listTransactionController.approve" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="listTransactionController.searchTransaction()"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
+			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
@@ -192,28 +222,93 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		vm.openDateTo = true;
 	};
 	
-	vm.searchTransaction = function(){
-		var dateFrom = vm.dateModel.dateFrom;
-		var dateTo = vm.dateModel.dateTo;
-		
-		vm.listTransactionModel.dateFrom = convertDate(dateFrom);
-		vm.listTransactionModel.dateTo = convertDate(dateTo);
-		
-		var transactionModel = angular.extend(vm.listTransactionModel,{
-			page: vm.pageModel.currentPage,
-			pageSize: vm.pageModel.pageSizeSelectModel
-		});
-		
-		var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
-		transactionDifferd.promise.then(function(response){
-			vm.showInfomation = true;
-			var transactionDocs = response.data;
-			vm.tableRowCollection = transactionDocs.content;
-			console.log(response);
-		}).catch(function(response){
-			console.log('Cannot search document');
-		});
+	vm.searchTransaction = function(criteria){
+		 var dateFrom = vm.dateModel.dateFrom;
+            var dateTo = vm.dateModel.dateTo;
+
+            vm.listTransactionModel.dateFrom = convertDate(dateFrom);
+            vm.listTransactionModel.dateTo = convertDate(dateTo);
+
+            if (criteria === undefined) {
+                vm.pageModel.currentPage = '0';
+                vm.pageModel.pageSizeSelectModel = '20';
+            } else {
+                vm.pageModel.currentPage = criteria.page;
+                vm.pageModel.pageSizeSelectModel = criteria.pageSize;
+            }
+
+            vm.searchTransactionService();
+
+	
 	};
+
+	vm.searchTransactionService = function() {
+            var transactionModel = angular.extend(vm.listTransactionModel, {
+                page: vm.pageModel.currentPage,
+                pageSize: vm.pageModel.pageSizeSelectModel
+            });
+            var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
+            transactionDifferd.promise.then(function(response) {
+                vm.showInfomation = true;
+                var transactionDocs = response.data;
+                vm.tableRowCollection = transactionDocs.content;
+                vm.pageModel.totalRecord = transactionDocs.totalElements;
+                vm.pageModel.totalPage = transactionDocs.totalPages;
+
+                // Calculate Display page
+                vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+				
+				//reset value of internal step
+				vm.summaryInternalStep.canceled_by_supplier.totalRecord = 0;
+				vm.summaryInternalStep.canceled_by_supplier.totalAmount =0;
+                vm.summaryInternalStep.reject_by_approver.totalRecord = 0;
+                vm.summaryInternalStep.reject_by_approver.totalAmount = 0;
+                vm.summaryInternalStep.reject_by_checker.totalRecord = 0;
+                vm.summaryInternalStep.reject_by_checker.totalAmount = 0;
+                vm.summaryInternalStep.wait_for_approve.totalRecord = 0;
+                vm.summaryInternalStep.wait_for_approve.totalAmount = 0;
+                vm.summaryInternalStep.wait_for_verify.totalRecord = 0;
+                vm.summaryInternalStep.wait_for_verify.totalAmount = 0;
+				
+                if (vm.listTransactionModel.groupStatus === 'INTERNAL_STEP' || vm.listTransactionModel.groupStatus === '') {
+                    var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
+                    internalStepDeffered.promise.then(function(response) {
+                        var internalStemp = response.data;
+                        if (internalStemp.length > 0) {
+                            internalStemp.forEach(function(summary) {
+                                if (summary.statusMessageKey === 'canceled_by_supplier') {
+                                    vm.summaryInternalStep.canceled_by_supplier.totalRecord = summary.totalRecord;
+                                    vm.summaryInternalStep.canceled_by_supplier.totalAmount = summary.totalAmount;
+                                }else if (summary.statusMessageKey === 'reject_by_approver') {
+                                    vm.summaryInternalStep.reject_by_approver.totalRecord = summary.totalRecord;
+                                    vm.summaryInternalStep.reject_by_approver.totalAmount = summary.totalAmount;
+                                }else if (summary.statusMessageKey === 'reject_by_checker') {
+                                    vm.summaryInternalStep.reject_by_checker.totalRecord = summary.totalRecord;
+                                    vm.summaryInternalStep.reject_by_checker.totalAmount = summary.totalAmount;
+                                }else if (summary.statusMessageKey === 'wait_for_approve') {
+                                    vm.summaryInternalStep.wait_for_approve.totalRecord = summary.totalRecord;
+                                    vm.summaryInternalStep.wait_for_approve.totalAmount = summary.totalAmount;
+                                }else if (summary.statusMessageKey === 'wait_for_verify') {
+                                    vm.summaryInternalStep.wait_for_verify.totalRecord = summary.totalRecord;
+                                    vm.summaryInternalStep.wait_for_verify.totalAmount = summary.totalAmount;
+                                }
+                            });
+                        }
+                    }).catch(function(response) {
+                        console.log('Internal Error');
+                    });
+
+                }
+            }).catch(function(response) {
+                console.log('Cannot search document');
+            });
+        };
+	
+	$scope.sortData = function(order, orderBy) {
+            vm.listTransactionModel.order = order;
+            vm.listTransactionModel.orderBy = orderBy;
+            vm.searchTransactionService();
+        };
 	
 	vm.exportCSVFile = function(){
 		var dateFrom = vm.dateModel.dateFrom;
@@ -230,7 +325,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		var transactionDifferd = ListTransactionService.exportCSVFile(transactionModel,$translate);
 	};
 	
-	vm.verify = function(data){
+	vm.verifyTransaction = function(data){
 		$state.go('/verify-transaction', {
             transactionModel: data
         });
