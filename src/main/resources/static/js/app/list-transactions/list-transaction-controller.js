@@ -1,4 +1,4 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state', function(ListTransactionService, $state) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', function(ListTransactionService, $state,$translate) {
     var vm = this;
     vm.showInfomation = false;
     
@@ -211,6 +211,21 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		}).catch(function(response){
 			console.log('Cannot search document');
 		});
+	};
+	
+	vm.exportCSVFile = function(){
+		var dateFrom = vm.dateModel.dateFrom;
+		var dateTo = vm.dateModel.dateTo;
+		
+		vm.listTransactionModel.dateFrom = convertDate(dateFrom);
+		vm.listTransactionModel.dateTo = convertDate(dateTo);
+		
+		var transactionModel = angular.extend(vm.listTransactionModel,{
+			page: 0,
+			pageSize: 0
+		});
+		
+		var transactionDifferd = ListTransactionService.exportCSVFile(transactionModel,$translate);
 	};
 	
 	vm.verify = function(data){
