@@ -7,7 +7,7 @@ function ListTransactionServices($http, $q){
 		getSponsors: getSponsors,
 		getTransactionStatusGroups: getTransactionStatusGroups,
 		getTransactionDocument: getTransactionDocument,
-		summaryInternalStep: summaryInternalStep
+		summaryInternalStep: summaryInternalStep,
 		exportCSVFile: exportCSVFile,
 	}
 	

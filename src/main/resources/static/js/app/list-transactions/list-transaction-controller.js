@@ -1,4 +1,4 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', '$scope', function(ListTransactionService, $state,$translate, $scope) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', '$scope', 'SCFCommonService', function(ListTransactionService, $state,$translate, $scope, SCFCommonService) {
     var vm = this;
     vm.showInfomation = false;
      vm.splitePageTxt = '';
@@ -205,8 +205,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			label: 'Action',
 			cssTemplate: 'text-center',
 			sortData: false,
-			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!listTransactionController.verify" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.verify(data)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>'+
-			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!listTransactionController.approve" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></scf-button>' +
+			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!listTransactionController.verify" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.verify(data)"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
+			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!listTransactionController.approve" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="listTransactionController.searchTransaction()"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
 			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
@@ -222,7 +222,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		vm.openDateTo = true;
 	};
 	
-	vm.searchTransaction = function(){
+	vm.searchTransaction = function(criteria){
 		 var dateFrom = vm.dateModel.dateFrom;
             var dateTo = vm.dateModel.dateTo;
 
@@ -257,7 +257,20 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 
                 // Calculate Display page
                 vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-
+				
+				//reset value of internal step
+				vm.summaryInternalStep.canceled_by_supplier.totalRecord = 0;
+				vm.summaryInternalStep.canceled_by_supplier.totalAmount =0;
+                vm.summaryInternalStep.reject_by_approver.totalRecord = 0;
+                vm.summaryInternalStep.reject_by_approver.totalAmount = 0;
+                vm.summaryInternalStep.reject_by_checker.totalRecord = 0;
+                vm.summaryInternalStep.reject_by_checker.totalAmount = 0;
+                vm.summaryInternalStep.wait_for_approve.totalRecord = 0;
+                vm.summaryInternalStep.wait_for_approve.totalAmount = 0;
+                vm.summaryInternalStep.wait_for_verify.totalRecord = 0;
+                vm.summaryInternalStep.wait_for_verify.totalAmount = 0;
+				
+				console.log("internal Step");
                 if (vm.listTransactionModel.groupStatus === 'INTERNAL_STEP' || vm.listTransactionModel.groupStatus === '') {
                     var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
                     internalStepDeffered.promise.then(function(response) {
@@ -267,26 +280,21 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                                 if (summary.statusMessageKey === 'canceled_by_supplier') {
                                     vm.summaryInternalStep.canceled_by_supplier.totalRecord = summary.totalRecord;
                                     vm.summaryInternalStep.canceled_by_supplier.totalAmount = summary.totalAmount;
-                                }
-                                if (summary.statusMessageKey === 'reject_by_approver') {
+                                }else if (summary.statusMessageKey === 'reject_by_approver') {
                                     vm.summaryInternalStep.reject_by_approver.totalRecord = summary.totalRecord;
                                     vm.summaryInternalStep.reject_by_approver.totalAmount = summary.totalAmount;
-                                }
-                                if (summary.statusMessageKey === 'reject_by_checker') {
+                                }else if (summary.statusMessageKey === 'reject_by_checker') {
                                     vm.summaryInternalStep.reject_by_checker.totalRecord = summary.totalRecord;
                                     vm.summaryInternalStep.reject_by_checker.totalAmount = summary.totalAmount;
-                                }
-                                if (summary.statusMessageKey === 'wait_for_approve') {
+                                }else if (summary.statusMessageKey === 'wait_for_approve') {
                                     vm.summaryInternalStep.wait_for_approve.totalRecord = summary.totalRecord;
                                     vm.summaryInternalStep.wait_for_approve.totalAmount = summary.totalAmount;
-                                }
-                                if (summary.statusMessageKey === 'wait_for_verify') {
+                                }else if (summary.statusMessageKey === 'wait_for_verify') {
                                     vm.summaryInternalStep.wait_for_verify.totalRecord = summary.totalRecord;
                                     vm.summaryInternalStep.wait_for_verify.totalAmount = summary.totalAmount;
                                 }
                             });
                         }
-
                     }).catch(function(response) {
                         console.log('Internal Error');
                     });

@@ -135,13 +135,12 @@
 								translate}}&#32;{{verifyTxnCtrl.transactionModel.documents.length}}&#32;{{
 								'records' | translate}}</label>:
 						</div>
-						<div class="col-md-8 text-right">
+						<div class="col-md-9 text-right">
 							<div class="row">
-								<div class="col-md-7">
-									<label id="document-paging-label"
-										ng-bind="verifyTxnCtrl.splitePageTxt"></label>
-								</div>
-								<div class="col-md-5">
+								<div class="col-md-12">
+									<b id="document-paging-label"
+										ng-bind="verifyTxnCtrl.splitePageTxt"></b>
+									&nbsp;&nbsp;
 									<scf-pagination
 										page-size-model="verifyTxnCtrl.pageModel.pageSizeSelectModel"
 										total-page="verifyTxnCtrl.pageModel.totalRecord"

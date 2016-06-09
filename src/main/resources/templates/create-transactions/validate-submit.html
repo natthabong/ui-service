@@ -113,19 +113,19 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3">
-							<label id="total-select-doc-label">{{ 'selected' |
+							<b id="total-select-doc-label">{{ 'selected' |
 								translate}}&#32;{{validateAndSubmitCtrl.transactionModel.documents.length}}&#32;{{
-								'records' | translate}}</label>:
+								'records' | translate}}</b>:
 						</div>
-						<div class="col-md-8 text-right">
+						<div class="col-md-9 text-right">
 							<div class="row">
-								<div class="col-md-7">
-									<label id="current_page_label">1 - 10 of 20</label>:
-								</div>
-								<div class="col-md-5">
+								
+								<div class="col-md-12">
+									<b ng-bind="validateAndSubmitCtrl.splitePageTxt" id="document-paging-label"></b>
+                                        &nbsp;&nbsp;
 									<scf-pagination
-										page-size-model="validateAndSubmitCtrl.pageSizeSelectModel"
-										total-page="validateAndSubmitCtrl.pageModel.totalRecord"
+										page-size-model="validateAndSubmitCtrl.pageModel.pageSizeSelectModel"
+										total-page="validateAndSubmitCtrl.pageModel.totalPage"
 										current-page="validateAndSubmitCtrl.pageModel.currentPage"
 										page-size-list="validateAndSubmitCtrl.pageSizeList"
 										page-action="validateAndSubmitCtrl.searchDocument"></scf-pagination>
@@ -137,7 +137,7 @@
 						<div class="col-md-12">
 							<scf-data-table
 								component-config="validateAndSubmitCtrl.dataTable"
-								component-datas="validateAndSubmitCtrl.transactionModel.documents">
+								component-datas="validateAndSubmitCtrl.documentDisplay">
 							</scf-data-table>
 						</div>
 						<div id="fixed-bottom" class="col-md-12"></div>

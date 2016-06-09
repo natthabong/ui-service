@@ -88,14 +88,13 @@
                         <div ng-show="listTransactionController.showInfomation">
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 text-right">
-                                    <span>                                              
-
+                                    <span>
 										<scf-button id="export-button" class="btn-default" ng-click="listTransactionController.exportCSVFile()">{{'export' | translate}}</scf-button>
 									</span>
                                 </div>                                             	
                                 <div class="col-md-12 col-sm-12 text-right">
                                     <span>                                              
-										<b ng-bind="createTransactionCtrl.splitePageTxt" id="document-paging-label"></b>
+										<b ng-bind="listTransactionController.splitePageTxt" id="document-paging-label"></b>
 
                                         &nbsp;&nbsp;
                                         <scf-pagination dropdown-id="page-limit-dropdown" 

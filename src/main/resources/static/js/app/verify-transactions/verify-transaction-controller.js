@@ -120,6 +120,6 @@ angular.module('scfApp').controller(
 					
 					vm.back = function(){
 						$state.go('/transaction-list');
-					}
+					}				
 
 				} ]);
