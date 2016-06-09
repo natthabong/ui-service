@@ -30,4 +30,9 @@ public class CreateTransactionController {
 		}
 		return VALIDATE_AND_SUBMIT_TRANSACTION_VIEW_NAME;
 	}
+	
+	@RequestMapping(path="/button", method = RequestMethod.GET)
+	public String buttonTemplate() {
+		return "verify/button".concat(" :: content");
+	}
 }

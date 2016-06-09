@@ -1,306 +1,315 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'SCFCommonService', '$scope', function(ListTransactionService, SCFCommonService, $scope) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'SCFCommonService', '$scope', '$state',
+    function(ListTransactionService, SCFCommonService, $scope, $state) {
 
-    var vm = this;
-    vm.showInfomation = false;
-    vm.splitePageTxt = '';
-    vm.transactionType = {
-            transactionDate: 'transactionDate',
-            maturityDate: 'maturityDate'
-        }
-        // Data Sponsor for select box
-
-    vm.transactionStatusGroupDropdown = [{
-        label: 'All',
-        value: ''
-    }];
-
-    vm.sponsorCodeDropdown = [{
-        label: 'All',
-        value: ''
-    }];
-
-    vm.tableRowCollection = [];
-	vm.summaryInternalStep = {
-		wait_for_verify : {
-		statusMessageKey: 'wait_for_verify',
-		totalRecord: 0,
-		totalAmount: 0
-	},
-		wait_for_approve : {
-		statusMessageKey: 'wait_for_approve',
-		totalRecord: 0,
-		totalAmount: 0
-	},
-	reject_by_checker : {
-		statusMessageKey: 'reject_by_checker',
-		totalRecord: 0,
-		totalAmount: 0
-	},
-	reject_by_approver : {
-		statusMessageKey: 'reject_by_approver',
-		totalRecord: 0,
-		totalAmount: 0
-	},
-	canceled_by_supplier : {
-		statusMessageKey: 'canceled_by_supplier',
-		totalRecord: 0,
-		totalAmount: 0
-	}};
-
-    // Datepicker
-    vm.openDateFrom = false;
-    vm.dateFormat = 'dd/MM/yyyy';
-    vm.openDateTo = false;
-
-    vm.dateModel = {
-            dateFrom: '',
-            dateTo: ''
-        }
-        // Model mapping whith page list
-    vm.listTransactionModel = {
-            dateType: vm.transactionType.transactionDate,
-            dateFrom: '',
-            dateTo: '',
-            sponsorId: '',
-            supplierCode: '',
-            groupStatus: '',
-            order: '',
-            orderBy: ''
-        }
-        // Init data paging
-    vm.pageSizeList = [{
-        label: '10',
-        value: '10'
-    }, {
-        label: '20',
-        value: '20'
-    }, {
-        label: '50',
-        value: '50'
-    }];
-
-    vm.pageModel = {
-        pageSizeSelectModel: '20',
-        totalRecord: 0,
-        currentPage: 0
-    };
-
-    // Load sponsor Code
-    vm.loadSponsorCode = function() {
-        var sponsorCodesDefered = ListTransactionService.getSponsors();
-        sponsorCodesDefered.promise.then(function(response) {
-            var sponsorCodeList = response.data;
-            if (sponsorCodeList !== undefined) {
-                sponsorCodeList.forEach(function(obj) {
-                    var selectObj = {
-                        label: obj.sponsorName,
-                        value: obj.sponsorId
-                    }
-                    vm.sponsorCodeDropdown.push(selectObj);
-                });
-                vm.listTransactionModel.sponsorCode = vm.sponsorCodeDropdown[0].value;
+        var vm = this;
+        vm.showInfomation = false;
+        vm.splitePageTxt = '';
+        vm.transactionType = {
+                transactionDate: 'transactionDate',
+                maturityDate: 'maturityDate'
             }
-        }).catch(function(response) {
-            console.log('Load Sponsor Fail');
-        });
-    };
+            // Data Sponsor for select box
+        vm.verify = false;
+		vm.approve = false;
+		
+        vm.transactionStatusGroupDropdown = [{
+            label: 'All',
+            value: ''
+        }];
 
-    vm.loadTransactionGroup = function() {
-        var transactionStatusGroupDefered = ListTransactionService.getTransactionStatusGroups();
-        transactionStatusGroupDefered.promise.then(function(response) {
-            var transactionStatusGroupList = response.data;
-            if (transactionStatusGroupList !== undefined) {
-                transactionStatusGroupList.forEach(function(obj) {
-                    var selectObj = {
-                        label: obj.statusMessageKey,
-                        value: obj.statusGroup
-                    }
-                    vm.transactionStatusGroupDropdown.push(selectObj);
-                });
-                vm.listTransactionModel.groupStatus = vm.transactionStatusGroupDropdown[0].value;
+        vm.sponsorCodeDropdown = [{
+            label: 'All',
+            value: ''
+        }];
+
+        vm.tableRowCollection = [];
+        vm.summaryInternalStep = {
+            wait_for_verify: {
+                statusMessageKey: 'wait-for-verify',
+                totalRecord: 0,
+                totalAmount: 0
+            },
+            wait_for_approve: {
+                statusMessageKey: 'wait-for-approve',
+                totalRecord: 0,
+                totalAmount: 0
+            },
+            reject_by_checker: {
+                statusMessageKey: 'reject-by-checker',
+                totalRecord: 0,
+                totalAmount: 0
+            },
+            reject_by_approver: {
+                statusMessageKey: 'reject-by-approver',
+                totalRecord: 0,
+                totalAmount: 0
+            },
+            canceled_by_supplier: {
+                statusMessageKey: 'canceled-by-supplier',
+                totalRecord: 0,
+                totalAmount: 0
             }
-        }).catch(function(response) {
-            console.log('Load TransactionStatusGroup Fail');
-        });
+        };
+
+        // Datepicker
+        vm.openDateFrom = false;
+        vm.dateFormat = 'dd/MM/yyyy';
+        vm.openDateTo = false;
+
+        vm.dateModel = {
+                dateFrom: '',
+                dateTo: ''
+            }
+            // Model mapping whith page list
+        vm.listTransactionModel = {
+                dateType: vm.transactionType.transactionDate,
+                dateFrom: '',
+                dateTo: '',
+                sponsorId: '',
+                supplierCode: '',
+                groupStatus: '',
+                order: '',
+                orderBy: ''
+            }
+            // Init data paging
+        vm.pageSizeList = [{
+            label: '10',
+            value: '10'
+        }, {
+            label: '20',
+            value: '20'
+        }, {
+            label: '50',
+            value: '50'
+        }];
+
+        vm.pageModel = {
+            pageSizeSelectModel: '20',
+            totalRecord: 0,
+            currentPage: 0
+        };
+
+        // Load sponsor Code
+        vm.loadSponsorCode = function() {
+            var sponsorCodesDefered = ListTransactionService.getSponsors();
+            sponsorCodesDefered.promise.then(function(response) {
+                var sponsorCodeList = response.data;
+                if (sponsorCodeList !== undefined) {
+                    sponsorCodeList.forEach(function(obj) {
+                        var selectObj = {
+                            label: obj.sponsorName,
+                            value: obj.sponsorId
+                        }
+                        vm.sponsorCodeDropdown.push(selectObj);
+                    });
+                    vm.listTransactionModel.sponsorCode = vm.sponsorCodeDropdown[0].value;
+                }
+            }).catch(function(response) {
+                console.log('Load Sponsor Fail');
+            });
+        };
+
+        vm.loadTransactionGroup = function() {
+            var transactionStatusGroupDefered = ListTransactionService.getTransactionStatusGroups();
+            transactionStatusGroupDefered.promise.then(function(response) {
+                var transactionStatusGroupList = response.data;
+                if (transactionStatusGroupList !== undefined) {
+                    transactionStatusGroupList.forEach(function(obj) {
+                        var selectObj = {
+                            label: obj.statusMessageKey,
+                            value: obj.statusGroup
+                        }
+                        vm.transactionStatusGroupDropdown.push(selectObj);
+                    });
+                    vm.listTransactionModel.groupStatus = vm.transactionStatusGroupDropdown[0].value;
+                }
+            }).catch(function(response) {
+                console.log('Load TransactionStatusGroup Fail');
+            });
+        }
+
+        vm.initLoad = function() {
+            vm.loadSponsorCode();
+            vm.loadTransactionGroup();
+        };
+
+        vm.initLoad();
+
+        vm.dataTable = {
+            options: {
+                displayRowNo: {}
+            },
+            columns: [{
+                field: 'sponsor',
+                label: 'Sponsor',
+                sortData: true,
+                cssTemplate: 'text-center'
+            }, {
+                field: 'transactionDate',
+                label: 'Transaction Date',
+                filterType: 'date',
+                filterFormat: 'dd/MM/yyyy',
+                sortData: true,
+                cssTemplate: 'text-center'
+            }, {
+                field: 'transactionNo',
+                label: 'Transaction No',
+                sortData: true,
+                cssTemplate: 'text-center',
+            }, {
+                field: 'drawdownAmount',
+                label: 'Drawdown Amount',
+                sortData: true,
+                cssTemplate: 'text-center',
+            }, {
+                field: 'interest',
+                label: 'interest',
+                sortData: false,
+                cssTemplate: 'text-right',
+                filterType: 'number',
+                filterFormat: '2'
+            }, {
+                field: 'fee',
+                label: 'Fee',
+                sortData: false,
+                cssTemplate: 'text-right',
+                filterType: 'number',
+                filterFormat: '2'
+            }, {
+                field: 'bankTransactionNo',
+                label: 'Bank Transaction No',
+                sortData: true,
+                cssTemplate: 'text-center'
+            }, {
+                field: 'repaymentAmount',
+                label: 'Repayment Amount',
+                sortData: true,
+                cssTemplate: 'text-right',
+                filterType: 'number',
+                filterFormat: '2'
+            }, {
+                field: 'maturityDate',
+                label: 'Maturity Date',
+                filterType: 'date',
+                filterFormat: 'dd/MM/yyyy',
+                sortData: true,
+                cssTemplate: 'text-center'
+            }, {
+                field: 'statusMessageKey',
+                label: 'Status',
+                sortData: true,
+                cssTemplate: 'text-center',
+
+            }, {
+                field: 'action',
+                label: 'Action',
+                cssTemplate: 'text-center',
+                sortData: false,
+                cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!listTransactionController.verify" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.verify(data)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>&nbsp;' +
+                    '<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!listTransactionController.approve" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></scf-button>&nbsp;' +
+                    '<scf-button id="view-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-retry-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>&nbsp;' +
+                    '<scf-button id="search-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-pring-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>&nbsp;' +
+                    '<scf-button id="view-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
+            }]
+        };
+
+        vm.openCalendarDateFrom = function() {
+            vm.openDateFrom = true;
+        };
+
+        vm.openCalendarDateTo = function() {
+            vm.openDateTo = true;
+        };
+
+        vm.searchTransaction = function(criteria) {
+
+            var dateFrom = vm.dateModel.dateFrom;
+            var dateTo = vm.dateModel.dateTo;
+
+            vm.listTransactionModel.dateFrom = convertDate(dateFrom);
+            vm.listTransactionModel.dateTo = convertDate(dateTo);
+
+            if (criteria === undefined) {
+                vm.pageModel.currentPage = '0';
+                vm.pageModel.pageSizeSelectModel = '20';
+            } else {
+                vm.pageModel.currentPage = criteria.page;
+                vm.pageModel.pageSizeSelectModel = criteria.pageSize;
+            }
+
+            vm.searchTransactionService();
+
+        };
+
+        vm.searchTransactionService = function() {
+            var transactionModel = angular.extend(vm.listTransactionModel, {
+                page: vm.pageModel.currentPage,
+                pageSize: vm.pageModel.pageSizeSelectModel
+            });
+            var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
+            transactionDifferd.promise.then(function(response) {
+                vm.showInfomation = true;
+                var transactionDocs = response.data;
+                vm.tableRowCollection = transactionDocs.content;
+                vm.pageModel.totalRecord = transactionDocs.totalElements;
+                vm.pageModel.totalPage = transactionDocs.totalPages;
+
+                // Calculate Display page
+                vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+
+                if (vm.listTransactionModel.groupStatus === 'INTERNAL_STEP' || vm.listTransactionModel.groupStatus === '') {
+                    var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
+                    internalStepDeffered.promise.then(function(response) {
+                        var internalStemp = response.data;
+                        if (internalStemp.length > 0) {
+                            internalStemp.forEach(function(summary) {
+                                if (summary.statusMessageKey === 'canceled_by_supplier') {
+                                    vm.summaryInternalStep.canceled_by_supplier.totalRecord = summary.totalRecord;
+                                    vm.summaryInternalStep.canceled_by_supplier.totalAmount = summary.totalAmount;
+                                }
+                                if (summary.statusMessageKey === 'reject_by_approver') {
+                                    vm.summaryInternalStep.reject_by_approver.totalRecord = summary.totalRecord;
+                                    vm.summaryInternalStep.reject_by_approver.totalAmount = summary.totalAmount;
+                                }
+                                if (summary.statusMessageKey === 'reject_by_checker') {
+                                    vm.summaryInternalStep.reject_by_checker.totalRecord = summary.totalRecord;
+                                    vm.summaryInternalStep.reject_by_checker.totalAmount = summary.totalAmount;
+                                }
+                                if (summary.statusMessageKey === 'wait_for_approve') {
+                                    vm.summaryInternalStep.wait_for_approve.totalRecord = summary.totalRecord;
+                                    vm.summaryInternalStep.wait_for_approve.totalAmount = summary.totalAmount;
+                                }
+                                if (summary.statusMessageKey === 'wait_for_verify') {
+                                    vm.summaryInternalStep.wait_for_verify.totalRecord = summary.totalRecord;
+                                    vm.summaryInternalStep.wait_for_verify.totalAmount = summary.totalAmount;
+                                }
+                            });
+                        }
+
+                    }).catch(function(response) {
+                        console.log('Internal Error');
+                    });
+
+                }
+            }).catch(function(response) {
+                console.log('Cannot search document');
+            });
+        };
+
+        $scope.sortData = function(order, orderBy) {
+            vm.listTransactionModel.order = order;
+            vm.listTransactionModel.orderBy = orderBy;
+            vm.searchTransactionService();
+        };
+
+        vm.verify = function(data) {
+            $state.go('/verify-transaction', {
+                transactionModel: data
+            });
+        };
+
     }
-
-    vm.initLoad = function() {
-        vm.loadSponsorCode();
-        vm.loadTransactionGroup();
-    };
-
-    vm.initLoad();
-
-    vm.dataTable = {
-        options: {
-            displayRowNo: {}
-        },
-        columns: [{
-            field: 'sponsor',
-            label: 'Sponsor',
-            sortData: true,
-            cssTemplate: 'text-center'
-        }, {
-            field: 'transactionDate',
-            label: 'Transaction Date',
-            filterType: 'date',
-            filterFormat: 'dd/MM/yyyy',
-            sortData: true,
-            cssTemplate: 'text-center'
-        }, {
-            field: 'transactionNo',
-            label: 'Transaction No',
-            sortData: true,
-            cssTemplate: 'text-center',
-        }, {
-            field: 'dradownAmount',
-            label: 'Dradown Amount',
-            sortData: true,
-            cssTemplate: 'text-center',
-        }, {
-            field: 'interest',
-            label: 'interest',
-            sortData: false,
-            cssTemplate: 'text-right',
-            filterType: 'number',
-            filterFormat: '2'
-        }, {
-            field: 'fee',
-            label: 'Fee',
-            sortData: false,
-            cssTemplate: 'text-right',
-            filterType: 'number',
-            filterFormat: '2'
-        }, {
-            field: 'bankTransactionNo',
-            label: 'Bank Transaction No',
-            sortData: true,
-            cssTemplate: 'text-center'
-        }, {
-            field: 'repaymentAmount',
-            label: 'Repayment Amount',
-            sortData: true,
-            cssTemplate: 'text-right',
-            filterType: 'number',
-            filterFormat: '2'
-        }, {
-            field: 'maturityDate',
-            label: 'Maturity Date',
-            filterType: 'date',
-            filterFormat: 'dd/MM/yyyy',
-            sortData: true,
-            cssTemplate: 'text-center'
-        }, {
-            field: 'statusMessageKey',
-            label: 'Status',
-            sortData: true,
-            cssTemplate: 'text-center',
-
-        }, {
-            field: 'action',
-            label: 'Action',
-            cssTemplate: 'text-center',
-            sortData: false,
-            cellTemplate: '<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>' +
-                '<scf-button id="search-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></scf-button>' +
-                '<scf-button id="view-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-retry-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>' +
-                '<scf-button id="search-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-pring-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>' +
-                '<scf-button id="view-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
-        }]
-    };
-
-    vm.openCalendarDateFrom = function() {
-        vm.openDateFrom = true;
-    };
-
-    vm.openCalendarDateTo = function() {
-        vm.openDateTo = true;
-    };
-
-    vm.searchTransaction = function(criteria) {
-        var dateFrom = vm.dateModel.dateFrom;
-        var dateTo = vm.dateModel.dateTo;
-
-        vm.listTransactionModel.dateFrom = convertDate(dateFrom);
-        vm.listTransactionModel.dateTo = convertDate(dateTo);
-
-        if (criteria === undefined) {
-            vm.pageModel.currentPage = '0';
-            vm.pageModel.pageSizeSelectModel = '20';
-        } else {			
-			vm.pageModel.currentPage = criteria.page;
-            vm.pageModel.pageSizeSelectModel = criteria.pageSize;
-        }
-
-        vm.searchTransactionService();
-
-    };
-
-    vm.searchTransactionService = function() {
-		var transactionModel = angular.extend(vm.listTransactionModel, {
-            page: vm.pageModel.currentPage,
-            pageSize: vm.pageModel.pageSizeSelectModel
-        });
-        var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
-        transactionDifferd.promise.then(function(response) {
-            vm.showInfomation = true;
-            var transactionDocs = response.data;
-            vm.tableRowCollection = transactionDocs.content;
-            vm.pageModel.totalRecord = transactionDocs.totalElements;
-			vm.pageModel.totalPage = transactionDocs.totalPages;
-			
-            // Calculate Display page
-            vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-            
-            if(vm.listTransactionModel.groupStatus === 'INTERNAL_STEP' || vm.listTransactionModel.groupStatus === ''){
-            	var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
-				internalStepDeffered.promise.then(function(response){
-					var internalStemp = response.data;
-					if(internalStemp.length > 0){
-						internalStemp.forEach(function(summary){
-							if(summary.statusMessageKey === 'canceled_by_supplier'){
-								vm.summaryInternalStep.canceled_by_supplier.totalRecord = summary.totalRecord;
-								vm.summaryInternalStep.canceled_by_supplier.totalAmount = summary.totalAmount;							
-								
-							}else if(summary.statusMessageKey === 'reject_by_approver'){
-								vm.summaryInternalStep.reject_by_approver.totalRecord = summary.totalRecord;
-								vm.summaryInternalStep.reject_by_approver.totalAmount = summary.totalAmount;
-							}else if(summary.statusMessageKey === 'reject_by_checker'){
-								vm.summaryInternalStep.reject_by_checker.totalRecord = summary.totalRecord;
-								vm.summaryInternalStep.reject_by_checker.totalAmount = summary.totalAmount;
-							}else if(summary.statusMessageKey === 'wait_for_approve'){
-								vm.summaryInternalStep.wait_for_approve.totalRecord = summary.totalRecord;
-								vm.summaryInternalStep.wait_for_approve.totalAmount = summary.totalAmount;
-							}else if(summary.statusMessageKey === 'wait_for_verify'){
-								vm.summaryInternalStep.wait_for_verify.totalRecord = summary.totalRecord;
-								vm.summaryInternalStep.wait_for_verify.totalAmount = summary.totalAmount;
-							}
-						});
-					}
-					
-				}).catch(function(response){
-					console.log('Internal Error');
-				});
-            	
-            }
-        }).catch(function(response) {
-            console.log('Cannot search document');
-        });
-    };
-	
-	$scope.sortData = function(order, orderBy){
-		vm.listTransactionModel.order = order;
-		vm.listTransactionModel.orderBy = orderBy;
-		vm.searchTransactionService();
-	};
-	
-	vm.verify = function(data){
-		$state.go('/verify-transaction', {
-            transactionModel: data
-        });
-	};
-
-}]);
+]);
 
 function convertDate(dateTime) {
     var result = '';

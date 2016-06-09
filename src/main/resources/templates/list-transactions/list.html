@@ -1,4 +1,4 @@
-<div id="content" th:fragment="content">
+<div id="content" th:fragment="content">	
     <div id="wrapper">
         <div class="panel box-shadow-none content-header">
             <div class="panel-body">
@@ -123,10 +123,10 @@
                                         <span ng-bind="listTransactionController.summaryInternalStep.wait_for_verify.statusMessageKey | translate">list-transaction-wait-for-verify</span>
                                     </div>
 									<div class="col-md-1 col-sm-2 text-right">
-                                        <span>3</span>&nbsp; <span ng-bind="'records' | translate"></span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.wait_for_verify.totalRecord">0</span>&nbsp; <span ng-bind="'records' | translate"></span>
                                     </div>									
 									<div class="col-md-2 col-sm-2 text-right">
-                                        <span>100,000.00</span>&nbsp; <span ng-bind="'thai-bath' | translate"></span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.wait_for_verify.totalAmount | number: 2">0.00</span>&nbsp; <span ng-bind="'thai-bath' | translate"></span>
                                     </div>
 									<div class="col-md-4 col-sm-1"></div>
 								</div>
@@ -136,13 +136,13 @@
 								<div class="form-horizontal">
 									<label class="col-md-2 col-sm-3"></label>
 									<div class="col-md-2 col-sm-3">
-                                        <span ng-bind="'list-transaction-wait-for-approve' | translate">list-transaction-wait-for-approve</span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.wait_for_approve.statusMessageKey | translate">list-transaction-wait-for-approve</span>
                                     </div>
 									<div class="col-md-1 col-sm-2 text-right">
-                                        <span>2</span>&nbsp; <span ng-bind="'records' | translate"></span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.wait_for_approve.totalRecord">0</span>&nbsp; <span ng-bind="'records' | translate"></span>
                                     </div>									
 									<div class="col-md-2 col-sm-2 text-right">
-                                        <span>20,000.00</span>&nbsp; <span ng-bind="'thai-bath' | translate"></span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.wait_for_approve.totalAmount | number: 2">0.00</span>&nbsp; <span ng-bind="'thai-bath' | translate"></span>
                                     </div>
 									<div class="col-md-4 col-sm-1"></div>
 								</div>
@@ -152,13 +152,13 @@
 								<div class="form-horizontal">
 									<label class="col-md-2 col-sm-3"></label>
 									<div class="col-md-2 col-sm-3">
-                                        <span ng-bind="'list-transaction-reject-by-checker'  | translate">Reject by Checker</span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.reject_by_checker.statusMessageKey | translate">Reject by Checker</span>
                                     </div>
 									<div class="col-md-1 col-sm-2 text-right">
-                                        <span>1</span>&nbsp; <span ng-bind="'records' | translate"></span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.reject_by_checker.totalRecord">0</span>&nbsp; <span ng-bind="'records' | translate"></span>
                                     </div>									
 									<div class="col-md-2 col-sm-2 text-right">
-                                        <span>10,000.00</span>&nbsp; <span ng-bind="'thai-bath' | translate"></span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.reject_by_checker.totalAmount | number: 2">0.00</span>&nbsp; <span ng-bind="'thai-bath' | translate"></span>
                                     </div>
 									<div class="col-md-4 col-sm-1"></div>
 								</div>
@@ -168,13 +168,13 @@
 								<div class="form-horizontal">
 									<label class="col-md-2 col-sm-3"></label>
 									<div class="col-md-2 col-sm-3">
-                                        <span ng-bind="'list-transaction-reject-by-approve'  | translate">Reject by Approve</span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.reject_by_approver.statusMessageKey  | translate">Reject by Approve</span>
                                     </div>
 									<div class="col-md-1 col-sm-2 text-right">
-                                        <span>1</span>&nbsp; <span ng-bind="'records' | translate"></span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.reject_by_approver.totalRecord">0</span>&nbsp; <span ng-bind="'records' | translate"></span>
                                     </div>									
 									<div class="col-md-2 col-sm-2 text-right">
-                                        <span>10,000.00</span>&nbsp; <span ng-bind="'thai-bath' | translate"></span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.reject_by_approver.totalAmount | number: 2">0.00</span>&nbsp; <span ng-bind="'thai-bath' | translate"></span>
                                     </div>
 									<div class="col-md-4 col-sm-1"></div>
 								</div>
@@ -184,13 +184,13 @@
 								<div class="form-horizontal">
 									<label class="col-md-2 col-sm-3"></label>
 									<div class="col-md-2 col-sm-3">
-                                        <span ng-bind="'list-transaction-cancel-by-supplier'  | translate">Cancel by Supplier</span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.canceled_by_supplier.statusMessageKey  | translate">Cancel by Supplier</span>
                                     </div>
 									<div class="col-md-1 col-sm-2 text-right">
-                                        <span>1</span>&nbsp; <span ng-bind="'records' | translate"></span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.canceled_by_supplier.totalRecord">0</span>&nbsp; <span ng-bind="'records' | translate"></span>
                                     </div>									
 									<div class="col-md-2 col-sm-2 text-right">
-                                        <span>10,000.00</span>&nbsp; <span ng-bind="'thai-bath' | translate"></span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.canceled_by_supplier.totalAmount | number: 2">0.00</span>&nbsp; <span ng-bind="'thai-bath' | translate"></span>
                                     </div>
 									<div class="col-md-4 col-sm-1"></div>
 								</div>
@@ -203,7 +203,7 @@
 
             </div>
         </div>
-
-
     </div>
+	<input type="hidden" ng-init="listTransactionController.verify=true" sec:authorize="hasAuthority('SFP_VERIFY_TRANSACTION')"/>
+	<input type="hidden" ng-init="listTransactionController.approve=true" sec:authorize="hasAuthority('SFP_APPROVE_TRANSACTION')"/>
 </div>

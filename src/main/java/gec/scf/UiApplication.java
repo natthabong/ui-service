@@ -33,5 +33,4 @@ public class UiApplication {
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
-
 }
