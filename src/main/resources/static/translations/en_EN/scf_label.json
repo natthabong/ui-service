@@ -77,7 +77,7 @@
 	"canceled-by-supplier": "Cancel by Supplier",
 
 	"_comment": "Page Verify Transaction",
-	"verify-popup-confirm": "Approved Success",
+	"verify-popup-confirm": "Do you want to approve?",
 
     "_comment": "System Error Code",
     "E1002": "Insufficient funds",
