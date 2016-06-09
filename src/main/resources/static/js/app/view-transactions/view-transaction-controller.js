@@ -1,7 +1,7 @@
 angular.module('scfApp').controller(
-		'VerifyTransactionController',
-		[ 'VerifyTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state',
-				function(VerifyTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state) {
+		'ViewTransactionController',
+		[ 'ViewTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state',
+				function(ViewTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state) {
 					var vm = this;
 					$scope.showConfirmPopup = false; 
 					$scope.verifyFailPopup = false;
@@ -14,7 +14,7 @@ angular.module('scfApp').controller(
 					vm.transactionModel = $stateParams.transactionModel;
 					vm.splitePageTxt = '';
 					function init(){
-					     var deffered = VerifyTransactionService.prepare(vm.transactionModel);
+					     var deffered = ViewTransactionService.prepare(vm.transactionModel);
 				            deffered.promise.then(function (response) {
 				            	  vm.transactionModel = angular.extend(vm.transactionModel, response.data);
 				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
@@ -80,42 +80,6 @@ angular.module('scfApp').controller(
 							filterType : 'number',
 							filterFormat : '2'
 						} ]
-					}
-					
-					vm.confirmApprove = function(){
-						$scope.showConfirmPopup = true; 
-					}
-					
-					vm.approve = function(){
-						 var deffered = VerifyTransactionService.approve(vm.transactionModel);
-				            deffered.promise.then(function (response) {
-				            	  vm.transactionModel = angular.extend(vm.transactionModel, response.data);
-				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
-				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-				            	  vm.transactionNo = vm.transactionModel.transactionNo;
-				            	  $scope.successPopup = true;
-				                })
-				                .catch(function (response) {
-					               	 console.log(response);
-									 $scope.verifyFailPopup = true;
-									 vm.errorMsgPopup = response.data.errorCode;
-				                });
-					}
-					
-					vm.reject = function(){
-						 var deffered = VerifyTransactionService.reject(vm.transactionModel);
-				            deffered.promise.then(function (response) {
-				            	  vm.transactionModel = angular.extend(vm.transactionModel, response.data);
-				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
-				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-				            	  vm.transactionNo = vm.transactionModel.transactionNo;
-				            	  $scope.successPopup = true;
-				                })
-				                .catch(function (response) {
-					               	 console.log(response);
-					               	 $scope.verifyFailPopup = true;
-									 vm.errorMsgPopup = response.data.errorCode;
-				                });
 					}
 					
 					vm.back = function(){
