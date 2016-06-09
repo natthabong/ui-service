@@ -81,6 +81,7 @@
     "_comment": "System Error Code",
     "E1002": "Insufficient funds",
     "E1001": "Transaction amount must be greater than zero",
+    "E1003" : "Document has already been modified",
     
     "drawdown_fail": "Drawdown Fail",
 	"drawdown_success": "Drawdown Success",

@@ -127,8 +127,10 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             sortData: true,
             cssTemplate: 'text-center',
         }, {
-            field: 'dradownAmount',
+            field: 'drawdownAmount',
             label: 'Drawdown Amount',
+            filterType: 'number',
+            filterFormat: '2',
             sortData: true,
             cssTemplate: 'text-center',
         }, {
