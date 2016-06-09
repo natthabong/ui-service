@@ -128,12 +128,12 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             cssTemplate: 'text-center',
         }, {
             field: 'dradownAmount',
-            label: 'Dradown Amount',
+            label: 'Drawdown Amount',
             sortData: true,
             cssTemplate: 'text-center',
         }, {
             field: 'interest',
-            label: 'interest',
+            label: 'Interest',
             sortData: false,
             cssTemplate: 'text-right',
             filterType: 'number',
