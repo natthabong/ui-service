@@ -206,6 +206,35 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		});
 	};
 	
+	vm.exportCSVFile = function(){
+		var dateFrom = vm.dateModel.dateFrom;
+		var dateTo = vm.dateModel.dateTo;
+		
+		vm.listTransactionModel.dateFrom = convertDate(dateFrom);
+		vm.listTransactionModel.dateTo = convertDate(dateTo);
+		
+		var transactionModel = angular.extend(vm.listTransactionModel,{
+			page: vm.pageModel.currentPage,
+			pageSize: vm.pageModel.pageSizeSelectModel
+		});
+		
+//		var fileName = 'D:\\Backup\\Transaction.csv';
+		
+		var transactionDifferd = ListTransactionService.buildCSVFile(transactionModel);
+//		transactionDifferd.promise.then(function(response){
+//			console.log(response);		
+//		}).catch(function(response){
+//			console.log('Cannot build csv file');
+//		});
+//
+//		var csvDifferd = ListTransactionService.getCSVFile(fileName);
+//		csvDifferd.promise.then(function(response){
+//			console.log(response);
+//		}).catch(function(response){
+//			console.log('Cannot export csv file');
+//		});
+	};
+	
 	vm.verify = function(data){
 		$state.go('/verify-transaction', {
             transactionModel: data
