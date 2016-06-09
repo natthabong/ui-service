@@ -174,11 +174,11 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			label: 'Action',
 			cssTemplate: 'text-center',
 			sortData: false,
-			cellTemplate: '<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.verify(data)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>'+
-			'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></scf-button>'+
-			'<scf-button id="view-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
-			'<scf-button id="search-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
-			'<scf-button id="view-button" class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
+			cellTemplate: '<scf-button class="btn-default gec-btn-action" sec:authorize="hasRole(\'ROLE_ADMIN\')" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.verify(data)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.view(data)"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
 		}]
     };
 
@@ -215,6 +215,12 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	
 	vm.verify = function(data){
 		$state.go('/verify-transaction', {
+            transactionModel: data
+        });
+	}
+	
+	vm.view = function(data){
+		$state.go('/view-transaction', {
             transactionModel: data
         });
 	}
