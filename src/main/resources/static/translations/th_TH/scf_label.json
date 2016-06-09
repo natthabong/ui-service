@@ -45,6 +45,8 @@
 	"yes-btn": "ยืนยัน",
 	"no-btn": "ยกเลิก",	
 	"create-new-btn": "สร้างรายการ",
+	"view-recent-btn": "View Recent",
+	"view-history-btn": "View History",
 	"popup-success": "สำเร็จ",
 	"transaction-error-msg-payment-date": "กรุณาระบุ Sponsor Payment Date",
 	

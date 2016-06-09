@@ -66,7 +66,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             dateTo: '',
             sponsorId: '',
             supplierId: '',
-            groupStatus: '',
+            statusGroup: '',
             order: '',
             orderBy:''
         }
@@ -210,7 +210,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
+			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><i class="fa fa-times" aria-hidden="true"></i></scf-button>'
 		}]
     };
 
@@ -271,6 +271,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                 vm.summaryInternalStep.wait_for_verify.totalAmount = 0;
 				
                 if (vm.listTransactionModel.groupStatus === 'INTERNAL_STEP' || vm.listTransactionModel.groupStatus === '') {
+					console.log('Internal');
                     var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
                     internalStepDeffered.promise.then(function(response) {
                         var internalStemp = response.data;
