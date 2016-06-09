@@ -33,7 +33,7 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 					vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
 					vm.valueOfDocument = $stateParams.totalDocumentAmount;
 					vm.pageModel.totalRecord  = vm.transactionModel.documents.length;
-					vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+//					
 					vm.searchDocument();
                     vm.loadMaturityDate();
                 }
@@ -114,7 +114,7 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			vm.createNewAction = function(){
 				$timeout(function(){
 					$state.go(SCFCommonService.parentStatePage().getParentState());
-				}, 30);					
+				}, 30);
 			};
 			
             vm.backToCreate = function(){
@@ -126,44 +126,17 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 					var pagingObject = SCFCommonService.clientPagination(vm.transactionModel.documents, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);	
 					vm.documentDisplay = pagingObject.content;
 					vm.pageModel.totalPage = pagingObject.totalPages;
-					console.log(pagingObject);
+					vm.pageModel.totalRecord = vm.transactionModel.documents.length;
 				}else{
 					vm.pageModel.currentPage = pagingModel.page;
 					vm.pageModel.pageSizeSelectModel = pagingModel.pageSize;
 					var pagingObject = SCFCommonService.clientPagination(vm.transactionModel.documents, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);	
 					vm.documentDisplay = pagingObject.content;
 					vm.pageModel.totalPage = pagingObject.totalPages;
-					console.log(pagingObject);
+					vm.pageModel.totalRecord = vm.transactionModel.documents.length;
 				}
+				vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 			};
 			
-			vm.initLoadData();
-
-			// vm.changePageSize = function(page, pageSize) {
-			// var deffered =
-			// ValidateAndSubmitService.getDocumentOnValidatePage(page,
-			// pageSize);
-			// deffered.promise.then(function(response) {
-			// //clear list transaction date
-			// vm.tableRowCollection = [];
-			// var transactionResponse = response.data;
-			// transactionResponse.forEach(function(data) {
-			// vm.tableRowCollection.push({
-			// dueDate: data.dueDate,
-			// documentDate: data.documentDate,
-			// documentNo: data.documentNo,
-			// documentType: data.documentType,
-			// supplierCode: data.supplierCode,
-			// documentDate: data.documentDate
-			// });
-			// });
-			// //set select default value
-			// vm.createTransactionModel.transactionDate =
-			// vm.transactionDates[0].value;
-			// }).catch(function(response) {
-			// console.log(response);
-			// });
-			// };
-
-
+			vm.initLoadData();		
 		} ]);

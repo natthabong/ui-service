@@ -17,12 +17,12 @@ angular.module('scfApp').controller(
 					     var deffered = VerifyTransactionService.prepare(vm.transactionModel);
 				            deffered.promise.then(function (response) {
 				            	  vm.transactionModel = angular.extend(vm.transactionModel, response.data);
-									console.log(vm.transactionModel);
+									
 				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
 				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 				                })
 				                .catch(function (response) {
-				                    console.log(response);
+				                    console.log('Cannot initial data');
 				                });
 					}
 					
@@ -37,8 +37,6 @@ angular.module('scfApp').controller(
 						label : '50',
 						value : '50'
 					} ];
-
-					
 					
 					vm.dataTable = {
 						options : {
@@ -97,7 +95,7 @@ angular.module('scfApp').controller(
 				            	  $scope.successPopup = true;
 				                })
 				                .catch(function (response) {
-					               	 console.log(response);
+					               	 console.log('Cannot Approve');
 									 $scope.verifyFailPopup = true;
 									 vm.errorMsgPopup = response.data.errorCode;
 				                });
@@ -113,14 +111,16 @@ angular.module('scfApp').controller(
 				            	  $scope.successPopup = true;
 				                })
 				                .catch(function (response) {
-					               	 console.log(response);
+					               	 console.log('Cannot Reject');
 					               	 $scope.verifyFailPopup = true;
 									 vm.errorMsgPopup = response.data.errorCode;
 				                });
 					}
 					
 					vm.back = function(){
-						$state.go('/transaction-list');
+						$timeout(function(){
+							$state.go('/transaction-list');
+						}, 10);
 					}				
 
 				} ]);
