@@ -221,25 +221,11 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		vm.listTransactionModel.dateTo = convertDate(dateTo);
 		
 		var transactionModel = angular.extend(vm.listTransactionModel,{
-			page: vm.pageModel.currentPage,
-			pageSize: vm.pageModel.pageSizeSelectModel
+			page: 0,
+			pageSize: 0
 		});
 		
-//		var fileName = 'D:\\Backup\\Transaction.csv';
-		
-		var transactionDifferd = ListTransactionService.buildCSVFile(transactionModel);
-//		transactionDifferd.promise.then(function(response){
-//			console.log(response);		
-//		}).catch(function(response){
-//			console.log('Cannot build csv file');
-//		});
-//
-//		var csvDifferd = ListTransactionService.getCSVFile(fileName);
-//		csvDifferd.promise.then(function(response){
-//			console.log(response);
-//		}).catch(function(response){
-//			console.log('Cannot export csv file');
-//		});
+		var transactionDifferd = ListTransactionService.exportCSVFile(transactionModel);
 	};
 	
 	vm.verify = function(data){

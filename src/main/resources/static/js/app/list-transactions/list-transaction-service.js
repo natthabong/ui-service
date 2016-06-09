@@ -7,8 +7,7 @@ function ListTransactionServices($http, $q){
 		getSponsors: getSponsors,
 		getTransactionStatusGroups: getTransactionStatusGroups,
 		getTransactionDocument: getTransactionDocument,
-		buildCSVFile: buildCSVFile,
-		getCSVFile: getCSVFile
+		exportCSVFile: exportCSVFile,
 	}
 	
 	function getSponsors(){
@@ -45,61 +44,31 @@ function ListTransactionServices($http, $q){
 		return deffered;
 	}
 	
-	function buildCSVFile(listTransactionModel){
-//		var deffered = $q.defer();
-//		$http({
-//			url: 'api/list-transaction/buildCSVFile',
-//			method: 'POST',
-//			data: listTransactionModel
-//		}).then(function(response){
-//			deffered.resolve(response);
-//		}).catch(function(response){
-//			deffered.reject(response);
-//		});	
-//		return deffered;
-		var filename = '';
+	function exportCSVFile(listTransactionModel){
         $http({
-			url: 'api/list-transaction/buildCSVFile',
-			method: 'POST',
-			data: listTransactionModel
-		}).then(function(response){
-			 console.log(response);
-        }).catch(function(response){
-            console.log('response');
+            url : 'api/list-transaction/exportCSVFile',
+            method : 'POST',
+            data: listTransactionModel,
+            //params : {listTransactionModel},
+            //headers : {
+            //    'Content-type' : 'text/csv;charset=tis-620',
+            //},
+            responseType : 'arraybuffer'
+        }).success(function(data, status, headers, config) {
+            // TODO when WS success
+            var file = new Blob([ data ], {
+                type : 'text/csv'
+            });
+            //trick to download store a file having its URL
+            var fileURL = URL.createObjectURL(file);
+            var a         = document.createElement('a');
+            a.href        = fileURL; 
+            a.target      = '_blank';
+            a.download    = 'Transaction.csv';
+            document.body.appendChild(a);
+            a.click();
+        }).error(function(data, status, headers, config) {
+            //TODO when WS error
         });
-   
-
-	}
-	
-	function getCSVFile(fileName){
-//		var deffered = $q.defer();
-//		$http({
-//			url: 'api/list-transaction/getCSVFile',
-//			method: 'GET',
-//			data: fileName
-//		}).then(function(response){
-//			deffered.resolve(response);
-//		}).catch(function(response){
-//			deffered.reject(response);
-//		});	
-//		return deffered;
-		
-		if (!window.ActiveXObject) {	
-			console.log('name : '+filename);
-			var save = document.createElement('a');
-			save.href = 'api/list-transaction/getCSVFile?csvFileName='+filename;
-			save.target = '_blank';
-			save.download = 'data.csv' || fileURL;
-			var evt = document.createEvent('MouseEvents');
-			evt.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
-			save.dispatchEvent(evt);
-			(window.URL || window.webkitURL).revokeObjectURL(save.href);
-		} else if ( !! window.ActiveXObject && document.execCommand)     {
-			// for IE
-			var _window = window.open(fileURL, "_blank");
-			_window.document.close();
-			_window.document.execCommand('SaveAs', true, fileName || fileURL);
-			_window.close();
-		}
 	}
 }
