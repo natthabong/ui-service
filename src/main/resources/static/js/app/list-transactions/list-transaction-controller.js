@@ -20,7 +20,32 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
     }];
 
     vm.tableRowCollection = [];
-
+	vm.summaryInternalStep = {
+		wait_for_verify : {
+		statusMessageKey: 'wait_for_verify',
+		totalRecord: 0,
+		totalAmount: 0
+	},
+		wait_for_approve : {
+		statusMessageKey: 'wait_for_approve',
+		totalRecord: 0,
+		totalAmount: 0
+	},
+	reject_by_checker : {
+		statusMessageKey: 'reject_by_checker',
+		totalRecord: 0,
+		totalAmount: 0
+	},
+	reject_by_approver : {
+		statusMessageKey: 'reject_by_approver',
+		totalRecord: 0,
+		totalAmount: 0
+	},
+	canceled_by_supplier : {
+		statusMessageKey: 'canceled_by_supplier',
+		totalRecord: 0,
+		totalAmount: 0
+	}};
 
     // Datepicker
     vm.openDateFrom = false;
@@ -37,7 +62,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             dateFrom: '',
             dateTo: '',
             sponsorId: '',
-            supplierId: '',
+            supplierCode: '',
             groupStatus: '',
             order: '',
             orderBy: ''
@@ -226,6 +251,38 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			
             // Calculate Display page
             vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+            
+            if(vm.listTransactionModel.groupStatus === 'INTERNAL_STEP' || vm.listTransactionModel.groupStatus === ''){
+            	var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
+				internalStepDeffered.promise.then(function(response){
+					var internalStemp = response.data;
+					if(internalStemp.length > 0){
+						internalStemp.forEach(function(summary){
+							if(summary.statusMessageKey === 'canceled_by_supplier'){
+								vm.summaryInternalStep.canceled_by_supplier.totalRecord = summary.totalRecord;
+								vm.summaryInternalStep.canceled_by_supplier.totalAmount = summary.totalAmount;							
+								
+							}else if(summary.statusMessageKey === 'reject_by_approver'){
+								vm.summaryInternalStep.reject_by_approver.totalRecord = summary.totalRecord;
+								vm.summaryInternalStep.reject_by_approver.totalAmount = summary.totalAmount;
+							}else if(summary.statusMessageKey === 'reject_by_checker'){
+								vm.summaryInternalStep.reject_by_checker.totalRecord = summary.totalRecord;
+								vm.summaryInternalStep.reject_by_checker.totalAmount = summary.totalAmount;
+							}else if(summary.statusMessageKey === 'wait_for_approve'){
+								vm.summaryInternalStep.wait_for_approve.totalRecord = summary.totalRecord;
+								vm.summaryInternalStep.wait_for_approve.totalAmount = summary.totalAmount;
+							}else if(summary.statusMessageKey === 'wait_for_verify'){
+								vm.summaryInternalStep.wait_for_verify.totalRecord = summary.totalRecord;
+								vm.summaryInternalStep.wait_for_verify.totalAmount = summary.totalAmount;
+							}
+						});
+					}
+					
+				}).catch(function(response){
+					console.log('Internal Error');
+				});
+            	
+            }
         }).catch(function(response) {
             console.log('Cannot search document');
         });
@@ -241,8 +298,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		$state.go('/verify-transaction', {
             transactionModel: data
         });
-	}
-
+	};
+	
 }]);
 
 function convertDate(dateTime) {

@@ -32,4 +32,31 @@ angular.module('scfApp').service('SCFCommonService', [function() {
             fromState = '';
         }
     };
+	
+	vm.clientPagination = function (listDatas, pagesize, currentPage) {
+        var dataResult = {
+            content: [],
+            totalPages: 0,
+            size: 0,
+            number: 0,
+            totalElements: 0
+        };
+
+        if (angular.isArray(listDatas)) {
+            var indexStart = currentPage * pagesize;
+            var indexLast = (currentPage * pagesize) + pagesize;
+            var totalPage = Math.ceil(listDatas.length / pagesize);
+            var dataSplites = [];
+            for (; indexStart < indexLast && indexStart < listDatas.length; indexStart++) {
+                dataSplites.push(listDatas[indexStart]);
+            }
+            dataResult.content = dataSplites;
+            dataResult.totalPages = totalPage;
+            dataResult.size = pagesize;
+            dataResult.number = currentPage;
+            dataResult.totalElements = listDatas.length
+        }
+
+        return dataResult;
+    };
 }]);

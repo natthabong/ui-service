@@ -6,7 +6,8 @@ function ListTransactionServices($http, $q){
 	return {
 		getSponsors: getSponsors,
 		getTransactionStatusGroups: getTransactionStatusGroups,
-		getTransactionDocument: getTransactionDocument
+		getTransactionDocument: getTransactionDocument,
+		summaryInternalStep: summaryInternalStep
 	}
 	
 	function getSponsors(){
@@ -33,6 +34,20 @@ function ListTransactionServices($http, $q){
 		var deffered = $q.defer();
 		$http({
 			url: 'api/list-transaction/search',
+			method: 'POST',
+			data: listTransactionModel
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});	
+		return deffered;
+	}
+	
+	function summaryInternalStep(listTransactionModel){
+		var deffered = $q.defer();
+		$http({
+			url: 'api/list-transaction/summary-internal-step',
 			method: 'POST',
 			data: listTransactionModel
 		}).then(function(response){

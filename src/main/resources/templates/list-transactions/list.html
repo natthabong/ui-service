@@ -58,7 +58,7 @@
                             <div class="form-group">
                                 <label for="sponsor" class="col-md-2 col-sm-3 col-xs-12 control-label">Sponsor: </label>
                                 <div class="col-md-5 col-sm-5 col-xs-12">
-                                    <scf-dropdown id="sponsor-dropdown" ng-model="listTransactionController.listTransactionModel.sponsorCode" component-data="listTransactionController.sponsorCodeDropdown"></scf-dropdown>
+                                    <scf-dropdown id="sponsor-dropdown" ng-model="listTransactionController.listTransactionModel.sponsorId" component-data="listTransactionController.sponsorCodeDropdown"></scf-dropdown>
                                 </div>
                                 <div class="col-md-5 col-sm-4"></div>
                             </div>
@@ -120,7 +120,7 @@
 								<div class="form-horizontal">
 									<span class="col-md-2 col-sm-3"><b>Internal Step: </b></span>
 									<div class="col-md-2 col-sm-3">
-                                        <span ng-bind="'list-transaction-wait-for-verify' | translate">list-transaction-wait-for-verify</span>
+                                        <span ng-bind="listTransactionController.summaryInternalStep.wait_for_verify.statusMessageKey | translate">list-transaction-wait-for-verify</span>
                                     </div>
 									<div class="col-md-1 col-sm-2 text-right">
                                         <span>3</span>&nbsp; <span ng-bind="'records' | translate"></span>
