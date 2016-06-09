@@ -1,4 +1,4 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state', function(ListTransactionService, $state) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', function(ListTransactionService, $state,$translate) {
     var vm = this;
     vm.showInfomation = false;
     
@@ -225,7 +225,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			pageSize: 0
 		});
 		
-		var transactionDifferd = ListTransactionService.exportCSVFile(transactionModel);
+		var transactionDifferd = ListTransactionService.exportCSVFile(transactionModel,$translate);
 	};
 	
 	vm.verify = function(data){

@@ -44,15 +44,16 @@ function ListTransactionServices($http, $q){
 		return deffered;
 	}
 	
-	function exportCSVFile(listTransactionModel){
+	function exportCSVFile(listTransactionModel,$translate){
         $http({
             url : 'api/list-transaction/exportCSVFile',
             method : 'POST',
             data: listTransactionModel,
             //params : {listTransactionModel},
-            //headers : {
-            //    'Content-type' : 'text/csv;charset=tis-620',
-            //},
+            headers : {
+                //'Content-type' : 'text/csv;charset=tis-620',
+                'Accept-Language': $translate.use()
+            },
             responseType : 'arraybuffer'
         }).success(function(data, status, headers, config) {
             // TODO when WS success
