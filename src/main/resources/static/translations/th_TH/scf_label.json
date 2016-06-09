@@ -79,6 +79,9 @@
 
 	"_comment": "Page Verify Transaction",
 	"verify-popup-confirm": "Do you want to approve?",
+	
+	"_comment": "Page View Transaction",
+	"view-transaction": "View Transaction",
     
     "_comment": "System Error Code",
     "E1002": "ระบบไม่สามารถทำรายการได้ เนื่องจากวงเงินคงเหลือไม่พอ",
