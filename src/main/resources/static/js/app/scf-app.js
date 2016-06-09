@@ -50,6 +50,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/verify-transaction',
 				params: { transactionModel: null},
 				resolve: load(['js/app/verify-transactions/verify-transaction-service.js', 'js/app/verify-transactions/verify-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/view-transaction', {
+				url: '/view-transaction',
+				controller: 'ViewTransactionController',
+				controllerAs: 'viewTxnCtrl',
+				templateUrl: '/view-transaction',
+				params: { transactionModel: null},
+				resolve: load(['js/app/view-transactions/view-transaction-service.js', 'js/app/view-transactions/view-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			});
 			
 			function load(srcs, callback) {
