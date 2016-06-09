@@ -195,6 +195,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             label: 'Status',
             sortData: true,
             cssTemplate: 'text-center',
+
         }, {
             field: 'action',
             label: 'Action',
@@ -206,7 +207,6 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                 '<scf-button id="search-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-pring-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>' +
                 '<scf-button id="view-button" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
         }]
-
     };
 
     vm.openCalendarDateFrom = function() {
@@ -299,7 +299,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             transactionModel: data
         });
 	};
-	
+
 }]);
 
 function convertDate(dateTime) {
