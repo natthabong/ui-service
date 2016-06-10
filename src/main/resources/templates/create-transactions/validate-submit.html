@@ -168,7 +168,7 @@
 							</div>
 						</div>
 						<div class="col-md-12 text-right">
-							<scf-button id="back-button" class="btn btn-default"
+							<scf-button id="back-to-create-button" class="btn btn-default"
 								type="submit" ng-click="validateAndSubmitCtrl.backToCreate()">{{
 							'btn-back' | translate}}</scf-button>
 							<scf-button id="submit-button" class="btn btn-default"
@@ -198,7 +198,7 @@
 				<div class="col-xs-12">
 					<h2 id="transaction-no">
 						<b ng-bind="'transaction-no' | translate">Transaction No:</b> <span
-							ng-bind="validateAndSubmitCtrl.transactionNo"></span>
+							ng-bind="validateAndSubmitCtrl.transactionNo" id="transaction-no-label"></span>
 					</h2>
 				</div>
 			</div>
@@ -250,7 +250,7 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<scf-button id="back-button" data-dismiss="modal"
+					<scf-button id="back-button" data-dismiss="modal" ng-click="validateAndSubmitCtrl.backToCreate()"
 						ng-bind="'btn-back' | translate"></scf-button>
 				</div>
 			</div>

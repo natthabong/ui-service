@@ -91,6 +91,6 @@
     "drawdown_fail": "Drawdown Fail",
 	"drawdown_success": "Drawdown Success",
 	"internal_step": "Internal Step",
-	"retrievable_transaction": "Retrievable Transaction",
+	"retriable_transaction": "Retriable Transaction",
 	"wait_for_drawdown_result": "Wait for Drawdown Result"
 }
