@@ -5,7 +5,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         // Initail Data
         $scope.validateDataFailPopup = false;
         vm.showInfomation = false;
-        vm.errorMsgPopup = "Insufficient Fund"
+        vm.errorMsgPopup = 'Insufficient Fund'
         vm.showErrorMsg = false;
         vm.errorMsgGroups = '';
         vm.documentSelects = [];
@@ -163,9 +163,9 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     }
                     vm.loadSupplierDate();
                 }
-
-            }).catch(function (response) {
-                console.log(response);
+            }).catch(function (response) {				
+        		vm.errorMsgPopup = response.data.errorCode;
+				vm.showErrorMsgPopup = true;
             });
         };
 
