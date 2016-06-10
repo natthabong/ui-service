@@ -120,7 +120,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                     }
                     vm.transactionStatusGroupDropdown.push(selectObj);
                 });
-                vm.listTransactionModel.groupStatus = vm.transactionStatusGroupDropdown[0].value;
+                vm.listTransactionModel.statusGroup = vm.transactionStatusGroupDropdown[0].value;
             }
         }).catch(function(response) {
 			console.log('Load TransactionStatusGroup Fail');
@@ -199,6 +199,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             field: 'statusMessageKey',
             label: 'Status',
             sortData: true,
+			filterType: 'translate',
+			filterFormat: '',
             cssTemplate: 'text-center',
         },{
 			field: 'action',
@@ -210,7 +212,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><i class="fa fa-times" aria-hidden="true"></i></scf-button>'
+			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 		}]
     };
 
@@ -270,8 +272,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                 vm.summaryInternalStep.wait_for_verify.totalRecord = 0;
                 vm.summaryInternalStep.wait_for_verify.totalAmount = 0;
 				
-                if (vm.listTransactionModel.groupStatus === 'INTERNAL_STEP' || vm.listTransactionModel.groupStatus === '') {
-					console.log('Internal');
+                if (vm.listTransactionModel.statusGroup === 'INTERNAL_STEP' || vm.listTransactionModel.statusGroup === '') {
                     var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
                     internalStepDeffered.promise.then(function(response) {
                         var internalStemp = response.data;
