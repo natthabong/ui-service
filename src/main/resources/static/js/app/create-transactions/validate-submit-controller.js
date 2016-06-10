@@ -138,5 +138,13 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 				vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 			};
 			
-			vm.initLoadData();		
+			vm.initLoadData();
+			
+			vm.viewRecent = function(){
+				
+			};
+			
+			vm.viewHistory = function(){
+				$state.go('/');
+			};
 		} ]);

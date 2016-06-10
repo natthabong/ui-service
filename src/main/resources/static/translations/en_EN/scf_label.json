@@ -43,9 +43,10 @@
 	"popup-fail": "FAIL",
 	"ok-btn": "OK",
 	"yes-btn": "YES",
-	"no-btn": "NO",
-	
+	"no-btn": "NO",	
 	"create-new-btn": "Create New",
+	"view-recent-btn": "View Recent",
+	"view-history-btn": "View History",
 	"popup-success": "SUCCESS",
 	"transaction-error-msg-payment-date": "Sponsor Payment Date is require.",
 	
