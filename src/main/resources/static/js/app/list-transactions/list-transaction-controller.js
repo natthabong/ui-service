@@ -216,7 +216,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         });    	
     };
     
-    var reject = function(transactionPayload) {   	
+    var reject = function(transactionPayload) {   
         var deffered = TransactionService.reject(transactionPayload);
         deffered.promise.then(function(response) {
         	vm.transaction = response.data;
@@ -301,7 +301,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	   vm.transaction.rejectReason  = data.rejectReason;
 	   vm.transaction.sponsorId = data.sponsorId;
 	   vm.transaction.supplierId = data.supplierId;
-	   vm.transaction.transactionType = data.transactionType
+	   vm.transaction.transactionType = data.transactionType;
 	   vm.transactionIdForRetry = data.transactionId;
  	   
  	   vm.transactionPayload.transaction = vm.transaction;
