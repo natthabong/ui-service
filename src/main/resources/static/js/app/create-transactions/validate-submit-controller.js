@@ -7,6 +7,8 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			$scope.submitFailPopup = false;
 			$scope.confirmPopup = false;
 			vm.transactionNo = '';
+			//Transaction model after create success
+			vm.transactionModel = {};
 			vm.pageSizeList = [ {
 				label : '10',
 				value : '10'
@@ -35,9 +37,6 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 					vm.pageModel.totalRecord  = vm.transactionModel.documents.length;
 					vm.searchDocument();
                 }
-				
-               
-                
             }
 
 			vm.dataTable = {
@@ -90,7 +89,8 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			vm.submitTransaction = function() {
 				var deffered = ValidateAndSubmitService.submitTransaction(vm.transactionModel);
 				 deffered.promise.then(function(response) {
-					 vm.transactionNo = response.data.transactionNo;
+					 vm.transactionModel = response.data;
+					 vm.transactionNo = vm.transactionModel.transactionNo;
 					 $scope.confirmPopup = false;
 					 $scope.validateDataPopup = true;
 				 }).catch(function(response) {
@@ -131,9 +131,14 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			
 			vm.viewRecent = function(){
 				
+				$timeout(function(){					
+                	$state.go('/view-transaction', {transactionModel: vm.transactionModel});
+            	}, 10);
 			};
 			
 			vm.viewHistory = function(){
-				$state.go('/');
+				$timeout(function(){
+					$state.go('/transaction-list');
+				}, 10);
 			};
 		} ]);

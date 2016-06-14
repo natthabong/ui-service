@@ -51,7 +51,7 @@ angular.module('scfApp').controller(
 							filterType : 'date',
 							filterFormat : 'dd/MM/yyyy'
 						}, {
-							field : 'sponsorPaymentDate',
+							field : 'documentDate',
 							label : 'วันที่เอกสาร',
 							sortData : false,
 							cssTemplate : 'text-center',
@@ -83,7 +83,7 @@ angular.module('scfApp').controller(
 					}
 					
 					vm.back = function(){
-						$state.go('/transaction-list');
+						$state.go(SCFCommonService.parentStatePage().getParentState());						
 					}
 
 				} ]);
