@@ -17,7 +17,7 @@
 								<div class="panel-body">
 									<div class="row">
 										<div class="col-md-3 col-sm-3">
-											<label ng-bind="'sponsor' | translate"></label>:
+											<label ng-bind="'Sponsor' | translate"></label>:
 										</div>
 										<div class="col-md-9 col-sm-9">
 											<span id="sponsor-label"
@@ -27,7 +27,7 @@
 									</div>
 									<div class="row">
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'financing-documents' | translate"></label>:
+											<label ng-bind="'Financing documents' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="financing-document-label"
@@ -36,7 +36,7 @@
 										<div class="col-md-1 col-sm-1"></div>
 
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'transaction-type' | translate"></label>:
+											<label ng-bind="'Transaction type' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="transaction-type-label">Loan</span>
@@ -45,17 +45,17 @@
 									</div>
 									<div class="row">
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'value-of-document' | translate"></label>:
+											<label ng-bind="'Value of document' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="value-of-document-label"
 												ng-bind="validateAndSubmitCtrl.valueOfDocument | number:2"></span>
 										</div>
 										<div class="col-md-1 col-sm-1">
-											<span ng-bind="'thai-bath' | translate"></span>
+											<span ng-bind="'THB' | translate"></span>
 										</div>
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'sponsor-payment-date' | translate"></label>:
+											<label ng-bind="'Sponsor payment date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="sponsor-payment-date-label"
@@ -66,7 +66,7 @@
 									<div class="row">
 										<div class="col-md-2 col-sm-3">
 											<label
-												ng-bind="'transaction-create-preDrawdownPercentage' | translate"></label>:
+												ng-bind="'Pre-drawdown percentage' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="pre-drawdown-label"
@@ -76,7 +76,7 @@
 											<span>%</span>
 										</div>
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'transaction-date' | translate"></label>:
+											<label ng-bind="'Transaction date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="header-transaction-date-label"
@@ -86,17 +86,17 @@
 									</div>
 									<div class="row">
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'transaction-amount' |translate"></label>:
+											<label ng-bind="'Transaction amount' |translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="header-transaction-amount-label"
 												ng-bind="validateAndSubmitCtrl.transactionModel.transactionAmount | number:2"></span>
 										</div>
 										<div class="col-md-1 col-sm-1">
-											<span ng-bind="'thai-bath' | translate"></span>
+											<span ng-bind="'THB' | translate"></span>
 										</div>
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'loan-maturity-date' | translate"></label>:
+											<label ng-bind="'Loan maturity date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="loan-maturity-date-label"
@@ -113,9 +113,9 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3">
-							<b id="total-select-doc-label">{{ 'selected' |
+							<b id="total-select-doc-label">{{ 'Selected' |
 								translate}}&#32;{{validateAndSubmitCtrl.transactionModel.documents.length}}&#32;{{
-								'records' | translate}}</b>:
+								'Records' | translate}}</b>:
 						</div>
 						<div class="col-md-9 text-right">
 							<div class="row">
@@ -153,15 +153,15 @@
 						<div class="col-md-12">
 							<div class="form-horizontal">
 								<label class="col-md-2 control-label"><b
-									ng-bind="'transaction-amount' | translate"></b>:</label>
+									ng-bind="'Transaction amount' | translate"></b>:</label>
 								<div class="col-md-9 control-label">
 									<span id="validate-transaction-amount-label"
 										ng-bind="validateAndSubmitCtrl.transactionModel.transactionAmount | number:2"></span>
-									&nbsp; <span ng-bind="'thai-bath' | translate"></span>
+									&nbsp; <span ng-bind="'THB' | translate"></span>
 								</div>
 
 								<label class="col-md-2 control-label"><b
-									ng-bind="'transaction-date' | translate"></b>:</label>
+									ng-bind="'Transaction date' | translate"></b>:</label>
 								<div class="col-md-9 control-label">
 									<label id="transaction-date-label">{{validateAndSubmitCtrl.transactionModel.transactionDate}}</label>
 								</div>
@@ -170,11 +170,11 @@
 						<div class="col-md-12 text-right">
 							<scf-button id="back-to-create-button" class="btn btn-default"
 								type="submit" ng-click="validateAndSubmitCtrl.backToCreate()">{{
-							'btn-back' | translate}}</scf-button>
+							'Back' | translate}}</scf-button>
 							<scf-button id="submit-button" class="btn btn-default"
 								type="submit"
 								ng-click="validateAndSubmitCtrl.submitTransaction()">{{
-							'submit' | translate}}</scf-button>
+							'Submit' | translate}}</scf-button>
 						</div>
 					</div>
 				</div>
@@ -189,7 +189,7 @@
 					<image width="70" height="70" ng-src="img/success-icon.png"></image>
 				</div>
 				<div class="col-md-10 col-sm-10">
-					<h2 ng-bind="'popup-success' | translate">SUCCESS</h2>
+					<h2 ng-bind="'Success' | translate">Success</h2>
 				</div>
 			</div>
 		</div>
@@ -197,7 +197,7 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<h2 id="transaction-no">
-						<b ng-bind="'transaction-no' | translate">Transaction No:</b> <span
+						<b ng-bind="'Transaction No.' | translate">Transaction No.</b>:<span
 							ng-bind="validateAndSubmitCtrl.transactionNo" id="transaction-no-label"></span>
 					</h2>
 				</div>
@@ -209,19 +209,19 @@
 					<scf-button type="submit" data-dismiss="modal"
 						id="create-new-transaction-button"
 						ng-click="validateAndSubmitCtrl.createNewAction()"
-						ng-bind="'create-new-btn' | translate"></scf-button>
+						ng-bind="'Create new' | translate"></scf-button>
 				</div>
 				<div class="col-xs-12 text-right">
 					<scf-button type="submit" data-dismiss="modal"
 						id="create-new-transaction-button"
 						ng-click="validateAndSubmitCtrl.viewRecent()"
-						ng-bind="'view-recent-btn' | translate"></scf-button>
+						ng-bind="'View recent' | translate"></scf-button>
 				</div>
 				<div class="col-xs-12 text-right">
 					<scf-button type="submit" data-dismiss="modal"
 						id="create-new-transaction-button"
 						ng-click="validateAndSubmitCtrl.viewHistory()"
-						ng-bind="'view-history-btn' | translate"></scf-button>
+						ng-bind="'View history' | translate"></scf-button>
 				</div>
 			</div>
 		</div>
@@ -235,7 +235,7 @@
 					<image width="70" height="70" ng-src="img/error-icon.png"></image>
 				</div>
 				<div class="col-md-10 col-sm-10" style="color: red;">
-					<h2 ng-bind="'popup-fail' | translate">fail</h2>
+					<h2 ng-bind="'Fail' | translate">Fail</h2>
 				</div>
 			</div>
 		</div>
@@ -251,7 +251,7 @@
 			<div class="row">
 				<div class="col-xs-12 text-right">
 					<scf-button id="back-button" data-dismiss="modal" ng-click="validateAndSubmitCtrl.backToCreate()"
-						ng-bind="'btn-back' | translate"></scf-button>
+						ng-bind="'Back' | translate"></scf-button>
 				</div>
 			</div>
 		</div>

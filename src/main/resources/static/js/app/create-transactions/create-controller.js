@@ -80,7 +80,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 vm.createTransactionModel.supplierCodeSelected = vm.createTransactionModel.supplierCode;
                 vm.createTransactionModel.sponsorIdSelected = vm.createTransactionModel.sponsorCode;
             } else {
-            	vm.errorMsgGroups = 'transaction-error-msg-payment-date';
+            	vm.errorMsgGroups = 'Sponsor payment date is require.';
                 vm.showErrorMsg = true;
             }
         };
@@ -174,7 +174,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         // next to page verify and submit
         vm.nextStep = function () {
         	if(vm.documentSelects.length === 0){
-        		vm.errorMsgGroups = 'transaction-error-document';
+        		vm.errorMsgGroups = 'Please select document.';
         		vm.showErrorMsg = true;
         	}else{
         	
