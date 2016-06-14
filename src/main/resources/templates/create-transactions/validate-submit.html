@@ -3,7 +3,7 @@
 		<div class="panel-body">
 			<div class="col-md-12">
 				<h3 id="header-message-label" class="animated fadeInLeft">{{
-					'validate-and-submit' | translate}}</h3>
+					'Validate and Submit' | translate}}</h3>
 			</div>
 		</div>
 	</div>
@@ -26,7 +26,7 @@
 
 									</div>
 									<div class="row">
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Financing documents' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
@@ -35,16 +35,16 @@
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
 
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Transaction type' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="transaction-type-label">Loan</span>
 										</div>
-										<div class="col-md-3 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1"></div>
 									</div>
 									<div class="row">
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Value of document' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
@@ -54,38 +54,36 @@
 										<div class="col-md-1 col-sm-1">
 											<span ng-bind="'THB' | translate"></span>
 										</div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Sponsor payment date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="sponsor-payment-date-label"
 												ng-bind="validateAndSubmitCtrl.transactionModel.sponsorPaymentDate"></span>
 										</div>
-										<div class="col-md-3 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1"></div>
 									</div>
 									<div class="row">
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label
 												ng-bind="'Pre-drawdown percentage' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="pre-drawdown-label"
-												ng-bind="validateAndSubmitCtrl.tradingpartnerInfoModel.prePercentageDrawdown | number:2"></span>
+												ng-bind="validateAndSubmitCtrl.tradingpartnerInfoModel.prePercentageDrawdown | number:2"></span>%
 										</div>
-										<div class="col-md-1 col-sm-1">
-											<span>%</span>
-										</div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-1 col-sm-1"></div>
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Transaction date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="header-transaction-date-label"
 												ng-bind="validateAndSubmitCtrl.transactionModel.transactionDate"></span>
 										</div>
-										<div class="col-md-3 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1"></div>
 									</div>
 									<div class="row">
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Transaction amount' |translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
@@ -95,14 +93,14 @@
 										<div class="col-md-1 col-sm-1">
 											<span ng-bind="'THB' | translate"></span>
 										</div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Loan maturity date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="loan-maturity-date-label"
 												ng-bind="validateAndSubmitCtrl.transactionModel.maturityDate"></span>
 										</div>
-										<div class="col-md-3 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1"></div>
 									</div>
 								</div>
 							</div>
