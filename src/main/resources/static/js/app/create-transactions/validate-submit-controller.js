@@ -65,7 +65,7 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 				                filterType: 'date',
 				                filterFormat: 'dd/MM/yyyy'
 				            }, {
-				                field: 'sponsorPaymentDate',
+				                field: 'documentDate',
 				                label: 'วันที่เอกสาร',
 				                sortData: false,
 				                cssTemplate: 'text-center',
@@ -106,7 +106,6 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 					 $scope.confirmPopup = false;
 					 $scope.validateDataPopup = true;
 				 }).catch(function(response) {
-					 console.log(response);
 					 $scope.submitFailPopup = true;
 					 vm.errorMsgPopup = response.data.errorCode;
 				 });
@@ -114,11 +113,13 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			vm.createNewAction = function(){
 				$timeout(function(){
 					$state.go(SCFCommonService.parentStatePage().getParentState());
-				}, 30);
+				}, 10);
 			};
 			
             vm.backToCreate = function(){
+            	$timeout(function(){
                 $state.go(SCFCommonService.parentStatePage().getParentState(), {actionBack: true, transactionModel: vm.transactionModel, tradingpartnerInfoModel: vm.tradingpartnerInfoModel, documentSelects: $stateParams.documentSelects});
+            	}, 10);
             };
             
 			vm.searchDocument = function(pagingModel){

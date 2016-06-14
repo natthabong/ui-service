@@ -25,7 +25,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 			.state('/create-transaction', {
 				url: '/create-transaction',
 				controller: 'CreateTransactionController',
-				controllerAs: 'createTransactionCtrl',
+				controllerAs: 'createTransactionCtrl',				
 				templateUrl: '/create-transaction',
                 params: {actionBack: false, transactionModel: null, tradingpartnerInfoModel: null, documentSelects: null},
 				resolve: load(['js/app/create-transactions/create-service.js','js/app/create-transactions/create-controller.js',

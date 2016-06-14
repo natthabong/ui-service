@@ -69,28 +69,12 @@ function createTransactionService($http, $q) {
         return deffered;
     }
 
-    function getDocument(sponsorId, supplierCode, sponsorPaymentDate, page, pageSize) {
+    function getDocument(searchCriteriaModel) {
         var deffered = $q.defer();
-
         $http({
     	    url : 'api/create-transaction/documents/get',
         	method: 'POST',
-        	headers : {
-        		'Content-Type': 'application/x-www-form-urlencoded'
-        	},
-        	data: {
-        		 sponsorId: sponsorId,
-                 supplierCode: supplierCode,
-                 sponsorPaymentDate: sponsorPaymentDate,
-                 page: page,
-                 pageSize: pageSize
-        	},
-	        transformRequest :function (data) {
-	            if (data === undefined) {
-	                return data;
-	            }
-	            return $.param(data);
-	        }
+        	data: searchCriteriaModel
         }).then(function(response) {
                 deffered.resolve(response);
             })
