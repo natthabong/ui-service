@@ -333,7 +333,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         });
 	}
 	
-	vm.view = function(data){
+	vm.view = function(data){		
+		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 		$state.go('/view-transaction', {
             transactionModel: data
         });
