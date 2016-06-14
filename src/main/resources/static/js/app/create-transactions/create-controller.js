@@ -91,7 +91,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             var supplierCode = vm.createTransactionModel.supplierCode;
 
             vm.sponsorPaymentDates = [{
-                label: 'Please Select',
+                label: 'Please select',
                 value: ''
             }];
 

@@ -573,3 +573,12 @@ footer .footer-below {
 .gec-table-sort {
 	color: black;
 }
+
+.gec-pop-up-font-size {
+	font-size: 15px;
+}
+
+.gec-pop-up-font-size-green {
+	font-weight: bold;
+	color:green;
+}
