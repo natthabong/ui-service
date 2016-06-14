@@ -40,7 +40,7 @@
     "Search": "Search",
     "Export": "Export",
     "Status": "Status",
-	"FAIL": "FAIL",
+	"Fail": "Fail",
 	"OK": "OK",
 	"YES": "YES",
 	"NO": "NO",	
@@ -48,7 +48,7 @@
 	"Create new": "Create new",
 	"View recent": "View recent",
 	"View history": "View history",
-	"SUCCESS": "SUCCESS",
+	"Success": "Success",
 	"Sponsor payment date is require.": "Sponsor payment date is require.",
 	
 	"_comment": "Menu",

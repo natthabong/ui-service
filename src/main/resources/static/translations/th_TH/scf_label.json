@@ -40,7 +40,7 @@
     "Search": "Search",
     "Export": "Export",
     "Status": "Status",
-	"FAIL": "เกิดข้อผิดพลาด",
+	"Fail": "เกิดข้อผิดพลาด",
 	"OK": "ตกลง",
 	"YES": "ยืนยัน",
 	"NO": "ยกเลิก",
@@ -48,7 +48,7 @@
 	"Create new": "สร้างรายการ",
 	"View recent": "View recent",
 	"View history": "View history",
-	"SUCCESS": "สำเร็จ",
+	"Success": "สำเร็จ",
 	"Sponsor payment date is require.": "กรุณาระบุ Sponsor payment date",
 	
 	"_comment": "Menu",
