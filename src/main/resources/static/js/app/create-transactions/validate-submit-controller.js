@@ -34,21 +34,10 @@ validateandsubmit.controller('ValidateAndSubmitController', [
                 }else{
 					vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
 					vm.valueOfDocument = $stateParams.totalDocumentAmount;
-					vm.pageModel.totalRecord  = vm.transactionModel.documents.length;	
+					vm.pageModel.totalRecord  = vm.transactionModel.documents.length;
 					vm.searchDocument();
-                    vm.loadMaturityDate();
                 }
             }
-			
-			vm.loadMaturityDate = function() {
-				var deffered = ValidateAndSubmitService.prepareTransactionOnValidatePage(vm.transactionModel);
-				deffered.promise.then(function(response) {
-					vm.transactionModel = response.data;
-					
-				}).catch(function(response) {
-					console.log(response);
-				});
-			};
 
 			vm.dataTable = {
 					options: {
