@@ -5,7 +5,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         // Initail Data
         $scope.validateDataFailPopup = false;
         vm.showInfomation = false;
-        vm.errorMsgPopup = "Insufficient Fund"
+        vm.errorMsgPopup = 'Insufficient Fund'
         vm.showErrorMsg = false;
         vm.errorMsgGroups = '';
         vm.documentSelects = [];
@@ -27,7 +27,9 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             sponsorPaymentDate: '',
             transactionDate: '',
             supplierCodeSelected: '',
-            sponsorIdSelected: ''
+            sponsorIdSelected: '',
+			order: '',
+			orderBy: ''
         };
 
         vm.tradingpartnerInfoModel = {};
@@ -163,9 +165,9 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     }
                     vm.loadSupplierDate();
                 }
-
-            }).catch(function (response) {
-                console.log(response);
+            }).catch(function (response) {				
+        		vm.errorMsgPopup = response.data.errorCode;
+				vm.showErrorMsgPopup = true;
             });
         };
 
@@ -236,13 +238,19 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
         vm.loadDocument = function () {
             var sponsorCode = vm.createTransactionModel.sponsorCode;
-            var supplierCode = vm.createTransactionModel.supplierCode;
-
-            var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
-            var page = vm.pageModel.currentPage;
-            var pageSize = vm.pageModel.pageSizeSelectModel;
+			
+			//Search criteria model
+			var searchDocumentCriteria = {
+				sponsorId: sponsorCode,
+				supplierCode: vm.createTransactionModel.supplierCode,
+				sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
+				order: vm.createTransactionModel.order,
+				orderBy: vm.createTransactionModel.orderBy,
+				page: vm.pageModel.currentPage,
+				pageSize: vm.pageModel.pageSizeSelectModel
+			}
             // Call Service
-            var deffered = CreateTransactionService.getDocument(sponsorCode, supplierCode, sponsorPaymentDate, page, pageSize);
+            var deffered = CreateTransactionService.getDocument(searchDocumentCriteria);
             deffered.promise
                 .then(function (response) {
                     // response success
@@ -307,36 +315,36 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             columns: [{
                 field: 'sponsorPaymentDate',
                 label: 'วันครบกำหนดชำระ',
-                sortData: false,
+                sortData: true,
                 cssTemplate: 'text-center',
                 filterType: 'date',
                 filterFormat: 'dd/MM/yyyy'
             }, {
-                field: 'sponsorPaymentDate',
+                field: 'documentDate',
                 label: 'วันที่เอกสาร',
-                sortData: false,
+                sortData: true,
                 cssTemplate: 'text-center',
                 filterType: 'date',
                 filterFormat: 'dd/MM/yyyy'
             }, {
                 field: 'documentNo',
                 label: 'เลขที่เอกสาร',
-                sortData: false,
+                sortData: true,
                 cssTemplate: 'text-center',
             }, {
                 field: 'documentType',
                 label: 'ประเภทเอกสาร',
-                sortData: false,
+                sortData: true,
                 cssTemplate: 'text-center',
             }, {
                 field: 'supplierCode',
                 label: 'รหัสลูกค้า',
-                sortData: false,
+                sortData: true,
                 cssTemplate: 'text-center'
             }, {
                 field: 'outstandingAmount',
                 label: 'จำนวนเงินตามเอกสาร',
-                sortData: false,
+                sortData: true,
                 cssTemplate: 'text-right',
                 filterType: 'number',
                 filterFormat: '2'
@@ -399,6 +407,12 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 vm.documentSelects = documentSelectClone;
             }
             calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+        };
+        
+        $scope.sortData = function(order, orderBy){
+			vm.createTransactionModel.order = order;
+			vm.createTransactionModel.orderBy = orderBy;
+        	 vm.loadDocument();
         };
 
         function calculateTransactionAmount(documentSelects, prepercentagDrawdown) {
