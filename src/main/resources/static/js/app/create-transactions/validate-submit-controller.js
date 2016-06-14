@@ -142,7 +142,9 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			vm.initLoadData();
 			
 			vm.viewRecent = function(){
-				
+				$timeout(function(){
+//                $state.go('/view-transaction');
+            	}, 10);
 			};
 			
 			vm.viewHistory = function(){
