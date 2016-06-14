@@ -3,7 +3,7 @@
 		<div class="panel-body">
 			<div class="col-md-12">
 				<h3 id="header-message-label" class="animated fadeInLeft">{{
-					'view-transaction' | translate}}</h3>
+					'View transaction' | translate}}</h3>
 			</div>
 		</div>
 	</div>
@@ -17,7 +17,7 @@
 								<div class="panel-body">
 									<div class="row">
 										<div class="col-md-3 col-sm-3">
-											<label ng-bind="'sponsor' | translate"></label>:
+											<label ng-bind="'Sponsor' | translate"></label>:
 										</div>
 										<div class="col-md-9 col-sm-9">
 											<span id="sponsor-label"
@@ -27,7 +27,7 @@
 									</div>
 									<div class="row">
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'financing-documents' | translate"></label>:
+											<label ng-bind="'Financing documents' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="financing-document-label"
@@ -36,7 +36,7 @@
 										<div class="col-md-1 col-sm-1"></div>
 
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'transaction-type' | translate"></label>:
+											<label ng-bind="'Transaction type' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="transaction-type-label">Loan</span>
@@ -45,17 +45,17 @@
 									</div>
 									<div class="row">
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'value-of-document' | translate"></label>:
+											<label ng-bind="'Value of document' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="value-of-document-label"
 												ng-bind="viewTxnCtrl.transactionModel.valueOfDocument | number:2"></span>
 										</div>
 										<div class="col-md-1 col-sm-1">
-											<span ng-bind="'thai-bath' | translate"></span>
+											<span ng-bind="'THB' | translate"></span>
 										</div>
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'sponsor-payment-date' | translate"></label>:
+											<label ng-bind="'Sponsor payment date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="sponsor-payment-date-label"
@@ -66,7 +66,7 @@
 									<div class="row">
 										<div class="col-md-2 col-sm-3">
 											<label
-												ng-bind="'transaction-create-preDrawdownPercentage' | translate"></label>:
+												ng-bind="'Pre-drawdown percentage' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="predrawdown-percentage-label"
@@ -76,7 +76,7 @@
 											<span>%</span>
 										</div>
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'transaction-date' | translate"></label>:
+											<label ng-bind="'Transaction date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="transaction-date-label"
@@ -86,17 +86,17 @@
 									</div>
 									<div class="row">
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'transaction-amount' |translate"></label>:
+											<label ng-bind="'Transaction amount' |translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="transaction-amount-label"
 												ng-bind="viewTxnCtrl.transactionModel.transactionAmount | number:2"></span>
 										</div>
 										<div class="col-md-1 col-sm-1">
-											<span ng-bind="'thai-bath' | translate"></span>
+											<span ng-bind="'THB' | translate"></span>
 										</div>
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'loan-maturity-date' | translate"></label>:
+											<label ng-bind="'Loan maturity date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="loan-matuality-label"
@@ -106,7 +106,7 @@
 									</div>
 									<div class="row">
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'create-by' |translate"></label>:
+											<label ng-bind="'Create by' |translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="create-by-label"
@@ -114,7 +114,7 @@
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
 										<div class="col-md-2 col-sm-3">
-											<label ng-bind="'create-date' | translate"></label>:
+											<label ng-bind="'Create date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="create-date-label"
@@ -131,9 +131,9 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3">
-							<label id="total-select-doc-label">{{ 'selected' |
+							<label id="total-select-doc-label">{{ 'Selected' |
 								translate}}&#32;{{viewTxnCtrl.transactionModel.documents.length}}&#32;{{
-								'records' | translate}}</label>:
+								'Records' | translate}}</label>:
 						</div>
 						<div class="col-md-8 text-right">
 							<div class="row">
@@ -170,15 +170,15 @@
 						<div class="col-md-12">
 							<div class="form-horizontal">
 								<label class="col-md-2 control-label"><b
-									ng-bind="'transaction-amount' | translate"></b>:</label>
+									ng-bind="'Transaction amount' | translate"></b>:</label>
 								<div class="col-md-9 control-label">
 									<span id="footer-transaction-amount-label"
 										ng-bind="viewTxnCtrl.transactionModel.transactionAmount | number:2"></span>
-									&nbsp; <span ng-bind="'thai-bath' | translate"></span>
+									&nbsp; <span ng-bind="'THB' | translate"></span>
 								</div>
 
 								<label class="col-md-2 control-label"><b
-									ng-bind="'transaction-date' | translate"></b>:</label>
+									ng-bind="'Transaction date' | translate"></b>:</label>
 								<div class="col-md-9 control-label">
 									<label id="footer-transaction-date-label">{{viewTxnCtrl.transactionModel.transactionDate
 										| date: 'dd/MM/yyyy'}}</label>
@@ -188,7 +188,7 @@
 						<div class="col-md-12 text-right">
 							<scf-button id="back-button" class="btn btn-default"
 								type="submit" ng-click="viewTxnCtrl.back()">{{
-							'btn-back' | translate}}</scf-button>
+							'BACK' | translate}}</scf-button>
 						</div>
 					</div>
 				</div>
