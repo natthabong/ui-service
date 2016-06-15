@@ -280,24 +280,26 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.initLoad = function () {
 
             if ($stateParams.actionBack === true) {
-                actionBack = true;
+				actionBack = true;
                 var tradingPartnerInfo = $stateParams.tradingpartnerInfoModel;
-                var transactionModel = $stateParams.transactionModel;
-                vm.tradingpartnerInfoModel = tradingPartnerInfo;
-                vm.createTransactionModel = {
-                    sponsorCode: tradingPartnerInfo.sponsorId,
-                    supplierCode: tradingPartnerInfo.supplierCodeSelected,
-                    sponsorPaymentDate: transactionModel.sponsorPaymentDate,
-                    transactionDate: transactionModel.transactionDate
-                };
+				if(tradingPartnerInfo !== null){
+					var transactionModel = $stateParams.transactionModel;
+                	vm.tradingpartnerInfoModel = tradingPartnerInfo;
+					vm.createTransactionModel = {
+						sponsorCode: tradingPartnerInfo.sponsorId,
+						supplierCode: tradingPartnerInfo.supplierCodeSelected,
+						sponsorPaymentDate: transactionModel.sponsorPaymentDate,
+						transactionDate: transactionModel.transactionDate
+					};
                 
-                vm.documentSelects = $stateParams.documentSelects;
-                vm.searchDocument();
-                calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+					vm.documentSelects = $stateParams.documentSelects;
+					vm.searchDocument();
+					calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+				}else{
+					actionBack = false;
+				}
             }
-
             vm.loadSponsor();
-            
         }
 
         vm.initLoad();
