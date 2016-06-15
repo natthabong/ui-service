@@ -10,6 +10,14 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	vm.verify = false;
 	vm.approve = false;
 	
+	vm.statusDocuments = {
+		waitForVerify: 'WAIT_FOR_VERIFY',
+		waitForApprove: 'WAIT_FOR_APPROVE',
+		rejectByChecker: 'REJECT_BY_CHECKER',
+		rejectByApprover: 'REJECT_BY_APPROVER',
+		canceledBySupplier:'CANCELED_BY_SUPPLIER'
+	}
+	
     vm.transactionStatusGroupDropdown = [{
 		label: 'All',
 		value: ''
@@ -199,12 +207,12 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			label: 'Action',
 			cssTemplate: 'text-center',
 			sortData: false,
-			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!listTransactionController.verify || data.statusMessageKey === \'wait_for_approve\'" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.verifyTransaction(data)"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
+			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!(listTransactionController.verify && (data.statusCode === listTransactionController.statusDocuments.waitForVerify))" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.verifyTransaction(data)"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
 			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!listTransactionController.approve" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="listTransactionController.searchTransaction()"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
 			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-click="listTransactionController.searchTransaction()"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="listTransactionController.searchTransaction()"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 		}]
     };
 
