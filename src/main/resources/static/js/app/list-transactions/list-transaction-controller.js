@@ -22,34 +22,36 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 
     vm.tableRowCollection = [];
 
-	vm.summaryInternalStep = {
-            wait_for_verify: {
-                statusMessageKey: 'wait-for-verify',
-                totalRecord: 0,
-                totalAmount: 0
-            },
-            wait_for_approve: {
-                statusMessageKey: 'wait-for-approve',
-                totalRecord: 0,
-                totalAmount: 0
-            },
-            reject_by_checker: {
-                statusMessageKey: 'reject-by-checker',
-                totalRecord: 0,
-                totalAmount: 0
-            },
-            reject_by_approver: {
-                statusMessageKey: 'reject-by-approver',
-                totalRecord: 0,
-                totalAmount: 0
-            },
-            canceled_by_supplier: {
-                statusMessageKey: 'canceled-by-supplier',
-                totalRecord: 0,
-                totalAmount: 0
-            }
-        };
-        
+	vm.clearInternalStep = function(){
+		vm.summaryInternalStep = [
+				{
+					 statusMessageKey: 'wait_for_verify',
+					 totalRecord: 0,
+					  totalAmount: 0
+				  },
+				 {
+					  statusMessageKey: 'wait_for_approve',
+					  totalRecord: 0,
+					  totalAmount: 0
+				 },
+				  {
+					  statusMessageKey: 'reject_by_checker',
+					  totalRecord: 0,
+					  totalAmount: 0
+				  },
+				 {
+					  statusMessageKey: 'reject_by_approver',
+					  totalRecord: 0,
+					  totalAmount: 0
+				  },
+				  {
+					  statusMessageKey: 'canceled_by_supplier',
+					  totalRecord: 0,
+					  totalAmount: 0              
+				  }		
+		];
+	}
+            
 	// Datepicker
 	vm.openDateFrom = false;
 	vm.dateFormat = 'dd/MM/yyyy';
@@ -254,43 +256,23 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 
                 // Calculate Display page
                 vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-				
-				//reset value of internal step
-				vm.summaryInternalStep.canceled_by_supplier.totalRecord = 0;
-				vm.summaryInternalStep.canceled_by_supplier.totalAmount =0;
-                vm.summaryInternalStep.reject_by_approver.totalRecord = 0;
-                vm.summaryInternalStep.reject_by_approver.totalAmount = 0;
-                vm.summaryInternalStep.reject_by_checker.totalRecord = 0;
-                vm.summaryInternalStep.reject_by_checker.totalAmount = 0;
-                vm.summaryInternalStep.wait_for_approve.totalRecord = 0;
-                vm.summaryInternalStep.wait_for_approve.totalAmount = 0;
-                vm.summaryInternalStep.wait_for_verify.totalRecord = 0;
-                vm.summaryInternalStep.wait_for_verify.totalAmount = 0;
+				vm.clearInternalStep();
+				//reset value of internal step				
 				
                 if (vm.listTransactionModel.statusGroup === 'INTERNAL_STEP' || vm.listTransactionModel.statusGroup === '') {
                     var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
                     internalStepDeffered.promise.then(function(response) {
                         var internalStemp = response.data;
                         if (internalStemp.length > 0) {
+							var summaryIndex = 0;
                             internalStemp.forEach(function(summary) {
-                                if (summary.statusMessageKey === 'canceled_by_supplier') {
-                                    vm.summaryInternalStep.canceled_by_supplier.totalRecord = summary.totalRecord;
-                                    vm.summaryInternalStep.canceled_by_supplier.totalAmount = summary.totalAmount;
-                                }else if (summary.statusMessageKey === 'reject_by_approver') {
-                                    vm.summaryInternalStep.reject_by_approver.totalRecord = summary.totalRecord;
-                                    vm.summaryInternalStep.reject_by_approver.totalAmount = summary.totalAmount;
-                                }else if (summary.statusMessageKey === 'reject_by_checker') {
-                                    vm.summaryInternalStep.reject_by_checker.totalRecord = summary.totalRecord;
-                                    vm.summaryInternalStep.reject_by_checker.totalAmount = summary.totalAmount;
-                                }else if (summary.statusMessageKey === 'wait_for_approve') {
-                                    vm.summaryInternalStep.wait_for_approve.totalRecord = summary.totalRecord;
-                                    vm.summaryInternalStep.wait_for_approve.totalAmount = summary.totalAmount;
-                                }else if (summary.statusMessageKey === 'wait_for_verify') {
-                                    vm.summaryInternalStep.wait_for_verify.totalRecord = summary.totalRecord;
-                                    vm.summaryInternalStep.wait_for_verify.totalAmount = summary.totalAmount;
-                                }
+								vm.summaryInternalStep[summaryIndex].statusMessageKey = summary.statusMessageKey;
+								vm.summaryInternalStep[summaryIndex].totalRecord = summary.totalRecord;
+								vm.summaryInternalStep[summaryIndex].totalAmount = summary.totalAmount;
+								summaryIndex++;
                             });
                         }
+						console.log(vm.summaryInternalStep);
                     }).catch(function(response) {
                         console.log('Internal Error');
                     });
