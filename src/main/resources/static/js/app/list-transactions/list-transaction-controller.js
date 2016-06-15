@@ -1,4 +1,4 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', '$scope', 'SCFCommonService', function(ListTransactionService, $state,$translate, $scope, SCFCommonService) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', function(ListTransactionService, $state,$translate, $scope, SCFCommonService, $stateParams) {
     var vm = this;
     vm.showInfomation = false;
      vm.splitePageTxt = '';
@@ -101,7 +101,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                     }
                     vm.sponsorCodeDropdown.push(selectObj);
                 });
-                vm.listTransactionModel.sponsorCode = vm.sponsorCodeDropdown[0].value;
+//                vm.listTransactionModel.sponsorCode = vm.sponsorCodeDropdown[0].value;
             }
         }).catch(function(response) {
 			console.log('Load Sponsor Fail');
@@ -120,19 +120,14 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                     }
                     vm.transactionStatusGroupDropdown.push(selectObj);
                 });
-                vm.listTransactionModel.statusGroup = vm.transactionStatusGroupDropdown[0].value;
+//                vm.listTransactionModel.statusGroup = vm.transactionStatusGroupDropdown[0].value;
             }
         }).catch(function(response) {
 			console.log('Load TransactionStatusGroup Fail');
         });    	
     }
 
-    vm.initLoad = function() {
-        vm.loadSponsorCode();
-        vm.loadTransactionGroup();
-    };
-
-    vm.initLoad();
+   
 
     vm.dataTable = {
         options: {
@@ -336,9 +331,25 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	vm.view = function(data){		
 		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 		$state.go('/view-transaction', {
-            transactionModel: data
+            transactionModel: data,
+			listTransactionModel: vm.listTransactionModel
         });
 	}
+	
+	 vm.initLoad = function() {
+		var actionBack = $stateParams.actionBack;
+		if(actionBack === true){
+			vm.listTransactionModel = $stateParams.listTransactionModel;
+			vm.dateModel.dateFrom =convertStringTodate(vm.listTransactionModel.dateFrom);
+			vm.dateModel.dateTo = convertStringTodate(vm.listTransactionModel.dateTo);
+			vm.searchTransaction();
+		}
+		vm.loadSponsorCode();
+        
+    };
+
+    vm.initLoad();
+	vm.loadTransactionGroup();
 
 }]);
 
@@ -351,4 +362,13 @@ function convertDate(dateTime){
 		result =  date +'/' + month + '/' + year;
 	}
 	return result;
+}
+
+function convertStringTodate(date){
+	result = '';
+	if(date != undefined && date != ''){
+		var dateSplite = date.split('/');
+		result = new Date(dateSplite[2] + '-'+ dateSplite[1]+ '-' + dateSplite[0]);
+	}
+	return result
 }
