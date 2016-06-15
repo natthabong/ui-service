@@ -26,7 +26,7 @@
 
 									</div>
 									<div class="row">
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Financing documents' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
@@ -35,16 +35,16 @@
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
 
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Transaction type' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="transaction-type-label">Loan</span>
 										</div>
-										<div class="col-md-3 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1"></div>
 									</div>
 									<div class="row">
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Value of document' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
@@ -54,38 +54,38 @@
 										<div class="col-md-1 col-sm-1">
 											<span ng-bind="'THB' | translate"></span>
 										</div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Sponsor payment date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="sponsor-payment-date-label"
 												ng-bind="viewTxnCtrl.transactionModel.sponsorPaymentDate | date: 'dd/MM/yyyy'"></span>
 										</div>
-										<div class="col-md-3 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1"></div>
 									</div>
 									<div class="row">
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label
 												ng-bind="'Pre-drawdown percentage' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="predrawdown-percentage-label"
-												ng-bind="viewTxnCtrl.transactionModel.prePercentageDrawdown | number:2"></span>
+												ng-bind="viewTxnCtrl.transactionModel.prePercentageDrawdown | number:2"></span>%
 										</div>
 										<div class="col-md-1 col-sm-1">
-											<span>%</span>
+											<span></span>
 										</div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Transaction date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="transaction-date-label"
 												ng-bind="viewTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy'"></span>
 										</div>
-										<div class="col-md-3 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1"></div>
 									</div>
 									<div class="row">
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Transaction amount' |translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
@@ -95,32 +95,32 @@
 										<div class="col-md-1 col-sm-1">
 											<span ng-bind="'THB' | translate"></span>
 										</div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Loan maturity date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="loan-matuality-label"
 												ng-bind="viewTxnCtrl.transactionModel.maturityDate | date: 'dd/MM/yyyy'"></span>
 										</div>
-										<div class="col-md-3 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1"></div>
 									</div>
 									<div class="row">
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-2 col-sm-2">
 											<label ng-bind="'Create by' |translate"></label>:
 										</div>
-										<div class="col-md-2 col-sm-2 text-right">
+										<div class="col-md-3 col-sm-3 text-right">
 											<span id="create-by-label"
 												ng-bind="viewTxnCtrl.transactionModel.createdBy"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Create date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="create-date-label"
 												ng-bind="viewTxnCtrl.transactionModel.createdTime | date: 'dd/MM/yyyy HH:mm'"></span>
 										</div>
-										<div class="col-md-3 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1"></div>
 									</div>
 								</div>
 							</div>
@@ -135,13 +135,12 @@
 								translate}}&#32;{{viewTxnCtrl.transactionModel.documents.length}}&#32;{{
 								'Records' | translate}}</label>:
 						</div>
-						<div class="col-md-8 text-right">
+						<div class="col-md-9 text-right">
 							<div class="row">
-								<div class="col-md-7">
-									<label id="document-paging-label"
-										ng-bind="viewTxnCtrl.splitePageTxt"></label>
-								</div>
-								<div class="col-md-5">
+								<div class="col-md-12">
+									<b id="document-paging-label"
+										ng-bind="viewTxnCtrl.splitePageTxt"></b>
+									&nbsp;&nbsp;
 									<scf-pagination
 										page-size-model="viewTxnCtrl.pageModel.pageSizeSelectModel"
 										total-page="viewTxnCtrl.pageModel.totalRecord"
@@ -151,7 +150,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div>					
 					<div class="row">
 						<div class="col-md-12">
 							<scf-data-table component-config="viewTxnCtrl.dataTable"
