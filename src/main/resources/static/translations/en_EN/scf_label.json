@@ -76,7 +76,7 @@
 	"wait_for_verify": "Wait for verify",
 	"wait_for_approve": "Wait for approve",
 	"reject_by_checker": "Reject by checker",
-	"reject_by_approver": "Reject by approve",
+	"reject_by_approver": "Reject by approver",
 	"canceled_by_supplier": "Cancel by supplier",
 
 	"_comment": "Page Verify Transaction",
