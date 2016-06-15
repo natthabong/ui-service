@@ -26,7 +26,7 @@
 
 									</div>
 									<div class="row">
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Financing documents' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
@@ -35,16 +35,16 @@
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
 
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Transaction type' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="transaction-type-label">Loan</span>
 										</div>
-										<div class="col-md-3 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1"></div>
 									</div>
 									<div class="row">
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Value of document' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
@@ -54,17 +54,17 @@
 										<div class="col-md-1 col-sm-1">
 											<span ng-bind="'THB' | translate"></span>
 										</div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Sponsor payment date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="sponsor-payment-date-label"
 												ng-bind="verifyTxnCtrl.transactionModel.sponsorPaymentDate | date: 'dd/MM/yyyy'"></span>
 										</div>
-										<div class="col-md-3 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1"></div>
 									</div>
 									<div class="row">
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label
 												ng-bind="'Pre-drawdown percentage' | translate"></label>:
 										</div>
@@ -75,17 +75,17 @@
 										<div class="col-md-1 col-sm-1">
 											<span>%</span>
 										</div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Transaction date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="transaction-date-label"
 												ng-bind="verifyTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy'"></span>
 										</div>
-										<div class="col-md-3 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1"></div>
 									</div>
 									<div class="row">
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Transaction amount' |translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
@@ -95,32 +95,32 @@
 										<div class="col-md-1 col-sm-1">
 											<span ng-bind="'THB' | translate"></span>
 										</div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Loan maturity date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="loan-matuality-label"
 												ng-bind="verifyTxnCtrl.transactionModel.maturityDate | date: 'dd/MM/yyyy'"></span>
 										</div>
-										<div class="col-md-3 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1"></div>
 									</div>
 									<div class="row">
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-2 col-sm-2">
 											<label ng-bind="'Create by' |translate"></label>:
 										</div>
-										<div class="col-md-2 col-sm-2 text-right">
+										<div class="col-md-3 col-sm-3 text-right">
 											<span id="create-by-label"
 												ng-bind="verifyTxnCtrl.transactionModel.createdBy"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label ng-bind="'Create date' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="create-date-label"
 												ng-bind="verifyTxnCtrl.transactionModel.createdTime | date: 'dd/MM/yyyy HH:mm'"></span>
 										</div>
-										<div class="col-md-3 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1"></div>
 									</div>
 								</div>
 							</div>
@@ -230,18 +230,21 @@
 					<image width="70" height="70" ng-src="img/success-icon.png"></image>
 				</div>
 				<div class="col-md-10 col-sm-10">
-					<h2 ng-bind="'Success' | translate">Success</h2>
+					<h2 class="gec-pop-up-font-size-green" ng-bind="'Success' | translate">Success</h2>
 				</div>
 			</div>
 		</div>
 		<div class="modal-body">
 			<div class="row">
-				<div class="col-xs-12">
-					<h2 id="transaction-no">
-						<b ng-bind="'Transaction no.' | translate">Transaction No:</b> <span
-							ng-bind="verifyTxnCtrl.transactionNo"></span>
-					</h2>
+				<div class="col-md-2 col-sm-2">
 				</div>
+				<div class="col-md-10 col-sm-10 col-xs-12">
+					<h2 id="transaction-no">
+						<b class="gec-pop-up-font-size" ng-bind="'Transaction no.' | translate">Transaction No.</b>
+						<span class="gec-pop-up-font-size">:</span> 
+						<span class="gec-pop-up-font-size" ng-bind="verifyTxnCtrl.transactionNo"></span>
+					</h2>
+				</div>				
 			</div>
 		</div>
 		<div class="modal-footer">
@@ -268,10 +271,12 @@
 		</div>
 		<div class="modal-body">
 			<div class="row">
-				<div class="col-xs-12 text-center">
-					<h3 id="error-message-label"
-						ng-bind="verifyTxnCtrl.errorMsgPopup | translate"></h3>
-				</div>
+				<div class="col-md-2 col-sm-2">
+				</div>	
+				<div class="col-md-10 col-sm-10 col-xs-12">
+					<h3 id="error-message-label" class="gec-pop-up-font-size"
+						ng-bind="verifyTxnCtrl.errorMsgPopup | translate"></h3>							
+				</div>					
 			</div>
 		</div>
 		<div class="modal-footer">

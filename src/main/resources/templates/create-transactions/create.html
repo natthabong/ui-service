@@ -145,18 +145,19 @@
                 <div class="panel-body" ng-show="createTransactionCtrl.showInfomation">
                     <div class="row">
                         <div id="bottom-sticker">
-                            <div class="col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
                                 <div class="form-horizontal">
-                                    <label class="col-md-2 col-sm-3 control-label"><b ng-bind="'Transaction amount' | translate">Transaction amount</b>:</label>
-                                    <div class="col-md-9 col-sm-8 control-label">
+                                    <label class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b ng-bind="'Transaction amount' | translate">Transaction amount</b>:</label>
+                                    <div class="col-md-7 col-sm-7 col-lg-7 col-xs-12 control-label">
                                         <span id="create-transaction-amount-label" ng-bind="createTransactionCtrl.submitTransactionAmount | number: 2">0.00</span>&nbsp;
                                         <span ng-bind="'THB' | translate"></span>
                                     </div>
-                                    <label class="col-md-2 col-sm-3 control-label"><b ng-bind="'Transaction date' | translate">Transaction date</b>:</label>
-                                    <div class="col-md-2 col-sm-3">
+                                    <label class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b ng-bind="'Transaction date' | translate">Transaction date</b>:</label>
+                                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12" >
                                         <scf-dropdown id="transaction-date-dropdown" ng-model="createTransactionCtrl.createTransactionModel.transactionDate" component-data="createTransactionCtrl.transactionDates"></scf-dropdown>
                                     </div>
-                                    <div class="col-md-8 col-sm-5"></div>
+                                    <div class="col-md-4 col-sm-4 col-lg-4">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12 text-right">
@@ -187,11 +188,13 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-xs-12 text-center">
-                        <h3 id="error-message-label" ng-bind="createTransactionCtrl.errorMsgPopup | translate"></h3>
-                    </div>
+					<div class="col-md-2 col-sm-2">
+					</div>	
+					<div class="col-md-10 col-sm-10 col-xs-12">
+						<h3 id="error-message-label" class="gec-pop-up-font-size" ng-bind="createTransactionCtrl.errorMsgPopup | translate"></h3>			
+					</div>						
                 </div>
-            </div>
+            </div>            
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 text-right">
