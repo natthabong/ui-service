@@ -1,4 +1,5 @@
 package gec.scf.web;
+
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,36 +18,43 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @RequestMapping("/error")
 public class WebErrorController implements ErrorController {
 
-  private final ErrorAttributes errorAttributes;
+	private final ErrorAttributes errorAttributes;
 
-  @Autowired
-  public WebErrorController(ErrorAttributes errorAttributes) {
-    Assert.notNull(errorAttributes, "ErrorAttributes must not be null");
-    this.errorAttributes = errorAttributes;
-  }
+	@Autowired
+	public WebErrorController(ErrorAttributes errorAttributes) {
+		Assert.notNull(errorAttributes, "ErrorAttributes must not be null");
+		this.errorAttributes = errorAttributes;
+	}
 
-  @Override
-  public String getErrorPath() {
-    return "/";
-  }
+	@Override
+	public String getErrorPath() {
+		return "/";
+	}
 
-  @RequestMapping
-  public String error(HttpServletRequest aRequest, Model model){
-    Map<String, Object> body = getErrorAttributes(aRequest, getTraceParameter(aRequest));
-    model.addAllAttributes(body);
-    return "error";
-  }
+	@RequestMapping
+	public String error(HttpServletRequest aRequest, Model model) {
+		Map<String, Object> body = getErrorAttributes(aRequest,
+				getTraceParameter(aRequest));
+		model.addAllAttributes(body);
+		return "error";
+	}
 
-  private boolean getTraceParameter(HttpServletRequest request) {
-    String parameter = request.getParameter("trace");
-    if (parameter == null) {
-        return false;
-    }
-    return !"false".equals(parameter.toLowerCase());
-  }
+	@RequestMapping("/internal")
+	public String errorInternal() {
+		return "error-internal";
+	}
 
-  private Map<String, Object> getErrorAttributes(HttpServletRequest aRequest, boolean includeStackTrace) {
-    RequestAttributes requestAttributes = new ServletRequestAttributes(aRequest);
-    return errorAttributes.getErrorAttributes(requestAttributes, includeStackTrace);
-  }
+	private boolean getTraceParameter(HttpServletRequest request) {
+		String parameter = request.getParameter("trace");
+		if (parameter == null) {
+			return false;
+		}
+		return !"false".equals(parameter.toLowerCase());
+	}
+
+	private Map<String, Object> getErrorAttributes(HttpServletRequest aRequest,
+			boolean includeStackTrace) {
+		RequestAttributes requestAttributes = new ServletRequestAttributes(aRequest);
+		return errorAttributes.getErrorAttributes(requestAttributes, includeStackTrace);
+	}
 }

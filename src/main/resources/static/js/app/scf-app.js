@@ -25,6 +25,18 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 			.state('/create-transaction', {
 				url: '/create-transaction',
 				controller: 'CreateTransactionController',
+				onEnter: ['CreateTransactionService','$state', function(CreateTransactionService,$state){
+					var deffered = CreateTransactionService.verifyTradingPartner();
+		            deffered.promise.then(function (response) {
+
+		                })
+		                .catch(function (response) {
+		                	console.log(response.data.errorCode);
+		                	 $state.go('/error', {
+		                		 errorCode: response.data.errorCode
+		 	                });
+		                });
+				}],
 				controllerAs: 'createTransactionCtrl',				
 				templateUrl: '/create-transaction',
                 params: {actionBack: false, transactionModel: null, tradingpartnerInfoModel: null, documentSelects: null},
@@ -58,6 +70,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/view-transaction',
 				params: { transactionModel: null, listTransactionModel: null, actionBack: false},
 				resolve: load(['js/app/view-transactions/view-transaction-service.js', 'js/app/view-transactions/view-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/error', {
+				url: '/error',
+				controller: 'ErrorController',
+				controllerAs: 'ctrl',
+				templateUrl: '/error/internal',
+				params: { errorCode: null},
+				resolve: load([ 'js/app/common/error-controller.js'])
 			});
 			
 			function load(srcs, callback) {
@@ -174,18 +193,6 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
 }]);
 
 app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', function ($rootScope, $q, $http, $urlRouter, $window) {
-// $http.get('/api/menus').success(function(response){
-// angular.forEach(response, function(data){
-// var state = {
-// 'url': data,
-// 'templateUrl': data
-// }
-// $stateProviderRef.state(data, state);
-// });
-// $urlRouter.sync();
-// $urlRouter.listen();
-// });
-//
     $rootScope
         .$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {
