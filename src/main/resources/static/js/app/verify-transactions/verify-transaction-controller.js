@@ -123,4 +123,16 @@ angular.module('scfApp').controller(
 						}, 10);
 					}				
 
+					vm.viewRecent = function(){
+						
+						$timeout(function(){					
+		                	$state.go('/view-transaction', {transactionModel: vm.transactionModel});
+		            	}, 10);
+					};
+					
+					vm.viewHistory = function(){
+						$timeout(function(){
+							$state.go('/transaction-list');
+						}, 10);
+					};
 				} ]);

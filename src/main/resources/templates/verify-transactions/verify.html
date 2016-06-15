@@ -205,7 +205,7 @@
 		<div class="modal-header">
 			<div class="row">
 				<div class="col-md-12">
-					<h1 id="confirm-message-label" ng-bind="'Confirm approve ?' | translate"></h1>
+					<h1 id="confirm-message-label" ng-bind="'Confirm approval ?' | translate"></h1>
 				</div>
 			</div>
 		</div>
@@ -239,10 +239,10 @@
 				<div class="col-md-2 col-sm-2">
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-12">
-					<h2 id="transaction-no">
+					<h2>
 						<b class="gec-pop-up-font-size" ng-bind="'Transaction no.' | translate">Transaction No.</b>
 						<span class="gec-pop-up-font-size">:</span> 
-						<span class="gec-pop-up-font-size" ng-bind="verifyTxnCtrl.transactionNo"></span>
+						<span id="transaction-no-label" class="gec-pop-up-font-size" ng-bind="verifyTxnCtrl.transactionNo"></span>
 					</h2>
 				</div>				
 			</div>
@@ -250,8 +250,10 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<scf-button  data-dismiss="modal" id="back2-button"
-						ng-click="verifyTxnCtrl.back()" ng-bind="'Back' | translate"></scf-button>
+					<scf-button id="view-recent-button" data-dismiss="modal"
+						ng-click="verifyTxnCtrl.viewRecent()" ng-bind="'View Recent' | translate"></scf-button>				
+					<scf-button id="view-history-button" data-dismiss="modal"
+						ng-click="verifyTxnCtrl.viewHistory()" ng-bind="'View History' | translate"></scf-button>
 				</div>
 			</div>
 		</div>
