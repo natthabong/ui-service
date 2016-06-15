@@ -18,7 +18,7 @@
         function login() {
             self.dataLoading = true;
             AuthenticationService.Login(self.username, self.password, function (response) {
-                console.log(response);
+              
                 if (response.success) {
                     AuthenticationService.SetCredentials(self.username, self.password);
                     $window.location.href = '/';
@@ -94,7 +94,6 @@
 
         function SetCredentials(username, password) {
             var authdata = btoa(username + ':' + password);
-            console.log(authdata);
             $rootScope.globals = {
                 currentUser: {
                     username: username,

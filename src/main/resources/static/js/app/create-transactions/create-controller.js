@@ -177,7 +177,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         		vm.errorMsgGroups = 'Please select document.';
         		vm.showErrorMsg = true;
         	}else{
-        	
+        		console.log(vm.documentSelects);
 	            var transactionModel = angular.extend(vm.createTransactionModel, {
 	                documents: vm.documentSelects,
 	                transactionAmount: vm.submitTransactionAmount,

@@ -90,6 +90,9 @@
     "E1001": "ระบบไม่สามารถทำรายการได้ เนื่องจากจำนวนเงินที่ทำรายการต้องมากกว่าศูนย์  0",
     "E1003" : "เอกสารมีการ แก้ไข",
 	"E1004": "Supplier Code ถูกระงับ",
+    "E1005": "ไม่พบ Supplier Code ในระบบ",
+    "E1006": "Trading Partner ถูกระงับ",
+    "E1007": "ไม่พบ Trading Partner ในระบบ",
      
 	"drawdown_fail": "ทดสอบ",
 	"drawdown_success": "Drawdown success",
