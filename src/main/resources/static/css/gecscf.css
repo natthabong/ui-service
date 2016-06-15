@@ -582,3 +582,99 @@ footer .footer-below {
 	font-weight: bold;
 	color:green;
 }
+
+.text-muted {
+	color: #aaaaaa;
+}
+
+.scf-btn {
+	display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.scf-btn:focus,
+.scf-btn:active:focus,
+.scf-btn.active:focus,
+.scf-btn.focus,
+.scf-btn:active.focus,
+.scf-btn.active.focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.scf-btn:hover,
+.scf-btn:focus,
+.scf-btn.focus {
+  color: #333;
+  text-decoration: none;
+}
+.scf-btn:active,
+.scf-btn.active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+          box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+.scf-btn.disabled,
+.scf-btn[disabled]{
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  opacity: .65;
+}
+
+.scf-btn-default {
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+.scf-btn-default:focus,
+.scf-btn-default.focus {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #8c8c8c;
+}
+.scf-btn-default:hover {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+.scf-btn-default:active,
+.scf-btn-default.active,
+.open > .dropdown-toggle.btn-default {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+.scf-btn-default:active:hover,
+.scf-btn-default.active:hover,
+.scf-btn-default:active:focus,
+.scf-btn-default.active:focus,
+.scf-btn-default:active.focus,
+.scf-btn-default.active.focus {
+  color: #333;
+  background-color: #d4d4d4;
+  border-color: #8c8c8c;
+}
+
+.uib-day{
+	padding: 0 !important;
+}
