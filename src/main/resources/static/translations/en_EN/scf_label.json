@@ -10,7 +10,7 @@
     "Reject": "Reject",
     "Back": "Back",
     "Submit": "Submit",
-    "From": "From",
+    "From": "from",
     "to": "to",
     "Validate and Submit": "Validate and Submit",
     "Verify transaction": "Verify transaction",
@@ -90,6 +90,10 @@
     "E1001": "Transaction amount must be greater than zero",
     "E1003": "Document has already been modified",
 	"E1004": "Supplier Code is inactive.",
+    "E1005": "Supplier Code is not avaliable.",
+    "E1006": "Trading Partner is inactive.",
+    "E1007": "Trading Partner is not avaliable.",
+  
     
     "drawdown_fail": "Drawdown fail",
 	"drawdown_success": "Drawdown success",

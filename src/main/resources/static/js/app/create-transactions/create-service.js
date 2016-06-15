@@ -9,6 +9,7 @@ function createTransactionService($http, $q) {
 		verifyTransaction: verifyTransaction,
 		getSponsor: getSponsor,
 		getSupplier: getSupplier,
+		verifyTradingPartner: verifyTradingPartner
     };
 
     function getSponsorPaymentDate(sponsorId, supplierCode) {
@@ -157,4 +158,32 @@ function createTransactionService($http, $q) {
         });
         return deffered;
 	}
+	 function verifyTradingPartner() {
+	        var deffered = $q.defer();
+
+	        $http({
+	        	    url :'api/create-transaction/trading-partner/verify',
+	            	method: 'POST',
+	            	headers : {
+	            		'Content-Type': 'application/x-www-form-urlencoded'
+	            	},
+	            	data:{
+	            		 
+	            	},
+			        transformRequest :function (data) {
+			            if (data === undefined) {
+			                return data;
+			            }
+			            return $.param(data);
+			        }
+	            })
+	            .then(function(response) {
+	                deffered.resolve(response);
+	            })
+	            .catch(function(response) {
+	            	console.log(response);
+	                deffered.reject(response);
+	            });
+	        return deffered;
+	    }
 }
