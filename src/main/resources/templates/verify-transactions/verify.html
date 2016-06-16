@@ -274,15 +274,18 @@
 				<div class="col-md-2 col-sm-2">
 				</div>	
 				<div class="col-md-10 col-sm-10 col-xs-12">
-					<h3 id="error-message-label" class="gec-pop-up-font-size"
-						ng-bind="verifyTxnCtrl.errorMsgPopup | translate"></h3>							
+					<h3 id="error-message-label" class="gec-pop-up-font-size">
+						<span ng-bind="verifyTxnCtrl.errorMsgPopup | translate:{message: verifyTxnCtrl.errorMessageModel.errorMessage}"></span>
+						<br/>
+						by: <span ng-bind="verifyTxnCtrl.errorMessageModel.modifyName"></span>
+					</h3>
 				</div>					
 			</div>
 		</div>
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right"  >
-					<scf-button id="back-button" data-dismiss="modal"
+					<scf-button id="popup-back-button" data-dismiss="modal"
 						ng-click="verifyTxnCtrl.back()" ng-bind="'Back' | translate"></scf-button>
 				</div>
 			</div>

@@ -3,6 +3,10 @@ angular.module('scfApp').controller(
 		[ 'VerifyTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state',
 				function(VerifyTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state) {
 					var vm = this;
+					vm.errorMessageModel = {
+							errorMessage: '',
+							modifyName: ''
+					}
 					$scope.showConfirmPopup = false; 
 					$scope.verifyFailPopup = false;
 					$scope.successPopup = false;
@@ -96,8 +100,11 @@ angular.module('scfApp').controller(
 				                })
 				                .catch(function (response) {
 					               	 console.log('Cannot Approve');
-									 $scope.verifyFailPopup = true;
-									 vm.errorMsgPopup = response.data.errorCode;
+					               	 var errorResponse = response.data.messages;
+					               	 vm.errorMessageModel.errorMessage = errorResponse.actionOn;
+					               	 vm.errorMessageModel.modifyName = errorResponse.lastModifiedBy;
+					               	 vm.errorMsgPopup = response.data.errorCode;
+									 $scope.verifyFailPopup = true;									 
 				                });
 					}
 					
