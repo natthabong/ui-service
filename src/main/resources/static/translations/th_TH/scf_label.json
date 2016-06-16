@@ -77,7 +77,7 @@
 	"wait_for_approve": "Wait for approve",
 	"reject_by_checker": "Reject by checker",
 	"reject_by_approver": "Reject by approver",
-	"cancel_by_supplier": "Cancel by supplier",
+	"canceled_by_supplier": "Cancel by supplier",
 
 	"_comment": "Page Verify Transaction",
 	"Confirm approval ?": "Confirm approval ?",
@@ -88,7 +88,7 @@
     "_comment": "System Error Code",
     "E1002": "ระบบไม่สามารถทำรายการได้ เนื่องจากวงเงินคงเหลือไม่พอ",
     "E1001": "ระบบไม่สามารถทำรายการได้ เนื่องจากจำนวนเงินที่ทำรายการต้องมากกว่าศูนย์  0",
-    "E1003" : "เอกสารมีการ แก้ไข",
+    "E1003" : "เอกสารนี้มีการ {{message}} ไปแล้ว",
 	"E1004": "Supplier Code ถูกระงับ",
     "E1005": "ไม่พบ Supplier Code ในระบบ",
     "E1006": "Trading Partner ถูกระงับ",
