@@ -59,7 +59,7 @@
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="sponsor-payment-date-label"
-												ng-bind="validateAndSubmitCtrl.transactionModel.sponsorPaymentDate"></span>
+												ng-bind="validateAndSubmitCtrl.transactionModel.sponsorPaymentDate |  date: 'dd/MM/yyyy'"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
 									</div>
@@ -78,7 +78,7 @@
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="header-transaction-date-label"
-												ng-bind="validateAndSubmitCtrl.transactionModel.transactionDate"></span>
+												ng-bind="validateAndSubmitCtrl.transactionModel.transactionDate  |  date: 'dd/MM/yyyy'"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
 									</div>
@@ -98,7 +98,7 @@
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="loan-maturity-date-label"
-												ng-bind="validateAndSubmitCtrl.transactionModel.maturityDate"></span>
+												ng-bind="validateAndSubmitCtrl.transactionModel.maturityDate  |  date: 'dd/MM/yyyy'"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
 									</div>
