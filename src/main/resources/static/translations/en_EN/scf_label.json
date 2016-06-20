@@ -50,6 +50,8 @@
 	"View history": "View history",
 	"Success": "Success",
 	"Sponsor payment date is require.": "Sponsor payment date is require.",
+	"User name": "User name",
+	"Password": "Password",
 	
 	"_comment": "Menu",
 	"transaction": "Transaction",
@@ -84,6 +86,13 @@
 	
 	"_comment": "Page View Transaction",
 	"View transaction": "View transaction",
+	
+	"_comment": "Page Approve Transaction",
+	"Approve transaction": "Approve transaction",
+	"contract header": "Please read the following evidence of reciept of drawdown and check below before proceed",
+	"Agree condition": "I has read and agree to the terms according to the evidence of reciept of drawdown above.",
+	"Confirm approval": "Confirm approval ?",
+	"Approve success": "Approve Success",
 
     "_comment": "System error code",
     "E1002": "Insufficient funds",
