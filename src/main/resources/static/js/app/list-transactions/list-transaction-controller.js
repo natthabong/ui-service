@@ -10,6 +10,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         // Data Sponsor for select box
 	vm.verify = false;
 	vm.approve = false;
+	vm.transactionIdForRetry = '';
 	
 	vm.statusDocuments = {
 		waitForVerify: 'WAIT_FOR_VERIFY',
@@ -383,8 +384,15 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	}
 	
     vm.retry = function(data) {
+    	vm.transactionIdForRetry = '';
+
     	vm.transaction = {};
-	    vm.transaction.transactionId = data.transactionId;
+    	if(angular.isUndefined(data)){
+    		 vm.transaction.transactionId = vm.transactionIdForRetry
+    	}else{
+    		vm.transaction.transactionId = data.transactionId;
+    		 vm.transactionIdForRetry = vm.transaction.transactionId;
+    	}
 	    vm.storeCriteria();
         var deffered = TransactionService.retry(vm.transaction);
         deffered.promise.then(function(response) {
