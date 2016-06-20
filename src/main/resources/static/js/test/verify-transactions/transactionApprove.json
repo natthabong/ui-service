@@ -1,0 +1,28 @@
+{
+transaction: {
+    "transactionId": "EDS000000001001",
+    "sponsorId": 17552,
+    "supplierId": 17551,
+    "transactionNo": "EDS000000001001",
+    "sponsorPaymentDate": "25/05/2017",
+    "drawdownAmount": "80,000.00",
+    "PayeeAccountNo": 0,
+    "PayerAccountNo": 0,
+    "bankTransactionNo": "NULL",
+    "fee": "NULL",
+    "repaymentAmount": "NULL",
+    "transactionDate": "23/06/2016",
+    "maturityDate": "25/05/2017",
+    "status": "WAIT_FOR_APPROVE",
+    "prePercentageDrawdawn": 80,
+    "returnCode": 0,
+    "returnStatus": 0,
+    "returnMessage": 0,
+    "createdBy": "Jintana Maker",
+    "CreateTime": "2016-05-10 10:30:00.000",
+    "verifiedBy": "Jintana Checker",
+    "verifiedTime": "2016-05-10 15:34:00.000",
+    "interest": "-"
+},
+credential: "password"
+}
