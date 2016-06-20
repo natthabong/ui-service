@@ -250,7 +250,6 @@
 
 				}],
 				templateUrl: function(elem, attr){
-					console.log(attr);
 					return 'ui/template/data_table.html'
 					}
                 
