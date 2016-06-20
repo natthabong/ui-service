@@ -7,6 +7,8 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
         vm.transactionModel = {};
         $scope.approveConfirmPopup = false;
         $scope.successPopup = false;
+        vm.reqPass = false;
+        
         vm.transactionApproveModel = {
             transactionModel: vm.transactionApproveModel,
             credential: ''
@@ -33,24 +35,38 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                     console.log('Approve Fail');
                 });
             } else {
-                console.log('Password is required');
+            	vm.reqPass = true;
             }
         };
+		
+		 vm.getTransaction = function() {
+            var deffered = ApproveTransactionService.getTransaction(vm.transactionApproveModel.transactionModel);
+            deffered.promise.then(function(response) {
+                vm.transactionModel = response.data;
+            }).catch(function(response) {
+                console.log('Get transaction fail');
+            });
+        }
 
         vm.init = function() {
             vm.transactionApproveModel.transactionModel = $stateParams.transactionModel;
             if (vm.transactionApproveModel.transactionModel === null) {
                 $state.go('/transaction-list');
-            }
+            }else{
+				vm.getTransaction();
+				vm.displayName = $scope.userInfo.displayName;
+			}
         }
 
         vm.init();
-		
-		vm.viewHistory = function(){
-			$timeout(function(){
-				$state.go('/transaction-list');	
-			}, 10);			
-		}
+
+        vm.viewHistory = function() {
+            $timeout(function() {
+                $state.go('/transaction-list');
+            }, 10);
+        }
+
+       
 
         function validateCredential(data) {
             var result = true;

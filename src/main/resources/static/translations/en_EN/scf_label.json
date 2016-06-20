@@ -52,6 +52,7 @@
 	"Sponsor payment date is require.": "Sponsor payment date is require.",
 	"User name": "User name",
 	"Password": "Password",
+	"Password Require": "Password is required",
 	
 	"_comment": "Menu",
 	"transaction": "Transaction",
