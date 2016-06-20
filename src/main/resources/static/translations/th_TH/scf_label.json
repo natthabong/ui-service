@@ -50,6 +50,9 @@
 	"View history": "View history",
 	"Success": "สำเร็จ",
 	"Sponsor payment date is require.": "กรุณาระบุ Sponsor payment date",
+	"User name": "User name",
+	"password": "password",
+	"Password Require": "Password is required",
 	
 	"_comment": "Menu",
 	"transaction": "Transaction",
@@ -84,11 +87,18 @@
 	
 	"_comment": "Page View Transaction",
 	"View transaction": "View transaction",
+	
+	"_comment": "Page Approve Transaction",
+	"Approve transaction": "Approve transaction",
+	"contract header": "Please read the following evidence of reciept of drawdown and check below before proceed",
+	"Agree condition": "I has read and agree to the terms according to the evidence of reciept of drawdown above.",
+	"Confirm approval": "Confirm approval ?",
+	"Approve success": "Approve Success",
     
     "_comment": "System Error Code",
     "E1002": "ระบบไม่สามารถทำรายการได้ เนื่องจากวงเงินคงเหลือไม่พอ",
     "E1001": "ระบบไม่สามารถทำรายการได้ เนื่องจากจำนวนเงินที่ทำรายการต้องมากกว่าศูนย์  0",
-    "E1003" : "เอกสารนี้มีการ {{message}} ไปแล้ว",
+    "E1003" : "เอกสารนี้มีการ {{message}}",
 	"E1004": "Supplier Code ถูกระงับ",
     "E1005": "ไม่พบ Supplier Code ในระบบ",
     "E1006": "Trading Partner ถูกระงับ",

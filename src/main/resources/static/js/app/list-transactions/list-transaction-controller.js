@@ -200,7 +200,6 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             label: 'Status',
             sortData: true,
 			filterType: 'translate',
-			filterFormat: '',
             cssTemplate: 'text-center',
         },{
 			field: 'action',
@@ -208,7 +207,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			cssTemplate: 'text-center',
 			sortData: false,
 			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!(listTransactionController.verify && (data.statusCode === listTransactionController.statusDocuments.waitForVerify))" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.verifyTransaction(data)"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
-			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!listTransactionController.approve" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="listTransactionController.searchTransaction()"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
+			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!(listTransactionController.approve &&(data.statusCode === listTransactionController.statusDocuments.waitForApprove))" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="listTransactionController.approveTransaction(data)"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
 			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
@@ -346,6 +345,10 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 
     vm.initLoad();
 	vm.loadTransactionGroup();
+	
+	vm.approveTransaction = function(data){
+		$state.go('/approve-transaction/approve', {transactionModel: data});
+	}
 
 }]);
 
