@@ -20,6 +20,22 @@
 						   +'</tbody>'
 						   +'</talbe>'
 						  );
+		$templateCache.put('ui/template/data_table_collapse.html',
+				'<table st-table="componentDatas" class="table table-bordered">'
+				   +'<thead><tr><th class="text-center" scf-th="column" ng-repeat="column in tableColumns track by $index"></th>'
+				   +'</tr>'
+					+'</thead>'                
+				   +'<tbody>'
+				   +'<tr ng-repeat-start="data in componentDatas track by $id(data)" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
+                   +'<td scf-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>'
+				   +'</tr>'
+				   +'<tr scf-td-collapes="data" ng-repeat-end ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
+				   +'<td>'
+				   +'</td>'
+				   +'</tr>'
+				   +'</tbody>'
+				   +'</talbe>'
+				  );
     }]);
 
     angular.module('scf-component', ['ui/template/scftemplate'])
@@ -175,7 +191,7 @@
 					vm.tableColumns = [];
 					vm.order = '';
 					vm.reverse = false;
-					
+					$attrs.tableType="collapse";
                     vm.pageOptions = {currentPage: 0, recordPerPage: 20};
                     
                     vm.$watch($attrs.currentPage, function(data){
@@ -233,7 +249,10 @@
                     });
 
 				}],
-				templateUrl: 'ui/template/data_table.html'
+				templateUrl: function(elem, attr){
+					console.log(attr);
+					return 'ui/template/data_table.html'
+					}
                 
         }}])
         .directive('scfTh', ['$compile', function($compile){
@@ -322,10 +341,19 @@
             function addId(rowNo, columnId){
                 return columnId.replace('{{$index}}', rowNo -1);
             }
-        }])
+        }]).directive('scfTdCollapes', function(){
+        	return {
+                restrict: 'A',
+                replace: true,
+                link: scfLink
+            }
+        	
+        	function scfLink(scope, elements, attrs){
+        		
+        	}
+        })
 		.directive('sort', ['$compile', function($compile){
-			return {
-				
+			return {				
 				restrict: 'A',
 				transclude: true,
 				scope: false,
