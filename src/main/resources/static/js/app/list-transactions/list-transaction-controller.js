@@ -200,7 +200,6 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             label: 'Status',
             sortData: true,
 			filterType: 'translate',
-			filterFormat: '',
             cssTemplate: 'text-center',
         },{
 			field: 'action',

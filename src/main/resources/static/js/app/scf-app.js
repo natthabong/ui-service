@@ -115,8 +115,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
         }
     ]);
 
-app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFactory',
-    function ($translate, $translatePartialLoader, scfFactory) {
+app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFactory','$scope',
+    function ($translate, $translatePartialLoader, scfFactory, $scope) {
         var self = this;
         self.sysMessage = "";
 		self.displayName = "";
@@ -140,6 +140,7 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 			var defered = scfFactory.getUserInfo();
 			defered.promise.then(function(response){
 				self.displayName = response.displayName;
+				$scope.userInfo = response;
 			});
 		};
 		
