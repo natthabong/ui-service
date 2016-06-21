@@ -2,7 +2,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
     var vm = this;
     vm.showInfomation = false;
      vm.splitePageTxt = '';
-    vm.transactionType = {
+     vm.transactionType = {
             transactionDate: 'transactionDate',
             maturityDate: 'maturityDate'
         }
@@ -199,6 +199,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             field: 'statusMessageKey',
             label: 'Status',
             sortData: true,
+            id: 'status-{value}',
 			filterType: 'translate',
             cssTemplate: 'text-center',
         },{
@@ -334,9 +335,13 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	 vm.initLoad = function() {
 		var actionBack = $stateParams.actionBack;
 		if(actionBack === true){
-			vm.listTransactionModel = $stateParams.listTransactionModel;
-			vm.dateModel.dateFrom =convertStringTodate(vm.listTransactionModel.dateFrom);
-			vm.dateModel.dateTo = convertStringTodate(vm.listTransactionModel.dateTo);
+			
+			if($stateParams.listTransactionModel != null){
+				vm.listTransactionModel = $stateParams.listTransactionModel;
+				vm.dateModel.dateFrom = convertStringTodate(vm.listTransactionModel.dateFrom);
+				vm.dateModel.dateTo = convertStringTodate(vm.listTransactionModel.dateTo);
+			}
+			
 			vm.searchTransaction();
 		}
 		vm.loadSponsorCode();
@@ -365,7 +370,7 @@ function convertDate(dateTime){
 
 function convertStringTodate(date){
 	result = '';
-	if(date != undefined && date != ''){
+	if(date != undefined && date != null && date != ''){
 		var dateSplite = date.split('/');
 		result = new Date(dateSplite[2] + '-'+ dateSplite[1]+ '-' + dateSplite[0]);
 	}
