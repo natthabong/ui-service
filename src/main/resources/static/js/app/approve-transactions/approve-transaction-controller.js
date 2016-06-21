@@ -2,12 +2,15 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 
     function($scope, ApproveTransactionService, $stateParams, $state, $timeout) {
         var vm = this;
-
+        vm.TransactionStatus = {
+        		book: 'B'
+        }
         vm.disableButton = true;
         vm.transactionModel = {};
         $scope.approveConfirmPopup = false;
         $scope.successPopup = false;
         vm.reqPass = false;
+        vm.showEvidenceForm = false;
         
         vm.transactionApproveModel = {
             transactionModel: vm.transactionApproveModel,
@@ -27,7 +30,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                 var deffered = ApproveTransactionService.approve(vm.transactionApproveModel);
                 deffered.promise.then(function(response) {
                     vm.transactionModel = response.data;
-
+                    vm.showEvidenceForm = printEvidence(vm.transactionModel);
                     $scope.approveConfirmPopup = false;
                     $scope.successPopup = true;
 
@@ -43,6 +46,8 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
             var deffered = ApproveTransactionService.getTransaction(vm.transactionApproveModel.transactionModel);
             deffered.promise.then(function(response) {
                 vm.transactionModel = response.data;
+                ApproveTransactionService.generateRequestForm(vm.transactionApproveModel.transactionModel);
+               
             }).catch(function(response) {
                 console.log('Get transaction fail');
             });
@@ -66,6 +71,11 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
             }, 10);
         }
 
+        vm.printEvidenceFormAction = function(){
+        	if(printEvidence(vm.transactionModel)){
+        		ApproveTransactionService.generateEvidenceForm(vm.transactionModel);
+        	}
+        }
        
 
         function validateCredential(data) {
@@ -74,6 +84,13 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                 result = false;
             }
             return result;
+        }
+        
+        function printEvidence(transactionModel){
+        	if(transactionModel.returnStatus === vm.TransactionStatus.book){
+        		return true;
+        	}
+        	return false;
         }
     }
 ]);

@@ -15,7 +15,7 @@ angular.module('scfApp').controller(
 							totalRecord : 0,
 							currentPage : 0
 						};
-					vm.transactionModel = $stateParams.transactionModel;
+					vm.transactionModel = $stateParams.transactionModel || {};
 					vm.splitePageTxt = '';
 					function init(){
 					     var deffered = VerifyTransactionService.prepare(vm.transactionModel);
@@ -131,8 +131,8 @@ angular.module('scfApp').controller(
 					}				
 
 					vm.viewRecent = function(){
-						
-						$timeout(function(){					
+						SCFCommonService.parentStatePage().saveCurrentState('/transaction-list');
+						$timeout(function(){
 		                	$state.go('/view-transaction', {transactionModel: vm.transactionModel});
 		            	}, 10);
 					};
