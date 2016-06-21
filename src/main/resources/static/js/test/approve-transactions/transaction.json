@@ -1,7 +1,7 @@
 {
     "transactionId": "EDS000000001001",
-    "sponsorId": 17552,
-    "supplierId": 17551,
+    "sponsorId": "00017551",
+    "supplierId": "00017552",
     "transactionNo": "EDS000000001001",
     "sponsorPaymentDate": "2017-05-25",
     "drawdownAmount": "80,000.00",
