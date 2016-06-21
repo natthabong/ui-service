@@ -103,6 +103,7 @@
     "E1005": "ไม่พบ Supplier Code ในระบบ",
     "E1006": "Trading Partner ถูกระงับ",
     "E1007": "ไม่พบ Trading Partner ในระบบ",
+    "E1008": "เอกสารมีการ แก้ไข",
      
 	"drawdown_fail": "ทดสอบ",
 	"drawdown_success": "Drawdown success",

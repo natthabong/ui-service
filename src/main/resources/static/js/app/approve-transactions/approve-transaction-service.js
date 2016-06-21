@@ -1,9 +1,11 @@
-angular.module('scfApp').factory('ApproveTransactionService', ['$q', '$http', approveTransactionService]);
+angular.module('scfApp').factory('ApproveTransactionService', ['$q', '$http','$sce', approveTransactionService]);
 
-function approveTransactionService($q, $http) {
+function approveTransactionService($q, $http, $sce) {
     return {
 		getTransaction: getTransaction,
-        approve: approve
+        approve: approve,
+        generateRequestForm: generateRequestForm,
+        generateEvidenceForm: generateEvidenceForm
     }
 
     function approve(transactionApproveModel) {
@@ -17,8 +19,8 @@ function approveTransactionService($q, $http) {
             deffered.resolve(response);
         }).catch(function(response) {
             deffered.reject(response);
-        });		
-		
+        });
+        		
         return deffered;
     }
 	
@@ -36,4 +38,41 @@ function approveTransactionService($q, $http) {
 		
         return deffered;
 	}
+	
+	function generateRequestForm(transactionModel){
+        $http({
+            method: 'POST',
+            url: '/api/approve-transaction/report-form',
+            data: transactionModel,
+            responseType: 'arraybuffer'
+        }).success(function(response) {
+        	var file = new Blob([response], {type: 'application/pdf'});
+        	var fileURL = URL.createObjectURL(file);   	
+        	document.getElementById('visualizador').setAttribute('data', fileURL);
+
+        }).error(function(response) {
+            
+        });
+	}
+	
+	function generateEvidenceForm(transactionModel){
+		 $http({
+	            method: 'POST',
+	            url: '/api/approve-transaction/evidence-form',
+	            data: transactionModel,
+	            responseType: 'arraybuffer'
+	        }).success(function(response) {
+	        	var file = new Blob([response], {type: 'application/pdf'});
+	        	var fileURL = URL.createObjectURL(file);
+	        	var a         = document.createElement('a');
+	            a.href        = fileURL; 
+	            a.target      = '_blank';
+	            a.download    = transactionModel.transactionNo+'.pdf';
+	            document.body.appendChild(a);
+	            a.click();
+	        }).error(function(response) {
+	            
+	        });
+	}
+
 }

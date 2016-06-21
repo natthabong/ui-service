@@ -291,7 +291,7 @@
                     var colClass = column.cssTemplate || 'text-center';
                     
                     if(column.id !== undefined){
-                        elements[0].id = addId(rowNo, column.id);
+                        elements[0].id = addId(data[column.field], column.id);
                     }
                     
                     if(column.field === 'no'){
@@ -338,7 +338,7 @@
             }
             
             function addId(rowNo, columnId){
-                return columnId.replace('{{$index}}', rowNo -1);
+                return columnId.replace('{value}', rowNo);
             }
         }]).directive('scfTdCollapes', function(){
         	return {

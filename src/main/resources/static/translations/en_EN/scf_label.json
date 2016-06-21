@@ -103,7 +103,7 @@
     "E1005": "Supplier Code is not avaliable.",
     "E1006": "Trading Partner is inactive.",
     "E1007": "Trading Partner is not avaliable.",
-  
+    "E1008": "Document has already been modified.",
     
     "drawdown_fail": "Drawdown fail",
 	"drawdown_success": "Drawdown success",
