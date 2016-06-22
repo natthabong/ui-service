@@ -20,7 +20,11 @@ angular.module('scfApp').controller(
 						
 					     var deffered = ViewTransactionService.prepare(vm.transactionModel);
 				            deffered.promise.then(function (response) {
-				            	  vm.transactionModel = angular.extend(vm.transactionModel, response.data);
+				            	console.log(vm.transactionModel);
+				            	console.log(response.data);
+				            	  //vm.transactionModel = angular.extend(vm.transactionModel, response.data);
+				            	  vm.transactionModel = response.data;
+				            	  console.log(vm.transactionModel);
 				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
 				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 				                })

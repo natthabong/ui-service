@@ -122,6 +122,57 @@
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
 									</div>
+									<div class="row">
+										<div class="col-md-2 col-sm-2">
+											<label ng-bind="'Verify by' |translate"></label>:
+										</div>
+										<div class="col-md-3 col-sm-3 text-right">
+											<span id="verify-by-label"
+												ng-bind="viewTxnCtrl.transactionModel.verifiedBy"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+										<div class="col-md-3 col-sm-3">
+											<label ng-bind="'Verify date' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="verify-date-label"
+												ng-bind="viewTxnCtrl.transactionModel.verifiedTime | date: 'dd/MM/yyyy HH:mm'"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>	
+									<div class="row">
+										<div class="col-md-2 col-sm-2">
+											<label ng-bind="'Approve by' |translate"></label>:
+										</div>
+										<div class="col-md-3 col-sm-3 text-right">
+											<span id="approve-by-label"
+												ng-bind="viewTxnCtrl.transactionModel.approvedBy"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+										<div class="col-md-3 col-sm-3">
+											<label ng-bind="'Approve date' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="approve-date-label"
+												ng-bind="viewTxnCtrl.transactionModel.approvedTime | date: 'dd/MM/yyyy HH:mm'"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>	
+									<div class="row">
+										<div class="col-md-2 col-sm-2">
+											<label ng-bind="'Status' |translate"></label>:
+										</div>
+										<div class="col-md-3 col-sm-3 text-right">
+											<span id="status-label"
+												ng-bind="viewTxnCtrl.transactionModel.statusMessageKey | translate"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+										<div class="col-md-3 col-sm-3">
+										</div>
+										<div class="col-md-2 col-sm-2">
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>																									
 								</div>
 							</div>
 						</div>

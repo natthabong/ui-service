@@ -126,7 +126,7 @@ angular.module('scfApp').controller(
 					
 					vm.back = function(){
 						$timeout(function(){
-							$state.go('/transaction-list', {actionBack: true});
+							$state.go('/transaction-list', {}, { reload: true });
 						}, 10);
 					}				
 
