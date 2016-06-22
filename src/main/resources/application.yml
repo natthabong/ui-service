@@ -1,5 +1,9 @@
 debug: true
 server:
+  session:
+    cookie:
+      http-only: true
+      secure: true
   port: 443
   ssl:
     key-store: classpath:keystore.p12
@@ -11,6 +15,8 @@ spring:
     name: ui-service
   thymeleaf:
     cache: false
+  jackson:
+    time-zone: Asia/Bangkok
 security:
   user:
     password: none
