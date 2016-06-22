@@ -92,8 +92,8 @@
 	"Approve transaction": "Approve transaction",
 	"contract header": "Please read the following evidence of reciept of drawdown and check below before proceed",
 	"Agree condition": "I has read and agree to the terms according to the evidence of reciept of drawdown above.",
-	"Confirm approval": "Confirm approval ?",
-	"Approve success": "Approve Success",
+	"Approve success": "Approve success",
+	"Result": "Result:",
     
     "_comment": "System Error Code",
     "E1002": "ระบบไม่สามารถทำรายการได้ เนื่องจากวงเงินคงเหลือไม่พอ",
@@ -109,5 +109,5 @@
 	"drawdown_success": "Drawdown success",
 	"internal_step": "Internal step",
 	"retriable_transaction": "Retriable transaction",
-	"wait_for_drawdown_result": "Wait for drawdown result"
+	"wait_for_drawdown_result": "Future drawdown success"
 }
