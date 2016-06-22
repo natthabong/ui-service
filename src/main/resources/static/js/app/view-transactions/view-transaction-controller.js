@@ -6,17 +6,13 @@ angular.module('scfApp').controller(
 					$scope.showConfirmPopup = false; 
 					$scope.verifyFailPopup = false;
 					$scope.successPopup = false;
-					vm.listTransactionModel = null;
-					//Store model for page listTransaction
-					if($stateParams.listTransactionModel != null){
-						vm.listTransactionModel = $stateParams.listTransactionModel;
-					}
 					
 					vm.transactionModel = $stateParams.transactionModel;
 					vm.pageModel = {
 							pageSizeSelectModel : '20',
 							totalRecord : 0,
-							currentPage : 0
+							currentPage : 0,
+							totalPage: 1
 						};
 					
 					vm.splitePageTxt = '';
@@ -91,7 +87,7 @@ angular.module('scfApp').controller(
 					}
 					
 					vm.back = function(){
-						$state.go(SCFCommonService.parentStatePage().getParentState(), {listTransactionModel: vm.listTransactionModel, actionBack: true});						
+						$state.go(SCFCommonService.parentStatePage().getParentState(), {actionBack: true});	
 					}
 
 				} ]);
