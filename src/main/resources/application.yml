@@ -11,6 +11,8 @@ spring:
     name: ui-service
   thymeleaf:
     cache: false
+  jackson:
+    time-zone: Asia/Bangkok
 security:
   user:
     password: none
