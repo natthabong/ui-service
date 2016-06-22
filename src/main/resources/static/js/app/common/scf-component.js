@@ -423,8 +423,10 @@
 	        }
         
 	        function disableButton(scope, element){
+	        	var totalPage = +scope.totalPage;
+	        	var currentPage = +scope.currentPage;
 	            /* check is first page*/
-	            if(scope.currentPage === 0){
+	            if(currentPage === 0){
 	                /* disable button First, Back page */
 	                element[0].children[0].children[0].disabled = true;                    
 	                element[0].children[1].children[0].disabled = true;
@@ -434,7 +436,7 @@
 	                element[0].children[1].children[0].disabled = false;
 	            } 
 	            
-	            if(scope.currentPage === (scope.totalPage -1)){
+	            if(currentPage === (totalPage -1)){
 	                /* disable button Next, Last page */
 	                 element[0].children[3].children[0].disabled = true;                    
 	                 element[0].children[4].children[0].disabled = true;                    

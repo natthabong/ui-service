@@ -54,7 +54,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/transaction-list',
 				controller: 'ListTransactionController',
 				controllerAs: 'listTransactionController',
-				params: { listTransactionModel: null, actionBack: false},
+				params: {actionBack: false},
 				templateUrl: '/list-transaction',
 				resolve: load(['js/app/list-transactions/list-transaction-service.js', 'js/app/list-transactions/list-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/verify-transaction', {
@@ -76,7 +76,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'ApproveController',
 				controllerAs: 'ctrl',
 				templateUrl: '/approve-transaction/approve',
-				params: {transactionModel: null},
+				params: {transaction: null},
 				resolve: load(['js/app/approve-transactions/approve-transaction-service.js','js/app/approve-transactions/approve-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',

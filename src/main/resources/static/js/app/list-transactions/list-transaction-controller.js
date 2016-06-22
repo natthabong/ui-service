@@ -1,5 +1,6 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', function(ListTransactionService, $state,$translate, $scope, SCFCommonService, $stateParams) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore', function(ListTransactionService, $state,$translate, $scope, SCFCommonService, $stateParams, $cookieStore) {
     var vm = this;
+    var listStoreKey = 'listrancri';
     vm.showInfomation = false;
      vm.splitePageTxt = '';
      vm.transactionType = {
@@ -16,6 +17,10 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		rejectByChecker: 'REJECT_BY_CHECKER',
 		rejectByApprover: 'REJECT_BY_APPROVER',
 		canceledBySupplier:'CANCELED_BY_SUPPLIER'
+	}
+	
+	vm.trasnsactionStatus = {
+			book: 'B'
 	}
 	
     vm.transactionStatusGroupDropdown = [{
@@ -211,7 +216,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!(listTransactionController.approve &&(data.statusCode === listTransactionController.statusDocuments.waitForApprove))" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="listTransactionController.approveTransaction(data)"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
 			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" ng-disabled="!(data.returnStatus === listTransactionController.trasnsactionStatus.book)" ng-click="listTransactionController.printEvidenceFormAction(data)"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="listTransactionController.searchTransaction()"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 		}]
     };
@@ -317,8 +322,13 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		
 		var transactionDifferd = ListTransactionService.exportCSVFile(transactionModel,$translate);
 	};
+	vm.storeCriteria = function(){
+		$cookieStore.put(listStoreKey, vm.listTransactionModel);
+	}
 	
 	vm.verifyTransaction = function(data){
+		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+		vm.storeCriteria();
 		$state.go('/verify-transaction', {
             transactionModel: data
         });
@@ -326,24 +336,21 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	
 	vm.view = function(data){		
 		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+		vm.storeCriteria();
 		$state.go('/view-transaction', {
-            transactionModel: data,
-			listTransactionModel: vm.listTransactionModel
+            transactionModel: data
         });
 	}
 	
 	 vm.initLoad = function() {
 		var actionBack = $stateParams.actionBack;
 		if(actionBack === true){
-			
-			if($stateParams.listTransactionModel != null){
-				vm.listTransactionModel = $stateParams.listTransactionModel;
-				vm.dateModel.dateFrom = convertStringTodate(vm.listTransactionModel.dateFrom);
-				vm.dateModel.dateTo = convertStringTodate(vm.listTransactionModel.dateTo);
-			}
-			
+			vm.listTransactionModel = $cookieStore.get(listStoreKey);
+			vm.dateModel.dateFrom = convertStringTodate(vm.listTransactionModel.dateFrom);
+			vm.dateModel.dateTo = convertStringTodate(vm.listTransactionModel.dateTo);			
 			vm.searchTransaction();
 		}
+		$cookieStore.remove(listStoreKey);
 		vm.loadSponsorCode();
         
     };
@@ -352,8 +359,15 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	vm.loadTransactionGroup();
 	
 	vm.approveTransaction = function(data){
-		$state.go('/approve-transaction/approve', {transactionModel: data});
+		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+		vm.storeCriteria();
+		$state.go('/approve-transaction/approve', {transaction: data});
 	}
+	
+	vm.printEvidenceFormAction = function(data){    	
+		ListTransactionService.generateEvidenceForm(data);
+
+    }
 
 }]);
 
