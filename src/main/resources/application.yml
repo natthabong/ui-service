@@ -1,5 +1,9 @@
 debug: true
 server:
+  session:
+    cookie:
+      http-only: true
+      secure: true
   port: 443
   ssl:
     key-store: classpath:keystore.p12

@@ -189,9 +189,7 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
     function getUserInfo(){
 		currentUser = $cookieStore.get('globals').currentUser;
     	var deferred = $q.defer();
-    	$http.get('/api/user-info', {
-			params : {loginName: currentUser.username}
-		}).success(function(response){
+    	$http.get('/api/me').success(function(response){
 			deferred.resolve(response);
 			return deferred;
 		}).catch(function(response){
