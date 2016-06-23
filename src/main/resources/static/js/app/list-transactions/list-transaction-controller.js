@@ -95,7 +95,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
     vm.pageModel = {
         pageSizeSelectModel: '20',
         totalRecord: 0,
-        currentPage: 0
+        currentPage: 0,
+		clearSortOrder: false
     };
 
     // Load sponsor Code
@@ -138,7 +139,6 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
     }
 
    
-
     vm.dataTable = {
         options: {
             displayRowNo: {}
@@ -239,14 +239,14 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             if (criteria === undefined) {
                 vm.pageModel.currentPage = '0';
                 vm.pageModel.pageSizeSelectModel = '20';
+				vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
+				vm.listTransactionModel.order = '';
+            	vm.listTransactionModel.orderBy = '';
             } else {
                 vm.pageModel.currentPage = criteria.page;
-                vm.pageModel.pageSizeSelectModel = criteria.pageSize;
+                vm.pageModel.pageSizeSelectModel = criteria.pageSize;				
             }
-
             vm.searchTransactionService();
-
-	
 	};
 
 	vm.searchTransactionService = function() {

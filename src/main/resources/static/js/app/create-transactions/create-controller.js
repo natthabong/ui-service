@@ -48,7 +48,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.pageModel = {
             pageSizeSelectModel: '20',
             totalRecord: 0,
-            currentPage: 0
+            currentPage: 0,
+			clearSortOrder: false
         };
 
         // Search Document
@@ -64,6 +65,9 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     if(actionBack === false){
                         vm.documentSelects = [];
                     }
+					vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
+					vm.createTransactionModel.order = '';
+					vm.createTransactionModel.orderBy = '';
                     vm.pageModel.pageSizeSelectModel = '20';
                     vm.pageModel.currentPage = 0;
                     
@@ -179,7 +183,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         		vm.errorMsgGroups = 'Please select document.';
         		vm.showErrorMsg = true;
         	}else{
-        		console.log(vm.documentSelects);
+        		
 	            var transactionModel = angular.extend(vm.createTransactionModel, {
 	                documents: vm.documentSelects,
 	                transactionAmount: vm.submitTransactionAmount,
@@ -288,15 +292,17 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 				actionBack = true;
                 var tradingPartnerInfo = $stateParams.tradingpartnerInfoModel;
 				if(tradingPartnerInfo !== null){
+					
 					var transactionModel = $stateParams.transactionModel;
-                	vm.tradingpartnerInfoModel = tradingPartnerInfo;
+					
+                	vm.tradingpartnerInfoModel = tradingPartnerInfo;					
 					vm.createTransactionModel = {
 						sponsorCode: tradingPartnerInfo.sponsorId,
 						supplierCode: tradingPartnerInfo.supplierCodeSelected,
-						sponsorPaymentDate: transactionModel.sponsorPaymentDate,
+						sponsorPaymentDate: SCFCommonService.convertDate(transactionModel.sponsorPaymentDate),
 						transactionDate: transactionModel.transactionDate
 					};
-                
+                	
 					vm.documentSelects = $stateParams.documentSelects;
 					vm.searchDocument();
 					calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);

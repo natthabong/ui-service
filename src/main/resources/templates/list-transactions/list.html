@@ -75,10 +75,10 @@
                             <div class="form-group">
                                 <label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status' | translate}}: </label>
 
-                                <div class="col-md-2 col-sm-3 col-xs-12">
+                                <div class="col-md-3 col-sm-3 col-xs-12">
                                     <scf-dropdown id="group-transaction-status-dropdown" ng-model="listTransactionController.listTransactionModel.statusGroup" component-data="listTransactionController.transactionStatusGroupDropdown" translate-label="true"></scf-dropdown>
                                 </div>
-                                <div class="col-md-5 col-sm-6">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
                                     <scf-button id="search-button" class="btn-default" ng-click="listTransactionController.searchTransaction()">{{'Search' | translate}}</scf-button>
                                 </div>
                             </div>
@@ -110,7 +110,12 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <scf-data-table id="transaction-table" component-config="listTransactionController.dataTable" component-datas="listTransactionController.tableRowCollection" current-page="listTransactionController.pageModel.currentPage" record-per-page="listTransactionController.pageModel.pageSizeSelectModel"></scf-data-table>
+                                    <scf-data-table id="transaction-table"
+													component-config="listTransactionController.dataTable" 
+													component-datas="listTransactionController.tableRowCollection" 
+													current-page="listTransactionController.pageModel.currentPage" 
+													record-per-page="listTransactionController.pageModel.pageSizeSelectModel"
+													clear-sort-order="listTransactionController.pageModel.clearSortOrder"></scf-data-table>
                                 </div>
                                 <div id="fixed-bottom" class="col-md-12"></div>
                             </div>

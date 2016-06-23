@@ -63,4 +63,20 @@ angular.module('scfApp').service('SCFCommonService', [function() {
 
         return dataResult;
     };
+	
+	vm.convertDate = function(dateTime){
+		var result = '';
+		if(dateTime != undefined && dateTime != ''){
+			var datenew = angular.isDate(dateTime) || new Date(dateTime);
+			var date = datenew.getDate();		
+			var month = (datenew.getMonth() + 1);
+			
+			if(month < 10){
+				month = '0'+month.toString();
+			}
+			var year = datenew.getFullYear();
+			result =  date +'/' + month + '/' + year;
+		}
+		return result;
+	}
 }]);
