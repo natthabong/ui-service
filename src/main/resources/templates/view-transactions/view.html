@@ -59,7 +59,7 @@
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="sponsor-payment-date-label"
-												ng-bind="viewTxnCtrl.transactionModel.sponsorPaymentDate | date: 'dd/MM/yyyy'"></span>
+												ng-bind="viewTxnCtrl.transactionModel.sponsorPaymentDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
 									</div>
@@ -79,7 +79,7 @@
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="transaction-date-label"
-												ng-bind="viewTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy'"></span>
+												ng-bind="viewTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
 									</div>
@@ -99,7 +99,7 @@
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="loan-matuality-label"
-												ng-bind="viewTxnCtrl.transactionModel.maturityDate | date: 'dd/MM/yyyy'"></span>
+												ng-bind="viewTxnCtrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
 									</div>
@@ -227,7 +227,7 @@
 									ng-bind="'Transaction date' | translate"></b>:</label>
 								<div class="col-md-9 control-label">
 									<label id="footer-transaction-date-label">{{viewTxnCtrl.transactionModel.transactionDate
-										| date: 'dd/MM/yyyy'}}</label>
+										| date: 'dd/MM/yyyy' : 'UTC+0700'}}</label>
 								</div>
 							</div>
 						</div>

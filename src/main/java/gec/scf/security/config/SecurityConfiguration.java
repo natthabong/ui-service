@@ -31,23 +31,27 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.formLogin().loginPage("/login").and().authorizeRequests().antMatchers("/login", "/css/**/*", "/js/**/*", "/fonts/**")
-				.permitAll().anyRequest().authenticated();
-		http.csrf().csrfTokenRepository(csrfTokenRepository()).and().addFilterAfter(csrfHeaderFilter(),
-				CsrfFilter.class);
+		http.formLogin().loginPage("/login").and().authorizeRequests()
+				.antMatchers("/login", "/css/**/*", "/js/**/*", "/fonts/**").permitAll()
+				.anyRequest().authenticated();
+		http.csrf().csrfTokenRepository(csrfTokenRepository()).and()
+				.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
 
 	}
 
 	private Filter csrfHeaderFilter() {
 		return new OncePerRequestFilter() {
 			@Override
-			protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-					FilterChain filterChain) throws ServletException, IOException {
-				CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+			protected void doFilterInternal(HttpServletRequest request,
+					HttpServletResponse response, FilterChain filterChain)
+					throws ServletException, IOException {
+				CsrfToken csrf = (CsrfToken) request
+						.getAttribute(CsrfToken.class.getName());
 				if (csrf != null) {
 					Cookie cookie = WebUtils.getCookie(request, "XSRF-TOKEN");
 					String token = csrf.getToken();
-					if (cookie == null || token != null && !token.equals(cookie.getValue())) {
+					if (cookie == null
+							|| token != null && !token.equals(cookie.getValue())) {
 						cookie = new Cookie("XSRF-TOKEN", token);
 						cookie.setPath("/");
 						response.addCookie(cookie);
