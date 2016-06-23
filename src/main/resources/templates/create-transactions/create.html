@@ -131,7 +131,12 @@
                             <!-- Start Table-->
                             <div class="row">
                                 <div class="col-md-12">
-                                    <scf-data-table id="document-table" component-config="createTransactionCtrl.dataTable" component-datas="createTransactionCtrl.tableRowCollection" current-page="createTransactionCtrl.pageModel.currentPage" record-per-page="createTransactionCtrl.pageModel.pageSizeSelectModel"></scf-data-table>
+                                    <scf-data-table id="document-table" 
+													component-config="createTransactionCtrl.dataTable" 
+													component-datas="createTransactionCtrl.tableRowCollection" 
+													current-page="createTransactionCtrl.pageModel.currentPage" 
+													record-per-page="createTransactionCtrl.pageModel.pageSizeSelectModel"
+													clear-sort-order="createTransactionCtrl.pageModel.clearSortOrder"></scf-data-table>
                                 </div>
                                 <div id="fixed-bottom" class="col-md-12"></div>
                             </div>

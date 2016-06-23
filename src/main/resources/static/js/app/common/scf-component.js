@@ -193,7 +193,10 @@
 						vm.order = '';
 						vm.reverse = false;
 					}
-									
+
+					vm.$watch($attrs.clearSortOrder, function(data){
+						vm.initSort();
+					});
                     vm.pageOptions = {currentPage: 0, recordPerPage: 20};
                     
                     vm.$watch($attrs.currentPage, function(data){
@@ -204,8 +207,7 @@
                     
                     vm.$watch($attrs.recordPerPage, function(data){
                         if(data !== undefined){
-                            vm.pageOptions.recordPerPage = data;
-							vm.initSort();
+                            vm.pageOptions.recordPerPage = data;							
                         }
                     });
                     
