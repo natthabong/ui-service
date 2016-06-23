@@ -138,7 +138,6 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
     }
 
    
-
     vm.dataTable = {
         options: {
             displayRowNo: {}
@@ -242,6 +241,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             } else {
                 vm.pageModel.currentPage = criteria.page;
                 vm.pageModel.pageSizeSelectModel = criteria.pageSize;
+
             }
 
             vm.searchTransactionService();

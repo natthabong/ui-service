@@ -189,9 +189,11 @@
 				controller: ['$scope', '$element', '$attrs', '$window', '$document', function($scope, $element, $attrs, $window, $document){
 					var vm = $scope;
 					vm.tableColumns = [];
-					vm.order = '';
-					vm.reverse = false;
-					$attrs.tableType="collapse";
+					vm.initSort = function(){
+						vm.order = '';
+						vm.reverse = false;
+					}
+									
                     vm.pageOptions = {currentPage: 0, recordPerPage: 20};
                     
                     vm.$watch($attrs.currentPage, function(data){
@@ -203,6 +205,7 @@
                     vm.$watch($attrs.recordPerPage, function(data){
                         if(data !== undefined){
                             vm.pageOptions.recordPerPage = data;
+							vm.initSort();
                         }
                     });
                     
@@ -244,7 +247,7 @@
                         }
                     });                                    
                     
-                    vm.$watch($attrs.componentDatas, function(data){                        
+                    vm.$watch($attrs.componentDatas, function(data){
                         vm.componentDatas = data;
                     });
 
