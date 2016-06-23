@@ -337,8 +337,12 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	vm.view = function(data){		
 		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 		vm.storeCriteria();
+		var isShowBackButton = true;
+		var isShowBackButton = false;
 		$state.go('/view-transaction', {
-            transactionModel: data
+            transactionModel: data,
+            isShowViewHistoryButton: false,
+            isShowBackButton: true
         });
 	}
 	

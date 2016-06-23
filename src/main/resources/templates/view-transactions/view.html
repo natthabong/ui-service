@@ -65,8 +65,7 @@
 									</div>
 									<div class="row">
 										<div class="col-md-3 col-sm-3">
-											<label
-												ng-bind="'Pre-drawdown percentage' | translate"></label>:
+											<label ng-bind="'Pre-drawdown percentage' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="predrawdown-percentage-label"
@@ -139,7 +138,7 @@
 												ng-bind="viewTxnCtrl.transactionModel.verifiedTime | date: 'dd/MM/yyyy HH:mm'"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
-									</div>	
+									</div>
 									<div class="row">
 										<div class="col-md-2 col-sm-2">
 											<label ng-bind="'Approve by' |translate"></label>:
@@ -157,22 +156,20 @@
 												ng-bind="viewTxnCtrl.transactionModel.approvedTime | date: 'dd/MM/yyyy HH:mm'"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
-									</div>	
+									</div>
 									<div class="row">
 										<div class="col-md-2 col-sm-2">
 											<label ng-bind="'Status' |translate"></label>:
 										</div>
 										<div class="col-md-3 col-sm-3 text-right">
 											<span id="status-label"
-												ng-bind="viewTxnCtrl.transactionModel.statusMessageKey | translate"></span>
+												ng-bind="viewTxnCtrl.transactionModel.statusCode | translate"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
-										<div class="col-md-3 col-sm-3">
-										</div>
-										<div class="col-md-2 col-sm-2">
-										</div>
+										<div class="col-md-3 col-sm-3"></div>
+										<div class="col-md-2 col-sm-2"></div>
 										<div class="col-md-1 col-sm-1"></div>
-									</div>																									
+									</div>
 								</div>
 							</div>
 						</div>
@@ -190,8 +187,7 @@
 							<div class="row">
 								<div class="col-md-12">
 									<b id="document-paging-label"
-										ng-bind="viewTxnCtrl.splitePageTxt"></b>
-									&nbsp;&nbsp;
+										ng-bind="viewTxnCtrl.splitePageTxt"></b> &nbsp;&nbsp;
 									<scf-pagination
 										page-size-model="viewTxnCtrl.pageModel.pageSizeSelectModel"
 										total-page="viewTxnCtrl.pageModel.totalPage"
@@ -201,7 +197,7 @@
 								</div>
 							</div>
 						</div>
-					</div>					
+					</div>
 					<div class="row">
 						<div class="col-md-12">
 							<scf-data-table component-config="viewTxnCtrl.dataTable"
@@ -237,14 +233,18 @@
 						</div>
 						<div class="col-md-12 text-right">
 							<scf-button id="back-button" class="btn btn-default"
-								type="submit" ng-click="viewTxnCtrl.back()">{{
+								type="submit" ng-click="viewTxnCtrl.back()" ng-hide="!viewTxnCtrl.isShowBackButton">{{
 							'Back' | translate}}</scf-button>
+							<scf-button id="view-history-button" class="btn btn-default"
+								ng-click="viewTxnCtrl.viewHistory()" type="submit"
+								ng-bind="'View History' | translate" ng-hide="!viewTxnCtrl.isShowViewHistoryButton">
+							</scf-button>							
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- End Panel-->
 </div>

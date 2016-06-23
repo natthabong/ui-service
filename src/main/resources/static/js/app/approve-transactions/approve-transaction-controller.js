@@ -73,7 +73,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
         
         vm.viewRecent= function(){
         	$timeout(function() {
-                $state.go('/view-transaction',{transactionModel: vm.transaction});
+                $state.go('/view-transaction',{transactionModel: vm.transaction, isShowViewHistoryButton: true});
             }, 10);
         }
 
