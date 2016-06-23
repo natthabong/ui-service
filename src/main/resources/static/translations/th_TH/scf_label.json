@@ -121,5 +121,5 @@
 	"drawdown_success": "Drawdown success",
 	"internal_step": "Internal step",
 	"retriable_transaction": "Retriable transaction",
-	"wait_for_drawdown_result": "Future drawdown success"
+	"future_drawdown_success": "Future drawdown success"
 }

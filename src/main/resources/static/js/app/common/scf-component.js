@@ -330,14 +330,14 @@
                 var data = dataColumn[column.field];
                 
                 var result = '';
-                /* if(filterType === 'date'){
+                 if(filterType === 'date'){
 					console.log(data);
                     var pDate = Date.parse(data);
 					
-                    result = $filter(filterType)(data, filterFormat);
+                    result = $filter(filterType)(data, filterFormat, 'UTC+0700');
                 }else{
                     result = $filter(filterType)(data, filterFormat);
-                }*/
+                }
                 result = $filter(filterType)(data, filterFormat);
                 return result;
             }

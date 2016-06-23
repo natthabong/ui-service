@@ -201,7 +201,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             sortData: true,
             cssTemplate: 'text-center'
         }, {
-            field: 'statusMessageKey',
+            field: 'statusCode',
             label: 'Status',
             sortData: true,
             id: 'status-{value}',
