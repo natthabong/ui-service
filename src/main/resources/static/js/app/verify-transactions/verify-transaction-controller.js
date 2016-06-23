@@ -124,16 +124,22 @@ angular.module('scfApp').controller(
 				                });
 					}
 					
-					vm.back = function(){
+					vm.backAndReset = function(){
 						$timeout(function(){
 							$state.go('/transaction-list', {}, { reload: true });
 						}, 10);
-					}				
+					}
+
+					vm.backNotReset = function(){
+						$timeout(function(){
+							$state.go('/transaction-list', {actionBack: true});
+						}, 10);
+					}
 
 					vm.viewRecent = function(){
 						SCFCommonService.parentStatePage().saveCurrentState('/transaction-list');
 						$timeout(function(){
-		                	$state.go('/view-transaction', {transactionModel: vm.transactionModel});
+		                	$state.go('/view-transaction', {transactionModel: vm.transactionModel, isShowViewHistoryButton:'show', isShowViewHistoryButton: true});
 		            	}, 10);
 					};
 					

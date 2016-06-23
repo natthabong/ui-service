@@ -8,6 +8,10 @@ angular.module('scfApp').controller(
 					$scope.successPopup = false;
 					
 					vm.transactionModel = $stateParams.transactionModel;
+					vm.isShowViewHistoryButton = $stateParams.isShowViewHistoryButton;;
+					vm.isShowBackButton = $stateParams.isShowBackButton;
+					console.log(vm.isShowViewHistoryButton);
+					console.log(vm.isShowBackButton);
 					vm.pageModel = {
 							pageSizeSelectModel : '20',
 							totalRecord : 0,
@@ -20,11 +24,8 @@ angular.module('scfApp').controller(
 						
 					     var deffered = ViewTransactionService.prepare(vm.transactionModel);
 				            deffered.promise.then(function (response) {
-				            	console.log(vm.transactionModel);
-				            	console.log(response.data);
-				            	  //vm.transactionModel = angular.extend(vm.transactionModel, response.data);
-				            	  vm.transactionModel = response.data;
-				            	  console.log(vm.transactionModel);
+				            	  vm.transactionModel = angular.extend(response.data,{sponsor: vm.transactionModel.sponsor});
+//				            	  vm.transactionModel = response.data;
 				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
 				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 				                })
@@ -93,5 +94,11 @@ angular.module('scfApp').controller(
 					vm.back = function(){
 						$state.go(SCFCommonService.parentStatePage().getParentState(), {actionBack: true});	
 					}
+
+					vm.viewHistory = function(){
+						$timeout(function(){
+							$state.go('/transaction-list');
+						}, 10);
+					};
 
 				} ]);

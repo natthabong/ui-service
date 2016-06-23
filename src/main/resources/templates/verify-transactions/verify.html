@@ -186,7 +186,7 @@
 						</div>
 						<div class="col-md-12 text-right">
 							<scf-button id="back-button" class="btn btn-default"
-								type="submit" ng-click="verifyTxnCtrl.back()">{{
+								type="submit" ng-click="verifyTxnCtrl.backNotReset()">{{
 							'Back' | translate}}</scf-button>
 							<scf-button id="approve-button" class="btn btn-default"
 								type="submit" ng-click="verifyTxnCtrl.confirmApprove()">{{
@@ -288,7 +288,7 @@
 					<scf-button id="fail-view-recent-button" data-dismiss="modal" ng-click="verifyTxnCtrl.viewRecent()"
 						ng-bind="'View recent' | translate"></scf-button>
 					<scf-button id="popup-back-button" data-dismiss="modal"
-						ng-click="verifyTxnCtrl.back()" ng-bind="'Back' | translate"></scf-button>
+						ng-click="verifyTxnCtrl.backAndReset()" ng-bind="'Back' | translate"></scf-button>
 				</div>
 			</div>
 		</div>
