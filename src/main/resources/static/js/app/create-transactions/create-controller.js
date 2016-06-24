@@ -199,7 +199,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 	            
 	            transactionModel.sponsorPaymentDate = convertStringTodate(transactionModel.sponsorPaymentDate);
 	            transactionModel.transactionDate = convertStringTodate(transactionModel.transactionDate);
-	
+	            
 	            var deffered = CreateTransactionService.verifyTransaction(transactionModel);
 	            deffered.promise.then(function (response) {
 	                var tradingpartnerInfoExtend = angular.extend(vm.tradingpartnerInfoModel, {
@@ -217,6 +217,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 	            }).catch(function (response) {
 	                vm.errorMsgPopup = response.data.errorCode;
 	                $scope.validateDataFailPopup = true;
+	                vm.createTransactionModel.sponsorPaymentDate = SCFCommonService.convertDate(vm.createTransactionModel.sponsorPaymentDate);
+	                vm.createTransactionModel.transactionDate = SCFCommonService.convertDate(vm.createTransactionModel.transactionDate);
 	            });
         	}
         };
@@ -287,7 +289,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         }
         
         vm.initLoad = function () {
-
             if ($stateParams.actionBack === true) {
 				actionBack = true;
                 var tradingPartnerInfo = $stateParams.tradingpartnerInfoModel;

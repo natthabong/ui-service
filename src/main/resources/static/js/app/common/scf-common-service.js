@@ -67,14 +67,17 @@ angular.module('scfApp').service('SCFCommonService', [function() {
 	vm.convertDate = function(dateTime){
 		var result = '';
 		if(dateTime != undefined && dateTime != ''){
-			var datenew = angular.isDate(dateTime) || new Date(dateTime);
-			var date = datenew.getDate();		
-			var month = (datenew.getMonth() + 1);
+							
+			if(!angular.isDate(dateTime)){
+				dateTime = new Date(dateTime);
+			}
+			var date = dateTime.getDate();		
+			var month = (dateTime.getMonth() + 1);
 			
 			if(month < 10){
 				month = '0'+month.toString();
 			}
-			var year = datenew.getFullYear();
+			var year = dateTime.getFullYear();
 			result =  date +'/' + month + '/' + year;
 		}
 		return result;

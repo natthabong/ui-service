@@ -331,7 +331,6 @@
                 
                 var result = '';
                  if(filterType === 'date'){
-					console.log(data);
                     var pDate = Date.parse(data);
 					
                     result = $filter(filterType)(data, filterFormat, 'UTC+0700');
