@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('scfApp').factory('ListTransactionService', ['$http', '$q', ListTransactionServices]);
+angular.module('scfApp').factory('ListTransactionService', ['$http', '$q', 'blockUI', ListTransactionServices]);
 
-function ListTransactionServices($http, $q){
+function ListTransactionServices($http, $q, blockUI){
 	return {
 		getSponsors: getSponsors,
 		getTransactionStatusGroups: getTransactionStatusGroups,
@@ -34,11 +34,14 @@ function ListTransactionServices($http, $q){
 
 	function getTransactionDocument(listTransactionModel){
 		var deffered = $q.defer();
+		var searchBlock = blockUI.instances.get('search-block');
+		searchBlock.start();
 		$http({
 			url: 'api/list-transaction/search',
 			method: 'POST',
 			data: listTransactionModel
 		}).then(function(response){
+			searchBlock.stop();
 			deffered.resolve(response);
 		}).catch(function(response){
 			deffered.reject(response);
@@ -48,11 +51,14 @@ function ListTransactionServices($http, $q){
 
 	function summaryInternalStep(listTransactionModel){
 		var deffered = $q.defer();
+		var summaryInternalBlock = blockUI.instances.get('summary-internal-block');
+		summaryInternalBlock.start();
 		$http({
 			url: 'api/list-transaction/summary-internal-step',
 			method: 'POST',
 			data: listTransactionModel
 		}).then(function(response){
+			summaryInternalBlock.stop();
 			deffered.resolve(response);
 		}).catch(function(response){
 			deffered.reject(response);
@@ -61,6 +67,7 @@ function ListTransactionServices($http, $q){
 	}
 
 	function exportCSVFile(listTransactionModel,$translate){
+		blockUI.start();
         $http({
             url : 'api/list-transaction/exportCSVFile',
             method : 'POST',
@@ -83,6 +90,7 @@ function ListTransactionServices($http, $q){
             a.target      = '_blank';
             a.download    = 'Transaction.csv';
             document.body.appendChild(a);
+            blockUI.stop();
             a.click();
         }).error(function(data, status, headers, config) {
             //TODO when WS error
