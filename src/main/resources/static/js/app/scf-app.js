@@ -6,7 +6,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
     		var version = (new Date()).getTime();
     		
     		blockUIConfig.blockBrowserNavigation = true;
-      	    blockUIConfig.delay = 300;
+      	    blockUIConfig.delay = 500;
       	    blockUIConfig.autoBlock = false;
       	    
             $translateProvider.useLoader('$translatePartialLoader', {
