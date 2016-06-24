@@ -82,4 +82,13 @@ angular.module('scfApp').service('SCFCommonService', [function() {
 		}
 		return result;
 	}
+	
+	vm.convertStringTodate = function (date){
+		result = '';
+		if(date != undefined && date != ''){
+			var dateSplite = date.toString().split('/');
+			result = new Date(dateSplite[2] + '-'+ dateSplite[1]+ '-' + dateSplite[0]);
+		}
+		return result
+	}
 }]);
