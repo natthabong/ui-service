@@ -197,8 +197,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 	                }
 	            });
 	            
-	            transactionModel.sponsorPaymentDate = convertStringTodate(transactionModel.sponsorPaymentDate);
-	            transactionModel.transactionDate = convertStringTodate(transactionModel.transactionDate);
+	            transactionModel.sponsorPaymentDate = SCFCommonService.convertStringTodate(transactionModel.sponsorPaymentDate);
+	            transactionModel.transactionDate = SCFCommonService.convertStringTodate(transactionModel.transactionDate);
 	            
 	            var deffered = CreateTransactionService.verifyTransaction(transactionModel);
 	            deffered.promise.then(function (response) {
@@ -439,17 +439,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         }
     }
 ]);
-
-function convertDate(dateTime){
-	var result = '';
-	if(dateTime != undefined && dateTime != ''){
-		var date = dateTime.getDate();		
-		var month = (dateTime.getMonth() + 1);
-		var year = dateTime.getFullYear();
-		result =  date +'/' + month + '/' + year;
-	}
-	return result;
-}
 
 function convertStringTodate(date){
 	result = '';
