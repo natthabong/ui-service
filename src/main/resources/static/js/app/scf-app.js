@@ -1,12 +1,14 @@
 var $stateProviderRef = null;
 
-var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model',  'cfp.loadingBar', 'angular-loading-bar'])
-    .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','cfpLoadingBarProvider',
-        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider,cfpLoadingBarProvider) {
+var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI'])
+    .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig',
+        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig) {
     		var version = (new Date()).getTime();
-    	    cfpLoadingBarProvider.includeSpinner = false;
-		    cfpLoadingBarProvider.latencyThreshold = 300;
-		    
+    		
+    		blockUIConfig.blockBrowserNavigation = true;
+      	    blockUIConfig.delay = 300;
+      	    blockUIConfig.autoBlock = false;
+      	    
             $translateProvider.useLoader('$translatePartialLoader', {
                 urlTemplate: '../{part}/{lang}/scf_label.json'
             });
@@ -89,8 +91,9 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 			
 			function load(srcs, callback) {
                 return {                    
-                    deps: ['$ocLazyLoad', '$q',
-                                function ($ocLazyLoad, $q) {
+                    deps: ['$ocLazyLoad', '$q', 'blockUI',
+                                function ($ocLazyLoad, $q, blockUI) {
+                  
                             var deferred = $q.defer();
                             var promise = false;
                             var name;
@@ -106,6 +109,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
                                 });
                             });
                             deferred.resolve();
+                    		  
                             return callback ? promise.then(function () {
                                 return callback();
                             }) : promise;
@@ -200,17 +204,18 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
     }
 }]);
 
-app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', function ($rootScope, $q, $http, $urlRouter, $window) {
+app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', 'blockUI', function ($rootScope, $q, $http, $urlRouter, $window, blockUI) {
     $rootScope
         .$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {
-                // Show loading here
+        		blockUI.start();
             });
 
     $rootScope
         .$on('$stateChangeSuccess',
             function (event, toState, toParams, fromState, fromParams) {
                 $window.scrollTo(0, 0);
+                blockUI.stop();
             });
 
 }]);

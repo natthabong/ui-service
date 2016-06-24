@@ -1,6 +1,6 @@
-angular.module('scfApp').factory('ApproveTransactionService', ['$q', '$http','$sce', approveTransactionService]);
+angular.module('scfApp').factory('ApproveTransactionService', ['$q', '$http','$sce', 'blockUI', approveTransactionService]);
 
-function approveTransactionService($q, $http, $sce) {
+function approveTransactionService($q, $http, $sce, blockUI) {
     return {
 		getTransaction: getTransaction,
         approve: approve,
@@ -10,12 +10,13 @@ function approveTransactionService($q, $http, $sce) {
 
     function approve(transactionApproveModel) {
         var deffered = $q.defer();
-
+        blockUI.start();
         $http({
             method: 'POST',
             url: '/api/approve-transaction/approve',
             data: transactionApproveModel
         }).then(function(response) {
+        	blockUI.stop();
             deffered.resolve(response);
         }).catch(function(response) {
             deffered.reject(response);
@@ -39,6 +40,7 @@ function approveTransactionService($q, $http, $sce) {
 	}
 	
 	function generateRequestForm(transactionModel){
+		 blockUI.start();
         $http({
             method: 'POST',
             url: '/api/approve-transaction/report-form',
@@ -48,7 +50,7 @@ function approveTransactionService($q, $http, $sce) {
         	var file = new Blob([response], {type: 'application/pdf'});
         	var fileURL = URL.createObjectURL(file);   	
         	document.getElementById('visualizador').setAttribute('data', fileURL);
-
+        	blockUI.stop();
         }).error(function(response) {
             
         });

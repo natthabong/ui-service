@@ -87,13 +87,21 @@
 	"canceled_by_supplier": "Cancel by supplier",
 	"wait_for_drawdown_result": "Wait for drawdown result",
 	
-	"WAIT_FOR_VERIFY": "Wait for verify",
+	"CANCELED_BY_BANK" : "Cancelled by bank",
+	"CANCELED_BY_SUPPLIER" : "Cancelled by supplier",
+	"DRAWDOWN_SUCCESS": "Drawdown success",
+	"FAIL_TO_CANCELED": "Fail to cancelled",
+	"FAIL_TO_DRAWDOWN": "Fail to drawdown",
+	"FAIL_TO_DRAWDOWN_RETRIABLE": "Fail to drawdown retriable",
+	"FAIL_TO_REJECTED": "Fail to rejected",
+	"REJECT_BY_APPROVER": "Rejected by approver",
+	"REJECT_BY_CHECKER": "Rejected by checker",
+	"REJECTED_BY_BANK": "Rejected by bank",
+	"TIME_OUT": "Time out",
 	"WAIT_FOR_APPROVE": "Wait for approve",
-	"REJECT_BY_CHECKER": "Reject by checker",
-	"REJECT_BY_APPROVER": "Reject by approver",
-	"CANCELED_BY_SUPPLIER": "Cancel by supplier",
 	"WAIT_FOR_DRAWDOWN_RESULT": "Wait for drawdown result",
-
+	"WAIT_FOR_VERIFY": "Wait for verify",
+	
 	"_comment": "Page Verify Transaction",
 	"Confirm approval ?": "Confirm approval ?",
 	

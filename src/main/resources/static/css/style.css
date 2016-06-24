@@ -10,6 +10,10 @@ body {
   color: #58666e !important;
 }
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
 a,
 a:hover {
   -webkit-text-decoration: none;

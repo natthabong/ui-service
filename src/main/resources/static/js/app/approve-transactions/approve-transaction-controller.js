@@ -11,7 +11,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
         $scope.successPopup = false;
         vm.reqPass = false;
         vm.showEvidenceForm = false;
-        
+        vm.focusOnPassword = false;
         vm.transactionApproveModel = {
             transaction: vm.transactionApproveModel,
             credential: ''
@@ -23,6 +23,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 
         vm.confirmPopup = function() {
             $scope.approveConfirmPopup = true;
+            vm.focusOnPassword = true;
         };
 
         vm.approve = function() {
