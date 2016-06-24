@@ -208,14 +208,14 @@ app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', 'blockUI', functi
     $rootScope
         .$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {
-        		blockUI.start();
+
             });
 
     $rootScope
         .$on('$stateChangeSuccess',
             function (event, toState, toParams, fromState, fromParams) {
                 $window.scrollTo(0, 0);
-                blockUI.stop();
+        
             });
 
 }]);
