@@ -1,4 +1,4 @@
-angular.module('scfApp').service('SCFCommonService', [function() {
+angular.module('scfApp').service('SCFCommonService', ['$filter',function($filter) {
     var vm = this;
     vm.splitePage = function(pageSize, currentPage, totalRecord) {
 		
@@ -71,14 +71,9 @@ angular.module('scfApp').service('SCFCommonService', [function() {
 			if(!angular.isDate(dateTime)){
 				dateTime = new Date(dateTime);
 			}
-			var date = dateTime.getDate();		
-			var month = (dateTime.getMonth() + 1);
 			
-			if(month < 10){
-				month = '0'+month.toString();
-			}
-			var year = dateTime.getFullYear();
-			result =  date +'/' + month + '/' + year;
+			result = $filter('date')(dateTime, 'dd/MM/yyyy', 'UTC+0700');
+			console.log(result);
 		}
 		return result;
 	}

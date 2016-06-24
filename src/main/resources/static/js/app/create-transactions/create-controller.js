@@ -238,8 +238,12 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                             value: data
                         });
                     });
-                    // set select default value
-                    vm.createTransactionModel.transactionDate = vm.transactionDates[0].value;
+                    
+                    //Check action come from page validate and sumbit
+                    if(actionBack === false){
+                    	// set select default value
+                    	vm.createTransactionModel.transactionDate = vm.transactionDates[0].value;
+                    }
                 }
 
             }).catch(function (response) {
@@ -296,12 +300,12 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 					
 					var transactionModel = $stateParams.transactionModel;
 					
-                	vm.tradingpartnerInfoModel = tradingPartnerInfo;					
+                	vm.tradingpartnerInfoModel = tradingPartnerInfo;	
 					vm.createTransactionModel = {
 						sponsorCode: tradingPartnerInfo.sponsorId,
 						supplierCode: tradingPartnerInfo.supplierCodeSelected,
 						sponsorPaymentDate: SCFCommonService.convertDate(transactionModel.sponsorPaymentDate),
-						transactionDate: transactionModel.transactionDate
+						transactionDate: SCFCommonService.convertDate(transactionModel.transactionDate)
 					};
                 	
 					vm.documentSelects = $stateParams.documentSelects;
