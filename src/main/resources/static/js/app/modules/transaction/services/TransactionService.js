@@ -1,4 +1,4 @@
-angular.module('gecscf.transaction').factory('TransactionService', ['$http', '$q', 'blockUI','$window', transactionService]);
+angular.module('gecscf.transaction').factory('TransactionService', ['$http', '$q', 'blockUI', '$window', transactionService]);
 
 function transactionService($http, $q, blockUI, $window) {
 
@@ -7,24 +7,24 @@ function transactionService($http, $q, blockUI, $window) {
         var deffered = $q.defer();
 
         $http({
-        	    url :'api/v1/create-transaction/suppliers',
-            	method: 'GET',
-            	params:{
-            		accountingTransactionType: accountingTransactionType
-            	}
-            })
-            .then(function(response) {
+            url: 'api/v1/create-transaction/suppliers',
+            method: 'GET',
+            params: {
+                accountingTransactionType: accountingTransactionType
+            }
+        })
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject('Cannot load supplierCode');
             });
         return deffered;
     }
 
     //loan
-    function getSupplier(sponsorId){
-		var deffered = $q.defer();
+    function getSupplier(sponsorId) {
+        var deffered = $q.defer();
 
         $http({
             method: 'GET',
@@ -32,122 +32,122 @@ function transactionService($http, $q, blockUI, $window) {
             params: {
                 sponsorId: sponsorId
             }
-        }).then(function(response){
+        }).then(function (response) {
             deffered.resolve(response);
-        }).catch(function(response){
+        }).catch(function (response) {
             deffered.reject(response);
         });
         return deffered;
-	}
+    }
 
-	function getBuyerCodes(ownerId) {
-	    var deffered = $q.defer();
-	
-	    $http({
-	    	    url :'api/v1/organize-customers/'+ownerId+'/customer-code-groups/me/customer-codes',
-	        	method: 'GET'
-	        })
-	        .then(function(response) {
-	            deffered.resolve(response);
-	        })
-	        .catch(function(response) {
-	            deffered.reject('Cannot load customer code');
-	        });
-	    return deffered;
-	}
-
-	function getAccounts(organizeId, supplierId) {
+    function getBuyerCodes(ownerId) {
         var deffered = $q.defer();
+
         $http({
-        	    url :'api/v1/organize-customers/'+organizeId+'/trading-partners/'+supplierId+'/accounts',
-            	method: 'GET'
-            })
-            .then(function(response) {
+            url: 'api/v1/organize-customers/' + ownerId + '/customer-code-groups/me/customer-codes',
+            method: 'GET'
+        })
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
+                deffered.reject('Cannot load customer code');
+            });
+        return deffered;
+    }
+
+    function getAccounts(organizeId, supplierId) {
+        var deffered = $q.defer();
+        $http({
+            url: 'api/v1/organize-customers/' + organizeId + '/trading-partners/' + supplierId + '/accounts',
+            method: 'GET'
+        })
+            .then(function (response) {
+                deffered.resolve(response);
+            })
+            .catch(function (response) {
                 deffered.reject('Cannot load account');
             });
         return deffered;
     }
 
-	function getDocuments(criteria) {
+    function getDocuments(criteria) {
         var deffered = $q.defer();
         $http({
-    	    url : 'api/v1/documents',
-        	method: 'GET',
-        	params: criteria
-        }).then(function(response) {
-                deffered.resolve(response);
-            })
-            .catch(function(response) {
+            url: 'api/v1/documents',
+            method: 'GET',
+            params: criteria
+        }).then(function (response) {
+            deffered.resolve(response);
+        })
+            .catch(function (response) {
                 deffered.reject(response);
             });
         return deffered;
     }
 
-	function getPaymentDate(transactionModel, type) {
+    function getPaymentDate(transactionModel, type) {
         var deffered = $q.defer();
         $http({
-        	    url :'api/v1/create-transaction/payment-dates/calculate',
-            	method: 'POST',
-            	data:{
-					sponsorId : transactionModel.sponsorId,
-					supplierId : transactionModel.supplierId,
-					documents : transactionModel.documents
-            	},
-				params: {
-					loanRequestMode : "CURRENT_AND_FUTURE",
-					createTransactionType : type
-				}
-            })
-            .then(function(response) {
+            url: 'api/v1/create-transaction/payment-dates/calculate',
+            method: 'POST',
+            data: {
+                sponsorId: transactionModel.sponsorId,
+                supplierId: transactionModel.supplierId,
+                documents: transactionModel.documents
+            },
+            params: {
+                loanRequestMode: "CURRENT_AND_FUTURE",
+                createTransactionType: type
+            }
+        })
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject('Cannot load payment date');
             });
         return deffered;
     }
-	
-	function submitTransaction(transactionModel){
-		var deffered = $q.defer();
+
+    function submitTransaction(transactionModel) {
+        var deffered = $q.defer();
         $http({
-    	    url :'api/v1/create-transaction/payment/submit',
-        	method: 'POST',
-        	data: transactionModel
+            url: 'api/v1/create-transaction/payment/submit',
+            method: 'POST',
+            data: transactionModel
         })
-        .then(function(response) {
-            deffered.resolve(response);
-        })
-        .catch(function(response) {
-        	deffered.reject(response);
-        });
-        return deffered;		
-	}
+            .then(function (response) {
+                deffered.resolve(response);
+            })
+            .catch(function (response) {
+                deffered.reject(response);
+            });
+        return deffered;
+    }
 
     function getSponsorPaymentDate(sponsorId, supplierCode, loanRequestMode) {
         var deffered = $q.defer();
 
         $http({
-        	    url :'api/v1/create-transaction/sponsor-payment-dates/get',
-            	method: 'GET',
-            	params:{
-            		 sponsorId: sponsorId,
-                     supplierCode: supplierCode,
-                     loanRequestMode: loanRequestMode
-            	},
-		        transformRequest :function (data) {
-		            if (data === undefined) {
-		                return data;
-		            }
-		            return $.param(data);
-		        }
-            })
-            .then(function(response) {
+            url: 'api/v1/create-transaction/sponsor-payment-dates/get',
+            method: 'GET',
+            params: {
+                sponsorId: sponsorId,
+                supplierCode: supplierCode,
+                loanRequestMode: loanRequestMode
+            },
+            transformRequest: function (data) {
+                if (data === undefined) {
+                    return data;
+                }
+                return $.param(data);
+            }
+        })
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject('Cannot load supplierCode');
             });
         return deffered;
@@ -157,132 +157,161 @@ function transactionService($http, $q, blockUI, $window) {
         var deffered = $q.defer();
 
         $http({
-        	    url :'api/v1/create-transaction/transaction-dates/get',
-            	method: 'POST',
-            	headers : {
-            		'Content-Type': 'application/x-www-form-urlencoded'
-            	},
-            	data: {
-            		 sponsorId: sponsorId,
-            		 sponsorPaymentDate: sponsorPaymentDate,
-                     loanRequestMode: loanRequestMode,
-                     tenor: tenor
-            	},
-		        transformRequest :function (data) {
-		            if (data === undefined) {
-		                return data;
-		            }
-		            return $.param(data);
-		        }
-            })
-            .then(function(response) {
+            url: 'api/v1/create-transaction/transaction-dates/get',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: {
+                sponsorId: sponsorId,
+                sponsorPaymentDate: sponsorPaymentDate,
+                loanRequestMode: loanRequestMode,
+                tenor: tenor
+            },
+            transformRequest: function (data) {
+                if (data === undefined) {
+                    return data;
+                }
+                return $.param(data);
+            }
+        })
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject(response);
             });
         return deffered;
     }
-	
-	 function getTradingInfo(sponsorId, supplierId){
+
+    function getTradingInfo(sponsorId, supplierId) {
         var deffered = $q.defer();
         blockUI.start();
         $http({
             method: 'POST',
             url: 'api/v1/create-transaction/trading-info/get',
-			headers : {
-				'Content-Type': 'application/x-www-form-urlencoded'
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
             data: {
                 sponsorId: sponsorId,
                 supplierId: supplierId
             },
-	        transformRequest :function (data) {
-	            if (data === undefined) {
-	                return data;
-	            }
-	            return $.param(data);
-	        }
-        }).then(function(response){
+            transformRequest: function (data) {
+                if (data === undefined) {
+                    return data;
+                }
+                return $.param(data);
+            }
+        }).then(function (response) {
             blockUI.stop();
             deffered.resolve(response);
-        }).catch(function(response){
+        }).catch(function (response) {
             blockUI.stop();
             deffered.reject(response);
         });
-		 return deffered;
-	 }
-    
-    function verifyTransaction(transaction){
-    	var deffered = $q.defer();
+        return deffered;
+    }
+
+    function verifyTransaction(transaction) {
+        var deffered = $q.defer();
         $http.post('api/v1/create-transaction/transaction/verify', transaction)
-            .then(function(response) {
+            .then(function (response) {
                 deffered.resolve(response);
-			
+
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject(response);
             });
         return deffered;
     }
-	
-	function getSponsor(){
-		var deffered = $q.defer();
+
+    function getSponsor() {
+        var deffered = $q.defer();
 
         $http.get('api/v1/create-transaction/sponsor')
-            .then(function(response) {
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
-                deffered.reject(response);
-            });
-        return deffered;
-	}
-
-	function verifyTradingPartner() {
-        var deffered = $q.defer();
-        $http({
-                url :'api/v1/create-transaction/trading-partner/verify',
-                method: 'POST',
-                headers : {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                data:{
-                        
-                },
-                transformRequest :function (data) {
-                    if (data === undefined) {
-                        return data;
-                    }
-                    return $.param(data);
-                }
-            })
-            .then(function(response) {
-                deffered.resolve(response);
-            })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject(response);
             });
         return deffered;
     }
 
-    function calculateTotalDocumentAmountWithPrePercentTag(totalAmount, preDradowPercentag){
+    function verifyTradingPartner() {
+        var deffered = $q.defer();
+        $http({
+            url: 'api/v1/create-transaction/trading-partner/verify',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: {
+
+            },
+            transformRequest: function (data) {
+                if (data === undefined) {
+                    return data;
+                }
+                return $.param(data);
+            }
+        })
+            .then(function (response) {
+                deffered.resolve(response);
+            })
+            .catch(function (response) {
+                deffered.reject(response);
+            });
+        return deffered;
+    }
+
+    function calculateTotalDocumentAmountWithPrePercentTag(totalAmount, preDradowPercentag) {
         var sumAmount = (totalAmount * (preDradowPercentag / 100)).toFixed(2);
         return sumAmount;
     }
 
-    function summaryAllDocumentAmount(documentSelects){
+    function summaryAllDocumentAmount(documentSelects) {
         var sumAmount = 0;
         documentSelects.forEach(function (document) {
             sumAmount += document.netAmount;
         });
-		return sumAmount;	
+        return sumAmount;
     }
 
-    function findIndexFromDoucmentListByDocument(ducument, documentList){
+    function findIndexFromDoucmentListByDocument(ducument, documentList) {
         return documentList.map(function (o) {
-                return o.documentId;
-            }).indexOf(ducument.documentId);
+            return o.documentId;
+        }).indexOf(ducument.documentId);
+    }
+
+    function checkSelectAllDocumentInPage(documentSelects, allDocumentInPage) {
+        console.log(documentSelects);
+        var selectAllDocumentInPage = false;
+        var countRecordData = 0;
+        if (documentSelects.length > 0) {
+            allDocumentInPage.forEach(function (document) {
+                for (var index = documentSelects.length; index--;) {
+                    if (angular.equals(document, documentSelects[index])) {
+                        countRecordData++;
+                        break;
+                    }
+                }
+            });
+        }
+
+        if (countRecordData === allDocumentInPage.length && countRecordData > 0) {
+            selectAllDocumentInPage = true;
+        }
+        return selectAllDocumentInPage;
+    }
+
+    function checkSelectAllDocument(documentSelects, pageSize) {
+        var selectAllDocument = false;
+        if (documentSelects.length > 0 && documentSelects.length == pageSize) {
+            selectAllDocument = true;
+        }
+        return selectAllDocument;
     }
 
     function retry(transactionApproveModel) {
@@ -292,16 +321,16 @@ function transactionService($http, $q, blockUI, $window) {
             method: 'POST',
             url: '/api/transaction/retry',
             data: transactionApproveModel
-        }).then(function(response) {
+        }).then(function (response) {
             blockUI.stop();
             deffered.resolve(response);
-        }).catch(function(response) {
+        }).catch(function (response) {
             blockUI.stop();
             deffered.reject(response);
         });
         return deffered;
     }
-    
+
     function reject(transactionModel) {
         var deffered = $q.defer();
         blockUI.start();
@@ -309,70 +338,70 @@ function transactionService($http, $q, blockUI, $window) {
             method: 'POST',
             url: '/api/v1/reject-transaction/reject',
             data: transactionModel
-        }).then(function(response) {
+        }).then(function (response) {
             blockUI.stop();
             deffered.resolve(response);
-        }).catch(function(response) {
+        }).catch(function (response) {
             blockUI.stop();
-            if(response.status == 403){
-            	$window.location.href = "/error/403";
-            }else{
-            	deffered.reject(response);
+            if (response.status == 403) {
+                $window.location.href = "/error/403";
+            } else {
+                deffered.reject(response);
             }
         });
         return deffered;
     }
 
     function getTransactionDialogErrorUrl(errorCode, action) {
-		var errorMessageCode = {
-			incomplete: 'INCOMPLETE',
-			transactionHour: 'E1012',
-			concurency: 'E1003'
-		}
-		var version = (new Date()).getTime();
-		var templateUrl = '/js/app/approve-transactions/fail-dialog.html?v='+version;
-		if(action==='approve'){
-			if (angular.isDefined(errorCode)) {
-	            if (errorCode == errorMessageCode.incomplete) {
-	                templateUrl = '/js/app/approve-transactions/incomplete-dialog.html?v='+version;
-	            }
-	            else if(errorCode == errorMessageCode.concurency){
-	            	
-	                templateUrl = '/js/app/approve-transactions/approve-concurency-dialog.html?v='+version;
-	            }
-	        }
-		}else{
-			templateUrl = '/js/app/approve-transactions/retry-fail-dialog.html?v='+version;
-	        if (angular.isDefined(errorCode)) {
-	            if (errorCode == errorMessageCode.incomplete) {
-	                templateUrl = '/js/app/approve-transactions/incomplete-dialog.html?v='+version;
-	            }
-	            else if(errorCode == errorMessageCode.concurency){
-	            	
-	                templateUrl = '/js/app/approve-transactions/retry-concurency-dialog.html?v='+version;
-	            }
-	        }
-		}
+        var errorMessageCode = {
+            incomplete: 'INCOMPLETE',
+            transactionHour: 'E1012',
+            concurency: 'E1003'
+        }
+        var version = (new Date()).getTime();
+        var templateUrl = '/js/app/approve-transactions/fail-dialog.html?v=' + version;
+        if (action === 'approve') {
+            if (angular.isDefined(errorCode)) {
+                if (errorCode == errorMessageCode.incomplete) {
+                    templateUrl = '/js/app/approve-transactions/incomplete-dialog.html?v=' + version;
+                }
+                else if (errorCode == errorMessageCode.concurency) {
+
+                    templateUrl = '/js/app/approve-transactions/approve-concurency-dialog.html?v=' + version;
+                }
+            }
+        } else {
+            templateUrl = '/js/app/approve-transactions/retry-fail-dialog.html?v=' + version;
+            if (angular.isDefined(errorCode)) {
+                if (errorCode == errorMessageCode.incomplete) {
+                    templateUrl = '/js/app/approve-transactions/incomplete-dialog.html?v=' + version;
+                }
+                else if (errorCode == errorMessageCode.concurency) {
+
+                    templateUrl = '/js/app/approve-transactions/retry-concurency-dialog.html?v=' + version;
+                }
+            }
+        }
         return templateUrl;
     }
-    
-    function getAvailableMaturityDates(paymentDate, tenor){
-    	var deffered = $q.defer();
+
+    function getAvailableMaturityDates(paymentDate, tenor) {
+        var deffered = $q.defer();
 
         $http({
             method: 'POST',
             url: 'api/v1/create-transaction/maturity-dates/get',
             params: {
-            	paymentDate: paymentDate,
-           	 	tenor: tenor
+                paymentDate: paymentDate,
+                tenor: tenor
             }
-        }).then(function(response){
+        }).then(function (response) {
             deffered.resolve(response);
-        }).catch(function(response){
+        }).catch(function (response) {
             deffered.reject(response);
         });
         return deffered;
-        
+
     }
 
     function generateCreditAdviceForm(transactionModel) {
@@ -381,7 +410,7 @@ function transactionService($http, $q, blockUI, $window) {
             url: '/api/approve-transaction/evidence-form',
             data: transactionModel,
             responseType: 'arraybuffer'
-        }).success(function(response) {
+        }).success(function (response) {
             var file = new Blob([response], {
                 type: 'application/pdf'
             });
@@ -389,37 +418,37 @@ function transactionService($http, $q, blockUI, $window) {
             var a = document.createElement('a');
             a.href = fileURL;
             a.target = '_blank';
-            if(transactionModel.transactionType == 'PAYMENT'){
-                if(transactionModel.transactionMethod == 'DEBIT'){
-                    a.download = "EvidenceOfReceiptBFPDirectDebit_"+transactionModel.transactionNo + '.pdf';
-                }else{
-                    a.download = "EvidenceOfReceiptBFPDrawdown_"+transactionModel.transactionNo + '.pdf';
+            if (transactionModel.transactionType == 'PAYMENT') {
+                if (transactionModel.transactionMethod == 'DEBIT') {
+                    a.download = "EvidenceOfReceiptBFPDirectDebit_" + transactionModel.transactionNo + '.pdf';
+                } else {
+                    a.download = "EvidenceOfReceiptBFPDrawdown_" + transactionModel.transactionNo + '.pdf';
                 }
-            }else{
+            } else {
                 a.download = transactionModel.transactionNo + '.pdf';
             }
-            
+
             document.body.appendChild(a);
             a.click();
-        }).error(function(response) {
+        }).error(function (response) {
 
         });
     }
 
-    function getTransaction(transaction){
+    function getTransaction(transaction) {
         var deffered = $q.defer();
         $http({
             method: 'GET',
-            url: 'api/v1/transactions/'+transaction.transactionId,
-            headers : {
+            url: 'api/v1/transactions/' + transaction.transactionId,
+            headers: {
                 'If-Match': transaction.version
             },
-            params : {
-                mode : 'view'
+            params: {
+                mode: 'view'
             }
-        }).then(function(response){
+        }).then(function (response) {
             deffered.resolve(response);
-        }).catch(function(response){
+        }).catch(function (response) {
             deffered.reject(response);
         });
         return deffered;
@@ -431,7 +460,7 @@ function transactionService($http, $q, blockUI, $window) {
             url: '/api/approve-transaction/evidence-form',
             data: transactionModel,
             responseType: 'arraybuffer'
-        }).success(function(response) {
+        }).success(function (response) {
             var file = new Blob([response], {
                 type: 'application/pdf'
             });
@@ -439,54 +468,54 @@ function transactionService($http, $q, blockUI, $window) {
             var a = document.createElement('a');
             a.href = fileURL;
             a.target = '_blank';
-            if(transactionModel.transactionType == 'PAYMENT'){
-                if(transactionModel.transactionMethod == 'DEBIT'){
-                    a.download = "EvidenceOfReceiptBFPDirectDebit_"+transactionModel.transactionNo + '.pdf';
-                }else{
-                    a.download = "EvidenceOfReceiptBFPDrawdown_"+transactionModel.transactionNo + '.pdf';
+            if (transactionModel.transactionType == 'PAYMENT') {
+                if (transactionModel.transactionMethod == 'DEBIT') {
+                    a.download = "EvidenceOfReceiptBFPDirectDebit_" + transactionModel.transactionNo + '.pdf';
+                } else {
+                    a.download = "EvidenceOfReceiptBFPDrawdown_" + transactionModel.transactionNo + '.pdf';
                 }
-            }else{
-                a.download = "EvidenceOfReceiptSFPDrawdown_"+transactionModel.transactionNo + '.pdf';
+            } else {
+                a.download = "EvidenceOfReceiptSFPDrawdown_" + transactionModel.transactionNo + '.pdf';
             }
-            
+
             document.body.appendChild(a);
             a.click();
-        }).error(function(response) {
+        }).error(function (response) {
 
         });
     }
 
-    function summaryStatusGroup(listTransactionModel){
-		var deffered = $q.defer();
-		$http({
-			url: 'api/v1/list-transaction/summary-status-group',
-			method: 'POST',
-			data: listTransactionModel
-		}).then(function(response){
-			deffered.resolve(response);
-		}).catch(function(response){
-			deffered.reject(response);
-		});	
-		return deffered;
-	}
-
-    function searchMatchingField(params,data){
+    function summaryStatusGroup(listTransactionModel) {
         var deffered = $q.defer();
         $http({
-			url: 'api/v1/documents/matching-by-fields',
-			method: 'POST',
-            params : params,
-			data: data
-		}).then(function(response){
-			deffered.resolve(response);
-		}).catch(function(response){
-			deffered.reject(response);
-		});	
-		return deffered;
+            url: 'api/v1/list-transaction/summary-status-group',
+            method: 'POST',
+            data: listTransactionModel
+        }).then(function (response) {
+            deffered.resolve(response);
+        }).catch(function (response) {
+            deffered.reject(response);
+        });
+        return deffered;
     }
-    
+
+    function searchMatchingField(params, data) {
+        var deffered = $q.defer();
+        $http({
+            url: 'api/v1/documents/matching-by-fields',
+            method: 'POST',
+            params: params,
+            data: data
+        }).then(function (response) {
+            deffered.resolve(response);
+        }).catch(function (response) {
+            deffered.reject(response);
+        });
+        return deffered;
+    }
+
     return {
-        searchMatchingField:searchMatchingField,
+        searchMatchingField: searchMatchingField,
         getSponsorPaymentDate: getSponsorPaymentDate,
         getTransactionDate: getTransactionDate,
         getTradingInfo: getTradingInfo,
@@ -494,21 +523,23 @@ function transactionService($http, $q, blockUI, $window) {
         verifyTradingPartner: verifyTradingPartner,
         getSponsor: getSponsor,
         getSupplier: getSupplier,
-        getPaymentDate : getPaymentDate,
-        getDocuments : getDocuments,
-        getAccounts : getAccounts,
+        getPaymentDate: getPaymentDate,
+        getDocuments: getDocuments,
+        getAccounts: getAccounts,
         getBuyerCodes: getBuyerCodes,
         getSuppliers: getSuppliers,
-        calculateTotalDocumentAmountWithPrePercentTag:calculateTotalDocumentAmountWithPrePercentTag,
-        submitTransaction:submitTransaction,
+        calculateTotalDocumentAmountWithPrePercentTag: calculateTotalDocumentAmountWithPrePercentTag,
+        submitTransaction: submitTransaction,
         retry: retry,
         reject: reject,
         getAvailableMaturityDates: getAvailableMaturityDates,
         getTransactionDialogErrorUrl: getTransactionDialogErrorUrl,
         getTransaction: getTransaction,
-        generateEvidenceForm : generateEvidenceForm,
-        summaryStatusGroup : summaryStatusGroup,
-        findIndexFromDoucmentListByDocument : findIndexFromDoucmentListByDocument,
-        summaryAllDocumentAmount:summaryAllDocumentAmount
-	}
+        generateEvidenceForm: generateEvidenceForm,
+        summaryStatusGroup: summaryStatusGroup,
+        findIndexFromDoucmentListByDocument: findIndexFromDoucmentListByDocument,
+        checkSelectAllDocumentInPage: checkSelectAllDocumentInPage,
+        checkSelectAllDocument: checkSelectAllDocument,
+        summaryAllDocumentAmount: summaryAllDocumentAmount
+    }
 }

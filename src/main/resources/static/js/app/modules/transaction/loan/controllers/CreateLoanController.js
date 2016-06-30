@@ -27,6 +27,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         var backAction = $stateParams.backAction || false;
 
         var checkSelectMatchingRef = false;
+        vm.documentSelects = [];
 
         $scope.errors = {}
 
@@ -287,7 +288,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 vm.documentSelection = response.documentSelection;
                 supplierCodeSelectionMode = response.supplierCodeSelectionMode;
                 _criteria.sort = response.sort;
-                console.log(response.documentSelection);
 
                 if (vm.documentSelection != 'ANY_DOCUMENT') {
                     checkSelectMatchingRef = true;
@@ -360,29 +360,15 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         } ();
 
         var watchCheckAll = function () {
-            vm.checkAllModel = false;
-            var countRecordData = 0;
-            vm.pagingController.tableRowCollection.forEach(function (document) {
-                for (var index = vm.documentSelects.length; index--;) {
-                    if (comparator(document, vm.documentSelects[index])) {
-                        countRecordData++;
-                        break;
-                    }
-                }
-            });
-
-            if (countRecordData === vm.pagingController.tableRowCollection.length && countRecordData > 0) {
-                vm.checkAllModel = true;
-            }
+            var allDocumentInPage = vm.pagingController.tableRowCollection;
+            console.log(vm.documentSelects);
+            vm.checkAllModel = TransactionService.checkSelectAllDocumentInPage(vm.documentSelects, allDocumentInPage);
             watchSelectAll();
         }
 
         var watchSelectAll = function () {
-            vm.selectAllModel = false;
             var pageSize = vm.pagingController.splitePageTxt.split("of ")[1];
-            if (vm.documentSelects.length > 0 && vm.documentSelects.length == pageSize) {
-                vm.selectAllModel = true;
-            }
+            vm.selectAllModel = TransactionService.checkSelectAllDocument(vm.documentSelects, pageSize);
         }
 
         var dashboardInitLoad = function () {
