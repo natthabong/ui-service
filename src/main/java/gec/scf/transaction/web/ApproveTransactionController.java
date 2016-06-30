@@ -17,6 +17,6 @@ public class ApproveTransactionController {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return APPROVE_TRANSACTION_VIEW_NAME.concat(" :: content");
 		}
-		return APPROVE_TRANSACTION_VIEW_NAME;		
+		return APPROVE_TRANSACTION_VIEW_NAME;
 	}
 }

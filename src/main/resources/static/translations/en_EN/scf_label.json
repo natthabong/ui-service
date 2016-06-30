@@ -41,6 +41,7 @@
     "Approve date": "Approve date",    
     "Selected": "Selected",
     "Records": "Records",
+    "records": "records",
     "Search": "Search",
     "Export": "Export",
     "Status": "Status",
@@ -57,10 +58,13 @@
 	"User name": "User name",
 	"Password": "Password",
 	"Password Require": "Password is required",
+	"Total": "Total: ",
 	
 	"_comment": "Menu",
 	"transaction": "Transaction",
 	"transaction-list": "Transaction list",
+	"document": "Document",
+	"upload-document": "Upload document",
 	
 	"_comment": "Page Create Transaction",
 	"Create transaction": "Create transaction",
@@ -129,5 +133,13 @@
 	"drawdown_success": "Drawdown success",
 	"internal_step": "Internal step",
 	"retriable_transaction": "Retriable transaction",
-	"future_drawdown_success": "Future drawdown success"
+	"future_drawdown_success": "Future drawdown success",
+	
+	"_comment": "Page Upload document",
+	"Upload document": "Upload document",
+	"File type": "File type: ",
+	"File name": "File name: ",
+	"Upload Msg err": "Please select file to upload.",
+	"Upload complete": "Upload complete"
+	
 }

@@ -1,10 +1,10 @@
 var $stateProviderRef = null;
 
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI'])
-    .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig',
-        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig) {
+    .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider',
+        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider) {
     		var version = (new Date()).getTime();
-    		
+    		$logProvider.debugEnabled(true);
     		blockUIConfig.blockBrowserNavigation = true;
       	    blockUIConfig.delay = 500;
       	    blockUIConfig.autoBlock = false;
@@ -80,6 +80,12 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/approve-transaction/approve',
 				params: {transaction: null},
 				resolve: load(['js/app/approve-transactions/approve-transaction-service.js','js/app/approve-transactions/approve-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/upload-document',{
+				url: '/upload-document',
+				controller: 'UploadDocumentController',
+				controllerAs: 'ctrl',
+				templateUrl: '/upload-document',
+				resolve: load(['js/app/upload-document/upload-document-service.js','js/app/upload-document/upload-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
