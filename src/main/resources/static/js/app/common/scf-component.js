@@ -574,33 +574,25 @@
             	scope: {
             		fileUpload: '=',
             		inputTextId: '@',
-            		browseFileId: '@'
+            		browseFileId: '@',
+					acceptFileExtention:'='
             	},
             	link: function(scope, element, attrs){
-            		var inputTextChild = element[0].children[0].children[0].children[0];    
+            		var inputTextChild = element[0].children[0].children[0];
             		scope.$watch('fileUpload', function(){
             			if(!angular.isUndefined(scope.fileUpload)){
             				inputTextChild.value = scope.fileUpload.name || '';
             			}
             		});
-            	},
-//            	template: '<div class="row" style="display:flex;">'
-//            		+'<div class="col-xs-9 col-sm-9 col-md-9" style="padding-right: 5px">'
-//            			+'<scf-input-text id="{{inputTextId}}" readOnly="true"></scf-input-text>'
-//            		+'</div>'
-//            		+'<div class="col-xs-3 col-sm-3 col-md-3" style="display:flex; padding-left: 0; padding-right: 4px">'
-//	            		+'<div class="fileUpload btn">'
-//		    				+'<span>Select</span>'            		
-//		    				+'<input type="file" file-model="fileUpload" id="{{browseFileId}}" class="upload"/>'
-//	    				+'</div>'            		
-//            		+'</div>'
-//            		+'</div>'
-            	
+					scope.$watch('acceptFileExtention', function(){
+						scope.acceptFileExtention = scope.acceptFileExtention || '';
+					});
+            	},            	
             	template: '<div class="input-group">'
 	            			+'<scf-input-text id="{{inputTextId}}" readOnly="true"></scf-input-text>'
 	            			+'<div class="fileUpload btn input-group-addon">'
 			    				+'<span>Select</span>'            		
-			    				+'<input type="file" file-model="fileUpload" id="{{browseFileId}}" class="upload"/>'
+			    				+'<input type="file" accept="{{acceptFileExtention}}" file-model="fileUpload" id="{{browseFileId}}" class="upload"/>'
 		    				+'</div>'
 	            		+'</div>'
      

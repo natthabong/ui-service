@@ -60,6 +60,7 @@
 	"Password Require": "Password is required",
 	"Total": "Total: ",
 	
+	
 	"_comment": "Menu",
 	"transaction": "Transaction",
 	"transaction-list": "Transaction list",
@@ -140,6 +141,7 @@
 	"File type": "File type: ",
 	"File name": "File name: ",
 	"Upload Msg err": "Please select file to upload.",
-	"Upload complete": "Upload complete"
-	
+	"Upload complete": "Upload complete",
+	"File extention error": "File extention incorrect ( {{fileFormat}} )",
+	"Upload filesize err": "Your file size exceeds maximum allowed (10MB)"
 }

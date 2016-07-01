@@ -8,14 +8,14 @@ function UploadDocumentService($http, $q){
 		var deffered = $q.defer();
 		var formData = new FormData();
 		formData.append('file', fileModel.file);
-		formData.append('fileType', fileModel.fileType);
+		formData.append('fileConfigId', fileModel.fileConfigId);
 		$http.post('/api/upload-document/upload', formData, {
 			transformRequest: angular.identity,
 			headers:{'Content-type': undefined}
 		}).then(function(response){
 			deffered.resolve(response);
 		}).catch(function(response){
-			deffered.reject('Upload file fail');
+			deffered.reject(response);
 		});
 		return deffered;
 	}
