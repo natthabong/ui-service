@@ -16,7 +16,7 @@
 				<div class="col-md-12" ng-show="ctrl.showErrorMsg">
 					<div class="alert alert-danger" role="alert">
 						<span id="message-alert-label"
-							ng-bind="ctrl.errorMsgKey | translate"></span>
+							ng-bind="ctrl.errorMsgKey | translate: {fileFormat: ctrl.errorFileFormat}"></span>
 					</div>
 				</div>
 
@@ -28,8 +28,8 @@
 								ng-bind="'File type' | translate"></label>
 							<div class="col-sm-3 col-md-3">
 								<scf-dropdown id="file-type-dropdown"
-									ng-model="ctrl.uploadModel.fileType"
-									component-data="ctrl.fileTypeDropdown"></scf-dropdown>
+									ng-model="ctrl.uploadModel.fileTypeIndex"
+									component-data="ctrl.fileTypeDropdown" ng-change="ctrl.filterExtentionAction()"></scf-dropdown>
 							</div>
 							<div class="col-sm-6 col-md-6"></div>
 						</div>
@@ -39,7 +39,7 @@
 							<div class="col-sm-3 col-md-3">
 								<scf-file-upload browse-file-id="select-button"
 											input-text-id="file-name-textbox"
-											file-upload="ctrl.uploadModel.file"></scf-file-upload>
+											file-upload="ctrl.uploadModel.file" accept-file-extention="ctrl.acceptFileExtention"></scf-file-upload>
 							</div>
 							<div class="col-sm-6 col-md-6">
 								<scf-button type="submit" id="upload-button"

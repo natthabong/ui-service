@@ -181,7 +181,6 @@ function createTransactionService($http, $q) {
 	                deffered.resolve(response);
 	            })
 	            .catch(function(response) {
-	            	console.log(response);
 	                deffered.reject(response);
 	            });
 	        return deffered;
