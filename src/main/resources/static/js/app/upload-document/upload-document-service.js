@@ -19,11 +19,11 @@ function UploadDocumentService($http, $q){
 			deffered.reject(response);
 		});
 		
-//		$http.get('/js/app/upload-document/PartialUploadFailResponse.json').then(function(response){
-//			deffered.resolve(response);
-//		}).catch(function(response){
-//			deffered.reject(response);
-//		});
+// $http.get('/js/app/upload-document/PartialUploadFailResponse.json').then(function(response){
+// deffered.resolve(response);
+// }).catch(function(response){
+// deffered.reject(response);
+// });
 		return deffered;
 	}
 	
@@ -38,10 +38,13 @@ function UploadDocumentService($http, $q){
 		return deffered;
 	}
 	
-	function confirmUpload(){
+	function confirmUpload(uploadConfirmPayload){
 		var deffered = $q.defer();		
-		$http.post('/api/upload-document/confirm-upload')
-		.then(function(response){
+		$http({
+            method: 'POST',
+            url: '/api/upload-document/confirm-import',
+            data: uploadConfirmPayload
+        }).then(function(response){
 			deffered.resolve(response);
 		}).catch(function(response){
 			deffered.reject(response);

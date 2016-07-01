@@ -12,6 +12,8 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
     vm.tableUploadErrorRowCollection = [];
     vm.uploadDocumentDisplayError = [];
     vm.splitePageTxt = '';
+    
+    vm.uploadConfirmPayload = {};
 
     vm.pageSizeList = [{
         label: '10',
@@ -48,9 +50,10 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
         var deffered = UploadDocumentService.getFileType();
         deffered.promise.then(function(response) {
             vm.storeFileTypeDatas = response.data;
-            //Check size of fileType
+            // Check size of fileType
             if (vm.storeFileTypeDatas.length > 0) {
-                //Use index for find position of SponsorIntegrateFileConfig when send to api
+                // Use index for find position of SponsorIntegrateFileConfig
+				// when send to api
                 var index = 0;
                 vm.storeFileTypeDatas.forEach(function(data) {
                     vm.fileTypeDropdown.push({
@@ -59,7 +62,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
                     });
                     index++;
                 });
-                //Initial value to fileType model				
+                // Initial value to fileType model
                 vm.uploadModel.fileTypeIndex = vm.fileTypeDropdown[0].value;
                 vm.acceptFileExtention = getFileExtentions(vm.storeFileTypeDatas[0].fileExtensions);
             }
@@ -106,7 +109,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 
     vm.uploadAction = function() {
         vm.showErrorMsg = false;
-        //Validate Form befor send upload file
+        // Validate Form befor send upload file
         if (validateFileUpload(vm.uploadModel, vm.acceptFileExtention)) {
             var fileTypeConfigObject = vm.getFileTypeByIndex(vm.uploadModel.fileTypeIndex);
             vm.uploadModel.fileConfigId = fileTypeConfigObject.sponsorIntegrateFileConfigId;
@@ -118,8 +121,9 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
                 vm.uploadResult.fileName = uploadResultData.fileName;
                 vm.uploadResult.totalRecords = uploadResultData.totalRecords;
                 vm.uploadResult.totalSuccess = uploadResultData.totalSuccess;
-                vm.uploadResult.totalFail = uploadResultData.totalFail;
+                vm.uploadResult.totalFail = uploadResultData.totalFailed;
 				vm.uploadResult.totalAmountSuccess = uploadResultData.totalAmountSuccess;
+				vm.uploadResult.processNo = uploadResultData.processNo;
 
                 var resultStatus = uploadResultData.status;
                 if (resultStatus == 'SUCCESS') {
@@ -167,13 +171,18 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
     };
 	
 	vm.confirmUpload = function(){
-		var deffered = UploadDocumentService.confirmUpload();
+		
+		vm.uploadConfirmPayload.processNo = vm.uploadResult.processNo;
+		vm.uploadConfirmPayload.totalSuccess = vm.uploadResult.totalSuccess;
+		vm.uploadConfirmPayload.totalFail = vm.uploadResult.totalFail;
+		
+		var deffered = UploadDocumentService.confirmUpload(vm.uploadConfirmPayload);
 		deffered.promise.then(function(response){
 			var uploadResultData = response.data;
                 vm.uploadResult.fileName = uploadResultData.fileName;
                 vm.uploadResult.totalRecords = uploadResultData.totalRecords;
                 vm.uploadResult.totalSuccess = uploadResultData.totalSuccess;
-                vm.uploadResult.totalFail = uploadResultData.totalFail;
+                vm.uploadResult.totalFail = uploadResultData.totalFailed;
                 $scope.showUploadPopUp = true;
 		}).catch(function(response){
 			log.error('Confirm upload fail');
@@ -188,7 +197,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
         } else {
             var fileName = data.file.name;
             var fileSelectExtention = fileName.slice(fileName.lastIndexOf('.'), fileName.length);
-            //Check file extention name exists in acceptFileExtention ?.
+            // Check file extention name exists in acceptFileExtention ?.
             if (acceptFileExtention.search(fileSelectExtention) < 0) {
                 validateResult = false;
                 vm.errorMsgKey = 'File extention error';
