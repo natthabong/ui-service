@@ -1,4 +1,4 @@
-angular.module('scfApp').controller('UploadDocumentController', ['$log', 'UploadDocumentService', '$scope', '$state', '$stateParams', function($log, UploadDocumentService, $scope, $state, $stateParams){
+angular.module('scfApp').controller('UploadDocumentController', ['$log', 'UploadDocumentService', '$scope', '$state', '$stateParams', '$timeout', function($log, UploadDocumentService, $scope, $state, $stateParams, $timeout){
 	var vm = this;
 	var log = $log;
 	vm.errorMsgKey = '';
@@ -42,9 +42,10 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 	vm.getFileType();
 	
 	vm.closeModal = function(){
-		log.debug('close');
-		$state.transitionTo($state.current, $stateParams, {reload: true, inherit: false, notify: false });
-	};
+        $timeout(function(){
+            $state.go('/upload-document', {}, {reload: true});
+        },10);
+    };
 	
 	vm.filterExtentionAction = function(){
 		var fileTypeIndex = vm.uploadModel.fileTypeIndex;
