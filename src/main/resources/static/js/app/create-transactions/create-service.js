@@ -18,10 +18,7 @@ function createTransactionService($http, $q) {
         $http({
         	    url :'api/create-transaction/sponsor-payment-dates/get',
             	method: 'GET',
-            	headers : {
-            		'Content-Type': 'application/x-www-form-urlencoded'
-            	},
-            	data:{
+            	params:{
             		 sponsorId: sponsorId,
                      supplierCode: supplierCode,
                      loanRequestMode: loanRequestMode

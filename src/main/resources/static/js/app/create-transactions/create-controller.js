@@ -13,6 +13,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         // SponsorCode dropdown
         vm.sponsorCodes = [];
         vm.loanRequestMode = 'CURRENT_AND_FUTURE';
+        vm.supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
         
         vm.dashboardParams = $stateParams.dashboardParams;
 
@@ -166,7 +167,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 vm.dataTable.columns = response.items;
                 vm.loanRequestMode = response.loanRequestMode;
                 vm.documentSelection = response.documentSelection;
-                vm.supplierCodeGroupSelection = response.supplierCodeGroupSelection;
+                vm.supplierCodeSelectionMode = response.supplierCodeSelectionMode;
                 vm.loadSupplierCode();
             });
         }
@@ -223,6 +224,13 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             var supplierDeffered = CreateTransactionService.getSupplier(sponsorId);
             supplierDeffered.promise.then(function(response) {
                 vm.supplierCodes = [];
+                if(vm.supplierCodeSelectionMode=='MULTIPLE_PER_TRANSACTION'){
+                	var supplierCode = {
+                        label: 'All',
+                        value: ''
+                    }
+                    vm.supplierCodes.push(supplierCode);
+                }
                 var supplilerCodeList = response.data;
                 if (supplilerCodeList.length > 0) {
                     supplilerCodeList.forEach(function(obj) {
