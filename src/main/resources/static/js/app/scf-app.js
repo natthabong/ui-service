@@ -31,10 +31,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				onEnter: ['CreateTransactionService','$state', function(CreateTransactionService,$state){
 					var deffered = CreateTransactionService.verifyTradingPartner();
 		            deffered.promise.then(function (response) {
-
 		                })
 		                .catch(function (response) {
-		                	console.log(response.data.errorCode);
 		                	 $state.go('/error', {
 		                		 errorCode: response.data.errorCode
 		 	                });
