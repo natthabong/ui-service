@@ -1,7 +1,8 @@
 var createapp = angular.module('scfApp');
-createapp.controller('CreateTransactionController', ['CreateTransactionService', '$state', '$scope', 'TransactionService', 'SCFCommonService', '$stateParams',
-    function (CreateTransactionService, $state, $scope, TransactionService, SCFCommonService, $stateParams) {
+createapp.controller('CreateTransactionController', ['CreateTransactionService', '$state', '$scope', 'TransactionService', 'SCFCommonService', '$stateParams', '$log',
+    function (CreateTransactionService, $state, $scope, TransactionService, SCFCommonService, $stateParams, $log) {
         var vm = this;
+		var log = $log;
         // Initail Data        
         $scope.validateDataFailPopup = false;
         vm.showInfomation = false;
@@ -56,6 +57,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.searchDocument = function (pagingModel) {
             var sponsorCode = vm.createTransactionModel.sponsorCode;
             var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
+			vm.submitTransactionAmount = 0.00;
             vm.checkAllModel = false;
             // validate SponsorPayment Date is Select
             if (validateSponsorPaymentDate(sponsorPaymentDate)) {
