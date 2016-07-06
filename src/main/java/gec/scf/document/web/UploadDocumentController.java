@@ -10,7 +10,7 @@ import gec.scf.util.AjaxUtils;
 @Controller
 @RequestMapping(path="/upload-document")
 public class UploadDocumentController {
-	private static String UPLOAD_DOCUMENT_URL = "/upload-document/upload_document";
+	private static String UPLOAD_DOCUMENT_URL = "upload-document/upload_document";
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String uploadDocument(@RequestHeader("X-Requested-With") String requestedWith){
