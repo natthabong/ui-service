@@ -158,11 +158,14 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         }, {
             field: 'transactionNo',
             label: 'Transaction No',
+            id: 'transaction-{value}-transaction-no-label',
             sortData: true,
             cssTemplate: 'text-center',
         }, {
             field: 'drawdownAmount',
             label: 'Drawdown Amount',
+            idValueField: 'transactionNo',
+            id: 'transaction-{value}-drawdown-amount-label',
             filterType: 'number',
             filterFormat: '2',
             sortData: true,
@@ -170,6 +173,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         }, {
             field: 'interest',
             label: 'Interest',
+            idValueField: 'transactionNo',
+            id: 'transaction-{value}-interest-label',
             sortData: false,
             cssTemplate: 'text-right',
             filterType: 'number',
@@ -178,17 +183,23 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             field: 'fee',
             label: 'Fee',
             sortData: false,
+            idValueField: 'transactionNo',
+            id: 'transaction-{value}-fee-label',
             cssTemplate: 'text-right',
             filterType: 'number',
             filterFormat: '2'
         }, {
             field: 'bankTransactionNo',
             label: 'Bank Transaction No',
+            idValueField: 'transactionNo',
+            id: 'transaction-{value}-bank-transaction-no-label',
             sortData: true,
             cssTemplate: 'text-center'
         }, {
             field: 'repaymentAmount',
             label: 'Repayment Amount',
+            idValueField: 'transactionNo',
+            id: 'transaction-{value}-bank-repayment-amount-label',
             sortData: true,
             cssTemplate: 'text-right',
             filterType: 'number',
@@ -204,6 +215,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             field: 'statusCode',
             label: 'Status',
             sortData: true,
+            idValueField: 'transactionNo',
             id: 'status-{value}',
 			filterType: 'translate',
             cssTemplate: 'text-center',

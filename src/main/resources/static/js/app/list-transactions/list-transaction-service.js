@@ -51,14 +51,11 @@ function ListTransactionServices($http, $q, blockUI){
 
 	function summaryInternalStep(listTransactionModel){
 		var deffered = $q.defer();
-		var summaryInternalBlock = blockUI.instances.get('summary-internal-block');
-		summaryInternalBlock.start();
 		$http({
 			url: 'api/list-transaction/summary-internal-step',
 			method: 'POST',
 			data: listTransactionModel
 		}).then(function(response){
-			summaryInternalBlock.stop();
 			deffered.resolve(response);
 		}).catch(function(response){
 			deffered.reject(response);
