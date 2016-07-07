@@ -124,9 +124,27 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     });
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    log.error(response);
                 });
         }
+		
+		vm.loadDocumentDisplayConfig = function(sponsorId){
+			var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId);
+			return displayConfig;
+		}
+		
+		vm.dataTable = {
+            options: {
+                displayRowNo: {},
+                displaySelect: {
+                    label: '<input type="checkbox" ng-model="createTransactionCtrl.checkAllModel" ng-click="createTransactionCtrl.checkAllDocument()"/>',
+                    cssTemplate: 'text-center',
+                    cellTemplate: '<input type="checkbox" checklist-model="createTransactionCtrl.documentSelects" checklist-value="data" id="document-{{data.documentId}}-checkbox" ng-click="createTransactionCtrl.selectDocument()"/>',
+                    displayPosition: 'first'
+                }
+            },
+            columns: []
+        };
 
         vm.loadSponsor = function () {
             var sponsorDeffered = CreateTransactionService.getSponsor();
@@ -139,7 +157,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                             label: obj.sponsorName,
                             value: obj.sponsorId
                         }
-
                         vm.sponsorCodes.push(selectObj);
                     });
                     //Check action come from page validate and sumbit
@@ -147,9 +164,16 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                         vm.createTransactionModel.sponsorCode = vm.sponsorCodes[0].value;
                     }
                     vm.loadSupplierCode();
+					//Load documentConfig from DB
+					var columnDisplayConfig = vm.loadDocumentDisplayConfig(vm.createTransactionModel.sponsorCode);
+					columnDisplayConfig.promise.then(function(response){
+						vm.dataTable.columns = response;
+					});
+					
+					
                 }
             }).catch(function (response) {
-                console.log(response);
+                log.error(response);
             });
         };
 
@@ -322,54 +346,55 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
         vm.initLoad();
 
-        vm.dataTable = {
-            options: {
-                displayRowNo: {},
-                displaySelect: {
-                    label: '<input type="checkbox" ng-model="createTransactionCtrl.checkAllModel" ng-click="createTransactionCtrl.checkAllDocument()"/>',
-                    cssTemplate: 'text-center',
-                    cellTemplate: '<input type="checkbox" checklist-model="createTransactionCtrl.documentSelects" checklist-value="data" id="document-{{data.documentId}}-checkbox" ng-click="createTransactionCtrl.selectDocument()"/>',
-                    displayPosition: 'first'
-                }
-            },
-            columns: [{
-                field: 'sponsorPaymentDate',
-                label: 'วันครบกำหนดชำระ',
-                sortData: true,
-                cssTemplate: 'text-center',
-                filterType: 'date',
-                filterFormat: 'dd/MM/yyyy'
-            }, {
-                field: 'documentDate',
-                label: 'วันที่เอกสาร',
-                sortData: true,
-                cssTemplate: 'text-center',
-                filterType: 'date',
-                filterFormat: 'dd/MM/yyyy'
-            }, {
-                field: 'documentNo',
-                label: 'เลขที่เอกสาร',
-                sortData: true,
-                cssTemplate: 'text-center',
-            }, {
-                field: 'documentType',
-                label: 'ประเภทเอกสาร',
-                sortData: true,
-                cssTemplate: 'text-center',
-            }, {
-                field: 'supplierCode',
-                label: 'รหัสลูกค้า',
-                sortData: true,
-                cssTemplate: 'text-center'
-            }, {
-                field: 'outstandingAmount',
-                label: 'จำนวนเงินตามเอกสาร',
-                sortData: true,
-                cssTemplate: 'text-right',
-                filterType: 'number',
-                filterFormat: '2'
-            }]
-        };
+//        vm.dataTable = {
+//            options: {
+//                displayRowNo: {},
+//                displaySelect: {
+//                    label: '<input type="checkbox" ng-model="createTransactionCtrl.checkAllModel" ng-click="createTransactionCtrl.checkAllDocument()"/>',
+//                    cssTemplate: 'text-center',
+//                    cellTemplate: '<input type="checkbox" checklist-model="createTransactionCtrl.documentSelects" checklist-value="data" id="document-{{data.documentId}}-checkbox" ng-click="createTransactionCtrl.selectDocument()"/>',
+//                    displayPosition: 'first'
+//                }
+//            },
+//            columns: [{
+//                field: 'sponsorPaymentDate',
+//                label: 'วันครบกำหนดชำระ',
+//                sortData: true,
+//                cssTemplate: 'text-center',
+//                filterType: 'date',
+//                filterFormat: 'dd/MM/yyyy'
+//            }, {
+//                field: 'documentDate',
+//                label: 'วันที่เอกสาร',
+//                sortData: true,
+//                cssTemplate: 'text-center',
+//                filterType: 'date',
+//                filterFormat: 'dd/MM/yyyy'
+//            }, {
+//                field: 'documentNo',
+//                label: 'เลขที่เอกสาร',
+//                sortData: true,
+//                cssTemplate: 'text-center',
+//            }, {
+//                field: 'documentType',
+//                label: 'ประเภทเอกสาร',
+//                sortData: true,
+//                cssTemplate: 'text-center',
+//            }, {
+//                field: 'supplierCode',
+//                label: 'รหัสลูกค้า',
+//                sortData: true,
+//                cssTemplate: 'text-center'
+//            }, {
+//                field: 'outstandingAmount',
+//                label: 'จำนวนเงินตามเอกสาร',
+//                sortData: true,
+//                cssTemplate: 'text-right',
+//                filterType: 'number',
+//                filterFormat: '2'
+//            }]
+//        };
+//		
 
         function validateSponsorPaymentDate(paymentDate) {
             return paymentDate === '' ? false : true;
