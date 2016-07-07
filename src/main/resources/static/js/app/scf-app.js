@@ -38,7 +38,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 		 	                });
 		                });
 				}],
-				controllerAs: 'createTransactionCtrl',				
+				controllerAs: 'ctrl',				
 				templateUrl: '/create-transaction',
                 params: {actionBack: false, transactionModel: null, tradingpartnerInfoModel: null, documentSelects: null},
 				resolve: load(['js/app/create-transactions/create-service.js','js/app/create-transactions/create-controller.js',

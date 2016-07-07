@@ -101,7 +101,7 @@ angular.module('scfApp').service('SCFCommonService', ['$filter', '$http', '$log'
                 sponsorId: sponsorId
             }
         }).success(function(response) {
-            if (response.length === undefined) {
+            if (response.length === 0) {
                 displayConfig = defaultColumDisplay;
             } else {
                 displayConfig = response;

@@ -38,7 +38,6 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			
 			vm.initLoadData = function(){
                 vm.transactionModel = $stateParams.transactionModel;				
-				log.debug('validate and submit:40',$stateParams);
 				if(vm.transactionModel === null){
                     $state.go('/create-transaction');
                 }else{
