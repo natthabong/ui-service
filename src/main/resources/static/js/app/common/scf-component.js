@@ -153,7 +153,8 @@
         }])
         .directive('scfDataTable', ['$compile', '$parse', function($compile, $parse) {
             return {
-                restrict: 'AE',
+                restrict: 'E',
+				priority: 1001,
                 transclude: true,
                 replace: true,
                 scope: true,
@@ -184,9 +185,11 @@
                             vm.pageOptions.recordPerPage = data;
                         }
                     });
-
-                    vm.$watch($attrs.componentConfig, function(dataConfig) {
+					
+                    vm.$watch($attrs.componentConfig,function(dataConfig) {
                         var tableOption = dataConfig.options || {};
+						//Clear value begin add column;
+						vm.tableColumns = [];
                         dataConfig.columns.forEach(function(data) {
                             var rowData = {
                                 field: data['field'],
@@ -225,7 +228,7 @@
                                 vm.tableColumns.push(rowData);
                             }
                         }
-                    });
+                    }, true);
 
                     vm.$watch($attrs.componentDatas, function(data) {
                         vm.componentDatas = data;
