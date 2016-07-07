@@ -23,7 +23,7 @@
                             <div class="form-group">
                                 <label for="sponsor" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Sponsor' | translate}}: </label>
                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                    <scf-dropdown id="sponsor-dropdown" ng-change="createTransactionCtrl.loadSupplierCode()" ng-model="createTransactionCtrl.createTransactionModel.sponsorCode" component-data="createTransactionCtrl.sponsorCodes"></scf-dropdown>
+                                    <scf-dropdown id="sponsor-dropdown" ng-change="createTransactionCtrl.sponsorChange()" ng-model="createTransactionCtrl.createTransactionModel.sponsorCode" component-data="createTransactionCtrl.sponsorCodes"></scf-dropdown>
                                 </div>
                                 <div class="col-md-5 col-sm-5"></div>
                             </div>
