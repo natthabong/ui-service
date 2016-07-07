@@ -3,6 +3,12 @@ angular.module('scfApp').controller(
 		[ 'VerifyTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state',
 				function(VerifyTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state) {
 					var vm = this;
+					vm.dataTable = {
+						options : {
+							displayRowNo : {}
+						},
+						columns : []
+					}
 					vm.errorMessageModel = {
 							errorMessage: '',
 							modifyName: ''
@@ -24,13 +30,19 @@ angular.module('scfApp').controller(
 									
 				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
 				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+				            	  vm.searchDocument();
 				                })
 				                .catch(function (response) {
 				                    console.log('Cannot initial data');
 				                });
+				            
+				          var columnDisplayConfig = vm.loadDocumentDisplayConfig(vm.transactionModel.sponsorId);
+							columnDisplayConfig.promise.then(function(response){
+								vm.dataTable.columns = response;
+						  });
 					}
 					
-					init();
+					
 					vm.pageSizeList = [ {
 						label : '10',
 						value : '10'
@@ -42,49 +54,45 @@ angular.module('scfApp').controller(
 						value : '50'
 					} ];
 					
-					vm.dataTable = {
-						options : {
-							displayRowNo : {}
-						},
-						columns : [ {
-							field : 'sponsorPaymentDate',
-							label : 'วันครบกำหนดชำระ',
-							sortData : false,
-							cssTemplate : 'text-center',
-							filterType : 'date',
-							filterFormat : 'dd/MM/yyyy'
-						}, {
-							field : 'sponsorPaymentDate',
-							label : 'วันที่เอกสาร',
-							sortData : false,
-							cssTemplate : 'text-center',
-							filterType : 'date',
-							filterFormat : 'dd/MM/yyyy'
-						}, {
-							field : 'documentNo',
-							label : 'เลขที่เอกสาร',
-							sortData : false,
-							cssTemplate : 'text-center',
-						}, {
-							field : 'documentType',
-							label : 'ประเภทเอกสาร',
-							sortData : false,
-							cssTemplate : 'text-center',
-						}, {
-							field : 'supplierCode',
-							label : 'รหัสลูกค้า',
-							sortData : false,
-							cssTemplate : 'text-center'
-						}, {
-							field : 'outstandingAmount',
-							label : 'จำนวนเงินตามเอกสาร',
-							sortData : false,
-							cssTemplate : 'text-right',
-							filterType : 'number',
-							filterFormat : '2'
-						} ]
+					vm.loadDocumentDisplayConfig = function(sponsorId){
+						var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId);
+						return displayConfig;
 					}
 					
+					
+					init();
+					
+					vm.searchDocument = function(pagingModel){
+						
+						if(pagingModel === undefined){
+							vm.pageModel = {
+									pageSizeSelectModel : '20',
+									totalRecord : 0,
+									currentPage : 0,
+									totalPage: 1
+								};
+						}else{							
+							vm.pageModel.pageSizeSelectModel = pagingModel.pageSize;
+							vm.pageModel.currentPage = pagingModel.page;
+						}
+						
+						var txnDocCriteria = {
+								transactionId: 	vm.transactionModel.transactionId,
+								page: vm.pageModel.currentPage,
+								pageSize: +vm.pageModel.pageSizeSelectModel
+							}
+						var deffered = VerifyTransactionService.getDocuments(txnDocCriteria);
+						deffered.promise.then(function(response){
+							vm.documentDisplay = response.data.content;
+							vm.pageModel.totalPage = response.data.totalPages;
+							vm.pageModel.totalRecord = response.data.totalElements;
+			                vm.pageModel.currentPage = response.data.number;
+			                vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+						}).catch(function(response){
+							log.error('Cannot load transaction');
+						});
+						
+					}
 					vm.confirmApprove = function(){
 						$scope.showConfirmPopup = true; 
 					}

@@ -1,8 +1,9 @@
 angular.module('scfApp').controller(
 		'ViewTransactionController',
-		[ 'ViewTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state',
-				function(ViewTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state) {
+		[ 'ViewTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state','$log',
+				function(ViewTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state, $log) {
 					var vm = this;
+					var log = $log;
 					$scope.showConfirmPopup = false; 
 					$scope.verifyFailPopup = false;
 					$scope.successPopup = false;
@@ -18,6 +19,14 @@ angular.module('scfApp').controller(
 						};
 					
 					vm.splitePageTxt = '';
+					
+					vm.dataTable = {
+							options : {
+								displayRowNo : {}
+							},
+							columns : []
+						}
+					
 					function init(){
 						if(vm.transactionModel === null){
 							$state.go(SCFCommonService.parentStatePage().getParentState());
@@ -25,7 +34,7 @@ angular.module('scfApp').controller(
 					     var deffered = ViewTransactionService.prepare(vm.transactionModel);
 				            deffered.promise.then(function (response) {
 				            	  vm.transactionModel = angular.extend(response.data,{sponsor: vm.transactionModel.sponsor});
-//				            	  vm.transactionModel = response.data;
+// vm.transactionModel = response.data;
 				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
 				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 								vm.searchDocument();
@@ -33,8 +42,15 @@ angular.module('scfApp').controller(
 				                .catch(function (response) {
 				                    console.log('View Transaction load error');
 				                });
+				            var columnDisplayConfig = vm.loadDocumentDisplayConfig(vm.transactionModel.sponsorId);
+							columnDisplayConfig.promise.then(function(response){
+								vm.dataTable.columns = response;
+						  });
 					}
-					
+					vm.loadDocumentDisplayConfig = function(sponsorId){
+						var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId);
+						return displayConfig;
+					}
 					init();
 					vm.pageSizeList = [ {
 						label : '10',
@@ -49,70 +65,42 @@ angular.module('scfApp').controller(
 
 					
 					
-					vm.dataTable = {
-						options : {
-							displayRowNo : {}
-						},
-						columns : [ {
-							field : 'sponsorPaymentDate',
-							label : 'วันครบกำหนดชำระ',
-							sortData : false,
-							cssTemplate : 'text-center',
-							filterType : 'date',
-							filterFormat : 'dd/MM/yyyy'
-						}, {
-							field : 'documentDate',
-							label : 'วันที่เอกสาร',
-							sortData : false,
-							cssTemplate : 'text-center',
-							filterType : 'date',
-							filterFormat : 'dd/MM/yyyy'
-						}, {
-							field : 'documentNo',
-							label : 'เลขที่เอกสาร',
-							sortData : false,
-							cssTemplate : 'text-center',
-						}, {
-							field : 'documentType',
-							label : 'ประเภทเอกสาร',
-							sortData : false,
-							cssTemplate : 'text-center',
-						}, {
-							field : 'supplierCode',
-							label : 'รหัสลูกค้า',
-							sortData : false,
-							cssTemplate : 'text-center'
-						}, {
-							field : 'outstandingAmount',
-							label : 'จำนวนเงินตามเอกสาร',
-							sortData : false,
-							cssTemplate : 'text-right',
-							filterType : 'number',
-							filterFormat : '2'
-						} ]
-					}
+					
 					
 					vm.back = function(){
 						$state.go(SCFCommonService.parentStatePage().getParentState(), {actionBack: true});	
 					}
 					
 					vm.searchDocument = function(pagingModel){
+						
 						if(pagingModel === undefined){
-							var pagingObject = SCFCommonService.clientPagination(vm.transactionModel.documents,
-																				 vm.pageModel.pageSizeSelectModel,
-																				 vm.pageModel.currentPage);
-							vm.documentDisplay = pagingObject.content;
-							vm.pageModel.totalPage = pagingObject.totalPages;
-							vm.pageModel.totalRecord = vm.transactionModel.documents.length;
-						}else{
-							vm.pageModel.currentPage = pagingModel.page;
+							vm.pageModel = {
+									pageSizeSelectModel : '20',
+									totalRecord : 0,
+									currentPage : 0,
+									totalPage: 1
+								};
+						}else{							
 							vm.pageModel.pageSizeSelectModel = pagingModel.pageSize;
-							var pagingObject = SCFCommonService.clientPagination(vm.transactionModel.documents, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);	
-							vm.documentDisplay = pagingObject.content;
-							vm.pageModel.totalPage = pagingObject.totalPages;
-							vm.pageModel.totalRecord = vm.transactionModel.documents.length;
+							vm.pageModel.currentPage = pagingModel.page;
 						}
-						vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+						
+						var txnDocCriteria = {
+								transactionId: 	vm.transactionModel.transactionId,
+								page: vm.pageModel.currentPage,
+								pageSize: +vm.pageModel.pageSizeSelectModel
+							}
+						var deffered = ViewTransactionService.getDocuments(txnDocCriteria);
+						deffered.promise.then(function(response){
+							vm.documentDisplay = response.data.content;
+							vm.pageModel.totalPage = response.data.totalPages;
+							vm.pageModel.totalRecord = response.data.totalElements;
+			                vm.pageModel.currentPage = response.data.number;
+			                vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+						}).catch(function(response){
+							log.error('Cannot load transaction');
+						});
+						
 					}
 					
 					vm.viewHistory = function(){
