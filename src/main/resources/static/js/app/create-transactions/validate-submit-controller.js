@@ -1,14 +1,16 @@
 var validateandsubmit = angular.module('scfApp');
 validateandsubmit.controller('ValidateAndSubmitController', [
-		'ValidateAndSubmitService', '$state', '$scope', '$window', '$timeout','$stateParams', 'SCFCommonService',
-		function(ValidateAndSubmitService, $state, $scope, $window, $timeout, $stateParams, SCFCommonService) {
+		'ValidateAndSubmitService', '$state', '$scope', '$window', '$timeout','$stateParams', 'SCFCommonService', '$log',
+		function(ValidateAndSubmitService, $state, $scope, $window, $timeout, $stateParams, SCFCommonService, $log) {
 			var vm = this;
+			var log = $log;
 			$scope.validateDataPopup = false;
 			$scope.submitFailPopup = false;
 			$scope.confirmPopup = false;
 			vm.transactionNo = '';
 			//Transaction model after create success
 			vm.transactionModel = {};
+			vm.documentSelects = [];
 			vm.pageSizeList = [ {
 				label : '10',
 				value : '10'
@@ -20,72 +22,45 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 				value : '50'
 			} ];
 			vm.splitePageTxt = '';
+			
 			vm.pageModel = {
 				pageSizeSelectModel : '20',
 				totalRecord : 0,
 				currentPage : 0
 			};
 			
+			vm.dataTable = {
+				options: {
+					displayRowNo: {}
+				},
+				columns : []
+			}
+			
 			vm.initLoadData = function(){
-                vm.transactionModel = $stateParams.transactionModel;
-				
+                vm.transactionModel = $stateParams.transactionModel;				
+				log.debug('validate and submit:40',$stateParams);
 				if(vm.transactionModel === null){
                     $state.go('/create-transaction');
                 }else{
+					vm.getDisplaySponsorConfig(vm.transactionModel.sponsorId);
+					vm.documentSelects = $stateParams.documentSelects;
 					vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
 					vm.valueOfDocument = $stateParams.totalDocumentAmount;
 					vm.pageModel.totalRecord  = vm.transactionModel.documents.length;
 					vm.searchDocument();
                 }
             }
-
-			vm.dataTable = {
-					options: {
-	        			displayRowNo: {}
-					},
-				columns : [
-				            {
-				                field: 'sponsorPaymentDate',
-				                label: 'วันครบกำหนดชำระ',
-				                sortData: false,
-				                cssTemplate: 'text-center',
-				                filterType: 'date',
-				                filterFormat: 'dd/MM/yyyy'
-				            }, {
-				                field: 'documentDate',
-				                label: 'วันที่เอกสาร',
-				                sortData: false,
-				                cssTemplate: 'text-center',
-				                filterType: 'date',
-				                filterFormat: 'dd/MM/yyyy'
-				            }, {
-				                field: 'documentNo',
-				                label: 'เลขที่เอกสาร',
-				                sortData: false,
-				                cssTemplate: 'text-center',
-				            }, {
-				                field: 'documentType',
-				                label: 'ประเภทเอกสาร',
-				                sortData: false,
-				                cssTemplate: 'text-center',
-				            }, {
-				                field: 'supplierCode',
-				                label: 'รหัสลูกค้า',
-				                sortData: false,
-				                cssTemplate: 'text-center'
-				            }, {
-				                field: 'outstandingAmount',
-				                label: 'จำนวนเงินตามเอกสาร',
-				                sortData: false,
-				                cssTemplate: 'text-right',
-				                filterType: 'number',
-				                filterFormat: '2'
-				            }]
-			}
+			
+			vm.getDisplaySponsorConfig = function(sponsorId){
+				var deffered = SCFCommonService.getDocumentDisplayConfig(sponsorId);
+				deffered.promise.then(function(response){
+					vm.dataTable.columns = response;
+				});
+			};
 
 			vm.submitPopup = function(){
 				$scope.confirmPopup = true;
-			}
+			};
 			vm.submitTransaction = function() {
 				var deffered = ValidateAndSubmitService.submitTransaction(vm.transactionModel);
 				 deffered.promise.then(function(response) {
@@ -112,14 +87,14 @@ validateandsubmit.controller('ValidateAndSubmitController', [
             
 			vm.searchDocument = function(pagingModel){
 				if(pagingModel === undefined){
-					var pagingObject = SCFCommonService.clientPagination(vm.transactionModel.documents, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);	
+					var pagingObject = SCFCommonService.clientPagination(vm.documentSelects, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);	
 					vm.documentDisplay = pagingObject.content;
 					vm.pageModel.totalPage = pagingObject.totalPages;
 					vm.pageModel.totalRecord = vm.transactionModel.documents.length;
 				}else{
 					vm.pageModel.currentPage = pagingModel.page;
 					vm.pageModel.pageSizeSelectModel = pagingModel.pageSize;
-					var pagingObject = SCFCommonService.clientPagination(vm.transactionModel.documents, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);	
+					var pagingObject = SCFCommonService.clientPagination(vm.documentSelects, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);	
 					vm.documentDisplay = pagingObject.content;
 					vm.pageModel.totalPage = pagingObject.totalPages;
 					vm.pageModel.totalRecord = vm.transactionModel.documents.length;
