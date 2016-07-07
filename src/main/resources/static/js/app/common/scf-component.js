@@ -6,7 +6,16 @@
             '<p class="input-group">' + '<input type="text" placeholder="dd/MM/yyyy" show-weeks="false" class="form-control" ng-model="textModel" uib-datepicker-popup="{{dateFormat}}" is-open="isOpen" close-text="Close" min-date="minDate" max-date="maxDate"/>' + '<span class="input-group-btn">' + '<button type="button" class="btn btn-default" ng-click="openCalendarAction()">' + '<i class="glyphicon glyphicon-calendar"></i>' + '</button>' + "</span>" + '</p>');
 
         $templateCache.put('ui/template/data_table.html',
-            '<table st-table="componentDatas" class="table table-bordered">' + '<thead><tr><th class="text-center" scf-th="column" ng-repeat="column in tableColumns track by $index"></th>' + '</tr>' + '</thead>' + '<tbody>' + '<tr ng-repeat="data in componentDatas track by $id(data)" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">' + '<td scf-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>' + '</tr>' + '</tbody>' + '</talbe>'
+            '<table st-table="componentDatas" class="table table-bordered">' 
+						   + '<thead><tr><th class="text-center" scf-th="column" ng-repeat="column in tableColumns track by $index"></th>' 
+						   + '</tr>' 
+						   + '</thead>' 
+						   + '<tbody>' 
+						   + '<tr ng-repeat="data in componentDatas track by $id(data)" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">' 
+						   + '<td scf-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>' 
+						   + '</tr>' 
+						   + '</tbody>' 
+						   + '</talbe>'
         );
         $templateCache.put('ui/template/data_table_collapse.html',
             '<table st-table="componentDatas" class="table table-bordered">' + '<thead><tr><th class="text-center" scf-th="column" ng-repeat="column in tableColumns track by $index"></th>' + '</tr>' + '</thead>' + '<tbody>' + '<tr ng-repeat-start="data in componentDatas track by $id(data)" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">' + '<td scf-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>' + '</tr>' + '<tr scf-td-collapes="data" ng-repeat-end ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">' + '<td>' + '</td>' + '</tr>' + '</tbody>' + '</talbe>'
@@ -220,7 +229,8 @@
                                 field: tableOption.displaySelect['field'],
                                 id: tableOption.displaySelect['id'],
                                 label: tableOption.displaySelect['label'],
-                                cellTemplate: tableOption.displaySelect['cellTemplate']
+                                cellTemplate: tableOption.displaySelect['cellTemplate'],
+								idValueField: tableOption.displaySelect['idValueField']
                             };
 
                             if (tableOption.displaySelect['displayPosition'] === 'first') {
@@ -280,10 +290,6 @@
                     var column = scope.$eval(attrs.columnRender);
                     var dataRender = '';
                     var colClass = column.cssTemplate || 'text-center';
-					
-                    if (column.id !== null && column.id !== undefined) {
-                        elements[0].id = addId(data[column.idValueField != null ? column.idValueField: column.field], column.id);
-                    }
 
                     if (column.field === 'no') {
                         elements.addClass(colClass);
@@ -295,12 +301,19 @@
                         dataRender = filterData(column, data);
                     } else {
                         dataRender = data[column.field] || column.cellTemplate;
-                    }
-
+                    }					
                     elements.addClass(colClass);
                     elements.html(dataRender);
                     $compile(elements.contents())(scope);
-
+					
+					if (column.id !== null && column.id !== undefined) {
+						//Check add id is rowNo for checkBox
+						if(column.idValueField === 'template'){
+							elements[0].children[0].id = addId(rowNo, column.id);
+						}else{
+							elements[0].id = addId(data[column.idValueField != null ? column.idValueField: column.field], column.id);
+						}
+                    }
                 });
             }
 
