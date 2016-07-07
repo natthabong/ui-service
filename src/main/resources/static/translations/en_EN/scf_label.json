@@ -129,6 +129,7 @@
     "E1006": "Trading Partner is inactive.",
     "E1007": "Trading Partner is not avaliable.",
     "E1008": "Document has already been modified.",
+    "E1009": "Wrong file format data.",
     
     "drawdown_fail": "Drawdown fail",
 	"drawdown_success": "Drawdown success",
