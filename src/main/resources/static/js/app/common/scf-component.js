@@ -197,7 +197,7 @@
                                 id: data['id'],
                                 label: data['label'],
                                 cellTemplate: data['cellTemplate'],
-                                sortData: data['sortData'],
+                                sortable: data['sortable'],
                                 cssTemplate: data['cssTemplate'],
                                 filterType: data['filterType'],
                                 filterFormat: data['filterFormat']
@@ -214,7 +214,7 @@
                             };
                             vm.tableColumns.splice(0, 0, rowData);
                         };
-                        //Check option set to Show select box
+                        //Check option set to Show checkBox
                         if (tableOption.displaySelect !== undefined) {
                             var rowData = {
                                 field: tableOption.displaySelect['field'],
@@ -250,9 +250,10 @@
             }
 
             function scfLink(scope, elements, attrs) {
+				
                 scope.$watch(attrs.scfTh, function(column) {
                     var htmlText = column.label;
-                    if (column.sortData) {
+                    if (column.sortable) {
                         htmlText = '<span sort by="{{column.field}}" reverse="reverse" order="orders">' + column.label + '</span>';
                     }
                     elements.html(htmlText);
@@ -262,7 +263,8 @@
 
             }
         }])
-        .directive('scfTd', ['$compile', '$filter', function($compile, $filter) {
+        .directive('scfTd', ['$compile', '$filter', '$log', function($compile, $filter, $log) {
+			var log = $log;
             return {
             	scope: false,
                 restrict: 'A',
@@ -278,9 +280,9 @@
                     var column = scope.$eval(attrs.columnRender);
                     var dataRender = '';
                     var colClass = column.cssTemplate || 'text-center';
-
-                    if (column.id !== undefined) {
-                        elements[0].id = addId(data[column.idValueField || column.field], column.id);
+					
+                    if (column.id !== null && column.id !== undefined) {
+                        elements[0].id = addId(data[column.idValueField != null ? column.idValueField: column.field], column.id);
                     }
 
                     if (column.field === 'no') {
@@ -289,7 +291,7 @@
                         return;
                     }
 
-                    if (column.filterType !== undefined) {
+                    if (column.filterType !== undefined && column.filterType !== null) {
                         dataRender = filterData(column, data);
                     } else {
                         dataRender = data[column.field] || column.cellTemplate;

@@ -75,7 +75,6 @@ angular.module('scfApp').service('SCFCommonService', ['$filter', '$http', '$log'
             }
 
             result = $filter('date')(dateTime, 'dd/MM/yyyy', 'UTC+0700');
-            console.log(result);
         }
         return result;
     }

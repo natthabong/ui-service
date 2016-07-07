@@ -168,7 +168,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 					var columnDisplayConfig = vm.loadDocumentDisplayConfig(vm.createTransactionModel.sponsorCode);
 					columnDisplayConfig.promise.then(function(response){
 						vm.dataTable.columns = response;
-						log.debug('create-controller: 171;', vm.dataTable);
 					});
 					
 					
