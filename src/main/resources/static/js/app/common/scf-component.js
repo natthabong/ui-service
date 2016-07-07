@@ -190,6 +190,7 @@
                         dataConfig.columns.forEach(function(data) {
                             var rowData = {
                                 field: data['field'],
+                                idValueField: data['idValueField'],
                                 id: data['id'],
                                 label: data['label'],
                                 cellTemplate: data['cellTemplate'],
@@ -260,6 +261,7 @@
         }])
         .directive('scfTd', ['$compile', '$filter', function($compile, $filter) {
             return {
+            	scope: false,
                 restrict: 'A',
                 replace: true,
                 link: scfLink
@@ -275,7 +277,7 @@
                     var colClass = column.cssTemplate || 'text-center';
 
                     if (column.id !== undefined) {
-                        elements[0].id = addId(data[column.field], column.id);
+                        elements[0].id = addId(data[column.idValueField || column.field], column.id);
                     }
 
                     if (column.field === 'no') {
