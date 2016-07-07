@@ -100,7 +100,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         };
 
         // Load Sponsor paymentDate
-        vm.loadSupplierDate = function() {
+        vm.loadSponsorPaymentDate = function() {
             var sponsorCode = vm.createTransactionModel.sponsorCode;
             var supplierCode = vm.createTransactionModel.supplierCode;
 
@@ -145,9 +145,9 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             options: {
                 displayRowNo: {},
                 displaySelect: {
-                    label: '<input type="checkbox" ng-model="createTransactionCtrl.checkAllModel" ng-click="createTransactionCtrl.checkAllDocument()"/>',
+                    label: '<input type="checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
                     cssTemplate: 'text-center',
-                    cellTemplate: '<input type="checkbox" checklist-model="createTransactionCtrl.documentSelects" checklist-value="data" id="document-{{data.documentId}}-checkbox" ng-click="createTransactionCtrl.selectDocument()"/>',
+                    cellTemplate: '<input type="checkbox" checklist-model="ctrl.documentSelects" checklist-value="data" id="document-{{data.documentId}}-checkbox" ng-click="ctrl.selectDocument()"/>',
                     displayPosition: 'first'
                 }
             },
@@ -198,7 +198,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     if (actionBack === false) {
                         vm.createTransactionModel.supplierCode = vm.supplierCodes[0].value;
                     }
-                    vm.loadSupplierDate();
+                    vm.loadSponsorPaymentDate();
                 }
             }).catch(function(response) {
                 vm.errorMsgPopup = response.data.errorCode;
@@ -212,7 +212,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 vm.errorMsgGroups = 'Please select document.';
                 vm.showErrorMsg = true;
             } else {
-				log.debug('215 createTransactin', vm.documentSelects);
                 var transactionModel = angular.extend(vm.createTransactionModel, {
                     documents: vm.documentSelects,
                     transactionAmount: vm.submitTransactionAmount,
@@ -418,6 +417,21 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             vm.loadDocumentDisplayConfig(vm.createTransactionModel.sponsorCode);
             vm.loadSupplierCode();
         }
+		
+		vm.supplierCodeChange = function(){
+			vm.showInfomation = false;
+            vm.documentSelects = [];
+            vm.checkAllModel = false;
+            vm.splitePageTxt = '';
+			vm.loadSponsorPaymentDate();
+		}
+		
+		vm.paymentDateChange = function(){
+			vm.showInfomation = false;
+            vm.documentSelects = [];
+            vm.checkAllModel = false;
+            vm.splitePageTxt = '';
+		}
 
         function calculateTransactionAmount(documentSelects, prepercentagDrawdown) {
             var sumAmount = 0;
