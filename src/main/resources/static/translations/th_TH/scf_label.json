@@ -128,6 +128,7 @@
     "E1006": "Trading Partner ถูกระงับ",
     "E1007": "ไม่พบ Trading Partner ในระบบ",
     "E1008": "เอกสารมีการ แก้ไข",
+    "E1009": "เอกสารผิด format",
      
 	"drawdown_fail": "ทดสอบ",
 	"drawdown_success": "Drawdown success",
