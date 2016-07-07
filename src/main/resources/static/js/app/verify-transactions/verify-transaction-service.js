@@ -6,7 +6,8 @@ function VerifyTransactionService($http, $q){
 	return {
 		prepare: prepare,
 		approve: approve,
-		reject: reject
+		reject: reject,
+		getDocuments: getDocuments
 	}
 	
 
@@ -49,6 +50,20 @@ function VerifyTransactionService($http, $q){
 		}).catch(function(response){
 			deffered.reject(response);
 		});	
+		return deffered;
+	}
+	
+	function getDocuments(txnDocCriteria){
+		var deffered = $q.defer();
+		$http({
+			url: 'api/transaction-documents/get',
+			method: 'POST',
+			data: txnDocCriteria
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});
 		return deffered;
 	}
 }
