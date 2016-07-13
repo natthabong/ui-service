@@ -1,0 +1,12 @@
+.scf-paging{
+	padding: 0;
+    display: inline-block;
+}
+.scf-paging > li {
+    display: inline-block;
+    /* padding-right: 4px; */
+}
+
+.scf-paging > li > select {
+    height: 29px;
+}

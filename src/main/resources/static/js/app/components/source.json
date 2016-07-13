@@ -1,0 +1,27 @@
+{
+    "data" : {
+        "page":0,
+        "size": 10,
+        "number": 0,
+        "totalElements": 1, 
+        "totalPages": 1, 
+        "content": [{
+                "document_id": "TESTRULE21_001",
+                "document_no": "100021_001",
+                "document_type": "RV",
+                "sponsorPaymentDate": "31/05/2016",
+                "document_date": "31/05/2016",
+                "sponsor_id": 17551,
+                "supplier_id": 17552,
+                "supplier_code": 32001,
+                "document_status": "NEW",
+                "document_amount": 1000,
+                "outstanding_amount": 100000,
+                "created_time": "GETDATE()",
+                "last_modified_time": "GETDATE()",
+                "created_by": "Tesco",
+                "last_modified_by": "Tesco",
+                "version": 1
+            }]
+    }
+}

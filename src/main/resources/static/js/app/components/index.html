@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>My Angular Apssp</title>
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="scfjs.css" />
+    <style>
+        body {
+            color: black;
+        }
+    </style>
+</head>
+
+<body ng-app="scf-ui">
+    <div ng-controller="Controller as ctrl">
+        <div class="row">
+            <div class="col-md-2">
+                <scf-form-label id="transaction-date-label" label="Transaction Date" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <form>
+                    <scf-form-textbox id="first-name-textbox" placeholder="First Name" maxlength="20" required="true" name="firstName"></scf-form-textbox>
+                    <button type="submit">submit</button>
+
+                </form>
+            </div>
+
+            <div class="col-md-12">
+                <form>
+                    <scf-table id="doucment-table" source="source.json" paging="true" show-row-no="true" selectable="true" show-select-all="true" layout-source="layout-source.json" source-params="sponsorId:{{sponsorId}}" layout-source-params="sponsorId:{{sponsorId}},type:create">
+
+                        <button class="btn btn-default">
+                            <i class="fa fa-inbox" aria-hidden="true"></i>{{$index}}</button>
+
+                    </scf-table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="scfjs.js"></script>
+</body>
+
+</html>
