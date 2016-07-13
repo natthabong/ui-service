@@ -35,7 +35,9 @@
 			replace : true,
 			scope : {
 				label : '@',
-				displayColon : '@'
+				displayColon : '@',
+				bold : '@',
+				displayInForm : '@'
 			},
 			link : function(scope, element, attrs, ctrl) {
 				if (scope.displayColon === undefined) {
@@ -43,6 +45,12 @@
 				} else {
 					scope.hasColon = scope.displayColon === 'true';
 				}
+				if (scope.displayInForm === undefined) {
+					scope.isFormItem = true;
+				} else {
+					scope.isFormItem = scope.displayInForm === 'true';
+				}
+				scope.isBold = scope.bold === 'true';
 			},
 			templateUrl : 'js/app/components/templates/form-label.html'
 		};
