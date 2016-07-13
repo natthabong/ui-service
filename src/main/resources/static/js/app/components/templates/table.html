@@ -5,6 +5,8 @@
         </div>
         <div class="col-md-4 text-right" data-ng-show="{{paging}}">
             <span data-ng-bind="pageDisplay" />
+			<scf-pagination number="pageModel.number" size="pageModel.size" total-pages="pageModel.totalPages"></scf-pagination>
+<!--
             <ul class="scf-paging form-inline">
                 <li>
                     <button type="button" class="btn btn-sm btn-default" id="first-page-button"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></button>
@@ -25,6 +27,7 @@
                 </li>
 
             </ul>
+-->
         </div>
     </div>
     <div class="row">
@@ -36,20 +39,18 @@
                             <input type="checkbox" ng-click="createTransactionCtrl.checkAllDocument()" />
                         </th>
                         <th data-ng-show="{{showRowNo}}">No.</th>
-                        <th class="text-center" ng-repeat="column in layoutItems track by $index" data-ng-bind="column.label"></th>
+                        <th class="text-center" scf-th="column" ng-repeat="column in layoutItems track by $index"></th>
+						<th class="text-center" data-ng-show="{{showAction}}">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!--
-        <tr ng-repeat="data in componentDatas track by $id(data)" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">
-            <td scf-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>
-        </tr>
--->
                     <tr ng-repeat="item in dataItems track by $id(item)">
                         <td data-ng-show="{{selectable}}" data-ng-bind="renderNo($index)" />
                         <td data-ng-show="{{showRowNo}}" data-ng-bind="renderNo($index)" />
-                        <td ng-repeat="column in layoutItems" data-ng-bind="item[column.field]" />
-                        <td><actions item="item" ng-transclude=""></actions></td>
+                        <td data-ng-repeat="column in layoutItems" data-ng-bind="item[column.field]" />
+                        <td data-ng-show="{{showAction}}" data-ng-repeat="action in actionSets">
+							<button type="button" class="btn btn-default" id="{{action.id}}-{{$parent.$index}}-button" data-ng-click="action.action(item)"><i class="{{action.icon}}" aria-hidden="true"></i></button>
+						</td>
                     </tr>
                 </tbody>
             </table>
