@@ -1,6 +1,7 @@
 angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore', function(ListTransactionService, $state,$translate, $scope, SCFCommonService, $stateParams, $cookieStore) {
     var vm = this;
     var listStoreKey = 'listrancri';
+    vm.model ={};
     vm.showInfomation = false;
      vm.splitePageTxt = '';
      vm.transactionType = {
@@ -224,12 +225,12 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			label: 'Action',
 			cssTemplate: 'text-center',
 			sortData: false,
-			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!(listTransactionController.verify && (data.statusCode === listTransactionController.statusDocuments.waitForVerify))" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.verifyTransaction(data)"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
-			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!(listTransactionController.approve &&(data.statusCode === listTransactionController.statusDocuments.waitForApprove))" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="listTransactionController.approveTransaction(data)"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
-			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-disabled="!(data.returnStatus === listTransactionController.trasnsactionStatus.book)" ng-click="listTransactionController.printEvidenceFormAction(data)"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="listTransactionController.searchTransaction()"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!(ctrl.verify && (data.statusCode === ctrl.statusDocuments.waitForVerify))" id="transaction-{{data.transactionId}}-verify-button" ng-click="ctrl.verifyTransaction(data)"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
+			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!(ctrl.approve &&(data.statusCode === ctrl.statusDocuments.waitForApprove))" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="ctrl.approveTransaction(data)"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
+			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="ctrl.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" ng-disabled="!(data.returnStatus === ctrl.trasnsactionStatus.book)" ng-click="ctrl.printEvidenceFormAction(data)"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.searchTransaction()"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 		}]
     };
 
