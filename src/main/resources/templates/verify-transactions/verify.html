@@ -44,7 +44,7 @@
 <!-- 											<label ng-bind="'Transaction type' | translate"></label>: -->
 										</div>
 										<div class="col-md-2 col-sm-2">
-											<scf-form-label id="transaction-type-label" label="Loan" display-colon="false"/>
+											<scf-form-label id="loan-label" label="Loan" display-colon="false"/>
 <!-- 											<span id="transaction-type-label">Loan</span> -->
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
@@ -200,19 +200,18 @@
 <!-- 								<label class="col-md-2 control-label"><b -->
 <!-- 									ng-bind="'Transaction amount' | translate"></b>:</label> -->
 								<div class="col-md-9 control-label">
-									<scf-form-label id="validate-transaction-amount-label" label="{{verifyTxnCtrl.transactionModel.transactionAmount | number:2}}" display-colon="false"/>  
-<!-- 									<span id="footer-transaction-amount-label" -->
-<!-- 										ng-bind="verifyTxnCtrl.transactionModel.transactionAmount | number:2"></span> -->
-									<scf-form-label id="thb-label" label="THB" display-colon="false"/>
-<!-- 									&nbsp; <span ng-bind="'THB' | translate"></span> -->
+<!-- 									<scf-form-label id="transaction-amount-data-label" label="{{verifyTxnCtrl.transactionModel.transactionAmount | number:2}}" display-colon="false"/>   -->
+									<span id="footer-transaction-amount-label"
+										ng-bind="verifyTxnCtrl.transactionModel.transactionAmount | number:2"></span>
+<!-- 									<scf-form-label id="thb-label" label="THB" display-colon="false"/> -->
+									&nbsp; <span ng-bind="'THB' | translate"></span>
 								</div>
 									<scf-form-label id="transaction-date-label" label="Transaction date" bold="true" class="col-md-2 control-label"/>
 <!-- 								<label class="col-md-2 control-label"><b -->
 <!-- 									ng-bind="'Transaction date' | translate"></b>:</label> -->
 								<div class="col-md-9 control-label">
-									<scf-form-label id="transaction-date-data-label" label="{{verifyTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'}}" display-colon="false"/>
-<!-- 									<label id="footer-transaction-date-label" ng-bind="verifyTxnCtrl.transactionModel.transactionDate -->
-<!-- 										| date: 'dd/MM/yyyy'"></label> -->
+<!-- 									<scf-form-label id="footer-transaction-date-label" label="{{verifyTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'}}" display-colon="false"/> -->
+									<label id="footer-transaction-date-label" ng-bind="verifyTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy'"></label>
 								</div>
 							</div>
 						</div>
