@@ -1,4 +1,4 @@
-angular.module('scfApp').controller('UploadDocumentController', ['$log', 'UploadDocumentService', '$scope', '$state', '$stateParams', '$timeout', function($log, UploadDocumentService, $scope, $state, $stateParams, $timeout){
+angular.module('scfApp').controller('UploadDocumentController', ['$log', 'UploadDocumentService', '$scope', '$state', '$stateParams', '$timeout', 'PageNavigation', function($log, UploadDocumentService, $scope, $state, $stateParams, $timeout, PageNavigation){
 	var vm = this;
 	var log = $log;
 	vm.errorMsgKey = '';
@@ -43,7 +43,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 	
 	vm.closeModal = function(){
         $timeout(function(){
-            $state.go('/upload-document', {}, {reload: true});
+            PageNavigation.gotoPage('/upload-document')
         },10);
     };
 	

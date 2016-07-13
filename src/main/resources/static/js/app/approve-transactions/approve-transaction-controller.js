@@ -1,6 +1,6 @@
-angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTransactionService', '$stateParams', '$state', '$timeout',
+angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTransactionService', '$stateParams', '$state', '$timeout', 'PageNavigation',
 
-    function($scope, ApproveTransactionService, $stateParams, $state, $timeout) {
+    function($scope, ApproveTransactionService, $stateParams, $state, $timeout, PageNavigation) {
         var vm = this;
         vm.TransactionStatus = {
         		book: 'B'
@@ -57,7 +57,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
         vm.init = function() {
             vm.transactionApproveModel.transaction = $stateParams.transaction;
             if (vm.transactionApproveModel.transaction === null) {
-                $state.go('/transaction-list');
+            	PageNavigation.gotoPreviousPage();
             }else{
 				vm.getTransaction();
 				vm.displayName = $scope.userInfo.displayName;
@@ -68,13 +68,13 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 
         vm.viewHistory = function() {
             $timeout(function() {
-                $state.go('/transaction-list');
+            	PageNavigation.gotoPreviousPage();
             }, 10);
         }
         
         vm.viewRecent= function(){
         	$timeout(function() {
-                $state.go('/view-transaction',{transactionModel: vm.transaction, isShowViewHistoryButton: true});
+        		PageNavigation.gotoPage('/view-transaction', {transactionModel: vm.transaction, isShowViewHistoryButton: true});
             }, 10);
         }
 

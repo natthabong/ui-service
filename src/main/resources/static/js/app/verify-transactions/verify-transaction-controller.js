@@ -1,7 +1,7 @@
 angular.module('scfApp').controller(
 		'VerifyTransactionController',
-		[ 'VerifyTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state',
-				function(VerifyTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state) {
+		[ 'VerifyTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state','PageNavigation',
+				function(VerifyTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state,PageNavigation) {
 					var vm = this;
 					vm.dataTable = {
 						options : {
@@ -134,26 +134,27 @@ angular.module('scfApp').controller(
 					
 					vm.backAndReset = function(){
 						$timeout(function(){
-							$state.go('/transaction-list', {}, { reload: true });
+							PageNavigation.gotoPreviousPage(true);
 						}, 10);
 					}
 
 					vm.backNotReset = function(){
 						$timeout(function(){
-							$state.go('/transaction-list', {actionBack: true});
+							PageNavigation.gotoPreviousPage();
 						}, 10);
 					}
 
 					vm.viewRecent = function(){
 						SCFCommonService.parentStatePage().saveCurrentState('/transaction-list');
 						$timeout(function(){
-		                	$state.go('/view-transaction', {transactionModel: vm.transactionModel, isShowViewHistoryButton:'show', isShowViewHistoryButton: true});
+		                	var params = {transactionModel: vm.transactionModel, isShowViewHistoryButton:'show', isShowViewHistoryButton: true};
+		                	PageNavigation.gotoPage('/view-transaction', params, params);
 		            	}, 10);
 					};
 					
 					vm.viewHistory = function(){
 						$timeout(function(){
-							$state.go('/transaction-list');
+							PageNavigation.gotoPage('/transaction-list');
 						}, 10);
 					};
 				} ]);
