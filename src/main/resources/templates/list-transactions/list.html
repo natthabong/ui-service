@@ -19,10 +19,10 @@
                                 <label for="dateTypeRadio" class="col-md-2 col-sm-3 control-label"></label>
                                 <div class="col-md-9 col-sm-8">
                                     <label class="radio-inline">
-                                        <scf-radio id="transaction-date-type" ng-value="listTransactionController.transactionType.transactionDate" name="date-type-radio" ng-model="listTransactionController.listTransactionModel.dateType"></scf-radio> {{'Transaction date' | translate}}
+                                        <scf-radio id="transaction-date-type" ng-value="ctrl.transactionType.transactionDate" name="date-type-radio" ng-model="ctrl.listTransactionModel.dateType"></scf-radio> {{'Transaction date' | translate}}
                                     </label>
 									<label class="radio-inline">
-                                        <scf-radio id="maturity-date-type" ng-value="listTransactionController.transactionType.maturityDate" name="date-type-radio" ng-model="listTransactionController.listTransactionModel.dateType"></scf-radio> {{'Maturity date' | translate}}
+                                        <scf-radio id="maturity-date-type" ng-value="ctrl.transactionType.maturityDate" name="date-type-radio" ng-model="ctrl.listTransactionModel.dateType"></scf-radio> {{'Maturity date' | translate}}
                                     </label>
                                 </div>                                
                                 <div class="col-md-1 col-sm-1"></div>
@@ -34,22 +34,22 @@
                                     <label for="date-from-calendar" class="control-label">{{'From' | translate}}: </label>
                                     <scf-date-picker-from text-id="date-from-calendar" 
 														  button-id="date-from-calendar-button" 
-														  text-model="listTransactionController.dateModel.dateFrom"
-														  date-format="{{listTransactionController.dateFormat}}" 
-														  is-open="listTransactionController.openDateFrom"
-														  open-calendar-action="listTransactionController.openCalendarDateFrom()"
-														  max-date="listTransactionController.dateModel.dateTo">
+														  text-model="ctrl.dateModel.dateFrom"
+														  date-format="{{ctrl.dateFormat}}" 
+														  is-open="ctrl.openDateFrom"
+														  open-calendar-action="ctrl.openCalendarDateFrom()"
+														  max-date="ctrl.dateModel.dateTo">
 									</scf-date-picker-from>
 
                                 </div>
                                 <div class="col-md-3 col-sm-3 gec-calendar-group">
                                     <label for="date-to-calendar" class="control-label">{{'to' | translate}}: </label>
                                     <scf-date-picker-to text-id="date-to-calendar" button-id="date-to-calendar-button" 
-														text-model="listTransactionController.dateModel.dateTo" 
-														date-format="{{listTransactionController.dateFormat}}" 
-														is-open="listTransactionController.openDateTo" 
-														open-calendar-action="listTransactionController.openCalendarDateTo()" 
-														min-date="listTransactionController.dateModel.dateFrom">
+														text-model="ctrl.dateModel.dateTo" 
+														date-format="{{ctrl.dateFormat}}" 
+														is-open="ctrl.openDateTo" 
+														open-calendar-action="ctrl.openCalendarDateTo()" 
+														min-date="ctrl.dateModel.dateFrom">
 									</scf-date-picker-to>
                                 </div>
                                 <div class="col-md-4 col-sm-3"></div>
@@ -58,7 +58,7 @@
                             <div class="form-group">
                                 <label for="sponsor" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor' | translate}}: </label>
                                 <div class="col-md-5 col-sm-5 col-xs-12">
-                                    <scf-dropdown id="sponsor-dropdown" ng-model="listTransactionController.listTransactionModel.sponsorId" component-data="listTransactionController.sponsorCodeDropdown"></scf-dropdown>
+                                    <scf-dropdown id="sponsor-dropdown" ng-model="ctrl.listTransactionModel.sponsorId" component-data="ctrl.sponsorCodeDropdown"></scf-dropdown>
                                 </div>
                                 <div class="col-md-5 col-sm-4"></div>
                             </div>
@@ -67,7 +67,8 @@
                                 <label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier code' | translate}}: </label>
 
                                 <div class="col-md-2 col-sm-3 col-xs-12">
-                                    <scf-input-text id="supplier-code-textbox" ng-model="listTransactionController.listTransactionModel.supplierCode"></scf-input-text>
+                                	<scf-form-textbox id="supplier-code-textbox" placeholder="Supplier Code" maxlength="20" name="supplierCode"></scf-form-textbox>
+<!--                                     <scf-input-text id="supplier-code-textbox" ng-model="ctrl.listTransactionModel.supplierCode"></scf-input-text> -->
                                 </div>
                                 <div class="col-md-5 col-sm-6"></div>
                             </div>
@@ -76,33 +77,33 @@
                                 <label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status' | translate}}: </label>
 
                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                    <scf-dropdown id="group-transaction-status-dropdown" ng-model="listTransactionController.listTransactionModel.statusGroup" component-data="listTransactionController.transactionStatusGroupDropdown" translate-label="true"></scf-dropdown>
+                                    <scf-dropdown id="group-transaction-status-dropdown" ng-model="ctrl.listTransactionModel.statusGroup" component-data="ctrl.transactionStatusGroupDropdown" translate-label="true"></scf-dropdown>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <scf-button id="search-button" class="btn-default" ng-click="listTransactionController.searchTransaction()">{{'Search' | translate}}</scf-button>
+                                    <scf-button id="search-button" class="btn-default" ng-click="ctrl.searchTransaction()">{{'Search' | translate}}</scf-button>
                                 </div>
                             </div>
 
                         </form>
 
-                        <div ng-show="listTransactionController.showInfomation">
+                        <div ng-show="ctrl.showInfomation">
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 text-right">
                                     <span>
-										<scf-button id="export-button" class="btn-default" ng-click="listTransactionController.exportCSVFile()">{{'Export' | translate}}</scf-button>
+<!-- 										<scf-button id="export-button" class="btn-default" ng-click="ctrl.exportCSVFile()">{{'Export' | translate}}</scf-button> -->
 									</span>
                                 </div>                                             	
                                 <div class="col-md-12 col-sm-12 text-right">
                                     <span>                                              
-										<b ng-bind="listTransactionController.splitePageTxt" id="transaction-paging-label"></b>
+										<b ng-bind="ctrl.splitePageTxt" id="transaction-paging-label"></b>
 
                                         &nbsp;&nbsp;
                                         <scf-pagination dropdown-id="page-limit-dropdown" 
-														page-size-model="listTransactionController.pageModel.pageSizeSelectModel" 
-                                        	total-page="listTransactionController.pageModel.totalPage" 
-                                            current-page="listTransactionController.pageModel.currentPage" 
-                                            page-size-list="listTransactionController.pageSizeList" 
-                                            page-action="listTransactionController.searchTransaction"></scf-pagination>
+														page-size-model="ctrl.pageModel.pageSizeSelectModel" 
+                                        	total-page="ctrl.pageModel.totalPage" 
+                                            current-page="ctrl.pageModel.currentPage" 
+                                            page-size-list="ctrl.pageSizeList" 
+                                            page-action="ctrl.searchTransaction"></scf-pagination>
 									</span>
 
                                 </div>
@@ -111,11 +112,11 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <scf-data-table id="transaction-table"
-													component-config="listTransactionController.dataTable" 
-													component-datas="listTransactionController.tableRowCollection" 
-													current-page="listTransactionController.pageModel.currentPage" 
-													record-per-page="listTransactionController.pageModel.pageSizeSelectModel"
-													clear-sort-order="listTransactionController.pageModel.clearSortOrder"></scf-data-table>
+													component-config="ctrl.dataTable" 
+													component-datas="ctrl.tableRowCollection" 
+													current-page="ctrl.pageModel.currentPage" 
+													record-per-page="ctrl.pageModel.pageSizeSelectModel"
+													clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
                                 </div>
                                 <div id="fixed-bottom" class="col-md-12"></div>
                             </div>
@@ -124,7 +125,7 @@
                     </div>
                 </div>
 
-                <div class="panel-body" ng-show="listTransactionController.showInfomation" block-ui="summary-internal-block">
+                <div class="panel-body" ng-show="ctrl.showInfomation" block-ui="summary-internal-block">
                     <div class="row">
                         <div id="bottom-sticker">
                             <div class="col-md-12 col-sm-12">
@@ -134,10 +135,10 @@
                                         <span ng-bind="'wait_for_verify' | translate">list-transaction-wait-for-verify</span>
                                     </div>
 									<div class="col-md-1 col-sm-2 text-right">
-                                        <span id="wait-for-verify-record-label" ng-bind="listTransactionController.summaryInternalStep.wait_for_verify.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
+                                        <span id="wait-for-verify-record-label" ng-bind="ctrl.summaryInternalStep.wait_for_verify.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
                                     </div>									
 									<div class="col-md-2 col-sm-2 text-right">
-                                        <span id="wait-for-verify-amount-label" ng-bind="listTransactionController.summaryInternalStep.wait_for_verify.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
+                                        <span id="wait-for-verify-amount-label" ng-bind="ctrl.summaryInternalStep.wait_for_verify.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
                                     </div>
 									<div class="col-md-4 col-sm-1"></div>
 								</div>
@@ -150,10 +151,10 @@
                                         <span ng-bind="'wait_for_approve' | translate">list-transaction-wait-for-approve</span>
                                     </div>
 									<div class="col-md-1 col-sm-2 text-right">
-                                        <span id="wait-for-approve-record-label" ng-bind="listTransactionController.summaryInternalStep.wait_for_approve.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
+                                        <span id="wait-for-approve-record-label" ng-bind="ctrl.summaryInternalStep.wait_for_approve.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
                                     </div>									
 									<div class="col-md-2 col-sm-2 text-right">
-                                        <span id="wait-for-approve-amount-label" ng-bind="listTransactionController.summaryInternalStep.wait_for_approve.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
+                                        <span id="wait-for-approve-amount-label" ng-bind="ctrl.summaryInternalStep.wait_for_approve.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
                                     </div>
 									<div class="col-md-4 col-sm-1"></div>
 								</div>
@@ -166,10 +167,10 @@
                                         <span ng-bind="'reject_by_checker' | translate">Reject by Checker</span>
                                     </div>
 									<div class="col-md-1 col-sm-2 text-right">
-                                        <span id="reject-by-checker-record-label" ng-bind="listTransactionController.summaryInternalStep.reject_by_checker.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
+                                        <span id="reject-by-checker-record-label" ng-bind="ctrl.summaryInternalStep.reject_by_checker.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
                                     </div>									
 									<div class="col-md-2 col-sm-2 text-right">
-                                        <span id="reject-by-checker-amount-label" ng-bind="listTransactionController.summaryInternalStep.reject_by_checker.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
+                                        <span id="reject-by-checker-amount-label" ng-bind="ctrl.summaryInternalStep.reject_by_checker.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
                                     </div>
 									<div class="col-md-4 col-sm-1"></div>
 								</div>
@@ -182,10 +183,10 @@
                                         <span ng-bind="'reject_by_approver'  | translate">Reject by Approver</span>
                                     </div>
 									<div class="col-md-1 col-sm-2 text-right">
-                                        <span id="reject-by-approver-record-label" ng-bind="listTransactionController.summaryInternalStep.reject_by_approver.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
+                                        <span id="reject-by-approver-record-label" ng-bind="ctrl.summaryInternalStep.reject_by_approver.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
                                     </div>									
 									<div class="col-md-2 col-sm-2 text-right">
-                                        <span id="reject-by-approver-amount-label" ng-bind="listTransactionController.summaryInternalStep.reject_by_approver.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
+                                        <span id="reject-by-approver-amount-label" ng-bind="ctrl.summaryInternalStep.reject_by_approver.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
                                     </div>
 									<div class="col-md-4 col-sm-1"></div>
 								</div>
@@ -198,10 +199,10 @@
                                         <span ng-bind="'canceled_by_supplier' | translate">Cancel by Supplier</span>
                                     </div>
 									<div class="col-md-1 col-sm-2 text-right">
-                                        <span id="cancel-by-supplier-record-label" ng-bind="listTransactionController.summaryInternalStep.canceled_by_supplier.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
+                                        <span id="cancel-by-supplier-record-label" ng-bind="ctrl.summaryInternalStep.canceled_by_supplier.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
                                     </div>									
 									<div class="col-md-2 col-sm-2 text-right">
-                                        <span id="cancel-by-supplier-amount-label" ng-bind="listTransactionController.summaryInternalStep.canceled_by_supplier.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
+                                        <span id="cancel-by-supplier-amount-label" ng-bind="ctrl.summaryInternalStep.canceled_by_supplier.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
                                     </div>
 									<div class="col-md-4 col-sm-1"></div>
 								</div>
@@ -215,6 +216,6 @@
             </div>
         </div>
     </div>
-	<input type="hidden" ng-init="listTransactionController.verify=true" sec:authorize="hasAuthority('SFP_VERIFY_TRANSACTION')"/>
-	<input type="hidden" ng-init="listTransactionController.approve=true" sec:authorize="hasAuthority('SFP_APPROVE_TRANSACTION')"/>
+	<input type="hidden" ng-init="ctrl.verify=true" sec:authorize="hasAuthority('SFP_VERIFY_TRANSACTION')"/>
+	<input type="hidden" ng-init="ctrl.approve=true" sec:authorize="hasAuthority('SFP_APPROVE_TRANSACTION')"/>
 </div>

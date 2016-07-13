@@ -1,6 +1,6 @@
 var $stateProviderRef = null;
 
-var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI'])
+var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider) {
     		var version = (new Date()).getTime();
@@ -53,10 +53,10 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 			}).state('/transaction-list', {
 				url: '/transaction-list',
 				controller: 'ListTransactionController',
-				controllerAs: 'listTransactionController',
+				controllerAs: 'ctrl',
 				params: {actionBack: false},
 				templateUrl: '/list-transaction',
-				resolve: load(['js/app/list-transactions/list-transaction-service.js', 'js/app/list-transactions/list-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/list-transactions/list-transaction-service.js', 'js/app/list-transactions/list-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css','js/app/components/scfjs.js','js/app/components/scfjs.css'])
 			}).state('/verify-transaction', {
 				url: '/verify-transaction',
 				controller: 'VerifyTransactionController',
