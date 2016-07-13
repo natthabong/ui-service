@@ -2,7 +2,6 @@ module.exports = function(config){
 	config.set({
 		basePath: '',
 		frameworks: ['jasmine'],
-		browsers : ['Chrome'],
 		files: [
 			'target/generated-resources/static/js/angular-bootstrap.js',
 			'target/generated-resources/static/js/angular-mock.js',

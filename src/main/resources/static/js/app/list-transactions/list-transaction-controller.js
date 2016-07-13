@@ -1,4 +1,4 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore', function(ListTransactionService, $state,$translate, $scope, SCFCommonService, $stateParams, $cookieStore) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'PageNavigation' , function(ListTransactionService, $state,$translate, $scope, SCFCommonService, $stateParams, $cookieStore, PageNavigation) {
     var vm = this;
     var listStoreKey = 'listrancri';
     vm.model ={};
@@ -342,7 +342,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	vm.verifyTransaction = function(data){
 		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 		vm.storeCriteria();
-		$state.go('/verify-transaction', {
+		PageNavigation.gotoPage('/verify-transaction', {
             transactionModel: data
         });
 	}
@@ -352,16 +352,17 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		vm.storeCriteria();
 		var isShowBackButton = true;
 		var isShowBackButton = false;
-		$state.go('/view-transaction', {
-            transactionModel: data,
-            isShowViewHistoryButton: false,
-            isShowBackButton: true
-        });
+		
+		var params = { transactionModel: data,
+	            isShowViewHistoryButton: false,
+	            isShowBackButton: true
+	        }
+		PageNavigation.gotoPage('/view-transaction',params,params)
 	}
 	
 	 vm.initLoad = function() {
-		var actionBack = $stateParams.actionBack;
-		if(actionBack === true){
+		var backAction = $stateParams.backAction;
+		if(backAction === true){
 			vm.listTransactionModel = $cookieStore.get(listStoreKey);
 			vm.dateModel.dateFrom = convertStringTodate(vm.listTransactionModel.dateFrom);
 			vm.dateModel.dateTo = convertStringTodate(vm.listTransactionModel.dateTo);			
@@ -376,9 +377,10 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	vm.loadTransactionGroup();
 	
 	vm.approveTransaction = function(data){
-		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+//		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 		vm.storeCriteria();
-		$state.go('/approve-transaction/approve', {transaction: data});
+		var params = {transaction: data};
+		PageNavigation.gotoPage('/approve-transaction/approve',params,params)
 	}
 	
 	vm.printEvidenceFormAction = function(data){    	

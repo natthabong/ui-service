@@ -1,14 +1,14 @@
 var validateandsubmit = angular.module('scfApp');
 validateandsubmit.controller('ValidateAndSubmitController', [
-		'ValidateAndSubmitService', '$state', '$scope', '$window', '$timeout','$stateParams', 'SCFCommonService', '$log',
-		function(ValidateAndSubmitService, $state, $scope, $window, $timeout, $stateParams, SCFCommonService, $log) {
+		'ValidateAndSubmitService', '$state', '$scope', '$window', '$timeout','$stateParams', 'SCFCommonService', '$log', 'PageNavigation',
+		function(ValidateAndSubmitService, $state, $scope, $window, $timeout, $stateParams, SCFCommonService, $log, PageNavigation) {
 			var vm = this;
 			var log = $log;
 			$scope.validateDataPopup = false;
 			$scope.submitFailPopup = false;
 			$scope.confirmPopup = false;
 			vm.transactionNo = '';
-			//Transaction model after create success
+			// Transaction model after create success
 			vm.transactionModel = {};
 			vm.documentSelects = [];
 			vm.pageSizeList = [ {
@@ -39,7 +39,7 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			vm.initLoadData = function(){
                 vm.transactionModel = $stateParams.transactionModel;				
 				if(vm.transactionModel === null){
-                    $state.go('/create-transaction');
+					PageNavigation.backStep();
                 }else{
 					vm.getDisplaySponsorConfig(vm.transactionModel.sponsorId);
 					vm.documentSelects = $stateParams.documentSelects;
@@ -74,16 +74,15 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			};
 			vm.createNewAction = function(){
 				$timeout(function(){
-					$state.go(SCFCommonService.parentStatePage().getParentState());
+					PageNavigation.backStep(true);
 				}, 10);
 			};
 			
             vm.backToCreate = function(){
             	$timeout(function(){
-                $state.go(SCFCommonService.parentStatePage().getParentState(), {actionBack: true, transactionModel: vm.transactionModel, tradingpartnerInfoModel: vm.tradingpartnerInfoModel, documentSelects: $stateParams.documentSelects});
+            		PageNavigation.backStep();
             	}, 10);
             };
-            
 			vm.searchDocument = function(pagingModel){
 				if(pagingModel === undefined){
 					var pagingObject = SCFCommonService.clientPagination(vm.documentSelects, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);	
@@ -105,14 +104,14 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			
 			vm.viewRecent = function(){
 				
-				$timeout(function(){					
-                	$state.go('/view-transaction', {transactionModel: vm.transactionModel, isShowViewHistoryButton: true});
+				$timeout(function(){		
+					PageNavigation.gotoPage('/view-transaction', {transactionModel: vm.transactionModel, isShowViewHistoryButton: true});
             	}, 10);
 			};
 			
 			vm.viewHistory = function(){
 				$timeout(function(){
-					$state.go('/transaction-list');
+					PageNavigation.gotoPage('/transaction-list');
 				}, 10);
 			};
 		} ]);

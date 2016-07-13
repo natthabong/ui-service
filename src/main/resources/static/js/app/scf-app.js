@@ -40,7 +40,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				}],
 				controllerAs: 'ctrl',				
 				templateUrl: '/create-transaction',
-                params: {actionBack: false, transactionModel: null, tradingpartnerInfoModel: null, documentSelects: null},
+                params: {backAction: false, transactionModel: null, tradingpartnerInfoModel: null, documentSelects: null},
 				resolve: load(['js/app/create-transactions/create-service.js','js/app/create-transactions/create-controller.js',
 				               'js/app/common/scf-component.js', 'js/app/create-transactions/transaction-service.js'])
 			}).state('/create-transaction/validate-submit', {
@@ -54,9 +54,9 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/transaction-list',
 				controller: 'ListTransactionController',
 				controllerAs: 'ctrl',
-				params: {actionBack: false},
+				params: {backAction: false},
 				templateUrl: '/list-transaction',
-				resolve: load(['js/app/list-transactions/list-transaction-service.js', 'js/app/list-transactions/list-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css','js/app/components/scfjs.js','js/app/components/scfjs.css'])
+				resolve: load(['js/app/list-transactions/list-transaction-service.js', 'js/app/list-transactions/list-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/verify-transaction', {
 				url: '/verify-transaction',
 				controller: 'VerifyTransactionController',
@@ -69,7 +69,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'ViewTransactionController',
 				controllerAs: 'viewTxnCtrl',
 				templateUrl: '/view-transaction',
-				params: { transactionModel: null, listTransactionModel: null, actionBack: false, isShowBackButton: false, isShowBackButton: false, isShowViewHistoryButton: false},
+				params: { transactionModel: null, listTransactionModel: null, backAction: false, isShowBackButton: false, isShowBackButton: false, isShowViewHistoryButton: false},
 				resolve: load(['js/app/view-transactions/view-transaction-service.js', 'js/app/view-transactions/view-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/approve-transaction/approve',{
 				url: '/approve-transaction/approve',

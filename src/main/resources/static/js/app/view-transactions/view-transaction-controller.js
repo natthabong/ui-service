@@ -1,7 +1,7 @@
 angular.module('scfApp').controller(
 		'ViewTransactionController',
-		[ 'ViewTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state','$log',
-				function(ViewTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state, $log) {
+		[ 'ViewTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state','$log', 'PageNavigation',
+				function(ViewTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state, $log, PageNavigation) {
 					var vm = this;
 					var log = $log;
 					$scope.showConfirmPopup = false; 
@@ -29,7 +29,7 @@ angular.module('scfApp').controller(
 					
 					function init(){
 						if(vm.transactionModel === null){
-							$state.go(SCFCommonService.parentStatePage().getParentState());
+							PageNavigation.gotoPreviousPage();
 						}
 					     var deffered = ViewTransactionService.prepare(vm.transactionModel);
 				            deffered.promise.then(function (response) {
@@ -68,7 +68,7 @@ angular.module('scfApp').controller(
 					
 					
 					vm.back = function(){
-						$state.go(SCFCommonService.parentStatePage().getParentState(), {actionBack: true});	
+						PageNavigation.gotoPreviousPage();
 					}
 					
 					vm.searchDocument = function(pagingModel){
@@ -105,7 +105,7 @@ angular.module('scfApp').controller(
 					
 					vm.viewHistory = function(){
 						$timeout(function(){
-							$state.go('/transaction-list');
+							PageNavigation.gotoPage('/transaction-list');
 						}, 10);
 					};
 
