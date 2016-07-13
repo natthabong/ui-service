@@ -1,8 +1,9 @@
 var $stateProviderRef = null;
 
-var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI'])
+var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider',
-        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider, $compileProvider) {
+        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider) {
+
     		var version = (new Date()).getTime();
 			$compileProvider.debugInfoEnabled(false);
     		$logProvider.debugEnabled(true);
@@ -41,7 +42,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				}],
 				controllerAs: 'ctrl',				
 				templateUrl: '/create-transaction',
-                params: {actionBack: false, transactionModel: null, tradingpartnerInfoModel: null, documentSelects: null},
+                params: {backAction: false, transactionModel: null, tradingpartnerInfoModel: null, documentSelects: null},
 				resolve: load(['js/app/create-transactions/create-service.js','js/app/create-transactions/create-controller.js',
 				               'js/app/common/scf-component.js', 'js/app/create-transactions/transaction-service.js'])
 			}).state('/create-transaction/validate-submit', {
@@ -54,8 +55,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 			}).state('/transaction-list', {
 				url: '/transaction-list',
 				controller: 'ListTransactionController',
-				controllerAs: 'listTransactionController',
-				params: {actionBack: false},
+				controllerAs: 'ctrl',
+				params: {backAction: false},
 				templateUrl: '/list-transaction',
 				resolve: load(['js/app/list-transactions/list-transaction-service.js', 'js/app/list-transactions/list-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/verify-transaction', {
@@ -70,7 +71,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'ViewTransactionController',
 				controllerAs: 'viewTxnCtrl',
 				templateUrl: '/view-transaction',
-				params: { transactionModel: null, listTransactionModel: null, actionBack: false, isShowBackButton: false, isShowBackButton: false, isShowViewHistoryButton: false},
+				params: { transactionModel: null, listTransactionModel: null, backAction: false, isShowBackButton: false, isShowBackButton: false, isShowViewHistoryButton: false},
 				resolve: load(['js/app/view-transactions/view-transaction-service.js', 'js/app/view-transactions/view-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/approve-transaction/approve',{
 				url: '/approve-transaction/approve',

@@ -1,6 +1,6 @@
 var createapp = angular.module('scfApp');
-createapp.controller('CreateTransactionController', ['CreateTransactionService', '$state', '$scope', 'TransactionService', 'SCFCommonService', '$stateParams', '$log',
-    function(CreateTransactionService, $state, $scope, TransactionService, SCFCommonService, $stateParams, $log) {
+createapp.controller('CreateTransactionController', ['CreateTransactionService', '$state', '$scope', 'TransactionService', 'SCFCommonService', '$stateParams', '$log','PageNavigation',
+    function(CreateTransactionService, $state, $scope, TransactionService, SCFCommonService, $stateParams, $log, PageNavigation) {
         var vm = this;
         var log = $log;
         // Initail Data        
@@ -25,7 +25,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             vm.submitTransactionAmount = 0.00;
         }
         vm.initValueDefault();
-        var actionBack = $stateParams.actionBack;
+        var backAction = $stateParams.backAction || false;
+        log.debug(backAction);
         // End Data Sponsor
         // Model for transaction
         vm.createTransactionModel = {
@@ -69,8 +70,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             if (validateSponsorPaymentDate(sponsorPaymentDate)) {
                 if (pagingModel === undefined) {
                     // Clear list document selected
-                    //Clear list document when actionBack is false
-                    if (actionBack === false) {
+                    //Clear list document when backAction is false
+                    if (backAction === false) {
                         vm.documentSelects = [];
                     }
                     vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
@@ -111,12 +112,12 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
             // Reset SponsorPaymentDate of User selected
             //Check action come from page validate and sumbit
-            if (actionBack === false) {
+            if (backAction === false) {
                 vm.createTransactionModel.sponsorPaymentDate = vm.sponsorPaymentDates[0].value;
             }
 
             //reset actionBank is false
-            actionBack = false;
+            backAction = false;
 
             var deffered = CreateTransactionService.getSponsorPaymentDate(sponsorCode, supplierCode);
             deffered.promise.then(function(response) {
@@ -170,7 +171,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                         vm.sponsorCodes.push(selectObj);
                     });
                     //Check action come from page validate and sumbit
-                    if (actionBack === false) {
+                    if (backAction === false) {
                         vm.createTransactionModel.sponsorCode = vm.sponsorCodes[0].value;
                     }
                     vm.loadSupplierCode();
@@ -197,7 +198,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                         vm.supplierCodes.push(supplierCode);
                     });
                     //Check action come from page validate and sumbit
-                    if (actionBack === false) {
+                    if (backAction === false) {
                         vm.createTransactionModel.supplierCode = vm.supplierCodes[0].value;
                     }
                     vm.loadSponsorPaymentDate();
@@ -238,7 +239,12 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     });
                     var transaction = response.data;
                     SCFCommonService.parentStatePage().saveCurrentState('/create-transaction');
-                    $state.go('/create-transaction/validate-submit', {
+                    PageNavigation.nextStep('/create-transaction/validate-submit', {
+                        transactionModel: transaction,
+                        totalDocumentAmount: vm.totalDocumentAmount,
+                        tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
+                        documentSelects: vm.documentSelects
+                    },{
                         transactionModel: transaction,
                         totalDocumentAmount: vm.totalDocumentAmount,
                         tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
@@ -270,7 +276,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     });
 
                     //Check action come from page validate and sumbit
-                    if (actionBack === false) {
+                    if (backAction === false) {
                         // set select default value
                         vm.createTransactionModel.transactionDate = vm.transactionDates[0].value;
                     }
@@ -323,8 +329,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         }
 
         vm.initLoad = function() {
-            if ($stateParams.actionBack === true) {
-                actionBack = true;
+            if ($stateParams.backAction === true) {
+                backAction = true;
                 var tradingPartnerInfo = $stateParams.tradingpartnerInfoModel;
                 if (tradingPartnerInfo !== null) {
 
@@ -342,7 +348,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     vm.searchDocument();
                     calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
                 } else {
-                    actionBack = false;
+                    backAction = false;
                 }
             }
             vm.loadSponsor();

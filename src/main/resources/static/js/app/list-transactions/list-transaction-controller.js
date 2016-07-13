@@ -1,6 +1,7 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore', function(ListTransactionService, $state,$translate, $scope, SCFCommonService, $stateParams, $cookieStore) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'PageNavigation' , function(ListTransactionService, $state,$translate, $scope, SCFCommonService, $stateParams, $cookieStore, PageNavigation) {
     var vm = this;
     var listStoreKey = 'listrancri';
+    vm.model ={};
     vm.showInfomation = false;
      vm.splitePageTxt = '';
      vm.transactionType = {
@@ -224,12 +225,12 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			label: 'Action',
 			cssTemplate: 'text-center',
 			sortData: false,
-			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!(listTransactionController.verify && (data.statusCode === listTransactionController.statusDocuments.waitForVerify))" id="transaction-{{data.transactionId}}-verify-button" ng-click="listTransactionController.verifyTransaction(data)"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
-			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!(listTransactionController.approve &&(data.statusCode === listTransactionController.statusDocuments.waitForApprove))" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="listTransactionController.approveTransaction(data)"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
-			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="listTransactionController.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="listTransactionController.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-disabled="!(data.returnStatus === listTransactionController.trasnsactionStatus.book)" ng-click="listTransactionController.printEvidenceFormAction(data)"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="listTransactionController.searchTransaction()"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!(ctrl.verify && (data.statusCode === ctrl.statusDocuments.waitForVerify))" id="transaction-{{data.transactionId}}-verify-button" ng-click="ctrl.verifyTransaction(data)"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
+			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!(ctrl.approve &&(data.statusCode === ctrl.statusDocuments.waitForApprove))" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="ctrl.approveTransaction(data)"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
+			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="ctrl.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" ng-disabled="!(data.returnStatus === ctrl.trasnsactionStatus.book)" ng-click="ctrl.printEvidenceFormAction(data)"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.searchTransaction()"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 		}]
     };
 
@@ -341,7 +342,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	vm.verifyTransaction = function(data){
 		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 		vm.storeCriteria();
-		$state.go('/verify-transaction', {
+		PageNavigation.gotoPage('/verify-transaction', {
             transactionModel: data
         });
 	}
@@ -351,16 +352,17 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		vm.storeCriteria();
 		var isShowBackButton = true;
 		var isShowBackButton = false;
-		$state.go('/view-transaction', {
-            transactionModel: data,
-            isShowViewHistoryButton: false,
-            isShowBackButton: true
-        });
+		
+		var params = { transactionModel: data,
+	            isShowViewHistoryButton: false,
+	            isShowBackButton: true
+	        }
+		PageNavigation.gotoPage('/view-transaction',params,params)
 	}
 	
 	 vm.initLoad = function() {
-		var actionBack = $stateParams.actionBack;
-		if(actionBack === true){
+		var backAction = $stateParams.backAction;
+		if(backAction === true){
 			vm.listTransactionModel = $cookieStore.get(listStoreKey);
 			vm.dateModel.dateFrom = convertStringTodate(vm.listTransactionModel.dateFrom);
 			vm.dateModel.dateTo = convertStringTodate(vm.listTransactionModel.dateTo);			
@@ -375,9 +377,10 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	vm.loadTransactionGroup();
 	
 	vm.approveTransaction = function(data){
-		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+//		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 		vm.storeCriteria();
-		$state.go('/approve-transaction/approve', {transaction: data});
+		var params = {transaction: data};
+		PageNavigation.gotoPage('/approve-transaction/approve',params,params)
 	}
 	
 	vm.printEvidenceFormAction = function(data){    	
