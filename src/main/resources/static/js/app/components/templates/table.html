@@ -1,0 +1,58 @@
+<div>
+    <div class="row">
+        <div class="col-md-8 text-left">
+            <span data-ng-show="{{selectable}}"></span>
+        </div>
+        <div class="col-md-4 text-right" data-ng-show="{{paging}}">
+            <span data-ng-bind="pageDisplay" />
+            <ul class="scf-paging form-inline">
+                <li>
+                    <button type="button" class="btn btn-sm btn-default" id="first-page-button"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-sm btn-default" id="back-page-button"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></button>
+                </li>
+                <li>
+                    <select>
+                        <option data-ng-repeat="item in pageItems track by $index" value="{{item.value}}">{{item.label}}</option>
+                    </select>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-default btn-sm" id="next-page-button"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-default btn-sm" id="last-page-button"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th data-ng-show="{{selectable}}">
+                            <input type="checkbox" ng-click="createTransactionCtrl.checkAllDocument()" />
+                        </th>
+                        <th data-ng-show="{{showRowNo}}">No.</th>
+                        <th class="text-center" ng-repeat="column in layoutItems track by $index" data-ng-bind="column.label"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--
+        <tr ng-repeat="data in componentDatas track by $id(data)" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">
+            <td scf-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>
+        </tr>
+-->
+                    <tr ng-repeat="item in dataItems track by $id(item)">
+                        <td data-ng-show="{{selectable}}" data-ng-bind="renderNo($index)" />
+                        <td data-ng-show="{{showRowNo}}" data-ng-bind="renderNo($index)" />
+                        <td ng-repeat="column in layoutItems" data-ng-bind="item[column.field]" />
+                        <td><actions item="item" ng-transclude=""></actions></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
