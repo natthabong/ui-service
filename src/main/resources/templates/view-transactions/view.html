@@ -17,138 +17,172 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Sponsor' | translate"></label>:
+                                        	<scf-form-label id="sponsor-label" label="Sponsor"/>
+<!--                                             <label ng-bind="'Sponsor' | translate"></label>: -->
                                         </div>
                                         <div class="col-md-9 col-sm-9">
-                                            <span id="sponsor-label" ng-bind="viewTxnCtrl.transactionModel.sponsor"></span>
+                                        	<scf-form-label id="sponsor-data-label" label="{{viewTxnCtrl.transactionModel.sponsor}}" display-colon="false"/>
+<!--                                             <span id="sponsor-label" ng-bind="viewTxnCtrl.transactionModel.sponsor"></span> -->
                                         </div>
 
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Financing documents' | translate"></label>:
+                                        	<scf-form-label id="financing-documents-label" label="Financing documents"/>
+<!--                                             <label ng-bind="'Financing documents' | translate"></label>: -->
                                         </div>
                                         <div class="col-md-2 col-sm-2 text-right">
-                                            <span id="financing-document-label" ng-bind="viewTxnCtrl.transactionModel.documents.length"></span>
+                                        	<scf-form-label id="financing-documents-data-label" label="{{viewTxnCtrl.transactionModel.documents.length}}" display-colon="false"/>
+<!--                                             <span id="financing-document-label" ng-bind="viewTxnCtrl.transactionModel.documents.length"></span> -->
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
 
                                         <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Transaction type' | translate"></label>:
+                                        	<scf-form-label id="transaction-type-label" label="Transaction type"/>
+<!--                                             <label ng-bind="'Transaction type' | translate"></label>: -->
                                         </div>
                                         <div class="col-md-2 col-sm-2">
-                                            <span id="transaction-type-label">Loan</span>
+                                        	<scf-form-label id="loan-label" label="Loan" display-colon="false"/>
+<!--                                             <span id="transaction-type-label">Loan</span> -->
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Value of document' | translate"></label>:
+                                        	<scf-form-label id="value-of-document-label" label="Value of document"/>
+<!--                                             <label ng-bind="'Value of document' | translate"></label>: -->
                                         </div>
                                         <div class="col-md-2 col-sm-2 text-right">
-                                            <span id="value-of-document-label" ng-bind="viewTxnCtrl.transactionModel.valueOfDocument | number:2"></span>
+                                        	<scf-form-label id="value-of-document-data-label" label="{{viewTxnCtrl.transactionModel.valueOfDocument | number:2}}" display-colon="false"/>
+<!--                                             <span id="value-of-document-label" ng-bind="viewTxnCtrl.transactionModel.valueOfDocument | number:2"></span> -->
                                         </div>
                                         <div class="col-md-1 col-sm-1">
-                                            <span ng-bind="'THB' | translate"></span>
+                                        	<scf-form-label id="thb-label" label="THB" display-colon="false"/>
+<!--                                             <span ng-bind="'THB' | translate"></span> -->
                                         </div>
                                         <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Sponsor payment date' | translate"></label>:
+                                        	<scf-form-label id="sponsor-payment-date-label" label="Sponsor payment date"/>
+<!--                                             <label ng-bind="'Sponsor payment date' | translate"></label>: -->
                                         </div>
                                         <div class="col-md-2 col-sm-2">
-                                            <span id="sponsor-payment-date-label" ng-bind="viewTxnCtrl.transactionModel.sponsorPaymentDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+                                        	<scf-form-label id="sponsor-payment-date-label" label="{{viewTxnCtrl.transactionModel.sponsorPaymentDate | date: 'dd/MM/yyyy' : 'UTC+0700'}}" display-colon="false"/>
+<!--                                             <span id="sponsor-payment-date-label" ng-bind="viewTxnCtrl.transactionModel.sponsorPaymentDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span> -->
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Pre-drawdown percentage' | translate"></label>:
+                                        	<scf-form-label id="pre-drawdown-percentage-label" label="Pre-drawdown percentage"/>
+<!--                                             <label ng-bind="'Pre-drawdown percentage' | translate"></label>: -->
                                         </div>
                                         <div class="col-md-2 col-sm-2 text-right">
-                                            <span id="predrawdown-percentage-label" ng-bind="viewTxnCtrl.transactionModel.prePercentageDrawdown | number:2"></span>%
+                                        	<scf-form-label id="pre-drawdown-percentage-data-label" label="{{viewTxnCtrl.transactionModel.prePercentageDrawdown | number:2}}" display-colon="false"/>%
+<!--                                             <span id="predrawdown-percentage-label" ng-bind="viewTxnCtrl.transactionModel.prePercentageDrawdown | number:2"></span>% -->
                                         </div>
                                         <div class="col-md-1 col-sm-1">
                                             <span></span>
                                         </div>
                                         <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Transaction date' | translate"></label>:
+                                        	<scf-form-label id="transaction-date-label" label="Transaction date"/>
+<!--                                             <label ng-bind="'Transaction date' | translate"></label>: -->
                                         </div>
                                         <div class="col-md-2 col-sm-2">
-                                            <span id="transaction-date-label" ng-bind="viewTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+                                        	<scf-form-label id="transaction-date-data-label" label="{{viewTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'}}" display-colon="false"/>
+<!--                                             <span id="transaction-date-label" ng-bind="viewTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span> -->
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Transaction amount' |translate"></label>:
+                                        	<scf-form-label id="transaction-amount-label" label="Transaction amount"/>
+<!--                                             <label ng-bind="'Transaction amount' |translate"></label>: -->
                                         </div>
                                         <div class="col-md-2 col-sm-2 text-right">
-                                            <span id="transaction-amount-label" ng-bind="viewTxnCtrl.transactionModel.transactionAmount | number:2"></span>
+                                        	<scf-form-label id="transaction-amount-data-label" label="{{viewTxnCtrl.transactionModel.transactionAmount | number:2}}" display-colon="false"/>
+<!--                                             <span id="transaction-amount-label" ng-bind="viewTxnCtrl.transactionModel.transactionAmount | number:2"></span> -->
                                         </div>
                                         <div class="col-md-1 col-sm-1">
-                                            <span ng-bind="'THB' | translate"></span>
+                                        	<scf-form-label id="thb-label" label="THB" display-colon="false"/>
+<!--                                             <span ng-bind="'THB' | translate"></span> -->
                                         </div>
                                         <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Loan maturity date' | translate"></label>:
+                                        	<scf-form-label id="loan-maturity-date-label" label="Loan maturity date"/>
+<!--                                             <label ng-bind="'Loan maturity date' | translate"></label>: -->
                                         </div>
                                         <div class="col-md-2 col-sm-2">
-                                            <span id="loan-matuality-label" ng-bind="viewTxnCtrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+                                        	<scf-form-label id="loan-matuality-date-data-label" label="{{viewTxnCtrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'}}" display-colon="false"/>
+<!--                                             <span id="loan-matuality-label" ng-bind="viewTxnCtrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span> -->
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2 col-sm-2">
-                                            <label ng-bind="'Create by' |translate"></label>:
+                                        	<scf-form-label id="create-by-label" label="Create by"/>
+<!--                                             <label ng-bind="'Create by' |translate"></label>: -->
                                         </div>
                                         <div class="col-md-3 col-sm-3 text-right">
-                                            <span id="create-by-label" ng-bind="viewTxnCtrl.transactionModel.createdBy"></span>
+                                        	<scf-form-label id="create-by-data-label" label="{{viewTxnCtrl.transactionModel.createdBy}}" display-colon="false"/>
+<!--                                             <span id="create-by-label" ng-bind="viewTxnCtrl.transactionModel.createdBy"></span> -->
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
                                         <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Create date' | translate"></label>:
+                                        	<scf-form-label id="create-date-label" label="Create date"/>
+<!--                                             <label ng-bind="'Create date' | translate"></label>: -->
                                         </div>
                                         <div class="col-md-2 col-sm-2">
-                                            <span id="create-date-label" ng-bind="viewTxnCtrl.transactionModel.createdTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+                                        	<scf-form-label id="create-date-data-label" label="{{viewTxnCtrl.transactionModel.createdTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'}}" display-colon="false"/>
+<!--                                             <span id="create-date-label" ng-bind="viewTxnCtrl.transactionModel.createdTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span> -->
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2 col-sm-2">
-                                            <label ng-bind="'Verify by' |translate"></label>:
+                                        	<scf-form-label id="verify-by-label" label="Verify by"/>
+<!--                                             <label ng-bind="'Verify by' |translate"></label>: -->
                                         </div>
                                         <div class="col-md-3 col-sm-3 text-right">
-                                            <span id="verify-by-label" ng-bind="viewTxnCtrl.transactionModel.verifiedBy"></span>
+                                        	<scf-form-label id="verify-by-data-label" label="{{viewTxnCtrl.transactionModel.verifiedBy}}" display-colon="false"/>
+<!--                                             <span id="verify-by-label" ng-bind="viewTxnCtrl.transactionModel.verifiedBy"></span> -->
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
                                         <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Verify date' | translate"></label>:
+                                        	<scf-form-label id="verify-date-label" label="Verify date"/>
+<!--                                             <label ng-bind="'Verify date' | translate"></label>: -->
                                         </div>
                                         <div class="col-md-2 col-sm-2">
-                                            <span id="verify-date-label" ng-bind="viewTxnCtrl.transactionModel.verifiedTime | date: 'dd/MM/yyyy HH:mm'"></span>
+                                        	<scf-form-label id="verify-date-data-label" label="{{viewTxnCtrl.transactionModel.verifiedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'}}" display-colon="false"/>
+<!--                                             <span id="verify-date-label" ng-bind="viewTxnCtrl.transactionModel.verifiedTime | date: 'dd/MM/yyyy HH:mm'"></span> -->
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2 col-sm-2">
-                                            <label ng-bind="'Approve by' |translate"></label>:
+                                        	<scf-form-label id="approve-by-label" label="Approve by"/>
+<!--                                             <label ng-bind="'Approve by' |translate"></label>: -->
                                         </div>
                                         <div class="col-md-3 col-sm-3 text-right">
-                                            <span id="approve-by-label" ng-bind="viewTxnCtrl.transactionModel.approvedBy"></span>
+                                        	<scf-form-label id="approve-by-data-label" label="{{viewTxnCtrl.transactionModel.approvedBy}}" display-colon="false"/>
+<!--                                             <span id="approve-by-label" ng-bind="viewTxnCtrl.transactionModel.approvedBy"></span> -->
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
                                         <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Approve date' | translate"></label>:
+                                        	<scf-form-label id="approve-date-label" label="Approve date"/>
+<!--                                             <label ng-bind="'Approve date' | translate"></label>: -->
                                         </div>
                                         <div class="col-md-2 col-sm-2">
-                                            <span id="approve-date-label" ng-bind="viewTxnCtrl.transactionModel.approvedTime | date: 'dd/MM/yyyy HH:mm'"></span>
+                                        	<scf-form-label id="approve-date-data-label" label="{{viewTxnCtrl.transactionModel.approvedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'}}" display-colon="false"/>
+<!--                                             <span id="approve-date-label" ng-bind="viewTxnCtrl.transactionModel.approvedTime | date: 'dd/MM/yyyy HH:mm'"></span> -->
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2 col-sm-2">
-                                            <label ng-bind="'Status' |translate"></label>:
+                                        	<scf-form-label id="status-label" label="Status"/>
+<!--                                             <label ng-bind="'Status' |translate"></label>: -->
                                         </div>
                                         <div class="col-md-3 col-sm-3 text-right">
-                                            <span id="status-label" ng-bind="viewTxnCtrl.transactionModel.statusCode | translate"></span>
+                                        	<scf-form-label id="status-code-label" label="{{viewTxnCtrl.transactionModel.statusCode}}" display-colon="false"/>
+<!--                                             <span id="status-label" ng-bind="viewTxnCtrl.transactionModel.statusCode | translate"></span> -->
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
                                         <div class="col-md-3 col-sm-3"></div>
@@ -171,7 +205,8 @@
                         <div class="col-md-9 text-right">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <b id="document-paging-label" ng-bind="viewTxnCtrl.splitePageTxt"></b> &nbsp;&nbsp;
+                                	<scf-form-label id="document-paging-label" label="{{viewTxnCtrl.splitePageTxt}}" bold="true" display-colon="false"/>
+<!--                                     <b id="document-paging-label" ng-bind="viewTxnCtrl.splitePageTxt"></b> &nbsp;&nbsp; -->
                                     <scf-pagination page-size-model="viewTxnCtrl.pageModel.pageSizeSelectModel" 
 													total-page="viewTxnCtrl.pageModel.totalPage" 
 													current-page="viewTxnCtrl.pageModel.currentPage" 
@@ -200,13 +235,18 @@
                     <div id="bottom-sticker">
                         <div class="col-md-12">
                             <div class="form-horizontal">
-                                <label class="col-md-2 control-label"><b ng-bind="'Transaction amount' | translate"></b>:</label>
+                            	<scf-form-label id="transaction-amount-label" label="Transaction amount" bold="true" class="col-md-2"/>
+<!--                                 <label class="col-md-2 control-label"><b ng-bind="'Transaction amount' | translate"></b>:</label> -->
                                 <div class="col-md-9 control-label">
+<!--                                 	<scf-form-label id="transaction-amount-data-label" label="{{viewTxnCtrl.transactionModel.transactionAmount | number:2}}" display-colon="false"/>   -->
+<!--                                 	<scf-form-label id="thb-label" label="THB" display-colon="false"/> -->
                                     <span id="footer-transaction-amount-label" ng-bind="viewTxnCtrl.transactionModel.transactionAmount | number:2"></span> &nbsp; <span ng-bind="'THB' | translate"></span>
                                 </div>
-
-                                <label class="col-md-2 control-label"><b ng-bind="'Transaction date' | translate"></b>:</label>
+								
+								<scf-form-label id="transaction-date-label" label="Transaction date" bold="true" class="col-md-2"/>
+<!--                                 <label class="col-md-2 control-label"><b ng-bind="'Transaction date' | translate"></b>:</label> -->
                                 <div class="col-md-9 control-label">
+<!--                                 	<scf-form-label id="transaction-date-data-label" label="{{viewTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'}}" display-colon="false"/> -->
                                     <label id="footer-transaction-date-label">{{viewTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'}}</label>
                                 </div>
                             </div>

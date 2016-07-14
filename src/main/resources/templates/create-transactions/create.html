@@ -21,7 +21,7 @@
                     <div class="col-md-12">
                         <form name="createForm" class="form-horizontal">
                             <div class="form-group">
-                            	<scf-form-label id="sponsor-label" label="Sponsor"  class="col-md-3 col-sm-3 col-xs-12 control-label"/>
+                            	<scf-form-label id="sponsor-label" label="Sponsor"  class="col-md-3 col-sm-3 col-xs-12"/>
 <!--                                 <label for="sponsor" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Sponsor' | translate}}: </label> -->
                                 <div class="col-md-3 col-sm-3 col-xs-12">
                                     <scf-dropdown id="sponsor-dropdown" ng-change="ctrl.sponsorChange()" ng-model="ctrl.createTransactionModel.sponsorCode" component-data="ctrl.sponsorCodes"></scf-dropdown>
@@ -29,7 +29,7 @@
                                 <div class="col-md-5 col-sm-5"></div>
                             </div>
                             <div class="form-group">
-                            	<scf-form-label id="supplier-code-label" label="Supplier code"  class="col-md-3 col-sm-3 col-xs-12 control-label"/>
+                            	<scf-form-label id="supplier-code-label" label="Supplier code"  class="col-md-3 col-sm-3 col-xs-12"/>
 <!--                                 <label for="dealer" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Supplier code' | translate}} : </label> -->
                                 <div class="col-md-3 col-sm-3 col-xs-12">
                                     <scf-dropdown id="supplier-code-dropdown" ng-change="ctrl.supplierCodeChange()" ng-model="ctrl.createTransactionModel.supplierCode" component-data="ctrl.supplierCodes"></scf-dropdown>
@@ -39,7 +39,7 @@
 
                             <!-- Start Payment Field-->
                             <div class="form-group">
-                            	<scf-form-label id="sponsor-payment-date-label" label="Sponsor payment date"  class="col-md-3 col-sm-3 col-xs-12 control-label"/>
+                            	<scf-form-label id="sponsor-payment-date-label" label="Sponsor payment date"  class="col-md-3 col-sm-3 col-xs-12"/>
 <!--                                 <label for="paymentDate" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Sponsor payment date' | translate}}: </label> -->
                                 <div class="col-md-3 col-sm-3 col-xs-12">
                                     <scf-dropdown id="sponsor-payment-date-dropdown" ng-change="ctrl.paymentDateChange()" ng-model="ctrl.createTransactionModel.sponsorPaymentDate" component-data="ctrl.sponsorPaymentDates"></scf-dropdown>
@@ -172,13 +172,13 @@
                         <div id="bottom-sticker">
                             <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
                                 <div class="form-horizontal">
-                                	<scf-form-label id="transaction-amount-label" label="Transaction amount" bold="true" class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"/>
+                                	<scf-form-label id="transaction-amount-label" label="Transaction amount" bold="true" class="col-md-3 col-sm-3 col-lg-3 col-xs-12"/>
 <!--                                     <label class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b ng-bind="'Transaction amount' | translate">Transaction amount</b>:</label> -->
                                     <div class="col-md-7 col-sm-7 col-lg-7 col-xs-12 control-label">
                                         <span id="create-transaction-amount-label" ng-bind="ctrl.submitTransactionAmount | number: 2">0.00</span>&nbsp;
                                         <span ng-bind="'THB' | translate"></span>
                                     </div>
-                                    <scf-form-label id="transaction-datelabel" label="Transaction date" bold="true"  class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"/>
+                                    <scf-form-label id="transaction-datelabel" label="Transaction date" bold="true"  class="col-md-3 col-sm-3 col-lg-3 col-xs-12"/>
 <!--                                     <label class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b ng-bind="'Transaction date' | translate">Transaction date</b>:</label> -->
                                     <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12" >
                                         <scf-dropdown id="transaction-date-dropdown" ng-model="ctrl.createTransactionModel.transactionDate" component-data="ctrl.transactionDates"></scf-dropdown>

@@ -1,1 +1,4 @@
-<label><span data-ng-bind="label | translate"></span>{{hasColon?':':''}}</label>
+<label
+	class="{{isFormItem? 'control-label ':' '}}{{isBold? 'font-bold ':' '}}">
+	<span data-ng-bind="label | translate"></span>{{hasColon?':':''}}
+</label>
