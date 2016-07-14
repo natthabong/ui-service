@@ -1,80 +1,17 @@
-angular.module('scfApp').controller('NewduedateGroupController', ['NewduedateGroupService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'PageNavigation' , function(NewduedateGroupService, $state,$translate, $scope, SCFCommonService, $stateParams, $cookieStore, PageNavigation) {
+angular.module('scfApp').controller('NewduedateGroupController', ['Service', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'PageNavigation' , function(NewduedateGroupService, $state,$translate, $scope, SCFCommonService, $stateParams, $cookieStore, PageNavigation) {
     var vm = this;
     var listStoreKey = 'listrancri';
     vm.model ={};
-    vm.showInfomation = false;
-//    vm.splitePageTxt = '';
     vm.transactionType = {
             transactionDate: 'transactionDate',
             maturityDate: 'maturityDate'
         }
-// // Data Sponsor for select box
-//	vm.verify = false;
-//	vm.approve = false;
-    
-//    vm.statusDocuments = {
-//    		waitForVerify: 'WAIT_FOR_VERIFY',
-//    		waitForApprove: 'WAIT_FOR_APPROVE',
-//    		rejectByChecker: 'REJECT_BY_CHECKER',
-//    		rejectByApprover: 'REJECT_BY_APPROVER',
-//    		canceledBySupplier:'CANCELED_BY_SUPPLIER'
-//    	}
-    
-//	vm.trasnsactionStatus = {
-//			book: 'B'
-//	}
-	
-//    vm.transactionStatusGroupDropdown = [{
-//		label: 'All',
-//		value: ''
-//	}];
-
-//    vm.sponsorCodeDropdown = [{
-//		label: 'All',
-//		value: ''
-//	}];
 
     vm.tableRowCollection = [];
     vm.summaryOutstandingAmount = '';
-
-//	vm.clearInternalStep = function(){
-//		vm.summaryInternalStep = {
-//				wait_for_verify: {
-//					totalRecord: 0,
-//					totalAmount: 0
-//				  },
-//				 wait_for_approve:{
-//					  totalRecord: 0,
-//					  totalAmount: 0
-//				 },
-//				 reject_by_checker:{
-//					  totalRecord: 0,
-//					  totalAmount: 0
-//				  },
-//				 reject_by_approver:{
-//					  totalRecord: 0,
-//					  totalAmount: 0
-//				  },
-//				  canceled_by_supplier:{
-//					  totalRecord: 0,
-//					  totalAmount: 0              
-//				  }		
-//		};
-//	}
-            
-//	// Datepicker
-//	vm.openDateFrom = false;
-//	vm.dateFormat = 'dd/MM/yyyy';
-//	vm.openDateTo = false;
-	
-//	vm.dateModel = {
-//		dateFrom: '',
-//		dateTo: ''
-//	}
     
     // Model mapping with page list
     vm.listDocumentModel = {
-//            dateType: vm.transactionType.transactionDate,
             totalRecord: '10',
             orders:[{
         		"fieldName":"sponsorPaymentDate",
@@ -83,68 +20,14 @@ angular.module('scfApp').controller('NewduedateGroupController', ['NewduedateGro
         		"fieldName":"outstandingAmount",
         		"direction":"DESC"
         	}]
-//            order: '',
-//            orderBy:''
+
         }
-    
-// // Init data paging
-//    vm.pageSizeList = [{
-//        label: '10',
-//        value: '10'
-//    }, {
-//        label: '20',
-//        value: '20'
-//    }, {
-//        label: '50',
-//        value: '50'
-//    }];
-//
-    vm.pageModel = {
+        vm.pageModel = {
 //        pageSizeSelectModel: '20',
 //        totalRecord: 0,
 //        currentPage: 0,
 		clearSortOrder: false
     };
-
-//    // Load sponsor Code
-//    vm.loadSponsorCode = function() {
-//        var sponsorCodesDefered = ListTransactionService.getSponsors();
-//        sponsorCodesDefered.promise.then(function(response) {
-//            var sponsorCodeList = response.data;
-//            if (sponsorCodeList !== undefined) {
-//                sponsorCodeList.forEach(function(obj) {
-//                    var selectObj = {
-//                        label: obj.sponsorName,
-//                        value: obj.sponsorId
-//                    }
-//                    vm.sponsorCodeDropdown.push(selectObj);
-//                });
-////                vm.listTransactionModel.sponsorCode = vm.sponsorCodeDropdown[0].value;
-//            }
-//        }).catch(function(response) {
-//			console.log('Load Sponsor Fail');
-//        });
-//    };
-    
-//    vm.loadTransactionGroup = function(){
-//        var transactionStatusGroupDefered = ListTransactionService.getTransactionStatusGroups();
-//        transactionStatusGroupDefered.promise.then(function(response) {
-//            var transactionStatusGroupList = response.data;
-//            if (transactionStatusGroupList !== undefined) {
-//                transactionStatusGroupList.forEach(function(obj) {
-//                    var selectObj = {
-//                        label: obj.statusMessageKey,
-//                        value: obj.statusGroup
-//                    }
-//                    vm.transactionStatusGroupDropdown.push(selectObj);
-//                });
-////                vm.listTransactionModel.statusGroup = vm.transactionStatusGroupDropdown[0].value;
-//            }
-//        }).catch(function(response) {
-//			console.log('Load TransactionStatusGroup Fail');
-//        });    	
-//    }
-
    
     vm.dataTable = {
         options: {
@@ -193,14 +76,6 @@ angular.module('scfApp').controller('NewduedateGroupController', ['NewduedateGro
 		}]
     };
 
-//	vm.openCalendarDateFrom = function(){
-//		vm.openDateFrom = true;
-//	};
-//	
-//	vm.openCalendarDateTo = function(){
-//		vm.openDateTo = true;
-//	};
-	
 	vm.searchTransaction = function(criteria){
 //		 var dateFrom = vm.dateModel.dateFrom;
 //            var dateTo = vm.dateModel.dateTo;
@@ -241,31 +116,7 @@ angular.module('scfApp').controller('NewduedateGroupController', ['NewduedateGro
     
 	vm.searchTransaction();
 	
-	
-//	$scope.sortData = function(order, orderBy) {
-//            vm.listTransactionModel.order = order;
-//            vm.listTransactionModel.orderBy = orderBy;
-//            vm.searchTransactionService();
-//        };
-	
-//	vm.exportCSVFile = function(){
-//		var dateFrom = vm.dateModel.dateFrom;
-//		var dateTo = vm.dateModel.dateTo;
-//		
-//		vm.listTransactionModel.dateFrom = convertDate(dateFrom);
-//		vm.listTransactionModel.dateTo = convertDate(dateTo);
-//		
-//		var transactionModel = angular.extend(vm.listTransactionModel,{
-//			page: 0,
-//			pageSize: 0
-//		});
-//		
-//		var transactionDifferd = ListTransactionService.exportCSVFile(transactionModel,$translate);
-//	};
-//	vm.storeCriteria = function(){
-//		$cookieStore.put(listStoreKey, vm.listTransactionModel);
-//	}
-	
+		
     vm.createTransaction = function(data){
 		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 		vm.storeCriteria();
@@ -274,27 +125,6 @@ angular.module('scfApp').controller('NewduedateGroupController', ['NewduedateGro
         });
 	}
         	
-//	vm.verifyTransaction = function(data){
-//		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
-//		vm.storeCriteria();
-//		PageNavigation.gotoPage('/verify-transaction', {
-//            transactionModel: data
-//        });
-//	}
-	
-//	vm.view = function(data){		
-//		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
-//		vm.storeCriteria();
-//		var isShowBackButton = true;
-//		var isShowBackButton = false;
-//		
-//		var params = { transactionModel: data,
-//	            isShowViewHistoryButton: false,
-//	            isShowBackButton: true
-//	        }
-//		PageNavigation.gotoPage('/view-transaction',params,params)
-//	}
-//	
 	 vm.initLoad = function() {
 		var backAction = $stateParams.backAction;
 		if(backAction === true){
@@ -309,38 +139,5 @@ angular.module('scfApp').controller('NewduedateGroupController', ['NewduedateGro
     };
 
     vm.initLoad();
-//	vm.loadTransactionGroup();
-	
-//	vm.approveTransaction = function(data){
-////		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
-//		vm.storeCriteria();
-//		var params = {transaction: data};
-//		PageNavigation.gotoPage('/approve-transaction/approve',params,params)
-//	}
-	
-//	vm.printEvidenceFormAction = function(data){    	
-//		ListTransactionService.generateEvidenceForm(data);
-//
-//    }
 
 }]);
-
-//function convertDate(dateTime){
-//	var result = '';
-//	if(dateTime != undefined && dateTime != ''){
-//		var date = dateTime.getDate();		
-//		var month = (dateTime.getMonth() + 1);
-//		var year = dateTime.getFullYear();
-//		result =  date +'/' + month + '/' + year;
-//	}
-//	return result;
-//}
-//
-//function convertStringTodate(date){
-//	result = '';
-//	if(date != undefined && date != null && date != ''){
-//		var dateSplite = date.split('/');
-//		result = new Date(dateSplite[2] + '-'+ dateSplite[1]+ '-' + dateSplite[0]);
-//	}
-//	return result
-//}

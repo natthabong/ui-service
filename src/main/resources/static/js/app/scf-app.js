@@ -26,14 +26,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
             .state('/home', {
                 url: '/home',
                 templateUrl: '/home'
-            }).state('/newduedate-group', {
-				url: '/newduedate-group',
-				controller: 'NewduedateGroupController',
-				controllerAs: 'ctrl',
-				params: {backAction: false},
-				templateUrl: '/newduedate-group',
-				resolve: load(['js/app/dashboard/newduedate-group-service.js', 'js/app/dashboard/newduedate-group-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/create-transaction', {
+            }).state('/create-transaction', {
 				url: '/create-transaction',
 				controller: 'CreateTransactionController',
 				onEnter: ['CreateTransactionService','$state', function(CreateTransactionService,$state){
@@ -92,6 +85,12 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/upload-document',
 				resolve: load(['js/app/upload-document/upload-document-service.js','js/app/upload-document/upload-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/newduedate-group', {
+				url: '/newduedate-group',
+				controller: 'NewduedateGroupController',
+				controllerAs: 'ctrl',
+				templateUrl: '/newduedate-group',
+				resolve: load([ 'js/app/dashboard/newduedate-group-controller.js'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
@@ -131,19 +130,19 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
         }
     ]);
 
-app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFactory','$scope',
-    function ($translate, $translatePartialLoader, scfFactory, $scope) {
-        var self = this;
-        self.sysMessage = "";
-		self.displayName = "";
-        self.menus = [];
-        self.changeLanguage = function (lang) {
+app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFactory','$scope', 'Service',
+    function ($translate, $translatePartialLoader, scfFactory, $scope, Service) {
+        var vm = this;
+        vm.sysMessage = "";
+		vm.displayName = "";
+        vm.menus = [];
+        vm.changeLanguage = function (lang) {
             $translatePartialLoader.addPart('translations');
             $translate.use(lang);
             $translate.refresh(lang);
         };
 
-        self.getMessage = function () {
+        vm.getMessage = function () {
 
             var defered = scfFactory.getErrorMsg($translate.use());
             defered.promise.then(function (response) {
@@ -152,7 +151,7 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 
         };
 		
-		self.getUserInfo = function(){
+		vm.getUserInfo = function(){
 			var defered = scfFactory.getUserInfo();
 			defered.promise.then(function(response){
 				self.displayName = response.displayName;
@@ -160,7 +159,20 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 			});
 		};
 		
-		self.getUserInfo();
+		vm.getUserInfo();
+		
+		
+		vm.loadDashboardConfig = function(){
+			var deferred = Service.requestURL('api/dashboard/items/get');
+			vm.dashboardItems = [];
+			deferred.promise.then(function(response){
+				vm.dashboardItems = response;
+			}).catch(function(response){
+
+			});
+		};
+	
+		vm.loadDashboardConfig();
 
     }
 ]);
