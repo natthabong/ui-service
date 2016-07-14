@@ -173,17 +173,18 @@
 					<div id="bottom-sticker">
 						<div class="col-md-12">
 							<div class="form-horizontal">
-								<scf-form-label id="transaction-amount-label" label="Transaction amount" bold="true" class="col-md-2 control-label"/>
+								<scf-form-label id="transaction-amount-label" label="Transaction amount" bold="true" class="col-md-2"/>
 <!-- 								<label class="col-md-2 control-label"><b -->
 <!-- 									ng-bind="'Transaction amount' | translate"></b>:</label> -->
 								<div class="col-md-9 control-label">
 <!-- 									<scf-form-label id="validate-transaction-amount-label" label="{{validateAndSubmitCtrl.transactionModel.transactionAmount | number:2}}" display-colon="false"/>  -->
+<!-- 									<scf-form-label id="thb-label" label="THB" display-colon="false"/> -->
 									<span id="validate-transaction-amount-label"
 										ng-bind="validateAndSubmitCtrl.transactionModel.transactionAmount | number:2"></span>
 									&nbsp; <span ng-bind="'THB' | translate"></span>
-<!-- 									<scf-form-label id="thb-label" label="THB" display-colon="false"/> -->
+									
 								</div>
-									<scf-form-label id="transaction-date-label" label="Transaction date" bold="true" class="col-md-2 control-label"/>
+									<scf-form-label id="transaction-date-label" label="Transaction date" bold="true" class="col-md-2"/>
 <!-- 								<label class="col-md-2 control-label"><b -->
 <!-- 									ng-bind="'Transaction date' | translate"></b>:</label> -->
 								<div class="col-md-9 control-label">
