@@ -1,7 +1,5 @@
 angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'PageNavigation' , function(ListTransactionService, $state,$translate, $scope, SCFCommonService, $stateParams, $cookieStore, PageNavigation) {
     var vm = this;
-    var listStoreKey = 'listrancri';
-    vm.model ={};
     vm.showInfomation = false;
      vm.splitePageTxt = '';
      vm.transactionType = {
@@ -71,7 +69,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		dateTo: ''
 	}
 	// Model mapping whith page list
-   vm.listTransactionModel = {
+   vm.model = {
             dateType: vm.transactionType.transactionDate,
             dateFrom: '',
             dateTo: '',
@@ -113,7 +111,6 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                     }
                     vm.sponsorCodeDropdown.push(selectObj);
                 });
-//                vm.listTransactionModel.sponsorCode = vm.sponsorCodeDropdown[0].value;
             }
         }).catch(function(response) {
 			console.log('Load Sponsor Fail');
@@ -132,7 +129,6 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                     }
                     vm.transactionStatusGroupDropdown.push(selectObj);
                 });
-//                vm.listTransactionModel.statusGroup = vm.transactionStatusGroupDropdown[0].value;
             }
         }).catch(function(response) {
 			console.log('Load TransactionStatusGroup Fail');
@@ -140,11 +136,101 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
     }
 
    
-    vm.dataTable = {
-        options: {
-            displayRowNo: {}
-        },
-        columns: [{
+//    vm.dataTable = {
+//        options: {
+//            displayRowNo: {}
+//        },
+//        columns: [{
+//            field: 'sponsor',
+//            label: 'Sponsor',
+//            sortData: true,
+//            cssTemplate: 'text-center'
+//        }, {
+//            field: 'transactionDate',
+//            label: 'Transaction Date',
+//            filterType: 'date',
+//            filterFormat: 'dd/MM/yyyy',
+//            sortData: true,
+//            cssTemplate: 'text-center'
+//        }, {
+//            field: 'transactionNo',
+//            label: 'Transaction No',
+//            id: 'transaction-{value}-transaction-no-label',
+//            sortData: true,
+//            cssTemplate: 'text-center',
+//        }, {
+//            field: 'drawdownAmount',
+//            label: 'Drawdown Amount',
+//            idValueField: 'transactionNo',
+//            id: 'transaction-{value}-drawdown-amount-label',
+//            filterType: 'number',
+//            filterFormat: '2',
+//            sortData: true,
+//            cssTemplate: 'text-center',
+//        }, {
+//            field: 'interest',
+//            label: 'Interest',
+//            idValueField: 'transactionNo',
+//            id: 'transaction-{value}-interest-label',
+//            sortData: false,
+//            cssTemplate: 'text-right',
+//            filterType: 'number',
+//            filterFormat: '2'
+//        }, {
+//            field: 'fee',
+//            label: 'Fee',
+//            sortData: false,
+//            idValueField: 'transactionNo',
+//            id: 'transaction-{value}-fee-label',
+//            cssTemplate: 'text-right',
+//            filterType: 'number',
+//            filterFormat: '2'
+//        }, {
+//            field: 'bankTransactionNo',
+//            label: 'Bank Transaction No',
+//            idValueField: 'transactionNo',
+//            id: 'transaction-{value}-bank-transaction-no-label',
+//            sortData: true,
+//            cssTemplate: 'text-center'
+//        }, {
+//            field: 'repaymentAmount',
+//            label: 'Repayment Amount',
+//            idValueField: 'transactionNo',
+//            id: 'transaction-{value}-bank-repayment-amount-label',
+//            sortData: true,
+//            cssTemplate: 'text-right',
+//            filterType: 'number',
+//            filterFormat: '2'
+//        }, {
+//            field: 'maturityDate',
+//            label: 'Maturity Date',
+//            filterType: 'date',
+//            filterFormat: 'dd/MM/yyyy',
+//            sortData: true,
+//            cssTemplate: 'text-center'
+//        }, {
+//            field: 'statusCode',
+//            label: 'Status',
+//            sortData: true,
+//            idValueField: 'transactionNo',
+//            id: 'status-{value}',
+//			filterType: 'translate',
+//            cssTemplate: 'text-center',
+//        },{
+//			field: 'action',
+//			label: 'Action',
+//			cssTemplate: 'text-center',
+//			sortData: false,
+//			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!(ctrl.verify && (data.statusCode === ctrl.statusDocuments.waitForVerify))" id="transaction-{{data.transactionId}}-verify-button" ng-click="ctrl.verifyTransaction(data)"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
+//			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!(ctrl.approve &&(data.statusCode === ctrl.statusDocuments.waitForApprove))" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="ctrl.approveTransaction(data)"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
+//			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="ctrl.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
+//			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
+//			'<scf-button class="btn-default gec-btn-action" ng-disabled="!(data.returnStatus === ctrl.trasnsactionStatus.book)" ng-click="ctrl.printEvidenceFormAction(data)"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
+//			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.searchTransaction()"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+//		}]
+//    };
+	
+	vm.columns = [{
             field: 'sponsor',
             label: 'Sponsor',
             sortData: true,
@@ -220,19 +306,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             id: 'status-{value}',
 			filterType: 'translate',
             cssTemplate: 'text-center',
-        },{
-			field: 'action',
-			label: 'Action',
-			cssTemplate: 'text-center',
-			sortData: false,
-			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!(ctrl.verify && (data.statusCode === ctrl.statusDocuments.waitForVerify))" id="transaction-{{data.transactionId}}-verify-button" ng-click="ctrl.verifyTransaction(data)"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
-			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!(ctrl.approve &&(data.statusCode === ctrl.statusDocuments.waitForApprove))" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="ctrl.approveTransaction(data)"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
-			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="ctrl.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-disabled="!(data.returnStatus === ctrl.trasnsactionStatus.book)" ng-click="ctrl.printEvidenceFormAction(data)"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.searchTransaction()"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
-		}]
-    };
+        }];
 
 	vm.openCalendarDateFrom = function(){
 		vm.openDateFrom = true;
@@ -243,45 +317,46 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	};
 	
 	vm.searchTransaction = function(criteria){
-		 var dateFrom = vm.dateModel.dateFrom;
-            var dateTo = vm.dateModel.dateTo;
-
-            vm.listTransactionModel.dateFrom = convertDate(dateFrom);
-            vm.listTransactionModel.dateTo = convertDate(dateTo);
-
-            if (criteria === undefined) {
-                vm.pageModel.currentPage = '0';
-                vm.pageModel.pageSizeSelectModel = '20';
-				vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
-				vm.listTransactionModel.order = '';
-            	vm.listTransactionModel.orderBy = '';
-            } else {
-                vm.pageModel.currentPage = criteria.page;
-                vm.pageModel.pageSizeSelectModel = criteria.pageSize;				
-            }
+//		 var dateFrom = vm.dateModel.dateFrom;
+//         var dateTo = vm.dateModel.dateTo;
+//
+//            vm.listTransactionModel.dateFrom = convertDate(dateFrom);
+//            vm.listTransactionModel.dateTo = convertDate(dateTo);
+//			vm.model = vm.listTransactionModel;
+//            if (criteria === undefined) {
+//                vm.pageModel.currentPage = '0';
+//                vm.pageModel.pageSizeSelectModel = '20';
+//				vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
+//				vm.listTransactionModel.order = '';
+//            	vm.listTransactionModel.orderBy = '';
+//            } else {
+//                vm.pageModel.currentPage = criteria.page;
+//                vm.pageModel.pageSizeSelectModel = criteria.pageSize;				
+//            }
+		vm.transactionTable.search();
             vm.searchTransactionService();
 	};
-
+	
 	vm.searchTransactionService = function() {
-            var transactionModel = angular.extend(vm.listTransactionModel, {
-                page: vm.pageModel.currentPage,
-                pageSize: vm.pageModel.pageSizeSelectModel
-            });
-            var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
-            transactionDifferd.promise.then(function(response) {
-                vm.showInfomation = true;
-                var transactionDocs = response.data;
-                vm.tableRowCollection = transactionDocs.content;
-                vm.pageModel.totalRecord = transactionDocs.totalElements;
-                vm.pageModel.totalPage = transactionDocs.totalPages;
-
-                // Calculate Display page
-                vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+//            var transactionModel = angular.extend(vm.listTransactionModel, {
+//                page: vm.pageModel.currentPage,
+//                pageSize: vm.pageModel.pageSizeSelectModel
+//            });
+//            var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
+//            transactionDifferd.promise.then(function(response) {
+//                vm.showInfomation = true;
+//                var transactionDocs = response.data;
+//                vm.tableRowCollection = transactionDocs.content;
+//                vm.pageModel.totalRecord = transactionDocs.totalElements;
+//                vm.pageModel.totalPage = transactionDocs.totalPages;
+//
+//                // Calculate Display page
+//                vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 				vm.clearInternalStep();
 				//reset value of internal step				
 				
-                if (vm.listTransactionModel.statusGroup === 'INTERNAL_STEP' || vm.listTransactionModel.statusGroup === '') {
-                    var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
+                if (vm.model.statusGroup === 'INTERNAL_STEP' || vm.model.statusGroup === '') {
+                    var internalStepDeffered = ListTransactionService.summaryInternalStep(vm.model);
                     internalStepDeffered.promise.then(function(response) {
                         var internalStemp = response.data;
 						
@@ -310,9 +385,9 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                     });
 
                 }
-            }).catch(function(response) {
-                console.log('Cannot search document');
-            });
+//            }).catch(function(response) {
+//                console.log('Cannot search document');
+//            });
         };
 	
 	$scope.sortData = function(order, orderBy) {
@@ -363,12 +438,12 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	 vm.initLoad = function() {
 		var backAction = $stateParams.backAction;
 		if(backAction === true){
-			vm.listTransactionModel = $cookieStore.get(listStoreKey);
+//			vm.listTransactionModel = $cookieStore.get(listStoreKey);
 			vm.dateModel.dateFrom = convertStringTodate(vm.listTransactionModel.dateFrom);
 			vm.dateModel.dateTo = convertStringTodate(vm.listTransactionModel.dateTo);			
 			vm.searchTransaction();
 		}
-		$cookieStore.remove(listStoreKey);
+//		$cookieStore.remove(listStoreKey);
 		vm.loadSponsorCode();
         
     };

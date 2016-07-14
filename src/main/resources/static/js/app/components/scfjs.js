@@ -15,9 +15,8 @@
 
         function requestURL(url, params) {
             var deffered = $q.defer();
-
             $http({
-                method: 'GET',
+                method: 'POST',
                 url: url,
                 data: params
             }).success(function(response) {
@@ -71,31 +70,39 @@
             replace: true,
             transclude: 'element',
             scope: {
-                layoutSource: '@',
+                layoutSource: '<',
                 source: '@',
                 paging: '@',
                 showRowNo: '@',
                 actionSets: '=',
-                showAction: '@'
-            },
-            link: function(scope, el, attr, ctrl, transclude) {
-                transclude(function(transEl, transScope) {
-
-                });
+                showAction: '@',
+				name: '@'
             },
             controller: ['Service', '$scope', '$transclude', function(Service, $scope, $transclude) {
                 var vm = $scope;
-                var layoutsource = Service.requestURL(vm.layoutSource);
+				var parentModel = vm.$parent.ctrl.model;
+				var parentController = vm.$parent.ctrl;
+				
+				parentController[vm.name] = {};
+				var table = parentController[vm.name];
+				table.isDirty = false;
+				
+				if(angular.isArray(vm.layoutSource)){
+					vm.layoutItems = vm.layoutSource;
+				}else{
+					var layoutsource = Service.requestURL(layoutsource);
+					layoutsource.promise.then(function(response) {
+                    	vm.layoutItems = response;
+                	}).catch();
+				}
+                
                 vm.order = '';
                 vm.reverse = false;
                 vm.initSort = function() {
                     vm.order = '';
                     vm.reverse = false;
                 }
-
-                layoutsource.promise.then(function(response) {
-                    vm.layoutItems = response;
-                }).catch();
+                
                 vm.pageModel = {
                         number: 0,
                         size: '20',
@@ -106,9 +113,13 @@
                     }
                     // 1. Search
                 vm.search = function(pageModel) {
-                    var dataSource = Service.requestURL(vm.source, pageModel);
+					vm.pageModel.size = pageModel.size;
+					vm.pageModel.number = pageModel.number;
+					
+					var parentModel = angular.extend(vm.$parent.ctrl.model, vm.pageModel);
+                    var dataSource = Service.requestURL(vm.source, parentModel);
                     dataSource.promise.then(function(response) {
-                        var data = response.data;
+                        var data = response;
                         vm.dataItems = data.content;
                         vm.pageModel = {
                                 number: data.number,
@@ -118,24 +129,24 @@
                             }
                             // 2. Split Page
                         vm.pageDisplay = vm.splitPage(vm.pageModel);
+						table.isDirty = true;
+						
                     }).catch();
                 }
-
-                vm.search(vm.pageModel);
-                vm.changePage = function(btnAction) {
-
-                    if (btnAction === 'first' || btnAction === 'changeSize') {
-                        vm.pageModel.number = 0;
-                    } else if (btnAction === 'back') {
-                        vm.pageModel.number += -1;
-                    } else if (btnAction === 'next') {
-                        vm.pageModel.number += 1;
-                    } else if (btnAction === 'last') {
-                        vm.pageModel.number = scope.totalPage - 1;
+				
+				table.search = function(){
+					vm.pageModel = {
+                        number: 0,
+                        size: '20',
+                        totalPages: 0,
+                        totalElements: 0,
+                        order: '',
+                        orderBy: ''
                     }
-                    vm.search(vm.pageModel);
-                };
-                vm.splitPage = function(paging) {
+					vm.search(vm.pageModel);
+				}
+
+				vm.splitPage = function(paging) {
                     var pageSize = paging.size,
                         currentPage = paging.number,
                         totalRecord = paging.totalElements;
@@ -165,7 +176,7 @@
                     vm.search(vm.pageModel);
                 };
             }],
-            templateUrl: 'templates/table.html'
+            templateUrl: '/js/app/components/templates/table.html'
         };
     }]);
 
@@ -220,7 +231,6 @@
                 }
             },
             template: fieldTemplate
-
         };
 
         function disableButton(scope, element) {
@@ -250,7 +260,7 @@
         }
 
         function fieldTemplate(element, attrs) {
-            var template = '<ul class="scf-paging form-inline">' + '<li>' + '<button type="button" ng-click="scfPaginationAction(\'first\')" class="btn btn-default btn-sm" id="first-page-button">' + '<span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>' + '</button>' + '</li>' + '<li>' + '<button type="button" ng-click="scfPaginationAction(\'back\')" class="btn btn-default btn-sm" id="back-page-button">' + '<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>' + '</button>' + '</li>' + '<li>' + '<select data-ng-model="pageModelParentSize" data-ng-change="scfPaginationAction(\'changeSize\')">' + '<option data-ng-repeat="item in pageItems track by $index" value="{{item.value}}">{{item.label}}</option>' + '</select>' + '</li>' + '<li>' + '<button type="button" ng-click="scfPaginationAction(\'next\')" class="btn btn-default btn-sm" id="next-page-button">' + '<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>' + '</button>' + '</li>' + '<li>' + '<button type="button" ng-click="scfPaginationAction(\'last\')" class="btn btn-default btn-sm" id="last-page-button">' + '<span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>' + '</button>' + '</li>' + '</ul>';
+            var template = '<ul class="scf-paging form-inline">' + '<li>' + '<button type="button" ng-click="scfPaginationAction(\'first\')" class="btn btn-default btn-sm" id="first-page-button">' + '<span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>' + '</button>' + '</li>' + '<li>' + '<button type="button" ng-click="scfPaginationAction(\'back\')" class="btn btn-default btn-sm" id="back-page-button">' + '<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>' + '</button>' + '</li>' + '<li>' + '<select data-ng-model="pageModelParentSize" class="form-control" data-ng-change="scfPaginationAction(\'changeSize\')">' + '<option data-ng-repeat="item in pageItems track by $index" value="{{item.value}}">{{item.label}}</option>' + '</select>' + '</li>' + '<li>' + '<button type="button" ng-click="scfPaginationAction(\'next\')" class="btn btn-default btn-sm" id="next-page-button">' + '<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>' + '</button>' + '</li>' + '<li>' + '<button type="button" ng-click="scfPaginationAction(\'last\')" class="btn btn-default btn-sm" id="last-page-button">' + '<span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>' + '</button>' + '</li>' + '</ul>';
             return template;
         }
     }]);

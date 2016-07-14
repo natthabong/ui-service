@@ -19,10 +19,10 @@
                                 <label for="dateTypeRadio" class="col-md-2 col-sm-3 control-label"></label>
                                 <div class="col-md-9 col-sm-8">
                                     <label class="radio-inline">
-                                        <scf-radio id="transaction-date-type" ng-value="ctrl.transactionType.transactionDate" name="date-type-radio" ng-model="ctrl.listTransactionModel.dateType"></scf-radio> {{'Transaction date' | translate}}
+                                        <scf-radio id="transaction-date-type" ng-value="ctrl.transactionType.transactionDate" name="date-type-radio" ng-model="ctrl.model.dateType"></scf-radio> {{'Transaction date' | translate}}
                                     </label>
 									<label class="radio-inline">
-                                        <scf-radio id="maturity-date-type" ng-value="ctrl.transactionType.maturityDate" name="date-type-radio" ng-model="ctrl.listTransactionModel.dateType"></scf-radio> {{'Maturity date' | translate}}
+                                        <scf-radio id="maturity-date-type" ng-value="ctrl.transactionType.maturityDate" name="date-type-radio" ng-model="ctrl.model.dateType"></scf-radio> {{'Maturity date' | translate}}
                                     </label>
                                 </div>                                
                                 <div class="col-md-1 col-sm-1"></div>
@@ -59,7 +59,7 @@
                             <div class="form-group">
                                 <label for="sponsor" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor' | translate}}: </label>
                                 <div class="col-md-5 col-sm-5 col-xs-12">
-                                    <scf-dropdown id="sponsor-dropdown" ng-model="ctrl.listTransactionModel.sponsorId" component-data="ctrl.sponsorCodeDropdown"></scf-dropdown>
+                                    <scf-dropdown id="sponsor-dropdown" ng-model="ctrl.model.sponsorId" component-data="ctrl.sponsorCodeDropdown"></scf-dropdown>
                                 </div>
                                 <div class="col-md-5 col-sm-4"></div>
                             </div>
@@ -69,7 +69,7 @@
 
                                 <div class="col-md-2 col-sm-3 col-xs-12">
                                 	<scf-form-textbox id="supplier-code-textbox" placeholder="Supplier Code" maxlength="20" name="supplierCode"></scf-form-textbox>
-<!--                                     <scf-input-text id="supplier-code-textbox" ng-model="ctrl.listTransactionModel.supplierCode"></scf-input-text> -->
+<!--                                     <scf-input-text id="supplier-code-textbox" ng-model="ctrl.model.supplierCode"></scf-input-text> -->
                                 </div>
                                 <div class="col-md-5 col-sm-6"></div>
                             </div>
@@ -78,7 +78,7 @@
                                 <label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status' | translate}}: </label>
 
                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                    <scf-dropdown id="group-transaction-status-dropdown" ng-model="ctrl.listTransactionModel.statusGroup" component-data="ctrl.transactionStatusGroupDropdown" translate-label="true"></scf-dropdown>
+                                    <scf-dropdown id="group-transaction-status-dropdown" ng-model="ctrl.model.statusGroup" component-data="ctrl.transactionStatusGroupDropdown" translate-label="true"></scf-dropdown>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <scf-button id="search-button" class="btn-default" ng-click="ctrl.searchTransaction()">{{'Search' | translate}}</scf-button>
@@ -87,13 +87,18 @@
 
                         </form>
 
-                        <div ng-show="ctrl.showInfomation">
+                        <div ng-show="ctrl.transactionTable.isDirty">
+<!--
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 text-right">
                                     <span>
+-->
 <!-- 										<scf-button id="export-button" class="btn-default" ng-click="ctrl.exportCSVFile()">{{'Export' | translate}}</scf-button> -->
+<!--
 									</span>
                                 </div>                                             	
+-->
+<!--
                                 <div class="col-md-12 col-sm-12 text-right">
                                     <span>                                              
 										<b ng-bind="ctrl.splitePageTxt" id="transaction-paging-label"></b>
@@ -109,15 +114,25 @@
 
                                 </div>
                             </div>
+-->
 
                             <div class="row">
                                 <div class="col-md-12">
+<!--
                                     <scf-data-table id="transaction-table"
 													component-config="ctrl.dataTable" 
 													component-datas="ctrl.tableRowCollection" 
 													current-page="ctrl.pageModel.currentPage" 
 													record-per-page="ctrl.pageModel.pageSizeSelectModel"
 													clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
+-->
+									<scf-table id="transaction-table" 
+											   source="api/list-transaction/search" 
+											   layout-source="ctrl.columns"
+											   paging="true" show-row-no="true" selectable="false"
+											   show-select-all="false"
+											   show-action="false" action-sets=""
+											   name="transactionTable"></scf-table>
                                 </div>
                                 <div id="fixed-bottom" class="col-md-12"></div>
                             </div>
@@ -126,7 +141,7 @@
                     </div>
                 </div>
 
-                <div class="panel-body" ng-show="ctrl.showInfomation" block-ui="summary-internal-block">
+                <div class="panel-body" ng-show="ctrl.transactionTable.isDirty" block-ui="summary-internal-block">
                     <div class="row">
                         <div id="bottom-sticker">
                             <div class="col-md-12 col-sm-12">
