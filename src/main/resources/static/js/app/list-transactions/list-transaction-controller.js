@@ -316,45 +316,15 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		vm.openDateTo = true;
 	};
 	
-	vm.searchTransaction = function(criteria){
-//		 var dateFrom = vm.dateModel.dateFrom;
-//         var dateTo = vm.dateModel.dateTo;
-//
-//            vm.listTransactionModel.dateFrom = convertDate(dateFrom);
-//            vm.listTransactionModel.dateTo = convertDate(dateTo);
-//			vm.model = vm.listTransactionModel;
-//            if (criteria === undefined) {
-//                vm.pageModel.currentPage = '0';
-//                vm.pageModel.pageSizeSelectModel = '20';
-//				vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
-//				vm.listTransactionModel.order = '';
-//            	vm.listTransactionModel.orderBy = '';
-//            } else {
-//                vm.pageModel.currentPage = criteria.page;
-//                vm.pageModel.pageSizeSelectModel = criteria.pageSize;				
-//            }
-		vm.transactionTable.search();
+	vm.searchTransaction = function(){
+			vm.transactionTable.search();
             vm.searchTransactionService();
 	};
 	
 	vm.searchTransactionService = function() {
-//            var transactionModel = angular.extend(vm.listTransactionModel, {
-//                page: vm.pageModel.currentPage,
-//                pageSize: vm.pageModel.pageSizeSelectModel
-//            });
-//            var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
-//            transactionDifferd.promise.then(function(response) {
-//                vm.showInfomation = true;
-//                var transactionDocs = response.data;
-//                vm.tableRowCollection = transactionDocs.content;
-//                vm.pageModel.totalRecord = transactionDocs.totalElements;
-//                vm.pageModel.totalPage = transactionDocs.totalPages;
-//
-//                // Calculate Display page
-//                vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+
 				vm.clearInternalStep();
 				//reset value of internal step				
-				
                 if (vm.model.statusGroup === 'INTERNAL_STEP' || vm.model.statusGroup === '') {
                     var internalStepDeffered = ListTransactionService.summaryInternalStep(vm.model);
                     internalStepDeffered.promise.then(function(response) {
@@ -383,11 +353,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                     }).catch(function(response) {
                         console.log('Internal Error');
                     });
-
                 }
-//            }).catch(function(response) {
-//                console.log('Cannot search document');
-//            });
         };
 	
 	$scope.sortData = function(order, orderBy) {

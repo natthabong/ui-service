@@ -17,7 +17,7 @@
 			var deffered = $q.defer();
 
 			$http({
-				method : 'GET',
+				method : 'POST',
 				url : url,
 				data : params
 			}).success(function(response) {
@@ -123,8 +123,7 @@
                     // 1. Search
                 vm.search = function(pageModel) {
 					vm.pageModel.size = pageModel.size;
-					vm.pageModel.number = pageModel.number;
-					
+					vm.pageModel.number = pageModel.number;					
 					var parentModel = angular.extend(vm.$parent.ctrl.model, vm.pageModel);
                     var dataSource = Service.requestURL(vm.source, parentModel);
                     dataSource.promise.then(function(response) {
