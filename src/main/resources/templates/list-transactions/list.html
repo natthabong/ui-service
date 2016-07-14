@@ -107,13 +107,19 @@
 
 						</form>
 
-						<div ng-show="ctrl.showInfomation">
-							<div class="row">
-								<div class="col-md-12 col-sm-12 text-right">
-									<span> <!-- 										<scf-button id="export-button" class="btn-default" ng-click="ctrl.exportCSVFile()">{{'Export' | translate}}</scf-button> -->
+                        <div ng-show="ctrl.transactionTable.isDirty">
+<!--
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 text-right">
+                                    <span>
+-->
+<!-- 										<scf-button id="export-button" class="btn-default" ng-click="ctrl.exportCSVFile()">{{'Export' | translate}}</scf-button> -->
+<!--
 									</span>
-								</div>
-								<div class="col-md-12 col-sm-12 text-right">
+                                </div>                                             	
+-->
+<!--
+                                <div class="col-md-12 col-sm-12 text-right">
 									<span> <b ng-bind="ctrl.splitePageTxt"
 										id="transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 											dropdown-id="page-limit-dropdown"
@@ -124,17 +130,20 @@
 											page-action="ctrl.searchTransaction"></scf-pagination>
 									</span>
 
-								</div>
-							</div>
+                                </div>
+                            </div>
+-->
 
 							<div class="row">
-								<div class="col-md-12">
-									<scf-data-table id="transaction-table"
-										component-config="ctrl.dataTable"
-										component-datas="ctrl.tableRowCollection"
-										current-page="ctrl.pageModel.currentPage"
-										record-per-page="ctrl.pageModel.pageSizeSelectModel"
-										clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
+								<div class="col-md-12">                                    
+-->
+									<scf-table id="transaction-table" 
+											   source="api/list-transaction/search" 
+											   layout-source="ctrl.columns"
+											   paging="true" show-row-no="true" selectable="false"
+											   show-select-all="false"
+											   show-action="false" action-sets=""
+											   name="transactionTable"></scf-table>
 								</div>
 								<div id="fixed-bottom" class="col-md-12"></div>
 							</div>
