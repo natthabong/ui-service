@@ -83,6 +83,10 @@
 	"_comment": "Page List Transaction",
 	"Transaction list": "Transaction list",
 	"Date": "วันที่",
+	
+	"_comment": "Page New due date group (Top 10)",
+	"New due date group (Top 10)": "New due date group (Top 10)",
+	"Summary of outstanding amount": "Summary of outstanding amount",
 
 	"wait_for_verify": "Wait for verify",
 	"wait_for_approve": "Wait for approve",

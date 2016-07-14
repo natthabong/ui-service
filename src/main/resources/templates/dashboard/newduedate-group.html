@@ -1,14 +1,36 @@
-<div th:fragment="content">
-	<script src="js/app/dashboard/newduedate-group-controller.js"></script>
-    <div id="wrapper">
-        <div class="panel box-shadow-none content-header" ng-controller="NewduedateGroupController as ctrl">
-            <div class="panel-body">
-                <div class="col-md-12">
-                    <h3 class="animated fadeInLeft" >NEW Duedate top 10</h3>
-					{{ctrl.name}} test
-                </div>
-            </div>
-        </div>
-    </div>
-
+<div id="content" th:fragment="content">
+	<div id="wrapper">
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-12">
+							<scf-form-label id="new-duedate-group-header-label" label="New due date group (Top 10)" bold="true" display-colon="false"/>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<scf-form-label id="summary-new-duedate-group-label" label="Summary of outstanding amount" display-colon="false"/> 
+							<scf-form-label id="summary-new-duedate-group-value-label" label="{{ctrl.summaryOutstandingAmount | number:2}}" display-colon="false"/> 
+							<scf-form-label id="summary-new-duedate-group-currency-label" label="THB" display-colon="false"/>
+						</div>
+					</div>
+					<!-- Start Column Panel-->
+					<div class="row">
+						<div class="col-md-12">
+							<scf-data-table id="new-duedate-group-table"
+								component-config="ctrl.dataTable"
+								component-datas="ctrl.tableRowCollection"
+								clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
+						</div>
+						<div id="fixed-bottom" class="col-md-12"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" ng-init="ctrl.verify=true"
+		sec:authorize="hasAuthority('SFP_VERIFY_TRANSACTION')" /> <input
+		type="hidden" ng-init="ctrl.approve=true"
+		sec:authorize="hasAuthority('SFP_APPROVE_TRANSACTION')" />
 </div>
