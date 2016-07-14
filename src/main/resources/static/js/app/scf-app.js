@@ -21,11 +21,17 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
             $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 			$stateProviderRef = $stateProvider;
             $stateProvider
-                .state('/home', {
-                    url: '/home',
-                    templateUrl: '/home'
-                })
-			.state('/create-transaction', {
+            .state('/home', {
+                url: '/home',
+                templateUrl: '/home'
+            }).state('/newduedate-group', {
+				url: '/newduedate-group',
+				controller: 'NewduedateGroupController',
+				controllerAs: 'ctrl',
+				params: {backAction: false},
+				templateUrl: '/newduedate-group',
+				resolve: load(['js/app/dashboard/newduedate-group-service.js', 'js/app/dashboard/newduedate-group-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/create-transaction', {
 				url: '/create-transaction',
 				controller: 'CreateTransactionController',
 				onEnter: ['CreateTransactionService','$state', function(CreateTransactionService,$state){
