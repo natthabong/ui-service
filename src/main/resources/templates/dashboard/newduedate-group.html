@@ -35,7 +35,7 @@
 									<td class="text-center"><img
 										title="{{record.sponsorName}}"
 										style="height: 32px; width: 32px; display: block;"
-										data-ng-src="data:image/png;base64,{{record.sponsorLogo}}"
+										data-ng-src="data:image/png;base64,{{newDuedateCtrl.decodeBase64(record.sponsorLogo)}}"
 										data-err-src="images/png/avatar.png" /></td>
 									<td class="text-center"
 										ng-bind="record.sponsorPaymentDate | date : 'dd/MM/yyyy'"></td>
