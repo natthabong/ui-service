@@ -38,20 +38,22 @@
 							</div>
 
 							<div class="form-group">
-								<div class="col-md-2 col-sm-3 col-xs-12">
-									<scf-form-label label="Date" />
-								</div>
+								<label class="col-md-2 col-sm-3 control-label">{{'Date'
+									| translate}}:</label>
 								<div class="col-md-3 col-sm-3 gec-calendar-group">
-									<scf-form-label label="From" for="date-from-calendar" />
+									<label for="date-from-calendar" class="control-label">{{'From'
+										| translate}}: </label>
 									<scf-date-picker-from text-id="date-from-calendar"
 										button-id="date-from-calendar-button"
 										text-model="ctrl.dateModel.dateFrom"
 										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
 										open-calendar-action="ctrl.openCalendarDateFrom()"
 										max-date="ctrl.dateModel.dateTo"> </scf-date-picker-from>
+
 								</div>
 								<div class="col-md-3 col-sm-3 gec-calendar-group">
-									<scf-form-label label="to" for="date-to-calendar" />
+									<label for="date-to-calendar" class="control-label">{{'to'
+										| translate}}: </label>
 									<scf-date-picker-to text-id="date-to-calendar"
 										button-id="date-to-calendar-button"
 										text-model="ctrl.dateModel.dateTo"
@@ -63,35 +65,34 @@
 							</div>
 
 							<div class="form-group">
-								<div class="col-md-2 col-sm-3 col-xs-12">
-									<scf-form-label label="Sponsor" for="sponsor-dropdown" />
-								</div>
-								<div class="col-md-6 col-sm-6 col-xs-12">
+								<label for="sponsor"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor'
+									| translate}}: </label>
+								<div class="col-md-5 col-sm-5 col-xs-12">
 									<scf-dropdown id="sponsor-dropdown"
 										ng-model="ctrl.listTransactionModel.sponsorId"
 										component-data="ctrl.sponsorCodeDropdown"></scf-dropdown>
 								</div>
-								<div class="col-md-4 col-sm-3"></div>
+								<div class="col-md-5 col-sm-4"></div>
 							</div>
 
 							<div class="form-group">
+								<label for="dealer"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier
+									code' | translate}}: </label>
+
 								<div class="col-md-2 col-sm-3 col-xs-12">
-									<scf-form-label label="Supplier code"
-										for="supplier-code-textbox" />
-								</div>
-								<div class="col-md-2 col-sm-3 col-xs-12">
-									<scf-form-textbox id="supplier-code-textbox"
-										placeholder="Supplier Code" maxlength="20" name="supplierCode"></scf-form-textbox>
-									<!--                                     <scf-input-text id="supplier-code-textbox" ng-model="ctrl.listTransactionModel.supplierCode"></scf-input-text> -->
+									<scf-input-text id="supplier-code-textbox"
+										ng-model="ctrl.listTransactionModel.supplierCode"></scf-input-text>
 								</div>
 								<div class="col-md-5 col-sm-6"></div>
 							</div>
 
 							<div class="form-group">
-								<div class="col-md-2 col-sm-3 col-xs-12">
-									<scf-form-label label="Status"
-										for="group-transaction-status-dropdown" />
-								</div>
+								<label for="dealer"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status'
+									| translate}}: </label>
+
 								<div class="col-md-3 col-sm-3 col-xs-12">
 									<scf-dropdown id="group-transaction-status-dropdown"
 										ng-model="ctrl.listTransactionModel.statusGroup"
@@ -107,19 +108,15 @@
 
 						</form>
 
-                        <div ng-show="ctrl.transactionTable.isDirty">
-<!--
-                            <div class="row">
-                                <div class="col-md-12 col-sm-12 text-right">
-                                    <span>
--->
-<!-- 										<scf-button id="export-button" class="btn-default" ng-click="ctrl.exportCSVFile()">{{'Export' | translate}}</scf-button> -->
-<!--
+						<div ng-if="ctrl.showInfomation">
+							<div class="row">
+								<div class="col-md-12 col-sm-12 text-right">
+									<span> <scf-button id="export-button"
+											class="btn-default" ng-click="ctrl.exportCSVFile()">{{'Export'
+										| translate}}</scf-button>
 									</span>
-                                </div>                                             	
--->
-<!--
-                                <div class="col-md-12 col-sm-12 text-right">
+								</div>
+								<div class="col-md-12 col-sm-12 text-right">
 									<span> <b ng-bind="ctrl.splitePageTxt"
 										id="transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 											dropdown-id="page-limit-dropdown"
@@ -130,20 +127,17 @@
 											page-action="ctrl.searchTransaction"></scf-pagination>
 									</span>
 
-                                </div>
-                            </div>
--->
+								</div>
+							</div>
 
 							<div class="row">
-								<div class="col-md-12">                                    
--->
-									<scf-table id="transaction-table" 
-											   source="api/list-transaction/search" 
-											   layout-source="ctrl.columns"
-											   paging="true" show-row-no="true" selectable="false"
-											   show-select-all="false"
-											   show-action="false" action-sets=""
-											   name="transactionTable"></scf-table>
+								<div class="col-md-12">
+									<scf-data-table id="transaction-table"
+										component-config="ctrl.dataTable"
+										component-datas="ctrl.tableRowCollection"
+										current-page="ctrl.pageModel.currentPage"
+										record-per-page="ctrl.pageModel.pageSizeSelectModel"
+										clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
 								</div>
 								<div id="fixed-bottom" class="col-md-12"></div>
 							</div>
@@ -152,16 +146,14 @@
 					</div>
 				</div>
 
-				<div class="panel-body" ng-show="ctrl.showInfomation"
+				<div class="panel-body" ng-if="ctrl.showInfomation"
 					block-ui="summary-internal-block">
 					<div class="row">
 						<div id="bottom-sticker">
 							<div class="col-md-12 col-sm-12">
 								<div class="form-horizontal">
-									<div class="col-md-2 col-sm-3">
-										<scf-form-label label="Internal step" bold="true"
-											display-in-form="false" />
-									</div>
+									<span class="col-md-2 col-sm-3"><b>{{'Internal step'
+											| translate}}</b>:</span>
 									<div class="col-md-2 col-sm-3">
 										<span ng-bind="'wait_for_verify' | translate">list-transaction-wait-for-verify</span>
 									</div>
@@ -181,7 +173,7 @@
 
 							<div class="col-md-12 col-sm-12">
 								<div class="form-horizontal">
-									<div class="col-md-2 col-sm-3"></div>
+									<label class="col-md-2 col-sm-3"></label>
 									<div class="col-md-2 col-sm-3">
 										<span ng-bind="'wait_for_approve' | translate">list-transaction-wait-for-approve</span>
 									</div>
@@ -201,7 +193,7 @@
 
 							<div class="col-md-12 col-sm-12">
 								<div class="form-horizontal">
-									<div class="col-md-2 col-sm-3"></div>
+									<label class="col-md-2 col-sm-3"></label>
 									<div class="col-md-2 col-sm-3">
 										<span ng-bind="'reject_by_checker' | translate">Reject
 											by Checker</span>
@@ -222,7 +214,7 @@
 
 							<div class="col-md-12 col-sm-12">
 								<div class="form-horizontal">
-									<div class="col-md-2 col-sm-3"></div>
+									<label class="col-md-2 col-sm-3"></label>
 									<div class="col-md-2 col-sm-3">
 										<span ng-bind="'reject_by_approver'  | translate">Reject
 											by Approver</span>
@@ -243,7 +235,7 @@
 
 							<div class="col-md-12 col-sm-12">
 								<div class="form-horizontal">
-									<div class="col-md-2 col-sm-3"></div>
+									<label class="col-md-2 col-sm-3"></label>
 									<div class="col-md-2 col-sm-3">
 										<span ng-bind="'canceled_by_supplier' | translate">Cancel
 											by Supplier</span>
@@ -261,6 +253,8 @@
 									<div class="col-md-4 col-sm-1"></div>
 								</div>
 							</div>
+
+
 						</div>
 					</div>
 				</div>

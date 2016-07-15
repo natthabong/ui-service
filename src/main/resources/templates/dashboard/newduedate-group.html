@@ -1,27 +1,31 @@
-<div id="content" th:fragment="content">
+<div th:fragment="content">
 	<div id="wrapper">
 		<div class="form-element">
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-12">
-							<scf-form-label id="new-duedate-group-header-label" label="New due date group (Top 10)" bold="true" display-colon="false"/>
+							<span id="new-duedate-group-header-label"
+								data-ng-binding="New due date group (Top 10) | translate"></span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<scf-form-label id="summary-new-duedate-group-label" label="Summary of outstanding amount" display-colon="false"/> 
-							<scf-form-label id="summary-new-duedate-group-value-label" label="{{ctrl.summaryOutstandingAmount | number:2}}" display-colon="false"/> 
-							<scf-form-label id="summary-new-duedate-group-currency-label" label="THB" display-colon="false"/>
+							<span id="summary-new-duedate-group-label"
+								data-ng-binding="Summary of outstanding amount"></span> <span
+								id="summary-new-duedate-group-value-label"
+								data-ng-binding="{{ctrl.summaryOutstandingAmount | number:2}}"></span>
+							<span id="summary-new-duedate-group-currency-label"
+								data-ng-binding="THB | translate"></span>
 						</div>
 					</div>
 					<!-- Start Column Panel-->
 					<div class="row">
 						<div class="col-md-12">
-							<scf-data-table id="new-duedate-group-table"
-								component-config="ctrl.dataTable"
-								component-datas="ctrl.tableRowCollection"
-								></scf-data-table>
+<!-- 							<scf-data-table id="new-duedate-group-table" -->
+<!-- 								component-config="ctrl.dataTable" -->
+<!-- 								component-datas="ctrl.tableRowCollection" -->
+<!-- 								clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table> -->
 						</div>
 						<div id="fixed-bottom" class="col-md-12"></div>
 					</div>
