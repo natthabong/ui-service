@@ -86,7 +86,7 @@ angular.module('scfApp').controller('NewduedateGroupController', ['Service', '$s
             if (criteria === undefined) {
 //                vm.pageModel.currentPage = '0';
 //                vm.pageModel.pageSizeSelectModel = '20';
-				vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
+//				vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
 //				vm.listTransactionModel.order = '';
 //            	vm.listTransactionModel.orderBy = '';
             } 
@@ -108,7 +108,7 @@ angular.module('scfApp').controller('NewduedateGroupController', ['Service', '$s
 	            vm.showInfomation = true;
 	            var documents = response.data;
 	            vm.tableRowCollection = documents.documentGroupByDuedateList;
-//	            console.log(vm.tableRowCollection[0].sponsorLogo);
+//	            console.log(vm.tableRowCollection);
 	            vm.summaryOutstandingAmount = documents.totalOutstandingAmount;
             }).catch(function(response) {
             	console.log('Cannot search document');
@@ -118,13 +118,13 @@ angular.module('scfApp').controller('NewduedateGroupController', ['Service', '$s
 	vm.searchTransaction();
 	
 		
-    vm.createTransaction = function(data){
-		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
-		vm.storeCriteria();
-		PageNavigation.gotoPage('/create-transaction', {
-			documentModel: data
-        });
-	}
+//    vm.createTransaction = function(data){
+//		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+//		vm.storeCriteria();
+//		PageNavigation.gotoPage('/create-transaction', {
+//			documentModel: data
+//        });
+//	}
         	
 	 vm.initLoad = function() {
 		var backAction = $stateParams.backAction;
