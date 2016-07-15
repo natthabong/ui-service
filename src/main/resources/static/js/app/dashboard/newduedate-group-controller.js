@@ -107,7 +107,8 @@ angular.module('scfApp').controller('NewduedateGroupController', ['Service', '$s
             documentDifferd.promise.then(function(response) {
 	            vm.showInfomation = true;
 	            var documents = response.data;
-	            vm.tableRowCollection = documents.content;
+	            vm.tableRowCollection = documents.documentGroupByDuedateList;
+//	            console.log(vm.tableRowCollection[0].sponsorLogo);
 	            vm.summaryOutstandingAmount = documents.totalOutstandingAmount;
             }).catch(function(response) {
             	console.log('Cannot search document');

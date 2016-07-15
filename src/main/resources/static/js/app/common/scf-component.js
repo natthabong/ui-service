@@ -160,226 +160,226 @@
                 templateUrl: 'ui/template/calendar.html'
             };
         }])
-//        .directive('scfDataTable', ['$compile', '$parse', function($compile, $parse) {
-//            return {
-//                restrict: 'E',
-//				priority: 1001,
-//                transclude: true,
-//                replace: true,
-//                scope: true,
-//                controller: ['$scope', '$element', '$attrs', '$window', '$document', function($scope, $element, $attrs, $window, $document) {
-//                    var vm = $scope;
-//                    vm.tableColumns = [];
-//                    vm.initSort = function() {
-//                        vm.order = '';
-//                        vm.reverse = false;
-//                    }
-//
-//                    vm.$watch($attrs.clearSortOrder, function(data) {
-//                        vm.initSort();
-//                    });
-//                    vm.pageOptions = {
-//                        currentPage: 0,
-//                        recordPerPage: 20
-//                    };
-//
-//                    vm.$watch($attrs.currentPage, function(data) {
-//                        if (data !== undefined) {
-//                            vm.pageOptions.currentPage = data;
-//                        }
-//                    });
-//
-//                    vm.$watch($attrs.recordPerPage, function(data) {
-//                        if (data !== undefined) {
-//                            vm.pageOptions.recordPerPage = data;
-//                        }
-//                    });
-//					
-//                    vm.$watch($attrs.componentConfig,function(dataConfig) {
-//                        var tableOption = dataConfig.options || {};
-//						//Clear value begin add column;
-//						vm.tableColumns = [];
-//                        dataConfig.columns.forEach(function(data) {
-//                            var rowData = {
-//                                field: data['field'],
-//                                idValueField: data['idValueField'],
-//                                id: data['id'],
-//                                label: data['label'],
-//                                cellTemplate: data['cellTemplate'],
-//                                sortable: data['sortable'],
-//                                cssTemplate: data['cssTemplate'],
-//                                filterType: data['filterType'],
-//                                filterFormat: data['filterFormat']
-//                            };
-//                            vm.tableColumns.push(rowData);
-//                        });
-//
-//                        //Check option set to Show row number.
-//                        if (tableOption.displayRowNo !== undefined) {
-//                            var rowData = {
-//                                field: 'no',
-//                                label: 'No.',
-//                                id: tableOption.displayRowNo['id'],
-//                            };
-//                            vm.tableColumns.splice(0, 0, rowData);
-//                        };
-//                        //Check option set to Show checkBox
-//                        if (tableOption.displaySelect !== undefined) {
-//                            var rowData = {
-//                                field: tableOption.displaySelect['field'],
-//                                id: tableOption.displaySelect['id'],
-//                                label: tableOption.displaySelect['label'],
-//                                cellTemplate: tableOption.displaySelect['cellTemplate'],
-//								idValueField: tableOption.displaySelect['idValueField']
-//                            };
-//
-//                            if (tableOption.displaySelect['displayPosition'] === 'first') {
-//                                vm.tableColumns.splice(0, 0, rowData);
-//                            } else {
-//                                vm.tableColumns.push(rowData);
-//                            }
-//                        }
-//                    }, true);
-//
-//                    vm.$watch($attrs.componentDatas, function(data) {
-//                        vm.componentDatas = data;
-//                    });
-//
-//                }],
-//                templateUrl: function(elem, attr) {
-//                    return 'ui/template/data_table.html'
-//                }
-//
-//            }
-//        }])
-//        .directive('scfTh', ['$compile', function($compile) {
-//            return {
-//                restrict: 'A',
-//                replace: true,
-//                link: scfLink
-//            }
-//
-//            function scfLink(scope, elements, attrs) {
-//				
-//                scope.$watch(attrs.scfTh, function(column) {
-//                    var htmlText = column.label;
-//                    if (column.sortable) {
-//                        htmlText = '<span sort by="{{column.field}}" reverse="reverse" order="orders">' + column.label + '</span>';
-//                    }
-//                    elements.html(htmlText);
-//                    $compile(elements.contents())(scope);
-//
-//                });
-//
-//            }
-//        }])
-//        .directive('scfTd', ['$compile', '$filter', '$log', function($compile, $filter, $log) {
-//			var log = $log;
-//            return {
-//            	scope: false,
-//                restrict: 'A',
-//                replace: true,
-//                link: scfLink
-//            }
-//
-//            function scfLink(scope, elements, attrs) {
-//                var pageOptions = scope.$eval(attrs.pageOptions);
-//
-//                scope.$watch(attrs.scfTd, function(data) {
-//                    var rowNo = renderNo(scope, attrs, pageOptions);
-//                    var column = scope.$eval(attrs.columnRender);
-//                    var dataRender = '';
-//                    var colClass = column.cssTemplate || 'text-center';
-//
-//                    if (column.field === 'no') {
-//                        elements.addClass(colClass);
-//                        elements.text(rowNo);
-//                        return;
-//                    }
-//
-//                    if (column.filterType !== undefined && column.filterType !== null) {
-//                        dataRender = filterData(column, data);
-//                    } else {
-//                        dataRender = data[column.field] || column.cellTemplate;
-//                    }					
-//                    elements.addClass(colClass);
-//                    elements.html(dataRender);
-//                    $compile(elements.contents())(scope);
-//					
-//					if (column.id !== null && column.id !== undefined) {
-//						//Check add id is rowNo for checkBox
-//						if(column.idValueField === 'template'){
-//							elements[0].children[0].id = addId(rowNo, column.id);
-//						}else{
-//							elements[0].id = addId(data[column.idValueField != null ? column.idValueField: column.field], column.id);
-//						}
-//                    }
-//                });
-//            }
-//
-//            function renderNo(scope, attrs, pageOptions) {
-//                var indexNo = scope.$eval(attrs.indexNo);
-//                var rowNo = (pageOptions.currentPage * pageOptions.recordPerPage) + (indexNo + 1)
-//                return rowNo;
-//            }
-//
-//            function filterData(column, dataColumn) {
-//                var filterType = column.filterType;
-//                var filterFormat = column.filterFormat;
-//                var data = dataColumn[column.field];
-//
-//                var result = '';
-//                if (filterType === 'date') {
-//                    var pDate = Date.parse(data);
-//
-//                    result = $filter(filterType)(data, filterFormat, 'UTC+0700');
-//                } else {
-//                    result = $filter(filterType)(data, filterFormat);
-//                }
-//                result = $filter(filterType)(data, filterFormat);
-//                return result;
-//            }
-//
-//            function addId(rowNo, columnId) {
-//                return columnId.replace('{value}', rowNo);
-//            }
-//        }]).directive('scfTdCollapes', function() {
-//            return {
-//                restrict: 'A',
-//                replace: true,
-//                link: scfLink
-//            }
-//
-//            function scfLink(scope, elements, attrs) {
-//
-//            }
-//        })
-//        .directive('sort', ['$compile', function($compile) {
-//            return {
-//                restrict: 'A',
-//                transclude: true,
-//                scope: false,
-//                link: function(scope, element, attrs) {
-//                    scope.onClick = function() {
-//                        var parent = scope.$parent;
-//                        scope.by = attrs.by;
-//                        if (parent.order === scope.by) {
-//                            parent.reverse = !parent.reverse;
-//                            scope.orderBy = scope.orderBy === 'asc' ? 'desc' : 'asc';
-//                        } else {
-//                            parent.order = scope.by;
-//                            parent.reverse = false;
-//                            scope.orderBy = 'asc';
-//                        }
-//                        scope.$parent.sortData(parent.order, scope.orderBy);
-//                    }
-//                },
-//                template: '<a href="#" class="gec-table-sort" ng-click="onClick()">' +
-//                    '<span ng-transclude></span>' +
-//                    '<i class="glyphicon" ng-class="{\'glyphicon-menu-down\' : order === by && !reverse,  \'glyphicon-menu-up\' : order===by && reverse}"></i>' +
-//                    '</a>'
-//            };
-//        }])
+        .directive('scfDataTable', ['$compile', '$parse', function($compile, $parse) {
+            return {
+                restrict: 'E',
+				priority: 1001,
+                transclude: true,
+                replace: true,
+                scope: true,
+                controller: ['$scope', '$element', '$attrs', '$window', '$document', function($scope, $element, $attrs, $window, $document) {
+                    var vm = $scope;
+                    vm.tableColumns = [];
+                    vm.initSort = function() {
+                        vm.order = '';
+                        vm.reverse = false;
+                    }
+
+                    vm.$watch($attrs.clearSortOrder, function(data) {
+                        vm.initSort();
+                    });
+                    vm.pageOptions = {
+                        currentPage: 0,
+                        recordPerPage: 20
+                    };
+
+                    vm.$watch($attrs.currentPage, function(data) {
+                        if (data !== undefined) {
+                            vm.pageOptions.currentPage = data;
+                        }
+                    });
+
+                    vm.$watch($attrs.recordPerPage, function(data) {
+                        if (data !== undefined) {
+                            vm.pageOptions.recordPerPage = data;
+                        }
+                    });
+					
+                    vm.$watch($attrs.componentConfig,function(dataConfig) {
+                        var tableOption = dataConfig.options || {};
+						//Clear value begin add column;
+						vm.tableColumns = [];
+                        dataConfig.columns.forEach(function(data) {
+                            var rowData = {
+                                field: data['field'],
+                                idValueField: data['idValueField'],
+                                id: data['id'],
+                                label: data['label'],
+                                cellTemplate: data['cellTemplate'],
+                                sortable: data['sortable'],
+                                cssTemplate: data['cssTemplate'],
+                                filterType: data['filterType'],
+                                filterFormat: data['filterFormat']
+                            };
+                            vm.tableColumns.push(rowData);
+                        });
+
+                        //Check option set to Show row number.
+                        if (tableOption.displayRowNo !== undefined) {
+                            var rowData = {
+                                field: 'no',
+                                label: 'No.',
+                                id: tableOption.displayRowNo['id'],
+                            };
+                            vm.tableColumns.splice(0, 0, rowData);
+                        };
+                        //Check option set to Show checkBox
+                        if (tableOption.displaySelect !== undefined) {
+                            var rowData = {
+                                field: tableOption.displaySelect['field'],
+                                id: tableOption.displaySelect['id'],
+                                label: tableOption.displaySelect['label'],
+                                cellTemplate: tableOption.displaySelect['cellTemplate'],
+								idValueField: tableOption.displaySelect['idValueField']
+                            };
+
+                            if (tableOption.displaySelect['displayPosition'] === 'first') {
+                                vm.tableColumns.splice(0, 0, rowData);
+                            } else {
+                                vm.tableColumns.push(rowData);
+                            }
+                        }
+                    }, true);
+
+                    vm.$watch($attrs.componentDatas, function(data) {
+                        vm.componentDatas = data;
+                    });
+
+                }],
+                templateUrl: function(elem, attr) {
+                    return 'ui/template/data_table.html'
+                }
+
+            }
+        }])
+        .directive('scfTh', ['$compile', function($compile) {
+            return {
+                restrict: 'A',
+                replace: true,
+                link: scfLink
+            }
+
+            function scfLink(scope, elements, attrs) {
+				
+                scope.$watch(attrs.scfTh, function(column) {
+                    var htmlText = column.label;
+                    if (column.sortable) {
+                        htmlText = '<span sort by="{{column.field}}" reverse="reverse" order="orders">' + column.label + '</span>';
+                    }
+                    elements.html(htmlText);
+                    $compile(elements.contents())(scope);
+
+                });
+
+            }
+        }])
+        .directive('scfTd', ['$compile', '$filter', '$log', function($compile, $filter, $log) {
+			var log = $log;
+            return {
+            	scope: false,
+                restrict: 'A',
+                replace: true,
+                link: scfLink
+            }
+
+            function scfLink(scope, elements, attrs) {
+                var pageOptions = scope.$eval(attrs.pageOptions);
+
+                scope.$watch(attrs.scfTd, function(data) {
+                    var rowNo = renderNo(scope, attrs, pageOptions);
+                    var column = scope.$eval(attrs.columnRender);
+                    var dataRender = '';
+                    var colClass = column.cssTemplate || 'text-center';
+
+                    if (column.field === 'no') {
+                        elements.addClass(colClass);
+                        elements.text(rowNo);
+                        return;
+                    }
+
+                    if (column.filterType !== undefined && column.filterType !== null) {
+                        dataRender = filterData(column, data);
+                    } else {
+                        dataRender = data[column.field] || column.cellTemplate;
+                    }					
+                    elements.addClass(colClass);
+                    elements.html(dataRender);
+                    $compile(elements.contents())(scope);
+					
+					if (column.id !== null && column.id !== undefined) {
+						//Check add id is rowNo for checkBox
+						if(column.idValueField === 'template'){
+							elements[0].children[0].id = addId(rowNo, column.id);
+						}else{
+							elements[0].id = addId(data[column.idValueField != null ? column.idValueField: column.field], column.id);
+						}
+                    }
+                });
+            }
+
+            function renderNo(scope, attrs, pageOptions) {
+                var indexNo = scope.$eval(attrs.indexNo);
+                var rowNo = (pageOptions.currentPage * pageOptions.recordPerPage) + (indexNo + 1)
+                return rowNo;
+            }
+
+            function filterData(column, dataColumn) {
+                var filterType = column.filterType;
+                var filterFormat = column.filterFormat;
+                var data = dataColumn[column.field];
+
+                var result = '';
+                if (filterType === 'date') {
+                    var pDate = Date.parse(data);
+
+                    result = $filter(filterType)(data, filterFormat, 'UTC+0700');
+                } else {
+                    result = $filter(filterType)(data, filterFormat);
+                }
+                result = $filter(filterType)(data, filterFormat);
+                return result;
+            }
+
+            function addId(rowNo, columnId) {
+                return columnId.replace('{value}', rowNo);
+            }
+        }]).directive('scfTdCollapes', function() {
+            return {
+                restrict: 'A',
+                replace: true,
+                link: scfLink
+            }
+
+            function scfLink(scope, elements, attrs) {
+
+            }
+        })
+        .directive('sort', ['$compile', function($compile) {
+            return {
+                restrict: 'A',
+                transclude: true,
+                scope: false,
+                link: function(scope, element, attrs) {
+                    scope.onClick = function() {
+                        var parent = scope.$parent;
+                        scope.by = attrs.by;
+                        if (parent.order === scope.by) {
+                            parent.reverse = !parent.reverse;
+                            scope.orderBy = scope.orderBy === 'asc' ? 'desc' : 'asc';
+                        } else {
+                            parent.order = scope.by;
+                            parent.reverse = false;
+                            scope.orderBy = 'asc';
+                        }
+                        scope.$parent.sortData(parent.order, scope.orderBy);
+                    }
+                },
+                template: '<a href="#" class="gec-table-sort" ng-click="onClick()">' +
+                    '<span ng-transclude></span>' +
+                    '<i class="glyphicon" ng-class="{\'glyphicon-menu-down\' : order === by && !reverse,  \'glyphicon-menu-up\' : order===by && reverse}"></i>' +
+                    '</a>'
+            };
+        }])
 //        .directive('scfPagination', [function() {
 //            return {
 //                restrict: 'AE',
