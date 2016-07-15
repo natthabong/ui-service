@@ -31,6 +31,10 @@ angular
 		                        vm.data = response;
 		                    }).catch();
 							
+							vm.decodeBase64 = function(data){
+								return atob(data);
+							}
+							
 							vm.create = function(data){
 								PageNavigation.gotoPage('/create-transaction', data)
 							}
