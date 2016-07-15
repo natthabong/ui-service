@@ -13,11 +13,11 @@
 			requestURL : requestURL
 		}
 
-		function requestURL(url, params) {
+		function requestURL(url, params, method) {
 			var deffered = $q.defer();
 
 			$http({
-				method : 'POST',
+				method : method || 'POST',
 				url : url,
 				data : params
 			}).success(function(response) {

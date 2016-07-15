@@ -678,3 +678,7 @@ footer .footer-below {
 .uib-day{
 	padding: 0 !important;
 }
+
+th {
+	text-align: center;
+}
