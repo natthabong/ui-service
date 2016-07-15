@@ -1,0 +1,40 @@
+<div th:fragment="content">
+	<div id="wrapper">
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-12">
+							<span id="new-duedate-group-header-label"
+								data-ng-binding="New due date group (Top 10) | translate"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<span id="summary-new-duedate-group-label"
+								data-ng-binding="Summary of outstanding amount"></span> <span
+								id="summary-new-duedate-group-value-label"
+								data-ng-binding="{{ctrl.summaryOutstandingAmount | number:2}}"></span>
+							<span id="summary-new-duedate-group-currency-label"
+								data-ng-binding="THB | translate"></span>
+						</div>
+					</div>
+					<!-- Start Column Panel-->
+					<div class="row">
+						<div class="col-md-12">
+<!-- 							<scf-data-table id="new-duedate-group-table" -->
+<!-- 								component-config="ctrl.dataTable" -->
+<!-- 								component-datas="ctrl.tableRowCollection" -->
+<!-- 								clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table> -->
+						</div>
+						<div id="fixed-bottom" class="col-md-12"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" ng-init="ctrl.verify=true"
+		sec:authorize="hasAuthority('SFP_VERIFY_TRANSACTION')" /> <input
+		type="hidden" ng-init="ctrl.approve=true"
+		sec:authorize="hasAuthority('SFP_APPROVE_TRANSACTION')" />
+</div>

@@ -6,9 +6,9 @@
 
 </head>
 
-<body ng-app="scfApp" ng-controller="ScfHomeCtrl as scfCtrl">
+<body ng-app="scfApp" >
 
-	<div id="wrapper">
+	<div id="wrapper" ng-controller="ScfHomeCtrl as scfCtrl">
 		<header th:replace="fragments/header :: header"></header>
 		<nav th:replace="fragments/sidebar :: sidebar"></nav>
 		<nav th:replace="fragments/notification :: notification"></nav>
@@ -23,6 +23,15 @@
 				</div>
 				<!-- /.row -->
 				<div class="row">
+<!--
+					<div class="col-md-12">
+						{{scfCtrl.dashboardItems}}
+					</div>
+-->
+					<div class="col-md-12" ng-repeat="dashboardItem in scfCtrl.dashboardItems">
+						<div ng-include="dashboardItem.url"></div>
+					</div>
+<!--
 					<div class="col-lg-3 col-md-6">
 						<div class="panel panel-primary">
 							<div class="panel-heading">
@@ -111,6 +120,7 @@
 							</a>
 						</div>
 					</div>
+-->
 				</div>
 				<!-- /.row -->
 
@@ -119,7 +129,6 @@
 
 		</div>
 		<!-- /#page-wrapper -->
-
 	</div>
 	<!-- /#wrapper -->
 	<footer th:replace="fragments/footer :: footer"></footer>
