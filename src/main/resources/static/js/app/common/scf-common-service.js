@@ -118,7 +118,7 @@ app.service('SCFCommonService', [
 					differed.resolve(displayConfig);
 				}).error(function(response) {
 					log.error('Load Display config error');
-					differed.resolve(defaultColumDisplay);
+					differed.reject(defaultColumDisplay);
 				});
 				return differed;
 			}
