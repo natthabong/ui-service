@@ -155,7 +155,9 @@
 						<div class="col-md-12">
 							<scf-data-table component-config="verifyTxnCtrl.dataTable"
 								id="document-table"
-								component-datas="verifyTxnCtrl.transactionModel.documents">
+								component-datas="verifyTxnCtrl.documentDisplay"
+								current-page="verifyTxnCtrl.pageModel.currentPage"
+											record-per-page="verifyTxnCtrl.pageModel.pageSizeSelectModel">
 							</scf-data-table>
 						</div>
 						<div id="fixed-bottom" class="col-md-12"></div>
