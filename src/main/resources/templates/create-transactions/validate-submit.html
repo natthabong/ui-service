@@ -187,7 +187,7 @@
 					<image width="70" height="70" ng-src="img/success-icon.png"></image>
 				</div>
 				<div class="col-md-10 col-sm-10">
-					<h2 class="gec-pop-up-font-size-green" ng-bind="'Success' | translate">Success</h2>
+					<h2 class="gec-pop-up-font-size-green" id="success-header-message-label" ng-bind="'Success' | translate">Success</h2>
 				</div>
 			</div>
 		</div>
@@ -207,6 +207,10 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-md-12 col-xs-12 text-right">
+					<scf-button type="submit" data-dismiss="modal"
+						id="create-new-button"
+						ng-click="validateAndSubmitCtrl.homeAction()"
+						ng-bind="'Home' | translate"></scf-button>
 					<scf-button type="submit" data-dismiss="modal"
 						id="create-new-button"
 						ng-click="validateAndSubmitCtrl.createNewAction()"

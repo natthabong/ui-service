@@ -114,4 +114,10 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 					PageNavigation.gotoPage('/transaction-list');
 				}, 10);
 			};
+			
+			vm.homeAction = function(){
+						$timeout(function(){
+							PageNavigation.gotoPage('/home');
+						}, 10);
+					};
 		} ]);

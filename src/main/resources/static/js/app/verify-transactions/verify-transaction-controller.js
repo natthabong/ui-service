@@ -156,5 +156,6 @@ angular.module('scfApp').controller(
 						$timeout(function(){
 							PageNavigation.gotoPage('/transaction-list');
 						}, 10);
-					};
+					};					
+					
 				} ]);

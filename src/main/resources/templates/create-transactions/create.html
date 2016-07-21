@@ -166,7 +166,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12 text-right">
-                                <scf-button id="back-step-button" type="submit" ng-click="ctrl.backStep()">{{'Back' | translate}}</scf-button>
+                                <scf-button ng-show="ctrl.showBackButton" id="back-step-button" type="submit" ng-click="ctrl.backStep()">{{'Back' | translate}}</scf-button>
                                 <scf-button id="next-button" type="submit" ng-click="ctrl.nextStep()">{{'Next' | translate}}</scf-button>
                             </div>
                         </div>
