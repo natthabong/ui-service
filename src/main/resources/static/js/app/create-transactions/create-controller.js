@@ -3,26 +3,30 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
     function(CreateTransactionService, $state, $scope, TransactionService, SCFCommonService, $stateParams, $log, PageNavigation) {
         var vm = this;
         var log = $log;
-        // Initail Data        
+        // Initail Data
         $scope.validateDataFailPopup = false;
         vm.errorMsgPopup = 'Insufficient Fund'
         vm.showErrorMsg = false;
         vm.errorMsgGroups = '';
         vm.tableRowCollection = [];
-        //SponsorCode dropdown
+        // SponsorCode dropdown
         vm.sponsorCodes = [];
-
+        
+        vm.dashboardParams = $stateParams.dashboardParams;
+        
         vm.initValueDefault = function() {
             vm.showInfomation = false;
             vm.documentSelects = [];
             vm.checkAllModel = false;
             vm.splitePageTxt = '';
 
-            // Data Sponsor for select box			
+            // Data Sponsor for select box
             vm.supplierCodes = [];
             vm.sponsorPaymentDates = [];
             vm.transactionDates = [];
             vm.submitTransactionAmount = 0.00;
+            
+            
         }
         vm.initValueDefault();
         var backAction = $stateParams.backAction || false;
@@ -70,7 +74,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             if (validateSponsorPaymentDate(sponsorPaymentDate)) {
                 if (pagingModel === undefined) {
                     // Clear list document selected
-                    //Clear list document when backAction is false
+                    // Clear list document when backAction is false
                     if (backAction === false) {
                         vm.documentSelects = [];
                     }
@@ -91,7 +95,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 vm.showInfomation = true;
                 vm.showErrorMsg = false;
 
-                //set supplierCode after search
+                // set supplierCode after search
                 vm.createTransactionModel.supplierCodeSelected = vm.createTransactionModel.supplierCode;
                 vm.createTransactionModel.sponsorIdSelected = vm.createTransactionModel.sponsorCode;
             } else {
@@ -111,12 +115,12 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             }];
 
             // Reset SponsorPaymentDate of User selected
-            //Check action come from page validate and sumbit
+            // Check action come from page validate and sumbit
             if (backAction === false) {
                 vm.createTransactionModel.sponsorPaymentDate = vm.sponsorPaymentDates[0].value;
             }
 
-            //reset actionBank is false
+            // reset actionBank is false
             backAction = false;
 
             var deffered = CreateTransactionService.getSponsorPaymentDate(sponsorCode, supplierCode);
@@ -129,6 +133,10 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                             value: data
                         })
                     });
+                    
+                    if(vm.dashboardParams!=null){
+                    	vm.createTransactionModel.sponsorPaymentDate = vm.dashboardParams.sponsorPaymentDate;
+                    }
                 })
                 .catch(function(response) {
                     log.error(response);
@@ -170,14 +178,18 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                         }
                         vm.sponsorCodes.push(selectObj);
                     });
-                    //Check action come from page validate and sumbit
+                    // Check action come from page validate and sumbit
                     if (backAction === false) {
                         vm.createTransactionModel.sponsorCode = vm.sponsorCodes[0].value;
                     }
+                    else if(vm.dashboardParams!=null){
+                     	vm.createTransactionModel.sponsorCode = vm.dashboardParams.sponsorId;
+                    }
                     vm.loadSupplierCode();
-                    //Load documentConfig from DB
+                    // Load documentConfig from DB
                     vm.loadDocumentDisplayConfig(vm.createTransactionModel.sponsorCode);
                 }
+               
             }).catch(function(response) {
                 log.error(response);
             });
@@ -197,9 +209,13 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                         }
                         vm.supplierCodes.push(supplierCode);
                     });
-                    //Check action come from page validate and sumbit
+                    // Check action come from page validate and sumbit
                     if (backAction === false) {
                         vm.createTransactionModel.supplierCode = vm.supplierCodes[0].value;
+                    }
+                    else if(vm.dashboardParams!=null){
+                    	console.log(vm.dashboardParams)
+                     	vm.createTransactionModel.supplierCode = vm.dashboardParams.supplierCode;
                     }
                     vm.loadSponsorPaymentDate();
                 }
@@ -275,7 +291,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                         });
                     });
 
-                    //Check action come from page validate and sumbit
+                    // Check action come from page validate and sumbit
                     if (backAction === false) {
                         // set select default value
                         vm.createTransactionModel.transactionDate = vm.transactionDates[0].value;
@@ -290,7 +306,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.loadDocument = function() {
             var sponsorCode = vm.createTransactionModel.sponsorCode;
 
-            //Search criteria model
+            // Search criteria model
             var searchDocumentCriteria = {
                     sponsorId: sponsorCode,
                     supplierCode: vm.createTransactionModel.supplierCode,
@@ -319,7 +335,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     log.error(response);
                 });
 
-            //Get Tradingpartner Info
+            // Get Tradingpartner Info
             var tradingInfo = CreateTransactionService.getTradingInfo(sponsorCode);
             tradingInfo.promise.then(function(response) {
                 vm.tradingpartnerInfoModel = response.data;

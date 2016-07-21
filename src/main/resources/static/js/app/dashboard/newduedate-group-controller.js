@@ -36,6 +36,12 @@ angular
 							}
 							
 							vm.create = function(data){
-								PageNavigation.gotoPage('/create-transaction', data)
+								PageNavigation.gotoPage('/create-transaction', {
+									dashboardParams: {
+										sponsorPaymentDate: data.sponsorPaymentDate,
+										sponsorId: data.sponsorId,
+										supplierCode: data.supplierCode
+									}
+								})
 							}
 						} ]);
