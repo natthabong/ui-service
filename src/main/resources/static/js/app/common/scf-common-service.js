@@ -140,8 +140,9 @@ app.service('PageNavigation', [
 			var steps = new Array();
 
 			vm.gotoPage = function(page, params, keepStateObject) {
+				var currentState = $state.current.name == '' ? '/' : $state.current.name;
 				previousPages.push({
-					page : $state.current.name,
+					page : currentState,
 					stateObject : keepStateObject
 				});
 				if(params === undefined){

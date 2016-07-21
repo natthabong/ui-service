@@ -69,11 +69,12 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 			var searchDocumentDeferred = $q.defer();
             var sponsorCode = vm.createTransactionModel.sponsorCode;
             var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
-            vm.submitTransactionAmount = 0.00;
+            
             vm.checkAllModel = false;
             // validate SponsorPayment Date is Select
             if (validateSponsorPaymentDate(sponsorPaymentDate)) {
                 if (pagingModel === undefined) {
+					vm.submitTransactionAmount = 0.00;
                     // Clear list document selected
                     // Clear list document when backAction is false
                     if (backAction === false) {
@@ -140,6 +141,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 						vm.createTransactionModel.sponsorPaymentDate = SCFCommonService.convertDate(vm.dashboardParams.sponsorPaymentDate);
 						//Auto search document from dashboard page
 						vm.dashboardInitLoad();
+						//reset value dashboard
+						vm.dashboardParams = null;
                     }
                 })
                 .catch(function(response) {
@@ -158,7 +161,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             options: {
                 displayRowNo: {},
                 displaySelect: {
-                    label: '<input type="checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
+                    label: '<input type="checkbox" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
                     cssTemplate: 'text-center',
                     cellTemplate: '<input type="checkbox" checklist-model="ctrl.documentSelects" checklist-value="data" ng-click="ctrl.selectDocument()"/>',
                     displayPosition: 'first',
@@ -215,13 +218,14 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                         }
                         vm.supplierCodes.push(supplierCode);
                     });
-                    // Check action come from page validate and sumbit
-                    if (backAction === false) {
-                        vm.createTransactionModel.supplierCode = vm.supplierCodes[0].value;
-                    }
-                    else if(vm.dashboardParams!=null){
+					if(vm.dashboardParams!=null){
 						vm.createTransactionModel.supplierCode = vm.dashboardParams.supplierCode;                 	
                     }
+					// Check action come from page validate and sumbit
+					else if (backAction === false) {
+                        vm.createTransactionModel.supplierCode = vm.supplierCodes[0].value;
+                    }
+                   
                     vm.loadSponsorPaymentDate();
                 }
             }).catch(function(response) {

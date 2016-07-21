@@ -26,7 +26,10 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
             .state('/home', {
                 url: '/home',
                 templateUrl: '/home'
-            }).state('/create-transaction', {
+            }).state('/', {
+				url:'/',
+				redirectTo: '/home'
+			}).state('/create-transaction', {
 				url: '/create-transaction',
 				controller: 'CreateTransactionController',
 				onEnter: ['CreateTransactionService','$state', function(CreateTransactionService,$state){
