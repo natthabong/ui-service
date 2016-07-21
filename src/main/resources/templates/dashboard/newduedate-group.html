@@ -5,14 +5,15 @@
 			<div class="col-md-12 col-sm-12"
 				ng-controller="NewDuedateGroupDashboardController as newDuedateCtrl">
 				<h3 class="animated fadeInLeft" id="new-duedate-group-header-label">{{dashboardItem.headerLabel}}</h3>
-				<p class="animated fadeInDown">
-					<span id="summary-new-duedate-group-label">Summary of
-						outstanding amount</span>&nbsp;<span
-						id="summary-new-duedate-group-value-label">{{newDuedateCtrl.data.totalOutstandingAmount
-						| number: 2}}</span>&nbsp;<span
-						id="summary-new-duedate-group-currency-label">THB</span>
-				</p>
+				
 				<div class="panel-body">
+					<p class="animated fadeInDown">
+						<span id="summary-new-duedate-group-label">Summary of
+							outstanding amount</span>&nbsp;<span
+							id="summary-new-duedate-group-value-label">{{newDuedateCtrl.data.totalOutstandingAmount
+							| number: 2}}</span>&nbsp;<span
+							id="summary-new-duedate-group-currency-label">THB</span>
+					</p>
 					<div class="responsive-table">
 						<table id="new-duedate-group-table"
 							class="table table-striped table-bordered" width="100%"
@@ -34,7 +35,7 @@
 									ng-repeat="record in newDuedateCtrl.data.documentGroupByDuedateList track by $index">
 									<td class="text-center"><img
 										title="{{record.sponsorName}}"
-										style="height: 32px; width: 32px; display: block;"
+										style="height: 32px; width: 32px;"
 										data-ng-src="data:image/png;base64,{{newDuedateCtrl.decodeBase64(record.sponsorLogo)}}"
 										data-err-src="images/png/avatar.png" /></td>
 									<td class="text-center"

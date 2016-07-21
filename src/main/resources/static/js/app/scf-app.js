@@ -149,7 +149,7 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 
             var defered = scfFactory.getErrorMsg($translate.use());
             defered.promise.then(function (response) {
-                self.sysMessage = response.content;
+                vm.sysMessage = response.content;
             });
 
         };
@@ -157,7 +157,7 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 		vm.getUserInfo = function(){
 			var defered = scfFactory.getUserInfo();
 			defered.promise.then(function(response){
-				self.displayName = response.displayName;
+				vm.displayName = response.displayName;
 				$scope.userInfo = response;
 			});
 		};
