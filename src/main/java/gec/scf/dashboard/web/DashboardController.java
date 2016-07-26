@@ -11,6 +11,7 @@ public class DashboardController {
 	private static String NEW_DUEDATE_GROUP = "dashboard/newduedate-group";
 	private static String CREDIT_INFORMACTION = "dashboard/credit-information";
 	private static String INTERNAL_STEP = "dashboard/internal-step";
+	private static String TRANSACTION_TODOLIST = "dashboard/transaction-todolist";
 	
 	@RequestMapping(path="/newduedate-group")
 	public String newduedateGroup(@RequestHeader("X-Requested-With") String requestedWith){
@@ -34,5 +35,13 @@ public class DashboardController {
 			return INTERNAL_STEP.concat(" :: content");
 		}
 		return INTERNAL_STEP;	
+	}
+	
+	@RequestMapping(path="/transaction-todolist")
+	public String transactionTodolist(@RequestHeader("X-Requested-With") String requestedWith){
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return TRANSACTION_TODOLIST.concat(" :: content");
+		}
+		return TRANSACTION_TODOLIST;	
 	}
 }
