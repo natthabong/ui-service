@@ -100,6 +100,12 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'dashboardCtrl',
 				templateUrl: '/dashboard',
 				resolve: load([ 'js/app/dashboard/dashboard-controller.js', 'js/app/dashboard/newduedate-group-controller.js'])
+			}).state('/transaction-todolist', {
+				url: '/transaction-todolist',
+				controller: 'TransactionTodoListDashboardController',
+				controllerAs: 'ctrl',
+				templateUrl: '/transaction-todolist',
+				resolve: load([ 'js/app/dashboard/transaction-todolist-controller.js'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
