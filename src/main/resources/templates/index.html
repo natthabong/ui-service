@@ -2,43 +2,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/head :: headTag">
 
-</head>
+<head th:replace="fragments/head :: headTag"></head>
 
 <body ng-app="scfApp">
-
+		
 	<div id="wrapper" ng-controller="ScfHomeCtrl as scfCtrl">
 		<header th:replace="fragments/header :: header"></header>
 		<nav th:replace="fragments/sidebar :: sidebar"></nav>
 		<nav th:replace="fragments/notification :: notification"></nav>
 
 		<div class="container-fluid mimin-wrapper" ui-view="">
-			<div id="content" th:fragment="content">
-				<script type="text/javascript"
-					src="js/app/dashboard/newduedate-group-controller.js"></script>
-				<div class="row">
-					<!-- /.col-lg-12 -->
-				</div>
-				<!-- /.row -->
-				<div class="row">
-
-					<div class="col-md-12"
-						ng-repeat="dashboardItem in scfCtrl.dashboardItems">
-						<div ng-include="dashboardItem.url"></div>
-					</div>
-				</div>
-				<!-- /.row -->
-
-				<!-- /.row -->
-			</div>
 
 		</div>
-		<!-- /#page-wrapper -->
 	</div>
-	<!-- /#wrapper -->
 	<footer th:replace="fragments/footer :: footer"></footer>
-
 </body>
 
 </html>
