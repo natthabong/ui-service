@@ -88,25 +88,29 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/upload-document',
 				resolve: load(['js/app/upload-document/upload-document-service.js','js/app/upload-document/upload-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/newduedate-group', {
-				url: '/newduedate-group',
-				controller: 'NewduedateGroupController',
-				controllerAs: 'ctrl',
-				templateUrl: '/newduedate-group',
-				resolve: load([ 'js/app/dashboard/newduedate-group-controller.js'])
-			}).state('/dashboard', {
+			})
+//				.state('/newduedate-group', {
+//				url: '/newduedate-group',
+//				controller: 'NewduedateGroupController',
+//				controllerAs: 'ctrl',
+//				templateUrl: '/newduedate-group',
+//				resolve: load([ 'js/app/dashboard/newduedate-group-controller.js'])
+//			})
+				.state('/dashboard', {
 				url: '/dashboard',
 				controller: 'DashboardController',
 				controllerAs: 'dashboardCtrl',
 				templateUrl: '/dashboard',
-				resolve: load([ 'js/app/dashboard/dashboard-controller.js', 'js/app/dashboard/newduedate-group-controller.js'])
-			}).state('/transaction-todolist', {
-				url: '/transaction-todolist',
-				controller: 'TransactionTodoListDashboardController',
-				controllerAs: 'ctrl',
-				templateUrl: '/transaction-todolist',
-				resolve: load([ 'js/app/dashboard/transaction-todolist-controller.js'])
-			}).state('/error', {
+				resolve: load([ 'js/app/dashboard/dashboard-controller.js', 'js/app/dashboard/newduedate-group-controller.js', 'js/app/dashboard/transaction-todolist-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			})
+//				.state('/transaction-todolist', {
+//				url: '/transaction-todolist',
+//				controller: 'TransactionTodoListDashboardController',
+//				controllerAs: 'txnTodoListCtrl',
+//				templateUrl: '/transaction-todolist',
+//				resolve: load([ 'js/app/dashboard/transaction-todolist-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+//			})
+				.state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
 				controllerAs: 'ctrl',

@@ -1,8 +1,7 @@
 <div th:fragment="content">
 	<div class="panel">
-		<div class="panel-body">
-			<div class="col-md-12 col-sm-12"
-				ng-controller="TransactionTodoListDashboardController as txnTodoListCtrl">
+		<div class="panel-body" ng-controller="TransactionTodoListDashboardController as txnTodoListCtrl">
+			<div class="col-md-12 col-sm-12">
 				<h3 class="animated fadeInLeft"
 					id="wait-for-verify-transaction-header-label" ng-bind="txnTodoListCtrl.dashboardItem.headerLabel"></h3>
 				
