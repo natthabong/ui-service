@@ -250,6 +250,8 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
+					<scf-button id="view-back-button" data-dismiss="modal"
+						ng-click="verifyTxnCtrl.backAndReset()" ng-bind="'Back' | translate"></scf-button>	
 					<scf-button id="view-recent-button" data-dismiss="modal"
 						ng-click="verifyTxnCtrl.viewRecent()" ng-bind="'View Recent' | translate"></scf-button>				
 					<scf-button id="view-history-button" data-dismiss="modal"

@@ -112,7 +112,6 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                     }
                     vm.sponsorCodeDropdown.push(selectObj);
                 });
-//                vm.listTransactionModel.sponsorCode = vm.sponsorCodeDropdown[0].value;
             }
         }).catch(function(response) {
 			console.log('Load Sponsor Fail');
@@ -131,7 +130,6 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                     }
                     vm.transactionStatusGroupDropdown.push(selectObj);
                 });
-//                vm.listTransactionModel.statusGroup = vm.transactionStatusGroupDropdown[0].value;
             }
         }).catch(function(response) {
 			console.log('Load TransactionStatusGroup Fail');
@@ -376,7 +374,6 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	vm.loadTransactionGroup();
 	
 	vm.approveTransaction = function(data){
-//		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 		vm.storeCriteria();
 		var params = {transaction: data};
 		PageNavigation.gotoPage('/approve-transaction/approve',params,params)

@@ -7,12 +7,12 @@
 				
 					<div class="row">
 						<div class="col-md-12 col-sm-12 text-right">
-							<span> <b ng-bind="txnTodoListCtrl.splitePageTxt"
+							<span> <b ng-bind="ctrl.splitePageTxt"
 								id="transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-									dropdown-id="page-limit-dropdown"
+									dropdown-id="wait-for-verify-transaction-page-limit-dropdown"
 									page-size-model="txnTodoListCtrl.pageModel.pageSizeSelectModel"
 									total-page="txnTodoListCtrl.pageModel.totalPage"
-									current-page="txnTodoListCtrl.pageModel.currentPage"
+									current-page="txnTodoListCtrl.pageModel.page"
 									page-size-list="txnTodoListCtrl.pageSizeList"
 									page-action="txnTodoListCtrl.searchTransaction"></scf-pagination>
 							</span>
@@ -21,6 +21,7 @@
 					</div>
 
 					<div class="row">
+					<img style="height: 32px; width: 32px;"	data-ng-src="data:image/png;base64,{{txnTodoListCtrl.decodeBase64()}}"/>
 						<div class="col-md-12">
 							<scf-data-table id="wait-for-verify-transaction-table"
 								component-config="txnTodoListCtrl.dataTable"
@@ -32,6 +33,11 @@
 						<div id="fixed-bottom" class="col-md-12"></div>
 					</div>				
 			</div>
+	<input type="hidden" ng-init="txnTodoListCtrl.verify=true"
+		sec:authorize="hasAuthority('SFP_VERIFY_TRANSACTION')" /> 
+	<input type="hidden" ng-init="txnTodoListCtrl.approve=true"
+		sec:authorize="hasAuthority('SFP_APPROVE_TRANSACTION')" />
 		</div>
 	</div>
+	
 </div>
