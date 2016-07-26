@@ -1,8 +1,8 @@
 var $stateProviderRef = null;
 
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui'])
-    .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider',
-        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider,$compileProvider) {
+    .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider','$urlRouterProvider',
+        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider,$compileProvider, $urlRouterProvider) {
 
     		var version = (new Date()).getTime();
 			$compileProvider.debugInfoEnabled(false);
@@ -22,14 +22,14 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
             $httpProvider.defaults.headers.common['Accept-Language'] = 'en_EN';
             $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 			$stateProviderRef = $stateProvider;
+			
+			$urlRouterProvider.otherwise('/dashboard');
             $stateProvider
             .state('/home', {
                 url: '/home',
-                templateUrl: '/home'
-            }).state('/', {
-				url:'/',
-				redirectTo: '/home'
-			}).state('/create-transaction', {
+				templateUrl: '/home',
+				redirectTo: '/dashboard'
+            }).state('/create-transaction', {
 				url: '/create-transaction',
 				controller: 'CreateTransactionController',
 				onEnter: ['CreateTransactionService','$state', function(CreateTransactionService,$state){
@@ -88,19 +88,29 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/upload-document',
 				resolve: load(['js/app/upload-document/upload-document-service.js','js/app/upload-document/upload-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/newduedate-group', {
-				url: '/newduedate-group',
-				controller: 'NewduedateGroupController',
-				controllerAs: 'ctrl',
-				templateUrl: '/newduedate-group',
-				resolve: load([ 'js/app/dashboard/newduedate-group-controller.js'])
-			}).state('/transaction-todolist', {
-				url: '/transaction-todolist',
-				controller: 'TransactionTodoListDashboardController',
-				controllerAs: 'ctrl',
-				templateUrl: '/transaction-todolist',
-				resolve: load([ 'js/app/dashboard/transaction-todolist-controller.js'])
-			}).state('/error', {
+			})
+//				.state('/newduedate-group', {
+//				url: '/newduedate-group',
+//				controller: 'NewduedateGroupController',
+//				controllerAs: 'ctrl',
+//				templateUrl: '/newduedate-group',
+//				resolve: load([ 'js/app/dashboard/newduedate-group-controller.js'])
+//			})
+				.state('/dashboard', {
+				url: '/dashboard',
+				controller: 'DashboardController',
+				controllerAs: 'dashboardCtrl',
+				templateUrl: '/dashboard',
+				resolve: load([ 'js/app/dashboard/dashboard-controller.js', 'js/app/dashboard/newduedate-group-controller.js', 'js/app/dashboard/transaction-todolist-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			})
+//				.state('/transaction-todolist', {
+//				url: '/transaction-todolist',
+//				controller: 'TransactionTodoListDashboardController',
+//				controllerAs: 'txnTodoListCtrl',
+//				templateUrl: '/transaction-todolist',
+//				resolve: load([ 'js/app/dashboard/transaction-todolist-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+//			})
+				.state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
 				controllerAs: 'ctrl',
@@ -169,20 +179,6 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 		};
 		
 		vm.getUserInfo();
-		
-		
-		vm.loadDashboardConfig = function(){
-			var deferred = Service.requestURL('api/dashboard/items/get');
-			vm.dashboardItems = [];
-			deferred.promise.then(function(response){
-				vm.dashboardItems = response;
-			}).catch(function(response){
-
-			});
-		};
-	
-		vm.loadDashboardConfig();
-
     }
 ]);
 
@@ -237,18 +233,19 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
     }
 }]);
 
-app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', 'blockUI', function ($rootScope, $q, $http, $urlRouter, $window, blockUI) {
+app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', 'blockUI', '$state', function ($rootScope, $q, $http, $urlRouter, $window, blockUI, $state) {
     $rootScope
         .$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {
-
+				if(toState.redirectTo){
+					event.preventDefault();
+					$state.go(toState.redirectTo, toParams, {location: 'replace'});
+				}
             });
 
     $rootScope
         .$on('$stateChangeSuccess',
             function (event, toState, toParams, fromState, fromParams) {
-                $window.scrollTo(0, 0);
-        
+                $window.scrollTo(0, 0);        
             });
-
 }]);

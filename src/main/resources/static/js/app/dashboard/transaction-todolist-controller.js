@@ -13,10 +13,10 @@ angular.module('scfApp').controller(
 					var vm = this;
 					var log = $log;
 					
-					vm.splitePageTxt = '';
-					console.log($scope.$parent.$parent.dashboardItem);
+					vm.splitePageTxt = '';					
 					vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
-					splitCriteriaData(vm.dashboardItem.orderItems);
+					var orderItems  = splitCriteriaSortOrderData(vm.dashboardItem.orderItems);
+					var filterItems = splitCriteriaFilterData();
 				    vm.pageModel = {
 				            pageSizeSelectModel: '20',
 				            totalRecord: 0,
@@ -36,7 +36,7 @@ angular.module('scfApp').controller(
 				    }];
 					
 					vm.searchTransaction = function(criteria){
-
+						
 					};
 					
 					vm.tableRowCollection = [];
@@ -1038,7 +1038,7 @@ angular.module('scfApp').controller(
 						 }
 						];
 					
-					function splitCriteriaData(data){
+					function splitCriteriaSortOrderData(data){
 						var dataSplit = data.split(",");
 						var order = [];
 						dataSplit.forEach(function(orderData){
@@ -1050,7 +1050,22 @@ angular.module('scfApp').controller(
 							order.push(item);
 						});
 						
-						console.log(order)
+						return order;
+					}
+					
+					function splitCriteriaFilterData(data){
+						var dataSplit = data.split(",");
+						var order = [];
+						dataSplit.forEach(function(orderData){
+							var orderItem = orderData.split(":");
+							item = {
+									fieldName: orderItem[0],
+									value:  orderItem[1]
+							}
+							order.push(item);
+						});
+						
+						return order;
 					}
 
 //					var dataSource = Service
@@ -1068,6 +1083,4 @@ angular.module('scfApp').controller(
 //					dataSource.promise.then(function(response) {
 //                        vm.data = response;
 //                    }).catch();
-										
-
 				} ]);
