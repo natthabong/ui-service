@@ -86,7 +86,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
        
 		vm.backPage = function(){
 			$timeout(function() {
-			PageNavigation.gotoPreviousPage(false);
+				PageNavigation.gotoPreviousPage(false);
 			},10);
 		}
 
