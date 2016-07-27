@@ -19,6 +19,7 @@ function approveTransactionService($q, $http, $sce, blockUI) {
         	blockUI.stop();
             deffered.resolve(response);
         }).catch(function(response) {
+        	blockUI.stop();
             deffered.reject(response);
         });
         return deffered;

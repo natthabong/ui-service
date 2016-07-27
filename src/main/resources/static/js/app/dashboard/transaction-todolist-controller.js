@@ -112,7 +112,7 @@ angular.module('scfApp').controller(
 				                sortData: true,
 				                cssTemplate: 'text-center',
 								cellTemplate: '<img	title="{{data.sponsor}}" style="height: 32px; width: 32px;"	'+
-								'data-ng-src="data:image/png;base64,txnTodoListCtrl.decodeBase64({{data.sponsorLogo}})" data-err-src="images/png/avatar.png" />'
+								'data-ng-src="data:image/png;base64,{{txnTodoListCtrl.decodeBase64(data.sponsorLogo)}}" data-err-src="images/png/avatar.png" />'
 				            },{
 				                field: 'transactionNo',
 				                label: 'Transaction No',
