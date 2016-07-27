@@ -6,11 +6,12 @@ angular
 						'$log',
 						'$scope',
 						'$state',
+						'SCFCommonService',
 						'$stateParams',
 						'$timeout',
 						'PageNavigation',
 						'Service',
-						function($log, $scope, $state, $stateParams, $timeout,
+						function($log, $scope, $state, SCFCommonService, $stateParams, $timeout,
 								PageNavigation, Service) {
 							var vm = this;
 							var log = $log;
@@ -27,8 +28,7 @@ angular
 									pageSize: 20,
 									orders: orderItems
 							}
-								
-							vm.splitPageTxt = '';
+
 							vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
 							var orderItems = splitCriteriaSortOrderData(vm.dashboardItem.orderItems);
 							splitCriteriaFilterData(vm.dashboardItem.filterItems);
@@ -49,8 +49,20 @@ angular
 								label : '50',
 								value : '50'
 							} ];
+							
+//							vm.storeCriteria = function(){
+//								$cookieStore.put(listStoreKey, vm.listTransactionModel);
+//							}
 
-							vm.tableRowCollection = [];
+							vm.view = function(data){		
+								SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+								//vm.storeCriteria();
+								var params = { transactionModel: data,
+							            isShowViewHistoryButton: false,
+							            isShowBackButton: true
+							        }
+								PageNavigation.gotoPage('/view-transaction',params,params)
+							}
 
 							vm.dataTable = {
 								options : {
@@ -62,13 +74,12 @@ angular
 											label : 'TP',
 											// sortData : true,
 											cssTemplate : 'text-center'
-										},
-										{
+										}, {
 											field : 'transactionNo',
 											label : 'Transaction No',
 											id : 'transaction-{value}-transaction-no-label',
 											sortData : true,
-											cssTemplate : 'text-center',
+											cssTemplate : 'text-center'
 										}, {
 											field : 'sponsorPaymentDate',
 											label : 'SponsorPayment Date',
@@ -88,15 +99,20 @@ angular
 											cssTemplate : 'text-right',
 											filterType : 'number',
 											filterFormat : '2'
-										}
-										, {
+										}, {
 											field : 'statusCode',
 											label : 'Status',
 											sortData : true,
 											idValueField : 'transactionNo',
 											id : 'status-{value}',
 											filterType : 'translate',
-											cssTemplate : 'text-center',
+											cssTemplate : 'text-center'
+										}, {
+											field: '',
+											label: '',
+											cssTemplate: 'text-center',
+											sortData: false,
+											cellTemplate: '<button class="btn-default gec-btn-action" id="view-transaction-{{data.transactionNo}}-button" title="View a transaction" ng-click="internalStepCtrl.view(data)"><i class="glyphicon glyphicon-edit" aria-hidden="true">'
 										} ]
 							};
 
@@ -973,13 +989,32 @@ angular
 							vm.decodeBase64 = function(data) {
 								return atob(data);
 							}
-
-							var dataSource = Service.requestURL('/api/list-transaction/search',vm.transactionCriteria);
-							dataSource.promise.then(function(response) {
-								vm.data = response.content;
-								console.log(response);
-								console.log(response.data);
-								console.log(response.content);
-							}).catch();
-							console.log(vm.data);
+							vm.searchTransactionService = function() {									
+								var dataSource = Service.requestURL('/api/list-transaction/search',vm.transactionCriteria);
+								dataSource.promise.then(function(response) {
+									vm.data = response.content;
+					                vm.pageModel.totalRecord = response.totalElements;
+					                vm.pageModel.totalPage = response.totalPages;
+								}).catch();
+							}
+							
+							vm.searchTransactionService();						
+							vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+							
+							vm.searchTransaction = function(criteria){
+						            if (criteria === undefined) {
+						                vm.pageModel.currentPage = '0';
+						                vm.pageModel.pageSizeSelectModel = '20';
+										vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
+						                vm.transactionCriteria.page = '0';
+						                vm.transactionCriteria.pageSize = '20';
+						            } else {
+						                vm.pageModel.currentPage = criteria.page;
+						                vm.pageModel.pageSizeSelectModel = criteria.pageSize;	
+						                vm.transactionCriteria.page = criteria.page;
+						                vm.transactionCriteria.pageSize = criteria.pageSize;				
+						            }
+						            vm.searchTransactionService();
+							};
+							
 						} ]);
