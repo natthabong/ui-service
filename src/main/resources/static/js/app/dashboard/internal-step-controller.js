@@ -50,18 +50,20 @@ angular
 								value : '50'
 							} ];
 							
-// vm.storeCriteria = function(){
-// $cookieStore.put(listStoreKey, vm.listTransactionModel);
-// }
-
 							vm.view = function(data){		
 								SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
-								// vm.storeCriteria();
 								var params = { transactionModel: data,
 							            isShowViewHistoryButton: false,
 							            isShowBackButton: true
 							        }
 								PageNavigation.gotoPage('/view-transaction',params,params)
+							}
+							
+							vm.decodeBase64 = function(data){
+								if(angular.isUndefined(data)){
+									return '';
+								}
+								return atob(data);
 							}
 
 							vm.dataTable = {
@@ -74,7 +76,7 @@ angular
 										    sortData: true,
 										    cssTemplate: 'text-center',
 											cellTemplate: '<img	title="{{data.sponsor}}" style="height: 32px; width: 32px;"	'+
-											'data-ng-src="data:image/png;base64,txnTodoListCtrl.decodeBase64({{data.sponsorLogo}})" data-err-src="images/png/avatar.png" />'
+											'data-ng-src="data:image/png;base64,{{internalStepCtrl.decodeBase64(data.sponsorLogo)}}" data-err-src="images/png/avatar.png" />'
 										}, {
 											field : 'transactionNo',
 											label : 'Transaction No',
