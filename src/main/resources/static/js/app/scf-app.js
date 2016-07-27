@@ -101,7 +101,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'DashboardController',
 				controllerAs: 'dashboardCtrl',
 				templateUrl: '/dashboard',
-				resolve: load([ 'js/app/dashboard/dashboard-controller.js', 'js/app/dashboard/newduedate-group-controller.js', 'js/app/dashboard/transaction-todolist-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load([ 'js/app/dashboard/dashboard-controller.js', 'js/app/dashboard/newduedate-group-controller.js', 'js/app/dashboard/credit-information-controller.js','js/app/dashboard/internal-step-controller.js', 'js/app/dashboard/transaction-todolist-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
 //				.state('/transaction-todolist', {
 //				url: '/transaction-todolist',

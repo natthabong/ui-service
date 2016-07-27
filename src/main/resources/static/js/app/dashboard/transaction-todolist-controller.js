@@ -16,7 +16,7 @@ angular.module('scfApp').controller(
 					vm.splitePageTxt = '';					
 					vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
 					var orderItems  = splitCriteriaSortOrderData(vm.dashboardItem.orderItems);
-					var filterItems = splitCriteriaFilterData();
+					var filterItems = splitCriteriaFilterData(vm.dashboardItem.filterItems);
 				    vm.pageModel = {
 				            pageSizeSelectModel: '20',
 				            totalRecord: 0,
