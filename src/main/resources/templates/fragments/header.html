@@ -44,7 +44,7 @@
             <div class="collapse navbar-collapse" id="hd-navbar-collapse-1">
                 <ul class="nav navbar-nav">
 					<li class="dropdown" th:each="menu : ${session.menus}">
-						<a th:href="${menu.url?:'#'}" th:id="${menu.menuId+'-menu'}" class="dropdown-toggle" data-toggle="dropdown">
+						<a th:id="${menu.menuId+'-menu'}" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer">
 						<span th:inline="text">{{ '[[${menu.menuId}]]'  | translate }}</span><span class="caret"></span></a>
 						<ul class="dropdown-menu" >
                             <li th:each="children : ${menu.children}">

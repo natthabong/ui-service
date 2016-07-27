@@ -10,6 +10,7 @@ import gec.scf.util.AjaxUtils;
 
 @Controller
 public class DashboardController {
+	private static final String APPROVE_TRANSACTION_TODOLIST = "dashboard/approve-transaction-todolist";
 	private static String NEW_DUEDATE_GROUP = "dashboard/newduedate-group";
 	private static String CREDIT_INFORMACTION = "dashboard/credit-information";
 	private static String INTERNAL_STEP = "dashboard/internal-step";
@@ -55,6 +56,14 @@ public class DashboardController {
 			return DASHBOARD_URL.concat(" :: content");
 		}
 		return DASHBOARD_URL;		
+	}
+	
+	@RequestMapping(path="/approve-transaction")
+	public String approveTransactionTodoList(@RequestHeader("X-requested-With") String requestedWith){
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return APPROVE_TRANSACTION_TODOLIST.concat(" :: content");
+		}
+		return APPROVE_TRANSACTION_TODOLIST;
 	}
 
 }

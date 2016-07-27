@@ -30,7 +30,7 @@
                     <div class="col-md-12 text-right">
                         <scf-button id="approve-button" ng-disabled="ctrl.disableButton" type="submit" ng-click="ctrl.confirmPopup()" ng-bind="'Approve' | translate"></scf-button>
                         <scf-button id="reject-button" ng-disabled="ctrl.disableButton" ng-bind="'Reject' | translate"></scf-button>
-                        <scf-button id="back-button" ng-bind="'Back' | translate"></scf-button>
+                        <scf-button id="back-button" ng-bind="'Back' | translate" ng-click="ctrl.backPage()"></scf-button>
                     </div>
 
                 </div>
@@ -125,6 +125,7 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
+					<scf-button id="approve-back-button" ng-bind="'Back' | translate" ng-click="ctrl.backPage()"></scf-button>
 					<scf-button id="view-recent-button" data-dismiss="modal"
 						ng-click="ctrl.viewRecent()" ng-bind="'View recent' | translate"></scf-button>				
 					<scf-button id="view-history-button" data-dismiss="modal"

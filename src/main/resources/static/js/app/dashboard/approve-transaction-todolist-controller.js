@@ -1,5 +1,5 @@
 angular.module('scfApp').controller(
-		'TransactionTodoListDashboardController',
+		'ApproveTransactionTodoListDashboardController',
 		[
 				'$log',
 				'$scope',
@@ -12,9 +12,8 @@ angular.module('scfApp').controller(
 						PageNavigation, Service, SCFCommonService, PageNavigation) {
 					var vm = this;
 					var log = $log;
-					var transactionTodoListUrl = 'api/list-transaction/todo-list';
-					
-					vm.verify = false;
+					var approveTransactionTodoListUrl = 'api/list-transaction/todo-list';
+
 					vm.approve = false;
 					vm.splitePageTxt = '';					
 					vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
@@ -42,7 +41,6 @@ angular.module('scfApp').controller(
 				    }];
 					
 					vm.statusTransaction = {
-						waitForVerify: 'WAIT_FOR_VERIFY',
 						waitForApprove: 'WAIT_FOR_APPROVE'
 					}
 					
@@ -54,14 +52,14 @@ angular.module('scfApp').controller(
 						pageSize: 20,
 						dateType: 'sponsorPaymentDate'
 					};
-					
+
 					vm.searchTransaction = function(criteria){
-						if(!angular.isUndefined(criteria)){
+						if(!angular.isUndefined(criteria)){							
 							vm.pageModel.pageSizeSelectModel = criteria.pageSize;
 							vm.transactionCriteriaModel.page = criteria.page;
 							vm.transactionCriteriaModel.pageSize = criteria.pageSize;
 							vm.transactionCriteriaModel.orders = orderItems;
-							vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder ;
+							vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
 						}
 						callService(vm.transactionCriteriaModel);						
 					};
@@ -75,18 +73,18 @@ angular.module('scfApp').controller(
 						return atob(data);
 					}
 					
-					vm.verifyTransaction = function(data){
-						PageNavigation.gotoPage('/verify-transaction', {
-							transactionModel: data
+					vm.approveTransaction = function(data){
+						PageNavigation.gotoPage('/approve-transaction/approve', {
+							transaction: data
 						});
 					}
 
 					function callService(criteria){
-						var serviceDiferred = Service.requestURL(transactionTodoListUrl, criteria, 'POST');						
+						var serviceDiferred = Service.requestURL(approveTransactionTodoListUrl, criteria, 'POST');						
 						serviceDiferred.promise.then(function(response){
 							vm.data = response.content;
 							vm.pageModel.totalRecord = response.totalElements;
-							vm.pageModel.totalPage = response.totalPages;							
+							vm.pageModel.totalPage = response.totalPages;
 							vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.transactionCriteriaModel.page, vm.pageModel.totalRecord);
 						}).catch(function(response){
 							log.error('Load Transaction todo list error');
@@ -112,10 +110,11 @@ angular.module('scfApp').controller(
 				                sortData: true,
 				                cssTemplate: 'text-center',
 								cellTemplate: '<img	title="{{data.sponsor}}" style="height: 32px; width: 32px;"	'+
-								'data-ng-src="data:image/png;base64,txnTodoListCtrl.decodeBase64({{data.sponsorLogo}})" data-err-src="images/png/avatar.png" />'
+								'data-ng-src="data:image/png;base64,approveTxnTodoListCtrl.decodeBase64({{data.sponsorLogo}})" data-err-src="images/png/avatar.png" />'
 				            },{
 				                field: 'transactionNo',
 				                label: 'Transaction No',
+				                id: 'transaction-{value}-transaction-no-label',
 				                sortable: true,
 				                cssTemplate: 'text-center',
 				            },{
@@ -141,7 +140,7 @@ angular.module('scfApp').controller(
 								label: '',
 								cssTemplate: 'text-center',
 								sortable: false,
-								cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="(txnTodoListCtrl.verify && (data.statusCode === txnTodoListCtrl.statusTransaction.waitForVerify))" id="transaction-{{data.transactionNo}}-button" ng-click="txnTodoListCtrl.verifyTransaction(data)"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></scf-button>'
+								cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="(approveTxnTodoListCtrl.approve && (data.statusCode === approveTxnTodoListCtrl.statusTransaction.waitForApprove))" id="transaction-{{data.transactionNo}}-button" ng-click="approveTxnTodoListCtrl.approveTransaction(data)"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></scf-button>'
 							}]
 				    };
 				    
