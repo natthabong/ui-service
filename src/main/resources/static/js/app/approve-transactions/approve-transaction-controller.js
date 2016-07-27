@@ -84,6 +84,11 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
         	}
         }
        
+		vm.backPage = function(){
+			$timeout(function() {
+			PageNavigation.gotoPreviousPage(false);
+			},10);
+		}
 
         function validateCredential(data) {
             var result = true;
