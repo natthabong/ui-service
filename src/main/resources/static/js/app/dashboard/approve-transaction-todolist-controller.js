@@ -58,7 +58,8 @@ angular.module('scfApp').controller(
 							vm.pageModel.pageSizeSelectModel = criteria.pageSize;
 							vm.transactionCriteriaModel.page = criteria.page;
 							vm.transactionCriteriaModel.pageSize = criteria.pageSize;
-							vm.pageModel.clearSortOrder = true;
+							vm.transactionCriteriaModel.orders = orderItems;
+							vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
 						}
 						callService(vm.transactionCriteriaModel);						
 					};
@@ -83,7 +84,7 @@ angular.module('scfApp').controller(
 						serviceDiferred.promise.then(function(response){
 							vm.data = response.content;
 							vm.pageModel.totalRecord = response.totalElements;
-							vm.pageModel.totalPage = response.totalPages;							
+							vm.pageModel.totalPage = response.totalPages;
 							vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.transactionCriteriaModel.page, vm.pageModel.totalRecord);
 						}).catch(function(response){
 							log.error('Load Transaction todo list error');
@@ -95,10 +96,9 @@ angular.module('scfApp').controller(
 							fieldName: order,
 							direction:  orderBy.toUpperCase()
 						}						
-						var orderItems = [];
-						orderItems.push(orderItem);
-						vm.transactionCriteriaModel.orders = orderItems;
-						console.log(vm.transactionCriteriaModel.orders);
+						var sortOrderItems = [];
+						sortOrderItems.push(orderItem);
+						vm.transactionCriteriaModel.orders = sortOrderItems;
 						vm.searchTransaction(undefined);
 					}
 				    vm.dataTable = {

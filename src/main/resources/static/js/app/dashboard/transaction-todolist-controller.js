@@ -56,11 +56,12 @@ angular.module('scfApp').controller(
 					};
 					
 					vm.searchTransaction = function(criteria){
-						if(!angular.isUndefined(criteria)){							
+						if(!angular.isUndefined(criteria)){
 							vm.pageModel.pageSizeSelectModel = criteria.pageSize;
 							vm.transactionCriteriaModel.page = criteria.page;
 							vm.transactionCriteriaModel.pageSize = criteria.pageSize;
-							vm.pageModel.clearSortOrder = true;
+							vm.transactionCriteriaModel.orders = orderItems;
+							vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder ;
 						}
 						callService(vm.transactionCriteriaModel);						
 					};
@@ -97,9 +98,9 @@ angular.module('scfApp').controller(
 							fieldName: order,
 							direction:  orderBy.toUpperCase()
 						}						
-						var orderItems = [];
-						orderItems.push(orderItem);
-						vm.transactionCriteriaModel.orders = orderItems;
+						var sortOrderItems = [];
+						sortOrderItems.push(orderItem);
+						vm.transactionCriteriaModel.orders = sortOrderItems;
 						vm.searchTransaction(undefined);
 					}
 				    vm.dataTable = {
@@ -115,7 +116,6 @@ angular.module('scfApp').controller(
 				            },{
 				                field: 'transactionNo',
 				                label: 'Transaction No',
-				                id: 'transaction-{value}-transaction-no-label',
 				                sortable: true,
 				                cssTemplate: 'text-center',
 				            },{

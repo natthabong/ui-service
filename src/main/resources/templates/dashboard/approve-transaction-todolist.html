@@ -8,13 +8,17 @@
 					<div class="row">
 						<div class="col-md-12 col-sm-12 text-right">
 							<span> <b ng-bind="approveTxnTodoListCtrl.splitePageTxt"
-								id="transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-									dropdown-id="wait-for-approve-transaction-pagelimit-dropdown"
+								id="wait-for-approve-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+									dropdown-id="wait-for-approve-transaction-page-limit-drapdown"
 									page-size-model="approveTxnTodoListCtrl.pageModel.pageSizeSelectModel"
 									total-page="approveTxnTodoListCtrl.pageModel.totalPage"
 									current-page="approveTxnTodoListCtrl.transactionCriteriaModel.page"
 									page-size-list="approveTxnTodoListCtrl.pageSizeList"
-									page-action="approveTxnTodoListCtrl.searchTransaction"></scf-pagination>
+									page-action="approveTxnTodoListCtrl.searchTransaction"
+									first-page-button-id="wait-for-approve-transaction-first-page-button"
+									back-page-button-id="wait-for-approve-transaction-back-page-button"
+									next-page-button-id="wait-for-approve-transaction-next-page-button"
+									last-page-button-id="wait-for-approve-transaction-last-page-button"></scf-pagination>
 							</span>
 
 						</div>
