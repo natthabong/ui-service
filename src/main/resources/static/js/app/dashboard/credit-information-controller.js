@@ -16,8 +16,8 @@ angular.module('scfApp').controller(
 					var dataSource = Service
 					.requestURL('/api/credit-information/get', {});
 					
-					dataSource.promise.then(function(response) {
-		                vm.data = response;
+					dataSource.promise.then(function(response) {						
+		                vm.data = response.content;
 		                i = 0;
 		                angular.forEach(vm.data, function(value, idx) {
 		                	if(vm.isSameAccount(value.accountId, vm.data, idx)){
