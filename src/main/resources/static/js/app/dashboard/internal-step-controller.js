@@ -135,18 +135,33 @@ angular
 
 								return order;
 							}
-
+							
 							function splitCriteriaFilterData(data) {
 								var dataSplit = data.split(",");
+								var count = 0;
 								dataSplit.forEach(function(filterData) {
 									var filterItem = filterData.split(":");
-									if("statusGroup" == filterItem[0]){
-										vm.transactionCriteria.statusGroup = filterItem[1];
-									}else if("statusCode" == filterItem[0]){
-										vm.transactionCriteria.statusCode = filterItem[1];
-									}
+									vm.transactionCriteria[filterItem[0]] = filterItem[1];
 								});
 							}
+
+//							function splitCriteriaFilterData(data) {
+//								var dataSplit = data.split(",");
+//								var count = 0;
+//								dataSplit.forEach(function(filterData) {
+//									var filterItem = filterData.split(":");
+//									if("statusGroup" == filterItem[0]){
+//										if(count>0){
+//											vm.transactionCriteria.statusGroup = vm.transactionCriteria.statusGroup+","+filterItem[1];
+//										}else{
+//											vm.transactionCriteria.statusGroup = filterItem[1];
+//										}
+//										count+=1;
+//									}else if("statusCode" == filterItem[0]){
+//										vm.transactionCriteria.statusCode = filterItem[1];
+//									}
+//								});
+//							}
 
 							vm.decodeBase64 = function(data) {
 								return atob(data);
