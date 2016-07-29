@@ -1,12 +1,13 @@
-angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTransactionService', '$stateParams', '$state', '$timeout', 'PageNavigation',
+angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTransactionService', '$stateParams', '$state', '$timeout', 'PageNavigation','ngDialog',
 
-    function($scope, ApproveTransactionService, $stateParams, $state, $timeout, PageNavigation) {
+    function($scope, ApproveTransactionService, $stateParams, $state, $timeout, PageNavigation, ngDialog) {
         var vm = this;
         vm.TransactionStatus = {
         		book: 'B'
         }
         vm.disableButton = true;
         vm.transaction = {};
+        vm.response = {};
         $scope.approveConfirmPopup = false;
         $scope.successPopup = false;
         vm.reqPass = false;
@@ -36,7 +37,15 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                     $scope.successPopup = true;
 
                 }).catch(function(response) {
-                    console.log('Approve Fail');
+                    $scope.approveConfirmPopup = false;
+                    $scope.response = response.data;
+                    ngDialog.open({
+                        template: '/js/app/approve-transactions/fail-dialog.html',
+	                    className: 'ngdialog-theme-default',
+	                    scope: $scope,
+	                    disableAnimation: true
+                    });
+                    
                 });
             } else {
             	vm.reqPass = true;
@@ -47,7 +56,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
             var deffered = ApproveTransactionService.getTransaction(vm.transactionApproveModel.transaction);
             deffered.promise.then(function(response) {
                 vm.transaction = response.data;
-                ApproveTransactionService.generateRequestForm(vm.transactionApproveModel.transaction);
+               // ApproveTransactionService.generateRequestForm(vm.transactionApproveModel.transaction);
                
             }).catch(function(response) {
                 console.log('Get transaction fail');

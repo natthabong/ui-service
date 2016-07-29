@@ -1,7 +1,7 @@
 angular.module('scfApp').controller(
 		'VerifyTransactionController',
-		[ 'VerifyTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state','PageNavigation',
-				function(VerifyTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state,PageNavigation) {
+		[ 'VerifyTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state','PageNavigation', 'ngDialog',
+				function(VerifyTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state,PageNavigation, ngDialog) {
 					var vm = this;
 					vm.dataTable = {
 						options : {
@@ -13,7 +13,6 @@ angular.module('scfApp').controller(
 							errorMessage: '',
 							modifyName: ''
 					}
-					$scope.showConfirmPopup = false; 
 					$scope.verifyFailPopup = false;
 					$scope.successPopup = false;
 					vm.pageModel = {
@@ -94,7 +93,14 @@ angular.module('scfApp').controller(
 						
 					}
 					vm.confirmApprove = function(){
-						$scope.showConfirmPopup = true; 
+						ngDialog.openConfirm({
+		                    template: 'confirmDialogId',
+		                    className: 'ngdialog-theme-default'
+		                }).then(function (value) {
+		                	vm.approve();
+		                }, function (reason) {
+		                    console.log('Modal promise rejected. Reason: ', reason);
+		                });
 					}
 					
 					vm.approve = function(){

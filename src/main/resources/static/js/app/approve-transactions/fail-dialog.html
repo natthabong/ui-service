@@ -1,0 +1,50 @@
+<div class="modal-content">
+	<div class="modal-header">
+		<div class="row">
+			<div class="col-md-2 col-sm-2">
+				<image width="70" height="70" ng-src="img/error-icon.png"></image>
+			</div>
+			<div class="col-md-10 col-sm-10" style="color: red;">
+				<h2 ng-bind="'Approve fail' | translate">Approve fail</h2>
+			</div>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-2 col-sm-2"></div>
+			<div class="col-md-10 col-sm-10">
+				<label ng-bind="'Transaction No.' | translate"></label>:&nbsp;<span
+					id="transaction-no-label" ng-bind="response.attributes.transactionNo"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 col-sm-2"></div>
+			<div class="col-md-10 col-sm-10">
+				<label ng-bind="'Result' | translate"></label>:&nbsp;<span
+					id="result-label" ng-bind="response.errorMessage | translate"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 col-sm-2"></div>
+			<div class="col-md-10 col-sm-10 col-xs-12">
+				<label id="info-label"
+					ng-bind="'Please contact K-Biz contact center' | translate"></label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 col-sm-2"></div>
+			<div class="col-md-10 col-sm-10">
+				<label ng-bind="'Tel.' | translate"></label>:&nbsp;<span
+					id="tel-label" ng-bind="'02-888-8822' | translate"></span>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-xs-12 text-right">
+				<scf-button id="view-history-button" data-dismiss="modal"
+					ng-click="closeThisDialog();ctrl.viewHistory()" ng-bind="'View History' | translate"></scf-button>
+			</div>
+		</div>
+	</div>
+</div>

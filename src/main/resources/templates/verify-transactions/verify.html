@@ -202,28 +202,6 @@
 			</div>
 		</div>
 	</div>
-	<scf-modal visible="showConfirmPopup">
-	<div class="modal-content">
-		<div class="modal-header">
-			<div class="row">
-				<div class="col-md-12">
-					<h1 id="confirm-message-label" ng-bind="'Confirm approval ?' | translate"></h1>
-				</div>
-			</div>
-		</div>
-		<div class="modal-body">
-			<div class="row">
-				<div class="col-xs-12 text-right">
-					<scf-button type="submit" data-dismiss="modal" id="yes-button"
-						ng-click="verifyTxnCtrl.approve()" ng-bind="'Yes' | translate">
-					</scf-button>
-					<scf-button type="button" class="btn-danger" data-dismiss="modal"
-						id="no-button" ng-bind="'No' | translate"> </scf-button>
-				</div>
-			</div>
-		</div>
-	</div>
-	</scf-modal>
 	<scf-modal visible="successPopup">
 	<div class="modal-content">
 		<div class="modal-header">
@@ -299,4 +277,27 @@
 	</div>
 	</scf-modal>
 	<!-- End Panel-->
+	
+	<script type="text/ng-template" id="confirmDialogId">
+        <div class="modal-content">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-12">
+					<h1 id="confirm-message-label" ng-bind="'Confirm approval ?' | translate"></h1>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button type="submit" data-dismiss="modal" id="yes-button"
+					ng-click="confirm()" ng-bind="'Yes' | translate">
+					</scf-button>
+					<scf-button type="button" class="btn-danger" data-dismiss="modal" ng-click="closeThisDialog('button')"
+						id="no-button" ng-bind="'No' | translate"> </scf-button>
+				</div>
+			</div>
+		</div>
+		</div>
+    </script>
 </div>

@@ -1,8 +1,7 @@
 var $stateProviderRef = null;
-
-var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui'])
-    .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider','$urlRouterProvider',
-        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider,$compileProvider, $urlRouterProvider) {
+var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog'])
+    .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider','$urlRouterProvider','ngDialogProvider',
+        function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider,$compileProvider, $urlRouterProvider, ngDialogProvider) {
 
     		var version = (new Date()).getTime();
 			$compileProvider.debugInfoEnabled(false);
@@ -10,6 +9,15 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
     		blockUIConfig.blockBrowserNavigation = true;
       	    blockUIConfig.delay = 500;
       	    blockUIConfig.autoBlock = false;
+      	    
+      	    ngDialogProvider.setDefaults({
+              className: 'ngdialog-theme-default',
+              plain: false,
+              showClose: false,
+              closeByDocument: true,
+              closeByEscape: true,
+              appendTo: false
+          });
       	    
             $translateProvider.useLoader('$translatePartialLoader', {
                 urlTemplate: '../{part}/{lang}/scf_label.json'
