@@ -155,7 +155,6 @@ angular
 							}
 							
 							vm.searchTransactionService = function() {			
-								console.log(vm.transactionCriteria);
 								var dataSource = Service.requestURL('/api/list-transaction/search',vm.transactionCriteria);
 								dataSource.promise.then(function(response) {
 									vm.data = response.content;
