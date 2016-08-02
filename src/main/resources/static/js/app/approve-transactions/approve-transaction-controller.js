@@ -56,7 +56,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
             var deffered = ApproveTransactionService.getTransaction(vm.transactionApproveModel.transaction);
             deffered.promise.then(function(response) {
                 vm.transaction = response.data;
-               // ApproveTransactionService.generateRequestForm(vm.transactionApproveModel.transaction);
+                ApproveTransactionService.generateRequestForm(vm.transactionApproveModel.transaction);
                
             }).catch(function(response) {
                 console.log('Get transaction fail');

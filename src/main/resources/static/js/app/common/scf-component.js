@@ -197,6 +197,7 @@
 					
                     vm.$watch($attrs.componentConfig,function(dataConfig) {
                         var tableOption = dataConfig.options || {};
+                        vm.expansion = dataConfig.expansion || {};
 						//Clear value begin add column;
 						vm.tableColumns = [];
                         dataConfig.columns.forEach(function(data) {
@@ -247,7 +248,7 @@
 
                 }],
                 templateUrl: function(elem, attr) {
-                    return 'ui/template/data_table.html'
+                    return attr.templateUrl || 'ui/template/data_table.html';
                 }
 
             }

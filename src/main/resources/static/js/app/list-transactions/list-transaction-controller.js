@@ -141,6 +141,9 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         options: {
             displayRowNo: {}
         },
+        expansion:{
+        	expanded: true
+        },
         columns: [{
             field: 'sponsor',
             label: 'Sponsor',

@@ -1,0 +1,27 @@
+<table st-table="componentDatas" class="table table-bordered">
+	<thead>
+		<tr>
+			<th class="text-center" scf-th="column"
+				ng-repeat="column in tableColumns track by $index"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat-start="data in componentDatas track by $id(data)"
+			ng-class-odd="tr-odd" ng-class-even="tr-even">
+
+			<td scf-td="data" ng-repeat="column in tableColumns"
+				column-render="column" index-no="$parent.$index"
+				page-options="pageOptions"></td>
+		</tr>
+		<tr ng-repeat-end ng-class-odd="tr-odd" ng-class-even="tr-even"
+			ng-if="data.note">
+			<td></td>
+			<td colspan="{{tableColumns.length-1}}"><div>
+					<strong class="text-danger"
+						id="transaction-{{data.transactionId}}-result-label">{{data.note
+						| translate}}&nbsp;{{'Please contact K-BIZ Contact Center' |
+						translate}}&nbsp;Tel.: 02-888-8822</strong>
+				</div></td>
+		</tr>
+	</tbody>
+</table>
