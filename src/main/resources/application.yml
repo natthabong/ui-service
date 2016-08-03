@@ -20,5 +20,3 @@ spring:
 security:
   user:
     password: none
-management:
-  context-path: /manage
