@@ -456,13 +456,19 @@ footer .footer-below {
 }
 
 .gec-menu-bar {
-	margin-top: 55px;
 	background-color: #ffffff;
 	min-height: 45px;
 	height: 45px;
 	z-index: 250
 }
 
+.gec-menu-bar-fixed {
+	margin-top: 55px;	
+}
+
+.gec-menu-bar-static {
+	margin-top: -20px;	
+}
 .gec-menu-bar>.container-fluid>.navbar-collapse>.navbar-nav>.dropdown {
 	height: 45px;
 }
