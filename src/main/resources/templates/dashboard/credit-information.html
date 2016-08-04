@@ -22,14 +22,14 @@
 									<th ng-bind="'Sponsor' | translate">Sponsor</th>
 									<th ng-bind="'Internal step' | translate">Internal step</th>
 									<th ng-bind="'Available' | translate">Available</th>
-									<th ng-bind="'Remaining' | translate">Remaining</th>
+									<th ng-bind="'Remaining' | translate"
+										title="{{'Remaining' | translate}} = {{'Credit limit' | translate}} - ({{'Outstanding' | translate}} + {{'Future drawdown' | translate}})">Remaining</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr ng-repeat="record in creditInfoCtrl.data track by $index">
 
-									<td class="text-center" ><span
-										ng-bind="record.rowNo"></span></td>
+									<td class="text-center"><span ng-bind="record.rowNo"></span></td>
 									<td class="text-right"><span
 										ng-show="record.showAccountFlag"
 										ng-bind="record.creditLimit | number : 2"></span></td>
@@ -52,7 +52,8 @@
 									<td class="text-right"><span
 										ng-show="record.showAccountFlag"
 										ng-bind="record.supplierAvailable | number : 2"></span></td>
-									<td class="text-right"><span ng-show="record.showAccountFlag"
+									<td class="text-right"><span
+										ng-show="record.showAccountFlag"
 										ng-bind="record.bankRemaining | number : 2"></span></td>
 								</tr>
 							</tbody>
