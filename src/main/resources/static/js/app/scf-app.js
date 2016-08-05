@@ -8,15 +8,16 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
     		$logProvider.debugEnabled(true);
     		blockUIConfig.blockBrowserNavigation = true;
       	    blockUIConfig.delay = 500;
-      	    blockUIConfig.autoBlock = false;
+      	    blockUIConfig.autoBlock = true;
       	    
       	    ngDialogProvider.setDefaults({
               className: 'ngdialog-theme-default',
               plain: false,
               showClose: false,
-              closeByDocument: true,
-              closeByEscape: true,
-              appendTo: false
+              closeByDocument: false,
+              closeByEscape: false,
+              appendTo: false,
+              disableAnimation: true
           });
       	    
             $translateProvider.useLoader('$translatePartialLoader', {
