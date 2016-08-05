@@ -3,7 +3,7 @@ angular.module('scfApp').controller('DashboardController', ['Service', '$log', d
 var dashboardController = function(Service, $log) {
     var vm = this;
     var log = $log;
-    vm.loadDashboardConfig = function() {
+    vm.load = function() {
         var deferred = Service.requestURL('api/dashboard/items/get');
         vm.dashboardItems = [];
         deferred.promise.then(function(response) {
@@ -12,5 +12,4 @@ var dashboardController = function(Service, $log) {
             log.error('Cannot load dashboard');
         });
     };
-    vm.loadDashboardConfig();
 }

@@ -1,7 +1,7 @@
 <div id="content" th:fragment="content">
     <div id="wrapper">
-        <div class="row">
-            <div class="col-md-12" ng-repeat="dashboardItem in dashboardCtrl.dashboardItems">
+        <div class="row" ng-init="dashboardCtrl.load()">
+            <div class="col-md-12 slide-animate-container" ng-repeat="dashboardItem in dashboardCtrl.dashboardItems">
                 <div ng-include="dashboardItem.url"></div>
             </div>
         </div>

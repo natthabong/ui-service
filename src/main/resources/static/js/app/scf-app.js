@@ -8,7 +8,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
     		$logProvider.debugEnabled(true);
     		blockUIConfig.blockBrowserNavigation = true;
       	    blockUIConfig.delay = 500;
-      	    blockUIConfig.autoBlock = true;
+      	    blockUIConfig.autoBlock = false;
       	    
       	    ngDialogProvider.setDefaults({
               className: 'ngdialog-theme-default',
