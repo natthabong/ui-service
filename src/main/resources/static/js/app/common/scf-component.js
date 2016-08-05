@@ -217,10 +217,11 @@
 
                         //Check option set to Show row number.
                         if (tableOption.displayRowNo !== undefined) {
-                            var rowData = {
+                        	var rowData = {
                                 field: 'no',
                                 label: 'No.',
                                 id: tableOption.displayRowNo['id'],
+                                idValueField: tableOption.displayRowNo['idValueField']
                             };
                             vm.tableColumns.splice(0, 0, rowData);
                         };
@@ -294,8 +295,9 @@
 
                     if (column.field === 'no') {
                         elements.addClass(colClass);
-                        elements.text(rowNo);
-                        return;
+                        elements.html(rowNo);
+                        dataRender = rowNo;
+//                        return;
                     }
 
                     if (column.filterType !== undefined && column.filterType !== null) {
@@ -310,11 +312,17 @@
 					if (column.id !== null && column.id !== undefined) {
 						//Check add id is rowNo for checkBox
 						if(column.idValueField === 'template'){
-							elements[0].children[0].id = addId(rowNo, column.id);
+							if(elements[0].children.length >0){
+								elements[0].children[0].id = addId(rowNo, column.id);
+							}
+							else{
+								elements[0].id = addId(rowNo, column.id);
+							}
 						}else{
 							elements[0].id = addId(data[column.idValueField != null ? column.idValueField: column.field], column.id);
 						}
                     }
+					
                 });
             }
 
