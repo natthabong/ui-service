@@ -6,6 +6,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
         		book: 'B'
         }
         vm.displayName = null;
+        vm.agreed = false;
         vm.disableButton = true;
         vm.transaction = {};
         vm.response = {};
@@ -16,9 +17,13 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
             transaction: vm.transactionApproveModel,
             credential: ''
         };
+        vm.txnHour = { allowSendToBank: false};
 
         vm.agreeCondition = function() {
-            vm.disableButton = !vm.disableButton;
+        	console.log(vm.agreed);
+            vm.agreed = !vm.agreed;
+            vm.disableButton = !(vm.txnHour.allowSendToBank && vm.agreed);
+            console.log(vm.disableButton)
         };
 
         vm.confirmPopup = function() {
