@@ -1,0 +1,5 @@
+{
+	"startTransactionHour":"7:30",
+	"stopTransactionHour":"20:00",
+	"allowSendToBank": false
+}

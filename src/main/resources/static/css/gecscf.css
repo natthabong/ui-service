@@ -824,3 +824,10 @@ body.ngdialog-open {
   position: relative;
   width: 600px;
 }
+
+.ngdialog .icon {
+    font-size: 55px;
+    margin-top: 7px;
+    margin-bottom: 0px;
+    float: right;
+}

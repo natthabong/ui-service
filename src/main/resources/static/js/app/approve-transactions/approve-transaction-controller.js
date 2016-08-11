@@ -1,15 +1,14 @@
-angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTransactionService', '$stateParams', '$state', '$timeout', 'PageNavigation','ngDialog',
+angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTransactionService', 'Service', '$stateParams', '$state', '$timeout', 'PageNavigation','ngDialog',
 
-    function($scope, ApproveTransactionService, $stateParams, $state, $timeout, PageNavigation, ngDialog) {
+    function($scope, ApproveTransactionService, Service, $stateParams, $state, $timeout, PageNavigation, ngDialog) {
         var vm = this;
         vm.TransactionStatus = {
         		book: 'B'
         }
+        vm.displayName = null;
         vm.disableButton = true;
         vm.transaction = {};
         vm.response = {};
-        $scope.approveConfirmPopup = false;
-        $scope.successPopup = false;
         vm.reqPass = false;
         vm.showEvidenceForm = false;
         vm.focusOnPassword = false;
@@ -23,8 +22,11 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
         };
 
         vm.confirmPopup = function() {
-            $scope.approveConfirmPopup = true;
-            vm.focusOnPassword = true;
+        	 ngDialog.open({
+                 template: '/js/app/approve-transactions/confirm-dialog.html',
+                 scope: $scope,
+                 disableAnimation: true
+             });
         };
 
         vm.approve = function() {
@@ -33,15 +35,16 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                 deffered.promise.then(function(response) {
                     vm.transaction = response.data;
                     vm.showEvidenceForm = printEvidence(vm.transaction);
-                    $scope.approveConfirmPopup = false;
-                    $scope.successPopup = true;
+                    ngDialog.open({
+                        template: '/js/app/approve-transactions/success-dialog.html',
+                        scope: $scope,
+                        disableAnimation: true
+                    });
 
                 }).catch(function(response) {
-                    $scope.approveConfirmPopup = false;
                     $scope.response = response.data;
                     ngDialog.open({
                         template: '/js/app/approve-transactions/fail-dialog.html',
-	                    className: 'ngdialog-theme-default',
 	                    scope: $scope,
 	                    disableAnimation: true
                     });
@@ -68,9 +71,25 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
             if (vm.transactionApproveModel.transaction === null) {
             	PageNavigation.gotoPreviousPage();
             }else{
-				vm.getTransaction();
-				vm.displayName = $scope.userInfo.displayName;
+            	 var params = {
+            		bankCode: vm.transactionApproveModel.transaction.bankCode,
+            		transactionDate: vm.transactionApproveModel.transaction.transactionDate
+            	 };
+            	 var deffered = Service.requestURL('/js/test/approve-transactions/txn-hour.json', params,'GET');
+                 deffered.promise.then(function(response) {
+                     vm.txnHour = response;
+                     if(!vm.txnHour.allowSendToBank){
+	                     ngDialog.open({
+	                         template: '/js/app/approve-transactions/warn-txn-hour-dialog.html',
+	                         scope: $scope
+		       	         });
+                     }
+                 });
+	        	
+				 vm.getTransaction();
+				 vm.displayName = $scope.userInfo.displayName;
 			}
+          
         }
 
         vm.init();

@@ -1,0 +1,33 @@
+<div class="modal-content">
+	<div class="modal-header">
+		<div class="row">
+			<div class="col-md-2 col-sm-2">
+				<i class="icon fa fa-info-circle fa-4" aria-hidden="true"></i>
+			</div>
+			<div class="col-md-10 col-sm-10">
+				<h2>
+					<span id="approve-fail-header"
+						ng-bind="'Transaction hour' | translate">Transaction hour</span>
+				</h2>
+			</div>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-2 col-sm-2"></div>
+			<div class="col-md-10 col-sm-10">
+				<span id="info-label">{{'Please approve transaction within' |
+					translate}} {{ctrl.txnHour.startTransactionHour}} -
+					{{ctrl.txnHour.stopTransactionHour}}</span>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-xs-12 text-right">
+				<scf-button id="close-button" ng-click="closeThisDialog();"
+					ng-bind="'Close' | translate"></scf-button>
+			</div>
+		</div>
+	</div>
+</div>
