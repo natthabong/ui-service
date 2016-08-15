@@ -11,6 +11,7 @@ angular.module('scfApp').controller(
 					vm.transactionModel = $stateParams.transactionModel;
 					vm.isShowViewHistoryButton = $stateParams.isShowViewHistoryButton;;
 					vm.isShowBackButton = $stateParams.isShowBackButton;
+					
 					vm.pageModel = {
 							pageSizeSelectModel : '20',
 							totalRecord : 0,
@@ -35,9 +36,15 @@ angular.module('scfApp').controller(
 				            deffered.promise.then(function (response) {
 				            	  vm.transactionModel = angular.extend(response.data,{sponsor: vm.transactionModel.sponsor});
 // vm.transactionModel = response.data;
+				            	  if(vm.transactionModel.statusCode == 'REJECT_BY_CHECKER' || vm.transactionModel.statusCode == 'REJECT_BY_APPROVER'){
+				            		  vm.isDisplayReason = 'block-inline';
+				            	  }else{
+				            		  vm.isDisplayReason = 'none';
+				            	  }
+				            	  
 				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
 				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-								vm.searchDocument();
+				            	  vm.searchDocument();
 				                })
 				                .catch(function (response) {
 				                    console.log('View Transaction load error');
