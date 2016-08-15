@@ -1,8 +1,9 @@
 angular.module('scfApp').controller(
 		'VerifyTransactionController',
-		[ 'VerifyTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state','PageNavigation', 'ngDialog',
-				function(VerifyTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state,PageNavigation, ngDialog) {
+		[ 'VerifyTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state','PageNavigation', 'ngDialog', '$log',
+				function(VerifyTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state,PageNavigation, ngDialog, $log) {
 					var vm = this;
+					var log = $log;
 					vm.dataTable = {
 						options : {
 							displayRowNo : {}
@@ -32,7 +33,7 @@ angular.module('scfApp').controller(
 				            	  vm.searchDocument();
 				                })
 				                .catch(function (response) {
-				                    console.log('Cannot initial data');
+				                    log.error('Cannot initial data');
 				                });
 				            
 				          var columnDisplayConfig = vm.loadDocumentDisplayConfig(vm.transactionModel.sponsorId);
@@ -99,7 +100,7 @@ angular.module('scfApp').controller(
 		                }).then(function (value) {
 		                	vm.approve();
 		                }, function (reason) {
-		                    console.log('Modal promise rejected. Reason: ', reason);
+		                    log.error('Modal promise rejected. Reason: ', reason);
 		                });
 					}
 					
@@ -113,7 +114,7 @@ angular.module('scfApp').controller(
 				            	  $scope.successPopup = true;
 				                })
 				                .catch(function (response) {
-					               	 console.log('Cannot Approve');
+					               	 log.error('Cannot Approve');
 					               	 var errorResponse = response.data;
 					               	 vm.errorMessageModel.errorMessage = errorResponse.attributes.actionOn;
 					               	 vm.errorMessageModel.modifyName = errorResponse.attributes.lastModifiedBy;
@@ -143,9 +144,10 @@ angular.module('scfApp').controller(
 									disableAnimation: true
 								});
 		                }).catch(function (response) {
-							console.log('Cannot Reject');
+							log.error('Cannot Reject');						
 					        $scope.verifyFailPopup = true;
 							vm.errorMsgPopup = response.data.errorCode;
+							vm.errorMessageModel = response.data.attributes;
 						});
 					}
 					
