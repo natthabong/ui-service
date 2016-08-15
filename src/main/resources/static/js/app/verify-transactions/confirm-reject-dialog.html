@@ -1,0 +1,35 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <h2>
+                	<span id="verify-confirm-header-message-label" ng-bind="'Confirm reject ?' | translate"></span>
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <form name="confirmReject" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-xs-12 control-label"><span ng-bind="'Reason'"></span>:</div>
+                        <div class="col-xs-12">
+							<scf-text-area id="verify-reject-reason-text" ng-model="verifyTxnCtrl.transactionModel.rejectReason" id="textArea">
+								
+							</scf-text-area>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-xs-12 text-right">
+                <scf-button id="yes-button" ng-click="closeThisDialog();verifyTxnCtrl.reject()" ng-bind="'YES' | translate"></scf-button>
+                <scf-button id="no-button" ng-click="closeThisDialog()" ng-bind="'NO' | translate"></scf-button>
+            </div>
+        </div>
+    </div>
+</div>

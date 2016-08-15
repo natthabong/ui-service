@@ -194,7 +194,7 @@
 								type="submit" ng-click="verifyTxnCtrl.confirmApprove()">{{
 							'Approve' | translate}}</scf-button>
 							<scf-button id="reject-button" class="btn btn-default"
-								type="submit" ng-click="verifyTxnCtrl.reject()">{{
+								type="submit" ng-click="verifyTxnCtrl.confirmReject()">{{
 							'Reject' | translate}}</scf-button>
 						</div>
 					</div>
@@ -289,7 +289,7 @@
 		</div>
 		<div class="modal-body">
 			<div class="row">
-				<div class="col-xs-12 text-right">
+				<div class="col-xs-12 text-right">					
 					<scf-button type="submit" data-dismiss="modal" id="yes-button"
 					ng-click="confirm()" ng-bind="'Yes' | translate">
 					</scf-button>

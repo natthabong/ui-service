@@ -113,7 +113,8 @@
 	"WAIT_FOR_VERIFY": "Wait for verify",
 	
 	"_comment": "Page Verify Transaction",
-	"Confirm approval ?": "Confirm approval ?",
+	"Confirm approval ?": "Confirm approval ?",	
+	"Confirm reject ?": "Confirm reject ?",
 	
 	"_comment": "Page View Transaction",
 	"View transaction": "View transaction",
