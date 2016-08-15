@@ -1,4 +1,4 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'PageNavigation' , function(ListTransactionService, $state,$translate, $scope, SCFCommonService, $stateParams, $cookieStore, PageNavigation) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'TransactionService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'PageNavigation','ngDialog' , function(ListTransactionService, TransactionService, $state,$translate, $scope, SCFCommonService, $stateParams, $cookieStore, PageNavigation, ngDialog) {
     var vm = this;
     var listStoreKey = 'listrancri';
     vm.showInfomation = false;
@@ -19,7 +19,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		canceledBySupplier:'CANCELED_BY_SUPPLIER'
 	}
 	
-	vm.trasnsactionStatus = {
+	vm.transactionStatus = {
 			book: 'B'
 	}
 	
@@ -228,7 +228,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!(ctrl.verify && (data.statusCode === ctrl.statusDocuments.waitForVerify))" id="transaction-{{data.transactionId}}-verify-button" ng-click="ctrl.verifyTransaction(data)"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
 			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!(ctrl.approve &&(data.statusCode === ctrl.statusDocuments.waitForApprove))" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="ctrl.approveTransaction(data)"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
 			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="ctrl.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.searchTransaction()"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
+			'<scf-button id="transaction-{{data.transactionId}}-retry-button" class="btn-default gec-btn-action" ng-disabled="{{!data.retriable}}" ng-click="ctrl.retry(data)"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-disabled="!(data.returnStatus === ctrl.trasnsactionStatus.book)" ng-click="ctrl.printEvidenceFormAction(data)"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.searchTransaction()"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 		}]
@@ -382,9 +382,36 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		PageNavigation.gotoPage('/approve-transaction/approve',params,params)
 	}
 	
+    vm.retry = function(data) {
+    	vm.transaction = {};
+	    vm.transaction.transactionId = data.transactionId;
+	    vm.storeCriteria();
+        var deffered = TransactionService.retry(vm.transaction);
+        deffered.promise.then(function(response) {
+        	 vm.searchTransactionService();
+        }).catch(function(response) {
+            $scope.response = response.data;
+            $scope.response.showViewHistoryBtn = false;
+            $scope.response.showCloseBtn = true;
+            ngDialog.open({
+                template: '/js/app/approve-transactions/fail-dialog.html',
+                scope: $scope,
+                disableAnimation: true
+            });
+            
+        });
+    }
+	
 	vm.printEvidenceFormAction = function(data){    	
 		ListTransactionService.generateEvidenceForm(data);
 
+    }
+	
+    function printEvidence(transaction){
+    	if(transaction.returnStatus === vm.transactionStatus.book){
+    		return true;
+    	}
+    	return false;
     }
 
 }]);
