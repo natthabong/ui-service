@@ -50,8 +50,10 @@
 			<div class="col-xs-12 text-right">
 				<scf-button id="retry-button" data-dismiss="modal" ng-show="{{response.attributes.retriable}}"
 					ng-click="closeThisDialog();ctrl.retry()">{{'Retry' | translate}}({{response.attributes.retry_count}})</scf-button>			
-				<scf-button id="fail-view-history-button" data-dismiss="modal"
+				<scf-button id="fail-view-history-button" data-dismiss="modal" ng-show="{{response.showViewHistoryBtn}}"
 					ng-click="closeThisDialog();ctrl.viewHistory()" ng-bind="'View History' | translate"></scf-button>
+				<scf-button id="close-button" data-dismiss="modal" ng-show="{{response.showCloseBtn}}"
+					ng-click="closeThisDialog()" ng-bind="'Close' | translate"></scf-button>					
 			</div>
 		</div>
 	</div>

@@ -59,6 +59,8 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 
                 }).catch(function(response) {
                     $scope.response = response.data;
+                    $scope.response.showViewHistoryBtn = true;
+                    $scope.response.showCloseBtn = false;
                     ngDialog.open({
                         template: '/js/app/approve-transactions/fail-dialog.html',
 	                    scope: $scope,
@@ -73,8 +75,8 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
         
     
         vm.retry = function() {
-            if (validateCredential(vm.transactionApproveModel.credential)) {
-                var deffered = TransactionService.retry(vm.transactionApproveModel);
+        	    vm.transaction = vm.transactionApproveModel.transaction;
+                var deffered = TransactionService.retry(vm.transaction);
                 deffered.promise.then(function(response) {
                     vm.transaction = response.data;
                     vm.showEvidenceForm = printEvidence(vm.transaction);
@@ -86,6 +88,8 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 
                 }).catch(function(response) {
                     $scope.response = response.data;
+                    $scope.response.showViewHistoryBtn = true;
+                    $scope.response.showCloseBtn = false;
                     ngDialog.open({
                         template: '/js/app/approve-transactions/fail-dialog.html',
 	                    scope: $scope,
@@ -93,9 +97,6 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                     });
                     
                 });
-            } else {
-            	vm.reqPass = true;
-            }
         }
 		
         vm.reject = function() {
