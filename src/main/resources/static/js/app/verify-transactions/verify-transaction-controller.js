@@ -122,20 +122,31 @@ angular.module('scfApp').controller(
 				                });
 					}
 					
+					vm.confirmReject = function(){
+						ngDialog.open({
+							template: '/js/app/verify-transactions/confirm-reject-dialog.html',
+							scope: $scope,
+                        	disableAnimation: true
+						});
+					}
+					
 					vm.reject = function(){
-						 var deffered = VerifyTransactionService.reject(vm.transactionModel);
-				            deffered.promise.then(function (response) {
-				            	  vm.transactionModel = angular.extend(vm.transactionModel, response.data);
-				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
-				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-				            	  vm.transactionNo = vm.transactionModel.transactionNo;
-				            	  $scope.successPopup = true;
-				                })
-				                .catch(function (response) {
-					               	 console.log('Cannot Reject');
-					               	 $scope.verifyFailPopup = true;
-									 vm.errorMsgPopup = response.data.errorCode;
-				                });
+						var deffered = VerifyTransactionService.reject(vm.transactionModel);
+			            deffered.promise.then(function (response) {
+			            	  vm.transactionModel = angular.extend(vm.transactionModel, response.data);
+			            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
+			            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+			            	  vm.transactionNo = vm.transactionModel.transactionNo;
+			            	  ngDialog.open({
+									template: '/js/app/verify-transactions/reject-success-dialog.html',
+									scope: $scope,
+									disableAnimation: true
+								});
+		                }).catch(function (response) {
+							console.log('Cannot Reject');
+					        $scope.verifyFailPopup = true;
+							vm.errorMsgPopup = response.data.errorCode;
+						});
 					}
 					
 					vm.backAndReset = function(){

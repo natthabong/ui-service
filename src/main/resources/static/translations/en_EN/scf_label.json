@@ -60,7 +60,7 @@
 	"Password Require": "Password is required",
 	"Total": "Total: ",
 	"Home": "Home",
-	
+	"Reason": "Reason",
 	
 	"_comment": "Menu",
 	"transaction": "Transaction",
@@ -114,6 +114,7 @@
 	
 	"_comment": "Page Verify Transaction",
 	"Confirm approve ?": "Confirm approve ?",
+	"Confirm reject ?": "Confirm reject ?",
 	
 	"_comment": "Page View Transaction",
 	"View transaction": "View transaction",

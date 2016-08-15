@@ -54,8 +54,40 @@
             return {
                 restrict: 'AE',
                 replace: true,
-                template: '<textarea class="form-control" style="resize:none;" rows="5"></textarea>'
+                template: '<textarea class="form-control" style="resize:none;" rows="3" maxlength="255" ng-change="textChange()"></textarea>',
+				controller: textAreaController
             };
+			
+			function textAreaController($scope, $element, $attrs){
+				var vm = $scope;
+				
+				vm.textChange = function(){
+					var textInput = $element[0].value;					
+					$element[0].value = textAreaNewLine(textInput);
+				}
+				
+				function textAreaNewLine(text){					
+					var textLength = text.length;
+					text = text.replace(/(\r\n|\n|\r)/gm, '');
+					var textArray = [];
+					var textResult = '';
+					if(textLength <=85){						
+						return text;
+					}else if(textLength <=170){
+						textResult += text.substring(0,85);
+						textResult+= '\n';
+						textResult += text.substring(85,170);
+					}else{
+						console.log(text);
+						textResult += text.substring(0,85);
+						textResult += '\n';
+						textResult += text.substring(85,170);
+						textResult += '\n';
+						textResult += text.substring(170,255);					
+					}
+					return textResult;
+				}
+			}
         }])
         .directive('scfDropdown', [function() {
             return {
