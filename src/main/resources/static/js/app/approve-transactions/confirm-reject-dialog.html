@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-md-12 col-sm-12">
 				<h2>
-					<span id="verify-confirm-header-message-label"
+					<span id="confirm-approve-header"
 						ng-bind="'Confirm reject ?' | translate"></span>
 				</h2>
 			</div>
@@ -41,7 +41,7 @@
 							<span ng-bind="'Reason'"></span>:
 						</div>
 						<div class="col-xs-12">
-							<scf-text-area id="verify-reject-reason-text"
+							<scf-text-area
 								ng-model="ctrl.transactionApproveModel.transaction.rejectReason"
 								id="reject-reason-text"> </scf-text-area>
 						</div>

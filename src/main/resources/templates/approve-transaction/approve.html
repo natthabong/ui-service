@@ -19,7 +19,7 @@
 						<b ng-bind="'contract header' | translate"></b>
 					</div>
 
-					<div class="col-md-12">
+					<div class="col-md-12" block-ui="requestForm">
 						<object type="application/pdf" id="visualizador" width="100%"
 							height="1200px"></object>
 					</div>
@@ -27,7 +27,7 @@
 					<div class="col-md-12">
 						<label class="checkbox-inline"> <scf-checkbox
 								ng-click="ctrl.agreeCondition()" id="confirm-checkbox"></scf-checkbox>
-							<span ng-bind="'Agree condition' | translate"></span>
+							<span ng-bind="'Agree condition' | translate" id="confirm-agreement-label"></span>
 						</label>
 					</div>
 					<div class="col-md-12 text-right">
