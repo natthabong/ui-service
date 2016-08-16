@@ -58,7 +58,8 @@ function approveTransactionService($q, $http, $sce, blockUI) {
 	}
 	
 	function generateRequestForm(transactionModel){
-		 blockUI.start();
+		var requestFormBlock = blockUI.instances.get('requestForm');
+		requestFormBlock.start();
         $http({
             method: 'POST',
             url: '/api/approve-transaction/report-form',
@@ -68,7 +69,7 @@ function approveTransactionService($q, $http, $sce, blockUI) {
         	var file = new Blob([response], {type: 'application/pdf'});
         	var fileURL = URL.createObjectURL(file);   	
         	document.getElementById('visualizador').setAttribute('data', fileURL);
-        	blockUI.stop();
+        	requestFormBlock.stop();
         }).error(function(response) {
             
         });
