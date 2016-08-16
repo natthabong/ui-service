@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    var app = angular.module('authenApp', ['ngCookies']).config(['$httpProvider', function ($httpProvider) {
+    var app = angular.module('authenApp', ['ngCookies', 'blockUI']).config(['$httpProvider', function ($httpProvider) {
 
         $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         $httpProvider.defaults.headers.common['Accept'] = 'application/json';
@@ -10,22 +10,29 @@
         var self = this;
 
         self.login = login;
-
+        self.error = false;
         (function initController() {
             AuthenticationService.ClearCredentials();
         })();
 
         function login() {
-            self.dataLoading = true;
-            AuthenticationService.Login(self.username, self.password, function (response) {
-              
-                if (response.success) {
+        	self.error = false;
+        	var deffered = AuthenticationService.Login(self.username, self.password, function (response) {});
+        	deffered.promise.then(function(response) {
+        		if (response.data.success) {
                     AuthenticationService.SetCredentials(self.username, self.password);
                     $window.location.href = '/';
-                } else {
-                    self.dataLoading = false;
-                }
+                } 
+        		else{
+        			self.error = true;
+        		}
+            }).catch(function(response) {
+            	self.error = true;
             });
+
+            
+            
+        
         };
     }]);
     app.controller('LogoutController', ['$window', 'AuthenticationService', function ($window, AuthenticationService) {
@@ -47,7 +54,7 @@
 
 
 
-    app.factory('AuthenticationService', ['$http', '$cookieStore', '$rootScope', '$timeout', function ($http, $cookieStore, $rootScope, $timeout) {
+    app.factory('AuthenticationService', ['$http', '$cookieStore', '$rootScope', '$timeout',  'blockUI', '$q', function ($http, $cookieStore, $rootScope, $timeout, blockUI, $q) {
         var service = {};
 
         service.Login = Login;
@@ -57,10 +64,13 @@
 
         return service;
 
-        function Login(username, password, callback) {
+        function Login(username, password) {
 
             /* Use this for real authentication
              ----------------------------------------------*/
+        	
+        	var deffered = $q.defer();
+        	blockUI.start("Authentication...");
             $http.post('/api/authenticate', {
                     username: username,
                     password: password
@@ -74,11 +84,14 @@
         	            }
         	            return $.param(data);
         	        }
+                }).then(function(response) {
+                	blockUI.stop();
+                    deffered.resolve(response);
+                }).catch(function(response) {
+                	blockUI.stop();
+                    deffered.reject(response);
                 })
-                .success(function (response) {
-                    callback(response);
-                });
-
+            return deffered;
         }
 
         function Logout(callback) {
