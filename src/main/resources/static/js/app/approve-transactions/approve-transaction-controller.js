@@ -33,6 +33,14 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                  disableAnimation: true
              });
         };
+        
+        vm.confirmRejectPopup = function() {
+       	 ngDialog.open({
+                template: '/js/app/approve-transactions/confirm-reject-dialog.html',
+                scope: $scope,
+                disableAnimation: true
+            });
+       };
 
         vm.approve = function() {
             if (validateCredential(vm.transactionApproveModel.credential)) {
@@ -60,6 +68,23 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
             }
         };
 		
+        vm.reject = function() {
+            if (validateCredential(vm.transactionApproveModel.credential)) {
+                var deffered = ApproveTransactionService.reject(vm.transactionApproveModel);
+                deffered.promise.then(function(response) {
+                    vm.transaction = response.data;
+                    ngDialog.open({
+                        template: '/js/app/approve-transactions/reject-success-dialog.html',
+                        scope: $scope,
+                        disableAnimation: true
+                    });
+
+                });
+            } else {
+            	vm.reqPass = true;
+            }
+        };
+        
 		 vm.getTransaction = function() {
             var deffered = ApproveTransactionService.getTransaction(vm.transactionApproveModel.transaction);
             deffered.promise.then(function(response) {
@@ -100,12 +125,6 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 
         vm.init();
 
-        vm.viewHistory = function() {
-            $timeout(function() {
-            	PageNavigation.gotoPreviousPage();
-            }, 10);
-        }
-        
         vm.viewRecent= function(){
         	$timeout(function() {
         		PageNavigation.gotoPage('/view-transaction', {transactionModel: vm.transaction, isShowViewHistoryButton: true});
@@ -123,6 +142,25 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 				PageNavigation.gotoPreviousPage(false);
 			},10);
 		}
+		
+		vm.backAndReset = function(){
+			$timeout(function(){
+				PageNavigation.gotoPreviousPage(true);
+			}, 10);
+		}
+
+		vm.viewRecent = function(){
+			$timeout(function(){
+            	var params = {transactionModel: vm.transaction, isShowViewHistoryButton:'show', isShowViewHistoryButton: true};
+            	PageNavigation.gotoPage('/view-transaction', params, params);
+        	}, 10);
+		};
+		
+		vm.viewHistory = function(){
+			$timeout(function(){
+				PageNavigation.gotoPage('/transaction-list');
+			}, 10);
+		};	
 
         function validateCredential(data) {
             var result = true;

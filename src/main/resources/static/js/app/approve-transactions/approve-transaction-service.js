@@ -4,6 +4,7 @@ function approveTransactionService($q, $http, $sce, blockUI) {
     return {
 		getTransaction: getTransaction,
         approve: approve,
+        reject: reject,
         generateRequestForm: generateRequestForm,
         generateEvidenceForm: generateEvidenceForm
     }
@@ -25,6 +26,22 @@ function approveTransactionService($q, $http, $sce, blockUI) {
         return deffered;
     }
 	
+    function reject(transactionApproveModel) {
+        var deffered = $q.defer();
+        blockUI.start();
+        $http({
+            method: 'POST',
+            url: '/api/approve-transaction/reject',
+            data: transactionApproveModel
+        }).then(function(response) {
+        	blockUI.stop();
+            deffered.resolve(response);
+        }).catch(function(response) {
+        	blockUI.stop();
+            deffered.reject(response);
+        });
+        return deffered;
+    }
 	function getTransaction(transactionModel){
 		var deffered = $q.defer();
         $http({
