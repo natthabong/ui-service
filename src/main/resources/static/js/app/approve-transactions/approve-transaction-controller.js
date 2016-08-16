@@ -1,6 +1,6 @@
-angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTransactionService', 'Service', '$stateParams', '$state', '$timeout', 'PageNavigation','ngDialog',
+angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTransactionService', 'TransactionService', 'Service', '$stateParams', '$state', '$timeout', 'PageNavigation','ngDialog',
 
-    function($scope, ApproveTransactionService, Service, $stateParams, $state, $timeout, PageNavigation, ngDialog) {
+    function($scope, ApproveTransactionService, TransactionService, Service, $stateParams, $state, $timeout, PageNavigation, ngDialog) {
         var vm = this;
         vm.TransactionStatus = {
         		book: 'B'
@@ -65,8 +65,35 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                 });
             } else {
             	vm.reqPass = true;
-            }
+            }         
         };
+        
+    
+        vm.retry = function() {
+            if (validateCredential(vm.transactionApproveModel.credential)) {
+                var deffered = TransactionService.retry(vm.transactionApproveModel);
+                deffered.promise.then(function(response) {
+                    vm.transaction = response.data;
+                    vm.showEvidenceForm = printEvidence(vm.transaction);
+                    ngDialog.open({
+                        template: '/js/app/approve-transactions/success-dialog.html',
+                        scope: $scope,
+                        disableAnimation: true
+                    });
+
+                }).catch(function(response) {
+                    $scope.response = response.data;
+                    ngDialog.open({
+                        template: '/js/app/approve-transactions/fail-dialog.html',
+	                    scope: $scope,
+	                    disableAnimation: true
+                    });
+                    
+                });
+            } else {
+            	vm.reqPass = true;
+            }
+        }
 		
         vm.reject = function() {
             if (validateCredential(vm.transactionApproveModel.credential)) {

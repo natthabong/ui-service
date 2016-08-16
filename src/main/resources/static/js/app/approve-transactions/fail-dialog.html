@@ -48,6 +48,8 @@
 	<div class="modal-footer">
 		<div class="row">
 			<div class="col-xs-12 text-right">
+				<scf-button id="retry-button" data-dismiss="modal" ng-show="{{response.attributes.retriable}}"
+					ng-click="closeThisDialog();ctrl.retry()">{{'Retry' | translate}}({{response.attributes.retry_count}})</scf-button>			
 				<scf-button id="fail-view-history-button" data-dismiss="modal"
 					ng-click="closeThisDialog();ctrl.viewHistory()" ng-bind="'View History' | translate"></scf-button>
 			</div>

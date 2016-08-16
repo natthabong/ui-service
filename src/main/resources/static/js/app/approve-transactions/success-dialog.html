@@ -44,11 +44,11 @@
 			<div class="row">
 				<div class="col-xs-12 text-right">
 					<scf-button id="approve-back-button" data-dismiss="modal"
-						ng-bind="'Back' | translate" ng-click="ctrl.backPage()"></scf-button>
+						ng-bind="'Back' | translate" ng-click="closeThisDialog();ctrl.backPage()"></scf-button>
 					<scf-button id="view-recent-button" data-dismiss="modal"
-						ng-click="ctrl.viewRecent()" ng-bind="'View recent' | translate"></scf-button>
+						ng-click="closeThisDialog();ctrl.viewRecent()" ng-bind="'View recent' | translate"></scf-button>
 					<scf-button id="view-history-button" data-dismiss="modal"
-						ng-click="ctrl.viewHistory()" ng-bind="'View history' | translate"></scf-button>
+						ng-click="closeThisDialog();ctrl.viewHistory()" ng-bind="'View history' | translate"></scf-button>
 				</div>
 			</div>
 		</div>
