@@ -17,6 +17,9 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
             transaction: vm.transactionApproveModel,
             credential: ''
         };
+        
+        vm.errorMessageModel = {
+        };
         vm.txnHour = { allowSendToBank: false};
 
         vm.agreeCondition = function() {
@@ -106,6 +109,14 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                         disableAnimation: true
                     });
 
+                }).catch(function(response) {
+                    vm.errorMessageModel = response.data;
+                    ngDialog.open({
+                        template: '/js/app/approve-transactions/concurency-dialog.html',
+	                    scope: $scope,
+	                    disableAnimation: true
+                    });
+                    
                 });
             } else {
             	vm.reqPass = true;
