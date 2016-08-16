@@ -90,7 +90,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/approve-transaction/approve',
 				params: {transaction: null},
-				resolve: load(['js/app/approve-transactions/approve-transaction-service.js','js/app/approve-transactions/approve-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/approve-transactions/approve-transaction-service.js','js/app/transactions/transaction-service.js','js/app/approve-transactions/approve-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/upload-document',{
 				url: '/upload-document',
 				controller: 'UploadDocumentController',
