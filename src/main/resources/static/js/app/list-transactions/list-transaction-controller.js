@@ -1,5 +1,6 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'TransactionService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'PageNavigation','ngDialog' , function(ListTransactionService, TransactionService, $state,$translate, $scope, SCFCommonService, $stateParams, $cookieStore, PageNavigation, ngDialog) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'TransactionService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'PageNavigation','ngDialog','$log' , function(ListTransactionService, TransactionService, $state,$translate, $scope, SCFCommonService, $stateParams, $cookieStore, PageNavigation, ngDialog, $log) {
     var vm = this;
+	var log = $log;
     var listStoreKey = 'listrancri';
     vm.showInfomation = false;
      vm.splitePageTxt = '';
@@ -115,7 +116,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                 });
             }
         }).catch(function(response) {
-			console.log('Load Sponsor Fail');
+			$log.error('Load Sponsor Fail');
         });
     };
     
@@ -133,7 +134,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                 });
             }
         }).catch(function(response) {
-			console.log('Load TransactionStatusGroup Fail');
+			$log.error('Load TransactionStatusGroup Fail');
         });    	
     }
 
@@ -307,12 +308,12 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                             });
                         }						
                     }).catch(function(response) {
-                        console.log('Internal Error');
+                        $log.error('Internal Error');
                     });
 
                 }
             }).catch(function(response) {
-                console.log('Cannot search document');
+                $log.error('Cannot search document');
             });
         };
 	
@@ -384,11 +385,9 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	}
 	
     vm.retry = function(data) {
-    	vm.transactionIdForRetry = '';
-
     	vm.transaction = {};
     	if(angular.isUndefined(data)){
-    		 vm.transaction.transactionId = vm.transactionIdForRetry
+    		 vm.transaction.transactionId = vm.transactionIdForRetry;
     	}else{
     		vm.transaction.transactionId = data.transactionId;
     		 vm.transactionIdForRetry = vm.transaction.transactionId;
