@@ -144,10 +144,13 @@ angular.module('scfApp').controller(
 									disableAnimation: true
 								});
 		                }).catch(function (response) {
-							log.error('Cannot Reject');						
-					        $scope.verifyFailPopup = true;
-							vm.errorMsgPopup = response.data.errorCode;
-							vm.errorMessageModel = response.data.attributes;
+		                	 vm.errorMessageModel = response.data;
+		                	 console.log(response);
+		                     ngDialog.open({
+		                         template: '/js/app/verify-transactions/concurency-dialog.html',
+		 	                    scope: $scope,
+		 	                    disableAnimation: true
+		                     });
 						});
 					}
 					
