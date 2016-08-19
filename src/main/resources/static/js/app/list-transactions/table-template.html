@@ -19,8 +19,9 @@
 			<td colspan="{{tableColumns.length-1}}"><div>
 					<strong class="text-danger"
 						id="transaction-{{data.transactionId}}-result-label">{{data.note
-						| translate}}&nbsp;{{'Please contact K-BIZ Contact Center' |
-						translate}}&nbsp;Tel.: 02-888-8822</strong>
+						| translate}}
+						<span ng-if="data.statusCode=='WAIT_FOR_APPROVE'">&nbsp;{{'Please contact K-BIZ Contact Center' |
+						translate}}&nbsp;Tel.: 02-888-8822</span></strong>
 				</div></td>
 		</tr>
 	</tbody>
