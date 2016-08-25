@@ -112,14 +112,14 @@ angular.module('scfApp').controller(
 				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 				            	  vm.transactionNo = vm.transactionModel.transactionNo;
 				            	  $scope.successPopup = true;
-				                })
-				                .catch(function (response) {
-					               	 log.error('Cannot Approve');
-					               	 var errorResponse = response.data;
-					               	 vm.errorMessageModel.errorMessage = errorResponse.attributes.actionOn;
-					               	 vm.errorMessageModel.modifyName = errorResponse.attributes.lastModifiedBy;
-					               	 vm.errorMsgPopup = response.data.errorCode;
-									 $scope.verifyFailPopup = true;									 
+				                }).catch(function(response) {
+				                    vm.errorMessageModel = response.data;
+				                    ngDialog.open({
+				                        template: '/js/app/verify-transactions/concurency-dialog.html',
+					                    scope: $scope,
+					                    disableAnimation: true
+				                    });
+				                    
 				                });
 					}
 					
