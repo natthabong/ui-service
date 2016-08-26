@@ -400,8 +400,9 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             $scope.response = response.data;
             $scope.response.showViewHistoryBtn = false;
             $scope.response.showCloseBtn = true;
+			var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
             ngDialog.open({
-                template: '/js/app/approve-transactions/fail-dialog.html',
+                template: dialogUrl,
                 scope: $scope,
                 disableAnimation: true
             });

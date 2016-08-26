@@ -1,7 +1,8 @@
-angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTransactionService', 'TransactionService', 'Service', '$stateParams', '$state', '$timeout', 'PageNavigation','ngDialog',
+angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTransactionService', 'TransactionService', 'Service', '$stateParams', '$state', '$timeout', 'PageNavigation','ngDialog','$log',
 
-    function($scope, ApproveTransactionService, TransactionService, Service, $stateParams, $state, $timeout, PageNavigation, ngDialog) {
+    function($scope, ApproveTransactionService, TransactionService, Service, $stateParams, $state, $timeout, PageNavigation, ngDialog, $log) {
         var vm = this;
+		var log = $log;
         vm.TransactionStatus = {
         		book: 'B'
         }
@@ -17,16 +18,18 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
             transaction: vm.transactionApproveModel,
             credential: ''
         };
+		
+		vm.errorMessageCode = {
+			timeout: 'TIMEOUT'
+		}
         
         vm.errorMessageModel = {
         };
         vm.txnHour = { allowSendToBank: false};
 
         vm.agreeCondition = function() {
-        	console.log(vm.agreed);
             vm.agreed = !vm.agreed;
             vm.disableButton = !(vm.txnHour.allowSendToBank && vm.agreed);
-            console.log(vm.disableButton)
         };
 
         vm.confirmPopup = function() {
@@ -61,8 +64,9 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                     $scope.response = response.data;
                     $scope.response.showViewHistoryBtn = true;
                     $scope.response.showCloseBtn = false;
+					var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
                     ngDialog.open({
-                        template: '/js/app/approve-transactions/fail-dialog.html',
+                        template: dialogUrl,
 	                    scope: $scope,
 	                    disableAnimation: true
                     });
@@ -90,8 +94,9 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                     $scope.response = response.data;
                     $scope.response.showViewHistoryBtn = true;
                     $scope.response.showCloseBtn = false;
+					var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
                     ngDialog.open({
-                        template: '/js/app/approve-transactions/fail-dialog.html',
+                        template: dialogUrl,
 	                    scope: $scope,
 	                    disableAnimation: true
                     });
@@ -131,7 +136,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                 ApproveTransactionService.generateRequestForm(vm.transactionApproveModel.transaction);
                
             }).catch(function(response) {
-                console.log('Get transaction fail');
+                log.error('Get transaction fail');
             });
         }
 
@@ -210,11 +215,20 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
         }
         
         function printEvidence(transaction){
-        	console.log(transaction);
         	if(transaction.returnStatus === vm.TransactionStatus.book){
         		return true;
         	}
         	return false;
         }
+		
+		function getTransactionDialogErrorUrl(errorCode){
+			var templateUrl = '/js/app/approve-transactions/fail-dialog.html';
+			if(angular.isDefined(errorCode)){
+				if(errorCode == vm.errorMessageCode.timeout){
+					templateUrl = '/js/app/approve-transactions/incomplete-dialog.html';
+				}
+			}
+			return templateUrl;
+		}
     }
 ]);

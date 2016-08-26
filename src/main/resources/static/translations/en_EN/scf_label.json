@@ -125,6 +125,8 @@
 	"Agree condition": "I have read and agree to the terms according to the evidence of reciept of drawdown above.",
 	"Confirm approval": "Confirm approval ?",
 	"Approve success": "Approve success",
+	"Result": "Result",
+	"Transaction incomplete": "Transaction incomplete",
 
     "_comment": "System error code",
     "E1002": "Insufficient funds",
