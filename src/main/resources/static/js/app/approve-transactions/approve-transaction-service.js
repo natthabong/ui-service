@@ -1,8 +1,8 @@
-angular.module('scfApp').factory('ApproveTransactionService', ['$q', '$http','$sce', 'blockUI', approveTransactionService]);
+angular.module('scfApp').factory('ApproveTransactionService', ['$q', '$http', '$sce', 'blockUI', approveTransactionService]);
 
 function approveTransactionService($q, $http, $sce, blockUI) {
     return {
-		getTransaction: getTransaction,
+        getTransaction: getTransaction,
         approve: approve,
         reject: reject,
         generateRequestForm: generateRequestForm,
@@ -17,15 +17,15 @@ function approveTransactionService($q, $http, $sce, blockUI) {
             url: '/api/approve-transaction/approve',
             data: transactionApproveModel
         }).then(function(response) {
-        	blockUI.stop();
+            blockUI.stop();
             deffered.resolve(response);
         }).catch(function(response) {
-        	blockUI.stop();
+            blockUI.stop();
             deffered.reject(response);
         });
         return deffered;
     }
-	
+
     function reject(transactionApproveModel) {
         var deffered = $q.defer();
         blockUI.start();
@@ -34,16 +34,17 @@ function approveTransactionService($q, $http, $sce, blockUI) {
             url: '/api/approve-transaction/reject',
             data: transactionApproveModel
         }).then(function(response) {
-        	blockUI.stop();
+            blockUI.stop();
             deffered.resolve(response);
         }).catch(function(response) {
-        	blockUI.stop();
+            blockUI.stop();
             deffered.reject(response);
         });
         return deffered;
     }
-	function getTransaction(transactionModel){
-		var deffered = $q.defer();
+
+    function getTransaction(transactionModel) {
+        var deffered = $q.defer();
         $http({
             method: 'POST',
             url: '/api/approve-transaction/transaction/get',
@@ -52,47 +53,51 @@ function approveTransactionService($q, $http, $sce, blockUI) {
             deffered.resolve(response);
         }).catch(function(response) {
             deffered.reject(response);
-        });		
-		
+        });
+
         return deffered;
-	}
-	
-	function generateRequestForm(transactionModel){
-		var requestFormBlock = blockUI.instances.get('requestForm');
-		requestFormBlock.start();
+    }
+
+    function generateRequestForm(transactionModel) {
+        var requestFormBlock = blockUI.instances.get('requestForm');
+        requestFormBlock.start();
         $http({
             method: 'POST',
             url: '/api/approve-transaction/report-form',
             data: transactionModel,
             responseType: 'arraybuffer'
         }).success(function(response) {
-        	var file = new Blob([response], {type: 'application/pdf'});
-        	var fileURL = URL.createObjectURL(file);   	
-        	document.getElementById('visualizador').setAttribute('data', fileURL);
-        	requestFormBlock.stop();
+            var file = new Blob([response], {
+                type: 'application/pdf'
+            });
+            var fileURL = URL.createObjectURL(file);
+            document.getElementById('visualizador').setAttribute('data', fileURL);
+            requestFormBlock.stop();
         }).error(function(response) {
-            
+
         });
-	}
-	
-	function generateEvidenceForm(transactionModel){
-		 $http({
-	            method: 'POST',
-	            url: '/api/approve-transaction/evidence-form',
-	            data: transactionModel,
-	            responseType: 'arraybuffer'
-	        }).success(function(response) {
-	        	var file = new Blob([response], {type: 'application/pdf'});
-	        	var fileURL = URL.createObjectURL(file);
-	        	var a         = document.createElement('a');
-	            a.href        = fileURL; 
-	            a.target      = '_blank';
-	            a.download    = transactionModel.transactionNo+'.pdf';
-	            document.body.appendChild(a);
-	            a.click();
-	        }).error(function(response) {
-	            
-	        });
-	}
+    }
+
+    function generateEvidenceForm(transactionModel) {
+        $http({
+            method: 'POST',
+            url: '/api/approve-transaction/evidence-form',
+            data: transactionModel,
+            responseType: 'arraybuffer'
+        }).success(function(response) {
+            var file = new Blob([response], {
+                type: 'application/pdf'
+            });
+            var fileURL = URL.createObjectURL(file);
+            var a = document.createElement('a');
+            a.href = fileURL;
+            a.target = '_blank';
+            a.download = transactionModel.transactionNo + '.pdf';
+            document.body.appendChild(a);
+            a.click();
+        }).error(function(response) {
+
+        });
+    }
 
 }
