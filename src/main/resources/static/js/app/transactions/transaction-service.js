@@ -25,11 +25,11 @@ function transactionService($q, $http, $sce, blockUI) {
 
     function getTransactionDialogErrorUrl(errorCode) {
 		var errorMessageCode = {
-			timeout: 'TIMEOUT'
+			incomplete: 'INCOMPLETE'
 		}
         var templateUrl = '/js/app/approve-transactions/fail-dialog.html';
         if (angular.isDefined(errorCode)) {
-            if (errorCode == errorMessageCode.timeout) {
+            if (errorCode == errorMessageCode.incomplete) {
                 templateUrl = '/js/app/approve-transactions/incomplete-dialog.html';
             }
         }
