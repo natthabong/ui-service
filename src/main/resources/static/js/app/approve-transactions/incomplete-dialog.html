@@ -6,7 +6,7 @@
             </div>
             <div class="col-md-10 col-sm-10">
                 <h2>
-					<span id="approve-timeout-header"
+					<span id="approve-incomplete-header"
 						ng-bind="'Transaction incomplete' | translate">Transaction incomplete</span>
 				</h2>
             </div>
@@ -16,31 +16,31 @@
         <div class="row">
             <div class="col-md-2 col-sm-2"></div>
             <div class="col-md-10 col-sm-10">
-                <label ng-bind="'Transaction No.' | translate"></label>:&nbsp;<span id="timeout-transaction-no-label" ng-bind="response.attributes.transactionNo"></span>
+                <label ng-bind="'Transaction No.' | translate"></label>:&nbsp;<span id="incomplete-transaction-no-label" ng-bind="response.attributes.transactionNo"></span>
             </div>
         </div>
         <div class="row">
             <div class="col-md-2 col-sm-2"></div>
             <div class="col-md-10 col-sm-10">
-                <label ng-bind="'Reason' | translate"></label>:&nbsp;<span id="timeout-reason-label" ng-bind="response.errorMessage | translate"></span>
+                <label ng-bind="'Reason' | translate"></label>:&nbsp;<span id="incomplete-reason-label" ng-bind="response.errorMessage | translate"></span>
             </div>
         </div>
         <div class="row">
             <div class="col-md-2 col-sm-2"></div>
             <div class="col-md-10 col-sm-10">
-                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><span id="timeout-info-label" ng-bind="response.attributes.infoMessage | translate"></span>
+                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><span id="incomplete-info-label" ng-bind="response.attributes.infoMessage | translate"></span>
             </div>
         </div>
     </div>
     <div class="modal-footer">
 		<div class="row">
 			<div class="col-xs-12 text-right">
-				<scf-button id="timeout-retry-button" data-dismiss="modal"
+				<scf-button id="incomplete-timeout-back-button" data-dismiss="modal"
 					ng-click="closeThisDialog();ctrl.backPage()" ng-bind="'Back' | translate"></scf-button>
-				<scf-button id="timeout-retry-button" data-dismiss="modal" ng-show="{{response.attributes.retriable}}"
+				<scf-button id="incomplete-retry-button" data-dismiss="modal" ng-show="{{response.attributes.retriable}}"
 					ng-click="closeThisDialog();ctrl.retry()">{{'Retry' | translate}}</scf-button>			
-				<scf-button id="timeout-view-history-button" data-dismiss="modal" ng-show="{{response.showViewHistoryBtn}}"
-					ng-click="closeThisDialog();ctrl.viewHistory()" ng-bind="'View History' | translate"></scf-button>
+				<scf-button id="incomplete-view-history-button" data-dismiss="modal" ng-show="{{response.showViewHistoryBtn}}"
+					ng-click="closeThisDialog();ctrl.viewHistory()" ng-bind="'View history' | translate"></scf-button>
 									
 			</div>
 		</div>
