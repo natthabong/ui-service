@@ -35,12 +35,12 @@
     <div class="modal-footer">
 		<div class="row">
 			<div class="col-xs-12 text-right">
-				<scf-button id="incomplete-retry-button" data-dismiss="modal"
+				<scf-button id="incomplete-timeout-back-button" data-dismiss="modal"
 					ng-click="closeThisDialog();ctrl.backPage()" ng-bind="'Back' | translate"></scf-button>
 				<scf-button id="incomplete-retry-button" data-dismiss="modal" ng-show="{{response.attributes.retriable}}"
 					ng-click="closeThisDialog();ctrl.retry()">{{'Retry' | translate}}</scf-button>			
 				<scf-button id="incomplete-view-history-button" data-dismiss="modal" ng-show="{{response.showViewHistoryBtn}}"
-					ng-click="closeThisDialog();ctrl.viewHistory()" ng-bind="'View History' | translate"></scf-button>
+					ng-click="closeThisDialog();ctrl.viewHistory()" ng-bind="'View history' | translate"></scf-button>
 									
 			</div>
 		</div>
