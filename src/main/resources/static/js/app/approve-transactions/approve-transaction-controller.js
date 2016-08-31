@@ -64,6 +64,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                     $scope.response = response.data;
                     $scope.response.showViewHistoryBtn = true;
                     $scope.response.showCloseBtn = false;
+					$scope.response.showBackBtn = true;
 					var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
                     ngDialog.open({
                         template: dialogUrl,
@@ -94,6 +95,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                     $scope.response = response.data;
                     $scope.response.showViewHistoryBtn = true;
                     $scope.response.showCloseBtn = false;
+					$scope.response.showBackBtn = true;
 					var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
                     ngDialog.open({
                         template: dialogUrl,
