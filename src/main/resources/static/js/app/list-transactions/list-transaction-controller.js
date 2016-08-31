@@ -400,6 +400,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             $scope.response = response.data;
             $scope.response.showViewHistoryBtn = false;
             $scope.response.showCloseBtn = true;
+			$scope.response.showBackBtn = false;
 			var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
             ngDialog.open({
                 template: dialogUrl,
