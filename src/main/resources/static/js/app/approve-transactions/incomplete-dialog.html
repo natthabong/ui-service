@@ -41,7 +41,8 @@
 					ng-click="closeThisDialog();ctrl.retry()">{{'Retry' | translate}}</scf-button>			
 				<scf-button id="incomplete-view-history-button" data-dismiss="modal" ng-show="{{response.showViewHistoryBtn}}"
 					ng-click="closeThisDialog();ctrl.viewHistory()" ng-bind="'View history' | translate"></scf-button>
-									
+				<scf-button id="incomplete-close-button" data-dismiss="modal" ng-show="{{response.showCloseBtn}}"
+					ng-click="closeThisDialog();ctrl.searchTransactionService()" ng-bind="'Close' | translate"></scf-button>
 			</div>
 		</div>
 	</div>

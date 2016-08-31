@@ -398,7 +398,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         	 vm.searchTransactionService();
         }).catch(function(response) {
             $scope.response = response.data;
-            $scope.response.showViewHistoryBtn = false;
+            $scope.response.showViewHistoryBtn = true;
             $scope.response.showCloseBtn = true;
 			$scope.response.showBackBtn = false;
 			var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);

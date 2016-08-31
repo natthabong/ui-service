@@ -54,7 +54,7 @@
 					ng-click="closeThisDialog();ctrl.retry()">{{'Retry' | translate}}</scf-button>			
 				<scf-button id="fail-view-history-button" data-dismiss="modal" ng-show="{{response.showViewHistoryBtn}}"
 					ng-click="closeThisDialog();ctrl.viewHistory()" ng-bind="'View history' | translate"></scf-button>
-				<scf-button id="close-button" data-dismiss="modal" ng-show="{{response.showCloseBtn}}"
+				<scf-button id="fail-close-button" data-dismiss="modal" ng-show="{{response.showCloseBtn}}"
 					ng-click="closeThisDialog();ctrl.searchTransactionService()" ng-bind="'Close' | translate"></scf-button>					
 			</div>
 		</div>
