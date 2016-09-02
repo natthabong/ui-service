@@ -34,7 +34,7 @@ function transactionService($q, $http, $sce, blockUI) {
                 templateUrl = '/js/app/approve-transactions/incomplete-dialog.html';
             }
             else if(errorCode == errorMessageCode.concurency){
-                templateUrl = '/js/app/approve-transactions/concurency-dialog.html';
+                templateUrl = '/js/app/approve-transactions/approve-concurency-dialog.html';
             }
         }
         return templateUrl;
