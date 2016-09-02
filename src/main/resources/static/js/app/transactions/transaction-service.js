@@ -25,12 +25,16 @@ function transactionService($q, $http, $sce, blockUI) {
 
     function getTransactionDialogErrorUrl(errorCode) {
 		var errorMessageCode = {
-			incomplete: 'INCOMPLETE'
+			incomplete: 'INCOMPLETE',
+			concurency: 'E1003'
 		}
         var templateUrl = '/js/app/approve-transactions/fail-dialog.html';
         if (angular.isDefined(errorCode)) {
             if (errorCode == errorMessageCode.incomplete) {
                 templateUrl = '/js/app/approve-transactions/incomplete-dialog.html';
+            }
+            else if(errorCode == errorMessageCode.concurency){
+                templateUrl = '/js/app/approve-transactions/concurency-dialog.html';
             }
         }
         return templateUrl;
