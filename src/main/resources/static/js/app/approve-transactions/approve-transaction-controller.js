@@ -62,6 +62,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 
                 }).catch(function(response) {
                     $scope.response = response.data;
+                    $scope.response.showViewRecentBtn = false;
                     $scope.response.showViewHistoryBtn = true;
                     $scope.response.showCloseBtn = false;
 					$scope.response.showBackBtn = true;
@@ -94,6 +95,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 
                 }).catch(function(response) {
                     $scope.response = response.data;
+                    $scope.response.showViewRecentBtn = false;
                     $scope.response.showViewHistoryBtn = true;
                     $scope.response.showCloseBtn = false;
 					$scope.response.showBackBtn = true;
