@@ -531,14 +531,6 @@ footer .footer-below {
 	font-size: 12px;
 }
 
-.gec-fix-position {
-    position: fixed;
-    bottom: 5px;
-    z-index: 50;
-    width: inherit;
-    background-color: #ffffff;
-    padding-bottom: 20px;
-}
 
 @media (max-width: 1200px){
 	.gec-fix-position {

@@ -21,7 +21,8 @@
     <!-- GECSCF CSS -->
     <link th:href="@{/css/gecscf.css}" href="../static/css/gecscf.css" rel="stylesheet" />
     <link th:href="@{/js/app/components/scfjs.css}" href="../static/js/app/components/scfjs.css" rel="stylesheet" />
-
+	
+	<link th:href="${fixedHeader} ? @{/css/fixed.css} : @{/css/no-fixed.css}" href="../static/css/fixed.css}" rel="stylesheet" />
     <!-- End Mimin Theme -->
 
     <!-- controller -->
