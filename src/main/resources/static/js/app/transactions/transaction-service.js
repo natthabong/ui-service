@@ -26,6 +26,7 @@ function transactionService($q, $http, $sce, blockUI) {
     function getTransactionDialogErrorUrl(errorCode) {
 		var errorMessageCode = {
 			incomplete: 'INCOMPLETE',
+			transactionHour: 'E1012',
 			concurency: 'E1003'
 		}
         var templateUrl = '/js/app/approve-transactions/fail-dialog.html';

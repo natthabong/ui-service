@@ -64,7 +64,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                     $scope.response = response.data;
                     $scope.response.showViewRecentBtn = false;
                     $scope.response.showViewHistoryBtn = true;
-                    $scope.response.showCloseBtn = false;
+                    $scope.response.showCloseBtn = $scope.response.errorCode == 'E1012'?true:false;
 					$scope.response.showBackBtn = true;
 					vm.errorMessageModel = response.data;
 					var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
