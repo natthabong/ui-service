@@ -4,7 +4,7 @@
 			<div class="col-md-2 col-sm-2">
 				<i class="icon fa fa-info-circle fa-4" aria-hidden="true"></i>
 			</div>
-			<div class="col-md-10 col-sm-10">
+			<div class="col-md-10 col-sm-10" style="color: red;">
 				<h2>
 					<span id="approve-fail-header"
 						ng-bind="'Transaction hour' | translate">Transaction hour</span>
@@ -25,7 +25,7 @@
 	<div class="modal-footer">
 		<div class="row">
 			<div class="col-xs-12 text-right">
-				<scf-button id="close-button" ng-click="closeThisDialog();"
+				<scf-button id="close-button" class="popup-button" ng-click="closeThisDialog();"
 					ng-bind="'Close' | translate"></scf-button>
 			</div>
 		</div>
