@@ -161,7 +161,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             options: {
                 displayRowNo: {
                 	idValueField: 'template',
-                	id: 'row-no-{value}-label'
+                	id: 'no-{value}-label'
                 },
                 displaySelect: {
                     label: '<input type="checkbox" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
