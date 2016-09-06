@@ -31,7 +31,7 @@
 						</label>
 					</div>
 					<div class="col-md-12 text-right">
-						<scf-button id="approve-button"
+						<scf-button id="approve-button" ng-disabled="ctrl.disableButton"
 							type="submit" ng-click="ctrl.confirmPopup()"
 							ng-bind="'Approve' | translate"></scf-button>
 						<scf-button id="reject-button" class="popup-button" ng-click="ctrl.confirmRejectPopup()"
