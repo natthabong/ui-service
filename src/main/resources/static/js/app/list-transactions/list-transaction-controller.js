@@ -141,7 +141,10 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
    
     vm.dataTable = {
         options: {
-            displayRowNo: {}
+            displayRowNo: {
+            	idValueField: 'transactionNo',
+            	id: 'transaction-{value}-row-no-label'
+            }
         },
         expansion:{
         	expanded: true
@@ -149,11 +152,15 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         columns: [{
             field: 'sponsor',
             label: 'Sponsor',
+            idValueField: 'transactionNo',
+            id: 'transaction-{value}-sponsor-name-label',
             sortData: true,
             cssTemplate: 'text-center'
         }, {
             field: 'transactionDate',
             label: 'Transaction Date',
+            idValueField: 'transactionNo',
+            id: 'transaction-{value}-transaction-date-label',
             filterType: 'date',
             filterFormat: 'dd/MM/yyyy',
             sortData: true,
@@ -202,7 +209,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             field: 'repaymentAmount',
             label: 'Repayment Amount',
             idValueField: 'transactionNo',
-            id: 'transaction-{value}-bank-repayment-amount-label',
+            id: 'transaction-{value}-repayment-amount-label',
             sortData: true,
             cssTemplate: 'text-right',
             filterType: 'number',
@@ -210,6 +217,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         }, {
             field: 'maturityDate',
             label: 'Maturity Date',
+            idValueField: 'transactionNo',
+            id: 'transaction-{value}-maturity-date-label',
             filterType: 'date',
             filterFormat: 'dd/MM/yyyy',
             sortData: true,

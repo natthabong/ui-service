@@ -39,10 +39,16 @@
 										data-ng-src="data:image/png;base64,{{newDuedateCtrl.decodeBase64(record.sponsorLogo)}}"
 										data-err-src="images/png/avatar.png" /></td>
 									<td class="text-center"
+										id="new-due-date-top-10-{{$index+1}}-sponsor-payment-date-label"
 										ng-bind="record.sponsorPaymentDate | date : 'dd/MM/yyyy'"></td>
-									<td class="text-center" ng-bind="record.supplierCode"></td>
-									<td class="text-right" ng-bind="record.noOfDocument | number"></td>
-									<td class="text-right"
+									<td class="text-center" 
+										id="new-due-date-top-10-{{$index+1}}-supplier-code-label"
+										ng-bind="record.supplierCode"></td>
+									<td class="text-right" 
+										id="new-due-date-top-10-{{$index+1}}-no-of-document-label"
+										ng-bind="record.noOfDocument | number"></td>
+									<td class="text-right" 
+										id="new-due-date-top-10-{{$index+1}}-outstanding-amount-label"
 										ng-bind="record.outstandingAmount | number : 2"></td>
 									<td class="text-center"><button
 											class="btn-default gec-btn-action"
