@@ -2,7 +2,7 @@
 		<div class="modal-header">
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
-					<h2><span id="confirm-approve-header" ng-bind="'Confirm approve ?' | translate">Confirm approval ?</span></h2>
+					<h2><span id="confirm-approve-header" class="popup-text" ng-bind="'Confirm approve ?' | translate">Confirm approval ?</span></h2>
 				</div>				
 			</div>
 		</div>
@@ -41,9 +41,11 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<scf-button id="yes-button" ng-click="closeThisDialog();ctrl.approve()"
+					<scf-button id="yes-button" class="popup-button" 
+						ng-click="closeThisDialog();ctrl.approve()"
 						ng-bind="'YES' | translate"></scf-button>
-					<scf-button id="no-button" ng-click="closeThisDialog()"
+					<scf-button id="no-button" class="btn-danger"  
+						ng-click="closeThisDialog()"
 						ng-bind="'NO' | translate"></scf-button>
 				</div>
 			</div>

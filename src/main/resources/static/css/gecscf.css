@@ -449,6 +449,16 @@ button[type='submit'] {
 	color: #fff !important;
 }
 
+.popup-text {
+	color: #0c66ae !important;
+}
+
+.popup-button {
+	background-color: #0c66ae !important;
+	border: medium none !important;
+	color: #fff !important;
+}
+
 footer .footer-below {
 	padding: 15px 0;
 	background-color: #233140;
