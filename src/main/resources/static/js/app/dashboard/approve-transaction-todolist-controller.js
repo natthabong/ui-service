@@ -150,7 +150,7 @@ angular.module('scfApp').controller(
 								label: '',
 								cssTemplate: 'text-center',
 								sortable: false,
-								cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="(approveTxnTodoListCtrl.approve && (data.statusCode === approveTxnTodoListCtrl.statusTransaction.waitForApprove))" id="wait-for-approve-transaction-{{data.transactionNo}}-button" ng-click="approveTxnTodoListCtrl.approveTransaction(data)"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></scf-button>'
+								cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="(approveTxnTodoListCtrl.approve && (data.statusCode === approveTxnTodoListCtrl.statusTransaction.waitForApprove))" id="wait-for-approve-transaction-{{data.transactionNo}}-button" ng-click="approveTxnTodoListCtrl.approveTransaction(data)" title="Approve a transaction"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>'
 							}]
 				    };
 				    
