@@ -1,4 +1,4 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'TransactionService', '$state','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'PageNavigation','ngDialog','$log' , function(ListTransactionService, TransactionService, $state,$translate, $scope, SCFCommonService, $stateParams, $cookieStore, PageNavigation, ngDialog, $log) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'TransactionService', '$state', '$timeout','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'PageNavigation','ngDialog','$log' , function(ListTransactionService, TransactionService, $state, $timeout,$translate, $scope, SCFCommonService, $stateParams, $cookieStore, PageNavigation, ngDialog, $log) {
     var vm = this;
 	var log = $log;
     var listStoreKey = 'listrancri';
@@ -12,7 +12,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	vm.verify = false;
 	vm.approve = false;
 	vm.transactionIdForRetry = '';
-	
+	vm.transaction = {};
 	vm.statusDocuments = {
 		waitForVerify: 'WAIT_FOR_VERIFY',
 		waitForApprove: 'WAIT_FOR_APPROVE',
@@ -398,7 +398,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         	 vm.searchTransactionService();
         }).catch(function(response) {
             $scope.response = response.data;
-            $scope.response.showViewHistoryBtn = true;
+            $scope.response.showViewRecentBtn = true;
+            $scope.response.showViewHistoryBtn = false;           
             $scope.response.showCloseBtn = true;
 			$scope.response.showBackBtn = false;
 			var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
@@ -409,6 +410,12 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             });
             
         });
+    }
+    
+    vm.viewRecent= function(){
+    	$timeout(function() {
+    		PageNavigation.gotoPage('/view-transaction', {transactionModel: vm.transaction, isShowViewHistoryButton: true});
+        }, 10);
     }
 	
 	vm.printEvidenceFormAction = function(data){    	
