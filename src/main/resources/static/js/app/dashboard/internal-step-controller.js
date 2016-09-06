@@ -69,7 +69,10 @@ angular
 
 							vm.dataTable = {
 								options : {
-									displayRowNo : {}
+									displayRowNo : {
+										idValueField: 'template',
+					                	id: 'internal-step-{value}-no-label'
+									}
 								},
 								columns : [
 										{
@@ -81,34 +84,41 @@ angular
 										}, {
 											field : 'transactionNo',
 											label : 'Transaction No',
-											id : 'transaction-{value}-transaction-no-label',
-											sortData : true,
+											idValueField: 'template',
+							                id: 'internal-step-{value}-transaction-no-label',
+							                sortData : true,
 											cssTemplate : 'text-center'
 										}, {
 											field : 'sponsorPaymentDate',
 											label : 'SponsorPayment Date',
-											filterType : 'date',
+											idValueField: 'template',
+							                id: 'internal-step-{value}-sponsor-payment-date-label',
+							                filterType : 'date',
 											filterFormat : 'dd/MM/yyyy',
 											sortData : true,
 											cssTemplate : 'text-center'
 										}, {
 											field : 'noOfDocument',
 											label : 'No of document',
-											sortData : true,
+											idValueField: 'template',
+							                id: 'internal-step-{value}-no-of-document-label',
+							                sortData : true,
 											cssTemplate : 'text-center'
 										}, {
 											field : 'drawdownAmount',
 											label : 'Transaction amount',
-											sortData : true,
+											idValueField: 'template',
+							                id: 'internal-step-{value}-transaction-amount-label',
+							                sortData : true,
 											cssTemplate : 'text-right',
 											filterType : 'number',
 											filterFormat : '2'
 										}, {
 											field : 'statusCode',
 											label : 'Status',
-											sortData : true,
-											idValueField : 'transactionNo',
-											id : 'status-{value}',
+											idValueField: 'template',
+							                id: 'internal-step-{value}-transaction-status-label',
+							                sortData : true,
 											filterType : 'translate',
 											cssTemplate : 'text-center'
 										}, {

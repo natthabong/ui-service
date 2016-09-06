@@ -103,7 +103,10 @@ angular.module('scfApp').controller(
 					}
 				    vm.dataTable = {
 				            options: {
-				                displayRowNo: {}
+				                displayRowNo: {
+				                	idValueField: 'template',
+				                	id: 'wait-for-approve-transaction-{value}-row-no-label'
+				                }
 				            },
 				            columns: [{
 				                label: 'TP',
@@ -114,12 +117,15 @@ angular.module('scfApp').controller(
 				            },{
 				                field: 'transactionNo',
 				                label: 'Transaction No',
-				                id: 'transaction-{value}-transaction-no-label',
+				                idValueField: 'template',
+				                id: 'wait-for-approve-transaction-{value}-transaction-no-label',
 				                sortable: true,
 				                cssTemplate: 'text-center',
 				            },{
 				                field: 'sponsorPaymentDate',
 				                label: 'Sponsor payment date',
+				                idValueField: 'template',
+				                id: 'wait-for-approve-transaction-{value}-sponsor-payment-date-label',
 				                filterType: 'date',
 				                filterFormat: 'dd/MM/yyyy',
 				                sortable: true,
@@ -127,10 +133,14 @@ angular.module('scfApp').controller(
 				            }, {
 				                field: 'noOfDocument',
 				                label: 'No of document',
+				                idValueField: 'template',
+				                id: 'wait-for-approve-transaction-{value}-no-of-document-label',
 				                cssTemplate: 'text-center',
 				            }, {
 				                field: 'drawdownAmount',
 				                label: 'Transaction amount',
+				                idValueField: 'template',
+				                id: 'wait-for-approve-transaction-{value}-transaction-amount-label',
 				                sortable: true,
 				                cssTemplate: 'text-right',
 				                filterType: 'number',
@@ -140,7 +150,7 @@ angular.module('scfApp').controller(
 								label: '',
 								cssTemplate: 'text-center',
 								sortable: false,
-								cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="(approveTxnTodoListCtrl.approve && (data.statusCode === approveTxnTodoListCtrl.statusTransaction.waitForApprove))" id="transaction-{{data.transactionNo}}-button" ng-click="approveTxnTodoListCtrl.approveTransaction(data)"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></scf-button>'
+								cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="(approveTxnTodoListCtrl.approve && (data.statusCode === approveTxnTodoListCtrl.statusTransaction.waitForApprove))" id="wait-for-approve-transaction-{{data.transactionNo}}-button" ng-click="approveTxnTodoListCtrl.approveTransaction(data)"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></scf-button>'
 							}]
 				    };
 				    
