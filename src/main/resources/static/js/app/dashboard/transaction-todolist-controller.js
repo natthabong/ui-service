@@ -17,7 +17,7 @@ angular.module('scfApp').controller(
 					vm.verify = false;
 					vm.approve = false;
 					vm.splitePageTxt = '';					
-					vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
+					vm.dashboardItem = $scope.$parent.$parent.layout;
 					var orderItems  = splitCriteriaData(vm.dashboardItem.orderItems);
 					var filterStatusCodeItem = splitFilterStatusCode(vm.dashboardItem.filterItems);
 					
