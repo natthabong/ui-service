@@ -1,47 +1,41 @@
 <div th:fragment="content">
-	<div class="panel">
-		<div class="panel-body"
-			ng-controller="ApproveTransactionTodoListDashboardController as approveTxnTodoListCtrl">
-			<div class="col-md-12 col-sm-12">
-				<h3 class="animated fadeInLeft"
-					id="wait-for-approve-transaction-header-label"
-					ng-bind="approveTxnTodoListCtrl.dashboardItem.headerLabel"></h3>
+	<div
+		ng-controller="ApproveTransactionTodoListDashboardController as approveTxnTodoListCtrl">
+		<h3 class="animated fadeInLeft"
+			id="wait-for-approve-transaction-header-label"
+			ng-bind="dashboardItem.headerLabel"></h3>
 
-				<div class="row">
-					<div class="col-md-12 col-sm-12 text-right">
-						<span> <b ng-bind="approveTxnTodoListCtrl.splitePageTxt"
-							id="wait-for-approve-transaction-paging-label"></b> &nbsp;&nbsp;
-							<scf-pagination
-								dropdown-id="wait-for-approve-transaction-page-limit-dropdown"
-								page-size-model="approveTxnTodoListCtrl.pageModel.pageSizeSelectModel"
-								total-page="approveTxnTodoListCtrl.pageModel.totalPage"
-								current-page="approveTxnTodoListCtrl.transactionCriteriaModel.page"
-								page-size-list="approveTxnTodoListCtrl.pageSizeList"
-								page-action="approveTxnTodoListCtrl.searchTransaction"
-								first-page-button-id="wait-for-approve-transaction-first-page-button"
-								back-page-button-id="wait-for-approve-transaction-back-page-button"
-								next-page-button-id="wait-for-approve-transaction-next-page-button"
-								last-page-button-id="wait-for-approve-transaction-last-page-button"></scf-pagination>
-						</span>
+		<div class="row">
+			<div class="col-md-12 col-sm-12 text-right">
+				<span> <b ng-bind="approveTxnTodoListCtrl.splitePageTxt"
+					id="wait-for-approve-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+						dropdown-id="wait-for-approve-transaction-page-limit-dropdown"
+						page-size-model="approveTxnTodoListCtrl.pageModel.pageSizeSelectModel"
+						total-page="approveTxnTodoListCtrl.pageModel.totalPage"
+						current-page="approveTxnTodoListCtrl.transactionCriteriaModel.page"
+						page-size-list="approveTxnTodoListCtrl.pageSizeList"
+						page-action="approveTxnTodoListCtrl.searchTransaction"
+						first-page-button-id="wait-for-approve-transaction-first-page-button"
+						back-page-button-id="wait-for-approve-transaction-back-page-button"
+						next-page-button-id="wait-for-approve-transaction-next-page-button"
+						last-page-button-id="wait-for-approve-transaction-last-page-button"></scf-pagination>
+				</span>
 
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<scf-data-table id="wait-for-approve-transaction-table"
-							component-config="approveTxnTodoListCtrl.dataTable"
-							component-datas="approveTxnTodoListCtrl.data"
-							current-page="approveTxnTodoListCtrl.transactionCriteriaModel.page"
-							record-per-page="approveTxnTodoListCtrl.pageModel.pageSizeSelectModel"
-							clear-sort-order="approveTxnTodoListCtrl.pageModel.clearSortOrder"></scf-data-table>
-					</div>
-					<div id="fixed-bottom" class="col-md-12"></div>
-				</div>
 			</div>
-			<input type="hidden" ng-init="approveTxnTodoListCtrl.approve=true"
-				sec:authorize="hasAuthority('SFP_APPROVE_TRANSACTION')" />
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<scf-data-table id="wait-for-approve-transaction-table"
+					component-config="approveTxnTodoListCtrl.dataTable"
+					component-datas="approveTxnTodoListCtrl.data"
+					current-page="approveTxnTodoListCtrl.transactionCriteriaModel.page"
+					record-per-page="approveTxnTodoListCtrl.pageModel.pageSizeSelectModel"
+					clear-sort-order="approveTxnTodoListCtrl.pageModel.clearSortOrder"></scf-data-table>
+			</div>
+			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
 	</div>
-
+	<input type="hidden" ng-init="approveTxnTodoListCtrl.approve=true"
+		sec:authorize="hasAuthority('SFP_APPROVE_TRANSACTION')" />
 </div>

@@ -1,45 +1,41 @@
 <div th:fragment="content">
-	<div class="panel">
-		<div class="panel-body" ng-controller="TransactionTodoListDashboardController as txnTodoListCtrl">
-			<div class="col-md-12 col-sm-12">
-				<h3 class="animated fadeInLeft"
-					id="wait-for-verify-transaction-header-label" ng-bind="txnTodoListCtrl.dashboardItem.headerLabel"></h3>
-				
-					<div class="row">
-						<div class="col-md-12 col-sm-12 text-right">
-							<span> <b ng-bind="txnTodoListCtrl.splitePageTxt"
-								id="wait-for-verify-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-									dropdown-id="wait-for-verify-transaction-page-limit-dropdown"
-									page-size-model="txnTodoListCtrl.pageModel.pageSizeSelectModel"
-									total-page="txnTodoListCtrl.pageModel.totalPage"
-									current-page="txnTodoListCtrl.transactionCriteriaModel.page"
-									page-size-list="txnTodoListCtrl.pageSizeList"
-									page-action="txnTodoListCtrl.searchTransaction"
-									first-page-button-id="wait-for-verify-transaction-first-page-button"
-									back-page-button-id="wait-for-verify-transaction-back-page-button"
-									next-page-button-id="wait-for-verify-transaction-next-page-button"
-									last-page-button-id="wait-for-verify-transaction-last-page-button"
-									></scf-pagination>
-							</span>
+	<div
+		ng-controller="TransactionTodoListDashboardController as txnTodoListCtrl">
+		<h3 class="animated fadeInLeft"
+			id="wait-for-verify-transaction-header-label"
+			ng-bind="dashboardItem.headerLabel"></h3>
 
-						</div>
-					</div>
+		<div class="row">
+			<div class="col-md-12 col-sm-12 text-right">
+				<span> <b ng-bind="txnTodoListCtrl.splitePageTxt"
+					id="wait-for-verify-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+						dropdown-id="wait-for-verify-transaction-page-limit-dropdown"
+						page-size-model="txnTodoListCtrl.pageModel.pageSizeSelectModel"
+						total-page="txnTodoListCtrl.pageModel.totalPage"
+						current-page="txnTodoListCtrl.transactionCriteriaModel.page"
+						page-size-list="txnTodoListCtrl.pageSizeList"
+						page-action="txnTodoListCtrl.searchTransaction"
+						first-page-button-id="wait-for-verify-transaction-first-page-button"
+						back-page-button-id="wait-for-verify-transaction-back-page-button"
+						next-page-button-id="wait-for-verify-transaction-next-page-button"
+						last-page-button-id="wait-for-verify-transaction-last-page-button"></scf-pagination>
+				</span>
 
-					<div class="row">
-						<div class="col-md-12">
-							<scf-data-table id="wait-for-verify-transaction-table"
-								component-config="txnTodoListCtrl.dataTable"
-								component-datas="txnTodoListCtrl.data"
-								current-page="txnTodoListCtrl.transactionCriteriaModel.page"
-								record-per-page="txnTodoListCtrl.pageModel.pageSizeSelectModel"
-								clear-sort-order="txnTodoListCtrl.pageModel.clearSortOrder"></scf-data-table>
-						</div>
-						<div id="fixed-bottom" class="col-md-12"></div>
-					</div>				
 			</div>
-			<input type="hidden" ng-init="txnTodoListCtrl.verify=true"
-				sec:authorize="hasAuthority('SFP_VERIFY_TRANSACTION')" />
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<scf-data-table id="wait-for-verify-transaction-table"
+					component-config="txnTodoListCtrl.dataTable"
+					component-datas="txnTodoListCtrl.data"
+					current-page="txnTodoListCtrl.transactionCriteriaModel.page"
+					record-per-page="txnTodoListCtrl.pageModel.pageSizeSelectModel"
+					clear-sort-order="txnTodoListCtrl.pageModel.clearSortOrder"></scf-data-table>
+			</div>
+			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
 	</div>
-	
+	<input type="hidden" ng-init="txnTodoListCtrl.verify=true"
+		sec:authorize="hasAuthority('SFP_VERIFY_TRANSACTION')" />
 </div>

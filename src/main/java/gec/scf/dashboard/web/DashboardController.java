@@ -12,6 +12,7 @@ import gec.scf.util.AjaxUtils;
 public class DashboardController {
 	private static final String APPROVE_TRANSACTION_TODOLIST = "dashboard/approve-transaction-todolist";
 	private static final String DASHBOARD_COMPOSITE = "dashboard/composite";
+	private static final String CREDIT_INFORMATION = "dashboard/credit-information";
 	private static String NEW_DUEDATE_GROUP = "dashboard/newduedate-group";
 	private static String CREDIT_INFORMATION_SUMMARY = "dashboard/credit-information-summary";
 	private static String TWELVE_MONTHS_CREDIT_MOVEMENT = "dashboard/twelve-months-credit-movement";
@@ -28,8 +29,17 @@ public class DashboardController {
 		return NEW_DUEDATE_GROUP;
 	}
 
-	@RequestMapping(path = "/credit-information-piechart")
+	@RequestMapping(path = "/credit-information")
 	public String creditInformation(
+			@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return CREDIT_INFORMATION.concat(" :: content");
+		}
+		return CREDIT_INFORMATION;
+	}
+
+	@RequestMapping(path = "/credit-information-piechart")
+	public String creditInformationSummary(
 			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return CREDIT_INFORMATION_SUMMARY.concat(" :: content");
