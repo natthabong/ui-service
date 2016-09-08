@@ -29,13 +29,14 @@ function transactionService($q, $http, $sce, blockUI) {
 			transactionHour: 'E1012',
 			concurency: 'E1003'
 		}
-        var templateUrl = '/js/app/approve-transactions/fail-dialog.html';
+		var version = (new Date()).getTime();
+        var templateUrl = '/js/app/approve-transactions/fail-dialog.html?v='+version;
         if (angular.isDefined(errorCode)) {
             if (errorCode == errorMessageCode.incomplete) {
-                templateUrl = '/js/app/approve-transactions/incomplete-dialog.html';
+                templateUrl = '/js/app/approve-transactions/incomplete-dialog.html?v='+version;
             }
             else if(errorCode == errorMessageCode.concurency){
-            	var version = (new Date()).getTime();
+            	
                 templateUrl = '/js/app/approve-transactions/approve-concurency-dialog.html?v='+version;
             }
         }

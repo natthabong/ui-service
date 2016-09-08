@@ -399,7 +399,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
     		 vm.transaction.transactionId = vm.transactionIdForRetry;
     	}else{
     		vm.transaction.transactionId = data.transactionId;
-    		 vm.transactionIdForRetry = vm.transaction.transactionId;
+    		vm.transaction.version = data.version;
+    		vm.transactionIdForRetry = vm.transaction.transactionId;
     	}
 	    vm.storeCriteria();
         var deffered = TransactionService.retry(vm.transaction);
