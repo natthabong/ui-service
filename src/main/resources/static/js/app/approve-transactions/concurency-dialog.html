@@ -17,9 +17,9 @@
 			<div class="col-md-2 col-sm-2"></div>
 			<div class="col-md-10 col-sm-10 col-xs-12">
 				<h3 id="error-message-label" class="gec-pop-up-font-size">
-					<span
+					<span id="fail-reason-label"
 						ng-bind="ctrl.errorMessageModel.errorCode | translate:{message: ctrl.errorMessageModel.attributes.action}"></span>
-					<br /> by: <span
+					<br /> by: <span id="fail-by-label"
 						ng-bind="ctrl.errorMessageModel.attributes.actionBy"></span>
 				</h3>
 			</div>
@@ -28,13 +28,14 @@
 	<div class="modal-footer">
 		<div class="row">
 			<div class="col-xs-12 text-right">
-				<scf-button id="approve-back-button" class="popup-button" data-dismiss="modal"
-					ng-bind="'Back' | translate"
+				<scf-button id="approve-back-button" class="popup-button"
+					data-dismiss="modal" ng-bind="'Back' | translate"
 					ng-click="closeThisDialog();ctrl.backAndReset()"></scf-button>
-				<scf-button id="view-recent-button" class="popup-button" data-dismiss="modal"
-					ng-click="closeThisDialog();ctrl.viewRecent()"
+				<scf-button id="view-recent-button" class="popup-button"
+					data-dismiss="modal" ng-click="closeThisDialog();ctrl.viewRecent()"
 					ng-bind="'View recent' | translate"></scf-button>
-				<scf-button id="fail-view-history-button" class="popup-button" data-dismiss="modal"
+				<scf-button id="fail-view-history-button" class="popup-button"
+					data-dismiss="modal"
 					ng-click="closeThisDialog();ctrl.viewHistory()"
 					ng-bind="'View history' | translate"></scf-button>
 			</div>
