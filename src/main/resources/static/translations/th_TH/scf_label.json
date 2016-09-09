@@ -113,6 +113,7 @@
 	"WAIT_FOR_APPROVE": "Wait for approve",
 	"WAIT_FOR_DRAWDOWN_RESULT": "Wait for drawdown result",
 	"WAIT_FOR_VERIFY": "Wait for verify",
+	"PROCESSING": "Processing",
 	
 	"_comment": "Page Verify Transaction",
 	"Confirm approval ?": "Confirm approval ?",	
