@@ -1,0 +1,8 @@
+<div th:fragment="content">
+	<h3 class="animated fadeInLeft">{{dashboardItem.headerLabel}}</h3>
+	<div class="row">
+		<div ng-repeat="it in layout.children"
+			class="col-md-{{it.columnSize}} col-sm-{{it.columnSize}}"
+			ng-include="it.dashboardItem.url"></div>
+	</div>
+</div>

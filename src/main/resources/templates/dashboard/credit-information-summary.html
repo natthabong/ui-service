@@ -1,0 +1,19 @@
+<div th:fragment="content">
+
+	<div
+		ng-controller="CreditInformationSummaryDashboardController as ctrl">
+		<h3 class="animated fadeInLeft"
+			id="credit-information-summary-header-label">{{dashboardItem.headerLabel}}</h3>
+		<!-- start: Content -->
+		<div class="row">
+			<nvd3-pie-chart id="credit-information-summary" data="ctrl.data"
+				x="ctrl.xFunction()" y="ctrl.yFunction()" width="{{ctrl.width}}"
+				height="{{ctrl.height}}" color="ctrl.colorFunction()"
+				showLabels="true" pieLabelsOutside="true" objectequality="true"
+				callback="ctrl.callback()" legendcolor="ctrl.colorLegendFunction()"
+				labelType="value_percent" showValues="true" showLegend="true"
+				valueFormat="percent"> <svg></svg> </nvd3-pie-chart>
+		</div>
+		<!-- end: content -->
+	</div>
+</div>

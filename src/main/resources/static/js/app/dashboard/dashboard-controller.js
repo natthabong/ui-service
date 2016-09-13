@@ -5,9 +5,16 @@ var dashboardController = function(Service, $log) {
     var log = $log;
     vm.load = function() {
         var deferred = Service.requestURL('api/dashboard/items/get');
-        vm.dashboardItems = [];
+        vm.rowItems = [];
         deferred.promise.then(function(response) {
-            vm.dashboardItems = response;
+        	angular.forEach(response, function(value, key) {
+        		if(this[value.rowNo] == null){
+        			this[value.rowNo] = [];
+        		}
+        		this[value.rowNo].push(value);
+        		
+        		},  vm.rowItems);
+        	console.log(vm.rowItems);
         }).catch(function(response) {
             log.error('Cannot load dashboard');
         });

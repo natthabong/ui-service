@@ -1,10 +1,19 @@
-<div th:fragment="content">
 
-	<div class="panel">
-		<div class="panel-body">
-			<div class="col-md-12 col-sm-12"
-				ng-controller="CreditInformationDashboardController as creditInfoCtrl">
-				<h3 class="animated fadeInLeft" id="credit-information-header-label">{{dashboardItem.headerLabel}}</h3>
+<div class="modal-content">
+	<div class="modal-header">
+		<div class="row">
+			<div class="col-md-10 col-sm-10">
+				<h3>
+					<span class="animated fadeInLeft"
+						id="credit-information-header-label">{{'Credit information'
+						| translate}}</span>
+				</h3>
+			</div>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
 				<!-- start: Content -->
 				<div class="panel-body">
 
@@ -65,9 +74,16 @@
 					</div>
 				</div>
 				<!-- end: content -->
-
 			</div>
 		</div>
 	</div>
-
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-xs-12 text-right">
+				<scf-button id="credit-info-close-button" class="popup-button"
+					data-dismiss="modal" ng-click="closeThisDialog();"
+					ng-bind="'Close' | translate"></scf-button>
+			</div>
+		</div>
+	</div>
 </div>

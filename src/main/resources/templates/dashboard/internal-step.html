@@ -1,40 +1,36 @@
 <div th:fragment="content">
-	<div class="panel">
-		<div class="panel-body"
-			ng-controller="InternalStepDashboardController as internalStepCtrl">
-			<div class="col-md-12 col-sm-12">
-				<h3 class="animated fadeInLeft" id="internal-step-header-label"
-					ng-bind="internalStepCtrl.dashboardItem.headerLabel"></h3>
-				<div class="row">
-					<div class="col-md-12 col-sm-12 text-right">
-						<span> <b ng-bind="internalStepCtrl.splitePageTxt"
-							id="internal-step-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-								dropdown-id="internal-step-page-limit-dropdown"
-								page-size-model="internalStepCtrl.pageModel.pageSizeSelectModel"
-								total-page="internalStepCtrl.pageModel.totalPage"
-								current-page="internalStepCtrl.pageModel.currentPage"
-								page-size-list="internalStepCtrl.pageSizeList"
-								page-action="internalStepCtrl.searchTransaction"
-								first-page-button-id="internal-step-first-page-button"
-								back-page-button-id="internal-step-back-page-button"
-								next-page-button-id="internal-step-next-page-button"
-								last-page-button-id="internal-step-last-page-button"></scf-pagination>
-						</span>
+	<div
+		ng-controller="InternalStepDashboardController as internalStepCtrl">
+		<h3 class="animated fadeInLeft" id="internal-step-header-label"
+			ng-bind="dashboardItem.headerLabel"></h3>
+		<div class="row">
+			<div class="col-md-12 col-sm-12 text-right">
+				<span> <b ng-bind="internalStepCtrl.splitePageTxt"
+					id="internal-step-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+						dropdown-id="internal-step-page-limit-dropdown"
+						page-size-model="internalStepCtrl.pageModel.pageSizeSelectModel"
+						total-page="internalStepCtrl.pageModel.totalPage"
+						current-page="internalStepCtrl.pageModel.currentPage"
+						page-size-list="internalStepCtrl.pageSizeList"
+						page-action="internalStepCtrl.searchTransaction"
+						first-page-button-id="internal-step-first-page-button"
+						back-page-button-id="internal-step-back-page-button"
+						next-page-button-id="internal-step-next-page-button"
+						last-page-button-id="internal-step-last-page-button"></scf-pagination>
+				</span>
 
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<scf-data-table id="internal-step-table"
-							component-config="internalStepCtrl.dataTable"
-							component-datas="internalStepCtrl.data"
-							current-page="internalStepCtrl.pageModel.currentPage"
-							record-per-page="internalStepCtrl.pageModel.pageSizeSelectModel"
-							clear-sort-order="internalStepCtrl.pageModel.clearSortOrder"></scf-data-table>
-					</div>
-					<div id="fixed-bottom" class="col-md-12"></div>
-				</div>
 			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<scf-data-table id="internal-step-table"
+					component-config="internalStepCtrl.dataTable"
+					component-datas="internalStepCtrl.data"
+					current-page="internalStepCtrl.pageModel.currentPage"
+					record-per-page="internalStepCtrl.pageModel.pageSizeSelectModel"
+					clear-sort-order="internalStepCtrl.pageModel.clearSortOrder"></scf-data-table>
+			</div>
+			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
 	</div>
 </div>

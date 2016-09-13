@@ -29,7 +29,8 @@ angular
 									orders: orderItems
 							}
 
-							vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
+							vm.dashboardItem = $scope.$parent.$parent.layout;
+							console.log($scope.$parent.$parent)
 							var orderItems = splitCriteriaSortOrderData(vm.dashboardItem.orderItems);
 							vm.transactionCriteria.orders = orderItems;
 							splitCriteriaFilterData(vm.dashboardItem.filterItems);

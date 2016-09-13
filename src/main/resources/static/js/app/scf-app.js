@@ -1,5 +1,6 @@
 var $stateProviderRef = null;
-var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog'])
+var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
+                        			'legendDirectives'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider','$urlRouterProvider','ngDialogProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider,$compileProvider, $urlRouterProvider, ngDialogProvider) {
 
@@ -104,6 +105,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/dashboard',
 				resolve: load([ 'js/app/dashboard/dashboard-controller.js', 'js/app/dashboard/newduedate-group-controller.js',
 							   'js/app/dashboard/credit-information-controller.js',
+							   'js/app/dashboard/credit-information-summary-controller.js',
+							   'js/app/dashboard/twelve-months-credit-movement-controller.js',
 							   'js/app/dashboard/internal-step-controller.js',
 							   'js/app/dashboard/transaction-todolist-controller.js', 
 							   'js/app/common/scf-component.js', 

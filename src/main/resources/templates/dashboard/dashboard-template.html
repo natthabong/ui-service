@@ -1,9 +1,21 @@
 <div id="content" th:fragment="content">
-    <div id="wrapper">
-        <div class="row" ng-init="dashboardCtrl.load()">
-            <div class="col-md-12 slide-animate-container" ng-repeat="dashboardItem in dashboardCtrl.dashboardItems">
-                <div ng-include="dashboardItem.url"></div>
-            </div>
-        </div>
-    </div>
+	<div id="wrapper" ng-init="dashboardCtrl.load()">
+		<div class="row" ng-repeat="row in dashboardCtrl.rowItems">
+			<div class="panel" ng-if="row.length">
+				<div class="panel-body">
+					<div ng-repeat="layout in row"
+						class="col-md-{{layout.columnSize}} col-sm-{{layout.columnSize}}"
+						ng-init="dashboardItem=layout.dashboardItem">
+						<div ng-show="!layout.children.length"
+							ng-include="layout.dashboardItem.url"></div>
+
+						<div ng-show="layout.children.length"
+							ng-include="'/dashboard-composite'"></div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
 </div>

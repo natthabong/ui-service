@@ -1,0 +1,110 @@
+[
+  {
+    "organizeId": "00030399",
+    "internalStep": 50000,
+    "futureDrawdown": 100000,
+    "outstanding": 100000,
+    "available": 150000,
+    "noOfMonth": 10,
+    "current": false
+  },
+  {
+    "organizeId": "00030399",
+    "internalStep": 75000,
+    "futureDrawdown": 65000,
+    "outstanding": 200000,
+    "available": 60000,
+    "noOfMonth": 11,
+    "current": false
+  },
+  {
+    "organizeId": "00030399",
+    "internalStep": 200000,
+    "futureDrawdown": 50000,
+    "outstanding": 100000,
+    "available": 50000,
+    "noOfMonth": 12,
+    "current": false
+  },
+  {
+    "organizeId": "00030399",
+    "internalStep": 20000,
+    "futureDrawdown": 10000,
+    "outstanding": 50000,
+    "available": 320000,
+    "noOfMonth": 1,
+    "current": false
+  },
+  {
+    "organizeId": "00030399",
+    "internalStep": 100000,
+    "futureDrawdown": 100000,
+    "outstanding": 150000,
+    "available": 50000,
+    "noOfMonth": 2,
+    "current": false
+  },
+  {
+    "organizeId": "00030399",
+    "internalStep": 50000,
+    "futureDrawdown": 15000,
+    "outstanding": 250000,
+    "available": 85000,
+    "noOfMonth": 3,
+    "current": false
+  },
+  {
+    "organizeId": "00030399",
+    "internalStep": 60000,
+    "futureDrawdown": 150000,
+    "outstanding": 30000,
+    "available": 160000,
+    "noOfMonth": 4,
+    "current": false
+  },
+  {
+    "organizeId": "00030399",
+    "internalStep": 15000,
+    "futureDrawdown": 15000,
+    "outstanding": 20000,
+    "available": 350000,
+    "noOfMonth": 5,
+    "current": false
+  },
+  {
+    "organizeId": "00030399",
+    "internalStep": 100000,
+    "futureDrawdown": 200000,
+    "outstanding": 100000,
+    "available": 150000,
+    "noOfMonth": 6,
+    "current": false
+  },
+  {
+    "organizeId": "00030399",
+    "internalStep": 50000,
+    "futureDrawdown": 60000,
+    "outstanding": 15000,
+    "available": 425000,
+    "noOfMonth": 7,
+    "current": false
+  },
+  {
+    "organizeId": "00030399",
+    "internalStep": 80000,
+    "futureDrawdown": 120000,
+    "outstanding": 200000,
+    "available": 150000,
+    "noOfMonth": 8,
+    "current": false
+  },
+  {
+    "organizeId": "00030399",
+    "internalStep": 148278.66,
+    "futureDrawdown": 0,
+    "outstanding": 0,
+    "available": 30000000,
+    "noOfMonth": 9,
+    "current": true
+  }
+]

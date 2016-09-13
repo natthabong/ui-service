@@ -1,0 +1,20 @@
+<div th:fragment="content">
+
+	<div
+		ng-controller="TwelveMonthsCreditMovementDashboardController as ctrl">
+		<h3 class="animated fadeInLeft"
+			id="twelve-months-credit-information-header-label">{{dashboardItem.headerLabel}}</h3>
+		<!-- start: Content -->
+		<div class="row">
+			<nvd3-multi-bar-chart data="ctrl.data" interactive="false"
+				id="twelve-months-stack-bar" showXAxis="true" showYAxis="true"
+				showLegend="true" x="ctrl.xFunction()" y="ctrl.yFunction()"
+				xAxisTickFormat="ctrl.xAxisTickFormatFunction()"
+				height="{{ctrl.height }}" width="{{ctrl.width}}" margin="100"
+				legendcolor="ctrl.colorLegendFunction()"
+				color="ctrl.stackColorFunction()" stacked="true">
+			<svg></svg> </nvd3-multi-bar-chart>
+		</div>
+		<!-- end: content -->
+	</div>
+</div>
