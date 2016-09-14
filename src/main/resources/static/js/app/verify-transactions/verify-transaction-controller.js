@@ -6,7 +6,10 @@ angular.module('scfApp').controller(
 					var log = $log;
 					vm.dataTable = {
 						options : {
-							displayRowNo : {}
+							displayRowNo : {
+								idValueField: 'template',
+			                	id: 'no-{value}-label'
+							}
 						},
 						columns : []
 					}
