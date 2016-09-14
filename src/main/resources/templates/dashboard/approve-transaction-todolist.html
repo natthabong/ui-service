@@ -35,7 +35,7 @@
 			</div>
 			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
+		<input type="hidden" ng-init="approveTxnTodoListCtrl.approve=true"
+			sec:authorize="hasAuthority('SFP_APPROVE_TRANSACTION')" />
 	</div>
-	<input type="hidden" ng-init="approveTxnTodoListCtrl.approve=true"
-		sec:authorize="hasAuthority('SFP_APPROVE_TRANSACTION')" />
 </div>
