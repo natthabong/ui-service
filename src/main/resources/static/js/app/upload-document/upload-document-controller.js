@@ -91,18 +91,23 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
     vm.uploadNextPage = function(pagingModel) {
 		
         if (pagingModel === undefined) {
-            var pagingObject = SCFCommonService.clientPagination(vm.tableUploadErrorRowCollection, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);
-            vm.uploadDocumentDisplayError = pagingObject.content;
-            vm.pageModel.totalPage = pagingObject.totalPages;
-            vm.pageModel.totalRecord = vm.tableUploadErrorRowCollection.length;
+//            var pagingObject = SCFCommonService.clientPagination(vm.uploadResult.errors, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);
+//            vm.uploadDocumentDisplayError = pagingObject.content;
+//            vm.pageModel.totalPage = pagingObject.totalPages;
+//            vm.pageModel.totalRecord =vm.uploadResult.errors.length;
         } else {
             vm.pageModel.currentPage = pagingModel.page;
             vm.pageModel.pageSizeSelectModel = pagingModel.pageSize;
-            var pagingObject = SCFCommonService.clientPagination(vm.tableUploadErrorRowCollection, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);
-            vm.uploadDocumentDisplayError = pagingObject.content;
-            vm.pageModel.totalPage = pagingObject.totalPages;
-            vm.pageModel.totalRecord = vm.tableUploadErrorRowCollection.length;
+//            var pagingObject = SCFCommonService.clientPagination(vm.uploadResult.errors, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);
+//            vm.uploadDocumentDisplayError = pagingObject.content;
+//            vm.pageModel.totalPage = pagingObject.totalPages;
+//            vm.pageModel.totalRecord =vm.uploadResult.errors.length;
         }
+        var pagingObject = SCFCommonService.clientPagination(vm.uploadResult.errors, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);
+        vm.uploadDocumentDisplayError = pagingObject.content;
+        vm.pageModel.totalPage = pagingObject.totalPages;
+        vm.pageModel.totalRecord =vm.uploadResult.errors.length;
+        
         vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 
     };
@@ -116,21 +121,21 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 
             var deffered = UploadDocumentService.upload(vm.uploadModel);
             deffered.promise.then(function(response) {
-                var uploadResultData = response.data;
+//                var uploadResultData = response.data;
 
-                vm.uploadResult.fileName = uploadResultData.fileName;
-                vm.uploadResult.totalRecords = uploadResultData.totalRecords;
-                vm.uploadResult.totalSuccess = uploadResultData.totalSuccess;
-                vm.uploadResult.totalFail =  (uploadResultData.totalFailed == null ? 'N/A':uploadResultData.totalFailed);
-				vm.uploadResult.totalAmountSuccess = (uploadResultData.totalAmountSuccess == null ? '0':uploadResultData.totalAmountSuccess);
-				vm.uploadResult.processNo = uploadResultData.processNo;
+//                vm.uploadResult.fileName = uploadResultData.fileName;
+//                vm.uploadResult.totalRecords = uploadResultData.totalRecords;
+//                vm.uploadResult.totalSuccess = uploadResultData.totalSuccess;
+//                vm.uploadResult.totalFail =  (uploadResultData.totalFailed == null ? 'N/A':uploadResultData.totalFailed);
+//				vm.uploadResult.totalAmountSuccess = (uploadResultData.totalAmountSuccess == null ? '0':uploadResultData.totalAmountSuccess);
+//				vm.uploadResult.processNo = uploadResultData.processNo;
 
-                var resultStatus = uploadResultData.status;
-                if (resultStatus == 'SUCCESS') {
+				vm.uploadResult = response.data;
+                if ( vm.uploadResult.complete) {
                     $scope.showUploadPopUp = true;
                 } else {
                     vm.isShowConfirmation = true;
-                    vm.tableUploadErrorRowCollection = uploadResultData.errorLineDetails;
+//                    vm.tableUploadErrorRowCollection = uploadResultData.errorLineDetails;
                     if (vm.uploadResult.totalSuccess == 0) {
                         vm.showConfirmBtn = false;
                     }else{

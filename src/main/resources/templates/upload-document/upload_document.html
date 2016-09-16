@@ -50,25 +50,25 @@
 						<div class="row">
 							<div class="col-sm-1 col-md-1"><b ng-bind="'File name' | translate"></b></div>
 							<div class="col-sm-11 col-md-11">
-								<span id="file-upload-confirmation-file-name-label" ng-bind="ctrl.uploadResult.fileName"></span>
+								<span id="file-upload-confirmation-file-name-label" ng-bind="ctrl.uploadResult.information.sourceFileName || 'N/A'"></span>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-sm-1 col-md-1"><b ng-bind="'Success' | translate"></b>:</div>
 							<div class="col-sm-2 col-md-2">
-								<span id="file-upload-confirmation-success-records-label" ng-bind="ctrl.uploadResult.totalSuccess"></span>
+								<span id="file-upload-confirmation-success-records-label" ng-bind="ctrl.uploadResult.success || 'N/A'"></span>
 							</div>
 							
 							<div class="col-sm-2 col-md-2 text-right"><b ng-bind="'Total amount' | translate"></b>:</div>
 							<div class="col-sm-7 col-md-7">
-								<span id="file-upload-confirmation-success-amount-label" ng-bind="ctrl.uploadResult.totalAmountSuccess | number"></span>
+								<span id="file-upload-confirmation-success-amount-label" ng-bind="(ctrl.uploadResult.totalAmount | number) || 'N/A'"></span>
 							</div>
 
 						</div>
 						<div class="row">
 							<div class="col-sm-1 col-md-1 control-label"><b ng-bind="'Fail' | translate"></b>:</div>
 							<div class="col-sm-11 col-md-11">
-								<span id="file-upload-confirmation-fail-records-label" ng-bind="ctrl.uploadResult.totalFail"></span>
+								<span id="file-upload-confirmation-fail-records-label" ng-bind="ctrl.uploadResult.fail || 'N/A'"></span>
 							</div>
 						</div>
 						<div class="row">							
