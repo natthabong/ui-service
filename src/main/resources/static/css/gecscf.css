@@ -830,3 +830,11 @@ body.ngdialog-open {
     margin-bottom: 0px;
     float: right;
 }
+
+.txn-journey{
+	color: #fff !important;
+}
+
+.txn-journey-disabled{
+	color: #CCCCCC !important;
+}
