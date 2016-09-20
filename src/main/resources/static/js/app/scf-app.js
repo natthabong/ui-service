@@ -111,7 +111,12 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							   'js/app/dashboard/transaction-todolist-controller.js', 
 							   'js/app/common/scf-component.js', 
 							   'js/app/common/scf-component.css',
-							   'js/app/dashboard/approve-transaction-todolist-controller.js'])
+							   'js/app/dashboard/approve-transaction-todolist-controller.js',
+							   'js/app/dashboard/transaction-journey/new-document.js',
+							  'js/app/dashboard/transaction-journey/wait-for-verify.js',
+							  'js/app/dashboard/transaction-journey/wait-for-approve.js',
+							  'js/app/dashboard/transaction-journey/future-drawdown.js',
+							  'js/app/dashboard/transaction-journey/result.js'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',

@@ -61,8 +61,7 @@ angular.module('scfApp').controller(
 								"label" : legends[tempKey].label,
 								"values" : tempData[tempKey]
 							})
-            			}
-	            		console.log(vm.data);
+            			}	            		
 		            }).catch();
 					
 					
