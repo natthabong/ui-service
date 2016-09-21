@@ -22,8 +22,5 @@ angular.module('scfApp').controller('JourneyNewDocumentController', ['$scope', '
 			
         });
     }
-    vm.createDocument = function() {
-        PageNavigation.gotoPage('/create-transaction');
-    }
-
+    
 }]);

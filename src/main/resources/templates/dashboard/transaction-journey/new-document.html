@@ -1,6 +1,6 @@
 <div th:fragment="content">
     <div class="panel new-document-panel panel-shadow" ng-controller="JourneyNewDocumentController as newDocCtrl" ng-init="newDocCtrl.load()">
-        <a class="mouse-pointer" id="new-document-button" ng-click="newDocCtrl.createDocument()">
+        <a class="mouse-pointer" id="new-document-button">
             <div class="panel-heading txn-journey">
                 <span class="pull-left" ng-bind="newDocCtrl.headerLabel"></span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                 <div class="clearfix"></div>

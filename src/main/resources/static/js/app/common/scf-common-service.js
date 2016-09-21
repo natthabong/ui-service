@@ -135,7 +135,7 @@ app.service('SCFCommonService', [
 					if(amount <= -amountBase || amount >= amountBase){
 						var shortNumber = (amount / amountBase).toFixed(0);
 						if(shortNumber.length > 2){
-							result = (amount /amountBase).toFixed(0) + shortenNumber[index];
+							result = shortNumber + shortenNumber[index];
 						}else{
 							result = (amount /amountBase).toFixed(1) + shortenNumber[index];
 						}
