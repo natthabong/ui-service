@@ -278,8 +278,10 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                 page: vm.pageModel.currentPage,
                 pageSize: vm.pageModel.pageSizeSelectModel
             });
+			
             var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
             transactionDifferd.promise.then(function(response) {
+				vm.listTransactionModel.statusCode = '';
                 vm.showInfomation = true;
                 var transactionDocs = response.data;
                 vm.tableRowCollection = transactionDocs.content;
@@ -324,6 +326,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             }).catch(function(response) {
                 $log.error('Cannot search document');
             });
+		
+			
         };
 	
 	$scope.sortData = function(order, orderBy) {
@@ -373,13 +377,14 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	
 	 vm.initLoad = function() {
 		var backAction = $stateParams.backAction;
+		
 		if(backAction === true){
 			vm.listTransactionModel = $cookieStore.get(listStoreKey);
 			vm.dateModel.dateFrom = convertStringTodate(vm.listTransactionModel.dateFrom);
 			vm.dateModel.dateTo = convertStringTodate(vm.listTransactionModel.dateTo);			
 			vm.searchTransaction();
 		}
-		$cookieStore.remove(listStoreKey);
+		$cookieStore.remove(listStoreKey);		
 		vm.loadSponsorCode();
         
     };

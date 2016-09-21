@@ -1,25 +1,37 @@
 <div th:fragment="content">
-    <div class="panel panel-default" ng-controller="JourneyWaitForVerifyController as waitForVerifyCtrl" 
-      ng-click="waitForVerifyCtrl.transactionList()">
-       <div class="panel-heading">
-       	<h3 class="animated fadeInLeft" id="credit-information-header-label">{{waitForVerifyCtrl.headerLabel}}</h3>
-       </div>        
+    <div class="panel wait-for-verify-panel panel-shadow" ng-controller="JourneyWaitForVerifyController as waitForVerifyCtrl">
+        <a class="mouse-pointer" id="wait-for-verify-button" ng-click="waitForVerifyCtrl.transactionList()">
+            <div class="panel-heading txn-journey">
+                <span class="pull-left" ng-bind="waitForVerifyCtrl.headerLabel"></span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                <div class="clearfix"></div>
+            </div>
+        </a>
+
         <div class="panel-body">
             <div class="row">
-                <div class="col-xs-12 text-right">
-                	<span ng-bind="waitForVerifyCtrl.waitForVerifyModel.transaction"></span>
+                <div class="col-xs-3">
+                    <i class="fa fa-search fa-3x"></i>
+                </div>
+                <div class="col-xs-9 text-right">
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
+                            <span id="wait-for-verify-total-lable" class="huge" ng-bind="waitForVerifyCtrl.waitForVerifyModel.totalTransaction"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
+                        <span id="wait-for-verify-drawdown-amount-lable" ng-bind="waitForVerifyCtrl.waitForVerifyModel.totalAmount"></span>
+                        <span ng-bind="'THB' | translate"></span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right"><span ng-bind="'Max age' | translate"></span>
+                        <span id="wait-for-verify-max-age-lable" ng-bind="waitForVerifyCtrl.waitForVerifyModel.maxAge"></span>
+                        <span ng-bind="'days' | translate"></span></div>
+                       
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-10 text-right">
-                	<span ng-bind="waitForVerifyCtrl.waitForVerifyModel.amount"></span>
-                </div>
-                <div class="col-xs-2"><span ng-bind="'THB' | translate"></span></div>
-            </div>
-            <div class="row">
-                <div class="col-xs-10 text-right"><span ng-bind="'Max age' | translate"></span>&nbsp;&nbsp;{{waitForVerifyCtrl.waitForVerifyModel.maxAge}}</div>
-                <div class="col-xs-2"><span ng-bind="'days' | translate"></span></div>
-            </div>
+
         </div>
     </div>
 </div>

@@ -8,8 +8,7 @@ module.exports = function(config){
 			'target/generated-resources/static/js/angular-mock.js',
 			'src/main/resources/static/js/app/common/scf-common-service.js',
 			
-            'src/main/resources/static/js/test/common/scf-common-service-page-navigation-test.js'
-			
+			'src/main/resources/static/js/test/common/scf-common-service-amount-million-test.js'
 		]
 	});
 };

@@ -1,22 +1,32 @@
 <div th:fragment="content">
-    <div class="panel panel-default" ng-controller="JourneyFutureDrawdownController as futureDrawdownCtrl">
-       <div class="panel-heading" ng-class="futureDrawdownCtrl.headerCss">
-       	<h3 class="animated fadeInLeft" id="credit-information-header-label">{{futureDrawdownCtrl.headerLabel}}</h3>
-       </div>        
+    <div class="panel future-drawdown-panel panel-shadow" ng-controller="JourneyFutureDrawdownController as futureDrawdownCtrl">
+        <div class="panel-heading txn-journey">
+            <span class="pull-left" ng-bind="futureDrawdownCtrl.headerLabel"></span>
+            <div class="clearfix"></div>
+        </div>
+
         <div class="panel-body">
             <div class="row">
-                <div class="col-xs-12 text-right" ng-bind="futureDrawdownCtrl.futureDrawdownModel.transaction"></div>
-                
-            </div>
-            <div class="row">
-                <div class="col-xs-10 text-right">
-                	<span ng-bind="futureDrawdownCtrl.futureDrawdownModel.amount"></span>                	
+                <div class="col-xs-3">
+                    <i class="fa fa-hourglass-start fa-3x"></i>
                 </div>
-                <div class="col-xs-2"><span ng-bind="'THB' | translate"></span></div>
-            </div>
-            <div class="row">
-                <div class="col-xs-10 text-right"><span ng-bind="'Can loan' | translate"></span>&nbsp;&nbsp;{{futureDrawdownCtrl.futureDrawdownModel.maxAge}}</div>
-                <div class="col-xs-2"><span ng-bind="'days' | translate"></span></div>
+                <div class="col-xs-9">
+                    <div class="row">
+                        <div id="future-total-lable" class="col-xs-12 text-right huge" ng-bind="futureDrawdownCtrl.futureDrawdownModel.totalTransaction"></div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
+                            <span id="future-drawdown-amount-lable" ng-bind="futureDrawdownCtrl.futureDrawdownModel.totalAmount"></span>&nbsp;
+                            <span ng-bind="'THB' | translate"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right"><span ng-bind="'Max age' | translate"></span>
+                        <span id="future-max-age-lable" ng-bind="futureDrawdownCtrl.futureDrawdownModel.maxAge"></span>
+                        <span ng-bind="'days' | translate"></span></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

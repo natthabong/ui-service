@@ -14,7 +14,6 @@ var dashboardController = function(Service, $log) {
         		this[value.rowNo].push(value);
         		
         		},  vm.rowItems);
-        	console.log(vm.rowItems);
         }).catch(function(response) {
             log.error('Cannot load dashboard');
         });

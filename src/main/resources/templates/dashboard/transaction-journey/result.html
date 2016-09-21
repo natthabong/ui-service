@@ -1,23 +1,32 @@
 <div th:fragment="content">
-    <div class="panel panel-default" ng-controller="JourneyResultController as resultCtrl">
-       <div class="panel-heading">
-       	<h3 class="animated fadeInLeft" id="credit-information-header-label">{{resultCtrl.headerLabel}}</h3>
-       </div>        
+    <div class="panel result-panel panel-shadow" ng-controller="JourneyResultController as resultCtrl">
+
+        <div class="panel-heading txn-journey">
+            <span class="pull-left" ng-bind="resultCtrl.headerLabel"></span>
+            <div class="clearfix"></div>
+        </div>
+
         <div class="panel-body">
             <div class="row">
-                <div class="col-xs-10 text-right" ng-bind="'success today' | translate"></div>
-                <div class="col-xs-2"><span ng-bind="resultCtrl.resultModel.transactionSuccess"></span></div>
-            </div>
-            <div class="row">
-                <div class="col-xs-10 text-right">
-                	<span ng-bind="'retry' | translate"></span>                	
-                	
+                <div class="col-xs-12">
+                    <div class="row">
+						<div class="col-xs-12 text-right" >
+                      <span ng-bind="'success today' | translate"></span>
+                       <span id="today-success-total-lable" class="huge" ng-bind="resultCtrl.resultModel.transactionSuccess"></span></div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
+                            <span ng-bind="'retry' | translate"></span>
+                            <span id="retryable-total-lable" ng-bind="resultCtrl.resultModel.transactionRetry"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
+                        <span ng-bind="'fail today' | translate"></span>
+                        <span id="today-fail-total-lable" ng-bind="resultCtrl.resultModel.transactionFail"></span></div>
+                    </div>
                 </div>
-                <div class="col-xs-2"><span ng-bind="resultCtrl.resultModel.transactionRetry"></span></div>
-            </div>
-            <div class="row">
-                <div class="col-xs-10 text-right" ng-bind="'fail today' | translate"></div>
-                <div class="col-xs-2"><span ng-bind="resultCtrl.resultModel.transactionFail"></span></div>
             </div>
         </div>
     </div>

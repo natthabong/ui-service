@@ -4,16 +4,18 @@ angular.module('scfApp').controller('JourneyFutureDrawdownController', ['$scope'
 	var dashboarParent = compositParent.$parent.it;
 	var dahsboarItemParent = dashboarParent.dashboardItem;
 	vm.headerLabel = dahsboarItemParent.headerLabel;
-	vm.headerCss = "#5B9BD5";
+
 	vm.futureDrawdownModel = {
-		transaction: 50,
-		amount: '15M',
+		totalTransaction: 50,
+		totalAmount: '15M',
 		maxAge: '2'
 	};
 	//var newDocumentDeferred = Service.requestURL('/api/');
-//	newDocumentDeferred.promise.then(function(){
-//		
-//	}).catch(function(){
+//	newDocumentDeferred.promise.then(function(response){
+//		vm.futureDrawdownModel.totalTransaction = response.totalTransaction;
+//			vm.futureDrawdownModel.totalAmount = SCFCommonService.shortenLargeNumber(response.totalAmount);
+//			vm.futureDrawdownModel.maxAge = SCFCommonService.shortenLargeNumber(response.maxAge);
+//	}).catch(function(response){
 //		
 //	});
 	
