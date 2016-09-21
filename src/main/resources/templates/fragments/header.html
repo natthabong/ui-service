@@ -9,7 +9,7 @@
 					alt="user name" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="true" /></li>
 			</ul>
-			<a ui-sref="/home" class="navbar-brand"> <b>GEC Supply Chain
+			<a ui-sref="/home" ui-sref-opts="{reload: true, inherit: false}" class="navbar-brand"> <b>GEC Supply Chain
 					Financing</b>
 			</a>
 
@@ -21,7 +21,7 @@
 				<li class="user-name"><span ng-bind="scfCtrl.displayName">Avanta</span>
 					| <span>JINTANA INTERTRADE CO.,LTD.</span></li>
 
-				<li><a ui-sref="/home" class="header-menu-icon icon-home"
+				<li><a ui-sref="/dashboard" ui-sref-opts="{reload: true, inherit: false}" class="header-menu-icon icon-home"
 					title="Home" id="home-link"><span class="fa fa-home"></span></a></li>
 				<li ng-controller="LogoutController as logoutCtroller"><a
 					id="logout-link" href="#" ng-click="logoutCtroller.logout()"

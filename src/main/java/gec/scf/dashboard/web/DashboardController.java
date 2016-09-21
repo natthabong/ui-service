@@ -19,6 +19,11 @@ public class DashboardController {
 	private static String INTERNAL_STEP = "dashboard/internal-step";
 	private String DASHBOARD_URL = "dashboard/dashboard-template";
 	private static String TRANSACTION_TODOLIST = "dashboard/transaction-todolist";
+	private static final String JOURNEY_NEW_DOCUMENT = "dashboard/transaction-journey/new-document";
+	private static final String JOURNEY_WAIT_FOR_VERIFY = "dashboard/transaction-journey/wait-for-verify";
+	private static final String JOURNEY_WAIT_FOR_APPROVE = "dashboard/transaction-journey/wait-for-approve";
+	private static final String JOURNEY_FUTURE_DRAWDOWN = "dashboard/transaction-journey/future-drawdown";
+	private static final String JOURNEY_RESULT = "dashboard/transaction-journey/result";
 
 	@RequestMapping(path = "/newduedate-group")
 	public String newduedateGroup(
@@ -98,6 +103,46 @@ public class DashboardController {
 			return APPROVE_TRANSACTION_TODOLIST.concat(" :: content");
 		}
 		return APPROVE_TRANSACTION_TODOLIST;
+	}
+	
+	@RequestMapping(path="/journey-new-document")
+	public String journeyNewDocument(@RequestHeader("X-requested-With") String requestedWith){
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return JOURNEY_NEW_DOCUMENT.concat(" :: content");
+		}
+		return JOURNEY_NEW_DOCUMENT;
+	}
+	
+	@RequestMapping(path="/journey-wait-for-verify")
+	public String journeyWaitForVerify(@RequestHeader("X-requested-With") String requestedWith){
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return JOURNEY_WAIT_FOR_VERIFY.concat(" :: content");
+		}
+		return JOURNEY_WAIT_FOR_VERIFY;
+	}
+	
+	@RequestMapping(path="/journey-wait-for-approve")
+	public String journeyWaitForApprove(@RequestHeader("X-requested-With") String requestedWith){
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return JOURNEY_WAIT_FOR_APPROVE.concat(" :: content");
+		}
+		return JOURNEY_WAIT_FOR_APPROVE;
+	}
+	
+	@RequestMapping(path="/journey-future-drawdown")
+	public String journeyFutureDrawdown(@RequestHeader("X-requested-With") String requestedWith){
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return JOURNEY_FUTURE_DRAWDOWN.concat(" :: content");
+		}
+		return JOURNEY_FUTURE_DRAWDOWN;
+	}
+	
+	@RequestMapping(path="/journey-result")
+	public String journeyResult(@RequestHeader("X-requested-With") String requestedWith){
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return JOURNEY_RESULT.concat(" :: content");
+		}
+		return JOURNEY_RESULT;
 	}
 
 }

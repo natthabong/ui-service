@@ -296,7 +296,8 @@ table.dataTable thead .sorting:after {
 }
 
 .huge {
-	font-size: 40px;
+	font-size: 20px;
+	font-weight: bold;
 }
 
 .panel-green {
@@ -829,4 +830,40 @@ body.ngdialog-open {
     margin-top: 7px;
     margin-bottom: 0px;
     float: right;
+}
+
+.txn-journey{
+	color: #fff !important;
+}
+
+.txn-journey-disabled{
+	color: #CCCCCC !important;
+}
+
+.new-document-panel .panel-heading{
+  background-color: #1B80E4 !important;
+}
+
+.wait-for-verify-panel .panel-heading{
+  background-color: #862D86 !important;
+}
+
+.wait-for-approve-panel .panel-heading{
+  background-color: #FF8C1A !important;
+}
+
+.future-drawdown-panel .panel-heading{
+  background-color: #8C8C8C !important;
+}
+
+.panel-brown .panel-heading{
+  background-color: #B35900 !important;
+}
+
+.result-panel .panel-heading{
+  background-color: #66CC00 !important;
+}
+
+.mouse-pointer {
+	cursor: pointer;
 }
