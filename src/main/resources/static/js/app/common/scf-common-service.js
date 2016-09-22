@@ -4,10 +4,10 @@ app.service('SCFCommonService', [
     '$http',
     '$log',
     '$q',
-    function($filter, $http, $log, $q) {
+    function ($filter, $http, $log, $q) {
         var vm = this;
         var log = $log;
-        vm.splitePage = function(pageSize, currentPage, totalRecord) {
+        vm.splitePage = function (pageSize, currentPage, totalRecord) {
 
             var recordDisplay = '0 - '
             if (totalRecord > 0) {
@@ -24,7 +24,7 @@ app.service('SCFCommonService', [
         };
 
         var fromState = '';
-        vm.parentStatePage = function() {
+        vm.parentStatePage = function () {
 
             return {
                 saveCurrentState: saveCurrentState,
@@ -45,7 +45,7 @@ app.service('SCFCommonService', [
             }
         };
 
-        vm.clientPagination = function(listDatas, pagesize, currentPage) {
+        vm.clientPagination = function (listDatas, pagesize, currentPage) {
             var dataResult = {
                 content: [],
                 totalPages: 0,
@@ -72,7 +72,7 @@ app.service('SCFCommonService', [
             return dataResult;
         };
 
-        vm.convertDate = function(dateTime) {
+        vm.convertDate = function (dateTime) {
             var result = '';
             if (dateTime != undefined && dateTime != '') {
 
@@ -86,7 +86,7 @@ app.service('SCFCommonService', [
             return result;
         }
 
-        vm.convertStringTodate = function(date) {
+        vm.convertStringTodate = function (date) {
             result = '';
             if (date != undefined && date != '') {
                 var dateSplite = date.toString().split('/');
@@ -95,7 +95,7 @@ app.service('SCFCommonService', [
             return result
         }
 
-        vm.getDocumentDisplayConfig = function(sponsorId) {
+        vm.getDocumentDisplayConfig = function (sponsorId) {
             var differed = $q.defer();
             var displayConfig = [];
             $http({
@@ -107,42 +107,59 @@ app.service('SCFCommonService', [
                 params: {
                     sponsorId: sponsorId
                 }
-            }).success(function(response) {
+            }).success(function (response) {
                 if (response.length === 0) {
                     displayConfig = defaultColumDisplay;
                 } else {
                     displayConfig = response;
                 }
                 differed.resolve(displayConfig);
-            }).error(function(response) {
+            }).error(function (response) {
                 log.error('Load Display config error');
                 differed.reject(defaultColumDisplay);
             });
             return differed;
         };
 
-        vm.shortenLargeNumber = function(amount) {
-            var shortenNumber = ['k', 'M','G', 'T'];
+        vm.shortenLargeNumber = function (amount) {
+            var shortenNumber = ['k', 'M', 'G', 'T'];
             var amountBase, result;
             amount = parseInt(amount);
 
             if (amount >= 0 && amount < 1000) {
                 result = amount + '';
             } else {
-				var index = shortenNumber.length -1;
-				for(; index >= 0; index--){
-					amountBase = Math.pow(1000, index +1);
-					if(amount <= -amountBase || amount >= amountBase){
-						var shortNumber = (amount / amountBase).toFixed(0);
-						if(shortNumber.length > 2){
-							result = shortNumber + shortenNumber[index];
-						}else{
-							result = (amount /amountBase).toFixed(1) + shortenNumber[index];
-						}
-						break;
-					}
-				}
+                var index = shortenNumber.length - 1;
+                for (; index >= 0; index--) {
+                    amountBase = Math.pow(1000, index + 1);
+                    if (amount >= amountBase) {
+                        result = checkLargeNumber(amount, amountBase,index);
+                        break;
+                    }
+                }
             }
+
+            function checkLargeNumber(amount, amountBase, shourtenNumberIndex) {
+                var amoutFixed = (amount / amountBase).toFixed(1);
+                var decimalArray = amoutFixed.split('.');
+                var largeNumberResult = '';
+                
+                if (decimalArray[0].length >= 3) {
+                    largeNumberResult = convertToShortenNumber(amount, amountBase, 0, shourtenNumberIndex);
+                } else {
+                    if (decimalArray[1] == 0) {
+                        largeNumberResult = convertToShortenNumber(amount, amountBase, 0, shourtenNumberIndex);
+                    } else {
+                        largeNumberResult = convertToShortenNumber(amount, amountBase, 1, shourtenNumberIndex);
+                    }
+                }
+                return largeNumberResult;
+            }
+            
+            function convertToShortenNumber(amount, amountBase, decimalPlace, shourtenNumberIndex){
+                return (amount / amountBase).toFixed(decimalPlace) + shortenNumber[shourtenNumberIndex];
+            }
+            
             return result;
         };
     }
@@ -154,7 +171,7 @@ app.service('PageNavigation', [
     '$log',
     '$q',
     '$state',
-    function($filter, $http, $log, $q, $state) {
+    function ($filter, $http, $log, $q, $state) {
         var vm = this;
         var log = $log;
 
@@ -163,7 +180,7 @@ app.service('PageNavigation', [
         var previousPages = new Array();
         var steps = new Array();
 
-        vm.gotoPage = function(page, params, keepStateObject) {
+        vm.gotoPage = function (page, params, keepStateObject) {
             var currentState = $state.current.name == '' ? '/' : $state.current.name;
             previousPages.push({
                 page: currentState,
@@ -176,7 +193,7 @@ app.service('PageNavigation', [
             $state.go(page, params);
         }
 
-        vm.gotoPreviousPage = function(reset) {
+        vm.gotoPreviousPage = function (reset) {
             var previousPage = previousPages.pop();
             if (previousPage != null) {
                 if (previousPage.stateObject === undefined) {
@@ -191,7 +208,7 @@ app.service('PageNavigation', [
             }
         }
 
-        vm.nextStep = function(nextPage, params, keepStateObject) {
+        vm.nextStep = function (nextPage, params, keepStateObject) {
             steps.push({
                 page: $state.current.name,
                 stateObject: keepStateObject
@@ -202,7 +219,7 @@ app.service('PageNavigation', [
             $state.go(nextPage, params);
         }
 
-        vm.backStep = function(reset) {
+        vm.backStep = function (reset) {
             var previousStep = steps.pop();
             if (previousStep != null) {
                 previousStep.stateObject.backAction = true;
