@@ -13,7 +13,7 @@ angular.module('scfApp').controller('JourneyNewDocumentController', ['$scope', '
 	
 	
     vm.load = function() {
-        var newDocumentDeferred = Service.requestURL('/api/view-summary-information-document/get');
+        var newDocumentDeferred = Service.requestURL('/api/view-summary-new-document/get');
         newDocumentDeferred.promise.then(function(response) {
 			vm.journeyDocModel.totalDocument = response.totalDocument;
 			vm.journeyDocModel.totalDocumentAmount = SCFCommonService.shortenLargeNumber(response.totalDocumentAmount);

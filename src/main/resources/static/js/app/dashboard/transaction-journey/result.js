@@ -5,18 +5,18 @@ angular.module('scfApp').controller('JourneyResultController', ['$scope','Servic
 	var dahsboarItemParent = dashboarParent.dashboardItem;
 	vm.headerLabel = dahsboarItemParent.headerLabel;
 	vm.resultModel = {
-		transactionSuccess: 50,
-		transactionRetry: '1',
-		transactionFail: '2'
+		transactionSuccess: 0,
+		transactionRetry: 0,
+		transactionFail: 0
 	};
-	//var newDocumentDeferred = Service.requestURL('/api/');
-//	newDocumentDeferred.promise.then(function(response){
-//		vm.resultModel.transactionSuccess = response.transactionSuccess;
-//			vm.resultModel.transactionRetry = SCFCommonService.shortenLargeNumber(response.transactionRetry);
-//			vm.resultModel.transactionFail = SCFCommonService.shortenLargeNumber(response.transactionFail);
-//	}).catch(function(response){
-//		
-//	});
+	var newDocumentDeferred = Service.requestURL('/api/view-summary-transaction-result/get');
+	newDocumentDeferred.promise.then(function(response){
+		vm.resultModel.transactionSuccess = response.totalSuccessTransaction;
+		vm.resultModel.transactionRetry = response.totalRetriableTransaction;
+		vm.resultModel.transactionFail = response.totalFailTransaction;
+	}).catch(function(response){
+		
+	});
 	vm.transactionList = function(){
 		PageNavigation.gotoPage('/transaction-list');
 	}
