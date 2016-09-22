@@ -1,38 +1,91 @@
-angular.module('scfApp').controller('JourneyWaitForApproveController', ['$scope', 'Service', 'PageNavigation', '$cookieStore', '$state', function($scope, Service, PageNavigation, $cookieStore, $state) {
-    var vm = this;
-    var compositParent = $scope.$parent;
-    var dashboarParent = compositParent.$parent.it;
-    var dahsboarItemParent = dashboarParent.dashboardItem;
-    vm.headerLabel = dahsboarItemParent.headerLabel;
-    var listStoreKey = 'listrancri';
-    vm.waitForApproveModel = {
-        totalTransaction: 50,
-        totalAmount: '15M',
-        maxAge: '2'
-    };
-    vm.listTransactionModel = {
-        dateType: 'transactionDate',
-        dateFrom: '',
-        dateTo: '',
-        sponsorId: '',
-        supplierId: '',
-        statusGroup: 'INTERNAL_STEP',
-        order: '',
-        orderBy: '',
-		statusCode: 'WAIT_FOR_APPROVE'
-    };
-	
-    //var newDocumentDeferred = Service.requestURL('/api/');
-    //	newDocumentDeferred.promise.then(function(response){
-//		vm.waitForApproveModel.totalTransaction = response.totalTransaction;
-//			vm.waitForApproveModel.totalAmount = SCFCommonService.shortenLargeNumber(response.totalAmount);
-//			vm.waitForApproveModel.maxAge = SCFCommonService.shortenLargeNumber(response.maxAge);
-    //	}).catch(function(response){
-    //		
-    //	});
-    vm.transactionList = function() {
-		$cookieStore.put(listStoreKey, vm.listTransactionModel);
-		$state.go('/transaction-list',  {backAction: true});
-    }
+angular.module('scfApp').controller(
+		'JourneyWaitForApproveController', 
+		[
+		 	'$scope', 'Service', 'PageNavigation', '$cookieStore', '$state', 'SCFCommonService', 
+		 	function($scope, Service, PageNavigation, $cookieStore, $state, SCFCommonService) {
+			    var vm = this;
+			    var compositParent = $scope.$parent;
+			    var dashboardParent = compositParent.$parent.it;
+			    var dashboardItemParent = dashboardParent.dashboardItem;
+			    vm.headerLabel = dashboardItemParent.headerLabel;
+			    var listStoreKey = 'listrancri';
+			    
+			    vm.waitForApproveModel = {
+			        totalTransaction: 0,
+			        totalAmount: '',
+			        maxAge: ''
+			    };
+			    
+			    vm.listTransactionModel = {
+			        dateType: 'transactionDate',
+			        dateFrom: '',
+			        dateTo: '',
+			        sponsorId: '',
+			        supplierId: '',
+			        statusGroup: 'INTERNAL_STEP',
+			        order: '',
+			        orderBy: '',
+					statusCode: 'WAIT_FOR_APPROVE'
+			    };
+			    
+			    vm.transactionCriteria = {
+						dateType: '',
+						dateFrom: '',
+						dateTo: '',
+						sponsorId: '',
+						statusGroup: '',
+						statusCode: '',
+						supplierCode: '',
+						page: 0,
+						pageSize: 20,
+						orders: orderItems
+				}
+				
+			    var orderItems = splitCriteriaSortOrderData(dashboardParent.orderItems);
+			    splitCriteriaFilterData(dashboardParent.filterItems);
+			
+			    function splitCriteriaSortOrderData(data) {
+					var dataSplit = data.split(",");
+					var order = [];
+					dataSplit.forEach(function(orderData) {
+						var orderItem = orderData.split(":");
+						item = {
+							fieldName : orderItem[0],
+							direction : orderItem[1]
+						}
+						order.push(item);
+					});
 
-}]);
+					return order;
+				}
+			    
+			    function splitCriteriaFilterData(data) {
+					var dataSplit = data.split(",");
+					var count = 0;
+					dataSplit.forEach(function(filterData) {
+						var filterItem = filterData.split(":");
+						vm.transactionCriteria[filterItem[0]] = filterItem[1];
+					});
+				}
+			    
+			    vm.load = function() {
+			    	var newDocumentDeferred = Service.requestURL('/api/summary-transaction/get', vm.transactionCriteria);
+			    	newDocumentDeferred.promise.then(function(response){
+			    		vm.waitForApproveModel.totalTransaction = response.totalTransaction;
+						vm.waitForApproveModel.totalAmount = SCFCommonService.shortenLargeNumber(response.totalAmount);
+						vm.waitForApproveModel.maxAge = SCFCommonService.shortenLargeNumber(response.maxAge);
+			    	}).catch(function(response){
+			    		
+			    	});
+			    }
+			    
+			    vm.load();
+			    	
+			    vm.transactionList = function() {
+					$cookieStore.put(listStoreKey, vm.listTransactionModel);
+					$state.go('/transaction-list',  {
+						backAction: true
+					});
+			    }
+		
+		 	}]);

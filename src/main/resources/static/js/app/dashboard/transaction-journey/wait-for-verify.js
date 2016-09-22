@@ -27,16 +27,49 @@ angular.module('scfApp').controller(
 			        orderBy: '',
 			        statusCode: 'WAIT_FOR_VERIFY'
 			    };
-			
-			    var filterStatusCode = splitFilterStatusCode(dashboardParent.filterItems);
 			    
-			    function splitFilterStatusCode(data){
-					var filterItem = data.split(":");
-					return filterItem[1];
+			    vm.transactionCriteria = {
+						dateType: '',
+						dateFrom: '',
+						dateTo: '',
+						sponsorId: '',
+						statusGroup: '',
+						statusCode: '',
+						supplierCode: '',
+						page: 0,
+						pageSize: 20,
+						orders: orderItems
+				}
+			    
+			    var orderItems = splitCriteriaSortOrderData(dashboardParent.orderItems);
+			    splitCriteriaFilterData(dashboardParent.filterItems);
+			
+			    function splitCriteriaSortOrderData(data) {
+					var dataSplit = data.split(",");
+					var order = [];
+					dataSplit.forEach(function(orderData) {
+						var orderItem = orderData.split(":");
+						item = {
+							fieldName : orderItem[0],
+							direction : orderItem[1]
+						}
+						order.push(item);
+					});
+
+					return order;
+				}
+			    
+			    function splitCriteriaFilterData(data) {
+					var dataSplit = data.split(",");
+					var count = 0;
+					dataSplit.forEach(function(filterData) {
+						var filterItem = filterData.split(":");
+						vm.transactionCriteria[filterItem[0]] = filterItem[1];
+					});
 				}
 			    
 			    vm.load = function() {
-			    	var newDocumentDeferred = Service.requestURL('/api/summary-transaction/get', filterStatusCode, 'POST');
+			    	var newDocumentDeferred = Service.requestURL('/api/summary-transaction/get', vm.transactionCriteria);
 			    	newDocumentDeferred.promise.then(function(response){
 			    		vm.waitForVerifyModel.totalTransaction = response.totalTransaction;
 			    		vm.waitForVerifyModel.totalAmount = SCFCommonService.shortenLargeNumber(response.totalAmount);
@@ -53,7 +86,6 @@ angular.module('scfApp').controller(
 			        $state.go('/transaction-list', {
 			            backAction: true
 			        });
-			
 			    }
 
 		 	}]);
