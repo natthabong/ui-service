@@ -11,8 +11,8 @@ angular.module('scfApp').controller(
 			
 				vm.futureDrawdownModel = {
 					totalTransaction: 0,
-					totalAmount: '',
-					maxAge: ''
+					totalAmount: '0',
+					maxAge: '0'
 				};
 				
 				vm.transactionCriteria = {
@@ -58,9 +58,11 @@ angular.module('scfApp').controller(
 			    vm.load = function() {
 			    	var newDocumentDeferred = Service.requestURL('/api/summary-transaction/get', vm.transactionCriteria);
 					newDocumentDeferred.promise.then(function(response){
-						vm.futureDrawdownModel.totalTransaction = response.totalTransaction;
-						vm.futureDrawdownModel.totalAmount = SCFCommonService.shortenLargeNumber(response.totalAmount);
-						vm.futureDrawdownModel.maxAge = SCFCommonService.shortenLargeNumber(response.maxAge);
+						if(response!=''){
+							vm.futureDrawdownModel.totalTransaction = response.totalTransaction;
+							vm.futureDrawdownModel.totalAmount = SCFCommonService.shortenLargeNumber(response.totalAmount);
+							vm.futureDrawdownModel.maxAge = SCFCommonService.shortenLargeNumber(response.maxAge);
+						}
 					}).catch(function(response){
 						
 					});

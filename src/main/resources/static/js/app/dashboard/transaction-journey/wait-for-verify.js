@@ -12,8 +12,8 @@ angular.module('scfApp').controller(
 			    
 			    vm.waitForVerifyModel = {
 			        totalTransaction: 0,
-			        totalAmount: '',
-			        maxAge: ''
+			        totalAmount: '0',
+			        maxAge: '0'
 			    };
 			    
 			    vm.listTransactionModel = {
@@ -71,9 +71,11 @@ angular.module('scfApp').controller(
 			    vm.load = function() {
 			    	var newDocumentDeferred = Service.requestURL('/api/summary-transaction/get', vm.transactionCriteria);
 			    	newDocumentDeferred.promise.then(function(response){
-			    		vm.waitForVerifyModel.totalTransaction = response.totalTransaction;
-			    		vm.waitForVerifyModel.totalAmount = SCFCommonService.shortenLargeNumber(response.totalAmount);
-			    		vm.waitForVerifyModel.maxAge = SCFCommonService.shortenLargeNumber(response.maxAge);
+			    		if(response!=''){
+			    			vm.waitForVerifyModel.totalTransaction = response.totalTransaction;
+				    		vm.waitForVerifyModel.totalAmount = SCFCommonService.shortenLargeNumber(response.totalAmount);
+				    		vm.waitForVerifyModel.maxAge = SCFCommonService.shortenLargeNumber(response.maxAge);
+			    		}
 			    	}).catch(function(response){
 			    		
 			    	});
