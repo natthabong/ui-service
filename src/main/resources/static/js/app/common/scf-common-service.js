@@ -125,7 +125,6 @@ app.service('SCFCommonService', [
             var shortenNumber = ['k', 'M', 'G', 'T'];
             var amountBase, result;
             amount = parseInt(amount);
-
             if (amount >= 0 && amount < 1000) {
                 result = amount + '';
             } else {
@@ -133,31 +132,38 @@ app.service('SCFCommonService', [
                 for (; index >= 0; index--) {
                     amountBase = Math.pow(1000, index + 1);
                     if (amount >= amountBase) {
-                        result = checkLargeNumber(amount, amountBase,index);
+                    	result = checkLargeNumber(amount, amountBase,index);
                         break;
                     }
                 }
             }
 
-            function checkLargeNumber(amount, amountBase, shourtenNumberIndex) {
-                var amoutFixed = (amount / amountBase).toFixed(1);
+            function checkLargeNumber(amount, amountBase, shortenNumberIndex) {
+                var amountDivision = amount / amountBase;
+            	var amoutFixed = toFixed(amountDivision, 1);
                 var decimalArray = amoutFixed.split('.');
                 var largeNumberResult = '';
                 
                 if (decimalArray[0].length >= 3) {
-                    largeNumberResult = convertToShortenNumber(amount, amountBase, 0, shourtenNumberIndex);
+                    largeNumberResult = convertToShortenNumber(amountDivision, 0, shortenNumberIndex);
                 } else {
                     if (decimalArray[1] == 0) {
-                        largeNumberResult = convertToShortenNumber(amount, amountBase, 0, shourtenNumberIndex);
+                        largeNumberResult = convertToShortenNumber(amountDivision, 0, shortenNumberIndex);
                     } else {
-                        largeNumberResult = convertToShortenNumber(amount, amountBase, 1, shourtenNumberIndex);
+                        largeNumberResult = convertToShortenNumber(amountDivision, 1, shortenNumberIndex);
                     }
                 }
                 return largeNumberResult;
             }
             
-            function convertToShortenNumber(amount, amountBase, decimalPlace, shourtenNumberIndex){
-                return (amount / amountBase).toFixed(decimalPlace) + shortenNumber[shourtenNumberIndex];
+            function convertToShortenNumber(amountDivision, decimalPlace, shourtenNumberIndex){
+                return toFixed(amountDivision, decimalPlace) + shortenNumber[shourtenNumberIndex];
+            }
+            
+            function toFixed(num, pre){
+                num *= Math.pow(10, pre);
+                num = (Math.round(num, pre) + (((num - Math.round(num, pre))>=0.5)?1:0)) / Math.pow(10, pre);
+                return num.toFixed(pre);
             }
             
             return result;
