@@ -123,7 +123,7 @@ describe('scf-common-service client paging', function(){
         var amount = 606000;
         var dataResult = SCFCommonService.shortenLargeNumber(amount);
         
-        expect(dataResult).toEqual('606k');
+        expect('606k').toEqual(dataResult);
     });
     
     it('Have amount 656,800 is string should should convert string to number and return 657k', function(){
@@ -152,5 +152,12 @@ describe('scf-common-service client paging', function(){
         var dataResult = SCFCommonService.shortenLargeNumber(amount);
         
         expect('101k').toEqual(dataResult);
+    });
+    
+    it('Have amount 1,150,000 is string should should convert string to number and return 1.2M', function(){
+        var amount = 1150000;
+        var dataResult = SCFCommonService.shortenLargeNumber(amount);
+        
+        expect('1.2M').toEqual(dataResult);
     });
 });
