@@ -1,0 +1,38 @@
+{
+	"fileName": "Bigc.csv",
+	"resultStatus":"FAIL",
+	"totalRecords": "30",
+	"totalSuccess": "4",
+	"totalFail": "26",
+	"errorLineDetails": [
+		{"errorMessage":"SponsorRef not found", "errorLineNo": "2"},
+		{"errorMessage":"SupplierRef not found", "errorLineNo": "2"},
+		{"errorMessage":"Sponsor paymentDate not found", "errorLineNo": "3"},
+		{"errorMessage":"SupplierCode invalide format", "errorLineNo": "3"},
+		{"errorMessage":"SponsorRef not found", "errorLineNo": "4"},
+		{"errorMessage":"SupplierRef not found", "errorLineNo": "5"},
+		{"errorMessage":"Sponsor paymentDate not found", "errorLineNo": "6"},
+		{"errorMessage":"SupplierCode invalide format", "errorLineNo": "7"},
+		{"errorMessage":"SponsorRef not found", "errorLineNo": "7"},
+		{"errorMessage":"SupplierRef not found", "errorLineNo": "8"},
+		{"errorMessage":"Sponsor paymentDate not found", "errorLineNo": "9"},
+		{"errorMessage":"SupplierCode invalide format", "errorLineNo": "10"},
+		{"errorMessage":"SponsorRef not found", "errorLineNo": "11"},
+		{"errorMessage":"SupplierRef not found", "errorLineNo": "12"},
+		{"errorMessage":"Sponsor paymentDate not found", "errorLineNo": "13"},
+		{"errorMessage":"SupplierCode invalide format", "errorLineNo": "14"},
+		{"errorMessage":"SponsorRef not found", "errorLineNo": "15"},
+		{"errorMessage":"SupplierRef not found", "errorLineNo": "16"},
+		{"errorMessage":"Sponsor paymentDate not found", "errorLineNo": "17"},
+		{"errorMessage":"SupplierCode invalide format", "errorLineNo": "18"},
+		{"errorMessage":"SponsorRef not found", "errorLineNo": "19"},
+		{"errorMessage":"SupplierRef not found", "errorLineNo": "20"},
+		{"errorMessage":"Sponsor paymentDate not found", "errorLineNo": "21"},
+		{"errorMessage":"SupplierCode invalide format", "errorLineNo": "22"},
+		{"errorMessage":"SponsorRef not found", "errorLineNo": "23"},
+		{"errorMessage":"SupplierRef not found", "errorLineNo": "24"},
+		{"errorMessage":"Sponsor paymentDate not found", "errorLineNo": "25"},
+		{"errorMessage":"SupplierCode invalide format", "errorLineNo": "26"}
+		
+	]
+}

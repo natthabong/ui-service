@@ -2,7 +2,8 @@ angular.module('scfApp').factory('UploadDocumentService',['$http', '$q', UploadD
 function UploadDocumentService($http, $q){
 	return {
 		upload: upload,
-		getFileType: getFileType
+		getFileType: getFileType,
+		confirmUpload: confirmUpload
 	}
 	function upload(fileModel){
 		var deffered = $q.defer();
@@ -17,6 +18,12 @@ function UploadDocumentService($http, $q){
 		}).catch(function(response){
 			deffered.reject(response);
 		});
+		
+//		$http.get('/js/app/upload-document/PartialUploadFailResponse.json').then(function(response){
+//			deffered.resolve(response);
+//		}).catch(function(response){
+//			deffered.reject(response);
+//		});
 		return deffered;
 	}
 	
@@ -27,6 +34,17 @@ function UploadDocumentService($http, $q){
 			deffered.resolve(response);
 		}).catch(function(response){
 			deffered.reject('Get file type fail');
+		});
+		return deffered;
+	}
+	
+	function confirmUpload(){
+		var deffered = $q.defer();		
+		$http.post('/api/upload-document/confirm-upload')
+		.then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
 		});
 		return deffered;
 	}
