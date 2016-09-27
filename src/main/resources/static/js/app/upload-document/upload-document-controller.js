@@ -71,7 +71,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 
     vm.closeModal = function() {
         $timeout(function() {
-            PageNavigation.gotoPage('/upload-document')
+            $state.reload();
         }, 10);
     };
 
@@ -121,8 +121,8 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
                 vm.uploadResult.totalFail = uploadResultData.totalFail;
 				vm.uploadResult.totalAmountSuccess = uploadResultData.totalAmountSuccess;
 
-                var resultStatus = uploadResultData.resultStatus;
-                if (resultStatus == 'Success') {
+                var resultStatus = uploadResultData.status;
+                if (resultStatus == 'SUCCESS') {
                     $scope.showUploadPopUp = true;
                 } else {
                     vm.isShowConfirmation = true;
@@ -130,9 +130,9 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
                     if (vm.uploadResult.totalSuccess == 0) {
                         vm.showConfirmBtn = false;
                     }
+					vm.uploadNextPage();
                 }
-
-                vm.uploadNextPage();
+                
             }).catch(function(response) {
                 if (validateFileSize(response.data)) {
                     vm.errorMsgKey = 'Upload filesize err';
