@@ -140,8 +140,8 @@ app.service('SCFCommonService', [
 
             function checkLargeNumber(amount, amountBase, shortenNumberIndex) {
                 var amountDivision = amount / amountBase;
-            	var amoutFixed = toFixed(amountDivision, 1);
-                var decimalArray = amoutFixed.split('.');
+            	var amountFixed = toFixed(amountDivision, 1);
+                var decimalArray = amountFixed.split('.');
                 var largeNumberResult = '';
                 
                 if (decimalArray[0].length >= 3) {
@@ -160,10 +160,10 @@ app.service('SCFCommonService', [
                 return toFixed(amountDivision, decimalPlace) + shortenNumber[shourtenNumberIndex];
             }
             
-            function toFixed(num, pre){
-                num *= Math.pow(10, pre);
-                num = (Math.round(num, pre) + (((num - Math.round(num, pre))>=0.5)?1:0)) / Math.pow(10, pre);
-                return num.toFixed(pre);
+            function toFixed(amount, decimalPlace){
+            	amount *= Math.pow(10, decimalPlace);
+            	amount = (Math.round(amount, decimalPlace) + (((amount - Math.round(amount, decimalPlace))>=0.5)?1:0)) / Math.pow(10, decimalPlace);
+                return amount.toFixed(decimalPlace);
             }
             
             return result;
