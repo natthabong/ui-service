@@ -7,8 +7,8 @@ angular.module('scfApp').controller('JourneyNewDocumentController', ['$scope', '
 	
     vm.journeyDocModel = {
         totalDocument: 0,
-        totalDocumentAmount: '0M',
-        canLoanAmount: '0M'
+        totalDocumentAmount: '0',
+        canLoanAmount: '0'
     };
 	
 	
@@ -17,7 +17,7 @@ angular.module('scfApp').controller('JourneyNewDocumentController', ['$scope', '
         newDocumentDeferred.promise.then(function(response) {
 			vm.journeyDocModel.totalDocument = response.totalDocument;
 			vm.journeyDocModel.totalDocumentAmount = SCFCommonService.shortenLargeNumber(response.totalDocumentAmount);
-			vm.journeyDocModel.canLoanAmount = SCFCommonService.shortenLargeNumber(response.canLoanAmount);
+			vm.journeyDocModel.canLoanAmount = SCFCommonService.shortenLargeNumber(response.totalCanLoanAmount);
         }).catch(function(response) {
 			
         });
