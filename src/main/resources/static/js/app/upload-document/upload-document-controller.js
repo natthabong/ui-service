@@ -119,6 +119,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
                 vm.uploadResult.totalRecords = uploadResultData.totalRecords;
                 vm.uploadResult.totalSuccess = uploadResultData.totalSuccess;
                 vm.uploadResult.totalFail = uploadResultData.totalFail;
+				vm.uploadResult.totalAmountSuccess = uploadResultData.totalAmountSuccess;
 
                 var resultStatus = uploadResultData.resultStatus;
                 if (resultStatus == 'Success') {
@@ -145,17 +146,19 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 
     };
 
-
-
     vm.dataTable = {
         columns: [{
             field: 'errorLineNo',
             label: 'Line No',
-            cssTemplate: 'text-center'
+            cssTemplate: 'text-center',
+			idValueField: 'template',
+			id: 'file-upload-confirmation-line-no-{value}-label'
         }, {
             field: 'errorMessage',
             label: 'Description',
-            cssTemplate: 'text-left'
+            cssTemplate: 'text-left',
+			idValueField: 'template',
+			id: 'file-upload-confirmation-description-{value}-label'
         }]
     }
 
@@ -196,6 +199,9 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
     }
 
     function validateFileSize(data) {
+		if(angular.isUndefined(data)){
+			return false;
+		}
         if (data.search('maximum permitted size') > 0) {
             return true;
         }

@@ -4,6 +4,7 @@
 	"totalRecords": "30",
 	"totalSuccess": "4",
 	"totalFail": "26",
+	"totalAmountSuccess": "1000000",
 	"errorLineDetails": [
 		{"errorMessage":"SponsorRef not found", "errorLineNo": "2"},
 		{"errorMessage":"SupplierRef not found", "errorLineNo": "2"},

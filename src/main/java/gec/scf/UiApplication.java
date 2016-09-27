@@ -32,5 +32,6 @@ public class UiApplication {
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
-	}
+	}	
+	
 }

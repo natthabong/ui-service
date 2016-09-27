@@ -44,26 +44,31 @@
               		<div class="col-md-12">
 						<div class="row">
 							<div class="col-md-12">
-								<h3><span ng-bind="'File upload confirmation' | translate"></span></h3>
+								<h3><span id="file-upload-confirmation-header-label" ng-bind="'File upload confirmation' | translate"></span></h3>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-sm-1 col-md-1"><b ng-bind="'File name' | translate"></b></div>
 							<div class="col-sm-11 col-md-11">
-								<span ng-bind="ctrl.uploadResult.fileName"></span>
+								<span id="file-upload-confirmation-file-name-label" ng-bind="ctrl.uploadResult.fileName"></span>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-sm-1 col-md-1 control-label"><b ng-bind="'Success' | translate"></b>:</div>
-							<div class="col-sm-11 col-md-11">
-								<span ng-bind="ctrl.uploadResult.totalSuccess"></span>
+							<div class="col-sm-3 col-md-3">
+								<span id="file-upload-confirmation-success-records-label" ng-bind="ctrl.uploadResult.totalSuccess"></span>
+							</div>
+							
+							<div class="col-sm-2 col-md-2 control-label"><b ng-bind="'Total amount' | translate"></b>:</div>
+							<div class="col-sm-6 col-md-6">
+								<span id="file-upload-confirmation-success-amount-label" ng-bind="ctrl.uploadResult.totalAmountSuccess | number"></span>
 							</div>
 
 						</div>
 						<div class="row">
 							<div class="col-sm-1 col-md-1 control-label"><b ng-bind="'Fail' | translate"></b>:</div>
 							<div class="col-sm-11 col-md-11">
-								<span ng-bind="ctrl.uploadResult.totalFail"></span>
+								<span id="file-upload-confirmation-fail-records-label" ng-bind="ctrl.uploadResult.totalFail"></span>
 							</div>
 						</div>
 						<div class="row">							

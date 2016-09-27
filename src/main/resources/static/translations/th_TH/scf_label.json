@@ -165,5 +165,6 @@
 	"File extention error": "File extention incorrect ( {{fileFormat}} )",
 	"Upload filesize err": "Your file size exceeds maximum allowed (10MB)",
 	"File upload confirmation": "File upload confirmation",
-	"Data correction needed": "ข้อมูลที่ต้องการแก้ไข"
+	"Data correction needed": "ข้อมูลที่ต้องการแก้ไข",
+	"Total amount": "Total amount"
 }
