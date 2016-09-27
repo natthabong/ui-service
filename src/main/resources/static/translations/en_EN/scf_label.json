@@ -70,6 +70,7 @@
 	"success today": "success (today)",
 	"retry": "retry",
 	"fail today": "fail (today)",
+	"Confirm": "Confirm",
 	
 	"_comment": "Menu",
 	"transaction": "Transaction",
@@ -164,5 +165,7 @@
 	"Upload complete": "Upload complete",
 	"File extention error": "File extention incorrect ( {{fileFormat}} )",
 	"Upload filesize err": "Your file size exceeds maximum allowed (10MB)",
-	 "Transaction No.": "Transaction No."
+	"File upload confirmation": "File upload confirmation",
+	"Data correction needed": "Data correction needed",
+	"Total amount": "Total amount"
 }
