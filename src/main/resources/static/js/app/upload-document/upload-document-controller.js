@@ -121,8 +121,8 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
                 vm.uploadResult.fileName = uploadResultData.fileName;
                 vm.uploadResult.totalRecords = uploadResultData.totalRecords;
                 vm.uploadResult.totalSuccess = uploadResultData.totalSuccess;
-                vm.uploadResult.totalFail = uploadResultData.totalFailed;
-				vm.uploadResult.totalAmountSuccess = uploadResultData.totalAmountSuccess;
+                vm.uploadResult.totalFail =  (uploadResultData.totalFailed == null ? 'N/A':uploadResultData.totalFailed);
+				vm.uploadResult.totalAmountSuccess = (uploadResultData.totalAmountSuccess == null ? '0':uploadResultData.totalAmountSuccess);
 				vm.uploadResult.processNo = uploadResultData.processNo;
 
                 var resultStatus = uploadResultData.status;
@@ -182,7 +182,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
                 vm.uploadResult.fileName = uploadResultData.fileName;
                 vm.uploadResult.totalRecords = uploadResultData.totalRecords;
                 vm.uploadResult.totalSuccess = uploadResultData.totalSuccess;
-                vm.uploadResult.totalFail = uploadResultData.totalFailed;
+                vm.uploadResult.totalFail = (uploadResultData.totalFailed == null ? 'N/A':uploadResultData.totalFailed);
                 $scope.showUploadPopUp = true;
 		}).catch(function(response){
 			log.error('Confirm upload fail');
