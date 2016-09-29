@@ -213,6 +213,8 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 		}
         if (data.search('maximum permitted size') > 0) {
             return true;
+        }else if(data.search('Request Entity Too Large') > 0){
+        	return true;
         }
         return false;
     }
