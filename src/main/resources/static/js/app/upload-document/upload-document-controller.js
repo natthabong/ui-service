@@ -133,6 +133,8 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
                     vm.tableUploadErrorRowCollection = uploadResultData.errorLineDetails;
                     if (vm.uploadResult.totalSuccess == 0) {
                         vm.showConfirmBtn = false;
+                    }else{
+                    	vm.showConfirmBtn = true;
                     }
 					vm.uploadNextPage();
                 }
