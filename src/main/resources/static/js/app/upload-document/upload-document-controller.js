@@ -175,8 +175,6 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 	vm.confirmUpload = function(){
 		
 		vm.uploadConfirmPayload.processNo = vm.uploadResult.processNo;
-		vm.uploadConfirmPayload.totalSuccess = vm.uploadResult.totalSuccess;
-		vm.uploadConfirmPayload.totalFail = vm.uploadResult.totalFail;
 		
 		var deffered = UploadDocumentService.confirmUpload(vm.uploadConfirmPayload);
 		deffered.promise.then(function(response){
