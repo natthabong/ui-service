@@ -2,7 +2,7 @@
     <h3 class="animated fadeInLeft">{{dashboardItem.headerLabel}}</h3>
     <div class="row">
         <div ng-repeat="it in layout.children"         	
-        class="col-md-{{it.columnSize}} col-sm-{{it.columnSize}}"        	
+        class="col-lg-{{it.columnSizeLg}} col-md-{{it.columnSizeMd}} col-sm-{{it.columnSizeSm}} col-xs-{{it.columnSizeXs}}"        	
         ng-include="it.dashboardItem.url"></div>
     </div>
 </div>

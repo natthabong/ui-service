@@ -4,7 +4,7 @@
 			<div class="panel" ng-if="row.length">
 				<div class="panel-body">
 					<div ng-repeat="layout in row"
-						class="col-md-{{layout.columnSize}} col-sm-{{layout.columnSize}}"
+						class="col-lg-{{it.columnSizeLg}} col-md-{{layout.columnSizeMd}} col-sm-{{layout.columnSizeSm}} col-xs-{{layout.columnSizeXs}}"
 						ng-init="dashboardItem=layout.dashboardItem">
 						<div ng-show="!layout.children.length"
 							ng-include="layout.dashboardItem.url"></div>
