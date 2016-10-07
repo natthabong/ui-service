@@ -160,7 +160,6 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
     function ($translate, $translatePartialLoader, scfFactory, $scope, Service) {
         var vm = this;
         vm.sysMessage = "";
-		vm.displayName = "";
         vm.menus = [];
         vm.changeLanguage = function (lang) {
             $translatePartialLoader.addPart('translations');
@@ -169,7 +168,6 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
         };
 
         vm.getMessage = function () {
-
             var defered = scfFactory.getErrorMsg($translate.use());
             defered.promise.then(function (response) {
                 vm.sysMessage = response.content;
@@ -179,8 +177,7 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 		
 		vm.getUserInfo = function(){
 			var defered = scfFactory.getUserInfo();
-			defered.promise.then(function(response){
-				vm.displayName = response.displayName;
+			defered.promise.then(function(response){				
 				$scope.userInfo = response;
 			});
 		};
