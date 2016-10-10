@@ -163,7 +163,7 @@
 	"File name": "File name: ",
 	"Upload Msg err": "Please select file to upload.",
 	"Upload complete": "Upload complete",
-	"File extention error": "File extention incorrect ( {{fileFormat}} )",
+	"File extension error": "File extension incorrect ({{fileFormat}})",
 	"Upload filesize err": "Your file size exceeds maximum allowed (10MB)",
 	"File upload confirmation": "File upload confirmation",
 	"Data correction needed": "Data correction needed",

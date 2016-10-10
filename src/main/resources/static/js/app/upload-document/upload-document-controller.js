@@ -200,8 +200,8 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
             // Check file extention name exists in acceptFileExtention ?.
             if (acceptFileExtention.search(fileSelectExtention) < 0) {
                 validateResult = false;
-                vm.errorMsgKey = 'File extention error';
-                vm.errorFileFormat = acceptFileExtention;
+                vm.errorMsgKey = 'File extension error';
+                vm.errorFileFormat = acceptFileExtention.slice(acceptFileExtention.lastIndexOf('.')+1, acceptFileExtention.length);
             }
         }
         return validateResult;
