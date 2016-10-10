@@ -162,13 +162,13 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
             field: 'errorLineNo',
             label: 'Line No',
             cssTemplate: 'text-center',
-			idValueField: 'template',
+			idValueField: 'errorLineNo',
 			id: 'file-upload-confirmation-line-no-{value}-label'
         }, {
             field: 'errorMessage',
             label: 'Description',
             cssTemplate: 'text-left',
-			idValueField: 'template',
+			idValueField: 'errorLineNo',
 			id: 'file-upload-confirmation-description-{value}-label'
         }]
     }
