@@ -90,18 +90,9 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 
     vm.uploadNextPage = function(pagingModel) {
 		
-        if (pagingModel === undefined) {
-//            var pagingObject = SCFCommonService.clientPagination(vm.uploadResult.errors, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);
-//            vm.uploadDocumentDisplayError = pagingObject.content;
-//            vm.pageModel.totalPage = pagingObject.totalPages;
-//            vm.pageModel.totalRecord =vm.uploadResult.errors.length;
-        } else {
+        if (pagingModel !== undefined) { 
             vm.pageModel.currentPage = pagingModel.page;
             vm.pageModel.pageSizeSelectModel = pagingModel.pageSize;
-//            var pagingObject = SCFCommonService.clientPagination(vm.uploadResult.errors, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);
-//            vm.uploadDocumentDisplayError = pagingObject.content;
-//            vm.pageModel.totalPage = pagingObject.totalPages;
-//            vm.pageModel.totalRecord =vm.uploadResult.errors.length;
         }
         var pagingObject = SCFCommonService.clientPagination(vm.uploadResult.errors, vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage);
         vm.uploadDocumentDisplayError = pagingObject.content;
@@ -114,29 +105,20 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 
     vm.uploadAction = function() {
         vm.showErrorMsg = false;
-        // Validate Form befor send upload file
+        // Validate Form before send upload file
         if (validateFileUpload(vm.uploadModel, vm.acceptFileExtention)) {
             var fileTypeConfigObject = vm.getFileTypeByIndex(vm.uploadModel.fileTypeIndex);
             vm.uploadModel.fileConfigId = fileTypeConfigObject.sponsorIntegrateFileConfigId;
 
             var deffered = UploadDocumentService.upload(vm.uploadModel);
             deffered.promise.then(function(response) {
-//                var uploadResultData = response.data;
-
-//                vm.uploadResult.fileName = uploadResultData.fileName;
-//                vm.uploadResult.totalRecords = uploadResultData.totalRecords;
-//                vm.uploadResult.totalSuccess = uploadResultData.totalSuccess;
-//                vm.uploadResult.totalFail =  (uploadResultData.totalFailed == null ? 'N/A':uploadResultData.totalFailed);
-//				vm.uploadResult.totalAmountSuccess = (uploadResultData.totalAmountSuccess == null ? '0':uploadResultData.totalAmountSuccess);
-//				vm.uploadResult.processNo = uploadResultData.processNo;
 
 				vm.uploadResult = response.data;
                 if ( vm.uploadResult.complete) {
                     $scope.showUploadPopUp = true;
                 } else {
                     vm.isShowConfirmation = true;
-//                    vm.tableUploadErrorRowCollection = uploadResultData.errorLineDetails;
-                    if (vm.uploadResult.totalSuccess == 0) {
+                    if (vm.uploadResult.success == null) {
                         vm.showConfirmBtn = false;
                     }else{
                     	vm.showConfirmBtn = true;
@@ -162,13 +144,14 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
             field: 'errorLineNo',
             label: 'Line No',
             cssTemplate: 'text-center',
-			idValueField: 'errorLineNo',
+            idValueField: 'template',
+            cellTemplate: 'N/A',
 			id: 'file-upload-confirmation-line-no-{value}-label'
         }, {
             field: 'errorMessage',
             label: 'Description',
             cssTemplate: 'text-left',
-			idValueField: 'errorLineNo',
+			idValueField: 'template',
 			id: 'file-upload-confirmation-description-{value}-label'
         }]
     }
@@ -183,11 +166,12 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 		
 		var deffered = UploadDocumentService.confirmUpload(vm.uploadConfirmPayload);
 		deffered.promise.then(function(response){
-			var uploadResultData = response.data;
-                vm.uploadResult.fileName = uploadResultData.fileName;
-                vm.uploadResult.totalRecords = uploadResultData.totalRecords;
-                vm.uploadResult.totalSuccess = uploadResultData.totalSuccess;
-                vm.uploadResult.totalFail = (uploadResultData.totalFailed == null ? 'N/A':uploadResultData.totalFailed);
+			vm.uploadResult = response.data;
+//			var uploadResultData = response.data;
+//                vm.uploadResult.fileName = uploadResultData.fileName;
+//                vm.uploadResult.totalRecords = uploadResultData.totalRecords;
+//                vm.uploadResult.totalSuccess = uploadResultData.totalSuccess;
+//                vm.uploadResult.totalFail = (uploadResultData.totalFailed == null ? 'N/A':uploadResultData.totalFailed);
                 $scope.showUploadPopUp = true;
 		}).catch(function(response){
 			log.error('Confirm upload fail');

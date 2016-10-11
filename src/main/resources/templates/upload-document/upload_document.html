@@ -112,7 +112,7 @@
 								<scf-button id="upload-cancel-button"
 										type="submit" ng-click="ctrl.cancelUpload()">{{'Cancel'
 									| translate}}</scf-button>
-									<scf-button ng-show="ctrl.showConfirmBtn" id="file-upload-confirmation-confirm-button" type="submit"
+									<scf-button ng-disabled="!ctrl.showConfirmBtn" id="file-upload-confirmation-confirm-button" type="submit"
 										ng-click="ctrl.confirmUpload()">{{'Confirm' | translate}}</scf-button>                    		
 							</div>
 						</div>

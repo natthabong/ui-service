@@ -242,7 +242,8 @@
                                 sortable: data['sortable'],
                                 cssTemplate: data['cssTemplate'],
                                 filterType: data['filterType'],
-                                filterFormat: data['filterFormat']
+                                filterFormat: data['filterFormat'],
+                                renderer: data['renderer'],
                             };
                             vm.tableColumns.push(rowData);
                         });
@@ -345,13 +346,13 @@
 						//Check add id is rowNo for checkBox
 						if(column.idValueField === 'template'){
 							if(elements[0].children.length >0){
-								elements[0].children[0].id = addId(rowNo, column.id);
+								elements[0].children[0].id = addId(rowNo, column.id, column.renderer);
 							}
 							else{
-								elements[0].id = addId(rowNo, column.id);
+								elements[0].id = addId(rowNo, column.id, column.renderer);
 							}
 						}else{
-							elements[0].id = addId(data[column.idValueField != null ? column.idValueField: column.field], column.id);
+							elements[0].id = addId(data[column.idValueField != null ? column.idValueField: column.field], column.id, column.renderer);
 						}
                     }
 					
@@ -381,7 +382,10 @@
                 return result;
             }
 
-            function addId(rowNo, columnId) {
+            function addId(rowNo, columnId, renderer) {
+            	if(renderer!=null){
+            		rowNo = renderer(rowNo);
+            	}
                 return columnId.replace('{value}', rowNo);
             }
         }]).directive('scfTdCollapes', function() {
