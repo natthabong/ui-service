@@ -118,7 +118,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
                     $scope.showUploadPopUp = true;
                 } else {
                     vm.isShowConfirmation = true;
-                    if (vm.uploadResult.success == null) {
+                    if (vm.uploadResult.success == null || vm.uploadResult.success == 0) {
                         vm.showConfirmBtn = false;
                     }else{
                     	vm.showConfirmBtn = true;
@@ -162,7 +162,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 	
 	vm.confirmUpload = function(){
 		
-		vm.uploadConfirmPayload.processNo = vm.uploadResult.processNo;
+		vm.uploadConfirmPayload.processNo = vm.uploadResult.information.processNo;
 		
 		var deffered = UploadDocumentService.confirmUpload(vm.uploadConfirmPayload);
 		deffered.promise.then(function(response){

@@ -345,7 +345,7 @@
 					if (column.id !== null && column.id !== undefined) {
 						//Check add id is rowNo for checkBox
 						if(column.idValueField === 'template'){
-							if(elements[0].children.length >0){
+							if(elements[0].children.length >0){								
 								elements[0].children[0].id = addId(rowNo, column.id, column.renderer);
 							}
 							else{
