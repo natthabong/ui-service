@@ -131,7 +131,7 @@
                         <image width="70" height="70" ng-src="img/success-icon.png"></image>
                     </div>
                     <div class="col-md-10 col-sm-10">
-                        <h2 id="upload-complete-header-label" class="gec-pop-up-font-size-green" ng-bind="'Upload complete' | translate">Upload complete</h2>
+                        <h2 id="upload-complete-popup-header-label" class="gec-pop-up-font-size-green" ng-bind="'Upload complete' | translate">Upload complete</h2>
                     </div>
                 </div>
             </div>
@@ -145,7 +145,7 @@
                                 <b class="gec-pop-up-font-size" ng-bind="'Total' | translate"></b>
                             </div>
                             <div class="col-xs-2 text-right">
-                                <span id="total-label" ng-bind="ctrl.uploadResult.totalRecords || 0"></span>
+                                <span id="upload-complete-total-record-label" ng-bind="ctrl.uploadResult.total || 0"></span>
                             </div>
                             <div class="col-xs-8">
                                 <span ng-bind="'records' | translate"></span>
@@ -156,7 +156,7 @@
                                 <b ng-bind="'Success' | translate"></b><b>:</b>
                             </div>
                             <div class="col-xs-2 text-right">
-                                <span id="success-label" ng-bind="ctrl.uploadResult.totalSuccess || 0"></span>
+                                <span id="upload-complete-total-success-label" ng-bind="ctrl.uploadResult.success || 0"></span>
                             </div>
                             <div class="col-xs-8">
                                 <span ng-bind="'records' | translate"></span>
@@ -167,7 +167,7 @@
                                 <b ng-bind="'Fail' | translate"></b><b>:</b>
                             </div>
                             <div class="col-xs-2 text-right">
-                                <span id="fail-label" ng-bind="ctrl.uploadResult.totalFail || 0"></span>
+                                <span id="upload-complete-total-fail-label" ng-bind="ctrl.uploadResult.fail || 0"></span>
                             </div>
                             <div class="col-xs-8">
                                 <span ng-bind="'records' | translate"></span>
@@ -179,7 +179,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 text-right">
-                        <scf-button id="ok-button" data-dismiss="modal" type="submit" ng-click="ctrl.closeModal()" ng-bind="'OK' | translate"></scf-button>
+                        <scf-button id="upload-complete-popup-ok-button" data-dismiss="modal" type="submit" ng-click="ctrl.closeModal()" ng-bind="'OK' | translate"></scf-button>
 
                     </div>
                 </div>
