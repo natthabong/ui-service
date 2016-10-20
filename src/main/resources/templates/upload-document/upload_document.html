@@ -56,7 +56,7 @@
 						<div class="row">
 							<div class="col-sm-1 col-md-2"><b ng-bind="'Success' | translate"></b>:</div>
 							<div class="col-sm-2 col-md-3">
-								<span id="file-upload-confirmation-success-records-label" ng-bind="ctrl.uploadResult.success || 'N/A'"></span>
+								<span id="file-upload-confirmation-success-records-label" ng-bind="(ctrl.uploadResult.success | number) || 'N/A'"></span>
 							</div>
 							
 							<div class="col-sm-4 col-md-3"><b ng-bind="'Success total amount' | translate"></b>:</div>
@@ -68,7 +68,7 @@
 						<div class="row">
 							<div class="col-sm-1 col-md-2 control-label"><b ng-bind="'Fail' | translate"></b>:</div>
 							<div class="col-sm-11 col-md-10">
-								<span id="file-upload-confirmation-fail-records-label" ng-bind="ctrl.uploadResult.fail || 'N/A'"></span>
+								<span id="file-upload-confirmation-fail-records-label" ng-bind="(ctrl.uploadResult.fail | number) || 'N/A'"></span>
 							</div>
 						</div>
 						<div class="row">							
