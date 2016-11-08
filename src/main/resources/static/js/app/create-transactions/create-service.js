@@ -73,7 +73,7 @@ function createTransactionService($http, $q) {
     function getDocument(searchCriteriaModel) {
         var deffered = $q.defer();
         $http({
-    	    url : 'api/create-transaction/documents/get',
+    	    url : 'api/documents/get',
         	method: 'POST',
         	data: searchCriteriaModel
         }).then(function(response) {
