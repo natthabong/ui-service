@@ -324,6 +324,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             var searchDocumentCriteria = {
                     sponsorId: sponsorCode,
                     supplierCode: vm.createTransactionModel.supplierCode,
+                    documentStatus: 'NEW',
                     sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
                     order: vm.createTransactionModel.order,
                     orderBy: vm.createTransactionModel.orderBy,
