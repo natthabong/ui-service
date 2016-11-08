@@ -1,0 +1,194 @@
+<div id="content" th:fragment="content">
+    <div id="wrapper">
+        <div class="panel box-shadow-none content-header">
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <h3 id="header-message-label" class="animated fadeInLeft" 
+                    ng-bind="'Document List' | translate"></h3>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-element">
+        	<div class="panel panel-default col-md-12 padding-0">
+        		<div class="panel-body">
+        			<!-- Start Column Panel-->
+        			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        				<form name="documentListSponsorForm" class="form-horizontal">
+        					
+        					<div class="form-group">
+								<label for="sponsorName"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor name' | translate}}: </label>
+								<div class="col-md-3 col-sm-4 col-xs-12">
+									<scf-input-text id="sponsorName" ng-disabled="ctrl.sponsorTxtDisable" 
+									ng-model="ctrl.sponsorModel.sponsorName"></scf-input-text>
+								</div>
+								<div class="col-md-6 col-sm-4"></div>
+							</div>
+							
+							<div class="form-group">
+								<label for="supplierName"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier name' | translate}} : </label>
+								<div class="col-md-3 col-sm-4 col-xs-12">
+									<scf-input-text id="supplierName" ng-disabled="ctrl.supplierTxtDisable"
+									 ng-model="ctrl.sponsorModel.supplierName"></scf-input-text>
+								</div>
+								<div class="col-md-6 col-sm-4"></div>
+							</div>
+							
+							<div class="form-group">
+								<label for="dealer"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier code' | translate}} : </label>
+								<div class="col-md-3 col-sm-4 col-xs-12">
+									<scf-input-text ng-model="ctrl.sponsorModel.supplierCode"></scf-input-text>
+								</div>
+								<div class="col-md-6 col-sm-4"></div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-md-2 col-sm-3 control-label">{{'Date'
+									| translate}}:</label>
+								<div class="col-md-3 col-sm-4 gec-calendar-group">
+									<label for="date-from-calendar" class="control-label">{{'From'
+										| translate}}: </label>
+									<scf-date-picker-from text-id="date-from-calendar"
+										button-id="date-from-calendar-button"
+										text-model="ctrl.sponsorModel.dateFrom"
+										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
+										open-calendar-action="ctrl.openCalendarDateFrom()"
+										max-date="ctrl.sponsorModel.dateTo"> </scf-date-picker-from>
+
+								</div>
+								<div class="col-md-3 col-sm-4 gec-calendar-group">
+									<label for="date-to-calendar" class="control-label">{{'to'
+										| translate}}: </label>
+									<scf-date-picker-to text-id="date-to-calendar"
+										button-id="date-to-calendar-button"
+										text-model="ctrl.sponsorModel.dateTo"
+										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
+										open-calendar-action="ctrl.openCalendarDateTo()"
+										min-date="ctrl.sponsorModel.dateFrom"> </scf-date-picker-to>
+								</div>
+								<div class="col-md-3"></div>
+							</div>
+							
+							<div class="form-group">
+								<label for="documentNo"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Document No.' | translate}} : </label>
+
+								<div class="col-md-3 col-sm-4 col-xs-12">
+									<scf-input-text id="documentNo"></scf-input-text>
+								</div>
+								<div class="col-md-6 col-sm-5"></div>
+							</div>
+							
+							<div class="form-group">
+								<label for="status"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status' | translate}} :</label>
+								<div class="col-md-3 col-sm-4 col-xs-12">
+									<scf-dropdown ng-disabled="true" id="sponsor-payment-date-dropdown"
+										></scf-dropdown>
+								</div>
+								<div class="col-md-6 col-sm-5">
+									<scf-button id="search-button" class="btn-default"
+										ng-click="ctrl.searchDocument()" ng-bind="'Search' | translate"></scf-button>
+								</div>
+							</div>
+							
+						</form>						
+						<!-- End Payment Field-->
+						
+						<div ng-show="ctrl.showInfomation">						
+							<div class="row">
+								<div class="col-md-1 col-sm-1 gec-select text-center">
+									<div>
+										<input type="checkbox" 
+										id="select-all-page-checkbox"/>
+										<b><span ng-bind="'All' | translate"></span></b>
+									</div>
+								</div>
+								<div class="col-md-11 col-sm-11 text-right">
+									<div class="row">
+										<div class="col-md-12 col-sm-12">
+											<span> <b ng-bind="ctrl.splitePageTxt"
+												id="document-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+													dropdown-id="page-limit-dropdown"
+													page-size-model="ctrl.pageModel.pageSizeSelectModel"
+													total-page="ctrl.pageModel.totalPage"
+													current-page="ctrl.pageModel.currentPage"
+													page-size-list="ctrl.pageSizeList"
+													page-action="ctrl.searchDocument"></scf-pagination>
+											</span>
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Start Table-->
+							<div class="row">
+								<div class="col-md-12">
+									<scf-data-table id="document-table"
+										component-config="ctrl.dataTable"
+										component-datas="ctrl.tableRowCollection"
+										current-page="ctrl.pageModel.currentPage"
+										record-per-page="ctrl.pageModel.pageSizeSelectModel"
+										clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
+								</div>
+								<div id="fixed-bottom" class="col-md-12"></div>
+							</div>
+						</div>						
+						
+					</div>
+				</div>
+				
+				<div class="panel-body" ng-show="ctrl.showInfomation">
+					<div class="row">
+						<div id="bottom-sticker">
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<label class="col-md-2 col-sm-3"><b>{{'Transaction amount' | translate}} :</b></label>									
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="document-list-transaction-amount-label">100,000,000.00</span>
+									</div>
+									<div class="col-md-9 col-sm-7">
+										<span id="wait-for-approve-amount-label" ng-bind="'THB' | translate"></span>
+									</div>									
+								</div>								
+							</div>
+							
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<label class="col-md-2 col-sm-3" ><b>{{'Book' | translate}} :</b></label>									
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="document-list-book-amount-label">100,000,000.00</span>
+									</div>
+									<div class="col-md-9 col-sm-7">
+										<span ng-bind="'THB' | translate"></span>
+									</div>									
+								</div>
+							</div>
+							
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<label class="col-md-2 col-sm-3" ><b>{{'Unbook' | translate}} :</b></label>									
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="document-list-unbook-amount-label">100,000,000.00</span>
+									</div>
+									<div class="col-md-9 col-sm-7">
+										<span ng-bind="'THB' | translate"></span>
+									</div>									
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12 text-right">
+								<scf-button id="next-button" type="submit"
+									ng-click="ctrl.nextStep()">{{'Delete' | translate}}</scf-button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>        
+		</div>
+   
+    </div>
+</div>

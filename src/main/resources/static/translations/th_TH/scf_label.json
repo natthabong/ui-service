@@ -71,6 +71,8 @@
 	"retry": "retry",
 	"fail today": "fail (today)",
 	"Confirm": "Confirm",
+	"Sponsor name": "Sponsor name",
+	"Supplier name": "Supplier name",
 	
 	"_comment": "Menu",
 	"transaction": "Transaction",
@@ -166,5 +168,15 @@
 	"Upload filesize err": "Your file size exceeds. Maximum allowed (1 MB)",
 	"File upload confirmation": "File upload confirmation",
 	"Data correction needed": "ข้อมูลที่ต้องการแก้ไข",
-	"Total amount": "Total amount"
+	"Total amount": "Total amount",
+	
+	"Document List": "Document List",
+	"document-list-sponsor": "Document List",
+	"document-supplier": "Document",
+	"document-list-supplier": "Document List",
+	"document-bank": "Document",
+	"document-list-bank": "Document List",
+	"Book": "Book",
+	"Unbook": "Unbook",
+	"All": "All"
 }

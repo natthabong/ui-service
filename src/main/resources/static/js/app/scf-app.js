@@ -98,6 +98,27 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/upload-document',
 				resolve: load(['js/app/upload-document/upload-document-service.js','js/app/upload-document/upload-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/document-list/sponsor',{
+				url: '/document-list/sponsor',
+				controller: 'DocumentListController',
+				controllerAs: 'ctrl',
+				params: {party:'sponsor'},
+				templateUrl: '/document-list/sponsor',
+				resolve: load(['js/app/document-list/document-list-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/document-list/supplier',{
+				url: '/document-list/supplier',
+				controller: 'DocumentListController',
+				controllerAs: 'ctrl',
+				params: {party:'supplier'},
+				templateUrl: '/document-list/supplier',
+				resolve: load(['js/app/document-list/document-list-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/document-list/bank',{
+				url: '/document-list/bank',
+				controller: 'DocumentListController',
+				controllerAs: 'ctrl',
+				params: {party:'bank'},
+				templateUrl: '/document-list/bank',
+				resolve: load(['js/app/document-list/document-list-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/dashboard', {
 				url: '/dashboard',
 				controller: 'DashboardController',
