@@ -176,5 +176,8 @@
 	"document-supplier": "Document",
 	"document-list-supplier": "Document List",
 	"document-bank": "Document",
-	"document-list-bank": "Document List"
+	"document-list-bank": "Document List",
+	"Book": "Book",
+	"Unbook": "Unbook",
+	"All": "All"
 }

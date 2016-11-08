@@ -171,5 +171,12 @@
 	"Total amount": "Total amount",
 	
 	"Document List": "Document List",
-	"document-list-sponsor": "Document List"
+	"document-list-sponsor": "Document List",
+	"document-supplier": "Document",
+	"document-list-supplier": "Document List",
+	"document-bank": "Document",
+	"document-list-bank": "Document List",
+	"Book": "Book",
+	"Unbook": "Unbook",
+	"All": "All"
 }
