@@ -14,7 +14,12 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 	
 	
 	vm.sponsorModel = {
-		sponsorName: ''
+		sponsorName: '',
+		supplierName: '',
+		supplierCode: '',
+		dateTo: '',
+		dateFrom: '',
+		documentNo: ''
 	}
 	
 	vm.pageSizeList = [{
@@ -98,6 +103,10 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 	vm.initLoad();
 	
 	vm.searchDocument = function(){
+		var dataParams = {};
+		
+		var documentDiffered = Service.requestURL('api/create-transaction/documents/get', dataParams, 'POST');
+		
 		vm.showInfomation = true;
 		vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 		vm.loadDocumentDisplayConfig(0123);

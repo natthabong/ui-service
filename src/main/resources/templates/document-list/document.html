@@ -21,7 +21,7 @@
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor name' | translate}}: </label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
 									<scf-input-text id="sponsorName" ng-disabled="ctrl.sponsorTxtDisable" 
-									ng-model="ctrl.sponsorModel.sponsorName"></scf-input-text>
+									ng-model="ctrl.documentListModel.sponsorName"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-4"></div>
 							</div>
@@ -31,7 +31,7 @@
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier name' | translate}} : </label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
 									<scf-input-text id="supplierName" ng-disabled="ctrl.supplierTxtDisable"
-									 ng-model="ctrl.sponsorModel.supplierName"></scf-input-text>
+									 ng-model="ctrl.documentListModel.supplierName"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-4"></div>
 							</div>
@@ -40,7 +40,7 @@
 								<label for="dealer"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier code' | translate}} : </label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
-									<scf-input-text ng-model="ctrl.sponsorModel.supplierCode"></scf-input-text>
+									<scf-input-text ng-model="ctrl.documentListModel.supplierCode"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-4"></div>
 							</div>
@@ -53,10 +53,10 @@
 										| translate}}: </label>
 									<scf-date-picker-from text-id="date-from-calendar"
 										button-id="date-from-calendar-button"
-										text-model="ctrl.sponsorModel.dateFrom"
+										text-model="ctrl.documentListModel.dateFrom"
 										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
 										open-calendar-action="ctrl.openCalendarDateFrom()"
-										max-date="ctrl.sponsorModel.dateTo"> </scf-date-picker-from>
+										max-date="ctrl.documentListModel.dateTo"> </scf-date-picker-from>
 
 								</div>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
@@ -64,10 +64,10 @@
 										| translate}}: </label>
 									<scf-date-picker-to text-id="date-to-calendar"
 										button-id="date-to-calendar-button"
-										text-model="ctrl.sponsorModel.dateTo"
+										text-model="ctrl.documentListModel.dateTo"
 										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
 										open-calendar-action="ctrl.openCalendarDateTo()"
-										min-date="ctrl.sponsorModel.dateFrom"> </scf-date-picker-to>
+										min-date="ctrl.documentListModel.dateFrom"> </scf-date-picker-to>
 								</div>
 								<div class="col-md-3"></div>
 							</div>
@@ -77,7 +77,7 @@
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Document No.' | translate}} : </label>
 
 								<div class="col-md-3 col-sm-4 col-xs-12">
-									<scf-input-text id="documentNo"></scf-input-text>
+									<scf-input-text id="documentNo" ng-model="ctrl.documentListModel.documentNo"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-5"></div>
 							</div>
