@@ -1,0 +1,105 @@
+<div id="content" th:fragment="content">
+    <div id="wrapper">
+        <div class="panel box-shadow-none content-header">
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <h3 id="header-message-label" class="animated fadeInLeft" 
+                    ng-bind="'Document List' | translate"></h3>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-element">
+        	<div class="panel panel-default col-md-12 padding-0">
+        		<div class="panel-body">
+        			<!-- Start Column Panel-->
+        			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        				<form name="documentListSponsorForm" class="form-horizontal">
+        					
+        					<div class="form-group">
+								<label for="sponsorName"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor name' | translate}}: </label>
+								<div class="col-md-3 col-sm-4 col-xs-12">
+									<scf-input-text id="sponsorName" ng-disabled="ctrl.sponsorTxtDisable" 
+									ng-model="ctrl.sponsorModel.sponsorName"></scf-input-text>
+								</div>
+								<div class="col-md-6 col-sm-5"></div>
+							</div>
+							
+							<div class="form-group">
+								<label for="supplierName"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier name' | translate}} : </label>
+								<div class="col-md-3 col-sm-4 col-xs-12">
+									<scf-input-text id="supplierName" ng-disabled="ctrl.supplierTxtDisable"
+									 ng-model="ctrl.sponsorModel.supplierName"></scf-input-text>
+								</div>
+								<div class="col-md-6 col-sm-5"></div>
+							</div>
+							
+							<div class="form-group">
+								<label for="dealer"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier code' | translate}} : </label>
+								<div class="col-md-3 col-sm-4 col-xs-12">
+									<scf-input-text ng-model="ctrl.sponsorModel.supplierCode"></scf-input-text>
+								</div>
+								<div class="col-md-6 col-sm-5"></div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-md-2 col-sm-3 control-label">{{'Date'
+									| translate}}:</label>
+								<div class="col-md-3 col-sm-4 gec-calendar-group">
+									<label for="date-from-calendar" class="control-label">{{'From'
+										| translate}}: </label>
+									<scf-date-picker-from text-id="date-from-calendar"
+										button-id="date-from-calendar-button"
+										text-model="ctrl.sponsorModel.dateFrom"
+										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
+										open-calendar-action="ctrl.openCalendarDateFrom()"
+										max-date="ctrl.sponsorModel.dateTo"> </scf-date-picker-from>
+
+								</div>
+								<div class="col-md-3 col-sm-4 gec-calendar-group">
+									<label for="date-to-calendar" class="control-label">{{'to'
+										| translate}}: </label>
+									<scf-date-picker-to text-id="date-to-calendar"
+										button-id="date-to-calendar-button"
+										text-model="ctrl.sponsorModel.dateTo"
+										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
+										open-calendar-action="ctrl.openCalendarDateTo()"
+										min-date="ctrl.sponsorModel.dateFrom"> </scf-date-picker-to>
+								</div>
+								<div class="col-md-4 col-sm-1"></div>
+							</div>
+							
+							<div class="form-group">
+								<label for="documentNo"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Document No.' | translate}} : </label>
+
+								<div class="col-md-3 col-sm-4 col-xs-12">
+									<scf-input-text id="documentNo"></scf-input-text>
+								</div>
+								<div class="col-md-6 col-sm-5"></div>
+							</div>
+							
+							<div class="form-group">
+								<label for="status"
+									class="col-md-3 col-sm-3 col-xs-12 control-label"></label>
+								<div class="col-md-3 col-sm-3 col-xs-12">
+									<scf-button id="search-button" class="btn-default"
+										ng-click="ctrl.searchDocument()" ng-bind="'Search' | translate"></scf-button>
+								</div>
+								<div class="col-md-5 col-sm-5">
+									
+								</div>
+							</div>
+							
+						</form>
+					</div>
+				</div>
+			</div>
+        
+		</div>
+   
+    </div>
+</div>
