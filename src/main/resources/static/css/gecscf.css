@@ -36,6 +36,12 @@ body {
 	}
 }
 
+@media (min-width: 1200px){
+	.transaction-journey-lg{
+		padding-right: 0px;
+	}
+}
+
 .navbar-top-links {
 	margin-right: 0;
 }

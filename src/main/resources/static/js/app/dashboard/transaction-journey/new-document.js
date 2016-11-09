@@ -4,7 +4,7 @@ angular.module('scfApp').controller('JourneyNewDocumentController', ['$scope', '
     var dashboarParent = compositParent.$parent.it;
     var dahsboarItemParent = dashboarParent.dashboardItem;
     vm.headerLabel = dahsboarItemParent.headerLabel;
-	console.log(vm.headerLabel);
+	
     vm.journeyDocModel = {
         totalDocument: 0,
         totalDocumentAmount: '0',
