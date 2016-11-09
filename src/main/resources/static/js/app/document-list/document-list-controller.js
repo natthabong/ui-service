@@ -12,9 +12,33 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 	vm.openDateFrom = false;
 	vm.openDateTo = false;
 	
+	vm.documentStatusDrpodowns = [{'label':'All', 'value': ''}];
+	vm.documentSummaryDisplay = {
+		totalAmount: 0,
+		documentBook: 0,
+		documentUnbook: 0
+	};
 	
-	vm.sponsorModel = {
-		sponsorName: ''
+	vm.pageModel = {
+    	pageSizeSelectModel: '20',
+        totalRecord: 0,
+		totalPage: 0,
+        currentPage: 0,
+        clearSortOrder: false
+	};
+	
+	vm.documentListModel = {
+		sponsorIdName: '',
+		sponsorId: '',
+		supplierIdName: '',
+		supplierId: '',
+		supplierCode: '',
+		uploadDateFrom: '',
+		uploadDateTo: '',		
+		documentNo: '',
+		documentStatus: vm.documentStatusDrpodowns[0].value,
+		page:0,
+		pageSize: vm.pageModel.pageSizeSelectModel
 	}
 	
 	vm.pageSizeList = [{
@@ -28,13 +52,7 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
             value: '50'
 		}];
 	
-	vm.pageModel = {
-    	pageSizeSelectModel: '20',
-        totalRecord: 0,
-		totalPage: 0,
-        currentPage: 0,
-        clearSortOrder: false
-	};
+	
 	
 	var loadSponsorURL = '';
 	
@@ -67,7 +85,10 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 		var organizeDisplayName = '';
 		var sponsorCodesDeffered = Service.requestURL('/api/me',null, 'GET');
 		sponsorCodesDeffered.promise.then(function(response){
-			vm.sponsorModel.sponsorName = response.organizeName;
+			var organizeName = response.organizeName;
+			var organizeId = response.organizeId;
+			vm.documentListModel.sponsorIdName = organizeId + " : " + organizeName;
+			vm.documentListModel.sponsorId = organizeId;
 		}).catch(function(response){
 			log.error('Sponsor error');
 		});
@@ -77,7 +98,12 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 		var organizeDisplayName = '';
 		var sponsorCodesDeffered = Service.requestURL('/api/me',null, 'GET');
 		sponsorCodesDeffered.promise.then(function(response){
-			vm.sponsorModel.supplierName = response.organizeName;
+			var organizeName = response.organizeName;
+			var organizeId = response.organizeId;
+								
+			vm.documentListModel.supplierIdName = organizeId + " : " + organizeName;
+			vm.documentListModel.supplierId = organizeId;
+			
 		}).catch(function(response){
 			log.error('Supplier error');
 		});
@@ -89,6 +115,7 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 		if(party == 'sponsor'){
 			vm.sponsorTxtDisable = true;
 			vm.loadSponsorDisplayName();
+			vm.loadDocumentDisplayConfig(vm.documentListModel.sponsorId);
 		}else if(party == 'supplier'){			
 			vm.supplierTxtDisable = true;
 			vm.loadSupplierDisplayName();			
@@ -98,9 +125,35 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 	vm.initLoad();
 	
 	vm.searchDocument = function(){
-		vm.showInfomation = true;
-		vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-		vm.loadDocumentDisplayConfig(0123);
+
+		var dataParams = getDataCriteria();
+		
+		var documentDiffered = Service.requestURL('api/documents/get', dataParams, 'POST');
+		
+		documentDiffered.promise.then(function(response){
+			vm.showInfomation = true;
+			
+			 // response success
+			vm.pageModel.totalRecord = response.totalElements;
+            vm.pageModel.currentPage = response.number;
+            vm.pageModel.totalPage = response.totalPages;
+			
+			vm.tableRowCollection = response.content;
+			vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+			vm.getDocumentSummary();
+		}).catch(function(response){
+			log.error('Search document error');
+		});
+		
+	}
+	
+	vm.getDocumentSummary = function(){
+		var dataParams = getDataCriteria();
+//		var documentSummaryDiffered = Service.requestURL('/view-summary-new-document/get', dataParams, 'POST');
+		vm.documentSummaryDisplay.totalAmount = 100000000;
+		vm.documentSummaryDisplay.documentBook = 10000000;
+		vm.documentSummaryDisplay.documentUnbook = 100000000;
+
 	}
 	
 	vm.openCalendarDateFrom = function(){
@@ -109,6 +162,25 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 	
 	vm.openCalendarDateTo = function(){
 		vm.openDateTo = true;
+	}
+	
+	function getDataCriteria (){
+		var supplierCri = vm.documentListModel.supplierId || vm.documentListModel.supplierIdName;
+		var sponsorCri = vm.documentListModel.sponsorId || vm.documentListModel.sponsorIdName;
+		
+		var dataParams = {
+			sponsorId: sponsorCri,
+			supllierId: supplierCri,
+			supplierCode: vm.documentListModel.supplierCode,
+			uploadDateFrom: SCFCommonService.convertDate(vm.documentListModel.uploadDateFrom),
+			uploadDateTo: SCFCommonService.convertDate(vm.documentListModel.uploadDateTo),
+			documentNo: vm.documentListModel.documentNo,
+			page: vm.pageModel.currentPage,
+			pageSize: vm.pageModel.pageSizeSelectModel
+//			documentStatus: vm.documentListModel.documentStatus
+		};
+		
+		return dataParams;
 	}
 	
 }]);

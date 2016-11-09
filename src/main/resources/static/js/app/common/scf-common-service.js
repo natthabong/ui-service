@@ -167,7 +167,8 @@ app.service('SCFCommonService', [
             }
             
             return result;
-        };
+        };	
+		
     }
 ]);
 
