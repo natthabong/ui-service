@@ -257,8 +257,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		 var dateFrom = vm.dateModel.dateFrom;
             var dateTo = vm.dateModel.dateTo;
 
-            vm.listTransactionModel.dateFrom = convertDate(dateFrom);
-            vm.listTransactionModel.dateTo = convertDate(dateTo);
+            vm.listTransactionModel.dateFrom = SCFCommonService.convertDate(dateFrom);
+            vm.listTransactionModel.dateTo = SCFCommonService.convertDate(dateTo);
 
             if (criteria === undefined) {
                 vm.pageModel.currentPage = '0';
@@ -340,8 +340,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		var dateFrom = vm.dateModel.dateFrom;
 		var dateTo = vm.dateModel.dateTo;
 		
-		vm.listTransactionModel.dateFrom = convertDate(dateFrom);
-		vm.listTransactionModel.dateTo = convertDate(dateTo);
+		vm.listTransactionModel.dateFrom = SCFCommonService.convertDate(dateFrom);
+		vm.listTransactionModel.dateTo = SCFCommonService.convertDate(dateTo);
 		
 		var transactionModel = angular.extend(vm.listTransactionModel,{
 			page: 0,
@@ -380,8 +380,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		
 		if(backAction === true){
 			vm.listTransactionModel = $cookieStore.get(listStoreKey);
-			vm.dateModel.dateFrom = convertStringTodate(vm.listTransactionModel.dateFrom);
-			vm.dateModel.dateTo = convertStringTodate(vm.listTransactionModel.dateTo);			
+			vm.dateModel.dateFrom = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateFrom);
+			vm.dateModel.dateTo = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateTo);			
 			vm.searchTransaction();
 		}
 		$cookieStore.remove(listStoreKey);		
@@ -447,22 +447,22 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 
 }]);
 
-function convertDate(dateTime){
-	var result = '';
-	if(dateTime != undefined && dateTime != ''){
-		var date = dateTime.getDate();		
-		var month = (dateTime.getMonth() + 1);
-		var year = dateTime.getFullYear();
-		result =  date +'/' + month + '/' + year;
-	}
-	return result;
-}
+//function convertDate(dateTime){
+//	var result = '';
+//	if(dateTime != undefined && dateTime != ''){
+//		var date = dateTime.getDate();		
+//		var month = (dateTime.getMonth() + 1);
+//		var year = dateTime.getFullYear();
+//		result =  date +'/' + month + '/' + year;
+//	}
+//	return result;
+//}
 
-function convertStringTodate(date){
-	result = '';
-	if(date != undefined && date != null && date != ''){
-		var dateSplite = date.split('/');
-		result = new Date(dateSplite[2] + '-'+ dateSplite[1]+ '-' + dateSplite[0]);
-	}
-	return result
-}
+//function convertStringTodate(date){
+//	result = '';
+//	if(date != undefined && date != null && date != ''){
+//		var dateSplite = date.split('/');
+//		result = new Date(dateSplite[2] + '-'+ dateSplite[1]+ '-' + dateSplite[0]);
+//	}
+//	return result
+//}

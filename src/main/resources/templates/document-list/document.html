@@ -21,7 +21,7 @@
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor name' | translate}}: </label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
 									<scf-input-text id="sponsorName" ng-disabled="ctrl.sponsorTxtDisable" 
-									ng-model="ctrl.documentListModel.sponsorName"></scf-input-text>
+									ng-model="ctrl.documentListModel.sponsorIdName"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-4"></div>
 							</div>
@@ -31,7 +31,7 @@
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier name' | translate}} : </label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
 									<scf-input-text id="supplierName" ng-disabled="ctrl.supplierTxtDisable"
-									 ng-model="ctrl.documentListModel.supplierName"></scf-input-text>
+									 ng-model="ctrl.documentListModel.supplierIdName"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-4"></div>
 							</div>
@@ -53,10 +53,10 @@
 										| translate}}: </label>
 									<scf-date-picker-from text-id="date-from-calendar"
 										button-id="date-from-calendar-button"
-										text-model="ctrl.documentListModel.dateFrom"
+										text-model="ctrl.documentListModel.uploadDateFrom"
 										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
 										open-calendar-action="ctrl.openCalendarDateFrom()"
-										max-date="ctrl.documentListModel.dateTo"> </scf-date-picker-from>
+										max-date="ctrl.documentListModel.uploadDateTo"> </scf-date-picker-from>
 
 								</div>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
@@ -64,10 +64,10 @@
 										| translate}}: </label>
 									<scf-date-picker-to text-id="date-to-calendar"
 										button-id="date-to-calendar-button"
-										text-model="ctrl.documentListModel.dateTo"
+										text-model="ctrl.documentListModel.uploadDateTo"
 										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
 										open-calendar-action="ctrl.openCalendarDateTo()"
-										min-date="ctrl.documentListModel.dateFrom"> </scf-date-picker-to>
+										min-date="ctrl.documentListModel.uploadDateFrom"> </scf-date-picker-to>
 								</div>
 								<div class="col-md-3"></div>
 							</div>
@@ -86,8 +86,11 @@
 								<label for="status"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status' | translate}} :</label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown ng-disabled="true" id="sponsor-payment-date-dropdown"
-										></scf-dropdown>
+									<scf-dropdown
+									id="document-status-dropdown" 										
+									ng-model="ctrl.documentListModel.documentStatus"
+									component-data="ctrl.documentStatusDrpodowns"
+									></scf-dropdown>
 								</div>
 								<div class="col-md-6 col-sm-5">
 									<scf-button id="search-button" class="btn-default"
@@ -146,9 +149,9 @@
 						<div id="bottom-sticker">
 							<div class="col-md-12 col-sm-12">
 								<div class="form-horizontal">
-									<label class="col-md-2 col-sm-3"><b>{{'Transaction amount' | translate}} :</b></label>									
+									<label class="col-md-2 col-sm-3"><b>{{'Total amount' | translate}} :</b></label>									
 									<div class="col-md-1 col-sm-2 text-right">
-										<span id="document-list-transaction-amount-label">100,000,000.00</span>
+										<span id="document-list-transaction-amount-label" ng-bind="ctrl.documentSummaryDisplay.totalAmount | number"></span>
 									</div>
 									<div class="col-md-9 col-sm-7">
 										<span id="wait-for-approve-amount-label" ng-bind="'THB' | translate"></span>
@@ -160,7 +163,7 @@
 								<div class="form-horizontal">
 									<label class="col-md-2 col-sm-3" ><b>{{'Book' | translate}} :</b></label>									
 									<div class="col-md-1 col-sm-2 text-right">
-										<span id="document-list-book-amount-label">100,000,000.00</span>
+										<span id="document-list-book-amount-label" ng-bind="ctrl.documentSummaryDisplay.documentBook | number"></span>
 									</div>
 									<div class="col-md-9 col-sm-7">
 										<span ng-bind="'THB' | translate"></span>
@@ -172,7 +175,7 @@
 								<div class="form-horizontal">
 									<label class="col-md-2 col-sm-3" ><b>{{'Unbook' | translate}} :</b></label>									
 									<div class="col-md-1 col-sm-2 text-right">
-										<span id="document-list-unbook-amount-label">100,000,000.00</span>
+										<span id="document-list-unbook-amount-label" ng-bind="ctrl.documentSummaryDisplay.documentUnbook | number"></span>
 									</div>
 									<div class="col-md-9 col-sm-7">
 										<span ng-bind="'THB' | translate"></span>
