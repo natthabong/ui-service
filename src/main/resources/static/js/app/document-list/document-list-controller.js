@@ -170,7 +170,12 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 	
 	vm.getDocumentSummary = function(){
 		var dataParams = getDataCriteria();
-//		var documentSummaryDiffered = Service.requestURL('/view-summary-new-document/get', dataParams, 'POST');
+		var documentSummaryDiffered = Service.requestURL('/api/summary-document-status/get', dataParams, 'POST');
+		documentSummaryDiffered.promise.then(function(response){
+			
+		}).catch(function(response){
+			log.error("Document summary error");
+		});
 		vm.documentSummaryDisplay.totalAmount = 100000000;
 		vm.documentSummaryDisplay.documentBook = 10000000;
 		vm.documentSummaryDisplay.documentUnbook = 100000000;
@@ -197,8 +202,8 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 			uploadDateTo: SCFCommonService.convertDate(vm.documentListModel.uploadDateTo),
 			documentNo: vm.documentListModel.documentNo,
 			page: vm.pageModel.currentPage,
-			pageSize: vm.pageModel.pageSizeSelectModel
-//			documentStatus: vm.documentListModel.documentStatus
+			pageSize: vm.pageModel.pageSizeSelectModel,
+			documentStatus: vm.documentListModel.documentStatus || null
 		};
 		
 		return dataParams;
