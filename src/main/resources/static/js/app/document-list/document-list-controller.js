@@ -15,8 +15,9 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 	vm.defaultPage = 0;
 	
 	vm.documentStatusDrpodowns = [{'label':'All', 'value': ''}];
+	
 	vm.documentSummaryDisplay = {
-		totalAmount: 0,
+		totalDocumentAmount: 0,
 		documentBook: 0,
 		documentUnbook: 0
 	};
@@ -171,8 +172,17 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 	vm.getDocumentSummary = function(){
 		var dataParams = getDataCriteria();
 		var documentSummaryDiffered = Service.requestURL('/api/summary-document-status/get', dataParams, 'POST');
+		
 		documentSummaryDiffered.promise.then(function(response){
+			response.forEach(function(data){
+				if(data.status == 'BOOKED'){
+					vm.documentSummaryDisplay.documentBook = data.totalOutstandingAmount;
+				}else if(data.status == 'NEW'){
+					vm.documentSummaryDisplay.documentUnbook = data.totalOutstandingAmount;
+				}
+			});
 			
+			vm.documentSummaryDisplay.totalDocumentAmount = summaryTotalDocumentAmount(vm.documentSummaryDisplay.documentBook, vm.documentSummaryDisplay.documentUnbook);
 		}).catch(function(response){
 			log.error("Document summary error");
 		});
@@ -207,6 +217,14 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 		};
 		
 		return dataParams;
+	}
+	
+	function summaryTotalDocumentAmount(...amounts){
+		var summaryAmount = 0;
+		amounts.forEach(function(amount){
+			summaryAmount += amount;
+		});
+		return summaryAmount;
 	}
 	
 }]);
