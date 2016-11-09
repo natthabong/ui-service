@@ -102,7 +102,7 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 		sponsorCodesDeffered.promise.then(function(response){
 			var organizeName = response.organizeName;
 			var organizeId = response.organizeId;
-			vm.documentListModel.sponsorIdName = organizeId + " : " + organizeName;
+			vm.documentListModel.sponsorIdName = organizeId + ":" + organizeName;
 			vm.documentListModel.sponsorId = organizeId;
 			vm.loadDocumentDisplayConfig(organizeId);
 		}).catch(function(response){
@@ -117,7 +117,7 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 			var organizeName = response.organizeName;
 			var organizeId = response.organizeId;
 								
-			vm.documentListModel.supplierIdName = organizeId + " : " + organizeName;
+			vm.documentListModel.supplierIdName = organizeId + ":" + organizeName;
 			vm.documentListModel.supplierId = organizeId;
 			
 		}).catch(function(response){
