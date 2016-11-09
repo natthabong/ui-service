@@ -186,10 +186,6 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 		}).catch(function(response){
 			log.error("Document summary error");
 		});
-		vm.documentSummaryDisplay.totalAmount = 100000000;
-		vm.documentSummaryDisplay.documentBook = 10000000;
-		vm.documentSummaryDisplay.documentUnbook = 100000000;
-
 	}
 	
 	vm.openCalendarDateFrom = function(){
