@@ -11,6 +11,8 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 	vm.dateFormat = "dd/MM/yyyy";
 	vm.openDateFrom = false;
 	vm.openDateTo = false;
+	vm.defaultPageSize = '20';
+	vm.defaultPage = 0;
 	
 	vm.documentStatusDrpodowns = [{'label':'All', 'value': ''}];
 	vm.documentSummaryDisplay = {
@@ -20,10 +22,10 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 	};
 	
 	vm.pageModel = {
-    	pageSizeSelectModel: '20',
+    	pageSizeSelectModel: vm.defaultPageSize,
         totalRecord: 0,
 		totalPage: 0,
-        currentPage: 0,
+        currentPage: vm.defaultPage,
         clearSortOrder: false
 	};
 	
@@ -37,7 +39,7 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 		uploadDateTo: '',		
 		documentNo: '',
 		documentStatus: vm.documentStatusDrpodowns[0].value,
-		page:0,
+		page: vm.defaultPage,
 		pageSize: vm.pageModel.pageSizeSelectModel
 	}
 	
@@ -63,7 +65,7 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
                 id: 'no-{value}-label'
 			},
             displaySelect: {
-            	label: '<input type="checkbox" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
+            	label: '<input type="checkbox" ng-disabled="true" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
 				cssTemplate: 'text-center',
                 cellTemplate: '<input type="checkbox" ng-show="data.documentStatus==ctrl.documentNewStatus" checklist-model="ctrl.documentSelects" checklist-value="data" ng-click="ctrl.selectDocument()"/>',
                 displayPosition: 'first',
@@ -74,10 +76,22 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
         columns: []
 	};
 	
+	var columnStatus = {		
+            field: 'statusMessageKey',
+            label: 'Status',
+            sortData: true,
+            idValueField: 'transactionNo',
+            id: 'status-{value}',
+			filterType: 'translate',
+            cssTemplate: 'text-center'        
+	};
+	
 	vm.loadDocumentDisplayConfig = function(sponsorId) {
 		var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId);
         displayConfig.promise.then(function(response) {
         	vm.dataTable.columns = response;
+			
+			vm.dataTable.columns.push(columnStatus);
 		});
 	}
 	
@@ -89,6 +103,7 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 			var organizeId = response.organizeId;
 			vm.documentListModel.sponsorIdName = organizeId + " : " + organizeName;
 			vm.documentListModel.sponsorId = organizeId;
+			vm.loadDocumentDisplayConfig(organizeId);
 		}).catch(function(response){
 			log.error('Sponsor error');
 		});
@@ -114,8 +129,7 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 
 		if(party == 'sponsor'){
 			vm.sponsorTxtDisable = true;
-			vm.loadSponsorDisplayName();
-			vm.loadDocumentDisplayConfig(vm.documentListModel.sponsorId);
+			vm.loadSponsorDisplayName();			
 		}else if(party == 'supplier'){			
 			vm.supplierTxtDisable = true;
 			vm.loadSupplierDisplayName();			
@@ -124,8 +138,15 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 	
 	vm.initLoad();
 	
-	vm.searchDocument = function(){
+	vm.searchDocument = function(pagingModel){
 
+		if (pagingModel === undefined) {
+			vm.pageModel.pageSizeSelectModel = vm.defaultPageSize;
+			vm.pageModel.currentPage = vm.defaultPage;
+		}else{
+			vm.pageModel.pageSizeSelectModel = pagingModel.pageSize;
+			vm.pageModel.currentPage = pagingModel.page;
+		}
 		var dataParams = getDataCriteria();
 		
 		var documentDiffered = Service.requestURL('api/documents/get', dataParams, 'POST');
@@ -149,7 +170,12 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 	
 	vm.getDocumentSummary = function(){
 		var dataParams = getDataCriteria();
-//		var documentSummaryDiffered = Service.requestURL('/view-summary-new-document/get', dataParams, 'POST');
+		var documentSummaryDiffered = Service.requestURL('/api/summary-document-status/get', dataParams, 'POST');
+		documentSummaryDiffered.promise.then(function(response){
+			
+		}).catch(function(response){
+			log.error("Document summary error");
+		});
 		vm.documentSummaryDisplay.totalAmount = 100000000;
 		vm.documentSummaryDisplay.documentBook = 10000000;
 		vm.documentSummaryDisplay.documentUnbook = 100000000;
@@ -176,8 +202,8 @@ angular.module('scfApp').controller('DocumentListController',['Service', '$state
 			uploadDateTo: SCFCommonService.convertDate(vm.documentListModel.uploadDateTo),
 			documentNo: vm.documentListModel.documentNo,
 			page: vm.pageModel.currentPage,
-			pageSize: vm.pageModel.pageSizeSelectModel
-//			documentStatus: vm.documentListModel.documentStatus
+			pageSize: vm.pageModel.pageSizeSelectModel,
+			documentStatus: vm.documentListModel.documentStatus || null
 		};
 		
 		return dataParams;

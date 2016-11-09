@@ -73,7 +73,11 @@
 	"Confirm": "Confirm",
 	"Sponsor name": "Sponsor name",
 	"Supplier name": "Supplier name",
-	
+	"new": "New",
+	"booked": "Booked",
+	"in_progress": "In progress",
+	"used": "Used",
+	"wait_for_bank_processing": "Wait for bank processing",
 	"_comment": "Menu",
 	"transaction": "Transaction",
 	"transaction-list": "Transaction list",

@@ -378,7 +378,7 @@
                 } else {
                     result = $filter(filterType)(data, filterFormat);
                 }
-                result = $filter(filterType)(data, filterFormat);
+//                result = $filter(filterType)(data, filterFormat);
                 return result;
             }
 
