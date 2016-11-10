@@ -67,9 +67,9 @@ angular.module('scfApp').controller('DocumentListController',['$scope','Service'
                 id: 'no-{value}-label'
 			},
             displaySelect: {
-            	label: '<input type="checkbox" ng-disabled="true" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
+            	label: '<input type="checkbox" ng-show="false" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
 				cssTemplate: 'text-center',
-                cellTemplate: '<input type="checkbox" ng-show="data.documentStatus==ctrl.documentNewStatus" checklist-model="ctrl.documentSelects" checklist-value="data" ng-click="ctrl.selectDocument()"/>',
+                cellTemplate: '<input type="checkbox" ng-show="false" checklist-model="ctrl.documentSelects" checklist-value="data" ng-click="ctrl.selectDocument()"/>',
                 displayPosition: 'first',
 				idValueField: 'template',
 				id: 'document-{value}-checkbox'
