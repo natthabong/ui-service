@@ -20,7 +20,7 @@
     "Value of document": "Value of document",
     "Sponsor payment date": "Sponsor payment date",
     "pre-percentage": "Prepercentage",
-    "numbero": "No.",
+    "numbero": "ลำดับที่",
     "due-date": "วันครบกำหนดชำระ", 
     "Payment date": "Payment date",
     "Document date": "วันที่เอกสาร",
@@ -179,7 +179,7 @@
 	"document-list-supplier": "Document list",
 	"document-bank": "Document",
 	"document-list-bank": "Document list",
-	"Book": "Book",
-	"Unbook": "Unbook",
+	"BOOKED": "Book",
+	"UNBOOK": "Unbook",
 	"All": "All"
 }

@@ -3,8 +3,8 @@ app.service('SCFCommonService', [
     '$filter',
     '$http',
     '$log',
-    '$q',
-    function ($filter, $http, $log, $q) {
+    '$q', 'Service',
+    function ($filter, $http, $log, $q, Service) {
         var vm = this;
         var log = $log;
         vm.splitePage = function (pageSize, currentPage, totalRecord) {
@@ -167,9 +167,8 @@ app.service('SCFCommonService', [
             }
             
             return result;
-        };	
-		
-    }
+        };
+	}
 ]);
 
 app.service('PageNavigation', [
@@ -238,6 +237,68 @@ app.service('PageNavigation', [
 
     }
 ]);
+
+app.service('PagingController',['$http','$log','$q', 'Service', 'SCFCommonService',function($http, $log, $q, Service, SCFCommonService){
+	var vm = this;
+	var log = $log;
+	var apiUrl = '';	
+	var methodRequestUrl = '';
+	var defaultPage = 0, defaultPageSize = '20';
+	
+	vm.postParams = {};
+	vm.tableRowCollection = {};
+	vm.splitePageTxt = '';
+
+	
+	vm.pagingModel = {
+				pageSizeSelectModel: defaultPageSize,
+				totalRecord: 0,
+				totalPage: 0,
+        		currentPage: defaultPage,
+        		clearSortOrder: false
+	}
+	
+	vm.create = function(url, criteriaData, methodRequest){
+		apiUrl = url;
+		vm.postParams = criteriaData;			
+		methodRequestUrl = methodRequest || 'POST';
+		return vm;
+	}
+	
+	vm.search = function(pagingData){
+				var diferred = $q.defer();
+				if (pagingData === undefined) {
+					vm.pagingModel.pageSizeSelectModel = defaultPageSize;
+					vm.pagingModel.currentPage = defaultPage;
+				}else{
+					vm.pagingModel.pageSizeSelectModel = pagingData.pageSize;
+					vm.pagingModel.currentPage = pagingData.page;
+				}
+				var criteriaData = prepareCriteria(vm.pagingModel, vm.postParams);			
+				
+				var searchDeferred = Service.requestURL(apiUrl, criteriaData, methodRequestUrl);
+				
+				searchDeferred.promise.then(function(response){					
+					vm.pagingModel.totalRecord = response.totalElements;
+            		vm.pagingModel.currentPage = response.number;
+            		vm.pagingModel.totalPage = response.totalPages;					
+					vm.tableRowCollection = response.content;
+					vm.splitePageTxt = SCFCommonService.splitePage(vm.pagingModel.pageSizeSelectModel, vm.pagingModel.currentPage, vm.pagingModel.totalRecord);
+					diferred.resolve(response);
+				}).catch(function(response){
+					log.error('Search data error');
+					diferred.reject(response);
+				});
+				return diferred;
+			}
+			
+	function prepareCriteria(pagingModel, postParams){
+		var criteria = postParams;
+		criteria.pageSize = pagingModel.pageSizeSelectModel;
+		criteria.page = pagingModel.currentPage;
+		return criteria;
+	}
+}]);
 
 var defaultColumDisplay = [{
     field: 'sponsorPaymentDate',
