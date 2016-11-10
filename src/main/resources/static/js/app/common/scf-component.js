@@ -78,7 +78,6 @@
 						textResult+= '\n';
 						textResult += text.substring(85,170);
 					}else{
-						console.log(text);
 						textResult += text.substring(0,85);
 						textResult += '\n';
 						textResult += text.substring(85,170);
@@ -252,7 +251,7 @@
                         if (tableOption.displayRowNo !== undefined) {
                         	var rowData = {
                                 field: 'no',
-                                label: 'No.',
+                                label: '<span ng-bind="\'numbero\' | translate"></span>',
                                 id: tableOption.displayRowNo['id'],
                                 idValueField: tableOption.displayRowNo['idValueField']
                             };
@@ -287,7 +286,7 @@
 
             }
         }])
-        .directive('scfTh', ['$compile', function($compile) {
+        .directive('scfTh', ['$compile','$filter', function($compile, $filter) {
             return {
                 restrict: 'A',
                 replace: true,
@@ -297,9 +296,9 @@
             function scfLink(scope, elements, attrs) {
 				
                 scope.$watch(attrs.scfTh, function(column) {
-                    var htmlText = column.label;
+                    var htmlText = column.label;					
                     if (column.sortable) {
-                        htmlText = '<span sort by="{{column.field}}" reverse="reverse" order="orders">' + column.label + '</span>';
+                        htmlText = '<span sort by="{{column.field}}" reverse="reverse" order="orders" >' + htmlText + '</span>';
                     }
                     elements.html(htmlText);
                     $compile(elements.contents())(scope);

@@ -40,7 +40,7 @@
 								<label for="supplier-code-textbox"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier code' | translate}} : </label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
-									<scf-input-text id="supplier-code-textbox" ng-model="ctrl.documentListModel.supplierCode"></scf-input-text>
+									<scf-input-text id="supplier-code-textbox" ng-disabled="ctrl.supplierCodeDisable" ng-model="ctrl.documentListModel.supplierCode"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-4"></div>
 							</div>
@@ -51,7 +51,7 @@
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
 									<label for="date-from-calendar" class="control-label">{{'From'
 										| translate}}: </label>
-									<scf-date-picker-from text-id="upload-date-from-calendar"
+									<scf-date-picker-from text-id="upload-date-from-textbox"
 										button-id="date-from-calendar-button"
 										text-model="ctrl.documentListModel.uploadDateFrom"
 										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
@@ -62,7 +62,7 @@
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
 									<label for="date-to-calendar" class="control-label">{{'to'
 										| translate}}: </label>
-									<scf-date-picker-to text-id="upload-date-to-calendar"
+									<scf-date-picker-to text-id="upload-date-to-textbox"
 										button-id="date-to-calendar-button"
 										text-model="ctrl.documentListModel.uploadDateTo"
 										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
@@ -93,7 +93,7 @@
 									></scf-dropdown>
 								</div>
 								<div class="col-md-6 col-sm-5">
-									<scf-button id="search-button" class="btn-default"
+									<scf-button id="search-button" class="btn-default" ng-disabled="ctrl.searchBtnDisable"
 										ng-click="ctrl.searchDocument()" ng-bind="'Search' | translate"></scf-button>
 								</div>
 							</div>
@@ -113,12 +113,12 @@
 								<div class="col-md-11 col-sm-11 text-right">
 									<div class="row">
 										<div class="col-md-12 col-sm-12">
-											<span> <b ng-bind="ctrl.splitePageTxt"
+											<span> <b ng-bind="ctrl.pagingCongroller.splitePageTxt"
 												id="document-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 													dropdown-id="page-limit-dropdown"
-													page-size-model="ctrl.pageModel.pageSizeSelectModel"
-													total-page="ctrl.pageModel.totalPage"
-													current-page="ctrl.pageModel.currentPage"
+													page-size-model="ctrl.pagingCongroller.pagingModel.pageSizeSelectModel"
+													total-page="ctrl.pagingCongroller.pagingModel.totalPage"
+													current-page="ctrl.pagingCongroller.pagingModel.currentPage"
 													page-size-list="ctrl.pageSizeList"
 													page-action="ctrl.searchDocument"></scf-pagination>
 											</span>
@@ -132,10 +132,10 @@
 								<div class="col-md-12">
 									<scf-data-table id="document-table"
 										component-config="ctrl.dataTable"
-										component-datas="ctrl.tableRowCollection"
-										current-page="ctrl.pageModel.currentPage"
-										record-per-page="ctrl.pageModel.pageSizeSelectModel"
-										clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
+										component-datas="ctrl.pagingCongroller.tableRowCollection"
+										current-page="ctrl.pagingCongroller.pagingModel.currentPage"
+										record-per-page="ctrl.pagingCongroller.pagingModel.pageSizeSelectModel"
+										clear-sort-order="ctrl.pagingCongroller.pagingModel.clearSortOrder"></scf-data-table>
 								</div>
 								<div id="fixed-bottom" class="col-md-12"></div>
 							</div>
@@ -159,29 +159,33 @@
 								</div>								
 							</div>
 							
+<!--
 							<div class="col-md-12 col-sm-12">
 								<div class="form-horizontal">
-									<label class="col-md-2 col-sm-3" ><b>{{'Book' | translate}} :</b></label>									
+									<label class="col-md-2 col-sm-3"><b>{{'BOOKED' | translate}} :</b></label>									
 									<div class="col-md-1 col-sm-2 text-right">
-										<span id="document-list-book-amount-label" ng-bind="ctrl.documentSummaryDisplay.documentBook | number"></span>
+										<span id="document-list-booked-amount-label" ng-bind="ctrl.document.totalOutstandingAmount | number"></span>
 									</div>
 									<div class="col-md-9 col-sm-7">
 										<span ng-bind="'THB' | translate"></span>
 									</div>									
-								</div>
+								</div>								
 							</div>
+-->
+
+							<div class="col-md-12 col-sm-12" ng-repeat="document in ctrl.documentSummaryDisplay.documents track by $id(document)">
+								<div class="form-horizontal">
+									<label class="col-md-2 col-sm-3" ><b>{{document.status | translate}} :</b></label>									
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="document-list-{{document.status}}-amount-label" ng-bind="document.totalOutstandingAmount | number"></span>
+									</div>
+									<div class="col-md-9 col-sm-7">
+										<span ng-bind="'THB' | translate"></span>
+									</div>									
+								</div>								
+							</div>
+
 							
-							<div class="col-md-12 col-sm-12">
-								<div class="form-horizontal">
-									<label class="col-md-2 col-sm-3" ><b>{{'Unbook' | translate}} :</b></label>									
-									<div class="col-md-1 col-sm-2 text-right">
-										<span id="document-list-unbook-amount-label" ng-bind="ctrl.documentSummaryDisplay.documentUnbook | number"></span>
-									</div>
-									<div class="col-md-9 col-sm-7">
-										<span ng-bind="'THB' | translate"></span>
-									</div>									
-								</div>
-							</div>
 							<div class="col-md-12 col-sm-12 text-right">
 								<scf-button id="next-button" type="submit"
 									ng-click="ctrl.nextStep()">{{'Delete' | translate}}</scf-button>
