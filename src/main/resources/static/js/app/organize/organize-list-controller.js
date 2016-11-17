@@ -30,11 +30,11 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
     }
     
 	vm.newOrganizeProfile = function(){
-		PageNavigation.gotoPage('/api/v1/organize-customers/');
+		PageNavigation.gotoPage('/');
 	}
     
 	vm.editOrganizeProfile = function(data){
-		PageNavigation.gotoPage('/api/v1/organize-customers/'+data.organizeId,{
+		PageNavigation.gotoPage('/'+data.organizeId,{
 			
 		});
 	}
