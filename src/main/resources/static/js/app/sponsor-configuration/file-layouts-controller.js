@@ -103,7 +103,6 @@ angular
 								
 								serviceDiferred.promise.then(function(response){
 									vm.data = response;
-									log.info(vm.data[0].completed);
 									vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.page, vm.pageModel.totalRecord);
 								}).catch(function(response){
 									log.error('Load File layouts data error');
