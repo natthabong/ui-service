@@ -55,7 +55,7 @@ angular
 								},
 								columns : [
 										{
-											field : 'fileLayoutName',
+											field : 'displayName',
 										    label: 'File layout name',
 										    idValueField: 'template',
 										    id: 'file-layouts-{value}-file-layout-name-label',
@@ -66,40 +66,44 @@ angular
 											label: '',
 											cssTemplate: 'text-center',
 											sortData: false,
-											cellTemplate: '<scf-button id="file-layouts-{{data.sponsorIntegrateFileConfigId}}-config-button" class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a file layout"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
+											cellTemplate: '<scf-button id="layout-{{data.sponsorIntegrateFileConfigId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a file layout" ng-hide="!data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
+											'<scf-button id="layout-{{data.sponsorIntegrateFileConfigId}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a file layout" ng-hide="data.completed"><img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>' +
 											'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.searchTransaction()" title="Delete a file layout"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 										} ]
 							};
 
-//							vm.data = [];
-							vm.data = [{
-						    	"fileLayoutName" : "Big C file layout"
-						    }]
+							vm.data = [];
+//							vm.data = [{
+//						    	"displayName" : "Big C file layout"
+//						    }]
 
 							vm.decodeBase64 = function(data) {
 								return atob(data);
 							}
 							
-							vm.initLoad = function() {
-				                vm.pageModel.currentPage = 0;
-				                vm.pageModel.pageSizeSelectModel = '20';
-//								vm.searchFileLayouts();	
-							}
-
-							vm.initLoad();
-							
 							vm.searchFileLayouts = function(){	
 								callService();
 							};
 							
+							vm.initLoad = function() {
+				                vm.pageModel.currentPage = 0;
+				                vm.pageModel.pageSizeSelectModel = '20';
+								vm.searchFileLayouts();	
+							}
+
+							vm.initLoad();
+							
 							function callService(){
-								var fileLayoutsUrl = '/api/v1/organize-customers/<org id>/sponsor-configs/SFP/layouts';
+								var sponsorId = $scope.sponsorId
+								var fileLayoutsUrl = '/api/v1/organize-customers/'+sponsorId+'/sponsor-configs/SFP/layouts';
 								var serviceDiferred = Service.requestURL(fileLayoutsUrl, {
-									limit: 10,
-									offset: 0
-								});						
+									offset: 0,
+									limit: 20
+								}, 'GET');					
+								
 								serviceDiferred.promise.then(function(response){
-									vm.data = response.content;
+									vm.data = response;
+									log.info(vm.data[0].completed);
 									vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.page, vm.pageModel.totalRecord);
 								}).catch(function(response){
 									log.error('Load File layouts data error');
