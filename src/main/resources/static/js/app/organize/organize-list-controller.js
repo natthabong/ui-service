@@ -4,7 +4,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	var log = $log;
 	
 	vm.organizeName = '';
-	vm.splitePageTxt = '';
+	vm.splitePageTxt = '1-3 of 3';
 	vm.currentPage = 0;
     vm.pageModel = {
             pageSizeSelectModel: '20',
