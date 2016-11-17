@@ -9,9 +9,25 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
     vm.pageModel = {
             pageSizeSelectModel: '20',
             totalRecord: 0,
-			totalPage: 0,
+			totalPage: 1,
     		clearSortOrder: false
     };
+    vm.pageSizeList = [ {
+		label : '10',
+		value : '10'
+	}, {
+		label : '20',
+		value : '20'
+	}, {
+		label : '50',
+		value : '50'
+	} ];
+    
+    vm.currentPage = 1;
+    
+    vm.searchOrganize = function(){
+    	
+    }
     
 	vm.newOrganizeProfile = function(){
 		PageNavigation.gotoPage('/api/v1/organize-customers/');
@@ -24,8 +40,8 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	}
 	
 	vm.sponsorConfig = function(data){
-		PageNavigation.gotoPage('/sponsor-configuration'+data.organizeId, {
-			organizeModel: data
+		PageNavigation.gotoPage('/api/v1/organize-customers/'+data.organizeId, {
+			organize: data
 		});
 	}
 	
@@ -33,17 +49,20 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
     	"organizeId" : "00022356",
     	"organizeName":"BIG C SUPERCENTER PUBLIC CO.,LTD",
     	"sponsor":1,
-    	"active":"Active"
+    	"active":"Active",
+    	"isComplete":1,
     },{
     	"organizeId" : "00025408",
     	"organizeName":"EK-CHAI DISTRIBUITION SYSTEM CO.,LTD",
     	"sponsor":1,
-    	"active":"Active"
+    	"active":"Active",
+    	"isComplete":0,
     },{
     	"organizeId" : "00047384",
     	"organizeName":"MASS SUPPLY SERVICE CO.,LTD,",
     	"sponsor":0,
-    	"active":"Active"
+    	"active":"Active",
+    	"isComplete":0,	
     }]
     
     vm.dataTable = {
@@ -66,7 +85,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
                 idValueField: 'template',
                 id: 'organize-{value}-sponsor-flag-label',
                 cssTemplate: 'text-center',
-				cellTemplate: '<img	style="height: 16px; width: 16px;" data-ng-src="img/checkmark.png"/>'
+				cellTemplate: '<img	style="height: 16px; width: 16px;" ng-hide="data.sponsor==false" data-ng-src="img/checkmark.png"/>'
             }, {
                 field: 'active',
                 label: 'Active',
@@ -78,7 +97,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 				label: 'Action',
 				cssTemplate: 'text-center',
 				sortable: false,
-				cellTemplate: '<scf-button class="btn-default gec-btn-action" id="organize-{{data.organizeId}}-profile-button" ng-click="ctrl.editOrganizeProfile(data)" title="Edit Profile"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button> <scf-button class="btn-default gec-btn-action" id="organize-{{data.organizeId}}-sponsor-config-button" ng-click="ctrl.sponsorConfig(data)" title="Edit Profile"><i class="fa fa-cog" aria-hidden="true"></i></scf-button><scf-button class="btn-default gec-btn-action" id="organize-{{data.organizeId}}-sponsor-config-button" ng-click="ctrl.sponsorConfig(data)" title="Edit Profile"><img data-ng-src="img/gear_warning.png" style="height: 16px; width: 16px;"/></scf-button>'
+				cellTemplate: '<scf-button class="btn-default gec-btn-action" id="organize-{{data.organizeId}}-profile-button" ng-click="ctrl.editOrganizeProfile(data)" title="Edit Profile"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button><scf-button class="btn-default gec-btn-action" ng-disabled="data.sponsor==false" id="organize-{{data.organizeId}}-sponsor-config-button" ng-click="ctrl.sponsorConfig(data)" title="Edit Profile"> <i class="fa fa-cog" aria-hidden="true" ng-hide="data.isComplete==true"></i> <img ng-hide="data.isComplete==false" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/> </scf-button>'
 			}]
     }
     
