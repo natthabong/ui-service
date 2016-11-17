@@ -8,11 +8,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import gec.scf.util.AjaxUtils;
 
 @Controller
+@RequestMapping(path="/sponsor-configuration")
 public class SponsorConfigController {
 	private static String SPONSOR_CONFIGURATION = "/sponsor-configuration/sponsor-configuration-template";
 	private static String FILE_LAYOUTS = "/sponsor-configuration/file-layouts";
 
-	@RequestMapping(path = "/sponsor-configuration", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public String sponsorConfiguration(
 			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {

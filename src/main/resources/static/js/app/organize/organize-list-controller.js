@@ -1,4 +1,4 @@
-angular.module('scfApp').controller('OrganizeListController',['$scope','Service', '$stateParams', '$log', 'SCFCommonService','PagingController', function($scope,Service, $stateParams, $log, SCFCommonService,PagingController ){
+angular.module('scfApp').controller('OrganizeListController',['$scope','Service', '$stateParams', '$log', 'SCFCommonService','PagingController','PageNavigation', '$state', function($scope,Service, $stateParams, $log, SCFCommonService,PagingController, PageNavigation, $state ){
 
 	var vm = this;
 	var log = $log;
@@ -40,9 +40,8 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	}
 	
 	vm.sponsorConfig = function(data){
-		PageNavigation.gotoPage('/api/v1/organize-customers/'+data.organizeId, {
-			organize: data
-		});
+		var params = {organizeModel: data};
+		PageNavigation.gotoPage('/sponsor-configuration', params);
 	}
 	
     vm.data = [{
