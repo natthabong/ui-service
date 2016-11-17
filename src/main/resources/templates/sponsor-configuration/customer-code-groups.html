@@ -10,8 +10,7 @@
 						page-size-model="ctrl.pageModel.pageSizeSelectModel"
 						total-page="ctrl.pageModel.totalPage"
 						current-page="ctrl.pageModel.currentPage"
-						page-size-list="ctrl.pageSizeList"
-						page-action="ctrl.searchTransaction"
+						page-size-list="ctrl.pageSizeList" page-action="ctrl.search"
 						first-page-button-id="customer-code-groups-first-page-button"
 						back-page-button-id="customer-code-groups-back-page-button"
 						next-page-button-id="customer-code-groups-next-page-button"
@@ -22,6 +21,12 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
+				<br />
+				<div class="col-md-12 col-sm-12 text-right">
+					<scf-button class="btn-default gec-btn-action" ng-disabled="true"
+						title="New a customer code group"> <i
+						class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
+				</div>
 				<scf-data-table id="customer-code-groups-table"
 					component-config="ctrl.dataTable" component-datas="ctrl.data"
 					current-page="ctrl.pageModel.currentPage"

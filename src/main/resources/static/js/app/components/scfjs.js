@@ -10,7 +10,8 @@
 
 	app.factory('Service', [ '$http', '$q', function($http, $q) {
 		return {
-			requestURL : requestURL
+			requestURL : requestURL,
+			doGet : doGet
 		}
 
 		function requestURL(url, params, method) {
@@ -22,6 +23,22 @@
 				data : params
 			}).success(function(response) {
 				deffered.resolve(response)
+			}).error(function(response) {
+				deffered.reject(response);
+			});
+			return deffered;
+		}
+		
+		function doGet(url, params) {
+			var deffered = $q.defer();
+
+			$http({
+				method : 'GET',
+				url : url,
+				data : params
+			}).success(function(data, status, headers, config) {
+				 
+				deffered.resolve({data:data, headers:headers})
 			}).error(function(response) {
 				deffered.reject(response);
 			});

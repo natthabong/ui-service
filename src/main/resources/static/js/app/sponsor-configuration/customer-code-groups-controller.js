@@ -3,13 +3,14 @@ angular
 		.controller(
 				'CustomerCodeGroupController',
 				[
+						'SCFCommonService',
 						'$log',
 						'$scope',
 						'$stateParams',
 						'$timeout',
 						'PageNavigation',
 						'Service',
-						function($log, $scope, $stateParams, $timeout,
+						function(SCFCommonService, $log, $scope, $stateParams, $timeout,
 								PageNavigation, Service) {
 							var vm = this;
 							var log = $log;
@@ -34,12 +35,6 @@ angular
 								value : '50'
 							} ];
 							
-							vm.config = function(data){		
-								SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
-								var params = { 
-							        }
-								PageNavigation.gotoPage('/new-file-layout',params,params)
-							}
 							
 							vm.decodeBase64 = function(data){
 								if(angular.isUndefined(data)){
@@ -64,37 +59,37 @@ angular
 											label: '',
 											cssTemplate: 'text-center',
 											sortData: false,
-											cellTemplate: '<scf-button id="file-layouts-{{data.sponsorIntegrateFileConfigId}}-config-button" class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a file layout"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
-											'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.searchTransaction()" title="Delete a file layout"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+											cellTemplate: '<scf-button id="customer-code-group-{{data.groupId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a customer code groups" ng-hide="!data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
+											'<scf-button id="customer-code-group-{{data.groupId}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a customer code groups" ng-hide="data.completed"><img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>' +
+											'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.search()" title="Delete a file layout"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 										} ]
 							};
 
-							vm.data = [{
-						    	"groupName" : "Big C file layout"
-						    }]
+							vm.data = []
+							
+							vm.search = function(){
+								var serviceUrl = '/api/v1/organize-customers/'+$scope.sponsorId+'/sponsor-configs/SFP/customer-code-groups';
+								var serviceDiferred = Service.doGet(serviceUrl, {
+									limit:  vm.pageModel.currentPage,
+									offset: vm.pageModel.pageSizeSelectModel
+								});		
+								
+								serviceDiferred.promise.then(function(response){
+									vm.data = response.data;
+					                vm.pageModel.totalRecord = response.headers('X-Total-Count');
+					                vm.pageModel.totalPage = response.headers('X-Total-Page');
+					                vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.page, vm.pageModel.totalRecord);
+								}).catch(function(response){
+									log.error('Load customer code group data error');
+								});
+							}
 							
 							vm.initLoad = function() {
 				                vm.pageModel.currentPage = 0;
 				                vm.pageModel.pageSizeSelectModel = '20';
 				                
-				                search();
+				                vm.search();
 							}
 
 							vm.initLoad();
-							
-							
-							function search(){
-								var fileLayoutsUrl = '/api/v1/organize-customers/'+$scope.sponsorId+'/sponsor-configs/SFP/customer-code-groups';
-								var serviceDiferred = Service.requestURL(fileLayoutsUrl, {
-									limit: 10,
-									offset: 0
-								},'GET');						
-								serviceDiferred.promise.then(function(response){
-									vm.data = response.content;
-									vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.page, vm.pageModel.totalRecord);
-								}).catch(function(response){
-									log.error('Load File layouts data error');
-								});
-							}
-							
 						} ]);
