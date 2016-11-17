@@ -18,11 +18,15 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	}
     
 	vm.editOrganizeProfile = function(data){
-		PageNavigation.gotoPage('/api/v1/organize-customers/'+data.organizeId,{});
+		PageNavigation.gotoPage('/api/v1/organize-customers/'+data.organizeId,{
+			
+		});
 	}
 	
 	vm.sponsorConfig = function(data){
-		PageNavigation.gotoPage('/api/v1/organize-customers/'+data.organizeId,{});
+		PageNavigation.gotoPage('/api/v1/organize-customers/'+data.organizeId, {
+			organize: data
+		});
 	}
 	
     vm.data = [{
@@ -62,7 +66,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
                 idValueField: 'template',
                 id: 'organize-{value}-sponsor-flag-label',
                 cssTemplate: 'text-center',
-				cellTemplate: '<img	style="height: 32px; width: 32px;" data-ng-src="img/checkmark.png"/>'
+				cellTemplate: '<img	style="height: 16px; width: 16px;" data-ng-src="img/checkmark.png"/>'
             }, {
                 field: 'active',
                 label: 'Active',
@@ -74,7 +78,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 				label: 'Action',
 				cssTemplate: 'text-center',
 				sortable: false,
-				cellTemplate: '<scf-button class="btn-default gec-btn-action" id="organize-{{data.organizeId}}-profile-button" ng-click="ctrl.editOrganizeProfile(data)" title="Edit Profile"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button> <scf-button class="btn-default gec-btn-action" id="organize-{{data.organizeId}}-sponsor-config-button" ng-click="ctrl.sponsorConfig(data)" title="Edit Profile"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
+				cellTemplate: '<scf-button class="btn-default gec-btn-action" id="organize-{{data.organizeId}}-profile-button" ng-click="ctrl.editOrganizeProfile(data)" title="Edit Profile"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button> <scf-button class="btn-default gec-btn-action" id="organize-{{data.organizeId}}-sponsor-config-button" ng-click="ctrl.sponsorConfig(data)" title="Edit Profile"><i class="fa fa-cog" aria-hidden="true"></i></scf-button><scf-button class="btn-default gec-btn-action" id="organize-{{data.organizeId}}-sponsor-config-button" ng-click="ctrl.sponsorConfig(data)" title="Edit Profile"><img data-ng-src="img/gear_warning.png" style="height: 16px; width: 16px;"/></scf-button>'
 			}]
     }
     
