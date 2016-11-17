@@ -24,8 +24,8 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	}
 	
 	vm.sponsorConfig = function(data){
-		PageNavigation.gotoPage('/api/v1/organize-customers/'+data.organizeId, {
-			organize: data
+		PageNavigation.gotoPage('/sponsor-configuration'+data.organizeId, {
+			organizeModel: data
 		});
 	}
 	

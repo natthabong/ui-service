@@ -145,6 +145,12 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							  'js/app/dashboard/transaction-journey/wait-for-approve.js',
 							  'js/app/dashboard/transaction-journey/future-drawdown.js',
 							  'js/app/dashboard/transaction-journey/result.js'])
+			}).state('/sponsor-configuration',{
+				url: '/sponsor-configuration',
+				controller: 'SponsorConfigController',
+				controllerAs: 'sponsorConfigCtrl',
+				templateUrl: '/sponsor-configuration',
+				resolve: load(['js/app/sponsor-configuration/sponsor-config-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
