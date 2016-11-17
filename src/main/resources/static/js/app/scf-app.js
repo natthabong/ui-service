@@ -150,7 +150,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'SponsorConfigController',
 				controllerAs: 'sponsorConfigCtrl',
 				templateUrl: '/sponsor-configuration',
-				resolve: load(['js/app/sponsor-configuration/sponsor-config-controller.js', 'js/app/sponsor-configuration/file-layouts-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				params: { organizeModel: null},
+				resolve: load(['js/app/sponsor-configuration/sponsor-config-controller.js', 'js/app/sponsor-configuration/file-layouts-controller.js', 'js/app/sponsor-configuration/customer-code-groups-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',

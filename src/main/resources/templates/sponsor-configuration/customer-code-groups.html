@@ -1,0 +1,34 @@
+<div th:fragment="content">
+	<div id="wrapper" ng-controller="CustomerCodeGroupController as ctrl">
+		<h3 class="animated fadeInLeft" id="customer-code-groups-header-label">{{'Customer
+			code groups' | translate}}</h3>
+		<div class="row">
+			<div class="col-md-12 col-sm-12 text-right">
+				<span> <b ng-bind="ctrl.splitePageTxt"
+					id="customer-code-groups-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+						dropdown-id="customer-code-groups-page-limit-dropdown"
+						page-size-model="ctrl.pageModel.pageSizeSelectModel"
+						total-page="ctrl.pageModel.totalPage"
+						current-page="ctrl.pageModel.currentPage"
+						page-size-list="ctrl.pageSizeList"
+						page-action="ctrl.searchTransaction"
+						first-page-button-id="customer-code-groups-first-page-button"
+						back-page-button-id="customer-code-groups-back-page-button"
+						next-page-button-id="customer-code-groups-next-page-button"
+						last-page-button-id="customer-code-groups-last-page-button"></scf-pagination>
+				</span>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<scf-data-table id="customer-code-groups-table"
+					component-config="ctrl.dataTable" component-datas="ctrl.data"
+					current-page="ctrl.pageModel.currentPage"
+					record-per-page="ctrl.pageModel.pageSizeSelectModel"
+					clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
+			</div>
+			<div id="fixed-bottom" class="col-md-12"></div>
+		</div>
+	</div>
+</div>

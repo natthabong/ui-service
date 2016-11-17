@@ -1,12 +1,13 @@
 angular.module('scfApp').controller(
 		'SponsorConfigController', 
-		['Service', '$log', '$stateParams', '$log', 'PageNavigation',
-         	function(ViewTransactionService, $stateParams, $log, PageNavigation) {
+		['$log', '$stateParams', 'PageNavigation', '$scope',
+         	function($log, $stateParams, PageNavigation, $scope) {
 				var vm = this;
 			    var log = $log;
 			    
 			    vm.organizeModel = $stateParams.organizeModel;
-			    
+			    console.log( vm.organizeModel);
+			    $scope.sponsorId = vm.organizeModel.organizeId;
 			    function init(){
 					if(vm.organizeModel === null){
 						PageNavigation.gotoPreviousPage();

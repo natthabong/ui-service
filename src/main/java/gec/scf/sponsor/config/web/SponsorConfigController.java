@@ -1,4 +1,4 @@
-package gec.scf.sponsorconfig;
+package gec.scf.sponsor.config.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import gec.scf.util.AjaxUtils;
 
 @Controller
-@RequestMapping(path="/sponsor-configuration")
+@RequestMapping(path = "/sponsor-configuration")
 public class SponsorConfigController {
+
 	private static String SPONSOR_CONFIGURATION = "/sponsor-configuration/sponsor-configuration-template";
 	private static String FILE_LAYOUTS = "/sponsor-configuration/file-layouts";
+	
+	private static String CUSTOMER_CODE_GROUPS = "/sponsor-configuration/customer-code-groups";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String sponsorConfiguration(
@@ -21,13 +24,20 @@ public class SponsorConfigController {
 		}
 		return SPONSOR_CONFIGURATION;
 	}
-	
+
 	@RequestMapping(path = "/file-layouts", method = RequestMethod.GET)
-	public String fileLayouts(
-			@RequestHeader("X-Requested-With") String requestedWith) {
+	public String fileLayouts(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return FILE_LAYOUTS.concat(" :: content");
 		}
 		return FILE_LAYOUTS;
+	}
+
+	@RequestMapping(path = "/customer-code-groups", method = RequestMethod.GET)
+	public String customerCodeGroups(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return CUSTOMER_CODE_GROUPS.concat(" :: content");
+		}
+		return CUSTOMER_CODE_GROUPS;
 	}
 }
