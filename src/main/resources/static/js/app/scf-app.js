@@ -64,6 +64,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/create-transaction/validate-submit',
 				params: { transactionModel: null, totalDocumentAmount:0.00, tradingpartnerInfoModel: null, documentSelects: null},
 				resolve: load(['js/app/create-transactions/validate-submit-service.js','js/app/create-transactions/validate-submit-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/organize-list', {
+				url: '/organize-list',
+				controller: 'OrganizeListController',
+				controllerAs: 'ctrl',
+				params: {backAction: false},
+				templateUrl: '/organize-list',
+				resolve: load(['js/app/organize/organize-list-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/transaction-list', {
 				url: '/transaction-list',
 				controller: 'ListTransactionController',
