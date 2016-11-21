@@ -151,7 +151,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'sponsorConfigCtrl',
 				templateUrl: '/sponsor-configuration',
 				params: { organizeModel: null, fileLayoutModel: null},
-				resolve: load(['js/app/sponsor-configuration/sponsor-config-controller.js', 'js/app/sponsor-configuration/file-layouts-controller.js', 'js/app/sponsor-configuration/customer-code-groups-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/sponsor-configuration/sponsor-config-controller.js', 'js/app/sponsor-configuration/profile-controller.js', 'js/app/sponsor-configuration/file-layouts-controller.js', 'js/app/sponsor-configuration/customer-code-groups-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/sponsor-configuration/file-layouts/new-file-layout',{
 				url: '/sponsor-configuration/file-layouts/new-file-layout',
 				controller: 'NewFileLayoutController',
