@@ -1,0 +1,119 @@
+<div th:fragment="content">
+	<div id="wrapper">
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<!-- Start Column Panel-->
+					<div class="col-md-12" block-ui="summary-internal-block">
+						<form name="createForm" class="form-horizontal">
+							<div class="form-group">
+								<label for="dealer"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
+									layout name' | translate}}: </label>
+
+								<div class="col-md-2 col-sm-3 col-xs-12">
+									<scf-input-text id="layout-name-textbox" ng-disabled="true"
+										ng-model="newFileLayoutCtrl.fileLayoutName"></scf-input-text>
+								</div>
+								<div class="col-md-5 col-sm-6"></div>
+							</div>
+							<div class="form-group">
+								<label for="dealer"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
+									type' | translate}}: </label>
+								<div class="col-md-2 col-sm-3 col-xs-12">
+									<label class="radio-inline"> <scf-radio
+											id="fixedLength-file-type" name="file-type-radio"
+											ng-model="newFileLayoutCtrl.layoutInfoModel.fileType"></scf-radio>
+										{{'Fixed length' | translate}}
+									</label> <label class="radio-inline"> <scf-radio
+											id="delimited-file-type"
+											ng-value="newFileLayoutCtrl.fileType.delimited"
+											name="file-type-radio"
+											ng-model="newFileLayoutCtrl.layoutInfoModel.fileType"></scf-radio>
+										{{'Delimited' | translate}}
+									</label>
+								</div>
+								<label for="dealer"
+									class="col-md-1 col-sm-2 col-xs-12 control-label">{{'Delimiters'
+									| translate}}: </label>
+								<div class="col-md-2 col-sm-3 col-xs-12">
+									<scf-dropdown id="delimiters-dropdown"
+										ng-model="newFileLayoutCtrl.layoutInfoModel.delimiters"
+										component-data="newFileLayoutCtrl.delimitersDropdown"
+										translate-label="true"></scf-dropdown>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="dealer"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
+									encode' | translate}}: </label>
+								<div class="col-md-2 col-sm-3 col-xs-12">
+									<scf-dropdown id="file-encode-dropdown"
+										ng-model="newFileLayoutCtrl.layoutInfoModel.fileEncode"
+										component-data="newFileLayoutCtrl.fileEncodeDropdown"
+										translate-label="true"></scf-dropdown>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="dealer"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Row
+									format' | translate}}: </label>
+								<div class="col-md-2 col-sm-3 col-xs-12">
+									<label class="checkbox-inline"> <scf-checkbox
+											id="header-checkbox"></scf-checkbox> <span
+										ng-bind="'Header' | translate" id="header-label"></span>
+									</label> <br /> <label class="checkbox-inline"> <scf-checkbox
+											id="detail-checkbox" ng-checked="true" ng-disabled="true"></scf-checkbox>
+										<span ng-bind="'Detail' | translate" id="detail-label"></span>
+									</label> <br /> <label class="checkbox-inline"> <scf-checkbox
+											id="footer-checkbox"></scf-checkbox> <span
+										ng-bind="'Footer' | translate" id="footer-label"></span>
+									</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
+										id="offset-checkbox" ng-checked="true" ng-disabled="true"></scf-checkbox>
+									<span ng-bind="'Offset row no.' | translate" id="offset-label"></span>
+								</label>
+								<div class="col-md-1 col-sm-1 col-xs-12">
+									<scf-input-text id="offset-textbox"
+										ng-model="newFileLayoutCtrl.layoutInfoModel.offsetRowNo"
+										size="1"></scf-input-text>
+								</div>
+							</div>
+							
+						<div>
+							<div class="row">
+								<div class="col-md-12">
+									<table id="detail-field-table">
+										<tr>
+											<td><i class="fa fa-cog fa-lg" aria-hidden="true"></i></td>
+											<td>No.</td>
+											<td>Sponsor field name</td>
+											<td>Data type</td>
+											<td>Length</td>
+											<td>Index</td>
+							            </tr>
+									</table>
+								</div>
+								<div id="fixed-bottom" class="col-md-12"></div>
+							</div>
+						</div>
+						<div class="form-group">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<scf-button id="search-button" class="btn-default"
+										ng-click="newFileLayoutCtrl.save()">{{'Save' |
+									translate}}</scf-button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" ng-init="newFileLayoutCtrl.newFile=true"
+		sec:authorize="hasAuthority('NEW_SFP_FILE_LAYOUT')" />
+</div>
