@@ -14,7 +14,15 @@ public class ConfigDataTypeController {
 	private static String TEXT_FIELD = "/sponsor-configuration/file-layouts/dialog-text-field-format";
 	
 	@RequestMapping(path = "/text", method = RequestMethod.GET)
-	public String getProfile(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String getTextField(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return TEXT_FIELD.concat(" :: content");
+		}
+		return TEXT_FIELD;
+	}
+	
+	@RequestMapping(path = "/customer-code", method = RequestMethod.GET)
+	public String getCustomerCodeGroup(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return TEXT_FIELD.concat(" :: content");
 		}

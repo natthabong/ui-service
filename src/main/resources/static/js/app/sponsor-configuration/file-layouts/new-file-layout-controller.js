@@ -30,6 +30,11 @@ angular
 							
 							vm.fileEncodeDropdown = [];
 							
+							vm.customerCodeGroupDropdown = [{
+								label: 'Please select',
+								value: ''
+							}];
+							
 							// Model mapping whith page list
 							vm.layoutInfoModel = {
 								fileType: vm.fileType.delimited,
@@ -45,6 +50,20 @@ angular
 							    
 								ngDialog.open({
 									templateUrl: '/js/app/sponsor-configuration/file-layouts/dialog-text-field-format.html',
+						            scope: $scope,
+						            disableAnimation: true
+						        });
+					        };
+					        
+					        vm.configCustCodeGroupPopup = function() {
+								vm.requireCheckbox = false;
+								vm.required = vm.requireCheckbox;
+							    vm.disableText = true;
+							    
+							    vm.loadCustomerCodeGroup();
+								
+							    ngDialog.open({
+									templateUrl: '/js/app/sponsor-configuration/file-layouts/customer-code-group-field-format.html',
 						            scope: $scope,
 						            disableAnimation: true
 						        });
@@ -110,6 +129,28 @@ angular
 				                    vm.fileEncodeDropdown.push(selectObj);
 				                });
 						    }
+							
+							vm.loadCustomerCodeGroup = function() {
+								var serviceUrl = '/api/v1/organize-customers/'+vm.sponsorId+'/sponsor-configs/SFP/customer-code-groups';
+						        var serviceDiferred = Service.doGet(serviceUrl, {
+						        	offset: 0,
+						        	limit:  20
+								});		
+						        serviceDiferred.promise.then(function(response) {
+						            var customerCodeGroupList = response.data;
+						            if (customerCodeGroupList !== undefined) {
+						            	customerCodeGroupList.forEach(function(obj) {
+						                    var selectObj = {
+						                        label: obj.groupName,
+						                        value: obj.groupId
+						                    }
+						                    vm.customerCodeGroupDropdown.push(selectObj);
+						                });
+						            }
+						        }).catch(function(response) {
+									$log.error('Load Customer Code Group Fail');
+						        });
+						    };
 
 							vm.decodeBase64 = function(data) {
 								return atob(data);
@@ -117,6 +158,7 @@ angular
 							
 							vm.initLoad = function() {
 				                vm.fileLayoutName = vm.fileLayoutModel.displayName;
+				                vm.sponsorId = vm.fileLayoutModel.sponsorId
 				                vm.loadDelimiters();
 				                vm.loadFileEncode();
 				                vm.layoutInfoModel.offsetRowNo = 1;
@@ -140,7 +182,8 @@ angular
 						    	
 						    	vm.dataFormat = {
 							    	required: requiredFormat,
-							    	expectedValue: vm.expectedValue
+							    	expectedValue: vm.expectedValue,
+							    	customerCodeGroupName: vm.customerCodeGroup.value
 							    };
 						    }
 						} ]);

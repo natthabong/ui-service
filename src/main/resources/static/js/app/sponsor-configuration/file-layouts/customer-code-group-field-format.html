@@ -1,0 +1,53 @@
+<div class="modal-content">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3><span id="customer-code-group-format-header" class="popup-text" ng-bind="'Customer code group field format' | translate">Customer code group field format</span></h3>
+				</div>				
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<form name="custCodeGroupFieldFormat" class="form-horizontal">
+						<fieldset>
+							<legend>Validation</legend>
+							<div class="form-group">
+								<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
+										id="require-checkbox" ng-model="newFileLayoutCtrl.requireCheckbox" 
+										ng-checked="true" ng-disabled="true"></scf-checkbox>
+									<span ng-bind="'Require' | translate" id="require-label"></span>
+								</label>
+							</div>
+							<div class="form-group">
+								<label for="expected-value" class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+										ng-bind="'Expected value' | translate"></span>:</label>
+								<div class="col-md-6 col-sm-4 col-xs-12">
+									<scf-dropdown id="cust-code-dropdown"
+										ng-model="newFileLayoutCtrl.customerCodeGroup"
+										component-data="newFileLayoutCtrl.customerCodeGroupDropdown"
+										translate-label="true"></scf-dropdown>
+								</div>
+								<div class="col-md-2 col-sm-3 col-xs-12">
+									<scf-button class="btn-default gec-btn-action" ng-click="newFileLayoutCtrl.newCustomerCodeGroup()" title="New a customer code group"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="cancel-button" class="popup-button"  
+						ng-click="closeThisDialog()"
+						ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="ok-button" class="popup-button" 
+						ng-click="closeThisDialog();newFileLayoutCtrl.updateValue()"
+						ng-bind="'OK' | translate"></scf-button>
+					
+				</div>
+			</div>
+		</div>
+	</div>
