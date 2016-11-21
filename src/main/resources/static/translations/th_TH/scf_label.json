@@ -184,7 +184,7 @@
 	"document-list-bank": "Document list",
 	"BOOKED": "Book",
 	"UNBOOK": "Unbook",
-	"All": "All"
+	"All": "All",
 	
 	"File layouts": "File layouts",
 	"File layout name": "File layout name",
@@ -196,5 +196,8 @@
 	"Header": "Header",
 	"Detail": "Detail",
 	"Footer": "Footer",
-	"Offset row no.": "Offset row no."
+	"Offset row no.": "Offset row no.",
+	
+	"Text field format": "Text field format",
+	"Require": "Require"
 }

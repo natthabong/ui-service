@@ -39,11 +39,15 @@ angular
 					        }
 
 							vm.configPopup = function() {
-					        	 ngDialog.open({
-					                 template: '/js/app/approve-transactions/confirm-dialog.html',
-					                 scope: $scope,
-					                 disableAnimation: true
-					             });
+								vm.requireCheckbox = false;
+								vm.required = vm.requireCheckbox;
+							    vm.disableText = true;
+							    
+								ngDialog.open({
+									templateUrl: '/js/app/sponsor-configuration/file-layouts/dialog-text-field-format.html',
+						            scope: $scope,
+						            disableAnimation: true
+						        });
 					        };
 					        
 							vm.preview = function(data){		
@@ -120,4 +124,23 @@ angular
 
 							vm.initLoad();
 							
+							vm.checkRequired = function() {
+						        vm.required = !vm.required;
+						        vm.disableText = !vm.required;
+						    };
+						    
+						    vm.dataFormat = {};
+						    vm.expectedValue = '';
+						    
+						    vm.updateValue = function() {
+						    	var requiredFormat = "No";
+						    	if(vm.requireCheckbox){
+						    		requiredFormat = "Yes";
+						    	}
+						    	
+						    	vm.dataFormat = {
+							    	required: requiredFormat,
+							    	expectedValue: vm.expectedValue
+							    };
+						    }
 						} ]);
