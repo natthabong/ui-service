@@ -6,7 +6,6 @@ angular.module('scfApp').controller(
 			    var log = $log;
 			    
 			    vm.organizeModel = $stateParams.organizeModel;
-			    console.log( vm.organizeModel);
 			    $scope.sponsorId = vm.organizeModel.organizeId;
 			    function init(){
 					if(vm.organizeModel === null){

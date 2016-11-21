@@ -12,8 +12,8 @@ import gec.scf.util.AjaxUtils;
 public class SponsorConfigController {
 
 	private static String SPONSOR_CONFIGURATION = "/sponsor-configuration/sponsor-configuration-template";
+	private static String PROFILE = "/sponsor-configuration/profile";
 	private static String FILE_LAYOUTS = "/sponsor-configuration/file-layouts";
-	
 	private static String CUSTOMER_CODE_GROUPS = "/sponsor-configuration/customer-code-groups";
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -25,6 +25,14 @@ public class SponsorConfigController {
 		return SPONSOR_CONFIGURATION;
 	}
 
+	@RequestMapping(path = "/profile", method = RequestMethod.GET)
+	public String getProfile(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return PROFILE.concat(" :: content");
+		}
+		return PROFILE;
+	}
+
 	@RequestMapping(path = "/file-layouts", method = RequestMethod.GET)
 	public String fileLayouts(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
@@ -34,7 +42,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/customer-code-groups", method = RequestMethod.GET)
-	public String customerCodeGroups(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String customerCodeGroups(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return CUSTOMER_CODE_GROUPS.concat(" :: content");
 		}
