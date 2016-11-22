@@ -34,6 +34,11 @@ angular
 							vm.dataTypeDropdown = [ {
 								dataTypeDisplay : 'Please select'
 							} ];
+							
+							vm.customerCodeGroupDropdown = [{
+								label: 'Please select',
+								value: ''
+							}];
 
 							// Model mapping whith page list
 							vm.layoutInfoModel = {
@@ -151,9 +156,39 @@ angular
 								  vm.layoutConfigItems.splice(index, 1);  
 							}
 							
+							vm.loadCustomerCodeGroup = function() {
+								var serviceUrl = '/api/v1/organize-customers/'+vm.sponsorId+'/sponsor-configs/SFP/customer-code-groups';
+						        var serviceDiferred = Service.doGet(serviceUrl, {
+						        	offset: 0,
+						        	limit:  20
+								});		
+						        serviceDiferred.promise.then(function(response) {
+						            var customerCodeGroupList = response.data;
+						            if (customerCodeGroupList !== undefined) {
+						            	customerCodeGroupList.forEach(function(obj) {
+						                    var selectObj = {
+						                        label: obj.groupName,
+						                        value: obj.groupId
+						                    }
+						                    vm.customerCodeGroupDropdown.push(selectObj);
+						                });
+						            }
+						        }).catch(function(response) {
+									$log.error('Load Customer Code Group Fail');
+						        });
+						    };
+							
 							vm.openSetting = function(record) {
 								var dataTypeConfig = record.dataType
 								if(dataTypeConfig!=null){
+									vm.requireCheckbox = false;
+									vm.required = vm.requireCheckbox;
+								    vm.disableText = true;
+								    
+									if(dataTypeConfig.dataTypeDisplay=="Customer code"){
+										vm.loadCustomerCodeGroup();
+									}
+									
 					                ngDialog.openConfirm({
 					                    template: dataTypeConfig.configActionUrl,
 					                    data: record,
@@ -169,6 +204,7 @@ angular
 							
 							vm.initLoad = function() {
 								vm.fileLayoutName = vm.fileLayoutModel.displayName;
+								vm.sponsorId = vm.fileLayoutModel.sponsorId;
 								vm.loadDelimiters();
 								vm.loadFileEncode();
 								vm.loadDataTypes();
@@ -178,4 +214,12 @@ angular
 
 							vm.initLoad();
 
+							vm.checkRequired = function() {
+						        vm.required = !vm.required;
+						        vm.disableText = !vm.required;
+						    };
+						    
+						    vm.dataFormat = {};
+						    vm.expectedValue = '';
+						    
 						} ]);
