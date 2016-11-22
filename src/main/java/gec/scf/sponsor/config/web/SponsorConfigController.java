@@ -14,7 +14,7 @@ public class SponsorConfigController {
 	private static String SPONSOR_CONFIGURATION = "/sponsor-configuration/sponsor-configuration-template";
 	private static String PROFILE = "/sponsor-configuration/profile";
 	private static String FILE_LAYOUTS = "/sponsor-configuration/file-layouts";
-	private static String NEW_FILE_LAYOUT = "/sponsor-configuration/file-layouts/new-file-layout";
+	private static String SETTING_FILE_LAYOUT = "/sponsor-configuration/file-layouts/settings";
 	
 	private static String CUSTOMER_CODE_GROUPS = "/sponsor-configuration/customer-code-groups";
 
@@ -46,9 +46,9 @@ public class SponsorConfigController {
 	@RequestMapping(path = "/file-layouts/new-file-layout", method = RequestMethod.GET)
 	public String newFileLayout(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return NEW_FILE_LAYOUT.concat(" :: content");
+			return SETTING_FILE_LAYOUT.concat(" :: content");
 		}
-		return NEW_FILE_LAYOUT;
+		return SETTING_FILE_LAYOUT;
 	}
 
 	@RequestMapping(path = "/customer-code-groups", method = RequestMethod.GET)
