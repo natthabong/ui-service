@@ -200,5 +200,8 @@
 	
 	"Text field format": "Text field format",
 	"Customer code field format": "Customer code group field format",
-	"Require": "Require"
+	"New customer code group": "New customer code group",
+	"Group name": "Group name",
+	"Require": "Require",
+	"Save": "Save"
 }
