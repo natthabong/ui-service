@@ -11,12 +11,12 @@ import gec.scf.util.AjaxUtils;
 @RequestMapping(path = "/sponsor-configuration")
 public class SponsorConfigController {
 
-	private static String SPONSOR_CONFIGURATION = "/sponsor-configuration/sponsor-configuration-template";
-	private static String PROFILE = "/sponsor-configuration/profile";
-	private static String FILE_LAYOUTS = "/sponsor-configuration/file-layouts";
-	private static String SETTING_FILE_LAYOUT = "/sponsor-configuration/file-layouts/settings";
+	private static String SPONSOR_CONFIGURATION = "sponsor-configuration/sponsor-configuration-template";
+	private static String PROFILE = "sponsor-configuration/profile";
+	private static String FILE_LAYOUTS = "sponsor-configuration/file-layouts";
+	private static String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
 	
-	private static String CUSTOMER_CODE_GROUPS = "/sponsor-configuration/customer-code-groups";
+	private static String CUSTOMER_CODE_GROUPS = "sponsor-configuration/customer-code-groups";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String sponsorConfiguration(
