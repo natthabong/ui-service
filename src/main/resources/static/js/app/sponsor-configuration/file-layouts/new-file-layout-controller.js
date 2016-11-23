@@ -22,7 +22,7 @@ angular
 							vm.newFile = false;
 
 							vm.fileLayoutModel = $stateParams.fileLayoutModel;
-
+							
 							vm.fileType = {
 								fixedLength : 'fixedLength',
 								delimited : 'delimited'
@@ -31,6 +31,12 @@ angular
 							vm.delimitersDropdown = [];
 
 							vm.fileEncodeDropdown = [];
+							
+							var dataTypeDisplay = {
+								customerCode: 'Customer code',
+								documentNo: 'Document No',
+								text: 'Text'
+							}
 
 							vm.dataTypeDropdown = [ {
 								dataTypeDisplay : 'Please select'
@@ -136,17 +142,19 @@ angular
 								return atob(data);
 							}
 
-							var newItem = {
-								primaryKeyField : false,
-								sponsorFieldName : '',
-								dataType : null,
-								length : 0,
-								startIndex : 0
-							};
-							vm.layoutConfigItems = [ newItem ];
+//							var newItem = {
+//								primaryKeyField : false,
+//								sponsorFieldName : '',
+//								dataType : null,
+//								length : 0,
+//								startIndex : 0
+//							};
+							
+							vm.layoutConfigItems = [ newItemConfig() ];
 
-							vm.addNewConfigItem = function() {
-								vm.layoutConfigItems.push(newItem);
+							vm.addNewConfigItem = function() {								
+								vm.layoutConfigItems.push(newItemConfig());
+								console.log(vm.layoutConfigItems)
 							}
 							
 							vm.removeConfigItem = function(record) {
@@ -194,7 +202,7 @@ angular
 									vm.required = vm.requireCheckbox;
 								    vm.disableText = true;
 								    
-									if(dataTypeConfig.dataTypeDisplay=="Customer code"){
+									if(dataTypeConfig.dataTypeDisplay== dataTypeDisplay.customerCode){
 										vm.loadCustomerCodeGroup();
 									}
 									
@@ -212,8 +220,15 @@ angular
 				            }
 							
 							vm.initLoad = function() {
-								vm.fileLayoutName = vm.fileLayoutModel.displayName;
-								vm.sponsorId = vm.fileLayoutModel.sponsorId;
+								if(!angular.isUndefined(vm.fileLayoutModel) && vm.fileLayoutModel != null){
+									vm.fileLayoutName = vm.fileLayoutModel.displayName;
+									vm.sponsorId = vm.fileLayoutModel.sponsorId;
+								}else{
+									vm.fileLayoutName = '';
+									vm.sponsorId = '';
+									vm.newFile = true;
+								}
+								
 								vm.loadDelimiters();
 								vm.loadFileEncode();
 								vm.loadDataTypes();
@@ -230,6 +245,44 @@ angular
 						    
 						    vm.dataFormat = {};
 						    vm.expectedValue = '';
+							
+							
+							
+							vm.displayExampleValue = function(record){
+								if(angular.isUndefined(record.dataType) || record.dataType == null){
+									return '';
+								}
+																
+								var dataType = record.dataType;
+								console.log(record);
+								console.log(dataType);
+								var msgDisplay = ''
+								if(dataType.dataTypeDisplay == dataTypeDisplay.customerCode){									
+									msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+									msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
+									msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);									
+								}else if(dataType.dataTypeDisplay == dataTypeDisplay.text){
+									msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+									msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
+									msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+								}else if(dataType.dataTypeDisplay == dataTypeDisplay.documentNo){
+									msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+									msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+								}
+								
+								return msgDisplay;
+							}
+							
+							function newItemConfig(){
+								var itemConfig = {
+									primaryKeyField : false,
+									sponsorFieldName : '',
+									dataType : null,
+									length : 0,
+									startIndex : 0
+								};
+								return itemConfig;
+							}
 						    
 						    vm.newCustomerCodeGroup = function () {
 						    	vm.newCustCodeDialog = ngDialog.open({

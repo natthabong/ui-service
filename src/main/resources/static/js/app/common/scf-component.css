@@ -1,9 +1,9 @@
 .tr-odd {
-    background-color: #FFFFFF;
+    background-color: #FFFFFF !important;
 }
 
 .tr-even {
-    background-color: #EFEFEF;
+    background-color: #f9f9f9 !important;
 }
 
 .scf-paging{
