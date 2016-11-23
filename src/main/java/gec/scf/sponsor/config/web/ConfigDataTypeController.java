@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ConfigDataTypeController {
 
 	private static String TEXT_FIELD = "/sponsor-configuration/file-layouts/dialog-text-field-format";
-	private static String CUSTOMER_CODE_FIELD = "/sponsor-configuration/file-layouts/customer-code-group-field-format";
-	private static String NEW_CUSTOMER_CODE = "/sponsor-configuration/file-layouts/new-customer-code-group";
+	private static String CUSTOMER_CODE_FIELD = "/sponsor-configuration/file-layouts/dialog-customer-code-group-field-format";
+	private static String NEW_CUSTOMER_CODE = "/sponsor-configuration/file-layouts/dialog-new-customer-code-group";
+	private static String DATE_TIME_FIELD = "/sponsor-configuration/file-layouts/dialog-date-time-field-format";
 
 	@RequestMapping(path = "/text", method = RequestMethod.GET)
 	public String getTextFieldConfig() {
@@ -18,12 +19,17 @@ public class ConfigDataTypeController {
 	}
 
 	@RequestMapping(path = "/customer-code", method = RequestMethod.GET)
-	public String getCustomerCodeGroup() {
+	public String getCustomerCodeGroupFieldConfig() {
 		return CUSTOMER_CODE_FIELD;
 	}
 	
 	@RequestMapping(path = "/customer-code/new-customer-code", method = RequestMethod.GET)
 	public String getNewCustomerCodeGroup() {
 		return NEW_CUSTOMER_CODE;
+	}
+	
+	@RequestMapping(path = "/date-time", method = RequestMethod.GET)
+	public String getDateTimeFieldConfig() {
+		return DATE_TIME_FIELD;
 	}
 }
