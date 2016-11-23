@@ -51,6 +51,20 @@ angular
 								fileEncode : '',
 								offsetRowNo : ''
 							}
+							
+							vm.paymentDateTypeValues = {
+								formular: 'FORMULAR',
+								field: 'FIELD'
+							}
+							
+							vm.paymentDateFieldModel = {
+								fieldSelect: '',
+								dropdowns:[]
+							}
+							vm.paymentDateFormularModel = {
+								formularSelect: '',
+								dropdowns: []
+							}
 
 //							vm.configPopup = function() {
 //								ngDialog
@@ -153,8 +167,7 @@ angular
 							vm.layoutConfigItems = [ newItemConfig() ];
 
 							vm.addNewConfigItem = function() {								
-								vm.layoutConfigItems.push(newItemConfig());
-								console.log(vm.layoutConfigItems)
+								vm.layoutConfigItems.push(newItemConfig());								
 							}
 							
 							vm.removeConfigItem = function(record) {
@@ -219,6 +232,10 @@ angular
 								}
 				            }
 							
+//							vm.loadPaymentDateType = function(){								
+//								vm.paymentDateFieldModel.dropdowns = addPaymentDateField(vm.layoutConfigItems);
+//							}
+							
 							vm.initLoad = function() {
 								if(!angular.isUndefined(vm.fileLayoutModel) && vm.fileLayoutModel != null){
 									vm.fileLayoutName = vm.fileLayoutModel.displayName;
@@ -233,7 +250,9 @@ angular
 								vm.loadFileEncode();
 								vm.loadDataTypes();
 								vm.layoutInfoModel.offsetRowNo = 1;
-
+								
+								vm.paymentDateType = vm.paymentDateTypeValues.field;
+//								vm.loadPaymentDateType();
 							}
 
 							vm.initLoad();
@@ -246,16 +265,12 @@ angular
 						    vm.dataFormat = {};
 						    vm.expectedValue = '';
 							
-							
-							
 							vm.displayExampleValue = function(record){
 								if(angular.isUndefined(record.dataType) || record.dataType == null){
 									return '';
 								}
 																
 								var dataType = record.dataType;
-								console.log(record);
-								console.log(dataType);
 								var msgDisplay = ''
 								if(dataType.dataTypeDisplay == dataTypeDisplay.customerCode){									
 									msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
@@ -271,17 +286,6 @@ angular
 								}
 								
 								return msgDisplay;
-							}
-							
-							function newItemConfig(){
-								var itemConfig = {
-									primaryKeyField : false,
-									sponsorFieldName : '',
-									dataType : null,
-									length : 0,
-									startIndex : 0
-								};
-								return itemConfig;
 							}
 						    
 						    vm.newCustomerCodeGroup = function () {
@@ -322,4 +326,34 @@ angular
 						        	$log.error('Save customer Code Group Fail');
 						        });
 						    };
+							
+							$scope.$watch('newFileLayoutCtrl.layoutConfigItems', function(){
+								vm.paymentDateFieldModel.dropdowns = addPaymentDateField(vm.layoutConfigItems);
+							}, true)
+							
+							function newItemConfig(){
+								var itemConfig = {
+									primaryKeyField : false,
+									sponsorFieldName : '',
+									dataType : null,
+									length : 0,
+									startIndex : 0
+								};
+								return itemConfig;
+							}
+							
+							function addPaymentDateField(configItems){
+								var items = [{label: 'Please select', value: ''}]
+								if(angular.isDefined(configItems) && configItems != null){
+									configItems.forEach(function(data){
+										if(data.sponsorFieldName.length > 0){
+											items.push({label: data.sponsorFieldName, value: data.sponsorFieldName});
+										}
+									});								
+									
+								}
+								return items;
+							}
+							
+							
 						} ]);
