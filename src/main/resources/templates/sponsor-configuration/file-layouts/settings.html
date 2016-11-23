@@ -18,7 +18,7 @@
 								layout name' | translate}}: </label>
 
 							<div class="col-md-4 col-sm-5 col-xs-12">
-								<scf-input-text id="layout-name-textbox" ng-disabled="true"
+								<scf-input-text id="layout-name-textbox" ng-disabled="!newFileLayoutCtrl.newFile"
 									ng-model="newFileLayoutCtrl.fileLayoutName"></scf-input-text>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
@@ -78,6 +78,7 @@
 								</label>
 							</div>
 						</div>
+						
 						<div class="form-group">
 							<label for="dealer"
 								class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
@@ -109,41 +110,53 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr
-											ng-repeat="record in newFileLayoutCtrl.layoutConfigItems track by $index">
+										<tr ng-repeat-start="record in newFileLayoutCtrl.layoutConfigItems track by $index"
+											ng-class="$even?'tr-odd':'tr-even'">
 
 											<td class="text-center"><input type="checkbox"
-												ng-model="record.primaryKeyField"></input></td>
-											<td class="text-right"><span
+												ng-model="record.primaryKeyField"/></td>
+							
+											<td class="text-right"><span							
 												id="layout-item-{{$index+1}}-no-label"
 												ng-bind="{{$index+1}}"></span></td>
 											<td class="text-right"><input type="text"
 												style="width: 90%;"
-												id="layout-item-{{$index+1}}-sponsor-field-name-input"
-												ng-model="record.sponsorFieldName"></input></td>
+													id="sponsor-field-name-{{$index+1}}-textbox"
+												ng-model="record.sponsorFieldName"/></td>
 											<td class="text-center"><select name="mySelect"
-												id="layout-item-{{$index+1}}-data-type-dropdown"
+												id="data-type-{{$index+1}}-dropdown"
 												ng-options="option.dataTypeDisplay for option in newFileLayoutCtrl.dataTypeDropdown track by option.layoutFileDataTypeId"
 												ng-model="record.dataType"></select></td>
 
-											<td class="text-center"><input type="text"
-												style="text-align: right;" ng-model="record.length"></input></td>
-											<td class="text-center"><input type="text"
-												style="text-align: right;" ng-model="record.startIndex"></input></td>
 											<td class="text-center">
-												<button type="button" class="btn btn-default" ng-disabled="!record.dataType" ng-click="newFileLayoutCtrl.openSetting(record)">
+												<input type="text" id="lenght-{{$index+1}}-textbox"
+												style="text-align: right;" ng-model="record.length"/>
+											</td>
+											<td class="text-center">
+												<input type="text" id="index-{{$index+1}}-textbox"
+												style="text-align: right;" ng-model="record.startIndex"/></td>
+											<td class="text-center">
+												<button type="button" id="setup-{{$index+1}}-button" class="btn btn-default" ng-disabled="!record.dataType" ng-click="newFileLayoutCtrl.openSetting(record)">
 													<i class="fa fa-cog" aria-hidden="true"></i>
 												</button>
-												<button type="button" class="btn btn-default"  ng-click="newFileLayoutCtrl.removeConfigItem(record)">
+												<button type="button" id="delete-{{$index+1}}-button" class="btn btn-default"  ng-click="newFileLayoutCtrl.removeConfigItem(record)">
 													<i class="fa fa-trash" aria-hidden="true"></i>
 												</button>
 											</td>
 										</tr>
+										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
+											<td colspan="7">
+												<p id="description-{{$index+1}}-label" ng-bind="newFileLayoutCtrl.displayExampleValue(record)"></p>
+											</td>
+											
+										</tr>
+
 									</tbody>
 								</table>
+								
 								<div>
 									<!-- Split button -->
-									<button type="button" class="btn btn-default" ng-click="newFileLayoutCtrl.addNewConfigItem()"
+									<button id="add-another-field-detail-button" type="button" class="btn btn-default" ng-click="newFileLayoutCtrl.addNewConfigItem()"
 										ng-bind="'Add another field' | translate">Add another
 										field</button>
 									<button type="button" class="btn btn-default"
@@ -151,10 +164,12 @@
 										start index</button>
 								</div>
 							</div>
+							
 						</fieldset>
 					</form>
 				</div>
 			</div>
+			
 		</div>
 	</div>
 </div>
