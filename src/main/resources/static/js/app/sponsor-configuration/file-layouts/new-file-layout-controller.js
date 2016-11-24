@@ -371,7 +371,7 @@ angular
                             } else {
                                 var loadCustCodeDiferred = vm.loadCustomerCodeGroup();
                                 loadCustCodeDiferred.promise.then(function() {
-                                    vm.customerCodeGroup = '' + response.groupId;
+									vm.customerCodeGroup =  response.groupName;
                                 });
                                 ngDialog.close(vm.newCustCodeDialogId);
                             }
@@ -404,9 +404,9 @@ angular
                     var msgDisplay = ''
 
                     if (dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
-
+						
                         msgDisplay = dataType.configDetailPattern.replace('{required}', record.dataFormat.required);
-                        msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
+                        msgDisplay = msgDisplay.replace('{expectedValue}', record.dataFormat.customerCodeGroupName);
                         msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
 
                     } else if (dataType.dataTypeDisplay == dataTypeDisplay.text) {
@@ -719,17 +719,21 @@ angular
                     var items = [{
                         label: 'Please select',
                         value: ''
-                    }]
-                    if (angular.isDefined(configItems) && configItems != null) {
+                    }];
+					
+                    if (!isEmptyValue(configItems)) {
                         configItems.forEach(function(data) {
-                            if (data.sponsorFieldName.length > 0) {
-                                items.push({
-                                    label: data.sponsorFieldName,
-                                    value: data.sponsorFieldName
-                                });
-                            }
+							if(!isEmptyValue(data.dataType)){
+								if (data.dataType.dataTypeDisplay == dataTypeDisplay.dateTime 
+									&& data.sponsorFieldName.length > 0) {
+									items.push({
+										label: data.sponsorFieldName,
+										value: data.sponsorFieldName
+									});
+								}
+							}
+                            
                         });
-
                     }
                     return items;
                 }
