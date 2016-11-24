@@ -201,7 +201,8 @@ angular
 
                 vm.rowItemPopup = {};
                 vm.openSetting = function(record) {
-                    var dataTypeConfig = record.dataType
+                    var dataTypeConfig = record.dataType;
+					
                     if (dataTypeConfig != null) {
                         vm.requireCheckbox = false;
                         vm.required = vm.requireCheckbox;
@@ -212,28 +213,24 @@ angular
                         } else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.dateTime) {
                             vm.calendarTypeFormat = vm.calendarType.christCalendar;
                             vm.loadDateTimeFormat();
-                        }else if(dataTypeConfig.dataTypeDisplay== dataTypeDisplay.numeric || dataTypeConfig.dataTypeDisplay== dataTypeDisplay.paymentAmount){
-    						vm.numericTypeFormat = vm.numericType.anyNumericFormat,
-    						vm.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol,
-    						vm.disableField = true;
-    						vm.loadNumericFormat();
-    					}else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.numeric ||
-	                        dataTypeConfig.dataTypeDisplay == dataTypeDisplay.paymentAmount) {
-	                        vm.numericTypeFormat = vm.numericType.anyNumericFormat;
-	                        vm.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
-	                        vm.disableField = true;
-	                        vm.loadNumericFormat();
-	                    }
-                    }
-                    
+                        }else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.numeric ||
+							dataTypeConfig.dataTypeDisplay == dataTypeDisplay.paymentAmount) {
+							
+							vm.numericeModel = {
+								numericTypeFormat: vm.numericType.anyNumericFormat,
+								signFlagTypeFormat: vm.signFlagType.ignorePlusSymbol,
+								disableCustomField: true,
+								decimalPlacesValue: 0
+							}
+							vm.loadNumericFormat();
+						}
+                    } 
+					
                     vm.rowItemPopup = record;
                     ngDialog.openConfirm({
                         template: dataTypeConfig.configActionUrl,
                         data: record,
                         className: 'ngdialog-theme-default',
-                        controller: ['$scope', function($scope) {
-
-                        }],
                         scope: $scope
                     }).then(function(value) {
                         console.log('Modal promise resolved. Value: ', value);
@@ -278,10 +275,11 @@ angular
                 vm.exampleNegativeNumeric = '-123456';
                 vm.decimalPlacesValue = 0;
 
+
                 vm.loadNumericFormat = function() {
                     var loadSignFlagDiferred = vm.loadSignFlagList();
                     loadSignFlagDiferred.promise.then(function() {
-                        vm.signFlag = vm.signFlagDropdown[0].value;
+                        vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
                     });
                 }
 
@@ -292,12 +290,13 @@ angular
                     var serviceUrl = 'js/app/sponsor-configuration/file-layouts/sign_flag_list.json';
                     var serviceDiferred = Service.doGet(serviceUrl);
                     serviceDiferred.promise.then(function(response) {
+
                         var signFlagList = response.data;
                         if (signFlagList !== undefined) {
                             signFlagList.forEach(function(obj) {
                                 var selectObj = {
                                     label: obj.signFlagName,
-                                    value: obj.signFlagId
+                                    value: obj.signFlagName
                                 }
                                 vm.signFlagDropdown.push(selectObj);
                             });
@@ -388,10 +387,10 @@ angular
                 };
 
                 vm.checkCustomNumeric = function() {
-                    if (vm.numericTypeFormat == 'anyNumericFormat') {
-                        vm.disableField = true;
-                    } else if (vm.numericTypeFormat == 'customNumericFormat') {
-                        vm.disableField = false;
+                    if (vm.numericeModel.numericTypeFormat == 'anyNumericFormat') {
+                        vm.numericeModel.disableCustomField = true;
+                    } else if (vm.numericeModel.numericTypeFormat == 'customNumericFormat') {
+                        vm.numericeModel.disableCustomField = false;
                     }
                 };
 
@@ -401,7 +400,7 @@ angular
                     }
                     
                     var dataType = record.dataType;
-
+					console.log(dataType);
                     var msgDisplay = ''
 
                     if (dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
@@ -424,9 +423,10 @@ angular
                     } else if (dataType.dataTypeDisplay == dataTypeDisplay.documentNo) {
                         msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
                         msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+						
                     } else if (dataType.dataTypeDisplay == dataTypeDisplay.dateTime) {
-                    	
-                    	var calendarEra = "Christ calendar (A.D.)";
+
+                       var calendarEra = "Christ calendar (A.D.)";
                     	if(record.dataFormat.calendarTypeFormat == "BE"){
                     		calendarEra = "Buddhist calendar (B.E.)";
                     	}
@@ -436,7 +436,14 @@ angular
                         msgDisplay = msgDisplay.replace('{calendarType}', calendarEra);
                         msgDisplay = msgDisplay.replace('{exampleData}', convertDate(record.dataFormat.dateTimeFormat,dataType.defaultExampleValue));
                         msgDisplay = msgDisplay.replace('| {conditionUploadDate}', '');
-                    }
+						
+                    }else if(dataType.dataTypeDisplay == dataTypeDisplay.numeric 
+							 || dataType.dataTypeDisplay == dataTypeDisplay.paymentAmount){						
+						msgDisplay = dataType.configDetailPattern.replace('{required}', record.dataFormat.required);
+						msgDisplay = msgDisplay.replace('{signFlag}', record.dataFormat.signFlag);
+						msgDisplay = msgDisplay.replace('{positiveExampleData}', vm.examplePositiveNumeric);
+						msgDisplay = msgDisplay.replace('{negativeExampleData}', vm.exampleNegativeNumeric);
+					}
 
                     return msgDisplay;
                 };
@@ -451,7 +458,7 @@ angular
                     if (vm.requireCheckbox) {
                         requiredFormat = "Yes";
                     }
-                    
+					
                     var dataFormat = {};
                     if (vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
                         dataFormat = {
@@ -460,6 +467,7 @@ angular
                             customerCodeGroupName: vm.customerCodeGroup,
                             isExpectedValue: true
                         };
+
                     }else if(vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.dateTime){
                         dataFormat = {
                             required: requiredFormat,
@@ -477,7 +485,16 @@ angular
                             expectedValue: vm.expectedValue,
                             isExpectedValue: isExpectedValue
                         };
-                    }
+
+                    }else if(vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.numeric 
+							 || vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.paymentAmount){
+						 	dataFormat = {
+								required: requiredFormat,
+								isExpectedValue: false
+                        	};
+						
+						dataFormat = angular.extend(dataFormat, vm.numericeModel);
+					}
 
                     vm.rowItemPopup = angular.extend(vm.rowItemPopup, {
                         dataFormat: dataFormat
@@ -488,19 +505,19 @@ angular
                 vm.save = function() {
                     var layoutConfigRequest = getLayoutConfigRequest();
                     var apiURL = 'api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/layouts';
-
-                    var fileLayoutDiferred = Service.requestURL(apiURL, layoutConfigRequest, 'POST');
-
-                    fileLayoutDiferred.promise.then(function(response) {
-                        var organizeModel = {
-                            organizeId: vm.sponsorId
-                        }
-                        PageNavigation.gotoPage('/sponsor-configuration', {
-                            organizeModel: organizeModel
-                        });
-                    }).catch(function(response) {
-                        log.error('Save config fail');
-                    });
+					console.log(layoutConfigRequest);
+//                    var fileLayoutDiferred = Service.requestURL(apiURL, layoutConfigRequest, 'POST');
+//
+//                    fileLayoutDiferred.promise.then(function(response) {
+//                        var organizeModel = {
+//                            organizeId: vm.sponsorId
+//                        }
+//                        PageNavigation.gotoPage('/sponsor-configuration', {
+//                            organizeModel: organizeModel
+//                        });
+//                    }).catch(function(response) {
+//                        log.error('Save config fail');
+//                    });
                 };
 
                 function getLayoutConfigRequest() {
@@ -538,8 +555,6 @@ angular
                     var items = [];
 
                     layoutConfigItems.forEach(function(item) {
-                    	
-                    	console.log(item);
                     	
                     	var require = false;
                         if (item.dataFormat.required == 'Yes') {
@@ -622,7 +637,33 @@ angular
     	                            primaryKeyField: item.primaryKeyField,
     	                            expectedValue: getExpedtedValueRequest(item.dataFormat)
                             }                  		
-                    	}
+                    	}if(item.dataType.documentTableField == 'NUMERIC'){
+							 sponsorItem = {
+								startIndex: item.startIndex,
+								dataLength: item.dataLength,
+								dataType: item.dataType.documentTableField,
+								recordType: item.dataType.recordType,
+								fieldName: '',
+								calendarEra: '',
+								datetimeFormat: '',
+								paddingType: null,
+								paddingCharacter: '',
+								has1000Separator: null,
+								hasDecimalSign: null,
+								hasDecimalPlace: null,
+								decimalPlace: itemConfig.decimalPlacesValue,
+								signFlagConfig: null,
+								defaultValue: null,
+								displayValue: item.sponsorFieldName,
+								isTransient: 0,
+								required: item.dataFormat.required == 'Yes' ? true:false,
+								positiveFlag: null,
+								negativeFlag: null,
+								primaryKeyField: item.primaryKeyField,
+								expectedValue: null
+							}
+                    	
+						}
                         items.push(sponsorItem);
                     });
 
@@ -690,8 +731,15 @@ angular
                     }
                     return false;
                 }
-                
-                function convertDate(format,exampledata){
+
+				vm.isSetupComplete = function(item){
+					if(isEmptyValue(item.dataFormat)){
+						return false;
+					}
+					return true;
+				}
+				
+				function convertDate(format,exampledata){
                 	var year = exampledata.substring(0, 4);
                 	var month = exampledata.substring(4, 6);
                 	var day = exampledata.substring(6, 8);
