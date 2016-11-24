@@ -200,7 +200,8 @@
 	
 	"Text field format": "Text field format",
 	"Date time field format": "Date time field format",
-	"Customer code field format": "Customer code group field format",
+	"Numeric field format": "Numeric field format",
+	"Customer code field format": "Customer code field format",
 	"New customer code group": "New customer code group",
 	"Group name": "Group name",
 	"Require": "Require",
@@ -211,5 +212,15 @@
 	"Calendar type": "Calendar type",
 	"Christ calendar": "Christ calendar",
 	"Buddhist calendar": "Buddhist calendar",
+	"Any numeric format": "Any numeric format",
+	"Custom numeric format": "Custom numeric format",
+	"Padding character": "Padding character",
+	"Has 1,000 seperator": "Has 1,000 seperator (,)",
+	"Has decimal place": "Has decimal place (.)",
+	"Decimal places": "Decimal places",
+	"Sign flag": "Sign flag",
+	"Need plus symbol": "Need plus symbol (+) on positive value",
+	"Avoid plus symbol": "Avoid plus symbol (+) on positive value",
+	"Ignore plus symbol": "Ignore plus symbol (+) on positive value",
 	"Save": "Save"
 }
