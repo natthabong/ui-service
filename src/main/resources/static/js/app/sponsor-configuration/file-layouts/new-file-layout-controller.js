@@ -68,15 +68,6 @@ angular
                     dropdowns: []
                 }
 
-                //							vm.configPopup = function() {
-                //								ngDialog
-                //										.open({
-                //											template : '/js/app/approve-transactions/confirm-dialog.html',
-                //											scope : $scope,
-                //											disableAnimation : true
-                //										});
-                //							};
-
                 vm.preview = function(data) {
                     SCFCommonService.parentStatePage()
                         .saveCurrentState($state.current.name);
@@ -411,7 +402,12 @@ angular
                     } else if (dataType.dataTypeDisplay == dataTypeDisplay.documentNo) {
                         msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
                         msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-                    }
+                    }else if(dataType.dataTypeDisplay == dataTypeDisplay.dateTime){
+    					msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+    					msgDisplay = msgDisplay.replace('{dateTimeFormat}', dataType.defaultExampleValue);
+    					msgDisplay = msgDisplay.replace('{calendarType}', dataType.defaultExampleValue);
+    					msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+    				}
 
                     return msgDisplay;
                 }
@@ -489,6 +485,17 @@ angular
                     return items;
                 }
 
-
+                vm.updateValue = function() {
+    		    	var requiredFormat = "No";
+    		    	if(vm.requireCheckbox){
+    		    		requiredFormat = "Yes";
+    		    	}
+    		    	
+    		    	vm.dataFormat = {
+    			    	required: requiredFormat,
+    			    	expectedValue: vm.expectedValue,
+    			    	customerCodeGroupName: vm.customerCodeGroup.value
+    			    };
+    		    };
             }
         ]);
