@@ -2,7 +2,7 @@
 		<div class="modal-header">
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
-					<h3><span id="text-field-format-header" class="popup-text" ng-bind="'Text field format' | translate">Text field format</span></h3>
+					<h3><span id="text-field-format-popup-header-message-label" class="popup-text" ng-bind="'Text field format' | translate">Text field format</span></h3>
 				</div>				
 			</div>
 		</div>
@@ -14,7 +14,7 @@
 							<legend>Validation</legend>
 							<div class="form-group">
 								<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-										id="require-checkbox" ng-model="newFileLayoutCtrl.requireCheckbox" 
+										id="text-field-format-popup-require-checkbox" ng-model="newFileLayoutCtrl.requireCheckbox" 
 										ng-click="newFileLayoutCtrl.checkRequired()"></scf-checkbox>
 									<span ng-bind="'Require' | translate" id="require-label"></span>
 								</label>
@@ -23,7 +23,7 @@
 								<label for="expected-value" class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 										ng-bind="'Expected value' | translate"></span>:</label>
 								<div class="col-md-7 col-sm-5 col-xs-12">
-									<scf-input-text id="expected-value-textbox"
+									<scf-input-text id="text-field-format-popup-expected-value-textbox"
 										ng-model="ngDialogData.expectedValue" ng-disabled="newFileLayoutCtrl.disableText"></scf-input-text>
 								</div>
 							</div>
@@ -35,10 +35,10 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<scf-button id="cancel-button" class="popup-button"  
+					<scf-button id="text-field-format-popup-cancel-button" class="popup-button"  
 						ng-click="closeThisDialog()"
 						ng-bind="'Cancel' | translate"></scf-button>
-					<scf-button id="ok-button" class="popup-button" 
+					<scf-button id="text-field-format-popup-ok-button" class="popup-button" 
 						ng-click="closeThisDialog();newFileLayoutCtrl.displayExampleValue()"
 						ng-bind="'OK' | translate"></scf-button>
 					
