@@ -2,7 +2,7 @@
 		<div class="modal-header">
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
-					<h3><span id="date-time-field-format-header" class="popup-text" ng-bind="'Date time field format' | translate">Date time field format</span></h3>
+					<h3><span id="date-time-field-format-popup-header-message-label" class="popup-text" ng-bind="'Date time field format' | translate">Date time field format</span></h3>
 				</div>				
 			</div>
 		</div>
@@ -16,7 +16,7 @@
 								<label for="date-time-format" class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 										ng-bind="'Date time format' | translate"></span>:</label>
 								<div class="col-md-6 col-sm-4 col-xs-12">
-									<scf-dropdown id="date-time-dropdown"
+									<scf-dropdown id="date-time-field-format-popup-date-time-format-dropdown"
 										ng-model="newFileLayoutCtrl.dateTimeFormat"
 										component-data="newFileLayoutCtrl.dateTimeDropdown"
 										translate-label="true"></scf-dropdown>
@@ -28,7 +28,7 @@
 								<div class="col-md-6 col-sm-4 col-xs-12">
 									<label class="radio-inline"> <scf-radio
 											id="christ-calendar-type" 
-											name="calendar-type-radio"
+											name="date-time-field-format-popup-calendar-type-radio"
 											ng-value="newFileLayoutCtrl.calendarType.christCalendar"
 											ng-model="newFileLayoutCtrl.calendarTypeFormat"></scf-radio>
 										{{'Christ calendar' | translate}}
@@ -36,7 +36,7 @@
 									<br/>
 									<label class="radio-inline"> <scf-radio
 											id="buddhist-calendar-type"
-											name="calendar-type-radio"
+											name="date-time-field-format-popup-calendar-type-radio"
 											ng-value="newFileLayoutCtrl.calendarType.buddhistCalendar"
 											ng-model="newFileLayoutCtrl.calendarTypeFormat"></scf-radio>
 										{{'Buddhist calendar' | translate}}
@@ -45,7 +45,16 @@
 							</div>
 							<div class="form-group">
 								<label for="date-time-label" class="col-md-12 col-sm-12 col-xs-12 control-label"><span 
-										id="date-time-example">Ex. {{newFileLayoutCtrl.exampleDateTime | date:newFileLayoutCtrl.dateTimeFormat}}</span></label>
+										id="date-time-field-format-popup-example-label">Ex. {{newFileLayoutCtrl.exampleDateTime | date:newFileLayoutCtrl.dateTimeFormat}}</span></label>
+							</div>
+						</fieldset>
+						<fieldset>
+							<legend>Validation</legend>
+							<div class="form-group">
+								<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
+										id="date-time-field-format-popup-require-checkbox" ng-model="newFileLayoutCtrl.requireCheckbox"></scf-checkbox>
+									<span ng-bind="'Require' | translate" id="require-label"></span>
+								</label>
 							</div>
 						</fieldset>
 					</form>
@@ -55,10 +64,10 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<scf-button id="cancel-button" class="popup-button"  
+					<scf-button id="date-time-field-format-popup-cancel-button" class="popup-button"  
 						ng-click="closeThisDialog()"
 						ng-bind="'Cancel' | translate"></scf-button>
-					<scf-button id="ok-button" class="popup-button" 
+					<scf-button id="date-time-field-format-popup-ok-button" class="popup-button" 
 						ng-click="closeThisDialog();ctrl.updateValue()"
 						ng-bind="'OK' | translate"></scf-button>
 					
