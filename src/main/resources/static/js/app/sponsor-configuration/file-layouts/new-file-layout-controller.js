@@ -232,10 +232,12 @@ angular
                         scope: $scope
                     }).then(function(value) {
                         console.log('Modal promise resolved. Value: ', value);
+                    }, function(reason) {
+                        console.log('Modal promise rejected. Reason: ', reason);
                     });
                 };
 
-                vm.exampleDateTime = Date.parse('03/14/2012 13:30:55');
+                vm.exampleDateTime = Date.parse('04/13/2016 13:30:55');
 
                 vm.loadDateTimeFormat = function() {
                     var diferred = $q.defer();
@@ -270,6 +272,7 @@ angular
                 vm.examplePositiveNumeric = '0000123456';
                 vm.exampleNegativeNumeric = '-000123456';
 //                vm.decimalPlacesValue = 0;
+
 
                 vm.loadNumericFormat = function() {
                     var loadSignFlagDiferred = vm.loadSignFlagList();
@@ -393,7 +396,7 @@ angular
                     if (angular.isUndefined(record.dataFormat) || record.dataFormat == null) {
                         return '';
                     }
-
+                    
                     var dataType = record.dataType;
 
                     var msgDisplay = ''
@@ -412,11 +415,17 @@ angular
                         msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
                         msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
                     } else if (dataType.dataTypeDisplay == dataTypeDisplay.dateTime) {
-                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
-                        msgDisplay = msgDisplay.replace('{dateTimeFormat}', dataType.defaultExampleValue);
-                        msgDisplay = msgDisplay.replace('{calendarType}', dataType.defaultExampleValue);
-                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-						
+
+                       var calendarEra = "Christ calendar (A.D.)";
+                    	if(record.dataFormat.calendarTypeFormat == "BE"){
+                    		calendarEra = "Buddhist calendar (B.E.)";
+                    	}
+                    	
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', record.dataFormat.required);
+                        msgDisplay = msgDisplay.replace('{dateTimeFormat}',record.dataFormat.dateTimeFormat.toUpperCase());
+                        msgDisplay = msgDisplay.replace('{calendarType}', calendarEra);
+                        msgDisplay = msgDisplay.replace('{exampleData}', convertDate(record.dataFormat.dateTimeFormat,dataType.defaultExampleValue));
+                        msgDisplay = msgDisplay.replace('| {conditionUploadDate}', '');
                     }else if(dataType.dataTypeDisplay == dataTypeDisplay.numeric){
 						
 						msgDisplay = dataType.configDetailPattern.replace('{required}', record.dataFormat.required);
@@ -446,6 +455,14 @@ angular
                             expectedValue: vm.expectedValue,
                             customerCodeGroupName: vm.customerCodeGroup,
                             isExpectedValue: true
+                        };
+
+                    }else if(vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.dateTime){
+                        dataFormat = {
+                            required: requiredFormat,
+                            dateTimeFormat: vm.dateTimeFormat,
+                            calendarTypeFormat: vm.calendarTypeFormat,
+                            isExpectedValue: false
                         };
                     }else if(vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.numeric){
 						 dataFormat = {
@@ -515,8 +532,67 @@ angular
                     var items = [];
 					console.log(layoutConfigItems);
                     layoutConfigItems.forEach(function(item) {
-
-                        var sponsorItem = {
+              	
+                    	console.log(item);
+                    	
+                    	var require = false;
+                        if (item.dataFormat.required == 'Yes') {
+                        	require = true;
+                        }
+                    	
+                    	var sponsorItem ={}
+                    	if(item.dataType.documentTableField == 'CUSTOMER_CODE'){
+                        	sponsorItem = {
+	                            startIndex: item.startIndex,
+	                            dataLength: item.dataLength,
+	                            dataType: item.dataType.documentTableField,
+	                            recordType: item.dataType.recordType,
+	                            fieldName: null,
+	                            calendarEra: null,
+	                            datetimeFormat: null,
+	                            paddingType: null,
+	                            paddingCharacter: '',
+	                            has1000Separator: null,
+	                            hasDecimalSign: null,
+	                            hasDecimalPlace: null,
+	                            decimalPlace: null,
+	                            defaultValue: null,
+	                            displayValue: item.sponsorFieldName,
+	                            signFlagConfig: null,
+	                            isTransient: 0,
+	                            required: require,
+	                            positiveFlag: null,
+	                            negativeFlag: null,
+	                            primaryKeyField: item.primaryKeyField,
+	                            expectedValue: getExpedtedValueRequest(item.dataFormat)
+                        	}
+                    	}else if(item.dataType.documentTableField == 'DATE_TIME'){
+                        	sponsorItem = {
+    	                            startIndex: item.startIndex,
+    	                            dataLength: item.dataLength,
+    	                            dataType: item.dataType.documentTableField,
+    	                            recordType: item.dataType.recordType,
+    	                            fieldName: null,
+    	                            calendarEra: item.dataFormat.calendarTypeFormat,
+    	                            datetimeFormat: item.dataFormat.dateTimeFormat,
+    	                            paddingType: null,
+    	                            paddingCharacter: '',
+    	                            has1000Separator: null,
+    	                            hasDecimalSign: null,
+    	                            hasDecimalPlace: null,
+    	                            decimalPlace: null,
+    	                            defaultValue: null,
+    	                            displayValue: item.sponsorFieldName,
+    	                            signFlagConfig: null,
+    	                            isTransient: 0,
+    	                            required: require,
+    	                            positiveFlag: null,
+    	                            negativeFlag: null,
+    	                            primaryKeyField: item.primaryKeyField,
+    	                            expectedValue: null
+                            }                  		
+                    	}if(item.dataType.dataTypeDisplay == dataTypeDisplay.numeric){
+							 sponsorItem = {
                             startIndex: item.startIndex,
                             dataLength: item.dataLength,
                             dataType: item.dataType.documentTableField,
@@ -540,11 +616,9 @@ angular
                             primaryKeyField: item.primaryKeyField,
                             expectedValue: getExpedtedValueRequest(item.dataFormat)
                         }
-						
-						if(item.dataType.dataTypeDisplay == dataTypeDisplay.numeric){
+                    	
 							sponsorItem = convertNumericRequest(sponsorItem, item.dataFormat);
 						}
-
                         items.push(sponsorItem);
 						
 						
@@ -614,7 +688,7 @@ angular
                     }
                     return false;
                 }
-				
+
 				vm.isSetupComplete = function(item){
 					if(isEmptyValue(item.dataFormat)){
 						return false;
@@ -633,5 +707,17 @@ angular
 					sponsorItemRequest = angular.extend(sponsorItemRequest, numericItem);
 					return sponsorItemRequest;
 				}
+
+				function convertDate(format,exampledata){
+                	var year = exampledata.substring(0, 4);
+                	var month = exampledata.substring(4, 6);
+                	var day = exampledata.substring(6, 8);
+                	
+                	format = format.replace('yyyy', year);
+                	format = format.replace('MM', month);
+                	format = format.replace('dd', day);
+                	
+                	return format;
+                }
             }
         ]);
