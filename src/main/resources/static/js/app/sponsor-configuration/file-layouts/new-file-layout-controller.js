@@ -519,13 +519,16 @@ angular
                     var items = [];
 
                     layoutConfigItems.forEach(function(item) {
+                    	
+                    	console.log(item);
+                    	
                     	var require = false;
-                        if (vm.dataType.required == 'Yes') {
+                        if (item.dataFormat.required == 'Yes') {
                         	require = true;
                         }
                     	
                     	var sponsorItem ={}
-                    	if(item.documentTableField == 'CUSTOMER_CODE'){
+                    	if(item.dataType.documentTableField == 'CUSTOMER_CODE'){
                         	sponsorItem = {
 	                            startIndex: item.startIndex,
 	                            dataLength: item.dataLength,
@@ -550,7 +553,7 @@ angular
 	                            primaryKeyField: item.primaryKeyField,
 	                            expectedValue: getExpedtedValueRequest(item.dataFormat)
                         	}
-                    	}else if(item.documentTableField == 'DATE_TIME'){
+                    	}else if(item.dataType.documentTableField == 'DATE_TIME'){
                         	sponsorItem = {
     	                            startIndex: item.startIndex,
     	                            dataLength: item.dataLength,
@@ -574,7 +577,7 @@ angular
     	                            negativeFlag: null,
     	                            primaryKeyField: item.primaryKeyField,
     	                            expectedValue: null
-                            	}                  		
+                            }                  		
                     	}
                         items.push(sponsorItem);
                     });
