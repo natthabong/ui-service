@@ -196,7 +196,9 @@ angular
                 }
 
                 vm.initLoad();
-		
+                
+                vm.expectedValue = '';
+
                 vm.rowItemPopup = {};
                 vm.openSetting = function(record) {
                     var dataTypeConfig = record.dataType;
@@ -269,9 +271,9 @@ angular
                     return diferred;
                 }
 
-                vm.examplePositiveNumeric = '0000123456';
-                vm.exampleNegativeNumeric = '-000123456';
-//                vm.decimalPlacesValue = 0;
+                vm.examplePositiveNumeric = '123456';
+                vm.exampleNegativeNumeric = '-123456';
+                vm.decimalPlacesValue = 0;
 
 
                 vm.loadNumericFormat = function() {
@@ -408,9 +410,16 @@ angular
                         msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
 
                     } else if (dataType.dataTypeDisplay == dataTypeDisplay.text) {
-                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
-                        msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
-                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+                    	
+                    	var exampleDisplay = dataType.defaultExampleValue;
+                    	if(record.dataFormat.expectedValue != ''){
+                    		exampleDisplay = record.dataFormat.expectedValue;
+                    	}
+                    	
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', record.dataFormat.required);
+                        msgDisplay = msgDisplay.replace('{expectedValue}', record.dataFormat.expectedValue);
+                        msgDisplay = msgDisplay.replace('{exampleData}',exampleDisplay);
+                        
                     } else if (dataType.dataTypeDisplay == dataTypeDisplay.documentNo) {
                         msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
                         msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
@@ -466,6 +475,17 @@ angular
                             calendarTypeFormat: vm.calendarTypeFormat,
                             isExpectedValue: false
                         };
+                    }else if(vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.text){
+                    	var isExpectedValue = false;
+                    	if(vm.expectedValue != ''){
+                    		isExpectedValue = true;
+                    	}
+                        dataFormat = {
+                            required: vm.requireCheckbox,
+                            expectedValue: vm.expectedValue,
+                            isExpectedValue: isExpectedValue
+                        };
+
                     }else if(vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.numeric 
 							 || vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.paymentAmount){
 						 	dataFormat = {
@@ -592,6 +612,31 @@ angular
     	                            primaryKeyField: item.primaryKeyField,
     	                            expectedValue: null
                             }                  		
+                    	}else if(item.dataType.documentTableField == 'TEXT'){
+                        	sponsorItem = {
+    	                            startIndex: item.startIndex,
+    	                            dataLength: item.dataLength,
+    	                            dataType: item.dataType.documentTableField,
+    	                            recordType: item.dataType.recordType,
+    	                            fieldName: null,
+    	                            calendarEra: null,
+    	                            datetimeFormat: null,
+    	                            paddingType: null,
+    	                            paddingCharacter: '',
+    	                            has1000Separator: null,
+    	                            hasDecimalSign: null,
+    	                            hasDecimalPlace: null,
+    	                            decimalPlace: null,
+    	                            defaultValue: null,
+    	                            displayValue: item.sponsorFieldName,
+    	                            signFlagConfig: null,
+    	                            isTransient: 0,
+    	                            required: require,
+    	                            positiveFlag: null,
+    	                            negativeFlag: null,
+    	                            primaryKeyField: item.primaryKeyField,
+    	                            expectedValue: getExpedtedValueRequest(item.dataFormat)
+                            }                  		
                     	}if(item.dataType.documentTableField == 'NUMERIC'){
 							 sponsorItem = {
 								startIndex: item.startIndex,
@@ -619,8 +664,7 @@ angular
 							}
                     	
 						}
-                        items.push(sponsorItem);						
-						
+                        items.push(sponsorItem);
                     });
 
                     return items;
