@@ -11,20 +11,22 @@ angular
             'ngDialog',
             'PageNavigation',
             'Service',
-            '$q',
+            '$q','$rootScope',
             function($log, $scope, $state, SCFCommonService,
                 $stateParams, $timeout, ngDialog,
-                PageNavigation, Service, $q) {
+                PageNavigation, Service, $q, $rootScope) {
                 var vm = this;
                 var log = $log;
-
+				
+				vm.sponsorId = $rootScope.sponsorId;
+				
                 vm.newFile = false;
 
                 vm.fileLayoutModel = $stateParams.fileLayoutModel;
 
                 vm.fileType = {
-                    fixedLength: 'fixedLength',
-                    delimited: 'delimited'
+                    fixedLength: 'FIXEDLENGTH',
+                    delimited: 'CSV'
                 }
 
                 vm.delimitersDropdown = [];
@@ -101,19 +103,19 @@ angular
                 vm.loadDelimiters = function() {
                     var delimiterList = [{
                         delimiterName: 'Comma (,)',
-                        delimiterId: '1'
+                        delimiterId: ','
                     }, {
                         delimiterName: 'Colon (:)',
-                        delimiterId: '2'
+                        delimiterId: ':'
                     }, {
                         delimiterName: 'Tab',
                         delimiterId: '3'
                     }, {
                         delimiterName: 'Semicolon (;)',
-                        delimiterId: '4'
+                        delimiterId: ';'
                     }, {
                         delimiterName: 'Other',
-                        delimiterId: '5'
+                        delimiterId: 'Other'
                     }];
 
                     delimiterList.forEach(function(obj) {
@@ -129,10 +131,10 @@ angular
                 vm.loadFileEncode = function() {
                     var fileEncodeList = [{
                         fileEncodeName: 'UTF-8',
-                        fileEncodeId: '1'
+                        fileEncodeId: 'UTF-8'
                     }, {
                         fileEncodeName: 'TIS-620',
-                        fileEncodeId: '2'
+                        fileEncodeId: 'TIS-620'
                     }];
 
                     fileEncodeList.forEach(function(obj) {
@@ -264,7 +266,6 @@ angular
                         vm.sponsorId = vm.fileLayoutModel.sponsorId;
                     } else {
                         vm.fileLayoutName = '';
-                        vm.sponsorId = '';
                         vm.newFile = true;
                     }
 
@@ -340,10 +341,6 @@ angular
                         }
                     }
 
-                    //							vm.loadPaymentDateType = function(){								
-                    //								vm.paymentDateFieldModel.dropdowns = addPaymentDateField(vm.layoutConfigItems);
-                    //							}
-
                     vm.initLoad = function() {
                         if (!angular.isUndefined(vm.fileLayoutModel) && vm.fileLayoutModel != null) {
                             vm.fileLayoutName = vm.fileLayoutModel.displayName;
@@ -360,7 +357,6 @@ angular
                         vm.layoutInfoModel.offsetRowNo = 1;
 
                         vm.paymentDateType = vm.paymentDateTypeValues.field;
-                        //								vm.loadPaymentDateType();
                     }
 
                 }
@@ -456,12 +452,116 @@ angular
                     vm.paymentDateFieldModel.dropdowns = addPaymentDateField(vm.layoutConfigItems);
                 }, true)
 
-                function newItemConfig() {
+                vm.updateValue = function() {
+    		    	var requiredFormat = "No";
+    		    	if(vm.requireCheckbox){
+    		    		requiredFormat = "Yes";
+    		    	}
+    		    	
+    		    	vm.dataFormat = {
+    			    	required: requiredFormat,
+    			    	expectedValue: vm.expectedValue,
+    			    	customerCodeGroupName: vm.customerCodeGroup.value
+    			    };
+    		    };
+				
+				vm.save = function(){
+					var layoutConfig = getLayoutConfigModel();
+					var apiURL = 'api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/layouts';
+										
+					var fileLayoutDiferred = Service.requestURL(apiURL, layoutConfig, 'POST');
+					
+					fileLayoutDiferred.promise.then(function(response){						
+						var organizeModel = {
+							organizeId: vm.sponsorId
+						}
+						PageNavigation.gotoPage('/sponsor-configuration', {organizeModel: organizeModel});
+					}).catch(function(response){
+						log.error('Save config fail');
+					});
+				}
+				
+				function getLayoutConfigModel(){
+					console.log(vm.layoutConfigItems);
+					var layoutConfigModel = {
+						sponsorIntegrateFileConfig: {
+							sponsorConfigId: 'SFP',
+							sponsorId: vm.sponsorId,
+							displayName: vm.fileLayoutName,
+							delimeter: vm.layoutInfoModel.delimiters,
+							wrapper: null,
+							headerRecordType: null,
+							detailRecordType: null,
+							footerRecordType: null,
+							fileExtensions: getFileExtensionSelected(),
+							integrateType: 'SPONSOR_UPLOAD',
+							fileType: vm.layoutInfoModel.fileType,
+							charsetName: vm.layoutInfoModel.fileEncode,
+							checkBinaryFile: false,
+							completed: true,
+							ownerId: vm.sponsorId,
+							detailFlag: null,
+							headerFlag: null,
+							footerFlag: null,
+							items: convertLayoutConfigItems(vm.layoutConfigItems)
+						},
+						paymentDateField: vm.paymentDateFieldModel.fieldSelect
+					}
+					return layoutConfigModel;
+				}
+									
+				function convertLayoutConfigItems(layoutConfigItems){
+					if(angular.isUndefined(layoutConfigItems) 
+					   || layoutConfigItems.length == 0){
+						return null;
+					}
+					var items = [];
+					
+					layoutConfigItems.forEach(function(item){
+						var sponsorItem = {
+							startIndex: item.startIndex,
+							dataLength: item.dataLength,
+							dataType: item.dataType.documentTableField,
+							recordType: item.dataType.recordType,
+							fieldName: '',
+							calendarEra: '',
+							datetimeFormat: '',
+							paddingType: null,
+							paddingCharacter: '',
+							has1000Separator: null,
+							hasDecimalSign: null,
+							hasDecimalPlace: null,
+							decimalPlace: 2,
+							defaultValue: null,
+							displayValue: item.sponsorFieldName,
+							signFlagConfig: null,
+							isTransient: 0,
+							required: 0,
+							positiveFlag: null,
+							negativeFlag: null,
+							primaryKeyField: item.primaryKeyField,
+							expectedValue: null
+						}
+						
+						items.push(sponsorItem);
+					});
+					
+					return items;
+				}
+				
+				function getFileExtensionSelected(){
+					if(vm.layoutInfoModel.fileType == vm.fileType.delimited){
+						return 'csv';
+					}
+					return 'fixedLength';
+				}
+				
+				function newItemConfig() {
                     var itemConfig = {
                         primaryKeyField: false,
                         sponsorFieldName: '',
                         dataType: null,
-                        length: 0,
+                        dataLength: 0,
                         startIndex: 0
                     };
                     return itemConfig;
@@ -485,18 +585,5 @@ angular
                     }
                     return items;
                 }
-
-                vm.updateValue = function() {
-    		    	var requiredFormat = "No";
-    		    	if(vm.requireCheckbox){
-    		    		requiredFormat = "Yes";
-    		    	}
-    		    	
-    		    	vm.dataFormat = {
-    			    	required: requiredFormat,
-    			    	expectedValue: vm.expectedValue,
-    			    	customerCodeGroupName: vm.customerCodeGroup.value
-    			    };
-    		    };
             }
         ]);
