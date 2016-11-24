@@ -29,15 +29,16 @@
 									<label class="radio-inline"> <scf-radio
 											id="christ-calendar-type" 
 											name="calendar-type-radio"
-											ng-checked="true"
-											ng-model="newFileLayoutCtrl.calendarType"></scf-radio>
+											ng-value="newFileLayoutCtrl.calendarType.christCalendar"
+											ng-model="newFileLayoutCtrl.calendarTypeFormat"></scf-radio>
 										{{'Christ calendar' | translate}}
 									</label> 
 									<br/>
 									<label class="radio-inline"> <scf-radio
 											id="buddhist-calendar-type"
 											name="calendar-type-radio"
-											ng-model="newFileLayoutCtrl.calendarType"></scf-radio>
+											ng-value="newFileLayoutCtrl.calendarType.buddhistCalendar"
+											ng-model="newFileLayoutCtrl.calendarTypeFormat"></scf-radio>
 										{{'Buddhist calendar' | translate}}
 									</label>
 								</div>

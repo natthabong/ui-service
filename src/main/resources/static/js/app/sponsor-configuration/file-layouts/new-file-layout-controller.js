@@ -11,7 +11,8 @@ angular
             'ngDialog',
             'PageNavigation',
             'Service',
-            '$q', '$rootScope',
+            '$q', 
+            '$rootScope',
             function($log, $scope, $state, SCFCommonService,
                 $stateParams, $timeout, ngDialog,
                 PageNavigation, Service, $q, $rootScope) {
@@ -37,7 +38,9 @@ angular
                     customerCode: 'Customer code',
                     documentNo: 'Document No',
                     text: 'Text',
-                    dateTime: 'Date time'
+                    dateTime: 'Date time',
+                    numeric: 'Numeric',
+                    paymentAmount: 'Payment amount'
                 }
 
                 vm.dataTypeDropdown = [{
@@ -70,6 +73,22 @@ angular
                     dropdowns: []
                 }
 
+                vm.calendarType = {
+                    christCalendar: 'AD',
+                    buddhistCalendar: 'BE'
+                }
+                
+                vm.numericType = {
+                	anyNumericFormat: 'anyNumericFormat',
+                	customNumericFormat: 'customNumericFormat'
+                }
+                
+                vm.signFlagType = {
+                	ignorePlusSymbol: 'ignorePlusSymbol',
+                	needPlusSymbol: 'needPlusSymbol',
+                	avoidPlusSymbol: 'avoidPlusSymbol'
+                }
+                
                 vm.preview = function(data) {
                     SCFCommonService.parentStatePage()
                         .saveCurrentState($state.current.name);
@@ -188,8 +207,15 @@ angular
                         if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.customerCode) {
                             vm.loadCustomerCodeGroup();
                         } else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.dateTime) {
+                        	vm.calendarTypeFormat = vm.calendarType.christCalendar;
                             vm.loadDateTimeFormat();
-                        }
+                        } else if(dataTypeConfig.dataTypeDisplay == dataTypeDisplay.numeric || 
+                        		dataTypeConfig.dataTypeDisplay == dataTypeDisplay.paymentAmount){
+    						vm.numericTypeFormat = vm.numericType.anyNumericFormat;
+    						vm.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
+    						vm.disableField = true;
+    						vm.loadNumericFormat();
+    					}
 
                         ngDialog.openConfirm({
                             template: dataTypeConfig.configActionUrl,
@@ -236,9 +262,40 @@ angular
                     return diferred;
                 }
 
-                vm.calendarType = {
-                    christCalendar: 'Christ calendar (A.D.)',
-                    buddhistCalendar: 'Buddhist calendar (B.E.)'
+                vm.examplePositiveNumeric = '0000123456';
+                vm.exampleNegativeNumeric = '-000123456';
+                vm.decimalPlacesValue = 0;
+                
+                vm.loadNumericFormat = function() {
+                	var loadSignFlagDiferred = vm.loadSignFlagList();
+                	loadSignFlagDiferred.promise.then(function() {
+                		vm.signFlag = vm.signFlagDropdown[0].value;
+                    });
+                }
+                
+                vm.loadSignFlagList = function() {
+                    var diferred = $q.defer();
+                    vm.signFlagDropdown = [];
+
+                    var serviceUrl = 'js/app/sponsor-configuration/file-layouts/sign_flag_list.json';
+                    var serviceDiferred = Service.doGet(serviceUrl);
+                    serviceDiferred.promise.then(function(response) {
+                        var signFlagList = response.data;
+                        if (signFlagList !== undefined) {
+                        	signFlagList.forEach(function(obj) {
+                                var selectObj = {
+                                    label: obj.signFlagName,
+                                    value: obj.signFlagId
+                                }
+                                vm.signFlagDropdown.push(selectObj);
+                            });
+                        }
+                        diferred.resolve(vm.signFlagDropdown);
+                    }).catch(function(response) {
+                        $log.error('Load date time format Fail');
+                        diferred.reject();
+                    });
+                    return diferred;
                 }
 
                 vm.loadCustomerCodeGroup = function() {
@@ -273,47 +330,7 @@ angular
                     vm.customerCodeGroup = vm.customerCodeGroupDropdown[0].value;
                     return diferred;
                 };
-
-                vm.dataFormat = {};
-                vm.expectedValue = '';
-
-
-                vm.checkRequired = function() {
-                    vm.required = !vm.required;
-                    vm.disableText = !vm.required;
-                };
-
-                vm.dataFormat = {};
-                vm.expectedValue = '';
-
-                vm.displayExampleValue = function(record) {
-                    if (angular.isUndefined(record.dataType) || record.dataType == null) {
-                        return '';
-                    }
-
-                    var dataType = record.dataType;
-                    var msgDisplay = ''
-                    if (dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
-                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
-                        msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
-                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.text) {
-                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
-                        msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
-                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.documentNo) {
-                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
-                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.dateTime) {
-                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
-                        msgDisplay = msgDisplay.replace('{dateTimeFormat}', dataType.defaultExampleValue);
-                        msgDisplay = msgDisplay.replace('{calendarType}', dataType.defaultExampleValue);
-                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-                    }
-
-                    return msgDisplay;
-                };
-
+                
                 vm.newCustomerCodeGroup = function() {
                     vm.newCustCodeDialog = ngDialog.open({
                         template: '/configs/layouts/file/data-types/customer-code/new-customer-code',
@@ -353,6 +370,54 @@ angular
                     });
                 };
 
+                vm.dataFormat = {};
+                vm.expectedValue = '';
+
+
+                vm.checkRequired = function() {
+                    vm.required = !vm.required;
+                    vm.disableText = !vm.required;
+                };
+                
+                vm.checkCustomNumeric = function() {
+                	if(vm.numericTypeFormat == 'anyNumericFormat'){
+                		vm.disableField = true;
+                	}else if(vm.numericTypeFormat == 'customNumericFormat'){
+                		vm.disableField = false;
+                	}
+                };
+
+                vm.dataFormat = {};
+                vm.expectedValue = '';
+
+                vm.displayExampleValue = function(record) {
+                    if (angular.isUndefined(record.dataType) || record.dataType == null) {
+                        return '';
+                    }
+
+                    var dataType = record.dataType;
+                    var msgDisplay = ''
+                    if (dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+                        msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
+                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.text) {
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+                        msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
+                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.documentNo) {
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.dateTime) {
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+                        msgDisplay = msgDisplay.replace('{dateTimeFormat}', dataType.defaultExampleValue);
+                        msgDisplay = msgDisplay.replace('{calendarType}', dataType.defaultExampleValue);
+                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+                    }
+
+                    return msgDisplay;
+                };
+                
                 $scope.$watch('newFileLayoutCtrl.layoutConfigItems', function() {
                     vm.paymentDateFieldModel.dropdowns = addPaymentDateFieldDropdown(vm.layoutConfigItems);
                 }, true);

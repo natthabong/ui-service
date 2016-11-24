@@ -1,0 +1,12 @@
+[
+	{
+		"signFlagName" : "Within field",
+		"signFlagId" : "1"
+	}, {
+		"signFlagName" : "Sign flag field",
+		"signFlagId" : "2"
+	}, {
+		"signFlagName" : "Document type field",
+		"signFlagId" : "3"
+	}
+]
