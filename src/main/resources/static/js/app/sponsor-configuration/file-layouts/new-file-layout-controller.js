@@ -153,7 +153,6 @@ angular
 
                 vm.addNewConfigItem = function() {
                     vm.layoutConfigItems.push(newItemConfig());
-                    console.log(vm.layoutConfigItems)
                 }
 
                 vm.removeConfigItem = function(record) {
@@ -198,39 +197,6 @@ angular
                     buddhistCalendar: 'Buddhist calendar (B.E.)'
                 }
 
-                vm.loadCustomerCodeGroup = function() {
-                    var diferred = $q.defer();
-                    vm.customerCodeGroupDropdown = [{
-                        label: 'Please select',
-                        value: ''
-                    }];
-
-                    var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups';
-                    var serviceDiferred = Service.doGet(serviceUrl, {
-                        offset: 0,
-                        limit: 20
-                    });
-                    serviceDiferred.promise.then(function(response) {
-                        var customerCodeGroupList = response.data;
-                        if (customerCodeGroupList !== undefined) {
-                            customerCodeGroupList.forEach(function(obj) {
-                                var selectObj = {
-                                    label: obj.groupName,
-                                    value: obj.groupId
-                                }
-                                vm.customerCodeGroupDropdown.push(selectObj);
-                            });
-                        }
-                        diferred.resolve(vm.customerCodeGroupDropdown);
-                    }).catch(function(response) {
-                        $log.error('Load Customer Code Group Fail');
-                        diferred.reject();
-                    });
-
-                    vm.customerCodeGroup = vm.customerCodeGroupDropdown[0].value;
-                    return diferred;
-                };
-
                 vm.openSetting = function(record) {
                     var dataTypeConfig = record.dataType
                     if (dataTypeConfig != null) {
@@ -240,8 +206,6 @@ angular
 
                         if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.customerCode) {
                             vm.loadCustomerCodeGroup();
-                        } else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.dateTime) {
-                            vm.loadDateTimeFormat();
                         }
 
                         ngDialog.openConfirm({
@@ -256,6 +220,10 @@ angular
                         });
                     }
                 }
+
+                //							vm.loadPaymentDateType = function(){								
+                //								vm.paymentDateFieldModel.dropdowns = addPaymentDateField(vm.layoutConfigItems);
+                //							}
 
                 vm.initLoad = function() {
                     if (!angular.isUndefined(vm.fileLayoutModel) && vm.fileLayoutModel != null) {
@@ -272,109 +240,11 @@ angular
                     vm.loadDataTypes();
                     vm.layoutInfoModel.offsetRowNo = 1;
 
-
-                    vm.addNewConfigItem = function() {
-                        vm.layoutConfigItems.push(newItemConfig());
-                    }
-
-                    vm.removeConfigItem = function(record) {
-                        var index = vm.layoutConfigItems.indexOf(record);
-                        vm.layoutConfigItems.splice(index, 1);
-                    }
-
-                    vm.loadCustomerCodeGroup = function() {
-                        var diferred = $q.defer();
-                        vm.customerCodeGroupDropdown = [{
-                            label: 'Please select',
-                            value: ''
-                        }];
-
-                        var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups';
-                        var serviceDiferred = Service.doGet(serviceUrl, {
-                            offset: 0,
-                            limit: 20
-                        });
-                        serviceDiferred.promise.then(function(response) {
-                            var customerCodeGroupList = response.data;
-                            if (customerCodeGroupList !== undefined) {
-                                customerCodeGroupList.forEach(function(obj) {
-                                    var selectObj = {
-                                        label: obj.groupName,
-                                        value: obj.groupId
-                                    }
-                                    vm.customerCodeGroupDropdown.push(selectObj);
-                                });
-                            }
-                            diferred.resolve(vm.customerCodeGroupDropdown);
-                        }).catch(function(response) {
-                            $log.error('Load Customer Code Group Fail');
-                            diferred.reject();
-                        });
-
-                        vm.customerCodeGroup = vm.customerCodeGroupDropdown[0].value;
-                        return diferred;
-                    };
-
-                    vm.openSetting = function(record) {
-                        var dataTypeConfig = record.dataType
-                        if (dataTypeConfig != null) {
-                            vm.requireCheckbox = false;
-                            vm.required = vm.requireCheckbox;
-                            vm.disableText = true;
-
-                            if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.customerCode) {
-                                vm.loadCustomerCodeGroup();
-                            }
-
-                            ngDialog.openConfirm({
-                                template: dataTypeConfig.configActionUrl,
-                                data: record,
-                                className: 'ngdialog-theme-default',
-                                scope: $scope
-                            }).then(function(value) {
-                                console.log('Modal promise resolved. Value: ', value);
-                            }, function(reason) {
-                                console.log('Modal promise rejected. Reason: ', reason);
-                            });
-                        }
-                    }
-
-                    //							vm.loadPaymentDateType = function(){								
-                    //								vm.paymentDateFieldModel.dropdowns = addPaymentDateField(vm.layoutConfigItems);
-                    //							}
-
-                    vm.initLoad = function() {
-                        if (!angular.isUndefined(vm.fileLayoutModel) && vm.fileLayoutModel != null) {
-                            vm.fileLayoutName = vm.fileLayoutModel.displayName;
-                            vm.sponsorId = vm.fileLayoutModel.sponsorId;
-                        } else {
-                            vm.fileLayoutName = '';
-                            vm.sponsorId = '';
-                            vm.newFile = true;
-                        }
-
-                        vm.loadDelimiters();
-                        vm.loadFileEncode();
-                        vm.loadDataTypes();
-                        vm.layoutInfoModel.offsetRowNo = 1;
-
-                        vm.paymentDateType = vm.paymentDateTypeValues.field;
-                        //								vm.loadPaymentDateType();
-                    }
-
+                    vm.paymentDateType = vm.paymentDateTypeValues.field;
+                    //								vm.loadPaymentDateType();
                 }
-
+                
                 vm.initLoad();
-
-
-                vm.checkRequired = function() {
-                    vm.required = !vm.required;
-                    vm.disableText = !vm.required;
-                };
-
-                vm.dataFormat = {};
-                vm.expectedValue = '';
-
 
                 vm.checkRequired = function() {
                     vm.required = !vm.required;
@@ -412,6 +282,39 @@ angular
                     return msgDisplay;
                 }
 
+                vm.loadCustomerCodeGroup = function() {
+                    var diferred = $q.defer();
+                    vm.customerCodeGroupDropdown = [{
+                        label: 'Please select',
+                        value: ''
+                    }];
+
+                    var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups';
+                    var serviceDiferred = Service.doGet(serviceUrl, {
+                        offset: 0,
+                        limit: 20
+                    });
+                    serviceDiferred.promise.then(function(response) {
+                        var customerCodeGroupList = response.data;
+                        if (customerCodeGroupList !== undefined) {
+                            customerCodeGroupList.forEach(function(obj) {
+                                var selectObj = {
+                                    label: obj.groupName,
+                                    value: obj.groupId
+                                }
+                                vm.customerCodeGroupDropdown.push(selectObj);
+                            });
+                        }
+                        diferred.resolve(vm.customerCodeGroupDropdown);
+                    }).catch(function(response) {
+                        $log.error('Load Customer Code Group Fail');
+                        diferred.reject();
+                    });
+
+                    vm.customerCodeGroup = vm.customerCodeGroupDropdown[0].value;
+                    return diferred;
+                };
+                
                 vm.newCustomerCodeGroup = function() {
                     vm.newCustCodeDialog = ngDialog.open({
                         template: '/configs/layouts/file/data-types/customer-code/new-customer-code',
