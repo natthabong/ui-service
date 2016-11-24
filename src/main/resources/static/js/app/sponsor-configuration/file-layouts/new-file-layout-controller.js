@@ -11,7 +11,7 @@ angular
             'ngDialog',
             'PageNavigation',
             'Service',
-            '$q', 
+            '$q',
             '$rootScope',
             function($log, $scope, $state, SCFCommonService,
                 $stateParams, $timeout, ngDialog,
@@ -77,18 +77,18 @@ angular
                     christCalendar: 'AD',
                     buddhistCalendar: 'BE'
                 }
-                
+
                 vm.numericType = {
-                	anyNumericFormat: 'anyNumericFormat',
-                	customNumericFormat: 'customNumericFormat'
+                    anyNumericFormat: 'anyNumericFormat',
+                    customNumericFormat: 'customNumericFormat'
                 }
-                
+
                 vm.signFlagType = {
-                	ignorePlusSymbol: 'ignorePlusSymbol',
-                	needPlusSymbol: 'needPlusSymbol',
-                	avoidPlusSymbol: 'avoidPlusSymbol'
+                    ignorePlusSymbol: 'ignorePlusSymbol',
+                    needPlusSymbol: 'needPlusSymbol',
+                    avoidPlusSymbol: 'avoidPlusSymbol'
                 }
-                
+
                 vm.preview = function(data) {
                     SCFCommonService.parentStatePage()
                         .saveCurrentState($state.current.name);
@@ -197,6 +197,7 @@ angular
 
                 vm.initLoad();
 
+                vm.rowItemPopup = {};
                 vm.openSetting = function(record) {
                     var dataTypeConfig = record.dataType
                     if (dataTypeConfig != null) {
@@ -207,28 +208,34 @@ angular
                         if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.customerCode) {
                             vm.loadCustomerCodeGroup();
                         } else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.dateTime) {
-                        	vm.calendarTypeFormat = vm.calendarType.christCalendar;
+                            vm.calendarTypeFormat = vm.calendarType.christCalendar;
                             vm.loadDateTimeFormat();
-                        } else if(dataTypeConfig.dataTypeDisplay == dataTypeDisplay.numeric || 
-                        		dataTypeConfig.dataTypeDisplay == dataTypeDisplay.paymentAmount){
-    						vm.numericTypeFormat = vm.numericType.anyNumericFormat;
-    						vm.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
-    						vm.disableField = true;
-    						vm.loadNumericFormat();
-    					}
+                        }
 
-                        ngDialog.openConfirm({
-                            template: dataTypeConfig.configActionUrl,
-                            data: record,
-                            className: 'ngdialog-theme-default',
-                            scope: $scope
-                        }).then(function(value) {
-                            console.log('Modal promise resolved. Value: ', value);
-                        }, function(reason) {
-                            console.log('Modal promise rejected. Reason: ', reason);
-                        });
+
+                    } else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.numeric ||
+                        dataTypeConfig.dataTypeDisplay == dataTypeDisplay.paymentAmount) {
+                        vm.numericTypeFormat = vm.numericType.anyNumericFormat;
+                        vm.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
+                        vm.disableField = true;
+                        vm.loadNumericFormat();
                     }
-                }
+
+                    vm.rowItemPopup = record;
+                    ngDialog.openConfirm({
+                        template: dataTypeConfig.configActionUrl,
+                        data: record,
+                        className: 'ngdialog-theme-default',
+                        controller: ['$scope', function($scope) {
+
+                        }],
+                        scope: $scope
+                    }).then(function(value) {
+                        console.log('Modal promise resolved. Value: ', value);
+                    }, function(reason) {
+                        console.log('Modal promise rejected. Reason: ', reason);
+                    });
+                };
 
                 vm.exampleDateTime = Date.parse('03/14/2012 13:30:55');
 
@@ -265,14 +272,14 @@ angular
                 vm.examplePositiveNumeric = '0000123456';
                 vm.exampleNegativeNumeric = '-000123456';
                 vm.decimalPlacesValue = 0;
-                
+
                 vm.loadNumericFormat = function() {
-                	var loadSignFlagDiferred = vm.loadSignFlagList();
-                	loadSignFlagDiferred.promise.then(function() {
-                		vm.signFlag = vm.signFlagDropdown[0].value;
+                    var loadSignFlagDiferred = vm.loadSignFlagList();
+                    loadSignFlagDiferred.promise.then(function() {
+                        vm.signFlag = vm.signFlagDropdown[0].value;
                     });
                 }
-                
+
                 vm.loadSignFlagList = function() {
                     var diferred = $q.defer();
                     vm.signFlagDropdown = [];
@@ -282,7 +289,7 @@ angular
                     serviceDiferred.promise.then(function(response) {
                         var signFlagList = response.data;
                         if (signFlagList !== undefined) {
-                        	signFlagList.forEach(function(obj) {
+                            signFlagList.forEach(function(obj) {
                                 var selectObj = {
                                     label: obj.signFlagName,
                                     value: obj.signFlagId
@@ -316,7 +323,7 @@ angular
                             customerCodeGroupList.forEach(function(obj) {
                                 var selectObj = {
                                     label: obj.groupName,
-                                    value: obj.groupId
+                                    value: obj.groupName
                                 }
                                 vm.customerCodeGroupDropdown.push(selectObj);
                             });
@@ -330,7 +337,7 @@ angular
                     vm.customerCodeGroup = vm.customerCodeGroupDropdown[0].value;
                     return diferred;
                 };
-                
+
                 vm.newCustomerCodeGroup = function() {
                     vm.newCustCodeDialog = ngDialog.open({
                         template: '/configs/layouts/file/data-types/customer-code/new-customer-code',
@@ -370,37 +377,34 @@ angular
                     });
                 };
 
-                vm.dataFormat = {};
-                vm.expectedValue = '';
-
-
                 vm.checkRequired = function() {
                     vm.required = !vm.required;
                     vm.disableText = !vm.required;
                 };
-                
+
                 vm.checkCustomNumeric = function() {
-                	if(vm.numericTypeFormat == 'anyNumericFormat'){
-                		vm.disableField = true;
-                	}else if(vm.numericTypeFormat == 'customNumericFormat'){
-                		vm.disableField = false;
-                	}
+                    if (vm.numericTypeFormat == 'anyNumericFormat') {
+                        vm.disableField = true;
+                    } else if (vm.numericTypeFormat == 'customNumericFormat') {
+                        vm.disableField = false;
+                    }
                 };
 
-                vm.dataFormat = {};
-                vm.expectedValue = '';
-
                 vm.displayExampleValue = function(record) {
-                    if (angular.isUndefined(record.dataType) || record.dataType == null) {
+                    if (angular.isUndefined(record.dataFormat) || record.dataFormat == null) {
                         return '';
                     }
 
                     var dataType = record.dataType;
+
                     var msgDisplay = ''
+
                     if (dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
-                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', record.dataFormat.required);
                         msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
                         msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+
                     } else if (dataType.dataTypeDisplay == dataTypeDisplay.text) {
                         msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
                         msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
@@ -417,22 +421,32 @@ angular
 
                     return msgDisplay;
                 };
-                
+
                 $scope.$watch('newFileLayoutCtrl.layoutConfigItems', function() {
                     vm.paymentDateFieldModel.dropdowns = addPaymentDateFieldDropdown(vm.layoutConfigItems);
                 }, true);
-
+				
+				vm.expectedValue = '';
                 vm.updateValue = function() {
                     var requiredFormat = "No";
                     if (vm.requireCheckbox) {
                         requiredFormat = "Yes";
                     }
 
-                    vm.dataFormat = {
-                        required: requiredFormat,
-                        expectedValue: vm.expectedValue,
-                        customerCodeGroupName: vm.customerCodeGroup.value
-                    };
+                    var dataFormat = {};
+                    if (vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
+                        dataFormat = {
+                            required: requiredFormat,
+                            expectedValue: vm.expectedValue,
+                            customerCodeGroupName: vm.customerCodeGroup,
+                            isExpectedValue: true
+                        };
+                    }
+
+                    vm.rowItemPopup = angular.extend(vm.rowItemPopup, {
+                        dataFormat: dataFormat
+                    });
+
                 };
 
                 vm.save = function() {
@@ -454,14 +468,13 @@ angular
                 };
 
                 function getLayoutConfigRequest() {
-                    console.log(vm.layoutConfigItems);
                     var layoutConfigModel = {
                         sponsorIntegrateFileConfig: {
                             sponsorConfigId: 'SFP',
                             sponsorId: vm.sponsorId,
                             displayName: vm.fileLayoutName,
                             delimeter: vm.layoutInfoModel.delimiters,
-                            wrapper: null,
+                            wrapper: '"',
                             headerRecordType: null,
                             detailRecordType: null,
                             footerRecordType: null,
@@ -511,7 +524,7 @@ angular
                             positiveFlag: null,
                             negativeFlag: null,
                             primaryKeyField: item.primaryKeyField,
-                            expectedValue: null
+                            expectedValue: getExpedtedValueRequest(item.dataFormat)
                         }
 
                         items.push(sponsorItem);
@@ -537,8 +550,8 @@ angular
                     };
                     return itemConfig;
                 }
-				
-				function addPaymentDateFieldDropdown(configItems) {
+
+                function addPaymentDateFieldDropdown(configItems) {
                     var items = [{
                         label: 'Please select',
                         value: ''
@@ -555,6 +568,31 @@ angular
 
                     }
                     return items;
+                }
+
+                function getExpedtedValueRequest(expectedValue) {
+                    var result = null;
+
+                    if (expectedValue.isExpectedValue) {
+                        if (!isEmptyValue(expectedValue.customerCodeGroupName) || expectedValue.customerCodeGroupName.length > 0) {
+
+                            result = expectedValue.customerCodeGroupName;
+
+                        } else if (!isEmptyValue(expectedValue.expectedValue) || expectedValue.expectedValue.length > 0) {
+
+                            result = expectedValue.expectedValue;
+
+                        }
+                    }
+
+                    return result;
+                }
+
+                function isEmptyValue(value) {
+                    if (angular.isUndefined(value) || value == null) {
+                        return true;
+                    }
+                    return false;
                 }
             }
         ]);

@@ -14,8 +14,10 @@
 							<legend>Validation</legend>
 							<div class="form-group">
 								<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-										id="customer-code-field-format-popup-require-checkbox" ng-model="newFileLayoutCtrl.requireCheckbox" 
-										ng-checked="true" ng-disabled="true"></scf-checkbox>
+										ng-model="newFileLayoutCtrl.requireCheckbox" 
+										ng-checked="true" ng-init="newFileLayoutCtrl.requireCheckbox=true"
+										ng-disabled="true"></scf-checkbox>
+
 									<span ng-bind="'Require' | translate" id="require-label"></span>
 								</label>
 							</div>
