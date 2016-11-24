@@ -400,7 +400,7 @@ angular
                     }
                     
                     var dataType = record.dataType;
-					console.log(dataType);
+					
                     var msgDisplay = ''
 
                     if (dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
@@ -505,19 +505,19 @@ angular
                 vm.save = function() {
                     var layoutConfigRequest = getLayoutConfigRequest();
                     var apiURL = 'api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/layouts';
-					console.log(layoutConfigRequest);
-//                    var fileLayoutDiferred = Service.requestURL(apiURL, layoutConfigRequest, 'POST');
-//
-//                    fileLayoutDiferred.promise.then(function(response) {
-//                        var organizeModel = {
-//                            organizeId: vm.sponsorId
-//                        }
-//                        PageNavigation.gotoPage('/sponsor-configuration', {
-//                            organizeModel: organizeModel
-//                        });
-//                    }).catch(function(response) {
-//                        log.error('Save config fail');
-//                    });
+
+                    var fileLayoutDiferred = Service.requestURL(apiURL, layoutConfigRequest, 'POST');
+
+                    fileLayoutDiferred.promise.then(function(response) {
+                        var organizeModel = {
+                            organizeId: vm.sponsorId
+                        }
+                        PageNavigation.gotoPage('/sponsor-configuration', {
+                            organizeModel: organizeModel
+                        });
+                    }).catch(function(response) {
+                        log.error('Save config fail');
+                    });
                 };
 
                 function getLayoutConfigRequest() {
@@ -637,7 +637,9 @@ angular
     	                            primaryKeyField: item.primaryKeyField,
     	                            expectedValue: getExpedtedValueRequest(item.dataFormat)
                             }                  		
-                    	}if(item.dataType.documentTableField == 'NUMERIC'){
+                    	}if(item.dataType.documentTableField == 'NUMERIC'
+							|| item.dataType.documentTableField == 'PAYMENT_AMOUNT'){
+							
 							 sponsorItem = {
 								startIndex: item.startIndex,
 								dataLength: item.dataLength,
@@ -651,12 +653,12 @@ angular
 								has1000Separator: null,
 								hasDecimalSign: null,
 								hasDecimalPlace: null,
-								decimalPlace: itemConfig.decimalPlacesValue,
+								decimalPlace: item.dataFormat.decimalPlacesValue,
 								signFlagConfig: null,
 								defaultValue: null,
 								displayValue: item.sponsorFieldName,
 								isTransient: 0,
-								required: item.dataFormat.required == 'Yes' ? true:false,
+								required: require,
 								positiveFlag: null,
 								negativeFlag: null,
 								primaryKeyField: item.primaryKeyField,
