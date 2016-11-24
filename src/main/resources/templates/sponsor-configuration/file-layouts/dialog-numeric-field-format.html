@@ -19,7 +19,7 @@
 											name="numeric-type-radio"
 											ng-click="newFileLayoutCtrl.checkCustomNumeric()"
 											ng-value="newFileLayoutCtrl.numericType.anyNumericFormat"
-											ng-model="newFileLayoutCtrl.numericTypeFormat"></scf-radio>
+											ng-model="newFileLayoutCtrl.numericeModel.numericTypeFormat"></scf-radio>
 										{{'Any numeric format' | translate}}
 									</label> 
 									<br/>
@@ -28,7 +28,7 @@
 											name="numeric-type-radio"
 											ng-click="newFileLayoutCtrl.checkCustomNumeric()"
 											ng-value="newFileLayoutCtrl.numericType.customNumericFormat"
-											ng-model="newFileLayoutCtrl.numericTypeFormat"></scf-radio>
+											ng-model="newFileLayoutCtrl.numericeModel.numericTypeFormat"></scf-radio>
 										{{'Custom numeric format' | translate}}
 									</label>
 								</div>
@@ -39,26 +39,26 @@
 								<div class="col-md-4 col-sm-5 col-xs-12">
 									<label class="checkbox-inline"> <scf-checkbox
 											id="padding-checkbox"
-											 ng-disabled="newFileLayoutCtrl.disableField"></scf-checkbox> 
+											 ng-disabled="newFileLayoutCtrl.numericeModel.disableCustomField"></scf-checkbox> 
 										<span ng-bind="'Padding character' | translate" id="padding-label"></span>: 
 									</label> 
 									<br /> 
 									<label class="checkbox-inline"> <scf-checkbox
 											id="has-seperator-checkbox"
-											 ng-disabled="newFileLayoutCtrl.disableField"></scf-checkbox>
+											 ng-disabled="newFileLayoutCtrl.numericeModel.disableCustomField"></scf-checkbox>
 										<span ng-bind="'Has 1,000 seperator' | translate" id="has-seperator-label"></span>
 									</label> 
 									<br /> 
 									<label class="checkbox-inline"> <scf-checkbox
 											id="has-decimal-place-checkbox"
-											 ng-disabled="newFileLayoutCtrl.disableField"></scf-checkbox> 
+											 ng-disabled="newFileLayoutCtrl.numericeModel.disableCustomField"></scf-checkbox> 
 										<span ng-bind="'Has decimal place' | translate" id="has-decimal-place-label"></span>
 									</label>
 								</div>
 								<div class="col-md-2 col-sm-3 col-xs-12">
 									<scf-input-text id="padding-value-textbox"
 										ng-model="newFileLayoutCtrl.paddingValue" 
-										ng-disabled="newFileLayoutCtrl.disableField"></scf-input-text>
+										ng-disabled="newFileLayoutCtrl.numericeModel.disableCustomField"></scf-input-text>
 								</div>
 								<div class="col-md-8 col-sm-2 col-xs-12">
 								</div>
@@ -68,7 +68,7 @@
 										ng-bind="'Decimal places' | translate"></span>:</label>
 								<div class="col-md-2 col-sm-3 col-xs-12">
 									<scf-input-text id="numeric-field-format-popup-numeric-decimal-place-textbox"
-										ng-model="newFileLayoutCtrl.decimalPlacesValue"></scf-input-text>
+										ng-model="newFileLayoutCtrl.numericeModel.decimalPlacesValue"></scf-input-text>
 								</div>
 								<div class="col-md-7 col-sm-5 col-xs-12">
 								</div>
@@ -78,7 +78,7 @@
 										ng-bind="'Sign flag' | translate"></span>:</label>
 								<div class="col-md-6 col-sm-4 col-xs-12">
 									<scf-dropdown id="numeric-field-format-popup-sign-flag-dropdown"
-										ng-model="newFileLayoutCtrl.signFlag"
+										ng-model="newFileLayoutCtrl.numericeModel.signFlag"
 										component-data="newFileLayoutCtrl.signFlagDropdown"
 										translate-label="true"></scf-dropdown>
 								</div>
@@ -90,7 +90,7 @@
 											id="sign-flag-type"
 											name="sign-flag-type-radio"
 											ng-value="newFileLayoutCtrl.signFlagType.ignorePlusSymbol"
-											ng-model="newFileLayoutCtrl.signFlagTypeFormat"></scf-radio>
+											ng-model="newFileLayoutCtrl.numericeModel.signFlagTypeFormat"></scf-radio>
 										{{'Ignore plus symbol (+) on positive value' | translate}}
 									</label>
 									<br/>
@@ -98,7 +98,7 @@
 											id="sign-flag-type" 
 											name="sign-flag-type-radio"
 											ng-value="newFileLayoutCtrl.signFlagType.needPlusSymbol"
-											ng-model="newFileLayoutCtrl.signFlagTypeFormat"></scf-radio>
+											ng-model="newFileLayoutCtrl.numericeModel.signFlagTypeFormat"></scf-radio>
 										{{'Need plus symbol (+) on positive value' | translate}}
 									</label> 
 									<br/>
@@ -106,7 +106,7 @@
 											id="sign-flag-type"
 											name="sign-flag-type-radio"
 											ng-value="newFileLayoutCtrl.signFlagType.avoidPlusSymbol"
-											ng-model="newFileLayoutCtrl.signFlagTypeFormat"></scf-radio>
+											ng-model="newFileLayoutCtrl.numericeModel.signFlagTypeFormat"></scf-radio>
 										{{'Avoid plus symbol (+) on positive value' | translate}}
 									</label>
 								</div>
@@ -124,10 +124,16 @@
 						<fieldset>
 							<legend>Validation</legend>
 							<div class="form-group">
-								<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-										id="numeric-field-format-popup-require-checkbox" ng-model="newFileLayoutCtrl.requireCheckbox"></scf-checkbox>
-									<span ng-bind="'Require' | translate" id="require-label"></span>
-								</label>
+								<div class="col-md-12 col-sm-12 col-xs-12 ">
+									<label for="dealer" class="checkbox-inline">
+										<scf-checkbox
+											id="numeric-field-format-popup-require-checkbox"
+											ng-model="newFileLayoutCtrl.requireCheckbox"></scf-checkbox>
+										<span ng-bind="'Require' | translate" id="require-label"></span>
+									</label>
+									
+								</div>
+								
 							</div>
 						</fieldset>
 					</form>
@@ -141,7 +147,7 @@
 						ng-click="closeThisDialog()"
 						ng-bind="'Cancel' | translate"></scf-button>
 					<scf-button id="numeric-field-format-popup-ok-button" class="popup-button" 
-						ng-click="closeThisDialog();ctrl.updateValue()"
+						ng-click="closeThisDialog();newFileLayoutCtrl.updateValue()"
 						ng-bind="'OK' | translate"></scf-button>
 					
 				</div>

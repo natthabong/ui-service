@@ -196,10 +196,11 @@ angular
                 }
 
                 vm.initLoad();
-
+		
                 vm.rowItemPopup = {};
                 vm.openSetting = function(record) {
-                    var dataTypeConfig = record.dataType
+                    var dataTypeConfig = record.dataType;
+					
                     if (dataTypeConfig != null) {
                         vm.requireCheckbox = false;
                         vm.required = vm.requireCheckbox;
@@ -210,25 +211,24 @@ angular
                         } else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.dateTime) {
                             vm.calendarTypeFormat = vm.calendarType.christCalendar;
                             vm.loadDateTimeFormat();
-                        }
-
-
-                    } else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.numeric ||
-                        dataTypeConfig.dataTypeDisplay == dataTypeDisplay.paymentAmount) {
-                        vm.numericTypeFormat = vm.numericType.anyNumericFormat;
-                        vm.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
-                        vm.disableField = true;
-                        vm.loadNumericFormat();
-                    }
-
+                        }else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.numeric ||
+							dataTypeConfig.dataTypeDisplay == dataTypeDisplay.paymentAmount) {
+							
+							vm.numericeModel = {
+								numericTypeFormat: vm.numericType.anyNumericFormat,
+								signFlagTypeFormat: vm.signFlagType.ignorePlusSymbol,
+								disableCustomField: true,
+								decimalPlacesValue: 0
+							}
+							vm.loadNumericFormat();
+						}
+                    } 
+					
                     vm.rowItemPopup = record;
                     ngDialog.openConfirm({
                         template: dataTypeConfig.configActionUrl,
                         data: record,
                         className: 'ngdialog-theme-default',
-                        controller: ['$scope', function($scope) {
-
-                        }],
                         scope: $scope
                     }).then(function(value) {
                         console.log('Modal promise resolved. Value: ', value);
@@ -269,12 +269,12 @@ angular
 
                 vm.examplePositiveNumeric = '0000123456';
                 vm.exampleNegativeNumeric = '-000123456';
-                vm.decimalPlacesValue = 0;
+//                vm.decimalPlacesValue = 0;
 
                 vm.loadNumericFormat = function() {
                     var loadSignFlagDiferred = vm.loadSignFlagList();
                     loadSignFlagDiferred.promise.then(function() {
-                        vm.signFlag = vm.signFlagDropdown[0].value;
+                        vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
                     });
                 }
 
@@ -285,12 +285,13 @@ angular
                     var serviceUrl = 'js/app/sponsor-configuration/file-layouts/sign_flag_list.json';
                     var serviceDiferred = Service.doGet(serviceUrl);
                     serviceDiferred.promise.then(function(response) {
+
                         var signFlagList = response.data;
                         if (signFlagList !== undefined) {
                             signFlagList.forEach(function(obj) {
                                 var selectObj = {
                                     label: obj.signFlagName,
-                                    value: obj.signFlagId
+                                    value: obj.signFlagName
                                 }
                                 vm.signFlagDropdown.push(selectObj);
                             });
@@ -381,10 +382,10 @@ angular
                 };
 
                 vm.checkCustomNumeric = function() {
-                    if (vm.numericTypeFormat == 'anyNumericFormat') {
-                        vm.disableField = true;
-                    } else if (vm.numericTypeFormat == 'customNumericFormat') {
-                        vm.disableField = false;
+                    if (vm.numericeModel.numericTypeFormat == 'anyNumericFormat') {
+                        vm.numericeModel.disableCustomField = true;
+                    } else if (vm.numericeModel.numericTypeFormat == 'customNumericFormat') {
+                        vm.numericeModel.disableCustomField = false;
                     }
                 };
 
@@ -415,7 +416,14 @@ angular
                         msgDisplay = msgDisplay.replace('{dateTimeFormat}', dataType.defaultExampleValue);
                         msgDisplay = msgDisplay.replace('{calendarType}', dataType.defaultExampleValue);
                         msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-                    }
+						
+                    }else if(dataType.dataTypeDisplay == dataTypeDisplay.numeric){
+						
+						msgDisplay = dataType.configDetailPattern.replace('{required}', record.dataFormat.required);
+						msgDisplay = msgDisplay.replace('{signFlag}', record.dataFormat.signFlag);
+						msgDisplay = msgDisplay.replace('{positiveExampleData}', dataType.defaultExampleValue);
+						msgDisplay = msgDisplay.replace('{negativeExampleData}', '-'+dataType.defaultExampleValue);
+					}
 
                     return msgDisplay;
                 };
@@ -430,7 +438,7 @@ angular
                     if (vm.requireCheckbox) {
                         requiredFormat = "Yes";
                     }
-
+					
                     var dataFormat = {};
                     if (vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
                         dataFormat = {
@@ -439,7 +447,14 @@ angular
                             customerCodeGroupName: vm.customerCodeGroup,
                             isExpectedValue: true
                         };
-                    }
+                    }else if(vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.numeric){
+						 dataFormat = {
+                            required: requiredFormat,
+                            isExpectedValue: false
+                        };
+						
+						dataFormat = angular.extend(dataFormat, vm.numericeModel);
+					}
 
                     vm.rowItemPopup = angular.extend(vm.rowItemPopup, {
                         dataFormat: dataFormat
@@ -450,19 +465,19 @@ angular
                 vm.save = function() {
                     var layoutConfigRequest = getLayoutConfigRequest();
                     var apiURL = 'api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/layouts';
-
-                    var fileLayoutDiferred = Service.requestURL(apiURL, layoutConfigRequest, 'POST');
-
-                    fileLayoutDiferred.promise.then(function(response) {
-                        var organizeModel = {
-                            organizeId: vm.sponsorId
-                        }
-                        PageNavigation.gotoPage('/sponsor-configuration', {
-                            organizeModel: organizeModel
-                        });
-                    }).catch(function(response) {
-                        log.error('Save config fail');
-                    });
+					console.log(layoutConfigRequest);
+//                    var fileLayoutDiferred = Service.requestURL(apiURL, layoutConfigRequest, 'POST');
+//
+//                    fileLayoutDiferred.promise.then(function(response) {
+//                        var organizeModel = {
+//                            organizeId: vm.sponsorId
+//                        }
+//                        PageNavigation.gotoPage('/sponsor-configuration', {
+//                            organizeModel: organizeModel
+//                        });
+//                    }).catch(function(response) {
+//                        log.error('Save config fail');
+//                    });
                 };
 
                 function getLayoutConfigRequest() {
@@ -498,8 +513,9 @@ angular
                         return null;
                     }
                     var items = [];
-
+					console.log(layoutConfigItems);
                     layoutConfigItems.forEach(function(item) {
+
                         var sponsorItem = {
                             startIndex: item.startIndex,
                             dataLength: item.dataLength,
@@ -510,22 +526,28 @@ angular
                             datetimeFormat: '',
                             paddingType: null,
                             paddingCharacter: '',
-                            has1000Separator: null,
-                            hasDecimalSign: null,
-                            hasDecimalPlace: null,
-                            decimalPlace: 2,
+//                            has1000Separator: null,
+//                            hasDecimalSign: null,
+//                            hasDecimalPlace: null,
+//                            decimalPlace: 2,
                             defaultValue: null,
                             displayValue: item.sponsorFieldName,
-                            signFlagConfig: null,
+//                            signFlagConfig: null,
                             isTransient: 0,
-                            required: 0,
+                            required: item.dataFormat.required == 'Yes' ? true:false,
                             positiveFlag: null,
                             negativeFlag: null,
                             primaryKeyField: item.primaryKeyField,
                             expectedValue: getExpedtedValueRequest(item.dataFormat)
                         }
+						
+						if(item.dataType.dataTypeDisplay == dataTypeDisplay.numeric){
+							sponsorItem = convertNumericRequest(sponsorItem, item.dataFormat);
+						}
 
                         items.push(sponsorItem);
+						
+						
                     });
 
                     return items;
@@ -598,6 +620,18 @@ angular
 						return false;
 					}
 					return true;
+				}
+				
+				function convertNumericRequest(sponsorItemRequest, itemConfig){
+					var numericItem = {
+						has1000Separator: null,
+						hasDecimalSign: null,
+						hasDecimalPlace: null,
+						decimalPlace: itemConfig.decimalPlacesValue,
+						signFlagConfig: null,
+					}
+					sponsorItemRequest = angular.extend(sponsorItemRequest, numericItem);
+					return sponsorItemRequest;
 				}
             }
         ]);
