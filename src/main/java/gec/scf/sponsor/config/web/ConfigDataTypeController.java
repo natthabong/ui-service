@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(path = "/configs/layouts/file/data-types")
 public class ConfigDataTypeController {
 
-	private static String TEXT_FIELD = "/sponsor-configuration/file-layouts/dialog-text-field-format";
-	private static String CUSTOMER_CODE_FIELD = "/sponsor-configuration/file-layouts/dialog-customer-code-group-field-format";
-	private static String NEW_CUSTOMER_CODE = "/sponsor-configuration/file-layouts/dialog-new-customer-code-group";
-	private static String DATE_TIME_FIELD = "/sponsor-configuration/file-layouts/dialog-date-time-field-format";
+	private static String TEXT_FIELD = "sponsor-configuration/file-layouts/dialog-text-field-format";
+	private static String CUSTOMER_CODE_FIELD = "sponsor-configuration/file-layouts/dialog-customer-code-group-field-format";
+	private static String NEW_CUSTOMER_CODE = "sponsor-configuration/file-layouts/dialog-new-customer-code-group";
+	private static String DATE_TIME_FIELD = "sponsor-configuration/file-layouts/dialog-date-time-field-format";
 
 	@RequestMapping(path = "/text", method = RequestMethod.GET)
 	public String getTextFieldConfig() {
