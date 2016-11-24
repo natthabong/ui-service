@@ -2,7 +2,7 @@
 		<div class="modal-header">
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
-					<h3><span id="numeric-field-format-header" class="popup-text" ng-bind="'Numeric field format' | translate">Numeric field format</span></h3>
+					<h3><span id="numeric-field-format-popup-header-message-label" class="popup-text" ng-bind="'Numeric field format' | translate">Numeric field format</span></h3>
 				</div>				
 			</div>
 		</div>
@@ -67,7 +67,7 @@
 								<label for="decimal-place-format" class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 										ng-bind="'Decimal places' | translate"></span>:</label>
 								<div class="col-md-2 col-sm-3 col-xs-12">
-									<scf-input-text id="decimal-places-value-textbox"
+									<scf-input-text id="numeric-field-format-popup-numeric-decimal-place-textbox"
 										ng-model="newFileLayoutCtrl.decimalPlacesValue"></scf-input-text>
 								</div>
 								<div class="col-md-7 col-sm-5 col-xs-12">
@@ -77,7 +77,7 @@
 								<label for="sign-flag-format" class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 										ng-bind="'Sign flag' | translate"></span>:</label>
 								<div class="col-md-6 col-sm-4 col-xs-12">
-									<scf-dropdown id="sign-flag-dropdown"
+									<scf-dropdown id="numeric-field-format-popup-sign-flag-dropdown"
 										ng-model="newFileLayoutCtrl.signFlag"
 										component-data="newFileLayoutCtrl.signFlagDropdown"
 										translate-label="true"></scf-dropdown>
@@ -112,17 +112,20 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="numeric-label" class="col-md-12 col-sm-12 col-xs-12 control-label"><span 
-										id="numeric-example">Ex. Positive: {{newFileLayoutCtrl.examplePositiveNumeric}} -> {{newFileLayoutCtrl.examplePositiveNumeric | number:newFileLayoutCtrl.decimalPlacesValue}}
-															<br/>
-										&nbsp;&nbsp;&nbsp;		 Negative: {{newFileLayoutCtrl.exampleNegativeNumeric}} -> {{newFileLayoutCtrl.exampleNegativeNumeric | number:newFileLayoutCtrl.decimalPlacesValue}}</span></label>
+								<label for="numeric-label" class="col-md-12 col-sm-12 col-xs-12 control-label">
+										Ex. Positive: <span id="numeric-field-format-popup-positive-example-label">{{newFileLayoutCtrl.examplePositiveNumeric}} -> {{newFileLayoutCtrl.examplePositiveNumeric | number:newFileLayoutCtrl.decimalPlacesValue}}
+										</span>
+										<br/>
+										&nbsp;&nbsp;&nbsp;
+										Negative: <span id="numeric-field-format-popup-negative-example-label">{{newFileLayoutCtrl.exampleNegativeNumeric}} -> {{newFileLayoutCtrl.exampleNegativeNumeric | number:newFileLayoutCtrl.decimalPlacesValue}}</span>
+								</label>
 							</div>
 						</fieldset>
 						<fieldset>
 							<legend>Validation</legend>
 							<div class="form-group">
 								<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-										id="require-checkbox" ng-model="newFileLayoutCtrl.requireCheckbox"></scf-checkbox>
+										id="numeric-field-format-popup-require-checkbox" ng-model="newFileLayoutCtrl.requireCheckbox"></scf-checkbox>
 									<span ng-bind="'Require' | translate" id="require-label"></span>
 								</label>
 							</div>
@@ -134,10 +137,10 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<scf-button id="cancel-button" class="popup-button"  
+					<scf-button id="numeric-field-format-popup-cancel-button" class="popup-button"  
 						ng-click="closeThisDialog()"
 						ng-bind="'Cancel' | translate"></scf-button>
-					<scf-button id="ok-button" class="popup-button" 
+					<scf-button id="numeric-field-format-popup-ok-button" class="popup-button" 
 						ng-click="closeThisDialog();ctrl.updateValue()"
 						ng-bind="'OK' | translate"></scf-button>
 					
