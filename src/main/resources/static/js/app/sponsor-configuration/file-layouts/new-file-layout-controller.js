@@ -222,7 +222,8 @@ angular
 	                        vm.disableField = true;
 	                        vm.loadNumericFormat();
 	                    }
-
+                    }
+                    
                     vm.rowItemPopup = record;
                     ngDialog.openConfirm({
                         template: dataTypeConfig.configActionUrl,
