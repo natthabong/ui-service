@@ -168,6 +168,7 @@ angular
                 vm.removeConfigItem = function(record) {
                     var index = vm.layoutConfigItems.indexOf(record);
                     vm.layoutConfigItems.splice(index, 1);
+					vm.paymentDateFieldModel.fieldSelect = '';
                 }
 
                 vm.exampleDateTime = Date.parse('03/14/2012 13:30:55');
