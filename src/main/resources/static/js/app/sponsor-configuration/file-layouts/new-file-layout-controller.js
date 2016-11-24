@@ -430,8 +430,8 @@ angular
 						
 						msgDisplay = dataType.configDetailPattern.replace('{required}', record.dataFormat.required);
 						msgDisplay = msgDisplay.replace('{signFlag}', record.dataFormat.signFlag);
-						msgDisplay = msgDisplay.replace('{positiveExampleData}', dataType.defaultExampleValue);
-						msgDisplay = msgDisplay.replace('{negativeExampleData}', '-'+dataType.defaultExampleValue);
+						msgDisplay = msgDisplay.replace('{positiveExampleData}', vm.examplePositiveNumeric);
+						msgDisplay = msgDisplay.replace('{negativeExampleData}', vm.exampleNegativeNumeric);
 					}
 
                     return msgDisplay;
@@ -530,10 +530,8 @@ angular
                         return null;
                     }
                     var items = [];
-					console.log(layoutConfigItems);
+
                     layoutConfigItems.forEach(function(item) {
-              	
-                    	console.log(item);
                     	
                     	var require = false;
                         if (item.dataFormat.required == 'Yes') {
@@ -591,36 +589,34 @@ angular
     	                            primaryKeyField: item.primaryKeyField,
     	                            expectedValue: null
                             }                  		
-                    	}if(item.dataType.dataTypeDisplay == dataTypeDisplay.numeric){
+                    	}if(item.dataType.documentTableField == 'NUMERIC'){
 							 sponsorItem = {
-                            startIndex: item.startIndex,
-                            dataLength: item.dataLength,
-                            dataType: item.dataType.documentTableField,
-                            recordType: item.dataType.recordType,
-                            fieldName: '',
-                            calendarEra: '',
-                            datetimeFormat: '',
-                            paddingType: null,
-                            paddingCharacter: '',
-//                            has1000Separator: null,
-//                            hasDecimalSign: null,
-//                            hasDecimalPlace: null,
-//                            decimalPlace: 2,
-                            defaultValue: null,
-                            displayValue: item.sponsorFieldName,
-//                            signFlagConfig: null,
-                            isTransient: 0,
-                            required: item.dataFormat.required == 'Yes' ? true:false,
-                            positiveFlag: null,
-                            negativeFlag: null,
-                            primaryKeyField: item.primaryKeyField,
-                            expectedValue: getExpedtedValueRequest(item.dataFormat)
-                        }
+								startIndex: item.startIndex,
+								dataLength: item.dataLength,
+								dataType: item.dataType.documentTableField,
+								recordType: item.dataType.recordType,
+								fieldName: '',
+								calendarEra: '',
+								datetimeFormat: '',
+								paddingType: null,
+								paddingCharacter: '',
+								has1000Separator: null,
+								hasDecimalSign: null,
+								hasDecimalPlace: null,
+								decimalPlace: itemConfig.decimalPlacesValue,
+								signFlagConfig: null,
+								defaultValue: null,
+								displayValue: item.sponsorFieldName,
+								isTransient: 0,
+								required: item.dataFormat.required == 'Yes' ? true:false,
+								positiveFlag: null,
+								negativeFlag: null,
+								primaryKeyField: item.primaryKeyField,
+								expectedValue: getExpedtedValueRequest(item.dataFormat)
+							}
                     	
-							sponsorItem = convertNumericRequest(sponsorItem, item.dataFormat);
 						}
-                        items.push(sponsorItem);
-						
+                        items.push(sponsorItem);						
 						
                     });
 
@@ -696,18 +692,6 @@ angular
 					return true;
 				}
 				
-				function convertNumericRequest(sponsorItemRequest, itemConfig){
-					var numericItem = {
-						has1000Separator: null,
-						hasDecimalSign: null,
-						hasDecimalPlace: null,
-						decimalPlace: itemConfig.decimalPlacesValue,
-						signFlagConfig: null,
-					}
-					sponsorItemRequest = angular.extend(sponsorItemRequest, numericItem);
-					return sponsorItemRequest;
-				}
-
 				function convertDate(format,exampledata){
                 	var year = exampledata.substring(0, 4);
                 	var month = exampledata.substring(4, 6);
