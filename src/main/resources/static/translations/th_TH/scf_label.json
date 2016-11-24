@@ -22,7 +22,7 @@
     "pre-percentage": "Prepercentage",
     "numbero": "ลำดับที่",
     "due-date": "วันครบกำหนดชำระ", 
-    "Payment date": "Payment date",
+    "payment-date": "Payment date",
     "Document date": "วันที่เอกสาร",
     "Document no.": "Document no.",
     "Document type": "Document type",
@@ -205,7 +205,7 @@
 	"Group name": "Group name",
 	"Require": "Require",
 	"Field": "Field",
-	"Formular": "Formular"
+	"Formular": "Formular",
 	"Expected value": "Expected value",
 	"Date time format": "Date time format",
 	"Calendar type": "Calendar type",

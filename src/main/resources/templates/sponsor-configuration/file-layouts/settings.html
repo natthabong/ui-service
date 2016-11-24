@@ -30,6 +30,7 @@
 							<div class="col-md-3 col-sm-4 col-xs-12">
 								<label class="radio-inline"> <scf-radio
 										id="fixedLength-file-type" name="file-type-radio"
+										ng-value="newFileLayoutCtrl.fileType.fixedLength"										
 										ng-model="newFileLayoutCtrl.layoutInfoModel.fileType"></scf-radio>
 									{{'Fixed length' | translate}}
 								</label> <label class="radio-inline"> <scf-radio
@@ -130,7 +131,7 @@
 
 											<td class="text-center">
 												<input type="text" id="length-{{$index+1}}-textbox"
-												style="text-align: right;" ng-model="record.length"/>
+												style="text-align: right;" ng-model="record.dataLength"/>
 											</td>
 											<td class="text-center">
 												<input type="text" id="index-{{$index+1}}-textbox"
@@ -180,14 +181,6 @@
 										</label>									
 									</div>
 									<div class="col-md-3">
-<!--
-										<select
-										ng-options="option.sponsorFieldName for option in newFileLayoutCtrl.layoutConfigItems track by option.sponsorFieldName"
-										ng-click="newFileLayoutCtrl.loadPaymentDateType()"
-										ng-model="newFileLayoutCtrl.paymentDateFieldModel.fieldSelect">
-										
-										</select>
--->
 										<scf-dropdown id="payment-date-field-dropdown"
 										ng-model="newFileLayoutCtrl.paymentDateFieldModel.fieldSelect"
 										ng-click="newFileLayoutCtrl.loadPaymentDateType()"										
@@ -222,10 +215,15 @@
 							</div>
 						</div>
 					</form>
-
+				</div>
+				
+				<div class="panel-body">
+					<div class="col-md-12 col-sm-12 text-right">
+						<scf-button id="save-button" type="submit"
+									ng-click="newFileLayoutCtrl.save()">{{'Save' | translate}}</scf-button>
+					</div>
 				</div>
 			</div>
-			
 		</div>
 	</div>
 </div>

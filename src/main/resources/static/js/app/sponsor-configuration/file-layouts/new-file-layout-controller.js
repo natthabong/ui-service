@@ -11,20 +11,22 @@ angular
             'ngDialog',
             'PageNavigation',
             'Service',
-            '$q',
+            '$q', '$rootScope',
             function($log, $scope, $state, SCFCommonService,
                 $stateParams, $timeout, ngDialog,
-                PageNavigation, Service, $q) {
+                PageNavigation, Service, $q, $rootScope) {
                 var vm = this;
                 var log = $log;
+
+                vm.sponsorId = $rootScope.sponsorId;
 
                 vm.newFile = false;
 
                 vm.fileLayoutModel = $stateParams.fileLayoutModel;
 
                 vm.fileType = {
-                    fixedLength: 'fixedLength',
-                    delimited: 'delimited'
+                    fixedLength: 'FIXEDLENGTH',
+                    delimited: 'CSV'
                 }
 
                 vm.delimitersDropdown = [];
@@ -101,19 +103,19 @@ angular
                 vm.loadDelimiters = function() {
                     var delimiterList = [{
                         delimiterName: 'Comma (,)',
-                        delimiterId: '1'
+                        delimiterId: ','
                     }, {
                         delimiterName: 'Colon (:)',
-                        delimiterId: '2'
+                        delimiterId: ':'
                     }, {
                         delimiterName: 'Tab',
                         delimiterId: '3'
                     }, {
                         delimiterName: 'Semicolon (;)',
-                        delimiterId: '4'
+                        delimiterId: ';'
                     }, {
                         delimiterName: 'Other',
-                        delimiterId: '5'
+                        delimiterId: 'Other'
                     }];
 
                     delimiterList.forEach(function(obj) {
@@ -129,10 +131,10 @@ angular
                 vm.loadFileEncode = function() {
                     var fileEncodeList = [{
                         fileEncodeName: 'UTF-8',
-                        fileEncodeId: '1'
+                        fileEncodeId: 'UTF-8'
                     }, {
                         fileEncodeName: 'TIS-620',
-                        fileEncodeId: '2'
+                        fileEncodeId: 'TIS-620'
                     }];
 
                     fileEncodeList.forEach(function(obj) {
@@ -154,6 +156,7 @@ angular
                 vm.removeConfigItem = function(record) {
                     var index = vm.layoutConfigItems.indexOf(record);
                     vm.layoutConfigItems.splice(index, 1);
+                    vm.paymentDateFieldModel.fieldSelect = '';
                 }
 
                 vm.initLoad = function() {
@@ -162,7 +165,6 @@ angular
                         vm.sponsorId = vm.fileLayoutModel.sponsorId;
                     } else {
                         vm.fileLayoutName = '';
-                        vm.sponsorId = '';
                         vm.newFile = true;
                     }
 
@@ -173,9 +175,9 @@ angular
 
                     vm.paymentDateType = vm.paymentDateTypeValues.field;
                 }
-                
+
                 vm.initLoad();
-                
+
                 vm.openSetting = function(record) {
                     var dataTypeConfig = record.dataType
                     if (dataTypeConfig != null) {
@@ -185,6 +187,8 @@ angular
 
                         if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.customerCode) {
                             vm.loadCustomerCodeGroup();
+                        } else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.dateTime) {
+                            vm.loadDateTimeFormat();
                         }
 
                         ngDialog.openConfirm({
@@ -199,7 +203,7 @@ angular
                         });
                     }
                 }
-                
+
                 vm.exampleDateTime = Date.parse('03/14/2012 13:30:55');
 
                 vm.loadDateTimeFormat = function() {
@@ -269,7 +273,47 @@ angular
                     vm.customerCodeGroup = vm.customerCodeGroupDropdown[0].value;
                     return diferred;
                 };
-                
+
+                vm.dataFormat = {};
+                vm.expectedValue = '';
+
+
+                vm.checkRequired = function() {
+                    vm.required = !vm.required;
+                    vm.disableText = !vm.required;
+                };
+
+                vm.dataFormat = {};
+                vm.expectedValue = '';
+
+                vm.displayExampleValue = function(record) {
+                    if (angular.isUndefined(record.dataType) || record.dataType == null) {
+                        return '';
+                    }
+
+                    var dataType = record.dataType;
+                    var msgDisplay = ''
+                    if (dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+                        msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
+                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.text) {
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+                        msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
+                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.documentNo) {
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.dateTime) {
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+                        msgDisplay = msgDisplay.replace('{dateTimeFormat}', dataType.defaultExampleValue);
+                        msgDisplay = msgDisplay.replace('{calendarType}', dataType.defaultExampleValue);
+                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+                    }
+
+                    return msgDisplay;
+                };
+
                 vm.newCustomerCodeGroup = function() {
                     vm.newCustCodeDialog = ngDialog.open({
                         template: '/configs/layouts/file/data-types/customer-code/new-customer-code',
@@ -283,7 +327,7 @@ angular
                     groupName: '',
                     sponsorId: '',
                     completed: ''
-                }
+                };
 
                 vm.saveNewCustomerGroup = function() {
                     vm.customerCodeGroupRequest.groupName = vm.groupName;
@@ -310,10 +354,126 @@ angular
                 };
 
                 $scope.$watch('newFileLayoutCtrl.layoutConfigItems', function() {
-                    vm.paymentDateFieldModel.dropdowns = addPaymentDateField(vm.layoutConfigItems);
-                }, true)
+                    vm.paymentDateFieldModel.dropdowns = addPaymentDateFieldDropdown(vm.layoutConfigItems);
+                }, true);
 
-                function addPaymentDateField(configItems) {
+                vm.updateValue = function() {
+                    var requiredFormat = "No";
+                    if (vm.requireCheckbox) {
+                        requiredFormat = "Yes";
+                    }
+
+                    vm.dataFormat = {
+                        required: requiredFormat,
+                        expectedValue: vm.expectedValue,
+                        customerCodeGroupName: vm.customerCodeGroup.value
+                    };
+                };
+
+                vm.save = function() {
+                    var layoutConfigRequest = getLayoutConfigRequest();
+                    var apiURL = 'api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/layouts';
+
+                    var fileLayoutDiferred = Service.requestURL(apiURL, layoutConfigRequest, 'POST');
+
+                    fileLayoutDiferred.promise.then(function(response) {
+                        var organizeModel = {
+                            organizeId: vm.sponsorId
+                        }
+                        PageNavigation.gotoPage('/sponsor-configuration', {
+                            organizeModel: organizeModel
+                        });
+                    }).catch(function(response) {
+                        log.error('Save config fail');
+                    });
+                };
+
+                function getLayoutConfigRequest() {
+                    console.log(vm.layoutConfigItems);
+                    var layoutConfigModel = {
+                        sponsorIntegrateFileConfig: {
+                            sponsorConfigId: 'SFP',
+                            sponsorId: vm.sponsorId,
+                            displayName: vm.fileLayoutName,
+                            delimeter: vm.layoutInfoModel.delimiters,
+                            wrapper: null,
+                            headerRecordType: null,
+                            detailRecordType: null,
+                            footerRecordType: null,
+                            fileExtensions: getFileExtensionSelected(),
+                            integrateType: 'SPONSOR_UPLOAD',
+                            fileType: vm.layoutInfoModel.fileType,
+                            charsetName: vm.layoutInfoModel.fileEncode,
+                            checkBinaryFile: false,
+                            completed: true,
+                            ownerId: vm.sponsorId,
+                            detailFlag: null,
+                            headerFlag: null,
+                            footerFlag: null,
+                            items: convertLayoutConfigRequestItems(vm.layoutConfigItems)
+                        },
+                        paymentDateField: vm.paymentDateFieldModel.fieldSelect
+                    }
+                    return layoutConfigModel;
+                }
+
+                function convertLayoutConfigRequestItems(layoutConfigItems) {
+                    if (angular.isUndefined(layoutConfigItems) || layoutConfigItems.length == 0) {
+                        return null;
+                    }
+                    var items = [];
+
+                    layoutConfigItems.forEach(function(item) {
+                        var sponsorItem = {
+                            startIndex: item.startIndex,
+                            dataLength: item.dataLength,
+                            dataType: item.dataType.documentTableField,
+                            recordType: item.dataType.recordType,
+                            fieldName: '',
+                            calendarEra: '',
+                            datetimeFormat: '',
+                            paddingType: null,
+                            paddingCharacter: '',
+                            has1000Separator: null,
+                            hasDecimalSign: null,
+                            hasDecimalPlace: null,
+                            decimalPlace: 2,
+                            defaultValue: null,
+                            displayValue: item.sponsorFieldName,
+                            signFlagConfig: null,
+                            isTransient: 0,
+                            required: 0,
+                            positiveFlag: null,
+                            negativeFlag: null,
+                            primaryKeyField: item.primaryKeyField,
+                            expectedValue: null
+                        }
+
+                        items.push(sponsorItem);
+                    });
+
+                    return items;
+                }
+
+                function getFileExtensionSelected() {
+                    if (vm.layoutInfoModel.fileType == vm.fileType.delimited) {
+                        return 'csv';
+                    }
+                    return 'fixedLength';
+                }
+
+                function newItemConfig() {
+                    var itemConfig = {
+                        primaryKeyField: false,
+                        sponsorFieldName: '',
+                        dataType: null,
+                        dataLength: 0,
+                        startIndex: 0
+                    };
+                    return itemConfig;
+                }
+				
+				function addPaymentDateFieldDropdown(configItems) {
                     var items = [{
                         label: 'Please select',
                         value: ''
@@ -330,66 +490,6 @@ angular
 
                     }
                     return items;
-                }
-
-                function newItemConfig() {
-                    var itemConfig = {
-                        primaryKeyField: false,
-                        sponsorFieldName: '',
-                        dataType: null,
-                        length: 0,
-                        startIndex: 0
-                    };
-                    return itemConfig;
-                }
-                
-                vm.updateValue = function() {
-    		    	var requiredFormat = "No";
-    		    	if(vm.requireCheckbox){
-    		    		requiredFormat = "Yes";
-    		    	}
-    		    	
-    		    	vm.dataFormat = {
-    			    	required: requiredFormat,
-    			    	expectedValue: vm.expectedValue,
-    			    	customerCodeGroupName: vm.customerCodeGroup.value
-    			    };
-    		    };
-    		    
-    		    vm.checkRequired = function() {
-                    vm.required = !vm.required;
-                    vm.disableText = !vm.required;
-                };
-
-                vm.dataFormat = {};
-                vm.expectedValue = '';
-
-                vm.displayExampleValue = function(record) {
-                    if (angular.isUndefined(record.dataType) || record.dataType == null) {
-                        return '';
-                    }
-
-                    var dataType = record.dataType;
-                    var msgDisplay = ''
-                    if (dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
-                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
-                        msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
-                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.text) {
-                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
-                        msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
-                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.documentNo) {
-                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
-                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-                    }else if(dataType.dataTypeDisplay == dataTypeDisplay.dateTime){
-    					msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
-    					msgDisplay = msgDisplay.replace('{dateTimeFormat}', dataType.defaultExampleValue);
-    					msgDisplay = msgDisplay.replace('{calendarType}', dataType.defaultExampleValue);
-    					msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-    				}
-
-                    return msgDisplay;
                 }
             }
         ]);
