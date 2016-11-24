@@ -557,7 +557,7 @@ angular
                     layoutConfigItems.forEach(function(item) {
                     	
                     	var require = false;
-                        if (item.dataFormat.required == 'Yes') {
+                        if (item.dataFormat != null && item.dataFormat.required == 'Yes') {
                         	require = true;
                         }
                     	
@@ -665,6 +665,31 @@ angular
 								expectedValue: null
 							}
                     	
+						}if(item.dataType.documentTableField == 'DOCUMENT_NO'){
+							 sponsorItem = {
+								startIndex: item.startIndex,
+								dataLength: item.dataLength,
+								dataType: item.dataType.documentTableField,
+								recordType: item.dataType.recordType,
+								fieldName: '',
+								calendarEra: '',
+								datetimeFormat: '',
+								paddingType: null,
+								paddingCharacter: '',
+								has1000Separator: null,
+								hasDecimalSign: null,
+								hasDecimalPlace: null,
+								decimalPlace: null,
+								signFlagConfig: null,
+								defaultValue: null,
+								displayValue: item.sponsorFieldName,
+								isTransient: 0,
+								required: true,
+								positiveFlag: null,
+								negativeFlag: null,
+								primaryKeyField: item.primaryKeyField,
+								expectedValue: null
+							}		                    	
 						}
                         items.push(sponsorItem);
                     });
