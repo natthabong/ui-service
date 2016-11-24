@@ -178,6 +178,7 @@ angular
 
                 vm.initLoad();
 
+				vm.rowItemPopup = {};
                 vm.openSetting = function(record) {
                     var dataTypeConfig = record.dataType
                     if (dataTypeConfig != null) {
@@ -190,11 +191,14 @@ angular
                         } else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.dateTime) {
                             vm.loadDateTimeFormat();
                         }
-
+						vm.rowItemPopup = record;
                         ngDialog.openConfirm({
                             template: dataTypeConfig.configActionUrl,
                             data: record,
                             className: 'ngdialog-theme-default',
+							controller:['$scope', function($scope){
+								
+							}],
                             scope: $scope
                         }).then(function(value) {
                             console.log('Modal promise resolved. Value: ', value);
@@ -202,7 +206,7 @@ angular
                             console.log('Modal promise rejected. Reason: ', reason);
                         });
                     }
-                }
+                };
 
                 vm.exampleDateTime = Date.parse('03/14/2012 13:30:55');
 
@@ -255,11 +259,12 @@ angular
                     });
                     serviceDiferred.promise.then(function(response) {
                         var customerCodeGroupList = response.data;
+						console.log(customerCodeGroupList);
                         if (customerCodeGroupList !== undefined) {
                             customerCodeGroupList.forEach(function(obj) {
                                 var selectObj = {
                                     label: obj.groupName,
-                                    value: obj.groupId
+                                    value: obj.groupName
                                 }
                                 vm.customerCodeGroupDropdown.push(selectObj);
                             });
@@ -274,29 +279,28 @@ angular
                     return diferred;
                 };
 
-                vm.dataFormat = {};
-                vm.expectedValue = '';
-
-
                 vm.checkRequired = function() {
                     vm.required = !vm.required;
                     vm.disableText = !vm.required;
                 };
 
-                vm.dataFormat = {};
                 vm.expectedValue = '';
 
                 vm.displayExampleValue = function(record) {
-                    if (angular.isUndefined(record.dataType) || record.dataType == null) {
+                    if (angular.isUndefined(record.dataFormat) || record.dataFormat == null) {
                         return '';
                     }
 
                     var dataType = record.dataType;
+					
                     var msgDisplay = ''
+					
                     if (dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
-                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+						
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', record.dataFormat.required);
                         msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
                         msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+						
                     } else if (dataType.dataTypeDisplay == dataTypeDisplay.text) {
                         msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
                         msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
@@ -362,12 +366,19 @@ angular
                     if (vm.requireCheckbox) {
                         requiredFormat = "Yes";
                     }
-
-                    vm.dataFormat = {
-                        required: requiredFormat,
-                        expectedValue: vm.expectedValue,
-                        customerCodeGroupName: vm.customerCodeGroup.value
-                    };
+					
+					var dataFormat = {};
+					if(vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.customerCode){
+						dataFormat = {
+							required: requiredFormat,
+							expectedValue: vm.expectedValue,
+							customerCodeGroupName: vm.customerCodeGroup,
+							isExpectedValue: true
+                    	};
+					}
+					
+					vm.rowItemPopup = angular.extend(vm.rowItemPopup, {dataFormat: dataFormat});					
+					
                 };
 
                 vm.save = function() {
@@ -389,14 +400,13 @@ angular
                 };
 
                 function getLayoutConfigRequest() {
-                    console.log(vm.layoutConfigItems);
                     var layoutConfigModel = {
                         sponsorIntegrateFileConfig: {
                             sponsorConfigId: 'SFP',
                             sponsorId: vm.sponsorId,
                             displayName: vm.fileLayoutName,
                             delimeter: vm.layoutInfoModel.delimiters,
-                            wrapper: null,
+                            wrapper: '"',
                             headerRecordType: null,
                             detailRecordType: null,
                             footerRecordType: null,
@@ -446,7 +456,7 @@ angular
                             positiveFlag: null,
                             negativeFlag: null,
                             primaryKeyField: item.primaryKeyField,
-                            expectedValue: null
+                            expectedValue: getExpedtedValueRequest(item.dataFormat)
                         }
 
                         items.push(sponsorItem);
@@ -491,5 +501,32 @@ angular
                     }
                     return items;
                 }
+				
+				function getExpedtedValueRequest(expectedValue){
+					var result = null;
+					
+					if(expectedValue.isExpectedValue){
+						if(!isEmptyValue(expectedValue.customerCodeGroupName)
+						   || expectedValue.customerCodeGroupName.length > 0){
+
+							result = expectedValue.customerCodeGroupName;
+
+						}else if(!isEmptyValue(expectedValue.expectedValue)
+						   || expectedValue.expectedValue.length > 0){
+
+							result = expectedValue.expectedValue;
+
+						}
+					}					
+					
+					return result;
+				}
+				
+				function isEmptyValue(value){
+					if(angular.isUndefined(value) || value == null){
+						return true;
+					}
+					return false;
+				}
             }
         ]);
