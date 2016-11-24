@@ -2,7 +2,7 @@
 		<div class="modal-header">
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
-					<h3><span id="customer-code-group-format-header" class="popup-text" ng-bind="'Customer code group field format' | translate">Customer code group field format</span></h3>
+					<h3><span id="customer-code-field-format-popup-header-message-label" class="popup-text" ng-bind="'Customer code field format' | translate">Customer code field format</span></h3>
 				</div>				
 			</div>
 		</div>
@@ -14,7 +14,7 @@
 							<legend>Validation</legend>
 							<div class="form-group">
 								<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-										id="require-checkbox" ng-model="newFileLayoutCtrl.requireCheckbox" 
+										id="customer-code-field-format-popup-require-checkbox" ng-model="newFileLayoutCtrl.requireCheckbox" 
 										ng-checked="true" ng-disabled="true"></scf-checkbox>
 									<span ng-bind="'Require' | translate" id="require-label"></span>
 								</label>
@@ -23,13 +23,13 @@
 								<label for="expected-value" class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 										ng-bind="'Expected value' | translate"></span>:</label>
 								<div class="col-md-6 col-sm-4 col-xs-12">
-									<scf-dropdown id="cust-code-dropdown"
+									<scf-dropdown id="customer-code-field-format-popup-expected-value-dropdown"
 										ng-model="newFileLayoutCtrl.customerCodeGroup"
 										component-data="newFileLayoutCtrl.customerCodeGroupDropdown"
 										translate-label="true"></scf-dropdown>
 								</div>
 								<div class="col-md-2 col-sm-3 col-xs-12">
-									<scf-button class="btn-default gec-btn-action" ng-click="newFileLayoutCtrl.newCustomerCodeGroup()" title="New a customer code group"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
+									<scf-button id="customer-code-field-format-popup-new-customer-code-group-button" class="btn-default gec-btn-action" ng-click="newFileLayoutCtrl.newCustomerCodeGroup()" title="New a customer code group"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
 								</div>
 							</div>
 						</fieldset>
@@ -40,10 +40,10 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<scf-button id="cancel-button" class="popup-button"  
+					<scf-button id="customer-code-field-format-popup-cancel-button" class="popup-button"  
 						ng-click="closeThisDialog()"
 						ng-bind="'Cancel' | translate"></scf-button>
-					<scf-button id="ok-button" class="popup-button" 
+					<scf-button id="customer-code-field-format-popup-ok-button" class="popup-button" 
 						ng-click="closeThisDialog();newFileLayoutCtrl.updateValue()"
 						ng-bind="'OK' | translate"></scf-button>
 					
