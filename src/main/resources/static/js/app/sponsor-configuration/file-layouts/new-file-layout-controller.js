@@ -210,12 +210,7 @@ angular
                         } else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.dateTime) {
                             vm.calendarTypeFormat = vm.calendarType.christCalendar;
                             vm.loadDateTimeFormat();
-                        }else if(dataTypeConfig.dataTypeDisplay== dataTypeDisplay.numeric || dataTypeConfig.dataTypeDisplay== dataTypeDisplay.paymentAmount){
-    						vm.numericTypeFormat = vm.numericType.anyNumericFormat,
-    						vm.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol,
-    						vm.disableField = true;
-    						vm.loadNumericFormat();
-    					}else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.numeric ||
+                        }}else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.numeric ||
 	                        dataTypeConfig.dataTypeDisplay == dataTypeDisplay.paymentAmount) {
 	                        vm.numericTypeFormat = vm.numericType.anyNumericFormat;
 	                        vm.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
