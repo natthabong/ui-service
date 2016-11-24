@@ -398,7 +398,7 @@ angular
                     }
                     
                     var dataType = record.dataType;
-
+					console.log(dataType);
                     var msgDisplay = ''
 
                     if (dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
@@ -414,6 +414,7 @@ angular
                     } else if (dataType.dataTypeDisplay == dataTypeDisplay.documentNo) {
                         msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
                         msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+						
                     } else if (dataType.dataTypeDisplay == dataTypeDisplay.dateTime) {
 
                        var calendarEra = "Christ calendar (A.D.)";
@@ -426,8 +427,9 @@ angular
                         msgDisplay = msgDisplay.replace('{calendarType}', calendarEra);
                         msgDisplay = msgDisplay.replace('{exampleData}', convertDate(record.dataFormat.dateTimeFormat,dataType.defaultExampleValue));
                         msgDisplay = msgDisplay.replace('| {conditionUploadDate}', '');
-                    }else if(dataType.dataTypeDisplay == dataTypeDisplay.numeric){
 						
+                    }else if(dataType.dataTypeDisplay == dataTypeDisplay.numeric 
+							 || dataType.dataTypeDisplay == dataTypeDisplay.paymentAmount){						
 						msgDisplay = dataType.configDetailPattern.replace('{required}', record.dataFormat.required);
 						msgDisplay = msgDisplay.replace('{signFlag}', record.dataFormat.signFlag);
 						msgDisplay = msgDisplay.replace('{positiveExampleData}', vm.examplePositiveNumeric);
@@ -464,11 +466,12 @@ angular
                             calendarTypeFormat: vm.calendarTypeFormat,
                             isExpectedValue: false
                         };
-                    }else if(vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.numeric){
-						 dataFormat = {
-                            required: requiredFormat,
-                            isExpectedValue: false
-                        };
+                    }else if(vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.numeric 
+							 || vm.rowItemPopup.dataType.dataTypeDisplay == dataTypeDisplay.paymentAmount){
+						 	dataFormat = {
+								required: requiredFormat,
+								isExpectedValue: false
+                        	};
 						
 						dataFormat = angular.extend(dataFormat, vm.numericeModel);
 					}
@@ -612,7 +615,7 @@ angular
 								positiveFlag: null,
 								negativeFlag: null,
 								primaryKeyField: item.primaryKeyField,
-								expectedValue: getExpedtedValueRequest(item.dataFormat)
+								expectedValue: null
 							}
                     	
 						}
