@@ -224,6 +224,8 @@
 	"Need plus symbol": "Need plus symbol (+) on positive value",
 	"Avoid plus symbol": "Avoid plus symbol (+) on positive value",
 	"Ignore plus symbol": "Ignore plus symbol (+) on positive value",
-	"Save": "Save"
+	"Save": "Save",
+	"Sort by index": "Sort by index",
+	"Index": "Index"
 
 }

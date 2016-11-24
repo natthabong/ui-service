@@ -106,7 +106,7 @@
 												field name</th>
 											<th ng-bind="'Data type' | translate">Data type</th>
 											<th ng-bind="'Length' | translate">Length</th>
-											<th ng-bind="'Start index' | translate">Start index</th>
+											<th ng-bind="'Index' | translate">Index</th>
 											<th></th>
 										</tr>
 									</thead>
@@ -137,12 +137,27 @@
 												<input type="text" id="index-{{$index+1}}-textbox"
 												style="text-align: right;" ng-model="record.startIndex"/></td>
 											<td class="text-center">
-												<button type="button" id="setup-{{$index+1}}-button" class="btn btn-default" ng-disabled="!record.dataType" ng-click="newFileLayoutCtrl.openSetting(record)">
+												<scf-button  type="button" id="setup-{{$index+1}}-button" 
+													class="btn-default gec-btn-action" ng-disabled="!record.dataType" 
+													ng-click="newFileLayoutCtrl.openSetting(record)"
+													ng-hide="!newFileLayoutCtrl.isSetupComplete(record)">
 													<i class="fa fa-cog" aria-hidden="true"></i>
-												</button>
-												<button type="button" id="delete-{{$index+1}}-button" class="btn btn-default"  ng-click="newFileLayoutCtrl.removeConfigItem(record)">
+												</scf-button >
+												
+												<scf-button 
+													id="warning-setup-{{$index+1}}-button" 
+													class="btn-default gec-btn-action" ng-click="newFileLayoutCtrl.openSetting(record)"
+													title="Config a file layout" 
+													ng-disabled="!record.dataType" 
+													ng-hide="newFileLayoutCtrl.isSetupComplete(record)">
+														<img ng-hide="data.completed" data-ng-src="img/gear_warning.png" 
+														style="height: 13px; width: 14px;"/>
+												</scf-button>
+												<scf-button  type="button" 
+													id="delete-{{$index+1}}-button" class="btn-default gec-btn-action"  
+													ng-click="newFileLayoutCtrl.removeConfigItem(record)">
 													<i class="fa fa-trash" aria-hidden="true"></i>
-												</button>
+												</scf-button>
 											</td>
 										</tr>
 										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
@@ -161,8 +176,7 @@
 										ng-bind="'Add another field' | translate">Add another
 										field</button>
 									<button type="button" class="btn btn-default"
-										ng-bind="'Sort by start index' | translate">Sort by
-										start index</button>
+										ng-bind="'Sort by index' | translate"></button>
 								</div>
 							</div>
 							
