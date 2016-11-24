@@ -10,7 +10,7 @@ import gec.scf.util.AjaxUtils;
 @Controller
 public class OrganizeListController {
 
-	private static final String ORGANIZE_LIST = "/organize/organize-list";
+	private static final String ORGANIZE_LIST = "organize/organize-list";
 
 	@RequestMapping(path = "/organize-list", method = RequestMethod.GET)
 	public String organizeList(@RequestHeader("X-Requested-With") String requestedWith) {

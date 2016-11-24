@@ -14,7 +14,7 @@
 							<legend>Validation</legend>
 							<div class="form-group">
 								<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-										id="require-checkbox" ng-model="ctrl.requireCheckbox" 
+										id="require-checkbox" ng-model="newFileLayoutCtrl.requireCheckbox" 
 										ng-click="newFileLayoutCtrl.checkRequired()"></scf-checkbox>
 									<span ng-bind="'Require' | translate" id="require-label"></span>
 								</label>
@@ -39,7 +39,7 @@
 						ng-click="closeThisDialog()"
 						ng-bind="'Cancel' | translate"></scf-button>
 					<scf-button id="ok-button" class="popup-button" 
-						ng-click="closeThisDialog();ctrl.updateValue()"
+						ng-click="closeThisDialog();newFileLayoutCtrl.displayExampleValue()"
 						ng-bind="'OK' | translate"></scf-button>
 					
 				</div>
