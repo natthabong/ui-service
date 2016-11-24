@@ -145,10 +145,6 @@ angular
                     });
                 }
 
-                vm.decodeBase64 = function(data) {
-                    return atob(data);
-                }
-
                 vm.layoutConfigItems = [newItemConfig()];
 
                 vm.addNewConfigItem = function() {
@@ -160,6 +156,50 @@ angular
                     vm.layoutConfigItems.splice(index, 1);
                 }
 
+                vm.initLoad = function() {
+                    if (!angular.isUndefined(vm.fileLayoutModel) && vm.fileLayoutModel != null) {
+                        vm.fileLayoutName = vm.fileLayoutModel.displayName;
+                        vm.sponsorId = vm.fileLayoutModel.sponsorId;
+                    } else {
+                        vm.fileLayoutName = '';
+                        vm.sponsorId = '';
+                        vm.newFile = true;
+                    }
+
+                    vm.loadDelimiters();
+                    vm.loadFileEncode();
+                    vm.loadDataTypes();
+                    vm.layoutInfoModel.offsetRowNo = 1;
+
+                    vm.paymentDateType = vm.paymentDateTypeValues.field;
+                }
+                
+                vm.initLoad();
+                
+                vm.openSetting = function(record) {
+                    var dataTypeConfig = record.dataType
+                    if (dataTypeConfig != null) {
+                        vm.requireCheckbox = false;
+                        vm.required = vm.requireCheckbox;
+                        vm.disableText = true;
+
+                        if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.customerCode) {
+                            vm.loadCustomerCodeGroup();
+                        }
+
+                        ngDialog.openConfirm({
+                            template: dataTypeConfig.configActionUrl,
+                            data: record,
+                            className: 'ngdialog-theme-default',
+                            scope: $scope
+                        }).then(function(value) {
+                            console.log('Modal promise resolved. Value: ', value);
+                        }, function(reason) {
+                            console.log('Modal promise rejected. Reason: ', reason);
+                        });
+                    }
+                }
+                
                 vm.exampleDateTime = Date.parse('03/14/2012 13:30:55');
 
                 vm.loadDateTimeFormat = function() {
@@ -195,91 +235,6 @@ angular
                 vm.calendarType = {
                     christCalendar: 'Christ calendar (A.D.)',
                     buddhistCalendar: 'Buddhist calendar (B.E.)'
-                }
-
-                vm.openSetting = function(record) {
-                    var dataTypeConfig = record.dataType
-                    if (dataTypeConfig != null) {
-                        vm.requireCheckbox = false;
-                        vm.required = vm.requireCheckbox;
-                        vm.disableText = true;
-
-                        if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.customerCode) {
-                            vm.loadCustomerCodeGroup();
-                        }
-
-                        ngDialog.openConfirm({
-                            template: dataTypeConfig.configActionUrl,
-                            data: record,
-                            className: 'ngdialog-theme-default',
-                            scope: $scope
-                        }).then(function(value) {
-                            console.log('Modal promise resolved. Value: ', value);
-                        }, function(reason) {
-                            console.log('Modal promise rejected. Reason: ', reason);
-                        });
-                    }
-                }
-
-                //							vm.loadPaymentDateType = function(){								
-                //								vm.paymentDateFieldModel.dropdowns = addPaymentDateField(vm.layoutConfigItems);
-                //							}
-
-                vm.initLoad = function() {
-                    if (!angular.isUndefined(vm.fileLayoutModel) && vm.fileLayoutModel != null) {
-                        vm.fileLayoutName = vm.fileLayoutModel.displayName;
-                        vm.sponsorId = vm.fileLayoutModel.sponsorId;
-                    } else {
-                        vm.fileLayoutName = '';
-                        vm.sponsorId = '';
-                        vm.newFile = true;
-                    }
-
-                    vm.loadDelimiters();
-                    vm.loadFileEncode();
-                    vm.loadDataTypes();
-                    vm.layoutInfoModel.offsetRowNo = 1;
-
-                    vm.paymentDateType = vm.paymentDateTypeValues.field;
-                    //								vm.loadPaymentDateType();
-                }
-                
-                vm.initLoad();
-
-                vm.checkRequired = function() {
-                    vm.required = !vm.required;
-                    vm.disableText = !vm.required;
-                };
-
-                vm.dataFormat = {};
-                vm.expectedValue = '';
-
-                vm.displayExampleValue = function(record) {
-                    if (angular.isUndefined(record.dataType) || record.dataType == null) {
-                        return '';
-                    }
-
-                    var dataType = record.dataType;
-                    var msgDisplay = ''
-                    if (dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
-                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
-                        msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
-                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.text) {
-                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
-                        msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
-                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.documentNo) {
-                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
-                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-                    }else if(dataType.dataTypeDisplay == dataTypeDisplay.dateTime){
-    					msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
-    					msgDisplay = msgDisplay.replace('{dateTimeFormat}', dataType.defaultExampleValue);
-    					msgDisplay = msgDisplay.replace('{calendarType}', dataType.defaultExampleValue);
-    					msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
-    				}
-
-                    return msgDisplay;
                 }
 
                 vm.loadCustomerCodeGroup = function() {
@@ -358,17 +313,6 @@ angular
                     vm.paymentDateFieldModel.dropdowns = addPaymentDateField(vm.layoutConfigItems);
                 }, true)
 
-                function newItemConfig() {
-                    var itemConfig = {
-                        primaryKeyField: false,
-                        sponsorFieldName: '',
-                        dataType: null,
-                        length: 0,
-                        startIndex: 0
-                    };
-                    return itemConfig;
-                }
-
                 function addPaymentDateField(configItems) {
                     var items = [{
                         label: 'Please select',
@@ -388,6 +332,17 @@ angular
                     return items;
                 }
 
+                function newItemConfig() {
+                    var itemConfig = {
+                        primaryKeyField: false,
+                        sponsorFieldName: '',
+                        dataType: null,
+                        length: 0,
+                        startIndex: 0
+                    };
+                    return itemConfig;
+                }
+                
                 vm.updateValue = function() {
     		    	var requiredFormat = "No";
     		    	if(vm.requireCheckbox){
@@ -400,5 +355,41 @@ angular
     			    	customerCodeGroupName: vm.customerCodeGroup.value
     			    };
     		    };
+    		    
+    		    vm.checkRequired = function() {
+                    vm.required = !vm.required;
+                    vm.disableText = !vm.required;
+                };
+
+                vm.dataFormat = {};
+                vm.expectedValue = '';
+
+                vm.displayExampleValue = function(record) {
+                    if (angular.isUndefined(record.dataType) || record.dataType == null) {
+                        return '';
+                    }
+
+                    var dataType = record.dataType;
+                    var msgDisplay = ''
+                    if (dataType.dataTypeDisplay == dataTypeDisplay.customerCode) {
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+                        msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
+                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.text) {
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+                        msgDisplay = msgDisplay.replace('{expectedValue}', dataType.defaultExampleValue);
+                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+                    } else if (dataType.dataTypeDisplay == dataTypeDisplay.documentNo) {
+                        msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+                        msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+                    }else if(dataType.dataTypeDisplay == dataTypeDisplay.dateTime){
+    					msgDisplay = dataType.configDetailPattern.replace('{required}', 'true');
+    					msgDisplay = msgDisplay.replace('{dateTimeFormat}', dataType.defaultExampleValue);
+    					msgDisplay = msgDisplay.replace('{calendarType}', dataType.defaultExampleValue);
+    					msgDisplay = msgDisplay.replace('{exampleData}', dataType.defaultExampleValue);
+    				}
+
+                    return msgDisplay;
+                }
             }
         ]);
