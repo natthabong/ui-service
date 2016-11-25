@@ -273,8 +273,6 @@ angular
 
                 vm.examplePositiveNumeric = '123456';
                 vm.exampleNegativeNumeric = '-123456';
-//                vm.decimalPlacesValue = 0;
-
 
                 vm.loadNumericFormat = function() {
                     var loadSignFlagDiferred = vm.loadSignFlagList();
@@ -454,9 +452,9 @@ angular
 				
 				vm.expectedValue = '';
                 vm.updateValue = function() {
-                    var requiredFormat = "No";
+                    var requiredFormat = "no";
                     if (vm.requireCheckbox) {
-                        requiredFormat = "Yes";
+                        requiredFormat = "yes";
                     }
 					
                     var dataFormat = {};
