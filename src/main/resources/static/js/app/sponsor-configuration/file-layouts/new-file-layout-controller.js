@@ -79,14 +79,14 @@ angular
                 }
 
                 vm.numericType = {
-                    anyNumericFormat: 'anyNumericFormat',
-                    customNumericFormat: 'customNumericFormat'
+                    anyNumericFormat: 'ANY',
+                    customNumericFormat: 'CUSTOM'
                 }
 
                 vm.signFlagType = {
-                    ignorePlusSymbol: 'ignorePlusSymbol',
-                    needPlusSymbol: 'needPlusSymbol',
-                    avoidPlusSymbol: 'avoidPlusSymbol'
+                    ignorePlusSymbol: 'IGNORE_PLUS',
+                    needPlusSymbol: 'NEES_PLUS',
+                    avoidPlusSymbol: 'AVOID_PLUS'
                 }
 
                 vm.preview = function(data) {
@@ -220,7 +220,7 @@ angular
 								numericTypeFormat: vm.numericType.anyNumericFormat,
 								signFlagTypeFormat: vm.signFlagType.ignorePlusSymbol,
 								disableCustomField: true,
-								decimalPlacesValue: 0
+								decimalPlacesValue: 2
 							}
 							vm.loadNumericFormat();
 						}
@@ -385,9 +385,9 @@ angular
                 };
 
                 vm.checkCustomNumeric = function() {
-                    if (vm.numericeModel.numericTypeFormat == 'anyNumericFormat') {
+                    if (vm.numericeModel.numericTypeFormat == 'ANY') {
                         vm.numericeModel.disableCustomField = true;
-                    } else if (vm.numericeModel.numericTypeFormat == 'customNumericFormat') {
+                    } else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
                         vm.numericeModel.disableCustomField = false;
                     }
                 };
@@ -436,9 +436,26 @@ angular
                         msgDisplay = msgDisplay.replace('| {conditionUploadDate}', '');
 						
                     }else if(dataType.dataTypeDisplay == dataTypeDisplay.numeric 
-							 || dataType.dataTypeDisplay == dataTypeDisplay.paymentAmount){						
+							 || dataType.dataTypeDisplay == dataTypeDisplay.paymentAmount){		
+                    	
+                    	var numberFormatDisplay = 'Any numeric format'
+                    	if(record.dataFormat.numericTypeFormat == 'CUSTOM'){
+                    		numberFormatDisplay = 'Custom numeric format'
+                    	}
+                    	
+                    	var signFlagTypeDisplay = '';
+                    	if(record.dataFormat.signFlagTypeFormat == "IGNORE_PLUS"){
+                    		signFlagTypeDisplay = ' (ignore plus symbol (+) on positive value)' 
+                    	}else if(record.dataFormat.signFlagTypeFormat == "NEES_PLUS"){
+                    		signFlagTypeDisplay = ' (need plus symbol (+) on positive value)' 
+                    	}else if(record.dataFormat.signFlagTypeFormat == "AVOID_PLUS"){
+                    		signFlagTypeDisplay = ' (avoid plus symbol (+) on positive value)' 
+                    	}
+                    	
 						msgDisplay = dataType.configDetailPattern.replace('{required}', record.dataFormat.required);
-						msgDisplay = msgDisplay.replace('{signFlag}', record.dataFormat.signFlag);
+						msgDisplay = msgDisplay.replace('{numberFormat}', numberFormatDisplay);
+						msgDisplay = msgDisplay.replace('{decimalPlace}', record.dataFormat.decimalPlacesValue);
+						msgDisplay = msgDisplay.replace('{signFlag}', (record.dataFormat.signFlag + signFlagTypeDisplay));
 						msgDisplay = msgDisplay.replace('{positiveExampleData}', vm.examplePositiveNumeric);
 						msgDisplay = msgDisplay.replace('{negativeExampleData}', vm.exampleNegativeNumeric);
 					}

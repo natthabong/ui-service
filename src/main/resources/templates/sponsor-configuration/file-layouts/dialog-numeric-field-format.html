@@ -16,7 +16,7 @@
 								<div class="col-md-6 col-sm-4 col-xs-12">
 									<label class="radio-inline"> <scf-radio
 											id="any-numeric-type" 
-											name="numeric-type-radio"
+											name="numeric-field-format-popup-numeric-format-radio"
 											ng-click="newFileLayoutCtrl.checkCustomNumeric()"
 											ng-value="newFileLayoutCtrl.numericType.anyNumericFormat"
 											ng-model="newFileLayoutCtrl.numericeModel.numericTypeFormat"></scf-radio>
@@ -25,7 +25,7 @@
 									<br/>
 									<label class="radio-inline"> <scf-radio
 											id="custom-numeric-type"
-											name="numeric-type-radio"
+											name="numeric-field-format-popup-numeric-format-radio"
 											ng-click="newFileLayoutCtrl.checkCustomNumeric()"
 											ng-value="newFileLayoutCtrl.numericType.customNumericFormat"
 											ng-model="newFileLayoutCtrl.numericeModel.numericTypeFormat"></scf-radio>
@@ -88,7 +88,7 @@
 								<div class="col-md-6 col-sm-4 col-xs-12">
 									<label class="radio-inline"> <scf-radio
 											id="sign-flag-type"
-											name="sign-flag-type-radio"
+											name="numeric-field-format-popup-plus-symbol-radio"
 											ng-value="newFileLayoutCtrl.signFlagType.ignorePlusSymbol"
 											ng-model="newFileLayoutCtrl.numericeModel.signFlagTypeFormat"></scf-radio>
 										{{'Ignore plus symbol (+) on positive value' | translate}}
@@ -96,7 +96,7 @@
 									<br/>
 									<label class="radio-inline"> <scf-radio
 											id="sign-flag-type" 
-											name="sign-flag-type-radio"
+											name="numeric-field-format-popup-plus-symbol-radio"
 											ng-value="newFileLayoutCtrl.signFlagType.needPlusSymbol"
 											ng-model="newFileLayoutCtrl.numericeModel.signFlagTypeFormat"></scf-radio>
 										{{'Need plus symbol (+) on positive value' | translate}}
@@ -104,7 +104,7 @@
 									<br/>
 									<label class="radio-inline"> <scf-radio
 											id="sign-flag-type"
-											name="sign-flag-type-radio"
+											name="numeric-field-format-popup-plus-symbol-radio"
 											ng-value="newFileLayoutCtrl.signFlagType.avoidPlusSymbol"
 											ng-model="newFileLayoutCtrl.numericeModel.signFlagTypeFormat"></scf-radio>
 										{{'Avoid plus symbol (+) on positive value' | translate}}
