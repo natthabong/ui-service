@@ -479,7 +479,7 @@ angular
                     		isExpectedValue = true;
                     	}
                         dataFormat = {
-                            required: vm.requireCheckbox,
+                            required: requiredFormat,
                             expectedValue: vm.expectedValue,
                             isExpectedValue: isExpectedValue
                         };
