@@ -273,7 +273,7 @@ angular
 
                 vm.examplePositiveNumeric = '123456';
                 vm.exampleNegativeNumeric = '-123456';
-                vm.decimalPlacesValue = 0;
+//                vm.decimalPlacesValue = 0;
 
 
                 vm.loadNumericFormat = function() {
