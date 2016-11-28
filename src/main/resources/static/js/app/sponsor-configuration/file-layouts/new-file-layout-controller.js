@@ -469,9 +469,9 @@ angular
 				
 				vm.expectedValue = '';
                 vm.updateValue = function() {
-                    var requiredFormat = "no";
+                    var requiredFormat = "No";
                     if (vm.requireCheckbox) {
-                        requiredFormat = "yes";
+                        requiredFormat = "Yes";
                     }
 					
                     var dataFormat = {};
