@@ -17,6 +17,7 @@ public class SponsorConfigController {
 	private static String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
 	
 	private static String CUSTOMER_CODE_GROUPS = "sponsor-configuration/customer-code-groups";
+	private static String DOCUMENT_DISPLAY_CONFIGS = "sponsor-configuration/document-display-configs";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String sponsorConfiguration(
@@ -58,5 +59,14 @@ public class SponsorConfigController {
 			return CUSTOMER_CODE_GROUPS.concat(" :: content");
 		}
 		return CUSTOMER_CODE_GROUPS;
+	}
+	
+	@RequestMapping(path = "/display-document-configs", method = RequestMethod.GET)
+	public String documentDisplayConfigs(
+			@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return DOCUMENT_DISPLAY_CONFIGS.concat(" :: content");
+		}
+		return DOCUMENT_DISPLAY_CONFIGS;
 	}
 }

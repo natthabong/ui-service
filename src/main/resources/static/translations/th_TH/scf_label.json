@@ -224,5 +224,7 @@
 	"Ignore plus symbol": "Ignore plus symbol (+) on positive value",
 	"Save": "Save",
 	"Sort by index": "Sort by index",
-	"Index": "Index"
+	"Index": "Index",
+	
+	"Display document configuration": "ตั้งค่าหน้าจอแสดงเอกสาร"
 }
