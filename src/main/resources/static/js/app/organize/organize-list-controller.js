@@ -51,6 +51,12 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
     	"active":"Active",
     	"isComplete":1,
     },{
+    	"organizeId" : "DUMMY_BIGC",
+    	"organizeName":"Dummy BIG C SUPERCENTER PUBLIC CO.,LTD",
+    	"sponsor":1,
+    	"active":"Active",
+    	"isComplete":1,
+    },{
     	"organizeId" : "00025408",
     	"organizeName":"EK-CHAI DISTRIBUITION SYSTEM CO.,LTD",
     	"sponsor":1,
