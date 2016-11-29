@@ -84,11 +84,11 @@ angular.module('scfApp').controller('DocumentDisplayConfigController', ['Service
 
         vm.onload();
 
-        vm.setupDisplayDocument = function(displayDocConf) {
+        vm.setupDisplayDocument = function(displayDocumentCfg) {
             var params = {
-                displayDocumentConfigModel: displayDocConf
+            	selectedItem: displayDocumentCfg
             };
-            //            PageNavigation.gotoPage('/sponsor-configuration/file-layouts/new-file-layout', params)
+            PageNavigation.gotoPage('/sponsor-configuration/document-display/settings', params)
         };
     }
 ]);

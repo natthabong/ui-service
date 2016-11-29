@@ -165,6 +165,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/file-layouts/new-file-layout',
 				params: { fileLayoutModel: null},
 				resolve: load(['js/app/sponsor-configuration/file-layouts/new-file-layout-controller.js', 'js/app/sponsor-configuration/customer-code-groups-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/sponsor-configuration/document-display/settings',{
+				url: '/sponsor-configuration/document-display/settings',
+				controller: 'DocumentDisplayController',
+				controllerAs: 'ctrl',
+				templateUrl: '/sponsor-configuration/document-display/settings',
+				params: { selectedItem: null},
+				resolve: load(['js/app/sponsor-configuration/document-display/document-display-controller.js'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
