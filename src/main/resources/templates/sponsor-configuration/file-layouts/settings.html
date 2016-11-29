@@ -127,6 +127,7 @@
 												
 											<td class="text-center"><select name="mySelect"
 												id="data-type-{{$index+1}}-dropdown"
+												ng-change="newFileLayoutCtrl.dataTypeChange(record)"
 												ng-options="option.dataTypeDisplay for option in newFileLayoutCtrl.dataTypeDropdown track by option.layoutFileDataTypeId"
 												ng-model="record.dataType"></select></td>
 

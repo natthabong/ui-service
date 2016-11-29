@@ -785,6 +785,10 @@ angular
 					return true;
 				}
 				
+				vm.dataTypeChange = function(item){
+					item.dataFormat = null;
+				}
+				
 				function convertDate(format,exampledata){
                 	var year = exampledata.substring(0, 4);
                 	var month = exampledata.substring(4, 6);
