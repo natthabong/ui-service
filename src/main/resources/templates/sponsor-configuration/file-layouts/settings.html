@@ -124,6 +124,7 @@
 												style="width: 90%;"
 													id="sponsor-field-name-{{$index+1}}-textbox"
 												ng-model="record.sponsorFieldName"/></td>
+												
 											<td class="text-center"><select name="mySelect"
 												id="data-type-{{$index+1}}-dropdown"
 												ng-options="option.dataTypeDisplay for option in newFileLayoutCtrl.dataTypeDropdown track by option.layoutFileDataTypeId"
@@ -131,24 +132,24 @@
 
 											<td class="text-center">
 												<input type="text" id="length-{{$index+1}}-textbox"
-												style="text-align: right;" ng-model="record.dataLength"/>
+												style="text-align: right;" ng-model="record.dataLength" />
 											</td>
 											<td class="text-center">
 												<input type="text" id="index-{{$index+1}}-textbox"
 												style="text-align: right;" ng-model="record.startIndex"/></td>
 											<td class="text-center">
 												<scf-button  type="button" id="setup-{{$index+1}}-button" 
-													class="btn-default gec-btn-action" ng-disabled="!record.dataType" 
+													class="btn-default gec-btn-action" 
 													ng-click="newFileLayoutCtrl.openSetting(record)"
+													ng-disabled="!record.dataType.layoutFileDataTypeId" 
 													ng-hide="!newFileLayoutCtrl.isSetupComplete(record)">
 													<i class="fa fa-cog" aria-hidden="true"></i>
 												</scf-button >
-												
 												<scf-button 
 													id="warning-setup-{{$index+1}}-button" 
 													class="btn-default gec-btn-action" ng-click="newFileLayoutCtrl.openSetting(record)"
 													title="Config a file layout" 
-													ng-disabled="!record.dataType" 
+													ng-disabled="!record.dataType.layoutFileDataTypeId" 
 													ng-hide="newFileLayoutCtrl.isSetupComplete(record)">
 														<img ng-hide="data.completed" data-ng-src="img/gear_warning.png" 
 														style="height: 13px; width: 14px;"/>
