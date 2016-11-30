@@ -28,12 +28,27 @@ angular
                 
                 vm.dataModel = {
             	  displayName: null,
-            	  items: [{
-            		  documentField: null,
-            		  sortType: null
-            		  
-            	  }]
+            	  items: null
                 };
+                
+                vm.dataModel.items = [newDisplayConfig()];
+                
+                vm.addItem = function() {
+                	vm.dataModel.items.push(newDisplayConfig());
+                }
+                
+                function newDisplayConfig() {
+                    var displayConfig = {
+                    	  documentField: null,
+                  		  sortType: null
+                    };
+                    return displayConfig;
+                }
+                
+                vm.removeItem = function(record) {
+                    var index = vm.dataModel.items.indexOf(record);
+                    vm.dataModel.items.splice(index, 1);
+                }
                 
                 vm.sortTypes = [   {
                 	label: 'ASC',
