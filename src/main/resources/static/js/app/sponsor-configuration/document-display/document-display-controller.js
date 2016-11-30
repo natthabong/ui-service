@@ -107,5 +107,23 @@ angular
                 }
                 
                 vm.setup();
+				
+				vm.moveItemUp = function(item){
+					var itemIndex = vm.dataModel.items.indexOf(item);					
+					addItemToIndex(itemIndex-1, item);			
+				}
+				
+				vm.moveItemDown = function(item){
+					var itemIndex = vm.dataModel.items.indexOf(item);
+					addItemToIndex(itemIndex+1, item);
+				}
+				
+				function addItemToIndex(index, item){
+					var totalItem = vm.dataModel.items.length;
+					if(index >= 0 && index <= totalItem) {
+						vm.removeItem(item);
+						vm.dataModel.items.splice(index, 0, item);
+					}
+				}
             }
         ]);
