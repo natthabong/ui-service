@@ -203,8 +203,7 @@ angular
                 vm.openSetting = function(record) {
                     var dataTypeConfig = record.dataType;
                     var dataFormat = record.dataFormat;
-                    console.log(record);
-					
+                    					
                     if (dataTypeConfig != null) {
                         vm.requireCheckbox = false;
                         vm.required = vm.requireCheckbox;
@@ -258,7 +257,7 @@ angular
                 vm.exampleDateTime = Date.parse('04/13/2016 13:30:55');
 
                 vm.loadDateTimeFormat = function(dataFormat) {
-                	console.log(dataFormat);
+                	
                     var diferred = $q.defer();
                     vm.dateTimeDropdown = [{
                         label: 'Please select',
@@ -303,21 +302,23 @@ angular
 
                 vm.loadNumericFormat = function(dataFormat) {
                     var loadSignFlagDiferred = vm.loadSignFlagList();
+					
                     loadSignFlagDiferred.promise.then(function() {
-                        vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
+						if(dataFormat == null){
+							 vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
+						}						
                     });
                     
                     if(dataFormat!=null){
-                    	console.log(dataFormat);
 						vm.numericeModel.numericTypeFormat = dataFormat.numericTypeFormat;
 						vm.numericeModel.signFlagTypeFormat = dataFormat.signFlagTypeFormat;
 						vm.numericeModel.decimalPlacesValue = dataFormat.decimalPlacesValue;
-						vm.numericeModel.signFlag = ''+dataFormat.signFlag;
+						vm.numericeModel.signFlag = dataFormat.signFlag;
 						vm.numericeModel.paddingValue = dataFormat.paddingValue;
 						vm.numericeModel.usePadding = dataFormat.usePadding;
 						vm.numericeModel.hasSeperator = dataFormat.hasSeperator;
 						vm.numericeModel.hasDecimalPlace = dataFormat.hasDecimalPlace;
-						console.log(vm.numericeModel.signFlag);
+						
                     	var require = false;
                         if (dataFormat.required == 'Yes') {
                         	require = true;
@@ -331,7 +332,7 @@ angular
                             vm.numericeModel.disableCustomField = false;
                         }
 	
-                    }                    
+                    }
                 }
 
                 vm.loadSignFlagList = function() {
