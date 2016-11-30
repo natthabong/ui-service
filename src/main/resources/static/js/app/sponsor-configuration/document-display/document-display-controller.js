@@ -28,7 +28,7 @@ angular
                 
                 var newDisplayConfig = function() {
                     return {
-                  	  documentField: null,
+                      filedName: null,
               		  sortType: null
                     }
                 } 
@@ -89,7 +89,7 @@ angular
                 
                 vm.addItem = function(){
                 	vm.dataModel.items.push({
-               		  documentField: null,
+               		  filedName: null,
                		  sortType: null
                	   });
                 }
@@ -126,7 +126,11 @@ angular
                 }
                 
                 vm.save = function(){
-                	log.debug( vm.dataModel)
+                	
+                	vm.dataModel.items.forEach(function(obj, index) {
+                		obj.sequenceNo = index+1;
+                    })
+                    log.debug( vm.dataModel)
                 }
                 
                 vm.setup();
