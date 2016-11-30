@@ -39,25 +39,29 @@
 								<div class="col-md-4 col-sm-5 col-xs-12">
 									<label class="checkbox-inline"> <scf-checkbox
 											id="padding-checkbox"
+											ng-model="newFileLayoutCtrl.numericeModel.usePadding"
+											ng-click="newFileLayoutCtrl.numericeModel.paddingValue = null"
 											 ng-disabled="newFileLayoutCtrl.numericeModel.disableCustomField"></scf-checkbox> 
 										<span ng-bind="'Padding character' | translate" id="padding-label"></span>: 
 									</label> 
 									<br /> 
 									<label class="checkbox-inline"> <scf-checkbox
 											id="has-seperator-checkbox"
+											ng-model="newFileLayoutCtrl.numericeModel.hasSeperator"
 											 ng-disabled="newFileLayoutCtrl.numericeModel.disableCustomField"></scf-checkbox>
 										<span ng-bind="'Has 1,000 seperator' | translate" id="has-seperator-label"></span>
 									</label> 
 									<br /> 
 									<label class="checkbox-inline"> <scf-checkbox
 											id="has-decimal-place-checkbox"
+											ng-model="newFileLayoutCtrl.numericeModel.hasDecimalPlace"
 											 ng-disabled="newFileLayoutCtrl.numericeModel.disableCustomField"></scf-checkbox> 
 										<span ng-bind="'Has decimal place' | translate" id="has-decimal-place-label"></span>
 									</label>
 								</div>
 								<div class="col-md-2 col-sm-3 col-xs-12">
 									<scf-input-text id="padding-value-textbox"
-										ng-model="newFileLayoutCtrl.paddingValue" 
+										ng-model="newFileLayoutCtrl.numericeModel.paddingValue" 
 										ng-disabled="newFileLayoutCtrl.numericeModel.disableCustomField"></scf-input-text>
 								</div>
 								<div class="col-md-8 col-sm-2 col-xs-12">

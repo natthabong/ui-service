@@ -24,7 +24,7 @@
 										ng-bind="'Expected value' | translate"></span>:</label>
 								<div class="col-md-7 col-sm-5 col-xs-12">
 									<scf-input-text id="text-field-format-popup-expected-value-textbox"
-										ng-model="newFileLayoutCtrl.expectedValue" ng-disabled="newFileLayoutCtrl.disableText"></scf-input-text>
+										ng-model="newFileLayoutCtrl.expectedValue" ng-disabled="!newFileLayoutCtrl.requireCheckbox"></scf-input-text>
 								</div>
 							</div>
 						</fieldset>

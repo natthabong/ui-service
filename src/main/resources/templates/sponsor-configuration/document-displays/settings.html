@@ -1,0 +1,132 @@
+<div id="content" th:fragment="content">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft">{{'AP
+						Document display configuration' | translate}}</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<form name="createForm" class="form-horizontal">
+						<div class="form-group">
+							<label for="dealer"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Document
+								display name' | translate}}: </label>
+
+							<div class="col-md-4 col-sm-5 col-xs-12">
+								<scf-input-text id="document-display-name-dropdown"
+									ng-model="ctrl.dataModel.displayName"></scf-input-text>
+							</div>
+							<div class="col-md-6 col-sm-4"></div>
+						</div>
+						<fieldset>
+							<legend ng-bind="'Display column' | translate"></legend>
+							<div class="responsive-table">
+								<table id="display-config-item-table"
+									class="table table-striped table-bordered" cellspacing="0">
+									<thead>
+										<tr>
+											<th ng-bind="'No' | translate">No</th>
+											<th ng-bind="'Document field name' | translate">Document
+												field name</th>
+											<th ng-bind="'TH Label' | translate">TH Label</th>
+											<th ng-bind="'EN Label' | translate">EN Label</th>
+											<th ng-bind="'Order' | translate" colspan="2">Order</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat-start="record in ctrl.dataModel.items track by $index"
+											ng-class="$even?'tr-odd':'tr-even'">
+
+											<td class="text-right"><label class="label-control"
+												id="sequence-no-{{$index+1}}-label" ng-bind="{{$index+1}}"></label></td>
+
+											<td class="text-right"><scf-dropdown
+													id="document-field-name-{{$index+1}}-dropdown"
+													ng-model="record.documentFieldId"
+													component-data="ctrl.documentFields"
+													translate-label="false"></scf-dropdown></td>
+
+											<td class="text-right"><scf-input-text
+													id="th-label-{{$index+1}}-textbox"
+													ng-model="record.labelTH" /></td>
+
+											<td class="text-right"><scf-input-text
+													id="en-label-{{$index+1}}-textbox"
+													ng-model="record.labelEN" /></td>
+
+											<td class="text-center"><scf-dropdown
+													id="order-{{$index+1}}-dropdown" ng-model="record.sortType"
+													component-data="ctrl.sortTypes" translate-label="true"></scf-dropdown></td>
+
+											<td class="text-center"><scf-input-text
+													id="sort-sequence-no-{{$index+1}}-textbox"
+													style="width: 55px; text-align: right;"
+													ng-model="record.sortSequenceNo"
+													ng-disabled="!record.sortType" /></td>
+											<td class="text-center"><scf-button type="button"
+													id="arrow-up-{{$index+1}}-button"
+													class="btn-default gec-btn-action"
+													ng-click="ctrl.moveItemUp(record)"> <i
+													class="fa fa-sort-up" aria-hidden="true"></i> </scf-button> <scf-button
+													type="button" id="arrow-down-{{$index+1}}-button"
+													class="btn-default gec-btn-action"
+													ng-click="ctrl.moveItemDown(record)"> <i
+													class="fa fa-sort-down" aria-hidden="true"></i> </scf-button> <scf-button
+													type="button" id="setup-{{$index+1}}-button"
+													class="btn-default gec-btn-action"
+													ng-click="ctrl.openSetting(record)"
+													ng-disabled="!record.dataType.layoutFileDataTypeId"
+													ng-hide="!record.completed"> <i
+													class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
+													id="warning-setup-{{$index+1}}-button"
+													class="btn-default gec-btn-action"
+													ng-click="ctrl.openSetting(record)"
+													title="Config a file layout" ng-hide="record.completed">
+												<img ng-hide="data.completed"
+													data-ng-src="img/gear_warning.png"
+													style="height: 13px; width: 14px;" /> </scf-button> <scf-button
+													type="button" id="delete-{{$index+1}}-button"
+													class="btn-default gec-btn-action"
+													ng-click="ctrl.removeItem(record)"> <i
+													class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
+										</tr>
+										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
+											<td colspan="7">
+												<p id="description-{{$index+1}}-label"></p>
+											</td>
+										</tr>
+
+									</tbody>
+								</table>
+
+								<div>
+									<!-- Split button -->
+									<button id="add-another-field-detail-button" type="button"
+										class="btn btn-default" ng-click="ctrl.addItem()"
+										ng-bind="'Add another field' | translate">Add another
+										field</button>
+
+								</div>
+							</div>
+
+						</fieldset>
+					</form>
+				</div>
+
+				<div class="panel-body">
+					<div class="col-md-12 col-sm-12 text-right">
+						<scf-button id="save-button" type="submit" ng-click="ctrl.save()">{{'Save'
+						| translate}}</scf-button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
