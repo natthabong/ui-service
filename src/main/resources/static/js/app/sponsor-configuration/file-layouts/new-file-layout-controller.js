@@ -202,6 +202,8 @@ angular
                 vm.rowItemPopup = {};
                 vm.openSetting = function(record) {
                     var dataTypeConfig = record.dataType;
+                    var dataFormat = record.dataFormat;
+                    console.log(record);
 					
                     if (dataTypeConfig != null) {
                         vm.requireCheckbox = false;
@@ -209,10 +211,10 @@ angular
                         vm.disableText = true;
 
                         if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.customerCode) {
-                            vm.loadCustomerCodeGroup();
+                            vm.loadCustomerCodeGroup(dataFormat);
                         } else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.dateTime) {
                             vm.calendarTypeFormat = vm.calendarType.christCalendar;
-                            vm.loadDateTimeFormat();
+                            vm.loadDateTimeFormat(dataFormat);
                         }else if (dataTypeConfig.dataTypeDisplay == dataTypeDisplay.numeric ||
 							dataTypeConfig.dataTypeDisplay == dataTypeDisplay.paymentAmount) {
 							
@@ -220,9 +222,23 @@ angular
 								numericTypeFormat: vm.numericType.anyNumericFormat,
 								signFlagTypeFormat: vm.signFlagType.ignorePlusSymbol,
 								disableCustomField: true,
-								decimalPlacesValue: 2
+								decimalPlacesValue: 2,
+								usePadding: false,
+								hasSeperator: false,
+								hasDecimalPlace: false
 							}
-							vm.loadNumericFormat();
+							vm.loadNumericFormat(dataFormat);
+						}else if(dataTypeConfig.dataTypeDisplay == dataTypeDisplay.text){
+							if (dataFormat!=null){
+		                    	var require = false;
+		                    	vm.disableText = true;
+		                        if (dataFormat.required == 'Yes') {
+		                        	require = true;
+		                        	vm.disableText = false;
+		                        }
+		                        vm.requireCheckbox = require;
+		                        vm.expectedValue = dataFormat.expectedValue;
+							}
 						}
                     } 
 					
@@ -241,7 +257,8 @@ angular
 
                 vm.exampleDateTime = Date.parse('04/13/2016 13:30:55');
 
-                vm.loadDateTimeFormat = function() {
+                vm.loadDateTimeFormat = function(dataFormat) {
+                	console.log(dataFormat);
                     var diferred = $q.defer();
                     vm.dateTimeDropdown = [{
                         label: 'Please select',
@@ -268,17 +285,53 @@ angular
                     });
 
                     vm.dateTimeFormat = vm.dateTimeDropdown[0].value;
+                    
+                    if(dataFormat!=null){
+                    	vm.dateTimeFormat = dataFormat.dateTimeFormat;
+                    	vm.calendarTypeFormat = dataFormat.calendarTypeFormat;
+                    	var require = false;
+                        if (dataFormat.required == 'Yes') {
+                        	require = true;
+                        }
+                        vm.requireCheckbox = require;
+                    }
                     return diferred;
                 }
 
                 vm.examplePositiveNumeric = '123456';
                 vm.exampleNegativeNumeric = '-123456';
 
-                vm.loadNumericFormat = function() {
+                vm.loadNumericFormat = function(dataFormat) {
                     var loadSignFlagDiferred = vm.loadSignFlagList();
                     loadSignFlagDiferred.promise.then(function() {
                         vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
                     });
+                    
+                    if(dataFormat!=null){
+                    	console.log(dataFormat);
+						vm.numericeModel.numericTypeFormat = dataFormat.numericTypeFormat;
+						vm.numericeModel.signFlagTypeFormat = dataFormat.signFlagTypeFormat;
+						vm.numericeModel.decimalPlacesValue = dataFormat.decimalPlacesValue;
+						vm.numericeModel.signFlag = ''+dataFormat.signFlag;
+						vm.numericeModel.paddingValue = dataFormat.paddingValue;
+						vm.numericeModel.usePadding = dataFormat.usePadding;
+						vm.numericeModel.hasSeperator = dataFormat.hasSeperator;
+						vm.numericeModel.hasDecimalPlace = dataFormat.hasDecimalPlace;
+						console.log(vm.numericeModel.signFlag);
+                    	var require = false;
+                        if (dataFormat.required == 'Yes') {
+                        	require = true;
+                        }
+                        
+                        vm.requireCheckbox = require;
+                        
+                        if (vm.numericeModel.numericTypeFormat == 'ANY') {
+                            vm.numericeModel.disableCustomField = true;
+                        } else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
+                            vm.numericeModel.disableCustomField = false;
+                        }
+	
+                    }                    
                 }
 
                 vm.loadSignFlagList = function() {
@@ -307,7 +360,7 @@ angular
                     return diferred;
                 }
 
-                vm.loadCustomerCodeGroup = function() {
+                vm.loadCustomerCodeGroup = function(dataFormat) {
                     var diferred = $q.defer();
                     vm.customerCodeGroupDropdown = [{
                         label: 'Please select',
@@ -337,6 +390,10 @@ angular
                     });
 
                     vm.customerCodeGroup = vm.customerCodeGroupDropdown[0].value;
+                    if(dataFormat!=null){
+                    	vm.customerCodeGroup = dataFormat.customerCodeGroupName;
+                    }
+                    
                     return diferred;
                 };
 
@@ -382,11 +439,16 @@ angular
                 vm.checkRequired = function() {
                     vm.required = !vm.required;
                     vm.disableText = !vm.required;
+                    vm.expectedValue = '';
                 };
 
                 vm.checkCustomNumeric = function() {
                     if (vm.numericeModel.numericTypeFormat == 'ANY') {
                         vm.numericeModel.disableCustomField = true;
+                        vm.numericeModel.usePadding = false;
+                        vm.numericeModel.hasSeperator = false;
+                        vm.numericeModel.hasDecimalPlace = false;
+                        vm.numericeModel.paddingValue = '';
                     } else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
                         vm.numericeModel.disableCustomField = false;
                     }
