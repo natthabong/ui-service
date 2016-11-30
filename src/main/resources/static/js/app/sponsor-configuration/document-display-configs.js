@@ -48,17 +48,8 @@ angular.module('scfApp').controller('DocumentDisplayConfigController', ['Service
             }]
         };
 
-        //        vm.data = [];
-        vm.data = [{
-            displayName: 'AP document display',
-            documentDisplayId: 1,
-            completed: false
-        }, {
-            displayName: 'AP document display',
-            documentDisplayId: 2,
-            completed: false
-        }];
-
+        vm.data = [];
+       
         vm.splitePageTxt = '0 - 0 of 0';
         vm.loadDocumentDisplayConfig = function() {
             var requestUrl = '/api/v1/organize-customers/' + $scope.sponsorId + '/sponsor-configs/SFP/displays';
