@@ -49,7 +49,7 @@
 
 											<td class="text-right"><scf-dropdown
 													id="document-field-name-{{$index+1}}-dropdown"
-													ng-model="record.documentFieldId"
+													ng-model="record.fieldName"
 													component-data="ctrl.documentFields"
 													translate-label="false"></scf-dropdown></td>
 
@@ -81,13 +81,13 @@
 													class="fa fa-sort-down" aria-hidden="true"></i> </scf-button> <scf-button
 													type="button" id="setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
-													ng-click="ctrl.openSetting(record)"
+													ng-click="ctrl.openSetting($index, record)"
 													ng-disabled="!record.dataType.layoutFileDataTypeId"
 													ng-hide="!record.completed"> <i
 													class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
 													id="warning-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
-													ng-click="ctrl.openSetting(record)"
+													ng-click="ctrl.openSetting($index, record)"
 													title="Config a file layout" ng-hide="record.completed">
 												<img ng-hide="data.completed"
 													data-ng-src="img/gear_warning.png"
