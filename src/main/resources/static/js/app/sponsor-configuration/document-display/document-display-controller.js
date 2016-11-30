@@ -54,24 +54,36 @@ angular
                 var sendRequest = function(uri, succcesFunc, failedFunc ){
                     var serviceDiferred = Service.doGet(BASE_URI + uri);
 
-                    var successFunc = succcesFunc | function(response) {
-                 	   vm.dataModel = response.data;
-                    };
-                    
                     var failedFunc = failedFunc | function(response) {
                         log.error('Load data error');
                     };
-                    serviceDiferred.promise.then(successFunc).catch(failedFunc);
+                    serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
                 }
                 
                 vm.setup = function(){
                 	
-                   sendRequest('/displays/' + selectedItem.documentDisplayId);
+                   sendRequest('/displays/' + selectedItem.documentDisplayId, function(response) {
+                	   vm.dataModel = response.data;
+                	   if(vm.dataModel.items.length < 1){
+                		   vm.addItem();
+                	   }
+               	   });
                    
                    sendRequest('/display-document-fields', function(response) {
                        response.data.forEach(function(obj) {
-                           vm.documentFields.push(obj);
+                    	   var item =  {
+                               value: obj.docFieldName,
+                               label: obj.displayName
+                           };
+                           vm.documentFields.push(item);
                        });
+               	   });
+                }
+                
+                vm.addItem = function(){
+                	vm.dataModel.items.push({
+               		  documentField: null,
+               		  sortType: null
                	   });
                 }
                 
