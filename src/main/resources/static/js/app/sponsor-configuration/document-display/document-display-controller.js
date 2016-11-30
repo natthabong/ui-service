@@ -26,29 +26,19 @@ angular
 
                 var BASE_URI = 'api/v1/organize-customers/'+ sponsorId +'/sponsor-configs/SFP';
                 
+                var newDisplayConfig = function() {
+                    return {
+                      filedName: null,
+              		  sortType: null
+                    }
+                } 
+
                 vm.dataModel = {
             	  displayName: null,
             	  items: null
                 };
                 
                 vm.dataModel.items = [newDisplayConfig()];
-                
-                vm.addItem = function() {
-                	vm.dataModel.items.push(newDisplayConfig());
-                }
-                
-                function newDisplayConfig() {
-                    var displayConfig = {
-                    	  documentField: null,
-                  		  sortType: null
-                    };
-                    return displayConfig;
-                }
-                
-                vm.removeItem = function(record) {
-                    var index = vm.dataModel.items.indexOf(record);
-                    vm.dataModel.items.splice(index, 1);
-                }
                 
                 vm.sortTypes = [   {
                 	label: 'ASC',
@@ -65,6 +55,7 @@ angular
                     value: null,
                     label: 'Please select'
                 }];
+                vm.documentFieldData = [];
                 
                 var sendRequest = function(uri, succcesFunc, failedFunc ){
                     var serviceDiferred = Service.doGet(BASE_URI + uri);
@@ -85,7 +76,8 @@ angular
                	   });
                    
                    sendRequest('/display-document-fields', function(response) {
-                       response.data.forEach(function(obj) {
+                	   vm.documentFieldData = response.data;
+                	   vm.documentFieldData.forEach(function(obj) {
                     	   var item =  {
                                value: obj.docFieldName,
                                label: obj.displayName
@@ -97,13 +89,48 @@ angular
                 
                 vm.addItem = function(){
                 	vm.dataModel.items.push({
-               		  documentField: null,
+               		  filedName: null,
                		  sortType: null
                	   });
                 }
                 
+                vm.removeItem = function(record) {
+                    var index = vm.dataModel.items.indexOf(record);
+                    vm.dataModel.items.splice(index, 1);
+                }
+                
+                vm.openSetting = function(index, record) {
+                	var fieldName = record.fieldName;
+                    log.debug(fieldName); 
+                    vm.documentFieldData.forEach(function(obj) {
+                    	   if(fieldName == obj.docFieldName){
+                    		  
+                    		   var dialog = ngDialog.open({ 
+                    			   id: 'setting-dialog-' + index, 
+                    			   template: obj.displayActionUrl,
+                                   className: 'ngdialog-theme-default',
+                                   controller: obj.dataType + 'DisplayConfigController',
+                                   controllerAs: 'ctrl',
+                                   scope: $scope,
+                                   data: {record: record, config: obj},
+                                   cache: false,
+                                   preCloseCallback: function(value) {
+                                	   if(value!=null){
+                                		  angular.copy(value, record);
+                                	   }
+                                   }
+                    		   });
+                    	   }
+                    });
+                    
+                }
+                
                 vm.save = function(){
-                	log.debug( vm.dataModel)
+                	
+                	vm.dataModel.items.forEach(function(obj, index) {
+                		obj.sequenceNo = index+1;
+                    })
+                    log.debug( vm.dataModel)
                 }
                 
                 vm.setup();
@@ -126,4 +153,25 @@ angular
 					}
 				}
             }
-        ]);
+        ]).controller(
+                'TEXTDisplayConfigController', [ '$scope',
+                       function($scope) {
+                	 var vm = this;
+                	 
+                	 vm.model = angular.copy($scope.ngDialogData.record)
+                	 
+                	 vm.alignDropdownItems = [{
+                     	label: 'Please select',
+                     	value: null
+                     }, {
+                     	label: 'Center',
+                     	value: 'CENTER'
+                     }, {
+                     	label: 'Left',
+                     	value: 'LEFT'
+                     },{
+                     	label: 'Right',
+                     	value: 'RIGHT'
+                     }]
+                	 
+                 }]);
