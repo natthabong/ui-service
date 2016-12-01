@@ -288,8 +288,8 @@ angular
 		    			 vm.model.filterType = 'noSeperatorNegativeParenthesis';
 		    		 }
 		    	 }
-		    	 vm.examplePosDataDisplay = $filter(vm.model.filterType)(vm.exampleRawData);
-		    	 vm.exampleNegDataDisplay = $filter(vm.model.filterType)(-vm.exampleRawData);
+		    	 vm.examplePosDataDisplay = $filter(vm.model.filterType)(vm.exampleRawData, 2);
+		    	 vm.exampleNegDataDisplay = $filter(vm.model.filterType)(-vm.exampleRawData, 2);
 		     }, true);
 
 			 function displayExampleConfig (record, obj) {
@@ -301,7 +301,6 @@ angular
 			 }
 				 
 		     $rootScope.$on(this.model.fieldName+'DisplayExample', function(event, parentScope) {
-				 console.log('Numeric');
 				 parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);                    
 			 });
 
