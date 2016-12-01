@@ -4,10 +4,10 @@ app.service('SCFCommonService', [
     '$http',
     '$log',
     '$q', 'Service',
-    function ($filter, $http, $log, $q, Service) {
+    function($filter, $http, $log, $q, Service) {
         var vm = this;
         var log = $log;
-        vm.splitePage = function (pageSize, currentPage, totalRecord) {
+        vm.splitePage = function(pageSize, currentPage, totalRecord) {
 
             var recordDisplay = '0 - '
             if (totalRecord > 0) {
@@ -24,7 +24,7 @@ app.service('SCFCommonService', [
         };
 
         var fromState = '';
-        vm.parentStatePage = function () {
+        vm.parentStatePage = function() {
 
             return {
                 saveCurrentState: saveCurrentState,
@@ -45,7 +45,7 @@ app.service('SCFCommonService', [
             }
         };
 
-        vm.clientPagination = function (listDatas, pagesize, currentPage) {
+        vm.clientPagination = function(listDatas, pagesize, currentPage) {
             var dataResult = {
                 content: [],
                 totalPages: 0,
@@ -72,7 +72,7 @@ app.service('SCFCommonService', [
             return dataResult;
         };
 
-        vm.convertDate = function (dateTime) {
+        vm.convertDate = function(dateTime) {
             var result = '';
             if (dateTime != undefined && dateTime != '') {
 
@@ -86,7 +86,7 @@ app.service('SCFCommonService', [
             return result;
         }
 
-        vm.convertStringTodate = function (date) {
+        vm.convertStringTodate = function(date) {
             result = '';
             if (date != undefined && date != '') {
                 var dateSplite = date.toString().split('/');
@@ -95,7 +95,7 @@ app.service('SCFCommonService', [
             return result
         }
 
-        vm.getDocumentDisplayConfig = function (sponsorId) {
+        vm.getDocumentDisplayConfig = function(sponsorId) {
             var differed = $q.defer();
             var displayConfig = [];
             $http({
@@ -107,21 +107,21 @@ app.service('SCFCommonService', [
                 params: {
                     sponsorId: sponsorId
                 }
-            }).success(function (response) {
+            }).success(function(response) {
                 if (response.length === 0) {
                     displayConfig = defaultColumDisplay;
                 } else {
                     displayConfig = response;
                 }
                 differed.resolve(displayConfig);
-            }).error(function (response) {
+            }).error(function(response) {
                 log.error('Load Display config error');
                 differed.reject(defaultColumDisplay);
             });
             return differed;
         };
 
-        vm.shortenLargeNumber = function (amount) {
+        vm.shortenLargeNumber = function(amount) {
             var shortenNumber = ['k', 'M', 'G', 'T'];
             var amountBase, result;
             amount = parseInt(amount);
@@ -132,7 +132,7 @@ app.service('SCFCommonService', [
                 for (; index >= 0; index--) {
                     amountBase = Math.pow(1000, index + 1);
                     if (amount >= amountBase) {
-                    	result = checkLargeNumber(amount, amountBase,index);
+                        result = checkLargeNumber(amount, amountBase, index);
                         break;
                     }
                 }
@@ -140,10 +140,10 @@ app.service('SCFCommonService', [
 
             function checkLargeNumber(amount, amountBase, shortenNumberIndex) {
                 var amountDivision = amount / amountBase;
-            	var amountFixed = toFixed(amountDivision, 1);
+                var amountFixed = toFixed(amountDivision, 1);
                 var decimalArray = amountFixed.split('.');
                 var largeNumberResult = '';
-                
+
                 if (decimalArray[0].length >= 3) {
                     largeNumberResult = convertToShortenNumber(amountDivision, 0, shortenNumberIndex);
                 } else {
@@ -155,20 +155,36 @@ app.service('SCFCommonService', [
                 }
                 return largeNumberResult;
             }
-            
-            function convertToShortenNumber(amountDivision, decimalPlace, shourtenNumberIndex){
+
+            function convertToShortenNumber(amountDivision, decimalPlace, shourtenNumberIndex) {
                 return toFixed(amountDivision, decimalPlace) + shortenNumber[shourtenNumberIndex];
             }
-            
-            function toFixed(amount, decimalPlace){
-            	amount *= Math.pow(10, decimalPlace);
-            	amount = (Math.round(amount, decimalPlace) + (((amount - Math.round(amount, decimalPlace))>=0.5)?1:0)) / Math.pow(10, decimalPlace);
+
+            function toFixed(amount, decimalPlace) {
+                amount *= Math.pow(10, decimalPlace);
+                amount = (Math.round(amount, decimalPlace) + (((amount - Math.round(amount, decimalPlace)) >= 0.5) ? 1 : 0)) / Math.pow(10, decimalPlace);
                 return amount.toFixed(decimalPlace);
             }
-            
+
             return result;
         };
-	}
+
+        vm.replacementStringFormat = function(msgFormat, replacements) {
+            return msgFormat.replace(/\{(\d+)\}/g, function() {
+                return replacements[arguments[1]]
+            });
+        };
+
+        vm.camelize = function(input) {
+            var stringMsg = [];
+            var index = 0;
+            stringMsg[index] = input.slice(0, 1);
+            while (++index < input.length) {
+                stringMsg[index] = input[index].charAt(0).toLowerCase() + input[index].slice(1);
+            }
+            return stringMsg.join('');
+        }
+    }
 ]);
 
 app.service('PageNavigation', [
@@ -177,7 +193,7 @@ app.service('PageNavigation', [
     '$log',
     '$q',
     '$state',
-    function ($filter, $http, $log, $q, $state) {
+    function($filter, $http, $log, $q, $state) {
         var vm = this;
         var log = $log;
 
@@ -186,7 +202,7 @@ app.service('PageNavigation', [
         var previousPages = new Array();
         var steps = new Array();
 
-        vm.gotoPage = function (page, params, keepStateObject) {
+        vm.gotoPage = function(page, params, keepStateObject) {
             var currentState = $state.current.name == '' ? '/' : $state.current.name;
             previousPages.push({
                 page: currentState,
@@ -199,7 +215,7 @@ app.service('PageNavigation', [
             $state.go(page, params);
         }
 
-        vm.gotoPreviousPage = function (reset) {
+        vm.gotoPreviousPage = function(reset) {
             var previousPage = previousPages.pop();
             if (previousPage != null) {
                 if (previousPage.stateObject === undefined) {
@@ -214,7 +230,7 @@ app.service('PageNavigation', [
             }
         }
 
-        vm.nextStep = function (nextPage, params, keepStateObject) {
+        vm.nextStep = function(nextPage, params, keepStateObject) {
             steps.push({
                 page: $state.current.name,
                 stateObject: keepStateObject
@@ -225,7 +241,7 @@ app.service('PageNavigation', [
             $state.go(nextPage, params);
         }
 
-        vm.backStep = function (reset) {
+        vm.backStep = function(reset) {
             var previousStep = steps.pop();
             if (previousStep != null) {
                 previousStep.stateObject.backAction = true;
@@ -238,66 +254,67 @@ app.service('PageNavigation', [
     }
 ]);
 
-app.service('PagingController',['$http','$log','$q', 'Service', 'SCFCommonService',function($http, $log, $q, Service, SCFCommonService){
-	var vm = this;
-	var log = $log;
-	var apiUrl = '';	
-	var methodRequestUrl = '';
-	var defaultPage = 0, defaultPageSize = '20';
-	
-	vm.postParams = {};
-	vm.tableRowCollection = {};
-	vm.splitePageTxt = '';
+app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonService', function($http, $log, $q, Service, SCFCommonService) {
+    var vm = this;
+    var log = $log;
+    var apiUrl = '';
+    var methodRequestUrl = '';
+    var defaultPage = 0,
+        defaultPageSize = '20';
 
-	
-	vm.pagingModel = {
-				pageSizeSelectModel: defaultPageSize,
-				totalRecord: 0,
-				totalPage: 0,
-        		currentPage: defaultPage,
-        		clearSortOrder: false
-	}
-	
-	vm.create = function(url, criteriaData, methodRequest){
-		apiUrl = url;
-		vm.postParams = criteriaData;			
-		methodRequestUrl = methodRequest || 'POST';
-		return vm;
-	}
-	
-	vm.search = function(pagingData){
-				var diferred = $q.defer();
-				if (pagingData === undefined) {
-					vm.pagingModel.pageSizeSelectModel = defaultPageSize;
-					vm.pagingModel.currentPage = defaultPage;
-				}else{
-					vm.pagingModel.pageSizeSelectModel = pagingData.pageSize;
-					vm.pagingModel.currentPage = pagingData.page;
-				}
-				var criteriaData = prepareCriteria(vm.pagingModel, vm.postParams);			
-				
-				var searchDeferred = Service.requestURL(apiUrl, criteriaData, methodRequestUrl);
-				
-				searchDeferred.promise.then(function(response){					
-					vm.pagingModel.totalRecord = response.totalElements;
-            		vm.pagingModel.currentPage = response.number;
-            		vm.pagingModel.totalPage = response.totalPages;					
-					vm.tableRowCollection = response.content;
-					vm.splitePageTxt = SCFCommonService.splitePage(vm.pagingModel.pageSizeSelectModel, vm.pagingModel.currentPage, vm.pagingModel.totalRecord);
-					diferred.resolve(response);
-				}).catch(function(response){
-					log.error('Search data error');
-					diferred.reject(response);
-				});
-				return diferred;
-			}
-			
-	function prepareCriteria(pagingModel, postParams){
-		var criteria = postParams;
-		criteria.pageSize = pagingModel.pageSizeSelectModel;
-		criteria.page = pagingModel.currentPage;
-		return criteria;
-	}
+    vm.postParams = {};
+    vm.tableRowCollection = {};
+    vm.splitePageTxt = '';
+
+
+    vm.pagingModel = {
+        pageSizeSelectModel: defaultPageSize,
+        totalRecord: 0,
+        totalPage: 0,
+        currentPage: defaultPage,
+        clearSortOrder: false
+    }
+
+    vm.create = function(url, criteriaData, methodRequest) {
+        apiUrl = url;
+        vm.postParams = criteriaData;
+        methodRequestUrl = methodRequest || 'POST';
+        return vm;
+    }
+
+    vm.search = function(pagingData) {
+        var diferred = $q.defer();
+        if (pagingData === undefined) {
+            vm.pagingModel.pageSizeSelectModel = defaultPageSize;
+            vm.pagingModel.currentPage = defaultPage;
+        } else {
+            vm.pagingModel.pageSizeSelectModel = pagingData.pageSize;
+            vm.pagingModel.currentPage = pagingData.page;
+        }
+        var criteriaData = prepareCriteria(vm.pagingModel, vm.postParams);
+
+        var searchDeferred = Service.requestURL(apiUrl, criteriaData, methodRequestUrl);
+
+        searchDeferred.promise.then(function(response) {
+            vm.pagingModel.totalRecord = response.totalElements;
+            vm.pagingModel.currentPage = response.number;
+            vm.pagingModel.totalPage = response.totalPages;
+            vm.tableRowCollection = response.content;
+            vm.splitePageTxt = SCFCommonService.splitePage(vm.pagingModel.pageSizeSelectModel, vm.pagingModel.currentPage, vm.pagingModel.totalRecord);
+            diferred.resolve(response);
+        }).catch(function(response) {
+            log.error('Search data error');
+            diferred.reject(response);
+        });
+        return diferred;
+    }
+
+    function prepareCriteria(pagingModel, postParams) {
+        var criteria = postParams;
+        criteria.pageSize = pagingModel.pageSizeSelectModel;
+        criteria.page = pagingModel.currentPage;
+        return criteria;
+    }
 }]);
 
 var defaultColumDisplay = [{
