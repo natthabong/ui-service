@@ -3,42 +3,34 @@
 	<!-- start: Header -->
 
 	<nav class="navbar navbar-default header"  th:classappend="${fixedHeader} ? navbar-fixed-top : navbar-static-top">
-		<div class="col-md-12 nav-wrapper">
-			<ul class="nav navbar-nav search-nav hidden-sm">
-				<li><img ng-src="img/logo.png" class="img-circle avatar"
+		<div class="col-xs-12 col-md-12 col-lg-12 nav-wrapper">
+			<ul class="col-xs-3 col-md-5 col-lg-5 nav navbar-nav navbar-left">
+				<li class="col-xs-3 col-md-1 col-lg-1"><img ng-src="img/logo.png" class="img-circle avatar"
 					alt="user name" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="true" /></li>
-			</ul>
-			<a ui-sref="/home" ui-sref-opts="{reload: true, inherit: false}" class="navbar-brand"> <b>GEC Supply Chain
+				<li class="hidden-md hidden-xs"><a class="navbar-brand" ui-sref="/home" ui-sref-opts="{reload: true, inherit: false}"> <b>GEC Supply Chain
 					Financing</b>
-			</a>
-
+			</a></li>
+			</ul>
 			<ul class="nav navbar-nav navbar-right user-nav">
-				<li><span class="icon-avata" aria-hidden="true"
+				<li class="hidden-xs"><span class="icon-avata" aria-hidden="true"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 						<span class="glyphicon glyphicon-user"></span>
 				</span></li>
-				<li class="user-name"><span ng-bind="userInfo.displayName">Avanta</span>
+				<li class="user-name hidden-xs"><span ng-bind="userInfo.displayName">Avanta</span>
 					| <span ng-bind="userInfo.organizeName"></span></li>
 
-				<li><a ui-sref="/dashboard" ui-sref-opts="{reload: true, inherit: false}" class="header-menu-icon icon-home"
+				<li class="hidden-xs"><a ui-sref="/dashboard" ui-sref-opts="{reload: true, inherit: false}" class="header-menu-icon icon-home"
 					title="Home" id="home-link"><span class="fa fa-home"></span></a></li>
 				<li ng-controller="LogoutController as logoutCtroller"><a
 					id="logout-link" href="#" ng-click="logoutCtroller.logout()"
 					class="header-menu-icon icon-signout" title="Sign Out"><span
 						class="fa fa-power-off "></span></a></li>
-				<li class="nav-lang"><img id="change-lang-th-link" width="25px"
+				<li class="nav-lang hidden-xs"><img id="change-lang-th-link" width="25px"
 					height="15px" ng-src="img/th.png"
 					ng-click="scfCtrl.changeLanguage('th_TH')" /> | <img
 					id="change-lang-en-link" width="25px" height="15px"
 					ng-src="img/eng.jpg" ng-click="scfCtrl.changeLanguage('en_EN')" />
-				</li>
-				<li>
-					<div class="navbar-header" style="width: 100%;">
-						<div class="opener-left-menu is-closed">
-							<span class="glyphicon glyphicon-menu-hamburger"></span>
-						</div>
-					</div>
 				</li>
 			</ul>
 		</div>
@@ -46,7 +38,7 @@
 
 	<!-- end: Header -->
 
-	<nav class="navbar navbar-default gec-menu-bar"  th:classappend="${fixedHeader} ? 'navbar-fixed-top gec-menu-bar-fixed' : 'navbar-static-top gec-menu-bar-static'" >
+	<nav class="navbar navbar-default gec-menu-bar hidden-xs"  th:classappend="${fixedHeader} ? 'navbar-fixed-top gec-menu-bar-fixed' : 'navbar-static-top gec-menu-bar-static'" >
 		<div class="container-fluid">
 			<div class="collapse navbar-collapse" id="hd-navbar-collapse-1">
 				<ul class="nav navbar-nav">
