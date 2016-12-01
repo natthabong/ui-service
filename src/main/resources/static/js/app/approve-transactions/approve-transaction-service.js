@@ -68,7 +68,7 @@ function approveTransactionService($q, $http, $sce, blockUI) {
             responseType: 'arraybuffer'
         }).success(function(response) {
             var file = new Blob([response], {
-                type: 'application/pdf'
+                type: 'image/jpeg'
             });
             var fileURL = URL.createObjectURL(file);
             document.getElementById('visualizador').setAttribute('data', fileURL);
