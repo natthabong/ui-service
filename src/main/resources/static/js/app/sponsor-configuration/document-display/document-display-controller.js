@@ -91,7 +91,8 @@ angular
                 vm.addItem = function() {
                     vm.dataModel.items.push({
                         filedName: null,
-                        sortType: null
+                        sortType: null,
+						completed: false
                     });
                 }
 
@@ -120,6 +121,7 @@ angular
                                 preCloseCallback: function(value) {
                                     if (value != null) {
                                         angular.copy(value, record);
+										record.completed = true;
                                     }
                                 }
                             });
@@ -172,8 +174,7 @@ angular
                     var msg = '';
                     vm.documentFieldData.forEach(function(obj) {
                         if (record.fieldName == obj.docFieldName) {
-                            if (angular.isDefined(record.alignment)) {
-								
+                            if (record.completed) {								
                                 var displayRecordObj = {
                                     record: record,
                                     config: obj,
@@ -222,19 +223,39 @@ angular
                 $rootScope.$on(this.model.fieldName+'DisplayExample', function(event, parentScope) {
                     parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);                    
                 });
-     }]).controller( 'CUSTOMER_CODEDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
-           function($scope, ALIGNMENT_DROPDOWN_ITEM) {
+     }]).controller( 'CUSTOMER_CODEDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
+           function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 		    	
-		     this.model = angular.copy($scope.ngDialogData.record);
+		       this.model = angular.copy($scope.ngDialogData.record);
 		     
-		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+		       this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+			   
+			   function displayExampleConfig (record, obj) {
+					var displayMessage = obj.displayDetailPattern;
+                    var replacements = [SCFCommonService.camelize(record.alignment), obj.defaultExampleValue];
+                    return SCFCommonService.replacementStringFormat(displayMessage, replacements);;
+                }
+			   
+                $rootScope.$on(this.model.fieldName+'DisplayExample', function(event, parentScope) {
+                    parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);                    
+                });
 		 
-	 }]).controller( 'DOCUMENT_NODisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
-	        function($scope, ALIGNMENT_DROPDOWN_ITEM) {
+	 }]).controller( 'DOCUMENT_NODisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM','$rootScope', 'SCFCommonService',
+	        function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 	    	
 		     this.model = angular.copy($scope.ngDialogData.record);
 		     
 		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+				
+				function displayExampleConfig (record, obj) {
+					var displayMessage = obj.displayDetailPattern;
+                    var replacements = [SCFCommonService.camelize(record.alignment), obj.defaultExampleValue];
+                    return SCFCommonService.replacementStringFormat(displayMessage, replacements);;
+                }
+			   
+                $rootScope.$on(this.model.fieldName+'DisplayExample', function(event, parentScope) {
+                    parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);                    
+                });
      }]).controller( 'NUMERICDisplayConfigController', [ '$scope', 
 														'$filter',
 														'ALIGNMENT_DROPDOWN_ITEM',
@@ -347,7 +368,7 @@ angular
                 var displayMessage = obj.displayDetailPattern;
                 var date = new Date(obj.defaultExampleValue);
 				var exampleDataDisplay = $filter('date')(date, record.format);
-                var replacements = [SCFCommonService.camelize(record.alignment), record.format || 'null', exampleDataDisplay];
+                var replacements = [SCFCommonService.camelize(record.alignment), record.format.toUpperCase() || 'null', exampleDataDisplay];
                 return SCFCommonService.replacementStringFormat(displayMessage, replacements);
             }
 
