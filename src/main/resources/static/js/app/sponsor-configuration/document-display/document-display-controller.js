@@ -195,7 +195,7 @@ angular
 	    	label: 'Right',
 	    	value: 'RIGHT'
 	   }]).constant('NEGATIVE_NUMMBER_DROPDOWN_ITEM', [{
-	     	label: '123,456.00',
+	     	label: '-123,456.00',
 	    	value: "number"
 	    }, {
 	    	label: '(123,456.00)',
@@ -292,7 +292,7 @@ angular
 		    	 vm.examplePosDataDisplay = $filter(vm.model.filterType)(vm.exampleRawData);
 		    	 vm.exampleNegDataDisplay = $filter(vm.model.filterType)(-vm.exampleRawData);
 		     }, true);
-		     
+
 			 function displayExampleConfig (record, obj) {
 				var displayMessage = obj.displayDetailPattern;
                 var replacements = [SCFCommonService.camelize(record.alignment), vm.examplePosDataDisplay, vm.exampleNegDataDisplay];
@@ -302,5 +302,5 @@ angular
 		     $rootScope.$on(this.model.fieldName+'DisplayExample', function(event, parentScope) {
 				 parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);                    
 			 });
-		     
+
 	 }]);
