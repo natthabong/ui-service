@@ -318,7 +318,7 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 }]);
 app.filter('noSeperatorNumeric', ['$filter', function ($filter) {
     return function (rawData) {
-    	var input =  parseFloat(rawData);
+    	var input =  parseFloat(rawData).toFixed(2);
     	inputNumeric = isNaN(input)?0:input;
     	return inputNumeric;
     };
@@ -337,7 +337,7 @@ app.filter('negativeParenthesis', ['$filter', function ($filter) {
 }]);
 app.filter('noSeperatorNegativeParenthesis', ['$filter', function ($filter) {
     return function (rawData) {
-    	var input =  parseFloat(rawData);
+    	var input =  parseFloat(rawData).toFixed(2);
     	inputNumeric = isNaN(input)?0:input;
 		
     	if (input < 0) {
