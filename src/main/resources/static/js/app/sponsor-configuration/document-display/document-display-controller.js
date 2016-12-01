@@ -90,9 +90,8 @@ angular
 
                 vm.addItem = function() {
                     vm.dataModel.items.push({
-                        fieldName: null,
-                        sortType: null,
-						completed: false
+                        filedName: null,
+                        sortType: null
                     });
                 }
 
@@ -119,11 +118,8 @@ angular
                                 },
                                 cache: false,
                                 preCloseCallback: function(value) {
-									
                                     if (value != null) {
                                         angular.copy(value, record);
-										record.completed = true;
-										console.log(record)
                                     }
                                 }
                             });
@@ -133,15 +129,22 @@ angular
                 }
 
                 vm.save = function() {
+                	vm.dataModel.completed = true;
                     vm.dataModel.items.forEach(function(obj, index) {
                         obj.sequenceNo = index + 1;
+                        vm.dataModel.completed =  obj.completed && vm.dataModel.completed; 
                     })
                     log.debug(vm.dataModel)
-                    var organizeModel = {
-                        organizeId: sponsorId
-                    }
-                    PageNavigation.gotoPage('/sponsor-configuration', {
-                        organizeModel: organizeModel
+                    var url =  BASE_URI+'/displays/'+ vm.dataModel.documentDisplayId;
+                    var deffered = Service.doPut(url, vm.dataModel);
+                    
+                    deffered.promise.then(function(response){
+                    	console.log(sponsorId);
+                    	var organizeModel = {organizeId: sponsorId};
+                        PageNavigation.gotoPage('/sponsor-configuration', {
+                        	organizeModel: organizeModel
+                        });
+                        
                     });
                 }
 
@@ -169,13 +172,14 @@ angular
                     var msg = '';
                     vm.documentFieldData.forEach(function(obj) {
                         if (record.fieldName == obj.docFieldName) {
-                            if (record.completed) {
+                            if (angular.isDefined(record.alignment)) {
+								
                                 var displayRecordObj = {
                                     record: record,
                                     config: obj,
                                     displayExampleMsg: ''
                                 };
-                                $rootScope.$emit(record.fieldName + 'DisplayExample', displayRecordObj);
+                                $rootScope.$emit(record.fieldName+'DisplayExample', displayRecordObj);
                                 msg = displayRecordObj.displayExampleMsg;
                             }
                         }
@@ -185,160 +189,161 @@ angular
             }
 
         ]).constant('ALIGNMENT_DROPDOWN_ITEM', [{
-        label: 'Please select',
-        value: null
-    }, {
-        label: 'Center',
-        value: 'CENTER'
-    }, {
-        label: 'Left',
-        value: 'LEFT'
-    }, {
-        label: 'Right',
-        value: 'RIGHT'
-    }]).constant('NEGATIVE_NUMMBER_DROPDOWN_ITEM', [{
-        label: '-123,456.00',
-        value: "number"
-    }, {
-        label: '(123,456.00)',
-        value: 'negativeParenthesis'
-    }]).controller('TEXTDisplayConfigController', ['$scope', 'ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
-        function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
-
-            this.model = angular.copy($scope.ngDialogData.record);
-
-            this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
-
-            function displayExampleConfig(record, obj) {
-                var displayMessage = obj.displayDetailPattern;
-                var replacements = [SCFCommonService.camelize(record.alignment), obj.defaultExampleValue];
-                return SCFCommonService.replacementStringFormat(displayMessage, replacements);;
-            }
-
-            $rootScope.$on(this.model.fieldName + 'DisplayExample', function(event, parentScope) {
-                parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);
-            });
-        }
-    ]).controller('CUSTOMER_CODEDisplayConfigController', ['$scope', 'ALIGNMENT_DROPDOWN_ITEM',
-        function($scope, ALIGNMENT_DROPDOWN_ITEM) {
-
-            this.model = angular.copy($scope.ngDialogData.record);
-
-            this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
-
-        }
-    ]).controller('DOCUMENT_NODisplayConfigController', ['$scope', 'ALIGNMENT_DROPDOWN_ITEM',
-        function($scope, ALIGNMENT_DROPDOWN_ITEM) {
-
-            this.model = angular.copy($scope.ngDialogData.record);
-
-            this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
-        }
-    ]).controller('NUMERICDisplayConfigController', ['$scope',
-        '$filter',
-        'ALIGNMENT_DROPDOWN_ITEM',
-        'NEGATIVE_NUMMBER_DROPDOWN_ITEM',
-        '$rootScope', 'SCFCommonService',
-        function($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
-            var vm = this;
-            var dataTypeConfig = $scope.ngDialogData.config;
-
-            vm.dlgData = {
-                useSeperator: false,
-                filterType: null
-            };
-
-            vm.model = angular.copy($scope.ngDialogData.record);
-
-            vm.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
-
-            vm.negativeNumberDropdownItems = NEGATIVE_NUMMBER_DROPDOWN_ITEM;
-
-            var rawExample = parseFloat(dataTypeConfig.defaultExampleValue).toFixed(2);
-            vm.exampleRawData = isNaN(rawExample) ? 123456.00 : rawExample;
-
-            var prepareDiaglogData = function() {
-
-                if (vm.model.filterType == 'negativeParenthesis') {
-                    vm.dlgData.useSeperator = true;
-                    vm.dlgData.filterType = 'negativeParenthesis';
-                } else if (vm.model.filterType == 'noSeperatorNegativeParenthesis') {
-                    vm.dlgData.useSeperator = false;
-                    vm.dlgData.filterType = 'negativeParenthesis';
-                } else if (vm.model.filterType == 'number') {
-                    vm.dlgData.useSeperator = true;
-                    vm.dlgData.filterType = 'number';
-                } else {
-                    vm.dlgData.useSeperator = false;
-                    vm.dlgData.filterType = 'number';
+	     	label: 'Please select',
+	    	value: null
+	    }, {
+	    	label: 'Center',
+	    	value: 'CENTER'
+	    }, {
+	    	label: 'Left',
+	    	value: 'LEFT'
+	    },{
+	    	label: 'Right',
+	    	value: 'RIGHT'
+	   }]).constant('NEGATIVE_NUMMBER_DROPDOWN_ITEM', [{
+	     	label: '-123,456.00',
+	    	value: "number"
+	    }, {
+	    	label: '(123,456.00)',
+	    	value: 'negativeParenthesis'
+	    }]).controller( 'TEXTDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
+	       function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+	    	
+			   this.model = angular.copy($scope.ngDialogData.record);
+		     
+			   this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+    	 
+			   function displayExampleConfig (record, obj) {
+					var displayMessage = obj.displayDetailPattern;
+                    var replacements = [SCFCommonService.camelize(record.alignment), obj.defaultExampleValue];
+                    return SCFCommonService.replacementStringFormat(displayMessage, replacements);;
                 }
-            }
+			   
+                $rootScope.$on(this.model.fieldName+'DisplayExample', function(event, parentScope) {
+                    parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);                    
+                });
+     }]).controller( 'CUSTOMER_CODEDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
+           function($scope, ALIGNMENT_DROPDOWN_ITEM) {
+		    	
+		     this.model = angular.copy($scope.ngDialogData.record);
+		     
+		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+		 
+	 }]).controller( 'DOCUMENT_NODisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
+	        function($scope, ALIGNMENT_DROPDOWN_ITEM) {
+	    	
+		     this.model = angular.copy($scope.ngDialogData.record);
+		     
+		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+     }]).controller( 'NUMERICDisplayConfigController', [ '$scope', 
+														'$filter',
+														'ALIGNMENT_DROPDOWN_ITEM',
+														'NEGATIVE_NUMMBER_DROPDOWN_ITEM',
+														'$rootScope', 'SCFCommonService',
+             function($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+	    	 var vm = this;
+    	     var dataTypeConfig =  $scope.ngDialogData.config;
+    	     
+    	     vm.dlgData = {useSeperator:false, filterType: null};
+    	    	 
+    	     vm.model = angular.copy($scope.ngDialogData.record);
+		     
+    	     vm.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+		     
+    	     vm.negativeNumberDropdownItems = NEGATIVE_NUMMBER_DROPDOWN_ITEM;
+		     
+		     var rawExample =  parseFloat(dataTypeConfig.defaultExampleValue).toFixed(2);
+		     vm.exampleRawData = isNaN(rawExample)?123456.00:rawExample;
+		     
+		     var prepareDiaglogData = function(){
+		    	 
+		    	 if(vm.model.filterType == 'negativeParenthesis'){
+		    		 vm.dlgData.useSeperator = true;
+		    		 vm.dlgData.filterType = 'negativeParenthesis';
+		    	 }
+		    	 else if(vm.model.filterType == 'noSeperatorNegativeParenthesis'){
+		    		 vm.dlgData.useSeperator = false;
+		    		 vm.dlgData.filterType = 'negativeParenthesis';
+		    	 }
+		    	 else if(vm.model.filterType == 'number'){
+		    		 vm.dlgData.useSeperator = true;
+		    		 vm.dlgData.filterType = 'number';
+		    	 }
+		    	 else{
+		    		 vm.dlgData.useSeperator = false;
+		    		 vm.dlgData.filterType = 'number';
+		    	 }
+		     }
+		     
+		     prepareDiaglogData();
+		     
+		     $scope.$watch('ctrl.dlgData', function() {
+		    	 if(vm.dlgData.useSeperator){
+		    		 vm.model.filterType = vm.dlgData.filterType;
+		    	 }
+		    	 else{
+		    		 if(vm.dlgData.filterType == 'number'){
+		    			 vm.model.filterType = 'noSeperatorNumeric';
+		    		 }
+		    		 else{
+		    			 vm.model.filterType = 'noSeperatorNegativeParenthesis';
+		    		 }
+		    	 }
+		    	 vm.examplePosDataDisplay = $filter(vm.model.filterType)(vm.exampleRawData, 2);
+		    	 vm.exampleNegDataDisplay = $filter(vm.model.filterType)(-vm.exampleRawData, 2);
+		     }, true);
 
-            prepareDiaglogData();
+			 function displayExampleConfig (record, obj) {
+				var displayMessage = obj.displayDetailPattern;
+				var examplePosDataDisplay = $filter(record.filterType)(vm.exampleRawData, 2);
+		    	var exampleNegDataDisplay = $filter(record.filterType)(-vm.exampleRawData, 2);
+                var replacements = [SCFCommonService.camelize(record.alignment), examplePosDataDisplay, exampleNegDataDisplay];
+               	return SCFCommonService.replacementStringFormat(displayMessage, replacements);
+			 }
+				 
+		     $rootScope.$on(this.model.fieldName+'DisplayExample', function(event, parentScope) {
+				 parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);                    
+			 });
 
-            $scope.$watch('ctrl.dlgData', function() {
-                if (vm.dlgData.useSeperator) {
-                    vm.model.filterType = vm.dlgData.filterType;
-                } else {
-                    if (vm.dlgData.filterType == 'number') {
-                        vm.model.filterType = 'noSeperatorNumeric';
-                    } else {
-                        vm.model.filterType = 'noSeperatorNegativeParenthesis';
-                    }
-                }
-                vm.examplePosDataDisplay = $filter(vm.model.filterType)(vm.exampleRawData, 2);
-                vm.exampleNegDataDisplay = $filter(vm.model.filterType)(-vm.exampleRawData, 2);
-            }, true);
+	 }]).controller( 'DATE_TIMEDisplayConfigController', [ '$scope', '$filter', '$log','ALIGNMENT_DROPDOWN_ITEM','Service', '$rootScope', 'SCFCommonService',
+	                                                       function($scope, $filter, $log, ALIGNMENT_DROPDOWN_ITEM, Service, $rootScope, SCFCommonService) {
+		   	 var vm = this;
+		   	 vm.model = angular.copy($scope.ngDialogData.record);
+		     if(!vm.model.filterType){
+		    	 vm.model.filterType = 'date';
+		     }
+		     if(!vm.model.format){
+		    	 vm.model.format = 'dd/MM/yyyy';
+		     }
+		   	 vm.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+		   	 vm.formatDropdownItems = [];
+		   	 
+		     var serviceUrl = 'js/app/sponsor-configuration/file-layouts/date_time_format.json';
+             var diferred = Service.doGet(serviceUrl);
+             diferred.promise.then(function(response) {
+                 var dateTimeDropdownList = response.data;
+                 if (dateTimeDropdownList !== undefined) {
+                     dateTimeDropdownList.forEach(function(obj) {
+                         var selectObj = {
+                             label: obj.dateTimeName,
+                             value: obj.dateTimeId
+                         }
+                         vm.formatDropdownItems.push(selectObj);
+                     });
+                 }
+                 diferred.resolve(vm.formatDropdownItems);
+             }).catch(function(response) {
+                 $log.error('Load date time format Fail');
+                 diferred.reject();
+             });
+             
+             $scope.$watch('ctrl.model.format', function() {
+            	 var collectionDate = '2016-04-13T00:00:00';
+            	 var date = new Date(collectionDate);
+		    	 vm.exampleDataDisplay = $filter('date')(date, vm.model.format);
+		     });
 
-            function displayExampleConfig(record, obj) {
-                var displayMessage = obj.displayDetailPattern;
-                var examplePosDataDisplay = $filter(record.filterType)(vm.exampleRawData, 2);
-                var exampleNegDataDisplay = $filter(record.filterType)(-vm.exampleRawData, 2);
-                var replacements = [SCFCommonService.camelize(record.alignment), examplePosDataDisplay || 'null', exampleNegDataDisplay];
-                return SCFCommonService.replacementStringFormat(displayMessage, replacements);
-            }
-
-            $rootScope.$on(this.model.fieldName + 'DisplayExample', function(event, parentScope) {
-                parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);
-            });
-
-        }
-    ]).controller('DATE_TIMEDisplayConfigController', ['$scope', '$filter', '$log', 'ALIGNMENT_DROPDOWN_ITEM', 'Service', '$rootScope', 'SCFCommonService',
-        function($scope, $filter, $log, ALIGNMENT_DROPDOWN_ITEM, Service, $rootScope, SCFCommonService) {
-            var vm = this;
-            vm.model = angular.copy($scope.ngDialogData.record);
-            if (!vm.model.format) {
-                vm.model.format = 'dd/MM/yyyy';
-            }
-            vm.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
-            vm.formatDropdownItems = [];
-
-            var serviceUrl = 'js/app/sponsor-configuration/file-layouts/date_time_format.json';
-            var diferred = Service.doGet(serviceUrl);
-            diferred.promise.then(function(response) {
-                var dateTimeDropdownList = response.data;
-                if (dateTimeDropdownList !== undefined) {
-                    dateTimeDropdownList.forEach(function(obj) {
-                        var selectObj = {
-                            label: obj.dateTimeName,
-                            value: obj.dateTimeId
-                        }
-                        vm.formatDropdownItems.push(selectObj);
-                    });
-                }
-                diferred.resolve(vm.formatDropdownItems);
-            }).catch(function(response) {
-                $log.error('Load date time format Fail');
-                diferred.reject();
-            });
-
-            $scope.$watch('ctrl.model.format', function() {
-                var collectionDate = '2016-04-13T00:00:00';
-                var date = new Date(collectionDate);
-                vm.exampleDataDisplay = $filter('date')(date, vm.model.format);
-            });
-
-            function displayExampleConfig(record, obj) {
+		      function displayExampleConfig(record, obj) {
                 var displayMessage = obj.displayDetailPattern;
                 var date = new Date(obj.defaultExampleValue);
 				var exampleDataDisplay = $filter('date')(date, record.format);
@@ -349,5 +354,5 @@ angular
             $rootScope.$on(this.model.fieldName + 'DisplayExample', function(event, parentScope) {
                 parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);
             });
-        }
-    ]);
+             
+	 }]);

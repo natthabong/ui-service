@@ -11,7 +11,8 @@
 	app.factory('Service', [ '$http', '$q', function($http, $q) {
 		return {
 			requestURL : requestURL,
-			doGet : doGet
+			doGet : doGet,
+			doPut : doPut
 		}
 
 		function requestURL(url, params, method) {
@@ -34,6 +35,22 @@
 
 			$http({
 				method : 'GET',
+				url : url,
+				data : params
+			}).success(function(data, status, headers, config) {
+				 
+				deffered.resolve({data:data, headers:headers})
+			}).error(function(response) {
+				deffered.reject(response);
+			});
+			return deffered;
+		}
+		
+		function doPut(url, params) {
+			var deffered = $q.defer();
+
+			$http({
+				method : 'PUT',
 				url : url,
 				data : params
 			}).success(function(data, status, headers, config) {
