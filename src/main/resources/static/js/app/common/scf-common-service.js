@@ -177,7 +177,7 @@ app.service('SCFCommonService', [
 
         vm.camelize = function(input) {
 			if(angular.isUndefined(input) || input == null){
-				return 'null';
+				return '-';
 			}
 			
             var stringMsg = [];
