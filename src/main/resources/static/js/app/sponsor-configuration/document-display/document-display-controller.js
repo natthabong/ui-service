@@ -172,7 +172,6 @@ angular
                                     config: obj,
                                     displayExampleMsg: ''
                                 };
-								
                                 $rootScope.$emit(record.fieldName+'DisplayExample', displayRecordObj);
                                 msg = displayRecordObj.displayExampleMsg;
                             }
@@ -295,11 +294,14 @@ angular
 
 			 function displayExampleConfig (record, obj) {
 				var displayMessage = obj.displayDetailPattern;
-                var replacements = [SCFCommonService.camelize(record.alignment), vm.examplePosDataDisplay, vm.exampleNegDataDisplay];
-               	return SCFCommonService.replacementStringFormat(displayMessage, replacements);;
+				var examplePosDataDisplay = $filter(record.filterType)(vm.exampleRawData, 2);
+		    	var exampleNegDataDisplay = $filter(record.filterType)(-vm.exampleRawData, 2);
+                var replacements = [SCFCommonService.camelize(record.alignment), examplePosDataDisplay, exampleNegDataDisplay];
+               	return SCFCommonService.replacementStringFormat(displayMessage, replacements);
 			 }
 				 
 		     $rootScope.$on(this.model.fieldName+'DisplayExample', function(event, parentScope) {
+				 console.log('Numeric');
 				 parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);                    
 			 });
 
