@@ -170,7 +170,13 @@ angular
 	    },{
 	    	label: 'Right',
 	    	value: 'RIGHT'
-	   }]).controller( 'TEXTDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
+	   }]).constant('NEGATIVE_NUMMBER_DROPDOWN_ITEM', [{
+	     	label: '123,456.00',
+	    	value: "numeric"
+	    }, {
+	    	label: '(123,456.00)',
+	    	value: 'negativeParenthesis'
+	    }]).controller( 'TEXTDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
 	       function($scope, ALIGNMENT_DROPDOWN_ITEM) {
 	    	
 		     this.model = angular.copy($scope.ngDialogData.record);
@@ -190,16 +196,64 @@ angular
 		     this.model = angular.copy($scope.ngDialogData.record);
 		     
 		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
-     }]).controller( 'NUMERICDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
-             function($scope, ALIGNMENT_DROPDOWN_ITEM) {
-	    	
-		     this.model = angular.copy($scope.ngDialogData.record);
-		     
-		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
      }]).controller( 'DATE_TIMEDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
              function($scope, ALIGNMENT_DROPDOWN_ITEM) {
 	    	
 		     this.model = angular.copy($scope.ngDialogData.record);
 		     
 		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+     }]).controller( 'NUMERICDisplayConfigController', [ '$scope', '$filter','ALIGNMENT_DROPDOWN_ITEM','NEGATIVE_NUMMBER_DROPDOWN_ITEM',
+             function($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM) {
+	    	 var vm = this;
+    	     var dataTypeConfig =  $scope.ngDialogData.config;
+    	     
+    	     vm.dlgData = {useSeperator:false, filterType: null};
+    	    	 
+    	     vm.model = angular.copy($scope.ngDialogData.record);
+		     
+    	     vm.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+		     
+    	     vm.negativeNumberDropdownItems = NEGATIVE_NUMMBER_DROPDOWN_ITEM;
+		     
+		     var rawExample =  parseFloat(dataTypeConfig.defaultExampleValue);
+		     vm.exampleRawData = isNaN(rawExample)?123456.00:rawExample;
+		     
+		     var prepareDiaglogData = function(){
+		    	 
+		    	 if(vm.model.filterType == 'numeric'){
+		    		 vm.dlgData.useSeperator = false;
+		    		 vm.dlgData.filterType = 'numeric';
+		    	 }
+		    	 else if(vm.model.filterType == 'negativeParenthesis'){
+		    		 vm.dlgData.useSeperator = true;
+		    		 vm.dlgData.filterType = 'negativeParenthesis';
+		    	 }
+		    	 else if(vm.model.filterType == 'noSeperatorNegativeParenthesis'){
+		    		 vm.dlgData.useSeperator = false;
+		    		 vm.dlgData.filterType = 'negativeParenthesis';
+		    	 }
+		    	 else{
+		    		 vm.dlgData.useSeperator = false;
+		    		 vm.dlgData.filterType = 'numeric';
+		    	 }
+		     }
+		     
+		     prepareDiaglogData();
+		     
+		     $scope.$watch('dlgData', function() {
+		    	 if(vm.dlgData.useSeperator){
+		    		 vm.model.filterType = vm.dlgData.filterType;
+		    	 }
+		    	 else{
+		    		 if(vm.dlgData.filterType == 'numeric'){
+		    			 vm.model.filterType = 'noSeperatorNumeric';
+		    		 }
+		    		 else{
+		    			 vm.model.filterType = 'noSeperatorNegativeParenthesis';
+		    		 }
+		    	 }
+		    	 vm.examplePosDataDisplay = $filter(vm.model.filterType)(vm.exampleRawData);
+		    	 vm.exampleNegDataDisplay = $filter(vm.model.filterType)(-vm.exampleRawData);
+		     });
+		     
 	 }]);
