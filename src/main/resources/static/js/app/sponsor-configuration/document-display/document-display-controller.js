@@ -173,7 +173,7 @@ angular
                                     displayExampleMsg: ''
                                 };
 								
-                                $rootScope.$emit('displayExample', displayRecordObj);
+                                $rootScope.$emit(record.fieldName+'DisplayExample', displayRecordObj);
                                 msg = displayRecordObj.displayExampleMsg;
                             }
                         }
@@ -213,8 +213,8 @@ angular
                     return SCFCommonService.replacementStringFormat(displayMessage, replacements);;
                 }
 			   
-                $rootScope.$on('displayExample', function(event, scope) {
-                    scope.displayExampleMsg = displayExampleConfig(scope.record, scope.config);                    
+                $rootScope.$on(this.model.fieldName+'DisplayExample', function(event, parentScope) {
+                    parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);                    
                 });
      }]).controller( 'CUSTOMER_CODEDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
            function($scope, ALIGNMENT_DROPDOWN_ITEM) {
@@ -235,8 +235,12 @@ angular
 		     this.model = angular.copy($scope.ngDialogData.record);
 		     
 		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
-     }]).controller( 'NUMERICDisplayConfigController', [ '$scope', '$filter','ALIGNMENT_DROPDOWN_ITEM','NEGATIVE_NUMMBER_DROPDOWN_ITEM',
-             function($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM) {
+     }]).controller( 'NUMERICDisplayConfigController', [ '$scope', 
+														'$filter',
+														'ALIGNMENT_DROPDOWN_ITEM',
+														'NEGATIVE_NUMMBER_DROPDOWN_ITEM',
+														'$rootScope', 'SCFCommonService',
+             function($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 	    	 var vm = this;
     	     var dataTypeConfig =  $scope.ngDialogData.config;
     	     
@@ -289,6 +293,14 @@ angular
 		    	 vm.exampleNegDataDisplay = $filter(vm.model.filterType)(-vm.exampleRawData);
 		     }, true);
 		     
-		     vm.displayExample
+			 function displayExampleConfig (record, obj) {
+				var displayMessage = obj.displayDetailPattern;
+                var replacements = [SCFCommonService.camelize(record.alignment), vm.examplePosDataDisplay, vm.exampleNegDataDisplay];
+               	return SCFCommonService.replacementStringFormat(displayMessage, replacements);;
+			 }
+				 
+		     $rootScope.$on(this.model.fieldName+'DisplayExample', function(event, parentScope) {
+				 parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);                    
+			 });
 		     
 	 }]);
