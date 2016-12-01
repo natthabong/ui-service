@@ -228,12 +228,6 @@ angular
 		     this.model = angular.copy($scope.ngDialogData.record);
 		     
 		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
-     }]).controller( 'DATE_TIMEDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
-             function($scope, ALIGNMENT_DROPDOWN_ITEM) {
-	    	
-		     this.model = angular.copy($scope.ngDialogData.record);
-		     
-		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
      }]).controller( 'NUMERICDisplayConfigController', [ '$scope', 
 														'$filter',
 														'ALIGNMENT_DROPDOWN_ITEM',
@@ -251,7 +245,7 @@ angular
 		     
     	     vm.negativeNumberDropdownItems = NEGATIVE_NUMMBER_DROPDOWN_ITEM;
 		     
-		     var rawExample =  parseFloat(dataTypeConfig.defaultExampleValue);
+		     var rawExample =  parseFloat(dataTypeConfig.defaultExampleValue).toFixed(2);
 		     vm.exampleRawData = isNaN(rawExample)?123456.00:rawExample;
 		     
 		     var prepareDiaglogData = function(){
@@ -304,4 +298,39 @@ angular
 				 parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);                    
 			 });
 
+	 }]).controller( 'DATE_TIMEDisplayConfigController', [ '$scope', '$filter', '$log','ALIGNMENT_DROPDOWN_ITEM','Service',
+	                                                       function($scope, $filter, $log, ALIGNMENT_DROPDOWN_ITEM, Service) {
+		   	 var vm = this;
+		   	 vm.model = angular.copy($scope.ngDialogData.record);
+		     if(!vm.model.format){
+		    	 vm.model.format = 'dd/MM/yyyy';
+		     }
+		   	 vm.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+		   	 vm.formatDropdownItems = [];
+		   	 
+		     var serviceUrl = 'js/app/sponsor-configuration/file-layouts/date_time_format.json';
+             var diferred = Service.doGet(serviceUrl);
+             diferred.promise.then(function(response) {
+                 var dateTimeDropdownList = response.data;
+                 if (dateTimeDropdownList !== undefined) {
+                     dateTimeDropdownList.forEach(function(obj) {
+                         var selectObj = {
+                             label: obj.dateTimeName,
+                             value: obj.dateTimeId
+                         }
+                         vm.formatDropdownItems.push(selectObj);
+                     });
+                 }
+                 diferred.resolve(vm.formatDropdownItems);
+             }).catch(function(response) {
+                 $log.error('Load date time format Fail');
+                 diferred.reject();
+             });
+             
+             $scope.$watch('ctrl.model.format', function() {
+            	 var collectionDate = '2016-04-13T00:00:00';
+            	 var date = new Date(collectionDate);
+		    	 vm.exampleDataDisplay = $filter('date')(date, vm.model.format);
+		     });
+             
 	 }]);
