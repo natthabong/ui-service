@@ -320,12 +320,7 @@ app.filter('noSeperatorNumeric', ['$filter', function ($filter) {
     return function (rawData) {
     	var input =  parseFloat(rawData);
     	inputNumeric = isNaN(input)?0:input;
-		
-    	if (input < 0) {
-            return "("+inputNumeric+")";
-        } else {
-            return inputNumeric;
-        }
+    	return inputNumeric;
     };
 }]);
 app.filter('negativeParenthesis', ['$filter', function ($filter) {
@@ -346,7 +341,7 @@ app.filter('noSeperatorNegativeParenthesis', ['$filter', function ($filter) {
     	inputNumeric = isNaN(input)?0:input;
 		
     	if (input < 0) {
-            return "-"+inputNumeric+"";
+            return "("+Math.abs(inputNumeric)+")";
         } else {
             return inputNumeric;
         }

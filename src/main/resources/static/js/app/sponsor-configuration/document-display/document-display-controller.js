@@ -196,7 +196,7 @@ angular
 	    	value: 'RIGHT'
 	   }]).constant('NEGATIVE_NUMMBER_DROPDOWN_ITEM', [{
 	     	label: '123,456.00',
-	    	value: "numeric"
+	    	value: "number"
 	    }, {
 	    	label: '(123,456.00)',
 	    	value: 'negativeParenthesis'
@@ -253,11 +253,7 @@ angular
 		     
 		     var prepareDiaglogData = function(){
 		    	 
-		    	 if(vm.model.filterType == 'numeric'){
-		    		 vm.dlgData.useSeperator = false;
-		    		 vm.dlgData.filterType = 'numeric';
-		    	 }
-		    	 else if(vm.model.filterType == 'negativeParenthesis'){
+		    	 if(vm.model.filterType == 'negativeParenthesis'){
 		    		 vm.dlgData.useSeperator = true;
 		    		 vm.dlgData.filterType = 'negativeParenthesis';
 		    	 }
@@ -265,20 +261,24 @@ angular
 		    		 vm.dlgData.useSeperator = false;
 		    		 vm.dlgData.filterType = 'negativeParenthesis';
 		    	 }
+		    	 else if(vm.model.filterType == 'number'){
+		    		 vm.dlgData.useSeperator = true;
+		    		 vm.dlgData.filterType = 'number';
+		    	 }
 		    	 else{
 		    		 vm.dlgData.useSeperator = false;
-		    		 vm.dlgData.filterType = 'numeric';
+		    		 vm.dlgData.filterType = 'number';
 		    	 }
 		     }
 		     
 		     prepareDiaglogData();
 		     
-		     $scope.$watch('dlgData', function() {
+		     $scope.$watch('ctrl.dlgData', function() {
 		    	 if(vm.dlgData.useSeperator){
 		    		 vm.model.filterType = vm.dlgData.filterType;
 		    	 }
 		    	 else{
-		    		 if(vm.dlgData.filterType == 'numeric'){
+		    		 if(vm.dlgData.filterType == 'number'){
 		    			 vm.model.filterType = 'noSeperatorNumeric';
 		    		 }
 		    		 else{
@@ -287,6 +287,8 @@ angular
 		    	 }
 		    	 vm.examplePosDataDisplay = $filter(vm.model.filterType)(vm.exampleRawData);
 		    	 vm.exampleNegDataDisplay = $filter(vm.model.filterType)(-vm.exampleRawData);
-		     });
+		     }, true);
+		     
+		     vm.displayExample
 		     
 	 }]);
