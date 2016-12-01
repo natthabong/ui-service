@@ -101,7 +101,7 @@
 										</tr>
 										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
 											<td colspan="7">
-												<p id="description-{{$index+1}}-label"></p>
+												<p id="description-{{$index+1}}-label" ng-bind="ctrl.displayExample(record)"></p>
 											</td>
 										</tr>
 
