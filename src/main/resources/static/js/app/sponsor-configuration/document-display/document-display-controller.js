@@ -200,20 +200,21 @@ angular
 	    }, {
 	    	label: '(123,456.00)',
 	    	value: 'negativeParenthesis'
-	    }]).controller( 'TEXTDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
-	       function($scope, ALIGNMENT_DROPDOWN_ITEM) {
+	    }]).controller( 'TEXTDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
+	       function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 	    	
-		     this.model = angular.copy($scope.ngDialogData.record);
+			   this.model = angular.copy($scope.ngDialogData.record);
 		     
-		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+			   this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
     	 
-			function displayExampleValue (record, obj) {
+			   function displayExampleConfig (record, obj) {
 					var displayMessage = obj.displayDetailPattern;
                     var replacements = [SCFCommonService.camelize(record.alignment), obj.defaultExampleValue];
                     return SCFCommonService.replacementStringFormat(displayMessage, replacements);;
                 }
+			   
                 $rootScope.$on('displayExample', function(event, scope) {
-                    scope.displayExampleMsg = displayExampleValue(scope.record, scope.config);                    
+                    scope.displayExampleMsg = displayExampleConfig(scope.record, scope.config);                    
                 });
      }]).controller( 'CUSTOMER_CODEDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
            function($scope, ALIGNMENT_DROPDOWN_ITEM) {
