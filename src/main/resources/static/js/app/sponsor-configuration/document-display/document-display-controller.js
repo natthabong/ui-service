@@ -126,11 +126,16 @@ angular
                 }
                 
                 vm.save = function(){
-                	
                 	vm.dataModel.items.forEach(function(obj, index) {
                 		obj.sequenceNo = index+1;
                     })
-                    log.debug( vm.dataModel)
+                	log.debug( vm.dataModel)
+                	var organizeModel = {
+                        organizeId: sponsorId
+                    }
+                	PageNavigation.gotoPage('/sponsor-configuration', {
+                        organizeModel: organizeModel
+                    });
                 }
                 
                 vm.setup();
