@@ -195,7 +195,7 @@ angular
 	    	label: 'Right',
 	    	value: 'RIGHT'
 	   }]).constant('NEGATIVE_NUMMBER_DROPDOWN_ITEM', [{
-	     	label: '123,456.00',
+	     	label: '-123,456.00',
 	    	value: "number"
 	    }, {
 	    	label: '(123,456.00)',
@@ -288,7 +288,5 @@ angular
 		    	 vm.examplePosDataDisplay = $filter(vm.model.filterType)(vm.exampleRawData);
 		    	 vm.exampleNegDataDisplay = $filter(vm.model.filterType)(-vm.exampleRawData);
 		     }, true);
-		     
-		     vm.displayExample
 		     
 	 }]);
