@@ -158,25 +158,48 @@ angular
 					}
 				}
             }
-        ]).controller(
-                'TEXTDisplayConfigController', [ '$scope',
-                       function($scope) {
-                	 var vm = this;
-                	 
-                	 vm.model = angular.copy($scope.ngDialogData.record)
-                	 
-                	 vm.alignDropdownItems = [{
-                     	label: 'Please select',
-                     	value: null
-                     }, {
-                     	label: 'Center',
-                     	value: 'CENTER'
-                     }, {
-                     	label: 'Left',
-                     	value: 'LEFT'
-                     },{
-                     	label: 'Right',
-                     	value: 'RIGHT'
-                     }]
-                	 
-                 }]);
+        ]).constant('ALIGNMENT_DROPDOWN_ITEM', [{
+	     	label: 'Please select',
+	    	value: null
+	    }, {
+	    	label: 'Center',
+	    	value: 'CENTER'
+	    }, {
+	    	label: 'Left',
+	    	value: 'LEFT'
+	    },{
+	    	label: 'Right',
+	    	value: 'RIGHT'
+	   }]).controller( 'TEXTDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
+	       function($scope, ALIGNMENT_DROPDOWN_ITEM) {
+	    	
+		     this.model = angular.copy($scope.ngDialogData.record);
+		     
+		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+    	 
+     }]).controller( 'CUSTOMER_CODEDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
+           function($scope, ALIGNMENT_DROPDOWN_ITEM) {
+		    	
+		     this.model = angular.copy($scope.ngDialogData.record);
+		     
+		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+		 
+	 }]).controller( 'DOCUMENT_NODisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
+	        function($scope, ALIGNMENT_DROPDOWN_ITEM) {
+	    	
+		     this.model = angular.copy($scope.ngDialogData.record);
+		     
+		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+     }]).controller( 'NUMERICDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
+             function($scope, ALIGNMENT_DROPDOWN_ITEM) {
+	    	
+		     this.model = angular.copy($scope.ngDialogData.record);
+		     
+		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+     }]).controller( 'DATE_TIMEDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM',
+             function($scope, ALIGNMENT_DROPDOWN_ITEM) {
+	    	
+		     this.model = angular.copy($scope.ngDialogData.record);
+		     
+		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+	 }]);
