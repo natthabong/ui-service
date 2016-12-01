@@ -14,10 +14,10 @@
 					<form name="createForm" class="form-horizontal">
 						<div class="form-group">
 							<label for="dealer"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Document
+								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Document
 								display name' | translate}}: </label>
 
-							<div class="col-md-4 col-sm-5 col-xs-12">
+							<div class="col-md-3 col-sm-4 col-xs-12">
 								<scf-input-text id="document-display-name-textbox"
 									ng-model="ctrl.dataModel.displayName"></scf-input-text>
 							</div>
@@ -33,8 +33,10 @@
 											<th ng-bind="'No' | translate">No</th>
 											<th ng-bind="'Document field name' | translate">Document
 												field name</th>
-											<th ng-bind="'TH Label' | translate">TH Label</th>
-											<th ng-bind="'EN Label' | translate">EN Label</th>
+											<th ng-bind="'TH Label' | translate" style="width: 15%">TH
+												Label</th>
+											<th ng-bind="'EN Label' | translate" style="width: 15%">EN
+												Label</th>
 											<th ng-bind="'Order' | translate" colspan="2">Order</th>
 											<th></th>
 										</tr>

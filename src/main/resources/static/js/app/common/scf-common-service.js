@@ -316,7 +316,42 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
         return criteria;
     }
 }]);
-
+app.filter('noSeperatorNumeric', ['$filter', function ($filter) {
+    return function (rawData) {
+    	var input =  parseFloat(rawData);
+    	inputNumeric = isNaN(input)?0:input;
+		
+    	if (input < 0) {
+            return "("+inputNumeric+")";
+        } else {
+            return inputNumeric;
+        }
+    };
+}]);
+app.filter('negativeParenthesis', ['$filter', function ($filter) {
+    return function (input, fractionSize) {
+        if(!fractionSize){
+          fractionSize=2;
+        }
+        if (input < 0) {
+            return "("+$filter('number')(Math.abs(input), fractionSize)+")";
+        } else {
+            return $filter('number')(input, fractionSize);
+        }
+    };
+}]);
+app.filter('noSeperatorNegativeParenthesis', ['$filter', function ($filter) {
+    return function (rawData) {
+    	var input =  parseFloat(rawData);
+    	inputNumeric = isNaN(input)?0:input;
+		
+    	if (input < 0) {
+            return "-"+inputNumeric+"";
+        } else {
+            return inputNumeric;
+        }
+    };
+}]);
 var defaultColumDisplay = [{
     field: 'sponsorPaymentDate',
     label: 'วันครบกำหนดชำระ',
