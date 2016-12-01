@@ -368,7 +368,7 @@ angular
                 var displayMessage = obj.displayDetailPattern;
                 var date = new Date(obj.defaultExampleValue);
 				var exampleDataDisplay = $filter('date')(date, record.format);
-                var replacements = [SCFCommonService.camelize(record.alignment), record.format || 'null', exampleDataDisplay];
+                var replacements = [SCFCommonService.camelize(record.alignment), record.format.toUpperCase() || 'null', exampleDataDisplay];
                 return SCFCommonService.replacementStringFormat(displayMessage, replacements);
             }
 
