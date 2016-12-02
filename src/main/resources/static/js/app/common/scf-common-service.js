@@ -98,26 +98,47 @@ app.service('SCFCommonService', [
         vm.getDocumentDisplayConfig = function(sponsorId) {
             var differed = $q.defer();
             var displayConfig = [];
-            $http({
-                method: 'POST',
-                url: '/api/document-display-config',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                params: {
-                    sponsorId: sponsorId
-                }
-            }).success(function(response) {
-                if (response.length === 0) {
+			var reqUrl = '/api/v1/organize-customers/'+sponsorId+'/sponsor-configs/SFP/displays'
+			
+//            $http({
+//                method: 'POST',
+//                url: '/api/document-display-config',
+//                headers: {
+//                    'Content-Type': 'application/x-www-form-urlencoded'
+//                },
+//                params: {
+//                    sponsorId: sponsorId
+//                }
+//            }).success(function(response) {
+//                if (response.length === 0) {
+//                    displayConfig = defaultColumDisplay;
+//                } else {
+//                    displayConfig = response;
+//                }
+//                differed.resolve(displayConfig);
+//            }).error(function(response) {
+//                log.error('Load Display config error');
+//                differed.reject(defaultColumDisplay);
+//            });
+			
+			var documentDisplayDiferred = Service.doGet(reqUrl);
+			documentDisplayDiferred.promise.then(function(response){
+
+				if (angular.isUndefined(response.data)) {
                     displayConfig = defaultColumDisplay;
                 } else {
-                    displayConfig = response;
+					if(response.data[0].items.length === 0){
+						displayConfig = defaultColumDisplay;
+					}else{
+                    	displayConfig = response.data[0].items;
+					}
                 }
+
                 differed.resolve(displayConfig);
-            }).error(function(response) {
-                log.error('Load Display config error');
-                differed.reject(defaultColumDisplay);
-            });
+			}).catch(function(response){
+				log.error('Load Display config error');
+                differed.resolve(defaultColumDisplay);
+			});
             return differed;
         };
 
