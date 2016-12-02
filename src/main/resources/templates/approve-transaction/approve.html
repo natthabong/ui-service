@@ -18,26 +18,32 @@
 					<div class="col-md-12">
 						<b ng-bind="'contract header' | translate"></b>
 					</div>
-
-					<div class="col-md-12" block-ui="requestForm">
-						<object type="application/pdf" id="visualizador" width="100%"
+					<div class="col-md-2">
+					</div>
+					<div class="col-md-8" block-ui="requestForm">
+						<!--<object type="application/pdf" id="visualizador" width="100%"
+							height="1200px"></object>-->
+						<object type="image/jpeg" id="visualizador" width="100%"
 							height="1200px"></object>
 					</div>
-
+					<div class="col-md-2">
+					</div>
 					<div class="col-md-12">
 						<label class="checkbox-inline"> <scf-checkbox
 								ng-click="ctrl.agreeCondition()" id="confirm-checkbox"></scf-checkbox>
-							<span ng-bind="'Agree condition' | translate" id="confirm-agreement-label"></span>
+							<span ng-bind="'Agree condition' | translate"
+							id="confirm-agreement-label"></span>
 						</label>
 					</div>
 					<div class="col-md-12 text-right">
 						<scf-button id="approve-button" ng-disabled="ctrl.disableButton"
 							type="submit" ng-click="ctrl.confirmPopup()"
 							ng-bind="'Approve' | translate"></scf-button>
-						<scf-button id="reject-button" class="popup-button" ng-click="ctrl.confirmRejectPopup()"
+						<scf-button id="reject-button" class="popup-button"
+							ng-click="ctrl.confirmRejectPopup()"
 							ng-bind="'Reject' | translate"></scf-button>
-						<scf-button id="back-button" class="popup-button" ng-bind="'Back' | translate"
-							ng-click="ctrl.backPage()"></scf-button>
+						<scf-button id="back-button" class="popup-button"
+							ng-bind="'Back' | translate" ng-click="ctrl.backPage()"></scf-button>
 					</div>
 
 				</div>
