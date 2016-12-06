@@ -877,30 +877,30 @@ body.ngdialog-open {
 
 @media (min-width: 479px) {
     .request-form {
-        height: 300px;
+        height: 600px;
     }
 }
 
 @media (min-width: 599px) {
     .request-form {
-        height: 630px;
+        height: 750px;
     }
 }
 
 @media (min-width: 767px) {
     .request-form {
-        height: 805px;
+        height: 950px;
     }
 }
 
 @media (min-width: 1024px) {
     .request-form {
-        height: 1075px;
+        height: 1280px;
     }
 }
 
 @media (min-width: 1200px) {
     .request-form {
-        height: 1260px;
+        height: 1500px;
     }
 }
