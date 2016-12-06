@@ -875,32 +875,32 @@ body.ngdialog-open {
 	cursor: pointer;
 }
 
-@media screen and (max-width: 479px) {
+@media (min-width: 1200px) {
     .request-form {
-        height: 500px;
+        height: 1500px;
     }
 }
 
-@media screen and (max-width: 599px) {
+@media (min-width: 1024px) {
     .request-form {
-        height: 630px;
+        height: 1280px;
     }
 }
 
-@media screen and (max-width: 767px) {
+@media (min-width: 767px) {
     .request-form {
-        height: 805px;
+        height: 950px;
     }
 }
 
-@media screen and (max-width: 1024px) {
+@media (min-width: 599px) {
     .request-form {
-        height: 1075px;
+        height: 750px;
     }
 }
 
-@media screen and (max-width: 1200px) {
+@media (min-width: 479px) {
     .request-form {
-        height: 1260px;
+        height: 600px;
     }
 }
