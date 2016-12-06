@@ -25,7 +25,7 @@ angular.module('scfApp').controller(
 		                		value.showAccountFlag = true;
 		                	}
 		                });
-		            }).catch();
+		            });
 					
 					vm.decodeBase64 = function(data){
 						return atob(data);

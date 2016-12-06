@@ -748,7 +748,7 @@
 							filterType : data['filterType'],
 							format : data['format'],
 							idValueField : data['idValueField'] || '$rowNo',
-							idTemplate : generateIdTemplate(data),
+							idTemplate : data.id || generateIdTemplate(data),
 							renderer : data['renderer']
 						};
 						vm.tableColumns.push(rowData);
@@ -800,6 +800,7 @@
 				if(angular.isDefined(data.cssTemplate)){
 					result += ' '+data.cssTemplate;
 				}
+				return result;
 			}
 			
 			function generateIdTemplate(data){
@@ -838,7 +839,7 @@
 				if (column.sortable) {
 					htmlText = '<span sort by="{{column.fieldName}}" reverse="reverse" order="orders" >' + htmlText + '</span>';
 				}
-				
+
 				var colClass = column.cssTemplateHeader || 'text-center';
 				elements.addClass(colClass)
 				elements.html(htmlText);
@@ -925,7 +926,7 @@
 				var result = '';
 				if (filterType === 'date') {
 					var pDate = Date.parse(data);
-
+					filterFormat = filterFormat || 'dd/MM/yyyy';
 					result = $filter(filterType)(data, filterFormat, 'UTC+0700');
 				} else {
 					result = $filter(filterType)(data, filterFormat);

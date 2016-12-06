@@ -211,8 +211,9 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
         }
     ]);
 
-app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFactory','$scope', 'Service',
-    function ($translate, $translatePartialLoader, scfFactory, $scope, Service) {
+app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFactory','$scope', 
+                               'Service', '$window', '$rootScope',
+    function ($translate, $translatePartialLoader, scfFactory, $scope, Service, $window,$rootScope) {
         var vm = this;
         vm.sysMessage = "";
         vm.menus = [];
@@ -238,6 +239,17 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 		};
 		
 		vm.getUserInfo();
+		
+		$rootScope.isDesktoDevice = true;
+		angular.element($window).bind('resize', function(){
+	         var width = $window.innerWidth;
+	         if(width > 970){
+	        	 $rootScope.isDesktoDevice = true;
+	         }else{
+	        	 $rootScope.isDesktoDevice = false;
+	         }
+	         
+	       });
     }
 ]);
 

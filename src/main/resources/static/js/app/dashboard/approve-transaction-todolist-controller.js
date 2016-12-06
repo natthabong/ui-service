@@ -7,9 +7,9 @@ angular.module('scfApp').controller(
 				'$stateParams',
 				'$timeout',
 				'PageNavigation',
-				'Service', 'SCFCommonService', 'PageNavigation',
+				'Service', 'SCFCommonService',
 				function($log, $scope, $state, $stateParams, $timeout,
-						PageNavigation, Service, SCFCommonService, PageNavigation) {
+						PageNavigation, Service, SCFCommonService) {
 					var vm = this;
 					var log = $log;
 					var approveTransactionTodoListUrl = 'api/list-transaction/todo-list';
@@ -109,46 +109,52 @@ angular.module('scfApp').controller(
 				                }
 				            },
 				            columns: [{
-				                label: 'TP',
+				                labelEN: 'TP',
+				                labelTH: 'TP',
 				                sortData: true,
 				                cssTemplate: 'text-center',
 								cellTemplate: '<img	title="{{data.sponsor}}" style="height: 32px; width: 32px;"	'+
 								'data-ng-src="data:image/png;base64,{{approveTxnTodoListCtrl.decodeBase64(data.sponsorLogo)}}" data-err-src="images/png/avatar.png" />'
 				            },{
-				                field: 'transactionNo',
-				                label: 'Transaction No',
-				                idValueField: 'template',
+				                fieldName: 'transactionNo',
+				                labelEN: 'Transaction No',
+				                labelTH: 'Transaction No',
+				                idValueField: '$rowNo',
 				                id: 'wait-for-approve-transaction-{value}-transaction-no-label',
 				                sortable: true,
 				                cssTemplate: 'text-center',
 				            },{
-				                field: 'sponsorPaymentDate',
-				                label: 'Sponsor payment date',
-				                idValueField: 'template',
+				            	fieldName: 'sponsorPaymentDate',
+				                labelEN: 'Sponsor payment date',
+				                labelTH: 'Sponsor payment date',
+				                idValueField: '$rowNo',
 				                id: 'wait-for-approve-transaction-{value}-sponsor-payment-date-label',
 				                filterType: 'date',
 				                filterFormat: 'dd/MM/yyyy',
 				                sortable: true,
 				                cssTemplate: 'hidden-sm hidden-xs text-center'
 				            }, {
-				                field: 'noOfDocument',
-				                label: 'No of document',
-				                idValueField: 'template',
+				            	fieldName: 'noOfDocument',
+				                labelEN: 'No of document',
+				                labelTH: 'No of document',
+				                idValueField: '$rowNo',
 				                id: 'wait-for-approve-transaction-{value}-no-of-document-label',
 				                cssTemplate: 'hidden-sm hidden-xs text-center',
 				            }, {
-				                field: 'drawdownAmount',
-				                label: 'Transaction amount',
-				                idValueField: 'template',
+				            	fieldName: 'drawdownAmount',
+				                labelEN: 'Transaction amount',
+				                labelTH: 'Transaction amount',
+				                idValueField: '$rowNo',
 				                id: 'wait-for-approve-transaction-{value}-transaction-amount-label',
 				                sortable: true,
 				                cssTemplate: 'text-right',
 				                filterType: 'number',
 				                filterFormat: '2'
 				            },{
-								field: 'action',
-								label: '',
-								cssTemplate: 'hidden-sm hidden-xs text-center',
+				            	fieldName: 'action',
+								labelEN: 'Action',
+								labelTH: 'Action',
+								cssTemplate: 'text-center',
 								sortable: false,
 								cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="(approveTxnTodoListCtrl.approve && (data.statusCode === approveTxnTodoListCtrl.statusTransaction.waitForApprove))" id="wait-for-approve-transaction-{{data.transactionNo}}-button" ng-click="approveTxnTodoListCtrl.approveTransaction(data)" title="Approve a transaction"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>'
 							}]
