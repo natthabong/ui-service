@@ -491,11 +491,6 @@ footer .footer-below {
 	height: 45px;
 }
 
-#content {
-	margin-top: 90px;
-	min-height: 950px;
-}
-
 .opener-right-menu span {
 	font-size: 20px;
 }
@@ -710,10 +705,14 @@ opacity
 
 
 
+
+
 :
 
 
+
  
+
 
 
 0;
@@ -731,10 +730,14 @@ opacity
 
 
 
+
+
 :
 
 
+
  
+
 
 
 0;
@@ -752,10 +755,14 @@ opacity
 
 
 
+
+
 :
 
 
+
  
+
 
 
 1;
@@ -773,10 +780,14 @@ opacity
 
 
 
+
+
 :
 
 
+
  
+
 
 
 1;
@@ -919,6 +930,10 @@ html.ngdialog-open, body.ngdialog-open {
 	.request-form {
 		height: 400px;
 	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
+	}
 }
 
 /* Smartphones (landscape) ----------- */
@@ -926,12 +941,20 @@ html.ngdialog-open, body.ngdialog-open {
 	.request-form {
 		height: 401px;
 	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
+	}
 }
 
 /* Smartphones (portrait) ----------- */
 @media only screen and (max-width : 320px) {
 	.request-form {
 		height: 400px;
+	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
 	}
 }
 
@@ -941,6 +964,10 @@ html.ngdialog-open, body.ngdialog-open {
 	.request-form {
 		height: 960px;
 	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
+	}
 }
 
 /* iPads (landscape) ----------- */
@@ -949,6 +976,10 @@ html.ngdialog-open, body.ngdialog-open {
 	.request-form {
 		height: 960px;
 	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
+	}
 }
 
 /* iPads (portrait) ----------- */
@@ -956,6 +987,10 @@ html.ngdialog-open, body.ngdialog-open {
 	: 1024px) and (orientation : portrait) {
 	.request-form {
 		height: 960px;
+	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
 	}
 }
 /**********
@@ -967,6 +1002,10 @@ iPad 3
 	.request-form {
 		height: 960px;
 	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
+	}
 }
 
 @media only screen and (min-device-width : 768px) and (max-device-width
@@ -975,11 +1014,19 @@ iPad 3
 	.request-form {
 		height: 960px;
 	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
+	}
 }
 /* Desktops and laptops ----------- */
 @media only screen and (min-width : 1224px) {
 	.request-form {
 		height: 1530px;
+	}
+	#content {
+		margin-top: 90px;
+		min-height: 950px;
 	}
 }
 
@@ -987,6 +1034,10 @@ iPad 3
 @media only screen and (min-width : 1824px) {
 	.request-form {
 		height: 2280px;
+	}
+	#content {
+		margin-top: 90px;
+		min-height: 950px;
 	}
 }
 
@@ -997,6 +1048,10 @@ iPad 3
 	.request-form {
 		height: 400px;
 	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
+	}
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width
@@ -1004,6 +1059,10 @@ iPad 3
 	(-webkit-min-device-pixel-ratio : 2) {
 	.request-form {
 		height: 400px;
+	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
 	}
 }
 
@@ -1014,6 +1073,10 @@ iPad 3
 	.request-form {
 		height: 400px;
 	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
+	}
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-height:
@@ -1021,6 +1084,10 @@ iPad 3
 	{
 	.request-form {
 		height: 400px;
+	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
 	}
 }
 
@@ -1031,6 +1098,10 @@ iPad 3
 	.request-form {
 		height: 470px;
 	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
+	}
 }
 
 @media only screen and (min-device-width: 375px) and (max-device-height:
@@ -1038,6 +1109,10 @@ iPad 3
 	{
 	.request-form {
 		height: 470px;
+	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
 	}
 }
 
@@ -1048,6 +1123,10 @@ iPad 3
 	.request-form {
 		height: 550px;
 	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
+	}
 }
 
 @media only screen and (min-device-width: 414px) and (max-device-height:
@@ -1055,6 +1134,10 @@ iPad 3
 	{
 	.request-form {
 		height: 520px;
+	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
 	}
 }
 
@@ -1065,6 +1148,10 @@ iPad 3
 	.request-form {
 		height: 450px;
 	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
+	}
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-height:
@@ -1072,6 +1159,10 @@ iPad 3
 	{
 	.request-form {
 		height: 450px;
+	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
 	}
 }
 
@@ -1082,6 +1173,10 @@ iPad 3
 	.request-form {
 		height: 450px;
 	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
+	}
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-height:
@@ -1089,6 +1184,10 @@ iPad 3
 	{
 	.request-form {
 		height: 450px;
+	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
 	}
 }
 
@@ -1099,6 +1198,10 @@ iPad 3
 	.request-form {
 		height: 450px;
 	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
+	}
 }
 
 @media only screen and (min-device-width: 360px) and (max-device-height:
@@ -1106,5 +1209,9 @@ iPad 3
 	{
 	.request-form {
 		height: 450px;
+	}
+	#content {
+		margin-top: 0px;
+		min-height: 0px;
 	}
 }
