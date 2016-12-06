@@ -875,21 +875,9 @@ body.ngdialog-open {
 	cursor: pointer;
 }
 
-@media (min-width: 479px) {
+@media (min-width: 1200px) {
     .request-form {
-        height: 600px;
-    }
-}
-
-@media (min-width: 599px) {
-    .request-form {
-        height: 750px;
-    }
-}
-
-@media (min-width: 767px) {
-    .request-form {
-        height: 950px;
+        height: 1500px;
     }
 }
 
@@ -899,8 +887,20 @@ body.ngdialog-open {
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 767px) {
     .request-form {
-        height: 1500px;
+        height: 950px;
+    }
+}
+
+@media (min-width: 599px) {
+    .request-form {
+        height: 750px;
+    }
+}
+
+@media (min-width: 479px) {
+    .request-form {
+        height: 600px;
     }
 }
