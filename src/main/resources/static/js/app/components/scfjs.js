@@ -107,7 +107,7 @@
 		}
 	} ]);
 
-    app.directive('scfTable', [function() {
+    app.directive('scfComponentTable', [function() {
         return {
             restrict: 'E',
             replace: true,

@@ -587,6 +587,7 @@ footer .footer-below {
 
 .gec-table-sort {
 	color: black;
+	cursor: pointer;
 }
 
 .gec-pop-up-font-size {

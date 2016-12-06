@@ -30,9 +30,6 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			};
 			
 			vm.dataTable = {
-				options: {
-					displayRowNo: {}
-				},
 				columns : []
 			}
 			
