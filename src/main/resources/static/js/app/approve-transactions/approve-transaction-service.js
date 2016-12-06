@@ -86,13 +86,13 @@ function approveTransactionService($q, $http, $sce, blockUI) {
             responseType: 'arraybuffer'
         }).success(function(response) {
             var file = new Blob([response], {
-                type: 'application/pdf'
+                type: 'image/jpeg'
             });
             var fileURL = URL.createObjectURL(file);
             var a = document.createElement('a');
             a.href = fileURL;
             a.target = '_blank';
-            a.download = transactionModel.transactionNo + '.pdf';
+            a.download = transactionModel.transactionNo + '.jpeg';
             document.body.appendChild(a);
             a.click();
         }).error(function(response) {

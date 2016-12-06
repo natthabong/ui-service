@@ -4,7 +4,7 @@
 		<h3 class="animated fadeInLeft" id="internal-step-header-label"
 			ng-bind="dashboardItem.headerLabel"></h3>
 		<div class="row">
-			<div class="col-md-12 col-sm-12 text-right">
+			<div class="col-md-12 col-sm-12 col-xs-12 text-right">
 				<span> <b ng-bind="internalStepCtrl.splitePageTxt"
 					id="internal-step-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 						dropdown-id="internal-step-page-limit-dropdown"
@@ -22,7 +22,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
 				<scf-data-table id="internal-step-table"
 					component-config="internalStepCtrl.dataTable"
 					component-datas="internalStepCtrl.data"
