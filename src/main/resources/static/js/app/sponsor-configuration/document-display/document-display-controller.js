@@ -326,7 +326,77 @@ angular
 				 parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);                    
 			 });
 
-	 }]).controller( 'DATE_TIMEDisplayConfigController', [ '$scope', '$filter', '$log','ALIGNMENT_DROPDOWN_ITEM','Service', '$rootScope', 'SCFCommonService',
+	 }]).controller( 'PAYMENT_AMOUNTDisplayConfigController', [ '$scope', 
+															'$filter',
+															'ALIGNMENT_DROPDOWN_ITEM',
+															'NEGATIVE_NUMMBER_DROPDOWN_ITEM',
+															'$rootScope', 'SCFCommonService',
+	             function($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+		    	 var vm = this;
+	    	     var dataTypeConfig =  $scope.ngDialogData.config;
+	    	     
+	    	     vm.dlgData = {useSeperator:false, filterType: null};
+	    	    	 
+	    	     vm.model = angular.copy($scope.ngDialogData.record);
+			     
+	    	     vm.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+			     
+	    	     vm.negativeNumberDropdownItems = NEGATIVE_NUMMBER_DROPDOWN_ITEM;
+			     
+			     var rawExample =  parseFloat(dataTypeConfig.defaultExampleValue).toFixed(2);
+			     vm.exampleRawData = isNaN(rawExample)?123456.00:rawExample;
+			     
+			     var prepareDiaglogData = function(){
+			    	 
+			    	 if(vm.model.filterType == 'negativeParenthesis'){
+			    		 vm.dlgData.useSeperator = true;
+			    		 vm.dlgData.filterType = 'negativeParenthesis';
+			    	 }
+			    	 else if(vm.model.filterType == 'noSeperatorNegativeParenthesis'){
+			    		 vm.dlgData.useSeperator = false;
+			    		 vm.dlgData.filterType = 'negativeParenthesis';
+			    	 }
+			    	 else if(vm.model.filterType == 'number'){
+			    		 vm.dlgData.useSeperator = true;
+			    		 vm.dlgData.filterType = 'number';
+			    	 }
+			    	 else{
+			    		 vm.dlgData.useSeperator = false;
+			    		 vm.dlgData.filterType = 'number';
+			    	 }
+			     }
+			     
+			     prepareDiaglogData();
+			     
+			     $scope.$watch('ctrl.dlgData', function() {
+			    	 if(vm.dlgData.useSeperator){
+			    		 vm.model.filterType = vm.dlgData.filterType;
+			    	 }
+			    	 else{
+			    		 if(vm.dlgData.filterType == 'number'){
+			    			 vm.model.filterType = 'noSeperatorNumeric';
+			    		 }
+			    		 else{
+			    			 vm.model.filterType = 'noSeperatorNegativeParenthesis';
+			    		 }
+			    	 }
+			    	 vm.examplePosDataDisplay = $filter(vm.model.filterType)(vm.exampleRawData, 2);
+			    	 vm.exampleNegDataDisplay = $filter(vm.model.filterType)(-vm.exampleRawData, 2);
+			     }, true);
+
+				 function displayExampleConfig (record, obj) {
+					var displayMessage = obj.displayDetailPattern;
+					var examplePosDataDisplay = $filter(record.filterType)(vm.exampleRawData, 2);
+			    	var exampleNegDataDisplay = $filter(record.filterType)(-vm.exampleRawData, 2);
+	                var replacements = [SCFCommonService.camelize(record.alignment), examplePosDataDisplay, exampleNegDataDisplay];
+	               	return SCFCommonService.replacementStringFormat(displayMessage, replacements);
+				 }
+					 
+			     $rootScope.$on(this.model.fieldName+'DisplayExample', function(event, parentScope) {
+					 parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);                    
+				 });
+
+		 }]).controller( 'DATE_TIMEDisplayConfigController', [ '$scope', '$filter', '$log','ALIGNMENT_DROPDOWN_ITEM','Service', '$rootScope', 'SCFCommonService',
 	                                                       function($scope, $filter, $log, ALIGNMENT_DROPDOWN_ITEM, Service, $rootScope, SCFCommonService) {
 		   	 var vm = this;
 		   	 vm.model = angular.copy($scope.ngDialogData.record);
