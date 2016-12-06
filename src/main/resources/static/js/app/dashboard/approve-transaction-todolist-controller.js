@@ -129,13 +129,13 @@ angular.module('scfApp').controller(
 				                filterType: 'date',
 				                filterFormat: 'dd/MM/yyyy',
 				                sortable: true,
-				                cssTemplate: 'text-center'
+				                cssTemplate: 'hidden-sm hidden-xs text-center'
 				            }, {
 				                field: 'noOfDocument',
 				                label: 'No of document',
 				                idValueField: 'template',
 				                id: 'wait-for-approve-transaction-{value}-no-of-document-label',
-				                cssTemplate: 'text-center',
+				                cssTemplate: 'hidden-sm hidden-xs text-center',
 				            }, {
 				                field: 'drawdownAmount',
 				                label: 'Transaction amount',
@@ -148,7 +148,7 @@ angular.module('scfApp').controller(
 				            },{
 								field: 'action',
 								label: '',
-								cssTemplate: 'text-center',
+								cssTemplate: 'hidden-sm hidden-xs text-center',
 								sortable: false,
 								cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="(approveTxnTodoListCtrl.approve && (data.statusCode === approveTxnTodoListCtrl.statusTransaction.waitForApprove))" id="wait-for-approve-transaction-{{data.transactionNo}}-button" ng-click="approveTxnTodoListCtrl.approveTransaction(data)" title="Approve a transaction"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>'
 							}]
