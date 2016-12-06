@@ -746,9 +746,9 @@
 							cssTemplateHeader : getCssConfigHeader(data),
 							cssTemplate : getCssConfig(data),
 							filterType : data['filterType'],
-							filterFormat : data['filterFormat'],
-							idValueField : data['idValueField'],
-							id : data['id'],
+							format : data['format'],
+							idValueField : data['idValueField'] || '$rowNo',
+							idTemplate : generateIdTemplate(data),
 							renderer : data['renderer']
 						};
 						vm.tableColumns.push(rowData);
@@ -759,7 +759,7 @@
 						var rowData = {
 							label : tableOption.displaySelect['label'],
 							fieldName : 'selectBox',
-							id : tableOption.displaySelect['id'],
+							idTemplate : tableOption.displaySelect['id'],
 							cellTemplate : tableOption.displaySelect['cellTemplate'],
 							idValueField : tableOption.displaySelect['idValueField']
 						};
@@ -800,6 +800,13 @@
 				if(angular.isDefined(data.cssTemplate)){
 					result += ' '+data.cssTemplate;
 				}
+			}
+			
+			function generateIdTemplate(data){
+				if(angular.isDefined(data.fieldName)){
+					return data.fieldName+'-{value}';
+				}
+				return undefined;
 			}
 		} ])
 		.directive('scfTableTh', [ '$compile', '$filter', '$translate', function($compile, $filter, $translate) {
@@ -888,16 +895,16 @@
 					elements.html(dataRender);
 					$compile(elements.contents())(scope);
 
-					if (angular.isDefined(column.id) && column.id !== null) {
+					if (angular.isDefined(column.idTemplate) && column.idTemplate !== null) {
 						//Check add id is rowNo for checkBox
-						if (column.idValueField === 'template') {
+						if (column.idValueField === '$rowNo') {
 							if (elements[0].children.length > 0) {
-								elements[0].children[0].id = addId(rowNo, column.id, column.renderer);
+								elements[0].children[0].id = addId(rowNo, column.idTemplate, column.renderer);
 							} else {
-								elements[0].id = addId(rowNo, column.id, column.renderer);
+								elements[0].id = addId(rowNo, column.idTemplate, column.renderer);
 							}
 						} else {
-							elements[0].id = addId(data[column.idValueField != null ? column.idValueField : column.field], column.id, column.renderer);
+							elements[0].id = addId(data[column.idValueField != null ? column.idValueField : column.field], column.idTemplate, column.renderer);
 						}
 					}
 
@@ -913,9 +920,8 @@
 			function filterData(column, dataColumn) {
 
 				var filterType = column.filterType;
-				var filterFormat = column.filterFormat;
+				var filterFormat = column.format;
 				var data = dataColumn[column.fieldName];
-
 				var result = '';
 				if (filterType === 'date') {
 					var pDate = Date.parse(data);
