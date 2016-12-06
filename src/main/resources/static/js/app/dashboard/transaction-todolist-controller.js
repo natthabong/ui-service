@@ -7,9 +7,9 @@ angular.module('scfApp').controller(
 				'$stateParams',
 				'$timeout',
 				'PageNavigation',
-				'Service', 'SCFCommonService', 'PageNavigation',
+				'Service', 'SCFCommonService',
 				function($log, $scope, $state, $stateParams, $timeout,
-						PageNavigation, Service, SCFCommonService, PageNavigation) {
+						PageNavigation, Service, SCFCommonService) {
 					var vm = this;
 					var log = $log;
 					var transactionTodoListUrl = 'api/list-transaction/todo-list';

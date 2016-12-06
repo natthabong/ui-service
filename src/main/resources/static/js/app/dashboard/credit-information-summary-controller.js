@@ -3,11 +3,10 @@ angular.module('scfApp').controller(
 		[
 				'$log',
 				'$scope',
-				'Service', 'ngDialog',
-				function($log, $scope, Service, ngDialog) {
+				'Service', 'ngDialog', '$rootScope',
+				function($log, $scope, Service, ngDialog, $rootScope) {
 					var vm = this;
 					var log = $log;
-					
 					vm.width = 600;
 					vm.height = 350;
 					
@@ -45,7 +44,7 @@ angular.module('scfApp').controller(
 
 		            		}, vm.data);
 		            		
-		            }).catch();
+		            });
 					
 					vm.xFunction = function() {
 						return function(d) {
@@ -67,13 +66,17 @@ angular.module('scfApp').controller(
 							return legends[d.key].color;
 						};
 					}
-					$scope.$on('elementClick.directive', function(event) {
-						ngDialog.open({
-	                         template: '/js/app/dashboard/credit-information-dialog.html',
-	                         controller: 'CreditInformationDashboardController',
-	                         controllerAs: 'creditInfoCtrl',
-	                         width: 900
-		       	         });
 					
+					vm.isOpenPopup = true;
+					$scope.$on('elementClick.directive', function(event) {
+						if($rootScope.isDesktoDevice){
+							ngDialog.open({
+		                         template: '/js/app/dashboard/credit-information-dialog.html',
+		                         controller: 'CreditInformationDashboardController',
+		                         controllerAs: 'creditInfoCtrl',
+		                         width: 900
+			       	         });
+						}
 					});
+
 				}]);

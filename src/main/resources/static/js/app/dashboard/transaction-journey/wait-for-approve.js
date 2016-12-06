@@ -1,8 +1,8 @@
 angular.module('scfApp').controller(
 		'JourneyWaitForApproveController', 
 		[
-		 	'$scope', 'Service', 'PageNavigation', '$cookieStore', '$state', 'SCFCommonService', 
-		 	function($scope, Service, PageNavigation, $cookieStore, $state, SCFCommonService) {
+		 	'$scope', 'Service', 'PageNavigation', '$cookieStore', '$state', 'SCFCommonService', '$rootScope', 
+		 	function($scope, Service, PageNavigation, $cookieStore, $state, SCFCommonService, $rootScope) {
 			    var vm = this;
 			    var compositParent = $scope.$parent;
 			    var dashboardParent = compositParent.$parent.it;
@@ -82,10 +82,12 @@ angular.module('scfApp').controller(
 			    vm.load();
 			    	
 			    vm.transactionList = function() {
-					$cookieStore.put(listStoreKey, vm.listTransactionModel);
-					$state.go('/transaction-list',  {
-						backAction: true
-					});
+			    	if($rootScope.isDesktoDevice){
+			    		$cookieStore.put(listStoreKey, vm.listTransactionModel);
+						$state.go('/transaction-list',  {
+							backAction: true
+						});
+			    	}
 			    }
 		
 		 	}]);

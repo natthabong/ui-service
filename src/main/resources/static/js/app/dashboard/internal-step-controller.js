@@ -76,37 +76,42 @@ angular
 								},
 								columns : [
 										{
-										    label: 'TP',
+										    labelEN: 'TP',
+										    labelTH: 'TP',
 										    sortData: true,
 										    cssTemplate: 'text-center',
 											cellTemplate: '<img	title="{{data.sponsor}}" style="height: 32px; width: 32px;"	'+
 											'data-ng-src="data:image/png;base64,{{internalStepCtrl.decodeBase64(data.sponsorLogo)}}" data-err-src="images/png/avatar.png" />'
 										}, {
-											field : 'transactionNo',
-											label : 'Transaction No',
-											idValueField: 'template',
+											fieldName: 'transactionNo',
+											labelEN: 'Transaction No',
+											labelTH: 'Transaction No',
+											idValueField: '$rowNo',
 							                id: 'internal-step-{value}-transaction-no-label',
 							                sortData : true,
 											cssTemplate : 'text-center'
 										}, {
-											field : 'sponsorPaymentDate',
-											label : 'SponsorPayment Date',
+											fieldName: 'sponsorPaymentDate',
+											labelEN: 'SponsorPayment Date',
+											labelTH: 'SponsorPayment Date',
 											idValueField: 'template',
 							                id: 'internal-step-{value}-sponsor-payment-date-label',
 							                filterType : 'date',
 											filterFormat : 'dd/MM/yyyy',
 											sortData : true,
-											cssTemplate : 'text-center'
+											cssTemplate : 'hidden-xs hidden-sm text-center'
 										}, {
-											field : 'noOfDocument',
-											label : 'No of document',
+											fieldName: 'noOfDocument',
+											labelEN: 'No of document',
+											labelTH: 'No of document',
 											idValueField: 'template',
 							                id: 'internal-step-{value}-no-of-document-label',
 							                sortData : true,
-											cssTemplate : 'text-center'
+											cssTemplate : 'hidden-xs hidden-sm text-center'
 										}, {
-											field : 'drawdownAmount',
-											label : 'Transaction amount',
+											fieldName: 'drawdownAmount',
+											labelEN: 'Transaction amount',
+											labelTH: 'Transaction amount',
 											idValueField: 'template',
 							                id: 'internal-step-{value}-transaction-amount-label',
 							                sortData : true,
@@ -114,17 +119,19 @@ angular
 											filterType : 'number',
 											filterFormat : '2'
 										}, {
-											field : 'statusCode',
-											label : 'Status',
+											fieldName: 'statusCode',
+											labelEN: 'Status',
+											labelTH: 'Status',
 											idValueField: 'template',
 							                id: 'internal-step-{value}-transaction-status-label',
 							                sortData : true,
 											filterType : 'translate',
 											cssTemplate : 'text-center'
 										}, {
-											field: '',
-											label: '',
-											cssTemplate: 'text-center',
+											fieldName: '',
+											labelEN: '',
+											labelTH: '',
+											cssTemplate: 'hidden-xs hidden-sm text-center',
 											sortData: false,
 											cellTemplate: '<scf-button class="btn-default gec-btn-action" id="view-transaction-{{data.transactionNo}}-button" title="View a transaction" ng-click="internalStepCtrl.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
 										} ]
