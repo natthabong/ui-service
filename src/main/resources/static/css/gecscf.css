@@ -873,3 +873,33 @@ body.ngdialog-open {
 .mouse-pointer {
 	cursor: pointer;
 }
+
+@media screen and (max-width: 479px) {
+    .request-form {
+        height: 500px;
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .request-form {
+        height: 630px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .request-form {
+        height: 805px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .request-form {
+        height: 1075px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .request-form {
+        height: 1260px;
+    }
+}
