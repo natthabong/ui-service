@@ -928,7 +928,9 @@
 					var pDate = Date.parse(data);
 					filterFormat = filterFormat || 'dd/MM/yyyy';
 					result = $filter(filterType)(data, filterFormat, 'UTC+0700');
-				} else {
+				} else if(filterType === 'number'){
+					result = $filter(filterType)(data, filterFormat, 2);
+				}else{
 					result = $filter(filterType)(data, filterFormat);
 				}
 				return result;
