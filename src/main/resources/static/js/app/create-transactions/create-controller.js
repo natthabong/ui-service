@@ -159,10 +159,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
         vm.dataTable = {
             options: {
-                displayRowNo: {
-                	idValueField: 'template',
-                	id: 'no-{value}-label'
-                },
                 displaySelect: {
                     label: '<input type="checkbox" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
                     cssTemplate: 'text-center',
