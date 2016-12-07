@@ -942,5 +942,20 @@
 				}
 				return columnId.replace('{value}', rowNo);
 			}
-		} ]);
+		} ])
+		.directive('scfShowOnMobile', ['$compile', function($compile){
+			return {
+				scope : false,
+				restrict : 'A',
+				replace : true,
+				link : scfShowOnMobileLink
+			}
+			function scfShowOnMobileLink(scope, elements, attrs){
+				var isShowOnMobile = scope.$eval(attrs.scfShowOnMobile);
+				console.log('scfShowOnMobile');
+				if(!isShowOnMobile){
+					elements.addClass('hidden-sm hidden-xs');				
+				}
+			}
+		}]);
 })();
