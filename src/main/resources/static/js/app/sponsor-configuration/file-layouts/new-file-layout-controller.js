@@ -375,38 +375,55 @@ app.controller('CUSTOMER_CODELayoutConfigController', [ '$scope', '$rootScope', 
 app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', function($scope, $rootScope, $q, Service) {
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
-	console.log(this.model);
+	console.log(vm.model)
+	vm.calendarType = {
+		christCalendar : 'AD',
+		buddhistCalendar : 'BE'
+	};
 	
-	vm.loadDateTimeFormat = function(dataFormat) {
-    	
-        var diferred = $q.defer();
-        vm.dateTimeDropdown = [{
-            label: 'Please select',
-            value: ' '
-        }];
+	vm.defaultCalendarType = function(){
+		if(angular.isUndefined(vm.model.calendarEra) 
+				|| vm.model.calendarEra == null 
+				|| vm.model.calendarEra.length == 0){
+			vm.model.calendarEra = vm.calendarType.buddhistCalendar;
+		}
+	};
+	
+	vm.exampleDateTime = Date.parse('04/13/2016 13:30:55');
 
-        var serviceUrl = 'js/app/sponsor-configuration/file-layouts/date_time_format.json';
-        var serviceDiferred = Service.doGet(serviceUrl);
-        serviceDiferred.promise.then(function(response) {
-            var dateTimeDropdownList = response.data;
-            if (dateTimeDropdownList !== undefined) {
-                dateTimeDropdownList.forEach(function(obj) {
-                    var selectObj = {
-                        label: obj.dateTimeName,
-                        value: obj.dateTimeId
-                    }
-                    vm.dateTimeDropdown.push(selectObj);
-                });
-            }
-            diferred.resolve(vm.dateTimeDropdown);
-        }).catch(function(response) {
-            $log.error('Load date time format Fail');
-            diferred.reject();
-        });
+	vm.loadDateTimeFormat = function() {
 
-        vm.dateTimeFormat = vm.dateTimeDropdown[0].value;
-        return diferred;
-    }
+		var diferred = $q.defer();
+		vm.dateTimeDropdown = [ {
+			label : 'Please select',
+			value : ''
+		} ];
+
+		var serviceUrl = 'js/app/sponsor-configuration/file-layouts/date_time_format.json';
+		var serviceDiferred = Service.doGet(serviceUrl);
+		serviceDiferred.promise.then(function(response) {
+			var dateTimeDropdownList = response.data;
+			if (dateTimeDropdownList !== undefined) {
+				dateTimeDropdownList.forEach(function(obj) {
+					var selectObj = {
+						label : obj.dateTimeName,
+						value : obj.dateTimeId
+					}
+					vm.dateTimeDropdown.push(selectObj);
+				});
+			}
+			diferred.resolve(vm.dateTimeDropdown);
+		}).catch(function(response) {
+			$log.error('Load date time format Fail');
+			diferred.reject();
+		});
+
+		vm.dateTimeFormat = vm.dateTimeDropdown[0].value;
+		return diferred;
+	};
+	
+	vm.loadDateTimeFormat();
+	vm.defaultCalendarType();
 } ]);
 
 app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', function($scope, $rootScope) {
@@ -417,7 +434,7 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 	this.model = angular.copy($scope.ngDialogData.record);
 } ]);
 
-app.factory('NewFileLayerExampleDisplayService', [ function() {
+app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 	return {
 		TEXT_DisplayExample : TEXT_DisplayExample,
 		DOCUMENT_NO_DisplayExample : DOCUMENT_NO_DisplayExample,
@@ -436,15 +453,34 @@ app.factory('NewFileLayerExampleDisplayService', [ function() {
 
 	function CUSTOMER_CODE_DisplayExample(record, config) {
 		var displayMessage = config.configDetailPattern;
-		var requiredDisplay = record.required == true ? 'yes' : 'no';
 
-		displayMessage = displayMessage.replace('{required}', requiredDisplay);
+		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 		displayMessage = displayMessage.replace('{expectedValue}', record.expectedValue);
 		displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);
 		return displayMessage;
 	}
+	
 	function DATE_TIME_DisplayExample(record, config) {
-		return '';
+		
+		if(angular.isUndefined(record.datetimeFormat) || record.datetimeFormat.length == 0){
+			return '';
+		}
+		var displayMessage = config.configDetailPattern;
+		
+		var calendarEra = "Christ calendar (A.D.)";
+    	if(record.calendarEra == "BE"){
+    		calendarEra = "Buddhist calendar (B.E.)";
+    	}
+    	
+    	var dateDefault = new Date(config.defaultExampleValue);
+    	
+    	displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
+    	displayMessage = displayMessage.replace('| {conditionUploadDate}', '');
+    	displayMessage = displayMessage.replace('{dateTimeFormat}',record.datetimeFormat.toUpperCase());
+    	displayMessage = displayMessage.replace('{calendarType}', calendarEra);
+    	displayMessage = displayMessage.replace('{exampleData}', $filter('date')(dateDefault, record.datetimeFormat));
+    	
+		return displayMessage;
 	}
 
 	function NUMERIC_DisplayExample(record, config) {
@@ -454,4 +490,8 @@ app.factory('NewFileLayerExampleDisplayService', [ function() {
 	function PAYMENT_AMOUNT_DisplayExample(record, config) {
 		return '';
 	}
+	
+	function convertRequiredToString(record){
+		return record.required == true ? 'yes' : 'no';
+	};
 } ]);
