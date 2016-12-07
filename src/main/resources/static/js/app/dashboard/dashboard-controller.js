@@ -1,6 +1,6 @@
-angular.module('scfApp').controller('DashboardController', ['Service', '$log', dashboardController]);
+angular.module('scfApp').controller('DashboardController', ['Service', '$log', '$rootScope', '$element', dashboardController]);
 
-var dashboardController = function(Service, $log) {
+var dashboardController = function(Service, $log, $rootScope, $element) {
     var vm = this;
     var log = $log;
     vm.load = function() {

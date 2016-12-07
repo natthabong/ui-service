@@ -69,7 +69,7 @@ angular.module('scfApp').controller(
 					
 					vm.isOpenPopup = true;
 					$scope.$on('elementClick.directive', function(event) {
-						if($rootScope.isDesktoDevice){
+						if($rootScope.isDesktopDevice){
 							ngDialog.open({
 		                         template: '/js/app/dashboard/credit-information-dialog.html',
 		                         controller: 'CreditInformationDashboardController',

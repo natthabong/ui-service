@@ -4,13 +4,14 @@
 			<div class="panel" ng-if="row.length">
 				<div class="panel-body">
 					<div ng-repeat="layout in row"
-						class="col-lg-{{it.columnSizeLg}} col-md-{{layout.columnSizeMd}} col-sm-{{layout.columnSizeSm}} col-xs-{{layout.columnSizeXs}}"
+						class="col-lg-{{layout.columnSizeLg}} col-md-{{layout.columnSizeMd}} col-sm-{{layout.columnSizeSm}} col-xs-{{layout.columnSizeXs}}"
 						ng-init="dashboardItem=layout.dashboardItem">
+						
 						<div ng-show="!layout.children.length"
-							ng-include="layout.dashboardItem.url"></div>
+							ng-include="layout.dashboardItem.url" scf-show-on-mobile="layout.showOnMobile"></div>
 
 						<div ng-show="layout.children.length"
-							ng-include="'/dashboard-composite'"></div>
+							ng-include="'/dashboard-composite'" scf-show-on-mobile="layout.showOnMobile"></div>
 					</div>
 				</div>
 			</div>

@@ -240,16 +240,19 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 		
 		vm.getUserInfo();
 		
-		$rootScope.isDesktoDevice = true;
+		$rootScope.isDesktopDevice = true;
+		getWindowSize();
 		angular.element($window).bind('resize', function(){
-	         var width = $window.innerWidth;
-	         if(width > 970){
-	        	 $rootScope.isDesktoDevice = true;
+			getWindowSize();
+	    });
+		function getWindowSize(){
+			 var width = $window.innerWidth;
+	         if(width > 992){
+	        	 $rootScope.isDesktopDevice = true;
 	         }else{
-	        	 $rootScope.isDesktoDevice = false;
+	        	 $rootScope.isDesktopDevice = false;
 	         }
-	         
-	       });
+		}
     }
 ]);
 
