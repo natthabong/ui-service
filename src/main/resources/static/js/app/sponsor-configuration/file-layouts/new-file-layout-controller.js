@@ -585,10 +585,21 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 	}
 
 	function TEXT_DisplayExample(record, config) {
-		return '';
+		var displayMessage = config.configDetailPattern;
+
+		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
+		displayMessage = displayMessage.replace('{expectedValue}', record.expectedValue);
+		displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);
+		return displayMessage;
 	}
 
 	function DOCUMENT_NO_DisplayExample(record, config) {
+		var displayMessage = config.configDetailPattern;
+
+		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
+		displayMessage = displayMessage.replace('{expectedValue}', record.expectedValue);
+		displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);
+		return displayMessage;
 	}
 
 	function CUSTOMER_CODE_DisplayExample(record, config) {
