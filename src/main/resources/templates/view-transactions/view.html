@@ -1,237 +1,266 @@
 <div id="content" th:fragment="content">
-    <div class="panel box-shadow-none content-header">
-        <div class="panel-body">
-            <div class="col-md-12">
-                <h3 id="header-message-label" class="animated fadeInLeft">{{
+	<div class="panel box-shadow-none content-header">
+		<div class="panel-body">
+			<div class="col-md-12">
+				<h3 id="header-message-label" class="animated fadeInLeft">{{
 					'View transaction' | translate}}</h3>
-            </div>
-        </div>
-    </div>
-    <div class="form-element">
-        <div class="panel panel-default col-md-12 padding-0">
-            <div class="panel-body" style="padding-bottom: 30px;">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Sponsor' | translate"></label>:
-                                        </div>
-                                        <div class="col-md-9 col-sm-9">
-                                            <span id="sponsor-label" ng-bind="viewTxnCtrl.transactionModel.sponsor"></span>
-                                        </div>
+			</div>
+		</div>
+	</div>
+	<div class="form-element">
+		<div class="panel panel-default col-md-12 padding-0">
+			<div class="panel-body" style="padding-bottom: 30px;">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-md-3 col-sm-3">
+											<label ng-bind="'Sponsor' | translate"></label>:
+										</div>
+										<div class="col-md-9 col-sm-9">
+											<span id="sponsor-label"
+												ng-bind="viewTxnCtrl.transactionModel.sponsor"></span>
+										</div>
 
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Financing documents' | translate"></label>:
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 text-right">
-                                            <span id="financing-document-label" ng-bind="viewTxnCtrl.transactionModel.documents.length"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-3 col-sm-3">
+											<label ng-bind="'Financing documents' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2 text-right">
+											<span id="financing-document-label"
+												ng-bind="viewTxnCtrl.transactionModel.documents.length"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
 
-                                        <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Transaction type' | translate"></label>:
-                                        </div>
-                                        <div class="col-md-2 col-sm-2">
-                                            <span id="transaction-type-label">Loan</span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Value of document' | translate"></label>:
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 text-right">
-                                            <span id="value-of-document-label" ng-bind="viewTxnCtrl.transactionModel.valueOfDocument | number:2"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1">
-                                            <span ng-bind="'THB' | translate"></span>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Sponsor payment date' | translate"></label>:
-                                        </div>
-                                        <div class="col-md-2 col-sm-2">
-                                            <span id="sponsor-payment-date-label" ng-bind="viewTxnCtrl.transactionModel.sponsorPaymentDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Pre-drawdown percentage' | translate"></label>:
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 text-right">
-                                            <span id="predrawdown-percentage-label" ng-bind="viewTxnCtrl.transactionModel.prePercentageDrawdown | number:2"></span>%
-                                        </div>
-                                        <div class="col-md-1 col-sm-1">
-                                            <span></span>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Transaction date' | translate"></label>:
-                                        </div>
-                                        <div class="col-md-2 col-sm-2">
-                                            <span id="transaction-date-label" ng-bind="viewTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Transaction amount' |translate"></label>:
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 text-right">
-                                            <span id="transaction-amount-label" ng-bind="viewTxnCtrl.transactionModel.transactionAmount | number:2"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1">
-                                            <span ng-bind="'THB' | translate"></span>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Loan maturity date' | translate"></label>:
-                                        </div>
-                                        <div class="col-md-2 col-sm-2">
-                                            <span id="loan-matuality-label" ng-bind="viewTxnCtrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2 col-sm-2">
-                                            <label ng-bind="'Create by' |translate"></label>:
-                                        </div>
-                                        <div class="col-md-3 col-sm-3 text-right">
-                                            <span id="create-by-label" ng-bind="viewTxnCtrl.transactionModel.createdBy"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1"></div>
-                                        <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Create date' | translate"></label>:
-                                        </div>
-                                        <div class="col-md-2 col-sm-2">
-                                            <span id="create-date-label" ng-bind="viewTxnCtrl.transactionModel.createdTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2 col-sm-2">
-                                            <label ng-bind="'Verify by' |translate"></label>:
-                                        </div>
-                                        <div class="col-md-3 col-sm-3 text-right">
-                                            <span id="verify-by-label" ng-bind="viewTxnCtrl.transactionModel.verifiedBy"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1"></div>
-                                        <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Verify date' | translate"></label>:
-                                        </div>
-                                        <div class="col-md-2 col-sm-2">
-                                            <span id="verify-date-label" ng-bind="viewTxnCtrl.transactionModel.verifiedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2 col-sm-2">
-                                            <label ng-bind="'Approve by' |translate"></label>:
-                                        </div>
-                                        <div class="col-md-3 col-sm-3 text-right">
-                                            <span id="approve-by-label" ng-bind="viewTxnCtrl.transactionModel.approvedBy"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1"></div>
-                                        <div class="col-md-3 col-sm-3">
-                                            <label ng-bind="'Approve date' | translate"></label>:
-                                        </div>
-                                        <div class="col-md-2 col-sm-2">
-                                            <span id="approve-date-label" ng-bind="viewTxnCtrl.transactionModel.approvedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2 col-sm-2">
-                                            <label ng-bind="'Status' |translate"></label>:
-                                        </div>
-                                        <div class="col-md-3 col-sm-3 text-right">
-                                            <span id="status-label" ng-bind="viewTxnCtrl.transactionModel.statusCode | translate"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1"></div>
-                                        <div class="col-md-3 col-sm-3"></div>
-                                        <div class="col-md-2 col-sm-2"></div>
-                                        <div class="col-md-1 col-sm-1"></div>
-                                    </div>
-                                    <div class="row" style="display: {{viewTxnCtrl.isDisplayReason}};">
-                                        <div class="col-md-2 col-sm-2">
-                                            <label ng-bind="'Reason' |translate"></label>:
-                                        </div>
-                                        <div class="col-md-3 col-sm-3 text-right">
-                                            <span id="reject-reason-label" ng-bind="viewTxnCtrl.transactionModel.rejectReason"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1"></div>
-                                        <div class="col-md-3 col-sm-3"></div>
-                                        <div class="col-md-2 col-sm-2"></div>
-                                        <div class="col-md-1 col-sm-1"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">&#32;</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <!--<b id="total-select-doc-label">{{ 'Selected' |
+										<div class="col-md-3 col-sm-3">
+											<label ng-bind="'Transaction type' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="transaction-type-label">Loan</span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-3 col-sm-3">
+											<label ng-bind="'Value of document' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2 text-right">
+											<span id="value-of-document-label"
+												ng-bind="viewTxnCtrl.transactionModel.valueOfDocument | number:2"></span>
+										</div>
+										<div class="col-md-1 col-sm-1">
+											<span ng-bind="'THB' | translate"></span>
+										</div>
+										<div class="col-md-3 col-sm-3">
+											<label ng-bind="'Sponsor payment date' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="sponsor-payment-date-label"
+												ng-bind="viewTxnCtrl.transactionModel.sponsorPaymentDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-3 col-sm-3">
+											<label ng-bind="'Pre-drawdown percentage' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2 text-right">
+											<span id="predrawdown-percentage-label"
+												ng-bind="viewTxnCtrl.transactionModel.prePercentageDrawdown | number:2"></span>%
+										</div>
+										<div class="col-md-1 col-sm-1">
+											<span></span>
+										</div>
+										<div class="col-md-3 col-sm-3">
+											<label ng-bind="'Transaction date' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="transaction-date-label"
+												ng-bind="viewTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-3 col-sm-3">
+											<label ng-bind="'Transaction amount' |translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2 text-right">
+											<span id="transaction-amount-label"
+												ng-bind="viewTxnCtrl.transactionModel.transactionAmount | number:2"></span>
+										</div>
+										<div class="col-md-1 col-sm-1">
+											<span ng-bind="'THB' | translate"></span>
+										</div>
+										<div class="col-md-3 col-sm-3">
+											<label ng-bind="'Loan maturity date' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="loan-matuality-label"
+												ng-bind="viewTxnCtrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-2 col-sm-2">
+											<label ng-bind="'Create by' |translate"></label>:
+										</div>
+										<div class="col-md-3 col-sm-3 text-right">
+											<span id="create-by-label"
+												ng-bind="viewTxnCtrl.transactionModel.createdBy"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+										<div class="col-md-3 col-sm-3">
+											<label ng-bind="'Create date' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="create-date-label"
+												ng-bind="viewTxnCtrl.transactionModel.createdTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-2 col-sm-2">
+											<label ng-bind="'Verify by' |translate"></label>:
+										</div>
+										<div class="col-md-3 col-sm-3 text-right">
+											<span id="verify-by-label"
+												ng-bind="viewTxnCtrl.transactionModel.verifiedBy"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+										<div class="col-md-3 col-sm-3">
+											<label ng-bind="'Verify date' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="verify-date-label"
+												ng-bind="viewTxnCtrl.transactionModel.verifiedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-2 col-sm-2">
+											<label ng-bind="'Approve by' |translate"></label>:
+										</div>
+										<div class="col-md-3 col-sm-3 text-right">
+											<span id="approve-by-label"
+												ng-bind="viewTxnCtrl.transactionModel.approvedBy"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+										<div class="col-md-3 col-sm-3">
+											<label ng-bind="'Approve date' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="approve-date-label"
+												ng-bind="viewTxnCtrl.transactionModel.approvedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-2 col-sm-2">
+											<label ng-bind="'Status' |translate"></label>:
+										</div>
+										<div class="col-md-3 col-sm-3 text-right">
+											<span id="status-label"
+												ng-bind="viewTxnCtrl.transactionModel.statusCode | translate"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+										<div class="col-md-3 col-sm-3"></div>
+										<div class="col-md-2 col-sm-2"></div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>
+									<div class="row" style="display: {{viewTxnCtrl.isDisplayReason">
+										<div class="col-md-2 col-sm-2">
+											<label ng-bind="'Reason' |translate"></label>:
+										</div>
+										<div class="col-md-3 col-sm-3 text-right">
+											<span id="reject-reason-label"
+												ng-bind="viewTxnCtrl.transactionModel.rejectReason"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+										<div class="col-md-3 col-sm-3"></div>
+										<div class="col-md-2 col-sm-2"></div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">&#32;</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3">
+							<!--<b id="total-select-doc-label">{{ 'Selected' |
 								translate}}&#32;{{viewTxnCtrl.transactionModel.documents.length}}&#32;{{
 								'Records' | translate}}</b>:-->
-                        </div>
-                        <div class="col-md-9 text-right">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <b id="document-paging-label" ng-bind="viewTxnCtrl.splitePageTxt"></b> &nbsp;&nbsp;
-                                    <scf-pagination page-size-model="viewTxnCtrl.pageModel.pageSizeSelectModel" 
-													total-page="viewTxnCtrl.pageModel.totalPage" 
-													current-page="viewTxnCtrl.pageModel.currentPage" 
-													page-size-list="viewTxnCtrl.pageSizeList" 
-													page-action="viewTxnCtrl.searchDocument"></scf-pagination>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <scf-data-table component-config="viewTxnCtrl.dataTable" 
-											id="document-table" 
-											component-datas="viewTxnCtrl.documentDisplay" 
-											current-page="viewTxnCtrl.pageModel.currentPage"
-											record-per-page="viewTxnCtrl.pageModel.pageSizeSelectModel">
-                            </scf-data-table>
-                        </div>
-                        <div id="fixed-bottom" class="col-md-12"></div>
-                    </div>
-                </div>
-            </div>
+						</div>
+						<div class="col-md-9 text-right">
+							<div class="row">
+								<div class="col-md-12">
+									<b id="document-paging-label"
+										ng-bind="viewTxnCtrl.splitePageTxt"></b> &nbsp;&nbsp;
+									<scf-pagination
+										page-size-model="viewTxnCtrl.pageModel.pageSizeSelectModel"
+										total-page="viewTxnCtrl.pageModel.totalPage"
+										current-page="viewTxnCtrl.pageModel.currentPage"
+										page-size-list="viewTxnCtrl.pageSizeList"
+										page-action="viewTxnCtrl.searchDocument"></scf-pagination>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<scf-table id="document-table"
+								component-config="viewTxnCtrl.dataTable"
+								component-datas="viewTxnCtrl.documentDisplay"
+								current-page="viewTxnCtrl.pageModel.currentPage"
+								record-per-page="viewTxnCtrl.pageModel.pageSizeSelectModel"
+								clear-sort-order="viewTxnCtrl.pageModel.clearSortOrder">
+							</scf-table>
+						</div>
+						<div id="fixed-bottom" class="col-md-12"></div>
+					</div>
+				</div>
+			</div>
 
-            <div class="panel-body">
-                <div class="row">
-                    <div id="bottom-sticker">
-                        <div class="col-md-12">
-                            <div class="form-horizontal">
-                                <label class="col-md-2 control-label"><b ng-bind="'Transaction amount' | translate"></b>:</label>
-                                <div class="col-md-9 control-label">
-                                    <span id="footer-transaction-amount-label" ng-bind="viewTxnCtrl.transactionModel.transactionAmount | number:2"></span> &nbsp; <span ng-bind="'THB' | translate"></span>
-                                </div>
+			<div class="panel-body">
+				<div class="row">
+					<div id="bottom-sticker">
+						<div class="col-md-12">
+							<div class="form-horizontal">
+								<label class="col-md-2 control-label"><b
+									ng-bind="'Transaction amount' | translate"></b>:</label>
+								<div class="col-md-9 control-label">
+									<span id="footer-transaction-amount-label"
+										ng-bind="viewTxnCtrl.transactionModel.transactionAmount | number:2"></span>
+									&nbsp; <span ng-bind="'THB' | translate"></span>
+								</div>
 
-                                <label class="col-md-2 control-label"><b ng-bind="'Transaction date' | translate"></b>:</label>
-                                <div class="col-md-9 control-label">
-                                    <label id="footer-transaction-date-label">{{viewTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'}}</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 text-right">
-                            <scf-button id="back-button" class="btn btn-default" type="submit" ng-click="viewTxnCtrl.back()" ng-hide="!viewTxnCtrl.isShowBackButton">{{ 'Back' | translate}}</scf-button>
-                            <scf-button id="view-history-button" class="btn btn-default" ng-click="viewTxnCtrl.viewHistory()" type="submit" ng-bind="'View History' | translate" ng-hide="!viewTxnCtrl.isShowViewHistoryButton">
-                            </scf-button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Panel-->
+								<label class="col-md-2 control-label"><b
+									ng-bind="'Transaction date' | translate"></b>:</label>
+								<div class="col-md-9 control-label">
+									<label id="footer-transaction-date-label">{{viewTxnCtrl.transactionModel.transactionDate
+										| date: 'dd/MM/yyyy' : 'UTC+0700'}}</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 text-right">
+							<scf-button id="back-button" class="btn btn-default"
+								type="submit" ng-click="viewTxnCtrl.back()"
+								ng-hide="!viewTxnCtrl.isShowBackButton">{{ 'Back' |
+							translate}}</scf-button>
+							<scf-button id="view-history-button" class="btn btn-default"
+								ng-click="viewTxnCtrl.viewHistory()" type="submit"
+								ng-bind="'View History' | translate"
+								ng-hide="!viewTxnCtrl.isShowViewHistoryButton"> </scf-button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Panel-->
 </div>

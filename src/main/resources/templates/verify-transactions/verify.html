@@ -65,8 +65,7 @@
 									</div>
 									<div class="row">
 										<div class="col-md-3 col-sm-3">
-											<label
-												ng-bind="'Pre-drawdown percentage' | translate"></label>:
+											<label ng-bind="'Pre-drawdown percentage' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="predrawdown-percentage-label"
@@ -139,8 +138,7 @@
 							<div class="row">
 								<div class="col-md-12">
 									<b id="document-paging-label"
-										ng-bind="verifyTxnCtrl.splitePageTxt"></b>
-									&nbsp;&nbsp;
+										ng-bind="verifyTxnCtrl.splitePageTxt"></b> &nbsp;&nbsp;
 									<scf-pagination
 										page-size-model="verifyTxnCtrl.pageModel.pageSizeSelectModel"
 										total-page="verifyTxnCtrl.pageModel.totalPage"
@@ -153,12 +151,12 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<scf-data-table component-config="verifyTxnCtrl.dataTable"
-								id="document-table"
+							<scf-table id="document-table"
+								component-config="verifyTxnCtrl.dataTable"
 								component-datas="verifyTxnCtrl.documentDisplay"
 								current-page="verifyTxnCtrl.pageModel.currentPage"
-											record-per-page="verifyTxnCtrl.pageModel.pageSizeSelectModel">
-							</scf-data-table>
+								record-per-page="verifyTxnCtrl.pageModel.pageSizeSelectModel">
+							</scf-table>
 						</div>
 						<div id="fixed-bottom" class="col-md-12"></div>
 					</div>
@@ -181,7 +179,8 @@
 								<label class="col-md-2 control-label"><b
 									ng-bind="'Transaction date' | translate"></b>:</label>
 								<div class="col-md-9 control-label">
-									<label id="footer-transaction-date-label" ng-bind="verifyTxnCtrl.transactionModel.transactionDate
+									<label id="footer-transaction-date-label"
+										ng-bind="verifyTxnCtrl.transactionModel.transactionDate
 										| date: 'dd/MM/yyyy'"></label>
 								</div>
 							</div>
@@ -210,37 +209,42 @@
 					<image width="70" height="70" ng-src="img/success-icon.png"></image>
 				</div>
 				<div class="col-md-10 col-sm-10">
-					<h2 id="approve-success-label" class="gec-pop-up-font-size-green" ng-bind="'Success' | translate">Success</h2>
+					<h2 id="approve-success-label" class="gec-pop-up-font-size-green"
+						ng-bind="'Success' | translate">Success</h2>
 				</div>
 			</div>
 		</div>
 		<div class="modal-body">
 			<div class="row">
-				<div class="col-md-2 col-sm-2">
-				</div>
+				<div class="col-md-2 col-sm-2"></div>
 				<div class="col-md-10 col-sm-10 col-xs-12">
-					<b class="gec-pop-up-font-size" ng-bind="'Transaction no.' | translate">Transaction No.</b>
-					<span class="gec-pop-up-font-size">:</span> 
-					<span id="transaction-no-label" class="gec-pop-up-font-size" ng-bind="verifyTxnCtrl.transactionNo"></span>
-				</div>				
+					<b class="gec-pop-up-font-size"
+						ng-bind="'Transaction no.' | translate">Transaction No.</b> <span
+						class="gec-pop-up-font-size">:</span> <span
+						id="transaction-no-label" class="gec-pop-up-font-size"
+						ng-bind="verifyTxnCtrl.transactionNo"></span>
+				</div>
 			</div>
 		</div>
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<scf-button id="verify-back-button" class="popup-button" data-dismiss="modal"
-						ng-click="verifyTxnCtrl.backAndReset()" ng-bind="'Back' | translate"></scf-button>	
-					<scf-button id="view-recent-button" class="popup-button" data-dismiss="modal"
-						ng-click="verifyTxnCtrl.viewRecent()" ng-bind="'View recent' | translate"></scf-button>				
-					<scf-button id="view-history-button" class="popup-button" data-dismiss="modal"
-						ng-click="verifyTxnCtrl.viewHistory()" ng-bind="'View history' | translate"></scf-button>
+					<scf-button id="verify-back-button" class="popup-button"
+						data-dismiss="modal" ng-click="verifyTxnCtrl.backAndReset()"
+						ng-bind="'Back' | translate"></scf-button>
+					<scf-button id="view-recent-button" class="popup-button"
+						data-dismiss="modal" ng-click="verifyTxnCtrl.viewRecent()"
+						ng-bind="'View recent' | translate"></scf-button>
+					<scf-button id="view-history-button" class="popup-button"
+						data-dismiss="modal" ng-click="verifyTxnCtrl.viewHistory()"
+						ng-bind="'View history' | translate"></scf-button>
 				</div>
 			</div>
 		</div>
 	</div>
 	</scf-modal>
 	<!-- End Panel-->
-	
+
 	<script type="text/ng-template" id="confirmDialogId">
         <div class="modal-content">
 		<div class="modal-header">
