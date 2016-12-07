@@ -10,7 +10,8 @@ app.controller('NewFileLayoutController', [
 	'FILE_TYPE_ITEM',
 	'DELIMITER_TYPE_TEM',
 	'CHARSET_ITEM',
-	function($log, $rootScope, $scope, $state, $stateParams, ngDialog, Service, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM) {
+	'NewFileLayerExampleDisplayService', '$injector',
+	function($log, $rootScope, $scope, $state, $stateParams, ngDialog, Service, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, NewFileLayerExampleDisplayService, $injector) {
 
 		var vm = this;
 		var log = $log;
@@ -186,7 +187,7 @@ app.controller('NewFileLayoutController', [
 						},
 						cache : false,
 						preCloseCallback : function(value) {
-							
+
 							if (value != null) {
 								angular.copy(value, record);
 								record.completed = true;
@@ -246,24 +247,16 @@ app.controller('NewFileLayoutController', [
 
 		vm.displayExample = function(record) {
 			var msg = '';
-
 			vm.dataTypes.forEach(function(obj) {
 				if (record.dataType == obj.layoutFileDataTypeId) {
 
 					if (record.completed) {
-						var displayRecordObj = {
-							record : record,
-							config : obj,
-							displayExampleMsg : ''
-						};
-						$rootScope.$emit(record.dataType+'DisplayExample', displayRecordObj);
-						msg = displayRecordObj.displayExampleMsg;
+						msg = $injector.get('NewFileLayerExampleDisplayService')[record.dataType + '_DisplayExample'](record, obj);
 					}
 				}
 			});
 			return msg;
 		}
-
 	} ]);
 
 app.constant('FILE_TYPE_ITEM', {
@@ -304,97 +297,116 @@ app.controller('DOCUMENT_NOLayoutConfigController', [ '$scope', '$rootScope', fu
 } ]);
 
 app.controller('CUSTOMER_CODELayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', 'ngDialog',
-                                                        function($scope, $rootScope, $q, Service, ngDialog) {
+	function($scope, $rootScope, $q, Service, ngDialog) {
+		var vm = this;
+		vm.sponsorId = $rootScope.sponsorId;
+		this.model = angular.copy($scope.ngDialogData.record);
+
+		this.customerCodeGroupDropdown = [];
+
+		vm.loadCustomerCodeGroup = function() {
+			var diferred = $q.defer();
+			vm.customerCodeGroupDropdown = [ {
+				label : 'Please select',
+				value : ''
+			} ];
+
+			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups';
+			var serviceDiferred = Service.doGet(serviceUrl, {
+				offset : 0,
+				limit : 20
+			});
+			serviceDiferred.promise.then(function(response) {
+				var customerCodeGroupList = response.data;
+				if (customerCodeGroupList !== undefined) {
+					customerCodeGroupList.forEach(function(obj) {
+						var selectObj = {
+							label : obj.groupName,
+							value : obj.groupName
+						}
+						vm.customerCodeGroupDropdown.push(selectObj);
+					});
+				}
+				diferred.resolve(vm.customerCodeGroupDropdown);
+			}).catch(function(response) {
+				$log.error('Load Customer Code Group Fail');
+				diferred.reject();
+			});
+
+			return diferred;
+		};
+
+		vm.loadCustomerCodeGroup();
+
+		vm.newCustomerCodeGroup = function() {
+			vm.newCustCodeDialog = ngDialog.open({
+				id : 'new-customer-code-setting-dialog',
+				template : '/configs/layouts/file/data-types/customer-code/new-customer-code',
+				className : 'ngdialog-theme-default',
+				scope : $scope
+			});
+			vm.newCustCodeDialogId = vm.newCustCodeDialog.id;
+		};
+
+		vm.saveNewCustomerGroup = function() {
+			vm.customerCodeGroupRequest.sponsorId = vm.sponsorId;
+			vm.customerCodeGroupRequest.completed = false;
+
+			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups';
+			var serviceDiferred = Service.requestURL(serviceUrl, vm.customerCodeGroupRequest, 'POST');
+			serviceDiferred.promise.then(function(response) {
+				if (response !== undefined) {
+					if (response.message !== undefined) {
+						vm.messageError = response.message;
+					} else {
+						var loadCustCodeDiferred = vm.loadCustomerCodeGroup();
+						loadCustCodeDiferred.promise.then(function() {
+							vm.model.expectedValue = response.groupName;
+						});
+						ngDialog.close(vm.newCustCodeDialogId);
+					}
+				}
+			}).catch(function(response) {
+				$log.error('Save customer Code Group Fail');
+			});
+		};
+	} ]);
+
+app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', function($scope, $rootScope, $q, Service) {
 	var vm = this;
-	vm.sponsorId = $rootScope.sponsorId;
-	this.model = angular.copy($scope.ngDialogData.record);
+	vm.model = angular.copy($scope.ngDialogData.record);
+	console.log(this.model);
 	
-	this.customerCodeGroupDropdown = [];
-	
-	vm.loadCustomerCodeGroup = function() {
+	vm.loadDateTimeFormat = function(dataFormat) {
+    	
         var diferred = $q.defer();
-        vm.customerCodeGroupDropdown = [{
+        vm.dateTimeDropdown = [{
             label: 'Please select',
-            value: ''
+            value: ' '
         }];
 
-        var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups';
-        var serviceDiferred = Service.doGet(serviceUrl, {
-            offset: 0,
-            limit: 20
-        });
+        var serviceUrl = 'js/app/sponsor-configuration/file-layouts/date_time_format.json';
+        var serviceDiferred = Service.doGet(serviceUrl);
         serviceDiferred.promise.then(function(response) {
-            var customerCodeGroupList = response.data;
-            if (customerCodeGroupList !== undefined) {
-                customerCodeGroupList.forEach(function(obj) {
+            var dateTimeDropdownList = response.data;
+            if (dateTimeDropdownList !== undefined) {
+                dateTimeDropdownList.forEach(function(obj) {
                     var selectObj = {
-                        label: obj.groupName,
-                        value: obj.groupName
+                        label: obj.dateTimeName,
+                        value: obj.dateTimeId
                     }
-                    vm.customerCodeGroupDropdown.push(selectObj);
+                    vm.dateTimeDropdown.push(selectObj);
                 });
             }
-            diferred.resolve(vm.customerCodeGroupDropdown);
+            diferred.resolve(vm.dateTimeDropdown);
         }).catch(function(response) {
-            $log.error('Load Customer Code Group Fail');
+            $log.error('Load date time format Fail');
             diferred.reject();
         });
-        
+
+        vm.dateTimeFormat = vm.dateTimeDropdown[0].value;
         return diferred;
-    };
-	
-    vm.loadCustomerCodeGroup();
-    
-    vm.newCustomerCodeGroup = function() {        	
-        vm.newCustCodeDialog = ngDialog.open({
-        	id : 'new-customer-code-setting-dialog',
-            template: '/configs/layouts/file/data-types/customer-code/new-customer-code',
-            className: 'ngdialog-theme-default',
-            scope: $scope
-        });
-        vm.newCustCodeDialogId = vm.newCustCodeDialog.id;
-    };
-    
-    vm.saveNewCustomerGroup = function() {
-        vm.customerCodeGroupRequest.sponsorId = vm.sponsorId;
-        vm.customerCodeGroupRequest.completed = false;
-
-        var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups';
-        var serviceDiferred = Service.requestURL(serviceUrl, vm.customerCodeGroupRequest, 'POST');
-        serviceDiferred.promise.then(function(response) {
-            if (response !== undefined) {
-                if (response.message !== undefined) {
-                    vm.messageError = response.message;
-                } else {
-                    var loadCustCodeDiferred = vm.loadCustomerCodeGroup();
-                    loadCustCodeDiferred.promise.then(function() {
-                    	vm.model.expectedValue = response.groupName;
-                    });
-                    ngDialog.close(vm.newCustCodeDialogId);
-                }
-            }
-        }).catch(function(response) {
-            $log.error('Save customer Code Group Fail');
-        });
-    };
-    
-	function displayExampleConfig(record, obj){
-		var displayMessage = obj.configDetailPattern;
-		var requiredDisplay = record.required == true ? 'yes': 'no';
-		
-		displayMessage = displayMessage.replace('{required}', requiredDisplay);
-		displayMessage = displayMessage.replace('{expectedValue}', record.expectedValue);
-		displayMessage = displayMessage.replace('{exampleData}', obj.defaultExampleValue);
-		return displayMessage;
-	}
-	
-	$rootScope.$on(this.model.dataType+'DisplayExample', function(event, parentScope) {
-		parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config); 
-	});
-} ]);
-
-app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', function($scope, $rootScope) {
-	this.model = angular.copy($scope.ngDialogData.record);
+    }
 } ]);
 
 app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', function($scope, $rootScope) {
@@ -403,4 +415,43 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', functi
 
 app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope', function($scope, $rootScope) {
 	this.model = angular.copy($scope.ngDialogData.record);
+} ]);
+
+app.factory('NewFileLayerExampleDisplayService', [ function() {
+	return {
+		TEXT_DisplayExample : TEXT_DisplayExample,
+		DOCUMENT_NO_DisplayExample : DOCUMENT_NO_DisplayExample,
+		CUSTOMER_CODE_DisplayExample : CUSTOMER_CODE_DisplayExample,
+		DATE_TIME_DisplayExample : DATE_TIME_DisplayExample,
+		NUMERIC_DisplayExample : NUMERIC_DisplayExample,
+		PAYMENT_AMOUNT_DisplayExample : PAYMENT_AMOUNT_DisplayExample
+	}
+
+	function TEXT_DisplayExample(record, config) {
+		return '';
+	}
+
+	function DOCUMENT_NO_DisplayExample(record, config) {
+	}
+
+	function CUSTOMER_CODE_DisplayExample(record, config) {
+		var displayMessage = config.configDetailPattern;
+		var requiredDisplay = record.required == true ? 'yes' : 'no';
+
+		displayMessage = displayMessage.replace('{required}', requiredDisplay);
+		displayMessage = displayMessage.replace('{expectedValue}', record.expectedValue);
+		displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);
+		return displayMessage;
+	}
+	function DATE_TIME_DisplayExample(record, config) {
+		return '';
+	}
+
+	function NUMERIC_DisplayExample(record, config) {
+		return '';
+	}
+
+	function PAYMENT_AMOUNT_DisplayExample(record, config) {
+		return '';
+	}
 } ]);
