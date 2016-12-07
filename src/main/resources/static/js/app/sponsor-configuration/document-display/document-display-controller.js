@@ -221,7 +221,7 @@ angular
                 }
 			   
                 $rootScope.$on(this.model.fieldName+'DisplayExample', function(event, parentScope) {
-                    parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);                    
+                    parentScope.displayExampleMsg = displayExampleConfig(parentScope.record, parentScope.config);
                 });
      }]).controller( 'CUSTOMER_CODEDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
            function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
