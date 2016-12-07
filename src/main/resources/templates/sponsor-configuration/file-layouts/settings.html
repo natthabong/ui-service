@@ -84,11 +84,11 @@
 						<div class="form-group">
 							<label for="dealer"
 								class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-									id="offset-checkbox" ng-checked="true" ng-disabled="true"></scf-checkbox>
+									id="offset-checkbox" ng-checked="false" ng-disabled="true"></scf-checkbox>
 								<span ng-bind="'Offset row no.' | translate" id="offset-label"></span>
 							</label>
 							<div class="col-md-1 col-sm-1 col-xs-12">
-								<scf-input-text id="offset-textbox"
+								<scf-input-text id="offset-textbox" ng-disabled="true"
 									ng-model="newFileLayoutCtrl.model.offsetRowNo" size="1"></scf-input-text>
 							</div>
 						</div>
@@ -140,17 +140,15 @@
 											<td class="text-center"><scf-button type="button"
 													id="setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
-													ng-click="newFileLayoutCtrl.openSetting(record)"
-													ng-disabled="!record.dataType.layoutFileDataTypeId"
+													ng-click="newFileLayoutCtrl.openSetting($index, record)"
 													ng-hide="!record.completed"> <i
 													class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
 													id="warning-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
-													ng-click="newFileLayoutCtrl.openSetting(record)"
+													ng-click="newFileLayoutCtrl.openSetting($index, record)"
 													title="Config a file layout"
-													ng-disabled="!record.dataType.layoutFileDataTypeId"
 													ng-hide="record.completed"> <img
-													ng-hide="data.completed" data-ng-src="img/gear_warning.png"
+													data-ng-src="img/gear_warning.png"
 													style="height: 13px; width: 14px;" /> </scf-button> <scf-button
 													type="button" id="delete-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
@@ -208,13 +206,15 @@
 							<div class="col-md-9 col-sm-9 col-xs-12">
 								<div class="row">
 									<div class="col-md-1">
-										<label class="radio-inline"> <input type="radio" ng-disabled="true"
+										<label class="radio-inline"> <input type="radio"
+											ng-disabled="true"
 											ng-model="newFileLayoutCtrl.model.paymentDate.strategy"
 											ng-value="'FORMULAR'" />{{'Formular' | translate}}
 										</label>
 									</div>
 									<div class="col-md-3">
-										<scf-dropdown id="payment-date-field-dropdown" ng-disabled="true"
+										<scf-dropdown id="payment-date-field-dropdown"
+											ng-disabled="true"
 											ng-model="newFileLayoutCtrl.model.paymentDate.formaularId"
 											component-data="newFileLayoutCtrl.paymentDateFormularModel.dropdowns"
 											translate-label="true"></scf-dropdown>

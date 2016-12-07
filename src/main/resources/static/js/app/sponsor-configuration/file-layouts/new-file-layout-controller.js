@@ -5,11 +5,12 @@ app.controller('NewFileLayoutController', [
 		'$scope',
 		'$state',
 		'$stateParams',
+		'ngDialog',
 		'Service',
 		'FILE_TYPE_ITEM',
 		'DELIMITER_TYPE_TEM',
 		'CHARSET_ITEM',
-		function($log, $rootScope, $scope, $state, $stateParams, Service, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM) {
+		function($log, $rootScope, $scope, $state, $stateParams, ngDialog, Service, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM) {
 
 			var vm = this;
 			var log = $log;
@@ -21,6 +22,8 @@ app.controller('NewFileLayoutController', [
 
 			var BASE_URI = 'api/v1/organize-customers/' + sponsorId
 					+ '/sponsor-configs/SFP';
+			
+			vm.dataTypes = [];
 			
 			vm.delimitersDropdown = [];
 			vm.dataTypeDropdown = [];
@@ -46,7 +49,8 @@ app.controller('NewFileLayoutController', [
                 });
 
                 serviceDiferred.promise.then(function(response) {
-                    response.data.forEach(function(obj) {
+                	vm.dataTypes = response.data;
+                	vm.dataTypes.forEach(function(obj) {
 	                	var item = {
 	            			 value: obj.layoutFileDataTypeId,
 	                         label: obj.dataTypeDisplay
@@ -97,22 +101,23 @@ app.controller('NewFileLayoutController', [
                return false;
            }
 		   var addPaymentDateFieldDropdown = function(configItems) {
-               var items = [{
+               var paymentDateDropdown = [{
                    label: 'Please select',
                    value: null
                }];
                
                if (!isEmptyValue(configItems)) {
                    configItems.forEach(function(data) {
-						if ('DATE_TIME' == data.dataType && !isEmptyValue(data.displayValue)) {
-							items.push({
+						if ('DATE_TIME' == data.dataType && !isEmptyValue(data.displayValue) && data.completed) {
+							paymentDateDropdown.push({
 								label: data.displayValue,
 								value: data.docFieldName
 							});
 						}
                    });
                }
-               return items;
+               
+               return paymentDateDropdown;
            }
 		   
 		   var initialModel = function() {
@@ -164,8 +169,53 @@ app.controller('NewFileLayoutController', [
 			
 			vm.setup();
 			
+			vm.openSetting = function(index, record) {
+                var dataType = record.dataType;
+                log.debug(dataType);
+                vm.dataTypes.forEach(function(obj) {
+                    if (dataType == obj.layoutFileDataTypeId) {
+
+                        var dialog = ngDialog.open({
+                            id: 'layout-setting-dialog-' + index,
+                            template: obj.configActionUrl,
+                            className: 'ngdialog-theme-default',
+                            controller: dataType + 'LayoutConfigController',
+                            controllerAs: 'ctrl',
+                            scope: $scope,
+                            data: {
+                                record: record,
+                                config: obj
+                            },
+                            cache: false,
+                            preCloseCallback: function(value) {
+                                if (value != null) {
+                                    angular.copy(value, record);
+									record.completed = true;
+                                }
+                            }
+                        });
+                    }
+                });
+
+            }
 			
-			vm.save = function() {
+			vm.addItem = function() {
+            	  var itemConfig = {
+                      primaryKeyField: false,
+                      sponsorFieldName: '',
+                      dataType: null,
+                      dataLength: 0,
+                      startIndex: 0
+                  };
+                  vm.model.items.push(itemConfig);
+            }
+
+            vm.removeItem = function(record) {
+                  var index = vm.model.items.indexOf(record);
+                  vm.model.items.splice(index, 1);
+            }
+              
+            vm.save = function() {
                   var layoutConfigRequest = getLayoutConfigRequest();
                   var apiURL = 'api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/layouts';
                   var layoutConfigRequest = {
@@ -185,22 +235,6 @@ app.controller('NewFileLayoutController', [
                       log.error('Save config fail');
                   });
               };
-              
-              vm.addItem = function() {
-            	  var itemConfig = {
-                      primaryKeyField: false,
-                      sponsorFieldName: '',
-                      dataType: null,
-                      dataLength: 0,
-                      startIndex: 0
-                  };
-                  vm.model.items.push(itemConfig);
-              }
-
-              vm.removeItem = function(record) {
-                  var index = vm.model.items.indexOf(record);
-                  vm.model.items.splice(index, 1);
-              }
               
               $scope.$watch('newFileLayoutCtrl.model.items', function() {
             	  log.debug(vm.model.items);
@@ -234,10 +268,35 @@ app.constant('DELIMITER_TYPE_TEM', [{
     delimiterName: 'Other',
     delimiterId: 'Other'
 }]);
+
 app.constant('CHARSET_ITEM', [{
     fileEncodeName: 'UTF-8',
     fileEncodeId: 'UTF-8'
 }, {
     fileEncodeName: 'TIS-620',
     fileEncodeId: 'TIS-620'
+}]);
+
+app.controller( 'TEXTLayoutConfigController', ['$scope', '$rootScope', function($scope, $rootScope) {
+	   this.model = angular.copy($scope.ngDialogData.record);
+}]);
+
+app.controller( 'DOCUMENT_NOLayoutConfigController', ['$scope', '$rootScope', function($scope, $rootScope) {
+	   this.model = angular.copy($scope.ngDialogData.record);
+}]);
+
+app.controller( 'CUSTOMER_CODELayoutConfigController', ['$scope', '$rootScope', function($scope, $rootScope) {
+	   this.model = angular.copy($scope.ngDialogData.record);
+}]);
+
+app.controller( 'DATE_TIMELayoutConfigController', ['$scope', '$rootScope', function($scope, $rootScope) {
+	   this.model = angular.copy($scope.ngDialogData.record);
+}]);
+
+app.controller( 'NUMERICLayoutConfigController', ['$scope', '$rootScope', function($scope, $rootScope) {
+	   this.model = angular.copy($scope.ngDialogData.record);
+}]);
+
+app.controller( 'PAYMENT_AMOUNTLayoutConfigController', ['$scope', '$rootScope', function($scope, $rootScope) {
+	   this.model = angular.copy($scope.ngDialogData.record);
 }]);
