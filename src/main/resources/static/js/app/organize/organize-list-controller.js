@@ -22,6 +22,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 		page: 0,
 		pageSize: 20
 	};
+	
     
     vm.pageSizeList = [ {
 		label : '10',
@@ -94,7 +95,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
                 idValueField: 'template',
                 id: 'organize-{value}-sponsor-flag-label',
                 cssTemplate: 'text-center',
-				cellTemplate: '<img	style="height: 16px; width: 16px;" ng-hide="data.sponsor==false" data-ng-src="img/checkmark.png"/>'
+				cellTemplate: '<img	style="height: 16px; width: 16px;" ng-show="data.sponsor" data-ng-src="img/checkmark.png"/>'
             }, {
                 field: 'active',
                 label: 'Active',
@@ -106,7 +107,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 				label: 'Action',
 				cssTemplate: 'text-center',
 				sortable: false,
-				cellTemplate: '<scf-button class="btn-default gec-btn-action" id="organize-{{data.organizeId}}-profile-button" ng-click="ctrl.editOrganizeProfile(data)" title="Edit Profile"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button><scf-button class="btn-default gec-btn-action" ng-disabled="data.sponsor==false" id="organize-{{data.organizeId}}-sponsor-config-button" ng-click="ctrl.sponsorConfig(data)" title="Edit Profile"> <i class="fa fa-cog" aria-hidden="true" ng-hide="data.complete==true"></i> <img ng-hide="data..complete==false" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/> </scf-button>'
+				cellTemplate: '<scf-button class="btn-default gec-btn-action" id="organize-{{data.organizeId}}-profile-button" ng-click="ctrl.editOrganizeProfile(data)" title="Edit Profile"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button><scf-button class="btn-default gec-btn-action" ng-disabled="data.sponsor==false" id="organize-{{data.organizeId}}-sponsor-config-button" ng-click="ctrl.sponsorConfig(data)" title="Edit Profile"> <i class="fa fa-cog" aria-hidden="true" ng-show="data.completed"></i> <img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/> </scf-button>'
 			}]
     }
     
