@@ -144,13 +144,12 @@ angular
 								var order = [];
 								dataSplit.forEach(function(orderData) {
 									var orderItem = orderData.split(":");
-									item = {
+									var item = {
 										fieldName : orderItem[0],
 										direction : orderItem[1]
 									}
 									order.push(item);
 								});
-
 								return order;
 							}
 							
