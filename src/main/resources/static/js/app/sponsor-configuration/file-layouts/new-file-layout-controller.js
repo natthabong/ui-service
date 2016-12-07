@@ -7,10 +7,11 @@ app.controller('NewFileLayoutController', [
 		'$stateParams',
 		'ngDialog',
 		'Service',
+		'PageNavigation',
 		'FILE_TYPE_ITEM',
 		'DELIMITER_TYPE_TEM',
 		'CHARSET_ITEM',
-		function($log, $rootScope, $scope, $state, $stateParams, ngDialog, Service, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM) {
+		function($log, $rootScope, $scope, $state, $stateParams, ngDialog, Service, PageNavigation, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM) {
 
 			var vm = this;
 			var log = $log;
@@ -23,10 +24,14 @@ app.controller('NewFileLayoutController', [
 			var BASE_URI = 'api/v1/organize-customers/' + sponsorId
 					+ '/sponsor-configs/SFP';
 			
-			vm.dataTypes = [];
 			
+			vm.dataTypes = [];
+			 
 			vm.delimitersDropdown = [];
-			vm.dataTypeDropdown = [];
+			vm.dataTypeDropdown = [{
+				value: null,
+                label: 'Please select'
+            }];
 			vm.fileEncodeDropdown = [];
 			vm.paymentDateFieldDropdown = [];
 			
@@ -36,7 +41,7 @@ app.controller('NewFileLayoutController', [
 			
 			var newItem = {
                 primaryKeyField: false,
-                sponsorFieldName: '',
+                docFieldName: null,
                 dataType: null,
                 dataLength: 0,
                 startIndex: 0
@@ -100,6 +105,7 @@ app.controller('NewFileLayoutController', [
                }
                return false;
            }
+		   
 		   var addPaymentDateFieldDropdown = function(configItems) {
                var paymentDateDropdown = [{
                    label: 'Please select',
@@ -107,12 +113,20 @@ app.controller('NewFileLayoutController', [
                }];
                
                if (!isEmptyValue(configItems)) {
+            	   fieldCounter = {};
                    configItems.forEach(function(data) {
 						if ('DATE_TIME' == data.dataType && !isEmptyValue(data.displayValue) && data.completed) {
 							paymentDateDropdown.push({
 								label: data.displayValue,
 								value: data.docFieldName
 							});
+						}
+						
+						if(!fieldCounter[data.dataType]){
+							fieldCounter[data.dataType] = 1;
+						}
+						else{
+							fieldCounter[data.dataType]++;
 						}
                    });
                }
@@ -129,16 +143,22 @@ app.controller('NewFileLayoutController', [
                wrapper: '"',
                fileExtensions: 'csv',
                integrateType: 'SPONSOR_UPLOAD',
-               fileType: vm.layoutInfoModel.fileType,
-               charsetName: vm.layoutInfoModel.fileEncode,
+               fileType: 'CSV',
+               charsetName: 'TIS-620',
                checkBinaryFile: false,
-               completed: true,
+               completed: false,
                ownerId: sponsorId,
-               items: []
-             }
-             vm.paymentDateModel = {
-                 paymentDateType: 'FIELD',
-                 paymentDateField: null
+               paymentDate: {
+            	   strategy: 'FIELD',
+            	   fieldName: null
+               },
+               items: [{
+                   primaryKeyField: false,
+                   docFieldName: null,
+                   dataType: null,
+                   dataLength: 0,
+                   startIndex: 0
+               }]
              }
            }
 			 
@@ -155,7 +175,6 @@ app.controller('NewFileLayoutController', [
 					console.log(selectedItem);
                     sendRequest('/layouts/' + selectedItem.sponsorIntegrateFileConfigId, function(response) {
                          vm.model = response.data;
-                         console.log(vm.model);
                          if (vm.model.items.length < 1) {
                              vm.addItem();
                          }
@@ -189,7 +208,16 @@ app.controller('NewFileLayoutController', [
                             cache: false,
                             preCloseCallback: function(value) {
                                 if (value != null) {
-                                    angular.copy(value, record);
+									if(value.docFieldName == null){
+										 var field = obj.docFieldName;
+										 var patt=/{sequenceNo}/g; 
+										 var res = field.match(patt);
+										 if(res!=null){
+											 field = field.replace(patt, fieldCounter[dataType]++);
+										 }
+										 value.docFieldName = field;
+									}
+									angular.copy(value, record);
 									record.completed = true;
                                 }
                             }
@@ -202,7 +230,7 @@ app.controller('NewFileLayoutController', [
 			vm.addItem = function() {
             	  var itemConfig = {
                       primaryKeyField: false,
-                      sponsorFieldName: '',
+                      docFieldName: null,
                       dataType: null,
                       dataLength: 0,
                       startIndex: 0
@@ -216,17 +244,19 @@ app.controller('NewFileLayoutController', [
             }
               
             vm.save = function() {
-                  var layoutConfigRequest = getLayoutConfigRequest();
-                  var apiURL = 'api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/layouts';
-                  var layoutConfigRequest = {
-                		  sponsorIntegrateFileConfig: vm.model,
-                		  paymentDateField: vm.paymentDateModel
-                  }
-                  var fileLayoutDiferred = Service.requestURL(apiURL, layoutConfigRequest, 'POST');
+            	vm.model.completed = true;
+                vm.model.items.forEach(function(obj, index) {
+                    vm.model.completed =  obj.completed && vm.model.completed; 
+                })
+                 var apiURL = 'api/v1/organize-customers/' +  sponsorId + '/sponsor-configs/SFP/layouts';
+                 if(!vm.newMode){
+                	 apiURL = apiURL+'/'+vm.model.sponsorIntegrateFileConfigId;
+                 }
+                 var fileLayoutDiferred = Service.requestURL(apiURL, vm.model, vm.newMode?'POST':'PUT');
 
-                  fileLayoutDiferred.promise.then(function(response) {
+                 fileLayoutDiferred.promise.then(function(response) {
                       var organizeModel = {
-                          organizeId: vm.sponsorId
+                          organizeId: sponsorId
                       }
                       PageNavigation.gotoPage('/sponsor-configuration', {
                           organizeModel: organizeModel
@@ -237,7 +267,6 @@ app.controller('NewFileLayoutController', [
               };
               
               $scope.$watch('newFileLayoutCtrl.model.items', function() {
-            	  log.debug(vm.model.items);
                   vm.reloadPaymentDateFields();
               }, true);
               
