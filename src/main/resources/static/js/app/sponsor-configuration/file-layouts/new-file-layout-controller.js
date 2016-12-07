@@ -10,8 +10,8 @@ app.controller('NewFileLayoutController', [
 		'PageNavigation',
 		'FILE_TYPE_ITEM',
 		'DELIMITER_TYPE_TEM',
-		'CHARSET_ITEM',
-		function($log, $rootScope, $scope, $state, $stateParams, ngDialog, Service, PageNavigation, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM) {
+		'CHARSET_ITEM', '$injector',
+		function($log, $rootScope, $scope, $state, $stateParams, ngDialog, Service, PageNavigation, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, $injector) {
 
 			var vm = this;
 			var log = $log;
@@ -274,6 +274,18 @@ app.controller('NewFileLayoutController', [
             	  vm.paymentDateFieldDropdown = addPaymentDateFieldDropdown(vm.model.items);
 			  }
               
+              vm.displayExample = function(record) {
+      			var msg = '';
+      			vm.dataTypes.forEach(function(obj) {
+      				if (record.dataType == obj.layoutFileDataTypeId) {
+
+      					if (record.completed) {
+      						msg = $injector.get('NewFileLayerExampleDisplayService')[record.dataType + '_DisplayExample'](record, obj);
+      					}
+      				}
+      			});
+      			return msg;
+      		}
               
 		} ]);
 
