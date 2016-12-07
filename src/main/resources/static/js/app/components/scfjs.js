@@ -32,11 +32,10 @@
 		
 		function doGet(url, params) {
 			var deffered = $q.defer();
-
 			$http({
 				method : 'GET',
 				url : url,
-				data : params
+				params : params
 			}).success(function(data, status, headers, config) {
 				 
 				deffered.resolve({data:data, headers:headers})

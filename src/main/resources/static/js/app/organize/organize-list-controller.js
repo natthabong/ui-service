@@ -4,27 +4,19 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	var log = $log;
 	
 	vm.organizeName = '';
-	vm.splitePageTxt = '1-3 of 3';
-	vm.currentPage = 0;
 	
-//    vm.pageModel = {
-//            pageSizeSelectModel: '20',
-//            totalRecord: 0,
-//			totalPage: 1,
-//    		clearSortOrder: false
-//    };
+	vm.splitePageTxt = '';
 
 	vm.pageModel = {
 		pageSizeSelectModel : '20',
 		totalRecord : 0,
 		currentPage : 0,
 		clearSortOrder : false,
-		page: 0,
 		pageSize: 20
 	};
 	
-    
-    vm.pageSizeList = [ {
+   
+    vm.pageModel.pageSizeList = [ {
 		label : '10',
 		value : '10'
 	}, {
@@ -34,12 +26,6 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 		label : '50',
 		value : '50'
 	} ];
-    
-    vm.currentPage = 1;
-    
-    vm.searchOrganize = function(){
-    	
-    }
     
 	vm.newOrganizeProfile = function(){
 		PageNavigation.gotoPage('/');
@@ -58,21 +44,31 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 
     vm.data = []
     
-	vm.search = function(){
+	vm.searchOrganize = function(pageModel){
+    	
+        if (pageModel === undefined) {
+            vm.pageModel.pageSizeSelectModel = '20';
+            vm.pageModel.currentPage = 0;
+        } else {
+            vm.pageModel.pageSizeSelectModel = pageModel.pageSize;
+            vm.pageModel.currentPage = pageModel.page;
+        }
+        
 		var serviceUrl = '/api/v1/organize-customers/';
 		var serviceDiferred = Service.doGet(serviceUrl, {
-			limit:  vm.pageModel.currentPage,
-			offset: vm.pageModel.pageSizeSelectModel
+			page: vm.pageModel.currentPage,
+			size: vm.pageModel.pageSizeSelectModel
 		});		
 		
 		serviceDiferred.promise.then(function(response){
 			vm.data = response.data;
-            vm.pageModel.totalRecord = response.headers('X-Total-Count');
-            vm.pageModel.totalPage = response.headers('X-Total-Page');
-            vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.page, vm.pageModel.totalRecord);
+			vm.pageModel.totalRecord = response.headers("X-Total-Count");
+			vm.pageModel.totalPage = response.headers("X-Total-Page");
+			vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 		}).catch(function(response){
 			log.error('Load organize data error');
 		});
+
 	}    
     
     vm.dataTable = {
@@ -115,7 +111,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
         vm.pageModel.currentPage = 0;
         vm.pageModel.pageSizeSelectModel = '20';
         
-        vm.search();
+        vm.searchOrganize();
 	}
 
 	vm.initLoad();    
