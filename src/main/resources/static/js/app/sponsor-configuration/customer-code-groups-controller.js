@@ -70,8 +70,8 @@ angular
 							vm.search = function(){
 								var serviceUrl = '/api/v1/organize-customers/'+$scope.sponsorId+'/sponsor-configs/SFP/customer-code-groups';
 								var serviceDiferred = Service.doGet(serviceUrl, {
-									limit:  vm.pageModel.currentPage,
-									offset: vm.pageModel.pageSizeSelectModel
+									limit:  vm.pageModel.pageSizeSelectModel,
+									offset: vm.pageModel.currentPage
 								});		
 								
 								serviceDiferred.promise.then(function(response){
