@@ -570,8 +570,119 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
     
 } ]);
 
-app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope', function($scope, $rootScope) {
-	this.model = angular.copy($scope.ngDialogData.record);
+app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', '$filter', function($scope, $rootScope, $q, Service, $filter) {
+	var vm = this;
+	vm.model = angular.copy($scope.ngDialogData.record);
+	
+	vm.config = $scope.ngDialogData.config;
+	vm.numericeModel = {
+		numericTypeFormat : '',
+		signFlagTypeFormat : '',
+		disableCustomField : true,
+		usePadding : false,
+		signFlag: ''
+	}
+	
+	vm.numericType = {
+			anyNumericFormat : 'ANY',
+			customNumericFormat : 'CUSTOM'
+		}
+
+		vm.signFlagType = {
+			ignorePlusSymbol : 'IGNORE_PLUS',
+			needPlusSymbol : 'NEES_PLUS',
+			avoidPlusSymbol : 'AVOID_PLUS'
+		}
+
+		vm.checkCustomNumeric = function() {
+	        if (vm.numericeModel.numericTypeFormat == 'ANY') {
+	            vm.numericeModel.disableCustomField = true;            
+	            vm.numericeModel.usePadding = false;
+	            
+	            vm.model.has1000Separator = false;
+	            vm.model.hasDecimalPlace = false;
+	            vm.model.paddingCharacter = '';
+	        } else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
+	            vm.numericeModel.disableCustomField = false;
+	        }
+	    };
+	    
+	    vm.loadSignFlagList = function() {
+	        var diferred = $q.defer();
+	        vm.signFlagDropdown = [];
+
+	        var serviceUrl = 'js/app/sponsor-configuration/file-layouts/sign_flag_list.json';
+	        var serviceDiferred = Service.doGet(serviceUrl);
+	        serviceDiferred.promise.then(function(response) {
+
+	            var signFlagList = response.data;
+	            if (signFlagList !== undefined) {
+	                signFlagList.forEach(function(obj) {
+	                    var selectObj = {
+	                        label: obj.signFlagName,
+	                        value: obj.signFlagName
+	                    }
+	                    vm.signFlagDropdown.push(selectObj);
+	                });
+	                vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
+	            }
+	            diferred.resolve(vm.signFlagDropdown);
+	        }).catch(function(response) {
+	            $log.error('Load date time format Fail');
+	            diferred.reject();
+	        });
+	        return diferred;
+	    }
+	    
+	    vm.initLoad = function(){
+	    	if(isDefaultCusomNumeric(vm.model)){
+	    		vm.numericeModel.numericTypeFormat = vm.numericType.customNumericFormat;
+	    	}else{
+	    		vm.numericeModel.numericTypeFormat = vm.numericType.anyNumericFormat;
+	    	}
+	    	vm.checkCustomNumeric();
+	    	vm.loadSignFlagList();    	
+	    	if(isValueEmpty(vm.model.signFlagTypeFormat)){
+	    		vm.model.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
+	    	}
+	    }
+	    
+	    vm.initLoad();
+	    
+	    vm.resetPadding = function(){
+	    	if(!vm.numericeModel.usePadding){
+	    		vm.model.paddingCharacter = null;
+	    	}
+		}
+	    var defaultExampleValue = vm.config.defaultExampleValue;
+		$scope.$watch('ctrl.model', function() {
+			vm.examplePosDataDisplay = parseFloat(defaultExampleValue).toFixed(vm.model.decimalPlace);
+			vm.exampleNegDataDisplay = parseFloat(-defaultExampleValue).toFixed(vm.model.decimalPlace);
+		}, true);
+
+		function isDefaultCusomNumeric(model){
+	    	var isCustomField = false;
+	    	if(!isValueEmpty(model.paddingCharacter)){
+	    		isCustomField = true;
+	    		vm.numericeModel.usePadding = true;
+	    	}
+	    	
+	    	if(model.has1000Separator){
+	    		isCustomField = true;
+	    	}
+	    	
+	    	if(model.hasDecimalPlace){
+	    		isCustomField = true;
+	    	}
+	    	return isCustomField;
+	    }
+	    
+	    function isValueEmpty(value){
+	    	if(angular.isUndefined(value) || value == null || value.length == 0){
+	    		return true;
+	    	}
+	    	return false;
+	    }
 } ]);
 
 app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
@@ -666,7 +777,34 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 	}
 
 	function PAYMENT_AMOUNT_DisplayExample(record, config) {
-		return '';
+var displayMessage = config.configDetailPattern;
+		
+		var numberFormatDisplay = 'Any numeric format'
+//		if (record.dataFormat.numericTypeFormat == 'CUSTOM') {
+//			numberFormatDisplay = 'Custom numeric format'
+//		}
+
+		var signFlagTypeDisplay = '';
+		if (record.signFlagTypeFormat == "IGNORE_PLUS") {
+			signFlagTypeDisplay = ' (ignore plus symbol (+) on positive value)'
+		} else if (record.signFlagTypeFormat == "NEES_PLUS") {
+			signFlagTypeDisplay = ' (need plus symbol (+) on positive value)'
+		} else if (record.signFlagTypeFormat == "AVOID_PLUS") {
+			signFlagTypeDisplay = ' (avoid plus symbol (+) on positive value)'
+		}
+
+		var examplePosDataDisplay = parseFloat(config.defaultExampleValue).toFixed(record.decimalPlace);
+		var exampleNegDataDisplay = parseFloat(-config.defaultExampleValue).toFixed(record.decimalPlace);
+		
+		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
+
+		displayMessage = displayMessage.replace('{numberFormat}', numberFormatDisplay);
+		displayMessage = displayMessage.replace('{decimalPlace}', record.decimalPlace);
+		displayMessage = displayMessage.replace('{signFlag}', signFlagTypeDisplay);
+		displayMessage = displayMessage.replace('{positiveExampleData}', examplePosDataDisplay);
+		displayMessage = displayMessage.replace('{negativeExampleData}', exampleNegDataDisplay);		
+
+		return displayMessage;
 	}
 	
 	function convertRequiredToString(record){
