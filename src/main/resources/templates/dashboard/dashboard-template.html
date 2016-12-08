@@ -1,9 +1,9 @@
 <div id="content" th:fragment="content">
 	<div id="wrapper" ng-init="dashboardCtrl.load()">
 		<div class="row" ng-repeat="row in dashboardCtrl.rowItems">
-			<div class="panel" ng-if="row.length">
+			<div class="panel" ng-if="row.items.length" scf-show-on-mobile="row.showOnMobile">
 				<div class="panel-body">
-					<div ng-repeat="layout in row"
+					<div ng-repeat="layout in row.items" scf-show-on-mobile="layout.showOnMobile"
 						class="col-lg-{{layout.columnSizeLg}} col-md-{{layout.columnSizeMd}} col-sm-{{layout.columnSizeSm}} col-xs-{{layout.columnSizeXs}}"
 						ng-init="dashboardItem=layout.dashboardItem">
 						

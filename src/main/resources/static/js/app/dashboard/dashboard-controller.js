@@ -9,10 +9,13 @@ var dashboardController = function(Service, $log, $rootScope, $element) {
         deferred.promise.then(function(response) {
         	angular.forEach(response, function(value, key) {
         		if(this[value.rowNo] == null){
-        			this[value.rowNo] = [];
+        			this[value.rowNo] = {
+        				showOnMobile: value.showOnMobile,
+        				items: []
+        			};
         		}
-        		this[value.rowNo].push(value);
-        		
+        		this[value.rowNo].showOnMobile = this[value.rowNo].showOnMobile || value.showOnMobile;
+        		this[value.rowNo].items.push(value);
         		},  vm.rowItems);
         }).catch(function(response) {
             log.error('Cannot load dashboard');
