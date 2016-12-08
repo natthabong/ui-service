@@ -404,7 +404,7 @@ app.controller('CUSTOMER_CODELayoutConfigController', [ '$scope', '$rootScope', 
 app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', function($scope, $rootScope, $q, Service) {
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
-	
+	vm.model.datetimeFormat = 'dd/MM/yyyy';
 	vm.calendarType = {
 		christCalendar : 'AD',
 		buddhistCalendar : 'BE'
@@ -439,13 +439,13 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 				});
 			}
 			diferred.resolve(vm.dateTimeDropdown);
+			
 		}).catch(function(response) {
 			$log.error('Load date time format Fail');
 			diferred.reject();
 		});
 
-		vm.dateTimeFormat = vm.dateTimeDropdown[0].value;
-		
+
 		return diferred;
 	};
 	
