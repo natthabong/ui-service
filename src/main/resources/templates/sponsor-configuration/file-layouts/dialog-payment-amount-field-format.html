@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-md-10 col-sm-10">
 				<h3>
-					<span id="payment-amount-filed-format-popup-header-message-label"
+					<span id="payment-amount-field-format-popup-header-message-label"
 						class="popup-text"
 						ng-bind="'Payment amount field format' | translate">Payment
 						amount field format</span>
@@ -21,14 +21,14 @@
 							<div class="col-md-6 col-sm-4 col-xs-12">
 								<label class="radio-inline"> <scf-radio
 										id="any-numeric-type"
-										name="payment-amount-filed-format-popup-numeric-format-radio"
+										name="payment-amount-field-format-popup-numeric-format-radio"
 										ng-click="ctrl.checkCustomNumeric()"
 										ng-value="ctrl.numericType.anyNumericFormat"
 										ng-model="ctrl.numericeModel.numericTypeFormat"></scf-radio>
 									{{'Any numeric format' | translate}}
 								</label> <br /> <label class="radio-inline"> <scf-radio
 										id="custom-numeric-type"
-										name="payment-amount-filed-format-popup-numeric-format-radio"
+										name="payment-amount-field-format-popup-numeric-format-radio"
 										ng-click="ctrl.checkCustomNumeric()"
 										ng-value="ctrl.numericType.customNumericFormat"
 										ng-model="ctrl.numericeModel.numericTypeFormat"></scf-radio>
@@ -73,7 +73,7 @@
 								ng-bind="'Decimal places' | translate"></span>:</label>
 							<div class="col-md-2 col-sm-3 col-xs-12">
 								<scf-input-text
-									id="payment-amount-filed-format-popup-numeric-decimal-place-textbox"
+									id="payment-amount-field-format-popup-numeric-decimal-place-textbox"
 									ng-model="ctrl.model.decimalPlace"></scf-input-text>
 							</div>
 							<div class="col-md-7 col-sm-5 col-xs-12"></div>
@@ -84,7 +84,7 @@
 								ng-bind="'Sign flag' | translate"></span>:</label>
 							<div class="col-md-6 col-sm-4 col-xs-12">
 								<scf-dropdown
-									id="payment-amount-filed-format-popup-sign-flag-dropdown"
+									id="payment-amount-field-format-popup-sign-flag-dropdown"
 									ng-model="ctrl.numericeModel.signFlag"
 									component-data="ctrl.signFlagDropdown" translate-label="true"></scf-dropdown>
 							</div>
@@ -115,9 +115,9 @@
 							<label for="numeric-label"
 								class="col-md-12 col-sm-12 col-xs-12 control-label"> Ex.
 								Positive: <span
-								id="payment-amount-filed-format-popup-positive-example-label">{{ctrl.examplePosDataDisplay}}
+								id="payment-amount-field-format-popup-positive-example-label">{{ctrl.examplePosDataDisplay}}
 							</span> <br /> &nbsp;&nbsp;&nbsp; Negative: <span
-								id="payment-amount-filed-format-popup-negative-example-label">{{ctrl.exampleNegDataDisplay}}</span>
+								id="payment-amount-field-format-popup-negative-example-label">{{ctrl.exampleNegDataDisplay}}</span>
 							</label>
 						</div>
 					</fieldset>
@@ -126,7 +126,7 @@
 						<div class="form-group">
 							<label for="dealer"
 								class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-									id="payment-amount-filed-format-popup-require-checkbox"
+									id="payment-amount-field-format-popup-require-checkbox"
 									ng-model="ctrl.model.required" ng-checked="true"
 									ng-init="ctrl.model.required=true" ng-disabled="true"></scf-checkbox>
 								<span ng-bind="'Require' | translate" id="require-label"></span>
