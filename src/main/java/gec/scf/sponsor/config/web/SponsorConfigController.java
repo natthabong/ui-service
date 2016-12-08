@@ -13,6 +13,7 @@ public class SponsorConfigController {
 
 	private static String SPONSOR_CONFIGURATION = "sponsor-configuration/sponsor-configuration-template";
 	private static String PROFILE = "sponsor-configuration/profile";
+	private static String CHANNEL = "sponsor-configuration/channel-configs";
 	private static String FILE_LAYOUTS = "sponsor-configuration/file-layouts";
 	private static String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
 	
@@ -38,6 +39,14 @@ public class SponsorConfigController {
 		return PROFILE;
 	}
 
+	@RequestMapping(path = "/channel-configs", method = RequestMethod.GET)
+	public String channelConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return CHANNEL.concat(" :: content");
+		}
+		return CHANNEL;
+	}
+	
 	@RequestMapping(path = "/file-layouts", method = RequestMethod.GET)
 	public String fileLayouts(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {

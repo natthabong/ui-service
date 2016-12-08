@@ -42,7 +42,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 		PageNavigation.gotoPage('/sponsor-configuration', params);
 	}
 
-    vm.data = []
+    vm.data = [];
     
 	vm.searchOrganize = function(pageModel){
     	
