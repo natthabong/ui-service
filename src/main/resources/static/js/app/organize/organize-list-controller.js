@@ -93,11 +93,11 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
                 cssTemplate: 'text-center',
 				cellTemplate: '<img	style="height: 16px; width: 16px;" ng-show="data.sponsor" data-ng-src="img/checkmark.png"/>'
             }, {
-                field: 'active',
                 label: 'Active',
                 id: 'organize-{value}-active-label',
                 sortable: true,
-                cssTemplate: 'text-center'
+                cssTemplate: 'text-center',
+                cellTemplate: '<span>{{data.active ? "Active" : "Inactive"}}</span>'	
             },{
 				field: 'Action',
 				label: 'Action',
