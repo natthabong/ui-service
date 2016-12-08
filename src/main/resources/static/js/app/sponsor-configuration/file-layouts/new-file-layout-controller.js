@@ -414,7 +414,7 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 		if(angular.isUndefined(vm.model.calendarEra) 
 				|| vm.model.calendarEra == null 
 				|| vm.model.calendarEra.length == 0){
-			vm.model.calendarEra = vm.calendarType.buddhistCalendar;
+			vm.model.calendarEra = vm.calendarType.christCalendar;
 		}
 	};
 	
@@ -423,10 +423,7 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 	vm.loadDateTimeFormat = function() {
 
 		var diferred = $q.defer();
-		vm.dateTimeDropdown = [ {
-			label : 'Please select',
-			value : ''
-		} ];
+		vm.dateTimeDropdown = [];
 
 		var serviceUrl = 'js/app/sponsor-configuration/file-layouts/date_time_format.json';
 		var serviceDiferred = Service.doGet(serviceUrl);
