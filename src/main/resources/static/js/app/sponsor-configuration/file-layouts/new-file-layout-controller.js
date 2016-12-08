@@ -448,6 +448,7 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 		});
 
 		vm.dateTimeFormat = vm.dateTimeDropdown[0].value;
+		
 		return diferred;
 	};
 	
