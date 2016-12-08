@@ -404,7 +404,7 @@ app.controller('CUSTOMER_CODELayoutConfigController', [ '$scope', '$rootScope', 
 app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', function($scope, $rootScope, $q, Service) {
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
-	vm.model.datetimeFormat = 'dd/MM/yyyy';
+	
 	vm.calendarType = {
 		christCalendar : 'AD',
 		buddhistCalendar : 'BE'
@@ -415,6 +415,7 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 				|| vm.model.calendarEra == null 
 				|| vm.model.calendarEra.length == 0){
 			vm.model.calendarEra = vm.calendarType.christCalendar;
+			vm.model.datetimeFormat = 'dd/MM/yyyy';
 		}
 	};
 	
