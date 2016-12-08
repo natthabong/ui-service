@@ -529,6 +529,9 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
     	if(isValueEmpty(vm.model.signFlagTypeFormat)){
     		vm.model.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
     	}
+    	if(vm.model.signFlagId == null){
+    		vm.numericeModel.signFlag = "Within field";
+    	}
     }
     
     vm.initLoad();
@@ -756,11 +759,11 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 
 		var signFlagTypeDisplay = '';
 		if (record.signFlagTypeFormat == "IGNORE_PLUS") {
-			signFlagTypeDisplay = ' (ignore plus symbol (+) on positive value)'
+			signFlagTypeDisplay = ' Within field (ignore plus symbol (+) on positive value)'
 		} else if (record.signFlagTypeFormat == "NEES_PLUS") {
-			signFlagTypeDisplay = ' (need plus symbol (+) on positive value)'
+			signFlagTypeDisplay = ' Within field (need plus symbol (+) on positive value)'
 		} else if (record.signFlagTypeFormat == "AVOID_PLUS") {
-			signFlagTypeDisplay = ' (avoid plus symbol (+) on positive value)'
+			signFlagTypeDisplay = ' Within field (avoid plus symbol (+) on positive value)'
 		}
 
 		var examplePosDataDisplay = parseFloat(config.defaultExampleValue).toFixed(record.decimalPlace);
@@ -787,11 +790,11 @@ var displayMessage = config.configDetailPattern;
 
 		var signFlagTypeDisplay = '';
 		if (record.signFlagTypeFormat == "IGNORE_PLUS") {
-			signFlagTypeDisplay = ' (ignore plus symbol (+) on positive value)'
+			signFlagTypeDisplay = ' Within field (ignore plus symbol (+) on positive value)'
 		} else if (record.signFlagTypeFormat == "NEES_PLUS") {
-			signFlagTypeDisplay = ' (need plus symbol (+) on positive value)'
+			signFlagTypeDisplay = ' Within field (need plus symbol (+) on positive value)'
 		} else if (record.signFlagTypeFormat == "AVOID_PLUS") {
-			signFlagTypeDisplay = ' (avoid plus symbol (+) on positive value)'
+			signFlagTypeDisplay = ' Within field (avoid plus symbol (+) on positive value)'
 		}
 
 		var examplePosDataDisplay = parseFloat(config.defaultExampleValue).toFixed(record.decimalPlace);
