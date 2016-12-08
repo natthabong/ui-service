@@ -66,8 +66,8 @@ angular
 											label : '',
 											cssTemplate : 'text-center',
 											sortData : false,
-											cellTemplate : '<scf-button id="channel-{{data.channelId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel" ng-hide="!data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>'
-													+ '<scf-button id="channel-{{data.channelId}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel" ng-hide="data.completed"><img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>'
+											cellTemplate : '<scf-button id="channel-{{data.importChannelId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel" ng-hide="!data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>'
+													+ '<scf-button id="channel-{{data.importChannelId}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel" ng-hide="data.completed"><img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>'
 													+ '<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.deleteChannel(data)" title="Delete a channel"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 										} ]
 							}
@@ -81,7 +81,7 @@ angular
 						            vm.pageModel.pageSizeSelectModel = pageModel.pageSize;
 						            vm.pageModel.currentPage = pageModel.page;
 						        }
-						        
+	
 								var serviceUrl = '/api/v1/organize-customers/'+sponsorId+'/sponsor-configs/SFP/channels';
 								var serviceDiferred = Service.doGet(serviceUrl, {
 									page: vm.pageModel.currentPage,
