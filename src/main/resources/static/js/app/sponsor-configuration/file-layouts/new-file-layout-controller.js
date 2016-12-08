@@ -484,6 +484,7 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
             
             vm.model.has1000Separator = false;
             vm.model.hasDecimalPlace = false;
+            vm.model.decimalPlace = 2;
             vm.model.paddingCharacter = '';
         } else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
             vm.numericeModel.disableCustomField = false;
@@ -600,6 +601,7 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 	            
 	            vm.model.has1000Separator = false;
 	            vm.model.hasDecimalPlace = false;
+	            vm.model.decimalPlace = 2;
 	            vm.model.paddingCharacter = '';
 	        } else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
 	            vm.numericeModel.disableCustomField = false;
@@ -696,10 +698,10 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 
 	function TEXT_DisplayExample(record, config) {
 		var displayMessage = config.configDetailPattern;
-
+		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
-		displayMessage = displayMessage.replace('{expectedValue}', record.expectedValue);
-		displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);
+		displayMessage = displayMessage.replace('{expectedValue}', (hasExpected?record.expectedValue:''));
+		displayMessage = displayMessage.replace('{exampleData}', (hasExpected?record.expectedValue:config.defaultExampleValue));
 		return displayMessage;
 	}
 
