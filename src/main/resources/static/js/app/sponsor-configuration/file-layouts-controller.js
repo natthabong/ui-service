@@ -14,6 +14,7 @@ angular
 						function($log, $scope, $state, SCFCommonService, $stateParams, $timeout,
 								PageNavigation, Service) {
 							var vm = this;
+							vm.splitePageTxt = '';
 							var log = $log;
 							
 							vm.pageModel = {
@@ -92,15 +93,23 @@ angular
 							vm.initLoad();
 							
 							function callService(){
-								var sponsorId = $scope.sponsorId
+								var sponsorId = $scope.sponsorId;
+								
+								var offset = 0;
+								if(vm.pageModel.currentPage>0){
+									offset = vm.pageModel.currentPage*vm.pageModel.pageSizeSelectModel;
+								}
+								
 								var fileLayoutsUrl = '/api/v1/organize-customers/'+sponsorId+'/sponsor-configs/SFP/layouts';
-								var serviceDiferred = Service.requestURL(fileLayoutsUrl, {
-									offset: 0,
-									limit: 20
-								}, 'GET');					
+								var serviceDiferred = Service.doGet(fileLayoutsUrl, {
+									offset: offset,
+									limit: vm.pageModel.pageSizeSelectModel
+								});									
 								
 								serviceDiferred.promise.then(function(response){
-									vm.data = response;
+									vm.data = response.data;
+									vm.pageModel.totalRecord = response.headers("X-Total-Count");
+									vm.pageModel.totalPage = response.headers("X-Total-Page");									
 									vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.page, vm.pageModel.totalRecord);
 								}).catch(function(response){
 									log.error('Load File layouts data error');
