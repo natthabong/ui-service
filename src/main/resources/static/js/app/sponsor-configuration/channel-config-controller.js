@@ -82,10 +82,15 @@ angular
 						            vm.pageModel.currentPage = pageModel.page;
 						        }
 	
+								var offset = 0;
+								if(vm.pageModel.currentPage>0){
+									offset = vm.pageModel.currentPage*vm.pageModel.pageSizeSelectModel
+								}
+								
 								var serviceUrl = '/api/v1/organize-customers/'+sponsorId+'/sponsor-configs/SFP/channels';
 								var serviceDiferred = Service.doGet(serviceUrl, {
-									page: vm.pageModel.currentPage,
-									size: vm.pageModel.pageSizeSelectModel
+									offset: offset,
+									limit: vm.pageModel.pageSizeSelectModel
 								});		
 								
 								serviceDiferred.promise.then(function(response){
