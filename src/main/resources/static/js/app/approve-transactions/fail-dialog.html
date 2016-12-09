@@ -52,11 +52,11 @@
 					ng-click="closeThisDialog();ctrl.backPage()" ng-bind="'Back' | translate"></scf-button>
 				<scf-button id="retry-button" class="popup-button" data-dismiss="modal" ng-show="{{response.attributes.retriable}}"
 					ng-click="closeThisDialog();ctrl.retry()">{{'Retry' | translate}}</scf-button>			
-				<scf-button id="fail-view-recent-button" class="popup-button" data-dismiss="modal" ng-show="{{response.showViewRecentBtn}}"
+				<scf-button id="fail-view-recent-button" class="popup-button hidden-sm hidden-xs" data-dismiss="modal" ng-show="{{response.showViewRecentBtn}}"
 					ng-click="closeThisDialog();ctrl.viewRecent()" ng-bind="'View recent' | translate"></scf-button>					
-				<scf-button id="fail-view-history-button" class="popup-button" data-dismiss="modal" ng-if="response.showViewHistoryBtn"
+				<scf-button id="fail-view-history-button" class="popup-button hidden-sm hidden-xs" data-dismiss="modal" ng-if="response.showViewHistoryBtn"
 					ng-click="closeThisDialog();ctrl.viewHistory()" ng-bind="'View history' | translate"></scf-button>
-				<scf-button id="fail-close-button" class="popup-button" data-dismiss="modal" ng-show="{{response.showCloseBtn}}"
+				<scf-button id="fail-close-button" class="popup-button hidden-sm hidden-xs" data-dismiss="modal" ng-show="{{response.showCloseBtn}}"
 					ng-click="closeThisDialog();ctrl.searchTransactionService()" ng-bind="'Close' | translate"></scf-button>					
 			</div>
 		</div>
