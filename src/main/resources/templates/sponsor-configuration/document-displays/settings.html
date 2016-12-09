@@ -100,7 +100,8 @@
 										</tr>
 										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
 											<td colspan="7">
-												<p id="description-{{$index+1}}-label" ng-bind="ctrl.displayExample(record)"></p>
+												<p id="description-{{$index+1}}-label"
+													ng-bind="ctrl.displayExample(record)"></p>
 											</td>
 										</tr>
 
@@ -123,8 +124,11 @@
 
 				<div class="panel-body">
 					<div class="col-md-12 col-sm-12 text-right">
-						<scf-button id="document-display-save-button" type="submit" ng-click="ctrl.save()">{{'Save'
-						| translate}}</scf-button>
+						<scf-button id="document-display-save-button" type="submit"
+							ng-click="ctrl.save()">{{'Save' | translate}}</scf-button>
+						<scf-button id="document-display-back-button" class="popup-button"
+							data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
+							ng-bind="'Cancel' | translate"></scf-button>
 					</div>
 				</div>
 			</div>

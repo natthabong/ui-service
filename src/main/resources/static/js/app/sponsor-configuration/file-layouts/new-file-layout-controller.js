@@ -47,6 +47,10 @@ app.controller('NewFileLayoutController', [
                 startIndex: 0
             }
 			
+			vm.backToSponsorConfigPage = function(){
+				PageNavigation.gotoPreviousPage();
+			}
+			
 			var loadDataTypes = function() {
                 var serviceURI = 'api/v1/configs/gecscf/layouts/file/data-types';
                 var serviceDiferred = Service.doGet(serviceURI, {

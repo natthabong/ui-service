@@ -5,7 +5,11 @@ angular.module('scfApp').controller(
 				var vm = this;
 			    var log = $log;
 			    
-			    vm.organizeModel = $stateParams.organizeModel;
+			    if($stateParams.organizeModel != null){
+			    	$rootScope.organizeModel = $stateParams.organizeModel;
+			    }
+			    
+			    vm.organizeModel = $rootScope.organizeModel;
 			    $scope.sponsorId = vm.organizeModel.organizeId;
 				$rootScope.sponsorId = vm.organizeModel.organizeId;
 				

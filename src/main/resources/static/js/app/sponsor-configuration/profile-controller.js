@@ -6,16 +6,23 @@ angular
 						'SCFCommonService',
 						'$log',
 						'$scope',
+						'$rootScope',
 						'$stateParams',
 						'$timeout',
 						'PageNavigation',
 						'Service',
-						function(SCFCommonService, $log, $scope, $stateParams, $timeout,
+						function(SCFCommonService, $log, $scope,$rootScope, $stateParams, $timeout,
 								PageNavigation, Service) {
 							var vm = this;
 							vm.sponsorName = '';
 							vm.organizeData = {};
-							vm.organizeModel = $stateParams.organizeModel;
+							
+						    if($stateParams.organizeModel != null){
+						    	vm.organizeModel = $stateParams.organizeModel;	
+						    }else{
+						    	vm.organizeModel = $rootScope.organizeModel;
+						    }
+						    
 							vm.initLoad = function() {						
 								var serviceUrl = '/api/v1/organize-customers/'+vm.organizeModel.organizeId+'/profile';
 								var serviceDiferred = Service.doGet(serviceUrl, {});		

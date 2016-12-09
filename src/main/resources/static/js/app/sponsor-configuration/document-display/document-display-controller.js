@@ -58,6 +58,10 @@ angular
                     label: 'Please select'
                 }];
                 vm.documentFieldData = [];
+                
+    			vm.backToSponsorConfigPage = function(){
+    				PageNavigation.gotoPreviousPage();
+    			}
 
                 var sendRequest = function(uri, succcesFunc, failedFunc) {
                     var serviceDiferred = Service.doGet(BASE_URI + uri);

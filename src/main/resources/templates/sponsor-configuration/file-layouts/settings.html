@@ -127,7 +127,8 @@
 													ng-model="record.displayValue" /></td>
 
 											<td class="text-center"><scf-dropdown
-													id="data-type-{{$index+1}}-dropdown" ng-model="record.dataType"
+													id="data-type-{{$index+1}}-dropdown"
+													ng-model="record.dataType"
 													component-data="newFileLayoutCtrl.dataTypeDropdown"
 													translate-label="true"></scf-dropdown></td>
 
@@ -146,9 +147,8 @@
 													id="warning-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="newFileLayoutCtrl.openSetting($index, record)"
-													title="Config a file layout"
-													ng-hide="record.completed"> <img
-													data-ng-src="img/gear_warning.png"
+													title="Config a file layout" ng-hide="record.completed">
+												<img data-ng-src="img/gear_warning.png"
 													style="height: 13px; width: 14px;" /> </scf-button> <scf-button
 													type="button" id="delete-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
@@ -235,6 +235,9 @@
 						<scf-button id="layout-save-button" type="submit"
 							ng-click="newFileLayoutCtrl.save()">{{'Save' |
 						translate}}</scf-button>
+						<scf-button id="layout-back-button" class="popup-button"
+							data-dismiss="modal" ng-click="newFileLayoutCtrl.backToSponsorConfigPage()"
+							ng-bind="'Cancel' | translate"></scf-button>
 					</div>
 				</div>
 			</div>
