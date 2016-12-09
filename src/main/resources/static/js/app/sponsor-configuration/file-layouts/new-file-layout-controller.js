@@ -721,7 +721,7 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 		var displayMessage = config.configDetailPattern;
 
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
-		displayMessage = displayMessage.replace('{expectedValue}', record.expectedValue);
+		displayMessage = displayMessage.replace('{expectedValue}', record.expectedValue || '-');
 		displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);
 		return displayMessage;
 	}
@@ -781,7 +781,7 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 	}
 
 	function PAYMENT_AMOUNT_DisplayExample(record, config) {
-var displayMessage = config.configDetailPattern;
+		var displayMessage = config.configDetailPattern;
 		
 		var numberFormatDisplay = 'Any numeric format'
 //		if (record.dataFormat.numericTypeFormat == 'CUSTOM') {

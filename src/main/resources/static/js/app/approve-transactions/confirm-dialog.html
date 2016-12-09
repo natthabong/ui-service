@@ -11,24 +11,24 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<form name="confirmApprove" class="form-horizontal">
 						<div class="form-group" ng-show="ctrl.reqPass">
-							<div class="col-xs-3 control-label"></div>
-							<div class="col-xs-8">
+							<div class="col-xs-5 col-md-3 col-sm-3 control-label"></div>
+							<div class="col-xs-6 col-md-8 col-sm-8">
 								<label ng-bind="'Require Password' | translate"
 									class="text-danger control-label"></label>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="username" class="col-xs-3 control-label"><span
+							<label for="username" class="col-xs-4 col-md-3 col-sm-3 control-label"><span
 								ng-bind="'User name' | translate"></span>:</label>
-							<div class="col-xs-8  control-label">
+							<div class="col-xs-7 col-md-8 col-sm-8">
 								<span id="user-name-label" ng-bind="ctrl.displayName"></span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="password" class="col-xs-3 control-label"><span
+							<label for="password" class="col-xs-4 col-md-3 col-sm-3 control-label"><span
 								ng-bind="'Password' | translate"></span><span
 								class="text-danger">*</span>:</label>
-							<div class="col-xs-8">
+							<div class="col-xs-7 col-md-8 col-sm-8 ">
 								<scf-input-password id="password-textbox"
 									ng-model="ctrl.transactionApproveModel.credential"
 									focus="ctrl.focusOnPassword"></scf-input-password>

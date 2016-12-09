@@ -952,7 +952,6 @@
 			}
 			function scfShowOnMobileLink(scope, elements, attrs){
 				var isShowOnMobile = scope.$eval(attrs.scfShowOnMobile);
-				console.log('scfShowOnMobile');
 				if(!isShowOnMobile){
 					elements.addClass('hidden-sm hidden-xs');				
 				}
