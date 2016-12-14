@@ -16,6 +16,17 @@
 
     <link th:href="@{/css/login.css}" href="../static/css/login.css" rel="stylesheet" />
     <link th:href="@{/css/loading-overlay.css}" href="../static/css/loading-overlay.css" rel="stylesheet" />
+    
+    <style>
+    	body {
+    		background: url(img/bg_login.jpg) no-repeat center center fixed;
+    		background-size: cover;
+    	}
+    	
+    	form {
+    		background-color: rgba(255, 255, 255, 0.5);
+    	}
+    </style>
 </head>
 
 <body ng-app="authenApp">
@@ -28,11 +39,8 @@
         <div class="wrapper">
 
             <form id="loginForm" role="form" method="post" name="Login_Form" class="form-signin" autocomplete="off">
-                <div class="row text-center bol">
-                    <i class="fa fa-circle"></i>
-                </div>
                 <h3 class="form-signin-heading text-center">
-					<img ng-src="img/logo.png" alt="" />
+					<img ng-src="img/logo_login.png" alt="" />
 				</h3>
                 <hr class="spartan" />
                 <div class="alert alert-danger" role="alert" ng-if="controller.error">Login fail</div>

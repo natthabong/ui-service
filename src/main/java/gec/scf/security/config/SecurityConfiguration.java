@@ -32,7 +32,7 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.formLogin().loginPage("/login").and().authorizeRequests()
-				.antMatchers("/login", "/css/**/*", "/js/**/*", "/fonts/**").permitAll()
+				.antMatchers("/login", "/css/**/*", "/js/**/*", "/fonts/**", "/img/**").permitAll()
 				.anyRequest().authenticated();
 		http.csrf().csrfTokenRepository(csrfTokenRepository()).and()
 				.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
