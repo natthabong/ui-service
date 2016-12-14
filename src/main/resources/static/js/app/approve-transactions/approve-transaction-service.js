@@ -79,20 +79,20 @@ function approveTransactionService($q, $http, $sce, blockUI) {
     }
 
     function generateEvidenceForm(transactionModel) {
-        $http({
+        $http({  
             method: 'POST',
             url: '/api/approve-transaction/evidence-form',
             data: transactionModel,
             responseType: 'arraybuffer'
         }).success(function(response) {
             var file = new Blob([response], {
-                type: 'image/jpeg'
+                type: 'application/pdf'
             });
             var fileURL = URL.createObjectURL(file);
             var a = document.createElement('a');
             a.href = fileURL;
             a.target = '_blank';
-            a.download = transactionModel.transactionNo + '.jpeg';
+            a.download = transactionModel.transactionNo + '.pdf';
             document.body.appendChild(a);
             a.click();
         }).error(function(response) {
