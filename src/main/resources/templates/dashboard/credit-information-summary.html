@@ -5,7 +5,8 @@
 		<h3 class="animated fadeInLeft"
 			id="credit-information-summary-header-label">{{dashboardItem.headerLabel}}</h3>
 		<!-- start: Content -->
-		<div class="row">
+
+		<div class="row hidden-xs hidden-sm">
 			<nvd3-pie-chart id="credit-information-summary" data="ctrl.data"
 				x="ctrl.xFunction()" y="ctrl.yFunction()" width="{{ctrl.width}}"
 				height="{{ctrl.height}}" color="ctrl.colorFunction()"
@@ -13,6 +14,23 @@
 				callback="ctrl.callback()" legendcolor="ctrl.colorLegendFunction()"
 				labelType="value_percent" showValues="true" showLegend="true"
 				valueFormat="percent"> <svg></svg> </nvd3-pie-chart>
+		</div>
+		
+		<div class="row hidden-md hidden-lg">
+			<div class="col-xs-12 col-sm-6 col-md-8">
+				<canvas id="pie" class="chart chart-pie" chart-data="ctrl.values"
+					chart-labels="ctrl.labels" chart-colors="ctrl.colors"
+					chart-options="options"> </canvas>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-2">
+			    <br/>
+				<ul class="chart-legend text-left">
+					<li ng-repeat="(key, value) in ctrl.labels"
+						ng-if="ctrl.values[key] > 0"><span
+						style="background-color: {{ctrl.colors[key]}}"></span>{{value}}
+						{{ctrl.values[key] | number }} THB</li>
+				</ul>
+			</div>
 		</div>
 		<!-- end: content -->
 	</div>
