@@ -240,7 +240,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			'<scf-button id="transaction-{{data.transactionId}}-approve-button" ng-disabled="!(ctrl.approve &&(data.statusCode === ctrl.statusDocuments.waitForApprove))" class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-approve-button" ng-click="ctrl.approveTransaction(data)" title="Approve a transaction"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
 			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionId}}-view-button" ng-click="ctrl.view(data)" title="View a transaction"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="transaction-{{data.transactionId}}-retry-button" class="btn-default gec-btn-action" ng-disabled="{{!data.retriable}}" ng-click="ctrl.retry(data)" title="Retry a transaction"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
-			'<scf-button class="btn-default gec-btn-action" ng-disabled="!(data.returnStatus === ctrl.trasnsactionStatus.book)" ng-click="ctrl.printEvidenceFormAction(data)" title="Print a transaction"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" ng-disabled="!(data.returnStatus === ctrl.transactionStatus.book)" ng-click="ctrl.printEvidenceFormAction(data)" title="Print a transaction"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
 			'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.searchTransaction()" title="Cencel a transaction"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 		}]
     };

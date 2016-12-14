@@ -92,8 +92,8 @@ angular
 											cssTemplate : 'text-center'
 										}, {
 											fieldName: 'sponsorPaymentDate',
-											labelEN: 'SponsorPayment Date',
-											labelTH: 'SponsorPayment Date',
+											labelEN: 'Sponsor payment date',
+											labelTH: 'Sponsor payment date',
 											idValueField: 'template',
 							                id: 'internal-step-{value}-sponsor-payment-date-label',
 							                filterType : 'date',
@@ -134,7 +134,7 @@ angular
 											cssTemplate: 'hidden-xs hidden-sm text-center',
 											sortData: false,
 											cellTemplate: '<scf-button class="btn-default gec-btn-action" id="view-transaction-{{data.transactionNo}}-button" title="View a transaction" ng-click="internalStepCtrl.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
-										} ]
+										}]
 							};
 
 							vm.data = [];
