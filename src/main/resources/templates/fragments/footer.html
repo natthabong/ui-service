@@ -1,13 +1,14 @@
 <footer id="footer" th:fragment="footer" class="text-center">
 	<div class="footer-below">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        2013 Copyright &copy; Copyright General Electronic Commerce Services Co., Ltd. 971, 973 President Tower, 9th Floor Ploenchit Road, Lumpini, Patumwan Bangkok 10330
-                    </div>
-                </div>
-            </div>
-        </div>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<span
+						th:text="${'All rights reserved 2016 General Electronic Commerce Services Co., Ltd.' }"></span>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- custom -->
 	<script th:src="@{/js/app/main.js}" src="asset/js/main.js"></script>
 </footer>
