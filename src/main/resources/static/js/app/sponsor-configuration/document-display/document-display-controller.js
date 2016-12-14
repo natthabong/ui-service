@@ -411,16 +411,16 @@ angular
 		 }
 		 function NUMERIC_DisplayExample(record, config){
 			 var displayMessage = config.displayDetailPattern;
-				var examplePosDataDisplay = $filter(record.filterType)(vm.exampleRawData, 2);
-		    	var exampleNegDataDisplay = $filter(record.filterType)(-vm.exampleRawData, 2);
+			 var exampleRawData =  parseFloat(config.defaultExampleValue).toFixed(2);
+				var examplePosDataDisplay = $filter(record.filterType)(exampleRawData, 2);
+		    	var exampleNegDataDisplay = $filter(record.filterType)(-exampleRawData, 2);
              var replacements = [SCFCommonService.camelize(record.alignment), examplePosDataDisplay, exampleNegDataDisplay];
             	return SCFCommonService.replacementStringFormat(displayMessage, replacements);
 		 }
 		 function PAYMENT_AMOUNT_DisplayExample(record, config) {
 			var displayMessage = config.displayDetailPattern;
 			
-			var exampleRawData =  parseFloat(config.defaultExampleValue).toFixed(2);
-		     			
+			var exampleRawData =  parseFloat(config.defaultExampleValue).toFixed(2);		    
 			var examplePosDataDisplay = $filter(record.filterType)(exampleRawData, 2);
 			var exampleNegDataDisplay = $filter(record.filterType)(-exampleRawData, 2);
 			var replacements = [ SCFCommonService.camelize(record.alignment), examplePosDataDisplay, exampleNegDataDisplay ];
