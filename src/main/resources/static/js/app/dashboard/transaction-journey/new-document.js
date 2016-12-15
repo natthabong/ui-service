@@ -1,10 +1,10 @@
-angular.module('scfApp').controller('JourneyNewDocumentController', ['$scope', 'Service', 'PageNavigation', 'SCFCommonService', function($scope, Service, PageNavigation, SCFCommonService) {
+angular.module('scfApp').controller('JourneyNewDocumentController', ['$scope', 'Service', 'PageNavigation', 'SCFCommonService', '$rootScope', function($scope, Service, PageNavigation, SCFCommonService, $rootScope) {
     var vm = this;
     var compositParent = $scope.$parent;
     var dashboarParent = compositParent.$parent.it;
     var dahsboarItemParent = dashboarParent.dashboardItem;
     vm.headerLabel = dahsboarItemParent.headerLabel;
-	
+	vm.isSuppliler = false;
     vm.journeyDocModel = {
         totalDocument: 0,
         totalDocumentAmount: '0',
@@ -21,6 +21,14 @@ angular.module('scfApp').controller('JourneyNewDocumentController', ['$scope', '
         }).catch(function(response) {
 			
         });
+    }
+    
+    vm.documentList = function(){
+    	if($rootScope.isDesktopDevice){
+    		if(vm.isSuppliler){
+    			PageNavigation.gotoPage('/document-list/supplier');	
+    		}    		
+    	}
     }
     
 }]);
