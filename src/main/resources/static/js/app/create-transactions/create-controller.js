@@ -336,7 +336,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     vm.pageModel.currentPage = response.data.number;
                     vm.pageModel.totalPage = response.data.totalPages;
                     // Generate Document for display
-
                     vm.tableRowCollection = response.data.content;
                     // Calculate Display page
                     vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
@@ -368,6 +367,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 			var searchDocumentCriteria = {
                     sponsorId: vm.createTransactionModel.sponsorCode,
                     supplierCode: vm.createTransactionModel.supplierCode,
+                    documentStatus: 'NEW',
                     sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
                     page: 0,
                     pageSize: 0
