@@ -68,12 +68,6 @@ angular
 							}
 
 							vm.dataTable = {
-								options : {
-									displayRowNo : {
-										idValueField: 'template',
-					                	id: 'internal-step-{value}-no-label'
-									}
-								},
 								columns : [
 										{
 										    fieldName: '$rowNo',

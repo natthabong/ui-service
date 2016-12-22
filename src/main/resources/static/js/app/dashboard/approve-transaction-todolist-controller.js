@@ -102,13 +102,16 @@ angular.module('scfApp').controller(
 						vm.searchTransaction(undefined);
 					}
 				    vm.dataTable = {
-				            options: {
-				                displayRowNo: {
-				                	idValueField: 'template',
-				                	id: 'wait-for-approve-transaction-{value}-row-no-label'
-				                }
-				            },
-				            columns: [{
+				            columns: [
+							{
+							    fieldName: '$rowNo',
+								labelEN: 'No.',
+							    labelTH: 'ลำดับที่',
+							    idValueField: '$rowNo',
+							    id: 'internal-step-{value}-no-label',
+							    cssTemplate: 'text-center',	
+							},
+				            {
 				                labelEN: 'TP',
 				                labelTH: 'TP',
 				                sortData: true,
