@@ -68,13 +68,15 @@ angular
 							}
 
 							vm.dataTable = {
-								options : {
-									displayRowNo : {
-										idValueField: 'template',
-					                	id: 'internal-step-{value}-no-label'
-									}
-								},
 								columns : [
+										{
+										    fieldName: '$rowNo',
+											labelEN: 'No.',
+										    labelTH: 'ลำดับที่',
+										    idValueField: '$rowNo',
+										    id: 'internal-step-{value}-no-label',
+										    cssTemplate: 'text-center',	
+										},
 										{
 										    labelEN: 'TP',
 										    labelTH: 'TP',
@@ -94,7 +96,7 @@ angular
 											fieldName: 'sponsorPaymentDate',
 											labelEN: 'Sponsor payment date',
 											labelTH: 'Sponsor payment date',
-											idValueField: 'template',
+											idValueField: '$rowNo',
 							                id: 'internal-step-{value}-sponsor-payment-date-label',
 							                filterType : 'date',
 											filterFormat : 'dd/MM/yyyy',
@@ -104,7 +106,7 @@ angular
 											fieldName: 'noOfDocument',
 											labelEN: 'No of document',
 											labelTH: 'No of document',
-											idValueField: 'template',
+											idValueField: '$rowNo',
 							                id: 'internal-step-{value}-no-of-document-label',
 							                sortData : true,
 											cssTemplate : 'hidden-xs hidden-sm text-center'
@@ -112,7 +114,7 @@ angular
 											fieldName: 'drawdownAmount',
 											labelEN: 'Transaction amount',
 											labelTH: 'Transaction amount',
-											idValueField: 'template',
+											idValueField: '$rowNo',
 							                id: 'internal-step-{value}-transaction-amount-label',
 							                sortData : true,
 											cssTemplate : 'text-right',
@@ -122,7 +124,7 @@ angular
 											fieldName: 'statusCode',
 											labelEN: 'Status',
 											labelTH: 'Status',
-											idValueField: 'template',
+											idValueField: '$rowNo',
 							                id: 'internal-step-{value}-transaction-status-label',
 							                sortData : true,
 											filterType : 'translate',
