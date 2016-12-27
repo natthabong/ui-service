@@ -486,8 +486,8 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
             vm.numericeModel.disableCustomField = true;            
             vm.numericeModel.usePadding = false;
             
-            vm.model.has1000Separator = false;
-            vm.model.hasDecimalPlace = false;
+            vm.model.has1000Separator = null;
+            vm.model.hasDecimalPlace = null;
             vm.model.decimalPlace = 2;
             vm.model.paddingCharacter = '';
         } else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
@@ -606,8 +606,8 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 	            vm.numericeModel.disableCustomField = true;            
 	            vm.numericeModel.usePadding = false;
 	            
-	            vm.model.has1000Separator = false;
-	            vm.model.hasDecimalPlace = false;
+	            vm.model.has1000Separator = null;
+	            vm.model.hasDecimalPlace = null;
 	            vm.model.decimalPlace = 2;
 	            vm.model.paddingCharacter = '';
 	        } else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
