@@ -164,7 +164,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     cssTemplate: 'text-center',
                     cellTemplate: '<input type="checkbox" checklist-model="ctrl.documentSelects" checklist-value="data" ng-click="ctrl.selectDocument()"/>',
                     displayPosition: 'first',
-					idValueField: 'template',
+					idValueField: '$rowNo',
 					id: 'document-{value}-checkbox'
                 }
             },
