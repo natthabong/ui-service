@@ -268,7 +268,6 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 					});
 				},
 				onFail : function(response) {
-				    console.log(response);
 				    	blockUI.stop();
 					var msg = {
 						409 : 'Credit term has been deleted.',

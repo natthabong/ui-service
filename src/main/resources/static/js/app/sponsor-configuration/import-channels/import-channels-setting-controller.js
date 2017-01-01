@@ -115,11 +115,15 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 					});
 				},
 				onFail : function(response) {
-			    	blockUI.stop();
-			    	dialogPopup = UIFactory.showFailDialog({
+				    	var msg = {
+						409 : 'Credit term has been deleted.',
+						405 : 'Channel has been modified.'
+					};
+				    	blockUI.stop();
+			    		UIFactory.showFailDialog({
 						data : {
-							headerMessage : 'Update channel fail.',
-							bodyMessage : 'Channel has been modified. ('+vm.channelModel.channelType+')'
+							headerMessage : 'Update channel failed.',
+							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
 						},
 						buttons : [{
 							id: 'close-button',
