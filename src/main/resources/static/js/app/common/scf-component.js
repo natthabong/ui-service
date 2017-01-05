@@ -940,7 +940,7 @@
 				if (angular.isDefined(renderer) && renderer != null) {
 					rowNo = renderer(rowNo);
 				}
-				return columnId.replace('{value}', rowNo);
+				return columnId.replace('{value}', rowNo)+"-label";
 			}
 		} ])
 		.directive('scfShowOnMobile', ['$compile', function($compile){
