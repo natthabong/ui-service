@@ -47,6 +47,8 @@ app.controller('NewFileLayoutController', [
                 startIndex: 0
             }
 			
+			vm.dataDetailItems = [];
+						
 			vm.backToSponsorConfigPage = function(){
 				PageNavigation.gotoPreviousPage();
 			}
@@ -176,18 +178,32 @@ app.controller('NewFileLayoutController', [
 				
 				if (!angular.isUndefined(selectedItem) && selectedItem != null) {
 					vm.newMode = false;
-                    sendRequest('/layouts/' + selectedItem.sponsorIntegrateFileConfigId, function(response) {
-                         vm.model = response.data;
-                         if (vm.model.items.length < 1) {
-                             vm.addItem();
-                         }
-                         vm.reloadPaymentDateFields();
-                     });
+					var reqUrlField = '/layouts/' + selectedItem.sponsorIntegrateFileConfigId + '/item-type/FIELD';
+					var reqUrlData = '/layouts/' + selectedItem.sponsorIntegrateFileConfigId + '/item-type/DATA';
+					
+					sendRequest(reqUrlField, function(response) {
+                        vm.model = response.data;
+                        if (vm.model.items.length < 1) {
+                            vm.addItem();
+                        }
+                        vm.reloadPaymentDateFields();
+                    });
+					
+					sendRequest(reqUrlData, function(response) {
+                        var detailData = response.data;
+                        if (detailData.items.length == 0) {
+                            vm.addDataItem(vm.dataDetailItems);
+                        }else{
+                        	detailData.items.forEach(function(item) {
+                        		vm.dataDetailItems.push(item);
+                        	})
+                        }
+                    });
                      
                  } else {
                 	 initialModel();
                  }
-			}	
+			}
 			
 			vm.setup();
 			
@@ -236,7 +252,8 @@ app.controller('NewFileLayoutController', [
                       docFieldName: null,
                       dataType: null,
                       dataLength: 0,
-                      startIndex: 0
+                      startIndex: 0,
+                      itemType: FIELD
                   };
                   vm.model.items.push(itemConfig);
             }
@@ -248,14 +265,19 @@ app.controller('NewFileLayoutController', [
               
             vm.save = function() {
             	vm.model.completed = true;
-                vm.model.items.forEach(function(obj, index) {
-                    vm.model.completed =  obj.completed && vm.model.completed; 
+            	var sponsorLayout = angular.copy(vm.model);
+            	vm.dataDetailItems.forEach(function(detailItem) {
+            		sponsorLayout.items.push(detailItem);
+            	});
+            	
+            	sponsorLayout.items.forEach(function(obj, index) {
+            		sponsorLayout.completed =  obj.completed && sponsorLayout.completed; 
                 })
                  var apiURL = 'api/v1/organize-customers/' +  sponsorId + '/sponsor-configs/SFP/layouts';
                  if(!vm.newMode){
                 	 apiURL = apiURL+'/'+vm.model.sponsorIntegrateFileConfigId;
                  }
-                 var fileLayoutDiferred = Service.requestURL(apiURL, vm.model, vm.newMode?'POST':'PUT');
+                 var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode?'POST':'PUT');
 
                  fileLayoutDiferred.promise.then(function(response) {
                       var organizeModel = {
@@ -288,9 +310,39 @@ app.controller('NewFileLayoutController', [
       				}
       			});
       			return msg;
-      		}
-              
-		} ]);
+		}
+
+		vm.addDataItem = function(dataItems) {
+			var itemConfig = {
+				primaryKeyField : false,
+				docFieldName : null,
+				dataType : null,
+				dataLength : 0,
+				startIndex : 0,
+				transient: 1,
+				itemType: DATA
+			};
+			dataItems.push(itemConfig)
+		}
+		
+		vm.removeDataItem = function(dataItems, item){
+			var index = dataItems.indexOf(item);
+			dataItems.splice(index, 1);
+		}
+		
+		vm.getDetailFieldSize = function(){
+			return vm.model.items.length;
+		}
+		
+		vm.isEven = function(fieldSize, currentIndex){
+			return (fieldSize + currentIndex) % 2 == 0 ? true: false;
+		}
+		
+		vm.dataRowNo = function(fieldSize, currentIndex){
+			return (fieldSize + currentIndex) + 1;
+		}
+
+	} ]);
 
 app.constant('FILE_TYPE_ITEM', {
 	fixedLength : 'FIXEDLENGTH',
@@ -661,7 +713,8 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 	    	if(!vm.numericeModel.usePadding){
 	    		vm.model.paddingCharacter = null;
 	    	}
-		}
+		}    
+	    
 	    var defaultExampleValue = vm.config.defaultExampleValue;
 		$scope.$watch('ctrl.model', function() {
 			vm.examplePosDataDisplay = parseFloat(defaultExampleValue).toFixed(vm.model.decimalPlace);
