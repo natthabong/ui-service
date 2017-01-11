@@ -160,7 +160,53 @@
 												<p id="description-{{$index+1}}-label"
 													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
 											</td>
+										</tr>
+										<!-- Detail Data -->
+										<tr
+											ng-repeat-start="record in newFileLayoutCtrl.dataDetailItems track by $index"
+											ng-class="newFileLayoutCtrl.isEven(newFileLayoutCtrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
 
+											<td class="text-center"><input type="checkbox"
+												ng-model="record.primaryKeyField" /></td>
+
+											<td class="text-right"><span
+												id="layout-item-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-no-label"
+												ng-bind="newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)"></span></td>
+
+											<td class="text-right"><scf-input-text
+													id="sponsor-field-name-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-textbox"
+													ng-model="record.displayValue" /></td>
+
+											<td class="text-center"><scf-dropdown
+													id="data-type-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-dropdown"
+													ng-model="record.dataType"
+													component-data="newFileLayoutCtrl.dataTypeDropdown"
+													translate-label="true"></scf-dropdown></td>
+
+											<td class="text-center"></td>
+											<td class="text-center"></td>
+											<td class="text-center"><scf-button type="button"
+													id="setup-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-button"
+													class="btn-default gec-btn-action"
+													ng-click="newFileLayoutCtrl.openSetting($index, record)"
+													ng-hide="!record.completed"> <i
+													class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
+													id="warning-setup-{{$index+1}}-button"
+													class="btn-default gec-btn-action"
+													ng-click="newFileLayoutCtrl.openSetting($index, record)"
+													title="Config a file layout" ng-hide="record.completed">
+												<img data-ng-src="img/gear_warning.png"
+													style="height: 13px; width: 14px;" /> </scf-button> <scf-button
+													type="button" id="delete-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-button"
+													class="btn-default gec-btn-action"
+													ng-click="newFileLayoutCtrl.removeDataItem(newFileLayoutCtrl.dataDetailItems, record)">
+												<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
+										</tr>
+										<tr ng-repeat-end="" ng-class="newFileLayoutCtrl.isEven(newFileLayoutCtrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
+											<td colspan="7">
+												<p id="description-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-label"
+													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
+											</td>
 										</tr>
 
 									</tbody>
@@ -172,6 +218,12 @@
 										class="btn btn-default" ng-click="newFileLayoutCtrl.addItem()"
 										ng-bind="'Add another field' | translate">Add another
 										field</button>
+										
+									<button id="add-another-data-detail-button" type="button"
+										class="btn btn-default" ng-click="newFileLayoutCtrl.addDataItem(newFileLayoutCtrl.dataDetailItems)"
+										ng-bind="'Add another data' | translate">Add another
+										data</button>
+										
 									<button type="button" class="btn btn-default"
 										ng-disabled="true" ng-bind="'Sort by index' | translate"></button>
 								</div>
