@@ -191,7 +191,7 @@
 													ng-click="newFileLayoutCtrl.openSetting($index, record)"
 													ng-hide="!record.completed"> <i
 													class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
-													id="warning-setup-{{$index+1}}-button"
+													id="warning-setup-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="newFileLayoutCtrl.openSetting($index, record)"
 													title="Config a file layout" ng-hide="record.completed">
