@@ -178,8 +178,8 @@ app.controller('NewFileLayoutController', [
 				
 				if (!angular.isUndefined(selectedItem) && selectedItem != null) {
 					vm.newMode = false;
-					var reqUrlField = '/layouts/' + selectedItem.sponsorIntegrateFileConfigId + '/item-type/FIELD';
-					var reqUrlData = '/layouts/' + selectedItem.sponsorIntegrateFileConfigId + '/item-type/DATA';
+					var reqUrlField = '/layouts/' + selectedItem.layoutConfigId + '/item-type/FIELD';
+					var reqUrlData = '/layouts/' + selectedItem.layoutConfigId + '/item-type/DATA';
 					
 					sendRequest(reqUrlField, function(response) {
                         vm.model = response.data;
@@ -275,7 +275,7 @@ app.controller('NewFileLayoutController', [
                 })
                  var apiURL = 'api/v1/organize-customers/' +  sponsorId + '/sponsor-configs/SFP/layouts';
                  if(!vm.newMode){
-                	 apiURL = apiURL+'/'+vm.model.sponsorIntegrateFileConfigId;
+                	 apiURL = apiURL+'/'+vm.model.layoutConfigId;
                  }
                  var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode?'POST':'PUT');
 
