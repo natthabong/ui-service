@@ -108,7 +108,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
         // Validate Form before send upload file
         if (validateFileUpload(vm.uploadModel, vm.acceptFileExtention)) {
             var fileTypeConfigObject = vm.getFileTypeByIndex(vm.uploadModel.fileTypeIndex);
-            vm.uploadModel.fileConfigId = fileTypeConfigObject.sponsorIntegrateFileConfigId;
+            vm.uploadModel.fileConfigId = fileTypeConfigObject.layoutConfigId;
 
             var deffered = UploadDocumentService.upload(vm.uploadModel);
             deffered.promise.then(function(response) {
