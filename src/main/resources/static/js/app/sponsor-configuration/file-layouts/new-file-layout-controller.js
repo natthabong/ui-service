@@ -761,7 +761,9 @@ app.controller("DOCUMENT_TYPELayoutConfigController", ['$scope', '$rootScope', '
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
 	vm.requiredChange = function(){
-		vm.model.expectedValue = null;
+		if(vm.model.required == false){
+			vm.model.defaultValue = null;
+		}
 	}
 }]);
 
@@ -894,6 +896,7 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 		displayMessage = displayMessage.replace('{expectedValue}', record.expectedValue || '-');
 		displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);
+		displayMessage = displayMessage.replace('{defaultValue}', record.defaultValue == null ? '-' : record.defaultValue);
 		return displayMessage;
 	}
 	

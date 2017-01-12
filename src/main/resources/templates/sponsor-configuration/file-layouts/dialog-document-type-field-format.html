@@ -18,14 +18,14 @@
 						<label for="dealer"
 							class="col-md-3 col-sm-3 col-xs-12 control-label">
 							<scf-checkbox
-								id="document-type-field-format-popup-require-checkbox"
+								id="document-type-field-format-popup-default-value-checkbox"
 								ng-model="ctrl.model.required"
 								ng-click="ctrl.requiredChange()"></scf-checkbox> 
 								<span ng-bind="'Default value' | translate" id="require-label"></span>
 						</label>
 						<div class="col-md-8 col-sm-8 col-xs-12">
-							<scf-input-text id="document-type-field-format-popup-expected-value-textbox"
-									ng-model="ctrl.model.expectedValue"
+							<scf-input-text id="doocument-type-field-format-popup-default-value-textbox"
+									ng-model="ctrl.model.defaultValue" maxlength="255"
 									ng-disabled="!ctrl.model.required"></scf-input-text>
 						</div>
 					</div>
@@ -39,10 +39,10 @@
 	<div class="modal-footer">
 		<div class="row">
 			<div class="col-xs-12 text-right">
-				<scf-button id="text-field-format-popup-cancel-button"
+				<scf-button id="document-type-field-format-popup-cancel-button"
 					class="popup-button" ng-click="closeThisDialog()"
 					ng-bind="'Cancel' | translate"></scf-button>
-				<scf-button id="text-field-format-popup-ok-button"
+				<scf-button id="document-type-field-format-popup-ok-button"
 					class="popup-button" ng-click="closeThisDialog(ctrl.model)"
 					ng-bind="'OK' | translate"></scf-button>
 
