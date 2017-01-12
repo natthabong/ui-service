@@ -14,6 +14,7 @@ public class ConfigDataTypeController {
 	private static String DATE_TIME_FIELD = "sponsor-configuration/file-layouts/dialog-date-time-field-format";
 	private static String NUMERIC_FIELD = "sponsor-configuration/file-layouts/dialog-numeric-field-format";
 	private static String PAYMENT_AMOUNT_FIELD = "sponsor-configuration/file-layouts/dialog-payment-amount-field-format";
+	private static String DOCUMENT_TYPE_FIELD = "sponsor-configuration/file-layouts/dialog-document-type-field-format";
 
 	@RequestMapping(path = "/text", method = RequestMethod.GET)
 	public String getTextFieldConfig() {
@@ -43,5 +44,10 @@ public class ConfigDataTypeController {
 	@RequestMapping(path = "/payment-amount", method = RequestMethod.GET)
 	public String getPaymentAmountFieldConfig() {
 		return PAYMENT_AMOUNT_FIELD;
+	}
+	
+	@RequestMapping(path = "/document-type", method = RequestMethod.GET)
+	public String getDocumentTypeFieldConfig() {
+		return DOCUMENT_TYPE_FIELD;
 	}
 }

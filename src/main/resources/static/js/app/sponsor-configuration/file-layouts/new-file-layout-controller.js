@@ -757,6 +757,14 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 	    }
 } ]);
 
+app.controller("DOCUMENT_TYPELayoutConfigController", ['$scope', '$rootScope', '$q', 'Service', '$filter', function($scope, $rootScope, $q, Service, $filter) {
+	var vm = this;
+	vm.model = angular.copy($scope.ngDialogData.record);
+	vm.requiredChange = function(){
+		vm.model.expectedValue = null;
+	}
+}]);
+
 app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 	return {
 		TEXT_DisplayExample : TEXT_DisplayExample,
@@ -764,7 +772,8 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 		CUSTOMER_CODE_DisplayExample : CUSTOMER_CODE_DisplayExample,
 		DATE_TIME_DisplayExample : DATE_TIME_DisplayExample,
 		NUMERIC_DisplayExample : NUMERIC_DisplayExample,
-		PAYMENT_AMOUNT_DisplayExample : PAYMENT_AMOUNT_DisplayExample
+		PAYMENT_AMOUNT_DisplayExample : PAYMENT_AMOUNT_DisplayExample,
+		DOCUMENT_TYPE_DisplayExample: DOCUMENT_TYPE_DisplayExample
 	}
 
 	function TEXT_DisplayExample(record, config) {
@@ -876,6 +885,15 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 		displayMessage = displayMessage.replace('{positiveExampleData}', examplePosDataDisplay);
 		displayMessage = displayMessage.replace('{negativeExampleData}', exampleNegDataDisplay);		
 
+		return displayMessage;
+	}
+	
+	function DOCUMENT_TYPE_DisplayExample(record, config){
+		var displayMessage = config.configDetailPattern;
+
+		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
+		displayMessage = displayMessage.replace('{expectedValue}', record.expectedValue || '-');
+		displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);
 		return displayMessage;
 	}
 	

@@ -204,6 +204,7 @@
 	"Numeric field format": "Numeric field format",
 	"Customer code field format": "Customer code field format",
 	"New customer code group": "New customer code group",
+	"Document type field format": "Document type field format",
 	"Group name": "Group name",
 	"Require": "Require",
 	"Field": "Field",
@@ -226,6 +227,7 @@
 	"Save": "Save",
 	"Sort by index": "Sort by index",
 	"Index": "Index",
+	"Default value": "Default value",
 	
 	"Display document configuration": "ตั้งค่าหน้าจอแสดงเอกสาร"
 }
