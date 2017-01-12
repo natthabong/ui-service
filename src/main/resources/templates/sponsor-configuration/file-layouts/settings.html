@@ -105,6 +105,7 @@
 											<th ng-bind="'Sponsor field name' | translate">Sponsor
 												field name</th>
 											<th ng-bind="'Data type' | translate">Data type</th>
+											<th ng-bind="'Save' | translate"></th>
 											<th ng-bind="'Length' | translate">Length</th>
 											<th ng-bind="'Index' | translate">Index</th>
 											<th></th>
@@ -131,6 +132,13 @@
 													ng-model="record.dataType"
 													component-data="newFileLayoutCtrl.dataTypeDropdown"
 													translate-label="true"></scf-dropdown></td>
+													
+											<td class="text-center">
+												<scf-checkbox
+												id="save-{{$index+1}}-checkbox"
+												ng-checked="newFileLayoutCtrl.isSaveCheckedDisplay(record)"
+												ng-click="newFileLayoutCtrl.saveField(record)"></scf-checkbox>
+											</td>
 
 											<td class="text-center"><input type="text"
 												id="length-{{$index+1}}-textbox" style="text-align: right;"
@@ -183,6 +191,7 @@
 													component-data="newFileLayoutCtrl.dataTypeDropdown"
 													translate-label="true"></scf-dropdown></td>
 
+											<td class="text-center"></td>
 											<td class="text-center"></td>
 											<td class="text-center"></td>
 											<td class="text-center"><scf-button type="button"
