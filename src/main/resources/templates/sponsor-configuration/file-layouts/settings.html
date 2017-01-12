@@ -164,7 +164,7 @@
 												<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
 										</tr>
 										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
-											<td colspan="7">
+											<td colspan="8">
 												<p id="description-{{$index+1}}-label"
 													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
 											</td>
@@ -212,7 +212,7 @@
 												<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
 										</tr>
 										<tr ng-repeat-end="" ng-class="newFileLayoutCtrl.isEven(newFileLayoutCtrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
-											<td colspan="7">
+											<td colspan="8">
 												<p id="description-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-label"
 													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
 											</td>

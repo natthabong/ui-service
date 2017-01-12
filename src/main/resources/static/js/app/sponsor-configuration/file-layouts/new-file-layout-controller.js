@@ -162,7 +162,7 @@ app.controller('NewFileLayoutController', [
                    primaryKeyField: false,
                    docFieldName: null,
                    dataType: null,
-                   transient: false,
+                   isTransient: false,
                    dataLength: 0,
                    startIndex: 0
                }]
@@ -255,7 +255,7 @@ app.controller('NewFileLayoutController', [
                       dataType: null,
                       dataLength: 0,
                       startIndex: 0,
-                      transient: false,
+                      isTransient: false,
                       itemType: 'FIELD'
                   };
                   vm.model.items.push(itemConfig);
@@ -322,7 +322,7 @@ app.controller('NewFileLayoutController', [
 				dataType : null,
 				dataLength : 0,
 				startIndex : 0,
-				transient: true,
+				isTransient: true,
 				itemType: 'DATA'
 			};
 			dataItems.push(itemConfig)
@@ -346,11 +346,11 @@ app.controller('NewFileLayoutController', [
 		}
 		
 		vm.isSaveCheckedDisplay = function(item){
-			return !item.transient;
+			return !item.isTransient;
 		}
 		
 		vm.saveField = function(item){
-			item.transient = !item.transient;
+			item.isTransient = !item.isTransient;
 		}
 
 	} ]);
