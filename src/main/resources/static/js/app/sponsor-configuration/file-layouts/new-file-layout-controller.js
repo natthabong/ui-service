@@ -322,7 +322,7 @@ app.controller('NewFileLayoutController', [
 				dataType : null,
 				dataLength : 0,
 				startIndex : 0,
-				isTransient: true,
+				isTransient: false,
 				itemType: 'DATA'
 			};
 			dataItems.push(itemConfig)
