@@ -178,15 +178,20 @@ app.controller('NewFileLayoutController', [
 				
 				if (!angular.isUndefined(selectedItem) && selectedItem != null) {
 					vm.newMode = false;
-					var reqUrlField = '/layouts/' + selectedItem.layoutConfigId + '/item-type/FIELD';
-					var reqUrlData = '/layouts/' + selectedItem.layoutConfigId + '/item-type/DATA';
+					var reqUrlLayoutConfg = '/layouts/' + selectedItem.layoutConfigId;
+					var reqUrlField = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=FIELD';
+					var reqUrlData = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=DATA';
+					
+					sendRequest(reqUrlLayoutConfg, function(response) {
+                        vm.model = response.data;                        
+                        vm.reloadPaymentDateFields();
+                    });					
 					
 					sendRequest(reqUrlField, function(response) {
-                        vm.model = response.data;
+                        vm.model.items = response.data;
                         if (vm.model.items.length < 1) {
                             vm.addItem();
-                        }
-                        vm.reloadPaymentDateFields();
+                        }                        
                     });
 					
 					sendRequest(reqUrlData, function(response) {
