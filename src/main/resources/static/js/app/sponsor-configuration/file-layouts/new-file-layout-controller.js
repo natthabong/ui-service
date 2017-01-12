@@ -253,7 +253,7 @@ app.controller('NewFileLayoutController', [
                       dataType: null,
                       dataLength: 0,
                       startIndex: 0,
-                      itemType: FIELD
+                      itemType: 'FIELD'
                   };
                   vm.model.items.push(itemConfig);
             }
@@ -320,7 +320,7 @@ app.controller('NewFileLayoutController', [
 				dataLength : 0,
 				startIndex : 0,
 				transient: 1,
-				itemType: DATA
+				itemType: 'DATA'
 			};
 			dataItems.push(itemConfig)
 		}
