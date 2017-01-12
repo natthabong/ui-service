@@ -196,13 +196,9 @@ app.controller('NewFileLayoutController', [
 					
 					sendRequest(reqUrlData, function(response) {
                         var detailData = response.data;
-                        if (detailData.items.length == 0) {
-                            vm.addDataItem(vm.dataDetailItems);
-                        }else{
-                        	detailData.items.forEach(function(item) {
+                        	detailData.forEach(function(item) {
                         		vm.dataDetailItems.push(item);
                         	})
-                        }
                     });
                      
                  } else {
