@@ -171,6 +171,9 @@ app.controller('NewFileLayoutController', [
 			 
 			vm.model = {};
 			vm.paymentDateModel = { }
+
+			vm.paymentDateFormularModelDropdowns = [];
+			
 			vm.setup = function(){
 				
 				loadDelimiters();
@@ -182,6 +185,7 @@ app.controller('NewFileLayoutController', [
 					var reqUrlLayoutConfg = '/layouts/' + selectedItem.layoutConfigId;
 					var reqUrlField = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=FIELD';
 					var reqUrlData = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=DATA';
+					var reqUrlFormula = '/payment-date-formulas/';
 					
 					sendRequest(reqUrlLayoutConfg, function(response) {
                         vm.model = response.data;                        
@@ -201,6 +205,18 @@ app.controller('NewFileLayoutController', [
                         		vm.dataDetailItems.push(item);
                         	})
                     });
+					
+					sendRequest(reqUrlFormula, function(response) {
+                        var formulaData = response.data;
+                        	formulaData.forEach(function(item) {
+        	                	var paymentDateFormulaItem = {
+        		            			 value: item.paymentDateFormulaId,
+        		                         label: item.formulaName
+        		                }                        			
+                        		vm.paymentDateFormularModelDropdowns.push(paymentDateFormulaItem);
+                        	})
+                        	vm.model.paymentDateConfig.formula.paymentDateFormulaId = ""+vm.model.paymentDateConfig.formula.paymentDateFormulaId;
+                    });					
                      
                  } else {
                 	 initialModel();
@@ -267,16 +283,17 @@ app.controller('NewFileLayoutController', [
             }
             
             vm.formula = {
+            	paymentDateFormulaId : null,	
             	formulaName: '',
             	formulaType: 'CREDIT_TERM',
             	sponsorId: sponsorId
             };
             
             vm.openNewFormula = function(){
-            	
+            	vm.formula.paymentDateFormulaId = null,
             	vm.formula.formulaName = '';
             	vm.formula.formulaType = 'CREDIT_TERM';
-            	vm.formula.formulaType = sponsorId;
+            	vm.formula.sponsorId = sponsorId;
             	
             	ngDialog.open({
             		template: '/js/app/sponsor-configuration/file-layouts/dialog-new-formula.html',
@@ -286,15 +303,37 @@ app.controller('NewFileLayoutController', [
             };
             
     		vm.saveNewFormula = function() {
+    			console.log("phase 1");
     			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
     			var serviceDiferred = Service.requestURL(serviceUrl, vm.formula, 'POST');
     			serviceDiferred.promise.then(function(response) {
-    				console.log(response);
-    				newFileLayoutCtrl.model.paymentDate.formaularId = response.paymentDateFormulaId;
-    			}).catch(function(response) {
-    				$log.error('Save customer Code Group Fail');
-    			});
-    		};          
+    				vm.formula.paymentDateFormulaId = response.paymentDateFormulaId;
+    				
+        			var serviceGetFormula = '/api/v1/organize-customers/' + sponsorId
+    				+ '/sponsor-configs/SFP/payment-date-formulas/';    			
+                    var serviceDiferred = Service.doGet(serviceGetFormula);
+                    serviceDiferred.promise.then(function(response) {
+                        var formulaData = response.data;
+                        vm.paymentDateFormularModelDropdowns = [];
+                        formulaData.forEach(function(item) {
+        	                	var paymentDateFormulaItem = {
+        		            			 value: item.paymentDateFormulaId,
+        		                         label: item.formulaName
+        		                }                        			
+        	                	vm.paymentDateFormularModelDropdowns.push(paymentDateFormulaItem);
+                        })
+                        vm.model.paymentDateConfig.formula.paymentDateFormulaId = ""+vm.formula.paymentDateFormulaId;
+                    });
+                    
+				}).catch(function(response){
+					log.error('save new formula error');
+				}); 
+    			
+    			console.log("phase 2");
+                console.log("phase 3");
+                
+    		};    
+
               
             vm.save = function() {
             	vm.model.completed = true;
