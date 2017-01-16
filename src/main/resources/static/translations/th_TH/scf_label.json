@@ -228,6 +228,10 @@
 	"Sort by index": "Sort by index",
 	"Index": "Index",
 	"Default value": "Default value",
+	"Fields for Payment date formula": "Fields for Payment date formula",
+	"Formula type": "Formula type",
+	"Credit term code field": "Credit term code field",
+	"Document date field": "Document date field",
 	
 	"Display document configuration": "ตั้งค่าหน้าจอแสดงเอกสาร"
 }
