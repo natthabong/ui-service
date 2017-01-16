@@ -251,7 +251,7 @@
 								<div class="row">
 									<div class="col-md-1">
 										<label class="radio-inline"> <input type="radio"
-											id="payment-date-type-field" name="-payment-date-type-radio"
+											id="payment-date-type-field" name="payment-date-type-radio"
 											ng-model="newFileLayoutCtrl.model.paymentDateConfig.strategy"
 											ng-value="'FIELD'" />{{'Field' | translate}}
 										</label>
@@ -273,20 +273,22 @@
 								<div class="row">
 									<div class="col-md-1">
 										<label class="radio-inline"> <input type="radio"
-											id="payment-date-type-formula" name="-payment-date-type-radio"
+											id="payment-date-type-formula"
+											name="payment-date-type-radio"
 											ng-model="newFileLayoutCtrl.model.paymentDateConfig.strategy"
 											ng-value="'FORMULA'" />{{'Formula' | translate}}
 										</label>
 									</div>
 									<div class="col-md-3">
-										<scf-dropdown id="payment-date-field-dropdown"
+										<scf-dropdown id="payment-date-formula-dropdown"
 											ng-disabled="newFileLayoutCtrl.model.paymentDateConfig.strategy != 'FORMULA'"
 											ng-model="newFileLayoutCtrl.model.paymentDate.formaularId"
 											component-data="newFileLayoutCtrl.paymentDateFormularModel.dropdowns"
 											translate-label="true"></scf-dropdown>
 									</div>
 									<div class="col-md-7">
-										<scf-button id="payment-date-type-formula-new-button"
+										<scf-button id="payment-date-formula-new-button"
+											ng-click="newFileLayoutCtrl.openNewFormula()"
 											ng-disabled="newFileLayoutCtrl.model.paymentDateConfig.strategy != 'FORMULA'"
 											class="btn-default gec-btn-action" title="New a formular">
 										<i class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
