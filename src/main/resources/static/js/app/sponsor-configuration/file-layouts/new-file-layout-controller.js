@@ -265,6 +265,36 @@ app.controller('NewFileLayoutController', [
                   var index = vm.model.items.indexOf(record);
                   vm.model.items.splice(index, 1);
             }
+            
+            vm.formula = {
+            	formulaName: '',
+            	formulaType: 'CREDIT_TERM',
+            	sponsorId: sponsorId
+            };
+            
+            vm.openNewFormula = function(){
+            	
+            	vm.formula.formulaName = '';
+            	vm.formula.formulaType = 'CREDIT_TERM';
+            	vm.formula.formulaType = sponsorId;
+            	
+            	ngDialog.open({
+            		template: '/js/app/sponsor-configuration/file-layouts/dialog-new-formula.html',
+            		scope: $scope,
+            		disableAnimation: true
+            	});            	
+            };
+            
+    		vm.saveNewFormula = function() {
+    			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
+    			var serviceDiferred = Service.requestURL(serviceUrl, vm.formula, 'POST');
+    			serviceDiferred.promise.then(function(response) {
+    				console.log(response);
+    				newFileLayoutCtrl.model.paymentDate.formaularId = response.paymentDateFormulaId;
+    			}).catch(function(response) {
+    				$log.error('Save customer Code Group Fail');
+    			});
+    		};          
               
             vm.save = function() {
             	vm.model.completed = true;
@@ -832,9 +862,9 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 		var displayMessage = config.configDetailPattern;
 		
 		var numberFormatDisplay = 'Any numeric format'
-//		if (record.dataFormat.numericTypeFormat == 'CUSTOM') {
-//			numberFormatDisplay = 'Custom numeric format'
-//		}
+// if (record.dataFormat.numericTypeFormat == 'CUSTOM') {
+// numberFormatDisplay = 'Custom numeric format'
+// }
 
 		var signFlagTypeDisplay = '';
 		if (record.signFlagTypeFormat == "IGNORE_PLUS") {
@@ -863,9 +893,9 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 		var displayMessage = config.configDetailPattern;
 		
 		var numberFormatDisplay = 'Any numeric format'
-//		if (record.dataFormat.numericTypeFormat == 'CUSTOM') {
-//			numberFormatDisplay = 'Custom numeric format'
-//		}
+// if (record.dataFormat.numericTypeFormat == 'CUSTOM') {
+// numberFormatDisplay = 'Custom numeric format'
+// }
 
 		var signFlagTypeDisplay = '';
 		if (record.signFlagTypeFormat == "IGNORE_PLUS") {
