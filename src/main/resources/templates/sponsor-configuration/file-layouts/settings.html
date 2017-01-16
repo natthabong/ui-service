@@ -132,12 +132,11 @@
 													ng-model="record.dataType"
 													component-data="newFileLayoutCtrl.dataTypeDropdown"
 													translate-label="true"></scf-dropdown></td>
-													
-											<td class="text-center">
-												<scf-checkbox
-												id="save-{{$index+1}}-checkbox"
-												ng-checked="newFileLayoutCtrl.isSaveCheckedDisplay(record)"
-												ng-click="newFileLayoutCtrl.saveField(record)"></scf-checkbox>
+
+											<td class="text-center"><scf-checkbox
+													id="save-{{$index+1}}-checkbox"
+													ng-checked="newFileLayoutCtrl.isSaveCheckedDisplay(record)"
+													ng-click="newFileLayoutCtrl.saveField(record)"></scf-checkbox>
 											</td>
 
 											<td class="text-center"><input type="text"
@@ -206,14 +205,17 @@
 													title="Config a file layout" ng-hide="record.completed">
 												<img data-ng-src="img/gear_warning.png"
 													style="height: 13px; width: 14px;" /> </scf-button> <scf-button
-													type="button" id="delete-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-button"
+													type="button"
+													id="delete-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="newFileLayoutCtrl.removeDataItem(newFileLayoutCtrl.dataDetailItems, record)">
 												<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
 										</tr>
-										<tr ng-repeat-end="" ng-class="newFileLayoutCtrl.isEven(newFileLayoutCtrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
+										<tr ng-repeat-end=""
+											ng-class="newFileLayoutCtrl.isEven(newFileLayoutCtrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
 											<td colspan="8">
-												<p id="description-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-label"
+												<p
+													id="description-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-label"
 													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
 											</td>
 										</tr>
@@ -227,12 +229,13 @@
 										class="btn btn-default" ng-click="newFileLayoutCtrl.addItem()"
 										ng-bind="'Add another field' | translate">Add another
 										field</button>
-										
+
 									<button id="add-another-data-detail-button" type="button"
-										class="btn btn-default" ng-click="newFileLayoutCtrl.addDataItem(newFileLayoutCtrl.dataDetailItems)"
+										class="btn btn-default"
+										ng-click="newFileLayoutCtrl.addDataItem(newFileLayoutCtrl.dataDetailItems)"
 										ng-bind="'Add another data' | translate">Add another
 										data</button>
-										
+
 									<button type="button" class="btn btn-default"
 										ng-disabled="true" ng-bind="'Sort by index' | translate"></button>
 								</div>
@@ -248,12 +251,14 @@
 								<div class="row">
 									<div class="col-md-1">
 										<label class="radio-inline"> <input type="radio"
-											ng-model="newFileLayoutCtrl.model.paymentDate.strategy"
+											id="payment-date-type-field" name="-payment-date-type-radio"
+											ng-model="newFileLayoutCtrl.model.paymentDateConfig.strategy"
 											ng-value="'FIELD'" />{{'Field' | translate}}
 										</label>
 									</div>
 									<div class="col-md-3">
 										<scf-dropdown id="payment-date-field-dropdown"
+											ng-disabled="newFileLayoutCtrl.model.paymentDateConfig.strategy != 'FIELD'"
 											ng-model="newFileLayoutCtrl.model.paymentDate.fieldName"
 											component-data="newFileLayoutCtrl.paymentDateFieldDropdown"
 											translate-label="true"></scf-dropdown>
@@ -268,20 +273,21 @@
 								<div class="row">
 									<div class="col-md-1">
 										<label class="radio-inline"> <input type="radio"
-											ng-disabled="true"
-											ng-model="newFileLayoutCtrl.model.paymentDate.strategy"
-											ng-value="'FORMULAR'" />{{'Formular' | translate}}
+											id="payment-date-type-formula" name="-payment-date-type-radio"
+											ng-model="newFileLayoutCtrl.model.paymentDateConfig.strategy"
+											ng-value="'FORMULA'" />{{'Formula' | translate}}
 										</label>
 									</div>
 									<div class="col-md-3">
 										<scf-dropdown id="payment-date-field-dropdown"
-											ng-disabled="true"
+											ng-disabled="newFileLayoutCtrl.model.paymentDateConfig.strategy != 'FORMULA'"
 											ng-model="newFileLayoutCtrl.model.paymentDate.formaularId"
 											component-data="newFileLayoutCtrl.paymentDateFormularModel.dropdowns"
 											translate-label="true"></scf-dropdown>
 									</div>
 									<div class="col-md-7">
-										<scf-button id="layout-new-button" ng-disabled="true"
+										<scf-button id="layout-new-button"
+											ng-disabled="newFileLayoutCtrl.model.paymentDateConfig.strategy != 'FORMULA'"
 											class="btn-default gec-btn-action" title="New a formular">
 										<i class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
 									</div>
@@ -297,7 +303,8 @@
 							ng-click="newFileLayoutCtrl.save()">{{'Save' |
 						translate}}</scf-button>
 						<scf-button id="layout-back-button" class="popup-button"
-							data-dismiss="modal" ng-click="newFileLayoutCtrl.backToSponsorConfigPage()"
+							data-dismiss="modal"
+							ng-click="newFileLayoutCtrl.backToSponsorConfigPage()"
 							ng-bind="'Cancel' | translate"></scf-button>
 					</div>
 				</div>
