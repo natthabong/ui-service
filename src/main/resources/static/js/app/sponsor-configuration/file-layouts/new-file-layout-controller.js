@@ -303,36 +303,32 @@ app.controller('NewFileLayoutController', [
             };
             
     		vm.saveNewFormula = function() {
-    			console.log("phase 1");
     			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
     			var serviceDiferred = Service.requestURL(serviceUrl, vm.formula, 'POST');
     			serviceDiferred.promise.then(function(response) {
     				vm.formula.paymentDateFormulaId = response.paymentDateFormulaId;
-    				
-        			var serviceGetFormula = '/api/v1/organize-customers/' + sponsorId
-    				+ '/sponsor-configs/SFP/payment-date-formulas/';    			
-                    var serviceDiferred = Service.doGet(serviceGetFormula);
-                    serviceDiferred.promise.then(function(response) {
-                        var formulaData = response.data;
-                        vm.paymentDateFormularModelDropdowns = [];
-                        formulaData.forEach(function(item) {
-        	                	var paymentDateFormulaItem = {
-        		            			 value: item.paymentDateFormulaId,
-        		                         label: item.formulaName
-        		                }                        			
-        	                	vm.paymentDateFormularModelDropdowns.push(paymentDateFormulaItem);
-                        })
-                        vm.model.paymentDateConfig.formula.paymentDateFormulaId = ""+vm.formula.paymentDateFormulaId;
-                    });
-                    
-				}).catch(function(response){
-					log.error('save new formula error');
+    				vm.refershFormulaDropDown();
 				}); 
-    			
-    			console.log("phase 2");
-                console.log("phase 3");
-                
+    			return promise;
     		};    
+    		
+    		vm.refershFormulaDropDown = function(){
+    			var serviceGetFormula = '/api/v1/organize-customers/' + sponsorId
+				+ '/sponsor-configs/SFP/payment-date-formulas/';    			
+                var serviceDiferred = Service.doGet(serviceGetFormula);
+                serviceDiferred.promise.then(function(response) {
+                    var formulaData = response.data;
+                    vm.paymentDateFormularModelDropdowns = [];
+                    formulaData.forEach(function(item) {
+    	                	var paymentDateFormulaItem = {
+    		            			 value: item.paymentDateFormulaId,
+    		                         label: item.formulaName
+    		                }                        			
+    	                	vm.paymentDateFormularModelDropdowns.push(paymentDateFormulaItem);
+                    })
+                    vm.model.paymentDateConfig.formula.paymentDateFormulaId = ""+vm.formula.paymentDateFormulaId;
+                });
+    		}
 
               
             vm.save = function() {
