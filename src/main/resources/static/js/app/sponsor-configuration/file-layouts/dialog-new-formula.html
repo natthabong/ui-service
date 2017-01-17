@@ -19,7 +19,7 @@
 							class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 							ng-bind="'Formula name' | translate"></span>:</label>
 						<div class="col-md-6 col-sm-4 col-xs-12">
-							<scf-input-text id="payment-date-formula-name-textbox"
+							<scf-input-text id="payment-date-formula-name-textbox" maxlength="255"
 								ng-model="newFileLayoutCtrl.formula.formulaName"></scf-input-text>
 						</div>
 					</div>
@@ -29,7 +29,7 @@
 							ng-bind="'Formula type' | translate"></span>:</label>
 						<div class="col-md-6 col-sm-4 col-xs-12">
 							<input type="radio" id="payment-date-type-formula" 
-								name="payment-date-formula-type-raido"
+								name="payment-date-formula-type-radio"
 								ng-model="newFileLayoutCtrl.formula.formulaType"
 								ng-value="'CREDIT_TERM'" /> {{'Credit Term' | translate}}
 						</div>
