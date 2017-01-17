@@ -292,14 +292,19 @@ app.controller('NewFileLayoutController', [
             	isCompleted: '0'
             };
             
+            vm.newFormulaDialogId = null;
+            
             vm.openNewFormula = function(){
-            	vm.formula.paymentDateFormulaId = null,
-            	vm.formula.formulaName = '';
-            	vm.formula.formulaType = 'CREDIT_TERM';
-            	vm.formula.sponsorId = sponsorId;
-            	vm.formula.isCompleted = '0';
             	
-            	var dialog = ngDialog.open({
+            	 vm.formula = {
+                     	paymentDateFormulaId : null,	
+                     	formulaName: '',
+                     	formulaType: 'CREDIT_TERM',
+                     	sponsorId: sponsorId,
+                     	isCompleted: '0'
+                 };
+            	
+            	 vm.newFormulaDialog = ngDialog.open({
                     id: 'new-formula-dialog',
                     template: '/js/app/sponsor-configuration/file-layouts/dialog-new-formula.html',
                     className: 'ngdialog-theme-default',
@@ -311,9 +316,12 @@ app.controller('NewFileLayoutController', [
                     },
                     cache: false,
                     preCloseCallback: function(value) {
-                    	vm.refershFormulaTable();
+                    	vm.formula = value;
+                    	vm.refershFormulaDropDown();
                     }
-                });	           	
+                });	
+            	
+            	vm.newFormulaDialogId = vm.newFormulaDialog.id;
             };
 
     		
@@ -331,8 +339,8 @@ app.controller('NewFileLayoutController', [
     		                }                        			
     	                	vm.paymentDateFormularModelDropdowns.push(paymentDateFormulaItem);
                     })
-                    vm.model.paymentDateConfig.formula.paymentDateFormulaId = ""+vm.formula.paymentDateFormulaId;
-                    
+                    console.log(vm.formula);
+                    vm.model.paymentDateConfig.formula.paymentDateFormulaId = ""+vm.formula.paymentDateFormulaId;                    
                 });
     		}
 
@@ -349,7 +357,6 @@ app.controller('NewFileLayoutController', [
                 })
                  var apiURL = 'api/v1/organize-customers/' +  sponsorId + '/sponsor-configs/SFP/layouts';
                  if(!vm.newMode){
-                	 console.log(vm.model.layoutConfigId);
                 	 vm.model.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
                 	 apiURL = apiURL+'/'+vm.model.layoutConfigId;
                  }
@@ -1019,7 +1026,7 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 	};
 } ]);
 
-app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope','Service', function($scope, $rootScope, Service) {
+app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope','Service','ngDialog', function($scope, $rootScope, Service, ngDialog) {
 	var vm = this;
 
 	vm.formula = angular.copy($scope.ngDialogData.formula);
@@ -1029,8 +1036,7 @@ app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope','Serv
 		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
 		var serviceDiferred = Service.requestURL(serviceUrl, vm.formula, 'POST');
 		serviceDiferred.promise.then(function(response) {
-
+			ngDialog.close('new-formula-dialog',response);
 		}); 
 	};
-	
 } ]);
