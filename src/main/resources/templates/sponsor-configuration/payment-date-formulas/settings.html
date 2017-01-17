@@ -41,8 +41,42 @@
 						</div>
 					</form>
 				</div>
-
 				<div class="panel-body">
+					<h3 class="animated fadeInLeft" id="payment-formula-header-label">{{'Period'
+						| translate}}</h3>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 text-right">
+							<span> <b ng-bind="ctrl.periodSplitePageTxt"
+								id="payment-period-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+									dropdown-id="payment-period-page-limit-dropdown"
+									page-size-model="ctrl.periodTable.pageModel.pageSizeSelectModel"
+									total-page="ctrl.periodTable.pageModel.totalPage"
+									current-page="ctrl.periodTable.pageModel.currentPage"
+									page-size-list="ctrl.pageSizeList"
+									page-action="ctrl.searchPeriod"
+									first-page-button-id="payment-period-first-page-button"
+									back-page-button-id="payment-period-back-page-button"
+									next-page-button-id="payment-period-next-page-button"
+									last-page-button-id="payment-period-last-page-button"></scf-pagination>
+							</span>
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<br />
+
+							<scf-table id="payment-period-table"
+								component-config="ctrl.periodTable.config"
+								component-datas="ctrl.periodData"
+								current-page="ctrl.periodTable.pageModel.currentPage"
+								record-per-page="ctrl.periodTable.pageModel.pageSizeSelectModel"
+								clear-sort-order="ctrl.periodTable.pageModel.clearSortOrder"></scf-table>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body">
+
 					<div class="col-md-12 col-sm-12 text-right">
 						<scf-button id="payment-date-formula-back-button"
 							class="popup-button" data-dismiss="modal"
