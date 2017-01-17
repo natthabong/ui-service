@@ -343,6 +343,8 @@ app.controller('NewFileLayoutController', [
                 })
                  var apiURL = 'api/v1/organize-customers/' +  sponsorId + '/sponsor-configs/SFP/layouts';
                  if(!vm.newMode){
+                	 console.log(vm.model.layoutConfigId);
+                	 vm.model.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
                 	 apiURL = apiURL+'/'+vm.model.layoutConfigId;
                  }
                  var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode?'POST':'PUT');
