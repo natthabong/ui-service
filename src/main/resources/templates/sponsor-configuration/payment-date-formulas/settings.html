@@ -1,0 +1,56 @@
+<div id="content" th:fragment="content">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft">{{'Sponsor
+						payment date formula' | translate}}</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<form name="manageForm" class="form-horizontal">
+						<div class="form-group">
+							<label for="payment-date-formula-name-textbox"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Formula
+								name' | translate}}: </label>
+
+							<div class="col-md-4 col-sm-5 col-xs-12">
+								<scf-input-text id="payment-date-formula-name-textbox"
+									maxlength="255" ng-model="ctrl.model.formulaName"></scf-input-text>
+							</div>
+							<div class="col-md-6 col-sm-4"></div>
+						</div>
+						<div class="form-group">
+							<label for="payment-date-formula-type-dropdown"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Formula
+								type' | translate}}: </label>
+
+							<div class="col-md-4 col-sm-5 col-xs-12">
+								<scf-dropdown id="payment-date-formula-type-dropdown"
+									ng-model="ctrl.model.formulaType"
+									component-data="ctrl.formulaTypes" translate-label="true"></scf-dropdown>
+							</div>
+							<div class="col-md-6 col-sm-4"></div>
+						</div>
+						<div class="col-md-12 col-sm-12 text-right">
+							<scf-button id="payment-date-formula-save-butto" type="submit"
+								ng-click="ctrl.save()">{{'Save' | translate}}</scf-button>
+						</div>
+					</form>
+				</div>
+
+				<div class="panel-body">
+					<div class="col-md-12 col-sm-12 text-right">
+						<scf-button id="payment-date-formula-back-button"
+							class="popup-button" data-dismiss="modal"
+							ng-click="ctrl.backToSponsorConfigPage()"
+							ng-bind="'Back' | translate"></scf-button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

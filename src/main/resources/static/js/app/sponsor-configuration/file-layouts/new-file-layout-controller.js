@@ -288,7 +288,8 @@ app.controller('NewFileLayoutController', [
             	paymentDateFormulaId : null,	
             	formulaName: '',
             	formulaType: 'CREDIT_TERM',
-            	sponsorId: sponsorId
+            	sponsorId: sponsorId,
+            	isCompleted: '0'
             };
             
             vm.openNewFormula = function(){
@@ -296,23 +297,25 @@ app.controller('NewFileLayoutController', [
             	vm.formula.formulaName = '';
             	vm.formula.formulaType = 'CREDIT_TERM';
             	vm.formula.sponsorId = sponsorId;
+            	vm.formula.isCompleted = '0';
             	
-            	ngDialog.open({
-            		template: '/js/app/sponsor-configuration/file-layouts/dialog-new-formula.html',
-            		scope: $scope,
-            		disableAnimation: true
-            	});            	
+            	var dialog = ngDialog.open({
+                    id: 'new-formula-dialog',
+                    template: '/js/app/sponsor-configuration/file-layouts/dialog-new-formula.html',
+                    className: 'ngdialog-theme-default',
+                    controller: 'NewPaymentDateFormulaController',
+                    controllerAs: 'ctrl',
+                    scope: $scope,
+                    data: {
+                    	formula: vm.formula
+                    },
+                    cache: false,
+                    preCloseCallback: function(value) {
+                    	vm.refershFormulaTable();
+                    }
+                });	           	
             };
-            
-    		vm.saveNewFormula = function() {
-    			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
-    			var serviceDiferred = Service.requestURL(serviceUrl, vm.formula, 'POST');
-    			serviceDiferred.promise.then(function(response) {
-    				vm.formula.paymentDateFormulaId = response.paymentDateFormulaId;
-    				vm.refershFormulaDropDown();
-				}); 
-    			return promise;
-    		};    
+
     		
     		vm.refershFormulaDropDown = function(){
     			var serviceGetFormula = '/api/v1/organize-customers/' + sponsorId
@@ -1014,4 +1017,20 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 	function convertRequiredToString(record){
 		return record.required == true ? 'yes' : 'no';
 	};
+} ]);
+
+app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope','Service', function($scope, $rootScope, Service) {
+	var vm = this;
+
+	vm.formula = angular.copy($scope.ngDialogData.formula);
+	vm.sponsorId  = angular.copy($scope.ngDialogData.formula.sponsorId);
+	
+	vm.saveNewFormula = function() {
+		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
+		var serviceDiferred = Service.requestURL(serviceUrl, vm.formula, 'POST');
+		serviceDiferred.promise.then(function(response) {
+
+		}); 
+	};
+	
 } ]);
