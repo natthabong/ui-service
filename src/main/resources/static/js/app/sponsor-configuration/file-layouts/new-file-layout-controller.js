@@ -34,6 +34,7 @@ app.controller('NewFileLayoutController', [
             }];
 			vm.fileEncodeDropdown = [];
 			vm.paymentDateFieldDropdown = [];
+			vm.credittermFieldDropdown = [];
 			
 			vm.fileType = FILE_TYPE_ITEM;
 			
@@ -188,7 +189,7 @@ app.controller('NewFileLayoutController', [
 					var reqUrlFormula = '/payment-date-formulas/';
 					
 					sendRequest(reqUrlLayoutConfg, function(response) {
-                        vm.model = response.data;                        
+                        vm.model = response.data;
                         vm.reloadPaymentDateFields();
                     });					
 					
@@ -216,6 +217,7 @@ app.controller('NewFileLayoutController', [
                         		vm.paymentDateFormularModelDropdowns.push(paymentDateFormulaItem);
                         	})
                         	vm.model.paymentDateConfig.formula.paymentDateFormulaId = ""+vm.model.paymentDateConfig.formula.paymentDateFormulaId;
+                        	
                     });					
                      
                  } else {
@@ -327,6 +329,7 @@ app.controller('NewFileLayoutController', [
     	                	vm.paymentDateFormularModelDropdowns.push(paymentDateFormulaItem);
                     })
                     vm.model.paymentDateConfig.formula.paymentDateFormulaId = ""+vm.formula.paymentDateFormulaId;
+                    
                 });
     		}
 
@@ -361,8 +364,29 @@ app.controller('NewFileLayoutController', [
                   });
               };
               
+              var addCredittermFields = function(configItems){
+            	  var creditermDropdowns = [{
+                      label: 'Please select',
+                      value: null
+                  }];
+            	  
+            	  if(angular.isDefined(configItems) && configItems.length > 0){
+            		  configItems.forEach(function(data) {
+            			  if (!isEmptyValue(data.displayValue) && data.completed) {
+            				  creditermDropdowns.push({
+    								label: data.displayValue,
+    								value: data.docFieldName
+    							});
+    						}
+            		  });
+            	  }            	  
+            	  vm.credittermFieldDropdown = creditermDropdowns;
+              }
+              
+              
               $scope.$watch('newFileLayoutCtrl.model.items', function() {
                   vm.reloadPaymentDateFields();
+                  addCredittermFields(vm.model.items);
               }, true);
               
               vm.reloadPaymentDateFields = function(){
@@ -418,6 +442,26 @@ app.controller('NewFileLayoutController', [
 		
 		vm.saveField = function(item){
 			item.isTransient = !item.isTransient;
+		}
+		
+		
+		vm.formulaTypeDisplay = function(creditTermField, creditTermItems){
+			var displayResult = '';
+			
+			if(angular.isUndefined(creditTermItems) && creditTermItems.length == 0){
+				return displayResult;
+			}
+			
+			if(isEmptyValue(creditTermField)){
+				return displayResult;
+			}
+			
+			creditTermItems.forEach(function(creditTerm){
+				if(creditTerm.value == creditTermField){
+					displayResult = creditTerm.label;
+				}
+			});
+			return displayResult;
 		}
 
 	} ]);

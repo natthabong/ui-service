@@ -599,6 +599,12 @@ footer .footer-below {
 	color: green;
 }
 
+.gec-font-size-namal {
+	font-size: 15px;
+}
+
+.top15 { margin-top:15px; }
+
 .text-muted {
 	color: #aaaaaa;
 }

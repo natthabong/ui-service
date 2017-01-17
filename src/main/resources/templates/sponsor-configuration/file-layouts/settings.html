@@ -280,7 +280,7 @@
 										</label>
 									</div>
 									<div class="col-md-3">
-										<scf-dropdown id="payment-date-formula-dropdown"
+										<scf-dropdown id="paymentdate-formula-dropdown"
 											ng-disabled="newFileLayoutCtrl.model.paymentDateConfig.strategy != 'FORMULA'"
 											ng-model="newFileLayoutCtrl.model.paymentDateConfig.formula.paymentDateFormulaId"
 											component-data="newFileLayoutCtrl.paymentDateFormularModelDropdowns"
@@ -294,8 +294,49 @@
 										<i class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
 									</div>
 								</div>
+								
+								<div class="row top15" ng-hide="newFileLayoutCtrl.model.paymentDateConfig.strategy == 'FIELD'">
+									<div class="form-group">
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<fieldset>
+												<legend class="gec-font-size-namal" ng-bind="'Fields for Payment date formula' | translate"></legend>
+											</fieldset>
+											<div class="form-group">
+												<label class="col-md-2 col-sm-2 col-xs-2 control-label"><span ng-bind="'Formula type' | translate" ></span>:</label>
+												<div class="col-md-5 col-sm-5 col-xs-5" id="formula-type-name-label" ng-bind="newFileLayoutCtrl.formulaTypeDisplay(newFileLayoutCtrl.model.paymentDateConfig.creditTermField, newFileLayoutCtrl.credittermFieldDropdown)">
+												</div>
+												<div class="col-md-4 col-sm-4 col-xs-4"></div>												
+											</div>
+											<div class="form-group">
+												<label class="col-md-2 col-sm-2 col-xs-2 control-label">
+													<span ng-bind="'Credit term code field' | translate" ></span>:
+												</label>												
+												<div class="col-md-5 col-sm-5 col-xs-5">
+													<scf-dropdown id="credit-term-code-field-dropdown"
+														ng-model="newFileLayoutCtrl.model.paymentDateConfig.creditTermField"
+														component-data="newFileLayoutCtrl.credittermFieldDropdown"
+														translate-label="true"></scf-dropdown>
+												</div>
+												<div class="col-md-4 col-sm-4 col-xs-4"></div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-2 col-sm-2 col-xs-2 control-label"><span ng-bind="'Document date field' | translate" ></span>:</label>												
+												<div class="col-md-5 col-sm-5 col-xs-5">
+													<scf-dropdown id="document-date-field-dropdown"
+														ng-model="newFileLayoutCtrl.model.paymentDateConfig.documentDateField"
+														component-data="newFileLayoutCtrl.paymentDateFieldDropdown"
+														translate-label="true"></scf-dropdown>
+												</div>
+												<div class="col-md-4 col-sm-4 col-xs-4"></div>
+											</div>
+										</div>
+									</div>	
+								</div>
 							</div>
 						</div>
+						
+						
+						
 					</form>
 				</div>
 
