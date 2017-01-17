@@ -372,6 +372,57 @@ app.filter('noSeperatorNegativeParenthesis', ['$filter', function ($filter) {
         }
     };
 }]);
+
+app.filter('documentDateRuleType', [function() {
+	
+	var dateRange = function(creditterm){
+		var result = '';
+		if(creditterm.documentDateStartPeriod != null 
+				&& creditterm.documentDateEndPeriod != null){
+			result = addOrdinalNumberSuffix(creditterm.documentDateStartPeriod);
+			result += ' - ';
+			result += addOrdinalNumberSuffix(creditterm.documentDateEndPeriod);
+		}
+		return result;
+	}
+	
+	var addOrdinalNumberSuffix = function(number){
+		switch(number % 10){
+		case 1:
+			return number + 'st';
+		case 2:
+			return number + 'nd';
+		case 3:
+			return number + 'rd';
+		default:		
+			return number + 'th';
+		}
+	}
+	return function(creditterm){
+//		var documentDateType = {'EVERY_DAY': 'EVERY_DAY', 'RANGE': 'RANGE'}
+//		var displayMessage = '';
+//		
+//		if(creditterm.documentDateType == documentDateType.EVERY_DAY){
+//			displayMessage = 'every day';
+//		}else if(creditterm.documentDateType == documentDateType.RANGE){
+//			displayMessage = dateRange(creditterm);
+//		}
+		return creditterm;
+	}
+}]);
+
+app.filter('paymentDateFormula', [function() {
+	return function(formula){
+		return formula;
+	}
+}]);
+
+app.filter('paymentPeriod', [function() {
+	return function(period){
+		return period;
+	}
+}]);
+
 var defaultColumDisplay = [{
     field: 'sponsorPaymentDate',
     label: 'วันครบกำหนดชำระ',
