@@ -374,7 +374,7 @@ app.filter('noSeperatorNegativeParenthesis', ['$filter', function ($filter) {
 }]);
 
 app.filter('documentDateRuleType', [function() {
-	
+	var documentDateType = {'EVERY_DAY': 'EVERY_DAY', 'RANGE': 'RANGE'}
 	var dateRange = function(creditterm){
 		var result = '';
 		if(creditterm.documentDateStartPeriod != null 
@@ -386,42 +386,62 @@ app.filter('documentDateRuleType', [function() {
 		return result;
 	}
 	
-	var addOrdinalNumberSuffix = function(number){
-		switch(number % 10){
-		case 1:
-			return number + 'st';
-		case 2:
-			return number + 'nd';
-		case 3:
-			return number + 'rd';
-		default:		
-			return number + 'th';
+	return function(creditterm){		
+		var displayMessage = '';		
+		if(creditterm.documentDateType == documentDateType.EVERY_DAY){
+			displayMessage = 'every day';
+		}else if(creditterm.documentDateType == documentDateType.RANGE){
+			displayMessage = dateRange(creditterm);
 		}
-	}
-	return function(creditterm){
-//		var documentDateType = {'EVERY_DAY': 'EVERY_DAY', 'RANGE': 'RANGE'}
-//		var displayMessage = '';
-//		
-//		if(creditterm.documentDateType == documentDateType.EVERY_DAY){
-//			displayMessage = 'every day';
-//		}else if(creditterm.documentDateType == documentDateType.RANGE){
-//			displayMessage = dateRange(creditterm);
-//		}
-		return creditterm;
+		return displayMessage;
 	}
 }]);
 
 app.filter('paymentDateFormula', [function() {
+	
 	return function(formula){
 		return formula;
 	}
 }]);
 
 app.filter('paymentPeriod', [function() {
+	var paymentPeriodType = {'DATE_OF_MONTH': 'DATE_OF_MONTH', 'DAY_OF_WEEK': 'DAY_OF_WEEK'}
 	return function(period){
-		return period;
+		var displayMessage = '';
+		if(period.paymentPeriodType == paymentPeriodType.DATE_OF_MONTH){
+			if(period.dateOfMonth == 99){
+				return addOrdinalNumberSuffix(period.dateOfMonth);
+			}
+			displayMessage = 'The ';
+			displayMessage += addOrdinalNumberSuffix(period.dateOfMonth);
+			displayMessage += ' day of month';
+		}else if(period.paymentPeriodType == paymentPeriodType.DAY_OF_WEEK){
+			if(period.occurrenceWeek != null){
+				displayMessage = angular.lowercase(period.occurrenceWeek);
+				displayMessage += ' ';
+			}
+			displayMessage += angular.lowercase(period.dayOfWeek);
+		}
+		return displayMessage;
 	}
 }]);
+
+var addOrdinalNumberSuffix = function(number){
+	if(number == 99){
+		return 'end of month';
+	}
+	
+	switch(number % 10){
+	case 1:
+		return number + 'st';
+	case 2:
+		return number + 'nd';
+	case 3:
+		return number + 'rd';
+	default:		
+		return number + 'th';
+	}
+}
 
 var defaultColumDisplay = [{
     field: 'sponsorPaymentDate',
