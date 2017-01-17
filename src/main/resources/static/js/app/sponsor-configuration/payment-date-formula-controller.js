@@ -8,12 +8,15 @@ angular
 						'$scope',
 						'$stateParams',
 						'$timeout',
+						'ngDialog',
 						'PageNavigation',
 						'Service',
-						function(SCFCommonService, $log, $scope, $stateParams, $timeout,
+						function(SCFCommonService, $log, $scope, $stateParams, $timeout, ngDialog,
 								PageNavigation, Service) {
 							var vm = this;
 							var log = $log;
+							
+							vm.sponsorId = $scope.sponsorId;
 							
 							vm.pageModel = {
 								pageSizeSelectModel : '20',
@@ -54,7 +57,7 @@ angular
 										    id: 'payment-date-formula-{value}',
 										    sortData: true,
 										    cssTemplate: 'text-left',
-										}, {
+										},{
 											field: '',
 											label: '',
 											cssTemplate: 'text-center',
@@ -97,4 +100,58 @@ angular
 							}
 
 							vm.initLoad();
+							
+				            vm.formula = {
+				                	paymentDateFormulaId : null,	
+				                	formulaName: '',
+				                	formulaType: 'CREDIT_TERM',
+				                	sponsorId: vm.sponsorId,
+				                	isCompleted: '0'
+				            };
+							
+				            vm.openNewFormula = function(){
+				            	vm.formula.paymentDateFormulaId = null,
+				            	vm.formula.formulaName = '';
+				            	vm.formula.formulaType = 'CREDIT_TERM';
+				            	vm.formula.sponsorId = vm.sponsorId;
+				            	vm.formula.isCompleted = '0'
+
+				            	var dialog = ngDialog.open({
+		                            id: 'new-formula-dialog',
+		                            template: '/js/app/sponsor-configuration/file-layouts/dialog-new-formula.html',
+		                            className: 'ngdialog-theme-default',
+		                            controller: 'NewPaymentDateFormulaController',
+		                            controllerAs: 'ctrl',
+		                            scope: $scope,
+		                            data: {
+		                            	formula: vm.formula
+		                            },
+		                            cache: false,
+		                            preCloseCallback: function(value) {
+		                            	vm.refershFormulaTable();
+		                            }
+			                    });	
+				            						            					            		
+				            };
+				            
+				    		vm.refershFormulaTable = function(){
+				    			vm.search();
+				    		}
+				            
 						} ]);
+
+app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope','Service', function($scope, $rootScope, Service) {
+	var vm = this;
+
+	vm.formula = angular.copy($scope.ngDialogData.formula);
+	vm.sponsorId  = angular.copy($scope.ngDialogData.formula.sponsorId);
+	
+	vm.saveNewFormula = function() {
+		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
+		var serviceDiferred = Service.requestURL(serviceUrl, vm.formula, 'POST');
+		serviceDiferred.promise.then(function(response) {
+
+		}); 
+	};
+	
+} ]);

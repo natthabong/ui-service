@@ -1,65 +1,68 @@
 <div class="modal-content">
-	<div class="modal-header">
-		<div class="row">
-			<div class="col-md-10 col-sm-10">
-				<h3>
-					<span id="payment-date-formula-popup-header-message-label"
-						class="popup-text" ng-bind="'New formula' | translate">New
-						formula</span>
-				</h3>
+	<div id="wrapper" ng-controller="NewPaymentDateFormulaController as ctrl">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3>
+						<span id="payment-date-formula-popup-header-message-label"
+							class="popup-text" ng-bind="'New formula' | translate">New
+							formula</span>
+					</h3>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="modal-body">
-		<div class="row">
-			<div class="col-md-12 col-sm-12 col-xs-12">
-				<form name="newFormula" class="form-horizontal">
-					<div class="form-group">
-						<label for="formula-name"
-							class="col-md-3 col-sm-4 col-xs-12 control-label"><span
-							ng-bind="'Formula name' | translate"></span>:</label>
-						<div class="col-md-6 col-sm-4 col-xs-12">
-							<scf-input-text id="payment-date-formula-name-textbox" maxlength="255"
-								ng-model="newFileLayoutCtrl.formula.formulaName"></scf-input-text>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<form name="newFormula" class="form-horizontal">
+						<div class="form-group">
+							<label for="formula-name"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+								ng-bind="'Formula name' | translate"></span>:</label>
+							<div class="col-md-6 col-sm-4 col-xs-12">
+								<scf-input-text id="payment-date-formula-name-textbox"
+									maxlength="255"
+									ng-model="ctrl.formula.formulaName"></scf-input-text>
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="formula-type"
-							class="col-md-3 col-sm-4 col-xs-12 control-label"><span
-							ng-bind="'Formula type' | translate"></span>:</label>
-						<div class="col-md-6 col-sm-4 col-xs-12">
-							<input type="radio" id="payment-date-type-formula" 
-								name="payment-date-formula-type-radio"
-								ng-model="newFileLayoutCtrl.formula.formulaType"
-								ng-value="'CREDIT_TERM'" /> {{'Credit Term' | translate}}
+						<div class="form-group">
+							<label for="formula-type"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+								ng-bind="'Formula type' | translate"></span>:</label>
+							<div class="col-md-6 col-sm-4 col-xs-12">
+								<input type="radio" id="payment-date-type-formula"
+									name="payment-date-formula-type-radio"
+									ng-model="ctrl.formula.formulaType"
+									ng-value="'CREDIT_TERM'" /> {{'Credit Term' | translate}}
+							</div>
 						</div>
-					</div>
-				</form>
+					</form>
+				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12 col-sm-12 col-xs-12">
-				<div class="form-group">
-					<label for="group-name"
-						class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
-					<div class="col-md-6 col-sm-4 col-xs-12">
-						<strong class="text-danger" id="message-error-text">
-							{{ctrl.messageError}}</strong>
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="form-group">
+						<label for="group-name"
+							class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<div class="col-md-6 col-sm-4 col-xs-12">
+							<strong class="text-danger" id="message-error-text">
+								{{ctrl.messageError}}</strong>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="modal-footer">
-		<div class="row">
-			<div class="col-xs-12 text-right">
-				<scf-button id="payment-date-formula-cancel-button"
-					class="popup-button" ng-click="closeThisDialog()"
-					ng-bind="'Cancel' | translate"></scf-button>
-				<scf-button id="payment-date-formula-save-button"
-					class="popup-button"
-					ng-click="closeThisDialog();newFileLayoutCtrl.saveNewFormula()"
-					ng-bind="'Save' | translate"></scf-button>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="payment-date-formula-cancel-button"
+						class="popup-button" ng-click="closeThisDialog()"
+						ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="payment-date-formula-save-button"
+						class="popup-button"
+						ng-click="ctrl.saveNewFormula();closeThisDialog();"
+						ng-bind="'Save' | translate"></scf-button>
+				</div>
 			</div>
 		</div>
 	</div>
