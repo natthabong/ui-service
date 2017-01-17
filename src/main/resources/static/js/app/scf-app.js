@@ -179,8 +179,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'PaymentDateFormulaSettingController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/payment-date-formulas/settings',
-				params: { selectedItem: null},
-				resolve: load(['js/app/sponsor-configuration/payment-date-formulas/payment-date-formula-setting-controller.js'])
+				params: { paymentDateFormulaModel: null},
+				resolve: load(['js/app/sponsor-configuration/payment-date-formulas/payment-date-formula-setting-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
