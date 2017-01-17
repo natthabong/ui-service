@@ -158,7 +158,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							   'js/app/sponsor-configuration/channel-config-controller.js',
 							   'js/app/common/scf-component.js', 
 							   'js/app/common/scf-component.css',
-							  'js/app/sponsor-configuration/document-display-configs.js'])
+							  'js/app/sponsor-configuration/document-display-configs.js',
+							  'js/app/sponsor-configuration/payment-date-formula-controller.js',])
 			}).state('/sponsor-configuration/file-layouts/new-file-layout',{
 				url: '/sponsor-configuration/file-layouts/new-file-layout',
 				controller: 'NewFileLayoutController',
@@ -173,6 +174,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/document-display/settings',
 				params: { selectedItem: null},
 				resolve: load(['js/app/sponsor-configuration/document-display/document-display-controller.js'])
+			}).state('/sponsor-configuration/payment-date-formulas/settings',{
+				url: '/sponsor-configuration/payment-date-formulas/settings',
+				controller: 'PaymentDateFormulaSettingController',
+				controllerAs: 'ctrl',
+				templateUrl: '/sponsor-configuration/payment-date-formulas/settings',
+				params: { selectedItem: null},
+				resolve: load(['js/app/sponsor-configuration/payment-date-formulas/payment-date-formula-setting-controller.js'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
