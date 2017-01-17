@@ -155,7 +155,7 @@ app.controller('NewFileLayoutController', [
                checkBinaryFile: false,
                completed: false,
                ownerId: sponsorId,
-               paymentDate: {
+               paymentDateConfig: {
             	   strategy: 'FIELD',
             	   fieldName: null
                },
