@@ -300,6 +300,7 @@ app.controller('PaymentDateFormulaSettingController', [
 			vm.newPeriodDialogId = null;
 			
     		vm.configPeriod = function(data){
+    			vm.headerMessage = 'New period';
     			vm.period = {
 	           			sponsorId: sponsorId,
 	                	paymentDateFormulaId: formulaId,	
@@ -310,6 +311,7 @@ app.controller('PaymentDateFormulaSettingController', [
 	            };
     			
     			if(data!=null){
+    				vm.headerMessage = 'Edit period';
     				vm.period = {
     	           			sponsorId: sponsorId,
     	           			paymentPeriodId: data.paymentPeriodId,
@@ -330,7 +332,8 @@ app.controller('PaymentDateFormulaSettingController', [
 	                   controllerAs: 'ctrl',
 	                   scope: $scope,
 	                   data: {
-	                	   period: vm.period
+	                	   period: vm.period,
+	                	   message: vm.headerMessage
 	                   },
 	                   cache: false,
 	                   preCloseCallback: function(value) {
@@ -350,10 +353,11 @@ app.controller('PaymentDateFormulaSettingController', [
 
 app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope','Service','ngDialog','OCCURRENCE_WEEK','DAY_OF_WEEK', function($scope, $rootScope, Service, ngDialog, OCCURRENCE_WEEK, DAY_OF_WEEK) {
 	var vm = this;
-
+	
 	vm.period = angular.copy($scope.ngDialogData.period);
 	vm.sponsorId  = angular.copy($scope.ngDialogData.period.sponsorId);
 	vm.paymentDateFormulaId  = angular.copy($scope.ngDialogData.period.paymentDateFormulaId);
+	vm.headerMessage = angular.copy($scope.ngDialogData.message);
 	
 	vm.periodType = {
 		everyDay : 'EVERY_DAY',
