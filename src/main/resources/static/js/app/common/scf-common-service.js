@@ -421,10 +421,15 @@ app.filter('paymentDateFormula', [function() {
 			displayMessage = currentMonthMsg(formula);
 			
 		}else if(formula.startMonthType == startMonthType.NEXT){
-			displayMessage = 'next ';
-			displayMessage += angular.lowercase(formula.startDayOfWeek);
-			displayMessage += ' after ';
-			displayMessage += addOrdinalNumberSuffix(formula.startDateOfMonth);
+			if(formula.startDayOfWeek == null){
+				displayMessage = addOrdinalNumberSuffix(formula.startDateOfMonth);
+				displayMessage += ' of next month';
+			}else{
+				displayMessage = 'next ';
+				displayMessage += angular.lowercase(formula.startDayOfWeek);
+				displayMessage += ' after ';
+				displayMessage += addOrdinalNumberSuffix(formula.startDateOfMonth);
+			}					
 			displayMessage += ' ';
 		}
 
