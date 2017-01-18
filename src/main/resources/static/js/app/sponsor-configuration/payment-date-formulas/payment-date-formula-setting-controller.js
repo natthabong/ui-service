@@ -246,6 +246,24 @@ app.controller('PaymentDateFormulaSettingController', [
 				}); 
     		};
     		
+    		vm.configCreditTerm = function(creditTerm) {
+    			var editMode = !creditTerm;
+    			var data = creditTerm || {
+    				
+    			};
+    			
+	        	ngDialog.open({
+	                 template: '/js/app/sponsor-configuration/credit-terms/settings.html',
+	                 scope: $scope,
+	                 data: { model: creditTerm, editMode: editMode},
+	                 disableAnimation: true,
+                     preCloseCallback: function(value) {
+                       
+                       return true;
+                     }
+	             });
+	        };
+	        
 			vm.deletePeriod = function(period) {
 	        	 ngDialog.open({
 	                 template: '/js/app/common/dialogs/confirm-dialog.html',
@@ -389,15 +407,39 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope','Service',
         });
     }
 	
+	vm.checkPeriodType = function() {
+		if(vm.period.paymentPeriodType==='EVERY_DAY'){
+			vm.disabledDateOfMonth = true;
+			vm.disabledDayOfWeek = true;
+		}else if(vm.period.paymentPeriodType==='DATE_OF_MONTH'){
+			vm.disabledDateOfMonth = false;
+			vm.disabledDayOfWeek = true;
+		}else if(vm.period.paymentPeriodType==='DAY_OF_WEEK'){
+			vm.disabledDateOfMonth = true;
+			vm.disabledDayOfWeek = false;
+		}
+	}
 	
 	vm.initLoad = function() {
 		loadOccurrenceWeek();
 		loadDayOfWeek();
+		vm.checkPeriodType();
 	}
 
 	vm.initLoad();
 	
 	vm.saveNewPeriod = function() {
+		if(vm.period.paymentPeriodType==='EVERY_DAY'){
+			vm.period.dateOfMonth = null;
+			vm.period.dayOfWeek = null;
+			vm.period.occurrenceWeek = null;
+		}else if(vm.period.paymentPeriodType==='DATE_OF_MONTH'){
+			vm.period.dayOfWeek = null;
+			vm.period.occurrenceWeek = null;
+		}else if(vm.period.paymentPeriodType==='DAY_OF_WEEK'){
+			vm.period.dateOfMonth = null;
+		}
+		
 		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas/'+vm.paymentDateFormulaId+'/periods';
 		var serviceDiferred = Service.requestURL(serviceUrl, vm.period, 'POST');
 		serviceDiferred.promise.then(function(response) {
