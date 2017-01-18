@@ -20,7 +20,8 @@
 										id="period-type"
 										name="payment-period-type-radio"
 										ng-value="ctrl.periodType.everyDay"
-										ng-model="ctrl.period.paymentPeriodType"></scf-radio>
+										ng-model="ctrl.period.paymentPeriodType"
+										ng-click="ctrl.checkPeriodType()"></scf-radio>
 									{{'Every day' | translate}}
 								</label>
 							</div>
@@ -33,13 +34,15 @@
 												id="period-type" 
 												name="payment-period-type-radio"
 												ng-value="ctrl.periodType.DateOfMonth"
-												ng-model="ctrl.period.paymentPeriodType"></scf-radio>
+												ng-model="ctrl.period.paymentPeriodType"
+												ng-click="ctrl.checkPeriodType()"></scf-radio>
 											{{'Date of month' | translate}} : 
 										</label> 
 									</div>
 									<div class="col-xs-8">
 										<scf-input-text id="payment-period-date-of-month-textbox"
-											maxlength="255" ng-model="ctrl.period.dateOfMonth"></scf-input-text>
+											maxlength="255" ng-model="ctrl.period.dateOfMonth"
+											ng-disabled="ctrl.disabledDateOfMonth"></scf-input-text>
 									</div>
 								</div>
 							</div>
@@ -52,19 +55,22 @@
 												id="period-type"
 												name="payment-period-type-radio"
 												ng-value="ctrl.periodType.dayOfWeek"
-												ng-model="ctrl.period.paymentPeriodType"></scf-radio>
+												ng-model="ctrl.period.paymentPeriodType"
+												ng-click="ctrl.checkPeriodType()"></scf-radio>
 											{{'Day of week' | translate}} : 
 										</label>
 									</div>
 									<div class="col-xs-4">
 										<scf-dropdown id="payment-period-occurrence-week-dropdown"
 											ng-model="ctrl.period.occurrenceWeek"
-											component-data="ctrl.occWeekTypes" translate-label="true"/>
+											component-data="ctrl.occWeekTypes" translate-label="true"
+											ng-disabled="ctrl.disabledDayOfWeek"/>
 									</div>
 									<div class="col-xs-4">
 										<scf-dropdown id="payment-period-day-of-week-dropdown"
 											ng-model="ctrl.period.dayOfWeek"
-											component-data="ctrl.dayOfWeekTypes" translate-label="true"/>
+											component-data="ctrl.dayOfWeekTypes" translate-label="true"
+											ng-disabled="ctrl.disabledDayOfWeek"/>
 									</div>
 								</div>
 							</div>
