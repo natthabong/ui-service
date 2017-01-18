@@ -518,9 +518,9 @@ app.controller('NewFileLayoutController', [
 		vm.changePaymentDate = function(){
 			if(vm.model.paymentDateConfig.strategy == vm.paymentDateConfigStrategy.FIELD){
 				vm.model.paymentDateConfig.formula = null;
-				vm.model.paymentDateConfig.creditTermField = null;
-				vm.model.paymentDateConfig.documentDateField = null;
+				vm.model.paymentDateConfig.creditTermField = null;				
 			}
+			vm.model.paymentDateConfig.documentDateField = null;
 		}
 
 	} ]);
