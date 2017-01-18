@@ -42,7 +42,7 @@ describe('Filter: paymentDateFormula', function() {
 		expect('next monday after 15th of Document date + 45 days').toEqual(result);
 	});
 	
-	it('config creditterm is  startDateOfMonth=1, startDayOfWeek=TUESDAY, startMonthType=NEXT, term=45, termType=WEEK  should return next tuesday after 1st of Document date + 8 weeks', function(){
+	it('config creditterm is  startDateOfMonth=1, startDayOfWeek=TUESDAY, startMonthType=NEXT, term=8, termType=WEEK  should return next tuesday after 1st of Document date + 8 weeks', function(){
 		let creditterm = { 'startDateOfMonth': 1, 'startDayOfWeek': 'TUESDAY', 
 				'startMonthType': 'NEXT', 'term': 8, 'termType': 'WEEK'}
 		
@@ -58,6 +58,15 @@ describe('Filter: paymentDateFormula', function() {
 		let result = $filter('paymentDateFormula')(creditterm);
 		
 		expect('friday end of this month of Document date + 2 weeks').toEqual(result);
+	});
+	
+	it('config creditterm is  startDateOfMonth=1, startDayOfWeek=null, startMonthType=NEXT, term=60, termType=DAY  should return 1st of next month of Document date + 60 days', function(){
+		let creditterm = { 'startDateOfMonth': 1, 'startDayOfWeek': null, 
+				'startMonthType': 'NEXT', 'term': 60, 'termType': 'DAY'}
+		
+		let result = $filter('paymentDateFormula')(creditterm);
+		
+		expect('1st of next month of Document date + 60 days').toEqual(result);
 	});
 	
 });
