@@ -247,7 +247,8 @@ app.controller('PaymentDateFormulaSettingController', [
     		};
     		
     		vm.configCreditTerm = function(creditTerm) {
-    			var editMode = !creditTerm;
+    			var editMode = creditTerm || false;
+    			console.log(editMode);
     			var data = creditTerm || {
     				
     			};
@@ -255,10 +256,11 @@ app.controller('PaymentDateFormulaSettingController', [
 	        	ngDialog.open({
 	                 template: '/js/app/sponsor-configuration/credit-terms/settings.html',
 	                 scope: $scope,
-	                 data: { model: creditTerm, editMode: editMode},
+	                 controller: 'CreditTermsSettingController',
+	                 controllerAs: 'ctrl',
+	                 data: { model: data, editMode: editMode},
 	                 disableAnimation: true,
-                     preCloseCallback: function(value) {
-                       
+                     preCloseCallback: function(value) {                       
                        return true;
                      }
 	             });
