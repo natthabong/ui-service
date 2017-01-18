@@ -235,5 +235,10 @@
 	"CREDIT_TERM": "Credit term",
 	
 	"Display document configuration": "ตั้งค่าหน้าจอแสดงเอกสาร",
-	"Credit term": "Credit term"
+	"Credit term": "Credit term",
+	"New period": "New period",
+	"Every day": "Every day",
+	"Date of month": "Date of month",
+	"Day of week": "Day of week",
+	"Add another Period": "Add another Period"
 }

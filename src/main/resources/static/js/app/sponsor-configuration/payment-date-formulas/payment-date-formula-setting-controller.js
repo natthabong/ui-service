@@ -13,6 +13,41 @@ app.constant('PAGE_SIZE_ITEM',[ {
 	label : '50',
 	value : '50'
 } ]);
+app.constant('OCCURRENCE_WEEK', [{
+    occWeekName: 'First',
+    occWeekId: 'FIRST'
+}, {
+	occWeekName: 'Second',
+	occWeekId: 'SECOND'
+}, {
+	occWeekName: 'Third',
+	occWeekId: 'THIRTH'
+}, {
+	occWeekName: 'Fourth',
+	occWeekId: 'FOURTH'
+}, {
+	occWeekName: 'Last',
+	occWeekId: 'LAST'
+}, {
+	occWeekName: 'Every',
+	occWeekId: 'EVERY'
+}]);
+app.constant('DAY_OF_WEEK', [{
+    dayOfWeekName: 'Monday',
+    dayOfWeekId: 'MONDAY'
+}, {
+	dayOfWeekName: 'Tuesday',
+	dayOfWeekId: 'TUESDAY'
+}, {
+	dayOfWeekName: 'Wednesday',
+	dayOfWeekId: 'WEDNESDAY'
+}, {
+	dayOfWeekName: 'Thursday',
+	dayOfWeekId: 'THURSDAY'
+}, {
+	dayOfWeekName: 'Friday',
+	dayOfWeekId: 'FRIDAY'
+}]);
 app.factory('DataTableFactory', ['$q', '$http', '$sce', 'blockUI', function($q, $http, $sce, blockUI){
 	
 	var create = function(config){
@@ -47,7 +82,8 @@ app.controller('PaymentDateFormulaSettingController', [
 		'blockUI',
 		'ngDialog',
 		'DataTableFactory',
-		'FORMULA_TYPE_ITEM','PAGE_SIZE_ITEM',
+		'FORMULA_TYPE_ITEM',
+		'PAGE_SIZE_ITEM',
 		function(SCFCommonService, $log, $scope, $stateParams, $timeout,$rootScope,
 				PageNavigation, Service, blockUI, ngDialog, DataTableFactory, FORMULA_TYPE_ITEM, PAGE_SIZE_ITEM) {
 
@@ -81,7 +117,7 @@ app.controller('PaymentDateFormulaSettingController', [
 				}, {
 					cssTemplate: 'text-center',
 					sortData: false,
-					cellTemplate: '<scf-button id="payment-period-{{data.paymentPeriodId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a payment period"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
+					cellTemplate: '<scf-button id="payment-period-{{data.paymentPeriodId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.configPeriod(data)" title="Config a payment period"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
 					'<scf-button id="payment-period-{{data.paymentPeriodId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deletePeriod(data)" title="Delete  a payment period"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 				} ]
 			});
@@ -260,5 +296,112 @@ app.controller('PaymentDateFormulaSettingController', [
     				blockUI.stop();
 				}); 
 	        };
+    		
+			vm.newPeriodDialogId = null;
+			
+    		vm.configPeriod = function(data){
+    			vm.headerMessage = 'New period';
+    			vm.period = {
+	           			sponsorId: sponsorId,
+	                	paymentDateFormulaId: formulaId,	
+	                	paymentPeriodType: 'EVERY_DAY',
+	                	dateOfMonth: '',
+	                	dayOfWeek: 'MONDAY',
+	                	occurrenceWeek: 'FIRST'
+	            };
+    			
+    			if(data!=null){
+    				vm.headerMessage = 'Edit period';
+    				vm.period = {
+    	           			sponsorId: sponsorId,
+    	           			paymentPeriodId: data.paymentPeriodId,
+    	                	paymentDateFormulaId: formulaId,	
+    	                	paymentPeriodType: data.paymentPeriodType,
+    	                	dateOfMonth: data.dateOfMonth,
+    	                	dayOfWeek: data.dayOfWeek!=null? data.dayOfWeek: 'MONDAY',
+    	                	occurrenceWeek: data.occurrenceWeek!=null? data.occurrenceWeek: 'FIRST'
+    	            };
+    			}
+	           	
+	           	
+	           	 vm.newPeriodDialog = ngDialog.open({
+	                   id: 'new-period-dialog',
+	                   template: '/js/app/sponsor-configuration/periods/dialog-new-period.html',
+	                   className: 'ngdialog-theme-default',
+	                   controller: 'NewPaymentPeriodController',
+	                   controllerAs: 'ctrl',
+	                   scope: $scope,
+	                   data: {
+	                	   period: vm.period,
+	                	   message: vm.headerMessage
+	                   },
+	                   cache: false,
+	                   preCloseCallback: function(value) {
+		                   	vm.period = value;
+		                   	vm.refershPeriodsTable();
+	                   }
+	               });	
+	           	
+	           	vm.newPeriodDialogId = vm.newPeriodDialog.id;
+	           	
+	           	vm.refershPeriodsTable = function(){
+	    			vm.searchPeriod();
+	    		}
+           };
 			
 		} ]);
+
+app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope','Service','ngDialog','OCCURRENCE_WEEK','DAY_OF_WEEK', function($scope, $rootScope, Service, ngDialog, OCCURRENCE_WEEK, DAY_OF_WEEK) {
+	var vm = this;
+	
+	vm.period = angular.copy($scope.ngDialogData.period);
+	vm.sponsorId  = angular.copy($scope.ngDialogData.period.sponsorId);
+	vm.paymentDateFormulaId  = angular.copy($scope.ngDialogData.period.paymentDateFormulaId);
+	vm.headerMessage = angular.copy($scope.ngDialogData.message);
+	
+	vm.periodType = {
+		everyDay : 'EVERY_DAY',
+		DateOfMonth : 'DATE_OF_MONTH',
+		dayOfWeek : 'DAY_OF_WEEK'
+	}
+
+	vm.occWeekTypes = [];
+	var loadOccurrenceWeek = function() {
+		OCCURRENCE_WEEK.forEach(function(obj) {
+            var selectObj = {
+                label: obj.occWeekName,
+                value: obj.occWeekId
+            }
+
+            vm.occWeekTypes.push(selectObj);
+        });
+    }
+	
+	vm.dayOfWeekTypes = [];
+	var loadDayOfWeek = function() {
+		DAY_OF_WEEK.forEach(function(obj) {
+            var selectObj = {
+                label: obj.dayOfWeekName,
+                value: obj.dayOfWeekId
+            }
+
+            vm.dayOfWeekTypes.push(selectObj);
+        });
+    }
+	
+	
+	vm.initLoad = function() {
+		loadOccurrenceWeek();
+		loadDayOfWeek();
+	}
+
+	vm.initLoad();
+	
+	vm.saveNewPeriod = function() {
+		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas/'+vm.paymentDateFormulaId+'/periods';
+		var serviceDiferred = Service.requestURL(serviceUrl, vm.period, 'POST');
+		serviceDiferred.promise.then(function(response) {
+			ngDialog.close('new-period-dialog',response);
+		}); 
+	};
+} ]);

@@ -1,0 +1,90 @@
+<div class="modal-content">
+	<div id="wrapper" ng-controller="NewPaymentPeriodController as ctrl">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3>
+						<span id="payment-period-popup-header-message-label"
+							class="popup-text" ng-bind="ctrl.headerMessage | translate">{{ctrl.headerMessage}}</span>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<form name="newPeriod" class="form-horizontal">
+						<div class="form-group">
+							<div class="col-xs-11 col-xs-offset-1">
+								<label class="radio-inline"> <scf-radio
+										id="period-type"
+										name="payment-period-type-radio"
+										ng-value="ctrl.periodType.everyDay"
+										ng-model="ctrl.period.paymentPeriodType"></scf-radio>
+									{{'Every day' | translate}}
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-11 col-xs-offset-1">
+								<div class="row">
+									<div class="col-xs-3">
+										<label class="radio-inline"> <scf-radio
+												id="period-type" 
+												name="payment-period-type-radio"
+												ng-value="ctrl.periodType.DateOfMonth"
+												ng-model="ctrl.period.paymentPeriodType"></scf-radio>
+											{{'Date of month' | translate}} : 
+										</label> 
+									</div>
+									<div class="col-xs-8">
+										<scf-input-text id="payment-period-date-of-month-textbox"
+											maxlength="255" ng-model="ctrl.period.dateOfMonth"></scf-input-text>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-11 col-xs-offset-1">
+								<div class="row">
+									<div class="col-xs-3">
+										<label class="radio-inline"> <scf-radio
+												id="period-type"
+												name="payment-period-type-radio"
+												ng-value="ctrl.periodType.dayOfWeek"
+												ng-model="ctrl.period.paymentPeriodType"></scf-radio>
+											{{'Day of week' | translate}} : 
+										</label>
+									</div>
+									<div class="col-xs-4">
+										<scf-dropdown id="payment-period-occurrence-week-dropdown"
+											ng-model="ctrl.period.occurrenceWeek"
+											component-data="ctrl.occWeekTypes" translate-label="true"/>
+									</div>
+									<div class="col-xs-4">
+										<scf-dropdown id="payment-period-day-of-week-dropdown"
+											ng-model="ctrl.period.dayOfWeek"
+											component-data="ctrl.dayOfWeekTypes" translate-label="true"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="payment-period-cancel-button"
+						class="popup-button" ng-click="closeThisDialog();"
+						ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="payment-period-save-button"
+						class="popup-button"
+						ng-click="ctrl.saveNewPeriod();"
+						ng-bind="'Save' | translate"></scf-button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
