@@ -237,5 +237,10 @@
 	"CREDIT_TERM": "Credit term",
 	
 	"Display document configuration": "Display document configuration",
-	"Credit term": "Credit term"
+	"Credit term": "Credit term",
+	"New period": "New period",
+	"Every day": "Every day",
+	"Date of month": "Date of month",
+	"Day of week": "Day of week",
+	"Add another Period": "Add another Period"
 }
