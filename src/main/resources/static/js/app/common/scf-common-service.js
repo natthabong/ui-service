@@ -398,16 +398,65 @@ app.filter('documentDateRuleType', [function() {
 }]);
 
 app.filter('paymentDateFormula', [function() {
+	var startMonthType = {'NEXT': 'NEXT', 'CURRENT': 'CURRENT'}
+	var termTypeMsg = {'DAY': 'DAY', 'WEEK': 'WEEK'}
+	
+	var currentMonthMsg = function(formula){
+		var displayMessage = '';
+		if(formula.startDateOfMonth == 99){
+			displayMessage = angular.lowercase(formula.startDayOfWeek);
+			displayMessage += ' end of this month ';
+		}else{
+			displayMessage = addOrdinalNumberSuffix(formula.startDateOfMonth);
+			displayMessage += ' ';
+			displayMessage += 'of this month ';
+		}
+		return displayMessage;
+	}
 	
 	return function(formula){
-		return formula;
+		var displayMessage = '';
+		
+		if(formula.startMonthType == startMonthType.CURRENT){
+			displayMessage = currentMonthMsg(formula);
+			
+		}else if(formula.startMonthType == startMonthType.NEXT){
+			displayMessage = 'next ';
+			displayMessage += angular.lowercase(formula.startDayOfWeek);
+			displayMessage += ' after ';
+			displayMessage += addOrdinalNumberSuffix(formula.startDateOfMonth);
+			displayMessage += ' ';
+		}
+
+		displayMessage += 'of Document date + ';
+		if(formula.term != null){
+			displayMessage += formula.term;
+			if(formula.termType == termTypeMsg.DAY){
+				displayMessage += ' days';
+			}else{
+				displayMessage += ' weeks';
+			}			
+		}
+		return displayMessage;
 	}
 }]);
 
 app.filter('paymentPeriod', [function() {
-	var paymentPeriodType = {'DATE_OF_MONTH': 'DATE_OF_MONTH', 'DAY_OF_WEEK': 'DAY_OF_WEEK'}
-	return function(period){
+	var paymentPeriodType = {'DATE_OF_MONTH': 'DATE_OF_MONTH', 'DAY_OF_WEEK': 'DAY_OF_WEEK', 'EVERY_DAY': 'EVERY_DAY'}
+	var occurrentWeekType = {'EVERY': 'EVERY', 'LAST': 'LAST'}
+	
+	var occurrentWeekMsg = function(period){
 		var displayMessage = '';
+		if(period.occurrenceWeek != occurrentWeekType.EVERY 
+				&& period.occurrenceWeek != occurrentWeekType.LAST){
+			displayMessage = 'every ';
+		}
+			displayMessage += angular.lowercase(period.occurrenceWeek);
+			displayMessage += ' ';
+		return displayMessage;
+	}
+	var paymentPeriodMsg = function(period){
+		var displayMessage = '';		
 		if(period.paymentPeriodType == paymentPeriodType.DATE_OF_MONTH){
 			if(period.dateOfMonth == 99){
 				return addOrdinalNumberSuffix(period.dateOfMonth);
@@ -417,11 +466,29 @@ app.filter('paymentPeriod', [function() {
 			displayMessage += ' day of month';
 		}else if(period.paymentPeriodType == paymentPeriodType.DAY_OF_WEEK){
 			if(period.occurrenceWeek != null){
-				displayMessage = angular.lowercase(period.occurrenceWeek);
-				displayMessage += ' ';
-			}
+				displayMessage = occurrentWeekMsg(period);
+			}			
 			displayMessage += angular.lowercase(period.dayOfWeek);
+			
+			displayMessage += ' of month';
+		}else if(period.paymentPeriodType == paymentPeriodType.EVERY_DAY){
+			displayMessage = 'every days';
 		}
+		return displayMessage;
+	}
+	return function(periods){
+		var displayMessage = '';
+		if(angular.isArray(periods)){
+			var displayMessages = [];
+			periods.forEach(function(period){
+				displayMessages.push(paymentPeriodMsg(period));
+			});
+			
+			displayMessage = displayMessages.join(', ');
+		}else{
+			return paymentPeriodMsg(periods);
+		}
+
 		return displayMessage;
 	}
 }]);
