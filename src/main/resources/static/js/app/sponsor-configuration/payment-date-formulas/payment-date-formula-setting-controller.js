@@ -246,6 +246,24 @@ app.controller('PaymentDateFormulaSettingController', [
 				}); 
     		};
     		
+    		vm.configCreditTerm = function(creditTerm) {
+    			var editMode = !creditTerm;
+    			var data = creditTerm || {
+    				
+    			};
+    			
+	        	ngDialog.open({
+	                 template: '/js/app/sponsor-configuration/credit-terms/settings.html',
+	                 scope: $scope,
+	                 data: { model: creditTerm, editMode: editMode},
+	                 disableAnimation: true,
+                     preCloseCallback: function(value) {
+                       
+                       return true;
+                     }
+	             });
+	        };
+	        
 			vm.deletePeriod = function(period) {
 	        	 ngDialog.open({
 	                 template: '/js/app/common/dialogs/confirm-dialog.html',
