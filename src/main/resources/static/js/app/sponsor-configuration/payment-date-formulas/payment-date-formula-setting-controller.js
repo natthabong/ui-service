@@ -295,26 +295,28 @@ app.controller('PaymentDateFormulaSettingController', [
                    }
 	             });
 	        };
-
+	        var failedFunc = function(reason) {
+	        	blockUI.stop();
+			}
 			vm.confirmDeleteCreditTerm = function(creditTerm) {
-				var serviceUrl = '/api/periods/'+ creditTerm.creditTermId;
+				var serviceUrl = '/api/credit-terms/'+ creditTerm.creditTermId;
     			var serviceDiferred = Service.requestURL(serviceUrl, vm.model, 'DELETE');
     			blockUI.start();
     			serviceDiferred.promise.then(function(response) {
     				vm.searchCreditTerm();
     				blockUI.stop();
-				}); 
+				}, failedFunc); 
 	        };
 	        
 	        
 	        vm.confirmDeletePeriod = function(period) {
-				var serviceUrl = '/api/credit-terms/'+ period.paymentPeriodId;
+				var serviceUrl = '/api/periods/'+ period.paymentPeriodId;
     			var serviceDiferred = Service.requestURL(serviceUrl, vm.model, 'DELETE');
     			blockUI.start();
     			serviceDiferred.promise.then(function(response) {
     				vm.searchPeriod();
     				blockUI.stop();
-				}); 
+				}, failedFunc); 
 	        };
     		
 			vm.newPeriodDialogId = null;

@@ -497,7 +497,9 @@ var addOrdinalNumberSuffix = function(number){
 	if(number == 99){
 		return 'end of month';
 	}
-	
+	if(number == 12){
+		return number + 'th';
+	}
 	switch(number % 10){
 	case 1:
 		return number + 'st';
