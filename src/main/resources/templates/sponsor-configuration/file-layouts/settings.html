@@ -253,13 +253,14 @@
 										<label class="radio-inline"> <input type="radio"
 											id="payment-date-type-field" name="payment-date-type-radio"
 											ng-model="newFileLayoutCtrl.model.paymentDateConfig.strategy"
-											ng-value="'FIELD'" />{{'Field' | translate}}
+											ng-click="newFileLayoutCtrl.changePaymentDate()"
+											ng-value="newFileLayoutCtrl.paymentDateConfigStrategy.FIELD" />{{'Field' | translate}}
 										</label>
 									</div>
 									<div class="col-md-3">
 										<scf-dropdown id="payment-date-field-dropdown"
 											ng-disabled="newFileLayoutCtrl.model.paymentDateConfig.strategy != 'FIELD'"
-											ng-model="newFileLayoutCtrl.model.paymentDate.fieldName"
+											ng-model="newFileLayoutCtrl.model.paymentDateConfig.documentDateField"
 											component-data="newFileLayoutCtrl.paymentDateFieldDropdown"
 											translate-label="true"></scf-dropdown>
 									</div>
@@ -276,7 +277,7 @@
 											id="payment-date-type-formula"
 											name="payment-date-type-radio"
 											ng-model="newFileLayoutCtrl.model.paymentDateConfig.strategy"
-											ng-value="'FORMULA'" />{{'Formula' | translate}}
+											ng-value="newFileLayoutCtrl.paymentDateConfigStrategy.FORMULA" />{{'Formula' | translate}}
 										</label>
 									</div>
 									<div class="col-md-3">
@@ -303,7 +304,8 @@
 											</fieldset>
 											<div class="form-group">
 												<label class="col-md-2 col-sm-2 col-xs-2 control-label"><span ng-bind="'Formula type' | translate" ></span>:</label>
-												<div class="col-md-5 col-sm-5 col-xs-5" id="formula-type-name-label" ng-bind="newFileLayoutCtrl.formulaTypeDisplay(newFileLayoutCtrl.model.paymentDateConfig.creditTermField, newFileLayoutCtrl.credittermFieldDropdown)">
+												<div class="col-md-5 col-sm-5 col-xs-5 control-label" id="formula-type-name-label" 
+													ng-bind="newFileLayoutCtrl.formulaTypeDisplay(newFileLayoutCtrl.model.paymentDateConfig.formula.paymentDateFormulaId) | translate">
 												</div>
 												<div class="col-md-4 col-sm-4 col-xs-4"></div>												
 											</div>

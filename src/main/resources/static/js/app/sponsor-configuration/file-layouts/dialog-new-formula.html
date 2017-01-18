@@ -1,4 +1,4 @@
-<div class="modal-content">
+<div class="modal-content" id="new-formula-dialog">
 	<div id="wrapper" ng-controller="NewPaymentDateFormulaController as ctrl">
 		<div class="modal-header">
 			<div class="row">
@@ -60,7 +60,7 @@
 						ng-bind="'Cancel' | translate"></scf-button>
 					<scf-button id="payment-date-formula-save-button"
 						class="popup-button"
-						ng-click="ctrl.saveNewFormula();"
+						ng-click="closeThisDialog(ctrl.formula);"
 						ng-bind="'Save' | translate"></scf-button>
 				</div>
 			</div>

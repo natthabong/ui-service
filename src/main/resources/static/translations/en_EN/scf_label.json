@@ -234,6 +234,7 @@
 	"Formula type": "Formula type",
 	"Credit term code field": "Credit term code field",
 	"Document date field": "Document date field",
+	"CREDIT_TERM": "Credit term",
 	
 	"Display document configuration": "Display document configuration",
 	"Credit term": "Credit term"
