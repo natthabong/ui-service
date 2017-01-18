@@ -48,7 +48,7 @@ describe('Filter: paymentPeriod', function() {
 		
 		let result = $filter('paymentPeriod')(paymentPeriod);
 		
-		expect('every monday').toEqual(result);
+		expect('every monday of month').toEqual(result);
 	});
 	
 	it('config paymetnPeriod is  paymentPeriodType = DAY_OF_WEEK, dayOfWeek = WEDNESDAY occurrenceWeek = EVERY should return every wednesday', function(){
@@ -57,7 +57,7 @@ describe('Filter: paymentPeriod', function() {
 		
 		let result = $filter('paymentPeriod')(paymentPeriod);
 		
-		expect('every wednesday').toEqual(result);
+		expect('every wednesday of month').toEqual(result);
 	});
 	
 	it('config paymetnPeriod is  paymentPeriodType = DAY_OF_WEEK, dayOfWeek = TUESDAY occurrenceWeek = LAST should return last tuesday', function(){
@@ -66,7 +66,7 @@ describe('Filter: paymentPeriod', function() {
 		
 		let result = $filter('paymentPeriod')(paymentPeriod);
 		
-		expect('last tuesday').toEqual(result);
+		expect('last tuesday of month').toEqual(result);
 	});
 	
 	it('config paymetnPeriod is  paymentPeriodType = DAY_OF_WEEK, dayOfWeek = FRIDAY occurrenceWeek = SECOND should return second friday', function(){
@@ -75,6 +75,25 @@ describe('Filter: paymentPeriod', function() {
 		
 		let result = $filter('paymentPeriod')(paymentPeriod);
 		
-		expect('second friday').toEqual(result);
+		expect('every second friday of month').toEqual(result);
+	});
+	
+	it('config paymetnPeriod is  paymentPeriodType = EVERY_DAY, dayOfWeek = FRIDAY occurrenceWeek = SECOND should return every days', function(){
+		let paymentPeriod = {'paymentPeriodType': 'EVERY_DAY', 'dateOfMonth': null, 'occurrenceWeek': null,
+				'dayOfWeek': null}
+		
+		let result = $filter('paymentPeriod')(paymentPeriod);
+		
+		expect('every days').toEqual(result);
+	});
+
+	it('config paymetnPeriod is array 2 size should return every days, second friday', function(){
+		let paymentPeriod = [{'paymentPeriodType': 'EVERY_DAY', 'dateOfMonth': null, 'occurrenceWeek': null,
+				'dayOfWeek': null}, {'paymentPeriodType': 'DAY_OF_WEEK', 'dateOfMonth': null, 'occurrenceWeek': 'SECOND',
+					'dayOfWeek': 'FRIDAY'}];
+		
+		let result = $filter('paymentPeriod')(paymentPeriod);
+		
+		expect('every days, every second friday of month').toEqual(result);
 	});
 });

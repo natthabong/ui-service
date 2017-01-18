@@ -31,6 +31,7 @@ module.exports = function(config){
             'src/main/resources/static/js/test/common/scf-common-service-page-navigation-test.js',
 			'src/main/resources/static/js/test/common/scf-common-service-shorten-large-number-test.js',
             'src/main/resources/static/js/test/common/scf-common-service-formula-document-date-rule-type-filter-test.js',
+            'src/main/resources/static/js/test/common/scf-common-service-formula-payment-date-formula-filter-test.js',
             'src/main/resources/static/js/test/common/scf-common-service-formula-payment-period-filter-test.js'
 		]
 	});
