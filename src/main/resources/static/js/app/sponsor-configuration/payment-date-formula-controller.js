@@ -128,11 +128,21 @@ angular
 		                            },
 		                            cache: false,
 		                            preCloseCallback: function(value) {
+		                            	if(angular.isDefined(value)){
+		                            		vm.saveNewFormula(value);
+		                            	}
 		                            	vm.refershFormulaTable();
 		                            }
 			                    });	
 				            						            					            		
 				            };
+				        	vm.saveNewFormula = function(value) {
+				        		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
+				        		var serviceDiferred = Service.requestURL(serviceUrl, value, 'POST');
+				        		serviceDiferred.promise.then(function(response) {
+
+				        		}); 
+				        	};
 				            
 				    		vm.refershFormulaTable = function(){
 				    			vm.search();
@@ -142,16 +152,6 @@ angular
 
 app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope','Service', function($scope, $rootScope, Service) {
 	var vm = this;
-
 	vm.formula = angular.copy($scope.ngDialogData.formula);
 	vm.sponsorId  = angular.copy($scope.ngDialogData.formula.sponsorId);
-	
-	vm.saveNewFormula = function() {
-		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
-		var serviceDiferred = Service.requestURL(serviceUrl, vm.formula, 'POST');
-		serviceDiferred.promise.then(function(response) {
-
-		}); 
-	};
-	
 } ]);
