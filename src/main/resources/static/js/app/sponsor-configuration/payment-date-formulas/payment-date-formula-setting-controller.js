@@ -139,12 +139,14 @@ app.controller('PaymentDateFormulaSettingController', [
 				    idValueField: '$rowNo',
 				    id: 'formula-{value}',
 				    sortData: true ,
+				    cssTemplate: 'text-left',
 				    cellTemplate: '{{data | paymentDateFormula}}'
 				},{
 					labelEN: 'Period',
 				    idValueField: '$rowNo',
 				    id: 'period-{value}',
 				    sortData: true ,
+				    cssTemplate: 'text-left',
 				    cellTemplate: '{{data.paymentPeriods | paymentPeriod}}'
 				}, {
 					cssTemplate: 'text-center',
@@ -283,9 +285,9 @@ app.controller('PaymentDateFormulaSettingController', [
 	        	 ngDialog.open({
 	                 template: '/js/app/common/dialogs/confirm-dialog.html',
 	                 scope: $scope,
-	                 data: period,
+	                 data: creditTerm,
 	                 disableAnimation: true,
-                    preCloseCallback: function(value) {
+                     preCloseCallback: function(value) {
                        if (value !== 0) {
                        	vm.confirmDeleteCreditTerm(value);
                        }
