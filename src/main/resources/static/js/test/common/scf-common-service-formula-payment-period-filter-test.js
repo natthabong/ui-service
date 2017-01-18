@@ -78,22 +78,22 @@ describe('Filter: paymentPeriod', function() {
 		expect('every second friday of month').toEqual(result);
 	});
 	
-	it('config paymetnPeriod is  paymentPeriodType = EVERY_DAY, dayOfWeek = FRIDAY occurrenceWeek = SECOND should return every days', function(){
+	it('config paymetnPeriod is  paymentPeriodType = EVERY_DAY, dayOfWeek = FRIDAY occurrenceWeek = SECOND should return every day', function(){
 		let paymentPeriod = {'paymentPeriodType': 'EVERY_DAY', 'dateOfMonth': null, 'occurrenceWeek': null,
 				'dayOfWeek': null}
 		
 		let result = $filter('paymentPeriod')(paymentPeriod);
 		
-		expect('every days').toEqual(result);
+		expect('every day').toEqual(result);
 	});
 
-	it('config paymetnPeriod is array 2 size should return every days, second friday', function(){
+	it('config paymetnPeriod is array 2 size should return every day, second friday', function(){
 		let paymentPeriod = [{'paymentPeriodType': 'EVERY_DAY', 'dateOfMonth': null, 'occurrenceWeek': null,
 				'dayOfWeek': null}, {'paymentPeriodType': 'DAY_OF_WEEK', 'dateOfMonth': null, 'occurrenceWeek': 'SECOND',
 					'dayOfWeek': 'FRIDAY'}];
 		
 		let result = $filter('paymentPeriod')(paymentPeriod);
 		
-		expect('every days, every second friday of month').toEqual(result);
+		expect('every day, every second friday of month').toEqual(result);
 	});
 });

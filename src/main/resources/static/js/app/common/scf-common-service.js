@@ -472,7 +472,7 @@ app.filter('paymentPeriod', [function() {
 			
 			displayMessage += ' of month';
 		}else if(period.paymentPeriodType == paymentPeriodType.EVERY_DAY){
-			displayMessage = 'every days';
+			displayMessage = 'every day';
 		}
 		return displayMessage;
 	}
