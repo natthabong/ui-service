@@ -1,0 +1,28 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <h2>
+                	<span id="confirm-header-message-label" class="popup-text" ng-bind="'Confirm delete ?' | translate"></span>
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <form name="confirmDlg" class="form-horizontal">
+                    <p>{{'Do you want to delete?' | translate}}</p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-xs-12 text-right">
+                <scf-button id="yes-button" class="popup-button" ng-click="closeThisDialog(ngDialogData);" ng-bind="'YES' | translate"></scf-button>
+                <scf-button id="no-button" class="popup-button" ng-click="closeThisDialog(0)" ng-bind="'NO' | translate"></scf-button>
+            </div>
+        </div>
+    </div>
+</div>

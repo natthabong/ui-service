@@ -45,10 +45,11 @@ app.controller('PaymentDateFormulaSettingController', [
 		'PageNavigation',
 		'Service', 
 		'blockUI',
+		'ngDialog',
 		'DataTableFactory',
 		'FORMULA_TYPE_ITEM','PAGE_SIZE_ITEM',
 		function(SCFCommonService, $log, $scope, $stateParams, $timeout,$rootScope,
-				PageNavigation, Service, blockUI, DataTableFactory, FORMULA_TYPE_ITEM, PAGE_SIZE_ITEM) {
+				PageNavigation, Service, blockUI, ngDialog, DataTableFactory, FORMULA_TYPE_ITEM, PAGE_SIZE_ITEM) {
 
 			var vm = this;
 			var log = $log;
@@ -99,7 +100,7 @@ app.controller('PaymentDateFormulaSettingController', [
 					log.error('Load payment period data error');
 				});
 			}
-			
+	        
 			vm.pageSizeList = PAGE_SIZE_ITEM;
 			
 			vm.formulaTypes = [];
@@ -148,14 +149,39 @@ app.controller('PaymentDateFormulaSettingController', [
 			}
 			
 			vm.save = function() {
-    			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
+    			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas/'+formulaId;
     			var serviceDiferred = Service.requestURL(serviceUrl, vm.model, 'PUT');
     			blockUI.start();
     			serviceDiferred.promise.then(function(response) {
     				vm.backToSponsorConfigPage();
     				blockUI.stop();
 				}); 
-    			return promise;
     		};
+    		
+			vm.deletePeriod = function(period) {
+	        	 ngDialog.open({
+	                 template: '/js/app/common/dialogs/confirm-dialog.html',
+	                 scope: $scope,
+	                 data: period,
+	                 disableAnimation: true,
+                     preCloseCallback: function(value) {
+                        if (value !== 0) {
+                        	vm.confirmDeletePeriod(value);
+                        }
+                        return true;
+                    }
+	             });
+	        };
+	        
+
+			vm.confirmDeletePeriod = function(period) {
+				var serviceUrl = '/api/periods/'+ period.paymentPeriodId;
+    			var serviceDiferred = Service.requestURL(serviceUrl, vm.model, 'DELETE');
+    			blockUI.start();
+    			serviceDiferred.promise.then(function(response) {
+    				vm.searchPeriod();
+    				blockUI.stop();
+				}); 
+	        };
 			
 		} ]);
