@@ -41,6 +41,50 @@
 						</div>
 					</form>
 				</div>
+				<!-- Credit term -->
+				<div class="panel-body">
+					<h3 class="animated fadeInLeft" id="credit-term-header-label">{{'Credit
+						term' | translate}}</h3>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 text-right">
+							<span> <b ng-bind="ctrl.creditTermSplitePageTxt"
+								id="credit-term-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+									dropdown-id="credit-term-page-limit-dropdown"
+									page-size-model="ctrl.creditTermTable.pageModel.pageSizeSelectModel"
+									total-page="ctrl.creditTermTable.pageModel.totalPage"
+									current-page="ctrl.creditTermTable.pageModel.currentPage"
+									page-size-list="ctrl.pageSizeList"
+									page-action="ctrl.searchCreditTerme"
+									first-page-button-id="credit-term-first-page-button"
+									back-page-button-id="credit-term-back-page-button"
+									next-page-button-id="credit-term-next-page-button"
+									last-page-button-id="credit-term-last-page-button"></scf-pagination>
+							</span>
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<br />
+
+							<scf-table id="payment-period-table"
+								component-config="ctrl.creditTermTable.config"
+								component-datas="ctrl.creditTermData"
+								current-page="ctrl.creditTermTable.pageModel.currentPage"
+								record-per-page="ctrl.creditTermTable.pageModel.pageSizeSelectModel"
+								clear-sort-order="ctrl.creditTermTable.pageModel.clearSortOrder"></scf-table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<scf-button id="add-another-code-button"
+								class="popup-button" data-dismiss="modal"
+								ng-click="ctrl.configCreditTerm()"
+								ng-bind="'Add another code' | translate"></scf-button>
+						</div>
+					</div>
+				</div>
+				<!-- Payment period -->
 				<div class="panel-body">
 					<h3 class="animated fadeInLeft" id="payment-formula-header-label">{{'Period'
 						| translate}}</h3>
@@ -72,6 +116,14 @@
 								current-page="ctrl.periodTable.pageModel.currentPage"
 								record-per-page="ctrl.periodTable.pageModel.pageSizeSelectModel"
 								clear-sort-order="ctrl.periodTable.pageModel.clearSortOrder"></scf-table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<scf-button id="add-another-period-button"
+								class="popup-button" data-dismiss="modal"
+								ng-click="ctrl.configPeriod()"
+								ng-bind="'Add another period' | translate"></scf-button>
 						</div>
 					</div>
 				</div>

@@ -63,6 +63,8 @@ app.controller('PaymentDateFormulaSettingController', [
 			+ '/sponsor-configs/SFP';
 			
 			vm.periodData = [];
+			vm.creditTermData = [];
+			
 			vm.periodTable = DataTableFactory.create({
 				options : {},
 				columns : [{
@@ -79,8 +81,40 @@ app.controller('PaymentDateFormulaSettingController', [
 				}, {
 					cssTemplate: 'text-center',
 					sortData: false,
-					cellTemplate: '<scf-button id="payment-period-{{data.paymentPeriodId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a customer code groups"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
-					'<scf-button id="payment-period-{{data.paymentPeriodId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deletePeriod(data)" title="Delete a file layout"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+					cellTemplate: '<scf-button id="payment-period-{{data.paymentPeriodId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a payment period"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
+					'<scf-button id="payment-period-{{data.paymentPeriodId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deletePeriod(data)" title="Delete  a payment period"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+				} ]
+			});
+			
+			vm.creditTermTable = DataTableFactory.create({
+				options : {},
+				columns : [{
+					fieldName : '$rowNo',
+					labelEN: 'No.',
+					cssTemplate: 'text-right'
+				},{
+					fieldName : 'creditTermCode',
+					labelEN: 'Credit term code',
+				    idValueField: '$rowNo',
+				    id: 'credit-term-code-{value}',
+				    sortData: true 
+				},{
+					labelEN: 'Formula',
+				    idValueField: '$rowNo',
+				    id: 'formula-{value}',
+				    sortData: true ,
+				    cellTemplate: '{{data | paymentDateFormula}}'
+				},{
+					labelEN: 'Period',
+				    idValueField: '$rowNo',
+				    id: 'period-{value}',
+				    sortData: true ,
+				    cellTemplate: '{{data.paymentPeriods | paymentPeriod}}'
+				}, {
+					cssTemplate: 'text-center',
+					sortData: false,
+					cellTemplate: '<scf-button id="credit-term-{{data.creditTermId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.configCreditTerm(data)" title="Config a credit term"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
+					'<scf-button id="credit-term-{{data.creditTermId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteCreditTerm(data)" title="Delete a credit term"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 				} ]
 			});
 
@@ -96,6 +130,23 @@ app.controller('PaymentDateFormulaSettingController', [
 	                vm.periodTable.pageModel.totalRecord = response.headers('X-Total-Count');
 	                vm.periodTable.pageModel.totalPage = response.headers('X-Total-Page');
 	                vm.periodSplitePageTxt = SCFCommonService.splitePage(vm.periodTable.pageModel.pageSizeSelectModel, vm.periodTable.pageModel.page, vm.periodTable.pageModel.totalRecord);
+				}).catch(function(response){
+					log.error('Load payment period data error');
+				});
+			}
+			
+			vm.searchCreditTerm = function(){
+				var serviceUrl = '/api/v1/organize-customers/'+sponsorId+'/sponsor-configs/SFP/payment-date-formulas/'+formulaId+'/credit-terms';
+				var serviceDiferred = Service.doGet(serviceUrl, {
+					limit:  vm.creditTermTable.pageModel.pageSizeSelectModel,
+					offset: vm.creditTermTable.pageModel.currentPage
+				});		
+				
+				serviceDiferred.promise.then(function(response){
+					vm.creditTermData = response.data;
+	                vm.creditTermTable.pageModel.totalRecord = response.headers('X-Total-Count');
+	                vm.creditTermTable.pageModel.totalPage = response.headers('X-Total-Page');
+	                vm.creditTermSplitePageTxt = SCFCommonService.splitePage(vm.creditTermTable.pageModel.pageSizeSelectModel, vm.creditTermTable.pageModel.page, vm.creditTermTable.pageModel.totalRecord);
 				}).catch(function(response){
 					log.error('Load payment period data error');
 				});
@@ -136,6 +187,7 @@ app.controller('PaymentDateFormulaSettingController', [
 	                    vm.model = response.data;
 	                   
 	                });
+					vm.searchCreditTerm();
 					vm.searchPeriod();
 				}
 				
@@ -173,9 +225,34 @@ app.controller('PaymentDateFormulaSettingController', [
 	             });
 	        };
 	        
+	        vm.deleteCreditTerm = function(creditTerm) {
+	        	 ngDialog.open({
+	                 template: '/js/app/common/dialogs/confirm-dialog.html',
+	                 scope: $scope,
+	                 data: period,
+	                 disableAnimation: true,
+                    preCloseCallback: function(value) {
+                       if (value !== 0) {
+                       	vm.confirmDeleteCreditTerm(value);
+                       }
+                       return true;
+                   }
+	             });
+	        };
 
-			vm.confirmDeletePeriod = function(period) {
-				var serviceUrl = '/api/periods/'+ period.paymentPeriodId;
+			vm.confirmDeleteCreditTerm = function(creditTerm) {
+				var serviceUrl = '/api/periods/'+ creditTerm.creditTermId;
+    			var serviceDiferred = Service.requestURL(serviceUrl, vm.model, 'DELETE');
+    			blockUI.start();
+    			serviceDiferred.promise.then(function(response) {
+    				vm.searchCreditTerm();
+    				blockUI.stop();
+				}); 
+	        };
+	        
+	        
+	        vm.confirmDeletePeriod = function(period) {
+				var serviceUrl = '/api/credit-terms/'+ period.paymentPeriodId;
     			var serviceDiferred = Service.requestURL(serviceUrl, vm.model, 'DELETE');
     			blockUI.start();
     			serviceDiferred.promise.then(function(response) {

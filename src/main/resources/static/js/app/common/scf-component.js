@@ -736,6 +736,24 @@
 					//Clear value begin add column;
 					vm.tableColumns = [];
 
+					dataConfig.columns.forEach(function(data) {
+						var rowData = {
+							fieldName : data['fieldName'],
+							labelEN : data['labelEN'],
+							labelTH : data['labelTH'],
+							cellTemplate : data['cellTemplate'],
+							sortable : data['sortable'] || false,
+							cssTemplateHeader : getCssConfigHeader(data),
+							cssTemplate : getCssConfig(data),
+							filterType : data['filterType'],
+							format : data['format'],
+							idValueField : data['idValueField'] || '$rowNo',
+							idTemplate : data.id || generateIdTemplate(data),
+							renderer : data['renderer']
+						};
+						vm.tableColumns.push(rowData);
+					});
+
 					//Check option set to Show checkBox
 					if (tableOption.displaySelect !== undefined) {
 						var rowData = {
@@ -752,26 +770,6 @@
 							vm.tableColumns.push(rowData);
 						}
 					}
-					
-					dataConfig.columns.forEach(function(data) {
-						var rowData = {
-							fieldName : data['fieldName'],
-							labelEN : data['labelEN'],
-							labelTH : data['labelTH'],
-							cellTemplate : data['cellTemplate'],
-							sortable : data['sortable'] || false,
-							cssTemplateHeader : getCssConfigHeader(data),
-							cssTemplate : getCssConfig(data),
-							filterType : data['filterType'],
-							format : data['format'],
-							idValueField : (data['idValueField'] + '-label') || '$rowNo',
-							idTemplate : data.id || generateIdTemplate(data),
-							renderer : data['renderer']
-						};
-						vm.tableColumns.push(rowData);
-					});
-
-					
 				}, true);
 				vm.$watch($attrs.componentDatas, function(data) {
 					vm.componentDatas = data;
@@ -942,7 +940,7 @@
 				if (angular.isDefined(renderer) && renderer != null) {
 					rowNo = renderer(rowNo);
 				}
-				return columnId.replace('{value}', rowNo);
+				return columnId.replace('{value}', rowNo)+"-label";
 			}
 		} ])
 		.directive('scfShowOnMobile', ['$compile', function($compile){
