@@ -113,7 +113,7 @@
 									</thead>
 									<tbody>
 										<tr
-											ng-repeat-start="record in newFileLayoutCtrl.model.items track by $index"
+											ng-repeat-start="record in newFileLayoutCtrl.items track by $index"
 											ng-class="$even?'tr-odd':'tr-even'">
 
 											<td class="text-center"><input type="checkbox"
@@ -284,9 +284,9 @@
 									<div class="col-md-3">
 										<scf-dropdown id="paymentdate-formula-dropdown"
 											ng-disabled="newFileLayoutCtrl.model.paymentDateConfig.strategy != 'FORMULA'"
-											ng-model="newFileLayoutCtrl.model.paymentDateConfig.formula.paymentDateFormulaId"
+											ng-model="newFileLayoutCtrl.model.paymentDateConfig.paymentDateFormulaId"
 											component-data="newFileLayoutCtrl.paymentDateFormularModelDropdowns"
-											translate-label="true"></scf-dropdown>
+											translate-label="true" convert-to-number=""></scf-dropdown>
 									</div>
 									<div class="col-md-7">
 										<scf-button id="payment-date-formula-new-button"
@@ -306,7 +306,7 @@
 											<div class="form-group">
 												<label class="col-md-2 col-sm-2 col-xs-2 control-label"><span ng-bind="'Formula type' | translate" ></span>:</label>
 												<div class="col-md-5 col-sm-5 col-xs-5 control-label" id="formula-type-name-label" 
-													ng-bind="newFileLayoutCtrl.formulaTypeDisplay(newFileLayoutCtrl.model.paymentDateConfig.formula.paymentDateFormulaId) | translate">
+													ng-bind="newFileLayoutCtrl.formulaTypeDisplay(newFileLayoutCtrl.model.paymentDateConfig.paymentDateFormulaId) | translate">
 												</div>
 												<div class="col-md-4 col-sm-4 col-xs-4"></div>												
 											</div>
