@@ -127,7 +127,8 @@ app.controller('NewFileLayoutController', [
                if (!isEmptyValue(configItems)) {
             	   fieldCounter = {};
                    configItems.forEach(function(data) {
-						if ('DATE_TIME' == data.dataType && !isEmptyValue(data.displayValue) && data.completed) {
+						if ('DATE_TIME' == data.dataType && !isEmptyValue(data.displayValue) && data.completed && !data.isTransient) {
+							console.log(data);
 							paymentDateDropdown.push({
 								label: data.displayValue,
 								value: data.docFieldName
