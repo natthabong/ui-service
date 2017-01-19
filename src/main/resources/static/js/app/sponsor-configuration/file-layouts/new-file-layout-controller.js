@@ -319,7 +319,6 @@ app.controller('NewFileLayoutController', [
             
             var saveNewFormula = function(formula){
             	var promise = $q.defer();
-            	console.log(formula);
             	var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
         		var serviceDiferred = Service.requestURL(serviceUrl, formula, 'POST');
         		serviceDiferred.promise.then(function(response) {
@@ -642,12 +641,9 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
 	vm.config = $scope.ngDialogData.config;
-	console.log(vm.model);
-	console.log(vm.config);
 	
 	vm.requiredRelationalOperators = false;
-	vm.selectedRelationalOperators = 'EQUAL_TO_UPLOAD_DATE';
-	
+	vm.relationalOperators = [];
 	vm.loadRelationalOperator = function() {
 
 		var diferred = $q.defer();
@@ -665,14 +661,29 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 					}
 					vm.relationalOperators.push(selectObj);
 				});
+				if(vm.config.recordType == 'FOOTER'){
+					var equalToHeadderField = {
+							label : 'Equal to header field',
+							value : 'EQUAL_TO_HEADER_FIELD'
+						}
+					vm.relationalOperators.push(equalToHeadderField);
+				}
+				vm.selectedRelationalOperators = 'EQUAL_TO_UPLOAD_DATE';
 			}
-			diferred.resolve(vm.dateTimeDropdown);
+			diferred.resolve(vm.relationalOperators);
 			
 		}).catch(function(response) {
 			$log.error('Load relational operators format Fail');
 			diferred.reject();
 		});
 	}
+
+	vm.relationalField = [];
+	var pleaseSelect = {
+			label : 'Please select',
+			value : ''
+		}
+	vm.relationalField.push(pleaseSelect);
 	
 	vm.calendarType = {
 		christCalendar : 'AD',

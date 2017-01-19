@@ -63,18 +63,30 @@
 									ng-model="ctrl.model.required"></scf-checkbox> <span
 								ng-bind="'Require' | translate" id="require-label"></span> </label>
 						</div>
-						<div class="form-group">
+						<div class="form-group" ng-hide="ctrl.config.recordType == 'DETAIL'">
 							<label class="col-md-1 col-sm-1 col-xs-1 control-label"><scf-checkbox
 									id="date-time-field-format-popup-relational-operators-checkbox"
+									ng-hide="ctrl.config.recordType == 'DETAIL'"
 									ng-model="ctrl.requiredRelationalOperators"></scf-checkbox></label>
 							<div class="col-md-9 col-sm-11 col-xs-11">
 								<scf-dropdown
 									id="date-time-field-format-popup-relational-operators-dropdown"
 									ng-model="ctrl.selectedRelationalOperators"
 									ng-disabled="!ctrl.requiredRelationalOperators"
-									ng-hide="ctrl.config.recordType == 'HEADDER'"
+									ng-hide="ctrl.config.recordType == 'DETAIL'"
 									component-data="ctrl.relationalOperators"
 									translate-label="true"></scf-dropdown>
+							</div>
+						</div>
+						<div class="form-group" ng-hide="ctrl.config.recordType != 'FOOTER'">
+							<label class="col-md-1 col-sm-1 col-xs-1 control-label"></label>
+							<div class="col-md-9 col-sm-11 col-xs-11">
+								<scf-dropdown
+									id="date-time-field-format-popup-relational-field-dropdown"
+									ng-model="ctrl.selectedRelationalField"
+									ng-disabled="(ctrl.selectedRelationalOperators != 'EQUAL_TO_HEADER_FIELD'||!ctrl.requiredRelationalOperators)?true:false"
+									ng-hide="ctrl.config.recordType != 'FOOTER'"
+									component-data="ctrl.relationalField" translate-label="true"></scf-dropdown>
 							</div>
 						</div>
 					</fieldset>
