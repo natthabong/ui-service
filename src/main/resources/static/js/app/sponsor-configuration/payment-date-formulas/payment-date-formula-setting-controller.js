@@ -410,24 +410,10 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope','Service',
             vm.dayOfWeekTypes.push(selectObj);
         });
     }
-	
-	vm.checkPeriodType = function() {
-		if(vm.period.paymentPeriodType==='EVERY_DAY'){
-			vm.disabledDateOfMonth = true;
-			vm.disabledDayOfWeek = true;
-		}else if(vm.period.paymentPeriodType==='DATE_OF_MONTH'){
-			vm.disabledDateOfMonth = false;
-			vm.disabledDayOfWeek = true;
-		}else if(vm.period.paymentPeriodType==='DAY_OF_WEEK'){
-			vm.disabledDateOfMonth = true;
-			vm.disabledDayOfWeek = false;
-		}
-	}
-	
+
 	vm.initLoad = function() {
 		loadOccurrenceWeek();
 		loadDayOfWeek();
-		vm.checkPeriodType();
 	}
 
 	vm.initLoad();
