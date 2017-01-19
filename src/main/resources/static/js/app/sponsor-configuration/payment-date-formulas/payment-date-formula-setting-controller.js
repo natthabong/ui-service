@@ -445,7 +445,13 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope','Service',
 		}
 		
 		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas/'+vm.paymentDateFormulaId+'/periods';
-		var serviceDiferred = Service.requestURL(serviceUrl, vm.period, 'POST');
+		var method = 'POST';
+		if(vm.period.paymentPeriodId!=null){
+			serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas/'+vm.paymentDateFormulaId+'/periods/'+vm.period.paymentPeriodId;	
+			method = 'PUT';
+		}
+		
+		var serviceDiferred = Service.requestURL(serviceUrl, vm.period, method);
 		serviceDiferred.promise.then(function(response) {
 			ngDialog.close('new-period-dialog',response);
 		}); 
