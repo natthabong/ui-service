@@ -89,7 +89,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 			startDateOfMonth: DocumentDatePeriodDropdown[0].value,
 			startMonthType: StartMonthTypeDropdown[0].value,
 			startNumberOfNextMonth: 0,
-			term: 1,
+			term: 0,
 			termType: TermTypeDropdown[0].value,
 			periodType: vm.periodType.EVERY_PERIOD,
 			paymentPeriods:[]
