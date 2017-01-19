@@ -327,6 +327,7 @@ app.controller('NewFileLayoutController', [
         		}).catch(function(response){
         			promise.reject('Save payment date formula error');
         		}); 
+        		
         		return promise;
             }
             
@@ -357,8 +358,7 @@ app.controller('NewFileLayoutController', [
                     		var formulaPromise = saveNewFormula(value);
                     		
                     		formulaPromise.promise.then(function(response){
-                    			
-                    			var formulaData = response.data;
+                    			var formulaData = response;
                     			vm.model.paymentDateConfig.paymentDateFormulaId = formulaData.paymentDateFormulaId;
                     			vm.refershFormulaDropDown();
                     		});                        	
