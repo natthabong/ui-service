@@ -33,7 +33,29 @@ app.constant('DocumentDatePeriodDropdown', [
 	{label: '31st', value: '31'},
 	{label: 'End of month', value: '99'}
 ]);
-app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'DocumentDatePeriodDropdown', function($scope, ngDialog, DocumentDatePeriodDropdown) {
+app.constant('StartDayOfWeekDropdown',[
+	{label:'Monday', value: 'MONDAY'},
+	{label:'Tuesday', value: 'TUESDAY'},
+	{label:'Wednesday', value: 'WEDNESDAY'},
+	{label:'Thursday', value: 'THURSDAY'},
+	{label:'Friday', value: 'FRIDAY'},
+	{label:'Saturday', value: 'SATURDAY'},
+	{label:'Sunday', value: 'SUNDAY'}
+	]);
+app.constant('StartMonthTypeDropdown',[
+	{label:'this month', value: 'CURRENT'},
+	{label:'next month', value: 'NEXT'},
+	{label:'previous month', value: 'PREVIOUS'}
+	]);
+app.constant('TermTypeDropdown',[
+	{label:'days', value: 'DAY'},
+	{label:'week(s)', value: 'WEEK'}
+	]);
+
+app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'DocumentDatePeriodDropdown', 
+	'StartDayOfWeekDropdown', 'StartMonthTypeDropdown', 'TermTypeDropdown', 'SCFCommonService', 
+	function($scope, ngDialog, DocumentDatePeriodDropdown, StartDayOfWeekDropdown, 
+			StartMonthTypeDropdown, TermTypeDropdown, SCFCommonService) {
 	var vm = this;
 	vm.documentDateType = {
 		'EVERY_DAY' : 'EVERY_DAY',
@@ -44,23 +66,45 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 		'ON_DOCUMENT_DATE' : 'ON_DOCUMENT_DATE',
 		'AFTER_DOCUMENT_DATE' : 'AFTER_DOCUMENT_DATE'
 	};
+	
+	vm.periodType = {
+		'SPECIFIC': 'SPECIFIC',
+		'EVERY_PERIOD': 'EVERY_PERIOD'
+	};
 
 	vm.model = {
-		creditterm : angular.copy($scope.ngDialogData.creditterm)
+		creditterm : angular.copy($scope.ngDialogData.model)		
 	}
-
+	vm.paymentPeriods = angular.copy($scope.ngDialogData.paymentPeriods) || [];
+	console.log(vm.model.creditterm);
 	vm.editMode = $scope.ngDialogData.editMode;
 	if (!vm.editMode) {
 		var credittermModel = {
 			paymentDateFormulaId : angular.copy($scope.ngDialogData.paymentDateFormulaId),
 			documentDateType : vm.documentDateType.EVERY_DAY,
-			startDateType: vm.startDateType.ON_DOCUMENT_DATE
+			startDateType: vm.startDateType.ON_DOCUMENT_DATE,
+			documentDateStartPeriod: null,
+			documentDateEndPeriod: null,
+			startDayOfWeek: null,
+			startDateOfMonth: DocumentDatePeriodDropdown[0].value,
+			startMonthType: StartMonthTypeDropdown[0].value,
+			startNumberOfNextMonth: 0,
+			term: 1,
+			termType: TermTypeDropdown[0].value,
+			periodType: vm.periodType.EVERY_PERIOD,
+			paymentPeriods:[]
 		}
-
 		vm.model.creditterm = credittermModel;
 	}
+		
 	vm.headerMsgLabel = vm.editMode == true ? 'Edit credit term code' : 'New credit term code';
 
-	vm.documentDatePeriodDropdown = DocumentDatePeriodDropdown;
-
+	vm.dateDropdown = DocumentDatePeriodDropdown;
+	vm.startDayOfWeekDropdown = StartDayOfWeekDropdown;
+	vm.startMonthTypeDropdown = StartMonthTypeDropdown;
+	vm.termTypeDropdown = TermTypeDropdown;
+	
+	
+	
+	
 } ]);
