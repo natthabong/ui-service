@@ -76,7 +76,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 		creditterm : angular.copy($scope.ngDialogData.model)		
 	}
 	vm.paymentPeriods = angular.copy($scope.ngDialogData.paymentPeriods) || [];
-	console.log(vm.model.creditterm);
+	
 	vm.editMode = $scope.ngDialogData.editMode;
 	if (!vm.editMode) {
 		var credittermModel = {
