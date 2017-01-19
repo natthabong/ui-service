@@ -641,6 +641,38 @@ app.controller('CUSTOMER_CODELayoutConfigController', [ '$scope', '$rootScope', 
 app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', function($scope, $rootScope, $q, Service) {
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
+	vm.config = $scope.ngDialogData.config;
+	console.log(vm.model);
+	console.log(vm.config);
+	
+	vm.requiredRelationalOperators = false;
+	vm.selectedRelationalOperators = 'EQUAL_TO_UPLOAD_DATE';
+	
+	vm.loadRelationalOperator = function() {
+
+		var diferred = $q.defer();
+		vm.relationalOperators = [];
+		
+		var serviceUrl = 'js/app/sponsor-configuration/file-layouts/date_relational_operators.json';
+		var serviceDiferred = Service.doGet(serviceUrl);
+		serviceDiferred.promise.then(function(response) {
+			var dateRelationalOperatorList = response.data;
+			if (dateRelationalOperatorList !== undefined) {
+				dateRelationalOperatorList.forEach(function(obj) {
+					var selectObj = {
+						label : obj.dateRelationalOperatorName,
+						value : obj.dateRelationalOperatorId
+					}
+					vm.relationalOperators.push(selectObj);
+				});
+			}
+			diferred.resolve(vm.dateTimeDropdown);
+			
+		}).catch(function(response) {
+			$log.error('Load relational operators format Fail');
+			diferred.reject();
+		});
+	}
 	
 	vm.calendarType = {
 		christCalendar : 'AD',
@@ -689,6 +721,7 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 	
 	vm.loadDateTimeFormat();
 	vm.defaultCalendarType();
+	vm.loadRelationalOperator();
 } ]);
 
 app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', '$filter', function($scope, $rootScope, $q, Service, $filter) {
