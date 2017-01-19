@@ -327,6 +327,7 @@ app.controller('NewFileLayoutController', [
         		}).catch(function(response){
         			promise.reject('Save payment date formula error');
         		}); 
+        		
         		return promise;
             }
             
@@ -357,8 +358,7 @@ app.controller('NewFileLayoutController', [
                     		var formulaPromise = saveNewFormula(value);
                     		
                     		formulaPromise.promise.then(function(response){
-                    			
-                    			var formulaData = response.data;
+                    			var formulaData = response;
                     			vm.model.paymentDateConfig.paymentDateFormulaId = formulaData.paymentDateFormulaId;
                     			vm.refershFormulaDropDown();
                     		});                        	
@@ -516,7 +516,8 @@ app.controller('NewFileLayoutController', [
 		vm.changePaymentDate = function(){
 			if(vm.model.paymentDateConfig.strategy == vm.paymentDateConfigStrategy.FIELD){
 				vm.model.paymentDateConfig.formula = null;
-				vm.model.paymentDateConfig.creditTermField = null;				
+				vm.model.paymentDateConfig.creditTermField = null;	
+				vm.model.paymentDateConfig.paymentDateFormulaId = null;
 			}
 			vm.model.paymentDateConfig.documentDateField = null;
 		}
