@@ -111,9 +111,24 @@
 				link : function(scope, element, attrs) {
 					scope.translateLable = attrs.translateLabel;
 				},
-				template : '<select class="form-control">' + '<option ng-repeat="option in componentData track by option.value" value="{{option.value}}">{{translateLable? (option.label | translate) :  option.label}}</option>' + '</select>'
+				template : ['<select class="form-control">' , 
+					'<option ng-repeat="option in componentData track by option.value" value="{{option.value}}">{{translateLable? (option.label | translate) :  option.label}}</option>' , 
+					'</select>'].join()
 			};
 		} ])
+		.directive('convertToNumber', function() {
+		  return {
+		    require: 'ngModel',
+		    link: function(scope, element, attrs, ngModel) {
+		      ngModel.$parsers.push(function(val) {
+		        return val != null ? parseInt(val, 10) : null;
+		      });
+		      ngModel.$formatters.push(function(val) {
+		        return val != null ? '' + val : null;
+		      });
+		    }
+		  };
+		})
 		.directive('scfRadio', [ function() {
 			return {
 				restrict : 'AE',
@@ -241,7 +256,7 @@
 						var tableOption = dataConfig.options || {};
 						vm.expansion = dataConfig.expansion || {};
 
-						//Clear value begin add column;
+						// Clear value begin add column;
 						vm.tableColumns = [];
 						dataConfig.columns.forEach(function(data) {
 							var rowData = {
@@ -259,7 +274,7 @@
 							vm.tableColumns.push(rowData);
 						});
 
-						//Check option set to Show row number.
+						// Check option set to Show row number.
 						if (tableOption.displayRowNo !== undefined) {
 							var rowData = {
 								field : 'no',
@@ -270,7 +285,7 @@
 							vm.tableColumns.splice(0, 0, rowData);
 						}
 						;
-						//Check option set to Show checkBox
+						// Check option set to Show checkBox
 						if (tableOption.displaySelect !== undefined) {
 							var rowData = {
 								field : tableOption.displaySelect['field'],
@@ -340,7 +355,7 @@
 						elements.addClass(colClass);
 						elements.html(rowNo);
 						dataRender = rowNo;
-					//                        return;
+					// return;
 					}
 
 					if (column.filterType !== undefined && column.filterType !== null) {
@@ -353,7 +368,7 @@
 					$compile(elements.contents())(scope);
 
 					if (column.id !== null && column.id !== undefined) {
-						//Check add id is rowNo for checkBox
+						// Check add id is rowNo for checkBox
 						if (column.idValueField === 'template') {
 							if (elements[0].children.length > 0) {
 								elements[0].children[0].id = addId(rowNo, column.id, column.renderer);
@@ -387,7 +402,7 @@
 				} else {
 					result = $filter(filterType)(data, filterFormat);
 				}
-				//                result = $filter(filterType)(data, filterFormat);
+				// result = $filter(filterType)(data, filterFormat);
 				return result;
 			}
 
@@ -487,13 +502,13 @@
 			function disableButton(scope, element) {
 				var totalPage = +scope.totalPage;
 				var currentPage = +scope.currentPage;
-				/* check is first page*/
+				/* check is first page */
 				if (currentPage === 0) {
 					/* disable button First, Back page */
 					element[0].children[0].children[0].disabled = true;
 					element[0].children[1].children[0].disabled = true;
 				} else {
-					/* enable button First, Back page*/
+					/* enable button First, Back page */
 					element[0].children[0].children[0].disabled = false;
 					element[0].children[1].children[0].disabled = false;
 				}
@@ -733,7 +748,7 @@
 				vm.$watch($attrs.componentConfig, function(dataConfig) {
 					var tableOption = dataConfig.options || {};
 
-					//Clear value begin add column;
+					// Clear value begin add column;
 					vm.tableColumns = [];
 
 					dataConfig.columns.forEach(function(data) {
@@ -754,7 +769,7 @@
 						vm.tableColumns.push(rowData);
 					});
 
-					//Check option set to Show checkBox
+					// Check option set to Show checkBox
 					if (tableOption.displaySelect !== undefined) {
 						var rowData = {
 							label : tableOption.displaySelect['label'],
@@ -897,7 +912,7 @@
 					$compile(elements.contents())(scope);
 
 					if (angular.isDefined(column.idTemplate) && column.idTemplate !== null) {
-						//Check add id is rowNo for checkBox
+						// Check add id is rowNo for checkBox
 						if (column.idValueField === '$rowNo') {
 							if (elements[0].children.length > 0) {
 								elements[0].children[0].id = addId(rowNo, column.idTemplate, column.renderer);

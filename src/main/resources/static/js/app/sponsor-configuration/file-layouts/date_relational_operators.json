@@ -1,0 +1,18 @@
+[
+	{
+		"dateRelationalOperatorName" : "Equal to upload date",
+		"dateRelationalOperatorId" : "EQUAL_TO_UPLOAD_DATE"
+	}, {
+		"dateRelationalOperatorName" : "Equal or greater than upload date",
+		"dateRelationalOperatorId" : "EQUAL_OR_GREATER_THAN_UPLOAD_DATE"
+	}, {
+		"dateRelationalOperatorName" : "Greater than upload date",
+		"dateRelationalOperatorId" : "GREATER_THAN_UPLOAD_DATE"
+	}, {
+		"dateRelationalOperatorName" : "Equal or less than upload date",
+		"dateRelationalOperatorId" : "EQUAL_OR_LESS_THAN_UPLOAD_DATE"
+	}, {
+		"dateRelationalOperatorName" : "Less than upload date",
+		"dateRelationalOperatorId" : "LESS_THAN_UPLOAD_DATE"
+	}
+]

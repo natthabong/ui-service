@@ -446,52 +446,44 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 	vm.dayOfWeekTypes = [];
 	var loadDayOfWeek = function() {
 		DAY_OF_WEEK.forEach(function(obj) {
-			var selectObj = {
-				label : obj.dayOfWeekName,
-				value : obj.dayOfWeekId
-			}
+            var selectObj = {
+                label: obj.dayOfWeekName,
+                value: obj.dayOfWeekId
+            }
 
-			vm.dayOfWeekTypes.push(selectObj);
-		});
-	}
-
-	vm.checkPeriodType = function() {
-		if (vm.period.paymentPeriodType === 'EVERY_DAY') {
-			vm.disabledDateOfMonth = true;
-			vm.disabledDayOfWeek = true;
-		} else if (vm.period.paymentPeriodType === 'DATE_OF_MONTH') {
-			vm.disabledDateOfMonth = false;
-			vm.disabledDayOfWeek = true;
-		} else if (vm.period.paymentPeriodType === 'DAY_OF_WEEK') {
-			vm.disabledDateOfMonth = true;
-			vm.disabledDayOfWeek = false;
-		}
-	}
+            vm.dayOfWeekTypes.push(selectObj);
+        });
+    }
 
 	vm.initLoad = function() {
 		loadOccurrenceWeek();
 		loadDayOfWeek();
-		vm.checkPeriodType();
 	}
 
 	vm.initLoad();
 
 	vm.saveNewPeriod = function() {
-		if (vm.period.paymentPeriodType === 'EVERY_DAY') {
+		if(vm.period.paymentPeriodType==='EVERY_DAY'){
 			vm.period.dateOfMonth = null;
 			vm.period.dayOfWeek = null;
 			vm.period.occurrenceWeek = null;
-		} else if (vm.period.paymentPeriodType === 'DATE_OF_MONTH') {
+		}else if(vm.period.paymentPeriodType==='DATE_OF_MONTH'){
 			vm.period.dayOfWeek = null;
 			vm.period.occurrenceWeek = null;
-		} else if (vm.period.paymentPeriodType === 'DAY_OF_WEEK') {
+		}else if(vm.period.paymentPeriodType==='DAY_OF_WEEK'){
 			vm.period.dateOfMonth = null;
 		}
-
-		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + vm.paymentDateFormulaId + '/periods';
-		var serviceDiferred = Service.requestURL(serviceUrl, vm.period, 'POST');
+		
+		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas/'+vm.paymentDateFormulaId+'/periods';
+		var method = 'POST';
+		if(vm.period.paymentPeriodId!=null){
+			serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas/'+vm.paymentDateFormulaId+'/periods/'+vm.period.paymentPeriodId;	
+			method = 'PUT';
+		}
+		
+		var serviceDiferred = Service.requestURL(serviceUrl, vm.period, method);
 		serviceDiferred.promise.then(function(response) {
-			ngDialog.close('new-period-dialog', response);
-		});
+			ngDialog.close('new-period-dialog',response);
+		}); 
 	};
 } ]);
