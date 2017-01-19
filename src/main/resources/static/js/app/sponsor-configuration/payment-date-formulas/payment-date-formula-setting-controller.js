@@ -156,25 +156,37 @@ app.controller('PaymentDateFormulaSettingController', [
 			} ]
 		});
 
-		vm.searchPeriod = function() {
+		vm.searchPeriod = function(pagingModel) {
 			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + formulaId + '/periods';
+			
+			if (pagingModel != undefined) {
+				vm.periodTable.pageModel.pageSizeSelectModel = pagingModel.pageSize;
+				vm.periodTable.pageModel.currentPage = pagingModel.page;
+			}
+			
 			var serviceDiferred = Service.doGet(serviceUrl, {
 				limit : vm.periodTable.pageModel.pageSizeSelectModel,
 				offset : vm.periodTable.pageModel.currentPage
 			});
-
-			serviceDiferred.promise.then(function(response) {
+			
+			serviceDiferred.promise.then(function(response) {				
 				vm.periodData = response.data;
 				vm.periodTable.pageModel.totalRecord = response.headers('X-Total-Count');
 				vm.periodTable.pageModel.totalPage = response.headers('X-Total-Page');
-				vm.periodSplitePageTxt = SCFCommonService.splitePage(vm.periodTable.pageModel.pageSizeSelectModel, vm.periodTable.pageModel.page, vm.periodTable.pageModel.totalRecord);
+				vm.periodSplitePageTxt = SCFCommonService.splitePage(vm.periodTable.pageModel.pageSizeSelectModel, vm.periodTable.pageModel.currentPage, vm.periodTable.pageModel.totalRecord);
 			}).catch(function(response) {
 				log.error('Load payment period data error');
 			});
 		}
 
-		vm.searchCreditTerm = function() {
+		vm.searchCreditTerm = function(pagingModel) {
 			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + formulaId + '/credit-terms';
+			
+			if (pagingModel != undefined) {
+				vm.creditTermTable.pageModel.pageSizeSelectModel = pagingModel.pageSize;
+				vm.creditTermTable.pageModel.currentPage = pagingModel.page;
+			}
+			
 			var serviceDiferred = Service.doGet(serviceUrl, {
 				limit : vm.creditTermTable.pageModel.pageSizeSelectModel,
 				offset : vm.creditTermTable.pageModel.currentPage
@@ -184,7 +196,7 @@ app.controller('PaymentDateFormulaSettingController', [
 				vm.creditTermData = response.data;
 				vm.creditTermTable.pageModel.totalRecord = response.headers('X-Total-Count');
 				vm.creditTermTable.pageModel.totalPage = response.headers('X-Total-Page');
-				vm.creditTermSplitePageTxt = SCFCommonService.splitePage(vm.creditTermTable.pageModel.pageSizeSelectModel, vm.creditTermTable.pageModel.page, vm.creditTermTable.pageModel.totalRecord);
+				vm.creditTermSplitePageTxt = SCFCommonService.splitePage(vm.creditTermTable.pageModel.pageSizeSelectModel, vm.creditTermTable.pageModel.currentPage, vm.creditTermTable.pageModel.totalRecord);
 			}).catch(function(response) {
 				log.error('Load payment period data error');
 			});
@@ -413,6 +425,10 @@ app.controller('PaymentDateFormulaSettingController', [
 			vm.refershPeriodsTable = function() {
 				vm.searchPeriod();
 			}
+		};
+		
+		vm.pagingActionPaymentPeriod = function(pagingModel){
+			
 		};
 
 	} ]);
