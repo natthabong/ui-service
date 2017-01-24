@@ -146,7 +146,7 @@
 												maxlength="3"/></td>
 											<td class="text-center" ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><input type="text"
 												id="header-end-index-{{$index+1}}-textbox"
-												style="text-align: right;" ng-model="record.endIndex" 
+												style="text-align: right;" value="{{(record.startIndex==''||record.dataLength=='')?'':(record.startIndex-0 + (record.dataLength-0))-1|number}}" 
 												maxlength="3"
 												/></td>
 											<td class="text-center"><scf-button type="button"
