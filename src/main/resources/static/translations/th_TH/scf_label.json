@@ -198,6 +198,8 @@
 	"Footer": "Footer",
 	"Offset row no.": "Offset row no.",
 	"Add another data": "Add another data",
+	"Header field layout": "Header field layout",
+	"Detail field layout": "Detail field layout",
 	
 	"Text field format": "Text field format",
 	"Date time field format": "Date time field format",
@@ -227,6 +229,7 @@
 	"Save": "Save",
 	"Sort by index": "Sort by index",
 	"Index": "Index",
+	"End index":"End index",
 	"Default value": "Default value",
 	"Fields for Payment date formula": "Fields for Payment date formula",
 	"Formula type": "Formula type",
