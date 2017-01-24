@@ -113,9 +113,8 @@
 												field name</th>
 											<th ng-bind="'Data type' | translate">Data type</th>
 											<th ng-bind="'Length' | translate">Length</th>
-											<th ng-bind="'Index' | translate">Index</th>
-											<th ng-bind="'End index' | translate"
-												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"></th>
+											<th ng-bind="newFileLayoutCtrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index'| translate">{{newFileLayoutCtrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index'}}</th>
+											<th ng-bind="'End index' | translate" ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"></th>
 											<th></th>
 										</tr>
 									</thead>
@@ -144,13 +143,13 @@
 												maxlength="3" /></td>
 											<td class="text-center"><input type="text"
 												id="header-start-index-{{$index+1}}-textbox"
-												style="text-align: right;" ng-model="record.startIndex"
-												maxlength="3" /></td>
-											<td class="text-center"
-												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><input
-												type="text" id="header-end-index-{{$index+1}}-textbox"
-												style="text-align: right;" ng-model="record.endIndex"
-												maxlength="3" /></td>
+												style="text-align: right;" ng-model="record.startIndex" 
+												maxlength="3"/></td>
+											<td class="text-center" ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><input type="text"
+												id="header-end-index-{{$index+1}}-textbox"
+												style="text-align: right;" value="{{(record.startIndex==''||record.dataLength=='')?'':(record.startIndex-0 + (record.dataLength-0))-1|number}}" 
+												maxlength="3"
+												/></td>
 											<td class="text-center"><scf-button type="button"
 													id="header-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
@@ -207,9 +206,9 @@
 											<th ng-bind="'Data type' | translate">Data type</th>
 											<th ng-bind="'Save' | translate"></th>
 											<th ng-bind="'Length' | translate">Length</th>
-											<th ng-bind="'Index' | translate">Index</th>
-											<th ng-bind="'End index' | translate"
-												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"></th>
+											<th ng-bind="newFileLayoutCtrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index'| translate">{{newFileLayoutCtrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index'}}</th>
+											<th ng-bind="'End index' | translate" 
+											ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"></th>
 											<th></th>
 										</tr>
 									</thead>
@@ -244,16 +243,15 @@
 
 											<td class="text-center"><input type="text"
 												id="length-{{$index+1}}-textbox" style="text-align: right;"
-												ng-model="record.dataLength" maxlength="3" /></td>
-											<td class="text-center"
-												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><input
-												type="text" id="index-{{$index+1}}-textbox"
-												style="text-align: right;" ng-model="record.startIndex"
-												maxlength="3" /></td>
-											<td class="text-center"><input type="text"
-												id="end-index-{{$index+1}}-textbox"
-												style="text-align: right;" ng-model="record.endIndex"
-												maxlength="3" /></td>
+												ng-model="record.dataLength" maxlength="3"/></td>
+											<td class="text-center" ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><input type="text"
+												id="index-{{$index+1}}-textbox" style="text-align: right;"
+												ng-model="record.startIndex" maxlength="3"/></td>
+												<td class="text-center"><input type="text"
+												id="header-index-{{$index+1}}-textbox"
+												style="text-align: right;" value="{{(record.startIndex==''||record.dataLength=='')?'':(record.startIndex-0 + (record.dataLength-0))-1|number}}" 
+												maxlength="3"
+												/></td>
 											<td class="text-center"><scf-button type="button"
 													id="setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
