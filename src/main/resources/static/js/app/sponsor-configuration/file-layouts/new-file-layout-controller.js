@@ -1,458 +1,520 @@
 var app = angular.module('scfApp');
 app.controller('NewFileLayoutController', [
-		'$log',
-		'$rootScope',
-		'$scope',
-		'$state',
-		'$stateParams',
-		'ngDialog',
-		'Service',
-		'PageNavigation',
-		'FILE_TYPE_ITEM',
-		'DELIMITER_TYPE_TEM',
-		'CHARSET_ITEM', '$injector', '$q',
-		function($log, $rootScope, $scope, $state, $stateParams, ngDialog, Service, PageNavigation, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, $injector, $q) {
+	'$log',
+	'$rootScope',
+	'$scope',
+	'$state',
+	'$stateParams',
+	'ngDialog',
+	'Service',
+	'PageNavigation',
+	'FILE_TYPE_ITEM',
+	'DELIMITER_TYPE_TEM',
+	'CHARSET_ITEM', '$injector', '$q',
+	function($log, $rootScope, $scope, $state, $stateParams, ngDialog, Service, PageNavigation, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, $injector, $q) {
 
-			var vm = this;
-			var log = $log;
+		var vm = this;
+		var log = $log;
 
-			vm.newMode = true;
-			var sponsorId = $rootScope.sponsorId;
-			
-			var selectedItem = $stateParams.fileLayoutModel;
+		vm.newMode = true;
+		var sponsorId = $rootScope.sponsorId;
 
-			var BASE_URI = 'api/v1/organize-customers/' + sponsorId
-					+ '/sponsor-configs/SFP';
-			
-			
-			vm.dataTypes = [];
-			
-			vm.paymentDateConfigStrategy= {
-					'FIELD': 'FIELD',
-					'FORMULA': 'FORMULA'
-			}
-			 
-			vm.delimitersDropdown = [];
-			vm.dataTypeDropdown = [{
-				value: null,
-                label: 'Please select'
-            }];
-			vm.fileEncodeDropdown = [];
-			vm.paymentDateFieldDropdown = [];
-			vm.credittermFieldDropdown = [];
-			
-			vm.fileType = FILE_TYPE_ITEM;
-			
-			var fieldCounter = {};
-			
-			var newItem = {
-                primaryKeyField: false,
-                docFieldName: null,
-                dataType: null,
-                dataLength: 0,
-                startIndex: 0
-            }
-			
-			vm.dataDetailItems = [];
-						
-			vm.backToSponsorConfigPage = function(){
-				PageNavigation.gotoPreviousPage();
-			}
-			
-			var loadDataTypes = function() {
-                var serviceURI = 'api/v1/configs/gecscf/layouts/file/data-types';
-                var serviceDiferred = Service.doGet(serviceURI, {
-                    record_type: 'DETAIL'
-                });
+		var selectedItem = $stateParams.fileLayoutModel;
 
-                serviceDiferred.promise.then(function(response) {
-                	vm.dataTypes = response.data;
-                	vm.dataTypes.forEach(function(obj) {
-	                	var item = {
-	            			 value: obj.layoutFileDataTypeId,
-	                         label: obj.dataTypeDisplay
-	                    }
-                        vm.dataTypeDropdown.push(item);
-                    });
+		var BASE_URI = 'api/v1/organize-customers/' + sponsorId
+			+ '/sponsor-configs/SFP';
 
-                }).catch(function(response) {
-                    log.error('Load customer code group data error');
-                });
-            }
-			
-			
-			var loadDelimiters = function() {
-				DELIMITER_TYPE_TEM.forEach(function(obj) {
-                    var selectObj = {
-                        label: obj.delimiterName,
-                        value: obj.delimiterId
-                    }
 
-                    vm.delimitersDropdown.push(selectObj);
-                });
-            }
-			
-			var loadFileEncode = function() {
-				CHARSET_ITEM.forEach(function(obj) {
-                    var selectObj = {
-                        label: obj.fileEncodeName,
-                        value: obj.fileEncodeId
-                    }
+		vm.dataTypes = [];
+		vm.configHeader = false;
 
-                    vm.fileEncodeDropdown.push(selectObj);
-                });
-           }
-			
-		   var sendRequest = function(uri, succcesFunc, failedFunc) {
-                 var serviceDiferred = Service.doGet(BASE_URI + uri);
-
-                 var failedFunc = failedFunc | function(response) {
-                     log.error('Load data error');
-                 };
-                 serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
-            }
-		   var isEmptyValue =  function (value) {
-               if (angular.isUndefined(value) || value == null) {
-                   return true;
-               }
-               return false;
-           }
-		   
-		   var addPaymentDateFieldDropdown = function(configItems) {
-               var paymentDateDropdown = [{
-                   label: 'Please select',
-                   value: null
-               }];
-               
-               if (!isEmptyValue(configItems)) {
-            	   fieldCounter = {};
-                   configItems.forEach(function(data) {
-						if ('DATE_TIME' == data.dataType && !isEmptyValue(data.displayValue) && data.completed && !data.isTransient) {
-							paymentDateDropdown.push({
-								label: data.displayValue,
-								value: data.docFieldName
-							});
-						}
-						 
-						if(!fieldCounter[data.dataType]){
-							fieldCounter[data.dataType] = 1;
-						}
-						else{
-							fieldCounter[data.dataType]++;
-						}
-                   });
-               }
-               
-               return paymentDateDropdown;
+		vm.paymentDateConfigStrategy = {
+			'FIELD' : 'FIELD',
+			'FORMULA' : 'FORMULA'
 		}
 
-		var initialModel = function() {
-             vm.model = {
-               sponsorConfigId: 'SFP',
-               sponsorId: sponsorId,
-               displayName: null,
-               delimeter: ',',
-               wrapper: '"',
-               fileExtensions: 'csv',
-               integrateType: 'SPONSOR_UPLOAD',
-               fileType: 'CSV',
-               charsetName: 'TIS-620',
-               checkBinaryFile: false,
-               completed: false,
-               ownerId: sponsorId,
-               paymentDateConfig: {
-            	   strategy: 'FIELD',
-            	   documentDateField: null,
-            	   paymentDateFormulaId: null
-               }
-             }
-             
-             vm.items = [{
-                 primaryKeyField: false,
-                 docFieldName: null,
-                 dataType: null,
-                 isTransient: false,
-                 dataLength: 0,
-                 startIndex: 0
-             }]
-           }
+		var defaultDropdown = [ {
+			value : null,
+			label : 'Please select'
+		} ];
+
+		vm.delimitersDropdown = [];
+		vm.dataTypeDropdown = defaultDropdown;
+		vm.dataTypeHeaderDropdown = defaultDropdown;
+
+		vm.fileEncodeDropdown = [];
+		vm.paymentDateFieldDropdown = [];
+		vm.credittermFieldDropdown = [];
+
+		vm.fileType = FILE_TYPE_ITEM;
+
+		var fieldCounter = {};
+
+		var newItem = {
+			primaryKeyField : false,
+			docFieldName : null,
+			dataType : null,
+			dataLength : 0,
+			startIndex : 0
+		}
+		vm.headerItems = [];
 		
-			vm.paymentDateFormularModelDropdowns = [];
-			var addPaymentDateFormulaDropdown = function(formulaData) {	
-				var dropdownPleaseSelect = [{
-	                label: 'Please select',
-	                value: null,
-	                formulaType: ''
-	            }];
-				vm.paymentDateFormularModelDropdowns = dropdownPleaseSelect;
-				
-				if(formulaData.length > 0){
-					formulaData.forEach(function(item) {
-						var paymentDateFormulaItem = {
-							value : item.paymentDateFormulaId,
-							label : item.formulaName,
-							formulaType: item.formulaType
-						}
-						vm.paymentDateFormularModelDropdowns.push(paymentDateFormulaItem);
-					})
-					
-				}				
-			}
-			 
-			vm.model = {
-				ownerId: sponsorId, 
-				paymentDateConfig: {
-	            	   strategy: 'FIELD',
-	            	   documentDateField: null,
-	            	   paymentDateFormulaId: null
-	               }
+		vm.items = [];
+		vm.dataDetailItems = [];
+
+		vm.backToSponsorConfigPage = function() {
+			PageNavigation.gotoPreviousPage();
+		}
+
+		var loadDataTypes = function() {
+			var serviceURI = 'api/v1/configs/gecscf/layouts/file/data-types';
+			var serviceDiferred = Service.doGet(serviceURI, {
+				recordType : 'DETAIL'
+			});
+
+			serviceDiferred.promise.then(function(response) {
+				vm.dataTypes = response.data;
+				vm.dataTypes.forEach(function(obj) {
+					var item = {
+						value : obj.layoutFileDataTypeId,
+						label : obj.dataTypeDisplay
+					}
+					vm.dataTypeDropdown.push(item);
+				});
+
+			}).catch(function(response) {
+				log.error('Load customer code group data error');
+			});
+		}
+
+		var loadHeaderDataTypes = function() {
+			var serviceURI = 'api/v1/configs/gecscf/layouts/file/data-types';
+			var serviceDiferred = Service.doGet(serviceURI, {
+				recordType : 'HEADER'
+			});
+
+			serviceDiferred.promise.then(function(response) {
+				vm.dataTypes = response.data;
+				vm.dataTypes.forEach(function(obj) {
+					var item = {
+						value : obj.layoutFileDataTypeId,
+						label : obj.dataTypeDisplay
+					}
+					vm.dataTypeHeaderDropdown.push(item);
+				});
+
+			}).catch(function(response) {
+				log.error('Load customer code group header data error');
+			});
+		}
+
+
+		var loadDelimiters = function() {
+			DELIMITER_TYPE_TEM.forEach(function(obj) {
+				var selectObj = {
+					label : obj.delimiterName,
+					value : obj.delimiterId
+				}
+
+				vm.delimitersDropdown.push(selectObj);
+			});
+		}
+
+		var loadFileEncode = function() {
+			CHARSET_ITEM.forEach(function(obj) {
+				var selectObj = {
+					label : obj.fileEncodeName,
+					value : obj.fileEncodeId
+				}
+
+				vm.fileEncodeDropdown.push(selectObj);
+			});
+		}
+
+		var sendRequest = function(uri, succcesFunc, failedFunc) {
+			var serviceDiferred = Service.doGet(BASE_URI + uri);
+
+			var failedFunc = failedFunc | function(response) {
+				log.error('Load data error');
 			};
-			vm.items = [];
-			
-			vm.setup = function(){
-				
-				loadDelimiters();
-				loadFileEncode();
-				loadDataTypes();
-				
-				if (!angular.isUndefined(selectedItem) && selectedItem != null) {
-					vm.newMode = false;
-					var reqUrlLayoutConfg = '/layouts/' + selectedItem.layoutConfigId;
-					var reqUrlField = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=FIELD';
-					var reqUrlData = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=DATA';
-					var reqUrlFormula = '/payment-date-formulas/';
-					
-					sendRequest(reqUrlLayoutConfg, function(response) {
-                        vm.model = response.data;
-                        vm.reloadPaymentDateFields();
-                    });					
-					
-					sendRequest(reqUrlField, function(response) {
-                        vm.items = response.data;
-                        if (vm.items.length < 1) {
-                            vm.addItem();
-                        }                        
-                    });
-					
-					sendRequest(reqUrlData, function(response) {
-                        var detailData = response.data;
-                        	detailData.forEach(function(item) {
-                        		vm.dataDetailItems.push(item);
-                        	})
-                    });
-					
-					sendRequest(reqUrlFormula, function(response) {						
-                        var formulaData = response.data;
-                        addPaymentDateFormulaDropdown(formulaData);     	
-                    });					
-                     
-                 } else {
-                	 initialModel();
-                	 addPaymentDateFormulaDropdown([]);
-                 }
+			serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
+		}
+		var isEmptyValue = function(value) {
+			if (angular.isUndefined(value) || value == null) {
+				return true;
 			}
-			
-			vm.setup();
-			
-			vm.openSetting = function(index, record) {
-                var dataType = record.dataType;
-                vm.dataTypes.forEach(function(obj) {
-                    if (dataType == obj.layoutFileDataTypeId) {
+			return false;
+		}
 
-                        var dialog = ngDialog.open({
-                            id: 'layout-setting-dialog-' + index,
-                            template: obj.configActionUrl,
-                            className: 'ngdialog-theme-default',
-                            controller: dataType + 'LayoutConfigController',
-                            controllerAs: 'ctrl',
-                            scope: $scope,
-                            data: {
-                                record: record,
-                                config: obj
-                            },
-                            cache: false,
-                            preCloseCallback: function(value) {
-                                if (value != null) {
-									if(value.docFieldName == null){
-										 var field = obj.docFieldName;
-										 var patt=/{sequenceNo}/g; 
-										 var res = field.match(patt);
-										 if(res!=null){
-											 field = field.replace(patt, fieldCounter[dataType]++);
-										 }
-										 value.docFieldName = field;
+		var addPaymentDateFieldDropdown = function(configItems) {
+			var paymentDateDropdown = [ {
+				label : 'Please select',
+				value : null
+			} ];
+
+			if (!isEmptyValue(configItems)) {
+				fieldCounter = {};
+				configItems.forEach(function(data) {
+					if ('DATE_TIME' == data.dataType && !isEmptyValue(data.displayValue) && data.completed && !data.isTransient) {
+						paymentDateDropdown.push({
+							label : data.displayValue,
+							value : data.docFieldName
+						});
+					}
+
+					if (!fieldCounter[data.dataType]) {
+						fieldCounter[data.dataType] = 1;
+					} else {
+						fieldCounter[data.dataType]++;
+					}
+				});
+			}
+
+			return paymentDateDropdown;
+		}
+
+
+		var initialModel = function() {
+			vm.model = {
+				sponsorConfigId : 'SFP',
+				sponsorId : sponsorId,
+				displayName : null,
+				delimeter : ',',
+				wrapper : '"',
+				fileExtensions : 'csv',
+				integrateType : 'SPONSOR_UPLOAD',
+				fileType : 'CSV',
+				charsetName : 'TIS-620',
+				checkBinaryFile : false,
+				completed : false,
+				ownerId : sponsorId,
+				paymentDateConfig : {
+					strategy : 'FIELD',
+					documentDateField : null,
+					paymentDateFormulaId : null
+				}
+			}
+
+			vm.items = [ {
+				primaryKeyField : false,
+				docFieldName : null,
+				dataType : null,
+				isTransient : false,
+				dataLength : 0,
+				startIndex : 0,
+				endIndex : 0,
+				recordType : "DETAIL",
+				itemType : 'FIELD'
+			} ];
+		}
+
+		vm.paymentDateFormularModelDropdowns = [];
+		var addPaymentDateFormulaDropdown = function(formulaData) {
+			var dropdownPleaseSelect = [ {
+				label : 'Please select',
+				value : null,
+				formulaType : ''
+			} ];
+			vm.paymentDateFormularModelDropdowns = dropdownPleaseSelect;
+
+			if (formulaData.length > 0) {
+				formulaData.forEach(function(item) {
+					var paymentDateFormulaItem = {
+						value : item.paymentDateFormulaId,
+						label : item.formulaName,
+						formulaType : item.formulaType
+					}
+					vm.paymentDateFormularModelDropdowns.push(paymentDateFormulaItem);
+				})
+
+			}
+		}
+
+		vm.model = {
+			ownerId : sponsorId,
+			paymentDateConfig : {
+				strategy : 'FIELD',
+				documentDateField : null,
+				paymentDateFormulaId : null
+			}
+		};
+
+		vm.setup = function() {
+
+			loadDelimiters();
+			loadFileEncode();
+			loadDataTypes();
+
+			if (!angular.isUndefined(selectedItem) && selectedItem != null) {
+				vm.newMode = false;
+				var reqUrlLayoutConfg = '/layouts/' + selectedItem.layoutConfigId;
+				var reqUrlHeaderField = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=FIELD&recordType=HEADER';
+				var reqUrlField = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=FIELD&recordType=DETAIL';
+				var reqUrlData = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=DATA&recordType=DETAIL';
+				var reqUrlFormula = '/payment-date-formulas/';
+
+				sendRequest(reqUrlLayoutConfg, function(response) {
+					vm.model = response.data;
+					vm.reloadPaymentDateFields();
+				});
+
+				sendRequest(reqUrlField, function(response) {
+					vm.items = response.data;
+					if (vm.items.length < 1) {
+						vm.addItem();
+					}
+				});
+
+				sendRequest(reqUrlData, function(response) {
+					var detailData = response.data;
+					detailData.forEach(function(item) {
+						vm.dataDetailItems.push(item);
+					})
+				});
+
+				sendRequest(reqUrlFormula, function(response) {
+					var formulaData = response.data;
+					addPaymentDateFormulaDropdown(formulaData);
+				});
+				
+				sendRequest(reqUrlHeaderField, function(response) {
+					var headerItems = response.data;
+					if(headerItems.length > 0){
+						vm.configHeader = true;
+						vm.headerItems = headerItems;
+					}					
+				});
+
+			} else {
+				initialModel();
+				addPaymentDateFormulaDropdown([]);
+			}
+		}
+
+		vm.setup();
+
+		vm.openSetting = function(index, record) {
+			var dataType = record.dataType;
+			vm.dataTypes.forEach(function(obj) {
+				if (dataType == obj.layoutFileDataTypeId) {
+
+					var dialog = ngDialog.open({
+						id : 'layout-setting-dialog-' + index,
+						template : obj.configActionUrl,
+						className : 'ngdialog-theme-default',
+						controller : dataType + 'LayoutConfigController',
+						controllerAs : 'ctrl',
+						scope : $scope,
+						data : {
+							record : record,
+							config : obj
+						},
+						cache : false,
+						preCloseCallback : function(value) {
+							if (value != null) {
+								if (value.docFieldName == null) {
+									var field = obj.docFieldName;
+									var patt = /{sequenceNo}/g;
+									var res = field.match(patt);
+									if (res != null) {
+										field = field.replace(patt, fieldCounter[dataType]++);
 									}
-									angular.copy(value, record);
-									record.completed = true;
-                                }
-                            }
-                        });
-                    }
-                });
+									value.docFieldName = field;
+								}
+								angular.copy(value, record);
+								record.completed = true;
+							}
+						}
+					});
+				}
+			});
 
-            }
-			
-			vm.addItem = function() {
-            	  var itemConfig = {
-                      primaryKeyField: false,
-                      docFieldName: null,
-                      dataType: null,
-                      dataLength: 0,
-                      startIndex: 0,
-                      isTransient: false,
-                      itemType: 'FIELD'
-                  };
-                  vm.items.push(itemConfig);
-            }
+		}
 
-            vm.removeItem = function(record) {
-                  var index = vm.itemsindexOf(record);
-                  vm.items.splice(index, 1);
-            }
-            
-            vm.formula = {
-            	paymentDateFormulaId : null,	
-            	formulaName: '',
-            	formulaType: 'CREDIT_TERM',
-            	sponsorId: sponsorId,
-            	isCompleted: '0'
-            };
-            
-            var saveNewFormula = function(formula){
-            	var promise = $q.defer();
-            	var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
-        		var serviceDiferred = Service.requestURL(serviceUrl, formula, 'POST');
-        		serviceDiferred.promise.then(function(response) {
-        			promise.resolve(response);
-        		}).catch(function(response){
-        			promise.reject('Save payment date formula error');
-        		}); 
-        		
-        		return promise;
-            }
-            
-            vm.openNewFormula = function(){
-            	
-            	 vm.formula = {
-                     	paymentDateFormulaId : null,	
-                     	formulaName: '',
-                     	formulaType: 'CREDIT_TERM',
-                     	sponsorId: sponsorId,
-                     	isCompleted: '0'
-                 };
-            	 
-            	 vm.newFormulaDialog = ngDialog.open({
-                    id: 'new-formula-dialog',
-                    template: '/js/app/sponsor-configuration/file-layouts/dialog-new-formula.html',
-                    className: 'ngdialog-theme-default',
-                    controller: 'NewPaymentDateFormulaFileLayoutController',
-                    controllerAs: 'ctrl',
-                    scope: $scope,
-                    data: {
-                    	formula: vm.formula
-                    },
-                    cache: false,
-                    preCloseCallback: function(value) {                    	
-                    	if(angular.isDefined(value)){
-                    		vm.formula = value;
-                    		var formulaPromise = saveNewFormula(value);
-                    		
-                    		formulaPromise.promise.then(function(response){
-                    			var formulaData = response;
-                    			vm.model.paymentDateConfig.paymentDateFormulaId = formulaData.paymentDateFormulaId;
-                    			vm.refershFormulaDropDown();
-                    		});                        	
-                    	}
-                    	return true;
-                    }
-                });
-            };
-    
-            
-    		vm.refershFormulaDropDown = function(){
-    			var serviceGetFormula = '/api/v1/organize-customers/' + sponsorId
-				+ '/sponsor-configs/SFP/payment-date-formulas';    			
-                var serviceDiferred = Service.doGet(serviceGetFormula);
-                serviceDiferred.promise.then(function(response) {
-                    var formulaData = response.data;
-                    vm.paymentDateFormularModelDropdowns = [];
-                    
-                    addPaymentDateFormulaDropdown(formulaData);
-                    
-                   
-                });
-    		}
+		vm.addItem = function() {
+			var itemConfig = {
+				primaryKeyField : false,
+				docFieldName : null,
+				dataType : null,
+				dataLength : 0,
+				startIndex : 0,
+				isTransient : false,
+				recordType : "DETAIL",
+				itemType : 'FIELD'
+			};
+			vm.items.push(itemConfig);
+		}
 
-            vm.save = function() {
-            	vm.model.completed = true;
-            	var sponsorLayout = angular.copy(vm.model);
-            	sponsorLayout.items = vm.items;
-            	vm.dataDetailItems.forEach(function(detailItem) {
-            		sponsorLayout.items.push(detailItem);
-            	});
-            	
-            	sponsorLayout.items.forEach(function(obj, index) {
-            		sponsorLayout.completed =  obj.completed && sponsorLayout.completed; 
-                })
-                 var apiURL = 'api/v1/organize-customers/' +  sponsorId + '/sponsor-configs/SFP/layouts';
-                 if(!vm.newMode){
-                	 vm.model.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
-                	 apiURL = apiURL+'/'+vm.model.layoutConfigId;
-                 }
-                 var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode?'POST':'PUT');
+		vm.addHeaderItem = function() {
+			var headerItemConfig = {
+				primaryKeyField : false,
+				docFieldName : null,
+				dataType : null,
+				dataLength : 0,
+				startIndex : 0,
+				endIndex : 0,
+				isTransient : true,
+				recordType : "HEADER",
+				itemType : 'FIELD'
+			};
+			vm.headerItems.push(headerItemConfig);
+		}
 
-                 fileLayoutDiferred.promise.then(function(response) {
-                      var organizeModel = {
-                          organizeId: sponsorId
-                      }
-                      PageNavigation.gotoPage('/sponsor-configuration', {
-                          organizeModel: organizeModel
-                      });
-                  }).catch(function(response) {
-                      log.error('Save config fail');
-                  });
-              };
-              
-              var addCreditTermFields = function(configItems){
-            	  var creditermDropdowns = [{
-                      label: 'Please select',
-                      value: null
-                  }];
-            	  
-            	  if(angular.isDefined(configItems) && configItems.length > 0){
-            		  configItems.forEach(function(data) {
-            			  if (!isEmptyValue(data.displayValue) && data.completed) {
-            				  creditermDropdowns.push({
-    								label: data.displayValue,
-    								value: data.docFieldName
-    							});
-    						}
-            		  });
-            	  }            	  
-            	  vm.credittermFieldDropdown = creditermDropdowns;
-              }
-              
-              
-              $scope.$watch('newFileLayoutCtrl.items', function() {
-                  vm.reloadPaymentDateFields();
-                  addCreditTermFields(vm.items);
-              }, true);
-              
-              vm.reloadPaymentDateFields = function(){
-            	  vm.paymentDateFieldDropdown = addPaymentDateFieldDropdown(vm.items);
-			  }
-              
-              vm.displayExample = function(record) {
-      			var msg = '';
-      			vm.dataTypes.forEach(function(obj) {
-      				if (record.dataType == obj.layoutFileDataTypeId) {
+		vm.removeItem = function(record) {
+			var index = vm.itemsindexOf(record);
+			vm.items.splice(index, 1);
+		}
 
-      					if (record.completed) {
-      						msg = $injector.get('NewFileLayerExampleDisplayService')[record.dataType + '_DisplayExample'](record, obj);
-      					}
-      				}
-      			});
-      			return msg;
+		vm.formula = {
+			paymentDateFormulaId : null,
+			formulaName : '',
+			formulaType : 'CREDIT_TERM',
+			sponsorId : sponsorId,
+			isCompleted : '0'
+		};
+
+		var saveNewFormula = function(formula) {
+			var promise = $q.defer();
+			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
+			var serviceDiferred = Service.requestURL(serviceUrl, formula, 'POST');
+			serviceDiferred.promise.then(function(response) {
+				promise.resolve(response);
+			}).catch(function(response) {
+				promise.reject('Save payment date formula error');
+			});
+
+			return promise;
+		}
+
+		vm.openNewFormula = function() {
+
+			vm.formula = {
+				paymentDateFormulaId : null,
+				formulaName : '',
+				formulaType : 'CREDIT_TERM',
+				sponsorId : sponsorId,
+				isCompleted : '0'
+			};
+
+			vm.newFormulaDialog = ngDialog.open({
+				id : 'new-formula-dialog',
+				template : '/js/app/sponsor-configuration/file-layouts/dialog-new-formula.html',
+				className : 'ngdialog-theme-default',
+				controller : 'NewPaymentDateFormulaFileLayoutController',
+				controllerAs : 'ctrl',
+				scope : $scope,
+				data : {
+					formula : vm.formula
+				},
+				cache : false,
+				preCloseCallback : function(value) {
+					if (angular.isDefined(value)) {
+						vm.formula = value;
+						var formulaPromise = saveNewFormula(value);
+
+						formulaPromise.promise.then(function(response) {
+							var formulaData = response;
+							vm.model.paymentDateConfig.paymentDateFormulaId = formulaData.paymentDateFormulaId;
+							vm.refershFormulaDropDown();
+						});
+					}
+					return true;
+				}
+			});
+		};
+
+
+		vm.refershFormulaDropDown = function() {
+			var serviceGetFormula = '/api/v1/organize-customers/' + sponsorId
+				+ '/sponsor-configs/SFP/payment-date-formulas';
+			var serviceDiferred = Service.doGet(serviceGetFormula);
+			serviceDiferred.promise.then(function(response) {
+				var formulaData = response.data;
+				vm.paymentDateFormularModelDropdowns = [];
+
+				addPaymentDateFormulaDropdown(formulaData);
+			});
+		}
+
+		var addHeaderModel = function(model, headerItems) {
+			headerItems.forEach(function(item) {
+				model.items.push(item);
+			});
+		}
+
+		vm.save = function() {
+			vm.model.completed = true;
+			var sponsorLayout = angular.copy(vm.model);
+			sponsorLayout.items = angular.copy(vm.items);
+			vm.dataDetailItems.forEach(function(detailItem) {
+				sponsorLayout.items.push(detailItem);
+			});
+
+			addHeaderModel(sponsorLayout, vm.headerItems);
+
+			sponsorLayout.items.forEach(function(obj, index) {
+				sponsorLayout.completed = obj.completed && sponsorLayout.completed;
+			});
+			console.log(sponsorLayout);
+			var apiURL = 'api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/layouts';
+			if (!vm.newMode) {
+				vm.model.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
+				apiURL = apiURL + '/' + vm.model.layoutConfigId;
+			}
+			var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode ? 'POST' : 'PUT');
+
+			fileLayoutDiferred.promise.then(function(response) {
+				var organizeModel = {
+					organizeId : sponsorId
+				}
+				PageNavigation.gotoPage('/sponsor-configuration', {
+					organizeModel : organizeModel
+				});
+			}).catch(function(response) {
+				log.error('Save config fail');
+			});
+		};
+
+		var addCreditTermFields = function(configItems) {
+			var creditermDropdowns = [ {
+				label : 'Please select',
+				value : null
+			} ];
+
+			if (angular.isDefined(configItems) && configItems.length > 0) {
+				configItems.forEach(function(data) {
+					if (!isEmptyValue(data.displayValue) && data.completed) {
+						creditermDropdowns.push({
+							label : data.displayValue,
+							value : data.docFieldName
+						});
+					}
+				});
+			}
+			vm.credittermFieldDropdown = creditermDropdowns;
+		}
+
+
+		$scope.$watch('newFileLayoutCtrl.items', function() {
+			vm.reloadPaymentDateFields();
+			addCreditTermFields(vm.items);
+		}, true);
+
+		vm.reloadPaymentDateFields = function() {
+			vm.paymentDateFieldDropdown = addPaymentDateFieldDropdown(vm.items);
+		}
+
+		vm.displayExample = function(record) {
+			var msg = '';
+			vm.dataTypes.forEach(function(obj) {
+				if (record.dataType == obj.layoutFileDataTypeId) {
+
+					if (record.completed) {
+						msg = $injector.get('NewFileLayerExampleDisplayService')[record.dataType + '_DisplayExample'](record, obj);
+					}
+				}
+			});
+			return msg;
 		}
 
 		vm.addDataItem = function(dataItems) {
@@ -462,96 +524,113 @@ app.controller('NewFileLayoutController', [
 				dataType : null,
 				dataLength : 0,
 				startIndex : 0,
-				isTransient: false,
-				itemType: 'DATA'
+				isTransient : false,
+				itemType : 'DATA',
+				recordType : "DETAIL"
 			};
 			dataItems.push(itemConfig)
 		}
-		
-		vm.removeDataItem = function(dataItems, item){
+
+		vm.removeDataItem = function(dataItems, item) {
 			var index = dataItems.indexOf(item);
 			dataItems.splice(index, 1);
 		}
-		
-		vm.getDetailFieldSize = function(){
+
+		vm.getDetailFieldSize = function() {
 			return vm.items.length;
 		}
-		
-		vm.isEven = function(fieldSize, currentIndex){
-			return (fieldSize + currentIndex) % 2 == 0 ? true: false;
+
+		vm.getHeaderFieldSize = function() {
+			return vm.headerItems.length;
 		}
-		
-		vm.dataRowNo = function(fieldSize, currentIndex){
+
+		vm.isEven = function(fieldSize, currentIndex) {
+			return (fieldSize + currentIndex) % 2 == 0 ? true : false;
+		}
+
+		vm.dataRowNo = function(fieldSize, currentIndex) {
 			return (fieldSize + currentIndex) + 1;
 		}
-		
-		vm.isSaveCheckedDisplay = function(item){
+
+		vm.isSaveCheckedDisplay = function(item) {
 			return !item.isTransient;
 		}
-		
-		vm.saveField = function(item){
+
+		vm.saveField = function(item) {
 			item.isTransient = !item.isTransient;
 		}
-		
+
 		vm.formularTypeDisplayMsg = '';
-		vm.formulaTypeDisplay = function(paymentDateFormulaId){
+		vm.formulaTypeDisplay = function(paymentDateFormulaId) {
 			var displayResult = '';
 			var creditTermItems = vm.paymentDateFormularModelDropdowns;
-			if(angular.isUndefined(creditTermItems) && creditTermItems.length == 0){
+			if (angular.isUndefined(creditTermItems) && creditTermItems.length == 0) {
 				return displayResult;
 			}
-			if(isEmptyValue(paymentDateFormulaId)){
+			if (isEmptyValue(paymentDateFormulaId)) {
 				return displayResult;
 			}
 
-			creditTermItems.forEach(function(creditTerm){
-				if(creditTerm.value == paymentDateFormulaId){
+			creditTermItems.forEach(function(creditTerm) {
+				if (creditTerm.value == paymentDateFormulaId) {
 					displayResult = creditTerm.formulaType;
 				}
 			});
 
 			return displayResult;
 		}
-		
-		vm.changePaymentDate = function(){
-			if(vm.model.paymentDateConfig.strategy == vm.paymentDateConfigStrategy.FIELD){
+
+		vm.changePaymentDate = function() {
+			if (vm.model.paymentDateConfig.strategy == vm.paymentDateConfigStrategy.FIELD) {
 				vm.model.paymentDateConfig.formula = null;
-				vm.model.paymentDateConfig.creditTermField = null;	
+				vm.model.paymentDateConfig.creditTermField = null;
 				vm.model.paymentDateConfig.paymentDateFormulaId = null;
 			}
 			vm.model.paymentDateConfig.documentDateField = null;
 		}
 
+		vm.clearHeaderConfig = function() {
+			if (vm.configHeader == false) {
+				vm.headerItems = [];
+			} else {
+				vm.addHeaderItem();
+			}
+		}
+		
+		vm.showHeaderConfig = function(){
+			return vm.configHeader;
+		}
+
 	} ]);
 
 app.constant('FILE_TYPE_ITEM', {
-	fixedLength : 'FIXEDLENGTH',
+	fixedLength : 'FIXED_LENGTH',
 	delimited : 'CSV'
 });
-app.constant('DELIMITER_TYPE_TEM', [{
-    delimiterName: 'Comma (,)',
-    delimiterId: ','
+app.constant('DELIMITER_TYPE_TEM', [ {
+	delimiterName : 'Comma (,)',
+	delimiterId : ','
 }, {
-    delimiterName: 'Colon (:)',
-    delimiterId: ':'
+	delimiterName : 'Colon (:)',
+	delimiterId : ':'
 }, {
-    delimiterName: 'Tab',
-    delimiterId: '3'
+	delimiterName : 'Tab',
+	delimiterId : '3'
 }, {
-    delimiterName: 'Semicolon (;)',
-    delimiterId: ';'
+	delimiterName : 'Semicolon (;)',
+	delimiterId : ';'
 }, {
-    delimiterName: 'Other',
-    delimiterId: 'Other'
-}]);
+	delimiterName : 'Other',
+	delimiterId : 'Other'
+} ]);
 
-app.constant('CHARSET_ITEM', [{
-    fileEncodeName: 'UTF-8',
-    fileEncodeId: 'UTF-8'
+app.constant('CHARSET_ITEM', [ {
+	fileEncodeName : 'UTF-8',
+	fileEncodeId : 'UTF-8'
 }, {
-    fileEncodeName: 'TIS-620',
-    fileEncodeId: 'TIS-620'
-}]);
+	fileEncodeName : 'TIS-620',
+	fileEncodeId : 'TIS-620'
+} ]);
 
 app.controller('TEXTLayoutConfigController', [ '$scope', '$rootScope', function($scope, $rootScope) {
 	this.model = angular.copy($scope.ngDialogData.record);
@@ -641,14 +720,14 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
 	vm.config = $scope.ngDialogData.config;
-	
+
 	vm.requiredRelationalOperators = false;
 	vm.relationalOperators = [];
 	vm.loadRelationalOperator = function() {
 
 		var diferred = $q.defer();
 		vm.relationalOperators = [];
-		
+
 		var serviceUrl = 'js/app/sponsor-configuration/file-layouts/date_relational_operators.json';
 		var serviceDiferred = Service.doGet(serviceUrl);
 		serviceDiferred.promise.then(function(response) {
@@ -661,17 +740,17 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 					}
 					vm.relationalOperators.push(selectObj);
 				});
-				if(vm.config.recordType == 'FOOTER'){
+				if (vm.config.recordType == 'FOOTER') {
 					var equalToHeadderField = {
-							label : 'Equal to header field',
-							value : 'EQUAL_TO_HEADER_FIELD'
-						}
+						label : 'Equal to header field',
+						value : 'EQUAL_TO_HEADER_FIELD'
+					}
 					vm.relationalOperators.push(equalToHeadderField);
 				}
 				vm.selectedRelationalOperators = 'EQUAL_TO_UPLOAD_DATE';
 			}
 			diferred.resolve(vm.relationalOperators);
-			
+
 		}).catch(function(response) {
 			$log.error('Load relational operators format Fail');
 			diferred.reject();
@@ -680,25 +759,25 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 
 	vm.relationalField = [];
 	var pleaseSelect = {
-			label : 'Please select',
-			value : ''
-		}
+		label : 'Please select',
+		value : ''
+	}
 	vm.relationalField.push(pleaseSelect);
-	
+
 	vm.calendarType = {
 		christCalendar : 'AD',
 		buddhistCalendar : 'BE'
 	};
-	
-	vm.defaultCalendarType = function(){
-		if(angular.isUndefined(vm.model.calendarEra) 
-				|| vm.model.calendarEra == null 
-				|| vm.model.calendarEra.length == 0){
+
+	vm.defaultCalendarType = function() {
+		if (angular.isUndefined(vm.model.calendarEra)
+			|| vm.model.calendarEra == null
+			|| vm.model.calendarEra.length == 0) {
 			vm.model.calendarEra = vm.calendarType.christCalendar;
 			vm.model.datetimeFormat = 'dd/MM/yyyy';
 		}
 	};
-	
+
 	vm.exampleDateTime = Date.parse('04/13/2016 13:30:55');
 
 	vm.loadDateTimeFormat = function() {
@@ -720,7 +799,7 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 				});
 			}
 			diferred.resolve(vm.dateTimeDropdown);
-			
+
 		}).catch(function(response) {
 			$log.error('Load date time format Fail');
 			diferred.reject();
@@ -729,7 +808,7 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 
 		return diferred;
 	};
-	
+
 	vm.loadDateTimeFormat();
 	vm.defaultCalendarType();
 	vm.loadRelationalOperator();
@@ -744,7 +823,7 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 		signFlagTypeFormat : '',
 		disableCustomField : true,
 		usePadding : false,
-		signFlag: ''
+		signFlag : ''
 	}
 
 	vm.numericType = {
@@ -759,229 +838,229 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 	}
 
 	vm.checkCustomNumeric = function() {
-        if (vm.numericeModel.numericTypeFormat == 'ANY') {
-            vm.numericeModel.disableCustomField = true;            
-            vm.numericeModel.usePadding = false;
-            
-            vm.model.has1000Separator = null;
-            vm.model.hasDecimalPlace = null;
-            vm.model.decimalPlace = 2;
-            vm.model.paddingCharacter = '';
-        } else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
-            vm.numericeModel.disableCustomField = false;
-        }
-    };
-    
-    vm.loadSignFlagList = function() {
-        var diferred = $q.defer();
-        vm.signFlagDropdown = [];
+		if (vm.numericeModel.numericTypeFormat == 'ANY') {
+			vm.numericeModel.disableCustomField = true;
+			vm.numericeModel.usePadding = false;
 
-        var serviceUrl = 'js/app/sponsor-configuration/file-layouts/sign_flag_list.json';
-        var serviceDiferred = Service.doGet(serviceUrl);
-        serviceDiferred.promise.then(function(response) {
+			vm.model.has1000Separator = null;
+			vm.model.hasDecimalPlace = null;
+			vm.model.decimalPlace = 2;
+			vm.model.paddingCharacter = '';
+		} else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
+			vm.numericeModel.disableCustomField = false;
+		}
+	};
 
-            var signFlagList = response.data;
-            if (signFlagList !== undefined) {
-                signFlagList.forEach(function(obj) {
-                    var selectObj = {
-                        label: obj.signFlagName,
-                        value: obj.signFlagName
-                    }
-                    vm.signFlagDropdown.push(selectObj);
-                });
-                vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
-            }
-            diferred.resolve(vm.signFlagDropdown);
-        }).catch(function(response) {
-            $log.error('Load date time format Fail');
-            diferred.reject();
-        });
-        return diferred;
-    }
-    
-    vm.initLoad = function(){
-    	if(isDefaultCusomNumeric(vm.model)){
-    		vm.numericeModel.numericTypeFormat = vm.numericType.customNumericFormat;
-    	}else{
-    		vm.numericeModel.numericTypeFormat = vm.numericType.anyNumericFormat;
-    	}
-    	vm.checkCustomNumeric();
-    	vm.loadSignFlagList();    	
-    	if(isValueEmpty(vm.model.signFlagTypeFormat)){
-    		vm.model.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
-    	}
-    	if(vm.model.signFlagId == null){
-    		vm.numericeModel.signFlag = "Within field";
-    	}
-    }
-    
-    vm.initLoad();
-    
-    vm.resetPadding = function(){
-    	if(!vm.numericeModel.usePadding){
-    		vm.model.paddingCharacter = null;
-    	}
+	vm.loadSignFlagList = function() {
+		var diferred = $q.defer();
+		vm.signFlagDropdown = [];
+
+		var serviceUrl = 'js/app/sponsor-configuration/file-layouts/sign_flag_list.json';
+		var serviceDiferred = Service.doGet(serviceUrl);
+		serviceDiferred.promise.then(function(response) {
+
+			var signFlagList = response.data;
+			if (signFlagList !== undefined) {
+				signFlagList.forEach(function(obj) {
+					var selectObj = {
+						label : obj.signFlagName,
+						value : obj.signFlagName
+					}
+					vm.signFlagDropdown.push(selectObj);
+				});
+				vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
+			}
+			diferred.resolve(vm.signFlagDropdown);
+		}).catch(function(response) {
+			$log.error('Load date time format Fail');
+			diferred.reject();
+		});
+		return diferred;
 	}
-    var defaultExampleValue = vm.config.defaultExampleValue;
+
+	vm.initLoad = function() {
+		if (isDefaultCusomNumeric(vm.model)) {
+			vm.numericeModel.numericTypeFormat = vm.numericType.customNumericFormat;
+		} else {
+			vm.numericeModel.numericTypeFormat = vm.numericType.anyNumericFormat;
+		}
+		vm.checkCustomNumeric();
+		vm.loadSignFlagList();
+		if (isValueEmpty(vm.model.signFlagTypeFormat)) {
+			vm.model.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
+		}
+		if (vm.model.signFlagId == null) {
+			vm.numericeModel.signFlag = "Within field";
+		}
+	}
+
+	vm.initLoad();
+
+	vm.resetPadding = function() {
+		if (!vm.numericeModel.usePadding) {
+			vm.model.paddingCharacter = null;
+		}
+	}
+	var defaultExampleValue = vm.config.defaultExampleValue;
 	$scope.$watch('ctrl.model', function() {
 		vm.examplePosDataDisplay = parseFloat(defaultExampleValue).toFixed(vm.model.decimalPlace);
 		vm.exampleNegDataDisplay = parseFloat(-defaultExampleValue).toFixed(vm.model.decimalPlace);
 	}, true);
 
-	function isDefaultCusomNumeric(model){
-    	var isCustomField = false;
-    	if(!isValueEmpty(model.paddingCharacter)){
-    		isCustomField = true;
-    		vm.numericeModel.usePadding = true;
-    	}
-    	
-    	if(model.has1000Separator){
-    		isCustomField = true;
-    	}
-    	
-    	if(model.hasDecimalPlace){
-    		isCustomField = true;
-    	}
-    	return isCustomField;
-    }
-    
-    function isValueEmpty(value){
-    	if(angular.isUndefined(value) || value == null || value.length == 0){
-    		return true;
-    	}
-    	return false;
-    }
-    
+	function isDefaultCusomNumeric(model) {
+		var isCustomField = false;
+		if (!isValueEmpty(model.paddingCharacter)) {
+			isCustomField = true;
+			vm.numericeModel.usePadding = true;
+		}
+
+		if (model.has1000Separator) {
+			isCustomField = true;
+		}
+
+		if (model.hasDecimalPlace) {
+			isCustomField = true;
+		}
+		return isCustomField;
+	}
+
+	function isValueEmpty(value) {
+		if (angular.isUndefined(value) || value == null || value.length == 0) {
+			return true;
+		}
+		return false;
+	}
+
 } ]);
 
 app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', '$filter', function($scope, $rootScope, $q, Service, $filter) {
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
-	
+
 	vm.config = $scope.ngDialogData.config;
 	vm.numericeModel = {
 		numericTypeFormat : '',
 		signFlagTypeFormat : '',
 		disableCustomField : true,
 		usePadding : false,
-		signFlag: ''
+		signFlag : ''
 	}
-	
+
 	vm.numericType = {
-			anyNumericFormat : 'ANY',
-			customNumericFormat : 'CUSTOM'
+		anyNumericFormat : 'ANY',
+		customNumericFormat : 'CUSTOM'
+	}
+
+	vm.signFlagType = {
+		ignorePlusSymbol : 'IGNORE_PLUS',
+		needPlusSymbol : 'NEES_PLUS',
+		avoidPlusSymbol : 'AVOID_PLUS'
+	}
+
+	vm.checkCustomNumeric = function() {
+		if (vm.numericeModel.numericTypeFormat == 'ANY') {
+			vm.numericeModel.disableCustomField = true;
+			vm.numericeModel.usePadding = false;
+
+			vm.model.has1000Separator = null;
+			vm.model.hasDecimalPlace = null;
+			vm.model.decimalPlace = 2;
+			vm.model.paddingCharacter = '';
+		} else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
+			vm.numericeModel.disableCustomField = false;
+		}
+	};
+
+	vm.loadSignFlagList = function() {
+		var diferred = $q.defer();
+		vm.signFlagDropdown = [];
+
+		var serviceUrl = 'js/app/sponsor-configuration/file-layouts/sign_flag_list.json';
+		var serviceDiferred = Service.doGet(serviceUrl);
+		serviceDiferred.promise.then(function(response) {
+
+			var signFlagList = response.data;
+			if (signFlagList !== undefined) {
+				signFlagList.forEach(function(obj) {
+					var selectObj = {
+						label : obj.signFlagName,
+						value : obj.signFlagName
+					}
+					vm.signFlagDropdown.push(selectObj);
+				});
+				vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
+			}
+			diferred.resolve(vm.signFlagDropdown);
+		}).catch(function(response) {
+			$log.error('Load date time format Fail');
+			diferred.reject();
+		});
+		return diferred;
+	}
+
+	vm.initLoad = function() {
+		if (isDefaultCusomNumeric(vm.model)) {
+			vm.numericeModel.numericTypeFormat = vm.numericType.customNumericFormat;
+		} else {
+			vm.numericeModel.numericTypeFormat = vm.numericType.anyNumericFormat;
+		}
+		vm.checkCustomNumeric();
+		vm.loadSignFlagList();
+		if (isValueEmpty(vm.model.signFlagTypeFormat)) {
+			vm.model.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
+		}
+	}
+
+	vm.initLoad();
+
+	vm.resetPadding = function() {
+		if (!vm.numericeModel.usePadding) {
+			vm.model.paddingCharacter = null;
+		}
+	}
+
+	var defaultExampleValue = vm.config.defaultExampleValue;
+	$scope.$watch('ctrl.model', function() {
+		vm.examplePosDataDisplay = parseFloat(defaultExampleValue).toFixed(vm.model.decimalPlace);
+		vm.exampleNegDataDisplay = parseFloat(-defaultExampleValue).toFixed(vm.model.decimalPlace);
+	}, true);
+
+	function isDefaultCusomNumeric(model) {
+		var isCustomField = false;
+		if (!isValueEmpty(model.paddingCharacter)) {
+			isCustomField = true;
+			vm.numericeModel.usePadding = true;
 		}
 
-		vm.signFlagType = {
-			ignorePlusSymbol : 'IGNORE_PLUS',
-			needPlusSymbol : 'NEES_PLUS',
-			avoidPlusSymbol : 'AVOID_PLUS'
+		if (model.has1000Separator) {
+			isCustomField = true;
 		}
 
-		vm.checkCustomNumeric = function() {
-	        if (vm.numericeModel.numericTypeFormat == 'ANY') {
-	            vm.numericeModel.disableCustomField = true;            
-	            vm.numericeModel.usePadding = false;
-	            
-	            vm.model.has1000Separator = null;
-	            vm.model.hasDecimalPlace = null;
-	            vm.model.decimalPlace = 2;
-	            vm.model.paddingCharacter = '';
-	        } else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
-	            vm.numericeModel.disableCustomField = false;
-	        }
-	    };
-	    
-	    vm.loadSignFlagList = function() {
-	        var diferred = $q.defer();
-	        vm.signFlagDropdown = [];
+		if (model.hasDecimalPlace) {
+			isCustomField = true;
+		}
+		return isCustomField;
+	}
 
-	        var serviceUrl = 'js/app/sponsor-configuration/file-layouts/sign_flag_list.json';
-	        var serviceDiferred = Service.doGet(serviceUrl);
-	        serviceDiferred.promise.then(function(response) {
-
-	            var signFlagList = response.data;
-	            if (signFlagList !== undefined) {
-	                signFlagList.forEach(function(obj) {
-	                    var selectObj = {
-	                        label: obj.signFlagName,
-	                        value: obj.signFlagName
-	                    }
-	                    vm.signFlagDropdown.push(selectObj);
-	                });
-	                vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
-	            }
-	            diferred.resolve(vm.signFlagDropdown);
-	        }).catch(function(response) {
-	            $log.error('Load date time format Fail');
-	            diferred.reject();
-	        });
-	        return diferred;
-	    }
-	    
-	    vm.initLoad = function(){
-	    	if(isDefaultCusomNumeric(vm.model)){
-	    		vm.numericeModel.numericTypeFormat = vm.numericType.customNumericFormat;
-	    	}else{
-	    		vm.numericeModel.numericTypeFormat = vm.numericType.anyNumericFormat;
-	    	}
-	    	vm.checkCustomNumeric();
-	    	vm.loadSignFlagList();    	
-	    	if(isValueEmpty(vm.model.signFlagTypeFormat)){
-	    		vm.model.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
-	    	}
-	    }
-	    
-	    vm.initLoad();
-	    
-	    vm.resetPadding = function(){
-	    	if(!vm.numericeModel.usePadding){
-	    		vm.model.paddingCharacter = null;
-	    	}
-		}    
-	    
-	    var defaultExampleValue = vm.config.defaultExampleValue;
-		$scope.$watch('ctrl.model', function() {
-			vm.examplePosDataDisplay = parseFloat(defaultExampleValue).toFixed(vm.model.decimalPlace);
-			vm.exampleNegDataDisplay = parseFloat(-defaultExampleValue).toFixed(vm.model.decimalPlace);
-		}, true);
-
-		function isDefaultCusomNumeric(model){
-	    	var isCustomField = false;
-	    	if(!isValueEmpty(model.paddingCharacter)){
-	    		isCustomField = true;
-	    		vm.numericeModel.usePadding = true;
-	    	}
-	    	
-	    	if(model.has1000Separator){
-	    		isCustomField = true;
-	    	}
-	    	
-	    	if(model.hasDecimalPlace){
-	    		isCustomField = true;
-	    	}
-	    	return isCustomField;
-	    }
-	    
-	    function isValueEmpty(value){
-	    	if(angular.isUndefined(value) || value == null || value.length == 0){
-	    		return true;
-	    	}
-	    	return false;
-	    }
+	function isValueEmpty(value) {
+		if (angular.isUndefined(value) || value == null || value.length == 0) {
+			return true;
+		}
+		return false;
+	}
 } ]);
 
-app.controller("DOCUMENT_TYPELayoutConfigController", ['$scope', '$rootScope', '$q', 'Service', '$filter', function($scope, $rootScope, $q, Service, $filter) {
+app.controller("DOCUMENT_TYPELayoutConfigController", [ '$scope', '$rootScope', '$q', 'Service', '$filter', function($scope, $rootScope, $q, Service, $filter) {
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
-	vm.requiredChange = function(){
-		if(vm.model.required == false){
+	vm.requiredChange = function() {
+		if (vm.model.required == false) {
 			vm.model.defaultValue = null;
 		}
 	}
-}]);
+} ]);
 
-app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
+app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) {
 	return {
 		TEXT_DisplayExample : TEXT_DisplayExample,
 		DOCUMENT_NO_DisplayExample : DOCUMENT_NO_DisplayExample,
@@ -989,15 +1068,15 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 		DATE_TIME_DisplayExample : DATE_TIME_DisplayExample,
 		NUMERIC_DisplayExample : NUMERIC_DisplayExample,
 		PAYMENT_AMOUNT_DisplayExample : PAYMENT_AMOUNT_DisplayExample,
-		DOCUMENT_TYPE_DisplayExample: DOCUMENT_TYPE_DisplayExample
+		DOCUMENT_TYPE_DisplayExample : DOCUMENT_TYPE_DisplayExample
 	}
 
 	function TEXT_DisplayExample(record, config) {
 		var displayMessage = config.configDetailPattern;
 		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
-		displayMessage = displayMessage.replace('{expectedValue}', (hasExpected?record.expectedValue:''));
-		displayMessage = displayMessage.replace('{exampleData}', (hasExpected?record.expectedValue:config.defaultExampleValue));
+		displayMessage = displayMessage.replace('{expectedValue}', (hasExpected ? record.expectedValue : ''));
+		displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));
 		return displayMessage;
 	}
 
@@ -1018,37 +1097,36 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 		displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);
 		return displayMessage;
 	}
-	
+
 	function DATE_TIME_DisplayExample(record, config) {
-		
-		if(angular.isUndefined(record.datetimeFormat) || record.datetimeFormat.length == 0){
+		if (angular.isUndefined(record.datetimeFormat) || record.datetimeFormat.length == 0) {
 			return '';
 		}
 		var displayMessage = config.configDetailPattern;
-		
+
 		var calendarEra = "Christ calendar (A.D.)";
-    	if(record.calendarEra == "BE"){
-    		calendarEra = "Buddhist calendar (B.E.)";
-    	}
-    	
-    	var dateDefault = new Date(config.defaultExampleValue);
-    	
-    	displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
-    	displayMessage = displayMessage.replace('| {conditionUploadDate}', '');
-    	displayMessage = displayMessage.replace('{dateTimeFormat}',record.datetimeFormat.toUpperCase());
-    	displayMessage = displayMessage.replace('{calendarType}', calendarEra);
-    	displayMessage = displayMessage.replace('{exampleData}', $filter('date')(dateDefault, record.datetimeFormat));
-    	
+		if (record.calendarEra == "BE") {
+			calendarEra = "Buddhist calendar (B.E.)";
+		}
+
+		var dateDefault = new Date(config.defaultExampleValue);
+
+		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
+		displayMessage = displayMessage.replace('| {conditionUploadDate}', '');
+		displayMessage = displayMessage.replace('{dateTimeFormat}', record.datetimeFormat.toUpperCase());
+		displayMessage = displayMessage.replace('{calendarType}', calendarEra);
+		displayMessage = displayMessage.replace('{exampleData}', $filter('date')(dateDefault, record.datetimeFormat));
+
 		return displayMessage;
 	}
 
 	function NUMERIC_DisplayExample(record, config) {
 		var displayMessage = config.configDetailPattern;
-		
+
 		var numberFormatDisplay = 'Any numeric format'
-// if (record.dataFormat.numericTypeFormat == 'CUSTOM') {
-// numberFormatDisplay = 'Custom numeric format'
-// }
+		// if (record.dataFormat.numericTypeFormat == 'CUSTOM') {
+		// numberFormatDisplay = 'Custom numeric format'
+		// }
 
 		var signFlagTypeDisplay = '';
 		if (record.signFlagTypeFormat == "IGNORE_PLUS") {
@@ -1061,25 +1139,25 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 
 		var examplePosDataDisplay = parseFloat(config.defaultExampleValue).toFixed(record.decimalPlace);
 		var exampleNegDataDisplay = parseFloat(-config.defaultExampleValue).toFixed(record.decimalPlace);
-		
+
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 
 		displayMessage = displayMessage.replace('{numberFormat}', numberFormatDisplay);
 		displayMessage = displayMessage.replace('{decimalPlace}', record.decimalPlace);
 		displayMessage = displayMessage.replace('{signFlag}', signFlagTypeDisplay);
 		displayMessage = displayMessage.replace('{positiveExampleData}', examplePosDataDisplay);
-		displayMessage = displayMessage.replace('{negativeExampleData}', exampleNegDataDisplay);		
+		displayMessage = displayMessage.replace('{negativeExampleData}', exampleNegDataDisplay);
 
 		return displayMessage;
 	}
 
 	function PAYMENT_AMOUNT_DisplayExample(record, config) {
 		var displayMessage = config.configDetailPattern;
-		
+
 		var numberFormatDisplay = 'Any numeric format'
-// if (record.dataFormat.numericTypeFormat == 'CUSTOM') {
-// numberFormatDisplay = 'Custom numeric format'
-// }
+		// if (record.dataFormat.numericTypeFormat == 'CUSTOM') {
+		// numberFormatDisplay = 'Custom numeric format'
+		// }
 
 		var signFlagTypeDisplay = '';
 		if (record.signFlagTypeFormat == "IGNORE_PLUS") {
@@ -1092,19 +1170,19 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 
 		var examplePosDataDisplay = parseFloat(config.defaultExampleValue).toFixed(record.decimalPlace);
 		var exampleNegDataDisplay = parseFloat(-config.defaultExampleValue).toFixed(record.decimalPlace);
-		
+
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 
 		displayMessage = displayMessage.replace('{numberFormat}', numberFormatDisplay);
 		displayMessage = displayMessage.replace('{decimalPlace}', record.decimalPlace);
 		displayMessage = displayMessage.replace('{signFlag}', signFlagTypeDisplay);
 		displayMessage = displayMessage.replace('{positiveExampleData}', examplePosDataDisplay);
-		displayMessage = displayMessage.replace('{negativeExampleData}', exampleNegDataDisplay);		
+		displayMessage = displayMessage.replace('{negativeExampleData}', exampleNegDataDisplay);
 
 		return displayMessage;
 	}
-	
-	function DOCUMENT_TYPE_DisplayExample(record, config){
+
+	function DOCUMENT_TYPE_DisplayExample(record, config) {
 		var displayMessage = config.configDetailPattern;
 
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
@@ -1113,14 +1191,15 @@ app.factory('NewFileLayerExampleDisplayService', ['$filter', function($filter) {
 		displayMessage = displayMessage.replace('{defaultValue}', record.defaultValue == null ? '-' : record.defaultValue);
 		return displayMessage;
 	}
-	
-	function convertRequiredToString(record){
+
+	function convertRequiredToString(record) {
 		return record.required == true ? 'yes' : 'no';
-	};
+	}
+	;
 } ]);
 
-app.controller('NewPaymentDateFormulaFileLayoutController', [ '$scope', '$rootScope','Service','ngDialog', function($scope, $rootScope, Service, ngDialog) {
+app.controller('NewPaymentDateFormulaFileLayoutController', [ '$scope', '$rootScope', 'Service', 'ngDialog', function($scope, $rootScope, Service, ngDialog) {
 	var vm = this;
 	vm.formula = angular.copy($scope.ngDialogData.formula);
-	vm.sponsorId  = angular.copy($scope.ngDialogData.formula.sponsorId);	
+	vm.sponsorId = angular.copy($scope.ngDialogData.formula.sponsorId);
 } ]);
