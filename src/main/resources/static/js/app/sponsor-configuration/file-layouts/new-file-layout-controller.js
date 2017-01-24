@@ -39,8 +39,8 @@ app.controller('NewFileLayoutController', [
 		} ];
 
 		vm.delimitersDropdown = [];
-		vm.dataTypeDropdown = defaultDropdown;
-		vm.dataTypeHeaderDropdown = defaultDropdown;
+		vm.dataTypeDropdown = angular.copy(defaultDropdown);
+		vm.dataTypeHeaderDropdown = angular.copy(defaultDropdown);
 
 		vm.fileEncodeDropdown = [];
 		vm.paymentDateFieldDropdown = [];
@@ -244,7 +244,7 @@ app.controller('NewFileLayoutController', [
 			loadDelimiters();
 			loadFileEncode();
 			loadDataTypes();
-
+			loadHeaderDataTypes();
 			if (!angular.isUndefined(selectedItem) && selectedItem != null) {
 				vm.newMode = false;
 				var reqUrlLayoutConfg = '/layouts/' + selectedItem.layoutConfigId;
