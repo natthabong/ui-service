@@ -288,12 +288,12 @@
 
 											<td colspan="9"
 												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength">
-												<p id="description-{{$index+1}}-label"
+												<p id="description-{{$index+1}}-label{{newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength?'':'-ingore'}}"
 													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
 											</td>
 											<td colspan="8"
 												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.delimited">
-												<p id="description-{{$index+1}}-label"
+												<p id="description-{{$index+1}}-label{{newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.delimited?'':'-ingore'}}"
 													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
 											</td>
 										</tr>
