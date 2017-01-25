@@ -579,7 +579,6 @@ app.controller('NewFileLayoutController', [
 		}
 		
 		vm.isDisabledSaveCheckbox = function(record){
-			console.log(vm.dataTypes);
 			var disabled = null;
 			vm.dataTypes.forEach(function(obj) {
 				if (record.dataType == obj.layoutFileDataTypeId) {
