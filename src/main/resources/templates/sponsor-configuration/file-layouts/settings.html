@@ -179,7 +179,7 @@
 								</table>
 								<div>
 									<!-- Split button -->
-									<button id="add-header-another-field-detail-button"
+									<button id="add-another-field-header-button"
 										type="button" class="btn btn-default"
 										ng-click="newFileLayoutCtrl.addHeaderItem()"
 										ng-bind="'Add another field' | translate">Add another
@@ -359,6 +359,16 @@
 								</div>
 							</div>
 
+						</fieldset>
+
+						<fieldset ng-show="newFileLayoutCtrl.showHeaderConfig()">
+							<legend id="headder-field-layout-label" ng-bind="'Header field layout' | translate"></legend>
+							<div class="responsive-table">
+								<table id="config-header-table"
+									class="table table-striped table-bordered" width="100%"
+									cellspacing="0">
+								</table>
+							</div>							
 						</fieldset>
 
 						<br /> <br />
