@@ -691,6 +691,17 @@ footer .footer-below {
 	border-color: #8c8c8c;
 }
 
+.scf-layout-textbox {
+	width: 150px;
+	height: 40px;
+}
+
+.scf-layout-dropdown {
+	width: 155px;
+	height: 40px;
+}
+
+
 .uib-day {
 	padding: 0 !important;
 }

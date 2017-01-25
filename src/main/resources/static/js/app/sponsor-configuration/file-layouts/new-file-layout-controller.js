@@ -27,6 +27,7 @@ app.controller('NewFileLayoutController', [
 
 		vm.dataTypes = [];
 		vm.configHeader = false;
+		vm.configFooter = false;
 
 		vm.paymentDateConfigStrategy = {
 			'FIELD' : 'FIELD',
@@ -57,10 +58,13 @@ app.controller('NewFileLayoutController', [
 			dataLength : 0,
 			startIndex : 0
 		}
+		
 		vm.headerItems = [];
 		
 		vm.items = [];
 		vm.dataDetailItems = [];
+		
+		vm.footerItems = [];
 
 		vm.backToSponsorConfigPage = function() {
 			PageNavigation.gotoPreviousPage();
@@ -200,9 +204,9 @@ app.controller('NewFileLayoutController', [
 				docFieldName : null,
 				dataType : null,
 				isTransient : false,
-				dataLength : 0,
-				startIndex : 0,
-				endIndex : 0,
+				dataLength : null,
+				startIndex : null,
+				endIndex : null,
 				recordType : "DETAIL",
 				itemType : 'FIELD'
 			} ];
@@ -249,6 +253,7 @@ app.controller('NewFileLayoutController', [
 				vm.newMode = false;
 				var reqUrlLayoutConfg = '/layouts/' + selectedItem.layoutConfigId;
 				var reqUrlHeaderField = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=FIELD&recordType=HEADER';
+				var reqUrlFooterField = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=FIELD&recordType=FOOTER';
 				var reqUrlField = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=FIELD&recordType=DETAIL';
 				var reqUrlData = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=DATA&recordType=DETAIL';
 				var reqUrlFormula = '/payment-date-formulas/';
@@ -285,6 +290,15 @@ app.controller('NewFileLayoutController', [
 					}					
 				});
 
+				sendRequest(reqUrlFooterField, function(response) {
+					var footerItems = response.data;
+					if(footerItems.length > 0){
+						vm.configFooter = true;
+						vm.footerItems = footerItems;
+					}					
+				});
+				
+				
 			} else {
 				initialModel();
 				addPaymentDateFormulaDropdown([]);
@@ -336,23 +350,24 @@ app.controller('NewFileLayoutController', [
 				primaryKeyField : false,
 				docFieldName : null,
 				dataType : null,
-				dataLength : 0,
-				startIndex : 0,
+				dataLength : null,
+				startIndex : null,
+				endIndex : null,
 				isTransient : false,
 				recordType : "DETAIL",
 				itemType : 'FIELD'
 			};
 			vm.items.push(itemConfig);
 		}
-
+		
 		vm.addHeaderItem = function() {
 			var headerItemConfig = {
 				primaryKeyField : false,
 				docFieldName : null,
 				dataType : null,
-				dataLength : 0,
-				startIndex : 0,
-				endIndex : 0,
+				dataLength : null,
+				startIndex : null,
+				endIndex : null,
 				isTransient : true,
 				recordType : "HEADER",
 				itemType : 'FIELD'
@@ -360,11 +375,26 @@ app.controller('NewFileLayoutController', [
 			vm.headerItems.push(headerItemConfig);
 		}
 
+		vm.addFooterItem = function() {
+			var footerItemConfig = {
+				primaryKeyField : false,
+				docFieldName : null,
+				dataType : null,
+				dataLength : null,
+				startIndex : null,
+				endIndex : null,
+				isTransient : true,
+				recordType : "FOOTER",
+				itemType : 'FIELD'
+			};
+			vm.footerItems.push(footerItemConfig);
+		}
+
 		vm.removeItem = function(record) {
 			var index = vm.itemsindexOf(record);
 			vm.items.splice(index, 1);
 		}
-
+		
 		vm.formula = {
 			paymentDateFormulaId : null,
 			formulaName : '',
@@ -442,6 +472,12 @@ app.controller('NewFileLayoutController', [
 			});
 		}
 
+		var addFooterModel = function(model, footerItems) {
+			footerItems.forEach(function(item) {
+				model.items.push(item);
+			});
+		}
+
 		vm.save = function() {
 			vm.model.completed = true;
 			var sponsorLayout = angular.copy(vm.model);
@@ -451,6 +487,7 @@ app.controller('NewFileLayoutController', [
 			});
 
 			addHeaderModel(sponsorLayout, vm.headerItems);
+			addFooterModel(sponsorLayout, vm.footerItems);
 
 			sponsorLayout.items.forEach(function(obj, index) {
 				sponsorLayout.completed = obj.completed && sponsorLayout.completed;
@@ -544,6 +581,10 @@ app.controller('NewFileLayoutController', [
 			return vm.headerItems.length;
 		}
 
+		vm.getFooterFieldSize = function() {
+			return vm.footerItems.length;
+		}
+
 		vm.isEven = function(fieldSize, currentIndex) {
 			return (fieldSize + currentIndex) % 2 == 0 ? true : false;
 		}
@@ -596,9 +637,21 @@ app.controller('NewFileLayoutController', [
 				vm.addHeaderItem();
 			}
 		}
+
+		vm.clearFooterConfig = function() {
+			if (vm.configFooter == false) {
+				vm.footerItems = [];
+			} else {
+				vm.addFooterItem();
+			}
+		}
 		
 		vm.showHeaderConfig = function(){
 			return vm.configHeader;
+		}
+		
+		vm.showFooterConfig = function(){
+			return vm.configFooter;
 		}
 
 	} ]);

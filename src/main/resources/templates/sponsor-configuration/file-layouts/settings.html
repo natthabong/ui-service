@@ -19,8 +19,7 @@
 								layout name' | translate}}: </label>
 
 							<div class="col-md-4 col-sm-5 col-xs-12">
-								<scf-input-text id="layout-name-textbox"
-									ng-disabled="!newFileLayoutCtrl.newMode" focus=""
+								<scf-input-text id="layout-name-textbox" focus=""
 									maxlength="255" ng-model="newFileLayoutCtrl.model.displayName"></scf-input-text>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
@@ -79,8 +78,9 @@
 										id="detail-checkbox" ng-checked="true" ng-disabled="true"></scf-checkbox>
 									<span ng-bind="'Detail' | translate" id="detail-label"></span>
 								</label> <br /> <label class="checkbox-inline"> <scf-checkbox
-										id="footer-checkbox"></scf-checkbox> <span
-									ng-bind="'Footer' | translate" id="footer-label"></span>
+										id="footer-checkbox" ng-model="newFileLayoutCtrl.configFooter"
+										ng-click="newFileLayoutCtrl.clearFooterConfig()"></scf-checkbox>
+									<span ng-bind="'Footer' | translate" id="footer-label"></span>
 								</label>
 							</div>
 						</div>
@@ -113,8 +113,11 @@
 												field name</th>
 											<th ng-bind="'Data type' | translate">Data type</th>
 											<th ng-bind="'Length' | translate">Length</th>
-											<th ng-bind="newFileLayoutCtrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index'| translate">{{newFileLayoutCtrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index'}}</th>
-											<th ng-bind="'End index' | translate" ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"></th>
+											<th
+												ng-bind="newFileLayoutCtrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index'| translate">{{newFileLayoutCtrl.model.fileType=='FIXED_LENGTH'?'Start
+												index':'Index'}}</th>
+											<th ng-bind="'End index' | translate"
+												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"></th>
 											<th></th>
 										</tr>
 									</thead>
@@ -123,33 +126,37 @@
 											ng-repeat-start="record in newFileLayoutCtrl.headerItems track by $index"
 											ng-class="$even?'tr-odd':'tr-even'">
 
-											<td class="text-right"><span
+											<td class="text-right"><label
 												id="header-layout-item-{{$index+1}}-no-label"
-												ng-bind="{{$index+1}}"></span></td>
+												class="text-right control-label">{{$index+1}}</label></td>
 
 											<td class="text-right"><scf-input-text
+													class="scf-layout-textbox"
 													id="header-sponsor-field-name-{{$index+1}}-textbox"
 													ng-model="record.displayValue" maxlength="255" /></td>
 
 											<td class="text-center"><scf-dropdown
 													id="header-data-type-{{$index+1}}-dropdown"
-													ng-model="record.dataType"
+													ng-model="record.dataType" class="scf-layout-dropdown"
 													component-data="newFileLayoutCtrl.dataTypeHeaderDropdown"
 													translate-label="true"></scf-dropdown></td>
 
 											<td class="text-center"><input type="text"
+												class="scf-layout-textbox"
 												id="header-length-{{$index+1}}-textbox"
 												style="text-align: right;" ng-model="record.dataLength"
 												maxlength="3" /></td>
 											<td class="text-center"><input type="text"
+												class="scf-layout-textbox"
 												id="header-start-index-{{$index+1}}-textbox"
-												style="text-align: right;" ng-model="record.startIndex" 
-												maxlength="3"/></td>
-											<td class="text-center" ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><input type="text"
-												id="header-end-index-{{$index+1}}-textbox"
-												style="text-align: right;" value="{{(record.startIndex==''||record.dataLength=='')?'':(record.startIndex-0 + (record.dataLength-0))-1|number}}" 
-												maxlength="3"
-												/></td>
+												style="text-align: right;" ng-model="record.startIndex"
+												maxlength="3" /></td>
+											<td class="text-center"
+												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><input
+												type="text" id="header-end-index-{{$index+1}}-textbox"
+												value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
+												class="scf-layout-textbox" style="text-align: right;"
+												maxlength="3" /></td>
 											<td class="text-center"><scf-button type="button"
 													id="header-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
@@ -179,8 +186,8 @@
 								</table>
 								<div>
 									<!-- Split button -->
-									<button id="add-header-another-field-detail-button"
-										type="button" class="btn btn-default"
+									<button id="add-another-field-header-button" type="button"
+										class="btn btn-default"
 										ng-click="newFileLayoutCtrl.addHeaderItem()"
 										ng-bind="'Add another field' | translate">Add another
 										field</button>
@@ -206,9 +213,11 @@
 											<th ng-bind="'Data type' | translate">Data type</th>
 											<th ng-bind="'Save' | translate"></th>
 											<th ng-bind="'Length' | translate">Length</th>
-											<th ng-bind="newFileLayoutCtrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index'| translate">{{newFileLayoutCtrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index'}}</th>
-											<th ng-bind="'End index' | translate" 
-											ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"></th>
+											<th
+												ng-bind="newFileLayoutCtrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index'| translate">{{newFileLayoutCtrl.model.fileType=='FIXED_LENGTH'?'Start
+												index':'Index'}}</th>
+											<th ng-bind="'End index' | translate"
+												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"></th>
 											<th></th>
 										</tr>
 									</thead>
@@ -221,17 +230,18 @@
 												id="key-{{$index+1}}-checkbox" type="checkbox"
 												ng-model="record.primaryKeyField" /></td>
 
-											<td class="text-right"><span
+											<td class="text-right"><label
 												id="layout-item-{{$index+1}}-no-label"
-												ng-bind="{{$index+1}}"></span></td>
+												class="text-right control-label">{{$index+1}}</label></td>
 
 											<td class="text-right"><scf-input-text
+													class="scf-layout-textbox"
 													id="sponsor-field-name-{{$index+1}}-textbox"
 													ng-model="record.displayValue" maxlength="255" /></td>
 
 											<td class="text-center"><scf-dropdown
 													id="data-type-{{$index+1}}-dropdown"
-													ng-model="record.dataType"
+													ng-model="record.dataType" class="scf-layout-dropdown"
 													component-data="newFileLayoutCtrl.dataTypeDropdown"
 													translate-label="true"></scf-dropdown></td>
 
@@ -242,16 +252,19 @@
 											</td>
 
 											<td class="text-center"><input type="text"
-												id="length-{{$index+1}}-textbox" style="text-align: right;"
-												ng-model="record.dataLength" maxlength="3"/></td>
-											<td class="text-center" ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><input type="text"
-												id="index-{{$index+1}}-textbox" style="text-align: right;"
-												ng-model="record.startIndex" maxlength="3"/></td>
-												<td class="text-center"><input type="text"
-												id="end-index-{{$index+1}}-textbox"
-												style="text-align: right;" value="{{(record.startIndex==''||record.dataLength=='')?'':(record.startIndex-0 + (record.dataLength-0))-1|number}}" 
-												maxlength="3"
-												/></td>
+												class="scf-layout-textbox" id="length-{{$index+1}}-textbox"
+												style="text-align: right;" ng-model="record.dataLength"
+												maxlength="3" /></td>
+											<td class="text-center"
+												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><input
+												type="text" id="index-{{$index+1}}-textbox"
+												class="scf-layout-textbox" style="text-align: right;"
+												ng-model="record.startIndex" maxlength="3" /></td>
+											<td class="text-center"><input type="text"
+												class="scf-layout-textbox"
+												value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
+												id="detail-end-index-{{$index+1}}-textbox"
+												style="text-align: right;" maxlength="3" /></td>
 											<td class="text-center"><scf-button type="button"
 													id="setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
@@ -274,12 +287,14 @@
 
 											<td colspan="9"
 												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength">
-												<p id="description-{{$index+1}}-label"
+												<p
+													id="description-{{$index+1}}-label{{newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength?'':'-ignore'}}"
 													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
 											</td>
 											<td colspan="8"
 												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.delimited">
-												<p id="description-{{$index+1}}-label"
+												<p
+													id="description-{{$index+1}}-label{{newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.delimited?'':'-ignore'}}"
 													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
 											</td>
 										</tr>
@@ -365,6 +380,104 @@
 								</div>
 							</div>
 
+						</fieldset>
+						<br /> <br />
+						<fieldset ng-show="newFileLayoutCtrl.showFooterConfig()">
+							<legend id="footer-field-layout-label"
+								ng-bind="'Footer field layout' | translate"></legend>
+							<div class="responsive-table">
+								<table id="config-footer-table"
+									class="table table-striped table-bordered" width="100%"
+									cellspacing="0">
+									<thead>
+										<tr>
+											<th ng-bind="'No' | translate">No</th>
+											<th ng-bind="'Sponsor field name' | translate">Sponsor
+												field name</th>
+											<th ng-bind="'Data type' | translate">Data type</th>
+											<th ng-bind="'Length' | translate">Length</th>
+											<th
+												ng-bind="newFileLayoutCtrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index'| translate">{{newFileLayoutCtrl.model.fileType=='FIXED_LENGTH'?'Start
+												index':'Index'}}</th>
+											<th ng-bind="'End index' | translate"
+												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat-start="record in newFileLayoutCtrl.footerItems track by $index"
+											ng-class="$even?'tr-odd':'tr-even'">
+
+											<td class="text-right"><label
+												id="footer-layout-item-{{$index+1}}-no-label"
+												class="text-right control-label">{{$index+1}}</label></td>
+
+											<td class="text-right"><scf-input-text
+													class="scf-layout-textbox"
+													id="footer-sponsor-field-name-{{$index+1}}-textbox"
+													ng-model="record.displayValue" maxlength="255" /></td>
+
+											<td class="text-center"><scf-dropdown
+													id="footer-data-type-{{$index+1}}-dropdown"
+													ng-model="record.dataType" class="scf-layout-dropdown"
+													component-data="newFileLayoutCtrl.dataTypeHeaderDropdown"
+													translate-label="true"></scf-dropdown></td>
+
+											<td class="text-center"><input type="text"
+												class="scf-layout-textbox"
+												id="footer-length-{{$index+1}}-textbox"
+												style="text-align: right;" ng-model="record.dataLength"
+												maxlength="3" /></td>
+											<td class="text-center"><input type="text"
+												class="scf-layout-textbox"
+												id="footer-start-index-{{$index+1}}-textbox"
+												style="text-align: right;" ng-model="record.startIndex"
+												maxlength="3" /></td>
+											<td class="text-center"
+												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><input
+												type="text" id="footer-end-index-{{$index+1}}-textbox"
+												value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
+												class="scf-layout-textbox" style="text-align: right;"
+												maxlength="3" /></td>
+											<td class="text-center"><scf-button type="button"
+													id="footer-setup-{{$index+1}}-button"
+													class="btn-default gec-btn-action"
+													ng-click="newFileLayoutCtrl.openSetting($index, record)"
+													ng-hide="!record.completed"> <i
+													class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
+													id="footer-warning-setup-{{$index+1}}-button"
+													class="btn-default gec-btn-action"
+													ng-click="newFileLayoutCtrl.openSetting($index, record)"
+													title="Config a file layout" ng-hide="record.completed">
+												<img data-ng-src="img/gear_warning.png"
+													style="height: 13px; width: 14px;" /> </scf-button> <scf-button
+													type="button" id="footer-delete-{{$index+1}}-button"
+													class="btn-default gec-btn-action"
+													ng-click="newFileLayoutCtrl.removeDataItem(newFileLayoutCtrl.footerItems,record)">
+												<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
+										</tr>
+										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
+											<td colspan="8">
+												<p
+													id="footer-description-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getHeaderFieldSize(), $index)}}-label"
+													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<div>
+									<!-- Split button -->
+									<button id="add-another-field-footer-button" type="button"
+										class="btn btn-default"
+										ng-click="newFileLayoutCtrl.addFooterItem()"
+										ng-bind="'Add another field' | translate">Add another
+										field</button>
+
+									<button type="button" class="btn btn-default"
+										ng-disabled="true" ng-bind="'Sort by index' | translate"></button>
+								</div>
+							</div>
 						</fieldset>
 
 						<br /> <br />
