@@ -349,13 +349,15 @@ app.controller('NewFileLayoutController', [
 						preCloseCallback : function(value) {
 							if (value != null) {
 								if (value.docFieldName == null) {
-									var field = obj.docFieldName;
-									var patt = /{sequenceNo}/g;
-									var res = field.match(patt);
-									if (res != null) {
-										field = field.replace(patt, fieldCounter[dataType]++);
+									if(obj.docFieldName != null){
+										var field = obj.docFieldName;
+										var patt = /{sequenceNo}/g;
+										var res = field.match(patt);
+										if (res != null) {
+											field = field.replace(patt, fieldCounter[dataType]++);
+										}
+										value.docFieldName = field;										
 									}
-									value.docFieldName = field;
 								}
 								angular.copy(value, record);
 								record.completed = true;
@@ -574,6 +576,20 @@ app.controller('NewFileLayoutController', [
 				}
 			});
 			return msg;
+		}
+		
+		vm.isDisabledSaveCheckbox = function(record){
+			console.log(vm.dataTypes);
+			var disabled = null;
+			vm.dataTypes.forEach(function(obj) {
+				if (record.dataType == obj.layoutFileDataTypeId) {
+					disabled = obj.isTransient;
+					if(disabled==true){
+						record.isTransient = true;
+					}
+				}
+			});
+			return disabled;			
 		}
 
 		vm.addDataItem = function(dataItems) {
@@ -1133,6 +1149,11 @@ app.controller("DOCUMENT_TYPELayoutConfigController", [ '$scope', '$rootScope', 
 			vm.model.defaultValue = null;
 		}
 	}
+} ]);
+
+app.controller('RECORD_TYPELayoutConfigController', [ '$scope', '$rootScope', function($scope, $rootScope) {
+	this.model = angular.copy($scope.ngDialogData.record);
+	this.model.required = true;
 } ]);
 
 app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) {

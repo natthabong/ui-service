@@ -99,7 +99,7 @@
 
 
 						<fieldset ng-show="newFileLayoutCtrl.showHeaderConfig()">
-							<legend id="headder-field-layout-label"
+							<legend id="header-field-layout-label"
 								ng-bind="'Header field layout' | translate"></legend>
 							<div class="responsive-table">
 								<table id="config-header-table"
@@ -247,6 +247,7 @@
 
 											<td class="text-center"><scf-checkbox
 													id="save-{{$index+1}}-checkbox"
+													ng-disabled="newFileLayoutCtrl.isDisabledSaveCheckbox(record)"
 													ng-checked="newFileLayoutCtrl.isSaveCheckedDisplay(record)"
 													ng-click="newFileLayoutCtrl.saveField(record)"></scf-checkbox>
 											</td>
