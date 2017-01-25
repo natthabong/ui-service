@@ -42,6 +42,7 @@ app.controller('NewFileLayoutController', [
 		vm.delimitersDropdown = [];
 		vm.dataTypeDropdown = angular.copy(defaultDropdown);
 		vm.dataTypeHeaderDropdown = angular.copy(defaultDropdown);
+		vm.dataTypeFooterDropdown = angular.copy(defaultDropdown);
 
 		vm.fileEncodeDropdown = [];
 		vm.paymentDateFieldDropdown = [];
@@ -108,10 +109,30 @@ app.controller('NewFileLayoutController', [
 				});
 
 			}).catch(function(response) {
-				log.error('Load customer code group header data error');
+				log.error('Load data type header data error');
 			});
 		}
 
+		var loadFooterDataTypes = function() {
+			var serviceURI = 'api/v1/configs/gecscf/layouts/file/data-types';
+			var serviceDiferred = Service.doGet(serviceURI, {
+				recordType : 'FOOTER'
+			});
+
+			serviceDiferred.promise.then(function(response) {
+				vm.dataTypes = response.data;
+				vm.dataTypes.forEach(function(obj) {
+					var item = {
+						value : obj.layoutFileDataTypeId,
+						label : obj.dataTypeDisplay
+					}
+					vm.dataTypeFooterDropdown.push(item);
+				});
+
+			}).catch(function(response) {
+				log.error('Load data type footer data error');
+			});
+		}
 
 		var loadDelimiters = function() {
 			DELIMITER_TYPE_TEM.forEach(function(obj) {
@@ -249,6 +270,7 @@ app.controller('NewFileLayoutController', [
 			loadFileEncode();
 			loadDataTypes();
 			loadHeaderDataTypes();
+			loadFooterDataTypes();
 			if (!angular.isUndefined(selectedItem) && selectedItem != null) {
 				vm.newMode = false;
 				var reqUrlLayoutConfg = '/layouts/' + selectedItem.layoutConfigId;
@@ -1121,7 +1143,8 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		DATE_TIME_DisplayExample : DATE_TIME_DisplayExample,
 		NUMERIC_DisplayExample : NUMERIC_DisplayExample,
 		PAYMENT_AMOUNT_DisplayExample : PAYMENT_AMOUNT_DisplayExample,
-		DOCUMENT_TYPE_DisplayExample : DOCUMENT_TYPE_DisplayExample
+		DOCUMENT_TYPE_DisplayExample : DOCUMENT_TYPE_DisplayExample,
+		RECORD_TYPE_DisplayExample : RECORD_TYPE_DisplayExample
 	}
 
 	function TEXT_DisplayExample(record, config) {
@@ -1242,6 +1265,15 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		displayMessage = displayMessage.replace('{expectedValue}', record.expectedValue || '-');
 		displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);
 		displayMessage = displayMessage.replace('{defaultValue}', record.defaultValue == null ? '-' : record.defaultValue);
+		return displayMessage;
+	}
+	
+	function RECORD_TYPE_DisplayExample(record, config){
+		var displayMessage = config.configDetailPattern;
+		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
+		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
+		displayMessage = displayMessage.replace('{expectedValue}', (hasExpected ? record.expectedValue : ''));
+		displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));		
 		return displayMessage;
 	}
 
