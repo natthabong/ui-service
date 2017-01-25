@@ -155,7 +155,7 @@
 											<td class="text-center"
 												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><input
 												type="text" id="header-end-index-{{$index+1}}-textbox"
-												value="{{(record.startIndex==''||record.dataLength=='')?'':(record.startIndex-0 + (record.dataLength-0))-1|number}}"
+												value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
 												class="scf-layout-textbox" style="text-align: right;"
 												maxlength="3" /></td>
 											<td class="text-center"><scf-button type="button"
@@ -263,7 +263,7 @@
 												ng-model="record.startIndex" maxlength="3" /></td>
 											<td class="text-center"><input type="text"
 												class="scf-layout-textbox"
-												value="{{(record.startIndex==''||record.dataLength=='')?'':(record.startIndex-0 + (record.dataLength-0))-1|number}}"
+												value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
 												id="detail-end-index-{{$index+1}}-textbox"
 												style="text-align: right;" maxlength="3" /></td>
 											<td class="text-center"><scf-button type="button"
@@ -436,7 +436,7 @@
 											<td class="text-center"
 												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><input
 												type="text" id="footer-end-index-{{$index+1}}-textbox"
-												value="{{(record.startIndex==''||record.dataLength=='')?'':(record.startIndex-0 + (record.dataLength-0))-1|number}}"
+												value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
 												class="scf-layout-textbox" style="text-align: right;"
 												maxlength="3" /></td>
 											<td class="text-center"><scf-button type="button"
