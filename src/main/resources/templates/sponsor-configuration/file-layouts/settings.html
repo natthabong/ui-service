@@ -19,8 +19,7 @@
 								layout name' | translate}}: </label>
 
 							<div class="col-md-4 col-sm-5 col-xs-12">
-								<scf-input-text id="layout-name-textbox"
-									ng-disabled="!newFileLayoutCtrl.newMode" focus=""
+								<scf-input-text id="layout-name-textbox" focus=""
 									maxlength="255" ng-model="newFileLayoutCtrl.model.displayName"></scf-input-text>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
@@ -288,12 +287,14 @@
 
 											<td colspan="9"
 												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength">
-												<p id="description-{{$index+1}}-label{{newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength?'':'-ingore'}}"
+												<p
+													id="description-{{$index+1}}-label{{newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength?'':'-ignore'}}"
 													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
 											</td>
 											<td colspan="8"
 												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.delimited">
-												<p id="description-{{$index+1}}-label{{newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.delimited?'':'-ingore'}}"
+												<p
+													id="description-{{$index+1}}-label{{newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.delimited?'':'-ignore'}}"
 													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
 											</td>
 										</tr>
