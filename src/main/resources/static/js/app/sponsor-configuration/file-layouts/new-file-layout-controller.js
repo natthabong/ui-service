@@ -347,7 +347,7 @@ app.controller('NewFileLayoutController', [
 						},
 						cache : false,
 						preCloseCallback : function(value) {
-							if (value != null) {
+								if (value != null) {
 								if (value.docFieldName == null) {
 									if(obj.docFieldName != null){
 										var field = obj.docFieldName;
@@ -1155,6 +1155,50 @@ app.controller('RECORD_TYPELayoutConfigController', [ '$scope', '$rootScope', fu
 	this.model.required = true;
 } ]);
 
+app.controller('FILLERLayoutConfigController', ['$scope', function($scope){
+	var vm = this;
+	
+	vm.model = angular.copy($scope.ngDialogData.record);
+	
+	vm.fillerTypeDropdown = [
+		{label: 'Space', value: 'space'},
+		{label: 'Zero', value: 'zero'},
+		{label: 'Other', value: 'other'}
+		];
+	
+	vm.initial = function(){
+		vm.fillerType = 'space';
+		vm.model.required = true;
+		if(vm.model.expectedValue == '' || vm.model.expectedValue == null){
+			vm.fillerType = 'space';
+		}else if(vm.model.expectedValue == 0){
+			vm.fillerType = 'zero';
+		}else{
+			vm.fillerType = 'other';
+		}
+	}
+	vm.initial();
+	
+	vm.disabledOtherFiller = function(){
+		if(vm.fillerType != 'other'){
+			return true;
+		}		
+		return false;
+	}
+	
+	vm.changeFiller = function(){
+		vm.model.expectedValue = null;
+	}
+	
+	vm.saveFiller = function(){
+		if(vm.fillerType == 'space'){
+			vm.model.expectedValue = '';
+		}else if(vm.fillerType == 'zero'){
+			vm.model.expectedValue = '0';
+		}
+	}
+}]);
+
 app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) {
 	return {
 		TEXT_DisplayExample : TEXT_DisplayExample,
@@ -1164,7 +1208,8 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		NUMERIC_DisplayExample : NUMERIC_DisplayExample,
 		PAYMENT_AMOUNT_DisplayExample : PAYMENT_AMOUNT_DisplayExample,
 		DOCUMENT_TYPE_DisplayExample : DOCUMENT_TYPE_DisplayExample,
-		RECORD_TYPE_DisplayExample : RECORD_TYPE_DisplayExample
+		RECORD_TYPE_DisplayExample : RECORD_TYPE_DisplayExample,
+		FILLER_DisplayExample: FILLER_DisplayExample
 	}
 
 	function TEXT_DisplayExample(record, config) {
@@ -1296,6 +1341,23 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));		
 		return displayMessage;
 	}
+	
+	function FILLER_DisplayExample(record, config){
+		var displayMessage = config.configDetailPattern;
+		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
+		var fillerTypeMsg = '';
+		
+		if(record.expectedValue == ''){
+			fillerTypeMsg = 'Space';
+		}else if(record.expectedValue == '0'){
+			fillerTypeMsg = 'Zero';
+		}else{
+			fillerTypeMsg = 'Other';
+		}
+		displayMessage = displayMessage.replace('{fillerType}', fillerTypeMsg);
+		displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));		
+		return displayMessage;
+	}
 
 	function convertRequiredToString(record) {
 		return record.required == true ? 'yes' : 'no';
@@ -1308,3 +1370,4 @@ app.controller('NewPaymentDateFormulaFileLayoutController', [ '$scope', '$rootSc
 	vm.formula = angular.copy($scope.ngDialogData.formula);
 	vm.sponsorId = angular.copy($scope.ngDialogData.formula.sponsorId);
 } ]);
+
