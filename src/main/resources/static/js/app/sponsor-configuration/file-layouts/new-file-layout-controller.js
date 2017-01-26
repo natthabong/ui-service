@@ -717,12 +717,20 @@ app.controller('NewFileLayoutController', [
 		vm.showFooterConfig = function(){
 			return vm.configFooter;
 		}
+
+		vm.fileTypeChange = function(){
+			if(vm.model.fileType != 'CSV'){
+				vm.delimeter = ',';
+				vm.delimeterOther = '';
+			}
+		}
 		
 		vm.delimeterChange = function(){
 			if(vm.delimeter != 'Other'){
 				vm.delimeterOther = '';
 			}
 		}
+		
 
 	} ]);
 

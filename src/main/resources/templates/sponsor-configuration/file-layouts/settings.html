@@ -32,11 +32,13 @@
 								<label class="radio-inline"> <scf-radio
 										id="fixedLength-file-type" name="file-type-radio"
 										ng-value="newFileLayoutCtrl.fileType.fixedLength"
+										ng-change="newFileLayoutCtrl.fileTypeChange()"
 										ng-model="newFileLayoutCtrl.model.fileType"></scf-radio>
 									{{'Fixed length' | translate}}
 								</label> <label class="radio-inline"> <scf-radio
 										id="delimited-file-type"
 										ng-value="newFileLayoutCtrl.fileType.delimited"
+										ng-change="newFileLayoutCtrl.fileTypeChange()"
 										name="file-type-radio"
 										ng-model="newFileLayoutCtrl.model.fileType"></scf-radio>
 									{{'Delimited' | translate}}
