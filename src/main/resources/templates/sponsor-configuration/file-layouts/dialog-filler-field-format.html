@@ -14,7 +14,7 @@
 							<label for="fillerCharacter" class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 									ng-bind="'Filler character' | translate"></span>:</label>
 							<div class="col-md-6 col-sm-4 col-xs-12">
-								<scf-dropdown id="filler-character-type-dropdown"
+								<scf-dropdown id="filler-type-dropdown"
 								ng-model="ctrl.fillerType"
 								component-data="ctrl.fillerTypeDropdown"
 								ng-click="ctrl.changeFiller()">
@@ -26,6 +26,7 @@
 							<div class="col-md-6 col-sm-4 col-xs-12">
 								<scf-input-text
 								ng-model="ctrl.model.expectedValue"
+								id="filler-other-textbox"
 								ng-disabled="ctrl.disabledOtherFiller()"></scf-input-text>		
 							</div>
 						</div>
@@ -39,9 +40,9 @@
 					<scf-button id="filler-format-popup-cancel-button" class="popup-button"
 						ng-click="closeThisDialog()"
 						ng-bind="'Cancel' | translate"></scf-button>
-					<scf-button id="filler-format-group-popup-save-button" class="popup-button" 
+					<scf-button id="filler-format-popup-ok-button" class="popup-button" 
 						ng-click="ctrl.saveFiller();closeThisDialog(ctrl.model)"
-						ng-bind="'Save' | translate"></scf-button>
+						ng-bind="'OK' | translate"></scf-button>
 				</div>
 			</div>
 		</div>
