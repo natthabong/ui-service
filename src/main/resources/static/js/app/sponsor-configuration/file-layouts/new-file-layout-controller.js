@@ -208,7 +208,7 @@ app.controller('NewFileLayoutController', [
 				wrapper : '"',
 				fileExtensions : 'csv',
 				integrateType : 'SPONSOR_UPLOAD',
-				fileType : 'CSV',
+				fileType : 'FIXED_LENGTH',
 				charsetName : 'TIS-620',
 				checkBinaryFile : false,
 				completed : false,
@@ -231,6 +231,9 @@ app.controller('NewFileLayoutController', [
 				recordType : "DETAIL",
 				itemType : 'FIELD'
 			} ];
+			
+			vm.delimeter = ',';
+			vm.delimeterOther = '';
 		}
 
 		vm.paymentDateFormularModelDropdowns = [];
@@ -283,6 +286,21 @@ app.controller('NewFileLayoutController', [
 				sendRequest(reqUrlLayoutConfg, function(response) {
 					vm.model = response.data;
 					vm.reloadPaymentDateFields();
+					
+					if(vm.model.delimeter != null && vm.model.delimeter != ''){
+						vm.delimeter = 'Other';
+						vm.delimeterOther = vm.model.delimeter;
+						console.log(vm.model.delimeter);
+						DELIMITER_TYPE_TEM.forEach(function(obj) {
+							console.log(obj.delimiterId);
+							console.log(vm.model.delimeter);
+							if(obj.delimiterId == vm.model.delimeter){
+								vm.delimeter = vm.model.delimeter;
+								vm.delimeterOther = '';
+							}
+						});
+					}
+					
 				});
 
 				sendRequest(reqUrlField, function(response) {
@@ -504,6 +522,15 @@ app.controller('NewFileLayoutController', [
 
 		vm.save = function() {
 			vm.model.completed = true;
+			
+			if(vm.model.fileType == 'CSV'){
+				if(vm.delimeter == 'Other'){
+					vm.model.delimeter = vm.delimeterOther;
+				}else{
+					vm.model.delimeter = vm.delimeter;
+				}				
+			}
+			
 			var sponsorLayout = angular.copy(vm.model);
 			sponsorLayout.items = angular.copy(vm.items);
 			vm.dataDetailItems.forEach(function(detailItem) {
@@ -689,6 +716,12 @@ app.controller('NewFileLayoutController', [
 		
 		vm.showFooterConfig = function(){
 			return vm.configFooter;
+		}
+		
+		vm.delimeterChange = function(){
+			if(vm.delimeter != 'Other'){
+				vm.delimeterOther = '';
+			}
 		}
 
 	} ]);
