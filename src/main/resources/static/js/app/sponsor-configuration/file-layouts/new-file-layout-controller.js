@@ -59,12 +59,12 @@ app.controller('NewFileLayoutController', [
 			dataLength : 0,
 			startIndex : 0
 		}
-		
+
 		vm.headerItems = [];
-		
+
 		vm.items = [];
 		vm.dataDetailItems = [];
-		
+
 		vm.footerItems = [];
 
 		vm.backToSponsorConfigPage = function() {
@@ -303,24 +303,24 @@ app.controller('NewFileLayoutController', [
 					var formulaData = response.data;
 					addPaymentDateFormulaDropdown(formulaData);
 				});
-				
+
 				sendRequest(reqUrlHeaderField, function(response) {
 					var headerItems = response.data;
-					if(headerItems.length > 0){
+					if (headerItems.length > 0) {
 						vm.configHeader = true;
 						vm.headerItems = headerItems;
-					}					
+					}
 				});
 
 				sendRequest(reqUrlFooterField, function(response) {
 					var footerItems = response.data;
-					if(footerItems.length > 0){
+					if (footerItems.length > 0) {
 						vm.configFooter = true;
 						vm.footerItems = footerItems;
-					}					
+					}
 				});
-				
-				
+
+
 			} else {
 				initialModel();
 				addPaymentDateFormulaDropdown([]);
@@ -328,9 +328,28 @@ app.controller('NewFileLayoutController', [
 		}
 
 		vm.setup();
+		
+		var settingDocFieldName = function(record, value, dataTypeObj){
+			if (record.recordType == 'DETAIL') {
+				if (value.docFieldName == null) {
+					if (dataTypeObj.docFieldName != null) {
+						var field = dataTypeObj.docFieldName;
+						var patt = /{sequenceNo}/g;
+						var res = field.match(patt);
+						if (res != null) {
+							field = field.replace(patt, fieldCounter[record.dataType]++);
+						}
+						value.docFieldName = field;
+					}
+				}
+			}else{
+				record.docFieldName = null;
+			}
+		}
 
 		vm.openSetting = function(index, record) {
 			var dataType = record.dataType;
+
 			vm.dataTypes.forEach(function(obj) {
 				if (dataType == obj.layoutFileDataTypeId) {
 
@@ -347,18 +366,21 @@ app.controller('NewFileLayoutController', [
 						},
 						cache : false,
 						preCloseCallback : function(value) {
-								if (value != null) {
-								if (value.docFieldName == null) {
-									if(obj.docFieldName != null){
-										var field = obj.docFieldName;
-										var patt = /{sequenceNo}/g;
-										var res = field.match(patt);
-										if (res != null) {
-											field = field.replace(patt, fieldCounter[dataType]++);
-										}
-										value.docFieldName = field;										
-									}
-								}
+							if (value != null) {
+								settingDocFieldName(record, value, obj);
+//								if (record.recordType == 'DETAIL') {
+//									if (value.docFieldName == null) {
+//										if (obj.docFieldName != null) {
+//											var field = obj.docFieldName;
+//											var patt = /{sequenceNo}/g;
+//											var res = field.match(patt);
+//											if (res != null) {
+//												field = field.replace(patt, fieldCounter[dataType]++);
+//											}
+//											value.docFieldName = field;
+//										}
+//									}
+//								}
 								angular.copy(value, record);
 								record.completed = true;
 							}
@@ -383,7 +405,7 @@ app.controller('NewFileLayoutController', [
 			};
 			vm.items.push(itemConfig);
 		}
-		
+
 		vm.addHeaderItem = function() {
 			var headerItemConfig = {
 				primaryKeyField : false,
@@ -418,7 +440,7 @@ app.controller('NewFileLayoutController', [
 			var index = vm.itemsindexOf(record);
 			vm.items.splice(index, 1);
 		}
-		
+
 		vm.formula = {
 			paymentDateFormulaId : null,
 			formulaName : '',
@@ -516,7 +538,7 @@ app.controller('NewFileLayoutController', [
 			sponsorLayout.items.forEach(function(obj, index) {
 				sponsorLayout.completed = obj.completed && sponsorLayout.completed;
 			});
-			console.log(sponsorLayout);
+			
 			var apiURL = 'api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/layouts';
 			if (!vm.newMode) {
 				vm.model.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
@@ -577,18 +599,18 @@ app.controller('NewFileLayoutController', [
 			});
 			return msg;
 		}
-		
-		vm.isDisabledSaveCheckbox = function(record){
+
+		vm.isDisabledSaveCheckbox = function(record) {
 			var disabled = null;
 			vm.dataTypes.forEach(function(obj) {
 				if (record.dataType == obj.layoutFileDataTypeId) {
 					disabled = obj.isTransient;
-					if(disabled==true){
+					if (disabled == true) {
 						record.isTransient = true;
 					}
 				}
 			});
-			return disabled;			
+			return disabled;
 		}
 
 		vm.addDataItem = function(dataItems) {
@@ -682,12 +704,12 @@ app.controller('NewFileLayoutController', [
 				vm.addFooterItem();
 			}
 		}
-		
-		vm.showHeaderConfig = function(){
+
+		vm.showHeaderConfig = function() {
 			return vm.configHeader;
 		}
-		
-		vm.showFooterConfig = function(){
+
+		vm.showFooterConfig = function() {
 			return vm.configFooter;
 		}
 
@@ -1155,49 +1177,58 @@ app.controller('RECORD_TYPELayoutConfigController', [ '$scope', '$rootScope', fu
 	this.model.required = true;
 } ]);
 
-app.controller('FILLERLayoutConfigController', ['$scope', function($scope){
+app.controller('FILLERLayoutConfigController', [ '$scope', function($scope) {
 	var vm = this;
-	
+
 	vm.model = angular.copy($scope.ngDialogData.record);
-	
+
 	vm.fillerTypeDropdown = [
-		{label: 'Space', value: 'space'},
-		{label: 'Zero', value: 'zero'},
-		{label: 'Other', value: 'other'}
-		];
-	
-	vm.initial = function(){
+		{
+			label : 'Space',
+			value : 'space'
+		},
+		{
+			label : 'Zero',
+			value : 'zero'
+		},
+		{
+			label : 'Other',
+			value : 'other'
+		}
+	];
+
+	vm.initial = function() {
 		vm.fillerType = 'space';
 		vm.model.required = true;
-		if(vm.model.expectedValue == '' || vm.model.expectedValue == null){
+		if (vm.model.expectedValue == '' || vm.model.expectedValue == null) {
 			vm.fillerType = 'space';
-		}else if(vm.model.expectedValue == 0){
+		} else if (vm.model.expectedValue == 0) {
 			vm.fillerType = 'zero';
-		}else{
+		} else {
 			vm.fillerType = 'other';
 		}
 	}
 	vm.initial();
-	
-	vm.disabledOtherFiller = function(){
-		if(vm.fillerType != 'other'){
+
+	vm.disabledOtherFiller = function() {
+		if (vm.fillerType != 'other') {
 			return true;
-		}		
+		}
 		return false;
 	}
-	
-	vm.changeFiller = function(){
+
+	vm.changeFiller = function() {
 		vm.model.expectedValue = null;
 	}
-	
-	vm.saveFiller = function(){
-		if(vm.fillerType == 'space'){
+
+	vm.saveFiller = function() {
+		if (vm.fillerType == 'space') {
 			vm.model.expectedValue = '';
-		}else if(vm.fillerType == 'zero'){
+		} else if (vm.fillerType == 'zero') {
 			vm.model.expectedValue = '0';
 		}
 	}
-}]);
+} ]);
 
 app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) {
 	return {
@@ -1209,7 +1240,7 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		PAYMENT_AMOUNT_DisplayExample : PAYMENT_AMOUNT_DisplayExample,
 		DOCUMENT_TYPE_DisplayExample : DOCUMENT_TYPE_DisplayExample,
 		RECORD_TYPE_DisplayExample : RECORD_TYPE_DisplayExample,
-		FILLER_DisplayExample: FILLER_DisplayExample
+		FILLER_DisplayExample : FILLER_DisplayExample
 	}
 
 	function TEXT_DisplayExample(record, config) {
@@ -1332,30 +1363,30 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		displayMessage = displayMessage.replace('{defaultValue}', record.defaultValue == null ? '-' : record.defaultValue);
 		return displayMessage;
 	}
-	
-	function RECORD_TYPE_DisplayExample(record, config){
+
+	function RECORD_TYPE_DisplayExample(record, config) {
 		var displayMessage = config.configDetailPattern;
 		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 		displayMessage = displayMessage.replace('{expectedValue}', (hasExpected ? record.expectedValue : ''));
-		displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));		
+		displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));
 		return displayMessage;
 	}
-	
-	function FILLER_DisplayExample(record, config){
+
+	function FILLER_DisplayExample(record, config) {
 		var displayMessage = config.configDetailPattern;
 		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
 		var fillerTypeMsg = '';
-		
-		if(record.expectedValue == ''){
+
+		if (record.expectedValue == '') {
 			fillerTypeMsg = 'Space';
-		}else if(record.expectedValue == '0'){
+		} else if (record.expectedValue == '0') {
 			fillerTypeMsg = 'Zero';
-		}else{
+		} else {
 			fillerTypeMsg = 'Other';
 		}
 		displayMessage = displayMessage.replace('{fillerType}', fillerTypeMsg);
-		displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));		
+		displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));
 		return displayMessage;
 	}
 
@@ -1370,4 +1401,3 @@ app.controller('NewPaymentDateFormulaFileLayoutController', [ '$scope', '$rootSc
 	vm.formula = angular.copy($scope.ngDialogData.formula);
 	vm.sponsorId = angular.copy($scope.ngDialogData.formula.sponsorId);
 } ]);
-
