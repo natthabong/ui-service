@@ -18,6 +18,15 @@
 		"dateTimeName" : "YYYY-MM-DD",
 		"dateTimeId" : "yyyy-MM-dd"
 	}, {
+		"dateTimeName" : "DD.MM.YYYY",
+		"dateTimeId" : "dd.MM.yyyy"
+	}, {
+		"dateTimeName" : "MM.DD.YYYY",
+		"dateTimeId" : "MM.dd.yyyy"
+	}, {
+		"dateTimeName" : "YYYY.MM.DD",
+		"dateTimeId" : "yyyy.MM.dd"
+	}, {
 		"dateTimeName" : "DDMMYYYY",
 		"dateTimeId" : "ddMMyyyy"
 	}, {
