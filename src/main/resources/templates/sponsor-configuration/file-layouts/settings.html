@@ -247,7 +247,7 @@
 
 											<td class="text-center"><scf-checkbox
 													id="save-{{$index+1}}-checkbox"
-													ng-disabled="newFileLayoutCtrl.isDisabledSaveCheckbox(record)"
+													ng-hide="newFileLayoutCtrl.isDisabledSaveCheckbox(record)"
 													ng-checked="newFileLayoutCtrl.isSaveCheckedDisplay(record)"
 													ng-click="newFileLayoutCtrl.saveField(record)"></scf-checkbox>
 											</td>
