@@ -63,7 +63,7 @@
 									ng-model="ctrl.model.required"></scf-checkbox> <span
 								ng-bind="'Require' | translate" id="require-label"></span> </label>
 						</div>
-						<div class="form-group" ng-hide="ctrl.config.recordType == 'DETAIL'">
+						<div class="form-group" ng-hide="ctrl.model.recordType == 'DETAIL'">
 							<label class="col-md-1 col-sm-1 col-xs-1 control-label"><scf-checkbox
 									id="date-time-field-format-popup-relational-operators-checkbox"
 									ng-hide="ctrl.config.recordType == 'DETAIL'"
@@ -73,19 +73,19 @@
 									id="date-time-field-format-popup-relational-operators-dropdown"
 									ng-model="ctrl.selectedRelationalOperators"
 									ng-disabled="!ctrl.requiredRelationalOperators"
-									ng-hide="ctrl.config.recordType == 'DETAIL'"
+									ng-hide="ctrl.model.recordType == 'DETAIL'"
+									ng-change="ctrl.clearRelationField()"
 									component-data="ctrl.relationalOperators"
 									translate-label="true"></scf-dropdown>
 							</div>
 						</div>
-						<div class="form-group" ng-hide="ctrl.config.recordType != 'FOOTER'">
+						<div class="form-group" ng-show="ctrl.model.recordType == 'FOOTER'">
 							<label class="col-md-1 col-sm-1 col-xs-1 control-label"></label>
 							<div class="col-md-9 col-sm-11 col-xs-11">
 								<scf-dropdown
 									id="date-time-field-format-popup-relational-field-dropdown"
 									ng-model="ctrl.selectedRelationalField"
-									ng-disabled="(ctrl.selectedRelationalOperators != 'EQUAL_TO_HEADER_FIELD'||!ctrl.requiredRelationalOperators)?true:false"
-									ng-hide="ctrl.config.recordType != 'FOOTER'"
+									ng-disabled="ctrl.disableRelationDropdown()"									
 									component-data="ctrl.relationalField" translate-label="true"></scf-dropdown>
 							</div>
 						</div>
@@ -101,7 +101,7 @@
 					class="popup-button" ng-click="closeThisDialog()"
 					ng-bind="'Cancel' | translate"></scf-button>
 				<scf-button id="date-time-field-format-popup-ok-button"
-					class="popup-button" ng-click="closeThisDialog(ctrl.model)"
+					class="popup-button" ng-click="ctrl.saveDateTimeValidation();closeThisDialog(ctrl.model)"
 					ng-bind="'OK' | translate"></scf-button>
 
 			</div>

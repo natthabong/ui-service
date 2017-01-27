@@ -231,7 +231,7 @@ app.controller('NewFileLayoutController', [
 				recordType : "DETAIL",
 				itemType : 'FIELD'
 			} ];
-			
+
 			vm.delimeter = ',';
 			vm.delimeterOther = '';
 		}
@@ -286,21 +286,19 @@ app.controller('NewFileLayoutController', [
 				sendRequest(reqUrlLayoutConfg, function(response) {
 					vm.model = response.data;
 					vm.reloadPaymentDateFields();
-					
-					if(vm.model.delimeter != null && vm.model.delimeter != ''){
+
+					if (vm.model.delimeter != null && vm.model.delimeter != '') {
 						vm.delimeter = 'Other';
 						vm.delimeterOther = vm.model.delimeter;
-						console.log(vm.model.delimeter);
+						
 						DELIMITER_TYPE_TEM.forEach(function(obj) {
-							console.log(obj.delimiterId);
-							console.log(vm.model.delimeter);
-							if(obj.delimiterId == vm.model.delimeter){
+							if (obj.delimiterId == vm.model.delimeter) {
 								vm.delimeter = vm.model.delimeter;
 								vm.delimeterOther = '';
 							}
 						});
 					}
-					
+
 				});
 
 				sendRequest(reqUrlField, function(response) {
@@ -346,30 +344,25 @@ app.controller('NewFileLayoutController', [
 		}
 
 		vm.setup();
-		
-		var settingDocFieldName = function(record, value, dataTypeObj){			
-//			if (record.recordType == 'DETAIL') {
-				if (value.docFieldName == null) {
-					if (dataTypeObj.docFieldName != null) {
-						var field = dataTypeObj.docFieldName;
-						var patt = /{sequenceNo}/g;
-						var res = field.match(patt);
-						if (res != null) {
-							field = field.replace(patt, fieldCounter[record.dataType]++);
-						}
-						value.docFieldName = field;
+
+		var settingDocFieldName = function(record, value, dataTypeObj) {
+			if (value.docFieldName == null) {
+				if (dataTypeObj.docFieldName != null) {
+					var field = dataTypeObj.docFieldName;
+					var patt = /{sequenceNo}/g;
+					var res = field.match(patt);
+					if (res != null) {
+						field = field.replace(patt, fieldCounter[record.dataType]++);
 					}
+					value.docFieldName = field;
 				}
-//			}
-//			else{				
-//				value.docFieldName = null;
-//			}
+			}
 			return value;
 		}
 
 		vm.openSetting = function(index, record) {
 			var dataType = record.dataType;
-			
+
 			vm.dataTypes.forEach(function(obj) {
 				if (dataType == obj.layoutFileDataTypeId) {
 
@@ -382,25 +375,26 @@ app.controller('NewFileLayoutController', [
 						scope : $scope,
 						data : {
 							record : record,
-							config : obj
+							config : obj,
+							headerItems : vm.headerItems
 						},
 						cache : false,
 						preCloseCallback : function(value) {
 							if (value != null) {
 								value = settingDocFieldName(record, value, obj);
-//								if (record.recordType == 'DETAIL') {
-//									if (value.docFieldName == null) {
-//										if (obj.docFieldName != null) {
-//											var field = obj.docFieldName;
-//											var patt = /{sequenceNo}/g;
-//											var res = field.match(patt);
-//											if (res != null) {
-//												field = field.replace(patt, fieldCounter[dataType]++);
-//											}
-//											value.docFieldName = field;
-//										}
-//									}
-//								}
+								//								if (record.recordType == 'DETAIL') {
+								//									if (value.docFieldName == null) {
+								//										if (obj.docFieldName != null) {
+								//											var field = obj.docFieldName;
+								//											var patt = /{sequenceNo}/g;
+								//											var res = field.match(patt);
+								//											if (res != null) {
+								//												field = field.replace(patt, fieldCounter[dataType]++);
+								//											}
+								//											value.docFieldName = field;
+								//										}
+								//									}
+								//								}
 								angular.copy(value, record);
 								record.completed = true;
 							}
@@ -546,15 +540,15 @@ app.controller('NewFileLayoutController', [
 
 		vm.save = function() {
 			vm.model.completed = true;
-			
-			if(vm.model.fileType == 'CSV'){
-				if(vm.delimeter == 'Other'){
+
+			if (vm.model.fileType == 'CSV') {
+				if (vm.delimeter == 'Other') {
 					vm.model.delimeter = vm.delimeterOther;
-				}else{
+				} else {
 					vm.model.delimeter = vm.delimeter;
-				}				
+				}
 			}
-			
+
 			var sponsorLayout = angular.copy(vm.model);
 			sponsorLayout.items = angular.copy(vm.items);
 			vm.dataDetailItems.forEach(function(detailItem) {
@@ -567,7 +561,7 @@ app.controller('NewFileLayoutController', [
 			sponsorLayout.items.forEach(function(obj, index) {
 				sponsorLayout.completed = obj.completed && sponsorLayout.completed;
 			});
-			
+
 			var apiURL = 'api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/layouts';
 			if (!vm.newMode) {
 				vm.model.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
@@ -742,19 +736,18 @@ app.controller('NewFileLayoutController', [
 			return vm.configFooter;
 		}
 
-		vm.fileTypeChange = function(){
-			if(vm.model.fileType != 'CSV'){
+		vm.fileTypeChange = function() {
+			if (vm.model.fileType != 'CSV') {
 				vm.delimeter = ',';
 				vm.delimeterOther = '';
 			}
 		}
-		
-		vm.delimeterChange = function(){
-			if(vm.delimeter != 'Other'){
+
+		vm.delimeterChange = function() {
+			if (vm.delimeter != 'Other') {
 				vm.delimeterOther = '';
 			}
 		}
-		
 
 	} ]);
 
@@ -875,6 +868,7 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
 	vm.config = $scope.ngDialogData.config;
+	var headerItems = $scope.ngDialogData.headerItems;
 
 	vm.requiredRelationalOperators = false;
 	vm.relationalOperators = [];
@@ -895,7 +889,7 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 					}
 					vm.relationalOperators.push(selectObj);
 				});
-				if (vm.config.recordType == 'FOOTER') {
+				if (vm.model.recordType == 'FOOTER') {
 					var equalToHeadderField = {
 						label : 'Equal to header field',
 						value : 'EQUAL_TO_HEADER_FIELD'
@@ -903,6 +897,7 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 					vm.relationalOperators.push(equalToHeadderField);
 				}
 				vm.selectedRelationalOperators = 'EQUAL_TO_UPLOAD_DATE';
+				initDateTime();
 			}
 			diferred.resolve(vm.relationalOperators);
 
@@ -915,7 +910,7 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 	vm.relationalField = [];
 	var pleaseSelect = {
 		label : 'Please select',
-		value : ''
+		value : null
 	}
 	vm.relationalField.push(pleaseSelect);
 
@@ -959,14 +954,73 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 			$log.error('Load date time format Fail');
 			diferred.reject();
 		});
-
-
 		return diferred;
 	};
 
 	vm.loadDateTimeFormat();
 	vm.defaultCalendarType();
 	vm.loadRelationalOperator();
+
+	vm.disableRelationDropdown = function() {
+		var isDisable = false;
+		if (vm.selectedRelationalOperators == 'EQUAL_TO_HEADER_FIELD' && vm.requiredRelationalOperators) {
+			isDisable = false;
+		} else {
+			isDisable = true;
+		}
+		return isDisable;
+	};
+
+	vm.saveDateTimeValidation = function() {
+		
+		if(vm.requiredRelationalOperators){
+			vm.model.validationType = vm.selectedRelationalOperators;
+			if(vm.selectedRelationalOperators == 'EQUAL_TO_HEADER_FIELD'){
+				vm.relationalField.forEach(function(dropdownItem) {			
+					if(vm.selectedRelationalField == dropdownItem.label){
+						vm.model.validationRecordFieldConfig = dropdownItem.item;
+					}
+				});		
+			}else{
+				vm.model.validationRecordFieldId = null;
+				vm.model.validationRecordFieldConfig = null;
+			}
+		}else{
+			vm.model.validationType = null;
+		}
+		
+	}
+	
+	vm.clearRelationField = function(){
+		vm.selectedRelationalField = null;
+	}
+
+	var headerDatetimeList = function() {		
+		headerItems.forEach(function(item) {
+			if (item.completed && item.dataType == 'DATE_TIME') {
+				var itemDropdown = {
+					label : item.displayValue,
+					value : item.displayValue,
+					item: item
+				}
+				vm.relationalField.push(itemDropdown);
+			}
+		});
+	}
+	headerDatetimeList();
+	
+	var initDateTime = function(){
+		if(angular.isDefined(vm.model.validationType) && vm.model.validationType != null){
+			 vm.selectedRelationalOperators = vm.model.validationType;
+			 vm.requiredRelationalOperators = true;
+		}
+		
+		if(angular.isDefined(vm.model.validationRecordFieldConfig) && vm.model.validationRecordFieldConfig != null){			
+			vm.selectedRelationalField = vm.model.validationRecordFieldConfig.displayValue;
+		}
+	}
+	
+	
 } ]);
 
 app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', '$filter', function($scope, $rootScope, $q, Service, $filter) {
@@ -1227,6 +1281,10 @@ app.controller('FILLERLayoutConfigController', [ '$scope', function($scope) {
 
 	vm.fillerTypeDropdown = [
 		{
+			label : 'Unexpect',
+			value : 'unexpect'
+		},
+		{
 			label : 'Space',
 			value : 'space'
 		},
@@ -1241,9 +1299,11 @@ app.controller('FILLERLayoutConfigController', [ '$scope', function($scope) {
 	];
 
 	vm.initial = function() {
-		vm.fillerType = 'space';
+		vm.fillerType = 'unexpect';
 		vm.model.required = true;
-		if (vm.model.expectedValue == '' || vm.model.expectedValue == null) {
+		if (vm.model.expectedValue == null) {
+			vm.fillerType = 'unexpect';
+		} else if (vm.model.expectedValue == '') {
 			vm.fillerType = 'space';
 		} else if (vm.model.expectedValue == 0) {
 			vm.fillerType = 'zero';
@@ -1265,6 +1325,9 @@ app.controller('FILLERLayoutConfigController', [ '$scope', function($scope) {
 	}
 
 	vm.saveFiller = function() {
+		if (vm.fillerType == 'unexpect') {
+			vm.model.expectedValue = null;
+		}
 		if (vm.fillerType == 'space') {
 			vm.model.expectedValue = '';
 		} else if (vm.fillerType == 'zero') {
@@ -1421,7 +1484,9 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
 		var fillerTypeMsg = '';
 
-		if (record.expectedValue == '') {
+		if (record.expectedValue == null) {
+			fillerTypeMsg = 'Unexpect'
+		} else if (record.expectedValue == '') {
 			fillerTypeMsg = 'Space';
 		} else if (record.expectedValue == '0') {
 			fillerTypeMsg = 'Zero';
