@@ -627,17 +627,25 @@ app.controller('NewFileLayoutController', [
 			return msg;
 		}
 
-		vm.isDisabledSaveCheckbox = function(record) {
-			var disabled = null;
+		vm.isHideSaveCheckbox = function(item) {
+			var disabled = false;
 			vm.dataTypes.forEach(function(obj) {
-				if (record.dataType == obj.layoutFileDataTypeId) {
-					disabled = obj.isTransient;
-					if (disabled == true) {
-						record.isTransient = true;
+				if (item.dataType == obj.layoutFileDataTypeId) {
+					if (obj.transient == true) {
+						item.isTransient = true;
+						disabled = true;
 					}
 				}
 			});
 			return disabled;
+		}
+		
+		vm.isChangeDataType = function(item) {
+			vm.dataTypes.forEach(function(obj) {
+				if (item.dataType == obj.layoutFileDataTypeId) {
+					item.isTransient = obj.transient;
+				}
+			});
 		}
 
 		vm.addDataItem = function(dataItems) {
