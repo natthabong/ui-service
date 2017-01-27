@@ -85,7 +85,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
                 idValueField: 'template',
                 id: 'organize-{value}-organize-name-label',
                 sortable: true,
-                cssTemplate: 'text-center'
+                cssTemplate: 'text-left'
             }, {
                 label: 'Sponsor',
                 idValueField: 'template',
