@@ -133,8 +133,16 @@ app.controller('PaymentDateFormulaSettingController', [
 				labelEN : 'Credit term code',
 				idValueField : '$rowNo',
 				id : 'credit-term-code-{value}',
-				sortData : true
+				sortData : true,
+				cssTemplate : 'text-left',
 			}, {
+				labelEN : 'Document date',
+				idValueField : '$rowNo',
+				id : 'document-date-{value}',
+				sortData : true,
+				cellTemplate : '{{data | documentDateRuleType}}',
+				cssTemplate : 'text-left',
+			},{
 				labelEN : 'Formula',
 				idValueField : '$rowNo',
 				id : 'formula-{value}',

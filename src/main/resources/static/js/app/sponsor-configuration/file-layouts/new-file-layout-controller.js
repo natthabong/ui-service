@@ -347,8 +347,8 @@ app.controller('NewFileLayoutController', [
 
 		vm.setup();
 		
-		var settingDocFieldName = function(record, value, dataTypeObj){
-			if (record.recordType == 'DETAIL') {
+		var settingDocFieldName = function(record, value, dataTypeObj){			
+//			if (record.recordType == 'DETAIL') {
 				if (value.docFieldName == null) {
 					if (dataTypeObj.docFieldName != null) {
 						var field = dataTypeObj.docFieldName;
@@ -360,14 +360,16 @@ app.controller('NewFileLayoutController', [
 						value.docFieldName = field;
 					}
 				}
-			}else{
-				record.docFieldName = null;
-			}
+//			}
+//			else{				
+//				value.docFieldName = null;
+//			}
+			return value;
 		}
 
 		vm.openSetting = function(index, record) {
 			var dataType = record.dataType;
-
+			
 			vm.dataTypes.forEach(function(obj) {
 				if (dataType == obj.layoutFileDataTypeId) {
 
@@ -385,7 +387,7 @@ app.controller('NewFileLayoutController', [
 						cache : false,
 						preCloseCallback : function(value) {
 							if (value != null) {
-								settingDocFieldName(record, value, obj);
+								value = settingDocFieldName(record, value, obj);
 //								if (record.recordType == 'DETAIL') {
 //									if (value.docFieldName == null) {
 //										if (obj.docFieldName != null) {
