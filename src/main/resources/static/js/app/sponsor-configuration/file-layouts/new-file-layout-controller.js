@@ -1526,7 +1526,6 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 	
 	function SIGN_FLAG_DisplayExample(record, config) {
 		var displayMessage = config.configDetailPattern;
-		console.log(record);
 		var hasPositiveValue = !(angular.isUndefined(record.positiveFlag) || record.positiveFlag === null);
 		var hasNegativeValue = !(angular.isUndefined(record.negativeFlag) || record.negativeFlag === null);
 		var examplePosDataDisplay = parseFloat(config.defaultExampleValue);

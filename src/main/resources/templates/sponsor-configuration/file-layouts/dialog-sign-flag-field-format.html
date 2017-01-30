@@ -11,10 +11,10 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<form name="signFlagFieldFormat" class="form-horizontal">
 						<fieldset>
-							<legend>Format</legend>
+							<legend><span id="sign-flag-field-format-popup-format-label">Format</span></legend>
 							<div class="form-group">
 							<label for="sign-flag-format"
-								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span id="sign-flag-field-format-popupt-positive-flag-label" 
 								ng-bind="'Positive flag' | translate"></span>:</label>
 								<div class="col-md-6 col-sm-4 col-xs-12">
 									<scf-input-text id="sign-flag-field-format-popup-positive-flag-textbox"
@@ -23,7 +23,7 @@
 							</div>
 							<div class="form-group">
 							<label for="sign-flag-format"
-								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span id="sign-flag-field-format-popup-negative-flag-label"
 								ng-bind="'Negative flag' | translate"></span>:</label>
 								<div class="col-md-6 col-sm-4 col-xs-12">
 									<scf-input-text id="sign-flag-field-format-popup-negative-flag-textbox"
@@ -32,23 +32,22 @@
 							</div>
 							<div class="form-group">
 								<label for="sign-flag-label" class="col-md-12 col-sm-12 col-xs-12 control-label">
-										Ex. Positive: <span id="sign-flag-field-format-popup-positive-example-label">{{ctrl.examplePosDataDisplay}}
-										</span>
+										<span id="sign-flag-field-format-popup-positive-example-label">Ex. Positive: {{ctrl.examplePosDataDisplay}}</span>
 										<br/>
 										&nbsp;&nbsp;&nbsp;
-										Negative: <span id="sign-flag-field-format-popup-negative-example-label">{{ctrl.exampleNegDataDisplay}}</span>
+										<span id="sign-flag-field-format-popup-negative-example-label">Negative: {{ctrl.exampleNegDataDisplay}}</span>
 								</label>
 							</div>
 						</fieldset>
 						<fieldset>
-							<legend>Validation</legend>
+							<legend><span id="sign-flag-field-format-popup-validation-label">Validation</span></legend>
 							<div class="form-group">
 								<div class="col-md-12 col-sm-12 col-xs-12 ">
 									<label for="dealer" class="checkbox-inline">
 										<scf-checkbox
 											id="sign-flag-field-format-popup-require-checkbox"
 											ng-model="ctrl.model.required"></scf-checkbox>
-										<span ng-bind="'Require' | translate" id="require-label"></span>
+										<span id="sign-flag-field-format-popup-validation-label" ng-bind="'Require' | translate"></span>
 									</label>
 									
 								</div>
