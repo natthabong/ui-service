@@ -492,9 +492,9 @@
 						<div class="form-group">
 							<label class="col-md-2 col-sm-3 col-xs-12 control-label">{{'payment-date'
 								| translate}}: </label>
-							<div class="col-md-9 col-sm-9 col-xs-12">
+							<div class="col-sm-9 col-xs-12">
 								<div class="row">
-									<div class="col-md-1">
+									<div class="col-xs-3 col-sm-2">
 										<label class="radio-inline"> <input type="radio"
 											id="payment-date-type-field" name="payment-date-type-radio"
 											ng-model="newFileLayoutCtrl.model.paymentDateConfig.strategy"
@@ -503,22 +503,21 @@
 											| translate}}
 										</label>
 									</div>
-									<div class="col-md-3">
+									<div class="col-xs-6">
 										<scf-dropdown id="payment-date-field-dropdown"
 											ng-disabled="newFileLayoutCtrl.model.paymentDateConfig.strategy != 'FIELD'"
 											ng-model="newFileLayoutCtrl.model.paymentDateConfig.documentDateField"
 											component-data="newFileLayoutCtrl.paymentDateFieldDropdown"
 											translate-label="true"></scf-dropdown>
 									</div>
-									<div class="col-md-8"></div>
 								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-							<div class="col-md-9 col-sm-9 col-xs-12">
+							<div class="col-sm-9 col-xs-12">
 								<div class="row">
-									<div class="col-md-1">
+									<div class="col-xs-3 col-sm-2">
 										<label class="radio-inline"> <input type="radio"
 											id="payment-date-type-formula" name="payment-date-type-radio"
 											ng-model="newFileLayoutCtrl.model.paymentDateConfig.strategy"
@@ -527,14 +526,14 @@
 											| translate}}
 										</label>
 									</div>
-									<div class="col-md-3">
+									<div class="col-xs-6">
 										<scf-dropdown id="payment-date-formula-dropdown"
 											ng-disabled="newFileLayoutCtrl.model.paymentDateConfig.strategy != 'FORMULA'"
 											ng-model="newFileLayoutCtrl.model.paymentDateConfig.paymentDateFormulaId"
 											component-data="newFileLayoutCtrl.paymentDateFormularModelDropdowns"
 											translate-label="true" convert-to-number=""></scf-dropdown>
 									</div>
-									<div class="col-md-7">
+									<div class="col-xs-3">
 										<scf-button id="payment-date-formula-new-button"
 											ng-click="newFileLayoutCtrl.openNewFormula()"
 											ng-disabled="newFileLayoutCtrl.model.paymentDateConfig.strategy != 'FORMULA'"
@@ -545,14 +544,13 @@
 
 								<div class="row top15"
 									ng-hide="newFileLayoutCtrl.model.paymentDateConfig.strategy == 'FIELD'">
-									<div class="form-group">
 										<div class="col-md-12 col-sm-12 col-xs-12">
 											<fieldset>
 												<legend class="gec-font-size-namal"
 													ng-bind="'Fields for Payment date formula' | translate"></legend>
 											</fieldset>
 											<div class="form-group">
-												<label class="col-md-2 col-sm-2 col-xs-2 control-label"><span
+												<label class="col-md-4 col-sm-4 col-xs-4 control-label"><span
 													ng-bind="'Formula type' | translate"></span>:</label>
 												<div class="col-md-5 col-sm-5 col-xs-5 control-label"
 													id="formula-type-name-label"
@@ -561,7 +559,7 @@
 												<div class="col-md-4 col-sm-4 col-xs-4"></div>
 											</div>
 											<div class="form-group">
-												<label class="col-md-2 col-sm-2 col-xs-2 control-label">
+												<label class="col-md-4 col-sm-4 col-xs-4 control-label">
 													<span ng-bind="'Credit term code field' | translate"></span>:
 												</label>
 												<div class="col-md-5 col-sm-5 col-xs-5">
@@ -573,7 +571,7 @@
 												<div class="col-md-4 col-sm-4 col-xs-4"></div>
 											</div>
 											<div class="form-group">
-												<label class="col-md-2 col-sm-2 col-xs-2 control-label"><span
+												<label class="col-md-4 col-sm-4 col-xs-4 control-label"><span
 													ng-bind="'Document date field' | translate"></span>:</label>
 												<div class="col-md-5 col-sm-5 col-xs-5">
 													<scf-dropdown id="document-date-field-dropdown"
@@ -584,7 +582,6 @@
 												<div class="col-md-4 col-sm-4 col-xs-4"></div>
 											</div>
 										</div>
-									</div>
 								</div>
 							</div>
 						</div>
