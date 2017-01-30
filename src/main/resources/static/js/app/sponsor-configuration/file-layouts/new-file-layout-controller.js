@@ -31,6 +31,7 @@ app.controller('NewFileLayoutController', [
 		
 		vm.configHeader = false;
 		vm.configFooter = false;
+		vm.isConfigOffsetRowNo = false; 
 
 		vm.paymentDateConfigStrategy = {
 			'FIELD' : 'FIELD',
@@ -275,7 +276,7 @@ app.controller('NewFileLayoutController', [
 				paymentDateFormulaId : null
 			}
 		};
-
+		
 		vm.setup = function() {
 			loadDelimiters();
 			loadFileEncode();
@@ -293,6 +294,11 @@ app.controller('NewFileLayoutController', [
 
 				sendRequest(reqUrlLayoutConfg, function(response) {
 					vm.model = response.data;
+					
+					if(angular.isDefined(vm.model.offsetRowNo) && vm.model.offsetRowNo != null){
+						vm.isConfigOffsetRowNo = true;
+					}
+					
 					vm.reloadPaymentDateFields();
 
 					if (vm.model.delimeter != null && vm.model.delimeter != '') {
@@ -552,12 +558,16 @@ app.controller('NewFileLayoutController', [
 					vm.model.delimeter = vm.delimeter;
 				}
 			}
-
+			
 			var sponsorLayout = angular.copy(vm.model);
 			sponsorLayout.items = angular.copy(vm.items);
 			vm.dataDetailItems.forEach(function(detailItem) {
 				sponsorLayout.items.push(detailItem);
 			});
+			
+			if(!vm.isConfigOffsetRowNo){
+				sponsorLayout.offsetRowNo = null;
+			}
 
 			addHeaderModel(sponsorLayout, vm.headerItems);
 			addFooterModel(sponsorLayout, vm.footerItems);
@@ -1526,7 +1536,6 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 	
 	function SIGN_FLAG_DisplayExample(record, config) {
 		var displayMessage = config.configDetailPattern;
-		console.log(record);
 		var hasPositiveValue = !(angular.isUndefined(record.positiveFlag) || record.positiveFlag === null);
 		var hasNegativeValue = !(angular.isUndefined(record.negativeFlag) || record.negativeFlag === null);
 		var examplePosDataDisplay = parseFloat(config.defaultExampleValue);
