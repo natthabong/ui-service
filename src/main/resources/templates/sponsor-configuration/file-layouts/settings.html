@@ -184,7 +184,7 @@
 										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
 											<td colspan="8">
 												<p
-													id="header-description-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getHeaderFieldSize(), $index)}}-label"
+													id="header-description-{{$index+1}}-label"
 													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
 											</td>
 										</tr>
@@ -468,7 +468,7 @@
 										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
 											<td colspan="8">
 												<p
-													id="footer-description-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getHeaderFieldSize(), $index)}}-label"
+													id="footer-description-{{$index+1}}-label"
 													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
 											</td>
 										</tr>
