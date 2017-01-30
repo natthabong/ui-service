@@ -1233,11 +1233,14 @@ app.controller('FILLERLayoutConfigController', [ '$scope', function($scope) {
 
 	vm.fillerTypeDropdown = [
 		{
+			label : 'Unexpect',
+			value : null
+		},{
 			label : 'Space',
 			value : 'space'
 		},
 		{
-			label : 'Zero',
+			label : 'Zero (0)',
 			value : 'zero'
 		},
 		{
@@ -1247,9 +1250,11 @@ app.controller('FILLERLayoutConfigController', [ '$scope', function($scope) {
 	];
 
 	vm.initial = function() {
-		vm.fillerType = 'space';
+		vm.fillerType = null;
 		vm.model.required = true;
-		if (vm.model.expectedValue == '' || vm.model.expectedValue == null) {
+		if (vm.model.expectedValue == null) {
+			vm.fillerType = null;
+		} else if (vm.model.expectedValue == '') {
 			vm.fillerType = 'space';
 		} else if (vm.model.expectedValue == 0) {
 			vm.fillerType = 'zero';
@@ -1271,7 +1276,9 @@ app.controller('FILLERLayoutConfigController', [ '$scope', function($scope) {
 	}
 
 	vm.saveFiller = function() {
-		if (vm.fillerType == 'space') {
+		if (vm.fillerType == null) {
+			vm.model.expectedValue = null;
+		} else if (vm.fillerType == 'space') {
 			vm.model.expectedValue = '';
 		} else if (vm.fillerType == 'zero') {
 			vm.model.expectedValue = '0';
