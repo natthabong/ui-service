@@ -238,6 +238,9 @@
 	"CREDIT_TERM": "Credit term",
 	"Filler field format": "Filler field format",
 	"Filler character": "Filler character",
+	"Sign flag field format": "Sign flag field format",
+	"Positive flag": "Positive flag",
+	"Negative flag": "Negative flag",
 	
 	"Display document configuration": "ตั้งค่าหน้าจอแสดงเอกสาร",
 	"Credit term": "Credit term",
