@@ -401,7 +401,7 @@ app.filter('paymentDateFormula', [function() {
 	var startMonthType = {'NEXT': 'NEXT', 'CURRENT': 'CURRENT'}
 	var termTypeMsg = {'DAY': 'DAY', 'WEEK': 'WEEK'}
 	
-	var currentMonthMsg = function(formula){
+	var dateOfMonthMsg = function(formula){
 		var displayMessage = '';
 		if(formula.startDateOfMonth == 99){
 			displayMessage = angular.lowercase(formula.startDayOfWeek);
@@ -418,19 +418,20 @@ app.filter('paymentDateFormula', [function() {
 		var displayMessage = '';
 		
 		if(formula.startMonthType == startMonthType.CURRENT){
-			displayMessage = currentMonthMsg(formula);
+			displayMessage = dateOfMonthMsg(formula);
 			
 		}else if(formula.startMonthType == startMonthType.NEXT){
 			if(formula.startDayOfWeek == null){
 				displayMessage = addOrdinalNumberSuffix(formula.startDateOfMonth);
-				displayMessage += ' of next month';
+				displayMessage += ' of next month ';
 			}else{
 				displayMessage = 'next ';
 				displayMessage += angular.lowercase(formula.startDayOfWeek);
 				displayMessage += ' after ';
-				displayMessage += addOrdinalNumberSuffix(formula.startDateOfMonth);
+//				displayMessage += addOrdinalNumberSuffix(formula.startDateOfMonth);
+				displayMessage += dateOfMonthMsg(formula);
 			}					
-			displayMessage += ' ';
+//			displayMessage += ' ';
 		}
 
 		displayMessage += 'of Document date + ';
