@@ -17,6 +17,7 @@ public class ConfigDataTypeController {
 	private static String DOCUMENT_TYPE_FIELD = "sponsor-configuration/file-layouts/dialog-document-type-field-format";
 	private static String RECORD_TYPE = "sponsor-configuration/file-layouts/dialog-record-type-field-format";
 	private static String FILLER = "sponsor-configuration/file-layouts/dialog-filler-field-format";
+	private static String SIGN_FLAG = "sponsor-configuration/file-layouts/dialog-sign-flag-field-format";
 	
 	@RequestMapping(path = "/text", method = RequestMethod.GET)
 	public String getTextFieldConfig() {
@@ -61,5 +62,10 @@ public class ConfigDataTypeController {
 	@RequestMapping(path = "/filler", method = RequestMethod.GET)
 	public String getFillerConfig() {
 		return FILLER;
+	}
+	
+	@RequestMapping(path = "/sign-flag", method = RequestMethod.GET)
+	public String getSignFlagConfig() {
+		return SIGN_FLAG;
 	}
 }

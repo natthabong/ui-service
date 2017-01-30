@@ -277,7 +277,6 @@ app.controller('NewFileLayoutController', [
 		};
 
 		vm.setup = function() {
-
 			loadDelimiters();
 			loadFileEncode();
 			loadDataTypes();
@@ -1347,6 +1346,21 @@ app.controller('FILLERLayoutConfigController', [ '$scope', function($scope) {
 	}
 } ]);
 
+app.controller("SIGN_FLAGLayoutConfigController", [ '$scope', '$rootScope', '$q', 'Service', '$filter', function($scope, $rootScope, $q, Service, $filter) {
+	var vm = this;
+	vm.model = angular.copy($scope.ngDialogData.record);
+	vm.config = $scope.ngDialogData.config;
+
+	vm.model.positiveFlag = vm.model.positiveFlag ? vm.model.positiveFlag : 0;
+	vm.model.negativeFlag = vm.model.negativeFlag ? vm.model.negativeFlag : 1;
+	
+	var defaultExampleValue = vm.config.defaultExampleValue;
+	$scope.$watch('ctrl.model', function() {
+		vm.examplePosDataDisplay = '(flag: '+vm.model.positiveFlag+', amount: '+parseFloat(defaultExampleValue)+') -> '+parseFloat(defaultExampleValue);
+		vm.exampleNegDataDisplay = '(flag: '+vm.model.negativeFlag+', amount: '+parseFloat(defaultExampleValue)+') -> '+parseFloat(-defaultExampleValue);
+	}, true);
+} ]);
+
 app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) {
 	return {
 		TEXT_DisplayExample : TEXT_DisplayExample,
@@ -1357,7 +1371,8 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		PAYMENT_AMOUNT_DisplayExample : PAYMENT_AMOUNT_DisplayExample,
 		DOCUMENT_TYPE_DisplayExample : DOCUMENT_TYPE_DisplayExample,
 		RECORD_TYPE_DisplayExample : RECORD_TYPE_DisplayExample,
-		FILLER_DisplayExample : FILLER_DisplayExample
+		FILLER_DisplayExample : FILLER_DisplayExample,
+		SIGN_FLAG_DisplayExample : SIGN_FLAG_DisplayExample
 	}
 
 	function TEXT_DisplayExample(record, config) {
@@ -1506,6 +1521,22 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		}
 		displayMessage = displayMessage.replace('{fillerType}', fillerTypeMsg);
 		displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));
+		return displayMessage;
+	}
+	
+	function SIGN_FLAG_DisplayExample(record, config) {
+		var displayMessage = config.configDetailPattern;
+		console.log(record);
+		var hasPositiveValue = !(angular.isUndefined(record.positiveFlag) || record.positiveFlag === null);
+		var hasNegativeValue = !(angular.isUndefined(record.negativeFlag) || record.negativeFlag === null);
+		var examplePosDataDisplay = parseFloat(config.defaultExampleValue);
+		var exampleNegDataDisplay = parseFloat(-config.defaultExampleValue);
+		
+		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
+		displayMessage = displayMessage.replace('{positiveValue}', (hasPositiveValue ? record.positiveFlag : ''));
+		displayMessage = displayMessage.replace('{negativeValue}', (hasNegativeValue ? record.negativeFlag : ''));
+		displayMessage = displayMessage.replace('{positiveExampleData}', examplePosDataDisplay);
+		displayMessage = displayMessage.replace('{negativeExampleData}', exampleNegDataDisplay);
 		return displayMessage;
 	}
 
