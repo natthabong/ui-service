@@ -74,8 +74,7 @@
 						</div>
 						<div class="form-group">
 							<label for="dealer"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Row
-								format' | translate}}: </label>
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Row format' | translate}}: </label>
 							<div class="col-md-2 col-sm-3 col-xs-12">
 								<label class="checkbox-inline"> <scf-checkbox
 										id="header-checkbox" ng-model="newFileLayoutCtrl.configHeader"
@@ -93,13 +92,16 @@
 						</div>
 
 						<div class="form-group">
-							<label for="dealer"
-								class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-									id="offset-checkbox" ng-checked="false" ng-disabled="true"></scf-checkbox>
-								<span ng-bind="'Offset row no.' | translate" id="offset-label"></span>
-							</label>
+							<div class="col-md-2 col-sm-3 col-xs-12">
+								<label for="dealer"
+									class="checkbox-inline">
+									<scf-checkbox id="offset-checkbox"
+										ng-model="newFileLayoutCtrl.isConfigOffsetRowNo"></scf-checkbox>
+									<span ng-bind="'Offset row no.' | translate" id="offset-label"></span>
+								</label>
+							</div>
 							<div class="col-md-1 col-sm-1 col-xs-12">
-								<scf-input-text id="offset-textbox" ng-disabled="true"
+								<scf-input-text id="offset-textbox" ng-disabled="!newFileLayoutCtrl.isConfigOffsetRowNo"
 									ng-model="newFileLayoutCtrl.model.offsetRowNo" size="1"></scf-input-text>
 							</div>
 						</div>
@@ -268,9 +270,8 @@
 												id="index-{{$index+1}}-textbox" class="scf-layout-textbox"
 												style="text-align: right;" ng-model="record.startIndex"
 												maxlength="3" /></td>
-											<td class="text-center"><input type="text"
-												class="scf-layout-textbox"
-												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"
+											<td class="text-center" ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><input type="text"
+												class="scf-layout-textbox"												
 												value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
 												id="detail-end-index-{{$index+1}}-textbox"
 												style="text-align: right;" maxlength="3" /></td>
