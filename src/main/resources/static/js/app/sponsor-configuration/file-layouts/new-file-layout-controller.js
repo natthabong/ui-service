@@ -26,6 +26,9 @@ app.controller('NewFileLayoutController', [
 
 
 		vm.dataTypes = [];
+		vm.dataTypeHeaders = [];
+		vm.dataTypeFooters = [];
+		
 		vm.configHeader = false;
 		vm.configFooter = false;
 
@@ -33,6 +36,12 @@ app.controller('NewFileLayoutController', [
 			'FIELD' : 'FIELD',
 			'FORMULA' : 'FORMULA'
 		}
+		
+		vm.recordType = {
+				'HEADER': 'HEADER',
+				'DETAIL': 'DETAIL',
+				'FOOTER': 'FOOTER'
+			}
 
 		var defaultDropdown = [ {
 			value : null,
@@ -99,8 +108,8 @@ app.controller('NewFileLayoutController', [
 			});
 
 			serviceDiferred.promise.then(function(response) {
-				vm.dataTypes = response.data;
-				vm.dataTypes.forEach(function(obj) {
+				vm.dataTypeHeaders = response.data;
+				vm.dataTypeHeaders.forEach(function(obj) {
 					var item = {
 						value : obj.layoutFileDataTypeId,
 						label : obj.dataTypeDisplay
@@ -120,8 +129,8 @@ app.controller('NewFileLayoutController', [
 			});
 
 			serviceDiferred.promise.then(function(response) {
-				vm.dataTypes = response.data;
-				vm.dataTypes.forEach(function(obj) {
+				vm.dataTypeFooters = response.data;
+				vm.dataTypeFooters.forEach(function(obj) {
 					var item = {
 						value : obj.layoutFileDataTypeId,
 						label : obj.dataTypeDisplay
@@ -362,8 +371,17 @@ app.controller('NewFileLayoutController', [
 
 		vm.openSetting = function(index, record) {
 			var dataType = record.dataType;
-
-			vm.dataTypes.forEach(function(obj) {
+			var recordType = record.recordType;
+			
+			if(recordType == vm.recordType.HEADER){
+				dataTypeDropdowns = vm.dataTypeHeaders;
+			}else if(recordType == vm.recordType.DETAIL){
+				dataTypeDropdowns = vm.dataTypes;
+			}else{
+				dataTypeDropdowns = vm.dataTypeFooters;
+			}
+			
+			dataTypeDropdowns.forEach(function(obj) {
 				if (dataType == obj.layoutFileDataTypeId) {
 
 					var dialog = ngDialog.open({
@@ -382,19 +400,6 @@ app.controller('NewFileLayoutController', [
 						preCloseCallback : function(value) {
 							if (value != null) {
 								value = settingDocFieldName(record, value, obj);
-								//								if (record.recordType == 'DETAIL') {
-								//									if (value.docFieldName == null) {
-								//										if (obj.docFieldName != null) {
-								//											var field = obj.docFieldName;
-								//											var patt = /{sequenceNo}/g;
-								//											var res = field.match(patt);
-								//											if (res != null) {
-								//												field = field.replace(patt, fieldCounter[dataType]++);
-								//											}
-								//											value.docFieldName = field;
-								//										}
-								//									}
-								//								}
 								angular.copy(value, record);
 								record.completed = true;
 							}
@@ -904,7 +909,7 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 					}
 					vm.relationalOperators.push(equalToHeadderField);
 				}
-				vm.selectedRelationalOperators = 'EQUAL_TO_UPLOAD_DATE';
+				vm.selectedRelationalOperators = vm.relationalOperators[0].value;
 				initDateTime();
 			}
 			diferred.resolve(vm.relationalOperators);

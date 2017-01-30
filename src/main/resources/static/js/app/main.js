@@ -321,17 +321,20 @@
     $(document).ready(function () {
         
         $(window).scroll(function () {
-            var footerPosition = $("#fixed-bottom").offset().top -70;
-            
-            if ($(window).scrollTop() + $(window).height() >= footerPosition) {
-                $("#bottom-sticker").removeClass("gec-fix-position");
-
-            } else {
-                $('#bottom-sticker').addClass("gec-fix-position");
-                var new_width = $('#wrapper').width();
-                $("#bottom-sticker").width(new_width-100);
+        	if(typeof($("#fixed-bottom").offset()) !== 'undefined'){
+        		var footerPosition = $("#fixed-bottom").offset().top -70;
                 
-            }
+                if ($(window).scrollTop() + $(window).height() >= footerPosition) {
+                    $("#bottom-sticker").removeClass("gec-fix-position");
+
+                } else {
+                    $('#bottom-sticker').addClass("gec-fix-position");
+                    var new_width = $('#wrapper').width();
+                    $("#bottom-sticker").width(new_width-100);
+                    
+                }
+        	}
+            
         });
     });
 

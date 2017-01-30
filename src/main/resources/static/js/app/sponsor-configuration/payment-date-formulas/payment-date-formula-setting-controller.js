@@ -113,7 +113,7 @@ app.controller('PaymentDateFormulaSettingController', [
 				id : 'payment-period-{value}',
 				sortData : true,
 				cssTemplate : 'text-left',
-				cellTemplate : '{{data | paymentPeriod}}'
+				cellTemplate : '{{data | period}}'
 			}, {
 				cssTemplate : 'text-center',
 				sortData : false,
@@ -155,7 +155,7 @@ app.controller('PaymentDateFormulaSettingController', [
 				id : 'period-{value}',
 				sortData : true,
 				cssTemplate : 'text-left',
-				cellTemplate : '{{data.paymentPeriods | paymentPeriod}}'
+				cellTemplate : '{{data | paymentPeriod}}'
 			}, {
 				cssTemplate : 'text-center',
 				sortData : false,

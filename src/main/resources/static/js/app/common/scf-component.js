@@ -971,5 +971,17 @@
 					elements.addClass('hidden-sm hidden-xs');				
 				}
 			}
+		}])
+		.directive('scfEnter', [function(){
+			return function(scope, elements, attrs){
+				elements.bind('keypress', function(event){
+					if(event.keyCode == 13){
+						scope.$apply(function(){
+							scope.$eval(attrs.ngEnter, {'event': event})
+						});
+					}
+				});
+			}
 		}]);
+		
 })();
