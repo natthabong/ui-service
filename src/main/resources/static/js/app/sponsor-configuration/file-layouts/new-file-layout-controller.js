@@ -388,7 +388,7 @@ app.controller('NewFileLayoutController', [
 			
 			dataTypeDropdowns.forEach(function(obj) {
 				if (dataType == obj.layoutFileDataTypeId) {
-
+					console.log(vm.dataDetailItems);
 					var dialog = ngDialog.open({
 						id : 'layout-setting-dialog-' + index,
 						template : obj.configActionUrl,
@@ -399,7 +399,9 @@ app.controller('NewFileLayoutController', [
 						data : {
 							record : record,
 							config : obj,
-							headerItems : vm.headerItems
+							headerItems : vm.headerItems,
+							detailItems : vm.items,
+							footerItems : vm.footerItems
 						},
 						cache : false,
 						preCloseCallback : function(value) {
@@ -1049,12 +1051,18 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
 	vm.config = $scope.ngDialogData.config;
+	
+	var headerItems = $scope.ngDialogData.headerItems;
+	var detailItems = $scope.ngDialogData.detailItems;
+	var footerItems = $scope.ngDialogData.footerItems;
+	
 	vm.numericeModel = {
 		numericTypeFormat : '',
 		signFlagTypeFormat : '',
 		disableCustomField : true,
 		usePadding : false,
-		signFlag : ''
+		signFlag : '',
+		signFlagId : null,
 	}
 
 	vm.numericType = {
@@ -1100,6 +1108,10 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 					vm.signFlagDropdown.push(selectObj);
 				});
 				vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
+				if(vm.model.signFlagId !== undefined && vm.model.signFlagId !== ''){
+						vm.numericeModel.signFlag = vm.signFlagDropdown[1].value;
+						vm.numericeModel.signFlagId = vm.model.signFlagId;
+				}
 			}
 			diferred.resolve(vm.signFlagDropdown);
 		}).catch(function(response) {
@@ -1108,6 +1120,75 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 		});
 		return diferred;
 	}
+	
+	vm.loadSignFlagFieldList = function() {
+		var diferred = $q.defer();
+		vm.signFlagFieldDropdown = [];
+		
+		if(vm.config.recordType == 'HEADER'){
+			headerFlagList();
+		}else if(vm.config.recordType == 'FOOTER'){
+			footerFlagList();
+		}else{
+			detailFlagList();
+		}
+	}
+
+	vm.signFlagDataChange = function() {
+		if(vm.numericeModel.signFlag == vm.signFlagDropdown[1].value){
+			vm.loadSignFlagFieldList();
+			vm.numericeModel.signFlagId = vm.signFlagFieldDropdown[0].value;
+		}
+	}
+	
+	var headerFlagList = function() {		
+		headerItems.forEach(function(item) {
+			if (item.completed && item.dataType == 'TEXT') {
+				var itemDropdown = {
+					label : item.displayValue,
+					value : item.layoutConfigItemId,
+					item: item
+				}
+				vm.signFlagFieldDropdown.push(itemDropdown);
+			}
+		});
+		if(vm.model.signFlagId !== undefined){
+			vm.numericeModel.signFlagId = vm.model.signFlagId;
+		}
+	}
+	
+	var detailFlagList = function() {		
+		detailItems.forEach(function(item) {
+			if (item.completed && item.dataType == 'TEXT') {
+				var itemDropdown = {
+					label : item.displayValue,
+					value : item.layoutConfigItemId,
+					item: item
+				}
+				vm.signFlagFieldDropdown.push(itemDropdown);
+			}
+		});
+		if(vm.model.signFlagId !== undefined){
+			console.log(detailItems);
+			vm.numericeModel.signFlagId = vm.model.signFlagId;
+		}
+	}
+
+	var footerFlagList = function() {		
+		footerItems.forEach(function(item) {
+			if (item.completed && item.dataType == 'TEXT') {
+				var itemDropdown = {
+					label : item.displayValue,
+					value : item.layoutConfigItemId,
+					item: item
+				}
+				vm.signFlagFieldDropdown.push(itemDropdown);
+			}
+		});
+		if(vm.model.signFlagId !== undefined){
+			vm.numericeModel.signFlagId = vm.model.signFlagId;
+		}
+	}
 
 	vm.initLoad = function() {
 		if (isDefaultCusomNumeric(vm.model)) {
@@ -1115,8 +1196,11 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 		} else {
 			vm.numericeModel.numericTypeFormat = vm.numericType.anyNumericFormat;
 		}
+		
 		vm.checkCustomNumeric();
 		vm.loadSignFlagList();
+		vm.loadSignFlagFieldList();
+		
 		if (isValueEmpty(vm.model.signFlagTypeFormat)) {
 			vm.model.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
 		}
