@@ -692,12 +692,12 @@ footer .footer-below {
 }
 
 .scf-layout-textbox {
-	width: 150px;
+	width: 60%;
 	height: 40px;
 }
 
 .scf-layout-dropdown {
-	width: 155px;
+	width: 100%;
 	height: 40px;
 }
 

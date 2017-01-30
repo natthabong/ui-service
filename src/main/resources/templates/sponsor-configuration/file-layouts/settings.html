@@ -9,17 +9,17 @@
 			</div>
 		</div>
 		<div class="form-element">
-			<form name="createForm" class="form-horizontal">
+			<form name="createForm" class="form-horizontal" scf-enter="newFileLayoutCtrl.save()">
 				<div class="panel panel-default col-md-12 padding-0">
 					<div class="panel-body">
-						<!-- <form name="createForm" class="form-horizontal"> -->
+						
 						<div class="form-group">
 							<label for="dealer"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
 								layout name' | translate}}: </label>
 
 							<div class="col-md-4 col-sm-5 col-xs-12">
-								<scf-input-text id="layout-name-textbox" focus=""
+								<scf-input-text id="layout-name-textbox" focus="true"
 									maxlength="255" ng-model="newFileLayoutCtrl.model.displayName"></scf-input-text>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
@@ -137,7 +137,7 @@
 												id="header-layout-item-{{$index+1}}-no-label"
 												class="text-right control-label">{{$index+1}}</label></td>
 
-											<td class="text-right"><scf-input-text
+											<td class="text-center"><input type="text"
 													class="scf-layout-textbox"
 													id="header-sponsor-field-name-{{$index+1}}-textbox"
 													ng-model="record.displayValue" maxlength="255" /></td>
@@ -241,7 +241,7 @@
 												id="layout-item-{{$index+1}}-no-label"
 												class="text-right control-label">{{$index+1}}</label></td>
 
-											<td class="text-right"><scf-input-text
+											<td class="text-center"><input type="text"
 													class="scf-layout-textbox"
 													id="sponsor-field-name-{{$index+1}}-textbox"
 													ng-model="record.displayValue" maxlength="255" /></td>
@@ -289,8 +289,7 @@
 													type="button" id="delete-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="newFileLayoutCtrl.removeDataItem(newFileLayoutCtrl.items,record)">
-												<!-- newFileLayoutCtrl.removeItem(record) --> <i
-													class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
+												<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
 										</tr>
 										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
 
@@ -319,7 +318,7 @@
 												id="layout-item-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-no-label"
 												ng-bind="newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)"></span></td>
 
-											<td class="text-right"><scf-input-text
+											<td class="text-center"><input type="text"
 													id="sponsor-field-name-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-textbox"
 													ng-model="record.displayValue" /></td>
 
@@ -422,7 +421,7 @@
 												id="footer-layout-item-{{$index+1}}-no-label"
 												class="text-right control-label">{{$index+1}}</label></td>
 
-											<td class="text-right"><scf-input-text
+											<td class="text-center"><input type="text"
 													class="scf-layout-textbox"
 													id="footer-sponsor-field-name-{{$index+1}}-textbox"
 													ng-model="record.displayValue" maxlength="255" /></td>
@@ -586,7 +585,7 @@
 								</div>
 							</div>
 						</div>
-						<!-- </form> -->
+						
 					</div>
 
 					<div class="panel-body">

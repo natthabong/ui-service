@@ -446,7 +446,7 @@ app.filter('paymentDateFormula', [function() {
 	}
 }]);
 
-app.filter('paymentPeriod', [function() {
+app.filter('period', [function() {
 	var paymentPeriodType = {'DATE_OF_MONTH': 'DATE_OF_MONTH', 'DAY_OF_WEEK': 'DAY_OF_WEEK', 'EVERY_DAY': 'EVERY_DAY'}
 	var occurrentWeekType = {'EVERY': 'EVERY', 'LAST': 'LAST'}
 	
@@ -481,19 +481,32 @@ app.filter('paymentPeriod', [function() {
 		}
 		return displayMessage;
 	}
-	return function(periods){
+	return function(period){
 		var displayMessage = '';
+		return paymentPeriodMsg(period);
+	}
+}]);
+
+app.filter('paymentPeriod', ['$filter',function($filter){
+	return function(creditTerm){
+		var displayMessage = '';
+		if(creditTerm.periodType == 'EVERY_PERIOD'){
+			return 'Every period';
+		}
+		
+		var periods = creditTerm.paymentPeriods;
+		
 		if(angular.isArray(periods)){
 			var displayMessages = [];
 			periods.forEach(function(period){
-				displayMessages.push(paymentPeriodMsg(period));
+				var periodMsg = $filter('period')(period);
+				displayMessages.push(periodMsg);
 			});
 			
 			displayMessage = displayMessages.join(', ');
 		}else{
-			return paymentPeriodMsg(periods);
+			return $filter('period')(periods);
 		}
-
 		return displayMessage;
 	}
 }]);
