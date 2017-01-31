@@ -105,7 +105,7 @@
 							</div>
 							<div class="col-md-3 col-sm-3 col-xs-12"></div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" ng-show="ctrl.numericeModel.signFlag=='Within field'">
 							<label for="sign-flag-format"
 								class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
 							<div class="col-md-6 col-sm-4 col-xs-12">
@@ -149,7 +149,6 @@
 										ng-model="ctrl.model.required"></scf-checkbox> <span
 									ng-bind="'Require' | translate" id="require-label"></span>
 								</label>
-
 							</div>
 
 						</div>
@@ -165,7 +164,8 @@
 					class="popup-button" ng-click="closeThisDialog()"
 					ng-bind="'Cancel' | translate"></scf-button>
 				<scf-button id="numeric-field-format-popup-ok-button"
-					class="popup-button" ng-click="ctrl.saveNumericValidation();closeThisDialog(ctrl.model)"
+					class="popup-button"
+					ng-click="ctrl.saveNumericValidation();closeThisDialog(ctrl.model)"
 					ng-bind="'OK' | translate"></scf-button>
 
 			</div>
