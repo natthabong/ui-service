@@ -1,4 +1,5 @@
 <div class="modal-content">
+<form name="textFieldFormat" class="form-horizontal" ng-submit="closeThisDialog(ctrl.model)">
 	<div class="modal-header">
 		<div class="row">
 			<div class="col-md-10 col-sm-10">
@@ -13,7 +14,7 @@
 	<div class="modal-body">
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
-				<form name="textFieldFormat" class="form-horizontal">
+				
 					<div class="form-group">
 						<label for="dealer"
 							class="col-md-3 col-sm-3 col-xs-12 control-label">
@@ -29,10 +30,7 @@
 									ng-disabled="!ctrl.model.required"></scf-input-text>
 						</div>
 					</div>
-
-
-					
-				</form>
+			
 			</div>
 		</div>
 	</div>
@@ -43,10 +41,12 @@
 					class="popup-button" ng-click="closeThisDialog()"
 					ng-bind="'Cancel' | translate"></scf-button>
 				<scf-button id="document-type-field-format-popup-ok-button"
-					class="popup-button" ng-click="closeThisDialog(ctrl.model)"
+					class="popup-button"
+					type="submit"
 					ng-bind="'OK' | translate"></scf-button>
 
 			</div>
 		</div>
 	</div>
+	</form>
 </div>

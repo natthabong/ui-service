@@ -1,4 +1,5 @@
 <div class="modal-content">
+<form name="datetimeFieldFormat" class="form-horizontal" ng-submit="ctrl.saveDateTimeValidation();closeThisDialog(ctrl.model)">
 	<div class="modal-header">
 		<div class="row">
 			<div class="col-md-10 col-sm-10">
@@ -13,7 +14,7 @@
 	<div class="modal-body">
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
-				<form name="datetimeFieldFormat" class="form-horizontal">
+				
 					<fieldset>
 						<legend>Format</legend>
 						<div class="form-group">
@@ -88,7 +89,7 @@
 							</div>
 						</div>
 					</fieldset>
-				</form>
+				
 			</div>
 		</div>
 	</div>
@@ -99,10 +100,12 @@
 					class="popup-button" ng-click="closeThisDialog()"
 					ng-bind="'Cancel' | translate"></scf-button>
 				<scf-button id="date-time-field-format-popup-ok-button"
-					class="popup-button" ng-click="ctrl.saveDateTimeValidation();closeThisDialog(ctrl.model)"
+					class="popup-button" 
+					type="submit"
 					ng-bind="'OK' | translate"></scf-button>
 
 			</div>
 		</div>
 	</div>
+	</form>
 </div>

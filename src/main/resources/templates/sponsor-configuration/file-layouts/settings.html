@@ -9,7 +9,7 @@
 			</div>
 		</div>
 		<div class="form-element">
-			<form name="createForm" class="form-horizontal" scf-enter="newFileLayoutCtrl.save()">
+			<form name="createForm" class="form-horizontal" ng-submit="newFileLayoutCtrl.save()">
 				<div class="panel panel-default col-md-12 padding-0">
 					<div class="panel-body">
 						
@@ -591,9 +591,7 @@
 
 					<div class="panel-body">
 						<div class="col-md-12 col-sm-12 text-right">
-							<scf-button id="layout-save-button" type="submit"
-								ng-click="newFileLayoutCtrl.save()">{{'Save' |
-							translate}}</scf-button>
+							<scf-button id="layout-save-button" type="submit">{{'Save' | translate}}</scf-button>
 							<scf-button id="layout-back-button" class="popup-button"
 								data-dismiss="modal"
 								ng-click="newFileLayoutCtrl.backToSponsorConfigPage()"

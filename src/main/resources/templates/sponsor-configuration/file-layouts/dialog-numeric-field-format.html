@@ -1,4 +1,5 @@
 <div class="modal-content">
+<form name="numericFieldFormat" ng-submit="closeThisDialog(ctrl.model)" class="form-horizontal">
 		<div class="modal-header">
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
@@ -9,7 +10,6 @@
 		<div class="modal-body">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
-					<form name="numericFieldFormat" class="form-horizontal">
 						<fieldset>
 							<legend>Format</legend>
 							<div class="form-group">
@@ -140,7 +140,7 @@
 								
 							</div>
 						</fieldset>
-					</form>
+					
 				</div>
 			</div>
 		</div>
@@ -150,11 +150,12 @@
 					<scf-button id="numeric-field-format-popup-cancel-button" class="popup-button"  
 						ng-click="closeThisDialog()"
 						ng-bind="'Cancel' | translate"></scf-button>
-					<scf-button id="numeric-field-format-popup-ok-button" class="popup-button" 
-						ng-click="closeThisDialog(ctrl.model)"
+					<scf-button type="submit" id="numeric-field-format-popup-ok-button" class="popup-button" 
+						
 						ng-bind="'OK' | translate"></scf-button>
 					
 				</div>
 			</div>
 		</div>
+		</form>
 	</div>
