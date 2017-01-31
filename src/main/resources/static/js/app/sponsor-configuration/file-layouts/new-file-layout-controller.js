@@ -1123,6 +1123,13 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 	vm.loadSignFlagFieldList = function() {
 		var diferred = $q.defer();
 		vm.signFlagFieldDropdown = [];
+		var pleaseSelect = {
+				label : 'Please select',
+				value : null,
+				item: null			
+		}
+		vm.signFlagFieldDropdown.push(pleaseSelect);
+		vm.numericeModel.signFlagId = null;		
 		
 		if(vm.config.recordType == 'HEADER'){
 			headerFlagList();
@@ -1135,7 +1142,7 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 
 	vm.signFlagDataChange = function() {
 		
-		vm.model.signFlagConfig = null;
+		vm.numericeModel.signFlagId = null;
 		vm.model.signFlagTypeFormat = null;
 		
 		if(vm.numericeModel.signFlag == vm.signFlagDropdown[1].value){
@@ -1528,19 +1535,33 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		var displayMessage = config.configDetailPattern;
 
 		var numberFormatDisplay = 'Any numeric format'
-		// if (record.dataFormat.numericTypeFormat == 'CUSTOM') {
-		// numberFormatDisplay = 'Custom numeric format'
-		// }
-
+		console.log(record);
+		console.log(config);
+		if (record.paddingCharacter != null || record.has1000Separator == true ||hasDecimalPlace == true) {
+			var numberFormatDisplay = ''
+			if(record.paddingCharacter != null){
+				numberFormatDisplay = numberFormatDisplay + ', Padding character ('+record.paddingCharacter+')';
+			}
+			if(record.has1000Separator == true){
+				numberFormatDisplay = numberFormatDisplay + ', Has 1,000 seperator (,)';
+			}
+			if(record.hasDecimalPlace == true){
+				numberFormatDisplay = numberFormatDisplay + ', Has decimal place (.)';
+			}
+			numberFormatDisplay = numberFormatDisplay.substring(2);
+		}
+			
 		var signFlagTypeDisplay = '';
-		if (record.signFlagTypeFormat == "IGNORE_PLUS") {
+		if(record.signFlagConfig !=null){
+			signFlagTypeDisplay = ' Sign flag field ('+record.signFlagConfig.displayValue+')'
+		}else if (record.signFlagTypeFormat == "IGNORE_PLUS") {
 			signFlagTypeDisplay = ' Within field (ignore plus symbol (+) on positive value)'
 		} else if (record.signFlagTypeFormat == "NEES_PLUS") {
 			signFlagTypeDisplay = ' Within field (need plus symbol (+) on positive value)'
 		} else if (record.signFlagTypeFormat == "AVOID_PLUS") {
 			signFlagTypeDisplay = ' Within field (avoid plus symbol (+) on positive value)'
 		}
-
+		
 		var examplePosDataDisplay = parseFloat(config.defaultExampleValue).toFixed(record.decimalPlace);
 		var exampleNegDataDisplay = parseFloat(-config.defaultExampleValue).toFixed(record.decimalPlace);
 
