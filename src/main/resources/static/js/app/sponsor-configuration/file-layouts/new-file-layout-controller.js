@@ -1134,11 +1134,15 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 	}
 
 	vm.signFlagDataChange = function() {
+		
+		vm.model.signFlagConfig = null;
+		vm.model.signFlagTypeFormat = null;
+		
 		if(vm.numericeModel.signFlag == vm.signFlagDropdown[1].value){
 			vm.loadSignFlagFieldList();
 			vm.numericeModel.signFlagId = vm.signFlagFieldDropdown[0].value;
-		}else{
-			vm.model.signFlagConfig = null;
+		}else if(vm.numericeModel.signFlag == vm.signFlagDropdown[0].value){
+			vm.model.signFlagTypeFormat = 'IGNORE_PLUS';
 		}
 	}
 	
