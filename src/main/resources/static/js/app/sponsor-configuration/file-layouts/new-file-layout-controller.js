@@ -388,7 +388,6 @@ app.controller('NewFileLayoutController', [
 			
 			dataTypeDropdowns.forEach(function(obj) {
 				if (dataType == obj.layoutFileDataTypeId) {
-					console.log(vm.dataDetailItems);
 					var dialog = ngDialog.open({
 						id : 'layout-setting-dialog-' + index,
 						template : obj.configActionUrl,
@@ -1062,7 +1061,7 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 		disableCustomField : true,
 		usePadding : false,
 		signFlag : '',
-		signFlagId : null,
+		signFlagId : null
 	}
 
 	vm.numericType = {
@@ -1108,10 +1107,10 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 					vm.signFlagDropdown.push(selectObj);
 				});
 				vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
-				if(vm.model.signFlagId !== undefined && vm.model.signFlagId !== ''){
-						vm.numericeModel.signFlag = vm.signFlagDropdown[1].value;
-						vm.numericeModel.signFlagId = vm.model.signFlagId;
-				}
+				if(vm.model.signFlagConfig != null){
+					vm.numericeModel.signFlag = vm.signFlagDropdown[1].value;
+					vm.numericeModel.signFlagId = vm.model.signFlagConfig.layoutConfigItemId;
+				}		
 			}
 			diferred.resolve(vm.signFlagDropdown);
 		}).catch(function(response) {
@@ -1138,12 +1137,14 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 		if(vm.numericeModel.signFlag == vm.signFlagDropdown[1].value){
 			vm.loadSignFlagFieldList();
 			vm.numericeModel.signFlagId = vm.signFlagFieldDropdown[0].value;
+		}else{
+			vm.model.signFlagConfig = null;
 		}
 	}
 	
 	var headerFlagList = function() {		
 		headerItems.forEach(function(item) {
-			if (item.completed && item.dataType == 'TEXT') {
+			if (item.completed && item.dataType == 'SIGN_FLAG') {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.layoutConfigItemId,
@@ -1151,15 +1152,12 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 				}
 				vm.signFlagFieldDropdown.push(itemDropdown);
 			}
-		});
-		if(vm.model.signFlagId !== undefined){
-			vm.numericeModel.signFlagId = vm.model.signFlagId;
-		}
+		});		
 	}
 	
 	var detailFlagList = function() {		
 		detailItems.forEach(function(item) {
-			if (item.completed && item.dataType == 'TEXT') {
+			if (item.completed && item.dataType == 'SIGN_FLAG') {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.layoutConfigItemId,
@@ -1168,15 +1166,11 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 				vm.signFlagFieldDropdown.push(itemDropdown);
 			}
 		});
-		if(vm.model.signFlagId !== undefined){
-			console.log(detailItems);
-			vm.numericeModel.signFlagId = vm.model.signFlagId;
-		}
 	}
 
 	var footerFlagList = function() {		
 		footerItems.forEach(function(item) {
-			if (item.completed && item.dataType == 'TEXT') {
+			if (item.completed && item.dataType == 'SIGN_FLAG') {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.layoutConfigItemId,
@@ -1184,10 +1178,7 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 				}
 				vm.signFlagFieldDropdown.push(itemDropdown);
 			}
-		});
-		if(vm.model.signFlagId !== undefined){
-			vm.numericeModel.signFlagId = vm.model.signFlagId;
-		}
+		});	
 	}
 
 	vm.initLoad = function() {
@@ -1204,9 +1195,11 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 		if (isValueEmpty(vm.model.signFlagTypeFormat)) {
 			vm.model.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
 		}
-		if (vm.model.signFlagId == null) {
+		if (vm.model.signFlagConfig == null) {
 			vm.numericeModel.signFlag = "Within field";
 		}
+		
+		console.log(vm.model);
 	}
 
 	vm.initLoad();
@@ -1216,6 +1209,15 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 			vm.model.paddingCharacter = null;
 		}
 	}
+	
+	vm.saveNumericValidation = function() {		
+		vm.signFlagFieldDropdown.forEach(function(dropdownItem) {	
+			if(vm.numericeModel.signFlagId == dropdownItem.value){
+				vm.model.signFlagConfig = dropdownItem.item;
+			}
+		});	
+	}
+	
 	var defaultExampleValue = vm.config.defaultExampleValue;
 	$scope.$watch('ctrl.model', function() {
 		vm.examplePosDataDisplay = parseFloat(defaultExampleValue).toFixed(vm.model.decimalPlace);
