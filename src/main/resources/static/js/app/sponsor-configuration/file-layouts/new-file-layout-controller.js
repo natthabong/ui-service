@@ -1055,6 +1055,37 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 	var detailItems = $scope.ngDialogData.detailItems;
 	var footerItems = $scope.ngDialogData.footerItems;
 	
+	vm.requiredRelationalSummary = false;
+	vm.relationalSummary = [];
+	var diferred = $q.defer();
+	
+	var serviceUrl = 'js/app/sponsor-configuration/file-layouts/numeric_relational_summary.json';
+	var serviceDiferred = Service.doGet(serviceUrl);
+	serviceDiferred.promise.then(function(response) {
+		var dateRelationalSummaryList = response.data;
+		if (dateRelationalSummaryList !== undefined) {
+			dateRelationalSummaryList.forEach(function(obj) {
+				var selectObj = {
+					label : obj.dateRelationalSummaryName,
+					value : obj.dateRelationalSummaryId
+				}
+				vm.relationalSummary.push(selectObj);
+			});
+			vm.selectedRelationalSummary = vm.relationalSummary[0].value;
+			vm.initNumeric();
+		}
+		diferred.resolve(vm.relationalOperators);
+
+	}).catch(function(response) {
+		$log.error('Load relational operators format Fail');
+		diferred.reject();
+	});
+
+	vm.clearRelationField = function(){
+		vm.selectedRelationalField = null;
+		detailNumericList();
+	}
+	
 	vm.numericeModel = {
 		numericTypeFormat : '',
 		signFlagTypeFormat : '',
@@ -1083,7 +1114,7 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 			vm.model.has1000Separator = null;
 			vm.model.hasDecimalPlace = null;
 			vm.model.decimalPlace = 2;
-			vm.model.paddingCharacter = '';
+			vm.model.paddingCharacter = null;
 		} else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
 			vm.numericeModel.disableCustomField = false;
 		}
@@ -1192,6 +1223,35 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 		});	
 	}
 
+	
+	vm.relationalField = [];
+	var pleaseSelect = {
+			label : 'Please select',
+			value : null
+	}	
+	vm.relationalField.push(pleaseSelect);
+	
+	var detailNumericList = function() {	
+		vm.relationalField = [];
+		var pleaseSelect = {
+				label : 'Please select',
+				value : null
+		}	
+		vm.relationalField.push(pleaseSelect);
+		
+		detailItems.forEach(function(item) {
+			if (item.completed && item.dataType == 'NUMERIC') {
+				var itemDropdown = {
+					label : item.displayValue,
+					value : item.layoutConfigItemId,
+					item: item
+				}
+				vm.relationalField.push(itemDropdown);
+			}
+		});
+		
+	}
+
 	vm.initLoad = function() {
 		if (isDefaultCusomNumeric(vm.model)) {
 			vm.numericeModel.numericTypeFormat = vm.numericType.customNumericFormat;
@@ -1210,10 +1270,26 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 			vm.numericeModel.signFlag = "Within field";
 		}
 		
-		console.log(vm.model);
+		detailNumericList();
 	}
-
+	
+	vm.initNumeric = function() {
+		if(angular.isDefined(vm.model.validationRecordFieldConfig) && vm.model.validationRecordFieldConfig != null){			
+			vm.selectedRelationalField = vm.model.validationRecordFieldConfig.displayValue;
+		}
+	}
+	
 	vm.initLoad();
+	
+	vm.disableRelationDropdown = function() {
+		var isDisable = false;
+		if (vm.selectedRelationalSummary == 'SUMARY_OF_FIELD' && vm.requiredRelationalSummary) {
+			isDisable = false;
+		} else {
+			isDisable = true;
+		}
+		return isDisable;
+	};
 
 	vm.resetPadding = function() {
 		if (!vm.numericeModel.usePadding) {
@@ -1227,6 +1303,23 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 				vm.model.signFlagConfig = dropdownItem.item;
 			}
 		});	
+
+		if(vm.requiredRelationalSummary){
+			vm.model.validationType = vm.selectedRelationalOperators;
+			if(vm.selectedRelationalOperators == 'EQUAL_TO_HEADER_FIELD'){
+				vm.relationalField.forEach(function(dropdownItem) {			
+					if(vm.selectedRelationalField == dropdownItem.label){
+						vm.model.validationRecordFieldConfig = dropdownItem.item;
+					}
+				});		
+			}else{
+				vm.model.validationRecordFieldId = null;
+				vm.model.validationRecordFieldConfig = null;
+			}
+		}else{
+			vm.model.validationType = null;
+		}
+		
 	}
 	
 	var defaultExampleValue = vm.config.defaultExampleValue;
@@ -1535,11 +1628,9 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		var displayMessage = config.configDetailPattern;
 
 		var numberFormatDisplay = 'Any numeric format'
-		console.log(record);
-		console.log(config);
-		if (record.paddingCharacter != null || record.has1000Separator == true ||hasDecimalPlace == true) {
+		if ((record.paddingCharacter != null&&record.paddingCharacter != '') || record.has1000Separator == true || record.hasDecimalPlace == true) {
 			var numberFormatDisplay = ''
-			if(record.paddingCharacter != null){
+			if(record.paddingCharacter != null && record.paddingCharacter != ''){
 				numberFormatDisplay = numberFormatDisplay + ', Padding character ('+record.paddingCharacter+')';
 			}
 			if(record.has1000Separator == true){
@@ -1553,13 +1644,13 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 			
 		var signFlagTypeDisplay = '';
 		if(record.signFlagConfig !=null){
-			signFlagTypeDisplay = ' Sign flag field ('+record.signFlagConfig.displayValue+')'
+			signFlagTypeDisplay = ' sign flag field ('+record.signFlagConfig.displayValue+')'
 		}else if (record.signFlagTypeFormat == "IGNORE_PLUS") {
-			signFlagTypeDisplay = ' Within field (ignore plus symbol (+) on positive value)'
+			signFlagTypeDisplay = ' within field (ignore plus symbol (+) on positive value)'
 		} else if (record.signFlagTypeFormat == "NEES_PLUS") {
-			signFlagTypeDisplay = ' Within field (need plus symbol (+) on positive value)'
+			signFlagTypeDisplay = ' within field (need plus symbol (+) on positive value)'
 		} else if (record.signFlagTypeFormat == "AVOID_PLUS") {
-			signFlagTypeDisplay = ' Within field (avoid plus symbol (+) on positive value)'
+			signFlagTypeDisplay = ' within field (avoid plus symbol (+) on positive value)'
 		}
 		
 		var examplePosDataDisplay = parseFloat(config.defaultExampleValue).toFixed(record.decimalPlace);

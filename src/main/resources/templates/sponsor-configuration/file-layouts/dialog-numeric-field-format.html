@@ -1,19 +1,20 @@
 <div class="modal-content">
-<form name="numericFieldFormat" ng-submit="closeThisDialog(ctrl.model)" class="form-horizontal">
-	<div class="modal-header">
-		<div class="row">
-			<div class="col-md-10 col-sm-10">
-				<h3>
-					<span id="numeric-field-format-popup-header-message-label"
-						class="popup-text" ng-bind="'Numeric field format' | translate">Numeric
-						field format</span>
-				</h3>
+	<form name="numericFieldFormat" ng-submit="closeThisDialog(ctrl.model)"
+		class="form-horizontal">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3>
+						<span id="numeric-field-format-popup-header-message-label"
+							class="popup-text" ng-bind="'Numeric field format' | translate">Numeric
+							field format</span>
+					</h3>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="modal-body">
-		<div class="row">
-			<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
 					<fieldset>
 						<legend>Format</legend>
 						<div class="form-group">
@@ -105,7 +106,8 @@
 							</div>
 							<div class="col-md-3 col-sm-3 col-xs-12"></div>
 						</div>
-						<div class="form-group" ng-show="ctrl.numericeModel.signFlag=='Within field'">
+						<div class="form-group"
+							ng-show="ctrl.numericeModel.signFlag=='Within field'">
 							<label for="sign-flag-format"
 								class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
 							<div class="col-md-6 col-sm-4 col-xs-12">
@@ -143,33 +145,58 @@
 					<fieldset>
 						<legend>Validation</legend>
 						<div class="form-group">
-							<div class="col-md-12 col-sm-12 col-xs-12 ">
-								<label for="dealer" class="checkbox-inline"> <scf-checkbox
-										id="numeric-field-format-popup-require-checkbox"
-										ng-model="ctrl.model.required"></scf-checkbox> <span
-									ng-bind="'Require' | translate" id="require-label"></span>
-								</label>
+							<label for="dealer"
+								class="col-md-2 col-sm-3 col-xs-12 control-label"> <scf-checkbox
+									id="numeric-field-format-popup-require-checkbox"
+									ng-model="ctrl.model.required"></scf-checkbox> <span
+								ng-bind="'Require' | translate" id="require-label"></span>
+							</label>
+						</div>
+						<div class="form-group"
+							ng-hide="ctrl.model.recordType != 'FOOTER'">
+							<label for="dealer"
+								class="col-md-1 col-sm-1 col-xs-1 control-label"><scf-checkbox
+									id="numeric-field-format-popup-relational-summary-checkbox"
+									ng-hide="ctrl.config.recordType != 'FOOTER'"
+									ng-model="ctrl.requiredRelationalSummary"></scf-checkbox></label>
+							<div class="col-md-9 col-sm-11 col-xs-11">
+								<scf-dropdown
+									id="numeric-field-format-popup-relational-summary-dropdown"
+									ng-model="ctrl.selectedRelationalSummary"
+									ng-disabled="!ctrl.requiredRelationalSummary"
+									ng-hide="ctrl.model.recordType != 'FOOTER'"
+									ng-change="ctrl.clearRelationField()"
+									component-data="ctrl.relationalSummary" translate-label="true"></scf-dropdown>
 							</div>
-
+						</div>
+						<div class="form-group"
+							ng-show="ctrl.model.recordType == 'FOOTER'">
+							<label class="col-md-1 col-sm-1 col-xs-1 control-label"></label>
+							<div class="col-md-9 col-sm-11 col-xs-11">
+								<scf-dropdown
+									id="numeric-field-format-popup-relational-field-dropdown"
+									ng-model="ctrl.selectedRelationalField"
+									ng-disabled="ctrl.disableRelationDropdown()"
+									component-data="ctrl.relationalField" translate-label="true"></scf-dropdown>
+							</div>
 						</div>
 					</fieldset>
-					
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="modal-footer">
-		<div class="row">
-			<div class="col-xs-12 text-right">
-				<scf-button id="numeric-field-format-popup-cancel-button"
-					class="popup-button" ng-click="closeThisDialog()"
-					ng-bind="'Cancel' | translate"></scf-button>
-				<scf-button id="numeric-field-format-popup-ok-button"
-					class="popup-button"
-					ng-click="ctrl.saveNumericValidation();closeThisDialog(ctrl.model)"
-					ng-bind="'OK' | translate"></scf-button>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="numeric-field-format-popup-cancel-button"
+						class="popup-button" ng-click="closeThisDialog()"
+						ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="numeric-field-format-popup-ok-button"
+						class="popup-button"
+						ng-click="ctrl.saveNumericValidation();closeThisDialog(ctrl.model)"
+						ng-bind="'OK' | translate"></scf-button>
 
+				</div>
 			</div>
 		</div>
-	</div>
-		</form>
-	</div>
+	</form>
+</div>
