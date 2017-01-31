@@ -1,4 +1,5 @@
 <div class="modal-content">
+<form name="newCustCodeGroup" class="form-horizontal" ng-submit="ctrl.saveNewCustomerGroup()">
 		<div class="modal-header">
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
@@ -9,7 +10,7 @@
 		<div class="modal-body">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
-					<form name="newCustCodeGroup" class="form-horizontal">
+					
 						<div class="form-group">
 							<label for="group-name" class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 									ng-bind="'Group name' | translate"></span>:</label>
@@ -18,7 +19,7 @@
 										ng-model="ctrl.customerCodeGroupRequest.groupName"></scf-input-text>
 							</div>
 						</div>
-					</form>
+					
 				</div>
 			</div>
 			<div class="row">
@@ -40,9 +41,10 @@
 						ng-click="closeThisDialog()"
 						ng-bind="'Cancel' | translate"></scf-button>
 					<scf-button id="new-customer-code-group-popup-save-button" class="popup-button" 
-						ng-click="ctrl.saveNewCustomerGroup()"
+						type="submit"
 						ng-bind="'Save' | translate"></scf-button>
 				</div>
 			</div>
 		</div>
+		</form>
 	</div>

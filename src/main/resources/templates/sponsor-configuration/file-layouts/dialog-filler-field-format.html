@@ -1,4 +1,5 @@
 <div class="modal-content">
+<form name="fillerFieldFormat" class="form-horizontal" ng-submit="ctrl.saveFiller();closeThisDialog(ctrl.model)">
 		<div class="modal-header">
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
@@ -9,7 +10,7 @@
 		<div class="modal-body">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
-					<form name="fillerFieldFormat" class="form-horizontal">
+					
 						<div class="form-group">
 							<label for="fillerCharacter" class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 									ng-bind="'Filler character' | translate"></span>:</label>
@@ -30,7 +31,7 @@
 								ng-disabled="ctrl.disabledOtherFiller()"></scf-input-text>		
 							</div>
 						</div>
-					</form>
+					
 				</div>
 			</div>
 		</div>
@@ -41,9 +42,10 @@
 						ng-click="closeThisDialog()"
 						ng-bind="'Cancel' | translate"></scf-button>
 					<scf-button id="filler-format-popup-ok-button" class="popup-button" 
-						ng-click="ctrl.saveFiller();closeThisDialog(ctrl.model)"
+						type="submit"
 						ng-bind="'OK' | translate"></scf-button>
 				</div>
 			</div>
 		</div>
+		</form>
 	</div>

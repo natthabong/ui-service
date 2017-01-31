@@ -1,4 +1,5 @@
 <div class="modal-content">
+<form name="textFieldFormat" class="form-horizontal" ng-submit="closeThisDialog(ctrl.model)">
 	<div class="modal-header">
 		<div class="row">
 			<div class="col-md-10 col-sm-10">
@@ -13,7 +14,7 @@
 	<div class="modal-body">
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
-				<form name="textFieldFormat" class="form-horizontal">
+				
 					<fieldset>
 						<legend>Validation</legend>
 						<div class="form-group">
@@ -35,7 +36,7 @@
 							</div>
 						</div>
 					</fieldset>
-				</form>
+				
 			</div>
 		</div>
 	</div>
@@ -47,10 +48,11 @@
 					ng-bind="'Cancel' | translate"></scf-button>
 				<scf-button id="text-field-format-popup-ok-button"
 					class="popup-button"
-					ng-click="closeThisDialog(ctrl.model)"
+					type="submit"
 					ng-bind="'OK' | translate"></scf-button>
 
 			</div>
 		</div>
 	</div>
+	</form>
 </div>
