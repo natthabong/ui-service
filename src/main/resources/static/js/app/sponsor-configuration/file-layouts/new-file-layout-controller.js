@@ -1058,7 +1058,7 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 	vm.requiredRelationalSummary = false;
 	vm.relationalSummary = [];
 	var diferred = $q.defer();
-	
+		
 	var serviceUrl = 'js/app/sponsor-configuration/file-layouts/numeric_relational_summary.json';
 	var serviceDiferred = Service.doGet(serviceUrl);
 	serviceDiferred.promise.then(function(response) {
@@ -1072,7 +1072,6 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 				vm.relationalSummary.push(selectObj);
 			});
 			vm.selectedRelationalSummary = vm.relationalSummary[0].value;
-			vm.initNumeric();
 		}
 		diferred.resolve(vm.relationalOperators);
 
@@ -1083,7 +1082,6 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 
 	vm.clearRelationField = function(){
 		vm.selectedRelationalField = null;
-		detailNumericList();
 	}
 	
 	vm.numericeModel = {
@@ -1140,7 +1138,7 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 				vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
 				if(vm.model.signFlagConfig != null){
 					vm.numericeModel.signFlag = vm.signFlagDropdown[1].value;
-					vm.numericeModel.signFlagId = vm.model.signFlagConfig.layoutConfigItemId;
+					vm.numericeModel.signFlagId = vm.model.signFlagConfig.displayValue;			
 				}		
 			}
 			diferred.resolve(vm.signFlagDropdown);
@@ -1185,11 +1183,11 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 	}
 	
 	var headerFlagList = function() {		
-		headerItems.forEach(function(item) {
+		headerItems.forEach(function(item , index) {
 			if (item.completed && item.dataType == 'SIGN_FLAG') {
 				var itemDropdown = {
 					label : item.displayValue,
-					value : item.layoutConfigItemId,
+					value : item.displayValue,
 					item: item
 				}
 				vm.signFlagFieldDropdown.push(itemDropdown);
@@ -1198,11 +1196,11 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 	}
 	
 	var detailFlagList = function() {		
-		detailItems.forEach(function(item) {
+		detailItems.forEach(function(item , index) {
 			if (item.completed && item.dataType == 'SIGN_FLAG') {
 				var itemDropdown = {
 					label : item.displayValue,
-					value : item.layoutConfigItemId,
+					value : item.displayValue,
 					item: item
 				}
 				vm.signFlagFieldDropdown.push(itemDropdown);
@@ -1211,11 +1209,11 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 	}
 
 	var footerFlagList = function() {		
-		footerItems.forEach(function(item) {
+		footerItems.forEach(function(item , index) {
 			if (item.completed && item.dataType == 'SIGN_FLAG') {
 				var itemDropdown = {
 					label : item.displayValue,
-					value : item.layoutConfigItemId,
+					value : item.displayValue,
 					item: item
 				}
 				vm.signFlagFieldDropdown.push(itemDropdown);
@@ -1231,7 +1229,8 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 	}	
 	vm.relationalField.push(pleaseSelect);
 	
-	var detailNumericList = function() {	
+	vm.detailNumericList = function() {
+		var diferred = $q.defer();
 		vm.relationalField = [];
 		var pleaseSelect = {
 				label : 'Please select',
@@ -1239,17 +1238,19 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 		}	
 		vm.relationalField.push(pleaseSelect);
 		
-		detailItems.forEach(function(item) {
+		detailItems.forEach(function(item , index) {
 			if (item.completed && item.dataType == 'NUMERIC') {
 				var itemDropdown = {
 					label : item.displayValue,
-					value : item.layoutConfigItemId,
+					value : item.displayValue,
 					item: item
 				}
 				vm.relationalField.push(itemDropdown);
 			}
 		});
 		
+		diferred.resolve(vm.relationalField);
+		return diferred;
 	}
 
 	vm.initLoad = function() {
@@ -1262,6 +1263,7 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 		vm.checkCustomNumeric();
 		vm.loadSignFlagList();
 		vm.loadSignFlagFieldList();
+		vm.detailNumericList();
 		
 		if (isValueEmpty(vm.model.signFlagTypeFormat)) {
 			vm.model.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
@@ -1269,21 +1271,21 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 		if (vm.model.signFlagConfig == null) {
 			vm.numericeModel.signFlag = "Within field";
 		}
-		
-		detailNumericList();
-	}
-	
-	vm.initNumeric = function() {
-		if(angular.isDefined(vm.model.validationRecordFieldConfig) && vm.model.validationRecordFieldConfig != null){			
+
+		if(angular.isDefined(vm.model.validationRecordFieldConfig) && vm.model.validationRecordFieldConfig != null){
+			vm.requiredRelationalSummary = true;
+			vm.selectedRelationalSummary = vm.model.validationType;
 			vm.selectedRelationalField = vm.model.validationRecordFieldConfig.displayValue;
-		}
+		}	
+		console.log(vm.model.validationType);
+		console.log(vm.selectedRelationalSummary);
 	}
 	
 	vm.initLoad();
 	
 	vm.disableRelationDropdown = function() {
 		var isDisable = false;
-		if (vm.selectedRelationalSummary == 'SUMARY_OF_FIELD' && vm.requiredRelationalSummary) {
+		if (vm.selectedRelationalSummary == 'SUMMARY_OF_FIELD' && vm.requiredRelationalSummary) {
 			isDisable = false;
 		} else {
 			isDisable = true;
@@ -1305,10 +1307,10 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 		});	
 
 		if(vm.requiredRelationalSummary){
-			vm.model.validationType = vm.selectedRelationalOperators;
-			if(vm.selectedRelationalOperators == 'EQUAL_TO_HEADER_FIELD'){
+			vm.model.validationType = vm.selectedRelationalSummary;
+			if(vm.selectedRelationalSummary == 'SUMMARY_OF_FIELD'){
 				vm.relationalField.forEach(function(dropdownItem) {			
-					if(vm.selectedRelationalField == dropdownItem.label){
+					if(vm.selectedRelationalField == dropdownItem.value){
 						vm.model.validationRecordFieldConfig = dropdownItem.item;
 					}
 				});		
@@ -1318,8 +1320,8 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 			}
 		}else{
 			vm.model.validationType = null;
+			vm.model.validationRecordFieldConfig = null;
 		}
-		
 	}
 	
 	var defaultExampleValue = vm.config.defaultExampleValue;
