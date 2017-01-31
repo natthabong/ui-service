@@ -1071,7 +1071,12 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 				}
 				vm.relationalSummary.push(selectObj);
 			});
-			vm.selectedRelationalSummary = vm.relationalSummary[0].value;
+			if(vm.model.validationType == null){
+				vm.selectedRelationalSummary = vm.relationalSummary[0].value;
+			}else{
+				vm.requiredRelationalSummary = true;
+				vm.selectedRelationalSummary = vm.model.validationType;
+			}
 		}
 		diferred.resolve(vm.relationalOperators);
 
@@ -1272,7 +1277,7 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 			vm.numericeModel.signFlag = "Within field";
 		}
 
-		if(angular.isDefined(vm.model.validationRecordFieldConfig) && vm.model.validationRecordFieldConfig != null){
+		if(angular.isDefined(vm.model.validationRecordFieldConfig) && vm.model.validationRecordFieldConfig != null && vm.model.validationType != null){
 			vm.requiredRelationalSummary = true;
 			vm.selectedRelationalSummary = vm.model.validationType;
 			vm.selectedRelationalField = vm.model.validationRecordFieldConfig.displayValue;
