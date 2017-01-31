@@ -1450,8 +1450,8 @@ app.controller("SIGN_FLAGLayoutConfigController", [ '$scope', '$rootScope', '$q'
 	
 	var defaultExampleValue = vm.config.defaultExampleValue;
 	$scope.$watch('ctrl.model', function() {
-		vm.examplePosDataDisplay = '(flag: '+vm.model.positiveFlag+', amount: '+parseFloat(defaultExampleValue)+') -> '+parseFloat(defaultExampleValue);
-		vm.exampleNegDataDisplay = '(flag: '+vm.model.negativeFlag+', amount: '+parseFloat(defaultExampleValue)+') -> '+parseFloat(-defaultExampleValue);
+		vm.examplePosDataDisplay = '(flag: '+vm.model.positiveFlag+', amount: '+parseFloat(defaultExampleValue)+') -> '+parseFloat(defaultExampleValue).toLocaleString();
+		vm.exampleNegDataDisplay = '(flag: '+vm.model.negativeFlag+', amount: '+parseFloat(defaultExampleValue)+') -> '+parseFloat(-defaultExampleValue).toLocaleString();
 	}, true);
 } ]);
 
