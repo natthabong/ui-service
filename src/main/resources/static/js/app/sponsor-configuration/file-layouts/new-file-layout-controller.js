@@ -1282,8 +1282,7 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 			vm.selectedRelationalSummary = vm.model.validationType;
 			vm.selectedRelationalField = vm.model.validationRecordFieldConfig.displayValue;
 		}	
-		console.log(vm.model.validationType);
-		console.log(vm.selectedRelationalSummary);
+
 	}
 	
 	vm.initLoad();
@@ -1364,8 +1363,50 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', '$filter', function($scope, $rootScope, $q, Service, $filter) {
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
+	
+//	var headerItems = $scope.ngDialogData.headerItems;
+	var detailItems = $scope.ngDialogData.detailItems;
+//	var footerItems = $scope.ngDialogData.footerItems;
 
 	vm.config = $scope.ngDialogData.config;
+	
+	vm.requiredRelationalSummary = false;
+	vm.relationalSummary = [];
+	
+	var loadNumericRelation = function(){
+		var diferred = $q.defer();
+		var serviceUrl = 'js/app/sponsor-configuration/file-layouts/numeric_relational_summary.json';
+		var serviceDiferred = Service.doGet(serviceUrl);
+		serviceDiferred.promise.then(function(response) {
+			var dateRelationalSummaryList = response.data;
+			if (dateRelationalSummaryList !== undefined) {
+				dateRelationalSummaryList.forEach(function(obj) {
+					var selectObj = {
+						label : obj.dateRelationalSummaryName,
+						value : obj.dateRelationalSummaryId
+					}
+					vm.relationalSummary.push(selectObj);
+				});
+				if(vm.model.validationType == null){
+					vm.selectedRelationalSummary = vm.relationalSummary[0].value;
+				}else{
+					vm.requiredRelationalSummary = true;
+					vm.selectedRelationalSummary = vm.model.validationType;
+				}
+			}
+			diferred.resolve(vm.relationalOperators);
+
+		}).catch(function(response) {
+			$log.error('Load relational operators format Fail');
+			diferred.reject();
+		});
+	}
+	
+
+	vm.clearRelationField = function(){
+		vm.selectedRelationalField = null;
+	}
+	
 	vm.numericeModel = {
 		numericTypeFormat : '',
 		signFlagTypeFormat : '',
@@ -1425,8 +1466,106 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 		});
 		return diferred;
 	}
+	
+	vm.loadSignFlagFieldList = function() {
+		var diferred = $q.defer();
+		vm.signFlagFieldDropdown = [];
+		var pleaseSelect = {
+				label : 'Please select',
+				value : null,
+				item: null			
+		}
+		vm.signFlagFieldDropdown.push(pleaseSelect);
+		vm.numericeModel.signFlagId = null;		
+		
+		if(vm.config.recordType == 'HEADER'){
+			headerFlagList();
+		}else if(vm.config.recordType == 'FOOTER'){
+			footerFlagList();
+		}else{
+			detailFlagList();
+		}
+	}
+	
+	vm.signFlagDataChange = function() {
+		
+		vm.numericeModel.signFlagId = null;
+		vm.model.signFlagTypeFormat = null;
+		
+		if(vm.numericeModel.signFlag == vm.signFlagDropdown[1].value){
+			vm.loadSignFlagFieldList();
+			vm.numericeModel.signFlagId = vm.signFlagFieldDropdown[0].value;
+		}else if(vm.numericeModel.signFlag == vm.signFlagDropdown[0].value){
+			vm.model.signFlagTypeFormat = 'IGNORE_PLUS';
+		}
+	}
+	
+//	var headerFlagList = function() {		
+//		headerItems.forEach(function(item , index) {
+//			if (item.completed && item.dataType == 'SIGN_FLAG') {
+//				var itemDropdown = {
+//					label : item.displayValue,
+//					value : item.displayValue,
+//					item: item
+//				}
+//				vm.signFlagFieldDropdown.push(itemDropdown);
+//			}
+//		});		
+//	}
+	
+	var detailFlagList = function() {		
+		detailItems.forEach(function(item , index) {
+			if (item.completed && item.dataType == 'SIGN_FLAG') {
+				var itemDropdown = {
+					label : item.displayValue,
+					value : item.displayValue,
+					item: item
+				}
+				vm.signFlagFieldDropdown.push(itemDropdown);
+			}
+		});
+	}
+
+//	var footerFlagList = function() {		
+//		footerItems.forEach(function(item , index) {
+//			if (item.completed && item.dataType == 'SIGN_FLAG') {
+//				var itemDropdown = {
+//					label : item.displayValue,
+//					value : item.displayValue,
+//					item: item
+//				}
+//				vm.signFlagFieldDropdown.push(itemDropdown);
+//			}
+//		});	
+//	}
+	
+	vm.detailNumericList = function() {
+		var diferred = $q.defer();
+		vm.relationalField = [];
+		var pleaseSelect = {
+				label : 'Please select',
+				value : null
+		}	
+		vm.relationalField.push(pleaseSelect);
+		
+		detailItems.forEach(function(item , index) {
+			if (item.completed && item.dataType == 'NUMERIC') {
+				var itemDropdown = {
+					label : item.displayValue,
+					value : item.displayValue,
+					item: item
+				}
+				vm.relationalField.push(itemDropdown);
+			}
+		});
+		
+		diferred.resolve(vm.relationalField);
+		return diferred;
+	}
 
 	vm.initLoad = function() {
+		loadNumericRelation();	
+				
 		if (isDefaultCusomNumeric(vm.model)) {
 			vm.numericeModel.numericTypeFormat = vm.numericType.customNumericFormat;
 		} else {
@@ -1434,9 +1573,23 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 		}
 		vm.checkCustomNumeric();
 		vm.loadSignFlagList();
+		vm.loadSignFlagFieldList();
+		vm.detailNumericList();
+				
 		if (isValueEmpty(vm.model.signFlagTypeFormat)) {
 			vm.model.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
 		}
+		
+		if (vm.model.signFlagConfig == null) {
+			vm.numericeModel.signFlag = "Within field";
+		}
+		console.log(vm.model);
+
+//		if(angular.isDefined(vm.model.validationRecordFieldConfig) && vm.model.validationRecordFieldConfig != null){
+//			vm.requiredRelationalSummary = true;
+//			vm.selectedRelationalSummary = vm.model.validationType;
+//			vm.selectedRelationalField = vm.model.validationRecordFieldConfig.displayValue;
+//		}	
 	}
 
 	vm.initLoad();
@@ -1445,6 +1598,34 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 		if (!vm.numericeModel.usePadding) {
 			vm.model.paddingCharacter = null;
 		}
+	}
+	
+	vm.saveNumericValidation = function() {
+		
+		vm.signFlagFieldDropdown.forEach(function(dropdownItem) {	
+			if(vm.numericeModel.signFlagId == dropdownItem.value){
+				vm.model.signFlagConfig = dropdownItem.item;
+			}
+		});	
+
+//		if(vm.requiredRelationalSummary){
+//			vm.model.validationType = vm.selectedRelationalSummary;
+//			if(vm.selectedRelationalSummary == 'SUMMARY_OF_FIELD'){
+//				vm.relationalField.forEach(function(dropdownItem) {			
+//					if(vm.selectedRelationalField == dropdownItem.value){
+//						vm.model.validationRecordFieldConfig = dropdownItem.item;
+//					}
+//				});		
+//			}else{
+//				vm.model.validationRecordFieldId = null;
+//				vm.model.validationRecordFieldConfig = null;
+//			}
+//		}else{
+//			vm.model.validationType = null;
+//			vm.model.validationRecordFieldConfig = null;
+//		}
+		
+		console.log(vm.model);
 	}
 
 	var defaultExampleValue = vm.config.defaultExampleValue;
