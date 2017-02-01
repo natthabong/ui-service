@@ -1282,8 +1282,7 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 			vm.selectedRelationalSummary = vm.model.validationType;
 			vm.selectedRelationalField = vm.model.validationRecordFieldConfig.displayValue;
 		}	
-		console.log(vm.model.validationType);
-		console.log(vm.selectedRelationalSummary);
+
 	}
 	
 	vm.initLoad();
@@ -1304,12 +1303,18 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 		}
 	}
 	
-	vm.saveNumericValidation = function() {		
-		vm.signFlagFieldDropdown.forEach(function(dropdownItem) {	
-			if(vm.numericeModel.signFlagId == dropdownItem.value){
-				vm.model.signFlagConfig = dropdownItem.item;
-			}
-		});	
+	vm.saveNumericValidation = function() {	
+		if(vm.numericeModel.signFlag == 'Within field'){
+			vm.model.signFlagConfig = null;
+			
+		}else{
+			vm.model.signFlagTypeFormat = null;
+			vm.signFlagFieldDropdown.forEach(function(dropdownItem) {	
+				if(vm.numericeModel.signFlagId == dropdownItem.value){
+					vm.model.signFlagConfig = dropdownItem.item;
+				}
+			});
+		}
 
 		if(vm.requiredRelationalSummary){
 			vm.model.validationType = vm.selectedRelationalSummary;
@@ -1365,7 +1370,17 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
 
+	var detailItems = $scope.ngDialogData.detailItems;
+
 	vm.config = $scope.ngDialogData.config;
+	
+	vm.requiredRelationalSummary = false;
+	vm.relationalSummary = [];
+	
+	vm.clearRelationField = function(){
+		vm.selectedRelationalField = null;
+	}
+	
 	vm.numericeModel = {
 		numericTypeFormat : '',
 		signFlagTypeFormat : '',
@@ -1416,7 +1431,13 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 					}
 					vm.signFlagDropdown.push(selectObj);
 				});
-				vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
+				
+				if(vm.model.signFlagConfig != null){
+					vm.numericeModel.signFlag = vm.signFlagDropdown[1].value;
+					vm.numericeModel.signFlagId = vm.model.signFlagConfig.displayValue;			
+				}else{
+					vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
+				}
 			}
 			diferred.resolve(vm.signFlagDropdown);
 		}).catch(function(response) {
@@ -1425,8 +1446,79 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 		});
 		return diferred;
 	}
+	
+	vm.loadSignFlagFieldList = function() {
+		var diferred = $q.defer();
+		vm.signFlagFieldDropdown = [];
+		var pleaseSelect = {
+				label : 'Please select',
+				value : null,
+				item: null			
+		}
+		vm.signFlagFieldDropdown.push(pleaseSelect);
+		vm.numericeModel.signFlagId = null;		
+		
+		if(vm.config.recordType == 'HEADER'){
+			headerFlagList();
+		}else if(vm.config.recordType == 'FOOTER'){
+			footerFlagList();
+		}else{
+			detailFlagList();
+		}
+	}
+	
+	vm.signFlagDataChange = function() {
+		
+		vm.numericeModel.signFlagId = null;
+		vm.model.signFlagTypeFormat = null;
+		
+		if(vm.numericeModel.signFlag == vm.signFlagDropdown[1].value){
+			vm.loadSignFlagFieldList();
+			vm.numericeModel.signFlagId = vm.signFlagFieldDropdown[0].value;
+		}else if(vm.numericeModel.signFlag == vm.signFlagDropdown[0].value){
+			vm.model.signFlagTypeFormat = 'IGNORE_PLUS';
+		}
+	}
+	
+	var detailFlagList = function() {		
+		detailItems.forEach(function(item , index) {
+			if (item.completed && item.dataType == 'SIGN_FLAG') {
+				var itemDropdown = {
+					label : item.displayValue,
+					value : item.displayValue,
+					item: item
+				}
+				vm.signFlagFieldDropdown.push(itemDropdown);
+			}
+		});
+	}
+	
+	vm.detailNumericList = function() {
+		var diferred = $q.defer();
+		vm.relationalField = [];
+		var pleaseSelect = {
+				label : 'Please select',
+				value : null
+		}	
+		vm.relationalField.push(pleaseSelect);
+		
+		detailItems.forEach(function(item , index) {
+			if (item.completed && item.dataType == 'NUMERIC') {
+				var itemDropdown = {
+					label : item.displayValue,
+					value : item.displayValue,
+					item: item
+				}
+				vm.relationalField.push(itemDropdown);
+			}
+		});
+		
+		diferred.resolve(vm.relationalField);
+		return diferred;
+	}
 
 	vm.initLoad = function() {
+				
 		if (isDefaultCusomNumeric(vm.model)) {
 			vm.numericeModel.numericTypeFormat = vm.numericType.customNumericFormat;
 		} else {
@@ -1434,8 +1526,15 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 		}
 		vm.checkCustomNumeric();
 		vm.loadSignFlagList();
+		vm.loadSignFlagFieldList();
+		vm.detailNumericList();
+				
 		if (isValueEmpty(vm.model.signFlagTypeFormat)) {
 			vm.model.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
+		}
+		
+		if (vm.model.signFlagConfig == null) {
+			vm.numericeModel.signFlag = "Within field";
 		}
 	}
 
@@ -1444,6 +1543,21 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 	vm.resetPadding = function() {
 		if (!vm.numericeModel.usePadding) {
 			vm.model.paddingCharacter = null;
+		}
+	}
+	
+	vm.saveNumericValidation = function() {
+		
+		if(vm.numericeModel.signFlag == 'Within field'){
+			vm.model.signFlagConfig = null;
+			
+		}else{
+			vm.model.signFlagTypeFormat = null;
+			vm.signFlagFieldDropdown.forEach(function(dropdownItem) {
+				if(vm.numericeModel.signFlagId == dropdownItem.value){
+					vm.model.signFlagConfig = dropdownItem.item;
+				}
+			});	
 		}
 	}
 
@@ -1678,12 +1792,25 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		var displayMessage = config.configDetailPattern;
 
 		var numberFormatDisplay = 'Any numeric format'
-		// if (record.dataFormat.numericTypeFormat == 'CUSTOM') {
-		// numberFormatDisplay = 'Custom numeric format'
-		// }
+
+		if ((record.paddingCharacter != null && record.paddingCharacter != '') || record.has1000Separator == true || record.hasDecimalPlace == true) {
+			var numberFormatDisplay = ''
+			if (record.paddingCharacter != null && record.paddingCharacter != '') {
+				numberFormatDisplay = numberFormatDisplay + ', Padding character (' + record.paddingCharacter + ')';
+			}
+			if (record.has1000Separator == true) {
+				numberFormatDisplay = numberFormatDisplay + ', Has 1,000 seperator (,)';
+			}
+			if (record.hasDecimalPlace == true) {
+				numberFormatDisplay = numberFormatDisplay + ', Has decimal place (.)';
+			}
+			numberFormatDisplay = numberFormatDisplay.substring(2);
+		}
 
 		var signFlagTypeDisplay = '';
-		if (record.signFlagTypeFormat == "IGNORE_PLUS") {
+		if(record.signFlagConfig != null){
+			signFlagTypeDisplay = ' sign flag field ('+record.signFlagConfig.displayValue+')'
+		}else if (record.signFlagTypeFormat == "IGNORE_PLUS") {
 			signFlagTypeDisplay = ' Within field (ignore plus symbol (+) on positive value)'
 		} else if (record.signFlagTypeFormat == "NEES_PLUS") {
 			signFlagTypeDisplay = ' Within field (need plus symbol (+) on positive value)'

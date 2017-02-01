@@ -1,5 +1,5 @@
 <div class="modal-content">
-<form name="numericFieldFormat" class="form-horizontal" ng-submit="closeThisDialog(ctrl.model)">
+<form name="numericFieldFormat" class="form-horizontal" ng-submit="ctrl.saveNumericValidation();closeThisDialog(ctrl.model)">
 	<div class="modal-header">
 		<div class="row">
 			<div class="col-md-10 col-sm-10">
@@ -68,6 +68,8 @@
 							</div>
 							<div class="col-md-8 col-sm-2 col-xs-12"></div>
 						</div>
+						
+						
 						<div class="form-group">
 							<label for="decimal-place-format"
 								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
@@ -90,7 +92,25 @@
 									component-data="ctrl.signFlagDropdown" translate-label="true"></scf-dropdown>
 							</div>
 						</div>
-						<div class="form-group">
+						
+						<div class="form-group"
+							ng-show="ctrl.numericeModel.signFlag=='Sign flag field'">
+							<label for="sign-flag-format"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+								ng-bind="'' | translate"></span></label> <label for="sign-flag-format"
+								class="col-md-1 col-sm-2 col-xs-12 control-label"><span
+								ng-bind="'Field' | translate"></span>:</label>
+							<div class="col-md-5 col-sm-3 col-xs-12">
+								<scf-dropdown
+									id="numeric-field-format-popup-sign-flag-field-dropdown"
+									ng-model="ctrl.numericeModel.signFlagId"
+									component-data="ctrl.signFlagFieldDropdown"
+									translate-label="true"></scf-dropdown>
+							</div>
+							<div class="col-md-3 col-sm-3 col-xs-12"></div>
+						</div>
+						
+						<div class="form-group" ng-show="ctrl.numericeModel.signFlag=='Within field'">
 							<label for="sign-flag-format"
 								class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
 							<div class="col-md-6 col-sm-4 col-xs-12">
