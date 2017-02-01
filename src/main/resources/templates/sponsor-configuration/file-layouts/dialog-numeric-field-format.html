@@ -1,5 +1,6 @@
 <div class="modal-content">
-	<form name="numericFieldFormat" ng-submit="closeThisDialog(ctrl.model)"
+	<form name="numericFieldFormat"
+		ng-submit="ctrl.saveNumericValidation();closeThisDialog(ctrl.model)"
 		class="form-horizontal">
 		<div class="modal-header">
 			<div class="row">
@@ -191,10 +192,7 @@
 						class="popup-button" ng-click="closeThisDialog()"
 						ng-bind="'Cancel' | translate"></scf-button>
 					<scf-button id="numeric-field-format-popup-ok-button"
-						class="popup-button"
-						ng-click="ctrl.saveNumericValidation();closeThisDialog(ctrl.model)"
-						ng-bind="'OK' | translate"></scf-button>
-
+						class="popup-button" type="submit" ng-bind="'OK' | translate"></scf-button>
 				</div>
 			</div>
 		</div>
