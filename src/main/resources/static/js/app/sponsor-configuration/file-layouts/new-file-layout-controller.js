@@ -1780,7 +1780,13 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 
 		displayMessage = displayMessage.replace('{numberFormat}', numberFormatDisplay);
-		displayMessage = displayMessage.replace('{decimalPlace}', record.decimalPlace);
+		
+		if(record.decimalPlace != null){
+			displayMessage = displayMessage.replace('{decimalPlace}', record.decimalPlace);
+		}else{
+			displayMessage = displayMessage.replace('{decimalPlace}', '0');
+		}
+		
 		displayMessage = displayMessage.replace('{signFlag}', signFlagTypeDisplay);
 		displayMessage = displayMessage.replace('{positiveExampleData}', examplePosDataDisplay);
 		displayMessage = displayMessage.replace('{negativeExampleData}', exampleNegDataDisplay);
@@ -1824,7 +1830,11 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 
 		displayMessage = displayMessage.replace('{numberFormat}', numberFormatDisplay);
-		displayMessage = displayMessage.replace('{decimalPlace}', record.decimalPlace);
+		if(record.decimalPlace != null){
+			displayMessage = displayMessage.replace('{decimalPlace}', record.decimalPlace);
+		}else{
+			displayMessage = displayMessage.replace('{decimalPlace}', '0');
+		}
 		displayMessage = displayMessage.replace('{signFlag}', signFlagTypeDisplay);
 		displayMessage = displayMessage.replace('{positiveExampleData}', examplePosDataDisplay);
 		displayMessage = displayMessage.replace('{negativeExampleData}', exampleNegDataDisplay);
