@@ -1303,12 +1303,18 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 		}
 	}
 	
-	vm.saveNumericValidation = function() {		
-		vm.signFlagFieldDropdown.forEach(function(dropdownItem) {	
-			if(vm.numericeModel.signFlagId == dropdownItem.value){
-				vm.model.signFlagConfig = dropdownItem.item;
-			}
-		});	
+	vm.saveNumericValidation = function() {	
+		if(vm.numericeModel.signFlag == 'Within field'){
+			vm.model.signFlagConfig = null;
+			
+		}else{
+			vm.model.signFlagTypeFormat = null;
+			vm.signFlagFieldDropdown.forEach(function(dropdownItem) {	
+				if(vm.numericeModel.signFlagId == dropdownItem.value){
+					vm.model.signFlagConfig = dropdownItem.item;
+				}
+			});
+		}
 
 		if(vm.requiredRelationalSummary){
 			vm.model.validationType = vm.selectedRelationalSummary;
@@ -1363,46 +1369,14 @@ app.controller('NUMERICLayoutConfigController', [ '$scope', '$rootScope', '$q', 
 app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', '$filter', function($scope, $rootScope, $q, Service, $filter) {
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
-	
-//	var headerItems = $scope.ngDialogData.headerItems;
+
 	var detailItems = $scope.ngDialogData.detailItems;
-//	var footerItems = $scope.ngDialogData.footerItems;
 
 	vm.config = $scope.ngDialogData.config;
 	
 	vm.requiredRelationalSummary = false;
 	vm.relationalSummary = [];
 	
-	var loadNumericRelation = function(){
-		var diferred = $q.defer();
-		var serviceUrl = 'js/app/sponsor-configuration/file-layouts/numeric_relational_summary.json';
-		var serviceDiferred = Service.doGet(serviceUrl);
-		serviceDiferred.promise.then(function(response) {
-			var dateRelationalSummaryList = response.data;
-			if (dateRelationalSummaryList !== undefined) {
-				dateRelationalSummaryList.forEach(function(obj) {
-					var selectObj = {
-						label : obj.dateRelationalSummaryName,
-						value : obj.dateRelationalSummaryId
-					}
-					vm.relationalSummary.push(selectObj);
-				});
-				if(vm.model.validationType == null){
-					vm.selectedRelationalSummary = vm.relationalSummary[0].value;
-				}else{
-					vm.requiredRelationalSummary = true;
-					vm.selectedRelationalSummary = vm.model.validationType;
-				}
-			}
-			diferred.resolve(vm.relationalOperators);
-
-		}).catch(function(response) {
-			$log.error('Load relational operators format Fail');
-			diferred.reject();
-		});
-	}
-	
-
 	vm.clearRelationField = function(){
 		vm.selectedRelationalField = null;
 	}
@@ -1457,7 +1431,13 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 					}
 					vm.signFlagDropdown.push(selectObj);
 				});
-				vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
+				
+				if(vm.model.signFlagConfig != null){
+					vm.numericeModel.signFlag = vm.signFlagDropdown[1].value;
+					vm.numericeModel.signFlagId = vm.model.signFlagConfig.displayValue;			
+				}else{
+					vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
+				}
 			}
 			diferred.resolve(vm.signFlagDropdown);
 		}).catch(function(response) {
@@ -1500,19 +1480,6 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 		}
 	}
 	
-//	var headerFlagList = function() {		
-//		headerItems.forEach(function(item , index) {
-//			if (item.completed && item.dataType == 'SIGN_FLAG') {
-//				var itemDropdown = {
-//					label : item.displayValue,
-//					value : item.displayValue,
-//					item: item
-//				}
-//				vm.signFlagFieldDropdown.push(itemDropdown);
-//			}
-//		});		
-//	}
-	
 	var detailFlagList = function() {		
 		detailItems.forEach(function(item , index) {
 			if (item.completed && item.dataType == 'SIGN_FLAG') {
@@ -1525,19 +1492,6 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 			}
 		});
 	}
-
-//	var footerFlagList = function() {		
-//		footerItems.forEach(function(item , index) {
-//			if (item.completed && item.dataType == 'SIGN_FLAG') {
-//				var itemDropdown = {
-//					label : item.displayValue,
-//					value : item.displayValue,
-//					item: item
-//				}
-//				vm.signFlagFieldDropdown.push(itemDropdown);
-//			}
-//		});	
-//	}
 	
 	vm.detailNumericList = function() {
 		var diferred = $q.defer();
@@ -1564,7 +1518,6 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 	}
 
 	vm.initLoad = function() {
-		loadNumericRelation();	
 				
 		if (isDefaultCusomNumeric(vm.model)) {
 			vm.numericeModel.numericTypeFormat = vm.numericType.customNumericFormat;
@@ -1583,13 +1536,6 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 		if (vm.model.signFlagConfig == null) {
 			vm.numericeModel.signFlag = "Within field";
 		}
-		console.log(vm.model);
-
-//		if(angular.isDefined(vm.model.validationRecordFieldConfig) && vm.model.validationRecordFieldConfig != null){
-//			vm.requiredRelationalSummary = true;
-//			vm.selectedRelationalSummary = vm.model.validationType;
-//			vm.selectedRelationalField = vm.model.validationRecordFieldConfig.displayValue;
-//		}	
 	}
 
 	vm.initLoad();
@@ -1602,30 +1548,17 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 	
 	vm.saveNumericValidation = function() {
 		
-		vm.signFlagFieldDropdown.forEach(function(dropdownItem) {	
-			if(vm.numericeModel.signFlagId == dropdownItem.value){
-				vm.model.signFlagConfig = dropdownItem.item;
-			}
-		});	
-
-//		if(vm.requiredRelationalSummary){
-//			vm.model.validationType = vm.selectedRelationalSummary;
-//			if(vm.selectedRelationalSummary == 'SUMMARY_OF_FIELD'){
-//				vm.relationalField.forEach(function(dropdownItem) {			
-//					if(vm.selectedRelationalField == dropdownItem.value){
-//						vm.model.validationRecordFieldConfig = dropdownItem.item;
-//					}
-//				});		
-//			}else{
-//				vm.model.validationRecordFieldId = null;
-//				vm.model.validationRecordFieldConfig = null;
-//			}
-//		}else{
-//			vm.model.validationType = null;
-//			vm.model.validationRecordFieldConfig = null;
-//		}
-		
-		console.log(vm.model);
+		if(vm.numericeModel.signFlag == 'Within field'){
+			vm.model.signFlagConfig = null;
+			
+		}else{
+			vm.model.signFlagTypeFormat = null;
+			vm.signFlagFieldDropdown.forEach(function(dropdownItem) {
+				if(vm.numericeModel.signFlagId == dropdownItem.value){
+					vm.model.signFlagConfig = dropdownItem.item;
+				}
+			});	
+		}
 	}
 
 	var defaultExampleValue = vm.config.defaultExampleValue;
@@ -1859,12 +1792,25 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		var displayMessage = config.configDetailPattern;
 
 		var numberFormatDisplay = 'Any numeric format'
-		// if (record.dataFormat.numericTypeFormat == 'CUSTOM') {
-		// numberFormatDisplay = 'Custom numeric format'
-		// }
+
+		if ((record.paddingCharacter != null && record.paddingCharacter != '') || record.has1000Separator == true || record.hasDecimalPlace == true) {
+			var numberFormatDisplay = ''
+			if (record.paddingCharacter != null && record.paddingCharacter != '') {
+				numberFormatDisplay = numberFormatDisplay + ', Padding character (' + record.paddingCharacter + ')';
+			}
+			if (record.has1000Separator == true) {
+				numberFormatDisplay = numberFormatDisplay + ', Has 1,000 seperator (,)';
+			}
+			if (record.hasDecimalPlace == true) {
+				numberFormatDisplay = numberFormatDisplay + ', Has decimal place (.)';
+			}
+			numberFormatDisplay = numberFormatDisplay.substring(2);
+		}
 
 		var signFlagTypeDisplay = '';
-		if (record.signFlagTypeFormat == "IGNORE_PLUS") {
+		if(record.signFlagConfig != null){
+			signFlagTypeDisplay = ' sign flag field ('+record.signFlagConfig.displayValue+')'
+		}else if (record.signFlagTypeFormat == "IGNORE_PLUS") {
 			signFlagTypeDisplay = ' Within field (ignore plus symbol (+) on positive value)'
 		} else if (record.signFlagTypeFormat == "NEES_PLUS") {
 			signFlagTypeDisplay = ' Within field (need plus symbol (+) on positive value)'
