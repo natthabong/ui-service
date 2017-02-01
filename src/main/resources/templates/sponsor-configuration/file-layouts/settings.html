@@ -167,12 +167,12 @@
 													value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
 													style="text-align: right;" maxlength="3" /></td>
 											<td class="text-center" style="width: 16%"><scf-button type="button"
-													id="header-setup-{{$index+1}}-button"
+													id="header-field-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="newFileLayoutCtrl.openSetting($index, record)"
 													ng-hide="!record.completed"> <i
 													class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
-													id="header-warning-setup-{{$index+1}}-button"
+													id="header-field-warning-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="newFileLayoutCtrl.openSetting($index, record)"
 													title="Config a file layout" ng-hide="record.completed">
@@ -272,12 +272,12 @@
 													id="detail-end-index-{{$index+1}}-textbox"
 													style="text-align: right;" maxlength="3" /></td>
 											<td class="text-center" style="width: 16%"><scf-button
-													type="button" id="setup-{{$index+1}}-button"
+													type="button" id="field-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="newFileLayoutCtrl.openSetting($index, record)"
 													ng-hide="!record.completed"> <i
 													class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
-													id="warning-setup-{{$index+1}}-button"
+													id="field-warning-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="newFileLayoutCtrl.openSetting($index, record)"
 													title="Config a file layout" ng-hide="record.completed">
@@ -331,12 +331,12 @@
 											<td class="text-center"
 												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"></td>
 											<td class="text-center"><scf-button type="button"
-													id="setup-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-button"
+													id="data-setup-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="newFileLayoutCtrl.openSetting($index, record)"
 													ng-hide="!record.completed"> <i
 													class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
-													id="warning-setup-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-button"
+													id="data-warning-setup-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="newFileLayoutCtrl.openSetting($index, record)"
 													title="Config a file layout" ng-hide="record.completed">
@@ -444,12 +444,12 @@
 													value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
 													style="text-align: right;" maxlength="3" /></td>
 											<td class="text-center" style="width: 16%"><scf-button
-													type="button" id="footer-setup-{{$index+1}}-button"
+													type="button" id="footer-field-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="newFileLayoutCtrl.openSetting($index, record)"
 													ng-hide="!record.completed"> <i
 													class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
-													id="footer-warning-setup-{{$index+1}}-button"
+													id="footer-field-warning-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="newFileLayoutCtrl.openSetting($index, record)"
 													title="Config a file layout" ng-hide="record.completed">
