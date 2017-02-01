@@ -166,8 +166,8 @@
 													id="header-end-index-{{$index+1}}-textbox"
 													value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
 													style="text-align: right;" maxlength="3" /></td>
-											<td class="text-center" style="width: 16%"><scf-button type="button"
-													id="header-field-setup-{{$index+1}}-button"
+											<td class="text-center" style="width: 16%"><scf-button
+													type="button" id="header-field-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="newFileLayoutCtrl.openSetting($index, record)"
 													ng-hide="!record.completed"> <i
@@ -308,29 +308,31 @@
 											ng-repeat-start="record in newFileLayoutCtrl.dataDetailItems track by $index"
 											ng-class="newFileLayoutCtrl.isEven(newFileLayoutCtrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
 
-											<td class="text-center"><input type="checkbox"
-												ng-model="record.primaryKeyField" /></td>
+											<td class="text-center" style="width: 3%"><input
+												type="checkbox" ng-model="record.primaryKeyField" /></td>
 
-											<td class="text-right"><span
+											<td class="text-right" style="width: 3%"><label
 												id="layout-item-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-no-label"
-												ng-bind="newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)"></span></td>
+												class="text-right control-label">{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(),
+													$index)}}</label>
+											</td>
+											<td class="text-center" style="width: 15%"><scf-input-text
+													id="sponsor-field-name-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-textbox"
+													ng-model="record.displayValue" /></td>
 
-											<td class="text-center"><scf-input-text
-												id="sponsor-field-name-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-textbox"
-												ng-model="record.displayValue" /></td>
-
-											<td class="text-center"><scf-dropdown
+											<td class="text-center" style="width: 15%"><scf-dropdown
 													id="data-type-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-dropdown"
 													ng-model="record.dataType"
 													component-data="newFileLayoutCtrl.dataTypeDropdown"
 													translate-label="true"></scf-dropdown></td>
 
-											<td class="text-center"></td>
-											<td class="text-center"></td>
-											<td class="text-center"></td>
-											<td class="text-center"
+											<td class="text-center" style="width: 3%"></td>
+											<td class="text-center" style="width: 15%"></td>
+											<td class="text-center" style="width: 15%"></td>
+											<td class="text-center" style="width: 15%"
 												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"></td>
-											<td class="text-center"><scf-button type="button"
+											<td class="text-center" style="width: 16%"><scf-button
+													type="button"
 													id="data-setup-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="newFileLayoutCtrl.openSetting($index, record)"
