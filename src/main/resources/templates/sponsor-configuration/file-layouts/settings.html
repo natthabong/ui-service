@@ -315,7 +315,7 @@
 												id="layout-item-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-no-label"
 												ng-bind="newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)"></span></td>
 
-											<td class="text-center"><input type="text"
+											<td class="text-center"><scf-input-text
 												id="sponsor-field-name-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-textbox"
 												ng-model="record.displayValue" /></td>
 
@@ -350,13 +350,13 @@
 										</tr>
 										<tr ng-repeat-end=""
 											ng-class="newFileLayoutCtrl.isEven(newFileLayoutCtrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
-											<td colspan="9"
+											<td colspan="10"
 												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength">
 												<p
 													id="description-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-label"
 													ng-bind="newFileLayoutCtrl.displayExample(record)"></p>
 											</td>
-											<td colspan="8"
+											<td colspan="9"
 												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.delimited">
 												<p
 													id="description-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-label"
