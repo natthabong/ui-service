@@ -938,8 +938,8 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 	vm.relationalField.push(pleaseSelect);
 
 	vm.calendarType = {
-		christCalendar : 'AD',
-		buddhistCalendar : 'BE'
+		christCalendar : 'A.D.',
+		buddhistCalendar : 'B.E.'
 	};
 
 	vm.defaultCalendarType = function() {
