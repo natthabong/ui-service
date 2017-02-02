@@ -1408,7 +1408,7 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 			vm.model.has1000Separator = null;
 			vm.model.hasDecimalPlace = null;
 			vm.model.decimalPlace = 2;
-			vm.model.paddingCharacter = '';
+			vm.model.paddingCharacter = null;
 		} else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
 			vm.numericeModel.disableCustomField = false;
 		}
