@@ -21,18 +21,18 @@
 		<div class="row">
 			<div class="col-md-12">
 				<br />
-				<div class="col-md-12 col-sm-12 text-right">
+				<div class="col-md-12 text-right">
 					<scf-button id="channel-configs-new-button"
 						class="btn-default gec-btn-action" ng-disabled="false"
 						ng-click="channelConfigsCtrl.newChannel()"
 						title="New a channel"> <i
 						class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
+					</div>
 					<scf-data-table id="channel-configs-table"
 						component-config="ctrl.dataTable" component-datas="ctrl.data"
 						current-page="ctrl.currentPage"
 						record-per-page="ctrl.pageModel.pageSizeSelectModel"
 						clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
-				</div>
 			</div>
 			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
