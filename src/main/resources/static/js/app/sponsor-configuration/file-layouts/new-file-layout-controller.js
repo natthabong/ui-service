@@ -938,8 +938,8 @@ app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q'
 	vm.relationalField.push(pleaseSelect);
 
 	vm.calendarType = {
-		christCalendar : 'AD',
-		buddhistCalendar : 'BE'
+		christCalendar : 'A.D.',
+		buddhistCalendar : 'B.E.'
 	};
 
 	vm.defaultCalendarType = function() {
@@ -1408,7 +1408,7 @@ app.controller('PAYMENT_AMOUNTLayoutConfigController', [ '$scope', '$rootScope',
 			vm.model.has1000Separator = null;
 			vm.model.hasDecimalPlace = null;
 			vm.model.decimalPlace = 2;
-			vm.model.paddingCharacter = '';
+			vm.model.paddingCharacter = null;
 		} else if (vm.numericeModel.numericTypeFormat == 'CUSTOM') {
 			vm.numericeModel.disableCustomField = false;
 		}
@@ -1635,7 +1635,7 @@ app.controller('FILLERLayoutConfigController', [ '$scope', function($scope) {
 		vm.model.required = true;
 		if (vm.model.expectedValue == null) {
 			vm.fillerType = null;
-		} else if (vm.model.expectedValue == '') {
+		} else if (vm.model.expectedValue == ' ') {
 			vm.fillerType = 'space';
 		} else if (vm.model.expectedValue == 0) {
 			vm.fillerType = 'zero';
@@ -1660,7 +1660,7 @@ app.controller('FILLERLayoutConfigController', [ '$scope', function($scope) {
 		if (vm.fillerType == null) {
 			vm.model.expectedValue = null;
 		} else if (vm.fillerType == 'space') {
-			vm.model.expectedValue = '';
+			vm.model.expectedValue = ' ';
 		} else if (vm.fillerType == 'zero') {
 			vm.model.expectedValue = '0';
 		}
@@ -1780,7 +1780,13 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 
 		displayMessage = displayMessage.replace('{numberFormat}', numberFormatDisplay);
-		displayMessage = displayMessage.replace('{decimalPlace}', record.decimalPlace);
+		
+		if(record.decimalPlace != null){
+			displayMessage = displayMessage.replace('{decimalPlace}', record.decimalPlace);
+		}else{
+			displayMessage = displayMessage.replace('{decimalPlace}', '0');
+		}
+		
 		displayMessage = displayMessage.replace('{signFlag}', signFlagTypeDisplay);
 		displayMessage = displayMessage.replace('{positiveExampleData}', examplePosDataDisplay);
 		displayMessage = displayMessage.replace('{negativeExampleData}', exampleNegDataDisplay);
@@ -1824,7 +1830,11 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 
 		displayMessage = displayMessage.replace('{numberFormat}', numberFormatDisplay);
-		displayMessage = displayMessage.replace('{decimalPlace}', record.decimalPlace);
+		if(record.decimalPlace != null){
+			displayMessage = displayMessage.replace('{decimalPlace}', record.decimalPlace);
+		}else{
+			displayMessage = displayMessage.replace('{decimalPlace}', '0');
+		}
 		displayMessage = displayMessage.replace('{signFlag}', signFlagTypeDisplay);
 		displayMessage = displayMessage.replace('{positiveExampleData}', examplePosDataDisplay);
 		displayMessage = displayMessage.replace('{negativeExampleData}', exampleNegDataDisplay);
@@ -1865,8 +1875,12 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		} else {
 			fillerTypeMsg = 'Other';
 		}
+		
 		displayMessage = displayMessage.replace('{fillerType}', fillerTypeMsg);
 		displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));
+		if(!hasExpected){
+			displayMessage = displayMessage.replace('(Ex. )', '');
+		}
 		return displayMessage;
 	}
 	
