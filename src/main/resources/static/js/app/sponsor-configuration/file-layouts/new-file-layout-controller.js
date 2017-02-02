@@ -1875,8 +1875,12 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		} else {
 			fillerTypeMsg = 'Other';
 		}
+		
 		displayMessage = displayMessage.replace('{fillerType}', fillerTypeMsg);
 		displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));
+		if(!hasExpected){
+			displayMessage = displayMessage.replace('(Ex. )', '');
+		}
 		return displayMessage;
 	}
 	
