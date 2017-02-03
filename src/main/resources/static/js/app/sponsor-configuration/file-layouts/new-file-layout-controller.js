@@ -1639,6 +1639,9 @@ app.controller('FILLERLayoutConfigController', [ '$scope', function($scope) {
 			vm.fillerType = 'space';
 		} else if (vm.model.expectedValue == 0) {
 			vm.fillerType = 'zero';
+			
+			// reset value for display
+			vm.model.expectedValue = null;
 		} else {
 			vm.fillerType = 'other';
 		}
@@ -1868,7 +1871,7 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 
 		if (record.expectedValue == null) {
 			fillerTypeMsg = 'Unexpect'
-		} else if (record.expectedValue == '') {
+		} else if (record.expectedValue == ' ') {
 			fillerTypeMsg = 'Space';
 		} else if (record.expectedValue == '0') {
 			fillerTypeMsg = 'Zero';
