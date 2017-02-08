@@ -60,7 +60,15 @@
 						</div>
 					</form>
 
-<div class="row">
+					<div class="row">
+						<div class="col-md-12 text-right">
+						<scf-button id="channel-configs-new-button"
+							class="btn-default gec-btn-action" ng-disabled="false"
+							ng-click="ctrl.newCustomerCode()"> <i
+							class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
+						</div>
+					</div>
+					<div class="row">
 						<div class="col-md-12 col-sm-12 text-right">							
 							<span> 
 								<b ng-bind="ctrl.pagingController.splitePageTxt"
@@ -71,7 +79,7 @@
 										total-page="ctrl.pagingController.pagingModel.totalPage"
 										current-page="ctrl.pagingController.pagingModel.currentPage"
 										page-size-list="ctrl.pagingController.pageSizeList"
-										page-action="ctrl.search"></scf-pagination>
+										page-action="ctrl.pagingController.search"></scf-pagination>
 							</span>
 						</div>
 					</div>

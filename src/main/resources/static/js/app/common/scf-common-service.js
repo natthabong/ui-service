@@ -339,10 +339,11 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
         }
 
         searchDeferred.promise.then(function(response) {
-            vm.pagingModel.totalRecord = response.totalElements;
-            vm.pagingModel.currentPage = response.number;
-            vm.pagingModel.totalPage = response.totalPages;
-            vm.tableRowCollection = response.content;
+            vm.pagingModel.totalRecord = response.headers('X-Total-Count');
+//            vm.pagingModel.currentPage = response.headers.number;
+            vm.pagingModel.totalPage = response.headers('X-Total-Page');
+            vm.tableRowCollection = response.data;
+
             vm.splitePageTxt = SCFCommonService.splitePage(vm.pagingModel.pageSizeSelectModel, vm.pagingModel.currentPage, vm.pagingModel.totalRecord);
             diferred.resolve(response);
         }).catch(function(response) {

@@ -190,12 +190,12 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 			CustomerCodeStatus, PageNavigation, PagingController, $http) {
 	var vm = this;
 	var selectedItem = $stateParams.selectedItem;
+	var groupId = selectedItem.groupId;
 	vm.model = selectedItem;
-	
 	vm.sponsorId = selectedItem.sponsorId;
 	vm.criteria = {};
 
-	var customerCodeURL = '';
+	var customerCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/customer-code-groups/'+groupId+'/customer-codes';
 	
 	vm.statusDropdown = CustomerCodeStatus;
 
@@ -216,7 +216,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				cssTemplate : 'text-right'
 			},
 			{
-				fieldName : 'supplierName',
+				fieldName : 'customerName',
 				labelEN : 'Customer',
 				labelTH : 'Customer',
 				sortable : false,
@@ -284,8 +284,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				idValueField : 'supplierCode',
 				id : 'remark-{value}-label',
 				cssTemplate : 'text-left',
-				cellTemplate : '<scf-button id="cutomer-{{data.supplierCode}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setupCustomerCode(data)" title="Setup customer code"></scf-button>' +
-					'<scf-button id="cutomer-{{data.supplierCode}}-delete-button"  class="btn-default gec-btn-action" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"></scf-button>'
+				cellTemplate : '<scf-button id="cutomer-{{data.supplierCode}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setupCustomerCode(data)" title="Setup customer code"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
+					'<scf-button id="cutomer-{{data.supplierCode}}-delete-button"  class="btn-default gec-btn-action" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 			}
 		]
 	};
@@ -309,7 +309,35 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 		});
 	}
 	
-	vm.pagingController = PagingController.create(customerCodeURL, vm.criteria, 'GET');
+	vm.searchCriteria = {
+			customerCode: '',
+			suspend: '',
+			expired: '',
+			supplierId: ''
+	}
+	var prepareSearchCriteria = function(){
+		
+		
+		vm.searchCriteria.customerCode = vm.criteria.customerCode || '';
+		
+		if(angular.isDefined(vm.criteria.customer)){
+			vm.searchCriteria.supplierId = vm.criteria.customer.supplierId;
+		}else{
+			vm.searchCriteria.supplierId = '';
+		}
+		CustomerCodeStatus.forEach(function(item) {
+			if(item.value == vm.criteria.status){
+				if(item.valueObject == null){
+					vm.searchCriteria.suspend = null;
+					vm.searchCriteria.expired = null;
+				}else{
+					vm.searchCriteria.suspend = item.valueObject.suspend;
+					vm.searchCriteria.expired = item.valueObject.expired;
+				}
+			}
+		});		
+	}
+	vm.pagingController = PagingController.create(customerCodeURL, vm.searchCriteria, 'GET');
 	
 	var queryCustomerCode = function(value){
 		var serviceUrl = 'api/v1/organize-customers/' + vm.sponsorId + '/trading-partners'
@@ -335,8 +363,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 	});
 
 	vm.search = function(criteria) {
-		console.log(criteria);
-		vm.pagingController.search(criteria);
+		prepareSearchCriteria();
+		vm.pagingController.search();
 	};
 
 	vm.initialPage = function() {
@@ -347,6 +375,10 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 	vm.deleteCustomerCode = function(value) {};
 
 	vm.editCustomerCode = function(value) {};
+	
+	vm.newCustomerCode = function(){
+		
+	};
 }
 ]);
 scfApp.constant('CustomerCodeStatus', [
