@@ -6,12 +6,12 @@ angular.module('gecscf.ui', []).run([ "$templateCache", function($templateCache)
 		
 		$templateCache.put('ui/template/autoSuggest.html', 
 				'<input type="text" id="{{id}}" ng-disabled="{{disable}}" placeholder="{{model.placeholder}}"'+
-				' class="form-control" uib-typeahead="data for data in model.query($viewValue) |filter:$viewValue"'+
+				' class="form-control" uib-typeahead="data for data in model.query($viewValue)"'+
 				' ng-model="ngModel" typeahead-template-url="{{model.itemTemplateUrl}}"/>');
 		
 		$templateCache.put('ui/template/autoSuggestTemplate.html',
 				'<a>'+
-	      '<span >{{match}}</span></a>');
+	      '<span ng-bind-html="match.model.sponsorName | uibTypeaheadHighlight:query"></span></a>');
 
 	} ]) .factory('UIModelFactory', ['$q', '$timeout', function ($q, $timeout) {
 		
