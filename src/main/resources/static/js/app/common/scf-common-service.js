@@ -8,7 +8,8 @@ app.service('SCFCommonService', [
         var vm = this;
         var log = $log;
         vm.splitePage = function(pageSize, currentPage, totalRecord) {
-
+        	totalRecord = totalRecord || 0;
+        	currentPage = currentPage || 0;
             var recordDisplay = '0 - '
             if (totalRecord > 0) {
                 recordDisplay = (currentPage * pageSize + 1) + ' - ';
@@ -19,7 +20,7 @@ app.service('SCFCommonService', [
             }
 
             recordDisplay += '' + endRecord + ' of ' + totalRecord;
-
+            
             return recordDisplay;
         };
 
@@ -290,6 +291,17 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
     vm.postParams = {};
     vm.tableRowCollection = {};
     vm.splitePageTxt = '';
+    
+	vm.pageSizeList = [ {
+		label : '10',
+		value : '10'
+	}, {
+		label : '20',
+		value : '20'
+	}, {
+		label : '50',
+		value : '50'
+	} ];
 
 
     vm.pagingModel = {
@@ -318,7 +330,13 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
         }
         var criteriaData = prepareCriteria(vm.pagingModel, vm.postParams);
 
-        var searchDeferred = Service.requestURL(apiUrl, criteriaData, methodRequestUrl);
+        var searchDeferred = '';
+        
+        if(methodRequestUrl == 'POST'){
+        	searchDeferred = Service.requestURL(apiUrl, criteriaData, 'POST');
+        }else{
+        	searchDeferred = Service.doGet(apiUrl, criteriaData);
+        }
 
         searchDeferred.promise.then(function(response) {
             vm.pagingModel.totalRecord = response.totalElements;
