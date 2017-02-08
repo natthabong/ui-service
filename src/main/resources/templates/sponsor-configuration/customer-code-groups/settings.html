@@ -17,7 +17,8 @@
 								name' | translate}}: </label>
 
 							<div class="col-md-4 col-sm-5 col-xs-12">
-								<label class="control-label" ng-model="ctrl.model.groupName" id="customer-code-groups-group-name"></label>
+								<label class="control-label" ng-model="ctrl.model.groupName"
+									id="customer-code-groups-group-name"></label>
 								<scf-button id="customer-code-groups-edit-button"
 									class="btn-default gec-btn-action"
 									title="Edit a customer code group name"> <i
@@ -26,14 +27,48 @@
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Customer' | translate}}: </label>
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Customer'
+								| translate}}: </label>
 
-							<div class="col-md-4 col-sm-5 col-xs-12">
-								
+							<div class="col-md-4 col-sm-3 col-xs-12">
+								<gec-auto-suggest model="ctrl.customerAutoSuggestModel"
+									ng-model="ctrl.criteria.customer"
+									id="customer-code-groups-customer-auto-suggest"></gec-auto-suggest>
 							</div>
-							<div class="col-md-6 col-sm-4"></div>
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Customer
+								code' | translate}}: </label>
+							<div class="col-md-2 col-sm-3 col-xs-12">
+								<scf-input-text id="customer-code-groups-customer-code-textbox"
+									ng-model="ctrl.criteria.customerCode"></scf-input-text>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status'
+								| translate}}: </label>
+
+							<div class="col-md-2 col-sm-3 col-xs-12">
+								<scf-dropdown id="customer-code-groups-status-dropdown"
+									ng-model="ctrl.criteria.status"
+									component-data="ctrl.statusDropdown" translate-label="true"></scf-dropdown>
+							</div>
+							<div class="col-md-2 col-sm-3">
+								<scf-button id="customer-code-groups-search-button"
+									class="popup-button" data-dismiss="modal"
+									ng-click="ctrl.search(ctrl.criteria)"
+									ng-bind="'Search' | translate"></scf-button>
+							</div>
 						</div>
 					</form>
+				</div>
+
+				<div class="panel-body">
+
+					<div class="col-md-12 col-sm-12 text-right">
+						<scf-button id="customer-code-groups-back-button"
+							class="popup-button" data-dismiss="modal"
+							ng-click="ctrl.backToSponsorConfigPage()"
+							ng-bind="'Back' | translate"></scf-button>
+					</div>
 				</div>
 			</div>
 		</div>
