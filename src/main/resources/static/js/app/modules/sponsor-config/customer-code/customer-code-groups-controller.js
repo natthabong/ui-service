@@ -1,6 +1,6 @@
-angular
-		.module('scfApp')
-		.controller(
+'use strict';
+var scfApp = angular.module('scfApp');
+scfApp.controller(
 				'CustomerCodeGroupController',
 				[
 						'SCFCommonService',
@@ -10,8 +10,9 @@ angular
 						'$timeout',
 						'PageNavigation',
 						'Service',
+						'ngDialog',
 						function(SCFCommonService, $log, $scope, $stateParams, $timeout,
-								PageNavigation, Service) {
+								PageNavigation, Service, ngDialog) {
 							var vm = this;
 							var log = $log;
 							
@@ -50,7 +51,7 @@ angular
 										{
 											field : 'groupName',
 										    label: 'Group Name',
-										    idValueField: 'template',
+										    idValueField: 'groupName',
 										    id: 'customer-code-group-{value}-group-name',
 										    sortData: true,
 										    cssTemplate: 'text-left',
@@ -84,6 +85,24 @@ angular
 								});
 							}
 							
+							vm.addNew = function() {
+								vm.newCustCodeDialog = ngDialog.open({
+									id : 'new-customer-code-setting-dialog',
+									template : '/js/app/modules/sponsor-config/customer-code/dialog-new-customer-code-group.html',
+									className : 'ngdialog-theme-default',
+									scope : $scope,
+									controller: 'CustomerCodeGroupDiaglogController',
+					                controllerAs: 'ctrl',
+					                data: {sponsorId: $scope.sponsorId},
+				                    preCloseCallback: function(value) {
+				                    	if(value!=null){
+				                    		vm.search();
+				                    	}
+				                        return true;
+				                    }
+								});
+							};
+							
 							vm.initLoad = function() {
 				                vm.pageModel.currentPage = 0;
 				                vm.pageModel.pageSizeSelectModel = '20';
@@ -93,3 +112,42 @@ angular
 
 							vm.initLoad();
 						} ]);
+scfApp.controller( 'CustomerCodeGroupDiaglogController',
+				[
+						'SCFCommonService',
+						'$log',
+						'$scope',
+						'$stateParams',
+						'$timeout',
+						'PageNavigation',
+						'Service',
+						'blockUI',
+						function(SCFCommonService, $log, $scope, $stateParams, $timeout,
+								PageNavigation, Service, blockUI) {
+							
+							var vm = this;
+							vm.sponsorId = $scope.sponsorId;
+							vm.saveNewCustomerGroup = function() {
+								blockUI.start();
+								vm.customerCodeGroupRequest.sponsorId = vm.sponsorId;
+								vm.customerCodeGroupRequest.completed = false;
+
+								var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups';
+								
+								var serviceDiferred = Service.requestURL(serviceUrl, vm.customerCodeGroupRequest, 'POST');
+								serviceDiferred.promise.then(function(response) {
+									blockUI.stop();
+									if (response !== undefined) {
+										if (response.message !== undefined) {
+											vm.messageError = response.message;
+										} else {
+											$scope.closeThisDialog(response);
+										}
+									}
+								}).catch(function(response) {
+									blockUI.stop();
+									$log.error('Save customer Code Group Fail');
+								});
+							};
+							
+						} ])
