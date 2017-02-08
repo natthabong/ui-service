@@ -4,8 +4,8 @@ angular.module('gecscf.ui', []).run([ "$templateCache", function($templateCache)
 		$templateCache.put('ui/template/calendar.html',
 			'<p class="input-group">' + '<input type="text" placeholder="DD/MM/YYYY" show-weeks="false" class="form-control" ng-model="textModel" uib-datepicker-popup="{{dateFormat}}" is-open="isOpen" close-text="Close" min-date="minDate" max-date="maxDate"/>' + '<span class="input-group-btn">' + '<button type="button" class="btn btn-default" ng-click="openCalendarAction()">' + '<i class="glyphicon glyphicon-calendar"></i>' + '</button>' + "</span>" + '</p>');
 		
-		$templateCache.put('ui/template/autosuggest.html', 
-				'<input type="text" placeholder="model.placeholer" ng-model="model.suggestModel" uib-typeahead="data for datas in model.searchTypeHead($viewValue)"/>');
+		$templateCache.put('ui/template/autoSuggest.html', 
+				'<input type="text" id="{{id}}" ng-disabled="{{disable}}" placeholder="{{model.placeholder}}" class="form-control" uib-typeahead="data for data in model.query($viewValue)" ng-model="ngModel" typeahead-template-url="{{model.itemTemplateUrl}}"/>');
 
 
 	} ]) .factory('UIModelFactory', ['$q', '$timeout', function ($q, $timeout) {
@@ -22,8 +22,20 @@ angular.module('gecscf.ui', []).run([ "$templateCache", function($templateCache)
 			return config;
 		}
 		
+		var createAutoSuggestModel = function(config){
+			if(angular.isUndefined(config)){
+				config = {
+						placeholder: '',
+						query: function(value){},
+						itemTemplateUrl: 'uib/template/typeahead/typeahead-match.html'
+				}
+			}
+			return config;
+		}
+		
 		return {
-			createTableModel: createTableModel
+			createTableModel: createTableModel,
+			createAutoSuggestModel: createAutoSuggestModel
 		}
 	
 }]);

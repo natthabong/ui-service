@@ -17,11 +17,12 @@
 								class="col-md-1 col-sm-1 col-xs-12 control-label">{{'Organize'
 								| translate}}: </label>
 							<div class="col-md-4 col-sm-4 col-xs-12">
-								<scf-input-text id="organize-textbox" 
+							<!-- <scf-input-text id="organize-textbox" 
 									ng-model="ctrl.organizeName" placeholder="Enter Oranize name or code"
 									uib-typeahead="organizes for organizes in ctrl.searchOrganizeTypeHead($viewValue)"
-									typeahead-loading="loadingOrganizeTypeHead" typeahead-no-results="noResults"></scf-input-text>
-								
+									typeahead-loading="loadingOrganizeTypeHead" typeahead-no-results="noResults"></scf-input-text> -->
+								<gec-auto-suggest model="ctrl.autoSuggestMode"
+								ng-model="ctrl.organizeName" id="organizeName-textbox" disable="false" ></gec-auto-suggest>
 							</div>
 							<div class="col-md-7 col-sm-7 col-xs-12">
 								<scf-button id="search-button" class="btn-default"
