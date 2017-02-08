@@ -5,8 +5,13 @@ angular.module('gecscf.ui', []).run([ "$templateCache", function($templateCache)
 			'<p class="input-group">' + '<input type="text" placeholder="DD/MM/YYYY" show-weeks="false" class="form-control" ng-model="textModel" uib-datepicker-popup="{{dateFormat}}" is-open="isOpen" close-text="Close" min-date="minDate" max-date="maxDate"/>' + '<span class="input-group-btn">' + '<button type="button" class="btn btn-default" ng-click="openCalendarAction()">' + '<i class="glyphicon glyphicon-calendar"></i>' + '</button>' + "</span>" + '</p>');
 		
 		$templateCache.put('ui/template/autoSuggest.html', 
-				'<input type="text" id="{{id}}" ng-disabled="{{disable}}" placeholder="{{model.placeholder}}" class="form-control" uib-typeahead="data for data in model.query($viewValue)" ng-model="ngModel" typeahead-template-url="{{model.itemTemplateUrl}}"/>');
-
+				'<input type="text" id="{{id}}" ng-disabled="{{disable}}" placeholder="{{model.placeholder}}"'+
+				' class="form-control" uib-typeahead="data for data in model.query($viewValue)"'+
+				' ng-model="ngModel" typeahead-template-url="{{model.itemTemplateUrl}}"/>');
+		
+		$templateCache.put('ui/template/autoSuggestTemplate.html',
+				'<a>'+
+	      '<span ng-bind-html="match.model.sponsorName | uibTypeaheadHighlight:query"></span></a>');
 
 	} ]) .factory('UIModelFactory', ['$q', '$timeout', function ($q, $timeout) {
 		

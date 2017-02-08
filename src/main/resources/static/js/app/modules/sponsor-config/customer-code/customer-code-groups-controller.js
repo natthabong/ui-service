@@ -185,7 +185,9 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 			};
 
 		} ])
-scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParams', 'Service', 'UIModelFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController','ngDialog', function($scope, $stateParams, Service, UIModelFactory, CustomerCodeStatus, PageNavigation, PagingController, ngDialog) {
+scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParams', 'Service', 'UIModelFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http'
+	, function($scope, $stateParams, Service, UIModelFactory, 
+			CustomerCodeStatus, PageNavigation, PagingController, $http) {
 	var vm = this;
 	var selectedItem = $stateParams.selectedItem;
 	vm.model = selectedItem;
@@ -308,26 +310,32 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 	}
 	
 	vm.pagingController = PagingController.create(customerCodeURL, vm.criteria, 'GET');
+	
+	var queryCustomerCode = function(value){
+		var serviceUrl = 'api/v1/organize-customers/' + vm.sponsorId + '/trading-partners'
+		return $http.get(serviceUrl, {
+			params: {
+				q : value,
+				offset: 0,
+				limit: 5
+			}
+		}).then(function(response){
+			return response.data;
+//			return response.data.map(function(item){
+//				return item.supplierId +': '+ item.supplierName;
+//			});
+		});
+	}
 
 	vm.customerAutoSuggestModel = UIModelFactory.createAutoSuggestModel({
 		placeholder : 'Enter Organize name or code',
-		query : function(value) {
-			var params = {
-				q : value
-			};
-			var serviceUrl = '/v1/organize-customers/' + vm.sponsorId + '/trading-partners';
-			var serviceDiferred = Service.requestURL(serviceUrl, params, 'GET');
-			serviceDiferred.promise.then(function(response) {
-				return response.data.results.map(function(item) {
-					return item.formatted_address;
-				});
-			});
-
-			return serviceDiferred;
-		}
+		itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
+		query: queryCustomerCode
+		
 	});
 
 	vm.search = function(criteria) {
+		console.log(criteria);
 		vm.pagingController.search(criteria);
 	};
 
