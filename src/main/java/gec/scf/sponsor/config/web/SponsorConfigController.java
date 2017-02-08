@@ -18,13 +18,14 @@ public class SponsorConfigController {
 	private static String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
 
 	private static String CUSTOMER_CODE_GROUPS = "sponsor-configuration/customer-code-groups";
+	private static String SETTINGS_CUSTOMER_CODE_GROUPS = "sponsor-configuration/customer-code-groups/settings";
 
 	private static String DOCUMENT_DISPLAY_CONFIGS = "sponsor-configuration/document-display-configs";
 	private static String SETTINGS_DOCUMENT_DISPLAY = "sponsor-configuration/document-displays/settings";
 
 	private static String PAYMENT_DATE_FORMULA = "sponsor-configuration/payment-date-formulas";
 	private static String SETTINGS_PAYMENT_DATE_FORMULA = "sponsor-configuration/payment-date-formulas/settings";
-	
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String sponsorConfiguration(
 			@RequestHeader("X-Requested-With") String requestedWith) {
@@ -74,6 +75,15 @@ public class SponsorConfigController {
 			return CUSTOMER_CODE_GROUPS.concat(" :: content");
 		}
 		return CUSTOMER_CODE_GROUPS;
+	}
+
+	@RequestMapping(path = "/customer-code-groups/settings", method = RequestMethod.GET)
+	public String customerCodeGroupsConfig(
+			@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETTINGS_CUSTOMER_CODE_GROUPS.concat(" :: content");
+		}
+		return SETTINGS_CUSTOMER_CODE_GROUPS;
 	}
 
 	@RequestMapping(path = "/display-document-configs", method = RequestMethod.GET)

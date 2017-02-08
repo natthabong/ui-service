@@ -23,9 +23,9 @@
 			<div class="col-md-12">
 				<br />
 				<div class="col-md-12 col-sm-12 text-right">
-					<scf-button class="btn-default gec-btn-action" ng-click="ctrl.addNew()" 
-						title="New a customer code group"> <i
-						class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
+					<scf-button class="btn-default gec-btn-action" id="customer-code-groups-new-button"
+						ng-click="ctrl.addNew()" title="New a customer code group">
+					<i class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
 				</div>
 				<scf-data-table id="customer-code-groups-table"
 					component-config="ctrl.dataTable" component-datas="ctrl.data"
@@ -33,7 +33,6 @@
 					record-per-page="ctrl.pageModel.pageSizeSelectModel"
 					clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
 			</div>
-			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
 	</div>
 </div>
