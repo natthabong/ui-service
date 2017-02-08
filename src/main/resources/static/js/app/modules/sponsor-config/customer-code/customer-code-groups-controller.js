@@ -103,6 +103,13 @@ scfApp.controller(
 								});
 							};
 							
+							vm.config = function(customerCodeGroup){
+								var params = {
+							            	selectedItem: customerCodeGroup
+					            };
+					            PageNavigation.gotoPage('/sponsor-configuration/customer-code-groups/settings', params)
+							}
+							
 							vm.initLoad = function() {
 				                vm.pageModel.currentPage = 0;
 				                vm.pageModel.pageSizeSelectModel = '20';
@@ -151,3 +158,10 @@ scfApp.controller( 'CustomerCodeGroupDiaglogController',
 							};
 							
 						} ])
+scfApp.controller( 'CustomerCodeGroupSettingController', ['$scope', '$stateParams', function($scope,$stateParams){
+	var vm = this;
+	var selectedItem = $stateParams.selectedItem;
+	
+	vm.criteria = {};
+}
+]);

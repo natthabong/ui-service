@@ -181,6 +181,12 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/payment-date-formulas/settings',
 				params: { paymentDateFormulaModel: null},
 				resolve: load(['js/app/sponsor-configuration/payment-date-formulas/payment-date-formula-setting-controller.js', 'js/app/sponsor-configuration/credit-terms/credit-terms-setting-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/sponsor-configuration/customer-code-groups/settings',{
+				url: '/sponsor-configuration/customer-code-groups/settings',
+				controller: 'CustomerCodeGroupSettingController',
+				controllerAs: 'ctrl',
+				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
+				params: { selectedItem: null}
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
