@@ -158,10 +158,32 @@ scfApp.controller( 'CustomerCodeGroupDiaglogController',
 							};
 							
 						} ])
-scfApp.controller( 'CustomerCodeGroupSettingController', ['$scope', '$stateParams', function($scope,$stateParams){
+scfApp.controller( 'CustomerCodeGroupSettingController', ['$scope', '$stateParams', 'Service', 'UIModelFactory', function($scope,$stateParams,Service,UIModelFactory){
 	var vm = this;
 	var selectedItem = $stateParams.selectedItem;
-	
+	vm.sponsorId = selectedItem.sponsorId;
 	vm.criteria = {};
-}
+	
+	vm.backToSponsorConfigPage = function() {
+		PageNavigation.gotoPreviousPage();
+	}
+	
+	vm.customerAutoSuggestModel = UIModelFactory.createAutoSuggestModel({
+		placeholder: 'Enter Organize name or code',
+		query: function(value){
+			var params = {
+				q: value	
+			};
+			var serviceUrl = '/v1/organize-customers/'+vm.sponsorId+'/trading-partners' ;
+			var serviceDiferred = Service.requestURL(serviceUrl, params, 'GET');
+			serviceDiferred.promise.then(function(response) {
+				 return response.data.results.map(function(item){
+			        return item.formatted_address;
+			     });
+			});
+			
+			return serviceDiferred;
+		}
+	});
+   }
 ]);
