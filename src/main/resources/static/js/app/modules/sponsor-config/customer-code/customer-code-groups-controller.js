@@ -276,5 +276,9 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 		vm.editCustomerCode = function(value){
 			
 		};
+		
+		vm.backToSponsorConfigPage = function(){
+			PageNavigation.gotoPreviousPage();
+		}
 	}
 ]);
