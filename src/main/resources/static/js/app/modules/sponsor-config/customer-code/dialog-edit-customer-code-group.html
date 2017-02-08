@@ -1,0 +1,59 @@
+<div class="modal-content">
+	<form name="newCustCodeGroup" class="form-horizontal"
+		ng-submit="ctrl.saveCustomerGroup()">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3>
+						<span id="edit-customer-code-group-popup-header-message-label"
+							class="popup-text"
+							ng-bind="'Edit customer code group name' | translate">Edit
+							customer code group</span>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+
+					<div class="form-group">
+						<label for="group-name"
+							id="edit-customer-code-group-popup-group-name-label"
+							class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							ng-bind="'Group name' | translate"></span>:</label>
+						<div class="col-md-6 col-sm-4 col-xs-12">
+							<scf-input-text
+								id="edit-customer-code-group-popup-group-name-textbox"
+								ng-model="ctrl.customerCodeGroupRequest.groupName"></scf-input-text>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="form-group">
+						<label for="message-error-text"
+							class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<div class="col-md-6 col-sm-4 col-xs-12">
+							<strong class="text-danger" id="message-error-text">
+								{{ctrl.messageError}}</strong>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="edit-customer-code-group-popup-cancel-button"
+						class="popup-button" ng-click="closeThisDialog()"
+						ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="edit-customer-code-group-popup-save-button"
+						class="popup-button" type="submit" ng-bind="'Save' | translate"></scf-button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
