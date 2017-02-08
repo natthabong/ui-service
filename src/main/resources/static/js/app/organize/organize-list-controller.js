@@ -45,7 +45,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
     vm.data = [];
     
 	vm.searchOrganize = function(pageModel){
-    	
+    	console.log(vm.organizeName);
         if (pageModel === undefined) {
             vm.pageModel.pageSizeSelectModel = '20';
             vm.pageModel.currentPage = 0;
@@ -114,6 +114,13 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
         vm.searchOrganize();
 	}
 
-	vm.initLoad();    
-    
+	vm.initLoad();
+	
+	vm.searchOrganizeTypeHead = function(value){
+		console.log(value);
+		return ["Gilan Province, Iran", "Business/English, W Thomas Rd, Phoenix, AZ 85013, USA",
+			"158 Concord Rd, Billerica, MA 01821, USA", 
+			"Classic Film Society, 3301 E Johnson Ave, Pensacola, FL 32514, USA",
+		    ]
+	}
 }]);
