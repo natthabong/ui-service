@@ -1,0 +1,33 @@
+<div id="content" th:fragment="content">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft">{{'Customer
+						code group' | translate}}</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<form name="manageForm" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Group
+								name' | translate}}: </label>
+
+							<div class="col-md-4 col-sm-5 col-xs-12">
+								<label class="control-label" ng-model="ctrl.model.groupName"></label>
+								<scf-button id="customer-code-group-edit-button"
+									class="btn-default gec-btn-action"
+									title="Edit a customer code group name"> <i
+									class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>
+							</div>
+							<div class="col-md-6 col-sm-4"></div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
