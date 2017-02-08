@@ -136,6 +136,10 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 
 			var vm = this;
 			vm.sponsorId = $scope.sponsorId;
+			if($scope.ngDialogData.model !=null){
+				vm.customerCodeGroupRequest = $scope.ngDialogData.model;
+			}
+			
 			vm.saveNewCustomerGroup = function() {
 				blockUI.start();
 				vm.customerCodeGroupRequest.sponsorId = vm.sponsorId;
@@ -144,6 +148,27 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 				var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups';
 
 				var serviceDiferred = Service.requestURL(serviceUrl, vm.customerCodeGroupRequest, 'POST');
+				serviceDiferred.promise.then(function(response) {
+					blockUI.stop();
+					if (response !== undefined) {
+						if (response.message !== undefined) {
+							vm.messageError = response.message;
+						} else {
+							$scope.closeThisDialog(response);
+						}
+					}
+				}).catch(function(response) {
+					blockUI.stop();
+					$log.error('Save customer Code Group Fail');
+				});
+			};
+			
+			vm.saveCustomerGroup = function() {
+				blockUI.start();
+				var groupId = vm.customerCodeGroupRequest.groupId;
+				var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups/'+groupId;
+				
+				var serviceDiferred = Service.requestURL(serviceUrl, vm.customerCodeGroupRequest, 'PUT');
 				serviceDiferred.promise.then(function(response) {
 					blockUI.stop();
 					if (response !== undefined) {
@@ -264,7 +289,26 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 			}
 		]
 	};
-
+	
+	vm.edit = function(model) {
+		
+		vm.editCustCodeDialog = ngDialog.open({
+			id : 'new-customer-code-setting-dialog',
+			template : '/js/app/modules/sponsor-config/customer-code/dialog-edit-customer-code-group.html',
+			className : 'ngdialog-theme-default',
+			scope : $scope,
+			controller : 'CustomerCodeGroupDiaglogController',
+			controllerAs : 'ctrl',
+			data : {
+				sponsorId : $scope.sponsorId,
+				model: vm.model
+			},
+			preCloseCallback : function(value) {
+				return true;
+			}
+		});
+	}
+	
 	vm.pagingController = PagingController.create(customerCodeURL, vm.criteria, 'GET');
 	
 	var queryCustomerCode = function(value){
