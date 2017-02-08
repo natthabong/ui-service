@@ -158,11 +158,14 @@ scfApp.controller( 'CustomerCodeGroupDiaglogController',
 							};
 							
 						} ])
-scfApp.controller( 'CustomerCodeGroupSettingController', ['$scope', '$stateParams', 'Service', 'UIModelFactory', function($scope,$stateParams,Service,UIModelFactory){
+scfApp.controller( 'CustomerCodeGroupSettingController', ['$scope', '$stateParams', 'Service', 'UIModelFactory', 'CustomerCodeStatus', 'PageNavigation', function($scope,$stateParams,Service,UIModelFactory, CustomerCodeStatus, PageNavigation){
 	var vm = this;
 	var selectedItem = $stateParams.selectedItem;
+	vm.model = selectedItem;
+	console.log(vm.model);
 	vm.sponsorId = selectedItem.sponsorId;
 	vm.criteria = {};
+	vm.statusDropdown = CustomerCodeStatus;
 	
 	vm.backToSponsorConfigPage = function() {
 		PageNavigation.gotoPreviousPage();
@@ -186,4 +189,10 @@ scfApp.controller( 'CustomerCodeGroupSettingController', ['$scope', '$stateParam
 		}
 	});
    }
+]);
+scfApp.constant('CustomerCodeStatus', [
+	{label: 'All', value: '', valueObject: null},
+	{label: 'Active', value: '1', valueObject: {suspend: 0, expired: 0}},
+	{label: 'Suspend', value: '2', valueObject: {suspend: 1, expired: 0}},
+	{label: 'Expired', value: '3', valueObject: {suspend: 0, expired: 1}}
 ]);
