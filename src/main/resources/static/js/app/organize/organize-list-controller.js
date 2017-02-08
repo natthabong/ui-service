@@ -1,4 +1,6 @@
-angular.module('scfApp').controller('OrganizeListController',['$scope','Service', '$stateParams', '$log', 'SCFCommonService','PagingController','PageNavigation', '$state', function($scope,Service, $stateParams, $log, SCFCommonService,PagingController, PageNavigation, $state ){
+angular.module('scfApp').controller('OrganizeListController',['$scope','Service', '$stateParams', '$log', 
+	'SCFCommonService','PagingController','PageNavigation', '$state', 'UIModelFactory', 
+	function($scope,Service, $stateParams, $log, SCFCommonService,PagingController, PageNavigation, $state, UIModelFactory ){
 
 	var vm = this;
 	var log = $log;
@@ -44,8 +46,20 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 
     vm.data = [];
     
+    vm.searchOrganizeTypeHead = function(value){
+		return ["Gilan Province, Iran", "Business/English, W Thomas Rd, Phoenix, AZ 85013, USA",
+			"158 Concord Rd, Billerica, MA 01821, USA", 
+			"Classic Film Society, 3301 E Johnson Ave, Pensacola, FL 32514, USA",
+		    ]
+	}
+	
+	vm.autoSuggestMode = UIModelFactory.createAutoSuggestModel({
+		placeholder: 'Enter Organize name or code',
+		query: vm.searchOrganizeTypeHead
+	});
+    
 	vm.searchOrganize = function(pageModel){
-    	
+		
         if (pageModel === undefined) {
             vm.pageModel.pageSizeSelectModel = '20';
             vm.pageModel.currentPage = 0;
@@ -114,6 +128,6 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
         vm.searchOrganize();
 	}
 
-	vm.initLoad();    
-    
+	vm.initLoad();
+	
 }]);

@@ -1,0 +1,46 @@
+<div class="row" ng-if="paging">
+	<div class="col-md-12 col-sm-12 text-right">
+		<div class="btn-group" role="group" aria-label="Paging Toolbar">
+			<div class="btn-group" role="group" aria-label="Paging Label">1
+				- 5 of 10</div>
+			<div class="btn-group" role="group" aria-label="Paging Control">
+				<button type="button" class="btn btn-sm">
+					<span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>
+				</button>
+				<button type="button" class="btn btn-sm">
+					<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+				</button>
+				<button type="button" class="btn btn-sm">
+					<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+				</button>
+				<button type="button" class="btn btn-sm">
+					<span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<br />
+		<div class="col-md-12 col-sm-12 text-right">
+			<!-- Button icon here-->
+		</div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th header-column="column"
+						ng-repeat="column in columns track by $index"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="record in data track by $id(data)"
+					ng-class-odd="tr-odd" ng-class-even="tr-even">
+					<td scf-table-td="record" ng-repeat="column in columns"
+						column-render="column" index-no="$parent.$index"
+						page-options="pageOptions"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
