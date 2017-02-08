@@ -320,18 +320,18 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				limit: 5
 			}
 		}).then(function(response){
-			return response.data;
-//			return response.data.map(function(item){
-//				return item.supplierId +': '+ item.supplierName;
-//			});
+//			return response.data;
+			return response.data.map(function(item) {				
+				item.label = item.supplierId + ': ' + item.supplierName;
+				return item;
+			});
 		});
 	}
-
+	
 	vm.customerAutoSuggestModel = UIModelFactory.createAutoSuggestModel({
 		placeholder : 'Enter Organize name or code',
 		itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 		query: queryCustomerCode
-		
 	});
 
 	vm.search = function(criteria) {
