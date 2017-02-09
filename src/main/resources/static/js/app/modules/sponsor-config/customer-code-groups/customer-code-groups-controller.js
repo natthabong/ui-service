@@ -184,10 +184,10 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 				});
 			};
 
-		} ])
-scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 
+		} ]);
+scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 'ngDialog',
 	function($q, $scope, $stateParams, Service, UIFactory, 
-			CustomerCodeStatus, PageNavigation, PagingController, $http) {
+			CustomerCodeStatus, PageNavigation, PagingController, $http, ngDialog ) {
 	var vm = this;
 	var selectedItem = $stateParams.selectedItem;
 	var groupId = selectedItem.groupId;
@@ -412,9 +412,34 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		vm.search();
 	}
 	vm.initialPage();
+	
+	vm.customerCodeSetup = function(model){
+		vm.isNewCusotmerCode = angular.isUndefined(model);
+		vm.newCustCodeDialog = ngDialog.open({
+			template: '/js/app/modules/sponsor-config/customer-code-groups/dialog-new-customer-code.html',
+			className: 'ngdialog-theme-default',
+			scope : $scope,
+			controller : 'CustomerCodeDiaglogController',
+			controllerAs : 'ctrl',
+			data : {
+				sponsorId : $scope.sponsorId,
+				model: vm.model,
+				isNew: vm.isNewCusotmerCode
+			},
+			preCloseCallback : function(value) {
+				return true;
+			}
+		});
+	}
 
 }
 ]);
+scfApp.controller("CustomerCodeDiaglogController", ['$scope',function($scope) {
+	var vm = this;
+	vm.model = angular.copy($scope.ngDialogData.model);
+//	vm.
+	
+}]);
 scfApp.constant('CustomerCodeStatus', [
 	{
 		label : 'All',
