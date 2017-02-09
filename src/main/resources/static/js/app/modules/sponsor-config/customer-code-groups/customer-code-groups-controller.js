@@ -185,8 +185,8 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 			};
 
 		} ])
-scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParams', 'Service', 'UIModelFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 
-	function($scope, $stateParams, Service, UIModelFactory, 
+scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 
+	function($scope, $stateParams, Service, UIFactory, 
 			CustomerCodeStatus, PageNavigation, PagingController, $http) {
 	var vm = this;
 	var selectedItem = $stateParams.selectedItem;
@@ -211,7 +211,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelTH : 'ลำดับ',
 				sortable : false,
 				idValueField : 'customerCode',
-				id : 'cutomer-no-{value}',
+				id : 'no-{value}',
 				filterType : 'translate',
 				cssTemplate : 'text-right'
 			},
@@ -282,8 +282,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelTH : '',
 				sortable : false,
 				cssTemplate : 'text-left',
-				cellTemplate : '<scf-button id="cutomer-code-{{data.customerCode}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setupCustomerCode(data)" title="Setup customer code"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
-					'<scf-button id="cutomer-code-{{data.customerCode}}-delete-button"  class="btn-default gec-btn-action" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+				cellTemplate : '<scf-button id="customer-code-{{data.customerCode}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.setupCustomerCode(data)" title="Setup customer code"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></scf-button>' +
+					'<scf-button id="customer-code-{{data.customerCode}}-delete-button"  class="btn-default gec-btn-action" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 			}
 		]
 	};
@@ -310,8 +310,9 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 	
 	vm.deleteCustomerCode = function(customerCode){
 	    
-	    UIUtils.showConfirmDialog({
+	    UIFactory.showConfirmDialog({
 		confirm: function(){
+		    console.log(customerCode);
 		    return true;
 		}
 	    });
@@ -365,7 +366,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 		});
 	}
 	
-	vm.customerAutoSuggestModel = UIModelFactory.createAutoSuggestModel({
+	vm.customerAutoSuggestModel = UIFactory.createAutoSuggestModel({
 		placeholder : 'Enter Organize name or code',
 		itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 		query: queryCustomerCode
