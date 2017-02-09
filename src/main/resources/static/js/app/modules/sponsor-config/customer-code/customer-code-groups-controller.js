@@ -348,9 +348,9 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				limit: 5
 			}
 		}).then(function(response){
-//			return response.data;
-			return response.data.map(function(item) {				
-				item.label = item.supplierId + ': ' + item.supplierName;
+			return response.data.map(function(item) {	
+				item.identity = ['auto-suggest-',item.supplierId,'-label'].join('');
+				item.label = [item.supplierId, ': ',item.supplierName].join('');
 				return item;
 			});
 		});
