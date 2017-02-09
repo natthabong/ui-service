@@ -910,17 +910,17 @@
 					elements.addClass(colClass);
 					elements.html(dataRender);
 					$compile(elements.contents())(scope);
-
+					
 					if (angular.isDefined(column.idTemplate) && column.idTemplate !== null) {
 						// Check add id is rowNo for checkBox
 						if (column.idValueField === '$rowNo') {
 							if (elements[0].children.length > 0) {
 								elements[0].children[0].id = addId(rowNo, column.idTemplate, column.renderer);
 							} else {
-								elements[0].id = addId(rowNo, column.idTemplate, column.renderer);
+								elements[0].children[0].id = addId(rowNo, column.idTemplate, column.renderer);
 							}
 						} else {
-							elements[0].id = addId(data[column.idValueField != null ? column.idValueField : column.field], column.idTemplate, column.renderer);
+							elements[0].children[0].id = addId(data[column.idValueField != null ? column.idValueField : column.field], column.idTemplate, column.renderer);
 						}
 					}
 
