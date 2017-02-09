@@ -290,7 +290,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	
 	var deleteCustomerCode = function(customerCode){
 	    
-		var serviceUrl = '/api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/customer-code-groups/'+groupId+'/customer-codes/' + customerCode.customerCode;
+		var serviceUrl = '/api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/customer-code-groups/'+groupId+'/customers/'+customerCode.supplierId+'/customer-codes/' + customerCode.customerCode;
 		var deferred = $q.defer();
 		$http({
 		    method: 'DELETE',
@@ -322,6 +322,9 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	
 	
 	vm.deleteCustomerCode = function(customerCode){
+	    var preCloseCallback = function(confirm) {
+		vm.search(vm.criteria);
+	    }
 	    
 	    UIFactory.showConfirmDialog({
 		data: { 
@@ -335,7 +338,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			data: {
 			    headerMessage: 'Delete customer code failed.',
 			    bodyMessage: response.statusText
-			}
+			},
+			preCloseCallback: preCloseCallback
 		    });
 		},
 		onSuccess: function(response){
@@ -343,7 +347,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			data: {
 			    headerMessage: 'Delete customer code completed.',
 			    bodyMessage: ''
-			}
+			},
+			preCloseCallback: preCloseCallback
 		    });
 		}
 	    });
