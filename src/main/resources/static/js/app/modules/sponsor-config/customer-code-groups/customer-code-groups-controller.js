@@ -185,9 +185,9 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 			};
 
 		} ])
-scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 
+scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 'ngDialog', 
 	function($q, $scope, $stateParams, Service, UIFactory, 
-			CustomerCodeStatus, PageNavigation, PagingController, $http) {
+			CustomerCodeStatus, PageNavigation, PagingController, $http, ngDialog) {
 	var vm = this;
 	var selectedItem = $stateParams.selectedItem;
 	var groupId = selectedItem.groupId;
