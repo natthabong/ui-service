@@ -17,7 +17,7 @@
 								name' | translate}}: </label>
 
 							<div class="col-md-8 col-sm-8 col-xs-12">
-								<label class="control-label" id="group-name">{{ctrl.model.groupName}}</label>
+								<label class="control-label" id="group-name-label">{{ctrl.model.groupName}}</label>
 								<scf-button id="edit-button" class="btn-default gec-btn-action"
 									ng-click="" title="Edit a customer code group name">
 								<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></scf-button>
@@ -25,23 +25,25 @@
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Customer'
+							<label id="customer-label"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Customer'
 								| translate}}: </label>
 
 							<div class="col-md-4 col-sm-3 col-xs-12">
 								<gec-auto-suggest model="ctrl.customerAutoSuggestModel"
 									ng-model="ctrl.criteria.customer" id="customer-auto-suggest"></gec-auto-suggest>
 							</div>
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Customer
-								code' | translate}}: </label>
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"
+								id="customer-code-label">{{'Customer code' |
+								translate}}: </label>
 							<div class="col-md-2 col-sm-3 col-xs-12">
 								<scf-input-text id="customer-code-textbox"
 									ng-model="ctrl.criteria.customerCode"></scf-input-text>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status'
-								| translate}}: </label>
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"
+								id="status-label">{{'Status' | translate}}: </label>
 
 							<div class="col-md-2 col-sm-3 col-xs-12">
 								<scf-dropdown id="status-dropdown"
@@ -58,10 +60,9 @@
 
 					<div class="row">
 						<div class="col-md-12 text-right">
-							<scf-button id="customer-code-new-button"
-								class="btn-default gec-btn-action" ng-disabled="false"
-								ng-click="ctrl.newCustomerCode()"> <i
-								class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
+							<scf-button id="new-button" class="btn-default gec-btn-action"
+								ng-disabled="false" ng-click="ctrl.newCustomerCode()">
+							<i class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
 						</div>
 					</div>
 					<div class="row">

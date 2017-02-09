@@ -48,9 +48,10 @@ angular
 	.factory(
 		'UIFactory',
 		[
-			'$q','ngDialog',
+			'$q',
+			'ngDialog',
 			function($q, ngDialog) {
-
+			    var BASE_TEMPLATE_URL = '/js/app/shared/templates/';
 			    var createTableModel = function(config) {
 				config.tableState = {
 				    sort : {},
@@ -78,20 +79,44 @@ angular
 			    var showConfirmDialog = function(config) {
 				ngDialog
 					.open({
-					    template : '/js/app/shared/templates/confirm-dialog.html',
+					    template : BASE_TEMPLATE_URL + 'confirm-dialog.html',
+					    data: config.data,
 					    preCloseCallback : function(confirm) {
 						if (confirm) {
-						    return config.confirm();
+						    var deffered = config
+							    .confirm()
+						    return deffered.promise.then(function(response){config.onSuccess(response);deffered.resolve(response)}).catch(function(response){config.onFail(response);deffered.reject(response)});
+						} else {
+						    return true;
 						}
-						return true;
 					    }
+					});
+			    }
+			    
+			    var showSuccessDialog = function(config) {
+				ngDialog
+					.open({
+					    template : BASE_TEMPLATE_URL + 'success-dialog.html',
+					    preCloseCallback : config.preCloseCallback,
+					    data: config.data
+					});
+			    }
+			    
+			    var showFailDialog = function(config) {
+				ngDialog
+					.open({
+					    template : BASE_TEMPLATE_URL + 'fail-dialog.html',
+					    preCloseCallback : config.preCloseCallback,
+					    data: config.data
 					});
 			    }
 
 			    return {
 				createTableModel : createTableModel,
 				createAutoSuggestModel : createAutoSuggestModel,
-				showConfirmDialog : showConfirmDialog
+				showConfirmDialog : showConfirmDialog,
+				showSuccessDialog :showSuccessDialog,
+				showFailDialog : showFailDialog
 			    }
 
 			} ]);
