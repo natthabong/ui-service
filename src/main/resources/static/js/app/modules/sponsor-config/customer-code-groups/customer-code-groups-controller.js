@@ -88,7 +88,7 @@ scfApp.controller(
 			vm.addNew = function() {
 				vm.newCustCodeDialog = ngDialog.open({
 					id : 'new-customer-code-setting-dialog',
-					template : '/js/app/modules/sponsor-config/customer-code/dialog-new-customer-code-group.html',
+					template : '/js/app/modules/sponsor-config/customer-code-groups/dialog-new-customer-code-group.html',
 					className : 'ngdialog-theme-default',
 					scope : $scope,
 					controller : 'CustomerCodeGroupDiaglogController',
@@ -185,8 +185,8 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 			};
 
 		} ])
-scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParams', 'Service', 'UIModelFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http'
-	, function($scope, $stateParams, Service, UIModelFactory, 
+scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParams', 'Service', 'UIModelFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 
+	function($scope, $stateParams, Service, UIModelFactory, 
 			CustomerCodeStatus, PageNavigation, PagingController, $http) {
 	var vm = this;
 	var selectedItem = $stateParams.selectedItem;
@@ -210,8 +210,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : 'No.',
 				labelTH : 'ลำดับ',
 				sortable : false,
-				idValueField : 'supplierCode',
-				id : 'cutomer-no-{value}-label',
+				idValueField : 'customerCode',
+				id : 'cutomer-no-{value}',
 				filterType : 'translate',
 				cssTemplate : 'text-right'
 			},
@@ -220,8 +220,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : 'Customer',
 				labelTH : 'Customer',
 				sortable : false,
-				idValueField : 'supplierCode',
-				id : 'customer-{value}-label',
+				idValueField : 'customerCode',
+				id : 'customer-{value}',
 				filterType : 'translate',
 				cssTemplate : 'text-left'
 			},
@@ -230,8 +230,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : 'Customer code',
 				labelTH : 'Customer code',
 				sortable : false,
-				idValueField : 'supplierCode',
-				id : 'customer-code-{value}-label',
+				idValueField : 'customerCode',
+				id : 'customer-code-{value}',
 				filterType : 'translate',
 				cssTemplate : 'text-left'
 			},
@@ -240,8 +240,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : 'Status',
 				labelTH : 'Status',
 				sortable : false,
-				idValueField : 'supplierCode',
-				id : 'status-{value}-label',
+				idValueField : 'customerCode',
+				id : 'status-{value}',
 				filterType : 'translate',
 				filterFormat : 'dd/MM/yyyy',
 				cssTemplate : 'text-center'
@@ -251,8 +251,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : 'Active date',
 				labelTH : 'Active date',
 				sortable : false,
-				idValueField : 'supplierCode',
-				id : 'active-date-{value}-label',
+				idValueField : 'customerCode',
+				id : 'active-date-{value}',
 				filterType : 'date',
 				filterFormat : 'dd/MM/yyyy',
 				cssTemplate : 'text-center'
@@ -262,8 +262,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : 'Expire date',
 				labelTH : 'Expire date',
 				sortable : false,
-				idValueField : 'supplierCode',
-				id : 'customer-{value}-label',
+				idValueField : 'customerCode',
+				id : 'expire-date-{value}',
 				filterType : 'date',
 				cssTemplate : 'text-center'
 			},
@@ -272,8 +272,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : 'Remark',
 				labelTH : 'Remark',
 				sortable : false,
-				idValueField : 'supplierCode',
-				id : 'remark-{value}-label',
+				idValueField : 'customerCode',
+				id : 'remark-{value}',
 				cssTemplate : 'text-left'
 			},
 			{
@@ -281,20 +281,19 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : '',
 				labelTH : '',
 				sortable : false,
-				idValueField : 'supplierCode',
-				id : 'remark-{value}-label',
 				cssTemplate : 'text-left',
-				cellTemplate : '<scf-button id="cutomer-{{data.supplierCode}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setupCustomerCode(data)" title="Setup customer code"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
-					'<scf-button id="cutomer-{{data.supplierCode}}-delete-button"  class="btn-default gec-btn-action" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+				cellTemplate : '<scf-button id="cutomer-code-{{data.supplierCode}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setupCustomerCode(data)" title="Setup customer code"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
+					'<scf-button id="cutomer-code-{{data.supplierCode}}-delete-button"  class="btn-default gec-btn-action" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 			}
 		]
 	};
 	
+	/* Edit a customer code group name */
 	vm.edit = function(model) {
 		
 		vm.editCustCodeDialog = ngDialog.open({
 			id : 'new-customer-code-setting-dialog',
-			template : '/js/app/modules/sponsor-config/customer-code/dialog-edit-customer-code-group.html',
+			template : '/js/app/modules/sponsor-config/customer-code-groups/dialog-edit-customer-code-group.html',
 			className : 'ngdialog-theme-default',
 			scope : $scope,
 			controller : 'CustomerCodeGroupDiaglogController',
@@ -307,6 +306,16 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				return true;
 			}
 		});
+	}
+	
+	vm.deleteCustomerCode = function(customerCode){
+	    
+	    UIUtils.showConfirmDialog({
+		confirm: function(){
+		    return true;
+		}
+	    });
+	    
 	}
 	
 	vm.searchCriteria = {
@@ -349,7 +358,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 			}
 		}).then(function(response){
 			return response.data.map(function(item) {	
-				item.identity = ['auto-suggest-',item.supplierId,'-label'].join('');
+				item.identity = ['customer-',item.supplierId,'-option'].join('');
 				item.label = [item.supplierId, ': ',item.supplierName].join('');
 				return item;
 			});
@@ -372,13 +381,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 	}
 	vm.initialPage();
 
-	vm.deleteCustomerCode = function(value) {};
-
-	vm.editCustomerCode = function(value) {};
-	
-	vm.newCustomerCode = function(){
-		
-	};
 }
 ]);
 scfApp.constant('CustomerCodeStatus', [
