@@ -88,7 +88,7 @@ scfApp.controller(
 			vm.addNew = function() {
 				vm.newCustCodeDialog = ngDialog.open({
 					id : 'new-customer-code-setting-dialog',
-					template : '/js/app/modules/sponsor-config/customer-code/dialog-new-customer-code-group.html',
+					template : '/js/app/modules/sponsor-config/customer-code-groups/dialog-new-customer-code-group.html',
 					className : 'ngdialog-theme-default',
 					scope : $scope,
 					controller : 'CustomerCodeGroupDiaglogController',
@@ -185,9 +185,9 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 			};
 
 		} ])
-scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParams', 'Service', 'UIModelFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http'
+scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParams', 'Service', 'UIModelFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http','UIUtils',
 	, function($scope, $stateParams, Service, UIModelFactory, 
-			CustomerCodeStatus, PageNavigation, PagingController, $http) {
+			CustomerCodeStatus, PageNavigation, PagingController, $http, UIUtils) {
 	var vm = this;
 	var selectedItem = $stateParams.selectedItem;
 	var groupId = selectedItem.groupId;
@@ -284,17 +284,18 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				idValueField : 'supplierCode',
 				id : 'remark-{value}-label',
 				cssTemplate : 'text-left',
-				cellTemplate : '<scf-button id="cutomer-{{data.supplierCode}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setupCustomerCode(data)" title="Setup customer code"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
-					'<scf-button id="cutomer-{{data.supplierCode}}-delete-button"  class="btn-default gec-btn-action" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+				cellTemplate : '<scf-button id="cutomer-code-{{data.supplierCode}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setupCustomerCode(data)" title="Setup customer code"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
+					'<scf-button id="cutomer-code-{{data.supplierCode}}-delete-button"  class="btn-default gec-btn-action" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 			}
 		]
 	};
 	
+	/* Edit a customer code group name */
 	vm.edit = function(model) {
 		
 		vm.editCustCodeDialog = ngDialog.open({
 			id : 'new-customer-code-setting-dialog',
-			template : '/js/app/modules/sponsor-config/customer-code/dialog-edit-customer-code-group.html',
+			template : '/js/app/modules/sponsor-config/customer-code-groups/dialog-edit-customer-code-group.html',
 			className : 'ngdialog-theme-default',
 			scope : $scope,
 			controller : 'CustomerCodeGroupDiaglogController',
@@ -307,6 +308,16 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				return true;
 			}
 		});
+	}
+	
+	vm.deleteCustomerCode = function(customerCode){
+	    
+	    UIUtils.showConfirmDialog({
+		confirm: function(){
+		    return true;
+		}
+	    });
+	    
 	}
 	
 	vm.searchCriteria = {
@@ -372,13 +383,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 	}
 	vm.initialPage();
 
-	vm.deleteCustomerCode = function(value) {};
-
-	vm.editCustomerCode = function(value) {};
-	
-	vm.newCustomerCode = function(){
-		
-	};
 }
 ]);
 scfApp.constant('CustomerCodeStatus', [
