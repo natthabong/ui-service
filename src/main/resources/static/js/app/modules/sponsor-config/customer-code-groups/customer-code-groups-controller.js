@@ -185,9 +185,9 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 			};
 
 		} ])
-scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParams', 'Service', 'UIModelFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http','UIUtils',
-	, function($scope, $stateParams, Service, UIModelFactory, 
-			CustomerCodeStatus, PageNavigation, PagingController, $http, UIUtils) {
+scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParams', 'Service', 'UIModelFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 
+	function($scope, $stateParams, Service, UIModelFactory, 
+			CustomerCodeStatus, PageNavigation, PagingController, $http) {
 	var vm = this;
 	var selectedItem = $stateParams.selectedItem;
 	var groupId = selectedItem.groupId;
@@ -358,7 +358,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 			}
 		}).then(function(response){
 			return response.data.map(function(item) {	
-				item.identity = ['auto-suggest-',item.supplierId,'-label'].join('');
+				item.identity = ['customer-',item.supplierId,'-option'].join('');
 				item.label = [item.supplierId, ': ',item.supplierName].join('');
 				return item;
 			});

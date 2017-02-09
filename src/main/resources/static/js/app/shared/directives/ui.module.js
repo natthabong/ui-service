@@ -77,11 +77,11 @@ angular
 			'$q',
 			'$timeout',
 			'$scope',
-			'ngDialog',
-			function($q, $timeout, $scope, ngDialog) {
+		
+			function($q, $timeout, $scope) {
 
 			    var showConfirmDialog = function(config) {
-				ngDialog
+				/*ngDialog
 					.open({
 					    template : '/js/app/shared/templates/confirm-dialog.html',
 					    scope : $scope,
@@ -92,7 +92,7 @@ angular
 						}
 						return true;
 					    }
-					});
+					});*/
 			    }
 			    return {
 				showConfirmDialog : showConfirmDialog
