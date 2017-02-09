@@ -906,7 +906,10 @@
 					} else {
 						dataRender = data[column.fieldName] || column.cellTemplate;
 					}
-
+					
+					if(column.renderer!=null){
+					    dataRender = column.renderer(dataRender);
+					}
 					elements.addClass(colClass);
 					elements.html(dataRender);
 					$compile(elements.contents())(scope);

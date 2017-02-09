@@ -265,7 +265,10 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 				idValueField : 'customerCode',
 				id : 'expire-date-{value}',
 				filterType : 'date',
-				cssTemplate : 'text-center'
+				cssTemplate : 'text-center',
+				renderer: function(data){
+				    return data || '-';
+				}
 			},
 			{
 				fieldName : 'remark',
@@ -337,7 +340,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		    UIFactory.showFailDialog({
 			data: {
 			    headerMessage: 'Delete customer code failed.',
-			    bodyMessage: response.statusText
+			    bodyMessage: response.status==409?'Customer code has already been deleted.':response.statusText
 			},
 			preCloseCallback: preCloseCallback
 		    });
