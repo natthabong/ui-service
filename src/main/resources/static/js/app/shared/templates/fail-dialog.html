@@ -1,0 +1,34 @@
+<div class="modal-content">
+	<form name="failDialogForm" class="form-horizontal"
+		ng-submit="closeThisDialog()">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-2 col-sm-2">
+					<image width="70" height="70" ng-src="img/error-icon.png"></image>
+				</div>
+				<div class="col-md-10 col-sm-10" style="color: red;">
+					<h2>
+						<span id="fail-header-message-label"
+							ng-bind="ngDialogData.headerMessage | translate">Fail</span>
+					</h2>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-2 col-sm-2"></div>
+				<div class="col-md-10 col-sm-10">
+					<span id="fail-message-label" ng-bind="ngDialogData.bodyMessage"></span>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="ok-button" class="popup-button hidden-sm hidden-xs"
+						type="submit" ng-bind="'Close' | translate"></scf-button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

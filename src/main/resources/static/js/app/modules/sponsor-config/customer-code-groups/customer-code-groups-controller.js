@@ -185,8 +185,8 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 			};
 
 		} ])
-scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 
-	function($scope, $stateParams, Service, UIFactory, 
+scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 
+	function($q, $scope, $stateParams, Service, UIFactory, 
 			CustomerCodeStatus, PageNavigation, PagingController, $http) {
 	var vm = this;
 	var selectedItem = $stateParams.selectedItem;
@@ -282,11 +282,26 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelTH : '',
 				sortable : false,
 				cssTemplate : 'text-left',
-				cellTemplate : '<scf-button id="customer-code-{{data.customerCode}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.setupCustomerCode(data)" title="Setup customer code"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></scf-button>' +
-					'<scf-button id="customer-code-{{data.customerCode}}-delete-button"  class="btn-default gec-btn-action" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+				cellTemplate : '<scf-button id="{{data.supplierCode}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.setupCustomerCode(data)" title="Setup customer code"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></scf-button>' +
+					'<scf-button id="{{data.supplierCode}}-delete-button"  class="btn-default gec-btn-action" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 			}
 		]
 	};
+	
+	var deleteCustomerCode = function(customerCode){
+	    
+		var serviceUrl = '/api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/customer-code-groups/'+groupId+'/customer-codes/' + customerCode.customerCode;
+		var deferred = $q.defer();
+		$http({
+		    method: 'DELETE',
+		    url: serviceUrl
+		  }).then(function(response){
+		      return deferred.resolve(response);
+		 }).catch(function(response){
+		      return deferred.reject(response);
+		 });
+		 return deferred;
+	}
 	
 	/* Edit a customer code group name */
 	vm.edit = function(model) {
@@ -301,19 +316,35 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 			data : {
 				sponsorId : $scope.sponsorId,
 				model: vm.model
-			},
-			preCloseCallback : function(value) {
-				return true;
 			}
 		});
 	}
 	
+	
 	vm.deleteCustomerCode = function(customerCode){
 	    
 	    UIFactory.showConfirmDialog({
+		data: { 
+		    headerMessage: 'Confirm delete?'
+		},
 		confirm: function(){
-		    console.log(customerCode);
-		    return true;
+		    return deleteCustomerCode(customerCode);
+		},
+		onFail: function(response){
+		    UIFactory.showFailDialog({
+			data: {
+			    headerMessage: 'Delete customer code failed.',
+			    bodyMessage: response.statusText
+			}
+		    });
+		},
+		onSuccess: function(response){
+		    UIFactory.showSuccessDialog({
+			data: {
+			    headerMessage: 'Delete customer code completed.',
+			    bodyMessage: ''
+			}
+		    });
 		}
 	    });
 	    
