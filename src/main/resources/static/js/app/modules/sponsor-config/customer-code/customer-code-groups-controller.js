@@ -210,7 +210,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : 'No.',
 				labelTH : 'ลำดับ',
 				sortable : false,
-				idValueField : 'supplierCode',
+				idValueField : 'customerCode',
 				id : 'cutomer-no-{value}-label',
 				filterType : 'translate',
 				cssTemplate : 'text-right'
@@ -220,7 +220,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : 'Customer',
 				labelTH : 'Customer',
 				sortable : false,
-				idValueField : 'supplierCode',
+				idValueField : 'customerCode',
 				id : 'customer-{value}-label',
 				filterType : 'translate',
 				cssTemplate : 'text-left'
@@ -230,7 +230,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : 'Customer code',
 				labelTH : 'Customer code',
 				sortable : false,
-				idValueField : 'supplierCode',
+				idValueField : 'customerCode',
 				id : 'customer-code-{value}-label',
 				filterType : 'translate',
 				cssTemplate : 'text-left'
@@ -240,7 +240,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : 'Status',
 				labelTH : 'Status',
 				sortable : false,
-				idValueField : 'supplierCode',
+				idValueField : 'customerCode',
 				id : 'status-{value}-label',
 				filterType : 'translate',
 				filterFormat : 'dd/MM/yyyy',
@@ -251,7 +251,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : 'Active date',
 				labelTH : 'Active date',
 				sortable : false,
-				idValueField : 'supplierCode',
+				idValueField : 'customerCode',
 				id : 'active-date-{value}-label',
 				filterType : 'date',
 				filterFormat : 'dd/MM/yyyy',
@@ -262,8 +262,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : 'Expire date',
 				labelTH : 'Expire date',
 				sortable : false,
-				idValueField : 'supplierCode',
-				id : 'customer-{value}-label',
+				idValueField : 'customerCode',
+				id : 'expire-date-{value}-label',
 				filterType : 'date',
 				cssTemplate : 'text-center'
 			},
@@ -272,7 +272,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : 'Remark',
 				labelTH : 'Remark',
 				sortable : false,
-				idValueField : 'supplierCode',
+				idValueField : 'customerCode',
 				id : 'remark-{value}-label',
 				cssTemplate : 'text-left'
 			},
@@ -281,8 +281,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelEN : '',
 				labelTH : '',
 				sortable : false,
-				idValueField : 'supplierCode',
-				id : 'remark-{value}-label',
 				cssTemplate : 'text-left',
 				cellTemplate : '<scf-button id="cutomer-{{data.supplierCode}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setupCustomerCode(data)" title="Setup customer code"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
 					'<scf-button id="cutomer-{{data.supplierCode}}-delete-button"  class="btn-default gec-btn-action" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
