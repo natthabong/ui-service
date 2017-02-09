@@ -422,14 +422,14 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		vm.isNewCusotmerCode = angular.isUndefined(model);
 		vm.newCustCodeDialog = ngDialog.open({
 			template: '/js/app/modules/sponsor-config/customer-code-groups/dialog-new-customer-code.html',
-			className: 'ngdialog-theme-default',
+			className: 'ngdialog-theme-default modal-width-60',
 			scope : $scope,
 			controller : 'CustomerCodeDiaglogController',
 			controllerAs : 'ctrl',
 			data : {
 				sponsorId : $scope.sponsorId,
 				model: vm.model,
-				isNew: vm.isNewCusotmerCode
+				isNewCusotmerCode: vm.isNewCusotmerCode
 			},
 			preCloseCallback : function(value) {
 				return true;
@@ -439,10 +439,71 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 
 }
 ]);
-scfApp.controller("CustomerCodeDiaglogController", ['$scope',function($scope) {
+scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIFactory', '$http',function($scope, $rootScope, UIFactory, $http) {
 	var vm = this;
+	var sponsorId = $rootScope.sponsorId;
+	
 	vm.model = angular.copy($scope.ngDialogData.model);
-//	vm.
+	vm.isNewCusotmerCode = $scope.ngDialogData.isNewCusotmerCode;
+	vm.isUseExpireDate = false;
+	vm.isOpenActiveDate = false;
+	vm.isOpenExpiryDate = false;
+	vm.dateFormat = "dd/MM/yyyy";
+	
+	vm.openActiveDate = function(){
+		vm.isOpenActiveDate = true;
+	}
+	vm.openExpiryDate = function(){
+		vm.isOpenExpiryDate = true;
+	}
+	
+	if(vm.isNewCusotmerCode){
+		vm.model = {
+				activeDate: new Date()
+		}
+	}else{
+//		vm.customerSuggest = vm.model.
+	}
+	
+	vm.checkUseExpiryDate = function(){
+		if(vm.isUseExpireDate){
+			vm.model.expiryDate = new Date();
+		}else{
+			vm.model.expiryDate = null;
+		}
+	}
+	
+	var queryCustomerCode = function(value){
+		var serviceUrl = 'api/v1/organize-customers/' + sponsorId + '/trading-partners'
+		return $http.get(serviceUrl, {
+			params: {
+				q : value,
+				offset: 0,
+				limit: 5
+			}
+		}).then(function(response){
+			return response.data.map(function(item) {	
+				item.identity = ['customer-',item.supplierId,'-option'].join('');
+				item.label = [item.supplierId, ': ',item.supplierName].join('');
+				return item;
+			});
+		});
+	}
+	
+	vm.customerAutoSuggest = UIFactory.createAutoSuggestModel({
+		placeholder : 'Enter Organize name or code',
+		itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
+		query: queryCustomerCode
+	});
+	
+	vm.saveCustomer = function(){
+		if(angular.isDefined(vm.customerSuggestModel)){
+			vm.model.supplierId = vm.customerSuggestModel.supplierId;
+		}
+		 
+		console.log(vm.model);
+		return false;
+	}
 	
 }]);
 scfApp.constant('CustomerCodeStatus', [

@@ -246,6 +246,11 @@
 	"New customer code": "New customer code",
 	"Edit customer code": "Edit customer code",
 	"Customer": "Customer",
+	"Supplier code": "Supplier code",
+	"Remark": "Remark",
+	"Active date":"Active date",
+	"Expire date": "Expire date",
+	"Suspend": "Suspend",
 	
 	"Display document configuration": "Display document configuration",
 	"Credit term": "Credit term",

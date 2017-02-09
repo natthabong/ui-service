@@ -244,6 +244,11 @@
 	"New customer code": "New customer code",
 	"Edit customer code": "Edit customer code",
 	"Customer": "Customer",
+	"Supplier code": "Supplier code",
+	"Remark": "Remark",
+	"Active date":"Active date",
+	"Expire date": "Expire date",
+	"Suspend": "Suspend",
 	
 	"Display document configuration": "ตั้งค่าหน้าจอแสดงเอกสาร",
 	"Credit term": "Credit term",
