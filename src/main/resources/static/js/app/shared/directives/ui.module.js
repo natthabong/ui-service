@@ -10,8 +10,7 @@ angular.module('gecscf.ui', []).run([ "$templateCache", function($templateCache)
 				' ng-model="ngModel" typeahead-template-url="{{model.itemTemplateUrl}}"/>');
 		
 		$templateCache.put('ui/template/autoSuggestTemplate.html',
-				'<a>'+
-	      '<span id="{{$index}}" ng-bind-html="match.label | uibTypeaheadHighlight:query"></span></a>');
+				['<a>','<span id="{{match.model.identity}}" ','ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>','</a>'].join(''));
 
 	} ]) .factory('UIModelFactory', ['$q', '$timeout', function ($q, $timeout) {
 		
