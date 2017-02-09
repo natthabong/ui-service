@@ -184,10 +184,10 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 				});
 			};
 
-		} ]);
-scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 'ngDialog',
+		} ])
+scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 'ngDialog', 
 	function($q, $scope, $stateParams, Service, UIFactory, 
-			CustomerCodeStatus, PageNavigation, PagingController, $http, ngDialog ) {
+			CustomerCodeStatus, PageNavigation, PagingController, $http, ngDialog) {
 	var vm = this;
 	var selectedItem = $stateParams.selectedItem;
 	var groupId = selectedItem.groupId;
@@ -265,7 +265,10 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 				idValueField : 'customerCode',
 				id : 'expire-date-{value}',
 				filterType : 'date',
-				cssTemplate : 'text-center'
+				cssTemplate : 'text-center',
+				renderer: function(data){
+				    return data || '-';
+				}
 			},
 			{
 				fieldName : 'remark',
@@ -334,10 +337,11 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		    return deleteCustomerCode(customerCode);
 		},
 		onFail: function(response){
+		    var msg = {409:'Customer code has already been deleted.', 405:'Customer code is use.'};
 		    UIFactory.showFailDialog({
 			data: {
 			    headerMessage: 'Delete customer code failed.',
-			    bodyMessage: response.statusText
+			    bodyMessage: msg[response.status]?msg[response.status]:response.statusText
 			},
 			preCloseCallback: preCloseCallback
 		    });
