@@ -211,7 +211,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelTH : 'ลำดับ',
 				sortable : false,
 				idValueField : 'customerCode',
-				id : 'cutomer-no-{value}-label',
+				id : 'cutomer-no-{value}',
 				filterType : 'translate',
 				cssTemplate : 'text-right'
 			},
@@ -221,7 +221,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelTH : 'Customer',
 				sortable : false,
 				idValueField : 'customerCode',
-				id : 'customer-{value}-label',
+				id : 'customer-{value}',
 				filterType : 'translate',
 				cssTemplate : 'text-left'
 			},
@@ -231,7 +231,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelTH : 'Customer code',
 				sortable : false,
 				idValueField : 'customerCode',
-				id : 'customer-code-{value}-label',
+				id : 'customer-code-{value}',
 				filterType : 'translate',
 				cssTemplate : 'text-left'
 			},
@@ -241,7 +241,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelTH : 'Status',
 				sortable : false,
 				idValueField : 'customerCode',
-				id : 'status-{value}-label',
+				id : 'status-{value}',
 				filterType : 'translate',
 				filterFormat : 'dd/MM/yyyy',
 				cssTemplate : 'text-center'
@@ -252,7 +252,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelTH : 'Active date',
 				sortable : false,
 				idValueField : 'customerCode',
-				id : 'active-date-{value}-label',
+				id : 'active-date-{value}',
 				filterType : 'date',
 				filterFormat : 'dd/MM/yyyy',
 				cssTemplate : 'text-center'
@@ -263,7 +263,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelTH : 'Expire date',
 				sortable : false,
 				idValueField : 'customerCode',
-				id : 'expire-date-{value}-label',
+				id : 'expire-date-{value}',
 				filterType : 'date',
 				cssTemplate : 'text-center'
 			},
@@ -273,7 +273,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				labelTH : 'Remark',
 				sortable : false,
 				idValueField : 'customerCode',
-				id : 'remark-{value}-label',
+				id : 'remark-{value}',
 				cssTemplate : 'text-left'
 			},
 			{
