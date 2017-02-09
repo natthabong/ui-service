@@ -34,12 +34,22 @@ angular
 						    '</a>' ].join(''));
 
 			} ])
+	.config([ 'ngDialogProvider', function(ngDialogProvider) {
+	    ngDialogProvider.setDefaults({
+		className : 'ngdialog-theme-default',
+		plain : false,
+		showClose : false,
+		closeByDocument : false,
+		closeByEscape : false,
+		appendTo : false,
+		disableAnimation : true
+	    });
+	} ])
 	.factory(
-		'UIModelFactory',
+		'UIFactory',
 		[
-			'$q',
-			'$timeout',
-			function($q, $timeout) {
+			'$q','ngDialog',
+			function($q, ngDialog) {
 
 			    var createTableModel = function(config) {
 				config.tableState = {
@@ -65,36 +75,22 @@ angular
 				return config;
 			    }
 
-			    return {
-				createTableModel : createTableModel,
-				createAutoSuggestModel : createAutoSuggestModel
-			    }
-
-			} ])
-	.factory(
-		'UIUtils',
-		[
-			'$q',
-			'$timeout',
-			'$scope',
-		
-			function($q, $timeout, $scope) {
-
 			    var showConfirmDialog = function(config) {
-				/*ngDialog
+				ngDialog
 					.open({
 					    template : '/js/app/shared/templates/confirm-dialog.html',
-					    scope : $scope,
-					    disableAnimation : true,
 					    preCloseCallback : function(confirm) {
 						if (confirm) {
 						    return config.confirm();
 						}
 						return true;
 					    }
-					});*/
+					});
 			    }
+
 			    return {
+				createTableModel : createTableModel,
+				createAutoSuggestModel : createAutoSuggestModel,
 				showConfirmDialog : showConfirmDialog
 			    }
 

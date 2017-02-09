@@ -1,6 +1,6 @@
 angular.module('scfApp').controller('OrganizeListController',['$scope','Service', '$stateParams', '$log', 
-	'SCFCommonService','PagingController','PageNavigation', '$state', 'UIModelFactory', 
-	function($scope,Service, $stateParams, $log, SCFCommonService,PagingController, PageNavigation, $state, UIModelFactory ){
+	'SCFCommonService','PagingController','PageNavigation', '$state', 'UIFactory', 
+	function($scope,Service, $stateParams, $log, SCFCommonService,PagingController, PageNavigation, $state, UIFactory ){
 
 	var vm = this;
 	var log = $log;
@@ -53,7 +53,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 		    ]
 	}
 	
-	vm.autoSuggestMode = UIModelFactory.createAutoSuggestModel({
+	vm.autoSuggestMode = UIFactory.createAutoSuggestModel({
 		placeholder: 'Enter Organize name or code',
 		query: vm.searchOrganizeTypeHead
 	});
@@ -114,7 +114,6 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
                 cellTemplate: '<span>{{data.active ? "Active" : "Inactive"}}</span>'	
             },{
 				field: 'Action',
-				label: 'Action',
 				cssTemplate: 'text-center',
 				sortable: false,
 				cellTemplate: '<scf-button class="btn-default gec-btn-action" id="organize-{{data.organizeId}}-profile-button" ng-click="ctrl.editOrganizeProfile(data)" title="Edit Profile"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button><scf-button class="btn-default gec-btn-action" ng-disabled="data.sponsor==false" id="organize-{{data.organizeId}}-sponsor-config-button" ng-click="ctrl.sponsorConfig(data)" title="Edit Profile"> <i class="fa fa-cog" aria-hidden="true" ng-show="data.completed"></i> <img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/> </scf-button>'
