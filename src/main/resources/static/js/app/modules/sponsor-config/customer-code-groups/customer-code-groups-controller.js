@@ -258,7 +258,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 				cssTemplate : 'text-center'
 			},
 			{
-				fieldName : 'expireDate',
+				fieldName : 'expiryDate',
 				labelEN : 'Expire date',
 				labelTH : 'Expire date',
 				sortable : false,
