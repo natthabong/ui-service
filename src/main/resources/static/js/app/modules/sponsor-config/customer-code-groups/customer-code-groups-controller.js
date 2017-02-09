@@ -308,6 +308,23 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$scope', '$stateParam
 		});
 	}
 	
+	vm.newCustomerCode = function(){
+		vm.newCustCodeDialog = ngDialog.open({
+			template: '/js/app/modules/sponsor-config/customer-code-groups/dialog-new-customer-code-group.html',
+			className: 'ngdialog-theme-default',
+			scope : $scope,
+			controller : 'CustomerCodeGroupDiaglogController',
+			controllerAs : 'ctrl',
+			data : {
+				sponsorId : $scope.sponsorId,
+				model: vm.model
+			},
+			preCloseCallback : function(value) {
+				return true;
+			}
+		});
+	}
+	
 	vm.deleteCustomerCode = function(customerCode){
 	    
 	    UIFactory.showConfirmDialog({
