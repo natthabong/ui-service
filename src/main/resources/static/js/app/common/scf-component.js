@@ -36,13 +36,6 @@
 	} ]);
 
 	angular.module('scf-component', [ 'ui/template/scftemplate' ])
-		.directive('scfInputText', [ function() {
-			return {
-				restrict : 'AE',
-				replace : true,
-				template : '<input type="text" class="form-control"/>'
-			};
-		} ])
 		.directive('scfInputPassword', [ function() {
 			return {
 				restrict : 'AE',
