@@ -888,6 +888,8 @@ app.controller('CUSTOMER_CODELayoutConfigController', [ '$scope', '$rootScope', 
 				$log.error('Save customer Code Group Fail');
 			});
 		};
+		
+		
 	} ]);
 
 app.controller('DATE_TIMELayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', function($scope, $rootScope, $q, Service) {

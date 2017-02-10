@@ -1,56 +1,69 @@
 <div class="modal-content">
-<form name="custCodeGroupFieldFormat" class="form-horizontal" ng-submit="closeThisDialog(ctrl.model)">
+	<form name="custCodeGroupFieldFormat" class="form-horizontal"
+		ng-submit="closeThisDialog(ctrl.model)">
 		<div class="modal-header">
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
-					<h3><span id="customer-code-field-format-popup-header-message-label" class="popup-text" ng-bind="'Customer code field format' | translate">Customer code field format</span></h3>
-				</div>				
+					<h3>
+						<span id="customer-code-field-format-popup-header-message-label"
+							class="popup-text"
+							ng-bind="'Customer code field format' | translate">Customer
+							code field format</span>
+					</h3>
+				</div>
 			</div>
 		</div>
 		<div class="modal-body">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
-						<fieldset>
-							<legend>Validation</legend>
-							<div class="form-group">
-								<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-										ng-model="ctrl.model.required" 
-										id="customer-code-field-format-popup-require-checkbox"										
-										ng-checked="true" ng-init="ctrl.model.required=true"
-										ng-disabled="false"></scf-checkbox>
-
-									<span ng-bind="'Require' | translate" id="require-label"></span>
-								</label>
+					<fieldset>
+						<legend>Validation</legend>
+						<div class="form-group">
+							<label for="dealer"
+								class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
+									ng-model="ctrl.model.required"
+									id="customer-code-field-format-popup-require-checkbox"
+									ng-checked="true" ng-init="ctrl.model.required=true"
+									ng-disabled="false"></scf-checkbox> <span
+								ng-bind="'Require' | translate" id="require-label"></span> </label>
+						</div>
+						<div class="form-group">
+							<label for="expected-value"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+								ng-bind="'Expected value' | translate"></span>:</label>
+							<div class="col-md-6 col-sm-4 col-xs-12">
+								<scf-dropdown
+									id="customer-code-field-format-popup-expected-value-dropdown"
+									ng-model="ctrl.model.expectedValue"
+									component-data="ctrl.customerCodeGroupDropdown"
+									translate-label="true" convert-to-number="true"></scf-dropdown>
+								<input type="hidden" ng-model="ctrl.model.validationType"
+									ng-init="ctrl.model.validationType='IN_CUSTOMER_CODE_GROUP'" />
 							</div>
-							<div class="form-group">
-								<label for="expected-value" class="col-md-3 col-sm-4 col-xs-12 control-label"><span
-										ng-bind="'Expected value' | translate"></span>:</label>
-								<div class="col-md-6 col-sm-4 col-xs-12">
-									<scf-dropdown id="customer-code-field-format-popup-expected-value-dropdown"
-										ng-model="ctrl.model.expectedValue"
-										component-data="ctrl.customerCodeGroupDropdown"
-										translate-label="true" convert-to-number="true"></scf-dropdown>
-								</div>
-								<div class="col-md-2 col-sm-3 col-xs-12">
-									<scf-button id="customer-code-field-format-popup-new-customer-code-group-button" class="btn-default gec-btn-action" ng-click="ctrl.newCustomerCodeGroup()" title="New a customer code group"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
-								</div>
+							<div class="col-md-2 col-sm-3 col-xs-12">
+								<scf-button
+									id="customer-code-field-format-popup-new-customer-code-group-button"
+									class="btn-default gec-btn-action"
+									ng-click="ctrl.newCustomerCodeGroup()"
+									title="New a customer code group"> <i
+									class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
 							</div>
-						</fieldset>
+						</div>
+					</fieldset>
 				</div>
 			</div>
 		</div>
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<scf-button id="customer-code-field-format-popup-cancel-button" class="popup-button"  
-						ng-click="closeThisDialog()"
+					<scf-button id="customer-code-field-format-popup-cancel-button"
+						class="popup-button" ng-click="closeThisDialog()"
 						ng-bind="'Cancel' | translate"></scf-button>
-					<scf-button id="customer-code-field-format-popup-ok-button" class="popup-button" 
-						type="submit"
-						ng-bind="'OK' | translate"></scf-button>
-					
+					<scf-button id="customer-code-field-format-popup-ok-button"
+						class="popup-button" type="submit" ng-bind="'OK' | translate"></scf-button>
+
 				</div>
 			</div>
 		</div>
-		</form>
-	</div>
+	</form>
+</div>
