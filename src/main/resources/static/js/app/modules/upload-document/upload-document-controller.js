@@ -167,11 +167,6 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 		var deffered = UploadDocumentService.confirmUpload(vm.uploadConfirmPayload);
 		deffered.promise.then(function(response){
 			vm.uploadResult = response.data;
-//			var uploadResultData = response.data;
-//                vm.uploadResult.fileName = uploadResultData.fileName;
-//                vm.uploadResult.totalRecords = uploadResultData.totalRecords;
-//                vm.uploadResult.totalSuccess = uploadResultData.totalSuccess;
-//                vm.uploadResult.totalFail = (uploadResultData.totalFailed == null ? 'N/A':uploadResultData.totalFailed);
                 $scope.showUploadPopUp = true;
 		}).catch(function(response){
 			log.error('Confirm upload fail');

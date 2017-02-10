@@ -837,7 +837,7 @@ app.controller('CUSTOMER_CODELayoutConfigController', [ '$scope', '$rootScope', 
 					customerCodeGroupList.forEach(function(obj) {
 						var selectObj = {
 							label : obj.groupName,
-							value : obj.groupName
+							value : obj.groupId
 						}
 						vm.customerCodeGroupDropdown.push(selectObj);
 					});
@@ -852,15 +852,15 @@ app.controller('CUSTOMER_CODELayoutConfigController', [ '$scope', '$rootScope', 
 		};
 
 		vm.loadCustomerCodeGroup();
-
+		
+		vm.newCustomerCodeGroupDialog = null;
 		vm.newCustomerCodeGroup = function() {
-			vm.newCustCodeDialog = ngDialog.open({
+		    vm.newCustomerCodeGroupDialog = ngDialog.open({
 				id : 'new-customer-code-setting-dialog',
 				template : '/configs/layouts/file/data-types/customer-code/new-customer-code',
 				className : 'ngdialog-theme-default',
 				scope : $scope
 			});
-			vm.newCustCodeDialogId = vm.newCustCodeDialog.id;
 		};
 
 		vm.saveNewCustomerGroup = function() {
@@ -874,11 +874,14 @@ app.controller('CUSTOMER_CODELayoutConfigController', [ '$scope', '$rootScope', 
 					if (response.message !== undefined) {
 						vm.messageError = response.message;
 					} else {
+					    	ngDialog.close(vm.newCustomerCodeGroupDialog.id);
 						var loadCustCodeDiferred = vm.loadCustomerCodeGroup();
 						loadCustCodeDiferred.promise.then(function() {
-							vm.model.expectedValue = response.groupName;
+							vm.model.expectedValue = response.groupId;
+							vm.customerCodeGroupRequest.groupId = vm.model.expectedValue;
+							
 						});
-						ngDialog.close(vm.newCustCodeDialogId);
+						
 					}
 				}
 			}).catch(function(response) {
