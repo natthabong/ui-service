@@ -4,8 +4,8 @@
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
 					<h3>
-						<span ng-show="ctrl.isNewCusotmerCode" id="customer-code-header-message-label" class="animated fadeInLeft">{{'New customer code' | translate}}</span>
-						<span ng-show="!ctrl.isNewCusotmerCode" id="customer-code-header-message-label" class="animated fadeInLeft">{{'Edit customer code' | translate}}</span>
+						<span ng-show="ctrl.isNewCusotmerCode" id="customer-code-popup-header-message-label" class="animated fadeInLeft">{{'New customer code' | translate}}</span>
+						<span ng-show="!ctrl.isNewCusotmerCode" id="customer-code-popup-header-message-edit-label" class="animated fadeInLeft">{{'Edit customer code' | translate}}</span>
 					</h3>
 				</div>
 			</div>
@@ -124,10 +124,10 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<scf-button id="new-customer-code-group-popup-cancel-button"
+					<scf-button id="customer-code-cancel-button"
 						class="popup-button" ng-click="closeThisDialog()"
 						ng-bind="'Cancel' | translate"></scf-button>
-					<scf-button id="new-customer-code-group-popup-save-button"
+					<scf-button id="customer-code-save-button"
 						class="popup-button" type="submit" ng-bind="'Save' | translate" ng-click="ctrl.submitted = true"></scf-button>
 				</div>
 			</div>
