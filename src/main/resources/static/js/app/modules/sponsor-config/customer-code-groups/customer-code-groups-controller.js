@@ -474,7 +474,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			    dialogFail = UIFactory.showFailDialog({
 				data: {
 				    headerMessage: vm.isNewCusotmerCode?'New customer code fail.':'Edit customer code fail.',
-				    bodyMessage: msg[response.status]?msg[response.status]:response.statusText
+				    bodyMessage: msg[response.status]?msg[response.status]:response.message
 				},
 				preCloseCallback: function(){
 					closeCustomerCodeSetup();
