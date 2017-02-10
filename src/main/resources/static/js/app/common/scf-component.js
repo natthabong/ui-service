@@ -3,7 +3,7 @@
 
 	angular.module('ui/template/scftemplate', []).run([ "$templateCache", function($templateCache) {
 		$templateCache.put('ui/template/calendar.html',
-			'<p class="input-group">' + '<input type="text" placeholder="DD/MM/YYYY" show-weeks="false" class="form-control" ng-disabled="ngDisabled" ng-model="textModel" uib-datepicker-popup="{{dateFormat}}" is-open="isOpen" close-text="Close" min-date="minDate" max-date="maxDate"/>' + '<span class="input-group-btn">' + '<button type="button" ng-disabled="ngDisabled" class="btn btn-default" ng-click="openCalendarAction()">' + '<i class="glyphicon glyphicon-calendar"></i>' + '</button>' + "</span>" + '</p>');
+			'<p class="input-group">' + '<input type="text" name="{{textName}}" ng-required="textRequired" placeholder="DD/MM/YYYY" show-weeks="false" class="form-control" ng-disabled="ngDisabled" ng-model="textModel" uib-datepicker-popup="{{dateFormat}}" is-open="isOpen" close-text="Close" min-date="minDate" max-date="maxDate"/>' + '<span class="input-group-btn">' + '<button type="button" ng-disabled="ngDisabled" class="btn btn-default" ng-click="openCalendarAction()">' + '<i class="glyphicon glyphicon-calendar"></i>' + '</button>' + "</span>" + '</p>');
 
 		$templateCache.put('ui/template/data_table.html',
 			'<table st-table="componentDatas" class="table table-bordered">'
@@ -178,7 +178,9 @@
 					dateFormat : '@',
 					isOpen : '=',
 					openCalendarAction : '&',
-					maxDate : '='
+					maxDate : '=',
+					textName: '@',
+					textRequired: "@"
 				},
 				link : function(scope, element, attrs) {
 					scope.minDate = null;
@@ -188,6 +190,11 @@
 
 					if (attrs.buttonId !== undefined) {
 						element[0].children[2].children[0].id = attrs.buttonId;
+					}
+					
+					
+					if(angular.isDefined(scope.textRequired)){
+						scope.textRequired = true;
 					}
 				},
 				templateUrl : 'ui/template/calendar.html'

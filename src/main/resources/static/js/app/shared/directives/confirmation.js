@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('gecscf.ui');s
+var app = angular.module('gecscf.ui');
 directive('confirmation', [ function() {
     return {
 	restrict : 'A',

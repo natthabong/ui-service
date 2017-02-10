@@ -1340,3 +1340,11 @@ iPad 3
 .ngdialog.ngdialog-theme-default.modal-width-60 .ngdialog-content{
 	width: 50%;
 }
+
+.error-msg{
+	color: red;
+}
+.error-input {
+	border-style: solid !important;
+	border-color: #ff6656 !important;
+}
