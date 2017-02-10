@@ -104,7 +104,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'UploadDocumentController',
 				controllerAs: 'ctrl',
 				templateUrl: '/upload-document',
-				resolve: load(['js/app/upload-document/upload-document-service.js','js/app/upload-document/upload-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/upload-document/upload-document-service.js','js/app/modules/upload-document/upload-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/document-list/sponsor',{
 				url: '/document-list/sponsor',
 				controller: 'DocumentListController',
