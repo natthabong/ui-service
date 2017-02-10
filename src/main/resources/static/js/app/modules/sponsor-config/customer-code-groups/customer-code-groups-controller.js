@@ -470,14 +470,13 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			    return saveCustomerCode(customerCode);
 			},
 			onFail: function(response){
-			    var msg = {405:'Customer code is use.'};
+			    var msg = {405:'Customer code is used.'};
 			    dialogFail = UIFactory.showFailDialog({
 				data: {
-				    headerMessage: vm.isNewCusotmerCode?'New customer code fail.':'Edit customer code fail.',
+				    headerMessage: vm.isNewCusotmerCode?'New customer code failed.':'Edit customer code failed.',
 				    bodyMessage: msg[response.status]?msg[response.status]:response.message
 				},
 				preCloseCallback: function(){
-					closeCustomerCodeSetup();
 					preCloseCallback();
 				}
 			    });
