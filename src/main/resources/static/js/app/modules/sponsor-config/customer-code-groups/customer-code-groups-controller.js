@@ -361,7 +361,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	vm.searchCriteria = {
 			customerCode: '',
 			suspend: '',
-			expired: '',
+			status: '',
 			supplierId: ''
 	}
 	var prepareSearchCriteria = function(){
@@ -377,11 +377,11 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		CustomerCodeStatus.forEach(function(item) {
 			if(item.value == vm.criteria.status){
 				if(item.valueObject == null){
-					vm.searchCriteria.suspend = null;
-					vm.searchCriteria.expired = null;
+					vm.searchCriteria.suspend = undefined;
+					vm.searchCriteria.status = undefined;
 				}else{
 					vm.searchCriteria.suspend = item.valueObject.suspend;
-					vm.searchCriteria.expired = item.valueObject.expired;
+					vm.searchCriteria.status = item.valueObject.status;
 				}
 			}
 		});		
@@ -682,7 +682,7 @@ scfApp.constant('CustomerCodeStatus', [
 		value : '1',
 		valueObject : {
 			suspend : 0,
-			expired : 0
+			status : 'ACTIVE'
 		}
 	},
 	{
@@ -690,7 +690,7 @@ scfApp.constant('CustomerCodeStatus', [
 		value : '2',
 		valueObject : {
 			suspend : 1,
-			expired : 0
+			status : undefined
 		}
 	},
 	{
@@ -698,7 +698,7 @@ scfApp.constant('CustomerCodeStatus', [
 		value : '3',
 		valueObject : {
 			suspend : 0,
-			expired : 1
+			status : 'EXPIRED'
 		}
 	}
 ]);
