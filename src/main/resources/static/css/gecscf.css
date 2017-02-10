@@ -1336,3 +1336,15 @@ iPad 3
 		background-color: #E6E6E6;
 	}
 }
+
+.ngdialog.ngdialog-theme-default.modal-width-60 .ngdialog-content{
+	width: 50%;
+}
+
+.error-msg{
+	color: red;
+}
+.error-input {
+	border-style: solid !important;
+	border-color: #ff6656 !important;
+}

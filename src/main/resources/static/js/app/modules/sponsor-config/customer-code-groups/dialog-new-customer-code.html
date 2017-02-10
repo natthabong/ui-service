@@ -1,0 +1,138 @@
+<div class="modal-content">
+	<form name="newEditCustCode" novalidate class="form-horizontal" ng-submit="ctrl.saveCustomer();">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3>
+						<span ng-show="ctrl.isNewCusotmerCode" id="customer-code-header-message-label" class="animated fadeInLeft">{{'New customer code' | translate}}</span>
+						<span ng-show="!ctrl.isNewCusotmerCode" id="customer-code-header-message-label" class="animated fadeInLeft">{{'Edit customer code' | translate}}</span>
+					</h3>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="form-group">
+						<label for="customer-code-customer-textbox"
+							id="customer-code-customer-label"
+							class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							ng-bind="'Customer' | translate"></span>:</label>
+						<div class="col-md-6 col-sm-4 col-xs-12">
+							<gec-auto-suggest model="ctrl.customerAutoSuggest"
+									ng-model="ctrl.customerSuggestModel" id="customer-code-customer-textbox"
+									required="required" name="customer">
+									</gec-auto-suggest>
+
+						</div>
+					</div>
+					<div class="form-group" ng-show="ctrl.submitted && newEditCustCode.customer.$error.required">
+						<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-customer-require-message-label" >{{'Customer code is required' | translate}}.</span>
+					</div>
+				
+					<div class="form-group">
+						<label for="customer-code-supplier-textbox"
+							id="customer-code-supplier-label"
+							class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							ng-bind="'Supplier code' | translate"></span>:</label>
+						<div class="col-md-6 col-sm-4 col-xs-12" >
+							<scf-input-text
+								id="customer-code-supplier-textbox"
+								ng-model="ctrl.model.customerCode" name="supplier" maxlength="20" ng-required="true"></scf-input-text>
+						</div>
+					</div>
+					<div class="form-group" ng-show="ctrl.submitted && newEditCustCode.supplier.$error.required">
+						<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-supplier-require-message-label" >{{'Supplier code is required' | translate}}.</span>
+					</div>
+					
+					<div class="form-group">
+						<label for="customer-code-remark-textbox"
+							id="customer-code-remark-label"
+							class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							ng-bind="'Remark' | translate"></span>:</label>
+						<div class="col-md-8 col-sm-7 col-xs-12">
+							<scf-input-text
+								id="customer-code-remark-textbox"
+								ng-model="ctrl.model.remark" maxlength="100"></scf-input-text>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="customer-code-active-date-calendar"
+							id="customer-code-active-date-label"
+							class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							ng-bind="'Active date' | translate"></span>:</label>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<scf-date-picker-from text-id="customer-code-active-date-calendar"
+										button-id="customer-code-active-date-button"
+										text-model="ctrl.model.activeDate"
+										text-name="activeDate"
+										text-required="required"
+										date-format="{{ctrl.dateFormat}}" is-open="ctrl.isOpenActiveDate"
+										open-calendar-action="ctrl.openActiveDate()"
+										max-date="ctrl.model.expiryDate"> </scf-date-picker-from>
+						</div>
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<label class="checkbox-inline"> 
+								<scf-checkbox
+									id="customer-code-expire-date-checkbox"
+									 ng-model="ctrl.isUseExpireDate"
+									 ng-click="ctrl.checkUseExpiryDate()"></scf-checkbox>
+									<span ng-bind="'Expire date' | translate"></span>:
+							</label>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<scf-date-picker-to text-id="customer-code-expiry-date-textbox"
+										button-id="customer-code-expiry-date-button"
+										text-model="ctrl.model.expiryDate"
+										date-format="{{ctrl.dateFormat}}" is-open="ctrl.isOpenExpiryDate"
+										open-calendar-action="ctrl.openExpiryDate()"
+										ng-disabled="!ctrl.isUseExpireDate"
+										min-date="ctrl.model.activeDate"> </scf-date-picker-to>						
+						</div>						
+					</div>
+					<div class="form-group" ng-show="ctrl.submitted && newEditCustCode.activeDate.$error.required">
+						<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-activeDate-require-message-label" >{{'Active date is required' | translate}}.</span>
+					</div>
+					<div class="form-group" ng-show="ctrl.invalideExpiryDate">
+						<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-expire-date-require-message-label" >{{'Active date must be less than or equal to expire date' | translate}}.</span>
+					</div>
+					<div class="form-group" ng-show="ctrl.wrongDateFormat">
+						<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-wrong-date-format-message-label" >{{'Wrong date format data' | translate}}.</span>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<div class="col-md-8 col-sm-7 col-xs-12">
+							<label class="checkbox-inline"><scf-checkbox
+								id="customer-code-suspend-date-checkbox"
+								ng-model="ctrl.model.suspend"></scf-checkbox>
+								<span ng-bind="'Suspend' | translate"></span></label>							
+						</div>
+					</div>
+					
+				</div>				
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="new-customer-code-group-popup-cancel-button"
+						class="popup-button" ng-click="closeThisDialog()"
+						ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="new-customer-code-group-popup-save-button"
+						class="popup-button" type="submit" ng-bind="'Save' | translate" ng-click="ctrl.submitted = true"></scf-button>
+				</div>
+			</div>
+		</div>
+		
+		
+	</form>
+	
+</div>
