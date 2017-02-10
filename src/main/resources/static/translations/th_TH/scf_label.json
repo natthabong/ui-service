@@ -257,6 +257,9 @@
 	"New customer code completed": "New customer code completed",
 	"Add more": "Add more",
 	"Wrong date format data": "Wrong date format data",
+	"ACTIVE": "Active",
+	"SUSPEND": "Suspend",
+	"EXPIRED": "Expired",
 	
 	"Display document configuration": "ตั้งค่าหน้าจอแสดงเอกสาร",
 	"Credit term": "Credit term",
