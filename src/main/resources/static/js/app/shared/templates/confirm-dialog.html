@@ -19,15 +19,11 @@
 		</div>
 		<div class="modal-footer">
 			<div class="row">
-				<div class="col-xs-12 text-right" ng-if="!ngDialogData.data.buttons">
+				<div class="col-xs-12 text-right">
 					<scf-button id="no-button" class="popup-button"
 						ng-click="closeThisDialog(false)" ng-bind="'NO' | translate"></scf-button>
 					<scf-button id="yes-button" class="popup-button" type="submit"
 						ng-bind="'YES' | translate"></scf-button>					
-				</div>
-				
-				<div class="col-xs-12 text-right" ng-if="ngDialogData.data.buttons" ng-repeat="button in ngDialogData.data.buttons track by $index">
-					<scf-button id="button.id" class="popup-button" ng-bind="button.label | translate" ng-click="button.action()"></scf-button>
 				</div>
 			</div>
 		</div>
