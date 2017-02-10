@@ -11,11 +11,11 @@ app.directive('scfFileUpload', [ function() {
 					browseFileId : '@',
 					acceptFileExtention : '='
 				},
-				link : function(scope, element, attrs) {
-					var inputTextChild = element[0].children[0].children[0];
+				link : function(scope, elements, attrs) {
+					scope.fileName = '';
 					scope.$watch('fileUpload', function() {
 						if (!angular.isUndefined(scope.fileUpload)) {
-							inputTextChild.value = scope.fileUpload.name || '';
+							scope.fileName = scope.fileUpload.name || '';
 						}
 					});
 					scope.$watch('acceptFileExtention', function() {
@@ -23,7 +23,7 @@ app.directive('scfFileUpload', [ function() {
 					});
 				},
 				template : '<div class="input-group">'
-					+ '<scf-input-text id="{{inputTextId}}" maxlength="n/a" readOnly="true"></scf-input-text>'
+					+ '<scf-input-text id="{{inputTextId}}" ng-model="fileName" maxlength="n/a" readOnly="true"></scf-input-text>'
 					+ '<div class="fileUpload btn input-group-addon">'
 					+ '<span>Select</span>'
 					+ '<input type="file" accept="{{acceptFileExtention}}" file-model="fileUpload" id="{{browseFileId}}" class="upload"/>'
@@ -34,12 +34,13 @@ app.directive('scfFileUpload', [ function() {
 		.directive('fileModel', [ '$parse', function($parse) {
 			return {
 				restrict : 'A',
-				link : function(scope, element, attrs) {
+				link : function(scope, elements, attrs) {
 					var model = $parse(attrs.fileModel);
 					var modelSetter = model.assign;
-					element.bind('change', function() {
+					
+					elements.bind('change', function() {
 						scope.$apply(function() {
-							modelSetter(scope, element[0].files[0]);
+							modelSetter(scope, elements[0].files[0]);
 						});
 					});
 				}
