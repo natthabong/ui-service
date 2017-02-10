@@ -280,13 +280,12 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 				cssTemplate : 'text-left'
 			},
 			{
-				fieldName : '',
 				labelEN : '',
 				labelTH : '',
 				sortable : false,
 				cssTemplate : 'text-left',
-				cellTemplate : '<scf-button id="{{data.supplierCode}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.customerCodeSetup(data)" title="Setup customer code"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></scf-button>' +
-					'<scf-button id="{{data.supplierCode}}-delete-button"  class="btn-default gec-btn-action" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+				cellTemplate : '<scf-button id="{{data.customerCode}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.customerCodeSetup(data)" title="Setup customer code"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></scf-button>' +
+					'<scf-button id="{{data.customerCode}}-delete-button"  class="btn-default gec-btn-action" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 			}
 		]
 	};
@@ -424,23 +423,47 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	
 	
 	var saveCustomerCode = function(customerCode){
-		var serviceUrl = '/api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/customer-code-groups/'+groupId+'/customers/'+customerCode.supplierId+'/customer-codes/';
+		
 		var saveCustomerDiferred = '';
 		if(vm.isNewCusotmerCode){
-			saveCustomerDiferred = Service.requestURL(serviceUrl, customerCode);
+			customerCode.groupId = groupId;
+			
+			var newCustCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/customer-code-groups/'+groupId+'/customer-codes';
+			saveCustomerDiferred = Service.requestURL(newCustCodeURL, customerCode);
 		}else{
-			saveCustomerDiferred = Service.doPut(serviceUrl, customerCode);
+			var editCustCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/customer-code-groups/'+groupId+'/customer-codes/'+ vm.oldCustomerCode;
+			saveCustomerDiferred = Service.doPut(editCustCodeURL, customerCode);
 		}
 		return saveCustomerDiferred;
 		
 	}
+	
+	var dialogSuccess, dialogFail = ''
 	vm.confirmSaveCustomerCode = function(customerCode){
 		var preCloseCallback = function(confirm) {
 			vm.search(vm.criteria);
 		}
 		
+		var addMoreBtn = {label:"Add more", id: "add-more-button", action: function(){
+			closeDialogSucccess();
+			vm.customerCodeSetup();
+		}};
+		
+		var okBtn = {label: "OK", id: "ok-button", action: function(){
+			closeDialogSucccess();
+			closeCustomerCodeSetup();
+		}};
+		var dialogSuccessBtn = [];
+		
+		if(vm.isNewCusotmerCode){
+			dialogSuccessBtn.push(addMoreBtn);
+			dialogSuccessBtn.push(okBtn);
+		}else{
+			dialogSuccessBtn.push(okBtn);
+		}
+		
 		UIFactory.showConfirmDialog({
-			data: { 
+			data: {
 			    headerMessage: 'Confirm save?'
 			},
 			confirm: function(){
@@ -448,7 +471,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			},
 			onFail: function(response){
 			    var msg = {405:'Customer code is use.'};
-			    UIFactory.showFailDialog({
+			    dialogFail = UIFactory.showFailDialog({
 				data: {
 				    headerMessage: vm.isNewCusotmerCode?'New customer code fail.':'Edit customer code fail.',
 				    bodyMessage: msg[response.status]?msg[response.status]:response.statusText
@@ -460,18 +483,18 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			    });
 			},
 			onSuccess: function(response){
-			    UIFactory.showSuccessDialog({
+				dialogSuccess = UIFactory.showSuccessDialog({
 				data: {
-				    headerMessage: vm.isNewCusotmerCode?'New customer code completed.':'Edit customer code completed.',
+				    headerMessage: vm.isNewCusotmerCode == true?'New customer code completed.':'Edit customer code completed.',
 				    bodyMessage: ''
 				},
-				buttons: [
-					{label:"Add more", id: "add-more-button",action: function(){
+				preCloseCallback: function(){
+					preCloseCallback();
+					if(!vm.isNewCusotmerCode){
 						closeCustomerCodeSetup();
-					} },
-					{label: "OK", id: "ok-button", action: function(){
-						$scope.closeThisDialog();
-					}}]
+					}					
+				},
+				buttons: dialogSuccessBtn
 			    });
 			}
 		    });
@@ -479,6 +502,10 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	
 	vm.customerCodeSetup = function(model){
 		vm.isNewCusotmerCode = angular.isUndefined(model);
+		if(!vm.isNewCusotmerCode){
+			vm.oldCustomerCode = model.customerCode;
+		}
+		
 		vm.newCustCodeDialog = ngDialog.open({
 			template: '/js/app/modules/sponsor-config/customer-code-groups/dialog-new-customer-code.html',
 			className: 'ngdialog-theme-default modal-width-60',
@@ -494,8 +521,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 				if(angular.isDefined(value)){
 					vm.confirmSaveCustomerCode(value);
 					return false;
-				}
-				
+				}				
 				return true;
 			}
 		});
@@ -503,6 +529,12 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	
 	var closeCustomerCodeSetup = function(){
 		vm.newCustCodeDialog.close();
+	}
+	var closeDialogSucccess = function(){
+		dialogSuccess.close();
+	}
+	var closeDialogFail = function(){
+		dialogFail.close();
 	}
 
 }
@@ -561,7 +593,8 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 	var initialData = function(){
 		if(vm.isNewCusotmerCode){
 			vm.model = {
-					activeDate: new Date()
+					activeDate: new Date(),
+					suspend: false
 			}
 		}else{
 
@@ -599,8 +632,6 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 		if(angular.isDefined(vm.customerSuggestModel)){
 			vm.model.supplierId = vm.customerSuggestModel.supplierId;
 		}
-		
-		console.log(angular.isDate(vm.model.activeDate))
 		
 		if(vm.isUseExpireDate){			
 			if(angular.isDefined(vm.model.expiryDate)){

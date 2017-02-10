@@ -22,7 +22,8 @@
 						<div class="col-md-6 col-sm-4 col-xs-12">
 							<gec-auto-suggest model="ctrl.customerAutoSuggest"
 									ng-model="ctrl.customerSuggestModel" id="customer-code-customer-textbox"
-									required="required" name="customer">
+									required="required" name="customer"
+									disable="!ctrl.isNewCusotmerCode">
 									</gec-auto-suggest>
 
 						</div>
