@@ -30,7 +30,7 @@
 					</div>
 					<div class="form-group" ng-show="ctrl.submitted && newEditCustCode.customer.$error.required">
 						<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
-						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-customer-require-message-label" >{{'Customer code is required' | translate}}.</span>
+						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-customer-warning-message-label" >{{'Customer is required' | translate}}.</span>
 					</div>
 				
 					<div class="form-group">
@@ -46,7 +46,7 @@
 					</div>
 					<div class="form-group" ng-show="ctrl.submitted && newEditCustCode.supplier.$error.required">
 						<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
-						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-supplier-require-message-label" >{{'Supplier code is required' | translate}}.</span>
+						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-supplier-code-warning-message-label" >{{'Supplier code is required' | translate}}.</span>
 					</div>
 					
 					<div class="form-group">
@@ -86,8 +86,8 @@
 							</label>
 						</div>
 						<div class="col-md-3 col-sm-3 col-xs-12">
-							<scf-date-picker-to text-id="customer-code-expiry-date-textbox"
-										button-id="customer-code-expiry-date-button"
+							<scf-date-picker-to text-id="customer-code-expire-date-textbox"
+										button-id="customer-code-expire-date-button"
 										text-model="ctrl.model.expiryDate"
 										date-format="{{ctrl.dateFormat}}" is-open="ctrl.isOpenExpiryDate"
 										open-calendar-action="ctrl.openExpiryDate()"
@@ -97,24 +97,24 @@
 					</div>
 					<div class="form-group" ng-show="ctrl.submitted && newEditCustCode.activeDate.$error.required">
 						<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
-						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-activeDate-require-message-label" >{{'Active date is required' | translate}}.</span>
+						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-active-date-warning-message-label" >{{'Active date is required' | translate}}.</span>
 					</div>
 					<div class="form-group" ng-show="ctrl.invalideExpiryDate">
 						<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
-						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-expire-date-require-message-label" >{{'Active date must be less than or equal to expire date' | translate}}.</span>
+						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-expire-date-warning-message-label" >{{'Active date must be less than or equal to expire date' | translate}}.</span>
 					</div>
 					<div class="form-group" ng-show="ctrl.wrongDateFormat">
 						<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
-						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-wrong-date-format-message-label" >{{'Wrong date format data' | translate}}.</span>
+						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="customer-code-wrong-date-format-warning-message-label" >{{'Wrong date format data' | translate}}.</span>
 					</div>
 					
 					<div class="form-group">
 						<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
 						<div class="col-md-8 col-sm-7 col-xs-12">
 							<label class="checkbox-inline"><scf-checkbox
-								id="customer-code-suspend-date-checkbox"
+								id="customer-code-suspend-checkbox"
 								ng-model="ctrl.model.suspend"></scf-checkbox>
-								<span ng-bind="'Suspend' | translate"></span></label>							
+								<span id="customer-code-suspend-label" ng-bind="'Suspend' | translate"></span></label>							
 						</div>
 					</div>
 					

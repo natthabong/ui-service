@@ -252,7 +252,7 @@
 	"Suspend": "Suspend",
 	"Supplier code is required": "Supplier code is required",
 	"Active code is required": "Active code is required",
-	"Customer code is required": "Customer code is required",
+	"Customer is required": "Customer is required",
 	"Active date is required": "Active date is required",
 	"Active date must be less than or equal to expire date": "Active date must be less than or equal to expire date",
 	"New customer code completed": "New customer code completed",
