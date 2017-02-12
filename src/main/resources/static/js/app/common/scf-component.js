@@ -862,13 +862,13 @@
 						elements.html(rowNo);
 						dataRender = rowNo;
 					}
-
+					
 					if (angular.isDefined(column.filterType) && column.filterType !== null) {
 						dataRender = filterData(column, data);
 					} else {
 						dataRender = data[column.fieldName] || column.cellTemplate;
 					}
-					
+
 					if(column.renderer!=null){
 					    dataRender = column.renderer(dataRender);
 					}
@@ -880,12 +880,12 @@
 						// Check add id is rowNo for checkBox
 						if (column.idValueField === '$rowNo') {
 							if (elements[0].children.length > 0) {
-								elements[0].children[0].id = addId(rowNo, column.idTemplate, column.renderer);
+								elements[0].children[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);
 							} else {
-								elements[0].children[0].id = addId(rowNo, column.idTemplate, column.renderer);
+								elements[0].children[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);
 							}
 						} else {
-							elements[0].children[0].id = addId(data[column.idValueField != null ? column.idValueField : column.field], column.idTemplate, column.renderer);
+							elements[0].children[0].id = addId(data[column.idValueField != null ? column.idValueField : column.field], column.idTemplate, column.renderer, column.fieldName);
 						}
 					}
 
@@ -916,11 +916,16 @@
 				return result;
 			}
 
-			function addId(rowNo, columnId, renderer) {
+			function addId(rowNo, columnId, renderer, fieldName) {
 				if (angular.isDefined(renderer) && renderer != null) {
 					rowNo = renderer(rowNo);
 				}
-				return columnId.replace('{value}', rowNo)+"-label";
+				
+				if(fieldName != 'selectBox'){
+					return columnId.replace('{value}', rowNo)+"-label";
+				}else{
+					return columnId.replace('{value}', rowNo);
+				}
 			}
 		} ])
 		.directive('scfShowOnMobile', ['$compile', function($compile){
