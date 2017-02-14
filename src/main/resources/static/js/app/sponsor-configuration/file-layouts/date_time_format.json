@@ -8,6 +8,15 @@
 	}, {
 		"dateTimeName" : "YYYY/MM/DD",
 		"dateTimeId" : "yyyy/MM/dd"
+	},{
+		"dateTimeName" : "D/M/YYYY",
+		"dateTimeId" : "d/M/yyyy"
+	}, {
+		"dateTimeName" : "M/D/YYYY",
+		"dateTimeId" : "M/d/yyyy"
+	}, {
+		"dateTimeName" : "YYYY/M/D",
+		"dateTimeId" : "yyyy/M/d"
 	}, {
 		"dateTimeName" : "DD-MM-YYYY",
 		"dateTimeId" : "dd-MM-yyyy"
@@ -18,6 +27,15 @@
 		"dateTimeName" : "YYYY-MM-DD",
 		"dateTimeId" : "yyyy-MM-dd"
 	}, {
+		"dateTimeName" : "D-M-YYYY",
+		"dateTimeId" : "d-M-yyyy"
+	}, {
+		"dateTimeName" : "M-D-YYYY",
+		"dateTimeId" : "M-d-yyyy"
+	}, {
+		"dateTimeName" : "YYYY-M-D",
+		"dateTimeId" : "yyyy-M-d"
+	}, {
 		"dateTimeName" : "DD.MM.YYYY",
 		"dateTimeId" : "dd.MM.yyyy"
 	}, {
@@ -26,6 +44,15 @@
 	}, {
 		"dateTimeName" : "YYYY.MM.DD",
 		"dateTimeId" : "yyyy.MM.dd"
+	}, {
+		"dateTimeName" : "D.M.YYYY",
+		"dateTimeId" : "d.M.yyyy"
+	}, {
+		"dateTimeName" : "M.D.YYYY",
+		"dateTimeId" : "M.d.yyyy"
+	}, {
+		"dateTimeName" : "YYYY.M.D",
+		"dateTimeId" : "yyyy.M.d"
 	}, {
 		"dateTimeName" : "DDMMYYYY",
 		"dateTimeId" : "ddMMyyyy"
@@ -36,6 +63,15 @@
 		"dateTimeName" : "YYYYMMDD",
 		"dateTimeId" : "yyyyMMdd"
 	}, {
+		"dateTimeName" : "DMYYYY",
+		"dateTimeId" : "dMyyyy"
+	}, {
+		"dateTimeName" : "MDYYYY",
+		"dateTimeId" : "Mdyyyy"
+	}, {
+		"dateTimeName" : "YYYYMD",
+		"dateTimeId" : "yyyyMd"
+	},  {
 		"dateTimeName" : "hh:mm:ss",
 		"dateTimeId" : "HH:mm:ss"
 	}, {
