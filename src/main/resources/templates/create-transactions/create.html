@@ -119,6 +119,14 @@
 														ng-bind="ctrl.tradingpartnerInfoModel.pendingAmount | number:2">0.00</span>
 												</div>
 												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
+												<div class="col-md-3 col-sm-3">
+													<label ng-bind="'Tenor' | translate">Tenor</label>:
+												</div>
+												<div class="col-md-2 col-sm-2 text-right">
+													<span id="interest-rate-label"
+														ng-bind="ctrl.tradingpartnerInfoModel.tenor">0.000000</span>
+												</div>
+												<div class="col-md-1 col-sm-1">{{'Days' | translate}}</div>
 											</div>
 											<div class="row">
 												<div class="col-md-3 col-sm-3">

@@ -288,5 +288,8 @@
     "Current": "Current",
     "Document selection": "Document selection",
     "Any document": "Any document",
-    "Group by matching ref no": "Group by matching ref no"
+    "Group by matching ref no": "Group by matching ref no",
+    
+    "Tenor": "Tenor",
+    "Days": "Days"
 }
