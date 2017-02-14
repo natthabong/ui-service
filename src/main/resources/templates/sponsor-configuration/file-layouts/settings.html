@@ -208,10 +208,12 @@
 											<td class="text-right" style="width: 3%"></td>
 											<td class="text-center" style="width: 15%"><scf-input-text
 													id="header-length-{{$index+1}}-textbox"
+													convert-to-number=""
 													style="text-align: right;" ng-model="record.dataLength"
 													maxlength="3" /></td>
 											<td class="text-center" style="width: 15%"><scf-input-text
 													id="header-start-index-{{$index+1}}-textbox"
+													convert-to-number=""
 													style="text-align: right;" ng-model="record.startIndex"
 													maxlength="3" /></td>
 											<td class="text-center" style="width: 15%"
@@ -320,9 +322,11 @@
 
 											<td class="text-center" style="width: 15%"><scf-input-text
 													id="length-{{$index+1}}-textbox" style="text-align: right;"
+													convert-to-number=""
 													ng-model="record.dataLength" maxlength="3" /></td>
 											<td class="text-center" style="width: 15%"><scf-input-text
 													id="index-{{$index+1}}-textbox" style="text-align: right;"
+													convert-to-number=""
 													ng-model="record.startIndex" maxlength="3" /></td>
 											<td class="text-center" style="width: 15%"
 												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><scf-input-text
@@ -495,10 +499,12 @@
 											<td class="text-center" style="width: 15%"><scf-input-text
 													id="footer-length-{{$index+1}}-textbox"
 													style="text-align: right;" ng-model="record.dataLength"
+													convert-to-number=""
 													maxlength="3" /></td>
 											<td class="text-center" style="width: 15%"><scf-input-text
 													id="footer-start-index-{{$index+1}}-textbox"
 													style="text-align: right;" ng-model="record.startIndex"
+													convert-to-number=""
 													maxlength="3" /></td>
 											<td class="text-center" style="width: 15%"
 												ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><scf-input-text
