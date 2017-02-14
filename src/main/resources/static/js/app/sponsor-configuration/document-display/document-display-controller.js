@@ -40,8 +40,8 @@ angular
                 vm.dataModel = {
                     displayName: null,
                     items: null,
-                    loanRequestMode: 'CURRENT_AND_FUTURE',
-                    documentSelection: 'ANY_DOCUMENT'
+                    loanRequestMode: null,
+                    documentSelection: null
                 };
                 
                 vm.dataModel.items = [newDisplayConfig()];
@@ -86,8 +86,6 @@ angular
                         if (vm.dataModel.items.length < 1) {
                             vm.addItem();
                         }
-                        //vm.dataModel.loanRequestMode = "CURRENT_FUTURE";
-                        //vm.dataModel.documentSelection = "ANY";
                     });
 
                     sendRequest('/display-document-fields', function(response) {
@@ -151,12 +149,11 @@ angular
                         obj.sequenceNo = index + 1;
                         vm.dataModel.completed =  obj.completed && vm.dataModel.completed; 
                     })
-                    log.debug(vm.dataModel)
+                    
                     var url =  BASE_URI+'/displays/'+ vm.dataModel.documentDisplayId;
                     var deffered = Service.doPut(url, vm.dataModel);
                     
                     deffered.promise.then(function(response){
-                    	console.log(sponsorId);
                     	var organizeModel = {organizeId: sponsorId};
                         PageNavigation.gotoPage('/sponsor-configuration', {
                         	organizeModel: organizeModel
@@ -243,6 +240,13 @@ angular
 		     
 		     this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
 
+     }]).controller( 'DOCUMENT_TYPEDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
+                                           	       function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+	    	
+		   this.model = angular.copy($scope.ngDialogData.record);
+	     
+		   this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+	 
      }]).controller( 'NUMERICDisplayConfigController', [ '$scope', 
 														'$filter',
 														'ALIGNMENT_DROPDOWN_ITEM',
@@ -400,6 +404,7 @@ angular
 	 }]).factory('DocumentDisplayConfigExampleService', ['$filter', 'SCFCommonService', function($filter, SCFCommonService) {
 		 return {
 			 TEXT_DisplayExample: TEXT_DisplayExample,
+			 DOCUMENT_TYPE_DisplayExample: DOCUMENT_TYPE_DisplayExample,
 			 CUSTOMER_CODE_DisplayExample: CUSTOMER_CODE_DisplayExample,
 			 DOCUMENT_NO_DisplayExample: DOCUMENT_NO_DisplayExample,
 			 NUMERIC_DisplayExample: NUMERIC_DisplayExample,
@@ -408,6 +413,12 @@ angular
 		 }
 		 
 		 function TEXT_DisplayExample(record, config){
+			 var displayMessage = config.displayDetailPattern;
+             var replacements = [SCFCommonService.camelize(record.alignment), config.defaultExampleValue];
+             return SCFCommonService.replacementStringFormat(displayMessage, replacements);
+		 }
+		 
+		 function DOCUMENT_TYPE_DisplayExample(record, config){
 			 var displayMessage = config.displayDetailPattern;
              var replacements = [SCFCommonService.camelize(record.alignment), config.defaultExampleValue];
              return SCFCommonService.replacementStringFormat(displayMessage, replacements);

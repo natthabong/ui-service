@@ -110,8 +110,9 @@
 													component-data="ctrl.sortTypes" translate-label="true"></scf-dropdown></td>
 
 											<td class="text-center"><scf-input-text
-													id="sort-sequence-no-{{$index+1}}-textbox"
+													id="order-index-{{$index+1}}-textbox"
 													style="width: 55px; text-align: right;"
+													convert-to-number=""
 													ng-model="record.sortSequenceNo"
 													ng-disabled="!record.sortType"
 													maxlength="255" /></td>
