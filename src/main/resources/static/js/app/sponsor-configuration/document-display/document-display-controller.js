@@ -15,9 +15,11 @@ angular
             '$rootScope',
             '$injector',
             'DocumentDisplayConfigExampleService',
+            'LOAN_REQUEST_MODE_ITEM',
+            'DOCUMENT_SELECTION_ITEM',
             function($log, $scope, $state, SCFCommonService,
                 $stateParams, $timeout, ngDialog,
-                PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService) {
+                PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService, LOAN_REQUEST_MODE_ITEM, DOCUMENT_SELECTION_ITEM) {
 
 
                 var vm = this;
@@ -37,11 +39,16 @@ angular
 
                 vm.dataModel = {
                     displayName: null,
-                    items: null
+                    items: null,
+                    loanRequestMode: 'CURRENT_AND_FUTURE',
+                    documentSelection: 'ANY_DOCUMENT'
                 };
-
+                
                 vm.dataModel.items = [newDisplayConfig()];
 
+                vm.loanRequestMode = LOAN_REQUEST_MODE_ITEM;
+                vm.documentSelection = DOCUMENT_SELECTION_ITEM;
+                
                 vm.sortTypes = [{
                     label: 'ASC',
                     value: 'ASC'
@@ -79,6 +86,8 @@ angular
                         if (vm.dataModel.items.length < 1) {
                             vm.addItem();
                         }
+                        //vm.dataModel.loanRequestMode = "CURRENT_FUTURE";
+                        //vm.dataModel.documentSelection = "ANY";
                     });
 
                     sendRequest('/display-document-fields', function(response) {
@@ -207,7 +216,13 @@ angular
 	    }, {
 	    	label: '(123,456.00)',
 	    	value: 'negativeParenthesis'
-	    }]).controller( 'TEXTDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
+	    }]).constant('LOAN_REQUEST_MODE_ITEM', {
+	    	currentAndFuture : 'CURRENT_AND_FUTURE',
+	    	current : 'CURRENT'
+	    }).constant('DOCUMENT_SELECTION_ITEM', {
+	    	anyDocument : 'ANY_DOCUMENT',
+	    	groupByMatchingRefNo : 'GROUP_BY_MATCHING_REF_NO'
+	    }).controller( 'TEXTDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
 	       function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 	    	
 			   this.model = angular.copy($scope.ngDialogData.record);

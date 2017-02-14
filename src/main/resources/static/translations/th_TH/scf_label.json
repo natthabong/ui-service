@@ -281,5 +281,12 @@
     "(Include start date)": "(Include start date)",
     "Payment period": "Payment period",
     "Every period": "Every period",
-    "Specific period": "Specific period"
+    "Specific period": "Specific period",
+    
+    "Loan request mode": "Loan request mode",
+    "Current and future": "Current and future",
+    "Current": "Current",
+    "Document selection": "Document selection",
+    "Any document": "Any document",
+    "Group by matching ref no": "Group by matching ref no"
 }

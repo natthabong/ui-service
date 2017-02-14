@@ -13,16 +13,56 @@
 				<div class="panel-body">
 					<form name="createForm" class="form-horizontal">
 						<div class="form-group">
-							<label for="dealer"
+							<label id="document-display-name-label" for="dealer"
 								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Document
 								display name' | translate}}: </label>
 
 							<div class="col-md-3 col-sm-4 col-xs-12">
 								<scf-input-text id="document-display-name-textbox"
-									ng-model="ctrl.dataModel.displayName"></scf-input-text>
+									ng-model="ctrl.dataModel.displayName"
+									maxlength="255"></scf-input-text>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
+						<div class="form-group">
+							<label id="loan-request-mode-label" for="dealer"
+								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Loan request mode' | translate}}: </label>
+
+							<div class="col-md-3 col-sm-4 col-xs-12">
+								<label class="radio-inline"> <scf-radio
+										id="current-and-future-loan-request-mode-radio" name="loan-request-mode-radio"
+										ng-value="ctrl.loanRequestMode.currentAndFuture"
+										ng-model="ctrl.dataModel.loanRequestMode"></scf-radio>
+									{{'Current and future' | translate}}
+								</label> <label class="radio-inline"> <scf-radio
+										id="current-request-mode-radio" name="loan-request-mode-radio"
+										ng-value="ctrl.loanRequestMode.current"
+										ng-model="ctrl.dataModel.loanRequestMode"></scf-radio>
+									{{'Current' | translate}}
+								</label>
+							</div>
+							<div class="col-md-6 col-sm-4"></div>
+						</div>
+						<div class="form-group">
+							<label id="document-selection-label" for="dealer"
+								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Document selection' | translate}}: </label>
+
+							<div class="col-md-3 col-sm-4 col-xs-12">
+								<label class="radio-inline"> <scf-radio
+										id="any-document-document-selection-radio" name="document-selection-radio"
+										ng-value="ctrl.documentSelection.anyDocument"
+										ng-model="ctrl.dataModel.documentSelection"></scf-radio>
+									{{'Any document' | translate}}
+								</label> <label class="radio-inline"> <scf-radio
+										id="matching-ref-document-selection-radio" name="document-selection-radio"
+										ng-value="ctrl.documentSelection.groupByMatchingRefNo"
+										ng-model="ctrl.dataModel.documentSelection"></scf-radio>
+									{{'Group by matching ref no' | translate}}
+								</label>
+							</div>
+							<div class="col-md-6 col-sm-4"></div>
+						</div>
+						<br/>
 						<fieldset>
 							<legend ng-bind="'Display column' | translate"></legend>
 							<div class="responsive-table">
@@ -57,11 +97,13 @@
 
 											<td class="text-right"><scf-input-text
 													id="th-label-{{$index+1}}-textbox"
-													ng-model="record.labelTH" /></td>
+													ng-model="record.labelTH"
+													maxlength="255" /></td>
 
 											<td class="text-right"><scf-input-text
 													id="en-label-{{$index+1}}-textbox"
-													ng-model="record.labelEN" /></td>
+													ng-model="record.labelEN"
+													maxlength="255" /></td>
 
 											<td class="text-center"><scf-dropdown
 													id="order-{{$index+1}}-dropdown" ng-model="record.sortType"
@@ -71,7 +113,8 @@
 													id="sort-sequence-no-{{$index+1}}-textbox"
 													style="width: 55px; text-align: right;"
 													ng-model="record.sortSequenceNo"
-													ng-disabled="!record.sortType" /></td>
+													ng-disabled="!record.sortType"
+													maxlength="255" /></td>
 											<td class="text-center"><scf-button type="button"
 													id="arrow-up-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
