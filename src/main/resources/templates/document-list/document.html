@@ -21,7 +21,7 @@
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor' | translate}}:</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<scf-input-text id="sponsor-textbox" ng-disabled="ctrl.sponsorTxtDisable" 
-									ng-model="ctrl.documentListModel.sponsorIdName"></scf-input-text>
+									ng-model="ctrl.documentListModel.sponsorIdName" maxlength="100"></scf-input-text>
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
@@ -31,7 +31,7 @@
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier' | translate}} : </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<scf-input-text id="supplier-textbox" ng-disabled="ctrl.supplierTxtDisable"
-									 ng-model="ctrl.documentListModel.supplierIdName"></scf-input-text>
+									 ng-model="ctrl.documentListModel.supplierIdName" maxlength="100"></scf-input-text>
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
@@ -40,7 +40,7 @@
 								<label for="supplier-code-textbox"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier code' | translate}} : </label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
-									<scf-input-text id="supplier-code-textbox" ng-disabled="ctrl.supplierCodeDisable" ng-model="ctrl.documentListModel.supplierCode"></scf-input-text>
+									<scf-input-text id="supplier-code-textbox" ng-disabled="ctrl.supplierCodeDisable" ng-model="ctrl.documentListModel.supplierCode" maxlength="100"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-4"></div>
 							</div>
@@ -77,7 +77,7 @@
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Document No.' | translate}} : </label>
 
 								<div class="col-md-3 col-sm-4 col-xs-12">
-									<scf-input-text id="document-no-textbox" ng-model="ctrl.documentListModel.documentNo"></scf-input-text>
+									<scf-input-text id="document-no-textbox" ng-model="ctrl.documentListModel.documentNo" maxlength="100"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-5"></div>
 							</div>
