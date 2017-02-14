@@ -411,6 +411,8 @@ app.controller('NewFileLayoutController', [
 
 		vm.setup();
 
+		vm.tempDocFieldName = [];
+		
 		var settingDocFieldName = function(record, value, dataTypeObj) {
 			if (value.docFieldName == null) {
 				if (dataTypeObj.docFieldName != null) {
@@ -418,7 +420,15 @@ app.controller('NewFileLayoutController', [
 					var patt = /{sequenceNo}/g;
 					var res = field.match(patt);
 					if (res != null) {
-						field = field.replace(patt, fieldCounter[record.dataType]++);
+						//field = field.replace(patt, fieldCounter[record.dataType]++);
+						for (i = 1; i <= fieldCounter[record.dataType]; i++) { 
+							var tempField = field.replace(patt, i);
+							if(vm.tempDocFieldName.indexOf(tempField) == -1) {
+								vm.tempDocFieldName.push(tempField);
+								field = field.replace(patt, i);
+								break;
+							}
+						}
 					}
 					value.docFieldName = field;
 				}
@@ -553,7 +563,7 @@ app.controller('NewFileLayoutController', [
 				id : 'new-formula-dialog',
 				template : '/js/app/sponsor-configuration/file-layouts/dialog-new-formula.html',
 				className : 'ngdialog-theme-default',
-				controller : 'NewPaymentDateFormulaFileLayoutController',
+				controller : 'NewPaymentDateFormulaController',
 				controllerAs : 'ctrl',
 				scope : $scope,
 				data : {
@@ -609,7 +619,6 @@ app.controller('NewFileLayoutController', [
 			if(vm.model.fileType == vm.fileType.specific){
 					vm.specificsDropdown.forEach(function(obj) {
 						if(obj.value == vm.specificModel){
-							console.log(vm.model);
 							if(vm.model.layoutConfigId !=null && vm.items.length >0){
 								sponsorLayout = angular.copy(vm.model);
 								sponsorLayout.items = [];
@@ -781,6 +790,14 @@ app.controller('NewFileLayoutController', [
 		vm.removeDataItem = function(dataItems, item) {
 			var index = dataItems.indexOf(item);
 			dataItems.splice(index, 1);
+			
+			console.log(vm.tempDocFieldName);
+			console.log(item);
+			var indexDocFieldName = vm.tempDocFieldName.indexOf(item.docFieldName);
+			if(indexDocFieldName>-1){
+				vm.tempDocFieldName.splice(indexDocFieldName, 1);
+				console.log(vm.tempDocFieldName);
+			}
 		}
 
 		vm.getDetailFieldSize = function() {
@@ -2150,7 +2167,7 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 	;
 } ]);
 
-app.controller('NewPaymentDateFormulaFileLayoutController', [ '$scope', '$rootScope', 'Service', 'ngDialog', function($scope, $rootScope, Service, ngDialog) {
+app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope', 'Service', 'ngDialog', function($scope, $rootScope, Service, ngDialog) {
 	var vm = this;
 	vm.formula = angular.copy($scope.ngDialogData.formula);
 	vm.sponsorId = angular.copy($scope.ngDialogData.formula.sponsorId);
