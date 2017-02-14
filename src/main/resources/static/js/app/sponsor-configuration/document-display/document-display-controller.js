@@ -226,6 +226,13 @@ angular
 		     
 			   this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
     	 
+     }]).controller( 'MATCHING_REFDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
+	       function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+	    	
+		   this.model = angular.copy($scope.ngDialogData.record);
+	     
+		   this.alignDropdownItems = ALIGNMENT_DROPDOWN_ITEM;
+	 
      }]).controller( 'CUSTOMER_CODEDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
            function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 		    	
