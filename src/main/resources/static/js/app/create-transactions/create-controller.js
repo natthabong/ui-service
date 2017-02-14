@@ -192,7 +192,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 					else if (backAction === false) {
                         vm.createTransactionModel.sponsorCode = vm.sponsorCodes[0].value;
                     }
-                    
                     vm.loadSupplierCode();
                     // Load documentConfig from DB
                     vm.loadDocumentDisplayConfig(vm.createTransactionModel.sponsorCode);

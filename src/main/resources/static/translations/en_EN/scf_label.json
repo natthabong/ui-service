@@ -156,6 +156,7 @@
     "E1007": "Trading Partner is not avaliable.",
     "E1008": "Document has already been modified.",
     "E1009": "Wrong file format data.",
+    "Today is bank holiday.": "Can't create transaction. Please create next working day.",
     
     "drawdown_fail": "Drawdown fail",
 	"drawdown_success": "Drawdown success",
