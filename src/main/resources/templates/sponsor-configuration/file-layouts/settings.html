@@ -15,29 +15,36 @@
 					<div class="panel-body">
 
 						<div class="form-group">
-							<label for="dealer"
+							<label for="dealer" id="layout-name-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
 								layout name' | translate}}: </label>
 
 							<div class="col-md-4 col-sm-5 col-xs-12">
-								<scf-input-text id="layout-name-textbox" 
-									maxlength="255" ng-model="newFileLayoutCtrl.model.displayName"></scf-input-text>
+								<scf-input-text id="layout-name-textbox" maxlength="255"
+									ng-model="newFileLayoutCtrl.model.displayName"></scf-input-text>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
 						<div class="form-group">
-							<label for="dealer"
+							<label for="dealer" id="file-type-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
 								type' | translate}}: </label>
 							<div class="col-md-3 col-sm-4 col-xs-12">
 								<label class="radio-inline"> <scf-radio
-										id="fixedLength-file-type" name="file-type-radio"
+										id="fixedLength-file-type-radio" name="file-type-radio"
 										ng-value="newFileLayoutCtrl.fileType.fixedLength"
 										ng-change="newFileLayoutCtrl.fileTypeChange()"
 										ng-model="newFileLayoutCtrl.model.fileType"></scf-radio>
 									{{'Fixed length' | translate}}
-								</label> <label class="radio-inline"> <scf-radio
-										id="delimited-file-type"
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="dealer"
+								class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<div class="col-md-1 col-sm-2 col-xs-12">
+								<label class="radio-inline"> <scf-radio
+										id="delimited-file-type-radio"
 										ng-value="newFileLayoutCtrl.fileType.delimited"
 										ng-change="newFileLayoutCtrl.fileTypeChange()"
 										name="file-type-radio"
@@ -45,25 +52,68 @@
 									{{'Delimited' | translate}}
 								</label>
 							</div>
-							<label for="dealer"
+							<label for="dealer" id="delimiters-label"
 								class="col-md-1 col-sm-2 col-xs-12 control-label">{{'Delimiters'
 								| translate}}: </label>
 							<div class="col-md-2 col-sm-3 col-xs-12">
 								<scf-dropdown
-									ng-disabled="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"
+									ng-disabled="newFileLayoutCtrl.model.fileType != newFileLayoutCtrl.fileType.delimited"
 									id="delimiters-dropdown" ng-model="newFileLayoutCtrl.delimeter"
 									ng-change="newFileLayoutCtrl.delimeterChange()"
 									component-data="newFileLayoutCtrl.delimitersDropdown"
 									translate-label="true"></scf-dropdown>
 							</div>
-							<div class="col-md-2 col-sm-3 col-xs-12">
+							<div class="col-md-1 col-sm-1 col-xs-12">
 								<scf-input-text id="delimiters-textbox"
 									ng-disabled="newFileLayoutCtrl.delimeter!='Other'"
-									ng-model="newFileLayoutCtrl.delimeterOther" size="1"></scf-input-text>
+									maxlength="1" ng-model="newFileLayoutCtrl.delimeterOther"></scf-input-text>
 							</div>
+							<div class="col-md-3 col-sm-4 col-xs-0"></div>
 						</div>
 						<div class="form-group">
 							<label for="dealer"
+								class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<div class="col-md-1 col-sm-2 col-xs-12">
+								<label class="radio-inline"> <scf-radio
+										id="specific-file-type-radio" name="file-type-radio"
+										ng-value="newFileLayoutCtrl.fileType.specific"
+										ng-change="newFileLayoutCtrl.fileTypeChange()"
+										ng-model="newFileLayoutCtrl.model.fileType"></scf-radio>
+									{{'Specific' | translate}}
+								</label>
+							</div>
+							<label for="dealer" id="specific-label"
+								class="col-md-1 col-sm-2 col-xs-12 control-label">{{'Specific'
+								| translate}}: </label>
+							<div class="col-md-2 col-sm-3 col-xs-12">
+								<scf-dropdown
+									ng-disabled="newFileLayoutCtrl.model.fileType != newFileLayoutCtrl.fileType.specific"
+									id="specifics-dropdown"
+									ng-model="newFileLayoutCtrl.specificModel"
+									component-data="newFileLayoutCtrl.specificsDropdown"
+									translate-label="true"></scf-dropdown>
+							</div>
+							<label for="customer-code"
+								class="col-md-2 col-sm-2 col-xs-12 control-label"><span
+								ng-bind="'Customer code' | translate"></span>:</label>
+							<div class="col-md-2 col-sm-3 col-xs-12">
+								<scf-dropdown id="customer-code-group-dropdown"
+									ng-disabled="newFileLayoutCtrl.model.fileType != newFileLayoutCtrl.fileType.specific"
+									ng-model="newFileLayoutCtrl.customerCodeGroup"
+									component-data="newFileLayoutCtrl.customerCodeGroupDropdown"
+									translate-label="true" convert-to-number="true"></scf-dropdown>
+							</div>
+							<div class="col-md-1 col-sm-1 col-xs-12">
+								<scf-button id="new-customer-code-group-button"
+									class="btn-default gec-btn-action"
+									ng-click="newFileLayoutCtrl.newCustomerCodeGroup()"
+									ng-disabled="newFileLayoutCtrl.model.fileType != newFileLayoutCtrl.fileType.specific"
+									title="New a customer code group"> <i
+									class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="dealer" id="file-encode-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
 								encode' | translate}}: </label>
 							<div class="col-md-2 col-sm-3 col-xs-12">
@@ -73,7 +123,9 @@
 									translate-label="true"></scf-dropdown>
 							</div>
 						</div>
-						<div class="form-group">
+						<div ng-show="newFileLayoutCtrl.displayLayout">
+						<div class="form-group"
+							ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific">
 							<label for="dealer"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Row
 								format' | translate}}: </label>
@@ -93,7 +145,8 @@
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group"
+							ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific">
 							<div class="col-md-2 col-sm-3 col-xs-12">
 								<label for="dealer" class="checkbox-inline"> <scf-checkbox
 										id="offset-checkbox"
@@ -107,7 +160,7 @@
 									ng-model="newFileLayoutCtrl.model.offsetRowNo" size="1"></scf-input-text>
 							</div>
 						</div>
-
+						</div>
 
 						<fieldset ng-show="newFileLayoutCtrl.showHeaderConfig()">
 							<legend id="header-field-layout-label"
@@ -205,8 +258,13 @@
 								</div>
 							</div>
 						</fieldset>
-						<br /> <br />
-						<fieldset>
+						<br
+							ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific" />
+						<br
+							ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific" />
+						<div ng-show="newFileLayoutCtrl.displayLayout">
+						<fieldset
+							ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific">
 							<legend ng-bind="'Detail field layout' | translate"></legend>
 							<div class="responsive-table">
 								<table id="config-item-table"
@@ -314,8 +372,7 @@
 											<td class="text-right" style="width: 3%"><label
 												id="layout-item-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-no-label"
 												class="text-right control-label">{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(),
-													$index)}}</label>
-											</td>
+													$index)}}</label></td>
 											<td class="text-center" style="width: 15%"><scf-input-text
 													id="sponsor-field-name-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-textbox"
 													ng-model="record.displayValue" /></td>
@@ -388,7 +445,10 @@
 							</div>
 
 						</fieldset>
-						<br /> <br />
+						<br
+							ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific" />
+						<br
+							ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific" />
 						<fieldset ng-show="newFileLayoutCtrl.showFooterConfig()">
 							<legend id="footer-field-layout-label"
 								ng-bind="'Footer field layout' | translate"></legend>
@@ -483,9 +543,12 @@
 								</div>
 							</div>
 						</fieldset>
-
-						<br /> <br />
-						<div class="form-group">
+						<br
+							ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific" />
+						<br
+							ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific" />
+						<div class="form-group"
+							ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific">
 							<label class="col-md-2 col-sm-3 col-xs-12 control-label">{{'payment-date'
 								| translate}}: </label>
 							<div class="col-sm-9 col-xs-12">
@@ -509,7 +572,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group"
+							ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific">
 							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 							<div class="col-sm-9 col-xs-12">
 								<div class="row">
@@ -581,7 +645,7 @@
 								</div>
 							</div>
 						</div>
-
+						</div>
 					</div>
 
 					<div class="panel-body">
