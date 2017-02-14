@@ -28,7 +28,7 @@
 							<label id="loan-request-mode-label" for="dealer"
 								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Loan request mode' | translate}}: </label>
 
-							<div class="col-md-3 col-sm-4 col-xs-12">
+							<div class="col-md-5 col-sm-5 col-xs-12">
 								<label class="radio-inline"> <scf-radio
 										id="current-and-future-loan-request-mode-radio" name="loan-request-mode-radio"
 										ng-value="ctrl.loanRequestMode.currentAndFuture"
@@ -41,13 +41,13 @@
 									{{'Current' | translate}}
 								</label>
 							</div>
-							<div class="col-md-6 col-sm-4"></div>
+							<div class="col-md-4 col-sm-3"></div>
 						</div>
 						<div class="form-group">
 							<label id="document-selection-label" for="dealer"
 								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Document selection' | translate}}: </label>
 
-							<div class="col-md-3 col-sm-4 col-xs-12">
+							<div class="col-md-5 col-sm-5 col-xs-12">
 								<label class="radio-inline"> <scf-radio
 										id="any-document-document-selection-radio" name="document-selection-radio"
 										ng-value="ctrl.documentSelection.anyDocument"
@@ -60,7 +60,7 @@
 									{{'Group by matching ref no' | translate}}
 								</label>
 							</div>
-							<div class="col-md-6 col-sm-4"></div>
+							<div class="col-md-4 col-sm-3"></div>
 						</div>
 						<br/>
 						<fieldset>
@@ -70,14 +70,14 @@
 									class="table table-striped table-bordered" cellspacing="0">
 									<thead>
 										<tr>
-											<th ng-bind="'No' | translate">No</th>
-											<th ng-bind="'Document field name' | translate">Document
+											<th id="no-header-label" ng-bind="'No' | translate">No</th>
+											<th id="document-field-name-header-label" ng-bind="'Document field name' | translate">Document
 												field name</th>
-											<th ng-bind="'TH Label' | translate" style="width: 15%">TH
+											<th id="th-label-header-label" ng-bind="'TH Label' | translate" style="width: 15%">TH
 												Label</th>
-											<th ng-bind="'EN Label' | translate" style="width: 15%">EN
+											<th id="en-label-header-textbox" ng-bind="'EN Label' | translate" style="width: 15%">EN
 												Label</th>
-											<th ng-bind="'Order' | translate" colspan="2">Order</th>
+											<th id="order-header-dropdown" ng-bind="'Order' | translate" colspan="2">Order</th>
 											<th></th>
 										</tr>
 									</thead>
@@ -87,7 +87,7 @@
 											ng-class="$even?'tr-odd':'tr-even'">
 
 											<td class="text-right"><label class="label-control"
-												id="sequence-no-{{$index+1}}-label" ng-bind="{{$index+1}}"></label></td>
+												id="no-{{$index+1}}-label" ng-bind="{{$index+1}}"></label></td>
 
 											<td class="text-right"><scf-dropdown
 													id="document-field-name-{{$index+1}}-dropdown"
@@ -153,7 +153,7 @@
 
 								<div>
 									<!-- Split button -->
-									<button id="add-another-field-detail-button" type="button"
+									<button id="add-another-field-button" type="button"
 										class="btn btn-default" ng-click="ctrl.addItem()"
 										ng-bind="'Add another field' | translate">Add another
 										field</button>
@@ -169,7 +169,7 @@
 					<div class="col-md-12 col-sm-12 text-right">
 						<scf-button id="document-display-save-button" type="submit"
 							ng-click="ctrl.save()">{{'Save' | translate}}</scf-button>
-						<scf-button id="document-display-back-button" class="popup-button"
+						<scf-button id="document-display-cancel-button" class="popup-button"
 							data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
 							ng-bind="'Cancel' | translate"></scf-button>
 					</div>
