@@ -449,7 +449,13 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         	if(checkOrUncheck){
         		var removeDupDataFormSearch = vm.documentSelects.indexOf(data);
         		vm.documentSelects.splice(removeDupDataFormSearch, 1);
-        		vm.searchByMatchingRef(macthingRefSelected);
+        		var result = vm.searchByMatchingRef(macthingRefSelected);
+        		result.promise.then(function(response){
+        			vm.documentSelects = vm.documentSelects.concat(response);
+        			calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+        		}).catch(function(response){
+ 		
+        		});
         	}else{
         		for (var index = vm.documentSelects.length-1; index > -1;index--) {
         			if(macthingRefSelected === vm.documentSelects[index].matchingRef){
@@ -461,6 +467,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         }
         
 		vm.searchByMatchingRef = function(macthingRefSelected){
+			var promise = $q.defer();
+			var documents = [];
 			var searchDocumentCriteria = {
                     sponsorId: vm.createTransactionModel.sponsorCode,
                     supplierCode: vm.createTransactionModel.supplierCode,
@@ -472,12 +480,14 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             }
 			var diferredDocumentAll = CreateTransactionService.getDocument(searchDocumentCriteria);
 			diferredDocumentAll.promise.then(function(response){
-				var documents = response.data.content;
-				vm.documentSelects = vm.documentSelects.concat(documents);
-				calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+				documents = response.data.content;
+				promise.resolve(documents);
 			}).catch(function(response){
 				log.error('searchDocumentAll error')
+				promise.reject(response);
 			});
+			
+			return promise;
 		}
 
 
@@ -496,38 +506,61 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     vm.checkAllModel = true;
                 }
             }
-            // Select All in page
+        
+        // Select All in page
         vm.checkAllDocument = function() {
-            var comparator = angular.equals;
-            var documentSelectClone = angular.copy(vm.documentSelects);
+            var tempMatchingRefNotQueryAgain = [];
             if (vm.checkAllModel) {
                 vm.tableRowCollection.forEach(function(document) {
-                    var foundDataSelect = false;
-                    for (var index = documentSelectClone.length; index--;) {
-                        if (comparator(document, documentSelectClone[index])) {
-                            foundDataSelect = true;
-                            break;
-                        }
+                	var foundDataSelect = (vm.documentSelects.indexOf(document) > -1);
+                    if (!foundDataSelect){
+                    	if(document.matchingRef != null){
+                    		var foundMatchingRefInTemp = tempMatchingRefNotQueryAgain.indexOf(document.matchingRef)
+                    		if(foundMatchingRefInTemp === -1){
+                    			
+                        		for (var index = vm.documentSelects.length-1; index > -1;index--) {
+                        			if(document.matchingRef === vm.documentSelects[index].matchingRef){
+                        				vm.documentSelects.splice(index, 1);
+                        			}
+                        		}
+                        		
+                    			tempMatchingRefNotQueryAgain.push(document.matchingRef);
+                        		var result = vm.searchByMatchingRef(document.matchingRef);
+                        		result.promise.then(function(response){
+                        			vm.documentSelects = vm.documentSelects.concat(response);                      			
+                        			console.log(vm.documentSelects.length);
+                        			calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                        		}).catch(function(response){
+                 		
+                        		});
+                        		
+                    		}             		
+                    	}else{
+                    		vm.documentSelects.push(document);
+                    		calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                    	}
                     }
-
-                    if (!foundDataSelect) {
-                        documentSelectClone.push(document);
-                    }
-                });
-                vm.documentSelects = angular.copy(documentSelectClone);
+                });            
             } else {
-                vm.tableRowCollection.forEach(function(document) {
-                    for (var index = documentSelectClone.length; index--;) {
-                        if (comparator(document, documentSelectClone[index])) {
-                            documentSelectClone.splice(index, 1);
-                            break;
-                        }
-                    }
-                });
+            	vm.tableRowCollection.forEach(function(document) {      
+            		var foundMatchingRefInTemp = tempMatchingRefNotQueryAgain.indexOf(document.matchingRef);
+        			if(document.matchingRef != null && foundMatchingRefInTemp === -1){
+        				tempMatchingRefNotQueryAgain.push(document.matchingRef);
+                		for (var index = vm.documentSelects.length-1; index > -1;index--) {
+                			if(document.matchingRef === vm.documentSelects[index].matchingRef){
+                				vm.documentSelects.splice(index, 1);
+                			}
+                		}        				
+        			}else{
+        				var foundDocument = vm.documentSelects.indexOf(document);
+        				if(foundDocument > -1){
+        					vm.documentSelects.splice(index, 1);
+        				}
+        			}
 
-                vm.documentSelects = documentSelectClone;
+            	});
+        		calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
             }
-            calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
         };
 
         $scope.sortData = function(order, orderBy) {
