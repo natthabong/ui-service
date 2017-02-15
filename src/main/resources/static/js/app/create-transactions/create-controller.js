@@ -20,6 +20,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             vm.showInfomation = false;
             vm.documentSelects = [];
             vm.checkAllModel = false;
+            vm.selectAllModel = false;
             vm.splitePageTxt = '';
 
             // Data Sponsor for select box
@@ -72,6 +73,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
             
             vm.checkAllModel = false;
+            vm.selectAllModel = false;
             // validate SponsorPayment Date is Select
             if (validateSponsorPaymentDate(sponsorPaymentDate)) {
                 if (pagingModel === undefined) {
@@ -349,6 +351,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     // Calculate Display page
                     vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
                     vm.watchCheckAll();
+                    vm.watchSelectAll();
 					loadDocumentDiferred.resolve('Success');
                 })
                 .catch(function(response) {
@@ -436,6 +439,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
         vm.selectDocument = function(data) {
             vm.checkAllModel = false;
+            vm.selectAllModel = false;
             if(data.matchingRef != null){
             	vm.selectFormMatchingRef(data);
             }else{
@@ -505,7 +509,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 if (countRecordData === vm.tableRowCollection.length) {
                     vm.checkAllModel = true;
                 }
-            }
+        }
         
         // Select All in page
         vm.checkAllDocument = function() {
@@ -528,7 +532,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                         		var result = vm.searchByMatchingRef(document.matchingRef);
                         		result.promise.then(function(response){
                         			vm.documentSelects = vm.documentSelects.concat(response);                      			
-                        			console.log(vm.documentSelects.length);
                         			calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
                         		}).catch(function(response){
                  		
@@ -542,6 +545,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     }
                 });            
             } else {
+            	vm.selectAllModel = false;
             	vm.tableRowCollection.forEach(function(document) {      
             		var foundMatchingRefInTemp = tempMatchingRefNotQueryAgain.indexOf(document.matchingRef);
         			if(document.matchingRef != null && foundMatchingRefInTemp === -1){
@@ -562,6 +566,62 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         		calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
             }
         };
+        
+        vm.selectAllDocument = function() {
+        	if(!vm.selectAllModel){
+        		vm.documentSelects = [];
+    			var searchDocumentCriteria = {
+                        sponsorId: vm.createTransactionModel.sponsorCode,
+                        supplierCode: vm.createTransactionModel.supplierCode,
+                        documentStatus: 'NEW',
+                        sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
+                        page: 0,
+                        pageSize: 0
+                    }
+    			var diferredDocumentAll = CreateTransactionService.getDocument(searchDocumentCriteria);
+    			diferredDocumentAll.promise.then(function(response){
+    				vm.documentSelects = response.data.content;
+    				calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+    				vm.selectAllModel = true;
+    				vm.checkAllModel = true;
+    			}).catch(function(response){
+    				log.error('searchDocumentAll error')
+    			});       		
+        	}else{
+        		vm.documentSelects = [];
+        		vm.selectAllModel = false;
+        		vm.checkAllModel = false;
+        		calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+        	}
+        };
+
+        vm.watchSelectAll = function() {
+        	if(!vm.selectAllModel){
+    			var searchDocumentCriteria = {
+                        sponsorId: vm.createTransactionModel.sponsorCode,
+                        supplierCode: vm.createTransactionModel.supplierCode,
+                        documentStatus: 'NEW',
+                        sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
+                        page: 0,
+                        pageSize: 0
+                    }
+    			var diferredDocumentAll = CreateTransactionService.getDocument(searchDocumentCriteria);
+    			diferredDocumentAll.promise.then(function(response){    				
+    				if(vm.documentSelects.length === response.data.content.length){
+        				calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+        				vm.selectAllModel = true;
+        				vm.checkAllModel = true;    					
+    				}
+
+    			}).catch(function(response){
+    				log.error('searchDocumentAll error')
+    			});       		
+        	}else{
+        		vm.documentSelects = [];
+        		vm.selectAllModel = false;
+        		vm.checkAllModel = false;
+        	}        	
+        }
 
         $scope.sortData = function(order, orderBy) {
             vm.createTransactionModel.order = order;
@@ -579,6 +639,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 			vm.showInfomation = false;
             vm.documentSelects = [];
             vm.checkAllModel = false;
+            vm.selectAllModel = false;
             vm.splitePageTxt = '';
 			vm.loadSponsorPaymentDate();
 		}
@@ -587,6 +648,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 			vm.showInfomation = false;
             vm.documentSelects = [];
             vm.checkAllModel = false;
+            vm.selectAllModel = false;
             vm.splitePageTxt = '';
 		}
 		
@@ -602,6 +664,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             vm.totalDocumentAmount = sumAmount;
             vm.submitTransactionAmount = TransactionService.calculateTransactionAmount(sumAmount, prepercentagDrawdown);
         }
+        
+        vm.selectAllModel = false;
     }
 ]);
 
