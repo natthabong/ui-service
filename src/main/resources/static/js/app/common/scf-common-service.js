@@ -99,40 +99,18 @@ app.service('SCFCommonService', [
         vm.getDocumentDisplayConfig = function(sponsorId) {
             var differed = $q.defer();
             var displayConfig = [];
-			var reqUrl = '/api/v1/organize-customers/'+sponsorId+'/sponsor-configs/SFP/displays'
+	    var reqUrl = '/api/v1/organize-customers/'+sponsorId+'/sponsor-configs/SFP/displays'
 			
-//            $http({
-//                method: 'POST',
-//                url: '/api/document-display-config',
-//                headers: {
-//                    'Content-Type': 'application/x-www-form-urlencoded'
-//                },
-//                params: {
-//                    sponsorId: sponsorId
-//                }
-//            }).success(function(response) {
-//                if (response.length === 0) {
-//                    displayConfig = defaultColumDisplay;
-//                } else {
-//                    displayConfig = response;
-//                }
-//                differed.resolve(displayConfig);
-//            }).error(function(response) {
-//                log.error('Load Display config error');
-//                differed.reject(defaultColumDisplay);
-//            });
-			
-			var documentDisplayDiferred = Service.doGet(reqUrl);
-			documentDisplayDiferred.promise.then(function(response){
-
-				if (angular.isUndefined(response.data)) {
+            var documentDisplayDiferred = Service.doGet(reqUrl);
+	    documentDisplayDiferred.promise.then(function(response){
+		if (angular.isUndefined(response.data)) {
                     displayConfig = defaultColumDisplay;
                 } else {
-					if(response.data[0].items.length === 0){
-						displayConfig = defaultColumDisplay;
-					}else{
-                    	displayConfig = response.data[0].items;
-					}
+		    if(response.data[0].items.length === 0){
+			displayConfig = defaultColumDisplay;
+		    }else{
+                    	displayConfig = response.data[0];
+     		    }
                 }
 
                 differed.resolve(displayConfig);
@@ -340,7 +318,7 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 
         searchDeferred.promise.then(function(response) {
             vm.pagingModel.totalRecord = response.headers('X-Total-Count');
-//            vm.pagingModel.currentPage = response.headers.number;
+// vm.pagingModel.currentPage = response.headers.number;
             vm.pagingModel.totalPage = response.headers('X-Total-Page');
             vm.tableRowCollection = response.data;
 
@@ -447,10 +425,10 @@ app.filter('paymentDateFormula', [function() {
 				displayMessage = 'next ';
 				displayMessage += angular.lowercase(formula.startDayOfWeek);
 				displayMessage += ' after ';
-//				displayMessage += addOrdinalNumberSuffix(formula.startDateOfMonth);
+// displayMessage += addOrdinalNumberSuffix(formula.startDateOfMonth);
 				displayMessage += dateOfMonthMsg(formula);
 			}					
-//			displayMessage += ' ';
+// displayMessage += ' ';
 		}
 
 		displayMessage += 'of Document date + ';
@@ -550,40 +528,44 @@ var addOrdinalNumberSuffix = function(number){
 	}
 }
 
-var defaultColumDisplay = [{
-    field: 'sponsorPaymentDate',
-    label: 'วันครบกำหนดชำระ',
-    sortData: true,
-    cssTemplate: 'text-center',
-    filterType: 'date',
-    filterFormat: 'dd/MM/yyyy'
-}, {
-    field: 'documentDate',
-    label: 'วันที่เอกสาร',
-    sortData: true,
-    cssTemplate: 'text-center',
-    filterType: 'date',
-    filterFormat: 'dd/MM/yyyy'
-}, {
-    field: 'documentNo',
-    label: 'เลขที่เอกสาร',
-    sortData: true,
-    cssTemplate: 'text-center',
-}, {
-    field: 'documentType',
-    label: 'ประเภทเอกสาร',
-    sortData: true,
-    cssTemplate: 'text-center',
-}, {
-    field: 'supplierCode',
-    label: 'รหัสลูกค้า',
-    sortData: true,
-    cssTemplate: 'text-center'
-}, {
-    field: 'outstandingAmount',
-    label: 'จำนวนเงินตามเอกสาร',
-    sortData: true,
-    cssTemplate: 'text-right',
-    filterType: 'number',
-    filterFormat: '2'
-}];
+var defaultColumDisplay = {
+	loanRequestMode: 'CURRENT_AND_FUTURE',
+	documentSelection :'ANY_DOCUMENT',
+	items: [{
+            field: 'sponsorPaymentDate',
+            label: 'วันครบกำหนดชำระ',
+            sortData: true,
+            cssTemplate: 'text-center',
+            filterType: 'date',
+            filterFormat: 'dd/MM/yyyy'
+        }, {
+            field: 'documentDate',
+            label: 'วันที่เอกสาร',
+            sortData: true,
+            cssTemplate: 'text-center',
+            filterType: 'date',
+            filterFormat: 'dd/MM/yyyy'
+        }, {
+            field: 'documentNo',
+            label: 'เลขที่เอกสาร',
+            sortData: true,
+            cssTemplate: 'text-center',
+        }, {
+            field: 'documentType',
+            label: 'ประเภทเอกสาร',
+            sortData: true,
+            cssTemplate: 'text-center',
+        }, {
+            field: 'supplierCode',
+            label: 'รหัสลูกค้า',
+            sortData: true,
+            cssTemplate: 'text-center'
+        }, {
+            field: 'outstandingAmount',
+            label: 'จำนวนเงินตามเอกสาร',
+            sortData: true,
+            cssTemplate: 'text-right',
+            filterType: 'number',
+            filterFormat: '2'
+        }]
+};

@@ -12,6 +12,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 		vm.showBackButton = false;
         // SponsorCode dropdown
         vm.sponsorCodes = [];
+        vm.loanRequestMode = 'CURRENT_AND_FUTURE';
         
         vm.dashboardParams = $stateParams.dashboardParams;
 
@@ -109,8 +110,9 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
         // Load Sponsor paymentDate
         vm.loadSponsorPaymentDate = function() {
-            var sponsorCode = vm.createTransactionModel.sponsorCode;
+            var sponsorId = vm.createTransactionModel.sponsorCode;
             var supplierCode = vm.createTransactionModel.supplierCode;
+            var loanRequestMode = vm.loanRequestMode;
 
             vm.sponsorPaymentDates = [{
                 label: 'Please select',
@@ -126,7 +128,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             // reset actionBank is false
             backAction = false;
 
-            var deffered = CreateTransactionService.getSponsorPaymentDate(sponsorCode, supplierCode);
+            var deffered = CreateTransactionService.getSponsorPaymentDate(sponsorId, supplierCode, loanRequestMode);
             deffered.promise.then(function(response) {
                     var supplierDates = response.data;
 
@@ -139,9 +141,10 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     
                     if(vm.dashboardParams!=null){
 						vm.createTransactionModel.sponsorPaymentDate = SCFCommonService.convertDate(vm.dashboardParams.sponsorPaymentDate);
-						//Auto search document from dashboard page
+						// Auto search document from
+						// dashboard page
 						vm.dashboardInitLoad();
-						//reset value dashboard
+						// reset value dashboard
 						vm.dashboardParams = null;
                     }
                 })
@@ -153,7 +156,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.loadDocumentDisplayConfig = function(sponsorId) {
             var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId);
             displayConfig.promise.then(function(response) {
-                vm.dataTable.columns = response;
+                vm.dataTable.columns = response.items;
+                vm.loanRequestMode = response.loanRequestMode;
             });
         }
 
@@ -188,7 +192,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 					if(vm.dashboardParams!=null){
                      	vm.createTransactionModel.sponsorCode = vm.dashboardParams.sponsorId;
                     }
-					// Check action come from page validate and sumbit
+					// Check action come from page validate
+					// and sumbit
 					else if (backAction === false) {
                         vm.createTransactionModel.sponsorCode = vm.sponsorCodes[0].value;
                     }
@@ -219,7 +224,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 					if(vm.dashboardParams!=null){
 						vm.createTransactionModel.supplierCode = vm.dashboardParams.supplierCode;                 	
                     }
-					// Check action come from page validate and sumbit
+					// Check action come from page validate
+					// and sumbit
 					else if (backAction === false) {
                         vm.createTransactionModel.supplierCode = vm.supplierCodes[0].value;
                     }
@@ -384,7 +390,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 		vm.dashboardInitLoad = function(){
 			vm.showBackButton = true;
 			var searchDocumentDiferred = vm.searchDocument(undefined);
-			//Load document success first and load document all in next step;
+			// Load document success first and load document all in
+			// next step;
 			searchDocumentDiferred.promise.then(function(){
 				vm.searchDocumentCheckAll();				
 			});			

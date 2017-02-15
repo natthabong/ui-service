@@ -123,8 +123,8 @@
 													<label ng-bind="'Tenor' | translate">Tenor</label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
-													<span id="interest-rate-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.tenor">0.000000</span>
+													<span id="tenor-label"
+														ng-bind="ctrl.tradingpartnerInfoModel.tenor">0</span>
 												</div>
 												<div class="col-md-1 col-sm-1">{{'Days' | translate}}</div>
 											</div>
@@ -179,7 +179,7 @@
 							<!-- Start Table-->
 							<div class="row">
 								<div class="col-md-12">
-										<scf-table id="document-table" 
+									<scf-table id="document-table"
 										component-config="ctrl.dataTable"
 										component-datas="ctrl.tableRowCollection"
 										current-page="ctrl.pageModel.currentPage"
@@ -263,8 +263,8 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<scf-button id="back-button" class="popup-button" data-dismiss="modal"
-						ng-bind="'Back' | translate"></scf-button>
+					<scf-button id="back-button" class="popup-button"
+						data-dismiss="modal" ng-bind="'Back' | translate"></scf-button>
 				</div>
 			</div>
 		</div>

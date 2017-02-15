@@ -12,7 +12,7 @@ function createTransactionService($http, $q) {
 		verifyTradingPartner: verifyTradingPartner
     };
 
-    function getSponsorPaymentDate(sponsorId, supplierCode) {
+    function getSponsorPaymentDate(sponsorId, supplierCode, loanRequestMode) {
         var deffered = $q.defer();
 
         $http({
@@ -23,7 +23,8 @@ function createTransactionService($http, $q) {
             	},
             	data:{
             		 sponsorId: sponsorId,
-                     supplierCode: supplierCode
+                     supplierCode: supplierCode,
+                     loanRequestMode: loanRequestMode
             	},
 		        transformRequest :function (data) {
 		            if (data === undefined) {
