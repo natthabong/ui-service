@@ -97,7 +97,7 @@ angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Servi
 	vm.loadDocumentDisplayConfig = function(sponsorId) {
 		var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId);
 		displayConfig.promise.then(function(response) {
-			vm.dataTable.columns = response;
+			vm.dataTable.columns = response.items;
 			vm.dataTable.columns.push(columnStatus);
 		});
 	}

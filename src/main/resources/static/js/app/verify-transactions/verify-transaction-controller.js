@@ -41,7 +41,7 @@ angular.module('scfApp').controller(
 				            
 				          var columnDisplayConfig = vm.loadDocumentDisplayConfig(vm.transactionModel.sponsorId);
 							columnDisplayConfig.promise.then(function(response){
-								vm.dataTable.columns = response;
+								vm.dataTable.columns = response.items;
 						  });
 					}
 					
