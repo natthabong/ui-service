@@ -158,6 +158,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             displayConfig.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
                 vm.loanRequestMode = response.loanRequestMode;
+                
+                vm.loadSupplierCode();
             });
         }
 
@@ -197,9 +199,10 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 					else if (backAction === false) {
                         vm.createTransactionModel.sponsorCode = vm.sponsorCodes[0].value;
                     }
-                    vm.loadSupplierCode();
-                    // Load documentConfig from DB
-                    vm.loadDocumentDisplayConfig(vm.createTransactionModel.sponsorCode);
+		    // Load documentConfig from DB
+		    vm.loadDocumentDisplayConfig(vm.createTransactionModel.sponsorCode);
+                  // vm.loadSupplierCode();
+                   
                 }
                
             }).catch(function(response) {
@@ -536,7 +539,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.sponsorChange = function() {
             vm.initValueDefault();
             vm.loadDocumentDisplayConfig(vm.createTransactionModel.sponsorCode);
-            vm.loadSupplierCode();
+//            vm.loadSupplierCode();
         }
 		
 		vm.supplierCodeChange = function(){
