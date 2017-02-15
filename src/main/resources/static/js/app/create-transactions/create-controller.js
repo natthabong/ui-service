@@ -166,7 +166,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 displaySelect: {
                     label: '<input type="checkbox" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
                     cssTemplate: 'text-center',
-                    cellTemplate: '<input type="checkbox" checklist-model="ctrl.documentSelects" checklist-value="data" ng-click="ctrl.selectDocument()"/>',
+                    cellTemplate: '<input type="checkbox" checklist-model="ctrl.documentSelects" checklist-value="data" ng-click="ctrl.selectDocument(data)"/>',
                     displayPosition: 'first',
 					idValueField: '$rowNo',
 					id: 'document-{value}-checkbox'
@@ -431,10 +431,52 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             return paymentDate === '' ? false : true;
         }
 
-        vm.selectDocument = function() {
+        vm.selectDocument = function(data) {
             vm.checkAllModel = false;
-            calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+            if(data.matchingRef != null){
+            	vm.selectFormMatchingRef(data);
+            }else{
+            	calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+            }
         };
+
+        vm.selectFormMatchingRef = function(data){
+        	var checkOrUncheck = (vm.documentSelects.indexOf(data) > -1);
+        	var macthingRefSelected = data.matchingRef;
+        	if(checkOrUncheck){
+        		var removeDupDataFormSearch = vm.documentSelects.indexOf(data);
+        		vm.documentSelects.splice(removeDupDataFormSearch, 1);
+        		vm.searchByMatchingRef(macthingRefSelected);
+        	}else{
+        		for (var index = vm.documentSelects.length-1; index > -1;index--) {
+        			if(macthingRefSelected === vm.documentSelects[index].matchingRef){
+        				vm.documentSelects.splice(index, 1);
+        			}
+        		}
+        		calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+        	}
+        }
+        
+		vm.searchByMatchingRef = function(macthingRefSelected){
+			var searchDocumentCriteria = {
+                    sponsorId: vm.createTransactionModel.sponsorCode,
+                    supplierCode: vm.createTransactionModel.supplierCode,
+                    documentStatus: 'NEW',
+                    sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
+                    page: 0,
+                    pageSize: 0,
+                    matchingRef : macthingRefSelected
+            }
+			var diferredDocumentAll = CreateTransactionService.getDocument(searchDocumentCriteria);
+			diferredDocumentAll.promise.then(function(response){
+				var documents = response.data.content;
+				vm.documentSelects = vm.documentSelects.concat(documents);
+				calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+			}).catch(function(response){
+				log.error('searchDocumentAll error')
+			});
+		}
+
 
         vm.watchCheckAll = function() {
                 var comparator = angular.equals;
