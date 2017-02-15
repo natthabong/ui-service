@@ -292,7 +292,8 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
         // Load Transaction Date
         vm.loadTransactionDate = function(sponsorCode, sponsorPaymentDate) {
-            var deffered = CreateTransactionService.getTransactionDate(sponsorCode, sponsorPaymentDate);
+        	var loanRequestMode = vm.loanRequestMode;
+            var deffered = CreateTransactionService.getTransactionDate(sponsorCode, sponsorPaymentDate, loanRequestMode);
             deffered.promise.then(function(response) {
                 // clear list transaction date
                 vm.transactionDates = [];

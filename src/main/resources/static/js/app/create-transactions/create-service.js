@@ -42,7 +42,7 @@ function createTransactionService($http, $q) {
         return deffered;
     }
 
-    function getTransactionDate(sponsorId, sponsorPaymentDate) {
+    function getTransactionDate(sponsorId, sponsorPaymentDate, loanRequestMode) {
         var deffered = $q.defer();
 
         $http({
@@ -53,7 +53,8 @@ function createTransactionService($http, $q) {
             	},
             	data: {
             		 sponsorId: sponsorId,
-            		 sponsorPaymentDate: sponsorPaymentDate
+            		 sponsorPaymentDate: sponsorPaymentDate,
+                     loanRequestMode: loanRequestMode
             	},
 		        transformRequest :function (data) {
 		            if (data === undefined) {
