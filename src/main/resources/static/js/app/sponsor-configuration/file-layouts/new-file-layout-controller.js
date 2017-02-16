@@ -467,6 +467,9 @@ app.controller('NewFileLayoutController', [
 						cache : false,
 						preCloseCallback : function(value) {
 							if (value != null) {
+								if(value.dataType === 'CUSTOMER_CODE'){
+									vm.loadCustomerCodeGroup();
+								}
 								value = settingDocFieldName(record, value, obj);
 								angular.copy(value, record);
 								record.completed = true;
