@@ -76,6 +76,9 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             vm.selectAllModel = false;
             // validate SponsorPayment Date is Select
             if (validateSponsorPaymentDate(sponsorPaymentDate)) {
+            	
+            	var tradingInfo = searchDocumentDeferred = vm.getTradingPartnerInfo();
+            	
                 if (pagingModel === undefined) {
 					vm.submitTransactionAmount = 0.00;
                     // Clear list document selected
@@ -90,13 +93,15 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     vm.pageModel.currentPage = 0;
 
                     vm.loadDocument();
-                    vm.loadTransactionDate(sponsorCode, sponsorPaymentDate);
+                    tradingInfo.promise.then(function(response) {
+                    	 vm.loadTransactionDate(sponsorCode, sponsorPaymentDate);
+                    });              
                 } else {
                     vm.pageModel.pageSizeSelectModel = pagingModel.pageSize;
                     vm.pageModel.currentPage = pagingModel.page;
                     vm.loadDocument();
                 }
-				searchDocumentDeferred = vm.getTradingPartnerInfo();
+				
                 vm.showInfomation = true;
                 vm.showErrorMsg = false;
 
@@ -160,7 +165,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             displayConfig.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
                 vm.loanRequestMode = response.loanRequestMode;
-                
+                vm.documentSelection = response.documentSelection;
                 vm.loadSupplierCode();
             });
         }
@@ -297,8 +302,9 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 
         // Load Transaction Date
         vm.loadTransactionDate = function(sponsorCode, sponsorPaymentDate) {
+        	var tenor = vm.tradingpartnerInfoModel.tenor;
         	var loanRequestMode = vm.loanRequestMode;
-            var deffered = CreateTransactionService.getTransactionDate(sponsorCode, sponsorPaymentDate, loanRequestMode);
+            var deffered = CreateTransactionService.getTransactionDate(sponsorCode, sponsorPaymentDate, loanRequestMode, tenor);
             deffered.promise.then(function(response) {
                 // clear list transaction date
                 vm.transactionDates = [];
@@ -440,7 +446,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.selectDocument = function(data) {
             vm.checkAllModel = false;
             vm.selectAllModel = false;
-            if(data.matchingRef != null){
+            if(data.matchingRef != null && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){
             	vm.selectFormMatchingRef(data);
             }else{
             	calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
@@ -518,7 +524,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 vm.tableRowCollection.forEach(function(document) {
                 	var foundDataSelect = (vm.documentSelects.indexOf(document) > -1);
                     if (!foundDataSelect){
-                    	if(document.matchingRef != null){
+                    	if(document.matchingRef != null && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){                   		
                     		var foundMatchingRefInTemp = tempMatchingRefNotQueryAgain.indexOf(document.matchingRef)
                     		if(foundMatchingRefInTemp === -1){
                     			
@@ -548,7 +554,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             	vm.selectAllModel = false;
             	vm.tableRowCollection.forEach(function(document) {      
             		var foundMatchingRefInTemp = tempMatchingRefNotQueryAgain.indexOf(document.matchingRef);
-        			if(document.matchingRef != null && foundMatchingRefInTemp === -1){
+        			if(document.matchingRef != null && foundMatchingRefInTemp === -1 && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){
         				tempMatchingRefNotQueryAgain.push(document.matchingRef);
                 		for (var index = vm.documentSelects.length-1; index > -1;index--) {
                 			if(document.matchingRef === vm.documentSelects[index].matchingRef){
