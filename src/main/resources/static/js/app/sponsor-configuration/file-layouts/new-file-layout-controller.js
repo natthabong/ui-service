@@ -745,7 +745,7 @@ app.controller('NewFileLayoutController', [
 				if (record.dataType == obj.layoutFileDataTypeId) {
 
 					if (record.completed) {
-						msg = $injector.get('NewFileLayerExampleDisplayService')[record.dataType + '_DisplayExample'](record, obj);
+						msg = $injector.get('NewFileLayerExampleDisplayService')[record.dataType + '_DisplayExample'](record, obj, vm.customerCodeGroupDropdown);
 					}
 				}
 			});
@@ -1976,11 +1976,18 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		return displayMessage;
 	}
 
-	function CUSTOMER_CODE_DisplayExample(record, config) {
+	function CUSTOMER_CODE_DisplayExample(record, config, customerCodeGroup) {
 		var displayMessage = config.configDetailPattern;
-
+		
+		var displayCustomerCode = '-';
+		customerCodeGroup.forEach(function(obj) {
+			if(obj.value===record.expectedValue){
+				displayCustomerCode = obj.label;
+			}
+		});
+		
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
-		displayMessage = displayMessage.replace('{expectedValue}', record.expectedValue || '-');
+		displayMessage = displayMessage.replace('{expectedValue}', displayCustomerCode);
 		displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);
 		return displayMessage;
 	}
