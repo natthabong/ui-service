@@ -662,6 +662,11 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 				vm.wrongDateFormat = true;
 				validatePass = false;
 			}
+			// check date format
+			if(vm.isUseExpireDate && !angular.isDate(vm.model.expiryDate)){
+				vm.wrongDateFormat = true;
+				validatePass = false;
+			}
 		}
 		
 		if(validatePass){
