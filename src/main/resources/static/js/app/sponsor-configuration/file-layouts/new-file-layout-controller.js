@@ -1984,7 +1984,7 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		
 		var displayCustomerCode = '-';
 		customerCodeGroup.forEach(function(obj) {
-			if(obj.value===record.expectedValue){
+			if(obj.value==record.expectedValue){
 				displayCustomerCode = obj.label;
 			}
 		});
