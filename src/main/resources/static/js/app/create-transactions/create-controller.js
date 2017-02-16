@@ -449,6 +449,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             if(data.matchingRef != null && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){
             	vm.selectFormMatchingRef(data);
             }else{
+            	console.log(vm.documentSelects);
             	calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
             }
         };
@@ -456,6 +457,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.selectFormMatchingRef = function(data){
         	var checkOrUncheck = (vm.documentSelects.indexOf(data) > -1);
         	var macthingRefSelected = data.matchingRef;
+
         	if(checkOrUncheck){
         		var removeDupDataFormSearch = vm.documentSelects.indexOf(data);
         		vm.documentSelects.splice(removeDupDataFormSearch, 1);
@@ -663,6 +665,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 		}
 
         function calculateTransactionAmount(documentSelects, prepercentagDrawdown) {
+        	console.log(documentSelects);
             var sumAmount = 0;
             documentSelects.forEach(function(document) {
                 sumAmount += document.outstandingAmount;
