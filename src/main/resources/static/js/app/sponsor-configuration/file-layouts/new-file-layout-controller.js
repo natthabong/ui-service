@@ -621,9 +621,19 @@ app.controller('NewFileLayoutController', [
 			
 			if(vm.model.fileType == vm.fileType.specific){
 					vm.specificsDropdown.forEach(function(obj) {
+						vm.model.fileExtensions = obj.item.fileExtensions;
 						if(obj.value == vm.specificModel){
+							sponsorLayout = angular.copy(vm.model);
+							sponsorLayout.sponsorConfigId = obj.item.sponsorConfigId;
+							sponsorLayout.headerRecordType = obj.item.headerRecordType;
+							sponsorLayout.detailRecordType = obj.item.detailRecordType;
+							sponsorLayout.footerRecordType = obj.item.footerRecordType;
+							sponsorLayout.integrateType = obj.item.integrateType;
+							sponsorLayout.fileExtensions = obj.item.fileExtensions;
+							sponsorLayout.fileType = obj.item.fileType;
+							sponsorLayout.completed = obj.item.completed;
+							sponsorLayout.paymentDateConfig = obj.item.paymentDateConfig;
 							if(vm.model.layoutConfigId !=null && vm.items.length >0){
-								sponsorLayout = angular.copy(vm.model);
 								sponsorLayout.items = [];
 								addHeaderModel(sponsorLayout, vm.headerItems);
 								vm.items.forEach(function(item) {
@@ -641,17 +651,7 @@ app.controller('NewFileLayoutController', [
 								});
 								
 							}else{					        
-								sponsorLayout = angular.copy(vm.model);
 								sponsorLayout.items = [];
-								sponsorLayout.sponsorConfigId = obj.item.sponsorConfigId;
-								sponsorLayout.headerRecordType = obj.item.headerRecordType;
-								sponsorLayout.detailRecordType = obj.item.detailRecordType;
-								sponsorLayout.footerRecordType = obj.item.footerRecordType;
-								sponsorLayout.integrateType = obj.item.integrateType;
-								sponsorLayout.fileExtensions = obj.item.fileExtensions;
-								sponsorLayout.fileType = obj.item.fileType;
-								sponsorLayout.completed = obj.item.completed;
-								sponsorLayout.paymentDateConfig = obj.item.paymentDateConfig;
 								obj.item.items.forEach(function(item) {
 									if(item.dataType == 'CUSTOMER_CODE' && vm.customerCodeGroup !=null){
 										item.expectedValue = vm.customerCodeGroup;
