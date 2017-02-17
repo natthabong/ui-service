@@ -745,7 +745,6 @@ app.controller('NewFileLayoutController', [
 			var msg = '';
 			vm.dataTypes.forEach(function(obj) {
 				if (record.dataType == obj.layoutFileDataTypeId) {
-					console.log(record.dataType);
 					if (record.completed) {
 						msg = $injector.get('NewFileLayerExampleDisplayService')[record.dataType + '_DisplayExample'](record, obj, vm.customerCodeGroupDropdown);
 					}

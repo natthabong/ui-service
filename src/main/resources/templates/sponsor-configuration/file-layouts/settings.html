@@ -55,7 +55,7 @@
 							<label for="dealer" id="delimiters-label"
 								class="col-md-1 col-sm-2 col-xs-12 control-label">{{'Delimiters'
 								| translate}}: </label>
-							<div class="col-md-2 col-sm-3 col-xs-12">
+							<div class="col-md-3 col-sm-3 col-xs-12">
 								<scf-dropdown
 									ng-disabled="newFileLayoutCtrl.model.fileType != newFileLayoutCtrl.fileType.delimited"
 									id="delimiters-dropdown" ng-model="newFileLayoutCtrl.delimeter"
@@ -82,7 +82,9 @@
 									{{'Specific' | translate}}
 								</label>
 							</div>
-							<div class="col-md-2 col-sm-5 col-xs-12">
+							<label for="dealer" id="specific-label"
+								class="col-md-1 col-sm-2 col-xs-12 control-label"></label>
+							<div class="col-md-3 col-sm-5 col-xs-12">
 								<scf-dropdown
 									ng-disabled="newFileLayoutCtrl.model.fileType != newFileLayoutCtrl.fileType.specific"
 									id="specific-dropdown"
@@ -90,11 +92,15 @@
 									component-data="newFileLayoutCtrl.specificsDropdown"
 									translate-label="true"></scf-dropdown>
 							</div>
+						</div>
+						<div class="form-group">
+							<label
+								class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 							<label for="customer-code"
-								class="col-md-3 col-sm-3 col-xs-12 control-label"
-								id="customer-code-group-label">{{'Customer code group'
-								| translate}}:</label>
-							<div class="col-md-2 col-sm-3 col-xs-12">
+								class="col-md-2 col-sm-3 col-xs-12 control-label"
+								id="customer-code-group-label">{{'Customer code group' |
+								translate}}:</label>								
+							<div class="col-md-3 col-sm-3 col-xs-12">
 								<scf-dropdown id="customer-code-group-dropdown"
 									ng-disabled="newFileLayoutCtrl.model.fileType != newFileLayoutCtrl.fileType.specific"
 									ng-model="newFileLayoutCtrl.customerCodeGroup"
@@ -108,8 +114,8 @@
 									ng-disabled="newFileLayoutCtrl.model.fileType != newFileLayoutCtrl.fileType.specific"
 									title="New a customer code group"> <i
 									class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
-							</div>
-						</div>
+							</div>						
+						</div>						
 						<div class="form-group">
 							<label for="dealer" id="file-encode-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
@@ -126,8 +132,7 @@
 								ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific">
 								<label for="dealer"
 									class="col-md-2 col-sm-3 col-xs-12 control-label"
-									id="row-format-label">{{'Row
-									format' | translate}}: </label>
+									id="row-format-label">{{'Row format' | translate}}: </label>
 								<div class="col-md-2 col-sm-3 col-xs-12">
 									<label class="checkbox-inline"> <scf-checkbox
 											id="row-format-header-checkbox"
@@ -135,8 +140,9 @@
 											ng-click="newFileLayoutCtrl.clearHeaderConfig()"></scf-checkbox>
 										<span ng-bind="'Header' | translate" id="header-label"></span>
 									</label> <br /> <label class="checkbox-inline"> <scf-checkbox
-											id="row-format-detail-checkbox" ng-checked="true" ng-disabled="true"></scf-checkbox>
-										<span ng-bind="'Detail' | translate" id="detail-label"></span>
+											id="row-format-detail-checkbox" ng-checked="true"
+											ng-disabled="true"></scf-checkbox> <span
+										ng-bind="'Detail' | translate" id="detail-label"></span>
 									</label> <br /> <label class="checkbox-inline"> <scf-checkbox
 											id="row-format-footer-checkbox"
 											ng-model="newFileLayoutCtrl.configFooter"
@@ -152,12 +158,12 @@
 									<label for="dealer" class="checkbox-inline"> <scf-checkbox
 											id="offset-row-no-checkbox"
 											ng-model="newFileLayoutCtrl.isConfigOffsetRowNo"></scf-checkbox>
-										<span ng-bind="'Offset row no.' | translate" id="offset-row-no-label"></span>
+										<span ng-bind="'Offset row no.' | translate"
+										id="offset-row-no-label"></span>
 									</label>
 								</div>
 								<div class="col-md-1 col-sm-1 col-xs-12">
-									<scf-input-text id="offset-row-no-textbox"
-										maxlength="3"
+									<scf-input-text id="offset-row-no-textbox" maxlength="3"
 										ng-disabled="!newFileLayoutCtrl.isConfigOffsetRowNo"
 										ng-model="newFileLayoutCtrl.model.offsetRowNo"></scf-input-text>
 								</div>
@@ -267,7 +273,8 @@
 						<div ng-show="newFileLayoutCtrl.displayLayout">
 							<fieldset
 								ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific">
-								<legend id="detail-field-layout-label" ng-bind="'Detail field layout' | translate"></legend>
+								<legend id="detail-field-layout-label"
+									ng-bind="'Detail field layout' | translate"></legend>
 								<div class="responsive-table">
 									<table id="config-item-table"
 										class="table table-striped table-bordered" width="100%"
@@ -276,9 +283,11 @@
 											<tr>
 												<th><i class="fa fa-key fa-lg" aria-hidden="true"></i></th>
 												<th id="no-header-label" ng-bind="'No' | translate">No</th>
-												<th id="sponsor-field-name-header-label" ng-bind="'Sponsor field name' | translate">Sponsor
+												<th id="sponsor-field-name-header-label"
+													ng-bind="'Sponsor field name' | translate">Sponsor
 													field name</th>
-												<th id="data-type-header-label" ng-bind="'Data type' | translate">Data type</th>
+												<th id="data-type-header-label"
+													ng-bind="'Data type' | translate">Data type</th>
 												<th id="save-header-label" ng-bind="'Save' | translate"></th>
 												<th id="length-header-label" ng-bind="'Length' | translate">Length</th>
 												<th id="start-index-header-label"
@@ -326,9 +335,9 @@
 														style="text-align: right;" convert-to-number=""
 														ng-model="record.dataLength" maxlength="3" /></td>
 												<td class="text-center" style="width: 15%"><scf-input-text
-														id="detail-start-index-{{$index+1}}-textbox" style="text-align: right;"
-														convert-to-number="" ng-model="record.startIndex"
-														maxlength="3" /></td>
+														id="detail-start-index-{{$index+1}}-textbox"
+														style="text-align: right;" convert-to-number=""
+														ng-model="record.startIndex" maxlength="3" /></td>
 												<td class="text-center" style="width: 15%"
 													ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><scf-input-text
 														value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
@@ -555,7 +564,8 @@
 								ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific" />
 							<div class="form-group"
 								ng-hide="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.specific">
-								<label id="payment-date-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'payment-date'
+								<label id="payment-date-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'payment-date'
 									| translate}}: </label>
 								<div class="col-sm-9 col-xs-12">
 									<div class="row">
