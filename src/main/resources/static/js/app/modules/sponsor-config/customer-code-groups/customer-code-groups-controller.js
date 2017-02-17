@@ -446,12 +446,14 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		
 		var addMoreBtn = {label:"Add more", id: "add-more-button", action: function(){
 			closeDialogSucccess();
-			vm.customerCodeSetup();
+			
+			vm.customerCodeSetup({
+			    supplierId: customerCode.supplierId
+			});
 		}};
 		
 		var okBtn = {label: "OK", id: "ok-button", action: function(){
 			closeDialogSucccess();
-			closeCustomerCodeSetup();
 		}};
 		var dialogSuccessBtn = [];
 		
@@ -482,6 +484,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			    });
 			},
 			onSuccess: function(response){
+			    	closeCustomerCodeSetup();
 				dialogSuccess = UIFactory.showSuccessDialog({
 				data: {
 				    headerMessage: vm.isNewCusotmerCode == true?'New customer code completed.':'Edit customer code completed.',
@@ -500,7 +503,9 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	};
 	
 	vm.customerCodeSetup = function(model){
+	    
 		vm.isNewCusotmerCode = angular.isUndefined(model);
+		
 		if(!vm.isNewCusotmerCode){
 			vm.oldCustomerCode = model.customerCode;
 		}
@@ -597,10 +602,12 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 			}
 		}else{
 
-			//vm.model.activeDate = SCFCommonService.convertStringTodate(vm.model.activeDate);
+			// vm.model.activeDate =
+			// SCFCommonService.convertStringTodate(vm.model.activeDate);
 			vm.model.activeDate = new Date(vm.model.activeDate);
 			if(vm.model.expiryDate != null){
-				//vm.model.expiryDate = SCFCommonService.convertStringTodate(vm.model.expiryDate);
+				// vm.model.expiryDate =
+				// SCFCommonService.convertStringTodate(vm.model.expiryDate);
 			        vm.model.expiryDate = new Date(vm.model.expiryDate);
 				vm.isUseExpireDate = true;
 			}
