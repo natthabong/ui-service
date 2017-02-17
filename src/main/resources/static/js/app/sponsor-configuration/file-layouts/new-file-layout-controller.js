@@ -697,7 +697,6 @@ app.controller('NewFileLayoutController', [
 				apiURL = apiURL + '/' + vm.model.layoutConfigId;
 			}
 			
-			console.log(sponsorLayout);
 			var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode ? 'POST' : 'PUT');
 
 			fileLayoutDiferred.promise.then(function(response) {
@@ -746,7 +745,7 @@ app.controller('NewFileLayoutController', [
 			var msg = '';
 			vm.dataTypes.forEach(function(obj) {
 				if (record.dataType == obj.layoutFileDataTypeId) {
-
+					console.log(record.dataType);
 					if (record.completed) {
 						msg = $injector.get('NewFileLayerExampleDisplayService')[record.dataType + '_DisplayExample'](record, obj, vm.customerCodeGroupDropdown);
 					}
@@ -1958,10 +1957,20 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		DOCUMENT_TYPE_DisplayExample : DOCUMENT_TYPE_DisplayExample,
 		RECORD_TYPE_DisplayExample : RECORD_TYPE_DisplayExample,
 		FILLER_DisplayExample : FILLER_DisplayExample,
-		SIGN_FLAG_DisplayExample : SIGN_FLAG_DisplayExample
+		SIGN_FLAG_DisplayExample : SIGN_FLAG_DisplayExample,
+		MATCHING_REF_DisplayExample : MATCHING_REF_DisplayExample
 	}
 
 	function TEXT_DisplayExample(record, config) {
+		var displayMessage = config.configDetailPattern;
+		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
+		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
+		displayMessage = displayMessage.replace('{expectedValue}', (hasExpected ? record.expectedValue : ''));
+		displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));
+		return displayMessage;
+	}
+	
+	function MATCHING_REF_DisplayExample(record, config) {
 		var displayMessage = config.configDetailPattern;
 		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
