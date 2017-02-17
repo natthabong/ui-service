@@ -597,12 +597,14 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 			}
 		}else{
 
-			vm.model.activeDate = SCFCommonService.convertStringTodate(vm.model.activeDate);
-			
+			//vm.model.activeDate = SCFCommonService.convertStringTodate(vm.model.activeDate);
+			vm.model.activeDate = new Date(vm.model.activeDate);
 			if(vm.model.expiryDate != null){
-				vm.model.expiryDate = SCFCommonService.convertStringTodate(vm.model.expiryDate);
+				//vm.model.expiryDate = SCFCommonService.convertStringTodate(vm.model.expiryDate);
+			        vm.model.expiryDate = new Date(vm.model.expiryDate);
 				vm.isUseExpireDate = true;
 			}
+			
 			prepreSupplierDisplay();
 		}
 	}
