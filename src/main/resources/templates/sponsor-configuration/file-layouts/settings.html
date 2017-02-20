@@ -387,7 +387,7 @@
 													id="layout-item-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-no-label"
 													class="text-right control-label">{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(),
 														$index)}}</label></td>
-												<td class="text-center" style="width: 15%"><scf-input-text
+												<td class="text-center" style="width: 15%"><scf-input-text maxlength="255"
 														id="sponsor-field-name-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-textbox"
 														ng-model="record.displayValue" /></td>
 
@@ -507,14 +507,14 @@
 														component-data="newFileLayoutCtrl.dataTypeFooterDropdown"
 														translate-label="true"></scf-dropdown></td>
 												<td class="text-right" style="width: 3%"></td>
-												<td class="text-center" style="width: 15%"><scf-input-text
+												<td class="text-center" style="width: 15%"><scf-input-text maxlength="255"
 														id="footer-length-{{$index+1}}-textbox"
 														style="text-align: right;" ng-model="record.dataLength"
 														convert-to-number="" maxlength="3" /></td>
-												<td class="text-center" style="width: 15%"><scf-input-text
+												<td class="text-center" style="width: 15%"><scf-input-text max
 														id="footer-start-index-{{$index+1}}-textbox"
 														style="text-align: right;" ng-model="record.startIndex"
-														convert-to-number="" maxlength="3" /></td>
+														convert-to-number="true" maxlength="3" /></td>
 												<td class="text-center" style="width: 15%"
 													ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"><scf-input-text
 														id="footer-end-index-{{$index+1}}-textbox"
