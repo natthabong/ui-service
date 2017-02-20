@@ -87,7 +87,7 @@
 											ng-class="$even?'tr-odd':'tr-even'">
 
 											<td class="text-right"><label class="label-control"
-												id="no-{{$index+1}}-label" ng-bind="{{$index+1}}"></label></td>
+												id="sequence-no-{{$index+1}}-label" ng-bind="{{$index+1}}"></label></td>
 
 											<td class="text-right"><scf-dropdown
 													id="document-field-name-{{$index+1}}-dropdown"
@@ -110,7 +110,7 @@
 													component-data="ctrl.sortTypes" translate-label="true"></scf-dropdown></td>
 
 											<td class="text-center"><scf-input-text
-													id="order-index-{{$index+1}}-textbox"
+													id="sort-sequence-no-{{$index+1}}-textbox"
 													style="width: 55px; text-align: right;"
 													convert-to-number=""
 													ng-model="record.sortSequenceNo"
@@ -154,7 +154,7 @@
 
 								<div>
 									<!-- Split button -->
-									<button id="add-another-field-button" type="button"
+									<button id="add-another-field-detail-button" type="button"
 										class="btn btn-default" ng-click="ctrl.addItem()"
 										ng-bind="'Add another field' | translate">Add another
 										field</button>
