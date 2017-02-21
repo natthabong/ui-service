@@ -195,7 +195,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			vm.documentListCriterial.sponsorId = sponsorCriteria;
 			vm.documentListCriterial.supplierId = supplierCriteria;
 			vm.documentListCriterial.supplierCode = vm.documentListModel.supplierCode;
-			console.log(vm.documentListModel.uploadDateFrom)
+			
 			if(angular.isDate(vm.documentListModel.uploadDateFrom)){
 				vm.documentListCriterial.uploadDateFrom = vm.documentListModel.uploadDateFrom
 			}
