@@ -103,7 +103,7 @@ app.service('SCFCommonService', [
 
 			var documentDisplayDiferred = Service.doGet(reqUrl);
 			documentDisplayDiferred.promise.then(function(response) {
-				console.log(response);
+				
 				if (angular.isUndefined(response.data)) {
 					displayConfig = defaultColumDisplay;
 				} else {

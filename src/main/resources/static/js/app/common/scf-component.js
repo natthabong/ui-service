@@ -821,6 +821,11 @@
 				elements.addClass(colClass)
 				elements.html(htmlText);
 				$compile(elements.contents())(scope);
+				
+				if(angular.isDefined(elements[0].childNodes[0])){
+					elements[0].childNodes[0].id = column.fieldName + '-header-label';
+				}
+				
 			}
 			
 			function getDisplayLanguage(currentLange, column){
