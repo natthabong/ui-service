@@ -12,7 +12,8 @@
 		return {
 			requestURL : requestURL,
 			doGet : doGet,
-			doPut : doPut
+			doPut : doPut,
+			doPost : doPost
 		}
 
 		function requestURL(url, params, method) {
@@ -54,6 +55,21 @@
 				data : params
 			}).success(function(data, status, headers, config) {
 				 
+				deffered.resolve({data:data, headers:headers})
+			}).error(function(response) {
+				deffered.reject(response);
+			});
+			return deffered;
+		}
+		
+		function doPost(url, params) {
+			var deffered = $q.defer();
+
+			$http({
+				method : 'POST',
+				url : url,
+				data : params
+			}).success(function(data, status, headers, config) {
 				deffered.resolve({data:data, headers:headers})
 			}).error(function(response) {
 				deffered.reject(response);
