@@ -340,7 +340,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			}).then(function(response) {
 				return response.data.map(function(item) {
 					item.identity = [ 'sponsor-', item.supplierId, '-option' ].join('');
-					item.label = [ item.sponsorName, ': ', item.sponsorId ].join('');
+					item.label = [ item.sponsorId, ': ', item.sponsorName ].join('');
 					return item;
 				});
 			});
@@ -365,7 +365,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			}).then(function(response) {
 				return response.data.map(function(item) {
 					item.identity = [ 'supplier-', item.supplierId, '-option' ].join('');
-					item.label = [ item.supplierName, ': ', item.supplierId ].join('');
+					item.label = [ item.supplierId, ': ', item.supplierName ].join('');
 					return item;
 				});
 			});
