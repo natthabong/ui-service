@@ -187,7 +187,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			uploadDateFrom : undefined,
 			uploadDateTo : undefined,
 			documentNo : '',
-			documentStatus : ''
+			documentStatus : undefined
 		}
 
 		function prepareCriteria() {
@@ -199,7 +199,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 			vm.documentListCriterial.sponsorId = sponsorCriteria;
 			vm.documentListCriterial.supplierId = supplierCriteria;
-			vm.documentListCriterial.supplierCode = vm.documentListModel.supplierCode;
+			vm.documentListCriterial.supplierCode = UIFactory.createCriteria(vm.documentListModel.supplierCode);
 			
 			if(angular.isDate(vm.documentListModel.uploadDateFrom)){
 				vm.documentListCriterial.uploadDateFrom = vm.documentListModel.uploadDateFrom
@@ -209,7 +209,8 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 				vm.documentListCriterial.uploadDateTo = vm.documentListModel.uploadDateTo;
 			}
 			
-			vm.documentListCriterial.documentNo = vm.documentListModel.documentNo;
+//			console.log(vm.documentListModel.documentNo)
+			vm.documentListCriterial.documentNo = UIFactory.createCriteria(vm.documentListModel.documentNo);
 
 			DocumentListStatus.forEach(function(status) {
 				if (vm.documentListModel.documentStatus == status.value) {
@@ -400,15 +401,28 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			var isValidatePass = true;
 
 			vm.requireSponsor = false;
+			vm.requireSupplier = false;
 			vm.wrongDateFormat = false;
+			
+			
 
 			if (vm.submitted && $scope.documentListSponsorForm.sponsorCode.$error.required) {
 				vm.requireSponsor = true;
 				isValidatePass = false;
 			}
 			
+			if (vm.submitted && $scope.documentListSponsorForm.supplierCode.$error.required) {
+				vm.requireSupplier = true;
+				isValidatePass = false;
+			}
+			
 			if(!angular.isObject(vm.documentListModel.sponsor)){
 				vm.requireSponsor = true;
+				isValidatePass = false;
+			}
+			
+			if(!angular.isObject(vm.documentListModel.supplier)){
+				vm.requireSupplier = true;
 				isValidatePass = false;
 			}
 
@@ -429,6 +443,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			if (angular.isDefined(vm.documentListModel.sponsor) && angular.isObject(vm.documentListModel.sponsor)) {
 				vm.loadDocumentDisplayConfig(vm.documentListModel.sponsor.organizeId);
 			}
+			vm.documentListModel.supplier = undefined;
 		});
 
 	} ]);

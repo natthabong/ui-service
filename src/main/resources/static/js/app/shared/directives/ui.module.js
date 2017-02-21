@@ -116,13 +116,24 @@ angular
 							data : config.data
 						});
 				}
-
+				
+				var createCriteria = function(criteria){
+					if(angular.isDefined(criteria) && criteria != null){
+						if(criteria.length > 0){
+							return '%' + criteria + '%';
+						}						
+					}
+					
+					return criteria
+				}
+				
 				return {
 					createTableModel : createTableModel,
 					createAutoSuggestModel : createAutoSuggestModel,
 					showConfirmDialog : showConfirmDialog,
 					showSuccessDialog : showSuccessDialog,
-					showFailDialog : showFailDialog
+					showFailDialog : showFailDialog,
+					createCriteria: createCriteria
 				}
 
-			} ]);
+			} ])
