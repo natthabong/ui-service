@@ -94,32 +94,33 @@ app.service('SCFCommonService', [
                 result = new Date(dateSplite[2] + '-' + dateSplite[1] + '-' + dateSplite[0]);
             }
             return result
-        }
+		}
 
-        vm.getDocumentDisplayConfig = function(sponsorId) {
-            var differed = $q.defer();
-            var displayConfig = [];
-	    var reqUrl = '/api/v1/organize-customers/'+sponsorId+'/sponsor-configs/SFP/displays'
-			
-            var documentDisplayDiferred = Service.doGet(reqUrl);
-	    documentDisplayDiferred.promise.then(function(response){
-		if (angular.isUndefined(response.data)) {
-                    displayConfig = defaultColumDisplay;
-                } else {
-		    if(response.data[0].items.length === 0){
-			displayConfig = defaultColumDisplay;
-		    }else{
-                    	displayConfig = response.data[0];
-     		    }
-                }
+		vm.getDocumentDisplayConfig = function(sponsorId) {
+			var differed = $q.defer();
+			var displayConfig = [];
+			var reqUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/displays'
 
-                differed.resolve(displayConfig);
-			}).catch(function(response){
+			var documentDisplayDiferred = Service.doGet(reqUrl);
+			documentDisplayDiferred.promise.then(function(response) {
+				console.log(response);
+				if (angular.isUndefined(response.data)) {
+					displayConfig = defaultColumDisplay;
+				} else {
+					if (response.data.length == 0) {
+						displayConfig = defaultColumDisplay;
+					} else {
+						displayConfig = response.data[0];
+					}
+				}
+
+				differed.resolve(displayConfig);
+			}).catch(function(response) {
 				log.error('Load Display config error');
-                differed.resolve(defaultColumDisplay);
+				differed.resolve(defaultColumDisplay);
 			});
-            return differed;
-        };
+			return differed;
+		};
 
         vm.shortenLargeNumber = function(amount) {
             var shortenNumber = ['k', 'M', 'G', 'T'];
@@ -541,36 +542,42 @@ var defaultColumDisplay = {
 	documentSelection :'ANY_DOCUMENT',
 	items: [{
             field: 'sponsorPaymentDate',
-            label: 'วันครบกำหนดชำระ',
+            labelEN: 'วันครบกำหนดชำระ',
+            labelTH: 'วันครบกำหนดชำระ',
             sortData: true,
             cssTemplate: 'text-center',
             filterType: 'date',
             filterFormat: 'dd/MM/yyyy'
         }, {
             field: 'documentDate',
-            label: 'วันที่เอกสาร',
+            labelEN: 'วันที่เอกสาร',
+            labelTH: 'วันที่เอกสาร',
             sortData: true,
             cssTemplate: 'text-center',
             filterType: 'date',
             filterFormat: 'dd/MM/yyyy'
         }, {
             field: 'documentNo',
-            label: 'เลขที่เอกสาร',
+            labelEN: 'เลขที่เอกสาร',
+            labelTH: 'เลขที่เอกสาร',
             sortData: true,
             cssTemplate: 'text-center',
         }, {
             field: 'documentType',
-            label: 'ประเภทเอกสาร',
+            labelEN: 'ประเภทเอกสาร',
+            labelTH: 'ประเภทเอกสาร',
             sortData: true,
             cssTemplate: 'text-center',
         }, {
             field: 'supplierCode',
-            label: 'รหัสลูกค้า',
+            labelEN: 'รหัสลูกค้า',
+            labelTH: 'รหัสลูกค้า',
             sortData: true,
             cssTemplate: 'text-center'
         }, {
             field: 'outstandingAmount',
-            label: 'จำนวนเงินตามเอกสาร',
+            labelEN: 'จำนวนเงินตามเอกสาร',
+            labelTH: 'จำนวนเงินตามเอกสาร',
             sortData: true,
             cssTemplate: 'text-right',
             filterType: 'number',
