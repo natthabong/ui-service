@@ -6,6 +6,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		var vm = this;
 		var log = $log;
 		var organizeId = $rootScope.userInfo.organizeId;
+		var sponsorCodeServiceUrl;
 
 		vm.submitted = false;
 		vm.sponsorTxtDisable = false;
@@ -162,6 +163,8 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			} else if (currentParty == partyRole.supplier) {
 				vm.supplierTxtDisable = true;
 				vm.loadSupplierDisplayName();
+			}else if(currentParty == partyRole.bank){
+				sponsorCodeServiceUrl = 'api/v1/sponsors';
 			}
 		}
 
@@ -188,10 +191,10 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		}
 
 		function prepareCriteria() {
-			var sponsorCriteria = vm.documentListModel.sponsor.sponsorId || null;
+			var sponsorCriteria = vm.documentListModel.sponsor.organizeId || null;
 
 			if (angular.isDefined(vm.documentListModel.supplier)) {
-				var supplierCriteria = vm.documentListModel.supplier.supplierId;
+				var supplierCriteria = vm.documentListModel.supplier.organizeId;
 			}
 
 			vm.documentListCriterial.sponsorId = sponsorCriteria;
@@ -216,13 +219,13 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 		}
 
-		vm.pagingCongroller = PagingController.create('api/v1/documents', vm.documentListCriterial, 'GET');
+		vm.pagingController = PagingController.create('api/v1/documents', vm.documentListCriterial, 'GET');
 
 		vm.searchDocument = function(pagingModel) {
 
 			if (isValidateCriteriaPass()) {
 				prepareCriteria();
-				var documentListDiferred = vm.pagingCongroller.search(pagingModel);
+				var documentListDiferred = vm.pagingController.search(pagingModel);
 				documentListDiferred.promise.then(function(response) {
 					vm.getDocumentSummary();
 				}).catch(function(response) {
@@ -329,7 +332,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			return summaryAmount;
 		}
 
-		var sponsorCodeServiceUrl = '/api/v1/trading-partners/' + organizeId + '/sponsors';
+		
 		var querySponsorCode = function(value) {
 			return $http.get(sponsorCodeServiceUrl, {
 				params : {
@@ -339,8 +342,8 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 				}
 			}).then(function(response) {
 				return response.data.map(function(item) {
-					item.identity = [ 'sponsor-', item.supplierId, '-option' ].join('');
-					item.label = [ item.sponsorId, ': ', item.sponsorName ].join('');
+					item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
+					item.label = [ item.organizeId, ': ', item.organizeName ].join('');
 					return item;
 				});
 			});
@@ -353,19 +356,22 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		});
 
 		var querySupplierCode = function(value) {
-			var sponsorId = vm.documentListModel.sponsor.sponsorId;
-			var supplierCodeServiceUrl = '/api/v1/trading-partners/' + organizeId + '/sponsors/' + sponsorId;
+			var sponsorId = vm.documentListModel.sponsor.organizeId;
+			console.log(sponsorId)
+//			var supplierCodeServiceUrl = '/api/v1/trading-partners/' + organizeId + '/sponsors/' + sponsorId;
+			var supplierCodeServiceUrl = 'api/v1/suppliers';
 
 			return $http.get(supplierCodeServiceUrl, {
 				params : {
 					q : value,
+					sponsorId: sponsorId,
 					offset : 0,
 					limit : 5
 				}
 			}).then(function(response) {
 				return response.data.map(function(item) {
-					item.identity = [ 'supplier-', item.supplierId, '-option' ].join('');
-					item.label = [ item.supplierId, ': ', item.supplierName ].join('');
+					item.identity = [ 'supplier-', item.organizeId, '-option' ].join('');
+					item.label = [ item.organizeId, ': ', item.organizeName ].join('');
 					return item;
 				});
 			});
@@ -421,7 +427,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 		$scope.$watch('ctrl.documentListModel.sponsor', function() {
 			if (angular.isDefined(vm.documentListModel.sponsor) && angular.isObject(vm.documentListModel.sponsor)) {
-				vm.loadDocumentDisplayConfig(vm.documentListModel.sponsor.sponsorId);
+				vm.loadDocumentDisplayConfig(vm.documentListModel.sponsor.organizeId);
 			}
 		});
 
