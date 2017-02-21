@@ -96,11 +96,13 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		};
 
 		var columnLastUpload = {
-			fieldName : '',
+			fieldName : 'lastUploadTime',
 			labelEN : 'Last update date',
 			labelTH : 'ปรับปรุงล่าสุด',
 			sortable : true,
 			id : 'last-upload-date-{value}-label',
+			filterType : 'date',
+			filterFormat: 'dd/MM/yyyy',
 			cssTemplate : 'text-center'
 		};
 
@@ -217,6 +219,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		vm.pagingCongroller = PagingController.create('api/v1/documents', vm.documentListCriterial, 'GET');
 
 		vm.searchDocument = function(pagingModel) {
+
 			if (isValidateCriteriaPass()) {
 				prepareCriteria();
 				var documentListDiferred = vm.pagingCongroller.search(pagingModel);
