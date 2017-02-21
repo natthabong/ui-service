@@ -18,7 +18,7 @@
         				<form name="documentListSponsorForm" class="form-horizontal" novalidate="" ng-submit="ctrl.searchDocument()">
         					
         					<div class="form-group">
-								<label for="sponsor-textbox"
+								<label for="sponsor-auto-suggest" id="sponsor-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor'
 									| translate}}:</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
@@ -32,14 +32,14 @@
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
-							<div class="form-group" ng-show="ctrl.requireSponsor">
+							<div class="form-group" ng-show="ctrl.requireSponsor" >
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
 									id="sponsor-warning-message-label">{{'Sponsor is required' | translate}}.</span>
 							</div>
 
 							<div class="form-group">
-								<label for="supplier-textbox"
+								<label for="supplier-auto-suggest" id="supplier-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
 									| translate}} : </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
@@ -54,7 +54,7 @@
 							</div>
 
 							<div class="form-group">
-								<label for="supplier-code-textbox"
+								<label for="supplier-code-textbox" id="supplier-code-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier
 									code' | translate}} : </label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
@@ -66,10 +66,10 @@
 							</div>
 
 							<div class="form-group">
-								<label class="col-md-2 col-sm-3 control-label">{{'Date'
+								<label id="date-label" class="col-md-2 col-sm-3 control-label">{{'Date'
 									| translate}}:</label>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
-									<label for="date-from-calendar" class="control-label">{{'From'
+									<label id="from-label" for="date-from-calendar" class="control-label">{{'From'
 										| translate}}: </label>
 									<scf-date-picker-from text-id="upload-date-from-textbox"
 										button-id="date-from-calendar-button"
@@ -81,8 +81,8 @@
 
 								</div>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
-									<label for="date-to-calendar" class="control-label">{{'to'
-										| translate}}: </label>
+									<label id="to-label" for="date-to-calendar"
+										class="control-label">{{'to' | translate}}: </label>
 									<scf-date-picker-to text-id="upload-date-to-textbox"
 										button-id="date-to-calendar-button"
 										text-model="ctrl.documentListModel.uploadDateTo"
@@ -100,7 +100,7 @@
 							</div>
 
 							<div class="form-group">
-								<label for="document-no-textbox"
+								<label for="document-no-textbox"  id="document-no-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Document
 									No.' | translate}} : </label>
 
@@ -112,11 +112,11 @@
 							</div>
 
 							<div class="form-group">
-								<label for="status"
+								<label for="status"  id="status-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status'
 									| translate}} :</label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="document-status-dropdown"
+									<scf-dropdown id="status-dropdown"
 										ng-model="ctrl.documentListModel.documentStatus"
 										component-data="ctrl.documentStatusDrpodowns"></scf-dropdown>
 								</div>
@@ -143,12 +143,12 @@
 									<div class="row">
 										<div class="col-md-12 col-sm-12">
 											<span> <b
-												ng-bind="ctrl.pagingCongroller.splitePageTxt"
+												ng-bind="ctrl.pagingController.splitePageTxt"
 												id="document-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 													dropdown-id="page-limit-dropdown"
-													page-size-model="ctrl.pagingCongroller.pagingModel.pageSizeSelectModel"
-													total-page="ctrl.pagingCongroller.pagingModel.totalPage"
-													current-page="ctrl.pagingCongroller.pagingModel.currentPage"
+													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+													total-page="ctrl.pagingController.pagingModel.totalPage"
+													current-page="ctrl.pagingController.pagingModel.currentPage"
 													page-size-list="ctrl.pageSizeList"
 													page-action="ctrl.searchDocument"></scf-pagination>
 											</span>
@@ -162,8 +162,8 @@
 								<div class="col-md-12">
 									<scf-table id="document-table"
 										component-config="ctrl.dataTable"
-										component-datas="ctrl.pagingCongroller.tableRowCollection"
-										current-page="ctrl.pagingCongroller.pagingModel.currentPage"
+										component-datas="ctrl.pagingController.tableRowCollection"
+										current-page="ctrl.pagingController.pagingModel.currentPage"
 										record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 										clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
 								</div>
@@ -182,11 +182,12 @@
 									<label class="col-md-2 col-sm-3"><b>{{'Total
 											amount' | translate}} :</b></label>
 									<div class="col-md-1 col-sm-2 text-right">
-										<span id="document-list-total-amount-label"
+										<span id="document-list-transaction-amount-label"
 											ng-bind="ctrl.documentSummaryDisplay.totalDocumentAmount | number"></span>
 									</div>
 									<div class="col-md-9 col-sm-7">
-										<span ng-bind="'THB' | translate"></span>
+										<span id="wait-for-approve-amount-label"
+											ng-bind="'THB' | translate"></span>
 									</div>
 								</div>
 							</div>
