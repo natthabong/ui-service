@@ -238,7 +238,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 		var deleteDocument = function(document) {
 
-			var serviceUrl = 'api/v1/documemnts/' + document.documentId
+			var serviceUrl = 'api/v1/documents/' + document.documentId
 			var deferred = $q.defer();
 			$http({
 				method : 'DELETE',
