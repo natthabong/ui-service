@@ -663,7 +663,7 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 		if($scope.newEditCustCode.supplier.$error.required){
 			validatePass = false;
 		}
-		
+
 		if($scope.newEditCustCode.activeDate.$error.required){
 			validatePass = false;
 		}else{

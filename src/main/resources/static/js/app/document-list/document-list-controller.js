@@ -1,10 +1,16 @@
-angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Service', '$stateParams', '$log', 'SCFCommonService', 'PagingController', function($scope, Service, $stateParams, $log, SCFCommonService, PagingController) {
+'use strict';
+var scfApp = angular.module('scfApp');
+scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams', '$log', 
+	'SCFCommonService', 'PagingController', 'UIFactory', '$rootScope', '$http', 'DocumentListStatus', function($scope, Service, $stateParams, 
+			$log, SCFCommonService, PagingController, UIFactory, $rootScope, $http, DocumentListStatus) {
 	var vm = this;
 	var log = $log;
-
+	var organizeId = $rootScope.userInfo.organizeId;
+	
+	vm.submitted = false;
 	vm.sponsorTxtDisable = false;
 	vm.supplierTxtDisable = false;
-	vm.searchBtnDisable = true;
+//	vm.searchBtnDisable = true;
 	vm.showInfomation = false;
 	vm.documentNewStatus = "NEW";
 	vm.splitePageTxt = '';
@@ -14,6 +20,8 @@ angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Servi
 	vm.openDateTo = false;
 	vm.defaultPageSize = '20';
 	vm.defaultPage = 0;
+	
+	vm.requireSponsor = false;
 
 	var currentParty = '';
 	var partyRole = {
@@ -22,10 +30,7 @@ angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Servi
 		bank : 'bank'
 	}
 
-	vm.documentStatusDrpodowns = [ {
-		'label' : 'All',
-		'value' : ''
-	} ];
+	vm.documentStatusDrpodowns = DocumentListStatus;
 
 	vm.documentSummaryDisplay = {
 		totalDocumentAmount : 0,
@@ -47,14 +52,12 @@ angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Servi
 	};
 
 	vm.documentListModel = {
-		sponsorIdName : '',
-		sponsorId : '',
-		supplierIdName : '',
-		supplierId : '',
-		supplierCode : '',
+        sponsor : undefined,		
+        supplier : undefined,
+		supplierCode : undefined,
 		uploadDateFrom : '',
 		uploadDateTo : '',
-		documentNo : '',
+		documentNo : undefined,
 		documentStatus : vm.documentStatusDrpodowns[0].value
 	}
 
@@ -70,16 +73,6 @@ angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Servi
 	} ];
 
 	vm.dataTable = {
-//		options : {
-//			displaySelect : {
-//				label : '<input type="checkbox" ng-show="false" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
-//				cssTemplate : 'text-center',
-//				cellTemplate : '<input type="checkbox" ng-show="false" checklist-model="ctrl.documentSelects" checklist-value="data" ng-click="ctrl.selectDocument()"/>',
-//				displayPosition : 'first',
-//				idValueField : 'template',
-//				id : 'document-{value}-checkbox'
-//			}
-//		},
 		columns : []
 	};
 
@@ -95,6 +88,7 @@ angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Servi
 	};
 
 	vm.loadDocumentDisplayConfig = function(sponsorId) {
+		console.log(sponsorId);
 		var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId);
 		displayConfig.promise.then(function(response) {
 			vm.dataTable.columns = response.items;
@@ -112,7 +106,7 @@ angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Servi
 			vm.documentListModel.sponsorId = organizeId;
 
 			vm.loadDocumentDisplayConfig(organizeId);
-			vm.searchBtnDisable = false;
+//			vm.searchBtnDisable = false;
 		}).catch(function(response) {
 			log.error('Sponsor error');
 		});
@@ -156,29 +150,40 @@ angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Servi
 	}
 
 	function prepareCriteria() {
-		var sponsorIdCri = vm.documentListModel.sponsorId || vm.documentListModel.sponsorIdName;
-		var supplierIdCri = vm.documentListModel.supplierId || vm.documentListModel.supplierIdName;
+		var sponsorCriteria = vm.documentListModel.sponsor.sponsorId || null;
+		
+		if(angular.isDefined(vm.documentListModel.supplier)){
+			var supplierCriteria = vm.documentListModel.supplier.supplierId;
+		}
 
-		vm.documentListCriterial.sponsorId = sponsorIdCri;
-		vm.documentListCriterial.supplierId = supplierIdCri;
+		vm.documentListCriterial.sponsorId = sponsorCriteria;
+		vm.documentListCriterial.supplierId = supplierCriteria;
 		vm.documentListCriterial.supplierCode = vm.documentListModel.supplierCode;
-		vm.documentListCriterial.uploadDateFrom = SCFCommonService.convertDate(vm.documentListModel.uploadDateFrom);
-		vm.documentListCriterial.uploadDateTo = SCFCommonService.convertDate(vm.documentListModel.uploadDateTo);
+		vm.documentListCriterial.uploadDateFrom = vm.documentListModel.uploadDateFrom
+		vm.documentListCriterial.uploadDateTo = vm.documentListModel.uploadDateTo
 		vm.documentListCriterial.documentNo = vm.documentListModel.documentNo;
-		vm.documentListCriterial.documentStatus = vm.documentListModel.documentStatus || null;
+		
+		DocumentListStatus.forEach(function(status) {
+			if(vm.documentListModel.documentStatus == status.value){
+				vm.documentListCriterial.documentStatus = JSON.stringify(status.valueObject);
+			}
+		});
+		
 	}
 
-	vm.pagingCongroller = PagingController.create('api/documents/get', vm.documentListCriterial);
+	vm.pagingCongroller = PagingController.create('api/v1/documents', vm.documentListCriterial, 'GET');
 
 	vm.searchDocument = function(pagingModel) {
-		prepareCriteria();
-		var documentListDiferred = vm.pagingCongroller.search(pagingModel);
-		documentListDiferred.promise.then(function(response) {
-			vm.getDocumentSummary();
-		}).catch(function(response) {
-			log.error("Search error");
-		});
-		vm.showInfomation = true;
+		if(isValidateCriteriaPass()){
+			prepareCriteria();
+			var documentListDiferred = vm.pagingCongroller.search(pagingModel);
+			documentListDiferred.promise.then(function(response) {
+				vm.getDocumentSummary();
+			}).catch(function(response) {
+				log.error("Search error");
+			});
+			vm.showInfomation = true;
+		}	
 	}
 
 	vm.getDocumentSummary = function() {
@@ -212,9 +217,7 @@ angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Servi
 	vm.openCalendarDateTo = function() {
 		vm.openDateTo = true;
 	}
-
-
-
+	
 	function summaryTotalDocumentAmount(documents) {
 		var summaryAmount = 0;
 		documents.forEach(function(document) {
@@ -222,6 +225,134 @@ angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Servi
 		});
 
 		return summaryAmount;
+	};
+	
+	var sponsorCodeServiceUrl = '/api/v1/trading-partners/'+organizeId+'/sponsors';
+	var querySponsorCode = function(value){
+		return $http.get(sponsorCodeServiceUrl, {
+			params: {
+				q : value,
+				offset: 0,
+				limit: 5
+			}
+		}).then(function(response){
+			return response.data.map(function(item) {	
+				item.identity = ['sponsor-',item.supplierId,'-option'].join('');
+				item.label = [item.sponsorName, ': ',item.sponsorId].join('');
+				return item;
+			});
+		});
+	};
+	
+	vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
+		placeholder : 'Please Enter Organize name or code',
+		itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
+		query: querySponsorCode
+	});
+	
+	
+	var querySupplierCode = function(value){
+		var sponsorId = vm.documentListModel.sponsor.sponsorId;
+		var supplierCodeServiceUrl = '/api/v1/trading-partners/'+organizeId+'/sponsors/'+sponsorId;
+		
+		return $http.get(supplierCodeServiceUrl, {
+			params: {
+				q : value,
+				offset: 0,
+				limit: 5
+			}
+		}).then(function(response){
+			return response.data.map(function(item) {	
+				item.identity = ['supplier-',item.supplierId,'-option'].join('');
+				item.label = [item.supplierName, ': ',item.supplierId].join('');
+				return item;
+			});
+		});
+	};
+	vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
+		placeholder : 'Enter Organize name or code',
+		itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
+		query: querySupplierCode
+	});
+	
+	vm.isRequireSponsor = function(){
+		
 	}
-
+	
+	vm.disableSupplierSuggest = function(){
+		var isDisable = false;
+		if(currentParty == partyRole.bank){
+			if(angular.isUndefined(vm.documentListModel.sponsor)){
+				isDisable = true;
+			}else{
+				isDisable = false;
+			}
+		}else if(currentParty == partyRole.supplier){
+			isDisable = true;
+		}
+		return isDisable;
+	}
+	
+	var isValidateCriteriaPass = function(){
+		var isValidatePass = true;
+		
+		vm.requireSponsor = false;
+		vm.wrongDateFormat = false;
+		
+		if(vm.submitted && $scope.documentListSponsorForm.sponsorCode.$error.required){
+			vm.requireSponsor = true;
+			isValidatePass = false;
+		}
+		
+		if(angular.isUndefined(vm.documentListModel.uploadDateFrom)){
+			vm.wrongDateFormat = true;
+			isValidatePass = false;
+		}
+		
+		if(angular.isUndefined(vm.documentListModel.uploadDateTo)){
+			vm.wrongDateFormat = true;
+			isValidatePass = false;
+		}
+		
+		return isValidatePass;
+	};
+	
+	$scope.$watch('ctrl.documentListModel.sponsor', function(){
+		if(angular.isDefined(vm.documentListModel.sponsor)){
+			vm.loadDocumentDisplayConfig(vm.documentListModel.sponsor);
+		}
+	});
 } ]);
+
+scfApp.constant("DocumentListStatus", [
+	{
+		label : 'All',
+		value : '',
+		valueObject: null
+	},
+	{
+		label : 'Booked',
+		value: 'BOOKED',
+		valueObject: 'BOOKED'
+	},
+	{
+		label : 'Not book',
+		value: 'NOTBOOK',
+		valueObject: ['NEW', 'USED', 'WAIT_FOR_BANK_PROCESSING']
+	},
+	{
+		label : 'New',
+		value: 'NEW',
+		valueObject: 'NEW'
+	},
+	{
+		label : 'Used',
+		value: 'USED',
+		valueObject: 'USED'
+	},
+	{
+		label : 'Bank process',
+		value: 'WAIT_FOR_BANK_PROCESSING',
+		valueObject: 'WAIT_FOR_BANK_PROCESSING'
+	},
+]);
