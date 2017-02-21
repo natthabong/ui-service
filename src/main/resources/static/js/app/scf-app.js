@@ -250,6 +250,7 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 			var defered = scfFactory.getUserInfo();
 			defered.promise.then(function(response){				
 				$scope.userInfo = response;
+				$rootScope.userInfo = response;
 			});
 		};
 		

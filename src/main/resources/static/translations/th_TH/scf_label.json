@@ -185,7 +185,8 @@
 	"document-list-bank": "Document list",
 	"BOOKED": "Book",
 	"UNBOOK": "Unbook",
-	"All": "All",
+	"All": "All",	
+	"Sponsor is required": "Sponsor is required",
 	
 	"File layouts": "File layouts",
 	"File layout name": "File layout name",

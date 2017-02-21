@@ -20,7 +20,7 @@ angular
 				$templateCache
 					.put(
 						'ui/template/autoSuggest.html',
-						'<input type="text" id="{{id}}" ng-disabled="{{disable}}" placeholder="{{model.placeholder}}"'
+						'<input type="text" id="{{id}}" ng-disabled="disable" placeholder="{{model.placeholder}}"'
 						+ ' class="form-control" uib-typeahead="data as data.label for data in model.query($viewValue)"'
 						+ ' ng-model="ngModel" typeahead-template-url="{{model.itemTemplateUrl}}" ng-required="ngRequired" name="{{name}}"/>');
 
