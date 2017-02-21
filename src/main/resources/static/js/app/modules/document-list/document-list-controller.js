@@ -1,4 +1,4 @@
-angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Service', '$stateParams', '$log', 'SCFCommonService', 'PagingController', function($scope, Service, $stateParams, $log, SCFCommonService, PagingController) {
+angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Service', '$stateParams', '$log', 'SCFCommonService', 'PagingController', 'UIFactory', '$q', function($scope, Service, $stateParams, $log, SCFCommonService, PagingController, UIFactory, $q) {
 	var vm = this;
 	var log = $log;
 
@@ -93,12 +93,31 @@ angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Servi
 		filterType : 'translate',
 		cssTemplate : 'text-center'
 	};
-
+	
+	var columnLastUpload = {
+		fieldName : '',
+		labelEN : 'Last update date',
+		labelTH : 'ปรับปรุงล่าสุด',
+		sortable : true,
+		id : 'last-upload-date-{value}-label',
+		cssTemplate : 'text-center'
+	};
+	
+	var columnAction = {
+		field : '',
+		label : '',
+		cssTemplate : 'text-center',
+		sortData : false,
+		cellTemplate : '<scf-button id="document-{{data.documentId}}-delete-button" class="btn-default gec-btn-action" ng-disabled="{{vm.supplierTxtDisable}}" ng-click="ctrl.deleteDocument(data)" title="Delete a document"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+	};
+	
 	vm.loadDocumentDisplayConfig = function(sponsorId) {
 		var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId);
 		displayConfig.promise.then(function(response) {
 			vm.dataTable.columns = response.items;
+			vm.dataTable.columns.push(columnLastUpload);
 			vm.dataTable.columns.push(columnStatus);
+			vm.dataTable.columns.push(columnAction);
 		});
 	}
 
@@ -168,19 +187,74 @@ angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Servi
 		vm.documentListCriterial.documentStatus = vm.documentListModel.documentStatus || null;
 	}
 
-	vm.pagingCongroller = PagingController.create('api/documents/get', vm.documentListCriterial);
+	vm.pagingController = PagingController.create('api/documents/get', vm.documentListCriterial);
 
 	vm.searchDocument = function(pagingModel) {
 		prepareCriteria();
-		var documentListDiferred = vm.pagingCongroller.search(pagingModel);
+		var documentListDiferred = vm.pagingController.search(pagingModel);
 		documentListDiferred.promise.then(function(response) {
 			vm.getDocumentSummary();
+			
 		}).catch(function(response) {
 			log.error("Search error");
 		});
 		vm.showInfomation = true;
 	}
-
+	
+	var deleteDocument = function(document){
+	    
+		var serviceUrl = 'api/v1/documemnts/'+ document.documentId
+		var deferred = $q.defer();
+		$http({
+		    method: 'DELETE',
+		    url: serviceUrl,
+		    headers: {
+			'If-Match': document.version
+		    }
+		  }).then(function(response){
+		      return deferred.resolve(response);
+		 }).catch(function(response){
+		      return deferred.reject(response);
+		 });
+		 return deferred;
+	}
+	
+	vm.deleteDocument = function(document){
+	    var preCloseCallback = function(confirm) {
+		 vm.pagingController.reload();
+	    }
+	    
+	    UIFactory.showConfirmDialog({
+		data: { 
+		    headerMessage: 'Confirm delete?'
+		},
+		confirm: function(){
+		    return deleteDocument(document);
+		},
+		onFail: function(response){
+		    var msg = {409:'Document has already been deleted.', 405:'Document has already been used.', 405:'Document has already been used.'};
+		    UIFactory.showFailDialog({
+			data: {
+			    headerMessage: 'Delete document failed.',
+			    bodyMessage: msg[response.status]?msg[response.status]:response.statusText
+			},
+			preCloseCallback: preCloseCallback
+		    });
+		},
+		onSuccess: function(response){
+		    UIFactory.showSuccessDialog({
+			data: {
+			    headerMessage: 'Delete document code completed.',
+			    bodyMessage: ''
+			},
+			preCloseCallback: preCloseCallback
+		    });
+		}
+	    });
+	    
+	}
+	
+	
 	vm.getDocumentSummary = function() {
 		var documentSummaryDiffered = Service.requestURL('/api/documents/status-summary/get', vm.documentListCriterial, 'POST');
 		documentSummaryDiffered.promise.then(function(response) {

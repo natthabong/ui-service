@@ -297,6 +297,8 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
         return vm;
     }
 
+   
+    
     vm.search = function(pagingData) {
         var diferred = $q.defer();
         if (pagingData === undefined) {
@@ -311,17 +313,17 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
         var searchDeferred = '';
         
         if(methodRequestUrl == 'POST'){
-        	searchDeferred = Service.requestURL(apiUrl, criteriaData, 'POST');
+        	searchDeferred = Service.doPost(apiUrl, criteriaData, 'POST');
         }else{
         	searchDeferred = Service.doGet(apiUrl, criteriaData);
         }
 
         searchDeferred.promise.then(function(response) {
+           
             vm.pagingModel.totalRecord = response.headers('X-Total-Count');
 // vm.pagingModel.currentPage = response.headers.number;
             vm.pagingModel.totalPage = response.headers('X-Total-Page');
             vm.tableRowCollection = response.data;
-
             vm.splitePageTxt = SCFCommonService.splitePage(vm.pagingModel.pageSizeSelectModel, vm.pagingModel.currentPage, vm.pagingModel.totalRecord);
             diferred.resolve(response);
         }).catch(function(response) {
@@ -330,7 +332,13 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
         });
         return diferred;
     }
-
+    
+    vm.reload = function() {
+	vm.search({
+	    pageSize: vm.pagingModel.pageSizeSelectModel,
+	    page: vm.pagingModel.currentPage
+	});
+    }
     function prepareCriteria(pagingModel, postParams) {
         var criteria = postParams;
         criteria.pageSize = pagingModel.pageSizeSelectModel;
