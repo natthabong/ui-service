@@ -50,16 +50,14 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		};
 
 		vm.documentListModel = {
-			sponsorIdName : '',
-			sponsorId : '',
-			supplierIdName : '',
-			supplierId : '',
-			supplierCode : '',
-			uploadDateFrom : '',
-			uploadDateTo : '',
-			documentNo : '',
-			documentStatus : vm.documentStatusDrpodowns[0].value
-		}
+        sponsor : undefined,		
+        supplier : undefined,
+		supplierCode : undefined,
+		uploadDateFrom : '',
+		uploadDateTo : '',
+		documentNo : undefined,
+		documentStatus : vm.documentStatusDrpodowns[0].value
+	}
 
 		vm.pageSizeList = [ {
 			label : '10',
@@ -249,44 +247,40 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			return deferred;
 		}
 
-		vm.deleteDocument = function(document) {
-			var preCloseCallback = function(confirm) {
-				vm.pagingController.reload();
-			}
-
-			UIFactory.showConfirmDialog({
-				data : {
-					headerMessage : 'Confirm delete?'
-				},
-				confirm : function() {
-					return deleteDocument(document);
-				},
-				onFail : function(response) {
-					var msg = {
-						409 : 'Document has already been deleted.',
-						405 : 'Document has already been used.',
-						405 : 'Document has already been used.'
-					};
-					UIFactory.showFailDialog({
-						data : {
-							headerMessage : 'Delete document failed.',
-							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
-						},
-						preCloseCallback : preCloseCallback
-					});
-				},
-				onSuccess : function(response) {
-					UIFactory.showSuccessDialog({
-						data : {
-							headerMessage : 'Delete document code completed.',
-							bodyMessage : ''
-						},
-						preCloseCallback : preCloseCallback
-					});
-				}
-			});
-
+		vm.deleteDocument = function(document){
+	    var preCloseCallback = function(confirm) {
+		 vm.pagingController.reload();
+	    }
+	    
+	    UIFactory.showConfirmDialog({
+		data: { 
+		    headerMessage: 'Confirm delete?'
+		},
+		confirm: function(){
+		    return deleteDocument(document);
+		},
+		onFail: function(response){
+		    var msg = {409:'Document has already been deleted.', 405:'Document has already been used.', 405:'Document has already been used.'};
+		    UIFactory.showFailDialog({
+			data: {
+			    headerMessage: 'Delete document failed.',
+			    bodyMessage: msg[response.status]?msg[response.status]:response.statusText
+			},
+			preCloseCallback: preCloseCallback
+		    });
+		},
+		onSuccess: function(response){
+		    UIFactory.showSuccessDialog({
+			data: {
+			    headerMessage: 'Delete document completed.',
+			    bodyMessage: ''
+			},
+			preCloseCallback: preCloseCallback
+		    });
 		}
+	    });
+	    
+	}
 
 
 		vm.getDocumentSummary = function() {
