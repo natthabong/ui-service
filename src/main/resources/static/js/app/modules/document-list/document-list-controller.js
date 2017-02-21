@@ -112,7 +112,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			label : '',
 			cssTemplate : 'text-center',
 			sortData : false,
-			cellTemplate : '<scf-button id="document-{{data.documentId}}-delete-button" class="btn-default gec-btn-action" ng-disabled="{{vm.supplierTxtDisable}}" ng-click="ctrl.deleteDocument(data)" title="Delete a document"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+			cellTemplate : '<scf-button id="document-{{data.documentId}}-delete-button" class="btn-default gec-btn-action" ng-disabled="{{data.documentStatus!=\'NEW\'}}" ng-click="ctrl.deleteDocument(data)" title="Delete a document"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 		};
 
 		vm.loadDocumentDisplayConfig = function(sponsorId) {
@@ -291,7 +291,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 
 		vm.getDocumentSummary = function() {
-			var documentSummaryDiffered = Service.requestURL('/api/documents/status-summary/get', vm.documentListCriterial, 'POST');
+			var documentSummaryDiffered = Service.requestURL('/api/documents/status-summary', vm.documentListCriterial, 'GET');
 			documentSummaryDiffered.promise.then(function(response) {
 				if (response.length == 0) {
 					vm.documentSummaryDisplay.documents[0].totalOutstandingAmount = 0;
