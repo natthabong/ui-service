@@ -90,7 +90,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			labelEN : 'Status',
 			labelTH : 'สถานะ',
 			sortable : true,
-			idValueField : 'transactionNo',
+			idValueField : 'documentId',
 			id : 'status-{value}',
 			filterType : 'translate',
 			cssTemplate : 'text-center'
@@ -98,17 +98,17 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 		var columnLastUpload = {
 			fieldName : 'lastUploadTime',
-			labelEN : 'Last update date',
+			labelEN : 'Last upload',
 			labelTH : 'ปรับปรุงล่าสุด',
 			sortable : true,
-			id : 'last-upload-date-{value}-label',
+			id : 'lastUploadTime-header-label',
 			filterType : 'date',
 			filterFormat: 'dd/MM/yyyy',
 			cssTemplate : 'text-center'
 		};
 
 		var columnAction = {
-			field : '',
+			fieldName : 'action',
 			label : '',
 			cssTemplate : 'text-center',
 			sortData : false,
