@@ -1,4 +1,4 @@
-angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Service', '$stateParams', '$log', 'SCFCommonService', 'PagingController', 'UIFactory', '$q', function($scope, Service, $stateParams, $log, SCFCommonService, PagingController, UIFactory, $q) {
+angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Service', '$stateParams', '$log', 'SCFCommonService', 'PagingController', 'UIFactory', '$q', '$http', function($scope, Service, $stateParams, $log, SCFCommonService, PagingController, UIFactory, $q, $http) {
 	var vm = this;
 	var log = $log;
 
@@ -203,7 +203,7 @@ angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Servi
 	
 	var deleteDocument = function(document){
 	    
-		var serviceUrl = 'api/v1/documemnts/'+ document.documentId
+		var serviceUrl = 'api/v1/documents/'+ document.documentId
 		var deferred = $q.defer();
 		$http({
 		    method: 'DELETE',
@@ -244,7 +244,7 @@ angular.module('scfApp').controller('DocumentListController', [ '$scope', 'Servi
 		onSuccess: function(response){
 		    UIFactory.showSuccessDialog({
 			data: {
-			    headerMessage: 'Delete document code completed.',
+			    headerMessage: 'Delete document completed.',
 			    bodyMessage: ''
 			},
 			preCloseCallback: preCloseCallback
