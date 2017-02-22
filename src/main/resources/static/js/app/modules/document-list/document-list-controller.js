@@ -217,6 +217,8 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 					vm.documentListCriterial.documentStatus = status.valueObject;
 				}
 			});
+			
+			return vm.documentListCriterial;
 
 		}
 
@@ -225,10 +227,10 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		vm.searchDocument = function(pagingModel) {
 
 			if (isValidateCriteriaPass()) {
-				prepareCriteria();
+				var criteria = prepareCriteria();
 				var documentListDiferred = vm.pagingController.search(pagingModel);
 				documentListDiferred.promise.then(function(response) {
-					vm.getDocumentSummary();
+					vm.getDocumentSummary(criteria);
 				}).catch(function(response) {
 					log.error("Search error");
 				});
@@ -290,14 +292,14 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 	}
 
 
-		vm.getDocumentSummary = function() {
-			var documentSummaryDiffered = Service.requestURL('/api/documents/status-summary', vm.documentListCriterial, 'GET');
+		vm.getDocumentSummary = function(criteria) {
+			var documentSummaryDiffered = Service.doGet('/api/documents/status-summary', criteria);
 			documentSummaryDiffered.promise.then(function(response) {
-				if (response.length == 0) {
-					vm.documentSummaryDisplay.documents[0].totalOutstandingAmount = 0;
-					vm.documentSummaryDisplay.documents[1].totalOutstandingAmount = 0;
-				}
-				response.forEach(function(data) {
+
+			    	vm.documentSummaryDisplay.documents[0].totalOutstandingAmount = 0;
+				vm.documentSummaryDisplay.documents[1].totalOutstandingAmount = 0;
+
+				response.data.forEach(function(data) {
 					if (data.status == 'BOOKED') {
 						vm.documentSummaryDisplay.documents[0].totalOutstandingAmount = data.totalOutstandingAmount;
 					} else if (data.status == 'UNBOOK') {
