@@ -9,70 +9,65 @@
 			</div>
 		</div>
 		<div class="form-element">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<div class="form-group">
-						<div class="col-md-12 col-sm-12 col-xs-12">
-							<label for="sponsor-textbox"
-								class="col-md-1 col-sm-1 col-xs-12 control-label">{{'Organize'
-								| translate}}: </label>
-							<div class="col-md-4 col-sm-4 col-xs-12">
-							<!-- <scf-input-text id="organize-textbox" 
-									ng-model="ctrl.organizeName" placeholder="Enter Oranize name or code"
-									uib-typeahead="organizes for organizes in ctrl.searchOrganizeTypeHead($viewValue)"
-									typeahead-loading="loadingOrganizeTypeHead" typeahead-no-results="noResults"></scf-input-text> -->
-								<gec-auto-suggest model="ctrl.autoSuggestMode"
-								ng-model="ctrl.organizeName" id="organize-textbox" disable="false" ></gec-auto-suggest>
-							</div>
-							<div class="col-md-7 col-sm-7 col-xs-12">
-								<scf-button id="search-button" class="btn-default"
-									ng-click="ctrl.searchOrganize()">{{'Search' |
-								translate}}</scf-button>
-							</div>
+			<form name="organizeForm" ng-submit="ctrl.searchOrganize()"
+				autocomplete="off" class="form-horizontal">
+				<div class="panel panel-default col-md-12 padding-0">
+					<div class="panel-body">
+						<div class="form-group">
+								<label for="sponsor-textbox"
+									class="col-md-1 col-sm-1 col-xs-12 control-label" id="organize-label">{{'Organize'| translate}}: </label>
+								<div class="col-md-4 col-sm-4 col-xs-12">
+									<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
+										ng-model="ctrl.organize" 
+										id="organize-auto-suggest"></gec-auto-suggest>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<scf-button type="submit" id="search-button"
+										class="btn-default">{{'Search' | translate}}</scf-button>
+								</div>
 						</div>
-					</div>
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div>
-							<div class="col-md-12 col-sm-12 text-right">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div>
+								<div class="col-md-12 col-sm-12 text-right">
+									<div class="row">
+										<div class="col-md-12 col-sm-12 text-right">
+											<span> <scf-button id="new-organize-button"
+													class="btn btn-default" ng-click="ctrl.new()">{{'New'
+												| translate}}</scf-button>
+											</span> <br /> <br />
+										</div>
+										<div class="col-md-12 col-sm-12">
+											<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
+												id="organize-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+													dropdown-id="organize-page-limit-dropdown"
+													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+													total-page="ctrl.pagingController.pagingModel.totalPage"
+													current-page="ctrl.pagingController.pagingModel.currentPage"
+													page-size-list="ctrl.pagingController.pageSizeList"
+													page-action="ctrl.searchOrganize"
+													first-page-button-id="organize-first-page-button"
+													back-page-button-id="organize-back-page-button"
+													next-page-button-id="organize-next-page-button"
+													last-page-button-id="organize-last-page-button"></scf-pagination>
+											</span>
+										</div>
+									</div>
+								</div>
 								<div class="row">
-									<div class="col-md-12 col-sm-12 text-right">
-										<span> <scf-button id="new-organize-button"
-												class="btn btn-default" ng-click="ctrl.new()">{{'New'
-											| translate}}</scf-button>
-										</span> <br /> <br />
+									<div class="col-md-12">
+										<scf-table id="organize-table"
+											component-config="ctrl.dataTable" component-datas="ctrl.pagingController.tableRowCollection"
+											current-page="ctrl.pagingController.pagingModel.currentPage"
+											record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+											clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
 									</div>
-									<div class="col-md-12 col-sm-12">
-										<span> <b
-											ng-bind="ctrl.splitePageTxt"
-											id="organize-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-												dropdown-id="organize-page-limit-dropdown"
-												page-size-model="ctrl.pageModel.pageSizeSelectModel"
-												total-page="ctrl.pageModel.totalPage"
-												current-page="ctrl.pageModel.currentPage"
-												page-size-list="ctrl.pageModel.pageSizeList"
-												page-action="ctrl.searchOrganize"
-												first-page-button-id="organize-first-page-button"
-												back-page-button-id="organize-back-page-button"
-												next-page-button-id="organize-next-page-button"
-												last-page-button-id="organize-last-page-button"></scf-pagination>
-										</span>
-									</div>
+									<div id="fixed-bottom" class="col-md-12"></div>
 								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<scf-data-table id="organize-table"
-										component-config="ctrl.dataTable" component-datas="ctrl.data"
-										current-page="ctrl.currentPage"
-										record-per-page="ctrl.pageModel.pageSizeSelectModel"
-										clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
-								</div>
-								<div id="fixed-bottom" class="col-md-12"></div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</form>
 		</div>
 	</div>
 </div>
