@@ -393,7 +393,8 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			if (angular.isDefined(vm.documentListModel.sponsor) && angular.isObject(vm.documentListModel.sponsor)) {
 				vm.loadDocumentDisplayConfig(vm.documentListModel.sponsor.organizeId);
 			}
-			if(!currentParty == partyRole.supplier){
+
+			if(currentParty != partyRole.supplier){
 				vm.documentListModel.supplier = undefined;
 			}
 			
@@ -450,7 +451,7 @@ scfApp.constant("DocumentListStatus", [
 	{
 		label : 'Not book',
 		value : 'NOTBOOK',
-		valueObject : [ 'NEW', 'USED', 'WAIT_FOR_BANK_PROCESSING' ]
+		valueObject : [ 'NEW', 'IN_PROGRESS', 'WAIT_FOR_BANK_PROCESSING' ]
 	},
 	{
 		label : 'New',
@@ -459,8 +460,8 @@ scfApp.constant("DocumentListStatus", [
 	},
 	{
 		label : 'Used',
-		value : 'USED',
-		valueObject : 'USED'
+		value : 'IN_PROGRESS',
+		valueObject : 'IN_PROGRESS'
 	},
 	{
 		label : 'Bank process',
