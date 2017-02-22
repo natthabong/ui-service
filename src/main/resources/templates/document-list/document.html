@@ -1,41 +1,42 @@
 <div id="content" th:fragment="content">
 
-    <div id="wrapper">
-        <div class="panel box-shadow-none content-header">
-            <div class="panel-body">
-                <div class="col-md-12">
-                    <h3 id="header-message-label" class="animated fadeInLeft" 
-                    ng-bind="'Document list' | translate"></h3>
-                </div>
-            </div>
-        </div>
-        
-        <div class="form-element">
-        	<div class="panel panel-default col-md-12 padding-0">
-        		<div class="panel-body">
-        			<!-- Start Column Panel-->
-        			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        				<form name="documentListSponsorForm" class="form-horizontal" novalidate="" ng-submit="ctrl.searchDocument()" autocomplete="off">
-        					
-        					<div class="form-group">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft"
+						ng-bind="'Document list' | translate"></h3>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<!-- Start Column Panel-->
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<form name="documentListSponsorForm" class="form-horizontal"
+							novalidate="" ng-submit="ctrl.searchDocument()"
+							autocomplete="off">
+
+							<div class="form-group">
 								<label for="sponsor-auto-suggest" id="sponsor-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor'
 									| translate}}:</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<gec-auto-suggest id="sponsor-auto-suggest"
-									required="required" 
-									disable="ctrl.sponsorTxtDisable"
-									model="ctrl.sponsorAutoSuggestModel"
-									name="sponsorCode"
-									ng-model="ctrl.documentListModel.sponsor" maxlength="100"></gec-auto-suggest>
-									
+									<gec-auto-suggest id="sponsor-auto-suggest" required="required"
+										disable="ctrl.sponsorTxtDisable"
+										model="ctrl.sponsorAutoSuggestModel" name="sponsorCode"
+										ng-model="ctrl.documentListModel.sponsor" maxlength="100"></gec-auto-suggest>
+
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
-							<div class="form-group" ng-show="ctrl.requireSponsor" >
+							<div class="form-group" ng-show="ctrl.requireSponsor">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-									id="sponsor-warning-message-label">{{'Sponsor is required' | translate}}.</span>
+									id="sponsor-warning-message-label">{{'Sponsor is
+									required' | translate}}.</span>
 							</div>
 
 							<div class="form-group">
@@ -43,16 +44,14 @@
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
 									| translate}} : </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-								<gec-auto-suggest 
-									model="ctrl.supplierAutoSuggestModel"
-									ng-model="ctrl.documentListModel.supplier" 
-									id="supplier-auto-suggest"
-									disable="ctrl.disableSupplierSuggest()"									
-									name="supplierCode"
-									maxlength="100"></gec-auto-suggest>									
+									<gec-auto-suggest model="ctrl.supplierAutoSuggestModel"
+										ng-model="ctrl.documentListModel.supplier"
+										id="supplier-auto-suggest"
+										disable="ctrl.disableSupplierSuggest()" name="supplierCode"
+										maxlength="100"></gec-auto-suggest>
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
-							</div>							
+							</div>
 
 							<div class="form-group">
 								<label for="supplier-code-textbox" id="supplier-code-label"
@@ -70,8 +69,8 @@
 								<label id="date-label" class="col-md-2 col-sm-3 control-label">{{'Date'
 									| translate}}:</label>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
-									<label id="from-label" for="date-from-calendar" class="control-label">{{'From'
-										| translate}}: </label>
+									<label id="from-label" for="date-from-calendar"
+										class="control-label">{{'From' | translate}}: </label>
 									<scf-date-picker-from text-id="upload-date-from-textbox"
 										button-id="date-from-calendar-button"
 										text-model="ctrl.documentListModel.uploadDateFrom"
@@ -93,15 +92,16 @@
 									</scf-date-picker-to>
 								</div>
 								<div class="col-md-3"></div>
-							</div>							
+							</div>
 							<div class="form-group" ng-show="ctrl.wrongDateFormat">
 								<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
 								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-									id="date-format-warning-message-label">{{'Wrong date format data' | translate}}.</span>
+									id="date-format-warning-message-label">{{'Wrong date
+									format data' | translate}}.</span>
 							</div>
 
 							<div class="form-group">
-								<label for="document-no-textbox"  id="document-no-label"
+								<label for="document-no-textbox" id="document-no-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Document
 									No.' | translate}} : </label>
 
@@ -113,7 +113,7 @@
 							</div>
 
 							<div class="form-group">
-								<label for="status"  id="status-label"
+								<label for="status" id="status-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status'
 									| translate}} :</label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
@@ -122,9 +122,9 @@
 										component-data="ctrl.documentStatusDrpodowns"></scf-dropdown>
 								</div>
 								<div class="col-md-6 col-sm-5">
-									<scf-button type="submit" id="search-button" class="btn-default" 
-									ng-bind="'Search' | translate"
-									ng-click="ctrl.submitted = true"></scf-button>
+									<scf-button type="submit" id="search-button"
+										class="btn-default" ng-bind="'Search' | translate"
+										ng-click="ctrl.submitted = true"></scf-button>
 
 								</div>
 							</div>
@@ -180,13 +180,13 @@
 						<div id="bottom-sticker">
 							<div class="col-md-12 col-sm-12">
 								<div class="form-horizontal">
-									<label class="col-md-2 col-sm-3"><b>{{'Total
+									<label class="col-md-2 col-sm-3" id="total-amount-label"><b>{{'Total
 											amount' | translate}} :</b></label>
-									<div class="col-md-1 col-sm-2 text-right">
-										<span id="document-list-transaction-amount-label"
+									<div class="col-md-2 col-sm-3 text-right">
+										<span id="total-amount-value-label"
 											ng-bind="ctrl.documentSummaryDisplay.totalDocumentAmount | number"></span>
 									</div>
-									<div class="col-md-9 col-sm-7">
+									<div class="col-md-1 col-sm-7">
 										<span id="wait-for-approve-amount-label"
 											ng-bind="'THB' | translate"></span>
 									</div>
@@ -210,17 +210,18 @@
 							<div class="col-md-12 col-sm-12"
 								ng-repeat="document in ctrl.documentSummaryDisplay.documents track by $id(document)">
 								<div class="form-horizontal">
-									<label class="col-md-2 col-sm-3"><b>{{document.status
+									<label class="col-md-2 col-sm-3"
+										id="{{document.status}}-amount-label"><b>{{document.status
 											| translate}} :</b></label>
-									<div class="col-md-1 col-sm-2 text-right">
-										<span id="document-list-{{document.status}}-amount-label"
+									<div class="col-md-2 col-sm-3 text-right">
+										<span id="{{document.status}}-amount-value-label"
 											ng-bind="document.totalOutstandingAmount | number"></span>
 									</div>
-									<div class="col-md-9 col-sm-7">
+									<div class="col-md-1 col-sm-7">
 										<span ng-bind="'THB' | translate"></span>
 
-									</div>									
-								</div>								
+									</div>
+								</div>
 							</div>
 
 						</div>
