@@ -335,7 +335,8 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 				}
 			}).then(function(response) {
 				return response.data.map(function(item) {
-					item = prepareAutoSuggestLabel(item);
+					item.identity = [ 'supplier-', item.organizeId, '-option' ].join('');
+					item.label = [ item.organizeId, ': ', item.organizeName ].join('');
 					return item;
 				});
 			});
