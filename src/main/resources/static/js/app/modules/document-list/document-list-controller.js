@@ -149,6 +149,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 				vm.supplierTxtDisable = true;
 				initSupplierAutoSuggest();
 				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors?supplierId='+organizeId;
+				checkSupplierTP(organizeId);
 			} else if (currentParty == partyRole.bank) {
 				//				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
 			}
@@ -426,6 +427,17 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			vm.documentListModel.supplier = supplierInfo;		
 		}
 
+		var checkSupplierTP = function(organizeId){
+			var supplierTPDeferred = Service.doGet(sponsorAutoSuggestServiceUrl, {q:'',offset : 0, limit : 5});
+			supplierTPDeferred.promise.then(function(response){
+				if(response.data.length == 1){
+					var sponsorInfo = response.data[0];
+					sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
+					vm.documentListModel.sponsor = sponsorInfo;
+					vm.searchDocument();
+				}
+			});
+		}
 		vm.initLoad();
 
 	} ]);
