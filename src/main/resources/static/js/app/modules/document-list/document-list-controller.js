@@ -393,7 +393,8 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			if (angular.isDefined(vm.documentListModel.sponsor) && angular.isObject(vm.documentListModel.sponsor)) {
 				vm.loadDocumentDisplayConfig(vm.documentListModel.sponsor.organizeId);
 			}
-			if(!currentParty == partyRole.supplier){
+
+			if(currentParty != partyRole.supplier){
 				vm.documentListModel.supplier = undefined;
 			}
 			
