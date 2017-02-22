@@ -451,7 +451,7 @@ scfApp.constant("DocumentListStatus", [
 	{
 		label : 'Not book',
 		value : 'NOTBOOK',
-		valueObject : [ 'NEW', 'USED', 'WAIT_FOR_BANK_PROCESSING' ]
+		valueObject : [ 'NEW', 'IN_PROGRESS', 'WAIT_FOR_BANK_PROCESSING' ]
 	},
 	{
 		label : 'New',
@@ -460,8 +460,8 @@ scfApp.constant("DocumentListStatus", [
 	},
 	{
 		label : 'Used',
-		value : 'USED',
-		valueObject : 'USED'
+		value : 'IN_PROGRESS',
+		valueObject : 'IN_PROGRESS'
 	},
 	{
 		label : 'Bank process',
