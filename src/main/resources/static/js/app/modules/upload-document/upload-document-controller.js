@@ -1,6 +1,15 @@
-angular.module('scfApp').controller('UploadDocumentController', ['$log', 'UploadDocumentService', '$scope', '$state', '$stateParams', '$timeout', 'PageNavigation', 'SCFCommonService', function($log, UploadDocumentService, $scope, $state, $stateParams, $timeout, PageNavigation, SCFCommonService) {
+angular.module('scfApp').controller('UploadDocumentController', ['$log', 'UploadDocumentService', '$scope', 
+	'$state', '$stateParams', '$timeout', 'PageNavigation', 'SCFCommonService', 'Service', 
+	function($log, UploadDocumentService, $scope, $state, $stateParams, $timeout, PageNavigation, SCFCommonService, Service) {
     var vm = this;
     var log = $log;
+    
+    var currentParty = '';
+    var partyRole = {
+			sponsor : 'sponsor',
+			bank : 'bank'
+	}
+    
     vm.errorMsgKey = '';
     vm.showErrorMsg = false;
     vm.fileTypeDropdown = [];
@@ -46,8 +55,33 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
     };
     $scope.showUploadPopUp = false;
 
-    vm.getFileType = function() {
-        var deffered = UploadDocumentService.getFileType();
+//    vm.getFileType = function(sponsorConfigId) {
+//        var deffered = UploadDocumentService.getFileType(sponsorConfigId);
+//        deffered.promise.then(function(response) {
+//            vm.storeFileTypeDatas = response.data;
+//            // Check size of fileType
+//            if (vm.storeFileTypeDatas.length > 0) {
+//                // Use index for find position of SponsorIntegrateFileConfig
+//				// when send to api
+//                var index = 0;
+//                vm.storeFileTypeDatas.forEach(function(data) {
+//                    vm.fileTypeDropdown.push({
+//                        label: data['displayName'],
+//                        value: '\'' + index + '\''
+//                    });
+//                    index++;
+//                });
+//                // Initial value to fileType model
+//                vm.uploadModel.fileTypeIndex = vm.fileTypeDropdown[0].value;
+//                vm.acceptFileExtention = getFileExtentions(vm.storeFileTypeDatas[0].fileExtensions);
+//            }
+//        }).catch(function(response) {
+//            log.error('Get file type fail');
+//        });
+//    };
+    
+    vm.getFileType = function(sponsorConfigId) {
+        var deffered = Service.doGet('/api/upload-document/file-types', {sponsorConfigId: sponsorConfigId});
         deffered.promise.then(function(response) {
             vm.storeFileTypeDatas = response.data;
             // Check size of fileType
@@ -70,7 +104,6 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
             log.error('Get file type fail');
         });
     };
-    vm.getFileType();
 
     vm.closeModal = function() {
         $timeout(function() {
@@ -172,6 +205,15 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 			log.error('Confirm upload fail');
 		});
 	};
+	
+	vm.initial = function(){
+		currentParty = $stateParams.party;
+		var sponsorConfigId = 'SFP';
+		if(currentParty == partyRole.bank){
+			sponsorConfigId = 'MASTER';
+		}
+		vm.getFileType(sponsorConfigId);
+	}
 
     function validateFileUpload(data, acceptFileExtention, errorMsgKey) {
         var validateResult = true;
@@ -215,4 +257,6 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
         });
         return result.slice(0, result.length - 1);
     }
+    
+    vm.initial();
 }]);

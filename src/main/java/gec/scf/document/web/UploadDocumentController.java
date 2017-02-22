@@ -19,5 +19,13 @@ public class UploadDocumentController {
 		}
 		return UPLOAD_DOCUMENT_URL;	
 	}
+	
+	@RequestMapping(method=RequestMethod.GET, path="/bank")
+	public String uploadDocumentBank(@RequestHeader("X-Requested-With") String requestedWith){
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return UPLOAD_DOCUMENT_URL.concat(" :: content");
+		}
+		return UPLOAD_DOCUMENT_URL;	
+	}
 
 }
