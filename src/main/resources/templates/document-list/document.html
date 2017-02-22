@@ -183,7 +183,7 @@
 											amount' | translate}}:</b></label>
 									<div class="col-md-2 col-sm-3 text-right">
 										<span id="total-amount-value-label"
-											ng-bind="ctrl.documentSummaryDisplay.totalDocumentAmount | number"></span>
+											ng-bind="ctrl.documentSummaryDisplay.totalDocumentAmount | number:2"></span>
 									</div>
 									<div class="col-md-1 col-sm-7">
 										<span id="wait-for-approve-amount-label"
@@ -197,7 +197,7 @@
 								<div class="form-horizontal">
 									<label class="col-md-2 col-sm-3"><b>{{'BOOKED' | translate}} :</b></label>									
 									<div class="col-md-1 col-sm-2 text-right">
-										<span id="document-list-booked-amount-label" ng-bind="ctrl.document.totalOutstandingAmount | number"></span>
+										<span id="document-list-booked-amount-label" ng-bind="ctrl.document.totalOutstandingAmount | number:2"></span>
 									</div>
 									<div class="col-md-9 col-sm-7">
 										<span ng-bind="'THB' | translate"></span>
@@ -214,7 +214,7 @@
 											| translate}}:</b></label>
 									<div class="col-md-2 col-sm-3 text-right">
 										<span id="{{document.status}}-amount-value-label"
-											ng-bind="document.totalOutstandingAmount | number"></span>
+											ng-bind="document.totalOutstandingAmount | number:2"></span>
 									</div>
 									<div class="col-md-1 col-sm-7">
 										<span ng-bind="'THB' | translate"></span>
