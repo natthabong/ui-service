@@ -70,7 +70,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				params: {backAction: false},
 				templateUrl: '/organize-list',
-				resolve: load(['js/app/organize/organize-list-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/organize/organize-list-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/transaction-list', {
 				url: '/transaction-list',
 				controller: 'ListTransactionController',

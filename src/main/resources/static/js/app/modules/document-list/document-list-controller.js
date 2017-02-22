@@ -278,10 +278,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 					}
 				});
 				vm.documentSummaryDisplay.totalDocumentAmount = summaryTotalDocumentAmount(vm.documentSummaryDisplay.documents);
-			//			if(response.length > 0){
-			//				vm.documentSummaryDisplay.documents = response;
-			//				vm.documentSummaryDisplay.totalDocumentAmount = summaryTotalDocumentAmount(vm.documentSummaryDisplay.documents);
-			//			}			
+	
 			}).catch(function(response) {
 				log.error("Document summary error");
 			});
@@ -313,8 +310,6 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 				}
 			}).then(function(response) {
 				return response.data.map(function(item) {
-					//					item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
-					//					item.label = [ item.organizeId, ': ', item.organizeName ].join('');
 					item = prepareAutoSuggestLabel(item);
 					return item;
 				});
