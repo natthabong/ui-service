@@ -103,7 +103,15 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/upload-document',
 				controller: 'UploadDocumentController',
 				controllerAs: 'ctrl',
+				params: {party:'sponsor'},
 				templateUrl: '/upload-document',
+				resolve: load(['js/app/modules/upload-document/upload-document-service.js','js/app/modules/upload-document/upload-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/upload-document/bank',{
+				url: '/upload-document/bank',
+				controller: 'UploadDocumentController',
+				controllerAs: 'ctrl',
+				params: {party:'bank'},
+				templateUrl: '/upload-document/bank',
 				resolve: load(['js/app/modules/upload-document/upload-document-service.js','js/app/modules/upload-document/upload-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/document-list/sponsor',{
 				url: '/document-list/sponsor',

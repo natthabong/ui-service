@@ -44,7 +44,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 		PageNavigation.gotoPage('/sponsor-configuration', params);
 	}
     
-    var organizeAutoSuggestServiceUrl = '/v1/.....';
+    var organizeAutoSuggestServiceUrl = 'api/v1/sponsors';
     var searchOrganizeTypeHead = function(value){
     	return $http.get(organizeAutoSuggestServiceUrl, {
 			params : {
@@ -83,7 +83,6 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
         
 	}
     
-
     vm.dataTable = {
     		identityField: 'organizeId',
             columns: [{
