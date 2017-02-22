@@ -6,7 +6,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		var vm = this;
 		var log = $log;
 		var organizeId = $rootScope.userInfo.organizeId;
-		var sponsorCodeServiceUrl;
+		var sponsorAutoSuggestServiceUrl;
 
 		vm.submitted = false;
 		vm.sponsorTxtDisable = false;
@@ -51,14 +51,14 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		};
 
 		vm.documentListModel = {
-        sponsor : undefined,		
-        supplier : undefined,
-		supplierCode : undefined,
-		uploadDateFrom : '',
-		uploadDateTo : '',
-		documentNo : undefined,
-		documentStatus : vm.documentStatusDrpodowns[0].value
-	}
+			sponsor : undefined,
+			supplier : undefined,
+			supplierCode : undefined,
+			uploadDateFrom : '',
+			uploadDateTo : '',
+			documentNo : undefined,
+			documentStatus : vm.documentStatusDrpodowns[0].value
+		}
 
 		vm.pageSizeList = [ {
 			label : '10',
@@ -72,16 +72,6 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		} ];
 
 		vm.dataTable = {
-			//		options : {
-			//			displaySelect : {
-			//				label : '<input type="checkbox" ng-show="false" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
-			//				cssTemplate : 'text-center',
-			//				cellTemplate : '<input type="checkbox" ng-show="false" checklist-model="ctrl.documentSelects" checklist-value="data" ng-click="ctrl.selectDocument()"/>',
-			//				displayPosition : 'first',
-			//				idValueField : 'template',
-			//				id : 'document-{value}-checkbox'
-			//			}
-			//		},
 			columns : []
 		};
 
@@ -103,7 +93,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			sortable : true,
 			id : 'lastUploadTime-header-label',
 			filterType : 'date',
-			filterFormat: 'dd/MM/yyyy',
+			filterFormat : 'dd/MM/yyyy',
 			cssTemplate : 'text-center'
 		};
 
@@ -116,59 +106,17 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		};
 
 		vm.loadDocumentDisplayConfig = function(sponsorId) {
+			var docDisplayPromise = $q.defer();
 			var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId);
 			displayConfig.promise.then(function(response) {
 				vm.dataTable.columns = response.items;
 				vm.dataTable.columns.push(columnLastUpload);
 				vm.dataTable.columns.push(columnStatus);
 				vm.dataTable.columns.push(columnAction);
+				return docDisplayPromise.resolve('Load display success');
 			});
+			return docDisplayPromise;
 		}
-
-		vm.loadSponsorDisplayName = function() {
-			var organizeDisplayName = '';
-			var sponsorCodesDeffered = Service.requestURL('/api/me', null, 'GET');
-			sponsorCodesDeffered.promise.then(function(response) {
-				var organizeName = response.organizeName;
-				var organizeId = response.organizeId;
-				vm.documentListModel.sponsorIdName = organizeId + ":" + organizeName;
-				vm.documentListModel.sponsorId = organizeId;
-
-				vm.loadDocumentDisplayConfig(organizeId);
-
-			}).catch(function(response) {
-				log.error('Sponsor error');
-			});
-		}
-
-		vm.loadSupplierDisplayName = function() {
-			var organizeDisplayName = '';
-			var sponsorCodesDeffered = Service.requestURL('/api/me', null, 'GET');
-			sponsorCodesDeffered.promise.then(function(response) {
-				var organizeName = response.organizeName;
-				var organizeId = response.organizeId;
-				vm.documentListModel.supplierIdName = organizeId + ":" + organizeName;
-				vm.documentListModel.supplierId = organizeId;
-			}).catch(function(response) {
-				log.error('Supplier error');
-			});
-		}
-
-		vm.initLoad = function() {
-			currentParty = $stateParams.party;
-
-			if (currentParty == partyRole.sponsor) {
-				vm.sponsorTxtDisable = true;
-				vm.loadSponsorDisplayName();
-			} else if (currentParty == partyRole.supplier) {
-				vm.supplierTxtDisable = true;
-				vm.loadSupplierDisplayName();
-			}else if(currentParty == partyRole.bank){
-				sponsorCodeServiceUrl = 'api/v1/sponsors';
-			}
-		}
-
-		vm.initLoad();
 
 		vm.documentListModel = {
 			sponsor : undefined,
@@ -190,9 +138,25 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			documentStatus : undefined
 		}
 
+		vm.initLoad = function() {
+			currentParty = $stateParams.party;
+			sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+			if (currentParty == partyRole.sponsor) {
+				vm.sponsorTxtDisable = true;
+				initSponsorAutoSuggest();
+
+			} else if (currentParty == partyRole.supplier) {
+				vm.supplierTxtDisable = true;
+				initSupplierAutoSuggest();
+				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors?supplierId='+organizeId;
+			} else if (currentParty == partyRole.bank) {
+				//				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+			}
+		}
+
 		function prepareCriteria() {
 			var sponsorCriteria = vm.documentListModel.sponsor.organizeId || null;
-
+			
 			if (angular.isDefined(vm.documentListModel.supplier)) {
 				var supplierCriteria = vm.documentListModel.supplier.organizeId;
 			}
@@ -200,16 +164,19 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			vm.documentListCriterial.sponsorId = sponsorCriteria;
 			vm.documentListCriterial.supplierId = supplierCriteria;
 			vm.documentListCriterial.supplierCode = UIFactory.createCriteria(vm.documentListModel.supplierCode);
-			
-			if(angular.isDate(vm.documentListModel.uploadDateFrom)){
+
+			if (angular.isDate(vm.documentListModel.uploadDateFrom)) {
 				vm.documentListCriterial.uploadDateFrom = vm.documentListModel.uploadDateFrom
+			}else{
+				vm.documentListCriterial.uploadDateFrom = undefined;
 			}
-			
-			if(angular.isDate(vm.documentListModel.uploadDateTo.length)){
+
+			if (angular.isDate(vm.documentListModel.uploadDateTo)) {
 				vm.documentListCriterial.uploadDateTo = vm.documentListModel.uploadDateTo;
+			}else{
+				vm.documentListCriterial.uploadDateTo = undefined;
 			}
-			
-//			console.log(vm.documentListModel.documentNo)
+
 			vm.documentListCriterial.documentNo = UIFactory.createCriteria(vm.documentListModel.documentNo);
 
 			DocumentListStatus.forEach(function(status) {
@@ -256,40 +223,43 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			return deferred;
 		}
 
-		vm.deleteDocument = function(document){
-	    var preCloseCallback = function(confirm) {
-		 vm.pagingController.reload();
-	    }
-	    
-	    UIFactory.showConfirmDialog({
-		data: { 
-		    headerMessage: 'Confirm delete?'
-		},
-		confirm: function(){
-		    return deleteDocument(document);
-		},
-		onFail: function(response){
-		    var msg = {409:'Document has already been deleted.', 405:'Document has already been used.', 405:'Document has already been used.'};
-		    UIFactory.showFailDialog({
-			data: {
-			    headerMessage: 'Delete document failed.',
-			    bodyMessage: msg[response.status]?msg[response.status]:response.statusText
-			},
-			preCloseCallback: preCloseCallback
-		    });
-		},
-		onSuccess: function(response){
-		    UIFactory.showSuccessDialog({
-			data: {
-			    headerMessage: 'Delete document completed.',
-			    bodyMessage: ''
-			},
-			preCloseCallback: preCloseCallback
-		    });
+		vm.deleteDocument = function(document) {
+			var preCloseCallback = function(confirm) {
+				vm.pagingController.reload();
+			}
+
+			UIFactory.showConfirmDialog({
+				data : {
+					headerMessage : 'Confirm delete?'
+				},
+				confirm : function() {
+					return deleteDocument(document);
+				},
+				onFail : function(response) {
+					var msg = {
+						409 : 'Document has already been deleted.',
+						405 : 'Document has already been used.',
+						405 : 'Document has already been used.'
+					};
+					UIFactory.showFailDialog({
+						data : {
+							headerMessage : 'Delete document failed.',
+							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+						},
+						preCloseCallback : preCloseCallback
+					});
+				},
+				onSuccess : function(response) {
+					UIFactory.showSuccessDialog({
+						data : {
+							headerMessage : 'Delete document completed.',
+							bodyMessage : ''
+						},
+						preCloseCallback : preCloseCallback
+					});
+				}
+			});
 		}
-	    });
-	    
-	}
 
 
 		vm.getDocumentSummary = function(criteria) {
@@ -324,8 +294,6 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			vm.openDateTo = true;
 		}
 
-
-
 		function summaryTotalDocumentAmount(documents) {
 			var summaryAmount = 0;
 			documents.forEach(function(document) {
@@ -335,9 +303,8 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			return summaryAmount;
 		}
 
-		
 		var querySponsorCode = function(value) {
-			return $http.get(sponsorCodeServiceUrl, {
+			return $http.get(sponsorAutoSuggestServiceUrl, {
 				params : {
 					q : value,
 					offset : 0,
@@ -345,8 +312,9 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 				}
 			}).then(function(response) {
 				return response.data.map(function(item) {
-					item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
-					item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+					//					item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
+					//					item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+					item = prepareAutoSuggestLabel(item);
 					return item;
 				});
 			});
@@ -360,21 +328,18 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 		var querySupplierCode = function(value) {
 			var sponsorId = vm.documentListModel.sponsor.organizeId;
-			console.log(sponsorId)
-//			var supplierCodeServiceUrl = '/api/v1/trading-partners/' + organizeId + '/sponsors/' + sponsorId;
 			var supplierCodeServiceUrl = 'api/v1/suppliers';
 
 			return $http.get(supplierCodeServiceUrl, {
 				params : {
 					q : value,
-					sponsorId: sponsorId,
+					sponsorId : sponsorId,
 					offset : 0,
 					limit : 5
 				}
 			}).then(function(response) {
 				return response.data.map(function(item) {
-					item.identity = [ 'supplier-', item.organizeId, '-option' ].join('');
-					item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+					item = prepareAutoSuggestLabel(item);
 					return item;
 				});
 			});
@@ -404,19 +369,17 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 			vm.requireSponsor = false;
 			vm.wrongDateFormat = false;
-			
-			
 
 			if (vm.submitted && $scope.documentListSponsorForm.sponsorCode.$error.required) {
 				vm.requireSponsor = true;
 				isValidatePass = false;
-			}					
-			
-			if(!angular.isObject(vm.documentListModel.sponsor)){
+			}
+
+			if (!angular.isObject(vm.documentListModel.sponsor)) {
 				vm.requireSponsor = true;
 				isValidatePass = false;
 			}
-			
+
 			if (angular.isUndefined(vm.documentListModel.uploadDateFrom)) {
 				vm.wrongDateFormat = true;
 				isValidatePass = false;
@@ -434,8 +397,36 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			if (angular.isDefined(vm.documentListModel.sponsor) && angular.isObject(vm.documentListModel.sponsor)) {
 				vm.loadDocumentDisplayConfig(vm.documentListModel.sponsor.organizeId);
 			}
-			vm.documentListModel.supplier = undefined;
+			if(!currentParty == partyRole.supplier){
+				vm.documentListModel.supplier = undefined;
+			}
+			
 		});
+
+		var prepareAutoSuggestLabel = function(item) {
+			item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
+			item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+			return item;
+		}
+
+		var initSponsorAutoSuggest = function() {
+			var sponsorInfo = angular.copy($rootScope.userInfo);
+			sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
+			vm.documentListModel.sponsor = sponsorInfo;
+
+			var loadDisplayConfigDiferred = vm.loadDocumentDisplayConfig(organizeId);
+			loadDisplayConfigDiferred.promise.then(function() {
+				vm.searchDocument();
+			});
+		}
+
+		var initSupplierAutoSuggest = function() {
+			var supplierInfo = angular.copy($rootScope.userInfo);
+			supplierInfo = prepareAutoSuggestLabel(supplierInfo);			
+			vm.documentListModel.supplier = supplierInfo;		
+		}
+
+		vm.initLoad();
 
 	} ]);
 scfApp.constant("DocumentListStatus", [
