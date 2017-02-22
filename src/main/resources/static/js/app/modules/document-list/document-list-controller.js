@@ -72,6 +72,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		} ];
 
 		vm.dataTable = {
+				identityField:'documentId',
 			columns : []
 		};
 
@@ -80,7 +81,6 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			labelEN : 'Status',
 			labelTH : 'สถานะ',
 			sortable : false,
-			idValueField : 'documentId',
 			id : 'status-{value}',
 			filterType : 'translate',
 			cssTemplate : 'text-center'
@@ -91,7 +91,6 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			labelEN : 'Last upload',
 			labelTH : 'ปรับปรุงล่าสุด',
 			sortable : false,
-			idValueField : 'documentId',
 			id : 'lastUploadTime-{value}',
 			filterType : 'date',
 			filterFormat : 'dd/MM/yyyy',
@@ -141,18 +140,18 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 		vm.initLoad = function() {
 			currentParty = $stateParams.party;
-			sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+			
 			if (currentParty == partyRole.sponsor) {
 				vm.sponsorTxtDisable = true;
 				initSponsorAutoSuggest();
-
+				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
 			} else if (currentParty == partyRole.supplier) {
 				vm.supplierTxtDisable = true;
 				initSupplierAutoSuggest();
 				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors?supplierId='+organizeId;
 				checkSupplierTP(organizeId);
 			} else if (currentParty == partyRole.bank) {
-				//				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
 			}
 		}
 

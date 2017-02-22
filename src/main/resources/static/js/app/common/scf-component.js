@@ -712,7 +712,7 @@
 
 					// Clear value begin add column;
 					vm.tableColumns = [];
-
+					var identityField = dataConfig.identityField || '$rowNo';
 					dataConfig.columns.forEach(function(data) {
 						var rowData = {
 							fieldName : data['fieldName'],
@@ -724,7 +724,7 @@
 							cssTemplate : getCssConfig(data),
 							filterType : data['filterType'],
 							format : data['format'],
-							idValueField : data['idValueField'] || '$rowNo',
+							idValueField : identityField || data['idValueField'],
 							idTemplate : data.id || generateIdTemplate(data),
 							renderer : data['renderer']
 						};
