@@ -196,12 +196,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 			if (isValidateCriteriaPass()) {
 				var criteria = prepareCriteria();
-				var documentListDiferred = vm.pagingController.search(pagingModel);
-				documentListDiferred.promise.then(function(response) {
-					vm.getDocumentSummary(criteria);
-				}).catch(function(response) {
-					log.error("Search error");
-				});
+				var documentListDiferred = vm.pagingController.search(pagingModel, vm.getDocumentSummary);
 				vm.showInfomation = true;
 			}
 		}
@@ -226,7 +221,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 		vm.deleteDocument = function(document) {
 			var preCloseCallback = function(confirm) {
-				vm.pagingController.reload();
+				vm.pagingController.reload(vm.getDocumentSummary);
 			}
 
 			UIFactory.showConfirmDialog({
