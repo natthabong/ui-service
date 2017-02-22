@@ -91,7 +91,8 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			labelEN : 'Last upload',
 			labelTH : 'ปรับปรุงล่าสุด',
 			sortable : true,
-			id : 'lastUploadTime-header-label',
+			idValueField : 'documentId',
+			id : 'lastUploadTime-{value}',
 			filterType : 'date',
 			filterFormat : 'dd/MM/yyyy',
 			cssTemplate : 'text-center'
