@@ -167,10 +167,14 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 			if (angular.isDate(vm.documentListModel.uploadDateFrom)) {
 				vm.documentListCriterial.uploadDateFrom = vm.documentListModel.uploadDateFrom
+			}else{
+				vm.documentListCriterial.uploadDateFrom = undefined;
 			}
 
-			if (angular.isDate(vm.documentListModel.uploadDateTo.length)) {
+			if (angular.isDate(vm.documentListModel.uploadDateTo)) {
 				vm.documentListCriterial.uploadDateTo = vm.documentListModel.uploadDateTo;
+			}else{
+				vm.documentListCriterial.uploadDateTo = undefined;
 			}
 
 			vm.documentListCriterial.documentNo = UIFactory.createCriteria(vm.documentListModel.documentNo);
