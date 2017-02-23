@@ -818,16 +818,17 @@
 				if (column.sortable) {
 					htmlText = '<span sort by="{{column.fieldName}}" reverse="reverse" order="orders" >' + htmlText + '</span>';
 				}
-
+				console.log(htmlText);
 				var colClass = column.cssTemplateHeader || 'text-center';
 				elements.addClass(colClass)
 				elements.html(htmlText);
 				$compile(elements.contents())(scope);
 				
-				if(angular.isDefined(elements[0].childNodes[0])){
-					elements[0].childNodes[0].id = column.fieldName + '-header-label';
+				if (column.fieldName != 'selectBox') {
+					if(angular.isDefined(elements[0].childNodes[0])){
+						elements[0].childNodes[0].id = column.fieldName + '-header-label';
+					}
 				}
-				
 			}
 			
 			function getDisplayLanguage(currentLange, column){
@@ -889,7 +890,7 @@
 							if (elements[0].children.length > 0) {
 								elements[0].children[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);
 							} else {
-								elements[0].children[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);
+								elements[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);
 							}
 						} else {
 							elements[0].children[0].id = addId(data[column.idValueField != null ? column.idValueField : column.field], column.idTemplate, column.renderer, column.fieldName);

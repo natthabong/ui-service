@@ -337,7 +337,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             var searchDocumentCriteria = {
                     sponsorId: sponsorCode,
                     supplierCode: vm.createTransactionModel.supplierCode,
-                    documentStatus: 'NEW',
+                    documentStatus: ['NEW'],
                     sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
                     order: vm.createTransactionModel.order,
                     orderBy: vm.createTransactionModel.orderBy,
@@ -349,11 +349,11 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             deffered.promise
                 .then(function(response) {
                     // response success
-                    vm.pageModel.totalRecord = response.data.totalElements;
-                    vm.pageModel.currentPage = response.data.number;
-                    vm.pageModel.totalPage = response.data.totalPages;
+                    vm.pageModel.totalRecord = response.headers('X-Total-Count');
+                    vm.pageModel.totalPage = response.headers('X-Total-Page');
                     // Generate Document for display
-                    vm.tableRowCollection = response.data.content;
+                    vm.tableRowCollection = response.data;
+                    
                     // Calculate Display page
                     vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
                     vm.watchCheckAll();
@@ -385,14 +385,14 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 			var searchDocumentCriteria = {
                     sponsorId: vm.createTransactionModel.sponsorCode,
                     supplierCode: vm.createTransactionModel.supplierCode,
-                    documentStatus: 'NEW',
+                    documentStatus: ['NEW'],
                     sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
                     page: 0,
                     pageSize: 0
                 }
 			var diferredDocumentAll = CreateTransactionService.getDocument(searchDocumentCriteria);
 			diferredDocumentAll.promise.then(function(response){
-				vm.documentSelects = response.data.content;
+				vm.documentSelects = response.data;
 				vm.checkAllModel = true;
 				calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
 			}).catch(function(response){
@@ -484,7 +484,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 			var searchDocumentCriteria = {
                     sponsorId: vm.createTransactionModel.sponsorCode,
                     supplierCode: vm.createTransactionModel.supplierCode,
-                    documentStatus: 'NEW',
+                    documentStatus: ['NEW'],
                     sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
                     page: 0,
                     pageSize: 0,
@@ -492,7 +492,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             }
 			var diferredDocumentAll = CreateTransactionService.getDocument(searchDocumentCriteria);
 			diferredDocumentAll.promise.then(function(response){
-				documents = response.data.content;
+				documents = response.data;
 				promise.resolve(documents);
 			}).catch(function(response){
 				log.error('searchDocumentAll error')
@@ -581,14 +581,14 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
     			var searchDocumentCriteria = {
                         sponsorId: vm.createTransactionModel.sponsorCode,
                         supplierCode: vm.createTransactionModel.supplierCode,
-                        documentStatus: 'NEW',
+                        documentStatus: ['NEW'],
                         sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
                         page: 0,
                         pageSize: 0
                     }
     			var diferredDocumentAll = CreateTransactionService.getDocument(searchDocumentCriteria);
     			diferredDocumentAll.promise.then(function(response){
-    				vm.documentSelects = response.data.content;
+    				vm.documentSelects = response.data;
     				calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
     				vm.selectAllModel = true;
     				vm.checkAllModel = true;
@@ -608,14 +608,14 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
     			var searchDocumentCriteria = {
                         sponsorId: vm.createTransactionModel.sponsorCode,
                         supplierCode: vm.createTransactionModel.supplierCode,
-                        documentStatus: 'NEW',
+                        documentStatus: ['NEW'],
                         sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
                         page: 0,
                         pageSize: 0
                     }
     			var diferredDocumentAll = CreateTransactionService.getDocument(searchDocumentCriteria);
     			diferredDocumentAll.promise.then(function(response){    				
-    				if(vm.documentSelects.length === response.data.content.length){
+    				if(vm.documentSelects.length === response.data.length){
         				calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
         				vm.selectAllModel = true;
         				vm.checkAllModel = true;    					
@@ -665,7 +665,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 		}
 
         function calculateTransactionAmount(documentSelects, prepercentagDrawdown) {
-        	console.log(documentSelects);
             var sumAmount = 0;
             documentSelects.forEach(function(document) {
                 sumAmount += document.outstandingAmount;
