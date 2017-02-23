@@ -300,7 +300,7 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 
    
     
-    vm.search = function(pagingData) {
+    vm.search = function(pagingData, callback) {
         var diferred = $q.defer();
         if (pagingData === undefined) {
             vm.pagingModel.pageSizeSelectModel = defaultPageSize;
@@ -322,10 +322,15 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
         searchDeferred.promise.then(function(response) {
            
             vm.pagingModel.totalRecord = response.headers('X-Total-Count');
-// vm.pagingModel.currentPage = response.headers.number;
+            // vm.pagingModel.currentPage = response.headers.number;
             vm.pagingModel.totalPage = response.headers('X-Total-Page');
             vm.tableRowCollection = response.data;
             vm.splitePageTxt = SCFCommonService.splitePage(vm.pagingModel.pageSizeSelectModel, vm.pagingModel.currentPage, vm.pagingModel.totalRecord);
+            
+            if(callback!=null){
+        	callback(criteriaData);
+            }
+            
             diferred.resolve(response);
         }).catch(function(response) {
             log.error('Search data error');
@@ -334,11 +339,11 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
         return diferred;
     }
     
-    vm.reload = function() {
+    vm.reload = function(callback) {
 	vm.search({
 	    pageSize: vm.pagingModel.pageSizeSelectModel,
 	    page: vm.pagingModel.currentPage
-	});
+	}, callback);
     }
     function prepareCriteria(pagingModel, postParams) {
         var criteria = postParams;
