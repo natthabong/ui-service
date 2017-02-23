@@ -46,6 +46,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
     
     var organizeAutoSuggestServiceUrl = 'api/v1/organizes';
     var searchOrganizeTypeHead = function(value){
+    	value = UIFactory.createCriteria(value);
     	return $http.get(organizeAutoSuggestServiceUrl, {
 			params : {
 				q : value,

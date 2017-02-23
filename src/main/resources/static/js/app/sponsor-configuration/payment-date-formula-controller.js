@@ -1,6 +1,5 @@
-angular
-		.module('scfApp')
-		.controller(
+var app = angular.module('scfApp');
+		app.controller(
 				'PaymentDateFormulaController',
 				[
 						'SCFCommonService',
