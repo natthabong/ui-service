@@ -69,33 +69,35 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
             	fieldName: 'organizeId',
                 labelEN: 'Organize Code',
                 labelTH: 'Organize Code',
-                id: 'organize-{value}-organize-code-label',
+                id: '{value}-organize-code',
                 sortable: false,
                 cssTemplate: 'text-center',
             },{
             	fieldName: 'organizeName',
             	labelEN: 'Organize Name',
             	labelTH: 'Organize Name',
-                id: 'organize-{value}-organize-name-label',
+                id: '{value}-organize-name',
                 sortable: false,
                 cssTemplate: 'text-left'
             }, {
+            	fieldName: 'sponsor',
             	labelEN: 'Sponsor',
             	labelTH: 'Sponsor',
-                id: 'organize-{value}-sponsor-flag-label',
+                id: '{value}-sponsor-flag',
                 cssTemplate: 'text-center',
 				cellTemplate: '<img	style="height: 16px; width: 16px;" ng-show="data.sponsor" data-ng-src="img/checkmark.png"/>'
             }, {
+            	fieldName: 'status',
             	labelEN: 'Status',
             	labelTH: 'Status',
-                id: 'organize-{value}-active-label',
+                id: '{value}-active',
                 sortable: false,
                 cssTemplate: 'text-center',
-                cellTemplate: '<span id="{{data.organizeId}}">{{data.active ? "Active" : "Inactive"}}</span>'	
+                cellTemplate: '<span id="{{data.organizeId}}-status-label">{{data.active ? "Active" : "Suspend"}}</span>'	
             },{
 				cssTemplate: 'text-center',
 				sortable: false,
-				cellTemplate: '<scf-button ng-disabled="true" class="btn-default gec-btn-action" id="organize-{{data.organizeId}}-profile-button" ng-click="ctrl.editOrganizeProfile(data)" title="Edit Profile"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button><scf-button class="btn-default gec-btn-action" ng-disabled="data.sponsor==false" id="organize-{{data.organizeId}}-sponsor-config-button" ng-click="ctrl.sponsorConfig(data)" title="Edit Profile"> <i class="fa fa-cog" aria-hidden="true" ng-show="data.completed"></i> <img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/> </scf-button>'
+				cellTemplate: '<scf-button ng-disabled="true" class="btn-default gec-btn-action" id="{{data.organizeId}}-profile-button" ng-click="ctrl.editOrganizeProfile(data)" title="Edit Profile"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button><scf-button class="btn-default gec-btn-action" ng-disabled="data.sponsor==false" id="{{data.organizeId}}-config-button" ng-click="ctrl.sponsorConfig(data)" title="Config Sponsor"> <i class="fa fa-cog" aria-hidden="true" ng-show="data.completed"></i> <img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/> </scf-button>'
 			}]
     }
     
