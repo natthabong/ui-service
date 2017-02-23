@@ -23,7 +23,7 @@
 							<div class="col-md-3 col-sm-3 col-xs-9">
 								<scf-dropdown id="holiday-in-dropdown"
 									ng-model="ctrl.criteria.year"
-									convertToNumber="true"
+									convert-to-number="true"
 									component-data="ctrl.yearDropDownItems"></scf-dropdown>
 							</div>
 							<div class="col-md-3 col-sm-3 col-xs-3">
@@ -40,7 +40,7 @@
 								page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 								total-page="ctrl.pagingController.pagingModel.totalPage"
 								current-page="ctrl.pagingController.pagingModel.currentPage"
-								page-size-list="ctrl.pageSizeList"
+								page-size-list="ctrl.pagingController.pageSizeList"
 								page-action="ctrl.searchHoliday"></scf-pagination>
 						</span>
 					</div>

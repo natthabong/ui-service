@@ -83,6 +83,10 @@
 	"transaction-list": "Transaction list",
 	"document-sponsor": "Document",
 	"upload-document": "Upload document",
+	"master": "Master",	
+	"bank-holiday": "Bank holiday",
+	"bank-info": "Bank information",
+	"customer-bank-holiday": "Bank holiday",
 	
 	"_comment": "Page Create Transaction",
 	"Create transaction": "Create transaction",

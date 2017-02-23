@@ -22,17 +22,6 @@ scfApp.controller('BankHolidayController', [
 		year : null
 	    }
 
-	    vm.defaultPageSize = '20';
-	    vm.defaultPage = 0;
-
-	    vm.pageModel = {
-		pageSizeSelectModel : vm.defaultPageSize,
-		totalRecord : 0,
-		totalPage : 0,
-		currentPage : vm.defaultPage,
-		clearSortOrder : false
-	    };
-
 	    vm.dataTable = {
 		identityField : 'holidayDate',
 		columns : [ {
@@ -62,7 +51,7 @@ scfApp.controller('BankHolidayController', [
 		    vm.criteria, 'GET');
 
 	    vm.searchHoliday = function(pagingModel) {
-		var diferred = vm.pagingController.search(pagingModel);
+	    	vm.pagingController.search(pagingModel);
 	    }
 
 	    var loadAllYears = function(callback) {
@@ -84,7 +73,7 @@ scfApp.controller('BankHolidayController', [
 
 	    var initial = function() {
 		loadAllYears(function() {
-		    vm.searchHoliday(vm.pageModel);
+		    vm.searchHoliday();
 		})
 	    }
 
