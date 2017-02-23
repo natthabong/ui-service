@@ -297,6 +297,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		}
 
 		var querySponsorCode = function(value) {
+			value = value = UIFactory.createCriteria(value);
 			return $http.get(sponsorAutoSuggestServiceUrl, {
 				params : {
 					q : value,
@@ -321,6 +322,8 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			var sponsorId = vm.documentListModel.sponsor.organizeId;
 			var supplierCodeServiceUrl = 'api/v1/suppliers';
 
+			value = value = UIFactory.createCriteria(value);
+			
 			return $http.get(supplierCodeServiceUrl, {
 				params : {
 					q : value,
