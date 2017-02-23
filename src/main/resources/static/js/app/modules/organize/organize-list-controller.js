@@ -4,31 +4,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 
 	var vm = this;
 	var log = $log;
-	
-	vm.organizeName = '';
-	
-	vm.splitePageTxt = '';
-
-	vm.pageModel = {
-		pageSizeSelectModel : '20',
-		totalRecord : 0,
-		currentPage : 0,
-		clearSortOrder : false,
-		pageSize: 20
-	};
-	
-   
-    vm.pageModel.pageSizeList = [ {
-		label : '10',
-		value : '10'
-	}, {
-		label : '20',
-		value : '20'
-	}, {
-		label : '50',
-		value : '50'
-	} ];
-    
+	    
 	vm.newOrganizeProfile = function(){
 		PageNavigation.gotoPage('/');
 	}
@@ -79,7 +55,9 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
         var organizeId = undefined;
         if(angular.isObject(vm.organize)){
         	vm.organizeCriteria.organizeId = vm.organize.organizeId;
-        }        
+        }else{
+        	vm.organizeCriteria.organizeId = undefined;
+        }
 		
         vm.pagingController.search(pageModel);
         
@@ -122,9 +100,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
     }
     
 	vm.initLoad = function() {
-        vm.pageModel.currentPage = 0;
-        vm.pageModel.pageSizeSelectModel = '20';
-        
+       
         vm.searchOrganize();
 	}
 
