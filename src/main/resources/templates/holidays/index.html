@@ -1,0 +1,60 @@
+<div id="content" th:fragment="content">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="bank-holiday-header-label" class="animated fadeInLeft"
+						ng-bind="'Bank holiday' | translate">Bank holiday</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-element">
+		<div class="panel panel-default col-md-12 padding-0">
+			<div class="panel-body">
+				<!-- Start Column Panel-->
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<form name="holidaySearchForm" class="form-horizontal"
+						ng-submit="ctrl.searchHoliday()" autocomplete="off">
+						<div class="form-group">
+							<label for="holiday-in-dropdown" id="holiday-in-label"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Holiday
+								in' | translate}}: </label>
+							<div class="col-md-3 col-sm-3 col-xs-9">
+								<scf-dropdown id="holiday-in-dropdown"
+									ng-model="ctrl.criteria.year"
+									convertToNumber="true"
+									component-data="ctrl.yearDropDownItems"></scf-dropdown>
+							</div>
+							<div class="col-md-3 col-sm-3 col-xs-3">
+								<scf-button type="submit" id="search-button" class="btn-default">Search</scf-button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="row">
+					<div class="col-md-12 col-sm-12 text-right">
+						<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
+							id="holiday-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+								dropdown-id="page-limit-dropdown" name="holiday"
+								page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+								total-page="ctrl.pagingController.pagingModel.totalPage"
+								current-page="ctrl.pagingController.pagingModel.currentPage"
+								page-size-list="ctrl.pageSizeList"
+								page-action="ctrl.searchHoliday"></scf-pagination>
+						</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<scf-table id="holiday-table" component-config="ctrl.dataTable"
+							component-datas="ctrl.pagingController.tableRowCollection"
+							current-page="ctrl.pagingController.pagingModel.currentPage"
+							record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+							clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
