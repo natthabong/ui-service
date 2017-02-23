@@ -464,6 +464,7 @@
 					pageSizeList : '<',
 					totalPage : '=',
 					pageAction : '=',
+					name: '@',
 					firstPageButtonId : '@',
 					backPageButtonId : '@',
 					nextPageButtonId : '@',
@@ -474,10 +475,11 @@
 			};
 
 			function fieldLink(scope, element, attrs) {
-				scope.firstPageButtonId = angular.isUndefined(scope.firstPageButtonId) ? 'first-page-button' : scope.firstPageButtonId;
-				scope.backPageButtonId = angular.isUndefined(scope.backPageButtonId) ? 'back-page-button' : scope.backPageButtonId;
-				scope.nextPageButtonId = angular.isUndefined(scope.nextPageButtonId) ? 'next-page-button' : scope.nextPageButtonId;
-				scope.lastPageButtonId = angular.isUndefined(scope.lastPageButtonId) ? 'last-page-button' : scope.lastPageButtonId;
+			    	var prefixId = scope.name? scope.name+'-':'';
+				scope.firstPageButtonId = angular.isUndefined(scope.firstPageButtonId) ?  prefixId+'first-page-button' : scope.firstPageButtonId;
+				scope.backPageButtonId = angular.isUndefined(scope.backPageButtonId) ? prefixId+'back-page-button' : scope.backPageButtonId;
+				scope.nextPageButtonId = angular.isUndefined(scope.nextPageButtonId) ? prefixId+'next-page-button' : scope.nextPageButtonId;
+				scope.lastPageButtonId = angular.isUndefined(scope.lastPageButtonId) ? prefixId+'last-page-button' : scope.lastPageButtonId;
 
 				scope.$watch('[totalPage, currentPage]', function(value) {
 					disableButton(scope, element);
