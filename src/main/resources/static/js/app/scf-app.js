@@ -195,6 +195,12 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
 				params: { selectedItem: null}
+			}).state('/bank-holidays',{
+				url: '/holidays',
+				controller: 'BankHolidayController',
+				controllerAs: 'ctrl',
+				templateUrl: '/holidays/',
+				resolve: load(['js/app/modules/holiday/holiday-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
