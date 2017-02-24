@@ -58,12 +58,13 @@
 							<div class="col-sm-2 col-md-3">
 								<span id="file-upload-confirmation-success-records-label" ng-bind="(ctrl.uploadResult.success | number) || 'N/A'"></span>
 							</div>
-							
+							<div ng-show="ctrl.showSuccessTotalAmount">
 							<div class="col-sm-4 col-md-3"><b ng-bind="'Success total amount' | translate"></b>:</div>
 							<div class="col-sm-2 col-md-1">
 								<span id="file-upload-confirmation-success-amount-label" ng-bind="(ctrl.uploadResult.totalAmount | number:2) || 'N/A'"></span>
 							</div>
 							<div class="col-sm-3 col-md-3">{{'THB' | translate}}</div>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-sm-1 col-md-2 control-label"><b ng-bind="'Fail' | translate"></b>:</div>

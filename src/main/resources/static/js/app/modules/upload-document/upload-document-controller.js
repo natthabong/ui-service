@@ -22,7 +22,9 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
     vm.uploadDocumentDisplayError = [];
     vm.splitePageTxt = '';
     
+    vm.showSuccessTotalAmount = true;
     vm.uploadConfirmPayload = {};
+    
 
     vm.pageSizeList = [{
         label: '10',
@@ -186,6 +188,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 		var sponsorConfigId = 'SFP';
 		if(currentParty == partyRole.bank){
 			sponsorConfigId = 'MASTER';
+			vm.showSuccessTotalAmount = false;
 		}
 		vm.getFileType(sponsorConfigId);
 	}
