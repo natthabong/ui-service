@@ -367,7 +367,11 @@
 					if (column.filterType !== undefined && column.filterType !== null) {
 						dataRender = filterData(column, data);
 					} else {
-						dataRender = data[column.field] || column.cellTemplate;
+						if(angular.isDefined(column.cellTemplate) && column.cellTemplate !== null){
+							dataRender = column.cellTemplate;
+						}else{
+							dataRender = data[column.field];
+						}
 					}
 					elements.addClass(colClass);
 					elements.html(dataRender);
@@ -818,7 +822,7 @@
 				if (column.sortable) {
 					htmlText = '<span sort by="{{column.fieldName}}" reverse="reverse" order="orders" >' + htmlText + '</span>';
 				}
-				console.log(htmlText);
+				
 				var colClass = column.cssTemplateHeader || 'text-center';
 				elements.addClass(colClass)
 				elements.html(htmlText);
@@ -826,7 +830,9 @@
 				
 				if (column.fieldName != 'selectBox') {
 					if(angular.isDefined(elements[0].childNodes[0])){
-						elements[0].childNodes[0].id = column.fieldName + '-header-label';
+						if(angular.isDefined(column.fieldName)){
+							elements[0].childNodes[0].id = column.fieldName + '-header-label';
+						}
 					}
 				}
 			}
@@ -874,7 +880,11 @@
 					if (angular.isDefined(column.filterType) && column.filterType !== null) {
 						dataRender = filterData(column, data);
 					} else {
-						dataRender = data[column.fieldName] || column.cellTemplate;
+						if(angular.isDefined(column.cellTemplate) && column.cellTemplate !== null){
+							dataRender = column.cellTemplate;
+						}else{
+							dataRender = data[column.fieldName];
+						}
 					}
 
 					if(column.renderer!=null){
