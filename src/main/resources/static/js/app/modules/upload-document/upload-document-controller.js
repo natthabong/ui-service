@@ -155,7 +155,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
             label: 'Line No',
             cssTemplate: 'text-center',
             idValueField: 'template',
-            cellTemplate: 'N/A',
+            cellTemplate: '<span ng-bind="data.errorLineNo == null ? \'N/A\': data.errorLineNo">N/A</span>',
 			id: 'file-upload-confirmation-line-no-{value}-label'
         }, {
             field: 'errorMessage',
