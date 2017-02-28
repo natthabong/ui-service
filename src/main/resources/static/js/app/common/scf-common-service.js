@@ -347,8 +347,8 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
     }
     function prepareCriteria(pagingModel, postParams) {
         var criteria = postParams;
-        criteria.pageSize = pagingModel.pageSizeSelectModel;
-        criteria.page = pagingModel.currentPage;
+        criteria.limit = pagingModel.pageSizeSelectModel;
+        criteria.offset = pagingModel.currentPage * pagingModel.pageSizeSelectModel;
         return criteria;
     }
 }]);

@@ -108,6 +108,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		vm.loadDocumentDisplayConfig = function(sponsorId) {
 			var docDisplayPromise = $q.defer();
 			var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId);
+			vm.dataTable.columns = [];
 			displayConfig.promise.then(function(response) {
 				vm.dataTable.columns = response.items;
 				vm.dataTable.columns.push(columnLastUpload);
