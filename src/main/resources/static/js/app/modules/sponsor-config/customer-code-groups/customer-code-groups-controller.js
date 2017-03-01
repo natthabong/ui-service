@@ -330,7 +330,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		    return deleteCustomerCode(customerCode);
 		},
 		onFail: function(response){
-		    var msg = {409:'Customer code has already been deleted.', 405:'Customer code is use.'};
+		    var msg = {409:'Customer code has already been deleted.', 405:'Customer code is used.'};
 		    UIFactory.showFailDialog({
 			data: {
 			    headerMessage: 'Delete customer code failed.',
@@ -718,6 +718,14 @@ scfApp.constant('CustomerCodeStatus', [
 		valueObject : {
 			suspend : 0,
 			status : 'EXPIRED'
+		}
+	},
+	{
+		label : 'Pending',
+		value : '4',
+		valueObject : {
+			suspend : 0,
+			status : 'PENDING'
 		}
 	}
 ]);

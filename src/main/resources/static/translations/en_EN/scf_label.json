@@ -269,6 +269,7 @@
 	"ACTIVE": "Active",
 	"SUSPEND": "Suspend",
 	"EXPIRED": "Expired",
+	"PENDING": "Pending",
 	
 	"Display document configuration": "Display document configuration",
 	"Credit term": "Credit term",

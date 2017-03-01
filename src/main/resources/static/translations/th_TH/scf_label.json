@@ -268,6 +268,7 @@
 	"ACTIVE": "Active",
 	"SUSPEND": "Suspend",
 	"EXPIRED": "Expired",
+	"PENDING": "Pending",
 	
 	"Display document configuration": "ตั้งค่าหน้าจอแสดงเอกสาร",
 	"Credit term": "Credit term",
