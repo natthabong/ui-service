@@ -21,14 +21,14 @@
                 <div class="col-md-12" block-ui="summary-internal-block">
                     <form name="uploadForm" class="form-horizontal">
                         <div class="form-group">
-                            <label for="file-type-dropdown" class="col-sm-2 col-md-2 control-label" ng-bind="'File type' | translate"></label>
+                            <label id="file-type-label" for="file-type-dropdown" class="col-sm-2 col-md-2 control-label" ng-bind="'File type' | translate"></label>
                             <div class="col-sm-3 col-md-3">
                                 <scf-dropdown id="file-type-dropdown" ng-model="ctrl.uploadModel.fileTypeIndex" component-data="ctrl.fileTypeDropdown" ng-change="ctrl.filterExtentionAction()"></scf-dropdown>
                             </div>
                             <div class="col-sm-6 col-md-6"></div>
                         </div>
                         <div class="form-group">
-                            <label for="file-name" class="col-sm-2 col-md-2 control-label" ng-bind="'File name' | translate"></label>
+                            <label id="file-name-label" for="file-name" class="col-sm-2 col-md-2 control-label" ng-bind="'File name' | translate"></label>
                             <div class="col-sm-3 col-md-3">
                                 <scf-file-upload browse-file-id="select-button" input-text-id="file-name-textbox" file-upload="ctrl.uploadModel.file" accept-file-extention="ctrl.acceptFileExtention"></scf-file-upload>
                             </div>
