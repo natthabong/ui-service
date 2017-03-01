@@ -75,7 +75,11 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 				identityField:'documentId',
 			columns : []
 		};
-
+		
+		vm.canDelete = function(data){
+		    return data.documentStatus == 'NEW' && !($stateParams.party == partyRole.supplier); 
+		}
+		
 		var columnStatus = {
 			fieldName : 'statusMessageKey',
 			labelEN : 'Status',
@@ -102,7 +106,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			label : '',
 			cssTemplate : 'text-center',
 			sortData : false,
-			cellTemplate : '<scf-button id="{{data.documentId}}-delete-button" class="btn-default gec-btn-action" ng-disabled="{{data.documentStatus!=\'NEW\'}}" ng-click="ctrl.deleteDocument(data)" title="Delete a document"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+			cellTemplate : '<scf-button id="{{data.documentId}}-delete-button" class="btn-default gec-btn-action" ng-disabled="{{!ctrl.canDelete(data)}}" ng-click="ctrl.deleteDocument(data)" title="Delete a document"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 		};
 
 		vm.loadDocumentDisplayConfig = function(sponsorId) {
