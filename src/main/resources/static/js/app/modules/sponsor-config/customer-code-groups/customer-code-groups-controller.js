@@ -204,14 +204,14 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	}
 
 	vm.dataTable = {
+			identityField:'customerCode',
 		columns : [
 			{
 				fieldName : '$rowNo',
 				labelEN : 'No.',
 				labelTH : 'ลำดับ',
 				sortable : false,
-				idValueField : 'customerCode',
-				id : 'no-{value}',
+				id : '$rowNo-{value}',
 				filterType : 'translate',
 				cssTemplate : 'text-right'
 			},
@@ -220,7 +220,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 				labelEN : 'Customer',
 				labelTH : 'Customer',
 				sortable : false,
-				idValueField : 'customerCode',
 				id : 'customer-{value}',
 				filterType : 'translate',
 				cssTemplate : 'text-left'
@@ -230,7 +229,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 				labelEN : 'Customer code',
 				labelTH : 'Customer code',
 				sortable : false,
-				idValueField : 'customerCode',
 				id : 'customer-code-{value}',
 				filterType : 'translate',
 				cssTemplate : 'text-left'
@@ -240,7 +238,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 				labelEN : 'Status',
 				labelTH : 'Status',
 				sortable : false,
-				idValueField : 'customerCode',
 				id : 'status-{value}',
 				filterType : 'translate',
 				filterFormat : 'dd/MM/yyyy',
@@ -251,7 +248,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 				labelEN : 'Active date',
 				labelTH : 'Active date',
 				sortable : false,
-				idValueField : 'customerCode',
 				id : 'active-date-{value}',
 				filterType : 'date',
 				filterFormat : 'dd/MM/yyyy',
@@ -262,7 +258,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 				labelEN : 'Expire date',
 				labelTH : 'Expire date',
 				sortable : false,
-				idValueField : 'customerCode',
 				id : 'expire-date-{value}',
 				filterType : 'date',
 				cssTemplate : 'text-center',
@@ -275,7 +270,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 				labelEN : 'Remark',
 				labelTH : 'Remark',
 				sortable : false,
-				idValueField : 'customerCode',
 				id : 'remark-{value}',
 				cssTemplate : 'text-left'
 			},
