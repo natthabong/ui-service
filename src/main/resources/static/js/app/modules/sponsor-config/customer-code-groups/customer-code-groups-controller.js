@@ -499,9 +499,12 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	vm.customerCodeSetup = function(model){
 	    
 		vm.isNewCusotmerCode = angular.isUndefined(model);
-		
 		if(!vm.isNewCusotmerCode){
-			vm.oldCustomerCode = model.customerCode;
+			vm.isNewCusotmerCode = angular.isUndefined(model.customerCode);
+			vm.isAddMoreCustomerCode = vm.isNewCusotmerCode;
+			if(!vm.isNewCusotmerCode){
+				vm.oldCustomerCode = model.customerCode;
+			}
 		}
 		
 		vm.newCustCodeDialog = ngDialog.open({
@@ -513,7 +516,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			data : {
 				sponsorId : $scope.sponsorId,
 				model: model,
-				isNewCusotmerCode: vm.isNewCusotmerCode
+				isNewCusotmerCode: vm.isNewCusotmerCode,
+				isAddMoreCustomerCode: vm.isAddMoreCustomerCode
 			},
 			preCloseCallback : function(value) {
 				if(angular.isDefined(value)){
@@ -544,6 +548,7 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 	vm.submitForm = false;
 	vm.model = angular.copy($scope.ngDialogData.model);
 	vm.isNewCusotmerCode = $scope.ngDialogData.isNewCusotmerCode;
+	vm.isAddMoreCustomerCode = $scope.ngDialogData.isAddMoreCustomerCode;
 	vm.isUseExpireDate = false;
 	vm.isOpenActiveDate = false;
 	vm.isOpenExpiryDate = false;
@@ -589,10 +594,17 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 	}
 		
 	var initialData = function(){
+		var supplierIdInitial = null;
 		if(vm.isNewCusotmerCode){
+			if(vm.isAddMoreCustomerCode){
+				supplierIdInitial = vm.model.supplierId;
+				prepreSupplierDisplay();
+			}
+			
 			vm.model = {
 					activeDate: new Date(),
-					suspend: false
+					suspend: false,
+					supplierId: supplierIdInitial
 			}
 		}else{
 
