@@ -17,10 +17,12 @@ userModule
 			'UserStatus',
 			'PasswordStatus',
 			'$timeout',
+			'$q',
+			'blockUI',
 			function($scope, Service, $stateParams, $log,
 				SCFCommonService, PagingController,
 				PageNavigation, $state, UIFactory, $http,
-				UserStatus, PasswordStatus, $timeout) {
+				UserStatus, PasswordStatus, $timeout, $q, blockUI) {
 
 			    var vm = this;
 			    var log = $log;
@@ -39,6 +41,7 @@ userModule
 				var params = {
 				    userModel : null
 				};
+				
 				PageNavigation.gotoPage('/user/new', params,
 					params);
 			    }
@@ -49,7 +52,7 @@ userModule
 				};
 				$timeout(function() {
 				    PageNavigation.gotoPage('/user/view',
-					    params, true);
+					    params, params);
 				}, 10);
 			    }
 
@@ -59,18 +62,77 @@ userModule
 				};
 				$timeout(function() {
 				    PageNavigation.gotoPage('/user/edit',
-					    params, true);
+					    params, params);
 				}, 10);
 			    }
-
+			    
+			    vm.user = null;
 			    vm.resetPasswordUser = function(data) {
-				ngDialog
-					.open({
-					    template : '/js/app/user/confirm-reset-password-dialog.html',
-					    scope : $scope,
-					    disableAnimation : true
-					});
+			    	 vm.user = data;
+			    	
+			    	var preCloseCallback = function(confirm) {
+						vm.pagingController.reload();
+					}
+			    	
+			    	var userId = data.userId;
+			    	UIFactory.showConfirmDialog({
+			    		data : {
+			    			headerMessage : 'Confirm reset password?'
+			    		},
+			    		confirm : function() {
+			    			return _resetPassword(userId);
+			    		},
+			    		onFail : function(response) {
+			    			blockUI.stop();
+			    			var msg = {
+			    				409 : 'User has been modified.'
+						};
+			    			UIFactory.showFailDialog({
+						   data : {
+						      headerMessage : 'Reset password failed.',
+						      bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+						   },
+						   preCloseCallback : preCloseCallback
+						});
+			    		},
+			    		onSuccess : function(response) {
+			    			blockUI.stop();
+			    			UIFactory.showSuccessDialog({
+			    				data : {
+			    					headerMessage : 'Reset password completed.',
+			    					bodyMessage : ''
+			    				},
+			    				preCloseCallback : preCloseCallback
+			    			});
+			    		}
+			    	});
 			    }
+			    
+			    var _resetPassword = function(userId) {
+			    	blockUI.start();
+					var serviceUrl = 'api/v1/users/'+userId+'/reset-password'
+					var deferred = $q.defer();
+					$http({
+						method : 'POST',
+						url : serviceUrl,
+						data: vm.user
+					}).then(function(response) {
+						return deferred.resolve(response);
+					}).catch(function(response) {
+	    				    if (response) {
+	    					if(Array.isArray(response.data)){
+	    					   console.log(response.data);
+	        				   response.data.forEach(function(error){
+	        				       $scope.errors[error.code] = {
+	    	    					    message : error.message
+	    	    					};
+	        				   });
+	    					}
+	    				    }
+					    return deferred.reject(response);
+					});
+					return deferred;
+				}
 
 			    var userAutoSuggestServiceUrl = 'api/v1/users';
 			    var searchUserTypeHead = function(value) {

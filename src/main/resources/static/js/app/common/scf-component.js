@@ -186,10 +186,14 @@
 					openCalendarAction : '&',
 					maxDate : '=',
 					textName: '@',
+					defaultValue: '@',
 					textRequired: "@",
 					ngDisabled: '='
 				},
 				link : function(scope, element, attrs) {
+				    	if(angular.isDefined(scope.defaultValue)){
+				    	    scope.textModel = scope.defaultValue;
+				    	}
 					scope.minDate = null;
 					if (attrs.textId !== undefined) {
 						element[0].children[0].id = attrs.textId;

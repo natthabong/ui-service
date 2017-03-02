@@ -16,9 +16,10 @@ userModule
 			'UIFactory',
 			'PageNavigation',
 			'PagingController',
+			'UserService',
 			function($scope, $stateParams, $log, $q, $rootScope,
 				$http, Service, ngDialog, SCFCommonService,
-				UIFactory, PageNavigation, PagingController) {
+				UIFactory, PageNavigation, PagingController, UserService) {
 
 			    var vm = this;
 			    var log = $log;
@@ -75,7 +76,7 @@ userModule
 					{
 					    cssTemplate : 'text-center',
 					    sortable : false,
-					    cellTemplate : '<scf-button class="btn-default gec-btn-action" id="{{data.organizeId}}-profile-button" ng-click="deleteRole(data)" ng-disabled="ctrl.isViewUser" title="Delete a role"><i class="fa fa-trash" aria-hidden="true"></i></scf-button>'
+					    cellTemplate : '<scf-button class="btn-default gec-btn-action" id="delete-{{$index +1}}-button" ng-click="deleteRole(data)" ng-disabled="ctrl.isViewMode" title="Delete a role"><i class="fa fa-trash" aria-hidden="true"></i></scf-button>'
 					} ]
 			    };
 			    
@@ -98,24 +99,43 @@ userModule
 			    
 			    var mode = {
 		    		VIEW : 'viewUser',
+		    		NEW : 'newUser',
 		    		EDIT : 'editUser'
 			    }
 			    
 			    var currentMode = $stateParams.mode;
 			    vm.loadUser = function() {
-			    	if(currentMode == mode.VIEW){
+			    	if(currentMode == mode.VIEW || currentMode == mode.EDIT){
 			    		var userId = $stateParams.userModel.userId;
-			    		vm.isViewUser = true;
-			    		
+			    		$scope.user.userId = userId;
+			    		if(currentMode == mode.VIEW){
+			    		    vm.isViewMode = true;
+			    		}
+			    		else{
+			    		    vm.isEditMode = true;
+			    		}
 			    		var deffered = Service.doGet('/api/v1/users/'+userId);
 			    		deffered.promise.then(function(response) {
 			    			console.log(response)
+			    			
 			    			$scope.user = response.data;
-			    			$scope.user.birthDate = new Date(response.data.birthDate);
-			    			$scope.user.activeDate = new Date(response.data.activeDate);
-			    			$scope.user.expiryDate = new Date(response.data.expiryDate);
-			    			if(response.data.expiryDate != '' || response.data.expiryDate != null){
+			    			if(response.data.birthDate != null){
+			    				$scope.user.birthDate = new Date(response.data.birthDate);
+			    			}else{
+			    				$scope.user.birthDate = null;
+			    			}
+			    			
+			    			if(response.data.activeDate != null){
+			    				$scope.user.activeDate = new Date(response.data.activeDate);
+			    			}else {
+			    				$scope.user.activeDate = null;
+			    			}
+			    			
+			    			if(response.data.expiryDate != null){
+			    				$scope.user.expiryDate = new Date(response.data.expiryDate);
 			    				vm.isUseExpireDate = true;
+			    			}else{
+			    				$scope.user.expiryDate = null;
 			    			}
 			    			vm.organizeLinks = $scope.user.organizeRoles;
 			    			vm.pagingController.updateSource(
@@ -126,7 +146,9 @@ userModule
 				        });
 			    		
 			    	}else {
-			    		vm.isViewUser = false;
+			    		vm.isViewMode = false;
+			    		vm.isEditMode = false;
+			    		vm.isNewMode = true;
 			    	}
 			    }
 
@@ -149,7 +171,9 @@ userModule
 					    disableAnimation : true,
 					    preCloseCallback : function(value) {
 						if (value) {
-						    vm.organizeLinks = value;
+						    value.forEach(function(data){
+							vm.organizeLinks.push(data);
+						    })
 						}
 						vm.pagingController
 							.updateSource(
@@ -167,29 +191,23 @@ userModule
 			    }
 			    
 			    var _save = function(user){
-				var serviceUrl = 'api/v1/users'
-				var deferred = $q.defer();
-				$http({
-					method : 'POST',
-					url : serviceUrl,
-					data: user
-				}).then(function(response) {
-					return deferred.resolve(response);
-				}).catch(function(response) {
-    				    if (response) {
-    					if(Array.isArray(response.data)){
-    					   console.log(response.data);
-        				   response.data.forEach(function(error){
-        				       $scope.errors[error.code] = {
-    	    					    message : error.message
-    	    					};
-        				   });
-    					}
-    				    }
-				    return deferred.reject(response);
+				
+				var deferred = UserService.saveUser(user, vm.isEditMode);
+				deferred.promise.then(function(response){}).catch(function(response){
+				    if (response) {
+					if(Array.isArray(response.data)){
+					   response.data.forEach(function(error){
+					      $scope.errors[error.code] = {
+						message : error.message
+					      };
+					   });
+				        }
+				    }
+				    deferred.resolve(response);
 				});
 				return deferred;
 			    }
+			    
 			    $scope.cancel = function() {
 				PageNavigation.gotoPreviousPage();
 			    }
@@ -199,7 +217,8 @@ userModule
 				vm.organizeLinks.forEach(function(organizeLink) {
 				    user.organizeRoles.push({
 					roleId: organizeLink.roleId,
-					organizeId: organizeLink.organizeId
+					organizeId: organizeLink.organizeId,
+					userId: (vm.isEditMode? $scope.user.userId: null)
 				    });
 				});
 				
@@ -217,6 +236,18 @@ userModule
 						return _save(user);
 					},
 					onFail : function(response) {
+					    if(response.status != 400){
+						var msg = {
+			    				409 : 'User has been modified.'
+						};
+			    			UIFactory.showFailDialog({
+						   data : {
+						      headerMessage : 'Save user failed.',
+						      bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+						   },
+						   preCloseCallback : preCloseCallback
+						});
+					    }
 					},
 					onSuccess : function(response) {
 						UIFactory.showSuccessDialog({
@@ -280,22 +311,31 @@ userModule
 				    $scope.errors.activeDate = {
 					message : 'Wrong date format data.'
 				    }
+				}else if(user.activeDate == null|| user.activeDate ==''){
+					valid = false;
+				    $scope.errors.activeDate = {
+				    		message : 'Active date is required.'
+				    }
 				}
-
-				if (vm.isUseExpireDate) {
+if (vm.isUseExpireDate) {
 
 				    if (!angular.isDefined(user.expiryDate)) {
-					valid = false;
-					$scope.errors.expiryDate = {
-					    message : 'Wrong date format data.'
-					}
+						valid = false;
+						$scope.errors.expiryDate = {
+						    message : 'Wrong date format data.'
+						}
 				    } else if (angular
-					    .isDefined(user.activeDate)
-					    && user.expiryDate < user.activeDate) {
-					valid = false;
-					$scope.errors.activeDate = {
-					    message : 'Active date must be less than or equal to expire date.'
-					}
+						    .isDefined(user.activeDate)
+						    && user.expiryDate < user.activeDate) {
+						valid = false;
+						$scope.errors.activeDate = {
+						    message : 'Active date must be less than or equal to expire date.'
+						}
+				    }else if(user.expiryDate == null|| user.expiryDate ==''){				    	
+						valid = false;
+					    $scope.errors.expiryDate = {
+					    		message : 'Expire date is required.'
+					    }
 				    }
 
 				}
@@ -310,8 +350,6 @@ userModule
 
 			    var init = function() {
 			    	vm.search();
-			    	if(currentMode == mode.VIEW){
-			    	    vm.loadUser();
-			    	}
+			    	vm.loadUser();
 			    }();
 			} ]);

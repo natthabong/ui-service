@@ -166,6 +166,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 vm.dataTable.columns = response.items;
                 vm.loanRequestMode = response.loanRequestMode;
                 vm.documentSelection = response.documentSelection;
+                vm.supplierCodeGroupSelection = response.supplierCodeGroupSelection;
                 vm.loadSupplierCode();
             });
         }

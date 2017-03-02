@@ -235,6 +235,14 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'UserController',
 				controllerAs: 'ctrl',
 				templateUrl: '/user/new',
+				params: {mode:'newUser', userModel: null},
+				resolve: load(['js/app/modules/user/user-list-controller.js', 'js/app/modules/user/user-service.js', 'js/app/modules/user/user-organize-controller.js', 'js/app/modules/user/user-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/user/edit',{
+				url: '/user/edit',
+				controller: 'UserController',
+				controllerAs: 'ctrl',
+				templateUrl: '/user/new',
+				params: {mode:'editUser', userModel: null},
 				resolve: load(['js/app/modules/user/user-list-controller.js', 'js/app/modules/user/user-service.js', 'js/app/modules/user/user-organize-controller.js', 'js/app/modules/user/user-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/user/view', {
 				url: '/user/view',
@@ -431,7 +439,7 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
     
     function getUserInfo(){
     	var deferred = $q.defer();
-    	$http.get('/api/me').success(function(response){
+    	$http.get('/api/users/me').success(function(response){
 			deferred.resolve(response);
 			return deferred;
 		}).catch(function(response){
