@@ -336,7 +336,11 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
     }
 }]);
 
-app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', 'blockUI', '$state', function ($rootScope, $q, $http, $urlRouter, $window, blockUI, $state) {
+app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', 'blockUI', '$state', '$filter', function ($rootScope, $q, $http, $urlRouter, $window, blockUI, $state, $filter) {
+    $window.Date.prototype.toISOString = function(){
+	      return $filter('date')(this, 'yyyy-MM-ddTHH:mm:ss.000+0000');
+    };
+    
     $rootScope
         .$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {
