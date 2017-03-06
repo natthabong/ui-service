@@ -279,8 +279,8 @@ function transactionService($http, $q, blockUI, $window) {
 		return sumAmount;	
     }
 
-    function getIndexDoucmentListByDocument(ducument, documentList){
-        return vm.documentList.map(function (o) {
+    function findIndexFromDoucmentListByDocument(ducument, documentList){
+        return documentList.map(function (o) {
                 return o.documentId;
             }).indexOf(ducument.documentId);
     }
@@ -508,6 +508,7 @@ function transactionService($http, $q, blockUI, $window) {
         getTransaction: getTransaction,
         generateEvidenceForm : generateEvidenceForm,
         summaryStatusGroup : summaryStatusGroup,
+        findIndexFromDoucmentListByDocument : findIndexFromDoucmentListByDocument,
         summaryAllDocumentAmount:summaryAllDocumentAmount
 	}
 }

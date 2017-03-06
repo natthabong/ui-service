@@ -116,7 +116,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                         $stateParams.dashboardParams = null;
                         dashboardParams = null;
                     }
-                    vm.watchCheckAll();
+                    watchCheckAll();
                     blockUI.stop();
                 }).catch(function (response) {
                     blockUI.stop();
@@ -359,7 +359,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             _loadSponsor();
         } ();
 
-        vm.watchCheckAll = function () {
+        var watchCheckAll = function () {
             vm.checkAllModel = false;
             var countRecordData = 0;
             vm.pagingController.tableRowCollection.forEach(function (document) {
@@ -374,10 +374,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             if (countRecordData === vm.pagingController.tableRowCollection.length && countRecordData > 0) {
                 vm.checkAllModel = true;
             }
-            vm.watchSelectAll();
+            watchSelectAll();
         }
 
-        vm.watchSelectAll = function () {
+        var watchSelectAll = function () {
             vm.selectAllModel = false;
             var pageSize = vm.pagingController.splitePageTxt.split("of ")[1];
             if (vm.documentSelects.length > 0 && vm.documentSelects.length == pageSize) {
@@ -395,6 +395,8 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             vm.createTransactionModel.orderBy = orderBy;
             vm.loadDocument();
         };
+
+        // <------------------------------------- User Action ------------------------------->
 
         vm.sponsorChange = function () {
             _setDefualtValue(true);
@@ -416,13 +418,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         }
 
         function isFound(data) {
-            return getIndex(data) > -1;
-        }
-
-        function getIndex(data) {
-            return vm.documentSelects.map(function (o) {
-                return o.documentId;
-            }).indexOf(data.documentId);
+            return TransactionService.findIndexFromDoucmentListByDocument(data, vm.documentSelects) > -1;
         }
 
         var selectMatchingField = function (data) {
@@ -446,7 +442,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 }
             }
 
-            vm.watchCheckAll();
+            watchCheckAll();
             calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
         }
 
@@ -457,7 +453,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             if (checkSelectMatchingRef) {
                 selectMatchingField(data);
             } else {
-                vm.watchCheckAll();
+                watchCheckAll();
                 calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
             }
 
@@ -479,7 +475,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 });
             } else {
                 allDocumentInPage.forEach(function (document) {
-                    var index = getIndex(document);
+                    var index = TransactionService.findIndexFromDoucmentListByDocument(document, vm.documentSelects);
                     if (index > -1) {
                         vm.documentSelects.splice(index, 1);
                     }
@@ -496,7 +492,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         vm.selectAllDocument = function () {
             if (!vm.selectAllModel) {
                 var allDocument = vm.pagingAllController.tableRowCollection;
-                angular.copy(allDocument,vm.documentSelects);
+                angular.copy(allDocument, vm.documentSelects);
 
                 vm.selectAllModel = true;
                 vm.checkAllModel = true;
@@ -563,5 +559,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 });
             }
         };
+
+        // <------------------------------------- User Action ------------------------------->
     }
 ]);
