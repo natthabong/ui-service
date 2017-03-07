@@ -162,6 +162,13 @@
 				templateUrl : 'ui/template/calendar.html'
 			};
 		} ])
+		.directive('scfTimePickerFrom', [ function() {
+			return {
+				restrict : 'AE',
+				replace : true,
+				template : '<input type="time" class="form-control" placeholder="HH:MM" min="00:00:00" max="23:59:59"></input>'
+			};
+		} ])
 		.directive('scfDatePickerFrom', [ '$templateCache', '$compile', function($templateCache, $compile) {
 			return {
 				restrict : 'AE',

@@ -127,12 +127,40 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 			
 			if (angular.isDate(vm.logListModel.logDateFrom)) {
 				vm.logListCriterial.logDateFrom = vm.logListModel.logDateFrom
+				if(vm.logTimeFrom!=null){
+					var hour = vm.logTimeFrom.getHours()!=null?vm.logTimeFrom.getHours():0;
+					var min = vm.logTimeFrom.getMinutes()!=null?vm.logTimeFrom.getMinutes():0;					
+					if(hour==null&&min==null){
+						hour = 0;
+						min = 0;
+					}		
+					var datetime = new Date(vm.logListModel.logDateFrom.getFullYear(), 
+							vm.logListModel.logDateFrom.getMonth(), 
+							vm.logListModel.logDateFrom.getDate(), 
+							hour, min, 0);
+					vm.logListCriterial.logDateFrom = datetime;
+					console.log(vm.logListCriterial.logDateFrom);
+				}
 			}else{
 				vm.logListCriterial.logDateFrom = undefined;
 			}
 
 			if (angular.isDate(vm.logListModel.logDateTo)) {
 				vm.logListCriterial.logDateTo = vm.logListModel.logDateTo;
+				if(vm.logTimeTo!==undefined){
+					var hour = vm.logTimeTo.getHours()!=null?vm.logTimeTo.getHours():0;
+					var min = vm.logTimeTo.getMinutes()!=null?vm.logTimeTo.getMinutes():0;					
+					if(hour==null&&min==null){
+						hour = 0;
+						min = 0;
+					}
+					var datetime = new Date(vm.logListModel.logDateTo.getFullYear(), 
+							vm.logListModel.logDateTo.getMonth(), 
+							vm.logListModel.logDateTo.getDate(), 
+							hour, min, 0);
+					vm.logListCriterial.logDateTo = datetime;
+					console.log(vm.logListCriterial.logDateTo);
+				}				
 			}else{
 				vm.logListCriterial.logDateTo = undefined;
 			}
