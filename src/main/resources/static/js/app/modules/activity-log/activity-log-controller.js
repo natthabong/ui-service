@@ -1,8 +1,8 @@
 'use strict';
 var scfApp = angular.module('scfApp');
 scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams', '$log', 'SCFCommonService', 'PagingController', 'UIFactory', '$q',
-	'$rootScope', '$http', 'LogStatus', 'ModuleDropdown',
-	function($scope, Service, $stateParams, $log, SCFCommonService, PagingController, UIFactory, $q, $rootScope, $http, LogStatus, ModuleDropdown) {
+	'$rootScope', '$http', 'LogStatus',
+	function($scope, Service, $stateParams, $log, SCFCommonService, PagingController, UIFactory, $q, $rootScope, $http, LogStatus) {
 		var vm = this;
 		var log = $log;
 		var userId = $rootScope.userInfo.userId;
@@ -22,6 +22,12 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 			bank : 'bank'
 		}
 
+		vm.moduleDropdowns = [{
+			label : 'All',
+	  		value : '',
+	  		valueObject : null
+		}];
+		
 		vm.logStatusDropdowns = LogStatus;
 
 		vm.pageModel = {
@@ -130,9 +136,9 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 				vm.logListCriterial.logDateTo = undefined;
 			}
 
-			vm.moduleDropdowns.forEach(function(module) {
-				if (vm.logListModel.module == module.id) {
-					vm.logListCriterial.module = module.id;
+			ModuleDropdown.forEach(function(module) {
+				if (vm.logListModel.module == module.value) {
+					vm.logListCriterial.module = module.valueObject;
 				}
 			});
 			
@@ -167,14 +173,19 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 		}
 
 		vm.getModule = function() {
-			vm.moduleDropdowns = ModuleDropdown;
-        	
-//	        var deffered = Service.doGet('/api/v1/modules');
-//	        deffered.promise.then(function(response) {
-////	            vm.moduleDropdowns = response.data;
-//	        }).catch(function(response) {
-//	            log.error('Get modules fail');
-//	        });
+	        var deffered = Service.doGet('/api/v1/modules');
+	        deffered.promise.then(function(response) {
+	        	response.data.forEach(function(module) {
+	    			vm.moduleDropdowns.push({
+	    			    label : module.moduleName,
+	    			    value : module.moduleId,
+	    			    valueObject : module.moduleId
+	    			});
+    		    });
+	        	
+	        }).catch(function(response) {
+	            log.error('Get modules fail');
+	        });
 	    }
 
 		var queryDisplayName = function(value) {
@@ -244,15 +255,3 @@ scfApp.constant("LogStatus", [
 		valueObject : 'INCOMPLETE'
 	}
 ]);
-scfApp.constant("ModuleDropdown", [
-  	{
-  		label : 'All',
-  		value : '',
-  		valueObject : null
-  	},
-  	{
-  		label : 'Organize',
-  		value : 'ORGANIZE',
-  		valueObject : 'ORGANIZE'
-  	}
-  ]);
