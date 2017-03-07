@@ -99,6 +99,7 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
             	idValueField: '$rowNo',
                 id: 'status-{value}',
                 sortable: false,
+                filterType : 'translate',
                 cssTemplate: 'text-left'
             }]
 		};
@@ -109,7 +110,7 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 			module : undefined,
 			refNo : '',
 			userId : '',
-			logStatus : undefined,
+			status : undefined,
 			message : ''
 		}
 		
@@ -136,7 +137,7 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 				vm.logListCriterial.logDateTo = undefined;
 			}
 
-			ModuleDropdown.forEach(function(module) {
+			vm.moduleDropdowns.forEach(function(module) {
 				if (vm.logListModel.module == module.value) {
 					vm.logListCriterial.module = module.valueObject;
 				}
@@ -147,7 +148,7 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 
 			LogStatus.forEach(function(status) {
 				if (vm.logListModel.logStatus == status.value) {
-					vm.logListCriterial.logStatus = status.valueObject;
+					vm.logListCriterial.status = status.valueObject;
 				}
 			});
 			
@@ -161,6 +162,7 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 			if (isValidateCriteriaPass()) {
 				var criteria = prepareCriteria();
 				var logDiferred = vm.pagingController.search(pagingModel);
+				vm.showInfomation = true;
 			}
 		}
 
