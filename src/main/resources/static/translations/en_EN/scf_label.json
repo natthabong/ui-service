@@ -303,5 +303,11 @@
     "Group by matching ref no": "Group by matching ref no",
     
     "Tenor": "Tenor",
-    "Days": "Days"
+    "Days": "Days",
+    
+    "User Activity log": "User Activity log",
+    "Log date": "Log date",
+    "Module": "Module",
+    "Ref no": "Ref no",
+    "Message": "Message"
 }

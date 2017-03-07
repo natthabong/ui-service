@@ -1,0 +1,160 @@
+<div id="content" th:fragment="content">
+
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft"
+						ng-bind="'User Activity log' | translate"></h3>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<!-- Start Column Panel-->
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<form name="activityLogForm" class="form-horizontal"
+							novalidate="" ng-submit="ctrl.searchLog()"
+							autocomplete="off">
+
+							<div class="form-group">
+								<label id="date-label" class="col-md-2 col-sm-3 control-label">{{'Log date'
+									| translate}}:</label>
+								<div class="col-md-3 col-sm-4 gec-calendar-group">
+									<label id="from-label" for="log-date-from-label"
+										class="control-label">{{'From' | translate}}: </label>
+									<scf-date-picker-from text-id="log-date-from-textbox"
+										button-id="log-date-from-button"
+										text-model="ctrl.logListModel.logDateFrom"
+										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
+										open-calendar-action="ctrl.openCalendarDateFrom()"
+										max-date="ctrl.logListModel.logDateTo">
+									</scf-date-picker-from>
+
+								</div>
+								<div class="col-md-3 col-sm-4 gec-calendar-group">
+									<label id="to-label" for="log-date-to-label"
+										class="control-label">{{'to' | translate}}: </label>
+									<scf-date-picker-to text-id="log-date-to-textbox"
+										button-id="log-date-to-button"
+										text-model="ctrl.logListModel.logDateTo"
+										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
+										open-calendar-action="ctrl.openCalendarDateTo()"
+										min-date="ctrl.logListModel.logDateFrom">
+									</scf-date-picker-to>
+								</div>
+								<div class="col-md-3"></div>
+							</div>
+							<div class="form-group" ng-show="ctrl.wrongDateFormat">
+								<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
+								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+									id="log-date-format-warning-message-label">{{'Wrong date
+									format data' | translate}}.</span>
+							</div>
+							
+							<div class="form-group">
+								<label for="status" id="status-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Module'
+									| translate}} :</label>
+								<div class="col-md-2 col-sm-3 col-xs-12">
+									<scf-dropdown id="module-dropdown"
+										ng-model="ctrl.logListModel.module"
+										component-data="ctrl.moduleDropdowns"></scf-dropdown>
+								</div>
+								<div class="col-md-4 col-sm-5 gec-calendar-group">
+								<label for="ref-no-textbox" id="ref-no-label"
+									class="col-md-5 col-sm-6 col-xs-12 control-label">{{'Ref no' | translate}} : </label>
+									<scf-input-text id="ref-no-textbox"
+										ng-model="ctrl.logListModel.refNo" 
+										maxlength="100"
+										placeholder="Search by ref no"></scf-input-text>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="user-auto-suggest" id="user-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'user'| translate}} : </label>
+								<div class="col-md-2 col-sm-3 col-xs-12">
+									<gec-auto-suggest model="ctrl.userAutoSuggestModel"
+										ng-model="ctrl.logListModel.user"
+										id="user-auto-suggest" name="userName"
+										maxlength="100"></gec-auto-suggest>
+								</div>
+								<div class="col-md-4 col-sm-5 gec-calendar-group">
+									<label for="status" id="status-label"
+										class="col-md-5 col-sm-6 col-xs-12 control-label">{{'Status'
+										| translate}} :</label>
+										<scf-dropdown id="status-dropdown"
+											ng-model="ctrl.logListModel.logStatus"
+											component-data="ctrl.logStatusDropdowns"></scf-dropdown>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="message-textbox" id="massage-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Message' | translate}} : </label>
+
+								<div class="col-md-3 col-sm-4 col-xs-12">
+									<scf-input-text id="massage-textbox"
+										ng-model="ctrl.logListModel.message" 
+										maxlength="100"
+										placeholder="Search by result message"></scf-input-text>
+								</div>
+								<div class="col-md-6 col-sm-5">
+									<scf-button type="submit" id="search-button"
+										class="btn-default" ng-bind="'Search' | translate"></scf-button>
+								</div>
+							</div>
+						</form>
+						<!-- End Payment Field-->
+
+						<div ng-show="ctrl.showInfomation">
+							<div class="row">
+								<div class="col-md-1 col-sm-1 gec-select text-center">
+									<div ng-show="false">
+										<input type="checkbox" id="select-all-page-checkbox" /> <b><span
+											ng-bind="'All' | translate"></span></b>
+									</div>
+								</div>
+								<div class="col-md-11 col-sm-11 text-right">
+									<div class="row">
+										<div class="col-md-12 col-sm-12">
+											<span> <b
+												ng-bind="ctrl.pagingController.splitePageTxt"
+												id="activity-log-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+													dropdown-id="page-limit-dropdown"
+													name="activity-log"
+													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+													total-page="ctrl.pagingController.pagingModel.totalPage"
+													current-page="ctrl.pagingController.pagingModel.currentPage"
+													page-size-list="ctrl.pageSizeList"
+													page-action="ctrl.searchLog"></scf-pagination>
+											</span>
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Start Table-->
+							<div class="row">
+								<div class="col-md-12">
+									<scf-table id="activity-log-table"
+										component-config="ctrl.dataTable"
+										component-datas="ctrl.pagingController.tableRowCollection"
+										current-page="ctrl.pagingController.pagingModel.currentPage"
+										record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+										clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+								</div>
+								<div id="fixed-bottom" class="col-md-12"></div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
