@@ -267,6 +267,7 @@
 	"New customer code completed": "New customer code completed",
 	"Add more": "Add more",
 	"Wrong date format data": "Wrong date format data",
+	"Wrong date or time format data": "Wrong date or time format data",
 	"ACTIVE": "Active",
 	"SUSPEND": "Suspend",
 	"EXPIRED": "Expired",
