@@ -211,11 +211,13 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			var serviceUrl = 'api/v1/documents/' + document.documentId
 			var deferred = $q.defer();
 			$http({
-				method : 'DELETE',
+				method : 'POST',
 				url : serviceUrl,
 				headers : {
-					'If-Match' : document.version
-				}
+					'If-Match' : document.version,
+					'X-HTTP-Method-Override': 'DELETE'
+				},
+				data: document
 			}).then(function(response) {
 				return deferred.resolve(response);
 			}).catch(function(response) {
