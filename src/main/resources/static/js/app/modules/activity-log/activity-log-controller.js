@@ -123,6 +123,14 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 		}
 		
 		vm.initLoad = function() {
+			currentParty = $stateParams.party;
+			
+			if (currentParty == partyRole.bank) {
+				vm.isBankParty = true;
+			}else{
+				vm.isBankParty = false;
+			}
+			
 			vm.getModule();
 			vm.searchLog();
 		}

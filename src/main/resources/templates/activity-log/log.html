@@ -4,8 +4,17 @@
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft"
-						ng-bind="'User activity log' | translate"></h3>
+					<h3>
+						<span ng-show="ctrl.isBankParty"
+							id="header-message-label"
+							class="animated fadeInLeft">{{'User activity log' |
+							translate}}</span> 
+						<span ng-show="!ctrl.isBankParty"
+							id="header-message-label"
+							class="animated fadeInLeft">{{'My activity log' |
+							translate}}</span>
+					</h3>
+					
 				</div>
 			</div>
 		</div>
