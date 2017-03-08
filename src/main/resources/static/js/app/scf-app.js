@@ -202,11 +202,18 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/holidays/',
 				resolve: load(['js/app/modules/holiday/holiday-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/activity-log/bank',{
-				url: '/activity-log/bank',
+				url: '/activity-log',
 				controller: 'ActivityLogController',
 				controllerAs: 'ctrl',
 				params: {party:'bank'},
-				templateUrl: '/activity-log/bank',
+				templateUrl: '/activity-log',
+				resolve: load(['js/app/modules/activity-log/activity-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/my-activity-log',{
+				url: '/activity-log',
+				controller: 'ActivityLogController',
+				controllerAs: 'ctrl',
+				params: {party:'me'},
+				templateUrl: '/activity-log',
 				resolve: load(['js/app/modules/activity-log/activity-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',

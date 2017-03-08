@@ -186,8 +186,11 @@
 						<artifactId>angular-translate-loader-partial</artifactId>
 						<version>2.11.0</version>
 					</dependency>
-					<!-- <dependency> <groupId>org.webjars.bower</groupId> <artifactId>angular-bootstrap</artifactId> 
-						<version>1.1.0</version> </dependency> -->
+					<dependency>
+						<groupId>org.webjars.bower</groupId>
+						<artifactId>angular-ui-bootstrap-bower</artifactId>
+						<version>2.5.0</version>
+					</dependency>
 					<dependency>
 						<groupId>org.webjars.bower</groupId>
 						<artifactId>oclazyload</artifactId>
@@ -279,33 +282,32 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>unpack-uib</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.webjars.bower</groupId>
-									<artifactId>angular-ui-bootstrap</artifactId>
-									<version>1.1.2</version>
-									<type>jar</type>
-									<overWrite>false</overWrite>
-								</artifactItem>
-							</artifactItems>
-							<includes>**/template/datepicker/*</includes>
-							<outputDirectory>${project.build.directory}/unpacked</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			<!-- <plugin> -->
+			<!-- <groupId>org.apache.maven.plugins</groupId> -->
+			<!-- <artifactId>maven-dependency-plugin</artifactId> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <id>unpack-uib</id> -->
+			<!-- <phase>generate-resources</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>unpack</goal> -->
+			<!-- </goals> -->
+			<!-- <configuration> -->
+			<!-- <artifactItems> -->
+			<!-- <artifactItem> -->
+			<!-- <groupId>org.webjars.bower</groupId> -->
+			<!-- <artifactId>angular-ui-bootstrap-bower</artifactId> -->
+			<!-- <version>2.5.0</version> -->
+			<!-- <type>jar</type> -->
+			<!-- <overWrite>false</overWrite> -->
+			<!-- </artifactItem> -->
+			<!-- </artifactItems> -->
+			<!-- <includes>**/template/datepicker/*</includes> -->
+			<!-- <outputDirectory>${project.build.directory}/unpacked</outputDirectory> -->
+			<!-- </configuration> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- </plugin> -->
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>

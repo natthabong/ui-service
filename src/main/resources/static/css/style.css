@@ -8766,3 +8766,17 @@ to {
 	height: 20px;
 	border-radius: 5px;
 }
+
+/** Time picker **/
+table.uib-timepicker {
+    border: none;
+}
+
+td.form-group.uib-time {
+    padding: 0px !important;
+    border: none !important;
+}
+
+td.uib-separator {
+    border: none !important;
+}

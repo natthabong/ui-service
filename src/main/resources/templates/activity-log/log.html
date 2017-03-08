@@ -15,13 +15,13 @@
 				<div class="panel-body">
 					<!-- Start Column Panel-->
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<form name="activityLogForm" class="form-horizontal"
-							novalidate="" ng-submit="ctrl.searchLog()"
-							autocomplete="off">
+						<form name="activityLogForm" class="form-horizontal" novalidate=""
+							ng-submit="ctrl.searchLog()" autocomplete="off">
 
 							<div class="form-group">
-								<label id="log-date-label" class="col-md-1 col-sm-3 control-label">{{'Log date'
-									| translate}}:</label>
+								<label id="log-date-label"
+									class="col-md-1 col-sm-3 control-label">{{'Log date' |
+									translate}}:</label>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
 									<label id="log-date-from-label" for="log-date-from-label"
 										class="control-label">{{'From' | translate}}: </label>
@@ -34,9 +34,11 @@
 									</scf-date-picker-from>
 								</div>
 								<div class="col-md-2 col-sm-2">
-									<scf-time-picker-from type="time" id="log-time-from-textbox"
-										ng-model="ctrl.logTimeFrom"></scf-time-picker-from>
-								</div>								
+									<div uib-timepicker="true" hourId="log-time-hour-from-textbox"
+										minuteId="log-time-minute-from-textbox"
+										ng-model="ctrl.logTimeFrom" show-spinners="false"
+										show-meridian="false" template-url="/js/app/shared/templates/timepicker.html"></div>
+								</div>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
 									<label id="log-date-to-label" for="log-date-to-label"
 										class="control-label">{{'to' | translate}}: </label>
@@ -49,8 +51,9 @@
 									</scf-date-picker-to>
 								</div>
 								<div class="col-md-2 col-sm-2">
-									<scf-time-picker-from type="time" id="log-time-to-textbox"
-										ng-model="ctrl.logTimeTo"></scf-time-picker-from>
+									<div uib-timepicker="true" id="log-time-to-textbox"
+										ng-model="ctrl.logTimeTo" show-spinners="false"
+										show-meridian="false"></div>
 								</div>
 							</div>
 							<div class="form-group" ng-show="ctrl.wrongDateFormat">
@@ -59,7 +62,7 @@
 									id="log-date-format-warning-message-label">{{'Wrong date
 									or time format data' | translate}}.</span>
 							</div>
-							
+
 							<div class="form-group">
 								<label for="status" id="module-label"
 									class="col-md-1 col-sm-3 col-xs-12 control-label">{{'Module'
@@ -70,42 +73,42 @@
 										component-data="ctrl.moduleDropdowns"></scf-dropdown>
 								</div>
 								<div class="col-md-4 col-sm-5 gec-calendar-group">
-								<label for="ref-no-textbox" id="ref-no-label"
-									class="col-md-5 col-sm-6 col-xs-12 control-label">{{'Ref no' | translate}}: </label>
+									<label for="ref-no-textbox" id="ref-no-label"
+										class="col-md-5 col-sm-6 col-xs-12 control-label">{{'Ref
+										no' | translate}}: </label>
 									<scf-input-text id="ref-no-textbox"
-										ng-model="ctrl.logListModel.refNo" 
-										maxlength="100"
+										ng-model="ctrl.logListModel.refNo" maxlength="100"
 										placeholder="Search by ref no"></scf-input-text>
 								</div>
 							</div>
-							
+
 							<div class="form-group">
 								<label for="user-auto-suggest" id="user-label"
-									class="col-md-1 col-sm-3 col-xs-12 control-label">{{'user'| translate}}: </label>
+									class="col-md-1 col-sm-3 col-xs-12 control-label">{{'user'|
+									translate}}: </label>
 								<div class="col-md-2 col-sm-3 col-xs-12">
 									<gec-auto-suggest model="ctrl.userAutoSuggestModel"
-										ng-model="ctrl.logListModel.user"
-										id="user-auto-suggest" name="userName"
-										maxlength="100"></gec-auto-suggest>
+										ng-model="ctrl.logListModel.user" id="user-auto-suggest"
+										name="userName" maxlength="100"></gec-auto-suggest>
 								</div>
 								<div class="col-md-4 col-sm-5 gec-calendar-group">
 									<label for="status" id="status-label"
 										class="col-md-5 col-sm-6 col-xs-12 control-label">{{'Status'
 										| translate}}:</label>
-										<scf-dropdown id="status-dropdown"
-											ng-model="ctrl.logListModel.logStatus"
-											component-data="ctrl.logStatusDropdowns"></scf-dropdown>
+									<scf-dropdown id="status-dropdown"
+										ng-model="ctrl.logListModel.logStatus"
+										component-data="ctrl.logStatusDropdowns"></scf-dropdown>
 								</div>
 							</div>
-							
+
 							<div class="form-group">
 								<label for="message-textbox" id="message-label"
-									class="col-md-1 col-sm-3 col-xs-12 control-label">{{'Message' | translate}}: </label>
+									class="col-md-1 col-sm-3 col-xs-12 control-label">{{'Message'
+									| translate}}: </label>
 
 								<div class="col-md-3 col-sm-4 col-xs-12">
 									<scf-input-text id="message-textbox"
-										ng-model="ctrl.logListModel.message" 
-										maxlength="100"
+										ng-model="ctrl.logListModel.message" maxlength="100"
 										placeholder="Search by result message"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-5">
@@ -130,8 +133,7 @@
 											<span> <b
 												ng-bind="ctrl.pagingController.splitePageTxt"
 												id="activity-log-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-													dropdown-id="page-limit-dropdown"
-													name="activity-log"
+													dropdown-id="page-limit-dropdown" name="activity-log"
 													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 													total-page="ctrl.pagingController.pagingModel.totalPage"
 													current-page="ctrl.pagingController.pagingModel.currentPage"
