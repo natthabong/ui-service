@@ -58,7 +58,7 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
                 id: 'log-date-{value}',
                 sortable: false,
                 filterType : 'date',
-                filterFormat : 'dd/MM/yyyy HH:mm',
+                format : 'dd/MM/yyyy HH:mm',
                 cssTemplate: 'text-left'
             },{
             	fieldName: 'module',
@@ -114,8 +114,17 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 			message : ''
 		}
 		
+		vm.searchLog = function(pagingModel) {
+			if (isValidateCriteriaPass()) {
+				var criteria = prepareCriteria();
+				var logDiferred = vm.pagingController.search(pagingModel);
+				vm.showInfomation = true;
+			}
+		}
+		
 		vm.initLoad = function() {
 			vm.getModule();
+			vm.searchLog();
 		}
 
 		function prepareCriteria() {
@@ -189,20 +198,11 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 				}
 			});
 			
-			console.log(vm.logListCriterial);
 			return vm.logListCriterial;
 
 		}
 		
 		vm.pagingController = PagingController.create('api/v1/activity-logs', vm.logListCriterial, 'GET');
-
-		vm.searchLog = function(pagingModel) {
-			if (isValidateCriteriaPass()) {
-				var criteria = prepareCriteria();
-				var logDiferred = vm.pagingController.search(pagingModel);
-				vm.showInfomation = true;
-			}
-		}
 
 		vm.openCalendarDateFrom = function() {
 			vm.openDateFrom = true;
@@ -240,7 +240,7 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 				}
 			}).then(function(response) {
 				return response.data.map(function(item) {
-					item.identity = [ 'user-', item.userId, '-option' ].join('');
+					item.identity = [ 'user-', item.displayName, '-option' ].join('');
 					item.label = [ item.displayName ].join('');
 					return item;
 				});
@@ -266,8 +266,6 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 			return isValidatePass;
 		};
 
-		vm.initLoad();
-		
 		vm.logListModel = {
 			logDateFrom : '',
 			logDateTo : '',
@@ -277,6 +275,9 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 			logStatus : vm.logStatusDropdowns[0].value,
 			message : undefined
 		}
+		
+		vm.initLoad();
+		
 	} ]);
 scfApp.constant("LogStatus", [
 	{
