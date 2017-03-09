@@ -268,6 +268,7 @@
 	"Add more": "Add more",
 	"Wrong date format data": "Wrong date format data",
 	"Wrong date or time format data": "Wrong date or time format data",
+	"From date must be less than or equal to To date": "From date must be less than or equal to To date",
 	"ACTIVE": "Active",
 	"SUSPEND": "Suspend",
 	"EXPIRED": "Expired",
