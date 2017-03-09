@@ -77,7 +77,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             dateFrom: '',
             dateTo: '',
             sponsorId: '',
-            supplierId: '',
+            supplierCode: '',
             statusGroup: '',
             order: '',
             orderBy:''
