@@ -15,13 +15,12 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 		vm.defaultPageSize = '20';
 		vm.defaultPage = 0;
 
-		var currentParty = '';
-		var partyRole = {
-			sponsor : 'sponsor',
-			supplier : 'supplier',
-			bank : 'bank'
+		
+		var mode = {
+			PERSONAL : 'personal',
+			ALL : 'all'
 		}
-
+		var currentMode = $stateParams.mode;
 		vm.moduleDropdowns = [{
 			label : 'All',
 	  		value : '',
@@ -59,7 +58,7 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
                 sortable: false,
                 filterType : 'date',
                 format : 'dd/MM/yyyy HH:mm',
-                cssTemplate: 'text-left'
+                cssTemplate: 'text-center'
             },{
             	fieldName: 'module',
                 labelEN: 'Module',
@@ -104,7 +103,7 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
             }]
 		};
 
-		vm.logListCriterial = {
+		vm.searchCriteria = {
 			logDateFrom : undefined,
 			logDateTo : undefined,
 			module : undefined,
@@ -114,22 +113,18 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 			message : ''
 		}
 		
-		vm.searchLog = function(pagingModel) {
-			if (isValidateCriteriaPass()) {
-				var criteria = prepareCriteria();
-				var logDiferred = vm.pagingController.search(pagingModel);
-				vm.showInfomation = true;
-			}
-		}
-		
 		vm.initLoad = function() {
-			currentParty = $stateParams.party;
-			
-			if (currentParty == partyRole.bank) {
-				vm.isBankParty = true;
+			if (currentMode == mode.PERSONAL) {
+				vm.isPersonalMode = true;
+				var userInfo = angular.copy($rootScope.userInfo);
+				vm.logListModel.user = userInfo;
+				prepareAutoSuggestLabel(userInfo);
+				
 			}else{
-				vm.isBankParty = false;
+				vm.isPersonalMode = false;
 			}
+			
+			
 			
 			vm.getModule();
 			vm.searchLog();
@@ -140,10 +135,10 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 				var userCriteria = vm.logListModel.user.userId;
 			}
 
-			vm.logListCriterial.userId = userCriteria;
+			vm.searchCriteria.userId = userCriteria;
 			
 			if (angular.isDate(vm.logListModel.logDateFrom)) {
-				vm.logListCriterial.logDateFrom = vm.logListModel.logDateFrom
+				vm.searchCriteria.logDateFrom = vm.logListModel.logDateFrom
 				if(vm.logTimeFrom!=null){
 					
 					var hour = 0;
@@ -160,15 +155,14 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 							vm.logListModel.logDateFrom.getMonth(), 
 							vm.logListModel.logDateFrom.getDate(), 
 							hour, min, 0);
-					vm.logListCriterial.logDateFrom = datetime;
-					console.log(vm.logListCriterial.logDateFrom);
+					vm.searchCriteria.logDateFrom = datetime;
 				}
 			}else{
-				vm.logListCriterial.logDateFrom = undefined;
+				vm.searchCriteria.logDateFrom = undefined;
 			}
 
 			if (angular.isDate(vm.logListModel.logDateTo)) {
-				vm.logListCriterial.logDateTo = vm.logListModel.logDateTo;
+				vm.searchCriteria.logDateTo = vm.logListModel.logDateTo;
 				if(vm.logTimeTo!==undefined){
 					var hour = 23;
 					var min = 59;
@@ -184,33 +178,41 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 							vm.logListModel.logDateTo.getMonth(), 
 							vm.logListModel.logDateTo.getDate(), 
 							hour, min, 0);
-					vm.logListCriterial.logDateTo = datetime;
-					console.log(vm.logListCriterial.logDateTo);
+					vm.searchCriteria.logDateTo = datetime;
 				}				
 			}else{
-				vm.logListCriterial.logDateTo = undefined;
+				vm.searchCriteria.logDateTo = undefined;
 			}
 
 			vm.moduleDropdowns.forEach(function(module) {
 				if (vm.logListModel.module == module.value) {
-					vm.logListCriterial.module = module.valueObject;
+					vm.searchCriteria.module = module.valueObject;
 				}
 			});
 			
-			vm.logListCriterial.refNo = UIFactory.createCriteria(vm.logListModel.refNo);
-			vm.logListCriterial.message = UIFactory.createCriteria(vm.logListModel.message);
+			vm.searchCriteria.refNo = UIFactory.createCriteria(vm.logListModel.refNo);
+			vm.searchCriteria.message = UIFactory.createCriteria(vm.logListModel.message);
 
 			LogStatus.forEach(function(status) {
 				if (vm.logListModel.logStatus == status.value) {
-					vm.logListCriterial.status = status.valueObject;
+					vm.searchCriteria.status = status.valueObject;
 				}
 			});
 			
-			return vm.logListCriterial;
+			return vm.searchCriteria;
 
 		}
 		
-		vm.pagingController = PagingController.create('api/v1/activity-logs', vm.logListCriterial, 'GET');
+		var uri = currentMode==mode.PERSONAL? 'api/v1/activity-logs/me' : 'api/v1/activity-logs';
+		vm.pagingController = PagingController.create(uri, vm.searchCriteria, 'GET');
+
+		vm.searchLog = function(pagingModel) {
+			if (isValid()) {
+				var criteria = prepareCriteria();
+				var logDiferred = vm.pagingController.search(pagingModel);
+				vm.showInfomation = true;
+			}
+		}
 
 		vm.openCalendarDateFrom = function() {
 			vm.openDateFrom = true;
@@ -221,21 +223,26 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 		}
 
 		vm.getModule = function() {
-	        var deffered = Service.doGet('/api/v1/modules');
-	        deffered.promise.then(function(response) {
-	        	response.data.forEach(function(module) {
-	    			vm.moduleDropdowns.push({
-	    			    label : module.moduleName,
-	    			    value : module.moduleId,
-	    			    valueObject : module.moduleId
-	    			});
-    		    });
-	        	
+        	        var deffered = Service.doGet('/api/v1/modules');
+        	        deffered.promise.then(function(response) {
+        	        	response.data.forEach(function(module) {
+        	    			vm.moduleDropdowns.push({
+        	    			    label : module.moduleName,
+        	    			    value : module.moduleId,
+        	    			    valueObject : module.moduleId
+        	    			});
+            		    });
+        	        	
 	        }).catch(function(response) {
 	            log.error('Get modules fail');
 	        });
 	    }
 
+		var prepareAutoSuggestLabel = function(item) {
+		        item.identity = [ 'user-', item.displayName, '-option' ].join('');
+			item.label =  item.displayName;
+			return item;
+		}
 		var queryDisplayName = function(value) {
 			value = value = UIFactory.createCriteria(value);
 			
@@ -260,18 +267,18 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 			query : queryDisplayName
 		});
 
-		var isValidateCriteriaPass = function() {
-			var isValidatePass = true;
+		var isValid = function() {
+			var valid = true;
 			vm.wrongDateFormat = false;
 			
 			if (vm.logListModel.logDateFrom!==''&&vm.logListModel.logDateTo!='') {
 				if(vm.logListModel.logDateFrom > vm.logListModel.logDateTo){
 					vm.wrongDateFormat = true;
-					isValidatePass = false;
+					valid = false;
 				}
 			}
 
-			return isValidatePass;
+			return valid;
 		};
 
 		vm.logListModel = {

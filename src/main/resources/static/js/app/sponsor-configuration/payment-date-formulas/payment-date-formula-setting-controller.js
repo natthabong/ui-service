@@ -510,4 +510,6 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 			ngDialog.close('new-period-dialog',response);
 		}); 
 	};
+	
+	
 } ]);

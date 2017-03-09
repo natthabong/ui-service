@@ -205,14 +205,14 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/activity-log',
 				controller: 'ActivityLogController',
 				controllerAs: 'ctrl',
-				params: {party:'bank'},
+				params: {mode:'all'},
 				templateUrl: '/activity-log',
 				resolve: load(['js/app/modules/activity-log/activity-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/my-activity-log',{
 				url: '/my-activity-log',
 				controller: 'ActivityLogController',
 				controllerAs: 'ctrl',
-				params: {party:'me'},
+				params: {mode:'personal'},
 				templateUrl: '/activity-log',
 				resolve: load(['js/app/modules/activity-log/activity-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {

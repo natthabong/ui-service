@@ -9,9 +9,9 @@ var app = angular.module('scfApp');
 						'$timeout',
 						'ngDialog',
 						'PageNavigation',
-						'Service',
+						'Service','UIFactory','$q','$http',
 						function(SCFCommonService, $log, $scope, $stateParams, $timeout, ngDialog,
-								PageNavigation, Service) {
+								PageNavigation, Service, UIFactory, $q, $http) {
 							var vm = this;
 							var log = $log;
 							
@@ -63,7 +63,7 @@ var app = angular.module('scfApp');
 											sortData: false,
 											cellTemplate: '<scf-button id="payment-date-formula-{{data.formulaName}}-setup-button"  class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a payment date formula configs" ng-hide="!data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
 											'<scf-button id="payment-date-formula-{{data.formulaName}}-warning-setup-button"  class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a payment date formula configs" ng-hide="data.completed"><img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>' +
-											'<scf-button id="payment-date-formula-{{data.formulaName}}-delete-button" class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.search()" title="Delete a file layout"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+											'<scf-button id="payment-date-formula-{{data.formulaName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteFormula(data)" title="Delete a file layout"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 										} ]
 							};
 
@@ -146,6 +146,67 @@ var app = angular.module('scfApp');
 				    		vm.refershFormulaTable = function(){
 				    			vm.search();
 				    		}
+				    		
+				    		var deleteFormula = function(formula) {
+
+							var serviceUrl = 'api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/payment-date-formulas/' + formula.paymentDateFormulaId;
+							var deferred = $q.defer();
+							$http({
+								method : 'POST',
+								url : serviceUrl,
+								headers : {
+									'If-Match' : formula.version,
+									'X-HTTP-Method-Override': 'DELETE'
+								},
+								data: formula
+							}).then(function(response) {
+								return deferred.resolve(response);
+							}).catch(function(response) {
+								return deferred.reject(response);
+							});
+							return deferred;
+						}
+
+				    		
+				    		vm.deleteFormula = function(formula) {
+				    		    
+				    		var preCloseCallback = function(confirm) {
+				    		    vm.refershFormulaTable();
+				    		}
+
+				    		UIFactory.showConfirmDialog({
+				    			data : {
+				    				headerMessage : 'Confirm delete?'
+				    			},
+				    			confirm : function() {
+				    				return deleteFormula(formula);
+				    			},
+				    			onFail : function(response) {
+				    				var msg = {
+				    					409 : 'Formula has already been deleted.',
+				    					405 : 'Formula has already been used.'
+				    				};
+				    				UIFactory.showFailDialog({
+				    					data : {
+				    						headerMessage : 'Delete formula failed.',
+				    						bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+				    					},
+				    					preCloseCallback : preCloseCallback
+				    				});
+				    			},
+				    			onSuccess : function(response) {
+				    				UIFactory.showSuccessDialog({
+				    					data : {
+				    						headerMessage : 'Delete formula completed.',
+				    						bodyMessage : ''
+				    					},
+				    					preCloseCallback : preCloseCallback
+				    				});
+				    			}
+				    		});
+				    	}
+				    		
+				    		
 				            
 						} ]);
 

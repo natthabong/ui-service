@@ -5,20 +5,15 @@
 			<div class="panel-body">
 				<div class="col-md-12">
 					<h3>
-						<span ng-show="ctrl.isBankParty"
-							id="header-message-label"
+						<span ng-if="!ctrl.isPersonalMode" id="header-message-label"
 							class="animated fadeInLeft">{{'User activity log' |
-							translate}}</span> 
-						<span ng-show="!ctrl.isBankParty"
-							id="my-activity-log-header-message-label"
-							class="animated fadeInLeft">{{'My activity log' |
-							translate}}</span>
+							translate}}</span> <span ng-if="ctrl.isPersonalMode"
+							id="header-message-label" class="animated fadeInLeft">{{'My
+							activity log' | translate}}</span>
 					</h3>
-					
 				</div>
 			</div>
 		</div>
-
 		<div class="form-element">
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body">
@@ -46,7 +41,8 @@
 									<div uib-timepicker="true" hourId="log-time-hour-from-textbox"
 										minuteId="log-time-minute-from-textbox"
 										ng-model="ctrl.logTimeFrom" show-spinners="false"
-										show-meridian="false" template-url="/js/app/shared/templates/timepicker.html"></div>
+										show-meridian="false"
+										template-url="/js/app/shared/templates/timepicker-from.html"></div>
 								</div>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
 									<label id="log-date-to-label" for="log-date-to-label"
@@ -62,7 +58,8 @@
 								<div class="col-md-2 col-sm-2">
 									<div uib-timepicker="true" id="log-time-to-textbox"
 										ng-model="ctrl.logTimeTo" show-spinners="false"
-										show-meridian="false"></div>
+										show-meridian="false"
+										template-url="/js/app/shared/templates/timepicker-to.html"></div>
 								</div>
 							</div>
 							<div class="form-group" ng-show="ctrl.wrongDateFormat">
@@ -96,9 +93,9 @@
 									class="col-md-1 col-sm-3 col-xs-12 control-label">{{'user'|
 									translate}}: </label>
 								<div class="col-md-2 col-sm-3 col-xs-12">
-									<gec-auto-suggest model="ctrl.userAutoSuggestModel"
+									<gec-auto-suggest model="ctrl.userAutoSuggestModel" disable="ctrl.isPersonalMode"
 										ng-model="ctrl.logListModel.user" id="user-auto-suggest"
-										name="userName" maxlength="100"></gec-auto-suggest>
+										name="displayName" maxlength="100"></gec-auto-suggest>
 								</div>
 								<div class="col-md-4 col-sm-5 gec-calendar-group">
 									<label for="status" id="status-label"
