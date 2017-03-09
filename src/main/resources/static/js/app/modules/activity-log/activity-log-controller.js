@@ -14,7 +14,6 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 		vm.openDateTo = false;
 		vm.defaultPageSize = '20';
 		vm.defaultPage = 0;
-
 		
 		var mode = {
 			PERSONAL : 'personal',
@@ -139,47 +138,40 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 			
 			if (angular.isDate(vm.logListModel.logDateFrom)) {
 				vm.searchCriteria.logDateFrom = vm.logListModel.logDateFrom
-				if(vm.logTimeFrom!=null){
-					
-					var hour = 0;
-					var min = 0;
-					if(vm.logTimeFrom==null){
-						hour = 0;
-						min = 0;
-					}else{
-						var hour = vm.logTimeFrom.getHours()!=null?vm.logTimeFrom.getHours():0;
-						var min = vm.logTimeFrom.getMinutes()!=null?vm.logTimeFrom.getMinutes():0;
-					}		
-					
-					var datetime = new Date(vm.logListModel.logDateFrom.getFullYear(), 
-							vm.logListModel.logDateFrom.getMonth(), 
-							vm.logListModel.logDateFrom.getDate(), 
-							hour, min, 0);
-					vm.searchCriteria.logDateFrom = datetime;
+				var hour = 0;
+				var min = 0;
+				
+				if(angular.isDate(vm.logTimeFrom)){
+					hour = vm.logTimeFrom.getHours();
+					min = vm.logTimeFrom.getMinutes();
 				}
+				
+				var datetime = new Date(vm.logListModel.logDateFrom.getFullYear(), 
+						vm.logListModel.logDateFrom.getMonth(), 
+						vm.logListModel.logDateFrom.getDate(), 
+						hour, min, 0);
+				vm.searchCriteria.logDateFrom = datetime;
+				console.log(vm.searchCriteria.logDateFrom);
 			}else{
 				vm.searchCriteria.logDateFrom = undefined;
 			}
 
 			if (angular.isDate(vm.logListModel.logDateTo)) {
 				vm.searchCriteria.logDateTo = vm.logListModel.logDateTo;
-				if(vm.logTimeTo!==undefined){
-					var hour = 23;
-					var min = 59;
-					if(vm.logTimeTo==null){
-						hour = 23;
-						min = 59;
-					}else{
-						var hour = vm.logTimeTo.getHours()!=null?vm.logTimeTo.getHours():0;
-						var min = vm.logTimeTo.getMinutes()!=null?vm.logTimeTo.getMinutes():0;	
-					}
-					
-					var datetime = new Date(vm.logListModel.logDateTo.getFullYear(), 
-							vm.logListModel.logDateTo.getMonth(), 
-							vm.logListModel.logDateTo.getDate(), 
-							hour, min, 0);
-					vm.searchCriteria.logDateTo = datetime;
-				}				
+				var hour = 23;
+				var min = 59;
+				
+				if(angular.isDate(vm.logTimeTo)){
+					var hour = vm.logTimeTo.getHours();
+					var min = vm.logTimeTo.getMinutes();	
+				}			
+				
+				var datetime = new Date(vm.logListModel.logDateTo.getFullYear(), 
+						vm.logListModel.logDateTo.getMonth(), 
+						vm.logListModel.logDateTo.getDate(), 
+						hour, min, 0);
+				vm.searchCriteria.logDateTo = datetime;
+				console.log(vm.searchCriteria.logDateTo);
 			}else{
 				vm.searchCriteria.logDateTo = undefined;
 			}
@@ -270,11 +262,43 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 		var isValid = function() {
 			var valid = true;
 			vm.wrongDateFormat = false;
+			vm.wrongDateFromTo = false;
+
+			//Wrong date format
+			if (angular.isUndefined(vm.logListModel.logDateFrom)||angular.isUndefined(vm.logListModel.logDateTo)) {
+				vm.wrongDateFormat = true;
+				vm.wrongDateFromTo = false;
+				valid = false;
+			}
 			
-			if (vm.logListModel.logDateFrom!==''&&vm.logListModel.logDateTo!='') {
+			//Wrong time format
+//			if(!angular.isUndefined(vm.logListModel.logDateFrom)){
+//				if (!angular.isDate(vm.logTimeFrom)) {
+//					vm.wrongDateFormat = true;
+//					vm.wrongDateFromTo = false;
+//					valid = false;
+//				}
+//			}
+//			if(!angular.isUndefined(vm.logListModel.logDateTo)){
+//				if (!angular.isDate(vm.logTimeTo)) {
+//					vm.wrongDateFormat = true;
+//					vm.wrongDateFromTo = false;
+//					valid = false;
+//				}
+//			}
+			
+			//Wrong date from to
+			if (angular.isDate(vm.logListModel.logDateFrom)&&angular.isDate(vm.logListModel.logDateTo)) {
 				if(vm.logListModel.logDateFrom > vm.logListModel.logDateTo){
-					vm.wrongDateFormat = true;
+					vm.wrongDateFormat = false;
+					vm.wrongDateFromTo = true;
 					valid = false;
+				}else{
+					if(vm.logTimeFrom > vm.logTimeTo){
+						vm.wrongDateFormat = false;
+						vm.wrongDateFromTo = true;
+						valid = false;
+					}
 				}
 			}
 
