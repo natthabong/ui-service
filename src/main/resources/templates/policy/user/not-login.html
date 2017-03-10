@@ -6,12 +6,18 @@
 				ng-disabled="true"></scf-checkbox>
 			<label class="checkbox-inline" id="user-not-login-1-label">{{'The
 				system must automatically set the user status to Suspend when the
-				user has not logged into the system for' | translate}}<input
-				id="user-not-login-textbox" type="text" style="width: 50px"
-				ng-model="policy.numericValue1" maxlength="3"> </input>&nbsp;<span
-				id="user-not-login-2-label" ng-bind="'days.' | translate"></span>
+				user has not logged into the system for' | translate}}<input name="userNotLogin"
+				id="user-not-login-textbox" type="number" min="0"
+				style="width: 50px" ng-model="policy.numericValue1" maxlength="3">
+				</input>&nbsp;<span id="user-not-login-2-label"
+				ng-bind="'days.' | translate"></span>
 			</label>
 		</div>
-
+		<label ng-if="policyForm.userNotLogin.$error.required" class="error-msg"
+			id="user-not-login-warning-message-label">{{'This field is
+			required.' | translate}}</label> <label ng-if="policyForm.userNotLogin.$error.min"
+			class="error-msg" id="user-not-login-warning-message-label">{{'This
+			field is required and value must be greater than zero.' | translate}}</label>
 	</div>
+
 </div>

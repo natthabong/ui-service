@@ -4,11 +4,11 @@
 			<label class="checkbox-inline">
 				<span id="password-length-1-label" ng-bind="'Password must be a minimum of' | translate"></span>&nbsp;
 				
-				<input id="password-length-minimum-textbox" type="text" class="checkbox-inline"	ng-model="policy.numericValue1" maxlength="3" style="width: 50px"></input>&nbsp;
+				<input id="password-length-minimum-textbox" type="number" min="1" class="checkbox-inline"	ng-model="policy.numericValue1" maxlength="3" style="width: 50px"></input>&nbsp;
 				
 				<span id="password-length-2-label" ng-bind="'and maximum' | translate"></span>&nbsp;
 				
-				<input type="text" id="password-length-maximum-textbox" class="checkbox-inline"	ng-model="policy.numericValue2" maxlength="3" style="width: 50px"></input>&nbsp;
+				<input type="number" max="100" id="password-length-maximum-textbox" class="checkbox-inline"	ng-model="policy.numericValue2" maxlength="3" style="width: 50px"></input>&nbsp;
 				
 				<span id="password-length-3-label" ng-bind="'characters.' | translate"></span>
 			</label>

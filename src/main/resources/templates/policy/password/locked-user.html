@@ -1,11 +1,20 @@
 <div class="row">
 	<div class="form-group">
-		<scf-checkbox id="password-locked-user-checkbox" ng-model="policy.active" ng-disabled="true"></scf-checkbox>
-		<label class="checkbox-inline">
-			<span id="password-locked-user-1-label">{{'Password must be disabled after at most' | translate}} </span>
-			<input id="password-locked-user-textbox" type="text" class="checkbox-inline" ng-model="policy.numericValue1" maxlength="3" style="width: 50px"></input>&nbsp;
-			<span id="password-locked-user-2-label">{{'(1-100) incorrect signon(s).' | translate}}</span>
+		<scf-checkbox id="password-locked-user-checkbox"
+			ng-model="policy.active" ng-disabled="true"></scf-checkbox>
+		<label class="checkbox-inline"> <span
+			id="password-locked-user-1-label">{{'Password must be disabled
+				after at most' | translate}} </span> <input
+			id="password-locked-user-textbox" type="number" min="1" max="100"
+			class="checkbox-inline" ng-model="policy.numericValue1" maxlength="3"
+			style="width: 50px"></input>&nbsp; <span
+			id="password-locked-user-2-label">{{'(1-100) incorrect
+				signon(s).' | translate}}</span>
 		</label>
+	</div>
+	<div>
+		<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+			id="password-locked-user-warning-message-label">{{'required' | translate}}.</span>
 	</div>
 </div>
 
