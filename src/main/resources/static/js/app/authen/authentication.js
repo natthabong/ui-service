@@ -66,7 +66,7 @@
         	
         	var deffered = $q.defer();
         	blockUI.start("Authentication...");
-        	var encoded = btoa("clientIdPassword:secret");
+        	var encoded = btoa("5fcc7c7228d70ba442953a3eaf8ec1f9:a5436aea37b9ed523dae94e4779c4922");
         	var req = {
     	            method: 'POST',
     	            url: "/api/oauth/token",
