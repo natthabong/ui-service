@@ -1,9 +1,9 @@
 <div class="row">
 	<div class="form-group">
-		<scf-checkbox id="password-letter-case-checkbox"
+		<scf-checkbox id="password-contain-special-char-checkbox"
 			ng-model="policy.active" ng-disabled="true"> </scf-checkbox>
-		<label class="checkbox-inline"><span
-			id="password-letter-case-label">{{'Password must contain both
-				upper case and lower case.' | translate}} </span></label>
+		<label class="checkbox-inline">
+			<span id="password-contain-special-char-label">{{'Password must contain special character. (E.g. #@!%&^*())' | translate}} </span>
+		</label>
 	</div>
 </div>
