@@ -41,12 +41,7 @@
         vm.logout = function () {
 
             AuthenticationService.Logout(function (response) {
-                console.log(response);
-                if (response.success) {
-                    $window.location.href = '/login';
-                } else {
-                    self.dataLoading = false;
-                }
+        	$window.location.href = '/login';
             });
         };
 
@@ -99,14 +94,11 @@
         }
 
         function Logout(callback) {
+            var token = $cookieStore.get("access_token")
             ClearCredentials();
             /* Use this for real authentication
              ----------------------------------------------*/
-            $http.get('/api/logout', {})
-                .success(function (response) {
-                    callback(response);
-                });
-
+            callback();
         }
 
         function SetCredentials(username, password) {
@@ -124,7 +116,7 @@
 
         function ClearCredentials() {
             $rootScope.globals = {};
-            $cookieStore.remove('globals');
+            $cookieStore.remove('access_token');
             delete $http.defaults.headers.common.Authorization;
         }
     }]);
