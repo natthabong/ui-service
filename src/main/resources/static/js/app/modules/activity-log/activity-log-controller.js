@@ -89,8 +89,8 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
                 cssTemplate: 'text-left'
             },{
             	fieldName: 'actionBy',
-            	labelEN: 'user',
-            	labelTH: 'user',
+            	labelEN: 'User',
+            	labelTH: 'User',
             	idValueField: '$rowNo',
                 id: 'user-{value}',
                 sortable: false,
