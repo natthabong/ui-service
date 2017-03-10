@@ -1,6 +1,6 @@
 var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
-                        			'legendDirectives','chart.js', 'gecscf.ui'])
+                        			'legendDirectives','chart.js', 'gecscf.ui', 'ngCookies'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider','$urlRouterProvider','ngDialogProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider,$compileProvider, $urlRouterProvider, ngDialogProvider) {
 
@@ -215,6 +215,12 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				params: {mode:'personal'},
 				templateUrl: '/activity-log',
 				resolve: load(['js/app/modules/activity-log/activity-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/policy',{
+				url: '/policy',
+				controller: 'PolicyController',
+				controllerAs: 'ctrl',
+				templateUrl: '/policy',
+				resolve: load(['js/app/modules/policy/policy-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
@@ -300,23 +306,11 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
     }
 ]);
 
-app.controller('CreateLoanRequestCtrl', [function () {
-    var self = this;
-
-    self.isOpenLoanReq = false;
-    self.dateFormat = "dd/MM/yyyy";
-
-    self.loanReqDate = new Date();
-    self.openCalLoanDate = function () {
-        self.isOpenLoanReq = true;
-    };
-    }]);
-
-
 app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $cookieStore) {
     return {
         getErrorMsg: getErrorMsg,
-        getUserInfo: getUserInfo
+        getUserInfo: getUserInfo,
+        getMenu: getMenu
     };
 
     function getErrorMsg(lang) {
@@ -348,13 +342,50 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
 		});
     	return deferred;
     }
+    
+    function getMenu(){
+	var deferred = $q.defer();
+	$http({
+            url: 'api/menus',
+            method: 'GET'
+        }).then(function (response) {
+            deferred.resolve(response);
+        });
+	return deferred;
+    }
 }]);
 
-app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', 'blockUI', '$state', '$filter', function ($rootScope, $q, $http, $urlRouter, $window, blockUI, $state, $filter) {
-//    $window.Date.prototype.toISOString = function(){
-//	      return $filter('date')(this, 'yyyy-MM-ddTHH:mm:ss.000+0000');
-//    };
+app.controller('MenuController', ['scfFactory', '$state', function (scfFactory, $state) {
+    var self = this;
+    self.menu = [];
+    var defered = scfFactory.getMenu();
+    defered.promise.then(function(response){
+	self.menu = response.data;
+    });
     
+    }]);
+
+    self.goTo = function(state){
+	$state.go(state);
+    }
+
+app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', 'blockUI', '$state', '$filter', '$cookieStore', function ($rootScope, $q, $http, $urlRouter, $window, blockUI, $state, $filter, $cookieStore) {
+// $window.Date.prototype.toISOString = function(){
+// return $filter('date')(this, 'yyyy-MM-ddTHH:mm:ss.000+0000');
+// };
+    var isLoginPage = window.location.href.indexOf("login") != -1;
+    if(isLoginPage){
+        if($cookieStore.get("access_token")){
+            window.location.href = "/";
+        }
+    } else{
+        if($cookieStore.get("access_token")){
+            $http.defaults.headers.common.Authorization = 
+              'Bearer ' + $cookieStore.get("access_token");
+        } else{
+            window.location.href = "login";
+        }
+    }
     $rootScope
         .$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {

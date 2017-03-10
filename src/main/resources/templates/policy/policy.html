@@ -1,0 +1,38 @@
+<div id="content" th:fragment="content">
+
+	<div class="panel box-shadow-none content-header">
+		<div class="panel-body">
+			<div class="col-md-12">
+				<h3 class="animated fadeInLeft"
+					ng-bind="'User and password policy' | translate">User and
+					password policy</h3>
+			</div>
+		</div>
+	</div>
+	<div class="panel">
+		<div class="panel-heading bg-white border-none">
+			<h4>{{'User policy' | translate}}</h4>
+		</div>
+		<div class="panel-body">
+			<ul>
+				<li ng-repeat="policy in userPolicies" id="{{policy.policyTopic}}">
+					<ng-include src="'/policy/user/'+ policy.policyTopic"></ng-include>
+				</li>
+			</ul>
+		</div>
+		<div class="panel-heading bg-white border-none">
+			<h4>{{'Password policy' | translate}}</h4>
+		</div>
+		<div class="panel-body">
+			<ul>
+				<li><ng-include src="'/policy/password/LOCKED_USER'"></ng-include></li>
+				<li><ng-include src="'/policy/password/PASS_LENGTH'"></ng-include></li>
+			</ul>
+
+			<!-- 			<div ng-repeat="module in passwordPolicies" -->
+			<!-- 				id="{{policy.policyTopic}}-setting-panel"> -->
+			<!-- 				<ng-include src="'/policy/password/'+ policy.policyTopic"></ng-include> -->
+			<!-- 			</div> -->
+		</div>
+	</div>
+</div>

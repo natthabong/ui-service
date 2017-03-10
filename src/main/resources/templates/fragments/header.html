@@ -60,23 +60,26 @@
 	<nav class="navbar navbar-default gec-menu-bar hidden-xs"
 		th:classappend="${fixedHeader} ? 'navbar-fixed-top gec-menu-bar-fixed' : 'navbar-static-top gec-menu-bar-static'">
 		<div class="container-fluid">
-			<div class="collapse navbar-collapse" id="hd-navbar-collapse-1">
+			<div class="collapse navbar-collapse" id="hd-navbar-collapse-1"
+				ng-controller="MenuController as ctrl">
 				<ul class="nav navbar-nav">
-					<li class="dropdown" th:each="menu : ${session.menus}"><a
-						th:id="${menu.menuId+'-menu'}" class="dropdown-toggle"
-						data-toggle="dropdown" style="cursor: pointer"> <span
-							th:inline="text">{{ '[[${menu.menuId}]]' | translate }}</span><span
-							class="caret"></span></a>
+					<li class="dropdown"
+						ng-repeat="menuItem in ctrl.menu track by $id(menuItem)"><a
+						aria-hidden="true" class="dropdown-toggle" data-toggle="dropdown"
+						id="{{menuItem.menuId + '-menu'}}" style="cursor: pointer"
+						aria-expanded="true"> <span
+							ng-bind="menuItem.menuId | translate"></span><span class="caret"></span>
+					</a>
 						<ul class="dropdown-menu">
-							<li th:each="children : ${menu.children}"><a
-								th:attr="ui-sref=${children.url?:'#'}"
+							<li ng-repeat="child in menuItem.children"><a
 								ui-sref-opts="{reload: true, inherit: false}"
-								th:href="${children.url?:'#'}"
-								th:id="${children.menuId+'-menu'}" data-toggle="collapse"
-								data-target=".navbar-collapse"><span th:inline="text">{{
-										'[[${children.menuId}]]' | translate}}</span></a></li>
+								id="{{child.menuId+'-menu'}}" ng-click="ctrl.goTo(child.url)"
+								href="{{'#' + child.url}}"><span
+									ng-bind="child.menuId
+										| translate"></span></a></li>
 						</ul></li>
 				</ul>
+
 			</div>
 		</div>
 	</nav>

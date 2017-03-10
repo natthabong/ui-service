@@ -9,13 +9,18 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
@@ -23,20 +28,28 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
-//@Configuration
-//@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-//@EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
-class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+@Configuration
+@EnableResourceServer
+public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
+	@Autowired
+	private RedisConnectionFactory jedisConnectionFactory;
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	public void configure(final HttpSecurity http) throws Exception {
+		// @formatter:off
 		http.formLogin().loginPage("/login").and().authorizeRequests()
-				.antMatchers("/login", "/css/**/*", "/js/**/*", "/fonts/**", "/img/**").permitAll()
-				.anyRequest().permitAll();
-		http.csrf().csrfTokenRepository(csrfTokenRepository()).and()
-				.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
+		.antMatchers("/login", "/css/**/*", "/js/**/*", "/fonts/**", "/img/**").permitAll()
+		.anyRequest().permitAll();
+//http.csrf().csrfTokenRepository(csrfTokenRepository()).and()
+//		.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
+		// @formatter:on
+	}
 
+	@Override
+	public void configure(final ResourceServerSecurityConfigurer config) {
+		config.tokenStore(tokenStore());
 	}
 
 	private Filter csrfHeaderFilter() {
@@ -68,4 +81,8 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return repository;
 	}
 
+	@Bean
+	public TokenStore tokenStore() {
+		return new RedisTokenStore(jedisConnectionFactory);
+	}
 }

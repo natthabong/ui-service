@@ -1,12 +1,12 @@
 (function () {
     'use strict';
-    var app = angular.module('authenApp', ['ngCookies', 'blockUI']).config(['$httpProvider', function ($httpProvider) {
+    var app = angular.module('authenApp', ['ngCookies', 'blockUI', 'ui.router']).config(['$httpProvider', function ($httpProvider) {
 
         $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         $httpProvider.defaults.headers.common['Accept'] = 'application/json';
         
     }]);
-    app.controller('LoginController', ['$window', 'AuthenticationService', function ($window, AuthenticationService) {
+    app.controller('LoginController', ['$window', 'AuthenticationService', '$state', function ($window, AuthenticationService,$state) {
         var self = this;
 
         self.login = login;
@@ -19,13 +19,13 @@
         	self.error = false;
         	var deffered = AuthenticationService.Login(self.username, self.password, function (response) {});
         	deffered.promise.then(function(response) {
-        		if (response.data.success) {
+        		//if (response.data.success) {
                     AuthenticationService.SetCredentials(self.username, self.password);
                     $window.location.href = '/';
-                } 
+               /* } 
         		else{
         			self.error = true;
-        		}
+        		}*/
             }).catch(function(response) {
             	self.error = true;
             });
@@ -54,7 +54,7 @@
 
 
 
-    app.factory('AuthenticationService', ['$http', '$cookieStore', '$rootScope', '$timeout',  'blockUI', '$q', function ($http, $cookieStore, $rootScope, $timeout, blockUI, $q) {
+    app.factory('AuthenticationService', ['$http', '$httpParamSerializer', '$cookieStore', '$rootScope', '$timeout',  'blockUI', '$q', function ($http, $httpParamSerializer, $cookieStore, $rootScope, $timeout, blockUI, $q) {
         var service = {};
 
         service.Login = Login;
@@ -71,21 +71,25 @@
         	
         	var deffered = $q.defer();
         	blockUI.start("Authentication...");
-            $http.post('/api/authenticate', {
-                    username: username,
-                    password: password
-                },{
-                	headers : {
-                		'Content-Type': 'application/x-www-form-urlencoded'
-                	},
-        	        transformRequest :function (data) {
-        	            if (data === undefined) {
-        	                return data;
-        	            }
-        	            return $.param(data);
-        	        }
-                }).then(function(response) {
-                	blockUI.stop();
+        	var encoded = btoa("clientIdPassword:secret");
+        	var req = {
+    	            method: 'POST',
+    	            url: "/api/oauth/token",
+    	            headers: {
+    	                "Authorization": "Basic " + encoded,
+    	                "Content-type": "application/x-www-form-urlencoded; charset=utf-8"
+    	            },
+    	            data: $httpParamSerializer({
+    	        	username: username,
+    	        	password: password,
+    	        	grant_type: 'password'
+    	            })
+    	        }
+    	        $http(req).then(function(response) {
+                    $http.defaults.headers.common.Authorization = 
+      	              'Bearer ' + response.data.access_token;
+                    $cookieStore.put("access_token", response.data.access_token);
+                    blockUI.stop();
                     deffered.resolve(response);
                 }).catch(function(response) {
                 	blockUI.stop();
@@ -106,16 +110,16 @@
         }
 
         function SetCredentials(username, password) {
-            var authdata = btoa(username + ':' + password);
-            $rootScope.globals = {
-                currentUser: {
-                    username: username,
-                    authdata: authdata
-                }
-            };
-
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
-            $cookieStore.put('globals', $rootScope.globals);
+//            var authdata = btoa(username + ':' + password);
+//            $rootScope.globals = {
+//                currentUser: {
+//                    username: username,
+//                    authdata: authdata
+//                }
+//            };
+//
+//            $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
+//            $cookieStore.put('globals', $rootScope.globals);
         }
 
         function ClearCredentials() {
