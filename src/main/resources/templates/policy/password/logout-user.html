@@ -1,0 +1,10 @@
+<div class="row">
+	<div class="form-group">
+		<scf-checkbox id="password-logout-user-checkbox" ng-model="policy.active" ng-disabled="true"> </scf-checkbox>
+		<label class="checkbox-inline">
+			<span id="password-logout-user-1-label" ng-bind="'If any user inputs the current password incorrectly' | translate"></span>&nbsp;
+			<input id="password-logout-user-textbox" type="text" class="checkbox-inline" ng-model="policy.numericValue1" maxlength="3" style="width: 50px"></input>&nbsp;
+			<span id="password-logout-user-2-label" ng-bind="'times when changing the password, the user will be logged out from the system automatically.' | translate"></span>&nbsp;
+		</label>
+	</div>
+</div>

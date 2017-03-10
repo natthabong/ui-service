@@ -1,9 +1,8 @@
 <div class="row">
 	<div class="form-group">
-		<scf-checkbox id="password-letter-case-checkbox"
-			ng-model="policy.active" ng-disabled="true"> </scf-checkbox>
-		<label class="checkbox-inline"><span
-			id="password-letter-case-label">{{'Password must contain both
-				upper case and lower case.' | translate}} </span></label>
+		<scf-checkbox id="password-contain-alpha-char-checkbox" ng-model="policy.active" ng-disabled="true"> </scf-checkbox>
+		<label class="checkbox-inline">
+			<span id="password-contain-alpha-char-label">{{'Password must contain alphabet characters.' | translate}} </span>
+		</label>
 	</div>
 </div>
