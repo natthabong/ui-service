@@ -7,7 +7,7 @@
 			<label class="checkbox-inline" id="user-not-login-1-label">{{'The
 				system must automatically set the user status to Suspend when the
 				user has not logged into the system for' | translate}}<input name="userNotLogin"
-				id="user-not-login-textbox" type="number" min="0"
+				id="user-not-login-textbox" type="number" min="0" required="true"
 				style="width: 50px" ng-model="policy.numericValue1" maxlength="3">
 				</input>&nbsp;<span id="user-not-login-2-label"
 				ng-bind="'days.' | translate"></span>

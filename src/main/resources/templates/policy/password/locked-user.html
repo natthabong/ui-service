@@ -4,17 +4,20 @@
 			ng-model="policy.active" ng-disabled="true"></scf-checkbox>
 		<label class="checkbox-inline"> <span
 			id="password-locked-user-1-label">{{'Password must be disabled
-				after at most' | translate}} </span> <input
+				after at most' | translate}} </span> <input name="lockedUser"
 			id="password-locked-user-textbox" type="number" min="1" max="100"
-			class="checkbox-inline" ng-model="policy.numericValue1" maxlength="3"
-			style="width: 50px"></input>&nbsp; <span
-			id="password-locked-user-2-label">{{'(1-100) incorrect
+			required="required" class="checkbox-inline"
+			ng-model="policy.numericValue1" maxlength="3" style="width: 50px"></input>&nbsp;
+			<span id="password-locked-user-2-label">{{'(1-100) incorrect
 				signon(s).' | translate}}</span>
 		</label>
 	</div>
-	<div>
-		<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-			id="password-locked-user-warning-message-label">{{'required' | translate}}.</span>
-	</div>
+	<label ng-if="policyForm.lockedUser.$error.required" class="error-msg"
+		id="password-locked-user-warning-message-label">{{'This field
+		is required.' | translate}}</label> <label
+		ng-if="policyForm.lockedUser.$error.min || policyForm.lockedUser.$error.max"
+		class="error-msg" id="password-locked-user-warning-message-label">{{'This
+		field is required and value must be more than 0 and no more than 100.'
+		| translate}}</label>
 </div>
 
