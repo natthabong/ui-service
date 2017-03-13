@@ -313,5 +313,12 @@
     "Log date": "Log date",
     "Module": "Module",
     "Ref no": "Ref no",
-    "Message": "Message"
+    "Message": "Message",
+    
+    "Current password": "Current password",
+    "New password": "New password",
+    "Confirm password": "Confirm password",
+    "List of password policy": "List of password policy",
+    "Change password": "Change password",
+    "Force change password": "Force change password"
 }

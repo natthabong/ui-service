@@ -221,6 +221,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/policy',
 				resolve: load(['js/app/modules/policy/policy-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/change-password',{
+				url: '/change-password',
+				controller: 'PasswordController',
+				controllerAs: 'ctrl',
+				params: {mode:'profileChange'},
+				templateUrl: '/change-password',
+				resolve: load(['js/app/modules/profile/change-password/password-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
