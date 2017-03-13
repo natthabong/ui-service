@@ -38,10 +38,10 @@ angular.module('scfApp').controller(
 			    response.data.policyItems.forEach(function(data) {
 				
 				if (data.policyType == 'USER') {
-				    $scope.userPolicies.put(data);
+				    $scope.userPolicies.push(data);
 				}
 				else if(data.policyType == 'PASSWORD'){
-				    $scope.passwordPolicies.put(data);
+				    $scope.passwordPolicies.push(data);
 				}
 			    });
 			});
