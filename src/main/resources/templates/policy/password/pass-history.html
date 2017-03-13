@@ -2,13 +2,20 @@
 	<div class="form-group">
 		<scf-checkbox id="password-history-checkbox" ng-model="policy.active"
 			ng-disabled="true"> </scf-checkbox>
-		<label class="checkbox-inline"> <span
-			id="password-history-1-label"
-			ng-bind="'New password must not be in the last previous' | translate"></span>&nbsp;
-			<input id="password-history-textbox" type="number" min="0"
-			class="checkbox-inline" ng-model="policy.numericValue1" maxlength="3"
-			style="width: 50px"></input>&nbsp; <span
-			id="password-history-2-label" ng-bind="'password.' | translate"></span>&nbsp;
+		<label class="checkbox-inline"> 
+		<span id="password-history-1-label"
+			ng-bind="'New password must not be in the last previous' | translate"></span>
+<!--เปลี่ยน min = 1-->
+		<input name="passHistory" id="password-history-textbox" type="number" min="1"     
+			required="true" ng-model="policy.numericValue1" maxlength="3"
+			 class="form-control-input"></input>
+		<span
+			id="password-history-2-label" ng-bind="'password.' | translate"></span>
 		</label>
 	</div>
+	<label ng-if="policyForm.passHistory.$error.required" style="margin-left: 7px;" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg"
+			id="password-history-warning-message-label">{{'This field is required.' | translate}}</label> 
+
+	<label ng-if="policyForm.passHistory.$error.min" style="margin-left: 7px;" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" id="password-history-warning-message-label">{{'This field is required and value must be greater than zero.'
+		| translate}}</label>
 </div>

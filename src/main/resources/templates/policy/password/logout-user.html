@@ -2,9 +2,15 @@
 	<div class="form-group">
 		<scf-checkbox id="password-logout-user-checkbox" ng-model="policy.active" ng-disabled="true"> </scf-checkbox>
 		<label class="checkbox-inline">
-			<span id="password-logout-user-1-label" ng-bind="'If any user inputs the current password incorrectly' | translate"></span>&nbsp;
-			<input id="password-logout-user-textbox" type="number" min="0" class="checkbox-inline" ng-model="policy.numericValue1" maxlength="3" style="width: 50px"></input>&nbsp;
-			<span id="password-logout-user-2-label" ng-bind="'times when changing the password, the user will be logged out from the system automatically.' | translate"></span>&nbsp;
+			<span id="password-logout-user-1-label" ng-bind="'If any user inputs the current password incorrectly' | translate"></span>
+			<input id="password-logout-user-textbox" type="number" min="1" name="logoutUser" required="true" ng-model="policy.numericValue1" maxlength="3"  class="form-control-input"></input>
+			<span id="password-logout-user-2-label" ng-bind="'times when changing the password, the user will be logged out from the system automatically.' | translate"></span>
 		</label>
 	</div>
+	<label ng-if="policyForm.logoutUser.$error.required" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" style="margin-left: 7px;"
+			id="password-history-warning-message-label">{{'This field is required.' | translate}}</label>
+			
+	<label ng-if="policyForm.logoutUser.$error.min" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" style="margin-left: 7px;"
+		id="password-history-warning-message-label">{{'This field is required and value must be greater than zero.'
+		| translate}}</label>
 </div>

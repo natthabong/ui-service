@@ -1348,3 +1348,13 @@ iPad 3
 	border-style: solid !important;
 	border-color: #ff6656 !important;
 }
+
+.form-control-input {
+	width: 50px;
+	height: 34px;  
+	padding: 3px 6px;   
+	color: #555555;  
+	background-color: #fff;  
+	border: 1px solid #ccc;  
+	border-radius: 4px;
+}

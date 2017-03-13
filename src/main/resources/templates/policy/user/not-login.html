@@ -1,23 +1,23 @@
 <div class="row">
-
 	<div class="form-group">
 		<div class="input-group">
 			<scf-checkbox id="user-not-login-checkbox" ng-model="policy.active"
 				ng-disabled="true"></scf-checkbox>
-			<label class="checkbox-inline" id="user-not-login-1-label">{{'The
-				system must automatically set the user status to Suspend when the
-				user has not logged into the system for' | translate}}<input name="userNotLogin"
-				id="user-not-login-textbox" type="number" min="0" required="true"
-				style="width: 50px" ng-model="policy.numericValue1" maxlength="3">
-				</input>&nbsp;<span id="user-not-login-2-label"
-				ng-bind="'days.' | translate"></span>
+			<label class="checkbox-inline">
+			<span id="user-not-login-1-label"> {{'The system must automatically set the user status to Suspend when the
+				user has not logged into the system for' | translate}}</span>
+			
+			<input name="userNotLogin"	id="user-not-login-textbox" type="number" min="1" required="true" class="form-control-input"
+				style=" " ng-model="policy.numericValue1" maxlength="3"></input>
+			<span id="user-not-login-2-label" ng-bind="'days.' | translate"></span>
 			</label>
 		</div>
-		<label ng-if="policyForm.userNotLogin.$error.required" class="error-msg"
-			id="user-not-login-warning-message-label">{{'This field is
-			required.' | translate}}</label> <label ng-if="policyForm.userNotLogin.$error.min"
-			class="error-msg" id="user-not-login-warning-message-label">{{'This
-			field is required and value must be greater than zero.' | translate}}</label>
 	</div>
-
+	<label ng-if="policyForm.userNotLogin.$error.required" class="col-lg-10 col-md-10 col-sm-10 col-xs-10 error-msg" style="margin-left: 3px;"
+		id="user-not-login-warning-message-label">{{'This field is required.' | translate}} </label> 
+		
+	<label ng-if="policyForm.userNotLogin.$error.min" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" style="margin-left: 3px;" id="user-not-login-warning-message-label">{{'This
+		field is required and value must be greater than zero.' | translate}} </label>
+	
 </div>
+

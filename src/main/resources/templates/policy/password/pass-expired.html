@@ -2,13 +2,19 @@
 	<div class="form-group">
 		<scf-checkbox id="password-expired-checkbox" ng-model="policy.active"
 			ng-disabled="true"> </scf-checkbox>
-		<label class="checkbox-inline"> <span
-			id="password-expired-1-label">{{'The user must be forced to
-				change password every' | translate}} </span> <input
-			id="password-expired-textbox" type="number" min="1"
-			class="checkbox-inline" ng-model="policy.numericValue1" maxlength="3"
-			style="width: 50px"></input>&nbsp; <span
-			id="password-expired-2-label" ng-bind="'days.' | translate"></span>&nbsp;
+		<label class="checkbox-inline" id="password-expired-1-label">{{'The user must be forced to change password every' | translate}}
+			<input name="passExpired"	id="password-expired-textbox" type="number" min="1" required="true"
+				 class="form-control-input" ng-model="policy.numericValue1" maxlength="3"></input>
+			<span id="password-expired-2-label" ng-bind="'days.' | translate"></span>
 		</label>
+			
 	</div>
+	
+		<label ng-if="policyForm.passExpired.$error.required" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" style="margin-left: 7px;"
+			id="password-expired-warning-message-label">{{'This field is required.' | translate}}</label> 
+
+		<label ng-if="policyForm.passExpired.$error.min" style="margin-left: 7px;" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" id="password-expired-warning-message-label">
+		{{'This field is required and value must be greater than zero.'	| translate}}</label>
 </div>
+
+
