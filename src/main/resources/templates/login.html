@@ -52,21 +52,32 @@ form {
 				</h3>
 				<hr class="spartan" />
 				<div class="alert alert-danger" role="alert"
-					ng-if="controller.error">Login fail</div>
+					ng-if="controller.error">
+					<span id="login-message-label">{{controller.errorMessage}}</span>
+				</div>
 				<div class="input-group">
 					<span class="input-group-addon" id="sizing-addon1"> <i
 						class="fa fa-user"></i>
 					</span> <input type="text" class="form-control" id="username"
 						name="username" ng-model="controller.username"
-						placeholder="Username" required="" autofocus="" />
+						placeholder="Username" />
+				</div>
+				<div class="alert alert-danger" role="alert"
+					ng-if="controller.usernameRequired">
+					<span id="username-error-message-label">username is
+						required.</span>
 				</div>
 				<div class="input-group">
 					<span class="input-group-addon" id="sizing-addon1"> <i
 						class="fa fa-lock"></i>
 					</span> <input type="password" class="form-control" id="password"
 						ng-model="controller.password" name="password"
-						placeholder="Password" autocomplete="off" required="" />
-					<!--                    <input type="hidden" id="therealdeal" name="realpassword" ng-model="controller.password" />-->
+						placeholder="Password" />
+				</div>
+				<div class="alert alert-danger" role="alert"
+					ng-if="controller.passwordRequired">
+					<span id="password-error-message-label">password is
+						required.</span>
 				</div>
 				<button class="btn btn-lg btn-primary btn-block" name="Submit"
 					type="submit">Login</button>

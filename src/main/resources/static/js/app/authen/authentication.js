@@ -11,29 +11,56 @@
 
         self.login = login;
         self.error = false;
+        self.errorMessage = '';
+        self.usernameRequired = false;
+        self.passwordRequired = false;
+        
         (function initController() {
             AuthenticationService.ClearCredentials();
         })();
 
         function login() {
         	self.error = false;
-        	var deffered = AuthenticationService.Login(self.username, self.password, function (response) {});
-        	deffered.promise.then(function(response) {
-        		//if (response.data.success) {
-                    AuthenticationService.SetCredentials(self.username, self.password);
-                    $window.location.href = '/';
-               /* } 
-        		else{
-        			self.error = true;
-        		}*/
-            }).catch(function(response) {
-            	self.error = true;
-            });
-
+        	self.errorMessage = '';
+        	var loginFlag = true;
+            self.usernameRequired = false;
+            self.passwordRequired = false;
             
-            
-        
+        	if(isBlank(self.username) && isBlank(self.password)){
+        		loginFlag = false;
+                self.usernameRequired = true;
+                self.passwordRequired = true;
+        	}else if(isBlank(self.username)){
+        		loginFlag = false;
+        		self.usernameRequired = true;
+        	}else if(isBlank(self.password)){
+        		loginFlag = false;
+                self.error = true;
+                self.errorMessage = 'Invalid username or password.';
+        	}
+        	
+        	if(loginFlag){
+	        	var deffered = AuthenticationService.Login(self.username, self.password, function (response) {});
+	        	deffered.promise.then(function(response) {
+	        		//if (response.data.success) {
+	                    AuthenticationService.SetCredentials(self.username, self.password);
+	                    $window.location.href = '/';
+	               /* } 
+	        		else{
+	        			self.error = true;
+	        		}*/
+	            }).catch(function(response) {
+	            	console.log(response);
+	            	self.errorMessage = response.data.errorMessage;
+	            	self.error = true;            	
+	            });
+        	}
         };
+        
+        function isBlank(str) {
+            return (!str || /^\s*$/.test(str));
+        };
+        
     }]);
     app.controller('LogoutController', ['$window', 'AuthenticationService', function ($window, AuthenticationService) {
 
