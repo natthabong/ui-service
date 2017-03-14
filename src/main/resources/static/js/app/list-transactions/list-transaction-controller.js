@@ -382,8 +382,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			vm.listTransactionModel = $cookieStore.get(listStoreKey);
 			vm.dateModel.dateFrom = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateFrom);
 			vm.dateModel.dateTo = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateTo);			
-			vm.searchTransaction();
 		}
+		vm.searchTransaction();
 		$cookieStore.remove(listStoreKey);		
 		vm.loadSponsorCode();
         
