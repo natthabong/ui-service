@@ -65,12 +65,34 @@
         	if(loginFlag){
 	        	var deffered = AuthenticationService.Login(self.username, self.password, function (response) {});
 	        	deffered.promise.then(function(response) {
-//	        		var checkForceChangeDeffered = Service.doGet('/api/v1/...');
+	        		var defferedForceChangeData = AuthenticationService.validateForceChangePassword(response.data.access_token);
+	        		defferedForceChangeData.promise.then(function(response) {
+						if (!response.data) {
+	        				goToHome();
+		        		} 
+		        		else{
+		        			self.forceChangeDialog = ngDialog.open({
+		    					id : 'force-change-password-dialog',
+		    					template : '/change-password',
+		    					className : 'ngdialog-theme-default',
+		    					controller : 'PasswordController',
+		    					preCloseCallback : function() {
+		    						goToHome();
+		    					}
+		    				});
+		        		}
+	        		}).catch(function(response) {
+		            	console.log(response);
+		            	self.errorMessage = response.data.errorMessage;
+		            	self.error = true;            	
+		            });
+	        		
+//	        		var checkForceChangeDeffered = Service.doPost('/api/v1/users/validate-force-change-password');
 //    				deffered.promise.then(function(response) {
 //    					var forceChangeData = response.data;
 //    					
 //    					if (!forceChangeData.force) {
-	        		goToHome();
+//	        				goToHome();
 //    	        		} 
 //    	        		else{
 //    	        			self.forceChangeDialog = ngDialog.open({
@@ -103,7 +125,7 @@
         vm.logout = function () {
 
             AuthenticationService.Logout(function (response) {
-        	$window.location.href = '/login';
+            	$window.location.href = '/login';
             });
         };
 
@@ -118,6 +140,7 @@
         service.Logout = Logout;
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
+        service.validateForceChangePassword = validateForceChangePassword;
 
         return service;
 
@@ -153,6 +176,24 @@
                     deffered.reject(response);
                 })
             return deffered;
+        }
+        
+        function validateForceChangePassword(access_token){
+        	var deffered = $q.defer();
+        	var req = {
+    	            method: 'POST',
+    	            url: "/api/v1/users/validate-force-change-password",
+    	            headers: {
+    	                "Authorization": "Bearer " + access_token,
+    	                "Content-type": "application/x-www-form-urlencoded; charset=utf-8"
+    	            }
+    	        }
+	        $http(req).then(function(response) {				
+                deffered.resolve(response);
+            }).catch(function(response) {
+                deffered.reject(response);
+            })	 
+        	return deffered;
         }
 
         function Logout(callback) {
