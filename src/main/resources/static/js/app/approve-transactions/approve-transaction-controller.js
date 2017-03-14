@@ -11,9 +11,9 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
         vm.disableButton = true;
         vm.transaction = {};
         vm.response = {};
-        vm.reqPass = false;
         vm.showEvidenceForm = false;
         vm.focusOnPassword = false;
+        vm.wrongPassword = false;
         vm.transactionApproveModel = {
             transaction: vm.transactionApproveModel,
             credential: ''
@@ -50,6 +50,8 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 
         vm.approve = function() {
             if (validateCredential(vm.transactionApproveModel.credential)) {
+            	vm.wrongPassword = false;
+            	
                 var deffered = ApproveTransactionService.approve(vm.transactionApproveModel);
                 deffered.promise.then(function(response) {
                     vm.transaction = response.data;
@@ -64,28 +66,31 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                     
                     $scope.response = response.data;
                     
-                    $scope.response.showViewRecentBtn = false;
-                    $scope.response.showViewHistoryBtn = true;
-                    $scope.response.showCloseBtn = $scope.response.errorCode == 'E1012'?true:false;
-		    $scope.response.showBackBtn = true;
-	            vm.errorMessageModel = response.data;
-	            
-	            if(angular.isDefined($scope.response.clientInvalid)){
-	        	    vm.confirmPopup();
-	            }
-	            else{
-	        	
-	        	var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
-    		    	ngDialog.open({
-                            template: dialogUrl,
-    	                    scope: $scope,
-    	                    disableAnimation: true
-                        });
-	            }
-                    
+		            if($scope.response.errorCode=='E0400'){
+		            	vm.confirmPopup();
+	            		vm.wrongPassword = true;
+		            	vm.passwordErrorMsg = $scope.response.attributes.errorMessage;
+	            	}else{
+	            		$scope.response.showViewRecentBtn = false;
+	                    $scope.response.showViewHistoryBtn = true;
+	                    $scope.response.showCloseBtn = $scope.response.errorCode == 'E1012'?true:false;
+	                    $scope.response.showBackBtn = true;
+	                    
+	                    if($scope.response.errorCode != 'E0403'){
+	                    	vm.errorMessageModel = response.data;
+		            		var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
+		    		    	ngDialog.open({
+	                            template: dialogUrl,
+	    	                    scope: $scope,
+	    	                    disableAnimation: true
+	                        });
+	                    }
+	            	}
                 });
             } else {
-            	vm.reqPass = true;
+            	vm.confirmPopup();
+            	vm.wrongPassword = true;
+            	vm.passwordErrorMsg = 'Password is required';
             }         
         };
         

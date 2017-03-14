@@ -322,5 +322,8 @@
     "Confirm password": "Confirm password",
     "List of password policy": "List of password policy",
     "Change password": "Change password",
-    "Force change password": "Force change password"
+    "Force change password": "Force change password",
+    
+    "Password is required": "Password is required.",
+    "Invalid current password": "Invalid current password."
 }

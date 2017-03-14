@@ -49,6 +49,11 @@ public class WebErrorController implements ErrorController {
 		return "errors/401";
 	}
 	
+	@RequestMapping("/403")
+	public String invalidateAuthority() {
+		return "errors/403";
+	}
+	
 	private boolean getTraceParameter(HttpServletRequest request) {
 		String parameter = request.getParameter("trace");
 		if (parameter == null) {

@@ -244,6 +244,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/error/401',
 				params: { errorCode: 401},
 				resolve: load([ 'js/app/common/error-controller.js'])
+			}).state('/error/403', {
+				url: '/error/403',
+				controller: 'ErrorController',
+				controllerAs: 'ctrl',
+				templateUrl: '/error/403',
+				params: { errorCode: 403},
+				resolve: load([ 'js/app/common/error-controller.js'])
 			});
 			
 			function load(srcs, callback) {
@@ -381,11 +388,16 @@ app.factory('httpErrorResponseInterceptor', ['$q', '$location', '$window',
           switch (response.status) {
             case 401:
             case 406:
-              console.log('Unauthorize '+response);
-              $window.location.href = "/error/401";
-              break;
+	        	console.log('Unauthorize');
+	            console.log(response);
+	            $window.location.href = "/error/401";
+	            break;
+            case 403:
+				console.log('invalidateAuthority');
+				console.log(response);
+				$window.location.href = "/error/403";
+				break;
             default:
-              $location.path('/error');
           }
 
           return $q.reject(response);
@@ -394,8 +406,6 @@ app.factory('httpErrorResponseInterceptor', ['$q', '$location', '$window',
     }
   ]);
 
-  
-  
 app.controller('MenuController', ['scfFactory', '$state', function (scfFactory, $state) {
     var self = this;
     self.menu = [];
