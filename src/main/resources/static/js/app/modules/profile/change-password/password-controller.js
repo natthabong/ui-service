@@ -15,7 +15,7 @@ angular.module('scfApp').controller(
 		'$rootScope', 
 		'blockUI',
 		function($scope, Service, $stateParams, $log, SCFCommonService, PagingController, PageNavigation, $state, UIFactory, $http, ngDialog, $rootScope, blockUI) {
-			$scope.userId = $rootScope.userInfo.organizeId;
+			$scope.userId = $rootScope.userInfo.userId;
 			
 			$scope.wrongCurrentPassword = false;
 			$scope.wrongNewPassword = false;
@@ -84,21 +84,6 @@ angular.module('scfApp').controller(
 		    }
 		    
 		    init();
-
-		    $scope.currentPasswordErrorMsg = function(record) {
-				var msg = '';
-				return msg;
-			}
-		    
-		    $scope.newPasswordErrorMsg = function(record) {
-				var msg = '';
-				return msg;
-			}
-		    
-		    $scope.confirmPasswordErrorMsg = function(record) {
-				var msg = '';
-				return msg;
-			}
 		    
 		    $scope.cancelChangePassword = function() {
 		    	goToHome();
@@ -120,36 +105,71 @@ angular.module('scfApp').controller(
 		    	blockUI.stop();
 		    }
 		    
+		    var isValidateCriteriaPass = function() {
+				var isValidatePass = true;
+				$scope.wrongCurrentPassword = false;
+				$scope.wrongNewPassword = false;
+				$scope.wrongConfirmPassword = false;
+				
+				if($scope.model.currentPassword==null||$scope.model.currentPassword===''){
+					$scope.wrongCurrentPassword = true;
+					$scope.currentPasswordErrorMsg = 'Current password is required.';
+					isValidatePass = false;
+				}
+				if($scope.model.newPassword==null||$scope.model.newPassword===''){
+					$scope.wrongNewPassword = true;
+					$scope.newPasswordErrorMsg = 'New password is required.';
+					isValidatePass = false;
+				}
+				if($scope.model.confirmPassword==null||$scope.model.confirmPassword===''){
+					$scope.wrongConfirmPassword = true;
+					$scope.confirmPasswordErrorMsg = 'Comfirm password is required.';
+					isValidatePass = false;
+				}
+				if($scope.model.newPassword!==$scope.model.confirmPassword){
+					$scope.wrongNewPassword = true;
+					$scope.newPasswordErrorMsg = 'New password must same as confirm password.';
+					isValidatePass = false;
+				}
+				return isValidatePass;
+		    }
+		    
 		    $scope.saveNewPassword = function() {
-				ngDialog.open({
-					template : '/js/app/common/dialogs/confirm-save-dialog.html',
-					scope : $scope,
-					data : $scope.model,
-					disableAnimation : true,
-					preCloseCallback : function(value) {
-						if (value !== 0) {
-							$scope.confirmSaveNewPassword();
-						}else{
-							$scope.model = {
-								currentPassword: null,
-								newPassword: null,
-								confirmPassword: null
-							};
+		    	if(isValidateCriteriaPass()){
+					ngDialog.open({
+						template : '/js/app/common/dialogs/confirm-save-dialog.html',
+						scope : $scope,
+						data : $scope.model,
+						disableAnimation : true,
+						preCloseCallback : function(value) {
+							if (value !== 0) {
+								$scope.confirmSaveNewPassword();
+							}else{
+								$scope.model = {
+									currentPassword: null,
+									newPassword: null,
+									confirmPassword: null
+								};
+							}
+							return true;
 						}
-						return true;
-					}
-				});
+					});
+		    	}
 			};
-			var failedFunc = function(reason) {
-				blockUI.stop();
-			}
+			
 			$scope.confirmSaveNewPassword = function() {
 				var serviceUrl = '/api/v1/users/' + $scope.userId + '/password';
 				var serviceDiferred = Service.requestURL(serviceUrl, $scope.model, 'POST');
 				blockUI.start();
 				serviceDiferred.promise.then(function(response) {
-					openSuccessDialog();
-				}, failedFunc);
+					if(!angular.isUndefined(response.message)){
+						$scope.wrongCurrentPassword = true;
+						$scope.currentPasswordErrorMsg = response.message;
+					}else{
+						openSuccessDialog();
+					}
+					blockUI.stop();
+				});
 			};
 			
 			function goToHome(){
