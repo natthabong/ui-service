@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    var app = angular.module('authenApp', ['pascalprecht.translate', 'ngCookies', 'blockUI', 'ui.router', 'ngDialog']).config(['$httpProvider','ngDialogProvider', '$translateProvider', '$translatePartialLoaderProvider', function ($httpProvider, ngDialogProvider, $translateProvider, $translatePartialLoaderProvider) {
+    var app = angular.module('authenApp', ['pascalprecht.translate', 'ngCookies', 'blockUI', 'ui.router', 'ngDialog', 'gecscf.profile']).config(['$httpProvider','ngDialogProvider', '$translateProvider', '$translatePartialLoaderProvider', function ($httpProvider, ngDialogProvider, $translateProvider, $translatePartialLoaderProvider) {
 
         $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         $httpProvider.defaults.headers.common['Accept'] = 'application/json';
@@ -24,7 +24,7 @@
         $translateProvider.useSanitizeValueStrategy('escapeParameters');
         
     }]);
-    app.controller('LoginController', ['$window', 'AuthenticationService', '$state', 'ngDialog', function ($window, AuthenticationService, $state, ngDialog) {
+    app.controller('LoginController', ['$window', 'AuthenticationService', '$state', 'ChangePasswordDialog', function ($window, AuthenticationService, $state, ChangePasswordDialog) {
         var self = this;
 
         self.login = login;
@@ -73,14 +73,17 @@
 //	        		goToHome();
 //    	        		} 
 //    	        		else{
-    	        			self.forceChangeDialog = ngDialog.open({
-    	    					id : 'force-change-password-dialog',
-    	    					template : '/change-password',
-    	    					className : 'ngdialog-theme-default',
-    	    					preCloseCallback : function() {
-    	    						goToHome();
-    	    					}
-    	    				});
+//    	        			self.forceChangeDialog = ngDialog.open({
+//    	    					id : 'force-change-password-dialog',
+//    	    					template : '/change-password',
+//    	    					className : 'ngdialog-theme-default',
+//    	    					controller: 'PasswordController',
+//    	    					controllerAs: 'ctrl',
+//    	    					preCloseCallback : function() {
+//    	    						goToHome();
+//    	    					}
+//    	    				});
+	        	    		var dialog = ChangePasswordDialog.create();
 //    	        		}
 //    				});
 	            }).catch(function(response) {
