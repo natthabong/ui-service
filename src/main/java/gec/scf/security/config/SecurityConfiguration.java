@@ -23,8 +23,8 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
-//@Configuration
-//@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+@Configuration
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 //@EnableWebSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -34,8 +34,8 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.formLogin().loginPage("/login").and().authorizeRequests()
 				.antMatchers("/login", "/css/**/*", "/js/**/*", "/fonts/**", "/img/**").permitAll()
 				.anyRequest().permitAll();
-		http.csrf().csrfTokenRepository(csrfTokenRepository()).and()
-				.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
+//		http.csrf().csrfTokenRepository(csrfTokenRepository()).and()
+//				.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
 
 	}
 

@@ -15,15 +15,7 @@ angular.module('scfApp').controller(
 			PagingController, PageNavigation, $state, UIFactory,
 			$http) {
 		    var model = {};
-		    $scope.userPolicies = [ {
-			policyType : 'USER',
-			policyTopic : 'NOT_LOGIN',
-			passwordDisplay : false,
-			active : true,
-			numericValue1 : 180,
-			numericValue2 : null,
-			numericValue3 : null
-		    } ]
+		    $scope.userPolicies = []
 		    
 		    $scope.passwordPolicies = []
 
