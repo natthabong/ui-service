@@ -114,11 +114,11 @@ form {
 						name="username" ng-model="controller.username"
 						placeholder="Username" />
 				</div>
-				<div class="alert alert-danger" role="alert"
-					ng-if="controller.usernameRequired">
-					<span id="username-error-message-label">username is
-						required.</span>
+				<div role="alert" ng-if="controller.usernameRequired">
+					<span id="username-error-message-label" style="color: red">username
+						is required.</span>
 				</div>
+				<br ng-if="controller.usernameRequired"/>
 				<div class="input-group">
 					<span class="input-group-addon" id="sizing-addon1"> <i
 						class="fa fa-lock"></i>
@@ -126,10 +126,9 @@ form {
 						ng-model="controller.password" name="password"
 						placeholder="Password" />
 				</div>
-				<div class="alert alert-danger" role="alert"
-					ng-if="controller.passwordRequired">
-					<span id="password-error-message-label">password is
-						required.</span>
+				<div role="alert" ng-if="controller.passwordRequired">
+					<span id="password-error-message-label" style="color: red">password
+						is required.</span>
 				</div>
 				<button class="btn btn-lg btn-primary btn-block" name="Submit"
 					type="submit">Login</button>
