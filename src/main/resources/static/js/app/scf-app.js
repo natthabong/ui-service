@@ -31,9 +31,11 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 
             $httpProvider.defaults.headers.common['Accept-Language'] = 'en_EN';
             $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-			$stateProviderRef = $stateProvider;
+            $httpProvider.interceptors.push('httpErrorResponseInterceptor');
+            
+	    $stateProviderRef = $stateProvider;
 			
-			$urlRouterProvider.otherwise('/dashboard');
+	    $urlRouterProvider.otherwise('/dashboard');
             $stateProvider			
             .state('/home', {
                 url: '/home',
@@ -235,6 +237,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/error/internal',
 				params: { errorCode: null},
 				resolve: load([ 'js/app/common/error-controller.js'])
+			}).state('/error/401', {
+				url: '/error/401',
+				controller: 'ErrorController',
+				controllerAs: 'ctrl',
+				templateUrl: '/error/401',
+				params: { errorCode: 401},
+				resolve: load([ 'js/app/common/error-controller.js'])
 			});
 			
 			function load(srcs, callback) {
@@ -362,6 +371,31 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
     }
 }]);
 
+app.factory('httpErrorResponseInterceptor', ['$q', '$location', '$window',
+    function($q, $location, $window) {
+      return {
+        response: function(responseData) {
+          return responseData;
+        },
+        responseError: function error(response) {
+          switch (response.status) {
+            case 401:
+            case 406:
+              console.log('Unauthorize '+response);
+              $window.location.href = "/error/401";
+              break;
+            default:
+              $location.path('/error');
+          }
+
+          return $q.reject(response);
+        }
+      };
+    }
+  ]);
+
+  
+  
 app.controller('MenuController', ['scfFactory', '$state', function (scfFactory, $state) {
     var self = this;
     self.menu = [];

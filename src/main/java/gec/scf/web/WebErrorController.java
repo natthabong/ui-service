@@ -44,6 +44,11 @@ public class WebErrorController implements ErrorController {
 		return "error-internal";
 	}
 
+	@RequestMapping("/401")
+	public String unauthorize() {
+		return "errors/401";
+	}
+	
 	private boolean getTraceParameter(HttpServletRequest request) {
 		String parameter = request.getParameter("trace");
 		if (parameter == null) {
