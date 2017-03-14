@@ -61,18 +61,27 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                     });
 
                 }).catch(function(response) {
+                    
                     $scope.response = response.data;
+                    
                     $scope.response.showViewRecentBtn = false;
                     $scope.response.showViewHistoryBtn = true;
                     $scope.response.showCloseBtn = $scope.response.errorCode == 'E1012'?true:false;
-					$scope.response.showBackBtn = true;
-					vm.errorMessageModel = response.data;
-					var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
-                    ngDialog.open({
-                        template: dialogUrl,
-	                    scope: $scope,
-	                    disableAnimation: true
-                    });
+		    $scope.response.showBackBtn = true;
+	            vm.errorMessageModel = response.data;
+	            
+	            if(angular.isDefined($scope.response.clientInvalid)){
+	        	    vm.confirmPopup();
+	            }
+	            else{
+	        	
+	        	var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
+    		    	ngDialog.open({
+                            template: dialogUrl,
+    	                    scope: $scope,
+    	                    disableAnimation: true
+                        });
+	            }
                     
                 });
             } else {
