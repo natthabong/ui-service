@@ -70,17 +70,18 @@
 //    					var forceChangeData = response.data;
 //    					
 //    					if (!forceChangeData.force) {
-//	        		goToHome();
+	        		goToHome();
 //    	        		} 
 //    	        		else{
-    	        			self.forceChangeDialog = ngDialog.open({
-    	    					id : 'force-change-password-dialog',
-    	    					template : '/change-password',
-    	    					className : 'ngdialog-theme-default',
-    	    					preCloseCallback : function() {
-    	    						goToHome();
-    	    					}
-    	    				});
+//    	        			self.forceChangeDialog = ngDialog.open({
+//    	    					id : 'force-change-password-dialog',
+//    	    					template : '/change-password',
+//    	    					className : 'ngdialog-theme-default',
+//    	    					controller : 'PasswordController',
+//    	    					preCloseCallback : function() {
+//    	    						goToHome();
+//    	    					}
+//    	    				});
 //    	        		}
 //    				});
 	            }).catch(function(response) {
