@@ -11,7 +11,7 @@ profileApp
 			'PasswordService',
 			function($scope, blockUI, ngDialog, PageNavigation,
 				UIFactory, PasswordService) {
-			    
+			    $scope.errors = {};
 			    $scope.reset = function() {
 				$scope.user = {
 				    currentPassword : null,
@@ -19,32 +19,7 @@ profileApp
 				    confirmPassword : null
 				}
 			    }
-
-			    $scope.save = function() {
-				// Set the 'submitted' flag to true
-				$scope.submitted = true;
-				var user = $scope.user;
-				ngDialog
-					.open({
-					    template : '/js/app/common/dialogs/confirm-save-dialog.html',
-					    scope : $scope,
-					    data : user,
-					    disableAnimation : true,
-					    preCloseCallback : function(value) {
-						if (value !== 0) {
-						    $scope.confirmSave(user);
-						} else {
-						    $scope.reset();
-						}
-						return true;
-					    }
-					});
-
-			    }
-
-			    $scope.confirmSave = function(data, callback) {
-
-				function _success() {
+			    function _success() {
 				    UIFactory
 					    .showSuccessDialog({
 						data : {
@@ -55,25 +30,46 @@ profileApp
 						    PageNavigation
 							    .gotoPage('/dashboard');
 						}
-					    });
-				}
+				});
+			    }
+			    $scope.save = function() {
+				// Set the 'submitted' flag to true
+				$scope.submitted = true;
+				var user = $scope.user;
+				UIFactory.showConfirmDialog({
+					data : {
+					    headerMessage : 'Confirm save?'
+					},
+					confirm: function(){
+					    return $scope.confirmSave(user);
+					},
+					onSuccess: function(response){
+					    _success();
+					},
+					onFail: function(response){}
+				});
+			    }
 
+			    $scope.confirmSave = function(data, callback) {
+				$scope.errors = {};
 				blockUI.start();
-				console.log(data);
 				var differed = PasswordService.save(data);
 				differed.promise.then(function(response) {
+				    console.log(response)
 				    blockUI.stop();
 				    if (callback) {
 					callback();
-				    } else {
-					_success();
-				    }
+				    } 
 				}, function(response) {
-				    blockUI.stop();
-				    if (callback) {
-					callback();
+				    console.log(response)
+				    if(response !=null){
+					$scope.errors[response.code] = {message: response.message};
 				    }
+				    console.log($scope.errors);
+				    blockUI.stop();
 				});
+				
+				return differed;
 			    };
 
 			    var init = function() {
