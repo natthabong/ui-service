@@ -13,6 +13,7 @@ public class PasswordController {
 
 	private static final String CHANGE_PASSWORD = "profile/change-password/password";
 	private static final String CHANGE_PASSWORD_CONTENT = "profile/change-password/password-contents";
+	private static final String CHANGE_PASSWORD_FORCE = "profile/change-password/password-force";;
 
 	@RequestMapping(path = "/change-password", method = RequestMethod.GET)
 	public String changePassword(@RequestHeader("X-Requested-With") String requestedWith,
@@ -27,5 +28,10 @@ public class PasswordController {
 	@RequestMapping(path = "/change-password/contents", method = RequestMethod.GET)
 	public String contents() {
 		return CHANGE_PASSWORD_CONTENT;
+	}
+	
+	@RequestMapping(path = "/change-password/force", method = RequestMethod.GET)
+	public String force() {
+		return CHANGE_PASSWORD_FORCE;
 	}
 }

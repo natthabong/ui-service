@@ -1,178 +1,133 @@
-angular.module('scfApp').controller(
-	'PasswordController',
-	[
-		'$scope',
-		'Service',
-		'$stateParams',
-		'$log',
-		'SCFCommonService',
-		'PagingController',
-		'PageNavigation',
-		'$state',
-		'UIFactory',
-		'$http',
-		'ngDialog',
-		'$rootScope', 
-		'blockUI',
-		function($scope, Service, $stateParams, $log, SCFCommonService, PagingController, PageNavigation, $state, UIFactory, $http, ngDialog, $rootScope, blockUI) {
-			$scope.userId = $rootScope.userInfo.userId;
-			
-			$scope.wrongCurrentPassword = false;
-			$scope.wrongNewPassword = false;
-			$scope.wrongConfirmPassword = false;
-			
-			$scope.model = {
-				currentPassword: null,
-				newPassword: null,
-				confirmPassword: null
-			}
-			
-			$scope.policyCriterial = {
-		    	isPasswordDisplay : true
-			}
-		    
-		    var mode = {
-				PROFILECHANGE : 'profileChange',
-				FORCECHANGE : 'forceChange'
-			}
-		    
-		    var currentMode = $stateParams.mode;
-		    
-		    function displayPolicy(record) {
-				var displayMessage = record.displayPattern;
-				displayMessage = displayMessage.replace('{1}', record.numericValue1);
-				displayMessage = displayMessage.replace('{2}', record.numericValue2);
-				displayMessage = displayMessage.replace('{3}', record.numericValue3);
-				return displayMessage;
-			}
-		    
-		    $scope.passwordPolicies = [];
-		    var addPolicies = function(policyData) {
-				if (policyData.policyItems.length > 0) {
-					policyData.policyItems.forEach(function(data) {
-						var policyConfig = {
-			    			policyTopic: data.policyTopic,
-				    		displayPolicy: displayPolicy(data)
-						};
-						$scope.passwordPolicies.push(policyConfig);
-					})
+var profileApp = angular.module('gecscf.profile');
+profileApp
+	.controller(
+		'PasswordController',
+		[
+			'$scope',
+			'blockUI',
+			'ngDialog',
+			'PageNavigation',
+			'UIFactory',
+			'PasswordService',
+			function($scope, blockUI, ngDialog, PageNavigation,
+				UIFactory, PasswordService) {
+
+			    $scope.reset = function() {
+				$scope.user = {
+				    currentPassword : null,
+				    newPassword : null,
+				    confirmPassword : null
 				}
-				
-			}
-		    
-		    $scope.getPolicies = function(criteria) {
-				var deffered = Service.doGet('/api/v1/policies/common',
-					criteria);
-				
-				$scope.passwordPolicies = [];
-				deffered.promise.then(function(response) {
-					var policyData = response.data;
-					addPolicies(policyData);
-				});
-		    }
-		    
-		    var init = function() {
-		    	if (currentMode == mode.PROFILECHANGE) {
-		    		$scope.isForceChangeMode = false;
-				}else{
-					$scope.isForceChangeMode = true;
-				}
-		    	
-		    	var criteria = $scope.policyCriterial;
-		    	
-		    	$scope.getPolicies(criteria);
-		    }
-		    
-		    init();
-		    
-		    $scope.cancelChangePassword = function() {
-		    	goToHome();
-		    };
-		    
-		    var preCloseCallback = function() {
-		    	goToHome();
-    		}
-		    
-		    function openSuccessDialog(){
-		    	UIFactory.showSuccessDialog({
-					data : {
-						headerMessage : 'Changed password success.',
-						bodyMessage : ''
-					},
-					preCloseCallback : preCloseCallback
-				});
-		    	
-		    	blockUI.stop();
-		    }
-		    
-		    var isValidateCriteriaPass = function() {
-				var isValidatePass = true;
-				$scope.wrongCurrentPassword = false;
-				$scope.wrongNewPassword = false;
-				$scope.wrongConfirmPassword = false;
-				
-				if($scope.model.currentPassword==null||$scope.model.currentPassword===''){
-					$scope.wrongCurrentPassword = true;
-					$scope.currentPasswordErrorMsg = 'Current password is required.';
-					isValidatePass = false;
-				}
-				if($scope.model.newPassword==null||$scope.model.newPassword===''){
-					$scope.wrongNewPassword = true;
-					$scope.newPasswordErrorMsg = 'New password is required.';
-					isValidatePass = false;
-				}
-				if($scope.model.confirmPassword==null||$scope.model.confirmPassword===''){
-					$scope.wrongConfirmPassword = true;
-					$scope.confirmPasswordErrorMsg = 'Comfirm password is required.';
-					isValidatePass = false;
-				}
-				if($scope.model.newPassword!==$scope.model.confirmPassword){
-					$scope.wrongNewPassword = true;
-					$scope.newPasswordErrorMsg = 'New password must same as confirm password.';
-					isValidatePass = false;
-				}
-				return isValidatePass;
-		    }
-		    
-		    $scope.saveNewPassword = function() {
-		    	if(isValidateCriteriaPass()){
-					ngDialog.open({
-						template : '/js/app/common/dialogs/confirm-save-dialog.html',
-						scope : $scope,
-						data : $scope.model,
-						disableAnimation : true,
-						preCloseCallback : function(value) {
-							if (value !== 0) {
-								$scope.confirmSaveNewPassword();
-							}else{
-								$scope.model = {
-									currentPassword: null,
-									newPassword: null,
-									confirmPassword: null
-								};
-							}
-							return true;
+			    }
+
+			    $scope.save = function() {
+				// Set the 'submitted' flag to true
+				$scope.submitted = true;
+
+				ngDialog
+					.open({
+					    template : '/js/app/common/dialogs/confirm-save-dialog.html',
+					    scope : $scope,
+					    data : $scope.user,
+					    disableAnimation : true,
+					    preCloseCallback : function(value) {
+						if (value !== 0) {
+						    $scope.confirmSave();
+						} else {
+						    $scope.reset();
 						}
+						return true;
+					    }
 					});
-		    	}
-			};
-			
-			$scope.confirmSaveNewPassword = function() {
-				var serviceUrl = '/api/v1/users/' + $scope.userId + '/password';
-				var serviceDiferred = Service.requestURL(serviceUrl, $scope.model, 'POST');
+
+			    }
+
+			    $scope.confirmSave = function(callback) {
+
+				function _success() {
+				    UIFactory
+					    .showSuccessDialog({
+						data : {
+						    headerMessage : 'Changed password success.',
+						    bodyMessage : ''
+						},
+						preCloseCallback : function() {
+						    PageNavigation
+							    .gotoPage('/dashboard');
+						}
+					    });
+				}
+
 				blockUI.start();
-				serviceDiferred.promise.then(function(response) {
-					if(!angular.isUndefined(response.message)){
-						$scope.wrongCurrentPassword = true;
-						$scope.currentPasswordErrorMsg = response.message;
-					}else{
-						openSuccessDialog();
-					}
-					blockUI.stop();
+				var differed = PasswordService
+					.save($scope.user);
+				differed.promise.then(function(response) {
+				    blockUI.stop();
+				    if (callback) {
+					callback();
+				    } else {
+					_success();
+				    }
+				}, function(response) {
+				    blockUI.stop();
+				    if (callback) {
+					callback();
+				    }
 				});
-			};
-			
-			function goToHome(){
-				PageNavigation.gotoPage('/dashboard' );
-			}
-		} ]);
+			    };
+
+			    var init = function() {
+				$scope.passwordPolicies = [];
+				var deffered = PasswordService.getPolicies();
+				deffered.promise
+					.then(function(response) {
+					    if (response.data.policyItems != null) {
+						$scope.passwordPolicies = response.data.policyItems;
+					    }
+					});
+			    }();
+
+			} ]);
+
+profileApp.factory('PasswordService', [
+	'ngDialog',
+	'Service',
+	function(ngDialog, Service) {
+
+	    // factory function body that constructs shinyNewServiceInstance
+	    var saveNewPassword = function(user) {
+		var serviceUrl = '/api/v1/users/me/password';
+		return Service.requestURL(serviceUrl, user, 'POST');
+	    }
+
+	    var getPolicies = function() {
+
+		function _displayPolicy(record) {
+		    var displayMessage = record.displayPattern;
+		    displayMessage = displayMessage.replace('{1}',
+			    record.numericValue1);
+		    displayMessage = displayMessage.replace('{2}',
+			    record.numericValue2);
+		    displayMessage = displayMessage.replace('{3}',
+			    record.numericValue3);
+		    return displayMessage;
+		}
+
+		var deffered = Service.doGet('/api/v1/policies/common', {
+		    isPasswordDisplay : true
+		});
+		deffered.promise.then(function(response) {
+		    var policyData = response.data;
+		    policyData.policyItems.forEach(function(data) {
+			data.displayPolicy = _displayPolicy(data)
+		    });
+		    deffered.resolve(policyData.policyItems);
+		});
+		return deffered;
+	    }
+
+	    return {
+		save : saveNewPassword,
+		getPolicies : getPolicies
+	    };
+	} ]);

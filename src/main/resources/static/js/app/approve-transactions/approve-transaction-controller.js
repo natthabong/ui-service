@@ -206,7 +206,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 
         vm.init();
 
-        vm.viewRecent= function(){
+        vm.viewRecent = function(){
         	$timeout(function() {
         		PageNavigation.gotoPage('/view-transaction', {transactionModel: vm.transaction, isShowViewHistoryButton: true});
             }, 10);

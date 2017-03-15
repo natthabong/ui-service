@@ -18,20 +18,19 @@
 			<ul class="nav navbar-nav navbar-right user-nav">
 				<li class="hidden-xs">
 					<div class="dropdown">
-						<a id="profile-menu" href="#" aria-hidden="true"
-							class="dropdown-toggle" style="color: #fff !important"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-							<span class="icon-avata"> <span
-								class="glyphicon glyphicon-user"></span> <span class="user-name"
-								ng-bind="userInfo.displayName">Avanta</span>
+						<a id="profile-menu" aria-hidden="true" class="dropdown-toggle"
+							style="color: #fff !important;cursor: pointer;" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="true"> <span
+							class="icon-avata"> <span class="glyphicon glyphicon-user"></span>
+								<span class="user-name" ng-bind="userInfo.displayName">Avanta</span>
 						</span>
 						</a>
 						<ul class="dropdown-menu">
 							<li><a id="my-activity-log-menu" ui-sref="/my-activity-log">{{'My
 									activity log' | translate}}</a></li>
 							<li role="separator" class="divider"></li>
-							<li><a id="change-password-menu" ui-sref="/change-password">{{'Change password' |
-									translate}}</a></li>
+							<li><a id="change-password-menu" ui-sref="/change-password">{{'Change
+									password' | translate}}</a></li>
 						</ul>
 					</div>
 				</li>
