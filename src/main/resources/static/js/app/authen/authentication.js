@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    var app = angular.module('authenApp', ['pascalprecht.translate', 'ngCookies', 'blockUI', 'ui.router', 'ngDialog', 'gecscf.profile']).config(['$httpProvider','ngDialogProvider', '$translateProvider', '$translatePartialLoaderProvider', function ($httpProvider, ngDialogProvider, $translateProvider, $translatePartialLoaderProvider) {
+    var app = angular.module('authenApp', ['pascalprecht.translate', 'ngCookies', 'blockUI', 'ui.router', 'ngDialog', 'gecscf.profile', 'scf-ui', 'gecscf.ui', 'scf-component']).config(['$httpProvider','ngDialogProvider', '$translateProvider', '$translatePartialLoaderProvider', function ($httpProvider, ngDialogProvider, $translateProvider, $translatePartialLoaderProvider) {
 
         $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         $httpProvider.defaults.headers.common['Accept'] = 'application/json';
@@ -24,7 +24,7 @@
         $translateProvider.useSanitizeValueStrategy('escapeParameters');
         
     }]);
-    app.controller('LoginController', ['$window', 'AuthenticationService', '$state', 'ChangePasswordDialog', function ($window, AuthenticationService, $state, ChangePasswordDialog) {
+    app.controller('LoginController', ['$window', 'AuthenticationService', '$state', 'ngDialog', function ($window, AuthenticationService, $state, ngDialog) {
         var self = this;
 
         self.login = login;
@@ -39,53 +39,48 @@
 
         function goToHome(){
         	AuthenticationService.SetCredentials(self.username, self.password);
-            $window.location.href = '/';
+                $window.location.href = '/';
         }
         
         function login() {
         	self.error = false;
         	self.errorMessage = '';
         	var loginFlag = true;
-            self.usernameRequired = false;
-            self.passwordRequired = false;
+        	self.usernameRequired = false;
+        	self.passwordRequired = false;
             
         	if(isBlank(self.username) && isBlank(self.password)){
         		loginFlag = false;
-                self.usernameRequired = true;
-                self.passwordRequired = true;
+        		self.usernameRequired = true;
+        		self.passwordRequired = true;
         	}else if(isBlank(self.username)){
         		loginFlag = false;
         		self.usernameRequired = true;
         	}else if(isBlank(self.password)){
         		loginFlag = false;
-                self.error = true;
-                self.errorMessage = 'Invalid username or password.';
+        		self.error = true;
+        		self.errorMessage = 'Invalid username or password.';
         	}
         	
         	if(loginFlag){
-	        	var deffered = AuthenticationService.Login(self.username, self.password, function (response) {});
-	        	deffered.promise.then(function(response) {
-//	        		var checkForceChangeDeffered = Service.doGet('/api/v1/...');
-//    				deffered.promise.then(function(response) {
-//    					var forceChangeData = response.data;
-//    					
-//    					if (!forceChangeData.force) {
-//	        		goToHome();
-//    	        		} 
-//    	        		else{
-//    	        			self.forceChangeDialog = ngDialog.open({
-//    	    					id : 'force-change-password-dialog',
-//    	    					template : '/change-password',
-//    	    					className : 'ngdialog-theme-default',
-//    	    					controller: 'PasswordController',
-//    	    					controllerAs: 'ctrl',
-//    	    					preCloseCallback : function() {
-//    	    						goToHome();
-//    	    					}
-//    	    				});
-	        	    		var dialog = ChangePasswordDialog.create();
-//    	        		}
-//    				});
+	             var deffered = AuthenticationService.Login(self.username, self.password, function (response) {});
+	              deffered.promise.then(function(response) {
+	        	    console.log(response);
+	        	    if(response.data.forceChangePassword){
+	        		self.forceChangeDialog = ngDialog.open({
+    					id : 'force-change-password-dialog',
+    					template : '/change-password/force',
+    					className : 'ngdialog-theme-default',
+    					controller: 'PasswordController',
+    					controllerAs: 'ctrl',
+    					preCloseCallback : function() {
+    						goToHome();
+    					}
+    				});
+	        	    }
+	        	    else{
+	        		goToHome();
+	        	    }
 	            }).catch(function(response) {
 	            	console.log(response);
 	            	self.errorMessage = response.data.errorMessage;
@@ -110,10 +105,8 @@
         };
 
 }]);
-
-
-
-    app.factory('AuthenticationService', ['$http', '$httpParamSerializer', '$cookieStore', '$rootScope', '$timeout',  'blockUI', '$q', function ($http, $httpParamSerializer, $cookieStore, $rootScope, $timeout, blockUI, $q) {
+ 
+      app.factory('AuthenticationService', ['$http', '$httpParamSerializer', '$cookieStore', '$rootScope', '$timeout',  'blockUI', '$q', function ($http, $httpParamSerializer, $cookieStore, $rootScope, $timeout, blockUI, $q) {
         var service = {};
 
         service.Login = Login;

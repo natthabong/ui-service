@@ -17,7 +17,10 @@
 	src="../static/js/angular-bootstrap.js"></script>
 <script th:src="@{/js/plugins/loading-overlay.js}"
 	src="../static/js/plugins/loading-overlay.js"></script>
-
+<link th:href="@{/css/common.css}" href="../static/css/common.css"
+	rel="stylesheet" />
+<link th:href="@{/css/gecscf.css}" href="../static/css/gecscf.css"
+	rel="stylesheet" />
 <link th:href="@{/css/login.css}" href="../static/css/login.css"
 	rel="stylesheet" />
 <link th:href="@{/css/loading-overlay.css}"
@@ -40,17 +43,6 @@
 <script th:src="@{/js/plugins/ngDialog.js}"
 	src="../static/js/plugins/ngDialog.js"></script>
 
-<!-- Analytic -->
-<script th:src="@{/js/plugins/analytic/d3.js}"
-	src="../static/js/plugins/analytic/d3.js"></script>
-<script th:src="@{/js/plugins/analytic/nv.d3.js}"
-	src="../static/js/plugins/analytic/nv.d3.js"></script>
-<script
-	th:src="@{/js/plugins/analytic/angularjs-nvd3-directives.min.js}"
-	src="../static/js/plugins/analytic/angularjs-nvd3-directives.min.js"></script>
-<link th:href="@{/js/plugins/analytic/nv.d3.css}" rel="stylesheet"
-	href="../static/js/plugins/analytic/nv.d3.css" />
-
 <!-- GECSCF Component -->
 <script th:src="@{/js/app/common/scf-component.js}"
 	src="../static/js/app/common/scf-component.js"></script>
@@ -59,25 +51,13 @@
 
 <script th:src="@{/js/app/common/scf-common-service.js}"
 	src="../static/js/app/common/scf-common-service.js"></script>
-<!-- 	<script th:src="@{/js/app/common/ui-bootstrap-tpls-1.1.0.js}" src="../static/js/app/common/ui-bootstrap-tpls-1.1.0.js"></script>	 -->
-
-
-
-<script th:src="@{/js/app/dashboard/dashboard-controller.js}"
-	src="../static/js/app/dashboard/dashboard-controller.js"></script>
 
 <script th:src="@{/js/app/shared/directives/ui.module.js}"
 	src="../static/js/app/shared/directives/ui.module.js"></script>
 
 <script th:src="@{/js/app/modules/profile/profile.module.js}"
 	src="../static/js/app/modules/profile/profile.module.js"></script>
-	
-<script th:src="@{/js/app/shared/directives/auto-suggest.js}"
-	src="../static/js/app/shared/directives/auto-suggest.js"></script>
-<script th:src="@{/js/app/shared/directives/input-text.js}"
-	src="../static/js/app/shared/directives/input-text.js"></script>
-<script th:src="@{/js/app/shared/directives/file-upload.js}"
-	src="../static/js/app/shared/directives/file-upload.js"></script>
+
 
 <style>
 body {
@@ -146,8 +126,9 @@ form {
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- controller -->
-    <script th:src="@{/js/app/modules/profile/change-password/password-controller.js}"
-	src="../static/js/app/modules/profile/change-password/password-controller.js"></script>
+	<script
+		th:src="@{/js/app/modules/profile/change-password/password-controller.js}"
+		src="../static/js/app/modules/profile/change-password/password-controller.js"></script>
 
 
 </body>

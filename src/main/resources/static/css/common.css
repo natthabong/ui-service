@@ -1,143 +1,134 @@
 header {
-    color: #fff;
-    background-color: #2c3e50;
-    position: fixed;
-    width: 100%;
-    z-index: 20;
-    font-size: 12px;
+	color: #fff;
+	background-color: #2c3e50;
+	position: fixed;
+	width: 100%;
+	z-index: 20;
+	font-size: 12px;
 }
 
 body {
-    font-size: 12px;
+	font-size: 12px;
 }
 
 table {
-    font-size: 100%;
+	font-size: 100%;
 }
 
-.table > thead > tr > th,
-.table > tbody > tr > th,
-.table > tfoot > tr > th,
-.table > thead > tr > td,
-.table > tbody > tr > td,
-.table > tfoot > tr > td {
-    padding: 0.15em;
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
+	.table>tbody>tr>td, .table>tfoot>tr>td {
+	padding: 0.15em;
 }
 
 .dropdown-menu {
-    font-size: 100%;
+	font-size: 100%;
 }
 
-.table > thead > tr > th {
-    vertical-align: text-top;
+.table>thead>tr>th {
+	vertical-align: text-top;
 }
 
 .table-responsive {
-    height: 35em;
-    overflow: auto;
+	height: 35em;
+	overflow: auto;
 }
 
 .tr-2em {
-    width: 2em;
+	width: 2em;
 }
 
 .tr-4em {
-    width: 4em;
+	width: 4em;
 }
 
 .tr-6em {
-    width: 6em;
+	width: 6em;
 }
 
 .tr-8em {
-    width: 8em;
+	width: 8em;
 }
 
 .tr-10em {
-    width: 10em;
+	width: 10em;
 }
 
 .tr-12em {
-    width: 12em;
+	width: 12em;
 }
 
 .tr-16em {
-    width: 16em;
+	width: 16em;
 }
 
 .gec-pannel-heading {
-    padding: 5px 10px;
+	padding: 5px 10px;
 }
 
-
 /*Step Wizard*/
-
 .stepwizard-step p {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 .stepwizard-row {
-    display: table-row;
+	display: table-row;
 }
 
 .stepwizard {
-    display: table;
-    width: 100%;
-    position: relative;
+	display: table;
+	width: 100%;
+	position: relative;
 }
 
 .stepwizard-step button[disabled] {
-    opacity: 1 !important;
-    filter: alpha(opacity=100) !important;
+	opacity: 1 !important;
+	filter: alpha(opacity = 100) !important;
 }
 
 .stepwizard-row:before {
-    top: 14px;
-    bottom: 0;
-    position: absolute;
-    content: " ";
-    width: 100%;
-    height: 1px;
-    background-color: #ccc;
-    z-order: 0;
+	top: 14px;
+	bottom: 0;
+	position: absolute;
+	content: " ";
+	width: 100%;
+	height: 1px;
+	background-color: #ccc;
+	z-order: 0;
 }
 
 .stepwizard-step {
-    display: table-cell;
-    text-align: center;
-    position: relative;
+	display: table-cell;
+	text-align: center;
+	position: relative;
 }
 
-
 /*End Step Wizard*/
-
 footer .footer-below {
-    padding: 25px 0;
-    background-color: #233140;
-    color: white;
+	padding: 25px 0;
+	background-color: #233140;
+	color: white;
 }
 
 main {
-    padding-top: 95px;
+	padding-top: 95px;
 	padding-bottom: 50px;
 }
 
 .panel {
-    border: 0 0;
-    box-shadow: 0 1px 1px rgba(76, 76, 76, 0.25);
-    -webkit-box-shadow: 0 1px 1px rgba(76, 76, 76, 0.25);
+	border: 0 0;
+	box-shadow: 0 1px 1px rgba(76, 76, 76, 0.25);
+	-webkit-box-shadow: 0 1px 1px rgba(76, 76, 76, 0.25);
 }
 
 .panel-primary {
-    border-color: white;
+	border-color: white;
 }
 
-.panel-primary > .panel-heading {
-    color: black;
-    background-color: white;
-    border-color: white;
+.panel-primary>.panel-heading {
+	color: black;
+	background-color: white;
+	border-color: white;
 }
-
 
 /*
 @media (min-width: 1200px) {
@@ -146,29 +137,270 @@ main {
     }
 }
 */
-
 .text-space {
-    margin: 0em 0.5em;
+	margin: 0em 0.5em;
 }
 
 .total-record {
-    font-size: 12px;
+	font-size: 12px;
 }
 
 .icon-white {
-    color: #ffffff;
+	color: #ffffff;
 }
 
-nav.menu-right,
-.gec-menu-bar {
-    margin-top: 37px;
+nav.menu-right, .gec-menu-bar {
+	margin-top: 37px;
 }
 
-ul > li .menu-title {
-    color: white;
-    font-size: 1.2em;
+ul>li .menu-title {
+	color: white;
+	font-size: 1.2em;
 }
 
-.error-msg{
+.error-msg {
 	color: red;
+}
+
+/* Dialog*/
+@ -webkit-keyframes ngdialog-fadeout { 0% {
+	opacity: 1;
+}
+
+100%
+{
+opacity
+
+
+
+
+
+
+
+
+
+
+
+
+:
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+0;
+}
+}
+@
+keyframes ngdialog-fadeout { 0% {
+	opacity: 1;
+}
+
+100%
+{
+opacity
+
+
+
+
+
+
+
+
+
+
+
+
+:
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+0;
+}
+}
+@
+-webkit-keyframes ngdialog-fadein { 0% {
+	opacity: 0;
+}
+
+100%
+{
+opacity
+
+
+
+
+
+
+
+
+
+
+
+
+:
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+1;
+}
+}
+@
+keyframes ngdialog-fadein { 0% {
+	opacity: 0;
+}
+
+100%
+{
+opacity
+
+
+
+
+
+
+
+
+
+
+
+
+:
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+1;
+}
+}
+.ngdialog {
+	box-sizing: border-box;
+}
+
+.ngdialog *, .ngdialog *:before, .ngdialog *:after {
+	box-sizing: inherit;
+}
+
+.ngdialog {
+	position: fixed;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+	z-index: 10000;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.ngdialog.ngdialog-disabled-animation, .ngdialog.ngdialog-disabled-animation .ngdialog-overlay,
+	.ngdialog.ngdialog-disabled-animation .ngdialog-content {
+	-webkit-animation: none !important;
+	animation: none !important;
+}
+
+.ngdialog-overlay {
+	position: fixed;
+	background: rgba(0, 0, 0, 0.4);
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	-webkit-backface-visibility: hidden;
+	-webkit-animation: ngdialog-fadein 0.5s;
+	animation: ngdialog-fadein 0.5s;
+}
+
+.ngdialog-no-overlay {
+	pointer-events: none;
+}
+
+.ngdialog.ngdialog-closing .ngdialog-overlay {
+	-webkit-backface-visibility: hidden;
+	-webkit-animation: ngdialog-fadeout 0.5s;
+	animation: ngdialog-fadeout 0.5s;
+}
+
+.ngdialog-content {
+	background: white;
+	-webkit-backface-visibility: hidden;
+	-webkit-animation: ngdialog-fadein 0.5s;
+	animation: ngdialog-fadein 0.5s;
+	pointer-events: all;
+}
+
+.ngdialog.ngdialog-closing .ngdialog-content {
+	-webkit-backface-visibility: hidden;
+	-webkit-animation: ngdialog-fadeout 0.5s;
+	animation: ngdialog-fadeout 0.5s;
+}
+
+.ngdialog-close:before {
+	font-family: 'Helvetica', Arial, sans-serif;
+	content: '\00D7';
+	cursor: pointer;
+}
+
+html.ngdialog-open, body.ngdialog-open {
+	overflow: hidden;
+}
+
+.ngdialog.ngdialog-theme-default.ngdialog-closing .ngdialog-content {
+	-webkit-animation: ngdialog-flyout .5s;
+	animation: ngdialog-flyout .5s;
+}
+
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+	-webkit-animation: ngdialog-flyin .5s;
+	animation: ngdialog-flyin .5s;
+	background: #f0f0f0;
+	border-radius: 5px;
+	color: #444;
+	margin: 0 auto;
+	max-width: 100%;
+	position: relative;
+	width: 700px;
+}
+
+.ngdialog .icon {
+	font-size: 55px;
+	margin-top: 7px;
+	margin-bottom: 0px;
+	float: right;
 }
