@@ -1,37 +1,20 @@
 <div th:fragment="content">
 	<div id="wrapper" ng-controller="CustomerCodeGroupController as ctrl">
-		<h3 class="animated fadeInLeft" id="customer-code-groups-header-label">{{'Customer
-			code groups' | translate}}</h3>
-		<div class="row">
-			<div class="col-md-12 col-sm-12 text-right">
-				<span> <b ng-bind="ctrl.splitePageTxt"
-					id="customer-code-groups-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-						dropdown-id="customer-code-groups-page-limit-dropdown"
-						page-size-model="ctrl.pageModel.pageSizeSelectModel"
-						total-page="ctrl.pageModel.totalPage"
-						current-page="ctrl.pageModel.currentPage"
-						page-size-list="ctrl.pageSizeList" page-action="ctrl.search"
-						first-page-button-id="customer-code-groups-first-page-button"
-						back-page-button-id="customer-code-groups-back-page-button"
-						next-page-button-id="customer-code-groups-next-page-button"
-						last-page-button-id="customer-code-groups-last-page-button"></scf-pagination>
-				</span>
-
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<br />
-<!-- 				<div class="col-md-12 col-sm-12 text-right"> -->
-<!-- 					<scf-button class="btn-default gec-btn-action" id="customer-code-group-new-button" -->
-<!-- 						ng-click="ctrl.addNew()" title="New a customer code group"> -->
-<!-- 					<i class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button> -->
-<!-- 				</div> -->
-				<scf-data-table id="customer-code-groups-table"
-					component-config="ctrl.dataTable" component-datas="ctrl.data"
-					current-page="ctrl.pageModel.currentPage"
-					record-per-page="ctrl.pageModel.pageSizeSelectModel"
-					clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
+		<div class="panel panel-default col-md-12 padding-0">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-lg-5 col-md-7 col-xs-9">
+						<h3 class="animated fadeInLeft"
+							id="customer-code-groups-header-label">{{'Customer code
+							group' | translate}}</h3>
+					</div>
+					<div class="col-lg-7 col-md-5 col-xs-3">
+						<br />
+						<scf-button id="customer-code-group-{{ctrl.data.groupName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.data)" title="Config a customer code groups" ng-hide="!ctrl.data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>	
+						<scf-button id="customer-code-group-{{ctrl.data.groupName}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.data)" title="Config a customer code groups" ng-hide="ctrl.data.completed"><img ng-hide="ctrl.data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>
+					</div>	
+				</div>
+				<div id="fixed-bottom" class="col-md-12"></div>
 			</div>
 		</div>
 	</div>

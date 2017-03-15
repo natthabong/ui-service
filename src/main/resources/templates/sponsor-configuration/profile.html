@@ -1,23 +1,14 @@
 <div th:fragment="content">
 	<div id="wrapper" ng-controller="ProfileController as ctrl">
-		<h3 class="animated fadeInLeft" id="header-message-label">{{'Sponsor
-			configuration' | translate}}</h3>
-		<div class="form-element">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<div class="col-md-12" block-ui="summary-internal-block">
-						<div class="form-group">
-							<label for="sponsor" class="col-md-2 col-sm-3 control-label">{{'Organize
-								name' | translate}}: </label>
-							<div class="col-md-9 col-sm-8 text-left">
-								<span id="financing-document-label"
+		<div class="row">
+			<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+				<h3 class="animated fadeInLeft" id="organize-name-header-label">{{'Organize name' | translate}}: </h3>
+       		</div>
+       		<div class="col-lg-10 col-md-9 col-sm-8 col-xs-12" style="margin-top: 24px; margin-bottom:10px;"><span id="organize-name-label"
 									ng-bind="ctrl.organizeData.organizeName"></span>
-							</div>
-							<div class="col-md-1 col-sm-1"></div>
-						</div>
-					</div>
-				</div>
-			</div>
+       		</div>
 		</div>
+		<div id="fixed-bottom" class="col-md-12"></div>
+		
 	</div>
 </div>

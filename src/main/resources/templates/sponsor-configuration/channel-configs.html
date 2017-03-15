@@ -1,40 +1,31 @@
 <div th:fragment="content">
 	<div id="wrapper" ng-controller="ChannelConfigsController as ctrl">
-		<h3 class="animated fadeInLeft" id="channel-configs-header-label">Channel</h3>
-		<div class="row">
-			<div class="col-md-12 col-sm-12 text-right">
-				<span> <b ng-bind="ctrl.splitePageTxt"
-					id="channel-configs-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-						dropdown-id="channel-configs-page-limit-dropdown"
-						page-size-model="ctrl.pageModel.pageSizeSelectModel"
-						total-page="ctrl.pageModel.totalPage"
-						current-page="ctrl.pageModel.currentPage"
-						page-size-list="ctrl.pageModel.pageSizeList"
-						page-action="ctrl.searchOrganize"
-						first-page-button-id="channel-configs-first-page-button"
-						back-page-button-id="channel-configs-back-page-button"
-						next-page-button-id="channel-configs-next-page-button"
-						last-page-button-id="channel-configs-last-page-button"></scf-pagination>
-				</span>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<br />
-				<div class="col-md-12 text-right">
-					<scf-button id="channel-configs-new-button"
-						class="btn-default gec-btn-action" ng-disabled="false"
-						ng-click="channelConfigsCtrl.newChannel()"
-						title="New a channel"> <i
-						class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
+		<div class="panel panel-default col-md-12 padding-0">
+			<div class="panel-body" style="min-height: 360px;">
+				<div class="row">
+					<div class="col-lg-3 col-md-4 col-xs-5">
+						<h3 class="animated fadeInLeft" id="channel-configs-header-label">Channel</h3>
 					</div>
-					<scf-data-table id="channel-configs-table"
-						component-config="ctrl.dataTable" component-datas="ctrl.data"
-						current-page="ctrl.currentPage"
-						record-per-page="ctrl.pageModel.pageSizeSelectModel"
-						clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
+					<div class="col-lg-9 col-md-8 col-xs-7 text-right">
+						<br/>
+						<scf-button id="channel-configs-new-button"
+								class="btn-default gec-btn-action" ng-disabled="false"
+								ng-click="ctrl.newChannel()"
+								title="New a channel"> <i
+								class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 col-sm-12 text-right">
+						<scf-data-table id="channel-configs-table"
+							component-config="ctrl.dataTable" component-datas="ctrl.data"
+							current-page="ctrl.currentPage"
+							record-per-page="ctrl.pageModel.pageSizeSelectModel"
+							clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
+					</div>
+				</div>
+				<div id="fixed-bottom" class="col-md-12"></div>
 			</div>
-			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
 	</div>
 </div>
