@@ -11,7 +11,7 @@ profileApp
 			'PasswordService',
 			function($scope, blockUI, ngDialog, PageNavigation,
 				UIFactory, PasswordService) {
-
+			    
 			    $scope.reset = function() {
 				$scope.user = {
 				    currentPassword : null,
@@ -23,16 +23,16 @@ profileApp
 			    $scope.save = function() {
 				// Set the 'submitted' flag to true
 				$scope.submitted = true;
-
+				var user = $scope.user;
 				ngDialog
 					.open({
 					    template : '/js/app/common/dialogs/confirm-save-dialog.html',
 					    scope : $scope,
-					    data : $scope.user,
+					    data : user,
 					    disableAnimation : true,
 					    preCloseCallback : function(value) {
 						if (value !== 0) {
-						    $scope.confirmSave();
+						    $scope.confirmSave(user);
 						} else {
 						    $scope.reset();
 						}
@@ -42,7 +42,7 @@ profileApp
 
 			    }
 
-			    $scope.confirmSave = function(callback) {
+			    $scope.confirmSave = function(data, callback) {
 
 				function _success() {
 				    UIFactory
@@ -59,8 +59,8 @@ profileApp
 				}
 
 				blockUI.start();
-				var differed = PasswordService
-					.save($scope.user);
+				console.log(data);
+				var differed = PasswordService.save(data);
 				differed.promise.then(function(response) {
 				    blockUI.stop();
 				    if (callback) {
@@ -77,6 +77,7 @@ profileApp
 			    };
 
 			    var init = function() {
+				$scope.reset();
 				$scope.passwordPolicies = [];
 				var deffered = PasswordService.getPolicies();
 				deffered.promise
@@ -97,7 +98,7 @@ profileApp.factory('PasswordService', [
 	    // factory function body that constructs shinyNewServiceInstance
 	    var saveNewPassword = function(user) {
 		var serviceUrl = '/api/v1/users/me/password';
-		return Service.requestURL(serviceUrl, user, 'POST');
+		return Service.doPost(serviceUrl, user);
 	    }
 
 	    var getPolicies = function() {
