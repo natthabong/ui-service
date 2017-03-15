@@ -90,6 +90,9 @@ angular
 										config.onFail(response);deffered.reject(response)
 									});
 								} else {
+								    	if(config.onCancel != undefined){
+								    	    config.onCancel();
+								    	}
 									return true;
 								}
 							}

@@ -20,38 +20,85 @@ profileApp
 				}
 			    }
 			    function _success() {
-				    UIFactory
-					    .showSuccessDialog({
-						data : {
-						    headerMessage : 'Changed password success.',
-						    bodyMessage : ''
-						},
-						preCloseCallback : function() {
-						    PageNavigation
-							    .gotoPage('/dashboard');
-						}
-				});
+				UIFactory
+					.showSuccessDialog({
+					    data : {
+						headerMessage : 'Changed password success.',
+						bodyMessage : ''
+					    },
+					    preCloseCallback : function() {
+						PageNavigation
+							.gotoPage('/dashboard');
+					    }
+					});
 			    }
+
+			    var validate = function(user) {
+				$scope.errors = {};
+				var valid = true;
+				if (user.currentPassword === ''
+					|| user.currentPassword === null) {
+				    valid = false;
+				    $scope.errors.currentPassword = {
+					message : 'Current password is required.'
+				    }
+				} else if (user.newPassword === ''
+					|| user.newPassword === null) {
+				    valid = false;
+				    $scope.errors.newPassword = {
+					message : 'New password is required.'
+				    }
+				} else if (user.confirmPassword === ''
+					|| user.confirmPassword === null) {
+				    valid = false;
+				    $scope.errors.confirmPassword = {
+					message : 'Confirm password is required.'
+				    }
+				} else if (user.confirmPassword !== user.newPassword) {
+				    valid = false;
+				    $scope.errors.newPassword = {
+					message : 'New password must same as confirm password.'
+				    }
+				}
+				return valid;
+			    }
+
 			    $scope.save = function() {
 				// Set the 'submitted' flag to true
 				$scope.submitted = true;
 				var user = $scope.user;
-				UIFactory.showConfirmDialog({
+				if (validate(user)) {
+				    UIFactory.showConfirmDialog({
 					data : {
 					    headerMessage : 'Confirm save?'
 					},
-					confirm: function(){
+					confirm : function() {
 					    return $scope.confirmSave(user);
 					},
-					onSuccess: function(response){
+					onSuccess : function(response) {
 					    _success();
 					},
-					onFail: function(response){}
-				});
+					onCancel : function(response) {
+					    $scope.reset();
+					},
+					onFail : function(response) {
+					}
+				    });
+				}
+
+			    }
+			    $scope.cancel = function() {
+				PageNavigation.gotoPage('/dashboard');
+			    }
+
+			    $scope.directSave = function(data, callback) {
+				if (validate(data)) {
+				    $scope.confirmSave(data, callback)
+				}
 			    }
 
 			    $scope.confirmSave = function(data, callback) {
-				$scope.errors = {};
+
 				blockUI.start();
 				var differed = PasswordService.save(data);
 				differed.promise.then(function(response) {
@@ -59,16 +106,18 @@ profileApp
 				    blockUI.stop();
 				    if (callback) {
 					callback();
-				    } 
+				    }
 				}, function(response) {
 				    console.log(response)
-				    if(response !=null){
-					$scope.errors[response.code] = {message: response.message};
+				    if (response != null) {
+					$scope.errors[response.code] = {
+					    message : response.message
+					};
 				    }
 				    console.log($scope.errors);
 				    blockUI.stop();
 				});
-				
+
 				return differed;
 			    };
 
