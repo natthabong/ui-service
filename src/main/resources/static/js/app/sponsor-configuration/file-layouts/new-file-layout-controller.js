@@ -2015,10 +2015,16 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 		}
 
 		var dateDefault = new Date(config.defaultExampleValue);
+		
+		var displayDateTimeFormat = record.datetimeFormat.replace('HHmmss','T1');
+		displayDateTimeFormat = displayDateTimeFormat.replace('HH:mm:ss','T2');
+		displayDateTimeFormat = displayDateTimeFormat.toUpperCase();
+		displayDateTimeFormat = displayDateTimeFormat.replace('T1','hhmmss');
+		displayDateTimeFormat = displayDateTimeFormat.replace('T2','hh:mm:ss');
 
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 		displayMessage = displayMessage.replace('| {conditionUploadDate}', '');
-		displayMessage = displayMessage.replace('{dateTimeFormat}', record.datetimeFormat.toUpperCase());
+		displayMessage = displayMessage.replace('{dateTimeFormat}', displayDateTimeFormat);
 		displayMessage = displayMessage.replace('{calendarType}', calendarEra);
 		displayMessage = displayMessage.replace('{exampleData}', $filter('date')(dateDefault, record.datetimeFormat));
 
