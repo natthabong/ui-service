@@ -42,19 +42,19 @@ profileApp
 				    $scope.errors.currentPassword = {
 					message : 'Current password is required.'
 				    }
-				} else if (user.newPassword === ''
-					|| user.newPassword === null) {
-				    valid = false;
-				    $scope.errors.newPassword = {
-					message : 'New password is required.'
-				    }
-				} else if (user.confirmPassword === ''
+				}    if (user.confirmPassword === ''
 					|| user.confirmPassword === null) {
 				    valid = false;
 				    $scope.errors.confirmPassword = {
 					message : 'Confirm password is required.'
 				    }
-				} else if (user.confirmPassword !== user.newPassword) {
+				} if (user.newPassword === ''
+					|| user.newPassword === null) {
+				    valid = false;
+				    $scope.errors.newPassword = {
+					message : 'New password is required.'
+				    }
+				}else if (user.confirmPassword !== user.newPassword) {
 				    valid = false;
 				    $scope.errors.newPassword = {
 					message : 'New password must same as confirm password.'
