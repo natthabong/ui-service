@@ -108,6 +108,7 @@ profileApp
 					callback();
 				    }
 				}, function(response) {
+					blockUI.stop();
 				    console.log(response)
 				    if (response != null) {
 					$scope.errors[response.code] = {
@@ -115,7 +116,7 @@ profileApp
 					};
 				    }
 				    console.log($scope.errors);
-				    blockUI.stop();
+				    
 				});
 
 				return differed;
