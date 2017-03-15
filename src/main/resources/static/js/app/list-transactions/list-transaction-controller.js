@@ -405,9 +405,11 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
     	}else{
     		vm.transaction.transactionId = data.transactionId;
     		vm.transaction.version = data.version;
+    		vm.transaction.statusCode = data.statusCode;
     		vm.transactionIdForRetry = vm.transaction.transactionId;
     	}
 	    vm.storeCriteria();
+
         var deffered = TransactionService.retry(vm.transaction);
         deffered.promise.then(function(response) {
         	 vm.searchTransactionService();

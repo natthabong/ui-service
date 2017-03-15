@@ -19,7 +19,7 @@
 			<td colspan="{{tableColumns.length-1}}"><div>
 					<strong class="text-danger"
 						id="transaction-{{data.transactionNo}}-result-label">{{data.note | translate}}
-						<span ng-if="data.statusCode == 'PROCESSING'">{{'Please contact K-BIZ Contact Center' |
+						<span ng-if="data.note == 'Credit limit expired'">{{'Please contact K-BIZ Contact Center' |
 						translate}}&nbsp;Tel.: 02-888-8822</span></strong>
 				</div></td>
 		</tr>

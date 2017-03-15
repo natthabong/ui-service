@@ -97,6 +97,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
     
         vm.retry = function() {
         	    vm.transaction = vm.transactionApproveModel.transaction;
+        	    
                 var deffered = TransactionService.retry(vm.transaction);
                 deffered.promise.then(function(response) {
                     vm.transaction = response.data;
