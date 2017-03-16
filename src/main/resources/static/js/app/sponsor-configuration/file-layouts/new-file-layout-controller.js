@@ -2014,7 +2014,15 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 			calendarEra = "Buddhist calendar (B.E.)";
 		}
 
-		var dateDefault = new Date(config.defaultExampleValue);
+		//2016-04-13T13:30:55
+		var defaultDateExample = config.defaultExampleValue;
+	    var year = defaultDateExample.substring(0, 4);
+	    var month = defaultDateExample.substring(5, 7);
+	    var day = defaultDateExample.substring(8, 10);    
+	    var hours = defaultDateExample.substring(11, 13);
+	    var minutes = defaultDateExample.substring(14, 16); 
+	    var seconds = defaultDateExample.substring(17, 19);
+		var dateDefault = new Date(year, month, day, hours, minutes, seconds, 0)
 		
 		var displayDateTimeFormat = record.datetimeFormat.replace('HHmmss','T1');
 		displayDateTimeFormat = displayDateTimeFormat.replace('HH:mm:ss','T2');
