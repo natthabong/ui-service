@@ -388,10 +388,23 @@ app.controller('PaymentDateFormulaSettingController', [
 		};
 
 
-		vm.confirmDeletePeriod = function(period) {
-			var serviceUrl = '/api/periods/' + period.paymentPeriodId;
-			var serviceDiferred = Service.requestURL(serviceUrl, vm.model, 'DELETE');
+		vm.confirmDeletePeriod = function(period) {						
+			var serviceUrl = BASE_URI+'/payment-date-formulas/' + formulaId + '/periods/'+period.paymentPeriodId;
 			blockUI.start();
+			var serviceDiferred = $q.defer();
+			$http({
+				method : 'POST',
+				url : serviceUrl,
+				headers : {
+					'If-Match' : period.version,
+					'X-HTTP-Method-Override': 'DELETE'
+				},
+				data: period
+			}).then(function(response) {
+				return serviceDiferred.resolve(response);
+			}).catch(function(response) {
+				return serviceDiferred.reject(response);
+			});			
 			serviceDiferred.promise.then(function(response) {
 				vm.searchPeriod();
 				blockUI.stop();
