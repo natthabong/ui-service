@@ -79,13 +79,14 @@ app.controller('PaymentDateFormulaSettingController', [
 	'$rootScope',
 	'PageNavigation',
 	'Service',
+	'$http',
 	'blockUI',
 	'ngDialog',
 	'DataTableFactory',
 	'FORMULA_TYPE_ITEM',
 	'PAGE_SIZE_ITEM', '$q',
 	function(SCFCommonService, $log, $scope, $stateParams, $timeout, $rootScope,
-		PageNavigation, Service, blockUI, ngDialog, DataTableFactory, FORMULA_TYPE_ITEM, PAGE_SIZE_ITEM, $q) {
+		PageNavigation, Service, $http, blockUI, ngDialog, DataTableFactory, FORMULA_TYPE_ITEM, PAGE_SIZE_ITEM, $q) {
 
 		var vm = this;
 		var log = $log;
@@ -363,9 +364,23 @@ app.controller('PaymentDateFormulaSettingController', [
 			blockUI.stop();
 		}
 		vm.confirmDeleteCreditTerm = function(creditTerm) {
-			var serviceUrl = '/api/credit-terms/' + creditTerm.creditTermId;
-			var serviceDiferred = Service.requestURL(serviceUrl, vm.model, 'DELETE');
-			blockUI.start();
+			var serviceUrl = BASE_URI+'/payment-date-formulas/' + formulaId + '/credit-terms/'+creditTerm.creditTermId;		
+			blockUI.start();			
+			var serviceDiferred = $q.defer();
+			$http({
+				method : 'POST',
+				url : serviceUrl,
+				headers : {
+					'If-Match' : creditTerm.version,
+					'X-HTTP-Method-Override': 'DELETE'
+				},
+				data: creditTerm
+			}).then(function(response) {
+				return serviceDiferred.resolve(response);
+			}).catch(function(response) {
+				return serviceDiferred.reject(response);
+			});
+			
 			serviceDiferred.promise.then(function(response) {
 				vm.searchCreditTerm();
 				blockUI.stop();
