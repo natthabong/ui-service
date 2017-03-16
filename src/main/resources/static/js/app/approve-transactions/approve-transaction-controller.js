@@ -78,7 +78,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 	                    
 	                    if($scope.response.errorCode != 'E0403'){
 	                    	vm.errorMessageModel = response.data;
-		            		var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
+		            		var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode, 'approve');
 		    		    	ngDialog.open({
 	                            template: dialogUrl,
 	    	                    scope: $scope,
@@ -116,7 +116,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 					$scope.response.showBackBtn = true;
 					
 					vm.errorMessageModel = response.data;
-					var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
+					var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode, 'approve');
                     ngDialog.open({
                         template: dialogUrl,
 	                    scope: $scope,

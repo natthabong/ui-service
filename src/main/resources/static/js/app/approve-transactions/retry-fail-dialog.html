@@ -1,0 +1,64 @@
+<div class="modal-content">
+	<div class="modal-header">
+		<div class="row">
+			<div class="col-md-2 col-sm-2">
+				<image width="70" height="70" ng-src="img/error-icon.png"></image>
+			</div>
+			<div class="col-md-10 col-sm-10" style="color: red;">
+				<h2><span id="approve-fail-header" ng-bind="'Retry fail' | translate">Retry fail</span></h2>
+			</div>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-2 col-sm-2"></div>
+			<div class="col-md-10 col-sm-10">
+				<label ng-bind="'Transaction No.' | translate"></label>:&nbsp;<span
+					id="fail-transaction-no-label" ng-bind="response.attributes.transactionNo"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 col-sm-2"></div>
+			<div class="col-md-10 col-sm-10">
+				<label ng-bind="'Reason' | translate"></label>:&nbsp;<span
+					id="fail-reason-label" ng-bind="response.errorMessage | translate"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 col-sm-2"></div>
+			<div class="col-md-10 col-sm-10">
+				<span id="info-label" ng-bind="response.attributes.infoMessage | translate"></span>
+			</div>
+		</div>		
+		<div class="row" ng-show="{{response.attributes.showContactInfo}}">
+			<div class="col-md-2 col-sm-2"></div>
+			<div class="col-md-10 col-sm-10 col-xs-12">
+				<label id="fail-info-label"
+					ng-bind="'Please contact K-BIZ Contact Center' | translate"></label>
+			</div>
+		</div>
+		<div class="row" ng-show="{{response.attributes.showContactInfo}}">
+			<div class="col-md-2 col-sm-2"></div>
+			<div class="col-md-10 col-sm-10">
+				<label ng-bind="'Tel.' | translate"></label>:&nbsp;<span
+					id="fail-tel-label" ng-bind="'02-888-8822' | translate"></span>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-xs-12 text-right">
+				<scf-button id="fail-back-button" class="popup-button" data-dismiss="modal" ng-show="{{response.showBackBtn}}"
+					ng-click="closeThisDialog();ctrl.backPage()" ng-bind="'Back' | translate"></scf-button>
+				<scf-button id="retry-button" class="popup-button" data-dismiss="modal" ng-show="{{response.attributes.retriable}}"
+					ng-click="closeThisDialog();ctrl.retry()">{{'Retry' | translate}}</scf-button>			
+				<scf-button id="fail-view-recent-button" class="popup-button hidden-sm hidden-xs" data-dismiss="modal" ng-show="{{response.showViewRecentBtn}}"
+					ng-click="closeThisDialog();ctrl.viewRecent()" ng-bind="'View recent' | translate"></scf-button>					
+				<scf-button id="fail-view-history-button" class="popup-button hidden-sm hidden-xs" data-dismiss="modal" ng-if="response.showViewHistoryBtn"
+					ng-click="closeThisDialog();ctrl.viewHistory()" ng-bind="'View history' | translate"></scf-button>
+				<scf-button id="fail-close-button" class="popup-button hidden-sm hidden-xs" data-dismiss="modal" ng-show="{{response.showCloseBtn}}"
+					ng-click="closeThisDialog();ctrl.searchTransactionService()" ng-bind="'Close' | translate"></scf-button>					
+			</div>
+		</div>
+	</div>
+</div>

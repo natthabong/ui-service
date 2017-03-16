@@ -415,11 +415,11 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
         	 vm.searchTransactionService();
         }).catch(function(response) {
             $scope.response = response.data;
-            $scope.response.showViewRecentBtn = true;
-            $scope.response.showViewHistoryBtn = false;           
+            $scope.response.showViewRecentBtn = false;
+            $scope.response.showViewHistoryBtn = true;           
             $scope.response.showCloseBtn = true;
 			$scope.response.showBackBtn = false;
-			var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode);
+			var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode, 'retry');
             ngDialog.open({
                 template: dialogUrl,
                 scope: $scope,

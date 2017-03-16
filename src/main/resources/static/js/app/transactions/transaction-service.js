@@ -23,23 +23,36 @@ function transactionService($q, $http, $sce, blockUI) {
         return deffered;
     }
 
-    function getTransactionDialogErrorUrl(errorCode) {
+    function getTransactionDialogErrorUrl(errorCode, action) {
 		var errorMessageCode = {
 			incomplete: 'INCOMPLETE',
 			transactionHour: 'E1012',
 			concurency: 'E1003'
 		}
 		var version = (new Date()).getTime();
-        var templateUrl = '/js/app/approve-transactions/fail-dialog.html?v='+version;
-        if (angular.isDefined(errorCode)) {
-            if (errorCode == errorMessageCode.incomplete) {
-                templateUrl = '/js/app/approve-transactions/incomplete-dialog.html?v='+version;
-            }
-            else if(errorCode == errorMessageCode.concurency){
-            	
-                templateUrl = '/js/app/approve-transactions/approve-concurency-dialog.html?v='+version;
-            }
-        }
+		var templateUrl = '/js/app/approve-transactions/fail-dialog.html?v='+version;
+		if(action==='approve'){
+			if (angular.isDefined(errorCode)) {
+	            if (errorCode == errorMessageCode.incomplete) {
+	                templateUrl = '/js/app/approve-transactions/incomplete-dialog.html?v='+version;
+	            }
+	            else if(errorCode == errorMessageCode.concurency){
+	            	
+	                templateUrl = '/js/app/approve-transactions/approve-concurency-dialog.html?v='+version;
+	            }
+	        }
+		}else{
+			templateUrl = '/js/app/approve-transactions/retry-fail-dialog.html?v='+version;
+	        if (angular.isDefined(errorCode)) {
+	            if (errorCode == errorMessageCode.incomplete) {
+	                templateUrl = '/js/app/approve-transactions/incomplete-dialog.html?v='+version;
+	            }
+	            else if(errorCode == errorMessageCode.concurency){
+	            	
+	                templateUrl = '/js/app/approve-transactions/retry-concurency-dialog.html?v='+version;
+	            }
+	        }
+		}
         return templateUrl;
     }
 

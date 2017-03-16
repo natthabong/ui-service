@@ -150,6 +150,8 @@
 	"Agree condition": "I have read and agree to the terms according to the evidence of reciept of drawdown above.",
 	"Confirm approval": "Confirm approval ?",
 	"Approve success": "Approve success",
+	"Approve fail": "Approve fail",
+	"Retry fail": "Retry fail",
 	"Result": "Result",
 	"Transaction incomplete": "Transaction incomplete",
 
