@@ -93,34 +93,42 @@ profileApp
 
 			    $scope.directSave = function(data, callback) {
 				if (validate(data)) {
-				    $scope.confirmSave(data, callback)
+				    $scope.confirmSave(data, function(){ 
+					callback();
+					goToHome();
+				    }, function(){
+					$window.location.href = '/login';
+				    })
 				}
 			    }
 
-			    $scope.confirmSave = function(data, callback) {
+			    $scope.confirmSave = function(data, callback, failCallbak) {
 
 				blockUI.start();
 				var differed = PasswordService.save(data);
 				differed.promise.then(function(response) {
-				    console.log(response)
 				    blockUI.stop();
 				    if (callback) {
 					callback();
 				    }
-				}, function(response) {
-					blockUI.stop();
-				    console.log(response)
-				    if (response != null) {
+				}).catch(function(response) {
+				    blockUI.stop();
+				    console.log(response);
+				    if (response) {
 					$scope.errors[response.code] = {
 					    message : response.message
 					};
+				    }else{
+					failCallbak();
 				    }
-				    console.log($scope.errors);
-				    
 				});
-
 				return differed;
 			    };
+			    
+			    goToHome = function(){
+    		        	AuthenticationService.SetCredentials(self.username, self.password);
+    		                $window.location.href = '/';
+    		            }
 
 			    var init = function() {
 				$scope.reset();
