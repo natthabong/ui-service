@@ -6,13 +6,13 @@ angular.module('scfApp').controller(
 		'$stateParams',
 		'$log',
 		'SCFCommonService',
-		'PagingController',
+		'blockUI',
 		'PageNavigation',
 		'$state',
 		'UIFactory',
 		'$http',
 		function($scope, Service, $stateParams, $log, SCFCommonService,
-			PagingController, PageNavigation, $state, UIFactory,
+			blockUI, PageNavigation, $state, UIFactory,
 			$http) {
 		    var model = {};
 		    $scope.userPolicies = []
@@ -23,7 +23,7 @@ angular.module('scfApp').controller(
 			var deffered = Service.doGet('/api/v1/policies/common',
 				criteria);
 			deffered.promise.then(function(response) {
-			    model = response;
+			    model = response.data;
 			    $scope.userPolicies = [];
 			    $scope.passwordPolicies = [];
 			    
@@ -39,24 +39,50 @@ angular.module('scfApp').controller(
 			});
 		    }
 		    
-		    $scope.save = function() { 
-			model.policyItems = [];
-			model.policyItems.concat($scope.userPolicies);
-			model.policyItems.concat($scope.passwordPolicies);
+		    function _success() {
+			UIFactory
+				.showSuccessDialog({
+				    data : {
+					headerMessage : 'Saved policies success.',
+					bodyMessage : ''
+				    },
+				    preCloseCallback : function() {
+					PageNavigation
+						.gotoPage('/dashboard');
+				    }
+				});
+		    }
+		    
+		    $scope.save = function(){
+			UIFactory.showConfirmDialog({
+				data : {
+				    headerMessage : 'Confirm save?'
+				},
+				confirm : $scope.confirmSave,
+				onSuccess : function(response) {
+				    blockUI.stop();
+				    _success();
+				},
+				onFail : function(response) {
+				    blockUI.stop();
+				}
+			    });
+		    }
+		    
+		    $scope.confirmSave = function() { 
+			blockUI.start();
+			var policyItems = [];
+			policyItems = policyItems.concat($scope.userPolicies);
+			policyItems = policyItems.concat($scope.passwordPolicies);
+			model.policyItems = policyItems;
 			
     			var serviceUrl = '/api/v1/policies/common';
     			var deferred = Service.requestURL(serviceUrl, model, 'PUT');
-    			
-    			deferred.promise.then(function(response) {
-        			PageNavigation.gotoPage('/dashboard' );
-    			}).catch(function(response) {
-    			    
-    			});
+    			return deferred;
     	            }
 		    
 		    var init = function() {
 			getPolicies();
-		    }
-		    
-		    init();
+		    }();
+
 		} ]);
