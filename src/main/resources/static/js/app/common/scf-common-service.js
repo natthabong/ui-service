@@ -192,72 +192,72 @@ app.service('SCFCommonService', [
     }
 ]);
 
-//app.service('PageNavigation', [
-//    '$filter',
-//    '$http',
-//    '$log',
-//    '$q',
-//    '$state',
-//    function($filter, $http, $log, $q, $state) {
-//        var vm = this;
-//        var log = $log;
+// app.service('PageNavigation', [
+// '$filter',
+// '$http',
+// '$log',
+// '$q',
+// '$state',
+// function($filter, $http, $log, $q, $state) {
+// var vm = this;
+// var log = $log;
 //
-//        var homePage = '/';
+// var homePage = '/';
 //
-//        var previousPages = new Array();
-//        var steps = new Array();
+// var previousPages = new Array();
+// var steps = new Array();
 //
-//        vm.gotoPage = function(page, params, keepStateObject) {
-//            var currentState = $state.current.name == '' ? '/' : $state.current.name;
-//            previousPages.push({
-//                page: currentState,
-//                stateObject: keepStateObject
-//            });
-//            if (params === undefined) {
-//                params = {};
-//            }
-//            params.backAction = false;
-//            $state.go(page, params);
-//        }
+// vm.gotoPage = function(page, params, keepStateObject) {
+// var currentState = $state.current.name == '' ? '/' : $state.current.name;
+// previousPages.push({
+// page: currentState,
+// stateObject: keepStateObject
+// });
+// if (params === undefined) {
+// params = {};
+// }
+// params.backAction = false;
+// $state.go(page, params);
+// }
 //
-//        vm.gotoPreviousPage = function(reset) {
-//            var previousPage = previousPages.pop();
-//            if (previousPage != null) {
-//                if (previousPage.stateObject === undefined) {
-//                    previousPage.stateObject = {};
-//                }
-//                previousPage.stateObject.backAction = true;
-//                $state.go(previousPage.page, reset ? {} : previousPage.stateObject, {
-//                    reload: reset
-//                });
-//            } else {
-//                $state.go(homePage);
-//            }
-//        }
+// vm.gotoPreviousPage = function(reset) {
+// var previousPage = previousPages.pop();
+// if (previousPage != null) {
+// if (previousPage.stateObject === undefined) {
+// previousPage.stateObject = {};
+// }
+// previousPage.stateObject.backAction = true;
+// $state.go(previousPage.page, reset ? {} : previousPage.stateObject, {
+// reload: reset
+// });
+// } else {
+// $state.go(homePage);
+// }
+// }
 //
-//        vm.nextStep = function(nextPage, params, keepStateObject) {
-//            steps.push({
-//                page: $state.current.name,
-//                stateObject: keepStateObject
-//            });
+// vm.nextStep = function(nextPage, params, keepStateObject) {
+// steps.push({
+// page: $state.current.name,
+// stateObject: keepStateObject
+// });
 //
-//            params.backAction = false;
+// params.backAction = false;
 //
-//            $state.go(nextPage, params);
-//        }
+// $state.go(nextPage, params);
+// }
 //
-//        vm.backStep = function(reset) {
-//            var previousStep = steps.pop();
-//            if (previousStep != null) {
-//                previousStep.stateObject.backAction = true;
-//                $state.go(previousStep.page, reset ? {} : previousStep.stateObject, {
-//                    reload: reset
-//                });
-//            }
-//        }
+// vm.backStep = function(reset) {
+// var previousStep = steps.pop();
+// if (previousStep != null) {
+// previousStep.stateObject.backAction = true;
+// $state.go(previousStep.page, reset ? {} : previousStep.stateObject, {
+// reload: reset
+// });
+// }
+// }
 //
-//    }
-//]);
+// }
+// ]);
 
 app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonService', function($http, $log, $q, Service, SCFCommonService) {
     var vm = this;
@@ -267,6 +267,7 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
     var defaultPage = 0,
         defaultPageSize = '20';
 
+    vm.clientMode = false;
     vm.postParams = {};
     vm.tableRowCollection = {};
     vm.splitePageTxt = '';
@@ -291,52 +292,83 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
         clearSortOrder: false
     }
 
-    vm.create = function(url, criteriaData, methodRequest) {
-        apiUrl = url;
-        vm.postParams = criteriaData;
-        methodRequestUrl = methodRequest || 'POST';
+    vm.create = function(source, criteriaData, methodRequest) {
+	
+	if(typeof source == "string"){
+	    apiUrl = source;
+	    vm.postParams = criteriaData;
+	    methodRequestUrl = methodRequest || 'POST';
+	}
+	else{
+	    vm.clientMode = true;
+	    vm.sourceData = source;
+	}
         return vm;
     }
-
-   
     
     vm.search = function(pagingData, callback) {
-        var diferred = $q.defer();
-        if (pagingData === undefined) {
+	
+	if (pagingData === undefined) {
             vm.pagingModel.pageSizeSelectModel = defaultPageSize;
             vm.pagingModel.currentPage = defaultPage;
         } else {
             vm.pagingModel.pageSizeSelectModel = pagingData.pageSize;
             vm.pagingModel.currentPage = pagingData.page;
         }
-        var criteriaData = prepareCriteria(vm.pagingModel, vm.postParams);
-
-        var searchDeferred = '';
-        
-        if(methodRequestUrl == 'POST'){
-        	searchDeferred = Service.doPost(apiUrl, criteriaData, 'POST');
-        }else{
-        	searchDeferred = Service.doGet(apiUrl, criteriaData);
-        }
-
-        searchDeferred.promise.then(function(response) {
-           
-            vm.pagingModel.totalRecord = response.headers('X-Total-Count');
-            // vm.pagingModel.currentPage = response.headers.number;
-            vm.pagingModel.totalPage = response.headers('X-Total-Page');
-            vm.tableRowCollection = response.data;
-            vm.splitePageTxt = SCFCommonService.splitePage(vm.pagingModel.pageSizeSelectModel, vm.pagingModel.currentPage, vm.pagingModel.totalRecord);
-            
-            if(callback!=null){
-        	callback(criteriaData);
+	
+	if(vm.clientMode){
+	    
+	    if (angular.isArray(vm.sourceData)) {
+		var pagesize = vm.pagingModel.pageSizeSelectModel;
+		var currentPage = vm.pagingModel.currentPage;
+		
+                var indexStart = currentPage * pagesize;
+                var indexLast = (currentPage * pagesize) + pagesize;
+                var totalPage = Math.ceil(vm.sourceData.length / pagesize);
+                var dataSplites = [];
+                for (; indexStart < indexLast && indexStart < vm.sourceData.length; indexStart++) {
+                    dataSplites.push(vm.sourceData[indexStart]);
+                }
+                vm.pagingModel.totalRecord = vm.sourceData.length;
+	            // vm.pagingModel.currentPage = response.headers.number;
+	        vm.pagingModel.totalPage = totalPage;
+	        vm.tableRowCollection = dataSplites;
+	        vm.splitePageTxt = SCFCommonService.splitePage(vm.pagingModel.pageSizeSelectModel, vm.pagingModel.currentPage, vm.pagingModel.totalRecord);
             }
-            
-            diferred.resolve(response);
-        }).catch(function(response) {
-            log.error('Search data error');
-            diferred.reject(response);
-        });
-        return diferred;
+	}
+	else{
+	    
+	    var diferred = $q.defer();
+	        
+	        var criteriaData = prepareCriteria(vm.pagingModel, vm.postParams);
+
+	        var searchDeferred = '';
+	        
+	        if(methodRequestUrl == 'POST'){
+	        	searchDeferred = Service.doPost(apiUrl, criteriaData, 'POST');
+	        }else{
+	        	searchDeferred = Service.doGet(apiUrl, criteriaData);
+	        }
+
+	        searchDeferred.promise.then(function(response) {
+	           
+	            vm.pagingModel.totalRecord = response.headers('X-Total-Count');
+	            // vm.pagingModel.currentPage = response.headers.number;
+	            vm.pagingModel.totalPage = response.headers('X-Total-Page');
+	            vm.tableRowCollection = response.data;
+	            vm.splitePageTxt = SCFCommonService.splitePage(vm.pagingModel.pageSizeSelectModel, vm.pagingModel.currentPage, vm.pagingModel.totalRecord);
+	            
+	            if(callback!=null){
+	        	callback(criteriaData);
+	            }
+	            
+	            diferred.resolve(response);
+	        }).catch(function(response) {
+	            log.error('Search data error');
+	            diferred.reject(response);
+	        });
+	        return diferred;
+	}
     }
     
     vm.reload = function(callback) {
@@ -345,6 +377,24 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 	    page: vm.pagingModel.currentPage
 	}, callback);
     }
+    
+    /*
+     * vm.clientPagination = function(listDatas, pagesize, currentPage) { var
+     * dataResult = { content: [], totalPages: 0, size: 0, number: 0,
+     * totalElements: 0 };
+     * 
+     * if (angular.isArray(listDatas)) { var indexStart = currentPage *
+     * pagesize; var indexLast = (currentPage * pagesize) + pagesize; var
+     * totalPage = Math.ceil(listDatas.length / pagesize); var dataSplites = [];
+     * for (; indexStart < indexLast && indexStart < listDatas.length;
+     * indexStart++) { dataSplites.push(listDatas[indexStart]); }
+     * dataResult.content = dataSplites; dataResult.totalPages = totalPage;
+     * dataResult.size = pagesize; dataResult.number = currentPage;
+     * dataResult.totalElements = listDatas.length }
+     * 
+     * return dataResult; };
+     */
+    
     function prepareCriteria(pagingModel, postParams) {
         var criteria = postParams;
         criteria.limit = pagingModel.pageSizeSelectModel;

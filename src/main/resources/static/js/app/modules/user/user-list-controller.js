@@ -8,17 +8,6 @@ var scfApp = angular.module('scfApp').controller('UserListController',['$scope',
 		vm.userStatusDropdowns = UserStatus;
 		vm.passwordStatusDropdowns = PasswordStatus;
 		
-		vm.pageSizeList = [ {
-			label : '10',
-			value : '10'
-		}, {
-			label : '20',
-			value : '20'
-		}, {
-			label : '50',
-			value : '50'
-		} ];
-		
 		vm.userListModel = {
     		user : undefined,
 			organize : undefined,
