@@ -3,7 +3,8 @@
 	<div class="panel box-shadow-none content-header">
 		<div class="panel-body">
 			<div class="col-md-12">
-				<h3 class="animated fadeInLeft">New User</h3>
+				<h3 id="header-message-label" class="animated fadeInLeft" 
+				ng-bind="'New User' | translate"></h3>
 			</div>
 		</div>
 	</div>
@@ -13,15 +14,16 @@
 				<div class="panel-body">
 					<!-- Start Column Panel-->
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<form name="documentListSponsorForm" class="form-horizontal"
-							autocomplete="off">
+						<form name="newUserForm" class="form-horizontal"
+							>
 
 							<div class="form-group">
-								<label id=""
-									class="col-md-2 col-sm-3 col-xs-12 control-label">Frist name:
+								<label id="first-name-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Frist name'
+									| translate}}:
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<scf-input-text id="" maxlength="100"></scf-input-text>
+									<scf-input-text id="first-name-textbox" required="required" maxlength="100"></scf-input-text>
 								</div>
 
 								<div class="col-md-3 col-sm-2"></div>
@@ -29,16 +31,16 @@
 							<div class="form-group">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-								id="">
-									Frist name is required.
+								id="first-name-warning-message-label">
+								{{'Frist name is required' | translate}}.
 								</span>
 							</div>
 
 							<div class="form-group">
-								<label id=""
-									class="col-md-2 col-sm-3 col-xs-12 control-label">Last name:</label>
+								<label id="last-name-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Last name' | translate}}:</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<scf-input-text id="" maxlength="100"></scf-input-text>
+									<scf-input-text id="last-name-textbox" required="required" maxlength="100"></scf-input-text>
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
@@ -46,16 +48,16 @@
 							<div class="form-group">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-								id="">
-									Last name is required.
+								id="last-name-warning-message-label">
+									{{'Last name is required' | translate}}.
 								</span>
 							</div>
 
 							<div class="form-group">
-								<label id=""
-									class="col-md-2 col-sm-3 col-xs-12 control-label">Display name:</label>
+								<label id="display-name-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Display name' | translate}}:</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<scf-input-text id="" maxlength="100"></scf-input-text>
+									<scf-input-text id="display-name-textbox" required="required" maxlength="100"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-4"></div>
 							</div>
@@ -63,16 +65,16 @@
 							<div class="form-group">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-								id="">
-									Display name is required.
+								id="display-name-warning-message-label">
+									{{'Display name is required' | translate}}.
 								</span>
 							</div>
 
 							<div class="form-group">
-								<label id=""
-									class="col-md-2 col-sm-3 col-xs-12 control-label">Login name:</label>
+								<label id="login-name-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Login name' | translate}}:</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<scf-input-text id="" maxlength="100"></scf-input-text>
+									<scf-input-text id="login-name-textbox" required="required" maxlength="100"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-4"></div>
 							</div>
@@ -80,16 +82,16 @@
 							<div class="form-group">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-								id="">
-									Login name is required.
+								id="login-name-warning-message-label">
+									{{'Login name is required' | translate}}.
 								</span>
 							</div>
 							
 							<div class="form-group">
-								<label id=""
-									class="col-md-2 col-sm-3 col-xs-12 control-label">e-mail:</label>
+								<label id="email-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'e-mail' | translate}}:</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<scf-input-text id="" maxlength="100"></scf-input-text>
+									<scf-input-text id="email-textbox" required="required" maxlength="100"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-4"></div>
 							</div>
@@ -97,15 +99,17 @@
 							<div class="form-group">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-								id="">
-									e-mail is required.
+								id="e-mail-warning-message-label">
+									{{'e-mail is required' | translate}}.
 								</span>
 							</div>
 
 							<div class="form-group">
-								<label id="" class="col-md-2 col-sm-3 control-label">Birth date:</label>
+								<label id="birth-date-label" 
+									class="col-md-2 col-sm-3 control-label">{{'Birth date' | translate}}:</label>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
-									<scf-date-picker-from text-id="">
+									<scf-date-picker-from text-id="birth-date-textbox"
+									button-id="birth-date-calendar-button">
 									</scf-date-picker-from>
 								</div>
 							</div>
@@ -113,24 +117,26 @@
 							<div class="form-group">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-								id="">
-									Birth date is required.
+								id="birth-date-warning-message-label">
+									{{'Birth date is required' | translate}}.
 								</span>
 							</div>
 
 							<div class="form-group">
-								<label id="date-label" class="col-md-2 col-sm-3 control-label">Active date:</label>
+								<label id="active-date-label" class="col-md-2 col-sm-3 control-label">{{'Active date' | translate}}:</label>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
-									<scf-date-picker-from text-id="">
+									<scf-date-picker-from text-id="active-date-textbox"
+									button-id="active-date-calendar-button">
 									</scf-date-picker-from>
 								</div>
 								<div>
 									<div class="col-md-2 col-sm-2 col-xs-2" style="padding-left:25px;">
-										<scf-checkbox id=""> </scf-checkbox>
-										<label class="checkbox-inline" style="padding-bottom:10px;">Expire date:</label>
+										<scf-checkbox id="expire-date-checkbox"></scf-checkbox>
+										<label id="expire-date-label" class="checkbox-inline" style="padding-bottom:10px;">{{'Expire date' | translate}}:</label>
 									</div>
 									<div class="col-md-3 col-sm-4 gec-calendar-group">
-										<scf-date-picker-to text-id="">
+										<scf-date-picker-to text-id="expire-date-textbox"
+										button-id="expire-date-calendar-button">
 										</scf-date-picker-to>
 									</div>
 								</div>
@@ -138,29 +144,39 @@
 							</div>
 
 							<div class="form-group">
-								
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 									<span class="col-md-4 col-sm-4 col-xs-12 error-msg"
-									id="">
-										Active date is required.
+									id="active-date-warning-message-label">
+										{{'Active date is required' | translate}}.
 									</span>
-								
+
 								<label class="col-md-1 col-sm-3 col-xs-12 control-label"></label>
 									<span class="col-md-4 col-sm-4 col-xs-12 error-msg"
-									id="">
-										Expire date is required.
+									id="expire-date-warning-message-label">
+										{{'Expire date is required' | translate}}.
 									</span>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+								&nbsp;&nbsp;
+								<scf-checkbox id="" ></scf-checkbox>
+								<label class="checkbox-inline" style="padding-bottom:10px;">{{'Suspend' | translate}}</label>
+								
+							</div>
+
+							<div class="form-group">
+								<label id="organize-links-label" class="col-md-2 col-sm-3 control-label">{{'Organize links' | translate}}:</label>
 							</div>
 							
 							<div class="row">
 								<div class="col-md-12 col-sm-12 text-right">
 									<span> 
-										<scf-button class="btn-default gec-btn-action" ng-click="ctrl.addRole()" title="" >
+										<scf-button id="new-button" class="btn-default gec-btn-action" ng-click="" title="" >
 											<i class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>	
 									</span> <br /> <br />
 									<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
-										id=""></b> &nbsp;&nbsp; <scf-pagination
-											dropdown-id="page-limit-dropdown" name="user"
+										id="organize-header-label"></b> &nbsp;&nbsp; <scf-pagination
+											dropdown-id="organize-links-page-limit-dropdown" name="organize-links"
 											page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 											total-page="ctrl.pagingController.pagingModel.totalPage"
 											current-page="ctrl.pagingController.pagingModel.currentPage"
@@ -180,9 +196,9 @@
 							</div>
 							<div class="col-md-12 col-sm-12 text-right">
 								<div class="form-group">
-									<scf-button id="save-button" type="submit">Cancel</scf-button>
+									<scf-button id="cancel-button" type="submit">{{'Cancel' | translate}}</scf-button>
 									&nbsp;&nbsp;
-									<scf-button id="save-button" type="submit">Save</scf-button>
+									<scf-button id="save-button" type="submit">{{'Save' | translate}}</scf-button>
 								</div>
 							</div>
 						</form>
