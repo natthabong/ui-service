@@ -328,5 +328,8 @@
     "Force change password": "Force change password",
     
     "Password is required": "Password is required.",
-    "Invalid current password": "Invalid current password."
+    "Invalid current password": "Invalid current password.",
+    
+    "ENABLED": "Enable",
+    "LOCK": "Lock"
 }
