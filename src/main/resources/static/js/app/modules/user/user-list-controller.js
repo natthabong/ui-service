@@ -195,9 +195,9 @@ var scfApp = angular.module('scfApp').controller('UserListController',['$scope',
             },{
 				cssTemplate: 'text-center',
 				sortable: false,
-				cellTemplate : 	'<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="view-button-{{data.displayName}}" ng-click="ctrl.viewUser(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'+
-								'<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="reset-password-button-{{data.displayName}}" ng-click="ctrl.resetPasswordUser(data)" title="Reset password"><i class="fa fa-unlock-alt" aria-hidden="true"></i></scf-button>'+
-								'<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="edit-button-{{data.displayName}}" ng-click="ctrl.editUser(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+				cellTemplate : 	'<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="view-{{data.displayName}}-button" ng-click="ctrl.viewUser(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'+
+								'<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="reset-password-{{data.displayName}}-button" ng-click="ctrl.resetPasswordUser(data)" title="Reset password"><i class="fa fa-unlock-alt" aria-hidden="true"></i></scf-button>'+
+								'<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="edit-{{data.displayName}}-button" ng-click="ctrl.editUser(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
 			}]
 	    }
 	    
