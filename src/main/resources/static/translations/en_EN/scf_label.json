@@ -346,5 +346,6 @@
 	"e-mail is required":"e-mail is required",
 	"Birth date":"Birth date",
 	"Birth date is required":"Birth date is required",
-	"Organize links":"Organize links"
+	"Organize links":"Organize links",
+	"Organize links is required":"Organize links is required"
 }
