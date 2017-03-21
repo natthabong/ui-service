@@ -228,7 +228,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'UserController',
 				controllerAs: 'ctrl',
 				templateUrl: '/user',
-				resolve: load(['js/app/user/user-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/user/manage/user-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/change-password',{
 				url: '/change-password',
 				controller: 'PasswordController',
