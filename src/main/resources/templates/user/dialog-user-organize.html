@@ -1,0 +1,57 @@
+<div class="modal-content">
+	<form name="organizeLink"
+		ng-submit="closeThisDialog(ctrl.model)"
+		class="form-horizontal">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3>
+						<span id="organize-link-header-message-label"
+							class="popup-text" ng-bind="'Organize link' | translate"></span>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="form-group">
+							<label class="col-md-2 col-sm-4 col-xs-12 control-label">
+							<span ng-bind="'Organize' | translate"></span> :</label>
+							<div class="col-md-4 col-sm-2 col-xs-12">
+								<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
+									ng-model="ctrl.organize" 
+									id="organize-auto-suggest" maxlength="100">
+								</gec-auto-suggest>
+							</div>
+							<div class="col-md-2 col-sm-2 col-xs-12"></div>
+					</div>
+					<div class="form-group">
+							<label class="col-md-4 col-md-offset-1 error-msg">
+							<span id="table-role-warning-message-label" ng-bind="'Role is required' | translate"></span>.</label>
+							<!--table-->
+							<div class="row">
+								<div class="col-md-12">
+									<scf-table id="role-table"
+										component-config="ctrl.roleDataTable"
+										component-datas="ctrl.tableRowCollection">
+									</scf-table>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="organize-link-popup-cancel-button"
+						class="popup-button" ng-click="closeThisDialog()"
+						ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="organize-link-popup-ok-button"
+						class="popup-button" type="submit" ng-bind="'OK' | translate"></scf-button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
