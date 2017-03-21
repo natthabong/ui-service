@@ -125,33 +125,33 @@ angular.module('scfApp').controller('UserListController',['$scope','Service', '$
 		}
 	    
 	    vm.dataTable = {
-    		identityField: 'userId',
+    		identityField: 'displayName',
             columns: [{
             	fieldName: 'displayName',
                 labelEN: 'Display name',
                 labelTH: 'Display name',
-                id: '{value}-display-name',
+                id: 'display-name-{value}',
                 sortable: false,
                 cssTemplate: 'text-left',
             },{
             	fieldName: 'firstName',
             	labelEN: 'First Name',
             	labelTH: 'First Name',
-                id: '{value}-first-name',
+                id: 'first-name-{value}',
                 sortable: false,
                 cssTemplate: 'text-left'
             },{
             	fieldName: 'lastName',
             	labelEN: 'Last Name',
             	labelTH: 'Last Name',
-                id: '{value}-last-name',
+                id: 'last-name-{value}',
                 sortable: false,
                 cssTemplate: 'text-left'
             },{
             	fieldName: 'status',
             	labelEN: 'Status',
             	labelTH: 'Status',
-                id: '{value}-status',
+                id: 'status-{value}',
                 sortable: false,
                 filterType : 'translate',
                 cssTemplate: 'text-center'
@@ -159,7 +159,7 @@ angular.module('scfApp').controller('UserListController',['$scope','Service', '$
             	fieldName: 'passwordStatus',
             	labelEN: 'Password status',
             	labelTH: 'Password status',
-                id: '{value}-password-status',
+                id: 'password-status-{value}',
                 sortable: false,
                 filterType : 'translate',
                 cssTemplate: 'text-center'
@@ -167,7 +167,7 @@ angular.module('scfApp').controller('UserListController',['$scope','Service', '$
             	fieldName: 'activeDate',
             	labelEN: 'Active date',
             	labelTH: 'Active date',
-                id: '{value}-active-date',
+                id: 'active-date-{value}',
                 sortable: false,
                 filterType : 'date',
                 format : 'dd/MM/yyyy',
@@ -176,7 +176,7 @@ angular.module('scfApp').controller('UserListController',['$scope','Service', '$
             	fieldName: 'expiryDate',
             	labelEN: 'Expire date',
             	labelTH: 'Expire date',
-                id: '{value}-expire-date',
+                id: 'expire-date-{value}',
                 sortable: false,
                 filterType : 'date',
                 format : 'dd/MM/yyyy',
@@ -184,9 +184,9 @@ angular.module('scfApp').controller('UserListController',['$scope','Service', '$
             },{
 				cssTemplate: 'text-center',
 				sortable: false,
-				cellTemplate : 	'<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="{{data.userId}}-view-button" ng-click="ctrl.viewUser(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'+
-								'<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="{{data.userId}}-reset-password-button" ng-click="ctrl.resetPasswordUser(data)" title="View"><i class="fa fa-unlock-alt" aria-hidden="true"></i></scf-button>'+
-								'<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="{{data.userId}}-edit-button" ng-click="ctrl.editUser(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+				cellTemplate : 	'<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="view-button-{{data.userId}}" ng-click="ctrl.viewUser(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'+
+								'<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="reset-password-button-{{data.userId}}" ng-click="ctrl.resetPasswordUser(data)" title="View"><i class="fa fa-unlock-alt" aria-hidden="true"></i></scf-button>'+
+								'<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="edit-button-{{data.userId}}" ng-click="ctrl.editUser(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
 			}]
 	    }
 	    
