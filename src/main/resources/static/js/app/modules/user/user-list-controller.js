@@ -191,7 +191,10 @@ var scfApp = angular.module('scfApp').controller('UserListController',['$scope',
                 sortable: false,
                 filterType : 'date',
                 format : 'dd/MM/yyyy',
-                cssTemplate: 'text-center'
+                cssTemplate: 'text-center',
+				renderer: function(data){
+				    return data || '-';
+				}
             },{
 				cssTemplate: 'text-center',
 				sortable: false,
