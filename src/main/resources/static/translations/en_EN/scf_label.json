@@ -331,5 +331,19 @@
     "Invalid current password": "Invalid current password.",
     
     "ENABLED": "Enable",
-    "LOCK": "Lock"
+    "LOCK": "Lock",
+
+	"Frist name": "Frist name",
+	"Frist name is required":"Frist name is required",
+	"Last name":"Last name",
+	"Last name is required":"Last name is required",
+	"Display name":"Display name",
+	"Display name is required":"Display name is required",
+	"Login name":"Login name",
+	"Login name is required":"Login name is required",
+	"e-mail":"e-mail",
+	"e-mail is required":"e-mail is required",
+	"Birth date":"Birth date",
+	"Birth date is required":"Birth date is required",
+	"Organize links":"Organize links"
 }

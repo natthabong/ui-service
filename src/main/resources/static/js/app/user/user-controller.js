@@ -19,23 +19,23 @@ scfApp.controller('UserController', [
 
 	    vm.dataTable = {
 		columns : [ {
-		    fieldName : '$org',
+		    fieldName : 'organize',
 		    labelEN : 'Organize',
-		    labelTH : 'องค์กร',
+		    labelTH : 'Organize',
+			id: '{value}-organize',
 		    sortable : false,
 		    cssTemplate : 'text-right'
 		}, {
-		    fieldName : '$role',
+		    fieldName : 'role',
 		    labelEN : 'Role',
-		    labelTH : 'บทบาท',
+		    labelTH : 'Role',
+			id: '{value}-role',
 		    sortable : false,
 		    cssTemplate : 'text-right'
 		}, {
-		    fieldName : '$des',
-		    labelEN : '',
-		    labelTH : '',
+		    cssTemplate: 'text-center',
 		    sortable : false,
-		    cssTemplate : 'text-right'
+		    cellTemplate: '<scf-button ng-disabled="true" class="btn-default gec-btn-action" id="{{data.organizeId}}-profile-button" ng-click="" title=""><i class="fa fa-trash" aria-hidden="true"></i></scf-button>'
 		} ]
 	    };
 
