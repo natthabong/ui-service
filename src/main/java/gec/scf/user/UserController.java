@@ -11,25 +11,25 @@ import gec.scf.util.AjaxUtils;
 @Controller
 public class UserController {
 
-	private String BANK_NEW_USER = "user/new";
-	private String NEW_USER = "user/user";
-	
-	//@PreAuthorize("isAuthenticated()")
-//	@RequestMapping(path={"/user"}, method = RequestMethod.GET)
-//	public String bankNewUser(HttpServletRequest req) {
-//		String requestedWith = req.getHeader("X-Requested-With");
-//		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-//			return BANK_NEW_USER.concat(" :: content");
-//		}
-//		return BANK_NEW_USER;	
-//	}
-	
-	@RequestMapping(path={"/user"}, method = RequestMethod.GET)
-	public String newUser(HttpServletRequest req) {
+	private String USER_NEW = "user/new";
+
+	private String USER_LIST = "user/user-list";
+
+	@RequestMapping(path = { "/user/new" }, method = RequestMethod.GET)
+	public String bankNewUser(HttpServletRequest req) {
 		String requestedWith = req.getHeader("X-Requested-With");
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return NEW_USER.concat(" :: content");
+			return USER_NEW.concat(" :: content");
 		}
-		return NEW_USER;	
+		return USER_NEW;
+	}
+
+	@RequestMapping(path = { "/user" }, method = RequestMethod.GET)
+	public String userList(HttpServletRequest req) {
+		String requestedWith = req.getHeader("X-Requested-With");
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return USER_LIST.concat(" :: content");
+		}
+		return USER_LIST;
 	}
 }

@@ -1,4 +1,4 @@
-angular.module('scfApp').controller('UserListController',['$scope','Service', '$stateParams', '$log', 
+var scfApp = angular.module('scfApp').controller('UserListController',['$scope','Service', '$stateParams', '$log', 
 	'SCFCommonService','PagingController','PageNavigation', '$state', 'UIFactory', '$http', 'UserStatus', 'PasswordStatus', 
 	function($scope,Service, $stateParams, $log, SCFCommonService,PagingController, PageNavigation, $state, UIFactory, $http, UserStatus, PasswordStatus){
 
@@ -7,6 +7,17 @@ angular.module('scfApp').controller('UserListController',['$scope','Service', '$
 		    
 		vm.userStatusDropdowns = UserStatus;
 		vm.passwordStatusDropdowns = PasswordStatus;
+		
+		vm.pageSizeList = [ {
+			label : '10',
+			value : '10'
+		}, {
+			label : '20',
+			value : '20'
+		}, {
+			label : '50',
+			value : '50'
+		} ];
 		
 		vm.userListModel = {
     		user : undefined,
@@ -24,28 +35,28 @@ angular.module('scfApp').controller('UserListController',['$scope','Service', '$
 			var params = {userModel: data};
 			$timeout(function(){	
 				PageNavigation.gotoPage('/user/view', params);
-        	}, 10);
+			}, 10);
 		}
 		
 		vm.editUser = function(data){
 			var params = {userModel: data};
 			$timeout(function(){	
 				PageNavigation.gotoPage('/user/edit', params);
-        	}, 10);
+			}, 10);
 		}
 		
 		vm.resetPasswordUser = function(data){
 			ngDialog.open({
-                template: '/js/app/user/confirm-reset-password-dialog.html',
-                scope: $scope,
-                disableAnimation: true
-            });
+                            template: '/js/app/user/confirm-reset-password-dialog.html',
+                            scope: $scope,
+                            disableAnimation: true
+                        });
 		}
 	    
 		var userAutoSuggestServiceUrl = 'api/v1/users';
-	    var searchUserTypeHead = function(value){
-	    	value = UIFactory.createCriteria(value);
-	    	return $http.get(userAutoSuggestServiceUrl, {
+		var searchUserTypeHead = function(value){
+	    		value = UIFactory.createCriteria(value);
+	    		return $http.get(userAutoSuggestServiceUrl, {
 				params : {
 					q : value,
 					offset : 0,
@@ -59,7 +70,7 @@ angular.module('scfApp').controller('UserListController',['$scope','Service', '$
 					});
 				});
 		}
-	    vm.userAutoSuggestModel = UIFactory.createAutoSuggestModel({
+		vm.userAutoSuggestModel = UIFactory.createAutoSuggestModel({
 			placeholder: 'Enter display name',
 			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 			query: searchUserTypeHead
