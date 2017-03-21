@@ -12,14 +12,24 @@ import gec.scf.util.AjaxUtils;
 public class UserController {
 
 	private String BANK_NEW_USER = "user/new";
+	private String NEW_USER = "user/user";
 	
 	//@PreAuthorize("isAuthenticated()")
+//	@RequestMapping(path={"/user"}, method = RequestMethod.GET)
+//	public String bankNewUser(HttpServletRequest req) {
+//		String requestedWith = req.getHeader("X-Requested-With");
+//		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+//			return BANK_NEW_USER.concat(" :: content");
+//		}
+//		return BANK_NEW_USER;	
+//	}
+	
 	@RequestMapping(path={"/user"}, method = RequestMethod.GET)
-	public String bankNewUser(HttpServletRequest req) {
+	public String newUser(HttpServletRequest req) {
 		String requestedWith = req.getHeader("X-Requested-With");
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return BANK_NEW_USER.concat(" :: content");
+			return NEW_USER.concat(" :: content");
 		}
-		return BANK_NEW_USER;	
+		return NEW_USER;	
 	}
 }
