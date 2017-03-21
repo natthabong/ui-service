@@ -8,10 +8,11 @@ scfApp.controller('UserController', [
 	'$rootScope',
 	'$http',
 	'Service',
+	'ngDialog',
 	'SCFCommonService',
 	'UIFactory',
 	'PagingController',
-	function($scope, $stateParams, $log, $q, $rootScope, $http, Service,
+	function($scope, $stateParams, $log, $q, $rootScope, $http, Service,ngDialog,
 		SCFCommonService, UIFactory, PagingController) {
 
 	    var vm = this;
@@ -38,5 +39,14 @@ scfApp.controller('UserController', [
 		    cssTemplate : 'text-right'
 		} ]
 	    };
+	    
+	    
+	    vm.addRole = function(){
+		ngDialog.open({
+                    template: '/user-organize',
+                    scope: $scope,
+                    disableAnimation: true
+                });
+	    }
 
 	} ]);

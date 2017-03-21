@@ -11,9 +11,11 @@ import gec.scf.util.AjaxUtils;
 @Controller
 public class UserController {
 
-	private String USER_NEW = "user/new";
+	private String USER_NEW = "user/user";
 
 	private String USER_LIST = "user/user-list";
+
+	private String USER_ORGANIZE = "user/dialog-user-organize";
 
 	@RequestMapping(path = { "/user/new" }, method = RequestMethod.GET)
 	public String bankNewUser(HttpServletRequest req) {
@@ -31,5 +33,10 @@ public class UserController {
 			return USER_LIST.concat(" :: content");
 		}
 		return USER_LIST;
+	}
+
+	@RequestMapping(path = { "/user-organize" }, method = RequestMethod.GET)
+	public String userOrganize(HttpServletRequest req) {
+		return USER_ORGANIZE;
 	}
 }
