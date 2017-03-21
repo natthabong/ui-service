@@ -114,6 +114,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
     };
 
     vm.uploadAction = function() {
+	vm.isShowConfirmation = false;
         vm.showErrorMsg = false;
         // Validate Form before send upload file
         if (validateFileUpload(vm.uploadModel, vm.acceptFileExtention)) {

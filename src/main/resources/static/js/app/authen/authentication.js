@@ -141,7 +141,9 @@
     	        $http(req).then(function(response) {
                     $http.defaults.headers.common.Authorization = 
       	              'Bearer ' + response.data.access_token;
-                    $cookieStore.put("access_token", response.data.access_token);
+                    var expireDate = new Date (new Date().getTime() + (1000 * response.data.expires_in));
+                    $cookieStore.put("access_token", response.data.access_token, {'expires': expireDate});
+                    $cookieStore.put("refresh_token", response.data.refresh_token, {'expires': expireDate});
                     blockUI.stop();
                     deffered.resolve(response);
                 }).catch(function(response) {
@@ -170,11 +172,30 @@
         }
 
         function Logout(callback) {
-            var token = $cookieStore.get("access_token")
-            ClearCredentials();
+            var deffered = $q.defer();
+            blockUI.start();
+            var access_token = $cookieStore.get("access_token")
+            var refresh_token = $cookieStore.get("refresh_token")
+            var req = {
+    	            method: 'POST',
+    	            url: "/api/oauth/revoke-token",
+    	            params: {
+    	        	refreshToken: refresh_token
+    	            }
+    	        }
+    	        $http(req).then(function(response) {
+                    blockUI.stop();
+                    ClearCredentials();
+                    callback();
+                    deffered.resolve(response);
+                }).catch(function(response) {
+                    blockUI.stop();
+                    deffered.reject(response);
+                })
+            
             /* Use this for real authentication
              ----------------------------------------------*/
-            callback();
+            
         }
 
         function SetCredentials(username, password) {

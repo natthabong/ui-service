@@ -1,11 +1,12 @@
-angular.module('scfApp').factory('UploadDocumentService',['$http', '$q', UploadDocumentService]);
-function UploadDocumentService($http, $q){
+angular.module('scfApp').factory('UploadDocumentService',['$http', '$q', 'blockUI', UploadDocumentService]);
+function UploadDocumentService($http, $q, blockUI){
 	return {
 		upload: upload,
 		getFileType: getFileType,
 		confirmUpload: confirmUpload
 	}
 	function upload(fileModel){
+	    	blockUI.start();
 		var deffered = $q.defer();
 		var formData = new FormData();
 		formData.append('file', fileModel.file);
@@ -14,16 +15,12 @@ function UploadDocumentService($http, $q){
 			transformRequest: angular.identity,
 			headers:{'Content-type': undefined}
 		}).then(function(response){
+		    	blockUI.stop();
 			deffered.resolve(response);
 		}).catch(function(response){
+		    	blockUI.stop();
 			deffered.reject(response);
 		});
-		
-// $http.get('/js/app/upload-document/PartialUploadFailResponse.json').then(function(response){
-// deffered.resolve(response);
-// }).catch(function(response){
-// deffered.reject(response);
-// });
 		return deffered;
 	}
 	

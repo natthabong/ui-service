@@ -130,7 +130,6 @@ var app = angular.module('scfApp');
 		                            	if(angular.isDefined(value)){
 		                            		vm.saveNewFormula(value);
 		                            	}
-		                            	vm.refershFormulaTable();
 		                            }
 			                    });	
 				            						            					            		
@@ -139,7 +138,7 @@ var app = angular.module('scfApp');
 				        		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
 				        		var serviceDiferred = Service.requestURL(serviceUrl, value, 'POST');
 				        		serviceDiferred.promise.then(function(response) {
-
+				        		    vm.refershFormulaTable();
 				        		}); 
 				        	};
 				            
