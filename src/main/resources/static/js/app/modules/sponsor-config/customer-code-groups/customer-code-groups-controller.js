@@ -400,7 +400,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	}
 	
 	vm.customerAutoSuggestModel = UIFactory.createAutoSuggestModel({
-		placeholder : 'Enter Organize name or code',
+		placeholder : 'Enter organize name or code',
 		itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 		query: queryCustomerCode
 	});
@@ -633,7 +633,7 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 	}
 	
 	vm.customerAutoSuggest = UIFactory.createAutoSuggestModel({
-		placeholder : 'Enter Organize name or code',
+		placeholder : 'Enter organize name or code',
 		itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 		query: queryCustomerCode
 	});

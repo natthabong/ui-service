@@ -40,7 +40,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	}
 	
 	vm.organizeAutoSuggestModel = UIFactory.createAutoSuggestModel({
-		placeholder: 'Enter Organize name or code',
+		placeholder: 'Enter organize name or code',
 		itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 		query: searchOrganizeTypeHead
 	});
