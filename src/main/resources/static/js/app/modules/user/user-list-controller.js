@@ -148,7 +148,7 @@ var scfApp = angular.module('scfApp').controller('UserListController',['$scope',
                 sortable: false,
                 cssTemplate: 'text-left'
             },{
-            	fieldName: 'status',
+            	fieldName: 'realStatus',
             	labelEN: 'Status',
             	labelTH: 'Status',
                 id: 'status-{value}',
