@@ -152,6 +152,7 @@
 					dateFormat : '@',
 					isOpen : '=',
 					openCalendarAction : '&',
+					ngDisabled: '='
 				},
 				link : function(scope, element, attrs) {
 					if (attrs.textId !== undefined) {
@@ -185,7 +186,8 @@
 					openCalendarAction : '&',
 					maxDate : '=',
 					textName: '@',
-					textRequired: "@"
+					textRequired: "@",
+					ngDisabled: '='
 				},
 				link : function(scope, element, attrs) {
 					scope.minDate = null;

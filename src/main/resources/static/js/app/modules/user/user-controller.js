@@ -75,7 +75,7 @@ userModule
 					{
 					    cssTemplate : 'text-center',
 					    sortable : false,
-					    cellTemplate : '<scf-button class="btn-default gec-btn-action" id="{{data.organizeId}}-profile-button" ng-click="deleteRole(data)" title="Delete a role"><i class="fa fa-trash" aria-hidden="true"></i></scf-button>'
+					    cellTemplate : '<scf-button class="btn-default gec-btn-action" id="{{data.organizeId}}-profile-button" ng-click="deleteRole(data)" ng-disabled="ctrl.isViewUser" title="Delete a role"><i class="fa fa-trash" aria-hidden="true"></i></scf-button>'
 					} ]
 			    };
 
@@ -92,6 +92,39 @@ userModule
 				vm.openExpireDate = true;
 			    };
 			    vm.isUseExpireDate = false;
+			    
+			    var mode = {
+		    		VIEW : 'viewUser',
+		    		EDIT : 'editUser'
+			    }
+			    var currentMode = $stateParams.mode;
+			    vm.loadUser = function() {
+			    	if(currentMode == mode.VIEW){
+			    		var userId = $stateParams.userModel.userId;
+			    		vm.isViewUser = true;
+			    		
+			    		var deffered = Service.doGet('/api/v1/users/'+userId);
+			    		deffered.promise.then(function(response) {
+			    			console.log(response)
+			    			$scope.user = response.data;
+			    			$scope.user.birthDate = new Date(response.data.birthDate);
+			    			$scope.user.activeDate = new Date(response.data.activeDate);
+			    			$scope.user.expiryDate = new Date(response.data.expiryDate);
+			    			if(response.data.expiryDate != '' || response.data.expiryDate != null){
+			    				vm.isUseExpireDate = true;
+			    			}
+			    			vm.organizeLinks = $scope.user.organizeRoles;
+			    			vm.pagingController.updateSource(
+			   					    vm.organizeLinks).search();
+	        	        	
+				        }).catch(function(response) {
+				            log.error('Get user fail');
+				        });
+			    		
+			    	}else {
+			    		vm.isViewUser = false;
+			    	}
+			    }
 
 			    $scope.deleteRole = function(record) {
 				var index = vm.organizeLinks.indexOf(record);
@@ -273,6 +306,9 @@ userModule
 			    }
 
 			    var init = function() {
-				vm.search();
+			    	vm.search();
+			    	if(currentMode == mode.VIEW){
+			    		vm.loadUser();
+			    	}
 			    }();
 			} ]);

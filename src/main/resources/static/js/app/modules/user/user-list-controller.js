@@ -16,10 +16,11 @@ userModule
 			'$http',
 			'UserStatus',
 			'PasswordStatus',
+			'$timeout',
 			function($scope, Service, $stateParams, $log,
 				SCFCommonService, PagingController,
 				PageNavigation, $state, UIFactory, $http,
-				UserStatus, PasswordStatus) {
+				UserStatus, PasswordStatus, $timeout) {
 
 			    var vm = this;
 			    var log = $log;

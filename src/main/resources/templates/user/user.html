@@ -22,7 +22,7 @@
 								name' | translate}}: </label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<scf-input-text id="first-name-textbox" maxlength="100"
-									ng-model="user.firstName"></scf-input-text>
+									ng-model="user.firstName" ng-disabled="ctrl.isViewUser"></scf-input-text>
 							</div>
 
 							<div class="col-md-3 col-sm-2"></div>
@@ -40,7 +40,7 @@
 								name' | translate}}:</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<scf-input-text id="last-name-textbox" ng-model="user.lastName"
-									maxlength="100"></scf-input-text>
+									maxlength="100" ng-disabled="ctrl.isViewUser"></scf-input-text>
 							</div>
 							<div class="col-md-3 col-sm-2"></div>
 						</div>
@@ -58,7 +58,7 @@
 								name' | translate}}:</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<scf-input-text id="display-name-textbox"
-									ng-model="user.displayName" maxlength="100"></scf-input-text>
+									ng-model="user.displayName" maxlength="100" ng-disabled="ctrl.isViewUser"></scf-input-text>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
@@ -76,16 +76,16 @@
 								name' | translate}}:</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<scf-input-text id="login-name-textbox"
-									ng-model="user.loginName" maxlength="100"></scf-input-text>
+									ng-model="user.username" maxlength="100" ng-disabled="ctrl.isViewUser"></scf-input-text>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
 
-						<div class="form-group" ng-show="errors.loginName">
+						<div class="form-group" ng-show="errors.username">
 							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
 								id="login-name-warning-message-label"
-								ng-bind="errors.loginName.message | translate"></span>
+								ng-bind="errors.username.message | translate"></span>
 						</div>
 
 						<div class="form-group">
@@ -94,7 +94,7 @@
 								| translate}}:</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<scf-input-text id="email-textbox" ng-model="user.email"
-									maxlength="100"></scf-input-text>
+									maxlength="100" ng-disabled="ctrl.isViewUser"></scf-input-text>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
@@ -111,10 +111,11 @@
 								class="col-md-2 col-sm-3 control-label">{{'Birth date' |
 								translate}}:</label>
 							<div class="col-md-3 col-sm-4 gec-calendar-group">
-								<scf-date-picker text-id="birth-date-textbox"
+								<scf-date-picker text-id="birth-date-textbox" 
 									text-model="user.birthDate" date-format="dd/MM/yyyy"
 									is-open="ctrl.openBirthDate"
 									open-calendar-action="ctrl.openCalendarBirthDate()"
+									ng-disabled="ctrl.isViewUser"
 									button-id="birth-date-calendar-button"> </scf-date-picker>
 							</div>
 						</div>
@@ -136,6 +137,7 @@
 									is-open="ctrl.openActiveDate"
 									open-calendar-action="ctrl.openCalendarActiveDate()"
 									max-date="user.expiryDate"
+									ng-disabled="ctrl.isViewUser"
 									button-id="active-date-calendar-button">
 								</scf-date-picker-from>
 							</div>
@@ -143,7 +145,7 @@
 								<div class="col-md-2 col-sm-2 col-xs-2"
 									style="padding-left: 25px;">
 									<scf-checkbox id="expire-date-checkbox"
-										ng-model="ctrl.isUseExpireDate"></scf-checkbox>
+										ng-model="ctrl.isUseExpireDate" ng-disabled="ctrl.isViewUser"></scf-checkbox>
 									<label id="expire-date-label" class="checkbox-inline"
 										style="padding-bottom: 10px;">{{'Expire date' |
 										translate}}:</label>
@@ -153,7 +155,7 @@
 										text-model="user.expiryDate" date-format="dd/MM/yyyy"
 										is-open="ctrl.openExpireDate"
 										open-calendar-action="ctrl.openCalendarExpireDate()"
-										min-date="user.activeDate" ng-disabled="!ctrl.isUseExpireDate"
+										min-date="user.activeDate" ng-disabled="!ctrl.isUseExpireDate || ctrl.isViewUser"
 										button-id="expire-date-calendar-button">
 									</scf-date-picker-to>
 								</div>
@@ -175,7 +177,7 @@
 						<div class="form-group">
 							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 							&nbsp;&nbsp;
-							<scf-checkbox id="suspend-checkbox" ng-model="user.suspend"></scf-checkbox>
+							<scf-checkbox id="suspend-checkbox" ng-model="user.suspend" ng-disabled="ctrl.isViewUser"></scf-checkbox>
 							<label class="checkbox-inline" id="suspend-label" style="padding-bottom: 10px;">{{'Suspend'
 								| translate}}</label>
 
@@ -191,9 +193,9 @@
 						</div>
 						<div class="row">
 							<div class="col-md-12 col-sm-12 text-right">
-								<span> <scf-button id="new-button"
+								<span ng-if="!ctrl.isViewUser"> <scf-button id="new-button"
 										class="btn-default gec-btn-action" ng-click="addRole()">
-									<i class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
+									<i class="fa fa-plus fa-lg" aria-hidden="true" ></i></scf-button>
 								</span> <br /> <br /> <span> <b
 									ng-bind="ctrl.pagingController.splitePageTxt"
 									id="organize-links-paging-label"></b> &nbsp;&nbsp; <scf-pagination
@@ -218,9 +220,11 @@
 						</div>
 						<div class="col-md-12 col-sm-12 text-right">
 							<div class="form-group">
-								<scf-button id="cancel-button" ng-click="cancel">{{'Cancel'
+								<scf-button id="back-button" ng-click="back()" ng-if="ctrl.isViewUser">{{'Back'
 								| translate}}</scf-button>
-								<scf-button id="save-button" type="submit">{{'Save'
+								<scf-button id="cancel-button" ng-click="cancel()" ng-if="!ctrl.isViewUser">{{'Cancel'
+								| translate}}</scf-button>
+								<scf-button id="save-button" type="submit" ng-if="!ctrl.isViewUser">{{'Save'
 								| translate}}</scf-button>
 							</div>
 						</div>

@@ -39,4 +39,13 @@ public class UserController {
 	public String userOrganize(HttpServletRequest req) {
 		return USER_ORGANIZE;
 	}
+	
+	@RequestMapping(path = { "/user/view"} , method = RequestMethod.GET)
+	public String bankViewUser(HttpServletRequest request){
+		String requestedWith = request.getHeader("X-Requested-With");
+		if(AjaxUtils.isAjaxRequest(requestedWith)){
+			return USER_NEW.concat(" :: content");
+		}
+		return USER_NEW;
+	}
 }
