@@ -2203,4 +2203,4 @@ app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope', 'Ser
 	var vm = this;
 	vm.formula = angular.copy($scope.ngDialogData.formula);
 	vm.sponsorId = angular.copy($scope.ngDialogData.formula.sponsorId);
-} ]);
+} ]); 
