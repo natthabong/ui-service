@@ -291,7 +291,11 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
         currentPage: defaultPage,
         clearSortOrder: false
     }
-
+    
+    vm.updateSource = function(source){
+	 vm.dataSource = source;
+	return vm;
+    }
     vm.create = function(source, criteriaData, methodRequest) {
 	
 	if(typeof source == "string"){
@@ -301,7 +305,7 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 	}
 	else{
 	    vm.clientMode = true;
-	    vm.sourceData = source;
+	    vm.dataSource = source;
 	}
         return vm;
     }
@@ -318,18 +322,18 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 	
 	if(vm.clientMode){
 	    
-	    if (angular.isArray(vm.sourceData)) {
+	    if (angular.isArray(vm.dataSource)) {
 		var pagesize = vm.pagingModel.pageSizeSelectModel;
 		var currentPage = vm.pagingModel.currentPage;
 		
                 var indexStart = currentPage * pagesize;
                 var indexLast = (currentPage * pagesize) + pagesize;
-                var totalPage = Math.ceil(vm.sourceData.length / pagesize);
+                var totalPage = Math.ceil(vm.dataSource.length / pagesize);
                 var dataSplites = [];
-                for (; indexStart < indexLast && indexStart < vm.sourceData.length; indexStart++) {
-                    dataSplites.push(vm.sourceData[indexStart]);
+                for (; indexStart < indexLast && indexStart < vm.dataSource.length; indexStart++) {
+                    dataSplites.push(vm.dataSource[indexStart]);
                 }
-                vm.pagingModel.totalRecord = vm.sourceData.length;
+                vm.pagingModel.totalRecord = vm.dataSource.length;
 	            // vm.pagingModel.currentPage = response.headers.number;
 	        vm.pagingModel.totalPage = totalPage;
 	        vm.tableRowCollection = dataSplites;

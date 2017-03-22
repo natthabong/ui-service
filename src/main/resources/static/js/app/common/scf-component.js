@@ -899,8 +899,8 @@
 						}
 					}
 
-					if(column.renderer!=null){
-					    dataRender = column.renderer(dataRender);
+					if(column.renderer != null){
+					    dataRender = column.renderer(dataRender, data);
 					}
 					elements.addClass(colClass);
 					elements.html(dataRender);
@@ -909,10 +909,14 @@
 					if (angular.isDefined(column.idTemplate) && column.idTemplate !== null) {
 						// Check add id is rowNo for checkBox
 						if (column.idValueField === '$rowNo') {
+					
 							if (elements[0].children.length > 0) {
 								elements[0].children[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);
+							    	console.log(elements[0].children[0].id);
+
 							} else {
 								elements[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);
+							    	console.log(elements[0].id);
 							}
 						} else {
 							elements[0].children[0].id = addId(data[column.idValueField != null ? column.idValueField : column.field], column.idTemplate, column.renderer, column.fieldName);
