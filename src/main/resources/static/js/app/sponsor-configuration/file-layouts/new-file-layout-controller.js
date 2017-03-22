@@ -275,7 +275,7 @@ app.controller('NewFileLayoutController', [
 			vm.delimeter = ',';
 			vm.delimeterOther = '';
 			
-			vm.specificModel = 'CPAC format'			
+			vm.specificModel = 'Specific 1'			
 		}
 
 		vm.paymentDateFormularModelDropdowns = [];
@@ -355,7 +355,7 @@ app.controller('NewFileLayoutController', [
 						vm.delimeter = ',';
 						vm.delimeterOther = '';
 					}
-					vm.specificModel = 'CPAC format';		
+					vm.specificModel = 'Specific 1';		
 					vm.displayLayout = true;
 				});
 				
