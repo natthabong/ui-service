@@ -505,6 +505,7 @@ var addOrdinalNumberSuffix = function(number){
 }
 
 var defaultColumDisplay = {
+	supplierCodeGroupSelection: 'SINGLE_PER_TRANSACTION',
 	loanRequestMode: 'CURRENT_AND_FUTURE',
 	documentSelection :'ANY_DOCUMENT',
 	items: [{
