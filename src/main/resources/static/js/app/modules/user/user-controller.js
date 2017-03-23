@@ -275,12 +275,7 @@ userModule
 				    }
 				}
 
-				if (isRequire(user.activeDate)) {
-				    valid = false;
-				    $scope.errors.activeDate = {
-					message : 'Active date is required.'
-				    }
-				} else if (!angular.isDate(user.activeDate)) {
+				if (!angular.isDefined(user.activeDate)) {
 				    valid = false;
 				    $scope.errors.activeDate = {
 					message : 'Wrong date format data.'
@@ -289,12 +284,7 @@ userModule
 
 				if (vm.isUseExpireDate) {
 
-				    if (isRequire(user.expiryDate)) {
-					valid = false;
-					$scope.errors.expiryDate = {
-					    message : 'Expiry date is required.'
-					}
-				    } else if (!angular.isDate(user.expiryDate)) {
+				    if (!angular.isDefined(user.expiryDate)) {
 					valid = false;
 					$scope.errors.expiryDate = {
 					    message : 'Wrong date format data.'

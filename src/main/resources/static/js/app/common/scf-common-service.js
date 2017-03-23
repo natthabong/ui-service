@@ -247,7 +247,7 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 	                var totalPage = Math.ceil(self.dataSource.length / pagesize);
 	                var dataSplites = [];
 	                for (; indexStart < indexLast && indexStart < self.dataSource.length; indexStart++) {
-	                    dataSplites.push(vm.dataSource[indexStart]);
+	                    dataSplites.push(self.dataSource[indexStart]);
 	                }
 	                self.pagingModel.totalRecord = self.dataSource.length;
 	                self.pagingModel.totalPage = totalPage;
