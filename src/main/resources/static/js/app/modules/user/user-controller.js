@@ -76,7 +76,7 @@ userModule
 					{
 					    cssTemplate : 'text-center',
 					    sortable : false,
-					    cellTemplate : '<scf-button class="btn-default gec-btn-action" id="{{data.organizeId}}-profile-button" ng-click="deleteRole(data)" ng-disabled="ctrl.isViewMode" title="Delete a role"><i class="fa fa-trash" aria-hidden="true"></i></scf-button>'
+					    cellTemplate : '<scf-button class="btn-default gec-btn-action" id="delete-{{$index +1}}-button" ng-click="deleteRole(data)" ng-disabled="ctrl.isViewMode" title="Delete a role"><i class="fa fa-trash" aria-hidden="true"></i></scf-button>'
 					} ]
 			    };
 			    
@@ -236,7 +236,8 @@ userModule
 						return _save(user);
 					},
 					onFail : function(response) {
-			    			var msg = {
+					    if(response.status != 400){
+						var msg = {
 			    				409 : 'User has been modified.'
 						};
 			    			UIFactory.showFailDialog({
@@ -246,6 +247,7 @@ userModule
 						   },
 						   preCloseCallback : preCloseCallback
 						});
+					    }
 					},
 					onSuccess : function(response) {
 						UIFactory.showSuccessDialog({
