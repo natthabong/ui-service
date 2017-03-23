@@ -35,11 +35,12 @@ userModule
 				passwordStatus : vm.passwordStatusDropdowns[0].value
 			    }
 
-			    vm.newUser = function(data) {
+			    vm.newUser = function() {
 				var params = {
-				    userModel : data
+				    userModel : null
 				};
-				PageNavigation.gotoPage('/user/new');
+				PageNavigation.gotoPage('/user/new', params,
+					params);
 			    }
 
 			    vm.viewUser = function(data) {
@@ -48,7 +49,7 @@ userModule
 				};
 				$timeout(function() {
 				    PageNavigation.gotoPage('/user/view',
-					    params);
+					    params, true);
 				}, 10);
 			    }
 
@@ -58,7 +59,7 @@ userModule
 				};
 				$timeout(function() {
 				    PageNavigation.gotoPage('/user/edit',
-					    params);
+					    params, true);
 				}, 10);
 			    }
 
@@ -175,7 +176,6 @@ userModule
 						vm.userCriteria.passwordStatus = status.valueObject;
 					    }
 					});
-
 				vm.pagingController.search(pageModel);
 
 			    }
@@ -258,7 +258,7 @@ userModule
 			    }
 
 			    vm.initLoad = function() {
-
+				var backAction = $stateParams.backAction;
 				vm.searchUser();
 			    }
 

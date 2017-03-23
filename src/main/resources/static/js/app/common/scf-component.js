@@ -486,7 +486,8 @@
 					firstPageButtonId : '@',
 					backPageButtonId : '@',
 					nextPageButtonId : '@',
-					lastPageButtonId : '@'
+					lastPageButtonId : '@',
+					dropdownPageLimitId: '@'
 				},
 				link : fieldLink,
 				template : fieldTemplate
@@ -498,7 +499,7 @@
 				scope.backPageButtonId = angular.isUndefined(scope.backPageButtonId) ? prefixId+'back-page-button' : scope.backPageButtonId;
 				scope.nextPageButtonId = angular.isUndefined(scope.nextPageButtonId) ? prefixId+'next-page-button' : scope.nextPageButtonId;
 				scope.lastPageButtonId = angular.isUndefined(scope.lastPageButtonId) ? prefixId+'last-page-button' : scope.lastPageButtonId;
-
+				scope.dropdownPageLimitId = angular.isUndefined(scope.dropdownPageLimitId) ? prefixId+'page-limit-dropdown' : scope.dropdownPageLimitId;
 				scope.$watch('[totalPage, currentPage]', function(value) {
 					disableButton(scope, element);
 				});
@@ -551,7 +552,7 @@
 			}
 
 			function fieldTemplate(element, attrs) {
-				var template = '<ul class="scf-paging form-inline">' + '<li><button type="button" ng-click="scfPaginationAction(\'first\')" class="btn btn-sm" id="{{firstPageButtonId}}"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></button></li>' + '<li><button type="button" ng-click="scfPaginationAction(\'back\')" class="btn btn-sm" id="{{backPageButtonId}}"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></button></li>' + '<li><scf-dropdown ng-model="pageSizeModel" ng-change="scfPaginationAction(\'changeSize\')" component-data="pageSizeList"></scf-dropdown</li>' + '<li><button type="button" ng-click="scfPaginationAction(\'next\')" class="btn btn-sm" id="{{nextPageButtonId}}"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button></li>' + '<li><button type="button" ng-click="scfPaginationAction(\'last\')" class="btn btn-sm" id="{{lastPageButtonId}}"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button></li>' + '</ul>';
+				var template = '<ul class="scf-paging form-inline">' + '<li><button type="button" ng-click="scfPaginationAction(\'first\')" class="btn btn-sm" id="{{firstPageButtonId}}"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></button></li>' + '<li><button type="button" ng-click="scfPaginationAction(\'back\')" class="btn btn-sm" id="{{backPageButtonId}}"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></button></li>' + '<li><scf-dropdown ng-model="pageSizeModel" ng-change="scfPaginationAction(\'changeSize\')" component-data="pageSizeList" id="{{dropdownPageLimitId}}"></scf-dropdown</li>' + '<li><button type="button" ng-click="scfPaginationAction(\'next\')" class="btn btn-sm" id="{{nextPageButtonId}}"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button></li>' + '<li><button type="button" ng-click="scfPaginationAction(\'last\')" class="btn btn-sm" id="{{lastPageButtonId}}"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button></li>' + '</ul>';
 				return template;
 			}
 		} ])

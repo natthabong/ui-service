@@ -78,7 +78,10 @@ userModule
 					    cellTemplate : '<scf-button class="btn-default gec-btn-action" id="{{data.organizeId}}-profile-button" ng-click="deleteRole(data)" ng-disabled="ctrl.isViewUser" title="Delete a role"><i class="fa fa-trash" aria-hidden="true"></i></scf-button>'
 					} ]
 			    };
-
+			    
+			    vm.pagingController = PagingController
+			    .create(vm.organizeLinks);
+			    
 			    vm.openBirthDate = false;
 			    vm.openCalendarBirthDate = function() {
 				vm.openBirthDate = true;
@@ -97,6 +100,7 @@ userModule
 		    		VIEW : 'viewUser',
 		    		EDIT : 'editUser'
 			    }
+			    
 			    var currentMode = $stateParams.mode;
 			    vm.loadUser = function() {
 			    	if(currentMode == mode.VIEW){
@@ -151,14 +155,9 @@ userModule
 							.updateSource(
 								vm.organizeLinks)
 							.search();
-						console
-							.log(vm.pagingController.dataSource)
 					    }
 					});
 			    }
-
-			    vm.pagingController = PagingController
-				    .create(vm.organizeLinks);
 
 			    vm.search = function(pageModel) {
 				vm.pagingController.search(pageModel);
@@ -191,7 +190,9 @@ userModule
 				});
 				return deferred;
 			    }
-			    
+			    $scope.cancel = function() {
+				PageNavigation.gotoPreviousPage();
+			    }
 			    $scope.save = function() {
 				var user = $scope.user;
 				user.organizeRoles = [];
@@ -203,7 +204,7 @@ userModule
 				});
 				
 				
-				if (validate(user)) {
+				if (_validate(user)) {
 				    var preCloseCallback = function(confirm) {
 					PageNavigation.gotoPreviousPage(true);
 				    }
@@ -232,7 +233,7 @@ userModule
 				}
 			    }
 
-			    var validate = function(user) {
+			    var _validate = function(user) {
 				$scope.errors = {};
 				var valid = true;
 				if (isRequire(user.firstName)) {

@@ -204,7 +204,6 @@
 								</span> <br /> <br /> <span> <b
 									ng-bind="ctrl.pagingController.splitePageTxt"
 									id="organize-links-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-										dropdown-id="organize-links-page-limit-dropdown"
 										name="organize-links"
 										page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 										total-page="ctrl.pagingController.pagingModel.totalPage"
@@ -216,7 +215,7 @@
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-								<scf-table id="" component-config="ctrl.dataTable"
+								<scf-table component-config="ctrl.dataTable"
 									component-datas="ctrl.pagingController.tableRowCollection"
 									current-page="ctrl.pagingController.pagingModel.currentPage"
 									record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
