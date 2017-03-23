@@ -34,8 +34,29 @@
 						</ul>
 					</div>
 				</li>
-				<li class="user-name hidden-xs">| <span
-					ng-bind="userInfo.organizeName"></span></li>
+
+				<li class="hidden-xs" ng-controller="ScfHomeCtrl as ctrl">
+					<div class="dropdown" style="padding-top:17px">|
+						<a id="profile-menu" aria-hidden="true" class="dropdown-toggle"
+							style="color: #fff !important;cursor: pointer;" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="true"> <span
+							class="icon-avata">
+								<span class="user-name" ng-bind="ctrl.organizeHeader.organizeName" 
+								>Organize</span>
+						</span>
+						</a>
+						<ul class="dropdown-menu" ng-show = "ctrl.showDropDown">
+							<li ng-repeat="organize in ctrl.orgList track by $index">
+								<a id="my-activity-log-menu" style="color:#000;padding-left:10px;"
+								href="#" ng-click="ctrl.changeOrganize($index)"
+								>{{organize.organizeName}}
+								</a>
+							</li>
+							<li class="divider" style="margin:0px"></li>
+						</ul>
+					</div>
+				</li>
+
 				<li class="hidden-xs"><a ui-sref="/dashboard"
 					ui-sref-opts="{reload: true, inherit: false}"
 					class="header-menu-icon icon-home" title="Home" id="home-link"><span

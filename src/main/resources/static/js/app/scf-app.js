@@ -323,15 +323,68 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 
         };
 		
+		// Begin Code Get Organize List
+		vm.organizeHeader;
 		vm.getUserInfo = function(){
 			var defered = scfFactory.getUserInfo();
 			defered.promise.then(function(response){				
 				$scope.userInfo = response;
 				$rootScope.userInfo = response;
+				vm.organizeHeader = $rootScope.userInfo;
+				vm.getListUserOrgranize();
 			});
 		};
+
+		vm.ListOrgAndHeader=[];
+		vm.getListUserOrgranize = function(){
+			// var defered = scfFactory.getOrganizeList();
+			// defered.promise.then(function(response){
+			// 	vm.ListOrgAndHeader = response;
+			//	cutOrganizeHeaderFromOrganizeList();
+			// });
+
+			// MakeData for Organize List
+			vm.ListOrgAndHeader.push({
+				organizeId:"ACF_TEST1",
+				organizeName:"ACF FOOD PRODUCTS LTD.,PART."
+			});
+			vm.ListOrgAndHeader.push({
+				organizeId:"BANK004",
+				organizeName:"KASIKORNBANK PCL."
+			});
+			cutOrganizeHeaderFromOrganizeList();
+		};
+
+		vm.orgList = [];
+		vm.showDropDown = false;
+		var cutOrganizeHeaderFromOrganizeList = function(){
+			if(vm.ListOrgAndHeader.length != 0 && vm.ListOrgAndHeader != []){
+				for(var i = 0; i < vm.ListOrgAndHeader.length; i++){
+					if(vm.ListOrgAndHeader[i].organizeId != vm.organizeHeader.organizeId){
+						vm.orgList.push({
+							organizeId : vm.ListOrgAndHeader[i].organizeId,
+							organizeName : vm.ListOrgAndHeader[i].organizeName
+						})
+						vm.showDropDown = true;
+					}
+				}
+			}
+		};
+		// End Code Get Organize List
+
+		// Begin Code Change Organize
+		vm.changeOrganize = function(index){
+			var organize_id = vm.orgList[index].organizeId;
+			var defered = scfFactory.changeOrganize(organize_id);
+			defered.promise.then(function(response){
+				window.location.href = "/";
+			});
+		}
+		// End Code Change Organize
+		
 		
 		vm.getUserInfo();
+		
 		
 		$rootScope.isDesktopDevice = true;
 		getWindowSize();
@@ -353,6 +406,8 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
     return {
         getErrorMsg: getErrorMsg,
         getUserInfo: getUserInfo,
+		getOrganizeList: getOrganizeList,
+		changeOrganize:changeOrganize,
         getMenu: getMenu
     };
 
@@ -385,6 +440,30 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
 		});
     	return deferred;
     }
+
+	function getOrganizeList(){
+    	var deferred = $q.defer();
+    	$http.get('/api/v1/users/me/organizes').success(function(response){
+			deferred.resolve(response);
+			return deferred;
+		}).catch(function(response){
+			deferred.reject("User Organize List Error");
+			return deferred;
+		});
+    	return deferred;
+    }
+
+	function changeOrganize(organize_id){
+		var deferred = $q.defer();
+		$http.post('/api/v1/users/me/change-organize/'+ organize_id).success(function(response){
+			deferred.resolve(response);
+			return deferred;
+		}).catch(function(response){
+			deferred.reject("Change User Organize Error");
+			return deferred;
+		});
+		return deferred;
+	}
     
     function getMenu(){
 	var deferred = $q.defer();
