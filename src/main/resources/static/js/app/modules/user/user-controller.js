@@ -236,6 +236,16 @@ userModule
 						return _save(user);
 					},
 					onFail : function(response) {
+			    			var msg = {
+			    				409 : 'User has been modified.'
+						};
+			    			UIFactory.showFailDialog({
+						   data : {
+						      headerMessage : 'Save user failed.',
+						      bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+						   },
+						   preCloseCallback : preCloseCallback
+						});
 					},
 					onSuccess : function(response) {
 						UIFactory.showSuccessDialog({

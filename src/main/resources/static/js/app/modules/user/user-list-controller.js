@@ -85,15 +85,15 @@ userModule
 			    		onFail : function(response) {
 			    			blockUI.stop();
 			    			var msg = {
-									409 : 'User has been modified.'
-								};
-								UIFactory.showFailDialog({
-									data : {
-										headerMessage : 'Reset password failed.',
-										bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
-									},
-									preCloseCallback : preCloseCallback
-								});
+			    				409 : 'User has been modified.'
+						};
+			    			UIFactory.showFailDialog({
+						   data : {
+						      headerMessage : 'Reset password failed.',
+						      bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+						   },
+						   preCloseCallback : preCloseCallback
+						});
 			    		},
 			    		onSuccess : function(response) {
 			    			blockUI.stop();
