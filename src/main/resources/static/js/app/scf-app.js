@@ -431,7 +431,7 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
     
     function getUserInfo(){
     	var deferred = $q.defer();
-    	$http.get('/api/me').success(function(response){
+    	$http.get('/api/users/me').success(function(response){
 			deferred.resolve(response);
 			return deferred;
 		}).catch(function(response){
