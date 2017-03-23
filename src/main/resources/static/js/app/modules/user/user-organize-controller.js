@@ -45,7 +45,6 @@ userModule.controller('UserOrganizeController', [ '$scope', '$http', 'UserServic
     vm.selectAll = function() {
 	if(vm.isSelectedAll){
 	    vm.selectedRoles = vm.roles;
-			     		
 	} 
 	else{
 	    vm.selectedRoles = [];

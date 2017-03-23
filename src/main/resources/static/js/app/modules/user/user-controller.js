@@ -177,7 +177,17 @@ userModule
 				}).then(function(response) {
 					return deferred.resolve(response);
 				}).catch(function(response) {
-					return deferred.reject(response);
+    				    if (response) {
+    					if(Array.isArray(response.data)){
+    					   console.log(response.data);
+        				   response.data.forEach(function(error){
+        				       $scope.errors[error.code] = {
+    	    					    message : error.message
+    	    					};
+        				   });
+    					}
+    				    }
+				    return deferred.reject(response);
 				});
 				return deferred;
 			    }
@@ -217,6 +227,8 @@ userModule
 						});
 					}
 				    });
+				}else{
+				    console.log('Invalid');
 				}
 			    }
 
@@ -243,9 +255,9 @@ userModule
 				    }
 				}
 
-				if (isRequire(user.loginName)) {
+				if (isRequire(user.username)) {
 				    valid = false;
-				    $scope.errors.loginName = {
+				    $scope.errors.username = {
 					message : 'Login name is required.'
 				    }
 				}
@@ -308,7 +320,7 @@ userModule
 			    var init = function() {
 			    	vm.search();
 			    	if(currentMode == mode.VIEW){
-			    		vm.loadUser();
+			    	    vm.loadUser();
 			    	}
 			    }();
 			} ]);
