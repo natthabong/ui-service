@@ -110,13 +110,27 @@ userModule
 			    		var deffered = Service.doGet('/api/v1/users/'+userId);
 			    		deffered.promise.then(function(response) {
 			    			console.log(response)
+			    			
 			    			$scope.user = response.data;
-			    			$scope.user.birthDate = new Date(response.data.birthDate);
-			    			$scope.user.activeDate = new Date(response.data.activeDate);
-			    			$scope.user.expiryDate = new Date(response.data.expiryDate);
-			    			if(response.data.expiryDate != '' || response.data.expiryDate != null){
-			    				vm.isUseExpireDate = true;
+			    			if(response.data.birthDate != null){
+			    				$scope.user.birthDate = new Date(response.data.birthDate);
+			    			}else{
+			    				$scope.user.birthDate = null;
 			    			}
+			    			
+			    			if(response.data.activeDate != null){
+			    				$scope.user.activeDate = new Date(response.data.activeDate);
+			    			}else {
+			    				$scope.user.activeDate = null;
+			    			}
+			    			
+			    			if(response.data.expiryDate != null){
+			    				$scope.user.expiryDate = new Date(response.data.expiryDate);
+			    				vm.isUseExpireDate = true;
+			    			}else{
+			    				$scope.user.expiryDate = null;
+			    			}
+			    			
 			    			vm.organizeLinks = $scope.user.organizeRoles;
 			    			vm.pagingController.updateSource(
 			   					    vm.organizeLinks).search();
