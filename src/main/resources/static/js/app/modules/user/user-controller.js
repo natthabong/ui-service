@@ -76,7 +76,7 @@ userModule
 					{
 					    cssTemplate : 'text-center',
 					    sortable : false,
-					    cellTemplate : '<scf-button class="btn-default gec-btn-action" id="delete-{{$index +1}}-button" ng-click="deleteRole(data)" ng-disabled="ctrl.isViewMode" title="Delete a role"><i class="fa fa-trash" aria-hidden="true"></i></scf-button>'
+					    cellTemplate : '<scf-button class="btn-default gec-btn-action" id="delete-{{$parent.$index + 1}}-button" ng-click="deleteRole(data)" ng-disabled="ctrl.isViewMode" title="Delete a role"><i class="fa fa-trash" aria-hidden="true"></i></scf-button>'
 					} ]
 			    };
 			    
