@@ -194,43 +194,43 @@ userModule
 				PageNavigation.gotoPreviousPage();
 			    }
 			    $scope.save = function() {
-				var user = $scope.user;
-				user.organizeRoles = [];
-				vm.organizeLinks.forEach(function(organizeLink) {
-				    user.organizeRoles.push({
-					roleId: organizeLink.roleId,
-					organizeId: organizeLink.organizeId
-				    });
-				});
-				
-				
-				if (_validate(user)) {
-				    var preCloseCallback = function(confirm) {
-					PageNavigation.gotoPreviousPage(true);
-				    }
-
-				    UIFactory.showConfirmDialog({
-					data : {
-						headerMessage : 'Confirm save?'
-					},
-					confirm : function() {
-						return _save(user);
-					},
-					onFail : function(response) {
-					},
-					onSuccess : function(response) {
-						UIFactory.showSuccessDialog({
-							data : {
-								headerMessage : 'Save user completed.',
-								bodyMessage : ''
-							},
-							preCloseCallback : preCloseCallback
-						});
+					var user = $scope.user;
+					user.organizeRoles = [];
+					vm.organizeLinks.forEach(function(organizeLink) {
+					    user.organizeRoles.push({
+						roleId: organizeLink.roleId,
+						organizeId: organizeLink.organizeId
+					    });
+					});
+					
+					
+					if (_validate(user)) {
+					    var preCloseCallback = function(confirm) {
+						PageNavigation.gotoPreviousPage(true);
+					    }
+	
+					    UIFactory.showConfirmDialog({
+						data : {
+							headerMessage : 'Confirm save?'
+						},
+						confirm : function() {
+							return _save(user);
+						},
+						onFail : function(response) {
+						},
+						onSuccess : function(response) {
+							UIFactory.showSuccessDialog({
+								data : {
+									headerMessage : 'Save user completed.',
+									bodyMessage : ''
+								},
+								preCloseCallback : preCloseCallback
+							});
+						}
+					    });
+					}else{
+					    console.log('Invalid');
 					}
-				    });
-				}else{
-				    console.log('Invalid');
-				}
 			    }
 
 			    var _validate = function(user) {
@@ -280,22 +280,32 @@ userModule
 				    $scope.errors.activeDate = {
 					message : 'Wrong date format data.'
 				    }
+				}else if(user.activeDate == null|| user.activeDate ==''){
+					valid = false;
+				    $scope.errors.activeDate = {
+				    		message : 'Active date is required.'
+				    }
 				}
 
 				if (vm.isUseExpireDate) {
 
 				    if (!angular.isDefined(user.expiryDate)) {
-					valid = false;
-					$scope.errors.expiryDate = {
-					    message : 'Wrong date format data.'
-					}
+						valid = false;
+						$scope.errors.expiryDate = {
+						    message : 'Wrong date format data.'
+						}
 				    } else if (angular
-					    .isDefined(user.activeDate)
-					    && user.expiryDate < user.activeDate) {
-					valid = false;
-					$scope.errors.activeDate = {
-					    message : 'Active date must be less than or equal to expire date.'
-					}
+						    .isDefined(user.activeDate)
+						    && user.expiryDate < user.activeDate) {
+						valid = false;
+						$scope.errors.activeDate = {
+						    message : 'Active date must be less than or equal to expire date.'
+						}
+				    }else if(user.expiryDate == null|| user.expiryDate ==''){				    	
+						valid = false;
+					    $scope.errors.expiryDate = {
+					    		message : 'Expire date is required.'
+					    }
 				    }
 
 				}
