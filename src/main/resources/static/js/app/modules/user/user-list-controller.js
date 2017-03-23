@@ -52,7 +52,7 @@ userModule
 				};
 				$timeout(function() {
 				    PageNavigation.gotoPage('/user/view',
-					    params, true);
+					    params, params);
 				}, 10);
 			    }
 
@@ -62,7 +62,7 @@ userModule
 				};
 				$timeout(function() {
 				    PageNavigation.gotoPage('/user/edit',
-					    params, true);
+					    params, params);
 				}, 10);
 			    }
 			    

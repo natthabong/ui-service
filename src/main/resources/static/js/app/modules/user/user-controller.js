@@ -16,9 +16,10 @@ userModule
 			'UIFactory',
 			'PageNavigation',
 			'PagingController',
+			'UserService',
 			function($scope, $stateParams, $log, $q, $rootScope,
 				$http, Service, ngDialog, SCFCommonService,
-				UIFactory, PageNavigation, PagingController) {
+				UIFactory, PageNavigation, PagingController, UserService) {
 
 			    var vm = this;
 			    var log = $log;
@@ -75,7 +76,7 @@ userModule
 					{
 					    cssTemplate : 'text-center',
 					    sortable : false,
-					    cellTemplate : '<scf-button class="btn-default gec-btn-action" id="{{data.organizeId}}-profile-button" ng-click="deleteRole(data)" ng-disabled="ctrl.isViewUser" title="Delete a role"><i class="fa fa-trash" aria-hidden="true"></i></scf-button>'
+					    cellTemplate : '<scf-button class="btn-default gec-btn-action" id="{{data.organizeId}}-profile-button" ng-click="deleteRole(data)" ng-disabled="ctrl.isViewMode" title="Delete a role"><i class="fa fa-trash" aria-hidden="true"></i></scf-button>'
 					} ]
 			    };
 			    
@@ -98,15 +99,21 @@ userModule
 			    
 			    var mode = {
 		    		VIEW : 'viewUser',
+		    		NEW : 'newUser',
 		    		EDIT : 'editUser'
 			    }
 			    
 			    var currentMode = $stateParams.mode;
 			    vm.loadUser = function() {
-			    	if(currentMode == mode.VIEW){
+			    	if(currentMode == mode.VIEW || currentMode == mode.EDIT){
 			    		var userId = $stateParams.userModel.userId;
-			    		vm.isViewUser = true;
-			    		
+			    		$scope.user.userId = userId;
+			    		if(currentMode == mode.VIEW){
+			    		    vm.isViewMode = true;
+			    		}
+			    		else{
+			    		    vm.isEditMode = true;
+			    		}
 			    		var deffered = Service.doGet('/api/v1/users/'+userId);
 			    		deffered.promise.then(function(response) {
 			    			console.log(response)
@@ -130,7 +137,6 @@ userModule
 			    			}else{
 			    				$scope.user.expiryDate = null;
 			    			}
-			    			
 			    			vm.organizeLinks = $scope.user.organizeRoles;
 			    			vm.pagingController.updateSource(
 			   					    vm.organizeLinks).search();
@@ -140,7 +146,9 @@ userModule
 				        });
 			    		
 			    	}else {
-			    		vm.isViewUser = false;
+			    		vm.isViewMode = false;
+			    		vm.isEditMode = false;
+			    		vm.isNewMode = true;
 			    	}
 			    }
 
@@ -163,7 +171,9 @@ userModule
 					    disableAnimation : true,
 					    preCloseCallback : function(value) {
 						if (value) {
-						    vm.organizeLinks = value;
+						    value.forEach(function(data){
+							vm.organizeLinks.push(data);
+						    })
 						}
 						vm.pagingController
 							.updateSource(
@@ -181,70 +191,65 @@ userModule
 			    }
 			    
 			    var _save = function(user){
-				var serviceUrl = 'api/v1/users'
-				var deferred = $q.defer();
-				$http({
-					method : 'POST',
-					url : serviceUrl,
-					data: user
-				}).then(function(response) {
-					return deferred.resolve(response);
-				}).catch(function(response) {
-    				    if (response) {
-    					if(Array.isArray(response.data)){
-    					   console.log(response.data);
-        				   response.data.forEach(function(error){
-        				       $scope.errors[error.code] = {
-    	    					    message : error.message
-    	    					};
-        				   });
-    					}
-    				    }
-				    return deferred.reject(response);
+				
+				var deferred = UserService.saveUser(user, vm.isEditMode);
+				deferred.promise.then(function(response){}).catch(function(response){
+				    if (response) {
+					if(Array.isArray(response.data)){
+					   response.data.forEach(function(error){
+					      $scope.errors[error.code] = {
+						message : error.message
+					      };
+					   });
+				        }
+				    }
+				    deferred.resolve(response);
 				});
 				return deferred;
 			    }
+			    
 			    $scope.cancel = function() {
 				PageNavigation.gotoPreviousPage();
 			    }
 			    $scope.save = function() {
-					var user = $scope.user;
-					user.organizeRoles = [];
-					vm.organizeLinks.forEach(function(organizeLink) {
-					    user.organizeRoles.push({
-						roleId: organizeLink.roleId,
-						organizeId: organizeLink.organizeId
-					    });
-					});
-					
-					
-					if (_validate(user)) {
-					    var preCloseCallback = function(confirm) {
-						PageNavigation.gotoPreviousPage(true);
-					    }
-	
-					    UIFactory.showConfirmDialog({
-						data : {
-							headerMessage : 'Confirm save?'
-						},
-						confirm : function() {
-							return _save(user);
-						},
-						onFail : function(response) {
-						},
-						onSuccess : function(response) {
-							UIFactory.showSuccessDialog({
-								data : {
-									headerMessage : 'Save user completed.',
-									bodyMessage : ''
-								},
-								preCloseCallback : preCloseCallback
-							});
-						}
-					    });
-					}else{
-					    console.log('Invalid');
+				var user = $scope.user;
+				user.organizeRoles = [];
+				vm.organizeLinks.forEach(function(organizeLink) {
+				    user.organizeRoles.push({
+					roleId: organizeLink.roleId,
+					organizeId: organizeLink.organizeId,
+					userId: (vm.isEditMode? $scope.user.userId: null)
+				    });
+				});
+				
+				
+				if (_validate(user)) {
+				    var preCloseCallback = function(confirm) {
+					PageNavigation.gotoPreviousPage(true);
+				    }
+
+				    UIFactory.showConfirmDialog({
+					data : {
+						headerMessage : 'Confirm save?'
+					},
+					confirm : function() {
+						return _save(user);
+					},
+					onFail : function(response) {
+					},
+					onSuccess : function(response) {
+						UIFactory.showSuccessDialog({
+							data : {
+								headerMessage : 'Save user completed.',
+								bodyMessage : ''
+							},
+							preCloseCallback : preCloseCallback
+						});
 					}
+				    });
+				}else{
+				    console.log('Invalid');
+				}
 			    }
 
 			    var _validate = function(user) {
@@ -300,8 +305,7 @@ userModule
 				    		message : 'Active date is required.'
 				    }
 				}
-
-				if (vm.isUseExpireDate) {
+if (vm.isUseExpireDate) {
 
 				    if (!angular.isDefined(user.expiryDate)) {
 						valid = false;
@@ -334,8 +338,6 @@ userModule
 
 			    var init = function() {
 			    	vm.search();
-			    	if(currentMode == mode.VIEW){
-			    	    vm.loadUser();
-			    	}
+			    	vm.loadUser();
 			    }();
 			} ]);

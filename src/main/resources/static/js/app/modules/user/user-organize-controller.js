@@ -71,13 +71,7 @@ userModule.controller('UserOrganizeController', [ '$scope', '$http', 'UserServic
 	 deferred.promise.then(function(response){
 	     vm.roles = response.data;
 	 }).catch(function(response){
-	     vm.roles = [{
-			roleId: 1,
-			roleName: 'Administrator'
-		    },{
-			roleId: 2,
-			roleName: 'Sponsor Admin'
-		    }];
+	     
 	 });
 	 
     }();

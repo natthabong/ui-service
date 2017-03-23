@@ -235,6 +235,14 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'UserController',
 				controllerAs: 'ctrl',
 				templateUrl: '/user/new',
+				params: {mode:'newUser', userModel: null},
+				resolve: load(['js/app/modules/user/user-list-controller.js', 'js/app/modules/user/user-service.js', 'js/app/modules/user/user-organize-controller.js', 'js/app/modules/user/user-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/user/edit',{
+				url: '/user/edit',
+				controller: 'UserController',
+				controllerAs: 'ctrl',
+				templateUrl: '/user/new',
+				params: {mode:'editUser', userModel: null},
 				resolve: load(['js/app/modules/user/user-list-controller.js', 'js/app/modules/user/user-service.js', 'js/app/modules/user/user-organize-controller.js', 'js/app/modules/user/user-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/user/view', {
 				url: '/user/view',

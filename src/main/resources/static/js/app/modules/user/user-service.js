@@ -14,6 +14,26 @@ userModule.factory('UserService', [ '$http', '$q', function($http, $q) {
 	       deffered.reject(response);
 	    });
 	    return deffered;
+	},
+	saveUser: function(user, editMode){
+	    	var serviceUrl = 'api/v1/users' + (editMode?('/'+ user.userId):'');
+        	var req = {
+        		method : editMode ? 'PUT': 'POST',
+        		url : serviceUrl,
+        		data: user
+        	}
+        	if(editMode){
+    	           req.headers = {
+    			'If-Match' : user.version
+    		   }
+        	}
+		var deferred = $q.defer();
+		$http(req).then(function(response) {
+			return deferred.resolve(response);
+		}).catch(function(response) {
+		    return deferred.reject(response);
+		});
+		return deferred;
 	}
     }
 
