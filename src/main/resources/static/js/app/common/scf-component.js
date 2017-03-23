@@ -915,11 +915,11 @@
 					
 							if (elements[0].children.length > 0) {
 								elements[0].children[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);
-							    	console.log(elements[0].children[0].id);
+							    	
 
 							} else {
 								elements[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);
-							    	console.log(elements[0].id);
+							    	
 							}
 						} else {
 							elements[0].children[0].id = addId(data[column.idValueField != null ? column.idValueField : column.field], column.idTemplate, column.renderer, column.fieldName);
