@@ -345,24 +345,13 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 
 		vm.ListOrgAndHeader=[];
 		vm.getListUserOrgranize = function(){
-			// var defered = scfFactory.getOrganizeList();
-			// defered.promise.then(function(response){
-			// 	vm.ListOrgAndHeader = response;
-			//	cutOrganizeHeaderFromOrganizeList();
-			// });
-
-			// MakeData for Organize List
-			vm.ListOrgAndHeader.push({
-				organizeId:"ACF_TEST1",
-				organizeName:"ACF FOOD PRODUCTS LTD.,PART."
+			var defered = scfFactory.getOrganizeList();
+			defered.promise.then(function(response){
+				vm.ListOrgAndHeader = response;
+				cutOrganizeHeaderFromOrganizeList();
 			});
-			vm.ListOrgAndHeader.push({
-				organizeId:"BANK004",
-				organizeName:"KASIKORNBANK PCL."
-			});
-			cutOrganizeHeaderFromOrganizeList();
 		};
-
+		
 		vm.orgList = [];
 		vm.showDropDown = false;
 		var cutOrganizeHeaderFromOrganizeList = function(){
