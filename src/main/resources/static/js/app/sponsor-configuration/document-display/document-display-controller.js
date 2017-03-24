@@ -38,21 +38,17 @@ angular
                     }
                 }
 
-                vm.loanRequestMode = LOAN_REQUEST_MODE_ITEM;
+				vm.loanRequestMode = LOAN_REQUEST_MODE_ITEM;
                 vm.documentSelection = DOCUMENT_SELECTION_ITEM;
-                vm.supplierCodeGroupSelection = SUPPLIER_CODE_GROUP_SELECTION_ITEM;
-                
-                console.log(SUPPLIER_CODE_GROUP_SELECTION_ITEM);
-                
-                vm.dataModel = {
+                vm.supplierCodeSelectionMode = SUPPLIER_CODE_GROUP_SELECTION_ITEM;
+
+				vm.dataModel = {
                     displayName: null,
                     items: null,
                     loanRequestMode: null,
                     documentSelection: null,
-                    supplierCodeGroupSelection: null
+                    supplierCodeSelectionMode: null
                 };
-                
-                console.log(vm.dataModel);
                 
                 vm.dataModel.items = [newDisplayConfig()];
                 
@@ -90,8 +86,6 @@ angular
 
                     sendRequest('/displays/' + selectedItem.documentDisplayId, function(response) {
                         vm.dataModel = response.data;
-//                         api     vm.dataModel.supplierCodeGroupSelection = 'SINGLE_PER_TRANSACTION';
-                        vm.dataModel.supplierCodeGroupSelection = 'SINGLE_PER_TRANSACTION';
                         if (vm.dataModel.items.length < 1) {
                             vm.addItem();
                         }
@@ -229,8 +223,8 @@ angular
 	    	anyDocument : 'ANY_DOCUMENT',
 	    	groupByMatchingRefNo : 'GROUP_BY_MATCHING_REF_NO'
 	    }).constant('SUPPLIER_CODE_GROUP_SELECTION_ITEM', {
-	    	single : 'SINGLE_PER_TRANSACTION',
-	    	multiple : 'MULTIPLE_PER_TRANSACTION'
+	    	singlePerTransaction : 'SINGLE_PER_TRANSACTION',
+	    	multiplePerTransaction : 'MULTIPLE_PER_TRANSACTION'
 	    }).controller( 'TEXTDisplayConfigController', [ '$scope','ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
 	       function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 	    	
