@@ -26,10 +26,12 @@
 						</div>
 						<div class="form-group">
 							<label id="loan-request-mode-label" for="dealer"
-								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Loan request mode' | translate}}: </label>
+								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Loan request mode' | translate}}: 
+							
+							</label>
 
 							<div class="col-md-5 col-sm-5 col-xs-12">
-								<label class="radio-inline"> <scf-radio
+								<label class="radio-inline"><scf-radio
 										id="current-and-future-loan-request-mode-radio" name="loan-request-mode-radio"
 										ng-value="ctrl.loanRequestMode.currentAndFuture"
 										ng-model="ctrl.dataModel.loanRequestMode"></scf-radio>
@@ -45,7 +47,9 @@
 						</div>
 						<div class="form-group">
 							<label id="document-selection-label" for="dealer"
-								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Document selection' | translate}}: </label>
+								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Document selection' | translate}}: 
+							
+							</label>
 
 							<div class="col-md-5 col-sm-5 col-xs-12">
 								<label class="radio-inline"> <scf-radio
@@ -67,19 +71,20 @@
 						<div class="form-group">
 							<label id="document-selection-label" for="dealer"
 								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Supplier code group selection' | translate}}: 
-							{{ctrl.dataModel.supplierCodeGroupSelection}}
+							
 							</label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 								<label class="radio-inline"><scf-radio
 										id="single-supplier-code-group-selection-radio" name="supplier-code-group-selection-radio"
-										ng-value="ctrl.supplierCodeGroupSelection.single"
-										ng-model="ctrl.dataModel.supplierCodeGroupSelection"></scf-radio>
+										ng-value="ctrl.supplierCodeSelectionMode.singlePerTransaction"
+										ng-model="ctrl.dataModel.supplierCodeSelectionMode"></scf-radio>
 									{{'Single per transaction' | translate}}
 								</label> <label class="radio-inline"><scf-radio
 										id="multiple-supplier-code-group-selection-radio" name="supplier-code-group-selection-radio"
-										ng-value="ctrl.supplierCodeGroupSelection.multiple"
-										ng-model="ctrl.dataModel.supplierCodeGroupSelection"></scf-radio>
+										ng-value="ctrl.supplierCodeSelectionMode.multiplePerTransaction"
+										ng-model="ctrl.dataModel.supplierCodeSelectionMode"></scf-radio>
 									{{'Multiple per transaction' | translate}}
+									
 								</label>
 							</div>
 							<div class="col-md-4 col-sm-3"></div>

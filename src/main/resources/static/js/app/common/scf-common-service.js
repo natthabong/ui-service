@@ -100,7 +100,6 @@ app.service('SCFCommonService', [
 			var differed = $q.defer();
 			var displayConfig = [];
 			var reqUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/displays'
-
 			var documentDisplayDiferred = Service.doGet(reqUrl);
 			documentDisplayDiferred.promise.then(function(response) {
 				
@@ -505,9 +504,9 @@ var addOrdinalNumberSuffix = function(number){
 }
 
 var defaultColumDisplay = {
-	supplierCodeGroupSelection: 'SINGLE_PER_TRANSACTION',
 	loanRequestMode: 'CURRENT_AND_FUTURE',
-	documentSelection :'ANY_DOCUMENT',
+	documentSelection : 'ANY_DOCUMENT',
+	supplierCodeGroupSelection: 'SINGLE_PER_TRANSACTION',
 	items: [{
             field: 'sponsorPaymentDate',
             labelEN: 'วันครบกำหนดชำระ',
