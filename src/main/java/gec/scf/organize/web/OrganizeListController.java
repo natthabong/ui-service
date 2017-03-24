@@ -14,9 +14,11 @@ public class OrganizeListController {
 
 	@RequestMapping(path = "/organize-list", method = RequestMethod.GET)
 	public String organizeList(@RequestHeader("X-Requested-With") String requestedWith) {
+
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return ORGANIZE_LIST.concat(" :: content");
 		}
 		return ORGANIZE_LIST;
+
 	}
 }
