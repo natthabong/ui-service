@@ -37,7 +37,7 @@
 
 				<li class="hidden-xs" ng-controller="ScfHomeCtrl as ctrl">
 					<div class="dropdown" style="padding-top:17px">|
-						<a id="profile-menu" aria-hidden="true" class="dropdown-toggle"
+						<a id="organize-menu" aria-hidden="true" class="dropdown-toggle"
 							style="color: #fff !important;cursor: pointer;" data-toggle="dropdown"
 							aria-haspopup="true" aria-expanded="true"> <span
 							class="icon-avata">
@@ -47,12 +47,13 @@
 						</a>
 						<ul class="dropdown-menu" ng-show = "ctrl.showDropDown">
 							<li ng-repeat="organize in ctrl.orgList track by $index">
-								<a id="my-activity-log-menu" style="color:#000;padding-left:10px;"
+								<a id="{{organize.organizeName}}-organize-menu" style="color:#000;padding-left:10px;"
 								href="#" ng-click="ctrl.changeOrganize($index)"
 								>{{organize.organizeName}}
 								</a>
+								<div class="divider" style="margin:0px"></div>
 							</li>
-							<li class="divider" style="margin:0px"></li>
+							
 						</ul>
 					</div>
 				</li>
