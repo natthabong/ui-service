@@ -5,7 +5,7 @@
 			id="wait-for-verify-transaction-header-label"
 			ng-bind="dashboardItem.headerLabel"></h3>
 
-		<div class="row">
+		<div class="row" ng-show="txnTodoListCtrl.canViewLoansOfMyOrganize">
 			<div class="col-md-12 col-sm-12 text-right">
 				<span> <b ng-bind="txnTodoListCtrl.splitePageTxt"
 					id="wait-for-verify-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
@@ -24,7 +24,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row" ng-show="txnTodoListCtrl.canViewLoansOfMyOrganize">
 			<div class="col-md-12">
 				<scf-data-table id="wait-for-verify-transaction-table"
 					component-config="txnTodoListCtrl.dataTable"
@@ -37,6 +37,8 @@
 		</div>
 		<input type="hidden" ng-init="txnTodoListCtrl.verify=true"
 			sec:authorize="hasAuthority('VERIFY_LOANS_OF_MY_ORGANIZE')" />
+		<input type="hidden" ng-init="txnTodoListCtrl.canViewLoansOfMyOrganize=true"
+			sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZE')" />
 	</div>
 
 </div>

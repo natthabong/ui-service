@@ -1,5 +1,5 @@
 <div th:fragment="content">
-    <div class="panel result-panel panel-shadow" ng-controller="JourneyResultController as resultCtrl">
+    <div class="panel result-panel panel-shadow" ng-controller="JourneyResultController as resultCtrl" ng-show="resultCtrl.canViewLoans">
 
         <div class="panel-heading txn-journey">
             <span class="pull-left" ng-bind="resultCtrl.headerLabel"></span>
@@ -29,5 +29,8 @@
                 </div>
             </div>
         </div>
+        <ng-form> <input type="hidden"
+			ng-init="resultCtrl.canViewLoans=true"
+			sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZE')" /></ng-form>
     </div>
 </div>

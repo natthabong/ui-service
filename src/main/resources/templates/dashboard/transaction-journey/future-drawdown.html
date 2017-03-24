@@ -1,5 +1,5 @@
 <div th:fragment="content">
-    <div class="panel future-drawdown-panel panel-shadow" ng-controller="JourneyFutureDrawdownController as futureDrawdownCtrl">
+    <div class="panel future-drawdown-panel panel-shadow" ng-controller="JourneyFutureDrawdownController as futureDrawdownCtrl" ng-show="futureDrawdownCtrl.canViewLoans">
         <div class="panel-heading txn-journey">
             <span class="pull-left" ng-bind="futureDrawdownCtrl.headerLabel"></span>
             <div class="clearfix"></div>
@@ -29,5 +29,8 @@
                 </div>
             </div>
         </div>
+        <ng-form> <input type="hidden"
+			ng-init="futureDrawdownCtrl.canViewLoans=true"
+			sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZE')" /></ng-form>
     </div>
 </div>

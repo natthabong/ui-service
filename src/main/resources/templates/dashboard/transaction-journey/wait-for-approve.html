@@ -1,5 +1,5 @@
 <div th:fragment="content">
-    <div class="panel wait-for-approve-panel panel-shadow" ng-controller="JourneyWaitForApproveController as waitForApproveCtrl">
+    <div class="panel wait-for-approve-panel panel-shadow" ng-controller="JourneyWaitForApproveController as waitForApproveCtrl" ng-show="waitForApproveCtrl.canViewLoans">
         <a class="mouse-pointer" id="wait-for-approve-transaction-journey-link" ng-click="waitForApproveCtrl.transactionList()">
             <div class="panel-heading txn-journey">
                 <span class="pull-left" ng-bind="waitForApproveCtrl.headerLabel"></span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -30,5 +30,8 @@
                 </div>
             </div>
         </div>
+        <ng-form> <input type="hidden"
+			ng-init="waitForApproveCtrl.canViewLoans=true"
+			sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZE')" /></ng-form>
     </div>
 </div>
