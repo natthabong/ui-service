@@ -16,8 +16,8 @@ scfApp.controller(
 			var vm = this;
 			var log = $log;
 
-			vm.manageAll=false;
-			vm.manageMyOrg=false;
+			vm.manageAllConfig=false;
+			vm.manageMyOrgConfig=false;
 			
 			vm.pageModel = {
 				pageSizeSelectModel : '20',
@@ -124,8 +124,10 @@ scfApp.controller(
 
 			vm.initLoad();
 			
-			vm.unauthen = function(){
-				if(vm.manageAll || vm.manageMyOrg){
+			vm.unauthenConfig = function(){
+				console.log(vm.manageAllConfig);
+				console.log(vm.manageMyOrgConfig);
+				if(vm.manageAllConfig || vm.manageMyOrgConfig){
 					return false;
 				}else{
 					return true;

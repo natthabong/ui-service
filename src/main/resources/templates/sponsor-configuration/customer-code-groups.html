@@ -1,5 +1,11 @@
-<div th:fragment="content">
+<div th:fragment="content"
+	sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_CODES','MANAGE_CUSTOMER_CODES_TO_MY_ORGANIZE')">
 	<div id="wrapper" ng-controller="CustomerCodeGroupController as ctrl">
+		<input type="hidden" ng-init="ctrl.manageAllConfig=true"
+		sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_CODES')" /> 
+		<input type="hidden" ng-init="ctrl.manageMyOrgConfig=true"
+		sec:authorize="hasAuthority('MANAGE_CUSTOMER_CODES_TO_MY_ORGANIZE')" />
+		
 		<div class="panel panel-default col-md-12 padding-0">
 			<div class="panel-body">
 				<div class="row">
@@ -10,16 +16,12 @@
 					</div>
 					<div class="col-lg-7 col-md-5 col-xs-3">
 						<br />
-						<scf-button id="customer-code-group-{{ctrl.data.groupName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.data)" title="Config a customer code groups" ng-hide="!ctrl.data.completed" ng-disabled="false"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>	
-						<scf-button id="customer-code-group-{{ctrl.data.groupName}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.data)" title="Config a customer code groups" ng-hide="ctrl.data.completed" ng-disabled="false"><img ng-hide="ctrl.data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>
+						<scf-button id="customer-code-group-{{ctrl.data.groupName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.data)" title="Config a customer code groups" ng-hide="!ctrl.data.completed" ng-disabled="ctrl.unauthenConfig()"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>	
+						<scf-button id="customer-code-group-{{ctrl.data.groupName}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.data)" title="Config a customer code groups" ng-hide="ctrl.data.completed" ng-disabled="ctrl.unauthenConfig()"><img ng-hide="ctrl.data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>
 					</div>	
 				</div>
 				<div id="fixed-bottom" class="col-md-12"></div>
 			</div>
 		</div>
 	</div>
-	<input type="hidden" ng-init="ctrl.manageAll=true"
-		sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_CODES')" /> 
-	<input type="hidden" ng-init="ctrl.manageMyOrg=true"
-		sec:authorize="hasAuthority('MANAGE_CUSTOMER_CODES_TO_MY_ORGANIZE')" />
 </div>
