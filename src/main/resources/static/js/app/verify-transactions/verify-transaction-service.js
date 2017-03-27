@@ -13,10 +13,16 @@ function VerifyTransactionService($http, $q){
 
 	function prepare(transaction){
 		var deffered = $q.defer();
+		var serviceUrl = 'api/v1/transactions/' + transaction.transactionId
 		$http({
-			url: 'api/verify-transaction/prepare',
-			method: 'POST',
-			data: transaction
+			url: serviceUrl,
+			method: 'GET',
+			headers : {
+					'If-Match' : transaction.version
+				},
+			params:{
+            		mode: 'verify'
+            	}
 		}).then(function(response){
 			deffered.resolve(response);
 		}).catch(function(response){
