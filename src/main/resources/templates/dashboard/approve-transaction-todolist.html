@@ -1,4 +1,5 @@
-<div th:fragment="content">
+<div th:fragment="content"
+	sec:authorize="hasAnyAuthority('APPROVE_LOANS_OF_MY_ORGANIZE','VIEW_LOANS_OF_MY_ORGANIZE')">
 	<div
 		ng-controller="ApproveTransactionTodoListDashboardController as approveTxnTodoListCtrl">
 		<h3 class="animated fadeInLeft"
@@ -38,5 +39,7 @@
 		</div>
 		<input type="hidden" ng-init="approveTxnTodoListCtrl.approve=true"
 			sec:authorize="hasAuthority('APPROVE_LOANS_OF_MY_ORGANIZE')" />
+		<input type="hidden" ng-init="approveTxnTodoListCtrl.canViewLoan=true"
+			sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZE')" />
 	</div>
 </div>

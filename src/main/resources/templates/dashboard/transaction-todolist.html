@@ -1,11 +1,12 @@
-<div th:fragment="content">
+<div th:fragment="content"
+	sec:authorize="hasAnyAuthority('VERIFY_LOANS_OF_MY_ORGANIZE','VIEW_LOANS_OF_MY_ORGANIZE')">
 	<div
 		ng-controller="TransactionTodoListDashboardController as txnTodoListCtrl">
 		<h3 class="animated fadeInLeft"
 			id="wait-for-verify-transaction-header-label"
 			ng-bind="dashboardItem.headerLabel"></h3>
 
-		<div class="row" ng-show="txnTodoListCtrl.canViewLoansOfMyOrganize">
+		<div class="row">
 			<div class="col-md-12 col-sm-12 text-right">
 				<span> <b ng-bind="txnTodoListCtrl.splitePageTxt"
 					id="wait-for-verify-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
@@ -24,7 +25,7 @@
 			</div>
 		</div>
 
-		<div class="row" ng-show="txnTodoListCtrl.canViewLoansOfMyOrganize">
+		<div class="row">
 			<div class="col-md-12">
 				<scf-data-table id="wait-for-verify-transaction-table"
 					component-config="txnTodoListCtrl.dataTable"
