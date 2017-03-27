@@ -84,13 +84,14 @@ angular
 									return vm.legends[d.key].color;
 								};
 							}
+							vm.canViewTrading=false;
 							$scope.options = { legend: { display: false } };
 							vm.isOpenPopup = true;
 							$scope
 									.$on(
 											'elementClick.directive',
 											function(event) {
-												if ($rootScope.isDesktopDevice) {
+												if (vm.canViewTrading) {
 													ngDialog
 															.open({
 																template : '/js/app/dashboard/credit-information-dialog.html',
