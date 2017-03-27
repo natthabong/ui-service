@@ -1,6 +1,6 @@
 <div th:fragment="content"
     sec:authorize="hasAnyAuthority('VIEW_LOANS_OF_MY_ORGANIZE','VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZE')">
-    <h3 class="animated fadeInLeft">{{dashboardItem.headerLabel}}</h3>
+    <h3 class="animated fadeInLeft" id="transaction-journey-header-label">{{dashboardItem.headerLabel}}</h3>
     <div class="row">
         <div ng-repeat="it in layout.children"         	
         class="col-lg-{{it.columnSizeLg}} col-md-{{it.columnSizeMd}} col-sm-{{it.columnSizeSm}} col-xs-{{it.columnSizeXs}}"        	
