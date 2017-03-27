@@ -1,9 +1,10 @@
-<div th:fragment="content">
+<div th:fragment="content"
+	sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZE')">
 	<div
 		ng-controller="InternalStepDashboardController as internalStepCtrl">
 		<h3 class="animated fadeInLeft" id="internal-step-header-label"
 			ng-bind="dashboardItem.headerLabel"></h3>
-		<div class="row" ng-show="internalStepCtrl.canViewLoansOfMyOrganize">
+		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12 text-right">
 				<span> <b ng-bind="internalStepCtrl.splitePageTxt"
 					id="internal-step-paging-label"></b> &nbsp;&nbsp; <scf-pagination
@@ -21,7 +22,7 @@
 
 			</div>
 		</div>
-		<div class="row" ng-show="internalStepCtrl.canViewLoansOfMyOrganize">
+		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
 				<scf-table id="internal-step-table"
 					class="transaction-table"

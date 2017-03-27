@@ -1,5 +1,6 @@
-<div th:fragment="content">
-    <div class="panel future-drawdown-panel panel-shadow" ng-controller="JourneyFutureDrawdownController as futureDrawdownCtrl" ng-show="futureDrawdownCtrl.canViewLoans">
+<div th:fragment="content"
+    sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZE')">
+    <div class="panel future-drawdown-panel panel-shadow" ng-controller="JourneyFutureDrawdownController as futureDrawdownCtrl">
         <div class="panel-heading txn-journey">
             <span class="pull-left" ng-bind="futureDrawdownCtrl.headerLabel"></span>
             <div class="clearfix"></div>
