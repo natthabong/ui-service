@@ -74,7 +74,7 @@ angular
 											labelEN: 'No.',
 										    labelTH: 'ลำดับที่',
 										    idValueField: '$rowNo',
-										    id: 'internal-step-{value}-no-label',
+										    id: 'internal-step-{value}-no',
 										    cssTemplate: 'text-center',	
 										},
 										{
@@ -89,7 +89,7 @@ angular
 											labelEN: 'Transaction No',
 											labelTH: 'Transaction No',
 											idValueField: '$rowNo',
-							                id: 'internal-step-{value}-transaction-no-label',
+							                id: 'internal-step-{value}-transaction-no',
 							                sortData : true,
 											cssTemplate : 'text-center'
 										}, {
@@ -97,7 +97,7 @@ angular
 											labelEN: 'Sponsor payment date',
 											labelTH: 'Sponsor payment date',
 											idValueField: '$rowNo',
-							                id: 'internal-step-{value}-sponsor-payment-date-label',
+							                id: 'internal-step-{value}-sponsor-payment-date',
 							                filterType : 'date',
 											filterFormat : 'dd/MM/yyyy',
 											sortData : true,
@@ -107,7 +107,7 @@ angular
 											labelEN: 'No of document',
 											labelTH: 'No of document',
 											idValueField: '$rowNo',
-							                id: 'internal-step-{value}-no-of-document-label',
+							                id: 'internal-step-{value}-no-of-document',
 							                sortData : true,
 											cssTemplate : 'hidden-xs hidden-sm text-center'
 										}, {
@@ -115,7 +115,7 @@ angular
 											labelEN: 'Transaction amount',
 											labelTH: 'Transaction amount',
 											idValueField: '$rowNo',
-							                id: 'internal-step-{value}-transaction-amount-label',
+							                id: 'internal-step-{value}-transaction-amount',
 							                sortData : true,
 											cssTemplate : 'text-right',
 											filterType : 'number',
@@ -125,7 +125,7 @@ angular
 											labelEN: 'Status',
 											labelTH: 'Status',
 											idValueField: '$rowNo',
-							                id: 'internal-step-{value}-transaction-status-label',
+							                id: 'internal-step-{value}-transaction-status',
 							                sortData : true,
 											filterType : 'translate',
 											cssTemplate : 'text-center'
