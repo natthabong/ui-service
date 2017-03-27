@@ -11,10 +11,12 @@ function ViewTransactionService($http, $q){
 
 	function prepare(transaction){
 		var deffered = $q.defer();
+		var serviceUrl = 'api/v1/view-transaction/' + transaction.transactionId
 		$http({
-			url: 'api/view-transaction/prepare',
-			method: 'POST',
-			data: transaction
+			url: serviceUrl,
+			
+			method: 'GET',
+			
 		}).then(function(response){
 			deffered.resolve(response);
 		}).catch(function(response){
