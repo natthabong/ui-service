@@ -1,4 +1,5 @@
-<div id="content" th:fragment="content">
+<div id="content" th:fragment="content"
+	sec:authorize="hasAnyAuthority('VIEW_ALL_USER_ACTIVITY_LOG', 'VIEW_MY_ACTIVITY_LOG', 'VIEW_ALL_MODULE')">
 
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
@@ -7,7 +8,8 @@
 					<h3>
 						<span ng-if="!ctrl.isPersonalMode" id="header-message-label"
 							class="animated fadeInLeft">{{'User activity log' |
-							translate}}</span> <span ng-if="ctrl.isPersonalMode"
+							translate}}</span> 
+						<span ng-if="ctrl.isPersonalMode"
 							id="header-message-label" class="animated fadeInLeft">{{'My
 							activity log' | translate}}</span>
 					</h3>
