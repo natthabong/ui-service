@@ -1,4 +1,5 @@
-<div id="content" th:fragment="content">
+<div id="content" th:fragment="content"
+	sec:authorize="hasAnyAuthority('VIEW_ALL_DOCUMENT_DISPLAY_LAYOUTS','MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
@@ -19,6 +20,7 @@
 
 							<div class="col-md-3 col-sm-4 col-xs-12">
 								<scf-input-text id="document-display-name-textbox"
+								 	ng-disabled="!ctrl.manageAll"
 									ng-model="ctrl.dataModel.displayName"
 									maxlength="255"></scf-input-text>
 							</div>
@@ -34,11 +36,13 @@
 								<label class="radio-inline"><scf-radio
 										id="current-and-future-loan-request-mode-radio" name="loan-request-mode-radio"
 										ng-value="ctrl.loanRequestMode.currentAndFuture"
+										ng-disabled="!ctrl.manageAll"
 										ng-model="ctrl.dataModel.loanRequestMode"></scf-radio>
 									{{'Current and future' | translate}}
 								</label> <label class="radio-inline"> <scf-radio
 										id="current-request-mode-radio" name="loan-request-mode-radio"
 										ng-value="ctrl.loanRequestMode.current"
+										ng-disabled="!ctrl.manageAll"
 										ng-model="ctrl.dataModel.loanRequestMode"></scf-radio>
 									{{'Current' | translate}}
 								</label>
@@ -55,11 +59,13 @@
 								<label class="radio-inline"> <scf-radio
 										id="any-document-document-selection-radio" name="document-selection-radio"
 										ng-value="ctrl.documentSelection.anyDocument"
+										ng-disabled="!ctrl.manageAll"
 										ng-model="ctrl.dataModel.documentSelection"></scf-radio>
 									{{'Any document' | translate}}
 								</label> <label class="radio-inline"> <scf-radio
 										id="matching-ref-document-selection-radio" name="document-selection-radio"
 										ng-value="ctrl.documentSelection.groupByMatchingRefNo"
+										ng-disabled="!ctrl.manageAll"
 										ng-model="ctrl.dataModel.documentSelection"></scf-radio>
 									{{'Group by matching ref no' | translate}}
 								</label>
@@ -77,11 +83,13 @@
 								<label class="radio-inline"><scf-radio
 										id="single-supplier-code-group-selection-radio" name="supplier-code-group-selection-radio"
 										ng-value="ctrl.supplierCodeSelectionMode.singlePerTransaction"
+										ng-disabled="!ctrl.manageAll"
 										ng-model="ctrl.dataModel.supplierCodeSelectionMode"></scf-radio>
 									{{'Single per transaction' | translate}}
 								</label> <label class="radio-inline"><scf-radio
 										id="multiple-supplier-code-group-selection-radio" name="supplier-code-group-selection-radio"
 										ng-value="ctrl.supplierCodeSelectionMode.multiplePerTransaction"
+										ng-disabled="!ctrl.manageAll"
 										ng-model="ctrl.dataModel.supplierCodeSelectionMode"></scf-radio>
 									{{'Multiple per transaction' | translate}}
 									
@@ -121,20 +129,24 @@
 													id="document-field-name-{{$index+1}}-dropdown"
 													ng-model="record.fieldName"
 													component-data="ctrl.documentFields"
+													ng-disabled="!ctrl.manageAll"
 													translate-label="false"></scf-dropdown></td>
 
 											<td class="text-right"><scf-input-text
 													id="th-label-{{$index+1}}-textbox"
 													ng-model="record.labelTH"
+													ng-disabled="!ctrl.manageAll"
 													maxlength="255" /></td>
 
 											<td class="text-right"><scf-input-text
 													id="en-label-{{$index+1}}-textbox"
 													ng-model="record.labelEN"
+													ng-disabled="!ctrl.manageAll"
 													maxlength="255" /></td>
 
 											<td class="text-center"><scf-dropdown
 													id="order-{{$index+1}}-dropdown" ng-model="record.sortType"
+													ng-disabled="!ctrl.manageAll"
 													component-data="ctrl.sortTypes" translate-label="true"></scf-dropdown></td>
 
 											<td class="text-center"><scf-input-text
@@ -142,24 +154,28 @@
 													style="width: 55px; text-align: right;"
 													convert-to-number=""
 													ng-model="record.sortSequenceNo"
-													ng-disabled="!record.sortType"
+													ng-disabled="!record.sortType||!ctrl.manageAll"
 													maxlength="255" /></td>
 											<td class="text-center"><scf-button type="button"
 													id="arrow-up-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
+													ng-disabled="!ctrl.manageAll"
 													ng-click="ctrl.moveItemUp(record)"> <i
 													class="fa fa-sort-up" aria-hidden="true"></i> </scf-button> <scf-button
 													type="button" id="arrow-down-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
+													ng-disabled="!ctrl.manageAll"
 													ng-click="ctrl.moveItemDown(record)"> <i
 													class="fa fa-sort-down" aria-hidden="true"></i> </scf-button> <scf-button
 													type="button" id="field-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
+													ng-disabled="!ctrl.manageAll"
 													ng-click="ctrl.openSetting($index, record)"
 													ng-hide="!record.completed"> <i
 													class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
 													id="field-warning-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
+													ng-disabled="!ctrl.manageAll"
 													ng-click="ctrl.openSetting($index, record)"
 													title="Config a file layout" ng-hide="record.completed">
 												<img ng-hide="data.completed"
@@ -167,6 +183,7 @@
 													style="height: 13px; width: 14px;" /> </scf-button> <scf-button
 													type="button" id="delete-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
+													ng-disabled="!ctrl.manageAll"
 													ng-click="ctrl.removeItem(record)"> <i
 													class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
 										</tr>
@@ -184,6 +201,7 @@
 									<!-- Split button -->
 									<button id="add-another-field-button" type="button"
 										class="btn btn-default" ng-click="ctrl.addItem()"
+										ng-disabled="!ctrl.manageAll"
 										ng-bind="'Add another field' | translate">Add another
 										field</button>
 
@@ -197,6 +215,7 @@
 				<div class="panel-body">
 					<div class="col-md-12 col-sm-12 text-right">
 						<scf-button id="document-display-save-button" type="submit"
+							ng-disabled="!ctrl.manageAll"
 							ng-click="ctrl.save()">{{'Save' | translate}}</scf-button>
 						<scf-button id="document-display-cancel-button" class="popup-button"
 							data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
@@ -206,4 +225,6 @@
 			</div>
 		</div>
 	</div>
+	<input type="hidden" ng-init="ctrl.manageAll=true"
+		sec:authorize="hasAuthority('MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')" /> 
 </div>

@@ -125,8 +125,6 @@ scfApp.controller(
 			vm.initLoad();
 			
 			vm.unauthenConfig = function(){
-				console.log(vm.manageAllConfig);
-				console.log(vm.manageMyOrgConfig);
 				if(vm.manageAllConfig || vm.manageMyOrgConfig){
 					return false;
 				}else{
