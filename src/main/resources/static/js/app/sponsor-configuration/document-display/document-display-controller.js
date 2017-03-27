@@ -26,6 +26,8 @@ angular
                 var vm = this;
                 var log = $log;
 
+                vm.manageAll=false;
+            	
                 var sponsorId = $rootScope.sponsorId;
                 var selectedItem = $stateParams.selectedItem;
 

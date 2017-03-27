@@ -1,13 +1,19 @@
-<div th:fragment="content">
-    <div id="wrapper" ng-controller="DocumentDisplayConfigController as docDisplayCtrl">
+<div th:fragment="content"
+	sec:authorize="hasAnyAuthority('VIEW_ALL_DOCUMENT_DISPLAY_LAYOUTS','MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')">
+	<div id="wrapper" ng-controller="DocumentDisplayConfigController as docDisplayCtrl">
+    	<input type="hidden" ng-init="docDisplayCtrl.viewAllConfig=true"
+		sec:authorize="hasAuthority('VIEW_ALL_DOCUMENT_DISPLAY_LAYOUTS')" /> 
+		<input type="hidden" ng-init="docDisplayCtrl.manageAllConfig=true"
+		sec:authorize="hasAuthority('MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
+		
     	<div class="row">
 			<div class="col-lg-2 col-md-4 col-sm-5 col-xs-8">
 				<h3 class="animated fadeInLeft" id="file-layouts-header-label" ng-bind="'Document display' | translate"></h3>
        		</div>
 			<div class="col-lg-10 col-md-8 col-sm-7 col-xs-4">
 				<br/>
-				<scf-button id="display-{{docDisplayCtrl.data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="docDisplayCtrl.setupDisplayDocument(docDisplayCtrl.data)" title="Config a file layout" ng-hide="!docDisplayCtrl.data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>
-                <scf-button id="display-{{docDisplayCtrl.data.displayName}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="docDisplayCtrl.setupDisplayDocument(docDisplayCtrl.data)" title="Config a file layout" ng-hide="docDisplayCtrl.data.completed"><img ng-hide="docDisplayCtrl.data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>
+				<scf-button id="display-{{docDisplayCtrl.data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="docDisplayCtrl.setupDisplayDocument(docDisplayCtrl.data)" title="Config a file layout" ng-hide="!docDisplayCtrl.data.completed" ng-disabled="docDisplayCtrl.unauthenConfig()"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>
+                <scf-button id="display-{{docDisplayCtrl.data.displayName}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="docDisplayCtrl.setupDisplayDocument(docDisplayCtrl.data)" title="Config a file layout" ng-hide="docDisplayCtrl.data.completed" ng-disabled="docDisplayCtrl.unauthenConfig()"><img ng-hide="docDisplayCtrl.data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>
 			</div>
 		</div>
 		<div id="fixed-bottom" class="col-md-12"></div>

@@ -5,12 +5,12 @@
 				<span id="password-length-1-label" ng-bind="'Password must be a minimum of' | translate"></span>&nbsp;
 				
 				<input name="passLengthMin" id="password-length-minimum-textbox" type="number" min="1" required="true"
-				ng-model="policy.numericValue1" maxlength="3"  class="form-control-input"></input>
+				ng-model="policy.numericValue1" maxlength="3"  class="form-control-input" ng-disabled="ctrl.viewMode"></input>
 				
 				<span id="password-length-2-label" ng-bind="'and maximum' | translate"></span>
 				
 				<input name="passLengthMax" type="number" max="100" id="password-length-maximum-textbox" required="true"	
-				ng-model="policy.numericValue2" maxlength="3"  class="form-control-input"></input>
+				ng-model="policy.numericValue2" maxlength="3"  class="form-control-input" ng-disabled="ctrl.viewMode"></input>
 				
 				<span id="password-length-3-label" ng-bind="'characters.' | translate"></span>
 			</label>		

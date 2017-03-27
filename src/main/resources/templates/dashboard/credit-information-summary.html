@@ -1,5 +1,5 @@
-<div th:fragment="content">
-
+<div th:fragment="content"
+	sec:authorize="hasAuthority('VIEW_MY_ACCOUNT')">
 	<div
 		ng-controller="CreditInformationSummaryDashboardController as ctrl">
 		<h3 class="animated fadeInLeft"
@@ -32,6 +32,9 @@
 				</ul>
 			</div>
 		</div>
+		<ng-form> <input type="hidden"
+			ng-init="ctrl.canViewTrading=true"
+			sec:authorize="hasAuthority('VIEW_TRADING_PARTNERS_REFER_TO_MY_ORGANIZE')" /></ng-form>
 		<!-- end: content -->
 	</div>
 </div>

@@ -178,7 +178,7 @@ angular
 							}
 							
 							vm.searchTransactionService = function() {			
-								var dataSource = Service.requestURL('/api/list-transaction/search',vm.transactionCriteria);
+								var dataSource = Service.requestURL('/api/v1/list-transaction/search',vm.transactionCriteria);
 								dataSource.promise.then(function(response) {
 									vm.data = response.content;
 					                vm.pageModel.totalRecord = response.totalElements;

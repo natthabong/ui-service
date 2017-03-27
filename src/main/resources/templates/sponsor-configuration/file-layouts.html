@@ -1,6 +1,11 @@
-<div th:fragment="content">
-	<div id="wrapper"
-		ng-controller="FileLayoutsController as fileLayoutsCtrl">
+<div th:fragment="content"
+	sec:authorize="hasAnyAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS','MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')">
+	<div id="wrapper" ng-controller="FileLayoutsController as fileLayoutsCtrl">
+		<input type="hidden" ng-init="fileLayoutsCtrl.viewAllConfig=true"
+		sec:authorize="hasAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS')" /> 
+		<input type="hidden" ng-init="fileLayoutsCtrl.manageAllConfig=true"
+		sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" />
+		
 		<div class="panel panel-default col-md-11 padding-0">
 			<div class="panel-body">
 				<div class="row">
@@ -9,8 +14,8 @@
 					</div>
 					<div class="col-lg-9 col-md-8 col-xs-7">
 						<br/>
-						<scf-button id="layout-{{fileLayoutsCtrl.data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="fileLayoutsCtrl.newFileLayout(fileLayoutsCtrl.data)" title="Config a file layout" ng-hide="!fileLayoutsCtrl.data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>
-						<scf-button id="layout-{{fileLayoutsCtrl.data.displayName}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="fileLayoutsCtrl.newFileLayout(fileLayoutsCtrl.data)" title="Config a file layout" ng-hide="fileLayoutsCtrl.data.completed"><img ng-hide="fileLayoutsCtrl.data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>
+						<scf-button id="layout-{{fileLayoutsCtrl.data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="fileLayoutsCtrl.newFileLayout(fileLayoutsCtrl.data)" title="Config a file layout" ng-hide="!fileLayoutsCtrl.data.completed" ng-disabled="fileLayoutsCtrl.unauthenConfig()"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>
+						<scf-button id="layout-{{fileLayoutsCtrl.data.displayName}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="fileLayoutsCtrl.newFileLayout(fileLayoutsCtrl.data)" title="Config a file layout" ng-hide="fileLayoutsCtrl.data.completed" ng-disabled="fileLayoutsCtrl.unauthenConfig()"><img ng-hide="fileLayoutsCtrl.data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>
 					</div>
 				</div>
 				<div id="fixed-bottom" class="col-md-12"></div>

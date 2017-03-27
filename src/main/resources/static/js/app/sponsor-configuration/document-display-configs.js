@@ -7,6 +7,9 @@ angular.module('scfApp').controller('DocumentDisplayConfigController', ['Service
         var vm = this;
         var log = $log;
 
+        vm.viewAllConfig=false;
+		vm.manageAllConfig=false;
+		
         vm.pageModel = {
             pageSizeSelectModel: '20',
             totalRecord: 0,
@@ -75,6 +78,14 @@ angular.module('scfApp').controller('DocumentDisplayConfigController', ['Service
 
         vm.onload();
 
+        vm.unauthenConfig = function(){
+			if(vm.viewAllConfig || vm.manageAllConfig){
+				return false;
+			}else{
+				return true;
+			}
+		}
+        
         vm.setupDisplayDocument = function(displayDocumentCfg) {
             var params = {
             	selectedItem: displayDocumentCfg

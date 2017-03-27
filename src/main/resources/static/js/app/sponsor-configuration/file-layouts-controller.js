@@ -17,6 +17,9 @@ angular
 							vm.splitePageTxt = '';
 							var log = $log;
 							
+							vm.viewAllConfig=false;
+							vm.manageAllConfig=false;
+							
 							vm.pageModel = {
 								pageSizeSelectModel : '20',
 								totalRecord : 0,
@@ -91,6 +94,14 @@ angular
 							}
 
 							vm.initLoad();
+							
+							vm.unauthenConfig = function(){
+								if(vm.viewAllConfig || vm.manageAllConfig){
+									return false;
+								}else{
+									return true;
+								}
+							}
 							
 							function callService(){
 								var sponsorId = $scope.sponsorId;
