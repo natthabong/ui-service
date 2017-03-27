@@ -14,7 +14,7 @@ function ListTransactionServices($http, $q, blockUI){
 	
 	function getSponsors(){
 		var deffered = $q.defer();
-		$http.post('api/list-transaction/sponsors/get').then(function(response){
+		$http.get('api/v1/list-transaction/sponsors/get').then(function(response){
 			deffered.resolve(response);
 		}).catch(function(response){
 			deffered.reject(response);
@@ -24,7 +24,7 @@ function ListTransactionServices($http, $q, blockUI){
 	
 	function getTransactionStatusGroups(){
 		var deffered = $q.defer();
-		$http.post('api/list-transaction/transaction-status-group/get').then(function(response){
+		$http.get('api/v1/list-transaction/transaction-status-group/get').then(function(response){
 			deffered.resolve(response);
 		}).catch(function(response){
 			deffered.reject(response);
@@ -37,7 +37,7 @@ function ListTransactionServices($http, $q, blockUI){
 		var searchBlock = blockUI.instances.get('search-block');
 		searchBlock.start();
 		$http({
-			url: 'api/list-transaction/search',
+			url: 'api/v1/list-transaction/search',
 			method: 'POST',
 			data: listTransactionModel
 		}).then(function(response){
@@ -52,7 +52,7 @@ function ListTransactionServices($http, $q, blockUI){
 	function summaryInternalStep(listTransactionModel){
 		var deffered = $q.defer();
 		$http({
-			url: 'api/list-transaction/summary-internal-step',
+			url: 'api/v1/list-transaction/summary-internal-step',
 			method: 'POST',
 			data: listTransactionModel
 		}).then(function(response){
@@ -66,7 +66,7 @@ function ListTransactionServices($http, $q, blockUI){
 	function exportCSVFile(listTransactionModel,$translate){
 		blockUI.start();
         $http({
-            url : 'api/list-transaction/exportCSVFile',
+            url : 'api/v1/list-transaction/exportCSVFile',
             method : 'POST',
             data: listTransactionModel,
             //params : {listTransactionModel},

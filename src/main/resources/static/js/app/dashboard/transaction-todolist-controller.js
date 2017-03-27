@@ -12,7 +12,7 @@ angular.module('scfApp').controller(
 						PageNavigation, Service, SCFCommonService) {
 					var vm = this;
 					var log = $log;
-					var transactionTodoListUrl = 'api/list-transaction/todo-list';
+					var transactionTodoListUrl = 'api/v1/list-transaction/todo-list';
 					
 					vm.verify = false;
 					vm.approve = false;

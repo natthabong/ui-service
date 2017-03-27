@@ -12,7 +12,7 @@ angular.module('scfApp').controller(
 						PageNavigation, Service, SCFCommonService) {
 					var vm = this;
 					var log = $log;
-					var approveTransactionTodoListUrl = 'api/list-transaction/todo-list';
+					var approveTransactionTodoListUrl = 'api/v1/list-transaction/todo-list';
 
 					vm.approve = false;
 					vm.splitePageTxt = '';					
