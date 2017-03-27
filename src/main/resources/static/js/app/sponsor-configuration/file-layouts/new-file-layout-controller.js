@@ -16,6 +16,8 @@ app.controller('NewFileLayoutController', [
 		var vm = this;
 		var log = $log;
 
+		vm.manageAll=false;
+		
 		vm.newMode = true;
 		var sponsorId = $rootScope.sponsorId;
 
