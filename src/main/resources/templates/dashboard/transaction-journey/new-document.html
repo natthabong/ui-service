@@ -1,5 +1,6 @@
-<div th:fragment="content">
-    <div class="panel new-document-panel panel-shadow" ng-controller="JourneyNewDocumentController as newDocCtrl" ng-init="newDocCtrl.load()" ng-show="newDocCtrl.canViewDocs">
+<div th:fragment="content"
+    sec:authorize="hasAnyAuthority('CREATE_LOANS_OF_MY_ORGANIZE','VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZE')">
+    <div class="panel new-document-panel panel-shadow" ng-controller="JourneyNewDocumentController as newDocCtrl" ng-init="newDocCtrl.load()">
         <a class="mouse-pointer" id="new-document-button" ng-click="newDocCtrl.documentList()">
             <div class="panel-heading txn-journey">
                 <span class="pull-left" ng-bind="newDocCtrl.headerLabel"></span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

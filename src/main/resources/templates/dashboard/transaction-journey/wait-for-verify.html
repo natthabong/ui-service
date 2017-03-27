@@ -1,5 +1,6 @@
-<div th:fragment="content">
-    <div class="panel wait-for-verify-panel panel-shadow" ng-controller="JourneyWaitForVerifyController as waitForVerifyCtrl" ng-show="waitForVerifyCtrl.canViewLoans">
+<div th:fragment="content"
+    sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZE')">
+    <div class="panel wait-for-verify-panel panel-shadow" ng-controller="JourneyWaitForVerifyController as waitForVerifyCtrl">
         <a class="mouse-pointer " id="wait-for-verify-transaction-journey-link" ng-click="waitForVerifyCtrl.transactionList()">
             <div class="panel-heading txn-journey">
                 <span class="pull-left" ng-bind="waitForVerifyCtrl.headerLabel"></span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
