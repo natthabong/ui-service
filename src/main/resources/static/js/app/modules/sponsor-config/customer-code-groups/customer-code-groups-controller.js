@@ -16,6 +16,9 @@ scfApp.controller(
 			var vm = this;
 			var log = $log;
 
+			vm.manageAll=false;
+			vm.manageMyOrg=false;
+			
 			vm.pageModel = {
 				pageSizeSelectModel : '20',
 				totalRecord : 0,
@@ -44,27 +47,27 @@ scfApp.controller(
 				return atob(data);
 			}
 
-			vm.dataTable = {
-				options : {
-				},
-				columns : [
-					{
-						field : 'groupName',
-						label : 'Group Name',
-						idValueField : 'groupName',
-						id : 'customer-code-group-{value}-group-name',
-						sortData : true,
-						cssTemplate : 'text-left',
-					}, {
-						field : '',
-						label : '',
-						cssTemplate : 'text-center',
-						sortData : false,
-						cellTemplate : '<scf-button id="customer-code-group-{{data.groupName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a customer code groups" ng-hide="!data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
-							'<scf-button id="customer-code-group-{{data.groupName}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a customer code groups" ng-hide="data.completed"><img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>' +
-							'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.search()" title="Delete a file layout"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
-					} ]
-			};
+//			vm.dataTable = {
+//				options : {
+//				},
+//				columns : [
+//					{
+//						field : 'groupName',
+//						label : 'Group Name',
+//						idValueField : 'groupName',
+//						id : 'customer-code-group-{value}-group-name',
+//						sortData : true,
+//						cssTemplate : 'text-left',
+//					}, {
+//						field : '',
+//						label : '',
+//						cssTemplate : 'text-center',
+//						sortData : false,
+//						cellTemplate : '<scf-button id="customer-code-group-{{data.groupName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a customer code groups" ng-hide="!data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
+//							'<scf-button id="customer-code-group-{{data.groupName}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a customer code groups" ng-hide="data.completed"><img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>' +
+//							'<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.search()" title="Delete a file layout"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+//					} ]
+//			};
 
 			vm.data = []
 
@@ -120,6 +123,14 @@ scfApp.controller(
 			}
 
 			vm.initLoad();
+			
+			vm.unauthen = function(){
+				if(vm.manageAll || vm.manageMyOrg){
+					return false;
+				}else{
+					return true;
+				}
+			}
 		} ]);
 scfApp.controller('CustomerCodeGroupDiaglogController',
 	[
@@ -189,6 +200,10 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	function($q, $scope, $stateParams, Service, UIFactory, 
 			CustomerCodeStatus, PageNavigation, PagingController, $http, ngDialog) {
 	var vm = this;
+	
+	vm.manageAll=false;
+	vm.manageMyOrg=false;
+	
 	var selectedItem = $stateParams.selectedItem;
 	var groupId = selectedItem.groupId;
 	vm.model = selectedItem;
@@ -278,8 +293,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 				labelTH : '',
 				sortable : false,
 				cssTemplate : 'text-left',
-				cellTemplate : '<scf-button id="{{data.customerCode}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.customerCodeSetup(data)" title="Setup customer code"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></scf-button>' +
-					'<scf-button id="{{data.customerCode}}-delete-button"  class="btn-default gec-btn-action" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+				cellTemplate : '<scf-button id="{{data.customerCode}}-edit-button" class="btn-default gec-btn-action" ng-disabled="ctrl.unauthen()" ng-click="ctrl.customerCodeSetup(data)" title="Setup customer code"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></scf-button>' +
+					'<scf-button id="{{data.customerCode}}-delete-button"  class="btn-default gec-btn-action" ng-disabled="ctrl.unauthen()" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 			}
 		]
 	};
@@ -538,7 +553,14 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	var closeDialogFail = function(){
 		dialogFail.close();
 	}
-
+	
+	vm.unauthen = function(){
+		if(vm.manageAll || vm.manageMyOrg){
+			return false;
+		}else{
+			return true;
+		}
+	}
 }
 ]);
 scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIFactory', '$http', 'SCFCommonService', function($scope, $rootScope, UIFactory, $http, SCFCommonService) {
@@ -688,7 +710,6 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 			$scope.closeThisDialog(vm.model);
 		}
 	}
-	
 }]);
 scfApp.constant('CustomerCodeStatus', [
 	{

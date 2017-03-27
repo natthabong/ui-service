@@ -17,7 +17,8 @@
 
 							<div class="col-md-8 col-sm-8 col-xs-12">
 								<label class="control-label" id="group-name-value-label">{{ctrl.model.groupName}}</label>
-								<scf-button id="edit-button" class="btn-default gec-btn-action"
+								<scf-button id="edit-button" class="btn-default gec-btn-action" 
+									ng-disabled="ctrl.unauthen()"
 									ng-click="ctrl.edit(ctrl.model)" title="Edit a customer code group name">
 								<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></scf-button>
 							</div>
@@ -61,7 +62,7 @@
 					<div class="row">
 						<div class="col-md-12 text-right">
 							<scf-button id="new-button" class="btn-default gec-btn-action"
-								ng-disabled="false" ng-click="ctrl.customerCodeSetup()">
+								ng-disabled="ctrl.unauthen()" ng-click="ctrl.customerCodeSetup()">
 							<i class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
 						</div>
 					</div>
@@ -103,4 +104,8 @@
 			</div>
 		</div>
 	</div>
+	<input type="hidden" ng-init="ctrl.manageAll=true"
+		sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_CODES')" /> 
+	<input type="hidden" ng-init="ctrl.manageMyOrg=true"
+		sec:authorize="hasAuthority('MANAGE_CUSTOMER_CODES_TO_MY_ORGANIZE')" />
 </div>
