@@ -91,6 +91,8 @@ app.controller('PaymentDateFormulaSettingController', [
 		var vm = this;
 		var log = $log;
 
+		vm.manageAll=false;
+		
 		var sponsorId = $rootScope.sponsorId;
 
 		var selectedItem = $stateParams.paymentDateFormulaModel;
@@ -118,8 +120,8 @@ app.controller('PaymentDateFormulaSettingController', [
 			}, {
 				cssTemplate : 'text-center',
 				sortData : false,
-				cellTemplate : '<scf-button id="payment-period-{{data.paymentPeriodId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.configPeriod(data)" title="Config a payment period"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
-					'<scf-button id="payment-period-{{data.paymentPeriodId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deletePeriod(data)" title="Delete  a payment period"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+				cellTemplate : '<scf-button id="payment-period-{{data.paymentPeriodId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.configPeriod(data)" title="Config a payment period" ng-disabled="!ctrl.manageAll"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
+					'<scf-button id="payment-period-{{data.paymentPeriodId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deletePeriod(data)" title="Delete  a payment period" ng-disabled="!ctrl.manageAll"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 			} ]
 		});
 
@@ -160,8 +162,8 @@ app.controller('PaymentDateFormulaSettingController', [
 			}, {
 				cssTemplate : 'text-center',
 				sortData : false,
-				cellTemplate : '<scf-button id="credit-term-{{data.creditTermId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.configCreditTerm(data)" title="Config a credit term"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
-					'<scf-button id="credit-term-{{data.creditTermId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteCreditTerm(data)" title="Delete a credit term"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+				cellTemplate : '<scf-button id="credit-term-{{data.creditTermId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.configCreditTerm(data)" title="Config a credit term" ng-disabled="!ctrl.manageAll"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
+					'<scf-button id="credit-term-{{data.creditTermId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteCreditTerm(data)" title="Delete a credit term" ng-disabled="!ctrl.manageAll"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 			} ]
 		});
 
