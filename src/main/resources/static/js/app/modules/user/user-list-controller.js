@@ -167,14 +167,13 @@ userModule
 					query : searchUserTypeHead
 				    });
 
-			    var organizeAutoSuggestServiceUrl = 'api/v1/organizes';
+			    var organizeAutoSuggestServiceUrl = '/api/v1/organizes';
 			    var searchOrganizeTypeHead = function(value) {
 				value = UIFactory.createCriteria(value);
 				return $http
 					.get(organizeAutoSuggestServiceUrl, {
 					    params : {
 						q : value,
-						isFounder : false,
 						offset : 0,
 						limit : 5
 					    }
