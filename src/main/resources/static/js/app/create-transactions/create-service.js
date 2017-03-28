@@ -16,7 +16,7 @@ function createTransactionService($http, $q) {
         var deffered = $q.defer();
 
         $http({
-        	    url :'api/create-transaction/sponsor-payment-dates/get',
+        	    url :'api/v1/create-transaction/sponsor-payment-dates/get',
             	method: 'GET',
             	params:{
             		 sponsorId: sponsorId,
@@ -43,7 +43,7 @@ function createTransactionService($http, $q) {
         var deffered = $q.defer();
 
         $http({
-        	    url :'api/create-transaction/transaction-dates/get',
+        	    url :'api/v1/create-transaction/transaction-dates/get',
             	method: 'POST',
             	headers : {
             		'Content-Type': 'application/x-www-form-urlencoded'
@@ -90,7 +90,7 @@ function createTransactionService($http, $q) {
 
         $http({
             method: 'POST',
-            url: 'api/create-transaction/trading-info/get',
+            url: 'api/v1/create-transaction/trading-info/get',
 			headers : {
 				'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -115,7 +115,7 @@ function createTransactionService($http, $q) {
     function verifyTransaction(transaction){
     	var deffered = $q.defer();
 
-        $http.post('api/create-transaction/transaction/verify', transaction)
+        $http.post('api/v1/create-transaction/transaction/verify', transaction)
             .then(function(response) {
                 deffered.resolve(response);
 			
@@ -129,7 +129,7 @@ function createTransactionService($http, $q) {
 	function getSponsor(){
 		var deffered = $q.defer();
 
-        $http.post('api/create-transaction/sponsor/get')
+        $http.get('api/v1/create-transaction/sponsor')
             .then(function(response) {
                 deffered.resolve(response);
             })
@@ -143,11 +143,8 @@ function createTransactionService($http, $q) {
 		var deffered = $q.defer();
 
         $http({
-            method: 'POST',
-            url: 'api/create-transaction/supplier/get',
-			headers : {
-				'Content-Type': 'application/x-www-form-urlencoded'
-            },
+            method: 'GET',
+            url: 'api/v1/create-transaction/supplier-code',
             params: {
                 sponsorId: sponsorId
             }
@@ -162,7 +159,7 @@ function createTransactionService($http, $q) {
 	        var deffered = $q.defer();
 
 	        $http({
-	        	    url :'api/create-transaction/trading-partner/verify',
+	        	    url :'api/v1/create-transaction/trading-partner/verify',
 	            	method: 'POST',
 	            	headers : {
 	            		'Content-Type': 'application/x-www-form-urlencoded'

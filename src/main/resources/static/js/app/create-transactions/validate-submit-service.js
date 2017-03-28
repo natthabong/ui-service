@@ -9,7 +9,7 @@ function validateAndSubmitService($http, $q) {
     function prepareTransactionOnValidatePage(params) {
         var deffered = $q.defer();
 
-        $http.post('api/create-transaction/validate-submit/transaction/prepare', params)
+        $http.post('api/v1/create-transaction/validate-submit/transaction/prepare', params)
             .then(function(response) {
                 deffered.resolve(response);
             })
@@ -22,7 +22,7 @@ function validateAndSubmitService($http, $q) {
     function getDocumentOnValidatePage(page, pageSize) {
         var deffered = $q.defer();
 
-        $http.post('api/create-transaction/validate-submit/document/get', {
+        $http.post('api/v1/create-transaction/validate-submit/document/get', {
                 params: {
                 	page: page,
                 	pageSize: pageSize
@@ -40,7 +40,7 @@ function validateAndSubmitService($http, $q) {
     function submitTransaction(transaction) {
         var deffered = $q.defer();
 
-        $http.post('api/create-transaction/validate-submit/transaction/submit',transaction)
+        $http.post('api/v1/create-transaction/validate-submit/transaction/submit',transaction)
             .then(function(response) {
                 deffered.resolve(response);
             })

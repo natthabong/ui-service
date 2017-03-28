@@ -12,7 +12,7 @@ function NewduedateGroupServices($http, $q, blockUI){
 		var searchBlock = blockUI.instances.get('search-block');
 		searchBlock.start();
 		$http({
-			url: 'api/create-transaction/document-groupby-duedate',
+			url: 'api/v1/create-transaction/document-groupby-duedate',
 			method: 'POST',
 			data: listDocumentModel
 //			url: 'js/app/dashboard/documentGroupbyDuedate_maker.json',

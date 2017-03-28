@@ -16,7 +16,7 @@ angular
 							var log = $log;
 
 							var dataSource = Service
-									.requestURL('/api/create-transaction/document-groupby-duedate', {
+									.requestURL('/api/v1/create-transaction/document-groupby-duedate', {
 										totalRecord: 10,
 										orders: [{
 											fieldName: 'sponsorPaymentDate',

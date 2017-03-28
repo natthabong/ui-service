@@ -1,4 +1,5 @@
-<div id="content" th:fragment="content">
+<div id="content" th:fragment="content"
+	sec:authorize="hasAuthority('CREATE_LOANS_OF_MY_ORGANIZE')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
@@ -22,7 +23,7 @@
 					<!-- Start Column Panel-->
 					<div class="col-md-12">
 						<form name="createForm" class="form-horizontal">
-							<div class="form-group">
+							<div class="form-group" ng-show="ctrl.canViewOrgProfilesReferToMyOrg">
 								<label for="sponsor"
 									class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Sponsor'
 									| translate}}: </label>
@@ -34,7 +35,7 @@
 								</div>
 								<div class="col-md-5 col-sm-5"></div>
 							</div>
-							<div class="form-group">
+							<div class="form-group" ng-show="ctrl.canViewCusCodeReferToMyOrg">
 								<label for="dealer"
 									class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Supplier
 									code' | translate}} : </label>
@@ -49,7 +50,7 @@
 							</div>
 
 							<!-- Start Payment Field-->
-							<div class="form-group">
+							<div class="form-group" ng-show="ctrl.canViewOrgProfilesReferToMyOrg">
 								<label for="paymentDate"
 									class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Sponsor
 									payment date' | translate}}: </label>
@@ -59,7 +60,7 @@
 										ng-model="ctrl.createTransactionModel.sponsorPaymentDate"
 										component-data="ctrl.sponsorPaymentDates"></scf-dropdown>
 								</div>
-								<div class="col-md-5 col-sm-5">
+								<div class="col-md-5 col-sm-5" ng-show="ctrl.canViewCusCodeReferToMyOrg">
 									<scf-button id="search-button" class="btn-default"
 										ng-click="ctrl.searchDocument()">Search</scf-button>
 								</div>
@@ -241,16 +242,22 @@
 							</div>
 						</div>
 					</div>
-
 				</div>
-
 			</div>
-
-
-
 		</div>
+		<ng-form> <input type="hidden"
+			ng-init="ctrl.canViewOrgProfilesReferToMyOrg=true"
+			sec:authorize="hasAuthority('VIEW_ORGAINIZE_PROFILES_REFER_TO_MY_ORGANIZE')" /></ng-form>
+		<ng-form> <input type="hidden"
+			ng-init="ctrl.canViewCusCodeReferToMyOrg=true"
+			sec:authorize="hasAuthority('VIEW_CUSTOMER_CODE_REFER_TO_MY_ORGANIZE')" /></ng-form>
+		<ng-form> <input type="hidden"
+			ng-init="ctrl.canViewDisplayLayoutReferToMyOrg=true"
+			sec:authorize="hasAuthority('VIEW_DOCUMENT_DISPLAY_LAYOUTS_REFER_TO_MY_ORGANIZE')" /></ng-form>
+		<ng-form> <input type="hidden"
+			ng-init="ctrl.canViewDocsReferToMyOrg=true"
+			sec:authorize="hasAuthority('VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZE')" /></ng-form>
 	</div>
-
 	<scf-modal visible="validateDataFailPopup">
 	<div class="modal-content">
 		<div class="modal-header">
