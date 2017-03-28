@@ -11,6 +11,8 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		vm.submitted = false;
 		vm.sponsorTxtDisable = false;
 		vm.supplierTxtDisable = false;
+		
+		vm.deleteAuthority = false;
 
 		vm.showInfomation = false;
 		vm.documentNewStatus = "NEW";
@@ -77,7 +79,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		};
 		
 		vm.canDelete = function(data){
-		    return data.documentStatus == 'NEW' && !($stateParams.party == partyRole.supplier); 
+		    return data.documentStatus == 'NEW' && !($stateParams.party == partyRole.supplier) && vm.deleteAuthority; 
 		}
 		
 		var columnStatus = {
