@@ -82,7 +82,6 @@
 	        		goToHome();
 	        	    }
 	            }).catch(function(response) {
-	            	console.log(response);
 	            	self.errorMessage = response.data.errorMessage;
 	            	self.error = true;
 	            	if(!angular.isDefined(self.errorMessage)){
@@ -150,7 +149,7 @@
                     blockUI.stop();
                     deffered.resolve(response);
                 }).catch(function(response) {
-                	blockUI.stop();
+                    blockUI.stop();
                     deffered.reject(response);
                 })
             return deffered;

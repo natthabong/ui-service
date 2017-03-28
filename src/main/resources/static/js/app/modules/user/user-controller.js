@@ -160,7 +160,16 @@ userModule
 					    vm.organizeLinks).search();
 				}
 			    }
-
+			    var _addOrganize = function(data){
+				var filtered = vm.organizeLinks.filter(function(d){
+				    return (d.roleId == data.roleId && d.organizeId == data.organizeId);
+				});
+				
+				if(filtered.length == 0){
+				    vm.organizeLinks.push(data);
+				}
+			    }
+			    
 			    $scope.addRole = function() {
 				ngDialog
 					.open({
@@ -172,7 +181,7 @@ userModule
 					    preCloseCallback : function(value) {
 						if (value) {
 						    value.forEach(function(data){
-							vm.organizeLinks.push(data);
+							_addOrganize(data);
 						    })
 						}
 						vm.pagingController

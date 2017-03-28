@@ -15,7 +15,6 @@ userModule.controller('UserOrganizeController', [ '$scope', '$http', 'UserServic
 	return $http.get(organizeAutoSuggestServiceUrl, {
 		    params : {
 			q : value,
-			isFounder : false,
 			offset : 0,
 			limit : 5
 		    }
