@@ -84,7 +84,10 @@
 	            }).catch(function(response) {
 	            	console.log(response);
 	            	self.errorMessage = response.data.errorMessage;
-	            	self.error = true;            	
+	            	self.error = true;
+	            	if(!angular.isDefined(self.errorMessage)){
+	            	    self.errorMessage = response.status + ' '+response.statusText;
+	            	}
 	            });
         	}
         };
