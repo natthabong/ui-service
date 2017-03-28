@@ -74,7 +74,9 @@ profileApp
 					    headerMessage : 'Confirm save?'
 					},
 					confirm : function() {
-					    return $scope.confirmSave(user);
+					    return $scope.confirmSave(user, null, function(){
+						$window.location.href = "/error/403";
+					    });
 					},
 					onSuccess : function(response) {
 					    _success();
@@ -114,7 +116,6 @@ profileApp
 				    }
 				}).catch(function(response) {
 				    blockUI.stop();
-				    console.log(response);
 				    if (response) {
 					$scope.errors[response.code] = {
 					    message : response.message

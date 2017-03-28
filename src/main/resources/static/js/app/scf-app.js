@@ -484,16 +484,13 @@ app.factory('httpErrorResponseInterceptor', ['$q', '$location', '$window',
           switch (response.status) {
             case 401:
             case 406:
-	        	console.log('Unauthorize');
-	            console.log(response);
 	            $window.location.href = "/error/401";
 	            break;
-            case 403:
-				console.log('invalidateAuthority');
-				console.log(response);
-				$window.location.href = "/error/403";
-				break;
+//            case 403:
+//		    $window.location.href = "/error/403";
+//		    break;
             default:
+        	break;
           }
 
           return $q.reject(response);
