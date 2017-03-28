@@ -263,7 +263,7 @@ app.controller('PaymentDateFormulaSettingController', [
 		}
 
 		vm.save = function() {
-			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + formulaId;
+			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + formulaId;
 			var serviceDiferred = Service.requestURL(serviceUrl, vm.model, 'PUT');
 			blockUI.start();
 			serviceDiferred.promise.then(function(response) {
