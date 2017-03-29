@@ -28,7 +28,7 @@
 								<label id="log-date-label"
 									class="col-md-1 col-sm-2 control-label">{{'Log date' |
 									translate}}:</label>
-								<div class="col-md-2 col-sm-3 gec-calendar-group">
+								<div class="col-md-3 col-sm-3 gec-calendar-group">
 									<label id="log-date-from-label" for="log-date-from-label"
 										class="control-label">{{'From' | translate}}: </label>
 									<scf-date-picker-from text-id="log-date-from-textbox"
@@ -39,7 +39,7 @@
 										max-date="ctrl.logListModel.logDateTo">
 									</scf-date-picker-from>
 								</div>
-								<div class="col-md-3 col-sm-3 gec-calendar-group">
+								<div class="col-md-2 col-sm-3 gec-calendar-group">
 									<scf-input-text id="log-time-hour-from-textbox"
 										ng-model="ctrl.logTimeFromHour" maxlength="2"
 										placeholder="HH"></scf-input-text>
@@ -49,7 +49,7 @@
 										ng-model="ctrl.logTimeFromMinute" maxlength="2"
 										placeholder="MM"></scf-input-text>
 								</div>
-								<div class="col-md-2 col-sm-3 gec-calendar-group">
+								<div class="col-md-3 col-sm-3 gec-calendar-group">
 									<label id="log-date-to-label" for="log-date-to-label"
 										class="control-label">{{'to' | translate}}: </label>
 									<scf-date-picker-to text-id="log-date-to-textbox"
@@ -60,7 +60,7 @@
 										min-date="ctrl.logListModel.logDateFrom">
 									</scf-date-picker-to>
 								</div>
-								<div class="col-md-3 col-sm-3 gec-calendar-group">
+								<div class="col-md-2 col-sm-3 gec-calendar-group">
 									<scf-input-text id="log-time-hour-to-textbox"
 										ng-model="ctrl.logTimeToHour" maxlength="2"
 										placeholder="HH"></scf-input-text>
