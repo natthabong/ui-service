@@ -28,6 +28,7 @@ userModule
 				activeDate : new Date()
 			    };
 			    vm.organizeLinks = [];
+				$scope.emailFormat = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
 			    vm.dataTable = {
 				columns : [
 					{
@@ -307,6 +308,12 @@ userModule
 				    $scope.errors.email = {
 					message : 'e-mail is required.'
 				    }
+				}
+				if($scope.newUserForm.mail.$error.pattern){
+					valid = false;
+					$scope.errors.email = {
+					message : 'Wrong e-mail format data.'
+					}
 				}
 				if (isRequire(user.birthDate)) {
 				    valid = false;

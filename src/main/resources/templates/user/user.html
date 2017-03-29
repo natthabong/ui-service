@@ -98,7 +98,8 @@
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'e-mail'
 								| translate}}:</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<scf-input-text id="email-textbox" ng-model="user.email"
+								<scf-input-text id="email-textbox" ng-model="user.email" 
+									name = "mail" ng-pattern="emailFormat"
 									maxlength="100" ng-disabled="ctrl.isViewMode"></scf-input-text>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
