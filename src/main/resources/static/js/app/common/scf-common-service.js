@@ -259,7 +259,6 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 		    var diferred = $q.defer();
 		        
 		        var criteriaData = self._prepareCriteria(self.pagingModel, self.postParams);
-		        console.log(criteriaData);
 		        var searchDeferred = '';
 		        
 		        if(self.methodRequestUrl == 'POST'){
