@@ -74,6 +74,10 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 	            		$scope.response.showViewRecentBtn = false;
 	                    $scope.response.showViewHistoryBtn = true;
 	                    $scope.response.showCloseBtn = $scope.response.errorCode == 'E1012'?true:false;
+	                    if($scope.response.errorCode == 'E1012'){
+	                    	vm.txnHour.allowSendToBank = false;
+	                    	vm.disableButton = true;
+	                    }
 	                    $scope.response.showBackBtn = true;
 	                    
 	                    if($scope.response.errorCode != 'E0403'){
