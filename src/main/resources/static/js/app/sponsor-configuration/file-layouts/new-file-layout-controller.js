@@ -333,7 +333,7 @@ app.controller('NewFileLayoutController', [
 
 				sendRequest(reqUrlLayoutConfg, function(response) {
 					vm.model = response.data;
-
+					
 					vm.oldStateFileType = vm.model.fileType;
 					if(angular.isDefined(vm.model.offsetRowNo) && vm.model.offsetRowNo != null){
 						vm.isConfigOffsetRowNo = true;
@@ -737,6 +737,13 @@ app.controller('NewFileLayoutController', [
 		$scope.$watch('newFileLayoutCtrl.items', function() {
 			vm.reloadPaymentDateFields();
 			addCreditTermFields(vm.items);
+			if(vm.model.paymentDateConfig == null){
+				vm.model.paymentDateConfig = {
+					strategy : 'FIELD',
+					documentDateField : null,
+					paymentDateFormulaId : null
+				};
+			}
 		}, true);
 
 		vm.reloadPaymentDateFields = function() {
@@ -847,7 +854,6 @@ app.controller('NewFileLayoutController', [
 					displayResult = creditTerm.formulaType;
 				}
 			});
-
 			return displayResult;
 		}
 
@@ -1027,7 +1033,7 @@ app.controller('NewFileLayoutController', [
 //				$log.error('Save customer Code Group Fail');
 //			});
 //		};
-
+		
 	} ]);
 
 app.constant('FILE_TYPE_ITEM', {
