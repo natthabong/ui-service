@@ -956,10 +956,10 @@ app.controller('NewFileLayoutController', [
 		
 		vm.loadCustomerCodeGroup = function(groupName) {
 			var diferred = $q.defer();
-			vm.customerCodeGroupDropdown = [ {
+			vm.customerCodeGroupDropdown = [{
 				label : 'Please select',
 				value : ''
-			} ];
+			}];
 
 			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/customer-code-groups';
 			var serviceDiferred = Service.doGet(serviceUrl, {
@@ -985,47 +985,48 @@ app.controller('NewFileLayoutController', [
 				$log.error('Load Customer Code Group Fail');
 				diferred.reject();
 			});
-
+			
+			
 			return diferred;
 		};
 
 		vm.loadCustomerCodeGroup();		
-		
-		vm.newCustomerCodeGroup = function() {	    
-			vm.newCustomerCodeGroupDialog = ngDialog.open({
-				id : 'new-customer-code-setting-dialog',
-				template : '/configs/layouts/file/data-types/customer-code/new-customer-code',
-				className : 'ngdialog-theme-default',
-				controller : 'NewFileLayoutController',
-				controllerAs : 'ctrl',
-				scope : $scope,
-				preCloseCallback : function(value) {
-					if(value!=null){
-						var loadCustCodeDiferred = vm.loadCustomerCodeGroup(value.groupName);									
-					}				
-				}
-			});
-		};
-		
-		vm.saveNewCustomerGroup = function() {
-			vm.customerCodeGroupRequest.sponsorId = sponsorId;
-			vm.customerCodeGroupRequest.completed = false;
 
-			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/customer-code-groups';
-			var serviceDiferred = Service.requestURL(serviceUrl, vm.customerCodeGroupRequest, 'POST');
-			serviceDiferred.promise.then(function(response) {
-				if (response !== undefined) {
-					if (response.message !== undefined) {
-						vm.messageError = response.message;
-					} else {
-						vm.closeThisDialog = $scope.closeThisDialog
-						vm.closeThisDialog(vm.customerCodeGroupRequest);
-					}
-				}
-			}).catch(function(response) {
-				$log.error('Save customer Code Group Fail');
-			});
-		};
+//		vm.newCustomerCodeGroup = function() {	    
+//			vm.newCustomerCodeGroupDialog = ngDialog.open({
+//				id : 'new-customer-code-setting-dialog',
+//				template : '/configs/layouts/file/data-types/customer-code/new-customer-code',
+//				className : 'ngdialog-theme-default',
+//				controller : 'NewFileLayoutController',
+//				controllerAs : 'ctrl',
+//				scope : $scope,
+//				preCloseCallback : function(value) {
+//					if(value!=null){
+//						var loadCustCodeDiferred = vm.loadCustomerCodeGroup(value.groupName);									
+//					}				
+//				}
+//			});
+//		};
+//		
+//		vm.saveNewCustomerGroup = function() {
+//			vm.customerCodeGroupRequest.sponsorId = sponsorId;
+//			vm.customerCodeGroupRequest.completed = false;
+//
+//			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/customer-code-groups';
+//			var serviceDiferred = Service.requestURL(serviceUrl, vm.customerCodeGroupRequest, 'POST');
+//			serviceDiferred.promise.then(function(response) {
+//				if (response !== undefined) {
+//					if (response.message !== undefined) {
+//						vm.messageError = response.message;
+//					} else {
+//						vm.closeThisDialog = $scope.closeThisDialog
+//						vm.closeThisDialog(vm.customerCodeGroupRequest);
+//					}
+//				}
+//			}).catch(function(response) {
+//				$log.error('Save customer Code Group Fail');
+//			});
+//		};
 
 	} ]);
 
@@ -1110,41 +1111,41 @@ app.controller('CUSTOMER_CODELayoutConfigController', [ '$scope', '$rootScope', 
 
 		vm.loadCustomerCodeGroup();
 		
-		vm.newCustomerCodeGroupDialog = null;
-		vm.newCustomerCodeGroup = function() {
-		    vm.newCustomerCodeGroupDialog = ngDialog.open({
-				id : 'new-customer-code-setting-dialog',
-				template : '/configs/layouts/file/data-types/customer-code/new-customer-code',
-				className : 'ngdialog-theme-default',
-				scope : $scope
-			});
-		};
-
-		vm.saveNewCustomerGroup = function() {
-			vm.customerCodeGroupRequest.sponsorId = vm.sponsorId;
-			vm.customerCodeGroupRequest.completed = false;
-
-			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups';
-			var serviceDiferred = Service.requestURL(serviceUrl, vm.customerCodeGroupRequest, 'POST');
-			serviceDiferred.promise.then(function(response) {
-				if (response !== undefined) {
-					if (response.message !== undefined) {
-						vm.messageError = response.message;
-					} else {
-					    ngDialog.close(vm.newCustomerCodeGroupDialog.id);
-						var loadCustCodeDiferred = vm.loadCustomerCodeGroup();
-						loadCustCodeDiferred.promise.then(function() {
-							vm.model.expectedValue = response.groupId;
-							vm.customerCodeGroupRequest.groupId = vm.model.expectedValue;
-							
-						});
-						
-					}
-				}
-			}).catch(function(response) {
-				$log.error('Save customer Code Group Fail');
-			});
-		};
+//		vm.newCustomerCodeGroupDialog = null;
+//		vm.newCustomerCodeGroup = function() {
+//		    vm.newCustomerCodeGroupDialog = ngDialog.open({
+//				id : 'new-customer-code-setting-dialog',
+//				template : '/configs/layouts/file/data-types/customer-code/new-customer-code',
+//				className : 'ngdialog-theme-default',
+//				scope : $scope
+//			});
+//		};
+//
+//		vm.saveNewCustomerGroup = function() {
+//			vm.customerCodeGroupRequest.sponsorId = vm.sponsorId;
+//			vm.customerCodeGroupRequest.completed = false;
+//
+//			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups';
+//			var serviceDiferred = Service.requestURL(serviceUrl, vm.customerCodeGroupRequest, 'POST');
+//			serviceDiferred.promise.then(function(response) {
+//				if (response !== undefined) {
+//					if (response.message !== undefined) {
+//						vm.messageError = response.message;
+//					} else {
+//					    ngDialog.close(vm.newCustomerCodeGroupDialog.id);
+//						var loadCustCodeDiferred = vm.loadCustomerCodeGroup();
+//						loadCustCodeDiferred.promise.then(function() {
+//							vm.model.expectedValue = response.groupId;
+//							vm.customerCodeGroupRequest.groupId = vm.model.expectedValue;
+//							
+//						});
+//						
+//					}
+//				}
+//			}).catch(function(response) {
+//				$log.error('Save customer Code Group Fail');
+//			});
+//		};
 		
 		
 	} ]);
