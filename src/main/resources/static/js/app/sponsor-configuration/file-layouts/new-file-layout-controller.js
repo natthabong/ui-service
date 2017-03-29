@@ -2018,19 +2018,19 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 
 		//2016-04-13T13:30:55
 		var defaultDateExample = config.defaultExampleValue;
-	    var year = defaultDateExample.substring(0, 4);
+		var year = defaultDateExample.substring(0, 4);
 	    var month = defaultDateExample.substring(5, 7);
 	    var day = defaultDateExample.substring(8, 10);    
 	    var hours = defaultDateExample.substring(11, 13);
 	    var minutes = defaultDateExample.substring(14, 16); 
 	    var seconds = defaultDateExample.substring(17, 19);
-		var dateDefault = new Date(year, month, day, hours, minutes, seconds, 0)
-		
+		var dateDefault = new Date(year, month-1, day, hours, minutes, seconds, 0)
+	    
 		var displayDateTimeFormat = record.datetimeFormat.replace('HHmmss','T1');
 		displayDateTimeFormat = displayDateTimeFormat.replace('HH:mm:ss','T2');
 		displayDateTimeFormat = displayDateTimeFormat.toUpperCase();
-		displayDateTimeFormat = displayDateTimeFormat.replace('T1','hhmmss');
-		displayDateTimeFormat = displayDateTimeFormat.replace('T2','hh:mm:ss');
+		displayDateTimeFormat = displayDateTimeFormat.replace('T1','HHMMSS');
+		displayDateTimeFormat = displayDateTimeFormat.replace('T2','HH:MM:SS');
 
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 		displayMessage = displayMessage.replace('| {conditionUploadDate}', '');
