@@ -65,7 +65,6 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                 }).catch(function(response) {
                     
                     $scope.response = response.data;
-                    
 		            if($scope.response.errorCode=='E0400'){
 		            	vm.confirmPopup();
 	            		vm.wrongPassword = true;
@@ -153,7 +152,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 	                    $scope.response.showViewHistoryBtn = true;
 	                    $scope.response.showCloseBtn = $scope.response.errorCode == 'E1012'?true:false;
 	                    $scope.response.showBackBtn = true;
-	                    
+	                    console.log($scope.response.errorCode);
 	                    if($scope.response.errorCode != 'E0403'){
 	                    	vm.errorMessageModel = response.data;
 	                    	ngDialog.open({
