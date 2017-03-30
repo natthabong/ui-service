@@ -117,9 +117,13 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			vm.dataTable.columns = [];
 			displayConfig.promise.then(function(response) {
 				vm.dataTable.columns = response.items;
-				vm.dataTable.columns.push(columnLastUpload);
-				vm.dataTable.columns.push(columnStatus);
-				vm.dataTable.columns.push(columnAction);
+				
+				if (vm.dataTable.columns.indexOf(columnLastUpload) == -1) {
+					vm.dataTable.columns.push(columnLastUpload);
+					vm.dataTable.columns.push(columnStatus);
+					vm.dataTable.columns.push(columnAction);
+				}
+				
 				return docDisplayPromise.resolve('Load display success');
 			});
 			return docDisplayPromise;
@@ -200,7 +204,6 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		vm.pagingController = PagingController.create('api/v1/documents', vm.documentListCriterial, 'GET');
 
 		vm.searchDocument = function(pagingModel) {
-
 			if (isValidateCriteriaPass()) {
 				var criteria = prepareCriteria();
 				var documentListDiferred = vm.pagingController.search(pagingModel, vm.getDocumentSummary);
@@ -405,6 +408,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		$scope.$watch('ctrl.documentListModel.sponsor', function() {
 			if (angular.isDefined(vm.documentListModel.sponsor) && angular.isObject(vm.documentListModel.sponsor)) {
 				vm.loadDocumentDisplayConfig(vm.documentListModel.sponsor.organizeId);
+				
 			}
 
 			if(currentParty != partyRole.supplier){
