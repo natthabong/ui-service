@@ -10,16 +10,13 @@
 			<div class="col-md-12 col-sm-12 text-right">
 				<span> <b ng-bind="txnTodoListCtrl.splitePageTxt"
 					id="wait-for-verify-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-						dropdown-id="wait-for-verify-transaction-page-limit-dropdown"
+						dropdown-id="page-limit-dropdown"
+						name="wait-for-verify-transaction"
 						page-size-model="txnTodoListCtrl.pageModel.pageSizeSelectModel"
 						total-page="txnTodoListCtrl.pageModel.totalPage"
 						current-page="txnTodoListCtrl.transactionCriteriaModel.page"
 						page-size-list="txnTodoListCtrl.pageSizeList"
-						page-action="txnTodoListCtrl.searchTransaction"
-						first-page-button-id="wait-for-verify-transaction-first-page-button"
-						back-page-button-id="wait-for-verify-transaction-back-page-button"
-						next-page-button-id="wait-for-verify-transaction-next-page-button"
-						last-page-button-id="wait-for-verify-transaction-last-page-button"></scf-pagination>
+						page-action="txnTodoListCtrl.searchTransaction"></scf-pagination>
 				</span>
 
 			</div>
