@@ -8,16 +8,13 @@
 			<div class="col-md-12 col-sm-12 col-xs-12 text-right">
 				<span> <b ng-bind="internalStepCtrl.splitePageTxt"
 					id="internal-step-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-						dropdown-id="internal-step-page-limit-dropdown"
+						dropdown-id="page-limit-dropdown"
+						name="internal-step"
 						page-size-model="internalStepCtrl.pageModel.pageSizeSelectModel"
 						total-page="internalStepCtrl.pageModel.totalPage"
 						current-page="internalStepCtrl.pageModel.currentPage"
 						page-size-list="internalStepCtrl.pageSizeList"
-						page-action="internalStepCtrl.searchTransaction"
-						first-page-button-id="internal-step-first-page-button"
-						back-page-button-id="internal-step-back-page-button"
-						next-page-button-id="internal-step-next-page-button"
-						last-page-button-id="internal-step-last-page-button"></scf-pagination>
+						page-action="internalStepCtrl.searchTransaction"></scf-pagination>
 				</span>
 
 			</div>
