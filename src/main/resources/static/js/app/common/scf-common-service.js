@@ -226,7 +226,7 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 		return this;
 	   },
 	   search: function(pagingData, callback){
-		var self = this;
+		var self = ctrl;
 		if (pagingData === undefined) {
 		    self.pagingModel.pageSizeSelectModel = defaultPageSize;
 		    self.pagingModel.currentPage = defaultPage;
@@ -235,7 +235,7 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 	            self.pagingModel.currentPage = pagingData.page;
 	        }
 		
-		if(this.clientMode){
+		if(self.clientMode){
 		    
 		    if (angular.isArray(self.dataSource)) {
 			var pagesize = self.pagingModel.pageSizeSelectModel;
