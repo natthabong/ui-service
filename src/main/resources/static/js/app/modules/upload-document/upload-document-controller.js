@@ -138,10 +138,6 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
                 }
                 
             }).catch(function(response) {
-                if (validateFileSize(response.data)) {
-                    vm.errorMsgKey = 'Upload filesize err';
-                    vm.showErrorMsg = true;
-                }
                 log.error('Upload file fail');
             });
         } else {
@@ -199,7 +195,12 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
         if (angular.equals(data.file, '')) {
             validateResult = false;
             vm.errorMsgKey = 'Upload Msg err';
-        } else {
+        }else if(data.file.size > 1024*1024){
+            log.error('Upload file fail');
+            vm.errorMsgKey = 'Upload filesize err';
+            validateResult = false;
+        } 
+        else {
             var fileName = data.file.name;
             var fileSelectExtention = fileName.slice(fileName.lastIndexOf('.'), fileName.length);
             // Check file extention name exists in acceptFileExtention ?.
@@ -211,19 +212,6 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
         }
         return validateResult;
     }
-
-    function validateFileSize(data) {
-		if(angular.isUndefined(data)){
-			return false;
-		}
-        if (data.search('maximum permitted size') > 0) {
-            return true;
-        }else if(data.search('Request Entity Too Large') > 0){
-        	return true;
-        }
-        return false;
-    }
-
 
     function getFileExtentions(data) {
         var result = '';
