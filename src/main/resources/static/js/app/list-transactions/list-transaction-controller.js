@@ -55,7 +55,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 					  totalRecord: 0,
 					  totalAmount: 0
 				  },
-				  canceled_by_supplier:{
+				  cancelled_by_supplier:{
 					  totalRecord: 0,
 					  totalAmount: 0              
 				  }		
@@ -300,22 +300,24 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 						
                         if (internalStemp.length > 0) {
                             internalStemp.forEach(function(summary) {
-								if(summary.statusMessageKey === 'wait_for_verify'){
-									vm.summaryInternalStep.wait_for_verify.totalRecord = summary.totalRecord;
-									vm.summaryInternalStep.wait_for_verify.totalAmount = summary.totalAmount;
-								}else if(summary.statusMessageKey === 'wait_for_approve'){
-									vm.summaryInternalStep.wait_for_approve.totalRecord = summary.totalRecord;
-									vm.summaryInternalStep.wait_for_approve.totalAmount = summary.totalAmount;
-								}else if(summary.statusMessageKey === 'reject_by_checker'){
-									vm.summaryInternalStep.reject_by_checker.totalRecord = summary.totalRecord;
-									vm.summaryInternalStep.reject_by_checker.totalAmount = summary.totalAmount;
-								}else if(summary.statusMessageKey === 'reject_by_approver'){
-									vm.summaryInternalStep.reject_by_approver.totalRecord = summary.totalRecord;
-									vm.summaryInternalStep.reject_by_approver.totalAmount = summary.totalAmount;
-								}else if(summary.statusMessageKey === 'canceled_by_supplier'){
-									vm.summaryInternalStep.canceled_by_supplier.totalRecord = summary.totalRecord;
-									vm.summaryInternalStep.canceled_by_supplier.totalAmount = summary.totalAmount;
-								}
+                        	vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
+                        	vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
+//								if(summary.statusMessageKey === 'wait_for_verify'){
+//									vm.summaryInternalStep.wait_for_verify.totalRecord = summary.totalRecord;
+//									vm.summaryInternalStep.wait_for_verify.totalAmount = summary.totalAmount;
+//								}else if(summary.statusMessageKey === 'wait_for_approve'){
+//									vm.summaryInternalStep.wait_for_approve.totalRecord = summary.totalRecord;
+//									vm.summaryInternalStep.wait_for_approve.totalAmount = summary.totalAmount;
+//								}else if(summary.statusMessageKey === 'reject_by_checker'){
+//									vm.summaryInternalStep.reject_by_checker.totalRecord = summary.totalRecord;
+//									vm.summaryInternalStep.reject_by_checker.totalAmount = summary.totalAmount;
+//								}else if(summary.statusMessageKey === 'reject_by_approver'){
+//									vm.summaryInternalStep.reject_by_approver.totalRecord = summary.totalRecord;
+//									vm.summaryInternalStep.reject_by_approver.totalAmount = summary.totalAmount;
+//								}else if(summary.statusMessageKey === 'cancelled_by_supplier'){
+//									vm.summaryInternalStep.cancelled_by_supplier.totalRecord = summary.totalRecord;
+//									vm.summaryInternalStep.cancelled_by_supplier.totalAmount = summary.totalAmount;
+//								}
                             });
                         }						
                     }).catch(function(response) {
