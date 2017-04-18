@@ -4,8 +4,8 @@
 			<div class="col-md-10 col-sm-10">
 				<h3>
 					<span id="text-field-format-popup-header-message-label"
-						class="popup-text">{{ngDialogData.config.displayName}} column
-						format</span>
+						class="popup-text">{{ngDialogData.config.displayName}}
+						column format</span>
 				</h3>
 			</div>
 		</div>
@@ -16,6 +16,7 @@
 				<form name="textFieldFormat" class="form-horizontal">
 					<div class="form-group">
 						<label class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							id="text-field-format-popup-alignment-label"
 							ng-bind="'Alignment' | translate"></span>:</label>
 						<div class="col-md-7 col-sm-5 col-xs-12">
 							<scf-dropdown id="text-field-format-popup-alignment-dropdown"
@@ -34,8 +35,7 @@
 					class="popup-button" ng-click="closeThisDialog()"
 					ng-bind="'Cancel' | translate"></scf-button>
 				<scf-button id="text-field-format-popup-ok-button"
-					class="popup-button"
-					ng-click="closeThisDialog(ctrl.model)"
+					class="popup-button" ng-click="closeThisDialog(ctrl.model)"
 					ng-bind="'OK' | translate"></scf-button>
 
 			</div>

@@ -16,6 +16,7 @@
 				<form name="numericFieldFormat" class="form-horizontal">
 					<div class="form-group">
 						<label class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							id="numeric-field-format-popup-alignment-label"
 							ng-bind="'Alignment' | translate"></span>:</label>
 						<div class="col-md-7 col-sm-5 col-xs-12">
 							<scf-dropdown id="numeric-field-format-popup-alignment-dropdown"
@@ -27,28 +28,34 @@
 						<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
 						<div class="col-md-7 col-sm-5 col-xs-12">
 							<label class="checkbox-inline"> <scf-checkbox
-									id="use-seperator-checkbox" ng-model="ctrl.dlgData.useSeperator"></scf-checkbox>
-								<span ng-bind="'Use 1000 Separator (,)' | translate"
+									id="use-seperator-checkbox"
+									ng-model="ctrl.dlgData.useSeperator"></scf-checkbox> <span
+								ng-bind="'Use 1000 Separator (,)' | translate"
 								id="use-seperator-label"></span>
 							</label>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							id="numeric-field-format-popup-negative-numbers-label"
 							ng-bind="'Negative numbers' | translate"></span>:</label>
 						<div class="col-md-7 col-sm-5 col-xs-12">
-							<scf-dropdown id="numeric-field-format-popup-negative-numbers-dropdown"
+							<scf-dropdown
+								id="numeric-field-format-popup-negative-numbers-dropdown"
 								ng-model="ctrl.dlgData.filterType"
-								component-data="ctrl.negativeNumberDropdownItems" translate-label="true"></scf-dropdown>
+								component-data="ctrl.negativeNumberDropdownItems"
+								translate-label="true"></scf-dropdown>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="numeric-label"
 							class="col-md-12 col-sm-12 col-xs-12 control-label"> Ex.
 							Positive: <span
-							id="numeric-field-format-popup-positive-example-label" ng-bind="ctrl.examplePosDataDisplay"></span> <br />
+							id="numeric-field-format-popup-positive-example-label"
+							ng-bind="ctrl.examplePosDataDisplay"></span> <br />
 							&nbsp;&nbsp;&nbsp; Negative: <span
-							id="numeric-field-format-popup-negative-example-label" ng-bind="ctrl.exampleNegDataDisplay"></span>
+							id="numeric-field-format-popup-negative-example-label"
+							ng-bind="ctrl.exampleNegDataDisplay"></span>
 						</label>
 					</div>
 				</form>
