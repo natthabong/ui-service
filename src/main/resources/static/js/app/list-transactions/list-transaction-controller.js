@@ -59,26 +59,48 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 
 	vm.clearInternalStep = function(){
 		vm.summaryInternalStep = {
-				wait_for_verify: {
-					totalRecord: 0,
-					totalAmount: 0
-				  },
-				 wait_for_approve:{
-					  totalRecord: 0,
-					  totalAmount: 0
-				 },
-				 reject_by_checker:{
-					  totalRecord: 0,
-					  totalAmount: 0
-				  },
-				 reject_by_approver:{
-					  totalRecord: 0,
-					  totalAmount: 0
-				  },
-				  cancelled_by_supplier:{
-					  totalRecord: 0,
-					  totalAmount: 0              
-				  }		
+			wait_for_verify: {
+				totalRecord: 0,
+				totalAmount: 0
+			  },
+			 wait_for_approve:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			 },
+			 reject_by_checker:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			  },
+			 reject_by_approver:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			  },
+			  cancelled_by_supplier:{
+				  totalRecord: 0,
+				  totalAmount: 0              
+			  }		
+		};
+		vm.summaryStatusGroup = {
+			INTERNAL_STEP: {
+				totalRecord: 0,
+				totalAmount: 0
+			  },
+			  WAIT_FOR_DRAWDOWN_RESULT:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			 },
+			 DRAWDOWN_SUCCESS:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			  },
+			  DRAWDOWN_FAIL:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			  },
+			  GRAND_TOTAL:{
+				  totalRecord: 0,
+				  totalAmount: 0              
+			  }		
 		};
 	}
             
@@ -319,41 +341,67 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
                 vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 				vm.clearInternalStep();
 				// reset value of internal step
-				
-                if (vm.listTransactionModel.statusGroup === 'INTERNAL_STEP' || vm.listTransactionModel.statusGroup === '') {
-                    var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
-                    internalStepDeffered.promise.then(function(response) {
-                        var internalStemp = response.data;
-						
-                        if (internalStemp.length > 0) {
-                            internalStemp.forEach(function(summary) {
-                        	vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
-                        	vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
-// if(summary.statusMessageKey === 'wait_for_verify'){
-// vm.summaryInternalStep.wait_for_verify.totalRecord = summary.totalRecord;
-// vm.summaryInternalStep.wait_for_verify.totalAmount = summary.totalAmount;
-// }else if(summary.statusMessageKey === 'wait_for_approve'){
-// vm.summaryInternalStep.wait_for_approve.totalRecord = summary.totalRecord;
-// vm.summaryInternalStep.wait_for_approve.totalAmount = summary.totalAmount;
-// }else if(summary.statusMessageKey === 'reject_by_checker'){
-// vm.summaryInternalStep.reject_by_checker.totalRecord = summary.totalRecord;
-// vm.summaryInternalStep.reject_by_checker.totalAmount = summary.totalAmount;
-// }else if(summary.statusMessageKey === 'reject_by_approver'){
-// vm.summaryInternalStep.reject_by_approver.totalRecord = summary.totalRecord;
-// vm.summaryInternalStep.reject_by_approver.totalAmount = summary.totalAmount;
-// }else if(summary.statusMessageKey === 'cancelled_by_supplier'){
-// vm.summaryInternalStep.cancelled_by_supplier.totalRecord =
-// summary.totalRecord;
-// vm.summaryInternalStep.cancelled_by_supplier.totalAmount =
-// summary.totalAmount;
-// }
-                            });
-                        }						
-                    }).catch(function(response) {
-                        $log.error('Internal Error');
-                    });
-
-                }
+				if (currentParty == partyRole.supplier || currentParty == partyRole.sponsor) {
+	                if (vm.listTransactionModel.statusGroup === 'INTERNAL_STEP' || vm.listTransactionModel.statusGroup === '') {
+	                    var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
+	                    internalStepDeffered.promise.then(function(response) {
+	                        var internalStemp = response.data;							
+	                        if (internalStemp.length > 0) {
+	                            internalStemp.forEach(function(summary) {
+	                        	vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
+	                        	vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
+								// if(summary.statusMessageKey ===
+								// 'wait_for_verify'){
+								// vm.summaryInternalStep.wait_for_verify.totalRecord
+								// = summary.totalRecord;
+								// vm.summaryInternalStep.wait_for_verify.totalAmount
+								// = summary.totalAmount;
+								// }else if(summary.statusMessageKey ===
+								// 'wait_for_approve'){
+								// vm.summaryInternalStep.wait_for_approve.totalRecord
+								// = summary.totalRecord;
+								// vm.summaryInternalStep.wait_for_approve.totalAmount
+								// = summary.totalAmount;
+								// }else if(summary.statusMessageKey ===
+								// 'reject_by_checker'){
+								// vm.summaryInternalStep.reject_by_checker.totalRecord
+								// = summary.totalRecord;
+								// vm.summaryInternalStep.reject_by_checker.totalAmount
+								// = summary.totalAmount;
+								// }else if(summary.statusMessageKey ===
+								// 'reject_by_approver'){
+								// vm.summaryInternalStep.reject_by_approver.totalRecord
+								// = summary.totalRecord;
+								// vm.summaryInternalStep.reject_by_approver.totalAmount
+								// = summary.totalAmount;
+								// }else if(summary.statusMessageKey ===
+								// 'cancelled_by_supplier'){
+								// vm.summaryInternalStep.cancelled_by_supplier.totalRecord
+								// =
+								// summary.totalRecord;
+								// vm.summaryInternalStep.cancelled_by_supplier.totalAmount
+								// =
+								// summary.totalAmount;
+								// }
+	                            });
+	                        }						
+	                    }).catch(function(response) {
+	                        $log.error('Internal Error');
+	                    });
+	
+	                }
+				}else if (currentParty == partyRole.bank) {
+					var summaryStatusGroupDeffered = ListTransactionService.summaryStatusGroup(transactionModel);
+					summaryStatusGroupDeffered.promise.then(function(response) {
+						var summaryStatusGroup = response.data;		
+						summaryStatusGroup.forEach(function(summary) {
+                        	vm.summaryStatusGroup[summary.statusGroup].totalRecord = summary.totalRecord;
+                        	vm.summaryStatusGroup[summary.statusGroup].totalAmount = summary.totalAmount;							
+						}).catch(function(response) {
+	                        $log.error('Summary Group Status Error');
+	                    });
+					});
+				}
             }).catch(function(response) {
                 $log.error('Cannot search document');
             });

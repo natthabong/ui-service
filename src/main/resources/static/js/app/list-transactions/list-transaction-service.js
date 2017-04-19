@@ -8,6 +8,7 @@ function ListTransactionServices($http, $q, blockUI){
 		getTransactionStatusGroups: getTransactionStatusGroups,
 		getTransactionDocument: getTransactionDocument,
 		summaryInternalStep: summaryInternalStep,
+		summaryStatusGroup: summaryStatusGroup,
 		exportCSVFile: exportCSVFile,
 		generateEvidenceForm: generateEvidenceForm
 	}
@@ -62,6 +63,20 @@ function ListTransactionServices($http, $q, blockUI){
 		});	
 		return deffered;
 	}
+	
+	function summaryStatusGroup(listTransactionModel){
+		var deffered = $q.defer();
+		$http({
+			url: 'api/v1/list-transaction/summary-status-group',
+			method: 'POST',
+			data: listTransactionModel
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});	
+		return deffered;
+	}
 
 	function exportCSVFile(listTransactionModel,$translate){
 		blockUI.start();
@@ -69,9 +84,9 @@ function ListTransactionServices($http, $q, blockUI){
             url : 'api/v1/list-transaction/exportCSVFile',
             method : 'POST',
             data: listTransactionModel,
-            //params : {listTransactionModel},
+            // params : {listTransactionModel},
             headers : {
-                //'Content-type' : 'text/csv;charset=tis-620',
+                // 'Content-type' : 'text/csv;charset=tis-620',
                 'Accept-Language': $translate.use()
             },
             responseType : 'arraybuffer'
@@ -80,7 +95,7 @@ function ListTransactionServices($http, $q, blockUI){
             var file = new Blob([ data ], {
                 type : 'text/csv'
             });
-            //trick to download store a file having its URL
+            // trick to download store a file having its URL
             var fileURL = URL.createObjectURL(file);
             var a         = document.createElement('a');
             a.href        = fileURL; 
@@ -90,7 +105,7 @@ function ListTransactionServices($http, $q, blockUI){
             blockUI.stop();
             a.click();
         }).error(function(data, status, headers, config) {
-            //TODO when WS error
+            // TODO when WS error
         });
 	}
 	
