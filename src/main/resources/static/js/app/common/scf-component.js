@@ -308,8 +308,12 @@
 								filterType : data['filterType'],
 								filterFormat : data['filterFormat'],
 								renderer : data['renderer'],
+								dataRenderer: data['dataRenderer'],
+								hidden: data['hidden'] || function(){return false;}
 							};
-							vm.tableColumns.push(rowData);
+							if(!rowData.hidden()){
+								vm.tableColumns.push(rowData);
+							}
 						});
 
 						// Check option set to Show row number.
@@ -401,7 +405,12 @@
 					} else {
 						if(angular.isDefined(column.cellTemplate) && column.cellTemplate !== null){
 							dataRender = column.cellTemplate;
-						}else{
+
+						}
+						else if(angular.isDefined(column.dataRenderer) && column.dataRenderer !== null){
+								dataRender = column.dataRenderer(data);
+						}
+						else{
 							dataRender = data[column.field];
 						}
 					}
