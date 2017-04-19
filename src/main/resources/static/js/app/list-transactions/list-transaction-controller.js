@@ -1,4 +1,5 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'TransactionService', '$state', '$timeout','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'PageNavigation','ngDialog','$log' , function(ListTransactionService, TransactionService, $state, $timeout,$translate, $scope, SCFCommonService, $stateParams, $cookieStore, PageNavigation, ngDialog, $log) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'TransactionService', '$state', '$timeout','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'UIFactory', 'PageNavigation','ngDialog','$log','$http','$rootScope', 
+function(ListTransactionService, TransactionService, $state, $timeout,$translate, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, PageNavigation, ngDialog, $log, $http, $rootScope) {
     var vm = this;
 	var log = $log;
     var listStoreKey = 'listrancri';
@@ -20,7 +21,12 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 		rejectByApprover: 'REJECT_BY_APPROVER',
 		canceledBySupplier:'CANCELED_BY_SUPPLIER'
 	}
-	
+	var currentParty = '';
+    var partyRole = {
+		sponsor : 'sponsor',
+		supplier : 'supplier',
+		bank : 'bank'
+	}
 	vm.transactionStatus = {
 			book: 'B'
 	}
@@ -157,6 +163,13 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             sortData: true,
             cssTemplate: 'text-center'
         }, {
+            field: 'supplier',
+            label: 'Supplier',
+            idValueField: 'transactionNo',
+            id: 'transaction-{value}-supplier-name-label',
+            sortData: true,
+            cssTemplate: 'text-center'
+        },{
             field: 'transactionDate',
             label: 'Transaction Date',
             idValueField: 'transactionNo',
@@ -379,17 +392,101 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 	
 	 vm.initLoad = function() {
 		var backAction = $stateParams.backAction;
-		
+
 		if(backAction === true){
 			vm.listTransactionModel = $cookieStore.get(listStoreKey);
 			vm.dateModel.dateFrom = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateFrom);
 			vm.dateModel.dateTo = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateTo);			
 		}
+
+        // currentParty = $stateParams.party;
+        // if (currentParty == partyRole.sponsor) {
+		// 	vm.sponsorTxtDisable = true;
+		// 	initSponsorAutoSuggest();
+		// 	sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+		// } else if (currentParty == partyRole.supplier) {
+		// 	vm.supplierTxtDisable = true;
+		// 	initSupplierAutoSuggest();
+		// 	sponsorAutoSuggestServiceUrl = 'api/v1/sponsors?supplierId='+organizeId;
+		// 	checkSupplierTP(organizeId);
+		// }
 		vm.searchTransaction();
 		$cookieStore.remove(listStoreKey);		
 		vm.loadSponsorCode();
         
     };
+
+    var prepareAutoSuggestLabel = function(item) {
+		item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
+		item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+		return item;
+	}
+
+    // var initSponsorAutoSuggest = function() {
+	// 	var sponsorInfo = angular.copy($rootScope.userInfo);
+	// 	sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
+	// 	vm.documentListModel.sponsor = sponsorInfo;
+
+	// 	// var loadDisplayConfigDiferred = vm.loadDocumentDisplayConfig(organizeId);
+	// 	// loadDisplayConfigDiferred.promise.then(function() {
+	// 	// 		vm.searchDocument();
+	// 	// });
+	// }
+
+	// var initSupplierAutoSuggest = function() {
+	// 	var supplierInfo = angular.copy($rootScope.userInfo);
+	// 	supplierInfo = prepareAutoSuggestLabel(supplierInfo);			
+	// 	vm.documentListModel.supplier = supplierInfo;		
+	// }
+
+    // var querySponsorCode = function(value) {
+	// 		value = value = UIFactory.createCriteria(value);
+	// 		return $http.get(sponsorAutoSuggestServiceUrl, {
+	// 			params : {
+	// 				q : value,
+	// 				offset : 0,
+	// 				limit : 5
+	// 			}
+	// 		}).then(function(response) {
+	// 			return response.data.map(function(item) {
+	// 				item = prepareAutoSuggestLabel(item);
+	// 				return item;
+	// 			});
+	// 		});
+	// 	};
+
+	// 	vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
+	// 		placeholder : 'Please Enter organize name or code',
+	// 		itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
+	// 		query : querySponsorCode
+	// 	});
+
+	// 	var querySupplierCode = function(value) {
+	// 		var sponsorId = vm.documentListModel.sponsor.organizeId;
+	// 		var supplierCodeServiceUrl = 'api/v1/suppliers';
+
+	// 		value = value = UIFactory.createCriteria(value);
+			
+	// 		return $http.get(supplierCodeServiceUrl, {
+	// 			params : {
+	// 				q : value,
+	// 				sponsorId : sponsorId,
+	// 				offset : 0,
+	// 				limit : 5
+	// 			}
+	// 		}).then(function(response) {
+	// 			return response.data.map(function(item) {
+	// 				item.identity = [ 'supplier-', item.organizeId, '-option' ].join('');
+	// 				item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+	// 				return item;
+	// 			});
+	// 		});
+	// 	};
+	// 	vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
+	// 		placeholder : 'Enter organize name or code',
+	// 		itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
+	// 		query : querySupplierCode
+	// 	});
 
     vm.initLoad();
 	vm.loadTransactionGroup();
@@ -430,7 +527,6 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
             
         });
     }
-    
     vm.viewRecent= function(){
     	$timeout(function() {
     		PageNavigation.gotoPage('/view-transaction', {transactionModel: vm.transaction, isShowViewHistoryButton: true});

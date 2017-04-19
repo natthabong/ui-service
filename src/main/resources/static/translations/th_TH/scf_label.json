@@ -194,6 +194,14 @@
 	"document-list-supplier": "Document list",
 	"document-bank": "Document",
 	"document-list-bank": "Document list",
+
+	"transaction-sponsor": "Transaction",
+	"transaction-list-sponsor": "Transaction list",
+	"transaction-supplier": "Transaction",
+	"transaction-list-supplier": "Transaction list",
+	"transaction-bank": "Transaction",
+	"transaction-list-bank": "Transaction list",
+
 	"user-list": "User list",
 	"BOOKED": "Booked",
 	"UNBOOK": "Unbook",

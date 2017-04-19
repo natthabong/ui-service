@@ -12,7 +12,8 @@ import gec.scf.util.AjaxUtils;
 public class ListTransactionController {
 	private static final String LIST_TRANSACTION = "list-transactions/list";
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(path = { "/sponsor", "/supplier",
+		"/bank" },method = RequestMethod.GET)
 	public String listTransaction(@RequestHeader("X-Requested-With") String requestedWith) {
 
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {

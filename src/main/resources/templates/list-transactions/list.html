@@ -66,15 +66,29 @@
 							</div>
 
 							<div class="form-group">
-								<label for="sponsor"
+								<label for="sponsor-auto-suggest" id="sponsor-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor'
 									| translate}}: </label>
-								<div class="col-md-5 col-sm-5 col-xs-12">
-									<scf-dropdown id="sponsor-dropdown"
-										ng-model="ctrl.listTransactionModel.sponsorId"
-										component-data="ctrl.sponsorCodeDropdown"></scf-dropdown>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<gec-auto-suggest id="sponsor-auto-suggest"
+										disable="ctrl.sponsorTxtDisable"
+										model="ctrl.sponsorAutoSuggestModel" name="sponsorCode"
+										ng-model="ctrl.documentListModel.sponsor" maxlength="100"></gec-auto-suggest>
 								</div>
-								<div class="col-md-5 col-sm-4"></div>
+								<div class="col-md-3 col-sm-2"></div>
+							</div>
+
+							<div class="form-group">
+								<label for="supplier-auto-suggest" id="supplier-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
+									| translate}}: </label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<gec-auto-suggest id="supplier-auto-suggest"
+										disable="ctrl.disableSupplierSuggest()"
+										model="ctrl.supplierAutoSuggestModel" name="supplierCode"
+										ng-model="ctrl.documentListModel.supplier" maxlength="100"></gec-auto-suggest>
+								</div>
+								<div class="col-md-3 col-sm-2"></div>
 							</div>
 
 							<div class="form-group">
