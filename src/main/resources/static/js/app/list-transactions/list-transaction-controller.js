@@ -1,9 +1,12 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'TransactionService', '$state', '$timeout','$translate', '$rootScope', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'UIFactory', 'PageNavigation','ngDialog','$log','$http','$rootScope', 
-function(ListTransactionService, TransactionService, $state, $timeout,$translate, $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, PageNavigation, ngDialog, $log, $http, $rootScope) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'TransactionService', '$state', '$timeout','$translate', 
+'$rootScope', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'UIFactory', 'PageNavigation','ngDialog','$log','$http','$q','Service',
+function(ListTransactionService, TransactionService, $state, $timeout,$translate, 
+$rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, PageNavigation, ngDialog, $log, $http, $q, Service) {
     var vm = this;
 	var log = $log;
     var listStoreKey = 'listrancri';
     var organizeId = $rootScope.userInfo.organizeId;
+    var sponsorAutoSuggestServiceUrl;
     
     vm.showInfomation = false;
     vm.splitePageTxt = '';
@@ -29,6 +32,15 @@ function(ListTransactionService, TransactionService, $state, $timeout,$translate
 		supplier : 'supplier',
 		bank : 'bank'
 	}
+
+    vm.documentListModel = {
+		sponsor : undefined,
+		supplier : undefined,
+		supplierCode : undefined,
+		uploadDateFrom : '',
+		uploadDateTo : '',
+	}
+
 	vm.transactionStatus = {
 			book: 'B'
 	}
@@ -85,6 +97,7 @@ function(ListTransactionService, TransactionService, $state, $timeout,$translate
             dateFrom: '',
             dateTo: '',
             sponsorId: '',
+            suppilerId:'',
             supplierCode: '',
             statusGroup: '',
             order: '',
@@ -109,25 +122,7 @@ function(ListTransactionService, TransactionService, $state, $timeout,$translate
 		clearSortOrder: false
     };
 
-    // Load sponsor Code
-    vm.loadSponsorCode = function() {
-        var sponsorCodesDefered = ListTransactionService.getSponsors();
-        sponsorCodesDefered.promise.then(function(response) {
-            var sponsorCodeList = response.data;
-            if (sponsorCodeList !== undefined) {
-                sponsorCodeList.forEach(function(obj) {
-                    var selectObj = {
-                        label: obj.sponsorName,
-                        value: obj.sponsorId
-                    }
-                    vm.sponsorCodeDropdown.push(selectObj);
-                });
-            }
-        }).catch(function(response) {
-			$log.error('Load Sponsor Fail');
-        });
-    };
-    
+   
     vm.loadTransactionGroup = function(){
         var transactionStatusGroupDefered = ListTransactionService.getTransactionStatusGroups();
         transactionStatusGroupDefered.promise.then(function(response) {
@@ -274,6 +269,14 @@ function(ListTransactionService, TransactionService, $state, $timeout,$translate
 
             vm.listTransactionModel.dateFrom = SCFCommonService.convertDate(dateFrom);
             vm.listTransactionModel.dateTo = SCFCommonService.convertDate(dateTo);
+            console.log(vm.documentListModel.sponsor)
+            console.log(vm.documentListModel.supplier)
+
+            if(typeof vm.documentListModel.sponsor == 'object' && vm.documentListModel.sponsor != undefined){
+                vm.listTransactionModel.sponsorId = vm.documentListModel.sponsor.organizeId;
+            }else if(typeof vm.documentListModel.supplier == 'object' && vm.documentListModel.supplier != undefined){
+                vm.listTransactionModel.suppilerId = vm.documentListModel.supplier.organizeId;
+            }
 
             if (criteria === undefined) {
                 vm.pageModel.currentPage = '0';
@@ -412,21 +415,21 @@ function(ListTransactionService, TransactionService, $state, $timeout,$translate
 			vm.dateModel.dateTo = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateTo);			
 		}
 
-        // currentParty = $stateParams.party;
-        // if (currentParty == partyRole.sponsor) {
-		// vm.sponsorTxtDisable = true;
-		// initSponsorAutoSuggest();
-		// sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
-		// } else if (currentParty == partyRole.supplier) {
-		// vm.supplierTxtDisable = true;
-		// initSupplierAutoSuggest();
-		// sponsorAutoSuggestServiceUrl =
-		// 'api/v1/sponsors?supplierId='+organizeId;
-		// checkSupplierTP(organizeId);
-		// }
+        currentParty = $stateParams.party;
+        if (currentParty == partyRole.sponsor) {
+            vm.sponsorTxtDisable = true;
+            initSponsorAutoSuggest();
+            sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+		} else if (currentParty == partyRole.supplier) {
+            vm.supplierTxtDisable = true;
+            initSupplierAutoSuggest();
+            sponsorAutoSuggestServiceUrl ='api/v1/sponsors?supplierId='+organizeId;
+            checkSupplierTP(organizeId);
+		}else if (currentParty == partyRole.bank) {
+			sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+		}
 		vm.searchTransaction();
-		$cookieStore.remove(listStoreKey);		
-		vm.loadSponsorCode();
+		$cookieStore.remove(listStoreKey);
         
     };
 
@@ -436,72 +439,77 @@ function(ListTransactionService, TransactionService, $state, $timeout,$translate
 		return item;
 	}
 
-    // var initSponsorAutoSuggest = function() {
-	// var sponsorInfo = angular.copy($rootScope.userInfo);
-	// sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
-	// vm.documentListModel.sponsor = sponsorInfo;
+    var checkSupplierTP = function(organizeId){
+		var supplierTPDeferred = Service.doGet(sponsorAutoSuggestServiceUrl, {q:'',offset : 0, limit : 5});
+		supplierTPDeferred.promise.then(function(response){
+			if(response.data.length == 1){
+				var sponsorInfo = response.data[0];
+				sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
+				vm.documentListModel.sponsor = sponsorInfo;
+				vm.searchDocument();
+			}
+		});
+	}
 
-	// // var loadDisplayConfigDiferred =
-	// vm.loadDocumentDisplayConfig(organizeId);
-	// // loadDisplayConfigDiferred.promise.then(function() {
-	// // vm.searchDocument();
-	// // });
-	// }
+    var initSponsorAutoSuggest = function() {
+        var sponsorInfo = angular.copy($rootScope.userInfo);
+        sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
+        vm.documentListModel.sponsor = sponsorInfo;
+	}
 
-	// var initSupplierAutoSuggest = function() {
-	// var supplierInfo = angular.copy($rootScope.userInfo);
-	// supplierInfo = prepareAutoSuggestLabel(supplierInfo);
-	// vm.documentListModel.supplier = supplierInfo;
-	// }
+	var initSupplierAutoSuggest = function() {
+        var supplierInfo = angular.copy($rootScope.userInfo);
+        supplierInfo = prepareAutoSuggestLabel(supplierInfo);
+        vm.documentListModel.supplier = supplierInfo;
+	}
 
-    // var querySponsorCode = function(value) {
-	// value = value = UIFactory.createCriteria(value);
-	// return $http.get(sponsorAutoSuggestServiceUrl, {
-	// params : {
-	// q : value,
-	// offset : 0,
-	// limit : 5
-	// }
-	// }).then(function(response) {
-	// return response.data.map(function(item) {
-	// item = prepareAutoSuggestLabel(item);
-	// return item;
-	// });
-	// });
-	// };
+    var querySponsorCode = function(value) {
+        value = value = UIFactory.createCriteria(value);
+        return $http.get(sponsorAutoSuggestServiceUrl, {
+        params : {
+            q : value,
+            offset : 0,
+            limit : 5
+        }
+        }).then(function(response) {
+            return response.data.map(function(item) {
+                item = prepareAutoSuggestLabel(item);
+                return item;
+            });
+        });
+	};
 
-	// vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
-	// placeholder : 'Please Enter organize name or code',
-	// itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
-	// query : querySponsorCode
-	// });
+	vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
+        placeholder : 'Please Enter organize name or code',
+        itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
+        query : querySponsorCode
+	});
 
-	// var querySupplierCode = function(value) {
-	// var sponsorId = vm.documentListModel.sponsor.organizeId;
-	// var supplierCodeServiceUrl = 'api/v1/suppliers';
-
-	// value = value = UIFactory.createCriteria(value);
-			
-	// return $http.get(supplierCodeServiceUrl, {
-	// params : {
-	// q : value,
-	// sponsorId : sponsorId,
-	// offset : 0,
-	// limit : 5
-	// }
-	// }).then(function(response) {
-	// return response.data.map(function(item) {
-	// item.identity = [ 'supplier-', item.organizeId, '-option' ].join('');
-	// item.label = [ item.organizeId, ': ', item.organizeName ].join('');
-	// return item;
-	// });
-	// });
-	// };
-	// vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
-	// placeholder : 'Enter organize name or code',
-	// itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
-	// query : querySupplierCode
-	// });
+	var querySupplierCode = function(value) {
+        var sponsorId = vm.documentListModel.sponsor.organizeId;
+        var supplierCodeServiceUrl = 'api/v1/suppliers';
+        value = value = UIFactory.createCriteria(value);
+                
+        return $http.get(supplierCodeServiceUrl, {
+            params : {
+            q : value,
+            sponsorId : sponsorId,
+            offset : 0,
+            limit : 5
+        }
+        }).then(function(response) {
+            return response.data.map(function(item) {
+                item.identity = [ 'supplier-', item.organizeId, '-option' ].join('');
+                item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+                return item;
+            });
+        });
+	};
+	vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
+        placeholder : 'Enter organize name or code',
+        itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
+        query : querySupplierCode
+	});
 
     vm.initLoad();
 	vm.loadTransactionGroup();
