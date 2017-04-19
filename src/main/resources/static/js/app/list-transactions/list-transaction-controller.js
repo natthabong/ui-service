@@ -7,7 +7,9 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     var listStoreKey = 'listrancri';
     var organizeId = $rootScope.userInfo.organizeId;
     var sponsorAutoSuggestServiceUrl;
-    
+    var displayBank = false;
+	var displaySponsor = false;
+	var displaySupplier = false;
     vm.showInfomation = false;
     vm.splitePageTxt = '';
     vm.transactionType = {
@@ -32,7 +34,41 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		supplier : 'supplier',
 		bank : 'bank'
 	}
+	var hiddenSponsor = function(){
+		var isHidden = false;
+		if (currentParty == partyRole.bank) {
+			isHidden = true;
+		}else if(currentParty == partyRole.sponsor){
+			isHidden = true;
+		}else if(currentParty == partyRole.supplier){
+			isHidden = false;
+		}
+		return isHidden;
+	}
 
+	var hiddenSponsorPic = function(){
+		var isHidden = false;
+		if (currentParty == partyRole.bank) {
+			isHidden = false;
+		}else if(currentParty == partyRole.sponsor){
+			isHidden = true;
+		}else if(currentParty == partyRole.supplier){
+			isHidden = true;
+		}
+		return isHidden;
+	}
+
+	var hiddenSupplier = function(){
+		var isHidden = false;
+		if (currentParty == partyRole.bank) {
+			isHidden = false;
+		}else if(currentParty == partyRole.sponsor){
+			isHidden = false;
+		}else if(currentParty == partyRole.supplier){
+			isHidden = true;
+		}
+		return isHidden;
+	}
     vm.documentListModel = {
 		sponsor : undefined,
 		supplier : undefined,
@@ -143,8 +179,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         currentPage: 0,
 		clearSortOrder: false
     };
-
-   
     vm.loadTransactionGroup = function(){
         var transactionStatusGroupDefered = ListTransactionService.getTransactionStatusGroups();
         transactionStatusGroupDefered.promise.then(function(response) {
@@ -181,22 +215,26 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             id: 'transaction-{value}-sponsor-name-label',
             sortData: true,
             cssTemplate: 'text-center',
-			cellTemplate: '<img style="height:32px,width:32px" src="{sponsorLogo}"></img>'
+			dataRenderer: function(record){
+				return '<img style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+atob(record.sponsorLogo)+'"></img>';
+			},
+			hidden : hiddenSponsorPic
         },{
             field: 'sponsor',
             label: 'Sponsor',
             idValueField: 'transactionNo',
             id: 'transaction-{value}-sponsor-name-label',
             sortData: true,
-            cssTemplate: 'text-center'
+            cssTemplate: 'text-center',
+			hidden : hiddenSponsor
         },{
             field: 'supplier',
             label: 'Supplier',
             idValueField: 'transactionNo',
             id: 'transaction-{value}-supplier-name-label',
             sortData: true,
-            cssTemplate: 'text-center'
-			
+            cssTemplate: 'text-center',
+			hidden : hiddenSupplier
         },{
             field: 'transactionDate',
             label: 'Transaction Date',
@@ -285,7 +323,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			'<scf-button id="transaction-{{data.transactionNo}}-cancel-button"class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.searchTransaction()" title="Cencel a transaction"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 		}]
     };
-
 	vm.openCalendarDateFrom = function(){
 		vm.openDateFrom = true;
 	};
