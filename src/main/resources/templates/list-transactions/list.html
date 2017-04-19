@@ -135,8 +135,7 @@
 								<div class="col-md-12 col-sm-12 text-right">
 									<span> <b ng-bind="ctrl.splitePageTxt"
 										id="transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-											dropdown-id="page-limit-dropdown"
-											name="transaction"
+											dropdown-id="page-limit-dropdown" name="transaction"
 											page-size-model="ctrl.pageModel.pageSizeSelectModel"
 											total-page="ctrl.pageModel.totalPage"
 											current-page="ctrl.pageModel.currentPage"
@@ -165,7 +164,8 @@
 				</div>
 
 				<div class="panel-body" ng-if="ctrl.showInfomation"
-					block-ui="summary-internal-block">
+					block-ui="summary-internal-block"
+					sec:authorize="hasAnyAuthority('VIEW_LOANS_REFER_TO_MY_ORGANIZE','VIEW_LOANS_OF_MY_ORGANIZE')">
 					<div class="row">
 						<div id="bottom-sticker">
 							<div class="col-md-12 col-sm-12">
@@ -277,6 +277,113 @@
 					</div>
 				</div>
 
+				<div class="panel-body" ng-if="ctrl.showInfomation"
+					block-ui="summary-internal-block"
+					sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS')">
+					<div class="row">
+						<div id="bottom-sticker">
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<span class="col-md-2 col-sm-3"></span>
+									<div class="col-md-2 col-sm-3">
+										<span>{{'Internal step' | translate}}</span>
+									</div>
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="wait-for-verify-record-label"
+											ng-bind="ctrl.summaryStatusGroup.INTERNAL_STEP.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="wait-for-verify-amount-label"
+											ng-bind="ctrl.summaryStatusGroup.INTERNAL_STEP.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-4 col-sm-1"></div>
+								</div>
+							</div>
+
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<span class="col-md-2 col-sm-3"></span>
+									<div class="col-md-2 col-sm-3">
+										<span>{{'Wait for drawdown result' | translate}}</span>
+									</div>
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="wait-for-verify-record-label"
+											ng-bind="ctrl.summaryStatusGroup.WAIT_FOR_DRAWDOWN_RESULT.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="wait-for-verify-amount-label"
+											ng-bind="ctrl.summaryStatusGroup.WAIT_FOR_DRAWDOWN_RESULT.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-4 col-sm-1"></div>
+								</div>
+							</div>
+
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<span class="col-md-2 col-sm-3"></span>
+									<div class="col-md-2 col-sm-3">
+										<span>{{'Drawdown success' | translate}}</span>
+									</div>
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="wait-for-verify-record-label"
+											ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_SUCCESS.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="wait-for-verify-amount-label"
+											ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_SUCCESS.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-4 col-sm-1"></div>
+								</div>
+							</div>
+							
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<span class="col-md-2 col-sm-3"></span>
+									<div class="col-md-2 col-sm-3">
+										<span>{{'Drawdown fail' | translate}}</span>
+									</div>
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="wait-for-verify-record-label"
+											ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_FAIL.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="wait-for-verify-amount-label"
+											ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_FAIL.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-4 col-sm-1"></div>
+								</div>
+							</div>
+							
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<span class="col-md-2 col-sm-3"></span>
+									<div class="col-md-2 col-sm-3">
+										<span>{{'Grand total' | translate}}</span>
+									</div>
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="wait-for-verify-record-label"
+											ng-bind="ctrl.summaryStatusGroup.GRAND_TOTAL.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="wait-for-verify-amount-label"
+											ng-bind="ctrl.summaryStatusGroup.GRAND_TOTAL.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-4 col-sm-1"></div>
+								</div>
+							</div>																												
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
