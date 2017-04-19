@@ -175,19 +175,28 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         	expanded: true
         },
         columns: [{
+            field: 'sponsorLogo',
+            label: 'Sponsor',
+            idValueField: 'transactionNo',
+            id: 'transaction-{value}-sponsor-name-label',
+            sortData: true,
+            cssTemplate: 'text-center',
+			cellTemplate: '<img style="height:32px,width:32px" src="{sponsorLogo}"></img>'
+        },{
             field: 'sponsor',
             label: 'Sponsor',
             idValueField: 'transactionNo',
             id: 'transaction-{value}-sponsor-name-label',
             sortData: true,
             cssTemplate: 'text-center'
-        }, {
+        },{
             field: 'supplier',
             label: 'Supplier',
             idValueField: 'transactionNo',
             id: 'transaction-{value}-supplier-name-label',
             sortData: true,
             cssTemplate: 'text-center'
+			
         },{
             field: 'transactionDate',
             label: 'Transaction Date',
@@ -288,11 +297,10 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	vm.searchTransaction = function(criteria){
 		 var dateFrom = vm.dateModel.dateFrom;
             var dateTo = vm.dateModel.dateTo;
-
+			vm.listTransactionModel.sponsorId = '';
+			vm.listTransactionModel.suppilerId = '';
             vm.listTransactionModel.dateFrom = SCFCommonService.convertDate(dateFrom);
             vm.listTransactionModel.dateTo = SCFCommonService.convertDate(dateTo);
-            console.log(vm.documentListModel.sponsor)
-            console.log(vm.documentListModel.supplier)
 
             if(typeof vm.documentListModel.sponsor == 'object' && vm.documentListModel.sponsor != undefined){
                 vm.listTransactionModel.sponsorId = vm.documentListModel.sponsor.organizeId;
@@ -481,6 +489,20 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		$cookieStore.remove(listStoreKey);
         
     };
+
+	vm.disableSupplierSuggest = function() {
+		var isDisable = false;
+		if (currentParty == partyRole.bank) {
+			if (angular.isUndefined(vm.documentListModel.sponsor) || !angular.isObject(vm.documentListModel.sponsor)) {
+				isDisable = true;
+			} else {
+				isDisable = false;
+			}
+		} else if (currentParty == partyRole.supplier) {
+			isDisable = true;
+		}
+		return isDisable;
+	};
 
     var prepareAutoSuggestLabel = function(item) {
 		item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
