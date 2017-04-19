@@ -128,6 +128,7 @@
 							<div class="row">
 								<div class="col-md-12 col-sm-12 text-right">
 									<span> <scf-button id="export-button"
+											ng-disabled="{{!ctrl.canExport}}"
 											class="btn-default" ng-click="ctrl.exportCSVFile()">{{'Export'
 										| translate}}</scf-button>
 									</span>
@@ -388,11 +389,15 @@
 		</div>
 	</div>
 	<input type="hidden" ng-init="ctrl.verify=true"
-		sec:authorize="hasAuthority('VERIFY_LOANS_OF_MY_ORGANIZE')" /> <input
-		type="hidden" ng-init="ctrl.approve=true"
-		sec:authorize="hasAuthority('APPROVE_LOANS_OF_MY_ORGANIZE')" /><input
-		type="hidden" ng-init="ctrl.canRetry=true"
-		sec:authorize="hasAuthority('RETRY_LOANS_OF_MY_ORGANIZE')" /><input
-		type="hidden" ng-init="ctrl.canView=true"
+		sec:authorize="hasAuthority('VERIFY_LOANS_OF_MY_ORGANIZE')" /> 
+	<input type="hidden" ng-init="ctrl.approve=true"
+		sec:authorize="hasAuthority('APPROVE_LOANS_OF_MY_ORGANIZE')" />
+	<input type="hidden" ng-init="ctrl.canRetry=true"
+		sec:authorize="hasAuthority('RETRY_LOANS_OF_MY_ORGANIZE')" />
+	<input type="hidden" ng-init="ctrl.canView=true"
 		sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS', 'VIEW_LOANS_OF_MY_ORGANIZE', 'VIEW_LOANS_REFER_TO_MY_ORGANIZE')" />
+	<input type="hidden" ng-init="ctrl.canPrint=true"
+		sec:authorize="hasAnyAuthority('PRINT_ALL_LOANS', 'PRINT_LOANS_OF_MY_ORGANIZE', 'PRINT_LOANS_REFER_TO_MY_ORGANIZE')" />
+	<input type="hidden" ng-init="ctrl.canExport=true"
+		sec:authorize="hasAnyAuthority('EXPORT_ALL_LOANS', 'EXPORT_LOANS_OF_MY_ORGANIZE', 'EXPORT_LOANS_REFER_TO_MY_ORGANIZE')" />
 </div>
