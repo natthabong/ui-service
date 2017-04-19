@@ -448,6 +448,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		var isShowBackButton = false;
 		
 		var params = { transactionModel: data,
+				party: currentParty,
 	            isShowViewHistoryButton: false,
 	            isShowBackButton: true
 	        }

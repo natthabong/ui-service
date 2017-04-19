@@ -8,6 +8,18 @@ angular.module('scfApp').controller(
 					$scope.verifyFailPopup = false;
 					$scope.successPopup = false;
 					
+					vm.isSponsor = false;
+					vm.isSupplier = false;
+					vm.isBank = false;
+					
+					var currentParty = '';
+					var partyRole = {
+						sponsor : 'sponsor',
+						supplier : 'supplier',
+						bank : 'bank'
+					}
+					
+					currentParty = $stateParams.party;
 					vm.transactionModel = $stateParams.transactionModel;
 					vm.isShowViewHistoryButton = $stateParams.isShowViewHistoryButton;;
 					vm.isShowBackButton = $stateParams.isShowBackButton;
@@ -32,9 +44,18 @@ angular.module('scfApp').controller(
 						if(vm.transactionModel === null){
 							PageNavigation.gotoPreviousPage();
 						}
+						
+						if (currentParty == partyRole.sponsor) {
+							vm.isSponsor = true;
+						} else if (currentParty == partyRole.supplier) {
+							vm.isSupplier = true;
+						} else if (currentParty == partyRole.bank) {
+							vm.isBank = true;
+						}
+						
 					     var deffered = ViewTransactionService.prepare(vm.transactionModel);
 				            deffered.promise.then(function (response) {
-				            	  vm.transactionModel = angular.extend(response.data,{sponsor: vm.transactionModel.sponsor});
+				            	  vm.transactionModel = angular.extend(response.data,{sponsor: vm.transactionModel.sponsor, supplier: vm.transactionModel.supplier});
 // vm.transactionModel = response.data;
 				            	  if(vm.transactionModel.statusCode == 'REJECT_BY_CHECKER' || vm.transactionModel.statusCode == 'REJECT_BY_APPROVER'){
 				            		  vm.isDisplayReason = 'block-inline';
