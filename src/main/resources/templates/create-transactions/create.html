@@ -65,6 +65,11 @@
 										ng-click="ctrl.searchDocument()">Search</scf-button>
 								</div>
 							</div>
+							<div class="form-group" ng-show="ctrl.requireSponsorPaymentDate">
+								<label class="col-md-3 col-sm-3 col-xs-12 control-label"></label>
+								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+									id="sponsor-payment-date-warning-message-label">{{'Sponsor payment date is required.' | translate}}</span>
+							</div>
 						</form>
 						<!-- End Payment Field-->
 						<div ng-show="ctrl.showInfomation">

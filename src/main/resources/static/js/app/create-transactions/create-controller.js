@@ -5,6 +5,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         var log = $log;
         // Initail Data
         $scope.validateDataFailPopup = false;
+        var hasSponsorPaymentDate = false;
         vm.errorMsgPopup = 'Insufficient Fund'
         vm.showErrorMsg = false;
         vm.errorMsgGroups = '';
@@ -75,44 +76,49 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             
             vm.checkAllModel = false;
             vm.selectAllModel = false;
+            
             // validate SponsorPayment Date is Select
-            if (validateSponsorPaymentDate(sponsorPaymentDate)) {
-            	
-            	var tradingInfo = searchDocumentDeferred = vm.getTradingPartnerInfo();
-            	
-                if (pagingModel === undefined) {
-					vm.submitTransactionAmount = 0.00;
-                    // Clear list document selected
-                    // Clear list document when backAction is false
-                    if (backAction === false) {
-                        vm.documentSelects = [];
+            if(hasSponsorPaymentDate){
+            	if (validateSponsorPaymentDate(sponsorPaymentDate)) {
+                	
+                	var tradingInfo = searchDocumentDeferred = vm.getTradingPartnerInfo();
+                	
+                    if (pagingModel === undefined) {
+    					vm.submitTransactionAmount = 0.00;
+                        // Clear list document selected
+                        // Clear list document when backAction is false
+                        if (backAction === false) {
+                            vm.documentSelects = [];
+                        }
+                        vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
+                        vm.createTransactionModel.order = '';
+                        vm.createTransactionModel.orderBy = '';
+                        vm.pageModel.pageSizeSelectModel = '20';
+                        vm.pageModel.currentPage = 0;
+
+                        vm.loadDocument();
+                        tradingInfo.promise.then(function(response) {
+                        	 vm.loadTransactionDate(sponsorCode, sponsorPaymentDate);
+                        });              
+                    } else {
+                        vm.pageModel.pageSizeSelectModel = pagingModel.pageSize;
+                        vm.pageModel.currentPage = pagingModel.page;
+                        vm.loadDocument();
                     }
-                    vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
-                    vm.createTransactionModel.order = '';
-                    vm.createTransactionModel.orderBy = '';
-                    vm.pageModel.pageSizeSelectModel = '20';
-                    vm.pageModel.currentPage = 0;
-
-                    vm.loadDocument();
-                    tradingInfo.promise.then(function(response) {
-                    	 vm.loadTransactionDate(sponsorCode, sponsorPaymentDate);
-                    });              
+    				
+                    vm.showInfomation = true;
+                    
+                    // set supplierCode after search
+                    vm.createTransactionModel.supplierCodeSelected = vm.createTransactionModel.supplierCode;
+                    vm.createTransactionModel.sponsorIdSelected = vm.createTransactionModel.sponsorCode;
                 } else {
-                    vm.pageModel.pageSizeSelectModel = pagingModel.pageSize;
-                    vm.pageModel.currentPage = pagingModel.page;
-                    vm.loadDocument();
+                    vm.requireSponsorPaymentDate = true;
                 }
-				
-                vm.showInfomation = true;
-                vm.showErrorMsg = false;
-
-                // set supplierCode after search
-                vm.createTransactionModel.supplierCodeSelected = vm.createTransactionModel.supplierCode;
-                vm.createTransactionModel.sponsorIdSelected = vm.createTransactionModel.sponsorCode;
-            } else {
-                vm.errorMsgGroups = 'Sponsor payment date is require.';
+            }else{
+            	vm.errorMsgGroups = 'Could not be create transaction because the document not found.';
                 vm.showErrorMsg = true;
             }
+            
 			return searchDocumentDeferred;
         };
 
@@ -121,7 +127,13 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             var sponsorId = vm.createTransactionModel.sponsorCode;
             var supplierCode = vm.createTransactionModel.supplierCode;
             var loanRequestMode = vm.loanRequestMode;
-
+            
+            vm.requireSponsorPaymentDate = false;
+            vm.showErrorMsg = false;
+            vm.showInfomation = false;
+            
+            hasSponsorPaymentDate = false;
+            
             vm.sponsorPaymentDates = [{
                 label: 'Please select',
                 value: ''
@@ -141,6 +153,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                     var supplierDates = response.data;
 
                     supplierDates.forEach(function(data) {
+                    	hasSponsorPaymentDate = true;
                         vm.sponsorPaymentDates.push({
                             label: data,
                             value: data
@@ -447,7 +460,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         }
 
         vm.initLoad();
-		
+        
         function validateSponsorPaymentDate(paymentDate) {
             return paymentDate === '' ? false : true;
         }
@@ -667,6 +680,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             vm.checkAllModel = false;
             vm.selectAllModel = false;
             vm.splitePageTxt = '';
+            vm.requireSponsorPaymentDate = false;
 		}
 		
 		vm.backStep = function(){
