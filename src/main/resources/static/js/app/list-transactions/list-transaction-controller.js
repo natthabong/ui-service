@@ -1,14 +1,16 @@
-angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'TransactionService', '$state', '$timeout','$translate', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'UIFactory', 'PageNavigation','ngDialog','$log','$http','$rootScope', 
-function(ListTransactionService, TransactionService, $state, $timeout,$translate, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, PageNavigation, ngDialog, $log, $http, $rootScope) {
+angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'TransactionService', '$state', '$timeout','$translate', '$rootScope', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'UIFactory', 'PageNavigation','ngDialog','$log','$http','$rootScope', 
+function(ListTransactionService, TransactionService, $state, $timeout,$translate, $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, PageNavigation, ngDialog, $log, $http, $rootScope) {
     var vm = this;
 	var log = $log;
     var listStoreKey = 'listrancri';
+    var organizeId = $rootScope.userInfo.organizeId;
+    
     vm.showInfomation = false;
-     vm.splitePageTxt = '';
-     vm.transactionType = {
+    vm.splitePageTxt = '';
+    vm.transactionType = {
             transactionDate: 'transactionDate',
             maturityDate: 'maturityDate'
-        }
+    }
         // Data Sponsor for select box
 	vm.verify = false;
 	vm.approve = false;
@@ -291,6 +293,15 @@ function(ListTransactionService, TransactionService, $state, $timeout,$translate
                 page: vm.pageModel.currentPage,
                 pageSize: vm.pageModel.pageSizeSelectModel
             });
+            
+            currentParty = $stateParams.party;
+			if (currentParty == partyRole.sponsor) {
+				transactionModel.sponsorId = organizeId;
+			}else if (currentParty == partyRole.supplier) {
+				transactionModel.supplierId = organizeId;
+			} else if (currentParty == partyRole.bank) {
+
+			}
 			
             var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
             transactionDifferd.promise.then(function(response) {
@@ -304,7 +315,7 @@ function(ListTransactionService, TransactionService, $state, $timeout,$translate
                 // Calculate Display page
                 vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 				vm.clearInternalStep();
-				//reset value of internal step				
+				// reset value of internal step
 				
                 if (vm.listTransactionModel.statusGroup === 'INTERNAL_STEP' || vm.listTransactionModel.statusGroup === '') {
                     var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
@@ -315,22 +326,24 @@ function(ListTransactionService, TransactionService, $state, $timeout,$translate
                             internalStemp.forEach(function(summary) {
                         	vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
                         	vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
-//								if(summary.statusMessageKey === 'wait_for_verify'){
-//									vm.summaryInternalStep.wait_for_verify.totalRecord = summary.totalRecord;
-//									vm.summaryInternalStep.wait_for_verify.totalAmount = summary.totalAmount;
-//								}else if(summary.statusMessageKey === 'wait_for_approve'){
-//									vm.summaryInternalStep.wait_for_approve.totalRecord = summary.totalRecord;
-//									vm.summaryInternalStep.wait_for_approve.totalAmount = summary.totalAmount;
-//								}else if(summary.statusMessageKey === 'reject_by_checker'){
-//									vm.summaryInternalStep.reject_by_checker.totalRecord = summary.totalRecord;
-//									vm.summaryInternalStep.reject_by_checker.totalAmount = summary.totalAmount;
-//								}else if(summary.statusMessageKey === 'reject_by_approver'){
-//									vm.summaryInternalStep.reject_by_approver.totalRecord = summary.totalRecord;
-//									vm.summaryInternalStep.reject_by_approver.totalAmount = summary.totalAmount;
-//								}else if(summary.statusMessageKey === 'cancelled_by_supplier'){
-//									vm.summaryInternalStep.cancelled_by_supplier.totalRecord = summary.totalRecord;
-//									vm.summaryInternalStep.cancelled_by_supplier.totalAmount = summary.totalAmount;
-//								}
+// if(summary.statusMessageKey === 'wait_for_verify'){
+// vm.summaryInternalStep.wait_for_verify.totalRecord = summary.totalRecord;
+// vm.summaryInternalStep.wait_for_verify.totalAmount = summary.totalAmount;
+// }else if(summary.statusMessageKey === 'wait_for_approve'){
+// vm.summaryInternalStep.wait_for_approve.totalRecord = summary.totalRecord;
+// vm.summaryInternalStep.wait_for_approve.totalAmount = summary.totalAmount;
+// }else if(summary.statusMessageKey === 'reject_by_checker'){
+// vm.summaryInternalStep.reject_by_checker.totalRecord = summary.totalRecord;
+// vm.summaryInternalStep.reject_by_checker.totalAmount = summary.totalAmount;
+// }else if(summary.statusMessageKey === 'reject_by_approver'){
+// vm.summaryInternalStep.reject_by_approver.totalRecord = summary.totalRecord;
+// vm.summaryInternalStep.reject_by_approver.totalAmount = summary.totalAmount;
+// }else if(summary.statusMessageKey === 'cancelled_by_supplier'){
+// vm.summaryInternalStep.cancelled_by_supplier.totalRecord =
+// summary.totalRecord;
+// vm.summaryInternalStep.cancelled_by_supplier.totalAmount =
+// summary.totalAmount;
+// }
                             });
                         }						
                     }).catch(function(response) {
@@ -401,14 +414,15 @@ function(ListTransactionService, TransactionService, $state, $timeout,$translate
 
         // currentParty = $stateParams.party;
         // if (currentParty == partyRole.sponsor) {
-		// 	vm.sponsorTxtDisable = true;
-		// 	initSponsorAutoSuggest();
-		// 	sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+		// vm.sponsorTxtDisable = true;
+		// initSponsorAutoSuggest();
+		// sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
 		// } else if (currentParty == partyRole.supplier) {
-		// 	vm.supplierTxtDisable = true;
-		// 	initSupplierAutoSuggest();
-		// 	sponsorAutoSuggestServiceUrl = 'api/v1/sponsors?supplierId='+organizeId;
-		// 	checkSupplierTP(organizeId);
+		// vm.supplierTxtDisable = true;
+		// initSupplierAutoSuggest();
+		// sponsorAutoSuggestServiceUrl =
+		// 'api/v1/sponsors?supplierId='+organizeId;
+		// checkSupplierTP(organizeId);
 		// }
 		vm.searchTransaction();
 		$cookieStore.remove(listStoreKey);		
@@ -423,70 +437,71 @@ function(ListTransactionService, TransactionService, $state, $timeout,$translate
 	}
 
     // var initSponsorAutoSuggest = function() {
-	// 	var sponsorInfo = angular.copy($rootScope.userInfo);
-	// 	sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
-	// 	vm.documentListModel.sponsor = sponsorInfo;
+	// var sponsorInfo = angular.copy($rootScope.userInfo);
+	// sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
+	// vm.documentListModel.sponsor = sponsorInfo;
 
-	// 	// var loadDisplayConfigDiferred = vm.loadDocumentDisplayConfig(organizeId);
-	// 	// loadDisplayConfigDiferred.promise.then(function() {
-	// 	// 		vm.searchDocument();
-	// 	// });
+	// // var loadDisplayConfigDiferred =
+	// vm.loadDocumentDisplayConfig(organizeId);
+	// // loadDisplayConfigDiferred.promise.then(function() {
+	// // vm.searchDocument();
+	// // });
 	// }
 
 	// var initSupplierAutoSuggest = function() {
-	// 	var supplierInfo = angular.copy($rootScope.userInfo);
-	// 	supplierInfo = prepareAutoSuggestLabel(supplierInfo);			
-	// 	vm.documentListModel.supplier = supplierInfo;		
+	// var supplierInfo = angular.copy($rootScope.userInfo);
+	// supplierInfo = prepareAutoSuggestLabel(supplierInfo);
+	// vm.documentListModel.supplier = supplierInfo;
 	// }
 
     // var querySponsorCode = function(value) {
-	// 		value = value = UIFactory.createCriteria(value);
-	// 		return $http.get(sponsorAutoSuggestServiceUrl, {
-	// 			params : {
-	// 				q : value,
-	// 				offset : 0,
-	// 				limit : 5
-	// 			}
-	// 		}).then(function(response) {
-	// 			return response.data.map(function(item) {
-	// 				item = prepareAutoSuggestLabel(item);
-	// 				return item;
-	// 			});
-	// 		});
-	// 	};
+	// value = value = UIFactory.createCriteria(value);
+	// return $http.get(sponsorAutoSuggestServiceUrl, {
+	// params : {
+	// q : value,
+	// offset : 0,
+	// limit : 5
+	// }
+	// }).then(function(response) {
+	// return response.data.map(function(item) {
+	// item = prepareAutoSuggestLabel(item);
+	// return item;
+	// });
+	// });
+	// };
 
-	// 	vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
-	// 		placeholder : 'Please Enter organize name or code',
-	// 		itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
-	// 		query : querySponsorCode
-	// 	});
+	// vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
+	// placeholder : 'Please Enter organize name or code',
+	// itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
+	// query : querySponsorCode
+	// });
 
-	// 	var querySupplierCode = function(value) {
-	// 		var sponsorId = vm.documentListModel.sponsor.organizeId;
-	// 		var supplierCodeServiceUrl = 'api/v1/suppliers';
+	// var querySupplierCode = function(value) {
+	// var sponsorId = vm.documentListModel.sponsor.organizeId;
+	// var supplierCodeServiceUrl = 'api/v1/suppliers';
 
-	// 		value = value = UIFactory.createCriteria(value);
+	// value = value = UIFactory.createCriteria(value);
 			
-	// 		return $http.get(supplierCodeServiceUrl, {
-	// 			params : {
-	// 				q : value,
-	// 				sponsorId : sponsorId,
-	// 				offset : 0,
-	// 				limit : 5
-	// 			}
-	// 		}).then(function(response) {
-	// 			return response.data.map(function(item) {
-	// 				item.identity = [ 'supplier-', item.organizeId, '-option' ].join('');
-	// 				item.label = [ item.organizeId, ': ', item.organizeName ].join('');
-	// 				return item;
-	// 			});
-	// 		});
-	// 	};
-	// 	vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
-	// 		placeholder : 'Enter organize name or code',
-	// 		itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
-	// 		query : querySupplierCode
-	// 	});
+	// return $http.get(supplierCodeServiceUrl, {
+	// params : {
+	// q : value,
+	// sponsorId : sponsorId,
+	// offset : 0,
+	// limit : 5
+	// }
+	// }).then(function(response) {
+	// return response.data.map(function(item) {
+	// item.identity = [ 'supplier-', item.organizeId, '-option' ].join('');
+	// item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+	// return item;
+	// });
+	// });
+	// };
+	// vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
+	// placeholder : 'Enter organize name or code',
+	// itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
+	// query : querySupplierCode
+	// });
 
     vm.initLoad();
 	vm.loadTransactionGroup();
@@ -547,22 +562,22 @@ function(ListTransactionService, TransactionService, $state, $timeout,$translate
 
 }]);
 
-//function convertDate(dateTime){
-//	var result = '';
-//	if(dateTime != undefined && dateTime != ''){
-//		var date = dateTime.getDate();		
-//		var month = (dateTime.getMonth() + 1);
-//		var year = dateTime.getFullYear();
-//		result =  date +'/' + month + '/' + year;
-//	}
-//	return result;
-//}
+// function convertDate(dateTime){
+// var result = '';
+// if(dateTime != undefined && dateTime != ''){
+// var date = dateTime.getDate();
+// var month = (dateTime.getMonth() + 1);
+// var year = dateTime.getFullYear();
+// result = date +'/' + month + '/' + year;
+// }
+// return result;
+// }
 
-//function convertStringTodate(date){
-//	result = '';
-//	if(date != undefined && date != null && date != ''){
-//		var dateSplite = date.split('/');
-//		result = new Date(dateSplite[2] + '-'+ dateSplite[1]+ '-' + dateSplite[0]);
-//	}
-//	return result
-//}
+// function convertStringTodate(date){
+// result = '';
+// if(date != undefined && date != null && date != ''){
+// var dateSplite = date.split('/');
+// result = new Date(dateSplite[2] + '-'+ dateSplite[1]+ '-' + dateSplite[0]);
+// }
+// return result
+// }
