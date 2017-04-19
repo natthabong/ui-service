@@ -143,21 +143,21 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'ListTransactionController',
 				controllerAs: 'ctrl',
 				params: {backAction: false,party:'sponsor'},
-				templateUrl: '/list-transaction',
+				templateUrl: '/list-transaction/sponsor',
 				resolve: load(['js/app/list-transactions/list-transaction-service.js', 'js/app/transactions/transaction-service.js', 'js/app/list-transactions/list-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/transaction-list/supplier', {
 				url: '/transaction-list/supplier',
 				controller: 'ListTransactionController',
 				controllerAs: 'ctrl',
 				params: {backAction: false,party:'supplier'},
-				templateUrl: '/list-transaction',
+				templateUrl: '/list-transaction/supplier',
 				resolve: load(['js/app/list-transactions/list-transaction-service.js', 'js/app/transactions/transaction-service.js', 'js/app/list-transactions/list-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/transaction-list/bank', {
 				url: '/transaction-list/bank',
 				controller: 'ListTransactionController',
 				controllerAs: 'ctrl',
 				params: {backAction: false,party:'bank'},
-				templateUrl: '/list-transaction',
+				templateUrl: '/list-transaction/bank',
 				resolve: load(['js/app/list-transactions/list-transaction-service.js', 'js/app/transactions/transaction-service.js', 'js/app/list-transactions/list-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/dashboard', {
 				url: '/dashboard',
