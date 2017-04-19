@@ -287,15 +287,15 @@
 								<div class="form-horizontal">
 									<span class="col-md-2 col-sm-3"></span>
 									<div class="col-md-2 col-sm-3">
-										<span>{{'Internal step' | translate}}</span>
+										<span id="internal-step-label">{{'Internal step' | translate}}</span>
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
-										<span id="wait-for-verify-record-label"
+										<span id="internal-step-record-label"
 											ng-bind="ctrl.summaryStatusGroup.INTERNAL_STEP.totalRecord"></span>&nbsp;<span
 											ng-bind="'records' | translate"></span>
 									</div>
 									<div class="col-md-2 col-sm-2 text-right">
-										<span id="wait-for-verify-amount-label"
+										<span id="internal-step-amount-label"
 											ng-bind="ctrl.summaryStatusGroup.INTERNAL_STEP.totalAmount | number: 2"></span>&nbsp;<span
 											ng-bind="'THB' | translate"></span>
 									</div>
@@ -307,15 +307,15 @@
 								<div class="form-horizontal">
 									<span class="col-md-2 col-sm-3"></span>
 									<div class="col-md-2 col-sm-3">
-										<span>{{'Wait for drawdown result' | translate}}</span>
+										<span id="wait-for-drawdown-result-label">{{'Wait for drawdown result' | translate}}</span>
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
-										<span id="wait-for-verify-record-label"
+										<span id="wait-for-drawdown-result-record-label"
 											ng-bind="ctrl.summaryStatusGroup.WAIT_FOR_DRAWDOWN_RESULT.totalRecord"></span>&nbsp;<span
 											ng-bind="'records' | translate"></span>
 									</div>
 									<div class="col-md-2 col-sm-2 text-right">
-										<span id="wait-for-verify-amount-label"
+										<span id="wait-for-drawdown-result-amount-label"
 											ng-bind="ctrl.summaryStatusGroup.WAIT_FOR_DRAWDOWN_RESULT.totalAmount | number: 2"></span>&nbsp;<span
 											ng-bind="'THB' | translate"></span>
 									</div>
@@ -327,15 +327,15 @@
 								<div class="form-horizontal">
 									<span class="col-md-2 col-sm-3"></span>
 									<div class="col-md-2 col-sm-3">
-										<span>{{'Drawdown success' | translate}}</span>
+										<span id="drawdown-success-label">{{'Drawdown success' | translate}}</span>
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
-										<span id="wait-for-verify-record-label"
+										<span id="drawdown-success-record-label"
 											ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_SUCCESS.totalRecord"></span>&nbsp;<span
 											ng-bind="'records' | translate"></span>
 									</div>
 									<div class="col-md-2 col-sm-2 text-right">
-										<span id="wait-for-verify-amount-label"
+										<span id="drawdown-success-amount-label"
 											ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_SUCCESS.totalAmount | number: 2"></span>&nbsp;<span
 											ng-bind="'THB' | translate"></span>
 									</div>
@@ -347,15 +347,15 @@
 								<div class="form-horizontal">
 									<span class="col-md-2 col-sm-3"></span>
 									<div class="col-md-2 col-sm-3">
-										<span>{{'Drawdown fail' | translate}}</span>
+										<span id="drawdown-fail-label">{{'Drawdown fail' | translate}}</span>
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
-										<span id="wait-for-verify-record-label"
+										<span id="drawdown-fail-record-label"
 											ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_FAIL.totalRecord"></span>&nbsp;<span
 											ng-bind="'records' | translate"></span>
 									</div>
 									<div class="col-md-2 col-sm-2 text-right">
-										<span id="wait-for-verify-amount-label"
+										<span id="drawdown-fail-amount-label"
 											ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_FAIL.totalAmount | number: 2"></span>&nbsp;<span
 											ng-bind="'THB' | translate"></span>
 									</div>
@@ -367,15 +367,15 @@
 								<div class="form-horizontal">
 									<span class="col-md-2 col-sm-3"></span>
 									<div class="col-md-2 col-sm-3">
-										<b><span>{{'Grand total' | translate}}</span></b>
+										<b><span id="grand-total-label">{{'Grand total' | translate}}</span></b>
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
-										<b><span id="wait-for-verify-record-label"
+										<b><span id="grand-total-record-label"
 											ng-bind="ctrl.summaryStatusGroup.GRAND_TOTAL.totalRecord"></span>&nbsp;<span
 											ng-bind="'records' | translate"></span></b>
 									</div>
 									<div class="col-md-2 col-sm-2 text-right">
-										<b><span id="wait-for-verify-amount-label"
+										<b><span id="grand-total-amount-label"
 											ng-bind="ctrl.summaryStatusGroup.GRAND_TOTAL.totalAmount | number: 2"></span>&nbsp;<span
 											ng-bind="'THB' | translate"></span></b>
 									</div>

@@ -24,7 +24,7 @@
 											<span id="sponsor-label"
 												ng-bind="viewTxnCtrl.transactionModel.sponsor"
 												ng-show="{{viewTxnCtrl.isSupplier || viewTxnCtrl.isBank}}"></span>
-											<span id="supplier-label"
+											<span id="{{viewTxnCtrl.isSponsor?'supplier-label':'supplier-label-ignore'}}"
 												ng-bind="viewTxnCtrl.transactionModel.supplier"
 												ng-show="{{viewTxnCtrl.isSponsor}}"></span>
 										</div>
@@ -33,7 +33,7 @@
 											<label ng-show="{{viewTxnCtrl.isBank}}" ng-bind="'Supplier' | translate"></label><label ng-show="{{viewTxnCtrl.isBank}}">:</label>
 										</div>
 										<div class="col-md-3 col-sm-2">
-											<span id="supplier-label"
+											<span id="{{viewTxnCtrl.isBank?'supplier-label':'supplier-label-ignore'}}"
 												ng-bind="viewTxnCtrl.transactionModel.supplier"
 												ng-show="{{viewTxnCtrl.isBank}}"></span>
 										</div>
