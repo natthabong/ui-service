@@ -440,6 +440,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	}
 	
 	if(currentMode == mode.PERSONAL){
+		vm.personalMode = true;
 		var serviceUrl = '/api/v1/organize-customers/' + organizeId + '/sponsor-configs/SFP/customer-code-groups';
 		var serviceDiferred = Service.doGet(serviceUrl, {
 			limit : 1,
@@ -454,6 +455,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		});
 		
 	}else{
+		vm.personalMode = false;
 		selectedItem = $stateParams.selectedItem;
 		vm.initialPage(selectedItem);
 	}
