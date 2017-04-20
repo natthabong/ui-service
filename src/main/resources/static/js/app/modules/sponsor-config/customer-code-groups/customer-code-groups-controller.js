@@ -401,7 +401,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 //	vm.pagingController = PagingController.create(customerCodeURL, vm.searchCriteria, 'GET');
 	
 	var queryCustomerCode = function(value){
-		console.log(value);
+
 		var serviceUrl = 'api/v1/organize-customers/' + vm.sponsorId + '/trading-partners'
 		return $http.get(serviceUrl, {
 			params: {
@@ -615,7 +615,7 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 	}
 	
 	var queryCustomerCode = function(value){
-		console.log('aa'+sponsorId);
+
 		var serviceUrl = 'api/v1/organize-customers/' + sponsorId + '/trading-partners'
 		return $http.get(serviceUrl, {
 			params: {
