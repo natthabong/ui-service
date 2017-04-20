@@ -332,30 +332,44 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	};
 	
 	vm.searchTransaction = function(criteria){
-		 var dateFrom = vm.dateModel.dateFrom;
-            var dateTo = vm.dateModel.dateTo;
-			vm.listTransactionModel.sponsorId = '';
-			vm.listTransactionModel.suppilerId = '';
-            vm.listTransactionModel.dateFrom = SCFCommonService.convertDate(dateFrom);
-            vm.listTransactionModel.dateTo = SCFCommonService.convertDate(dateTo);
+		vm.wrongDateFormat = false;
+		
+		var dateFrom = vm.dateModel.dateFrom;
+        var dateTo = vm.dateModel.dateTo;
+		vm.listTransactionModel.sponsorId = '';
+		vm.listTransactionModel.suppilerId = '';
+        vm.listTransactionModel.dateFrom = SCFCommonService.convertDate(dateFrom);
+        vm.listTransactionModel.dateTo = SCFCommonService.convertDate(dateTo);
 
-            if(typeof vm.documentListModel.sponsor == 'object' && vm.documentListModel.sponsor != undefined){
-                vm.listTransactionModel.sponsorId = vm.documentListModel.sponsor.organizeId;
-            }else if(typeof vm.documentListModel.supplier == 'object' && vm.documentListModel.supplier != undefined){
-                vm.listTransactionModel.suppilerId = vm.documentListModel.supplier.organizeId;
-            }
+        if(typeof vm.documentListModel.sponsor == 'object' && vm.documentListModel.sponsor != undefined){
+            vm.listTransactionModel.sponsorId = vm.documentListModel.sponsor.organizeId;
+        }else if(typeof vm.documentListModel.supplier == 'object' && vm.documentListModel.supplier != undefined){
+            vm.listTransactionModel.suppilerId = vm.documentListModel.supplier.organizeId;
+        }
 
-            if (criteria === undefined) {
-                vm.pageModel.currentPage = '0';
-                vm.pageModel.pageSizeSelectModel = '20';
-				vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
-				vm.listTransactionModel.order = '';
-            	vm.listTransactionModel.orderBy = '';
-            } else {
-                vm.pageModel.currentPage = criteria.page;
-                vm.pageModel.pageSizeSelectModel = criteria.pageSize;				
-            }
-            vm.searchTransactionService();
+        if (criteria === undefined) {
+            vm.pageModel.currentPage = '0';
+            vm.pageModel.pageSizeSelectModel = '20';
+			vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
+			vm.listTransactionModel.order = '';
+        	vm.listTransactionModel.orderBy = '';
+        } else {
+            vm.pageModel.currentPage = criteria.page;
+            vm.pageModel.pageSizeSelectModel = criteria.pageSize;				
+        }
+        
+        if(vm.listTransactionModel.dateFrom != '' &&  vm.listTransactionModel.dateTo != ''){
+        	
+			if(vm.listTransactionModel.dateFrom > vm.listTransactionModel.dateTo){
+				console.log(vm.listTransactionModel.dateFrom);
+				console.log(vm.listTransactionModel.dateTo);
+				vm.wrongDateFormat = true;
+			}
+		}
+        
+        if (!vm.wrongDateFormat) {
+        	vm.searchTransactionService();
+        }
 	};
 
 	vm.searchTransactionService = function() {
