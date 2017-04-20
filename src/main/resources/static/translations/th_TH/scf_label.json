@@ -201,6 +201,9 @@
 	"transaction-list-supplier": "Transaction list",
 	"transaction-bank": "Transaction",
 	"transaction-list-bank": "Transaction list",
+	
+	"organize-sponsor": "Organize",
+	"supplier-code-list": "Supplier code list",
 
 	"user-list": "User list",
 	"BOOKED": "Booked",
