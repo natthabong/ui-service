@@ -39,12 +39,12 @@
 							</div>
 
 							<div class="form-group">
-								<label class="col-md-2 col-sm-3 control-label">{{'Date'
+								<label id="date-label" class="col-md-2 col-sm-3 control-label">{{'Date'
 									| translate}}:</label>
 								<div class="col-md-3 col-sm-3 gec-calendar-group">
-									<label for="date-from-calendar" class="control-label">{{'From'
+									<label id="from-label" for="date-from-calendar" class="control-label">{{'From'
 										| translate}}: </label>
-									<scf-date-picker-from text-id="date-from-calendar"
+									<scf-date-picker-from text-id="date-from-textbox"
 										button-id="date-from-calendar-button"
 										text-model="ctrl.dateModel.dateFrom"
 										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
@@ -53,9 +53,9 @@
 
 								</div>
 								<div class="col-md-3 col-sm-3 gec-calendar-group">
-									<label for="date-to-calendar" class="control-label">{{'to'
+									<label id="to-label" for="date-to-calendar" class="control-label">{{'to'
 										| translate}}: </label>
-									<scf-date-picker-to text-id="date-to-calendar"
+									<scf-date-picker-to text-id="date-to-textbox"
 										button-id="date-to-calendar-button"
 										text-model="ctrl.dateModel.dateTo"
 										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
@@ -98,7 +98,7 @@
 							</div>
 
 							<div class="form-group">
-								<label for="dealer"
+								<label for="dealer" id="supplier-code-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier
 									code' | translate}}: </label>
 
@@ -111,12 +111,12 @@
 							</div>
 
 							<div class="form-group">
-								<label for="dealer"
+								<label for="dealer" id="status-step-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status
 									step' | translate}}: </label>
 
 								<div class="col-md-3 col-sm-3 col-xs-12">
-									<scf-dropdown id="group-transaction-status-dropdown"
+									<scf-dropdown id="status-dropdown"
 										ng-model="ctrl.listTransactionModel.statusGroup"
 										component-data="ctrl.transactionStatusGroupDropdown"
 										translate-label="true"></scf-dropdown>
@@ -177,10 +177,10 @@
 						<div id="bottom-sticker">
 							<div class="col-md-12 col-sm-12">
 								<div class="form-horizontal">
-									<span class="col-md-2 col-sm-3"><b>{{'Internal step'
+									<span class="col-md-2 col-sm-3" id="internal-step-label"><b>{{'Internal step'
 											| translate}}</b>:</span>
 									<div class="col-md-2 col-sm-3">
-										<span ng-bind="'wait_for_verify' | translate">list-transaction-wait-for-verify</span>
+										<span id="wait-for-verify-label" ng-bind="'wait_for_verify' | translate">list-transaction-wait-for-verify</span>
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
 										<span id="wait-for-verify-record-label"
@@ -200,7 +200,7 @@
 								<div class="form-horizontal">
 									<label class="col-md-2 col-sm-3"></label>
 									<div class="col-md-2 col-sm-3">
-										<span ng-bind="'wait_for_approve' | translate">list-transaction-wait-for-approve</span>
+										<span id="wait-for-approve-label" ng-bind="'wait_for_approve' | translate">list-transaction-wait-for-approve</span>
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
 										<span id="wait-for-approve-record-label"
@@ -220,7 +220,7 @@
 								<div class="form-horizontal">
 									<label class="col-md-2 col-sm-3"></label>
 									<div class="col-md-2 col-sm-3">
-										<span ng-bind="'reject_by_checker' | translate">Reject
+										<span id="reject-by-checker-label" ng-bind="'reject_by_checker' | translate">Reject
 											by Checker</span>
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
@@ -241,7 +241,7 @@
 								<div class="form-horizontal">
 									<label class="col-md-2 col-sm-3"></label>
 									<div class="col-md-2 col-sm-3">
-										<span ng-bind="'reject_by_approver'  | translate">Reject
+										<span id="reject-by-approver-label" ng-bind="'reject_by_approver'  | translate">Reject
 											by Approver</span>
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
@@ -262,7 +262,7 @@
 								<div class="form-horizontal">
 									<label class="col-md-2 col-sm-3"></label>
 									<div class="col-md-2 col-sm-3">
-										<span ng-bind="'canceled_by_supplier' | translate">Cancel
+										<span id="cancel-by-supplier-label" ng-bind="'canceled_by_supplier' | translate">Cancel
 											by Supplier</span>
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
