@@ -336,6 +336,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		
 		var dateFrom = vm.dateModel.dateFrom;
         var dateTo = vm.dateModel.dateTo;
+        
 		vm.listTransactionModel.sponsorId = '';
 		vm.listTransactionModel.suppilerId = '';
         vm.listTransactionModel.dateFrom = SCFCommonService.convertDate(dateFrom);
@@ -358,6 +359,14 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             vm.pageModel.pageSizeSelectModel = criteria.pageSize;				
         }
         
+        if (angular.isUndefined(dateFrom)) {
+			vm.wrongDateFormat = true;
+		}
+
+		if (angular.isUndefined(dateTo)) {
+			vm.wrongDateFormat = true;
+		}
+		
         if(vm.listTransactionModel.dateFrom != '' &&  vm.listTransactionModel.dateTo != ''){
         	
 			if(vm.listTransactionModel.dateFrom > vm.listTransactionModel.dateTo){
