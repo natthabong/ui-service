@@ -209,6 +209,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         	expanded: true
         },
         columns: [{
+			fieldName: 'sponsor',
             field: 'sponsorLogo',
             label: 'Sponsor',
             idValueField: 'transactionNo',
@@ -220,6 +221,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			},
 			hidden : hiddenSponsorPic
         },{
+			fieldName: 'sponsor',
             field: 'sponsor',
             label: 'Sponsor',
             idValueField: 'transactionNo',
@@ -228,6 +230,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             cssTemplate: 'text-center',
 			hidden : hiddenSponsor
         },{
+			fieldName: 'supplier',
             field: 'supplier',
             label: 'Supplier',
             idValueField: 'transactionNo',
@@ -236,6 +239,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             cssTemplate: 'text-center',
 			hidden : hiddenSupplier
         },{
+			fieldName: 'transactionDate',
             field: 'transactionDate',
             label: 'Transaction Date',
             idValueField: 'transactionNo',
@@ -245,12 +249,14 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             sortData: true,
             cssTemplate: 'text-center'
         }, {
+			fieldName: 'transactionNo',
             field: 'transactionNo',
             label: 'Transaction No',
             id: 'transaction-{value}-transaction-no-label',
             sortData: true,
             cssTemplate: 'text-center',
         }, {
+			fieldName: 'drawdownAmount',
             field: 'drawdownAmount',
             label: 'Drawdown Amount',
             idValueField: 'transactionNo',
@@ -260,6 +266,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             sortData: true,
             cssTemplate: 'text-center',
         }, {
+			fieldName: 'interest',
             field: 'interest',
             label: 'Interest',
             idValueField: 'transactionNo',
@@ -269,6 +276,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             filterType: 'number',
             filterFormat: '2'
         }, {
+			fieldName: 'fee',
             field: 'fee',
             label: 'Fee',
             sortData: false,
@@ -278,6 +286,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             filterType: 'number',
             filterFormat: '2'
         }, {
+			fieldName: 'bankTransactionNo',
             field: 'bankTransactionNo',
             label: 'Bank Transaction No',
             idValueField: 'transactionNo',
@@ -285,6 +294,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             sortData: true,
             cssTemplate: 'text-center'
         }, {
+			fieldName: 'repaymentAmount',
             field: 'repaymentAmount',
             label: 'Repayment Amount',
             idValueField: 'transactionNo',
@@ -294,6 +304,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             filterType: 'number',
             filterFormat: '2'
         }, {
+			fieldName: 'maturityDate',
             field: 'maturityDate',
             label: 'Maturity Date',
             idValueField: 'transactionNo',
@@ -303,6 +314,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             sortData: true,
             cssTemplate: 'text-center'
         }, {
+			fieldName: 'statusMessageKey',
             field: 'statusCode',
             label: 'Status',
             sortData: true,
@@ -311,6 +323,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			filterType: 'translate',
             cssTemplate: 'text-center',
         },{
+			fieldName: 'action',
 			field: 'action',
 			label: 'Action',
 			cssTemplate: 'text-center',

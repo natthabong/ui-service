@@ -298,6 +298,7 @@
 						vm.tableColumns = [];
 						dataConfig.columns.forEach(function(data) {
 							var rowData = {
+								fieldName : data['fieldName'],
 								field : data['field'],
 								idValueField : data['idValueField'],
 								id : data['id'],
@@ -355,24 +356,47 @@
 				}
 			}
 		} ])
-		.directive('scfTh', [ '$compile', '$filter', function($compile, $filter) {
+		.directive('scfTh', [ '$compile', '$filter','$translate', function($compile, $filter, $translate) {
 			return {
 				restrict : 'A',
 				replace : true,
 				link : scfLink
 			}
-
+			
 			function scfLink(scope, elements, attrs) {
-				scope.$watch(attrs.scfTh, function(column) {
-					var htmlText = column.label;
-					if (column.sortable) {
-						htmlText = '<span sort by="{{column.field}}" reverse="reverse" order="orders" >' + htmlText + '</span>';
-					}
-					elements.html(htmlText);
-					$compile(elements.contents())(scope);
-
+				scope.$watch(attrs.scfTh, function(column) {					
+					renderTableHeader(scope, elements, column, $translate.use());
 				});
+			}
 
+			function scfTableThController($scope, $rootScope, $element, $attrs) {
+				$rootScope.$on('$translateChangeSuccess', function(translateChangeSuccess, currentLange) {
+					var column = $scope.$eval($attrs.scfTh);
+					renderTableHeader($scope, $element, column, currentLange.language);
+				});
+			}
+
+			function renderTableHeader(scope, elements, column, currentLange) {
+				var htmlText = column.label;
+				
+				if (column.sortable) {
+					htmlText = '<span sort by="{{column.field}}" reverse="reverse" order="orders" >' + htmlText + '</span>';
+				}
+				
+				var colClass = column.cssTemplateHeader || 'text-center';
+				elements.addClass(colClass)
+				elements.html(htmlText);
+				$compile(elements.contents())(scope);
+				
+				if (column.fieldName != 'selectBox') {
+					if(angular.isDefined(elements[0].childNodes[0])){
+						if(angular.isDefined(column.field) && column.field != 'no'){
+							elements[0].childNodes[0].id = column.fieldName + '-header-label';
+						}else if(angular.isDefined(column.field) && column.field == 'no'){
+							elements[0].childNodes[0].id = '$rowNo-header-label';
+						}
+					}
+				}
 			}
 		} ])
 		.directive('scfTd', [ '$compile', '$filter', '$log', function($compile, $filter, $log) {
@@ -871,6 +895,7 @@
 				$compile(elements.contents())(scope);
 				
 				if (column.fieldName != 'selectBox') {
+					console.log(elements[0]);
 					if(angular.isDefined(elements[0].childNodes[0])){
 						if(angular.isDefined(column.fieldName)){
 							elements[0].childNodes[0].id = column.fieldName + '-header-label';
