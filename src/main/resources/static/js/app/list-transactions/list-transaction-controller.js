@@ -361,8 +361,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         if(vm.listTransactionModel.dateFrom != '' &&  vm.listTransactionModel.dateTo != ''){
         	
 			if(vm.listTransactionModel.dateFrom > vm.listTransactionModel.dateTo){
-				console.log(vm.listTransactionModel.dateFrom);
-				console.log(vm.listTransactionModel.dateTo);
 				vm.wrongDateFormat = true;
 			}
 		}
