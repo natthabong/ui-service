@@ -95,6 +95,9 @@
 	"transaction-list-supplier": "Transaction list",
 	"transaction-bank": "Transaction",
 	"transaction-list-bank": "Transaction list",
+	
+	"organize-sponsor": "Organize",
+	"supplier-code-list": "Supplier code list",
 
 	"upload-document": "Upload document",
 	"master": "Master",	

@@ -7,10 +7,10 @@
 					<h3>
 						<span ng-show="ctrl.isNewCusotmerCode"
 							id="customer-code-header-message-new-label"
-							class="animated fadeInLeft">{{'New customer code' |
+							class="animated fadeInLeft">{{'New supplier code' |
 							translate}}</span> <span ng-show="!ctrl.isNewCusotmerCode"
 							id="customer-code-header-message-edit-label"
-							class="animated fadeInLeft">{{'Edit customer code' |
+							class="animated fadeInLeft">{{'Edit supplier code' |
 							translate}}</span>
 					</h3>
 				</div>
@@ -24,7 +24,7 @@
 						<label for="customer-code-customer-textbox"
 							id="customer-code-customer-label"
 							class="col-md-2 col-sm-4 col-xs-12 control-label"><span
-							ng-bind="'Customer' | translate"></span>:</label>
+							ng-bind="'Supplier' | translate"></span>:</label>
 						<div class="col-md-6 col-sm-4 col-xs-12">
 							<gec-auto-suggest model="ctrl.customerAutoSuggest"
 								ng-model="ctrl.customerSuggestModel"
@@ -38,7 +38,7 @@
 						ng-show="ctrl.submitted && newEditCustCode.customer.$error.required">
 						<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
 						<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-							id="customer-code-customer-warning-message-label">{{'Customer
+							id="customer-code-customer-warning-message-label">{{'Supplier
 							is required' | translate}}.</span>
 					</div>
 

@@ -219,7 +219,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'CustomerCodeGroupSettingController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
-				params: { selectedItem: null}
+				params: { selectedItem: null, mode: 'all'}
 			}).state('/bank-holidays',{
 				url: '/bank-holidays',
 				controller: 'BankHolidayController',
@@ -281,6 +281,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				params: {mode:'profileChange'},
 				templateUrl: '/change-password',
 				resolve: load(['js/app/modules/profile/change-password/password-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/supplier-code-list',{
+				url: '/supplier-code-list',
+				controller: 'CustomerCodeGroupSettingController',
+				controllerAs: 'ctrl',
+				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
+				params: { selectedItem: null, mode: 'personal'},
+				resolve: load(['js/app/modules/sponsor-config/customer-code-groups/customer-code-groups-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',

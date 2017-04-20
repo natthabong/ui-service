@@ -147,6 +147,7 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 
 			var vm = this;
 			vm.sponsorId = $scope.sponsorId;
+
 			if($scope.ngDialogData.model !=null){
 				vm.customerCodeGroupRequest = $scope.ngDialogData.model;
 			}
@@ -196,21 +197,23 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 			};
 
 		} ])
-scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 'ngDialog', 
+scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 'ngDialog', '$rootScope',
 	function($q, $scope, $stateParams, Service, UIFactory, 
-			CustomerCodeStatus, PageNavigation, PagingController, $http, ngDialog) {
+			CustomerCodeStatus, PageNavigation, PagingController, $http, ngDialog, $rootScope) {
 	var vm = this;
 	
 	vm.manageAll=false;
 	vm.manageMyOrg=false;
+	var selectedItem;
 	
-	var selectedItem = $stateParams.selectedItem;
-	var groupId = selectedItem.groupId;
-	vm.model = selectedItem;
-	vm.sponsorId = selectedItem.sponsorId;
+	var mode = {
+			ALL: 'all',
+			PERSONAL: 'personal'
+	}
+	var currentMode = $stateParams.mode;
+	var organizeId = $rootScope.userInfo.organizeId;
+	var groupId = null;
 	vm.criteria = {};
-
-	var customerCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/customer-code-groups/'+groupId+'/customer-codes';
 	
 	vm.statusDropdown = CustomerCodeStatus;
 
@@ -232,8 +235,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			},
 			{
 				fieldName : 'customerName',
-				labelEN : 'Customer',
-				labelTH : 'Customer',
+				labelEN : 'Supplier',
+				labelTH : 'Supplier',
 				sortable : false,
 				id : 'customer-{value}',
 				filterType : 'translate',
@@ -241,8 +244,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			},
 			{
 				fieldName : 'customerCode',
-				labelEN : 'Customer code',
-				labelTH : 'Customer code',
+				labelEN : 'Supplier code',
+				labelTH : 'Supplier code',
 				sortable : false,
 				id : 'customer-code-{value}',
 				filterType : 'translate',
@@ -395,9 +398,10 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			}
 		});		
 	}
-	vm.pagingController = PagingController.create(customerCodeURL, vm.searchCriteria, 'GET');
+//	vm.pagingController = PagingController.create(customerCodeURL, vm.searchCriteria, 'GET');
 	
 	var queryCustomerCode = function(value){
+		console.log(value);
 		var serviceUrl = 'api/v1/organize-customers/' + vm.sponsorId + '/trading-partners'
 		return $http.get(serviceUrl, {
 			params: {
@@ -425,11 +429,34 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		vm.pagingController.search();
 	};
 
-	vm.initialPage = function() {
+	vm.initialPage = function(selectedItem) {
+		
+		groupId = selectedItem.groupId;
+	    vm.model = selectedItem;
+	    vm.sponsorId = selectedItem.sponsorId;
+	    var customerCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/customer-code-groups/'+groupId+'/customer-codes';
+	    vm.pagingController = PagingController.create(customerCodeURL, vm.searchCriteria, 'GET');
 		vm.search();
 	}
-	vm.initialPage();
 	
+	if(currentMode == mode.PERSONAL){
+		var serviceUrl = '/api/v1/organize-customers/' + organizeId + '/sponsor-configs/SFP/customer-code-groups';
+		var serviceDiferred = Service.doGet(serviceUrl, {
+			limit : 1,
+			offset : 0
+		});
+		serviceDiferred.promise.then(function(response) {
+			selectedItem = response.data[0];
+			vm.initialPage(selectedItem);
+
+		}).catch(function(response) {
+			log.error('Load customer code group data error');
+		});
+		
+	}else{
+		selectedItem = $stateParams.selectedItem;
+		vm.initialPage(selectedItem);
+	}
 	
 	var saveCustomerCode = function(customerCode){
 		
@@ -529,7 +556,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			controller : 'CustomerCodeDiaglogController',
 			controllerAs : 'ctrl',
 			data : {
-				sponsorId : $scope.sponsorId,
+				sponsorId : vm.sponsorId,
 				model: model,
 				isNewCusotmerCode: vm.isNewCusotmerCode,
 				isAddMoreCustomerCode: vm.isAddMoreCustomerCode
@@ -565,7 +592,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 ]);
 scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIFactory', '$http', 'SCFCommonService', function($scope, $rootScope, UIFactory, $http, SCFCommonService) {
 	var vm = this;
-	var sponsorId = $rootScope.sponsorId;
+	var sponsorId = $scope.ngDialogData.sponsorId;
 	
 	vm.submitForm = false;
 	vm.model = angular.copy($scope.ngDialogData.model);
@@ -588,6 +615,7 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 	}
 	
 	var queryCustomerCode = function(value){
+		console.log('aa'+sponsorId);
 		var serviceUrl = 'api/v1/organize-customers/' + sponsorId + '/trading-partners'
 		return $http.get(serviceUrl, {
 			params: {
