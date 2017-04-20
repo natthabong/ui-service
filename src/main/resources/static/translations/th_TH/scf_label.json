@@ -164,6 +164,7 @@
     "E1007": "ไม่พบ Trading Partner ในระบบ",
     "E1008": "เอกสารมีการ แก้ไข",
     "E1009": "เอกสารผิด format",
+    "E1010": "ระบบไม่สามารถทำรายการได้ เนื่องจากไม่มีเอกสารสำหรับทำรายการ",
     "Today is bank holiday.": "Can't create transaction. Please create next working day.",
      
 	"drawdown_fail": "ทดสอบ",
