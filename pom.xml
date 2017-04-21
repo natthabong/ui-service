@@ -19,6 +19,11 @@
 	</parent>
 	<dependencies>
 		<dependency>
+		   <groupId>eu.bitwalker</groupId>
+		   <artifactId>UserAgentUtils</artifactId>
+		   <version>1.20</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>

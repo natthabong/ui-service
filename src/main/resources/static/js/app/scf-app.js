@@ -462,8 +462,13 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $
 			deferred.resolve(response);
 			return deferred;
 		}).catch(function(response){
-			deferred.reject("User Info Error");
-			return deferred;
+			switch (response.status) {
+            case 401:
+	            $window.location.href = "/login";
+	            break;
+            default:
+        	break;
+          }
 		});
     	return deferred;
     }
