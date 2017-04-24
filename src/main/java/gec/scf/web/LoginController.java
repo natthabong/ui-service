@@ -1,6 +1,8 @@
 package gec.scf.web;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -50,7 +52,13 @@ public class LoginController {
 		}else {
 			view = UNSUPPORT_BROWSER_VIEW_NAME;
 		}
-		return new ModelAndView(view, "fixedHeader", fixedHeader);
+		
+		Map<String, Object> object = new HashMap<String, Object>();
+		object.put("fixedHeader", fixedHeader);
+		object.put("browserName", browser.getName());
+		object.put("browserVersion", browser.getVersion());
+		
+		return new ModelAndView(view, object);
 	}
 
 }
