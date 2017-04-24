@@ -74,14 +74,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/organize-list/bank',
 				resolve: load(['js/app/modules/organize/organize-list-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
-			// .state('/transaction-list', {
-			// 	url: '/transaction-list',
-			// 	controller: 'ListTransactionController',
-			// 	controllerAs: 'ctrl',
-			// 	params: {backAction: false},
-			// 	templateUrl: '/list-transaction',
-			// 	resolve: load(['js/app/list-transactions/list-transaction-service.js', 'js/app/transactions/transaction-service.js', 'js/app/list-transactions/list-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			// })
+			.state('/supplier-credit-information', {
+				url: '/supplier-credit-information',
+				controller: 'SupplierCreditInformationController',
+				controllerAs: 'ctrl',
+				templateUrl: '/supplier-credit-information',
+				resolve: load(['js/app/modules/supplier-credit-information/supplier-credit-information.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			})
 			.state('/verify-transaction', {
 				url: '/verify-transaction',
 				controller: 'VerifyTransactionController',
