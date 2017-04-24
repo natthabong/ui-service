@@ -13,31 +13,31 @@ import gec.scf.security.domain.BrowserInfo;
 public class BrowserResolverHandlerInterceptor implements HandlerInterceptor {
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
+			Object handler) throws Exception {
 
 		String userAgent = request.getHeader("user-agent");
-        UserAgent ua     = UserAgent.parseUserAgentString(userAgent);
+		UserAgent ua = UserAgent.parseUserAgentString(userAgent);
 
-        Version browserVersion  = ua.getBrowserVersion();
-        String browserName      = ua.getBrowser().toString();
-        int majVersion          = Integer.parseInt(browserVersion.getMajorVersion());
+		Version browserVersion = ua.getBrowserVersion();
+		String browserName = ua.getBrowser().toString();
+		int majVersion = Integer.parseInt(browserVersion.getMajorVersion());
 
-        BrowserInfo browser = new BrowserInfo(browserName, majVersion);
-        request.setAttribute("browserInfo", browser);
-        return true;
+		BrowserInfo browser = new BrowserInfo(browserName, majVersion);
+		request.setAttribute("browserInfo", browser);
+		return true;
 	}
 
 	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) throws Exception {
+	public void postHandle(HttpServletRequest request, HttpServletResponse response,
+			Object handler, ModelAndView modelAndView) throws Exception {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-			throws Exception {
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
+			Object handler, Exception ex) throws Exception {
 		// TODO Auto-generated method stub
 
 	}

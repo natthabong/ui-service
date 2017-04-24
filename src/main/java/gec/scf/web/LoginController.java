@@ -29,35 +29,38 @@ public class LoginController {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 			return auth.isAuthenticated();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return false;
 		}
 	}
 
 	@RequestMapping(path = { "/login" }, method = RequestMethod.GET)
-	public ModelAndView login(HttpServletRequest req, BrowserInfo browser, Principal principal) {
+	public ModelAndView login(HttpServletRequest req, BrowserInfo browser,
+			Principal principal) {
 		String view = null;
-		String searchIE = "IE";
-		String searchChrome = "CHROME";
-		String searchFirefox = "FIREFOX";
-		String searchEdge = "EDGE";
-		if ((browser.getName().toLowerCase().indexOf(searchChrome.toLowerCase()) != -1) && (browser.getVersion() >= 53)) {
+
+		if (browser.getName().contains("CHROME") && (browser.getVersion() >= 53)) {
 			view = LOGIN_VIEW_NAME;
-		} else if ((browser.getName().toLowerCase().indexOf(searchIE.toLowerCase()) != -1) && (browser.getVersion() >=11)) {
+		}
+		else if (browser.getName().contains("IE") && (browser.getVersion() >= 11)) {
 			view = LOGIN_VIEW_NAME;
-		} else if ((browser.getName().toLowerCase().indexOf(searchFirefox.toLowerCase()) != -1) && (browser.getVersion() >=45)) {
+		}
+		else if (browser.getName().contains("FIREFOX") && (browser.getVersion() >= 45)) {
 			view = LOGIN_VIEW_NAME;
-		}else if((browser.getName().toLowerCase().indexOf(searchEdge.toLowerCase()) != -1)){
+		}
+		else if (browser.getName().contains("EDGE")) {
 			view = LOGIN_VIEW_NAME;
-		}else {
+		}
+		else {
 			view = UNSUPPORT_BROWSER_VIEW_NAME;
 		}
-		
+
 		Map<String, Object> object = new HashMap<String, Object>();
 		object.put("fixedHeader", fixedHeader);
 		object.put("browserName", browser.getName());
 		object.put("browserVersion", browser.getVersion());
-		
+
 		return new ModelAndView(view, object);
 	}
 
