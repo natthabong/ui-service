@@ -367,5 +367,7 @@
 	"Organize links":"Organize links",
 	"Organize links is required":"Organize links is required",
 	
-	"Could not be create transaction because the document not found.": "Could not be create transaction because the document not found."
+	"Could not be create transaction because the document not found.": "Could not be create transaction because the document not found.",
+	"Supplier credit information":"Supplier credit information",
+	"supplier-credit-information":"Supplier credit information"
 }
