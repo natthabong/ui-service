@@ -4,46 +4,56 @@
 
 
 <head th:replace="errors/head :: headTag"></head>
-	<body style="background-color:white;">
-		<div class="form-element">
-			<div class="col-md-12 padding-0">
-				<div class="panel-body">
-					<div class="form-group">
-						<div class="col-md-12 col-sm-12 col-xs-12" align="center" style="padding-top: 20px;">
-							<h3 id="header-label">You are using a web browser not support by this system.</h3>
-						</div>
+<body style="background-color: white;">
+	<div class="form-element">
+		<div class="col-md-12 padding-0">
+			<div class="panel-body">
+				<div class="form-group">
+					<div class="col-md-12 col-sm-12 col-xs-12" align="center"
+						style="padding-top: 20px;">
+						<h3 id="header-label">You are using a web browser not support
+							by this system.</h3>
 					</div>
-					<div class="form-group">
-						<div class="col-md-12 col-sm-12 col-xs-12" align="center">
-							<h4 id="content-label">Some functionality may not work as intended. Please use one of the following web browsers of this system.</h4>
-						</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-12 col-sm-12 col-xs-12" align="center">
+						<h4 id="content-label">Some functionality may not work as
+							intended. Please use one of the following web browsers of this
+							system.</h4>
 					</div>
-					<div class="form-group">
-						<div class="col-md-4 col-sm-2 col-xs-12"></div>
-						<div class="col-md-2 col-sm-8 col-xs-12" align="center" style="padding-top: 30px;">
-							<a class="mouse-pointer" id="chrome-image"
-								style="cursor: pointer; text-decoration:none; border: 0;"
-								 href="https://www.google.com/chrome/browser/desktop/index.html"
-								 target="_blank">
-								<img src="img/chrome_logo.png" style="width: 50px; height: 50px;" />
-		       					<br/>
-		       					<label id="content-label" style="cursor: pointer; color: blue;">Chrome</label>
-							</a>
-						</div>
-						<div class="col-md-2 col-sm-8 col-xs-12" align="center" style="padding-top: 30px;">
-							<a class="mouse-pointer" id="chrome-image"
-								style="cursor: pointer; text-decoration:none; border: 0;"
-								 href="https://support.microsoft.com/th-th/help/17621/internet-explorer-downloads"
-								 target="_blank">
-								<img src="img/ie_logo.png" style="width: 50px; height: 50px;" />
-		       					<br/>
-		       					<label id="content-label" style="cursor: pointer; color: blue;">Microsoft IE 11 and higher</label>
-							</a>
-						</div>
-						<div class="col-md-4 col-sm-2 col-xs-12"></div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-4 col-sm-2 col-xs-12"></div>
+					<div class="col-md-2 col-sm-8 col-xs-12" align="center"
+						style="padding-top: 30px;">
+						<a class="mouse-pointer" id="chrome-image"
+							style="cursor: pointer; text-decoration: none; border: 0;"
+							href="https://www.google.com/chrome/browser/desktop/index.html"
+							target="_blank"> <img src="img/chrome_logo.png"
+							style="width: 50px; height: 50px;" /> <br /> <label
+							id="content-label" style="cursor: pointer; color: blue;">Chrome</label>
+						</a>
+					</div>
+					<div class="col-md-2 col-sm-8 col-xs-12" align="center"
+						style="padding-top: 30px;">
+						<a class="mouse-pointer" id="chrome-image"
+							style="cursor: pointer; text-decoration: none; border: 0;"
+							href="https://support.microsoft.com/th-th/help/17621/internet-explorer-downloads"
+							target="_blank"> <img src="img/ie_logo.png"
+							style="width: 50px; height: 50px;" /> <br /> <label
+							id="content-label" style="cursor: pointer; color: blue;">Microsoft
+								IE 11 and higher</label>
+						</a>
+					</div>
+					<div class="col-md-4 col-sm-2 col-xs-12"></div>
+					<div class="col-md-4 col-sm-2 col-xs-12">
+						<span th:if="${fixedHeader}" class="label label-success"
+							th:text="${browserName}"></span> <span th:if="${fixedHeader}"
+							class="label label-success" th:text="${browserVersion}"></span>
 					</div>
 				</div>
 			</div>
 		</div>
-	</body>
+	</div>
+</body>
 </html>
