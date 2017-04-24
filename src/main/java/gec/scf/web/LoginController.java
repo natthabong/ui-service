@@ -35,14 +35,17 @@ public class LoginController {
 	@RequestMapping(path = { "/login" }, method = RequestMethod.GET)
 	public ModelAndView login(HttpServletRequest req, BrowserInfo browser, Principal principal) {
 		String view = null;
-		String search = "IE";
-		if ("CHROME".equals(browser.getName()) && (browser.getVersion() >= 53)) {
+		String searchIE = "IE";
+		String searchChrome = "CHROME";
+		String searchFirefox = "FIREFOX";
+		String searchEdge = "EDGE";
+		if ((browser.getName().toLowerCase().indexOf(searchChrome.toLowerCase()) != -1) && (browser.getVersion() >= 53)) {
 			view = LOGIN_VIEW_NAME;
-		} else if ((browser.getName().toLowerCase().indexOf(search.toLowerCase()) != -1) && (browser.getVersion() >=11)) {
+		} else if ((browser.getName().toLowerCase().indexOf(searchIE.toLowerCase()) != -1) && (browser.getVersion() >=11)) {
 			view = LOGIN_VIEW_NAME;
-		} else if ("FIREFOX".equals(browser.getName()) && (browser.getVersion() >=45)) {
+		} else if ((browser.getName().toLowerCase().indexOf(searchFirefox.toLowerCase()) != -1) && (browser.getVersion() >=45)) {
 			view = LOGIN_VIEW_NAME;
-		}else if("EDGE".equals(browser.getName())){
+		}else if((browser.getName().toLowerCase().indexOf(searchEdge.toLowerCase()) != -1)){
 			view = LOGIN_VIEW_NAME;
 		}else {
 			view = UNSUPPORT_BROWSER_VIEW_NAME;
