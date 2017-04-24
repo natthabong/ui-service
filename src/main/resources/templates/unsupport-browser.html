@@ -47,8 +47,8 @@
 					</div>
 					<div class="col-md-4 col-sm-2 col-xs-12"></div>
 					<div class="col-md-4 col-sm-2 col-xs-12">
-						<span th:if="${fixedHeader}" class="label label-success"
-							th:text="${browserName}"></span> <span th:if="${fixedHeader}"
+						<span th:if="${!fixedHeader}" class="label label-success"
+							th:text="${browserName}"></span> <span th:if="${!fixedHeader}"
 							class="label label-success" th:text="${browserVersion}"></span>
 					</div>
 				</div>
