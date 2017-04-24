@@ -35,11 +35,12 @@ public class LoginController {
 	@RequestMapping(path = { "/login" }, method = RequestMethod.GET)
 	public ModelAndView login(HttpServletRequest req, BrowserInfo browser, Principal principal) {
 		String view = null;
-		if ("CHROME".equals(browser.getName()) && (browser.getVersion() >= 40)) {
+		String search = "IE";
+		if ("CHROME".equals(browser.getName()) && (browser.getVersion() >= 53)) {
 			view = LOGIN_VIEW_NAME;
-		} else if ("IE".equals(browser.getName()) && (browser.getVersion() >= 9)) {
+		} else if ((browser.getName().toLowerCase().indexOf(search.toLowerCase()) != -1) && (browser.getVersion() >=11)) {
 			view = LOGIN_VIEW_NAME;
-		} else if ("FIREFOX".equals(browser.getName()) && (browser.getVersion() >=4)) {
+		} else if ("FIREFOX".equals(browser.getName()) && (browser.getVersion() >=45)) {
 			view = LOGIN_VIEW_NAME;
 		}else if("EDGE".equals(browser.getName())){
 			view = LOGIN_VIEW_NAME;
