@@ -170,16 +170,15 @@ angular.module('scfApp').controller(
 					}
 
 					vm.viewRecent = function(){
-						SCFCommonService.parentStatePage().saveCurrentState('/transaction-list');
 						$timeout(function(){
-		                	var params = {transactionModel: vm.transactionModel, isShowViewHistoryButton:'show', isShowViewHistoryButton: true};
+		                	var params = {transactionModel: vm.transactionModel, party: 'supplier' , isShowViewHistoryButton:'show', isShowViewHistoryButton: true};
 		                	PageNavigation.gotoPage('/view-transaction', params, params);
 		            	}, 10);
 					};
 					
 					vm.viewHistory = function(){
 						$timeout(function(){
-							PageNavigation.gotoPage('/transaction-list');
+							PageNavigation.gotoPage('/transaction-list/supplier');
 						}, 10);
 					};					
 					

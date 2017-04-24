@@ -243,7 +243,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 		
 		vm.viewHistory = function(){
 			$timeout(function(){
-				PageNavigation.gotoPage('/transaction-list');
+				PageNavigation.gotoPage('/transaction-list/supplier');
 			}, 10);
 		};	
 

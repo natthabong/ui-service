@@ -108,7 +108,7 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			
 			vm.viewHistory = function(){
 				$timeout(function(){
-					PageNavigation.gotoPage('/transaction-list');
+					PageNavigation.gotoPage('/transaction-list/supplier');
 				}, 10);
 			};
 			

@@ -133,7 +133,15 @@ angular.module('scfApp').controller(
 					
 					vm.viewHistory = function(){
 						$timeout(function(){
-							PageNavigation.gotoPage('/transaction-list');
+						    	if(vm.isSupplier){
+						    	    PageNavigation.gotoPage('/transaction-list/supplier');
+						    	}
+						    	else if(vm.isSponsor){
+						    	    PageNavigation.gotoPage('/transaction-list/sponsor');
+						    	}
+						    	else{
+						    	    PageNavigation.gotoPage('/transaction-list/bank');
+						    	}
 						}, 10);
 					};
 
