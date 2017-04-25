@@ -15,14 +15,18 @@ public class BrowserResolverHandlerInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
 			Object handler) throws Exception {
-
+		int majVersion;
 		String userAgent = request.getHeader("user-agent");
 		UserAgent ua = UserAgent.parseUserAgentString(userAgent);
 
 		Version browserVersion = ua.getBrowserVersion();
 		String browserName = ua.getBrowser().toString();
-		int majVersion = Integer.parseInt(browserVersion.getMajorVersion());
-
+		if(browserVersion != null && browserName !=null){
+			majVersion = Integer.parseInt(browserVersion.getMajorVersion());
+		}else{
+			majVersion = 0;
+		}
+		
 		BrowserInfo browser = new BrowserInfo(browserName, majVersion);
 		request.setAttribute("browserInfo", browser);
 		return true;
