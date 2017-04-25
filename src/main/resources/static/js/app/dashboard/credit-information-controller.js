@@ -8,15 +8,18 @@ angular.module('scfApp').controller(
 				'$timeout',
 				'PageNavigation',
 				'Service',
+				'$rootScope',
+				'$http',
 				function($log, $scope, $state, $stateParams, $timeout,
-						PageNavigation, Service) {
+						PageNavigation, Service, $rootScope, $http) {
 					var vm = this;
+					var organizeId = $rootScope.userInfo.organizeId;
+					console.log(organizeId)
 					var log = $log;
 					vm.index = 0;
-					var dataSource = Service
-					.requestURL('/api/credit-information/get', {});
+					var dataSource = $http({url:'/api/credit-information/get', method: 'GET',params: {organizeId:organizeId}});
 					
-					dataSource.promise.then(function(response) {						
+					dataSource.success(function(response) {						
 		                vm.data = response.content;
 		                i = 0;
 		                angular.forEach(vm.data, function(value, idx) {
