@@ -57,7 +57,6 @@ angular.module('scfApp').controller('SupplierCreditInformationController',['$sco
 				var dataSource = $http({url:'/api/credit-information/get', method: 'GET',params: {organizeId:supplier}});
 				dataSource.success(function(response) {						
 					vm.data = response.content;
-					console.log(vm.data)
 					i = 0;
 					angular.forEach(vm.data, function(value, idx) {
 						if(isSameAccount(value.accountId, vm.data, idx)){
@@ -84,7 +83,13 @@ angular.module('scfApp').controller('SupplierCreditInformationController',['$sco
 				return accountId != data[index-1].accountId;
 			}
 		}
-
+		
+		var successPopup;
+		
+		var closeDialogSucccess = function(){
+			successPopup.close();
+		}
+		
 		vm.inquiryAccount = function(data) {
 			var preCloseCallback = function(confirm) {
 				vm.search();
@@ -100,11 +105,18 @@ angular.module('scfApp').controller('SupplierCreditInformationController',['$sco
 			inquiryAccountDeffered.promise.then(function(response) {
 				blockUI.stop();
 				if(response.status==200){
-					UIFactory.showSuccessDialog({
+					successPopup = UIFactory.showSuccessDialog({
 						data: {
 						    headerMessage: 'Inquiry credit information success.',
 						    bodyMessage: ''
 						},
+						buttons : [{
+							id: 'close-button',
+							label: 'Close',
+							action:function(){
+								closeDialogSucccess();
+							}
+						}],
 						preCloseCallback: preCloseCallback
 				    });
 				}else{
@@ -128,6 +140,7 @@ angular.module('scfApp').controller('SupplierCreditInformationController',['$sco
 	        });
 			
 		}
+		
 		
 		function inquiryAccountToApi(tpAccountModel){
 			var deffered = $q.defer();	
