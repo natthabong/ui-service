@@ -79,7 +79,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'SupplierCreditInformationController',
 				controllerAs: 'ctrl',
 				templateUrl: '/supplier-credit-information',
-				resolve: load(['js/app/modules/supplier-credit-information/supplier-credit-information.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/supplier-credit-information/supplier-credit-information-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
 			.state('/verify-transaction', {
 				url: '/verify-transaction',

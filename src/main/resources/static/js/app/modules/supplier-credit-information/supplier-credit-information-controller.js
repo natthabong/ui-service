@@ -1,19 +1,17 @@
 angular.module('scfApp').controller('SupplierCreditInformationController',['$scope','Service', '$stateParams', '$log', 
-	'SCFCommonService','PagingController','PageNavigation', '$state', 'UIFactory', '$http', '$rootScope',
-	function($scope,Service, $stateParams, $log, SCFCommonService,PagingController, PageNavigation, $state, UIFactory, $http ,$rootScope){
+	'SCFCommonService','PagingController','PageNavigation', '$state', 'UIFactory', '$http', '$rootScope', '$q','blockUI',
+	function($scope,Service, $stateParams, $log, SCFCommonService,PagingController, PageNavigation, $state, UIFactory, $http ,$rootScope,$q,blockUI){
 		var vm = this;
 
 		vm.documentListModel = {
 			sponsor : undefined,
 			supplier : undefined,
-			supplierCode : undefined,
-			documentNo : undefined
+			supplierCode : undefined
 		}
 
 		vm.data = [];
 		
 		var querySupplierCode = function(value) {
-			// var sponsorId = organizeId;
 			var supplierCodeServiceUrl = 'api/v1/suppliers';
 			value = value = UIFactory.createCriteria(value);
 			
@@ -50,26 +48,27 @@ angular.module('scfApp').controller('SupplierCreditInformationController',['$sco
 			vm.documentListModel.supplier = supplierInfo;		
 		}
 
-		var requireSupplier = false
-		
+		vm.requireSupplier = false;
+
 		vm.search = function(){
-			console.log("hi")
-			console.log(vm.documentListModel.supplier)
-			var supplier = vm.documentListModel.supplier.organizeId;
-			console.log(supplier)
-			if(supplier != '' && supplier!= null){
+			var supplier = undefined;
+			if(!angular.isUndefined(vm.documentListModel.supplier) && angular.isObject(vm.documentListModel.supplier)){
+				supplier = vm.documentListModel.supplier.organizeId;
 				var dataSource = $http({url:'/api/credit-information/get', method: 'GET',params: {organizeId:supplier}});
 				dataSource.success(function(response) {						
 					vm.data = response.content;
 					console.log(vm.data)
 					i = 0;
 					angular.forEach(vm.data, function(value, idx) {
-						if(vm.isSameAccount(value.accountId, vm.data, idx)){
+						if(isSameAccount(value.accountId, vm.data, idx)){
 							value.rowNo = ++i;
 							value.showAccountFlag = true;
 						}
 					});
 				});
+				vm.requireSupplier = false;
+			}else{
+				vm.requireSupplier = true;
 			}
 		}
 		
@@ -77,7 +76,7 @@ angular.module('scfApp').controller('SupplierCreditInformationController',['$sco
 			return atob(data);
 		}
 					
-		vm.isSameAccount = function(accountId, data, index){
+		var isSameAccount = function(accountId, data, index){
 			if(index == 0 ){
 				return true;
 			}
@@ -86,8 +85,61 @@ angular.module('scfApp').controller('SupplierCreditInformationController',['$sco
 			}
 		}
 
-		vm.initLoad = function() {
+		vm.inquiryAccount = function(data) {
+			var preCloseCallback = function(confirm) {
+				vm.search();
+			}
+			blockUI.start("Processing...");
+			var deffered = $q.defer();
+			var tpAccountModel = {
+				sponsorId : data.sponsorId,
+				supplierId : data.supplierId,
+				accountId : data.accountId,
+			}			
+			var inquiryAccountDeffered = inquiryAccountToApi(tpAccountModel);
+			inquiryAccountDeffered.promise.then(function(response) {
+				blockUI.stop();
+				if(response.status==200){
+					UIFactory.showSuccessDialog({
+						data: {
+						    headerMessage: 'Inquiry credit information success.',
+						    bodyMessage: ''
+						},
+						preCloseCallback: preCloseCallback
+				    });
+				}else{
+				    UIFactory.showFailDialog({
+						data: {
+						    headerMessage: 'Inquiry credit information failure',
+						    bodyMessage: 'please try again.'
+						},
+						preCloseCallback: null
+					});					
+				}
+			}).catch(function(response) {
+				blockUI.stop();
+			    UIFactory.showFailDialog({
+					data: {
+					    headerMessage: 'Inquiry credit information failure, please try again.',
+					    bodyMessage: ''
+					},
+					preCloseCallback: null
+				});
+	        });
+			
 		}
-
-		vm.initLoad();
+		
+		function inquiryAccountToApi(tpAccountModel){
+			var deffered = $q.defer();	
+			$http({
+				url: '/api/v1/update-credit-limit-from-bank',
+				method: 'POST',
+				data: tpAccountModel
+			}).then(function(response){
+				deffered.resolve(response);
+			}).catch(function(response){
+				deffered.reject(response);
+			});	
+			return deffered;
+		}
 }]);

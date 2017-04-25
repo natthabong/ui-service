@@ -9,13 +9,13 @@
 			</div>
 		</div>
 		<div class="form-element">
-			<form name="supplierCreditInformationForm" ng-submit="ctrl.searchOrganize()"
+			<form name="supplierCreditInformationForm"
 				autocomplete="off" class="form-horizontal">
 				<div class="panel panel-default col-md-12 padding-0">
 					<div class="panel-body">
 						<div class="form-group">
 								<label for="sponsor-textbox"
-									class="col-md-1 col-sm-1 col-xs-12 control-label" id="organize-label">{{'Supplier'| translate}}: </label>
+									class="col-md-1 col-sm-1 col-xs-12 control-label" id="supplier-label">{{'Supplier'| translate}}: </label>
 								<div class="col-md-4 col-sm-4 col-xs-12">
 									<gec-auto-suggest model="ctrl.supplierAutoSuggestModel"
 										ng-model="ctrl.documentListModel.supplier"
@@ -30,69 +30,100 @@
 								</div>
 						</div>
 						<div class="form-group" ng-show="ctrl.requireSupplier">
-								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+								<label class="col-md-1 col-sm-3 col-xs-12 control-label"></label>
+								<span class="col-md-4 col-sm-4 col-xs-12 error-msg"
 									id="supplier-warning-message-label">{{'Supplier is
 									required' | translate}}.</span>
 							</div>
 						<br/>
 						<div class="responsive-table">
-							<table id="credit-information-table"
+							<table id="supplier-credit-information-table"
 								class="table table-striped table-bordered" cellspacing="0">
 								<thead>
 									<tr>
-										<th ng-bind="'No' | translate">No</th>
-										<th ng-bind="'Credit limit' | translate">Credit limit</th>
-										<th ng-bind="'Outstanding' | translate">Outstanding</th>
-										<th ng-bind="'Future drawdown' | translate">Future
+										<th id="$rowNo-header-label" ng-bind="'No' | translate">No</th>
+										<th id="credit-limit-header-label" ng-bind="'Credit limit' | translate">Credit limit</th>
+										<th id="outstanding-header-label" ng-bind="'Outstanding' | translate">Outstanding</th>
+										<th id="future-header-label" ng-bind="'Future drawdown' | translate">Future
 											drawdown</th>
-										<th ng-bind="'Sponsor' | translate">Sponsor</th>
-										<th ng-bind="'Trading status' | translate">Trading status</th>
-										<th ng-bind="'Internal step' | translate">Internal</th>
-										<th ng-bind="'Available' | translate">Available</th>
-										<th ng-bind="'Remaining' | translate"
+										<th id="sponsor-header-label" ng-bind="'Sponsor' | translate">Sponsor</th>
+										<th id="trading-status-header-label" ng-bind="'Trading status' | translate">Trading status</th>
+										<th id="internal-header-label" ng-bind="'Internal step' | translate">Internal</th>
+										<th id="available-header-label" ng-bind="'Available' | translate">Available</th>
+										<th id="remaining-header-label" ng-bind="'Remaining' | translate"
 											title="{{'Remaining' | translate}} = {{'Credit limit' | translate}} - ({{'Outstanding' | translate}} + {{'Future drawdown' | translate}})">Remaining</th>
-										<th ng-bind="'Tenor' | translate">Tenor</th>
-										<th ng-bind="'Pre-drawdown' | translate">Pre-drawdown</th>
-										<th ng-bind="'Interest rate' | translate">Interest rate</th>
-										<th ng-bind="'Expiry date' | translate">Expiry date</th>
-										<th ng-bind="'Account status' | translate">Account status</th>
-										<th ng-bind="'Action' | translate"></th>
+										<th id="tenor-header-label" ng-bind="'Tenor (days)' | translate">Tenor (days)</th>
+										<th id="pre-drawdown-header-label" ng-bind="'Pre-drawdown (%)' | translate">Pre-drawdown (%)</th>
+										<th id="interest-rate-header-label" ng-bind="'Interest rate' | translate">Interest rate</th>
+										<th id="expiry-date-header-label" ng-bind="'Expiry date' | translate">Expiry date</th>
+										<th id="account-status-header-label" ng-bind="'Account status' | translate">Account status</th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-repeat="record in ctrl.data track by $index">
 										<td class="text-center"><span
-											id="credit-information-{{$index+1}}-no-label"
+											ng-show="record.showAccountFlag"
+											id="$rowNo-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.rowNo"></span></td>
 										<td class="text-right"><span
 											ng-show="record.showAccountFlag"
-											id="credit-information-{{$index+1}}-credit-limit-label"
+											id="credit-limit-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.creditLimit | number : 2"></span></td>
 										<td class="text-right"><span
 											ng-show="record.showAccountFlag"
-											id="credit-information-{{$index+1}}-outstanding-label"
+											id="outstanding-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.outstanding | number : 2"></span></td>
 										<td class="text-right"><span
 											ng-show="record.showAccountFlag"
-											id="credit-information-{{$index+1}}-future-drawdown-label"
+											id="future-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.futureDrawdown | number : 2"></span></td>
-										<td class="text-center"><img
+										<td class="text-center"><img id="sponsor-"
 											title="{{record.sponsorName}}"
 											style="height: 32px; width: 32px;"
-											data-ng-src="data:image/png;base64,{{creditInfoCtrl.decodeBase64(record.sponsorLogo)}}"
-											data-err-src="images/png/avatar.png" /></td>
-										<td class="text-right"
-											id="credit-information-{{$index+1}}-internal-step-label"
-											ng-bind="record.internalStep | number : 2"></td>
+											data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.sponsorLogo)}}"
+											/></td>
+										<td class="text-right"><span
+											id="trading-status-{{record.accountId}}-{{record.sponsorName}}-label"
+											ng-bind="record.tradingStatus"></span></td>
+										<td class="text-right"><span
+											id="internal-{{record.accountId}}-{{record.sponsorName}}-label"
+											ng-bind="record.internalStep | number : 2"></span></td>
 										<td class="text-right"><span
 											ng-show="record.showAccountFlag"
-											id="credit-information-{{$index+1}}-available-label"
+											id="available-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.supplierAvailable | number : 2"></span></td>
 										<td class="text-right"><span
 											ng-show="record.showAccountFlag"
-											id="credit-information-{{$index+1}}-remaining-label"
+											id="remaining-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.bankRemaining | number : 2"></span></td>
+										<td class="text-center"><span
+											ng-show="record.showAccountFlag"
+											id="tenor-{{record.accountId}}-{{record.sponsorName}}-label"
+											ng-bind="record.tenor"></span></td>
+										<td class="text-center"><span
+											ng-show="record.showAccountFlag"
+											id="pre-drawdown-{{record.accountId}}-{{record.sponsorName}}-label"
+											ng-bind="record.prePercentageDrawdown"></span></td>
+										<td class="text-center"><span
+											ng-show="record.showAccountFlag"
+											id="interest-rate-{{record.accountId}}-{{record.sponsorName}}-label"
+											ng-bind="record.interestRate"></span></td>
+										<td class="text-center"><span
+											ng-show="record.showAccountFlag"
+											id="expiry-date-{{record.accountId}}-{{record.sponsorName}}-label"
+											ng-bind="record.limitExpiryDate | date: 'dd/MM/yyyy'"></span></td>
+										<td class="text-center"><span
+											ng-show="record.showAccountFlag"
+											id="account-status-{{record.accountId}}-{{record.sponsorName}}-label"
+											ng-bind="record.accountStatus"></span></td>
+										<td class="text-center"><scf-button
+												ng-show="record.showAccountFlag"
+												class="btn-default gec-btn-action"
+												id="credit-information-{{record.accountId}}-button"
+												ng-click="ctrl.inquiryAccount(record)"
+												title="Inquiry Account"> <i
+												class="fa fa-repeat" aria-hidden="true"></i></scf-button></td>
 									</tr>
 								</tbody>
 							</table>
