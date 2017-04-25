@@ -120,8 +120,8 @@ angular.module('scfApp').controller('SupplierCreditInformationController',['$sco
 				blockUI.stop();
 			    UIFactory.showFailDialog({
 					data: {
-					    headerMessage: 'Inquiry credit information failure, please try again.',
-					    bodyMessage: ''
+					    headerMessage: 'Inquiry credit information failure',
+					    bodyMessage: ' please try again.'
 					},
 					preCloseCallback: null
 				});

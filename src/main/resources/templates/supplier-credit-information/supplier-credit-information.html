@@ -85,7 +85,7 @@
 											/></td>
 										<td class="text-right"><span
 											id="trading-status-{{record.accountId}}-{{record.sponsorName}}-label"
-											ng-bind="record.tradingStatus"></span></td>
+											ng-bind="record.tradingStatus | translate"></span></td>
 										<td class="text-right"><span
 											id="internal-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.internalStep | number : 2"></span></td>
@@ -116,7 +116,7 @@
 										<td class="text-center"><span
 											ng-show="record.showAccountFlag"
 											id="account-status-{{record.accountId}}-{{record.sponsorName}}-label"
-											ng-bind="record.accountStatus"></span></td>
+											ng-bind="record.accountStatus | translate"></span></td>
 										<td class="text-center"><scf-button
 												ng-show="record.showAccountFlag"
 												class="btn-default gec-btn-action"
