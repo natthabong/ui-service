@@ -41,19 +41,18 @@
 								class="table table-striped table-bordered" cellspacing="0">
 								<thead>
 									<tr>
-										<th id="$rowNo-header-label" ng-bind="'No' | translate">No</th>
+										<th id="$rowNo-header-label" ng-bind="'No.' | translate">No.</th>
 										<th id="credit-limit-header-label" ng-bind="'Credit limit' | translate">Credit limit</th>
 										<th id="outstanding-header-label" ng-bind="'Outstanding' | translate">Outstanding</th>
-										<th id="future-header-label" ng-bind="'Future drawdown' | translate">Future
-											drawdown</th>
+										<th id="future-header-label" ng-bind="'Future' | translate">Future</th>
 										<th id="sponsor-header-label" ng-bind="'Sponsor' | translate">Sponsor</th>
 										<th id="trading-status-header-label" ng-bind="'Trading status' | translate">Trading status</th>
-										<th id="internal-header-label" ng-bind="'Internal step' | translate">Internal</th>
+										<th id="internal-header-label" ng-bind="'Internal' | translate">Internal</th>
 										<th id="available-header-label" ng-bind="'Available' | translate">Available</th>
 										<th id="remaining-header-label" ng-bind="'Remaining' | translate"
 											title="{{'Remaining' | translate}} = {{'Credit limit' | translate}} - ({{'Outstanding' | translate}} + {{'Future drawdown' | translate}})">Remaining</th>
-										<th id="tenor-header-label" ng-bind="'Tenor (days)' | translate">Tenor (days)</th>
-										<th id="pre-drawdown-header-label" ng-bind="'Pre-drawdown (%)' | translate">Pre-drawdown (%)</th>
+										<th id="tenor-header-label" ng-bind="'Tenor(days)' | translate">Tenor(days)</th>
+										<th id="pre-drawdown-header-label" ng-bind="'Pre-drawdown(%)' | translate">Pre-drawdown(%)</th>
 										<th id="interest-rate-header-label" ng-bind="'Interest rate' | translate">Interest rate</th>
 										<th id="expiry-date-header-label" ng-bind="'Expiry date' | translate">Expiry date</th>
 										<th id="account-status-header-label" ng-bind="'Account status' | translate">Account status</th>
@@ -120,7 +119,7 @@
 										<td class="text-center"><scf-button
 												ng-show="record.showAccountFlag"
 												class="btn-default gec-btn-action"
-												id="credit-information-{{record.accountId}}-button"
+												id="credit-information-{{record.accountId}}-{{record.sponsorName}}-button"
 												ng-click="ctrl.inquiryAccount(record)"
 												title="Inquiry Account"> <i
 												class="fa fa-repeat" aria-hidden="true"></i></scf-button></td>
