@@ -14,7 +14,6 @@ angular.module('scfApp').controller(
 						PageNavigation, Service, $rootScope, $http) {
 					var vm = this;
 					var organizeId = $rootScope.userInfo.organizeId;
-					console.log(organizeId)
 					var log = $log;
 					vm.index = 0;
 					var dataSource = $http({url:'/api/credit-information/get', method: 'GET',params: {organizeId:organizeId}});

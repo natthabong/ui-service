@@ -15,6 +15,7 @@ angular
 								PageNavigation, Service) {
 							var vm = this;
 							var log = $log;
+							var organizeId = $scope.userInfo.organizeId;
 							
 							vm.transactionCriteria = {
 									dateType: '',
@@ -177,7 +178,8 @@ angular
 								vm.searchTransaction();	
 							}
 							
-							vm.searchTransactionService = function() {			
+							vm.searchTransactionService = function() {		
+								vm.transactionCriteria.supplierId = organizeId;
 								var dataSource = Service.requestURL('/api/v1/list-transaction/search',vm.transactionCriteria);
 								dataSource.promise.then(function(response) {
 									vm.data = response.content;
