@@ -84,10 +84,14 @@ angular.module('scfApp').controller('SupplierCreditInformationController',['$sco
 			}
 		}
 		
-		var successPopup;
+		var dialogPopup;
 		
 		var closeDialogSucccess = function(){
-			successPopup.close();
+			dialogPopup.close();
+		}
+		
+		var closeDialogFail = function(){
+			dialogPopup.close();
 		}
 		
 		vm.inquiryAccount = function(data) {
@@ -105,7 +109,7 @@ angular.module('scfApp').controller('SupplierCreditInformationController',['$sco
 			inquiryAccountDeffered.promise.then(function(response) {
 				blockUI.stop();
 				if(response.status==200){
-					successPopup = UIFactory.showSuccessDialog({
+					dialogPopup = UIFactory.showSuccessDialog({
 						data: {
 						    headerMessage: 'Inquiry credit information success.',
 						    bodyMessage: ''
@@ -120,21 +124,35 @@ angular.module('scfApp').controller('SupplierCreditInformationController',['$sco
 						preCloseCallback: preCloseCallback
 				    });
 				}else{
-				    UIFactory.showFailDialog({
+				    dialogPopup = UIFactory.showFailDialog({
 						data: {
 						    headerMessage: 'Inquiry credit information failure',
 						    bodyMessage: 'please try again.'
 						},
+						buttons : [{
+							id: 'close-button',
+							label: 'Close',
+							action:function(){
+								closeDialogFail();
+							}
+						}],
 						preCloseCallback: null
 					});					
 				}
 			}).catch(function(response) {
 				blockUI.stop();
-			    UIFactory.showFailDialog({
+			    dialogPopup = UIFactory.showFailDialog({
 					data: {
 					    headerMessage: 'Inquiry credit information failure',
 					    bodyMessage: ' please try again.'
 					},
+					buttons : [{
+							id: 'close-button',
+							label: 'Close',
+							action:function(){
+								closeDialogFail();
+							}
+						}],
 					preCloseCallback: null
 				});
 	        });

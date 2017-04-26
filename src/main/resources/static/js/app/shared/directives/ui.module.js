@@ -111,12 +111,16 @@ angular
 						});
 				}
 
-				var showFailDialog = function(config) {					
+				var showFailDialog = function(config) {
+				console.log(config);					
 					return ngDialog
 						.open({
 							template : BASE_TEMPLATE_URL + 'fail-dialog.html',
 							preCloseCallback : config.preCloseCallback,
-							data : config.data
+							data : {
+								data : config.data,
+								buttons : config.buttons
+							}
 						});
 				}
 				

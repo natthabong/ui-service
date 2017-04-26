@@ -9,7 +9,7 @@
 				<div class="col-md-10 col-sm-10" style="color: red;">
 					<h2>
 						<span id="fail-header-message-label"
-							ng-bind="ngDialogData.headerMessage | translate">Fail</span>
+							ng-bind="ngDialogData.data.headerMessage | translate">Fail</span>
 					</h2>
 				</div>
 			</div>
@@ -18,15 +18,19 @@
 			<div class="row">
 				<div class="col-md-2 col-sm-2"></div>
 				<div class="col-md-10 col-sm-10">
-					<span id="fail-message-label" ng-bind="ngDialogData.bodyMessage"></span>
+					<span id="fail-message-label" ng-bind="ngDialogData.data.bodyMessage"></span>
 				</div>
 			</div>
 		</div>
 		<div class="modal-footer">
 			<div class="row">
-				<div class="col-xs-12 text-right">
-					<scf-button id="ok-button" class="popup-button hidden-sm hidden-xs"
-						type="submit" ng-bind="'OK' | translate"></scf-button>
+				<div class="col-xs-12 text-right" ng-if="!ngDialogData.buttons">
+					<scf-button id="ok-button" class="popup-button" type="submit"
+						ng-bind="'OK' | translate"></scf-button>
+
+				</div>
+				<div class="col-xs-12 text-right" ng-if="ngDialogData.buttons" >
+					<scf-button ng-repeat="button in ngDialogData.buttons track by $index" id="{{button.id}}" class="popup-button" ng-bind="button.label | translate" ng-click="button.action()"></scf-button>
 				</div>
 			</div>
 		</div>
