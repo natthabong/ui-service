@@ -155,7 +155,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             dateFrom: '',
             dateTo: '',
             sponsorId: '',
-            suppilerId:'',
+            supplierId:'',
             supplierCode: '',
             statusGroup: '',
             order: '',
@@ -346,21 +346,21 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	
 	vm.searchTransaction = function(criteria){
 		vm.wrongDateFormat = false;
-		
 		var dateFrom = vm.dateModel.dateFrom;
         var dateTo = vm.dateModel.dateTo;
         
 		vm.listTransactionModel.sponsorId = '';
-		vm.listTransactionModel.suppilerId = '';
+		vm.listTransactionModel.supplierId = '';
         vm.listTransactionModel.dateFrom = SCFCommonService.convertDate(dateFrom);
         vm.listTransactionModel.dateTo = SCFCommonService.convertDate(dateTo);
 
         if(typeof vm.documentListModel.sponsor == 'object' && vm.documentListModel.sponsor != undefined){
             vm.listTransactionModel.sponsorId = vm.documentListModel.sponsor.organizeId;
-        }else if(typeof vm.documentListModel.supplier == 'object' && vm.documentListModel.supplier != undefined){
-            vm.listTransactionModel.suppilerId = vm.documentListModel.supplier.organizeId;
         }
-
+        if(typeof vm.documentListModel.supplier == 'object' && vm.documentListModel.supplier != undefined){
+            vm.listTransactionModel.supplierId = vm.documentListModel.supplier.organizeId;
+        }
+        
         if (criteria === undefined) {
             vm.pageModel.currentPage = '0';
             vm.pageModel.pageSizeSelectModel = '20';
@@ -386,7 +386,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 				vm.wrongDateFormat = true;
 			}
 		}
-        
         if (!vm.wrongDateFormat) {
         	vm.searchTransactionService();
         }
@@ -472,7 +471,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 				}else if (currentParty == partyRole.bank) {
 					var summaryStatusGroupDeffered = ListTransactionService.summaryStatusGroup(transactionModel);
 					summaryStatusGroupDeffered.promise.then(function(response) {
-						var summaryStatusGroup = response.data;		
+						var summaryStatusGroup = response.data;	
 						summaryStatusGroup.forEach(function(summary) {
                         	vm.summaryStatusGroup[summary.statusGroup].totalRecord = summary.totalRecord;
                         	vm.summaryStatusGroup[summary.statusGroup].totalAmount = summary.totalAmount;							
