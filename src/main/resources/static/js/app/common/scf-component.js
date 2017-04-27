@@ -3,7 +3,7 @@
 
 	angular.module('ui/template/scftemplate', []).run([ "$templateCache", function($templateCache) {
 		$templateCache.put('ui/template/calendar.html',
-			'<p class="input-group">' + '<input type="text" name="{{textName}}" ng-required="textRequired" placeholder="DD/MM/YYYY" ng-model-options="{timezone: \'UTC+0700\'}" show-weeks="false" class="form-control" ng-disabled="ngDisabled" ng-model="textModel" uib-datepicker-popup="{{dateFormat}}" is-open="isOpen" close-text="Close" min-date="minDate" max-date="maxDate"/>' + '<span class="input-group-btn">' + '<button type="button" ng-disabled="ngDisabled" class="btn btn-default" ng-click="openCalendarAction()">' + '<i class="glyphicon glyphicon-calendar"></i>' + '</button>' + "</span>" + '</p>');
+			'<p class="input-group">' + '<input type="text" name="{{textName}}" ng-required="textRequired" placeholder="DD/MM/YYYY"  show-weeks="false" class="form-control" ng-disabled="ngDisabled" ng-model="textModel" uib-datepicker-popup="{{dateFormat}}" is-open="isOpen" close-text="Close" min-date="minDate" max-date="maxDate"/>' + '<span class="input-group-btn">' + '<button type="button" ng-disabled="ngDisabled" class="btn btn-default" ng-click="openCalendarAction()">' + '<i class="glyphicon glyphicon-calendar"></i>' + '</button>' + "</span>" + '</p>');
 	
 		$templateCache.put('ui/template/timepicker.html',
 			'<p class="input-group">'+ '<div uib-timepicker="true" show-spinners="false" show-meridian="false"></div>' + '</p>');

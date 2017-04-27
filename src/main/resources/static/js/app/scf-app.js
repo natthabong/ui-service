@@ -551,6 +551,7 @@ app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', 'blockUI', '$stat
 // $window.Date.prototype.toISOString = function(){
 // return $filter('date')(this, 'yyyy-MM-ddTHH:mm:ss.000+0000');
 // };
+    $window.Date.prototype.toJSON = function(){ return moment(this).format(); }
     var isLoginPage = window.location.href.indexOf("login") != -1;
     if(isLoginPage){
         if($cookieStore.get("access_token")){

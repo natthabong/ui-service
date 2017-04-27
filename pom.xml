@@ -19,9 +19,9 @@
 	</parent>
 	<dependencies>
 		<dependency>
-		   <groupId>eu.bitwalker</groupId>
-		   <artifactId>UserAgentUtils</artifactId>
-		   <version>1.20</version>
+			<groupId>eu.bitwalker</groupId>
+			<artifactId>UserAgentUtils</artifactId>
+			<version>1.20</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -226,6 +226,11 @@
 						<groupId>org.webjars.bower</groupId>
 						<artifactId>angular-chart.js</artifactId>
 						<version>1.1.1</version>
+					</dependency>
+					<dependency>
+						<groupId>org.webjars.bower</groupId>
+						<artifactId>moment</artifactId>
+						<version>2.18.1</version>
 					</dependency>
 				</dependencies>
 			</plugin>
