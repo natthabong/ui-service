@@ -111,7 +111,7 @@
 										<td class="text-center"><span
 											ng-show="record.showAccountFlag"
 											id="expiry-date-{{record.accountId}}-{{record.sponsorName}}-label"
-											ng-bind="record.limitExpiryDate | date: 'dd/MM/yyyy'"></span></td>
+											ng-bind="record.limitExpiryDate | date: 'dd/MM/yyyy': 'UTC+0700'"></span></td>
 										<td class="text-center"><span
 											ng-show="record.showAccountFlag"
 											id="account-status-{{record.accountId}}-{{record.sponsorName}}-label"
