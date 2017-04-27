@@ -357,16 +357,16 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             var sponsorCode = vm.createTransactionModel.sponsorCode;
             // Search criteria model
             var searchDocumentCriteria = {
-                    sponsorId: sponsorCode,
-                    supplierCode: vm.createTransactionModel.supplierCode,
-                    documentStatus: ['NEW'],
-                    sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
-                    order: vm.createTransactionModel.order,
-                    orderBy: vm.createTransactionModel.orderBy,
-                    page: vm.pageModel.currentPage,
-                    pageSize: vm.pageModel.pageSizeSelectModel
-                }
-                // Call Service
+                sponsorId: sponsorCode,
+                supplierCode: vm.createTransactionModel.supplierCode,
+                documentStatus: ['NEW'],
+                sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
+                order: vm.createTransactionModel.order,
+                orderBy: vm.createTransactionModel.orderBy,
+                page: vm.pageModel.currentPage,
+                pageSize: vm.pageModel.pageSizeSelectModel
+            }
+            // Call Service
             var deffered = CreateTransactionService.getDocument(searchDocumentCriteria);
             deffered.promise
                 .then(function(response) {
