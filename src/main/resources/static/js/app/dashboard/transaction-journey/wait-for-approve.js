@@ -84,7 +84,7 @@ angular.module('scfApp').controller(
 			    vm.transactionList = function() {
 			    	if($rootScope.isDesktopDevice){
 			    		$cookieStore.put(listStoreKey, vm.listTransactionModel);
-						$state.go('/transaction-list',  {
+						$state.go('/transaction-list/supplier',  {
 							backAction: true
 						});
 			    	}
