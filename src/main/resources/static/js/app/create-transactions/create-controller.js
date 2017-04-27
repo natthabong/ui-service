@@ -73,7 +73,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
 			var searchDocumentDeferred = $q.defer();
             var sponsorCode = vm.createTransactionModel.sponsorCode;
             var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
-            
+           
             vm.checkAllModel = false;
             vm.selectAllModel = false;
             
@@ -95,7 +95,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                         vm.createTransactionModel.orderBy = '';
                         vm.pageModel.pageSizeSelectModel = '20';
                         vm.pageModel.currentPage = 0;
-
                         vm.loadDocument();
                         tradingInfo.promise.then(function(response) {
                         	 vm.loadTransactionDate(sponsorCode, sponsorPaymentDate);
@@ -105,7 +104,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                         vm.pageModel.currentPage = pagingModel.page;
                         vm.loadDocument();
                     }
-    				
                     vm.showInfomation = true;
                     
                     // set supplierCode after search
@@ -119,7 +117,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 vm.showErrorMsg = true;
             }
             
-			return searchDocumentDeferred;
+	    return searchDocumentDeferred;
         };
 
         // Load Sponsor paymentDate
@@ -143,6 +141,9 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             // Check action come from page validate and sumbit
             if (backAction === false) {
                 vm.createTransactionModel.sponsorPaymentDate = vm.sponsorPaymentDates[0].value;
+            }else{
+        	hasSponsorPaymentDate = true;
+        	vm.searchDocument(undefined);
             }
 
             // reset actionBank is false
@@ -435,6 +436,7 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
         vm.initLoad = function() {
             if ($stateParams.backAction === true) {
                 backAction = true;
+               
                 var tradingPartnerInfo = $stateParams.tradingpartnerInfoModel;
 				vm.showBackButton = $stateParams.showBackButton;
                 if (tradingPartnerInfo !== null) {
@@ -447,9 +449,10 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                         sponsorPaymentDate: SCFCommonService.convertDate(transactionModel.sponsorPaymentDate),
                         transactionDate: SCFCommonService.convertDate(transactionModel.transactionDate)
                     };
-
+                    
+                    hasSponsorPaymentDate = true;
                     vm.documentSelects = $stateParams.documentSelects;
-                    vm.searchDocument();
+                    vm.searchDocument(undefined);
                     calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
                 } else {
                     backAction = false;
@@ -471,7 +474,6 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
             if(data.matchingRef != null && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){
             	vm.selectFormMatchingRef(data);
             }else{
-            	console.log(vm.documentSelects);
             	calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
             }
         };

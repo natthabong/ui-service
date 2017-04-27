@@ -895,7 +895,6 @@
 				$compile(elements.contents())(scope);
 				
 				if (column.fieldName != 'selectBox') {
-					console.log(elements[0]);
 					if(angular.isDefined(elements[0].childNodes[0])){
 						if(angular.isDefined(column.fieldName)){
 							elements[0].childNodes[0].id = column.fieldName + '-header-label';
