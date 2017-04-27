@@ -137,7 +137,7 @@ angular
 											labelTH: '',
 											cssTemplate: 'hidden-xs hidden-sm text-center',
 											sortData: false,
-											cellTemplate: '<scf-button class="btn-default gec-btn-action" id="view-transaction-{{data.transactionNo}}-button" title="View a transaction" ng-click="internalStepCtrl.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
+											cellTemplate: '<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-view-button" title="View a transaction" ng-click="internalStepCtrl.view(data)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'
 										}]
 							};
 

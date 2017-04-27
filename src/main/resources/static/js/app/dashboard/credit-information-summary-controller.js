@@ -101,5 +101,17 @@ angular
 															});
 												}
 											});
+							
+							vm.view = function(){
+								if (vm.canViewTrading) {
+									ngDialog
+											.open({
+												template : '/js/app/dashboard/credit-information-dialog.html',
+												controller : 'CreditInformationDashboardController',
+												controllerAs : 'creditInfoCtrl',
+												width : 900
+											});
+								}
+							}
 
 						} ]);

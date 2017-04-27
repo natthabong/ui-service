@@ -2,20 +2,33 @@
 	sec:authorize="hasAuthority('VIEW_MY_ACCOUNT')">
 	<div
 		ng-controller="CreditInformationSummaryDashboardController as ctrl">
-		<h3 class="animated fadeInLeft"
-			id="credit-information-summary-header-label">{{dashboardItem.headerLabel}}</h3>
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+			<h3 class="animated fadeInLeft"
+				id="credit-information-summary-header-label">{{dashboardItem.headerLabel}}</h3>
+			</div>
+			
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-8 hidden-xs hidden-sm" style="padding-top: 15px;">
+			<scf-button class="btn-default gec-btn-action"
+				id="view-credit-information-summary-button" ng-click="ctrl.view()"
+				title="View credit information"> <span
+				class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
+			</div>
+		</div>
+
+
 		<!-- start: Content -->
 
 		<div class="row hidden-xs hidden-sm">
-			<nvd3-pie-chart data="ctrl.data"
-				x="ctrl.xFunction()" y="ctrl.yFunction()" width="{{ctrl.width}}"
-				height="{{ctrl.height}}" color="ctrl.colorFunction()"
-				showLabels="true" pieLabelsOutside="true" objectequality="true"
+			<nvd3-pie-chart data="ctrl.data" x="ctrl.xFunction()"
+				y="ctrl.yFunction()" width="{{ctrl.width}}" height="{{ctrl.height}}"
+				color="ctrl.colorFunction()" showLabels="true"
+				pieLabelsOutside="true" objectequality="true"
 				callback="ctrl.callback()" legendcolor="ctrl.colorLegendFunction()"
 				labelType="value_percent" showValues="true" showLegend="true"
 				valueFormat="percent"> <svg></svg> </nvd3-pie-chart>
 		</div>
-		
+
 		<div class="row hidden-md hidden-lg">
 			<div class="col-xs-12 col-sm-6 col-md-8">
 				<canvas id="pie" class="chart chart-pie" chart-data="ctrl.values"
@@ -23,11 +36,11 @@
 					chart-options="options"> </canvas>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-2">
-			    <br/>
+				<br />
 				<ul class="chart-legend text-left">
 					<li ng-repeat="(key, value) in ctrl.labels"
 						ng-if="ctrl.values[key] > 0"><span
-						style="background-color: {{ctrl.colors[key]}}"></span>{{value}}
+						style="background-color: {{ctrl.colors[key]"></span>{{value}}
 						{{ctrl.values[key] | number }} THB</li>
 				</ul>
 			</div>
