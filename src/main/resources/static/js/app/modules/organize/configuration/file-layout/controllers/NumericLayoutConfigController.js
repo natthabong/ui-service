@@ -328,7 +328,7 @@ module.controller('NumericLayoutConfigController',
 						vm.model.validationType = null;
 					}else{
 						vm.model.expectedValue = vm.numericeModel.signFlagId;
-						vm.model.validationType = "IN_MAPPING_TYPE";
+						vm.model.validationType = "IN_MAPPING_TYPE_AMOUNT";
 						vm.model.signFlagConfig = null;
 					}
 					
@@ -350,7 +350,7 @@ module.controller('NumericLayoutConfigController',
 				vm.model.validationRecordFieldConfig = null;
 			}
 		}else{
-			vm.model.validationType = vm.model.validationType == 'IN_MAPPING_TYPE' ? 'IN_MAPPING_TYPE' : null;
+			vm.model.validationType = vm.model.validationType == 'IN_MAPPING_TYPE_AMOUNT' ? 'IN_MAPPING_TYPE_AMOUNT' : null;
 			vm.model.validationRecordFieldConfig = null;
 		}
 	}
