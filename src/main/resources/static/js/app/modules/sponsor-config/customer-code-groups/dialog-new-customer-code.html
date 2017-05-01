@@ -35,12 +35,12 @@
 				
 					<div class="form-group">
 						<label for="customer-code-supplier-textbox"
-							id="customer-code-supplier-label"
+							id="customer-code-supplier-code-label"
 							class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 							ng-bind="'Supplier code' | translate"></span>:</label>
 						<div class="col-md-6 col-sm-4 col-xs-12" >
 							<scf-input-text
-								id="customer-code-supplier-textbox"
+								id="customer-code-supplier-code-textbox"
 								ng-model="ctrl.model.customerCode" name="supplier" maxlength="20" ng-required="true"></scf-input-text>
 						</div>
 					</div>
@@ -50,7 +50,7 @@
 					</div>
 					
 					<div class="form-group">
-						<label for="customer-code-remark-textbox"
+						<label for="customer-code-remark-label"
 							id="customer-code-remark-label"
 							class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 							ng-bind="'Remark' | translate"></span>:</label>
@@ -62,12 +62,12 @@
 					</div>
 					
 					<div class="form-group">
-						<label for="customer-code-active-date-calendar"
+						<label for="customer-code-active-date-label"
 							id="customer-code-active-date-label"
 							class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 							ng-bind="'Active date' | translate"></span>:</label>
 						<div class="col-md-3 col-sm-3 col-xs-12">
-							<scf-date-picker-from text-id="customer-code-active-date-calendar"
+							<scf-date-picker-from text-id="customer-code-active-date-textbox"
 										button-id="customer-code-active-date-button"
 										text-model="ctrl.model.activeDate"
 										text-name="activeDate"
@@ -82,7 +82,7 @@
 									id="customer-code-expire-date-checkbox"
 									 ng-model="ctrl.isUseExpireDate"
 									 ng-click="ctrl.checkUseExpiryDate()"></scf-checkbox>
-									<span ng-bind="'Expire date' | translate"></span>:
+									<label id="customer-code-expire-date-label">{{'Expire date' | translate}}:</label>
 							</label>
 						</div>
 						<div class="col-md-3 col-sm-3 col-xs-12">
