@@ -410,6 +410,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 			vm.requireSponsor = false;
 			vm.wrongDateFormat = false;
+			vm.wrongDateFromLessThanDateTo = false;
 
 			if (vm.submitted && $scope.documentListSponsorForm.sponsorCode.$error.required) {
 				vm.requireSponsor = true;
