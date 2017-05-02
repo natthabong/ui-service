@@ -470,6 +470,21 @@ displayModule.controller('DisplayController', [
             }
         }
 
+        vm.changePayOnlyBankWorkingDayItem = function(){
+            if(!vm.checkedForDebit && !vm.checkedForDrawdown && !vm.checkedForSpecialDebit){
+                vm.dataModel.shiftPaymentDate = false;
+                vm.shiftIn = true;
+            }
+        }
+
+        vm.disableShiftPaymentDate = function(){
+            var disable = true;
+            if(vm.checkedForDebit || vm.checkedForDrawdown || vm.checkedForSpecialDebit){
+                disable = false;
+            }
+            return disable;
+        }
+
         vm.backToSponsorConfigPage = function () {
             PageNavigation.gotoPage('/sponsor-configuration', {
                 organizeId: ownerId
@@ -547,7 +562,7 @@ displayModule.controller('DisplayController', [
             }
 
             if (vm.supportGracePeriod == "true") {
-                if (angular.isUndefined(vm.gracePriod)) {
+                if (angular.isUndefined(vm.gracePriod) || vm.gracePriod == null) {
                     vm.showMessageGracePeriodError = true;
                     validate = false;
                 } else {

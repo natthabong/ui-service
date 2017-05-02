@@ -262,7 +262,8 @@
 									<label><scf-checkbox
 										ng-model="ctrl.checkedForDebit"
 										id="pay-only-bank-working-day-for-debit-checkbox"
-										ng-disabled="false"></scf-checkbox>
+										ng-change= "ctrl.changePayOnlyBankWorkingDayItem()"
+										ng-disabled="(!ctrl.manageAll)"></scf-checkbox>
 										{{'For debit' | translate}}
 									</label>
 								</div>
@@ -273,7 +274,8 @@
 									<label><scf-checkbox
 										ng-model="ctrl.checkedForDrawdown"
 										id="pay-only-bank-working-day-for-drawdown-checkbox"
-										ng-disabled="false"></scf-checkbox>
+										ng-change= "ctrl.changePayOnlyBankWorkingDayItem()"
+										ng-disabled="(!ctrl.manageAll)"></scf-checkbox>
 										{{'For drawdown' | translate}}
 									</label>
 								</div>
@@ -284,7 +286,8 @@
 									<label><scf-checkbox
 										ng-model="ctrl.checkedForSpecialDebit"
 										id="pay-only-bank-working-day-for-special-debit-checkbox"
-										ng-disabled="false"></scf-checkbox>
+										ng-change= "ctrl.changePayOnlyBankWorkingDayItem()"
+										ng-disabled="(!ctrl.manageAll)"></scf-checkbox>
 										{{'For special debit' | translate}}
 									</label>
 								</div>
@@ -298,7 +301,7 @@
 										ng-model="ctrl.dataModel.shiftPaymentDate"
 										id="shift-payment-date-checkbox"
 										ng-change= "ctrl.changeShiftPaymentDate()"
-										ng-disabled="false"></scf-checkbox>
+										ng-disabled="(!ctrl.manageAll) || ctrl.disableShiftPaymentDate() || ctrl.changeShiftPaymentDate()"></scf-checkbox>
 										{{'In case of last payment date is equal to bank holiday' | translate}}
 									</label>
 								</div>
@@ -308,14 +311,14 @@
 								<label class="radio-inline"><scf-radio
 											id="pay-before-holiday-radio" name="shift-payment-date-radio"
 											ng-value="true"
-											ng-disabled="(!ctrl.manageAll) || (!ctrl.dataModel.shiftPaymentDate)"
+											ng-disabled="(!ctrl.manageAll) || (!ctrl.dataModel.shiftPaymentDate) || ctrl.changeShiftPaymentDate()"
 											ng-model="ctrl.shiftIn"></scf-radio>
 										{{'Pay before holiday' | translate}}
 									</label>
 								<label class="radio-inline"><scf-radio
 											id="pay-after-holiday-radio" name="shift-payment-date-radio"
 											ng-value="false"
-											ng-disabled="(!ctrl.manageAll) || (!ctrl.dataModel.shiftPaymentDate)"
+											ng-disabled="(!ctrl.manageAll) || (!ctrl.dataModel.shiftPaymentDate) || ctrl.changeShiftPaymentDate()"
 											ng-model="ctrl.shiftIn"></scf-radio>
 										{{'Pay after holiday' | translate}}
 									</label>
