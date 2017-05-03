@@ -362,5 +362,9 @@
 	
 	"Could not be create transaction because the document not found.": "Could not be create transaction because the document not found.",
 	"Supplier credit information":"Supplier credit information",
-	"supplier-credit-information":"Supplier credit information"
+	"supplier-credit-information":"Supplier credit information",
+	
+	"Edit organize logo": "Edit organize logo",
+	"Organize logo": "Organize logo",
+	"No logo": "No logo"
 }

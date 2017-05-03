@@ -219,6 +219,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
 				params: { selectedItem: null, mode: 'all'}
+			}).state('/sponsor-configurationn/organize-logo/settings',{
+				url: '/sponsor-configurationn/organize-logo/settings',
+				controller: 'OrganizeLogoSettingController',
+				controllerAs: 'ctrl',
+				templateUrl: '/sponsor-configuration/organize-logo/settings',
+				params: { organizeInfo: null},
+				resolve: load(['js/app/sponsor-configuration/organize-logo/organize-logo-setting-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/bank-holidays',{
 				url: '/bank-holidays',
 				controller: 'BankHolidayController',
