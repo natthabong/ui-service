@@ -25,6 +25,7 @@
 							</div>
 							<div class="col-sm-3 col-md-3">
 								<scf-button type="button" id="upload-button"
+									 class="popup-button"
 									ng-disabled="!ctrl.manageAll"
 									ng-click="ctrl.uploadAction()">Upload</scf-button>
 							</div>
@@ -40,9 +41,7 @@
 								id="organize-logo-header-label">{{'Organize logo' | translate}}: </label>
 
 							<div class="col-md-2 col-sm-3 col-xs-12">
-								<label id="organize-logo-label"
-								class="col-md-2 col-sm-3 col-xs-12 control-label"
-								ng-show="!ctrl.hasLogo">{{'No logo'
+								<label class="control-label" id="organize-logo-label" ng-show="!ctrl.hasLogo">{{'No logo'
 								| translate}}</label>
 								<img id="{{ctrl.organizeInfo.organizeName}}-organize-logo" title="{{ctrl.organizeInfo.organizeName}}"
 								style="height: 32px; width: 32px;"
@@ -54,13 +53,14 @@
 					</div>
 					<div class="panel-body">
 						<div class="col-md-12 col-sm-12 text-right">
-							<scf-button id="save-button" type="submit"
-								ng-disabled="!ctrl.manageAll">{{'Save'
-							| translate}}</scf-button>
 							<scf-button id="cancel-button" class="popup-button"
 								data-dismiss="modal"
 								ng-click="ctrl.backToSponsorConfigPage()"
 								ng-bind="'Cancel' | translate"></scf-button>
+							<scf-button id="save-button" type="submit"
+								ng-disabled="!ctrl.manageAll">{{'Save'
+							| translate}}</scf-button>
+							
 						</div>
 					</div>
 				</form>

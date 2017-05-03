@@ -36,7 +36,7 @@ angular
 				vm.hasLogo = false;
 				
 				vm.decodeBase64 = function(data){
-					if(angular.isUndefined(data)){
+					if(data==null||angular.isUndefined(data)){
 						vm.hasLogo = false;
 						return '';
 					}
