@@ -44,10 +44,16 @@
 								| translate}}</label>
 								<img id="{{ctrl.organizeInfo.organizeId}}-organize-logo" title="{{ctrl.organizeInfo.organizeName}}"
 								style="height: 32px; width: 32px;"
-								data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(ctrl.organizeInfo.organizeLogo)}}"
+								data-ng-src="data:image/png;base64,{{ctrl.sponsorLogo}}"
 								data-err-src="images/png/avatar.png"
 								ng-show="ctrl.hasLogo" />
 							</div>
+						</div>
+						<div class="form-group" ng-show="ctrl.showErrorMsgLogo">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<span class="col-md-4 col-sm-4 col-xs-12 error-msg"
+								id="logo-warning-message-label"
+								ng-bind="ctrl.errorMsgKey | translate">.</span>
 						</div>
 					</div>
 					<div class="panel-body">

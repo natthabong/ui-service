@@ -13,16 +13,19 @@ angular
 			'$http',
 			'blockUI',
 			'ngDialog',
-			'$q',
+			'$q', 
+			'UIFactory', 
 			function(SCFCommonService, $log, $scope, $stateParams, $timeout, $rootScope,
-				PageNavigation, Service, $http, blockUI, ngDialog, $q) {
+				PageNavigation, Service, $http, blockUI, ngDialog, $q, UIFactory) {
 		
 				var vm = this;
 				var log = $log;
 		
 				vm.acceptFileExtention = 'png,jpg,jpeg,gif';
 				vm.showErrorMsg = false;
+				vm.showErrorMsgLogo = false;
 				vm.manageAll=false;
+				vm.sponsorLogo = null;
 				
 				var sponsorId = $rootScope.sponsorId;
 		
@@ -41,24 +44,44 @@ angular
 						return '';
 					}
 					vm.hasLogo = true;
+					console.log("==========================");
 					return atob(data);
 				}
 		
+				if(vm.organizeInfo.organizeLogo!=null){
+					vm.sponsorLogo = vm.decodeBase64(vm.organizeInfo.organizeLogo);
+				}
+				
 				vm.backToSponsorConfigPage = function() {
 					PageNavigation.gotoPreviousPage();
 				}
 		
 				vm.uploadAction = function() {
 					vm.showErrorMsg = false;
+					vm.showErrorMsgLogo = false;
 			        // Validate Form before send upload file
-			        if (!validateFileUpload(vm.uploadModel, vm.acceptFileExtention)) {
+			        if (validateFileUpload(vm.uploadModel, vm.acceptFileExtention)) {
+//			        	console.log(vm.uploadModel.file);
+			        	var reader = new FileReader();
+						reader.readAsDataURL(vm.uploadModel.file);
+						reader.onloadend = function () {
+							var logoBase64 = reader.result;
+//							document.getElementById(vm.organizeInfo.organizeId+"-organize-logo").src = reader.result;
+							var newBase64 = logoBase64.split(",")[1];
+							vm.sponsorLogo = newBase64;
+							console.log(vm.sponsorLogo);
+							vm.hasLogo = true;
+						};
+			        }else{
 			        	vm.showErrorMsg = true;
 			        }
 				}
 				
 				vm.save = function() {
+					vm.organizeInfo.organizeLogo = vm.sponsorLogo;
+					
 					var serviceUrl = 'api/v1/organize-customers/' + organizeId;
-					var serviceDiferred = Service.requestURL(serviceUrl, vm.model, 'PUT');
+					var serviceDiferred = Service.requestURL(serviceUrl, vm.organizeInfo, 'PUT');
 					blockUI.start();
 					serviceDiferred.promise.then(function(response) {
 						vm.backToSponsorConfigPage();
@@ -80,19 +103,27 @@ angular
 			    }
 				
 				$scope.save = function(){
-					UIFactory.showConfirmDialog({
-					data : {
-					    headerMessage : 'Confirm save?'
-					},
-					confirm : $scope.confirmSave,
-					onSuccess : function(response) {
-					    blockUI.stop();
-					    _success();
-					},
-					onFail : function(response) {
-					    blockUI.stop();
+					vm.showErrorMsgLogo = false;
+					vm.organizeInfo.organizeLogo = vm.sponsorLogo;
+					
+					if(vm.organizeInfo.organizeLogo!=null){
+						UIFactory.showConfirmDialog({
+							data : {
+							    headerMessage : 'Confirm save?'
+							},
+							confirm : $scope.confirmSave,
+							onSuccess : function(response) {
+							    blockUI.stop();
+							    _success();
+							},
+							onFail : function(response) {
+							    blockUI.stop();
+							}
+						    });
+					}else{
+						vm.showErrorMsgLogo = true;
+						vm.errorMsgKey = 'Organize logo is required';
 					}
-				    });
 			    }
 			    
 			    $scope.confirmSave = function() { 
@@ -113,7 +144,7 @@ angular
 			        } 
 			        else {
 			            var fileName = data.file.name;
-			            var fileSelectExtention = fileName.slice(fileName.lastIndexOf('.'), fileName.length);
+			            var fileSelectExtention = fileName.slice(fileName.lastIndexOf('.')+1, fileName.length);
 			            // Check file extention name exists in acceptFileExtention ?.
 			            if (acceptFileExtention.search(fileSelectExtention) < 0) {
 			                validateResult = false;
