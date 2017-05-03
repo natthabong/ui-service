@@ -120,9 +120,21 @@ angular
 			    $scope.confirmSave = function() { 
 			    	vm.organizeInfo.organizeLogo = vm.sponsorLogo;
 					
-					var serviceUrl = 'api/v1/organize-customers/' + organizeId;
-					var serviceDiferred = Service.requestURL(serviceUrl, vm.organizeInfo, 'PUT');
-					return serviceDiferred;
+					var serviceUrl = 'api/v1/organize-customers/' + organizeId+ '/logo';
+					var deffered = $q.defer();
+					var serviceDiferred =  $http({
+						method : 'PUT',
+						url : serviceUrl,
+						data : vm.sponsorLogo,
+						headers: {
+							'If-Match' : vm.organizeInfo.version
+						}
+					}).success(function(data, status, headers, config) {
+						deffered.resolve({data:data, headers:headers})
+					}).error(function(response) {
+						deffered.reject(response);
+					});
+					return deffered;
 	            }
 
 			    function validateFileUpload(data, acceptFileExtention, errorMsgKey) {
