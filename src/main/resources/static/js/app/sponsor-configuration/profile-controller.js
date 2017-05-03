@@ -48,7 +48,7 @@ angular
 							}
 							
 							vm.decodeBase64 = function(data) {
-								if (angular.isUndefined(data)) {
+								if (data == null || angular.isUndefined(data)) {
 									return '';
 								}
 								return atob(data);
@@ -57,9 +57,9 @@ angular
 							vm.initLoad();
 							
 							vm.unauthenConfig = function(){
-								if(vm.manageAllConfig || vm.viewAllConfig){
+								if(vm.viewAllConfig){
 									return false;
-								}else{
+								}else if(vm.manageAllConfig){
 									return true;
 								}
 							}
