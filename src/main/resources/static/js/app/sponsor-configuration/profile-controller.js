@@ -57,9 +57,9 @@ angular
 							vm.initLoad();
 							
 							vm.unauthenConfig = function(){
-								if(vm.manageAllConfig || vm.viewAllConfig){
+								if(vm.viewAllConfig){
 									return false;
-								}else{
+								}else if(vm.manageAllConfig){
 									return true;
 								}
 							}
