@@ -22,6 +22,7 @@ angular
 				var log = $log;
 		
 				vm.acceptFileExtention = 'png,jpg,jpeg,gif';
+				vm.acceptFileExtentionLabel = 'gif, jpeg, jpg, png';
 				vm.showErrorMsg = false;
 				vm.showErrorMsgLogo = false;
 				vm.manageAll=false;
@@ -44,7 +45,6 @@ angular
 						return '';
 					}
 					vm.hasLogo = true;
-					console.log("==========================");
 					return atob(data);
 				}
 		
@@ -55,40 +55,31 @@ angular
 				vm.backToSponsorConfigPage = function() {
 					PageNavigation.gotoPreviousPage();
 				}
-		
+				
+				var reader = new FileReader();
+				reader.onload = function(){
+					blockUI.start();
+				}
+				
+				reader.onloadend = function () {
+					var logoBase64 = reader.result;
+					var newBase64 = logoBase64.split(",")[1];
+					vm.sponsorLogo = newBase64;
+					vm.hasLogo = true;
+					blockUI.stop();
+				};
+				
 				vm.uploadAction = function() {
 					vm.showErrorMsg = false;
 					vm.showErrorMsgLogo = false;
 			        // Validate Form before send upload file
 			        if (validateFileUpload(vm.uploadModel, vm.acceptFileExtention)) {
-//			        	console.log(vm.uploadModel.file);
-			        	var reader = new FileReader();
 						reader.readAsDataURL(vm.uploadModel.file);
-						reader.onloadend = function () {
-							var logoBase64 = reader.result;
-//							document.getElementById(vm.organizeInfo.organizeId+"-organize-logo").src = reader.result;
-							var newBase64 = logoBase64.split(",")[1];
-							vm.sponsorLogo = newBase64;
-							console.log(vm.sponsorLogo);
-							vm.hasLogo = true;
-						};
 			        }else{
 			        	vm.showErrorMsg = true;
 			        }
 				}
-				
-				vm.save = function() {
-					vm.organizeInfo.organizeLogo = vm.sponsorLogo;
-					
-					var serviceUrl = 'api/v1/organize-customers/' + organizeId;
-					var serviceDiferred = Service.requestURL(serviceUrl, vm.organizeInfo, 'PUT');
-					blockUI.start();
-					serviceDiferred.promise.then(function(response) {
-						vm.backToSponsorConfigPage();
-						blockUI.stop();
-					});
-				};
-				
+
 				function _success() {
 					UIFactory
 					.showSuccessDialog({
@@ -122,13 +113,15 @@ angular
 						    });
 					}else{
 						vm.showErrorMsgLogo = true;
-						vm.errorMsgKey = 'Organize logo is required';
+						vm.errorMsgKeyLogo = 'Organize logo is required';
 					}
 			    }
 			    
 			    $scope.confirmSave = function() { 
+			    	vm.organizeInfo.organizeLogo = vm.sponsorLogo;
+					
 					var serviceUrl = 'api/v1/organize-customers/' + organizeId;
-					var serviceDiferred = Service.requestURL(serviceUrl, vm.model, 'PUT');
+					var serviceDiferred = Service.requestURL(serviceUrl, vm.organizeInfo, 'PUT');
 					return serviceDiferred;
 	            }
 
