@@ -23,9 +23,9 @@
 				<img title="{{ctrl.organizeData.organizeName}}"
 					style="height: 32px; width: 32px;"
 					data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(ctrl.organizeData.organizeLogo)}}"
-					data-err-src="images/png/avatar.png" />
+					data-err-src="images/png/avatar.png" ng-if="ctrl.completed" />
+				<h4 ng-if="!ctrl.completed" id="organize-logo-label">No logo</h4>
 				
-				&nbsp;
 				<scf-button id="organize-logo-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.organizeData)" title="Config a organize logo" ng-hide="!ctrl.completed" ng-disabled="ctrl.unauthenConfig()"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>	
 				<scf-button id="organize-logo-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.organizeData)" title="Config a organize logo" ng-hide="ctrl.completed" ng-disabled="ctrl.unauthenConfig()"><img ng-hide="ctrl.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>
 			</div>
