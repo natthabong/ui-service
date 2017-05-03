@@ -25,6 +25,8 @@ public class SponsorConfigController {
 
 	private static String PAYMENT_DATE_FORMULA = "sponsor-configuration/payment-date-formulas";
 	private static String SETTINGS_PAYMENT_DATE_FORMULA = "sponsor-configuration/payment-date-formulas/settings";
+	
+	private static String SETTINGS_ORGANIZE_LOGO = "sponsor-configuration/organize-logo/settings";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String sponsorConfiguration(
@@ -120,5 +122,14 @@ public class SponsorConfigController {
 			return SETTINGS_PAYMENT_DATE_FORMULA.concat(" :: content");
 		}
 		return SETTINGS_PAYMENT_DATE_FORMULA;
+	}
+	
+	@RequestMapping(path = "/organize-logo/settings", method = RequestMethod.GET)
+	public String settingOrganizeLogo(
+			@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETTINGS_ORGANIZE_LOGO.concat(" :: content");
+		}
+		return SETTINGS_ORGANIZE_LOGO;
 	}
 }
