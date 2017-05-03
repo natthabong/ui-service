@@ -16,6 +16,9 @@ angular
 							var vm = this;
 							vm.sponsorName = '';
 							vm.organizeData = {};
+							vm.manageAllConfig = false;
+							vm.viewAllConfig = false;
+							vm.completed = false;
 							
 						    if($stateParams.organizeModel != null){
 						    	vm.organizeModel = $stateParams.organizeModel;	
@@ -28,10 +31,36 @@ angular
 								var serviceDiferred = Service.doGet(serviceUrl, {});		
 								serviceDiferred.promise.then(function(response){
 									vm.organizeData = response.data;
+									
+									if(vm.organizeData.organizeLogo != null){
+										vm.completed = true;
+									}
 								}).catch(function(response){
 									log.error('Load customer code group data error');
 								});
 							}
+							
+							vm.config = function(data){
+								var params = {
+										organizeInfo: data
+								};
+								PageNavigation.gotoPage('/sponsor-configuration/organize-logo/settings',params);
+							}
+							
+							vm.decodeBase64 = function(data) {
+								if (angular.isUndefined(data)) {
+									return '';
+								}
+								return atob(data);
+							}
 
 							vm.initLoad();
+							
+							vm.unauthenConfig = function(){
+								if(vm.manageAllConfig || vm.viewAllConfig){
+									return false;
+								}else{
+									return true;
+								}
+							}
 						} ]);
