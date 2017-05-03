@@ -195,7 +195,7 @@
 	"Upload document": "Upload document",
 	"File type": "File type: ",
 	"File name": "File name: ",
-	"Upload Msg err": "Please select file to upload.",
+	"Upload Msg err": "Please select file to upload",
 	"Upload complete": "Upload complete",
 	"File extension error": "File extension incorrect ({{fileFormat}})",
 	"Upload filesize err": "Your file size exceeds. Maximum allowed (1 MB)",
@@ -369,5 +369,9 @@
 	
 	"Could not be create transaction because the document not found.": "Could not be create transaction because the document not found.",
 	"Supplier credit information":"Supplier credit information",
-	"supplier-credit-information":"Supplier credit information"
+	"supplier-credit-information":"Supplier credit information",
+	
+	"Edit organize logo": "Edit organize logo",
+	"Organize logo": "Organize logo",
+	"No logo": "No logo"
 }
