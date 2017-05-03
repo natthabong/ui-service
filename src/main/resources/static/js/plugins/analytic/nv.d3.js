@@ -10490,7 +10490,7 @@ nv.models.pie = function() {
                     "value_percent": d3.format(',.2f')(getY(d.data)) +' (' + d3.format('%')(percent) +')',
                   };
                   return (d.value && percent > labelThreshold) ? labelTypes[labelType] : '';
-                });
+                }).attr('id',function(d){return "pie-chart-"+d.data.key+"-value"});
         }
 
 
