@@ -1,5 +1,5 @@
 <div id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS','MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')">
+	sec:authorize="hasAnyAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
@@ -26,7 +26,6 @@
 							<div class="col-sm-3 col-md-3">
 								<scf-button type="button" id="upload-button"
 									 class="popup-button"
-									ng-disabled="!ctrl.manageAll"
 									ng-click="ctrl.uploadAction()">Upload</scf-button>
 							</div>
 						</div>
@@ -57,8 +56,7 @@
 								data-dismiss="modal"
 								ng-click="ctrl.backToSponsorConfigPage()"
 								ng-bind="'Cancel' | translate"></scf-button>
-							<scf-button id="save-button" type="submit"
-								ng-disabled="!ctrl.manageAll">{{'Save'
+							<scf-button id="save-button" type="submit">{{'Save'
 							| translate}}</scf-button>
 							
 						</div>
@@ -67,6 +65,4 @@
 			</div>
 		</div>
 	</div>
-	<input type="hidden" ng-init="ctrl.manageAll=true"
-		sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" /> 
 </div>
