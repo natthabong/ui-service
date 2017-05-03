@@ -109,6 +109,20 @@ angular
 							},
 							onFail : function(response) {
 							    blockUI.stop();
+							    dialogPopup = UIFactory.showFailDialog({
+									data: {
+									    headerMessage: 'Update logo fail.',
+									    bodyMessage: 'Logo has been modified.'
+									},
+									buttons : [{
+										id: 'close-button',
+										label: 'Close',
+										action:function(){
+											closeDialogFail();
+										}
+									}],
+									preCloseCallback: null
+								});					
 							}
 						    });
 					}else{
