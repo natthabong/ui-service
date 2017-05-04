@@ -93,6 +93,10 @@ angular
 					});
 			    }
 				
+				var closeDialogFail = function(){
+					dialogPopup.close();
+				}
+				
 				$scope.save = function(){
 					vm.showErrorMsgLogo = false;
 					vm.organizeInfo.organizeLogo = vm.sponsorLogo;
