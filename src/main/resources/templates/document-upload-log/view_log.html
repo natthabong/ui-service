@@ -5,7 +5,7 @@
 			<div class="panel-body">
 				<div class="col-md-12">
 					<h3 id="view-document-upload-log-header-label" class="animated fadeInLeft"
-						ng-bind="View document upload log | translate: {roleName: ctrl.roleType}"></h3>
+						ng-bind="ctrl.headerMsg | translate: {roleName: ctrl.roleType}"></h3>
 				</div>
 			</div>
 		</div>
@@ -21,7 +21,7 @@
 						</div>
 						<div class="col-sm-10 col-md-10">
 							<span id="sponsor-label"
-								ng-bind="ctrl.documentUploadLogModel.sponsorName"></span>
+								ng-bind="ctrl.sponsorName"></span>
 						</div>
 					</div>
 					<div class="row">
@@ -37,7 +37,7 @@
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<span id="upload-date-label"
-								ng-bind="ctrl.documentUploadLogModel.uploadDate | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+								ng-bind="ctrl.documentUploadLogModel.endUploadTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
 						</div>
 					</div>
 					<div class="row">
@@ -46,7 +46,7 @@
 						</div>
 						<div class="col-sm-2 col-md-2">
 							<span id="file-type-label"
-								ng-bind="ctrl.documentUploadLogModel.fileType"></span>
+								ng-bind="ctrl.documentUploadLogModel.fileType | translate"></span>
 						</div>
 						<div class="col-sm-2 col-md-2">
 							<b id="file-name-header-label" ng-bind="'File name' | translate">: </b>
@@ -57,7 +57,6 @@
 						</div>
 						<div class="col-md-2 col-sm-2">
 							<span> <scf-button id="download-button"
-									ng-disabled="{{!ctrl.canExport}}"
 									class="btn-default" ng-click="ctrl.downloadFile()">{{'Download'
 								| translate}}</scf-button>
 							</span>
@@ -67,7 +66,7 @@
 						<div class="col-sm-2 col-md-2">
 							<b id="success-header-label" ng-bind="'Success' | translate"></b>:
 						</div>
-						<div class="col-sm-2 col-md-3">
+						<div class="col-sm-2 col-md-2">
 							<span id="success-label"
 								ng-bind="(ctrl.documentUploadLogModel.success | number) || 'N/A'"></span>
 						</div>

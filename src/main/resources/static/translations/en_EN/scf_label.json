@@ -381,5 +381,10 @@
 	"Upload date": "Upload date",
 	"SUCCESS": "Success",
 	"FAIL": "Fail",
-	"Data incorrection list": "Data incorrection list"
+	"FAILED": "Fail",
+	"Data incorrection list": "Data incorrection list",
+	"AP_DOCUMENT": "AP document",
+	"BANK_HOLIDAY": "Bank holiday",
+	"CUSTOMER_PROFILE": "Customer profile",
+	"DRAWDOWN_ADVICE": "Drawdown advice"
 }
