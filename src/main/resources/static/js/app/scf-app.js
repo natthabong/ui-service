@@ -294,6 +294,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
 				params: { selectedItem: null, mode: 'personal'},
 				resolve: load(['js/app/modules/sponsor-config/customer-code-groups/customer-code-groups-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/document-upload-log/view-log',{
+				url: '/document-upload-log/view-log',
+				controller: 'ViewDocumentUplaodLogController',
+				controllerAs: 'ctrl',
+				templateUrl: '/document-upload-log/view-log',
+				params: { documentUploadLogModel: null, roleType: null},
+				resolve: load(['js/app/modules/document-upload-log/view-document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',

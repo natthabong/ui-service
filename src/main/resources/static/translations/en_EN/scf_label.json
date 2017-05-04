@@ -374,5 +374,12 @@
 	"Edit organize logo": "Edit organize logo",
 	"Organize logo": "Organize logo",
 	"No logo": "No logo",
-	"Organize logo is required": "Organize logo is required"
+	"Organize logo is required": "Organize logo is required",
+	
+	"View document upload log": "View {{roleName}} document upload log",
+	"Channel": "Channel",
+	"Upload date": "Upload date",
+	"SUCCESS": "Success",
+	"FAIL": "Fail",
+	"Data incorrection list": "Data incorrection list"
 }

@@ -1,0 +1,141 @@
+<div id="content" th:fragment="content"
+	sec:authorize="hasAnyAuthority('VIEW_ALL_UPLOAD_DOCUMENTS_LOG', 'VIEW_UPLOAD_DOCUMENTS_LOG_OF_MY_ORGANIZE')">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="view-document-upload-log-header-label" class="animated fadeInLeft"
+						ng-bind="View document upload log | translate: {roleName: ctrl.roleType}"></h3>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-element">
+		<div class="panel panel-default col-md-12 padding-0">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-sm-2 col-md-2">
+							<b id="sponsor-header-label" ng-bind="'Sponsor' | translate">: </b>
+						</div>
+						<div class="col-sm-10 col-md-10">
+							<span id="sponsor-label"
+								ng-bind="ctrl.documentUploadLogModel.sponsorName"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2 col-md-2">
+							<b id="channel-header-label" ng-bind="'Channel' | translate">: </b>
+						</div>
+						<div class="col-sm-2 col-md-2">
+							<span id="channel-label"
+								ng-bind="ctrl.documentUploadLogModel.channel"></span>
+						</div>
+						<div class="col-sm-2 col-md-2">
+							<b id="upload-date-header-label" ng-bind="'Upload date' | translate">: </b>
+						</div>
+						<div class="col-sm-6 col-md-6">
+							<span id="upload-date-label"
+								ng-bind="ctrl.documentUploadLogModel.uploadDate | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2 col-md-2">
+							<b id="file-type-header-label" ng-bind="'File type' | translate">: </b>
+						</div>
+						<div class="col-sm-2 col-md-2">
+							<span id="file-type-label"
+								ng-bind="ctrl.documentUploadLogModel.fileType"></span>
+						</div>
+						<div class="col-sm-2 col-md-2">
+							<b id="file-name-header-label" ng-bind="'File name' | translate">: </b>
+						</div>
+						<div class="col-sm-4 col-md-4">
+							<span id="file-name-label"
+								ng-bind="ctrl.documentUploadLogModel.fileName"></span>
+						</div>
+						<div class="col-md-2 col-sm-2">
+							<span> <scf-button id="download-button"
+									ng-disabled="{{!ctrl.canExport}}"
+									class="btn-default" ng-click="ctrl.downloadFile()">{{'Download'
+								| translate}}</scf-button>
+							</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2 col-md-2">
+							<b id="success-header-label" ng-bind="'Success' | translate"></b>:
+						</div>
+						<div class="col-sm-2 col-md-3">
+							<span id="success-label"
+								ng-bind="(ctrl.documentUploadLogModel.success | number) || 'N/A'"></span>
+						</div>
+						<div class="col-sm-2 col-md-2">
+							<b id="fail-header-label" ng-bind="'Fail' | translate"></b>:
+						</div>
+						<div class="col-sm-4 col-md-4">
+							<span id="fail-label"
+								ng-bind="(ctrl.documentUploadLogModel.fail | number) || 'N/A'"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2 col-md-2">
+							<b id="status-header-label" ng-bind="'Status' | translate"></b>:
+						</div>
+						<div class="col-sm-2 col-md-3">
+							<span id="status-label"
+								ng-bind="ctrl.documentUploadLogModel.status | translate"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12 col-md-12">
+							<br />
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4 col-sm-4 gec-select">
+							<b><span id="data-incorrection-list-label" ng-bind="'Data incorrection list' | translate"></span></b>
+						</div>
+						<div class="col-md-8 col-sm-8 text-right">
+							<div class="row">
+								<div class="col-md-12 col-sm-12">
+									<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
+										id="view-document-upload-log-label"></b> &nbsp;&nbsp; <scf-pagination
+											dropdown-id="page-limit-dropdown"
+											name="view-document-upload-log"
+											page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+											total-page="ctrl.pagingController.pagingModel.totalPage"
+											current-page="ctrl.pagingController.pagingModel.currentPage"
+											page-size-list="ctrl.pageSizeList"
+											page-action="ctrl.searchDocument"></scf-pagination>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<scf-table id="view-document-upload-log-table"
+									component-config="ctrl.dataTable"
+									component-datas="ctrl.pagingController.tableRowCollection"
+									current-page="ctrl.pagingController.pagingModel.currentPage"
+									record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+									clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+						</div>
+						<div id="fixed-bottom" class="col-md-12"></div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 text-right">
+							<scf-button id="back-button" type="button"
+								ng-click="ctrl.backToDocumentUploadLogPage()">{{'Back' |
+							translate}}</scf-button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
