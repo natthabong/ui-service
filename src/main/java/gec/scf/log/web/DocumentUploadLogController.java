@@ -14,6 +14,32 @@ public class DocumentUploadLogController {
 
 	private static final String VIEW_DOCUMENT_UPLOAD_LOG = "document-upload-log/view_log";
 
+	private static final String DOCUMENT_UPLOAD_LOG_URL = "document-upload-log/document-upload-log";
+	
+	@RequestMapping(method=RequestMethod.GET)
+	public String documentUploadLog(@RequestHeader("X-Requested-With") String requestedWith){
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return DOCUMENT_UPLOAD_LOG_URL.concat(" :: content");
+		}
+		return DOCUMENT_UPLOAD_LOG_URL;	
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, path="/bank")
+	public String documentUploadLogBank(@RequestHeader("X-Requested-With") String requestedWith){
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return DOCUMENT_UPLOAD_LOG_URL.concat(" :: content");
+		}
+		return DOCUMENT_UPLOAD_LOG_URL;	
+	}
+
+    @RequestMapping(method=RequestMethod.GET, path="/sponsor")
+	public String documentUploadLogSponsor(@RequestHeader("X-Requested-With") String requestedWith){
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return DOCUMENT_UPLOAD_LOG_URL.concat(" :: content");
+		}
+		return DOCUMENT_UPLOAD_LOG_URL;	
+	}
+
 	@RequestMapping(path = "/view-log", method = RequestMethod.GET)
 	public String viewDocumentUploadLogs(
 			@RequestHeader("X-Requested-With") String requestedWith, Model model) {

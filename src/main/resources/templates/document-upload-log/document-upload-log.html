@@ -1,0 +1,142 @@
+<div id="content" th:fragment="content">
+	<!--sec:authorize="hasAnyAuthority('VIEW_ALL_USER_ACTIVITY_LOG', 'VIEW_MY_ACTIVITY_LOG') and hasAuthority('VIEW_ALL_MODULE')"-->
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft"
+						ng-bind="ctrl.headerName | translate"></h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<!-- Start Column Panel-->
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<form name="activityLogForm" class="form-horizontal" novalidate=""
+							ng-submit="ctrl.searchLog()" autocomplete="off">
+
+							<div class="form-group">
+								<label for="sponsor-auto-suggest" id="sponsor-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor'
+									| translate}}: </label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<gec-auto-suggest id="sponsor-auto-suggest"
+										disable="ctrl.sponsorTxtDisable"
+										model="ctrl.sponsorAutoSuggestModel" name="sponsorCode"
+										ng-model="ctrl.documentListModel.sponsor" maxlength="100"></gec-auto-suggest>
+								</div>
+								<div class="col-md-3 col-sm-2"></div>
+							</div>
+							
+							<div class="form-group">
+								<label for="status" id="module-label"
+									class="col-md-2 col-sm-2 col-xs-12 control-label">{{'File type'
+									| translate}}</label>
+								<div class="col-md-2 col-sm-3 col-xs-12">
+									<scf-dropdown id="module-dropdown" 
+										ng-model="ctrl.logListModel"
+										component-data="ctrl.fileTypeDropdowns"></scf-dropdown>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label id="date-label" class="col-md-2 col-sm-3 control-label">{{'Upload data from'
+									| translate}}:</label>
+								<div class="col-md-3 col-sm-3 gec-calendar-group">
+									<scf-date-picker-from text-id="date-from-textbox"
+										button-id="date-from-calendar-button"
+										text-model="ctrl.dateModel.dateFrom"
+										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
+										open-calendar-action="ctrl.openCalendarDateFrom()"
+										max-date="ctrl.dateModel.dateTo"> </scf-date-picker-from>
+
+								</div>
+								<div class="col-md-3 col-sm-3 gec-calendar-group">
+									<label id="to-label" for="date-to-calendar" class="control-label">{{'to'
+										| translate}}: </label>
+									<scf-date-picker-to text-id="date-to-textbox"
+										button-id="date-to-calendar-button"
+										text-model="ctrl.dateModel.dateTo"
+										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
+										open-calendar-action="ctrl.openCalendarDateTo()"
+										min-date="ctrl.dateModel.dateFrom"> </scf-date-picker-to>
+								</div>
+								<div class="col-md-4 col-sm-3"></div>
+							</div>
+
+							<div class="form-group">
+								<label for="status" id="module-label"
+									class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Channel'
+									| translate}}:</label>
+								<div class="col-md-2 col-sm-3 col-xs-12">
+									<scf-dropdown id="module-dropdown"
+										ng-model="ctrl.logListModel.module"
+										component-data="ctrl.channelDropdowns"></scf-dropdown>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="status" id="module-label"
+									class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Status'
+									| translate}}:</label>
+								<div class="col-md-2 col-sm-3 col-xs-12">
+									<scf-dropdown id="module-dropdown"
+										ng-model="ctrl.logListModel.module"
+										component-data="ctrl.statusDropdowns"></scf-dropdown>
+								</div>
+								<div class="col-md-6 col-sm-5">
+									<scf-button type="submit" id="search-button"
+										class="btn-default" ng-bind="'Search' | translate"></scf-button>
+								</div>
+							</div>
+						</form>
+						<!-- End Payment Field-->
+
+						<div>
+							<div class="row">
+								<div class="col-md-1 col-sm-1 gec-select text-center">
+									<div ng-show="false">
+										<input type="checkbox" id="select-all-page-checkbox" /> <b><span
+											ng-bind="'All' | translate"></span></b>
+									</div>
+								</div>
+								<div class="col-md-11 col-sm-11 text-right">
+									<div class="row">
+										<div class="col-md-12 col-sm-12">
+											<span> <b
+												ng-bind="ctrl.pagingController.splitePageTxt"
+												id="activity-log-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+													dropdown-id="page-limit-dropdown" name="activity-log"
+													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+													total-page="ctrl.pagingController.pagingModel.totalPage"
+													current-page="ctrl.pagingController.pagingModel.currentPage"
+													page-size-list="ctrl.pageSizeList"
+													page-action="ctrl.searchLog"></scf-pagination>
+											</span>
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Start Table-->
+							<div class="row">
+								<div class="col-md-12">
+									<scf-table id="activity-log-table"
+										component-config="ctrl.dataTable"
+										component-datas="ctrl.pagingController.tableRowCollection"
+										current-page="ctrl.pagingController.pagingModel.currentPage"
+										record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+										clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

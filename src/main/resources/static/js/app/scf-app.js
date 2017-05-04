@@ -294,6 +294,27 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
 				params: { selectedItem: null, mode: 'personal'},
 				resolve: load(['js/app/modules/sponsor-config/customer-code-groups/customer-code-groups-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/document-upload-log',{
+				url: '/document-upload-log',
+				controller: 'DocumentUploadLogController',
+				controllerAs: 'ctrl',
+				params: {mode:'sponsor'},
+				templateUrl: '/document-upload-log',
+				resolve: load(['js/app/modules/document-upload-log/document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/document-upload-log/bank',{
+				url: '/document-upload-log/bank',
+				controller: 'DocumentUploadLogController',
+				controllerAs: 'ctrl',
+				params: {mode:'bankbank'},
+				templateUrl: '/document-upload-log/bank',
+				resolve: load(['js/app/modules/document-upload-log/document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/document-upload-log/sponsor',{
+				url: '/document-upload-log/sponsor',
+				controller: 'DocumentUploadLogController',
+				controllerAs: 'ctrl',
+				params: {mode:'banksponsor'},
+				templateUrl: '/document-upload-log/sponsor',
+				resolve: load(['js/app/modules/document-upload-log/document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/document-upload-log/view-log',{
 				url: '/document-upload-log/view-log',
 				controller: 'ViewDocumentUplaodLogController',
