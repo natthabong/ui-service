@@ -28,12 +28,7 @@ angular
 				vm.documentUploadLogModel = $stateParams.documentUploadLogModel;
 				
 				var uploadLogId = vm.documentUploadLogModel.uploadDocumentLogId;
-				
-				console.log(vm.roleType);
-				console.log(vm.documentUploadLogModel);
-				console.log(vm.documentUploadLogModel.fileType);
-				
-				vm.sponsorName = '';
+				var organizeId = vm.documentUploadLogModel.organizeName;
 				
 				vm.viewCriteria = {};
 				
@@ -47,42 +42,30 @@ angular
 			        label: '50',
 			        value: '50'
 			    }];
-
-				vm.backToDocumentUploadLogPage = function() {
-					PageNavigation.gotoPreviousPage();
-				}
 				
 				vm.dataTable = {
 			        columns: [{
 						fieldName: 'lineNo',
-			            field: 'lineNo',
-			            label: 'Line no.',
+			            labelEN: 'Line no.',
+		            	labelTH: 'Line no.',
 			            idValueField: '$rowNo',
-			            id: 'view-document-upload-log-line-no-{value}-label',
+			            id: 'view-document-upload-log-line-no-{value}',
 			            sortData: false,
 			            cellTemplate: '<span ng-bind="data.lineNo == null ? \'N/A\': data.lineNo">N/A</span>',
 						cssTemplate: 'text-left'
 			        },{
 			        	fieldName: 'description',
-			            field: 'description',
-			            label: 'Description',
+			            labelEN: 'Description',
+		            	labelTH: 'Description.',
 			            idValueField: '$rowNo',
-			            id: 'view-document-upload-log-description-{value}-label',
+			            id: 'view-document-upload-log-description-{value}',
 		            	sortData: false,
 		            	cssTemplate: 'text-left'
 			        }]
 			    }
-				
-				vm.getSponsorName = function(){
-					var serviceUrl = '/api/v1/organize-customers/'+vm.documentUploadLogModel.organizeId+'/profile';
-					var serviceDiferred = Service.doGet(serviceUrl, {});		
-					serviceDiferred.promise.then(function(response){
-						vm.organizeData = response.data;
-						vm.sponsorName = vm.organizeData.organizeName;
-						
-					}).catch(function(response){
-						log.error('Load organize data error');
-					});
+
+				vm.backToDocumentUploadLogPage = function() {
+					PageNavigation.gotoPreviousPage();
 				}
 				
 				vm.pagingController = PagingController.create('api/v1/upload-logs/'+uploadLogId+'/items', vm.viewCriteria, 'GET');
@@ -92,15 +75,14 @@ angular
 				}
 				
 				vm.initLoad = function() {	
-					vm.getSponsorName();
 					vm.searchListLog();
 				}
+				vm.initLoad();
 				
 				vm.downloadFile = function(){
 					$http({
 			             method: 'POST',
 			             url: '/api/v1/upload-logs/'+uploadLogId+'/download-source-file',
-			             data: transactionModel,
 			             responseType: 'arraybuffer'
 			         }).success(function(response) {
 			          var file = new Blob([response], {type: 'text/plain'});

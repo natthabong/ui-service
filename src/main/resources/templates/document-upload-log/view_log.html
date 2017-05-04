@@ -15,16 +15,16 @@
 		<div class="panel panel-default col-md-12 padding-0">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<div class="row">
+					<div class="row" style="padding-top: 20px;">
 						<div class="col-sm-2 col-md-2">
 							<b id="sponsor-header-label" ng-bind="'Sponsor' | translate">: </b>
 						</div>
 						<div class="col-sm-10 col-md-10">
 							<span id="sponsor-label"
-								ng-bind="ctrl.sponsorName"></span>
+								ng-bind="ctrl.documentUploadLogModel.organizeName"></span>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" style="padding-top: 20px;">
 						<div class="col-sm-2 col-md-2">
 							<b id="channel-header-label" ng-bind="'Channel' | translate">: </b>
 						</div>
@@ -37,10 +37,10 @@
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<span id="upload-date-label"
-								ng-bind="ctrl.documentUploadLogModel.endUploadTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+								ng-bind="ctrl.documentUploadLogModel.startUploadTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" style="padding-top: 20px;">
 						<div class="col-sm-2 col-md-2">
 							<b id="file-type-header-label" ng-bind="'File type' | translate">: </b>
 						</div>
@@ -51,18 +51,16 @@
 						<div class="col-sm-2 col-md-2">
 							<b id="file-name-header-label" ng-bind="'File name' | translate">: </b>
 						</div>
-						<div class="col-sm-4 col-md-4">
+						<div class="col-sm-6 col-md-6">
 							<span id="file-name-label"
 								ng-bind="ctrl.documentUploadLogModel.fileName"></span>
-						</div>
-						<div class="col-md-2 col-sm-2">
 							<span> <scf-button id="download-button"
-									class="btn-default" ng-click="ctrl.downloadFile()">{{'Download'
+									class="popup-button" ng-click="ctrl.downloadFile()">{{'Download'
 								| translate}}</scf-button>
 							</span>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" style="padding-top: 20px;">
 						<div class="col-sm-2 col-md-2">
 							<b id="success-header-label" ng-bind="'Success' | translate"></b>:
 						</div>
@@ -78,7 +76,7 @@
 								ng-bind="(ctrl.documentUploadLogModel.fail | number) || 'N/A'"></span>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" style="padding-top: 20px;">
 						<div class="col-sm-2 col-md-2">
 							<b id="status-header-label" ng-bind="'Status' | translate"></b>:
 						</div>
@@ -128,6 +126,7 @@
 					<div class="row">
 						<div class="col-md-12 text-right">
 							<scf-button id="back-button" type="button"
+								class="popup-button"
 								ng-click="ctrl.backToDocumentUploadLogPage()">{{'Back' |
 							translate}}</scf-button>
 						</div>
