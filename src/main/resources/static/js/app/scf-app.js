@@ -576,20 +576,11 @@ app.controller('MenuController', ['scfFactory', '$state', function (scfFactory, 
 	self.menu = response.data;
     });
     
-    self.hasRole = function(roles, currentRole){
-    	var isShow = false;
-    	angular.forEach(roles, function(value, key) {
-    		if(value.roleName==currentRole){
-    			isShow = true;
-    		}
-		});
-    	return isShow;
-    }
-}]);
+    }]);
 
-self.goTo = function(state){
-$state.go(state);
-}
+    self.goTo = function(state){
+	$state.go(state);
+    }
 
 app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', 'blockUI', '$state', '$filter', '$cookieStore', function ($rootScope, $q, $http, $urlRouter, $window, blockUI, $state, $filter, $cookieStore) {
 // $window.Date.prototype.toISOString = function(){
