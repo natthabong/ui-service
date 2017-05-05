@@ -187,10 +187,10 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 			
 			if(isValid()){
 				vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
-				var logDiferred = vm.pagingController.search(pagingModel);
+				vm.pagingController.search(pagingModel);
 			}
-
 		}
+
 		
 		if (currentMode == mode.SPONSOR) {
 			vm.headerName = 'Document upload log';
@@ -277,7 +277,17 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
             	idValueField: '$rowNo',
                 id: 'fail-{value}',
                 sortable: false,
-                cssTemplate: 'text-right'
+                cssTemplate: 'text-right',
+				renderer : function(fail, data){
+					if(data != undefined){
+						if(data.fail == null){
+							return 'N/A';
+						}
+						else{
+							return data.fail;
+						}
+					}
+				}
             },{
             	fieldName: 'total',
             	labelEN: 'Total',
@@ -285,7 +295,17 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
             	idValueField: '$rowNo',
                 id: 'total-{value}',
                 sortable: false,
-                cssTemplate: 'text-right'
+                cssTemplate: 'text-right',
+				renderer : function(total, data){
+					if(data != undefined){
+						if(data.fail == null){
+							return 'N/A';
+						}
+						else{
+							return data.fail+ data.success;
+						}
+					}
+				}
             },
 			{
             	fieldName: 'status',

@@ -52,7 +52,7 @@ angular
 			            id: 'line-no-{value}',
 			            sortData: false,
 			            cellTemplate: '<span ng-bind="data.lineNo == null ? \'N/A\': data.lineNo">N/A</span>',
-						cssTemplate: 'text-left'
+						cssTemplate: 'text-right'
 			        },{
 			        	fieldName: 'description',
 			            labelEN: 'Description',
