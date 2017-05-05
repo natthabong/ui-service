@@ -1,8 +1,8 @@
 'use strict';
 var scfApp = angular.module('scfApp');
 scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateParams', '$log', 'SCFCommonService', 'PagingController', 'UIFactory', '$q',
-	'$rootScope', '$http', 'LogStatus','PageNavigation',
-	function($scope, Service, $stateParams, $log, SCFCommonService, PagingController, UIFactory, $q, $rootScope, $http, LogStatus,PageNavigation) {
+	'$rootScope', '$http', 'docStatus','PageNavigation','docChannel',
+	function($scope, Service, $stateParams, $log, SCFCommonService, PagingController, UIFactory, $q, $rootScope, $http, docStatus, PageNavigation, docChannel) {
 		var vm = this;
 		var log = $log;
 		var userId = $rootScope.userInfo.userId;
@@ -25,22 +25,20 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 			BANKVIEWBANK : 'bankbank'
 		}
 		var currentMode = $stateParams.mode;
-		// vm.fileTypeDropdowns = [{
-		// 	label : undefined,
-		// 	value : undefined
-		// }];
-		// vm.logListModel;
-		// vm.fileTypeDropdowns = [{
-		// 	label : undefined,
-	  	// 	value : undefined
-		// }];
+
+		vm.openCalendarDateFrom = function() {
+			vm.openDateFrom = true;
+		}
+
+		vm.openCalendarDateTo = function() {
+			vm.openDateTo = true;
+		}
+
 		vm.logListModel = null;
 		vm.documentListModel = {
 			sponsor : undefined
 		}
 		
-		vm.logStatusDropdowns = LogStatus;
-
 		vm.pageModel = {
 			pageSizeSelectModel : vm.defaultPageSize,
 			totalRecord : 0,
@@ -62,11 +60,11 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 
 		vm.dataTable = {
 			columns: [{
-            	fieldName: 'actionTime',
-            	labelEN: 'Date',
-            	labelTH: 'Date',
+            	fieldName: 'startUploadTime',
+            	labelEN: 'Upload date',
+            	labelTH: 'Upload date',
             	idValueField: '$rowNo',
-                id: 'log-date-{value}',
+                id: 'upload-date-{value}',
                 sortable: false,
                 filterType : 'date',
                 format : 'dd/MM/yyyy HH:mm',
@@ -76,58 +74,76 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
                 labelEN: 'Channel',
                 labelTH: 'Channel',
                 idValueField: '$rowNo',
-                id: 'module-{value}',
+                id: 'channel-{value}',
                 sortable: false,
                 cssTemplate: 'text-left'
-            },{
-            	fieldName: 'fileType',
-            	labelEN: 'Message',
-            	labelTH: 'Message',
-            	idValueField: '$rowNo',
-                id: 'message-{value}',
-                sortable: false,
-                cssTemplate: 'text-left'
-            },{
+            },
+			// {
+            // 	fieldName: 'channel',
+            //     labelEN: 'Sponsor',
+            //     labelTH: 'Sponsor',
+            //     idValueField: '$rowNo',
+            //     id: 'module-{value}',
+            //     sortable: false,
+            //     cssTemplate: 'text-left'
+            // },
+			// {
+            // 	fieldName: 'fileType',
+            // 	labelEN: 'File type',
+            // 	labelTH: 'File type',
+            // 	idValueField: '$rowNo',
+            //     id: 'message-{value}',
+            //     sortable: false,
+            //     cssTemplate: 'text-left'
+            // },
+			{
             	fieldName: 'fileName',
-            	labelEN: 'Ref no',
-            	labelTH: 'Ref no',
+            	labelEN: 'File name',
+            	labelTH: 'File name',
             	idValueField: '$rowNo',
-                id: 'ref-no-{value}',
+                id: 'file-name-{value}',
                 sortable: false,
                 cssTemplate: 'text-left'
             },{
             	fieldName: 'success',
-            	labelEN: 'User',
-            	labelTH: 'User',
+            	labelEN: 'Success',
+            	labelTH: 'Success',
             	idValueField: '$rowNo',
-                id: 'user-{value}',
+                id: 'success-{value}',
                 sortable: false,
                 cssTemplate: 'text-left'
             },{
             	fieldName: 'fail',
-            	labelEN: 'Status',
-            	labelTH: 'Status',
+            	labelEN: 'Fail',
+            	labelTH: 'Fail',
             	idValueField: '$rowNo',
-                id: 'status-{value}',
+                id: 'fail-{value}',
                 sortable: false,
-                filterType : 'translate',
                 cssTemplate: 'text-left'
             },{
+            	fieldName: 'total',
+            	labelEN: 'Total',
+            	labelTH: 'Total',
+            	idValueField: '$rowNo',
+                id: 'total-{value}',
+                sortable: false,
+                cssTemplate: 'text-left'
+            },
+			{
             	fieldName: '',
             	labelEN: 'Action',
             	labelTH: 'Action',
                 id: 'status-{value}',
-				cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-click="ctrl.viewLog(data)" title="Verify a transaction"><i class="fa fa-inbox" ></i></scf-button>'
+				cellTemplate: '<scf-button class="btn-default gec-btn-action" id="document-upload-log-1-view-button" ng-click="ctrl.viewLog(data)" title="Verify a transaction"><i class="glyphicon glyphicon-search" ></i></scf-button>'
             }
 			]
 		};
 
 
 		vm.viewLog = function(data){
-		
-		var params = { documentUploadLogModel: data,
-				roleType: 'sponsor'
-			}
+			var params = { documentUploadLogModel: data,
+					roleType: 'sponsor'
+				}
 			PageNavigation.gotoPage('/document-upload-log/view-log',params,params)
 		}
 		// Prepare Auto Suggest
@@ -145,7 +161,6 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 			});
 
 		var querySponsorCode = function(value) {
-			console.log(value)
 			value = value = UIFactory.createCriteria(value);
 			return $http.get(sponsorAutoSuggestServiceUrl, {
 			params : {
@@ -167,7 +182,28 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 			return item;
 		}
 		// Prepare Auto Suggest
+		
+		vm.docStatusDropdowns = docStatus;
+		vm.docChannelDropdowns = docChannel;
 
+		var getFileType = function(sponsorID,sponsorConfigId,integrateType) {
+			vm.docType = [];
+			var uri = 'api/v1/organize-customers/'+sponsorID+'/sponsor-configs/'+sponsorConfigId+'/process-types';
+			var deffered = Service.doGet(uri,{integrateType : integrateType});
+			deffered.promise.then(function(response) {
+				response.data.forEach(function(module) {
+					vm.docType.push({
+					    label : module,
+						value : module
+					});
+				});
+				vm.docUploadListModel.fileType = vm.docType[0].value;
+				
+	        }).catch(function(response) {
+	            log.error('Get modules fail');
+	        });
+			return vm.docType;
+	    }
 		
 		vm.initLoad = function() {
 			if (currentMode == mode.SPONSOR) {
@@ -175,12 +211,12 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 				vm.sponsorTxtDisable = true;
 				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
 				var sponsorID = initSponsorAutoSuggest();
-				var fileType = vm.getFileType(sponsorID,'SFP','SPONSOR_UPLOAD');
+				vm.docTypeDropdowns = getFileType(sponsorID,'SFP','SPONSOR_UPLOAD');
 			}else if(currentMode == mode.BANKVIEWSPONSOR){
-				vm.headerName = 'Sponsor document upload';
+				vm.headerName = 'Sponsor document upload log';
 				vm.sponsorTxtDisable = false;
 			}else if(currentMode == mode.BANKVIEWBANK){
-				vm.headerName = 'Bank document upload';
+				vm.headerName = 'Bank document upload log';
 				vm.sponsorTxtDisable = false;
 			}
 			
@@ -188,35 +224,12 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 			vm.searchLog();
 		}
 
-		vm.getFileType = function(sponsorID,sponsorConfigId,integrateType) {
-			var uri = 'api/v1/organize-customers/'+sponsorID+'/sponsor-configs/'+sponsorConfigId+'/process-types';
-			var deffered = Service.doGet(uri,{integrateType : integrateType});
-			deffered.promise.then(function(response) {
-				response.data.forEach(function(module) {
-					vm.fileTypeDropdowns = [];
-					var label = undefined;
-					var value = undefined;
-					if(module == 'AP_DOCUMENT'){
-						label = 'AP document';
-						value =  module;
-					}
-					vm.fileTypeDropdowns.push({
-					    label : label,
-						value : value
-					});
-				});
-				console.log(vm.fileTypeDropdowns)
-				prepareFileTypeDropDown(vm.fileTypeDropdowns);
-				
-	        }).catch(function(response) {
-	            log.error('Get modules fail');
-	        });
-	    }
+		
+
+		vm.docTypeDropdowns = vm.getFileType
 
 		var prepareFileTypeDropDown = function(items){
-			console.log(items.label)
 			vm.logListModel = items[0].value;
-			console.log(vm.logListModel)
 		}
 
 		vm.criteria = {};
@@ -225,28 +238,56 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
 		
 		vm.searchLog = function(pagingModel) {
-			console.log("hi")
 			var logDiferred = vm.pagingController.search(pagingModel);
 		}
+
+		
+
+		vm.docUploadListModel = {
+			logDateFrom : '',
+			logDateTo : '',
+			fileType : null,
+			channel : vm.docChannelDropdowns[0].value,
+			status : vm.docStatusDropdowns[0].value
+		}
+		
 
 		vm.initLoad();
 		
 		
 	} ]);
-scfApp.constant("LogStatus", [
+scfApp.constant("docStatus", [
 	{
 		label : 'All',
 		value : '',
 		valueObject : null
 	},
 	{
-		label : 'Completed',
-		value : 'COMPLETED',
-		valueObject : 'COMPLETED'
+		label : 'Success',
+		value : 'SUCCESS',
+		valueObject : 'SUCCESS'
 	},
 	{
-		label : 'Incomplete',
-		value : 'INCOMPLETE',
-		valueObject : 'INCOMPLETE'
+		label : 'Fail',
+		value : 'FAIL',
+		valueObject : 'FAIL'
+	}
+]);
+
+scfApp.constant("docChannel", [
+	{
+		label : 'All',
+		value : '',
+		valueObject : null
+	},
+	{
+		label : 'Web',
+		value : 'WEB',
+		valueObject : 'WEB'
+	},
+	{
+		label : 'FTP',
+		value : 'FTP',
+		valueObject : 'FTP'
 	}
 ]);

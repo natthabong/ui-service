@@ -172,6 +172,9 @@
 	"internal_step": "Internal step",
 	"retriable_transaction": "Retriable transaction",
 	"future_drawdown_success": "Future drawdown success",
+	"AP_DOCUMENT" : "AP document",
+	"log-sponsor" : "Log",
+	"document-upload-log" : "Document upload log",
 	
 	"_comment": "Page Upload document",
 	"Upload document": "Upload document",

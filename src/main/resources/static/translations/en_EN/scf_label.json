@@ -218,6 +218,7 @@
 	"UNBOOK": "Not book",
 	"All": "All",
 	"Sponsor is required": "Sponsor is required",
+	"AP_DOCUMENT" : "AP document",
 		
 	"File layout": "File layout",
 	"File layout name": "File layout name",
@@ -321,6 +322,8 @@
     "Payment period": "Payment period",
     "Every period": "Every period",
     "Specific period": "Specific period",
+	"log-sponsor" : "Log",
+	"document-upload-log" : "Document upload log",
     
     "Loan request mode": "Loan request mode",
     "Current and future": "Current and future",
