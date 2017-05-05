@@ -14,6 +14,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		vm.openDateTo = false;
 		vm.defaultPageSize = '20';
 		vm.defaultPage = 0;
+		vm.showSponsor = true;
 		
 		vm.headerName = '';
 		var sponsorAutoSuggestServiceUrl = '';
@@ -98,7 +99,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		};
 
 		vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder : 'Please Enter organize name or code',
+			placeholder : 'Enter organize name or code',
 			itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
 			query : querySponsorCode
 			});
@@ -112,17 +113,22 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 
 		var getFileType = function(sponsorID,sponsorConfigId,integrateType) {
 			vm.docType = [];
+			if(currentMode == mode.BANKVIEWBANK){
+					vm.docType.push({
+						label : 'All',
+						value : null
+					});
+				}
 			var uri = 'api/v1/organize-customers/'+sponsorID+'/sponsor-configs/'+sponsorConfigId+'/process-types';
 			var deffered = Service.doGet(uri,{integrateType : integrateType});
 			deffered.promise.then(function(response) {
 				response.data.forEach(function(module) {
 					vm.docType.push({
-					    label : module,
+						label : module,
 						value : module
 					});
 				});
 				vm.criteria.fileType = vm.docType[0].value;
-				
 	        }).catch(function(response) {
 	            log.error('Get modules fail');
 	        });
@@ -131,23 +137,8 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		
 		vm.docStatusDropdowns = docStatus;
 		vm.docChannelDropdowns = docChannel;
-		vm.docTypeDropdowns = vm.getFileType
-		
-		var uri = 'api/v1/upload-logs';
-		vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
+		// vm.docTypeDropdowns = vm.getFileType
 
-		vm.searchLog = function(pagingModel) {
-			if(vm.documentUploadLogModel.sponsor != undefined && vm.documentUploadLogModel.sponsor.organizeId != undefined){
-				vm.criteria.oraganizeId = vm.documentUploadLogModel.sponsor.organizeId;
-			}
-			
-			if(isValid()){
-				vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
-				var logDiferred = vm.pagingController.search(pagingModel);
-			}
-
-		}
-		
 		var isValid = function() {
 			var valid = true;
 			vm.wrongDateFormat = false;
@@ -183,8 +174,22 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 					}
 				}
 			}
-
 			return valid;
+		}
+
+		var uri = 'api/v1/upload-logs';
+		vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
+
+		vm.searchLog = function(pagingModel) {
+			if(vm.documentUploadLogModel.sponsor != undefined && vm.documentUploadLogModel.sponsor.organizeId != undefined){
+				vm.criteria.oraganizeId = vm.documentUploadLogModel.sponsor.organizeId;
+			}
+			
+			if(isValid()){
+				vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
+				var logDiferred = vm.pagingController.search(pagingModel);
+			}
+
 		}
 		
 		if (currentMode == mode.SPONSOR) {
@@ -206,6 +211,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		}else if(currentMode == mode.BANKVIEWBANK){
 			vm.headerName = 'Bank document upload log';
 			hideColSponsor = true;
+			vm.showSponsor = false;
 			vm.sponsorTxtDisable = false;
 			vm.documentUploadLogModel.roleType = 'bank';
 			sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
@@ -295,7 +301,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
             	fieldName: 'action',
             	labelEN: 'Action',
             	labelTH: 'Action',
-                cellTemplate : '<scf-button id="document-upload-log-{{$parent.$index + 1}}-view-button" class="btn-default gec-btn-action" ng-click="ctrl.viewLog(data)" title="Verify a transaction"><i class="glyphicon glyphicon-search" ></i></scf-button>'
+                cellTemplate : '<scf-button id="document-upload-log-{{$parent.$index + 1}}-view-button" class="btn-default gec-btn-action" ng-click="ctrl.viewLog(data)" title="View log details"><i class="glyphicon glyphicon-search" ></i></scf-button>'
             }
 			]
 		};
@@ -334,7 +340,6 @@ scfApp.constant("docStatus", [
 		
 	}
 ]);
-
 scfApp.constant("docChannel", [
 	{
 		label : 'All',
