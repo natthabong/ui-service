@@ -278,7 +278,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
                 id: 'fail-{value}',
                 sortable: false,
                 cssTemplate: 'text-right',
-				renderer : function(fail, data){
+                dataRenderer : function(data){
 					if(data != undefined){
 						if(data.fail == null){
 							return 'N/A';
@@ -296,7 +296,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
                 id: 'total-{value}',
                 sortable: false,
                 cssTemplate: 'text-right',
-				renderer : function(total, data){
+                dataRenderer : function(data){
 					if(data != undefined){
 						if(data.fail == null){
 							return 'N/A';
