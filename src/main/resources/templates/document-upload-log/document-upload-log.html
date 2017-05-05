@@ -25,7 +25,7 @@
 									<gec-auto-suggest id="sponsor-auto-suggest"
 										disable="ctrl.sponsorTxtDisable"
 										model="ctrl.sponsorAutoSuggestModel" name="sponsorCode"
-										ng-model="ctrl.documentListModel.sponsor" maxlength="100"></gec-auto-suggest>
+										ng-model="ctrl.documentUploadLogModel.sponsor" maxlength="100"></gec-auto-suggest>
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
@@ -96,12 +96,12 @@
 
 						<div>
 							<div class="row">
-								<div class="col-md-11 col-sm-11 text-right">
+								<div class="col-md-12 col-sm-12 text-right">
 									<div class="row">
 										<div class="col-md-12 col-sm-12">
 											<span> <b
 												ng-bind="ctrl.pagingController.splitePageTxt"
-												id="activity-log-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+												id="document-upload-log-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 													dropdown-id="page-limit-dropdown" name="document-upload-log"
 													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 													total-page="ctrl.pagingController.pagingModel.totalPage"

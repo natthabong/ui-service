@@ -55,7 +55,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 			vm.openDateTo = true;
 		}
 
-		vm.documentListModel = {
+		vm.documentUploadLogModel = {
 			sponsor : undefined,
 			role : undefined
 		}
@@ -72,8 +72,8 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		var initSponsorAutoSuggest = function() {
 			var sponsorInfo = angular.copy($rootScope.userInfo);
 			sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
-			vm.documentListModel.sponsor = sponsorInfo;
-			return vm.documentListModel.sponsor.organizeId;
+			vm.documentUploadLogModel.sponsor = sponsorInfo;
+			return vm.documentUploadLogModel.sponsor.organizeId;
 		}
 
 		var getOrganize = function() {
@@ -137,15 +137,14 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
 
 		vm.searchLog = function(pagingModel) {
-			console.log(pagingModel)
-			// console.log(vm.documentListModel.sponsor.organizeId)
-			// if(vm.documentListModel.sponsor.organizeId != undefined){
-			// 	vm.criteria.oraganizeId = vm.documentListModel.sponsor.organizeId;
-			// }
+			if(vm.documentUploadLogModel.sponsor != undefined && vm.documentUploadLogModel.sponsor.organizeId != undefined){
+				vm.criteria.oraganizeId = vm.documentUploadLogModel.sponsor.organizeId;
+			}
+
 			vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
 			var logDiferred = vm.pagingController.search(pagingModel);
 		}
-
+		
 		if (currentMode == mode.SPONSOR) {
 				vm.headerName = 'Document upload log';
 				hideColSponsor = true;
@@ -182,14 +181,17 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
                 cssTemplate: 'text-center'
             },
 			{
-            	fieldName: 'Sponsor',
-                labelEN: 'Sponsor',
-                labelTH: 'Sponsor',
+    			fieldName: 'organizeLogo',
+            	labelEN: 'Sponsor',
+            	labelTH: 'Sponsor',
                 idValueField: '$rowNo',
                 id: 'module-{value}',
                 sortable: false,
-                cssTemplate: 'text-left',
-				hiddenColumn : hideColSponsor
+                cssTemplate: 'text-center',
+    			dataRenderer: function(data){
+    				return '<img style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+atob(data.organizeLogo)+'"></img>';
+    			},
+    			hiddenColumn : hideColSponsor
             },
 			{
             	fieldName: 'channel',
@@ -199,7 +201,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
                 id: 'channel-{value}',
 				filterType: 'translate',
                 sortable: false,
-                cssTemplate: 'text-left'
+                cssTemplate: 'text-center'
             },
 			{
             	fieldName: 'fileName',
@@ -216,7 +218,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
             	idValueField: '$rowNo',
                 id: 'success-{value}',
                 sortable: false,
-                cssTemplate: 'text-left'
+                cssTemplate: 'text-right'
             },{
             	fieldName: 'fail',
             	labelEN: 'Fail',
@@ -224,7 +226,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
             	idValueField: '$rowNo',
                 id: 'fail-{value}',
                 sortable: false,
-                cssTemplate: 'text-left'
+                cssTemplate: 'text-right'
             },{
             	fieldName: 'total',
             	labelEN: 'Total',
@@ -232,7 +234,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
             	idValueField: '$rowNo',
                 id: 'total-{value}',
                 sortable: false,
-                cssTemplate: 'text-left'
+                cssTemplate: 'text-right'
             },
 			{
             	fieldName: 'status',
@@ -242,14 +244,13 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
                 id: 'status-{value}',
                 sortable: false,
 				filterType: 'translate',
-                cssTemplate: 'text-left'
+                cssTemplate: 'text-center'
             },
 			{
             	fieldName: 'action',
             	labelEN: 'Action',
             	labelTH: 'Action',
-                id: 'document-upload-log-{value}-view-button',
-				cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-click="ctrl.viewLog(data)" title="Verify a transaction"><i class="glyphicon glyphicon-search" ></i></scf-button>'
+                cellTemplate : '<scf-button id="document-upload-log-{{$parent.$index + 1}}-view-button" class="btn-default gec-btn-action" ng-click="ctrl.viewLog(data)" title="Verify a transaction"><i class="glyphicon glyphicon-search" ></i></scf-button>'
             }
 			]
 		};

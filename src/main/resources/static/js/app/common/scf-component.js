@@ -799,7 +799,8 @@
 								format : data['format'],
 								idValueField : identityField || data['idValueField'],
 								idTemplate : data.id || generateIdTemplate(data),
-								renderer : data['renderer']
+								renderer : data['renderer'],
+								dataRenderer: data['dataRenderer'],
 							};
 							vm.tableColumns.push(rowData);
 						}
@@ -950,6 +951,8 @@
 					} else {
 						if(angular.isDefined(column.cellTemplate) && column.cellTemplate !== null){
 							dataRender = column.cellTemplate;
+						}else if(angular.isDefined(column.dataRenderer) && column.dataRenderer !== null){
+							dataRender = column.dataRenderer(data);
 						}else{
 							dataRender = data[column.fieldName];
 						}
