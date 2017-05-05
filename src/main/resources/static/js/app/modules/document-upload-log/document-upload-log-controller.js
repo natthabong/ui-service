@@ -20,6 +20,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		var sponsorAutoSuggestServiceUrl = '';
 		vm.sponsorTxtDisable = false;
 		var hideColSponsor;
+		var hideColFileType;
 		
 		vm.criteria =  {
 				oraganizeId : null,
@@ -28,6 +29,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 				uploadDateTo : null,
 				channel : null,
 				status : null,
+				isBankDoc : false
 		};
 		
 		vm.pageSizeList = [ {
@@ -195,6 +197,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		if (currentMode == mode.SPONSOR) {
 			vm.headerName = 'Document upload log';
 			hideColSponsor = true;
+			hideColFileType = true;
 			vm.sponsorTxtDisable = true;
 			vm.documentUploadLogModel.roleType = ' ';
 			sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
@@ -205,6 +208,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 			vm.sponsorTxtDisable = false;
 			vm.documentUploadLogModel.roleType = 'sponsor';
 			hideColSponsor = false;
+			hideColFileType = true;
 			sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
 			var organize = getOrganize();
 			vm.docTypeDropdowns = getFileType(organize.organizeId,'SFP','SPONSOR_UPLOAD');
@@ -212,11 +216,13 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 			vm.headerName = 'Bank document upload log';
 			hideColSponsor = true;
 			vm.showSponsor = false;
+			hideColFileType = false;
 			vm.sponsorTxtDisable = false;
 			vm.documentUploadLogModel.roleType = 'bank';
 			sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
 			var organize = getOrganize();
 			vm.docTypeDropdowns = getFileType(organize.organizeId,'MASTER','BANK_UPLOAD');
+			vm.criteria.isBankDoc = true;
 		}
 
 		vm.dataTable = {
@@ -253,6 +259,17 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 				filterType: 'translate',
                 sortable: false,
                 cssTemplate: 'text-center'
+            },
+			{
+            	fieldName: 'fileType',
+            	labelEN: 'File type',
+            	labelTH: 'File type',
+            	idValueField: '$rowNo',
+                id: 'file-type-{value}',
+				filterType: 'translate',
+                sortable: false,
+                cssTemplate: 'text-left',
+				hiddenColumn : hideColFileType
             },
 			{
             	fieldName: 'fileName',
