@@ -786,21 +786,23 @@
 					vm.tableColumns = [];
 					var identityField = dataConfig.identityField || '$rowNo';
 					dataConfig.columns.forEach(function(data) {
-						var rowData = {
-							fieldName : data['fieldName'],
-							labelEN : data['labelEN'],
-							labelTH : data['labelTH'],
-							cellTemplate : data['cellTemplate'],
-							sortable : data['sortable'] || false,
-							cssTemplateHeader : getCssConfigHeader(data),
-							cssTemplate : getCssConfig(data),
-							filterType : data['filterType'],
-							format : data['format'],
-							idValueField : identityField || data['idValueField'],
-							idTemplate : data.id || generateIdTemplate(data),
-							renderer : data['renderer']
-						};
-						vm.tableColumns.push(rowData);
+						if(data['hiddenColumn'] != true){
+							var rowData = {
+								fieldName : data['fieldName'],
+								labelEN : data['labelEN'],
+								labelTH : data['labelTH'],
+								cellTemplate : data['cellTemplate'],
+								sortable : data['sortable'] || false,
+								cssTemplateHeader : getCssConfigHeader(data),
+								cssTemplate : getCssConfig(data),
+								filterType : data['filterType'],
+								format : data['format'],
+								idValueField : identityField || data['idValueField'],
+								idTemplate : data.id || generateIdTemplate(data),
+								renderer : data['renderer']
+							};
+							vm.tableColumns.push(rowData);
+						}
 					});
 
 					// Check option set to Show checkBox

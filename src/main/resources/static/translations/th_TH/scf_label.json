@@ -179,6 +179,7 @@
 	"sponsor-document-upload-log" : "Sponsor document upload log",
 	"WEB" : "Web",
 	"FTP" : "SFTP",
+	"CUSTOMER_PROFILE" : "Customer profile",
 	
 	"_comment": "Page Upload document",
 	"Upload document": "Upload document",
