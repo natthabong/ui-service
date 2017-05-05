@@ -177,8 +177,6 @@
 	"document-upload-log" : "Document upload log",
 	"bank-document-upload-log" : "Bank document upload log",
 	"sponsor-document-upload-log" : "Sponsor document upload log",
-	"SUCCESS" : "Success",
-	"FAIL" : "Fail",
 	"WEB" : "Web",
 	"FTP" : "SFTP",
 	
