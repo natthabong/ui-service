@@ -4,7 +4,7 @@
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3 id="document-upload-log-header-label"
+					<h3 id="header-message-label"
 						class="animated fadeInLeft" ng-bind="ctrl.headerName | translate"></h3>
 				</div>
 			</div>
@@ -33,7 +33,7 @@
 							<div class="form-group">
 								<label for="status" id="file-type-label"
 									class="col-md-2 col-sm-2 col-xs-12 control-label">{{'File
-									type' | translate}}</label>
+									type' | translate}}:</label>
 								<div class="col-md-2 col-sm-3 col-xs-12">
 									<scf-dropdown id="file-type-dropdown"
 										ng-model="ctrl.criteria.fileType"
