@@ -33,7 +33,7 @@
 								ng-bind="ctrl.documentUploadLogModel.channel"></span>
 						</div>
 						<div class="col-sm-2 col-md-2">
-							<label id="upload-date-label" ng-bind="'Upload date' | translate">: </label>
+							<label id="upload-date-label">{{'Upload date' | translate}}: </label>
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<span id="upload-date-value-label"
@@ -49,7 +49,7 @@
 								ng-bind="ctrl.documentUploadLogModel.fileType | translate"></span>
 						</div>
 						<div class="col-sm-2 col-md-2">
-							<label id="file-name-label" ng-bind="'File name' | translate">: </label>
+							<label id="file-name-label">{{'File name' | translate}}: </label>
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<span id="file-name-value-label"
@@ -69,7 +69,7 @@
 								ng-bind="(ctrl.documentUploadLogModel.success | number) || 'N/A'"></span>
 						</div>
 						<div class="col-sm-2 col-md-2">
-							<label id="fail-label">{{'Fail' | translate}}</label> 
+							<label id="fail-label">{{'Fail' | translate}}:</label> 
 						</div>
 						<div class="col-sm-4 col-md-4">
 							<span id="fail-value-label"
