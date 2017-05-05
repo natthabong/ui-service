@@ -175,6 +175,12 @@
 	"AP_DOCUMENT" : "AP document",
 	"log-sponsor" : "Log",
 	"document-upload-log" : "Document upload log",
+	"bank-document-upload-log" : "Bank document upload log",
+	"sponsor-document-upload-log" : "Sponsor document upload log",
+	"SUCCESS" : "Success",
+	"FAIL" : "Fail",
+	"WEB" : "Web",
+	"FTP" : "SFTP",
 	
 	"_comment": "Page Upload document",
 	"Upload document": "Upload document",
