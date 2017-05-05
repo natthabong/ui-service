@@ -342,8 +342,8 @@ scfApp.constant("docChannel", [
 		valueObject : null
 	},{
 		label : 'FTP',
-		value : 'SFTP',
-		valueObject : 'SFTP'
+		value : 'FTP',
+		valueObject : 'FTP'
 	},{
 		label : 'Web',
 		value : 'WEB',
