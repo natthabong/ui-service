@@ -17,42 +17,42 @@
 				<div class="col-md-12">
 					<div class="row" style="padding-top: 20px;">
 						<div class="col-sm-2 col-md-2">
-							<label id="sponsor-header-label" ng-bind="'Sponsor' | translate">: </label>
+							<label id="sponsor-label" ng-bind="'Sponsor' | translate">: </label>
 						</div>
 						<div class="col-sm-10 col-md-10">
-							<span id="sponsor-label"
+							<span id="sponsor-value-label"
 								ng-bind="ctrl.documentUploadLogModel.organizeName"></span>
 						</div>
 					</div>
 					<div class="row" style="padding-top: 20px;">
 						<div class="col-sm-2 col-md-2">
-							<label id="channel-header-label" ng-bind="'Channel' | translate">: </label>
+							<label id="channel-label" ng-bind="'Channel' | translate">: </label>
 						</div>
 						<div class="col-sm-2 col-md-2">
-							<span id="channel-label"
+							<span id="channel-value-label"
 								ng-bind="ctrl.documentUploadLogModel.channel"></span>
 						</div>
 						<div class="col-sm-2 col-md-2">
-							<label id="upload-date-header-label" ng-bind="'Upload date' | translate">: </label>
+							<label id="upload-date-label" ng-bind="'Upload date' | translate">: </label>
 						</div>
 						<div class="col-sm-6 col-md-6">
-							<span id="upload-date-label"
+							<span id="upload-date-value-label"
 								ng-bind="ctrl.documentUploadLogModel.startUploadTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
 						</div>
 					</div>
 					<div class="row" style="padding-top: 20px;">
 						<div class="col-sm-2 col-md-2">
-							<label id="file-type-header-label" ng-bind="'File type' | translate">: </label>
+							<label id="file-type-label" ng-bind="'File type' | translate">: </label>
 						</div>
 						<div class="col-sm-2 col-md-2">
-							<span id="file-type-label"
+							<span id="file-type-value-label"
 								ng-bind="ctrl.documentUploadLogModel.fileType | translate"></span>
 						</div>
 						<div class="col-sm-2 col-md-2">
-							<label id="file-name-header-label" ng-bind="'File name' | translate">: </label>
+							<label id="file-name-label" ng-bind="'File name' | translate">: </label>
 						</div>
 						<div class="col-sm-6 col-md-6">
-							<span id="file-name-label"
+							<span id="file-name-value-label"
 								ng-bind="ctrl.documentUploadLogModel.fileName"></span>
 							<span> <scf-button id="download-button"
 									class="popup-button" ng-click="ctrl.downloadFile()">{{'Download'
@@ -62,26 +62,26 @@
 					</div>
 					<div class="row" style="padding-top: 20px;">
 						<div class="col-sm-2 col-md-2">
-							<label id="success-header-label" ng-bind="'Success' | translate">: </label>
+							<label id="success-label" ng-bind="'Success' | translate">: </label>
 						</div>
 						<div class="col-sm-2 col-md-2">
-							<span id="success-label"
+							<span id="success-value-label"
 								ng-bind="(ctrl.documentUploadLogModel.success | number) || 'N/A'"></span>
 						</div>
 						<div class="col-sm-2 col-md-2">
-							<label id="fail-header-label" ng-bind="'Fail' | translate"></label>: 
+							<label id="fail-label" ng-bind="'Fail' | translate"></label>: 
 						</div>
 						<div class="col-sm-4 col-md-4">
-							<span id="fail-label"
+							<span id="fail-value-label"
 								ng-bind="(ctrl.documentUploadLogModel.fail | number) || 'N/A'"></span>
 						</div>
 					</div>
 					<div class="row" style="padding-top: 20px;">
 						<div class="col-sm-2 col-md-2">
-							<label id="status-header-label" ng-bind="'Status' | translate">: </label>
+							<label id="status-label" ng-bind="'Status' | translate">: </label>
 						</div>
 						<div class="col-sm-2 col-md-3">
-							<span id="status-label"
+							<span id="status-value-label"
 								ng-bind="ctrl.documentUploadLogModel.status | translate"></span>
 						</div>
 					</div>
