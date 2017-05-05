@@ -46,13 +46,13 @@ angular
 				vm.dataTable = {
 			        columns: [{
 						fieldName: 'lineNo',
-			            labelEN: 'Line no.',
-		            	    labelTH: 'Line no.',
+			            labelEN: 'Line No.',
+		            	labelTH: 'Line No.',
 			            idValueField: '$rowNo',
 			            id: 'line-no-{value}',
 			            sortData: false,
 			            cellTemplate: '<span ng-bind="data.lineNo == null ? \'N/A\': data.lineNo">N/A</span>',
-						cssTemplate: 'text-right'
+						cssTemplate: 'text-center'
 			        },{
 			        	fieldName: 'description',
 			            labelEN: 'Description',

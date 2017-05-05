@@ -149,7 +149,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
     vm.dataTable = {
         columns: [{
             field: 'errorLineNo',
-            label: 'Line No',
+            label: 'Line No.',
             cssTemplate: 'text-center',
             idValueField: 'template',
             cellTemplate: '<span ng-bind="data.errorLineNo == null ? \'N/A\': data.errorLineNo">N/A</span>',
