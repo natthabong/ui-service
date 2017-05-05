@@ -4,8 +4,8 @@
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3 id="document-upload-log-header-label" class="animated fadeInLeft"
-						ng-bind="ctrl.headerName | translate"></h3>
+					<h3 id="document-upload-log-header-label"
+						class="animated fadeInLeft" ng-bind="ctrl.headerName | translate"></h3>
 				</div>
 			</div>
 		</div>
@@ -29,11 +29,11 @@
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
-							
+
 							<div class="form-group">
 								<label for="status" id="file-type-label"
-									class="col-md-2 col-sm-2 col-xs-12 control-label">{{'File type'
-									| translate}}</label>
+									class="col-md-2 col-sm-2 col-xs-12 control-label">{{'File
+									type' | translate}}</label>
 								<div class="col-md-2 col-sm-3 col-xs-12">
 									<scf-dropdown id="file-type-dropdown"
 										ng-model="ctrl.criteria.fileType"
@@ -42,28 +42,43 @@
 							</div>
 
 							<div class="form-group">
-								<label id="upload-date-from-label" class="col-md-2 col-sm-3 control-label">{{'Upload date from'
-										| translate}}:</label>
+								<label id="upload-date-from-label"
+									class="col-md-2 col-sm-3 control-label">{{'Upload date
+									from' | translate}}:</label>
 								<div class="col-md-3 col-sm-3 gec-calendar-group">
 									<scf-date-picker-from text-id="upload-date-from-textbox"
 										button-id="date-from-calendar-button"
 										text-model="ctrl.criteria.uploadDateFrom"
 										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
 										open-calendar-action="ctrl.openCalendarDateFrom()"
-										max-date="ctrl.criteria.uploadDateTo"> </scf-date-picker-from>
+										max-date="ctrl.criteria.uploadDateTo">
+									</scf-date-picker-from>
 
 								</div>
 								<div class="col-md-3 col-sm-3 gec-calendar-group">
-									<label id="upload-date-to-label" for="date-to-calendar" class="control-label">{{'to'
-										| translate}}: </label>
+									<label id="upload-date-to-label" for="date-to-calendar"
+										class="control-label">{{'to' | translate}}: </label>
 									<scf-date-picker-to text-id="upload-date-to-textbox"
 										button-id="date-to-calendar-button"
 										text-model="ctrl.criteria.uploadDateTo"
 										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
 										open-calendar-action="ctrl.openCalendarDateTo()"
-										min-date="ctrl.criteria.uploadDateFrom"> </scf-date-picker-to>
+										min-date="ctrl.criteria.uploadDateFrom">
+									</scf-date-picker-to>
 								</div>
 								<div class="col-md-4 col-sm-3"></div>
+							</div>
+							<div class="form-group" ng-show="ctrl.wrongDateFormat">
+								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+									id="log-date-format-warning-message-label">{{'Wrong date
+									format data.' | translate}}</span>
+							</div>
+							<div class="form-group" ng-show="ctrl.wrongDateFromTo">
+								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+									id="log-date-from-to-warning-message-label">{{'From date
+									must be less than or equal to To date.' | translate}}</span>
 							</div>
 
 							<div class="form-group">
@@ -102,7 +117,8 @@
 											<span> <b
 												ng-bind="ctrl.pagingController.splitePageTxt"
 												id="document-upload-log-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-													dropdown-id="page-limit-dropdown" name="document-upload-log"
+													dropdown-id="page-limit-dropdown"
+													name="document-upload-log"
 													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 													total-page="ctrl.pagingController.pagingModel.totalPage"
 													current-page="ctrl.pagingController.pagingModel.currentPage"

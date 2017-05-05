@@ -140,9 +140,51 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 			if(vm.documentUploadLogModel.sponsor != undefined && vm.documentUploadLogModel.sponsor.organizeId != undefined){
 				vm.criteria.oraganizeId = vm.documentUploadLogModel.sponsor.organizeId;
 			}
+			
+			if(isValid()){
+				vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
+				var logDiferred = vm.pagingController.search(pagingModel);
+			}
 
-			vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
-			var logDiferred = vm.pagingController.search(pagingModel);
+		}
+		
+		var isValid = function() {
+			var valid = true;
+			vm.wrongDateFormat = false;
+			vm.wrongDateFromTo = false;
+			
+			//Wrong date format
+			if(angular.isUndefined(vm.criteria.uploadDateFrom) && !angular.isDate(vm.criteria.uploadDateFrom)){
+				valid = false;
+			}else if(angular.isUndefined(vm.criteria.uploadDateTo) && !angular.isDate(vm.criteria.uploadDateTo)){
+				valid = false;
+			}
+	
+			if(!valid){
+				vm.wrongDateFormat = true;
+			}else{
+				//Wrong date from to
+				if (angular.isDate(vm.criteria.uploadDateFrom)&&angular.isDate(vm.criteria.uploadDateTo)) {
+
+					var datetimeFrom = new Date(vm.criteria.uploadDateFrom.getFullYear(), 
+							vm.criteria.uploadDateFrom.getMonth(), 
+							vm.criteria.uploadDateFrom.getDate(), 
+							0, 0, 0);
+					
+					var datetimeTo = new Date(vm.criteria.uploadDateTo.getFullYear(), 
+							vm.criteria.uploadDateTo.getMonth(), 
+							vm.criteria.uploadDateTo.getDate(), 
+							0, 0, 0);
+					
+					if(datetimeFrom > datetimeTo){
+						valid = false;
+						vm.wrongDateFormat = false;
+						vm.wrongDateFromTo = true;
+					}
+				}
+			}
+
+			return valid;
 		}
 		
 		if (currentMode == mode.SPONSOR) {
