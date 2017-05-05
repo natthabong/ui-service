@@ -32,6 +32,7 @@
 									<th ng-bind="'Available' | translate">Available</th>
 									<th ng-bind="'Remaining' | translate"
 										title="{{'Remaining' | translate}} = {{'Credit limit' | translate}} - ({{'Outstanding' | translate}} + {{'Future drawdown' | translate}})">Remaining</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -68,6 +69,13 @@
 										ng-show="record.showAccountFlag"
 										id="credit-information-{{$index+1}}-remaining-label"
 										ng-bind="record.bankRemaining | number : 2"></span></td>
+									<td class="text-center"><scf-button
+										ng-show="record.showAccountFlag"
+										class="btn-default gec-btn-action"
+										id="credit-information-{{record.accountId}}-{{record.sponsorName}}-button"
+										ng-click="creditInfoCtrl.inquiryAccount(record)"
+										title="Inquiry Account"> <i
+										class="fa fa-repeat" aria-hidden="true"></i></scf-button></td>
 								</tr>
 							</tbody>
 						</table>

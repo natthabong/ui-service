@@ -9,9 +9,12 @@ angular.module('scfApp').controller(
 				'PageNavigation',
 				'Service',
 				'$rootScope',
-				'$http',
+				'$http', 
+				'blockUI',
+				'$q',
+				'UIFactory',
 				function($log, $scope, $state, $stateParams, $timeout,
-						PageNavigation, Service, $rootScope, $http) {
+						PageNavigation, Service, $rootScope, $http, blockUI, $q, UIFactory) {
 					var vm = this;
 					var organizeId = $rootScope.userInfo.organizeId;
 					var log = $log;
@@ -40,5 +43,93 @@ angular.module('scfApp').controller(
 						else{
 							return accountId != data[index-1].accountId;
 						}
+					}
+					
+					var closeDialogSucccess = function(){
+						dialogPopup.close();
+					}
+					
+					var closeDialogFail = function(){
+						dialogPopup.close();
+					}
+					
+					vm.inquiryAccount = function(data) {
+						var preCloseCallback = function(confirm) {
+							$scope.closeThisDialog();
+						}
+						blockUI.start("Processing...");
+						var deffered = $q.defer();
+						var tpAccountModel = {
+							sponsorId : data.sponsorId,
+							supplierId : data.supplierId,
+							accountId : data.accountId,
+						}			
+						var inquiryAccountDeffered = inquiryAccountToApi(tpAccountModel);
+						inquiryAccountDeffered.promise.then(function(response) {
+							blockUI.stop();
+							if(response.status==200){
+								dialogPopup = UIFactory.showSuccessDialog({
+									data: {
+									    headerMessage: 'Inquiry credit information success.',
+									    bodyMessage: ''
+									},
+									buttons : [{
+										id: 'close-button',
+										label: 'Close',
+										action:function(){
+											closeDialogSucccess();
+										}
+									}],
+									preCloseCallback: preCloseCallback
+							    });
+							}else{
+							    dialogPopup = UIFactory.showFailDialog({
+									data: {
+									    headerMessage: 'Inquiry credit information failure',
+									    bodyMessage: 'please try again.'
+									},
+									buttons : [{
+										id: 'close-button',
+										label: 'Close',
+										action:function(){
+											closeDialogFail();
+										}
+									}],
+									preCloseCallback: null
+								});					
+							}
+						}).catch(function(response) {
+							blockUI.stop();
+						    dialogPopup = UIFactory.showFailDialog({
+								data: {
+								    headerMessage: 'Inquiry credit information failure',
+								    bodyMessage: ' please try again.'
+								},
+								buttons : [{
+										id: 'close-button',
+										label: 'Close',
+										action:function(){
+											closeDialogFail();
+										}
+									}],
+								preCloseCallback: null
+							});
+				        });
+						
+					}
+					
+					
+					function inquiryAccountToApi(tpAccountModel){
+						var deffered = $q.defer();	
+						$http({
+							url: '/api/v1/update-credit-limit-from-bank',
+							method: 'POST',
+							data: tpAccountModel
+						}).then(function(response){
+							deffered.resolve(response);
+						}).catch(function(response){
+							deffered.reject(response);
+						});	
+						return deffered;
 					}
 				}]);
