@@ -324,6 +324,12 @@
     "Specific period": "Specific period",
 	"log-sponsor" : "Log",
 	"document-upload-log" : "Document upload log",
+	"bank-document-upload-log" : "Bank document upload log",
+	"sponsor-document-upload-log" : "Sponsor document upload log",
+	"SUCCESS" : "Success",
+	"FAIL" : "Fail",
+	"WEB" : "Web",
+	"FTP" : "SFTP",
     
     "Loan request mode": "Loan request mode",
     "Current and future": "Current and future",
