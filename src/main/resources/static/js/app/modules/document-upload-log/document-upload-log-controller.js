@@ -146,15 +146,17 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		}
 		
 		if (currentMode == mode.SPONSOR) {
-				vm.headerName = 'Document upload log';
-				hideColSponsor = true;
-				vm.sponsorTxtDisable = true;
-				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
-				var sponsorID = initSponsorAutoSuggest();
-				vm.docTypeDropdowns = getFileType(sponsorID,'SFP','SPONSOR_UPLOAD');
+			vm.headerName = 'Document upload log';
+			hideColSponsor = true;
+			vm.sponsorTxtDisable = true;
+			vm.documentUploadLogModel.roleType = ' ';
+			sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+			var sponsorID = initSponsorAutoSuggest();
+			vm.docTypeDropdowns = getFileType(sponsorID,'SFP','SPONSOR_UPLOAD');
 		}else if(currentMode == mode.BANKVIEWSPONSOR){
 			vm.headerName = 'Sponsor document upload log';
 			vm.sponsorTxtDisable = false;
+			vm.documentUploadLogModel.roleType = 'sponsor';
 			hideColSponsor = false;
 			sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
 			var organize = getOrganize();
@@ -163,6 +165,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 			vm.headerName = 'Bank document upload log';
 			hideColSponsor = true;
 			vm.sponsorTxtDisable = false;
+			vm.documentUploadLogModel.roleType = 'bank';
 			sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
 			var organize = getOrganize();
 			vm.docTypeDropdowns = getFileType(organize.organizeId,'MASTER','BANK_UPLOAD');
@@ -258,7 +261,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		vm.viewLog = function(data){
 			var params = { 
 				documentUploadLogModel: data,
-				roleType: 'sponsor'
+				roleType: vm.documentUploadLogModel.roleType
 			}
 			PageNavigation.gotoPage('/document-upload-log/view-log',params,params)
 		}
