@@ -28,14 +28,14 @@
 						<div class="col-sm-2 col-md-2">
 							<label id="channel-label">{{'Channel' | translate}}: </label>
 						</div>
-						<div class="col-sm-2 col-md-2">
+						<div class="col-sm-2 col-md-4">
 							<span id="channel-value-label"
 								ng-bind="ctrl.documentUploadLogModel.channel | translate"></span>
 						</div>
 						<div class="col-sm-2 col-md-2">
 							<label id="upload-date-label">{{'Upload date' | translate}}: </label>
 						</div>
-						<div class="col-sm-6 col-md-6">
+						<div class="col-sm-6 col-md-4">
 							<span id="upload-date-value-label"
 								ng-bind="ctrl.documentUploadLogModel.startUploadTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
 						</div>
@@ -44,14 +44,14 @@
 						<div class="col-sm-2 col-md-2">
 							<label id="file-type-label">{{'File type' | translate}}: </label>
 						</div>
-						<div class="col-sm-2 col-md-2">
+						<div class="col-sm-2 col-md-4">
 							<span id="file-type-value-label"
 								ng-bind="ctrl.documentUploadLogModel.fileType | translate"></span>
 						</div>
 						<div class="col-sm-2 col-md-2">
 							<label id="file-name-label">{{'File name' | translate}}: </label>
 						</div>
-						<div class="col-sm-6 col-md-6">
+						<div class="col-sm-6 col-md-4">
 							<span id="file-name-value-label"
 								ng-bind="ctrl.documentUploadLogModel.fileName"></span>
 							<span> <scf-button id="download-button"
@@ -64,7 +64,7 @@
 						<div class="col-sm-2 col-md-2">
 							<label id="success-label">{{'Success' | translate}}: </label>
 						</div>
-						<div class="col-sm-2 col-md-2">
+						<div class="col-sm-2 col-md-4">
 							<span id="success-value-label"
 								ng-bind="(ctrl.documentUploadLogModel.success | number) || 'N/A'"></span>
 						</div>
