@@ -19,6 +19,16 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		var sponsorAutoSuggestServiceUrl = '';
 		vm.sponsorTxtDisable = false;
 		
+		vm.criteria =  {
+				oraganizeId : '',
+				fileType : null,
+				uploadDateFrom : null,
+				uploadDateTo : null,
+				channel : null,
+				status : null,
+				
+		};
+		
 		var mode = {
 			SPONSOR : 'sponsor',
 			BANKVIEWSPONSOR : 'banksponsor',
@@ -39,6 +49,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 			sponsor : undefined
 		}
 		
+		
 		vm.pageModel = {
 			pageSizeSelectModel : vm.defaultPageSize,
 			totalRecord : 0,
@@ -47,17 +58,6 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 			clearSortOrder : false
 		};
 		
-		vm.pageSizeList = [ {
-			label : '10',
-			value : '10'
-		}, {
-			label : '20',
-			value : '20'
-		}, {
-			label : '50',
-			value : '50'
-		} ];
-
 		vm.dataTable = {
 			columns: [{
             	fieldName: 'startUploadTime',
@@ -78,24 +78,6 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
                 sortable: false,
                 cssTemplate: 'text-left'
             },
-			// {
-            // 	fieldName: 'channel',
-            //     labelEN: 'Sponsor',
-            //     labelTH: 'Sponsor',
-            //     idValueField: '$rowNo',
-            //     id: 'module-{value}',
-            //     sortable: false,
-            //     cssTemplate: 'text-left'
-            // },
-			// {
-            // 	fieldName: 'fileType',
-            // 	labelEN: 'File type',
-            // 	labelTH: 'File type',
-            // 	idValueField: '$rowNo',
-            //     id: 'message-{value}',
-            //     sortable: false,
-            //     cssTemplate: 'text-left'
-            // },
 			{
             	fieldName: 'fileName',
             	labelEN: 'File name',
@@ -197,7 +179,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 						value : module
 					});
 				});
-				vm.docUploadListModel.fileType = vm.docType[0].value;
+				vm.criteria.fileType = vm.docType[0].value;
 				
 	        }).catch(function(response) {
 	            log.error('Get modules fail');
@@ -219,8 +201,6 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 				vm.headerName = 'Bank document upload log';
 				vm.sponsorTxtDisable = false;
 			}
-			
-			// vm.getFileType();
 			vm.searchLog();
 		}
 
@@ -231,13 +211,12 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		var prepareFileTypeDropDown = function(items){
 			vm.logListModel = items[0].value;
 		}
-
-		vm.criteria = {};
-
+		
 		var uri = 'api/v1/upload-logs';
 		vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
 		
 		vm.searchLog = function(pagingModel) {
+			vm.criteria.oraganizeId = vm.documentListModel.sponsor.organizeId;
 			var logDiferred = vm.pagingController.search(pagingModel);
 		}
 
@@ -269,8 +248,8 @@ scfApp.constant("docStatus", [
 	},
 	{
 		label : 'Fail',
-		value : 'FAIL',
-		valueObject : 'FAIL'
+		value : 'FAILED',
+		valueObject : 'FAILED'
 	}
 ]);
 

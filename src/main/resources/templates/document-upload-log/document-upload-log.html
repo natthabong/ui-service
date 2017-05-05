@@ -36,7 +36,7 @@
 									| translate}}</label>
 								<div class="col-md-2 col-sm-3 col-xs-12">
 									<scf-dropdown id="file-type-dropdown"
-										ng-model="ctrl.docUploadListModel.fileType"
+										ng-model="ctrl.criteria.fileType"
 										component-data="ctrl.docTypeDropdowns" translate-label="true"></scf-dropdown>
 								</div>
 							</div>
@@ -47,10 +47,10 @@
 								<div class="col-md-3 col-sm-3 gec-calendar-group">
 									<scf-date-picker-from text-id="upload-date-from-textbox"
 										button-id="date-from-calendar-button"
-										text-model="ctrl.dateModel.dateFrom"
+										text-model="ctrl.criteria.uploadDateFrom"
 										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
 										open-calendar-action="ctrl.openCalendarDateFrom()"
-										max-date="ctrl.dateModel.dateTo"> </scf-date-picker-from>
+										max-date="ctrl.criteria.uploadDateTo"> </scf-date-picker-from>
 
 								</div>
 								<div class="col-md-3 col-sm-3 gec-calendar-group">
@@ -58,10 +58,10 @@
 										| translate}}: </label>
 									<scf-date-picker-to text-id="upload-date-to-textbox"
 										button-id="date-to-calendar-button"
-										text-model="ctrl.dateModel.dateTo"
+										text-model="ctrl.criteria.uploadDateTo"
 										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
 										open-calendar-action="ctrl.openCalendarDateTo()"
-										min-date="ctrl.dateModel.dateFrom"> </scf-date-picker-to>
+										min-date="ctrl.criteria.uploadDateFrom"> </scf-date-picker-to>
 								</div>
 								<div class="col-md-4 col-sm-3"></div>
 							</div>
@@ -72,7 +72,7 @@
 									| translate}}:</label>
 								<div class="col-md-2 col-sm-3 col-xs-12">
 									<scf-dropdown id="channel-dropdown"
-										ng-model="ctrl.docUploadListModel.channel"
+										ng-model="ctrl.criteria.channel"
 										component-data="ctrl.docChannelDropdowns"></scf-dropdown>
 								</div>
 							</div>
@@ -83,7 +83,7 @@
 									| translate}}:</label>
 								<div class="col-md-2 col-sm-3 col-xs-12">
 									<scf-dropdown id="status-dropdown"
-										ng-model="ctrl.docUploadListModel.status"
+										ng-model="ctrl.criteria.status"
 										component-data="ctrl.docStatusDropdowns"></scf-dropdown>
 								</div>
 								<div class="col-md-6 col-sm-5">
