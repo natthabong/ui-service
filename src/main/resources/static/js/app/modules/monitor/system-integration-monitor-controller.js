@@ -6,11 +6,24 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		var vm = this;
 		vm.headerName = '';
 		vm.showDetails = true;
+		vm.success = false;
 		vm.isBank = false;
 		var mode = {
 			SPONSOR : 'sponsor',
 			BANK : 'bank'
 		}
+
+		vm.mocking = [];
+
+		for(var i=0;i<10;i++){
+			var status = ["success","fail","loading","success","fail","loading","success","fail","loading","success"];
+			vm.mocking.push({
+				label: 'test'+i,
+				status: status[i]
+			});
+		}
+
+		console.log(vm.mocking)
 
 		vm.sponsorModel;
 		vm.organize = {
@@ -72,7 +85,21 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 
 		vm.systemChecking = function(){
 			if(validateOrganizeForCheck()){
-				console.log("send");
+				var deffered = SystemIntegrationMonitorService.getSystemMonitorRecodes(vm.organize.organizeId);
+                deffered.promise.then(function(response) {
+					console.log(response.data)
+                    // vm.transaction = response.data;
+                    // vm.showEvidenceForm = printEvidence(vm.transaction);
+                    // ngDialog.open({
+                    //     template: '/js/app/approve-transactions/success-dialog.html',
+                    //     scope: $scope,
+                    //     disableAnimation: true
+                    // });
+
+                }).catch(function(response) {
+
+                });
+
 			}
 		}
 
@@ -84,7 +111,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 				vm.headerName = 'Bank system integration monitor';
 				vm.isBank = true;
 				getMyOrganize();
-				vm.systemChecking();
+				// vm.systemChecking();
 			}
 		}
 
