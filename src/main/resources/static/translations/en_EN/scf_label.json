@@ -329,7 +329,10 @@
 	"WEB" : "Web",
 	"FTP" : "FTP",
 	"CUSTOMER_PROFILE" : "Customer profile",
-    
+	"monitor" : "Monitor",
+	"bank-system-integration-monitor" : "Bank system integration monitor",
+    "sponsor-system-integration-monitor" : "Sponsor system integration monitor",
+
     "Loan request mode": "Loan request mode",
     "Current and future": "Current and future",
     "Current": "Current",

@@ -180,6 +180,9 @@
 	"WEB" : "Web",
 	"FTP" : "FTP",
 	"CUSTOMER_PROFILE" : "Customer profile",
+	"monitor" : "Monitor",
+	"bank-system-integration-monitor" : "Bank system integration monitor",
+    "sponsor-system-integration-monitor" : "Sponsor system integration monitor",
 	
 	"_comment": "Page Upload document",
 	"Upload document": "Upload document",

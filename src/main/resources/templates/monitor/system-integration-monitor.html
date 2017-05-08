@@ -9,5 +9,72 @@
 				</div>
 			</div>
 		</div>
+		<div class="form-element" ng-show="ctrl.showDetails">
+			<form name="organizeForm" ng-submit="ctrl.systemChecking()"
+				autocomplete="off" class="form-horizontal">
+				<div class="panel panel-default col-md-12 padding-0">
+					<div class="panel-body">
+						<div class="form-group" ng-show="ctrl.isBank">
+							<label
+								class="col-md-2 col-sm-1 col-xs-12 control-label" 
+								id="organize-label">{{'Organize'| translate}}: 
+							</label>
+							<label class="col-md-4 col-sm-4 col-xs-12 control-label" ng-bind="ctrl.organize.organizeName">
+							</label>
+							<div class="col-md-1 col-sm-6 col-xs-12">
+								<scf-button type="submit" id="check-button"
+									class="btn-default">{{'Check' | translate}}</scf-button>
+							</div>
+						</div>
+						<div class="form-group" ng-hide="ctrl.isBank">
+							<label for="sponsor-auto-suggest" id="sponsor-label"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor'
+								| translate}}: </label>
+							<div class="col-md-4 col-sm-6 col-xs-12">
+								<gec-auto-suggest id="sponsor-auto-suggest"
+									model="ctrl.sponsorAutoSuggestModel" name="sponsorCode"
+									ng-model="ctrl.sponsorModel" maxlength="100"></gec-auto-suggest>
+							</div>
+							<div class="col-md-1 col-sm-6 col-xs-12">
+								<scf-button type="submit" id="check-button"
+									class="btn-default">{{'Check' | translate}}</scf-button>
+							</div>
+						</div>
+						<div class="row" style="margin-left: 10px; margin-right: 10px;">
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" ng-show="ctrl.isBank">
+								<div class="panel">
+									<div class="panel-body">
+										<h3 id="header-message-label"
+										class="animated fadeInLeft" ng-bind="'Web Service' | translate"></h3>
+										<div>
+											<div class="col-md-9">
+												<label class="col-md-10" id="organize-label"></label>
+												<span class="glyphicon glyphicon-search"></span>
+											</div>
+											<div class="col-md-3">
+												<img src="/img/success-icon.png" alt="success-icon" width="20" height="20"></img>
+												<span>Ready</span>
+											</div>
+											<div class="col-md-3">
+												<img src="/img/loading_spinner.gif" alt="loading_spinner" width="30" height="30"></img>
+												<span>Checking</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+								<div class="panel">
+									<div class="panel-body">
+										<h3 id="header-message-label"
+										class="animated fadeInLeft" ng-bind="'FTP' | translate"></h3>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
