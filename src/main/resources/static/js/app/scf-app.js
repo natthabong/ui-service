@@ -322,6 +322,20 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/document-upload-log/view-log',
 				params: { documentUploadLogModel: null, roleType: null},
 				resolve: load(['js/app/modules/document-upload-log/view-document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/system-integration-monitor/bank',{
+				url: '/system-integration-monitor/bank',
+				controller: 'SystemIntegrationMonitorController',
+				controllerAs: 'ctrl',
+				templateUrl: '/system-integration-monitor/bank',
+				params: { mode: 'bank'},
+				resolve: load(['js/app/modules/monitor/system-integration-monitor.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/system-integration-monitor/sponsor',{
+				url: '/system-integration-monitor/sponsor',
+				controller: 'SystemIntegrationMonitorController',
+				controllerAs: 'ctrl',
+				templateUrl: '/system-integration-monitor/sponsor',
+				params: { mode: 'sponsor'},
+				resolve: load(['js/app/modules/monitor/system-integration-monitor.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',

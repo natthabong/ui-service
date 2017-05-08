@@ -1,0 +1,13 @@
+<div id="content" th:fragment="content">
+	<!--sec:authorize="hasAnyAuthority('VIEW_ALL_USER_ACTIVITY_LOG', 'VIEW_MY_ACTIVITY_LOG') and hasAuthority('VIEW_ALL_MODULE')"-->
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label"
+						class="animated fadeInLeft" ng-bind="ctrl.headerName | translate"></h3>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
