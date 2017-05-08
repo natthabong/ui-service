@@ -46,8 +46,8 @@ angular
 				vm.dataTable = {
 			        columns: [{
 						fieldName: 'lineNo',
-			            labelEN: 'Line No.',
-		            	labelTH: 'Line No.',
+			            labelEN: 'Line no.',
+		            	labelTH: 'Line no.',
 			            idValueField: '$rowNo',
 			            id: 'line-no-{value}',
 			            sortData: false,
