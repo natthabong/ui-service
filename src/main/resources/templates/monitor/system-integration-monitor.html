@@ -51,7 +51,7 @@
 												<span ng-bind="record.displayName"></span>
 											</div>
 											<div class="col-md-1" style="padding-top:5px">
-												<span class="glyphicon glyphicon-search" ng-click="ctrl.viewSystemInfo(record)"></span>
+												<span class="glyphicon glyphicon-search" ng-click="ctrl.viewSystemInfo('gateway',record)" style="cursor: pointer;"></span>
 											</div>
 											<div class="col-md-3" style="margin-top:5px" ng-show="record.status=='success'">
 												<span><span class="glyphicon glyphicon-ok-sign"></span> Ready</span>
@@ -61,7 +61,7 @@
 												<span>Checking</span>
 											</div>
 											<div class="col-md-3" style="margin-top:5px" ng-show="record.status=='fail'">
-												<span><span class="glyphicon glyphicon-remove-sign"></span> Problem</span>
+												<span ng-click="ctrl.viewProblemDetail(record)" style="cursor: pointer;"><span class="glyphicon glyphicon-remove-sign"></span> Problem</span>
 											</div>
 										</div>
 									</div>
@@ -77,7 +77,7 @@
 												<span ng-bind="record.displayName"></span>
 											</div>
 											<div class="col-md-1" style="padding-top:5px">
-												<span class="glyphicon glyphicon-search" ng-click="ctrl.viewSystemInfo(record)"></span>
+												<span class="glyphicon glyphicon-search" ng-click="ctrl.viewSystemInfo('ftp',record)" style="cursor: pointer;"></span>
 											</div>
 											<div class="col-md-3" style="margin-top:5px" ng-show="record.status=='success'">
 												<span><span class="glyphicon glyphicon-ok-sign"></span> Ready</span>
@@ -87,7 +87,7 @@
 												<span>Checking</span>
 											</div>
 											<div class="col-md-3" style="margin-top:5px" ng-show="record.status=='fail'">
-												<span><span class="glyphicon glyphicon-remove-sign"></span> Problem</span>
+												<span ng-click="ctrl.viewProblemDetail(record)" style="cursor: pointer;"><span class="glyphicon glyphicon-remove-sign"></span> Problem</span>
 											</div>
 										</div>
 									</div>

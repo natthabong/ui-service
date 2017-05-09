@@ -14,7 +14,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			SPONSOR : 'sponsor',
 			BANK : 'bank'
 		}
-
+		var organizeId = null;
 		vm.webServiceModel;
 		vm.ftpModel;
 		vm.sponsorModel;
@@ -69,7 +69,8 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 				if(typeof vm.sponsorModel != 'object'){
 					validate = false;
 				}else{
-					vm.organize = vm.sponsorModel;
+					organizeId = vm.sponsorModel.organizeId;
+					console.log(organizeId)
 					validate = true;
 				}
 			}else{
@@ -93,7 +94,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		}
 
 		var verifySystemStatusFTP = function(index){
-			var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(vm.ftpModel[index]);
+			var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(vm.ftpModel[index].ftpConnectionConfigId);
 				deffered.promise.then(function(response) {
 					console.log(response)
 					vm.ftpModel[index].status = "success";
@@ -183,8 +184,12 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		}
 
 		var getFTPList = function(organize){
-			if(validateOrganizeForCheck){
-				var deffered = SystemIntegrationMonitorService.getFTPList(organize);
+			if(validateOrganizeForCheck()){
+				if(currentMode == mode.SPONSOR){
+					var deffered = SystemIntegrationMonitorService.getFTPList(organizeId)
+				}else{
+					var deffered = SystemIntegrationMonitorService.getFTPList(organize);
+				}
 					deffered.promise.then(function(response) {
 						vm.ftpModel = response.data;
 						for(var i=0; i<vm.ftpModel.length;i++){
@@ -217,36 +222,54 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		vm.initLoad();
 
 		vm.systemChecking = function(){
-			systemFTPChecking();
-			systemWebServiceChecking();
+			if (currentMode == mode.SPONSOR) {
+				getFTPList()
+			}else if(currentMode == mode.BANK){
+				systemFTPChecking();
+				systemWebServiceChecking();
+			}
 		}
 
 		
-		vm.viewSystemInfo = function(data){
-			vm.serviceInfo = {
-				serviceName : data.displayName,
-				serviceType : 'Web service',
-				protocal : 'https',
-				url : data.bankUrl,
-				userName : '-',
-				host : '202.1.2.112',//null
-				port : '22',//null
-				remoteDirectory : '/usr/local/doc',//null
-				isFTP : true
-			};
-			
-			var systemInfo = ngDialog.open({
-				id : 'service-information-dialog',
-				template : '/js/app/modules/monitor/dialog-service-information.html',
-				className : 'ngdialog-theme-default',
-				controller: 'ViewServiceInformationController',
-				controllerAs: 'ctrl',
-				scope : $scope,
-				data : {
-					serviceInfo : vm.serviceInfo
+		vm.viewSystemInfo = function(serviceType, data){
+				if(serviceType==='ftp'){
+					vm.serviceInfo = {
+					serviceName : data.displayName,
+					serviceType : 'FTP',
+					protocal : 'SFTP',
+					url : null,
+					userName : data.remoteUsername,
+					host : data.remoteHost,
+					port : data.remotePort,
+					remoteDirectory : data.remotePath,
+					isFTP : true
+					};
+				}else{
+					vm.serviceInfo = {
+					serviceName : data.displayName,
+					serviceType : 'Web service',
+					protocal : 'https',
+					url : data.bankUrl,
+					userName : '-',
+					host : null,
+					port : null,
+					remoteDirectory : null,
+					isFTP : false
+					};
 				}
-			});
-		}
+				
+				var systemInfo = ngDialog.open({
+					id : 'service-information-dialog',
+					template : '/js/app/modules/monitor/dialog-service-information.html',
+					className : 'ngdialog-theme-default',
+					controller: 'ViewServiceInformationController',
+					controllerAs: 'ctrl',
+					scope : $scope,
+					data : {
+					serviceInfo : vm.serviceInfo
+					}
+				});
+				}
 
 		vm.viewProblemDetail = function(data){
 			vm.serviceInfo = {

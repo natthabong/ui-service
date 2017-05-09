@@ -3,7 +3,8 @@ function SystemIntegrationMonitorService($http, $q) {
     return {
         getWebServiceList: getWebServiceList,
 		verifySystemStatusWebService:verifySystemStatusWebService,
-		getFTPList:getFTPList
+		getFTPList:getFTPList,
+		verifySystemStatusFTP:verifySystemStatusFTP,
     };
     function getWebServiceList(bankCode){
          var deffered = $q.defer();
@@ -18,6 +19,7 @@ function SystemIntegrationMonitorService($http, $q) {
 	    return deffered;
     }
 	function getFTPList(bankCode){
+		console.log(bankCode)
          var deffered = $q.defer();
 	    $http({
 	       method: 'GET',
@@ -46,11 +48,11 @@ function SystemIntegrationMonitorService($http, $q) {
     }
 	
 	function verifySystemStatusFTP(systemModel){
-		var ftpConnectionConfigId = systemModel.ftpConnectionConfigId;
+		var ftpConnectionConfigId = systemModel;
         var deffered = $q.defer();
 	    $http({
 	       method: 'POST',
-	       url: '/check-ftp-connection/connections/'+ftpConnectionConfigId
+	       url: 'api/v1/check-ftp-connection/connections/'+ftpConnectionConfigId
 	    }).then(function(response) {
 	       deffered.resolve(response);
 	    }).catch(function(response) {
