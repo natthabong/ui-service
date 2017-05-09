@@ -54,7 +54,7 @@ var app = angular.module('scfApp');
 								columns : [
 										{
 											field : 'formulaName',
-										    label: 'Formula Name',
+										    label: 'Formula name',
 										    idValueField: 'template',
 										    id: 'payment-date-formula-{value}',
 										    sortData: true,
