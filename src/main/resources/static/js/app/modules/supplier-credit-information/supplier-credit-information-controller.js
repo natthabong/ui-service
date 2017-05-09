@@ -31,7 +31,7 @@ angular.module('scfApp').controller('SupplierCreditInformationController',['$sco
 		};
 
 		vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder : 'Enter organize name or code',
+			placeholder : 'Please enter organize name or code',
 			itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
 			query : querySupplierCode
 		});
