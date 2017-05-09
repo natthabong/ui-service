@@ -5,15 +5,18 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 	function($scope, Service, $stateParams, $log, PagingController, UIFactory, $q, $rootScope, $http, PageNavigation, SystemIntegrationMonitorService,ngDialog) {
 		var vm = this;
 		vm.headerName = '';
-		vm.showDetails = true;
+		vm.showDetails = false;
 		vm.success = false;
 		vm.isBank = false;
+		var firstTimeWebServiceChecking = true;
+		var firstTimeFTPChecking = true;
 		var mode = {
 			SPONSOR : 'sponsor',
 			BANK : 'bank'
 		}
 
 		vm.webServiceModel;
+		vm.ftpModel;
 		vm.sponsorModel;
 		vm.organize = {
 			organizeId : null,
@@ -61,60 +64,141 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		// Prepare Auto Suggest
 
 		var validateOrganizeForCheck = function(){
-			var validate = true;
+			var validate;
 			if(currentMode == mode.SPONSOR){
-				if(typeof vm.sponsorModel !== 'object'){
+				if(typeof vm.sponsorModel != 'object'){
 					validate = false;
 				}else{
 					vm.organize = vm.sponsorModel;
+					validate = true;
 				}
 			}else{
 				if(vm.organize == null || vm.organize == undefined || vm.organize == ''){
 					validate = false;
+				}else{
+					validate = true;
 				}
 			}
 			return validate
 		}
 
+
+		var verifySystemStatusWebService = function(index){
+			var deffered = SystemIntegrationMonitorService.verifySystemStatusWebService(vm.webServiceModel[index]);
+				deffered.promise.then(function(response) {
+					vm.webServiceModel[index].status = "success";
+				}).catch(function(response) {
+					vm.webServiceModel[index].status = "fail";
+				});
+		}
+
+		var verifySystemStatusFTP = function(index){
+			var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(vm.ftpModel[index]);
+				deffered.promise.then(function(response) {
+					console.log(response)
+					vm.ftpModel[index].status = "success";
+				}).catch(function(response) {
+					vm.ftpModel[index].status = "fail";
+				});
+		}
+
+
+		var validateWaitFTPChecking = function(){
+			var validate = true;
+			if(firstTimeFTPChecking){
+				firstTimeFTPChecking = false;
+			}else{
+				for(var i=0; i<vm.ftpModel.length;i++){
+					if(vm.ftpModel[i].status=='loading'){
+						validate = false;
+					}
+				}
+			}
+			return validate;
+		}
+
+		var validateWaitWebServiceChecking = function(){
+			var validate = true;
+			if(firstTimeWebServiceChecking){
+				firstTimeWebServiceChecking = false;
+			}else{
+				for(var i=0; i<vm.webServiceModel.length;i++){
+					if(vm.webServiceModel[i].status=='loading'){
+						validate = false;
+					}
+				}
+			}
+			return validate;
+		}
+
+		var systemFTPChecking = function(){
+			if(validateOrganizeForCheck()){
+				vm.showDetails = true;
+				if(validateWaitFTPChecking()){
+					for(var i=0; i<vm.ftpModel.length;i++){
+						vm.ftpModel[i].status = "loading";
+						verifySystemStatusFTP(i);
+					}
+				}else{
+					console.log("please wait system processing");
+				}
+			}else{
+				vm.showDetails = false;
+			}
+		}
+
+		var systemWebServiceChecking = function(){
+			if(validateOrganizeForCheck()){
+				vm.showDetails = true;
+				if(validateWaitWebServiceChecking()){
+					for(var i=0; i<vm.webServiceModel.length;i++){
+						vm.webServiceModel[i].status = "loading";
+						verifySystemStatusWebService(i);
+					}
+				}else{
+					console.log("please wait system processing");
+				}
+			}else{
+				vm.showDetails = false;
+			}
+		}
+
 		var getWebServiceList = function(){
 			if(validateOrganizeForCheck){
 				var deffered = SystemIntegrationMonitorService.getWebServiceList(getBankCode());
-					deffered.promise.then(function(response) {
+				deffered.promise.then(function(response) {
 						vm.webServiceModel = response.data;
+						for(var i=0; i<vm.webServiceModel.length;i++){
+							vm.webServiceModel[i].status = 'loading';
+							vm.webServiceModel[i].isFTP = false;
+						}
+						systemWebServiceChecking();
 					}).catch(function(response) {
+						console.log("connect api fail.");
+					});
+			}else{
+				console.log("validate organize fail.");
+			}
+			return deffered;
+		}
 
+		var getFTPList = function(organize){
+			if(validateOrganizeForCheck){
+				var deffered = SystemIntegrationMonitorService.getFTPList(organize);
+					deffered.promise.then(function(response) {
+						vm.ftpModel = response.data;
+						for(var i=0; i<vm.ftpModel.length;i++){
+							vm.ftpModel[i].status = 'loading';
+							vm.ftpModel[i].isFTP = true;
+						}
+						systemFTPChecking();
+					}).catch(function(response) {
+						console.log("connect api fail.");
 					});
 			}else{
 				console.log("validate organize fail.")
 			}
 		}
-
-		// vm.newFormulaDialog = ngDialog.open({
-		// 		id : 'new-formula-dialog',
-		// 		template : '/js/app/sponsor-configuration/file-layouts/dialog-new-formula.html',
-		// 		className : 'ngdialog-theme-default',
-		// 		controller : 'NewPaymentDateFormulaController',
-		// 		controllerAs : 'ctrl',
-		// 		scope : $scope,
-		// 		data : {
-		// 			formula : vm.formula
-		// 		},
-
-		
-
-		vm.systemChecking = function(){
-			if(validateOrganizeForCheck){
-				var deffered = SystemIntegrationMonitorService.getWebServiceList(getBankCode());
-                deffered.promise.then(function(response) {
-					vm.webServiceModel = response.data;
-                }).catch(function(response) {
-
-                });
-			}
-			
-		}
-
-		
 
 		vm.initLoad = function() {
 			if (currentMode == mode.SPONSOR) {
@@ -125,25 +209,79 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 				vm.isBank = true;
 				getMyOrganize();
 				getWebServiceList();
-				// vm.systemChecking();
+				var organize = getBankCode();
+				getFTPList(organize);
 			}
 		}
 
 		vm.initLoad();
 
+		vm.systemChecking = function(){
+			systemFTPChecking();
+			systemWebServiceChecking();
+		}
+
+		
 		vm.viewSystemInfo = function(data){
-			vm.systemInfo = ngDialog.open({
+			vm.serviceInfo = {
+				serviceName : data.displayName,
+				serviceType : 'Web service',
+				protocal : 'https',
+				url : data.bankUrl,
+				userName : '-',
+				host : '202.1.2.112',//null
+				port : '22',//null
+				remoteDirectory : '/usr/local/doc',//null
+				isFTP : true
+			};
+			
+			var systemInfo = ngDialog.open({
 				id : 'service-information-dialog',
 				template : '/js/app/modules/monitor/dialog-service-information.html',
 				className : 'ngdialog-theme-default',
+				controller: 'ViewServiceInformationController',
+				controllerAs: 'ctrl',
 				scope : $scope,
 				data : {
-					serviceInfo : data
+					serviceInfo : vm.serviceInfo
 				}
 			});
 		}
 
-		
+		vm.viewProblemDetail = function(data){
+			vm.serviceInfo = {
+				ftpConnectionConfigId : null,
+				bankCode : '004',
+				requestDataType: 'ACCOUNT',
+				requestMode: 'INQUIRY',
+				errorMessage : '408 - Request timeout'
+			};
+			
+			var problemDialog = ngDialog.open({
+				id : 'problem-detail-dialog',
+				template : '/js/app/modules/monitor/dialog-problem-detail.html',
+				className : 'ngdialog-theme-default',
+				controller: 'ViewProblemDetailController',
+				controllerAs: 'ctrl',
+				scope : $scope,
+				data : {
+					serviceInfo : vm.serviceInfo
+				},
+				preCloseCallback : function(value) {
+					if (value != null) {
+					console.log('Re check this service.');
+					console.log(value);
+					}
+				}
+			});
+		}
 
-		
+} ]);
+scfApp.controller('ViewServiceInformationController', [ '$scope', '$rootScope', function($scope, $rootScope) {
+ var vm = this;
+ vm.serviceInfo = angular.copy($scope.ngDialogData.serviceInfo);
+} ]);
+scfApp.controller('ViewProblemDetailController', [ '$scope', '$rootScope', function($scope, $rootScope) {
+ var vm = this;
+ vm.serviceInfo = angular.copy($scope.ngDialogData.serviceInfo);
 } ]);

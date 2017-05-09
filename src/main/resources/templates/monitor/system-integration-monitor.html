@@ -9,7 +9,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="form-element" ng-show="ctrl.showDetails">
+		<div class="form-element">
 			<form name="organizeForm" ng-submit="ctrl.systemChecking()"
 				autocomplete="off" class="form-horizontal">
 				<div class="panel panel-default col-md-12 padding-0">
@@ -40,7 +40,7 @@
 									class="btn-default">{{'Check' | translate}}</scf-button>
 							</div>
 						</div>
-						<div class="row" style="margin-left: 10px; margin-right: 10px;">
+						<div class="row" style="margin-left: 10px; margin-right: 10px;" ng-show="ctrl.showDetails">
 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" ng-show="ctrl.isBank">
 								<div class="panel">
 									<div class="panel-body">
@@ -48,7 +48,7 @@
 										class="animated fadeInLeft" ng-bind="'Web Service' | translate"></h3>
 										<div class="form-group control-label" ng-repeat="record in ctrl.webServiceModel track by $index">
 											<div class="col-md-8" style="padding-top:5px">
-												<span>{{record.displayName}}</span>
+												<span ng-bind="record.displayName"></span>
 											</div>
 											<div class="col-md-1" style="padding-top:5px">
 												<span class="glyphicon glyphicon-search" ng-click="ctrl.viewSystemInfo(record)"></span>
@@ -72,21 +72,21 @@
 									<div class="panel-body">
 										<h3 id="header-message-label"
 										class="animated fadeInLeft" ng-bind="'FTP' | translate"></h3>
-										<div class="form-group control-label">
+										<div class="form-group control-label" ng-repeat="record in ctrl.ftpModel track by $index">
 											<div class="col-md-8" style="padding-top:5px">
-												<span>Test data</span>
+												<span ng-bind="record.displayName"></span>
 											</div>
 											<div class="col-md-1" style="padding-top:5px">
-												<span class="glyphicon glyphicon-search"></span>
+												<span class="glyphicon glyphicon-search" ng-click="ctrl.viewSystemInfo(record)"></span>
 											</div>
-											<div class="col-md-3" style="margin-top:5px">
+											<div class="col-md-3" style="margin-top:5px" ng-show="record.status=='success'">
 												<span><span class="glyphicon glyphicon-ok-sign"></span> Ready</span>
 											</div>
-											<div class="col-md-3" style="margin-bottom:5px">
+											<div class="col-md-3" style="margin-bottom:5px" ng-show="record.status=='loading'">
 												<img src="/img/loading_spinner.gif" alt="loading_spinner" width="30" height="30"></img>
 												<span>Checking</span>
 											</div>
-											<div class="col-md-3" style="margin-top:5px">
+											<div class="col-md-3" style="margin-top:5px" ng-show="record.status=='fail'">
 												<span><span class="glyphicon glyphicon-remove-sign"></span> Problem</span>
 											</div>
 										</div>
