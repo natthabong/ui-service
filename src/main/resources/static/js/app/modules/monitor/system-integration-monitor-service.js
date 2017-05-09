@@ -19,8 +19,7 @@ function SystemIntegrationMonitorService($http, $q) {
 	    return deffered;
     }
 	function getFTPList(bankCode){
-		console.log(bankCode)
-         var deffered = $q.defer();
+        var deffered = $q.defer();
 	    $http({
 	       method: 'GET',
 	       url: '/api/v1/ftp-connection-info/organizes/' + bankCode

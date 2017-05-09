@@ -4,8 +4,8 @@
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3 id="header-message-label"
-						class="animated fadeInLeft" ng-bind="ctrl.headerName | translate"></h3>
+					<h3 id="header-message-label" class="animated fadeInLeft"
+						ng-bind="ctrl.headerName | translate"></h3>
 				</div>
 			</div>
 		</div>
@@ -15,20 +15,19 @@
 				<div class="panel panel-default col-md-12 padding-0">
 					<div class="panel-body">
 						<div class="form-group" ng-show="ctrl.isBank">
-							<label
-								class="col-md-2 col-sm-1 col-xs-12 control-label" 
-								id="organize-label">{{'Organize'| translate}}: 
-							</label>
-							<label class="col-md-4 col-sm-4 col-xs-12 control-label" ng-bind="ctrl.organize.organizeName">
-							</label>
+							<label class="col-md-1 col-sm-1 col-xs-12 control-label"
+								id="organize-label">{{'Organize'| translate}}: </label> <label
+								id="organize-value-label"
+								class="col-md-4 col-sm-4 col-xs-12 control-label"
+								ng-bind="ctrl.organize.organizeName"> </label>
 							<div class="col-md-1 col-sm-6 col-xs-12">
-								<scf-button type="submit" id="check-button"
-									class="btn-default">{{'Check' | translate}}</scf-button>
+								<scf-button type="submit" id="check-button" class="btn-default">{{'Check'
+								| translate}}</scf-button>
 							</div>
 						</div>
 						<div class="form-group" ng-hide="ctrl.isBank">
 							<label for="sponsor-auto-suggest" id="sponsor-label"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor'
+								class="col-md-1 col-sm-3 col-xs-12 control-label">{{'Sponsor'
 								| translate}}: </label>
 							<div class="col-md-4 col-sm-6 col-xs-12">
 								<gec-auto-suggest id="sponsor-auto-suggest"
@@ -36,32 +35,45 @@
 									ng-model="ctrl.sponsorModel" maxlength="100"></gec-auto-suggest>
 							</div>
 							<div class="col-md-1 col-sm-6 col-xs-12">
-								<scf-button type="submit" id="check-button"
-									class="btn-default">{{'Check' | translate}}</scf-button>
+								<scf-button type="submit" id="check-button" class="btn-default">{{'Check'
+								| translate}}</scf-button>
 							</div>
 						</div>
-						<div class="row" style="margin-left: 10px; margin-right: 10px;" ng-show="ctrl.showDetails">
-							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" ng-show="ctrl.isBank">
+						<div class="row" style="margin-left: 10px; margin-right: 10px;"
+							ng-show="ctrl.showDetails">
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"
+								ng-show="ctrl.isBank">
 								<div class="panel">
 									<div class="panel-body">
-										<h3 id="header-message-label"
-										class="animated fadeInLeft" ng-bind="'Web Service' | translate"></h3>
-										<div class="form-group control-label" ng-repeat="record in ctrl.webServiceModel track by $index">
-											<div class="col-md-8" style="padding-top:5px">
+										<h3 id="header-message-label" class="animated fadeInLeft"
+											ng-bind="'Web Service' | translate"></h3>
+										<div class="form-group control-label"
+											ng-repeat="record in ctrl.webServiceModel track by $index">
+											<div class="col-md-8" style="padding-top: 5px">
 												<span ng-bind="record.displayName"></span>
 											</div>
-											<div class="col-md-1" style="padding-top:5px">
-												<span class="glyphicon glyphicon-search" ng-click="ctrl.viewSystemInfo('gateway',record)" style="cursor: pointer;"></span>
+											<div class="col-md-1" style="padding-top: 5px">
+												<scf-button class="btn-default gec-btn-action"
+													id="{{record.displayName}}-view-button"
+													ng-click="ctrl.viewSystemInfo('gateway',record)">
+												<span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
 											</div>
-											<div class="col-md-3" style="margin-top:5px" ng-show="record.status=='success'">
-												<span><span class="glyphicon glyphicon-ok-sign"></span> Ready</span>
+											<div class="col-md-3" style="margin-top: 10px"
+												ng-show="record.status=='success'">
+												<span><span class="glyphicon glyphicon-ok-sign" style="color:green"></span>
+													Ready</span>
 											</div>
-											<div class="col-md-3" style="margin-bottom:5px" ng-show="record.status=='loading'">
-												<img src="/img/loading_spinner.gif" alt="loading_spinner" width="30" height="30"></img>
-												<span>Checking</span>
+											<div class="col-md-3" style="margin-left: 5px"
+												ng-show="record.status=='loading'">
+												<img src="/img/loading_spinner.gif" alt="loading_spinner"
+													width="30" height="30"></img> <span>Checking</span>
 											</div>
-											<div class="col-md-3" style="margin-top:5px" ng-show="record.status=='fail'">
-												<span ng-click="ctrl.viewProblemDetail('gateway',record,$index)" style="cursor: pointer;"><span class="glyphicon glyphicon-remove-sign"></span> Problem</span>
+											<div class="col-md-3" style="margin-top: 10px"
+												ng-show="record.status=='fail'">
+												<span
+													ng-click="ctrl.viewProblemDetail('gateway',record,$index)"
+													style="cursor: pointer;"><span
+													class="glyphicon glyphicon-remove-sign" style="color:red"></span> Problem</span>
 											</div>
 										</div>
 									</div>
@@ -70,24 +82,34 @@
 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 								<div class="panel">
 									<div class="panel-body">
-										<h3 id="header-message-label"
-										class="animated fadeInLeft" ng-bind="'FTP' | translate"></h3>
-										<div class="form-group control-label" ng-repeat="record in ctrl.ftpModel track by $index">
-											<div class="col-md-8" style="padding-top:5px">
+										<h3 id="header-message-label" class="animated fadeInLeft"
+											ng-bind="'FTP' | translate"></h3>
+										<div class="form-group control-label"
+											ng-repeat="record in ctrl.ftpModel track by $index">
+											<div class="col-md-8" style="padding-top: 5px">
 												<span ng-bind="record.displayName"></span>
 											</div>
-											<div class="col-md-1" style="padding-top:5px">
-												<span class="glyphicon glyphicon-search" ng-click="ctrl.viewSystemInfo('ftp',record)" style="cursor: pointer;"></span>
+											<div class="col-md-1" style="padding-top: 5px">
+												<scf-button class="btn-default gec-btn-action"
+													id="{{record.displayName}}-view-button"
+													ng-click="ctrl.viewSystemInfo('ftp',record)">
+												<span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
 											</div>
-											<div class="col-md-3" style="margin-top:5px" ng-show="record.status=='success'">
-												<span><span class="glyphicon glyphicon-ok-sign"></span> Ready</span>
+											<div class="col-md-3" style="margin-top: 10px"
+												ng-show="record.status=='success'">
+												<span><span class="glyphicon glyphicon-ok-sign" style="color:green"></span>
+													Ready</span>
 											</div>
-											<div class="col-md-3" style="margin-bottom:5px" ng-show="record.status=='loading'">
-												<img src="/img/loading_spinner.gif" alt="loading_spinner" width="30" height="30"></img>
-												<span>Checking</span>
+											<div class="col-md-3" style="margin-top: 5px"
+												ng-show="record.status=='loading'">
+												<img src="/img/loading_spinner.gif" alt="loading_spinner"
+													width="30" height="30"></img> <span>Checking</span>
 											</div>
-											<div class="col-md-3" style="margin-top:5px" ng-show="record.status=='fail'">
-												<span ng-click="ctrl.viewProblemDetail('ftp',record,$index)" style="cursor: pointer;"><span class="glyphicon glyphicon-remove-sign"></span> Problem</span>
+											<div class="col-md-3" style="margin-top: 10px"
+												ng-show="record.status=='fail'">
+												<span ng-click="ctrl.viewProblemDetail('ftp',record,$index)"
+													style="cursor: pointer;"><span
+													class="glyphicon glyphicon-remove-sign" style="color:red"></span> Problem</span>
 											</div>
 										</div>
 									</div>

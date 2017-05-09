@@ -70,7 +70,6 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 					validate = false;
 				}else{
 					organizeId = vm.sponsorModel.organizeId;
-					console.log(organizeId)
 					validate = true;
 				}
 			}else{
@@ -102,7 +101,6 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		var verifySystemStatusFTP = function(index){
 			var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(vm.ftpModel[index].ftpConnectionConfigId);
 				deffered.promise.then(function(response) {
-					console.log(response)
 					if(response.data.returnCode == "200"){
 						vm.ftpModel[index].status = "success";
 					}else{
@@ -180,7 +178,6 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			if(validateOrganizeForCheck){
 				var deffered = SystemIntegrationMonitorService.getWebServiceList(getBankCode());
 				deffered.promise.then(function(response) {
-					console.log(response)
 						vm.webServiceModel = response.data;
 						for(var i=0; i<vm.webServiceModel.length;i++){
 							vm.webServiceModel[i].status = 'loading';
@@ -217,6 +214,17 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 				console.log("validate organize fail.")
 			}
 		}
+		
+		var getBankProfile = function(bankCode){
+			var serviceUrl = '/api/v1/organize-customers/'+bankCode+'/profile';
+			var serviceDiferred = Service.doGet(serviceUrl, {});		
+			serviceDiferred.promise.then(function(response){
+				vm.organize.organizeId= response.data.organizeId;
+				vm.organize.organizeName = response.data.organizeName;
+			}).catch(function(response){
+				log.error('Load customer code group data error');
+			});
+		}
 
 		vm.initLoad = function() {
 			if (currentMode == mode.SPONSOR) {
@@ -225,9 +233,10 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			}else if(currentMode == mode.BANK){
 				vm.headerName = 'Bank system integration monitor';
 				vm.isBank = true;
-				getMyOrganize();
-				getWebServiceList();
 				var organize = getBankCode();
+				getBankProfile(organize);
+				getMyOrganize();				
+				getWebServiceList();				
 				getFTPList(organize);
 			}
 		}
@@ -356,8 +365,6 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 				},
 				preCloseCallback : function(value) {
 					if (value != null) {
-						console.log('Re check this service.');
-						console.log(value);
 						vm.recheck(value);
 					}
 				}
