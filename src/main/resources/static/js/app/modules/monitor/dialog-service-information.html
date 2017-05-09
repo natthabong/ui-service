@@ -1,0 +1,85 @@
+<div class="modal-content" id="service-information-dialog">
+	<div id="wrapper" ng-controller="SystemIntegrationMonitorController as ctrl">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3>
+						<span id="service-name-label"
+							class="popup-text" ng-bind="'Service information' | translate">Service information</span>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<form name="serviceInfo" class="form-horizontal">
+						<div class="form-group">
+							<label id="service-name-label" 
+								class="col-md-3 col-sm-4 col-xs-12 control-label">
+								{{'Service name' | translate}}>: </label>
+							<label id="service-name-label" 
+								class="col-md-6 col-sm-6 col-xs-12 control-label">
+								ctrl.serviceInfo.serviceName</label>
+						</div>
+						<div class="form-group">
+							<label id="service-name-label" 
+								class="col-md-3 col-sm-4 col-xs-12 control-label">
+								{{'Protocal' | translate}}>: </label>
+							<label id="service-name-label" 
+								class="col-md-6 col-sm-6 col-xs-12 control-label">
+								ctrl.serviceInfo.protocal</label>
+						</div>
+						<div class="form-group" ng-show="!ctrl.isFTP">
+							<label id="service-name-label" 
+								class="col-md-3 col-sm-4 col-xs-12 control-label">
+								{{'URL' | translate}}>: </label>
+							<label id="service-name-label" 
+								class="col-md-6 col-sm-6 col-xs-12 control-label">
+								ctrl.serviceInfo.url</label>
+						</div>
+						<div class="form-group" ng-show="ctrl.isFTP">
+							<label id="service-name-label" 
+								class="col-md-3 col-sm-4 col-xs-12 control-label">
+								{{'Host' | translate}}>: </label>
+							<label id="service-name-label" 
+								class="col-md-3 col-sm-3 col-xs-12 control-label">
+								ctrl.serviceInfo.host</label>
+							<label id="service-name-label" 
+								class="col-md-3 col-sm-4 col-xs-12 control-label">
+								{{'Port' | translate}}>: </label>
+							<label id="service-name-label" 
+								class="col-md-3 col-sm-3 col-xs-12 control-label">
+								ctrl.serviceInfo.post</label>
+						</div>
+						<div class="form-group">
+							<label id="service-name-label" 
+								class="col-md-3 col-sm-4 col-xs-12 control-label">
+								{{'User name' | translate}}>: </label>
+							<label id="service-name-label" 
+								class="col-md-6 col-sm-6 col-xs-12 control-label">
+								ctrl.serviceInfo.username</label>
+						</div>
+						<div class="form-group" ng-show="ctrl.isFTP">
+							<label id="service-name-label" 
+								class="col-md-3 col-sm-4 col-xs-12 control-label">
+								{{'Remote directory' | translate}}>: </label>
+							<label id="service-name-label" 
+								class="col-md-6 col-sm-6 col-xs-12 control-label">
+								ctrl.serviceInfo.remoteDirectory</label>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="row">
+					<div class="col-xs-12 text-right">
+						<scf-button id="service-information-close-button"
+							class="popup-button" ng-click="closeThisDialog();"
+							ng-bind="'Close' | translate"></scf-button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
