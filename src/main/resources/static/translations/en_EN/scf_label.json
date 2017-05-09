@@ -406,5 +406,8 @@
 	"URL": "URL",
 	"Host": "Host",
 	"Port": "Port",
-	"Remote directory": "Remote directory"
+	"Remote directory": "Remote directory",
+	"Problem detail": "Problem detail",
+	"Problem message": "Problem message",
+	"Re-check": "Re-check"
 }

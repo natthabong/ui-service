@@ -1,0 +1,47 @@
+<div class="modal-content" id="problem-detail-dialog">
+	<div id="wrapper" ng-controller="ViewProblemDetailController as ctrl">
+		<form name="serviceInfo" class="form-horizontal" ng-submit="closeThisDialog(ctrl.serviceInfo);">
+			<div class="modal-header">
+				<div class="row">
+					<div class="col-md-10 col-sm-10">
+						<h3>
+							<span id="problem-detail-label"
+								class="popup-text" ng-bind="'Problem detail' | translate">Problem detail</span>
+						</h3>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="form-group">
+								<label id="problem-message-label" 
+									class="col-sm-3 col-xs-12 control-label">
+									<b>{{'Problem message' | translate}}</b></label>
+								<label class="col-sm-9 hidden-xs control-label"></label>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-1 control-label"></label>
+								<label id="message-error-label" 
+									class="col-xs-10 control-label" style="border:1px solid; min-height: 100px;">
+									{{ctrl.serviceInfo.errorMessage}}</label>
+								<label class="col-xs-1 control-label"></label>
+							</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="row">
+						<div class="col-xs-12 text-right">
+							<scf-button id="problem-detail-close-button"
+								class="popup-button" ng-click="closeThisDialog();"
+								ng-bind="'Close' | translate"></scf-button>
+							<scf-button id="problem-detail-re-check-button"
+								class="popup-button" type="submit"
+								ng-bind="'Re-check' | translate"></scf-button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
