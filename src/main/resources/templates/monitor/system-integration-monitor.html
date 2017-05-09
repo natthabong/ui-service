@@ -46,12 +46,12 @@
 									<div class="panel-body">
 										<h3 id="header-message-label"
 										class="animated fadeInLeft" ng-bind="'Web Service' | translate"></h3>
-										<div class="form-group control-label" ng-repeat="record in ctrl.mocking track by $index">
+										<div class="form-group control-label" ng-repeat="record in ctrl.webServiceModel track by $index">
 											<div class="col-md-8" style="padding-top:5px">
-												<span>{{record.label}}</span>
+												<span>{{record.displayName}}</span>
 											</div>
 											<div class="col-md-1" style="padding-top:5px">
-												<span class="glyphicon glyphicon-search"></span>
+												<span class="glyphicon glyphicon-search" ng-click="ctrl.viewSystemInfo(record)"></span>
 											</div>
 											<div class="col-md-3" style="margin-top:5px" ng-show="record.status=='success'">
 												<span><span class="glyphicon glyphicon-ok-sign"></span> Ready</span>

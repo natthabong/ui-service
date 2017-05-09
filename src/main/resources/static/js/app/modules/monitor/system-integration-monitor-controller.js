@@ -1,8 +1,8 @@
 'use strict';
 var scfApp = angular.module('scfApp');
 scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '$stateParams', '$log', 'PagingController', 'UIFactory', '$q',
-	'$rootScope', '$http','PageNavigation','SystemIntegrationMonitorService',
-	function($scope, Service, $stateParams, $log, PagingController, UIFactory, $q, $rootScope, $http, PageNavigation, SystemIntegrationMonitorService) {
+	'$rootScope', '$http','PageNavigation','SystemIntegrationMonitorService','ngDialog',
+	function($scope, Service, $stateParams, $log, PagingController, UIFactory, $q, $rootScope, $http, PageNavigation, SystemIntegrationMonitorService,ngDialog) {
 		var vm = this;
 		vm.headerName = '';
 		vm.showDetails = true;
@@ -13,18 +13,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			BANK : 'bank'
 		}
 
-		vm.mocking = [];
-
-		for(var i=0;i<10;i++){
-			var status = ["success","fail","loading","success","fail","loading","success","fail","loading","success"];
-			vm.mocking.push({
-				label: 'test'+i,
-				status: status[i]
-			});
-		}
-
-		console.log(vm.mocking)
-
+		vm.webServiceModel;
 		vm.sponsorModel;
 		vm.organize = {
 			organizeId : null,
@@ -36,6 +25,10 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		}
 
 		var currentMode = $stateParams.mode;
+		
+		var getBankCode = function(){
+			return $stateParams.bankCode;
+		}
 
 		// Prepare Auto Suggest
 		var querySponsorCode = function(value) {
@@ -83,25 +76,45 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			return validate
 		}
 
-		vm.systemChecking = function(){
-			if(validateOrganizeForCheck()){
-				var deffered = SystemIntegrationMonitorService.getSystemMonitorRecodes(vm.organize.organizeId);
-                deffered.promise.then(function(response) {
-					console.log(response.data)
-                    // vm.transaction = response.data;
-                    // vm.showEvidenceForm = printEvidence(vm.transaction);
-                    // ngDialog.open({
-                    //     template: '/js/app/approve-transactions/success-dialog.html',
-                    //     scope: $scope,
-                    //     disableAnimation: true
-                    // });
+		var getWebServiceList = function(){
+			if(validateOrganizeForCheck){
+				var deffered = SystemIntegrationMonitorService.getWebServiceList(getBankCode());
+					deffered.promise.then(function(response) {
+						vm.webServiceModel = response.data;
+					}).catch(function(response) {
 
+					});
+			}else{
+				console.log("validate organize fail.")
+			}
+		}
+
+		// vm.newFormulaDialog = ngDialog.open({
+		// 		id : 'new-formula-dialog',
+		// 		template : '/js/app/sponsor-configuration/file-layouts/dialog-new-formula.html',
+		// 		className : 'ngdialog-theme-default',
+		// 		controller : 'NewPaymentDateFormulaController',
+		// 		controllerAs : 'ctrl',
+		// 		scope : $scope,
+		// 		data : {
+		// 			formula : vm.formula
+		// 		},
+
+		
+
+		vm.systemChecking = function(){
+			if(validateOrganizeForCheck){
+				var deffered = SystemIntegrationMonitorService.getWebServiceList(getBankCode());
+                deffered.promise.then(function(response) {
+					vm.webServiceModel = response.data;
                 }).catch(function(response) {
 
                 });
-
 			}
+			
 		}
+
+		
 
 		vm.initLoad = function() {
 			if (currentMode == mode.SPONSOR) {
@@ -111,9 +124,26 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 				vm.headerName = 'Bank system integration monitor';
 				vm.isBank = true;
 				getMyOrganize();
+				getWebServiceList();
 				// vm.systemChecking();
 			}
 		}
 
 		vm.initLoad();
+
+		vm.viewSystemInfo = function(data){
+			vm.systemInfo = ngDialog.open({
+				id : 'service-information-dialog',
+				template : '/js/app/modules/monitor/dialog-service-information.html',
+				className : 'ngdialog-theme-default',
+				scope : $scope,
+				data : {
+					serviceInfo : data
+				}
+			});
+		}
+
+		
+
+		
 } ]);

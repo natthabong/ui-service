@@ -327,7 +327,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'SystemIntegrationMonitorController',
 				controllerAs: 'ctrl',
 				templateUrl: '/system-integration-monitor/bank',
-				params: { mode: 'bank'},
+				params: { mode: 'bank', bankCode: '004'},
 				resolve: load(['js/app/modules/monitor/system-integration-monitor-controller.js','js/app/modules/monitor/system-integration-monitor-service.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/system-integration-monitor/sponsor',{
 				url: '/system-integration-monitor/sponsor',
