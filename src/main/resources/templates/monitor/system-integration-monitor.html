@@ -61,7 +61,7 @@
 												<span>Checking</span>
 											</div>
 											<div class="col-md-3" style="margin-top:5px" ng-show="record.status=='fail'">
-												<span ng-click="ctrl.viewProblemDetail(record)" style="cursor: pointer;"><span class="glyphicon glyphicon-remove-sign"></span> Problem</span>
+												<span ng-click="ctrl.viewProblemDetail('gateway',record,$index)" style="cursor: pointer;"><span class="glyphicon glyphicon-remove-sign"></span> Problem</span>
 											</div>
 										</div>
 									</div>
@@ -87,7 +87,7 @@
 												<span>Checking</span>
 											</div>
 											<div class="col-md-3" style="margin-top:5px" ng-show="record.status=='fail'">
-												<span ng-click="ctrl.viewProblemDetail(record)" style="cursor: pointer;"><span class="glyphicon glyphicon-remove-sign"></span> Problem</span>
+												<span ng-click="ctrl.viewProblemDetail('ftp',record,$index)" style="cursor: pointer;"><span class="glyphicon glyphicon-remove-sign"></span> Problem</span>
 											</div>
 										</div>
 									</div>

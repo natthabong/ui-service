@@ -87,8 +87,14 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		var verifySystemStatusWebService = function(index){
 			var deffered = SystemIntegrationMonitorService.verifySystemStatusWebService(vm.webServiceModel[index]);
 				deffered.promise.then(function(response) {
-					vm.webServiceModel[index].status = "success";
+					if(response.data.status == "UP"){
+						vm.webServiceModel[index].status = "success";
+					}else{
+						vm.webServiceModel[index].errorMessage = response.data.code + ' - ' + response.data.message;
+						vm.webServiceModel[index].status = "fail";
+					}
 				}).catch(function(response) {
+					vm.webServiceModel[index].errorMessage = response.status + ' - ' + response.statusText;
 					vm.webServiceModel[index].status = "fail";
 				});
 		}
@@ -97,8 +103,14 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(vm.ftpModel[index].ftpConnectionConfigId);
 				deffered.promise.then(function(response) {
 					console.log(response)
-					vm.ftpModel[index].status = "success";
+					if(response.data.returnCode == "200"){
+						vm.ftpModel[index].status = "success";
+					}else{
+						vm.ftpModel[index].errorMessage = response.data.returnCode + ' - ' + response.data.returnMessage;
+						vm.ftpModel[index].status = "fail";
+					}
 				}).catch(function(response) {
+					vm.ftpModel[index].errorMessage = response.status + ' - ' + response.statusText;
 					vm.ftpModel[index].status = "fail";
 				});
 		}
@@ -168,6 +180,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			if(validateOrganizeForCheck){
 				var deffered = SystemIntegrationMonitorService.getWebServiceList(getBankCode());
 				deffered.promise.then(function(response) {
+					console.log(response)
 						vm.webServiceModel = response.data;
 						for(var i=0; i<vm.webServiceModel.length;i++){
 							vm.webServiceModel[i].status = 'loading';
@@ -230,6 +243,44 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			}
 		}
 
+		var verifySystemStatusWebServiceRecheck = function(value){
+			var deffered = SystemIntegrationMonitorService.verifySystemStatusWebService(value);
+				deffered.promise.then(function(response) {
+					if(response.data.status == "UP"){
+						vm.webServiceModel[value.recordNo].status = "success";
+					}else{
+						vm.webServiceModel[value.recordNo].errorMessage = response.data.code + ' - ' + response.data.message;
+						vm.webServiceModel[value.recordNo].status = "fail";
+					}
+				}).catch(function(response) {
+					vm.webServiceModel[value.recordNo].errorMessage = response.status + ' - ' + response.statusText;
+					vm.webServiceModel[value.recordNo].status = "fail";
+				});
+		}
+
+		var verifySystemStatusFTPRecheck = function(value){
+			var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(value.ftpConnectionConfigId);
+				deffered.promise.then(function(response) {
+					if(response.data.returnCode == "200"){
+						vm.ftpModel[value.recordNo].status = "success";
+					}else{
+						vm.ftpModel[value.recordNo].errorMessage = response.data.returnCode + ' - ' + response.data.returnMessage;
+						vm.ftpModel[value.recordNo].status = "fail";
+					}
+				}).catch(function(response) {
+					vm.ftpModel[value.recordNo].errorMessage = response.status + ' - ' + response.statusText;
+					vm.ftpModel[value.recordNo].status = "fail";
+				});
+		}
+
+		vm.recheck = function(value) {
+			if(value.ftpConnectionConfigId == null){
+				verifySystemStatusWebServiceRecheck(value);
+			}else{
+				verifySystemStatusFTPRecheck(value);
+			}
+		}
+
 		
 		vm.viewSystemInfo = function(serviceType, data){
 				if(serviceType==='ftp'){
@@ -271,14 +322,27 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 				});
 				}
 
-		vm.viewProblemDetail = function(data){
-			vm.serviceInfo = {
-				ftpConnectionConfigId : null,
-				bankCode : '004',
-				requestDataType: 'ACCOUNT',
-				requestMode: 'INQUIRY',
-				errorMessage : '408 - Request timeout'
+		vm.viewProblemDetail = function(serviceType, data , index){
+			if(serviceType==='ftp'){
+				vm.serviceInfo = {
+				ftpConnectionConfigId : data.ftpConnectionConfigId,
+				bankCode : null,
+				requestDataType: null,
+				requestMode: null,
+				errorMessage : data.errorMessage,
+				recordNo:index
 			};
+			}else{
+				vm.serviceInfo = {
+					ftpConnectionConfigId : null,
+					bankCode : data.bankCode,
+					requestDataType: data.requestDataType,
+					requestMode: data.requestMode,
+					errorMessage : data.errorMessage,
+					recordNo:index
+				};
+			}
+			
 			
 			var problemDialog = ngDialog.open({
 				id : 'problem-detail-dialog',
@@ -292,8 +356,9 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 				},
 				preCloseCallback : function(value) {
 					if (value != null) {
-					console.log('Re check this service.');
-					console.log(value);
+						console.log('Re check this service.');
+						console.log(value);
+						vm.recheck(value);
 					}
 				}
 			});
