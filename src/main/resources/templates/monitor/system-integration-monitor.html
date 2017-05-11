@@ -10,34 +10,42 @@
 			</div>
 		</div>
 		<div class="form-element">
-			<form name="organizeForm" ng-submit="ctrl.systemChecking()"
-				autocomplete="off" class="form-horizontal">
-				<div class="panel panel-default col-md-12 padding-0">
-					<div class="panel-body">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">		
+						<form name="organizeForm" ng-submit="ctrl.systemChecking()"
+							autocomplete="off" class="form-horizontal">
 						<div class="form-group" ng-show="ctrl.isBank">
-							<label class="col-md-1 col-sm-1 col-xs-12 control-label"
-								id="organize-label">{{'Organize'| translate}}: </label> <label
-								id="organize-value-label"
-								class="col-md-4 col-sm-4 col-xs-12 control-label"
-								ng-bind="ctrl.organize.organizeName"> </label>
-							<div class="col-md-1 col-sm-6 col-xs-12">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"
+								id="organize-label">{{'Organize'| translate}}: </label> 
+							<label id="organize-value-label"
+								class="col-md-6 col-sm-6 col-xs-12  control-label"
+								ng-bind="ctrl.organize.organizeName">
+								</label>
+							<div class="col-md-3 col-sm-2">
 								<scf-button type="submit" id="bank-check-button"
 									class="btn-default">{{'Check' | translate}}</scf-button>
 							</div>
 						</div>
 						<div class="form-group" ng-hide="ctrl.isBank">
 							<label for="sponsor-auto-suggest" id="sponsor-label"
-								class="col-md-1 col-sm-3 col-xs-12 control-label">{{'Sponsor'
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor'
 								| translate}}: </label>
-							<div class="col-md-4 col-sm-6 col-xs-12">
+							<div class="col-md-6 col-sm-6 col-xs-12">
 								<gec-auto-suggest id="sponsor-auto-suggest"
 									model="ctrl.sponsorAutoSuggestModel" name="sponsorCode"
 									ng-model="ctrl.sponsorModel" maxlength="100"></gec-auto-suggest>
 							</div>
-							<div class="col-md-1 col-sm-6 col-xs-12">
+							<div class="col-md-3 col-sm-2">
 								<scf-button type="submit" id="sponsor-check-button"
 									class="btn-default">{{'Check' | translate}}</scf-button>
 							</div>
+						</div>
+						<div class="form-group" ng-hide="ctrl.isBank">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label" ng-show="ctrl.requireSponsor"></label>
+							<span class="col-md-6 col-sm-4 col-xs-12 error-msg" ng-show="ctrl.requireSponsor"
+								id="sponsor-warning-message-label">{{'Sponsor is
+								required' | translate}}.</span>
 						</div>
 						<div class="row" style="margin-left: 10px; margin-right: 10px;"
 							ng-show="ctrl.showDetails">
@@ -137,9 +145,10 @@
 								</div>
 							</div>
 						</div>
+					</form>
 					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
 </div>
