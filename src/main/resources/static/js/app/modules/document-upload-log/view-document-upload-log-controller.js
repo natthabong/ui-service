@@ -26,7 +26,7 @@ angular
 				
 				vm.roleType = $stateParams.roleType;
 				vm.documentUploadLogModel = $stateParams.documentUploadLogModel;
-				
+				console.log(vm.documentUploadLogModel)
 				var uploadLogId = vm.documentUploadLogModel.uploadDocumentLogId;
 				var organizeId = vm.documentUploadLogModel.organizeName;
 				

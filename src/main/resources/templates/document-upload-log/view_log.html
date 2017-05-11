@@ -46,7 +46,7 @@
 						</div>
 						<div class="col-sm-2 col-md-4">
 							<span id="file-type-value-label"
-								ng-bind="ctrl.documentUploadLogModel.fileType | translate"></span>
+								ng-bind="(ctrl.documentUploadLogModel.fileType=='null'?'':ctrl.documentUploadLogModel.fileType) | translate"></span>
 						</div>
 						<div class="col-sm-2 col-md-2">
 							<label id="file-name-label">{{'File name' | translate}}: </label>
@@ -54,7 +54,7 @@
 						<div class="col-sm-6 col-md-4">
 							<span id="file-name-value-label"
 								ng-bind="ctrl.documentUploadLogModel.fileName"></span>
-							<span> <scf-button id="download-button"
+							<span> <scf-button id="download-button" ng-show="ctrl.documentUploadLogModel.fileName!=null"
 									class="popup-button" ng-click="ctrl.downloadFile()">{{'Download'
 								| translate}}</scf-button>
 							</span>
