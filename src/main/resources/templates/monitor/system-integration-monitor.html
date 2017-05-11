@@ -51,7 +51,8 @@
 											ng-repeat="record in ctrl.webServiceModel track by $index">
 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-7"
 												style="padding-top: 5px">
-												<span ng-bind="record.displayName"></span>
+												<span id="{{record.displayName}}-label"
+													ng-bind="record.displayName"></span>
 											</div>
 											<div class="col-md-2" style="padding-top: 5px">
 												<scf-button class="btn-default gec-btn-action"
@@ -63,8 +64,8 @@
 												style="margin-top: 10px" ng-show="record.status=='success'">
 												<span id="{{record.displayName}}-status-ready-label">
 													<span class="icon-ready"> <span
-														class="glyphicon glyphicon-ok-sign"></span>
-												</span> Ready
+														class="glyphicon glyphicon-ok-sign"></span> Ready
+												</span>
 												</span>
 											</div>
 											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
@@ -97,7 +98,8 @@
 											ng-repeat="record in ctrl.ftpModel track by $index">
 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-7"
 												style="padding-top: 5px">
-												<span ng-bind="record.displayName"></span>
+												<span id="{{record.displayName}}-label"
+													ng-bind="record.displayName"></span>
 											</div>
 											<div class="col-md-2" style="padding-top: 5px">
 												<scf-button class="btn-default gec-btn-action"
@@ -109,8 +111,8 @@
 												style="margin-top: 10px" ng-show="record.status=='success'">
 												<span id="{{record.displayName}}-status-ready-label">
 													<span class="icon-ready"> <span
-														class="glyphicon glyphicon-ok-sign"></span>
-												</span> Ready
+														class="glyphicon glyphicon-ok-sign"></span> Ready
+												</span>
 												</span>
 											</div>
 											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
