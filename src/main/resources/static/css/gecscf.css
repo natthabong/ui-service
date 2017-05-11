@@ -427,6 +427,7 @@ Custom
 .text-hyperlink {
 	text-decoration: underline;
 	color: blue;
+	font-weight: normal;
 }
 
 .icon-signout span {
