@@ -48,7 +48,7 @@
 											ng-bind="'Web Service' | translate"></h3>
 										<div class="form-group control-label"
 											ng-repeat="record in ctrl.webServiceModel track by $index">
-											<div class="col-md-7" style="padding-top: 5px">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-7" style="padding-top: 5px">
 												<span ng-bind="record.displayName"></span>
 											</div>
 											<div class="col-md-2" style="padding-top: 5px">
@@ -57,23 +57,31 @@
 													ng-click="ctrl.viewSystemInfo('gateway',record)">
 												<span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
 											</div>
-											<div class="col-md-3" style="margin-top: 10px"
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" style="margin-top: 10px"
 												ng-show="record.status=='success'">
-												<span id="{{record.displayName}}-status-ready-label"><span class="glyphicon glyphicon-ok-sign" style="color:green"></span>
-													Ready</span>
+												<span id="{{record.displayName}}-status-ready-label">
+													<span class="icon-ready">
+														<span class="glyphicon glyphicon-ok-sign"></span>
+													</span>
+													Ready
+												</span>
 											</div>
-											<div class="col-md-3" style="margin-top:5px;padding-left:5px;"
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" style="margin-top:5px;padding-left:5px;"
 												ng-show="record.status=='loading'">
 												<img src="/img/loading_spinner.gif" alt="loading_spinner"
 													width="30" height="30"></img><span>Checking</span>
 											</div>
-											<div class="col-md-3" style="margin-top: 10px"
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" style="margin-top: 10px"
 												ng-show="record.status=='fail'">
-												<span
-													ng-click="ctrl.viewProblemDetail('gateway',record,$index)"
-													style="cursor: pointer;"><span
-													class="glyphicon glyphicon-remove-sign" style="color:red"
-													id="{{record.displayName}}-status-problem-link"></span> <span style="text-decoration: underline">Problem</span></span>
+												<span ng-click="ctrl.viewProblemDetail('gateway',record,$index)"
+													style="cursor: pointer;">
+													<span class="icon-problem">
+														<span class="glyphicon glyphicon-remove-sign"
+														id="{{record.displayName}}-status-problem-link">
+														</span>
+													</span> 
+													<span class="text-hyperlink">Problem</span>
+												</span>
 											</div>
 										</div>
 									</div>
@@ -86,7 +94,7 @@
 											ng-bind="'FTP' | translate"></h3>
 										<div class="form-group control-label"
 											ng-repeat="record in ctrl.ftpModel track by $index">
-											<div class="col-md-7" style="padding-top: 5px">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-7" style="padding-top: 5px">
 												<span ng-bind="record.displayName"></span>
 											</div>
 											<div class="col-md-2" style="padding-top: 5px">
@@ -95,22 +103,31 @@
 													ng-click="ctrl.viewSystemInfo('ftp',record)">
 												<span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
 											</div>
-											<div class="col-md-3" style="margin-top: 10px"
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" style="margin-top: 10px"
 												ng-show="record.status=='success'">
-												<span id="{{record.displayName}}-status-ready-label"><span class="glyphicon glyphicon-ok-sign" style="color:green"></span>
-													Ready</span>
+												<span id="{{record.displayName}}-status-ready-label">
+													<span class="icon-ready">
+														<span class="glyphicon glyphicon-ok-sign"></span>
+													</span>
+													Ready
+												</span>
 											</div>
-											<div class="col-md-3" style="margin-top:5px;padding-left:5px;"
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" style="margin-top:5px;padding-left:5px;"
 												ng-show="record.status=='loading'">
 												<img src="/img/loading_spinner.gif" alt="loading_spinner"
 													width="30" height="30"></img><span>Checking</span>
 											</div>
-											<div class="col-md-3" style="margin-top: 10px"
+											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" style="margin-top: 10px"
 												ng-show="record.status=='fail'">
 												<span ng-click="ctrl.viewProblemDetail('ftp',record,$index)"
-													style="cursor: pointer;"><span
-													class="glyphicon glyphicon-remove-sign" style="color:red,text-decoration: underline"
-													id="{{record.displayName}}-status-problem-link"></span> <span style="text-decoration: underline">Problem</span></span>
+													style="cursor: pointer;">
+													<span class="icon-problem">
+														<span class="glyphicon glyphicon-remove-sign"
+															id="{{record.displayName}}-status-problem-link">
+														</span>
+													</span> 
+													<span class="text-hyperlink">Problem</span>
+												</span>
 											</div>
 										</div>
 									</div>
