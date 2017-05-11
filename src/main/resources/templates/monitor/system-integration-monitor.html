@@ -1,5 +1,4 @@
-<div id="content" th:fragment="content">
-	<!--sec:authorize="hasAnyAuthority('VIEW_ALL_USER_ACTIVITY_LOG', 'VIEW_MY_ACTIVITY_LOG') and hasAuthority('VIEW_ALL_MODULE')"-->
+<div id="content" th:fragment="content" sec:authorize="hasAnyAuthority('MONITOR_ALL_INTEGRATION')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
@@ -60,7 +59,7 @@
 											</div>
 											<div class="col-md-3" style="margin-top: 10px"
 												ng-show="record.status=='success'">
-												<span><span class="glyphicon glyphicon-ok-sign" style="color:green"></span>
+												<span id="{{record.displayName}}-status-ready-label"><span class="glyphicon glyphicon-ok-sign" style="color:green"></span>
 													Ready</span>
 											</div>
 											<div class="col-md-3" style="margin-left: 5px"
@@ -73,7 +72,8 @@
 												<span
 													ng-click="ctrl.viewProblemDetail('gateway',record,$index)"
 													style="cursor: pointer;"><span
-													class="glyphicon glyphicon-remove-sign" style="color:red"></span> Problem</span>
+													class="glyphicon glyphicon-remove-sign" style="color:red"
+													id="{{record.displayName}}-status-problem-link"></span> <span style="text-decoration: underline">Problem</span></span>
 											</div>
 										</div>
 									</div>
@@ -97,7 +97,7 @@
 											</div>
 											<div class="col-md-3" style="margin-top: 10px"
 												ng-show="record.status=='success'">
-												<span><span class="glyphicon glyphicon-ok-sign" style="color:green"></span>
+												<span id="{{record.displayName}}-status-ready-label"><span class="glyphicon glyphicon-ok-sign" style="color:green"></span>
 													Ready</span>
 											</div>
 											<div class="col-md-3" style="margin-top: 5px"
@@ -109,7 +109,8 @@
 												ng-show="record.status=='fail'">
 												<span ng-click="ctrl.viewProblemDetail('ftp',record,$index)"
 													style="cursor: pointer;"><span
-													class="glyphicon glyphicon-remove-sign" style="color:red"></span> Problem</span>
+													class="glyphicon glyphicon-remove-sign" style="color:red,text-decoration: underline"
+													id="{{record.displayName}}-status-problem-link"></span> <span style="text-decoration: underline">Problem</span></span>
 											</div>
 										</div>
 									</div>
