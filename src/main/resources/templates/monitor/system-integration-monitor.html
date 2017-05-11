@@ -48,10 +48,10 @@
 											ng-bind="'Web Service' | translate"></h3>
 										<div class="form-group control-label"
 											ng-repeat="record in ctrl.webServiceModel track by $index">
-											<div class="col-md-8" style="padding-top: 5px">
+											<div class="col-md-7" style="padding-top: 5px">
 												<span ng-bind="record.displayName"></span>
 											</div>
-											<div class="col-md-1" style="padding-top: 5px">
+											<div class="col-md-2" style="padding-top: 5px">
 												<scf-button class="btn-default gec-btn-action"
 													id="{{record.displayName}}-view-button"
 													ng-click="ctrl.viewSystemInfo('gateway',record)">
@@ -86,10 +86,10 @@
 											ng-bind="'FTP' | translate"></h3>
 										<div class="form-group control-label"
 											ng-repeat="record in ctrl.ftpModel track by $index">
-											<div class="col-md-8" style="padding-top: 5px">
+											<div class="col-md-7" style="padding-top: 5px">
 												<span ng-bind="record.displayName"></span>
 											</div>
-											<div class="col-md-1" style="padding-top: 5px">
+											<div class="col-md-2" style="padding-top: 5px">
 												<scf-button class="btn-default gec-btn-action"
 													id="{{record.displayName}}-view-button"
 													ng-click="ctrl.viewSystemInfo('ftp',record)">
