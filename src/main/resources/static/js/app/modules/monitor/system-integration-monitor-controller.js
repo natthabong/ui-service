@@ -10,6 +10,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		vm.isBank = false;
 		var firstTimeWebServiceChecking = true;
 		var firstTimeFTPChecking = true;
+		vm.requireSponsor = false;
 		var mode = {
 			SPONSOR : 'sponsor',
 			BANK : 'bank'
@@ -23,14 +24,14 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			organizeName : null
 		};
 
-		var getMyOrganize = function() {
-			vm.organize = angular.copy($rootScope.userInfo);
-		}
-
 		var currentMode = $stateParams.mode;
 		
 		var getBankCode = function(){
-			return $stateParams.bankCode;
+			if($stateParams.bankCode != null && $stateParams.bankCode != ''){
+				return $stateParams.bankCode;
+			}else{
+				return null;
+			}
 		}
 
 		// Prepare Auto Suggest
@@ -51,7 +52,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		};
 
 		vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder : 'Enter organize name or code',
+			placeholder : 'Please enter organize name or code',
 			itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
 			query : querySponsorCode
 			});
@@ -68,12 +69,14 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			if(currentMode == mode.SPONSOR){
 				if(typeof vm.sponsorModel != 'object'){
 					validate = false;
+					vm.requireSponsor = true;
 				}else{
 					organizeId = vm.sponsorModel.organizeId;
 					validate = true;
+					vm.requireSponsor = false;
 				}
 			}else{
-				if(vm.organize == null || vm.organize == undefined || vm.organize == ''){
+				if(getBankCode == null){
 					validate = false;
 				}else{
 					validate = true;
@@ -113,8 +116,8 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 				});
 		}
 
-
-		var validateWaitFTPChecking = function(){
+		//Check User Double Click
+		var validateDoubleClickFTPChecking = function(){
 			var validate = true;
 			if(firstTimeFTPChecking){
 				firstTimeFTPChecking = false;
@@ -128,7 +131,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			return validate;
 		}
 
-		var validateWaitWebServiceChecking = function(){
+		var validateDoubleClickWebServiceChecking = function(){
 			var validate = true;
 			if(firstTimeWebServiceChecking){
 				firstTimeWebServiceChecking = false;
@@ -141,11 +144,12 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			}
 			return validate;
 		}
+		//Check User Double Click
 
 		var systemFTPChecking = function(){
 			if(validateOrganizeForCheck()){
 				vm.showDetails = true;
-				if(validateWaitFTPChecking()){
+				if(validateDoubleClickFTPChecking()){
 					for(var i=0; i<vm.ftpModel.length;i++){
 						vm.ftpModel[i].status = "loading";
 						verifySystemStatusFTP(i);
@@ -161,7 +165,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		var systemWebServiceChecking = function(){
 			if(validateOrganizeForCheck()){
 				vm.showDetails = true;
-				if(validateWaitWebServiceChecking()){
+				if(validateDoubleClickWebServiceChecking()){
 					for(var i=0; i<vm.webServiceModel.length;i++){
 						vm.webServiceModel[i].status = "loading";
 						verifySystemStatusWebService(i);
@@ -174,6 +178,8 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			}
 		}
 
+
+		// initial Display Name
 		var getWebServiceList = function(){
 			if(validateOrganizeForCheck){
 				var deffered = SystemIntegrationMonitorService.getWebServiceList(getBankCode());
@@ -214,6 +220,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 				console.log("validate organize fail.")
 			}
 		}
+		// initial Display Name
 		
 		var getBankProfile = function(bankCode){
 			var serviceUrl = '/api/v1/organize-customers/'+bankCode+'/profile';
@@ -234,8 +241,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 				vm.headerName = 'Bank system integration monitor';
 				vm.isBank = true;
 				var organize = getBankCode();
-				getBankProfile(organize);
-				getMyOrganize();				
+				getBankProfile(organize);			
 				getWebServiceList();				
 				getFTPList(organize);
 			}
@@ -245,7 +251,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 
 		vm.systemChecking = function(){
 			if (currentMode == mode.SPONSOR) {
-				getFTPList()
+				getFTPList();
 			}else if(currentMode == mode.BANK){
 				systemFTPChecking();
 				systemWebServiceChecking();
