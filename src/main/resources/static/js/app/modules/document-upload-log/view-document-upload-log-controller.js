@@ -25,8 +25,8 @@ angular
 				vm.headerMsg = 'View document upload log';
 				
 				vm.roleType = $stateParams.roleType;
+				vm.isSponsor = true;
 				vm.documentUploadLogModel = $stateParams.documentUploadLogModel;
-				console.log(vm.documentUploadLogModel)
 				var uploadLogId = vm.documentUploadLogModel.uploadDocumentLogId;
 				var organizeId = vm.documentUploadLogModel.organizeName;
 				
@@ -74,7 +74,11 @@ angular
 					var logListDiferred = vm.pagingController.search(pagingModel);
 				}
 				
-				vm.initLoad = function() {	
+				vm.initLoad = function() {
+					if(vm.roleType==='bank'){
+						vm.isSponsor = false;
+					}
+					
 					vm.searchListLog();
 				}
 				vm.initLoad();
