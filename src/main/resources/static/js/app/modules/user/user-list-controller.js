@@ -254,16 +254,16 @@ userModule
 					},
 					{
 					    fieldName : 'firstName',
-					    labelEN : 'First Name',
-					    labelTH : 'First Name',
+					    labelEN : 'First name',
+					    labelTH : 'First name',
 					    id : 'first-name-{value}',
 					    sortable : false,
 					    cssTemplate : 'text-left'
 					},
 					{
 					    fieldName : 'lastName',
-					    labelEN : 'Last Name',
-					    labelTH : 'Last Name',
+					    labelEN : 'Last name',
+					    labelTH : 'Last name',
 					    id : 'last-name-{value}',
 					    sortable : false,
 					    cssTemplate : 'text-left'
