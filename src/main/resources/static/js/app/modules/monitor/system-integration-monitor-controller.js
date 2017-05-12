@@ -70,15 +70,22 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 				if(typeof vm.sponsorModel != 'object'){
 					validate = false;
 					vm.requireSponsor = true;
+					vm.showDetails = false;
 				}else{
+					if(organizeId != vm.sponsorModel.organizeId){
+						firstTimeFTPChecking = true;
+					}
 					organizeId = vm.sponsorModel.organizeId;
 					validate = true;
 					vm.requireSponsor = false;
+					vm.showDetails = true;
 				}
 			}else{
 				if(getBankCode == null){
+					vm.showDetails = false;
 					validate = false;
 				}else{
+					vm.showDetails = true;
 					validate = true;
 				}
 			}
@@ -147,34 +154,24 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		//Check User Double Click
 
 		var systemFTPChecking = function(){
-			if(validateOrganizeForCheck()){
-				vm.showDetails = true;
-				if(validateDoubleClickFTPChecking()){
-					for(var i=0; i<vm.ftpModel.length;i++){
-						vm.ftpModel[i].status = "loading";
-						verifySystemStatusFTP(i);
-					}
-				}else{
-					console.log("please wait system processing");
+			if(validateDoubleClickFTPChecking()){
+				for(var i=0; i<vm.ftpModel.length;i++){
+					vm.ftpModel[i].status = "loading";
+					verifySystemStatusFTP(i);
 				}
 			}else{
-				vm.showDetails = false;
+				console.log("please wait system processing");
 			}
 		}
 
 		var systemWebServiceChecking = function(){
-			if(validateOrganizeForCheck()){
-				vm.showDetails = true;
-				if(validateDoubleClickWebServiceChecking()){
-					for(var i=0; i<vm.webServiceModel.length;i++){
-						vm.webServiceModel[i].status = "loading";
-						verifySystemStatusWebService(i);
-					}
-				}else{
-					console.log("please wait system processing");
+			if(validateDoubleClickWebServiceChecking()){
+				for(var i=0; i<vm.webServiceModel.length;i++){
+					vm.webServiceModel[i].status = "loading";
+					verifySystemStatusWebService(i);
 				}
 			}else{
-				vm.showDetails = false;
+				console.log("please wait system processing");
 			}
 		}
 
@@ -202,20 +199,34 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		var getFTPList = function(organize){
 			if(validateOrganizeForCheck()){
 				if(currentMode == mode.SPONSOR){
-					var deffered = SystemIntegrationMonitorService.getFTPList(organizeId)
+					if(firstTimeFTPChecking){
+						var deffered = SystemIntegrationMonitorService.getFTPList(organizeId);
+						deffered.promise.then(function(response) {
+							vm.ftpModel = response.data;
+							for(var i=0; i<vm.ftpModel.length;i++){
+								vm.ftpModel[i].status = 'loading';
+								vm.ftpModel[i].isFTP = true;
+							}
+							systemFTPChecking();
+						}).catch(function(response) {
+							console.log("connect api fail.");
+						});
+					}else{
+						systemFTPChecking();
+					}
 				}else{
 					var deffered = SystemIntegrationMonitorService.getFTPList(organize);
-				}
 					deffered.promise.then(function(response) {
-						vm.ftpModel = response.data;
-						for(var i=0; i<vm.ftpModel.length;i++){
-							vm.ftpModel[i].status = 'loading';
-							vm.ftpModel[i].isFTP = true;
-						}
-						systemFTPChecking();
-					}).catch(function(response) {
-						console.log("connect api fail.");
-					});
+							vm.ftpModel = response.data;
+							for(var i=0; i<vm.ftpModel.length;i++){
+								vm.ftpModel[i].status = 'loading';
+								vm.ftpModel[i].isFTP = true;
+							}
+							systemFTPChecking();
+						}).catch(function(response) {
+							console.log("connect api fail.");
+						});
+				}
 			}else{
 				console.log("validate organize fail.")
 			}
