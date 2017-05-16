@@ -39,6 +39,7 @@
 							class="col-md-2 col-sm-2 col-xs-2"
 							ng-model="ctrl.useStartDateActive"
 							label="Start date (Include start date)" 
+							disable="true"
 							style="background-color: #1B80E4 !important;color: #fff !important;"></gec-checkbox-button>
 						<div class="col-md-1 col-sm-1 col-xs-1" style="width: 3px;">+</div>
 						<gec-checkbox-button name="credit-term"
@@ -182,7 +183,7 @@
 						</div>
 
 
-						<div class="form-group">
+						<div class="form-group" ng-show="ctrl.useCreditTerm">
 							<div class="col-md-offset-1 col-md-10 col-sm-8 col-xs-8">
 
 								<div class="panel credit-term-panel panel-shadow">
@@ -228,7 +229,7 @@
 						</div>
 
 
-						<div class="form-group">
+						<div class="form-group" ng-show="ctrl.usePaymentPeriod">
 							<div class="col-md-offset-1 col-md-10 col-sm-8 col-xs-8">
 
 								<div class="panel payment-period-panel panel-shadow">
