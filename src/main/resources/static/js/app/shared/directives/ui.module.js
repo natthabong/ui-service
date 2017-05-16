@@ -32,6 +32,15 @@ angular
 							'<span id="{{match.model.identity}}" ',
 							'ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>',
 							'</a>' ].join(''));
+				$templateCache
+				.put(
+					'ui/template/checkboxButton.html',
+                                	+'<div class="media list-group-item" style="width: 150px;">'
+                                	+'<div class="checkbox pull-left">'
+                                	+'<label> <input id="{{id}}" type="checkbox" ng-model="ngModel">'
+                                	+'</label></div>'
+                                	+'<div class="media-body" style="word-wrap: break-word;">'
+                                	+'<label for="{{id}}" data-ng-bind="label | translate"></label></div><div class="clearfix"></div></div>');
 
 			} ])
 	.config([ 'ngDialogProvider', function(ngDialogProvider) {
