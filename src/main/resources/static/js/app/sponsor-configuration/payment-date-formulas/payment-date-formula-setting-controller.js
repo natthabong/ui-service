@@ -285,17 +285,16 @@ app.controller('PaymentDateFormulaSettingController', [
 			});
 			return diferred;
 		}
+		
 		vm.configCreditTerm = function(creditTerm) {
 			var editMode = angular.isDefined(creditTerm);
 
 			var data = creditTerm || {
 			};
 			
-			vm.formulaCheckbox = {
-				startDateActive: true, 
-				creditTermActive: false, 
-				paymentPeriodActive: false
-			};
+			vm.useStartDateActive = true;
+			vm.useCreditTerm = false;
+			vm.usePaymentPeriod = false;
 
 			var paymentPeriodsDeferred = loadPaymentPeriod();
 			paymentPeriodsDeferred.promise.then(function(response) {
@@ -320,21 +319,15 @@ app.controller('PaymentDateFormulaSettingController', [
 						paymentPeriods : response.data,
 						paymentDateFormulaId : formulaId,
 						sponsorId: sponsorId,
-						formulaCheckbox : vm.formulaCheckbox
+						useStartDateActive : vm.useStartDateActive,
+						useCreditTerm : vm.useCreditTerm,
+						usePaymentPeriod : vm.usePaymentPeriod,
+						configCreditTerm: vm.configCreditTerm
 					},
 					disableAnimation : true,
 					preCloseCallback : function(value) {
 						vm.searchCreditTerm();
 						vm.searchPeriod();
-//						if (angular.isDefined(value)) {
-//							var deferred = saveCreditterm(value, editMode);
-//							deferred.promise.then(function(){
-//								vm.searchCreditTerm();
-//								return true;
-//							}).catch(function(){
-//								return true;
-//							});
-//						}
 						return true;
 					}
 				});
