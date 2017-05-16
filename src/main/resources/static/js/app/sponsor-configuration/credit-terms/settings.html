@@ -28,6 +28,8 @@
 						<label id="select-formula-label" for="expected-value" class="col-md-12 col-sm-12 col-xs-12 control-label">
 							<span ng-bind="'Step 1:  Select formula' | translate">
 						</label>
+					</div>
+					<div class="form-group">
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="form-group">
 								<div class="col-md-10 col-sm-10 col-xs-10">
@@ -45,61 +47,15 @@
 							</div>
 						</div>
 						
-						
-						<label for="expected-value"
-							class="col-md-12 col-sm-12 col-xs-12 control-label"><span
-							ng-bind="'Document date' | translate"></span></label>
-						<div class="col-md-12 col-sm-12 col-xs-12">
-							<div class="form-group">
-								<div class="col-md-1 col-sm-1 col-xs-1"></div>
-								<div class="col-md-10 col-sm-10 col-xs-10">
-									<div class="row">
-										<div class="col-md-11 col-sm-11 col-xs-11">
-											<label class="radio-inline"> <scf-radio
-													id="document-date-type-radio"
-													ng-model="ctrl.model.creditterm.documentDateType"
-													ng-value="ctrl.documentDateType.EVERY_DAY"
-													name="document-date-type-radio"></scf-radio> {{'Every day'
-												| translate}}
-											</label>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-3 col-sm-3 col-xs-3">
-											<label class="radio-inline"> <scf-radio
-													id="document-date-type-radio"
-													ng-model="ctrl.model.creditterm.documentDateType"
-													ng-value="ctrl.documentDateType.RANGE"
-													name="document-date-type-radio"></scf-radio> {{'Period
-												date' | translate}}
-											</label>
-										</div>
-										<div class="col-md-4 col-sm-4 col-xs-4">
-											<scf-dropdown id="start-date-dropdown"
-												ng-model="ctrl.model.creditterm.documentDateStartPeriod"
-												ng-disabled="ctrl.model.creditterm.documentDateType == ctrl.documentDateType.EVERY_DAY"
-												component-data="ctrl.dateDropdown" convert-to-number="true"></scf-dropdown>
-										</div>
-										<div class="col-md-1 col-sm-1 col-xs-1">to</div>
-										<div class="col-md-4 col-sm-4 col-xs-4">
-											<scf-dropdown id="end-date-dropdown"
-												ng-model="ctrl.model.creditterm.documentDateEndPeriod"
-												ng-disabled="ctrl.model.creditterm.documentDateType == ctrl.documentDateType.EVERY_DAY"
-												component-data="ctrl.dateDropdown" convert-to-number="true"></scf-dropdown>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
-					
-					
 					
 					<div class="form-group">
 						<label id="setup-parameter-label" for="expected-value" class="col-md-12 col-sm-12 col-xs-12 control-label">
-							<span ng-bind="'Step 2:  Setup parameter' | translate">
+							<span ng-bind="'Step 2:  Setup parameter' | translate"></span>
 						</label>
+					</div>	
 						
+					<div class="form-group">	
 						<div class="form-group">
 							<div class="col-md-offset-1 col-md-10 col-sm-8 col-xs-8">
 							
@@ -111,57 +67,88 @@
 								  
 								  <div class="panel-body">
 								  	<div class="form-group">
-									    <div class="row">
-									    	<div class="col-md-5 col-sm-5 col-xs-5">
-									    		<label id="actual-sponsor-payment-date-label" for="expected-value" >
-													<span ng-bind="'Start date with condition' | translate"></span>:</lable>
-												</label>
-									    	</div>
-									    	
-									    	<div class="col-md-7 col-sm-7 col-xs-7">
-									    		<scf-dropdown id="start-date-with-condition-dropdown"
-													ng-model="ctrl.model.creditterm.startDateType"
-													component-data="ctrl.startDateDropdown"></scf-dropdown>
-									    	</div>
+								  		<div class="col-md-12 col-sm-12 col-xs-12">
+										    <div class="row">
+										    	<div class="col-md-4 col-sm-4 col-xs-4 control-label">
+										    		<label id="actual-sponsor-payment-date-label" for="expected-value" >
+														<span ng-bind="'Start date with condition' | translate"></span>:</lable>
+													</label>
+										    	</div>
+										    	
+										    	<div class="col-md-7 col-sm-7 col-xs-7">
+										    		<scf-dropdown id="start-date-with-condition-dropdown"
+														ng-model="ctrl.model.creditterm.startDateType"
+														component-data="ctrl.startDateDropdown"></scf-dropdown>
+										    	</div>
+										    </div>
 									    </div>
 									</div>
+									
+									<div class="form-group">
+								    	<div class="col-md-12 col-sm-12 col-xs-12">
+									    	<div class="row">
+												<div class="col-md-4 col-sm-4 col-xs-4 control-label">
+										    		<span id="from-period-date-label" ng-bind="'From period date' | translate"></span>: </lable>
+										    	</div>
+										    	
+												<div class="col-md-3 col-sm-3 col-xs-3">
+													<scf-dropdown id="start-date-dropdown"
+														ng-model="ctrl.model.creditterm.documentDateStartPeriod"
+														component-data="ctrl.dateDropdown" convert-to-number="true"></scf-dropdown>
+												</div>
+												
+												<div class="col-md-1 col-sm-1 col-xs-1">
+													<span id="to-period-date-label" ng-bind="'to' | translate"></span>: </lable>
+												</div>
+												<div class="col-md-3 col-sm-3 col-xs-3">
+													<scf-dropdown id="end-date-dropdown"
+														ng-model="ctrl.model.creditterm.documentDateEndPeriod"
+														component-data="ctrl.dateDropdown" convert-to-number="true"></scf-dropdown>
+												</div>
+											</div>
+										</div>
+								    </div>
 								    
 								    <div class="form-group">
-									    <div class="row">
-									    	<div class="col-md-5 col-sm-5 col-xs-5 control-label">
-									    		<label id="start-date-of-month-label" for="expected-value" >
-													<span ng-bind="'Date' | translate"></span>: </lable>
-												</label>
-									    	</div>
-									    	
-									    	<div class="col-md-7 col-sm-7 col-xs-7">
-									    		<scf-dropdown id="start-date-of-month-dropdown"
-													ng-model="ctrl.model.creditterm.startDateOfMonth"
-													convert-to-number="true" component-data="ctrl.dateDropdown"></scf-dropdown>
-									    	</div>
+								    	<div class="col-md-12 col-sm-12 col-xs-12">
+										    <div class="row">
+										    	<div class="col-md-4 col-sm-4 col-xs-4 control-label">
+										    		<label id="start-date-of-month-label" for="expected-value" >
+														<span ng-bind="'Date' | translate"></span>: </lable>
+													</label>
+										    	</div>
+										    	
+										    	<div class="col-md-7 col-sm-7 col-xs-7">
+										    		<scf-dropdown id="start-date-of-month-dropdown"
+														ng-model="ctrl.model.creditterm.startDateOfMonth"
+														convert-to-number="true" component-data="ctrl.dateDropdown"></scf-dropdown>
+										    	</div>
+										    </div>
 									    </div>
 								    </div>
 								    
 								    <div class="form-group">
-									    <div class="row">
-									    	<div class="col-md-5 col-sm-5 col-xs-5 control-label">
-									    		<span ng-bind="'Month' | translate"></span>: </lable>
-									    	</div>
-									    	
-									    	<div class="col-md-4 col-sm-4 col-xs-4">
-												<scf-dropdown id="start-month-type-dropdown"
-													ng-model="ctrl.model.creditterm.startMonthType"
-													component-data="ctrl.startMonthTypeDropdown"></scf-dropdown>
-											</div>
-											<div class="col-md-3 col-sm-3 col-xs-3">
-												<scf-input-text id="start-number-of-next-month-textbox"
-													maxlength="2"
-													ng-model="ctrl.model.creditterm.startNumberOfNextMonth"
-													class="text-right"
-													ng-disabled="ctrl.model.creditterm.startMonthType == ctrl.startMonthTypeDropdown[0].value"></scf-input-text>
-											</div>
-									    
-									    	
+								    	<div class="col-md-12 col-sm-12 col-xs-12">
+										    <div class="row">
+										    	<div class="col-md-4 col-sm-4 col-xs-4 control-label">
+										    		<span ng-bind="'Month' | translate"></span>: </lable>
+										    	</div>
+										    	
+										    	<div class="col-md-4 col-sm-4 col-xs-4">
+													<scf-dropdown id="start-month-type-dropdown"
+														ng-model="ctrl.model.creditterm.startMonthType"
+														component-data="ctrl.startMonthTypeDropdown"
+														ng-change="ctrl.changeMonth()"></scf-dropdown>
+												</div>
+												<div class="col-md-3 col-sm-3 col-xs-3">
+													<scf-input-text id="start-number-of-next-month-textbox"
+														maxlength="2"
+														ng-model="ctrl.model.creditterm.startNumberOfNextMonth"
+														class="text-right"
+														ng-disabled="ctrl.model.creditterm.startMonthType == ctrl.startMonthTypeDropdown[0].value"></scf-input-text>
+												</div>
+										    	
+										    </div>
 									    </div>
 								    </div>
 								    
@@ -211,7 +198,12 @@
 							
 								<div class="panel payment-period-panel panel-shadow">
 								  <div class="panel-heading payment-period">
-								    <h4 class="panel-title" id="payment-period-header-label">Payment period</h4>
+								  	<span class="pull-left" id="payment-period-header-label" ng-bind="'Payment period' | translate"></span>
+								  	<span class="pull-right">
+								    	<scf-button class="btn-default gec-btn-action" id="add-another-period-button"
+											title="New a payment period" ng-click="ctrl.configPeriod()" > <i
+											class="fa fa-plus fa-lg" aria-hidden="true"></i></scf-button>
+								    </span>
 								    <div class="clearfix"></div>
 								  </div>
 								  
@@ -260,97 +252,6 @@
 					</div>
 					
 					
-					
-					
-
-					<div class="form-group">
-						<label for="expected-value"
-							class="col-md-12 col-sm-12 col-xs-12 control-label"><span
-							ng-bind="'New Creditterm Formula label' | translate"></span></label>
-					</div>
-
-					<div class="form-group">
-						<label class="col-md-12 col-sm-12 col-xs-12"><span
-							ng-bind="'Start date' | translate"></span></label>
-						<div class="col-md-12 col-sm-12 col-xs-12">
-							<div class="form-group">
-								<div class="col-md-1 col-sm-1 col-xs-1"></div>
-								<div class="col-md-10 col-sm-10 col-xs-10">
-									<div class="row">
-										<div class="col-md-4 col-sm-4 col-xs-4">
-											<label class="radio-inline"> <scf-radio
-													id="start-date-type-radio"
-													ng-model="ctrl.model.creditterm.startDateType"
-													ng-value="ctrl.startDateType.ON_DOCUMENT_DATE"
-													name="start-date-type-radio"></scf-radio> {{'on Document
-												date' | translate}}
-											</label>
-										</div>
-										<div class="col-md-8 col-sm-8 col-xs-8">
-											<label class="radio-inline"> <scf-radio
-													id="start-date-type-radio"
-													ng-model="ctrl.model.creditterm.startDateType"
-													ng-value="ctrl.startDateType.AFTER_DOCUMENT_DATE"
-													name="start-date-type-radio"></scf-radio> {{'after Document
-												date' | translate}}
-											</label>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-md-1 col-sm-1 col-xs-1"></div>
-								<div class="col-md-10 col-sm-10 col-xs-10">
-									<div class="row">
-										<lable class="col-md-4 col-sm-4 col-xs-4 control-label">
-										<span ng-bind="'next day of week' | translate"></span>:</lable>
-										<div class="col-md-7 col-sm-7 col-xs-7">
-											<scf-dropdown id="start-date-next-day-of-week-dropdown"
-												ng-model="ctrl.model.creditterm.startDayOfWeek"
-												ng-disabled="ctrl.model.creditterm.startDateType == ctrl.startDateType.ON_DOCUMENT_DATE"
-												component-data="ctrl.startDayOfWeekDropdown"></scf-dropdown>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-md-1 col-sm-1 col-xs-1"></div>
-								<div class="col-md-10 col-sm-10 col-xs-10">
-									<div class="row">
-										<lable class="col-md-4 col-sm-4 col-xs-4 control-label">
-										<span ng-bind="'date' | translate"></span>: </lable>
-										<div class="col-md-7 col-sm-7 col-xs-7">
-											<scf-dropdown id="start-date-of-month-dropdown"
-												ng-model="ctrl.model.creditterm.startDateOfMonth"
-												convert-to-number="true" component-data="ctrl.dateDropdown"></scf-dropdown>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-md-1 col-sm-1 col-xs-1"></div>
-								<div class="col-md-10 col-sm-10 col-xs-10">
-									<div class="row">
-										<lable class="col-md-4 col-sm-4 col-xs-4 control-label">
-										<span ng-bind="'month' | translate"></span>: </lable>
-										<div class="col-md-4 col-sm-4 col-xs-4">
-											<scf-dropdown id="start-month-type-dropdown"
-												ng-model="ctrl.model.creditterm.startMonthType"
-												component-data="ctrl.startMonthTypeDropdown"></scf-dropdown>
-										</div>
-										<div class="col-md-3 col-sm-3 col-xs-3">
-											<scf-input-text id="start-number-of-next-month-textbox"
-												maxlength="2"
-												ng-model="ctrl.model.creditterm.startNumberOfNextMonth"
-												class="text-right"
-												ng-disabled="ctrl.model.creditterm.startMonthType == ctrl.startMonthTypeDropdown[0].value"></scf-input-text>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
 				</form>
 			</div>
 		</div>
@@ -359,14 +260,14 @@
 		<div class="row">
 
 			<div class="col-md-12 col-sm-12 text-right">
-				<scf-button id="credit-term-code-cancel-button" class="popup-button"
-					data-dismiss="modal" ng-click="closeThisDialog()"
-					ng-bind="'Cancel' | translate"></scf-button>
-				<scf-button id="credit-term-code-save-button" class="popup-button"
-					data-dismiss="modal"
-					ng-click="closeThisDialog(ctrl.model.creditterm)"
-					ng-bind="'Save' | translate"></scf-button>
-			</div>
+			    <scf-button id="credit-term-code-cancel-button" class="popup-button"
+			     data-dismiss="modal" ng-click="closeThisDialog()"
+			     ng-bind="'Cancel' | translate"></scf-button>
+			    <scf-button id="credit-term-code-save-button" class="popup-button"
+			     data-dismiss="modal"
+			     ng-click="ctrl.saveCreditterm(ctrl.model.creditterm, closeThisDialog)"
+			     ng-bind="'Save' | translate"></scf-button>
+			 </div>
 
 		</div>
 	</div>
