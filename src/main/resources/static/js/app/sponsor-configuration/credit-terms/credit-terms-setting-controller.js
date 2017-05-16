@@ -57,21 +57,16 @@ app.constant('TermTypeDropdown',[
 	{label:'Week(s)', value: 'WEEK'}
 	]);
 
-app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'DocumentDatePeriodDropdown', 
+app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'DocumentDatePeriodDropdown', 'StartDateDropdown',
 	'StartDayOfWeekDropdown', 'StartMonthTypeDropdown', 'TermTypeDropdown', 'SCFCommonService', 'UIFactory',
 	'Service', 'blockUI', 'PageNavigation',
-	function($scope, ngDialog, DocumentDatePeriodDropdown, StartDayOfWeekDropdown, 
+	function($scope, ngDialog, DocumentDatePeriodDropdown, StartDateDropdown, StartDayOfWeekDropdown, 
 			StartMonthTypeDropdown, TermTypeDropdown, SCFCommonService, UIFactory, Service, blockUI, PageNavigation) {
 	var vm = this;
 	vm.documentDateType = {
 		'EVERY_DAY' : 'EVERY_DAY',
 		'RANGE' : 'RANGE'
 	};
-	
-	vm.startDateType = {
-			'ON_DOCUMENT_DATE': 'ON_DOCUMENT_DATE',
-			'AFTER_DOCUMENT_DATE': 'AFTER_DOCUMENT_DATE'
-		};
 	
 	vm.periodType = {
 		'SPECIFIC': 'SPECIFIC',
@@ -93,9 +88,9 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 		var credittermModel = {
 			paymentDateFormulaId : formulaId,
 			documentDateType : vm.documentDateType.EVERY_DAY,
-			startDateType: vm.startDateType.ON_DOCUMENT_DATE,
-			documentDateStartPeriod: null,
-			documentDateEndPeriod: null,
+			startDateType: StartDateDropdown[0].value,
+			documentDateStartPeriod: DocumentDatePeriodDropdown[0].value,
+			documentDateEndPeriod: DocumentDatePeriodDropdown[0].value,
 			startDayOfWeek: null,
 			startDateOfMonth: DocumentDatePeriodDropdown[0].value,
 			startMonthType: StartMonthTypeDropdown[0].value,
@@ -111,6 +106,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	vm.headerMsgLabel = vm.editMode == true ? 'Edit credit term code' : 'New credit term code';
 	vm.isValidStartMonth
 	vm.dateDropdown = DocumentDatePeriodDropdown;
+	vm.startDateDropdown = StartDateDropdown;
 	vm.startDayOfWeekDropdown = StartDayOfWeekDropdown;
 	vm.startMonthTypeDropdown = StartMonthTypeDropdown;
 	vm.termTypeDropdown = TermTypeDropdown;
@@ -143,11 +139,21 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	
 	var validSave = function(){
 		var isValid = true;
+		vm.isErrorMonth = false;
+		vm.isErrorCreditTerm = false;
+		
 		if(vm.model.creditterm.startMonthType !== 'CURRENT'){
 			if(parseInt(vm.model.creditterm.startNumberOfNextMonth) <= 0){
-	    		vm.model.creditterm.startNumberOfNextMonth = '1';
+				vm.isErrorMonth = true;
+				isValid = false;
 	    	}
 	    }
+		
+		if(parseInt(vm.model.creditterm.term) <= 0){
+			vm.isErrorCreditTerm = true;
+			isValid = false;
+		}
+		
 		return isValid;
 	}
 	
