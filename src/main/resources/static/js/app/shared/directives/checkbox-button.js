@@ -6,14 +6,15 @@ app.directive('gecCheckboxButton', [ function() {
 	return {
 		restrict : 'E',
 		transclude : true,
-		replace : false,
+		replace : true,
 		scope : {
 			ngModel: '=',
 			id: '@',
-			disable: '='
+			disable: '=',
+			label: '@',
+			name: '@'
 		},
 		link: function(scope, elements, attrs){			
-			elements.context.id="undefined";
 		},
 		templateUrl : function(elem, attr) {
 			return attr.itemTemplateUrl

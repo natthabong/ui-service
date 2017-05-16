@@ -311,6 +311,7 @@ app.controller('PaymentDateFormulaSettingController', [
 				ngDialog.open({
 					template : '/js/app/sponsor-configuration/credit-terms/settings.html',
 					scope : $scope,
+					id: 'credit-term-dialog',
 					controller : 'CreditTermsSettingController',
 					controllerAs : 'ctrl',
 					data : {

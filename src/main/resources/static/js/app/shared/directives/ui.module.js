@@ -35,12 +35,12 @@ angular
 				$templateCache
 				.put(
 					'ui/template/checkboxButton.html',
-                                	+'<div class="media list-group-item" style="width: 150px;">'
-                                	+'<div class="checkbox pull-left">'
-                                	+'<label> <input id="{{id}}" type="checkbox" ng-model="ngModel">'
-                                	+'</label></div>'
-                                	+'<div class="media-body" style="word-wrap: break-word;">'
-                                	+'<label for="{{id}}" data-ng-bind="label | translate"></label></div><div class="clearfix"></div></div>');
+                                	['<div class="media" style="border: 1px solid #ddd;width:130px;min-height: 90px;">'
+                                	,'<div class="checkbox pull-left">'
+                                	,'<label> <input id="{{name}}-checkbox" type="checkbox" ng-model="ngModel">'
+                                	,'</label></div>'
+                                	,'<div class="media-body" style="word-wrap: break-word;">'
+                                	,'<label for="{{name}}-checkbox" id="{{name}}-label" >{{label | translate}}</label></div><div class="clearfix"></div></div>'].join(''));
 
 			} ])
 	.config([ 'ngDialogProvider', function(ngDialogProvider) {
