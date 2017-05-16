@@ -123,11 +123,14 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	}
 	
 	vm.checkPaymentPeriod = function(){
+		console.log(vm.usePaymentPeriod);
 	    if(vm.usePaymentPeriod){
+	    	console.log(vm.model.creditterm.periodType);
 	    	if(vm.model.creditterm.periodType == null){
 	    		vm.model.creditterm.periodType = 'EVERY_PERIOD';
 	    	}
 	    }
+	    console.log(vm.model.creditterm.periodType);
 	}
 	
 	vm.changeStartDateType = function(){
@@ -245,6 +248,12 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 		var paymentPeroidDeferred = Service.requestURL(serviceUrl, vm.model.creditterm, httpMethod);
 		return paymentPeroidDeferred;
     }
+	
+	vm.initLoad = function() {
+		vm.changeStartDateType();
+	}
+
+	vm.initLoad();
 	
 } ]);
 app.controller('SimulatePaymentDateController', [ '$scope', '$rootScope', function($scope, $rootScope) {
