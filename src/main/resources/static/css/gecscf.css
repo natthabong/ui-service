@@ -983,6 +983,25 @@ html.ngdialog-open, body.ngdialog-open {
 	background-color: #66CC00 !important;
 }
 
+.start-date-panel .panel-heading {
+	background-color: #1B80E4 !important;
+}
+.start-date {
+	color: #fff !important;
+}
+.credit-term-panel .panel-heading {
+	background-color: #FF8C1A !important;
+}
+.credit-term {
+	color: #fff !important;
+}
+.payment-period-panel .panel-heading {
+	background-color: #66CC00 !important;
+}
+.payment-period {
+	color: #fff !important;
+}
+
 .mouse-pointer {
 	cursor: pointer;
 }
