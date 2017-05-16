@@ -86,13 +86,14 @@
 													<div class="col-md-7 col-sm-7 col-xs-7">
 														<scf-dropdown id="start-date-with-condition-dropdown"
 															ng-model="ctrl.model.creditterm.startDateType"
-															component-data="ctrl.startDateDropdown"></scf-dropdown>
+															component-data="ctrl.startDateDropdown"
+															ng-change="ctrl.changeStartDateType()"></scf-dropdown>
 													</div>
 												</div>
 											</div>
 										</div>
 
-										<div class="form-group">
+										<div class="form-group" ng-show="ctrl.isAfterDocumentDate">
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4 control-label">
@@ -122,7 +123,7 @@
 											</div>
 										</div>
 
-										<div class="form-group">
+										<div class="form-group" ng-show="ctrl.isFromDocumentDate || ctrl.isAfterDocumentDate">
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4 control-label">
@@ -141,7 +142,7 @@
 											</div>
 										</div>
 
-										<div class="form-group">
+										<div class="form-group" ng-show="ctrl.isFromDocumentDate || ctrl.isAfterDocumentDate">
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4 control-label">
