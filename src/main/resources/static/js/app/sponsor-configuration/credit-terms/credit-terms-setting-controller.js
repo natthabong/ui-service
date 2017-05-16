@@ -80,12 +80,14 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 
 	var sponsorId = angular.copy($scope.ngDialogData.sponsorId);
 	var formulaId = angular.copy($scope.ngDialogData.paymentDateFormulaId);
-	vm.formulaCheckbox = angular.copy($scope.ngDialogData.formulaCheckbox);
+	vm.useStartDateActive = angular.copy($scope.ngDialogData.useStartDateActive);
+	vm.useCreditTerm = angular.copy($scope.ngDialogData.useCreditTerm);
+	vm.usePaymentPeriod = angular.copy($scope.ngDialogData.usePaymentPeriod);
 	vm.model = {
 		creditterm : angular.copy($scope.ngDialogData.model)		
 	}
 	vm.paymentPeriods = angular.copy($scope.ngDialogData.paymentPeriods) || [];
-	
+	vm.configCreditTerm = angular.copy($scope.ngDialogData.configCreditTerm);
 	vm.editMode = $scope.ngDialogData.editMode;
 	if (!vm.editMode) {
 		var credittermModel = {
@@ -107,14 +109,14 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	}
 		
 	vm.headerMsgLabel = vm.editMode == true ? 'Edit credit term code' : 'New credit term code';
-
+	vm.isValidStartMonth
 	vm.dateDropdown = DocumentDatePeriodDropdown;
 	vm.startDayOfWeekDropdown = StartDayOfWeekDropdown;
 	vm.startMonthTypeDropdown = StartMonthTypeDropdown;
 	vm.termTypeDropdown = TermTypeDropdown;
 	
 	vm.checkCreditTerm = function(){
-	    if(vm.formulaCheckbox.creditTermActive){
+	    if(vm.useCreditTerm){
 	    	if(vm.model.creditterm.term == '0'){
 	    		vm.model.creditterm.term = '2';
 	    	}
@@ -122,7 +124,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	}
 	
 	vm.checkPaymentPeriod = function(){
-	    if(vm.formulaCheckbox.paymentPeriodActive){
+	    if(vm.usePaymentPeriod){
 	    	if(vm.model.creditterm.periodType == null){
 	    		vm.model.creditterm.periodType = 'EVERY_PERIOD';
 	    	}
@@ -139,59 +141,70 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	    }
 	}
 	
+	var validSave = function(){
+		var isValid = true;
+		if(vm.model.creditterm.startMonthType !== 'CURRENT'){
+			if(parseInt(vm.model.creditterm.startNumberOfNextMonth) <= 0){
+	    		vm.model.creditterm.startNumberOfNextMonth = '1';
+	    	}
+	    }
+		return isValid;
+	}
+	
 	vm.saveCreditterm = function(creditterm, callback){
-		UIFactory.showConfirmDialog({
-			data : {
-			    headerMessage : 'Confirm save?'
-			},
-			confirm : $scope.confirmSave,
-			onSuccess : function(response) {
-			    blockUI.stop();
-			    creditTerm = response;
-			    var headerMessage = 'Add new credit term code success';
-			    if(vm.editMode){
-			    	headerMessage = 'Edit credit term code success';
-			    }
+		if(validSave()){
+			UIFactory.showConfirmDialog({
+				data : {
+				    headerMessage : 'Confirm save?'
+				},
+				confirm : $scope.confirmSave,
+				onSuccess : function(response) {
+				    blockUI.stop();
+				    creditTerm = response;
+				    var headerMessage = 'Add new credit term code success';
+				    if(vm.editMode){
+				    	headerMessage = 'Edit credit term code success';
+				    }
 
-			    ngDialog.open({
-					template : '/js/app/sponsor-configuration/credit-terms/success-dialog.html',
-					scope : $scope,
-					controller : 'SimulatePaymentDateController',
-					controllerAs : 'ctrl',
-					data : {
-						headerMessage : headerMessage,
-						sponsorId : sponsorId,
-						creditTermId: creditTerm.creditTermId
-					},
-					disableAnimation : true,
-					preCloseCallback : function(value) {
-						if (angular.isDefined(value)) {
-							if(value==='OK'){
+				    ngDialog.open({
+						template : '/js/app/sponsor-configuration/credit-terms/success-dialog.html',
+						scope : $scope,
+						controller : 'SimulatePaymentDateController',
+						controllerAs : 'ctrl',
+						data : {
+							headerMessage : headerMessage,
+							sponsorId : sponsorId,
+							creditTerm: creditTerm
+						},
+						disableAnimation : true,
+						preCloseCallback : function(value) {
+							if (angular.isDefined(value)) {
 								callback();
-							}else{
-								
+								if(value!='OK'){
+									vm.configCreditTerm(value);
+								}
 							}
+							return true;
 						}
-						return true;
-					}
-				});
-			},
-			onFail : function(response) {
-			    blockUI.stop();
-			}
-	    });
+					});
+				},
+				onFail : function(response) {
+				    blockUI.stop();
+				}
+		    });
+		}
 	}	
 	
 	$scope.confirmSave = function() { 
 		var BASE_URI = 'api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP';
 		var serviceUrl = '', httpMethod = 'POST';	
 		
-		if(!vm.formulaCheckbox.creditTermActive){
+		if(!vm.useCreditTerm){
 			vm.model.creditterm.term = 0;
 			vm.model.creditterm.termType = 'DAY';
 	    }
 	    
-	    if(!vm.formulaCheckbox.paymentPeriodActive){
+	    if(!vm.usePaymentPeriod){
 	    	vm.model.creditterm.paymentPeriods = null;
 	    	vm.model.creditterm.periodType = null;
 	    }
@@ -212,5 +225,6 @@ app.controller('SimulatePaymentDateController', [ '$scope', '$rootScope', functi
 	 var vm = this;
 	 vm.headerMessage = angular.copy($scope.ngDialogData.headerMessage);
 	 vm.sponsorId = angular.copy($scope.ngDialogData.sponsorId);
-	 vm.creditTermId = angular.copy($scope.ngDialogData.creditTermId);
+	 vm.creditTerm = angular.copy($scope.ngDialogData.creditTerm);
+	 vm.creditTermId = vm.creditTerm.creditTermId;
 	} ]);
