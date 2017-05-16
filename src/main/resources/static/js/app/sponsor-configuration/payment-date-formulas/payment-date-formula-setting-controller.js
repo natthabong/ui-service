@@ -300,10 +300,10 @@ app.controller('PaymentDateFormulaSettingController', [
 			paymentPeriodsDeferred.promise.then(function(response) {
 				if(angular.isDefined(data.term)){
 					if(data.term!=0){
-						vm.formulaCheckbox.creditTermActive = true;
+						vm.useCreditTerm = true;
 					}
 					if(data.periodType!=null){
-						vm.formulaCheckbox.paymentPeriodActive = true;
+						vm.usePaymentPeriod = true;
 					}
 				}
 

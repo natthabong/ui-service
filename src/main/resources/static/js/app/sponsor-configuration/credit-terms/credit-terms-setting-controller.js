@@ -104,7 +104,10 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	}
 		
 	vm.headerMsgLabel = vm.editMode == true ? 'Edit credit term code' : 'New credit term code';
-	vm.isValidStartMonth
+	vm.isErrorMonth = false;
+	vm.isErrorCreditTerm = false;
+	vm.isFromDocumentDate = false;
+	vm.isAfterDocumentDate = false;
 	vm.dateDropdown = DocumentDatePeriodDropdown;
 	vm.startDateDropdown = StartDateDropdown;
 	vm.startDayOfWeekDropdown = StartDayOfWeekDropdown;
@@ -124,6 +127,19 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	    	if(vm.model.creditterm.periodType == null){
 	    		vm.model.creditterm.periodType = 'EVERY_PERIOD';
 	    	}
+	    }
+	}
+	
+	vm.changeStartDateType = function(){
+	    if(vm.model.creditterm.startDateType === 'ON_DOCUMENT_DATE'){
+	    	vm.isFromDocumentDate = false;
+	    	vm.isAfterDocumentDate = false;
+	    }else if(vm.model.creditterm.startDateType === 'FROM_DOCUMENT_DATE'){
+	    	vm.isFromDocumentDate = true;
+	    	vm.isAfterDocumentDate = false;
+	    }else if(vm.model.creditterm.startDateType === 'AFTER_DOCUMENT_DATE'){
+	    	vm.isFromDocumentDate = false;
+	    	vm.isAfterDocumentDate = true;
 	    }
 	}
 	
