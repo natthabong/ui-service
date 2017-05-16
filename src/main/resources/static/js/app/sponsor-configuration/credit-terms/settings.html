@@ -38,6 +38,8 @@
 											</label>
 										</div>
 										
+										<gec-checkbox-button id="start-date-checkbox" ng-model="ctrl.startDateActive" label="Start date (Include start date)" />
+										
 									</div>
 								</div>
 							</div>
@@ -108,19 +110,61 @@
 								  </div>
 								  
 								  <div class="panel-body">
-								    <div class="row">
-								    	<div class="col-md-5 col-sm-5 col-xs-5">
-								    		<label id="actual-sponsor-payment-date-label" for="expected-value" >
-												<span ng-bind="'Start date with condition' | translate"></span>:</lable>
-											</label>
-								    	</div>
-								    	
-								    	<div class="col-md-7 col-sm-7 col-xs-7">
-								    		<scf-dropdown id="start-date-with-condition-dropdown"
-												ng-model="ctrl.model.creditterm.startDateType"
-												component-data="ctrl.startDateDropdown"></scf-dropdown>
-								    	</div>
+								  	<div class="form-group">
+									    <div class="row">
+									    	<div class="col-md-5 col-sm-5 col-xs-5">
+									    		<label id="actual-sponsor-payment-date-label" for="expected-value" >
+													<span ng-bind="'Start date with condition' | translate"></span>:</lable>
+												</label>
+									    	</div>
+									    	
+									    	<div class="col-md-7 col-sm-7 col-xs-7">
+									    		<scf-dropdown id="start-date-with-condition-dropdown"
+													ng-model="ctrl.model.creditterm.startDateType"
+													component-data="ctrl.startDateDropdown"></scf-dropdown>
+									    	</div>
+									    </div>
+									</div>
+								    
+								    <div class="form-group">
+									    <div class="row">
+									    	<div class="col-md-5 col-sm-5 col-xs-5 control-label">
+									    		<label id="start-date-of-month-label" for="expected-value" >
+													<span ng-bind="'Date' | translate"></span>: </lable>
+												</label>
+									    	</div>
+									    	
+									    	<div class="col-md-7 col-sm-7 col-xs-7">
+									    		<scf-dropdown id="start-date-of-month-dropdown"
+													ng-model="ctrl.model.creditterm.startDateOfMonth"
+													convert-to-number="true" component-data="ctrl.dateDropdown"></scf-dropdown>
+									    	</div>
+									    </div>
 								    </div>
+								    
+								    <div class="form-group">
+									    <div class="row">
+									    	<div class="col-md-5 col-sm-5 col-xs-5 control-label">
+									    		<span ng-bind="'Month' | translate"></span>: </lable>
+									    	</div>
+									    	
+									    	<div class="col-md-4 col-sm-4 col-xs-4">
+												<scf-dropdown id="start-month-type-dropdown"
+													ng-model="ctrl.model.creditterm.startMonthType"
+													component-data="ctrl.startMonthTypeDropdown"></scf-dropdown>
+											</div>
+											<div class="col-md-3 col-sm-3 col-xs-3">
+												<scf-input-text id="start-number-of-next-month-textbox"
+													maxlength="2"
+													ng-model="ctrl.model.creditterm.startNumberOfNextMonth"
+													class="text-right"
+													ng-disabled="ctrl.model.creditterm.startMonthType == ctrl.startMonthTypeDropdown[0].value"></scf-input-text>
+											</div>
+									    
+									    	
+									    </div>
+								    </div>
+								    
 								  </div>
 								</div>
 								
