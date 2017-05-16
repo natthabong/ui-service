@@ -80,7 +80,7 @@
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4 control-label">
-														<label id="actual-sponsor-payment-date-label"
+														<label id="start-date-with-condition-label"
 															for="expected-value"> <span
 															ng-bind="'Start date with condition' | translate"></span>:</lable>
 														</label>
@@ -99,9 +99,8 @@
 										<div class="form-group" ng-show="ctrl.isAfterDocumentDate">
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
-													<div class="col-md-4 col-sm-4 col-xs-4 control-label">
-														<span id="from-period-date-label"
-															ng-bind="'From period date' | translate"></span>:
+													<div class="col-md-4 col-sm-4 col-xs-4 control-label" id="from-period-date-label">
+														<span  ng-bind="'From period date' | translate"></span>:
 														</lable>
 													</div>
 
@@ -130,7 +129,7 @@
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4 control-label">
-														<label id="start-date-of-month-label" for="expected-value">
+														<label id="start-date-of-month-label" for="expected-value" >
 															<span ng-bind="'Date' | translate"></span>: </lable>
 														</label>
 													</div>
@@ -148,9 +147,8 @@
 										<div class="form-group" ng-show="ctrl.isFromDocumentDate || ctrl.isAfterDocumentDate">
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
-													<div class="col-md-4 col-sm-4 col-xs-4 control-label">
+													<div class="col-md-4 col-sm-4 col-xs-4 control-label" id="start-month-type-label">
 														<span ng-bind="'Month' | translate"></span>:
-														</lable>
 													</div>
 
 													<div class="col-md-4 col-sm-4 col-xs-4">
@@ -190,7 +188,7 @@
 
 								<div class="panel credit-term-panel panel-shadow">
 									<div class="panel-heading credit-term">
-										<h4 class="panel-title" id="credit-term-header-label">Credit term</h4>
+										<h4 class="panel-title" id="credit-term-panel-header-label">Credit term</h4>
 										<div class="clearfix"></div>
 									</div>
 
@@ -199,9 +197,10 @@
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4">
-														<label id="credit-term-label" for="expected-value">
-															<span ng-bind="'Credit term' | translate"></span>:</lable>
+														<label id="term-label" for="expected-value" >
+															<span ng-bind="'Credit term' | translate"></span>: </lable>
 														</label>
+														
 													</div>
 		
 													<div class="col-md-2 col-sm-2 col-xs-2">
