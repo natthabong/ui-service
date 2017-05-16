@@ -158,16 +158,20 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 		vm.isErrorMonth = false;
 		vm.isErrorCreditTerm = false;
 		
-		if(vm.model.creditterm.startMonthType !== 'CURRENT'){
-			if(parseInt(vm.model.creditterm.startNumberOfNextMonth) <= 0){
-				vm.isErrorMonth = true;
+		if(vm.useCreditTerm){
+			if(parseInt(vm.model.creditterm.term) <= 0){
+				vm.isErrorCreditTerm = true;
 				isValid = false;
-	    	}
-	    }
+			}
+		}
 		
-		if(parseInt(vm.model.creditterm.term) <= 0){
-			vm.isErrorCreditTerm = true;
-			isValid = false;
+		if(vm.model.creditterm.startDateType !== 'ON_DOCUMENT_DATE'){
+			if(vm.model.creditterm.startMonthType !== 'CURRENT'){
+				if(parseInt(vm.model.creditterm.startNumberOfNextMonth) <= 0){
+					vm.isErrorMonth = true;
+					isValid = false;
+		    	}
+		    }
 		}
 		
 		return isValid;
