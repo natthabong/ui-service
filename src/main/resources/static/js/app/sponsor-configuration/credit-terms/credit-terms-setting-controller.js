@@ -42,36 +42,45 @@ app.constant('StartDayOfWeekDropdown',[
 	{label:'Saturday', value: 'SATURDAY'},
 	{label:'Sunday', value: 'SUNDAY'}
 	]);
+app.constant('StartDateDropdown',[
+	{label:'On document date', value: 'ON_DOCUMENT_DATE'},
+	{label:'From document date', value: 'FROM_DOCUMENT_DATE'},
+	{label:'After period of document date', value: 'AFTER_DOCUMENT_DATE'}
+	]);
 app.constant('StartMonthTypeDropdown',[
 	{label:'this month', value: 'CURRENT'},
 	{label:'next month', value: 'NEXT'},
 	{label:'previous month', value: 'PREVIOUS'}
 	]);
 app.constant('TermTypeDropdown',[
-	{label:'days', value: 'DAY'},
-	{label:'week(s)', value: 'WEEK'}
+	{label:'Day(s)', value: 'DAY'},
+	{label:'Week(s)', value: 'WEEK'}
 	]);
 
 app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'DocumentDatePeriodDropdown', 
-	'StartDayOfWeekDropdown', 'StartMonthTypeDropdown', 'TermTypeDropdown', 'SCFCommonService', 
+	'StartDayOfWeekDropdown', 'StartMonthTypeDropdown', 'TermTypeDropdown', 'SCFCommonService', 'UIFactory',
+	'Service', 'blockUI', 'PageNavigation',
 	function($scope, ngDialog, DocumentDatePeriodDropdown, StartDayOfWeekDropdown, 
-			StartMonthTypeDropdown, TermTypeDropdown, SCFCommonService) {
+			StartMonthTypeDropdown, TermTypeDropdown, SCFCommonService, UIFactory, Service, blockUI, PageNavigation) {
 	var vm = this;
 	vm.documentDateType = {
 		'EVERY_DAY' : 'EVERY_DAY',
 		'RANGE' : 'RANGE'
 	};
-
+	
 	vm.startDateType = {
-		'ON_DOCUMENT_DATE' : 'ON_DOCUMENT_DATE',
-		'AFTER_DOCUMENT_DATE' : 'AFTER_DOCUMENT_DATE'
-	};
+			'ON_DOCUMENT_DATE': 'ON_DOCUMENT_DATE',
+			'AFTER_DOCUMENT_DATE': 'AFTER_DOCUMENT_DATE'
+		};
 	
 	vm.periodType = {
 		'SPECIFIC': 'SPECIFIC',
 		'EVERY_PERIOD': 'EVERY_PERIOD'
 	};
 
+	var sponsorId = angular.copy($scope.ngDialogData.sponsorId);
+	var formulaId = angular.copy($scope.ngDialogData.paymentDateFormulaId);
+	vm.formulaCheckbox = angular.copy($scope.ngDialogData.formulaCheckbox);
 	vm.model = {
 		creditterm : angular.copy($scope.ngDialogData.model)		
 	}
@@ -80,7 +89,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	vm.editMode = $scope.ngDialogData.editMode;
 	if (!vm.editMode) {
 		var credittermModel = {
-			paymentDateFormulaId : angular.copy($scope.ngDialogData.paymentDateFormulaId),
+			paymentDateFormulaId : formulaId,
 			documentDateType : vm.documentDateType.EVERY_DAY,
 			startDateType: vm.startDateType.ON_DOCUMENT_DATE,
 			documentDateStartPeriod: null,
@@ -104,7 +113,104 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	vm.startMonthTypeDropdown = StartMonthTypeDropdown;
 	vm.termTypeDropdown = TermTypeDropdown;
 	
+	vm.checkCreditTerm = function(){
+	    if(vm.formulaCheckbox.creditTermActive){
+	    	if(vm.model.creditterm.term == '0'){
+	    		vm.model.creditterm.term = '2';
+	    	}
+	    }
+	}
 	
+	vm.checkPaymentPeriod = function(){
+	    if(vm.formulaCheckbox.paymentPeriodActive){
+	    	if(vm.model.creditterm.periodType == null){
+	    		vm.model.creditterm.periodType = 'EVERY_PERIOD';
+	    	}
+	    }
+	}
 	
+	vm.changeMonth = function(){
+	    if(vm.model.creditterm.startMonthType === 'CURRENT'){
+	    	vm.model.creditterm.startNumberOfNextMonth = '0';
+	    }else{
+	    	if(vm.model.creditterm.startNumberOfNextMonth == '0'){
+	    		vm.model.creditterm.startNumberOfNextMonth = '1';
+	    	}
+	    }
+	}
+	
+	vm.saveCreditterm = function(creditterm, callback){
+		UIFactory.showConfirmDialog({
+			data : {
+			    headerMessage : 'Confirm save?'
+			},
+			confirm : $scope.confirmSave,
+			onSuccess : function(response) {
+			    blockUI.stop();
+			    creditTerm = response;
+			    var headerMessage = 'Add new credit term code success';
+			    if(vm.editMode){
+			    	headerMessage = 'Edit credit term code success';
+			    }
+
+			    ngDialog.open({
+					template : '/js/app/sponsor-configuration/credit-terms/success-dialog.html',
+					scope : $scope,
+					controller : 'SimulatePaymentDateController',
+					controllerAs : 'ctrl',
+					data : {
+						headerMessage : headerMessage,
+						sponsorId : sponsorId,
+						creditTermId: creditTerm.creditTermId
+					},
+					disableAnimation : true,
+					preCloseCallback : function(value) {
+						if (angular.isDefined(value)) {
+							if(value==='OK'){
+								callback();
+							}else{
+								
+							}
+						}
+						return true;
+					}
+				});
+			},
+			onFail : function(response) {
+			    blockUI.stop();
+			}
+	    });
+	}	
+	
+	$scope.confirmSave = function() { 
+		var BASE_URI = 'api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP';
+		var serviceUrl = '', httpMethod = 'POST';	
+		
+		if(!vm.formulaCheckbox.creditTermActive){
+			vm.model.creditterm.term = 0;
+			vm.model.creditterm.termType = 'DAY';
+	    }
+	    
+	    if(!vm.formulaCheckbox.paymentPeriodActive){
+	    	vm.model.creditterm.paymentPeriods = null;
+	    	vm.model.creditterm.periodType = null;
+	    }
+	    
+		if(vm.editMode){
+			serviceUrl = BASE_URI+'/payment-date-formulas/' + formulaId + '/credit-terms/'+vm.model.creditterm.creditTermId;
+			httpMethod = 'PUT';
+		}else{
+			serviceUrl = BASE_URI+'/payment-date-formulas/' + formulaId + '/credit-terms';
+		}
+		
+		var paymentPeroidDeferred = Service.requestURL(serviceUrl, vm.model.creditterm, httpMethod);
+		return paymentPeroidDeferred;
+    }
 	
 } ]);
+app.controller('SimulatePaymentDateController', [ '$scope', '$rootScope', function($scope, $rootScope) {
+	 var vm = this;
+	 vm.headerMessage = angular.copy($scope.ngDialogData.headerMessage);
+	 vm.sponsorId = angular.copy($scope.ngDialogData.sponsorId);
+	 vm.creditTermId = angular.copy($scope.ngDialogData.creditTermId);
+	} ]);
