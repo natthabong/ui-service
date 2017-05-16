@@ -38,15 +38,18 @@
 						<gec-checkbox-button name="start-date"
 							class="col-md-2 col-sm-2 col-xs-2"
 							ng-model="ctrl.useStartDateActive"
-							label="Start date (Include start date)"></gec-checkbox-button>
+							label="Start date (Include start date)" 
+							style="background-color: #1B80E4 !important;color: #fff !important;"></gec-checkbox-button>
 						<div class="col-md-1 col-sm-1 col-xs-1" style="width: 3px;">+</div>
 						<gec-checkbox-button name="credit-term"
 							class="col-md-2 col-sm-2 col-xs-2" ng-model="ctrl.useCreditTerm"
-							label="Credit term"></gec-checkbox-button>
+							label="Credit term"
+							style="background-color: #FF8C1A !important;color: #fff !important;"></gec-checkbox-button>
 						<div class="col-md-1 col-sm-1 col-xs-1" style="width: 3px;">+</div>
 						<gec-checkbox-button name="payment-period"
 							class="col-md-2 col-sm-2 col-xs-2"
-							ng-model="ctrl.usePaymentPeriod" label="Payment period"></gec-checkbox-button>
+							ng-model="ctrl.usePaymentPeriod" label="Payment period"
+							style="background-color: #66CC00 !important;color: #fff !important;"></gec-checkbox-button>
 
 
 					</div>
@@ -83,13 +86,14 @@
 													<div class="col-md-7 col-sm-7 col-xs-7">
 														<scf-dropdown id="start-date-with-condition-dropdown"
 															ng-model="ctrl.model.creditterm.startDateType"
-															component-data="ctrl.startDateDropdown"></scf-dropdown>
+															component-data="ctrl.startDateDropdown"
+															ng-change="ctrl.changeStartDateType()"></scf-dropdown>
 													</div>
 												</div>
 											</div>
 										</div>
 
-										<div class="form-group">
+										<div class="form-group" ng-show="ctrl.isAfterDocumentDate">
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4 control-label">
@@ -119,7 +123,7 @@
 											</div>
 										</div>
 
-										<div class="form-group">
+										<div class="form-group" ng-show="ctrl.isFromDocumentDate || ctrl.isAfterDocumentDate">
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4 control-label">
@@ -138,7 +142,7 @@
 											</div>
 										</div>
 
-										<div class="form-group">
+										<div class="form-group" ng-show="ctrl.isFromDocumentDate || ctrl.isAfterDocumentDate">
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4 control-label">
