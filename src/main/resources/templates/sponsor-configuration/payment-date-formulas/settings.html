@@ -53,7 +53,8 @@
 					<div class="row">
 						<div class="col-md-12 col-sm-12 text-right">
 							<span> <b ng-bind="ctrl.creditTermSplitePageTxt"
-								id="credit-term-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+								id="credit-term-paging-label"></b> &nbsp;&nbsp; <scf-pagination 
+									name="credit-term" 
 									dropdown-id="credit-term-page-limit-dropdown"
 									page-size-model="ctrl.creditTermTable.pageModel.pageSizeSelectModel"
 									total-page="ctrl.creditTermTable.pageModel.totalPage"
@@ -98,6 +99,7 @@
 						<div class="col-md-12 col-sm-12 text-right">
 							<span> <b ng-bind="ctrl.periodSplitePageTxt"
 								id="payment-period-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+									name="payment-period"
 									dropdown-id="payment-period-page-limit-dropdown"
 									page-size-model="ctrl.periodTable.pageModel.pageSizeSelectModel"
 									total-page="ctrl.periodTable.pageModel.totalPage"
