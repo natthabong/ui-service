@@ -37,7 +37,7 @@ angular
 					'ui/template/checkboxButton.html',
                                 	['<div class="media" style="border: 1px solid #ddd;width:130px;min-height: 90px;">'
                                 	,'<div class="checkbox pull-left">'
-                                	,'<label> <input id="{{name}}-checkbox" type="checkbox" ng-model="ngModel">'
+                                	,'<label> <input id="{{name}}-checkbox" type="checkbox" ng-model="ngModel" ng-disabled="disable"/>'
                                 	,'</label></div>'
                                 	,'<div class="media-body" style="word-wrap: break-word;">'
                                 	,'<label for="{{name}}-checkbox" id="{{name}}-label" >{{label | translate}}</label></div><div class="clearfix"></div></div>'].join(''));
