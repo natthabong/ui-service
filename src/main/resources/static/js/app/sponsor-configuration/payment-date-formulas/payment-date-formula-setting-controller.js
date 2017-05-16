@@ -271,18 +271,7 @@ app.controller('PaymentDateFormulaSettingController', [
 				blockUI.stop();
 			});
 		};
-
-		var saveCreditterm = function(creditterm, isEditMode){
-			var serviceUrl = '', httpMethod = 'POST';			
-			if(isEditMode){
-				serviceUrl = BASE_URI+'/payment-date-formulas/' + formulaId + '/credit-terms/'+creditterm.creditTermId;
-				httpMethod = 'PUT';
-			}else{
-				serviceUrl = BASE_URI+'/payment-date-formulas/' + formulaId + '/credit-terms';
-			}
-			var paymentPeroidDeferred = Service.requestURL(serviceUrl, creditterm, httpMethod);
-			return paymentPeroidDeferred;
-		}		
+		
 		var loadPaymentPeriod = function() {
 			var diferred = $q.defer();
 			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + formulaId + '/periods';
@@ -301,9 +290,23 @@ app.controller('PaymentDateFormulaSettingController', [
 
 			var data = creditTerm || {
 			};
+			
+			vm.formulaCheckbox = {
+				startDateActive: true, 
+				creditTermActive: false, 
+				paymentPeriodActive: false
+			};
 
 			var paymentPeriodsDeferred = loadPaymentPeriod();
 			paymentPeriodsDeferred.promise.then(function(response) {
+				if(angular.isDefined(data.term)){
+					if(data.term!=0){
+						vm.formulaCheckbox.creditTermActive = true;
+					}
+					if(data.periodType!=null){
+						vm.formulaCheckbox.paymentPeriodActive = true;
+					}
+				}
 
 				ngDialog.open({
 					template : '/js/app/sponsor-configuration/credit-terms/settings.html',
@@ -314,19 +317,23 @@ app.controller('PaymentDateFormulaSettingController', [
 						model : data,
 						editMode : editMode,
 						paymentPeriods : response.data,
-						paymentDateFormulaId : formulaId
+						paymentDateFormulaId : formulaId,
+						sponsorId: sponsorId,
+						formulaCheckbox : vm.formulaCheckbox
 					},
 					disableAnimation : true,
 					preCloseCallback : function(value) {
-						if (angular.isDefined(value)) {
-							var deferred = saveCreditterm(value, editMode);
-							deferred.promise.then(function(){
-								vm.searchCreditTerm();
-								return true;
-							}).catch(function(){
-								return true;
-							});
-						}
+						vm.searchCreditTerm();
+						vm.searchPeriod();
+//						if (angular.isDefined(value)) {
+//							var deferred = saveCreditterm(value, editMode);
+//							deferred.promise.then(function(){
+//								vm.searchCreditTerm();
+//								return true;
+//							}).catch(function(){
+//								return true;
+//							});
+//						}
 						return true;
 					}
 				});
