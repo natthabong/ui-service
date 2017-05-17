@@ -480,7 +480,7 @@ app.controller('PaymentDateFormulaSettingController', [
 				controllerAs: 'ctrl',
 				scope : $scope,
 				data : {
-						sponsor: sponsorId,
+						sponsorId : sponsorId,
 						creditTerm : data,
 						headerMessage : "Sponsor payment date simulation"
 				},
@@ -566,22 +566,32 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 	};
 } ]);
 
-app.controller('SimulatorPaymentDateController', [ '$scope', '$rootScope', 'PaymentDateFormulaSettingService', function($scope, $rootScope, PaymentDateFormulaSettingService) {
+app.controller('SimulatorPaymentDateController', [ '$scope', '$rootScope', 'PaymentDateFormulaSettingService', 'Service', function($scope, $rootScope, PaymentDateFormulaSettingService, Service) {
 	var vm = this;
 	vm.creditTerm = angular.copy($scope.ngDialogData.creditTerm);
 	vm.headerMessage = angular.copy($scope.ngDialogData.headerMessage);
-	var sponsor = angular.copy($scope.ngDialogData.sponsor);
+	vm.sponsorId = angular.copy($scope.ngDialogData.sponsorId);
 
 	vm.paymentDate = null;
 
 	vm.openCalendar = false;
 	vm.selectDate = null;
+	vm.PaymentDatemodel = {
+			documentDate : null
+	};
 	
 	vm.openCalendarDate = function() {
 		vm.openCalendar = true;
 	}
 
 	vm.simulate = function(){
-		console.log(vm.selectDate)
+		vm.PaymentDatemodel.documentDate = vm.selectDate;
+		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/credit-term/' + vm.creditTerm.creditTermId + '/calculate-payment-date';
+		var method = 'POST';
+		var serviceDiferred = Service.requestURL(serviceUrl, vm.PaymentDatemodel, method);
+		
+		serviceDiferred.promise.then(function(response) {
+			vm.paymentDate = response;
+		}); 
 	}
 } ]);

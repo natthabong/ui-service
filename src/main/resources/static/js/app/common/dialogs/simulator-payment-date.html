@@ -40,7 +40,7 @@
 							<label id="sponsor-payment-date-label" class="col-md-3 col-sm-3 col-xs-12 control-label">
 								{{'Sponsor payment date' | translate}} :
 							</label>
-                            <label id="sponsor-payment-date-value-label" class="col-md-6 col-sm-3 col-xs-12 control-label" ng-bind="ctrl.paymentDate">
+                            <label id="sponsor-payment-date-value-label" class="col-md-6 col-sm-3 col-xs-12 control-label" ng-bind="ctrl.paymentDate | date: 'dd/MM/yyyy': 'UTC+0700'">
 							</label>
 						</div>
 					</div>
