@@ -14,17 +14,7 @@
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<form name="newPeriod" class="form-horizontal">
-						<div class="form-group">
-							<div class="col-xs-11 col-xs-offset-1">
-								<label class="radio-inline"> <scf-radio
-										id="period-type-every-day"
-										name="payment-period-type-radio"
-										ng-value="ctrl.periodType.everyDay"
-										ng-model="ctrl.period.paymentPeriodType"></scf-radio>
-									{{'Every day' | translate}}
-								</label>
-							</div>
-						</div>
+						
 						<div class="form-group">
 							<div class="col-xs-11 col-xs-offset-1">
 								<div class="row">
@@ -34,13 +24,18 @@
 												name="payment-period-type-radio"
 												ng-value="ctrl.periodType.DateOfMonth"
 												ng-model="ctrl.period.paymentPeriodType"></scf-radio>
-											{{'Date of month' | translate}} : 
+												<div id="payment-period-type-date-label">
+													<span ng-bind="'Date' | translate"></span>:
+												</div>
 										</label> 
 									</div>
 									<div class="col-xs-8">
-										<scf-input-text id="payment-period-date-of-month-textbox"
-											maxlength="255" ng-model="ctrl.period.dateOfMonth"
-											ng-disabled="ctrl.period.paymentPeriodType != 'DATE_OF_MONTH'"></scf-input-text>
+										<scf-dropdown id="payment-period-date-dropdown"
+											ng-model="ctrl.period.dateOfMonth"
+											component-data="ctrl.datePeriodDropdown"
+											convert-to-number="true"
+											ng-disabled="ctrl.period.paymentPeriodType != 'DATE_OF_MONTH'"></scf-dropdown>
+									
 									</div>
 								</div>
 							</div>
@@ -54,7 +49,9 @@
 												name="payment-period-type-radio"
 												ng-value="ctrl.periodType.dayOfWeek"
 												ng-model="ctrl.period.paymentPeriodType"></scf-radio>
-											{{'Day of week' | translate}} : 
+												<div id="payment-period-type-day-of-week-label">
+													<span ng-bind="'Day of week' | translate"></span>:
+												</div>
 										</label>
 									</div>
 									<div class="col-xs-4">
