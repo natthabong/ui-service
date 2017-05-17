@@ -154,6 +154,36 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	    }
 	}
 	
+	vm.configPeriod = function(){
+		vm.headerMessage = 'New payment period';
+		vm.period = {
+			sponsorId : sponsorId,
+			paymentDateFormulaId : formulaId,
+			paymentPeriodType : 'DATE_OF_MONTH',
+			dateOfMonth : '1',
+			dayOfWeek : 'MONDAY',
+			occurrenceWeek : 'FIRST'
+		};
+		
+		vm.newPeriodDialog = ngDialog.open({
+			id : 'new-period-dialog',
+			template : '/js/app/sponsor-configuration/periods/dialog-new-period.html',
+			className : 'ngdialog-theme-default',
+			controller : 'NewPaymentPeriodController',
+			controllerAs : 'ctrl',
+			scope : $scope,
+			data : {
+				period : vm.period,
+				message : vm.headerMessage
+			},
+			cache : false,
+			preCloseCallback : function(value) {
+				vm.period = value;
+				//vm.refershPeriodsTable();
+			}
+		});
+	}
+	
 	var validSave = function(){
 		var isValid = true;
 		vm.isErrorMonth = false;

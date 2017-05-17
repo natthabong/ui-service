@@ -253,7 +253,9 @@
 														id="payment-period-type-radio" name="payment-period-radio"
 														ng-model="ctrl.model.creditterm.periodType"
 														ng-value="ctrl.periodType.EVERY_PERIOD"></scf-radio>
-													{{'Every period' | translate}}
+														<div id="use-all-period-label">
+															<span ng-bind="'Every period' | translate"></span>
+														</div>
 												</label>
 											</div>
 										</div>
@@ -263,7 +265,9 @@
 														id="payment-period-type-radio" name="payment-period-radio"
 														ng-model="ctrl.model.creditterm.periodType"
 														ng-value="ctrl.periodType.SPECIFIC"></scf-radio>
-													{{'Specific period' | translate}}
+														<div id="use-specific-period-label">
+															<span ng-bind="'Specific period' | translate"></span>
+														</div>
 												</label>
 											</div>
 											<div class="col-md-11 col-sm-11 col-xs-11">

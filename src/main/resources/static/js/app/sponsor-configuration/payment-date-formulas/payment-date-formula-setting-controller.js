@@ -48,6 +48,40 @@ app.constant('DAY_OF_WEEK', [ {
 	dayOfWeekName : 'Friday',
 	dayOfWeekId : 'FRIDAY'
 } ]);
+app.constant('DATE_OF_MONTH_PERIOD', [
+	{label: '1st', value: '1'},
+	{label: '2nd', value: '2'},
+	{label: '3rd', value: '3'},
+	{label: '4th', value: '4'},
+	{label: '5th', value: '5'},
+	{label: '6th', value: '6'},
+	{label: '7th', value: '7'},
+	{label: '8th', value: '8'},
+	{label: '9th', value: '9'},
+	{label: '10th', value: '10'},
+	{label: '11th', value: '11'},
+	{label: '12th', value: '12'},
+	{label: '13th', value: '13'},
+	{label: '14th', value: '14'},
+	{label: '15th', value: '15'},
+	{label: '16th', value: '16'},
+	{label: '17th', value: '17'},
+	{label: '18th', value: '18'},
+	{label: '19th', value: '19'},
+	{label: '20th', value: '20'},
+	{label: '21st', value: '21'},
+	{label: '22nd', value: '22'},
+	{label: '23rd', value: '23'},
+	{label: '24th', value: '24'},
+	{label: '25th', value: '25'},
+	{label: '26th', value: '26'},
+	{label: '27th', value: '27'},
+	{label: '28th', value: '28'},
+	{label: '29th', value: '29'},
+	{label: '30th', value: '30'},
+	{label: '31st', value: '31'},
+	{label: 'End of month', value: '99'}
+]);
 app.factory('DataTableFactory', [ '$q', '$http', '$sce', 'blockUI', function($q, $http, $sce, blockUI) {
 
 	var create = function(config) {
@@ -85,8 +119,9 @@ app.controller('PaymentDateFormulaSettingController', [
 	'DataTableFactory',
 	'FORMULA_TYPE_ITEM',
 	'PAGE_SIZE_ITEM', '$q',
+	'DATE_OF_MONTH_PERIOD',
 	function(SCFCommonService, $log, $scope, $stateParams, $timeout, $rootScope,
-		PageNavigation, Service, $http, blockUI, ngDialog, DataTableFactory, FORMULA_TYPE_ITEM, PAGE_SIZE_ITEM, $q) {
+		PageNavigation, Service, $http, blockUI, ngDialog, DataTableFactory, FORMULA_TYPE_ITEM, PAGE_SIZE_ITEM, $q, DATE_OF_MONTH_PERIOD) {
 
 		var vm = this;
 		var log = $log;
@@ -240,6 +275,8 @@ app.controller('PaymentDateFormulaSettingController', [
 				vm.formulaTypes.push(selectObj);
 			});
 		}
+		
+		
 
 		vm.initLoad = function() {
 			loadTypes();
@@ -418,18 +455,17 @@ app.controller('PaymentDateFormulaSettingController', [
 		vm.newPeriodDialogId = null;
 
 		vm.configPeriod = function(data) {
-			vm.headerMessage = 'New period';
+			vm.headerMessage = 'New payment period';
 			vm.period = {
 				sponsorId : sponsorId,
 				paymentDateFormulaId : formulaId,
-				paymentPeriodType : 'EVERY_DAY',
-				dateOfMonth : '',
+				paymentPeriodType : 'DATE_OF_MONTH',
+				dateOfMonth : DATE_OF_MONTH_PERIOD[0].value,
 				dayOfWeek : 'MONDAY',
 				occurrenceWeek : 'FIRST'
-			};
-
+			};			
 			if (data != null) {
-				vm.headerMessage = 'Edit period';
+				vm.headerMessage = 'Edit payment period';
 				vm.period = {
 					sponsorId : sponsorId,
 					paymentPeriodId : data.paymentPeriodId,
@@ -495,7 +531,7 @@ app.controller('PaymentDateFormulaSettingController', [
 
 	} ]);
 
-app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service', 'ngDialog', 'OCCURRENCE_WEEK', 'DAY_OF_WEEK', function($scope, $rootScope, Service, ngDialog, OCCURRENCE_WEEK, DAY_OF_WEEK) {
+app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service', 'ngDialog', 'OCCURRENCE_WEEK', 'DAY_OF_WEEK', 'DATE_OF_MONTH_PERIOD', 'UIFactory', 'blockUI', function($scope, $rootScope, Service, ngDialog, OCCURRENCE_WEEK, DAY_OF_WEEK, DATE_OF_MONTH_PERIOD, UIFactory, blockUI) {
 	var vm = this;
 
 	vm.period = angular.copy($scope.ngDialogData.period);
@@ -504,7 +540,6 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 	vm.headerMessage = angular.copy($scope.ngDialogData.message);
 
 	vm.periodType = {
-		everyDay : 'EVERY_DAY',
 		DateOfMonth : 'DATE_OF_MONTH',
 		dayOfWeek : 'DAY_OF_WEEK'
 	}
@@ -532,20 +567,46 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
             vm.dayOfWeekTypes.push(selectObj);
         });
     }
+	
+	vm.datePeriodDropdown = [];
+	var loadDateOfMonth = function(){
+		DATE_OF_MONTH_PERIOD.forEach(function(obj){
+			var selectObj = {
+					label: obj.label,
+					value: obj.value
+			}
+			vm.datePeriodDropdown.push(selectObj);
+		});
+	}
+	
 
 	vm.initLoad = function() {
 		loadOccurrenceWeek();
 		loadDayOfWeek();
+		loadDateOfMonth();
 	}
 
 	vm.initLoad();
-
+	
 	vm.saveNewPeriod = function() {
-		if(vm.period.paymentPeriodType==='EVERY_DAY'){
-			vm.period.dateOfMonth = null;
-			vm.period.dayOfWeek = null;
-			vm.period.occurrenceWeek = null;
-		}else if(vm.period.paymentPeriodType==='DATE_OF_MONTH'){
+		UIFactory.showConfirmDialog({
+			data : {
+			    headerMessage : 'Confirm save?'
+			},
+			confirm : $scope.confirmSave,
+			onSuccess : function(response) {
+				blockUI.stop();
+				
+			},
+			onFail : function(response) {
+			    blockUI.stop();
+			}
+		});
+		
+	}
+
+	$scope.confirmSave = function() {
+		if(vm.period.paymentPeriodType==='DATE_OF_MONTH'){
 			vm.period.dayOfWeek = null;
 			vm.period.occurrenceWeek = null;
 		}else if(vm.period.paymentPeriodType==='DAY_OF_WEEK'){
@@ -560,9 +621,10 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 		}
 		
 		var serviceDiferred = Service.requestURL(serviceUrl, vm.period, method);
-		serviceDiferred.promise.then(function(response) {
-			ngDialog.close('new-period-dialog',response);
-		}); 
+		return serviceDiferred;
+//		serviceDiferred.promise.then(function(response) {
+//			ngDialog.close('new-period-dialog',response);
+//		}); 
 	};
 } ]);
 
