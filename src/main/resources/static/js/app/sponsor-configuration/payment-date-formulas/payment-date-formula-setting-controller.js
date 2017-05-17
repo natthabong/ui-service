@@ -116,12 +116,13 @@ app.controller('PaymentDateFormulaSettingController', [
 	'$http',
 	'blockUI',
 	'ngDialog',
+	'UIFactory',
 	'DataTableFactory',
 	'FORMULA_TYPE_ITEM',
 	'PAGE_SIZE_ITEM', '$q',
 	'DATE_OF_MONTH_PERIOD',
 	function(SCFCommonService, $log, $scope, $stateParams, $timeout, $rootScope,
-		PageNavigation, Service, $http, blockUI, ngDialog, DataTableFactory, FORMULA_TYPE_ITEM, PAGE_SIZE_ITEM, $q, DATE_OF_MONTH_PERIOD) {
+		PageNavigation, Service, $http, blockUI, ngDialog, UIFactory, DataTableFactory, FORMULA_TYPE_ITEM, PAGE_SIZE_ITEM, $q) {
 
 		var vm = this;
 		var log = $log;
@@ -275,8 +276,6 @@ app.controller('PaymentDateFormulaSettingController', [
 				vm.formulaTypes.push(selectObj);
 			});
 		}
-		
-		
 
 		vm.initLoad = function() {
 			loadTypes();
@@ -388,23 +387,46 @@ app.controller('PaymentDateFormulaSettingController', [
 		};
 
 		vm.deleteCreditTerm = function(creditTerm) {
-			ngDialog.open({
-				template : '/js/app/common/dialogs/confirm-dialog.html',
-				scope : $scope,
-				data : creditTerm,
-				disableAnimation : true,
-				preCloseCallback : function(value) {
-					if (value !== 0) {
-						vm.confirmDeleteCreditTerm(value);
-					}
-					return true;
-				}
-			});
+		    
+		    var preCloseCallback = function(confirm) {
+			vm.searchCreditTerm();
+		    }
+		    UIFactory.showConfirmDialog({
+			data : {
+				headerMessage : 'Confirm delete?'
+			},
+			confirm : function() {
+				return _deleteCreditTerm(creditTerm);
+			},
+			onFail : function(response) {
+			    	blockUI.stop();
+				var msg = {
+					409 : 'Credit term has already been deleted.',
+					405 : 'Credit term has already been used.'
+				};
+				UIFactory.showFailDialog({
+					data : {
+						headerMessage : 'Delete credit term failed.',
+						bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+					},
+					preCloseCallback : preCloseCallback
+				});
+			},
+			onSuccess : function(response) {
+			    	blockUI.stop();
+				UIFactory.showSuccessDialog({
+					data : {
+						headerMessage : 'Delete credit term completed.',
+						bodyMessage : ''
+					},
+					preCloseCallback : preCloseCallback
+				});
+			}
+		    });
+			
 		};
-		var failedFunc = function(reason) {
-			blockUI.stop();
-		}
-		vm.confirmDeleteCreditTerm = function(creditTerm) {
+		
+		var _deleteCreditTerm = function(creditTerm) {
 			var serviceUrl = BASE_URI+'/payment-date-formulas/' + formulaId + '/credit-terms/'+creditTerm.creditTermId;		
 			blockUI.start();			
 			var serviceDiferred = $q.defer();
@@ -422,10 +444,7 @@ app.controller('PaymentDateFormulaSettingController', [
 				return serviceDiferred.reject(response);
 			});
 			
-			serviceDiferred.promise.then(function(response) {
-				vm.searchCreditTerm();
-				blockUI.stop();
-			}, failedFunc);
+			return serviceDiferred;
 		};
 
 
@@ -579,15 +598,13 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 			vm.datePeriodDropdown.push(selectObj);
 		});
 	}
-	
 
 	vm.initLoad = function() {
 		loadOccurrenceWeek();
 		loadDayOfWeek();
-		loadDateOfMonth();
 	}
 
-	vm.initLoad();
+vm.initLoad();
 	
 	vm.saveNewPeriod = function(callback) {
 		UIFactory.showConfirmDialog({
