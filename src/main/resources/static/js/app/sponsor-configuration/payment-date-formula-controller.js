@@ -137,21 +137,12 @@ var app = angular.module('scfApp');
 		                            	formula: vm.formula
 		                            },
 		                            cache: false,
-		                            preCloseCallback: function(value) {
-		                            	if(angular.isDefined(value)){
-		                            		vm.saveNewFormula(value);
-		                            	}
+		                            preCloseCallback: function() {
+										vm.refershFormulaTable();
 		                            }
 			                    });	
 				            						            					            		
 				            };
-				        	vm.saveNewFormula = function(value) {
-				        		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
-				        		var serviceDiferred = Service.requestURL(serviceUrl, value, 'POST');
-				        		serviceDiferred.promise.then(function(response) {
-				        		    vm.refershFormulaTable();
-				        		}); 
-				        	};
 				            
 				    		vm.refershFormulaTable = function(){
 				    			vm.search();
@@ -220,8 +211,31 @@ var app = angular.module('scfApp');
 				            
 						} ]);
 
-app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope','Service', function($scope, $rootScope, Service) {
+app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope','Service','PaymentDateFormulaService','ngDialog', function($scope, $rootScope, Service,PaymentDateFormulaService,ngDialog) {
 	var vm = this;
 	vm.formula = angular.copy($scope.ngDialogData.formula);
-	vm.sponsorId  = angular.copy($scope.ngDialogData.formula.sponsorId);
+	vm.formula.formulaName = null;
+	var sponsorId  = angular.copy($scope.ngDialogData.formula.sponsorId);
+	vm.showMessageError = false;
+	vm.messageError = null;
+
+	vm.create = function(){
+		console.log(vm.formula.formulaName)
+		if(vm.formula.formulaName == null ||vm.formula.formulaName == ""){
+			vm.showMessageError = true;
+			vm.messageError = "Formula name is required";
+		}else{
+			var deffered = PaymentDateFormulaService.saveNewFormula(sponsorId,vm.formula);
+			deffered.promise.then(function(response) {
+				vm.showMessageError = false;
+				vm.messageError = null;
+				ngDialog.close()
+			}).catch(function(response) {
+				if(response.status == 500){
+					vm.showMessageError = true;
+					vm.messageError = "Formula name is exist";
+				}
+			});
+		}
+	}
 } ]);
