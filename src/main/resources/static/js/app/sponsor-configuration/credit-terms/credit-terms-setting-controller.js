@@ -59,9 +59,9 @@ app.constant('TermTypeDropdown',[
 
 app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'DocumentDatePeriodDropdown', 'StartDateDropdown',
 	'StartDayOfWeekDropdown', 'StartMonthTypeDropdown', 'TermTypeDropdown', 'SCFCommonService', 'UIFactory',
-	'Service', 'blockUI', 'PageNavigation',
+	'Service', 'blockUI', 'PageNavigation','$q','$http',
 	function($scope, ngDialog, DocumentDatePeriodDropdown, StartDateDropdown, StartDayOfWeekDropdown, 
-			StartMonthTypeDropdown, TermTypeDropdown, SCFCommonService, UIFactory, Service, blockUI, PageNavigation) {
+			StartMonthTypeDropdown, TermTypeDropdown, SCFCommonService, UIFactory, Service, blockUI, PageNavigation, $q, $http) {
 	var vm = this;
 	vm.documentDateType = {
 		'EVERY_DAY' : 'EVERY_DAY',
@@ -285,16 +285,31 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	    	vm.model.creditterm.paymentPeriods = null;
 	    	vm.model.creditterm.periodType = null;
 	    }
-	    
+	 
 		if(vm.editMode){
-			serviceUrl = BASE_URI+'/payment-date-formulas/' + formulaId + '/credit-terms/'+vm.model.creditterm.creditTermId;
-			httpMethod = 'PUT';
+
+			var serviceUrl = BASE_URI+'/payment-date-formulas/' + formulaId + '/credit-terms/'+vm.model.creditterm.creditTermId;
+			var deffered = $q.defer();
+			var serviceDiferred =  $http({
+				method : 'PUT',
+				url : serviceUrl,
+				headers: {
+					'If-Match' : vm.model.creditterm.version
+				},
+				data: vm.model.creditterm
+			}).success(function(data, status, headers, config) {
+				deffered.resolve({data:data, headers:headers})
+			}).error(function(response) {
+				deffered.reject(response);
+			});
+			return deffered;
+			
 		}else{
 			serviceUrl = BASE_URI+'/payment-date-formulas/' + formulaId + '/credit-terms';
+			var paymentPeroidDeferred = Service.requestURL(serviceUrl, vm.model.creditterm, httpMethod);
+			return paymentPeroidDeferred;
+			
 		}
-		
-		var paymentPeroidDeferred = Service.requestURL(serviceUrl, vm.model.creditterm, httpMethod);
-		return paymentPeroidDeferred;
     }
 	
 	vm.initLoad = function() {
