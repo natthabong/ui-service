@@ -162,7 +162,8 @@ app.controller('PaymentDateFormulaSettingController', [
 			}, {
 				cssTemplate : 'text-center',
 				sortData : false,
-				cellTemplate : '<scf-button id="credit-term-{{data.creditTermId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.configCreditTerm(data)" title="Config a credit term" ng-disabled="!ctrl.manageAll"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
+				cellTemplate : '<scf-button id="credit-term-{{data.creditTermId}}-simulator-button" class="btn-default gec-btn-action" ng-click="ctrl.simulatorPaymentDate(data)" title="Simulator payment date" ><i class="fa fa-play-circle" aria-hidden="true"></i></scf-button>'+
+				'<scf-button id="credit-term-{{data.creditTermId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.configCreditTerm(data)" title="Config a credit term" ng-disabled="!ctrl.manageAll"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
 					'<scf-button id="credit-term-{{data.creditTermId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteCreditTerm(data)" title="Delete a credit term" ng-disabled="!ctrl.manageAll"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 			} ]
 		});
@@ -470,6 +471,23 @@ app.controller('PaymentDateFormulaSettingController', [
 			
 		};
 
+		vm.simulatorPaymentDate = function(data) {
+			console.log(data)
+			var systemInfo = ngDialog.open({
+				id : 'service-information-dialog',
+				template : '/js/app/common/dialogs/simulator-payment-date.html',
+				className : 'ngdialog-theme-default',
+				controller: 'SimulatorPaymentDateController',
+				controllerAs: 'ctrl',
+				scope : $scope,
+				data : {
+						sponsor: sponsorId,
+						serviceInfo : data,
+						headerMessage : "test"
+					}
+			});
+		};
+
 	} ]);
 
 app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service', 'ngDialog', 'OCCURRENCE_WEEK', 'DAY_OF_WEEK', function($scope, $rootScope, Service, ngDialog, OCCURRENCE_WEEK, DAY_OF_WEEK) {
@@ -541,6 +559,24 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 			ngDialog.close('new-period-dialog',response);
 		}); 
 	};
+} ]);
+
+scfApp.controller('SimulatorPaymentDateController', [ '$scope', '$rootScope', 'PaymentDateFormulaSettingService', function($scope, $rootScope, PaymentDateFormulaSettingService) {
+	var vm = this;
+	vm.serviceInfo = angular.copy($scope.ngDialogData.serviceInfo);
+	vm.headerMessage = angular.copy($scope.ngDialogData.headerMessage);
+	var sponsor = angular.copy($scope.ngDialogData.sponsor);
+
+	vm.paymentDate = null;
+
+	vm.openCalendar = false;
+	vm.selectDate = null;
 	
-	
+	vm.openCalendarDate = function() {
+		vm.openCalendar = true;
+	}
+
+	vm.simulate = function(){
+		console.log(vm.selectDate)
+	}
 } ]);

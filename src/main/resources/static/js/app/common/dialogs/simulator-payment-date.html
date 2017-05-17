@@ -1,0 +1,61 @@
+<div class="modal-content" id="service-information-dialog">
+	<div id="wrapper" ng-controller="SimulatorPaymentDateController as ctrl">
+		<form name="serviceInfo" class="form-horizontal" ng-submit="closeThisDialog();">
+			<div class="modal-header">
+				<div class="row">
+					<div class="col-md-10 col-sm-10">
+						<h3>
+							<span id="problem-detail-label"
+								class="popup-text" ng-bind="ctrl.headerMessage">Simulator Header</span>
+						</h3>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="form-group">
+								<label id="" 
+									class="col-md-3 col-sm-3 col-xs-12 control-label">
+									<b>{{'Simulate Document date' | translate}} :</b></label>
+                                <div class="col-md-6 col-sm-3 gec-calendar-group">
+                                    <scf-date-picker-from text-id="upload-date-from-textbox"
+                                        button-id="date-from-calendar-button"
+                                        text-model="ctrl.selectDate"
+                                        date-format="{{ctrl.dateFormat}}" is-open="ctrl.openCalendar"
+                                        open-calendar-action="ctrl.openCalendarDate()">
+                                    </scf-date-picker-from>
+                                </div>
+                                <div class="col-md-2 col-sm-3">
+                                    <scf-button id=""
+                                        class="popup-button" ng-click="ctrl.simulate()"
+                                        ng-bind="'Simulate' | translate"></scf-button>
+                                </div>
+							</div>
+                            
+                            <div class="form-group">
+								<label id="" 
+									class="col-md-3 col-sm-3 col-xs-12 control-label">
+									<b>{{'Sponsor payment date' | translate}} :</b></label>
+                                <label id="" 
+									class="col-md-6 col-sm-3 col-xs-12 control-label" ng-bind="ctrl.paymentDate">
+								</label>
+							</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="row">
+						<div class="col-xs-12 text-right">
+							<scf-button id="problem-detail-close-button"
+								class="popup-button" ng-click="closeThisDialog();"
+								ng-bind="'Edit' | translate"></scf-button>
+							<scf-button id="problem-detail-re-check-button"
+								class="popup-button" type="submit"
+								ng-bind="'OK' | translate"></scf-button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
