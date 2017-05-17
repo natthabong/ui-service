@@ -269,8 +269,8 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 				    console.log(response);
 				    	blockUI.stop();
 					var msg = {
-						409 : 'Credit term has already been deleted.',
-						405 : 'Credit term has already been used.'
+						409 : 'Credit term has been deleted.',
+						405 : 'Credit term has been used.'
 					};
 					UIFactory.showFailDialog({
 						data : {
