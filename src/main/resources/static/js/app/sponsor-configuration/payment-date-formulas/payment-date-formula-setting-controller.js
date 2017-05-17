@@ -482,7 +482,8 @@ app.controller('PaymentDateFormulaSettingController', [
 				data : {
 						sponsorId : sponsorId,
 						creditTerm : data,
-						headerMessage : "Sponsor payment date simulation"
+						headerMessage : "Sponsor payment date simulation",
+						showSuccessIcon : false
 				},
 				preCloseCallback : function(value) {
 					if (angular.isDefined(value)) {
@@ -571,6 +572,7 @@ app.controller('SimulatorPaymentDateController', [ '$scope', '$rootScope', 'Paym
 	vm.creditTerm = angular.copy($scope.ngDialogData.creditTerm);
 	vm.headerMessage = angular.copy($scope.ngDialogData.headerMessage);
 	vm.sponsorId = angular.copy($scope.ngDialogData.sponsorId);
+	vm.showSuccessIcon = angular.copy($scope.ngDialogData.showSuccessIcon);
 
 	vm.paymentDate = null;
 
@@ -586,12 +588,13 @@ app.controller('SimulatorPaymentDateController', [ '$scope', '$rootScope', 'Paym
 
 	vm.simulate = function(){
 		vm.PaymentDatemodel.documentDate = vm.selectDate;
-		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/credit-term/' + vm.creditTerm.creditTermId + '/calculate-payment-date';
-		var method = 'POST';
-		var serviceDiferred = Service.requestURL(serviceUrl, vm.PaymentDatemodel, method);
-		
-		serviceDiferred.promise.then(function(response) {
-			vm.paymentDate = response;
-		}); 
+		if(vm.PaymentDatemodel.documentDate != null){
+			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/credit-term/' + vm.creditTerm.creditTermId + '/calculate-payment-date';
+			var method = 'POST';
+			var serviceDiferred = Service.requestURL(serviceUrl, vm.PaymentDatemodel, method);
+			serviceDiferred.promise.then(function(response) {
+				vm.paymentDate = response;
+			}); 
+		}
 	}
 } ]);

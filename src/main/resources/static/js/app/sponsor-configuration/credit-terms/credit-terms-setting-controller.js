@@ -194,14 +194,17 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 				    }
 
 				    ngDialog.open({
-						template : '/js/app/sponsor-configuration/credit-terms/success-dialog.html',
+						template : '/js/app/common/dialogs/simulator-payment-date.html',
 						scope : $scope,
-						controller : 'SimulatePaymentDateController',
+						className : 'ngdialog-theme-default',
+						controller : 'SimulatorPaymentDateController',
 						controllerAs : 'ctrl',
+						scope : $scope,
 						data : {
 							headerMessage : headerMessage,
 							sponsorId : sponsorId,
-							creditTerm: creditTerm
+							creditTerm: creditTerm,
+							showSuccessIcon : true
 						},
 						disableAnimation : true,
 						preCloseCallback : function(value) {
@@ -254,10 +257,3 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	vm.initLoad();
 	
 } ]);
-app.controller('SimulatePaymentDateController', [ '$scope', '$rootScope', function($scope, $rootScope) {
-	 var vm = this;
-	 vm.headerMessage = angular.copy($scope.ngDialogData.headerMessage);
-	 vm.sponsorId = angular.copy($scope.ngDialogData.sponsorId);
-	 vm.creditTerm = angular.copy($scope.ngDialogData.creditTerm);
-	 vm.creditTermId = vm.creditTerm.creditTermId;
-	} ]);
