@@ -72,7 +72,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 		'SPECIFIC': 'SPECIFIC',
 		'EVERY_PERIOD': 'EVERY_PERIOD'
 	};
-
+	
 	var sponsorId = angular.copy($scope.ngDialogData.sponsorId);
 	var formulaId = angular.copy($scope.ngDialogData.paymentDateFormulaId);
 	vm.useStartDateActive = angular.copy($scope.ngDialogData.useStartDateActive);
@@ -83,6 +83,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	}
 	vm.paymentPeriods = angular.copy($scope.ngDialogData.paymentPeriods) || [];
 	vm.configCreditTerm = angular.copy($scope.ngDialogData.configCreditTerm);
+	
 	vm.editMode = $scope.ngDialogData.editMode;
 	if (!vm.editMode) {
 		var credittermModel = {
@@ -123,7 +124,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	}
 	
 	vm.checkPaymentPeriod = function(){
-		console.log(vm.usePaymentPeriod);
+		
 	    if(vm.usePaymentPeriod){
 	    	if(vm.model.creditterm.periodType == null){
 	    		vm.model.creditterm.periodType = 'EVERY_PERIOD';
@@ -154,7 +155,21 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	    }
 	}
 	
-	vm.configPeriod = function(){
+	var loadPeriod = function(){
+		vm.paymentPeriods = [];
+		var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + formulaId + '/periods';
+		var deffered = Service.doGet(serviceUrl);
+        deffered.promise.then(function(response) {
+        	response.data.forEach(function(obj) {
+    			vm.paymentPeriods.push(obj);
+		    });
+		        	
+		}).catch(function(response) {
+		    log.error('Get period fail');
+		});	
+	}
+	
+	vm.configPeriod = function(callback){
 		vm.headerMessage = 'New payment period';
 		vm.period = {
 			sponsorId : sponsorId,
@@ -174,12 +189,14 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 			scope : $scope,
 			data : {
 				period : vm.period,
-				message : vm.headerMessage
+				message : vm.headerMessage,
+				callback : callback
 			},
 			cache : false,
 			preCloseCallback : function(value) {
-				vm.period = value;
-				//vm.refershPeriodsTable();
+				if(value != 0){
+					loadPeriod();
+				}
 			}
 		});
 	}

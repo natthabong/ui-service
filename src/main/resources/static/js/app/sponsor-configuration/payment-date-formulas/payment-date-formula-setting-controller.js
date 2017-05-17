@@ -589,7 +589,7 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 
 	vm.initLoad();
 	
-	vm.saveNewPeriod = function() {
+	vm.saveNewPeriod = function(callback) {
 		UIFactory.showConfirmDialog({
 			data : {
 			    headerMessage : 'Confirm save?'
@@ -597,6 +597,10 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 			confirm : $scope.confirmSave,
 			onSuccess : function(response) {
 				blockUI.stop();
+				callback();
+				if(angular.isDefined(vm.ngDialogData.callback)){
+					vm.ngDialogData.callback();
+				}
 				
 			},
 			onFail : function(response) {
@@ -623,9 +627,7 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 		
 		var serviceDiferred = Service.requestURL(serviceUrl, vm.period, method);
 		return serviceDiferred;
-//		serviceDiferred.promise.then(function(response) {
-//			ngDialog.close('new-period-dialog',response);
-//		}); 
+
 	};
 } ]);
 
