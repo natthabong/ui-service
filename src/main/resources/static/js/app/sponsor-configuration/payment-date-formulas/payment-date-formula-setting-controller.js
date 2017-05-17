@@ -122,7 +122,7 @@ app.controller('PaymentDateFormulaSettingController', [
 	'PAGE_SIZE_ITEM', '$q',
 	'DATE_OF_MONTH_PERIOD',
 	function(SCFCommonService, $log, $scope, $stateParams, $timeout, $rootScope,
-		PageNavigation, Service, $http, blockUI, ngDialog, UIFactory, DataTableFactory, FORMULA_TYPE_ITEM, PAGE_SIZE_ITEM, $q) {
+		PageNavigation, Service, $http, blockUI, ngDialog, UIFactory, DataTableFactory, FORMULA_TYPE_ITEM, PAGE_SIZE_ITEM, $q, DATE_OF_MONTH_PERIOD) {
 
 		var vm = this;
 		var log = $log;
@@ -602,6 +602,7 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 	vm.initLoad = function() {
 		loadOccurrenceWeek();
 		loadDayOfWeek();
+		loadDateOfMonth();
 	}
 
 vm.initLoad();
