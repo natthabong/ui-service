@@ -77,11 +77,11 @@
 			<div class="row">
 				<div class="col-xs-12 text-right">
 					<scf-button id="payment-period-cancel-button"
-						class="popup-button" ng-click="closeThisDialog();"
+						class="popup-button" ng-click="closeThisDialog(0);"
 						ng-bind="'Cancel' | translate"></scf-button>
 					<scf-button id="payment-period-save-button"
 						class="popup-button"
-						ng-click="ctrl.saveNewPeriod();"
+						ng-click="ctrl.saveNewPeriod(closeThisDialog);"
 						ng-bind="'Save' | translate"></scf-button>
 				</div>
 			</div>
