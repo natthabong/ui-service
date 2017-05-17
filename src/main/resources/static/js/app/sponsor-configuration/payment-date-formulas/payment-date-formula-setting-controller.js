@@ -162,7 +162,7 @@ app.controller('PaymentDateFormulaSettingController', [
 			}, {
 				cssTemplate : 'text-center',
 				sortData : false,
-				cellTemplate : '<scf-button id="credit-term-{{data.creditTermId}}-simulator-button" class="btn-default gec-btn-action" ng-click="ctrl.simulatorPaymentDate(data)" title="Simulator payment date" ><i class="fa fa-play-circle" aria-hidden="true"></i></scf-button>'+
+				cellTemplate : '<scf-button id="credit-term-{{data.creditTermId}}-simulate-button" class="btn-default gec-btn-action" ng-click="ctrl.simulatePaymentDate(data)" title="Simulate payment date" ><i class="fa fa-play-circle fa-lg" aria-hidden="true"></i></scf-button>'+
 				'<scf-button id="credit-term-{{data.creditTermId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.configCreditTerm(data)" title="Config a credit term" ng-disabled="!ctrl.manageAll"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
 					'<scf-button id="credit-term-{{data.creditTermId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteCreditTerm(data)" title="Delete a credit term" ng-disabled="!ctrl.manageAll"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 			} ]
@@ -471,8 +471,7 @@ app.controller('PaymentDateFormulaSettingController', [
 			
 		};
 
-		vm.simulatorPaymentDate = function(data) {
-			console.log(data)
+		vm.simulatePaymentDate = function(data) {
 			var systemInfo = ngDialog.open({
 				id : 'service-information-dialog',
 				template : '/js/app/common/dialogs/simulator-payment-date.html',
@@ -482,9 +481,15 @@ app.controller('PaymentDateFormulaSettingController', [
 				scope : $scope,
 				data : {
 						sponsor: sponsorId,
-						serviceInfo : data,
-						headerMessage : "test"
+						creditTerm : data,
+						headerMessage : "Sponsor payment date simulation"
+				},
+				preCloseCallback : function(value) {
+					if (angular.isDefined(value)) {
+						vm.configCreditTerm(value);
 					}
+					return true;
+				}
 			});
 		};
 
@@ -561,9 +566,9 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 	};
 } ]);
 
-scfApp.controller('SimulatorPaymentDateController', [ '$scope', '$rootScope', 'PaymentDateFormulaSettingService', function($scope, $rootScope, PaymentDateFormulaSettingService) {
+app.controller('SimulatorPaymentDateController', [ '$scope', '$rootScope', 'PaymentDateFormulaSettingService', function($scope, $rootScope, PaymentDateFormulaSettingService) {
 	var vm = this;
-	vm.serviceInfo = angular.copy($scope.ngDialogData.serviceInfo);
+	vm.creditTerm = angular.copy($scope.ngDialogData.creditTerm);
 	vm.headerMessage = angular.copy($scope.ngDialogData.headerMessage);
 	var sponsor = angular.copy($scope.ngDialogData.sponsor);
 

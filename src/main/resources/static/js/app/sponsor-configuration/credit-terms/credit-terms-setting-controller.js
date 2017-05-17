@@ -125,12 +125,10 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	vm.checkPaymentPeriod = function(){
 		console.log(vm.usePaymentPeriod);
 	    if(vm.usePaymentPeriod){
-	    	console.log(vm.model.creditterm.periodType);
 	    	if(vm.model.creditterm.periodType == null){
 	    		vm.model.creditterm.periodType = 'EVERY_PERIOD';
 	    	}
 	    }
-	    console.log(vm.model.creditterm.periodType);
 	}
 	
 	vm.changeStartDateType = function(){
