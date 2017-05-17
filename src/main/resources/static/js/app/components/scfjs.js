@@ -16,13 +16,14 @@
 			doPost : doPost
 		}
 
-		function requestURL(url, params, method) {
+		function requestURL(url, params, method, headers) {
 			var deffered = $q.defer();
 
 			$http({
 				method : method || 'POST',
 				url : url,
-				data : params
+				data : params,
+				headers : headers
 			}).success(function(response) {
 				deffered.resolve(response)
 			}).error(function(response) {

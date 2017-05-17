@@ -266,7 +266,19 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 					});
 				},
 				onFail : function(response) {
-				    blockUI.stop();
+				    console.log(response);
+				    	blockUI.stop();
+					var msg = {
+						409 : 'Credit term has already been deleted.',
+						405 : 'Credit term has already been used.'
+					};
+					UIFactory.showFailDialog({
+						data : {
+							headerMessage : 'Update credit term failed.',
+							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+						},
+						preCloseCallback : callback
+					});
 				}
 		    });
 		}
@@ -297,9 +309,9 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 					'If-Match' : vm.model.creditterm.version
 				},
 				data: vm.model.creditterm
-			}).success(function(data, status, headers, config) {
+			}).then(function(data, status, headers, config) {
 				deffered.resolve({data:data, headers:headers})
-			}).error(function(response) {
+			}).catch(function(response) {
 				deffered.reject(response);
 			});
 			return deffered;
