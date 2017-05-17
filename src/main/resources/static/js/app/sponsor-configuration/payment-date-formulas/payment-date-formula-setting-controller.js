@@ -655,9 +655,7 @@ app.controller('SimulatorPaymentDateController', [ '$scope', '$rootScope', 'Paym
 	vm.headerMessage = angular.copy($scope.ngDialogData.headerMessage);
 	vm.sponsorId = angular.copy($scope.ngDialogData.sponsorId);
 	vm.showSuccessIcon = angular.copy($scope.ngDialogData.showSuccessIcon);
-
 	vm.paymentDate = null;
-
 	vm.openCalendar = false;
 	vm.selectDate = null;
 	vm.PaymentDatemodel = {
@@ -671,7 +669,7 @@ app.controller('SimulatorPaymentDateController', [ '$scope', '$rootScope', 'Paym
 	vm.simulate = function(){
 		vm.PaymentDatemodel.documentDate = vm.selectDate;
 		if(vm.PaymentDatemodel.documentDate != null){
-			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/credit-term/' + vm.creditTerm.creditTermId + '/calculate-payment-date';
+			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/credit-term/' + vm.creditTerm.data.creditTermId + '/calculate-payment-date';
 			var method = 'POST';
 			var serviceDiferred = Service.requestURL(serviceUrl, vm.PaymentDatemodel, method);
 			serviceDiferred.promise.then(function(response) {

@@ -309,8 +309,8 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 					'If-Match' : vm.model.creditterm.version
 				},
 				data: vm.model.creditterm
-			}).then(function(data, status, headers, config) {
-				deffered.resolve({data:data, headers:headers})
+			}).then(function(response) {
+				deffered.resolve(response)
 			}).catch(function(response) {
 				deffered.reject(response);
 			});
