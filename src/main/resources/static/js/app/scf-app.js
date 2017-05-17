@@ -191,7 +191,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							   'js/app/common/scf-component.js', 
 							   'js/app/common/scf-component.css',
 							  'js/app/sponsor-configuration/document-display-configs.js',
-							  'js/app/sponsor-configuration/payment-date-formula-controller.js',])
+							  'js/app/sponsor-configuration/payment-date-formula-controller.js',
+							  'js/app/sponsor-configuration/payment-date-formula-service.js',])
 			}).state('/sponsor-configuration/file-layouts/new-file-layout',{
 				url: '/sponsor-configuration/file-layouts/new-file-layout',
 				controller: 'NewFileLayoutController',

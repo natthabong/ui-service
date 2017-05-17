@@ -2207,9 +2207,3 @@ app.factory('NewFileLayerExampleDisplayService', [ '$filter', function($filter) 
 	}
 	;
 } ]);
-
-app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope', 'Service', 'ngDialog', function($scope, $rootScope, Service, ngDialog) {
-	var vm = this;
-	vm.formula = angular.copy($scope.ngDialogData.formula);
-	vm.sponsorId = angular.copy($scope.ngDialogData.formula.sponsorId);
-} ]); 

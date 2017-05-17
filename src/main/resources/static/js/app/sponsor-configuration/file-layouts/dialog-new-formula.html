@@ -25,6 +25,11 @@
 									ng-model="ctrl.formula.formulaName"></scf-input-text>
 							</div>
 						</div>
+						<div class="form-group" ng-show="ctrl.showMessageError">
+							<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+								id="formula-name-warning-message-label">{{ctrl.messageError | translate}}.</span>
+						</div>
 						<div class="form-group">
 							<label for="formula-type"
 								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
@@ -39,18 +44,6 @@
 					</form>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-12 col-sm-12 col-xs-12">
-					<div class="form-group">
-						<label for="group-name"
-							class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
-						<div class="col-md-6 col-sm-4 col-xs-12">
-							<strong class="text-danger" id="message-error-text">
-								{{ctrl.messageError}}</strong>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 		<div class="modal-footer">
 			<div class="row">
@@ -60,7 +53,7 @@
 						ng-bind="'Cancel' | translate"></scf-button>
 					<scf-button id="payment-date-formula-save-button"
 						class="popup-button"
-						ng-click="closeThisDialog(ctrl.formula);"
+						ng-click="ctrl.create();"
 						ng-bind="'Save' | translate"></scf-button>
 				</div>
 			</div>
