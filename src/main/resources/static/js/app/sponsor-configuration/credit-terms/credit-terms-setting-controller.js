@@ -310,7 +310,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 				},
 				data: vm.model.creditterm
 			}).then(function(response) {
-				deffered.resolve(response)
+				deffered.resolve(response.data)
 			}).catch(function(response) {
 				deffered.reject(response);
 			});
