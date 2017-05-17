@@ -8611,6 +8611,12 @@ to {
 	}
 }
 
+@media ( min-width : 650px) {
+	.column-style{
+		width: 158px;
+	}
+}
+
 @media only screen and (max-width: 800px) {
 	.profile-v1 .profile-v1-wrapper {
 		padding: 0px !important;
