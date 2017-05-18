@@ -372,18 +372,41 @@ app.controller('PaymentDateFormulaSettingController', [
 		};
 
 		vm.deletePeriod = function(period) {
-			ngDialog.open({
-				template : '/js/app/common/dialogs/confirm-dialog.html',
-				scope : $scope,
-				data : period,
-				disableAnimation : true,
-				preCloseCallback : function(value) {
-					if (value !== 0) {
-						vm.confirmDeletePeriod(value);
-					}
-					return true;
-				}
-			});
+		    var preCloseCallback = function(confirm) {
+			vm.searchPeriod();
+		    }
+		    UIFactory.showConfirmDialog({
+			data : {
+				headerMessage : 'Confirm delete?'
+			},
+			confirm : function() {
+				return _deletePeriod(period);
+			},
+			onFail : function(response) {
+			    	blockUI.stop();
+				var msg = {
+					409 : 'Period has been deleted.',
+					405 : 'Period term has been used.'
+				};
+				UIFactory.showFailDialog({
+					data : {
+						headerMessage : 'Delete period failed.',
+						bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+					},
+					preCloseCallback : preCloseCallback
+				});
+			},
+			onSuccess : function(response) {
+			    	blockUI.stop();
+				UIFactory.showSuccessDialog({
+					data : {
+						headerMessage : 'Delete period completed.',
+						bodyMessage : ''
+					},
+					preCloseCallback : preCloseCallback
+				});
+			}
+		    });
 		};
 
 		vm.deleteCreditTerm = function(creditTerm) {
@@ -448,7 +471,7 @@ app.controller('PaymentDateFormulaSettingController', [
 		};
 
 
-		vm.confirmDeletePeriod = function(period) {						
+		var _deletePeriod = function(period) {						
 			var serviceUrl = BASE_URI+'/payment-date-formulas/' + formulaId + '/periods/'+period.paymentPeriodId;
 			blockUI.start();
 			var serviceDiferred = $q.defer();
@@ -607,24 +630,46 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 		loadDateOfMonth();
 	}
 
-vm.initLoad();
+	vm.initLoad();
 	
 	vm.saveNewPeriod = function(callback) {
+    	        var preCloseCallback = function(confirm) {
+        	        blockUI.stop();
+        	        if(callback){
+        	            callback();
+        	        }
+        		if(angular.isDefined($scope.ngDialogData.callback)){
+        		    $scope.ngDialogData.callback();
+        		}
+    	        }
 		UIFactory.showConfirmDialog({
 			data : {
 			    headerMessage : 'Confirm save?'
 			},
 			confirm : $scope.confirmSave,
-			onSuccess : function(response) {
-				blockUI.stop();
-				callback();
-				if(angular.isDefined(vm.ngDialogData.callback)){
-					vm.ngDialogData.callback();
-				}
-				
-			},
 			onFail : function(response) {
-			    blockUI.stop();
+			    	blockUI.stop();
+				var msg = {
+					409 : 'Period has been deleted.',
+					405 : 'Period has been used.'
+				};
+				UIFactory.showFailDialog({
+					data : {
+						headerMessage : 'Update period failed.',
+						bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+					},
+					preCloseCallback : preCloseCallback
+				});
+			},
+			onSuccess : function(response) {
+			    	blockUI.stop();
+				UIFactory.showSuccessDialog({
+					data : {
+						headerMessage : 'Delete period completed.',
+						bodyMessage : ''
+					},
+					preCloseCallback : preCloseCallback
+				});
 			}
 		});
 		
