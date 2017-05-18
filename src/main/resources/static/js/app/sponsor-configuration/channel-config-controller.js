@@ -96,7 +96,7 @@ angular
 											labelTH : 'Channel',
 											id : 'channel-{value}',
 											filterType : 'translate',
-											cssTemplate : 'text-left',
+											cssTemplate : 'text-left'
 										},
 										{
 											fieldName : 'status',
@@ -104,7 +104,7 @@ angular
 											labelTH : 'Status',
 											id : 'status-{value}',
 											filterType : 'translate',
-											cssTemplate : 'text-center',
+											cssTemplate : 'text-center'
 										},
 										{
 											fieldName : 'activeDate',
@@ -113,7 +113,7 @@ angular
 											id : 'active-date-{value}',
 											filterType : 'date',
 											filterFormat : 'dd/MM/yyyy',
-											cssTemplate : 'text-center',
+											cssTemplate : 'text-center'
 										},
 										{
 											fieldName : 'expiryDate',
@@ -122,10 +122,7 @@ angular
 										    id : 'expire-date-{value}',
 										    filterType : 'date',
 										    filterFormat : 'dd/MM/yyyy',
-										    cssTemplate : 'text-center',
-										    renderer: function(data){
-											    return data || '';
-											}
+										    cssTemplate : 'text-center'
 										},
 										{
 											cssTemplate : 'text-center',

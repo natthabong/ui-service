@@ -169,7 +169,6 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 			}else{
 				vm.channelModel.expiryDate = null;
 			}
-            console.log(vm.channelModel);
         });
 	}
 	
