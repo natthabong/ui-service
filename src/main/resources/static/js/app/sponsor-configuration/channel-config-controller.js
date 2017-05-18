@@ -51,24 +51,43 @@ angular
 							vm.data = [];
 
 							vm.dataTable = {
+								identityField : 'channelName',
 								options : {},
 								columns : [
 										{
-											field : 'channelName',
-											label : 'Channel name',
-											idValueField : 'template',
-											id : 'channel-{value}-name-label',
-											sortData : true,
+											fieldName : 'channelName',
+											label : 'Channel',
+											id : 'channel-{value}-label',
 											cssTemplate : 'text-left',
 										},
 										{
-											field : '',
-											label : '',
+											fieldName : 'status',
+											label : 'Status',
+											id : 'channel-{value}-status-label',
+											cssTemplate : 'text-center',
+										},
+										{
+											fieldName : 'activeDate',
+											label : 'Active date',
+											id : 'channel-{value}-active-date-label',
+											filterType : 'date',
+										    format : 'dd/MM/yyyy',
+											cssTemplate : 'text-center',
+										},
+										{
+											fieldName : 'expiryDate',
+										    label : 'Expire date',
+										    id : 'channel-{value}-expire-date-label',
+										    filterType : 'date',
+										    format : 'dd/MM/yyyy',
+										    cssTemplate : 'text-center'
+										},
+										{
 											cssTemplate : 'text-center',
 											sortData : false,
 											cellTemplate : '<scf-button id="channel-{{data.importChannelId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel" ng-hide="!data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>'
 													+ '<scf-button id="channel-{{data.importChannelId}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel" ng-hide="data.completed"><img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>'
-													+ '<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.deleteChannel(data)" title="Delete a channel"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+													+ '<scf-button class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.deleteChannel(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
 										} ]
 							}
 
