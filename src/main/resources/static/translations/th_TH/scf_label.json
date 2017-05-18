@@ -407,6 +407,8 @@
 	"Add new credit term code success": "Add new credit term code success",
 	"Edit credit term code success": "Edit credit term code success",
 	"Simulate": "Simulate",
+	"Sponsor payment date simulation": "Sponsor payment date simulation",
 	
-	"Sponsor payment date simulation": "Sponsor payment date simulation"
+	"Edit import channel": "Edit import channel",
+	"Clear existing documents before import file": "Clear existing documents before import file"
 }
