@@ -17,25 +17,24 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
     var BASE_URI = 'api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP';
     
     var channelModel = {};
-    
-	vm.useStartDateActive = angular.copy($scope.ngDialogData.useStartDateActive);
-	vm.useCreditTerm = angular.copy($scope.ngDialogData.useCreditTerm);
-	vm.usePaymentPeriod = angular.copy($scope.ngDialogData.usePaymentPeriod);
-	vm.model = {
-		creditterm : angular.copy($scope.ngDialogData.model)		
-	}
-	vm.paymentPeriods = angular.copy($scope.ngDialogData.paymentPeriods) || [];
-	vm.configCreditTerm = angular.copy($scope.ngDialogData.configCreditTerm);
+    $scope.errors = {};
 	
-	vm.isErrorMonth = false;
-	vm.isErrorCreditTerm = false;
-	vm.isFromDocumentDate = false;
-	vm.isAfterDocumentDate = false;
+    vm.openActiveDate = false;
+    vm.openCalendarActiveDate = function() {
+    	vm.openActiveDate = true;
+    };
+    
+    vm.openExpireDate = false;
+    vm.openCalendarExpireDate = function() {
+    	vm.openExpireDate = true;
+    };
+    vm.isUseExpireDate = false;
+    
 	vm.channelDropdown = ChannelDropdown;
 	
-	vm.backToSponsorConfigPage = function(){
-		PageNavigation.gotoPreviousPage();
-	}
+	var isRequire = function(data) {
+		return (data == '' || data == null);
+    }
 	
 	var sendRequest = function(uri, succcesFunc, failedFunc) {
         var serviceDiferred = Service.doGet(BASE_URI + uri);
@@ -46,88 +45,86 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
         serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
     }
 	
-	vm.initLoad = function() {
-        sendRequest('/channels/' + selectedItem.channelId, function(response) {
-            vm.channelModel = response.data;
-        });
-    }
-	
 	var validSave = function(){
+		$scope.errors = {};
 		var isValid = true;
-		vm.isErrorMonth = false;
-		vm.isErrorCreditTerm = false;
-		
-		if(vm.useCreditTerm){
-			if(parseInt(vm.model.creditterm.term) <= 0){
-				vm.isErrorCreditTerm = true;
-				isValid = false;
-			}
+
+		if (!angular.isDefined(vm.channelModel.activeDate)) {
+			isValid = false;
+		    $scope.errors.activeDate = {
+	    		message : 'Wrong date format data.'
+		    }
+		}else if(vm.channelModel.activeDate == null|| vm.channelModel.activeDate ==''){
+			isValid = false;
+		    $scope.errors.activeDate = {
+	    		message : 'Active date is required.'
+		    }
 		}
 		
-		if(vm.model.creditterm.startDateType !== 'ON_DOCUMENT_DATE'){
-			if(vm.model.creditterm.startMonthType !== 'CURRENT'){
-				if(parseInt(vm.model.creditterm.startNumberOfNextMonth) <= 0){
-					vm.isErrorMonth = true;
-					isValid = false;
-		    	}
+		if (vm.isUseExpireDate) {
+		    if (!angular.isDefined(vm.channelModel.expiryDate)) {
+		    	isValid = false;
+				$scope.errors.expiryDate = {
+				    message : 'Wrong date format data.'
+				}
+		    } else if (angular.isDefined(vm.channelModel.activeDate)
+				    && vm.channelModel.expiryDate < vm.channelModel.activeDate) {
+		    	isValid = false;
+				$scope.errors.activeDate = {
+				    message : 'Active date must be less than or equal to expire date.'
+				}
+		    }else if(vm.channelModel.expiryDate == null|| vm.channelModel.expiryDate ==''){				    	
+		    	isValid = false;
+			    $scope.errors.expiryDate = {
+		    		message : 'Expire date is required.'
+			    }
 		    }
+
 		}
 		
 		return isValid;
 	}
 	
+	var closeDialogFail = function(){
+		dialogPopup.close();
+	}
+	
 	vm.saveChannel = function(creditterm){
 		if(validSave()){
+			var preCloseCallback = function(confirm) {
+				PageNavigation.gotoPreviousPage(true);
+		    }
+			
 			UIFactory.showConfirmDialog({
 				data : {
 				    headerMessage : 'Confirm save?'
 				},
 				confirm : $scope.confirmSave,
 				onSuccess : function(response) {
-				    blockUI.stop();
-				    creditTerm = response;
-				    var headerMessage = 'Add new credit term code success';
-				    if(vm.editMode){
-				    	headerMessage = 'Edit credit term code success';
-				    }
-
-				    ngDialog.open({
-						template : '/js/app/common/dialogs/simulator-payment-date.html',
-						scope : $scope,
-						className : 'ngdialog-theme-default',
-						controller : 'SimulatorPaymentDateController',
-						controllerAs : 'ctrl',
-						scope : $scope,
+					blockUI.stop();
+					UIFactory.showSuccessDialog({
 						data : {
-							headerMessage : headerMessage,
-							sponsorId : sponsorId,
-							creditTerm: creditTerm,
-							showSuccessIcon : true
+							headerMessage : 'Update channel success.',
+							bodyMessage : ''
 						},
-						disableAnimation : true,
-						preCloseCallback : function(value) {
-							if (angular.isDefined(value)) {
-								if(value!='OK'){
-									vm.configCreditTerm(value);
-								}
-							}
-							return true;
-						}
+						preCloseCallback : preCloseCallback
 					});
 				},
 				onFail : function(response) {
-				    console.log(response);
-				    	blockUI.stop();
-					var msg = {
-						409 : 'Credit term has been deleted.',
-						405 : 'Credit term has been used.'
-					};
-					UIFactory.showFailDialog({
+			    	blockUI.stop();
+			    	dialogPopup = UIFactory.showFailDialog({
 						data : {
-							headerMessage : 'Update credit term failed.',
-							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+							headerMessage : 'Update channel fail.',
+							bodyMessage : 'Channel has been modified.'
 						},
-						preCloseCallback : callback
+						buttons : [{
+							id: 'close-button',
+							label: 'Close',
+							action:function(){
+								closeDialogFail();
+							}
+						}],
+						preCloseCallback : null
 					});
 				}
 		    });
@@ -135,49 +132,33 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	}	
 	
 	$scope.confirmSave = function() { 
-		var BASE_URI = 'api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP';
-		var serviceUrl = '', httpMethod = 'POST';	
-		
-		if(!vm.useCreditTerm){
-			vm.model.creditterm.term = 0;
-			vm.model.creditterm.termType = 'DAY';
-	    }
-	    
-	    if(!vm.usePaymentPeriod){
-	    	vm.model.creditterm.paymentPeriods = null;
-	    	vm.model.creditterm.periodType = null;
-	    }
-	 
-		if(vm.editMode){
-
-			var serviceUrl = BASE_URI+'/payment-date-formulas/' + formulaId + '/credit-terms/'+vm.model.creditterm.creditTermId;
-			var deffered = $q.defer();
-			var serviceDiferred =  $http({
-				method : 'PUT',
-				url : serviceUrl,
-				headers: {
-					'If-Match' : vm.model.creditterm.version
-				},
-				data: vm.model.creditterm
-			}).then(function(response) {
-				deffered.resolve(response.data)
-			}).catch(function(response) {
-				deffered.reject(response);
-			});
-			return deffered;
-			
-		}else{
-			serviceUrl = BASE_URI+'/payment-date-formulas/' + formulaId + '/credit-terms';
-			var paymentPeroidDeferred = Service.requestURL(serviceUrl, vm.model.creditterm, httpMethod);
-			return paymentPeroidDeferred;
-			
-		}
+		var serviceUrl = BASE_URI+'/channels/' + vm.channelModel.channelId;
+		var deffered = $q.defer();
+		var serviceDiferred =  $http({
+			method : 'PUT',
+			url : serviceUrl,
+			headers: {
+				'If-Match' : vm.channelModel.version
+			},
+			data: vm.channelModel
+		}).then(function(response) {
+			deffered.resolve(response.data)
+		}).catch(function(response) {
+			deffered.reject(response);
+		});
+		return deffered;
     }
+
+	vm.searchChannel = function(){
+		sendRequest('/channels/' + selectedItem.channelId, function(response) {
+            vm.channelModel = response.data;
+        });
+	}
 	
 	vm.initLoad = function() {
-		vm.changeStartDateType();
-	}
-
+		vm.searchChannel();
+    }
+	
 	vm.initLoad();
 	
 } ]);
