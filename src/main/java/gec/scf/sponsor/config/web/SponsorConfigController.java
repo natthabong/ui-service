@@ -27,6 +27,8 @@ public class SponsorConfigController {
 	private static String SETTINGS_PAYMENT_DATE_FORMULA = "sponsor-configuration/payment-date-formulas/settings";
 	
 	private static String SETTINGS_ORGANIZE_LOGO = "sponsor-configuration/organize-logo/settings";
+	
+	private static String SETTINGS_IMPORT_CHANNEL = "sponsor-configuration/import-channels/settings";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String sponsorConfiguration(
@@ -131,5 +133,14 @@ public class SponsorConfigController {
 			return SETTINGS_ORGANIZE_LOGO.concat(" :: content");
 		}
 		return SETTINGS_ORGANIZE_LOGO;
+	}
+	
+	@RequestMapping(path = "/import-channels/settings", method = RequestMethod.GET)
+	public String settingImportChannel(
+			@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETTINGS_IMPORT_CHANNEL.concat(" :: content");
+		}
+		return SETTINGS_IMPORT_CHANNEL;
 	}
 }
