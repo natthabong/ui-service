@@ -306,7 +306,7 @@ userModule
 					    format : 'dd/MM/yyyy',
 					    cssTemplate : 'text-center',
 					    renderer : function(data) {
-						return data || '-';
+						return data || '';
 					    }
 					},
 					{

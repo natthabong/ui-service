@@ -280,7 +280,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 				filterType : 'date',
 				cssTemplate : 'text-center',
 				renderer: function(data){
-				    return data || '-';
+				    return data || '';
 				}
 			},
 			{

@@ -124,7 +124,7 @@ angular
 										    filterFormat : 'dd/MM/yyyy',
 										    cssTemplate : 'text-center',
 										    renderer: function(data){
-											    return data || '-';
+											    return data || '';
 											}
 										},
 										{
