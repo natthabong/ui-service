@@ -487,16 +487,15 @@ app.controller('PaymentDateFormulaSettingController', [
 				return serviceDiferred.resolve(response);
 			}).catch(function(response) {
 				return serviceDiferred.reject(response);
-			});			
-			serviceDiferred.promise.then(function(response) {
-				vm.searchPeriod();
-				blockUI.stop();
-			}, failedFunc);
+			});	
+			
+			return serviceDiferred;
 		};
 
 		vm.newPeriodDialogId = null;
 
 		vm.configPeriod = function(data) {
+			vm.mode = 'NEW';
 			vm.headerMessage = 'New payment period';
 			vm.period = {
 				sponsorId : sponsorId,
@@ -507,6 +506,7 @@ app.controller('PaymentDateFormulaSettingController', [
 				occurrenceWeek : 'FIRST'
 			};			
 			if (data != null) {
+				vm.mode = 'EDIT';
 				vm.headerMessage = 'Edit payment period';
 				vm.period = {
 					sponsorId : sponsorId,
@@ -529,7 +529,8 @@ app.controller('PaymentDateFormulaSettingController', [
 				scope : $scope,
 				data : {
 					period : vm.period,
-					message : vm.headerMessage
+					message : vm.headerMessage,
+					mode : vm.mode
 				},
 				cache : false,
 				preCloseCallback : function(value) {
@@ -583,7 +584,13 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 	vm.sponsorId = angular.copy($scope.ngDialogData.period.sponsorId);
 	vm.paymentDateFormulaId = angular.copy($scope.ngDialogData.period.paymentDateFormulaId);
 	vm.headerMessage = angular.copy($scope.ngDialogData.message);
-
+	vm.mode = angular.copy($scope.ngDialogData.mode);
+	if(vm.mode == 'NEW'){
+		vm.headerMessagePopupSuccess = 'Add new period success.';
+	}else{
+		vm.headerMessagePopupSuccess = 'Update period success.';
+	}
+	
 	vm.periodType = {
 		DateOfMonth : 'DATE_OF_MONTH',
 		dayOfWeek : 'DAY_OF_WEEK'
@@ -665,7 +672,7 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 			    	blockUI.stop();
 				UIFactory.showSuccessDialog({
 					data : {
-						headerMessage : 'Delete period completed.',
+						headerMessage : vm.headerMessagePopupSuccess,
 						bodyMessage : ''
 					},
 					preCloseCallback : preCloseCallback

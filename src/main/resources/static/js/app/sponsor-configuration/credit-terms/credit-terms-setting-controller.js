@@ -170,6 +170,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	}
 	
 	vm.configPeriod = function(callback){
+		vm.mode = 'NEW';
 		vm.headerMessage = 'New payment period';
 		vm.period = {
 			sponsorId : sponsorId,
@@ -190,6 +191,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 			data : {
 				period : vm.period,
 				message : vm.headerMessage,
+				mode : vm.mode,
 				callback : callback
 			},
 			cache : false,
