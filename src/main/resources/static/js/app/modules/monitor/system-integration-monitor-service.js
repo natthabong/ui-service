@@ -47,11 +47,11 @@ function SystemIntegrationMonitorService($http, $q) {
     }
 	
 	function verifySystemStatusFTP(systemModel){
-		var ftpConnectionConfigId = systemModel;
+		var jobId = systemModel;
         var deffered = $q.defer();
 	    $http({
 	       method: 'POST',
-	       url: 'api/v1/check-ftp-connection/connections/'+ftpConnectionConfigId
+	       url: 'api/v1/check-ftp-connection/connections/'+jobId
 	    }).then(function(response) {
 	       deffered.resolve(response);
 	    }).catch(function(response) {

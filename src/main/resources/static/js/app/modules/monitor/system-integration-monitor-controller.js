@@ -109,7 +109,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		}
 
 		var verifySystemStatusFTP = function(index){
-			var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(vm.ftpModel[index].ftpConnectionConfigId);
+			var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(vm.ftpModel[index].jobId);
 				deffered.promise.then(function(response) {
 					if(response.data.returnCode == "200"){
 						vm.ftpModel[index].status = "success";
@@ -285,7 +285,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		}
 
 		var verifySystemStatusFTPRecheck = function(value){
-			var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(value.ftpConnectionConfigId);
+			var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(value.jobId);
 				deffered.promise.then(function(response) {
 					if(response.data.returnCode == "200"){
 						vm.ftpModel[value.recordNo].status = "success";
@@ -300,7 +300,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		}
 
 		vm.recheck = function(value) {
-			if(value.ftpConnectionConfigId == null){
+			if(value.jobId == null){
 				verifySystemStatusWebServiceRecheck(value);
 			}else{
 				verifySystemStatusFTPRecheck(value);
@@ -351,7 +351,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		vm.viewProblemDetail = function(serviceType, data , index){
 			if(serviceType==='ftp'){
 				vm.serviceInfo = {
-				ftpConnectionConfigId : data.ftpConnectionConfigId,
+				jobId : data.jobId,
 				bankCode : null,
 				requestDataType: null,
 				requestMode: null,
@@ -360,7 +360,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			};
 			}else{
 				vm.serviceInfo = {
-					ftpConnectionConfigId : null,
+					jobId : null,
 					bankCode : data.bankCode,
 					requestDataType: data.requestDataType,
 					requestMode: data.requestMode,
