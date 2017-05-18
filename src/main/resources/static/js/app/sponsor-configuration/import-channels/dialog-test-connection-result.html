@@ -1,0 +1,48 @@
+<div class="modal-content" id="test-connection-result-dialog">
+    <div id="wrapper" ng-controller="TestConnectionResultController" as ctrl>
+        <form name="serviceInfo" class="form-horizontal" ng-submit="closeThisDialog();">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-10 col-sm-10">
+						<h3>
+							<span id="test-connection-result-popup-header-label"
+								class="popup-text" ng-bind="'Test connection result' | translate">Test connection result</span>
+						</h3>
+					</div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label id="test-connection-result-popup-test-result-label" class="col-sm-3 col-xs-12 control-label">
+							    <b>{{'Test result:' | translate}}</b>
+                            </label>
+                            <label id="test-connection-result-popup-test-result-value-label" class="col-sm-9 hidden-xs control-label">
+                                {{ctrl.serviceInfo.status}}
+                            </label>
+                        </div>   
+                        <div class="form-group">
+                            <label class="col-sm-3 col-xs-12 control-label"></label>
+                            <label id="message-error-label" class="col-sm-9 hidden-xs control-label" >
+                                {{ctrl.serviceInfo.errorMessage}}
+                            </label>
+                        </div> 
+                    </div> 
+                </div>
+
+                <div class="modal-footer">
+					<div class="row">
+						<div class="col-xs-12 text-right">
+							<scf-button id="test-connection-result-popup-close-button"
+								class="popup-button" ng-click="closeThisDialog();"
+								ng-bind="'Close' | translate">
+                            </scf-button>
+						</div>
+					</div>
+				</div>
+            </div>
+        </form>
+    </div>
+</div>
