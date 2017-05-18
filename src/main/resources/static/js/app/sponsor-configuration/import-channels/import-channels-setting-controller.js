@@ -156,6 +156,20 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	vm.searchChannel = function(){
 		sendRequest('/channels/' + selectedItem.channelId, function(response) {
             vm.channelModel = response.data;
+            
+            if(response.data.activeDate != null){
+            	vm.channelModel.activeDate =  new Date(response.data.activeDate);
+			}else {
+				vm.channelModel.activeDate = null;
+			}
+            
+            if(response.data.expiryDate != null){
+            	vm.channelModel.expiryDate =  new Date(response.data.expiryDate);
+				vm.isUseExpireDate = true;
+			}else{
+				vm.channelModel.expiryDate = null;
+			}
+            console.log(vm.channelModel);
         });
 	}
 	

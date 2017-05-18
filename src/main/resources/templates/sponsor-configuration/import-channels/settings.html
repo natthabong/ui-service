@@ -27,7 +27,7 @@
 						<div class="form-group">
 							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								&nbsp;&nbsp;
-								<scf-checkbox id="clear-existing-documents-before-import-file-checkbox" ng-model="ctrl.channelModel.isClearExistingDoc"
+								<scf-checkbox id="clear-existing-documents-before-import-file-checkbox" ng-model="ctrl.channelModel.clearExistingDoc"
 								ng-disabled="!ctrl.manageAll"></scf-checkbox>
 								<label class="checkbox-inline" id="clear-existing-documents-before-import-file-label"
 									style="padding-bottom: 10px;">{{'Clear existing documents before import file' | translate}}</label>
@@ -37,13 +37,13 @@
 								class="col-md-2 col-sm-3 control-label">{{'Active date'
 								| translate}}:</label>
 							<div class="col-md-3 col-sm-4 gec-calendar-group">
-								<scf-date-picker-from text-id="active-date-textbox"
+								<scf-date-picker text-id="active-date-textbox"
 									text-model="ctrl.channelModel.activeDate" date-format="dd/MM/yyyy"
 									is-open="ctrl.openActiveDate"
 									open-calendar-action="ctrl.openCalendarActiveDate()"
 									max-date="ctrl.channelModel.expiryDate" ng-disabled="!ctrl.manageAll"
-									button-id="active-date-button">
-								</scf-date-picker-from>
+									button-id="active-date-button"> 
+								</scf-date-picker>
 							</div>
 							<div>
 								<div class="col-md-2 col-sm-3 col-xs-2"
@@ -55,14 +55,14 @@
 										translate}}:</label>
 								</div>
 								<div class="col-md-3 col-sm-3 gec-calendar-group">
-									<scf-date-picker-to text-id="expire-date-textbox"
+									<scf-date-picker text-id="expire-date-textbox"
 										text-model="ctrl.channelModel.expiryDate" date-format="dd/MM/yyyy"
 										is-open="ctrl.openExpireDate"
 										open-calendar-action="ctrl.openCalendarExpireDate()"
 										min-date="ctrl.channelModel.activeDate"
 										ng-disabled="!ctrl.isUseExpireDate || !ctrl.manageAll"
 										button-id="expire-date-button">
-									</scf-date-picker-to>
+									</scf-date-picker>
 								</div>
 							</div>
 						</div>
