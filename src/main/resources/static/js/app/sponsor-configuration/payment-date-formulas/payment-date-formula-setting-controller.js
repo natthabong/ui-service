@@ -542,7 +542,9 @@ app.controller('PaymentDateFormulaSettingController', [
 				},
 				preCloseCallback : function(value) {
 					if (angular.isDefined(value)) {
-						vm.configCreditTerm(value);
+						if(value!='OK'){
+							vm.configCreditTerm(value);
+						}
 					}
 					return true;
 				}
