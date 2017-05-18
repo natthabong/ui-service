@@ -52,7 +52,7 @@ angular
 							}
 							
 							vm.disableTestConnection = function(data) {
-								if(data.channelName == 'Web'){
+								if(data.channelType == 'Web'){
 									return true;
 								}else{
 									return false;
@@ -63,43 +63,52 @@ angular
 							vm.data = [];
 
 							vm.dataTable = {
-								identityField : 'channelName',
+								identityField : 'channelType',
 								options : {},
 								columns : [
 										{
-											fieldName : 'channelName',
-											label : 'Channel',
+											fieldName : 'channelType',
+											labelEN : 'Channel',
+											labelTH : 'Channel',
 											id : 'channel-{value}',
+											filterType : 'translate',
 											cssTemplate : 'text-left',
 										},
 										{
 											fieldName : 'status',
-											label : 'Status',
-											id : 'channel-{value}-status',
+											labelEN : 'Status',
+											labelTH : 'Status',
+											id : 'status-{value}',
+											filterType : 'translate',
 											cssTemplate : 'text-center',
 										},
 										{
 											fieldName : 'activeDate',
-											label : 'Active date',
-											id : 'channel-{value}-active-date',
+											labelEN : 'Active date',
+											labelTH : 'Active date',
+											id : 'active-date-{value}',
 											filterType : 'date',
-										    format : 'dd/MM/yyyy',
+											filterFormat : 'dd/MM/yyyy',
 											cssTemplate : 'text-center',
 										},
 										{
 											fieldName : 'expiryDate',
-										    label : 'Expire date',
-										    id : 'channel-{value}-expire-date',
+											labelEN : 'Expire date',
+											labelTH : 'Expire date',
+										    id : 'expire-date-{value}',
 										    filterType : 'date',
-										    format : 'dd/MM/yyyy',
-										    cssTemplate : 'text-center'
+										    filterFormat : 'dd/MM/yyyy',
+										    cssTemplate : 'text-center',
+										    renderer: function(data){
+											    return data || '-';
+											}
 										},
 										{
 											cssTemplate : 'text-center',
 											sortData : false,
-											cellTemplate : '<scf-button id="channel-{{data.importChannelId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel" ng-hide="!data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>'
-													+ '<scf-button id="channel-{{data.importChannelId}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel" ng-hide="data.completed"><img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>'
-													+ '<scf-button class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.deleteChannel(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
+											cellTemplate : '<scf-button id="{{data.channelType}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel" ng-hide="!data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>'
+													+ '<scf-button id="{{data.channelType}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel" ng-hide="data.completed"><img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>'
+													+ '<scf-button id="{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.deleteChannel(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
 										} ]
 							}
 
@@ -119,18 +128,12 @@ angular
 								}
 								
 								var serviceUrl = '/api/v1/organize-customers/'+sponsorId+'/sponsor-configs/SFP/channels';
-								var serviceDiferred = Service.doGet(serviceUrl, {
-									offset: offset,
-									limit: vm.pageModel.pageSizeSelectModel
-								});		
+								var serviceDiferred = Service.doGet(serviceUrl);	
 								
 								serviceDiferred.promise.then(function(response){
 									vm.data = response.data;
-									vm.pageModel.totalRecord = response.headers("X-Total-Count");
-									vm.pageModel.totalPage = response.headers("X-Total-Page");
-									vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 								}).catch(function(response){
-									log.error('Load channel data error');
+									$log.error('Load channel data error');
 								});
 
 							} 

@@ -32,6 +32,10 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
     
 	vm.channelDropdown = ChannelDropdown;
 	
+	vm.backToSponsorConfigPage = function(){
+		PageNavigation.gotoPreviousPage();
+	}
+	
 	var isRequire = function(data) {
 		return (data == '' || data == null);
     }
@@ -92,7 +96,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	vm.saveChannel = function(creditterm){
 		if(validSave()){
 			var preCloseCallback = function(confirm) {
-				PageNavigation.gotoPreviousPage(true);
+				vm.backToSponsorConfigPage();
 		    }
 			
 			UIFactory.showConfirmDialog({
