@@ -14,20 +14,9 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
     var sponsorId = $rootScope.sponsorId;
     var selectedItem = $stateParams.selectedItem;
 	
-    var channelModel = {
-		paymentDateFormulaId : channelId,
-		channelType: ChannelDropdown[0].value,
-		documentDateStartPeriod: DocumentDatePeriodDropdown[0].value,
-		documentDateEndPeriod: DocumentDatePeriodDropdown[0].value,
-		startDayOfWeek: null,
-		startDateOfMonth: DocumentDatePeriodDropdown[0].value,
-		startMonthType: StartMonthTypeDropdown[0].value,
-		startNumberOfNextMonth: 0,
-		term: 0,
-		termType: TermTypeDropdown[0].value,
-		periodType: vm.periodType.EVERY_PERIOD,
-		paymentPeriods:[]
-	}
+    var BASE_URI = 'api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP';
+    
+    var channelModel = {};
     
 	vm.useStartDateActive = angular.copy($scope.ngDialogData.useStartDateActive);
 	vm.useCreditTerm = angular.copy($scope.ngDialogData.useCreditTerm);
@@ -44,74 +33,24 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	vm.isAfterDocumentDate = false;
 	vm.channelDropdown = ChannelDropdown;
 	
-	vm.changeChannelType = function(){
-	    if(vm.model.creditterm.startDateType === 'ON_DOCUMENT_DATE'){
-	    	vm.isFromDocumentDate = false;
-	    	vm.isAfterDocumentDate = false;
-	    }else if(vm.model.creditterm.startDateType === 'FROM_DOCUMENT_DATE'){
-	    	vm.isFromDocumentDate = true;
-	    	vm.isAfterDocumentDate = false;
-	    }else if(vm.model.creditterm.startDateType === 'AFTER_DOCUMENT_DATE'){
-	    	vm.isFromDocumentDate = false;
-	    	vm.isAfterDocumentDate = true;
-	    }
+	vm.backToSponsorConfigPage = function(){
+		PageNavigation.gotoPreviousPage();
 	}
 	
-	vm.changeMonth = function(){
-	    if(vm.model.creditterm.startMonthType === 'CURRENT'){
-	    	vm.model.creditterm.startNumberOfNextMonth = '0';
-	    }else{
-	    	if(vm.model.creditterm.startNumberOfNextMonth == '0'){
-	    		vm.model.creditterm.startNumberOfNextMonth = '1';
-	    	}
-	    }
-	}
+	var sendRequest = function(uri, succcesFunc, failedFunc) {
+        var serviceDiferred = Service.doGet(BASE_URI + uri);
+
+        var failedFunc = failedFunc | function(response) {
+            log.error('Load data error');
+        };
+        serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
+    }
 	
-	var loadPeriod = function(){
-		vm.paymentPeriods = [];
-		var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + formulaId + '/periods';
-		var deffered = Service.doGet(serviceUrl);
-        deffered.promise.then(function(response) {
-        	response.data.forEach(function(obj) {
-    			vm.paymentPeriods.push(obj);
-		    });
-		        	
-		}).catch(function(response) {
-		    log.error('Get period fail');
-		});	
-	}
-	
-	vm.configPeriod = function(callback){
-		vm.headerMessage = 'New payment period';
-		vm.period = {
-			sponsorId : sponsorId,
-			paymentDateFormulaId : formulaId,
-			paymentPeriodType : 'DATE_OF_MONTH',
-			dateOfMonth : '1',
-			dayOfWeek : 'MONDAY',
-			occurrenceWeek : 'FIRST'
-		};
-		
-		vm.newPeriodDialog = ngDialog.open({
-			id : 'new-period-dialog',
-			template : '/js/app/sponsor-configuration/periods/dialog-new-period.html',
-			className : 'ngdialog-theme-default',
-			controller : 'NewPaymentPeriodController',
-			controllerAs : 'ctrl',
-			scope : $scope,
-			data : {
-				period : vm.period,
-				message : vm.headerMessage,
-				callback : callback
-			},
-			cache : false,
-			preCloseCallback : function(value) {
-				if(value != 0){
-					loadPeriod();
-				}
-			}
-		});
-	}
+	vm.initLoad = function() {
+        sendRequest('/channels/' + selectedItem.channelId, function(response) {
+            vm.channelModel = response.data;
+        });
+    }
 	
 	var validSave = function(){
 		var isValid = true;
@@ -137,7 +76,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 		return isValid;
 	}
 	
-	vm.saveCreditterm = function(creditterm, callback){
+	vm.saveChannel = function(creditterm){
 		if(validSave()){
 			UIFactory.showConfirmDialog({
 				data : {
@@ -168,7 +107,6 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 						disableAnimation : true,
 						preCloseCallback : function(value) {
 							if (angular.isDefined(value)) {
-								callback();
 								if(value!='OK'){
 									vm.configCreditTerm(value);
 								}
