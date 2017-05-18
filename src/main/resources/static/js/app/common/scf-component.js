@@ -789,8 +789,8 @@
 						if(data['hiddenColumn'] != true){
 							var rowData = {
 								fieldName : data['fieldName'],
-								labelEN : data['labelEN'],
-								labelTH : data['labelTH'],
+								labelEN : data['labelEN'] ? data['labelEN'] :data['label']  ,
+								labelTH : data['labelTH'] ? data['labelTH'] :data['label'] ,
 								cellTemplate : data['cellTemplate'],
 								sortable : data['sortable'] || false,
 								cssTemplateHeader : getCssConfigHeader(data),
