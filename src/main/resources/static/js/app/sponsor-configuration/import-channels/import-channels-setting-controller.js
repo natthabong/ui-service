@@ -166,7 +166,3 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	vm.initLoad();
 	
 } ]);
-scfApp.controller('TestConnectionResultController', [ '$scope', '$rootScope', function($scope, $rootScope) {
- var vm = this;
- vm.serviceInfo = angular.copy($scope.ngDialogData.serviceInfo);
-} ]);

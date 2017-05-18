@@ -1,6 +1,6 @@
 <div class="modal-content" id="test-connection-result-dialog">
     <div id="wrapper" ng-controller="TestConnectionResultController" as ctrl>
-        <form name="serviceInfo" class="form-horizontal" ng-submit="closeThisDialog();">
+        <form name="serviceInfo" class="form-horizontal">
             <div class="modal-header">
                 <div class="row">
                     <div class="col-md-10 col-sm-10">
@@ -14,20 +14,26 @@
 
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-1 col-sm-1 col-xs-1"></div>
+                    <div class="col-md-11 col-sm-11 col-xs-11">
                         <div class="form-group">
-                            <label id="test-connection-result-popup-test-result-label" class="col-sm-3 col-xs-12 control-label">
-							    <b>{{'Test result:' | translate}}</b>
-                            </label>
-                            <label id="test-connection-result-popup-test-result-value-label" class="col-sm-9 hidden-xs control-label">
-                                {{ctrl.serviceInfo.status}}
-                            </label>
+                            <div class="row">
+                                <label id="test-connection-result-popup-test-result-label" class="col-sm-2 col-xs-12 control-label">
+                                    <b>{{'Test result:' | translate}}</b>
+                                </label>
+                                <label id="test-connection-result-popup-test-result-value-label" class="col-sm-9 col-xs-12 control-label">
+                                    {{ctrl.serviceInfo.status}}
+                                </label>
+                            </div>
                         </div>   
                         <div class="form-group">
-                            <label class="col-sm-3 col-xs-12 control-label"></label>
-                            <label id="message-error-label" class="col-sm-9 hidden-xs control-label" >
-                                {{ctrl.serviceInfo.errorMessage}}
-                            </label>
+                            <div class="row">
+                                <label class="col-sm-2 hidden-xs control-label"></label>
+                                <label id="test-connection-result-popup-massage-error-label" class="col-sm-9 col-xs-12 control-label" >
+                                    {{ctrl.serviceInfo.errorMessage}}
+                                </label>
+                            </div>
+                            
                         </div> 
                     </div> 
                 </div>

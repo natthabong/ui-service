@@ -11,8 +11,9 @@ angular
 						'$timeout',
 						'PageNavigation',
 						'Service',
+						'ngDialog',
 						function($log, $scope, $state, SCFCommonService,
-								$stateParams, $timeout, PageNavigation, Service) {
+								$stateParams, $timeout, PageNavigation, Service, ngDialog) {
 							
 							var vm = this;
 							vm.splitePageTxt = '';
@@ -45,6 +46,29 @@ angular
 						            	selectedItem: data
 						            };
 						        PageNavigation.gotoPage('/sponsor-configuration/import-channels/settings', params);
+							}
+							
+							vm.testConnection = function(data){
+								vm.serviceInfo = {
+									status : '',
+									errorMessage : ''
+								};
+								
+								var testConnectionDialog = ngDialog.open({
+									id : 'test-connection-result-dialog',
+									template : 'js/app/sponsor-configuration/import-channels/dialog-test-connection-result.html',
+									className : 'ngdialog-theme-default',
+									controller: 'TestConnectionResultController',
+									controllerAs: 'ctrl',
+									scope : $scope,
+									data : {
+										serviceInfo : vm.serviceInfo
+									},
+									preCloseCallback : function(value) {
+										
+									}
+								});
+								
 							}
 
 							vm.deleteChannel = function(data) {
@@ -108,7 +132,7 @@ angular
 											sortData : false,
 											cellTemplate : '<scf-button id="{{data.channelType}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel" ng-hide="!data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>'
 													+ '<scf-button id="{{data.channelType}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel" ng-hide="data.completed"><img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>'
-													+ '<scf-button id="{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.deleteChannel(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
+													+ '<scf-button id="{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.testConnection(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
 										} ]
 							}
 
@@ -147,4 +171,7 @@ angular
 
 							vm.initLoad();
 
-						} ]);
+						} ]).controller('TestConnectionResultController', [ '$scope', '$rootScope', function($scope, $rootScope) {
+							 var vm = this;
+							 vm.serviceInfo = angular.copy($scope.ngDialogData.serviceInfo);
+							} ]);
