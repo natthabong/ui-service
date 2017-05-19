@@ -18,20 +18,41 @@
                     <div class="col-md-11 col-sm-11 col-xs-11">
                         <div class="form-group">
                             <div class="row">
-                                <label id="test-connection-result-popup-test-result-label" class="col-sm-2 col-xs-12 control-label">
-                                    <b>{{'Test result:' | translate}}</b>
-                                </label>
-                                <label id="test-connection-result-popup-test-result-value-label" class="col-sm-9 col-xs-12 control-label">
-                                    {{ctrl.serviceInfo.status}}
-                                </label>
+                            	<div class="col-sm-2 col-xs-12 control-label">
+                            		 <label id="test-connection-result-popup-test-result-label">
+                            		 	<span ng-bind="'Test result' | translate"></span>:
+	                                </label>
+                            	</div>
+                               <div class="col-sm-9 col-xs-12 control-label" ng-show="ctrl.serviceInfo.status=='success'">
+                               		<label id="test-connection-result-popup-test-result-value-label" >
+                               			<span ng-bind="'Ready' | translate"></span>
+	                                </label>
+                               </div>
+                               
+                               <div class="col-sm-9 col-xs-12 control-label" ng-show="ctrl.serviceInfo.status=='fail'">
+                               		<label id="test-connection-result-popup-test-result-value-label" >
+                               			<span ng-bind="'Problem' | translate"></span>
+	                                </label>
+                               </div>
+                               
+                               <div class="col-sm-9 col-xs-12" ng-show="ctrl.serviceInfo.status=='loading'">
+                               		<img src="/img/loading_spinner.gif" alt="loading_spinner"
+													width="30" height="30"></img><span>Checking</span>
+                               </div>
+                                
                             </div>
                         </div>   
-                        <div class="form-group">
+                        <div class="form-group" ng-show="ctrl.serviceInfo.status=='fail'">
                             <div class="row">
-                                <label class="col-sm-2 hidden-xs control-label"></label>
-                                <label id="test-connection-result-popup-massage-error-label" class="col-sm-9 col-xs-12 control-label" >
-                                    {{ctrl.serviceInfo.errorMessage}}
-                                </label>
+                            	<div class="col-sm-2 hidden-xs control-label">
+                            		<label></label>
+                            	</div>
+                                <div class="col-sm-9 col-xs-12 control-label" >
+                                	<label id="test-connection-result-popup-massage-error-label" >
+	                                    <span ng-bind="ctrl.serviceInfo.errorMessage"></span>
+	                                </label>
+                                </div>
+                                
                             </div>
                             
                         </div> 
