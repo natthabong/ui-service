@@ -197,6 +197,22 @@
             
         </div>
 
+        <div class="form-group">
+            <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                <label id="frequency-label" >
+                    {{'Frequency' | translate}}:
+                </label>
+            </div>
             
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <scf-dropdown id="frequency-dropdown"
+                        ng-model="ctrl.channelModel.jobTrigger.frequency"
+                        component-data="ctrl.frequencyDropdown">
+                </scf-dropdown>
+            </div>
+            <div class="col-md-6 col-sm-4 col-hidden-xs"></div>
+        </div>
+
+
     </div>
 </div>

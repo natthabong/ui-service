@@ -12,9 +12,9 @@ app.constant('POST_PROCESS_DROPDOWN',[
 	{label:'Backup', value: 'Backup'}
 	]);
 app.constant('BACKUP_PATH_PATTERN_DROPDOWN',[
-	{label:'/', value: 'None'},
-	{label:'Delete', value: 'Delete'},
-	{label:'Backup', value: 'Backup'}
+	{label:'/', value: '/'},
+	{label:'/YYYYMMDD', value: '/YYYYMMDD'},
+	{label:'/DDMMYYYY', value: '/DDMMYYYY'}
 	]);
 app.constant('FREQUENCY_DROPDOWN',[
 	{label:'Daily', value: 'Daily'}
@@ -56,6 +56,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 
 	vm.backupPathPatternDropdown = BACKUP_PATH_PATTERN_DROPDOWN;
 
+	vm.frequencyDropdown = FREQUENCY_DROPDOWN;
 	
 	vm.backToSponsorConfigPage = function(){
 		PageNavigation.gotoPreviousPage();
@@ -153,6 +154,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	}	
 	
 	$scope.confirmSave = function() { 
+		console.log(vm.channelModel);
 		var serviceUrl = BASE_URI+'/channels/' + vm.channelModel.channelId;
 		var deffered = $q.defer();
 		var serviceDiferred =  $http({
@@ -195,8 +197,8 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	vm.setupUserInfo = function(){
 		vm.username = '';
 		
-		if(angular.isDefined(vm.channelModel.remoteUsername)){
-			vm.username = vm.channelModel.remoteUsername;
+		if(angular.isDefined(vm.channelModel.jobTrigger.jobDetail.remoteUsername)){
+			vm.username = vm.channelModel.jobTrigger.jobDetail.remoteUsername;
 		}
 		
 		var userInfo = ngDialog.open({
@@ -209,8 +211,8 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 			},
 			preCloseCallback : function(value) {
 				if (angular.isDefined(value)) {
-					vm.channelModel.remoteUsername = value.username;
-					vm.channelModel.remotePassword = value.password;
+					vm.channelModel.jobTrigger.jobDetail.remoteUsername = value.username;
+					vm.channelModel.jobTrigger.jobDetail.remotePassword = value.password;
 				}
 				return true;
 			}
