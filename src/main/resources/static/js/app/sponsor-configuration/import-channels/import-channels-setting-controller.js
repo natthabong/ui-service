@@ -192,21 +192,27 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
         });
 	}
 	
-	vm.viewSystemInfo = function(data){
-		vm.userInfo = {
-			username : data.remoteUsername,
-			password : data.remotePassword
+	vm.setupUserInfo = function(){
+		vm.username = '';
+		
+		if(angular.isDefined(vm.channelModel.remoteUsername)){
+			vm.username = vm.channelModel.remoteUsername;
 		}
 		
 		var userInfo = ngDialog.open({
 			id : 'user-info-dialog',
 			template : '/js/app/sponsor-configuration/import-channels/dialog-user-info.html',
 			className : 'ngdialog-theme-default',
-			controller: 'ViewServiceInformationController',
-			controllerAs: 'ctrl',
 			scope : $scope,
 			data : {
-			serviceInfo : vm.serviceInfo
+				username : vm.username
+			},
+			preCloseCallback : function(value) {
+				if (angular.isDefined(value)) {
+					vm.channelModel.remoteUsername = value.username;
+					vm.channelModel.remotePassword = value.password;
+				}
+				return true;
 			}
 		});
 	}
@@ -218,7 +224,33 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	vm.initLoad();
 	
 } ]);
-scfApp.controller('SetupFTPUserController', [ '$scope', '$rootScope', function($scope, $rootScope) {
+app.controller('SetupFTPUserController', [ '$scope', '$rootScope', function($scope, $rootScope) {
 	 var vm = this;
-	 vm.ftpUserInfo = angular.copy($scope.ngDialogData.ftpUserInfo);
+	 vm.username = angular.copy($scope.ngDialogData.username);
+	 vm.userInfo = {
+		 username: vm.username,
+		 password: ''
+	 }
+
+	 vm.validate = function(){
+		 var isValid = true;
+		 vm.showUserNameMessageError = false;
+		 vm.showPasswordMessageError = false;
+		 
+		 if(vm.userInfo.username == null|| vm.userInfo.username ==''){
+			 vm.showUserNameMessageError = true;
+			 vm.usernameMessageError = "Username Require";
+			 isValid = false;
+		 }
+		 
+		 if(vm.userInfo.password == null|| vm.userInfo.password ==''){
+			 vm.showPasswordMessageError = true;
+			 vm.passwordMessageError = "Password Require";
+			 isValid = false;
+		 }
+		 
+		 if(isValid){
+			 $scope.closeThisDialog(vm.userInfo);
+		 }
+	 }
 } ]);
