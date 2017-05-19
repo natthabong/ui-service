@@ -1,0 +1,202 @@
+<div th:fragment="content">
+    <div id="wrapper">
+
+        <div class="form-group">
+            <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                <label id="file-protocal-label" >
+                    {{'File protocal' | translate}}:
+                </label>
+            </div>
+            
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <scf-dropdown id="file-protocal-dropdown"
+                        ng-model="ctrl.channelModel.fileProtocal"
+                        component-data="ctrl.fileProtocalDropdown">
+                </scf-dropdown>
+            </div>
+            <div class="col-md-6 col-sm-4 col-hidden-xs"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                <label id="host-name-label" >
+                    {{'Host name' | translate}}:
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <scf-input-text id="host-name-textbox" maxlength="255" ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteHost">
+                </scf-input-text>
+            </div>
+
+            <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                <label id="port-number-label" >
+                    {{'Port number' | translate}}:
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <scf-input-text id="port-number-textbox" maxlength="100" ng-model="ctrl.channelModel.jobTrigger.jobDetail.remotePort">
+                </scf-input-text>
+            </div>
+            
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                <label id="ftp-user-label" >
+                    {{'FTP user' | translate}}:
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <scf-input-text id="ftp-user-value-label" 
+                    ng-disabled="true" maxlength="255" 
+                    ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteUsername" >
+                </scf-input-text>
+            </div>
+
+            <div class="col-md-2 col-sm-3 col-xs-12">
+                <scf-button id="setup-ftp-user-button" class="popup-button"
+                    data-dismiss="modal" ng-click="ctrl.setupUserInfo()"
+                    ng-disabled="!ctrl.manageAll"
+                    ng-bind="'Setup FTP user' | translate">
+                </scf-button>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                <label id="remote-directory-label" >
+                    {{'Remote directory' | translate}}:
+                </label>
+            </div>
+
+            <div class="col-md-8 col-sm-9 col-xs-12">
+                <scf-input-text id="ftp-user-value-label" 
+                     maxlength="255" 
+                    ng-model="ctrl.channelModel.jobTrigger.jobDetail.remotePath" >
+                </scf-input-text>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                <label id="filename-pattern-label" >
+                    {{'File name pattern' | translate}}:
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <scf-input-text id="filename-pattern-textbox" maxlength="255" ng-model="ctrl.channelModel.jobTrigger.jobDetail.fileNamePattern">
+                </scf-input-text>
+            </div>
+
+            <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                <label id="limit-file-size-label" >
+                    {{'Limited file size (MB)' | translate}}:
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <scf-input-text id="limit-file-size-textbox" maxlength="100" ng-model="ctrl.channelModel.jobTrigger.jobDetail.limitedFileSize">
+                </scf-input-text>
+            </div>
+            
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                <label id="file-encryption-label" >
+                    {{'File encryption' | translate}}:
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <scf-input-text id="file-encryption-value-label" 
+                    ng-disabled="true" maxlength="255" 
+                    ng-model="ctrl.channelModel.jobTrigger.jobDetail.encryptType" >
+                </scf-input-text>
+            </div>
+
+            <div class="col-md-2 col-sm-3 col-xs-12">
+                <scf-button id="setup-file-encryption-button" class="popup-button"
+                    data-dismiss="modal" ng-click="ctrl.setupFileEncrption()"
+                    ng-disabled="!ctrl.manageAll"
+                    ng-bind="'Setup file encryption' | translate">
+                </scf-button>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                <label id="retires-label" >
+                    {{'Retry' | translate}}:
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <scf-input-text id="retires-textbox" maxlength="2" ng-model="ctrl.channelModel.jobTrigger.jobDetail.retryCount">
+                </scf-input-text>
+            </div>
+
+            <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                <label id="retires-delayed-interval-label" >
+                    {{'Delayed interval (sec)' | translate}}:
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <scf-input-text id="retires-delayed-interval-textbox" maxlength="2" ng-model="ctrl.channelModel.jobTrigger.jobDetail.connectionRetryInterval">
+                </scf-input-text>
+            </div>
+            
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                <label id="post-process-label" >
+                    {{'Post process' | translate}}:
+                </label>
+            </div>
+            
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <scf-dropdown id="post-process-dropdown"
+                        ng-model="ctrl.channelModel.jobTrigger.jobDetail.postProcessType"
+                        component-data="ctrl.postProcessDropdown">
+                </scf-dropdown>
+            </div>
+            <div class="col-md-6 col-sm-4 col-hidden-xs"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                <label id="remote-backup-directory-label" >
+                    {{'Remote backup directory' | translate}}:
+                </label>
+            </div>
+
+            <div class="col-md-5 col-sm-6 col-xs-12">
+                <scf-input-text id="remote-backup-directory-textbox" maxlength="255" ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteBackupPath">
+                </scf-input-text>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <scf-dropdown id="remote-backup-directory-pattern-dropdown"
+                        ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteBackupFolderPattern"
+                        component-data="ctrl.backupPathPatternDropdown">
+                </scf-dropdown>
+            </div>
+            
+        </div>
+
+            
+    </div>
+</div>

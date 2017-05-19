@@ -29,6 +29,8 @@ public class SponsorConfigController {
 	private static String SETTINGS_ORGANIZE_LOGO = "sponsor-configuration/organize-logo/settings";
 	
 	private static String SETTINGS_IMPORT_CHANNEL = "sponsor-configuration/import-channels/settings";
+	private static String SETTINGS_IMPORT_CHANNEL_FTP = "sponsor-configuration/import-channels/ftp-settings";
+
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String sponsorConfiguration(
@@ -142,5 +144,14 @@ public class SponsorConfigController {
 			return SETTINGS_IMPORT_CHANNEL.concat(" :: content");
 		}
 		return SETTINGS_IMPORT_CHANNEL;
+	}
+
+	@RequestMapping(path = "/import-channels/ftp-settings", method = RequestMethod.GET)
+	public String settingImportChannelFTP(
+			@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETTINGS_IMPORT_CHANNEL_FTP.concat(" :: content");
+		}
+		return SETTINGS_IMPORT_CHANNEL_FTP;
 	}
 }
