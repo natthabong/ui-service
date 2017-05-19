@@ -23,13 +23,13 @@
                             		 	<span ng-bind="'Test result' | translate"></span>:
 	                                </label>
                             	</div>
-                               <div class="col-sm-9 col-xs-12 control-label" ng-show="ctrl.serviceInfo.status=='success'">
+                               <div class="col-sm-9 col-xs-12 control-label" ng-if="ctrl.serviceInfo.status=='success'">
                                		<label id="test-connection-result-popup-test-result-value-label" >
                                			<span ng-bind="'Ready' | translate"></span>
 	                                </label>
                                </div>
                                
-                               <div class="col-sm-9 col-xs-12 control-label" ng-show="ctrl.serviceInfo.status=='fail'">
+                               <div class="col-sm-9 col-xs-12 control-label" ng-if="ctrl.serviceInfo.status=='fail'">
                                		<label id="test-connection-result-popup-test-result-value-label" >
                                			<span ng-bind="'Problem' | translate"></span>
 	                                </label>
