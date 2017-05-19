@@ -68,7 +68,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 		if (vm.isUseExpireDate) {
 		    if (!angular.isDefined(vm.channelModel.expiryDate)) {
 		    	isValid = false;
-				$scope.errors.expiryDate = {
+				$scope.errors.activeDate = {
 				    message : 'Wrong date format data.'
 				}
 		    } else if (angular.isDefined(vm.channelModel.activeDate)
@@ -79,7 +79,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 				}
 		    }else if(vm.channelModel.expiryDate == null|| vm.channelModel.expiryDate ==''){				    	
 		    	isValid = false;
-			    $scope.errors.expiryDate = {
+			    $scope.errors.activeDate = {
 		    		message : 'Expire date is required.'
 			    }
 		    }
@@ -93,7 +93,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 		dialogPopup.close();
 	}
 	
-	vm.saveChannel = function(creditterm){
+	vm.saveChannel = function(){
 		if(validSave()){
 			var preCloseCallback = function(confirm) {
 				vm.backToSponsorConfigPage();
@@ -119,7 +119,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 			    	dialogPopup = UIFactory.showFailDialog({
 						data : {
 							headerMessage : 'Update channel fail.',
-							bodyMessage : 'Channel has been modified.'
+							bodyMessage : 'Channel has been modified. ('+vm.channelModel.channelType+')'
 						},
 						buttons : [{
 							id: 'close-button',
