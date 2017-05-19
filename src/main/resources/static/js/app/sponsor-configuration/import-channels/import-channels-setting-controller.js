@@ -3,10 +3,28 @@ app.constant('ChannelDropdown',[
 	{label:'Web', value: 'WEB'},
 	{label:'FTP', value: 'FTP'}
 	]);
+app.constant('PROTOCAL_DROPDOWN',[
+	{label:'SFTP', value: 'SFTP'}
+	]);
+app.constant('POST_PROCESS_DROPDOWN',[
+	{label:'None', value: 'None'},
+	{label:'Delete', value: 'Delete'},
+	{label:'Backup', value: 'Backup'}
+	]);
+app.constant('BACKUP_PATH_PATTERN_DROPDOWN',[
+	{label:'/', value: 'None'},
+	{label:'Delete', value: 'Delete'},
+	{label:'Backup', value: 'Backup'}
+	]);
+app.constant('FREQUENCY_DROPDOWN',[
+	{label:'Daily', value: 'Daily'}
+	]);
+
 app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$stateParams', 'ngDialog', 
-    'ChannelDropdown', '$rootScope', 'SCFCommonService', 'UIFactory', 'Service', 'blockUI', 'PageNavigation','$q','$http',
+    'ChannelDropdown', '$rootScope', 'SCFCommonService', 'UIFactory', 'Service', 'blockUI', 'PageNavigation',
+	'$q','$http','PROTOCAL_DROPDOWN','POST_PROCESS_DROPDOWN', 'BACKUP_PATH_PATTERN_DROPDOWN','FREQUENCY_DROPDOWN',
 	function($log, $scope, $state, $stateParams, ngDialog, ChannelDropdown, $rootScope, SCFCommonService, 
-			UIFactory, Service, blockUI, PageNavigation, $q, $http) {
+			UIFactory, Service, blockUI, PageNavigation, $q, $http, PROTOCAL_DROPDOWN, POST_PROCESS_DROPDOWN, BACKUP_PATH_PATTERN_DROPDOWN, FREQUENCY_DROPDOWN) {
 	var vm = this;
 	
 	vm.manageAll=false;
@@ -31,6 +49,13 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
     vm.isUseExpireDate = false;
     
 	vm.channelDropdown = ChannelDropdown;
+	
+	vm.fileProtocalDropdown = PROTOCAL_DROPDOWN;
+
+	vm.postProcessDropdown = POST_PROCESS_DROPDOWN;
+
+	vm.backupPathPatternDropdown = BACKUP_PATH_PATTERN_DROPDOWN;
+
 	
 	vm.backToSponsorConfigPage = function(){
 		PageNavigation.gotoPreviousPage();
@@ -148,6 +173,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	vm.searchChannel = function(){
 		sendRequest('/channels/' + selectedItem.channelId, function(response) {
             vm.channelModel = response.data;
+            console.log(vm.channelModel);
             
             if(response.data.activeDate != null){
             	vm.channelModel.activeDate =  new Date(response.data.activeDate);
@@ -161,6 +187,8 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 			}else{
 				vm.channelModel.expiryDate = null;
 			}
+			
+			vm.channelModel.fileProtocal = 'SFTP';
         });
 	}
 	

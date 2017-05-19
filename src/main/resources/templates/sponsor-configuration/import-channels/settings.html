@@ -24,6 +24,9 @@
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
+
+						<ng-include src="'/sponsor-configuration/import-channels/ftp-settings'" ng-if="true"></ng-include>
+
 						<div class="form-group">
 							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								&nbsp;&nbsp;
@@ -54,7 +57,7 @@
 										style="padding-bottom: 10px;">{{'Expire date' |
 										translate}}:</label>
 								</div>
-								<div class="col-md-3 col-sm-3 gec-calendar-group">
+								<div class="col-md-3 col-sm-3 gec-calendar-group" style="padding-left: 35px;">
 									<scf-date-picker text-id="expire-date-textbox"
 										text-model="ctrl.channelModel.expiryDate" date-format="dd/MM/yyyy"
 										is-open="ctrl.openExpireDate"
