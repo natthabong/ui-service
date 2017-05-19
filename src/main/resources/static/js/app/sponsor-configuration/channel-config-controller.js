@@ -48,9 +48,10 @@ angular
 						        PageNavigation.gotoPage('/sponsor-configuration/import-channels/settings', params);
 							}
 							
+							
 							vm.testConnection = function(data){
 								vm.serviceInfo = {
-									status : '',
+									status : 'loading',
 									errorMessage : ''
 								};
 								
@@ -62,15 +63,15 @@ angular
 									controllerAs: 'ctrl',
 									scope : $scope,
 									data : {
-										serviceInfo : vm.serviceInfo
+										serviceInfo : vm.serviceInfo,
+										data : data
 									},
 									preCloseCallback : function(value) {
 										
 									}
 								});
-								
 							}
-
+							
 							vm.deleteChannel = function(data) {
 								PageNavigation.gotoPage('/');
 							}
@@ -168,7 +169,31 @@ angular
 
 							vm.initLoad();
 
-						} ]).controller('TestConnectionResultController', [ '$scope', '$rootScope', function($scope, $rootScope) {
+						} ]).controller('TestConnectionResultController', [ '$scope', '$rootScope', '$q','$http', function($scope, $rootScope, $q, $http) {
 							 var vm = this;
 							 vm.serviceInfo = angular.copy($scope.ngDialogData.serviceInfo);
+							 vm.data = angular.copy($scope.ngDialogData.data);
+							 
+							 
+							 var verifySystemStatusFTP = function(data){
+						        var deffered = $q.defer();
+							    $http({
+							       method: 'POST',
+							       url: 'api/v1/check-ftp-connection/connections/'+data.jobId
+							    }).then(function(response) {
+							       if(response.data.returnCode == "200"){
+								    	vm.serviceInfo.status = "success";
+								    }else{
+								    	vm.serviceInfo.errorMessage = response.data.returnCode + ' - ' + response.data.returnMessage;
+										vm.serviceInfo.status = "fail";
+								    }
+							       
+							    }).catch(function(response) {
+							       vm.serviceInfo.errorMessage = response.status + ' - ' + response.statusText;
+							       vm.serviceInfo.status = "fail";
+							    });
+						    }
+							 
+							 verifySystemStatusFTP(vm.data);
+							 
 							} ]);
