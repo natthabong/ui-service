@@ -57,7 +57,7 @@ angular
 								
 								var testConnectionDialog = ngDialog.open({
 									id : 'test-connection-result-dialog',
-									template : 'js/app/sponsor-configuration/import-channels/dialog-test-connection-result.html',
+									template : 'js/app/sponsor-configuration/dialog-test-connection-result.html',
 									className : 'ngdialog-theme-default',
 									controller: 'TestConnectionResultController',
 									controllerAs: 'ctrl',
