@@ -88,11 +88,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 		
 		return isValid;
 	}
-	
-	var closeDialogFail = function(){
-		dialogPopup.close();
-	}
-	
+
 	vm.saveChannel = function(){
 		if(validSave()){
 			var preCloseCallback = function(confirm) {
@@ -116,22 +112,14 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 				},
 				onFail : function(response) {
 				    	var msg = {
-						409 : 'Credit term has been deleted.',
 						405 : 'Channel has been modified.'
 					};
 				    	blockUI.stop();
-			    		UIFactory.showFailDialog({
+				    	UIFactory.showFailDialog({
 						data : {
 							headerMessage : 'Update channel failed.',
 							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
 						},
-						buttons : [{
-							id: 'close-button',
-							label: 'Close',
-							action:function(){
-								closeDialogFail();
-							}
-						}],
 						preCloseCallback : null
 					});
 				}
@@ -176,10 +164,33 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
         });
 	}
 	
+	vm.viewSystemInfo = function(data){
+		vm.userInfo = {
+			username : data.remoteUsername,
+			password : data.remotePassword
+		}
+		
+		var userInfo = ngDialog.open({
+			id : 'user-info-dialog',
+			template : '/js/app/sponsor-configuration/import-channels/dialog-user-info.html',
+			className : 'ngdialog-theme-default',
+			controller: 'ViewServiceInformationController',
+			controllerAs: 'ctrl',
+			scope : $scope,
+			data : {
+			serviceInfo : vm.serviceInfo
+			}
+		});
+	}
+	
 	vm.initLoad = function() {
 		vm.searchChannel();
     }
 	
 	vm.initLoad();
 	
+} ]);
+scfApp.controller('SetupFTPUserController', [ '$scope', '$rootScope', function($scope, $rootScope) {
+	 var vm = this;
+	 vm.ftpUserInfo = angular.copy($scope.ngDialogData.ftpUserInfo);
 } ]);
