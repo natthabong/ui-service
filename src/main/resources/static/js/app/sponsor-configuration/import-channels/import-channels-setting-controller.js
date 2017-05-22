@@ -3,7 +3,7 @@ app.constant('ChannelDropdown',[
 	{label:'Web', value: 'WEB'},
 	{label:'FTP', value: 'FTP'}
 	]);
-app.constant('PROTOCAL_DROPDOWN',[
+app.constant('PROTOCOL_DROPDOWN',[
 	{label:'SFTP', value: 'SFTP'}
 	]);
 app.constant('POST_PROCESS_DROPDOWN',[
@@ -17,7 +17,7 @@ app.constant('BACKUP_PATH_PATTERN_DROPDOWN',[
 	{label:'/DDMMYYYY', value: '/DDMMYYYY'}
 	]);
 app.constant('FREQUENCY_DROPDOWN',[
-	{label:'Daily', value: 'Daily'}
+	{label:'Daily', value: 'DAILY'}
 	]);
 app.constant('ENCRYPT_TYPE_DROPDOWN',[
    	{label:'None', value: null},
@@ -25,15 +25,21 @@ app.constant('ENCRYPT_TYPE_DROPDOWN',[
    	]);
 app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$stateParams', 'ngDialog', 
     'ChannelDropdown', '$rootScope', 'SCFCommonService', 'UIFactory', 'Service', 'blockUI', 'PageNavigation',
-	'$q','$http','PROTOCAL_DROPDOWN','POST_PROCESS_DROPDOWN', 'BACKUP_PATH_PATTERN_DROPDOWN','FREQUENCY_DROPDOWN',
+	'$q','$http','PROTOCOL_DROPDOWN','POST_PROCESS_DROPDOWN', 'BACKUP_PATH_PATTERN_DROPDOWN','FREQUENCY_DROPDOWN',
 	function($log, $scope, $state, $stateParams, ngDialog, ChannelDropdown, $rootScope, SCFCommonService, 
-			UIFactory, Service, blockUI, PageNavigation, $q, $http, PROTOCAL_DROPDOWN, POST_PROCESS_DROPDOWN, BACKUP_PATH_PATTERN_DROPDOWN, FREQUENCY_DROPDOWN) {
+			UIFactory, Service, blockUI, PageNavigation, $q, $http, PROTOCOL_DROPDOWN, POST_PROCESS_DROPDOWN, BACKUP_PATH_PATTERN_DROPDOWN, FREQUENCY_DROPDOWN) {
 	var vm = this;
 	
 	vm.manageAll=false;
+	vm.isSetupFTP = false;
+	vm.postProcessBackup = false;
 	
     var sponsorId = $rootScope.sponsorId;
     var selectedItem = $stateParams.selectedItem;
+	
+	if(selectedItem.channelType == 'FTP'){
+		vm.isSetupFTP = true;
+	}
 	
     var BASE_URI = 'api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP';
     
@@ -53,13 +59,22 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
     
 	vm.channelDropdown = ChannelDropdown;
 	
-	vm.fileProtocalDropdown = PROTOCAL_DROPDOWN;
+	vm.fileProtocolDropdown = PROTOCOL_DROPDOWN;
 
 	vm.postProcessDropdown = POST_PROCESS_DROPDOWN;
 
 	vm.backupPathPatternDropdown = BACKUP_PATH_PATTERN_DROPDOWN;
 
 	vm.frequencyDropdown = FREQUENCY_DROPDOWN;
+
+	vm.changePostProcess = function() {
+		if(vm.channelModel.jobTrigger.jobDetail.postProcessType == 'Backup'){
+			vm.postProcessBackup = true;
+		}else{
+			vm.postProcessBackup = false;
+			vm.channelModel.jobTrigger.jobDetail.remoteBackupFolderPattern = '/';
+		}
+	}
 	
 	vm.backToSponsorConfigPage = function(){
 		PageNavigation.gotoPreviousPage();
@@ -185,6 +200,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	vm.searchChannel = function(){
 		sendRequest('/channels/' + selectedItem.channelId, function(response) {
             vm.channelModel = response.data;
+			console.log(response.data);
             
             if(response.data.activeDate != null){
             	vm.channelModel.activeDate =  new Date(response.data.activeDate);
@@ -199,7 +215,55 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 				vm.channelModel.expiryDate = null;
 			}
 			
-			vm.channelModel.fileProtocal = 'SFTP';
+			vm.channelModel.fileProtocol = 'SFTP';
+
+			if(response.data.jobTrigger.jobDetail.remotePort == null){
+				vm.channelModel.jobTrigger.jobDetail.remotePort = '22';
+			}
+
+			if(response.data.jobTrigger.jobDetail.remoteFilenamePattern == null){
+				vm.channelModel.jobTrigger.jobDetail.remoteFilenamePattern = '*.*';
+			}
+
+			if(response.data.jobTrigger.jobDetail.limitedFileSize == null){
+				vm.channelModel.jobTrigger.jobDetail.limitedFileSize = '5';
+			}
+
+			if(response.data.jobTrigger.jobDetail.encryptType == null){
+				vm.channelModel.jobTrigger.jobDetail.encryptType = 'None';
+			}
+
+			if(response.data.jobTrigger.jobDetail.retryCount == null){
+				vm.channelModel.jobTrigger.jobDetail.retryCount = '3';
+			}
+
+			if(response.data.jobTrigger.jobDetail.connectionRetryInterval == null){
+				vm.channelModel.jobTrigger.jobDetail.connectionRetryInterval = '60';
+			}
+
+			if(response.data.jobTrigger.jobDetail.postProcessType == null){
+				vm.channelModel.jobTrigger.jobDetail.postProcessType = 'None';
+			}
+
+			if(response.data.jobTrigger.jobDetail.remoteBackupPath == 'Backup'){
+				vm.postProcessBackup = true;
+
+			}else if(response.data.jobTrigger.jobDetail.remoteBackupPath == null){
+				vm.channelModel.jobTrigger.jobDetail.remoteBackupPath = '/backup'
+			}
+
+			if(response.data.jobTrigger.jobDetail.remoteBackupFolderPattern == null){
+				vm.channelModel.jobTrigger.jobDetail.remoteBackupFolderPattern = '/';
+			}
+
+			if(response.data.jobTrigger.frequencyType == null){
+				vm.channelModel.jobTrigger.frequencyType = 'DAILY';
+			}
+
+			if(response.data.jobTrigger.intervalInMinutes == null){
+				vm.channelModel.jobTrigger.intervalInMinutes = '300';
+			} 
+
         });
 	}
 	

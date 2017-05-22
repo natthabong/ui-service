@@ -4,14 +4,14 @@
         <div class="form-group">
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
                 <label id="file-protocal-label" >
-                    {{'File protocal' | translate}}:
+                    {{'File protocol' | translate}}:
                 </label>
             </div>
             
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <scf-dropdown id="file-protocal-dropdown"
-                        ng-model="ctrl.channelModel.fileProtocal"
-                        component-data="ctrl.fileProtocalDropdown">
+                <scf-dropdown id="file-protocol-dropdown"
+                        ng-model="ctrl.channelModel.fileProtocol"
+                        component-data="ctrl.fileProtocolDropdown">
                 </scf-dropdown>
             </div>
             <div class="col-md-6 col-sm-4 col-hidden-xs"></div>
@@ -51,7 +51,7 @@
 
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <scf-input-text id="ftp-user-value-label" 
-                    ng-disabled="true" maxlength="255" 
+                    ng-disabled="true" maxlength="100" 
                     ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteUsername" >
                 </scf-input-text>
             </div>
@@ -91,7 +91,7 @@
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <scf-input-text id="filename-pattern-textbox" maxlength="255" ng-model="ctrl.channelModel.jobTrigger.jobDetail.fileNamePattern">
+                <scf-input-text id="filename-pattern-textbox" maxlength="200" ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteFilenamePattern">
                 </scf-input-text>
             </div>
 
@@ -136,24 +136,24 @@
 
         <div class="form-group">
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
-                <label id="retires-label" >
+                <label id="retry-label" >
                     {{'Retry' | translate}}:
                 </label>
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <scf-input-text id="retires-textbox" maxlength="2" ng-model="ctrl.channelModel.jobTrigger.jobDetail.retryCount">
+                <scf-input-text id="retry-textbox" maxlength="2" ng-model="ctrl.channelModel.jobTrigger.jobDetail.retryCount">
                 </scf-input-text>
             </div>
 
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
-                <label id="retires-delayed-interval-label" >
+                <label id="retry-delayed-interval-label" >
                     {{'Delayed interval (sec)' | translate}}:
                 </label>
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <scf-input-text id="retires-delayed-interval-textbox" maxlength="2" ng-model="ctrl.channelModel.jobTrigger.jobDetail.connectionRetryInterval">
+                <scf-input-text id="retry-delayed-interval-textbox" maxlength="2" ng-model="ctrl.channelModel.jobTrigger.jobDetail.connectionRetryInterval">
                 </scf-input-text>
             </div>
             
@@ -170,7 +170,8 @@
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <scf-dropdown id="post-process-dropdown"
                         ng-model="ctrl.channelModel.jobTrigger.jobDetail.postProcessType"
-                        component-data="ctrl.postProcessDropdown">
+                        component-data="ctrl.postProcessDropdown"
+                        ng-change="ctrl.changePostProcess()">
                 </scf-dropdown>
             </div>
             <div class="col-md-6 col-sm-4 col-hidden-xs"></div>
@@ -184,14 +185,15 @@
             </div>
 
             <div class="col-md-5 col-sm-6 col-xs-12">
-                <scf-input-text id="remote-backup-directory-textbox" maxlength="255" ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteBackupPath">
+                <scf-input-text id="remote-backup-directory-textbox" maxlength="255" ng-disabled="!ctrl.postProcessBackup" ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteBackupPath">
                 </scf-input-text>
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <scf-dropdown id="remote-backup-directory-pattern-dropdown"
                         ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteBackupFolderPattern"
-                        component-data="ctrl.backupPathPatternDropdown">
+                        component-data="ctrl.backupPathPatternDropdown"
+                        ng-disabled="!ctrl.postProcessBackup">
                 </scf-dropdown>
             </div>
         </div>
@@ -205,15 +207,30 @@
             
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <scf-dropdown id="frequency-dropdown"
-                        ng-model="ctrl.channelModel.jobTrigger.frequency"
+                        ng-model="ctrl.channelModel.jobTrigger.frequencyType"
                         component-data="ctrl.frequencyDropdown">
                 </scf-dropdown>
             </div>
             <div class="col-md-3 col-sm-3 col-hidden-xs"></div>
          </div>
          <div class="form-group">
+
+             <div class="col-md-2 col-sm-3 col-hidden-xs"></div>
+
+             <div class="col-md-3 col-sm-3 col-xs-12">
+                 <scf-checkbox id="monday-checkbox" ng-model="ctrl.channelModel.monday"></scf-checkbox>
+				 <label class="checkbox-inline" id="monday-label" style="padding-bottom: 4px;">{{'Monday' | translate}}</label>
+             </div>
+
+             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                 <scf-checkbox id="tuesday-checkbox" ng-model="ctrl.channelModel.tuesday"></scf-checkbox>
+					<label class="checkbox-inline" id="tuesday-label" style="padding-bottom: 4px;">{{'Tuesday' | translate}}</label>
+             </div>
+
+             <div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+
            
-            <div class="form-group">
+            <!--<div class="form-group">
             	<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 				<div class="col-md-3 col-sm-3 col-xs-12">&nbsp;&nbsp;
                 	<scf-checkbox id="monday-checkbox" ng-model="ctrl.channelModel.monday"
@@ -228,8 +245,9 @@
 						style="padding-bottom: 4px;">{{'Tuesday' | translate}}</label>
             	</div>
             	<div class="col-md-4 col-sm-4 col-hidden-xs"></div>
-		</div>
-		<div class="form-group">           	            	
+		    </div>-->
+
+		<!--<div class="form-group">           	            	
             	<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 				<div class="col-md-3 col-sm-3 col-xs-12">&nbsp;&nbsp;
                 	<scf-checkbox id="wednesday-checkbox" ng-model="ctrl.channelModel.wednesday"
@@ -270,8 +288,10 @@
 						style="padding-bottom: 4px;">{{'Sunday' | translate}}</label>
             	</div>
             	<div class="col-md-6 col-sm-6 col-hidden-xs"></div>
-			</div>
+			</div>-->
+
         </div>
+
         <div class="form-group">
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
                 <label id="begin-time-label" >
@@ -279,8 +299,7 @@
                 </label>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <scf-input-text id="begin-time-textbox"
-               	 	maxlength="5" placeholder="hh:mm">
+                <scf-input-text id="begin-time-textbox" maxlength="5" placeholder="hh:mm">
                 </scf-input-text>
             </div>
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
@@ -289,8 +308,7 @@
                 </label>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <scf-input-text id="end-time-textbox" 
-                	maxlength="5" placeholder="hh:mm">
+                <scf-input-text id="end-time-textbox" maxlength="5" placeholder="hh:mm">
                 </scf-input-text>
             </div>
         </div>
@@ -301,7 +319,7 @@
                 </label>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <scf-input-text id="delay-interval-textbox" maxlength="3">
+                <scf-input-text id="delay-interval-textbox" maxlength="3" ng-model="ctrl.channelModel.jobTrigger.intervalInMinutes" >
                 </scf-input-text>
             </div>
             <div class="col-md-6 col-sm-4 col-hidden-xs"></div>
