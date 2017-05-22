@@ -200,7 +200,6 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	vm.searchChannel = function(){
 		sendRequest('/channels/' + selectedItem.channelId, function(response) {
             vm.channelModel = response.data;
-			console.log(response.data);
             
             if(response.data.activeDate != null){
             	vm.channelModel.activeDate =  new Date(response.data.activeDate);
@@ -262,6 +261,15 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 
 			if(response.data.jobTrigger.intervalInMinutes == null){
 				vm.channelModel.jobTrigger.intervalInMinutes = '300';
+			}
+			if(response.data.jobTrigger.daysOfWeek == null){
+				vm.channelModel.monday = true;
+				vm.channelModel.tuesday = true
+				vm.channelModel.wednesday = true
+				vm.channelModel.thursday = true
+				vm.channelModel.friday = true
+				vm.channelModel.saturday = true
+				vm.channelModel.sunday = true
 			} 
 
         });

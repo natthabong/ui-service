@@ -214,81 +214,68 @@
             <div class="col-md-3 col-sm-3 col-hidden-xs"></div>
          </div>
          <div class="form-group">
+            
+            <div class="row">
+                <div class="col-md-2 col-sm-3 col-hidden-xs"></div>
 
-             <div class="col-md-2 col-sm-3 col-hidden-xs"></div>
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <scf-checkbox id="monday-checkbox" ng-model="ctrl.channelModel.monday"></scf-checkbox>
+                    <label class="checkbox-inline" id="monday-label" style="padding-bottom: 10px;">{{'Monday' | translate}}</label>
+                </div>
 
-             <div class="col-md-3 col-sm-3 col-xs-12">
-                 <scf-checkbox id="monday-checkbox" ng-model="ctrl.channelModel.monday"></scf-checkbox>
-				 <label class="checkbox-inline" id="monday-label" style="padding-bottom: 4px;">{{'Monday' | translate}}</label>
+                <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                    <scf-checkbox id="tuesday-checkbox" ng-model="ctrl.channelModel.tuesday"></scf-checkbox>
+                        <label class="checkbox-inline" id="tuesday-label" style="padding-bottom: 10px;">{{'Tuesday' | translate}}</label>
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+            </div>
+             
+             <div class="row">
+                 <div class="col-md-2 col-sm-3 col-hidden-xs"></div>
+
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <scf-checkbox id="wednesday-checkbox" ng-model="ctrl.channelModel.wednesday"></scf-checkbox>
+                    <label class="checkbox-inline" id="wednesday-label" style="padding-bottom: 10px;">{{'Wednesday' | translate}}</label>
+                </div>
+
+                <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                    <scf-checkbox id="thursday-checkbox" ng-model="ctrl.channelModel.tuesday"></scf-checkbox>
+                        <label class="checkbox-inline" id="thursday-label" style="padding-bottom: 10px;">{{'Thursday' | translate}}</label>
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-hidden-xs"></div>
              </div>
 
-             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
-                 <scf-checkbox id="tuesday-checkbox" ng-model="ctrl.channelModel.tuesday"></scf-checkbox>
-					<label class="checkbox-inline" id="tuesday-label" style="padding-bottom: 4px;">{{'Tuesday' | translate}}</label>
+             <div class="row">
+                 <div class="col-md-2 col-sm-3 col-hidden-xs"></div>
+
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <scf-checkbox id="friday-checkbox" ng-model="ctrl.channelModel.friday"></scf-checkbox>
+                    <label class="checkbox-inline" id="friday-label" style="padding-bottom: 10px;">{{'Friday' | translate}}</label>
+                </div>
+
+                <div class="col-md-2 col-sm-3 col-xs-12 control-label">
+                    <scf-checkbox id="saturday-checkbox" ng-model="ctrl.channelModel.saturday"></scf-checkbox>
+                        <label class="checkbox-inline" id="saturday-label" style="padding-bottom: 10px;">{{'Saturday' | translate}}</label>
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-hidden-xs"></div>
              </div>
 
-             <div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+             <div class="row">
 
-           
-            <!--<div class="form-group">
-            	<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-				<div class="col-md-3 col-sm-3 col-xs-12">&nbsp;&nbsp;
-                	<scf-checkbox id="monday-checkbox" ng-model="ctrl.channelModel.monday"
-						ng-disabled="!ctrl.manageAll"></scf-checkbox>
-					<label class="checkbox-inline" id="monday-label"
-						style="padding-bottom: 4px;">{{'Monday' | translate}}</label>
-            	</div>
-            	<div class="col-md-3 col-sm-3 col-xs-12">
-                	<scf-checkbox id="tuesday-checkbox" ng-model="ctrl.channelModel.tuesday"
-						ng-disabled="!ctrl.manageAll"></scf-checkbox>
-					<label class="checkbox-inline" id="tuesday-label"
-						style="padding-bottom: 4px;">{{'Tuesday' | translate}}</label>
-            	</div>
-            	<div class="col-md-4 col-sm-4 col-hidden-xs"></div>
-		    </div>-->
+                <div class="col-md-2 col-sm-3 col-hidden-xs"></div>
 
-		<!--<div class="form-group">           	            	
-            	<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-				<div class="col-md-3 col-sm-3 col-xs-12">&nbsp;&nbsp;
-                	<scf-checkbox id="wednesday-checkbox" ng-model="ctrl.channelModel.wednesday"
-						ng-disabled="!ctrl.manageAll"></scf-checkbox>
-					<label class="checkbox-inline" id="wednesday-label"
-						style="padding-bottom: 4px;">{{'Wednesday' | translate}}</label>
-            	</div>
-            	<div class="col-md-2 col-sm-2 col-xs-12">
-                	<scf-checkbox id="thursday-checkbox" ng-model="ctrl.channelModel.thursday"
-						ng-disabled="!ctrl.manageAll"></scf-checkbox>
-					<label class="checkbox-inline" id="thursday-label"
-						style="padding-bottom: 4px;">{{'Thursday' | translate}}</label>
-            	</div>
-            	<div class="col-md-4 col-sm-4 col-hidden-xs"></div>
-           </div>	
-           <div class="form-group"> 
-            	<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-				<div class="col-md-3 col-sm-3 col-xs-12">&nbsp;&nbsp;
-                	<scf-checkbox id="friday-checkbox" ng-model="ctrl.channelModel.friday"
-						ng-disabled="!ctrl.manageAll"></scf-checkbox>
-					<label class="checkbox-inline" id="friday-label"
-						style="padding-bottom: 4px;">{{'Friday' | translate}}</label>
-            	</div>
-            	<div class="col-md-2 col-sm-2 col-xs-12">
-                	<scf-checkbox id="saturday-checkbox" ng-model="ctrl.channelModel.saturday"
-						ng-disabled="!ctrl.manageAll"></scf-checkbox>
-					<label class="checkbox-inline" id="saturday-label"
-						style="padding-bottom: 4px;">{{'Saturday' | translate}}</label>
-            	</div>
-            	<div class="col-md-4 col-sm-4 col-hidden-xs"></div>
-            </div>	
-           <div class="form-group"> 
-            	<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-				<div class="col-md-3 col-sm-3 col-xs-12">&nbsp;&nbsp;
-                	<scf-checkbox id="sunday-checkbox" ng-model="ctrl.channelModel.sunday"
-						ng-disabled="!ctrl.manageAll"></scf-checkbox>
-					<label class="checkbox-inline" id="sunday-label"
-						style="padding-bottom: 4px;">{{'Sunday' | translate}}</label>
-            	</div>
-            	<div class="col-md-6 col-sm-6 col-hidden-xs"></div>
-			</div>-->
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <scf-checkbox id="sunday-checkbox" ng-model="ctrl.channelModel.sunday"></scf-checkbox>
+                    <label class="checkbox-inline" id="sunday-label" style="padding-bottom: 4px;">{{'Sunday' | translate}}</label>
+                </div>
+
+                <div class="col-md-2 col-sm-3 col-hidden-xs"></div>
+                <div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+
+             </div>
 
         </div>
 
