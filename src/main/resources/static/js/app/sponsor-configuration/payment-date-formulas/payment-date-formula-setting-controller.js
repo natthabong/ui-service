@@ -363,28 +363,6 @@ app.controller('PaymentDateFormulaSettingController', [
 			}
 		};
 		
-//		vm.save = function() {
-//			if(vm.model.formulaName == null || vm.model.formulaName == ""){
-//				vm.showMessageError = true;
-//				vm.messageError = "Formula name is required";
-//			}else{
-//				var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + formulaId;
-//				var serviceDiferred = Service.requestURL(serviceUrl, vm.model, 'PUT');
-//				blockUI.start();
-//				serviceDiferred.promise.then(function(response) {
-//					vm.backToSponsorConfigPage();
-//					blockUI.stop();
-//				})
-//				.catch(function(response) {
-//					if(response.status == 500){
-//						vm.showMessageError = true;
-//						vm.messageError = "Formula name is exist";
-//					}
-//					blockUI.stop();
-//				});
-//			}
-//		};
-		
 		var loadPaymentPeriod = function() {
 			var diferred = $q.defer();
 			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + formulaId + '/periods';
