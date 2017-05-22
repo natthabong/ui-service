@@ -19,7 +19,10 @@ app.constant('BACKUP_PATH_PATTERN_DROPDOWN',[
 app.constant('FREQUENCY_DROPDOWN',[
 	{label:'Daily', value: 'Daily'}
 	]);
-
+app.constant('ENCRYPT_TYPE_DROPDOWN',[
+   	{label:'None', value: null},
+   	{label:'PGP', value: 'PGP'}
+   	]);
 app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$stateParams', 'ngDialog', 
     'ChannelDropdown', '$rootScope', 'SCFCommonService', 'UIFactory', 'Service', 'blockUI', 'PageNavigation',
 	'$q','$http','PROTOCAL_DROPDOWN','POST_PROCESS_DROPDOWN', 'BACKUP_PATH_PATTERN_DROPDOWN','FREQUENCY_DROPDOWN',
@@ -34,7 +37,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	
     var BASE_URI = 'api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP';
     
-    var channelModel = {};
+    vm.channelModel = {};
     $scope.errors = {};
 	
     vm.openActiveDate = false;
@@ -137,9 +140,13 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 					});
 				},
 				onFail : function(response) {
-				    	var msg = {
-						405 : 'Channel has been modified.'
-					};
+						if(vm.channelModel.jobTrigger.jobDetail.encryptType == null || vm.channelModel.jobTrigger.jobDetail.encryptType == ''){
+							vm.channelModel.jobTrigger.jobDetail.encryptType = 'None';
+						}
+						
+						var msg = {
+							405 : 'Channel has been modified.'
+						};
 				    	blockUI.stop();
 				    	UIFactory.showFailDialog({
 						data : {
@@ -155,6 +162,10 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	
 	$scope.confirmSave = function() { 
 		console.log(vm.channelModel);
+		if(vm.channelModel.jobTrigger.jobDetail.encryptType == 'None'){
+			vm.channelModel.jobTrigger.jobDetail.encryptType = null;
+		}
+		
 		var serviceUrl = BASE_URI+'/channels/' + vm.channelModel.channelId;
 		var deffered = $q.defer();
 		var serviceDiferred =  $http({
@@ -191,6 +202,16 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 			}
 			
 			vm.channelModel.fileProtocal = 'SFTP';
+
+			vm.channelModel.jobTrigger = {
+				jobDetail: {
+					encryptType: null,
+					encryptPassword: null,
+					decryptPrivateKey: null
+				}
+			}
+			
+            console.log(vm.channelModel);
         });
 	}
 	
@@ -213,6 +234,51 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 				if (angular.isDefined(value)) {
 					vm.channelModel.jobTrigger.jobDetail.remoteUsername = value.username;
 					vm.channelModel.jobTrigger.jobDetail.remotePassword = value.password;
+				}
+				return true;
+			}
+		});
+	}
+	
+	vm.setupEncryptInfo = function(){
+		vm.encryptType = null;
+		vm.encryptPassword = null;
+		vm.decryptPrivateKey = null;
+			 
+		if(angular.isDefined(vm.channelModel.jobTrigger.jobDetail.encryptType)){
+			vm.encryptType = vm.channelModel.jobTrigger.jobDetail.encryptType;
+		}
+		
+		if(angular.isDefined(vm.channelModel.jobTrigger.jobDetail.encryptPassword)){
+			vm.encryptPassword = vm.channelModel.jobTrigger.jobDetail.encryptPassword;
+		}
+		
+		if(angular.isDefined(vm.channelModel.jobTrigger.jobDetail.decryptPrivateKey)){
+			vm.decryptPrivateKey = vm.channelModel.jobTrigger.jobDetail.decryptPrivateKey;
+		}
+		
+		var decryptInfo = ngDialog.open({
+			id : 'user-info-dialog',
+			template : '/js/app/sponsor-configuration/import-channels/dialog-encrypt-info.html',
+			className : 'ngdialog-theme-default',
+			scope : $scope,
+			data : {
+				encryptType : vm.encryptType,
+				encryptPassword : vm.encryptPassword,
+				decryptPrivateKey : vm.decryptPrivateKey
+			},
+			preCloseCallback : function(value) {
+				if (angular.isDefined(value)) {
+					vm.channelModel.jobTrigger.jobDetail.encryptType = value.encryptType;
+					console.log('encryptType');
+					console.log(value.encryptType);
+					if(vm.channelModel.jobTrigger.jobDetail.encryptType == null || vm.channelModel.jobTrigger.jobDetail.encryptType == ''){
+						vm.channelModel.jobTrigger.jobDetail.encryptType = 'None';
+					}
+					console.log(vm.channelModel.jobTrigger.jobDetail.encryptType);
+					
+					vm.channelModel.jobTrigger.jobDetail.encryptPassword = value.encryptPassword;
+					vm.channelModel.jobTrigger.jobDetail.decryptPrivateKey = value.decryptPrivateKey;
 				}
 				return true;
 			}
@@ -253,6 +319,53 @@ app.controller('SetupFTPUserController', [ '$scope', '$rootScope', function($sco
 		 
 		 if(isValid){
 			 $scope.closeThisDialog(vm.userInfo);
+		 }
+	 }
+} ]);
+app.controller('SetupFileEncryptionController', [ '$scope', '$rootScope', 'ENCRYPT_TYPE_DROPDOWN', function($scope, $rootScope, ENCRYPT_TYPE_DROPDOWN) {
+	 var vm = this;
+	 vm.encryptType = angular.copy($scope.ngDialogData.encryptType);
+	 console.log(vm.encryptType);
+	 if(vm.encryptType == 'None'){
+		 vm.encryptType = null;
+	 }
+	 
+	 vm.encryptPassword = angular.copy($scope.ngDialogData.encryptPassword);
+	 vm.decryptPrivateKey = angular.copy($scope.ngDialogData.decryptPrivateKey);
+	 vm.encryptInfo = {
+		 encryptType: vm.encryptType,
+		 encryptPassword: null,
+		 decryptPrivateKey: vm.decryptPrivateKey
+	 }
+	 
+	 vm.encryptTypeDropdown = ENCRYPT_TYPE_DROPDOWN;
+	 vm.isShowPGPInfo = false; 
+	 
+	 vm.encryptTypeChange = function(){
+		 vm.showPasswordMessageError = false;
+		 if(vm.encryptInfo.encryptType == 'PGP'){
+			 vm.isShowPGPInfo = true; 
+		 }else{
+			 vm.isShowPGPInfo = false; 
+		 }
+	 }
+	 
+	 vm.encryptTypeChange();
+	 
+	 vm.validate = function(){
+		 var isValid = true;
+		 vm.showPasswordMessageError = false;
+		 
+		 if(vm.encryptInfo.encryptType == 'PGP'){
+			 if(vm.encryptInfo.encryptPassword == null|| vm.encryptInfo.encryptPassword ==''){
+				 vm.showPasswordMessageError = true;
+				 vm.passwordMessageError = "PGP Password Require";
+				 isValid = false;
+			 }
+		 }
+		 
+		 if(isValid){
+			 $scope.closeThisDialog(vm.encryptInfo);
 		 }
 	 }
 } ]);

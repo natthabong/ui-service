@@ -58,6 +58,7 @@
 	"User name": "User name",
 	"password": "password",
 	"Password Require": "Password is required",
+	"PGP Password Require": "PGP Password is required",
 	"Total": "Total: ",
 	"Home": "Home",
 	"Reason": "Reason",
@@ -413,5 +414,9 @@
 	"Clear existing documents before import file": "Clear existing documents before import file",
 	
 	"Setup FTP user": "Setup FTP user",
-	"Username Require": "Username is required"
+	"Username Require": "Username is required",
+	"Setup File encryption": "Setup File encryption",
+	"File encryption": "File encryption",
+	"PGP Password": "PGP Password",
+	"PGP Private key": "PGP Private key"
 }

@@ -1,0 +1,72 @@
+<div class="modal-content" id="new-formula-dialog">
+	<div id="wrapper" ng-controller="SetupFileEncryptionController as ctrl">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3>
+						<span id="setup-file-encryption-popup-header-message-label"
+							class="popup-text" ng-bind="'Setup File encryption' | translate"></span>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<form name="setupFileEncryption" class="form-horizontal">
+						<div class="form-group">
+							<label for="file-encryption"
+								id=" setup-file-encryption-popup-file-encryption-label"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+								ng-bind="'File encryption' | translate"></span>:</label>
+							<div class="col-md-6 col-sm-4 col-xs-12">
+								<scf-dropdown id="setup-file-encryption-popup-file-encryption-dropdown"
+									ng-model="ctrl.encryptInfo.encryptType"
+									component-data="ctrl.encryptTypeDropdown"
+									ng-change="ctrl.encryptTypeChange()"></scf-dropdown>
+							</div>
+						</div>
+						<div class="form-group" ng-show="ctrl.isShowPGPInfo">
+							<label for="password"
+								id="setup-file-encryption-popup-pgp-password-label"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+								ng-bind="'PGP Password' | translate"></span>:</label>
+							<div class="col-md-6 col-sm-4 col-xs-12">
+								<scf-input-password id="setup-file-encryption-popup-pgp-password-textbox" maxlength="255"
+									name="pgpPassword" ng-model="ctrl.encryptInfo.encryptPassword"></scf-input-password>
+							</div>
+						</div>
+						<div class="form-group" ng-show="ctrl.showPasswordMessageError">
+							<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+								id="password-warning-message-label">{{ctrl.passwordMessageError | translate}}.</span>
+						</div>
+						<div class="form-group" ng-show="ctrl.isShowPGPInfo">
+							<label for="private-key"
+								id="setup-file-encryption-popup-pgp-private-key-label"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+								ng-bind="'PGP Private key' | translate"></span>:</label>
+							<div class="col-md-6 col-sm-4 col-xs-12">
+								<scf-text-area id="setup-file-encryption-popup-pgp-private-key-textbox" ng-model="ctrl.encryptInfo.decryptPrivateKey">
+								</scf-text-area>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="setup-file-encryption-cancel-button"
+						class="popup-button" ng-click="closeThisDialog();"
+						ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="setup-file-encryption-ok-button"
+						class="popup-button"
+						ng-click="ctrl.validate();"
+						ng-bind="'OK' | translate"></scf-button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
