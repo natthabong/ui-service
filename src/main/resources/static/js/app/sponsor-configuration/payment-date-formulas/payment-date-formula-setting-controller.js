@@ -339,7 +339,6 @@ app.controller('PaymentDateFormulaSettingController', [
 	    			onFail : function(response) {
 	    				var msg = {
 	    					409 : 'Formula has been deleted.',
-	    					405 : 'Formula has been used.',
 	    					500 : 'Formula name is existed.'
 	    				};
 	    				UIFactory.showFailDialog({

@@ -184,8 +184,8 @@ var app = angular.module('scfApp');
 				    			},
 				    			onFail : function(response) {
 				    				var msg = {
-				    					409 : 'Formula has already been deleted.',
-				    					405 : 'Formula has already been used.'
+				    					409 : 'Formula has been deleted.',
+				    					405 : 'Formula has been used.'
 				    				};
 				    				UIFactory.showFailDialog({
 				    					data : {
