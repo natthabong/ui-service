@@ -161,7 +161,6 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	}	
 	
 	$scope.confirmSave = function() { 
-		console.log(vm.channelModel);
 		if(vm.channelModel.jobTrigger.jobDetail.encryptType == 'None'){
 			vm.channelModel.jobTrigger.jobDetail.encryptType = null;
 		}
@@ -186,7 +185,6 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	vm.searchChannel = function(){
 		sendRequest('/channels/' + selectedItem.channelId, function(response) {
             vm.channelModel = response.data;
-            console.log(vm.channelModel);
             
             if(response.data.activeDate != null){
             	vm.channelModel.activeDate =  new Date(response.data.activeDate);
@@ -202,16 +200,6 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 			}
 			
 			vm.channelModel.fileProtocal = 'SFTP';
-
-			vm.channelModel.jobTrigger = {
-				jobDetail: {
-					encryptType: null,
-					encryptPassword: null,
-					decryptPrivateKey: null
-				}
-			}
-			
-            console.log(vm.channelModel);
         });
 	}
 	
@@ -270,12 +258,9 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 			preCloseCallback : function(value) {
 				if (angular.isDefined(value)) {
 					vm.channelModel.jobTrigger.jobDetail.encryptType = value.encryptType;
-					console.log('encryptType');
-					console.log(value.encryptType);
 					if(vm.channelModel.jobTrigger.jobDetail.encryptType == null || vm.channelModel.jobTrigger.jobDetail.encryptType == ''){
 						vm.channelModel.jobTrigger.jobDetail.encryptType = 'None';
 					}
-					console.log(vm.channelModel.jobTrigger.jobDetail.encryptType);
 					
 					vm.channelModel.jobTrigger.jobDetail.encryptPassword = value.encryptPassword;
 					vm.channelModel.jobTrigger.jobDetail.decryptPrivateKey = value.decryptPrivateKey;
@@ -325,7 +310,6 @@ app.controller('SetupFTPUserController', [ '$scope', '$rootScope', function($sco
 app.controller('SetupFileEncryptionController', [ '$scope', '$rootScope', 'ENCRYPT_TYPE_DROPDOWN', function($scope, $rootScope, ENCRYPT_TYPE_DROPDOWN) {
 	 var vm = this;
 	 vm.encryptType = angular.copy($scope.ngDialogData.encryptType);
-	 console.log(vm.encryptType);
 	 if(vm.encryptType == 'None'){
 		 vm.encryptType = null;
 	 }
