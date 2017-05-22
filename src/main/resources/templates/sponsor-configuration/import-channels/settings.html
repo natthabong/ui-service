@@ -25,7 +25,7 @@
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
 
-						<ng-include src="'/sponsor-configuration/import-channels/ftp-settings'" ng-if="true"></ng-include>
+						<ng-include ng-show="ctrl.isSetupFTP" src="'/sponsor-configuration/import-channels/ftp-settings'" ng-if="true"></ng-include>
 
 						<div class="form-group">
 							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
