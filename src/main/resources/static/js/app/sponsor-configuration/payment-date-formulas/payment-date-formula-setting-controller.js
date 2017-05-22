@@ -302,27 +302,88 @@ app.controller('PaymentDateFormulaSettingController', [
 		vm.showMessageError = false;
 		vm.messageError = null;
 
+		var saveFormula = function() {
+			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + formulaId;
+			var deffered = $q.defer();
+			var serviceDiferred =  $http({
+				method : 'PUT',
+				url : serviceUrl,
+				headers: {
+					'If-Match' : vm.model.version
+				},
+				data: vm.model
+			}).then(function(response) {
+				deffered.resolve(response.data)
+			}).catch(function(response) {
+				deffered.reject(response);
+			});
+			return deffered;
+		}
+		
 		vm.save = function() {
+			var preCloseCallback = function() {
+				vm.backToSponsorConfigPage();
+		    }
+			
 			if(vm.model.formulaName == null || vm.model.formulaName == ""){
 				vm.showMessageError = true;
 				vm.messageError = "Formula name is required";
 			}else{
-				var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + formulaId;
-				var serviceDiferred = Service.requestURL(serviceUrl, vm.model, 'PUT');
-				blockUI.start();
-				serviceDiferred.promise.then(function(response) {
-					vm.backToSponsorConfigPage();
-					blockUI.stop();
-				})
-				.catch(function(response) {
-					if(response.status == 500){
-						vm.showMessageError = true;
-						vm.messageError = "Formula name is exist";
-					}
-					blockUI.stop();
-				});
+				UIFactory.showConfirmDialog({
+	    			data : {
+	    				headerMessage : 'Confirm save?'
+	    			},
+	    			confirm : function() {
+	    				return saveFormula();
+	    			},
+	    			onFail : function(response) {
+	    				var msg = {
+	    					409 : 'Formula has been deleted.',
+	    					405 : 'Formula has been used.',
+	    					500 : 'Formula name is existed.'
+	    				};
+	    				UIFactory.showFailDialog({
+	    					data : {
+	    						headerMessage : 'Update formula failed.',
+	    						bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+	    					},
+	    					preCloseCallback : null
+	    				});
+	    			},
+	    			onSuccess : function(response) {
+	    				UIFactory.showSuccessDialog({
+	    					data : {
+	    						headerMessage : 'Update formula completed.',
+	    						bodyMessage : ''
+	    					},
+	    					preCloseCallback : preCloseCallback
+	    				});
+	    			}
+	    		});
 			}
 		};
+		
+//		vm.save = function() {
+//			if(vm.model.formulaName == null || vm.model.formulaName == ""){
+//				vm.showMessageError = true;
+//				vm.messageError = "Formula name is required";
+//			}else{
+//				var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + formulaId;
+//				var serviceDiferred = Service.requestURL(serviceUrl, vm.model, 'PUT');
+//				blockUI.start();
+//				serviceDiferred.promise.then(function(response) {
+//					vm.backToSponsorConfigPage();
+//					blockUI.stop();
+//				})
+//				.catch(function(response) {
+//					if(response.status == 500){
+//						vm.showMessageError = true;
+//						vm.messageError = "Formula name is exist";
+//					}
+//					blockUI.stop();
+//				});
+//			}
+//		};
 		
 		var loadPaymentPeriod = function() {
 			var diferred = $q.defer();
