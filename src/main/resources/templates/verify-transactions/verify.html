@@ -190,12 +190,12 @@
 							<scf-button id="back-button" class="btn btn-default"
 								type="submit" ng-click="verifyTxnCtrl.backNotReset()">{{
 							'Back' | translate}}</scf-button>
-							<scf-button id="approve-button" class="btn btn-default"
-								type="submit" ng-click="verifyTxnCtrl.confirmApprove()">{{
-							'Approve' | translate}}</scf-button>
 							<scf-button id="reject-button" class="btn btn-default"
 								type="submit" ng-click="verifyTxnCtrl.confirmReject()">{{
 							'Reject' | translate}}</scf-button>
+							<scf-button id="approve-button" class="btn btn-default"
+								type="submit" ng-click="verifyTxnCtrl.confirmApprove()">{{
+							'Approve' | translate}}</scf-button>
 						</div>
 					</div>
 				</div>
@@ -257,12 +257,12 @@
 		</div>
 		<div class="modal-body">
 			<div class="row">
-				<div class="col-xs-12 text-right">					
+				<div class="col-xs-12 text-right">
+					<scf-button type="button" class="popup-button" data-dismiss="modal" ng-click="closeThisDialog('button')"
+						id="no-button" ng-bind="'No' | translate"> </scf-button>					
 					<scf-button type="submit" data-dismiss="modal" id="yes-button"
 					ng-click="confirm()" ng-bind="'Yes' | translate">
 					</scf-button>
-					<scf-button type="button" class="popup-button" data-dismiss="modal" ng-click="closeThisDialog('button')"
-						id="no-button" ng-bind="'No' | translate"> </scf-button>
 				</div>
 			</div>
 		</div>
