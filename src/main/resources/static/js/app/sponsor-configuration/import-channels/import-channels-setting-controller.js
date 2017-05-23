@@ -7,9 +7,9 @@ app.constant('PROTOCOL_DROPDOWN',[
 	{label:'SFTP', value: 'SFTP'}
 	]);
 app.constant('POST_PROCESS_DROPDOWN',[
-	{label:'None', value: 'None'},
-	{label:'Delete', value: 'Delete'},
-	{label:'Backup', value: 'Backup'}
+	{label:'None', value: 'NONE'},
+	{label:'Delete', value: 'DELETE'},
+	{label:'Backup', value: 'BACKUP'}
 	]);
 app.constant('BACKUP_PATH_PATTERN_DROPDOWN',[
 	{label:'/', value: '/'},
@@ -20,7 +20,7 @@ app.constant('FREQUENCY_DROPDOWN',[
 	{label:'Daily', value: 'DAILY'}
 	]);
 app.constant('ENCRYPT_TYPE_DROPDOWN',[
-   	{label:'None', value: null},
+   	{label:'None', value: 'NONE'},
    	{label:'PGP', value: 'PGP'}
    	]);
 app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$stateParams', 'ngDialog', 
@@ -68,7 +68,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	vm.frequencyDropdown = FREQUENCY_DROPDOWN;
 
 	vm.changePostProcess = function() {
-		if(vm.channelModel.jobTrigger.jobDetail.postProcessType == 'Backup'){
+		if(vm.channelModel.jobTrigger.jobDetail.postProcessType == 'BACKUP'){
 			vm.postProcessBackup = true;
 		}else{
 			vm.postProcessBackup = false;
@@ -96,13 +96,65 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	var validSave = function(){
 		$scope.errors = {};
 		var isValid = true;
+		var channel = vm.channelModel;
+		var jobTrigger = vm.channelModel.jobTrigger;
+		var jobDetail = vm.channelModel.jobTrigger.jobDetail;
 
-		if (!angular.isDefined(vm.channelModel.activeDate)) {
+		if(jobDetail.remoteHost == null || jobDetail.remoteHost ==""){
+			isValid = false;
+			$scope.errors.hostName = {
+	    		message : 'Host name is required.'
+		    }
+		}
+
+		if(jobDetail.remotePort == null || jobDetail.remotePort ==""){
+			isValid = false;
+			$scope.errors.portNumber = {
+	    		message : 'Port number is required.'
+		    }
+		}
+
+		if(jobDetail.remoteUsername == null || jobDetail.remoteUsername == ""){
+			isValid = false;
+			$scope.errors.remoteUsername = {
+	    		message : 'FTP user is required.'
+		    }
+		}
+
+		if(jobDetail.remotePath == null || jobDetail.remotePath == ""){
+			isValid = false;
+			$scope.errors.remotePath = {
+	    		message : 'Remote directory is required.'
+		    }
+		}
+
+		if(jobDetail.remoteFilenamePattern == null || jobDetail.remoteFilenamePattern == ""){
+			isValid = false;
+			$scope.errors.remoteFilenamePattern = {
+	    		message : 'Remote filename pattern is required.'
+		    }
+		}
+
+		if(jobDetail.limitedFileSize == null || jobDetail.limitedFileSize == ""){
+			isValid = false;
+			$scope.errors.limitedFileSize = {
+	    		message : 'Limited file size is required.'
+		    }
+		}
+
+		if(jobDetail.connectionRetry == null || jobDetail.connectionRetry == ""){
+			isValid = false;
+			$scope.errors.connectionRetry = {
+	    		message : 'Retry is required.'
+		    }
+		}
+
+		if (!angular.isDefined(channel.activeDate)) {
 			isValid = false;
 		    $scope.errors.activeDate = {
 	    		message : 'Wrong date format data.'
 		    }
-		}else if(vm.channelModel.activeDate == null|| vm.channelModel.activeDate ==''){
+		}else if(channel.activeDate == null|| channel.activeDate ==''){
 			isValid = false;
 		    $scope.errors.activeDate = {
 	    		message : 'Active date is required.'
@@ -110,24 +162,23 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 		}
 		
 		if (vm.isUseExpireDate) {
-		    if (!angular.isDefined(vm.channelModel.expiryDate)) {
+		    if (!angular.isDefined(channel.expiryDate)) {
 		    	isValid = false;
 				$scope.errors.activeDate = {
 				    message : 'Wrong date format data.'
 				}
-		    } else if (angular.isDefined(vm.channelModel.activeDate)
-				    && vm.channelModel.expiryDate < vm.channelModel.activeDate) {
+		    } else if (angular.isDefined(channel.activeDate)
+				    && channel.expiryDate < channel.activeDate) {
 		    	isValid = false;
 				$scope.errors.activeDate = {
 				    message : 'Active date must be less than or equal to expire date.'
 				}
-		    }else if(vm.channelModel.expiryDate == null|| vm.channelModel.expiryDate ==''){				    	
+		    }else if(channel.expiryDate == null|| channel.expiryDate ==''){				    	
 		    	isValid = false;
 			    $scope.errors.activeDate = {
 		    		message : 'Expire date is required.'
 			    }
 		    }
-
 		}
 		
 		return isValid;
@@ -155,9 +206,6 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 					});
 				},
 				onFail : function(response) {
-						if(vm.channelModel.jobTrigger.jobDetail.encryptType == null || vm.channelModel.jobTrigger.jobDetail.encryptType == ''){
-							vm.channelModel.jobTrigger.jobDetail.encryptType = 'None';
-						}
 						
 						var msg = {
 							405 : 'Channel has been modified.'
@@ -176,9 +224,31 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	}	
 	
 	$scope.confirmSave = function() { 
-		if(vm.channelModel.jobTrigger.jobDetail.encryptType == 'None'){
-			vm.channelModel.jobTrigger.jobDetail.encryptType = null;
+		console.log(vm.channelModel);
+		var daysOfWeek = '';
+		if(vm.channelModel.sunday){
+			daysOfWeek += '1,';
 		}
+		if(vm.channelModel.monday){
+			daysOfWeek += '2,';
+		}
+		if(vm.channelModel.tuesday){
+			daysOfWeek += '3,';
+		}
+		if(vm.channelModel.wednesday){
+			daysOfWeek += '4,';
+		}
+		if(vm.channelModel.thursday){
+			daysOfWeek += '5,';
+		}
+		if(vm.channelModel.friday){
+			daysOfWeek += '6,';
+		}
+		if(vm.channelModel.saturday){
+			daysOfWeek += '7,';
+		}
+		daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
+		vm.channelModel.jobTrigger.daysOfWeek = daysOfWeek;
 		
 		var serviceUrl = BASE_URI+'/channels/' + vm.channelModel.channelId;
 		var deffered = $q.defer();
@@ -228,7 +298,6 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 				if(response.data.jobTrigger.jobDetail.limitedFileSize == null){
 					vm.channelModel.jobTrigger.jobDetail.limitedFileSize = '5';
 				}
-
 				if(response.data.jobTrigger.jobDetail.encryptType == null){
 					vm.channelModel.jobTrigger.jobDetail.encryptType = 'None';
 				}
@@ -242,13 +311,13 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 				}
 
 				if(response.data.jobTrigger.jobDetail.postProcessType == null){
-					vm.channelModel.jobTrigger.jobDetail.postProcessType = 'None';
+					vm.channelModel.jobTrigger.jobDetail.postProcessType = 'NONE';
 				}
 
-				if(response.data.jobTrigger.jobDetail.remoteBackupPath == 'Backup'){
+				if(response.data.jobTrigger.jobDetail.postProcessType == 'BACKUP'){
 					vm.postProcessBackup = true;
 
-				}else if(response.data.jobTrigger.jobDetail.remoteBackupPath == null){
+				}else if(response.data.jobTrigger.jobDetail.postProcessType == 'NONE'){
 					vm.channelModel.jobTrigger.jobDetail.remoteBackupPath = '/backup'
 				}
 
@@ -263,7 +332,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 				if(response.data.jobTrigger.intervalInMinutes == null){
 					vm.channelModel.jobTrigger.intervalInMinutes = '300';
 				}
-				if(response.data.jobTrigger.daysOfWeek == null){
+				if(response.data.jobTrigger.daysOfWeek == null || response.data.jobTrigger.daysOfWeek == ''){
 					vm.channelModel.monday = true;
 					vm.channelModel.tuesday = true
 					vm.channelModel.wednesday = true
@@ -271,7 +340,8 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 					vm.channelModel.friday = true
 					vm.channelModel.saturday = true
 					vm.channelModel.sunday = true
-				} 
+
+				}
 			}
 			
 
@@ -333,10 +403,6 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 			preCloseCallback : function(value) {
 				if (angular.isDefined(value)) {
 					vm.channelModel.jobTrigger.jobDetail.encryptType = value.encryptType;
-					if(vm.channelModel.jobTrigger.jobDetail.encryptType == null || vm.channelModel.jobTrigger.jobDetail.encryptType == ''){
-						vm.channelModel.jobTrigger.jobDetail.encryptType = 'None';
-					}
-					
 					vm.channelModel.jobTrigger.jobDetail.encryptPassword = value.encryptPassword;
 					vm.channelModel.jobTrigger.jobDetail.decryptPrivateKey = value.decryptPrivateKey;
 				}
@@ -385,10 +451,6 @@ app.controller('SetupFTPUserController', [ '$scope', '$rootScope', function($sco
 app.controller('SetupFileEncryptionController', [ '$scope', '$rootScope', 'ENCRYPT_TYPE_DROPDOWN', function($scope, $rootScope, ENCRYPT_TYPE_DROPDOWN) {
 	 var vm = this;
 	 vm.encryptType = angular.copy($scope.ngDialogData.encryptType);
-	 if(vm.encryptType == 'None'){
-		 vm.encryptType = null;
-	 }
-	 
 	 vm.encryptPassword = angular.copy($scope.ngDialogData.encryptPassword);
 	 vm.decryptPrivateKey = angular.copy($scope.ngDialogData.decryptPrivateKey);
 	 vm.encryptInfo = {
