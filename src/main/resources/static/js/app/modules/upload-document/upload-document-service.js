@@ -3,7 +3,8 @@ function UploadDocumentService($http, $q, blockUI){
 	return {
 		upload: upload,
 		getFileType: getFileType,
-		confirmUpload: confirmUpload
+		confirmUpload: confirmUpload,
+		verifyChannel: verifyChannel
 	}
 	function upload(fileModel){
 	    	blockUI.start();
@@ -42,6 +43,18 @@ function UploadDocumentService($http, $q, blockUI){
             url: '/api/upload-document/confirm-import',
             data: uploadConfirmPayload
         }).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});
+		return deffered;
+	}
+	
+	function verifyChannel(channel){
+		var deffered = $q.defer();
+		$http.post('/api/v1/channels/'+channel+'/verify', {
+		    
+		}).then(function(response){
 			deffered.resolve(response);
 		}).catch(function(response){
 			deffered.reject(response);

@@ -167,6 +167,7 @@
     "E1009": "เอกสารผิด format",
     "E1010": "ระบบไม่สามารถทำรายการได้ เนื่องจากไม่มีเอกสารสำหรับทำรายการ",
     "Today is bank holiday.": "Can't create transaction. Please create next working day.",
+    "ULE1001": "ช่องทางนำเข้าเอกสารผ่านเว็ปถูกปิด (Inactive)",
      
 	"drawdown_fail": "ทดสอบ",
 	"drawdown_success": "Drawdown success",
