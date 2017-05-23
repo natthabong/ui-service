@@ -224,7 +224,6 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	}	
 	
 	$scope.confirmSave = function() { 
-		console.log(vm.channelModel);
 		var daysOfWeek = '';
 		if(vm.channelModel.sunday){
 			daysOfWeek += '1,';
