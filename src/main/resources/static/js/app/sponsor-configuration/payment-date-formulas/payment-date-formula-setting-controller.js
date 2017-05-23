@@ -257,6 +257,11 @@ app.controller('PaymentDateFormulaSettingController', [
 			formulaType : 'CREDIT_TERM'
 		}
 
+		vm.formulaPayload = {
+			paymentDateFormula: null,
+			originFormulaName: null
+		}
+		
 		var sendRequest = function(uri, succcesFunc, failedFunc) {
 			var serviceDiferred = Service.doGet(BASE_URI + uri);
 
@@ -284,7 +289,7 @@ app.controller('PaymentDateFormulaSettingController', [
 				;
 				sendRequest(reqDataUrl, function(response) {
 					vm.model = response.data;
-
+					vm.formulaPayload.originFormulaName = vm.model.formulaName;
 				});
 				vm.searchCreditTerm();
 				vm.searchPeriod();
@@ -303,6 +308,9 @@ app.controller('PaymentDateFormulaSettingController', [
 		vm.messageError = null;
 
 		var saveFormula = function() {
+
+			vm.formulaPayload.paymentDateFormula = vm.model;
+			
 			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + formulaId;
 			var deffered = $q.defer();
 			var serviceDiferred =  $http({
@@ -311,7 +319,7 @@ app.controller('PaymentDateFormulaSettingController', [
 				headers: {
 					'If-Match' : vm.model.version
 				},
-				data: vm.model
+				data: vm.formulaPayload
 			}).then(function(response) {
 				deffered.resolve(response.data)
 			}).catch(function(response) {
