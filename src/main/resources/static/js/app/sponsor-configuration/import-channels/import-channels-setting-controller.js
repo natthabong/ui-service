@@ -33,6 +33,15 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	vm.manageAll=false;
 	vm.isSetupFTP = false;
 	vm.postProcessBackup = false;
+	var dayOfWeekFrequency = {
+		SUNDAY : 1,
+		MONDAY : 2,
+		TUESDAY : 3,
+		WEDNESDAY : 4,
+		THURSDAY : 5,
+		FRIDAY : 6,
+		SATURDAY : 7
+	}
 	
     var sponsorId = $rootScope.sponsorId;
     var selectedItem = $stateParams.selectedItem;
@@ -226,25 +235,25 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	$scope.confirmSave = function() { 
 		var daysOfWeek = '';
 		if(vm.channelModel.sunday){
-			daysOfWeek += '1,';
+			daysOfWeek += dayOfWeekFrequency.SUNDAY + ',';
 		}
 		if(vm.channelModel.monday){
-			daysOfWeek += '2,';
+			daysOfWeek += dayOfWeekFrequency.MONDAY + ',';
 		}
 		if(vm.channelModel.tuesday){
-			daysOfWeek += '3,';
+			daysOfWeek += dayOfWeekFrequency.TUESDAY + ',';
 		}
 		if(vm.channelModel.wednesday){
-			daysOfWeek += '4,';
+			daysOfWeek += dayOfWeekFrequency.WEDNESDAY + ',';
 		}
 		if(vm.channelModel.thursday){
-			daysOfWeek += '5,';
+			daysOfWeek += dayOfWeekFrequency.THURSDAY + ',';
 		}
 		if(vm.channelModel.friday){
-			daysOfWeek += '6,';
+			daysOfWeek += dayOfWeekFrequency.FRIDAY + ',';
 		}
 		if(vm.channelModel.saturday){
-			daysOfWeek += '7,';
+			daysOfWeek += dayOfWeekFrequency.SATURDAY + ',';
 		}
 		daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
 		vm.channelModel.jobTrigger.daysOfWeek = daysOfWeek;
@@ -340,10 +349,34 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 					vm.channelModel.saturday = true
 					vm.channelModel.sunday = true
 
+				}else {
+
+					var daysOfWeek = response.data.jobTrigger.daysOfWeek.split(",");
+					daysOfWeek.forEach(function(data){
+						if(data == dayOfWeekFrequency.SUNDAY){
+							vm.channelModel.sunday = true
+						}
+						if(data == dayOfWeekFrequency.MONDAY){
+							vm.channelModel.monday = true;
+						}
+						if(data == dayOfWeekFrequency.TUESDAY){
+							vm.channelModel.tuesday = true
+						}
+						if(data == dayOfWeekFrequency.WEDNESDAY){
+							vm.channelModel.wednesday = true
+						}
+						if(data == dayOfWeekFrequency.THURSDAY){
+							vm.channelModel.thursday = true
+						}
+						if(data == dayOfWeekFrequency.FRIDAY){
+							vm.channelModel.friday = true
+						}
+						if(data == dayOfWeekFrequency.SATURDAY){
+							vm.channelModel.saturday = true
+						}
+					});
 				}
 			}
-			
-
         });
 	}
 	
