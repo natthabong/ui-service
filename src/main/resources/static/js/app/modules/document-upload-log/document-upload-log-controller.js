@@ -131,6 +131,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 					});
 				});
 				vm.criteria.fileType = vm.docType[0].value;
+				vm.searchLog();
 	        }).catch(function(response) {
 	            log.error('Get modules fail');
 	        });
@@ -191,38 +192,6 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 				vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
 				vm.pagingController.search(pagingModel);
 			}
-		}
-
-		
-		if (currentMode == mode.SPONSOR) {
-			vm.headerName = 'Document upload log';
-			hideColSponsor = true;
-			hideColFileType = true;
-			vm.sponsorTxtDisable = true;
-			vm.documentUploadLogModel.roleType = ' ';
-			sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
-			var sponsorID = initSponsorAutoSuggest();
-			vm.docTypeDropdowns = getFileType(sponsorID,'SFP','SPONSOR_UPLOAD');
-		}else if(currentMode == mode.BANKVIEWSPONSOR){
-			vm.headerName = 'Sponsor document upload log';
-			vm.sponsorTxtDisable = false;
-			vm.documentUploadLogModel.roleType = 'sponsor';
-			hideColSponsor = false;
-			hideColFileType = true;
-			sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
-			var organize = getOrganize();
-			vm.docTypeDropdowns = getFileType(organize.organizeId,'SFP','SPONSOR_UPLOAD');
-		}else if(currentMode == mode.BANKVIEWBANK){
-			vm.headerName = 'Bank document upload log';
-			hideColSponsor = true;
-			vm.showSponsor = false;
-			hideColFileType = false;
-			vm.sponsorTxtDisable = false;
-			vm.documentUploadLogModel.roleType = 'bank';
-			sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
-			var organize = getOrganize();
-			vm.docTypeDropdowns = getFileType(organize.organizeId,'MASTER','BANK_UPLOAD');
-			vm.criteria.isBankDoc = true;
 		}
 
 		vm.dataTable = {
@@ -352,7 +321,36 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		}
 
 		vm.initLoad = function() {
-			vm.searchLog();
+			if (currentMode == mode.SPONSOR) {
+				vm.headerName = 'Document upload log';
+				hideColSponsor = true;
+				hideColFileType = true;
+				vm.sponsorTxtDisable = true;
+				vm.documentUploadLogModel.roleType = ' ';
+				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+				var sponsorID = initSponsorAutoSuggest();
+				vm.docTypeDropdowns = getFileType(sponsorID,'SFP','SPONSOR_UPLOAD');
+			}else if(currentMode == mode.BANKVIEWSPONSOR){
+				vm.headerName = 'Sponsor document upload log';
+				vm.sponsorTxtDisable = false;
+				vm.documentUploadLogModel.roleType = 'sponsor';
+				hideColSponsor = false;
+				hideColFileType = true;
+				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+				var organize = getOrganize();
+				vm.docTypeDropdowns = getFileType(organize.organizeId,'SFP','SPONSOR_UPLOAD');
+			}else if(currentMode == mode.BANKVIEWBANK){
+				vm.headerName = 'Bank document upload log';
+				hideColSponsor = true;
+				vm.showSponsor = false;
+				hideColFileType = false;
+				vm.sponsorTxtDisable = false;
+				vm.documentUploadLogModel.roleType = 'bank';
+				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+				var organize = getOrganize();
+				vm.docTypeDropdowns = getFileType(organize.organizeId,'MASTER','BANK_UPLOAD');
+				vm.criteria.isBankDoc = true;
+			}
 		}
 
 		vm.initLoad();
