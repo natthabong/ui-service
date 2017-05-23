@@ -185,6 +185,7 @@
     "E1009": "Wrong file format data.",
     "E1010": "Could not be create transaction because the document not found.",
     "Today is bank holiday.": "Can't create transaction. Please create next working day.",
+    "ULE1001": "Could not be upload file because channel is inactive.",
     
     "drawdown_fail": "Drawdown fail",
 	"drawdown_success": "Drawdown success",
