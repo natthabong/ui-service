@@ -578,20 +578,21 @@ createapp.controller('CreateTransactionController', ['CreateTransactionService',
                 });            
             } else {
             	vm.selectAllModel = false;
-            	vm.tableRowCollection.forEach(function(document) {      
+            	vm.tableRowCollection.forEach(function(document) {   
             		var foundMatchingRefInTemp = tempMatchingRefNotQueryAgain.indexOf(document.matchingRef);
         			if(document.matchingRef != null && foundMatchingRefInTemp === -1 && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){
         				tempMatchingRefNotQueryAgain.push(document.matchingRef);
-                		for (var index = vm.documentSelects.length-1; index > -1;index--) {
+        				for (var index = vm.documentSelects.length-1; index > -1;index--) {
                 			if(document.matchingRef === vm.documentSelects[index].matchingRef){
                 				vm.documentSelects.splice(index, 1);
                 			}
                 		}        				
         			}else{
-        				var foundDocument = vm.documentSelects.indexOf(document);
-        				if(foundDocument > -1){
-        					vm.documentSelects.splice(index, 1);
-        				}
+        				for (var index = vm.documentSelects.length-1; index > -1;index--) {
+                			if(document.documentId === vm.documentSelects[index].documentId){
+                				vm.documentSelects.splice(index, 1);
+                			}
+                		}  
         			}
 
             	});
