@@ -126,7 +126,7 @@ var app = angular.module('scfApp');
 				            	vm.formula.sponsorId = vm.sponsorId;
 				            	vm.formula.isCompleted = '0'
 
-				            	var dialog = ngDialog.open({
+			            		ngDialog.open({
 		                            id: 'new-formula-dialog',
 		                            template: '/js/app/sponsor-configuration/file-layouts/dialog-new-formula.html',
 		                            className: 'ngdialog-theme-default',
@@ -211,7 +211,7 @@ var app = angular.module('scfApp');
 				            
 						} ]);
 
-app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope','Service','PaymentDateFormulaService','ngDialog', function($scope, $rootScope, Service,PaymentDateFormulaService,ngDialog) {
+app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope', 'Service', 'PaymentDateFormulaService', 'ngDialog', 'UIFactory', function($scope, $rootScope, Service, PaymentDateFormulaService, ngDialog, UIFactory) {
 	var vm = this;
 	vm.formula = angular.copy($scope.ngDialogData.formula);
 	vm.formula.formulaName = null;
@@ -219,23 +219,41 @@ app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope','Serv
 	vm.showMessageError = false;
 	vm.messageError = null;
 
-	vm.create = function(){
+	vm.create = function(callback){
 		console.log(vm.formula.formulaName)
 		if(vm.formula.formulaName == null ||vm.formula.formulaName == ""){
 			vm.showMessageError = true;
 			vm.messageError = "Formula name is required";
 		}else{
-			var deffered = PaymentDateFormulaService.saveNewFormula(sponsorId,vm.formula);
-			deffered.promise.then(function(response) {
-				vm.showMessageError = false;
-				vm.messageError = null;
-				ngDialog.close()
-			}).catch(function(response) {
-				if(response.status == 500){
-					vm.showMessageError = true;
-					vm.messageError = "Formula name is exist";
+			UIFactory.showConfirmDialog({
+				data: {
+				    headerMessage: 'Confirm save?'
+				},
+				confirm: function(){
+				    return PaymentDateFormulaService.saveNewFormula(sponsorId,vm.formula);
+				},
+				onFail: function(response){
+				    var msg = {500:'Formula name is existed.'};
+				    dialogFail = UIFactory.showFailDialog({
+						data: {
+							headerMessage : 'New formula failed.',
+							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+						},
+						preCloseCallback: null
+				    });
+				},
+				onSuccess: function(response){
+					dialogSuccess = UIFactory.showSuccessDialog({
+						data: {
+							headerMessage : 'New formula completed.',
+							bodyMessage : ''
+						},
+						preCloseCallback: function(){
+							callback();	
+						}
+				    });
 				}
-			});
+		    });
 		}
 	}
 } ]);
