@@ -23,7 +23,6 @@
                     {{'Host name' | translate}}:
                 </label>
             </div>
-
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <scf-input-text id="host-name-textbox" maxlength="255" ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteHost">
                 </scf-input-text>
@@ -34,12 +33,25 @@
                     {{'Port number' | translate}}:
                 </label>
             </div>
-
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <scf-input-text id="port-number-textbox" maxlength="100" ng-model="ctrl.channelModel.jobTrigger.jobDetail.remotePort">
                 </scf-input-text>
             </div>
-            
+        </div>
+        <div class="form-group">
+            <div ng-show="errors.hostName">
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+                <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                    id="host-name-warning-message-label"
+                    ng-bind="errors.hostName.message"> </span> 
+            </div>
+            <div ng-show="errors.portNumber">
+                <label class="col-md-5 col-sm-3 col-xs-12 control-label" ng-show="!errors.hostName"></label>
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+                <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                    id="port-number-warning-message-label"
+                    ng-bind="errors.portNumber.message"> </span> 
+            </div>
         </div>
 
         <div class="form-group">
@@ -48,14 +60,12 @@
                     {{'FTP user' | translate}}:
                 </label>
             </div>
-
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <scf-input-text id="ftp-user-textbox" 
                     ng-disabled="true" maxlength="100" 
                     ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteUsername" >
                 </scf-input-text>
             </div>
-
             <div class="col-md-2 col-sm-3 col-xs-12">
                 <scf-button id="setup-ftp-user-button" class="popup-button"
                     data-dismiss="modal" ng-click="ctrl.setupUserInfo()"
@@ -63,8 +73,13 @@
                     ng-bind="'Setup FTP user' | translate">
                 </scf-button>
             </div>
-
             <div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+        </div>
+        <div ng-show="errors.ftpUser">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+            <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                id="ftp-user-warning-message-label"
+                ng-bind="errors.ftpUser.message"> </span> 
         </div>
 
         <div class="form-group">
@@ -81,6 +96,13 @@
                 </scf-input-text>
             </div>
         </div>
+        <div class="form-group"
+            ng-show="errors.remoteDirectory">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+            <span class="col-md-8 col-sm-9 col-xs-12 error-msg"
+                id="remote-directory-warning-message-label"
+                ng-bind="errors.remoteDirectory.message"> </span> 
+        </div>
 
 
         <div class="form-group">
@@ -89,23 +111,34 @@
                     {{'File name pattern' | translate}}:
                 </label>
             </div>
-
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <scf-input-text id="filename-pattern-textbox" maxlength="200" ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteFilenamePattern">
                 </scf-input-text>
             </div>
-
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
                 <label id="limited-file-size-label" >
                     {{'Limited file size (MB)' | translate}}:
                 </label>
             </div>
-
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <scf-input-text id="limited-file-size-textbox" maxlength="100" ng-model="ctrl.channelModel.jobTrigger.jobDetail.limitedFileSize">
                 </scf-input-text>
             </div>
-            
+        </div>
+        <div class="form-group">
+            <div ng-show="errors.filenamePattern">
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+                <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                    id="file-name-pattern-warning-message-label"
+                    ng-bind="errors.filenamePattern.message"> </span> 
+            </div>
+            <div ng-show="errors.limitFileSize">
+                <label class="col-md-5 col-sm-3 col-xs-12 control-label" ng-show="!errors.filenamePattern"></label>
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+                <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                    id="limited-file-size-warning-message-label"
+                    ng-bind="errors.limitFileSize.message"> </span> 
+            </div>
         </div>
 
         <div class="form-group">
@@ -140,23 +173,35 @@
                     {{'Retry' | translate}}:
                 </label>
             </div>
-
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <scf-input-text id="retry-textbox" maxlength="2" ng-model="ctrl.channelModel.jobTrigger.jobDetail.retryCount">
                 </scf-input-text>
             </div>
-
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
                 <label id="retry-delayed-interval-label" >
                     {{'Delayed interval (sec)' | translate}}:
                 </label>
             </div>
-
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <scf-input-text id="retry-delayed-interval-textbox" maxlength="2" ng-model="ctrl.channelModel.jobTrigger.jobDetail.connectionRetryInterval">
                 </scf-input-text>
             </div>
-            
+        </div>
+        <div>
+            <div class="form-group"
+                ng-show="errors.retry">
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+                <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                    id="retry-warning-message-label"
+                    ng-bind="errors.retry.message"> </span> 
+            </div>
+            <div class="form-group"
+                ng-show="errors.delayedInterval">
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+                <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                    id="delayed-interval-warning-message-label"
+                    ng-bind="errors.delayedInterval.message"> </span> 
+            </div>
         </div>
 
 
@@ -196,6 +241,13 @@
                         ng-disabled="!ctrl.postProcessBackup">
                 </scf-dropdown>
             </div>
+        </div>
+        <div class="form-group"
+            ng-show="errors.remoteBackupDirectory">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+            <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                id="remote-backup-directory-warning-message-label"
+                ng-bind="errors.remoteBackupDirectory.message"> </span> 
         </div>
 
         <div class="form-group">
@@ -240,7 +292,7 @@
                 </div>
 
                 <div class="col-md-2 col-sm-3 col-xs-12 control-label">
-                    <scf-checkbox id="thursday-checkbox" ng-model="ctrl.channelModel.tuesday"></scf-checkbox>
+                    <scf-checkbox id="thursday-checkbox" ng-model="ctrl.channelModel.thursday"></scf-checkbox>
                         <label class="checkbox-inline" id="thursday-label" style="padding-bottom: 10px;">{{'Thursday' | translate}}</label>
                 </div>
 
@@ -286,7 +338,7 @@
                 </label>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <scf-input-text id="begin-time-textbox" maxlength="5" placeholder="hh:mm">
+                <scf-input-text id="begin-time-textbox" ng-model="ctrl.channelModel.beginTime" maxlength="5" placeholder="hh:mm">
                 </scf-input-text>
             </div>
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
@@ -295,7 +347,7 @@
                 </label>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <scf-input-text id="end-time-textbox" maxlength="5" placeholder="hh:mm">
+                <scf-input-text id="end-time-textbox" ng-model="ctrl.channelModel.endTime"maxlength="5" placeholder="hh:mm">
                 </scf-input-text>
             </div>
         </div>
