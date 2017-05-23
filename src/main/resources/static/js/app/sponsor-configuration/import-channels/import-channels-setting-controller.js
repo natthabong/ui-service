@@ -104,6 +104,11 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 
 	var setupPrepareFTPData = function(){
 		if(vm.isSetupFTP){
+			vm.channelModel.jobTrigger.startHour = null;
+			vm.channelModel.jobTrigger.startMinute = null;
+			vm.channelModel.jobTrigger.endHour = null;
+			vm.channelModel.jobTrigger.endMinute = null;
+
 			var daysOfWeek = '';
 			if(vm.channelModel.sunday){
 				daysOfWeek += dayOfWeekFrequency.SUNDAY + ',';
@@ -129,6 +134,18 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 			daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
 			vm.channelModel.jobTrigger.daysOfWeek = daysOfWeek;
 
+			if(vm.channelModel.beginTime != null && vm.channelModel.beginTime != ''){
+				var beginTime = vm.channelModel.beginTime.split(":");
+				vm.channelModel.jobTrigger.startHour = beginTime[0];
+				vm.channelModel.jobTrigger.startMinute = beginTime[1];
+			}
+
+			if(vm.channelModel.endTime != null && vm.channelModel.endTime != ''){
+				var endTime = vm.channelModel.endTime.split(":");
+				vm.channelModel.jobTrigger.endHour = endTime[0];
+				vm.channelModel.jobTrigger.endMinute = endTime[1];
+			}
+
 		}
 	}
 	
@@ -139,95 +156,98 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 		var jobTrigger = vm.channelModel.jobTrigger;
 		var jobDetail = vm.channelModel.jobTrigger.jobDetail;
 
-		// if(jobDetail.remoteHost == null || jobDetail.remoteHost ==""){
-		// 	isValid = false;
-		// 	$scope.errors.hostName = {
-	    // 		message : 'Host name is required.'
-		//     }
-		// }
+		if(vm.isSetupFTP){
 
-		// if(jobDetail.remotePort == null || jobDetail.remotePort ==""){
-		// 	isValid = false;
-		// 	$scope.errors.portNumber = {
-	    // 		message : 'Port number is required.'
-		//     }
-		// }
+			if(jobDetail.remoteHost == null || jobDetail.remoteHost ==""){
+				isValid = false;
+				$scope.errors.hostName = {
+					message : 'Host name is required.'
+				}
+			}
 
-		// if(jobDetail.remoteUsername == null || jobDetail.remoteUsername == ""){
-		// 	isValid = false;
-		// 	$scope.errors.remoteUsername = {
-	    // 		message : 'FTP user is required.'
-		//     }
-		// }
+			if(jobDetail.remotePort == null || jobDetail.remotePort ==""){
+				isValid = false;
+				$scope.errors.portNumber = {
+					message : 'Port number is required.'
+				}
+			}
 
-		// if(jobDetail.remotePath == null || jobDetail.remotePath == ""){
-		// 	isValid = false;
-		// 	$scope.errors.remoteDirectory = {
-	    // 		message : 'Remote directory is required.'
-		//     }
-		// }
+			if(jobDetail.remoteUsername == null || jobDetail.remoteUsername == ""){
+				isValid = false;
+				$scope.errors.remoteUsername = {
+					message : 'FTP user is required.'
+				}
+			}
 
-		// if(jobDetail.remoteFilenamePattern == null || jobDetail.remoteFilenamePattern == ""){
-		// 	isValid = false;
-		// 	$scope.errors.remoteFilenamePattern = {
-	    // 		message : 'File name pattern is required.'
-		//     }
-		// }
+			if(jobDetail.remotePath == null || jobDetail.remotePath == ""){
+				isValid = false;
+				$scope.errors.remoteDirectory = {
+					message : 'Remote directory is required.'
+				}
+			}
 
-		// if(jobDetail.limitedFileSize == null || jobDetail.limitedFileSize == ""){
-		// 	isValid = false;
-		// 	$scope.errors.limitedFileSize = {
-	    // 		message : 'Limit file size (MB) is required.'
-		//     }
-		// }
+			if(jobDetail.remoteFilenamePattern == null || jobDetail.remoteFilenamePattern == ""){
+				isValid = false;
+				$scope.errors.remoteFilenamePattern = {
+					message : 'File name pattern is required.'
+				}
+			}
 
-		// if(jobDetail.connectionRetry == null || jobDetail.connectionRetry == ""){
-		// 	isValid = false;
-		// 	$scope.errors.connectionRetry = {
-	    // 		message : 'Retry is required.'
-		//     }
-		// }
+			if(jobDetail.limitedFileSize == null || jobDetail.limitedFileSize == ""){
+				isValid = false;
+				$scope.errors.limitedFileSize = {
+					message : 'Limited file size (MB) is required.'
+				}
+			}
 
-		// if(jobDetail.connectionRetryInterval == null || jobDetail.connectionRetryInterval == ""){
-		// 	isValid = false;
-		// 	$scope.errors.connectionRetryInterval = {
-	    // 		message : 'Delayed interval (sec) is required.'
-		//     }
-		// }
+			if(jobDetail.connectionRetry == null || jobDetail.connectionRetry == ""){
+				isValid = false;
+				$scope.errors.connectionRetry = {
+					message : 'Retry is required.'
+				}
+			}
 
-		// if(vm.postProcessBackup && (jobDetail.remoteBackupPath == null || jobDetail.remoteBackupPath == "")){
-		// 	isValid = false;
-		// 	$scope.errors.remoteBackupPath = {
-	    // 		message : 'Remote backup directory is required.'
-		//     }
-		// }
+			if(jobDetail.connectionRetryInterval == null || jobDetail.connectionRetryInterval == ""){
+				isValid = false;
+				$scope.errors.connectionRetryInterval = {
+					message : 'Delayed interval (sec) is required.'
+				}
+			}
 
-		// if(jobTrigger.daysOfWeek == null || jobTrigger.daysOfWeek == ''){
-		// 	isValid = false;
-		// 	$scope.errors.daysOfWeek = {
-	    // 		message : 'Frequency is required.'
-		//     }
-		// }
+			if(vm.postProcessBackup && (jobDetail.remoteBackupPath == null || jobDetail.remoteBackupPath == "")){
+				isValid = false;
+				$scope.errors.remoteBackupPath = {
+					message : 'Remote backup directory is required.'
+				}
+			}
 
-		// if(jobTrigger.startHour == null || jobTrigger.startMinute == null){
-		// 	isValid = false;
-		// 	$scope.errors.beginTime = {
-	    // 		message : 'Begin time is required.'
-		//     }
-		// }
+			if(jobTrigger.daysOfWeek == null || jobTrigger.daysOfWeek == ''){
+				isValid = false;
+				$scope.errors.daysOfWeek = {
+					message : 'Frequency is required.'
+				}
+			}
 
-		// if(jobTrigger.endHour == null || jobTrigger.endMinute == null){
-		// 	isValid = false;
-		// 	$scope.errors.endTime = {
-	    // 		message : 'End time is required.'
-		//     }
-		// }
+			if(jobTrigger.startHour == null || jobTrigger.startMinute == null){
+				isValid = false;
+				$scope.errors.beginTime = {
+					message : 'Begin time is required.'
+			    }
+			}
 
-		if(jobTrigger.intervalInMinutes == null){
-			isValid = false;
-			$scope.errors.intervalInMinutes = {
-	    		message : 'Delayed interval (sec) is required.'
-		    }
+			if(jobTrigger.endHour == null || jobTrigger.endMinute == null){
+				isValid = false;
+				$scope.errors.endTime = {
+					message : 'End time is required.'
+			    }
+			}
+
+			if(jobTrigger.intervalInMinutes == null || jobTrigger.intervalInMinutes == ''){
+				isValid = false;
+				$scope.errors.intervalInMinutes = {
+					message : 'Delayed interval (sec) is required.'
+				}
+			}
 		}
 
 		if (!angular.isDefined(channel.activeDate)) {
@@ -426,6 +446,19 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 						}
 					});
 				}
+
+				if(response.data.jobTrigger.startHour == null || response.data.jobTrigger.startMinute == null){
+					vm.channelModel.beginTime = "00:00";
+				}else{
+					vm.channelModel.beginTime = response.data.jobTrigger.startHour + ":" + response.data.jobTrigger.startMinute;
+				}	
+
+				if(response.data.jobTrigger.endHour == null || response.data.jobTrigger.endMinute == null){
+					vm.channelModel.endTime = "23:59";
+
+				}else{
+					vm.channelModel.endTime = response.data.jobTrigger.endHour + ":"+ response.data.jobTrigger.endMinute;
+				}		
 			}
         });
 	}

@@ -189,19 +189,19 @@
                 </scf-input-text>
             </div>
         </div>
-        <div>
-            <div class="form-group"
-                ng-show="errors.retry">
+
+        <div class="form-group">
+            <div ng-show="errors.connectionRetry">
                 <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
                 <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
                     id="retry-warning-message-label"
-                    ng-bind="errors.retry.message"> </span> 
+                    ng-bind="errors.connectionRetry.message"> </span> 
             </div>
-            <div class="form-group"
-                ng-show="errors.connectionRetryInterval">
+            <div ng-show="errors.connectionRetryInterval">
+                <label class="col-md-5 col-sm-3 col-xs-12 control-label" ng-show="!errors.connectionRetry"></label>
                 <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
                 <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
-                    id="delayed-interval-warning-message-label"
+                    id="retry-delayed-interval-warning-message-label"
                     ng-bind="errors.connectionRetryInterval.message"> </span> 
             </div>
         </div>
@@ -370,6 +370,7 @@
                     ng-bind="errors.beginTime.message"> </span> 
             </div>
             <div ng-show="errors.endTime">
+                <label class="col-md-5 col-sm-3 col-xs-12 control-label" ng-show="!errors.beginTime"></label>
                 <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
                 <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
                     id="end-time-warning-message-label"
@@ -393,7 +394,7 @@
         <div class="form-group" ng-show="errors.intervalInMinutes">
             <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
             <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
-                id="delayed-interval-minutes-warning-message-label"
+                id="delayed-interval-warning-message-label"
                 ng-bind="errors.intervalInMinutes.message"> </span> 
         </div>
 
