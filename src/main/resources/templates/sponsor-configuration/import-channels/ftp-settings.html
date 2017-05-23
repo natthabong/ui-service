@@ -75,11 +75,12 @@
             </div>
             <div class="col-md-3 col-sm-3 col-hidden-xs"></div>
         </div>
-        <div ng-show="errors.ftpUser">
+
+        <div class="form-group" ng-show="errors.remoteUsername">
             <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
             <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
                 id="ftp-user-warning-message-label"
-                ng-bind="errors.ftpUser.message"> </span> 
+                ng-bind="errors.remoteUsername.message"> </span> 
         </div>
 
         <div class="form-group">
@@ -126,18 +127,18 @@
             </div>
         </div>
         <div class="form-group">
-            <div ng-show="errors.filenamePattern">
+            <div ng-show="errors.remoteFilenamePattern">
                 <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
                 <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
                     id="file-name-pattern-warning-message-label"
-                    ng-bind="errors.filenamePattern.message"> </span> 
+                    ng-bind="errors.remoteFilenamePattern.message"> </span> 
             </div>
-            <div ng-show="errors.limitFileSize">
+            <div ng-show="errors.limitedFileSize">
                 <label class="col-md-5 col-sm-3 col-xs-12 control-label" ng-show="!errors.filenamePattern"></label>
                 <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
                 <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
                     id="limited-file-size-warning-message-label"
-                    ng-bind="errors.limitFileSize.message"> </span> 
+                    ng-bind="errors.limitedFileSize.message"> </span> 
             </div>
         </div>
 
@@ -149,9 +150,10 @@
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12">
+                <input type="hidden" ng-model="ctrl.channelModel.jobTrigger.jobDetail.encryptType"/>
                 <scf-input-text id="file-encryption-textbox" 
-                    ng-disabled="true" maxlength="255" 
-                    ng-model="ctrl.channelModel.jobTrigger.jobDetail.encryptType" >
+                    ng-disabled="true" maxlength="255"  
+                    ng-value="ctrl.channelModel.jobTrigger.jobDetail.encryptType | translate">
                 </scf-input-text>
             </div>
 
@@ -174,7 +176,7 @@
                 </label>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <scf-input-text id="retry-textbox" maxlength="2" ng-model="ctrl.channelModel.jobTrigger.jobDetail.retryCount">
+                <scf-input-text id="retry-textbox" maxlength="2" ng-model="ctrl.channelModel.jobTrigger.jobDetail.connectionRetry">
                 </scf-input-text>
             </div>
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
@@ -196,11 +198,11 @@
                     ng-bind="errors.retry.message"> </span> 
             </div>
             <div class="form-group"
-                ng-show="errors.delayedInterval">
+                ng-show="errors.connectionRetryInterval">
                 <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
                 <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
                     id="delayed-interval-warning-message-label"
-                    ng-bind="errors.delayedInterval.message"> </span> 
+                    ng-bind="errors.connectionRetryInterval.message"> </span> 
             </div>
         </div>
 
@@ -243,11 +245,11 @@
             </div>
         </div>
         <div class="form-group"
-            ng-show="errors.remoteBackupDirectory">
+            ng-show="errors.remoteBackupPath">
             <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
             <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
                 id="remote-backup-directory-warning-message-label"
-                ng-bind="errors.remoteBackupDirectory.message"> </span> 
+                ng-bind="errors.remoteBackupPath.message"> </span> 
         </div>
 
         <div class="form-group">
@@ -265,6 +267,7 @@
             </div>
             <div class="col-md-3 col-sm-3 col-hidden-xs"></div>
          </div>
+
          <div class="form-group">
             
             <div class="row">
@@ -331,6 +334,13 @@
 
         </div>
 
+        <div class="form-group" ng-show="errors.daysOfWeek">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+            <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                id="frequency-warning-message-label"
+                ng-bind="errors.daysOfWeek.message"> </span> 
+        </div>
+
         <div class="form-group">
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
                 <label id="begin-time-label" >
@@ -351,6 +361,22 @@
                 </scf-input-text>
             </div>
         </div>
+
+        <div class="form-group">
+            <div ng-show="errors.beginTime">
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+                <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                    id="begin-time-warning-message-label"
+                    ng-bind="errors.beginTime.message"> </span> 
+            </div>
+            <div ng-show="errors.endTime">
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+                <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                    id="end-time-warning-message-label"
+                    ng-bind="errors.endTime.message"> </span> 
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
                 <label id="delayed-interval-label" >
@@ -364,6 +390,12 @@
             <div class="col-md-6 col-sm-4 col-hidden-xs"></div>
         </div>
 
+        <div class="form-group" ng-show="errors.intervalInMinutes">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+            <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                id="delayed-interval-minutes-warning-message-label"
+                ng-bind="errors.intervalInMinutes.message"> </span> 
+        </div>
 
     </div>
 </div>

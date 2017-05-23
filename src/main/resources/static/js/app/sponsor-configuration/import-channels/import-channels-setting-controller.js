@@ -101,6 +101,36 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
         };
         serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
     }
+
+	var setupPrepareFTPData = function(){
+		if(vm.isSetupFTP){
+			var daysOfWeek = '';
+			if(vm.channelModel.sunday){
+				daysOfWeek += dayOfWeekFrequency.SUNDAY + ',';
+			}
+			if(vm.channelModel.monday){
+				daysOfWeek += dayOfWeekFrequency.MONDAY + ',';
+			}
+			if(vm.channelModel.tuesday){
+				daysOfWeek += dayOfWeekFrequency.TUESDAY + ',';
+			}
+			if(vm.channelModel.wednesday){
+				daysOfWeek += dayOfWeekFrequency.WEDNESDAY + ',';
+			}
+			if(vm.channelModel.thursday){
+				daysOfWeek += dayOfWeekFrequency.THURSDAY + ',';
+			}
+			if(vm.channelModel.friday){
+				daysOfWeek += dayOfWeekFrequency.FRIDAY + ',';
+			}
+			if(vm.channelModel.saturday){
+				daysOfWeek += dayOfWeekFrequency.SATURDAY + ',';
+			}
+			daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
+			vm.channelModel.jobTrigger.daysOfWeek = daysOfWeek;
+
+		}
+	}
 	
 	var validSave = function(){
 		$scope.errors = {};
@@ -109,52 +139,94 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 		var jobTrigger = vm.channelModel.jobTrigger;
 		var jobDetail = vm.channelModel.jobTrigger.jobDetail;
 
-		if(jobDetail.remoteHost == null || jobDetail.remoteHost ==""){
-			isValid = false;
-			$scope.errors.hostName = {
-	    		message : 'Host name is required.'
-		    }
-		}
+		// if(jobDetail.remoteHost == null || jobDetail.remoteHost ==""){
+		// 	isValid = false;
+		// 	$scope.errors.hostName = {
+	    // 		message : 'Host name is required.'
+		//     }
+		// }
 
-		if(jobDetail.remotePort == null || jobDetail.remotePort ==""){
-			isValid = false;
-			$scope.errors.portNumber = {
-	    		message : 'Port number is required.'
-		    }
-		}
+		// if(jobDetail.remotePort == null || jobDetail.remotePort ==""){
+		// 	isValid = false;
+		// 	$scope.errors.portNumber = {
+	    // 		message : 'Port number is required.'
+		//     }
+		// }
 
-		if(jobDetail.remoteUsername == null || jobDetail.remoteUsername == ""){
-			isValid = false;
-			$scope.errors.remoteUsername = {
-	    		message : 'FTP user is required.'
-		    }
-		}
+		// if(jobDetail.remoteUsername == null || jobDetail.remoteUsername == ""){
+		// 	isValid = false;
+		// 	$scope.errors.remoteUsername = {
+	    // 		message : 'FTP user is required.'
+		//     }
+		// }
 
-		if(jobDetail.remotePath == null || jobDetail.remotePath == ""){
-			isValid = false;
-			$scope.errors.remotePath = {
-	    		message : 'Remote directory is required.'
-		    }
-		}
+		// if(jobDetail.remotePath == null || jobDetail.remotePath == ""){
+		// 	isValid = false;
+		// 	$scope.errors.remoteDirectory = {
+	    // 		message : 'Remote directory is required.'
+		//     }
+		// }
 
-		if(jobDetail.remoteFilenamePattern == null || jobDetail.remoteFilenamePattern == ""){
-			isValid = false;
-			$scope.errors.remoteFilenamePattern = {
-	    		message : 'Remote filename pattern is required.'
-		    }
-		}
+		// if(jobDetail.remoteFilenamePattern == null || jobDetail.remoteFilenamePattern == ""){
+		// 	isValid = false;
+		// 	$scope.errors.remoteFilenamePattern = {
+	    // 		message : 'File name pattern is required.'
+		//     }
+		// }
 
-		if(jobDetail.limitedFileSize == null || jobDetail.limitedFileSize == ""){
-			isValid = false;
-			$scope.errors.limitedFileSize = {
-	    		message : 'Limited file size is required.'
-		    }
-		}
+		// if(jobDetail.limitedFileSize == null || jobDetail.limitedFileSize == ""){
+		// 	isValid = false;
+		// 	$scope.errors.limitedFileSize = {
+	    // 		message : 'Limit file size (MB) is required.'
+		//     }
+		// }
 
-		if(jobDetail.connectionRetry == null || jobDetail.connectionRetry == ""){
+		// if(jobDetail.connectionRetry == null || jobDetail.connectionRetry == ""){
+		// 	isValid = false;
+		// 	$scope.errors.connectionRetry = {
+	    // 		message : 'Retry is required.'
+		//     }
+		// }
+
+		// if(jobDetail.connectionRetryInterval == null || jobDetail.connectionRetryInterval == ""){
+		// 	isValid = false;
+		// 	$scope.errors.connectionRetryInterval = {
+	    // 		message : 'Delayed interval (sec) is required.'
+		//     }
+		// }
+
+		// if(vm.postProcessBackup && (jobDetail.remoteBackupPath == null || jobDetail.remoteBackupPath == "")){
+		// 	isValid = false;
+		// 	$scope.errors.remoteBackupPath = {
+	    // 		message : 'Remote backup directory is required.'
+		//     }
+		// }
+
+		// if(jobTrigger.daysOfWeek == null || jobTrigger.daysOfWeek == ''){
+		// 	isValid = false;
+		// 	$scope.errors.daysOfWeek = {
+	    // 		message : 'Frequency is required.'
+		//     }
+		// }
+
+		// if(jobTrigger.startHour == null || jobTrigger.startMinute == null){
+		// 	isValid = false;
+		// 	$scope.errors.beginTime = {
+	    // 		message : 'Begin time is required.'
+		//     }
+		// }
+
+		// if(jobTrigger.endHour == null || jobTrigger.endMinute == null){
+		// 	isValid = false;
+		// 	$scope.errors.endTime = {
+	    // 		message : 'End time is required.'
+		//     }
+		// }
+
+		if(jobTrigger.intervalInMinutes == null){
 			isValid = false;
-			$scope.errors.connectionRetry = {
-	    		message : 'Retry is required.'
+			$scope.errors.intervalInMinutes = {
+	    		message : 'Delayed interval (sec) is required.'
 		    }
 		}
 
@@ -194,6 +266,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	}
 
 	vm.saveChannel = function(){
+		setupPrepareFTPData();
 		if(validSave()){
 			var preCloseCallback = function(confirm) {
 				vm.backToSponsorConfigPage();
@@ -233,30 +306,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	}	
 	
 	$scope.confirmSave = function() { 
-		var daysOfWeek = '';
-		if(vm.channelModel.sunday){
-			daysOfWeek += dayOfWeekFrequency.SUNDAY + ',';
-		}
-		if(vm.channelModel.monday){
-			daysOfWeek += dayOfWeekFrequency.MONDAY + ',';
-		}
-		if(vm.channelModel.tuesday){
-			daysOfWeek += dayOfWeekFrequency.TUESDAY + ',';
-		}
-		if(vm.channelModel.wednesday){
-			daysOfWeek += dayOfWeekFrequency.WEDNESDAY + ',';
-		}
-		if(vm.channelModel.thursday){
-			daysOfWeek += dayOfWeekFrequency.THURSDAY + ',';
-		}
-		if(vm.channelModel.friday){
-			daysOfWeek += dayOfWeekFrequency.FRIDAY + ',';
-		}
-		if(vm.channelModel.saturday){
-			daysOfWeek += dayOfWeekFrequency.SATURDAY + ',';
-		}
-		daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
-		vm.channelModel.jobTrigger.daysOfWeek = daysOfWeek;
+		console.log(vm.channelModel);
 		
 		var serviceUrl = BASE_URI+'/channels/' + vm.channelModel.channelId;
 		var deffered = $q.defer();
@@ -307,11 +357,11 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 					vm.channelModel.jobTrigger.jobDetail.limitedFileSize = '5';
 				}
 				if(response.data.jobTrigger.jobDetail.encryptType == null){
-					vm.channelModel.jobTrigger.jobDetail.encryptType = 'None';
+					vm.channelModel.jobTrigger.jobDetail.encryptType = 'NONE';
 				}
 
-				if(response.data.jobTrigger.jobDetail.retryCount == null){
-					vm.channelModel.jobTrigger.jobDetail.retryCount = '3';
+				if(response.data.jobTrigger.jobDetail.connectionRetry == null){
+					vm.channelModel.jobTrigger.jobDetail.connectionRetry = '3';
 				}
 
 				if(response.data.jobTrigger.jobDetail.connectionRetryInterval == null){

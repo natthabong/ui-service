@@ -425,5 +425,6 @@
 	"Setup File encryption": "Setup File encryption",
 	"File encryption": "File encryption",
 	"PGP Password": "PGP Password",
-	"PGP Private key": "PGP Private key"
+	"PGP Private key": "PGP Private key",
+	"NONE" : "None"
 }
