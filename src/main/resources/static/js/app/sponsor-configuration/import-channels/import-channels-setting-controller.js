@@ -214,63 +214,66 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 				vm.channelModel.expiryDate = null;
 			}
 			
-			vm.channelModel.fileProtocol = 'SFTP';
+			if(vm.isSetupFTP){
+				vm.channelModel.fileProtocol = 'SFTP';
 
-			if(response.data.jobTrigger.jobDetail.remotePort == null){
-				vm.channelModel.jobTrigger.jobDetail.remotePort = '22';
+				if(response.data.jobTrigger.jobDetail.remotePort == null){
+					vm.channelModel.jobTrigger.jobDetail.remotePort = '22';
+				}
+
+				if(response.data.jobTrigger.jobDetail.remoteFilenamePattern == null){
+					vm.channelModel.jobTrigger.jobDetail.remoteFilenamePattern = '*.*';
+				}
+
+				if(response.data.jobTrigger.jobDetail.limitedFileSize == null){
+					vm.channelModel.jobTrigger.jobDetail.limitedFileSize = '5';
+				}
+
+				if(response.data.jobTrigger.jobDetail.encryptType == null){
+					vm.channelModel.jobTrigger.jobDetail.encryptType = 'None';
+				}
+
+				if(response.data.jobTrigger.jobDetail.retryCount == null){
+					vm.channelModel.jobTrigger.jobDetail.retryCount = '3';
+				}
+
+				if(response.data.jobTrigger.jobDetail.connectionRetryInterval == null){
+					vm.channelModel.jobTrigger.jobDetail.connectionRetryInterval = '60';
+				}
+
+				if(response.data.jobTrigger.jobDetail.postProcessType == null){
+					vm.channelModel.jobTrigger.jobDetail.postProcessType = 'None';
+				}
+
+				if(response.data.jobTrigger.jobDetail.remoteBackupPath == 'Backup'){
+					vm.postProcessBackup = true;
+
+				}else if(response.data.jobTrigger.jobDetail.remoteBackupPath == null){
+					vm.channelModel.jobTrigger.jobDetail.remoteBackupPath = '/backup'
+				}
+
+				if(response.data.jobTrigger.jobDetail.remoteBackupFolderPattern == null){
+					vm.channelModel.jobTrigger.jobDetail.remoteBackupFolderPattern = '/';
+				}
+
+				if(response.data.jobTrigger.frequencyType == null){
+					vm.channelModel.jobTrigger.frequencyType = 'DAILY';
+				}
+
+				if(response.data.jobTrigger.intervalInMinutes == null){
+					vm.channelModel.jobTrigger.intervalInMinutes = '300';
+				}
+				if(response.data.jobTrigger.daysOfWeek == null){
+					vm.channelModel.monday = true;
+					vm.channelModel.tuesday = true
+					vm.channelModel.wednesday = true
+					vm.channelModel.thursday = true
+					vm.channelModel.friday = true
+					vm.channelModel.saturday = true
+					vm.channelModel.sunday = true
+				} 
 			}
-
-			if(response.data.jobTrigger.jobDetail.remoteFilenamePattern == null){
-				vm.channelModel.jobTrigger.jobDetail.remoteFilenamePattern = '*.*';
-			}
-
-			if(response.data.jobTrigger.jobDetail.limitedFileSize == null){
-				vm.channelModel.jobTrigger.jobDetail.limitedFileSize = '5';
-			}
-
-			if(response.data.jobTrigger.jobDetail.encryptType == null){
-				vm.channelModel.jobTrigger.jobDetail.encryptType = 'None';
-			}
-
-			if(response.data.jobTrigger.jobDetail.retryCount == null){
-				vm.channelModel.jobTrigger.jobDetail.retryCount = '3';
-			}
-
-			if(response.data.jobTrigger.jobDetail.connectionRetryInterval == null){
-				vm.channelModel.jobTrigger.jobDetail.connectionRetryInterval = '60';
-			}
-
-			if(response.data.jobTrigger.jobDetail.postProcessType == null){
-				vm.channelModel.jobTrigger.jobDetail.postProcessType = 'None';
-			}
-
-			if(response.data.jobTrigger.jobDetail.remoteBackupPath == 'Backup'){
-				vm.postProcessBackup = true;
-
-			}else if(response.data.jobTrigger.jobDetail.remoteBackupPath == null){
-				vm.channelModel.jobTrigger.jobDetail.remoteBackupPath = '/backup'
-			}
-
-			if(response.data.jobTrigger.jobDetail.remoteBackupFolderPattern == null){
-				vm.channelModel.jobTrigger.jobDetail.remoteBackupFolderPattern = '/';
-			}
-
-			if(response.data.jobTrigger.frequencyType == null){
-				vm.channelModel.jobTrigger.frequencyType = 'DAILY';
-			}
-
-			if(response.data.jobTrigger.intervalInMinutes == null){
-				vm.channelModel.jobTrigger.intervalInMinutes = '300';
-			}
-			if(response.data.jobTrigger.daysOfWeek == null){
-				vm.channelModel.monday = true;
-				vm.channelModel.tuesday = true
-				vm.channelModel.wednesday = true
-				vm.channelModel.thursday = true
-				vm.channelModel.friday = true
-				vm.channelModel.saturday = true
-				vm.channelModel.sunday = true
-			} 
+			
 
         });
 	}
