@@ -363,6 +363,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             	organizeId: vm.documentListModel.sponsor.organizeId,
             	organizeName: vm.documentListModel.sponsor.organizeName
             };
+        }else{
+        	vm.listTransactionModel.sponsorInfo = null;
         }
         
         if(typeof vm.documentListModel.supplier == 'object' && vm.documentListModel.supplier != undefined){
@@ -371,6 +373,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             	organizeId: vm.documentListModel.supplier.organizeId,
             	organizeName: vm.documentListModel.supplier.organizeName
             };
+        }else{
+        	vm.listTransactionModel.supplier = null;
         }
         
         if (criteria === undefined) {
@@ -561,11 +565,15 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			vm.dateModel.dateFrom = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateFrom);
 			vm.dateModel.dateTo = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateTo);			
 
-			var sponsorInfo = prepareAutoSuggestLabel(vm.listTransactionModel.sponsorInfo);
-			vm.documentListModel.sponsor = sponsorInfo;
+			if(vm.listTransactionModel.sponsorInfo != undefined){
+				var sponsorInfo = prepareAutoSuggestLabel(vm.listTransactionModel.sponsorInfo);
+				vm.documentListModel.sponsor = sponsorInfo;
+			}
 			
-			var supplierInfo = prepareAutoSuggestLabel(vm.listTransactionModel.supplierInfo);
-			vm.documentListModel.supplier = supplierInfo;
+			if(vm.listTransactionModel.supplierInfo != undefined){
+				var supplierInfo = prepareAutoSuggestLabel(vm.listTransactionModel.supplierInfo);
+				vm.documentListModel.supplier = supplierInfo;
+			}
 		}
 
         currentParty = $stateParams.party;
