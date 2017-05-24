@@ -103,6 +103,10 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
         serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
     }
 
+	var formattedNumber = function(data){
+		return ("0" + data).slice(-2);
+	}
+
 	var setupPrepareFTPData = function(){
 		if(vm.isSetupFTP){
 			vm.channelModel.jobTrigger.startHour = null;
@@ -340,7 +344,8 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	
 	$scope.confirmSave = function() { 
 		console.log(vm.channelModel);
-		
+		vm.channelModel.jobTrigger.ownerId = selectedItem.organizeId;
+
 		var serviceUrl = BASE_URI+'/channels/' + vm.channelModel.channelId;
 		var deffered = $q.defer();
 		var serviceDiferred =  $http({
@@ -463,14 +468,14 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 				if(response.data.jobTrigger.startHour == null || response.data.jobTrigger.startMinute == null){
 					vm.channelModel.beginTime = "00:00";
 				}else{
-					vm.channelModel.beginTime = response.data.jobTrigger.startHour + ":" + response.data.jobTrigger.startMinute;
+					vm.channelModel.beginTime = formattedNumber(response.data.jobTrigger.startHour) + ":" + formattedNumber(response.data.jobTrigger.startMinute);
 				}	
 
 				if(response.data.jobTrigger.endHour == null || response.data.jobTrigger.endMinute == null){
 					vm.channelModel.endTime = "23:59";
 
 				}else{
-					vm.channelModel.endTime = response.data.jobTrigger.endHour + ":"+ response.data.jobTrigger.endMinute;
+					vm.channelModel.endTime = formattedNumber(response.data.jobTrigger.endHour) + ":"+ formattedNumber(response.data.jobTrigger.endMinute);
 				}		
 			}
         });
