@@ -476,7 +476,11 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 
 				}else{
 					vm.channelModel.endTime = formattedNumber(response.data.jobTrigger.endHour) + ":"+ formattedNumber(response.data.jobTrigger.endMinute);
-				}		
+				}	
+
+				response.data.jobTrigger.jobDetail.remotePassword = null;
+				response.data.jobTrigger.jobDetail.encryptPassword = null;
+
 			}
         });
 	}
