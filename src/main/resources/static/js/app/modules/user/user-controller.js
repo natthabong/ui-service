@@ -333,13 +333,18 @@ userModule
 				    		message : 'Active date is required.'
 				    }
 				}
-if (vm.isUseExpireDate) {
+				if (vm.isUseExpireDate) {
 
 				    if (!angular.isDefined(user.expiryDate)) {
 						valid = false;
 						$scope.errors.expiryDate = {
 						    message : 'Wrong date format data.'
 						}
+				    } else if(user.expiryDate == null|| user.expiryDate ==''){				    	
+						valid = false;
+					    $scope.errors.expiryDate = {
+					    		message : 'Expire date is required.'
+					    }
 				    } else if (angular
 						    .isDefined(user.activeDate)
 						    && user.expiryDate < user.activeDate) {
@@ -347,11 +352,6 @@ if (vm.isUseExpireDate) {
 						$scope.errors.activeDate = {
 						    message : 'Active date must be less than or equal to expire date.'
 						}
-				    }else if(user.expiryDate == null|| user.expiryDate ==''){				    	
-						valid = false;
-					    $scope.errors.expiryDate = {
-					    		message : 'Expire date is required.'
-					    }
 				    }
 
 				}
