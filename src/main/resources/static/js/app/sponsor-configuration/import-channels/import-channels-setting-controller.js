@@ -54,6 +54,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
     
     vm.channelModel = {};
     $scope.errors = {};
+	$scope.timeFormat = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
 	
     vm.openActiveDate = false;
     vm.openCalendarActiveDate = function() {
@@ -228,14 +229,26 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 				}
 			}
 
-			if(jobTrigger.startHour == null || jobTrigger.startMinute == null){
+			if($scope.createForm.beginTime.$error.pattern){
+				isValid = false;
+				$scope.errors.beginTime = {
+					message : 'Wrong time format data.'
+			    }
+
+			}else if(jobTrigger.startHour == null || jobTrigger.startMinute == null){
 				isValid = false;
 				$scope.errors.beginTime = {
 					message : 'Begin time is required.'
 			    }
 			}
 
-			if(jobTrigger.endHour == null || jobTrigger.endMinute == null){
+			if($scope.createForm.endTime.$error.pattern){
+				isValid = false;
+				$scope.errors.endTime = {
+					message : 'Wrong time format data.'
+			    }
+
+			}else if(jobTrigger.endHour == null || jobTrigger.endMinute == null){
 				isValid = false;
 				$scope.errors.endTime = {
 					message : 'End time is required.'
@@ -265,21 +278,21 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 		if (vm.isUseExpireDate) {
 		    if (!angular.isDefined(channel.expiryDate)) {
 		    	isValid = false;
-				$scope.errors.activeDate = {
+				$scope.errors.expiryDate = {
 				    message : 'Wrong date format data.'
 				}
-		    } else if (angular.isDefined(channel.activeDate)
+		    }else if(channel.expiryDate == null|| channel.expiryDate ==''){				    	
+		    	isValid = false;
+			    $scope.errors.expiryDate = {
+		    		message : 'Expire date is required.'
+			    }
+		    }else if (angular.isDefined(channel.activeDate)
 				    && channel.expiryDate < channel.activeDate) {
 		    	isValid = false;
 				$scope.errors.activeDate = {
 				    message : 'Active date must be less than or equal to expire date.'
 				}
-		    }else if(channel.expiryDate == null|| channel.expiryDate ==''){				    	
-		    	isValid = false;
-			    $scope.errors.activeDate = {
-		    		message : 'Expire date is required.'
-			    }
-		    }
+			}
 		}
 		
 		return isValid;
