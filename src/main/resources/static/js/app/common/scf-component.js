@@ -99,16 +99,26 @@
 			return {
 				restrict : 'AE',
 				replace : true,
-				template : '<textarea class="form-control" style="resize:none;" rows="3" maxlength="255" ng-change="textChange()"></textarea>',
+				scope : {
+					maxLength : '='
+				},
+				template : '<textarea class="form-control" style="resize:none;" rows="3" ng-change="textChange()"></textarea>',
 				controller : textAreaController
 			};
 
 			function textAreaController($scope, $element, $attrs) {
 				var vm = $scope;
-
+				if($scope.maxLength == 'max'){
+					$element.maxlength = undefined;
+				}
+				else{
+					$element.maxlength = $scope.maxLength;
+				}
 				vm.textChange = function() {
-					var textInput = $element[0].value;
-					$element[0].value = textAreaNewLine(textInput);
+					if($scope.maxLength  == 'max'){
+						var textInput = $element[0].value;
+						$element[0].value = textAreaNewLine(textInput);
+					}
 				}
 
 				function textAreaNewLine(text) {
