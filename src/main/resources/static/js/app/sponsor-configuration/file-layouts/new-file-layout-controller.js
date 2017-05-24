@@ -11,7 +11,11 @@ app.controller('NewFileLayoutController', [
 	'FILE_TYPE_ITEM',
 	'DELIMITER_TYPE_TEM',
 	'CHARSET_ITEM', '$injector', '$q',
-	function($log, $rootScope, $scope, $state, $stateParams, ngDialog, Service, PageNavigation, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, $injector, $q) {
+	'UIFactory',
+	'blockUI',
+	function($log, $rootScope, $scope, $state, $stateParams, ngDialog, Service, 
+		PageNavigation, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, $injector, 
+		$q, UIFactory, blockUI) {
 
 		var vm = this;
 		var log = $log;
@@ -541,19 +545,6 @@ app.controller('NewFileLayoutController', [
 			isCompleted : '0'
 		};
 
-		var saveNewFormula = function(formula) {
-			var promise = $q.defer();
-			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas';
-			var serviceDiferred = Service.requestURL(serviceUrl, formula, 'POST');
-			serviceDiferred.promise.then(function(response) {
-				promise.resolve(response);
-			}).catch(function(response) {
-				promise.reject('Save payment date formula error');
-			});
-
-			return promise;
-		}
-
 		vm.openNewFormula = function() {
 
 			vm.formula = {
@@ -610,6 +601,29 @@ app.controller('NewFileLayoutController', [
 		}
 
 		vm.save = function() {
+			UIFactory.showConfirmDialog({
+				data : {
+					headerMessage : 'Confirm save?'
+				},
+				confirm : $scope.confirmSave,
+				onSuccess: function(response){
+					dialogSuccess = UIFactory.showSuccessDialog({
+						data: {
+							headerMessage : 'Update file layout completed.',
+							bodyMessage : ''
+						},
+						preCloseCallback: function(){
+							vm.backToSponsorConfigPage();
+						}
+				    });
+				},
+				onFail : function(response) {
+					blockUI.stop();
+				}
+			});
+		}
+
+		$scope.confirmSave = function() {
 			
 			var sponsorLayout = null;
 			vm.model.completed = true;
@@ -694,17 +708,8 @@ app.controller('NewFileLayoutController', [
 			
 			var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode ? 'POST' : 'PUT');
 
-			fileLayoutDiferred.promise.then(function(response) {
-				var organizeModel = {
-					organizeId : sponsorId
-				}
-				PageNavigation.gotoPage('/sponsor-configuration', {
-					organizeModel : organizeModel
-				});
-			}).catch(function(response) {
-				log.error('Save config fail');
-			});
-			
+			return fileLayoutDiferred;
+
 		};
 
 		var addCreditTermFields = function(configItems) {
