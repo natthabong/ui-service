@@ -11,6 +11,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	var displaySponsor = false;
 	var displaySupplier = false;
     vm.showInfomation = false;
+    var sponsorInfo = null;
+    var supplierInfo = null;
     vm.splitePageTxt = '';
     vm.transactionType = {
             transactionDate: 'transactionDate',
@@ -151,17 +153,18 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	}
 	// Model mapping whith page list
    vm.listTransactionModel = {
-            dateType: vm.transactionType.transactionDate,
-            dateFrom: '',
-            dateTo: '',
-            sponsorId: '',
-            supplierId:'',
-            supplierCode: '',
-            statusGroup: '',
-            order: '',
-            orderBy:''
-        }
-        // Init data paging
+        dateType: vm.transactionType.transactionDate,
+        dateFrom: '',
+        dateTo: '',
+        sponsorId: '',
+        supplierId:'',
+        supplierCode: '',
+        statusGroup: '',
+        order: '',
+        orderBy:''
+    }
+	
+    // Init data paging
     vm.pageSizeList = [{
         label: '10',
         value: '10'
@@ -356,9 +359,18 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 
         if(typeof vm.documentListModel.sponsor == 'object' && vm.documentListModel.sponsor != undefined){
             vm.listTransactionModel.sponsorId = vm.documentListModel.sponsor.organizeId;
+            vm.listTransactionModel.sponsorInfo = {
+            	organizeId: vm.documentListModel.sponsor.organizeId,
+            	organizeName: vm.documentListModel.sponsor.organizeName
+            };
         }
+        
         if(typeof vm.documentListModel.supplier == 'object' && vm.documentListModel.supplier != undefined){
             vm.listTransactionModel.supplierId = vm.documentListModel.supplier.organizeId;
+            vm.listTransactionModel.supplierInfo = {
+            	organizeId: vm.documentListModel.supplier.organizeId,
+            	organizeName: vm.documentListModel.supplier.organizeName
+            };
         }
         
         if (criteria === undefined) {
@@ -548,6 +560,12 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			vm.listTransactionModel = $cookieStore.get(listStoreKey);
 			vm.dateModel.dateFrom = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateFrom);
 			vm.dateModel.dateTo = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateTo);			
+
+			var sponsorInfo = prepareAutoSuggestLabel(vm.listTransactionModel.sponsorInfo);
+			vm.documentListModel.sponsor = sponsorInfo;
+			
+			var supplierInfo = prepareAutoSuggestLabel(vm.listTransactionModel.supplierInfo);
+			vm.documentListModel.supplier = supplierInfo;
 		}
 
         currentParty = $stateParams.party;
@@ -565,7 +583,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		}
 		vm.searchTransaction();
 		$cookieStore.remove(listStoreKey);
-        
     };
 
 	vm.disableSupplierSuggest = function() {
