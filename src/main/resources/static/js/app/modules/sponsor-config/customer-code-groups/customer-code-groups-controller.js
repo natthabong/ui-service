@@ -595,7 +595,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIFactory', '$http', 'SCFCommonService', function($scope, $rootScope, UIFactory, $http, SCFCommonService) {
 	var vm = this;
 	var sponsorId = $scope.ngDialogData.sponsorId;
-	
+	$scope.errors = {};
 	vm.submitForm = false;
 	vm.model = angular.copy($scope.ngDialogData.model);
 	vm.isNewCusotmerCode = $scope.ngDialogData.isNewCusotmerCode;
@@ -662,11 +662,16 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 
 			// vm.model.activeDate =
 			// SCFCommonService.convertStringTodate(vm.model.activeDate);
-			vm.model.activeDate = new Date(vm.model.activeDate);
+			if(vm.model.activeDate != null){
+				vm.model.activeDate = new Date(vm.model.activeDate);
+			}else{
+				vm.model.activeDate = null;
+			}
+			
 			if(vm.model.expiryDate != null){
 				// vm.model.expiryDate =
 				// SCFCommonService.convertStringTodate(vm.model.expiryDate);
-			        vm.model.expiryDate = new Date(vm.model.expiryDate);
+		        vm.model.expiryDate = new Date(vm.model.expiryDate);
 				vm.isUseExpireDate = true;
 			}
 			
@@ -680,7 +685,7 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 		if(vm.isUseExpireDate){
 			vm.model.expiryDate = new Date();
 		}else{
-			vm.model.expiryDate = undefined;
+			vm.model.expiryDate = null;
 		}
 	}
 	
@@ -699,21 +704,6 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 			vm.model.supplierId = vm.customerSuggestModel.supplierId;
 		}
 		
-		if(vm.isUseExpireDate){			
-			if(angular.isDefined(vm.model.expiryDate)){
-				// check date format
-				if(!angular.isDate(vm.model.expiryDate)){
-					vm.wrongDateFormat = true;
-					validatePass = false;
-				}
-				
-				if(vm.model.activeDate > vm.model.expiryDate){
-					vm.invalideExpiryDate = true;
-					validatePass = false;
-				}
-			}
-		}
-		
 		if($scope.newEditCustCode.customer.$error.required){
 			validatePass = false;
 		}
@@ -722,17 +712,39 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 			validatePass = false;
 		}
 
-		if($scope.newEditCustCode.activeDate.$error.required){
+		$scope.errors.activeDate = false;
+		$scope.errors.activeDateLessThan = false;
+		$scope.errors.expiryDate = false;
+		
+		if (!angular.isDefined(vm.model.activeDate)) {
 			validatePass = false;
-		}else{
-			if(!angular.isDate(vm.model.activeDate)){
-				vm.wrongDateFormat = true;
-				validatePass = false;
-			}
-			// check date format
-			if(vm.isUseExpireDate && !angular.isDate(vm.model.expiryDate)){
-				vm.wrongDateFormat = true;
-				validatePass = false;
+		    $scope.errors.activeDate = {
+	    		message : 'Wrong date format data.'
+		    }
+		}else if(vm.model.activeDate =='' || vm.model.activeDate == null){
+			validatePass = false;
+		    $scope.errors.activeDate = {
+	    		message : 'Active date is required.'
+		    }
+		}
+		
+		if (vm.isUseExpireDate) {
+			if (!angular.isDefined(vm.model.expiryDate)) {
+		    	validatePass = false;
+				$scope.errors.expiryDate = {
+				    message : 'Wrong date format data.'
+				}
+		    }else if(vm.model.expiryDate == null|| vm.model.expiryDate ==''){				    	
+		    	validatePass = false;
+			    $scope.errors.expiryDate = {
+		    		message : 'Expire date is required.'
+			    }
+		    }else if (angular.isDefined(vm.model.activeDate)
+				    && vm.model.expiryDate < vm.model.activeDate) {
+		    	validatePass = false;
+		    	$scope.errors.activeDateLessThan = {
+				    message : 'Active date must be less than or equal to expire date.'
+				}
 			}
 		}
 		

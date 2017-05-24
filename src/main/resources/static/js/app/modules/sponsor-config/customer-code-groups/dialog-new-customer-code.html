@@ -80,8 +80,8 @@
 						<div class="col-md-3 col-sm-3 col-xs-12">
 							<scf-date-picker-from text-id="customer-code-active-date-textbox"
 								button-id="customer-code-active-date-button"
-								text-model="ctrl.model.activeDate" text-name="activeDate"
-								text-required="required" date-format="{{ctrl.dateFormat}}"
+								text-model="ctrl.model.activeDate"
+								date-format="{{ctrl.dateFormat}}"
 								is-open="ctrl.isOpenActiveDate"
 								open-calendar-action="ctrl.openActiveDate()"
 								max-date="ctrl.model.expiryDate"> </scf-date-picker-from>
@@ -103,25 +103,46 @@
 								min-date="ctrl.model.activeDate"> </scf-date-picker-to>
 						</div>
 					</div>
-					<div class="form-group"
-						ng-show="ctrl.submitted && newEditCustCode.activeDate.$error.required">
-						<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
-						<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-							id="customer-code-active-date-warning-message-label">{{'Active
-							date is required' | translate}}.</span>
+					<div class="form-group">
+						<div ng-show="errors.activeDate">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+								id="active-date-warning-message-label"
+								ng-bind="errors.activeDate.message"> </span> 
+						</div>
+						<div ng-show="errors.activeDateLessThan">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<span class="col-md-6 col-sm-3 col-xs-12 error-msg"
+								id="active-date-warning-message-label"
+								ng-bind="errors.activeDateLessThan.message"> </span> 
+						</div>
+						<div ng-show="errors.expiryDate">
+							<label class="col-md-5 col-sm-3 col-xs-12 control-label" ng-show="!errors.activeDate"></label>
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+								id="expire-date-warning-message-label"
+								ng-bind="errors.expiryDate.message"> </span> 
+						</div>
 					</div>
-					<div class="form-group" ng-show="ctrl.invalideExpiryDate">
-						<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
-						<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-							id="customer-code-expire-date-warning-message-label">{{'Active
-							date must be less than or equal to expire date' | translate}}.</span>
-					</div>
-					<div class="form-group" ng-show="ctrl.wrongDateFormat">
-						<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
-						<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-							id="customer-code-wrong-date-format-warning-message-label">{{'Wrong
-							date format data' | translate}}.</span>
-					</div>
+<!-- 					<div class="form-group" -->
+<!-- 						ng-show="ctrl.submitted && newEditCustCode.activeDate.$error.required"> -->
+<!-- 						<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label> -->
+<!-- 						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" -->
+<!-- 							id="customer-code-active-date-warning-message-label">{{'Active -->
+<!-- 							date is required' | translate}}.</span> -->
+<!-- 					</div> -->
+<!-- 					<div class="form-group" ng-show="ctrl.invalideExpiryDate"> -->
+<!-- 						<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label> -->
+<!-- 						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" -->
+<!-- 							id="customer-code-expire-date-warning-message-label">{{'Active -->
+<!-- 							date must be less than or equal to expire date' | translate}}.</span> -->
+<!-- 					</div> -->
+<!-- 					<div class="form-group" ng-show="ctrl.wrongDateFormat"> -->
+<!-- 						<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label> -->
+<!-- 						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" -->
+<!-- 							id="customer-code-wrong-date-format-warning-message-label">{{'Wrong -->
+<!-- 							date format data' | translate}}.</span> -->
+<!-- 					</div> -->
 
 					<div class="form-group">
 						<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
