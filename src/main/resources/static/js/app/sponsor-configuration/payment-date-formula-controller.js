@@ -218,9 +218,9 @@ app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope', 'Ser
 	var sponsorId  = angular.copy($scope.ngDialogData.formula.sponsorId);
 	vm.showMessageError = false;
 	vm.messageError = null;
+	vm.paymentDateFormulaId = angular.copy($scope.ngDialogData.paymentDateFormulaId);
 
 	vm.create = function(callback){
-		console.log(vm.formula.formulaName)
 		if(vm.formula.formulaName == null ||vm.formula.formulaName == ""){
 			vm.showMessageError = true;
 			vm.messageError = "Formula name is required";
@@ -249,7 +249,8 @@ app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope', 'Ser
 							bodyMessage : ''
 						},
 						preCloseCallback: function(){
-							callback();	
+							vm.paymentDateFormulaId = response.data.paymentDateFormulaId;
+							callback(vm.paymentDateFormulaId);	
 						}
 				    });
 				}

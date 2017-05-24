@@ -572,20 +572,13 @@ app.controller('NewFileLayoutController', [
 				controllerAs : 'ctrl',
 				scope : $scope,
 				data : {
-					formula : vm.formula
+					formula : vm.formula,
+					paymentDateFormulaId : ''
 				},
 				cache : false,
 				preCloseCallback : function(value) {
-					if (angular.isDefined(value)) {
-						vm.formula = value;
-						var formulaPromise = saveNewFormula(value);
-
-						formulaPromise.promise.then(function(response) {
-							var formulaData = response;
-							vm.model.paymentDateConfig.paymentDateFormulaId = formulaData.paymentDateFormulaId;
-							vm.refershFormulaDropDown();
-						});
-					}
+					vm.model.paymentDateConfig.paymentDateFormulaId = value;
+					vm.refershFormulaDropDown();
 					return true;
 				}
 			});
