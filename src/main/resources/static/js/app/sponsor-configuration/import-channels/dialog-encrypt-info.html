@@ -47,7 +47,7 @@
 								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 								ng-bind="'PGP Private key' | translate"></span>:</label>
 							<div class="col-md-6 col-sm-4 col-xs-12">
-								<scf-text-area id="setup-file-encryption-popup-pgp-private-key-textbox" ng-model="ctrl.encryptInfo.decryptPrivateKey">
+								<scf-text-area id="setup-file-encryption-popup-pgp-private-key-textbox" max-length="max" ng-model="ctrl.encryptInfo.decryptPrivateKey">
 								</scf-text-area>
 							</div>
 						</div>
