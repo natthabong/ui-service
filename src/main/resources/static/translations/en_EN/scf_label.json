@@ -422,7 +422,7 @@
 	"Clear existing documents before import file": "Clear existing documents before import file",
 	
 	"Setup FTP user": "Setup FTP user",
-	"Username Require": "Username is required",
+	"Username Require": "User name is required",
 	"Setup File encryption": "Setup File encryption",
 	"File encryption": "File encryption",
 	"PGP Password": "PGP Password",
