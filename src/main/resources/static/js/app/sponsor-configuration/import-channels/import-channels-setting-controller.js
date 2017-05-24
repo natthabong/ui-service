@@ -413,7 +413,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 				if(response.data.jobTrigger.jobDetail.postProcessType == 'BACKUP'){
 					vm.postProcessBackup = true;
 
-				}else if(response.data.jobTrigger.jobDetail.postProcessType == 'NONE'){
+				}else if(response.data.jobTrigger.jobDetail.remoteBackupPath == null){
 					vm.channelModel.jobTrigger.jobDetail.remoteBackupPath = '/backup'
 				}
 
