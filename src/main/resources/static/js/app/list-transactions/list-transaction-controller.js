@@ -28,7 +28,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		waitForApprove: 'WAIT_FOR_APPROVE',
 		rejectByChecker: 'REJECT_BY_CHECKER',
 		rejectByApprover: 'REJECT_BY_APPROVER',
-		canceledBySupplier:'CANCELED_BY_SUPPLIER'
+		canceledBySupplier:'CANCELLED_BY_SUPPLIER'
 	}
 	var currentParty = '';
     var partyRole = {
