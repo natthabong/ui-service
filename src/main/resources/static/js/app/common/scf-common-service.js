@@ -369,7 +369,7 @@ app.filter('documentDateRuleType', [function() {
 }]);
 
 app.filter('paymentDateFormula', [function() {
-	var startMonthType = {'NEXT': 'NEXT', 'CURRENT': 'CURRENT'}
+	var startMonthType = {'NEXT': 'NEXT', 'CURRENT': 'CURRENT', 'PREVIOUS':'PREVIOUS'}
 	var termTypeMsg = {'DAY': 'DAY', 'WEEK': 'WEEK'}
 	
 	var dateOfMonthMsg = function(formula){
@@ -377,7 +377,8 @@ app.filter('paymentDateFormula', [function() {
 		if(formula.startDateOfMonth == 99){
 			displayMessage = angular.lowercase(formula.startDayOfWeek);
 			displayMessage += ' end of this month ';
-		}else{
+		}
+		else{
 			displayMessage = addOrdinalNumberSuffix(formula.startDateOfMonth);
 			displayMessage += ' ';
 			displayMessage += 'of this month ';
@@ -387,26 +388,45 @@ app.filter('paymentDateFormula', [function() {
 	
 	return function(formula){
 		var displayMessage = '';
-		
-		if(formula.startMonthType == startMonthType.CURRENT){
-			displayMessage = dateOfMonthMsg(formula);
-			
-		}else if(formula.startMonthType == startMonthType.NEXT){
-			if(formula.startDayOfWeek == null){
-				displayMessage = addOrdinalNumberSuffix(formula.startDateOfMonth);
-				displayMessage += ' of next month ';
-			}else{
-				displayMessage = 'next ';
-				displayMessage += angular.lowercase(formula.startDayOfWeek);
-				displayMessage += ' after ';
-// displayMessage += addOrdinalNumberSuffix(formula.startDateOfMonth);
-				displayMessage += dateOfMonthMsg(formula);
-			}					
-// displayMessage += ' ';
+		if(formula.startDateType === 'ON_DOCUMENT_DATE'){
+			displayMessage = 'On document date ';
+		}else{
+			if(formula.startMonthType == startMonthType.CURRENT){
+				displayMessage = dateOfMonthMsg(formula);
+			}else if(formula.startMonthType == startMonthType.NEXT){
+				if(formula.startDayOfWeek == null){
+					displayMessage = addOrdinalNumberSuffix(formula.startDateOfMonth);
+					displayMessage += ' of next month ';
+				}else{
+					displayMessage = 'next ';
+					displayMessage += angular.lowercase(formula.startDayOfWeek);
+					displayMessage += ' after ';
+					displayMessage += dateOfMonthMsg(formula);
+				}
+				if(formula.startNumberOfNextMonth >=2){
+					displayMessage = addOrdinalNumberSuffix(formula.startDateOfMonth);
+					displayMessage += ' of next '+formula.startNumberOfNextMonth+' months ';
+				}
+			}else if(formula.startMonthType == startMonthType.PREVIOUS){
+				if(formula.startDayOfWeek == null){
+					displayMessage = addOrdinalNumberSuffix(formula.startDateOfMonth);
+					displayMessage += ' of previous month ';
+				}else{
+					displayMessage = 'next ';
+					displayMessage += angular.lowercase(formula.startDayOfWeek);
+					displayMessage += ' after ';
+					displayMessage += dateOfMonthMsg(formula);
+				}
+				if(formula.startNumberOfNextMonth >=2){
+					displayMessage = addOrdinalNumberSuffix(formula.startDateOfMonth);
+					displayMessage += ' of previous '+formula.startNumberOfNextMonth+' months ';
+				}
+			}
+	
+			displayMessage += 'from document date ';
 		}
-
-		displayMessage += 'of Document date + ';
-		if(formula.term != null){
+		if(formula.term != null && formula.term > 0){
+			displayMessage += '+ '
 			displayMessage += formula.term;
 			if(formula.termType == termTypeMsg.DAY){
 				displayMessage += ' days';
@@ -414,6 +434,7 @@ app.filter('paymentDateFormula', [function() {
 				displayMessage += ' weeks';
 			}			
 		}
+	
 		return displayMessage;
 	}
 }]);

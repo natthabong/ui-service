@@ -23,6 +23,12 @@
 								ng-model="ctrl.model.creditterm.creditTermCode" maxlength="255"></scf-input-text>
 						</div>
 					</div>
+					<div class="form-group" ng-show="ctrl.isRequired">
+						<label class="col-md-3 col-sm-3 col-xs-12 control-label"></label>
+						<span class="col-md-8 col-sm-8 col-xs-12 error-msg"
+							id="credit-term-code-warning-message-label">{{'Credit term code is
+							required' | translate}}.</span>
+					</div>
 					<div class="form-group">
 						<label id="select-formula-label" for="expected-value"
 							class="col-md-12 col-sm-12 col-xs-12 control-label"> <span
@@ -101,7 +107,6 @@
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4 control-label" id="from-period-date-label">
 														<span  ng-bind="'From period date' | translate"></span>:
-														</lable>
 													</div>
 
 													<div class="col-md-3 col-sm-3 col-xs-3">
@@ -113,7 +118,6 @@
 
 													<div class="col-md-1 col-sm-1 col-xs-1">
 														<span id="to-period-date-label" ng-bind="'to' | translate"></span>:
-														</lable>
 													</div>
 													<div class="col-md-3 col-sm-3 col-xs-3">
 														<scf-dropdown id="end-date-dropdown"
@@ -123,6 +127,12 @@
 													</div>
 												</div>
 											</div>
+										</div>
+										<div class="form-group" ng-show="ctrl.isDateLessThan">
+											<label class="col-md-4 col-sm-4 col-xs-4 control-label"></label>
+											<span class="col-md-7 col-sm-7 col-xs-7 error-msg" 
+											ng-bind="'From date must be less than or equal to To date.' | translate">
+											</span>
 										</div>
 
 										<div class="form-group" ng-show="ctrl.isFromDocumentDate || ctrl.isAfterDocumentDate">

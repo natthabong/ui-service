@@ -85,20 +85,21 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	vm.configCreditTerm = angular.copy($scope.ngDialogData.configCreditTerm);
 	
 	vm.editMode = $scope.ngDialogData.editMode;
+
 	if (!vm.editMode) {
 		var credittermModel = {
 			paymentDateFormulaId : formulaId,
 			documentDateType : vm.documentDateType.EVERY_DAY,
 			startDateType: StartDateDropdown[0].value,
-			documentDateStartPeriod: DocumentDatePeriodDropdown[0].value,
-			documentDateEndPeriod: DocumentDatePeriodDropdown[0].value,
+			documentDateStartPeriod: null,
+			documentDateEndPeriod: null,
 			startDayOfWeek: null,
-			startDateOfMonth: DocumentDatePeriodDropdown[0].value,
-			startMonthType: StartMonthTypeDropdown[0].value,
-			startNumberOfNextMonth: 0,
-			term: 0,
-			termType: TermTypeDropdown[0].value,
-			periodType: vm.periodType.EVERY_PERIOD,
+			startDateOfMonth: null,
+			startMonthType: null,
+			startNumberOfNextMonth: null,
+			term: null,
+			termType: null,
+			periodType: null,
 			paymentPeriods:[]
 		}
 		vm.model.creditterm = credittermModel;
@@ -114,36 +115,85 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	vm.startDayOfWeekDropdown = StartDayOfWeekDropdown;
 	vm.startMonthTypeDropdown = StartMonthTypeDropdown;
 	vm.termTypeDropdown = TermTypeDropdown;
+	vm.isRequired = false;
+	vm.isDateLessThan = false;
+	var fristTime = true;
 	
 	vm.checkCreditTerm = function(){
 	    if(vm.useCreditTerm){
-	    	if(vm.model.creditterm.term == '0'){
-	    		vm.model.creditterm.term = '2';
-	    	}
-	    }
+			if(vm.model.creditterm.term == null || vm.model.creditterm.term == ""){
+				vm.model.creditterm.term = '2';
+				vm.model.creditterm.termType = 'DAY';
+			}
+	    }else{
+			vm.model.creditterm.term = null;
+			vm.model.creditterm.termType = null;
+		}
 	}
 	
 	vm.checkPaymentPeriod = function(){
-		
 	    if(vm.usePaymentPeriod){
 	    	if(vm.model.creditterm.periodType == null){
 	    		vm.model.creditterm.periodType = 'EVERY_PERIOD';
 	    	}
-	    }
+	    }else{
+			vm.model.creditterm.periodType = null;
+			vm.model.creditterm.paymentPeriods = [];
+		}
+	}
+
+	var defaultModel = function(){
+		documentDateType = vm.documentDateType.EVERY_DAY;
+		vm.model.creditterm.documentDateStartPeriod= null;
+		vm.model.creditterm.documentDateEndPeriod= null;
+		vm.model.creditterm.startDayOfWeek= null;
+		vm.model.creditterm.startDateOfMonth= null;
+		vm.model.creditterm.startMonthType= null;
+		vm.model.creditterm.startNumberOfNextMonth= null;
+
+		if(vm.model.creditterm.startDateType === 'ON_DOCUMENT_DATE'){
+			vm.isFromDocumentDate = false;
+			vm.isAfterDocumentDate = false;
+		}else if(vm.model.creditterm.startDateType === 'FROM_DOCUMENT_DATE'){
+			vm.isFromDocumentDate = true;
+			vm.isAfterDocumentDate = false;
+			vm.model.creditterm.startDateOfMonth= 1;
+			vm.model.creditterm.startMonthType=StartMonthTypeDropdown[0].value;
+			vm.model.creditterm.startNumberOfNextMonth = 0;
+		}else if(vm.model.creditterm.startDateType === 'AFTER_DOCUMENT_DATE'){
+			vm.isFromDocumentDate = false;
+			vm.isAfterDocumentDate = true;
+			vm.model.creditterm.documentDateType = vm.documentDateType.RANGE;
+			vm.model.creditterm.documentDateStartPeriod= 1;
+			vm.model.creditterm.documentDateEndPeriod= 1;
+			vm.model.creditterm.startDateOfMonth= 1;
+			vm.model.creditterm.startMonthType=StartMonthTypeDropdown[0].value;
+			vm.model.creditterm.startNumberOfNextMonth = 0;
+		}
 	}
 	
 	vm.changeStartDateType = function(){
-	    if(vm.model.creditterm.startDateType === 'ON_DOCUMENT_DATE'){
-	    	vm.isFromDocumentDate = false;
-	    	vm.isAfterDocumentDate = false;
-	    }else if(vm.model.creditterm.startDateType === 'FROM_DOCUMENT_DATE'){
-	    	vm.isFromDocumentDate = true;
-	    	vm.isAfterDocumentDate = false;
-	    }else if(vm.model.creditterm.startDateType === 'AFTER_DOCUMENT_DATE'){
-	    	vm.isFromDocumentDate = false;
-	    	vm.isAfterDocumentDate = true;
-	    }
+		if(vm.editMode){
+			if(fristTime){
+				if(vm.model.creditterm.startDateType === 'ON_DOCUMENT_DATE'){
+					vm.isFromDocumentDate = false;
+					vm.isAfterDocumentDate = false;
+				}else if(vm.model.creditterm.startDateType === 'FROM_DOCUMENT_DATE'){
+					vm.isFromDocumentDate = true;
+					vm.isAfterDocumentDate = false;
+				}else if(vm.model.creditterm.startDateType === 'AFTER_DOCUMENT_DATE'){
+					vm.isFromDocumentDate = false;
+					vm.isAfterDocumentDate = true;
+				}
+			}else{
+				defaultModel();
+			}
+			fristTime = false;
+		}else{
+			defaultModel();
+		}
 	}
+
 	
 	vm.changeMonth = function(){
 	    if(vm.model.creditterm.startMonthType === 'CURRENT'){
@@ -223,12 +273,31 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 		    	}
 		    }
 		}
+
+		if(vm.model.creditterm.creditTermCode == null || vm.model.creditterm.creditTermCode=="" || vm.model.creditterm.creditTermCode == undefined){
+			vm.isRequired = true;
+			isValid = false;
+		}else{
+			vm.isRequired = false;
+		}
+
+		if(vm.model.creditterm.documentDateStartPeriod > vm.model.creditterm.documentDateEndPeriod){
+			vm.isDateLessThan = true;
+			isValid = false;
+		}else{
+			vm.isDateLessThan = false;
+		}
 		
 		return isValid;
+	}
+
+	var saveDataToModel = function(){
+
 	}
 	
 	vm.saveCreditterm = function(creditterm, callback){
 		if(validSave()){
+			saveDataToModel();
 			UIFactory.showConfirmDialog({
 				data : {
 				    headerMessage : 'Confirm save?'
