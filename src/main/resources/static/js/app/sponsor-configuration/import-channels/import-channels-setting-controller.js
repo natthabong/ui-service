@@ -107,7 +107,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 		return ("0" + data).slice(-2);
 	}
 
-	var setupPrepareFTPData = function(){
+	var setupPrepareData = function(){
 		if(vm.isSetupFTP){
 			vm.channelModel.jobTrigger.startHour = null;
 			vm.channelModel.jobTrigger.startMinute = null;
@@ -151,6 +151,10 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 				vm.channelModel.jobTrigger.endMinute = endTime[1];
 			}
 
+		}
+
+		if(!vm.isUseExpireDate){
+			vm.channelModel.expiryDate = null;
 		}
 	}
 	
@@ -303,7 +307,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	}
 
 	vm.saveChannel = function(){
-		setupPrepareFTPData();
+		setupPrepareData();
 		if(validSave()){
 			var preCloseCallback = function(confirm) {
 				vm.backToSponsorConfigPage();

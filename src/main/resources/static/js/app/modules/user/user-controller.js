@@ -233,7 +233,9 @@ userModule
 					userId: (vm.isEditMode? $scope.user.userId: null)
 				    });
 				});
-				
+				if (!vm.isUseExpireDate) {
+					$scope.user.expiryDate = null;
+				}
 				
 				if (_validate(user)) {
 				    var preCloseCallback = function(confirm) {
