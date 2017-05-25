@@ -13,8 +13,8 @@ app.constant('POST_PROCESS_DROPDOWN',[
 	]);
 app.constant('BACKUP_PATH_PATTERN_DROPDOWN',[
 	{label:'/', value: '/'},
-	{label:'/YYYYMMDD', value: '/YYYYMMDD'},
-	{label:'/DDMMYYYY', value: '/DDMMYYYY'}
+	{label:'/YYYYMMDD', value: '/YYYYMMdd'},
+	{label:'/DDMMYYYY', value: '/ddMMYYYY'}
 	]);
 app.constant('FREQUENCY_DROPDOWN',[
 	{label:'Daily', value: 'DAILY'}
