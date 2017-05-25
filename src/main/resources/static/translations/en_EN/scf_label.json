@@ -138,10 +138,10 @@
 	"canceled_by_supplier": "Cancel by supplier",
 	"wait_for_drawdown_result": "Wait for drawdown result",
 	
-	"CANCELED_BY_BANK" : "Cancelled by bank",
-	"CANCELED_BY_SUPPLIER" : "Cancelled by supplier",
+	"CANCELLED_BY_BANK" : "Cancelled by bank",
+	"CANCELLED_BY_SUPPLIER" : "Cancelled by supplier",
 	"DRAWDOWN_SUCCESS": "Drawdown success",
-	"FAIL_TO_CANCELED": "Fail to cancelled",
+	"FAIL_TO_CANCELLED": "Fail to cancelled",
 	"FAIL_TO_DRAWDOWN": "Fail to drawdown",
 	"FAIL_TO_DRAWDOWN_RETRIABLE": "Fail to drawdown (retriable)",
 	"INCOMPLETE": "Incomplete",
