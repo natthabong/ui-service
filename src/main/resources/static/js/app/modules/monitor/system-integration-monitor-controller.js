@@ -301,8 +301,10 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 
 		vm.recheck = function(value) {
 			if(value.jobId == null){
+				vm.webServiceModel[value.recordNo].status = "loading";
 				verifySystemStatusWebServiceRecheck(value);
 			}else{
+				vm.ftpModel[value.recordNo].status = "loading";
 				verifySystemStatusFTPRecheck(value);
 			}
 		}
