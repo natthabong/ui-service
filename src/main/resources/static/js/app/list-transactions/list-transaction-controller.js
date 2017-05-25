@@ -395,13 +395,17 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		if (angular.isUndefined(dateTo)) {
 			vm.wrongDateFormat = true;
 		}
-		
-        if(vm.listTransactionModel.dateFrom != '' &&  vm.listTransactionModel.dateTo != ''){
-        	
-			if(vm.listTransactionModel.dateFrom > vm.listTransactionModel.dateTo){
+
+		if(dateFrom != '' &&  dateFrom != null && dateTo != '' && dateTo != null){
+
+			var dateTimeFrom = new Date(dateFrom);
+			var dateTimeTo = new Date(dateTo);
+
+			if(dateTimeFrom > dateTimeTo){
 				vm.wrongDateFormat = true;
 			}
 		}
+
         if (!vm.wrongDateFormat) {
         	vm.searchTransactionService();
         }
