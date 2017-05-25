@@ -122,7 +122,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	vm.checkCreditTerm = function(){
 	    if(vm.useCreditTerm){
 			if(vm.model.creditterm.term == null || vm.model.creditterm.term == ""){
-				vm.model.creditterm.term = '2';
+				vm.model.creditterm.term = '1';
 				vm.model.creditterm.termType = 'DAY';
 			}
 	    }else{

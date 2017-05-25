@@ -428,11 +428,20 @@ app.filter('paymentDateFormula', [function() {
 		if(formula.term != null && formula.term > 0){
 			displayMessage += '+ '
 			displayMessage += formula.term;
-			if(formula.termType == termTypeMsg.DAY){
-				displayMessage += ' days';
+			if(formula.term==1){
+				if(formula.termType == termTypeMsg.DAY){
+					displayMessage += ' day';
+				}else{
+					displayMessage += ' week';
+				}
 			}else{
-				displayMessage += ' weeks';
-			}			
+				if(formula.termType == termTypeMsg.DAY){
+					displayMessage += ' days';
+				}else{
+					displayMessage += ' weeks';
+				}	
+			}
+					
 		}
 	
 		return displayMessage;
