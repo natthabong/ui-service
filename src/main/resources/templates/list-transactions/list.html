@@ -399,7 +399,7 @@
 	<input type="hidden" ng-init="ctrl.approve=true"
 		sec:authorize="hasAuthority('APPROVE_LOANS_OF_MY_ORGANIZE')" />
 	<input type="hidden" ng-init="ctrl.canRetry=true"
-		sec:authorize="hasAuthority('RETRY_LOANS_OF_MY_ORGANIZE')" />
+		sec:authorize="hasAnyAuthority('RETRY_LOANS_OF_MY_ORGANIZE', 'RETRY_ALL_LOANS')" />
 	<input type="hidden" ng-init="ctrl.canView=true"
 		sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS', 'VIEW_LOANS_OF_MY_ORGANIZE', 'VIEW_LOANS_REFER_TO_MY_ORGANIZE')" />
 	<input type="hidden" ng-init="ctrl.canPrint=true"
