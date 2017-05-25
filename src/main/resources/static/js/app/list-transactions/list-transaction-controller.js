@@ -487,14 +487,14 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 				}else if (currentParty == partyRole.bank) {
 					var summaryStatusGroupDeffered = ListTransactionService.summaryStatusGroup(transactionModel);
 					summaryStatusGroupDeffered.promise.then(function(response) {
-						var summaryStatusGroup = response.data;	
+						var summaryStatusGroup = response.data;
 						summaryStatusGroup.forEach(function(summary) {
                         	vm.summaryStatusGroup[summary.statusGroup].totalRecord = summary.totalRecord;
                         	vm.summaryStatusGroup[summary.statusGroup].totalAmount = summary.totalAmount;							
-						}).catch(function(response) {
-	                        $log.error('Summary Group Status Error');
-	                    });
-					});
+						});
+					}).catch(function(response) {
+                        $log.error('Summary Group Status Error');
+                    });
 				}
             }).catch(function(response) {
                 $log.error('Cannot search document');
