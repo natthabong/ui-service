@@ -396,13 +396,13 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			vm.wrongDateFormat = true;
 		}
 
-		if(dateFrom != '' && dateTo != ''){
+		if(dateFrom != '' &&  dateFrom != null && dateTo != '' && dateTo != null){
+
 			var dateTimeFrom = new Date(dateFrom);
 			var dateTimeTo = new Date(dateTo);
 
 			if(dateTimeFrom > dateTimeTo){
-				vm.wrongDateFormat = false;
-				vm.wrongDateFromTo = true;
+				vm.wrongDateFormat = true;
 			}
 		}
 
