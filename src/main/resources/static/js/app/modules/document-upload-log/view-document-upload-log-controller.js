@@ -47,18 +47,18 @@ angular
 			        columns: [{
 						fieldName: 'lineNo',
 			            labelEN: 'Line no.',
-		            	labelTH: 'Line no.',
+		            	    labelTH: 'Line no.',
 			            idValueField: '$rowNo',
-			            id: 'view-document-upload-log-line-no-{value}',
+			            id: 'line-no-{value}',
 			            sortData: false,
 			            cellTemplate: '<span ng-bind="data.lineNo == null ? \'N/A\': data.lineNo">N/A</span>',
 						cssTemplate: 'text-left'
 			        },{
 			        	fieldName: 'description',
 			            labelEN: 'Description',
-		            	labelTH: 'Description.',
+		            	    labelTH: 'Description.',
 			            idValueField: '$rowNo',
-			            id: 'view-document-upload-log-description-{value}',
+			            id: 'description-{value}',
 		            	sortData: false,
 		            	cssTemplate: 'text-left'
 			        }]
