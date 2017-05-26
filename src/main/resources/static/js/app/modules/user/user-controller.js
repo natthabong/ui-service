@@ -151,7 +151,6 @@ userModule
 			    		vm.isEditMode = false;
 			    		vm.isNewMode = true;
 						$scope.user.expiryDate = null;
-						$scope.user.activeDate = null;
 			    	}
 			    }
 
