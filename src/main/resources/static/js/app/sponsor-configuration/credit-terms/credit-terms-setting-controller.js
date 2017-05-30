@@ -105,7 +105,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 		vm.model.creditterm = credittermModel;
 	}
 		
-	vm.headerMsgLabel = vm.editMode == true ? 'Edit credit term code' : 'Add new credit term';
+	vm.headerMsgLabel = vm.editMode == true ? 'Edit credit term' : 'Add new credit term';
 	vm.isErrorMonth = false;
 	vm.isErrorCreditTerm = false;
 	vm.isFromDocumentDate = false;

@@ -313,8 +313,8 @@
 	"Date of month": "Date of month",
 	"Day of week": "Day of week",
 	"Add another Period": "Add another Period",
-	"New credit term code": "New credit term code",
-	"Edit credit term code": "Edit credit term code",
+	"New credit term": "New credit term",
+	"Edit credit term": "Edit credit term",
 	"New Creditterm Formula label": "Formula (Start date + Credit term + Payment period)",
 	"Start date": "Start date",
 	"on Document date": "on Document date",
@@ -406,8 +406,8 @@
 	"Problem message": "Problem message",
 	"Re-check": "Re-check",
 	
-	"Add new credit term code success": "Add new credit term code success",
-	"Edit credit term code success": "Edit credit term code success",
+	"Add new credit term success": "Add new credit term success",
+	"Edit credit term success": "Edit credit term success",
 	"Simulate": "Simulate",
 	"Sponsor payment date simulation": "Sponsor payment date simulation",
 	
