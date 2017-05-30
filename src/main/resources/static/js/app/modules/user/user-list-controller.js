@@ -99,7 +99,7 @@ userModule
 			    			blockUI.stop();
 			    			UIFactory.showSuccessDialog({
 			    				data : {
-			    					headerMessage : 'Reset password success.',
+			    					headerMessage : 'Reset password complete.',
 			    					bodyMessage : ''
 			    				},
 			    				preCloseCallback : preCloseCallback
