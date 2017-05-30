@@ -451,7 +451,7 @@ app.controller('PaymentDateFormulaSettingController', [
 				};
 				UIFactory.showFailDialog({
 					data : {
-						headerMessage : 'Delete period failed.',
+						headerMessage : 'Delete period fail.',
 						bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
 					},
 					preCloseCallback : preCloseCallback
@@ -461,7 +461,7 @@ app.controller('PaymentDateFormulaSettingController', [
 			    	blockUI.stop();
 				UIFactory.showSuccessDialog({
 					data : {
-						headerMessage : 'Delete period completed.',
+						headerMessage : 'Delete period success.',
 						bodyMessage : ''
 					},
 					preCloseCallback : preCloseCallback
@@ -490,7 +490,7 @@ app.controller('PaymentDateFormulaSettingController', [
 				};
 				UIFactory.showFailDialog({
 					data : {
-						headerMessage : 'Delete credit term failed.',
+						headerMessage : 'Delete credit term fail.',
 						bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
 					},
 					preCloseCallback : preCloseCallback
@@ -500,7 +500,7 @@ app.controller('PaymentDateFormulaSettingController', [
 			    	blockUI.stop();
 				UIFactory.showSuccessDialog({
 					data : {
-						headerMessage : 'Delete credit term completed.',
+						headerMessage : 'Delete credit term success.',
 						bodyMessage : ''
 					},
 					preCloseCallback : preCloseCallback
@@ -557,7 +557,7 @@ app.controller('PaymentDateFormulaSettingController', [
 
 		vm.configPeriod = function(data) {
 			vm.mode = 'NEW';
-			vm.headerMessage = 'New payment period';
+			vm.headerMessage = 'Add new period';
 			vm.period = {
 				sponsorId : sponsorId,
 				paymentDateFormulaId : formulaId,
@@ -568,7 +568,7 @@ app.controller('PaymentDateFormulaSettingController', [
 			};			
 			if (data != null) {
 				vm.mode = 'EDIT';
-				vm.headerMessage = 'Edit payment period';
+				vm.headerMessage = 'Edit period';
 				vm.period = {
 					sponsorId : sponsorId,
 					paymentPeriodId : data.paymentPeriodId,
@@ -649,7 +649,7 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 	if(vm.mode == 'NEW'){
 		vm.headerMessagePopupSuccess = 'Add new period success.';
 	}else{
-		vm.headerMessagePopupSuccess = 'Update period success.';
+		vm.headerMessagePopupSuccess = 'Edit period complete.';
 	}
 	
 	vm.periodType = {
@@ -701,15 +701,22 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 	vm.initLoad();
 	
 	vm.saveNewPeriod = function(callback) {
-    	        var preCloseCallback = function(confirm) {
-        	        blockUI.stop();
-        	        if(callback){
-        	            callback();
-        	        }
-        		if(angular.isDefined($scope.ngDialogData.callback)){
-        		    $scope.ngDialogData.callback();
-        		}
-    	        }
+		var headerMessagePopupFail;
+		if(vm.mode == 'NEW'){
+			headerMessagePopupFail = 'Add new period fail.';
+		}else{
+			headerMessagePopupFail = 'Edit period fail.';
+		}
+	
+		var preCloseCallback = function(confirm) {
+			blockUI.stop();
+			if(callback){
+				callback();
+			}
+			if(angular.isDefined($scope.ngDialogData.callback)){
+				$scope.ngDialogData.callback();
+			}
+		}
 		UIFactory.showConfirmDialog({
 			data : {
 			    headerMessage : 'Confirm save?'
@@ -723,7 +730,7 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 				};
 				UIFactory.showFailDialog({
 					data : {
-						headerMessage : 'Update period failed.',
+						headerMessage : headerMessagePopupFail,
 						bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
 					},
 					preCloseCallback : preCloseCallback

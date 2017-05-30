@@ -105,7 +105,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 		vm.model.creditterm = credittermModel;
 	}
 		
-	vm.headerMsgLabel = vm.editMode == true ? 'Edit credit term code' : 'New credit term code';
+	vm.headerMsgLabel = vm.editMode == true ? 'Edit credit term code' : 'Add new credit term';
 	vm.isErrorMonth = false;
 	vm.isErrorCreditTerm = false;
 	vm.isFromDocumentDate = false;
@@ -221,7 +221,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 	
 	vm.configPeriod = function(callback){
 		vm.mode = 'NEW';
-		vm.headerMessage = 'New payment period';
+		vm.headerMessage = 'Add new period';
 		vm.period = {
 			sponsorId : sponsorId,
 			paymentDateFormulaId : formulaId,
@@ -306,9 +306,9 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 				onSuccess : function(response) {
 				    blockUI.stop();
 				    creditTerm = response;
-				    var headerMessage = 'Add new credit term code success';
+				    var headerMessage = 'Add new credit term code success.';
 				    if(vm.editMode){
-				    	headerMessage = 'Edit credit term code success';
+				    	headerMessage = 'Edit credit term complete.';
 				    }
 
 				    ngDialog.open({
@@ -337,14 +337,18 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 					});
 				},
 				onFail : function(response) {
-				    	blockUI.stop();
+				    blockUI.stop();
+				    var headerMessage = 'Add new credit term fail.';
+				    if(vm.editMode){
+				    	headerMessage = 'Edit credit term fail.';
+				    }
 					var msg = {
 						409 : 'Credit term has been deleted.',
 						405 : 'Credit term has been used.'
 					};
 					UIFactory.showFailDialog({
 						data : {
-							headerMessage : 'Update credit term failed.',
+							headerMessage : headerMessage,
 							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
 						},
 						preCloseCallback : callback
