@@ -351,7 +351,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		    var msg = {409:'Supplier code has already been deleted.', 405:'Supplier code is used.'};
 		    UIFactory.showFailDialog({
 			data: {
-			    headerMessage: 'Delete supplier code failed.',
+			    headerMessage: 'Delete supplier code fail.',
 			    bodyMessage: msg[response.status]?msg[response.status]:response.statusText
 			},
 			preCloseCallback: preCloseCallback
@@ -360,7 +360,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		onSuccess: function(response){
 		    UIFactory.showSuccessDialog({
 			data: {
-			    headerMessage: 'Delete supplier code completed.',
+			    headerMessage: 'Delete supplier code success.',
 			    bodyMessage: ''
 			},
 			preCloseCallback: preCloseCallback
@@ -513,7 +513,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			    var msg = {405:'Customer code is used.'};
 			    dialogFail = UIFactory.showFailDialog({
 				data: {
-				    headerMessage: vm.isNewCusotmerCode?'New supplier code failed.':'Edit supplier code failed.',
+				    headerMessage: vm.isNewCusotmerCode?'Add new supplier code fail.':'Edit supplier code fail.',
 				    bodyMessage: msg[response.status]?msg[response.status]:response.message
 				},
 				preCloseCallback: function(){
@@ -525,7 +525,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			    	closeCustomerCodeSetup();
 				dialogSuccess = UIFactory.showSuccessDialog({
 				data: {
-				    headerMessage: vm.isNewCusotmerCode == true?'New supplier code completed.':'Edit supplier code completed.',
+				    headerMessage: vm.isNewCusotmerCode == true?'Add new supplier code success.':'Edit supplier code complete.',
 				    bodyMessage: ''
 				},
 				preCloseCallback: function(){
