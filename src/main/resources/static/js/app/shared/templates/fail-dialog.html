@@ -15,22 +15,53 @@
 			</div>
 		</div>
 		<div class="modal-body">
-			<div class="row">
+			<div class="row" ng-show="ngDialogData.data.mode == 'transaction'">
+				<div class="col-md-2 col-sm-2"></div>
+				<div class="col-md-10 col-sm-10 col-xs-12">
+					<h3 id="error-message-label" class="gec-pop-up-font-size">
+						<span id="fail-reason-label"
+							ng-bind="ngDialogData.data.errorCode | translate:{message: ngDialogData.data.action}"></span>
+						<br /> by: <span id="fail-by-label"
+							ng-bind="ngDialogData.data.actionBy"></span>
+					</h3>
+				</div>
+			</div>
+			<div class="row"
+				ng-show="ngDialogData.data.mode == undefined || ngDialogData.data.mode == null">
 				<div class="col-md-2 col-sm-2"></div>
 				<div class="col-md-10 col-sm-10">
-					<span id="fail-message-label" ng-bind="ngDialogData.data.bodyMessage"></span>
+					<span id="fail-message-label"
+						ng-bind="ngDialogData.data.bodyMessage"></span>
 				</div>
 			</div>
 		</div>
 		<div class="modal-footer">
-			<div class="row">
+			<div class="row" ng-show="ngDialogData.data.mode == 'transaction'">
+				<div class="col-xs-12 text-right">
+					<scf-button id="fail-back-button" class="popup-button"
+						data-dismiss="modal" ng-bind="'Back' | translate"
+						ng-click="closeThisDialog(false);ngDialogData.data.backAndReset()"></scf-button>
+					<scf-button id="fail-view-recent-button" class="popup-button"
+						data-dismiss="modal"
+						ng-click="closeThisDialog(false);ngDialogData.data.viewRecent()"
+						ng-bind="'View recent' | translate"></scf-button>
+					<scf-button id="fail-view-history-button" class="popup-button"
+						data-dismiss="modal"
+						ng-click="closeThisDialog(false);ngDialogData.data.viewHistory()"
+						ng-bind="'View history' | translate"></scf-button>
+				</div>
+			</div>
+			<div class="row" ng-show="ngDialogData.data.mode == undefined || ngDialogData.data.mode == null">
 				<div class="col-xs-12 text-right" ng-if="!ngDialogData.buttons">
 					<scf-button id="ok-button" class="popup-button" type="submit"
 						ng-bind="'OK' | translate"></scf-button>
 
 				</div>
-				<div class="col-xs-12 text-right" ng-if="ngDialogData.buttons" >
-					<scf-button ng-repeat="button in ngDialogData.buttons track by $index" id="{{button.id}}" class="popup-button" ng-bind="button.label | translate" ng-click="button.action()"></scf-button>
+				<div class="col-xs-12 text-right" ng-if="ngDialogData.buttons">
+					<scf-button
+						ng-repeat="button in ngDialogData.buttons track by $index"
+						id="{{button.id}}" class="popup-button"
+						ng-bind="button.label | translate" ng-click="button.action()"></scf-button>
 				</div>
 			</div>
 		</div>

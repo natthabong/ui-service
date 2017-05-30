@@ -1,6 +1,6 @@
-angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTransactionService', 'TransactionService', 'Service', '$stateParams', '$state', '$timeout', 'PageNavigation','ngDialog','$log',
+angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTransactionService', 'TransactionService', 'Service', '$stateParams', '$state', '$timeout', 'PageNavigation', 'UIFactory','ngDialog', '$q', '$log',
 
-    function($scope, ApproveTransactionService, TransactionService, Service, $stateParams, $state, $timeout, PageNavigation, ngDialog, $log) {
+    function($scope, ApproveTransactionService, TransactionService, Service, $stateParams, $state, $timeout, PageNavigation, UIFactory, $q, ngDialog, $log) {
         var vm = this;
 		var log = $log;
         vm.TransactionStatus = {
@@ -39,14 +39,97 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                  disableAnimation: true
              });
         };
+
+        var reject = function(transactionModel) {
+        	var deferred = ApproveTransactionService.reject(transactionModel);
+        	deferred.promise.then(function(response) {
+        		vm.transaction = response.data;
+        	})
+        	return deferred;
+        }
         
-        vm.confirmRejectPopup = function() {
-       	 ngDialog.open({
-                template: '/js/app/approve-transactions/confirm-reject-dialog.html',
-                scope: $scope,
-                disableAnimation: true
-            });
+       vm.confirmRejectPopup = function(msg) {
+    	   if(msg == 'clear'){
+    		   vm.wrongPassword = false;
+    		   vm.passwordErrorMsg = '';	
+    		   vm.transactionApproveModel.credential = '';
+    		   vm.transactionApproveModel.transaction.rejectReason = '';
+    	   }
+    	   UIFactory.showConfirmDialog({
+				data : {
+					headerMessage : 'Confirm reject ?',
+					mode: 'transaction',
+					credentialMode : true,
+					displayName : vm.displayName,
+					wrongPassword : vm.wrongPassword,
+					passwordErrorMsg : vm.passwordErrorMsg,
+					rejectReason : '',
+					transactionModel : vm.transactionApproveModel
+				},
+				confirm : function() {
+					if (validateCredential(vm.transactionApproveModel.credential)) {
+						return reject(vm.transactionApproveModel);
+					}else {
+		            	vm.wrongPassword = true;
+		            	vm.passwordErrorMsg = 'Password is required';						
+		            	vm.confirmRejectPopup('error');
+		            }
+				},
+				onFail : function(response) {					
+					$scope.response = response.data;
+					if($scope.response.errorCode=='E0400'){
+	            		vm.wrongPassword = true;
+		            	vm.passwordErrorMsg = $scope.response.attributes.errorMessage;						
+						vm.confirmRejectPopup('error');
+					}else{
+						UIFactory.showFailDialog({
+							data : {
+								mode: 'transaction',
+								headerMessage : 'Reject transaction fail',
+								backAndReset : vm.backAndReset,
+								viewHistory : vm.viewHistory,
+								errorCode : response.data.errorCode,
+								action : response.data.attributes.action,
+								actionBy : response.data.attributes.actionBy
+							},
+						});						
+					}
+                	
+//                    if($scope.response.errorCode=='E0400'){
+//		            	vm.confirmRejectPopup();
+//	            		vm.wrongPassword = true;
+//		            	vm.passwordErrorMsg = $scope.response.attributes.errorMessage;
+//	            	}else{
+//	            		$scope.response.showViewRecentBtn = false;
+//	                    $scope.response.showViewHistoryBtn = true;
+//	                    $scope.response.showCloseBtn = $scope.response.errorCode == 'E1012'?true:false;
+//	                    $scope.response.showBackBtn = true;
+//	                    console.log($scope.response.errorCode);
+//	                    if($scope.response.errorCode != 'E0403'){
+//	                    	vm.errorMessageModel = response.data;
+//	                    	ngDialog.open({
+//		                        template: '/js/app/approve-transactions/concurency-dialog.html',
+//			                    scope: $scope,
+//			                    disableAnimation: true
+//		                    });
+//	                    }
+//	            	}					
+				},
+				onSuccess : function(response) {
+					UIFactory.showSuccessDialog({
+						data : {
+							mode: 'transaction',
+							headerMessage : 'Reject transaction success',						
+							bodyMessage : vm.transaction.transactionId,
+							backAndReset : vm.backAndReset,
+							viewRecent : vm.viewRecent,
+							viewHistory : vm.viewHistory							
+						},
+					});				
+				}
+			});    	   
        };
+
 
         vm.approve = function() {
             if (validateCredential(vm.transactionApproveModel.credential)) {
@@ -128,47 +211,47 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                     
                 });
         }
-		
-        vm.reject = function() {
-            if (validateCredential(vm.transactionApproveModel.credential)) {
-                var deffered = ApproveTransactionService.reject(vm.transactionApproveModel);
-                deffered.promise.then(function(response) {
-                    vm.transaction = response.data;
-                    ngDialog.open({
-                        template: '/js/app/approve-transactions/reject-success-dialog.html',
-                        scope: $scope,
-                        disableAnimation: true
-                    });
 
-                }).catch(function(response) {
-                	$scope.response = response.data;
-                	
-                    if($scope.response.errorCode=='E0400'){
-		            	vm.confirmRejectPopup();
-	            		vm.wrongPassword = true;
-		            	vm.passwordErrorMsg = $scope.response.attributes.errorMessage;
-	            	}else{
-	            		$scope.response.showViewRecentBtn = false;
-	                    $scope.response.showViewHistoryBtn = true;
-	                    $scope.response.showCloseBtn = $scope.response.errorCode == 'E1012'?true:false;
-	                    $scope.response.showBackBtn = true;
-	                    console.log($scope.response.errorCode);
-	                    if($scope.response.errorCode != 'E0403'){
-	                    	vm.errorMessageModel = response.data;
-	                    	ngDialog.open({
-		                        template: '/js/app/approve-transactions/concurency-dialog.html',
-			                    scope: $scope,
-			                    disableAnimation: true
-		                    });
-	                    }
-	            	}
-                });
-            } else {
-            	vm.confirmRejectPopup();
-            	vm.wrongPassword = true;
-            	vm.passwordErrorMsg = 'Password is required';
-            }
-        };
+//        vm.reject = function() {
+//            if (validateCredential(vm.transactionApproveModel.credential)) {
+//                var deffered = ApproveTransactionService.reject(vm.transactionApproveModel);
+//                deffered.promise.then(function(response) {
+//                    vm.transaction = response.data;
+//                    ngDialog.open({
+//                        template: '/js/app/approve-transactions/reject-success-dialog.html',
+//                        scope: $scope,
+//                        disableAnimation: true
+//                    });
+//
+//                }).catch(function(response) {
+//                	$scope.response = response.data;
+//                	
+//                    if($scope.response.errorCode=='E0400'){
+//		            	vm.confirmRejectPopup();
+//	            		vm.wrongPassword = true;
+//		            	vm.passwordErrorMsg = $scope.response.attributes.errorMessage;
+//	            	}else{
+//	            		$scope.response.showViewRecentBtn = false;
+//	                    $scope.response.showViewHistoryBtn = true;
+//	                    $scope.response.showCloseBtn = $scope.response.errorCode == 'E1012'?true:false;
+//	                    $scope.response.showBackBtn = true;
+//	                    console.log($scope.response.errorCode);
+//	                    if($scope.response.errorCode != 'E0403'){
+//	                    	vm.errorMessageModel = response.data;
+//	                    	ngDialog.open({
+//		                        template: '/js/app/approve-transactions/concurency-dialog.html',
+//			                    scope: $scope,
+//			                    disableAnimation: true
+//		                    });
+//	                    }
+//	            	}
+//                });
+//            } else {
+//            	vm.confirmRejectPopup();
+//            	vm.wrongPassword = true;
+//            	vm.passwordErrorMsg = 'Password is required';
+//            }
+//        };
         
 		 vm.getTransaction = function() {
             var deffered = ApproveTransactionService.getTransaction(vm.transactionApproveModel.transaction);

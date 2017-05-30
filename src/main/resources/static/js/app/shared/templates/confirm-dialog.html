@@ -12,9 +12,55 @@
 			</div>
 		</div>
 		<div class="modal-body">
-			<div class="col-md-2 col-sm-2"></div>
-			<div class="col-md-10 col-sm-10">
-				<span id="confirm-message-label" ng-bind="ngDialogData.bodyMessage"></span>
+			<div class="row" ng-show="ngDialogData.mode == 'transaction'">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+
+					<div class="form-group" ng-show="ngDialogData.credentialMode">
+						<label for="username" class="col-xs-3 control-label"><span
+							ng-bind="'User name' | translate"></span>:</label>
+						<div class="col-xs-8  control-label">
+							<span id="user-name-label" ng-bind="ngDialogData.displayName"></span>
+						</div>
+					</div>
+					<div class="form-group" ng-show="ngDialogData.credentialMode">
+						<label for="password" class="col-xs-3 control-label"><span
+							ng-bind="'Password' | translate"></span><span class="text-danger">*</span>:</label>
+						<div class="col-xs-8">
+							<scf-input-password id="password-textbox"
+								ng-model="ngDialogData.transactionModel.credential"
+								focus="ngDialogData.credentialMode"></scf-input-password>
+						</div>
+					</div>
+					<div class="form-group"
+						ng-show="ngDialogData.wrongPassword && ngDialogData.credentialMode">
+						<label class="col-md-3 col-sm-1 col-xs-1 control-label"></label> <span
+							class="col-md-6 col-sm-4 col-xs-12 error-msg"
+							id="password-error-message-label"
+							ng-bind="ngDialogData.passwordErrorMsg | translate"></span>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-12 control-label">
+							<span ng-bind="'Reason'"></span>:
+						</div>
+						<div class="col-xs-12">
+							<scf-text-area
+								ng-model="ngDialogData.transactionModel.transaction.rejectReason" ng-show="ngDialogData.credentialMode"
+								id="{{ngDialogData.credentialMode?'reject-reason-text':'reject-reason-text-ignore'}}">
+							</scf-text-area>
+							<scf-text-area
+								ng-model="ngDialogData.transactionModel.rejectReason" ng-show="!ngDialogData.credentialMode"
+								id="{{ngDialogData.credentialMode?'reject-reason-text-ignore':'reject-reason-text'}}">
+							</scf-text-area>
+						</div>
+					</div>
+
+				</div>
+			</div>	
+			<div class="row" ng-show="ngDialogData.mode == undefined || ngDialogData.mode == null">	
+				<div class="col-md-2 col-sm-2"></div>
+				<div class="col-md-10 col-sm-10">
+					<span id="confirm-message-label" ng-bind="ngDialogData.bodyMessage"></span>
+				</div>
 			</div>
 		</div>
 		<div class="modal-footer">
