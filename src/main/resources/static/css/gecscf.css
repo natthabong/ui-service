@@ -1391,3 +1391,7 @@ iPad 3
 	border: 1px solid #ccc;  
 	border-radius: 4px;
 }
+
+p.input-group {
+	margin: 0 0 -2px;
+}
