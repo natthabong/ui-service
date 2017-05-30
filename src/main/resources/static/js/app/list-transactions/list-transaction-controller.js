@@ -31,6 +31,14 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		canceledBySupplier: 'CANCELLED_BY_SUPPLIER',
 		waitForDrawdownResult: 'WAIT_FOR_DRAWDOWN_RESULT'
 	}
+	
+	vm.displayName = $scope.userInfo.displayName;
+	
+    vm.transactionPayload = {
+		transaction: null,
+		credential: ''
+	};
+	
 	var currentParty = '';
     var partyRole = {
 		sponsor : 'sponsor',
@@ -201,7 +209,77 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			$log.error('Load TransactionStatusGroup Fail');
         });    	
     }
+    
+    var reject = function(transactionPayload) {   	
+        var deffered = TransactionService.reject(transactionPayload);
+        deffered.promise.then(function(response) {
+        	 vm.searchTransactionService();
+        });
+        return deffered;
+    }    
 
+    vm.confirmRejectPopup = function(data, msg) {
+ 	   if(msg == 'clear'){
+ 		   vm.wrongPassword = false;
+ 		   vm.passwordErrorMsg = '';	
+ 		   vm.transactionPayload.credential = '';
+ 		   vm.transactionPayload.transaction = null;
+ 	   }
+ 	   vm.transactionPayload.transaction = data;
+ 	   UIFactory.showConfirmDialog({
+				data : {
+					headerMessage : 'Confirm reject ?',
+					mode: 'transaction',
+					credentialMode : true,
+					displayName : vm.displayName,
+					wrongPassword : vm.wrongPassword,
+					passwordErrorMsg : vm.passwordErrorMsg,
+					rejectReason : '',
+					transactionModel : vm.transactionPayload
+				},
+				confirm : function() {
+					if (validateCredential(vm.transactionPayload.credential)) {
+						return reject(vm.transactionPayload);
+					}else {
+		            	vm.wrongPassword = true;
+		            	vm.passwordErrorMsg = 'Password is required';						
+		            	vm.confirmRejectPopup(vm.transactionPayload.transaction,'error');
+		            }
+				},
+				onFail : function(response) {					
+					$scope.response = response.data;
+					if($scope.response.errorCode=='E0400'){
+	            		vm.wrongPassword = true;
+		            	vm.passwordErrorMsg = $scope.response.attributes.errorMessage;						
+						vm.confirmRejectPopup(vm.transactionPayload.transaction,'error');
+					}else{
+						UIFactory.showFailDialog({
+							data : {
+								mode: 'transaction',
+								headerMessage : 'Reject transaction fail',
+								backAndReset : vm.backAndReset,
+								viewHistory : vm.viewHistory,
+								errorCode : response.data.errorCode,
+								action : response.data.attributes.action,
+								actionBy : response.data.attributes.actionBy
+							},
+						});						
+					}					
+				},
+				onSuccess : function(response) {
+					UIFactory.showSuccessDialog({
+						data : {
+							mode: 'transaction',
+							headerMessage : 'Reject transaction success',						
+							bodyMessage : vm.transaction.transactionId,
+							backAndReset : vm.backAndReset,
+							viewRecent : vm.viewRecent,
+							viewHistory : vm.viewHistory							
+						},
+					});				
+				}
+			});    	   
+    };
    
     vm.dataTable = {
         options: {
@@ -338,7 +416,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-view-button" ng-disabled="{{!ctrl.canView}}" ng-click="ctrl.view(data)" title="View"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="transaction-{{data.transactionNo}}-retry-button" class="btn-default gec-btn-action" ng-disabled="{{!(data.retriable && ctrl.canRetry)}}" ng-click="ctrl.retry(data)" title="Re-check"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="transaction-{{data.transactionNo}}-print-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledPrint(data.returnStatus)" ng-click="ctrl.printEvidenceFormAction(data)" title="Print"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
-			'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="{{!(ctrl.reject && (data.statusCode === ctrl.statusDocuments.waitForDrawdownResult))}}" ng-click="ctrl.searchTransaction()" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+			'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="{{!(ctrl.reject && (data.statusCode === ctrl.statusDocuments.waitForDrawdownResult))}}" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 		}]
     };
 	vm.openCalendarDateFrom = function(){
@@ -748,24 +826,12 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     	return false;
     }
 
+    function validateCredential(data) {
+        var result = true;
+        if (angular.isUndefined(data) || data === '') {
+            result = false;
+        }
+        return result;
+    }
 }]);
 
-// function convertDate(dateTime){
-// var result = '';
-// if(dateTime != undefined && dateTime != ''){
-// var date = dateTime.getDate();
-// var month = (dateTime.getMonth() + 1);
-// var year = dateTime.getFullYear();
-// result = date +'/' + month + '/' + year;
-// }
-// return result;
-// }
-
-// function convertStringTodate(date){
-// result = '';
-// if(date != undefined && date != null && date != ''){
-// var dateSplite = date.split('/');
-// result = new Date(dateSplite[2] + '-'+ dateSplite[1]+ '-' + dateSplite[0]);
-// }
-// return result
-// }
