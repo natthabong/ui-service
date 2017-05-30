@@ -1,6 +1,5 @@
 <div th:fragment="content">
     <div id="wrapper">
-
         <div class="form-group">
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
                 <label id="file-protocol-label" >
@@ -16,7 +15,6 @@
             </div>
             <div class="col-md-6 col-sm-4 col-hidden-xs"></div>
         </div>
-
         <div class="form-group">
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
                 <label id="host-name-label" >
@@ -27,7 +25,6 @@
                 <scf-input-text id="host-name-textbox" maxlength="255" ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteHost">
                 </scf-input-text>
             </div>
-
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
                 <label id="port-number-label" >
                     {{'Port number' | translate}}:
@@ -38,7 +35,7 @@
                 </scf-input-number>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-show="errors.hostName || errors.portNumber">
             <div ng-show="errors.hostName">
                 <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
                 <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
@@ -53,7 +50,6 @@
                     ng-bind="errors.portNumber.message"> </span> 
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
                 <label id="ftp-user-label" >
@@ -105,7 +101,6 @@
                 ng-bind="errors.remoteDirectory.message"> </span> 
         </div>
 
-
         <div class="form-group">
             <div class="col-md-2 col-sm-3 col-xs-12 control-label">
                 <label id="filename-pattern-label" >
@@ -126,7 +121,7 @@
                 </scf-input-number>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-show="errors.remoteFilenamePattern || errors.limitedFileSize">
             <div ng-show="errors.remoteFilenamePattern">
                 <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
                 <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
@@ -190,7 +185,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" ng-show="errors.connectionRetry || errors.connectionRetryInterval">
             <div ng-show="errors.connectionRetry">
                 <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
                 <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
@@ -367,7 +362,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" ng-show="errors.beginTime || errors.endTime">
             <div ng-show="errors.beginTime">
                 <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
                 <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
@@ -402,6 +397,5 @@
                 id="delayed-interval-warning-message-label"
                 ng-bind="errors.intervalInMinutes.message"> </span> 
         </div>
-
     </div>
 </div>

@@ -70,7 +70,7 @@
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group" ng-show="errors.activeDate || errors.expiryDate">
 							<div ng-show="errors.activeDate">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
@@ -96,9 +96,6 @@
 
 						</div>
 					</form>
-				</div>
-
-				<div class="panel-body">
 					<div class="col-md-12 col-sm-12 text-right">
 						<scf-button id="cancel-button" class="popup-button"
 							data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
