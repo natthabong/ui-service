@@ -5,6 +5,7 @@ function SystemIntegrationMonitorService($http, $q) {
 		verifySystemStatusWebService:verifySystemStatusWebService,
 		getFTPList:getFTPList,
 		verifySystemStatusFTP:verifySystemStatusFTP,
+		updateWebServiceInfomation:updateWebServiceInfomation,
     };
     function getWebServiceList(bankCode){
          var deffered = $q.defer();
@@ -59,4 +60,17 @@ function SystemIntegrationMonitorService($http, $q) {
 	    });
 	    return deffered;
     }
+	function updateWebServiceInfomation(webServiceModel){
+		var uri = '/api/v1/bank-connection-info/banks/'+webServiceModel.bankCode+'/data/'+webServiceModel.requestDataType+'/modes/'+webServiceModel.requestMode;
+		var deffered = $q.defer();
+		$http({
+			method: 'GET',
+			url: uri
+		}).then(function(response) {
+			deffered.resolve(response);
+		}).catch(function(response) {
+			deffered.reject(response);
+		});
+		return deffered;
+	}
 }

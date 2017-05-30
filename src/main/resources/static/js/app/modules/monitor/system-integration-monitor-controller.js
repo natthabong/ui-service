@@ -310,33 +310,49 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		}
 
 		
-		vm.viewSystemInfo = function(serviceType, data){
-				if(serviceType==='ftp'){
+		vm.viewSystemInfo = function(serviceType, updateModel){
+			console.log(updateModel)
+			if(serviceType === 'gateway'){
+				var deffered = SystemIntegrationMonitorService.updateWebServiceInfomation(updateModel);
+
+				deffered.promise.then(function(response) {
+					var data = response.data[0];
 					vm.serviceInfo = {
-					serviceName : data.displayName,
+						serviceName : data.displayName,
+						serviceType : 'Web service',
+						protocal : 'https',
+						url : data.bankUrl,
+						userName : '-',
+						host : null,
+						port : null,
+						remoteDirectory : null,
+						isFTP : false
+					};
+					var systemInfo = ngDialog.open({
+							id : 'service-information-dialog',
+							template : '/js/app/modules/monitor/dialog-service-information.html',
+							className : 'ngdialog-theme-default',
+							controller: 'ViewServiceInformationController',
+							controllerAs: 'ctrl',
+							scope : $scope,
+							data : {
+								serviceInfo : vm.serviceInfo
+							}
+					});
+				})
+			}else{
+				// var deffered = SystemIntegrationMonitorService.updateFTPInfomation(updateModel);
+				vm.serviceInfo = {
+					serviceName : updateModel.displayName,
 					serviceType : 'FTP',
 					protocal : 'SFTP',
 					url : null,
-					userName : data.remoteUsername,
-					host : data.remoteHost,
-					port : data.remotePort,
-					remoteDirectory : data.remotePath,
+					userName : updateModel.remoteUsername,
+					host : updateModel.remoteHost,
+					port : updateModel.remotePort,
+					remoteDirectory : updateModel.remotePath,
 					isFTP : true
-					};
-				}else{
-					vm.serviceInfo = {
-					serviceName : data.displayName,
-					serviceType : 'Web service',
-					protocal : 'https',
-					url : data.bankUrl,
-					userName : '-',
-					host : null,
-					port : null,
-					remoteDirectory : null,
-					isFTP : false
-					};
-				}
-				
+				};
 				var systemInfo = ngDialog.open({
 					id : 'service-information-dialog',
 					template : '/js/app/modules/monitor/dialog-service-information.html',
@@ -345,21 +361,22 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 					controllerAs: 'ctrl',
 					scope : $scope,
 					data : {
-					serviceInfo : vm.serviceInfo
+						serviceInfo : vm.serviceInfo
 					}
 				});
-				}
-
+			}
+		}
+			
 		vm.viewProblemDetail = function(serviceType, data , index){
 			if(serviceType==='ftp'){
 				vm.serviceInfo = {
-				jobId : data.jobId,
-				bankCode : null,
-				requestDataType: null,
-				requestMode: null,
-				errorMessage : data.errorMessage,
-				recordNo:index
-			};
+					jobId : data.jobId,
+					bankCode : null,
+					requestDataType: null,
+					requestMode: null,
+					errorMessage : data.errorMessage,
+					recordNo:index
+				};
 			}else{
 				vm.serviceInfo = {
 					jobId : null,
@@ -370,7 +387,6 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 					recordNo:index
 				};
 			}
-			
 			
 			var problemDialog = ngDialog.open({
 				id : 'problem-detail-dialog',
@@ -389,7 +405,6 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 				}
 			});
 		}
-
 } ]);
 scfApp.controller('ViewServiceInformationController', [ '$scope', '$rootScope', function($scope, $rootScope) {
  var vm = this;
