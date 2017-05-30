@@ -89,7 +89,7 @@ userModule
 						};
 			    			UIFactory.showFailDialog({
 						   data : {
-						      headerMessage : 'Reset password failed.',
+						      headerMessage : 'Reset password fail.',
 						      bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
 						   },
 						   preCloseCallback : preCloseCallback
@@ -99,7 +99,7 @@ userModule
 			    			blockUI.stop();
 			    			UIFactory.showSuccessDialog({
 			    				data : {
-			    					headerMessage : 'Reset password completed.',
+			    					headerMessage : 'Reset password success.',
 			    					bodyMessage : ''
 			    				},
 			    				preCloseCallback : preCloseCallback

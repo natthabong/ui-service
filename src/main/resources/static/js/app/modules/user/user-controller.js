@@ -255,7 +255,7 @@ userModule
 						};
 			    			UIFactory.showFailDialog({
 						   data : {
-						      headerMessage : 'Save user failed.',
+						      headerMessage : vm.isNewMode? 'Add new user fail.':'Edit user fail.',
 						      bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
 						   },
 						   preCloseCallback : preCloseCallback
@@ -265,7 +265,7 @@ userModule
 					onSuccess : function(response) {
 						UIFactory.showSuccessDialog({
 							data : {
-								headerMessage : 'Save user completed.',
+								headerMessage : vm.isNewMode? 'Add new user success.':'Edit user complete.',
 								bodyMessage : ''
 							},
 							preCloseCallback : preCloseCallback
