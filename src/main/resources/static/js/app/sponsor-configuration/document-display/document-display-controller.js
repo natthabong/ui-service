@@ -18,9 +18,11 @@ angular
             'LOAN_REQUEST_MODE_ITEM',
             'DOCUMENT_SELECTION_ITEM',
             'SUPPLIER_CODE_GROUP_SELECTION_ITEM',
+			'UIFactory',
+			'blockUI',
             function($log, $scope, $state, SCFCommonService,
                 $stateParams, $timeout, ngDialog,
-                PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService, LOAN_REQUEST_MODE_ITEM, DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM) {
+                PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService, LOAN_REQUEST_MODE_ITEM, DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM,UIFactory,blockUI) {
 
 
                 var vm = this;
@@ -149,23 +151,55 @@ angular
                 }
 
                 vm.save = function() {
-                	vm.dataModel.completed = true;
+                	var preCloseCallback = function() {
+						var organizeModel = {organizeId: sponsorId};
+                        PageNavigation.gotoPage('/sponsor-configuration', {
+                        	organizeModel: organizeModel
+                        });
+					}
+					UIFactory.showConfirmDialog({
+						data : {
+							headerMessage : 'Confirm save?'
+						},
+						confirm : $scope.confirmSave,
+						onFail : function(response) {
+								blockUI.stop();
+							var msg = {
+								409 : 'Display document has been deleted.',
+								405 : 'Display document has been used.'
+							};
+							UIFactory.showFailDialog({
+								data : {
+									headerMessage : 'Edit display document configuration fail.',
+									bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+								},
+								preCloseCallback : preCloseCallback
+							});
+						},
+						onSuccess : function(response) {
+								blockUI.stop();
+							UIFactory.showSuccessDialog({
+								data : {
+									headerMessage : 'Edit display document configuration complete.',
+									bodyMessage : ''
+								},
+								preCloseCallback : preCloseCallback
+							});
+						}
+					});
+                }
+
+				$scope.confirmSave = function() {
+					vm.dataModel.completed = true;
                     vm.dataModel.items.forEach(function(obj, index) {
                         obj.sequenceNo = index + 1;
                         vm.dataModel.completed =  obj.completed && vm.dataModel.completed; 
                     })
                     
                     var url =  BASE_URI+'/displays/'+ vm.dataModel.documentDisplayId;
-                    var deffered = Service.doPut(url, vm.dataModel);
-                    
-                    deffered.promise.then(function(response){
-                    	var organizeModel = {organizeId: sponsorId};
-                        PageNavigation.gotoPage('/sponsor-configuration', {
-                        	organizeModel: organizeModel
-                        });
-                        
-                    });
-                }
+                    var deffered = Service.requestURL(url, vm.dataModel,'PUT');
+                    return deffered;
+				}
 
                 vm.setup();
 
