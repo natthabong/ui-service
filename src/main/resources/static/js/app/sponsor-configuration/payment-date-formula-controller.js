@@ -189,7 +189,7 @@ var app = angular.module('scfApp');
 				    				};
 				    				UIFactory.showFailDialog({
 				    					data : {
-				    						headerMessage : 'Delete formula failed.',
+				    						headerMessage : 'Delete formula fail.',
 				    						bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
 				    					},
 				    					preCloseCallback : preCloseCallback
@@ -198,7 +198,7 @@ var app = angular.module('scfApp');
 				    			onSuccess : function(response) {
 				    				UIFactory.showSuccessDialog({
 				    					data : {
-				    						headerMessage : 'Delete formula completed.',
+				    						headerMessage : 'Delete formula success.',
 				    						bodyMessage : ''
 				    					},
 				    					preCloseCallback : preCloseCallback
@@ -236,7 +236,7 @@ app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope', 'Ser
 				    var msg = {500:'Formula name is existed.'};
 				    dialogFail = UIFactory.showFailDialog({
 						data: {
-							headerMessage : 'New formula failed.',
+							headerMessage : 'Add new credit term fail.',
 							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
 						},
 						preCloseCallback: null
@@ -245,7 +245,7 @@ app.controller('NewPaymentDateFormulaController', [ '$scope', '$rootScope', 'Ser
 				onSuccess: function(response){
 					dialogSuccess = UIFactory.showSuccessDialog({
 						data: {
-							headerMessage : 'New formula completed.',
+							headerMessage : 'Add new formula success.',
 							bodyMessage : ''
 						},
 						preCloseCallback: function(){

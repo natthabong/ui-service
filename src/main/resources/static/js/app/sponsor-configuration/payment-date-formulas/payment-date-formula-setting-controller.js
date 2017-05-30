@@ -351,7 +351,7 @@ app.controller('PaymentDateFormulaSettingController', [
 	    				};
 	    				UIFactory.showFailDialog({
 	    					data : {
-	    						headerMessage : 'Update formula failed.',
+	    						headerMessage : 'Edit formula fail.',
 	    						bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
 	    					},
 	    					preCloseCallback : null
@@ -360,7 +360,7 @@ app.controller('PaymentDateFormulaSettingController', [
 	    			onSuccess : function(response) {
 	    				UIFactory.showSuccessDialog({
 	    					data : {
-	    						headerMessage : 'Update formula completed.',
+	    						headerMessage : 'Edit formula complete.',
 	    						bodyMessage : ''
 	    					},
 	    					preCloseCallback : preCloseCallback
