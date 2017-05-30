@@ -160,6 +160,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         sponsorId: '',
         supplierId:'',
         supplierCode: '',
+		transactionNo:'',
         statusGroup: '',
         order: '',
         orderBy:''
@@ -600,13 +601,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 
 	vm.disableSupplierSuggest = function() {
 		var isDisable = false;
-		if (currentParty == partyRole.bank) {
-			if (angular.isUndefined(vm.documentListModel.sponsor) || !angular.isObject(vm.documentListModel.sponsor)) {
-				isDisable = true;
-			} else {
-				isDisable = false;
-			}
-		} else if (currentParty == partyRole.supplier) {
+		if (currentParty == partyRole.supplier) {
 			isDisable = true;
 		}
 		return isDisable;
@@ -665,7 +660,13 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	});
 
 	var querySupplierCode = function(value) {
-        var sponsorId = vm.documentListModel.sponsor.organizeId;
+		var currentParty = $stateParams.party;
+		var sponsorId;
+		if(currentParty == partyRole.bank){
+			sponsorId = null;
+		}else{
+			sponsorId = vm.documentListModel.sponsor.organizeId;
+		}
         var supplierCodeServiceUrl = 'api/v1/suppliers';
         value = value = UIFactory.createCriteria(value);
                 

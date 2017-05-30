@@ -107,8 +107,18 @@
 										ng-model="ctrl.listTransactionModel.supplierCode"
 										maxlength="20"></scf-input-text>
 								</div>
-								<div class="col-md-5 col-sm-6"></div>
+								<label id="transaction-no-label" style="padding-right:40px"
+									class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Transaction
+										No' | translate}}: </label>
+								<div class="col-md-3 col-sm-4 col-xs-12" style="padding-right:35px;padding-left:40px;">
+									<scf-input-text id="transaction-no-textbox"
+										ng-model="ctrl.listTransactionModel.transactionNo"
+										maxlength="20"></scf-input-text>
+								</div>
+								<!--<div class="col-md-5 col-sm-6"></div>-->
 							</div>
+
+							
 
 							<div class="form-group">
 								<label for="dealer" id="status-step-label"
