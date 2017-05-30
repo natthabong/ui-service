@@ -211,6 +211,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     }
     
     var reject = function(transactionPayload) {   	
+    	console.log(transactionPayload);
         var deffered = TransactionService.reject(transactionPayload);
         deffered.promise.then(function(response) {
         	 vm.searchTransactionService();
@@ -225,7 +226,17 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
  		   vm.transactionPayload.credential = '';
  		   vm.transactionPayload.transaction = null;
  	   }
- 	   vm.transactionPayload.transaction = data;
+ 	   
+	   vm.transaction = {};
+	   vm.transaction.transactionId = data.transactionId;
+	   vm.transaction.transactionNo = data.transactionNo;
+	   vm.transaction.version = data.version;
+	   vm.transaction.statusCode = data.statusCode;
+	   vm.transaction.rejectReason  = data.rejectReason;
+	   vm.transaction.sponsorId = data.sponsorId;
+	   vm.transaction.supplierId = data.supplierId;
+ 	   
+ 	   vm.transactionPayload.transaction = vm.transaction;
  	   UIFactory.showConfirmDialog({
 				data : {
 					headerMessage : 'Confirm reject ?',

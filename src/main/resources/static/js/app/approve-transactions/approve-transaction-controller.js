@@ -123,7 +123,8 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 							bodyMessage : vm.transaction.transactionId,
 							backAndReset : vm.backAndReset,
 							viewRecent : vm.viewRecent,
-							viewHistory : vm.viewHistory							
+							viewHistory : vm.viewHistory,
+							hideBackButton : true
 						},
 					});				
 				}

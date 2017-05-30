@@ -29,7 +29,7 @@ function transactionService($q, $http, $sce, blockUI) {
         blockUI.start();
         $http({
             method: 'POST',
-            url: '/api/reject-transaction/reject',
+            url: '/api/v1/reject-transaction/reject',
             data: transactionModel
         }).then(function(response) {
             blockUI.stop();

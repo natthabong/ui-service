@@ -41,6 +41,7 @@
 				<div class="col-xs-12 text-right">
 					<scf-button id="success-back-button" class="popup-button"
 						data-dismiss="modal" ng-bind="'Back' | translate"
+						ng-hide="(ngDialogData.data.hideBackButton  == undefined  || ngDialogData.data.hideBackButton == null)"
 						ng-click="closeThisDialog(false);ngDialogData.data.backAndReset()"></scf-button>
 					<scf-button id="success-view-recent-button" class="popup-button"
 						data-dismiss="modal"
@@ -52,7 +53,8 @@
 						ng-bind="'View history' | translate"></scf-button>
 				</div>
 			</div>
-			<div class="row" ng-show="ngDialogData.data.mode == undefined || ngDialogData.data.mode == null">
+			<div class="row"
+				ng-show="ngDialogData.data.mode == undefined || ngDialogData.data.mode == null">
 				<div class="col-xs-12 text-right" ng-if="!ngDialogData.buttons">
 					<scf-button id="ok-button" class="popup-button" type="submit"
 						ng-bind="'OK' | translate"></scf-button>
