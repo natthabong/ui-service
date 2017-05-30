@@ -609,7 +609,7 @@ app.controller('NewFileLayoutController', [
 				onSuccess: function(response){
 					dialogSuccess = UIFactory.showSuccessDialog({
 						data: {
-							headerMessage : 'Update file layout completed.',
+							headerMessage : 'Edit file layout complete.',
 							bodyMessage : ''
 						},
 						preCloseCallback: function(){
