@@ -250,7 +250,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 					};
 					UIFactory.showFailDialog({
 						data : {
-							headerMessage : 'Delete document failed.',
+							headerMessage : 'Delete document fail.',
 							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
 						},
 						preCloseCallback : preCloseCallback
@@ -259,7 +259,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 				onSuccess : function(response) {
 					UIFactory.showSuccessDialog({
 						data : {
-							headerMessage : 'Delete document completed.',
+							headerMessage : 'Delete document success.',
 							bodyMessage : ''
 						},
 						preCloseCallback : preCloseCallback
