@@ -1,6 +1,6 @@
 angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTransactionService', 'TransactionService', 'Service', '$stateParams', '$state', '$timeout', 'PageNavigation', 'UIFactory','ngDialog', '$q', '$log',
 
-    function($scope, ApproveTransactionService, TransactionService, Service, $stateParams, $state, $timeout, PageNavigation, UIFactory, $q, ngDialog, $log) {
+    function($scope, ApproveTransactionService, TransactionService, Service, $stateParams, $state, $timeout, PageNavigation, UIFactory, ngDialog, $q, $log) {
         var vm = this;
 		var log = $log;
         vm.TransactionStatus = {
