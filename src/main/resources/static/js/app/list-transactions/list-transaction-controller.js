@@ -675,7 +675,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		var condition1 = vm.reject!= undefined && vm.reject == true;
 		var condition2 = data.statusCode == vm.statusDocuments.waitForDrawdownResult;
 		var condition3 = isAfterToday(data.transactionDate);
-		console.log(condition1+","+condition2+","+condition3);
 		if(condition1 && condition2 && condition3){
 			return false;
 		}else{
