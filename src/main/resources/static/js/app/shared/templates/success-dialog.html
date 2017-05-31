@@ -45,6 +45,7 @@
 						ng-click="closeThisDialog(false);ngDialogData.data.backAndReset()"></scf-button>
 					<scf-button id="view-recent-button" class="popup-button"
 						data-dismiss="modal"
+						ng-hide="(ngDialogData.data.hideViewRecentButton  != undefined  || ngDialogData.data.hideViewRecentButton == true)"
 						ng-click="closeThisDialog(false);ngDialogData.data.viewRecent()"
 						ng-bind="'View recent' | translate"></scf-button>
 					<scf-button id="view-history-button" class="popup-button"

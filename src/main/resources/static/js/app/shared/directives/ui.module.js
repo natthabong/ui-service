@@ -133,6 +133,18 @@ angular
 						});
 				}
 				
+				var showImcompleteDialog = function(config) {
+					return ngDialog
+						.open({
+							template : BASE_TEMPLATE_URL + 'incomplete-dialog.html',
+							preCloseCallback : config.preCloseCallback,
+							data : {
+								data : config.data,
+								buttons : config.buttons
+							}
+						});
+				}
+				
 				var createCriteria = function(criteria){
 					if(angular.isDefined(criteria) && criteria != null){
 						if(criteria.length > 0){
@@ -149,6 +161,7 @@ angular
 					showConfirmDialog : showConfirmDialog,
 					showSuccessDialog : showSuccessDialog,
 					showFailDialog : showFailDialog,
+					showImcompleteDialog : showImcompleteDialog,
 					createCriteria: createCriteria
 				}
 

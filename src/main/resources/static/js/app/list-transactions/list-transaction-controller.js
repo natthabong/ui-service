@@ -211,7 +211,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     }
     
     var reject = function(transactionPayload) {   	
-    	console.log(transactionPayload);
         var deffered = TransactionService.reject(transactionPayload);
         deffered.promise.then(function(response) {
         	 vm.searchTransactionService();
@@ -257,40 +256,53 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		            	vm.confirmRejectPopup(vm.transactionPayload.transaction,'error');
 		            }
 				},
-				onFail : function(response) {					
-					$scope.response = response.data;
-					if($scope.response.errorCode=='E0400'){
-	            		vm.wrongPassword = true;
-		            	vm.passwordErrorMsg = $scope.response.attributes.errorMessage;						
-						vm.confirmRejectPopup(vm.transactionPayload.transaction,'error');
-					}else{
-						UIFactory.showFailDialog({
-							data : {
-								mode: 'transaction',
-								headerMessage : 'Reject transaction fail',
-								backAndReset : vm.backAndReset,
-								viewHistory : vm.viewHistory,
-								errorCode : response.data.errorCode,
-								action : response.data.attributes.action,
-								actionBy : response.data.attributes.actionBy
-							},
-						});						
-					}					
+				onFail : function(response) {	
+					console.log(response);
+					
 				},
 				onSuccess : function(response) {
-					UIFactory.showSuccessDialog({
-						data : {
-							mode: 'transaction',
-							headerMessage : 'Reject transaction success.',						
-							bodyMessage : vm.transaction.transactionId,
-							backAndReset : vm.backAndReset,
-							viewRecent : vm.viewRecent,
-							viewHistory : vm.viewHistory,
-							hideBackButton : true,
-							hideViewHistoryButton : true,
-							showOkButton : true
-						},
-					});				
+					console.log(response);
+					if(response.data.statusCode=='INCOMPLETE'){
+						UIFactory.showImcompleteDialog({
+							data : {
+								mode: 'transaction',
+								headerMessage : 'Reject transaction incomplete.',						
+								bodyMessage : vm.transaction.transactionNo,
+								errorMessage : response.data.note,
+								hideBackButton : true,
+								hideViewRecentButton : true,								
+								hideViewHistoryButton : true,
+								showOkButton : true
+							},
+						});								
+					}else if(response.data.statusCode=='FAIL_TO_CANCELLED'){
+						UIFactory.showSuccessDialog({
+							data : {
+								mode: 'transaction',
+								headerMessage : 'Reject transaction fail.',						
+								bodyMessage : vm.transaction.transactionNo,
+								backAndReset : vm.backAndReset,
+								viewRecent : vm.viewRecent,
+								viewHistory : vm.viewHistory,
+								hideBackButton : true,
+								hideViewHistoryButton : true,
+								showOkButton : true
+							},
+						});		
+					}else if(response.data.statusCode=='CANCELLED_BY_BANK'){
+						UIFactory.showSuccessDialog({
+							data : {
+								mode: 'transaction',
+								headerMessage : 'Reject transaction success.',						
+								bodyMessage : vm.transaction.transactionNo,
+								viewRecent : vm.viewRecent,
+								hideBackButton : true,
+								hideViewRecentButton : true,
+								hideViewHistoryButton : true,
+								showOkButton : true
+							},
+						});		
+					}
 				}
 			});    	   
     };
