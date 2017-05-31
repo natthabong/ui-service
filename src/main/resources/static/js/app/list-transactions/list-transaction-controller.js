@@ -277,20 +277,34 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 							},
 						});								
 					}else if(response.data.statusCode=='WAIT_FOR_DRAWDOWN_RESULT'){
-						UIFactory.showFailDialog({
-							data : {
-								mode: 'transaction',
-								headerMessage : 'Reject transaction fail.',						
-								transaction : vm.transaction,
-								backAndReset : vm.backAndReset,
-								viewRecent : vm.viewRecent,
-								viewHistory : vm.viewHistory,
-								hideBackButton : true,
-								hideViewHistoryButton : true,
-								showOkButton : true,
-								showContactInfo : true
-							},
-						});		
+						if(response.data.errorCode != undefined){
+							UIFactory.showFailDialog({
+								data : {
+									mode: 'transaction',
+									headerMessage : 'Reject transaction fail',
+									backAndReset : vm.backAndReset,
+									viewHistory : vm.viewHistory,
+									errorCode : response.data.errorCode,
+									action : response.data.attributes.action,
+									actionBy : response.data.attributes.actionBy
+								},
+							});
+						}else{
+							UIFactory.showFailDialog({
+								data : {
+									mode: 'transaction',
+									headerMessage : 'Reject transaction fail.',						
+									transaction : vm.transaction,
+									backAndReset : vm.backAndReset,
+									viewRecent : vm.viewRecent,
+									viewHistory : vm.viewHistory,
+									hideBackButton : true,
+									hideViewHistoryButton : true,
+									showOkButton : true,
+									showContactInfo : true
+								},
+							});								
+						}	
 					}else if(response.data.statusCode=='REJECTED_BY_BANK'){
 						UIFactory.showSuccessDialog({
 							data : {
@@ -556,39 +570,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	                            internalStemp.forEach(function(summary) {
 	                        	vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
 	                        	vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
-								// if(summary.statusMessageKey ===
-								// 'wait_for_verify'){
-								// vm.summaryInternalStep.wait_for_verify.totalRecord
-								// = summary.totalRecord;
-								// vm.summaryInternalStep.wait_for_verify.totalAmount
-								// = summary.totalAmount;
-								// }else if(summary.statusMessageKey ===
-								// 'wait_for_approve'){
-								// vm.summaryInternalStep.wait_for_approve.totalRecord
-								// = summary.totalRecord;
-								// vm.summaryInternalStep.wait_for_approve.totalAmount
-								// = summary.totalAmount;
-								// }else if(summary.statusMessageKey ===
-								// 'reject_by_checker'){
-								// vm.summaryInternalStep.reject_by_checker.totalRecord
-								// = summary.totalRecord;
-								// vm.summaryInternalStep.reject_by_checker.totalAmount
-								// = summary.totalAmount;
-								// }else if(summary.statusMessageKey ===
-								// 'reject_by_approver'){
-								// vm.summaryInternalStep.reject_by_approver.totalRecord
-								// = summary.totalRecord;
-								// vm.summaryInternalStep.reject_by_approver.totalAmount
-								// = summary.totalAmount;
-								// }else if(summary.statusMessageKey ===
-								// 'cancelled_by_supplier'){
-								// vm.summaryInternalStep.cancelled_by_supplier.totalRecord
-								// =
-								// summary.totalRecord;
-								// vm.summaryInternalStep.cancelled_by_supplier.totalAmount
-								// =
-								// summary.totalAmount;
-								// }
 	                            });
 	                        }						
 	                    }).catch(function(response) {

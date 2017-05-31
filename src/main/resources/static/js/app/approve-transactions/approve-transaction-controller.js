@@ -93,27 +93,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 								actionBy : response.data.attributes.actionBy
 							},
 						});						
-					}
-                	
-//                    if($scope.response.errorCode=='E0400'){
-//		            	vm.confirmRejectPopup();
-//	            		vm.wrongPassword = true;
-//		            	vm.passwordErrorMsg = $scope.response.attributes.errorMessage;
-//	            	}else{
-//	            		$scope.response.showViewRecentBtn = false;
-//	                    $scope.response.showViewHistoryBtn = true;
-//	                    $scope.response.showCloseBtn = $scope.response.errorCode == 'E1012'?true:false;
-//	                    $scope.response.showBackBtn = true;
-//	                    console.log($scope.response.errorCode);
-//	                    if($scope.response.errorCode != 'E0403'){
-//	                    	vm.errorMessageModel = response.data;
-//	                    	ngDialog.open({
-//		                        template: '/js/app/approve-transactions/concurency-dialog.html',
-//			                    scope: $scope,
-//			                    disableAnimation: true
-//		                    });
-//	                    }
-//	            	}					
+					}			
 				},
 				onSuccess : function(response) {
 					UIFactory.showSuccessDialog({
