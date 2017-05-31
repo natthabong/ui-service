@@ -20,14 +20,14 @@
 				<div class="col-md-10 col-sm-10">
 					<label ng-bind="'Transaction No.' | translate"></label>:&nbsp;<span
 						id="fail-transaction-no-label"
-						ng-bind="ngDialogData.data.transactionNo"></span>
+						ng-bind="ngDialogData.data.transaction.transactionNo"></span>
 				</div>
 			</div>
 			<div class="row" ng-if="ngDialogData.data.mode == 'transaction'">
 				<div class="col-md-2 col-sm-2"></div>
 				<div class="col-md-10 col-sm-10">
 					<label ng-bind="'Reason' | translate"></label>:&nbsp;<span
-						id="fail-reason-label" ng-bind="ngDialogData.data | transactionErrorMessage"></span>
+						id="fail-reason-label" ng-bind="ngDialogData.data.transaction | transactionErrorMessage"></span>
 				</div>
 			</div>
 			<div class="row" ng-if="ngDialogData.data.mode == 'transaction'">

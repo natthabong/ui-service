@@ -213,7 +213,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     var reject = function(transactionPayload) {   	
         var deffered = TransactionService.reject(transactionPayload);
         deffered.promise.then(function(response) {
-        	 vm.searchTransactionService();
+        	vm.transaction = response.data;
+        	vm.searchTransactionService();
         });
         return deffered;
     }    
@@ -268,8 +269,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 							data : {
 								mode: 'transaction',
 								headerMessage : 'Reject transaction incomplete.',						
-								bodyMessage : vm.transaction.transactionNo,
-								errorMessage : response.data,
+								transaction : vm.transaction,							
 								hideBackButton : true,
 								hideViewRecentButton : true,								
 								hideViewHistoryButton : true,
@@ -281,13 +281,14 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 							data : {
 								mode: 'transaction',
 								headerMessage : 'Reject transaction fail.',						
-								bodyMessage : response.data.transactionNo,
+								transaction : vm.transaction,
 								backAndReset : vm.backAndReset,
 								viewRecent : vm.viewRecent,
 								viewHistory : vm.viewHistory,
 								hideBackButton : true,
 								hideViewHistoryButton : true,
-								showOkButton : true
+								showOkButton : true,
+								showContactInfo : true
 							},
 						});		
 					}else if(response.data.statusCode=='REJECTED_BY_BANK'){

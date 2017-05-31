@@ -196,7 +196,7 @@ angular
 	       if(data.rejectReason != undefined && data.rejectReason != null){
 	    	   return data.rejectReason;
 	       }else{
-	    	   if(data.returnCode != undefined && data.returnCode != null){
+	    	   if(data.returnCode != undefined && data.returnCode != null && data.returnCode != ''){
 	    		   return "["+data.returnCode+"] "+data.returnMessage ;
 	    	   }else{
 	    		   return data.returnMessage ;
