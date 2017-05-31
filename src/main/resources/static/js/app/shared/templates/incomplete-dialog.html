@@ -21,7 +21,7 @@
 				<div class="col-md-10 col-sm-10">
 					<label ng-bind="'Transaction No.' | translate"></label>:&nbsp;<span
 						id="popup-transaction-no-label"
-						ng-bind="ngDialogData.data.bodyMessage"></span>
+						ng-bind="ngDialogData.data.transaction.transactionNo"></span>
 				</div>
 			</div>
 			<div class="row">
@@ -29,7 +29,7 @@
 				<div class="col-md-10 col-sm-10">
 					<label ng-bind="'Reason' | translate"></label>:&nbsp;<span
 						id="popup-reason-label"
-						ng-bind="ngDialogData.data.errorMessage | translate"></span>
+						ng-bind="ngDialogData.data.transaction | transactionErrorMessage"></span>
 				</div>
 			</div>
 			<div class="row" ng-if="ngDialogData.data.infoMessage != undefined">
@@ -50,7 +50,7 @@
 						ng-click="closeThisDialog(false);ngDialogData.data.backPage()"
 						ng-bind="'Back' | translate"></scf-button>
 					<scf-button id="popup-re-check-button" class="popup-button"
-						data-dismiss="modal" ng-show="{{response.attributes.retriable}}"
+						data-dismiss="modal" ng-show="ngDialogData.data.transaction.retriable"
 						ng-click="closeThisDialog(false);ngDialogData.data.retry()">{{'Re-check'
 					| translate}}</scf-button>
 					<scf-button id="popup-view-recent-button"
@@ -68,7 +68,7 @@
 						ng-show="(ngDialogData.data.showCloseButton != undefined  || ngDialogData.data.showCloseButton == true)"
 						ng-click="closeThisDialog(false);ngDialogData.data.searchTransactionService()"
 						ng-bind="'Close' | translate"></scf-button>
-					<scf-button id="popup-close-button"
+					<scf-button id="popup-ok-button"
 						class="popup-button hidden-sm hidden-xs" data-dismiss="modal"
 						ng-show="(ngDialogData.data.showOkButton  != undefined  || ngDialogData.data.showOkButton == true)"
 						ng-click="closeThisDialog(false);ngDialogData.data.searchTransactionService()"

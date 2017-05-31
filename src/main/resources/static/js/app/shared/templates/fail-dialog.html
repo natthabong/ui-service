@@ -17,20 +17,48 @@
 		<div class="modal-body">
 			<div class="row" ng-if="ngDialogData.data.mode == 'transaction'">
 				<div class="col-md-2 col-sm-2"></div>
+				<div class="col-md-10 col-sm-10">
+					<label ng-bind="'Transaction No.' | translate"></label>:&nbsp;<span
+						id="fail-transaction-no-label"
+						ng-bind="ngDialogData.data.transaction.transactionNo"></span>
+				</div>
+			</div>
+			<div class="row" ng-if="ngDialogData.data.mode == 'transaction'">
+				<div class="col-md-2 col-sm-2"></div>
+				<div class="col-md-10 col-sm-10">
+					<label ng-bind="'Reason' | translate"></label>:&nbsp;<span
+						id="fail-reason-label" ng-bind="ngDialogData.data.transaction | transactionErrorMessage"></span>
+				</div>
+			</div>
+			<div class="row" ng-if="ngDialogData.data.mode == 'transaction'">
+				<div class="col-md-2 col-sm-2"></div>
+				<div class="col-md-10 col-sm-10">
+					<span id="info-label"
+						ng-bind="ngDialogData.data.infoMessage | translate"></span>
+				</div>
+			</div>
+			<div class="row" ng-if="ngDialogData.data.mode == 'transaction'"
+				ng-show="{{ngDialogData.data.showContactInfo}}">
+				<div class="col-md-2 col-sm-2"></div>
 				<div class="col-md-10 col-sm-10 col-xs-12">
-					<h3 id="popup-error-message-label" class="gec-pop-up-font-size">
-						<span id="popup-reason-label"
-							ng-bind="ngDialogData.data.errorCode | translate:{message: ngDialogData.data.action}"></span>
-						<br /> by: <span id="popup-by-label"
-							ng-bind="ngDialogData.data.actionBy"></span>
-					</h3>
+					<label id="fail-info-label"
+						ng-bind="'Please contact K-BIZ Contact Center' | translate"></label>
+				</div>
+			</div>
+			<div class="row" ng-if="ngDialogData.data.mode == 'transaction'"
+				ng-show="{{ngDialogData.data.showContactInfo}}">
+				<div class="col-md-2 col-sm-2"></div>
+				<div class="col-md-10 col-sm-10">
+					<label ng-bind="'Tel.' | translate"></label>:&nbsp;<span
+						id="fail-tel-label" ng-bind="'02-888-8822' | translate"></span>
 				</div>
 			</div>
 			<div class="row"
 				ng-if="ngDialogData.data.mode == undefined || ngDialogData.data.mode == null">
 				<div class="col-md-2 col-sm-2"></div>
 				<div class="col-md-10 col-sm-10">
-					<span id="popup-message-label" ng-bind="ngDialogData.data.bodyMessage"></span>
+					<span id="popup-message-label"
+						ng-bind="ngDialogData.data.bodyMessage"></span>
 				</div>
 			</div>
 		</div>
@@ -60,7 +88,7 @@
 						class="popup-button hidden-sm hidden-xs" data-dismiss="modal"
 						ng-show="(ngDialogData.data.showOkButton  != undefined  || ngDialogData.data.showOkButton == true)"
 						ng-click="closeThisDialog(false);ngDialogData.data.searchTransactionService()"
-						ng-bind="'OK' | translate"></scf-button>							
+						ng-bind="'OK' | translate"></scf-button>
 				</div>
 			</div>
 			<div class="row"
