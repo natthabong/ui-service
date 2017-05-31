@@ -281,7 +281,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 					UIFactory.showSuccessDialog({
 						data : {
 							mode: 'transaction',
-							headerMessage : 'Reject transaction success',						
+							headerMessage : 'Reject transaction success.',						
 							bodyMessage : vm.transaction.transactionId,
 							backAndReset : vm.backAndReset,
 							viewRecent : vm.viewRecent,

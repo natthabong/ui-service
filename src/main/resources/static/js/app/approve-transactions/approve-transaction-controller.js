@@ -119,7 +119,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 					UIFactory.showSuccessDialog({
 						data : {
 							mode: 'transaction',
-							headerMessage : 'Reject transaction success',						
+							headerMessage : 'Reject transaction success.',						
 							bodyMessage : vm.transaction.transactionId,
 							backAndReset : vm.backAndReset,
 							viewRecent : vm.viewRecent,
