@@ -672,10 +672,14 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	}
 	
 	vm.disabledReject = function(data){
-		if((!(vm.reject && (data.statusCode === vm.statusDocuments.waitForDrawdownResult))) && isAfterToday(data.transactionDate)){
-			return true;
-		}else{
+		var condition1 = vm.reject!= undefined && vm.reject == true;
+		var condition2 = data.statusCode == vm.statusDocuments.waitForDrawdownResult;
+		var condition3 = isAfterToday(data.transactionDate);
+		console.log(condition1+","+condition2+","+condition3);
+		if(condition1 && condition2 && condition3){
 			return false;
+		}else{
+			return true;
 		}
 	}
 	
@@ -877,9 +881,9 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         var date = new Date(data)
         date.setHours(0,0,0,0);
         if (date < now) {
-        	return true;
-        }else{
         	return false;
+        }else{
+        	return true;
         }   
     }
     
