@@ -198,7 +198,7 @@
 	"File type": "File type",
 	"File name": "File name",
 	"Upload Msg err": "Please select file to upload.",
-	"Upload complete": "Upload complete",
+	"Upload complete": "Upload complete.",
 	"File extension error": "File extension incorrect ({{fileFormat}})",
 	"Upload filesize err": "Your file size exceeds. Maximum allowed (1 MB)",
 	"File upload confirmation": "File upload confirmation",
