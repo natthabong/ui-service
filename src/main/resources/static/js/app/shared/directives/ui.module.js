@@ -145,6 +145,18 @@ angular
 						});
 				}
 				
+				var showHourDialog = function(config) {					
+						return ngDialog
+							.open({
+								template : BASE_TEMPLATE_URL + 'hour-dialog.html',
+								preCloseCallback : config.preCloseCallback,
+								data : {
+									data : config.data,
+									buttons : config.buttons
+								}
+							});
+					}
+				
 				var createCriteria = function(criteria){
 					if(angular.isDefined(criteria) && criteria != null){
 						if(criteria.length > 0){
@@ -162,7 +174,8 @@ angular
 					showSuccessDialog : showSuccessDialog,
 					showFailDialog : showFailDialog,
 					showImcompleteDialog : showImcompleteDialog,
-					createCriteria: createCriteria
+					createCriteria: createCriteria,
+					showHourDialog: showHourDialog
 				}
 
 			} ])

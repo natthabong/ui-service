@@ -278,10 +278,16 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                  deffered.promise.then(function(response) {
                      vm.txnHour = response;
                      if(!vm.txnHour.allowSendToBank){
-	                     ngDialog.open({
-	                         template: '/js/app/approve-transactions/warn-txn-hour-dialog.html',
-	                         scope: $scope
-		       	         });
+						 console.log(vm.txnHour);
+						 UIFactory.showHourDialog({
+							data : {
+								mode: 'transaction',
+								headerMessage : 'Transaction hour',
+								bodyMessage: 'Please approve transaction within',
+								startTransactionHour : vm.txnHour.startTransactionHour,
+								endTransactionHour : vm.txnHour.endTransactionHour
+							},
+						});	
                      }
                  });
 	        	
