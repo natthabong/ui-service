@@ -84,7 +84,7 @@ angular
 					UIFactory
 					.showSuccessDialog({
 					    data : {
-						headerMessage : 'Update logo success.',
+						headerMessage : 'Edit logo success.',
 						bodyMessage : ''
 					    },
 					    preCloseCallback : function() {
@@ -115,7 +115,7 @@ angular
 							    blockUI.stop();
 							    dialogPopup = UIFactory.showFailDialog({
 									data: {
-									    headerMessage: 'Update logo fail.',
+									    headerMessage: 'Edit logo fail.',
 									    bodyMessage: 'Logo has been modified.'
 									},
 									buttons : [{
