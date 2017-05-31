@@ -1,0 +1,34 @@
+<div class="modal-content">                         
+    <div class="modal-header">
+        <div class="row">
+            <div class="col-md-2 col-sm-2">
+                <i class="icon fa fa-info-circle fa-4"></i>
+            </div>
+            <div class="col-md-10 col-sm-10" style="color: red;">
+				<h2>
+					<span id="popup-header-message-label"
+						ng-bind="ngDialogData.data.headerMessage | translate">Transaction hour</span>
+				</h2>
+			</div>
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-2 col-sm-2"></div>
+			<div class="col-md-10 col-sm-10">
+				<span id="popup-message-label">{{ngDialogData.data.bodyMessage |
+					translate}} {{ngDialogData.data.startTransactionHour}} - {{ngDialogData.data.endTransactionHour}}</span>
+			</div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+		<div class="row">
+			<div class="col-xs-12 text-right">
+				<scf-button id="popup-close-button" class="popup-button" ng-click="closeThisDialog();"
+					ng-bind="'Close' | translate"></scf-button>
+			</div>
+		</div>
+	</div>
+</div>
