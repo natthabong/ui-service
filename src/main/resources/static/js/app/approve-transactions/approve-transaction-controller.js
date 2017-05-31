@@ -65,7 +65,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 					passwordErrorMsg : vm.passwordErrorMsg,
 					rejectReason : '',
 					transactionModel : vm.transactionApproveModel
-				},
+				}, 
 				confirm : function() {
 					if (validateCredential(vm.transactionApproveModel.credential)) {
 						return reject(vm.transactionApproveModel);

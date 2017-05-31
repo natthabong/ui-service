@@ -132,7 +132,7 @@ angular
 						});
 				}
 				
-				var showImcompleteDialog = function(config) {
+				var showIncompleteDialog = function(config) {
 					return ngDialog
 						.open({
 							template : BASE_TEMPLATE_URL + 'incomplete-dialog.html',
@@ -172,7 +172,7 @@ angular
 					showConfirmDialog : showConfirmDialog,
 					showSuccessDialog : showSuccessDialog,
 					showFailDialog : showFailDialog,
-					showImcompleteDialog : showImcompleteDialog,
+					showIncompleteDialog : showIncompleteDialog,
 					createCriteria: createCriteria,
 					showHourDialog: showHourDialog
 				}

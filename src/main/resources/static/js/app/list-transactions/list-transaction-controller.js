@@ -259,36 +259,21 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		            }
 				},
 				onFail : function(response) {	
-					var response = response.data;
-					if(response.errorCode == 'INVALID'){
-						UIFactory.showHourDialog({
-							data : {
-								mode: 'transaction',
-								headerMessage : 'Transaction hour',
-								bodyMessage: 'Please reject transaction within',
-								startTransactionHour : response.attributes.startTransactionHour,
-								endTransactionHour : response.attributes.endTransactionHour
-							},
-						});	
-					}
-					
-					
-				},
-				onSuccess : function(response) {
-					if(response.data.statusCode=='INCOMPLETE'){
-						UIFactory.showImcompleteDialog({
-							data : {
-								mode: 'transaction',
-								headerMessage : 'Reject transaction incomplete.',						
-								transaction : vm.transaction,							
-								hideBackButton : true,
-								hideViewRecentButton : true,								
-								hideViewHistoryButton : true,
-								showOkButton : true
-							},
-						});								
-					}else if(response.data.statusCode=='WAIT_FOR_DRAWDOWN_RESULT'){
-						if(response.data.errorCode != undefined){
+					console.log(response);
+					if(response.status == 409){
+						if(response.data.errorCode == 'PROCESSING'){
+							UIFactory.showIncompleteDialog({
+								data : {
+									mode: 'transaction',
+									headerMessage : 'Reject transaction incomplete.',						
+									transaction : vm.transaction,							
+									hideBackButton : true,
+									hideViewRecentButton : true,								
+									hideViewHistoryButton : true,
+									showOkButton : true
+								},
+							});		
+						}else{
 							UIFactory.showFailDialog({
 								data : {
 									mode: 'transaction',
@@ -299,8 +284,32 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 									action : response.data.attributes.action,
 									actionBy : response.data.attributes.actionBy
 								},
-							});
-						}else{
+							});							
+						}
+					}else if(response.status == 500){
+						if(response.data.errorCode == 'INVALID'){
+							UIFactory.showHourDialog({
+								data : {
+									mode: 'transaction',
+									headerMessage : 'Transaction hour',
+									bodyMessage: 'Please reject transaction within',
+									startTransactionHour : response.data.attributes.startTransactionHour,
+									endTransactionHour : response.data.attributes.endTransactionHour
+								},
+							});	
+						}else if(response.data.errorCode=='INCOMPLETE'){
+							UIFactory.showIncompleteDialog({
+								data : {
+									mode: 'transaction',
+									headerMessage : 'Reject transaction incomplete.',						
+									transaction : vm.transaction,							
+									hideBackButton : true,
+									hideViewRecentButton : true,								
+									hideViewHistoryButton : true,
+									showOkButton : true
+								},
+							});								
+						}else if(response.data.errorCode=='FAIL'){
 							UIFactory.showFailDialog({
 								data : {
 									mode: 'transaction',
@@ -314,22 +323,23 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 									showOkButton : true,
 									showContactInfo : true
 								},
-							});								
-						}	
-					}else if(response.data.statusCode=='REJECTED_BY_BANK'){
-						UIFactory.showSuccessDialog({
-							data : {
-								mode: 'transaction',
-								headerMessage : 'Reject transaction success.',						
-								bodyMessage : vm.transaction.transactionNo,
-								viewRecent : vm.viewRecent,
-								hideBackButton : true,
-								hideViewRecentButton : true,
-								hideViewHistoryButton : true,
-								showOkButton : true
-							},
-						});		
-					}
+							});	
+						}
+					}					
+				},
+				onSuccess : function(response) {
+					UIFactory.showSuccessDialog({
+						data : {
+							mode: 'transaction',
+							headerMessage : 'Reject transaction success.',						
+							bodyMessage : vm.transaction.transactionNo,
+							viewRecent : vm.viewRecent,
+							hideBackButton : true,
+							hideViewRecentButton : true,
+							hideViewHistoryButton : true,
+							showOkButton : true
+						},
+					});
 				}
 			});    	   
     };
