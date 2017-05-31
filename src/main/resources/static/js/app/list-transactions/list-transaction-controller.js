@@ -223,6 +223,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
  		   vm.wrongPassword = false;
  		   vm.passwordErrorMsg = '';	
  		   vm.transactionPayload.credential = '';
+ 		  vm.transactionPayload.rejectReason = '';
  		   vm.transactionPayload.transaction = null;
  	   }
  	   
@@ -268,19 +269,19 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 								mode: 'transaction',
 								headerMessage : 'Reject transaction incomplete.',						
 								bodyMessage : vm.transaction.transactionNo,
-								errorMessage : response.data.note,
+								errorMessage : response.data,
 								hideBackButton : true,
 								hideViewRecentButton : true,								
 								hideViewHistoryButton : true,
 								showOkButton : true
 							},
 						});								
-					}else if(response.data.statusCode=='FAIL_TO_CANCELLED'){
+					}else if(response.data.statusCode=='WAIT_FOR_DRAWDOWN_RESULT'){
 						UIFactory.showFailDialog({
 							data : {
 								mode: 'transaction',
 								headerMessage : 'Reject transaction fail.',						
-								bodyMessage : vm.transaction.transactionNo,
+								bodyMessage : response.data.transactionNo,
 								backAndReset : vm.backAndReset,
 								viewRecent : vm.viewRecent,
 								viewHistory : vm.viewHistory,
