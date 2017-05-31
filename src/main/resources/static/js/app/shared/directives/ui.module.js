@@ -166,3 +166,42 @@ angular
 				}
 
 			} ])
+	
+	.filter('isDisplayTransactionErrorMessage', function() {
+	    return function(data) {        	
+	       if(data.statusCode != undefined){
+	    		    if("REJECTED_BY_BANK"==data.statusCode){
+	    		    	return true;
+	    		    }else if("REJECT_INCOMPLETE"==data.statusCode){
+	    		    	return true;
+	    		    }else if("FAIL_TO_DRAWDOWN"==data.statusCode){
+	    		    	return true;
+	    		    }else if("EXPIRED"==data.statusCode){
+	    		    	return true;
+	    		    }else if("INCOMPLETE"==data.statusCode){
+	    		    	return true;
+	    		    }else if("REJECT_BY_APPROVER"==data.statusCode){
+	    		    	return true;
+	    		    }else if("REJECT_BY_CHECKER"==data.statusCode){
+	    		    	return true;
+	    		    }else{
+	    		    	 return false;
+	    		    }
+	       }else{
+	    	   return false;
+	       } 	      
+	    };
+	})	
+	.filter('transactionErrorMessage', function() {
+	    return function(data) {    
+	       if(data.rejectReason != undefined && data.rejectReason != null){
+	    	   return data.rejectReason;
+	       }else{
+	    	   if(data.returnCode != undefined && data.returnCode != null){
+	    		   return "["+data.returnCode+"] "+data.returnMessage ;
+	    	   }else{
+	    		   return data.returnMessage ;
+	    	   }
+	       }    
+	    };
+	})

@@ -276,7 +276,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 							},
 						});								
 					}else if(response.data.statusCode=='FAIL_TO_CANCELLED'){
-						UIFactory.showSuccessDialog({
+						UIFactory.showFailDialog({
 							data : {
 								mode: 'transaction',
 								headerMessage : 'Reject transaction fail.',						
@@ -289,7 +289,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 								showOkButton : true
 							},
 						});		
-					}else if(response.data.statusCode=='CANCELLED_BY_BANK'){
+					}else if(response.data.statusCode=='REJECTED_BY_BANK'){
 						UIFactory.showSuccessDialog({
 							data : {
 								mode: 'transaction',
