@@ -444,7 +444,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-view-button" ng-disabled="{{!ctrl.canView}}" ng-click="ctrl.view(data)" title="View"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="transaction-{{data.transactionNo}}-retry-button" class="btn-default gec-btn-action" ng-disabled="{{!(data.retriable && ctrl.canRetry)}}" ng-click="ctrl.retry(data)" title="Re-check"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="transaction-{{data.transactionNo}}-print-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledPrint(data.returnStatus)" ng-click="ctrl.printEvidenceFormAction(data)" title="Print"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
-			'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="{{!(ctrl.reject && (data.statusCode === ctrl.statusDocuments.waitForDrawdownResult))}}" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+			'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 		}]
     };
 	vm.openCalendarDateFrom = function(){
@@ -669,6 +669,14 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		}
 	}
 	
+	vm.disabledReject = function(data){
+		if((!(vm.reject && (data.statusCode === vm.statusDocuments.waitForDrawdownResult))) && isAfterToday(data.transactionDate)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 	 vm.initLoad = function() {
 		var backAction = $stateParams.backAction;
 
@@ -861,5 +869,17 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         }
         return result;
     }
+    
+    function isAfterToday(data) {
+        var now = new Date();
+        var date = new Date(data)
+        date.setHours(0,0,0,0);
+        if (date < now) {
+        	return true;
+        }else{
+        	return false;
+        }   
+    }
+    
 }]);
 
