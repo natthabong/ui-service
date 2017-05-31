@@ -285,7 +285,10 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 							bodyMessage : vm.transaction.transactionId,
 							backAndReset : vm.backAndReset,
 							viewRecent : vm.viewRecent,
-							viewHistory : vm.viewHistory							
+							viewHistory : vm.viewHistory,
+							hideBackButton : true,
+							hideViewHistoryButton : true,
+							showOkButton : true
 						},
 					});				
 				}

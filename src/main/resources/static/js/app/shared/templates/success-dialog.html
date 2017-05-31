@@ -37,11 +37,11 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<div class="row" ng-show="ngDialogData.data.mode == 'transaction'">
+			<div class="row" ng-if="ngDialogData.data.mode == 'transaction'">
 				<div class="col-xs-12 text-right">
 					<scf-button id="success-back-button" class="popup-button"
 						data-dismiss="modal" ng-bind="'Back' | translate"
-						ng-hide="(ngDialogData.data.hideBackButton  == undefined  || ngDialogData.data.hideBackButton == null)"
+						ng-hide="(ngDialogData.data.hideBackButton  != undefined  || ngDialogData.data.hideBackButton == true)"
 						ng-click="closeThisDialog(false);ngDialogData.data.backAndReset()"></scf-button>
 					<scf-button id="success-view-recent-button" class="popup-button"
 						data-dismiss="modal"
@@ -49,12 +49,18 @@
 						ng-bind="'View recent' | translate"></scf-button>
 					<scf-button id="success-view-history-button" class="popup-button"
 						data-dismiss="modal"
+						ng-hide="(ngDialogData.data.hideViewHistoryButton  != undefined  || ngDialogData.data.hideViewHistoryButton == true)"
 						ng-click="closeThisDialog(false);ngDialogData.data.viewHistory()"
 						ng-bind="'View history' | translate"></scf-button>
+					<scf-button id="success-ok-button" class="popup-button"
+						data-dismiss="modal"
+						ng-show="(ngDialogData.data.showOkButton  != undefined  || ngDialogData.data.showOkButton == true)"
+						ng-click="closeThisDialog(false);ngDialogData.data.viewHistory()"
+						ng-bind="'OK' | translate"></scf-button>						
 				</div>
 			</div>
 			<div class="row"
-				ng-show="ngDialogData.data.mode == undefined || ngDialogData.data.mode == null">
+				ng-if="ngDialogData.data.mode == undefined || ngDialogData.data.mode == null">
 				<div class="col-xs-12 text-right" ng-if="!ngDialogData.buttons">
 					<scf-button id="ok-button" class="popup-button" type="submit"
 						ng-bind="'OK' | translate"></scf-button>
