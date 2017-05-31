@@ -322,7 +322,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 					blockUI.stop();
 					UIFactory.showSuccessDialog({
 						data : {
-							headerMessage : 'Update channel success.',
+							headerMessage : 'Edit channel complete.',
 							bodyMessage : ''
 						},
 						preCloseCallback : preCloseCallback
@@ -336,7 +336,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 				    	blockUI.stop();
 				    	UIFactory.showFailDialog({
 						data : {
-							headerMessage : 'Update channel failed.',
+							headerMessage : 'Edit channel fail.',
 							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
 						},
 						preCloseCallback : null
