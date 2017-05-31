@@ -311,7 +311,11 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 									showOkButton : true
 								},
 							});								
-						}else if(response.data.errorCode=='FAIL'){
+						}else if(response.data.errorCode=='FAILED'){
+							vm.transaction.transactionNo = response.data.attributes.transactionNo;
+							vm.transaction.returnCode = response.data.attributes.returnCode;
+							vm.transaction.returnMessage = response.data.attributes.returnMessage;
+							vm.transaction.rejectReason  = null;
 							UIFactory.showFailDialog({
 								data : {
 									mode: 'transaction',
