@@ -43,11 +43,11 @@
 							<span ng-bind="'Reason'"></span>:
 						</div>
 						<div class="col-xs-12">
-							<scf-text-area
+							<scf-text-area maxlength="128"
 								ng-model="ngDialogData.transactionModel.transaction.rejectReason" ng-show="ngDialogData.credentialMode"
 								id="popup-{{ngDialogData.credentialMode?'reject-reason-text':'reject-reason-text-ignore'}}">
 							</scf-text-area>
-							<scf-text-area
+							<scf-text-area maxlength="128"
 								ng-model="ngDialogData.transactionModel.rejectReason" ng-show="!ngDialogData.credentialMode"
 								id="popup-{{ngDialogData.credentialMode?'reject-reason-text-ignore':'reject-reason-text'}}">
 							</scf-text-area>

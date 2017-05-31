@@ -260,7 +260,19 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 				},
 				onFail : function(response) {	
 					console.log(response);
-					if(response.status == 409){
+					if(response.status == 400){
+						if(response.data.errorCode == 'INVALID'){
+							UIFactory.showHourDialog({
+								data : {
+									mode: 'transaction',
+									headerMessage : 'Transaction hour',
+									bodyMessage: 'Please reject transaction within',
+									startTransactionHour : response.data.attributes.startTransactionHour,
+									endTransactionHour : response.data.attributes.endTransactionHour
+								},
+							});	
+						} 
+					}else if(response.status == 409){
 						if(response.data.errorCode == 'PROCESSING'){
 							UIFactory.showIncompleteDialog({
 								data : {
@@ -287,17 +299,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 							});							
 						}
 					}else if(response.status == 500){
-						if(response.data.errorCode == 'INVALID'){
-							UIFactory.showHourDialog({
-								data : {
-									mode: 'transaction',
-									headerMessage : 'Transaction hour',
-									bodyMessage: 'Please reject transaction within',
-									startTransactionHour : response.data.attributes.startTransactionHour,
-									endTransactionHour : response.data.attributes.endTransactionHour
-								},
-							});	
-						}else if(response.data.errorCode=='INCOMPLETE'){
+						if(response.data.errorCode=='INCOMPLETE'){
 							UIFactory.showIncompleteDialog({
 								data : {
 									mode: 'transaction',
