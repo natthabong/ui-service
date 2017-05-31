@@ -259,11 +259,22 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		            }
 				},
 				onFail : function(response) {	
-					console.log(response);
+					var response = response.data;
+					if(response.errorCode == 'INVALID'){
+						UIFactory.showHourDialog({
+							data : {
+								mode: 'transaction',
+								headerMessage : 'Transaction hour',
+								bodyMessage: 'Please reject transaction within',
+								startTransactionHour : response.attributes.startTransactionHour,
+								endTransactionHour : response.attributes.endTransactionHour
+							},
+						});	
+					}
+					
 					
 				},
 				onSuccess : function(response) {
-					console.log(response);
 					if(response.data.statusCode=='INCOMPLETE'){
 						UIFactory.showImcompleteDialog({
 							data : {
