@@ -39,6 +39,14 @@
                                        ng-bind="'Simulate' | translate"></scf-button>
                                </div>
 						</div>
+						<div class="form-group">
+							<label class="col-md-3 col-sm-3 col-xs-12 control-label"></label>
+                               <div class="col-md-6 col-sm-3 gec-calendar-group">
+                               		<label class="control-label"
+									ng-show="ctrl.isError"><span class="error-msg"
+									id="document-date-warning-message-label"> {{ctrl.errorMessage | translate}} </span> </label>
+                               </div>
+						</div>
                         <div class="form-group">
 							<label id="sponsor-payment-date-label" class="col-md-3 col-sm-3 col-xs-12 control-label">
 								{{'Sponsor payment date' | translate}} :

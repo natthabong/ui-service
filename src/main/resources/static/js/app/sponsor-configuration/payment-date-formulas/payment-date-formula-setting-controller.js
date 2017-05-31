@@ -790,13 +790,19 @@ app.controller('SimulatorPaymentDateController', [ '$scope', '$rootScope', 'Paym
 	}
 
 	vm.simulate = function(){
+		vm.isError = false;
 		vm.PaymentDatemodel.documentDate = vm.selectDate;
 		if(vm.PaymentDatemodel.documentDate != null){
 			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/credit-term/' + vm.creditTerm.creditTermId + '/calculate-payment-date';
 			var method = 'POST';
 			var serviceDiferred = Service.requestURL(serviceUrl, vm.PaymentDatemodel, method);
 			serviceDiferred.promise.then(function(response) {
-				vm.paymentDate = response;
+				if(angular.isDefined(response.message)){
+					vm.isError = true;
+					vm.errorMessage = response.message;
+				}else{
+					vm.paymentDate = response;
+				}
 			}); 
 		}
 	}

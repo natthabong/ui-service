@@ -427,5 +427,7 @@
 	"File encryption": "File encryption",
 	"PGP Password": "PGP Password",
 	"PGP Private key": "PGP Private key",
-	"NONE" : "None"
+	"NONE" : "None",
+	
+	"Can not calculate.": "Can not calculate."
 }
