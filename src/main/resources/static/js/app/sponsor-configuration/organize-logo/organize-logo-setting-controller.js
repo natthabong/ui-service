@@ -119,7 +119,7 @@ angular
 									    bodyMessage: 'Logo has been modified.'
 									},
 									buttons : [{
-										id: 'close-button',
+										id: 'popup-close-button',
 										label: 'Close',
 										action:function(){
 											closeDialogFail();

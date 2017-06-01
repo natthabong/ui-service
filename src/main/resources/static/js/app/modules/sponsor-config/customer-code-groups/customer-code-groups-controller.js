@@ -490,7 +490,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			});
 		}};
 		
-		var okBtn = {label: "OK", id: "ok-button", action: function(){
+		var okBtn = {label: "OK", id: "popup-ok-button", action: function(){
 			closeDialogSucccess();
 		}};
 		var dialogSuccessBtn = [];
