@@ -213,7 +213,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     var reject = function(transactionPayload) {   	
         var deffered = TransactionService.reject(transactionPayload);
         deffered.promise.then(function(response) {
-        	console.log(response);
         	vm.transaction = response.data;
         	vm.searchTransactionService();
         });
@@ -260,7 +259,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		            }
 				},
 				onFail : function(response) {	
-					
+					console.log(response);				
 					if(response.status == 400){
 						if(response.data.errorCode == 'INVALID'){
 							UIFactory.showHourDialog({
@@ -274,19 +273,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 							});	
 						} 
 					}else if(response.status == 409){
-						if(response.data.errorCode == 'PROCESSING'){
-							UIFactory.showIncompleteDialog({
-								data : {
-									mode: 'transaction',
-									headerMessage : 'Reject transaction incomplete.',						
-									transaction : vm.transaction,							
-									hideBackButton : true,
-									hideViewRecentButton : true,								
-									hideViewHistoryButton : true,
-									showOkButton : true
-								},
-							});		
-						}else{
+						if(response.data.errorCode == 'FAILED'){
 							UIFactory.showFailDialog({
 								data : {
 									mode: 'transaction',
@@ -315,7 +302,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 									hideViewHistoryButton : true,
 									showOkButton : true
 								},
-							});								
+							});										
 						}else if(response.data.errorCode=='FAILED'){
 							vm.transaction.transactionNo = response.data.attributes.transactionNo;
 							vm.transaction.returnCode = response.data.attributes.returnCode;
