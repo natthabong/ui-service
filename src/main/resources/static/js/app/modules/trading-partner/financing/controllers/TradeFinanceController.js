@@ -98,6 +98,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 
         var initialTradeFinance = function(data){
             var tradeFinanceData = data;
+            console.log(data)
 			if(tradeFinanceData.limitExpiryDate == null){
                 tradeFinanceData.limitExpiryDate = undefined;
             }
@@ -121,6 +122,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         var getTradeFinanceInfo = function(sponsorId,supplierId,accountId){
 			var defered = TradeFinanceService.getTradeFinanceInfo(sponsorId,supplierId,accountId);
 			defered.promise.then(function(response) {
+                console.log(response.data)
                 initialTradeFinance(response.data)
 			}).catch(function(response) {
 				log.error('Get trading finance fail');
@@ -270,6 +272,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         }
 
         var _update = function(){
+            console.log(vm.tradeFinanceModel)
             var sponsorId = defaultVal.sponsorId;
             var supplierId = defaultVal.supplierId;
             var tradeFinanceModule = {
@@ -279,7 +282,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                 limitExpiryDate : vm.tradeFinanceModel.creditExpirationDate,
                 tenor : vm.tradeFinanceModel.tenor,
                 prePercentageDrawdown : vm.tradeFinanceModel.percentageLoan,
-                interest_rate : vm.tradeFinanceModel.interestRate,
+                interestRate : vm.tradeFinanceModel.interestRate,
                 agreementDate : vm.tradeFinanceModel.agreementDate,
                 suspend : vm.tradeFinanceModel.isSuspend,
                 version: $stateParams.data.version
