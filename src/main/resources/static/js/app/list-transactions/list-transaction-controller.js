@@ -323,7 +323,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 				UIFactory.showHourDialog({
 					data : {
 						mode: 'transaction',
-						headerMessage : 'Transaction hour',
+						headerMessage : 'Transaction hour.',
 						bodyMessage: 'Please reject transaction within',
 						startTransactionHour : response.data.attributes.startTransactionHour,
 						endTransactionHour : response.data.attributes.endTransactionHour
@@ -332,10 +332,11 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			} 
 		}else if(response.status == 409){
 			if(response.data.errorCode == 'FAILED'){
+			    	console.log(response.data.attributes.action);
 				UIFactory.showFailDialog({
 					data : {
 						mode: 'transaction',
-						headerMessage : 'Reject transaction fail',
+						headerMessage : 'Reject transaction fail.',
 						backAndReset : vm.backAndReset,
 						viewHistory : vm.viewHistory,
 						errorCode : response.data.errorCode,

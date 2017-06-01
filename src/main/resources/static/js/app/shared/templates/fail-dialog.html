@@ -62,7 +62,7 @@
 				<div class="col-md-10 col-sm-10 col-xs-12">
 					<h3 id="error-message-label" class="gec-pop-up-font-size">
 						<span id="fail-reason-label" ng-if="ngDialogData.data.actionBy != undefined"
-							ng-bind="ngDialogData.data.errorCode | translate:{message: ngDialogData.data.action}"></span>
+							ng-bind="'Transaction has been {{ngDialogData.data.action}}' | translate:{message: ngDialogData.data.action}"></span>
 						<br /> by: <span id="fail-by-label"
 							ng-bind="ngDialogData.data.actionBy"></span>
 					</h3>
