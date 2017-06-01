@@ -220,8 +220,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         return deffered;
     }   
     
-    var retryReject = function(transactionPayload) {   	
-        var deffered = TransactionService.retryReject(transactionPayload);
+    var retryReject = function(transaction) {   	
+        var deffered = TransactionService.retry(transaction);
         deffered.promise.then(function(response) {
         	vm.transaction = response.data;
         	vm.searchTransactionService();
@@ -229,8 +229,10 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         return deffered;
     }  
     
-    vm.retryReject = function(transactionPayload) {
-    	var deffered = retryReject(transactionPayload);
+    vm.retryReject = function() {
+    	vm.transaction.transactionId = vm.transactionIdForRetry;
+		
+    	var deffered = retryReject(vm.transaction);
     	deffered.promise.then(function(response) {
     		if(response.status == 200){
 				UIFactory.showSuccessDialog({
@@ -270,6 +272,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	   vm.transaction.rejectReason  = data.rejectReason;
 	   vm.transaction.sponsorId = data.sponsorId;
 	   vm.transaction.supplierId = data.supplierId;
+	   vm.transactionIdForRetry = vm.transaction.transactionId;
  	   
  	   vm.transactionPayload.transaction = vm.transaction;
  	   UIFactory.showConfirmDialog({
@@ -314,6 +317,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     };
     
     vm.handleDialogFail = function(response){
+    	vm.transaction.retriable = response.data.attributes.retriable;
     	if(response.status == 400){
 			if(response.data.errorCode == 'INVALID'){
 				UIFactory.showHourDialog({

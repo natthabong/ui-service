@@ -7,7 +7,7 @@
             <div class="col-md-10 col-sm-10">
                 <h2>
 					<span id="approve-incomplete-header"
-						ng-bind="'Transaction incomplete' | translate">Transaction incomplete</span>
+						ng-bind="'Approve Transaction incomplete.' | translate">Approve Transaction incomplete.</span>
 				</h2>
             </div>
         </div>
@@ -37,8 +37,8 @@
 			<div class="col-xs-12 text-right">
 				<scf-button id="incomplete-back-button" class="popup-button" data-dismiss="modal"
 					ng-click="closeThisDialog();ctrl.backPage()" ng-bind="'Back' | translate"></scf-button>
-				<scf-button id="incomplete-retry-button" class="popup-button" data-dismiss="modal" ng-show="{{response.attributes.retriable}}"
-					ng-click="closeThisDialog();ctrl.retry()">{{'Retry' | translate}}</scf-button>
+				<scf-button id="incomplete-re-check-button" class="popup-button" data-dismiss="modal" ng-show="{{response.attributes.retriable}}"
+					ng-click="closeThisDialog();ctrl.retry()">{{'Re-check' | translate}}</scf-button>
 				<scf-button id="incomplete-view-recent-button" class="popup-button hidden-sm hidden-xs" data-dismiss="modal" ng-show="{{response.showViewRecentBtn}}"
 					ng-click="closeThisDialog();ctrl.viewRecent()" ng-bind="'View recent' | translate"></scf-button>								
 				<scf-button id="incomplete-view-history-button" class="popup-button hidden-sm hidden-xs" data-dismiss="modal" ng-show="{{response.showViewHistoryBtn}}"
