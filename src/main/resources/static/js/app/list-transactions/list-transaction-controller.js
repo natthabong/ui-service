@@ -317,7 +317,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     };
     
     vm.handleDialogFail = function(response){
-    	vm.transaction.retriable = response.data.attributes.retriable;
     	if(response.status == 400){
 			if(response.data.errorCode == 'INVALID'){
 				UIFactory.showHourDialog({
@@ -350,6 +349,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 				vm.transaction.transactionNo = response.data.attributes.transactionNo;
 				vm.transaction.returnCode = response.data.attributes.returnCode;
 				vm.transaction.returnMessage = response.data.attributes.returnMessage;
+		    	vm.transaction.retriable = response.data.attributes.retriable;
+		    	vm.transaction.version = response.data.attributes.version;
 				vm.transaction.rejectReason  = null;
 				UIFactory.showIncompleteDialog({
 					data : {
@@ -367,12 +368,15 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 				vm.transaction.transactionNo = response.data.attributes.transactionNo;
 				vm.transaction.returnCode = response.data.attributes.returnCode;
 				vm.transaction.returnMessage = response.data.attributes.returnMessage;
+		    	vm.transaction.retriable = response.data.attributes.retriable;
+		    	vm.transaction.version = response.data.attributes.version;
 				vm.transaction.rejectReason  = null;
 				UIFactory.showFailDialog({
 					data : {
 						mode: 'transaction',
 						headerMessage : 'Reject transaction fail.',						
 						transaction : vm.transaction,
+						retry : vm.retryReject,
 						backAndReset : vm.backAndReset,
 						viewRecent : vm.viewRecent,
 						viewHistory : vm.viewHistory,
