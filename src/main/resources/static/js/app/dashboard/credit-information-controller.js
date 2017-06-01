@@ -74,7 +74,7 @@ angular.module('scfApp').controller(
 									    bodyMessage: ''
 									},
 									buttons : [{
-										id: 'popup-close-button',
+										id: 'close-button',
 										label: 'Close',
 										action:function(){
 											closeDialogSucccess();
@@ -89,7 +89,7 @@ angular.module('scfApp').controller(
 									    bodyMessage: 'please try again.'
 									},
 									buttons : [{
-										id: 'popup-close-button',
+										id: 'close-button',
 										label: 'Close',
 										action:function(){
 											closeDialogFail();
@@ -106,7 +106,7 @@ angular.module('scfApp').controller(
 								    bodyMessage: ' please try again.'
 								},
 								buttons : [{
-										id: 'popup-close-button',
+										id: 'close-button',
 										label: 'Close',
 										action:function(){
 											closeDialogFail();
