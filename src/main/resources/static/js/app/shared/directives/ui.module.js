@@ -206,14 +206,18 @@ angular
 	})	
 	.filter('transactionErrorMessage', function() {
 	    return function(data) {    
-	       if(data.rejectReason != undefined && data.rejectReason != null){
-	    	   return data.rejectReason;
-	       }else{
-	    	   if(data.returnCode != undefined && data.returnCode != null && data.returnCode != ''){
-	    		   return "["+data.returnCode+"] "+data.returnMessage ;
-	    	   }else{
-	    		   return data.returnMessage ;
-	    	   }
-	       }    
+			if(data == undefined){
+				return "";
+			}else{
+			   if(data.rejectReason != undefined && data.rejectReason != null){
+				   return data.rejectReason;
+			   }else{
+				   if(data.returnCode != undefined && data.returnCode != null && data.returnCode != ''){
+			   return "["+data.returnCode+"] "+data.returnMessage ;
+				   }else{
+					   return data.returnMessage ;
+				   }
+			   }  
+			}
 	    };
 	})

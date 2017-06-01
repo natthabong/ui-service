@@ -13,8 +13,7 @@
 				column-render="column" index-no="$parent.$index"
 				page-options="pageOptions"></td>
 		</tr>
-		<tr ng-repeat-end ng-class-odd="tr-odd" ng-class-even="tr-even"
-			ng-if="data | isDisplayTransactionErrorMessage">
+		<tr ng-repeat-end ng-class-odd="tr-odd" ng-class-even="tr-even">
 			<td></td>
 			<td colspan="{{tableColumns.length-1}}"><div>
 					<strong class="text-danger"
