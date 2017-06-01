@@ -381,6 +381,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 						viewRecent : vm.viewRecent,
 						viewHistory : vm.viewHistory,
 						hideBackButton : true,
+						hideViewRecentButton : true,
 						hideViewHistoryButton : true,
 						showOkButton : true,
 						showContactInfo : true
