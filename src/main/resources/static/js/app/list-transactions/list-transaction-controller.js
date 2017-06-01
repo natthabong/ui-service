@@ -889,7 +889,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         }).catch(function(response) {
             $scope.response = response.data;
             $scope.response.showViewRecentBtn = false;
-            $scope.response.showViewHistoryBtn = true;           
+            $scope.response.showViewHistoryBtn = false;           
             $scope.response.showCloseBtn = true;
 			$scope.response.showBackBtn = false;
 			var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode, 'retry');

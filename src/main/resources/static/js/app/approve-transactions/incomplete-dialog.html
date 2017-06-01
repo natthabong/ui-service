@@ -6,8 +6,7 @@
             </div>
             <div class="col-md-10 col-sm-10">
                 <h2>
-					<span id="approve-incomplete-header"
-						ng-bind="'Approve transaction incomplete.' | translate">Approve transaction incomplete.</span>
+					<span id="approve-incomplete-header">{{'Transaction incomplete' | translate}}.</span>
 				</h2>
             </div>
         </div>
@@ -35,7 +34,7 @@
     <div class="modal-footer">
 		<div class="row">
 			<div class="col-xs-12 text-right">
-				<scf-button id="incomplete-back-button" class="popup-button" data-dismiss="modal"
+				<scf-button id="incomplete-back-button" class="popup-button" data-dismiss="modal" ng-show="{{response.showBackBtn}}"
 					ng-click="closeThisDialog();ctrl.backPage()" ng-bind="'Back' | translate"></scf-button>
 				<scf-button id="incomplete-re-check-button" class="popup-button" data-dismiss="modal" ng-show="{{response.attributes.retriable}}"
 					ng-click="closeThisDialog();ctrl.retry()">{{'Re-check' | translate}}</scf-button>
@@ -43,8 +42,8 @@
 					ng-click="closeThisDialog();ctrl.viewRecent()" ng-bind="'View recent' | translate"></scf-button>								
 				<scf-button id="incomplete-view-history-button" class="popup-button hidden-sm hidden-xs" data-dismiss="modal" ng-show="{{response.showViewHistoryBtn}}"
 					ng-click="closeThisDialog();ctrl.viewHistory()" ng-bind="'View history' | translate"></scf-button>
-				<scf-button id="incomplete-close-button" class="popup-button hidden-sm hidden-xs" data-dismiss="modal" ng-show="{{response.showCloseBtn}}"
-					ng-click="closeThisDialog();ctrl.searchTransactionService()" ng-bind="'Close' | translate"></scf-button>
+				<scf-button id="incomplete-ok-button" class="popup-button hidden-sm hidden-xs" data-dismiss="modal" ng-show="{{response.showCloseBtn}}"
+					ng-click="closeThisDialog();ctrl.searchTransactionService()" ng-bind="'OK' | translate"></scf-button>
 			</div>
 		</div>
 	</div>
