@@ -301,6 +301,10 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 						}
 					}else if(response.status == 500){
 						if(response.data.errorCode=='INCOMPLETE'){
+							vm.transaction.transactionNo = response.data.attributes.transactionNo;
+							vm.transaction.returnCode = response.data.attributes.returnCode;
+							vm.transaction.returnMessage = response.data.attributes.returnMessage;
+							vm.transaction.rejectReason  = null;
 							UIFactory.showIncompleteDialog({
 								data : {
 									mode: 'transaction',
