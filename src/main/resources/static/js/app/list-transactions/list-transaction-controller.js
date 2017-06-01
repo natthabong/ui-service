@@ -318,7 +318,12 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     
     vm.handleDialogFail = function(response){
     	if(response.status == 400){
-			if(response.data.errorCode == 'INVALID'){
+			if(response.data.errorCode=='E0400'){
+				vm.wrongPassword = true;
+				vm.passwordErrorMsg = response.data.errorMessage;						
+				vm.confirmRejectPopup(vm.transactionPayload.transaction,'error');
+			}
+			else if(response.data.errorCode == 'INVALID'){
 				UIFactory.showHourDialog({
 					data : {
 						mode: 'transaction',
