@@ -213,6 +213,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     var reject = function(transactionPayload) {   	
         var deffered = TransactionService.reject(transactionPayload);
         deffered.promise.then(function(response) {
+        	console.log(response);
         	vm.transaction = response.data;
         	vm.searchTransactionService();
         });
@@ -259,7 +260,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		            }
 				},
 				onFail : function(response) {	
-					console.log(response);
+					
 					if(response.status == 400){
 						if(response.data.errorCode == 'INVALID'){
 							UIFactory.showHourDialog({
