@@ -81,6 +81,10 @@
 		<div class="modal-footer">
 			<div class="row" ng-if="ngDialogData.data.mode == 'transaction'">
 				<div class="col-xs-12 text-right">
+					<scf-button id="popup-re-check-button" class="popup-button"
+						data-dismiss="modal" ng-show="ngDialogData.data.transaction.retriable"
+						ng-click="closeThisDialog(false);ngDialogData.data.retry()">{{'Re-check'
+					| translate}}</scf-button>				
 					<scf-button id="popup-back-button" class="popup-button"
 						data-dismiss="modal" ng-bind="'Back' | translate"
 						ng-hide="(ngDialogData.data.hideBackButton  != undefined  || ngDialogData.data.hideBackButton == true)"

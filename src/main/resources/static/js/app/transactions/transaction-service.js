@@ -4,10 +4,28 @@ function transactionService($q, $http, $sce, blockUI) {
     return {
         retry: retry,
         reject: reject,
+        retryReject: retryReject,
         getTransactionDialogErrorUrl: getTransactionDialogErrorUrl
     }
 
     function retry(transactionApproveModel) {
+        var deffered = $q.defer();
+        blockUI.start();
+        $http({
+            method: 'POST',
+            url: '/api/transaction/retry',
+            data: transactionApproveModel
+        }).then(function(response) {
+            blockUI.stop();
+            deffered.resolve(response);
+        }).catch(function(response) {
+            blockUI.stop();
+            deffered.reject(response);
+        });
+        return deffered;
+    }
+    
+    function retryReject(transactionApproveModel) {
         var deffered = $q.defer();
         blockUI.start();
         $http({
