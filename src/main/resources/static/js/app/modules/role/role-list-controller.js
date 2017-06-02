@@ -55,4 +55,54 @@ angular.module('scfApp').controller('RoleListController',['$scope','Service', '$
 			vm.searchRole();
 		}
 		initial();
+		
+		var deleteRole = function(role){
+		    
+			var serviceUrl = '/api/v1/roles/' + role.roleId;
+			var deferred = $q.defer();
+			$http({
+			    method: 'DELETE',
+			    url: serviceUrl
+			  }).then(function(response){
+			      return deferred.resolve(response);
+			 }).catch(function(response){
+			      return deferred.reject(response);
+			 });
+			 return deferred;
+		}
+		
+		vm.deleteRole = function(role){
+		    var preCloseCallback = function(confirm) {
+		    	vm.searchRole();
+		    }
+		    
+		    UIFactory.showConfirmDialog({
+			data: { 
+			    headerMessage: 'Confirm delete?'
+			},
+			confirm: function(){
+			    return deleteRole(role);
+			},
+			onFail: function(response){
+			    var msg = {409:'Role has been deleted.', 405:'Role is used.'};
+			    UIFactory.showFailDialog({
+				data: {
+				    headerMessage: 'Delete role fail.',
+				    bodyMessage: msg[response.status]?msg[response.status]:response.statusText
+				},
+				preCloseCallback: preCloseCallback
+			    });
+			},
+			onSuccess: function(response){
+			    UIFactory.showSuccessDialog({
+				data: {
+				    headerMessage: 'Delete role success.',
+				    bodyMessage: ''
+				},
+				preCloseCallback: preCloseCallback
+			    });
+			}
+		    });
+		    
+		}
 }]);
