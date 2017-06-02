@@ -4,6 +4,9 @@ angular.module('scfApp').controller('RoleListController',['$scope','Service', '$
 		
 		var vm = this;
 		var log = $log;
+		var param = {
+			mode : null
+		}
 		var roleCriteria = {
 			
 		}
@@ -13,7 +16,21 @@ angular.module('scfApp').controller('RoleListController',['$scope','Service', '$
 			vm.pagingController.search(pageModel);
 		}
 
-		console.log(vm.pagingController)
+		vm.newRole = function(){
+			param.mode = 'NEW';
+			PageNavigation.gotoPage('/role/new', param,[]);
+		}
+
+		vm.editRole = function(){
+			param.mode = 'EDIT';
+			PageNavigation.gotoPage('/role/edit', param,[]);
+		}
+
+		vm.viewRole = function(){
+			param.mode = 'VIEW';
+			PageNavigation.gotoPage('/role/view', param,[]);
+		}
+
 		vm.dataTable = {
 			identityField: 'roleName',
 			columns : [

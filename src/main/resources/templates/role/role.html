@@ -1,0 +1,37 @@
+<div id="content" th:fragment="content">
+
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3>
+						<span id="header-message-label" class="animated fadeInLeft">{{ctrl.headerMessage | translate}}</span>
+					</h3>
+				</div>
+			</div>
+		</div>
+        <div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+                    <div>
+                        <div ng-repeat="data in ctrl.model track by $index">
+                            <label class="col-md-12 col-sm-12 control-label">{{data.groupName}}</label>
+                            <div ng-repeat="node in data.privilege track by $index">
+                                <label class="col-lg-1 col-md-1 col-sm-1 col-xs-1 control-label"></label>
+                                <scf-checkbox id="{{node.privilege_id}}-checkbox" 
+                                    ng-model="ctrl.check(node.privilege_id,node.value)" 
+                                    ng-value ="node.value" ng-change="ctrl.changeVal(node)"></scf-checkbox>
+                                <label class="checkbox-inline" id="name-label" 
+                                    style="padding-bottom: 10px;">{{node.privilege_name}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <scf-button id="cancel-button" class="popup-button btn" ng-click="cancel()" >{{'Cancel' | translate}}</scf-button>
+                        <scf-button id="save-button" type="submit" ng-if="!ctrl.viewMode">{{'Save' | translate}}</scf-button>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

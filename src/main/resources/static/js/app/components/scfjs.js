@@ -297,7 +297,6 @@
                 vm.sortOrder = function(sort) {
                     vm.pageModel.order = sort.order;
                     vm.pageModel.orderBy = sort.orderBy;
-                    console.log(vm.pageModel);
                     vm.search(vm.pageModel);
                 };
             }],
