@@ -28,7 +28,7 @@ userModule
 				activeDate : new Date()
 			    };
 			    vm.organizeLinks = [];
-				$scope.emailFormat = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
+				$scope.emailFormat = /^[A-Za-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
 			    vm.dataTable = {
 				columns : [
 					{
