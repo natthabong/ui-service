@@ -29,7 +29,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		rejectByChecker: 'REJECT_BY_CHECKER',
 		rejectByApprover: 'REJECT_BY_APPROVER',
 		canceledBySupplier: 'CANCELLED_BY_SUPPLIER',
-		waitForDrawdownResult: 'WAIT_FOR_DRAWDOWN_RESULT'
+		waitForDrawdownResult: 'WAIT_FOR_DRAWDOWN_RESULT',
+		rejectIncomplete: 'REJECT_INCOMPLETE'			
 	}
 	
 	vm.displayName = $scope.userInfo.displayName;
@@ -231,7 +232,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     
     vm.retryReject = function() {
     	vm.transaction.transactionId = vm.transactionIdForRetry;
-		
+		console.log(vm.transaction);
     	var deffered = retryReject(vm.transaction);
     	deffered.promise.then(function(response) {
     		if(response.status == 200){
@@ -272,7 +273,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	   vm.transaction.rejectReason  = data.rejectReason;
 	   vm.transaction.sponsorId = data.sponsorId;
 	   vm.transaction.supplierId = data.supplierId;
-	   vm.transactionIdForRetry = vm.transaction.transactionId;
+	   vm.transactionIdForRetry = data.transactionId;
  	   
  	   vm.transactionPayload.transaction = vm.transaction;
  	   UIFactory.showConfirmDialog({
@@ -725,7 +726,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	
 	vm.disabledReject = function(data){
 		var condition1 = vm.reject!= undefined && vm.reject == true;
-		var condition2 = data.statusCode == vm.statusDocuments.waitForDrawdownResult;
+		var condition2 = data.statusCode == vm.statusDocuments.waitForDrawdownResult || data.statusCode == vm.statusDocuments.rejectIncomplete;
 		var condition3 = isAfterToday(data.transactionDate);
 		if(condition1 && condition2 && condition3){
 			return false;
