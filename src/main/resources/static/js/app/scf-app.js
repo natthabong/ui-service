@@ -269,6 +269,12 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/policy',
 				resolve: load(['js/app/modules/policy/policy-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/role',{
+				url: '/role',
+				controller: 'RoleListController',
+				controllerAs: 'ctrl',
+				templateUrl: '/role',
+				resolve: load(['js/app/modules/role/role-list-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/user',{
 				url: '/user',
 				controller: 'UserListController',
