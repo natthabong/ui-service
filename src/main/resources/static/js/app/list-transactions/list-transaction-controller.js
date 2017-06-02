@@ -21,6 +21,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         // Data Sponsor for select box
 	vm.verify = false;
 	vm.approve = false;
+	vm.reject = false;
 	vm.transactionIdForRetry = '';
 	vm.transaction = {};
 	vm.statusDocuments = {
