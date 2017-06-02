@@ -236,18 +236,33 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     	var deffered = retryReject(vm.transaction);
     	deffered.promise.then(function(response) {
     		if(response.status == 200){
-				UIFactory.showSuccessDialog({
-					data : {
-						mode: 'transaction',
-						headerMessage : 'Reject transaction success.',						
-						bodyMessage : vm.transaction.transactionNo,
-						viewRecent : vm.viewRecent,
-						hideBackButton : true,
-						hideViewRecentButton : true,
-						hideViewHistoryButton : true,
-						showOkButton : true
-					},
-				});    			
+    			if(vm.transaction.returnCode == 'C'){
+					UIFactory.showSuccessDialog({
+						data : {
+							mode: 'transaction',
+							headerMessage : 'Reject transaction success.',						
+							bodyMessage : vm.transaction.transactionNo,
+							viewRecent : vm.viewRecent,
+							hideBackButton : true,
+							hideViewRecentButton : true,
+							hideViewHistoryButton : true,
+							showOkButton : true
+						},
+					});
+    			}else{
+    				UIFactory.showIncompleteDialog({
+    					data : {
+    						mode: 'transaction',
+    						headerMessage : 'Reject transaction incomplete.',						
+    						transaction : vm.transaction,
+    						retry : vm.retryReject,
+    						hideBackButton : true,
+    						hideViewRecentButton : true,								
+    						hideViewHistoryButton : true,
+    						showOkButton : true
+    					},
+    				});	    				
+    			}
     		}else{
     			vm.handleDialogFail(response);
     		}
