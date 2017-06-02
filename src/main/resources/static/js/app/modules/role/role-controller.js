@@ -11,6 +11,8 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
             VIEW : 'View Role'
         }
 
+        vm.button = 'Cancel';
+
         var mode = $stateParams.mode;
         vm.viewMode = false;
         vm.headerMessage;
@@ -19,88 +21,37 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
             PageNavigation.gotoPreviousPage();
         }
 
+        vm.privilegeGroupList = [];
 
+        $scope.error = [];
 
-////////////////////// mock data for test /////////////////////////
-
-        vm.model = [];
-        var privilege = [];
-        var privilege2 = [];
-
-        for(var i = 0;i<5;i++){
-            var privilegeNode = {
-                privilege_id : i+1,
-                privilege_name : "test privilege" + i,
-                privilege_group_id : 1,
-                sequence :i,
-                dependent_privilege_id : null,
-                value : false
-            }
-            privilege.push(privilegeNode);
+        var initialPrivilegeGroup = function(){
+            uri = '/api/v1/privilegeGroups';
+            var defered = Service.doGet(uri,null);
+            defered.promise.then(function(response){
+                console.log(response.data)
+                vm.privilegeGroupList = response.data;
+            }).catch(function(response) {
+                log.error('Search data error');
+            });
         }
-
-        for(var i = 6;i<10;i++){
-            var privilegeNode = {
-                privilege_id : i+1,
-                privilege_name : "test privilege" + i,
-                privilege_group_id : 1,
-                sequence :i,
-                dependent_privilege_id : null,
-                value : true
-            }
-            privilege2.push(privilegeNode);
-        }
-        console.log(privilege)
-        vm.group1 = {
-            gid : "1",
-            groupName :  "test1",
-            seq : "1",
-            privilege : privilege
-        }
-
-        
-        vm.group2 = {
-            gid : "2",
-            groupName :  "test2",
-            seq : "2",
-            privilege : privilege2
-        }
-        vm.model.push(vm.group1);
-        vm.model.push(vm.group2);
-        vm.model[0].privilege[3].value = true;
-
-        vm.change = function () { 
-            console.log(vm.model)
-        };
-
-        vm.check = function(id,value){
-            console.log(id)
-            console.log(value)
-            if(id == 4){
-                value = true;
-            }else{
-                value = false;
-            }
-            return value;
-        }
-
-        vm.changeVal = function(data){
-            console.log(data)
-        }
-
-
-////////////////////// mock data for test /////////////////////////
-
 
 		var initial = function(){
-            if(mode === 'NEW'){
-                vm.headerMessage = page.NEW;
-            }else if(mode === 'EDIT'){
-                vm.headerMessage = page.EDIT;
+            if(mode!=""){
+                if(mode === 'NEW'){
+                    vm.headerMessage = page.NEW;
+                }else if(mode === 'EDIT'){
+                    vm.headerMessage = page.EDIT;
+                }else if(mode === 'VIEW'){
+                    vm.button = 'Back';
+                    vm.viewMode = true;
+                    vm.headerMessage = page.VIEW;
+                }
+                initialPrivilegeGroup()
             }else{
-                vm.viewMode = true;
-                vm.headerMessage = page.VIEW;
+                PageNavigation.gotoPage("/dashboard",undefined,undefined);
             }
+            
 		}
 		initial();
 }]);
