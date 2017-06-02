@@ -325,19 +325,22 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                     },
                     onFail : function(response) {
                         var status = null;
+                        console.log(response)
                         if(angular.isDefined(response.errorCode)){
                             status = response.errorCode;
                         }else if(angular.isDefined(response.code)){
                             status = response.code;
                         }
+                        console.log(status)
+                        
                         var msg = {
+                            404 : "Trade finance has been deleted.",
                             405 : "Trade finance has been used.",
-                            409 : "Trade finance is existed.",
                         }
                         UIFactory.showFailDialog({
                             data : {
                                 headerMessage : vm.isNewMode? 'Add new trade finance fail.':'Edit trade finance fail.',
-                                bodyMessage : msg[status] ? msg[status] : response.message
+                                bodyMessage : msg[status] ? msg[status] : response.errorMessage
                             },
                             preCloseCallback : preCloseCallback
                         });
