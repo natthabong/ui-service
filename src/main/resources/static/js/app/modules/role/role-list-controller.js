@@ -1,6 +1,6 @@
 angular.module('scfApp').controller('RoleListController',['$scope','Service', '$stateParams', '$log', 
-	'SCFCommonService','PagingController','PageNavigation', '$state', 'UIFactory', '$http', 
-	function($scope,Service, $stateParams, $log, SCFCommonService,PagingController, PageNavigation, $state, UIFactory, $http ){
+	'SCFCommonService','PagingController','PageNavigation', '$state', 'UIFactory', '$http', '$q',
+	function($scope,Service, $stateParams, $log, SCFCommonService,PagingController, PageNavigation, $state, UIFactory, $http, $q ){
 		
 		var vm = this;
 		var log = $log;
@@ -61,8 +61,13 @@ angular.module('scfApp').controller('RoleListController',['$scope','Service', '$
 			var serviceUrl = '/api/v1/roles/' + role.roleId;
 			var deferred = $q.defer();
 			$http({
-			    method: 'DELETE',
-			    url: serviceUrl
+			    method: 'POST',
+			    url: serviceUrl,
+			    headers : {
+					'If-Match' : role.version,
+					'X-HTTP-Method-Override': 'DELETE'
+				},
+				data: role
 			  }).then(function(response){
 			      return deferred.resolve(response);
 			 }).catch(function(response){
@@ -84,7 +89,7 @@ angular.module('scfApp').controller('RoleListController',['$scope','Service', '$
 			    return deleteRole(role);
 			},
 			onFail: function(response){
-			    var msg = {409:'Role has been deleted.', 405:'Role is used.'};
+			    var msg = {409:'Role has been deleted.', 405:'Role has been used.'};
 			    UIFactory.showFailDialog({
 				data: {
 				    headerMessage: 'Delete role fail.',
