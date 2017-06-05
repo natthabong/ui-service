@@ -303,7 +303,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 					displayName : vm.displayName,
 					wrongPassword : vm.wrongPassword,
 					passwordErrorMsg : vm.passwordErrorMsg,
-					rejectReason : '',
+					rejectReason : null,
 					transactionModel : vm.transactionPayload
 				},
 				confirm : function() {
@@ -356,7 +356,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			} 
 		}else if(response.status == 409){
 			if(response.data.errorCode == 'FAILED'){
-			    	console.log(response.data.attributes.action);
+			    console.log(response.data.attributes.action);
 				UIFactory.showFailDialog({
 					data : {
 						mode: 'transaction',

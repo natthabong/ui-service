@@ -209,15 +209,35 @@ angular
 			if(data == undefined){
 				return "";
 			}else{
-			   if(data.rejectReason != undefined && data.rejectReason != null){
+				if(data.returnStatus == 'B'||data.returnStatus == 'WB'||data.returnStatus == 'FC'){
+					return "";
+				}
+				if(data.rejectReason != undefined && data.rejectReason != null){
 				   return data.rejectReason;
-			   }else{
-				   if(data.returnCode != undefined && data.returnCode != null && data.returnCode != ''){
-			   return "["+data.returnCode+"] "+data.returnMessage ;
-				   }else{
-					   return data.returnMessage ;
-				   }
-			   }  
+				}else{
+					if(data.returnCode != undefined && data.returnCode != null && data.returnCode != ''){
+						return "["+data.returnCode+"] "+data.returnMessage ;
+					}else{
+						return data.returnMessage ;
+					}
+				}  
+			}
+	    };
+	})
+	.filter('transactionIncompleteMessage', function() {
+	    return function(data) {    
+			if(data == undefined){
+				return "";
+			}else{
+				if(data.rejectReason != undefined && data.rejectReason != null){
+				   return data.rejectReason;
+				}else{
+					if(data.returnCode != undefined && data.returnCode != null && data.returnCode != ''){
+						return "["+data.returnCode+"] "+data.returnMessage ;
+					}else{
+						return data.returnMessage ;
+					}
+				}  
 			}
 	    };
 	})
