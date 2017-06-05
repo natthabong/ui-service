@@ -16,6 +16,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
         var mode = $stateParams.mode;
         vm.viewMode = false;
         vm.headerMessage;
+        vm.roleName;
 
         $scope.cancel = function() {
             PageNavigation.gotoPreviousPage();
@@ -23,8 +24,111 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
 
         vm.privilegeGroupList = [];
         vm.setUpPrivilegeGroupList = [];
+        var rolePrivilegeModel = {
+            roleId : null,
+            roleName :null,
+            privileges : []
+        }
 
-        $scope.error = [];
+        var getValueRolePrivilegeIsSelected = function(){
+            var privilegeList = [];
+            for(var i=0;i<vm.privilegeGroupList.length;i++){
+                for(var j=0;j<vm.privilegeGroupList[i].privileges.length;j++){
+                    if(vm.privilegeGroupList[i].privileges[j].value){
+                        privilegeList.push({
+                            privilegeId : vm.privilegeGroupList[i].privileges[j].privilegeId
+                        });
+                    }
+                }
+            }
+            return privilegeList;
+        }
+
+        var _save = function(data){
+            var url;
+            var method;
+            if(mode === 'NEW'){
+                uri = '/api/v1/roles';
+                method = 'POST';
+            }else{
+                uri = '/api/v1/roles' + data.roleId;
+                method = 'PUT';
+            }
+            
+            var defered = Service.requestURL(uri,data,method,null);
+            defered.promise.then(function(response){
+                console.log(response)
+                // vm.privilegeGroupList = defualtValuePrivilegeGroupList(response.data);
+            }).catch(function(response) {
+                log.error('Save role fail');
+            });
+            return defered;
+        }
+
+        $scope.error = {};
+        $scope.save = function() {	
+            if (validateDataForSave()) {
+                var preCloseCallback = function(confirm) {
+                    PageNavigation.gotoPreviousPage(true);
+                }
+
+                UIFactory.showConfirmDialog({
+                    data : {
+                        headerMessage : 'Confirm save?'
+                    },
+                    confirm : function() {
+                        return _save(rolePrivilegeModel);
+                    },
+                    onFail : function(response) {
+                        if(response.status != 400){
+                        var msg = {
+                                409 : 'Role has been modified.'
+                        };
+                            UIFactory.showFailDialog({
+                            data : {
+                                headerMessage : vm.isNewMode? 'Add new role fail.':'Edit role fail.',
+                                bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+                            },
+                            preCloseCallback : preCloseCallback
+                        });
+                        }
+                    },
+                    onSuccess : function(response) {
+                        UIFactory.showSuccessDialog({
+                            data : {
+                                headerMessage : vm.isNewMode? 'Add new role success.':'Edit role complete.',
+                                bodyMessage : ''
+                            },
+                            preCloseCallback : preCloseCallback
+                        });
+                    }
+                });
+            }else{
+                console.log('Invalidate data for save');
+            }
+		}
+
+        
+        var validateDataForSave = function(){
+            var validate = true;
+
+            if(vm.roleName==null || vm.roleName==""){
+                validate = false;
+                $scope.error.roleNameIsRequired = true;
+            }else{
+                $scope.error.roleNameIsRequired = false;
+            }
+
+            rolePrivilegeModel.privileges = getValueRolePrivilegeIsSelected();
+
+            if(rolePrivilegeModel.privileges.length == 0){
+                validate = false;
+                $scope.error.permissionsIsRequired = true;
+            }else{
+                $scope.error.permissionsIsRequired = false;
+            }
+            return validate;
+        }
 
         vm.checkDependValue = function(privilege,group){
             var groupIndex = group.sequence-1;
@@ -64,11 +168,10 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
         }
 
         var initialPrivilegeGroup = function(){
-            uri = '/api/v1/privilegeGroups';
-            var defered = Service.doGet(uri,null);
+            var url = '/api/v1/privilegeGroups';
+            var defered = Service.doGet(url,null);
             defered.promise.then(function(response){
                 vm.privilegeGroupList = defualtValuePrivilegeGroupList(response.data);
-                console.log(vm.privilegeGroupList)
             }).catch(function(response) {
                 log.error('Get role group fail');
             });
@@ -77,6 +180,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
 		var initial = function(){
             if(mode!=""){
                 if(mode === 'NEW'){
+                    vm.isNewMode = true;
                     vm.headerMessage = page.NEW;
                 }else if(mode === 'EDIT'){
                     vm.headerMessage = page.EDIT;
