@@ -28,8 +28,7 @@
                             <div class="form-group" ng-show="error.roleNameIsRequired">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-									id="role-name-warning-message-label">{{'Role name is
-									required' | translate}}.</span>
+									id="role-name-warning-message-label">{{ctrl.roleMessageError | translate}}.</span>
 							</div>
                             
                             <div class="form-group">

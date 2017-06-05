@@ -17,6 +17,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
         vm.viewMode = false;
         vm.headerMessage;
         vm.roleName;
+        vm.roleMessageError;
 
         $scope.cancel = function() {
             PageNavigation.gotoPreviousPage();
@@ -51,8 +52,10 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
                 uri = '/api/v1/roles';
                 method = 'POST';
             }else{
-                uri = '/api/v1/roles' + data.roleId;
+                uri = '/api/v1/roles';
                 method = 'PUT';
+                data.roleId = 21;
+                data.version = 0;
             }
             
             var defered = Service.requestURL(uri,data,method,null);
@@ -80,18 +83,22 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
                         return _save(rolePrivilegeModel);
                     },
                     onFail : function(response) {
-                        if(response.status != 400){
-                        var msg = {
-                                409 : 'Role has been modified.'
-                        };
+                        if(response == 403){
+                            vm.roleMessageError = vm.isNewMode? 'New role fail. Role name is exits' : 'Edit role fail. Role name is exits';
+                            $scope.error.roleNameIsRequired = true;
+                        }else{
+                            var msg = {
+                                403 : 'New role fail. Role name is exits.'
+                            };
                             UIFactory.showFailDialog({
-                            data : {
-                                headerMessage : vm.isNewMode? 'Add new role fail.':'Edit role fail.',
-                                bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
-                            },
-                            preCloseCallback : preCloseCallback
-                        });
+                                data : {
+                                    headerMessage : vm.isNewMode? 'Add new role fail.':'Edit role fail.',
+                                    bodyMessage : msg[response] ? msg[response] : response.statusText
+                                },
+                                preCloseCallback : preCloseCallback
+                            });
                         }
+                        
                     },
                     onSuccess : function(response) {
                         UIFactory.showSuccessDialog({
@@ -114,8 +121,10 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
 
             if(vm.roleName==null || vm.roleName==""){
                 validate = false;
+                vm.roleMessageError = "Role name is required";
                 $scope.error.roleNameIsRequired = true;
             }else{
+                rolePrivilegeModel.roleName = vm.roleName;
                 $scope.error.roleNameIsRequired = false;
             }
 
