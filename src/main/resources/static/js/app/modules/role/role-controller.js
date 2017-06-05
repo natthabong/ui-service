@@ -139,18 +139,38 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
             return validate;
         }
 
-        vm.checkDependValue = function(privilege,group){
-            var groupIndex = group.sequence-1;
-            var privilegeIndex = privilege.sequence-1;
-            if(privilege.dependencies.length > 0){
-                for(var i=0;i<privilege.dependencies.length;i++){
-                    for(var j=0;j<vm.privilegeGroupList[groupIndex].privileges.length;j++){
-                        if(vm.privilegeGroupList[groupIndex].privileges[j].privilegeId === privilege.dependencies[i].privilegeId){
-                            if(vm.privilegeGroupList[groupIndex].privileges[j].isDisable == false){
-                                vm.privilegeGroupList[groupIndex].privileges[j].isDisable = true;
-                                vm.privilegeGroupList[groupIndex].privileges[j].value = true;
-                            }else{
-                                vm.privilegeGroupList[groupIndex].privileges[j].isDisable = false;
+        vm.checkDependValue = function(privilege,isMaster){
+            console.log(privilege)
+            console.log(isMaster)
+            console.log(privilege.dependencies.length)
+            if(privilege.value){
+                if(privilege.dependencies.length > 0){
+                    for(var i=0;i<privilege.dependencies.length;i++){
+                        for(var groupIndex=0;groupIndex<vm.privilegeGroupList.length;groupIndex++){
+                            for(var privilegeIndex=0;privilegeIndex<vm.privilegeGroupList[groupIndex].privileges.length;privilegeIndex++){
+                                if(vm.privilegeGroupList[groupIndex].privileges[privilegeIndex].privilegeId === privilege.dependencies[i].privilegeId){
+                                    if(vm.privilegeGroupList[groupIndex].privileges[privilegeIndex].isDisable == false){
+                                        vm.privilegeGroupList[groupIndex].privileges[privilegeIndex].isDisable = true;
+                                        vm.privilegeGroupList[groupIndex].privileges[privilegeIndex].value = true;
+                                    }
+                                    vm.checkDependValue(vm.privilegeGroupList[groupIndex].privileges[privilegeIndex],false);
+                                }
+                            }
+                        }
+                    }
+                }
+            }else{
+                if(privilege.dependencies.length > 0){
+                    for(var i=0;i<privilege.dependencies.length;i++){
+                        for(var groupIndex=0;groupIndex<vm.privilegeGroupList.length;groupIndex++){
+                            for(var privilegeIndex=0;privilegeIndex<vm.privilegeGroupList[groupIndex].privileges.length;privilegeIndex++){
+                                if(vm.privilegeGroupList[groupIndex].privileges[privilegeIndex].privilegeId === privilege.dependencies[i].privilegeId){
+                                    if(vm.privilegeGroupList[groupIndex].privileges[privilegeIndex].isDisable == true){
+                                        vm.privilegeGroupList[groupIndex].privileges[privilegeIndex].isDisable = false;
+                                        vm.privilegeGroupList[groupIndex].privileges[privilegeIndex].value = true;
+                                    }
+                                    vm.checkDependValue(vm.privilegeGroupList[groupIndex].privileges[privilegeIndex],false);
+                                }
                             }
                         }
                     }
@@ -181,6 +201,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
             var defered = Service.doGet(url,null);
             defered.promise.then(function(response){
                 vm.privilegeGroupList = defualtValuePrivilegeGroupList(response.data);
+                console.log(vm.privilegeGroupList)
             }).catch(function(response) {
                 log.error('Get role group fail');
             });
