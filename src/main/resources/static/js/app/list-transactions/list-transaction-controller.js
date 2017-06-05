@@ -237,7 +237,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     	var deffered = retryReject(vm.transaction);
     	deffered.promise.then(function(response) {
     		if(response.status == 200){
-    			if(vm.transaction.returnCode == 'C'){
+    			if(vm.transaction.returnStatus == 'C'){
 					UIFactory.showSuccessDialog({
 						data : {
 							mode: 'transaction',
