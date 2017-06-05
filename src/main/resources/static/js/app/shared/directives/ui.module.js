@@ -181,7 +181,7 @@ angular
 	
 	.filter('isDisplayTransactionErrorMessage', function() {
 	    return function(data) {        	
-	       if(data.statusCode != undefined){
+	       if(data!=undefined && data.statusCode != undefined){
 	    		    if("REJECTED_BY_BANK"==data.statusCode){
 	    		    	return true;
 	    		    }else if("REJECT_INCOMPLETE"==data.statusCode){
