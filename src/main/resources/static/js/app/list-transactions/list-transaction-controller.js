@@ -251,6 +251,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 						},
 					});
     			}else{
+    				vm.transaction.retriable = true;
+    				vm.transaction.rejectReason = null;
     				UIFactory.showIncompleteDialog({
     					data : {
     						mode: 'transaction',
