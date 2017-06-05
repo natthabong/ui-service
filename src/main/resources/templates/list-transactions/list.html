@@ -1,13 +1,13 @@
 <div id="content" th:fragment="content"
 	sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS','VIEW_LOANS_REFER_TO_MY_ORGANIZE','VIEW_LOANS_OF_MY_ORGANIZE')">
 	<input type="hidden" ng-init="ctrl.reject=true"
-		sec:authorize="hasAuthority('REJECT_ALL_ONLY_WAIT_FOR_BANK_LOANS')" />
+		sec:authorize="hasAuthority('REJECT_ALL_WAIT_FOR_BANK_LOANS')" />
 	<input type="hidden" ng-init="ctrl.verify=true"
 		sec:authorize="hasAuthority('VERIFY_LOANS_OF_MY_ORGANIZE')" /> <input
 		type="hidden" ng-init="ctrl.approve=true"
 		sec:authorize="hasAuthority('APPROVE_LOANS_OF_MY_ORGANIZE')" /> <input
 		type="hidden" ng-init="ctrl.canRetry=true"
-		sec:authorize="hasAnyAuthority('RE-CHECK_ALL_ONLY_REJECT_INCOMPLETE_LOANS', 'RE-CHECK_ALL_ONLY_INCOMPLETE_LOANS', 'RE-CHECK_ONLY_INCOMPLETE_LOANS_OF_MY_ORGANIZE')" />
+		sec:authorize="hasAnyAuthority('RE_CHECK_ALL_REJECT_INCOMPLETE_LOANS', 'RE_CHECK_ALL_INCOMPLETE_LOANS', 'RE_CHECK_ONLY_INCOMPLETE_LOANS_OF_MY_ORGANIZE')" />
 	<input type="hidden" ng-init="ctrl.canView=true"
 		sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS', 'VIEW_LOANS_OF_MY_ORGANIZE', 'VIEW_LOANS_REFER_TO_MY_ORGANIZE')" />
 	<input type="hidden" ng-init="ctrl.canPrint=true"
