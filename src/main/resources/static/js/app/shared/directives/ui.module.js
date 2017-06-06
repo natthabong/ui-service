@@ -225,7 +225,7 @@ angular
 			}
 	    };
 	})
-	.filter('transactionIncompleteMessage', function() {
+	.filter('transactionErrorMessagePopup', function() {
 	    return function(data) {    
 			if(data == undefined){
 				return "";

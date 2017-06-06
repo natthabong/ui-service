@@ -29,7 +29,7 @@
 				<div class="col-md-10 col-sm-10">
 					<label ng-bind="'Reason' | translate"></label>:&nbsp;<span
 						id="popup-reason-label"
-						ng-bind="ngDialogData.data.transaction | transactionIncompleteMessage"></span>
+						ng-bind="ngDialogData.data.transaction | transactionErrorMessagePopup"></span>
 				</div>
 			</div>
 			<div class="row" ng-if="ngDialogData.data.infoMessage != undefined">
