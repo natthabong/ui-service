@@ -13,6 +13,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     vm.showInfomation = false;
     var sponsorInfo = null;
     var supplierInfo = null;
+    vm.serverTime = '';
     vm.splitePageTxt = '';
     vm.transactionType = {
             transactionDate: 'transactionDate',
@@ -642,6 +643,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			
             var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
             transactionDifferd.promise.then(function(response) {
+            	vm.serverTime = response.headers('Date');
 				vm.listTransactionModel.statusCode = '';
                 vm.showInfomation = true;
                 var transactionDocs = response.data;
@@ -947,7 +949,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     }
     
     function isAfterToday(data) {
-        var now = new Date();
+        var now = new Date(vm.serverTime);
         var date = new Date(data)
         date.setHours(0,0,0,0);
         if (date < now) {
