@@ -209,18 +209,9 @@ angular
 			if(data == undefined){
 				return "";
 			}else{
-				if(data.returnStatus == 'B'||data.returnStatus == 'WB'||data.returnStatus == 'FC'){
+				if(data.statusCode == 'DRAWDOWN_SUCCESS'||data.statusCode == 'WAIT_FOR_DRAWDOWN_RESULT'){
 					return "";
 				}
-//				if(data.rejectReason != undefined && data.rejectReason != null){
-//				   return data.rejectReason;
-//				}else{
-//					if(data.returnCode != undefined && data.returnCode != null && data.returnCode != ''){
-//						return "["+data.returnCode+"] "+data.returnMessage ;
-//					}else{
-//						return data.returnMessage ;
-//					}
-//				}  
 				if(data.statusCode == 'REJECTED_BY_BANK' || data.statusCode == 'REJECT_BY_CHECKER' || data.statusCode == 'REJECT_BY_APPROVER'){
 					return data.rejectReason;
 				}else{
@@ -239,15 +230,6 @@ angular
 			if(data == undefined){
 				return "";
 			}else{
-//				if(data.rejectReason != undefined && data.rejectReason != null){
-//				   return data.rejectReason;
-//				}else{
-//					if(data.returnCode != undefined && data.returnCode != null && data.returnCode != ''){
-//						return "["+data.returnCode+"] "+data.returnMessage ;
-//					}else{
-//						return data.returnMessage ;
-//					}
-//				} 
 				if(data.statusCode == 'REJECTED_BY_BANK' || data.statusCode == 'REJECT_BY_CHECKER' || data.statusCode == 'REJECT_BY_APPROVER'){
 					return data.rejectReason;
 				}else{
