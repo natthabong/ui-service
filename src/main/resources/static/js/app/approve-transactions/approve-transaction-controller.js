@@ -88,6 +88,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 								headerMessage : 'Reject transaction fail',
 								backAndReset : vm.backAndReset,
 								viewHistory : vm.viewHistory,
+								viewRecent : vm.viewRecent,
 								errorCode : response.data.errorCode,
 								action : response.data.attributes.action,
 								actionBy : response.data.attributes.actionBy
@@ -279,11 +280,11 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 
         vm.init();
 
-        vm.viewRecent = function(){
-        	$timeout(function() {
-        		PageNavigation.gotoPage('/view-transaction', {transactionModel: vm.transaction, isShowViewHistoryButton: true});
-            }, 10);
-        }
+        // vm.viewRecent = function(){
+        // 	$timeout(function() {
+        // 		PageNavigation.gotoPage('/view-transaction', {transactionModel: vm.transaction, isShowViewHistoryButton: true});
+        //     }, 10);
+        // }
 
         vm.printEvidenceFormAction = function(){
         	if(printEvidence(vm.transaction)){
