@@ -87,12 +87,13 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
                             $scope.error.roleNameIsRequired = true;
                         }else{
                             var msg = {
-                                403 : 'New role fail. Role name is exits.'
+                                "001" : 'Role has been deleted.',
+                                "002" : 'Role has been modified.'
                             };
                             UIFactory.showFailDialog({
                                 data : {
                                     headerMessage : vm.isNewMode? 'Add new role fail.':'Edit role fail.',
-                                    bodyMessage : msg[response] ? msg[response] : response.statusText
+                                    bodyMessage : msg[response.message] ? msg[response.message] : response.statusText
                                 },
                                 preCloseCallback : preCloseCallback
                             });
