@@ -57,8 +57,6 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
             }else{
                 uri = '/api/v1/roles';
                 method = 'PUT';
-                data.roleId = 21;
-                data.version = 0;
             }
             
             var defered = Service.requestURL(uri,data,method,null);
