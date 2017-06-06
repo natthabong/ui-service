@@ -747,7 +747,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	
 	vm.disabledReject = function(data){
 		var condition1 = vm.reject!= undefined && vm.reject == true;
-		var condition2 = data.statusCode == vm.statusDocuments.waitForDrawdownResult || data.statusCode == vm.statusDocuments.rejectIncomplete;
+		var condition2 = data.statusCode == vm.statusDocuments.waitForDrawdownResult
 		var condition3 = isAfterToday(data.transactionDate);
 		if(condition1 && condition2 && condition3){
 			return false;
