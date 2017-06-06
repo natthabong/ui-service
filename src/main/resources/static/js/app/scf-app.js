@@ -288,14 +288,14 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'RoleController',
 				controllerAs: 'ctrl',
 				templateUrl: '/role/edit',
-				params: {mode:''},
+				params: {mode:'',data:''},
 				resolve: load(['js/app/modules/role/role-controller.js', 'js/app/modules/role/role-service.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/role/view',{
 				url: '/role/view',
 				controller: 'RoleController',
 				controllerAs: 'ctrl',
 				templateUrl: '/role/view',
-				params: {mode:''},
+				params: {mode:'',data:''},
 				resolve: load(['js/app/modules/role/role-controller.js', 'js/app/modules/role/role-service.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/user',{
 				url: '/user',

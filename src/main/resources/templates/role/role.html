@@ -45,10 +45,11 @@
 
                                     <div ng-repeat="privilege in group.privileges track by $index">
                                         <label class="col-lg-1 col-md-1 col-sm-1 col-xs-1 control-label"></label>
-                                        <scf-checkbox id="{{privilege.privilegeId}}-checkbox" ng-change="ctrl.checkDependValue(privilege,true)"
+                                        <label class="checkbox-inline"> 
+                                        <scf-checkbox id="{{privilege.privilegeId}}-checkbox" ng-change="ctrl.checkDependValue(privilege)"
                                             ng-disabled="ctrl.viewMode || privilege.isDisable" ng-model="privilege.value"></scf-checkbox>
-                                        <label class="checkbox-inline" id="{{privilege.privilegeId}}-label" 
-                                            style="padding-bottom: 11px;">{{privilege.name}}</label>
+                                        <span id="{{privilege.privilegeId}}-label">{{privilege.name}}</span>
+                                        </label>
                                     </div>
                                 </div>
                             </div>

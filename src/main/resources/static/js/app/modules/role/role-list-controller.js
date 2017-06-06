@@ -21,13 +21,15 @@ angular.module('scfApp').controller('RoleListController',['$scope','Service', '$
 			PageNavigation.gotoPage('/role/new', param,[]);
 		}
 
-		vm.editRole = function(){
+		vm.editRole = function(data){
 			param.mode = 'EDIT';
+			param.data = data;
 			PageNavigation.gotoPage('/role/edit', param,[]);
 		}
 
-		vm.viewRole = function(){
+		vm.viewRole = function(data){
 			param.mode = 'VIEW';
+			param.data = data;
 			PageNavigation.gotoPage('/role/view', param,[]);
 		}
 

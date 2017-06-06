@@ -18,6 +18,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
         vm.headerMessage;
         vm.roleName;
         vm.roleMessageError;
+        var defaultPrivilegeListIsSelected =[];
 
         $scope.cancel = function() {
             PageNavigation.gotoPreviousPage();
@@ -25,10 +26,12 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
 
         vm.privilegeGroupList = [];
         vm.setUpPrivilegeGroupList = [];
+
         var rolePrivilegeModel = {
             roleId : null,
             roleName :null,
-            privileges : []
+            privileges : [],
+            version:null
         }
 
         var getValueRolePrivilegeIsSelected = function(){
@@ -60,8 +63,6 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
             
             var defered = Service.requestURL(uri,data,method,null);
             defered.promise.then(function(response){
-                console.log(response)
-                // vm.privilegeGroupList = defualtValuePrivilegeGroupList(response.data);
             }).catch(function(response) {
                 log.error('Save role fail');
             });
@@ -139,10 +140,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
             return validate;
         }
 
-        vm.checkDependValue = function(privilege,isMaster){
-            console.log(privilege)
-            console.log(isMaster)
-            console.log(privilege.dependencies.length)
+        vm.checkDependValue = function(privilege){
             if(privilege.value){
                 if(privilege.dependencies.length > 0){
                     for(var i=0;i<privilege.dependencies.length;i++){
@@ -153,7 +151,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
                                         vm.privilegeGroupList[groupIndex].privileges[privilegeIndex].isDisable = true;
                                         vm.privilegeGroupList[groupIndex].privileges[privilegeIndex].value = true;
                                     }
-                                    vm.checkDependValue(vm.privilegeGroupList[groupIndex].privileges[privilegeIndex],false);
+                                    vm.checkDependValue(vm.privilegeGroupList[groupIndex].privileges[privilegeIndex]);
                                 }
                             }
                         }
@@ -169,7 +167,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
                                         vm.privilegeGroupList[groupIndex].privileges[privilegeIndex].isDisable = false;
                                         vm.privilegeGroupList[groupIndex].privileges[privilegeIndex].value = true;
                                     }
-                                    vm.checkDependValue(vm.privilegeGroupList[groupIndex].privileges[privilegeIndex],false);
+                                    vm.checkDependValue(vm.privilegeGroupList[groupIndex].privileges[privilegeIndex]);
                                 }
                             }
                         }
@@ -178,22 +176,33 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
             }
         }
 
-        var initailValuePrivilegeGroup = function(data){
-            return data;
+        var comparePrivilegeIsSelected = function(privilegeId){
+            var invalid = defaultPrivilegeListIsSelected.indexOf(privilegeId);
+            if(invalid != -1){
+                return true;
+            }
+            return false;
         }
+
+        var indexOfPrivilegeIsSelected = [];
 
         var defualtValuePrivilegeGroupList = function(data){
             for(var i=0;i<data.length;i++){
                 for(var j=0; j<data[i].privileges.length;j++){
                     data[i].privileges[j].value = false;
                     data[i].privileges[j].isDisable = false;
+                    if(defaultPrivilegeListIsSelected != []){
+                        data[i].privileges[j].value = comparePrivilegeIsSelected(data[i].privileges[j].privilegeId);
+                        if(data[i].privileges[j].value){
+                            indexOfPrivilegeIsSelected.push({
+                                groupIndex : i,
+                                privilegeIndex : j
+                            });
+                        }
+                    }
                 }
             }
-            if(mode !== 'NEW'){
-                return initailValuePrivilegeGroup(data);
-            }else{
-                return data;
-            }
+            return data;
         }
 
         var initialPrivilegeGroup = function(){
@@ -201,10 +210,31 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
             var defered = Service.doGet(url,null);
             defered.promise.then(function(response){
                 vm.privilegeGroupList = defualtValuePrivilegeGroupList(response.data);
-                console.log(vm.privilegeGroupList)
+                if(indexOfPrivilegeIsSelected != []){
+                    for(var index=0; index<indexOfPrivilegeIsSelected.length; index++){
+                        var groupIndex = indexOfPrivilegeIsSelected[index].groupIndex;
+                        var privilegeIndex = indexOfPrivilegeIsSelected[index].privilegeIndex;
+                        vm.checkDependValue(vm.privilegeGroupList[groupIndex].privileges[privilegeIndex]);
+                    }
+                }
             }).catch(function(response) {
                 log.error('Get role group fail');
             });
+        }
+
+        var initialRoleInformation = function(model){
+            var information = $stateParams.data;
+
+            for(var index=0; index<information.privileges.length; index++){
+                defaultPrivilegeListIsSelected.push(
+                    information.privileges[index].privilegeId
+                );
+            }
+
+            vm.roleName = information.roleName;
+            model.roleId = information.roleId;
+            model.version = information.version;
+            return model;
         }
 
 		var initial = function(){
@@ -214,12 +244,14 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
                     vm.headerMessage = page.NEW;
                 }else if(mode === 'EDIT'){
                     vm.headerMessage = page.EDIT;
+                    rolePrivilegeModel = initialRoleInformation(rolePrivilegeModel);
                 }else if(mode === 'VIEW'){
                     vm.button = 'Back';
                     vm.viewMode = true;
                     vm.headerMessage = page.VIEW;
+                    rolePrivilegeModel = initialRoleInformation(rolePrivilegeModel);
                 }
-                initialPrivilegeGroup()
+                initialPrivilegeGroup();
             }else{
                 PageNavigation.gotoPage("/dashboard",undefined,undefined);
             }
