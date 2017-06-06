@@ -227,6 +227,7 @@
 											<span id="status-value-label"> <span
 												ng-bind="viewTxnCtrl.transactionModel.statusCode | translate"></span>
 												<span style="color: red"
+												ng-show="viewTxnCtrl.transactionModel.statusCode == 'INCOMPLETE' || viewTxnCtrl.transactionModel.statusCode == 'FAIL_TO_DRAWDOWN'"
 												ng-bind="viewTxnCtrl.transactionModel | transactionErrorMessage"></span>
 											</span>
 										</div>

@@ -643,6 +643,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			
             var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
             transactionDifferd.promise.then(function(response) {
+            	console.log(response);
             	vm.serverTime = response.headers('Date');
 				vm.listTransactionModel.statusCode = '';
                 vm.showInfomation = true;
