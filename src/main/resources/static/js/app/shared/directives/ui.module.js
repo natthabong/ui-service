@@ -212,15 +212,25 @@ angular
 				if(data.returnStatus == 'B'||data.returnStatus == 'WB'||data.returnStatus == 'FC'){
 					return "";
 				}
-				if(data.rejectReason != undefined && data.rejectReason != null){
-				   return data.rejectReason;
+//				if(data.rejectReason != undefined && data.rejectReason != null){
+//				   return data.rejectReason;
+//				}else{
+//					if(data.returnCode != undefined && data.returnCode != null && data.returnCode != ''){
+//						return "["+data.returnCode+"] "+data.returnMessage ;
+//					}else{
+//						return data.returnMessage ;
+//					}
+//				}  
+				if(data.statusCode == 'REJECTED_BY_BANK' || data.statusCode == 'REJECT_BY_CHECKER' || data.statusCode == 'REJECT_BY_APPROVER'){
+					return data.rejectReason;
 				}else{
 					if(data.returnCode != undefined && data.returnCode != null && data.returnCode != ''){
-						return "["+data.returnCode+"] "+data.returnMessage ;
+						console.log("["+data.returnCode+"] "+data.returnMessage);
+						return "["+data.returnCode+"] "+data.returnMessage;
 					}else{
 						return data.returnMessage ;
 					}
-				}  
+				}
 			}
 	    };
 	})
@@ -229,15 +239,25 @@ angular
 			if(data == undefined){
 				return "";
 			}else{
-				if(data.rejectReason != undefined && data.rejectReason != null){
-				   return data.rejectReason;
+//				if(data.rejectReason != undefined && data.rejectReason != null){
+//				   return data.rejectReason;
+//				}else{
+//					if(data.returnCode != undefined && data.returnCode != null && data.returnCode != ''){
+//						return "["+data.returnCode+"] "+data.returnMessage ;
+//					}else{
+//						return data.returnMessage ;
+//					}
+//				} 
+				if(data.statusCode == 'REJECTED_BY_BANK' || data.statusCode == 'REJECT_BY_CHECKER' || data.statusCode == 'REJECT_BY_APPROVER'){
+					return data.rejectReason;
 				}else{
+					
 					if(data.returnCode != undefined && data.returnCode != null && data.returnCode != ''){
 						return "["+data.returnCode+"] "+data.returnMessage ;
 					}else{
 						return data.returnMessage ;
 					}
-				}  
+				}
 			}
 	    };
 	})

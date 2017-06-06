@@ -223,31 +223,31 @@
 										<div class="col-md-1 col-sm-1">
 											<label id="status-label">{{'Status' |translate}}:</label>
 										</div>
-										<div class="col-md-3 col-sm-3 text-left">
+										<div class="col-md-11 col-sm-11 text-left">
 											<span id="status-value-label"> <span
 												ng-bind="viewTxnCtrl.transactionModel.statusCode | translate"></span>
 												<span style="color: red"
-												ng-show="viewTxnCtrl.transactionModel.statusCode == 'INCOMPLETE' || viewTxnCtrl.transactionModel.statusCode == 'FAIL_TO_DRAWDOWN'"
+												ng-show="viewTxnCtrl.transactionModel.statusCode == 'INCOMPLETE' || viewTxnCtrl.transactionModel.statusCode == 'FAIL_TO_DRAWDOWN' || viewTxnCtrl.transactionModel.statusCode == 'REJECT_INCOMPLETE'"
 												ng-bind="viewTxnCtrl.transactionModel | transactionErrorMessage"></span>
 											</span>
 										</div>
-										<div class="col-md-1 col-sm-1"></div>
-										<div class="col-md-3 col-sm-3"></div>
-										<div class="col-md-2 col-sm-2"></div>
-										<div class="col-md-1 col-sm-1"></div>
+<!-- 										<div class="col-md-1 col-sm-1"></div> -->
+<!-- 										<div class="col-md-3 col-sm-3"></div> -->
+<!-- 										<div class="col-md-2 col-sm-2"></div> -->
+<!-- 										<div class="col-md-1 col-sm-1"></div> -->
 									</div>
 									<div class="row" style="display: {{viewTxnCtrl.isDisplayReason">
 										<div class="col-md-1 col-sm-1">
 											<label id="reject-reason-label">{{'Reason'
 												|translate}}:</label>
 										</div>
-										<div class="col-md-11 col-sm-3 text-left">
+										<div class="col-md-11 col-sm-11 text-left">
 											<label id="reject-reason-value-label" style="color: red">{{viewTxnCtrl.transactionModel.rejectReason}}</label>
 										</div>
-										<div class="col-md-1 col-sm-1"></div>
-										<div class="col-md-3 col-sm-3"></div>
-										<div class="col-md-2 col-sm-2"></div>
-										<div class="col-md-1 col-sm-1"></div>
+<!-- 										<div class="col-md-1 col-sm-1"></div> -->
+<!-- 										<div class="col-md-3 col-sm-3"></div> -->
+<!-- 										<div class="col-md-2 col-sm-2"></div> -->
+<!-- 										<div class="col-md-1 col-sm-1"></div> -->
 									</div>
 								</div>
 							</div>
