@@ -234,7 +234,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     
     vm.retryReject = function() {
     	vm.transaction.transactionId = vm.transactionIdForRetry;
-		console.log(vm.transaction);
     	var deffered = retryReject(vm.transaction);
     	deffered.promise.then(function(response) {
     		if(response.status == 200){
@@ -316,7 +315,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		            }
 				},
 				onFail : function(response) {	
-					console.log(response);				
 					vm.handleDialogFail(response);					
 				},
 				onSuccess : function(response) {
@@ -356,7 +354,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			} 
 		}else if(response.status == 409){
 			if(response.data.errorCode == 'FAILED'){
-			    console.log(response.data.attributes.action);
 				UIFactory.showFailDialog({
 					data : {
 						mode: 'transaction',
@@ -643,7 +640,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			
             var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
             transactionDifferd.promise.then(function(response) {
-            	console.log(response);
             	vm.serverTime = response.headers('current-date');
 				vm.listTransactionModel.statusCode = '';
                 vm.showInfomation = true;
@@ -748,7 +744,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	vm.disabledReject = function(data){
 		var condition1 = vm.reject!= undefined && vm.reject == true;
 		var condition2 = data.statusCode == vm.statusDocuments.waitForDrawdownResult
-		var condition3 = isAfterToday(data.transactionDate);
+		var condition3 = isAfterToday(data);
 		if(condition1 && condition2 && condition3){
 			return false;
 		}else{
@@ -950,13 +946,33 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     }
     
     function isAfterToday(data) {
-        var now = new Date(vm.serverTime);
-        var date = new Date(data)
-        date.setHours(0,0,0,0);
-        if (date < now) {
-        	return false;
-        }else{
+       
+        var from_date = data.transactionDate;
+        var YYYY = from_date.substring(0, 4);
+        var MM = from_date.substring(5, 7);
+        var DD = from_date.substring(8,10);
+        var txnDate = new Date();
+        txnDate.setHours(0);
+        txnDate.setMilliseconds(0);
+        txnDate.setMinutes(0);
+        txnDate.setSeconds(0);
+        txnDate.setFullYear(YYYY,(MM-1), DD);
+
+        var now = vm.serverTime;
+        var Year = now.substring(0, 4);
+        var Month = now.substring(5, 7);
+        var Day = now.substring(8,10);
+        var todayDate = new Date();
+        todayDate.setHours(0);
+        todayDate.setMilliseconds(0);
+        todayDate.setMinutes(0);
+        todayDate.setSeconds(0);
+        todayDate.setFullYear(Year,(Month-1), Day);    
+
+        if (txnDate.getTime() > todayDate.getTime()) {
         	return true;
+        }else{
+        	return false;
         }   
     }
     
