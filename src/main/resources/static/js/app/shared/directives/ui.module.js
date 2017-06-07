@@ -212,7 +212,7 @@ angular
 				if(data.statusCode == 'DRAWDOWN_SUCCESS'||data.statusCode == 'WAIT_FOR_DRAWDOWN_RESULT'){
 					return "";
 				}
-				if(data.statusCode == 'REJECTED_BY_BANK' || data.statusCode == 'REJECT_BY_CHECKER' || data.statusCode == 'REJECT_BY_APPROVER'){
+				if(data.statusCode == 'REJECTED_BY_BANK' || data.statusCode == 'REJECT_BY_CHECKER' || data.statusCode == 'REJECT_BY_APPROVER' || data.statusCode == 'EXPIRED'){
 					return data.rejectReason;
 				}else{
 					if(data.returnCode != undefined && data.returnCode != null && data.returnCode != ''){
