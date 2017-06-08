@@ -276,6 +276,12 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         });    	
     };
 
+	var dialogPopup;
+
+	var closeDialogPopUp = function(){
+		dialogPopup.close();
+	}
+
     vm.confirmRejectPopup = function(data, msg) {
  	   if(msg == 'clear'){
 			vm.wrongPassword = false;
@@ -296,45 +302,46 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	   vm.transactionIdForRetry = data.transactionId;
  	   
  	   vm.transactionPayload.transaction = vm.transaction;
- 	   UIFactory.showConfirmDialog({
-				data : {
-					headerMessage : 'Confirm reject ?',
-					mode: 'transaction',
-					credentialMode : true,
-					displayName : vm.displayName,
-					wrongPassword : vm.wrongPassword,
-					passwordErrorMsg : vm.passwordErrorMsg,
-					rejectReason : null,
-					transactionModel : vm.transactionPayload
-				},
-				confirm : function() {
-					if (validateCredential(vm.transactionPayload.credential)) {
-						return reject(vm.transactionPayload);
-					}else {
-		            	vm.wrongPassword = true;
-		            	vm.passwordErrorMsg = 'Password is required';						
-		            	vm.confirmRejectPopup(vm.transactionPayload.transaction,'error');
-		            }
-				},
-				onFail : function(response) {	
-					vm.handleDialogFail(response);					
-				},
-				onSuccess : function(response) {
-					UIFactory.showSuccessDialog({
-						data : {
-							mode: 'transaction',
-							headerMessage : 'Reject transaction success.',						
-							bodyMessage : vm.transaction.transactionNo,
-							viewRecent : vm.viewRecent,
-							viewHistory: vm.searchTransactionService,
-							hideBackButton : true,
-							hideViewRecentButton : false,
-							hideViewHistoryButton : true,
-							showOkButton : true
-						},
-					});
+ 	   dialogPopup = UIFactory.showConfirmDialog({
+			data : {
+				headerMessage : 'Confirm reject ?',
+				mode: 'transaction',
+				credentialMode : true,
+				displayName : vm.displayName,
+				wrongPassword : vm.wrongPassword,
+				passwordErrorMsg : vm.passwordErrorMsg,
+				rejectReason : null,
+				transactionModel : vm.transactionPayload
+			},
+			confirm : function() {
+				if (validateCredential(vm.transactionPayload.credential)) {
+					return reject(vm.transactionPayload);
+				}else {
+					vm.wrongPassword = true;
+					vm.passwordErrorMsg = 'Password is required';
+					closeDialogPopUp();
+					vm.confirmRejectPopup(vm.transactionPayload.transaction,'error');
 				}
-			});    	   
+			},
+			onFail : function(response) {	
+				vm.handleDialogFail(response);					
+			},
+			onSuccess : function(response) {
+				UIFactory.showSuccessDialog({
+					data : {
+						mode: 'transaction',
+						headerMessage : 'Reject transaction success.',						
+						bodyMessage : vm.transaction.transactionNo,
+						viewRecent : vm.viewRecent,
+						viewHistory: vm.searchTransactionService,
+						hideBackButton : true,
+						hideViewRecentButton : false,
+						hideViewHistoryButton : true,
+						showOkButton : true
+					},
+				});
+			}
+		});    	   
     };
     
     vm.handleDialogFail = function(response){
