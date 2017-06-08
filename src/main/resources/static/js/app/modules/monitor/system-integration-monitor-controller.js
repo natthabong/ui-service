@@ -311,10 +311,8 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 
 		
 		vm.viewSystemInfo = function(serviceType, updateModel){
-			console.log(updateModel)
 			if(serviceType === 'gateway'){
 				var deffered = SystemIntegrationMonitorService.updateWebServiceInfomation(updateModel);
-
 				deffered.promise.then(function(response) {
 					var data = response.data[0];
 					vm.serviceInfo = {
@@ -329,43 +327,51 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 						isFTP : false
 					};
 					var systemInfo = ngDialog.open({
-							id : 'service-information-dialog',
-							template : '/js/app/modules/monitor/dialog-service-information.html',
-							className : 'ngdialog-theme-default',
-							controller: 'ViewServiceInformationController',
-							controllerAs: 'ctrl',
-							scope : $scope,
-							data : {
-								serviceInfo : vm.serviceInfo
-							}
+						id : 'service-information-dialog',
+						template : '/js/app/modules/monitor/dialog-service-information.html',
+						className : 'ngdialog-theme-default',
+						controller: 'ViewServiceInformationController',
+						controllerAs: 'ctrl',
+						scope : $scope,
+						data : {
+							serviceInfo : vm.serviceInfo
+						}
 					});
-				})
+				}).catch(function(response) {
+					console.log("Load data fail.");
+				});
 			}else{
-				// var deffered = SystemIntegrationMonitorService.updateFTPInfomation(updateModel);
-				vm.serviceInfo = {
-					serviceName : updateModel.displayName,
-					serviceType : 'FTP',
-					protocal : 'SFTP',
-					url : null,
-					userName : updateModel.remoteUsername,
-					host : updateModel.remoteHost,
-					port : updateModel.remotePort,
-					remoteDirectory : updateModel.remotePath,
-					isFTP : true
-				};
-				var systemInfo = ngDialog.open({
-					id : 'service-information-dialog',
-					template : '/js/app/modules/monitor/dialog-service-information.html',
-					className : 'ngdialog-theme-default',
-					controller: 'ViewServiceInformationController',
-					controllerAs: 'ctrl',
-					scope : $scope,
-					data : {
-						serviceInfo : vm.serviceInfo
-					}
+				var deffered = SystemIntegrationMonitorService.updateFTPInfomation(updateModel.jobId);
+				deffered.promise.then(function(response) {
+					var data = response.data;
+					vm.serviceInfo = {
+						serviceName : data.displayName,
+						serviceType : 'FTP',
+						protocal : 'SFTP',
+						url : null,
+						userName : data.remoteUsername,
+						host : data.remoteHost,
+						port : data.remotePort,
+						remoteDirectory : data.remotePath,
+						isFTP : true
+					};
+					var systemInfo = ngDialog.open({
+						id : 'service-information-dialog',
+						template : '/js/app/modules/monitor/dialog-service-information.html',
+						className : 'ngdialog-theme-default',
+						controller: 'ViewServiceInformationController',
+						controllerAs: 'ctrl',
+						scope : $scope,
+						data : {
+							serviceInfo : vm.serviceInfo
+						}
+					})
+				}).catch(function(response) {
+					console.log("Load data fail.");
 				});
 			}
 		}
+	
 			
 		vm.viewProblemDetail = function(serviceType, data , index){
 			if(serviceType==='ftp'){

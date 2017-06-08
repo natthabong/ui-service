@@ -6,6 +6,7 @@ function SystemIntegrationMonitorService($http, $q) {
 		getFTPList:getFTPList,
 		verifySystemStatusFTP:verifySystemStatusFTP,
 		updateWebServiceInfomation:updateWebServiceInfomation,
+		updateFTPInfomation:updateFTPInfomation,
     };
     function getWebServiceList(bankCode){
          var deffered = $q.defer();
@@ -73,4 +74,16 @@ function SystemIntegrationMonitorService($http, $q) {
 		});
 		return deffered;
 	}
+	function updateFTPInfomation(jobId){
+        var deffered = $q.defer();
+	    $http({
+	       method: 'POST',
+	       url: 'api/v1/ftp-connection-info/job/'+jobId
+	    }).then(function(response) {
+	       deffered.resolve(response);
+	    }).catch(function(response) {
+	       deffered.reject(response);
+	    });
+	    return deffered;
+    }
 }
