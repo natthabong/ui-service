@@ -55,22 +55,22 @@
 					| translate}}</scf-button>
 					<scf-button id="popup-view-recent-button"
 						class="popup-button hidden-sm hidden-xs" data-dismiss="modal"
-						ng-hide="(ngDialogData.data.hideViewRecentButton  != undefined  || ngDialogData.data.hideViewRecentButton == true)"
+						ng-hide="(ngDialogData.data.hideViewRecentButton  != undefined  && ngDialogData.data.hideViewRecentButton == true)"
 						ng-click="closeThisDialog(false);ngDialogData.data.viewRecent()"
 						ng-bind="'View recent' | translate"></scf-button>
 					<scf-button id="popup-view-history-button"
 						class="popup-button hidden-sm hidden-xs" data-dismiss="modal"
-						ng-hide="(ngDialogData.data.hideViewHistoryButton  != undefined  || ngDialogData.data.hideViewHistoryButton == true)"
+						ng-hide="(ngDialogData.data.hideViewHistoryButton  != undefined  && ngDialogData.data.hideViewHistoryButton == true)"
 						ng-click="closeThisDialog(false);ngDialogData.data.viewHistory()"
 						ng-bind="'View history' | translate"></scf-button>
 					<scf-button id="popup-close-button"
 						class="popup-button hidden-sm hidden-xs" data-dismiss="modal"
-						ng-show="(ngDialogData.data.showCloseButton != undefined  || ngDialogData.data.showCloseButton == true)"
+						ng-show="(ngDialogData.data.showCloseButton != undefined  && ngDialogData.data.showCloseButton == true)"
 						ng-click="closeThisDialog(false);ngDialogData.data.viewHistory()"
 						ng-bind="'Close' | translate"></scf-button>
 					<scf-button id="popup-ok-button"
 						class="popup-button hidden-sm hidden-xs" data-dismiss="modal"
-						ng-show="(ngDialogData.data.showOkButton  != undefined  || ngDialogData.data.showOkButton == true)"
+						ng-show="(ngDialogData.data.showOkButton  != undefined  && ngDialogData.data.showOkButton == true)"
 						ng-click="closeThisDialog(false);ngDialogData.data.viewHistory()"
 						ng-bind="'OK' | translate"></scf-button>
 				</div>
