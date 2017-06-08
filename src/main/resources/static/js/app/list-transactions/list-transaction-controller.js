@@ -34,7 +34,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		waitForDrawdownResult: 'WAIT_FOR_DRAWDOWN_RESULT',
 		rejectIncomplete: 'REJECT_INCOMPLETE'			
 	}
-	
+
 	vm.displayName = $scope.userInfo.displayName;
 	
     vm.transactionPayload = {
@@ -842,8 +842,15 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         });
 	};
 
+	var placeholder;
+	if($stateParams.party == partyRole.bank){
+		placeholder = 'Enter organize name or code';
+	}else{
+		placeholder = 'Please Enter organize name or code';
+	}
+
 	vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
-        placeholder : 'Please Enter organize name or code',
+        placeholder : placeholder,
         itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
         query : querySponsorCode
 	});
