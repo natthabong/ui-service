@@ -245,7 +245,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 							bodyMessage : vm.transaction.transactionNo,
 							viewRecent : vm.viewRecent,
 							hideBackButton : true,
-							hideViewRecentButton : true,
+							hideViewRecentButton : false,
 							hideViewHistoryButton : true,
 							showOkButton : true
 						},
@@ -325,7 +325,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 							bodyMessage : vm.transaction.transactionNo,
 							viewRecent : vm.viewRecent,
 							hideBackButton : true,
-							hideViewRecentButton : true,
+							hideViewRecentButton : false,
 							hideViewHistoryButton : true,
 							showOkButton : true
 						},

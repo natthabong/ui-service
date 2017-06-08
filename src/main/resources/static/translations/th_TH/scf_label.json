@@ -101,6 +101,7 @@
 	"Pre-drawdown percentage": "Pre-drawdown percentage",
 	"Interest rate": "อัตราดอกเบี้ยเงินกู้",
     "Transaction no.": "หมายเลขรายการ:",    
+    "Transaction no": "Transaction no",
     "Please select document.": "กรุณาเลือกเอกสาร",
     
     "_comment": "Page Validate Create Transaction",
