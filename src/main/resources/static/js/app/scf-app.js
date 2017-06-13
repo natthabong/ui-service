@@ -381,6 +381,12 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/system-integration-monitor/sponsor',
 				params: { mode: 'sponsor'},
 				resolve: load(['js/app/modules/monitor/system-integration-monitor-controller.js','js/app/modules/monitor/system-integration-monitor-service.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/transaction-tracking',{
+				url: '/transaction-tracking',
+				controller: 'TransactionTrackingController',
+				controllerAs: 'ctrl',
+				templateUrl: '/transaction-tracking',
+				resolve: load(['js/app/modules/monitor/transaction-tracking-controller.js','js/app/modules/monitor/transaction-tracking-service.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
