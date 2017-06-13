@@ -424,6 +424,7 @@
 	"PGP Private key": "PGP Private key",
 	"NONE" : "None",
 	"role-list" : "Role list",
+	"transaction-tracking":"Transaction tracking",
 	
 	"Can not calculate.": "Can not calculate.",
 	"Reject transaction success": "Reject transaction success"
