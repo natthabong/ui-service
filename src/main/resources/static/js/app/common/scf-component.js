@@ -448,7 +448,7 @@
 					var rowNo = renderNo(scope, attrs, pageOptions);
 					var column = scope.$eval(attrs.columnRender);
 					var dataRender = '';
-					var colClass = column.cssTemplate || 'text-center';
+					var colClass = typeof column.cssTemplate === 'function' ? column.cssTemplate(data):column.cssTemplate  || 'text-center';
 
 					if (column.field === 'no') {
 						elements.addClass(colClass);

@@ -8786,3 +8786,18 @@ td.form-group.uib-time {
 td.uib-separator {
     border: none !important;
 }
+
+.message-warnning-text-left{
+	color: red;
+	text-align: left;
+}
+
+.message-warnning-text-right{
+	color: red;
+	text-align: right;
+}
+
+.message-warnning-text-center{
+	color: red;
+	text-align: center;
+}

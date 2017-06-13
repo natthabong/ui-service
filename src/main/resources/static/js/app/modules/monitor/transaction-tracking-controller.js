@@ -36,60 +36,86 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 			label : '50',
 			value : '50'
 		} ];
+
+		var cssTemplate = function(record,align){
+			if(record.messageType === 'WARNING')
+				return 'message-warnning-text-'+align
+			else
+				return 'text-'+align
+		}
 		
 		vm.dataTable = {
-			identityField: '$rowNo',
+			options : {
+				
+			},
 			columns : [
 				{
-					fieldName : 'actionTime',
-					labelEN : 'Date',
-					labelTH : 'Date',
-					id : 'action-time-{value}',
+					fieldName : 'date',
+					field : 'actionTime',
+					label : 'Date',
+					idValueField : 'template',
+					id : 'date-{value}-label',
 					sortable : false,
 	                filterType : 'date',
-	                format : 'dd/MM/yyyy HH:mm:ss',
-					cssTemplate : 'text-left',
+	                filterFormat : 'dd/MM/yyyy HH:mm:ss',
+					cssTemplate : function(record){
+						return cssTemplate(record,'left')
+					}
 				},{
 					fieldName : 'processNo',
-					labelEN : 'Process no',
-					labelTH : 'Process no',
-					id : 'process-no-{value}',
+					field : 'processNo',
+					label : 'Process no',
+					idValueField : 'template',
+					id : 'process-no-{value}-label',
 					sortable : false,
-					cssTemplate : 'text-left',
+					cssTemplate : function(record){
+						return cssTemplate(record,'left')
+					}
 				},{
 					fieldName : 'refNo',
-					labelEN : 'Ref no',
-					labelTH : 'Ref no',
-					id : 'ref-no-{value}',
+					field : 'refNo',
+					label : 'Ref no',
+					idValueField : 'template',
+					id : 'ref-no-{value}-label',
 					sortable : false,
-					cssTemplate : 'text-left',
+					cssTemplate : function(record){
+						return cssTemplate(record,'left')
+					}
 				},{
 					fieldName : 'node',
-					labelEN : 'Node',
-					labelTH : 'Node',
-					id : 'node-{value}',
+					field : 'node',
+					label : 'Node',
+					idValueField : 'template',
+					id : 'node-{value}-label',
 					sortable : false,
-					cssTemplate : 'text-left',
+					cssTemplate : function(record){
+						return cssTemplate(record,'left')
+					}
 				},{
 					fieldName : 'ipAddress',
-					labelEN : 'IP',
-					labelTH : 'IP',
-					id : 'ip-address-{value}',
+					field : 'ipAddress',
+					label : 'IP',
+					idValueField : 'template',
+					id : 'ip-address-{value}-label',
 					sortable : false,
-					cssTemplate : 'text-left',
+					cssTemplate : function(record){
+						return cssTemplate(record,'left')
+					}
 				},
 				{
 					fieldName : 'action',
-					labelEN : 'Action',
-					labelTH : 'Action',
-					id : 'action-{value}',
+					field : 'action',
+					label : 'Action',
+					idValueField : 'template',
+					id : 'action-{value}-label',
 					sortable : false,
 					filterType: 'translate',
-					cssTemplate : 'text-left',
+					cssTemplate : function(record){
+						return cssTemplate(record,'left')
+					}
 				},{
 					cssTemplate : 'text-center',
 					sortable : false,
-					idValueField: '$rowNo',
 					cellTemplate : '<scf-button ng-disabled="!data.transactionMessage" class="btn-default gec-btn-action" id="{{$parent.$index + 1}}-view-button" ng-click="ctrl.viewMessage(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
 				} ]
 		}
@@ -156,13 +182,6 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 		vm.pagingController = PagingController.create('api/v1/transaction-trackings', vm.searchCriteria, 'GET');
 
 		vm.viewMessage = function(data){
-			// ---- for test -------
-			// vm.transaction = {
-			// 	refNo:'aaaaaaaaaaaaaaaaaaaaaaaaa',
-			// 	processNo:'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-			// 	transactionMessage:'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttet'
-			// }
-			// var params = {params: vm.transaction};
 			var params = {params: data};
 			PageNavigation.gotoPage('/view-transaction-tracking-message', params,[]);
 		}
