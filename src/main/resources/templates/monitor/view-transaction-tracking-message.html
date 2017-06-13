@@ -1,0 +1,64 @@
+<div id="content" th:fragment="content"
+	sec:authorize="hasAnyAuthority('MONITOR_ALL_TRACKING_LOG')">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3><span id="header-message-label" class="animated fadeInLeft">{{'Transaction tracking detail' | translate}}</span>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<!-- Start Column Panel-->
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<form name="documentListSponsorForm" class="form-horizontal"
+							novalidate=""
+							autocomplete="off">
+
+							<div class="form-group">
+								<label id="ref-no-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Ref no'
+									| translate}}:</label>
+								<label class="col-md-6 col-sm-6 col-xs-12 control-label"
+									ng-bind="ctrl.trackingMessage.refNo">
+								</label>
+								<div class="col-md-3 col-sm-2"></div>
+							</div>
+
+							<div class="form-group">
+								<label id="ref-no-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Process no'
+									| translate}}:</label>
+								<label class="col-md-6 col-sm-6 col-xs-12 control-label"
+									ng-bind="ctrl.trackingMessage.processNo">
+								</label>
+								<div class="col-md-3 col-sm-2"></div>
+							</div>
+
+							<div class="form-group">
+								<label id="ref-no-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Message'
+									| translate}}:</label>
+								<br/>
+								<label id="message-error-label" 
+									class="col-md-6 col-xs-9" style="border:1px solid; min-height: 100px;">
+									{{ctrl.trackingMessage.transactionMessage}}</label>
+								<div class="col-md-3 col-sm-2"></div>
+							</div>
+
+							<div class="col-md-12 col-sm-12 text-right">
+								<div class="form-group">
+									<scf-button id="back-button" class="popup-button btn" ng-click="ctrl.back()">{{'Back' | translate}}</scf-button>
+								</div>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>

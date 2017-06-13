@@ -153,7 +153,7 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 		vm.pagingController = PagingController.create('api/v1/transaction-trackings', vm.searchCriteria, 'GET');
 
 		vm.viewMessage = function(data){
-
+			PageNavigation.gotoPage('/view-transaction-tracking-message', data,[]);
 		}
 
 		vm.searchTrackingLog = function(pageModel){
