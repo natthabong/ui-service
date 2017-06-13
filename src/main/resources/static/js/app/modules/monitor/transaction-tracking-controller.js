@@ -46,6 +46,8 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 					labelTH : 'Date',
 					id : 'action-time-{value}',
 					sortable : false,
+	                filterType : 'date',
+	                format : 'dd/MM/yyyy HH:mm:ss',
 					cssTemplate : 'text-left',
 				},{
 					fieldName : 'processNo',
