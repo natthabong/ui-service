@@ -5,11 +5,11 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 	function($scope, Service, $stateParams, $log, PagingController, UIFactory, $q, $rootScope, $http, PageNavigation, TransactionTrackingService,ngDialog) {
         var vm = this;
 
-		var roleCriteria = {
+		var trackingCriteria = {
 			
 		}
 
-		vm.pagingController = PagingController.create('api/v1/transaction-trackings/search', roleCriteria, 'GET');
+		vm.pagingController = PagingController.create('api/v1/transaction-trackings/search', trackingCriteria, 'GET');
 
 		vm.viewMessage = function(data){
 
@@ -20,41 +20,41 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 		}
 
 		vm.dataTable = {
-			identityField: '',
+			identityField: '$rowNo',
 			columns : [
 				{
 					fieldName : 'actionTime',
 					labelEN : 'Date',
 					labelTH : 'Date',
-					id : 'role-{value}',
+					id : 'action-time-{value}',
 					sortable : false,
 					cssTemplate : 'text-left',
 				},{
 					fieldName : 'processNo',
 					labelEN : 'Process no',
 					labelTH : 'Process no',
-					id : 'role-{value}',
+					id : 'process-no-{value}',
 					sortable : false,
 					cssTemplate : 'text-left',
 				},{
-					fieldName : 'transactionNo',
+					fieldName : 'refNo',
 					labelEN : 'Ref no',
 					labelTH : 'Ref no',
-					id : 'role-{value}',
+					id : 'ref-no-{value}',
 					sortable : false,
 					cssTemplate : 'text-left',
 				},{
-					fieldName : 'Date',
+					fieldName : 'node',
 					labelEN : 'Node',
 					labelTH : 'Node',
-					id : 'role-{value}',
+					id : 'node-{value}',
 					sortable : false,
 					cssTemplate : 'text-left',
 				},{
-					fieldName : 'url',
+					fieldName : 'ipAddress',
 					labelEN : 'IP',
 					labelTH : 'IP',
-					id : 'role-{value}',
+					id : 'ip-address-{value}',
 					sortable : false,
 					cssTemplate : 'text-left',
 				},
@@ -62,13 +62,19 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 					fieldName : 'action',
 					labelEN : 'Action',
 					labelTH : 'Action',
-					id : 'role-{value}',
+					id : 'action-{value}',
 					sortable : false,
 					cssTemplate : 'text-left',
 				},{
 					cssTemplate : 'text-center',
 					sortable : false,
-					cellTemplate : '<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="role-{{data.roleName}}-view-button" ng-click="ctrl.viewMessage(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
+					cellTemplate : '<scf-button ng-disabled="data.trackingDetail" class="btn-default gec-btn-action" id="view-{{data.$rowNo}}-view-button" ng-click="ctrl.viewMessage(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
 				} ]
 		}
+
+		var initial = function(){
+
+		}
+
+		initial();
 } ]);

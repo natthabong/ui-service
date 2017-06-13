@@ -434,5 +434,34 @@
 	"transaction-tracking":"Transaction tracking",
 	
 	"Can not calculate.": "Can not calculate.",
-	"Reject transaction success": "Reject transaction success"
+	"Reject transaction success": "Reject transaction success",
+
+	"SEND_DRAWDOWN_FAIL_CREDIT_EXPIRES" : "Send drawdown request fail Credit limit expired.",
+	"SEND_DRAWDOWN_FAIL_UNAUTHORIZED_ACCESS" : "Send drawdown request fail unauthorized access.",
+	"SEND_DRAWDOWN_FAIL_INVALIDATE_AUTHORITY" : "Send drawdown request fail invalidate authority.",
+	"SEND_DRAWDOWN_FAIL_NOT_IN_TRANSACTION_HOUR" : "Send drawdown request fail Not within transaction hour.",
+	"SEND_DRAWDOWN_FAIL_TRANSACTION_HAS_BEEN_UPDATED" : "Send drawdown request fail Transaction has been updated.",
+	"SEND_DRAWDOWN_REQUEST_FROM_CLIENT" : "Send drawdown request to client.",
+	"GATEWAY_TIMEOUT" : "Gateway connection timeout.",
+	"RECEIVED_DRAWDOWN_REQUEST_FROM_CLIENT" : "Receive drawdown request from client.",
+	"SEND_DRAWDOWN_REQUEST_TO_BANK" : "Send drawdown request to bank.",
+	"BANK_TIMEOUT" : "Bank connection timeout.",
+	"RECEIVED_DRAWDOWN_RESPONSE_FROM_BANK" : "Receive drawdown response from bank.",
+	"START_MAPPING_STATUS" : "start mapping status.",
+	"FINISH_MAPPING_STATUS" : "finish mapping status.",
+	"SEND_DRAWDOWN_RESPONSE_TO_CLIENT" : "Send drawdown response to client.",
+	"RECEIVED_DRAWDOWN_RESPONSE_FROM_GATEWAY" : "Receive drawdown response from gateway.",
+	"UPDATE_DRAWDROWN_RESULT_TIMEOUT" : "update drawdown result timeout.",
+	"RESEND_DRAWDOWN_RESPONSE_TO_CLIENT" : "Resend drawdown resposne to client.",
+	"RESEND_DRAWDOWN_RESPONSE_TO_CLIENT_SUCCESS" : "Resend drawdown resposne to client success.",
+	"RESEND_DRAWDOWN_RESPONSE_TO_CLIENT_FAILED" : "Resend drawdown resposne to client fail.",
+	"SEND_INQURY_ACCOUNT_REQUEST_FROM_CLIENT" : "Send inquiry account request to client.",
+	"GATEWAY_TIMEOUT" : "Gateway connection timeout.",
+	"RECEIVED_INQURY_ACCOUNT_REQUEST_FROM_CLIENT" : "Receive inquiry account request from client.",
+	"SEND_INQURY_ACCOUNT_REQUEST_TO_BANK" : "Send inquiry account request to bank.",
+	"BANK_TIMEOUT" : "Bank connection timeout.",
+	"RECEIVED_INQURY_ACCOUNT_RESPONSE_FROM_BANK" : "Receive inquiry account from bank.",
+	"SEND_INQURY_ACCOUNT_RESPONSE_TO_CLIENT" : "Send inquiry account response to client.",
+	"RECEIVED_INQURY_ACCOUNT_RESPONSE_FROM_GATEWAY" : "Receive inquiry account  response from gateway."
+
 }
