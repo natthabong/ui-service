@@ -392,6 +392,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'ViewTransactionTrackingMessageController',
 				controllerAs: 'ctrl',
 				templateUrl: '/view-transaction-tracking-message',
+				params: { params: []},
 				resolve: load(['js/app/modules/monitor/view-transaction-tracking-message-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',

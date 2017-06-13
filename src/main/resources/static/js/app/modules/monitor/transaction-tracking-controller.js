@@ -154,7 +154,15 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 		vm.pagingController = PagingController.create('api/v1/transaction-trackings', vm.searchCriteria, 'GET');
 
 		vm.viewMessage = function(data){
-			PageNavigation.gotoPage('/view-transaction-tracking-message', data,[]);
+			// ---- for test -------
+			// vm.transaction = {
+			// 	refNo:'aaaaaaaaaaaaaaaaaaaaaaaaa',
+			// 	processNo:'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+			// 	transactionMessage:'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttet'
+			// }
+			// var params = {params: vm.transaction};
+			var params = {params: data};
+			PageNavigation.gotoPage('/view-transaction-tracking-message', params,[]);
 		}
 
 		vm.searchTrackingLog = function(pageModel){
