@@ -88,7 +88,7 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 					cssTemplate : 'text-center',
 					sortable : false,
 					idValueField: '$rowNo',
-					cellTemplate : '<scf-button ng-disabled="data.detail" class="btn-default gec-btn-action" id="{{$parent.$index + 1}}-view-button" ng-click="ctrl.viewMessage(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
+					cellTemplate : '<scf-button ng-disabled="!data.transactionMessage" class="btn-default gec-btn-action" id="{{$parent.$index + 1}}-view-button" ng-click="ctrl.viewMessage(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
 				} ]
 		}
 		
