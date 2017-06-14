@@ -382,16 +382,23 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						,'js/app/common/scf-component.css'])
 			}).state('/system-integration-monitor/sponsor',{
 				url: '/system-integration-monitor/sponsor',
-				controller: 'SystemIntegrationMonitorController',
+				controller: 'SponsorSystemIntegrationMonitorController',
 				controllerAs: 'ctrl',
 				templateUrl: '/system-integration-monitor/sponsor',
-				params: { mode: 'sponsor'},
-				resolve: load(['js/app/modules/monitor/system-integration-monitor-controller.js','js/app/modules/monitor/system-integration-monitor-service.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				params: { mode: 'sponsor',organize:[]},
+				resolve: load(['js/app/modules/monitor/sponsor-system-integration-monitor-controller.js'
+						,'js/app/modules/monitor/web-service-monitor-controller.js'
+						,'js/app/modules/monitor/ftp-monitor-controller.js'
+						,'js/app/modules/monitor/batch-job-monitor-controller.js'
+						,'js/app/modules/monitor/system-integration-monitor-service.js'
+						,'js/app/common/scf-component.js'
+						,'js/app/common/scf-component.css'])
 			}).state('/system-integration-monitor/gec',{
 				url: '/system-integration-monitor/gec',
 				controller: 'GECSystemIntegrationMonitorController',
 				controllerAs: 'ctrl',
 				templateUrl: '/system-integration-monitor/gec',
+				params: { mode: 'gec',organize:[]},
 				resolve: load(['js/app/modules/monitor/gec-system-integration-monitor-controller.js'
 						,'js/app/modules/monitor/web-service-monitor-controller.js'
 						,'js/app/modules/monitor/ftp-monitor-controller.js'

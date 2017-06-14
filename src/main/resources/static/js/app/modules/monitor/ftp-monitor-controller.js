@@ -6,7 +6,7 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 		var vm = this;
 
 		vm.ftpModel;
-
+		var organizeId = null;
 		var mode = {
 			SPONSOR : 'sponsor',
 			BANK : 'bank'
@@ -15,9 +15,11 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 		var firstTimeFTPChecking = true;
 
 		var currentMode = $stateParams.mode;
+		
 
 		$scope.$on('onload', function(e) {
 			if (currentMode == mode.SPONSOR) {
+				vm.sponsorModel = $scope.organize;
 				getFTPList();
 			}else if(currentMode == mode.BANK){
 				systemFTPChecking();

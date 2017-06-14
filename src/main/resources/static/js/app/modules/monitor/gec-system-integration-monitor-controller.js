@@ -5,10 +5,18 @@ scfApp.controller('GECSystemIntegrationMonitorController', [ '$scope', 'Service'
 	function($scope, Service, $stateParams, $log, UIFactory, $q, $rootScope, $http, PageNavigation, SystemIntegrationMonitorService, ngDialog) {
 
         var vm = this; 
-        vm.organize;
+        vm.organize = null;
 
         vm.check = function(){
             $scope.$broadcast('onload');
+        }
+
+        var validateHasOrganize = function(){
+            var validate = true;
+            if(vm.organize == null){
+                validate = false;
+            }
+            return validate;
         }
 
         var getMyOrganize = function(){

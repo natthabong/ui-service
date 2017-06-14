@@ -19,6 +19,7 @@ public class SystemIntegrationMonitorController {
 
 	private static final String GEC_SYSTEM_INTEGRATION_MONITOR_TEMPLATE = "monitor/gec-system-integration-monitor-template";
 	private static final String BANK_SYSTEM_INTEGRATION_MONITOR = "monitor/bank-system-integration-monitor-template";
+	private static final String SPONSOR_SYSTEM_INTEGRATION_MONITOR = "monitor/sponsor-system-integration-monitor-template";
 
 	@RequestMapping(path = {"/web-service-monitor"}, method = RequestMethod.GET)
 	public String webServiceMonitor(@RequestHeader("X-Requested-With") String requestedWith) {
@@ -59,9 +60,9 @@ public class SystemIntegrationMonitorController {
 	public String systemIntegrationMonitor(@RequestHeader("X-Requested-With") String requestedWith) {
 
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return SYSTEM_INTEGRATION_MONITOR.concat(" :: content");
+			return SPONSOR_SYSTEM_INTEGRATION_MONITOR.concat(" :: content");
 		}
-		return SYSTEM_INTEGRATION_MONITOR;
+		return SPONSOR_SYSTEM_INTEGRATION_MONITOR;
 
 	}
 

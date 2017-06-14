@@ -8,11 +8,28 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', 'Service', '$statePar
 	
 	vm.batchJobModel = [];
 
+	var mode = {
+		BANK : 'bank',
+		GEC : 'gec',
+		SPONSOR : 'sponsor'
+	}
+
+	var currentMode = $stateParams.mode;
+
 	$scope.$on('onload', function(e) {
-		getBatchJobInfo();
+		if(currentMode == mode.BANK){
+			var bankCode = $stateParams.bankCode;
+			getBankProfile(bankCode);
+		}else if(currentMode == mode.GEC){
+			getMyOrganize();
+		}else{
+			organize = $scope.organize;
+			getBatchJobInfo();
+		}
     });
-	
+
 	var organize;
+
 	var getMyOrganize = function(){
 		var getMyOrganizeServiceUrl = '/api/v1/users/me/organizes';
 		var organizeDeferred = Service.doGet(getMyOrganizeServiceUrl);
@@ -21,6 +38,17 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', 'Service', '$statePar
 			getBatchJobInfo()
 		}).catch(function(response){
 			console.log("get organize fail.")
+		});
+	}
+
+	var getBankProfile = function(bankCode){
+		var serviceUrl = '/api/v1/organize-customers/'+bankCode+'/profile';
+		var serviceDiferred = Service.doGet(serviceUrl, {});		
+		serviceDiferred.promise.then(function(response){
+			organize = response.data;
+			getBatchJobInfo();
+		}).catch(function(response){
+			console.log('Load customer code group data error');
 		});
 	}
 	
@@ -36,7 +64,12 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', 'Service', '$statePar
 	}
 
 	var initial = function(){
-		getMyOrganize();
+		if(currentMode == mode.BANK){
+			var bankCode = $stateParams.bankCode;
+			getBankProfile(bankCode);
+		}else if(currentMode == mode.GEC){
+			getMyOrganize();
+		}
 	}
 	initial();
 

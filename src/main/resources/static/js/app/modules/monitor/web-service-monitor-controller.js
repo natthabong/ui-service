@@ -16,17 +16,6 @@ scfApp.controller('WebServiceMonitorController', [ '$scope', 'Service', '$stateP
 			systemWebServiceChecking();
 		});
 
-		var systemWebServiceChecking = function(){
-			if(validateDoubleClickWebServiceChecking()){
-				for(var i=0; i<vm.webServiceModel.length;i++){
-					vm.webServiceModel[i].status = "loading";
-					verifySystemStatusWebService(i);
-				}
-			}else{
-				console.log("please wait system processing");
-			}
-		}
-
 		var getBankCode = function(){
 			if($stateParams.bankCode != null && $stateParams.bankCode != ''){
 				return $stateParams.bankCode;
