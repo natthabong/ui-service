@@ -4,4 +4,6 @@ scfApp.controller('WebServiceMonitorController', [ '$scope', 'Service', '$stateP
 	'$rootScope', '$http','PageNavigation','SystemIntegrationMonitorService','ngDialog',
 	function($scope, Service, $stateParams, $log, UIFactory, $q, $rootScope, $http, PageNavigation, SystemIntegrationMonitorService,ngDialog) {
     
+        
+
 } ]);

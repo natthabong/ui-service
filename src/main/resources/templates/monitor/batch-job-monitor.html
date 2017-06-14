@@ -9,17 +9,17 @@
                     ng-repeat="record in ctrl.batchJobModel track by $index">
                     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8"
                         style="padding-top: 5px">
-                        <span id="{{record.displayName}}-label"
-                            ng-bind="record.displayName"></span>
+                        <span id="{{record.jobName}}-label"
+                            ng-bind="record.jobName"></span>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="padding-top: 5px">
                         <scf-button class="btn-default gec-btn-action"
-                            id="{{record.displayName}}-run-button"
-                            ng-click="ctrl.runJob()">
+                            id="{{record.jobName}}-run-button"
+                            ng-click="ctrl.runJob()" title="Run now">
                         <span class="fa fa-history" aria-hidden="true"></span></scf-button>
                         <scf-button class="btn-default gec-btn-action"
-                            id="{{record.displayName}}-view-button"
-                            ng-click="ctrl.view()">
+                            id="{{record.jobName}}-view-button"
+                            ng-click="ctrl.view()" title="Tracking log">
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
                     </div>
                 </div>
