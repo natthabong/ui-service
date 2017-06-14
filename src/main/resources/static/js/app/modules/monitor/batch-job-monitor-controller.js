@@ -26,12 +26,10 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', 'Service', '$statePar
 	
 
 	var getBatchJobInfo = function(){
-		console.log("hi")
 		var getBatchJobInfoServiceUrl = '/api/v1/organizes/'+organize.organizeId+'/batch-jobs';
 		var batchJobInfoDeferred = Service.doGet(getBatchJobInfoServiceUrl);
 		batchJobInfoDeferred.promise.then(function(response){
 			vm.batchJobModel = response.data;
-			console.log("success")
 		}).catch(function(response){
 			console.log("can not get batch job information.")
 		});

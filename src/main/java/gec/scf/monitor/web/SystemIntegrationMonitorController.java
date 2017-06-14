@@ -12,13 +12,13 @@ import gec.scf.util.AjaxUtils;
 public class SystemIntegrationMonitorController {
 
 	private static final String SYSTEM_INTEGRATION_MONITOR = "monitor/system-integration-monitor";
-
+	
 	private static final String WEB_SERVICE_MONITOR = "monitor/web-service-monitor";
 	private static final String BATCH_JOB_MONITOR = "monitor/batch-job-monitor";
 	private static final String FTP_MONITOR = "monitor/ftp-monitor";
 
 	private static final String GEC_SYSTEM_INTEGRATION_MONITOR_TEMPLATE = "monitor/gec-system-integration-monitor-template";
-
+	private static final String BANK_SYSTEM_INTEGRATION_MONITOR = "monitor/bank-system-integration-monitor-template";
 
 	@RequestMapping(path = {"/web-service-monitor"}, method = RequestMethod.GET)
 	public String webServiceMonitor(@RequestHeader("X-Requested-With") String requestedWith) {
@@ -45,7 +45,17 @@ public class SystemIntegrationMonitorController {
 	}
 
 
-	@RequestMapping(path = {"/sponsor", "/bank"}, method = RequestMethod.GET)
+	@RequestMapping(path = {"/bank"}, method = RequestMethod.GET)
+	public String bankSystemIntegrationMonitor(@RequestHeader("X-Requested-With") String requestedWith) {
+
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return BANK_SYSTEM_INTEGRATION_MONITOR.concat(" :: content");
+		}
+		return BANK_SYSTEM_INTEGRATION_MONITOR;
+
+	}
+
+	@RequestMapping(path = {"/sponsor"}, method = RequestMethod.GET)
 	public String systemIntegrationMonitor(@RequestHeader("X-Requested-With") String requestedWith) {
 
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {

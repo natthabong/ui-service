@@ -369,11 +369,17 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				resolve: load(['js/app/modules/document-upload-log/view-document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/system-integration-monitor/bank',{
 				url: '/system-integration-monitor/bank',
-				controller: 'SystemIntegrationMonitorController',
+				controller: 'BankSystemIntegrationMonitorController',
 				controllerAs: 'ctrl',
 				templateUrl: '/system-integration-monitor/bank',
 				params: { mode: 'bank', bankCode: '004'},
-				resolve: load(['js/app/modules/monitor/system-integration-monitor-controller.js','js/app/modules/monitor/system-integration-monitor-service.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/monitor/bank-system-integration-monitor-controller.js'
+						,'js/app/modules/monitor/web-service-monitor-controller.js'
+						,'js/app/modules/monitor/ftp-monitor-controller.js'
+						,'js/app/modules/monitor/batch-job-monitor-controller.js'
+						,'js/app/modules/monitor/system-integration-monitor-service.js'
+						,'js/app/common/scf-component.js'
+						,'js/app/common/scf-component.css'])
 			}).state('/system-integration-monitor/sponsor',{
 				url: '/system-integration-monitor/sponsor',
 				controller: 'SystemIntegrationMonitorController',
