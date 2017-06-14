@@ -12,7 +12,38 @@ import gec.scf.util.AjaxUtils;
 public class SystemIntegrationMonitorController {
 
 	private static final String SYSTEM_INTEGRATION_MONITOR = "monitor/system-integration-monitor";
-	private static final String GEC_SYSTEM_INTEGRATION_MONITOR = "monitor/gec-system-integration-monitor";
+
+	private static final String WEB_SERVICE_MONITOR = "monitor/web-service-monitor";
+	private static final String BATCH_JOB_MONITOR = "monitor/batch-job-monitor";
+	private static final String FTP_MONITOR = "monitor/ftp-monitor";
+
+	private static final String GEC_SYSTEM_INTEGRATION_MONITOR_TEMPLATE = "monitor/gec-system-integration-monitor-template";
+
+
+	@RequestMapping(path = {"/web-service-monitor"}, method = RequestMethod.GET)
+	public String webServiceMonitor(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return WEB_SERVICE_MONITOR.concat(" :: content");
+		}
+		return WEB_SERVICE_MONITOR;
+	}
+
+	@RequestMapping(path = {"/batch-job-monitor"}, method = RequestMethod.GET)
+	public String batchJobMonitor(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return BATCH_JOB_MONITOR.concat(" :: content");
+		}
+		return BATCH_JOB_MONITOR;
+	}
+
+	@RequestMapping(path = {"/ftp-monitor"}, method = RequestMethod.GET)
+	public String ftpMonitor(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return FTP_MONITOR.concat(" :: content");
+		}
+		return FTP_MONITOR;
+	}
+
 
 	@RequestMapping(path = {"/sponsor", "/bank"}, method = RequestMethod.GET)
 	public String systemIntegrationMonitor(@RequestHeader("X-Requested-With") String requestedWith) {
@@ -28,9 +59,9 @@ public class SystemIntegrationMonitorController {
 	public String gecSystemIntegrationMonitor(@RequestHeader("X-Requested-With") String requestedWith) {
 
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return GEC_SYSTEM_INTEGRATION_MONITOR.concat(" :: content");
+			return GEC_SYSTEM_INTEGRATION_MONITOR_TEMPLATE.concat(" :: content");
 		}
-		return GEC_SYSTEM_INTEGRATION_MONITOR;
+		return GEC_SYSTEM_INTEGRATION_MONITOR_TEMPLATE;
 
 	}
 }

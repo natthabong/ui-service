@@ -1,0 +1,29 @@
+<div th:fragment="content" 
+	sec:authorize="hasAnyAuthority('MONITOR_ALL_INTEGRATION')">
+	<div id="wrapper" ng-controller="BatchJobMonitorController as ctrl">
+        <div class="panel">
+            <div class="panel-body">
+                <h3 id="batch-job-label" class="animated fadeInLeft"
+                    ng-bind="'Batch job' | translate"></h3>
+                <div class="form-group control-label"
+                    ng-repeat="record in ctrl.batchJobModel track by $index">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8"
+                        style="padding-top: 5px">
+                        <span id="{{record.displayName}}-label"
+                            ng-bind="record.displayName"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="padding-top: 5px">
+                        <scf-button class="btn-default gec-btn-action"
+                            id="{{record.displayName}}-run-button"
+                            ng-click="ctrl.runJob()">
+                        <span class="fa fa-history" aria-hidden="true"></span></scf-button>
+                        <scf-button class="btn-default gec-btn-action"
+                            id="{{record.displayName}}-view-button"
+                            ng-click="ctrl.view()">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>

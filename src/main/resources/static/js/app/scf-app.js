@@ -384,7 +384,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 			}).state('/system-integration-monitor/gec',{
 				url: '/system-integration-monitor/gec',
 				templateUrl: '/system-integration-monitor/gec',
-				resolve: load(['js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/monitor/web-service-monitor-controller.js'
+						,'js/app/modules/monitor/ftp-monitor-controller.js'
+						,'js/app/modules/monitor/batch-job-monitor-controller.js'
+						,'js/app/modules/monitor/system-integration-monitor-service.js'
+						,'js/app/common/scf-component.js'
+						,'js/app/common/scf-component.css'
+					])
 			}).state('/transaction-tracking',{
 				url: '/transaction-tracking',
 				controller: 'TransactionTrackingController',

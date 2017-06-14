@@ -1,0 +1,11 @@
+<div th:fragment="content" 
+	sec:authorize="hasAnyAuthority('MONITOR_ALL_INTEGRATION')">
+	<div id="wrapper" ng-controller="WebServiceMonitorController as ctrl">
+        <div class="panel">
+            <div class="panel-body">
+                <h3 id="web-service-label" class="animated fadeInLeft"
+                    ng-bind="'FTP' | translate"></h3>
+            </div>
+        </div>
+	</div>
+</div>
