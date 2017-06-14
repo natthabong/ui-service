@@ -2,10 +2,14 @@
 var scfApp = angular.module('scfApp');
 scfApp.controller('GECSystemIntegrationMonitorController', [ '$scope', 'Service', '$stateParams', '$log', 'UIFactory', '$q',
 	'$rootScope', '$http','PageNavigation','SystemIntegrationMonitorService','ngDialog',
-	function($scope, Service, $stateParams, $log, UIFactory, $q, $rootScope, $http, PageNavigation, SystemIntegrationMonitorService,ngDialog) {
+	function($scope, Service, $stateParams, $log, UIFactory, $q, $rootScope, $http, PageNavigation, SystemIntegrationMonitorService, ngDialog) {
 
         var vm = this; 
         vm.organize;
+
+        vm.check = function(){
+            $scope.$broadcast('onload');
+        }
 
         var getMyOrganize = function(){
             var getMyOrganizeServiceUrl = '/api/v1/users/me/organizes';

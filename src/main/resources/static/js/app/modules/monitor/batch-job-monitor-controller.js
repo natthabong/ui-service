@@ -7,6 +7,10 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', 'Service', '$statePar
 	var vm = this; 
 	
 	vm.batchJobModel = [];
+
+	$scope.$on('onload', function(e) {
+		getBatchJobInfo();
+    });
 	
 	var organize;
 	var getMyOrganize = function(){
@@ -14,21 +18,22 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', 'Service', '$statePar
 		var organizeDeferred = Service.doGet(getMyOrganizeServiceUrl);
 		organizeDeferred.promise.then(function(response){
 			organize = response.data[0];
-			getBatchJobInfo(organize.organizeId)
+			getBatchJobInfo()
 		}).catch(function(response){
 			console.log("get organize fail.")
 		});
 	}
 	
 
-	var getBatchJobInfo = function(ownerId){
-		console.log(ownerId)
-		var getBatchJobInfoServiceUrl = '/api/v1/organizes/'+ownerId+'/batch-jobs';
+	var getBatchJobInfo = function(){
+		console.log("hi")
+		var getBatchJobInfoServiceUrl = '/api/v1/organizes/'+organize.organizeId+'/batch-jobs';
 		var batchJobInfoDeferred = Service.doGet(getBatchJobInfoServiceUrl);
 		batchJobInfoDeferred.promise.then(function(response){
 			vm.batchJobModel = response.data;
+			console.log("success")
 		}).catch(function(response){
-			console.log("can not get information.")
+			console.log("can not get batch job information.")
 		});
 	}
 
