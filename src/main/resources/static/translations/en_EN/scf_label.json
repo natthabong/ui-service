@@ -442,7 +442,7 @@
 	"SEND_DRAWDOWN_FAIL_INVALIDATE_AUTHORITY" : "Send drawdown request fail invalidate authority.",
 	"SEND_DRAWDOWN_FAIL_NOT_IN_TRANSACTION_HOUR" : "Send drawdown request fail Not within transaction hour.",
 	"SEND_DRAWDOWN_FAIL_TRANSACTION_HAS_BEEN_UPDATED" : "Send drawdown request fail Transaction has been updated.",
-	"SEND_DRAWDOWN_REQUEST_FROM_CLIENT" : "Send drawdown request to client.",
+	"SEND_DRAWDOWN_REQUEST_FROM_CLIENT" : "Send drawdown request to gateway.",
 	"GATEWAY_TIMEOUT" : "Gateway connection timeout.",
 	"RECEIVED_DRAWDOWN_REQUEST_FROM_CLIENT" : "Receive drawdown request from client.",
 	"SEND_DRAWDOWN_REQUEST_TO_BANK" : "Send drawdown request to bank.",
