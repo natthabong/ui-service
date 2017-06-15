@@ -223,11 +223,13 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 			
 			//Wrong time format
 			if(angular.isDefined(vm.logListModel.logDateFrom)){
-				if((vm.logTimeFromHour!==''&&vm.logTimeFromMinute!=='')||(vm.logTimeFromHour===''&&vm.logTimeFromMinute==='')){
-					if(vm.logTimeFromHour.length == 1 || vm.logTimeFromHour<0 || vm.logTimeFromHour>=24){
+				if(vm.logTimeFromHour===''&&vm.logTimeFromMinute===''){
+					valid = true;
+				}else if(vm.logTimeFromHour!==''&&vm.logTimeFromMinute!==''){
+					if(isNaN(parseInt(vm.logTimeFromHour)) || vm.logTimeFromHour.length == 1 || vm.logTimeFromHour<0 || vm.logTimeFromHour>=24){
 						valid = false;
 					}else{
-						if (vm.logTimeFromMinute.length == 1 || vm.logTimeFromMinute<0 || vm.logTimeFromMinute>=60) {
+						if (isNaN(parseInt(vm.logTimeFromMinute)) || vm.logTimeFromMinute.length == 1 || vm.logTimeFromMinute<0 || vm.logTimeFromMinute>=60) {
 							valid = false;
 						}
 					}
@@ -236,17 +238,21 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 				}
 			}
 			
-			if(angular.isDefined(vm.logListModel.logDateTo)){
-				if((vm.logTimeToHour!==''&&vm.logTimeToMinute!=='')||(vm.logTimeToHour===''&&vm.logTimeToMinute==='')){
-					if(vm.logTimeToHour.length == 1 || vm.logTimeToHour<0 || vm.logTimeToHour>=24){
-						valid = false;
-					}else{
-						if (vm.logTimeToMinute.length == 1 || vm.logTimeToMinute<0 || vm.logTimeToMinute>=60) {
+			if(valid){
+				if(angular.isDefined(vm.logListModel.logDateTo)){
+					if(vm.logTimeToHour===''&&vm.logTimeToMinute===''){
+						valid = true;
+					}else if((vm.logTimeToHour!==''&&vm.logTimeToMinute!=='')){
+						if(isNaN(parseInt(vm.logTimeToHour)) || vm.logTimeToHour.length == 1 || vm.logTimeToHour<0 || vm.logTimeToHour>=24){
 							valid = false;
+						}else{
+							if (isNaN(parseInt(vm.logTimeToMinute)) || vm.logTimeToMinute.length == 1 || vm.logTimeToMinute<0 || vm.logTimeToMinute>=60) {
+								valid = false;
+							}
 						}
+					}else{
+						valid = false;
 					}
-				}else{
-					valid = false;
 				}
 			}
 			
