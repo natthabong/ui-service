@@ -85,7 +85,7 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', '$stateParams', 'Serv
 				headerMessage : 'Confirm run now?'
 			},
 			confirm : function() {
-				return BatchJobMonitorService.runJob(job);
+				return BatchJobMonitorService.runJob(organize.organizeId, job.jobId);
 			},
 			onFail : function(response) {
 				var msg = {
