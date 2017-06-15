@@ -20,8 +20,9 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 		
 		vm.batchJobTracking = $stateParams.params;
 		var ownerId = vm.batchJobTracking.ownerId;
+		var jobId = vm.batchJobTracking.jobId;
 		
-        vm.back = function(){
+        vm.backPage = function(){
             PageNavigation.gotoPreviousPage();
         }
 
@@ -52,6 +53,69 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 		}
 		
 		vm.dataTable = {
+			options : {
+				
+			},
+			columns : [
+				{
+					fieldName : 'date',
+					field : 'actionTime',
+					label : 'Date',
+					idValueField : 'template',
+					id : 'date-{value}-label',
+					sortable : false,
+	                filterType : 'date',
+	                filterFormat : 'dd/MM/yyyy HH:mm:ss',
+					cssTemplate : function(record){
+						return cssTemplate(record,'left')
+					}
+				},{
+					fieldName : 'processNo',
+					field : 'processNo',
+					label : 'Process no',
+					idValueField : 'template',
+					id : 'process-no-{value}-label',
+					sortable : false,
+					cssTemplate : function(record){
+						return cssTemplate(record,'left')
+					}
+				},{
+					fieldName : 'batchJob',
+					field : 'batchJob',
+					label : 'Batch job',
+					idValueField : 'template',
+					id : 'batch-job-{value}-label',
+					sortable : false,
+					cssTemplate : function(record){
+						return cssTemplate(record,'left')
+					}
+				},{
+					fieldName : 'node',
+					field : 'node',
+					label : 'Node',
+					idValueField : 'template',
+					id : 'node-{value}-label',
+					sortable : false,
+					cssTemplate : function(record){
+						return cssTemplate(record,'left')
+					}
+				},
+				{
+					fieldName : 'action',
+					field : 'action',
+					label : 'Action',
+					idValueField : 'template',
+					id : 'action-{value}-label',
+					sortable : false,
+					filterType: 'translate',
+					cssTemplate : function(record){
+						return cssTemplate(record,'left')
+					}
+				},{
+					cssTemplate : 'text-center',
+					sortable : false,
+					cellTemplate : '<scf-button ng-disabled="!data.errorMessage" class="btn-default gec-btn-action" id="{{$parent.$index + 1}}-view-button" ng-click="ctrl.viewMessage(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
+				} ]
 		}
 		
 		vm.searchCriteria = {
@@ -111,26 +175,25 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 				vm.searchCriteria.logDateTo = undefined;
 			}
 			
-			vm.searchCriteria.batchJobId = UIFactory.createCriteria(vm.batchJobTracking.jobId);
+			vm.searchCriteria.batchJobId = UIFactory.createCriteria(jobId);
 			vm.searchCriteria.processNo = UIFactory.createCriteria(vm.logListModel.processNo);
 			
 			return vm.searchCriteria;
 
 		}
 
-		vm.pagingController = PagingController.create('api/v1/organizes/'+ownerId+'/batch-jobs', vm.searchCriteria, 'GET');
+		vm.pagingController = PagingController.create('api/v1/organizes/'+ownerId+'/batch-jobs/'+jobId+"/logs", vm.searchCriteria, 'GET');
 
 		vm.viewMessage = function(data){
 			var params = {params: data};
-			PageNavigation.gotoPage('/view-transaction-tracking-message', params,[]);
+			PageNavigation.gotoPage('/view-batch-job-tracking-message', params,[]);
 		}
 
 		vm.searchBatchJobLog = function(pageModel){
 			if (isValid()) {
 				var criteria = prepareCriteria();
 				var logDiferred = vm.pagingController.search(pageModel);
-				console.log('api/v1/organizes/'+ownerId+'/batch-jobs');
-				console.log(vm.searchCriteria);
+				console.log(logDiferred);
 				vm.showInfomation = true;
 			}
 		}
@@ -161,11 +224,13 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 			
 			//Wrong time format
 			if(angular.isDefined(vm.logListModel.logDateFrom)){
-				if((vm.logTimeFromHour!==''&&vm.logTimeFromMinute!=='')||(vm.logTimeFromHour===''&&vm.logTimeFromMinute==='')){
-					if(vm.logTimeFromHour.length == 1 || vm.logTimeFromHour<0 || vm.logTimeFromHour>=24){
+				if(vm.logTimeFromHour===''&&vm.logTimeFromMinute===''){
+					valid = true;
+				}else if(vm.logTimeFromHour!==''&&vm.logTimeFromMinute!==''){
+					if(isNaN(parseInt(vm.logTimeFromHour)) || vm.logTimeFromHour.length == 1 || vm.logTimeFromHour<0 || vm.logTimeFromHour>=24){
 						valid = false;
 					}else{
-						if (vm.logTimeFromMinute.length == 1 || vm.logTimeFromMinute<0 || vm.logTimeFromMinute>=60) {
+						if (isNaN(parseInt(vm.logTimeFromMinute)) || vm.logTimeFromMinute.length == 1 || vm.logTimeFromMinute<0 || vm.logTimeFromMinute>=60) {
 							valid = false;
 						}
 					}
@@ -174,19 +239,24 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 				}
 			}
 			
-			if(angular.isDefined(vm.logListModel.logDateTo)){
-				if((vm.logTimeToHour!==''&&vm.logTimeToMinute!=='')||(vm.logTimeToHour===''&&vm.logTimeToMinute==='')){
-					if(vm.logTimeToHour.length == 1 || vm.logTimeToHour<0 || vm.logTimeToHour>=24){
-						valid = false;
-					}else{
-						if (vm.logTimeToMinute.length == 1 || vm.logTimeToMinute<0 || vm.logTimeToMinute>=60) {
+			if(valid){
+				if(angular.isDefined(vm.logListModel.logDateTo)){
+					if(vm.logTimeToHour===''&&vm.logTimeToMinute===''){
+						valid = true;
+					}else if((vm.logTimeToHour!==''&&vm.logTimeToMinute!=='')){
+						if(isNaN(parseInt(vm.logTimeToHour)) || vm.logTimeToHour.length == 1 || vm.logTimeToHour<0 || vm.logTimeToHour>=24){
 							valid = false;
+						}else{
+							if (isNaN(parseInt(vm.logTimeToMinute)) || vm.logTimeToMinute.length == 1 || vm.logTimeToMinute<0 || vm.logTimeToMinute>=60) {
+								valid = false;
+							}
 						}
+					}else{
+						valid = false;
 					}
-				}else{
-					valid = false;
 				}
 			}
+			
 			
 			if(!valid){
 				vm.wrongDateFormat = true;
@@ -216,7 +286,6 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 							vm.logListModel.logDateFrom.getMonth(), 
 							vm.logListModel.logDateFrom.getDate(), 
 							hourFrom, minuteFrom, 0);
-					
 					var datetimeTo = new Date(vm.logListModel.logDateTo.getFullYear(), 
 							vm.logListModel.logDateTo.getMonth(), 
 							vm.logListModel.logDateTo.getDate(), 

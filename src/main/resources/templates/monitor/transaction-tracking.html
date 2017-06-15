@@ -109,8 +109,8 @@
 									<div class="row">
 										<div class="col-md-12 col-sm-12">
 											<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
-												id="transaction-tracking-log-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-													dropdown-id="page-limit-dropdown" name="transaction-tracking-log"
+												id="transaction-tracking-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+													dropdown-id="page-limit-dropdown" name="transaction-tracking"
 													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 													total-page="ctrl.pagingController.pagingModel.totalPage"
 													current-page="ctrl.pagingController.pagingModel.currentPage"
@@ -123,7 +123,7 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<scf-data-table id="transaction-tracking-log-table"
+									<scf-data-table id="transaction-tracking-table"
 										component-config="ctrl.dataTable"
 										component-datas="ctrl.pagingController.tableRowCollection"
 										current-page="ctrl.pagingController.pagingModel.currentPage"
