@@ -421,6 +421,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/view-transaction-tracking-message',
 				params: { params: []},
 				resolve: load(['js/app/modules/monitor/view-transaction-tracking-message-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/batch-job-tracking',{
+				url: '/batch-job-tracking',
+				controller: 'BatchJobTrackingController',
+				controllerAs: 'ctrl',
+				templateUrl: '/batch-job-tracking',
+				params: { params: []},
+				resolve: load(['js/app/modules/monitor/batch-job-tracking-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',

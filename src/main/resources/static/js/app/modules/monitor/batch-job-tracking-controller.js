@@ -18,6 +18,11 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 		vm.logTimeToHour = '';
 		vm.logTimeToMinute = '';
 		
+		vm.batchJobTracking = $stateParams.params;
+        vm.back = function(){
+            PageNavigation.gotoPreviousPage();
+        }
+
 		vm.pageModel = {
 			pageSizeSelectModel : vm.defaultPageSize,
 			totalRecord : 0,
@@ -49,12 +54,18 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 		
 		vm.searchCriteria = {
 			batchJobId: undefined,
+			batchJobName: vm.batchJobTracking.jobName,
 			logDateFrom : undefined,
 			logDateTo : undefined,
 			processNo : ''
 		}
 		
 		vm.initLoad = function() {
+			if($stateParams.params.length == 0){
+            	PageNavigation.gotoPreviousPage();
+            }
+			
+			vm.logListModel = vm.batchJobTracking.jobId;
 			vm.searchBatchJobLog();
 		}
 		
@@ -99,7 +110,7 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 				vm.searchCriteria.logDateTo = undefined;
 			}
 			
-			vm.searchCriteria.refNo = UIFactory.createCriteria(vm.logListModel.refNo);
+			vm.searchCriteria.batchJobId = UIFactory.createCriteria(vm.logListModel.batchJobId);
 			vm.searchCriteria.processNo = UIFactory.createCriteria(vm.logListModel.processNo);
 			
 			return vm.searchCriteria;
@@ -220,6 +231,7 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 		};
 		
 		vm.logListModel = {
+			batchJobName : undefined,
 			logDateFrom : '',
 			logDateTo : '',
 			processNo : undefined

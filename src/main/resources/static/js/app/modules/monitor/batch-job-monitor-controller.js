@@ -62,6 +62,11 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', 'Service', '$statePar
 			console.log("can not get batch job information.")
 		});
 	}
+	
+	vm.view = function(data){
+		var params = {params: data};
+		PageNavigation.gotoPage('/batch-job-tracking', params,params.params);
+	}
 
 	var initial = function(){
 		if(currentMode == mode.BANK){
