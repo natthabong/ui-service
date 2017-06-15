@@ -7,7 +7,7 @@ scfApp.controller('ViewTransactionTrackingMessageController',
 
         vm.trackingMessage = $stateParams.params;
         vm.back = function(){
-            PageNavigation.gotoPreviousPage(false);
+            PageNavigation.gotoPreviousPage();
         }
 
         var initial = function(){

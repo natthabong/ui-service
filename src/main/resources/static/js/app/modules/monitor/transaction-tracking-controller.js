@@ -1,12 +1,13 @@
 'use strict';
 var scfApp = angular.module('scfApp');
 scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stateParams', '$log', 'PagingController', 'UIFactory', '$q',
-	'$rootScope', '$http','PageNavigation','TransactionTrackingService','ngDialog',
-	function($scope, Service, $stateParams, $log, PagingController, UIFactory, $q, $rootScope, $http, PageNavigation, TransactionTrackingService,ngDialog) {
+	'$rootScope', '$http','PageNavigation','TransactionTrackingService','ngDialog','SCFCommonService','$state','$cookieStore','$cookieStore',
+	function($scope, Service, $stateParams, $log, PagingController, UIFactory, $q, $rootScope, $http, PageNavigation
+			,TransactionTrackingService, ngDialog, SCFCommonService, $state, $cookieStore) {
         var vm = this;
 
         vm.splitePageTxt = '';
-        
+        var listStoreKey = 'listrancri';
         vm.dateFormat = "dd/MM/yyyy";
 		vm.openDateFrom = false;
 		vm.openDateTo = false;
@@ -126,9 +127,9 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 			refNo : '',
 			processNo : ''
 		}
-		
-		vm.initLoad = function() {
-			vm.searchTrackingLog();
+
+		var storeCriteria = function(){
+			$cookieStore.put(listStoreKey, vm.searchCriteria);
 		}
 		
 		function prepareCriteria() {
@@ -172,8 +173,8 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 				vm.searchCriteria.logDateTo = undefined;
 			}
 			
-			vm.searchCriteria.refNo = UIFactory.createCriteria(vm.logListModel.refNo);
-			vm.searchCriteria.processNo = UIFactory.createCriteria(vm.logListModel.processNo);
+			vm.searchCriteria.refNo = vm.logListModel.refNo;
+			vm.searchCriteria.processNo = vm.logListModel.processNo;
 			
 			return vm.searchCriteria;
 
@@ -182,8 +183,10 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 		vm.pagingController = PagingController.create('api/v1/transaction-trackings', vm.searchCriteria, 'GET');
 
 		vm.viewMessage = function(data){
+			SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+			storeCriteria();
 			var params = {params: data};
-			PageNavigation.gotoPage('/view-transaction-tracking-message', params,[]);
+			PageNavigation.gotoPage('/view-transaction-tracking-message', params,params.params);
 		}
 
 		vm.searchTrackingLog = function(pageModel){
@@ -297,6 +300,38 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 			logDateTo : '',
 			refNo : undefined,
 			processNo : undefined
+		}
+
+		vm.initLoad = function() {
+			var backAction = $stateParams.backAction;
+			if(backAction === true){
+				var cacheCriteria = $cookieStore.get(listStoreKey);
+				if(cacheCriteria.logDateFrom != '' && cacheCriteria.logDateFrom !== undefined){
+					var dateTimeFrom = new Date(cacheCriteria.logDateFrom);
+					vm.logListModel.logDateFrom = dateTimeFrom;
+					vm.logTimeFromHour = dateTimeFrom.getHours();
+					vm.logTimeFromMinute = dateTimeFrom.getMinutes();
+				}
+				
+				if(cacheCriteria.logDateTo != '' && cacheCriteria.logDateTo !== undefined){
+					var dateTimeTo = new Date(cacheCriteria.logDateTo);
+					vm.logListModel.logDateTo = dateTimeTo;
+					vm.logTimeToHour = dateTimeTo.getHours();
+					vm.logTimeToMinute = dateTimeTo.getMinutes();
+				}
+
+				if(cacheCriteria.refNo != '' && cacheCriteria.refNo !== undefined){
+					vm.logListModel.refNo = cacheCriteria.refNo;
+				}
+
+				if(cacheCriteria.refNo != '' && cacheCriteria.refNo !== undefined){
+					vm.logListModel.refNo = cacheCriteria.refNo;
+				}
+				if(cacheCriteria.processNo != '' && cacheCriteria.processNo !== undefined){
+					vm.logListModel.processNo = cacheCriteria.processNo;
+				}
+			}
+			vm.searchTrackingLog();	
 		}
 		
 		vm.initLoad();
