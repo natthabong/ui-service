@@ -377,6 +377,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						,'js/app/modules/monitor/web-service-monitor-controller.js'
 						,'js/app/modules/monitor/ftp-monitor-controller.js'
 						,'js/app/modules/monitor/batch-job-monitor-controller.js'
+						,'js/app/modules/monitor/batch-job-monitor-service.js'
 						,'js/app/modules/monitor/system-integration-monitor-service.js'
 						,'js/app/common/scf-component.js'
 						,'js/app/common/scf-component.css'])
@@ -390,6 +391,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						,'js/app/modules/monitor/web-service-monitor-controller.js'
 						,'js/app/modules/monitor/ftp-monitor-controller.js'
 						,'js/app/modules/monitor/batch-job-monitor-controller.js'
+						,'js/app/modules/monitor/batch-job-monitor-service.js'
 						,'js/app/modules/monitor/system-integration-monitor-service.js'
 						,'js/app/common/scf-component.js'
 						,'js/app/common/scf-component.css'])
@@ -403,6 +405,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						,'js/app/modules/monitor/web-service-monitor-controller.js'
 						,'js/app/modules/monitor/ftp-monitor-controller.js'
 						,'js/app/modules/monitor/batch-job-monitor-controller.js'
+						,'js/app/modules/monitor/batch-job-monitor-service.js'
 						,'js/app/modules/monitor/system-integration-monitor-service.js'
 						,'js/app/common/scf-component.js'
 						,'js/app/common/scf-component.css'

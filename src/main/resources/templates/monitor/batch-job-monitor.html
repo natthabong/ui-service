@@ -1,29 +1,35 @@
-<div th:fragment="content" 
+<div th:fragment="content"
 	sec:authorize="hasAnyAuthority('MONITOR_ALL_INTEGRATION')">
 	<div id="wrapper" ng-controller="BatchJobMonitorController as ctrl">
-        <div class="panel">
-            <div class="panel-body">
-                <h3 id="batch-job-label" class="animated fadeInLeft"
-                    ng-bind="'Batch job' | translate"></h3>
-                <div class="form-group control-label"
-                    ng-repeat="record in ctrl.batchJobModel track by $index">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-7"
-                        style="padding-top: 5px">
-                        <span id="{{record.jobName}}-label"
-                            ng-bind="record.jobName"></span>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5" style="padding-top: 5px">
-                        <scf-button class="btn-default gec-btn-action"
-                            id="{{record.jobName}}-run-button"
-                            ng-click="ctrl.runJob()" title="Run now">
-                        <span class="fa fa-history" aria-hidden="true"></span></scf-button>
-                        <scf-button class="btn-default gec-btn-action"
-                            id="{{record.jobName}}-view-button"
-                            ng-click="ctrl.view(record)" title="Tracking log">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
-                    </div>
-                </div>
-            </div>
-        </div>
+		<div class="panel">
+			<div class="panel-body">
+				<h3 id="batch-job-label" class="animated fadeInLeft"
+					ng-bind="'Batch job' | translate"></h3>
+				<div class="form-group control-label"
+					ng-repeat="record in ctrl.batchJobModel track by $index">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-7"
+						style="padding-top: 5px">
+						<span id="{{record.jobName}}-label" ng-bind="record.jobName"></span>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-5"
+						style="padding-top: 5px">
+						<scf-button class="btn-default gec-btn-action"
+							id="{{record.jobName}}-run-button" ng-click="ctrl.runJob(record)"
+							title="Run now"> <span class="fa fa-history"
+							aria-hidden="true"></span></scf-button>
+						<scf-button class="btn-default gec-btn-action"
+							sec:authorize="!hasAnyAuthority('MONITOR_ALL_TRACKING_LOG')"
+							id="{{record.jobName}}-view-button" ng-disabled="true"
+							title="Tracking log"> <span
+							class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
+						<scf-button class="btn-default gec-btn-action"
+							sec:authorize="hasAnyAuthority('MONITOR_ALL_TRACKING_LOG')"
+							id="{{record.jobName}}-view-button" ng-click="ctrl.view(record)"
+							title="Tracking log"> <span
+							class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
