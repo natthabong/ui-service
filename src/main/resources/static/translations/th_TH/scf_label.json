@@ -456,7 +456,8 @@
 	"BANK_TIMEOUT" : "Bank connection timeout.",
 	"RECEIVED_INQURY_ACCOUNT_RESPONSE_FROM_BANK" : "Receive inquiry account from bank.",
 	"SEND_INQURY_ACCOUNT_RESPONSE_TO_CLIENT" : "Send inquiry account response to client.",
-	"RECEIVED_INQURY_ACCOUNT_RESPONSE_FROM_GATEWAY" : "Receive inquiry account  response from gateway.",
+	"RECEIVED_INQURY_ACCOUNT_RESPONSE_FROM_GATEWAY" : "Receive inquiry account response from gateway.",
+	"SEND_DRAWDOWN_REQUEST_TO_GATEWAY" : "Send drawdown request to gateway.",
 	
 	"Process no": "Process no"
 
