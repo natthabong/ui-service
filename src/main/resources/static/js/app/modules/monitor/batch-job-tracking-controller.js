@@ -19,6 +19,8 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 		vm.logTimeToMinute = '';
 		
 		vm.batchJobTracking = $stateParams.params;
+		var ownerId = vm.batchJobTracking.ownerId;
+		
         vm.back = function(){
             PageNavigation.gotoPreviousPage();
         }
@@ -54,7 +56,6 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 		
 		vm.searchCriteria = {
 			batchJobId: undefined,
-			batchJobName: vm.batchJobTracking.jobName,
 			logDateFrom : undefined,
 			logDateTo : undefined,
 			processNo : ''
@@ -65,7 +66,7 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
             	PageNavigation.gotoPreviousPage();
             }
 			
-			vm.logListModel = vm.batchJobTracking.jobId;
+			vm.logListModel.batchJobName = vm.batchJobTracking.jobName;
 			vm.searchBatchJobLog();
 		}
 		
@@ -110,14 +111,14 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 				vm.searchCriteria.logDateTo = undefined;
 			}
 			
-			vm.searchCriteria.batchJobId = UIFactory.createCriteria(vm.logListModel.batchJobId);
+			vm.searchCriteria.batchJobId = UIFactory.createCriteria(vm.batchJobTracking.jobId);
 			vm.searchCriteria.processNo = UIFactory.createCriteria(vm.logListModel.processNo);
 			
 			return vm.searchCriteria;
 
 		}
 
-//		vm.pagingController = PagingController.create('api/v1/transaction-trackings', vm.searchCriteria, 'GET');
+		vm.pagingController = PagingController.create('api/v1/organizes/'+ownerId+'/batch-jobs', vm.searchCriteria, 'GET');
 
 		vm.viewMessage = function(data){
 			var params = {params: data};
@@ -128,6 +129,8 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 			if (isValid()) {
 				var criteria = prepareCriteria();
 				var logDiferred = vm.pagingController.search(pageModel);
+				console.log('api/v1/organizes/'+ownerId+'/batch-jobs');
+				console.log(vm.searchCriteria);
 				vm.showInfomation = true;
 			}
 		}
