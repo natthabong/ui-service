@@ -99,8 +99,17 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 					cssTemplate : function(record){
 						return cssTemplate(record,'left')
 					}
-				},
-				{
+				},{
+					fieldName : 'ipAddress',
+					field : 'ipAddress',
+					label : 'IP',
+					idValueField : 'template',
+					id : 'ip-address-{value}-label',
+					sortable : false,
+					cssTemplate : function(record){
+						return cssTemplate(record,'left')
+					}
+				},{
 					fieldName : 'action',
 					field : 'action',
 					label : 'Action',
@@ -177,7 +186,7 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 			
 			vm.searchCriteria.batchJobId = UIFactory.createCriteria(jobId);
 			vm.searchCriteria.processNo = UIFactory.createCriteria(vm.logListModel.processNo);
-			
+			console.log(ownerId);
 			return vm.searchCriteria;
 
 		}
