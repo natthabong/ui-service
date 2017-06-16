@@ -116,7 +116,7 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 					idValueField : 'template',
 					id : 'action-{value}-label',
 					sortable : false,
-					filterType: 'translate',
+					cellTemplate : '{{data | batchJob}}',
 					cssTemplate : function(record){
 						return cssTemplate(record,'left')
 					}

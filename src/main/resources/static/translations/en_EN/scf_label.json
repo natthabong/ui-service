@@ -476,8 +476,8 @@
     "FILE_DATA_INVALID_FORMAT": "File data invalid format",
     "RESPONSE_RECEIVED_ERROR": "Response received error",
     "SEND_FILE_TO_RECEIVER_COMPLETER": "Send file to API completed",
-    "START_DOWNLOAD_FILE": "Start download file (${filename}) from FTP server",
-    "END_DOWNLOAD_FILE": "Download file (${filename}) from FTP server completed",
+    "START_DOWNLOAD_FILE": "Start download file ($) from FTP server",
+    "END_DOWNLOAD_FILE": "Download file ($) from FTP server completed",
 	
 	"Process no": "Process no"
 

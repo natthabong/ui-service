@@ -110,7 +110,7 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 					idValueField : 'template',
 					id : 'action-{value}-label',
 					sortable : false,
-					filterType: 'translate',
+					cellTemplate : '{{data | transactionTracking}}',
 					cssTemplate : function(record){
 						return cssTemplate(record,'left')
 					}

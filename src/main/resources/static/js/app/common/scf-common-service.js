@@ -512,7 +512,32 @@ app.filter('paymentPeriod', ['$filter',function($filter){
 		return displayMessage;
 	}
 }]);
-
+app.filter('transactionTracking', ['$filter',function($filter) {
+	return function (data) {
+		var trackingMessage;
+		var result = $filter('translate')(data.action);
+		var array = result.split('$');
+		if(array.length > 1){
+			trackingMessage = array[0] + data.params + array[1];
+		}else{
+			trackingMessage = array[0];
+		}
+		return trackingMessage;
+	};
+}])
+app.filter('batchJob', ['$filter',function($filter) {
+	return function (data) {
+		var trackingMessage;
+		var result = $filter('translate')(data.action);
+		var array = result.split('$');
+		if(array.length > 1){
+			trackingMessage = array[0] + data.params + array[1];
+		}else{
+			trackingMessage = array[0];
+		}
+		return trackingMessage;
+	};
+}])
 var addOrdinalNumberSuffix = function(number){
 	if(number == 99){
 		return 'end of month';
