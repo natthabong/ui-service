@@ -80,8 +80,8 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 						return cssTemplate(record,'left')
 					}
 				},{
-					fieldName : 'batchJob',
-					field : 'batchJob',
+					fieldName : 'jobName',
+					field : 'jobName',
 					label : 'Batch job',
 					idValueField : 'template',
 					id : 'batch-job-{value}-label',
@@ -193,7 +193,6 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 			if (isValid()) {
 				var criteria = prepareCriteria();
 				var logDiferred = vm.pagingController.search(pageModel);
-				console.log(logDiferred);
 				vm.showInfomation = true;
 			}
 		}

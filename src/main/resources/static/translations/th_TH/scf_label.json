@@ -459,6 +459,18 @@
     "RECEIVED_INQURY_ACCOUNT_RESPONSE_FROM_BANK":"Receive inquiry account from bank.",
     "SEND_INQURY_ACCOUNT_RESPONSE_TO_CLIENT":"Send inquiry account response to client.",
     "RECEIVED_INQURY_ACCOUNT_RESPONSE_FROM_GATEWAY":"Receive inquiry account response from gateway.",
+    
+    "START_JOB": "Start job",
+    "END_JOB_SUCCESS": "Finish job",
+    "END_JOB_FAIL": "Job fail",
+    "START_FIND_FILE": "Start find file",
+    "END_FIND_FILE": "Finish find file",
+    "START_SEND_FILE_TO_RECEIVER": "Start send file to API",
+    "FILE_DATA_INVALID_FORMAT": "File data invalid format",
+    "RESPONSE_RECEIVED_ERROR": "Response received error",
+    "SEND_FILE_TO_RECEIVER_COMPLETER": "Send file to API completed",
+    "START_DOWNLOAD_FILE": "Start download file (${filename}) from FTP server",
+    "END_DOWNLOAD_FILE": "Download file (${filename}) from FTP server completed",
 	
 	"Process no": "Process no"
 
