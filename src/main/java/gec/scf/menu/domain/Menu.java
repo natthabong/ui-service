@@ -1,4 +1,4 @@
-package gec.scf.memu.domain;
+package gec.scf.menu.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;

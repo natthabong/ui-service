@@ -1,4 +1,4 @@
-package gec.scf.memu.domain;
+package gec.scf.menu.domain;
 
 public enum MenuType {
 	MAIN, SUB
