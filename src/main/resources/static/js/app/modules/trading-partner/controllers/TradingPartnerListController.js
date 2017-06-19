@@ -106,7 +106,7 @@ tpModule
 							}
 							vm.edit = function(record) {
 								var params = {
-									selectedItem : data
+									selectedItem : record
 								};
 								$timeout(function() {
 									PageNavigation.gotoPage('/trading-partners/edit', params, params);
