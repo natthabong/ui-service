@@ -10,9 +10,10 @@ tpModule
 						'PageNavigation',
 						'PagingController',
 						'TradingPartnerService',
+						'$timeout',
 						function($scope, $stateParams, UIFactory,
 								PageNavigation, PagingController,
-								TradingPartnerService) {
+								TradingPartnerService, $timeout) {
 
 							var vm = this;
 							vm.criteria = {
@@ -98,6 +99,15 @@ tpModule
 								
 								PageNavigation.gotoPage('/trading-partners/new', params, params);
 							
+							}
+
+							vm.edit = function(data){
+								var params = {
+									selectedItem : data
+								};
+								$timeout(function() {
+									PageNavigation.gotoPage('/trading-partners/edit', params, params);
+								}, 10);
 							}
 
 							// Main of program
