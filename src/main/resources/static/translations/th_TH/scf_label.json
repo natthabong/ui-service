@@ -431,11 +431,11 @@
 	"Reject transaction success": "Reject transaction success",
 	"gec-system-integration-monitor" : "Gec system integration monitor",
 
-	"SEND_DRAWDOWN_FAIL_CREDIT_EXPIRES":"Send drawdown request fail Credit limit expired.",
-    "SEND_DRAWDOWN_FAIL_UNAUTHORIZED_ACCESS":"Send drawdown request fail unauthorized access.",
-    "SEND_DRAWDOWN_FAIL_INVALIDATE_AUTHORITY":"Send drawdown request fail invalidate authority.",
-    "SEND_DRAWDOWN_FAIL_NOT_IN_TRANSACTION_HOUR":"Send drawdown request fail Not within transaction hour.",
-    "SEND_DRAWDOWN_FAIL_TRANSACTION_HAS_BEEN_UPDATED":"Send drawdown request fail Transaction has been updated.",
+	"SEND_DRAWDOWN_FAIL_CREDIT_EXPIRES":"Send drawdown request fail. Credit limit expired.",
+    "SEND_DRAWDOWN_FAIL_UNAUTHORIZED_ACCESS":"Send drawdown request fail. unauthorized access.",
+    "SEND_DRAWDOWN_FAIL_INVALIDATE_AUTHORITY":"Send drawdown request fail. invalidate authority.",
+    "SEND_DRAWDOWN_FAIL_NOT_IN_TRANSACTION_HOUR":"Send drawdown request fail. Not within transaction hour.",
+    "SEND_DRAWDOWN_FAIL_TRANSACTION_HAS_BEEN_UPDATED":"Send drawdown request fail. Transaction has been updated.",
     "SEND_DRAWDOWN_REQUEST_TO_GATEWAY":"Send drawdown request to gateway.",
     "GATEWAY_TIMEOUT":"Gateway connection timeout.",
     "RECEIVED_DRAWDOWN_REQUEST_FROM_CLIENT":"Receive drawdown request from client.",
@@ -488,6 +488,7 @@
 	"SEND_FILE_TO_RECEIVER_COMPLETE":"Send file ($) to receiver complete.",
 	"SEND_FILE_TO_RECEIVER_FAIL":"Send file ($) to receiver fail.",
 	"END_BATCH_JOB_IMPORT_FILE_SUCCESS":"End batch job import file success.",	
+	"NO_FILE_FOUND":"No file found.",
 	"Process no": "Process no"
 
 }
