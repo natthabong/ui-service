@@ -27,50 +27,51 @@ tpModule.controller('TradingPartnerController', [
                 }
             }
 
+            var isRequire = function(data) {
+                return (data == '' || data == null);
+            }
+
             $scope.cancel = function() {
                 PageNavigation.gotoPreviousPage();
             }
 
             $scope.save = function() {
-            
+                if(_validate(vm.tradingPartner)){
+
+                }
+                
             }
 
-            var _organizeBuyer = function(query) {
-                var deffered = TradingPartnerService.getOrganizeByNameOrCodeLike(query);
-                deffered.promise.then(function(response) {
-                    response.data.map(function(item) {
-                        item.identity = [ 'buyer-', item.organizeId, '-option' ].join('');
-                        item.label = [ item.organizeId, ': ', item.organizeName ].join('');
-                        return item;
-                    });
-                });
-                return deffered;
+            var _validate = function(tradingPartner){
+                $scope.errors = {};
+                var valid = true;
+                if (isRequire(tradingPartner.sponsorId)) {
+				    valid = false;
+				    $scope.errors.sponsorId = {
+					message : 'Buyer is required.'
+				    }
+				}
+
+                if (isRequire(tradingPartner.supplierId)) {
+				    valid = false;
+				    $scope.errors.supplierId = {
+					message : 'Supplier is required.'
+				    }
+				}
+
+                return valid;
             }
 
-            var _organizeSupplier = function(query) {
-                var deffered = TradingPartnerService.getOrganizeByNameOrCodeLike(query);
-                deffered.promise.then(function(response) {
-                    response.data.map(function(item) {
-                        item.identity = [ 'supplier-', item.organizeId, '-option' ].join('');
-                        item.label = [ item.organizeId, ': ', item.organizeName ].join('');
-                        return item;
-                    });
-                });
-                return deffered;
+            var _organizes = function(query) {
+                query = UIFactory.createCriteria(query);
+                return TradingPartnerService.getOrganizeByNameOrCodeLike(query);
             }
             
-            vm.buyerAutoSuggestModel = UIFactory
+            vm.organizeAutoSuggestModel = UIFactory
                 .createAutoSuggestModel({
                     placeholder : 'Please enter orgainze name or code',
                     itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
-                    query : _organizeBuyer
-                });
-
-            vm.supplierAutoSuggestModel = UIFactory
-                .createAutoSuggestModel({
-                    placeholder : 'Please enter orgainze name or code',
-                    itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
-                    query : _organizeSupplier
+                    query : _organizes
                 });
 
             var init = function() {

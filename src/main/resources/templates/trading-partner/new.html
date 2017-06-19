@@ -23,7 +23,7 @@
 							<label id="buyer-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer' | translate}}: </label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<gec-auto-suggest model="ctrl.buyerAutoSuggestModel"
+								<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
 										ng-model="ctrl.tradingPartner.sponsorId" id="buyer-auto-suggest">
 								</gec-auto-suggest>
 							</div>
@@ -31,16 +31,30 @@
 							<div class="col-md-3 col-sm-2"></div>
 						</div>
 
+						<div class="form-group" ng-show="errors.sponsorId">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+								id="buyer-warning-message-label"
+								ng-bind="errors.sponsorId.message | translate"></span>
+						</div>
+
                         <div class="form-group">
 							<label id="supplier-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier' | translate}}:</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<gec-auto-suggest model="ctrl.supplierAutoSuggestModel"
-										ng-model="ctrl.tradingPartner.supplier" id="supplier-auto-suggest">
+								<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
+										ng-model="ctrl.tradingPartner.supplierId" id="supplier-auto-suggest">
 								</gec-auto-suggest>
 								
 							</div>
 							<div class="col-md-3 col-sm-2"></div>
+						</div>
+
+						<div class="form-group" ng-show="errors.supplierId">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+								id="supplier-warning-message-label"
+								ng-bind="errors.supplierId.message | translate"></span>
 						</div>
 
 						<div class="form-group">
