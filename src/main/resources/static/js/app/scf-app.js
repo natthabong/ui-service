@@ -443,7 +443,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'TradingPartnerListController',
 				controllerAs: 'ctrl',
 				templateUrl: '/trading-partners',
-				params: { params: []},
+				params: { params: [], backAction: false},
 				resolve: load(['js/app/modules/trading-partner/controllers/TradingPartnerListController.js', 'js/app/modules/trading-partner/services/TradingPartnerService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/trading-partners/new',{
 				url: '/trading-partners/new',
@@ -459,6 +459,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/trading-partners/new',
 				params: { mode:'editTradingPartner', selectedItem: null},
 				resolve: load(['js/app/modules/trading-partner/controllers/TradingPartnerController.js', 'js/app/modules/trading-partner/services/TradingPartnerService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/trade-finance/config',{
+				url: '/trade-finance/config',
+				controller: 'ConfigTradeFinanceController',
+				controllerAs: 'ctrl',
+				templateUrl: '/trade-finance/config',
+				params: { setupModel: null},
+				resolve: load(['js/app/modules/trading-partner/financing/controllers/ConfigTradeFinanceController.js', 'js/app/modules/trading-partner/financing/services/ConfigTradeFinanceService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',

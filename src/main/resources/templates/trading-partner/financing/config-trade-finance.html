@@ -1,0 +1,55 @@
+<div id="content" th:fragment="content">           
+
+    <div class="panel box-shadow-none content-header">
+		<div class="panel-body">
+			<div class="col-md-12">
+				<h3 id="header-message-label" class="animated fadeInLeft"
+					ng-bind="'Trade finance configuration' | translate"></h3>
+			</div>
+		</div>
+	</div>
+    <div class="form-element">
+        <div class="panel panel-default col-md-12 padding-0">
+            <div class="panel-body">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <form autocomplete="off" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2 col-sm-3 col-xs-12 control-label" 
+                                id="buyer-label">{{'Buyer'| translate}}: </label>
+                            <label id="buyer-value-label"
+                                class="col-md-6 col-sm-6 col-xs-12  control-label" ng-bind="ctrl.financeModel.sponsorName"></label>
+                            <div class="col-md-3 col-sm-2">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 col-sm-3 col-xs-12 control-label" 
+                                id="supplier-label">{{'Supplier'| translate}}: </label>
+                            <label id="supplier-value-label"
+                                class="col-md-6 col-sm-6 col-xs-12  control-label" ng-bind="ctrl.financeModel.supplierName"></label>
+                            <div class="col-md-3 col-sm-2">
+                            </div>
+                        </div>
+                        <br/>
+                        <span id='trade-finance-list-label'>Trade finance list</span>
+                    </form>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <scf-data-table id="trade-finance-table"
+                                component-config="ctrl.dataTable"
+                                component-datas="ctrl.pagingController.tableRowCollection"
+                                current-page="ctrl.pagingController.pagingModel.currentPage"
+                                record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+                                clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-data-table>
+                        </div>
+                        <div id="fixed-bottom" class="col-md-12"></div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 text-right">
+                        <div class="form-group">
+                            <scf-button id="back-button" class="popup-button btn" ng-click="ctrl.back()">{{'Back' | translate}}</scf-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

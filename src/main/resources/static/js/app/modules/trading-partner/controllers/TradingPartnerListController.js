@@ -11,14 +11,16 @@ tpModule
 						'PagingController',
 						'TradingPartnerService',
 						'$timeout',
+						'$cookieStore','SCFCommonService','$state',
 						function($scope, $stateParams, UIFactory,
 								PageNavigation, PagingController,
-								TradingPartnerService, $timeout) {
+								TradingPartnerService, $timeout,$cookieStore,SCFCommonService,$state) {
 
 							var vm = this;
 							vm.criteria = {
 								organizeId : null,
 							};
+							var listStoreKey = 'listrancri';
 
 							// The pagingController is a tool for navigate the
 							// page of a table.
@@ -104,7 +106,12 @@ tpModule
 												params, params);
 
 							}
+							var storeCriteria = function(){
+								$cookieStore.put(listStoreKey, vm.organize);
+							}
 							vm.edit = function(record) {
+								SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+								storeCriteria();
 								var params = {
 									selectedItem : record
 								};
@@ -114,6 +121,8 @@ tpModule
 							}
 
 							vm.setup = function(data){
+								SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+								storeCriteria();
 								var params = {
 									setupModel : data
 								};
@@ -162,7 +171,10 @@ tpModule
 
 							// Main of program
 							var initLoad = function() {
-
+								var backAction = $stateParams.backAction;
+								if(backAction === true){
+									vm.organize = $cookieStore.get(listStoreKey);
+								}
 								vm.search();
 							}
 							initLoad();
