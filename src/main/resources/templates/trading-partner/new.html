@@ -23,8 +23,9 @@
 							<label id="buyer-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer' | translate}}: </label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<scf-input-text id="buyer-textbox" maxlength="120"
-									ng-model="tradingPartner.sponsorId" ></scf-input-text>
+								<gec-auto-suggest model="ctrl.buyerAutoSuggestModel"
+										ng-model="ctrl.tradingPartner.sponsorId" id="buyer-auto-suggest">
+								</gec-auto-suggest>
 							</div>
 
 							<div class="col-md-3 col-sm-2"></div>
@@ -34,8 +35,10 @@
 							<label id="supplier-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier' | translate}}:</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<scf-input-text id="supplier-textbox" ng-model="tradingPartner.supplierId"
-									maxlength="120" ></scf-input-text>
+								<gec-auto-suggest model="ctrl.supplierAutoSuggestModel"
+										ng-model="ctrl.tradingPartner.supplier" id="supplier-auto-suggest">
+								</gec-auto-suggest>
+								
 							</div>
 							<div class="col-md-3 col-sm-2"></div>
 						</div>
@@ -43,13 +46,21 @@
 						<div class="form-group">
 							<label class="col-md-2 col-sm-3 col-hidden-xs  control-label"></label>
 							<div class="col-md-6 col-sm-6 col-xs-12" style="padding-left: 25px;">
-								<scf-checkbox id="suspend-checkbox"
-									ng-model="tradingPartner.suspend" ></scf-checkbox>
+								<scf-checkbox id="suspend-checkbox" 
+									ng-model="ctrl.tradingPartner.suspend" ></scf-checkbox>
 								<label id="suspend-label" class="checkbox-inline"
 									style="padding-bottom: 10px;">{{'Suspend' | translate}}:</label>
 							</div>
 							<div class="col-md-3 col-sm-2 col-hidden-xs"></div>
 						</div>
+
+						<div class="col-md-12 col-sm-12 text-right">
+							<div class="form-group">
+								<scf-button id="cancel-button" class="popup-button btn" ng-click="cancel()" ng-if="!ctrl.isViewMode">{{'Cancel' | translate}}</scf-button>
+								<scf-button id="save-button" type="submit">{{'Save' | translate}}</scf-button>
+							</div>
+						</div>
+
                     </form>
                 </div>
 
