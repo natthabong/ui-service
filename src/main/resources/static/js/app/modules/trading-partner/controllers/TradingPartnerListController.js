@@ -112,6 +112,15 @@ tpModule
 									PageNavigation.gotoPage('/trading-partners/edit', params, params);
 								}, 10);
 							}
+
+							vm.setup = function(data){
+								var params = {
+									setupModel : data
+								};
+								$timeout(function() {
+									PageNavigation.gotoPage('/trade-finance/config', params, params);
+								}, 10);
+							}
 							
 							vm.deleteTP = function(trading) {
 								var preCloseCallback = function(confirm) {
