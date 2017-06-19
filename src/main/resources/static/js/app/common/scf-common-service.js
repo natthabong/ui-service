@@ -518,7 +518,8 @@ app.filter('transactionTracking', ['$filter',function($filter) {
 		var result = $filter('translate')(data.action);
 		var array = result.split('$');
 		if(array.length > 1){
-			trackingMessage = array[0] + data.params + array[1];
+			var displayParam = data.params.substring(data.params.indexOf(":")+1, data.params.length-1);
+			trackingMessage = array[0] + displayParam + array[1];
 		}else{
 			trackingMessage = array[0];
 		}
@@ -531,7 +532,8 @@ app.filter('batchJob', ['$filter',function($filter) {
 		var result = $filter('translate')(data.action);
 		var array = result.split('$');
 		if(array.length > 1){
-			trackingMessage = array[0] + data.params + array[1];
+			var displayParam = data.params.substring(data.params.indexOf(":")+1, data.params.length-1);
+			trackingMessage = array[0] + displayParam + array[1];
 		}else{
 			trackingMessage = array[0];
 		}
