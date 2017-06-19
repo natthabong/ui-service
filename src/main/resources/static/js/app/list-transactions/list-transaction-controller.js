@@ -35,6 +35,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		rejectIncomplete: 'REJECT_INCOMPLETE'			
 	}
 
+	vm.storeSearchCriteria = undefined;
+
 	vm.displayName = $scope.userInfo.displayName;
 	
     vm.transactionPayload = {
@@ -571,6 +573,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	};
 	
 	vm.searchTransaction = function(criteria){
+		console.log("hi")
 		vm.wrongDateFormat = false;
 		var dateFrom = vm.dateModel.dateFrom;
         var dateTo = vm.dateModel.dateTo;
@@ -634,92 +637,111 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         }
 	};
 
+	var saveSearchCriteriaData = function(){
+		vm.storeSearchCriteria = {
+			dateFrom : vm.listTransactionModel.dateFrom,
+			dateTo : vm.listTransactionModel.dateTo,
+			dateType : vm.listTransactionModel.dateType,
+			order : vm.listTransactionModel.order,
+			page : vm.listTransactionModel.page,
+			pageSize : vm.listTransactionModel.pageSize,
+			sponsorId : vm.listTransactionModel.sponsorId,
+			sponsorInfo : vm.listTransactionModel.sponsorInfo,
+			statusCode : vm.listTransactionModel.statusCode,
+			statusGroup : vm.listTransactionModel.statusGroup,
+			supplier : vm.listTransactionModel.supplier,
+			supplierCode : vm.listTransactionModel.supplierCode,
+			supplierId : vm.listTransactionModel.supplierId,
+			transactionNo : vm.listTransactionModel.transactionNo
+		}
+	}
+
 	vm.searchTransactionService = function() {
-            var transactionModel = angular.extend(vm.listTransactionModel, {
-                page: vm.pageModel.currentPage,
-                pageSize: vm.pageModel.pageSizeSelectModel
-            });
-            
-            currentParty = $stateParams.party;
-			if (currentParty == partyRole.sponsor) {
-				transactionModel.sponsorId = organizeId;
-			}else if (currentParty == partyRole.supplier) {
-				transactionModel.supplierId = organizeId;
-			} else if (currentParty == partyRole.bank) {
-
-			}
-			
-            var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
-            transactionDifferd.promise.then(function(response) {
-            	vm.serverTime = response.headers('current-date');
-				vm.listTransactionModel.statusCode = '';
-                vm.showInfomation = true;
-                var transactionDocs = response.data;
-                vm.tableRowCollection = transactionDocs.content;
-                vm.pageModel.totalRecord = transactionDocs.totalElements;
-                vm.pageModel.totalPage = transactionDocs.totalPages;
-
-                // Calculate Display page
-                vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-				vm.clearInternalStep();
-				// reset value of internal step
-				if (currentParty == partyRole.supplier || currentParty == partyRole.sponsor) {
-	                if (vm.listTransactionModel.statusGroup === 'INTERNAL_STEP' || vm.listTransactionModel.statusGroup === '') {
-	                    var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
-	                    internalStepDeffered.promise.then(function(response) {
-	                        var internalStemp = response.data;							
-	                        if (internalStemp.length > 0) {
-	                            internalStemp.forEach(function(summary) {
-	                        	vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
-	                        	vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
-	                            });
-	                        }						
-	                    }).catch(function(response) {
-	                        $log.error('Internal Error');
-	                    });
-	
-	                }
-				}else if (currentParty == partyRole.bank) {
-					var summaryStatusGroupDeffered = ListTransactionService.summaryStatusGroup(transactionModel);
-					summaryStatusGroupDeffered.promise.then(function(response) {
-						var summaryStatusGroup = response.data;
-						summaryStatusGroup.forEach(function(summary) {
-                        	vm.summaryStatusGroup[summary.statusGroup].totalRecord = summary.totalRecord;
-                        	vm.summaryStatusGroup[summary.statusGroup].totalAmount = summary.totalAmount;							
-						});
-					}).catch(function(response) {
-                        $log.error('Summary Group Status Error');
-                    });
-				}
-            }).catch(function(response) {
-                $log.error('Cannot search document');
-            });
-		
-			
-        };
-	
-	$scope.sortData = function(order, orderBy) {
-            vm.listTransactionModel.order = order;
-            vm.listTransactionModel.orderBy = orderBy;
-            vm.searchTransactionService();
-        };
-	
-	vm.exportCSVFile = function(){
-		var dateFrom = vm.dateModel.dateFrom;
-		var dateTo = vm.dateModel.dateTo;
-		
-		vm.listTransactionModel.dateFrom = SCFCommonService.convertDate(dateFrom);
-		vm.listTransactionModel.dateTo = SCFCommonService.convertDate(dateTo);
-		
-		var transactionModel = angular.extend(vm.listTransactionModel,{
-			page: 0,
-			pageSize: 0
+		saveSearchCriteriaData();
+		var transactionModel = angular.extend(vm.listTransactionModel, {
+			page: vm.pageModel.currentPage,
+			pageSize: vm.pageModel.pageSizeSelectModel
 		});
 		
-		var transactionDifferd = ListTransactionService.exportCSVFile(transactionModel,$translate);
+		currentParty = $stateParams.party;
+		if (currentParty == partyRole.sponsor) {
+			transactionModel.sponsorId = organizeId;
+		}else if (currentParty == partyRole.supplier) {
+			transactionModel.supplierId = organizeId;
+		} else if (currentParty == partyRole.bank) {
+
+		}
+			
+		var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
+		transactionDifferd.promise.then(function(response) {
+			vm.serverTime = response.headers('current-date');
+			vm.listTransactionModel.statusCode = '';
+			vm.showInfomation = true;
+			var transactionDocs = response.data;
+			vm.tableRowCollection = transactionDocs.content;
+			vm.pageModel.totalRecord = transactionDocs.totalElements;
+			vm.pageModel.totalPage = transactionDocs.totalPages;
+
+			// Calculate Display page
+			vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+			vm.clearInternalStep();
+			// reset value of internal step
+			if (currentParty == partyRole.supplier || currentParty == partyRole.sponsor) {
+				if (vm.listTransactionModel.statusGroup === 'INTERNAL_STEP' || vm.listTransactionModel.statusGroup === '') {
+					var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
+					internalStepDeffered.promise.then(function(response) {
+						var internalStemp = response.data;							
+						if (internalStemp.length > 0) {
+							internalStemp.forEach(function(summary) {
+							vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
+							vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
+							});
+						}						
+					}).catch(function(response) {
+						$log.error('Internal Error');
+					});
+				}
+			}else if (currentParty == partyRole.bank) {
+				var summaryStatusGroupDeffered = ListTransactionService.summaryStatusGroup(transactionModel);
+				summaryStatusGroupDeffered.promise.then(function(response) {
+					var summaryStatusGroup = response.data;
+					summaryStatusGroup.forEach(function(summary) {
+						vm.summaryStatusGroup[summary.statusGroup].totalRecord = summary.totalRecord;
+						vm.summaryStatusGroup[summary.statusGroup].totalAmount = summary.totalAmount;							
+					});
+				}).catch(function(response) {
+					$log.error('Summary Group Status Error');
+				});
+			}
+		}).catch(function(response) {
+			$log.error('Cannot search document');
+		});		
+    };
+	
+	// $scope.sortData = function(order, orderBy) {
+    //         vm.listTransactionModel.order = order;
+    //         vm.listTransactionModel.orderBy = orderBy;
+    //         vm.searchTransactionService();
+    //     };
+	
+	vm.exportCSVFile = function(){
+		console.log(vm.listTransactionModel)
+		console.log(vm.storeSearchCriteria)
+		// var dateFrom = vm.dateModel.dateFrom;
+		// var dateTo = vm.dateModel.dateTo;
+		
+		// vm.listTransactionModel.dateFrom = SCFCommonService.convertDate(dateFrom);
+		// vm.listTransactionModel.dateTo = SCFCommonService.convertDate(dateTo);
+		
+		// var transactionModel = angular.extend(vm.listTransactionModel,{
+		// 	page: 0,
+		// 	pageSize: 0
+		// });
+		
+		// var transactionDifferd = ListTransactionService.exportCSVFile(transactionModel,$translate);
 	};
 	vm.storeCriteria = function(){
-		$cookieStore.put(listStoreKey, vm.listTransactionModel);
+		$cookieStore.put(listStoreKey, vm.storeSearchCriteria);
 	}
 	
 	vm.verifyTransaction = function(data){
@@ -732,6 +754,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	
 	vm.view = function(data){		
 		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+		console.log(vm.storeSearchCriteria)
 		vm.storeCriteria();
 		var isShowBackButton = true;
 		var isShowBackButton = false;
