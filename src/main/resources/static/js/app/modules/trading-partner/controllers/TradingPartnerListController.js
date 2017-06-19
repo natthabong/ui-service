@@ -26,20 +26,10 @@ tpModule
 									'GET');
 
 							// Organize auto suggestion model.
-							var _organizeTypeHead = function(query) {
-								var deffered = TradingPartnerService
-										.getOrganizeByNameOrCodeLike(query);
-								deffered.promise.then(function(response) {
-									response.data.map(function(item) {
-										item.identity = [ 'organize-',
-												item.organizeId, '-option' ]
-												.join('');
-										item.label = [ item.organizeId, ': ',
-												item.organizeName ].join('');
-										return item;
-									});
-								});
-								return deffered;
+							var _organizeTypeHead = function(q) {
+								q = UIFactory.createCriteria(q);
+								return TradingPartnerService
+										.getOrganizeByNameOrCodeLike(q);
 							}
 							vm.organizeAutoSuggestModel = UIFactory
 									.createAutoSuggestModel({
@@ -56,7 +46,7 @@ tpModule
 											cssTemplate : 'text-right'
 										},
 										{
-											fieldName : 'buyer',
+											fieldName : 'sponsorName',
 											labelEN : 'Buyer',
 											labelTH : 'Buyer',
 											id : '{value}-buyer',
@@ -64,7 +54,7 @@ tpModule
 											cssTemplate : 'text-center',
 										},
 										{
-											fieldName : 'supplier',
+											fieldName : 'supplierName',
 											labelEN : 'Supplier',
 											labelTH : 'Supplier',
 											id : '{value}-supplier',
@@ -75,6 +65,7 @@ tpModule
 											fieldName : 'status',
 											labelEN : 'Status',
 											labelTH : 'Status',
+											filterType : 'translate',
 											id : '{value}-status',
 											sortable : false,
 											cssTemplate : 'text-center'
@@ -84,18 +75,31 @@ tpModule
 											label : '',
 											cssTemplate : 'text-center',
 											sortData : false,
-											cellTemplate : '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
-													+ '<scf-button id="{{$parent.$index + 1}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setup(data)" title="Configure a trade finance"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+											cellTemplate : '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></scf-button>'
+													+ '<scf-button id="{{$parent.$index + 1}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setup(data)" title="Configure a trade finance"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>'
 													+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.delete(data)" title="Delete"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 										} ]
 							}
 							// All functions of a controller.
-							vm.search = function() {
+							vm.search = function(pageModel) {
+								var organizeId = undefined;
+								if (angular.isObject(vm.organize)) {
+									vm.criteria.organizeId = vm.organize.organizeId;
+								} else {
+									vm.criteria.organizeId = undefined;
+								}
 
+								vm.pagingController.search(pageModel);
 							}
-
 							vm.createNew = function() {
 
 							}
+
+							// Main of program
+							var initLoad = function() {
+
+								vm.search();
+							}
+							initLoad();
 
 						} ]);

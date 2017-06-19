@@ -26,7 +26,8 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
     	return $http.get(organizeAutoSuggestServiceUrl, {
 			params : {
 				q : value,
-				isFounder: false,
+				founder: false,
+				supporter: false,
 				offset : 0,
 				limit : 5
 				}
