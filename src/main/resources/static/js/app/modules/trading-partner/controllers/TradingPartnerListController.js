@@ -47,7 +47,7 @@ tpModule
 										},
 										{
 											fieldName : 'sponsorName',
-											headerId: 'buyer-header-label',
+											headerId : 'buyer-header-label',
 											labelEN : 'Buyer',
 											labelTH : 'Buyer',
 											id : 'buyer-{value}',
@@ -56,7 +56,7 @@ tpModule
 										},
 										{
 											fieldName : 'supplierName',
-											headerId: 'supplier-header-label',
+											headerId : 'supplier-header-label',
 											labelEN : 'Supplier',
 											labelTH : 'Supplier',
 											id : 'supplier-{value}',
@@ -79,7 +79,7 @@ tpModule
 											sortData : false,
 											cellTemplate : '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></scf-button>'
 													+ '<scf-button id="{{$parent.$index + 1}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setup(data)" title="Configure a trade finance"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>'
-													+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.delete(data)" title="Delete"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+													+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteTP(data)" title="Delete"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 										} ]
 							}
 							// All functions of a controller.
@@ -97,11 +97,83 @@ tpModule
 								var params = {
 									selectedItem : null
 								};
-								
-								PageNavigation.gotoPage('/trading-partners/new', params, params);
-							
-							}
 
+								PageNavigation
+										.gotoPage('/trading-partners/new',
+												params, params);
+
+							}
+							vm.edit = function(record) {
+
+							}
+							
+							var _deleteTP = function(trading) {
+
+								var serviceUrl = '/api/v1/organize-customers/'+trading.sponsorId+'/trading-partners/' + trading.supplierId
+								var deferred = $q.defer();
+								$http({
+									method : 'POST',
+									url : serviceUrl,
+									headers : {
+										'If-Match' : document.version,
+										'X-HTTP-Method-Override': 'DELETE'
+									},
+									data: trading
+								}).then(function(response) {
+									return deferred.resolve(response);
+								}).catch(function(response) {
+									return deferred.reject(response);
+								});
+								return deferred;
+							}
+							
+							vm.deleteTP = function(trading) {
+								var preCloseCallback = function(confirm) {
+									vm.pagingController.reload();
+								}
+
+								UIFactory.showConfirmDialog({
+									data : {
+										headerMessage : 'Confirm delete?'
+									},
+									confirm : function() {
+										return _deleteTP(trading);
+									},
+									onFail : function(response) {
+										var msg = {
+											409 : 'Trading partner has already been deleted.',
+											405 : 'Trading partner has already been used.'
+										};
+										UIFactory.showFailDialog({
+											data : {
+												headerMessage : 'Delete trading partner fail.',
+												bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+											},
+											preCloseCallback : preCloseCallback
+										});
+									},
+									onSuccess : function(response) {
+										UIFactory.showSuccessDialog({
+											data : {
+												headerMessage : 'Delete trading partner success.',
+												bodyMessage : ''
+											},
+											preCloseCallback : preCloseCallback
+										});
+									}
+								});
+							}
+							
+							vm.remove = function() {
+								var params = {
+									selectedItem : null
+								};
+
+								PageNavigation
+										.gotoPage('/trading-partners/new',
+												params, params);
+
+							}
 							// Main of program
 							var initLoad = function() {
 
