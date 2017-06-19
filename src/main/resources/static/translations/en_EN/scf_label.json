@@ -494,7 +494,7 @@
 	"SEND_FILE_TO_RECEIVER_SUCCESS":"Send file ($) to receiver success.",
 	"SEND_FILE_TO_RECEIVER_FAIL":"Send file ($) to receiver fail.",
 	"END_BATCH_JOB_IMPORT_FILE_SUCCESS":"End batch job import file success.",	
-	"NO_FILE_FOUND":"No file found.",
+	"FILE_NOT_FOUND":"File not found.",
 	"Process no": "Process no"
 
 }
