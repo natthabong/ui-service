@@ -92,7 +92,12 @@ tpModule
 								vm.pagingController.search(pageModel);
 							}
 							vm.createNew = function() {
-
+								var params = {
+									selectedItem : null
+								};
+								
+								PageNavigation.gotoPage('/trading-partners/new', params, params);
+							
 							}
 
 							// Main of program

@@ -445,6 +445,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/trading-partners',
 				params: { params: []},
 				resolve: load(['js/app/modules/trading-partner/controllers/TradingPartnerListController.js', 'js/app/modules/trading-partner/services/TradingPartnerService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/trading-partners/new',{
+				url: '/trading-partners/new',
+				controller: 'TradingPartnerController',
+				controllerAs: 'ctrl',
+				templateUrl: '/trading-partners/new',
+				params: { mode:'newTradingPartner', selectedItem: null},
+				resolve: load(['js/app/modules/trading-partner/controllers/TradingPartnerController.js', 'js/app/modules/trading-partner/services/TradingPartnerService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
