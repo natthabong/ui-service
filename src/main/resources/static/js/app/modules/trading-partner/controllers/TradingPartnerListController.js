@@ -49,7 +49,7 @@ tpModule
 											fieldName : 'sponsorName',
 											labelEN : 'Buyer',
 											labelTH : 'Buyer',
-											id : '{value}-buyer',
+											id : 'buyer-{value}',
 											sortable : false,
 											cssTemplate : 'text-center',
 										},
@@ -57,7 +57,7 @@ tpModule
 											fieldName : 'supplierName',
 											labelEN : 'Supplier',
 											labelTH : 'Supplier',
-											id : '{value}-supplier',
+											id : 'supplier-{value}',
 											sortable : false,
 											cssTemplate : 'text-left'
 										},
@@ -66,7 +66,7 @@ tpModule
 											labelEN : 'Status',
 											labelTH : 'Status',
 											filterType : 'translate',
-											id : '{value}-status',
+											id : 'status-{value}',
 											sortable : false,
 											cssTemplate : 'text-center'
 										},
