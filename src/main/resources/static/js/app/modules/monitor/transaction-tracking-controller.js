@@ -204,6 +204,13 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 		vm.openCalendarDateTo = function() {
 			vm.openDateTo = true;
 		}
+
+		vm.logListModel = {
+			logDateFrom : '',
+			logDateTo : '',
+			refNo : undefined,
+			processNo : undefined
+		}
 		
 		var isValid = function() {
 			var valid = true;
@@ -211,7 +218,7 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 			vm.wrongDateFromTo = false;
 			
 			//Wrong date format
-			if (angular.isUndefined(vm.logListModel.logDateFrom)||angular.isUndefined(vm.logListModel.logDateTo)) {
+			if (angular.isUndefined(vm.logListModel.logDateFrom) || angular.isUndefined(vm.logListModel.logDateTo)) {
 				valid = false;
 			}else{
 				if(vm.logTimeFromHour!==''&&vm.logTimeFromMinute!==''&&!angular.isDate(vm.logListModel.logDateFrom)){
@@ -222,19 +229,21 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 			}
 			
 			//Wrong time format
-			if(angular.isDefined(vm.logListModel.logDateFrom)){
-				if(vm.logTimeFromHour===''&&vm.logTimeFromMinute===''){
-					valid = true;
-				}else if(vm.logTimeFromHour!==''&&vm.logTimeFromMinute!==''){
-					if(isNaN(parseInt(vm.logTimeFromHour)) || vm.logTimeFromHour.length == 1 || vm.logTimeFromHour<0 || vm.logTimeFromHour>=24){
-						valid = false;
-					}else{
-						if (isNaN(parseInt(vm.logTimeFromMinute)) || vm.logTimeFromMinute.length == 1 || vm.logTimeFromMinute<0 || vm.logTimeFromMinute>=60) {
+			if(valid){
+				if(angular.isDefined(vm.logListModel.logDateFrom)){
+					if(vm.logTimeFromHour===''&&vm.logTimeFromMinute===''){
+						valid = true;
+					}else if(vm.logTimeFromHour!==''&&vm.logTimeFromMinute!==''){
+						if(isNaN(parseInt(vm.logTimeFromHour)) || vm.logTimeFromHour.length == 1 || vm.logTimeFromHour<0 || vm.logTimeFromHour>=24){
 							valid = false;
+						}else{
+							if (isNaN(parseInt(vm.logTimeFromMinute)) || vm.logTimeFromMinute.length == 1 || vm.logTimeFromMinute<0 || vm.logTimeFromMinute>=60) {
+								valid = false;
+							}
 						}
+					}else{
+						valid = false;
 					}
-				}else{
-					valid = false;
 				}
 			}
 			
@@ -255,7 +264,7 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 					}
 				}
 			}
-			
+
 			if(!valid){
 				vm.wrongDateFormat = true;
 				vm.wrongDateFromTo = false;
@@ -301,12 +310,6 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 			return valid;
 		};
 		
-		vm.logListModel = {
-			logDateFrom : '',
-			logDateTo : '',
-			refNo : undefined,
-			processNo : undefined
-		}
 
 		vm.initLoad = function() {
 			var backAction = $stateParams.backAction;
