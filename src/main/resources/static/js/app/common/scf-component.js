@@ -337,6 +337,7 @@
 								id : data['id'],
 								label : data['label'],
 								cellTemplate : data['cellTemplate'],
+								headerId : data['headerId'],
 								sortable : data['sortable'],
 								cssTemplate : data['cssTemplate'],
 								filterType : data['filterType'],
@@ -424,7 +425,13 @@
 				if (column.fieldName != 'selectBox') {
 					if(angular.isDefined(elements[0].childNodes[0])){
 						if(angular.isDefined(column.field) && column.field != 'no'){
-							elements[0].childNodes[0].id = column.fieldName + '-header-label';
+							if(column.headerId != null){
+								elements[0].childNodes[0].id = column.headerId;
+							}
+							else{
+								elements[0].childNodes[0].id = column.fieldName + '-header-label';
+							}
+							
 						}else if(angular.isDefined(column.field) && column.field == 'no'){
 							elements[0].childNodes[0].id = '$rowNo-header-label';
 						}
@@ -834,6 +841,7 @@
 								idTemplate : data.id || generateIdTemplate(data),
 								renderer : data['renderer'],
 								dataRenderer: data['dataRenderer'],
+								headerId: data['headerId']
 							};
 							vm.tableColumns.push(rowData);
 						}
@@ -932,7 +940,10 @@
 				
 				if (column.fieldName != 'selectBox') {
 					if(angular.isDefined(elements[0].childNodes[0])){
-						if(angular.isDefined(column.fieldName)){
+						if(angular.isDefined(column.headerId)){
+							elements[0].childNodes[0].id = column.headerId;
+						}
+						else if(angular.isDefined(column.fieldName)){
 							elements[0].childNodes[0].id = column.fieldName + '-header-label';
 						}
 					}

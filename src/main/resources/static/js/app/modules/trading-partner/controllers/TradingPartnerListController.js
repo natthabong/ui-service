@@ -47,6 +47,7 @@ tpModule
 										},
 										{
 											fieldName : 'sponsorName',
+											headerId: 'buyer-header-label',
 											labelEN : 'Buyer',
 											labelTH : 'Buyer',
 											id : 'buyer-{value}',
@@ -55,6 +56,7 @@ tpModule
 										},
 										{
 											fieldName : 'supplierName',
+											headerId: 'supplier-header-label',
 											labelEN : 'Supplier',
 											labelTH : 'Supplier',
 											id : 'supplier-{value}',
