@@ -24,7 +24,7 @@
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer' | translate}}: </label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
-										ng-model="ctrl.tradingPartner.sponsorId" id="buyer-auto-suggest">
+										ng-model="ctrl.organizeListModel.buyer" id="buyer-auto-suggest">
 								</gec-auto-suggest>
 							</div>
 
@@ -43,7 +43,7 @@
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier' | translate}}:</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
-										ng-model="ctrl.tradingPartner.supplierId" id="supplier-auto-suggest">
+										ng-model="ctrl.organizeListModel.supplier" id="supplier-auto-suggest">
 								</gec-auto-suggest>
 								
 							</div>

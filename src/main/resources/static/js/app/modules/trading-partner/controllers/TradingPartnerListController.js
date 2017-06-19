@@ -10,9 +10,10 @@ tpModule
 						'PageNavigation',
 						'PagingController',
 						'TradingPartnerService',
+						'$timeout',
 						function($scope, $stateParams, UIFactory,
 								PageNavigation, PagingController,
-								TradingPartnerService) {
+								TradingPartnerService, $timeout) {
 
 							var vm = this;
 							vm.criteria = {
@@ -104,27 +105,12 @@ tpModule
 
 							}
 							vm.edit = function(record) {
-
-							}
-							
-							var _deleteTP = function(trading) {
-
-								var serviceUrl = '/api/v1/organize-customers/'+trading.sponsorId+'/trading-partners/' + trading.supplierId
-								var deferred = $q.defer();
-								$http({
-									method : 'POST',
-									url : serviceUrl,
-									headers : {
-										'If-Match' : document.version,
-										'X-HTTP-Method-Override': 'DELETE'
-									},
-									data: trading
-								}).then(function(response) {
-									return deferred.resolve(response);
-								}).catch(function(response) {
-									return deferred.reject(response);
-								});
-								return deferred;
+								var params = {
+									selectedItem : data
+								};
+								$timeout(function() {
+									PageNavigation.gotoPage('/trading-partners/edit', params, params);
+								}, 10);
 							}
 							
 							vm.deleteTP = function(trading) {
@@ -137,7 +123,7 @@ tpModule
 										headerMessage : 'Confirm delete?'
 									},
 									confirm : function() {
-										return _deleteTP(trading);
+										return TradingPartnerService.deleteTradingPartner(trading);
 									},
 									onFail : function(response) {
 										var msg = {
@@ -164,16 +150,7 @@ tpModule
 								});
 							}
 							
-							vm.remove = function() {
-								var params = {
-									selectedItem : null
-								};
 
-								PageNavigation
-										.gotoPage('/trading-partners/new',
-												params, params);
-
-							}
 							// Main of program
 							var initLoad = function() {
 

@@ -1,6 +1,6 @@
 'use strict';
 var tpModule = angular.module('gecscf.tradingPartner');
-tpModule.factory('TradingPartnerService', [ '$http', '$q', function($http, $q) {
+tpModule.factory('TradingPartnerService', [ '$http', '$q', 'Service', function($http, $q, Service) {
 	var _prepareItem = function(item) {
 		item.identity = [ 'organize-', item.organizeId, '-option' ].join('');
 		item.label = [ item.organizeId, ': ', item.organizeName ].join('');
@@ -23,7 +23,51 @@ tpModule.factory('TradingPartnerService', [ '$http', '$q', function($http, $q) {
 		return http;
 	}
 
+	var createTradingPartner = function(tp) {
+		var serviceUrl = 'api/v1/trading-partners';
+		var req = {
+			method : 'POST',
+			url : serviceUrl,
+			data: tp
+		}
+		var deferred = $q.defer();
+		$http(req).then(function(response) {
+			return deferred.resolve(response);
+		}).catch(function(response) {
+		    return deferred.reject(response);
+		});
+		return deferred;
+	}
+
+	var findTradingPartnerBySponsorIdAndSupplierId = function(sponsorId, supplierId){
+
+		return Service.doGet('api/v1/organize-customers/' + sponsorId + '/trading-partners/' + supplierId);
+	}
+	
+	var deleteTradingPartner = function(trading) {
+
+		var serviceUrl = '/api/v1/organize-customers/'+trading.sponsorId+'/trading-partners/' + trading.supplierId
+		var deferred = $q.defer();
+		$http({
+			method : 'POST',
+			url : serviceUrl,
+			headers : {
+				'If-Match' : document.version,
+				'X-HTTP-Method-Override': 'DELETE'
+			},
+			data: trading
+		}).then(function(response) {
+			return deferred.resolve(response);
+		}).catch(function(response) {
+			return deferred.reject(response);
+		});
+		return deferred;
+	}
+
 	return {
-		getOrganizeByNameOrCodeLike : getOrganizeByNameOrCodeLike
+		getOrganizeByNameOrCodeLike : getOrganizeByNameOrCodeLike,
+		createTradingPartner : createTradingPartner,
+		findTradingPartnerBySponsorIdAndSupplierId : findTradingPartnerBySponsorIdAndSupplierId,
+		deleteTradingPartner: deleteTradingPartner
 	}
 } ]);
