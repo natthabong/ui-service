@@ -470,7 +470,7 @@
     "FILE_DATA_INVALID_FORMAT": "File data invalid format.",
     "RESPONSE_RECEIVED_ERROR": "Response received error.",
     "START_DOWNLOAD_FILE": "Start download file ($) from FTP server.",
-    "END_DOWNLOAD_FILE": "Download file ($) from FTP server complete.",
+    "END_DOWNLOAD_FILE": "Download file ($) from FTP server success.",
     "START_BATCH_JOB_DOWNLOAD_FILE":"Start batch job download file.",
 	"END_BATCH_JOB_DOWNLOAD_FILE_SUCCESS":"End batch job download file.",
 	"START_BATCH_JOB_DECRYPT_FILE":"Start batch job decrypt file.",
