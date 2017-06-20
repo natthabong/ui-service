@@ -62,7 +62,7 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 					cssTemplate : 'text-center',
 					sortable : false,
 					cellTemplate : '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></scf-button>'
-								+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.delete(data)" title="Delete"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+								+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteTradeFinance(data)" title="Delete"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
 				} ]
 		}
 
@@ -86,5 +86,42 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 				params: data,
 			}
 			PageNavigation.gotoPage('/trade-finance/edit',param,param);
+		}
+		
+		vm.deleteTradeFinance = function(record){
+			var preCloseCallback = function(confirm) {
+				 getFinanceInfo();
+			}
+
+			UIFactory.showConfirmDialog({
+				data : {
+					headerMessage : 'Confirm delete?'
+				},
+				confirm : function() {
+					return ConfigTradeFinanceService.deleteTradeFinance(record);
+				},
+				onFail : function(response) {
+					var msg = {
+						409 : 'Trade finance has already been deleted.',
+						405 : 'Trade finance has already been used.'
+					};
+					UIFactory.showFailDialog({
+						data : {
+							headerMessage : 'Delete trade finance fail.',
+							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+						},
+						preCloseCallback : preCloseCallback
+					});
+				},
+				onSuccess : function(response) {
+					UIFactory.showSuccessDialog({
+						data : {
+							headerMessage : 'Delete trade finance success.',
+							bodyMessage : ''
+						},
+						preCloseCallback : preCloseCallback
+					});
+				}
+			});
 		}
     } ]);

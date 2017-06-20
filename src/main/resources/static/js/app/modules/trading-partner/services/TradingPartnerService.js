@@ -63,7 +63,7 @@ tpModule.factory('TradingPartnerService', [ '$http', '$q', 'Service', function($
 			method : 'POST',
 			url : serviceUrl,
 			headers : {
-				'If-Match' : document.version,
+				'If-Match' : trading.version,
 				'X-HTTP-Method-Override': 'DELETE'
 			},
 			data: trading
