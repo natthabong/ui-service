@@ -51,4 +51,12 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
             PageNavigation.gotoPreviousPage();
         }
 
+		vm.newTF = function(){
+			PageNavigation.gotoPage('/trade-finance/new');
+		}
+
+		vm.edit = function(){
+			PageNavigation.gotoPage('/trade-finance/edit');
+		}
+
     } ]);
