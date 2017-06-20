@@ -1,19 +1,32 @@
 'use strict';
 var tradeFinanceModule = angular.module('scfApp');
-tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$stateParams','UIFactory','PageNavigation','PagingController','ConfigTradeFinanceService',
-    function($scope, $stateParams, UIFactory,PageNavigation, PagingController,ConfigTradeFinanceService) {
+tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$stateParams','UIFactory','PageNavigation','PagingController','ConfigTradeFinanceService','$log',
+    function($scope, $stateParams, UIFactory,PageNavigation, PagingController,ConfigTradeFinanceService,$log) {
 
         var vm = this;
+		var log = $log;
 
-        vm.financeModel = $stateParams.setupModel;
+		vm.financeModel = $stateParams.setupModel;
+        var sponsorId = $stateParams.setupModel.sponsorId;
+		var supplierId = $stateParams.setupModel.supplierId;
 
         if(vm.financeModel == null){
             PageNavigation.gotoPage('/trading-partners');
         }
 
-        var TradeFinanceURL = '/v1/organize-customers/'+vm.financeModel.sponsorId+'/trading-partners/'+vm.financeModel.supplierId+'/trade-finance';
-        vm.pagingController = PagingController.create(TradeFinanceURL, {},'GET');
-        
+		vm.pagingController = {
+			tableRowCollection : undefined
+		};
+
+		var getFinanceInfo = function(){
+			var defered = ConfigTradeFinanceService.getTradeFinanceInfo(sponsorId,supplierId);
+			defered.promise.then(function(response) {
+				vm.pagingController.tableRowCollection = response.data;
+			}).catch(function(response) {
+				log.error('Get trading finance fail');
+			});
+		}
+		
 
         vm.dataTable = {
 			options : {
@@ -21,19 +34,30 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 			},
 			columns : [
 				{
-                    fieldName : 'borrower',
-					field : 'borrower',
+                    fieldName : 'borrowerName',
+					field : 'borrowerName',
 					label : 'Borrower',
 					idValueField : 'template',
-					id : 'loan-account-{value}-label',
-					sortable : false
+					id : 'borrower-name-{value}-label',
+					sortable : false,
+					dataRenderer: function(record){
+						return record.borrowerType+': '+record.borrowerName;
+					}
 				},{
-					fieldName : 'loanAccount',
-					field : 'loanAccount',
+					fieldName : 'accountNo',
+					field : 'accountNo',
 					label : 'Loan account',
 					idValueField : 'template',
 					id : 'loan-account-{value}-label',
-					sortable : false
+					sortable : false,
+					dataRenderer: function(record){
+						var word1 = record.accountNo.substring(0,3);
+						var word2 = record.accountNo.substring(3,4);
+						var word3 = record.accountNo.substring(4, 9);
+						var word4 = record.accountNo.substring(9,10);
+						var accountNo = word1+'-'+word2+'-'+word3+'-'+word4;
+						return accountNo;
+					}
 				},{
 					cssTemplate : 'text-center',
 					sortable : false,
@@ -43,20 +67,24 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 		}
 
         var initLoad = function() {
-            vm.pagingController.search();
-        }
-        initLoad();
+            getFinanceInfo();
+        }();
 
         vm.back = function(){
             PageNavigation.gotoPreviousPage();
         }
 
 		vm.newTF = function(){
-			PageNavigation.gotoPage('/trade-finance/new');
+			var param = {
+				params: vm.financeModel,
+			}
+			PageNavigation.gotoPage('/trade-finance/new',param,param);
 		}
 
-		vm.edit = function(){
-			PageNavigation.gotoPage('/trade-finance/edit');
+		vm.edit = function(data){
+			var param = {
+				params: data,
+			}
+			PageNavigation.gotoPage('/trade-finance/edit',param,param);
 		}
-
     } ]);

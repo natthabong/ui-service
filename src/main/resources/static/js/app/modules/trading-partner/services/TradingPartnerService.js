@@ -24,7 +24,6 @@ tpModule.factory('TradingPartnerService', [ '$http', '$q', 'Service', function($
 	}
 
 	var createTradingPartner = function(tp, editMode) {
-		console.log(tp);
 		var serviceUrl = '';
 		if(editMode){
 			serviceUrl = 'api/v1/organize-customers/'+ tp.sponsorId+ '/trading-partners/'+ tp.supplierId;

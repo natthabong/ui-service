@@ -471,14 +471,14 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'TradeFinanceController',
 				controllerAs: 'ctrl',
 				templateUrl: '/trade-finance/new',
-				params: { mode: 'NEW'},
+				params: { mode: 'NEW' , params:''},
 				resolve: load(['js/app/modules/trading-partner/financing/controllers/TradeFinanceController.js', 'js/app/modules/trading-partner/financing/services/TradeFinanceService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/trade-finance/edit',{
 				url: '/trade-finance/edit',
 				controller: 'TradeFinanceController',
 				controllerAs: 'ctrl',
 				templateUrl: '/trade-finance/edit',
-				params: { mode: 'EDIT'},
+				params: { mode: 'EDIT', params:''},
 				resolve: load(['js/app/modules/trading-partner/financing/controllers/TradeFinanceController.js', 'js/app/modules/trading-partner/financing/services/TradeFinanceService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/error', {
 				url: '/error',
