@@ -7,12 +7,13 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 		var log = $log;
 
 		vm.financeModel = $stateParams.setupModel;
-        var sponsorId = $stateParams.setupModel.sponsorId;
-		var supplierId = $stateParams.setupModel.supplierId;
-
+        
         if(vm.financeModel == null){
             PageNavigation.gotoPage('/trading-partners');
         }
+
+		var sponsorId = $stateParams.setupModel.sponsorId;
+		var supplierId = $stateParams.setupModel.supplierId;
 
 		vm.pagingController = {
 			tableRowCollection : undefined
