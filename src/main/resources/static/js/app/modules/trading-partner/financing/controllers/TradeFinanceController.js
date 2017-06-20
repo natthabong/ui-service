@@ -24,10 +24,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 
         vm.borrowerModel = [
             {
-                label : '[Buyer] '+defaultVal.sponsorId+': '+defaultVal.sponsorName,
-                value : defaultVal.sponsorId
-            }, {
-                label : '[Suppiler] '+defaultVal.supplierId+': '+defaultVal.supplierName,
+                label : '[Supplier] '+defaultVal.supplierId+': '+defaultVal.supplierName,
                 value : defaultVal.supplierId
             }
         ];

@@ -39,24 +39,24 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="supplier-code-textbox" id="tenor-label"
+                            <label id="tenor-label"
                                 class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Tenor (Day)' | translate}}: </label>
                             <div class="col-md-3 col-sm-4 col-xs-12">
-                                <input type="number"
+                                <input type="number" id="tenor-textbox"
                                     ng-model="ctrl.tradeFinanceModel.tenor" 
                                     max="999" maxlength="3" size="3"></input>
                             </div>
-                            <label for="supplier-code-textbox" id="tenor-label"
+                            <label id="percentage-loan-label"
                                 class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Percentage loan (%)' | translate}}: </label>
                             <div class="col-md-3 col-sm-4 col-xs-12">
-                                <input type="number" 
+                                <input type="number" id="percentage-loan-textbox"
                                     ng-model="ctrl.tradeFinanceModel.percentageLoan" 
                                     max="999" maxlength="3" size="3"></input>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label id="supplier-code-label"
+                            <label id="interest-rate-label"
                                 class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Interest rate' | translate}}: </label>
                             <div class="col-md-3 col-sm-4 col-xs-12">
                                 <scf-input-text id="interest-rate-textbox"
@@ -67,35 +67,40 @@
                         </div>
 
                         <div class="form-group">
-                            <label id="agreement-date-from-label"
+                            <label id="agreement-date-label"
                                 class="col-md-2 col-sm-3 control-label">{{'Agreement date' | translate}}:</label>
                             <div class="col-md-3 col-sm-3 gec-calendar-group">
                                 <scf-date-picker-from text-id="agreement-date-textbox"
-                                    button-id="date-from-calendar-button"
+                                    button-id="agreement-date-calendar-button"
                                     text-model="ctrl.tradeFinanceModel.agreementDate"
                                     date-format="{{ctrl.dateFormat}}" 
                                     is-open="ctrl.openAgreementDate"
                                     open-calendar-action="ctrl.openCalendarAgreementDate()">
                                 </scf-date-picker-from>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label id="credit-expiration-date-label" 
-                                class="col-md-2 col-sm-3 control-label">{{'Credit expiration date' |
-                                translate}}:</label>
-                            <div class="col-md-3 col-sm-3 gec-calendar-group">
-                                <scf-date-picker-to text-id="credit-expiration-date-textbox"
-                                    button-id="credit-expiration-date-calendar-button"
-                                    text-model="ctrl.tradeFinanceModel.creditExpirationDate" 
-                                    date-format="{{ctrl.dateFormat}}"
-                                    is-open="ctrl.openCreditExpirationDate"
-                                    open-calendar-action="ctrl.openCalendarCreditExpirationDate()">
-                                </scf-date-picker-to>
+                            <div>
+                                <div class="col-md-2 col-sm-2 col-xs-2"
+									style="padding-left: 25px;">
+                                    <scf-checkbox id="credit-expiration-date-checkbox"
+                                        ng-model="ctrl.isUseExpireDate"></scf-checkbox>
+                                    <label id="credit-expiration-date-label" class="checkbox-inline"
+                                        style="padding-bottom: 10px;">{{'Credit expiration date' |
+                                        translate}}:</label>
+                                </div>
+                                <div class="col-md-3 col-sm-4 gec-calendar-group">
+                                    <scf-date-picker-to text-id="credit-expiration-date-textbox"
+                                        button-id="credit-expiration-date-calendar-button"
+                                        text-model="ctrl.tradeFinanceModel.creditExpirationDate" 
+                                        date-format="{{ctrl.dateFormat}}"
+                                        is-open="ctrl.openCreditExpirationDate"
+                                        ng-disabled="!ctrl.isUseExpireDate"
+                                        open-calendar-action="ctrl.openCalendarCreditExpirationDate()">
+                                    </scf-date-picker-to>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!--<div class="form-group">
 							<label id="active-date-label"
 								class="col-md-2 col-sm-3 control-label">{{'Active date'
 								| translate}}:</label>
@@ -130,7 +135,7 @@
 								</div>
 							</div>
 							<div class="col-md-3"></div>
-						</div>
+						</div>-->
 
                         <div class="form-group">
 							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
