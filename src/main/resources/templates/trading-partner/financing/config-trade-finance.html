@@ -33,6 +33,12 @@
                         <span id='trade-finance-list-label'>Trade finance list</span>
                     </form>
                     <div class="row">
+                        <div class="col-md-12 col-sm-12 text-right">
+                            <span> <scf-button id="new-button"
+                                    class="btn btn-default" ng-click="ctrl.new()">{{'New'
+                                | translate}}</scf-button>
+                            </span> <br /> <br />
+                        </div>
                         <div class="col-md-12">
                             <scf-data-table id="trade-finance-table"
                                 component-config="ctrl.dataTable"
