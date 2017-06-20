@@ -24,6 +24,12 @@ tpModule.controller('TradingPartnerController', [
             }
             var currentMode = $stateParams.mode;
 
+            var _prepareItem = function(item) {
+        		item.identity = [ 'organize-', item.organizeId, '-option' ].join('');
+        		item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+        		return item;
+        	}
+            
             vm.loadTradingPartner = function(){
                 if(currentMode == mode.EDIT){
                     vm.isNewMode = false;
@@ -35,8 +41,11 @@ tpModule.controller('TradingPartnerController', [
                     var deffered = TradingPartnerService.findTradingPartnerBySponsorIdAndSupplierId(sponsorId, supplierId);
                     deffered.promise.then(function(response) {
 
-                        console.log(response);
                         vm.tradingPartner = response.data;
+                        var sponsorOrganize = _prepareItem(vm.tradingPartner.sponsorOrganize);
+                        vm.organizeListModel.buyer = sponsorOrganize;
+                        var supplierOrganize = _prepareItem(vm.tradingPartner.supplierOrganize);
+                        vm.organizeListModel.supplier = supplierOrganize;
 
                     
                     }).catch(function(response) {
@@ -54,7 +63,6 @@ tpModule.controller('TradingPartnerController', [
             }
 
             var _save = function(tp){
-                console.log(tp);
                 var deferred = TradingPartnerService.createTradingPartner(tp);
                 deferred.promise.then(function(response){}).catch(function(response){
 				    if (response) {
@@ -72,7 +80,6 @@ tpModule.controller('TradingPartnerController', [
             }
 
             $scope.save = function() {
-                var tp = vm.tradingPartner;
                 if(_validate()){
                     var preCloseCallback = function(confirm) {
 					PageNavigation.gotoPreviousPage(true);
@@ -83,21 +90,21 @@ tpModule.controller('TradingPartnerController', [
 						headerMessage : 'Confirm save?'
 					},
 					confirm : function() {
-						return _save(tp);
+						return _save(vm.tradingPartner);
 					},
 					onFail : function(response) {
-					    // if(response.status != 400){
-                        //     var msg = {
-                        //             409 : 'Trading partner has been modified.'
-                        //     };
-			    		// 	UIFactory.showFailDialog({
-                        //         data : {
-                        //             headerMessage : vm.isNewMode? 'Add new user fail.':'Edit user fail.',
-                        //             bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
-                        //         },
-                        //         preCloseCallback : preCloseCallback
-                        //     });
-					    // }
+					     if(response.status != 400){
+                             var msg = {
+                                     409 : 'Create trading partner fail. Trading partner is existed.'
+                             };
+			    		 	UIFactory.showFailDialog({
+                                 data : {
+                                     headerMessage : vm.isNewMode? 'Add new trading partner fail.':'Edit trading partner fail.',
+                                     bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+                                 },
+                                 preCloseCallback : preCloseCallback
+                             });
+					     }
 					},
 					onSuccess : function(response) {
 						UIFactory.showSuccessDialog({
@@ -148,7 +155,14 @@ tpModule.controller('TradingPartnerController', [
                     itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
                     query : _organizes
                 });
-
+            
+            vm.supplierAutoSuggestModel = UIFactory
+	            .createAutoSuggestModel({
+	                placeholder : 'Please enter orgainze name or code',
+	                itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
+	                query : _organizes
+	            });
+            
             var init = function() {
 			    vm.loadTradingPartner();
 			}();
