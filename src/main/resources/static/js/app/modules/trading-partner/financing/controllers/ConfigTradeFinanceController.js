@@ -103,8 +103,8 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 				},
 				onFail : function(response) {
 					var msg = {
-						409 : 'Trade finance has already been deleted.',
-						405 : 'Trade finance has already been used.'
+						409 : 'Trade finance has been deleted.',
+						405 : 'Trade finance has been used.'
 					};
 					UIFactory.showFailDialog({
 						data : {

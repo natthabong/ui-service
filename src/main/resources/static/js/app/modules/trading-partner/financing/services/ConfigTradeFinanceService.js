@@ -17,7 +17,7 @@ tradeFinanceModule.factory('ConfigTradeFinanceService', [ '$http', '$q', 'Servic
 				'If-Match' : tf.version,
 				'X-HTTP-Method-Override': 'DELETE'
 			},
-			data: trading
+			data: tf
 		}).then(function(response) {
 			return deferred.resolve(response);
 		}).catch(function(response) {
