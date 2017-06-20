@@ -573,7 +573,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	};
 	
 	vm.searchTransaction = function(criteria){
-		console.log("hi")
 		vm.wrongDateFormat = false;
 		var dateFrom = vm.dateModel.dateFrom;
         var dateTo = vm.dateModel.dateTo;
@@ -718,27 +717,25 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		});		
     };
 	
-	// $scope.sortData = function(order, orderBy) {
-    //         vm.listTransactionModel.order = order;
-    //         vm.listTransactionModel.orderBy = orderBy;
-    //         vm.searchTransactionService();
-    //     };
+	$scope.sortData = function(order, orderBy) {
+            vm.listTransactionModel.order = order;
+            vm.listTransactionModel.orderBy = orderBy;
+            vm.searchTransactionService();
+        };
 	
 	vm.exportCSVFile = function(){
-		console.log(vm.listTransactionModel)
-		console.log(vm.storeSearchCriteria)
-		// var dateFrom = vm.dateModel.dateFrom;
-		// var dateTo = vm.dateModel.dateTo;
+		var dateFrom = vm.dateModel.dateFrom;
+		var dateTo = vm.dateModel.dateTo;
 		
-		// vm.listTransactionModel.dateFrom = SCFCommonService.convertDate(dateFrom);
-		// vm.listTransactionModel.dateTo = SCFCommonService.convertDate(dateTo);
+		vm.listTransactionModel.dateFrom = SCFCommonService.convertDate(dateFrom);
+		vm.listTransactionModel.dateTo = SCFCommonService.convertDate(dateTo);
 		
-		// var transactionModel = angular.extend(vm.listTransactionModel,{
-		// 	page: 0,
-		// 	pageSize: 0
-		// });
+		var transactionModel = angular.extend(vm.listTransactionModel,{
+			page: 0,
+			pageSize: 0
+		});
 		
-		// var transactionDifferd = ListTransactionService.exportCSVFile(transactionModel,$translate);
+		var transactionDifferd = ListTransactionService.exportCSVFile(transactionModel,$translate);
 	};
 	vm.storeCriteria = function(){
 		$cookieStore.put(listStoreKey, vm.storeSearchCriteria);
@@ -754,7 +751,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	
 	vm.view = function(data){		
 		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
-		console.log(vm.storeSearchCriteria)
 		vm.storeCriteria();
 		var isShowBackButton = true;
 		var isShowBackButton = false;
