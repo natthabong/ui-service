@@ -95,7 +95,7 @@ tpModule.controller('TradingPartnerController', [
 					onFail : function(response) {
 					     if(response.status != 400){
                              var msg = {
-                                     409 : 'Create trading partner fail. Trading partner is existed.'
+                                     409 : 'Trading partner is existed.'
                              };
 			    		 	UIFactory.showFailDialog({
                                  data : {
@@ -120,10 +120,14 @@ tpModule.controller('TradingPartnerController', [
                 
             }
 
+            var isRequire = function(data) {
+                return (data == '' || data == null);
+            }
+
             var _validate = function(){
                 $scope.errors = {};
                 var valid = true;
-                if(angular.isDefined(vm.organizeListModel.buyer)){
+                if(angular.isDefined(vm.organizeListModel.buyer) && !isRequire(vm.organizeListModel.buyer.organizeId) ){
                     vm.tradingPartner.sponsorId = vm.organizeListModel.buyer.organizeId;
                 }else{
                     valid = false;
@@ -132,7 +136,7 @@ tpModule.controller('TradingPartnerController', [
 				    }
                 }
 
-                if(angular.isDefined(vm.organizeListModel.supplier)){
+                if(angular.isDefined(vm.organizeListModel.supplier) && !isRequire(vm.organizeListModel.supplier.organizeId)){
                     vm.tradingPartner.supplierId = vm.organizeListModel.supplier.organizeId;
                 }else{
                     valid = false;
