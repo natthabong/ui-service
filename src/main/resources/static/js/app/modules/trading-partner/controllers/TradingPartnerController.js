@@ -63,7 +63,7 @@ tpModule.controller('TradingPartnerController', [
             }
 
             var _save = function(tp){
-                var deferred = TradingPartnerService.createTradingPartner(tp);
+                var deferred = TradingPartnerService.createTradingPartner(tp, vm.isEditMode);
                 deferred.promise.then(function(response){}).catch(function(response){
 				    if (response) {
                         if(Array.isArray(response.data)){

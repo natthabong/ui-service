@@ -23,12 +23,24 @@ tpModule.factory('TradingPartnerService', [ '$http', '$q', 'Service', function($
 		return http;
 	}
 
-	var createTradingPartner = function(tp) {
-		var serviceUrl = 'api/v1/trading-partners';
+	var createTradingPartner = function(tp, editMode) {
+		console.log(tp);
+		var serviceUrl = '';
+		if(editMode){
+			serviceUrl = 'api/v1/organize-customers/'+ tp.sponsorId+ '/trading-partners/'+ tp.supplierId;
+		}else{
+			serviceUrl = 'api/v1/trading-partners';
+		}
+		
 		var req = {
-			method : 'POST',
+			method : editMode ? 'PUT': 'POST',
 			url : serviceUrl,
 			data: tp
+		}
+		if(editMode){
+			req.headers = {
+			'If-Match' : tp.version
+			}
 		}
 		var deferred = $q.defer();
 		$http(req).then(function(response) {
