@@ -31,27 +31,50 @@
                                 | translate}}: </label>
                             <div class="col-md-3 col-sm-6 col-xs-12">
                                 <gec-auto-suggest id="finance-account-auto-suggest"
-                                    model="ctrl.loanAccountAutoSuggestModel" name="loanAccount"
-                                    ng-model="ctrl.tradeFinanceModel.loanAccount" maxlength="100"></gec-auto-suggest>
+                                    model="ctrl.financeAccountAutoSuggestModel" name="financeAccount"
+                                    ng-model="ctrl.tradeFinanceModel.financeAccount" maxlength="100"></gec-auto-suggest>
                             </div>
                             <scf-button id="add-button" class="btn-default gec-btn-action" 
                                 ng-click="ctrl.add()"><i class="fa fa-plus" aria-hidden="true"></i></scf-button>
                         </div>
 
+                        <div class="form-group" ng-show="errors.financeAccount">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+								id="finance-account-warning-message-label"
+								ng-bind="errors.financeAccount.message | translate"></span>
+						</div>
+
                         <div class="form-group">
                             <label id="tenor-label"
                                 class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Tenor (Day)' | translate}}: </label>
                             <div class="col-md-3 col-sm-4 col-xs-12">
-                                <scf-input-number id="tenor-textbox" maxlength="5" 
+                                <scf-input-number id="tenor-textbox" maxlength="3" 
                                     ng-model="ctrl.tradeFinanceModel.tenor">
                                 </scf-input-number>
                             </div>
                             <label id="percentage-loan-label"
                                 class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Percentage loan (%)' | translate}}: </label>
                             <div class="col-md-3 col-sm-4 col-xs-12">
-                                <scf-input-number id="percentage-loan-textbox" maxlength="5" 
+                                <scf-input-number id="percentage-loan-textbox" maxlength="3" max="100"
                                     ng-model="ctrl.tradeFinanceModel.percentageLoan">
                                 </scf-input-number>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-show="errors.tenor || errors.percentageLoan">
+                            <div ng-show="errors.tenor">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+                                <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                                    id="tenor-warning-message-label"
+                                    ng-bind="errors.tenor.message"> </span> 
+                            </div>
+                            <div ng-show="errors.percentageLoan">
+                                <label class="col-md-5 col-sm-3 col-xs-12 control-label" ng-show="!errors.tenor"></label>
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+                                <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                                    id="percentage-loan-warning-message-label"
+                                    ng-bind="errors.percentageLoan.message"> </span> 
                             </div>
                         </div>
 
@@ -97,6 +120,36 @@
                                         open-calendar-action="ctrl.openCalendarCreditExpirationDate()">
                                     </scf-date-picker-to>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!--<div class="form-group" ng-show="errors.agreementDate">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+								id="agreement-date-warning-message-label"
+								ng-bind="errors.agreementDate.message | translate"></span>
+						</div>
+
+                        <div class="form-group" ng-show="errors.creditExpirationDate">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+								id="credit-expiration-date-warning-message-label"
+								ng-bind="errors.creditExpirationDate.message | translate"></span>
+						</div>-->
+
+                        <div class="form-group" ng-show="errors.agreementDate || errors.creditExpirationDate">
+                            <div ng-show="errors.agreementDate">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+                                <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                                    id="agreement-date-warning-message-label"
+                                    ng-bind="errors.agreementDate.message"> </span> 
+                            </div>
+                            <div ng-show="errors.creditExpirationDate">
+                                <label class="col-md-5 col-sm-3 col-xs-12 control-label" ng-show="!errors.agreementDate"></label>
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+                                <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+                                    id="credit-expiration-date-warning-message-label"
+                                    ng-bind="errors.creditExpirationDate.message"> </span> 
                             </div>
                         </div>
 
