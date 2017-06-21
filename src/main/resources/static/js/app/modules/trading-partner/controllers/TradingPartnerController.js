@@ -95,7 +95,9 @@ tpModule.controller('TradingPartnerController', [
 					onFail : function(response) {
 					     if(response.status != 400){
                              var msg = {
-                                     409 : 'Trading partner is existed.'
+                            		 404 : 'Trading partner has been deleted.',
+                            		 405 : 'Trading partner is existed.',
+                            		 409 : 'Trading partner has been modified.'
                              };
 			    		 	UIFactory.showFailDialog({
                                  data : {
