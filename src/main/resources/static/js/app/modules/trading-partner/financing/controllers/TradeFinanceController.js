@@ -1,9 +1,10 @@
 'use strict';
 var tradeFinanceModule = angular.module('scfApp');
-tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams','UIFactory','PageNavigation','PagingController',
-    function($scope, $stateParams, UIFactory,PageNavigation, PagingController) {
+tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams','UIFactory','PageNavigation','PagingController','$log',
+    function($scope, $stateParams, UIFactory,PageNavigation, PagingController,$log) {
 
         var vm = this;
+        var log = $log;
 
         vm.dateFormat = "dd/MM/yyyy";
 		vm.openAgreementDate = false;
@@ -65,16 +66,32 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             interestRate : null,
             agreementDate: currentDate,
             creditExpirationDate: null,
-            activeDate: null,
-            expireDate: null,
             isSuspend: false
         };
+
+        var initialTradeFinance = function(){
+            var tradeFinanceData = $stateParams.data;
+            console.log(tradeFinanceData)
+            vm.tradeFinanceModel.borrower = tradeFinanceData.borrowerId;
+            vm.tradeFinanceModel.loanAccount = tradeFinanceData.accountNo;
+            vm.tradeFinanceModel.tenor = tradeFinanceData.tenor;
+            vm.tradeFinanceModel.percentageLoan = tradeFinanceData.prePercentageDrawdown;
+            vm.tradeFinanceModel.interestRate = tradeFinanceData.interestRate;
+            vm.tradeFinanceModel.agreementDate = null;
+            vm.tradeFinanceModel.creditExpirationDate = null;
+            vm.tradeFinanceModel.isSuspend = false;
+        }
 
         var initLoad = function() {
             if(currentMode=='NEW'){
                 vm.headerName = 'New trade finance';
             }else if(currentMode=='EDIT'){
                 vm.headerName = 'Edit trade finance';
+                if($stateParams.data == ''){
+                    log.error("Trade finance data is null.")
+                    PageNavigation.gotoPage('/trading-partners');
+                }
+                initialTradeFinance();
             }
         }();
 
@@ -93,17 +110,17 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         vm.openCalendarExpireDate = function() {
             vm.openExpireDate = true;
         };
-			    
 
+        vm.add = function(){
+
+        }
+		
         vm.save = function(){
             
         }
 
         vm.cancel = function(){
-            var param = {
-                setupModel : defaultVal,
-            }
-            PageNavigation.gotoPage('/trade-finance/config',param,param);
+            PageNavigation.gotoPreviousPage();
         }
 
     } ]);

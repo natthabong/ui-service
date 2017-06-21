@@ -1,34 +1,18 @@
 'use strict';
 var tradeFinanceModule = angular.module('scfApp');
-tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$stateParams','UIFactory','PageNavigation','PagingController','ConfigTradeFinanceService','$log',
-    function($scope, $stateParams, UIFactory,PageNavigation, PagingController,ConfigTradeFinanceService,$log) {
+tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$stateParams','UIFactory',
+	'PageNavigation','PagingController','ConfigTradeFinanceService','$log','SCFCommonService','$state','$cookieStore',
+    function($scope, $stateParams, UIFactory,PageNavigation, PagingController,ConfigTradeFinanceService,$log,SCFCommonService,$state,$cookieStore) {
 
         var vm = this;
 		var log = $log;
-
-		vm.financeModel = $stateParams.setupModel;
-        
-        if(vm.financeModel == null){
-            PageNavigation.gotoPage('/trading-partners');
-        }
-
-		var sponsorId = $stateParams.setupModel.sponsorId;
-		var supplierId = $stateParams.setupModel.supplierId;
+		var listStoreKey = 'listrancri';
 
 		vm.pagingController = {
 			tableRowCollection : undefined
 		};
 
-		var getFinanceInfo = function(){
-			var defered = ConfigTradeFinanceService.getTradeFinanceInfo(sponsorId,supplierId);
-			defered.promise.then(function(response) {
-				vm.pagingController.tableRowCollection = response.data;
-			}).catch(function(response) {
-				log.error('Get trading finance fail');
-			});
-		}
 		
-
         vm.dataTable = {
 			options : {
 				
@@ -67,8 +51,36 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 				} ]
 		}
 
-        var initLoad = function() {
-            getFinanceInfo();
+		var storeCriteria = function(){
+			$cookieStore.put(listStoreKey, vm.financeModel);
+		}
+
+		var getFinanceInfo = function(sponsorId,supplierId){
+			var defered = ConfigTradeFinanceService.getTradeFinanceInfo(sponsorId,supplierId);
+			defered.promise.then(function(response) {
+				vm.pagingController.tableRowCollection = response.data;
+			}).catch(function(response) {
+				log.error('Get trading finance fail');
+			});
+		}
+
+		var initLoad = function() {
+			var backAction = $stateParams.backAction;
+
+			if(backAction === true){
+				vm.financeModel = $cookieStore.get(listStoreKey);
+			}else{
+				vm.financeModel = $stateParams.setupModel;
+			}
+			
+			if(vm.financeModel == null){
+				PageNavigation.gotoPage('/trading-partners');
+			}
+
+			var sponsorId = vm.financeModel.sponsorId;
+			var supplierId = vm.financeModel.supplierId;
+
+            getFinanceInfo(sponsorId,supplierId);
         }();
 
         vm.back = function(){
@@ -76,6 +88,8 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
         }
 
 		vm.newTF = function(){
+			SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+			storeCriteria();
 			var param = {
 				params: vm.financeModel,
 			}
@@ -83,8 +97,11 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 		}
 
 		vm.edit = function(data){
+			SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+			storeCriteria();
 			var param = {
-				params: data,
+				params: vm.financeModel,
+				data : data
 			}
 			PageNavigation.gotoPage('/trade-finance/edit',param,param);
 		}

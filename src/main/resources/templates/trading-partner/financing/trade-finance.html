@@ -42,16 +42,16 @@
                             <label id="tenor-label"
                                 class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Tenor (Day)' | translate}}: </label>
                             <div class="col-md-3 col-sm-4 col-xs-12">
-                                <input type="number" id="tenor-textbox"
-                                    ng-model="ctrl.tradeFinanceModel.tenor" 
-                                    max="999" maxlength="3" size="3"></input>
+                                <scf-input-number id="tenor-textbox" maxlength="5" 
+                                    ng-model="ctrl.tradeFinanceModel.tenor">
+                                </scf-input-number>
                             </div>
                             <label id="percentage-loan-label"
                                 class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Percentage loan (%)' | translate}}: </label>
                             <div class="col-md-3 col-sm-4 col-xs-12">
-                                <input type="number" id="percentage-loan-textbox"
-                                    ng-model="ctrl.tradeFinanceModel.percentageLoan" 
-                                    max="999" maxlength="3" size="3"></input>
+                                <scf-input-number id="percentage-loan-textbox" maxlength="5" 
+                                    ng-model="ctrl.tradeFinanceModel.percentageLoan">
+                                </scf-input-number>
                             </div>
                         </div>
 
