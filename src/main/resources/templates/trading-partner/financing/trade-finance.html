@@ -105,7 +105,9 @@
                                 <div class="col-md-2 col-sm-2 col-xs-2"
 									style="padding-left: 25px;">
                                     <scf-checkbox id="credit-expiration-date-checkbox"
-                                        ng-model="ctrl.isUseExpireDate"></scf-checkbox>
+                                        ng-model="ctrl.isUseExpireDate"
+                                        ng-click="ctrl.setCreditExpirationDate()">
+                                    </scf-checkbox>
                                     <label id="credit-expiration-date-label" class="checkbox-inline"
                                         style="padding-bottom: 10px;">{{'Credit expiration date' |
                                         translate}}:</label>
@@ -122,20 +124,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!--<div class="form-group" ng-show="errors.agreementDate">
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-								id="agreement-date-warning-message-label"
-								ng-bind="errors.agreementDate.message | translate"></span>
-						</div>
-
-                        <div class="form-group" ng-show="errors.creditExpirationDate">
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-								id="credit-expiration-date-warning-message-label"
-								ng-bind="errors.creditExpirationDate.message | translate"></span>
-						</div>-->
 
                         <div class="form-group" ng-show="errors.agreementDate || errors.creditExpirationDate">
                             <div ng-show="errors.agreementDate">

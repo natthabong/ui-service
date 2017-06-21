@@ -1,5 +1,5 @@
 'use strict';
-var tradeFinanceModule = angular.module('scfApp');
+var tradeFinanceModule = angular.module('gecscf.tradingPartner.financing');
 tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams','UIFactory',
     'PageNavigation','PagingController','$log','$http','TradeFinanceService',
     function($scope, $stateParams, UIFactory,PageNavigation, PagingController,$log,$http,TradeFinanceService) {
@@ -17,6 +17,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 
         var currentMode = $stateParams.mode;
         var defaultVal = $stateParams.params;
+        console.log(defaultVal)
 
         var currentDate = new Date();
 
@@ -44,11 +45,15 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 					limit : 5
 				}
 			}).then(function(response) {
-                console.log(response)
+                console.log(response.data)
 				return response.data.map(function(item) {
-                    console.log(item)
+                    var word1 = item.accountNo.substring(0,3);
+                    var word2 = item.accountNo.substring(3,4);
+                    var word3 = item.accountNo.substring(4, 9);
+                    var word4 = item.accountNo.substring(9,10);
+                    var accountNo = word1+'-'+word2+'-'+word3+'-'+word4;
 					item.identity = [ 'account-', item.accountNo, '-option' ].join('');
-					item.label = [ item.accountNo ].join('');
+					item.label = [ accountNo ].join('');
 					return item;
 				});
 			});
@@ -67,15 +72,21 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             percentageLoan: null,
             interestRate : null,
             agreementDate: currentDate,
-            creditExpirationDate: null,
+            creditExpirationDate: undefined,
             isSuspend: false
         };
 
-        var prepareAutoSuggestLabel = function(account) {
+        var prepareAutoSuggestLabel = function(accountId,accountNo) {
+            var word1 = accountNo.substring(0,3);
+            var word2 = accountNo.substring(3,4);
+            var word3 = accountNo.substring(4, 9);
+            var word4 = accountNo.substring(9,10);
+            var word = word1+'-'+word2+'-'+word3+'-'+word4;
             var item = {
-                accountNo : account,
-                identity : [ 'account-', account, '-option' ].join(''),
-                label : [ account ].join(''),
+                accountId : accountId,
+                accountNo : accountNo,
+                identity : [ 'account-', accountNo, '-option' ].join(''),
+                label : [ word ].join(''),
             }
 			return item;
 		}
@@ -83,14 +94,17 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         var initialTradeFinance = function(data){
             var tradeFinanceData = data;
             if(tradeFinanceData != null){
-                vm.tradeFinanceModel.borrower = tradeFinanceData.borrowerId;
-                vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(tradeFinanceData.accountNo);
+                vm.tradeFinanceModel.borrower = tradeFinanceData.supplierId;
+                vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(tradeFinanceData.accountId,tradeFinanceData.accountNo);
                 vm.tradeFinanceModel.tenor = tradeFinanceData.tenor;
                 vm.tradeFinanceModel.percentageLoan = tradeFinanceData.prePercentageDrawdown;
-                vm.tradeFinanceModel.interestRate = tradeFinanceData.interest_rate;
+                vm.tradeFinanceModel.interestRate = tradeFinanceData.interestRate;
                 vm.tradeFinanceModel.agreementDate = new Date(tradeFinanceData.agreementDate);
                 vm.tradeFinanceModel.creditExpirationDate = new Date(tradeFinanceData.limitExpiryDate);
                 vm.tradeFinanceModel.isSuspend = tradeFinanceData.suspend;
+            }
+            if(vm.tradeFinanceModel != undefined){
+                vm.isUseExpireDate = true;
             }
         }
 
@@ -106,7 +120,6 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         var _validate = function(){
             $scope.errors = {};
             var valid = true;
-            console.log(vm.tradeFinanceModel)
 
             if(vm.tradeFinanceModel.financeAccount != null && angular.isObject(vm.tradeFinanceModel.financeAccount)){
                 
@@ -136,14 +149,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             }
 
             if(vm.tradeFinanceModel.agreementDate != null){
-                if(angular.isDate(vm.tradeFinanceModel.agreementDate)){
                 
-                }else{
-                    valid = false;
-                    $scope.errors.agreementDate = {
-                        message : 'Wrong date format data.'
-                    }
-                }
             }else{
                 valid = false;
                 $scope.errors.agreementDate = {
@@ -151,15 +157,19 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                 }
             }
 
-            if(vm.tradeFinanceModel.creditExpirationDate != null){
-                if(angular.isDate(vm.tradeFinanceModel.creditExpirationDate)){
+            if(vm.tradeFinanceModel.agreementDate != undefined){
                 
-                }else{
-                    valid = false;
-                    $scope.errors.creditExpirationDate = {
-                        message : 'Wrong date format data.'
-                    }
+                
+            }else{
+                valid = false;
+                $scope.errors.agreementDate = {
+                    message : 'Wrong date format data.'
                 }
+            }
+            
+
+            if(vm.tradeFinanceModel.creditExpirationDate != null){
+                
             }else{
                 valid = false;
                 $scope.errors.creditExpirationDate = {
@@ -167,7 +177,14 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                 }
             }
 
-            console.log($scope.error)
+            if(vm.tradeFinanceModel.creditExpirationDate != undefined){
+                
+            }else{
+                valid = false;
+                $scope.errors.creditExpirationDate = {
+                    message : 'Wrong date format data.'
+                }
+            }
             
             return valid;
         }
@@ -210,9 +227,15 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         }
 		
         vm.save = function(){
-            console.log("Hi")
+            console.log(vm.tradeFinanceModel)
             if(_validate()){
 
+            }
+        }
+
+        vm.setCreditExpirationDate = function(){
+            if(!vm.isUseExpireDate){
+                vm.tradeFinanceModel.creditExpirationDate = null;
             }
         }
 
