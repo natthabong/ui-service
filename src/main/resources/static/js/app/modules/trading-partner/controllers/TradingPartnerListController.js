@@ -145,8 +145,9 @@ tpModule
 									},
 									onFail : function(response) {
 										var msg = {
-											409 : 'Trading partner has already been deleted.',
-											405 : 'Trading partner has already been used.'
+												404 : 'Trading partner has been deleted.',
+												409 : 'Trading partner has been modified.',
+												405 : 'Trading partner has been used.'
 										};
 										UIFactory.showFailDialog({
 											data : {
