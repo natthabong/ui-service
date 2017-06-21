@@ -16,6 +16,7 @@
 		<js>webjar:Chart.js/2.3.0/dist/Chart.min.js</js>
 		<js>webjar:angular-chart.js/1.1.1/dist/angular-chart.min.js</js>
 		<js>webjar:moment/2.18.1/moment.js</js>
+		<js>webjar:angular-ui-mask/1.8.3/dist/mask.min.js</js>
 	</group>
 	
 	<group name="angular-mock">

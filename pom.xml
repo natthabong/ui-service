@@ -232,6 +232,11 @@
 						<artifactId>moment</artifactId>
 						<version>2.18.1</version>
 					</dependency>
+					<dependency>
+						<groupId>org.webjars.bower</groupId>
+						<artifactId>angular-ui-mask</artifactId>
+						<version>1.8.3</version>
+					</dependency>
 				</dependencies>
 			</plugin>
 			<plugin>

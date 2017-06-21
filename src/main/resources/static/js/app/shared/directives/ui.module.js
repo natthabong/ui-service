@@ -166,6 +166,17 @@ angular
 					return criteria
 				}
 				
+				var showDialog = function(config) {				
+					return ngDialog
+						.open({
+							template : config.templateUrl,
+							preCloseCallback : config.preCloseCallback,
+							data : config.data,
+							controller:  config.controller,
+							controllerAs: 'ctrl'
+						});
+				}
+				
 				return {
 					createTableModel : createTableModel,
 					createAutoSuggestModel : createAutoSuggestModel,
@@ -174,7 +185,8 @@ angular
 					showFailDialog : showFailDialog,
 					showIncompleteDialog : showIncompleteDialog,
 					createCriteria: createCriteria,
-					showHourDialog: showHourDialog
+					showHourDialog: showHourDialog,
+					showDialog: showDialog
 				}
 
 			} ])

@@ -1,5 +1,5 @@
 'use strict';
-var tradeFinanceModule = angular.module('scfApp');
+var tradeFinanceModule = angular.module('gecscf.tradingPartner.financing');
 tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$stateParams','UIFactory',
 	'PageNavigation','PagingController','ConfigTradeFinanceService','$log','SCFCommonService','$state','$cookieStore',
     function($scope, $stateParams, UIFactory,PageNavigation, PagingController,ConfigTradeFinanceService,$log,SCFCommonService,$state,$cookieStore) {

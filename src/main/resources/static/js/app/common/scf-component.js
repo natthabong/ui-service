@@ -171,6 +171,14 @@
 		    }
 		  };
 		})
+		.directive('scfAccountNo', [ function() {
+			return {
+				restrict : 'AE',
+				replace : true,
+				template : '<input type="text" ui-mask="999-9-99999-9" ui-mask-placeholder="" class="form-control" />',
+				require: 'ngModel'
+			};
+		} ])
 		.directive('scfRadio', [ function() {
 			return {
 				restrict : 'AE',
