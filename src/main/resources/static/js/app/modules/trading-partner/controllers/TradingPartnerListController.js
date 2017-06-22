@@ -21,6 +21,7 @@ tpModule
 								organizeId : null,
 							};
 							var listStoreKey = 'listrancri';
+							vm.searchCriteria = undefined;
 
 							// The pagingController is a tool for navigate the
 							// page of a table.
@@ -87,9 +88,11 @@ tpModule
 							}
 							// All functions of a controller.
 							vm.search = function(pageModel) {
+								vm.searchCriteria = undefined;
 								var organizeId = undefined;
 								if (angular.isObject(vm.organize)) {
 									vm.criteria.organizeId = vm.organize.organizeId;
+									vm.searchCriteria = vm.organize;
 								} else {
 									vm.criteria.organizeId = undefined;
 								}
@@ -97,6 +100,8 @@ tpModule
 								vm.pagingController.search(pageModel);
 							}
 							vm.createNew = function() {
+								SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+								storeCriteria();
 								var params = {
 									selectedItem : null
 								};
@@ -107,7 +112,7 @@ tpModule
 
 							}
 							var storeCriteria = function(){
-								$cookieStore.put(listStoreKey, vm.organize);
+								$cookieStore.put(listStoreKey, vm.searchCriteria);
 							}
 							vm.edit = function(record) {
 								SCFCommonService.parentStatePage().saveCurrentState($state.current.name);

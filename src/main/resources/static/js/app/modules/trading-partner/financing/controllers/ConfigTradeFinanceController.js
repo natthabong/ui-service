@@ -6,7 +6,7 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 
         var vm = this;
 		var log = $log;
-		var listStoreKey = 'listrancri';
+		var listStoreKey = 'config';
 
 		vm.pagingController = {
 			tableRowCollection : undefined

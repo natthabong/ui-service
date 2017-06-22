@@ -17,7 +17,6 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 
         var currentMode = $stateParams.mode;
         var defaultVal = $stateParams.params;
-        console.log(defaultVal)
 
         var currentDate = new Date();
 
@@ -45,7 +44,6 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 					limit : 5
 				}
 			}).then(function(response) {
-                console.log(response.data)
 				return response.data.map(function(item) {
                     var word1 = item.accountNo.substring(0,3);
                     var word2 = item.accountNo.substring(3,4);
@@ -121,68 +119,57 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             $scope.errors = {};
             var valid = true;
 
-            if(vm.tradeFinanceModel.financeAccount != null && angular.isObject(vm.tradeFinanceModel.financeAccount)){
-                
-            }else{
+            if(!angular.isObject(vm.tradeFinanceModel.financeAccount)){
                 valid = false;
                 $scope.errors.financeAccount = {
                     message : 'Finance account is required.'
                 }
             }
 
-            if(vm.tradeFinanceModel.tenor != null){
-                // vm.tradingPartner.sponsorId = vm.organizeListModel.buyer.organizeId;
-            }else{
+            if(vm.tradeFinanceModel.tenor == null || vm.tradeFinanceModel.tenor ==''){
                 valid = false;
                 $scope.errors.tenor = {
                     message : 'Tenor (Day) is required.'
                 }
             }
 
-            if(vm.tradeFinanceModel.percentageLoan != null){
-                // vm.tradingPartner.sponsorId = vm.organizeListModel.buyer.organizeId;
-            }else{
+            if(vm.tradeFinanceModel.percentageLoan == null || vm.tradeFinanceModel.percentageLoan == ''){
                 valid = false;
                 $scope.errors.percentageLoan = {
                     message : 'Percentage loan (%) is required.'
                 }
             }
 
-            if(vm.tradeFinanceModel.agreementDate != null){
-                
-            }else{
-                valid = false;
-                $scope.errors.agreementDate = {
-                    message : 'Agreement date is required.'
+            if(!angular.isDefined(vm.tradeFinanceModel.agreementDate) || vm.tradeFinanceModel.agreementDate == null){
+                var agreementDate = document.getElementById("agreement-date-textbox").value;
+                if(agreementDate != null && agreementDate != ''){
+                    valid = false;
+                    $scope.errors.agreementDate = {
+                        message : 'Wrong date format data.'
+                    }
+                }else{
+                    valid = false;
+                    $scope.errors.agreementDate = {
+                        message : 'Agreement date is required.'
+                    }
                 }
-            }
-
-            if(vm.tradeFinanceModel.agreementDate != undefined){
                 
-                
-            }else{
-                valid = false;
-                $scope.errors.agreementDate = {
-                    message : 'Wrong date format data.'
-                }
             }
             
-
-            if(vm.tradeFinanceModel.creditExpirationDate != null){
-                
-            }else{
-                valid = false;
-                $scope.errors.creditExpirationDate = {
-                    message : 'Credit expiration date is required.'
-                }
-            }
-
-            if(vm.tradeFinanceModel.creditExpirationDate != undefined){
-                
-            }else{
-                valid = false;
-                $scope.errors.creditExpirationDate = {
-                    message : 'Wrong date format data.'
+            if(vm.isUseExpireDate){
+                if(!angular.isDefined(vm.tradeFinanceModel.creditExpirationDate) || vm.tradeFinanceModel.creditExpirationDate == null){
+                    var creditExpirationDate = document.getElementById("credit-expiration-date-textbox").value;
+                    if(creditExpirationDate != null && creditExpirationDate != ''){
+                        valid = false;
+                        $scope.errors.creditExpirationDate = {
+                            message : 'Wrong date format data.'
+                        }
+                    }else{
+                        valid = false;
+                        $scope.errors.creditExpirationDate = {
+                            message : 'Credit expiration date is required.'
+                        }
+                    }
                 }
             }
             
@@ -225,13 +212,126 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         vm.add = function(){
 
         }
+
+        var createTradeFinance = function(sponsorId,supplierId){
+
+        }
+
+        var updateTradeFinance = function(sponsorId,supplierId,accountId){
+
+        }
+
+        var _save = function(){
+            var sponsorId = defaultVal.sponsorId;
+            var supplierId = defaultVal.supplierId;
+            var tradeFinanceModule = {
+                sponsorId : sponsorId,
+                supplierId : supplierId,
+                accountId : vm.tradeFinanceModel.financeAccount.accountId,
+                limitExpiryDate : vm.tradeFinanceModel.creditExpirationDate,
+                tenor : vm.tradeFinanceModel.tenor,
+                prePercentageDrawdown : vm.tradeFinanceModel.percentageLoan,
+                interest_rate : vm.tradeFinanceModel.interestRate,
+                agreementDate : vm.tradeFinanceModel.agreementDate,
+                suspend : vm.tradeFinanceModel.isSuspend,
+            }
+            var deferred = TradeFinanceService.createTradeFinance(sponsorId,supplierId,tradeFinanceModule);
+            deferred.promise.then(function(response){}).catch(function(response){
+                if (response) {
+                    if(Array.isArray(response.data)){
+                        response.data.forEach(function(error){
+                            $scope.errors[error.code] = {
+                                message : error.message
+                            };
+                        });
+                    }
+                }
+                deferred.resolve(response);
+            });
+            return deferred;
+        }
+
+        var _update = function(){
+            var sponsorId = defaultVal.sponsorId;
+            var supplierId = defaultVal.supplierId;
+            var tradeFinanceModule = {
+                sponsorId : sponsorId,
+                supplierId : supplierId,
+                accountId : vm.tradeFinanceModel.financeAccount.accountId,
+                limitExpiryDate : vm.tradeFinanceModel.creditExpirationDate,
+                tenor : vm.tradeFinanceModel.tenor,
+                prePercentageDrawdown : vm.tradeFinanceModel.percentageLoan,
+                interest_rate : vm.tradeFinanceModel.interestRate,
+                agreementDate : vm.tradeFinanceModel.agreementDate,
+                suspend : vm.tradeFinanceModel.isSuspend,
+                version: $stateParams.data.version
+            }
+            var deferred = TradeFinanceService.updateTradeFinance(sponsorId,supplierId,tradeFinanceModule.accountId,tradeFinanceModule);
+            deferred.promise.then(function(response){}).catch(function(response){
+                if (response) {
+                    if(Array.isArray(response.data)){
+                        response.data.forEach(function(error){
+                            $scope.errors[error.code] = {
+                                message : error.message
+                            };
+                        });
+                    }
+                }
+                deferred.resolve(response);
+            });
+            return deferred;
+        }
 		
         vm.save = function(){
-            console.log(vm.tradeFinanceModel)
             if(_validate()){
+                var preCloseCallback = function(confirm) {
+                    PageNavigation.gotoPreviousPage(true);
+                }
 
+                UIFactory.showConfirmDialog({
+                    data : {
+                        headerMessage : 'Confirm save?'
+                    },
+                    confirm : function() {
+                        if(currentMode=='NEW'){
+                            return _save();
+                        }
+                        else if(currentMode=='EDIT'){
+                            return _update();
+                        }
+                    },
+                    onFail : function(response) {
+                        if(response.status != 400){
+                            var msg = {
+                                    404 : 'Trading finance has been deleted.',
+                                    405 : 'Trading finance is existed.',
+                                    409 : 'Trading finance has been modified.'
+                            };
+                        UIFactory.showFailDialog({
+                                data : {
+                                    headerMessage : vm.isNewMode? 'Add new trading finance fail.':'Edit trading finance fail.',
+                                    bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+                                },
+                                preCloseCallback : preCloseCallback
+                            });
+                        }
+                    },
+                    onSuccess : function(response) {
+                        UIFactory.showSuccessDialog({
+                            data : {
+                                headerMessage : vm.isNewMode? 'Add new trading finance success.':'Edit trading finance complete.',
+                                bodyMessage : ''
+                            },
+                            preCloseCallback : preCloseCallback
+                        });
+                    }
+                });
             }
         }
+
+            
+            
+        
 
         vm.setCreditExpirationDate = function(){
             if(!vm.isUseExpireDate){
