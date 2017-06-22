@@ -20,6 +20,7 @@
                                 class="col-md-2 col-sm-12 col-xs-12 control-label">{{'Borrower' | translate}}:</label>
                             <div class="col-md-8 col-sm-12 col-xs-12">
                                 <scf-dropdown id="borrower-dropdown"
+                                    ng-disabled="!ctrl.isNewMode"
                                     ng-model="ctrl.tradeFinanceModel.borrower"
                                     component-data="ctrl.borrowerModel" translate-label="true"></scf-dropdown>
                             </div>
@@ -29,12 +30,15 @@
                             <label for="sponsor-auto-suggest" id="finance-account-label"
                                 class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Finance account'
                                 | translate}}: </label>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="col-md-3 col-sm-6 col-xs-12" ng-disabled="true">
                                 <gec-auto-suggest id="finance-account-auto-suggest"
+                                    disabled="true"
+                                    ng-disabled="true"
                                     model="ctrl.financeAccountAutoSuggestModel" name="financeAccount"
                                     ng-model="ctrl.tradeFinanceModel.financeAccount" maxlength="100"></gec-auto-suggest>
                             </div>
                             <scf-button id="add-button" class="btn-default gec-btn-action" 
+                                ng-disabled="!ctrl.isNewMode"
                                 ng-click="ctrl.add()"><i class="fa fa-plus" aria-hidden="true"></i></scf-button>
                         </div>
 

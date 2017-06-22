@@ -14,10 +14,17 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         vm.openExpireDate = false;
         vm.isUseExpireDate = false;
         vm.headerName = null;
-        vm.isNewMode;
-
+        
         var currentMode = $stateParams.mode;
         var defaultVal = $stateParams.params;
+
+        if(currentMode=='NEW'){
+            vm.isNewMode = true;
+        }else{
+            vm.isNewMode = false;
+        }
+
+        console.log(vm.isNewMode)
 
         var currentDate = new Date();
 
@@ -75,6 +82,15 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             isSuspend: false
         };
 
+        vm.disableAccountSuggest = function() {
+			var isDisable = false;
+            console.log(vm.isNewMode)
+			if (vm.isNewMode) {
+				isDisable = true;
+			}
+			return isDisable;
+		};
+
         var prepareAutoSuggestLabel = function(accountId,accountNo) {
             var word1 = accountNo.substring(0,3);
             var word2 = accountNo.substring(3,4);
@@ -92,8 +108,9 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 
         var initialTradeFinance = function(data){
             var tradeFinanceData = data;
+            console.log(data)
             if(tradeFinanceData != null){
-                vm.tradeFinanceModel.borrower = tradeFinanceData.supplierId;
+                vm.tradeFinanceModel.borrower = tradeFinanceData.borrowerId;
                 vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(tradeFinanceData.accountId,tradeFinanceData.accountNo);
                 vm.tradeFinanceModel.tenor = tradeFinanceData.tenor;
                 vm.tradeFinanceModel.percentageLoan = tradeFinanceData.prePercentageDrawdown;
@@ -216,14 +233,6 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 
         }
 
-        var createTradeFinance = function(sponsorId,supplierId){
-
-        }
-
-        var updateTradeFinance = function(sponsorId,supplierId,accountId){
-
-        }
-
         var _save = function(){
             var sponsorId = defaultVal.sponsorId;
             var supplierId = defaultVal.supplierId;
@@ -304,20 +313,14 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                         }
                     },
                     onFail : function(response) {
-                        if(response.status != 400){
-                            var msg = {
-                                    404 : 'Trading finance has been deleted.',
-                                    405 : 'Trading finance is existed.',
-                                    409 : 'Trading finance has been modified.'
-                            };
                         UIFactory.showFailDialog({
-                                data : {
-                                    headerMessage : vm.isNewMode? 'Add new trading finance fail.':'Edit trading finance fail.',
-                                    bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
-                                },
-                                preCloseCallback : preCloseCallback
-                            });
-                        }
+                            data : {
+                                headerMessage : vm.isNewMode? 'Add new trading finance fail.':'Edit trading finance fail.',
+                                bodyMessage : response.message
+                            },
+                            preCloseCallback : preCloseCallback
+                        });
+                        
                     },
                     onSuccess : function(response) {
                         UIFactory.showSuccessDialog({
@@ -331,11 +334,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                 });
             }
         }
-
-            
-            
         
-
         vm.setCreditExpirationDate = function(){
             if(!vm.isUseExpireDate){
                 vm.tradeFinanceModel.creditExpirationDate = null;
