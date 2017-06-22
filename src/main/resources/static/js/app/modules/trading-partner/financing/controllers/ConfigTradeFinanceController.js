@@ -58,7 +58,9 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 		var getFinanceInfo = function(sponsorId,supplierId){
 			var defered = ConfigTradeFinanceService.getTradeFinanceInfo(sponsorId,supplierId);
 			defered.promise.then(function(response) {
-				vm.pagingController.tableRowCollection = response.data;
+				if(response.data[0] != null){
+					vm.pagingController.tableRowCollection = response.data;
+				}
 			}).catch(function(response) {
 				log.error('Get trading finance fail');
 			});

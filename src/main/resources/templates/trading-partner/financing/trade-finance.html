@@ -30,10 +30,9 @@
                             <label for="sponsor-auto-suggest" id="finance-account-label"
                                 class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Finance account'
                                 | translate}}: </label>
-                            <div class="col-md-3 col-sm-6 col-xs-12" ng-disabled="true">
+                            <div class="col-md-3 col-sm-6 col-xs-12">
                                 <gec-auto-suggest id="finance-account-auto-suggest"
-                                    disabled="true"
-                                    ng-disabled="true"
+                                    disable="!ctrl.isNewMode"
                                     model="ctrl.financeAccountAutoSuggestModel" name="financeAccount"
                                     ng-model="ctrl.tradeFinanceModel.financeAccount" maxlength="100"></gec-auto-suggest>
                             </div>

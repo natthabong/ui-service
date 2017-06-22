@@ -24,8 +24,6 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             vm.isNewMode = false;
         }
 
-        console.log(vm.isNewMode)
-
         var currentDate = new Date();
 
         if($stateParams.params ==''){
@@ -82,14 +80,6 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             isSuspend: false
         };
 
-        vm.disableAccountSuggest = function() {
-			var isDisable = false;
-            console.log(vm.isNewMode)
-			if (vm.isNewMode) {
-				isDisable = true;
-			}
-			return isDisable;
-		};
 
         var prepareAutoSuggestLabel = function(accountId,accountNo) {
             var word1 = accountNo.substring(0,3);
@@ -108,7 +98,12 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 
         var initialTradeFinance = function(data){
             var tradeFinanceData = data;
-            console.log(data)
+			if(tradeFinanceData.limitExpiryDate == null){
+                tradeFinanceData.limitExpiryDate = undefined;
+            }
+            if(tradeFinanceData.limitExpiryDate == undefined){
+                vm.isUseExpireDate = false;
+            }
             if(tradeFinanceData != null){
                 vm.tradeFinanceModel.borrower = tradeFinanceData.borrowerId;
                 vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(tradeFinanceData.accountId,tradeFinanceData.accountNo);
@@ -118,9 +113,6 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                 vm.tradeFinanceModel.agreementDate = new Date(tradeFinanceData.agreementDate);
                 vm.tradeFinanceModel.creditExpirationDate = new Date(tradeFinanceData.limitExpiryDate);
                 vm.tradeFinanceModel.isSuspend = tradeFinanceData.suspend;
-            }
-            if(vm.tradeFinanceModel != undefined){
-                vm.isUseExpireDate = true;
             }
         }
 
@@ -237,7 +229,6 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             		data: {organizeId: vm.tradeFinanceModel.borrower},
             		preCloseCallback : function(data){
             			if(data){
-            				console.log(data);
             				vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(data.accountId,data.accountNo);
             			}
             		}
