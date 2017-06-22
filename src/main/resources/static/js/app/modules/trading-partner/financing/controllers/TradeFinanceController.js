@@ -14,6 +14,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         vm.openExpireDate = false;
         vm.isUseExpireDate = false;
         vm.headerName = null;
+        vm.isNewMode;
 
         var currentMode = $stateParams.mode;
         var defaultVal = $stateParams.params;
@@ -70,7 +71,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             percentageLoan: null,
             interestRate : null,
             agreementDate: currentDate,
-            creditExpirationDate: undefined,
+            creditExpirationDate: null,
             isSuspend: false
         };
 
@@ -179,8 +180,10 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         var initLoad = function() {
             if(currentMode=='NEW'){
                 vm.headerName = 'New trade finance';
+                vm.isNewMode = true;
             }else if(currentMode=='EDIT'){
                 vm.headerName = 'Edit trade finance';
+                vm.isNewMode = false;
                 if($stateParams.data == ''){
                     log.error("Trade finance data is null.")
                     PageNavigation.gotoPage('/trading-partners');

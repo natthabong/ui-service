@@ -3,12 +3,12 @@ var tradeFinanceModule = angular.module('gecscf.tradingPartner.financing');
 tradeFinanceModule.factory('TradeFinanceService', [ '$http', '$q','Service', function($http, $q, Service ) {
 
 	function createTradeFinance(sponsorId,supplierId,data){
-		var url = '/v1/organize-customers/'+sponsorId+'/trading-partners/'+supplierId+'/trade-finance';
+		var url = '/api/v1/organize-customers/'+sponsorId+'/trading-partners/'+supplierId+'/trade-finance';
 		return Service.doPost(url,data);
 	}
 
 	function updateTradeFinance(sponsorId,supplierId,accountId,data){
-		var url = '/v1/organize-customers/'+sponsorId+'/trading-partners/'+supplierId+'/trade-finance/'+accountId;
+		var url = '/api/v1/organize-customers/'+sponsorId+'/trading-partners/'+supplierId+'/trade-finance/'+accountId;
 		return Service.doPut(url,data);
 	}
 
