@@ -1,6 +1,6 @@
 <div class="modal-content">
 	<form name="newAccountForm" class="form-horizontal"
-		ng-submit="closeThisDialog(ctrl.model)">
+		ng-submit="ctrl.save(ctrl.model, closeThisDialog)">
 		<div class="modal-header">
 			<div class="row">
 				<div class="col-md-10 col-sm-10">

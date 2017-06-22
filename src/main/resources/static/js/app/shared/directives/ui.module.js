@@ -173,7 +173,8 @@ angular
 							preCloseCallback : config.preCloseCallback,
 							data : config.data,
 							controller:  config.controller,
-							controllerAs: 'ctrl'
+							controllerAs: 'ctrl',
+		                    cache: false
 						});
 				}
 				

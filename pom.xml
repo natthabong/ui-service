@@ -57,11 +57,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.webflow</groupId>
-			<artifactId>spring-webflow</artifactId>
-			<version>2.4.2.RELEASE</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>

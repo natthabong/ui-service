@@ -230,7 +230,20 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         };
 
         vm.add = function(){
-
+        	if(vm.tradeFinanceModel.borrower){
+        		UIFactory.showDialog({
+            		templateUrl: '/js/app/modules/trading-partner/financing/templates/dialog-new-account.html',
+            		controller: 'AccountController',
+            		data: {organizeId: vm.tradeFinanceModel.borrower},
+            		preCloseCallback : function(data){
+            			if(data){
+            				console.log(data);
+            				vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(data.accountId,data.accountNo);
+            			}
+            		}
+    			});
+        	}
+        	
         }
 
         var _save = function(){
