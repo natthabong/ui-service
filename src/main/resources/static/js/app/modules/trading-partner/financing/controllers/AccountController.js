@@ -23,7 +23,7 @@ ac.controller('AccountController', [ '$scope', '$stateParams', 'UIFactory', 'Acc
 			onFail : function(response) {
 			     if(response.status != 400){
                      var msg = {
-                    		 405 : 'Account No. is existed.'
+                    		 409 : 'Account No. is existed.'
                      };
 	    		 	UIFactory.showFailDialog({
                          data : {
