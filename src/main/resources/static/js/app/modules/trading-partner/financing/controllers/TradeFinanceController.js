@@ -303,7 +303,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         vm.save = function(){
             if(_validate()){
                 var preCloseCallback = function(confirm) {
-                    PageNavigation.gotoPreviousPage(true);
+                    PageNavigation.gotoPreviousPage();
                 }
 
                 UIFactory.showConfirmDialog({
