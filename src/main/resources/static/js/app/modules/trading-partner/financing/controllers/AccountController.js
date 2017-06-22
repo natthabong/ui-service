@@ -27,7 +27,7 @@ ac
 								else if (data.accountNo.length != 10) {
 									valid = false;
 									$scope.errors.accountNo = {
-										message : 'Account No. must be 10 digit number.'
+										message : 'Account No. must be 10-digit number.'
 									}
 								}
 								return valid;
