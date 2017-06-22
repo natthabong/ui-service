@@ -322,7 +322,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                         UIFactory.showFailDialog({
                             data : {
                                 headerMessage : vm.isNewMode? 'Add new trade finance fail.':'Edit trade finance fail.',
-                                bodyMessage : response.message
+                                bodyMessage : response.errorMessage
                             },
                             preCloseCallback : preCloseCallback
                         });
