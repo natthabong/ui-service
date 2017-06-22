@@ -103,6 +103,8 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             }
             if(tradeFinanceData.limitExpiryDate == undefined){
                 vm.isUseExpireDate = false;
+            }else{
+                vm.isUseExpireDate = true;
             }
             if(tradeFinanceData != null){
                 vm.tradeFinanceModel.borrower = tradeFinanceData.borrowerId;
