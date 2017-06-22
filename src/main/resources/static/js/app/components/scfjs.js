@@ -135,6 +135,7 @@
 
 	        vm.backStep = function(reset) {
 	            var previousStep = steps.pop();
+				console.log(previousStep)
 	            if (previousStep != null) {
 	                previousStep.stateObject.backAction = true;
 	                $state.go(previousStep.page, reset ? {} : previousStep.stateObject, {

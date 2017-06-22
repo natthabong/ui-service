@@ -58,7 +58,8 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 		var getFinanceInfo = function(sponsorId,supplierId){
 			var defered = ConfigTradeFinanceService.getTradeFinanceInfo(sponsorId,supplierId);
 			defered.promise.then(function(response) {
-				if(response.data[0] != null){
+				if(response.data.length == 0 || response.data[0] != null){
+					vm.pagingController.tableRowCollection = null;
 					vm.pagingController.tableRowCollection = response.data;
 				}
 			}).catch(function(response) {
