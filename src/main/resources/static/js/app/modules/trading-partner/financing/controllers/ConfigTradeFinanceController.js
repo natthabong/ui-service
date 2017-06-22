@@ -31,9 +31,9 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 				},{
 					fieldName : 'accountNo',
 					field : 'accountNo',
-					label : 'Loan account',
+					label : 'Finance account',
 					idValueField : 'template',
-					id : 'loan-account-{value}-label',
+					id : 'finance-account-{value}-label',
 					sortable : false,
 					dataRenderer: function(record){
 						var word1 = record.accountNo.substring(0,3);
