@@ -98,6 +98,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 
         var initialTradeFinance = function(data){
             var tradeFinanceData = data;
+            console.log(data)
 			if(tradeFinanceData.limitExpiryDate == null){
                 tradeFinanceData.limitExpiryDate = undefined;
             }
@@ -319,7 +320,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                     onFail : function(response) {
                         UIFactory.showFailDialog({
                             data : {
-                                headerMessage : vm.isNewMode? 'Add new trading finance fail.':'Edit trading finance fail.',
+                                headerMessage : vm.isNewMode? 'Add new trade finance fail.':'Edit trade finance fail.',
                                 bodyMessage : response.message
                             },
                             preCloseCallback : preCloseCallback
@@ -329,7 +330,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                     onSuccess : function(response) {
                         UIFactory.showSuccessDialog({
                             data : {
-                                headerMessage : vm.isNewMode? 'Add new trading finance success.':'Edit trading finance complete.',
+                                headerMessage : vm.isNewMode? 'Add new trade finance success.':'Edit trade finance complete.',
                                 bodyMessage : ''
                             },
                             preCloseCallback : preCloseCallback
