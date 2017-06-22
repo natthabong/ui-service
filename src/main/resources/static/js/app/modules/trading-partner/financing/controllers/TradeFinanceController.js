@@ -98,7 +98,6 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 
         var initialTradeFinance = function(data){
             var tradeFinanceData = data;
-            console.log(data)
 			if(tradeFinanceData.limitExpiryDate == null){
                 tradeFinanceData.limitExpiryDate = undefined;
             }
