@@ -249,7 +249,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                 limitExpiryDate : vm.tradeFinanceModel.creditExpirationDate,
                 tenor : vm.tradeFinanceModel.tenor,
                 prePercentageDrawdown : vm.tradeFinanceModel.percentageLoan,
-                interest_rate : vm.tradeFinanceModel.interestRate,
+                interestRate : vm.tradeFinanceModel.interestRate,
                 agreementDate : vm.tradeFinanceModel.agreementDate,
                 suspend : vm.tradeFinanceModel.isSuspend,
             }
