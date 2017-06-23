@@ -276,7 +276,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             if(vm.tradeFinanceModel.creditExpirationDate == "Invalid Date"){
                 vm.tradeFinanceModel.creditExpirationDate = null;
             }
-            
+
             var tradeFinanceModule = {
                 sponsorId : sponsorId,
                 supplierId : supplierId,
@@ -324,10 +324,13 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                         }
                     },
                     onFail : function(response) {
+                        var msg = {
+                            409 : "Trade finance is existed.",
+                        }
                         UIFactory.showFailDialog({
                             data : {
                                 headerMessage : vm.isNewMode? 'Add new trade finance fail.':'Edit trade finance fail.',
-                                bodyMessage : response.errorMessage
+                                bodyMessage : msg[response.code] ? msg[response.code] : response.message
                             },
                             preCloseCallback : preCloseCallback
                         });
