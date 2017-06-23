@@ -272,6 +272,11 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         var _update = function(){
             var sponsorId = defaultVal.sponsorId;
             var supplierId = defaultVal.supplierId;
+
+            if(vm.tradeFinanceModel.creditExpirationDate == "Invalid Date"){
+                vm.tradeFinanceModel.creditExpirationDate = null;
+            }
+            
             var tradeFinanceModule = {
                 sponsorId : sponsorId,
                 supplierId : supplierId,
