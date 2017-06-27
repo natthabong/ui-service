@@ -227,7 +227,6 @@
 	"UNBOOK": "Not book",
 	"All": "All",
 	"Sponsor is required": "Sponsor is required",
-	"AP_DOCUMENT" : "AP document",
 		
 	"File layout": "File layout",
 	"File layout name": "File layout name",
@@ -404,6 +403,7 @@
 	"FAILED": "Fail",
 	"Data incorrection list": "Data incorrection list",
 	"AP_DOCUMENT": "AP document",
+	"AR_DOCUMENT" : "AR document",
 	"BANK_HOLIDAY": "Bank holiday",
 	"CUSTOMER_PROFILE": "Customer profile",
 	"DRAWDOWN_ADVICE": "Drawdown advice",
