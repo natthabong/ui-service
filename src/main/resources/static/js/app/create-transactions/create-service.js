@@ -144,7 +144,7 @@ function createTransactionService($http, $q) {
 
         $http({
             method: 'GET',
-            url: 'api/v1/create-transaction/customer-code',
+            url: 'api/v1/create-transaction/supplier-code',
             params: {
                 sponsorId: sponsorId
             }
