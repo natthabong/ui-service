@@ -18,6 +18,17 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
 	
 	vm.documentSelects = []
 	
+	vm.openDateFrom = false;
+	vm.openDateTo = false;
+	
+	vm.openCalendarDateFrom = function() {
+		vm.openDateFrom = true;
+	}
+
+	vm.openCalendarDateTo = function() {
+		vm.openDateTo = true;
+	}
+	
 	vm.dataTable = {
         options: {
             displaySelect: {

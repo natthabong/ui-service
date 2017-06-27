@@ -55,6 +55,7 @@
 									<scf-date-picker-from text-id="due-date-from-textbox"
 										button-id="due-date-from-calendar-button"
 										text-model="ctrl.criteria.dueDateFrom"
+										date-format="dd/MM/yyyy" 
 										is-open="ctrl.openDateFrom"
 										open-calendar-action="ctrl.openCalendarDateFrom()"
 										max-date="ctrl.criteria.dueDateTo"> </scf-date-picker-from>
@@ -65,6 +66,7 @@
 										class="control-label">{{'to' | translate}}: </label>
 									<scf-date-picker-to text-id="due-date-to-textbox"
 										button-id="due-date-to-calendar-button"
+										date-format="dd/MM/yyyy" 
 										text-model="ctrl.criteria.dueDateTo" is-open="ctrl.openDateTo"
 										open-calendar-action="ctrl.openCalendarDateTo()"
 										min-date="ctrl.criteria.dueDateFrom"> </scf-date-picker-to>
