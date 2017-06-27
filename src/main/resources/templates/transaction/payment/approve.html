@@ -27,7 +27,7 @@
 
 					<div class="col-md-12">
 						<label class="checkbox-inline"> <scf-checkbox
-								ng-model="ctrl.agreeCondition" id="confirm-checkbox"></scf-checkbox>
+								ng-click="ctrl.agreeCondition()" id="confirm-checkbox"></scf-checkbox>
 							<span ng-bind="ctrl.agreeConditionMsg | translate"
 							id="confirm-agreement-label"></span>
 						</label>
@@ -40,7 +40,7 @@
 							ng-disabled="!ctrl.canReject"
 							ng-click="ctrl.confirmRejectPopup()"
 							ng-bind="'Reject' | translate"></scf-button>
-						<scf-button id="approve-button" ng-disabled="!ctrl.agreeCondition"
+						<scf-button id="approve-button" ng-disabled="ctrl.disableButton"
 							type="submit" ng-click="ctrl.confirmPopup('clear')"
 							ng-bind="'Approve' | translate"></scf-button>
 					</div>

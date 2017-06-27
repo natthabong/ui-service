@@ -116,7 +116,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 }
             	
             	if(angular.isDefined(vm.criteria.supplierId)){
-// _loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
             		_loadAccount(ownerId, vm.criteria.supplierId);
             		_loadDocumentDisplayConfig(vm.criteria.supplierId);
             	}

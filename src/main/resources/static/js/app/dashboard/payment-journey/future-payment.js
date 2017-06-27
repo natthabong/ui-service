@@ -20,7 +20,6 @@ angular.module('scfApp').controller('JourneyFuturePaymentController',
 			}
 			
 		    var load = function() {
-				console.log(vm.transactionCriteria)
 		    	var waitForFuturePaymentsDeferred = Service.doGet('/api/summary-transaction/get', vm.transactionCriteria);
 		    	waitForFuturePaymentsDeferred.promise.then(function(response){
 		    		vm.futurePaymentModel.totalTransaction = response.data.totalTransaction;
