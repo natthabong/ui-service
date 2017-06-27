@@ -76,11 +76,57 @@
 							</div>
 						</form>
 						<!-- End Payment Field-->
-						<div ng-show="ctrl.showInfomation">
+						<div>
+							<div class="row">
+								<div class="col-md-2 col-sm-2">
+									<scf-button id="select-all-page-button" class="btn-default"
+										ng-show="!ctrl.selectAllModel" style="height:30px;"
+										ng-click="ctrl.selectAllDocument()">
+									<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;Select
+									all</scf-button>
+									<scf-button id="unselect-all-page-button" class="btn-default"
+										ng-show="ctrl.selectAllModel" style="height:30px;"
+										ng-click="ctrl.selectAllDocument()">
+									<i class="fa fa-check-square-o" aria-hidden="true"></i>
+									&nbsp;Select all</scf-button>
 
+								</div>
+								<div class="col-md-3 col-sm-3 gec-select">
+									<b><span ng-bind="'Selected' | translate">Select</span>: <span
+										id="document-selected-label"
+										ng-bind="ctrl.documentSelects.length"></span> <span
+										ng-bind="'Records' | translate"></span></b>
+								</div>
+								<div class="col-md-7 col-sm-7 text-right">
+									<div class="row">
+										<div class="col-md-12 col-sm-12">
+											<span> <b ng-bind="ctrl.splitePageTxt"
+												id="create-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+													dropdown-id="page-limit-dropdown" name="create-transaction"
+													page-size-model="ctrl.pageModel.pageSizeSelectModel"
+													total-page="ctrl.pageModel.totalPage"
+													current-page="ctrl.pageModel.currentPage"
+													page-size-list="ctrl.pageSizeList"
+													page-action="ctrl.searchDocument"></scf-pagination>
+											</span>
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Start Table-->
+							<div class="row">
+								<div class="col-md-12">
+									<scf-table id="create-transaction-table"
+										component-config="ctrl.dataTable"
+										component-datas="ctrl.tableRowCollection"
+										current-page="ctrl.pageModel.currentPage"
+										record-per-page="ctrl.pageModel.pageSizeSelectModel"
+										clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-table>
+								</div>
+								<div id="fixed-bottom" class="col-md-12"></div>
+							</div>
 						</div>
-
-
 					</div>
 					<!-- End Column Panel-->
 
