@@ -484,7 +484,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/create-payment',
 				controller: 'CreatePaymentController',
 				controllerAs: 'ctrl',				
-				templateUrl: '/create-payment',
+				templateUrl: '/payment/create',
                 params: {},
 				resolve: load(['js/app/modules/transaction/payment/services/CreatePaymentService.js','js/app/modules/transaction/payment/controllers/CreatePaymentController.js'])
 			}).state('/error', {

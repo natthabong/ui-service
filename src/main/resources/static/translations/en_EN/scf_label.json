@@ -97,6 +97,10 @@
 	"transaction-bank": "Transaction",
 	"transaction-list-bank": "Transaction list",
 	
+	"transaction-buyer": "Transaction",
+	"create-payment": "Create payment",
+	
+	
 	"organize-sponsor": "Organize",
 	"supplier-code-list": "Supplier code list",
 
