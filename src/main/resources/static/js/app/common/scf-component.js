@@ -158,6 +158,21 @@
 					'</select>'].join()
 			};
 		} ])
+		.directive('scfDropdownAccount', [ function() {
+			return {
+				restrict : 'AE',
+				replace : true,
+				scope : {
+					componentData : '<'
+				},
+				link : function(scope, element, attrs) {
+					scope.translateLable = attrs.translateLabel;
+				},
+				template : ['<select class="form-control">' , 
+					'<option ng-repeat="option in componentData track by $id(option)" value="{{option.value}}">{{option.label | accountFormat}}</option>' , 
+					'</select>'].join()
+			};
+		} ])
 		.directive('convertToNumber', function() {
 		  return {
 		    require: 'ngModel',

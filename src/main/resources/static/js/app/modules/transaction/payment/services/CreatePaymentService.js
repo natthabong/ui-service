@@ -35,23 +35,25 @@ function CreatePaymentService($http, $q){
 	        });
 	    return deffered;
 	}
-	
-	function getDocument(criteria) {
+
+	var getAccounts = function(organizeId) {
         var deffered = $q.defer();
         $http({
-    	    url : 'api/v1/documents/',
-        	method: 'GET',
-        	data: criteria
-        }).then(function(response) {
+        	    url :'api/v1/organize-customers/'+organizeId+'/all/account',
+            	method: 'GET',
+            	params:{
+            	}
+            })
+            .then(function(response) {
                 deffered.resolve(response);
             })
             .catch(function(response) {
-                deffered.reject(response);
+                deffered.reject('Cannot load account');
             });
         return deffered;
     }
 	return {
-		getDocument : getDocument,
+		getAccounts : getAccounts,
 		getBuyerCodes: getBuyerCodes,
 		getSuppliers: getSuppliers
 	}

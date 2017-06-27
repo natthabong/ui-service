@@ -131,12 +131,63 @@
 						</div>
 					</div>
 					<!-- End Column Panel-->
-
 				</div>
-				
+				<div class="panel-body">
+					<div class="row">
+						<div id="bottom-sticker">
+							<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+								<div class="form-horizontal">
+									<label
+										class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b
+										ng-bind="'Total payment amount' | translate">Total payment amount</b> :</label>
+									<div class="col-md-7 col-sm-7 col-lg-7 col-xs-12 control-label">
+										<span id="Total-payment-amount-label"
+											ng-bind="ctrl.submitTransactionAmount | number: 2">0.00</span>&nbsp;
+										<span ng-bind="'THB' | translate"></span>
+									</div>
+								</div>
+								<div class="form-horizontal">
+									<label
+										class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b
+										ng-bind="'Buyer account' | translate">Buyer account</b> :</label>
+									<div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
+										<scf-dropdown-account id="buyer-account-dropdown"
+											ng-model="ctrl.accountModel"
+											convert-to-number="true"
+											component-data="ctrl.accountDropDown"></scf-dropdown-account>
+									</div>
+									<label
+										class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b
+										ng-bind="'Available' | translate">Available</b> :</label>
+									<div class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label">
+										<span id="available-label"
+											ng-bind="null">0.00</span>&nbsp;
+										<span ng-bind="'THB' | translate"></span>
+									</div>
+									<label class="col-md-12 col-sm-12 col-lg-12 col-xs-12 control-label"></label>
+								</div>
+								<div class="form-horizontal">
+									<label
+										class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b
+										ng-bind="'Payment date' | translate">Payment date</b> :</label>
+									<div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
+										<scf-dropdown id="payment-date-dropdown"
+											ng-model="ctrl.paymentModel"
+											component-data="ctrl.paymentDropDown"></scf-dropdown>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12 text-right">
+								<scf-button ng-show="ctrl.showBackButton" id="back-step-button"
+									type="submit" ng-click="ctrl.backStep()">{{'Back'
+								| translate}}</scf-button>
+								<scf-button id="next-button" type="submit"
+									ng-click="ctrl.nextStep()">{{'Next' | translate}}</scf-button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		
 	</div>
-	
 </div>

@@ -112,9 +112,27 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
 		vm.showInfomation = true;
 	
 	}
+
+    vm.accountDropDown = [];
+    function _loadAccount(ownerId){
+        var deffered = CreatePaymentService.getAccounts(ownerId);
+        deffered.promise.then(function(response) {
+            var accounts = response.data;
+            accounts.forEach(function(account) {
+                vm.accountDropDown.push({
+                    label : account.accountNo,
+                    value : account.accountId
+                })
+            });
+            vm.accountModel = accounts[0].accountId;
+        }).catch(function(response) {
+            log.error(response);
+        });
+    }
 	
 	var init = function(){
 		_loadSuppliers();
+        _loadAccount(ownerId);
 
 	}
 	
