@@ -4,6 +4,7 @@ encoding//src/main/resources=UTF-8
 encoding//src/main/resources/static/translations/th_TH/scf_label.json=UTF-8
 encoding//src/main/resources/templates/create-transactions/create.html=UTF-8
 encoding//src/main/resources/templates/create-transactions/validate-submit.html=UTF-8
+encoding//src/main/resources/templates/transaction/payment/create.html=UTF-8
 encoding//src/test/java=UTF-8
 encoding//src/test/resources=UTF-8
 encoding//target/generated-resources=UTF-8

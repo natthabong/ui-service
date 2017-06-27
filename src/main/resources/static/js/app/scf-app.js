@@ -480,6 +480,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/trade-finance/edit',
 				params: { mode: 'EDIT', params:'',data:''},
 				resolve: load(['js/app/modules/trading-partner/financing/controllers/TradeFinanceController.js', 'js/app/modules/trading-partner/financing/controllers/AccountController.js', 'js/app/modules/trading-partner/financing/services/AccountService.js', 'js/app/modules/trading-partner/financing/services/TradeFinanceService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/create-payment', {
+				url: '/create-payment',
+				controller: 'CreatePaymentController',
+				controllerAs: 'ctrl',				
+				templateUrl: '/create-payment',
+                params: {},
+				resolve: load(['js/app/modules/transaction/payment/services/CreatePaymentService.js','js/app/modules/transaction/payment/controllers/CreatePaymentController.js'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
