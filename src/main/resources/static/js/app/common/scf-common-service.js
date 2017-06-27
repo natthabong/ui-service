@@ -96,10 +96,11 @@ app.service('SCFCommonService', [
             return result
 		}
 
-		vm.getDocumentDisplayConfig = function(sponsorId) {
+		vm.getDocumentDisplayConfig = function(ownerId, mode) {
 			var differed = $q.defer();
+			mode = mode || 'SFP';
 			var displayConfig = [];
-			var reqUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/displays'
+			var reqUrl = '/api/v1/organize-customers/' + ownerId + '/sponsor-configs/'+ mode + '/displays'
 			var documentDisplayDiferred = Service.doGet(reqUrl);
 			documentDisplayDiferred.promise.then(function(response) {
 				

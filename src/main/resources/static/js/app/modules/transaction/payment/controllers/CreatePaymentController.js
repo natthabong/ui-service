@@ -31,14 +31,14 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
         columns: []
     };
 
-	var _loadDocumentDisplayConfig = function(ownerId) {
-        var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId);
+	var _loadDocumentDisplayConfig = function(ownerId, mode) {
+        var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, mode);
         deffered.promise.then(function(response) {
             vm.dataTable.columns = response.items;
             pageOptions.loanRequestMode = response.loanRequestMode;
             pageOptions.documentSelection = response.documentSelection;
             pageOptions.buyerCodeSelectionMode = response.buyerCodeSelectionMode;
-            _loadBuyerCodes(vm.criteria.supplierId);
+            _loadBuyerCodes(ownerId);
         });
     }
 	
@@ -57,11 +57,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
                  });
             	vm.criteria.supplierId = vm.suppliers[0];
             	if(angular.isDefined(vm.criteria.supplierId)){
-            		_loadDocumentDisplayConfig('00025408');
+            		_loadDocumentDisplayConfig(vm.criteria.supplierId);
             	}
              }
         }).catch(function(response) {
             log.error(response);
+            _loadDocumentDisplayConfig('DEMO_SUPPLIER1', 'BFP');
         });
     };
     
@@ -79,6 +80,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
                      vm.buyerCodes.push(selectObj);
                  });
             	vm.criteria.buyerCode = vm.buyerCodes[0];
+            	vm.searchDocument();
              }
         }).catch(function(response) {
             log.error(response);
@@ -87,9 +89,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
 
 	function _prepareCriteria() {
 		
-		return {
-			
-		};
+		return vm.criteria;
 	}
 
 	vm.pagingController = PagingController.create('api/v1/documents', vm.criteria, 'GET');

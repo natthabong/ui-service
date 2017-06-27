@@ -5,7 +5,7 @@ function CreatePaymentService($http, $q){
         var deffered = $q.defer();
 
         $http({
-        	    url :'api/v1/create-transaction/sponsor',
+        	    url :'api/v1/create-transaction/suppliers',
             	method: 'GET',
             	params:{
             		accountingTransactionType: accountingTransactionType
@@ -24,7 +24,7 @@ function CreatePaymentService($http, $q){
 	    var deffered = $q.defer();
 	
 	    $http({
-	    	    url :'/v1/organize-customers/'+ownerId+'/customer-code-groups/me/customer-codes',
+	    	    url :'api/v1/organize-customers/'+ownerId+'/customer-code-groups/me/customer-codes',
 	        	method: 'GET'
 	        })
 	        .then(function(response) {
