@@ -1,6 +1,6 @@
 var txnMod = angular.module('gecscf.transaction');
-txnMod.controller('CreatePaymentController', ['$scope', 'SCFCommonService', 'CreatePaymentService',
-		'PagingController', function($scope, SCFCommonService, CreatePaymentService, PagingController) {
+txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommonService', 'CreatePaymentService',
+		'PagingController', function($rootScope, $scope, SCFCommonService, CreatePaymentService, PagingController) {
 	
 	var vm = this;
 
