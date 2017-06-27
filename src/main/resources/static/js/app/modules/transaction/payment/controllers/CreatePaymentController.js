@@ -8,7 +8,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
 	var ownerId = $rootScope.userInfo.organizeId;
 	
 	vm.criteria = {
-		accountingTransactionType: 'RECEIVABLE'
+		accountingTransactionType: 'RECEIVABLE',
+		sponsorId: ownerId
 	}
 
 	var pageOptions = {
@@ -57,12 +58,11 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
                  });
             	vm.criteria.supplierId = _suppliers[0].supplierId;
             	if(angular.isDefined(vm.criteria.supplierId)){
-            		_loadDocumentDisplayConfig(vm.criteria.supplierId);
+            		_loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
             	}
              }
         }).catch(function(response) {
             log.error(response);
-            _loadDocumentDisplayConfig('DEMO_SUPPLIER1', 'BFP');
         });
     };
     
