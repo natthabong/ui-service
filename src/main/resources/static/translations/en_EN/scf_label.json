@@ -500,6 +500,8 @@
 	"SEND_FILE_TO_RECEIVER_FAIL":"Send file ($) to receiver fail.",
 	"END_BATCH_JOB_IMPORT_FILE_SUCCESS":"End batch job import file success.",	
 	"FILE_NOT_FOUND":"File not found.",
-	"Process no": "Process no"
+	"Process no": "Process no",
+	"payment-request": "Payment",
+	"create-payment-request": "Create payment"
 
 }
