@@ -8,7 +8,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
 	var ownerId = $rootScope.userInfo.organizeId;
 	
 	vm.criteria = {
-
+		accountingTransactionType: 'RECEIVABLE'
 	}
 
 	var pageOptions = {
@@ -43,19 +43,19 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
     }
 	
 	function _loadSuppliers() {
-        var deffered = CreatePaymentService.getSuppliers('PAYABLE');
+        var deffered = CreatePaymentService.getSuppliers('RECEIVABLE');
         deffered.promise.then(function(response) {
         	 vm.suppliers = [];
              var _suppliers = response.data;
              if (_suppliers !== undefined) {
             	 _suppliers.forEach(function(supplier) {
                      var selectObj = {
-                         label: supplier.sponsorName,
-                         value: supplier.sponsorId
+                         label: supplier.supplierName,
+                         value: supplier.supplierId
                      }
                      vm.suppliers.push(selectObj);
                  });
-            	vm.criteria.supplierId = vm.suppliers[0];
+            	vm.criteria.supplierId = _suppliers[0].supplierId;
             	if(angular.isDefined(vm.criteria.supplierId)){
             		_loadDocumentDisplayConfig(vm.criteria.supplierId);
             	}
@@ -74,12 +74,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
              if (angular.isDefined(_buyerCodes)) {
             	 _buyerCodes.forEach(function(code) {
                      var selectObj = {
-                		 label: obj,
-                         value: obj
+                		 label: code,
+                         value: code
                      }
                      vm.buyerCodes.push(selectObj);
                  });
-            	vm.criteria.buyerCode = vm.buyerCodes[0];
+            	vm.criteria.buyerCode = _buyerCodes[0];
             	vm.searchDocument();
              }
         }).catch(function(response) {
@@ -96,7 +96,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
 	
 	vm.searchDocument = function(pagingModel) {
 
-		var criteria = prepareCriteria();
+		var criteria = _prepareCriteria();
 		var diferred = vm.pagingController.search(pagingModel);
 		vm.showInfomation = true;
 	
