@@ -1,20 +1,27 @@
 var txnMod = angular.module('gecscf.transaction');
-txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommonService', 'CreatePaymentService',
-		'PagingController', 'PageNavigation', '$log', function($rootScope, $scope, SCFCommonService, CreatePaymentService, PagingController, PageNavigation, $log) {
+txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'CreatePaymentService',
+		'PagingController', 'PageNavigation', function($rootScope, $scope, $log, $stateParams, SCFCommonService, CreatePaymentService, PagingController, PageNavigation) {
 	
 	var vm = this;
 	var log = $log;
 
 	var ownerId = $rootScope.userInfo.organizeId;
 	
-	vm.criteria = {
+	var enterPageByBackAction = $stateParams.backAction || false;
+	console.log(enterPageByBackAction);
+	console.log($stateParams);
+	vm.criteria = $stateParams.criteria || {
 		accountingTransactionType: 'RECEIVABLE',
 		sponsorId: ownerId
 	}
 	
-	vm.transactionModel = {
+	vm.transactionModel =  $stateParams.transactionModel || {
 		sponsorId: ownerId,
 		transactionAmount: 0.0,
+	}
+	
+	vm.tradingpartnerInfoModel = {
+			
 	}
 	
 	$scope.errors = {
@@ -25,7 +32,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
 			
 	}
 	
-	vm.documentSelects = [];
+	vm.documentSelects = $stateParams.documentSelects || [];
     vm.totalDocumentAmount = 0.00;
 	
 	vm.openDateFrom = false;
@@ -252,14 +259,14 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
                         
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             vm.transactionModel.documents = vm.documentSelects;
-            
-            PageNavigation.nextStep('/create-payment/validate-submit', {
+            var objectToSend = {
                 transactionModel: vm.transactionModel,
                 tradingpartnerInfoModel: vm.tradingpartnerInfoModel
-            },{
+            };
+            PageNavigation.nextStep('/create-payment/validate-submit', objectToSend,{
             	transactionModel: vm.transactionModel,
                 criteria: vm.criteria,
-                selectedDocuments: vm.documentSelects
+                documentSelects: vm.documentSelects
             });
         }
     }
