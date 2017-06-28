@@ -78,7 +78,33 @@ function CreatePaymentService($http, $q){
         return deffered;
     }
 
+	function getPaymentDate(transactionModel) {
+        var deffered = $q.defer();
+		console.log(transactionModel)
+
+        $http({
+        	    url :'api/v1/create-transaction/payment-dates/calculate',
+            	method: 'POST',
+            	data:{
+					sponsorId : transactionModel.sponsorId,
+					supplierId : transactionModel.supplierId,
+					documents : transactionModel.documents
+            	},
+				params: {
+					loanRequestMode : "CURRENT_AND_FUTURE"
+				}
+            })
+            .then(function(response) {
+                deffered.resolve(response);
+            })
+            .catch(function(response) {
+                deffered.reject('Cannot load payment date');
+            });
+        return deffered;
+    }
+
 	return {
+		getPaymentDate : getPaymentDate,
 		getDocument : getDocument,
 		getAccounts : getAccounts,
 		getBuyerCodes: getBuyerCodes,

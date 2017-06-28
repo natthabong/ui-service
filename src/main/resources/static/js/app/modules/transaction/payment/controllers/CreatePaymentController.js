@@ -18,6 +18,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	vm.transactionModel =  $stateParams.transactionModel || {
 		sponsorId: ownerId,
 		transactionAmount: 0.0,
+        documents : []
 	}
 	
 	vm.tradingpartnerInfoModel = {
@@ -34,6 +35,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	
 	vm.documentSelects = $stateParams.documentSelects || [];
     vm.totalDocumentAmount = 0.00;
+
+    vm.showPaymentDate = false;
 	
 	vm.openDateFrom = false;
 	vm.openDateTo = false;
@@ -156,10 +159,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	vm.pagingController = PagingController.create('api/v1/documents', vm.criteria, 'GET');
 	
 	vm.searchDocument = function(pagingModel) {
-		
 		if(_validateForSearch()){
 			var criteria = _prepareCriteria();
-			var diferred = vm.pagingController.search(pagingModel);
             var diferred = vm.pagingController.search(pagingModel);
             diferred.promise.then(function(response) {
                 vm.watchCheckAll();
@@ -188,21 +189,45 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         });
     }
 
-    function _calculateTransactionAmount(documentSelects, prepercentagDrawdown) {
+    vm.paymentDropDown = [];
+    
+    function _loadPaymentDate() {
+        vm.paymentDropDown = [];
+        vm.transactionModel.documents = vm.documentSelects;
+        vm.transactionModel.supplierId = vm.criteria.supplierId;
+        if(vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0){
+            var deffered = CreatePaymentService.getPaymentDate(vm.transactionModel);
+            deffered.promise.then(function(response) {
+                var paymentDates = response.data;
+
+                paymentDates.forEach(function(data) {
+                    vm.paymentDropDown.push({
+                        label: data,
+                        value: data
+                    })
+                });
+                vm.paymentModel = vm.paymentDropDown[0].value;
+            })
+            .catch(function(response) {
+                log.error(response);
+            });
+        }
+    }
+
+
+    function _calculateTransactionAmount(documentSelects) {
         var sumAmount = 0;
         documentSelects.forEach(function(document) {
             sumAmount += document.outstandingAmount;
         });
         vm.transactionModel.transactionAmount = sumAmount;
-        // vm.submitTransactionAmount =
-		// TransactionService.calculateTransactionAmount(sumAmount,
-		// prepercentagDrawdown);
     }
 
     vm.selectDocument = function(data) {
         vm.checkAllModel = false;
         vm.selectAllModel = false;
-        _calculateTransactionAmount(vm.documentSelects, null);
+        _calculateTransactionAmount(vm.documentSelects);
+        _loadPaymentDate();
     }
 
     vm.checkAllDocument = function() {
@@ -211,9 +236,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 var foundDataSelect = (vm.documentSelects.indexOf(document) > -1);
                 if (!foundDataSelect){
                     vm.documentSelects.push(document);
-                    _calculateTransactionAmount(vm.documentSelects, null);
-                    // calculateTransactionAmount(vm.documentSelects,
-					// vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                    _calculateTransactionAmount(vm.documentSelects);
                 }
             });            
         } else {
@@ -225,9 +248,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     }
                 }
             });
-            _calculateTransactionAmount(vm.documentSelects, null);
-            // calculateTransactionAmount(vm.documentSelects,
-			// vm.tradingpartnerInfoModel.prePercentageDrawdown);
+            _calculateTransactionAmount(vm.documentSelects);
+            _loadPaymentDate();
         }
     };
 
@@ -246,11 +268,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             var diferredDocumentAll = CreatePaymentService.getDocument(searchDocumentCriteria);
             diferredDocumentAll.promise.then(function(response){
                 vm.documentSelects = response.data;
-                _calculateTransactionAmount(vm.documentSelects, null);
-        // // calculateTransactionAmount(vm.documentSelects,
-		// vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                _calculateTransactionAmount(vm.documentSelects);
                 vm.selectAllModel = true;
                 vm.checkAllModel = true;
+                _loadPaymentDate();
             }).catch(function(response){
                 log.error('Select all document error')
             });       		
@@ -258,9 +279,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.documentSelects = [];
             vm.selectAllModel = false;
             vm.checkAllModel = false;
-            _calculateTransactionAmount(vm.documentSelects, null);
-            // calculateTransactionAmount(vm.documentSelects,
-			// vm.tradingpartnerInfoModel.prePercentageDrawdown);
+            _calculateTransactionAmount(vm.documentSelects);
+            _loadPaymentDate();
         }
     }
 
