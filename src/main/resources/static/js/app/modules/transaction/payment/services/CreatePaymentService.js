@@ -55,7 +55,31 @@ function CreatePaymentService($http, $q){
             });
         return deffered;
     }
+
+	function getDocument(searchCriteriaModel) {
+        var deffered = $q.defer();
+        $http({
+    	    url : 'api/v1/documents',
+        	method: 'GET',
+        	params: {
+				accountingTransactionType: searchCriteriaModel.accountingTransactionType,
+				supplierCode: searchCriteriaModel.buyerCode,
+				limit: searchCriteriaModel.limit,
+				offset: searchCriteriaModel.offset,
+				sponsorId: searchCriteriaModel.sponsorId,
+				supplierId: searchCriteriaModel.supplierId,
+			}
+        }).then(function(response) {
+                deffered.resolve(response);
+            })
+            .catch(function(response) {
+                deffered.reject(response);
+            });
+        return deffered;
+    }
+
 	return {
+		getDocument : getDocument,
 		getAccounts : getAccounts,
 		getBuyerCodes: getBuyerCodes,
 		getSuppliers: getSuppliers

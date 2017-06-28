@@ -20,7 +20,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
 			
 	}
 	
-	vm.documentSelects = []
+	vm.documentSelects = [];
+    vm.totalDocumentAmount = 0.00;
 	
 	vm.openDateFrom = false;
 	vm.openDateTo = false;
@@ -167,6 +168,70 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
         }).catch(function(response) {
             log.error(response);
         });
+    }
+
+    function _calculateTransactionAmount(documentSelects, prepercentagDrawdown) {
+        var sumAmount = 0;
+        documentSelects.forEach(function(document) {
+            sumAmount += document.outstandingAmount;
+        });
+        vm.totalDocumentAmount = sumAmount;
+        // vm.submitTransactionAmount = TransactionService.calculateTransactionAmount(sumAmount, prepercentagDrawdown);
+    }
+
+    vm.checkAllDocument = function() {
+        if (vm.checkAllModel) {
+            vm.pagingController.tableRowCollection.forEach(function(document) {
+                var foundDataSelect = (vm.documentSelects.indexOf(document) > -1);
+                if (!foundDataSelect){
+                    vm.documentSelects.push(document);
+                    _calculateTransactionAmount(vm.documentSelects, null);
+                    // calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                }
+            });            
+        } else {
+            vm.selectAllModel = false;
+            vm.pagingController.tableRowCollection.forEach(function(document) { 
+                for (var index = vm.documentSelects.length-1; index > -1;index--) {
+                    if(document.documentId === vm.documentSelects[index].documentId){
+                        vm.documentSelects.splice(index, 1);
+                    }
+                }
+            });
+            _calculateTransactionAmount(vm.documentSelects, null);
+            // calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+        }
+    };
+
+    vm.selectAllDocument = function() {
+        var pageSize = vm.pagingController.splitePageTxt.split("of ");
+        if(!vm.selectAllModel){
+            vm.documentSelects = [];
+            var searchDocumentCriteria = {
+                accountingTransactionType: vm.criteria.accountingTransactionType,
+                buyerCode: vm.criteria.buyerCode,
+                limit: pageSize[1],
+                offset: 0,
+                sponsorId: ownerId,
+                supplierId: vm.criteria.supplierId,
+            }
+            var diferredDocumentAll = CreatePaymentService.getDocument(searchDocumentCriteria);
+            diferredDocumentAll.promise.then(function(response){
+                vm.documentSelects = response.data;
+                _calculateTransactionAmount(vm.documentSelects, null);
+        //         // calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                vm.selectAllModel = true;
+                vm.checkAllModel = true;
+            }).catch(function(response){
+                log.error('Select all document error')
+            });       		
+        }else{
+            vm.documentSelects = [];
+            vm.selectAllModel = false;
+            vm.checkAllModel = false;
+            _calculateTransactionAmount(vm.documentSelects, null);
+            // calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+        }
     }
 	
 	var init = function(){
