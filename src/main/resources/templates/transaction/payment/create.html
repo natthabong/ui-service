@@ -90,12 +90,12 @@
 						<div>
 							<div class="row">
 								<div class="col-md-2 col-sm-2">
-									<scf-button id="select-all-page-button" class="btn-default"
+									<scf-button id="select-all-checkbox" class="btn-default"
 										ng-show="!ctrl.selectAllModel" style="height:30px;"
 										ng-click="ctrl.selectAllDocument()"> <i
 										class="fa fa-square-o" aria-hidden="true"></i> &nbsp;Select
 									all</scf-button>
-									<scf-button id="unselect-all-page-button" class="btn-default"
+									<scf-button id="unselect-all-checkbox" class="btn-default"
 										ng-show="ctrl.selectAllModel" style="height:30px;"
 										ng-click="ctrl.selectAllDocument()"> <i
 										class="fa fa-check-square-o" aria-hidden="true"></i>
@@ -147,18 +147,18 @@
 						<div id="bottom-sticker">
 							<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
 								<div class="form-horizontal">
-									<label
+									<label id="total-payment-amount-label"
 										class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b
 										ng-bind="'Total payment amount' | translate">Total payment
 											amount</b> :</label>
 									<div class="col-md-7 col-sm-7 col-lg-7 col-xs-12 control-label">
-										<span id="total-payment-amount-label"
+										<span id="total-payment-amount-value-label"
 											ng-bind="ctrl.transactionModel.transactionAmount | number: 2">0.00</span>&nbsp;
 										<span ng-bind="'THB' | translate"></span>
 									</div>
 								</div>
 								<div class="form-horizontal">
-									<label
+									<label id="buyer-account-label"
 										class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b
 										ng-bind="'Buyer account' | translate">Buyer account</b> :</label>
 									<div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
@@ -166,18 +166,18 @@
 											ng-model="ctrl.transactionModel.payerAccountId" convert-to-number="true"
 											component-data="ctrl.accountDropDown"></scf-dropdown-account>
 									</div>
-									<label
+									<label id="available-label"
 										class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b
 										ng-bind="'Available' | translate">Available</b> :</label>
 									<div class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label">
-										<span id="available-label">0.00</span>&nbsp; <span
+										<span id="available-value-label" ng-bind="null">0.00</span>&nbsp; <span
 											ng-bind="'THB' | translate"></span>
 									</div>
 									<label
 										class="col-md-12 col-sm-12 col-lg-12 col-xs-12 control-label"></label>
 								</div>
 								<div class="form-horizontal">
-									<label
+									<label id="payment-date-label"
 										class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b
 										ng-bind="'Payment date' | translate">Payment date</b> :</label>
 									<div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
