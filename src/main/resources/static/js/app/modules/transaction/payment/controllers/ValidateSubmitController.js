@@ -4,9 +4,12 @@ paymentModule.controller('ValidateSubmitController', [
     '$stateParams',
     'UIFactory',
     'PageNavigation',
+    'PagingController',
+    '$timeout',
     'SCFCommonService',
     'CreatePaymentService',
-    function($scope, $stateParams, UIFactory, PageNavigation, SCFCommonService, CreatePaymentService) {
+    function($scope, $stateParams, UIFactory, PageNavigation, 
+        PagingController, $timeout, SCFCommonService, CreatePaymentService) {
         var vm = this;
         vm.transactionModel = {};
         vm.tradingpartnerInfoModel = {};
@@ -15,6 +18,8 @@ paymentModule.controller('ValidateSubmitController', [
             vm.transactionModel = $stateParams.transactionModel;
             vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
         }
+
+        vm.pagingController = PagingController.create(vm.transactionModel.documents);
 
         vm.backToCreate = function(){
             $timeout(function(){

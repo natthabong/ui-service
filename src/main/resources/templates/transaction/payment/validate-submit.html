@@ -16,22 +16,26 @@
                     <div class="form-group">
                         <label id="supplier-label"
                             class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier' | translate}}: </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-8 col-sm-7 col-xs-12">
                             <span id="supplier-value-label"
 								  ng-bind="ctrl.tradingpartnerInfoModel.supplierName"></span>
                         </div>
-
-                        <div class="col-md-3 col-sm-2 col-hidden-xs"></div>
                     </div>
                 </div>
             </div>
 
             <div class="panel-body">
                 <div class="row">
+
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
                     <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-                        <div class="form-horizontal">
+                        <div class="form-group">
                             <label id="total-payment-amount-label"
-                                class="col-sm-2 col-md-2 col-xs-12 control-label">{{'Total Payment amount' | translate}}: </label>
+                                class="col-sm-3 col-md-3 col-xs-12 control-label">{{'Total Payment amount' | translate}}: </label>
 
                             <div class="col-sm-8 col-md-8 col-xs-12">
                                 <span id="total-payment-amount-value-label"
@@ -40,7 +44,7 @@
                             </div>
                         </div>
 
-                        <div class="form-horizontal">
+                        <div class="form-group">
                             <label id="buyer-account-label"
                                 class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Buyer account' | translate}}: </label>
                             <div class="col-md-3 col-sm-3 col-xs-12">
@@ -57,7 +61,7 @@
                             </div>
                         </div>
 
-                        <div class="form-horizontal">
+                        <div class="form-group">
                             <label id="payment-date-label"
                                 class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Payment date' | translate}}: </label>
 
@@ -70,8 +74,8 @@
                     </div>
 
                     <div class="col-md-12 text-right">
-                        <scf-button id="back-button" class="btn btn-default"  type="submit" onclick="ctrl.backToCreate()" >{{'Back' | translate}}</scf-button>
-                        <scf-button id="submit-button" class="btn btn-default" type="submit" onclick="ctrl.submitTransaction()" >{{'Submit' | translate}}</scf-button>
+                        <scf-button id="back-button" class="btn btn-default"  type="submit" ng-click="ctrl.backToCreate()" >{{'Back' | translate}}</scf-button>
+                        <scf-button id="submit-button" class="btn btn-default" type="submit" ng-click="ctrl.submitTransaction()" >{{'Submit' | translate}}</scf-button>
                     </div>
                     
                 </div>
