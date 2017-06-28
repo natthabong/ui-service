@@ -1,6 +1,6 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommonService', 'CreatePaymentService',
-		'PagingController', '$log', function($rootScope, $scope, SCFCommonService, CreatePaymentService, PagingController, $log) {
+		'PagingController', 'PageNavigation', '$log', function($rootScope, $scope, SCFCommonService, CreatePaymentService, PagingController, PageNavigation, $log) {
 	
 	var vm = this;
 	var log = $log;
@@ -10,6 +10,11 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
 	vm.criteria = {
 		accountingTransactionType: 'RECEIVABLE',
 		sponsorId: ownerId
+	}
+	
+	vm.transactionModel = {
+		sponsorId: ownerId,
+		transactionAmount: 0.0,
 	}
 	
 	$scope.errors = {
@@ -164,7 +169,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
                     value : account.accountId
                 })
             });
-            vm.accountModel = accounts[0].accountId;
+            vm.transactionModel.payerAccountId = accounts[0].accountId;
         }).catch(function(response) {
             log.error(response);
         });
@@ -176,7 +181,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
             sumAmount += document.outstandingAmount;
         });
         vm.totalDocumentAmount = sumAmount;
-        // vm.submitTransactionAmount = TransactionService.calculateTransactionAmount(sumAmount, prepercentagDrawdown);
+        // vm.submitTransactionAmount =
+		// TransactionService.calculateTransactionAmount(sumAmount,
+		// prepercentagDrawdown);
     }
 
     vm.checkAllDocument = function() {
@@ -186,7 +193,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
                 if (!foundDataSelect){
                     vm.documentSelects.push(document);
                     _calculateTransactionAmount(vm.documentSelects, null);
-                    // calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                    // calculateTransactionAmount(vm.documentSelects,
+					// vm.tradingpartnerInfoModel.prePercentageDrawdown);
                 }
             });            
         } else {
@@ -199,7 +207,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
                 }
             });
             _calculateTransactionAmount(vm.documentSelects, null);
-            // calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+            // calculateTransactionAmount(vm.documentSelects,
+			// vm.tradingpartnerInfoModel.prePercentageDrawdown);
         }
     };
 
@@ -219,7 +228,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
             diferredDocumentAll.promise.then(function(response){
                 vm.documentSelects = response.data;
                 _calculateTransactionAmount(vm.documentSelects, null);
-        //         // calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+        // // calculateTransactionAmount(vm.documentSelects,
+		// vm.tradingpartnerInfoModel.prePercentageDrawdown);
                 vm.selectAllModel = true;
                 vm.checkAllModel = true;
             }).catch(function(response){
@@ -230,10 +240,30 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
             vm.selectAllModel = false;
             vm.checkAllModel = false;
             _calculateTransactionAmount(vm.documentSelects, null);
-            // calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+            // calculateTransactionAmount(vm.documentSelects,
+			// vm.tradingpartnerInfoModel.prePercentageDrawdown);
         }
     }
-	
+    // next to page verify and submit
+    vm.nextStep = function() {
+    	if (vm.documentSelects.length === 0) {
+           // TODO: write validation when no select documents.
+        } else {
+                        
+            vm.transactionModel.supplierId = vm.criteria.supplierId;
+            vm.transactionModel.documents = vm.documentSelects;
+            
+            PageNavigation.nextStep('/create-transaction/validate-submit', {
+                transactionModel: vm.transactionModel,
+                tradingpartnerInfoModel: vm.tradingpartnerInfoModel
+            },{
+            	transactionModel: vm.transactionModel,
+                criteria: vm.criteria,
+                selectedDocuments: vm.documentSelects
+            });
+        }
+    }
+    
 	var init = function(){
 		_loadSuppliers();
         _loadAccount(ownerId);
