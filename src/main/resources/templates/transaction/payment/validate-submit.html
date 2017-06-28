@@ -27,55 +27,53 @@
             </div>
 
             <div class="panel-body">
-                <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                        <div class="form-horizontal">
+                            <label id="total-payment-amount-label"
+                                class="col-sm-2 col-md-2 col-xs-12 control-label">{{'Total Payment amount' | translate}}: </label>
 
-                    <div class="form-group">
-                        <label id="total-payment-amount-label"
-                            class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Total Payment amount' | translate}}: </label>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <span id="total-payment-amount-value-label"
-								  ng-bind="ctrl.transactionModel.transactionAmount | number:2"></span>
-                        </div>
-                        <div class="col-md-1 col-sm-1">
-                            <span ng-bind="'THB' | translate"></span>
-                        </div>
-                        <div class="col-md-4 col-sm-2 col-hidden-xs"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label id="buyer-account-label"
-                            class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Buyer account' | translate}}: </label>
-                        <div class="col-md-3 col-sm-3 col-xs-12">
-                            <span id="buyer-account-value-label"
-								  ng-bind="ctrl.transactionModel.payerAccount"></span>
+                            <div class="col-sm-8 col-md-8 col-xs-12">
+                                <span id="total-payment-amount-value-label"
+                                    ng-bind="ctrl.transactionModel.transactionAmount | number: 2">0.00</span>&nbsp;
+                                <span ng-bind="'THB' | translate"></span>
+                            </div>
                         </div>
 
-                        <label id="available-label"
-                            class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Available' | translate}}: </label>
-                        <div class="col-md-3 col-sm-3 col-xs-12">
-                            <span id="available-value-label"
-								  ng-bind="ctrl.tradingpartnerInfoModel.available | number:2"></span>
-                        </div>
-                        <div class="col-md-1 col-sm-1">
-                            <span ng-bind="'THB' | translate"></span>
-                        </div>
-                    </div>
+                        <div class="form-horizontal">
+                            <label id="buyer-account-label"
+                                class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Buyer account' | translate}}: </label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <span id="buyer-account-value-label"
+                                    ng-bind="ctrl.transactionModel.payerAccount"></span>
+                            </div>
 
-                    <div class="form-group">
-                        <label id="payment-date-label"
-                            class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Payment date' | translate}}: </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <span id="payment-date-value-label"
+                            <label id="available-label"
+                                class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Available' | translate}}: </label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <span id="available-value-label"
+                                    ng-bind="ctrl.tradingpartnerInfoModel.available | number:2"></span>&nbsp;
+                                <span ng-bind="'THB' | translate"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal">
+                            <label id="payment-date-label"
+                                class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Payment date' | translate}}: </label>
+
+                            <div class="col-sm-8 col-md-8 col-xs-12">
+                                <span id="payment-date-value-label"
 								  ng-bind="ctrl.transactionModel.transactionDate |  date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+                            </div>
                         </div>
 
-                        <div class="col-md-3 col-sm-2 col-hidden-xs"></div>
                     </div>
-                </div>
 
-                <div class="col-md-12 text-right">
-                    <scf-button id="back-button" class="btn btn-default"  type="submit" onclick="ctrl.backToCreate()" >{{'Back' | translate}}</scf-button>
-                    <scf-button id="submit-button" class="btn btn-default" type="submit" onclick="ctrl.submitTransaction()" >{{'Submit' | translate}}</scf-button>
+                    <div class="col-md-12 text-right">
+                        <scf-button id="back-button" class="btn btn-default"  type="submit" onclick="ctrl.backToCreate()" >{{'Back' | translate}}</scf-button>
+                        <scf-button id="submit-button" class="btn btn-default" type="submit" onclick="ctrl.submitTransaction()" >{{'Submit' | translate}}</scf-button>
+                    </div>
+                    
                 </div>
             </div>
 
