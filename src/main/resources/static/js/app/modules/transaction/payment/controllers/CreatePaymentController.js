@@ -253,7 +253,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             vm.transactionModel.documents = vm.documentSelects;
             
-            PageNavigation.nextStep('/create-transaction/validate-submit', {
+            PageNavigation.nextStep('/create-payment/validate-submit', {
                 transactionModel: vm.transactionModel,
                 tradingpartnerInfoModel: vm.tradingpartnerInfoModel
             },{
