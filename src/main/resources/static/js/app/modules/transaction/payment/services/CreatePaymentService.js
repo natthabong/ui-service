@@ -57,6 +57,7 @@ function CreatePaymentService($http, $q){
     }
 
 	function getDocument(searchCriteriaModel) {
+		console.log(searchCriteriaModel)
         var deffered = $q.defer();
         $http({
     	    url : 'api/v1/documents',
@@ -80,8 +81,6 @@ function CreatePaymentService($http, $q){
 
 	function getPaymentDate(transactionModel) {
         var deffered = $q.defer();
-		console.log(transactionModel)
-
         $http({
         	    url :'api/v1/create-transaction/payment-dates/calculate',
             	method: 'POST',

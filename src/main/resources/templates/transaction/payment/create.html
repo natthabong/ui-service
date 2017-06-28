@@ -29,6 +29,7 @@
 									| translate}}: </label>
 								<div class="col-md-3 col-sm-3 col-xs-12">
 									<scf-dropdown id="supplier-dropdown"
+										ng-change="ctrl.supplierChange()"
 										ng-model="ctrl.criteria.supplierId"
 										component-data="ctrl.suppliers"></scf-dropdown>
 								</div>

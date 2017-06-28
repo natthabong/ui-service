@@ -8,8 +8,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	var ownerId = $rootScope.userInfo.organizeId;
 	
 	var enterPageByBackAction = $stateParams.backAction || false;
-	console.log(enterPageByBackAction);
-	console.log($stateParams);
 	vm.criteria = $stateParams.criteria || {
 		accountingTransactionType: 'RECEIVABLE',
 		sponsorId: ownerId
@@ -34,9 +32,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	}
 	
 	vm.documentSelects = $stateParams.documentSelects || [];
-    vm.totalDocumentAmount = 0.00;
-
-    vm.showPaymentDate = false;
+    vm.selectAllModel = false;
 	
 	vm.openDateFrom = false;
 	vm.openDateTo = false;
@@ -52,7 +48,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	vm.dataTable = {
         options: {
             displaySelect: {
-                label: '<input type="checkbox" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
+                label: '<input type="checkbox" id="select-all-page-button" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
                 cssTemplate: 'text-center',
                 cellTemplate: '<input type="checkbox" checklist-model="ctrl.documentSelects" checklist-value="data" ng-click="ctrl.selectDocument(data)"/>',
                 displayPosition: 'first',
@@ -190,7 +186,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     }
 
     vm.paymentDropDown = [];
-    
+
     function _loadPaymentDate() {
         vm.paymentDropDown = [];
         vm.transactionModel.documents = vm.documentSelects;
@@ -255,6 +251,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
     vm.selectAllDocument = function() {
         var pageSize = vm.pagingController.splitePageTxt.split("of ");
+        console.log(vm.selectAllModel)
         if(!vm.selectAllModel){
             vm.documentSelects = [];
             var searchDocumentCriteria = {
@@ -265,12 +262,15 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 sponsorId: ownerId,
                 supplierId: vm.criteria.supplierId,
             }
+            console.log(searchDocumentCriteria)
             var diferredDocumentAll = CreatePaymentService.getDocument(searchDocumentCriteria);
             diferredDocumentAll.promise.then(function(response){
                 vm.documentSelects = response.data;
+                console.log(response.data)
                 _calculateTransactionAmount(vm.documentSelects);
                 vm.selectAllModel = true;
                 vm.checkAllModel = true;
+                console.log(vm.checkAllModel)
                 _loadPaymentDate();
             }).catch(function(response){
                 log.error('Select all document error')
@@ -325,8 +325,13 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 		_loadSuppliers();
         _loadAccount(ownerId);
 
-	}
-	
-	init();
+	}();
+
+    vm.supplierChange = function() {
+        vm.selectAllModel = false;
+        vm.checkAllModel = false;
+        vm.documentSelects = [];
+        _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
+    }
 	
 } ]);
