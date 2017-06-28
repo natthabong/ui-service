@@ -160,6 +160,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 		if(_validateForSearch()){
 			var criteria = _prepareCriteria();
 			var diferred = vm.pagingController.search(pagingModel);
+            var diferred = vm.pagingController.search(pagingModel);
+            diferred.promise.then(function(response) {
+                vm.watchCheckAll();
+            }).catch(function(response) {
+                log.error(response);
+            });
 			vm.showInfomation = true;
 		}
 	
@@ -187,10 +193,16 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         documentSelects.forEach(function(document) {
             sumAmount += document.outstandingAmount;
         });
-        vm.totalDocumentAmount = sumAmount;
+        vm.transactionModel.transactionAmount = sumAmount;
         // vm.submitTransactionAmount =
 		// TransactionService.calculateTransactionAmount(sumAmount,
 		// prepercentagDrawdown);
+    }
+
+    vm.selectDocument = function(data) {
+        vm.checkAllModel = false;
+        vm.selectAllModel = false;
+        _calculateTransactionAmount(vm.documentSelects, null);
     }
 
     vm.checkAllDocument = function() {
@@ -251,6 +263,24 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 			// vm.tradingpartnerInfoModel.prePercentageDrawdown);
         }
     }
+
+    vm.watchCheckAll = function() {
+        vm.checkAllModel = false;
+        var comparator = angular.equals;
+        var countRecordData = 0;
+        vm.pagingController.tableRowCollection.forEach(function(document) {
+            for (var index = vm.documentSelects.length; index--;) {
+                if (comparator(document, vm.documentSelects[index])) {
+                    countRecordData++;
+                    break;
+                }
+            }
+        });
+        if (countRecordData === vm.pagingController.tableRowCollection.length) {
+            vm.checkAllModel = true;
+        }
+    }
+
     // next to page verify and submit
     vm.nextStep = function() {
     	if (vm.documentSelects.length === 0) {
