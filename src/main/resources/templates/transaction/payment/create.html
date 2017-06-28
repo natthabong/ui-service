@@ -55,8 +55,7 @@
 									<scf-date-picker-from text-id="due-date-from-textbox"
 										button-id="due-date-from-calendar-button"
 										text-model="ctrl.criteria.dueDateFrom"
-										date-format="dd/MM/yyyy" 
-										is-open="ctrl.openDateFrom"
+										date-format="dd/MM/yyyy" is-open="ctrl.openDateFrom"
 										open-calendar-action="ctrl.openCalendarDateFrom()"
 										max-date="ctrl.criteria.dueDateTo"> </scf-date-picker-from>
 
@@ -66,8 +65,8 @@
 										class="control-label">{{'to' | translate}}: </label>
 									<scf-date-picker-to text-id="due-date-to-textbox"
 										button-id="due-date-to-calendar-button"
-										date-format="dd/MM/yyyy" 
-										text-model="ctrl.criteria.dueDateTo" is-open="ctrl.openDateTo"
+										date-format="dd/MM/yyyy" text-model="ctrl.criteria.dueDateTo"
+										is-open="ctrl.openDateTo"
 										open-calendar-action="ctrl.openCalendarDateTo()"
 										min-date="ctrl.criteria.dueDateFrom"> </scf-date-picker-to>
 								</div>
@@ -76,6 +75,16 @@
 										ng-click="ctrl.searchDocument()">Search</scf-button>
 								</div>
 							</div>
+							<div class="form-group" ng-show="errors.dueDateFrom || errors.dueDateTo">
+								<label class="col-md-2 col-sm-3 col-xs-12  control-label"></label>
+								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+									id="due-date-from-warning-message-label"
+									ng-bind="errors.dueDateFrom.message | translate"></span>
+									
+								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+									id="due-date-to-warning-message-label"
+									ng-bind="errors.dueDateTo.message | translate"></span>
+							</div>
 						</form>
 						<!-- End Payment Field-->
 						<div>
@@ -83,13 +92,13 @@
 								<div class="col-md-2 col-sm-2">
 									<scf-button id="select-all-page-button" class="btn-default"
 										ng-show="!ctrl.selectAllModel" style="height:30px;"
-										ng-click="ctrl.selectAllDocument()">
-									<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;Select
+										ng-click="ctrl.selectAllDocument()"> <i
+										class="fa fa-square-o" aria-hidden="true"></i> &nbsp;Select
 									all</scf-button>
 									<scf-button id="unselect-all-page-button" class="btn-default"
 										ng-show="ctrl.selectAllModel" style="height:30px;"
-										ng-click="ctrl.selectAllDocument()">
-									<i class="fa fa-check-square-o" aria-hidden="true"></i>
+										ng-click="ctrl.selectAllDocument()"> <i
+										class="fa fa-check-square-o" aria-hidden="true"></i>
 									&nbsp;Select all</scf-button>
 
 								</div>
@@ -102,7 +111,8 @@
 								<div class="col-md-7 col-sm-7 text-right">
 									<div class="row">
 										<div class="col-md-12 col-sm-12">
-											<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
+											<span> <b
+												ng-bind="ctrl.pagingController.splitePageTxt"
 												id="create-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 													dropdown-id="page-limit-dropdown" name="create-transaction"
 													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
@@ -139,7 +149,8 @@
 								<div class="form-horizontal">
 									<label
 										class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b
-										ng-bind="'Total payment amount' | translate">Total payment amount</b> :</label>
+										ng-bind="'Total payment amount' | translate">Total payment
+											amount</b> :</label>
 									<div class="col-md-7 col-sm-7 col-lg-7 col-xs-12 control-label">
 										<span id="Total-payment-amount-label"
 											ng-bind="ctrl.submitTransactionAmount | number: 2">0.00</span>&nbsp;
@@ -152,19 +163,18 @@
 										ng-bind="'Buyer account' | translate">Buyer account</b> :</label>
 									<div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
 										<scf-dropdown-account id="buyer-account-dropdown"
-											ng-model="ctrl.accountModel"
-											convert-to-number="true"
+											ng-model="ctrl.accountModel" convert-to-number="true"
 											component-data="ctrl.accountDropDown"></scf-dropdown-account>
 									</div>
 									<label
 										class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b
 										ng-bind="'Available' | translate">Available</b> :</label>
 									<div class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label">
-										<span id="available-label"
-											ng-bind="null">0.00</span>&nbsp;
-										<span ng-bind="'THB' | translate"></span>
+										<span id="available-label" ng-bind="null">0.00</span>&nbsp; <span
+											ng-bind="'THB' | translate"></span>
 									</div>
-									<label class="col-md-12 col-sm-12 col-lg-12 col-xs-12 control-label"></label>
+									<label
+										class="col-md-12 col-sm-12 col-lg-12 col-xs-12 control-label"></label>
 								</div>
 								<div class="form-horizontal">
 									<label

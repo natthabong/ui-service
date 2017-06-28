@@ -1,6 +1,6 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommonService', 'CreatePaymentService',
-		'PagingController','$log', function($rootScope, $scope, SCFCommonService, CreatePaymentService, PagingController,$log) {
+		'PagingController', '$log', function($rootScope, $scope, SCFCommonService, CreatePaymentService, PagingController, $log) {
 	
 	var vm = this;
 	var log = $log;
@@ -10,6 +10,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
 	vm.criteria = {
 		accountingTransactionType: 'RECEIVABLE',
 		sponsorId: ownerId
+	}
+	
+	$scope.errors = {
+			
 	}
 
 	var pageOptions = {
@@ -97,7 +101,40 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
             log.error(response);
         });
     };
+    
+    function _validateForSearch(){
+    	$scope.errors = {};
+    	var valid = true;
+    	if(!angular.isDefined(vm.criteria.dueDateFrom) || vm.criteria.dueDateFrom == null){
+            var dueDateFrom = document.getElementById("due-date-from-textbox").value;
+            if(dueDateFrom != null && dueDateFrom != ''){
+                valid = false;
+                $scope.errors.dueDateFrom = {
+                    message : 'Wrong date format data.'
+                }
+            }
+        }
+    	if(!angular.isDefined(vm.criteria.dueDateTo) || vm.criteria.dueDateTo == null){
+            var dueDateTo = document.getElementById("due-date-to-textbox").value;
+            if(dueDateTo != null && dueDateTo != ''){
+                valid = false;
+                $scope.errors.dueDateTo = {
+                    message : 'Wrong date format data.'
+                }
+            }
+        }
+    	
+    	var isDueDateFromAfterDueDateFrom = moment(vm.criteria.dueDateFrom).isAfter(vm.criteria.dueDateTo);
+    	
+    	if(isDueDateFromAfterDueDateFrom){
+    		 valid = false;
+    		 $scope.errors.dueDateFrom = {
+                 message : 'From date must be less than or equal to To date.'
+             }
+    	}
 
+    	return valid;
+    }
 	function _prepareCriteria() {
 		
 		return vm.criteria;
@@ -106,10 +143,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', 'SCFCommon
 	vm.pagingController = PagingController.create('api/v1/documents', vm.criteria, 'GET');
 	
 	vm.searchDocument = function(pagingModel) {
-
-		var criteria = _prepareCriteria();
-		var diferred = vm.pagingController.search(pagingModel);
-		vm.showInfomation = true;
+		
+		if(_validateForSearch()){
+			var criteria = _prepareCriteria();
+			var diferred = vm.pagingController.search(pagingModel);
+			vm.showInfomation = true;
+		}
 	
 	}
 
