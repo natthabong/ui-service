@@ -39,9 +39,12 @@ function CreatePaymentService($http, $q){
 	var getAccounts = function(organizeId) {
         var deffered = $q.defer();
         $http({
-        	    url :'api/v1/organize-customers/'+organizeId+'/all/account',
+        	    url :'api/v1/organize-customers/'+organizeId+'/accounts',
             	method: 'GET',
             	params:{
+					q : '',
+					offset: 0,
+					limit: 999
             	}
             })
             .then(function(response) {
