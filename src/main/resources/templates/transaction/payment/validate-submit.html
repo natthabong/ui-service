@@ -1,0 +1,84 @@
+<div id="content" th:fragment="content">       
+    <div class="panel box-shadow-none content-header">
+        <div class="panel-body">
+            <div class="col-md-12">
+                <h3 id="header-message-label" class="animated fadeInLeft">{{
+					'Validate and Submit' | translate}}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-element">
+        <div class="panel panel-default col-md-12 padding-0">
+            <div class="panel-body" style="padding-bottom: 30px;">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="form-group">
+                        <label id="supplier-label"
+                            class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier' | translate}}: </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <span id="supplier-value-label"
+								  ng-bind="ctrl.tradingpartnerInfoModel.supplierName"></span>
+                        </div>
+
+                        <div class="col-md-3 col-sm-2 col-hidden-xs"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="form-group">
+                        <label id="total-payment-amount-label"
+                            class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Total Payment amount' | translate}}: </label>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <span id="total-payment-amount-value-label"
+								  ng-bind="ctrl.transactionModel.transactionAmount | number:2"></span>
+                        </div>
+                        <div class="col-md-1 col-sm-1">
+                            <span ng-bind="'THB' | translate"></span>
+                        </div>
+                        <div class="col-md-4 col-sm-2 col-hidden-xs"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="buyer-account-label"
+                            class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Buyer account' | translate}}: </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <span id="buyer-account-value-label"
+								  ng-bind="ctrl.transactionModel.payerAccount"></span>
+                        </div>
+
+                        <label id="available-label"
+                            class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Available' | translate}}: </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <span id="available-value-label"
+								  ng-bind="ctrl.tradingpartnerInfoModel.available | number:2"></span>
+                        </div>
+                        <div class="col-md-1 col-sm-1">
+                            <span ng-bind="'THB' | translate"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="payment-date-label"
+                            class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Payment date' | translate}}: </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <span id="payment-date-value-label"
+								  ng-bind="ctrl.transactionModel.transactionDate |  date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+                        </div>
+
+                        <div class="col-md-3 col-sm-2 col-hidden-xs"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 text-right">
+                    <scf-button id="back-button" class="btn btn-default"  type="submit" onclick="ctrl.backToCreate()" >{{'Back' | translate}}</scf-button>
+                    <scf-button id="submit-button" class="btn btn-default" type="submit" onclick="ctrl.submitTransaction()" >{{'Submit' | translate}}</scf-button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
