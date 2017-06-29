@@ -185,7 +185,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             });
             vm.transactionModel.payerAccountId = accounts[0].accountId;
             vm.transactionModel.payerAccountNo = accounts[0].accountNo;
-            vm.availableAmount = accounts[0].remainingAmount - accounts[0].futureAmount - accounts[0].pendingAmount;
+            vm.availableAmount = accounts[0].remainingAmount - accounts[0].pendingAmount;
         }).catch(function(response) {
             log.error(response);
         });
@@ -195,7 +195,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	var accountId = vm.transactionModel.payerAccountId;
     	vm.accountDropDown.forEach(function(account) {
     		if(accountId == account.item.accountId){
-    			vm.availableAmount = account.item.remainingAmount - account.item.futureAmount - account.item.pendingAmount;
+    			vm.availableAmount = account.item.remainingAmount - account.item.pendingAmount;
     		}
         });    	
     }
@@ -316,6 +316,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     vm.nextStep = function() {
     	if (vm.documentSelects.length === 0) {
            // TODO: write validation when no select documents.
+    		
         } else {
                   
             vm.transactionModel.supplierId = vm.criteria.supplierId;
