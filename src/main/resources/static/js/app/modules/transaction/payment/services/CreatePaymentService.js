@@ -66,6 +66,9 @@ function CreatePaymentService($http, $q){
 				customerCode: searchCriteriaModel.customerCode,
 				limit: searchCriteriaModel.limit,
 				offset: searchCriteriaModel.offset,
+				documentStatus : searchCriteriaModel.documentStatus,
+				dueDateFrom: searchCriteriaModel.dueDateFrom,
+                dueDateTo: searchCriteriaModel.dueDateTo,
 				sponsorId: searchCriteriaModel.sponsorId,
 				supplierId: searchCriteriaModel.supplierId,
 			}
