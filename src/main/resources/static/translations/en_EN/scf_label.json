@@ -502,6 +502,7 @@
 	"FILE_NOT_FOUND":"File not found.",
 	"Process no": "Process no",
 	"payment-request": "Payment",
-	"create-payment-request": "Create payment"
+	"create-payment-request": "Create payment",
+	"payment-transaction-buyer" : "Payment transaction"
 
 }
