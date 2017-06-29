@@ -159,14 +159,17 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             }
         }
     	
-    	var isDueDateFromAfterDueDateFrom = moment(vm.criteria.dueDateFrom).isAfter(vm.criteria.dueDateTo);
+        if(angular.isDefined(vm.criteria.dueDateFrom) && angular.isDefined(vm.criteria.dueDateTo)){
+            var isDueDateFromAfterDueDateFrom = moment(vm.criteria.dueDateFrom).isAfter(vm.criteria.dueDateTo);
     	
-    	if(isDueDateFromAfterDueDateFrom){
-    		 valid = false;
-    		 $scope.errors.dueDateToLessThanFrom = {
-                 message : 'From date must be less than or equal to To date.'
-             }
-    	}
+            if(isDueDateFromAfterDueDateFrom){
+                valid = false;
+                $scope.errors.dueDateToLessThanFrom = {
+                    message : 'From date must be less than or equal to To date.'
+                }
+            }
+        }
+    	
 
     	return valid;
     }
@@ -317,6 +320,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             var searchDocumentCriteria = {
                 accountingTransactionType: vm.criteria.accountingTransactionType,
                 customerCode: vm.criteria.customerCode,
+                dueDateFrom: vm.criteria.dueDateFrom,
+                dueDateTo: vm.criteria.dueDateTo,
+                documentStatus: vm.criteria.documentStatus,
                 limit: pageSize[1],
                 offset: 0,
                 sponsorId: ownerId,
