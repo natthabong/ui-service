@@ -170,6 +170,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	
 	}
 
+	vm.availableAmount = '0.00';
     vm.accountDropDown = [];
     function _loadAccount(ownerId){
         var deffered = CreatePaymentService.getAccounts(ownerId);
@@ -178,14 +179,25 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             accounts.forEach(function(account) {
                 vm.accountDropDown.push({
                     label : account.accountNo,
-                    value : account.accountId
+                    value : account.accountId,
+                    item : account
                 })
             });
             vm.transactionModel.payerAccountId = accounts[0].accountId;
             vm.transactionModel.payerAccountNo = accounts[0].accountNo;
+            vm.availableAmount = accounts[0].remainingAmount - accounts[0].futureAmount - accounts[0].pendingAmount;
         }).catch(function(response) {
             log.error(response);
         });
+    }
+
+    vm.accountChange = function() {
+    	var accountId = vm.transactionModel.payerAccountId;
+    	vm.accountDropDown.forEach(function(account) {
+    		if(accountId == account.item.accountId){
+    			vm.availableAmount = account.item.remainingAmount - account.item.futureAmount - account.item.pendingAmount;
+    		}
+        });    	
     }
 
     vm.paymentDropDown = [];
