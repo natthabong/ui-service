@@ -158,10 +158,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	
 	vm.searchDocument = function(pagingModel) {
 		if(_validateForSearch()){
-            // clear flag data
-            vm.selectAllModel = false;
-            vm.checkAllModel = false;
-            vm.documentSelects = [];
 
 			var criteria = _prepareCriteria();
             var diferred = vm.pagingController.search(pagingModel);
