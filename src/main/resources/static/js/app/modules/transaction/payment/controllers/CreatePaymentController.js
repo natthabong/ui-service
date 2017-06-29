@@ -314,7 +314,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 }
             }
         });
-        if (countRecordData === vm.pagingController.tableRowCollection.length) {
+        if (countRecordData === vm.pagingController.tableRowCollection.length && countRecordData > 0) {
             vm.checkAllModel = true;
         }
     }
@@ -352,8 +352,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	vm.showErrorMsg = false;
         vm.selectAllModel = false;
         vm.checkAllModel = false;
-//        vm.documentSelects = [];
-//        _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
+        _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
     }
 	
 } ]);
