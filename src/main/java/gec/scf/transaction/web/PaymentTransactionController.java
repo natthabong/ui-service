@@ -12,6 +12,7 @@ import gec.scf.util.AjaxUtils;
 public class PaymentTransactionController {
 
 	private static final String PAYMENT_TRANSACTION = "transaction/payment/transaction";
+	private static final String VIEW_PAYMENT_TRANSACTION = "payment-transaction/view";
 
 	@RequestMapping(path = "/", method = RequestMethod.GET)
 	public String paymentTransaction(@RequestHeader("X-Requested-With") String requestedWith) {
@@ -19,6 +20,14 @@ public class PaymentTransactionController {
 			return PAYMENT_TRANSACTION.concat(" :: content");
 		}
 		return PAYMENT_TRANSACTION;
+	}
+	
+	@RequestMapping(path = "/view", method = RequestMethod.GET)
+	public String viewPaymentTransaction(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return VIEW_PAYMENT_TRANSACTION.concat(" :: content");
+		}
+		return VIEW_PAYMENT_TRANSACTION;
 	}
 
 }
