@@ -102,6 +102,7 @@ function CreatePaymentService($http, $q){
     }
 	
 	function submitTransaction(transactionModel){
+		var deffered = $q.defer();
         $http({
     	    url :'api/v1/create-transaction/payment/submit',
         	method: 'POST',
@@ -115,7 +116,7 @@ function CreatePaymentService($http, $q){
         .catch(function(response) {
             deffered.reject('Cannot load payment date');
         });
-    return deffered;		
+        return deffered;		
 	}
 
 	return {
