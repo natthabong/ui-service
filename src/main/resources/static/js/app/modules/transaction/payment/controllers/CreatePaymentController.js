@@ -94,6 +94,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }).catch(function(response) {
             log.error(response);
         });
+        return deffered;
     };
     
     function _loadBuyerCodes(supplierId) {
@@ -110,7 +111,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                      vm.customerCodes.push(selectObj);
                  });
             	vm.criteria.customerCode = _buyerCodes[0];
-            	vm.searchDocument();
              }
         }).catch(function(response) {
             log.error(response);
@@ -159,7 +159,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	
 	vm.searchDocument = function(pagingModel) {
 		if(_validateForSearch()){
-
 			var criteria = _prepareCriteria();
             var diferred = vm.pagingController.search(pagingModel);
             diferred.promise.then(function(response) {
@@ -170,6 +169,13 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 			vm.showInfomation = true;
 		}
 	
+	}
+	
+	vm.clearSelectDocument = function(){
+		vm.paymentDropDown = [];
+		vm.documentSelects = [];
+		vm.transactionModel.transactionAmount = '0.00';
+		vm.showErrorMsg = false;
 	}
 
     vm.accountDropDown = [];
@@ -341,7 +347,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     }
     
 	var init = function(){
-		_loadSuppliers();
+		var deffered = _loadSuppliers();		
+		deffered.promise.then(function(response){
+			if(vm.pagingController.tableRowCollection.size == undefined){	
+				vm.searchDocument();
+			}
+		});			
         _loadAccount(ownerId);
         if(vm.documentSelects.length > 0){
         	_loadPaymentDate();
