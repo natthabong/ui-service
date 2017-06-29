@@ -16,11 +16,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	vm.transactionModel =  $stateParams.transactionModel || {
 		sponsorId: ownerId,
 		transactionAmount: 0.0,
-        documents : []
+        documents : [],
+        transactionDate : null
 	}
 	
 	vm.tradingpartnerInfoModel = {
-			
+		available : '0.00'		
 	}
 	
 	$scope.errors = {
@@ -171,7 +172,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	
 	}
 
-	vm.tradingpartnerInfoModel.available = '0.00';
     vm.accountDropDown = [];
     function _loadAccount(ownerId){
         var deffered = CreatePaymentService.getAccounts(ownerId);
@@ -219,6 +219,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     })
                 });
                 vm.paymentModel = vm.paymentDropDown[0].value;
+                if(vm.transactionModel.transactionDate != null){
+                	vm.paymentModel = vm.transactionModel.transactionDate;
+                }
             })
             .catch(function(response) {
                 log.error(response);
@@ -236,6 +239,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     }
 
     vm.selectDocument = function(data) {
+    	vm.transactionModel.transactionDate = null;
         vm.checkAllModel = false;
         vm.selectAllModel = false;
         _calculateTransactionAmount(vm.documentSelects);
@@ -243,6 +247,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     }
 
     vm.checkAllDocument = function() {
+    	vm.transactionModel.transactionDate = null;
         if (vm.checkAllModel) {
             vm.pagingController.tableRowCollection.forEach(function(document) {
                 var foundDataSelect = (vm.documentSelects.indexOf(document) > -1);
@@ -266,6 +271,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     };
 
     vm.selectAllDocument = function() {
+    	vm.transactionModel.transactionDate = null;
         var pageSize = vm.pagingController.splitePageTxt.split("of ");
         if(!vm.selectAllModel){
             vm.documentSelects = [];
@@ -318,10 +324,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	if (vm.documentSelects.length === 0) {
             vm.errorMsgGroups = 'Please select document.';
             vm.showErrorMsg = true;
-        } else {
-                  
+        } else {                
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             vm.transactionModel.documents = vm.documentSelects;
+            vm.transactionModel.transactionDate = vm.paymentModel;
             var objectToSend = {
                 transactionModel: vm.transactionModel,
                 tradingpartnerInfoModel: vm.tradingpartnerInfoModel
@@ -337,7 +343,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	var init = function(){
 		_loadSuppliers();
         _loadAccount(ownerId);
-
+        if(vm.documentSelects.length > 0){
+        	_loadPaymentDate();
+        }
 	}();
 
     vm.supplierChange = function() {
