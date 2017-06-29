@@ -84,6 +84,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                      vm.suppliers.push(selectObj);
                  });
             	vm.criteria.supplierId = _suppliers[0].supplierId;
+            	vm.tradingpartnerInfoModel.supplierId = _suppliers[0].supplierId;
+            	vm.tradingpartnerInfoModel.supplierName = _suppliers[0].supplierName;
             	if(angular.isDefined(vm.criteria.supplierId)){
             		_loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
             	}
@@ -180,6 +182,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 })
             });
             vm.transactionModel.payerAccountId = accounts[0].accountId;
+            vm.transactionModel.payerAccountNo = accounts[0].accountNo;
         }).catch(function(response) {
             log.error(response);
         });
@@ -306,7 +309,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	if (vm.documentSelects.length === 0) {
            // TODO: write validation when no select documents.
         } else {
-                        
+                  
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             vm.transactionModel.documents = vm.documentSelects;
             var objectToSend = {
