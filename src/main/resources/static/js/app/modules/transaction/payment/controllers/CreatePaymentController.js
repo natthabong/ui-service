@@ -1,11 +1,13 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'CreatePaymentService',
-		'PagingController', 'PageNavigation', function($rootScope, $scope, $log, $stateParams, SCFCommonService, CreatePaymentService, PagingController, PageNavigation) {
+		'PagingController', 'PageNavigation','$cookieStore', function($rootScope, $scope, $log, $stateParams, SCFCommonService, CreatePaymentService, PagingController, PageNavigation,$cookieStore) {
 	
 	var vm = this;
 	var log = $log;
 
 	var ownerId = $rootScope.userInfo.organizeId;
+    var backAction = $stateParams.backAction;
+    var fristTime = true;
 	
 	var enterPageByBackAction = $stateParams.backAction || false;
 	vm.criteria = $stateParams.criteria || {
@@ -84,7 +86,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                      }
                      vm.suppliers.push(selectObj);
                  });
-            	vm.criteria.supplierId = _suppliers[0].supplierId;
+                if(backAction){
+                    vm.criteria.supplierId = $cookieStore.get(cookieCriteria).supplierId;
+                }else{
+                    vm.criteria.supplierId = _suppliers[0].supplierId;
+                }
+            	
             	vm.tradingpartnerInfoModel.supplierId = _suppliers[0].supplierId;
             	vm.tradingpartnerInfoModel.supplierName = _suppliers[0].supplierName;
             	if(angular.isDefined(vm.criteria.supplierId)){
@@ -110,7 +117,20 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                      }
                      vm.customerCodes.push(selectObj);
                  });
-            	vm.criteria.customerCode = _buyerCodes[0];
+                 if(backAction){
+                    vm.criteria.customerCode = $cookieStore.get(cookieCriteria).customerCode;
+                    vm.searchDocument();
+                    // clear backAction
+                    backAction = false;
+                }else{
+                    vm.criteria.customerCode = _buyerCodes[0];
+                }
+                if(fristTime){
+                    vm.display = true;
+                    vm.searchDocument();
+                    fristTime = false;
+                }
+                 
              }
         }).catch(function(response) {
             log.error(response);
@@ -156,17 +176,21 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	}
 
 	vm.pagingController = PagingController.create('api/v1/documents', vm.criteria, 'GET');
-	
+	vm.display = false;
 	vm.searchDocument = function(pagingModel) {
+        // vm.display = true;
 		if(_validateForSearch()){
 			var criteria = _prepareCriteria();
             var diferred = vm.pagingController.search(pagingModel);
             diferred.promise.then(function(response) {
+                if(!vm.display){
+                    vm.clearSelectDocument();
+                }
                 vm.watchCheckAll();
                 var pageSize = vm.pagingController.splitePageTxt.split("of ");
                 if(vm.documentSelects.length == pageSize[1] && vm.documentSelects.length > 0){
                 	vm.selectAllModel = true;
-                }                
+                }
             }).catch(function(response) {
                 log.error(response);
             });
@@ -332,6 +356,17 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
     }
 
+    var cookieCriteria = 'criteria';
+    var cookieTransactionModel = 'transactionModel';
+    var cookieDocumentSelects = 'documentSelects';
+
+    var storeCriteria = function(){
+        console.log(vm.criteria)
+        $cookieStore.put(cookieCriteria, vm.criteria);
+        $cookieStore.put(cookieTransactionModel, vm.transactionModel);
+        $cookieStore.put(cookieDocumentSelects, vm.documentSelects);
+    }
+
     // next to page verify and submit
     vm.nextStep = function() {
     	if (vm.documentSelects.length === 0) {
@@ -341,10 +376,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             vm.transactionModel.documents = vm.documentSelects;
             vm.transactionModel.transactionDate = vm.paymentModel;
+            console.log(vm.transactionModel);
             var objectToSend = {
                 transactionModel: vm.transactionModel,
                 tradingpartnerInfoModel: vm.tradingpartnerInfoModel
             };
+            storeCriteria();
             PageNavigation.nextStep('/create-payment/validate-submit', objectToSend,{
             	transactionModel: vm.transactionModel,
                 criteria: vm.criteria,
@@ -354,16 +391,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     }
     
 	var init = function(){
-		var deffered = _loadSuppliers();		
-		deffered.promise.then(function(response){
-			if(vm.pagingController.tableRowCollection.size == undefined){	
-				if(vm.documentSelects.length > 0){
-					vm.criteria = $stateParams.criteria;				
-				}
-				vm.searchDocument();
-				vm.display = true;
-			}
-		});			
+		_loadSuppliers();
         _loadAccount(ownerId);
         if(vm.documentSelects.length > 0){
         	_loadPaymentDate();
@@ -380,4 +408,5 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 		vm.showErrorMsg = false;
 		vm.display = false;
     }
+    
 } ]);
