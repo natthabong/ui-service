@@ -358,6 +358,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 		var deffered = _loadSuppliers();		
 		deffered.promise.then(function(response){
 			if(vm.pagingController.tableRowCollection.size == undefined){	
+				if(vm.documentSelects.length > 0){
+					vm.criteria = $stateParams.criteria;				
+				}
 				vm.searchDocument();
 				vm.display = true;
 			}
