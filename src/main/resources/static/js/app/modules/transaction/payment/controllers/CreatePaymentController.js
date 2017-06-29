@@ -171,7 +171,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	
 	}
 
-	vm.availableAmount = '0.00';
+	vm.tradingpartnerInfoModel.available = '0.00';
     vm.accountDropDown = [];
     function _loadAccount(ownerId){
         var deffered = CreatePaymentService.getAccounts(ownerId);
@@ -186,7 +186,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             });
             vm.transactionModel.payerAccountId = accounts[0].accountId;
             vm.transactionModel.payerAccountNo = accounts[0].accountNo;
-            vm.availableAmount = accounts[0].remainingAmount - accounts[0].pendingAmount;
+            vm.tradingpartnerInfoModel.available = accounts[0].remainingAmount - accounts[0].pendingAmount;
         }).catch(function(response) {
             log.error(response);
         });
@@ -196,7 +196,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	var accountId = vm.transactionModel.payerAccountId;
     	vm.accountDropDown.forEach(function(account) {
     		if(accountId == account.item.accountId){
-    			vm.availableAmount = account.item.remainingAmount - account.item.pendingAmount;
+    			vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
     		}
         });    	
     }
@@ -316,8 +316,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     // next to page verify and submit
     vm.nextStep = function() {
     	if (vm.documentSelects.length === 0) {
-           // TODO: write validation when no select documents.
-    		
+            vm.errorMsgGroups = 'Please select document.';
+            vm.showErrorMsg = true;
         } else {
                   
             vm.transactionModel.supplierId = vm.criteria.supplierId;
@@ -341,6 +341,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	}();
 
     vm.supplierChange = function() {
+    	vm.showErrorMsg = false;
         vm.selectAllModel = false;
         vm.checkAllModel = false;
         vm.documentSelects = [];
