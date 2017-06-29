@@ -279,6 +279,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	vm.transactionModel.transactionDate = null;
         vm.checkAllModel = false;
         vm.selectAllModel = false;
+        vm.watchCheckAll();
         _calculateTransactionAmount(vm.documentSelects);
         _loadPaymentDate();
     }
@@ -304,6 +305,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             });
             _calculateTransactionAmount(vm.documentSelects);           
         }
+        vm.watchCheckAll();
         _loadPaymentDate();
     };
 
@@ -353,6 +355,15 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         });
         if (countRecordData === vm.pagingController.tableRowCollection.length && countRecordData > 0) {
             vm.checkAllModel = true;
+        }
+        vm.watchSelectAll();
+    }
+
+    vm.watchSelectAll = function() {
+        vm.selectAllModel = false;
+        var pageSize = vm.pagingController.splitePageTxt.split("of ")[1];
+        if (vm.documentSelects.length == pageSize) {
+            vm.selectAllModel = true;
         }
     }
 
