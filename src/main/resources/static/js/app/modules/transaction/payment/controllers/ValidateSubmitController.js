@@ -36,6 +36,31 @@ paymentModule.controller('ValidateSubmitController', [
                 PageNavigation.backStep();
             }, 10);
         };
+        
+		vm.createNewAction = function(){
+			$timeout(function(){
+				PageNavigation.backStep(true);
+			}, 10);
+		};
+        
+		vm.viewRecent = function(){
+			
+			$timeout(function(){		
+				PageNavigation.gotoPage('/view-transaction', {transactionModel: vm.transactionModel, isShowViewHistoryButton: true});
+        	}, 10);
+		};
+		
+		vm.viewHistory = function(){
+			$timeout(function(){
+				PageNavigation.gotoPage('/transaction-list/supplier');
+			}, 10);
+		};
+		
+		vm.homeAction = function(){
+			$timeout(function(){
+				PageNavigation.gotoPage('/home');
+			}, 10);
+		};
 
         vm.submitTransaction = function() {
         	vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.transactionModel.transactionDate);
@@ -43,6 +68,7 @@ paymentModule.controller('ValidateSubmitController', [
 			deffered.promise.then(function(response) {
 				vm.transactionModel = response.data;
 				vm.transactionNo = vm.transactionModel.transactionNo;
+				console.log(vm.transactionNo);
 				$scope.confirmPopup = false;
 				$scope.validateDataPopup = true;
 			}).catch(function(response) {
