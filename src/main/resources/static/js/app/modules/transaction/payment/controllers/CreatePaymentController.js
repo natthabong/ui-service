@@ -171,7 +171,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	return valid;
     }
 	function _prepareCriteria() {
-		
+		vm.criteria.documentStatus = ['NEW'];
 		return vm.criteria;
 	}
 

@@ -2,6 +2,7 @@ var paymentModule = angular.module('gecscf.transaction');
 paymentModule.controller('ViewPaymentController', [
     '$scope',
     '$stateParams',
+    'UIFactory',
     'PageNavigation',
     'PagingController',
     '$timeout',

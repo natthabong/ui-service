@@ -24,5 +24,5 @@ function ViewPaymentService($http, $q) {
 
     return {
         getTransaction: getTransaction
-    }
+    };
 }
