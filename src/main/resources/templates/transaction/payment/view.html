@@ -114,15 +114,15 @@
                         </div>
                     </div>
 
-                    <!--<div>
+                    <div>
                         <div class="row">
                             <div class="col-md-12 col-sm-12 text-right">
                                 <div class="row">
                                     <div class="col-md-12 col-sm-12">
                                         <span> <b
                                             ng-bind="ctrl.pagingController.splitePageTxt"
-                                            id="view-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-                                                dropdown-id="page-limit-dropdown" name="view-transaction"
+                                            id="view-payment-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+                                                dropdown-id="page-limit-dropdown" name="view-payment"
                                                 page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
                                                 total-page="ctrl.pagingController.pagingModel.totalPage"
                                                 current-page="ctrl.pagingController.pagingModel.currentPage"
@@ -136,7 +136,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <scf-table id="create-transaction-table"
+                                <scf-table id="view-payment-table"
                                     component-config="ctrl.dataTable"
                                     component-datas="ctrl.pagingController.tableRowCollection"
                                     current-page="ctrl.pagingController.pagingModel.currentPage"
@@ -145,7 +145,7 @@
                             </div>
                             <div id="fixed-bottom" class="col-md-12"></div>
                         </div>
-                    </div>-->
+                    </div>
 
                 </div>
             </div>
@@ -165,6 +165,10 @@
                         </div>
                         
                     </div>
+                </div>
+
+                <div class="col-md-12 text-right">
+                    <scf-button id="back-button" class="btn btn-default" type="submit" ng-click="ctrl.back()">{{'Back' | translate}}</scf-button>
                 </div>
             </div>
 
