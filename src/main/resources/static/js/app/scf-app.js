@@ -496,11 +496,11 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				resolve: load(['js/app/modules/transaction/payment/services/CreatePaymentService.js','js/app/modules/transaction/payment/controllers/ValidateSubmitController.js'])
 			}).state('/payment-transaction/buyer', {
 				url: '/payment-transaction/buyer',
-				controller: 'ValidateSubmitController',
+				controller: 'PaymentTransactionController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment-transaction/',
                 params: {mode:"BUYER",transactionModel: null, backAction: false},
-				resolve: load(['js/app/modules/transaction/payment/services/CreatePaymentService.js','js/app/modules/transaction/payment/controllers/ValidateSubmitController.js'])
+				resolve: load(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',

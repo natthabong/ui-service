@@ -4,4 +4,19 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	
 	var vm = this;
 	var log = $log;
+
+    vm.criteria = $stateParams.criteria || {
+
+	}
+
+    vm.openDateFrom = false;
+	vm.openDateTo = false;
+	
+	vm.openCalendarDateFrom = function() {
+		vm.openDateFrom = true;
+	}
+
+	vm.openCalendarDateTo = function() {
+		vm.openDateTo = true;
+	}
 } ]);
