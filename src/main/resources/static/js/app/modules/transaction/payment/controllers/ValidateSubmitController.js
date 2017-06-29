@@ -38,7 +38,7 @@ paymentModule.controller('ValidateSubmitController', [
         };
 
         vm.submitTransaction = function() {
-
+        	var deffered = CreatePaymentService.submitTransaction(vm.transactionModel);
         };
 
         var init = function() {

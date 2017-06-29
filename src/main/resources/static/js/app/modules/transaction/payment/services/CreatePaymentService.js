@@ -100,12 +100,30 @@ function CreatePaymentService($http, $q){
             });
         return deffered;
     }
+	
+	function submitTransaction(transactionModel){
+        $http({
+    	    url :'api/v1/create-transaction/payment/submit',
+        	method: 'POST',
+        	data:{
+        		Transaction : transactionModel
+        	}
+        })
+        .then(function(response) {
+            deffered.resolve(response);
+        })
+        .catch(function(response) {
+            deffered.reject('Cannot load payment date');
+        });
+    return deffered;		
+	}
 
 	return {
 		getPaymentDate : getPaymentDate,
 		getDocument : getDocument,
 		getAccounts : getAccounts,
 		getBuyerCodes: getBuyerCodes,
-		getSuppliers: getSuppliers
+		getSuppliers: getSuppliers,
+		submitTransaction:submitTransaction
 	}
 }

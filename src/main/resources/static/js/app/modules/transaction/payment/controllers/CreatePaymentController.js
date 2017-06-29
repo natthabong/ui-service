@@ -278,9 +278,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     }
                 }
             });
-            _calculateTransactionAmount(vm.documentSelects);
-            _loadPaymentDate();
+            _calculateTransactionAmount(vm.documentSelects);           
         }
+        _loadPaymentDate();
     };
 
     vm.selectAllDocument = function() {
