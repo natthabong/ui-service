@@ -34,7 +34,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	
 	vm.documentSelects = $stateParams.documentSelects || [];
     vm.selectAllModel = false;
-	
+	vm.display = false;
 	vm.openDateFrom = false;
 	vm.openDateTo = false;
 	
@@ -163,6 +163,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             var diferred = vm.pagingController.search(pagingModel);
             diferred.promise.then(function(response) {
                 vm.watchCheckAll();
+                var pageSize = vm.pagingController.splitePageTxt.split("of ");
+                if(vm.documentSelects.length == pageSize[1]){
+                	vm.selectAllModel = true;
+                }                
             }).catch(function(response) {
                 log.error(response);
             });
@@ -176,6 +180,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 		vm.documentSelects = [];
 		vm.transactionModel.transactionAmount = '0.00';
 		vm.showErrorMsg = false;
+        vm.selectAllModel = false;
+        vm.checkAllModel = false;
+        vm.display = true;
 	}
 
     vm.accountDropDown = [];
@@ -351,6 +358,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 		deffered.promise.then(function(response){
 			if(vm.pagingController.tableRowCollection.size == undefined){	
 				vm.searchDocument();
+				vm.display = true;
 			}
 		});			
         _loadAccount(ownerId);
@@ -361,9 +369,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
     vm.supplierChange = function() {
     	vm.showErrorMsg = false;
-        vm.selectAllModel = false;
-        vm.checkAllModel = false;
-        _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
+    	vm.display = false;
+        _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');      
     }
 	
+    vm.customerCodeChange = function() {
+		vm.showErrorMsg = false;
+		vm.display = false;
+    }
 } ]);

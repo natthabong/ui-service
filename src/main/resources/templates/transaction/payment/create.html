@@ -42,6 +42,7 @@
 
 								<div class="col-md-3 col-sm-3 col-xs-12">
 									<scf-dropdown id="buyer-code-dropdown"
+										ng-change="ctrl.customerCodeChange()"
 										ng-model="ctrl.criteria.customerCode"
 										component-data="ctrl.customerCodes"></scf-dropdown>
 								</div>
@@ -91,7 +92,7 @@
 							</div>
 						</form>
 						<!-- End Payment Field-->
-						<div>
+						<div ng-show="ctrl.display">
 							<div class="row">
 								<div class="col-md-2 col-sm-2">
 									<scf-button id="select-all-page-button" class="btn-default"
@@ -145,7 +146,7 @@
 					</div>
 					<!-- End Column Panel-->
 				</div>
-				<div class="panel-body">
+				<div class="panel-body" ng-show="ctrl.display">
 					<div class="row">
 						<div id="bottom-sticker">
 							<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
