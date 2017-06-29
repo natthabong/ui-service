@@ -12,7 +12,7 @@ import gec.scf.util.AjaxUtils;
 public class PaymentTransactionController {
 
 	private static final String PAYMENT_TRANSACTION = "transaction/payment/transaction";
-	private static final String VIEW_PAYMENT_TRANSACTION = "payment-transaction/view";
+	private static final String VIEW_PAYMENT_TRANSACTION = "transaction/payment/view";
 
 	@RequestMapping(path = "/", method = RequestMethod.GET)
 	public String paymentTransaction(@RequestHeader("X-Requested-With") String requestedWith) {
