@@ -76,15 +76,18 @@
 										ng-click="ctrl.searchDocument()">Search</scf-button>
 								</div>
 							</div>
-							<div class="form-group"
-								ng-show="errors.dueDateFrom || errors.dueDateTo">
+							<div class="form-group" 
+								ng-show="errors.dueDateToLessThanFrom || errors.dueDateFormat">
 								<label class="col-md-2 col-sm-3 col-xs-12  control-label"></label>
 								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
-									id="due-date-warning-message-label"
-									ng-bind="errors.dueDateFrom.message | translate"></span> <span
-									class="col-md-3 col-sm-3 col-xs-12 error-msg"
-									id="due-date-to-warning-message-label"
-									ng-bind="errors.dueDateTo.message | translate"></span>
+									ng-show="errors.dueDateToLessThanFrom"
+									id="due-date-from-to-warning-message-label"
+									ng-bind="errors.dueDateToLessThanFrom.message | translate"></span>
+									
+								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+									ng-show="errors.dueDateFormat"
+									id="due-date-format-warning-message-label"
+									ng-bind="errors.dueDateFormat.message | translate"></span>
 							</div>
 						</form>
 						<!-- End Payment Field-->

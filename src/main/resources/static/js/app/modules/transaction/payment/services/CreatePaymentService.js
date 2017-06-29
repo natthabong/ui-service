@@ -57,7 +57,6 @@ function CreatePaymentService($http, $q){
     }
 
 	function getDocument(searchCriteriaModel) {
-		console.log(searchCriteriaModel)
         var deffered = $q.defer();
         $http({
     	    url : 'api/v1/documents',

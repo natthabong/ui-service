@@ -123,7 +123,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             var dueDateFrom = document.getElementById("due-date-from-textbox").value;
             if(dueDateFrom != null && dueDateFrom != ''){
                 valid = false;
-                $scope.errors.dueDateFrom = {
+                $scope.errors.dueDateFormat = {
                     message : 'Wrong date format data.'
                 }
             }
@@ -132,7 +132,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             var dueDateTo = document.getElementById("due-date-to-textbox").value;
             if(dueDateTo != null && dueDateTo != ''){
                 valid = false;
-                $scope.errors.dueDateTo = {
+                $scope.errors.dueDateFormat = {
                     message : 'Wrong date format data.'
                 }
             }
@@ -142,7 +142,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	
     	if(isDueDateFromAfterDueDateFrom){
     		 valid = false;
-    		 $scope.errors.dueDateFrom = {
+    		 $scope.errors.dueDateToLessThanFrom = {
                  message : 'From date must be less than or equal to To date.'
              }
     	}
@@ -266,7 +266,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
     vm.selectAllDocument = function() {
         var pageSize = vm.pagingController.splitePageTxt.split("of ");
-        console.log(vm.selectAllModel)
         if(!vm.selectAllModel){
             vm.documentSelects = [];
             var searchDocumentCriteria = {
@@ -277,15 +276,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 sponsorId: ownerId,
                 supplierId: vm.criteria.supplierId,
             }
-            console.log(searchDocumentCriteria)
             var diferredDocumentAll = CreatePaymentService.getDocument(searchDocumentCriteria);
             diferredDocumentAll.promise.then(function(response){
                 vm.documentSelects = response.data;
-                console.log(response.data)
                 _calculateTransactionAmount(vm.documentSelects);
                 vm.selectAllModel = true;
                 vm.checkAllModel = true;
-                console.log(vm.checkAllModel)
                 _loadPaymentDate();
             }).catch(function(response){
                 log.error('Select all document error')
