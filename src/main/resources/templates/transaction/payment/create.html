@@ -79,7 +79,7 @@
 							<div class="form-group" ng-show="errors.dueDateFrom || errors.dueDateTo">
 								<label class="col-md-2 col-sm-3 col-xs-12  control-label"></label>
 								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
-									id="due-date-from-warning-message-label"
+									id="due-date-warning-message-label"
 									ng-bind="errors.dueDateFrom.message | translate"></span>
 									
 								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
@@ -91,12 +91,12 @@
 						<div>
 							<div class="row">
 								<div class="col-md-2 col-sm-2">
-									<scf-button id="select-all-checkbox" class="btn-default"
+									<scf-button id="select-all-page-button" class="btn-default"
 										ng-show="!ctrl.selectAllModel" style="height:30px;"
 										ng-click="ctrl.selectAllDocument()"> <i
 										class="fa fa-square-o" aria-hidden="true"></i> &nbsp;Select
 									all</scf-button>
-									<scf-button id="unselect-all-checkbox" class="btn-default"
+									<scf-button id="unselect-all-page-button" class="btn-default"
 										ng-show="ctrl.selectAllModel" style="height:30px;"
 										ng-click="ctrl.selectAllDocument()"> <i
 										class="fa fa-check-square-o" aria-hidden="true"></i>

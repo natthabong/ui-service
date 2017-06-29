@@ -48,7 +48,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	vm.dataTable = {
         options: {
             displaySelect: {
-                label: '<input type="checkbox" id="select-all-page-button" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
+                label: '<input type="checkbox" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
                 cssTemplate: 'text-center',
                 cellTemplate: '<input type="checkbox" checklist-model="ctrl.documentSelects" checklist-value="data" ng-click="ctrl.selectDocument(data)"/>',
                 displayPosition: 'first',
