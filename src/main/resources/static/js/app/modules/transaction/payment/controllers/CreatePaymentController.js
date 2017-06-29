@@ -372,7 +372,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     var cookieDocumentSelects = 'documentSelects';
 
     var storeCriteria = function(){
-        console.log(vm.criteria)
         $cookieStore.put(cookieCriteria, vm.criteria);
         $cookieStore.put(cookieTransactionModel, vm.transactionModel);
         $cookieStore.put(cookieDocumentSelects, vm.documentSelects);
@@ -387,7 +386,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             vm.transactionModel.documents = vm.documentSelects;
             vm.transactionModel.transactionDate = vm.paymentModel;
-            console.log(vm.transactionModel);
             var objectToSend = {
                 transactionModel: vm.transactionModel,
                 tradingpartnerInfoModel: vm.tradingpartnerInfoModel

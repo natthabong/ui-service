@@ -43,16 +43,15 @@ paymentModule.controller('ValidateSubmitController', [
 			}, 10);
 		};
         
-		vm.viewRecent = function(){
-			
+		vm.viewRecent = function(){			
 			$timeout(function(){		
-				PageNavigation.gotoPage('/view-transaction', {transactionModel: vm.transactionModel, isShowViewHistoryButton: true});
+				PageNavigation.gotoPage('/payment-transaction/view', {transactionModel: vm.transactionModel, isShowViewHistoryButton: true});
         	}, 10);
 		};
 		
 		vm.viewHistory = function(){
-			$timeout(function(){
-				PageNavigation.gotoPage('/transaction-list/supplier');
+			$timeout(function(){		
+				PageNavigation.gotoPage('/payment-transaction/view');
 			}, 10);
 		};
 		
