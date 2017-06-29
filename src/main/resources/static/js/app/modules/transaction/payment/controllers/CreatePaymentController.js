@@ -162,7 +162,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.selectAllModel = false;
             vm.checkAllModel = false;
             vm.documentSelects = [];
-            
+
 			var criteria = _prepareCriteria();
             var diferred = vm.pagingController.search(pagingModel);
             diferred.promise.then(function(response) {
@@ -234,7 +234,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     function _calculateTransactionAmount(documentSelects) {
         var sumAmount = 0;
         documentSelects.forEach(function(document) {
-            sumAmount += document.outstandingAmount;
+            sumAmount += document.paymentAmount;
         });
         vm.transactionModel.transactionAmount = sumAmount;
     }
