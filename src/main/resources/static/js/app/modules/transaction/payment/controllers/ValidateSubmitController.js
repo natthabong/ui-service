@@ -38,7 +38,17 @@ paymentModule.controller('ValidateSubmitController', [
         };
 
         vm.submitTransaction = function() {
+        	vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.transactionModel.transactionDate);
         	var deffered = CreatePaymentService.submitTransaction(vm.transactionModel);
+			deffered.promise.then(function(response) {
+				vm.transactionModel = response.data;
+				vm.transactionNo = vm.transactionModel.transactionNo;
+				$scope.confirmPopup = false;
+				$scope.validateDataPopup = true;
+			}).catch(function(response) {
+				$scope.submitFailPopup = true;
+				vm.errorMsgPopup = response.data.errorCode;
+			});        	
         };
 
         var init = function() {

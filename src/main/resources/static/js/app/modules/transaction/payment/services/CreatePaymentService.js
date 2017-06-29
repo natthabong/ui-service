@@ -106,9 +106,7 @@ function CreatePaymentService($http, $q){
         $http({
     	    url :'api/v1/create-transaction/payment/submit',
         	method: 'POST',
-        	data:{
-        		Transaction : transactionModel
-        	}
+        	data: transactionModel
         })
         .then(function(response) {
             deffered.resolve(response);
