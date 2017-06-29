@@ -142,7 +142,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		vm.documentListCriterial = {
 			sponsorId : '',
 			supplierId : '',
-			supplierCode : '',
+			customerCode : '',
 			uploadDateFrom : undefined,
 			uploadDateTo : undefined,
 			documentNo : '',
@@ -175,7 +175,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 			vm.documentListCriterial.sponsorId = sponsorCriteria;
 			vm.documentListCriterial.supplierId = supplierCriteria;
-			vm.documentListCriterial.supplierCode = UIFactory.createCriteria(vm.documentListModel.supplierCode);
+			vm.documentListCriterial.customerCode = UIFactory.createCriteria(vm.documentListModel.supplierCode);
 
 			if (angular.isDate(vm.documentListModel.uploadDateFrom)) {
 				vm.documentListCriterial.uploadDateFrom = vm.documentListModel.uploadDateFrom

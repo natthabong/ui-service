@@ -63,7 +63,7 @@ function CreatePaymentService($http, $q){
         	method: 'GET',
         	params: {
 				accountingTransactionType: searchCriteriaModel.accountingTransactionType,
-				supplierCode: searchCriteriaModel.buyerCode,
+				customerCode: searchCriteriaModel.customerCode,
 				limit: searchCriteriaModel.limit,
 				offset: searchCriteriaModel.offset,
 				sponsorId: searchCriteriaModel.sponsorId,

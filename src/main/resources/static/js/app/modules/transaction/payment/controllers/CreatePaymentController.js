@@ -99,7 +99,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     function _loadBuyerCodes(supplierId) {
         var deffered = CreatePaymentService.getBuyerCodes(supplierId);
         deffered.promise.then(function(response) {
-        	 vm.buyerCodes = [];
+        	 vm.customerCodes = [];
              var _buyerCodes = response.data;
              if (angular.isDefined(_buyerCodes)) {
             	 _buyerCodes.forEach(function(code) {
@@ -107,9 +107,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 		 label: code,
                          value: code
                      }
-                     vm.buyerCodes.push(selectObj);
+                     vm.customerCodes.push(selectObj);
                  });
-            	vm.criteria.buyerCode = _buyerCodes[0];
+            	vm.criteria.customerCode = _buyerCodes[0];
             	vm.searchDocument();
              }
         }).catch(function(response) {
@@ -277,7 +277,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.documentSelects = [];
             var searchDocumentCriteria = {
                 accountingTransactionType: vm.criteria.accountingTransactionType,
-                buyerCode: vm.criteria.buyerCode,
+                customerCode: vm.criteria.customerCode,
                 limit: pageSize[1],
                 offset: 0,
                 sponsorId: ownerId,
@@ -352,8 +352,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	vm.showErrorMsg = false;
         vm.selectAllModel = false;
         vm.checkAllModel = false;
-        vm.documentSelects = [];
-        _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
+//        vm.documentSelects = [];
+//        _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
     }
 	
 } ]);
