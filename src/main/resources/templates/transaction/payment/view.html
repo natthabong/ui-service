@@ -168,7 +168,12 @@
                 </div>
 
                 <div class="col-md-12 text-right">
-                    <scf-button id="back-button" class="btn btn-default" type="submit" ng-click="ctrl.back()">{{'Back' | translate}}</scf-button>
+                    <scf-button id="back-button" class="btn btn-default" type="submit" 
+                    			ng-click="ctrl.back()" 
+                    			ng-show="ctrl.isShowBackButton">{{'Back' | translate}}</scf-button>
+                    <scf-button id="view-history-button" class="btn btn-default" 
+                    			ng-click="ctrl.viewHistory()" type="submit"
+								ng-show="ctrl.isShowViewHistoryButton">{{'View History' | translate}}</scf-button>
                 </div>
             </div>
 

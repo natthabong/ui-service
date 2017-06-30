@@ -13,6 +13,8 @@ paymentModule.controller('ViewPaymentController', [
 
             var vm = this;
             vm.transactionModel = $stateParams.transactionModel;
+            vm.isShowViewHistoryButton = $stateParams.isShowViewHistoryButton;
+            vm.isShowBackButton = $stateParams.isShowBackButton;
 
             vm.dataTable = {
                 columns: []
@@ -45,6 +47,10 @@ paymentModule.controller('ViewPaymentController', [
             }
 
             vm.back = function(){
+            	PageNavigation.gotoPreviousPage();
+            }
+            
+            vm.viewHistory = function(){
             	$timeout(function(){		
     				PageNavigation.gotoPage('/payment-transaction/buyer');
     			}, 10);
