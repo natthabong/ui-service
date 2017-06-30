@@ -2,9 +2,31 @@ angular.module('gecscf.transaction').factory('ApprovePaymentService',['$http', '
 function ApprovePaymentService($http, $q, blockUI){
 	
 	return {
+        approve : approve,
 		getTransaction : getTransaction,
 		getRequestForm : getRequestForm
 	}
+
+    function approve(transactionApproveModel) {
+        var deffered = $q.defer();
+        blockUI.start();
+        $http({
+            method: 'POST',
+            url: '/api/approve-transaction/approve',
+            data: transactionApproveModel
+        }).then(function(response) {
+            blockUI.stop();
+            deffered.resolve(response);
+        }).catch(function(response) {
+            blockUI.stop();
+            if(response.status == 403){
+        	$window.location.href = "/error/403";
+            }else{
+        	deffered.reject(response);
+            }
+        });
+        return deffered;
+    }
 	
     function getTransaction(transactionModel) {
         var deffered = $q.defer();

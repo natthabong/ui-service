@@ -12,6 +12,10 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 		transaction : undefined,
 		 credential: ''
 	}
+
+	var TransactionStatus = {
+		PAID: 'D'
+	}
 	
 	vm.backPage = function(){
 		$timeout(function() {
@@ -46,7 +50,7 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
         	_getRequestForm(vm.transactionApproveModel.transaction);
         	var deffered = _getTransaction(vm.transactionApproveModel.transaction);
             deffered.promise.then(function(response) {
-                vm.transaction = response.data;     
+                vm.transactionApproveModel.transaction = response.data;
             }).catch(function(response) {
                 log.error('Get transaction payment fail');
             });
@@ -59,6 +63,13 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 			result = false;
 		}
 		return result;
+	}
+
+	function printEvidence(transaction){
+		if(transaction.returnStatus === TransactionStatus.PAID){
+			return true;
+		}
+		return false;
 	}
 
 	vm.approve = function() {
