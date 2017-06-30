@@ -118,9 +118,6 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             id: 'transaction-{value}-label',
             sortData: true,
             cssTemplate: 'text-center',
-			dataRenderer: function(record){
-				return '<img style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+atob(record.sponsorLogo)+'"></img>';
-			}
         },{
 			fieldName: 'supplier',
             field: 'supplierLogo',
@@ -140,8 +137,8 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             sortData: true,
             cssTemplate: 'text-center',
         },{
-			fieldName: 'paymentDate',
-            field: 'paymentDate',
+			fieldName: 'transactionDate',
+            field: 'transactionDate',
             label: 'Payment Date',
             idValueField: 'transactionNo',
             id: 'transaction-{value}-payment-date-label',
@@ -150,8 +147,8 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             sortData: true,
             cssTemplate: 'text-center'
         },{
-			fieldName: 'paymentAmount',
-            field: 'paymentAmount',
+			fieldName: 'transactionAmount',
+            field: 'transactionAmount',
             label: 'Payment Amount',
             idValueField: 'transactionNo',
             id: 'transaction-{value}-payment-amount-label',
@@ -197,15 +194,15 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	}];
 
     vm.searchTrransaction = function(pagingModel) {
-        console.log("hi")
 		vm.pagingController.search(pagingModel);
-        console.log(vm.pagingController.tableRowCollection)
 	}
 
     vm.initLoad = function() {
 
         var buyerInfo = prepareAutoSuggestLabel(organizeInfo);
         vm.criteria.sponsor = buyerInfo;
+
+        vm.searchTrransaction();
         
 		// var backAction = $stateParams.backAction;
 
