@@ -1,0 +1,50 @@
+<div id="content" th:fragment="content"
+	sec:authorize="hasAuthority('APPROVE_PAYMENTS_OF_MY_ORGANIZE')">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="approve-payment-header" class="animated fadeInLeft"
+						ng-bind="'Approve payment' | translate">Approve
+						payment</h3>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+
+					<!-- Start Column Panel-->
+					<div class="col-md-12">
+						<b ng-bind="'contract header' | translate"></b>
+					</div>
+
+					<div class="col-md-12" block-ui="requestForm">
+						<object type="image/jpeg" id="visualizador" width="100%"
+							class="request-form"></object>
+					</div>
+
+					<div class="col-md-12">
+						<label class="checkbox-inline"> <scf-checkbox
+								ng-click="ctrl.agreeCondition()" id="confirm-checkbox"></scf-checkbox>
+							<span ng-bind="'Agree condition' | translate"
+							id="confirm-agreement-label"></span>
+						</label>
+					</div>
+					<div class="col-md-12 text-right">
+						<scf-button id="back-button" class="popup-button"
+							ng-bind="'Back' | translate" ng-click="ctrl.backPage()"></scf-button>
+						<scf-button id="reject-button" class="popup-button"
+							ng-click="ctrl.confirmRejectPopup('clear')"
+							ng-bind="'Reject' | translate"></scf-button>
+						<scf-button id="approve-button" ng-disabled="ctrl.disableButton"
+							type="submit" ng-click="ctrl.confirmPopup()"
+							ng-bind="'Approve' | translate"></scf-button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
