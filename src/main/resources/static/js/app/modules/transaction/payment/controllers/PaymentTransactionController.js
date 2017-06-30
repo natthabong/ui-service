@@ -87,7 +87,18 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         query : queryBuyerCode
 	});
 
-    vm.pagingController = PagingController.create('api/v1/list-transaction', vm.criteria, 'GET');
+    var searchModel = {
+			sponsorId : ownerId,
+			supplierId : null,
+			supplierCode : null,
+			dateFrom : null,
+			dateTo: null,
+			transactionNo : null,
+			statusGroup : '',
+			transactionType: 'PAYMENT',
+	}
+
+    vm.pagingController = PagingController.create('api/v1/list-transaction/search', searchModel, 'GET');
 
     vm.dataTable = {
         options: {
@@ -107,6 +118,9 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             id: 'transaction-{value}-label',
             sortData: true,
             cssTemplate: 'text-center',
+			dataRenderer: function(record){
+				return '<img style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+atob(record.sponsorLogo)+'"></img>';
+			}
         },{
 			fieldName: 'supplier',
             field: 'supplierLogo',
@@ -181,6 +195,12 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		label: 'All',
 		value: ''
 	}];
+
+    vm.searchTrransaction = function(pagingModel) {
+        console.log("hi")
+		vm.pagingController.search(pagingModel);
+        console.log(vm.pagingController.tableRowCollection)
+	}
 
     vm.initLoad = function() {
 

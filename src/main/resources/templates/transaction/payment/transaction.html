@@ -100,7 +100,7 @@
 								</div>
                                 <div class="col-md-3 col-sm-3">
 									<scf-button id="search-button" class="btn-default"
-										ng-click="ctrl.searchDocument();">{{'Search' |
+										ng-click="ctrl.searchTrransaction()">{{'Search' |
 									translate}}</scf-button>
 								</div>
 							</div>
@@ -117,7 +117,7 @@
                                         total-page="ctrl.pagingController.pagingModel.totalPage"
                                         current-page="ctrl.pagingController.pagingModel.currentPage"
                                         page-size-list="ctrl.pagingController.pageSizeList"
-                                        page-action="ctrl.searchDocument"></scf-pagination>
+                                        page-action="ctrl.searchTrransaction"></scf-pagination>
                                 </span>
                             </div>
                         </div>
@@ -125,7 +125,8 @@
 						<!-- Start Table-->
                         <div class="row">
                             <div class="col-md-12">
-                                <scf-table id="payment-transaction-table" component-config="ctrl.dataTable"
+                                <scf-table id="payment-transaction-table" 
+									component-config="ctrl.dataTable"
                                     component-datas="ctrl.pagingController.tableRowCollection"
                                     current-page="ctrl.pagingController.pagingModel.currentPage"
                                     record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
