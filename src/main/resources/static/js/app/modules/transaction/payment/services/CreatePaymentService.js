@@ -71,6 +71,7 @@ function CreatePaymentService($http, $q){
                 dueDateTo: searchCriteriaModel.dueDateTo,
 				sponsorId: searchCriteriaModel.sponsorId,
 				supplierId: searchCriteriaModel.supplierId,
+				showOverdue: searchCriteriaModel.showOverdue
 			}
         }).then(function(response) {
                 deffered.resolve(response);
