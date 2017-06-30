@@ -23,10 +23,10 @@
 										class="control-label">{{'from' | translate}}: </label>
 									<scf-date-picker-from text-id="transaction-date-from-textbox"
 										button-id="transaction-date-from-calendar-button"
-										text-model="ctrl.criteria.transactionDateFrom"
+										text-model="ctrl.criteria.dateFrom"
 										date-format="dd/MM/yyyy" is-open="ctrl.openDateFrom"
 										open-calendar-action="ctrl.openCalendarDateFrom()"
-										max-date="ctrl.criteria.transactionDateTo"> </scf-date-picker-from>
+										max-date="ctrl.criteria.dateTo"> </scf-date-picker-from>
 
 								</div>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
@@ -34,10 +34,10 @@
 										class="control-label">{{'to' | translate}}: </label>
 									<scf-date-picker-to text-id="transaction-date-to-textbox"
 										button-id="transaction-date-to-calendar-button"
-										date-format="dd/MM/yyyy" text-model="ctrl.criteria.transactionDateTo"
+										date-format="dd/MM/yyyy" text-model="ctrl.criteria.dateTo"
 										is-open="ctrl.openDateTo"
 										open-calendar-action="ctrl.openCalendarDateTo()"
-										min-date="ctrl.criteria.transactionDateFrom"> </scf-date-picker-to>
+										min-date="ctrl.criteria.dateFrom"> </scf-date-picker-to>
 								</div>
 							</div>
 							
@@ -47,9 +47,8 @@
 									| translate}}: </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<gec-auto-suggest id="supplier-auto-suggest"
-										disable="ctrl.disableSupplierSuggest()"
 										model="ctrl.supplierAutoSuggestModel" name="supplierCode"
-										ng-model="ctrl.transactionModel.supplier" maxlength="100"></gec-auto-suggest>
+										ng-model="ctrl.criteria.supplier" maxlength="100"></gec-auto-suggest>
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
@@ -60,9 +59,9 @@
 									| translate}}: </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<gec-auto-suggest id="buyer-auto-suggest"
-										disable="ctrl.buyerTxtDisable"
+										disable="true"
 										model="ctrl.buyerAutoSuggestModel" name="buyer"
-										ng-model="ctrl.transactionModel.sponsor" maxlength="100"></gec-auto-suggest>
+										ng-model="ctrl.criteria.sponsor" maxlength="100"></gec-auto-suggest>
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
@@ -73,7 +72,7 @@
 									code' | translate}}: </label>
 								<div class="col-md-3 col-sm-3 col-xs-12">
 									<scf-input-text id="Buyer-code-textbox"
-										ng-model="ctrl.transactionModel.buyerCode"
+										ng-model="ctrl.criteria.buyerCode"
 										maxlength="20"></scf-input-text>
 								</div>
 								<div class="hidden-lg hidden-md col-sm-12 hidden-xs">
@@ -84,7 +83,7 @@
 									no' | translate}}: </label>
 								<div class="col-md-3 col-sm-3 col-xs-12">
 									<scf-input-text id="transaction-no-textbox"
-										ng-model="ctrl.listTransactionModel.transactionNo"
+										ng-model="ctrl.criteria.transactionNo"
 										maxlength="20"></scf-input-text>
 								</div>
 							</div>
@@ -95,7 +94,7 @@
 									step' | translate}}: </label>
 								<div class="col-md-3 col-sm-3 col-xs-12">
 									<scf-dropdown id="status-step-dropdown"
-										ng-model="ctrl.listTransactionModel.statusGroup"
+										ng-model="ctrl.criteria.statusGroup"
 										component-data="ctrl.statusStepDropDown"
 										translate-label="true"></scf-dropdown>
 								</div>

@@ -1,12 +1,25 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'PaymentTransactionService',
-		'PagingController', 'PageNavigation', function($rootScope, $scope, $log, $stateParams, SCFCommonService, PaymentTransactionService, PagingController, PageNavigation) {
+		'PagingController', 'PageNavigation','UIFactory','$http', function($rootScope, $scope, $log, $stateParams, SCFCommonService, PaymentTransactionService
+        , PagingController, PageNavigation, UIFactory,$http) {
 	
 	var vm = this;
 	var log = $log;
+    var ownerId = $rootScope.userInfo.organizeId;
 
-    vm.criteria = $stateParams.criteria || {
+    var organizeInfo = {
+        organizeId : $rootScope.userInfo.organizeId,
+        organizeName : $rootScope.userInfo.organizeName
+    }
 
+    vm.criteria = {
+        dateFrom: '',
+        dateTo: '',
+        buyer: null,
+        supplier: null,
+        buyerCode: null,
+		transactionNo: null,
+        statusGroup: ''
 	}
 
     vm.openDateFrom = false;
@@ -19,9 +32,62 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	vm.openCalendarDateTo = function() {
 		vm.openDateTo = true;
 	}
-    var hiddenSponsor = false;
-    var hiddenSponsorPic = false;
-    var hiddenSupplier = false;
+
+    var prepareAutoSuggestLabel = function(item) {
+		item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
+		item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+		return item;
+	}
+
+    var querySupplierCode = function(value) {
+        var supplierCodeServiceUrl = 'api/v1/suppliers';
+        value = value = UIFactory.createCriteria(value);
+                
+        return $http.get(supplierCodeServiceUrl, {
+            params : {
+            q : value,
+            sponsorId : ownerId,
+            offset : 0,
+            limit : 5
+        }
+        }).then(function(response) {
+            return response.data.map(function(item) {
+                item.identity = [ 'supplier-', item.organizeId, '-option' ].join('');
+                item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+                return item;
+            });
+        });
+	};
+
+	vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
+        placeholder : 'Enter organize name or code',
+        itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
+        query : querySupplierCode
+	});
+
+	var queryBuyerCode = function(value) {
+        value = value = UIFactory.createCriteria(value);
+        return $http.get('api/v1/sponsors', {
+        params : {
+            q : value,
+            offset : 0,
+            limit : 5
+        }
+        }).then(function(response) {
+            return response.data.map(function(item) {
+                item = prepareAutoSuggestLabel(item);
+                return item;
+            });
+        });
+	};
+
+    vm.buyerAutoSuggestModel = UIFactory.createAutoSuggestModel({
+        placeholder : 'Please Enter organize name or code',
+        itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
+        query : queryBuyerCode
+	});
+
+    vm.pagingController = PagingController.create('api/v1/list-transaction', vm.criteria, 'GET');
 
     vm.dataTable = {
         options: {
@@ -51,6 +117,16 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             id: 'transaction-{value}-transaction-no-label',
             sortData: true,
             cssTemplate: 'text-center',
+        },{
+			fieldName: 'paymentDate',
+            field: 'paymentDate',
+            label: 'Payment Date',
+            idValueField: 'transactionNo',
+            id: 'transaction-{value}-payment-date-label',
+            filterType: 'date',
+            filterFormat: 'dd/MM/yyyy',
+            sortData: true,
+            cssTemplate: 'text-center'
         },{
 			fieldName: 'paymentAmount',
             field: 'paymentAmount',
@@ -98,75 +174,28 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		value: ''
 	}];
 
-    vm.criteria = {
-        dateFrom: '',
-        dateTo: '',
-        sponsorId: '',
-        supplierId:'',
-        supplierCode: '',
-		transactionNo:'',
-        statusGroup: '',
-        order: '',
-        orderBy:''
-    }
-	
-    // Init data paging
-    vm.pageSizeList = [{
-        label: '10',
-        value: '10'
-    }, {
-        label: '20',
-        value: '20'
-    }, {
-        label: '50',
-        value: '50'
-    }];
+    vm.initLoad = function() {
 
-    vm.pageModel = {
-        pageSizeSelectModel: '20',
-        totalRecord: 0,
-        currentPage: 0,
-		clearSortOrder: false
-    };
+        var buyerInfo = prepareAutoSuggestLabel(organizeInfo);
+        vm.criteria.sponsor = buyerInfo;
+        
+		// var backAction = $stateParams.backAction;
 
-    vm.searchTransactionService = function() {
-		// saveSearchCriteriaData();
-		var transactionModel = angular.extend(vm.listTransactionModel, {
-			page: vm.pageModel.currentPage,
-			pageSize: vm.pageModel.pageSizeSelectModel
-		});
+		// if(backAction === true){
+		// 	vm.listTransactionModel = $cookieStore.get(listStoreKey);
+		// 	vm.dateModel.dateFrom = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateFrom);
+		// 	vm.dateModel.dateTo = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateTo);			
+
+		// 	if(vm.listTransactionModel.sponsorInfo != undefined){
+				
+		// 		vm.documentListModel.sponsor = sponsorInfo;
+		// 	}
 			
-		var transactionDifferd = ListTransactionService.getTransactionDocument(transactionModel);
-		transactionDifferd.promise.then(function(response) {
-			vm.serverTime = response.headers('current-date');
-			vm.listTransactionModel.statusCode = '';
-			vm.showInfomation = true;
-			var transactionDocs = response.data;
-			vm.tableRowCollection = transactionDocs.content;
-			vm.pageModel.totalRecord = transactionDocs.totalElements;
-			vm.pageModel.totalPage = transactionDocs.totalPages;
+		// 	if(vm.listTransactionModel.supplierInfo != undefined){
+		// 		var supplierInfo = prepareAutoSuggestLabel(vm.listTransactionModel.supplierInfo);
+		// 		vm.documentListModel.supplier = supplierInfo;
+		// 	}
+		// }
+    }();
 
-			// Calculate Display page
-			vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-			vm.clearInternalStep();
-			// reset value of internal step
-            
-            if (vm.listTransactionModel.statusGroup === 'INTERNAL_STEP' || vm.listTransactionModel.statusGroup === '') {
-                var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
-                internalStepDeffered.promise.then(function(response) {
-                    var internalStemp = response.data;							
-                    if (internalStemp.length > 0) {
-                        internalStemp.forEach(function(summary) {
-                        vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
-                        vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
-                        });
-                    }						
-                }).catch(function(response) {
-                    $log.error('Internal Error');
-                });
-            }
-		}).catch(function(response) {
-			$log.error('Cannot search document');
-		});		
-    };
 } ]);
