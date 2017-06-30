@@ -100,6 +100,14 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         	expanded: true
         },
         columns: [{
+			fieldName: '$rowNo',
+            field: '$rowNo',
+            label: 'No.',
+            idValueField: 'transactionNo',
+            id: 'transaction-{value}-label',
+            sortData: true,
+            cssTemplate: 'text-center',
+        },{
 			fieldName: 'supplier',
             field: 'supplierLogo',
             label: 'Supplier',
