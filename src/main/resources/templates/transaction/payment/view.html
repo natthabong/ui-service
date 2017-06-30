@@ -35,7 +35,7 @@
 
                             <label id="transaction-type-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Transaction type' | translate}}: </label>
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="transaction-type-value-label" ng-bind="ctrl.transactionModel.transactionType"></span>
+                                <span id="transaction-type-value-label" ng-bind="ctrl.transactionModel.transactionType | translate"></span>
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                         <div class="row">
                             <label id="status-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Status' | translate}}: </label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <span id="status-value-label" ng-bind="ctrl.transactionModel.statusCode"></span>
+                                <span id="status-value-label" ng-bind="ctrl.transactionModel.statusCode | translate"></span>
                             </div>
                         </div>
                     </div>

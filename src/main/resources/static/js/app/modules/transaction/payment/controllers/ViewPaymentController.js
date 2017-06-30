@@ -22,10 +22,10 @@ paymentModule.controller('ViewPaymentController', [
 
                 var deffered = ViewPaymentService.getTransaction(vm.transactionModel);
                 deffered.promise.then(function(response){
-                    console.log(response);
-                    vm.transactionModel = angular.extend(response.data,{sponsor: vm.transactionModel.sponsor, supplier: vm.transactionModel.supplier});
+                    vm.transactionModel.supplier =  response.data.supplierOrganize.organizeName;
+                    vm.transactionModel.sponsor =  response.data.sponsorOrganize.organizeName;
                     
-                    vm.pagingController = PagingController.create(vm.transactionModel.documents);
+                    vm.pagingController = PagingController.create(response.data.documents);
                     vm.searchDocument();
                 })
                 .catch(function(response){
@@ -45,7 +45,9 @@ paymentModule.controller('ViewPaymentController', [
             }
 
             vm.back = function(){
-                PageNavigation.gotoPreviousPage();
+            	$timeout(function(){		
+    				PageNavigation.gotoPage('/payment-transaction/buyer');
+    			}, 10);
             }
 
             var init = function() {
