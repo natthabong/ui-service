@@ -374,7 +374,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     vm.watchSelectAll = function() {
         vm.selectAllModel = false;
         var pageSize = vm.pagingController.splitePageTxt.split("of ")[1];
-        if (vm.documentSelects.length == pageSize) {
+        if (vm.documentSelects.length > 0 && vm.documentSelects.length == pageSize) {
             vm.selectAllModel = true;
         }
     }
