@@ -23,6 +23,18 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 		},10);
 	};
 
+	vm.viewRecent = function(){
+		$timeout(function(){
+        	PageNavigation.gotoPage('/payment-transaction/view', {transactionModel: vm.transaction, isShowViewHistoryButton: true});
+    	}, 10);
+	};
+	
+	vm.viewHistory = function(){
+		$timeout(function(){
+			PageNavigation.gotoPage('/payment-transaction/buyer');
+		}, 10);
+	};	
+	
 	vm.confirmPopup = function() {
 		ngDialog.open({
 			template: '/js/app/approve-transactions/confirm-dialog.html',

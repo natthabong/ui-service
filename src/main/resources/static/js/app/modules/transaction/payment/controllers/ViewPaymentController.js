@@ -21,7 +21,7 @@ paymentModule.controller('ViewPaymentController', [
             };
 
             var loadTransaction = function(callback){
-
+            	console.log(vm.transactionModel);
                 var deffered = ViewPaymentService.getTransaction(vm.transactionModel);
                 deffered.promise.then(function(response){
                 	vm.transactionModel = response.data; 
