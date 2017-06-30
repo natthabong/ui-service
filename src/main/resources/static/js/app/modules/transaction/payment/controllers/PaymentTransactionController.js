@@ -188,7 +188,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			label: 'Action',
 			cssTemplate: 'text-center',
 			sortData: false,
-			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!(ctrl.verify && (data.statusCode === ctrl.statusDocuments.waitForVerify))" id="transaction-{{data.transactionNo}}-verify-button" ng-click="ctrl.verifyTransaction(data)" title="Verify"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
+			cellTemplate:
 			'<scf-button id="transaction-{{data.transactionNo}}-approve-button" ng-disabled="!(ctrl.approve &&(data.statusCode === ctrl.statusDocuments.waitForApprove))" class="btn-default gec-btn-action"  ng-click="ctrl.approveTransaction(data)" title="Approve"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
 			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-view-button" ng-disabled="{{!ctrl.canView}}" ng-click="ctrl.view(data)" title="View"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="transaction-{{data.transactionNo}}-re-check-button" class="btn-default gec-btn-action" ng-disabled="{{!(data.retriable && ctrl.canRetry)}}" ng-click="ctrl.retry(data)" title="Re-check"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
@@ -202,6 +202,24 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		value: ''
 	}];
 
+    function _loadTransactionGroup(){
+        var transactionStatusGroupDefered = PaymentTransactionService.getTransactionStatusGroups();
+        transactionStatusGroupDefered.promise.then(function(response) {
+            var transactionStatusGroupList = response.data;
+            if (transactionStatusGroupList !== undefined) {
+                transactionStatusGroupList.forEach(function(obj) {
+                    var selectObj = {
+                        label: obj.statusMessageKey,
+                        value: obj.statusGroup
+                    }
+                    vm.statusStepDropDown.push(selectObj);
+                });
+            }
+        }).catch(function(response) {
+			$log.error('Load TransactionStatusGroup Fail');
+        });    	
+    };
+
     vm.searchTrransaction = function(pagingModel) {
 		vm.pagingController.search(pagingModel);
 	}
@@ -212,7 +230,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         vm.criteria.sponsor = buyerInfo;
 
         vm.searchTrransaction();
-        
+        _loadTransactionGroup();
 		// var backAction = $stateParams.backAction;
 
 		// if(backAction === true){
