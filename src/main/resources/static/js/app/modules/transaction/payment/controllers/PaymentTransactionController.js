@@ -11,6 +11,15 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         organizeId : $rootScope.userInfo.organizeId,
         organizeName : $rootScope.userInfo.organizeName
     }
+    
+	vm.statusDocuments = {
+		waitForVerify: 'WAIT_FOR_VERIFY',
+		waitForApprove: 'WAIT_FOR_APPROVE',
+		rejectByChecker: 'REJECT_BY_CHECKER',
+		rejectByApprover: 'REJECT_BY_APPROVER',
+		canceledBySupplier: 'CANCELLED_BY_SUPPLIER',
+		rejectIncomplete: 'REJECT_INCOMPLETE'			
+   }
 
     vm.criteria = {
         dateFrom: '',
