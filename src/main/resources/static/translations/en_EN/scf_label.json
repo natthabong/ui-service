@@ -199,6 +199,7 @@
 	"internal_step": "Internal step",
 	"retriable_transaction": "Retriable transaction",
 	"future_drawdown_success": "Future drawdown success",
+	"payment_success": "Payment success",
 	
 	"_comment": "Page Upload document",
 	"Upload document": "Upload document",

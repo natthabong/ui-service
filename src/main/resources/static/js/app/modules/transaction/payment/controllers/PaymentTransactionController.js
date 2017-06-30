@@ -1,12 +1,13 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'PaymentTransactionService',
-		'PagingController', 'PageNavigation','UIFactory','$http', function($rootScope, $scope, $log, $stateParams, SCFCommonService, PaymentTransactionService
-        , PagingController, PageNavigation, UIFactory,$http) {
+		'PagingController', 'PageNavigation','UIFactory','$http', '$timeout', function($rootScope, $scope, $log, $stateParams, SCFCommonService, PaymentTransactionService
+        , PagingController, PageNavigation, UIFactory,$http, $timeout) {
 	
 	var vm = this;
 	var log = $log;
     var ownerId = $rootScope.userInfo.organizeId;
-
+    vm.sponsor = null;
+    vm.supplier = null;
     var organizeInfo = {
         organizeId : $rootScope.userInfo.organizeId,
         organizeName : $rootScope.userInfo.organizeName
@@ -20,15 +21,17 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		canceledBySupplier: 'CANCELLED_BY_SUPPLIER',
 		rejectIncomplete: 'REJECT_INCOMPLETE'			
    }
-
+    var _criteria = {};
+    
     vm.criteria = {
-        dateFrom: '',
-        dateTo: '',
-        buyer: null,
-        supplier: null,
-        buyerCode: null,
-		transactionNo: null,
-        statusGroup: ''
+			sponsorId : ownerId,
+			supplierId : null,
+			supplierCode : null,
+			dateFrom : null,
+			dateTo: null,
+			transactionNo : null,
+			statusGroup : '',
+			transactionType: 'PAYMENT'
 	}
 
     vm.openDateFrom = false;
@@ -45,10 +48,11 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     var prepareAutoSuggestLabel = function(item) {
 		item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
 		item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+		item.value = item.organizeId;
 		return item;
 	}
 
-    var querySupplierCode = function(value) {
+    var querySupplierId = function(value) {
         var supplierCodeServiceUrl = 'api/v1/suppliers';
         value = value = UIFactory.createCriteria(value);
                 
@@ -71,10 +75,10 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
         placeholder : 'Enter organize name or code',
         itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
-        query : querySupplierCode
+        query : querySupplierId
 	});
 
-	var queryBuyerCode = function(value) {
+	var queryBuyerId = function(value) {
         value = value = UIFactory.createCriteria(value);
         return $http.get('api/v1/sponsors', {
         params : {
@@ -93,21 +97,21 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     vm.buyerAutoSuggestModel = UIFactory.createAutoSuggestModel({
         placeholder : 'Please Enter organize name or code',
         itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
-        query : queryBuyerCode
+        query : queryBuyerId
 	});
 
-    var searchModel = {
-			sponsorId : ownerId,
-			supplierId : null,
-			supplierCode : null,
-			dateFrom : null,
-			dateTo: null,
-			transactionNo : null,
-			statusGroup : '',
-			transactionType: 'PAYMENT',
-	}
+// var searchModel = {
+// sponsorId : ownerId,
+// supplierId : null,
+// supplierCode : null,
+// dateFrom : null,
+// dateTo: null,
+// transactionNo : null,
+// statusGroup : '',
+// transactionType: 'PAYMENT',
+// }
 
-    vm.pagingController = PagingController.create('api/v1/list-transaction/search', searchModel, 'GET');
+    vm.pagingController = PagingController.create('api/v1/list-transaction', _criteria, 'GET');
 
     vm.dataTable = {
         options: {
@@ -188,9 +192,9 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			label: 'Action',
 			cssTemplate: 'text-center',
 			sortData: false,
-			cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!(ctrl.verify && (data.statusCode === ctrl.statusDocuments.waitForVerify))" id="transaction-{{data.transactionNo}}-verify-button" ng-click="ctrl.verifyTransaction(data)" title="Verify"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
+			cellTemplate:
 			'<scf-button id="transaction-{{data.transactionNo}}-approve-button" ng-disabled="!(ctrl.approve &&(data.statusCode === ctrl.statusDocuments.waitForApprove))" class="btn-default gec-btn-action"  ng-click="ctrl.approveTransaction(data)" title="Approve"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
-			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-view-button" ng-disabled="{{!ctrl.canView}}" ng-click="ctrl.view(data)" title="View"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
+			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-view-button" ng-click="ctrl.viewTransaction(data)" title="View"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="transaction-{{data.transactionNo}}-re-check-button" class="btn-default gec-btn-action" ng-disabled="{{!(data.retriable && ctrl.canRetry)}}" ng-click="ctrl.retry(data)" title="Re-check"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="transaction-{{data.transactionNo}}-print-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledPrint(data.returnStatus)" ng-click="ctrl.printEvidenceFormAction(data)" title="Print"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
 			'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
@@ -202,33 +206,70 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		value: ''
 	}];
 
+    function _loadTransactionGroup(){
+        var transactionStatusGroupDefered = PaymentTransactionService.getTransactionStatusGroups();
+        transactionStatusGroupDefered.promise.then(function(response) {
+            var transactionStatusGroupList = response.data;
+            if (transactionStatusGroupList !== undefined) {
+                transactionStatusGroupList.forEach(function(obj) {
+                    var selectObj = {
+                        label: obj.statusMessageKey,
+                        value: obj.statusGroup
+                    }
+                    vm.statusStepDropDown.push(selectObj);
+                });
+            }
+        }).catch(function(response) {
+			$log.error('Load TransactionStatusGroup Fail');
+        });    	
+    };
+    
+    vm.loadData = function(pagingModel){
+    	vm.pagingController.search(pagingModel);
+    }
     vm.searchTrransaction = function(pagingModel) {
-		vm.pagingController.search(pagingModel);
+    	angular.copy(vm.criteria, _criteria);
+    	if(vm.sponsor){
+    		_criteria.sponsorId = vm.sponsor.organizeId;
+    	}
+    	if(vm.supplier){
+    		_criteria.supplierId = vm.supplier.organizeId;
+    	}
+    	vm.loadData(pagingModel);
 	}
-
+    
+    vm.viewTransaction = function(transactionModel){			
+		$timeout(function(){		
+			PageNavigation.gotoPage('/payment-transaction/view', {transactionModel: transactionModel, isShowViewHistoryButton: false, isShowBackButton: true});
+    	}, 10);
+	};
+	
     vm.initLoad = function() {
 
         var buyerInfo = prepareAutoSuggestLabel(organizeInfo);
-        vm.criteria.sponsor = buyerInfo;
+        vm.sponsor = buyerInfo;
 
         vm.searchTrransaction();
-        
+        _loadTransactionGroup();
 		// var backAction = $stateParams.backAction;
 
 		// if(backAction === true){
-		// 	vm.listTransactionModel = $cookieStore.get(listStoreKey);
-		// 	vm.dateModel.dateFrom = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateFrom);
-		// 	vm.dateModel.dateTo = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateTo);			
+		// vm.listTransactionModel = $cookieStore.get(listStoreKey);
+		// vm.dateModel.dateFrom =
+		// SCFCommonService.convertStringTodate(vm.listTransactionModel.dateFrom);
+		// vm.dateModel.dateTo =
+		// SCFCommonService.convertStringTodate(vm.listTransactionModel.dateTo);
 
-		// 	if(vm.listTransactionModel.sponsorInfo != undefined){
+		// if(vm.listTransactionModel.sponsorInfo != undefined){
 				
-		// 		vm.documentListModel.sponsor = sponsorInfo;
-		// 	}
+		// vm.documentListModel.sponsor = sponsorInfo;
+		// }
 			
-		// 	if(vm.listTransactionModel.supplierInfo != undefined){
-		// 		var supplierInfo = prepareAutoSuggestLabel(vm.listTransactionModel.supplierInfo);
-		// 		vm.documentListModel.supplier = supplierInfo;
-		// 	}
+		// if(vm.listTransactionModel.supplierInfo != undefined){
+		// var supplierInfo =
+		// prepareAutoSuggestLabel(vm.listTransactionModel.supplierInfo);
+		// vm.documentListModel.supplier = supplierInfo;
+		// }
 		// }
     }();
 
