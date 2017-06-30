@@ -27,7 +27,7 @@
 
 					<div class="col-md-12">
 						<label class="checkbox-inline"> <scf-checkbox
-								ng-click="ctrl.agreeCondition()" id="confirm-checkbox"></scf-checkbox>
+								ng-model="ctrl.agreeCondition" id="confirm-checkbox"></scf-checkbox>
 							<span ng-bind="'Agree condition' | translate"
 							id="confirm-agreement-label"></span>
 						</label>
@@ -36,9 +36,9 @@
 						<scf-button id="back-button" class="popup-button"
 							ng-bind="'Back' | translate" ng-click="ctrl.backPage()"></scf-button>
 						<scf-button id="reject-button" class="popup-button"
-							ng-click="ctrl.confirmRejectPopup('clear')"
+							ng-disabled = "true"
 							ng-bind="'Reject' | translate"></scf-button>
-						<scf-button id="approve-button" ng-disabled="ctrl.disableButton"
+						<scf-button id="approve-button" ng-disabled="!ctrl.agreeCondition"
 							type="submit" ng-click="ctrl.confirmPopup()"
 							ng-bind="'Approve' | translate"></scf-button>
 					</div>
