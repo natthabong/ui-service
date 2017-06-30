@@ -175,6 +175,7 @@
 	"drawdown_fail": "Drawdown fail",
 	"drawdown_success": "Drawdown success",
 	"payment_success": "Payment success",
+	"PAYMENT_SUCCESS": "Payment success",
 	"internal_step": "Internal step",
 	"retriable_transaction": "Retriable transaction",
 	"future_drawdown_success": "Future drawdown success",
