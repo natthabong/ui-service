@@ -236,12 +236,13 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     	}, 10);
 	};
 	
+
 	vm.approveTransaction = function(data){
 //		vm.storeCriteria();
 		var params = {transaction: data};
 		PageNavigation.gotoPage('/payment-transaction/approve',params,params)
 	}
-	
+
     vm.initLoad = function() {
 
         var buyerInfo = prepareAutoSuggestLabel(organizeInfo);
