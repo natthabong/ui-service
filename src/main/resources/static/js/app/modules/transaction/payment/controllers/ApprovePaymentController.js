@@ -66,9 +66,6 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 	}
 
 	function printEvidence(transaction){
-		if(transaction.returnStatus === TransactionStatus.PAID){
-			return true;
-		}
 		return false;
 	}
 

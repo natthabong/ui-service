@@ -103,7 +103,7 @@
 								</div>
 								<div class="col-md-3 col-sm-3">
 									<scf-button id="search-button" class="btn-default"
-										ng-click="ctrl.searchTrransaction()">{{'Search' |
+										ng-click="ctrl.searchTransaction()">{{'Search' |
 									translate}}</scf-button>
 								</div>
 							</div>
@@ -155,12 +155,12 @@
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
 										<span id="wait-for-verify-record-label"
-											ng-bind="ctrl.summaryInternalStep.wait_for_verify.totalRecord"></span>&nbsp;<span
+											ng-bind="ctrl.summaryStatusGroup.wait_for_verify.totalRecord"></span>&nbsp;<span
 											ng-bind="'records' | translate"></span>
 									</div>
 									<div class="col-md-2 col-sm-2 text-right">
 										<span id="wait-for-verify-amount-label"
-											ng-bind="ctrl.summaryInternalStep.wait_for_verify.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="ctrl.summaryStatusGroup.wait_for_verify.totalAmount | number: 2"></span>&nbsp;<span
 											ng-bind="'THB' | translate"></span>
 									</div>
 									<div class="col-md-4 col-sm-1"></div>
@@ -176,12 +176,12 @@
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
 										<span id="wait-for-approve-record-label"
-											ng-bind="ctrl.summaryInternalStep.wait_for_approve.totalRecord"></span>&nbsp;<span
+											ng-bind="ctrl.summaryStatusGroup.wait_for_approve.totalRecord"></span>&nbsp;<span
 											ng-bind="'records' | translate"></span>
 									</div>
 									<div class="col-md-2 col-sm-2 text-right">
 										<span id="wait-for-approve-amount-label"
-											ng-bind="ctrl.summaryInternalStep.wait_for_approve.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="ctrl.summaryStatusGroup.wait_for_approve.totalAmount | number: 2"></span>&nbsp;<span
 											ng-bind="'THB' | translate"></span>
 									</div>
 									<div class="col-md-4 col-sm-1"></div>
@@ -198,12 +198,12 @@
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
 										<span id="reject-by-checker-record-label"
-											ng-bind="ctrl.summaryInternalStep.reject_by_checker.totalRecord"></span>&nbsp;<span
+											ng-bind="ctrl.summaryStatusGroup.reject_by_checker.totalRecord"></span>&nbsp;<span
 											ng-bind="'records' | translate"></span>
 									</div>
 									<div class="col-md-2 col-sm-2 text-right">
 										<span id="reject-by-checker-amount-label"
-											ng-bind="ctrl.summaryInternalStep.reject_by_checker.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="ctrl.summaryStatusGroup.reject_by_checker.totalAmount | number: 2"></span>&nbsp;<span
 											ng-bind="'THB' | translate"></span>
 									</div>
 									<div class="col-md-4 col-sm-1"></div>
@@ -220,12 +220,12 @@
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
 										<span id="reject-by-approver-record-label"
-											ng-bind="ctrl.summaryInternalStep.reject_by_approver.totalRecord"></span>&nbsp;<span
+											ng-bind="ctrl.summaryStatusGroup.reject_by_approver.totalRecord"></span>&nbsp;<span
 											ng-bind="'records' | translate"></span>
 									</div>
 									<div class="col-md-2 col-sm-2 text-right">
 										<span id="reject-by-approver-amount-label"
-											ng-bind="ctrl.summaryInternalStep.reject_by_approver.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="ctrl.summaryStatusGroup.reject_by_approver.totalAmount | number: 2"></span>&nbsp;<span
 											ng-bind="'THB' | translate"></span>
 									</div>
 									<div class="col-md-4 col-sm-1"></div>
@@ -242,12 +242,12 @@
 									</div>
 									<div class="col-md-1 col-sm-2 text-right">
 										<span id="cancel-by-supplier-record-label"
-											ng-bind="ctrl.summaryInternalStep.cancelled_by_supplier.totalRecord"></span>&nbsp;<span
+											ng-bind="ctrl.summaryStatusGroup.cancelled_by_supplier.totalRecord"></span>&nbsp;<span
 											ng-bind="'records' | translate"></span>
 									</div>
 									<div class="col-md-2 col-sm-2 text-right">
 										<span id="cancel-by-supplier-amount-label"
-											ng-bind="ctrl.summaryInternalStep.cancelled_by_supplier.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="ctrl.summaryStatusGroup.cancelled_by_supplier.totalAmount | number: 2"></span>&nbsp;<span
 											ng-bind="'THB' | translate"></span>
 									</div>
 									<div class="col-md-4 col-sm-1"></div>

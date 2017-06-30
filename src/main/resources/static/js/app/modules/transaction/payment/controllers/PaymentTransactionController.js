@@ -1,6 +1,6 @@
 var txnMod = angular.module('gecscf.transaction');
-txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'PaymentTransactionService',
-		'PagingController', 'PageNavigation','UIFactory','$http', '$timeout', function($rootScope, $scope, $log, $stateParams, SCFCommonService, PaymentTransactionService
+txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log', '$stateParams', 'PaymentTransactionService',
+		'PagingController', 'PageNavigation','UIFactory','$http', '$timeout', function($rootScope, $scope, $log, $stateParams, PaymentTransactionService
         , PagingController, PageNavigation, UIFactory,$http, $timeout) {
 	
 	var vm = this;
@@ -12,7 +12,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         organizeId : $rootScope.userInfo.organizeId,
         organizeName : $rootScope.userInfo.organizeName
     }
-    
+    vm.summaryStatusGroup = {};
 	vm.statusDocuments = {
 		waitForVerify: 'WAIT_FOR_VERIFY',
 		waitForApprove: 'WAIT_FOR_APPROVE',
@@ -216,10 +216,49 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         });    	
     };
     
+    function _loadSummaryOfTransaction(criteria){
+    	var deffered = PaymentTransactionService.getSummaryOfTransaction(criteria);
+    	deffered.promise.then(function(response) {
+			var summaryStatusGroup = response.data;
+			summaryStatusGroup.forEach(function(summary) {
+				if(vm.summaryStatusGroup[summary.statusMessageKey]){
+					
+					vm.summaryStatusGroup[summary.statusMessageKey].totalRecord = summary.totalRecord;
+					vm.summaryStatusGroup[summary.statusMessageKey].totalAmount = summary.totalAmount;
+				}
+			});
+		}).catch(function(response) {
+			$log.error('Summary Group Status Error');
+		});
+    }
+   _clearSummaryStatus = function(){
+		vm.summaryStatusGroup = {
+			wait_for_verify: {
+				totalRecord: 0,
+				totalAmount: 0
+			  },
+			 wait_for_approve:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			 },
+			 reject_by_checker:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			  },
+			 reject_by_approver:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			  },
+			  cancelled_by_supplier:{
+				  totalRecord: 0,
+				  totalAmount: 0              
+			  }		
+		};
+    }
     vm.loadData = function(pagingModel){
     	vm.pagingController.search(pagingModel);
     }
-    vm.searchTrransaction = function(pagingModel) {
+    vm.searchTransaction = function(pagingModel) {
     	angular.copy(vm.criteria, _criteria);
     	if(vm.sponsor){
     		_criteria.sponsorId = vm.sponsor.organizeId;
@@ -228,6 +267,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     		_criteria.supplierId = vm.supplier.organizeId;
     	}
     	vm.loadData(pagingModel);
+    	_loadSummaryOfTransaction(_criteria);
 	}
     
     vm.viewTransaction = function(transactionModel){			
@@ -237,8 +277,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	};
 	
 
-	vm.approveTransaction = function(data){
-//		vm.storeCriteria();
+	vm.approveTransaction = function(data){ 
 		var params = {transaction: data};
 		PageNavigation.gotoPage('/payment-transaction/approve',params,params)
 	}
@@ -248,28 +287,11 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         var buyerInfo = prepareAutoSuggestLabel(organizeInfo);
         vm.sponsor = buyerInfo;
 
-        vm.searchTrransaction();
+        _clearSummaryStatus();
+        
+        vm.searchTransaction();
         _loadTransactionGroup();
-		// var backAction = $stateParams.backAction;
-
-		// if(backAction === true){
-		// vm.listTransactionModel = $cookieStore.get(listStoreKey);
-		// vm.dateModel.dateFrom =
-		// SCFCommonService.convertStringTodate(vm.listTransactionModel.dateFrom);
-		// vm.dateModel.dateTo =
-		// SCFCommonService.convertStringTodate(vm.listTransactionModel.dateTo);
-
-		// if(vm.listTransactionModel.sponsorInfo != undefined){
-				
-		// vm.documentListModel.sponsor = sponsorInfo;
-		// }
-			
-		// if(vm.listTransactionModel.supplierInfo != undefined){
-		// var supplierInfo =
-		// prepareAutoSuggestLabel(vm.listTransactionModel.supplierInfo);
-		// vm.documentListModel.supplier = supplierInfo;
-		// }
-		// }
+       
     }();
 
 } ]);

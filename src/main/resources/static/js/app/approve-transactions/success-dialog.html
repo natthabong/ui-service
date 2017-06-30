@@ -1,55 +1,63 @@
 <div class="modal-content">
-		<div class="modal-header">
-			<div class="row">
-				<div class="col-md-2 col-sm-2 col-xs-3">
-					<image width="70" height="70" ng-src="img/success-icon.png"></image>
-				</div>
-				<div class="col-md-10 col-sm-10 col-xs-9">
-					<h2>
-					 <span id="approve-success-label" class="gec-pop-up-font-size-green"
-						ng-bind="'Approve success' | translate">Approve success</span></h2>
-				</div>
+	<div class="modal-header">
+		<div class="row">
+			<div class="col-md-2 col-sm-2 col-xs-3">
+				<image width="70" height="70" ng-src="img/success-icon.png"></image>
+			</div>
+			<div class="col-md-10 col-sm-10 col-xs-9">
+				<h2>
+					<span id="approve-success-label" class="gec-pop-up-font-size-green"
+						ng-bind="'Approve success' | translate">Approve success</span>
+				</h2>
 			</div>
 		</div>
-		<div class="modal-body">
-			<div class="row">
-				<div class="col-md-2 col-sm-2"></div>
-				<div class="col-md-10 col-sm-10 col-xs-12">
-					<div class="row">
-						<div class="col-xs-5 col-md-4 col-sm-4">
-							<b class="gec-pop-up-font-size"
-								ng-bind="'Transaction no.' | translate">Transaction No.:</b>
-						</div>
-						<div class="col-xs-7 col-md-8 col-sm-8">
-							<span id="transaction-no-label" class="gec-pop-up-font-size"
-								ng-bind="ctrl.transaction.transactionNo"></span> &nbsp;&nbsp; <a
-								style="cursor: pointer;" ng-click="ctrl.printEvidenceFormAction()"
-								ng-show="ctrl.showEvidenceForm"><i class="fa fa-print"
-								aria-hidden="true"></i></a>
-						</div>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-2 col-sm-2"></div>
+			<div class="col-md-10 col-sm-10 col-xs-12">
+				<div class="row">
+					<div class="col-xs-5 col-md-4 col-sm-4">
+						<b class="gec-pop-up-font-size"
+							ng-bind="'Transaction no.' | translate">Transaction No.:</b>
 					</div>
-					<div class="row">
-						<div class="col-xs-5 col-md-4 col-sm-4">
-							<span ng-bind="'Result' | translate"></span>:
-						</div>
-						<div class="col-xs-7 col-md-8 col-sm-8">
-							<span id="result-label"
-								ng-bind="ctrl.transaction.statusMessageKey | translate"></span>
-						</div>
+					<div class="col-xs-7 col-md-8 col-sm-8">
+						<span id="transaction-no-label" class="gec-pop-up-font-size"
+							ng-bind="ctrl.transaction.transactionNo"></span> &nbsp;&nbsp; <a
+							style="cursor: pointer;"
+							ng-click="ctrl.printEvidenceFormAction()"
+							ng-show="ctrl.showEvidenceForm"><i class="fa fa-print"
+							aria-hidden="true"></i></a>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<div class="row">
-				<div class="col-xs-12 text-right">
-					<scf-button id="approve-back-button" class="popup-button" data-dismiss="modal"
-						ng-bind="'Back' | translate" ng-click="closeThisDialog();ctrl.backPage()"></scf-button>
-					<scf-button id="view-recent-button" class="popup-button hidden-sm hidden-xs" data-dismiss="modal"
-						ng-click="closeThisDialog();ctrl.viewRecent()" ng-bind="'View recent' | translate"></scf-button>
-					<scf-button id="view-history-button" class="popup-button hidden-sm hidden-xs" data-dismiss="modal"
-						ng-click="closeThisDialog();ctrl.viewHistory()" ng-bind="'View history' | translate"></scf-button>
+				<div class="row">
+					<div class="col-xs-5 col-md-4 col-sm-4">
+						<span ng-bind="'Result' | translate"></span>:
+					</div>
+					<div class="col-xs-7 col-md-8 col-sm-8">
+						<span id="result-label"
+							ng-bind="ctrl.transaction.statusMessageKey | translate"></span>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-xs-12 text-right">
+				<scf-button id="approve-back-button" class="popup-button"
+					data-dismiss="modal" ng-hide="ctrl.transaction.returnStatus =='D'"
+					ng-bind="'Back' | translate"
+					ng-click="closeThisDialog();ctrl.backPage()"></scf-button>
+				<scf-button id="view-recent-button"
+					class="popup-button hidden-sm hidden-xs" data-dismiss="modal"
+					ng-click="closeThisDialog();ctrl.viewRecent()"
+					ng-bind="'View recent' | translate"></scf-button>
+				<scf-button id="view-history-button"
+					class="popup-button hidden-sm hidden-xs" data-dismiss="modal"
+					ng-click="closeThisDialog();ctrl.viewHistory()"
+					ng-bind="'View history' | translate"></scf-button>
+			</div>
+		</div>
+	</div>
+</div>
