@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import gec.scf.util.AjaxUtils;
 
 @Controller
-@RequestMapping("/payment")
+@RequestMapping("/payment-transaction")
 public class ApprovePaymentController {
 	private String APPROVE_PAYMENT_TRANSACTION = "transaction/payment/approve";
 

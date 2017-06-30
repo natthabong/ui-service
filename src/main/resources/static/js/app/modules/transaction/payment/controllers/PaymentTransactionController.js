@@ -196,6 +196,12 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 		}]
     };
+    
+	vm.approveTransaction = function(data){
+//		vm.storeCriteria();
+		var params = {transaction: data};
+		PageNavigation.gotoPage('/payment-transaction/approve',params,params)
+	}
 
     vm.statusStepDropDown = [{
 		label: 'All',

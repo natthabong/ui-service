@@ -1,5 +1,5 @@
 var txnMod = angular.module('gecscf.transaction');
-txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'ApprovePaymentService' function($rootScope, $scope, $log, $stateParams, SCFCommonService, ApprovePaymentService) {
+txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'ApprovePaymentService', function($rootScope, $scope, $log, $stateParams, SCFCommonService, ApprovePaymentService) {
 
 	var vm = this;
 	
