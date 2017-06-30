@@ -146,7 +146,8 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			uploadDateFrom : undefined,
 			uploadDateTo : undefined,
 			documentNo : '',
-			documentStatus : undefined
+			documentStatus : undefined,
+			showOverdue : true
 		}
 
 		vm.initLoad = function() {

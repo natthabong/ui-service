@@ -15,7 +15,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	vm.criteria = $stateParams.criteria || {
 		accountingTransactionType: 'RECEIVABLE',
 		sponsorId: ownerId,
-		documentStatus: 'NEW'
+		documentStatus: 'NEW',
+		showOverdue: false
 	}
 	
 	vm.transactionModel =  $stateParams.transactionModel || {
@@ -174,7 +175,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	return valid;
     }
 	function _prepareCriteria() {
-		console.log(_criteria);
 		angular.copy(vm.criteria, _criteria);
 		
 	}
@@ -332,6 +332,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 offset: 0,
                 sponsorId: ownerId,
                 supplierId: _criteria.supplierId,
+                showOverdue: false
             }
             var diferredDocumentAll = CreatePaymentService.getDocument(searchDocumentCriteria);
             diferredDocumentAll.promise.then(function(response){
