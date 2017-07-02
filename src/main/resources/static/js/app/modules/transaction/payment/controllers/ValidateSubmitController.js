@@ -134,7 +134,7 @@ paymentModule.controller('ValidateSubmitController', [
             }
 
 
-            if (vm.transactionModel.payerAccountNo != 'LOAN') {
+            if (vm.transactionModel.payerAccountNo != 'TERM_LOAN') {
                 vm.isLoanPayment = false;
             }
         }();
