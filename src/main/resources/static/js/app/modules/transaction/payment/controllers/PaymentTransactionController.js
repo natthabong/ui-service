@@ -214,13 +214,16 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         var transactionStatusGroupDefered = PaymentTransactionService.getTransactionStatusGroups();
         transactionStatusGroupDefered.promise.then(function(response) {
             var transactionStatusGroupList = response.data;
+            console.log(transactionStatusGroupList)
             if (transactionStatusGroupList !== undefined) {
                 transactionStatusGroupList.forEach(function(obj) {
-                    var selectObj = {
-                        label: obj.statusMessageKey,
-                        value: obj.statusGroup
+                    if(obj.statusGroup != "DRAWDOWN_SUCCESS" && obj.statusGroup != "DRAWDOWN_FAIL"){
+                        var selectObj = {
+                            label: obj.statusMessageKey,
+                            value: obj.statusGroup
+                        }
+                        vm.statusStepDropDown.push(selectObj);
                     }
-                    vm.statusStepDropDown.push(selectObj);
                 });
             }
         }).catch(function(response) {
