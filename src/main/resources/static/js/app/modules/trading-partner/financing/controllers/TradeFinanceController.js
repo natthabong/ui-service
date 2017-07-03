@@ -336,6 +336,8 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                         var msg = {
                             404 : "Trade finance has been deleted.",
                             405 : "Trade finance has been used.",
+                            409 : "Trade finance is existed.",
+                            400 : "Invalid account number."
                         }
                         UIFactory.showFailDialog({
                             data : {
