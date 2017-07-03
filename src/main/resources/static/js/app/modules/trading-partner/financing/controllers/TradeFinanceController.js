@@ -134,7 +134,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             if(!angular.isObject(vm.tradeFinanceModel.financeAccount)){
                 valid = false;
                 $scope.errors.financeAccount = {
-                    message : 'Finance account is required.'
+                    message : 'Loan account is required.'
                 }
             }
 

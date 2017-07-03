@@ -31,7 +31,7 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 				},{
 					fieldName : 'accountNo',
 					field : 'accountNo',
-					label : 'Finance account',
+					label : 'Loan account',
 					idValueField : 'template',
 					id : 'finance-account-{value}-label',
 					sortable : false,

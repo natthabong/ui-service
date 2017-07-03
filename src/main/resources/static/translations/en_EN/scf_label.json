@@ -508,6 +508,8 @@
 	"payment-request": "Payment",
 	"create-payment-request": "Create payment",
 	"payment-transaction-buyer" : "Payment transaction",
-	"PAYMENT": "Payment"
+	"PAYMENT": "Payment",
+	
+	"Loan account": "Loan account"
 
 }
