@@ -7,7 +7,8 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
     var currentParty = '';
     var partyRole = {
 			sponsor : 'sponsor',
-			bank : 'bank'
+			bank : 'bank',
+			supplier : 'supplier'
 	}
     
     vm.errorMsgKey = '';
@@ -186,6 +187,9 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 		if(currentParty == partyRole.bank){
 			sponsorConfigId = 'MASTER';
 			vm.showSuccessTotalAmount = false;
+		}
+		else if(currentParty == partyRole.supplier){
+			sponsorConfigId = 'BFP';
 		}
 		vm.getFileType(sponsorConfigId);
 	}

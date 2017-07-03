@@ -204,6 +204,7 @@
 	"Data correction needed": "ข้อมูลที่ต้องการแก้ไข",
 	"Total amount": "Total amount",
 	"upload-document-bank": "Upload document",
+	"upload-document-supplier": "Upload document",
 	
 	"organize": "Organize",
 	"organize-list": "Organize list",
@@ -211,6 +212,7 @@
 	"Document list": "Document list",
 	"document-list-sponsor": "Document list",
 	"document-supplier": "Document",
+	"document-ar-supplier": "Document",
 	"document-list-supplier": "Document list",
 	"document-bank": "Document",
 	"document-list-bank": "Document list",
