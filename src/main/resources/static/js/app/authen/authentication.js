@@ -191,8 +191,15 @@
                     callback();
                     deffered.resolve(response);
                 }).catch(function(response) {
-                    blockUI.stop();
-                    deffered.reject(response);
+                    
+                    switch (response.status) {
+                    	case 401:
+                    		blockUI.stop();
+                    		response.status = 200;
+                            callback();
+                            deffered.resolve(response);
+                    		break;
+                    }
                 })
             
             /* Use this for real authentication
