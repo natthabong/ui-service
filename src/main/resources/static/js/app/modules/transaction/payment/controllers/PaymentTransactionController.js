@@ -214,7 +214,6 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         var transactionStatusGroupDefered = PaymentTransactionService.getTransactionStatusGroups();
         transactionStatusGroupDefered.promise.then(function(response) {
             var transactionStatusGroupList = response.data;
-            console.log(transactionStatusGroupList)
             if (transactionStatusGroupList !== undefined) {
                 transactionStatusGroupList.forEach(function(obj) {
                     if(obj.statusGroup != "DRAWDOWN_SUCCESS" && obj.statusGroup != "DRAWDOWN_FAIL" && obj.statusGroup != "WAIT_FOR_DRAWDOWN_RESULT"){
