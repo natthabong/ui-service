@@ -1,5 +1,5 @@
-angular.module('gecscf.transaction').factory('ApprovePaymentService',['$http', '$q','blockUI', ApprovePaymentService]);
-function ApprovePaymentService($http, $q, blockUI){
+angular.module('gecscf.transaction').factory('ApprovePaymentService',['$http', '$q','blockUI','$window', ApprovePaymentService]);
+function ApprovePaymentService($http, $q, blockUI,$window){
 	
 	return {
         approve : approve,
