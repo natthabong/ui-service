@@ -7,11 +7,12 @@ paymentModule.controller('ViewPaymentController', [
     'PagingController',
     '$timeout',
     'SCFCommonService',
-    'ViewPaymentService',
+    'ViewPaymentService','$log',
     function($scope, $stateParams, UIFactory, PageNavigation, 
-        PagingController, $timeout, SCFCommonService, ViewPaymentService) {
+        PagingController, $timeout, SCFCommonService, ViewPaymentService,$log) {
 
             var vm = this;
+            var log = $log;
             vm.transactionModel = $stateParams.transactionModel;
             vm.isShowViewHistoryButton = $stateParams.isShowViewHistoryButton;
             vm.isShowBackButton = $stateParams.isShowBackButton;
@@ -34,7 +35,7 @@ paymentModule.controller('ViewPaymentController', [
                     
                 })
                 .catch(function(response){
-                    console.log('view payment load error');
+                    log.error('view payment load error');
                 })
             }
 

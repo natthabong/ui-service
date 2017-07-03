@@ -295,7 +295,10 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 
 	vm.approveTransaction = function(data){ 
 		var params = {transaction: data};
-		PageNavigation.gotoPage('/payment-transaction/approve',params,params)
+        $timeout(function(){
+		    PageNavigation.nextStep('/payment-transaction/approve',params,
+            {criteria : _criteria,buyer : _sponsor,supplier : _supplier})
+        }, 10);
 	}
 
     vm.initLoad = function() {

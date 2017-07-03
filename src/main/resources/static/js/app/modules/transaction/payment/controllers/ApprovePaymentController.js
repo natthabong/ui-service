@@ -18,9 +18,9 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 	}
 	
 	vm.backPage = function(){
-		$timeout(function() {
-			PageNavigation.gotoPreviousPage(false);
-		},10);
+		$timeout(function(){
+			PageNavigation.backStep();
+		}, 10);
 	};
 
 	vm.viewRecent = function(){
