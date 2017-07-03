@@ -273,18 +273,49 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     vm.loadData = function(pagingModel){
     	vm.pagingController.search(pagingModel);
     }
+    
+    function _validateForSearch(){
+    	$scope.errors = {};
+    	var valid = true;
+    	
+    	if((vm.criteria.dateFrom != null && !angular.isDate(vm.criteria.dateFrom)) || !angular.isDefined(vm.criteria.dateFrom)){
+			valid = false;
+			$scope.errors.dueDateFormat = {
+                message : 'Wrong date format data.'
+            }
+		}else if((vm.criteria.dateTo != null && !angular.isDate(vm.criteria.dateTo)) || !angular.isDefined(vm.criteria.dateTo)){
+			valid = false;
+			$scope.errors.dueDateFormat = {
+                message : 'Wrong date format data.'
+            }
+		}else{
+			var isDueDateFromAfterDueDateFrom = moment(vm.criteria.dateFrom).isAfter(vm.criteria.dateTo);
+	    	
+            if(isDueDateFromAfterDueDateFrom){
+                valid = false;
+                $scope.errors.dueDateToLessThanFrom = {
+                    message : 'From date must be less than or equal to To date.'
+                }
+            }
+		}
+    	
+    	return valid;
+    }
+    
     vm.searchTransaction = function(pagingModel) {
-    	angular.copy(vm.criteria, _criteria);
-    	if(vm.sponsor){
-    		_criteria.sponsorId = vm.sponsor.organizeId;
-            _sponsor = vm.sponsor;
+    	if(_validateForSearch()){
+	    	angular.copy(vm.criteria, _criteria);
+	    	if(vm.sponsor){
+	    		_criteria.sponsorId = vm.sponsor.organizeId;
+	            _sponsor = vm.sponsor;
+	    	}
+	    	if(vm.supplier){
+	    		_criteria.supplierId = vm.supplier.organizeId;
+	            _supplier = vm.supplier;
+	    	}
+	    	vm.loadData(pagingModel);
+	    	_loadSummaryOfTransaction(_criteria);
     	}
-    	if(vm.supplier){
-    		_criteria.supplierId = vm.supplier.organizeId;
-            _supplier = vm.supplier;
-    	}
-    	vm.loadData(pagingModel);
-    	_loadSummaryOfTransaction(_criteria);
 	}
     
     vm.viewTransaction = function(transactionModel){
