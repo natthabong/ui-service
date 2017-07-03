@@ -231,6 +231,26 @@
 									<div class="col-md-4 col-sm-1"></div>
 								</div>
 							</div>
+
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<label class="col-md-2 col-sm-3"></label>
+									<div class="col-md-2 col-sm-3">
+										<span id="cancel-by-buyer-label">Cancel by buyer</span>
+									</div>
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="cancel-by-buyer-record-label"
+											ng-bind="ctrl.summaryStatusGroup.cancel_by_buyer.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="cancel-by-buyer-amount-label"
+											ng-bind="ctrl.summaryStatusGroup.cancel_by_buyer.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-4 col-sm-1"></div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

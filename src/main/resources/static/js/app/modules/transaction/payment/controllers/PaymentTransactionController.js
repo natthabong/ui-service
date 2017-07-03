@@ -217,7 +217,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             console.log(transactionStatusGroupList)
             if (transactionStatusGroupList !== undefined) {
                 transactionStatusGroupList.forEach(function(obj) {
-                    if(obj.statusGroup != "DRAWDOWN_SUCCESS" && obj.statusGroup != "DRAWDOWN_FAIL"){
+                    if(obj.statusGroup != "DRAWDOWN_SUCCESS" && obj.statusGroup != "DRAWDOWN_FAIL" && obj.statusGroup != "WAIT_FOR_DRAWDOWN_RESULT"){
                         var selectObj = {
                             label: obj.statusMessageKey,
                             value: obj.statusGroup
@@ -235,6 +235,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     	var deffered = PaymentTransactionService.getSummaryOfTransaction(criteria);
     	deffered.promise.then(function(response) {
 			var summaryStatusGroup = response.data;
+            console.log(summaryStatusGroup)
 			summaryStatusGroup.forEach(function(summary) {
 				if(vm.summaryStatusGroup[summary.statusMessageKey]){
 					
@@ -264,7 +265,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 				  totalRecord: 0,
 				  totalAmount: 0
 			  },
-			  cancelled_by_supplier:{
+			  cancel_by_buyer:{
 				  totalRecord: 0,
 				  totalAmount: 0              
 			  }		
