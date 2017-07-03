@@ -147,14 +147,14 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         }, {
 			fieldName: 'transactionNo',
             field: 'transactionNo',
-            label: 'Transaction No',
+            label: 'Transaction no',
             id: 'transaction-{value}-transaction-no',
             sortData: true,
             cssTemplate: 'text-center',
         },{
 			fieldName: 'transactionDate',
             field: 'transactionDate',
-            label: 'Payment Date',
+            label: 'Payment date',
             idValueField: 'transactionNo',
             id: 'transaction-{value}-payment-date',
             filterType: 'date',
@@ -164,7 +164,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         },{
 			fieldName: 'transactionAmount',
             field: 'transactionAmount',
-            label: 'Payment Amount',
+            label: 'Payment amount',
             idValueField: 'transactionNo',
             id: 'transaction-{value}-payment-amount',
             sortData: true,
@@ -174,7 +174,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         },{
 			fieldName: 'bankTransactionNo',
             field: 'bankTransactionNo',
-            label: 'Bank Transaction No',
+            label: 'Bank transaction no',
             idValueField: 'transactionNo',
             id: 'transaction-{value}-bank-transaction-no',
             sortData: true,
