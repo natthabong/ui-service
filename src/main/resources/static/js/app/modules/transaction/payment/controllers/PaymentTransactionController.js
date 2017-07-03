@@ -234,7 +234,6 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     	var deffered = PaymentTransactionService.getSummaryOfTransaction(criteria);
     	deffered.promise.then(function(response) {
 			var summaryStatusGroup = response.data;
-            console.log(summaryStatusGroup)
 			summaryStatusGroup.forEach(function(summary) {
 				if(vm.summaryStatusGroup[summary.statusMessageKey]){
 					
