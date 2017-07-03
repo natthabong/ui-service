@@ -6,12 +6,16 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	var vm = this;
 	var log = $log;
     var ownerId = $rootScope.userInfo.organizeId;
+    _sponsor = null;
+    _supplier = null;
     vm.sponsor = null;
-    vm.supplier = null;
+    vm.supplier = $stateParams.supplier || null;
     var organizeInfo = {
         organizeId : $rootScope.userInfo.organizeId,
         organizeName : $rootScope.userInfo.organizeName
     }
+
+    
     vm.summaryStatusGroup = {};
 	vm.statusDocuments = {
 		waitForVerify: 'WAIT_FOR_VERIFY',
@@ -23,15 +27,15 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
    }
     var _criteria = {};
     
-    vm.criteria = {
-			sponsorId : ownerId,
-			supplierId : null,
-			supplierCode : null,
-			dateFrom : null,
-			dateTo: null,
-			transactionNo : null,
-			statusGroup : '',
-			transactionType: 'PAYMENT'
+    vm.criteria = $stateParams.criteria || {
+        sponsorId : ownerId,
+        supplierId : null,
+        supplierCode : null,
+        dateFrom : null,
+        dateTo: null,
+        transactionNo : null,
+        statusGroup : '',
+        transactionType: 'PAYMENT'
 	}
 
     vm.openDateFrom = false;
@@ -45,12 +49,13 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		vm.openDateTo = true;
 	}
 
-    var prepareAutoSuggestLabel = function(item) {
-		item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
+    var prepareSupplierAutoSuggestLabel = function(item) {
+		item.identity = [ 'supplier-', item.organizeId, '-option' ].join('');
 		item.label = [ item.organizeId, ': ', item.organizeName ].join('');
 		item.value = item.organizeId;
 		return item;
 	}
+    
 
     var querySupplierId = function(value) {
         var supplierCodeServiceUrl = 'api/v1/suppliers';
@@ -65,8 +70,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         }
         }).then(function(response) {
             return response.data.map(function(item) {
-                item.identity = [ 'supplier-', item.organizeId, '-option' ].join('');
-                item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+                item = prepareSupplierAutoSuggestLabel(item);
                 return item;
             });
         });
@@ -78,6 +82,13 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         query : querySupplierId
 	});
 
+    var prepareBuyerAutoSuggestLabel = function(item) {
+		item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
+		item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+		item.value = item.organizeId;
+		return item;
+	}
+
 	var queryBuyerId = function(value) {
         value = value = UIFactory.createCriteria(value);
         return $http.get('api/v1/sponsors', {
@@ -88,7 +99,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         }
         }).then(function(response) {
             return response.data.map(function(item) {
-                item = prepareAutoSuggestLabel(item);
+                item = prepareBuyerAutoSuggestLabel(item);
                 return item;
             });
         });
@@ -263,17 +274,21 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     	angular.copy(vm.criteria, _criteria);
     	if(vm.sponsor){
     		_criteria.sponsorId = vm.sponsor.organizeId;
+            _sponsor = vm.sponsor;
     	}
     	if(vm.supplier){
     		_criteria.supplierId = vm.supplier.organizeId;
+            _supplier = vm.supplier;
     	}
     	vm.loadData(pagingModel);
     	_loadSummaryOfTransaction(_criteria);
 	}
     
-    vm.viewTransaction = function(transactionModel){			
+    vm.viewTransaction = function(transactionModel){
 		$timeout(function(){		
-			PageNavigation.gotoPage('/payment-transaction/view', {transactionModel: transactionModel, isShowViewHistoryButton: false, isShowBackButton: true});
+			PageNavigation.nextStep('/payment-transaction/view', 
+                {transactionModel: transactionModel, isShowViewHistoryButton: false, isShowBackButton: true},
+                {criteria : _criteria,buyer : _sponsor,supplier : _supplier});
     	}, 10);
 	};
 	
@@ -285,7 +300,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 
     vm.initLoad = function() {
 
-        var buyerInfo = prepareAutoSuggestLabel(organizeInfo);
+        var buyerInfo = prepareBuyerAutoSuggestLabel(organizeInfo);
         vm.sponsor = buyerInfo;
 
         _clearSummaryStatus();

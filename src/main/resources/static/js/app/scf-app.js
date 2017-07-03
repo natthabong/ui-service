@@ -499,7 +499,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'PaymentTransactionController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment-transaction/',
-                params: {mode:"BUYER",transactionModel: null, backAction: false},
+                params: {mode:"BUYER",transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
 				resolve: load(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js'])
 			}).state('/payment-transaction/view', {
 				url: '/payment-transaction/view',
