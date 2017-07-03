@@ -44,12 +44,12 @@
                         <div class="row">
                             <label id="payment-amount-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Payment amount (THB)' | translate}}: </label>
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="payment-amount-label" ng-bind="ctrl.transactionModel.transactionAmount"></span>
+                                <span id="payment-amount-label" ng-bind="ctrl.transactionModel.transactionAmount | number: 2"></span>
                             </div>
 
                             <label id="payment-date-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Payment date' | translate}}: </label>
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="payment-date-value-label" ng-bind="ctrl.transactionModel.transactionDate | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+                                <span id="payment-date-value-label" ng-bind="ctrl.transactionModel.transactionDate | date: 'dd/MM/yyyy': 'UTC+0700'"></span>
                             </div>
                         </div>
                     </div>
@@ -99,20 +99,21 @@
                     <div class="form-group">
                         <div class="row">
                             <label id="status-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Status' | translate}}: </label>
-                            <div class="col-md-8 col-sm-8 col-xs-12">
+                            <div class="col-md-3 col-sm-3 col-xs-12">
                                 <span id="status-value-label" ng-bind="ctrl.transactionModel.statusCode | translate"></span>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="row">
                             <label id="reason-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Reason' | translate}}: </label>
-                            <div class="col-md-8 col-sm-8 col-xs-12">
+                            <div class="col-md-3 col-sm-3 col-xs-12">
                                 <span id="reason-value-label" ng-bind="ctrl.transactionModel.rejectReason"></span>
                             </div>
                         </div>
                     </div>
+
+                    <!--<div class="form-group">
+                        <div class="row">
+                            
+                        </div>
+                    </div>-->
 
                     <div>
                         <div class="row">
@@ -154,11 +155,11 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <div class="row">
-                            <label id="total-of-records-label" class="col-sm-2 col-md-2 col-xs-12 control-label">{{'Total of Record(s)' | translate}}: </label>
+                            <label id="total-of-records-label" class="col-sm-2 col-md-2 col-xs-12 control-label"><b>{{'Total of Record(s)' | translate}}: </b></label>
 
                             <div class="col-sm-2 col-md-2 col-xs-12">
-                                <span id="total-of-records-value-label" ng-bind="ctrl.transactionModel.documents.length"></span>&nbsp;
-                                <span ng-bind="'Records' | translate"></span>
+                                <b><span id="total-of-records-value-label" ng-bind="ctrl.transactionModel.documents.length"></span></b>&nbsp;
+                                <b><span ng-bind="'Records' | translate"></span></b>
                             </div>
 
                             <div class="col-md-4 col-sm-4 col-hidden-xs">&nbsp;</div>
