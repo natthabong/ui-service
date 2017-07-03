@@ -104,10 +104,11 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     vm.pagingController = PagingController.create('api/v1/list-transaction', _criteria, 'GET');
 
     vm.dataTable = {
+        identityField : 'transactionNo',
         options: {
             displayRowNo: {
             	idValueField: 'transactionNo',
-            	id: 'transaction-{value}-row-no-label'
+            	id: 'transaction-{value}-row-no'
             }
         },
         expansion:{
@@ -118,7 +119,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             field: '$rowNo',
             label: 'No.',
             idValueField: 'transactionNo',
-            id: 'transaction-{value}-label',
+            id: 'transaction-{value}',
             sortData: true,
             cssTemplate: 'text-center',
         },{
@@ -126,7 +127,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             field: 'supplierLogo',
             label: 'Supplier',
             idValueField: 'transactionNo',
-            id: 'transaction-{value}-supplier-name-label',
+            id: 'transaction-{value}-supplier-name',
             sortData: true,
             cssTemplate: 'text-center',
 			dataRenderer: function(record){
@@ -136,7 +137,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			fieldName: 'transactionNo',
             field: 'transactionNo',
             label: 'Transaction No',
-            id: 'transaction-{value}-transaction-no-label',
+            id: 'transaction-{value}-transaction-no',
             sortData: true,
             cssTemplate: 'text-center',
         },{
@@ -144,7 +145,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             field: 'transactionDate',
             label: 'Payment Date',
             idValueField: 'transactionNo',
-            id: 'transaction-{value}-payment-date-label',
+            id: 'transaction-{value}-payment-date',
             filterType: 'date',
             filterFormat: 'dd/MM/yyyy',
             sortData: true,
@@ -154,7 +155,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             field: 'transactionAmount',
             label: 'Payment Amount',
             idValueField: 'transactionNo',
-            id: 'transaction-{value}-payment-amount-label',
+            id: 'transaction-{value}-payment-amount',
             sortData: true,
             cssTemplate: 'text-right',
             filterType: 'number',
@@ -164,7 +165,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             field: 'bankTransactionNo',
             label: 'Bank Transaction No',
             idValueField: 'transactionNo',
-            id: 'transaction-{value}-bank-transaction-no-label',
+            id: 'transaction-{value}-bank-transaction-no',
             sortData: true,
             cssTemplate: 'text-center'
         },{
