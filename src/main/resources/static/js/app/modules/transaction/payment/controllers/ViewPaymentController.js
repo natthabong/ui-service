@@ -13,6 +13,11 @@ paymentModule.controller('ViewPaymentController', [
 
             var vm = this;
             var log = $log;
+            if($stateParams.transactionModel == null){
+                $timeout(function(){		
+    				PageNavigation.gotoPage('/payment-transaction/buyer');
+    			}, 10);
+            }
             vm.transactionModel = $stateParams.transactionModel;
             vm.isShowViewHistoryButton = $stateParams.isShowViewHistoryButton;
             vm.isShowBackButton = $stateParams.isShowBackButton;
