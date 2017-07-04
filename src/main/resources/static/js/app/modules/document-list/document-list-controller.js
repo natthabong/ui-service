@@ -197,7 +197,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 					vm.documentListCriterial.documentStatus = status.valueObject;
 				}
 			});
-			
+			console.log(vm.documentListCriterial);
 			return vm.documentListCriterial;
 
 		}
@@ -274,7 +274,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			var documentSummaryDiffered = Service.doGet('/api/documents/status-summary', criteria);
 			documentSummaryDiffered.promise.then(function(response) {
 
-			    	vm.documentSummaryDisplay.documents[0].totalOutstandingAmount = 0;
+			    vm.documentSummaryDisplay.documents[0].totalOutstandingAmount = 0;
 				vm.documentSummaryDisplay.documents[1].totalOutstandingAmount = 0;
 
 				response.data.forEach(function(data) {
