@@ -29,12 +29,17 @@ paymentModule.controller('ViewPaymentController', [
             var loadTransaction = function(callback){
                 var deffered = ViewPaymentService.getTransaction(vm.transactionModel);
                 deffered.promise.then(function(response){
-                	vm.transactionModel = response.data; 
+                    
+                	vm.transactionModel = response.data;
                     vm.transactionModel.supplier =  response.data.supplierOrganize.organizeName;
                     vm.transactionModel.sponsor =  response.data.sponsorOrganize.organizeName;
                     vm.transactionModel.documents = response.data.documents;
+
+                    var _criteria = {
+                        transactionId : vm.transactionModel.transactionId
+                    }
                     
-                    vm.pagingController = PagingController.create(response.data.documents);
+                    vm.pagingController = PagingController.create('api/v1/transaction-documents', _criteria, 'GET');
                     
                     loadDocumentDisplayConfig(vm.transactionModel.supplierId, 'BFP', vm.searchDocument);
                     

@@ -56,7 +56,6 @@ angular.module('scfApp').controller(
 					     var deffered = ViewTransactionService.prepare(vm.transactionModel);
 				            deffered.promise.then(function (response) {
 				            	  vm.transactionModel = angular.extend(response.data,{sponsor: vm.transactionModel.sponsor, supplier: vm.transactionModel.supplier});
-// vm.transactionModel = response.data;
 				            	  if(vm.transactionModel.statusCode == 'REJECT_BY_CHECKER' || vm.transactionModel.statusCode == 'REJECT_BY_APPROVER'){
 				            		  vm.isDisplayReason = 'block-inline';
 				            	  }else{
