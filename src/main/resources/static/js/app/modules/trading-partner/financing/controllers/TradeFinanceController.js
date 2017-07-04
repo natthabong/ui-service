@@ -255,16 +255,16 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             }
             var deferred = TradeFinanceService.createTradeFinance(sponsorId,supplierId,tradeFinanceModule);
             deferred.promise.then(function(response){}).catch(function(response){
-                if (response) {
+            	if (response) {
                     if(Array.isArray(response.data)){
                         response.data.forEach(function(error){
-                            $scope.errors[error.code] = {
-                                message : error.message
+                            $scope.errors[error.errorCode] = {
+                                message : error.errorMessage
                             };
                         });
                     }
                 }
-                deferred.resolve(response);
+                deferred.reject(response);
             });
             return deferred;
         }
@@ -291,16 +291,16 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             }
             var deferred = TradeFinanceService.updateTradeFinance(sponsorId,supplierId,tradeFinanceModule.accountId,tradeFinanceModule);
             deferred.promise.then(function(response){}).catch(function(response){
-                if (response) {
-                    if(Array.isArray(response.data)){
+            	if (response) {
+            		if(Array.isArray(response.data)){
                         response.data.forEach(function(error){
-                            $scope.errors[error.code] = {
-                                message : error.message
+                            $scope.errors[error.errorCode] = {
+                                message : error.errorMessage
                             };
                         });
                     }
                 }
-                deferred.resolve(response);
+                deferred.reject(response);
             });
             return deferred;
         }
@@ -324,28 +324,21 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                         }
                     },
                     onFail : function(response) {
-                        var status = null;
-                        console.log(response)
-                        if(angular.isDefined(response.errorCode)){
-                            status = response.errorCode;
-                        }else if(angular.isDefined(response.code)){
-                            status = response.code;
+                        var status = response.status;
+                        if(status!=400){
+                        	var msg = {
+                                404 : "Trade finance has been deleted.",
+                                405 : "Trade finance has been used.",
+                                409 : (vm.isNewMode? "Trade finance is existed.": 'Trade finance has been modified.')
+                            }
+                            UIFactory.showFailDialog({
+                                data : {
+                                    headerMessage : vm.isNewMode? 'Add new trade finance fail.':'Edit trade finance fail.',
+                                    bodyMessage : msg[status] ? msg[status] : response.errorMessage
+                                },
+                                preCloseCallback : preCloseCallback
+                            });
                         }
-                        console.log(status)
-                        
-                        var msg = {
-                            404 : "Trade finance has been deleted.",
-                            405 : "Trade finance has been used.",
-                            409 : "Trade finance is existed.",
-                            400 : "Invalid account number."
-                        }
-                        UIFactory.showFailDialog({
-                            data : {
-                                headerMessage : vm.isNewMode? 'Add new trade finance fail.':'Edit trade finance fail.',
-                                bodyMessage : msg[status] ? msg[status] : response.errorMessage
-                            },
-                            preCloseCallback : preCloseCallback
-                        });
                         
                     },
                     onSuccess : function(response) {

@@ -4,12 +4,32 @@ tradeFinanceModule.factory('TradeFinanceService', [ '$http', '$q','Service', fun
 
 	function createTradeFinance(sponsorId,supplierId,data){
 		var url = '/api/v1/organize-customers/'+sponsorId+'/trading-partners/'+supplierId+'/trade-finance';
-		return Service.doPost(url,data);
+		var deferred = $q.defer();
+		$http({
+			method : 'POST',
+			url : url,
+			data: data
+		}).then(function(response) {
+			return deferred.resolve(response);
+		}).catch(function(response) {
+			return deferred.reject(response);
+		});
+		return deferred;
 	}
 
 	function updateTradeFinance(sponsorId,supplierId,accountId,data){
 		var url = '/api/v1/organize-customers/'+sponsorId+'/trading-partners/'+supplierId+'/trade-finance/'+accountId;
-		return Service.doPut(url,data);
+		var deferred = $q.defer();
+		$http({
+			method : 'PUT',
+			url : url,
+			data: data
+		}).then(function(response) {
+			return deferred.resolve(response);
+		}).catch(function(response) {
+			return deferred.reject(response);
+		});
+		return deferred;
 	}
 
 	function getTradeFinanceInfo(sponsorId,supplierId,accountId){
