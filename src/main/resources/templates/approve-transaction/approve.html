@@ -36,9 +36,10 @@
 						<scf-button id="back-button" class="popup-button"
 							ng-bind="'Back' | translate" ng-click="ctrl.backPage()"></scf-button>
 						<scf-button id="reject-button" class="popup-button"
-							ng-disabled="true"
+							ng-disabled="!ctrl.canReject"
+							ng-click="ctrl.reject()"
 							ng-bind="'Reject' | translate"></scf-button>
-						<scf-button id="approve-button" ng-disabled="ctrl.disableButton"
+						<scf-button id="approve-button" ng-disabled="ctrl.disable()"
 							type="submit" ng-click="ctrl.confirmPopup()"
 							ng-bind="'Approve' | translate"></scf-button>
 					</div>
@@ -46,5 +47,9 @@
 				</div>
 			</div>
 		</div>
+		<input type="hidden" ng-init="ctrl.canReject=true"
+			sec:authorize="hasAuthority('APPROVE_LOANS_OF_MY_ORGANIZE')" />
+		<input type="hidden" ng-init="ctrl.canApprove=true"
+			sec:authorize="hasAuthority('APPROVE_LOANS_OF_MY_ORGANIZE')" />
 	</div>
 </div>
