@@ -3,8 +3,12 @@ function PaymentTransactionService($http, $q){
 
 	function getTransactionStatusGroups(transactionType){
 		var deffered = $q.defer();
-		$http.get('api/v1/list-transaction/transaction-status-groups',{
-			transactionType: transactionType
+		$http({
+			url: 'api/v1/list-transaction/transaction-status-groups',
+			method: 'GET',
+			params: {
+				transactionType: transactionType
+			}
 		}).then(function(response){
 			deffered.resolve(response);
 		}).catch(function(response){
