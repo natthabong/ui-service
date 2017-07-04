@@ -199,7 +199,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     };
     
     vm.loadTransactionGroup = function(){
-        var transactionStatusGroupDefered = ListTransactionService.getTransactionStatusGroups();
+        var transactionStatusGroupDefered = ListTransactionService.getTransactionStatusGroups('DRAWDOWN');
         transactionStatusGroupDefered.promise.then(function(response) {
             var transactionStatusGroupList = response.data;
             if (transactionStatusGroupList !== undefined) {

@@ -211,18 +211,16 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	}];
 
     function _loadTransactionGroup(){
-        var transactionStatusGroupDefered = PaymentTransactionService.getTransactionStatusGroups();
+        var transactionStatusGroupDefered = PaymentTransactionService.getTransactionStatusGroups('PAYMENT');
         transactionStatusGroupDefered.promise.then(function(response) {
             var transactionStatusGroupList = response.data;
             if (transactionStatusGroupList !== undefined) {
                 transactionStatusGroupList.forEach(function(obj) {
-                    if(obj.statusGroup != "DRAWDOWN_SUCCESS" && obj.statusGroup != "DRAWDOWN_FAIL" && obj.statusGroup != "WAIT_FOR_DRAWDOWN_RESULT"){
-                        var selectObj = {
-                            label: obj.statusMessageKey,
-                            value: obj.statusGroup
-                        }
-                        vm.statusStepDropDown.push(selectObj);
+                    var selectObj = {
+                        label: obj.statusMessageKey,
+                        value: obj.statusGroup
                     }
+                    vm.statusStepDropDown.push(selectObj);
                 });
             }
         }).catch(function(response) {

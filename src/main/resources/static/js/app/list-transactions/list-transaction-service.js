@@ -23,9 +23,11 @@ function ListTransactionServices($http, $q, blockUI){
 		return deffered;
 	};
 	
-	function getTransactionStatusGroups(){
+	function getTransactionStatusGroups(transactionType){
 		var deffered = $q.defer();
-		$http.get('api/v1/list-transaction/transaction-status-group/get').then(function(response){
+		$http.get('api/v1/list-transaction/transaction-status-groups',{
+			transactionType: transactionType
+		}).then(function(response){
 			deffered.resolve(response);
 		}).catch(function(response){
 			deffered.reject(response);
