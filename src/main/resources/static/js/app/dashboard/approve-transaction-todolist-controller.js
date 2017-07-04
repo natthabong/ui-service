@@ -144,7 +144,7 @@ angular.module('scfApp').controller(
 				                id: 'wait-for-approve-transaction-{value}-no-of-document',
 				                cssTemplate: 'hidden-sm hidden-xs text-center',
 				            }, {
-				            	fieldName: 'drawdownAmount',
+				            	fieldName: 'transactionAmount',
 				                labelEN: 'Transaction amount',
 				                labelTH: 'Transaction amount',
 				                idValueField: '$rowNo',

@@ -139,7 +139,7 @@ angular.module('scfApp').controller(
 				                id: 'wait-for-verify-transaction-{value}-no-of-document-label',
 				                cssTemplate: 'text-center',
 				            }, {
-				                field: 'drawdownAmount',
+				                field: 'transactionAmount',
 				                label: 'Transaction amount',
 				                idValueField: 'template',
 				                id: 'wait-for-verify-transaction-{value}-transaction-amount-label',

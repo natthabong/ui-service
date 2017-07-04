@@ -113,7 +113,7 @@ angular
 							                sortData : true,
 											cssTemplate : 'hidden-xs hidden-sm text-center'
 										}, {
-											fieldName: 'drawdownAmount',
+											fieldName: 'transactionAmount',
 											labelEN: 'Transaction amount',
 											labelTH: 'Transaction amount',
 											idValueField: '$rowNo',
