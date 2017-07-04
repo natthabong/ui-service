@@ -485,7 +485,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             cssTemplate: 'text-center',
         }, {
 			fieldName: 'drawdownAmount',
-            field: 'drawdownAmount',
+            field: 'transactionAmount',
             label: 'Drawdown Amount',
             idValueField: 'transactionNo',
             id: 'transaction-{value}-drawdown-amount-label',
