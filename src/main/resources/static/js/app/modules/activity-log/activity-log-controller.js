@@ -313,6 +313,8 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 					}else{
 						valid = false;
 					}
+				}else{
+					valid = false;
 				}
 			}
 			
