@@ -692,8 +692,10 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 						var internalStemp = response.data;							
 						if (internalStemp.length > 0) {
 							internalStemp.forEach(function(summary) {
-							vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
-							vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
+								if(vm.summaryInternalStep[summary.statusMessageKey]){
+									vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
+									vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
+								}
 							});
 						}						
 					}).catch(function(response) {
@@ -705,8 +707,10 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 				summaryStatusGroupDeffered.promise.then(function(response) {
 					var summaryStatusGroup = response.data;
 					summaryStatusGroup.forEach(function(summary) {
-						vm.summaryStatusGroup[summary.statusGroup].totalRecord = summary.totalRecord;
-						vm.summaryStatusGroup[summary.statusGroup].totalAmount = summary.totalAmount;							
+						if(vm.summaryStatusGroup[summary.statusGroup]){
+							vm.summaryStatusGroup[summary.statusGroup].totalRecord = summary.totalRecord;
+							vm.summaryStatusGroup[summary.statusGroup].totalAmount = summary.totalAmount;	
+						}					
 					});
 				}).catch(function(response) {
 					$log.error('Summary Group Status Error');
