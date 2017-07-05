@@ -531,6 +531,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/payment-transaction/approve',
 				params: {transaction: null},
 				resolve: load(['js/app/modules/transaction/payment/services/ApprovePaymentService.js','js/app/modules/transaction/payment/controllers/ApprovePaymentController.js'])
+			}).state('/download-payment-result/supplier',{
+				url: '/download-payment-result/supplier',
+				controller: 'DownloadPaymentResultController',
+				controllerAs: 'ctrl',
+				templateUrl: '/download-payment-result/supplier',
+				params: {transaction: null},
+				resolve: load(['js/app/modules/download-payment-result/services/DownloadPaymentResultService.js','js/app/modules/download-payment-result/controllers/DownloadPaymentResultController.js'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',

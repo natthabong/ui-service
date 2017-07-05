@@ -504,5 +504,7 @@
 	"payment-transaction-buyer" : "Payment transaction",
 	"PAYMENT": "Payment",
 	
-	"Loan account": "Loan account"
+	"Loan account": "Loan account",
+	
+	"download-payment-result-supplier": "Download payment result"
 }
