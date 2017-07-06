@@ -142,7 +142,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             sortData: true,
             cssTemplate: 'text-center',
 			dataRenderer: function(record){
-				return '<img title="'+record.supplier+'" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+atob(record.supplierLogo)+'"></img>';
+				return '<img title="'+record.supplier+'" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+ (record.supplierLogo?atob(record.supplierLogo):UIFactory.constants.NOLOGO) +'"></img>';
 			}
         }, {
 			fieldName: 'transactionNo',
