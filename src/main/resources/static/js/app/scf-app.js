@@ -58,7 +58,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/create-transaction',
                 params: {backAction: false, transactionModel: null, tradingpartnerInfoModel: null, documentSelects: null, dashboardParams: null, showBackButton: false},
 				resolve: load(['js/app/modules/transaction/services/TransactionService.js','js/app/modules/transaction/loan/controllers/CreateLoanController.js',
-				               'js/app/common/scf-component.js', 'js/app/create-transactions/transaction-service.js'])
+				               'js/app/common/scf-component.js'])
 			}).state('/create-transaction/validate-submit', {
 				url: '/create-transaction/validate-submit',
 				controller: 'ValidateAndSubmitController',

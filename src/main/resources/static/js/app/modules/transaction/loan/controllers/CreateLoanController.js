@@ -40,6 +40,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         // End Data Sponsor
         // Model for transaction
         vm.createTransactionModel = {
+            accountingTransactionType: 'RECEIVABLE',
             sponsorCode: '',
             supplierCode: '',
             sponsorPaymentDate: '',
@@ -49,6 +50,8 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             order: '',
             orderBy: ''
         };
+
+        var _criteria = {};
 
         vm.tradingpartnerInfoModel = {};
 

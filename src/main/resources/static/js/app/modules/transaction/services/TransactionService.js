@@ -1,7 +1,9 @@
 angular.module('gecscf.transaction').factory('TransactionService', ['$http', '$q', transactionService]);
 
 function transactionService($http, $q) {
-    var getSuppliers = function(accountingTransactionType) {
+
+    //payment
+    function getSuppliers(accountingTransactionType) {
         var deffered = $q.defer();
 
         $http({
@@ -20,7 +22,25 @@ function transactionService($http, $q) {
         return deffered;
     }
 
-	var getBuyerCodes = function(ownerId) {
+    //loan
+    function getSupplier(sponsorId){
+		var deffered = $q.defer();
+
+        $http({
+            method: 'GET',
+            url: 'api/v1/create-transaction/supplier-code',
+            params: {
+                sponsorId: sponsorId
+            }
+        }).then(function(response){
+            deffered.resolve(response);
+        }).catch(function(response){
+            deffered.reject(response);
+        });
+        return deffered;
+	}
+
+	function getBuyerCodes(ownerId) {
 	    var deffered = $q.defer();
 	
 	    $http({
@@ -36,7 +56,7 @@ function transactionService($http, $q) {
 	    return deffered;
 	}
 
-	var getAccounts = function(organizeId) {
+	function getAccounts(organizeId) {
         var deffered = $q.defer();
         $http({
         	    url :'api/v1/organize-customers/'+organizeId+'/accounts',
@@ -247,23 +267,6 @@ function transactionService($http, $q) {
             });
         return deffered;
 	}
-	
-	function getSupplier(sponsorId){
-		var deffered = $q.defer();
-
-        $http({
-            method: 'GET',
-            url: 'api/v1/create-transaction/supplier-code',
-            params: {
-                sponsorId: sponsorId
-            }
-        }).then(function(response){
-            deffered.resolve(response);
-        }).catch(function(response){
-            deffered.reject(response);
-        });
-        return deffered;
-	}
 
 	function verifyTradingPartner() {
         var deffered = $q.defer();
@@ -291,6 +294,12 @@ function transactionService($http, $q) {
             });
         return deffered;
     }
+
+    function calculateTransactionAmount(totalAmount, preDradowPercentag) {
+        var sumAmount = (totalAmount * (preDradowPercentag / 100)).toFixed(2);
+        return sumAmount;
+    }
+
     return {
         getSponsorPaymentDate: getSponsorPaymentDate,
         getTransactionDate: getTransactionDate,
@@ -305,6 +314,7 @@ function transactionService($http, $q) {
         getBuyerCodes: getBuyerCodes,
         getSuppliers: getSuppliers,
         getDocumentPOST:getDocumentPOST,
+        calculateTransactionAmount:calculateTransactionAmount,
         submitTransaction:submitTransaction
 	}
 }

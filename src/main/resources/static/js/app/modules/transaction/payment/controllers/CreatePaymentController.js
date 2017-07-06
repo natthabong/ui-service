@@ -13,7 +13,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     
 	var enterPageByBackAction = $stateParams.backAction || false;
 	vm.criteria = $stateParams.criteria || {
-		accountingTransactionType: 'RECEIVABLE',
+		accountingTransactionType: 'PAYABLE',
 		sponsorId: ownerId,
 		documentStatus: 'NEW',
 		showOverdue: false
