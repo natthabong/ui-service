@@ -19,9 +19,10 @@
                         <div class="form-group">
                             <div class="row">
                                 <label id="payment-date-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Payment date' | translate}}: </label>
-                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                <div class="col-md-3 col-sm-3 col-xs-12" >
                                     <scf-date-picker text-id="payment-date-textbox"
                                         text-model="ctrl.paymentDate" date-format="dd/MM/yyyy"
+                                        th:attr="default-value=${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"
                                         is-open="ctrl.openPaymentDate"
                                         open-calendar-action="ctrl.openCalendarPaymentDate()"
                                         button-id="payment-date-calendar-button"> </scf-date-picker>

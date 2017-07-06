@@ -221,6 +221,7 @@
 					dateFormat : '@',
 					isOpen : '=',
 					openCalendarAction : '&',
+					defaultValue : '@',
 					ngDisabled: '='
 				},
 				link : function(scope, element, attrs) {
@@ -230,6 +231,11 @@
 
 					if (attrs.buttonId !== undefined) {
 						element[0].children[2].children[0].id = attrs.buttonId;
+					}
+					
+					if(scope.defaultValue != undefined){
+						var momentObj = moment(scope.defaultValue, 'DD/MM/YYYY').toDate();
+						scope.textModel = momentObj;
 					}
 					
 				},

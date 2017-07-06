@@ -10,7 +10,7 @@ downloadModule.controller('DownloadPaymentResultController', [
 	function($scope, $stateParams, UIFactory, PageNavigation, PagingController, DownloadPaymentResultService) {
 		var vm = this;
 		vm.openPaymentDate = false;
-		vm.paymentDate = new Date();
+		//vm.paymentDate = new Date();
 		vm.openCalendarPaymentDate = function(){
 			vm.openPaymentDate = true;
 		}
@@ -21,7 +21,7 @@ downloadModule.controller('DownloadPaymentResultController', [
 			if(angular.isUndefined(vm.paymentDate)){
 				valid = false;
 				$scope.errors.paymentDate = {
-						message : 'invalid date format.'
+						message : 'Wrong date format data.'
 			    }
 			}else if(vm.paymentDate == null || vm.paymentDate == ''){
 				valid = false;
