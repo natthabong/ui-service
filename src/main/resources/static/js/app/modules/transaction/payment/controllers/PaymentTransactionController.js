@@ -64,7 +64,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         return $http.get(supplierCodeServiceUrl, {
             params : {
             q : value,
-            sponsorId : ownerId,
+            buyerId : ownerId,
             offset : 0,
             limit : 5
         }

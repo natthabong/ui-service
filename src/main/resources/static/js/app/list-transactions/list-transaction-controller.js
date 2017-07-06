@@ -891,11 +891,11 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 
 	var querySupplierCode = function(value) {
 		var currentParty = $stateParams.party;
-		var sponsorId;
+		var buyerId;
 		if(currentParty == partyRole.bank){
-			sponsorId = null;
+			buyerId = null;
 		}else{
-			sponsorId = vm.documentListModel.sponsor.organizeId;
+			buyerId = vm.documentListModel.sponsor.organizeId;
 		}
         var supplierCodeServiceUrl = 'api/v1/suppliers';
         value = value = UIFactory.createCriteria(value);
@@ -903,7 +903,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         return $http.get(supplierCodeServiceUrl, {
             params : {
             q : value,
-            sponsorId : sponsorId,
+            buyerId : buyerId,
             offset : 0,
             limit : 5
         }
