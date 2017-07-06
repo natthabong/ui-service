@@ -10,7 +10,7 @@ downloadModule.controller('DownloadPaymentResultController', [
 	function($scope, $stateParams, UIFactory, PageNavigation, PagingController, DownloadPaymentResultService) {
 		var vm = this;
 		vm.openPaymentDate = false;
-		vm.paymentDate = new Date();
+		//vm.paymentDate = new Date();
 		vm.openCalendarPaymentDate = function(){
 			vm.openPaymentDate = true;
 		}
