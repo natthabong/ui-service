@@ -85,6 +85,7 @@ function transactionService($http, $q, blockUI) {
 				accountingTransactionType: searchCriteriaModel.accountingTransactionType,
 				customerCode: searchCriteriaModel.customerCode,
 				limit: searchCriteriaModel.limit,
+                sponsorPaymentDate:searchCriteriaModel.sponsorPaymentDate,
 				offset: searchCriteriaModel.offset,
 				documentStatus : searchCriteriaModel.documentStatus,
 				dueDateFrom: searchCriteriaModel.dueDateFrom,
