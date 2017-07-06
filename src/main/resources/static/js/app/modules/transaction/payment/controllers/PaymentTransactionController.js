@@ -142,7 +142,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             sortData: true,
             cssTemplate: 'text-center',
 			dataRenderer: function(record){
-				return '<img style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+atob(record.sponsorLogo)+'"></img>';
+				return '<img title="'+record.supplier+'" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+atob(record.supplierLogo)+'"></img>';
 			}
         }, {
 			fieldName: 'transactionNo',
@@ -209,7 +209,14 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		label: 'All',
 		value: ''
 	}];
-
+    
+    vm.disabledPrint = function(){
+    	return true;
+    }
+    vm.disabledReject = function(){
+    	return true;
+    }
+    
     function _loadTransactionGroup(){
         var transactionStatusGroupDefered = PaymentTransactionService.getTransactionStatusGroups('PAYMENT');
         transactionStatusGroupDefered.promise.then(function(response) {
