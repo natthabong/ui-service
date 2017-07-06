@@ -1,6 +1,6 @@
-angular.module('gecscf.transaction').factory('TransactionService', ['$http', '$q', transactionService]);
+angular.module('gecscf.transaction').factory('TransactionService', ['$http', '$q', 'blockUI', transactionService]);
 
-function transactionService($http, $q) {
+function transactionService($http, $q, blockUI) {
 
     //payment
     function getSuppliers(accountingTransactionType) {
@@ -216,7 +216,7 @@ function transactionService($http, $q) {
 	
 	 function getTradingInfo(sponsorId, supplierId){
         var deffered = $q.defer();
-
+        blockUI.start();
         $http({
             method: 'POST',
             url: 'api/v1/create-transaction/trading-info/get',
@@ -234,8 +234,10 @@ function transactionService($http, $q) {
 	            return $.param(data);
 	        }
         }).then(function(response){
+            blockUI.stop();
             deffered.resolve(response);
         }).catch(function(response){
+            blockUI.stop();
             deffered.reject(response);
         });
 		 return deffered;
