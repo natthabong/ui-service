@@ -213,7 +213,9 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 				vm.documentUploadLogModel.roleType = ' ';
 				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
 				var sponsorID = initSponsorAutoSuggest();
-				vm.docTypeDropdowns = getFileType(sponsorID,'SFP','SPONSOR_UPLOAD');
+				console.log(sponsorID);
+				vm.docTypeDropdowns = getFileType(sponsorID,'SFP','IMPORT');
+				console.log(vm.docTypeDropdowns);
 			}else if(currentMode == mode.BANKVIEWSPONSOR){
 				vm.headerName = 'Sponsor document upload log';
 				vm.sponsorTxtDisable = false;
@@ -222,7 +224,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 				vm.hideColFileType = true;
 				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
 				var organize = getOrganize();
-				vm.docTypeDropdowns = getFileType(organize.organizeId,'SFP','SPONSOR_UPLOAD');
+				vm.docTypeDropdowns = getFileType(organize.organizeId,'SFP','IMPORT');
 			}else if(currentMode == mode.BANKVIEWBANK){
 				vm.headerName = 'Bank document upload log';
 				vm.hideColSponsor = true;
@@ -232,7 +234,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 				vm.documentUploadLogModel.roleType = 'bank';
 				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
 				var organize = getOrganize();
-				vm.docTypeDropdowns = getFileType(organize.organizeId,'MASTER','BANK_UPLOAD');
+				vm.docTypeDropdowns = getFileType(organize.organizeId,'MASTER','IMPORT');
 				vm.criteria.isBankDoc = true;
 			}
 		}

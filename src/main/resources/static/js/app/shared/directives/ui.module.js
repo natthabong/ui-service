@@ -187,7 +187,10 @@ angular
 					showIncompleteDialog : showIncompleteDialog,
 					createCriteria: createCriteria,
 					showHourDialog: showHourDialog,
-					showDialog: showDialog
+					showDialog: showDialog,
+					constants: {
+						NOLOGO: 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAS1BMVEX///8CM1LS2+Dd5OhWd4w+Y3u8ydG1w8zw8/U1XHVbe494kqMgS2bh5+uXq7gWQ2AuVnCdsLxPcYeFnaxDaH9qh5lxjZ4OPVomUGppW+TYAAAAu0lEQVQ4jbWT2w6DIBBEGa6uoCJi2///0i7GpthoTBOdB7I7OQ+zsAhxhSQq+V1gIKInItHrAGj5NGiEcLcB0Xsf8PBeHwCnU2RrbYSzdrotZFJKEaRSI2ZVaS/kRvIDBK31gKS1YddonTCwE75AlQFwQjQw7LRXAqcZTqeo7gEYlZIgdtKVIavXBCZrHSI7+Y+QQOad8vPqz6XJW6AvRbcCXWn6CwGKXAb+W0tRFEsTlqIAhzMU7Szgj97E2wmkdMmO8AAAAABJRU5ErkJggg=='
+					}
 				}
 
 			} ])
@@ -229,7 +232,7 @@ angular
 					return data.rejectReason;
 				}else{
 					if(data.returnCode != undefined && data.returnCode != null && data.returnCode != ''){
-//						console.log("["+data.returnCode+"] "+data.returnMessage);
+// console.log("["+data.returnCode+"] "+data.returnMessage);
 						return "["+data.returnCode+"] "+data.returnMessage;
 					}else{
 						return data.returnMessage ;
