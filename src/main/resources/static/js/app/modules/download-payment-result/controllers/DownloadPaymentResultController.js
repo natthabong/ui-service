@@ -21,7 +21,7 @@ downloadModule.controller('DownloadPaymentResultController', [
 			if(angular.isUndefined(vm.paymentDate)){
 				valid = false;
 				$scope.errors.paymentDate = {
-						message : 'invalid date format.'
+						message : 'Wrong date format data.'
 			    }
 			}else if(vm.paymentDate == null || vm.paymentDate == ''){
 				valid = false;
