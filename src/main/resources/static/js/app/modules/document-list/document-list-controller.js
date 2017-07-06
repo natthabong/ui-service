@@ -156,14 +156,14 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			if (currentParty == partyRole.sponsor) {
 				vm.sponsorTxtDisable = true;
 				initSponsorAutoSuggest();
-				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+				sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
 			} else if (currentParty == partyRole.supplier) {
 				vm.supplierTxtDisable = true;
 				initSupplierAutoSuggest();
-				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors?supplierId='+organizeId;
+				sponsorAutoSuggestServiceUrl = 'api/v1/buyers?supplierId='+organizeId;
 				checkSupplierTP(organizeId);
 			} else if (currentParty == partyRole.bank) {
-				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+				sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
 			}
 		}
 
