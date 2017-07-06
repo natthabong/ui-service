@@ -27,12 +27,11 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         var dashboardParams = $stateParams.dashboardParams;
         var backAction = $stateParams.backAction || false;
 
-        function _initValueDefault() {
+        function _resetVarible() {
             vm.showInfomation = false;
             vm.documentSelects = [];
             vm.checkAllModel = false;
             vm.selectAllModel = false;
-            vm.splitePageTxt = '';
 
             // Data Sponsor for select box
             vm.supplierCodes = [];
@@ -41,7 +40,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             vm.submitTransactionAmount = 0.00;
         };
 
-        _initValueDefault();
+        _resetVarible();
 
         // End Data Sponsor
         // Model for transaction
@@ -90,7 +89,12 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             vm.submitTransactionAmount = TransactionService.calculateTransactionAmount(sumAmount, prepercentagDrawdown);
         }
 
-        // Load Transaction Date
+        vm.loadDocument = function(pagingModel) {
+            vm.pagingController.search(pagingModel);
+            vm.watchCheckAll();
+            vm.watchSelectAll();
+        }
+
         function _loadTransactionDate(sponsorCode, sponsorPaymentDate) {
         	var tenor = vm.tradingpartnerInfoModel.tenor;
         	var loanRequestMode = loanRequestMode;
@@ -114,48 +118,23 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                         vm.createTransactionModel.transactionDate = vm.transactionDates[0].value;
                     }
                 }
-
+                vm.loadDocument();
             }).catch(function(response) {
                 log.error(response);
             });
-
             return deffered;
         };
 
-        
-
-        function _loadDocument(pagingModel) {
-			// var loadDocumentDiferred = $q.defer();
-            // Search criteria model
-            
-            // Call Service
-            // var deffered = TransactionService.getDocumentPOST(searchDocumentCriteria);
-            // deffered.promise
-            //     .then(function(response) {
-            //         // response success
-            //         vm.pageModel.totalRecord = response.headers('X-Total-Count');
-            //         vm.pageModel.totalPage = response.headers('X-Total-Page');
-            //         // Generate Document for display
-            //         vm.tableRowCollection = response.data;
-                    
-            //         // Calculate Display page
-            //         vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-            //         vm.watchCheckAll();
-            //         vm.watchSelectAll();
-			// 		loadDocumentDiferred.resolve('Success');
-            //     })
-            //     .catch(function(response) {
-            //         log.error(response);
-			// 		loadDocumentDiferred.reject('Fail');
-            //     });
-            // sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
-
-            vm.pagingController.search(pagingModel);
-            vm.watchCheckAll();
-            vm.watchSelectAll();
+        function _loadTradingPartnerInfo(sponsorCode,sponsorPaymentDate){
+            var tradingInfo = TransactionService.getTradingInfo(sponsorCode);
+            tradingInfo.promise.then(function(response) {
+                vm.tradingpartnerInfoModel = response.data;
+                _loadTransactionDate(sponsorCode,sponsorPaymentDate);
+            }).catch(function(response){
+                log.error("Load trading partner fail !");
+            });
         }
 
-        // Search Document
         vm.searchDocument = function(pagingModel) {
             var searchDocumentDeferred = $q.defer();
             var sponsorCode = vm.createTransactionModel.sponsorCode;
@@ -163,45 +142,12 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
            
             vm.checkAllModel = false;
             vm.selectAllModel = false;
-            blockUI.start();
             
             // validate SponsorPayment Date is Select
             if(hasSponsorPaymentDate){
             	if (validateSponsorPaymentDate(sponsorPaymentDate)) {
-                	
-                    // if (pagingModel === undefined) {
-    				// 	vm.submitTransactionAmount = 0.00;
-                    //     // Clear list document selected
-                    //     // Clear list document when backAction is false
-                    //     if (backAction === false) {
-                    //         vm.documentSelects = [];
-                    //     }
-                    //     vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
-                    //     vm.createTransactionModel.order = '';
-                    //     vm.createTransactionModel.orderBy = '';
-                    //     vm.pageModel.pageSizeSelectModel = '20';
-                    //     vm.pageModel.currentPage = 0;
-                    //     _loadDocument();
-                                    
-                    // } else {
-                    //     vm.pageModel.pageSizeSelectModel = pagingModel.pageSize;
-                    //     vm.pageModel.currentPage = pagingModel.page;
-                    //     _loadDocument();
-                    // }
-                    _loadDocument(pagingModel);
-                    var tradingInfo = TransactionService.getTradingInfo(sponsorCode);
-                    tradingInfo.promise.then(function(response) {
-                        vm.tradingpartnerInfoModel = response.data;
-                        var deffered = _loadTransactionDate(sponsorCode, sponsorPaymentDate);
-                        deffered.promise.then(function(response){
-                            blockUI.stop();
-                        }).catch(function(response){
-                            blockUI.stop();
-                        });
-                    })
-
+                    _loadTradingPartnerInfo(sponsorCode,sponsorPaymentDate);
                     vm.showInfomation = true;
-                    
                     // set supplierCode after search
                     vm.createTransactionModel.supplierCodeSelected = vm.createTransactionModel.supplierCode;
                     vm.createTransactionModel.sponsorIdSelected = vm.createTransactionModel.sponsorCode;
@@ -215,7 +161,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 	        return searchDocumentDeferred;
         };
 
-        // Load Sponsor paymentDate
         function _loadSponsorPaymentDate() {
             var sponsorId = vm.createTransactionModel.sponsorCode;
             var supplierCode = vm.createTransactionModel.supplierCode;
@@ -658,11 +603,11 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         $scope.sortData = function(order, orderBy) {
             vm.createTransactionModel.order = order;
             vm.createTransactionModel.orderBy = orderBy;
-            _loadDocument();
+            vm.loadDocument();
         };
 
         vm.sponsorChange = function() {
-            _initValueDefault();
+            _resetVarible(true);
             _loadDocumentDisplayConfig(vm.createTransactionModel.sponsorCode);
         }
 		
