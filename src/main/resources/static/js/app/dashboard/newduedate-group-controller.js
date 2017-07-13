@@ -9,26 +9,37 @@ angular
 						'$stateParams',
 						'$timeout',
 						'PageNavigation',
-						'Service', 
+						'Service',
+						'$rootScope', 
+						'$http', 
+						'$q',
 						function($log, $scope, $state, $stateParams, $timeout,
-								PageNavigation, Service) {
+								PageNavigation, Service, $rootScope, $http, $q) {
 							var vm = this;
 							var log = $log;
+							var organizeId = $rootScope.userInfo.organizeId;
+							
+							vm.getNewDueDateGroup = function(){
+								var deffered = $q.defer();
 
-							var dataSource = Service
-									.requestURL('/api/v1/create-transaction/document-groupby-duedate', {
-										totalRecord: 10,
-										orders: [{
-											fieldName: 'sponsorPaymentDate',
-											direction: 'ASC'
-										},{
-											fieldName: 'outstandingAmount',
-											direction: 'DESC'
-										}]
-									});
+						        $http({
+						            method: 'GET',
+						            url: 'api/v1/create-transaction/document-groupby-duedate',
+						            params: {
+						            	supplierId: organizeId
+						            }
+						        }).then(function(response){
+						            deffered.resolve(response);
+						        }).catch(function(response){
+						            deffered.reject(response);
+						        });
+						        return deffered;
+							}
+							
+							var dataSource = vm.getNewDueDateGroup();
 							
 							dataSource.promise.then(function(response) {
-		                        vm.data = response;
+		                        vm.data = response.data;
 		                    }).catch();
 							
 							vm.decodeBase64 = function(data){

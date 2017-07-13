@@ -140,13 +140,14 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		}
 
 		vm.documentListCriterial = {
-			sponsorId : '',
+			buyerId : '',
 			supplierId : '',
 			customerCode : '',
 			uploadDateFrom : undefined,
 			uploadDateTo : undefined,
 			documentNo : '',
 			documentStatus : undefined,
+			accountingTransactionType: 'PAYABLE',
 			showOverdue : true
 		}
 
@@ -156,25 +157,25 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			if (currentParty == partyRole.sponsor) {
 				vm.sponsorTxtDisable = true;
 				initSponsorAutoSuggest();
-				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+				sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
 			} else if (currentParty == partyRole.supplier) {
 				vm.supplierTxtDisable = true;
 				initSupplierAutoSuggest();
-				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors?supplierId='+organizeId;
+				sponsorAutoSuggestServiceUrl = 'api/v1/buyers?supplierId='+organizeId;
 				checkSupplierTP(organizeId);
 			} else if (currentParty == partyRole.bank) {
-				sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+				sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
 			}
 		}
 
 		function prepareCriteria() {
-			var sponsorCriteria = vm.documentListModel.sponsor.organizeId || null;
+			var buyerCriteria = vm.documentListModel.sponsor.organizeId || null;
 			
 			if (angular.isDefined(vm.documentListModel.supplier)) {
 				var supplierCriteria = vm.documentListModel.supplier.organizeId;
 			}
 
-			vm.documentListCriterial.sponsorId = sponsorCriteria;
+			vm.documentListCriterial.buyerId = buyerCriteria;
 			vm.documentListCriterial.supplierId = supplierCriteria;
 			vm.documentListCriterial.customerCode = UIFactory.createCriteria(vm.documentListModel.supplierCode);
 
@@ -197,7 +198,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 					vm.documentListCriterial.documentStatus = status.valueObject;
 				}
 			});
-			console.log(vm.documentListCriterial);
+			
 			return vm.documentListCriterial;
 
 		}
@@ -331,7 +332,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		});
 
 		var querySupplierCode = function(value) {
-			var sponsorId = vm.documentListModel.sponsor.organizeId;
+			var buyerId = vm.documentListModel.sponsor.organizeId;
 			var supplierCodeServiceUrl = 'api/v1/suppliers';
 
 			value = value = UIFactory.createCriteria(value);
@@ -339,7 +340,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			return $http.get(supplierCodeServiceUrl, {
 				params : {
 					q : value,
-					sponsorId : sponsorId,
+					buyerId : buyerId,
 					offset : 0,
 					limit : 5
 				}

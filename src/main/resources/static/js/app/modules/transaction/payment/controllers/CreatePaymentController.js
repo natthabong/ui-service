@@ -1,6 +1,6 @@
 var txnMod = angular.module('gecscf.transaction');
-txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService',
-		'PagingController', 'PageNavigation', function($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation) {
+txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'CreatePaymentService',
+		'PagingController', 'PageNavigation', function($rootScope, $scope, $log, $stateParams, SCFCommonService, CreatePaymentService, PagingController, PageNavigation) {
 	
 	var vm = this;
 	var log = $log;
@@ -13,8 +13,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     
 	var enterPageByBackAction = $stateParams.backAction || false;
 	vm.criteria = $stateParams.criteria || {
-		accountingTransactionType: 'PAYABLE',
-		sponsorId: ownerId,
+		accountingTransactionType: 'RECEIVABLE',
+		buyerId: ownerId,
 		documentStatus: 'NEW',
 		showOverdue: false
 	}
@@ -78,7 +78,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     }
 	
 	function _loadSuppliers() {
-        var deffered = TransactionService.getSuppliers('RECEIVABLE');
+        var deffered = CreatePaymentService.getSuppliers('RECEIVABLE');
         deffered.promise.then(function(response) {
         	 vm.suppliers = [];
              var _suppliers = response.data;
@@ -107,7 +107,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     };
     
     function _loadBuyerCodes(supplierId) {
-        var deffered = TransactionService.getBuyerCodes(supplierId);
+        var deffered = CreatePaymentService.getBuyerCodes(supplierId);
         deffered.promise.then(function(response) {
         	 vm.customerCodes = [];
              var _buyerCodes = response.data;
@@ -219,7 +219,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
     vm.accountDropDown = [];
     function _loadAccount(ownerId){
-        var deffered = TransactionService.getAccounts(ownerId);
+        var deffered = CreatePaymentService.getAccounts(ownerId);
         deffered.promise.then(function(response) {
             var accounts = response.data;
             accounts.forEach(function(account) {
@@ -253,7 +253,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.transactionModel.documents = vm.documentSelects;
         vm.transactionModel.supplierId = vm.criteria.supplierId;
         if(vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0){
-            var deffered = TransactionService.getPaymentDate(vm.transactionModel);
+            var deffered = CreatePaymentService.getPaymentDate(vm.transactionModel);
             deffered.promise.then(function(response) {
                 var paymentDates = response.data;
 
@@ -330,11 +330,11 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 documentStatus: _criteria.documentStatus,
                 limit: pagingModel.totalRecord,
                 offset: 0,
-                sponsorId: ownerId,
+                buyerId: ownerId,
                 supplierId: _criteria.supplierId,
                 showOverdue: false
             }
-            var diferredDocumentAll = TransactionService.getDocument(searchDocumentCriteria);
+            var diferredDocumentAll = CreatePaymentService.getDocument(searchDocumentCriteria);
             diferredDocumentAll.promise.then(function(response){
                 vm.documentSelects = response.data;
                 _calculateTransactionAmount(vm.documentSelects);

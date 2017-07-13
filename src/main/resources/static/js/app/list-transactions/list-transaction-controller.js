@@ -573,7 +573,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	};
 	
 	vm.searchTransaction = function(criteria){
-		vm.wrongDateFormat = false;
+		vm.invalidDateCriteria = false;
+		vm.invalidDateCriteriaMsg = '';
 		var dateFrom = vm.dateModel.dateFrom;
         var dateTo = vm.dateModel.dateTo;
         
@@ -614,11 +615,17 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         }
         
         if (angular.isUndefined(dateFrom)) {
-			vm.wrongDateFormat = true;
+			vm.invalidDateCriteria = true;
+			vm.invalidDateCriteriaMsg = {
+                message : 'Wrong date format data.'
+            }
 		}
 
 		if (angular.isUndefined(dateTo)) {
-			vm.wrongDateFormat = true;
+			vm.invalidDateCriteria = true;
+			vm.invalidDateCriteriaMsg = {
+                message : 'Wrong date format data.'
+            }
 		}
 
 		if(dateFrom != '' &&  dateFrom != null && dateTo != '' && dateTo != null){
@@ -627,11 +634,14 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			var dateTimeTo = new Date(dateTo);
 
 			if(dateTimeFrom > dateTimeTo){
-				vm.wrongDateFormat = true;
+				vm.invalidDateCriteria = true;
+				vm.invalidDateCriteriaMsg = {
+                    message : 'From date must be less than or equal to To date.'
+                }
 			}
 		}
 
-        if (!vm.wrongDateFormat) {
+        if (!vm.invalidDateCriteria) {
         	vm.searchTransactionService();
         }
 	};
@@ -809,14 +819,14 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         if (currentParty == partyRole.sponsor) {
             vm.sponsorTxtDisable = true;
             initSponsorAutoSuggest();
-            sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+            sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
 		} else if (currentParty == partyRole.supplier) {
             vm.supplierTxtDisable = true;
             initSupplierAutoSuggest();
-            sponsorAutoSuggestServiceUrl ='api/v1/sponsors?supplierId='+organizeId;
+            sponsorAutoSuggestServiceUrl ='api/v1/buyers?supplierId='+organizeId;
             checkSupplierTP(organizeId);
 		}else if (currentParty == partyRole.bank) {
-			sponsorAutoSuggestServiceUrl = 'api/v1/sponsors';
+			sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
 		}
 		vm.searchTransaction();
 		$cookieStore.remove(listStoreKey);
@@ -891,11 +901,11 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 
 	var querySupplierCode = function(value) {
 		var currentParty = $stateParams.party;
-		var sponsorId;
+		var buyerId;
 		if(currentParty == partyRole.bank){
-			sponsorId = null;
+			buyerId = null;
 		}else{
-			sponsorId = vm.documentListModel.sponsor.organizeId;
+			buyerId = vm.documentListModel.sponsor.organizeId;
 		}
         var supplierCodeServiceUrl = 'api/v1/suppliers';
         value = value = UIFactory.createCriteria(value);
@@ -903,7 +913,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         return $http.get(supplierCodeServiceUrl, {
             params : {
             q : value,
-            sponsorId : sponsorId,
+            buyerId : buyerId,
             offset : 0,
             limit : 5
         }

@@ -34,7 +34,7 @@ angular.module('scfApp').controller(
 					
 					
 					var dataSource = Service
-					.requestURL('/api/credit-information/twelve-months-movement', {});
+					.requestURL('/api/credit-information/twelve-months-movement', {}, 'GET');
 					
 					dataSource.promise.then(function(response) {	
 						
