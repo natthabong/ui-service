@@ -7,9 +7,9 @@ paymentModule.controller('ValidateSubmitController', [
     'PagingController',
     '$timeout',
     'SCFCommonService',
-    'CreatePaymentService',
+    'TransactionService',
     function($scope, $stateParams, UIFactory, PageNavigation, 
-        PagingController, $timeout, SCFCommonService, CreatePaymentService) {
+        PagingController, $timeout, SCFCommonService, TransactionService) {
 		
         var vm = this;
         vm.transactionModel = $stateParams.transactionModel;
@@ -63,7 +63,7 @@ paymentModule.controller('ValidateSubmitController', [
 
         vm.submitTransaction = function() {
         	vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.transactionModel.transactionDate);
-        	var deffered = CreatePaymentService.submitTransaction(vm.transactionModel);
+        	var deffered = TransactionService.submitTransaction(vm.transactionModel);
 			deffered.promise.then(function(response) {
 				vm.transactionModel = response.data;
 				vm.transactionNo = vm.transactionModel.transactionNo;

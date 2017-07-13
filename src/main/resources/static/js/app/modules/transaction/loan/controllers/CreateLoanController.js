@@ -68,9 +68,9 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
         var _criteria = {
             accountingTransactionType: 'PAYABLE',
-            sponsorId: vm.createTransactionModel.sponsorCode,
+            buyerId: vm.createTransactionModel.sponsorCode,
             supplierId : ownerId,
-            supplierCode: vm.createTransactionModel.supplierCode,
+            customerCode: vm.createTransactionModel.supplierCode,
             documentStatus: ['NEW'],
             showOverdue: true
         }
@@ -87,13 +87,12 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         vm.loadDocument = function(pagingModel) {
             var deffered = vm.pagingController.search(pagingModel);
             deffered.promise.then(function(response){
+                vm.watchCheckAll();
                 blockUI.stop();
             }).catch(function(response){
                 blockUI.stop();
             });
             vm.showInfomation = true;
-            vm.watchCheckAll();
-            vm.watchSelectAll();
         }
 
         function _loadTransactionDate(sponsorCode, sponsorPaymentDate) {
@@ -136,6 +135,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             });
         }
 
+        function validateSponsorPaymentDate(paymentDate) {
+            return paymentDate === '' ? false : true;
+        }
+
         vm.searchDocument = function(pagingModel) {
             blockUI.start();
             var searchDocumentDeferred = $q.defer();
@@ -152,12 +155,13 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     vm.createTransactionModel.sponsorIdSelected = vm.createTransactionModel.sponsorCode;
                 } else {
                     vm.requireSponsorPaymentDate = true;
+                    blockUI.stop();
                 }
             }else{
             	vm.errorMsgGroups = 'Could not be create transaction because the document not found.';
                 vm.showErrorMsg = true;
             }
-	        return searchDocumentDeferred;
+	        // return searchDocumentDeferred;
         };
 
         function _loadSponsorPaymentDate() {
@@ -325,11 +329,173 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             _loadSponsor();
 			
         }();
-        
-        function validateSponsorPaymentDate(paymentDate) {
-            return paymentDate === '' ? false : true;
+
+        vm.watchCheckAll = function() {
+            vm.checkAllModel = false;
+            var comparator = angular.equals;
+            var countRecordData = 0;
+            vm.pagingController.tableRowCollection.forEach(function(document) {
+                for (var index = vm.documentSelects.length; index--;) {
+                    if (comparator(document, vm.documentSelects[index])) {
+                        countRecordData++;
+                        break;
+                    }
+                }
+            });
+            if (countRecordData === vm.pagingController.tableRowCollection.length && countRecordData > 0) {
+                vm.checkAllModel = true;
+            }
+            vm.watchSelectAll();
         }
 
+        vm.watchSelectAll = function() {
+            vm.selectAllModel = false;
+            var pageSize = vm.pagingController.splitePageTxt.split("of ")[1];
+            if (vm.documentSelects.length > 0 && vm.documentSelects.length == pageSize) {
+                vm.selectAllModel = true;
+            }
+        }
+
+        var searchByMatchingRef = function(matchingRef){
+			var deferred = $q.defer();
+			var documents = [];
+            var totalRecord = vm.pagingController.splitePageTxt.split(" of")[1];
+            var searchCriteria = _criteria;
+
+            searchCriteria.limit = totalRecord;
+            searchCriteria.matchingRef = matchingRef;
+
+			var diferredDocumentAll = TransactionService.getDocuments(searchDocumentCriteria);
+			diferredDocumentAll.promise.then(function(response){
+				documents = response.data;
+				deferred.resolve(documents);
+			}).catch(function(response){
+				log.error('matchingRef error !')
+				deferred.reject(response);
+			});
+			
+			return deferred;
+		}
+
+        var selectFormMatchingRef = function(data){
+        	var checkOrUncheck = (vm.documentSelects.indexOf(data) > -1);
+        	var macthingRefSelected = data.matchingRef;
+
+        	if(checkOrUncheck){
+        		var removeDupDataFormSearch = vm.documentSelects.indexOf(data);
+        		vm.documentSelects.splice(removeDupDataFormSearch, 1);
+        		var result = searchByMatchingRef(macthingRefSelected);
+        		result.promise.then(function(response){
+        			vm.documentSelects = vm.documentSelects.concat(response);
+        			calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+        		}).catch(function(response){
+ 		
+        		});
+        	}else{
+        		for (var index = vm.documentSelects.length-1; index > -1;index--) {
+        			if(macthingRefSelected === vm.documentSelects[index].matchingRef){
+        				vm.documentSelects.splice(index, 1);
+        			}
+        		}
+        		calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+        	}
+        }
+
+        vm.selectDocument = function(data) {
+            vm.checkAllModel = false;
+            vm.selectAllModel = false;
+            if(data.matchingRef != null && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){
+            	selectFormMatchingRef(data);
+            }else{
+            	calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+            }
+            vm.watchCheckAll();
+        }
+
+        // Select All in page
+        vm.checkAllDocument = function() {
+            var tempMatchingRefNotQueryAgain = [];
+            if (vm.checkAllModel) {
+                vm.pagingController.tableRowCollection.forEach(function(document) {
+
+                	var foundDataSelect = (vm.documentSelects.map(function(o) {
+                        return o.documentId;
+                    }).indexOf(document.documentId) > -1);
+
+                    if (!foundDataSelect){
+                    	if(document.matchingRef != null && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){                   		
+                    		var foundMatchingRefInTemp = tempMatchingRefNotQueryAgain.indexOf(document.matchingRef)
+                    		if(foundMatchingRefInTemp === -1){
+                    			
+                        		for (var index = vm.documentSelects.length-1; index > -1;index--) {
+                        			if(document.matchingRef === vm.documentSelects[index].matchingRef){
+                        				vm.documentSelects.splice(index, 1);
+                        			}
+                        		}
+                        		
+                    			tempMatchingRefNotQueryAgain.push(document.matchingRef);
+                        		var result = searchByMatchingRef(document.matchingRef);
+                        		result.promise.then(function(response){
+                        			vm.documentSelects = vm.documentSelects.concat(response);                      			
+                        			calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                        		}).catch(function(response){
+                 		
+                        		});
+                    		}
+                            
+                        }else{
+                    		vm.documentSelects.push(document);
+                    		calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                    	}
+                    }
+                });
+            } else {
+            	vm.selectAllModel = false;
+            	vm.pagingController.tableRowCollection.forEach(function(document) {
+                    var foundMatchingRefInTemp = tempMatchingRefNotQueryAgain.indexOf(document.matchingRef);
+        			if(document.matchingRef != null && foundMatchingRefInTemp === -1 && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){
+        				tempMatchingRefNotQueryAgain.push(document.matchingRef);
+        				for (var index = vm.documentSelects.length-1; index > -1;index--) {
+                			if(document.matchingRef === vm.documentSelects[index].matchingRef){
+                				vm.documentSelects.splice(index, 1);
+                			}
+                		}
+                    }else{
+        				for (var index = vm.documentSelects.length-1; index > -1;index--) {
+                			if(document.documentId === vm.documentSelects[index].documentId){
+                				vm.documentSelects.splice(index, 1);
+                			}
+                		}
+        			}
+
+            	});
+        		calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+            }
+            vm.watchCheckAll();
+        }
+
+        vm.selectAllDocument = function() {
+        	if(!vm.selectAllModel){
+                var totalRecord = vm.pagingController.splitePageTxt.split(" of")[1];
+                var searchCriteria = _criteria;
+                searchCriteria.limit = totalRecord;
+
+    			var diferredDocumentAll = TransactionService.getDocuments(searchCriteria);
+    			diferredDocumentAll.promise.then(function(response){
+    				vm.documentSelects = response.data;
+    				calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+    				vm.selectAllModel = true;
+    				vm.checkAllModel = true;
+    			}).catch(function(response){
+    				log.error('select all document error')
+    			});
+        	}else{
+        		_setDefualtValue(false);
+                vm.showInfomation = true;
+        		calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+        	}
+        };
+        
         // next to page verify and submit
         vm.nextStep = function() {
             if (vm.documentSelects.length === 0) {
@@ -411,198 +577,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 		// 		vm.searchDocumentCheckAll();
 		// 	});
 		// }
-
         
-		vm.searchByMatchingRef = function(macthingRefSelected){
-			var promise = $q.defer();
-			var documents = [];
-			var searchDocumentCriteria = {
-                    sponsorId: vm.createTransactionModel.sponsorCode,
-                    supplierCode: vm.createTransactionModel.supplierCode,
-                    documentStatus: ['NEW'],
-                    sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
-                    page: 0,
-                    pageSize: 0,
-                    matchingRef : macthingRefSelected
-            }
-			var diferredDocumentAll = TransactionService.getDocumentPOST(searchDocumentCriteria);
-			diferredDocumentAll.promise.then(function(response){
-				documents = response.data;
-				promise.resolve(documents);
-			}).catch(function(response){
-				log.error('searchDocumentAll error')
-				promise.reject(response);
-			});
-			
-			return promise;
-		}
-
-
-        vm.watchCheckAll = function() {
-            var comparator = angular.equals;
-            var countRecordData = 0;
-            vm.tableRowCollection.forEach(function(document) {
-                for (var index = vm.documentSelects.length; index--;) {
-                    if (comparator(document, vm.documentSelects[index])) {
-                        countRecordData++;
-                        break;
-                    }
-                }
-            });
-            if (countRecordData === vm.tableRowCollection.length) {
-                vm.checkAllModel = true;
-            }
-        }
-
-        vm.selectFormMatchingRef = function(data){
-        	var checkOrUncheck = (vm.documentSelects.indexOf(data) > -1);
-        	var macthingRefSelected = data.matchingRef;
-
-        	if(checkOrUncheck){
-        		var removeDupDataFormSearch = vm.documentSelects.indexOf(data);
-        		vm.documentSelects.splice(removeDupDataFormSearch, 1);
-        		var result = vm.searchByMatchingRef(macthingRefSelected);
-        		result.promise.then(function(response){
-        			vm.documentSelects = vm.documentSelects.concat(response);
-        			calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
-        		}).catch(function(response){
- 		
-        		});
-        	}else{
-        		for (var index = vm.documentSelects.length-1; index > -1;index--) {
-        			if(macthingRefSelected === vm.documentSelects[index].matchingRef){
-        				vm.documentSelects.splice(index, 1);
-        			}
-        		}
-        		calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
-        	}
-        }
-
-        vm.selectDocument = function(data) {
-            vm.checkAllModel = false;
-            vm.selectAllModel = false;
-            if(data.matchingRef != null && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){
-            	vm.selectFormMatchingRef(data);
-            }else{
-            	calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
-            }
-        };
-        
-        // Select All in page
-        vm.checkAllDocument = function() {
-            var tempMatchingRefNotQueryAgain = [];
-            if (vm.checkAllModel) {
-                vm.pagingController.tableRowCollection.forEach(function(document) {
-                	var foundDataSelect = (vm.documentSelects.indexOf(document) > -1);
-                    if (!foundDataSelect){
-                    	if(document.matchingRef != null && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){                   		
-                    		var foundMatchingRefInTemp = tempMatchingRefNotQueryAgain.indexOf(document.matchingRef)
-                    		if(foundMatchingRefInTemp === -1){
-                    			
-                        		for (var index = vm.documentSelects.length-1; index > -1;index--) {
-                        			if(document.matchingRef === vm.documentSelects[index].matchingRef){
-                        				vm.documentSelects.splice(index, 1);
-                        			}
-                        		}
-                        		
-                    			tempMatchingRefNotQueryAgain.push(document.matchingRef);
-                        		var result = vm.searchByMatchingRef(document.matchingRef);
-                        		result.promise.then(function(response){
-                        			vm.documentSelects = vm.documentSelects.concat(response);                      			
-                        			calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
-                        		}).catch(function(response){
-                 		
-                        		});
-                        		
-                    		}             		
-                    	}else{
-                    		vm.documentSelects.push(document);
-                    		calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
-                    	}
-                    }
-                });            
-            } else {
-            	vm.selectAllModel = false;
-            	vm.pagingController.tableRowCollection.forEach(function(document) {   
-            		var foundMatchingRefInTemp = tempMatchingRefNotQueryAgain.indexOf(document.matchingRef);
-        			if(document.matchingRef != null && foundMatchingRefInTemp === -1 && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){
-        				tempMatchingRefNotQueryAgain.push(document.matchingRef);
-        				for (var index = vm.documentSelects.length-1; index > -1;index--) {
-                			if(document.matchingRef === vm.documentSelects[index].matchingRef){
-                				vm.documentSelects.splice(index, 1);
-                			}
-                		}        				
-        			}else{
-        				for (var index = vm.documentSelects.length-1; index > -1;index--) {
-                			if(document.documentId === vm.documentSelects[index].documentId){
-                				vm.documentSelects.splice(index, 1);
-                			}
-                		}  
-        			}
-
-            	});
-        		calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
-            }
-        };
-        
-        vm.selectAllDocument = function() {
-        	if(!vm.selectAllModel){
-                var totalRecord = vm.pagingController.splitePageTxt.split(" of")[1];
-
-    			_criteria = {
-                    accountingTransactionType: 'PAYABLE',
-                    sponsorId: vm.createTransactionModel.sponsorCode,
-                    supplierId : ownerId,
-                    supplierCode: vm.createTransactionModel.supplierCode,
-                    documentStatus: ['NEW'],
-                    showOverdue: true,
-                    offset: 0,
-                    limit: totalRecord
-                }
-                
-    			var diferredDocumentAll = TransactionService.getDocument(_criteria);
-    			diferredDocumentAll.promise.then(function(response){
-    				vm.documentSelects = response.data;
-    				calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
-    				vm.selectAllModel = true;
-    				vm.checkAllModel = true;
-    			}).catch(function(response){
-    				log.error('select all document error')
-    			});       		
-        	}else{
-        		_setDefualtValue(false);
-                vm.showInfomation = true;
-        		calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
-        	}
-        };
-
-        vm.watchSelectAll = function() {
-        	if(!vm.selectAllModel){
-    			var searchDocumentCriteria = {
-                    sponsorId: vm.createTransactionModel.sponsorCode,
-                    supplierCode: vm.createTransactionModel.supplierCode,
-                    documentStatus: ['NEW'],
-                    sponsorPaymentDate: vm.createTransactionModel.sponsorPaymentDate,
-                    page: 0,
-                    pageSize: 0
-                }
-    			var diferredDocumentAll = TransactionService.getDocumentPOST(searchDocumentCriteria);
-    			diferredDocumentAll.promise.then(function(response){    				
-    				if(vm.documentSelects.length === response.data.length){
-        				calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
-        				vm.selectAllModel = true;
-        				vm.checkAllModel = true;    					
-    				}
-
-    			}).catch(function(response){
-    				log.error('searchDocumentAll error')
-    			});       		
-        	}else{
-        		vm.documentSelects = [];
-        		vm.selectAllModel = false;
-        		vm.checkAllModel = false;
-        	}        	
-        }
 
         $scope.sortData = function(order, orderBy) {
             vm.createTransactionModel.order = order;

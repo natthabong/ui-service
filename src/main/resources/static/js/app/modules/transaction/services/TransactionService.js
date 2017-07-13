@@ -76,24 +76,12 @@ function transactionService($http, $q, blockUI) {
         return deffered;
     }
 
-	function getDocument(searchCriteriaModel) {
+	function getDocuments(criteria) {
         var deffered = $q.defer();
         $http({
     	    url : 'api/v1/documents',
         	method: 'GET',
-        	params: {
-				accountingTransactionType: searchCriteriaModel.accountingTransactionType,
-				customerCode: searchCriteriaModel.customerCode,
-				limit: searchCriteriaModel.limit,
-                sponsorPaymentDate:searchCriteriaModel.sponsorPaymentDate,
-				offset: searchCriteriaModel.offset,
-				documentStatus : searchCriteriaModel.documentStatus,
-				dueDateFrom: searchCriteriaModel.dueDateFrom,
-                dueDateTo: searchCriteriaModel.dueDateTo,
-				sponsorId: searchCriteriaModel.sponsorId,
-				supplierId: searchCriteriaModel.supplierId,
-				showOverdue: searchCriteriaModel.showOverdue
-			}
+        	params: criteria
         }).then(function(response) {
                 deffered.resolve(response);
             })
@@ -199,21 +187,6 @@ function transactionService($http, $q, blockUI) {
             });
         return deffered;
     }
-
-    function getDocumentPOST(searchCriteriaModel) {
-        var deffered = $q.defer();
-        $http({
-    	    url : 'api/documents/get',
-        	method: 'POST',
-        	data: searchCriteriaModel
-        }).then(function(response) {
-                deffered.resolve(response);
-            })
-            .catch(function(response) {
-                deffered.reject(response);
-            });
-        return deffered;
-    }
 	
 	 function getTradingInfo(sponsorId, supplierId){
         var deffered = $q.defer();
@@ -312,11 +285,10 @@ function transactionService($http, $q, blockUI) {
         getSponsor: getSponsor,
         getSupplier: getSupplier,
         getPaymentDate : getPaymentDate,
-        getDocument : getDocument,
+        getDocuments : getDocuments,
         getAccounts : getAccounts,
         getBuyerCodes: getBuyerCodes,
         getSuppliers: getSuppliers,
-        getDocumentPOST:getDocumentPOST,
         calculateTransactionAmount:calculateTransactionAmount,
         submitTransaction:submitTransaction
 	}
