@@ -87,6 +87,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         vm.loadDocument = function(pagingModel) {
             var deffered = vm.pagingController.search(pagingModel);
             deffered.promise.then(function(response){
+                if(backAction){
+                    vm.documentSelects = $stateParams.documentSelects;
+                    calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                }
                 vm.watchCheckAll();
                 blockUI.stop();
             }).catch(function(response){
@@ -190,7 +194,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             }
 
             // reset actionBank is false
-            backAction = false;
+            // backAction = false;
 
             var deffered = TransactionService.getSponsorPaymentDate(sponsorId, supplierCode, loanRequestMode);
             deffered.promise.then(function(response) {
