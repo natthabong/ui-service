@@ -7,18 +7,21 @@ angular.module('scfApp').controller(
 				'$stateParams',
 				'$timeout',
 				'PageNavigation',
-				'Service', 'SCFCommonService',
+				'Service', 
+				'SCFCommonService',
+				'$rootScope', 
 				function($log, $scope, $state, $stateParams, $timeout,
-						PageNavigation, Service, SCFCommonService) {
+						PageNavigation, Service, SCFCommonService, $rootScope) {
 					var vm = this;
 					var log = $log;
+					var organizeId = $rootScope.userInfo.organizeId;
 					var approveTransactionTodoListUrl = 'api/v1/list-transaction/todo-list';
 
 					vm.approve = false;
 					vm.splitePageTxt = '';					
 					vm.layout = $scope.$parent.$parent.layout;
 					var orderItems  = splitCriteriaData(vm.layout.orderItems);
-					var filterStatusCodeItem = splitFilterStatusCode(vm.layout.filterItems);
+//					var filterStatusCodeItem = splitFilterStatusCode(vm.layout.filterItems);
 					
 					vm.tableRowCollection = [];
 					
@@ -47,10 +50,12 @@ angular.module('scfApp').controller(
 					// Create transactionCriteriaModel for criteria
 					vm.transactionCriteriaModel = {
 						orders: orderItems,
-						statusCode: filterStatusCodeItem,
+						supplierId: organizeId,
+						statusCode: 'WAIT_FOR_APPROVE',
 						page: 0,
 						pageSize: 20,
-						dateType: 'sponsorPaymentDate'
+						dateType: 'sponsorPaymentDate',
+						transactionType: 'DRAWDOWN'
 					};
 
 					vm.searchTransaction = function(criteria){
@@ -178,9 +183,9 @@ angular.module('scfApp').controller(
 						return order;
 					}
 					
-					function splitFilterStatusCode(data){
-						var filterItem = data.split(":");
-						return filterItem[1];
-					}
+//					function splitFilterStatusCode(data){
+//						var filterItem = data.split(":");
+//						return filterItem[1];
+//					}
 
 				} ]);
