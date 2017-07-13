@@ -17,7 +17,6 @@ public class Privilege implements Serializable {
 	private Collection<Role> roles;
 
 	public Privilege() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Privilege(String name) {

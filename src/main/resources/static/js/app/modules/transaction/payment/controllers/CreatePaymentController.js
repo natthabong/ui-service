@@ -14,7 +14,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	var enterPageByBackAction = $stateParams.backAction || false;
 	vm.criteria = $stateParams.criteria || {
 		accountingTransactionType: 'RECEIVABLE',
-		sponsorId: ownerId,
+		buyerId: ownerId,
 		documentStatus: 'NEW',
 		showOverdue: false
 	}
@@ -330,7 +330,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 documentStatus: _criteria.documentStatus,
                 limit: pagingModel.totalRecord,
                 offset: 0,
-                sponsorId: ownerId,
+                buyerId: ownerId,
                 supplierId: _criteria.supplierId,
                 showOverdue: false
             }

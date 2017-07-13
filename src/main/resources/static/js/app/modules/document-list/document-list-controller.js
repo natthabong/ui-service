@@ -140,13 +140,14 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		}
 
 		vm.documentListCriterial = {
-			sponsorId : '',
+			buyerId : '',
 			supplierId : '',
 			customerCode : '',
 			uploadDateFrom : undefined,
 			uploadDateTo : undefined,
 			documentNo : '',
 			documentStatus : undefined,
+			accountingTransactionType: 'PAYABLE',
 			showOverdue : true
 		}
 
@@ -168,13 +169,13 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		}
 
 		function prepareCriteria() {
-			var sponsorCriteria = vm.documentListModel.sponsor.organizeId || null;
+			var buyerCriteria = vm.documentListModel.sponsor.organizeId || null;
 			
 			if (angular.isDefined(vm.documentListModel.supplier)) {
 				var supplierCriteria = vm.documentListModel.supplier.organizeId;
 			}
 
-			vm.documentListCriterial.sponsorId = sponsorCriteria;
+			vm.documentListCriterial.buyerId = buyerCriteria;
 			vm.documentListCriterial.supplierId = supplierCriteria;
 			vm.documentListCriterial.customerCode = UIFactory.createCriteria(vm.documentListModel.supplierCode);
 

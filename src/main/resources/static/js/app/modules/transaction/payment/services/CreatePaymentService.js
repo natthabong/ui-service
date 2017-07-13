@@ -69,7 +69,7 @@ function CreatePaymentService($http, $q){
 				documentStatus : searchCriteriaModel.documentStatus,
 				dueDateFrom: searchCriteriaModel.dueDateFrom,
                 dueDateTo: searchCriteriaModel.dueDateTo,
-				sponsorId: searchCriteriaModel.sponsorId,
+                buyerId: searchCriteriaModel.buyerId,
 				supplierId: searchCriteriaModel.supplierId,
 				showOverdue: searchCriteriaModel.showOverdue
 			}
