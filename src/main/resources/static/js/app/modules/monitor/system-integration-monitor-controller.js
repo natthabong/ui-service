@@ -37,7 +37,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		// Prepare Auto Suggest
 		var querySponsorCode = function(value) {
 			value = value = UIFactory.createCriteria(value);
-			return $http.get('api/v1/sponsors', {
+			return $http.get('api/v1/buyers', {
 			params : {
 				q : value,
 				offset : 0,

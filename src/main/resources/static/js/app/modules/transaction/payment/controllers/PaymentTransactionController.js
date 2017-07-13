@@ -64,7 +64,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         return $http.get(supplierCodeServiceUrl, {
             params : {
             q : value,
-            sponsorId : ownerId,
+            buyerId : ownerId,
             offset : 0,
             limit : 5
         }
@@ -91,7 +91,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 
 	var queryBuyerId = function(value) {
         value = value = UIFactory.createCriteria(value);
-        return $http.get('api/v1/sponsors', {
+        return $http.get('api/v1/buyers', {
         params : {
             q : value,
             offset : 0,
