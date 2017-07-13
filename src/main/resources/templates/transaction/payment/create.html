@@ -35,7 +35,8 @@
 								</div>
 								<div class="col-md-5 col-sm-5"></div>
 							</div>
-							<div class="form-group">
+
+							<div class="form-group" ng-show="ctrl.displayPaymentPage">
 								<label for="dealer" id="buyer-code-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer
 									code' | translate}}: </label>
@@ -48,7 +49,8 @@
 								</div>
 								<div class="col-md-5 col-sm-5"></div>
 							</div>
-							<div class="form-group">
+
+							<div class="form-group" ng-show="ctrl.displayPaymentPage">
 								<label id="date-label" class="col-md-2 col-sm-3 control-label">{{'Due
 									date' | translate}}:</label>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
@@ -78,7 +80,7 @@
 								</div>
 							</div>
 							<div class="form-group"
-								ng-show="errors.dueDateToLessThanFrom || errors.dueDateFormat">
+								ng-show="(errors.dueDateToLessThanFrom || errors.dueDateFormat) &amp;&amp; ctrl.displayPaymentPage">
 								<label class="col-md-2 col-sm-3 col-xs-12  control-label"></label>
 								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
 									ng-show="errors.dueDateToLessThanFrom"

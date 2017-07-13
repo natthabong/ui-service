@@ -11,9 +11,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         var fristTime = true;
         vm.isLoanPayment = false;
         var dashboardParams = $stateParams.dashboardParams;
-        vm.tradingPartnerList = [];
+        var tradingPartnerList = [];
         vm.paymentDropDown = [];
         var _criteria = {};
+        vm.displayPaymentPage = false;
 
         var enterPageByBackAction = $stateParams.backAction || false;
         vm.criteria = $stateParams.criteria || {
@@ -332,31 +333,33 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             var deffered = TransactionService.getSuppliers('RECEIVABLE');
             deffered.promise.then(function (response) {
                 vm.suppliers = [];
-                vm.tradingPartnerList = response.data;
-                var _suppliers = response.data;
-                if (_suppliers !== undefined) {
-
-                    _suppliers.forEach(function (supplier) {
+                tradingPartnerList = response.data;
+                if (tradingPartnerList !== undefined) {
+                    tradingPartnerList.forEach(function (supplier) {
                         var selectObj = {
                             label: supplier.supplierName,
                             value: supplier.supplierId
                         }
                         vm.suppliers.push(selectObj);
                     });
-
+                    console.log(tradingPartnerList);
                     if (!$stateParams.backAction && dashboardParams == null) {
-                        vm.criteria.supplierId = _suppliers[0].supplierId;
-                        if (_suppliers[0].createTransactionType !== undefined && _suppliers[0].createTransactionType == 'WITHOUT_INVOICE') {
-                            PageNavigation.gotoPage('/my-organize/create-payment-woip');
-                        }
+                        vm.criteria.supplierId = tradingPartnerList[0].supplierId;
+                        // if (tradingPartnerList[0].createTransactionType !== undefined && tradingPartnerList[0].createTransactionType == 'WITHOUT_INVOICE') {
+                        //     vm.displayPaymentPage = false;
+                        //     PageNavigation.gotoPage('/my-organize/create-payment-woip');
+                        // }else{
+                        //     vm.displayPaymentPage = true;
+                        // }
                     } else if (dashboardParams != null) {
                         vm.criteria.supplierId = dashboardParams.supplierId;
                     }
 
-                    if (angular.isDefined(vm.criteria.supplierId)) {
-                        _loadAccount(ownerId, vm.criteria.supplierId);
-                        _loadDocumentDisplayConfig(vm.criteria.supplierId);
-                    }
+                    // if (angular.isDefined(vm.criteria.supplierId)) {
+                    //     _loadAccount(ownerId, vm.criteria.supplierId);
+                    //     _loadDocumentDisplayConfig(vm.criteria.supplierId);
+                    // }
+                    checkCreatePaymentType(vm.criteria.supplierId);
                 }
             }).catch(function (response) {
                 log.error(response);
@@ -379,6 +382,22 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             }
 
         } ();
+
+        function checkCreatePaymentType(supplierId) {
+
+            // find in list by supplier id
+            var result = $.grep(tradingPartnerList, function (td) { return td.supplierId == supplierId; });
+
+            if (result[0].createTransactionType !== undefined && result[0].createTransactionType == 'WITHOUT_INVOICE') {
+                vm.displayPaymentPage = false;
+                PageNavigation.gotoPage('/my-organize/create-payment-woip');
+            } else {
+                vm.displayPaymentPage = true;
+                _loadAccount(ownerId, vm.criteria.supplierId);
+                _loadDocumentDisplayConfig(vm.criteria.supplierId);
+            }
+
+        }
 
         vm.accountChange = function () {
 
@@ -407,8 +426,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.supplierChange = function () {
             vm.showErrorMsg = false;
             vm.display = false;
-            _loadAccount(ownerId, vm.criteria.supplierId);
-            _loadDocumentDisplayConfig(vm.criteria.supplierId);
+            checkCreatePaymentType(vm.criteria.supplierId)
+            // _loadAccount(ownerId, vm.criteria.supplierId);
+            // _loadDocumentDisplayConfig(vm.criteria.supplierId);
             vm.maturityDateModel = null;
 
         }
