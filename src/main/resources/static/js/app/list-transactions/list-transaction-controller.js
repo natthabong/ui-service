@@ -573,7 +573,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	};
 	
 	vm.searchTransaction = function(criteria){
-		vm.wrongDateFormat = false;
+		vm.invalidDateCriteria = false;
+		vm.invalidDateCriteriaMsg = '';
 		var dateFrom = vm.dateModel.dateFrom;
         var dateTo = vm.dateModel.dateTo;
         
@@ -614,11 +615,17 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         }
         
         if (angular.isUndefined(dateFrom)) {
-			vm.wrongDateFormat = true;
+			vm.invalidDateCriteria = true;
+			vm.invalidDateCriteriaMsg = {
+                message : 'Wrong date format data.'
+            }
 		}
 
 		if (angular.isUndefined(dateTo)) {
-			vm.wrongDateFormat = true;
+			vm.invalidDateCriteria = true;
+			vm.invalidDateCriteriaMsg = {
+                message : 'Wrong date format data.'
+            }
 		}
 
 		if(dateFrom != '' &&  dateFrom != null && dateTo != '' && dateTo != null){
@@ -627,11 +634,14 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			var dateTimeTo = new Date(dateTo);
 
 			if(dateTimeFrom > dateTimeTo){
-				vm.wrongDateFormat = true;
+				vm.invalidDateCriteria = true;
+				vm.invalidDateCriteriaMsg = {
+                    message : 'From date must be less than or equal to To date.'
+                }
 			}
 		}
 
-        if (!vm.wrongDateFormat) {
+        if (!vm.invalidDateCriteria) {
         	vm.searchTransactionService();
         }
 	};

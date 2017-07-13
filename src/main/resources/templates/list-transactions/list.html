@@ -78,11 +78,10 @@
 								</div>
 								<div class="col-md-4 col-sm-3"></div>
 							</div>
-							<div class="form-group" ng-show="ctrl.wrongDateFormat">
+							<div class="form-group" ng-show="ctrl.invalidDateCriteria">
 								<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
 								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-									id="date-format-warning-message-label">{{'Wrong date
-									format data' | translate}}.</span>
+									id="date-format-warning-message-label" ng-bind="ctrl.invalidDateCriteriaMsg.message | translate"></span>
 							</div>
 
 							<div class="form-group">
