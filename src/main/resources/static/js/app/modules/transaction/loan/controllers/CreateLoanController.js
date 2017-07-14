@@ -579,11 +579,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 		}
 		
 		vm.paymentDateChange = function(){
-			vm.showInfomation = false;
-            vm.documentSelects = [];
-            vm.checkAllModel = false;
-            vm.selectAllModel = false;
-            vm.splitePageTxt = '';
+            _setDefualtValue(false);
             vm.requireSponsorPaymentDate = false;
 		}
 		
