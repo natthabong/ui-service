@@ -6,7 +6,7 @@ angular.module('scfApp').controller(
 			    var vm = this;
 			    var organizeId = $rootScope.userInfo.organizeId;
 			    var compositParent = $scope.$parent;
-			    var dashboardParent = compositParent.$parent.it;
+			    var dashboardParent = compositParent.$parent;
 			    var dashboardItemParent = dashboardParent.dashboardItem;
 			    vm.headerLabel = dashboardItemParent.headerLabel;
 			    var listStoreKey = 'listrancri';

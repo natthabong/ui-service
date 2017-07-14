@@ -19,8 +19,8 @@ angular.module('scfApp').controller(
 
 					vm.approve = false;
 					vm.splitePageTxt = '';					
-					vm.layout = $scope.$parent.$parent.layout;
-					var orderItems  = splitCriteriaData(vm.layout.orderItems);
+					vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
+					var orderItems  = splitCriteriaData(vm.dashboardItem.orderItems);
 //					var filterStatusCodeItem = splitFilterStatusCode(vm.layout.filterItems);
 					
 					vm.tableRowCollection = [];

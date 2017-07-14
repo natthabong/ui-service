@@ -5,13 +5,12 @@
 				<div class="panel-body">
 					<div ng-repeat="dashboardItem in row.items track by $index" scf-show-on-mobile="row.showOnMobile"
 						class="col-lg-{{dashboardItem.columnSizeLg}} col-md-{{dashboardItem.columnSizeMd}} col-sm-{{dashboardItem.columnSizeSm}} col-xs-{{dashboardItem.columnSizeXs}}">
-						<div ng-include="dashboardItem.url" scf-show-on-mobile="row.showOnMobile"></div>
-							
-<!-- 						<div ng-show="!dashboardItem.children.length" -->
-<!-- 							ng-include="dashboardItem.url" scf-show-on-mobile="row.showOnMobile"></div> -->
+						
+						<div ng-show="!dashboardItem.children.length"
+							ng-include="dashboardItem.url" scf-show-on-mobile="row.showOnMobile"></div>
 
-<!-- 						<div ng-show="dashboardItem.children.length" -->
-<!-- 							ng-include="'/dashboard-composite'" scf-show-on-mobile="row.showOnMobile"></div> -->
+						<div ng-show="dashboardItem.children.length"
+							ng-include="'/dashboard-composite'" scf-show-on-mobile="row.showOnMobile"></div>
 					</div>
 				</div>
 			</div>

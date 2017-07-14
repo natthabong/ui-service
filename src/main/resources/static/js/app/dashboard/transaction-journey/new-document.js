@@ -1,7 +1,7 @@
 angular.module('scfApp').controller('JourneyNewDocumentController', ['$scope', 'Service', 'PageNavigation', 'SCFCommonService', '$rootScope', function($scope, Service, PageNavigation, SCFCommonService, $rootScope) {
     var vm = this;
     var compositParent = $scope.$parent;
-    var dashboarParent = compositParent.$parent.it;
+    var dashboarParent = compositParent.$parent;
     var dahsboarItemParent = dashboarParent.dashboardItem;
     vm.headerLabel = dahsboarItemParent.headerLabel;
 	vm.isSuppliler = false;

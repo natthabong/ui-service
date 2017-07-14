@@ -1,7 +1,7 @@
 angular.module('scfApp').controller('JourneyResultController', ['$scope','Service', 'PageNavigation', function($scope, Service, PageNavigation){
 	var vm = this;
 	var compositParent = $scope.$parent;
-	var dashboarParent = compositParent.$parent.it;
+	var dashboarParent = compositParent.$parent;
 	var dahsboarItemParent = dashboarParent.dashboardItem;
 	vm.headerLabel = dahsboarItemParent.headerLabel;
 	vm.resultModel = {
