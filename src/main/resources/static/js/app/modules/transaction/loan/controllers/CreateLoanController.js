@@ -356,12 +356,21 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 			var deferred = $q.defer();
 			var documents = [];
             var totalRecord = vm.pagingController.splitePageTxt.split(" of")[1];
-            var searchCriteria = _criteria;
+
+            var searchCriteria = {
+                accountingTransactionType: _criteria.accountingTransactionType,
+                buyerId: _criteria.buyerId,
+                supplierId : _criteria.supplierId,
+                customerCode: _criteria.customerCode,
+                documentStatus: _criteria.documentStatus,
+                showOverdue: _criteria.showOverdue,
+                offset: _criteria.offset
+            }
 
             searchCriteria.limit = totalRecord;
             searchCriteria.matchingRef = matchingRef;
 
-			var diferredDocumentAll = TransactionService.getDocuments(searchDocumentCriteria);
+			var diferredDocumentAll = TransactionService.getDocuments(searchCriteria);
 			diferredDocumentAll.promise.then(function(response){
 				documents = response.data;
 				deferred.resolve(documents);
@@ -374,7 +383,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 		}
 
         var selectFormMatchingRef = function(data){
-        	var checkOrUncheck = (vm.documentSelects.indexOf(data) > -1);
+            var checkOrUncheck = (vm.documentSelects.map(function(o) {
+                        return o.documentId;
+                    }).indexOf(data.documentId) > -1);
+        	// var checkOrUncheck = (vm.documentSelects.indexOf(data) > -1);
         	var macthingRefSelected = data.matchingRef;
 
         	if(checkOrUncheck){
