@@ -10,47 +10,55 @@ angular
 						'$stateParams',
 						'$timeout',
 						'PageNavigation',
+						'PagingController',
 						'Service',
 						function($log, $scope, $state, SCFCommonService, $stateParams, $timeout,
-								PageNavigation, Service) {
+								PageNavigation, PagingController, Service) {
 							var vm = this;
 							var log = $log;
 							var organizeId = $scope.userInfo.organizeId;
 							
-							vm.transactionCriteria = {
-									dateType: '',
-									dateFrom: '',
-									dateTo: '',
-									sponsorId: '',
-									statusGroup: '',
-									statusCode: '',
-									supplierCode: '',
-									page: 0,
-									pageSize: 20,
+							vm.criteria = {
+									supplierId: organizeId,
 									orders: orderItems
 							}
+							
+//							vm.transactionCriteria = {
+//									dateType: '',
+//									dateFrom: '',
+//									dateTo: '',
+//									sponsorId: '',
+//									statusGroup: '',
+//									statusCode: '',
+//									supplierCode: '',
+//									page: 0,
+//									pageSize: 20,
+//									orders: orderItems
+//							}
 
 							vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
 							var orderItems = splitCriteriaSortOrderData(vm.dashboardItem.orderItems);
-							vm.transactionCriteria.orders = orderItems;
+							
+//							vm.transactionCriteria.orders = orderItems;
+							vm.criteria.orders = orderItems;
 //							splitCriteriaFilterData(vm.dashboardItem.filterItems);
-							vm.pageModel = {
-								pageSizeSelectModel : '20',
-								totalRecord : 0,
-								currentPage : 0,
-								clearSortOrder : false
-							};
+//							vm.pageModel = {
+//								pageSizeSelectModel : '20',
+//								totalRecord : 0,
+//								currentPage : 0,
+//								clearSortOrder : false
+//							};
 
-							vm.pageSizeList = [ {
-								label : '10',
-								value : '10'
-							}, {
-								label : '20',
-								value : '20'
-							}, {
-								label : '50',
-								value : '50'
-							} ];
+//							vm.pageSizeList = [ {
+//								label : '10',
+//								value : '10'
+//							}, {
+//								label : '20',
+//								value : '20'
+//							}, {
+//								label : '50',
+//								value : '50'
+//							} ];
 							
 							vm.view = function(data){		
 								SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
@@ -68,6 +76,8 @@ angular
 								}
 								return atob(data);
 							}
+							
+							vm.pagingController = PagingController.create('api/v1/transactions/internal-step', vm.criteria, 'GET');
 
 							vm.dataTable = {
 								columns : [
@@ -141,7 +151,11 @@ angular
 										}]
 							};
 
-							vm.data = [];
+//							vm.data = [];
+							
+							vm.loadData = function(pagingModel){
+						    	vm.pagingController.search(pagingModel);
+						    }
 
 							function splitCriteriaSortOrderData(data) {
 								var dataSplit = data.split(",");
@@ -170,41 +184,42 @@ angular
 								return atob(data);
 							}
 							
-							vm.initLoad = function() {
-				                vm.pageModel.currentPage = 0;
-				                vm.pageModel.pageSizeSelectModel = '20';
-								vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
-				                vm.transactionCriteria.page = 0;
-				                vm.transactionCriteria.pageSize = 20;
-								vm.searchTransaction();	
+							vm.initLoad = function(pagingModel) {
+//				                vm.pageModel.currentPage = 0;
+//				                vm.pageModel.pageSizeSelectModel = '20';
+//								vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
+//				                vm.transactionCriteria.page = 0;
+//				                vm.transactionCriteria.pageSize = 20;
+//								vm.searchTransaction();	
+								vm.loadData(pagingModel);
 							}
 							
-							vm.searchTransactionService = function() {		
-								vm.transactionCriteria.supplierId = organizeId;
-								var dataSource = Service.requestURL('/api/v1/list-transaction/search',vm.transactionCriteria);
-								dataSource.promise.then(function(response) {
-									vm.data = response.content;
-					                vm.pageModel.totalRecord = response.totalElements;
-					                vm.pageModel.totalPage = response.totalPages;		
-					                vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-								}).catch();								
-							}
+//							vm.searchTransactionService = function() {		
+//								vm.transactionCriteria.supplierId = organizeId;
+//								var dataSource = Service.requestURL('/api/v1/list-transaction/search',vm.transactionCriteria);
+//								dataSource.promise.then(function(response) {
+//									vm.data = response.content;
+//					                vm.pageModel.totalRecord = response.totalElements;
+//					                vm.pageModel.totalPage = response.totalPages;		
+//					                vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+//								}).catch();								
+//							}
 
-							vm.searchTransaction = function(criteria){
-						            if (criteria === undefined) {
-						                vm.pageModel.currentPage = 0;
-						                vm.pageModel.pageSizeSelectModel = '20';
-										vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
-						                vm.transactionCriteria.page = 0;
-						                vm.transactionCriteria.pageSize = 20;
-						            } else {
-						                vm.pageModel.currentPage = criteria.page;
-						                vm.pageModel.pageSizeSelectModel = criteria.pageSize;	
-						                vm.transactionCriteria.page = criteria.page;
-						                vm.transactionCriteria.pageSize = criteria.pageSize;				
-						            }
-						            vm.searchTransactionService();
-							};
+//							vm.searchTransaction = function(criteria){
+//						            if (criteria === undefined) {
+//						                vm.pageModel.currentPage = 0;
+//						                vm.pageModel.pageSizeSelectModel = '20';
+//										vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
+//						                vm.transactionCriteria.page = 0;
+//						                vm.transactionCriteria.pageSize = 20;
+//						            } else {
+//						                vm.pageModel.currentPage = criteria.page;
+//						                vm.pageModel.pageSizeSelectModel = criteria.pageSize;	
+//						                vm.transactionCriteria.page = criteria.page;
+//						                vm.transactionCriteria.pageSize = criteria.pageSize;				
+//						            }
+//						            vm.searchTransactionService();
+//							};
 							
 							vm.initLoad();
 							
