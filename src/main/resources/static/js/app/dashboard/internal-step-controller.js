@@ -39,8 +39,14 @@ angular
 								}
 								return atob(data);
 							}
-							console.log(vm.criteria);
-							vm.pagingController = PagingController.create('api/v1/transactions/internal-step', vm.criteria, 'GET');
+							
+							if(vm.dashboardItem.headerLabel == 'Transaction result'){
+								vm.pagingController = PagingController.create('api/v1/transactions/transaction-result', vm.criteria, 'GET');
+								
+							}else{
+								vm.pagingController = PagingController.create('api/v1/transactions/internal-step', vm.criteria, 'GET');
+							}
+							
 
 							vm.dataTable = {
 								columns : [
