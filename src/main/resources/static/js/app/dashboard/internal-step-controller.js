@@ -23,43 +23,6 @@ angular
 									orders: vm.dashboardItem.orderItems
 							}
 							
-//							vm.transactionCriteria = {
-//									dateType: '',
-//									dateFrom: '',
-//									dateTo: '',
-//									sponsorId: '',
-//									statusGroup: '',
-//									statusCode: '',
-//									supplierCode: '',
-//									page: 0,
-//									pageSize: 20,
-//									orders: orderItems
-//							}
-
-							
-							var orderItems = splitCriteriaSortOrderData(vm.dashboardItem.orderItems);
-							
-//							vm.transactionCriteria.orders = orderItems;
-							//vm.criteria.orders = orderItems;
-//							splitCriteriaFilterData(vm.dashboardItem.filterItems);
-//							vm.pageModel = {
-//								pageSizeSelectModel : '20',
-//								totalRecord : 0,
-//								currentPage : 0,
-//								clearSortOrder : false
-//							};
-
-//							vm.pageSizeList = [ {
-//								label : '10',
-//								value : '10'
-//							}, {
-//								label : '20',
-//								value : '20'
-//							}, {
-//								label : '50',
-//								value : '50'
-//							} ];
-							
 							vm.view = function(data){		
 								SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 								var params = { transactionModel: data,
@@ -151,75 +114,18 @@ angular
 										}]
 							};
 
-//							vm.data = [];
 							
 							vm.loadData = function(pagingModel){
 						    	vm.pagingController.search(pagingModel);
 						    }
 
-							function splitCriteriaSortOrderData(data) {
-								var dataSplit = data.split(",");
-								var order = [];
-								dataSplit.forEach(function(orderData) {
-									var orderItem = orderData.split(":");
-									var item = {
-										fieldName : orderItem[0],
-										direction : orderItem[1]
-									}
-									order.push(item);
-								});
-								return order;
-							}
-							
-//							function splitCriteriaFilterData(data) {
-//								var dataSplit = data.split(",");
-//								var count = 0;
-//								dataSplit.forEach(function(filterData) {
-//									var filterItem = filterData.split(":");
-//									vm.transactionCriteria[filterItem[0]] = filterItem[1];
-//								});
-//							}
-							
 							vm.decodeBase64 = function(data) {
 								return atob(data);
 							}
 							
 							vm.initLoad = function(pagingModel) {
-//				                vm.pageModel.currentPage = 0;
-//				                vm.pageModel.pageSizeSelectModel = '20';
-//								vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
-//				                vm.transactionCriteria.page = 0;
-//				                vm.transactionCriteria.pageSize = 20;
-//								vm.searchTransaction();	
 								vm.loadData(pagingModel);
 							}
-							
-//							vm.searchTransactionService = function() {		
-//								vm.transactionCriteria.supplierId = organizeId;
-//								var dataSource = Service.requestURL('/api/v1/list-transaction/search',vm.transactionCriteria);
-//								dataSource.promise.then(function(response) {
-//									vm.data = response.content;
-//					                vm.pageModel.totalRecord = response.totalElements;
-//					                vm.pageModel.totalPage = response.totalPages;		
-//					                vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-//								}).catch();								
-//							}
-
-//							vm.searchTransaction = function(criteria){
-//						            if (criteria === undefined) {
-//						                vm.pageModel.currentPage = 0;
-//						                vm.pageModel.pageSizeSelectModel = '20';
-//										vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
-//						                vm.transactionCriteria.page = 0;
-//						                vm.transactionCriteria.pageSize = 20;
-//						            } else {
-//						                vm.pageModel.currentPage = criteria.page;
-//						                vm.pageModel.pageSizeSelectModel = criteria.pageSize;	
-//						                vm.transactionCriteria.page = criteria.page;
-//						                vm.transactionCriteria.pageSize = criteria.pageSize;				
-//						            }
-//						            vm.searchTransactionService();
-//							};
 							
 							vm.initLoad();
 							
