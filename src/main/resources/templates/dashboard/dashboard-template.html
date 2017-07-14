@@ -1,9 +1,9 @@
 <div id="content" th:fragment="content">
 	<div id="wrapper" ng-init="dashboardCtrl.load()">
-		<div class="row" ng-repeat="row in dashboardCtrl.rowItems track by $index">
+		<div class="row" ng-repeat="row in dashboardCtrl.rowItems track by $index" ng-show="row != undefined">
 			<div class="panel" ng-if="dashboardCtrl.rowItems.length" scf-show-on-mobile="row.showOnMobile">
 				<div class="panel-body">
-					<div ng-repeat="dashboardItem in row.items track by $index" scf-show-on-mobile="row.showOnMobile"
+					<div ng-repeat="dashboardItem in row.items" scf-show-on-mobile="row.showOnMobile"
 						class="col-lg-{{dashboardItem.columnSizeLg}} col-md-{{dashboardItem.columnSizeMd}} col-sm-{{dashboardItem.columnSizeSm}} col-xs-{{dashboardItem.columnSizeXs}}">
 						
 						<div ng-show="!dashboardItem.children.length"
