@@ -1,17 +1,17 @@
 <div id="content" th:fragment="content">
 	<div id="wrapper" ng-init="dashboardCtrl.load()">
-		<div class="row" ng-repeat="row in dashboardCtrl.rowItems">
-			<div class="panel" ng-if="row.items.length" scf-show-on-mobile="row.showOnMobile">
+		<div class="row" ng-repeat="row in dashboardCtrl.rowItems track by $index">
+			<div class="panel" ng-if="dashboardCtrl.rowItems.length" scf-show-on-mobile="row.showOnMobile">
 				<div class="panel-body">
-					<div ng-repeat="layout in row.items" scf-show-on-mobile="layout.showOnMobile"
-						class="col-lg-{{layout.columnSizeLg}} col-md-{{layout.columnSizeMd}} col-sm-{{layout.columnSizeSm}} col-xs-{{layout.columnSizeXs}}"
-						ng-init="dashboardItem=layout.dashboardItem">
-						
-						<div ng-show="!layout.children.length"
-							ng-include="layout.dashboardItem.url" scf-show-on-mobile="layout.showOnMobile"></div>
+					<div ng-repeat="dashboardItem in row.items track by $index" scf-show-on-mobile="row.showOnMobile"
+						class="col-lg-{{dashboardItem.columnSizeLg}} col-md-{{dashboardItem.columnSizeMd}} col-sm-{{dashboardItem.columnSizeSm}} col-xs-{{dashboardItem.columnSizeXs}}">
+						<div ng-include="dashboardItem.url" scf-show-on-mobile="row.showOnMobile"></div>
+							
+<!-- 						<div ng-show="!dashboardItem.children.length" -->
+<!-- 							ng-include="dashboardItem.url" scf-show-on-mobile="row.showOnMobile"></div> -->
 
-						<div ng-show="layout.children.length"
-							ng-include="'/dashboard-composite'" scf-show-on-mobile="layout.showOnMobile"></div>
+<!-- 						<div ng-show="dashboardItem.children.length" -->
+<!-- 							ng-include="'/dashboard-composite'" scf-show-on-mobile="row.showOnMobile"></div> -->
 					</div>
 				</div>
 			</div>

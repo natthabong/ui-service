@@ -4,7 +4,7 @@ var dashboardController = function(Service, $log, $rootScope, $element) {
     var vm = this;
     var log = $log;
     vm.load = function() {
-        var deferred = Service.requestURL('api/dashboard/items/get');
+        var deferred = Service.requestURL('api/dashboard/items/get', {}, 'GET');
         vm.rowItems = [];
         deferred.promise.then(function(response) {
         	angular.forEach(response, function(value, key) {
@@ -15,8 +15,11 @@ var dashboardController = function(Service, $log, $rootScope, $element) {
         			};
         		}
         		this[value.rowNo].showOnMobile = this[value.rowNo].showOnMobile || value.showOnMobile;
+        		
         		this[value.rowNo].items.push(value);
         		},  vm.rowItems);
+
+        	console.log(vm.rowItems);
         }).catch(function(response) {
             log.error('Cannot load dashboard');
         });

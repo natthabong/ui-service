@@ -30,10 +30,10 @@ angular
 									orders: orderItems
 							}
 
-							vm.dashboardItem = $scope.$parent.$parent.layout;
+							vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
 							var orderItems = splitCriteriaSortOrderData(vm.dashboardItem.orderItems);
 							vm.transactionCriteria.orders = orderItems;
-							splitCriteriaFilterData(vm.dashboardItem.filterItems);
+//							splitCriteriaFilterData(vm.dashboardItem.filterItems);
 							vm.pageModel = {
 								pageSizeSelectModel : '20',
 								totalRecord : 0,
@@ -157,14 +157,14 @@ angular
 								return order;
 							}
 							
-							function splitCriteriaFilterData(data) {
-								var dataSplit = data.split(",");
-								var count = 0;
-								dataSplit.forEach(function(filterData) {
-									var filterItem = filterData.split(":");
-									vm.transactionCriteria[filterItem[0]] = filterItem[1];
-								});
-							}
+//							function splitCriteriaFilterData(data) {
+//								var dataSplit = data.split(",");
+//								var count = 0;
+//								dataSplit.forEach(function(filterData) {
+//									var filterItem = filterData.split(":");
+//									vm.transactionCriteria[filterItem[0]] = filterItem[1];
+//								});
+//							}
 							
 							vm.decodeBase64 = function(data) {
 								return atob(data);
