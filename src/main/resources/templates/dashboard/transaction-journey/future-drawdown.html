@@ -1,10 +1,12 @@
 <div th:fragment="content"
     sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZE')">
     <div class="panel future-drawdown-panel panel-shadow" ng-controller="JourneyFutureDrawdownController as futureDrawdownCtrl">
-        <div class="panel-heading txn-journey">
-            <span class="pull-left" ng-bind="futureDrawdownCtrl.headerLabel"></span>
-            <div class="clearfix"></div>
-        </div>
+        <a class="mouse-pointer " id="future-drawdown-transaction-journey-link">
+            <div class="panel-heading txn-journey">
+                <span class="pull-left" ng-bind="futureDrawdownCtrl.headerLabel"></span>
+                <div class="clearfix"></div>
+            </div>
+        </a>
 
         <div class="panel-body">
             <div class="row">
