@@ -64,9 +64,9 @@ angular.module('scfApp').controller(
 			    vm.load = function() {
 			    	var newDocumentDeferred = Service.doGet('/api/summary-transaction/get', vm.transactionCriteria);
 			    	newDocumentDeferred.promise.then(function(response){
-			    		vm.waitForApproveModel.totalTransaction = response.totalTransaction;
-						vm.waitForApproveModel.totalAmount = SCFCommonService.shortenLargeNumber(response.totalAmount);
-						vm.waitForApproveModel.maxAge = SCFCommonService.shortenLargeNumber(response.maxAge);
+			    		vm.waitForApproveModel.totalTransaction = response.data.totalTransaction;
+						vm.waitForApproveModel.totalAmount = SCFCommonService.shortenLargeNumber(response.data.totalAmount);
+						vm.waitForApproveModel.maxAge = SCFCommonService.shortenLargeNumber(response.data.maxAge);
 			    	}).catch(function(response){
 			    		
 			    	});
