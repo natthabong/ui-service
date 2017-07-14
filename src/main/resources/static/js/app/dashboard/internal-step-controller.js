@@ -40,7 +40,9 @@ angular
 							var orderItems = splitCriteriaSortOrderData(vm.dashboardItem.orderItems);
 							
 //							vm.transactionCriteria.orders = orderItems;
-							vm.criteria.orders = orderItems;
+							console.log(orderItems)
+							//vm.criteria.orders = orderItems;
+							console.log(vm.criteria.orders);
 //							splitCriteriaFilterData(vm.dashboardItem.filterItems);
 //							vm.pageModel = {
 //								pageSizeSelectModel : '20',
@@ -76,7 +78,7 @@ angular
 								}
 								return atob(data);
 							}
-							
+							console.log(vm.criteria);
 							vm.pagingController = PagingController.create('api/v1/transactions/internal-step', vm.criteria, 'GET');
 
 							vm.dataTable = {

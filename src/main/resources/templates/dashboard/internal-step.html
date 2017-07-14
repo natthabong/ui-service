@@ -35,14 +35,14 @@
 		
 		<div class="row">
 			<div class="col-md-12 col-sm-12 text-right">
-				<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
+				<span> <b ng-bind="internalStepCtrl.pagingController.splitePageTxt"
 					id="internal-step-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 						dropdown-id="page-limit-dropdown" name="internal-step"
-						page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-						total-page="ctrl.pagingController.pagingModel.totalPage"
-						current-page="ctrl.pagingController.pagingModel.currentPage"
-						page-size-list="ctrl.pagingController.pageSizeList"
-						page-action="ctrl.loadData"></scf-pagination>
+						page-size-model="internalStepCtrl.pagingController.pagingModel.pageSizeSelectModel"
+						total-page="internalStepCtrl.pagingController.pagingModel.totalPage"
+						current-page="internalStepCtrl.pagingController.pagingModel.currentPage"
+						page-size-list="internalStepCtrl.pagingController.pageSizeList"
+						page-action="internalStepCtrl.loadData"></scf-pagination>
 				</span>
 			</div>
 		</div>
@@ -52,11 +52,11 @@
 			<div class="col-md-12">
 				<scf-table id="internal-step-table"
 					class="transaction-table"
-					component-config="ctrl.dataTable"
-					component-datas="ctrl.pagingController.tableRowCollection"
-					current-page="ctrl.pagingController.pagingModel.currentPage"
-					record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-					clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+					component-config="internalStepCtrl.dataTable"
+					component-datas="internalStepCtrl.pagingController.tableRowCollection"
+					current-page="internalStepCtrl.pagingController.pagingModel.currentPage"
+					record-per-page="internalStepCtrl.pagingController.pagingModel.pageSizeSelectModel"
+					clear-sort-order="internalStepCtrl.pagingController.pagingModel.clearSortOrder"></scf-table>
 			</div>
 			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
