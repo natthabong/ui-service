@@ -253,7 +253,7 @@ app.controller('NewFileLayoutController', [
 				delimeter : ',',
 				wrapper : '"',
 				fileExtensions : 'csv',
-				integrateType : 'SPONSOR_UPLOAD',
+				integrateType : 'IMPORT',
 				fileType : 'FIXED_LENGTH',
 				charsetName : 'TIS-620',
 				checkBinaryFile : false,
