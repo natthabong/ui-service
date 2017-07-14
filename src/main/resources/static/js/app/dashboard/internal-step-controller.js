@@ -17,10 +17,10 @@ angular
 							var vm = this;
 							var log = $log;
 							var organizeId = $scope.userInfo.organizeId;
-							
+							vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
 							vm.criteria = {
 									supplierId: organizeId,
-									orders: orderItems
+									orders: vm.dashboardItem.orderItems
 							}
 							
 //							vm.transactionCriteria = {
@@ -36,13 +36,11 @@ angular
 //									orders: orderItems
 //							}
 
-							vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
+							
 							var orderItems = splitCriteriaSortOrderData(vm.dashboardItem.orderItems);
 							
 //							vm.transactionCriteria.orders = orderItems;
-							console.log(orderItems)
 							//vm.criteria.orders = orderItems;
-							console.log(vm.criteria.orders);
 //							splitCriteriaFilterData(vm.dashboardItem.filterItems);
 //							vm.pageModel = {
 //								pageSizeSelectModel : '20',
