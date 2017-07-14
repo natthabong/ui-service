@@ -7,42 +7,51 @@ angular.module('scfApp').controller(
 				'$stateParams',
 				'$timeout',
 				'PageNavigation',
+				'PagingController',
 				'Service', 
 				'SCFCommonService',
 				'$rootScope', 
 				function($log, $scope, $state, $stateParams, $timeout,
-						PageNavigation, Service, SCFCommonService, $rootScope) {
+						PageNavigation, PagingController, Service, SCFCommonService, $rootScope) {
 					var vm = this;
 					var log = $log;
 					var organizeId = $rootScope.userInfo.organizeId;
 					var transactionTodoListUrl = 'api/v1/list-transaction/todo-list';
+					vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
+					
+					vm.criteria = {
+							supplierId: organizeId,
+							statusCode: 'WAIT_FOR_VERIFY',
+							transactionType: 'DRAWDOWN',
+							orders: vm.dashboardItem.orderItems,
+					}
 					
 					vm.verify = false;
 					vm.approve = false;
-					vm.splitePageTxt = '';					
-					vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
-					var orderItems  = splitCriteriaData(vm.dashboardItem.orderItems);
+//					vm.splitePageTxt = '';					
+					
+					//var orderItems  = splitCriteriaData(vm.dashboardItem.orderItems);
 //					var filterStatusCodeItem = splitFilterStatusCode(vm.layout.filterItems);
 					
 					vm.tableRowCollection = [];
 					
-				    vm.pageModel = {
-				            pageSizeSelectModel: '20',
-				            totalRecord: 0,
-							totalPage: 0,
-				    		clearSortOrder: false
-				    };
+//				    vm.pageModel = {
+//				            pageSizeSelectModel: '20',
+//				            totalRecord: 0,
+//							totalPage: 0,
+//				    		clearSortOrder: false
+//				    };
 
-				    vm.pageSizeList = [{
-				        label: '10',
-				        value: '10'
-				    }, {
-				        label: '20',
-				        value: '20'
-				    }, {
-				        label: '50',
-				        value: '50'
-				    }];
+//				    vm.pageSizeList = [{
+//				        label: '10',
+//				        value: '10'
+//				    }, {
+//				        label: '20',
+//				        value: '20'
+//				    }, {
+//				        label: '50',
+//				        value: '50'
+//				    }];
 					
 					vm.statusTransaction = {
 						waitForVerify: 'WAIT_FOR_VERIFY',
@@ -50,28 +59,15 @@ angular.module('scfApp').controller(
 					}
 					
 					//Create transactionCriteriaModel for criteria
-					vm.transactionCriteriaModel = {
-						orders: orderItems,
-						supplierId: organizeId,
-						statusCode: 'WAIT_FOR_VERIFY',
-						page: 0,
-						pageSize: 20,
-						dateType: 'sponsorPaymentDate',
-						transactionType: 'DRAWDOWN'
-					};
-					
-					vm.searchTransaction = function(criteria){
-						if(!angular.isUndefined(criteria)){
-							vm.pageModel.pageSizeSelectModel = criteria.pageSize;
-							vm.transactionCriteriaModel.page = criteria.page;
-							vm.transactionCriteriaModel.pageSize = criteria.pageSize;
-							vm.transactionCriteriaModel.orders = orderItems;
-							vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder ;
-						}
-						callService(vm.transactionCriteriaModel);						
-					};
-					
-					vm.searchTransaction();
+//					vm.transactionCriteriaModel = {
+//						orders: orderItems,
+//						supplierId: organizeId,
+//						statusCode: 'WAIT_FOR_VERIFY',
+//						page: 0,
+//						pageSize: 20,
+//						dateType: 'sponsorPaymentDate',
+//						transactionType: 'DRAWDOWN'
+//					};
 					
 					vm.decodeBase64 = function(data){
 						if(angular.isUndefined(data)){
@@ -86,28 +82,31 @@ angular.module('scfApp').controller(
 						});
 					}
 
-					function callService(criteria){
-						var serviceDiferred = Service.requestURL(transactionTodoListUrl, criteria, 'POST');						
-						serviceDiferred.promise.then(function(response){
-							vm.data = response.content;
-							vm.pageModel.totalRecord = response.totalElements;
-							vm.pageModel.totalPage = response.totalPages;							
-							vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.transactionCriteriaModel.page, vm.pageModel.totalRecord);
-						}).catch(function(response){
-							log.error('Load Transaction todo list error');
-						});
-					}
+//					function callService(criteria){
+//						var serviceDiferred = Service.requestURL(transactionTodoListUrl, criteria, 'POST');						
+//						serviceDiferred.promise.then(function(response){
+//							vm.data = response.content;
+//							vm.pageModel.totalRecord = response.totalElements;
+//							vm.pageModel.totalPage = response.totalPages;							
+//							vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.transactionCriteriaModel.page, vm.pageModel.totalRecord);
+//						}).catch(function(response){
+//							log.error('Load Transaction todo list error');
+//						});
+//					}
 					
-					$scope.sortData = function(order, orderBy){
-						var orderItem = {
-							fieldName: order,
-							direction:  orderBy.toUpperCase()
-						}						
-						var sortOrderItems = [];
-						sortOrderItems.push(orderItem);
-						vm.transactionCriteriaModel.orders = sortOrderItems;
-						vm.searchTransaction(undefined);
-					}
+//					$scope.sortData = function(order, orderBy){
+//						var orderItem = {
+//							fieldName: order,
+//							direction:  orderBy.toUpperCase()
+//						}						
+//						var sortOrderItems = [];
+//						sortOrderItems.push(orderItem);
+//						vm.transactionCriteriaModel.orders = sortOrderItems;
+//						vm.searchTransaction(undefined);
+//					}
+					
+					vm.pagingController = PagingController.create(transactionTodoListUrl, vm.criteria, 'GET');
+					
 				    vm.dataTable = {
 				            options: {
 				                displayRowNo: {
@@ -161,21 +160,41 @@ angular.module('scfApp').controller(
 							}]
 				    };
 				    
-					function splitCriteriaData(data){
-						var dataSplit = data.split(",");
-						var order = [];
-						dataSplit.forEach(function(orderData){
-							var orderItem = orderData.split(":");
-							var item = {
-									fieldName: orderItem[0],
-									direction:  orderItem[1]
-							}
-							order.push(item);
-						});
-						
-						return order;
-					}
+					vm.loadData = function(pagingModel){
+				    	vm.pagingController.search(pagingModel);
+				    }
+
 					
+					vm.initLoad = function(pagingModel){
+//						if(!angular.isUndefined(criteria)){
+//							vm.pageModel.pageSizeSelectModel = criteria.pageSize;
+//							vm.transactionCriteriaModel.page = criteria.page;
+//							vm.transactionCriteriaModel.pageSize = criteria.pageSize;
+//							vm.transactionCriteriaModel.orders = orderItems;
+//							vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder ;
+//						}
+						vm.loadData(pagingModel);
+						
+//						callService(vm.transactionCriteriaModel);						
+					};
+					
+					vm.initLoad();
+				    
+//					function splitCriteriaData(data){
+//						var dataSplit = data.split(",");
+//						var order = [];
+//						dataSplit.forEach(function(orderData){
+//							var orderItem = orderData.split(":");
+//							var item = {
+//									fieldName: orderItem[0],
+//									direction:  orderItem[1]
+//							}
+//							order.push(item);
+//						});
+//						
+//						return order;
+//					}
+//					
 //					function splitFilterStatusCode(data){
 //						var filterItem = data.split(":");
 //						return filterItem[1];
