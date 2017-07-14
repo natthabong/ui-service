@@ -49,7 +49,7 @@ angular.module('scfApp').controller(
 //				}
 			    
 			    vm.load = function() {
-			    	var newDocumentDeferred = Service.requestURL('/api/summary-transaction/get', vm.transactionCriteria, 'GET');
+			    	var newDocumentDeferred = Service.doGet('/api/summary-transaction/get', vm.transactionCriteria);
 					newDocumentDeferred.promise.then(function(response){
 						vm.futureDrawdownModel.totalTransaction = response.totalTransaction;
 						vm.futureDrawdownModel.totalAmount = SCFCommonService.shortenLargeNumber(response.totalAmount);
