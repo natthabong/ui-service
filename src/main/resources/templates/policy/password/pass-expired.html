@@ -2,7 +2,7 @@
 	<div class="form-group">
 		<scf-checkbox id="password-expired-checkbox" ng-model="policy.active"
 			ng-disabled="true"> </scf-checkbox>   
-		<label class="checkbox-inline">
+		<label class="checkbox-inline" style=" margin-top: -11px;">
 		<span id="password-expired-1-label" ng-bind="'The user must be forced to change password every' | translate"></span>		
 			<input name="passExpired"	id="password-expired-textbox" type="number" min="1" required="true"
 				 class="form-control-input" ng-model="policy.numericValue1" maxlength="3" ng-disabled="ctrl.viewMode"></input>
