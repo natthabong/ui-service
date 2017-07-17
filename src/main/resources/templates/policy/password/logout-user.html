@@ -1,7 +1,8 @@
 <div class="row">
 	<div class="form-group">
+	<label class="checkbox-inline" style=" margin-top: -11px;">
 		<scf-checkbox id="password-logout-user-checkbox" ng-model="policy.active" ng-disabled="true"> </scf-checkbox>
-		<label class="checkbox-inline">
+		
 			<span id="password-logout-user-1-label" ng-bind="'If any user inputs the current password incorrectly' | translate"></span>
 			<input id="password-logout-user-textbox" type="number" min="1" name="logoutUser" required="true" ng-model="policy.numericValue1" maxlength="3"  class="form-control-input" ng-disabled="ctrl.viewMode"></input>
 			<span id="password-logout-user-2-label" ng-bind="'times when changing the password, the user will be logged out from the system automatically.' | translate"></span>
