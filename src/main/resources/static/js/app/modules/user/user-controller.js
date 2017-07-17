@@ -117,8 +117,7 @@ userModule
 			    		}
 			    		var deffered = Service.doGet('/api/v1/users/'+userId);
 			    		deffered.promise.then(function(response) {
-			    			console.log(response)
-			    			
+							
 			    			$scope.user = response.data;
 			    			if(response.data.birthDate != null){
 			    				$scope.user.birthDate = new Date(response.data.birthDate);
