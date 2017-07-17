@@ -28,46 +28,11 @@ angular.module('scfApp').controller(
 					
 					vm.verify = false;
 					vm.approve = false;
-//					vm.splitePageTxt = '';					
-					
-					//var orderItems  = splitCriteriaData(vm.dashboardItem.orderItems);
-//					var filterStatusCodeItem = splitFilterStatusCode(vm.layout.filterItems);
-					
-					vm.tableRowCollection = [];
-					
-//				    vm.pageModel = {
-//				            pageSizeSelectModel: '20',
-//				            totalRecord: 0,
-//							totalPage: 0,
-//				    		clearSortOrder: false
-//				    };
-
-//				    vm.pageSizeList = [{
-//				        label: '10',
-//				        value: '10'
-//				    }, {
-//				        label: '20',
-//				        value: '20'
-//				    }, {
-//				        label: '50',
-//				        value: '50'
-//				    }];
 					
 					vm.statusTransaction = {
 						waitForVerify: 'WAIT_FOR_VERIFY',
 						waitForApprove: 'WAIT_FOR_APPROVE'
 					}
-					
-					//Create transactionCriteriaModel for criteria
-//					vm.transactionCriteriaModel = {
-//						orders: orderItems,
-//						supplierId: organizeId,
-//						statusCode: 'WAIT_FOR_VERIFY',
-//						page: 0,
-//						pageSize: 20,
-//						dateType: 'sponsorPaymentDate',
-//						transactionType: 'DRAWDOWN'
-//					};
 					
 					vm.decodeBase64 = function(data){
 						if(angular.isUndefined(data)){
@@ -81,29 +46,6 @@ angular.module('scfApp').controller(
 							transactionModel: data
 						});
 					}
-
-//					function callService(criteria){
-//						var serviceDiferred = Service.requestURL(transactionTodoListUrl, criteria, 'POST');						
-//						serviceDiferred.promise.then(function(response){
-//							vm.data = response.content;
-//							vm.pageModel.totalRecord = response.totalElements;
-//							vm.pageModel.totalPage = response.totalPages;							
-//							vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.transactionCriteriaModel.page, vm.pageModel.totalRecord);
-//						}).catch(function(response){
-//							log.error('Load Transaction todo list error');
-//						});
-//					}
-					
-//					$scope.sortData = function(order, orderBy){
-//						var orderItem = {
-//							fieldName: order,
-//							direction:  orderBy.toUpperCase()
-//						}						
-//						var sortOrderItems = [];
-//						sortOrderItems.push(orderItem);
-//						vm.transactionCriteriaModel.orders = sortOrderItems;
-//						vm.searchTransaction(undefined);
-//					}
 					
 					vm.pagingController = PagingController.create(transactionTodoListUrl, vm.criteria, 'GET');
 					
@@ -121,38 +63,38 @@ angular.module('scfApp').controller(
 								cellTemplate: '<img	title="{{data.sponsor}}" style="height: 32px; width: 32px;"	'+
 								'data-ng-src="data:image/png;base64,{{txnTodoListCtrl.decodeBase64(data.sponsorLogo)}}" data-err-src="images/png/avatar.png" />'
 				            },{
-				                field: 'transactionNo',
+				            	fieldName: 'transactionNo',
 				                label: 'Transaction No',
 				                idValueField: 'template',
-				                id: 'wait-for-verify-transaction-{value}-transaction-no-label',
+				                id: 'wait-for-verify-transaction-{value}-transaction-no',
 				                sortable: true,
 				                cssTemplate: 'text-center',
 				            },{
-				                field: 'sponsorPaymentDate',
+				            	fieldName: 'sponsorPaymentDate',
 				                label: 'Sponsor payment date',
 				                idValueField: 'template',
-				                id: 'wait-for-verify-transaction-{value}-sponsor-payment-date-label',
+				                id: 'wait-for-verify-transaction-{value}-sponsor-payment-date',
 				                filterType: 'date',
 				                filterFormat: 'dd/MM/yyyy',
 				                sortable: true,
 				                cssTemplate: 'text-center'
 				            }, {
-				                field: 'noOfDocument',
+				            	fieldName: 'noOfDocument',
 				                label: 'No of document',
 				                idValueField: 'template',
-				                id: 'wait-for-verify-transaction-{value}-no-of-document-label',
+				                id: 'wait-for-verify-transaction-{value}-no-of-document',
 				                cssTemplate: 'text-center',
 				            }, {
-				                field: 'transactionAmount',
+				            	fieldName: 'transactionAmount',
 				                label: 'Transaction amount',
 				                idValueField: 'template',
-				                id: 'wait-for-verify-transaction-{value}-transaction-amount-label',
+				                id: 'wait-for-verify-transaction-{value}-transaction-amount',
 				                sortable: true,
 				                cssTemplate: 'text-right',
 				                filterType: 'number',
 				                filterFormat: '2'
 				            },{
-								field: 'action',
+				            	fieldName: 'action',
 								label: '',
 								cssTemplate: 'text-center',
 								sortable: false,
@@ -166,38 +108,9 @@ angular.module('scfApp').controller(
 
 					
 					vm.initLoad = function(pagingModel){
-//						if(!angular.isUndefined(criteria)){
-//							vm.pageModel.pageSizeSelectModel = criteria.pageSize;
-//							vm.transactionCriteriaModel.page = criteria.page;
-//							vm.transactionCriteriaModel.pageSize = criteria.pageSize;
-//							vm.transactionCriteriaModel.orders = orderItems;
-//							vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder ;
-//						}
 						vm.loadData(pagingModel);
-						
-//						callService(vm.transactionCriteriaModel);						
 					};
 					
 					vm.initLoad();
-				    
-//					function splitCriteriaData(data){
-//						var dataSplit = data.split(",");
-//						var order = [];
-//						dataSplit.forEach(function(orderData){
-//							var orderItem = orderData.split(":");
-//							var item = {
-//									fieldName: orderItem[0],
-//									direction:  orderItem[1]
-//							}
-//							order.push(item);
-//						});
-//						
-//						return order;
-//					}
-//					
-//					function splitFilterStatusCode(data){
-//						var filterItem = data.split(":");
-//						return filterItem[1];
-//					}
 
 				} ]);
