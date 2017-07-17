@@ -7,33 +7,33 @@
 			ng-bind="dashboardItem.headerLabel"></h3>
 
 		<div class="row">
-			<div class="col-md-12 col-sm-12 col-xs-12 text-right">
-				<span> <b ng-bind="approveTxnTodoListCtrl.splitePageTxt"
+			<div class="col-md-12 col-sm-12 text-right">
+				<span> <b ng-bind="approveTxnTodoListCtrl.pagingController.splitePageTxt"
 					id="wait-for-approve-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-						dropdown-id="page-limit-dropdown"
-						name="wait-for-approve-transaction"
-						page-size-model="approveTxnTodoListCtrl.pageModel.pageSizeSelectModel"
-						total-page="approveTxnTodoListCtrl.pageModel.totalPage"
-						current-page="approveTxnTodoListCtrl.transactionCriteriaModel.page"
-						page-size-list="approveTxnTodoListCtrl.pageSizeList"
-						page-action="approveTxnTodoListCtrl.searchTransaction"></scf-pagination>
+						dropdown-id="page-limit-dropdown" name="wait-for-approve-transaction"
+						page-size-model="approveTxnTodoListCtrl.pagingController.pagingModel.pageSizeSelectModel"
+						total-page="approveTxnTodoListCtrl.pagingController.pagingModel.totalPage"
+						current-page="approveTxnTodoListCtrl.pagingController.pagingModel.currentPage"
+						page-size-list="approveTxnTodoListCtrl.pagingController.pageSizeList"
+						page-action="approveTxnTodoListCtrl.loadData"></scf-pagination>
 				</span>
-
 			</div>
 		</div>
-
+		
+		<!-- Start Table-->
 		<div class="row">
-			<div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
+			<div class="col-md-12">
 				<scf-table id="wait-for-approve-transaction-table"
 					class="transaction-table"
 					component-config="approveTxnTodoListCtrl.dataTable"
-					component-datas="approveTxnTodoListCtrl.data"
-					current-page="approveTxnTodoListCtrl.transactionCriteriaModel.page"
-					record-per-page="approveTxnTodoListCtrl.pageModel.pageSizeSelectModel"
-					clear-sort-order="approveTxnTodoListCtrl.pageModel.clearSortOrder"></scf-table>
+					component-datas="approveTxnTodoListCtrl.pagingController.tableRowCollection"
+					current-page="approveTxnTodoListCtrl.pagingController.pagingModel.currentPage"
+					record-per-page="approveTxnTodoListCtrl.pagingController.pagingModel.pageSizeSelectModel"
+					clear-sort-order="approveTxnTodoListCtrl.pagingController.pagingModel.clearSortOrder"></scf-table>
 			</div>
 			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
+		
 		<input type="hidden" ng-init="approveTxnTodoListCtrl.approve=true"
 			sec:authorize="hasAuthority('APPROVE_LOANS_OF_MY_ORGANIZE')" />
 		<input type="hidden" ng-init="approveTxnTodoListCtrl.canViewLoan=true"
