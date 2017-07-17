@@ -24,7 +24,8 @@
 									<gec-auto-suggest id="sponsor-auto-suggest"
 										disable="ctrl.sponsorTxtDisable"
 										model="ctrl.sponsorAutoSuggestModel" name="sponsorCode"
-										ng-model="ctrl.documentUploadLogModel.sponsor" maxlength="100"></gec-auto-suggest>
+										ng-model="ctrl.documentUploadLogModel.sponsor"
+										ng-change="ctrl.getSponsorFileType()" maxlength="100"></gec-auto-suggest>
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
