@@ -14,6 +14,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	var enterPageByBackAction = $stateParams.backAction || false;
 	vm.criteria = $stateParams.criteria || {
 		accountingTransactionType: 'RECEIVABLE',
+		sponsorId: ownerId,
 		buyerId: ownerId,
 		documentStatus: 'NEW',
 		showOverdue: false
