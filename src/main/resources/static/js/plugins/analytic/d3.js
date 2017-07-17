@@ -586,7 +586,9 @@ d3 = function() {
       this.removeAttributeNS(name.space, name.local);
     }
     function attrConstant() {
-      this.setAttribute(name, value);
+      if(name != 'x' && value !="NaN"){
+        this.setAttribute(name, value);
+      }
     }
     function attrConstantNS() {
       this.setAttributeNS(name.space, name.local, value);
