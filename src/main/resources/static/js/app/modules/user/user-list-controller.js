@@ -33,41 +33,14 @@ userModule
 			    vm.passwordStatusDropdowns = PasswordStatus;
 
 			    vm.userListModel = {
-				user : undefined,
-				organize : undefined,
-				userStatus : vm.userStatusDropdowns[0].value,
-				passwordStatus : vm.passwordStatusDropdowns[0].value
+					user : undefined,
+					organize : undefined,
+					userStatus : vm.userStatusDropdowns[0].value,
+					passwordStatus : vm.passwordStatusDropdowns[0].value
 			    }
 
-			    vm.newUser = function() {
-				var params = {
-				    userModel : null
-				};
-				
-				PageNavigation.gotoPage('/user/new', params,
-					params);
-			    }
+				var _criteria = {};
 
-			    vm.viewUser = function(data) {
-				var params = {
-				    userModel : data
-				};
-				$timeout(function() {
-				    PageNavigation.gotoPage('/user/view',
-					    params, params);
-				}, 10);
-			    }
-
-			    vm.editUser = function(data) {
-				var params = {
-				    userModel : data
-				};
-				$timeout(function() {
-				    PageNavigation.gotoPage('/user/edit',
-					    params, params);
-				}, 10);
-			    }
-			    
 			    vm.user = null;
 			    vm.resetPasswordUser = function(data) {
 			    	 vm.user = data;
@@ -123,7 +96,6 @@ userModule
 					}).catch(function(response) {
 	    				    if (response) {
 	    					if(Array.isArray(response.data)){
-	    					   console.log(response.data);
 	        				   response.data.forEach(function(error){
 	        				       $scope.errors[error.code] = {
 	    	    					    message : error.message
@@ -207,40 +179,37 @@ userModule
 				    });
 
 			    vm.userCriteria = {
-				userId : '',
-				organizeId : '',
-				userStatus : undefined,
-				passwordStatus : undefined
+					userId : '',
+					organizeId : '',
+					userStatus : undefined,
+					passwordStatus : undefined
 			    }
 
 			    vm.pagingController = PagingController.create(
 				    '/api/v1/users', vm.userCriteria, 'GET');
 
 			    vm.searchUser = function(pageModel) {
-				if (angular.isDefined(vm.userListModel.user)) {
-				    vm.userCriteria.userId = vm.userListModel.user.userId;
-				}
+					if (angular.isDefined(vm.userListModel.user)) {
+						vm.userCriteria.userId = vm.userListModel.user.userId;
+					}
 
-				if (angular
-					.isDefined(vm.userListModel.organize)) {
-				    vm.userCriteria.organizeId = vm.userListModel.organize.organizeId;
-				}
+					if (angular.isDefined(vm.userListModel.organize)) {
+						vm.userCriteria.organizeId = vm.userListModel.organize.organizeId;
+					}
 
-				UserStatus
-					.forEach(function(status) {
-					    if (vm.userListModel.userStatus == status.value) {
-						vm.userCriteria.userStatus = status.valueObject;
-					    }
-					});
+					UserStatus.forEach(function(status) {
+							if (vm.userListModel.userStatus == status.value) {
+							vm.userCriteria.userStatus = status.valueObject;
+							}
+						});
 
-				PasswordStatus
-					.forEach(function(status) {
-					    if (vm.userListModel.passwordStatus == status.value) {
-						vm.userCriteria.passwordStatus = status.valueObject;
-					    }
-					});
-				vm.pagingController.search(pageModel);
-
+					PasswordStatus.forEach(function(status) {
+							if (vm.userListModel.passwordStatus == status.value) {
+							vm.userCriteria.passwordStatus = status.valueObject;
+							}
+						});
+					_storeCriteria();
+					vm.pagingController.search(pageModel);
 			    }
 
 			    vm.dataTable = {
@@ -320,12 +289,45 @@ userModule
 					} ]
 			    }
 
+				function _storeCriteria() {
+					angular.copy(vm.userListModel, _criteria);
+				}
+
 			    vm.initLoad = function() {
-				var backAction = $stateParams.backAction;
-				vm.searchUser();
+					var backAction = $stateParams.backAction;
+					if(backAction){
+						vm.userListModel = $stateParams.criteria;
+					}
+					vm.searchUser();
 			    }
 
 			    vm.initLoad();
+
+				vm.newUser = function() {
+					var params = {
+						userModel : null
+					};
+					
+					PageNavigation.gotoPage('/user/new', params, {criteria : _criteria});
+			    }
+
+			    vm.viewUser = function(data) {
+					var params = {
+						userModel : data
+					};
+					$timeout(function() {
+						PageNavigation.gotoPage('/user/view', params, {criteria : _criteria});
+					}, 10);
+			    }
+
+			    vm.editUser = function(data) {
+					var params = {
+						userModel : data
+					};
+					$timeout(function() {
+						PageNavigation.gotoPage('/user/edit', params, {criteria : _criteria});
+					}, 10);
+			    }
 
 			} ]);
 userModule.constant("UserStatus", [ {
