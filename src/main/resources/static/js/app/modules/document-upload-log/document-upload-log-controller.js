@@ -115,18 +115,16 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 
 		var getFileType = function(sponsorID,sponsorConfigId,integrateType) {
 			vm.docType = [];
-			
+//			if(currentMode == mode.BANKVIEWBANK){
+				vm.docType.push({
+					label : 'All',
+					value : null
+				});
+//			}
 			if(sponsorID != ''){
 				var uri = 'api/v1/organize-customers/'+sponsorID+'/sponsor-configs/'+sponsorConfigId+'/process-types';
 				var deffered = Service.doGet(uri,{integrateType : integrateType});
 				deffered.promise.then(function(response) {
-					if(currentMode == mode.BANKVIEWBANK){
-						vm.docType.push({
-							label : 'All',
-							value : null
-						});
-					}
-					
 					response.data.forEach(function(module) {
 						vm.docType.push({
 							label : module,
@@ -151,7 +149,12 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 				getSponsorFileType();
 			}else{
 				vm.docType = [];
+				vm.docType.push({
+					label : 'All',
+					value : null
+				});
 				vm.docTypeDropdowns = vm.docType;
+				vm.criteria.fileType = vm.docType[0].value;
 			}
 		});
 		
