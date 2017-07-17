@@ -10303,7 +10303,7 @@ nv.models.pie = function() {
       wrap.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
       g.select('.nv-pie').attr('transform', 'translate(' + availableWidth / 2 + ',' + availableHeight / 2 + ')');
       g.select('.nv-pie').attr('id', 'credit-information-summary');
-      g.select('.nv-pieLabels').attr('transform', 'translate(' + availableWidth / 2 + ',' + availableHeight / 2 + ')');
+      g.select('.nv-pieLabels').attr('transform', 'translate(' + availableWidth / 2 + ',' + availableHeight / 1.85 + ')');
 
       //------------------------------------------------------------
 
