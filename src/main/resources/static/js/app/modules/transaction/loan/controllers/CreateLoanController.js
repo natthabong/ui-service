@@ -72,6 +72,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             supplierId : ownerId,
             customerCode: vm.createTransactionModel.supplierCode,
             documentStatus: ['NEW'],
+            sponsorPaymentDate : vm.createTransactionModel.sponsorPaymentDate,
             showOverdue: true
         }
 
@@ -85,7 +86,9 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         }
 
         vm.loadDocument = function(pagingModel) {
+            _criteria.buyerId = vm.createTransactionModel.sponsorCode;
             _criteria.customerCode = vm.createTransactionModel.supplierCode;
+            _criteria.sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
             var deffered = vm.pagingController.search(pagingModel);
             deffered.promise.then(function(response){
                 if(backAction){
