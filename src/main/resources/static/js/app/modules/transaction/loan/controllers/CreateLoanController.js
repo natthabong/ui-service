@@ -85,6 +85,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         }
 
         vm.loadDocument = function(pagingModel) {
+            _criteria.customerCode = vm.createTransactionModel.supplierCode;
             var deffered = vm.pagingController.search(pagingModel);
             deffered.promise.then(function(response){
                 if(backAction){
@@ -92,6 +93,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
                 }else if(dashboardParams != null){
                     vm.selectAllDocument();
+                    //clear dashboard param after search
                     dashboardParams = null;
                 }
                 vm.watchCheckAll();
@@ -168,6 +170,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             }else{
             	vm.errorMsgGroups = 'Could not be create transaction because the document not found.';
                 vm.showErrorMsg = true;
+                blockUI.stop();
             }
         };
 
@@ -238,9 +241,9 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     });
 
 					if(dashboardParams != null){
-						vm.createTransactionModel.supplierCode = dashboardParams.supplierCode;                 	
+						vm.createTransactionModel.supplierCode = dashboardParams.supplierCode;       	
                     }
-					else if (backAction === false) {
+					else if (backAction === false && dashboardParams == null) {
                         vm.createTransactionModel.supplierCode = vm.supplierCodes[0].value;
                     }
                    
@@ -277,14 +280,13 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                         }
                         vm.sponsorCodes.push(selectObj);
                     });
-					
 					if(dashboardParams!=null){
                      	vm.createTransactionModel.sponsorCode = dashboardParams.sponsorId;
                     }
 
 					// Check action come from page validate
 					// and sumbit
-					else if (backAction === false) {
+					else if (backAction == false && dashboardParams==null) {
                         vm.createTransactionModel.sponsorCode = vm.sponsorCodes[0].value;
                     }
 
