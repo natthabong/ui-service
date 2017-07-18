@@ -2,7 +2,7 @@
 	sec:authorize="hasAnyAuthority('CREATE_LOANS_OF_MY_ORGANIZE', 'VERIFY_LOANS_OF_MY_ORGANIZE', 'APPROVE_LOANS_OF_MY_ORGANIZE')">
 	<div
 		ng-controller="InternalStepDashboardController as internalStepCtrl">
-		<h3 class="animated fadeInLeft" id="internal-step-header-label"
+		<h3 class="animated fadeInLeft" id="{{dashboardItem.headerLabel | convertToHeadderId}}"
 			ng-bind="dashboardItem.headerLabel"></h3>
 		
 		<div class="row">
