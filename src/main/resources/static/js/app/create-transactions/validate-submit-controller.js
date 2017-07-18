@@ -34,7 +34,7 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			}
 			
 			vm.initLoadData = function(){
-                vm.transactionModel = $stateParams.transactionModel;				
+                vm.transactionModel = $stateParams.transactionModel;
 				if(vm.transactionModel === null){
 					PageNavigation.backStep();
                 }else{
@@ -102,6 +102,7 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 			vm.viewRecent = function(){
 				
 				$timeout(function(){		
+					vm.transactionModel.sponsor = vm.tradingpartnerInfoModel.sponsorName;
 					PageNavigation.gotoPage('/view-transaction', {transactionModel: vm.transactionModel, isShowViewHistoryButton: true,party : 'supplier'});
             	}, 10);
 			};
