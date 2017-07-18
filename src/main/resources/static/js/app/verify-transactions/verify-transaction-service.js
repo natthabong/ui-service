@@ -13,7 +13,7 @@ function VerifyTransactionService($http, $q){
 
 	function prepare(transaction){
 		var deffered = $q.defer();
-		var serviceUrl = 'api/v1/transactions/' + transaction.transactionId
+		var serviceUrl = 'api/v1/transactions/' + transaction.transactionId;
 		$http({
 			url: serviceUrl,
 			method: 'GET',

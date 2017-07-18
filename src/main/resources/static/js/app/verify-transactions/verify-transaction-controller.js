@@ -25,6 +25,7 @@ angular.module('scfApp').controller(
 							currentPage : 0
 						};
 					vm.transactionModel = $stateParams.transactionModel || {};
+					
 					vm.splitePageTxt = '';
 					function init(){
 					     var deffered = VerifyTransactionService.prepare(vm.transactionModel);
