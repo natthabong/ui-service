@@ -667,7 +667,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 
 	vm.searchTransactionService = function() {
 		saveSearchCriteriaData();
-		console.log(vm.listTransactionModel);
 		var transactionModel = angular.extend(vm.listTransactionModel, {
 			page: vm.pageModel.currentPage,
 			pageSize: vm.pageModel.pageSizeSelectModel
