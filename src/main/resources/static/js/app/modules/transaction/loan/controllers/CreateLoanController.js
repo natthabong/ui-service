@@ -86,7 +86,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         }
 
         vm.loadDocument = function(pagingModel) {
-
             _criteria.buyerId = vm.createTransactionModel.sponsorCode;
             _criteria.customerCode = vm.createTransactionModel.supplierCode;
             _criteria.sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
@@ -313,7 +312,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 				vm.showBackButton = $stateParams.showBackButton;
                 if (tradingPartnerInfo !== null) {
                     var transactionModel = $stateParams.transactionModel;
-
                     vm.tradingpartnerInfoModel = tradingPartnerInfo;
                     vm.createTransactionModel = {
                         sponsorCode: tradingPartnerInfo.sponsorId,
@@ -321,17 +319,14 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                         sponsorPaymentDate: SCFCommonService.convertDate(transactionModel.sponsorPaymentDate),
                         transactionDate: SCFCommonService.convertDate(transactionModel.transactionDate)
                     };
-                    
                     hasSponsorPaymentDate = true;
-                    vm.documentSelects = $stateParams.documentSelects;
-                    vm.searchDocument(undefined);
-                    calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
-                } else {
-                    backAction = false;
+                }else{
+                    $timeout(function(){
+                        PageNavigation.gotoPage('/');
+                    }, 10);
                 }
             }
             _loadSponsor();
-			
         }();
 
         vm.watchCheckAll = function() {
