@@ -28,11 +28,11 @@
 									</div>
 									<div class="row">
 										<div class="col-md-3 col-sm-3">
-											<label ng-bind="'Financing documents' | translate"></label>:
+											<label id="loan-document-label" ng-bind="'Loan documents' | translate"></label>:
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
-											<span id="financing-document-label"
-												ng-bind="verifyTxnCtrl.transactionModel.documents.length"></span>
+											<span id="loan-document-value-label"
+												ng-bind="verifyTxnCtrl.transactionModel.noOfDocument"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
 
