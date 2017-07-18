@@ -19,7 +19,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
         var ownerId = $rootScope.userInfo.organizeId;
 
-        var loanRequestMode = 'CURRENT_AND_FUTURE';
+        vm.loanRequestMode = null;
         var supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
         var hasSponsorPaymentDate = false;
         var dashboardParams = $stateParams.dashboardParams;
@@ -113,7 +113,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
         function _loadTransactionDate(sponsorCode, sponsorPaymentDate) {
         	var tenor = vm.tradingpartnerInfoModel.tenor;
-        	var loanRequestMode = loanRequestMode;
+        	var loanRequestMode = vm.loanRequestMode;
             var deffered = TransactionService.getTransactionDate(sponsorCode, sponsorPaymentDate, loanRequestMode, tenor);
             deffered.promise.then(function(response) {
                 // clear list transaction date
@@ -184,7 +184,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         function _loadSponsorPaymentDate() {
             var sponsorId = vm.createTransactionModel.sponsorCode;
             var supplierCode = vm.createTransactionModel.supplierCode;
-            var loanRequestMode = loanRequestMode;
+            var loanRequestMode = vm.loanRequestMode;
             
             vm.requireSponsorPaymentDate = false;
             vm.showErrorMsg = false;
@@ -253,7 +253,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 					else if (backAction === false && dashboardParams == null) {
                         vm.createTransactionModel.supplierCode = vm.supplierCodes[0].value;
                     }
-                   
                     _loadSponsorPaymentDate();
                 }
             }).catch(function(response) {
@@ -267,7 +266,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             displayConfig.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
                 vm.pagingController = PagingController.create('api/v1/documents', _criteria, 'GET');
-                loanRequestMode = response.loanRequestMode;
+                vm.loanRequestMode = response.loanRequestMode;
                 vm.documentSelection = response.documentSelection;
                 supplierCodeSelectionMode = response.supplierCodeSelectionMode;
                 _loadSupplierCode();
