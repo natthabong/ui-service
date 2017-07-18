@@ -1,5 +1,5 @@
 <div th:fragment="content"
-	sec:authorize="hasAnyAuthority('CREATE_LOANS_OF_MY_ORGANIZE','VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZE')">
+	sec:authorize="hasAnyAuthority('CREATE_LOANS_OF_MY_ORGANIZE','VIEW_LOANS_OF_MY_ORGANIZE','VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZE')">
 	<div
 		ng-controller="NewDuedateGroupDashboardController as newDuedateCtrl">
 		<h3 class="animated fadeInLeft" id="new-duedate-group-header-label">{{dashboardItem.headerLabel}}</h3>
@@ -64,6 +64,6 @@
 			sec:authorize="hasAuthority('CREATE_LOANS_OF_MY_ORGANIZE')" /></ng-form>
 		<ng-form> <input type="hidden"
 			ng-init="newDuedateCtrl.canViewDocsReferOrg=true"
-			sec:authorize="hasAuthority('VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZE')" /></ng-form>
+			sec:authorize="hasAnyAuthority('VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZE','VIEW_LOANS_OF_MY_ORGANIZE')" /></ng-form>
 	</div>
 </div>
