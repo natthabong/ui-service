@@ -149,7 +149,6 @@ angular.module('scfApp').controller(
 								});
 		                }).catch(function (response) {
 		                	 vm.errorMessageModel = response.data;
-		                	 console.log(response);
 		                     ngDialog.open({
 		                         template: '/js/app/verify-transactions/concurency-dialog.html',
 		 	                    scope: $scope,
