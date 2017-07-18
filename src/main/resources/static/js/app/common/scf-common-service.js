@@ -313,6 +313,13 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
     }
     
 }]);
+app.filter('convertToHeadderId', ['$filter', function ($filter) {
+    return function (rawData) {
+    	var displayId =  rawData.replace(" ", "-");
+    	displayId = displayId.toLowerCase() + "-header-label";
+    	return displayId;
+    };
+}]);
 app.filter('noSeperatorNumeric', ['$filter', function ($filter) {
     return function (rawData) {
     	var input =  parseFloat(rawData).toFixed(2);
