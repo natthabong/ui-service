@@ -89,7 +89,7 @@ angular.module('scfApp').controller(
 				                labelTH: 'No of document',
 				                idValueField: '$rowNo',
 				                id: 'wait-for-approve-transaction-{value}-no-of-document',
-				                cssTemplate: 'hidden-sm hidden-xs text-center',
+				                cssTemplate: 'hidden-sm hidden-xs text-right',
 				            }, {
 				            	fieldName: 'transactionAmount',
 				                labelEN: 'Transaction amount',

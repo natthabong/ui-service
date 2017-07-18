@@ -90,7 +90,7 @@ angular
 											idValueField: '$rowNo',
 							                id: 'internal-step-{value}-no-of-document',
 							                sortData : true,
-											cssTemplate : 'hidden-xs hidden-sm text-center'
+											cssTemplate : 'hidden-xs hidden-sm text-right'
 										}, {
 											fieldName: 'transactionAmount',
 											labelEN: 'Transaction amount',

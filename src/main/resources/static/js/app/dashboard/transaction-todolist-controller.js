@@ -83,7 +83,7 @@ angular.module('scfApp').controller(
 				                label: 'No of document',
 				                idValueField: 'template',
 				                id: 'wait-for-verify-transaction-{value}-no-of-document',
-				                cssTemplate: 'text-center',
+				                cssTemplate: 'text-right',
 				            }, {
 				            	fieldName: 'transactionAmount',
 				                label: 'Transaction amount',
