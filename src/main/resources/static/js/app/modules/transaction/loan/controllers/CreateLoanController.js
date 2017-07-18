@@ -269,7 +269,12 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 vm.loanRequestMode = response.loanRequestMode;
                 vm.documentSelection = response.documentSelection;
                 supplierCodeSelectionMode = response.supplierCodeSelectionMode;
-                _loadSupplierCode();
+                if(vm.loanRequestMode != null){
+                    _loadSupplierCode();
+                }
+                else{
+                    log.error("Load document dispay fail!");
+                }
             });
         }
 		
