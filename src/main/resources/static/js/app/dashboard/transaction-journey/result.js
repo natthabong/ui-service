@@ -9,7 +9,7 @@ angular.module('scfApp').controller('JourneyResultController', ['$scope','Servic
 		transactionRetry: 0,
 		transactionFail: 0
 	};
-	var newDocumentDeferred = Service.requestURL('/api/summary-transaction-result/get');
+	var newDocumentDeferred = Service.requestURL('/api/summary-transaction-result/get', {}, 'GET');
 	newDocumentDeferred.promise.then(function(response){
 		vm.resultModel.transactionSuccess = response.totalSuccessTransaction;
 		vm.resultModel.transactionRetry = response.totalRetriableTransaction;
