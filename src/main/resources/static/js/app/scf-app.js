@@ -45,7 +45,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/create-transaction',
 				controller: 'CreateLoanController',
 				onEnter: ['TransactionService','$state', function(TransactionService,$state){
-					console.log(TransactionService);
 					var deffered = TransactionService.verifyTradingPartner();
 		            deffered.promise.then(function (response) {
 		                })
