@@ -89,7 +89,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             _criteria.buyerId = vm.createTransactionModel.sponsorCode;
             _criteria.customerCode = vm.createTransactionModel.supplierCode;
             _criteria.sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
-
             var deffered = vm.pagingController.search(pagingModel);
             deffered.promise.then(function(response){
                 if(backAction){
@@ -98,10 +97,11 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     $stateParams.documentSelects = [];
                     $stateParams.backAction = false;
                     calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
-                }else if(dashboardParams != null){
+                }else if(!backAction && dashboardParams != null){
                     vm.selectAllDocument();
                     //clear dashboard param after search
                     $stateParams.dashboardParams = null;
+                    dashboardParams = null;
                 }
                 vm.watchCheckAll();
                 blockUI.stop();
