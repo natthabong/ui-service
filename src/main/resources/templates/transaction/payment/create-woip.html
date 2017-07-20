@@ -1,0 +1,43 @@
+<div id="content" th:fragment="content"
+	sec:authorize="hasAuthority('CREATE_PAYMENTS_OF_MY_ORGANIZE')">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft"
+						ng-bind="'Create payment' | translate">Create payment</h3>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<div class="col-md-12" ng-show="ctrl.showErrorMsg">
+						<div class="alert alert-danger" role="alert">
+							<span id="message-alert-label"
+								ng-bind="ctrl.errorMsgGroups | translate"></span>
+						</div>
+					</div>
+					<!-- Start Column Panel-->
+					<div class="col-md-12">
+						<form name="createForm" class="form-horizontal">
+							<div class="form-group">
+								<label for="sponsor" id="supplier-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
+									| translate}}: </label>
+								<div class="col-md-3 col-sm-3 col-xs-12">
+									<scf-dropdown id="supplier-dropdown"
+										ng-change="ctrl.supplierChange()"
+										ng-model="ctrl.criteria.supplierId"
+										component-data="ctrl.suppliers"></scf-dropdown>
+								</div>
+								<div class="col-md-5 col-sm-5"></div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
