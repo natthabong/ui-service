@@ -679,7 +679,7 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
     }
 ]);
 
-app.factory('scfFactory', ['$http', '$q', '$cookieStore', function ($http, $q, $cookieStore) {
+app.factory('scfFactory', ['$http', '$q', '$cookieStore', '$window', function ($http, $q, $cookieStore, $window) {
     return {
         getErrorMsg: getErrorMsg,
         getUserInfo: getUserInfo,
