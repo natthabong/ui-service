@@ -364,7 +364,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 					},
 				});	
 			} 
-		}else if(response.status == 409){
+		}
+		else if(response.status == 409){
 			if(response.data.errorCode == 'FAILED'){
 				UIFactory.showFailDialog({
 					data : {
@@ -423,7 +424,20 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 					},
 				});	
 			}
-		}	
+		}
+		else{
+			UIFactory.showFailDialog({
+				data : {
+					mode: 'transaction',
+					headerMessage : 'Reject transaction fail',
+					backAndReset : vm.backAndReset,
+					viewHistory : vm.searchTransactionService,
+					errorCode : response.data.errorCode,
+					action : response.data.attributes.action,
+					actionBy : response.data.attributes.actionBy
+				},
+			});						
+		}
     };
    
     vm.dataTable = {

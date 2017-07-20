@@ -1,6 +1,6 @@
-angular.module('gecscf.transaction').factory('TransactionService', ['$http', '$q', 'blockUI', transactionService]);
+angular.module('gecscf.transaction').factory('TransactionService', ['$http', '$q', 'blockUI','$window', transactionService]);
 
-function transactionService($http, $q, blockUI) {
+function transactionService($http, $q, blockUI, $window) {
 
     //payment
     function getSuppliers(accountingTransactionType) {
