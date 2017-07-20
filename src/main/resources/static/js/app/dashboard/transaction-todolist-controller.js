@@ -67,7 +67,7 @@ angular.module('scfApp').controller(
 				                label: 'Transaction No',
 				                idValueField: 'template',
 				                id: 'wait-for-verify-transaction-{value}-transaction-no',
-				                sortable: true,
+				                sortable: false,
 				                cssTemplate: 'text-center',
 				            },{
 				            	fieldName: 'sponsorPaymentDate',
@@ -76,7 +76,7 @@ angular.module('scfApp').controller(
 				                id: 'wait-for-verify-transaction-{value}-sponsor-payment-date',
 				                filterType: 'date',
 				                filterFormat: 'dd/MM/yyyy',
-				                sortable: true,
+				                sortable: false,
 				                cssTemplate: 'text-center'
 				            }, {
 				            	fieldName: 'noOfDocument',
@@ -89,7 +89,7 @@ angular.module('scfApp').controller(
 				                label: 'Transaction amount',
 				                idValueField: 'template',
 				                id: 'wait-for-verify-transaction-{value}-transaction-amount',
-				                sortable: true,
+				                sortable: false,
 				                cssTemplate: 'text-right',
 				                filterType: 'number',
 				                filterFormat: '2'
