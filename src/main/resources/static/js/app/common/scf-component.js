@@ -632,9 +632,9 @@
 					if (btnAction === 'first' || btnAction === 'changeSize') {
 						pageModel.page = 0;
 					} else if (btnAction === 'back') {
-						pageModel.page += -1;
+						pageModel.page--;
 					} else if (btnAction === 'next') {
-						pageModel.page += 1;
+						pageModel.page++;
 					} else if (btnAction === 'last') {
 						pageModel.page = scope.totalPage - 1;
 					}
