@@ -89,6 +89,15 @@ app.controller('NewFileLayoutController', [
 		vm.backToSponsorConfigPage = function() {
 			PageNavigation.gotoPreviousPage();
 		}
+		
+		vm.model = {
+			ownerId : sponsorId,
+			paymentDateConfig : {
+				strategy : 'FIELD',
+				documentDateField : null,
+				paymentDateFormulaId : null
+			}
+		};
 
 		var loadDataTypes = function() {
 			var serviceURI = 'api/v1/configs/gecscf/layouts/file/data-types';
@@ -305,15 +314,6 @@ app.controller('NewFileLayoutController', [
 
 			}
 		}
-
-		vm.model = {
-			ownerId : sponsorId,
-			paymentDateConfig : {
-				strategy : 'FIELD',
-				documentDateField : null,
-				paymentDateFormulaId : null
-			}
-		};
 		
 		vm.displayLayout = false;
 		
