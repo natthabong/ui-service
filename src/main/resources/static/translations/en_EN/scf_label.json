@@ -600,6 +600,7 @@
 	"Specific value": "Value",
 	"Loan value": "'Loan' value",
 	"Debit value": "'Debit' value",
+	"ar_status_paid":"Paid",
 	
 	"Sign flag with in field": "Sign flag with in field; Recommend for delimeter format",
 	
@@ -609,4 +610,5 @@
 	"RECEIVED_DEBIT_RESPONSE_FROM_BANK": "Received debit response from bank",
 	"SEND_DEBIT_RESPONSE_TO_CLIENT": "Send debit response to client",
 	"RECEIVED_DEBIT_RESPONSE_FROM_GATEWAY": "Received debit response from gateway"
+
 }
