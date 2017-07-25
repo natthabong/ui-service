@@ -20,7 +20,7 @@
 		<!-- start: Content -->
 
 		<div class="row hidden-xs hidden-sm">
-			<nvd3-pie-chart data="ctrl.data" x="ctrl.xFunction()"
+			<nvd3-pie-chart data="ctrl.data" x="ctrl.xFunction()" ng-if="ctrl.data.length > 0"
 				y="ctrl.yFunction()" width="{{ctrl.width}}" height="{{ctrl.height}}"
 				color="ctrl.colorFunction()" showLabels="true"
 				pieLabelsOutside="true" objectequality="true"
