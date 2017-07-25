@@ -13,6 +13,7 @@ public class SponsorConfigController {
 
 	private static String SPONSOR_CONFIGURATION = "sponsor-configuration/sponsor-configuration-template";
 	private static String PROFILE = "sponsor-configuration/profile";
+	private static String WORKFLOW = "sponsor-configuration/workflow";
 	private static String CHANNEL = "sponsor-configuration/channel-configs";
 	private static String FILE_LAYOUTS = "sponsor-configuration/file-layouts";
 	private static String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
@@ -25,16 +26,14 @@ public class SponsorConfigController {
 
 	private static String PAYMENT_DATE_FORMULA = "sponsor-configuration/payment-date-formulas";
 	private static String SETTINGS_PAYMENT_DATE_FORMULA = "sponsor-configuration/payment-date-formulas/settings";
-	
+
 	private static String SETTINGS_ORGANIZE_LOGO = "sponsor-configuration/organize-logo/settings";
-	
+
 	private static String SETTINGS_IMPORT_CHANNEL = "sponsor-configuration/import-channels/settings";
 	private static String SETTINGS_IMPORT_CHANNEL_FTP = "sponsor-configuration/import-channels/ftp-settings";
 
-
 	@RequestMapping(method = RequestMethod.GET)
-	public String sponsorConfiguration(
-			@RequestHeader("X-Requested-With") String requestedWith) {
+	public String sponsorConfiguration(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SPONSOR_CONFIGURATION.concat(" :: content");
 		}
@@ -50,8 +49,7 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/channel-configs", method = RequestMethod.GET)
-	public String channelConfigs(
-			@RequestHeader("X-Requested-With") String requestedWith) {
+	public String channelConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return CHANNEL.concat(" :: content");
 		}
@@ -75,8 +73,7 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/customer-code-groups", method = RequestMethod.GET)
-	public String customerCodeGroups(
-			@RequestHeader("X-Requested-With") String requestedWith) {
+	public String customerCodeGroups(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return CUSTOMER_CODE_GROUPS.concat(" :: content");
 		}
@@ -84,8 +81,7 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/customer-code-groups/settings", method = RequestMethod.GET)
-	public String customerCodeGroupsConfig(
-			@RequestHeader("X-Requested-With") String requestedWith) {
+	public String customerCodeGroupsConfig(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_CUSTOMER_CODE_GROUPS.concat(" :: content");
 		}
@@ -93,8 +89,7 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/display-document-configs", method = RequestMethod.GET)
-	public String documentDisplayConfigs(
-			@RequestHeader("X-Requested-With") String requestedWith) {
+	public String documentDisplayConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return DOCUMENT_DISPLAY_CONFIGS.concat(" :: content");
 		}
@@ -102,8 +97,7 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/document-display/settings", method = RequestMethod.GET)
-	public String settingFileLayout(
-			@RequestHeader("X-Requested-With") String requestedWith) {
+	public String settingFileLayout(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_DOCUMENT_DISPLAY.concat(" :: content");
 		}
@@ -111,8 +105,7 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/payment-date-formulas", method = RequestMethod.GET)
-	public String paymentDateFormulaConfigs(
-			@RequestHeader("X-Requested-With") String requestedWith) {
+	public String paymentDateFormulaConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return PAYMENT_DATE_FORMULA.concat(" :: content");
 		}
@@ -120,26 +113,23 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/payment-date-formulas/settings", method = RequestMethod.GET)
-	public String settingPaymentDateFormula(
-			@RequestHeader("X-Requested-With") String requestedWith) {
+	public String settingPaymentDateFormula(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_PAYMENT_DATE_FORMULA.concat(" :: content");
 		}
 		return SETTINGS_PAYMENT_DATE_FORMULA;
 	}
-	
+
 	@RequestMapping(path = "/organize-logo/settings", method = RequestMethod.GET)
-	public String settingOrganizeLogo(
-			@RequestHeader("X-Requested-With") String requestedWith) {
+	public String settingOrganizeLogo(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_ORGANIZE_LOGO.concat(" :: content");
 		}
 		return SETTINGS_ORGANIZE_LOGO;
 	}
-	
+
 	@RequestMapping(path = "/import-channels/settings", method = RequestMethod.GET)
-	public String settingImportChannel(
-			@RequestHeader("X-Requested-With") String requestedWith) {
+	public String settingImportChannel(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_IMPORT_CHANNEL.concat(" :: content");
 		}
@@ -147,11 +137,18 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/import-channels/ftp-settings", method = RequestMethod.GET)
-	public String settingImportChannelFTP(
-			@RequestHeader("X-Requested-With") String requestedWith) {
+	public String settingImportChannelFTP(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_IMPORT_CHANNEL_FTP.concat(" :: content");
 		}
 		return SETTINGS_IMPORT_CHANNEL_FTP;
+	}
+
+	@RequestMapping(path = "/workflow", method = RequestMethod.GET)
+	public String getWorkflow(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return WORKFLOW.concat(" :: content");
+		}
+		return WORKFLOW;
 	}
 }

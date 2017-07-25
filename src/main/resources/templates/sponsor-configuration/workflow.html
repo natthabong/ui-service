@@ -1,0 +1,23 @@
+<div th:fragment="content">
+	<div id="wrapper" ng-controller="WorkflowController as ctrl">
+		<div class="panel panel-default col-md-12 padding-0">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-lg-3 col-md-4 col-xs-5">
+						<h3 class="animated fadeInLeft" id="workflow-header-message-label">{{'Workflow' | translate}}</h3>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<scf-table id="workflow-table"
+							component-config="ctrl.dataTable" 
+							component-datas="ctrl.pagingController.tableRowCollection"
+							current-page="ctrl.pagingController.pagingModel.currentPage"
+							record-per-page="ctrl.pagingController.pageModel.pageSizeSelectModel"
+							clear-sort-order="ctrl.pagingController.pageModel.clearSortOrder">
+						</scf-table>
+					</div>
+				</div>
+				<div id="fixed-bottom" class="col-md-12"></div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -210,6 +210,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				params: { organizeModel: null, fileLayoutModel: null},
 				resolve: load(['js/app/sponsor-configuration/sponsor-config-controller.js', 
 							   'js/app/sponsor-configuration/profile-controller.js', 
+							   'js/app/sponsor-configuration/workflow-controller.js', 
 							   'js/app/sponsor-configuration/file-layouts-controller.js', 
 							   'js/app/modules/sponsor-config/customer-code-groups/customer-code-groups-controller.js',
 							   'js/app/sponsor-configuration/channel-config-controller.js',
