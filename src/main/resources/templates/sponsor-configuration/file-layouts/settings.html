@@ -241,25 +241,17 @@
 													value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
 													ng-disabled="!newFileLayoutCtrl.manageAll"
 													style="text-align: right;" maxlength="3" /></td>
-											<td class="text-center" style="width: 16%"><scf-button
-													type="button" id="header-field-setup-{{$index+1}}-button"
-													class="btn-default gec-btn-action"
-													ng-click="newFileLayoutCtrl.openSetting($index, record)"
-													ng-disabled="!newFileLayoutCtrl.manageAll"
-													ng-hide="!record.completed"> <i
-													class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
-													id="header-field-warning-setup-{{$index+1}}-button"
-													class="btn-default gec-btn-action"
-													ng-click="newFileLayoutCtrl.openSetting($index, record)"
-													ng-disabled="!newFileLayoutCtrl.manageAll"
-													title="Config a file layout" ng-hide="record.completed">
-												<img data-ng-src="img/gear_warning.png"
-													style="height: 13px; width: 14px;" /> </scf-button> <scf-button
-													type="button" id="header-delete-{{$index+1}}-button"
-													class="btn-default gec-btn-action"
-													ng-click="newFileLayoutCtrl.removeDataItem(newFileLayoutCtrl.headerItems,record)"
+											<td class="text-center" style="width: 16%">
+												<scf-button type="button" id="header-field-setup-{{$index+1}}-button"
+													class="btn-default gec-btn-action" ng-click="newFileLayoutCtrl.openSetting($index, record)"
 													ng-disabled="!newFileLayoutCtrl.manageAll">
-												<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
+													<i class="fa fa-cog" aria-hidden="true"></i> 
+												</scf-button>
+												<scf-button type="button" id="header-delete-{{$index+1}}-button" class="btn-default gec-btn-action"
+													ng-click="newFileLayoutCtrl.removeDataItem(newFileLayoutCtrl.headerItems,record)" ng-disabled="!newFileLayoutCtrl.manageAll">
+													<i class="fa fa-trash" aria-hidden="true"></i> 
+												</scf-button>
+											</td>
 										</tr>
 										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
 											<td colspan="10">
@@ -368,25 +360,19 @@
 														id="detail-end-index-{{$index+1}}-textbox"
 														ng-disabled="!newFileLayoutCtrl.manageAll"
 														style="text-align: right;" maxlength="3" /></td>
-												<td class="text-center" style="width: 16%"><scf-button
-														type="button" id="field-setup-{{$index+1}}-button"
-														class="btn-default gec-btn-action"
-														ng-click="newFileLayoutCtrl.openSetting($index, record)"
-														ng-disabled="!newFileLayoutCtrl.manageAll"
-														ng-hide="!record.completed"> <i
-														class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
-														id="field-warning-setup-{{$index+1}}-button"
-														class="btn-default gec-btn-action"
-														ng-click="newFileLayoutCtrl.openSetting($index, record)"
-														title="Config a file layout" ng-hide="record.completed"
-														ng-disabled="!newFileLayoutCtrl.manageAll">
-													<img data-ng-src="img/gear_warning.png"
-														style="height: 13px; width: 14px;" /> </scf-button> <scf-button
+												<td class="text-center" style="width: 16%">
+													<scf-button type="button" id="field-setup-{{$index+1}}-button" class="btn-default gec-btn-action"
+														ng-click="newFileLayoutCtrl.openSetting($index, record)" ng-disabled="!newFileLayoutCtrl.manageAll"> 
+														<i class="fa fa-cog" aria-hidden="true"></i> 
+													</scf-button>
+													<scf-button
 														type="button" id="delete-{{$index+1}}-button"
 														class="btn-default gec-btn-action"
 														ng-disabled="!newFileLayoutCtrl.manageAll"
 														ng-click="newFileLayoutCtrl.removeDataItem(newFileLayoutCtrl.items,record)">
-													<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
+														<i class="fa fa-trash" aria-hidden="true"></i> 
+													</scf-button>
+												</td>
 											</tr>
 											<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
 
@@ -435,21 +421,12 @@
 												<td class="text-center" style="width: 15%"></td>
 												<td class="text-center" style="width: 15%"
 													ng-show="newFileLayoutCtrl.model.fileType == newFileLayoutCtrl.fileType.fixedLength"></td>
-												<td class="text-center" style="width: 16%"><scf-button
-														type="button"
-														id="data-setup-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-button"
-														class="btn-default gec-btn-action"
-														ng-click="newFileLayoutCtrl.openSetting($index, record)"
-														ng-disabled="!newFileLayoutCtrl.manageAll"
-														ng-hide="!record.completed"> <i
-														class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
-														id="data-warning-setup-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-button"
-														class="btn-default gec-btn-action"
-														ng-click="newFileLayoutCtrl.openSetting($index, record)"
-														ng-disabled="!newFileLayoutCtrl.manageAll"
-														title="Config a file layout" ng-hide="record.completed">
-													<img data-ng-src="img/gear_warning.png"
-														style="height: 13px; width: 14px;" /> </scf-button> <scf-button
+												<td class="text-center" style="width: 16%">
+													<scf-button type="button" id="data-setup-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-button"
+														class="btn-default gec-btn-action" ng-click="newFileLayoutCtrl.openSetting($index, record)"
+														ng-disabled="!newFileLayoutCtrl.manageAll"> 
+														<i class="fa fa-cog" aria-hidden="true"></i> </scf-button>
+													<scf-button
 														type="button"
 														id="delete-{{newFileLayoutCtrl.dataRowNo(newFileLayoutCtrl.getDetailFieldSize(), $index)}}-button"
 														class="btn-default gec-btn-action"
@@ -563,25 +540,22 @@
 														value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
 														ng-disabled="!newFileLayoutCtrl.manageAll"
 														style="text-align: right;" maxlength="3" /></td>
-												<td class="text-center" style="width: 16%"><scf-button
+												<td class="text-center" style="width: 16%">
+													<scf-button
 														type="button" id="footer-field-setup-{{$index+1}}-button"
 														class="btn-default gec-btn-action"
 														ng-click="newFileLayoutCtrl.openSetting($index, record)"
-														ng-disabled="!newFileLayoutCtrl.manageAll"
-														ng-hide="!record.completed"> <i
-														class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
-														id="footer-field-warning-setup-{{$index+1}}-button"
-														class="btn-default gec-btn-action"
-														ng-disabled="!newFileLayoutCtrl.manageAll"
-														ng-click="newFileLayoutCtrl.openSetting($index, record)"
-														title="Config a file layout" ng-hide="record.completed">
-													<img data-ng-src="img/gear_warning.png"
-														style="height: 13px; width: 14px;" /> </scf-button> <scf-button
+														ng-disabled="!newFileLayoutCtrl.manageAll"> 
+														<i class="fa fa-cog" aria-hidden="true"></i> 
+													</scf-button>
+													<scf-button
 														type="button" id="footer-delete-{{$index+1}}-button"
 														class="btn-default gec-btn-action"
 														ng-disabled="!newFileLayoutCtrl.manageAll"
 														ng-click="newFileLayoutCtrl.removeDataItem(newFileLayoutCtrl.footerItems,record)">
-													<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
+														<i class="fa fa-trash" aria-hidden="true"></i> 
+													</scf-button>
+												</td>
 											</tr>
 											<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
 												<td colspan="10">

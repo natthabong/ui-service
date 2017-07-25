@@ -16,8 +16,11 @@
 					</div>
 					<div class="col-lg-7 col-md-5 col-xs-3">
 						<br />
-						<scf-button id="customer-code-group-{{ctrl.data.groupName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.data)" title="Config a customer code groups" ng-hide="!ctrl.data.completed" ng-disabled="ctrl.unauthenConfig()"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>	
-						<scf-button id="customer-code-group-{{ctrl.data.groupName}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.data)" title="Config a customer code groups" ng-hide="ctrl.data.completed" ng-disabled="ctrl.unauthenConfig()"><img ng-hide="ctrl.data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>
+						<scf-button id="customer-code-group-{{ctrl.data.groupName}}-setup-button" class="btn-default gec-btn-action" 
+							ng-click="ctrl.config(ctrl.data)" title="Config a customer code groups" 
+							ng-disabled="ctrl.unauthenConfig()">
+							<i class="fa fa-cog fa-lg" aria-hidden="true"></i>
+						</scf-button>
 					</div>	
 				</div>
 				<div id="fixed-bottom" class="col-md-12"></div>

@@ -29,8 +29,12 @@
 						id="{{ctrl.organizeData.organizeId}}-organize-logo" />
 					<label class="control-label" id="organize-logo-label" ng-show="!ctrl.completed">{{'No logo' | translate}}</label>
 					&nbsp;
-					<scf-button id="organize-logo-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.organizeData)" title="Config a organize logo" ng-hide="!ctrl.completed" ng-disabled="!ctrl.manageAllConfig"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>	
-					<scf-button id="organize-logo-warning-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.organizeData)" title="Config a organize logo" ng-hide="ctrl.completed" ng-disabled="!ctrl.manageAllConfig"><img ng-hide="ctrl.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>
+					<scf-button id="organize-logo-setup-button" class="btn-default gec-btn-action" 
+						ng-click="ctrl.config(ctrl.organizeData)" 
+						title="Config a organize logo"
+						ng-disabled="!ctrl.manageAllConfig">
+						<i class="fa fa-cog fa-lg" aria-hidden="true"></i>
+					</scf-button>
 				</div>
 			</div>
 

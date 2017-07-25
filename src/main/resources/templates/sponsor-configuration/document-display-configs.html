@@ -12,8 +12,13 @@
        		</div>
 			<div class="col-lg-10 col-md-8 col-sm-7 col-xs-4">
 				<br/>
-				<scf-button id="display-{{docDisplayCtrl.data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="docDisplayCtrl.setupDisplayDocument(docDisplayCtrl.data)" title="Config a file layout" ng-hide="!docDisplayCtrl.data.completed" ng-disabled="docDisplayCtrl.unauthenConfig()"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>
-                <scf-button id="display-{{docDisplayCtrl.data.displayName}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="docDisplayCtrl.setupDisplayDocument(docDisplayCtrl.data)" title="Config a file layout" ng-hide="docDisplayCtrl.data.completed" ng-disabled="docDisplayCtrl.unauthenConfig()"><img ng-hide="docDisplayCtrl.data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>
+				<scf-button id="display-{{docDisplayCtrl.data.displayName}}-setup-button" 
+					class="btn-default gec-btn-action" 
+					ng-click="docDisplayCtrl.setupDisplayDocument(docDisplayCtrl.data)" 
+					title="Config a file layout"
+					ng-disabled="docDisplayCtrl.unauthenConfig()">
+					<i class="fa fa-cog fa-lg" aria-hidden="true"></i>
+				</scf-button>
 			</div>
 		</div>
 		<div id="fixed-bottom" class="col-md-12"></div>

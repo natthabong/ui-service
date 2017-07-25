@@ -45,8 +45,7 @@ angular.module('scfApp').controller('DocumentDisplayConfigController', ['Service
                 label: '',
                 cssTemplate: 'text-center',
                 sortData: false,
-                cellTemplate: '<scf-button id="display-{{data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="docDisplayCtrl.setupDisplayDocument(data)" title="Config a file layout" ng-hide="!data.completed"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
-                    '<scf-button id="display-{{data.displayName}}-warning-setup-button" class="btn-default gec-btn-action" ng-click="docDisplayCtrl.setupDisplayDocument(data)" title="Config a file layout" ng-hide="data.completed"><img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/></scf-button>'
+                cellTemplate: '<scf-button id="display-{{data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="docDisplayCtrl.setupDisplayDocument(data)" title="Config a file layout"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>'
 
             }]
         };

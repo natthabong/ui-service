@@ -98,7 +98,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
             },{
 				cssTemplate: 'text-center',
 				sortable: false,
-				cellTemplate: '<scf-button ng-disabled="true" class="btn-default gec-btn-action" id="{{data.organizeId}}-profile-button" ng-click="ctrl.editOrganizeProfile(data)" title="Edit Profile"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button><scf-button class="btn-default gec-btn-action" ng-disabled="data.sponsor==false" id="{{data.organizeId}}-config-button" ng-click="ctrl.sponsorConfig(data)" title="Config Sponsor"> <i class="fa fa-cog" aria-hidden="true" ng-show="data.completed"></i> <img ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height: 13px; width: 14px;"/> </scf-button>'
+				cellTemplate: '<scf-button ng-disabled="true" class="btn-default gec-btn-action" id="{{data.organizeId}}-profile-button" ng-click="ctrl.editOrganizeProfile(data)" title="Edit Profile"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button><scf-button class="btn-default gec-btn-action" ng-disabled="data.sponsor==false" id="{{data.organizeId}}-config-button" ng-click="ctrl.sponsorConfig(data)" title="Config Sponsor"> <i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
 			}]
     }
     

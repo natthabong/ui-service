@@ -47,38 +47,6 @@ scfApp.controller(
 				return atob(data);
 			}
 
-// vm.dataTable = {
-// options : {
-// },
-// columns : [
-// {
-// field : 'groupName',
-// label : 'Group Name',
-// idValueField : 'groupName',
-// id : 'customer-code-group-{value}-group-name',
-// sortData : true,
-// cssTemplate : 'text-left',
-// }, {
-// field : '',
-// label : '',
-// cssTemplate : 'text-center',
-// sortData : false,
-// cellTemplate : '<scf-button
-// id="customer-code-group-{{data.groupName}}-setup-button" class="btn-default
-// gec-btn-action" ng-click="ctrl.config(data)" title="Config a customer code
-// groups" ng-hide="!data.completed"><i class="fa fa-cog fa-lg"
-// aria-hidden="true"></i></scf-button>' +
-// '<scf-button id="customer-code-group-{{data.groupName}}-warning-setup-button"
-// class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config
-// a customer code groups" ng-hide="data.completed"><img
-// ng-hide="data.completed" data-ng-src="img/gear_warning.png" style="height:
-// 13px; width: 14px;"/></scf-button>' +
-// '<scf-button class="btn-default gec-btn-action" ng-disabled="true"
-// ng-click="ctrl.search()" title="Delete a file layout"><i class="fa fa-trash-o
-// fa-lg" aria-hidden="true"></i></scf-button>'
-// } ]
-// };
-
 			vm.data = []
 
 			vm.search = function() {
