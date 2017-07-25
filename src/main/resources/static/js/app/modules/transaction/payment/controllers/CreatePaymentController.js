@@ -148,14 +148,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
         }
 
-        vm.test = function () {
-            console.log(vm.documentSelects)
-        }
-
-        vm.test2 = function () {
-            console.log(vm.pagingController.tableRowCollection)
-        }
-
         vm.loadDocument = function (pagingModel) {
             _criteria.searchMatching = false;
             var deffered = vm.pagingController.search(pagingModel || ($stateParams.backAction ? {
@@ -612,8 +604,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     var index = TransactionService.findIndexFromDoucmentListByDocument(document, vm.documentSelects);
                     if (index > -1) {
                         vm.documentSelects.splice(index, 1);
-                        document.reasonCode = vm.resonCodeDropdown[0].value;
-                        document.calculatedPaymentAmount = document.calculatedNetAmount;
+                        if (supportPartial) {
+                            document.reasonCode = vm.resonCodeDropdown[0].value;
+                            document.calculatedPaymentAmount = document.calculatedNetAmount;
+                        }
                     }
 
                     if (checkSelectMatchingRef) {
