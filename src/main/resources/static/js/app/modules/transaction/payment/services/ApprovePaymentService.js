@@ -86,9 +86,8 @@ function ApprovePaymentService($http, $q, blockUI,$window){
         });
     }
     
-
     function generateEvidenceForm(transactionModel) {
-        $http({  
+        $http({
             method: 'POST',
             url: '/api/approve-transaction/evidence-form',
             data: transactionModel,
