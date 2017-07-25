@@ -6,7 +6,7 @@
 			id="twelve-months-credit-information-header-label">{{dashboardItem.headerLabel}}</h3>
 		<!-- start: Content -->
 		<div class="row">
-			<nvd3-multi-bar-chart data="ctrl.data" interactive="false"
+			<nvd3-multi-bar-chart data="ctrl.data" interactive="false" ng-if="ctrl.data.length > 0"
 				id="twelve-months-stack-bar" showXAxis="true" showYAxis="true"
 				showLegend="true" x="ctrl.xFunction()" y="ctrl.yFunction()"
 				xAxisTickFormat="ctrl.xAxisTickFormatFunction()"
