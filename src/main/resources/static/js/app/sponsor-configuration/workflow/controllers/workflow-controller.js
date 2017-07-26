@@ -44,7 +44,9 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('WorkflowContr
         
         
         vm.setup = function(data){
-
+            $timeout(function(){
+                PageNavigation.gotoPage('/sponsor-configuration/workflow/setup', {});
+            }, 10);
         }
 
          var initLoad = function() {
@@ -65,7 +67,7 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('WorkflowContr
                     }
                     vm.pagingController.tableRowCollection = list;
                 }).catch(function(response) {
-                    log.error('Cannot load dashboard');
+                    log.error('Cannot load workflow');
                 });
             }
         }();

@@ -263,6 +263,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/import-channels/settings',
 				params: { selectedItem: null},
 				resolve: load(['js/app/sponsor-configuration/import-channels/import-channels-setting-controller.js'])
+			}).state('/sponsor-configuration/workflow/setup',{
+				url: '/sponsor-configuration/workflow/setup',
+				controller: 'SetupWorkflowController',
+				controllerAs: 'ctrl',
+				templateUrl: '/sponsor-configuration/workflow/setup',
+				params: { workflowModel: null},
+				resolve: load(['js/app/sponsor-configuration/workflow/controllers/setup-workflow-controller.js'])
 			}).state('/bank-holidays',{
 				url: '/bank-holidays',
 				controller: 'BankHolidayController',

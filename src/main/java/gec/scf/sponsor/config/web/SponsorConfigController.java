@@ -153,7 +153,7 @@ public class SponsorConfigController {
 		return WORKFLOW;
 	}
 
-	@RequestMapping(path = "/setup-workflow", method = RequestMethod.GET)
+	@RequestMapping(path = "/workflow/setup", method = RequestMethod.GET)
 	public String setupWorkflow(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETUP_WORKFLOW.concat(" :: content");
