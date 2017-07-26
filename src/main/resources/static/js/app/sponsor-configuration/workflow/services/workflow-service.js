@@ -30,7 +30,7 @@ function WorkflowService($http, $q, blockUI){
                 deffered.resolve(response);
             })
             .catch(function(response) {
-                deffered.reject('Cannot load dropdown');
+                deffered.reject(response);
             });
         return deffered;
     }
@@ -48,7 +48,7 @@ function WorkflowService($http, $q, blockUI){
                 deffered.resolve(response);
             })
             .catch(function(response) {
-                deffered.reject('Cannot save workflow');
+                deffered.reject(response);
             });
         return deffered;
     }
