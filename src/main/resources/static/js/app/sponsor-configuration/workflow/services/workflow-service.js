@@ -36,15 +36,13 @@ function WorkflowService($http, $q, blockUI){
     }
 
     function saveWorkflow(workflowModel) {
+        console.log(workflowModel)
         var url = 'api/v1/organizes/'+workflowModel.organizeId+'/workflows/'+workflowModel.module+'/'+workflowModel.workflowType;
         var deffered = $q.defer();
         $http({
         	    url : url,
             	method: 'PUT',
-            	data:{
-					workflowId : workflowModel.workflow.value,
-					workflowName : workflowModel.workflow.label
-            	},
+            	data: workflowModel,
             })
             .then(function(response) {
                 deffered.resolve(response);

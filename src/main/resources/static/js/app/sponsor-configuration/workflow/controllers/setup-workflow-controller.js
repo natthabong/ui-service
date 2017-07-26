@@ -10,7 +10,6 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('SetupWorkflow
 
         };
         vm.workflowDorpDown = [];
-        vm.dropDownSelect = null;
 
         function _loadWorkflowDropDown(){
             vm.workflowDorpDown = [];
@@ -26,9 +25,9 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('SetupWorkflow
                         vm.workflowDorpDown.push(workflowObj);
                     });
                 }
-                vm.dropDownSelect = vm.workflowDorpDown[0].value.toString();
+                // 
             }).catch(function(response){
-                log.error("Cannot load workflow")
+                log.error("Cannot load workflow Dropdown")
             });
         }
 
@@ -36,6 +35,7 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('SetupWorkflow
             var deffered = WorkflowService.getWorkflow(workflowModel);
             deffered.promise.then(function(response){
                 vm.criteria = response.data;
+                vm.criteria.workflowId = vm.criteria.workflowId.toString();
                 _loadWorkflowDropDown();
             }).catch(function(response){
                 log.error("Cannot load workflow")
@@ -58,63 +58,47 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('SetupWorkflow
             deffered.promise.then(function(response){
 
             }).catch(function(response){
-                // if (response) {
-                // if(Array.isArray(response.data)){
-                //     response.data.forEach(function(error){
-                //         $scope.errors[error.code] = {
-                //     message : error.message
-                //         };
-                //     });
-                //     }
-                // }
-                // deferred.resolve(response);
+
             });
             return deffered;
         }
 
 		vm.save = function() {
-            vm.workflowDorpDown.forEach(function(obj) {
-                if(obj.value == vm.dropDownSelect){
-                    vm.criteria.workflow = obj;
+            var preCloseCallback = function(confirm) {
+                PageNavigation.gotoPreviousPage(true);
+            }
+            
+            UIFactory.showConfirmDialog({
+                data : {
+                    headerMessage : 'Confirm save?'
+                },
+                confirm : function() {
+                    return _save(vm.criteria);
+                },
+                onFail : function(response) {
+                    if(response.status != 400){
+                    var msg = {
+                            409 : 'Workflow has been modified.'
+                    };
+                        UIFactory.showFailDialog({
+                        data : {
+                            headerMessage : 'Edit workflow fail.',
+                            bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+                        },
+                        preCloseCallback : preCloseCallback
+                    });
+                    }
+                },
+                onSuccess : function(response) {
+                    UIFactory.showSuccessDialog({
+                        data : {
+                            headerMessage : 'Edit workflow complete.',
+                            bodyMessage : ''
+                        },
+                        preCloseCallback : preCloseCallback
+                    });
                 }
             });
-            if(angular.isDefined(vm.criteria.workflow)){
-                var preCloseCallback = function(confirm) {
-                    PageNavigation.gotoPreviousPage(true);
-                }
-                
-                UIFactory.showConfirmDialog({
-                    data : {
-                        headerMessage : 'Confirm save?'
-                    },
-                    confirm : function() {
-                        return _save(vm.criteria);
-                    },
-                    onFail : function(response) {
-                        if(response.status != 400){
-                        var msg = {
-                                409 : 'User has been modified.'
-                        };
-                            UIFactory.showFailDialog({
-                            data : {
-                                headerMessage : 'Edit workflow fail.',
-                                bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
-                            },
-                            preCloseCallback : preCloseCallback
-                        });
-                        }
-                    },
-                    onSuccess : function(response) {
-                        UIFactory.showSuccessDialog({
-                            data : {
-                                headerMessage : 'Edit workflow complete.',
-                                bodyMessage : ''
-                            },
-                            preCloseCallback : preCloseCallback
-                        });
-                    }
-                });
-            }
 		}
 
         vm.cancel = function(){
