@@ -217,6 +217,31 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     	return true;
     }
     
+    function _loadSummaryOfTransaction(criteria){
+        var criteriaSummary = {
+            sponsorId : criteria.sponsorId,
+            statusGroup : criteria.statusGroup,
+            transactionType : criteria.transactionType
+        }
+    	var deffered = PaymentTransactionService.getSummaryOfTransaction(criteriaSummary);
+    	deffered.promise.then(function(response) {
+			var summaryStatusGroup = response.data;
+			summaryStatusGroup.forEach(function(summary) {
+				if(vm.summaryStatusGroup[summary.statusMessageKey]){
+					
+					vm.summaryStatusGroup[summary.statusMessageKey].totalRecord = summary.totalRecord;
+					vm.summaryStatusGroup[summary.statusMessageKey].totalAmount = summary.totalAmount;
+				}
+			});
+		}).catch(function(response) {
+			$log.error('Summary Group Status Error');
+		});
+    }
+
+    vm.loadData = function(pagingModel){
+    	vm.pagingController.search(pagingModel);
+    }
+
     function _loadTransactionGroup(){
         var transactionStatusGroupDefered = PaymentTransactionService.getTransactionStatusGroups('PAYMENT');
         transactionStatusGroupDefered.promise.then(function(response) {
@@ -234,23 +259,24 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			$log.error('Load TransactionStatusGroup Fail');
         });    	
     };
-    
-    function _loadSummaryOfTransaction(criteria){
-    	var deffered = PaymentTransactionService.getSummaryOfTransaction(criteria);
-    	deffered.promise.then(function(response) {
-			var summaryStatusGroup = response.data;
-			summaryStatusGroup.forEach(function(summary) {
-				if(vm.summaryStatusGroup[summary.statusMessageKey]){
-					
-					vm.summaryStatusGroup[summary.statusMessageKey].totalRecord = summary.totalRecord;
-					vm.summaryStatusGroup[summary.statusMessageKey].totalAmount = summary.totalAmount;
-				}
-			});
-		}).catch(function(response) {
-			$log.error('Summary Group Status Error');
-		});
-    }
-   _clearSummaryStatus = function(){
+
+    vm.searchTransaction = function(pagingModel) {
+    	if(_validateForSearch()){
+	    	angular.copy(vm.criteria, _criteria);
+	    	if(vm.sponsor){
+	    		_criteria.sponsorId = vm.sponsor.organizeId;
+	            _sponsor = vm.sponsor;
+	    	}
+	    	if(vm.supplier){
+	    		_criteria.supplierId = vm.supplier.organizeId;
+	            _supplier = vm.supplier;
+	    	}
+	    	vm.loadData(pagingModel);
+	    	_loadSummaryOfTransaction(_criteria);
+    	}
+	}
+
+    _clearSummaryStatus = function(){
 		vm.summaryStatusGroup = {
 			wait_for_verify: {
 				totalRecord: 0,
@@ -274,10 +300,18 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			  }		
 		};
     }
-    vm.loadData = function(pagingModel){
-    	vm.pagingController.search(pagingModel);
-    }
     
+    var initLoad = function() {
+        var buyerInfo = prepareBuyerAutoSuggestLabel(organizeInfo);
+        vm.sponsor = buyerInfo;
+
+        _clearSummaryStatus();
+        
+        vm.searchTransaction();
+        _loadTransactionGroup();
+       
+    }();
+
     function _validateForSearch(){
     	$scope.errors = {};
     	var valid = true;
@@ -305,23 +339,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     	
     	return valid;
     }
-    
-    vm.searchTransaction = function(pagingModel) {
-    	if(_validateForSearch()){
-	    	angular.copy(vm.criteria, _criteria);
-	    	if(vm.sponsor){
-	    		_criteria.sponsorId = vm.sponsor.organizeId;
-	            _sponsor = vm.sponsor;
-	    	}
-	    	if(vm.supplier){
-	    		_criteria.supplierId = vm.supplier.organizeId;
-	            _supplier = vm.supplier;
-	    	}
-	    	vm.loadData(pagingModel);
-	    	_loadSummaryOfTransaction(_criteria);
-    	}
-	}
-    
+
     vm.viewTransaction = function(transactionModel){
 		$timeout(function(){		
 			PageNavigation.nextStep('/payment-transaction/view', 
@@ -338,17 +356,5 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             {criteria : _criteria,buyer : _sponsor,supplier : _supplier})
         }, 10);
 	}
-
-    vm.initLoad = function() {
-
-        var buyerInfo = prepareBuyerAutoSuggestLabel(organizeInfo);
-        vm.sponsor = buyerInfo;
-
-        _clearSummaryStatus();
-        
-        vm.searchTransaction();
-        _loadTransactionGroup();
-       
-    }();
 
 } ]);
