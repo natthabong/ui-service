@@ -269,7 +269,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/workflow/setup',
 				params: { workflowModel: null},
-				resolve: load(['js/app/sponsor-configuration/workflow/controllers/setup-workflow-controller.js'])
+				resolve: load(['js/app/sponsor-configuration/workflow/controllers/setup-workflow-controller.js','js/app/sponsor-configuration/workflow/services/workflow-service.js'])
 			}).state('/bank-holidays',{
 				url: '/bank-holidays',
 				controller: 'BankHolidayController',
