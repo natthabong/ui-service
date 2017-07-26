@@ -22,7 +22,7 @@ angular.module('scfApp').controller('WorkflowController',['SCFCommonService','$l
                 fieldName : 'type',
                 labelEN : 'Type',
                 labelTH : 'Type',
-                id : 'type-{value}-label',
+                id : 'type-{value}',
                 filterType : 'translate',
                 cssTemplate : 'text-left'
             },
@@ -30,7 +30,7 @@ angular.module('scfApp').controller('WorkflowController',['SCFCommonService','$l
                 fieldName : 'workflow',
                 labelEN : 'Workflow',
                 labelTH : 'Workflow',
-                id : 'workflow-{value}-label',
+                id : 'workflow-{value}',
                 filterType : 'translate',
                 cssTemplate : 'text-center'
             },
