@@ -1,10 +1,9 @@
 <div id="content" th:fragment="content">           
-
     <div class="panel box-shadow-none content-header">
 		<div class="panel-body">
 			<div class="col-md-12">
 				<h3 id="header-message-label" class="animated fadeInLeft"
-					ng-bind="'Test' | translate"></h3>
+					ng-bind="'Workflow' | translate"></h3>
 			</div>
 		</div>
 	</div>
@@ -12,10 +11,24 @@
         <div class="panel panel-default col-md-12 padding-0">
             <div class="panel-body">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <form name="activityLogForm" class="form-horizontal" novalidate=""
-                        ng-submit="ctrl.save()" autocomplete="off">
-
-                        
+                    <form name="WorkflowForm" class="form-horizontal" ng-submit="ctrl.save()" autocomplete="off">
+                        <div class="form-group">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"
+								id="type-label">{{'Type'| translate}}: </label> 
+							<label id="type-value-label"
+								class="col-md-6 col-sm-6 col-xs-12  control-label"
+								ng-bind="ctrl.organize.organizeName">
+								</label>
+						</div>
+                        <div class="form-group">
+                            <label id="password-status-label"
+                                class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Workflow' | translate}}:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <scf-dropdown id="workflow-dropdown"
+                                    ng-model="ctrl.userListModel.passwordStatus"
+                                    component-data="ctrl.passwordStatusDropdowns"></scf-dropdown>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

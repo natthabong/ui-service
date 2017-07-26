@@ -45,7 +45,7 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('WorkflowContr
         
         vm.setup = function(data){
             $timeout(function(){
-                PageNavigation.gotoPage('/sponsor-configuration/workflow/setup', {});
+                PageNavigation.gotoPage('/sponsor-configuration/workflow/setup', {workflowModel:data});
             }, 10);
         }
 
@@ -60,6 +60,9 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('WorkflowContr
                     if(dataFromDB.length > 0){
                         for(var i=0; i<dataFromDB.length; i++){
                             list.push({
+                                workflowId : dataFromDB[i].workflowId,
+                                organizeId : dataFromDB[i].organizeId,
+                                module : dataFromDB[i].module,
                                 type : dataFromDB[i].workflowType,
                                 workflow : dataFromDB[i].workflow.workflowName
                             });
