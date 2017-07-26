@@ -1,8 +1,9 @@
-angular.module('scfApp').controller('WorkflowController',['SCFCommonService','$log','$scope','$rootScope',
+angular.module('gecscf.sponsorConfiguration.workflow').controller('WorkflowController',['SCFCommonService','$log','$scope','$rootScope',
     '$stateParams','$timeout','PageNavigation','Service','PagingController',function(SCFCommonService, $log
     , $scope,$rootScope, $stateParams, $timeout,PageNavigation, Service, PagingController) 
     {
         var vm = this;
+        var log = $log;
 
         vm.pagingController = {
             tableRowCollection : null
@@ -52,7 +53,6 @@ angular.module('scfApp').controller('WorkflowController',['SCFCommonService','$l
                 var getWorkflowUrl = "/api/v1/organizes/"+owner+"/workflows";
                 var deferred = Service.requestURL(getWorkflowUrl, {}, 'GET');
                 deferred.promise.then(function(response) {
-                    console.log(response)
                     var dataFromDB = response;
                     var list = [];
                     if(dataFromDB.length > 0){
@@ -67,8 +67,6 @@ angular.module('scfApp').controller('WorkflowController',['SCFCommonService','$l
                 }).catch(function(response) {
                     log.error('Cannot load dashboard');
                 });
-                
-                
             }
         }();
     } ]);

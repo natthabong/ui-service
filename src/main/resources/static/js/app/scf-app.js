@@ -1,6 +1,7 @@
 var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'ui.mask', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
-                        			'legendDirectives','chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.transaction', 'gecscf.tradingPartner.financing'])
+                        			'legendDirectives','chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.transaction', 'gecscf.tradingPartner.financing'
+									,'gecscf.sponsorConfiguration.workflow'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider','$urlRouterProvider','ngDialogProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider,$compileProvider, $urlRouterProvider, ngDialogProvider) {
 
@@ -210,7 +211,9 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				params: { organizeModel: null, fileLayoutModel: null},
 				resolve: load(['js/app/sponsor-configuration/sponsor-config-controller.js', 
 							   'js/app/sponsor-configuration/profile-controller.js', 
-							   'js/app/sponsor-configuration/workflow-controller.js', 
+							   'js/app/sponsor-configuration/workflow/controllers/workflow-controller.js',
+							   'js/app/sponsor-configuration/workflow/controllers/setup-workflow-controller.js',
+							   'js/app/sponsor-configuration/workflow/services/workflow-service.js',
 							   'js/app/sponsor-configuration/file-layouts-controller.js', 
 							   'js/app/modules/sponsor-config/customer-code-groups/customer-code-groups-controller.js',
 							   'js/app/sponsor-configuration/channel-config-controller.js',

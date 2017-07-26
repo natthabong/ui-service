@@ -13,7 +13,8 @@ public class SponsorConfigController {
 
 	private static String SPONSOR_CONFIGURATION = "sponsor-configuration/sponsor-configuration-template";
 	private static String PROFILE = "sponsor-configuration/profile";
-	private static String WORKFLOW = "sponsor-configuration/workflow";
+	private static String WORKFLOW = "sponsor-configuration/workflow/workflow";
+	private static String SETUP_WORKFLOW = "sponsor-configuration/workflow/setup";
 	private static String CHANNEL = "sponsor-configuration/channel-configs";
 	private static String FILE_LAYOUTS = "sponsor-configuration/file-layouts";
 	private static String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
@@ -150,5 +151,13 @@ public class SponsorConfigController {
 			return WORKFLOW.concat(" :: content");
 		}
 		return WORKFLOW;
+	}
+
+	@RequestMapping(path = "/setup-workflow", method = RequestMethod.GET)
+	public String setupWorkflow(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETUP_WORKFLOW.concat(" :: content");
+		}
+		return SETUP_WORKFLOW;
 	}
 }
