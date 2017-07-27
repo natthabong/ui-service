@@ -33,7 +33,7 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('WorkflowContr
                 labelTH : 'Workflow',
                 id : 'workflow-{value}',
                 filterType : 'translate',
-                cssTemplate : 'text-center'
+                cssTemplate : 'text-left'
             },
             {
                 cssTemplate : 'text-center',

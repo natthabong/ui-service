@@ -61,11 +61,7 @@ function transactionService($http, $q, blockUI, $window) {
         $http({
         	    url :'api/v1/organize-customers/'+organizeId+'/accounts',
             	method: 'GET',
-            	params:{
-					q : '',
-					offset: 0,
-					limit: 999
-            	}
+            	params:{}
             })
             .then(function(response) {
                 deffered.resolve(response);
