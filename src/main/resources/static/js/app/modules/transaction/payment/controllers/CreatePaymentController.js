@@ -8,6 +8,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	var ownerId = $rootScope.userInfo.organizeId;
     var backAction = $stateParams.backAction;
     var fristTime = true;
+    vm.isLoanPayment = true;
 	
     var _criteria = {};
     
@@ -24,7 +25,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 		sponsorId: ownerId,
 		transactionAmount: 0.0,
         documents : [],
-        transactionDate : null
+        transactionDate : null,
+        maturityDate : null
 	}
 	
 	vm.tradingpartnerInfoModel = {
@@ -78,6 +80,16 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         });
     }
 	
+	function _loadTradingPartnerInfo(sponsorId, supplierId){
+    	var deffered = TransactionService.getTradingInfo(sponsorId, supplierId);
+    	deffered.promise.then(function(response){
+    		vm.tradingpartnerInfoModel.tenor = response.data.tenor;
+    		vm.tradingpartnerInfoModel.interestRate = response.data.interestRate;
+    	}).catch(function(response) {
+            log.error(response);
+        });
+    }
+	
 	function _loadSuppliers() {
         var deffered = TransactionService.getSuppliers('RECEIVABLE');
         deffered.promise.then(function(response) {
@@ -98,6 +110,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             	vm.tradingpartnerInfoModel.supplierId = _suppliers[0].supplierId;
             	vm.tradingpartnerInfoModel.supplierName = _suppliers[0].supplierName;
             	if(angular.isDefined(vm.criteria.supplierId)){
+            		_loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
             		_loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
             	}
              }
@@ -219,8 +232,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	}
 
     vm.accountDropDown = [];
-    function _loadAccount(ownerId){
-        var deffered = TransactionService.getAccounts(ownerId);
+    function _loadAccount(ownerId, supplierId){
+        var deffered = TransactionService.getAccounts(ownerId, supplierId);
         deffered.promise.then(function(response) {
             var accounts = response.data;
             accounts.forEach(function(account) {
@@ -243,8 +256,37 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	vm.accountDropDown.forEach(function(account) {
     		if(accountId == account.item.accountId){
     			vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
+    			if(account.item.accountNo != 'LOAN'){
+    				vm.isLoanPayment = false;
+    			}else{
+    				vm.isLoanPayment = true;
+    			}
     		}
         });    	
+    }
+    
+    function _loadMaturityDate(){
+    	vm.maturityDateDropDown = [];
+    	console.log(vm.paymentModel);
+    	if(angular.isDefined(vm.paymentModel)){
+    		
+    		var deffered = TransactionService.getAvailableMaturityDates(vm.paymentModel, vm.tradingpartnerInfoModel.tenor);
+    		deffered.promise.then(function(response){
+    			console.log(response);
+    			var maturityDates = response.data;
+    			
+    			maturityDates.forEach(function(data){
+    				vm.maturityDateDropDown.push({
+    					label: data,
+                        value: data
+    				});
+    			});
+    			vm.maturityDateModel = vm.maturityDateDropDown[0].value;
+    		})
+    		.catch(function(response) {
+                log.error(response);
+            });
+    	}
     }
 
     vm.paymentDropDown = [];
@@ -268,14 +310,14 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 if(vm.transactionModel.transactionDate != null){
                 	vm.paymentModel = vm.transactionModel.transactionDate;
                 }
+                _loadMaturityDate();
             })
             .catch(function(response) {
                 log.error(response);
             });
         }
     }
-
-
+    
     function _calculateTransactionAmount(documentSelects) {
         var sumAmount = 0;
         documentSelects.forEach(function(document) {
@@ -291,6 +333,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.watchCheckAll();
         _calculateTransactionAmount(vm.documentSelects);
         _loadPaymentDate();
+        
     }
 
     vm.checkAllDocument = function() {
@@ -392,6 +435,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             vm.transactionModel.documents = vm.documentSelects;
             vm.transactionModel.transactionDate = vm.paymentModel;
+            vm.transactionModel.maturityDate = vm.maturityDateModel;
             var objectToSend = {
                 transactionModel: vm.transactionModel,
                 tradingpartnerInfoModel: vm.tradingpartnerInfoModel
@@ -406,7 +450,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     
 	var init = function(){
 		_loadSuppliers();
-        _loadAccount(ownerId);
+        _loadAccount(ownerId, vm.criteria.supplierId);
         if(vm.documentSelects.length > 0){
         	_loadPaymentDate();
         }
@@ -415,7 +459,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     vm.supplierChange = function() {
     	vm.showErrorMsg = false;
     	vm.display = false;
-        _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');      
+        _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');     
+        
     }
 	
     vm.customerCodeChange = function() {

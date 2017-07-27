@@ -329,12 +329,18 @@ app.filter('noSeperatorNumeric', ['$filter', function ($filter) {
 }]);
 app.filter('accountFormat', ['$filter', function ($filter) {
     return function (accountNo) {
-		word1 = accountNo.substring(0,3);
-		word2 = accountNo.substring(3,4);
-		word3 = accountNo.substring(4,9);
-		word4 = accountNo.substring(9,10); 
-		var accountFormat = word1 + '-' + word2 + '-' + word3 + '-' + word4;
-    	return accountFormat;
+    	
+    	if ( !isNaN(accountNo) && angular.isNumber(+accountNo)) {
+    		word1 = accountNo.substring(0,3);
+    		word2 = accountNo.substring(3,4);
+    		word3 = accountNo.substring(4,9);
+    		word4 = accountNo.substring(9,10); 
+    		var accountFormat = word1 + '-' + word2 + '-' + word3 + '-' + word4;
+        	return accountFormat;
+        }else{
+        	return accountNo;
+        }
+		
     };
 }]);
 app.filter('negativeParenthesis', ['$filter', function ($filter) {
