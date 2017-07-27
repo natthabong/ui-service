@@ -67,7 +67,6 @@ paymentModule.controller('ValidateSubmitController', [
 			deffered.promise.then(function(response) {
 				vm.transactionModel = response.data;
 				vm.transactionNo = vm.transactionModel.transactionNo;
-				console.log(vm.transactionNo);
 				$scope.confirmPopup = false;
 				$scope.validateDataPopup = true;
 			}).catch(function(response) {
