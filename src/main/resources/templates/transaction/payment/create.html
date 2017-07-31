@@ -204,11 +204,12 @@
 									<label ng-show="ctrl.isLoanPayment" id="maturity-date-label"
 										class="col-md-2 col-sm-2 col-lg-2 col-xs-12 control-label"><b
 										ng-bind="'Maturity date' | translate">Maturity date</b>:</label>
-									<div ng-show="ctrl.isLoanPayment" class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label">
-										<scf-dropdown id="maturity-date-dropdown"
-											ng-model="ctrl.maturityDateModel"
-											component-data="ctrl.maturityDateDropDown"></scf-dropdown>
-										
+									<div ng-show="ctrl.isLoanPayment" class="col-md-3 col-sm-4 col-lg-4 col-xs-12 control-label">
+										<div class="col-sm-12 col-xs-12 col-md-9 col-lg-9">
+											<scf-dropdown id="maturity-date-dropdown"
+												ng-model="ctrl.maturityDateModel"
+												component-data="ctrl.maturityDateDropDown"></scf-dropdown>
+										</div>
 										<label id="tenor-value-label" ng-show="ctrl.isLoanPayment">
 											<span>(Tenor</span>
 											<span ng-bind="ctrl.tradingpartnerInfoModel.tenor"></span>
