@@ -255,11 +255,13 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	var accountId = vm.transactionModel.payerAccountId;
     	vm.accountDropDown.forEach(function(account) {
     		if(accountId == account.item.accountId){
+    			vm.transactionModel.payerAccountNo = account.item.accountNo;
     			vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
     			if(account.item.accountNo != 'LOAN'){
     				vm.isLoanPayment = false;
     			}else{
     				vm.isLoanPayment = true;
+    				_loadMaturityDate();
     			}
     		}
         });    	
@@ -267,12 +269,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     
     function _loadMaturityDate(){
     	vm.maturityDateDropDown = [];
-    	console.log(vm.paymentModel);
-    	if(angular.isDefined(vm.paymentModel)){
+    	if(angular.isDefined(vm.paymentModel) && vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0){
     		
     		var deffered = TransactionService.getAvailableMaturityDates(vm.paymentModel, vm.tradingpartnerInfoModel.tenor);
     		deffered.promise.then(function(response){
-    			console.log(response);
     			var maturityDates = response.data;
     			
     			maturityDates.forEach(function(data){
@@ -281,7 +281,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         value: data
     				});
     			});
-    			vm.maturityDateModel = vm.maturityDateDropDown[0].value;
+    			if(vm.maturityDateDropDown.length != 0){
+    				vm.maturityDateModel = vm.maturityDateDropDown[0].value;
+    			}
+    			
     		})
     		.catch(function(response) {
                 log.error(response);
@@ -315,7 +318,13 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             .catch(function(response) {
                 log.error(response);
             });
+        }else{
+        	_loadMaturityDate();
         }
+    }
+    
+    vm.paymentDateChange = function() {
+    	_loadMaturityDate();
     }
     
     function _calculateTransactionAmount(documentSelects) {
@@ -431,6 +440,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	if (vm.documentSelects.length === 0) {
             vm.errorMsgGroups = 'Please select document.';
             vm.showErrorMsg = true;
+    	}else if(!angular.isDefined(vm.maturityDateModel) || vm.maturityDateModel == ''){
+    		vm.errorMsgGroups = 'Maturity date is required.';
+            vm.showErrorMsg = true;
         } else {                
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             vm.transactionModel.documents = vm.documentSelects;
@@ -459,6 +471,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     vm.supplierChange = function() {
     	vm.showErrorMsg = false;
     	vm.display = false;
+    	_loadAccount(ownerId, vm.criteria.supplierId);
         _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');     
         
     }
