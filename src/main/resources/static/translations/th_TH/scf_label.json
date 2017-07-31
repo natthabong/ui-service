@@ -14,8 +14,10 @@
     "to": "to",
     "Validate and Submit": "Validate and Submit",
     "Verify transaction": "Verify transaction",
+    "Verify payment": "Verify payment",
     "Sponsor": "คู่ค้ารายใหญ่",
     "Loan documents": "Loan documents",
+    "Payment documents": "Payment documents",
     "Transaction type": "Transaction type",
     "Value of document": "Value of document",
     "Sponsor payment date": "Sponsor payment date",
@@ -23,6 +25,7 @@
     "numbero": "ลำดับที่",
     "due-date": "วันครบกำหนดชำระ", 
     "payment-date": "Payment date",
+    "Payment date": "Payment date",
     "Document date": "วันที่เอกสาร",
     "Document no.": "Document no.",
     "Document type": "Document type",
@@ -103,6 +106,7 @@
 	"Interest rate": "อัตราดอกเบี้ยเงินกู้",
     "Transaction no.": "หมายเลขรายการ:",    
     "Transaction no": "Transaction no",
+    "txn no": "Transaction no.",
     "Please select document.": "กรุณาเลือกเอกสาร",
     
     "_comment": "Page Validate Create Transaction",
@@ -507,5 +511,9 @@
 	"Loan account": "Loan account",
 	"SUPPLIER_FINANCING" : "Supplier financing",
 	
-	"download-payment-result-supplier": "Download payment result"
+	"download-payment-result-supplier": "Download payment result",
+	
+	"TERM_LOAN": "Loan",
+	"DEBIT": "Payment",
+	"Payment amount": "Payment amount"
 }

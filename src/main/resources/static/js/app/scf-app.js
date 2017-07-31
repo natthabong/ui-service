@@ -535,6 +535,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/payment-transaction/view',
                 params: {transactionModel: null, isShowViewHistoryButton: false, isShowBackButton: false},
 				resolve: load(['js/app/modules/transaction/payment/services/ViewPaymentService.js','js/app/modules/transaction/payment/controllers/ViewPaymentController.js'])
+			}).state('/payment-transaction/verify',{
+				url: '/payment-transaction/verify',
+				controller: 'VerifyPaymentController',
+				controllerAs: 'ctrl',
+				templateUrl: '/payment-transaction/verify',
+				params: {transaction: null},
+				resolve: load(['js/app/modules/transaction/payment/services/VerifyPaymentService.js','js/app/modules/transaction/payment/controllers/VerifyPaymentController.js'])
 			}).state('/payment-transaction/approve',{
 				url: '/payment-transaction/approve',
 				controller: 'ApprovePaymentController',

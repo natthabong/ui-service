@@ -1,0 +1,232 @@
+<div id="content" th:fragment="content"
+	sec:authorize="hasAuthority('VERIFY_PAYMENTS_OF_MY_ORGANIZE')">
+	<div class="panel box-shadow-none content-header">
+		<div class="panel-body">
+			<div class="col-md-12">
+				<h3 id="header-message-label" class="animated fadeInLeft">{{
+					'Verify payment' | translate}}</h3>
+			</div>
+		</div>
+	</div>
+	<div class="form-element">
+		<div class="panel panel-default col-md-12 padding-0">
+			<div class="panel-body" style="padding-bottom: 30px;">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-md-3 col-sm-3">
+											<label id="supplier-label" ng-bind="'Supplier' | translate"></label>:
+										</div>
+										<div class="col-md-9 col-sm-9">
+											<span id="supplier-value-label"
+												ng-bind="ctrl.transactionModel.supplier"></span>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-3 col-sm-3">
+											<label id="transaction-no-label" ng-bind="'txn no' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2 text-right">
+											<span id="loan-document-value-label"
+												ng-bind="ctrl.transactionModel.transactionNo"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+
+										<div class="col-md-3 col-sm-3">
+											<label id="transaction-type-label" ng-bind="'Transaction type' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="transaction-type-value-label" ng-bind="ctrl.transactionModel.transactionMethod | translate"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-3 col-sm-3">
+											<label id="payment-document-label" ng-bind="'Payment documents' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2 text-right">
+											<span id="payment-document-value-label"
+												ng-bind="ctrl.transactionModel.documents.length"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+
+										<div class="col-md-3 col-sm-3">
+											<label id="payment-date-label" ng-bind="'Payment date' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="payment-date-value-label"
+												ng-bind="ctrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-3 col-sm-3">
+											<label id="payment-amount-label" ng-bind="'Payment amount' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2 text-right">
+											<span id="payment-amount-value-label"
+												ng-bind="ctrl.transactionModel.transactionAmount | number:2"></span>
+										</div>
+										<div class="col-md-1 col-sm-1">
+											<span ng-bind="'THB' | translate"></span>
+										</div>
+										<div class="col-md-3 col-sm-3" ng-show="ctrl.isLoanPayment">
+											<label id="maturity-date-label" ng-bind="'Maturity date' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2" ng-show="ctrl.isLoanPayment">
+											<span id="maturity-date-value-label"
+												ng-bind="ctrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-2 col-sm-2">
+											<label id="create-by-label" ng-bind="'Create by' |translate"></label>:
+										</div>
+										<div class="col-md-3 col-sm-3 text-right">
+											<span id="create-by-value-label"
+												ng-bind="ctrl.transactionModel.createdBy"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+										<div class="col-md-3 col-sm-3">
+											<label id="create-date-label" ng-bind="'Create date' | translate"></label>:
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="create-date-value-label"
+												ng-bind="ctrl.transactionModel.createdTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">&#32;</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3">
+							<label id="total-select-doc-label">{{ 'Selected' |
+								translate}}&#32;{{ctrl.transactionModel.documents.length}}&#32;{{
+								'Records' | translate}}</label>:
+						</div>
+						<div class="col-md-9 text-right">
+							<div class="row">
+								<div class="col-md-12">
+									<b id="verify-payment-paging-label"
+										ng-bind="ctrl.pagingController.splitePageTxt"></b> &nbsp;&nbsp;
+									<scf-pagination
+										dropdown-id="page-limit-dropdown" name="verify-payment"
+										page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+										total-page="ctrl.pagingController.pagingModel.totalPage"
+										current-page="ctrl.pagingController.pagingModel.currentPage"
+										page-size-list="ctrl.pagingController.pageSizeList"
+										page-action="ctrl.searchDocument"></scf-pagination>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<scf-table id="document-table"
+								component-config="ctrl.dataTable"
+								component-datas="ctrl.pagingController.tableRowCollection"
+								current-page="ctrl.pagingController.pagingModel.currentPage"
+								record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel">
+							</scf-table>
+						</div>
+						<div id="fixed-bottom" class="col-md-12"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel-body">
+				<div class="row">
+					<div id="bottom-sticker">
+						<div class="col-md-12 text-right">
+							<scf-button id="back-button" class="btn btn-default"
+								type="submit" ng-click="ctrl.back()">{{
+							'Back' | translate}}</scf-button>
+							<scf-button id="reject-button" class="btn btn-default"
+								type="submit" ng-click="ctrl.confirmReject()">{{
+							'Reject' | translate}}</scf-button>
+							<scf-button id="approve-button" class="btn btn-default"
+								type="submit" ng-click="ctrl.confirmApprove()">{{
+							'Approve' | translate}}</scf-button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<scf-modal visible="successPopup">
+	<div class="modal-content">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-2 col-sm-2">
+					<image width="70" height="70" ng-src="img/success-icon.png"></image>
+				</div>
+				<div class="col-md-10 col-sm-10">
+					<h2>
+					<span id="approve-success-label" class="gec-pop-up-font-size-green"
+						ng-bind="'Verify transaction success.' | translate">Verify transaction success.</span></h2>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-2 col-sm-2"></div>
+				<div class="col-md-10 col-sm-10 col-xs-12">
+					<b class="gec-pop-up-font-size"
+						id="transaction-no-label" ng-bind="'Transaction no.' | translate">Transaction No.</b> <span
+						class="gec-pop-up-font-size"></span> <span
+						id="transaction-no-value-label" class="gec-pop-up-font-size"
+						ng-bind="ctrl.transactionNo"></span>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="verify-back-button" class="popup-button"
+						data-dismiss="modal" ng-click="ctrl.backAndReset()"
+						ng-bind="'Back' | translate"></scf-button>
+					<scf-button id="view-recent-button" class="popup-button"
+						data-dismiss="modal" ng-click="ctrl.viewRecent()"
+						ng-bind="'View recent' | translate"></scf-button>
+					<scf-button id="view-history-button" class="popup-button"
+						data-dismiss="modal" ng-click="ctrl.viewHistory()"
+						ng-bind="'View history' | translate"></scf-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</scf-modal>
+	<!-- End Panel-->
+
+	<script type="text/ng-template" id="confirmDialogId">
+        <div class="modal-content">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-12">
+					<h1><span id="verify-confirm-header-message-label" class="popup-text" ng-bind="'Confirm approval ?' | translate"></span></h1>				
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button type="button" class="popup-button" data-dismiss="modal" ng-click="closeThisDialog('button')"
+						id="popup-no-button" ng-bind="'No' | translate"> </scf-button>					
+					<scf-button type="submit" data-dismiss="modal" id="popup-yes-button"
+					ng-click="confirm()" ng-bind="'Yes' | translate">
+					</scf-button>
+				</div>
+			</div>
+		</div>
+		</div>
+    </script>
+</div>
