@@ -29,7 +29,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         maturityDate : null
 	}
 	
-	vm.tradingpartnerInfoModel = {
+	vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel || {
 		available : '0.00',
 		tenor : null,
 		interestRate : null
@@ -86,7 +86,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 		
     	var deffered = TransactionService.getTradingInfo(sponsorId, supplierId);
     	deffered.promise.then(function(response){
-    		console.log(response.data);
     		vm.tradingpartnerInfoModel.tenor = response.data.tenor;
     		vm.tradingpartnerInfoModel.interestRate = response.data.interestRate;
     	}).catch(function(response) {
@@ -277,8 +276,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     function _loadMaturityDate(){
     	vm.maturityDateDropDown = [];
     	if(angular.isDefined(vm.paymentModel) && vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0){
-    		console.log(vm.tradingpartnerInfoModel.tenor);
-
+    		
     		var deffered = TransactionService.getAvailableMaturityDates(vm.paymentModel, vm.tradingpartnerInfoModel.tenor);
     		deffered.promise.then(function(response){
     			var maturityDates = response.data;
@@ -463,6 +461,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             };
             PageNavigation.nextStep('/create-payment/validate-submit', objectToSend,{
             	transactionModel: vm.transactionModel,
+            	tradingpartnerInfoModel : vm.tradingpartnerInfoModel,
                 criteria: _criteria,
                 documentSelects: vm.documentSelects
             });
