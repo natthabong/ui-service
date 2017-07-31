@@ -64,6 +64,7 @@ paymentModule.controller('ValidateSubmitController', [
 
         vm.submitTransaction = function() {
         	vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.transactionModel.transactionDate);
+        	vm.transactionModel.maturityDate = SCFCommonService.convertStringTodate(vm.transactionModel.maturityDate);
         	var deffered = TransactionService.submitTransaction(vm.transactionModel);
 			deffered.promise.then(function(response) {
 				vm.transactionModel = response.data;
