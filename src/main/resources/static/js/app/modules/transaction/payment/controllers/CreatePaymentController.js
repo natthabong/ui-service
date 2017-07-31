@@ -8,7 +8,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	var ownerId = $rootScope.userInfo.organizeId;
     var backAction = $stateParams.backAction;
     var fristTime = true;
-    vm.isLoanPayment = true;
+    vm.isLoanPayment = false;
 	
     var _criteria = {};
     
@@ -243,9 +243,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         deffered.promise.then(function(response) {
             var accounts = response.data;
             accounts.forEach(function(account) {
-            	if(account.accountNo != 'LOAN'){
-            		vm.isLoanPayment = false;
-            	}else{
+            	if(account.accountNo == 'LOAN'){
             		vm.isLoanPayment = true;
             	}
                 vm.accountDropDown.push({
