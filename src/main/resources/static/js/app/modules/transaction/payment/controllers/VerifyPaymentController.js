@@ -68,4 +68,44 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
 		loadTransaction();
 	}();
 
+	vm.confirmApprove = function(){
+		ngDialog.openConfirm({
+            template: 'confirmDialogId',
+            className: 'ngdialog-theme-default'
+        }).then(function (value) {
+        	vm.approve();
+        }, function (reason) {
+            log.error('Modal promise rejected. Reason: ', reason);
+        });
+	}
+	
+	vm.approve = function(){
+		var deffered = VerifyPaymentService.approve(vm.transactionModel);
+        deffered.promise.then(function (response) {
+    	  vm.transactionModel = angular.extend(vm.transactionModel, response.data);
+    	  vm.transactionNo = vm.transactionModel.transactionNo;
+    	  $scope.successPopup = true;
+        }).catch(function(response) {
+            vm.errorMessageModel = response.data;
+            ngDialog.open({
+                template: '/js/app/verify-transactions/concurency-dialog.html',
+                scope: $scope,
+                disableAnimation: true
+            });
+            
+        });
+	}
+	
+	vm.viewRecent = function(){
+		$timeout(function(){		
+			PageNavigation.nextStep('/payment-transaction/view', 
+                {transactionModel: vm.transactionModel, isShowViewHistoryButton: true, isShowBackButton: false});
+    	}, 10);
+	};
+	
+	vm.viewHistory = function(){
+		$timeout(function(){
+			PageNavigation.gotoPage('/payment-transaction/buyer');
+		}, 10);
+	};	
 }]);	

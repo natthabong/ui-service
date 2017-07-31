@@ -2,7 +2,9 @@ angular.module('gecscf.transaction').factory('VerifyPaymentService',['$http', '$
 function VerifyPaymentService($http, $q, blockUI,$window){
 	
 	return {
-		getTransaction : getTransaction
+		getTransaction : getTransaction,
+		approve: approve,
+		reject: reject
 	}
 
     function getTransaction(transaction) {
@@ -25,4 +27,32 @@ function VerifyPaymentService($http, $q, blockUI,$window){
 		});	
 		return deffered;
     }
+    
+    function approve(transaction){
+		var deffered = $q.defer();
+		$http({
+			url: 'api/verify-transaction/approve',
+			method: 'POST',
+			data: transaction
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});	
+		return deffered;
+	}
+    
+    function reject(transaction){
+		var deffered = $q.defer();
+		$http({
+			url: 'api/verify-transaction/reject',
+			method: 'POST',
+			data: transaction
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});	
+		return deffered;
+	}
 }
