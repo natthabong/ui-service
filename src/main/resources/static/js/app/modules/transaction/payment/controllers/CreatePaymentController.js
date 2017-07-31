@@ -478,7 +478,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     vm.supplierChange = function() {
     	vm.showErrorMsg = false;
     	vm.display = false;
+    	_loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
     	_loadAccount(ownerId, vm.criteria.supplierId);
+    	_loadMaturityDate();
         _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');     
         
     }
