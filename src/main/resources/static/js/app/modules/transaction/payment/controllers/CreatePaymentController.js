@@ -243,6 +243,11 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         deffered.promise.then(function(response) {
             var accounts = response.data;
             accounts.forEach(function(account) {
+            	if(account.accountNo != 'LOAN'){
+            		vm.isLoanPayment = false;
+            	}else{
+            		vm.isLoanPayment = true;
+            	}
                 vm.accountDropDown.push({
                     label : account.accountNo,
                     value : account.accountId,
@@ -287,7 +292,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         value: data
     				});
     			});
-    			vm.maturityDateModel = vm.maturityDateDropDown[0].value;
+    			if(vm.maturityDateDropDown.length != 0){
+    				vm.maturityDateModel = vm.maturityDateDropDown[0].value;
+    			}
+    			
 				 if(vm.transactionModel.maturityDate != null){
 	             	vm.maturityDateModel = vm.transactionModel.maturityDate;
 	             }
@@ -446,7 +454,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	if (vm.documentSelects.length === 0) {
             vm.errorMsgGroups = 'Please select document.';
             vm.showErrorMsg = true;
-    	}else if(!angular.isDefined(vm.maturityDateModel) || vm.maturityDateModel == ''){
+    	}else if(vm.isLoanPayment && !angular.isDefined(vm.maturityDateModel) || vm.maturityDateModel == ''){
     		vm.errorMsgGroups = 'Maturity date is required.';
             vm.showErrorMsg = true;
         } else {                
