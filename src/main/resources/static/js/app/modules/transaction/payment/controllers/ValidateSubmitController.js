@@ -15,6 +15,7 @@ paymentModule.controller('ValidateSubmitController', [
         vm.transactionModel = $stateParams.transactionModel;
         vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
         vm.pagingController = PagingController.create(vm.transactionModel.documents);
+        vm.isLoanPayment = true;
         
         vm.dataTable = {
             columns: []
@@ -78,6 +79,10 @@ paymentModule.controller('ValidateSubmitController', [
         var init = function() {
             vm.pagingController.search();
             loadDocumentDisplayConfig(vm.transactionModel.supplierId, 'BFP');
+            
+            if(vm.transactionModel.payerAccountNo != 'LOAN'){
+            	vm.isLoanPayment = false;
+            }
         }();
     }
 ]);

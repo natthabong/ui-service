@@ -104,7 +104,13 @@
 							<div class="col-md-3 col-sm-3 col-xs-12">
 								<span id="available-value-label"
 									ng-bind="ctrl.tradingpartnerInfoModel.available | number:2"></span>&nbsp;
-								<span ng-bind="'THB' | translate"></span>
+								<span ng-bind="'THB' | translate"></span>&nbsp;
+										
+								<label id="interest-rate-value-label" ng-show="ctrl.isLoanPayment">
+									<span>(Int.</span>
+									<span ng-bind="ctrl.tradingpartnerInfoModel.interestRate"></span>
+									<span>)</span>
+								</label>
 							</div>
 						</div>
 
@@ -121,8 +127,19 @@
 									ng-bind="ctrl.transactionModel.transactionDate |  date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
 							</div>
 
-							<div class="col-md-2 col-sm-2 col-hidden-xs"></div>
-							<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+							<label ng-show="ctrl.isLoanPayment" id="maturity-date-label"
+								class="col-md-2 col-sm-2 col-lg-2 col-xs-12 control-label"><b
+								ng-bind="'Maturity date' | translate">Maturity date</b>:</label>
+							<div ng-show="ctrl.isLoanPayment" class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label">
+								<span id="maturity-date-value-label"
+									ng-bind="ctrl.transactionModel.maturityDate |  date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+
+								<label id="tenor-value-label" ng-show="ctrl.isLoanPayment">
+									<span>(Tenor</span>
+									<span ng-bind="ctrl.tradingpartnerInfoModel.tenor"></span>
+									<span>days)</span>
+								</label>
+							</div>
 						</div>
 
 					</div>
