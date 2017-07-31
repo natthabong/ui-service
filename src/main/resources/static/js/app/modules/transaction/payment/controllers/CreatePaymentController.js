@@ -190,7 +190,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             }
         }
     	
-
     	return valid;
     }
 	function _prepareCriteria() {
@@ -248,9 +247,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         var deffered = TransactionService.getAccounts(ownerId, supplierId);
         deffered.promise.then(function(response) {
             var accounts = response.data;
+            vm.isLoanPayment = false;
             accounts.forEach(function(account) {
             	if(account.accountNo == 'LOAN'){
-            		vm.isLoanPayment = true;
                     vm.accountDropDown.push({
                         label : "Loan",
                         value : account.accountId,
@@ -265,9 +264,16 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 }
                 
             });
-            vm.transactionModel.payerAccountId = accounts[0].accountId;
-            vm.transactionModel.payerAccountNo = accounts[0].accountNo;
-            vm.tradingpartnerInfoModel.available = accounts[0].remainingAmount - accounts[0].pendingAmount;
+            if(!backAction){
+                vm.transactionModel.payerAccountId = accounts[0].accountId;
+                vm.transactionModel.payerAccountNo = accounts[0].accountNo;
+                vm.tradingpartnerInfoModel.available = accounts[0].remainingAmount - accounts[0].pendingAmount;
+            }
+
+            if(vm.transactionModel.payerAccountNo == 'LOAN'){
+                vm.isLoanPayment = true;
+            }
+            
         }).catch(function(response) {
             log.error(response);
         });
@@ -478,6 +484,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 transactionModel: vm.transactionModel,
                 tradingpartnerInfoModel: vm.tradingpartnerInfoModel
             };
+            console.log(vm.transactionModel)
+            console.log(vm.tradingpartnerInfoModel)
+            console.log(_criteria)
             PageNavigation.nextStep('/create-payment/validate-submit', objectToSend,{
             	transactionModel: vm.transactionModel,
             	tradingpartnerInfoModel : vm.tradingpartnerInfoModel,
