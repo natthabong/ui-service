@@ -106,12 +106,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                      }
                      vm.suppliers.push(selectObj);
                  });
+
                 if(!backAction){
                     vm.criteria.supplierId = _suppliers[0].supplierId;
+                    vm.tradingpartnerInfoModel.supplierId = _suppliers[0].supplierId;
+            	    vm.tradingpartnerInfoModel.supplierName = _suppliers[0].supplierName;
                 }
-            	
-            	vm.tradingpartnerInfoModel.supplierId = _suppliers[0].supplierId;
-            	vm.tradingpartnerInfoModel.supplierName = _suppliers[0].supplierName;
             	
             	if(angular.isDefined(vm.criteria.supplierId)){
             		_loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
@@ -138,13 +138,17 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                      }
                      vm.customerCodes.push(selectObj);
                  });
+
                  if(!backAction){
                 	vm.criteria.customerCode = _buyerCodes[0];
-                 } else{
-                    vm.searchDocument();
-                     // clear backAction
-                    backAction = false;
-                 }
+                 } 
+                 
+                //  else{
+                //     vm.searchDocument();
+                //      // clear backAction
+                //     // backAction = false;
+                //  }
+
                  if(fristTime){
                     vm.display = true;
                     vm.searchDocument();
@@ -240,7 +244,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.checkAllModel = false;
         
 	}
-
    
     function _loadAccount(ownerId, supplierId){
     	vm.accountDropDown = [];
@@ -264,6 +267,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 }
                 
             });
+
             if(!backAction){
                 vm.transactionModel.payerAccountId = accounts[0].accountId;
                 vm.transactionModel.payerAccountNo = accounts[0].accountNo;
@@ -313,9 +317,11 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     				vm.maturityDateModel = vm.maturityDateDropDown[0].value;
     			}
     			
-				 if(vm.transactionModel.maturityDate != null){
+				 if(backAction && vm.transactionModel.maturityDate != null){
 	             	vm.maturityDateModel = vm.transactionModel.maturityDate;
 	             }
+                 //Clear back action
+                 backAction = false;
     		})
     		.catch(function(response) {
                 log.error(response);
@@ -340,9 +346,11 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         value: data
                     })
                 });
-                vm.paymentModel = vm.paymentDropDown[0].value;
-                if(vm.transactionModel.transactionDate != null){
+
+                if(backAction && vm.transactionModel.transactionDate != null){
                 	vm.paymentModel = vm.transactionModel.transactionDate;
+                }else{
+                    vm.paymentModel = vm.paymentDropDown[0].value;
                 }
                 _loadMaturityDate();
             })
@@ -484,9 +492,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 transactionModel: vm.transactionModel,
                 tradingpartnerInfoModel: vm.tradingpartnerInfoModel
             };
-            console.log(vm.transactionModel)
-            console.log(vm.tradingpartnerInfoModel)
-            console.log(_criteria)
+
             PageNavigation.nextStep('/create-payment/validate-submit', objectToSend,{
             	transactionModel: vm.transactionModel,
             	tradingpartnerInfoModel : vm.tradingpartnerInfoModel,
@@ -508,8 +514,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	vm.display = false;
     	_loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
     	_loadAccount(ownerId, vm.criteria.supplierId);
-    	_loadMaturityDate();
-        _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');     
+        _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
+        vm.maturityDateModel = null;
         
     }
 	
