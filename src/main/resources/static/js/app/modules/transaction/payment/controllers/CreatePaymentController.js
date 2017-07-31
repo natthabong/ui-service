@@ -218,22 +218,28 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         });
 	}
 	vm.searchDocument = function(pagingModel) {
-        // vm.display = true;
 		if(_validateForSearch()){
 			_prepareCriteria();
 			vm.loadData(pagingModel);
-		}
+		}else{
+            vm.display = false;
+        }
 	
 	}
 	
 	vm.clearSelectDocument = function(){
+        if(_validateForSearch()){
+            vm.display = true;
+        }else{
+            vm.display = false;
+        }
 		vm.paymentDropDown = [];
 		vm.documentSelects = [];
 		vm.transactionModel.transactionAmount = '0.00';
 		vm.showErrorMsg = false;
         vm.selectAllModel = false;
         vm.checkAllModel = false;
-        vm.display = true;
+        
 	}
 
    
@@ -245,12 +251,19 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             accounts.forEach(function(account) {
             	if(account.accountNo == 'LOAN'){
             		vm.isLoanPayment = true;
-            	}
-                vm.accountDropDown.push({
-                    label : account.accountNo,
-                    value : account.accountId,
-                    item : account
-                })
+                    vm.accountDropDown.push({
+                        label : "Loan",
+                        value : account.accountId,
+                        item : account
+                    })
+            	}else{
+                    vm.accountDropDown.push({
+                        label : account.accountNo,
+                        value : account.accountId,
+                        item : account
+                    })
+                }
+                
             });
             vm.transactionModel.payerAccountId = accounts[0].accountId;
             vm.transactionModel.payerAccountNo = accounts[0].accountNo;
