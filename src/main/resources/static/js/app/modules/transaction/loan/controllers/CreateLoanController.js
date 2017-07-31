@@ -142,8 +142,9 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         };
 
         function _loadTradingPartnerInfo(sponsorCode,sponsorPaymentDate){
-            var tradingInfo = TransactionService.getTradingInfo(sponsorCode);
+            var tradingInfo = TransactionService.getTradingInfo(sponsorCode, ownerId);
             tradingInfo.promise.then(function(response) {
+            	console.log(response);
                 vm.tradingpartnerInfoModel = response.data;
                 _loadTransactionDate(sponsorCode,sponsorPaymentDate);
             }).catch(function(response){

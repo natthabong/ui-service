@@ -8,6 +8,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	var ownerId = $rootScope.userInfo.organizeId;
     var backAction = $stateParams.backAction;
     var fristTime = true;
+    vm.isLoanPayment = true;
 	
     var _criteria = {};
     
@@ -24,11 +25,14 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 		sponsorId: ownerId,
 		transactionAmount: 0.0,
         documents : [],
-        transactionDate : null
+        transactionDate : null,
+        maturityDate : null
 	}
 	
-	vm.tradingpartnerInfoModel = {
-		available : '0.00'		
+	vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel || {
+		available : '0.00',
+		tenor : null,
+		interestRate : null
 	}
 	
 	$scope.errors = {
@@ -78,6 +82,17 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         });
     }
 	
+	function _loadTradingPartnerInfo(sponsorId, supplierId){
+		
+    	var deffered = TransactionService.getTradingInfo(sponsorId, supplierId);
+    	deffered.promise.then(function(response){
+    		vm.tradingpartnerInfoModel.tenor = response.data.tenor;
+    		vm.tradingpartnerInfoModel.interestRate = response.data.interestRate;
+    	}).catch(function(response) {
+            log.error(response);
+        });
+    }
+	
 	function _loadSuppliers() {
         var deffered = TransactionService.getSuppliers('RECEIVABLE');
         deffered.promise.then(function(response) {
@@ -97,7 +112,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             	
             	vm.tradingpartnerInfoModel.supplierId = _suppliers[0].supplierId;
             	vm.tradingpartnerInfoModel.supplierName = _suppliers[0].supplierName;
+            	
             	if(angular.isDefined(vm.criteria.supplierId)){
+            		_loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
+            		_loadAccount(ownerId, vm.criteria.supplierId);
             		_loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
             	}
              }
@@ -218,9 +236,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.display = true;
 	}
 
-    vm.accountDropDown = [];
-    function _loadAccount(ownerId){
-        var deffered = TransactionService.getAccounts(ownerId);
+   
+    function _loadAccount(ownerId, supplierId){
+    	vm.accountDropDown = [];
+        var deffered = TransactionService.getAccounts(ownerId, supplierId);
         deffered.promise.then(function(response) {
             var accounts = response.data;
             accounts.forEach(function(account) {
@@ -242,9 +261,41 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	var accountId = vm.transactionModel.payerAccountId;
     	vm.accountDropDown.forEach(function(account) {
     		if(accountId == account.item.accountId){
+    			vm.transactionModel.payerAccountNo = account.item.accountNo;
     			vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
+    			if(account.item.accountNo != 'LOAN'){
+    				vm.isLoanPayment = false;
+    			}else{
+    				vm.isLoanPayment = true;
+    				_loadMaturityDate();
+    			}
     		}
         });    	
+    }
+    
+    function _loadMaturityDate(){
+    	vm.maturityDateDropDown = [];
+    	if(angular.isDefined(vm.paymentModel) && vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0){
+    		
+    		var deffered = TransactionService.getAvailableMaturityDates(vm.paymentModel, vm.tradingpartnerInfoModel.tenor);
+    		deffered.promise.then(function(response){
+    			var maturityDates = response.data;
+    			
+    			maturityDates.forEach(function(data){
+    				vm.maturityDateDropDown.push({
+    					label: data,
+                        value: data
+    				});
+    			});
+    			vm.maturityDateModel = vm.maturityDateDropDown[0].value;
+				 if(vm.transactionModel.maturityDate != null){
+	             	vm.maturityDateModel = vm.transactionModel.maturityDate;
+	             }
+    		})
+    		.catch(function(response) {
+                log.error(response);
+            });
+    	}
     }
 
     vm.paymentDropDown = [];
@@ -268,14 +319,20 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 if(vm.transactionModel.transactionDate != null){
                 	vm.paymentModel = vm.transactionModel.transactionDate;
                 }
+                _loadMaturityDate();
             })
             .catch(function(response) {
                 log.error(response);
             });
+        }else{
+        	_loadMaturityDate();
         }
     }
-
-
+    
+    vm.paymentDateChange = function() {
+    	_loadMaturityDate();
+    }
+    
     function _calculateTransactionAmount(documentSelects) {
         var sumAmount = 0;
         documentSelects.forEach(function(document) {
@@ -291,6 +348,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.watchCheckAll();
         _calculateTransactionAmount(vm.documentSelects);
         _loadPaymentDate();
+        
     }
 
     vm.checkAllDocument = function() {
@@ -388,16 +446,22 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	if (vm.documentSelects.length === 0) {
             vm.errorMsgGroups = 'Please select document.';
             vm.showErrorMsg = true;
+    	}else if(!angular.isDefined(vm.maturityDateModel) || vm.maturityDateModel == ''){
+    		vm.errorMsgGroups = 'Maturity date is required.';
+            vm.showErrorMsg = true;
         } else {                
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             vm.transactionModel.documents = vm.documentSelects;
             vm.transactionModel.transactionDate = vm.paymentModel;
+            vm.transactionModel.maturityDate = vm.maturityDateModel;
+            
             var objectToSend = {
                 transactionModel: vm.transactionModel,
                 tradingpartnerInfoModel: vm.tradingpartnerInfoModel
             };
             PageNavigation.nextStep('/create-payment/validate-submit', objectToSend,{
             	transactionModel: vm.transactionModel,
+            	tradingpartnerInfoModel : vm.tradingpartnerInfoModel,
                 criteria: _criteria,
                 documentSelects: vm.documentSelects
             });
@@ -406,7 +470,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     
 	var init = function(){
 		_loadSuppliers();
-        _loadAccount(ownerId);
         if(vm.documentSelects.length > 0){
         	_loadPaymentDate();
         }
@@ -415,7 +478,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     vm.supplierChange = function() {
     	vm.showErrorMsg = false;
     	vm.display = false;
-        _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');      
+    	_loadAccount(ownerId, vm.criteria.supplierId);
+        _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');     
+        
     }
 	
     vm.customerCodeChange = function() {

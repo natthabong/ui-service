@@ -56,12 +56,14 @@ function transactionService($http, $q, blockUI, $window) {
 	    return deffered;
 	}
 
-	function getAccounts(organizeId) {
+	function getAccounts(organizeId, supplierId) {
         var deffered = $q.defer();
         $http({
         	    url :'api/v1/organize-customers/'+organizeId+'/accounts',
             	method: 'GET',
-            	params:{}
+            	params:{
+            		supplierId: supplierId
+            	}
             })
             .then(function(response) {
                 deffered.resolve(response);
@@ -343,6 +345,25 @@ function transactionService($http, $q, blockUI, $window) {
         return templateUrl;
     }
     
+    function getAvailableMaturityDates(paymentDate, tenor){
+    	var deffered = $q.defer();
+
+        $http({
+            method: 'POST',
+            url: 'api/v1/create-transaction/maturity-dates/get',
+            params: {
+            	paymentDate: paymentDate,
+           	 	tenor: tenor
+            }
+        }).then(function(response){
+            deffered.resolve(response);
+        }).catch(function(response){
+            deffered.reject(response);
+        });
+        return deffered;
+        
+    }
+    
     return {
         getSponsorPaymentDate: getSponsorPaymentDate,
         getTransactionDate: getTransactionDate,
@@ -360,6 +381,7 @@ function transactionService($http, $q, blockUI, $window) {
         submitTransaction:submitTransaction,
         retry: retry,
         reject: reject,
+        getAvailableMaturityDates: getAvailableMaturityDates,
         getTransactionDialogErrorUrl: getTransactionDialogErrorUrl
 	}
 }
