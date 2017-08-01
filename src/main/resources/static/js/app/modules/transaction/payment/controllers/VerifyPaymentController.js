@@ -96,7 +96,7 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
 				UIFactory.showSuccessDialog({
 					data : {
 						mode: 'transaction',
-						headerMessage : 'Verify transaction success',						
+						headerMessage : 'Verify transaction success.',						
 						bodyMessage : vm.transactionModel.transactionNo,
 						backAndReset : vm.back,
 						viewRecent : vm.viewRecent,
