@@ -84,7 +84,7 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
 				UIFactory.showFailDialog({
 					data : {
 						mode: 'transaction',
-						headerMessage : 'Verify transaction fail',
+						headerMessage : 'Verify transaction fail.',
 						backAndReset : vm.back,
 						viewHistory : vm.viewHistory,
 						viewRecent : vm.viewRecent,
@@ -129,7 +129,7 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
 				UIFactory.showFailDialog({
 					data : {
 						mode: 'transaction',
-						headerMessage : 'Reject transaction fail',
+						headerMessage : 'Reject transaction fail.',
 						backAndReset : vm.back,
 						viewHistory : vm.viewHistory,
 						viewRecent : vm.viewRecent,
@@ -141,7 +141,7 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
 				UIFactory.showSuccessDialog({
 					data : {
 						mode: 'transaction',
-						headerMessage : 'Reject transaction success',						
+						headerMessage : 'Reject transaction success.',						
 						bodyMessage : vm.transactionModel.transactionNo,
 						backAndReset : vm.back,
 						viewRecent : vm.viewRecent,
