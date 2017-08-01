@@ -64,8 +64,8 @@ var app = angular.module('scfApp');
 											label: '',
 											cssTemplate: 'text-center',
 											sortData: false,
-											cellTemplate: '<scf-button id="payment-date-formula-{{data.formulaName}}-setup-button"  class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a payment date formula configs" ng-disabled="ctrl.unauthenConfig()"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
-											'<scf-button id="payment-date-formula-{{data.formulaName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteFormula(data)" title="Delete a file layout" ng-disabled="!ctrl.manageAllConfig"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+											cellTemplate: '<scf-button id="payment-date-formula-{{data.formulaName}}-setup-button"  class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a payment date formula configs" ng-disabled="ctrl.unauthenConfig()"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
+											'<scf-button id="payment-date-formula-{{data.formulaName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteFormula(data)" title="Delete a file layout" ng-disabled="!ctrl.manageAllConfig"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 										} ]
 							};
 

@@ -68,8 +68,8 @@ angular
 											label: '',
 											cssTemplate: 'text-center',
 											sortData: false,
-											cellTemplate: '<scf-button id="layout-{{data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="fileLayoutsCtrl.newFileLayout(data)" title="Config a file layout"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>' +
-											'<scf-button id="layout-{{data.displayName}}-delete-button" class="btn-default gec-btn-action" ng-disabled="true" ng-click="fileLayoutsCtrl.delete()" title="Delete a file layout"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+											cellTemplate: '<scf-button id="layout-{{data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="fileLayoutsCtrl.newFileLayout(data)" title="Config a file layout"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
+											'<scf-button id="layout-{{data.displayName}}-delete-button" class="btn-default gec-btn-action" ng-disabled="true" ng-click="fileLayoutsCtrl.delete()" title="Delete a file layout"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 										} ]
 							};
 

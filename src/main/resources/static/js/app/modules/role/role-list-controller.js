@@ -49,7 +49,7 @@ angular.module('scfApp').controller('RoleListController',['$scope','Service', '$
 					sortable : false,
 					cellTemplate : '<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="role-{{data.roleName}}-view-button" ng-click="ctrl.viewRole(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
 						+ '<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="role-{{data.roleName}}-edit-button" ng-click="ctrl.editRole(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
-						+ '<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="role-{{data.roleName}}-delete-button" ng-click="ctrl.deleteRole(data)" title="Delete"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+						+ '<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="role-{{data.roleName}}-delete-button" ng-click="ctrl.deleteRole(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 				} ]
 		}
 

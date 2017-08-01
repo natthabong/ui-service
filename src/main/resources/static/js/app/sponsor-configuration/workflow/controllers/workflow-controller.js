@@ -38,7 +38,7 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('WorkflowContr
             {
                 cssTemplate : 'text-center',
                 sortData : false,
-                cellTemplate : '<scf-button id="{{data.type}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setup(data)" title="Config a workflow"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>'
+                cellTemplate : '<scf-button id="{{data.type}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setup(data)" title="Config a workflow"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
             } ]
         }
         

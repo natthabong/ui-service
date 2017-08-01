@@ -128,7 +128,7 @@ angular
 										{
 											cssTemplate : 'text-center',
 											sortData : false,
-											cellTemplate : '<scf-button id="{{data.channelType}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></scf-button>'
+											cellTemplate : '<scf-button id="{{data.channelType}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
 													+ '<scf-button id="{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.testConnection(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
 										} ]
 							}

@@ -108,7 +108,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			label : '',
 			cssTemplate : 'text-center',
 			sortData : false,
-			cellTemplate : '<scf-button id="{{data.documentId}}-delete-button" class="btn-default gec-btn-action" ng-disabled="{{!ctrl.canDelete(data)}}" ng-click="ctrl.deleteDocument(data)" title="Delete a document"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></scf-button>'
+			cellTemplate : '<scf-button id="{{data.documentId}}-delete-button" class="btn-default gec-btn-action" ng-disabled="{{!ctrl.canDelete(data)}}" ng-click="ctrl.deleteDocument(data)" title="Delete a document"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 		};
 
 		vm.loadDocumentDisplayConfig = function(sponsorId) {
