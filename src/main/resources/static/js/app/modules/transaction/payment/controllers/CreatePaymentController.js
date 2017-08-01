@@ -83,7 +83,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     }
 	
 	function _loadTradingPartnerInfo(sponsorId, supplierId){
-		
+		vm.tradingpartnerInfoModel.supplierId = supplierId;
+        vm.tradingpartnerInfoModel.supplierName = getSupplierName(supplierId);
     	var deffered = TransactionService.getTradingInfo(sponsorId, supplierId);
     	deffered.promise.then(function(response){
     		vm.tradingpartnerInfoModel.tenor = response.data.tenor;
@@ -91,6 +92,16 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	}).catch(function(response) {
             log.error(response);
         });
+    }
+
+    function getSupplierName(supplierId){
+        var supplierName = null;
+        vm.suppliers.map(function(obj) { 
+            if(obj.value == supplierId){
+                supplierName = obj.label;
+            }
+        });
+        return supplierName;
     }
 	
 	function _loadSuppliers() {
@@ -109,8 +120,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
                 if(!backAction){
                     vm.criteria.supplierId = _suppliers[0].supplierId;
-                    vm.tradingpartnerInfoModel.supplierId = _suppliers[0].supplierId;
-            	    vm.tradingpartnerInfoModel.supplierName = _suppliers[0].supplierName;
                 }
             	
             	if(angular.isDefined(vm.criteria.supplierId)){
@@ -141,13 +150,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
                  if(!backAction){
                 	vm.criteria.customerCode = _buyerCodes[0];
-                 } 
-                 
-                //  else{
-                //     vm.searchDocument();
-                //      // clear backAction
-                //     // backAction = false;
-                //  }
+                 }
 
                  if(fristTime){
                     vm.display = true;
