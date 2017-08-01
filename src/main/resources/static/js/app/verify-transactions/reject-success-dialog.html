@@ -6,7 +6,7 @@
 			</div>
 			<div class="col-md-10 col-sm-10">
 				<h2>
-					<span id="reject-success-label" class="gec-pop-up-font-size-green">
+					<span id="popup-header-message-label" class="gec-pop-up-font-size-green">
 						{{'Reject transaction success' | translate}}.
 					</span>
 				</h2>
@@ -22,7 +22,7 @@
                         <b class="gec-pop-up-font-size" ng-bind="'Transaction no.' | translate">Transaction No.:</b>
                     </div>
                     <div class="col-xs-8">
-                        <span id="reject-transaction-no-label" class="gec-pop-up-font-size" ng-bind="verifyTxnCtrl.transactionModel.transactionNo"></span>
+                        <span id="popup-transaction-no-label" class="gec-pop-up-font-size" ng-bind="verifyTxnCtrl.transactionModel.transactionNo"></span>
                     </div>
                 </div>
             </div>
@@ -31,9 +31,9 @@
     <div class="modal-footer">
         <div class="row">
             <div class="col-xs-12 text-right">
-                <scf-button id="verify-reject-back-button" class="popup-button" data-dismiss="modal" ng-bind="'Back' | translate" ng-click="closeThisDialog();verifyTxnCtrl.backAndReset()"></scf-button>
-                <scf-button id="view-reject-recent-button" class="popup-button" data-dismiss="modal" ng-click="closeThisDialog();verifyTxnCtrl.viewRecent()" ng-bind="'View recent' | translate"></scf-button>
-                <scf-button id="view-reject-history-button" class="popup-button" data-dismiss="modal" ng-click="closeThisDialog();verifyTxnCtrl.viewHistory()" ng-bind="'View history' | translate"></scf-button>
+                <scf-button id="popup-back-button" class="popup-button" data-dismiss="modal" ng-bind="'Back' | translate" ng-click="closeThisDialog();verifyTxnCtrl.backAndReset()"></scf-button>
+                <scf-button id="popup-view-recent-button" class="popup-button" data-dismiss="modal" ng-click="closeThisDialog();verifyTxnCtrl.viewRecent()" ng-bind="'View recent' | translate"></scf-button>
+                <scf-button id="popup-view-history-button" class="popup-button" data-dismiss="modal" ng-click="closeThisDialog();verifyTxnCtrl.viewHistory()" ng-bind="'View history' | translate"></scf-button>
             </div>
         </div>
     </div>

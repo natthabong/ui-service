@@ -6,7 +6,7 @@
 			</div>
 			<div class="col-md-10 col-sm-10">
 				<h2>
-					<span id="reject-success-label"
+					<span id="popup-header-message-label"
 						class="gec-pop-up-font-size-green"
 						ng-bind="'Reject success' | translate">Reject success</span>
 				</h2>
@@ -23,7 +23,7 @@
 							ng-bind="'Transaction no.' | translate">Transaction No.:</b>
 					</div>
 					<div class="col-xs-8">
-						<span id="reject-transaction-no-label"
+						<span id="popup-transaction-no-label"
 							class="gec-pop-up-font-size"
 							ng-bind="ctrl.transaction.transactionNo"></span>
 					</div>
@@ -34,13 +34,13 @@
 	<div class="modal-footer">
 		<div class="row">
 			<div class="col-xs-12 text-right">
-				<scf-button id="approve-reject-back-button" class="popup-button" data-dismiss="modal"
+				<scf-button id="popup-reject-back-button" class="popup-button" data-dismiss="modal"
 					ng-bind="'Back' | translate"
 					ng-click="closeThisDialog();ctrl.backAndReset()"></scf-button>
-				<scf-button id="approve-reject-view-recent-button" class="popup-button" data-dismiss="modal"
+				<scf-button id="popup-view-recent-button" class="popup-button" data-dismiss="modal"
 					ng-click="closeThisDialog();ctrl.viewRecent()"
 					ng-bind="'View recent' | translate"></scf-button>
-				<scf-button id="approve-reject-view-history-button" class="popup-button" data-dismiss="modal"
+				<scf-button id="popup-view-history-button" class="popup-button" data-dismiss="modal"
 					ng-click="closeThisDialog();ctrl.viewHistory()"
 					ng-bind="'View history' | translate"></scf-button>
 			</div>
