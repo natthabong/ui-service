@@ -129,6 +129,7 @@
 	
 	"CANCELLED_BY_BANK" : "Cancelled by bank",
 	"CANCELLED_BY_SUPPLIER" : "Cancelled by supplier",
+	"CANCELLED_BY_BUYER" : "Cancelled by buyer",
 	"DRAWDOWN_SUCCESS": "Drawdown success",
 	"FAIL_TO_CANCELLED": "Fail to cancelled",
 	"FAIL_TO_DRAWDOWN": "Fail to drawdown",

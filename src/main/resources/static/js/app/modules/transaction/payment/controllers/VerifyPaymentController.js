@@ -1,8 +1,8 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log', 
-	'$stateParams', 'SCFCommonService','PageNavigation','ngDialog','$timeout', 
+	'$stateParams', 'SCFCommonService','PageNavigation', 'UIFactory', 'ngDialog', '$timeout', 
     'PagingController', 'VerifyPaymentService', 
-	function($rootScope, $scope, $log, $stateParams, SCFCommonService, PageNavigation, ngDialog, $timeout, PagingController, VerifyPaymentService) {
+	function($rootScope, $scope, $log, $stateParams, SCFCommonService, PageNavigation, UIFactory, ngDialog, $timeout, PagingController, VerifyPaymentService) {
 
 	var vm = this;
 	var log = $log;
@@ -69,31 +69,92 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
 	}();
 
 	vm.confirmApprove = function(){
-		ngDialog.openConfirm({
-            template: 'confirmDialogId',
-            className: 'ngdialog-theme-default'
-        }).then(function (value) {
-        	vm.approve();
-        }, function (reason) {
-            log.error('Modal promise rejected. Reason: ', reason);
-        });
+		UIFactory.showConfirmDialog({
+			data : {
+				headerMessage : 'Confirm approval ?',
+				mode: '',
+				credentialMode : false,
+				transactionModel : vm.transactionModel
+			}, 
+			confirm : function() {
+				return vm.approve();
+			},
+			onFail : function(response) {					
+				$scope.response = response.data;
+				UIFactory.showFailDialog({
+					data : {
+						mode: 'transaction',
+						headerMessage : 'Verify transaction fail',
+						backAndReset : vm.back,
+						viewHistory : vm.viewHistory,
+						viewRecent : vm.viewRecent,
+						errorCode : response.data.errorCode
+					}
+				});						
+			},
+			onSuccess : function(response) {
+				UIFactory.showSuccessDialog({
+					data : {
+						mode: 'transaction',
+						headerMessage : 'Verify transaction success',						
+						bodyMessage : vm.transactionModel.transactionNo,
+						backAndReset : vm.back,
+						viewRecent : vm.viewRecent,
+						viewHistory : vm.viewHistory
+					},
+				});				
+			}
+		});
 	}
 	
 	vm.approve = function(){
 		var deffered = VerifyPaymentService.approve(vm.transactionModel);
-        deffered.promise.then(function (response) {
-    	  vm.transactionModel = angular.extend(vm.transactionModel, response.data);
-    	  vm.transactionNo = vm.transactionModel.transactionNo;
-    	  $scope.successPopup = true;
-        }).catch(function(response) {
-            vm.errorMessageModel = response.data;
-            ngDialog.open({
-                template: '/js/app/verify-transactions/concurency-dialog.html',
-                scope: $scope,
-                disableAnimation: true
-            });
-            
-        });
+		return deffered;
+	}
+	
+	vm.confirmReject = function(){
+		UIFactory.showConfirmDialog({
+			data : {
+				headerMessage : 'Confirm reject ?',
+				mode: 'transaction',
+				credentialMode : false,
+				rejectReason : '',
+				transactionModel : vm.transactionModel
+			}, 
+			confirm : function() {
+				return vm.reject();
+			},
+			onFail : function(response) {					
+				$scope.response = response.data;
+				UIFactory.showFailDialog({
+					data : {
+						mode: 'transaction',
+						headerMessage : 'Reject transaction fail',
+						backAndReset : vm.back,
+						viewHistory : vm.viewHistory,
+						viewRecent : vm.viewRecent,
+						errorCode : response.data.errorCode
+					}
+				});						
+			},
+			onSuccess : function(response) {
+				UIFactory.showSuccessDialog({
+					data : {
+						mode: 'transaction',
+						headerMessage : 'Reject transaction success',						
+						bodyMessage : vm.transactionModel.transactionNo,
+						backAndReset : vm.back,
+						viewRecent : vm.viewRecent,
+						viewHistory : vm.viewHistory
+					},
+				});				
+			}
+		});
+	}
+	
+	vm.reject = function(){
+		var deffered = VerifyPaymentService.reject(vm.transactionModel);
+		return deffered;
 	}
 	
 	vm.viewRecent = function(){
