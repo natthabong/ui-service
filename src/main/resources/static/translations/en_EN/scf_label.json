@@ -450,7 +450,7 @@
 	"transaction-tracking":"Transaction tracking",
 	
 	"Can not calculate.": "Can not calculate.",
-	"Reject transaction success": "Reject transaction success",
+	"Reject transaction success.": "Reject transaction success.",
 	"gec-system-integration-monitor" : "Gec system integration monitor",
 
 	"SEND_DRAWDOWN_FAIL_CREDIT_EXPIRES":"Send drawdown request fail. Credit limit expired.",
