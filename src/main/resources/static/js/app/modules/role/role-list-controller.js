@@ -12,25 +12,32 @@ angular.module('scfApp').controller('RoleListController',['$scope','Service', '$
 		}
 		vm.pagingController = PagingController.create('/api/v1/roles/all-role', roleCriteria, 'GET');
 
+		var _criteria = {
+			page:0,
+			pageSize:"20"
+		}
+		
 		vm.searchRole = function(pageModel){
 			vm.pagingController.search(pageModel);
+			_criteria.page = pageModel.page;
+			_criteria.pageSize = pageModel.pageSize;
 		}
 
 		vm.newRole = function(){
 			param.mode = 'NEW';
-			PageNavigation.gotoPage('/role/new', param,[]);
+			PageNavigation.gotoPage('/role/new', param, {criteria:_criteria});
 		}
 
 		vm.editRole = function(data){
 			param.mode = 'EDIT';
 			param.data = data;
-			PageNavigation.gotoPage('/role/edit', param,[]);
+			PageNavigation.gotoPage('/role/edit', param, {criteria:_criteria});
 		}
 
 		vm.viewRole = function(data){
 			param.mode = 'VIEW';
 			param.data = data;
-			PageNavigation.gotoPage('/role/view', param,[]);
+			PageNavigation.gotoPage('/role/view', param, {criteria:_criteria});
 		}
 
 		vm.dataTable = {
@@ -54,7 +61,16 @@ angular.module('scfApp').controller('RoleListController',['$scope','Service', '$
 		}
 
 		var initial = function(){
-			vm.searchRole();
+			var pageModel = {
+				page:0,
+				pageSize:"20"
+			}
+			if($stateParams.backAction){
+				console.log($stateParams);
+				pageModel.page = $stateParams.criteria.page;
+				pageModel.pageSize = $stateParams.criteria.pageSize;
+			}
+			vm.searchRole(pageModel);
 		}
 		initial();
 		

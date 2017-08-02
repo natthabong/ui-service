@@ -301,7 +301,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'RoleListController',
 				controllerAs: 'ctrl',
 				templateUrl: '/role',
-				params: {backAction: false},
+				params: {backAction: false, criteria : null},
 				resolve: load(['js/app/modules/role/role-list-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/role/new',{
 				url: '/role/new',
