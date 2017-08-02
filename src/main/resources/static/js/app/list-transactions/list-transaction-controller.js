@@ -301,6 +301,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	   vm.transaction.rejectReason  = data.rejectReason;
 	   vm.transaction.sponsorId = data.sponsorId;
 	   vm.transaction.supplierId = data.supplierId;
+	   vm.transaction.transactionType = data.transactionType
 	   vm.transactionIdForRetry = data.transactionId;
  	   
  	   vm.transactionPayload.transaction = vm.transaction;
