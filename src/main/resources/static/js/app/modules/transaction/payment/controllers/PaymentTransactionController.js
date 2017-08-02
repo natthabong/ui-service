@@ -330,20 +330,20 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     	
     	if((vm.criteria.dateFrom != null && !angular.isDate(vm.criteria.dateFrom)) || !angular.isDefined(vm.criteria.dateFrom)){
 			valid = false;
-			$scope.errors.dueDateFormat = {
+			$scope.errors.transactionDateFormat = {
                 message : 'Wrong date format data.'
             }
 		}else if((vm.criteria.dateTo != null && !angular.isDate(vm.criteria.dateTo)) || !angular.isDefined(vm.criteria.dateTo)){
 			valid = false;
-			$scope.errors.dueDateFormat = {
+			$scope.errors.transactionDateFormat = {
                 message : 'Wrong date format data.'
             }
 		}else{
-			var isDueDateFromAfterDueDateFrom = moment(vm.criteria.dateFrom).isAfter(vm.criteria.dateTo);
+			var isDateFromAfterDateTo = moment(vm.criteria.dateFrom).isAfter(vm.criteria.dateTo);
 	    	
-            if(isDueDateFromAfterDueDateFrom){
+            if(isDateFromAfterDateTo){
                 valid = false;
-                $scope.errors.dueDateToLessThanFrom = {
+                $scope.errors.transactionDateFormat = {
                     message : 'From date must be less than or equal to To date.'
                 }
             }

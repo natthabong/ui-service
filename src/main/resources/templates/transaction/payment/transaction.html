@@ -56,17 +56,14 @@
 								</div>
 							</div>
 							<div class="form-group"
-								ng-show="errors.dueDateToLessThanFrom || errors.dueDateFormat">
+								ng-show="errors.transactionDateFormat">
 								<label class="col-md-2 col-sm-3 col-xs-12  control-label"></label>
-								<span class="col-md-6 col-sm-6 col-xs-12 error-msg"
-									ng-show="errors.dueDateToLessThanFrom"
-									id="due-date-from-to-warning-message-label"
-									ng-bind="errors.dueDateToLessThanFrom.message | translate"></span>
+					
 
 								<span class="col-md-6 col-sm-6 col-xs-12 error-msg"
-									ng-show="errors.dueDateFormat"
-									id="due-date-format-warning-message-label"
-									ng-bind="errors.dueDateFormat.message | translate"></span>
+									ng-show="errors.transactionDateFormat"
+									id="transaction-date-format-warning-message-label"
+									ng-bind="errors.transactionDateFormat.message | translate"></span>
 							</div>
 							<div class="form-group">
 								<label for="supplier-auto-suggest" id="supplier-label"
