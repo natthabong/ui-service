@@ -104,7 +104,6 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 			refNo : '',
 			processNo : ''
 		}
-		console.log($stateParams.criteria)
 		
 		function prepareCriteria() {
 			if (angular.isDate(vm.criteria.logDateFrom)) {
@@ -253,13 +252,10 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 		vm.searchTrackingLog = function(pageModel){
 			// if (isValid()) {
 				prepareCriteria();
-				console.log(vm.criteria)
-				console.log(pageModel)
 				var logDiferred = vm.pagingController.search(pageModel || ( $stateParams.backAction? {
 					offset : vm.criteria.offset,
 					limit : vm.criteria.limit
 				}: undefined));
-				console.log(vm.criteria)
 
 				vm.showInfomation = true;
 			// }
