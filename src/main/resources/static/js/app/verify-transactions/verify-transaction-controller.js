@@ -112,12 +112,14 @@ angular.module('scfApp').controller(
 								$scope.response = response.data;
 								UIFactory.showFailDialog({
 									data : {
-										mode: 'transaction',
-										headerMessage : 'Verify transaction fail',
+										mode: 'concurrency',
+										headerMessage : 'Verify transaction fail.',
 										backAndReset : vm.backNotReset,
 										viewHistory : vm.viewHistory,
 										viewRecent : vm.viewRecent,
-										errorCode : response.data.errorCode
+										errorCode : response.data.errorCode,
+										action : response.data.attributes.action,
+										actionBy : response.data.attributes.actionBy
 									}
 								});						
 							},

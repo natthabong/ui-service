@@ -88,7 +88,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 							data : {
 								mode: 'transaction',
 								headerMessage : 'Reject transaction fail',
-								backAndReset : vm.backAndReset,
+								backAndReset : vm.backPage,
 								viewHistory : vm.viewHistory,
 								viewRecent : vm.viewRecent,
 								errorCode : response.data.errorCode,
@@ -104,7 +104,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 							mode: 'transaction',
 							headerMessage : 'Reject transaction success.',						
 							bodyMessage : vm.transaction.transactionNo,
-							backAndReset : vm.backAndReset,
+							backAndReset : vm.backPage,
 							viewRecent : vm.viewRecent,
 							viewHistory : vm.viewHistory
 						},

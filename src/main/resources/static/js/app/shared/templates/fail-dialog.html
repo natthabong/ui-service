@@ -57,7 +57,7 @@
 				</div>
 			</div>
 
-			<div class="row" ng-if="ngDialogData.data.mode == 'transaction' && ngDialogData.data.errorCode != undefined" >
+			<div class="row" ng-if="(ngDialogData.data.mode == 'transaction' && ngDialogData.data.errorCode != undefined) || (ngDialogData.data.mode == 'concurrency')" >
 				<div class="col-md-2 col-sm-2"></div>
 				<div class="col-md-10 col-sm-10 col-xs-12">
 					<h3 id="error-message-label" class="gec-pop-up-font-size">
@@ -79,7 +79,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<div class="row" ng-if="ngDialogData.data.mode == 'transaction'">
+			<div class="row" ng-if="ngDialogData.data.mode == 'transaction' || ngDialogData.data.mode == 'concurrency'">
 				<div class="col-xs-12 text-right">
 					<scf-button id="popup-re-check-button" class="popup-button"
 						data-dismiss="modal" ng-show="ngDialogData.data.transaction.retriable"
