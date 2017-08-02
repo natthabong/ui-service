@@ -38,7 +38,7 @@
 							id="popup-password-error-message-label"
 							ng-bind="ngDialogData.passwordErrorMsg | translate"></span>
 					</div>
-					<div class="form-group">
+					<div class="form-group" ng-show="ngDialogData.hideReason == undefined || ngDialogData.hideReason == null">
 						<div class="col-xs-12 control-label">
 							<span ng-bind="'Reason'"></span>:
 						</div>

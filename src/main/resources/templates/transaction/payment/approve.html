@@ -32,6 +32,7 @@
 							id="confirm-agreement-label"></span>
 						</label>
 					</div>
+					
 					<div class="col-md-12 text-right">
 						<scf-button id="back-button" class="popup-button"
 							ng-bind="'Back' | translate" ng-click="ctrl.backPage()"></scf-button>
@@ -40,10 +41,10 @@
 							ng-click="ctrl.confirmRejectPopup()"
 							ng-bind="'Reject' | translate"></scf-button>
 						<scf-button id="approve-button" ng-disabled="!ctrl.agreeCondition"
-							type="submit" ng-click="ctrl.confirmPopup()"
+							type="submit" ng-click="ctrl.confirmPopup('clear')"
 							ng-bind="'Approve' | translate"></scf-button>
 					</div>
-
+					
 				</div>
 			</div>
 		</div>

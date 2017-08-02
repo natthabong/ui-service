@@ -17,6 +17,34 @@
 			</div>
 		</div>
 		<div class="modal-body">
+			<div class="row"
+				ng-show="ngDialogData.data.mode == 'transactionComplete'">
+				<div class="col-md-2 col-sm-2"></div>
+				<div class="col-md-10 col-sm-10 col-xs-12">
+					<div class="row">
+						<div class="col-xs-5 col-md-4 col-sm-4">
+							<b class="gec-pop-up-font-size"
+								ng-bind="'Transaction no.' | translate">Transaction No.:</b>
+						</div>
+						<div class="col-xs-7 col-md-8 col-sm-8">
+							<span id="transaction-no-label" class="gec-pop-up-font-size"
+								ng-bind="ngDialogData.data.bodyMessage.transactionNo"></span>
+							&nbsp;&nbsp; <a style="cursor: pointer;" ng-hide="true"
+								ng-click="ngDialogData.data.printEvidenceFormAction()"><i
+								class="fa fa-print" aria-hidden="true"></i></a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-5 col-md-4 col-sm-4">
+							<span ng-bind="'Result' | translate"></span>:
+						</div>
+						<div class="col-xs-7 col-md-8 col-sm-8">
+							<span id="result-label"
+								ng-bind="ngDialogData.data.bodyMessage.statusMessageKey | translate"></span>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="row" ng-show="ngDialogData.data.mode == 'transaction'">
 				<div class="col-xs-4">
 					<b class="gec-pop-up-font-size"
@@ -37,7 +65,8 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<div class="row" ng-if="ngDialogData.data.mode == 'transaction'">
+			<div class="row"
+				ng-if="ngDialogData.data.mode == 'transaction' || ngDialogData.data.mode == 'transactionComplete'">
 				<div class="col-xs-12 text-right">
 					<scf-button id="popup-back-button" class="popup-button"
 						data-dismiss="modal" ng-bind="'Back' | translate"
@@ -57,7 +86,7 @@
 						data-dismiss="modal"
 						ng-show="(ngDialogData.data.showOkButton  != undefined  && ngDialogData.data.showOkButton == true)"
 						ng-click="closeThisDialog(false);ngDialogData.data.viewHistory()"
-						ng-bind="'OK' | translate"></scf-button>						
+						ng-bind="'OK' | translate"></scf-button>
 				</div>
 			</div>
 			<div class="row"
