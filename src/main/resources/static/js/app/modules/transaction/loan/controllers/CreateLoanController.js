@@ -65,8 +65,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             },
             columns: []
         };
-
-        var _criteria = {
+        var _criteria = $stateParams.criteria || {
             accountingTransactionType: 'PAYABLE',
             buyerId: vm.createTransactionModel.sponsorCode,
             supplierId : ownerId,
@@ -89,13 +88,19 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             _criteria.buyerId = vm.createTransactionModel.sponsorCode;
             _criteria.customerCode = vm.createTransactionModel.supplierCode;
             _criteria.sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
-            var deffered = vm.pagingController.search(pagingModel);
+
+            var deffered = vm.pagingController.search(pagingModel || ( $stateParams.backAction? {
+	    		offset : _criteria.offset,
+				limit : _criteria.limit
+	    	}: undefined));
+
             deffered.promise.then(function(response){
                 if(backAction){
                     vm.documentSelects = $stateParams.documentSelects;
                     // clear param
                     $stateParams.documentSelects = [];
                     $stateParams.backAction = false;
+                    backAction = false;
                     calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
                 }else if(!backAction && dashboardParams != null){
                     vm.selectAllDocument();
@@ -144,7 +149,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         function _loadTradingPartnerInfo(sponsorCode,sponsorPaymentDate){
             var tradingInfo = TransactionService.getTradingInfo(sponsorCode, ownerId);
             tradingInfo.promise.then(function(response) {
-            	console.log(response);
                 vm.tradingpartnerInfoModel = response.data;
                 _loadTransactionDate(sponsorCode,sponsorPaymentDate);
             }).catch(function(response){
@@ -553,7 +557,8 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                         totalDocumentAmount: vm.totalDocumentAmount,
                         tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
                         documentSelects: vm.documentSelects,
-						showBackButton: vm.showBackButton
+						showBackButton: vm.showBackButton,
+                        criteria : _criteria
                     });
                 }).catch(function(response) {
                     vm.errorMsgPopup = response.data.errorCode;
