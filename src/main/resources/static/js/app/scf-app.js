@@ -57,7 +57,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				}],
 				controllerAs: 'ctrl',				
 				templateUrl: '/create-transaction',
-                params: {backAction: false, transactionModel: null, tradingpartnerInfoModel: null, documentSelects: null, dashboardParams: null, showBackButton: false},
+                params: {backAction: false, transactionModel: null, tradingpartnerInfoModel: null, documentSelects: null, dashboardParams: null, showBackButton: false, criteria: null},
 				resolve: load(['js/app/modules/transaction/services/TransactionService.js','js/app/modules/transaction/loan/controllers/CreateLoanController.js',
 				               'js/app/common/scf-component.js'])
 			}).state('/create-transaction/validate-submit', {
@@ -442,7 +442,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'TransactionTrackingController',
 				controllerAs: 'ctrl',
 				templateUrl: '/transaction-tracking',
-				params: {backAction: false},
+				params: {backAction: false , criteria : null},
 				resolve: load(['js/app/modules/monitor/transaction-tracking-controller.js','js/app/modules/monitor/transaction-tracking-service.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/view-transaction-tracking-message',{
 				url: '/view-transaction-tracking-message',
