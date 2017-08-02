@@ -17,7 +17,7 @@
 
 					<!-- Start Column Panel-->
 					<div class="col-md-12">
-						<b ng-bind="'contract header payment' | translate"></b>
+						<b ng-bind="ctrl.contractHeaderMsg | translate"></b>
 					</div>
 
 					<div class="col-md-12" block-ui="requestForm">
@@ -28,7 +28,7 @@
 					<div class="col-md-12">
 						<label class="checkbox-inline"> <scf-checkbox
 								ng-model="ctrl.agreeCondition" id="confirm-checkbox"></scf-checkbox>
-							<span ng-bind="'Agree condition payment' | translate"
+							<span ng-bind="ctrl.agreeConditionMsg | translate"
 							id="confirm-agreement-label"></span>
 						</label>
 					</div>
@@ -36,7 +36,8 @@
 						<scf-button id="back-button" class="popup-button"
 							ng-bind="'Back' | translate" ng-click="ctrl.backPage()"></scf-button>
 						<scf-button id="reject-button" class="popup-button"
-							ng-disabled = "true"
+							ng-disabled="!ctrl.canReject"
+							ng-click="ctrl.confirmRejectPopup()"
 							ng-bind="'Reject' | translate"></scf-button>
 						<scf-button id="approve-button" ng-disabled="!ctrl.agreeCondition"
 							type="submit" ng-click="ctrl.confirmPopup()"
@@ -46,5 +47,7 @@
 				</div>
 			</div>
 		</div>
+		<input type="hidden" ng-init="ctrl.canReject=true"
+			sec:authorize="hasAuthority('APPROVE_PAYMENTS_OF_MY_ORGANIZE')" />
 	</div>
 </div>
