@@ -6,37 +6,14 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 			,TransactionTrackingService, ngDialog, SCFCommonService, $state, $cookieStore) {
         var vm = this;
 
-        vm.splitePageTxt = '';
-        var listStoreKey = 'listrancri';
         vm.dateFormat = "dd/MM/yyyy";
 		vm.openDateFrom = false;
 		vm.openDateTo = false;
-		vm.defaultPageSize = '20';
-		vm.defaultPage = 0;
 		
 		vm.logTimeFromHour = '';
 		vm.logTimeFromMinute = '';
 		vm.logTimeToHour = '';
 		vm.logTimeToMinute = '';
-		
-		vm.pageModel = {
-			pageSizeSelectModel : vm.defaultPageSize,
-			totalRecord : 0,
-			totalPage : 0,
-			currentPage : vm.defaultPage,
-			clearSortOrder : false
-		};
-		
-		vm.pageSizeList = [ {
-			label : '10',
-			value : '10'
-		}, {
-			label : '20',
-			value : '20'
-		}, {
-			label : '50',
-			value : '50'
-		} ];
 
 		var cssTemplate = function(record,align){
 			if(record.messageType === 'WARNING')
@@ -121,20 +98,15 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 				} ]
 		}
 		
-		vm.searchCriteria = {
+		vm.criteria = $stateParams.criteria || {
 			logDateFrom : undefined,
 			logDateTo : undefined,
 			refNo : '',
 			processNo : ''
 		}
-
-		var storeCriteria = function(){
-			$cookieStore.put(listStoreKey, vm.searchCriteria);
-		}
 		
 		function prepareCriteria() {
-			if (angular.isDate(vm.logListModel.logDateFrom)) {
-				vm.searchCriteria.logDateFrom = vm.logListModel.logDateFrom
+			if (angular.isDate(vm.criteria.logDateFrom)) {
 
 				var hour = 0;
 				var min = 0;
@@ -144,17 +116,16 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 					min = vm.logTimeFromMinute;
 				}		
 				
-				var datetime = new Date(vm.logListModel.logDateFrom.getFullYear(), 
-						vm.logListModel.logDateFrom.getMonth(), 
-						vm.logListModel.logDateFrom.getDate(), 
+				var datetime = new Date(vm.criteria.logDateFrom.getFullYear(), 
+						vm.criteria.logDateFrom.getMonth(), 
+						vm.criteria.logDateFrom.getDate(), 
 						hour, min, 0);
-				vm.searchCriteria.logDateFrom = datetime;
+				vm.criteria.logDateFrom = datetime;
 			}else{
-				vm.searchCriteria.logDateFrom = undefined;
+				vm.criteria.logDateFrom = undefined;
 			}
 
-			if (angular.isDate(vm.logListModel.logDateTo)) {
-				vm.searchCriteria.logDateTo = vm.logListModel.logDateTo;
+			if (angular.isDate(vm.criteria.logDateTo)) {
 				
 				var hour = 23;
 				var min = 59;
@@ -164,53 +135,21 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 					min = vm.logTimeToMinute;
 				}		
 				
-				var datetime = new Date(vm.logListModel.logDateTo.getFullYear(), 
-						vm.logListModel.logDateTo.getMonth(), 
-						vm.logListModel.logDateTo.getDate(), 
+				var datetime = new Date(vm.criteria.logDateTo.getFullYear(), 
+						vm.criteria.logDateTo.getMonth(), 
+						vm.criteria.logDateTo.getDate(), 
 						hour, min, 0);
-				vm.searchCriteria.logDateTo = datetime;
+				vm.criteria.logDateTo = datetime;
 			}else{
-				vm.searchCriteria.logDateTo = undefined;
+				vm.criteria.logDateTo = undefined;
 			}
 			
-			vm.searchCriteria.refNo = vm.logListModel.refNo;
-			vm.searchCriteria.processNo = vm.logListModel.processNo;
-			
-			return vm.searchCriteria;
+			return vm.criteria;
 
 		}
 
-		vm.pagingController = PagingController.create('api/v1/transaction-trackings', vm.searchCriteria, 'GET');
+		vm.pagingController = PagingController.create('api/v1/transaction-trackings', vm.criteria, 'GET');
 
-		vm.viewMessage = function(data){
-			SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
-			storeCriteria();
-			var params = {params: data};
-			PageNavigation.gotoPage('/view-transaction-tracking-message', params,params.params);
-		}
-
-		vm.searchTrackingLog = function(pageModel){
-			if (isValid()) {
-				var criteria = prepareCriteria();
-				var logDiferred = vm.pagingController.search(pageModel);
-				vm.showInfomation = true;
-			}
-		}
-		
-		vm.openCalendarDateFrom = function() {
-			vm.openDateFrom = true;
-		}
-
-		vm.openCalendarDateTo = function() {
-			vm.openDateTo = true;
-		}
-
-		vm.logListModel = {
-			logDateFrom : '',
-			logDateTo : '',
-			refNo : undefined,
-			processNo : undefined
-		}
 		
 		var isValid = function() {
 			var valid = true;
@@ -218,19 +157,19 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 			vm.wrongDateFromTo = false;
 			
 			//Wrong date format
-			if (angular.isUndefined(vm.logListModel.logDateFrom) || angular.isUndefined(vm.logListModel.logDateTo)) {
+			if (angular.isUndefined(vm.criteria.logDateFrom) || angular.isUndefined(vm.criteria.logDateTo)) {
 				valid = false;
 			}else{
-				if(vm.logTimeFromHour!==''&&vm.logTimeFromMinute!==''&&!angular.isDate(vm.logListModel.logDateFrom)){
+				if(vm.logTimeFromHour!==''&&vm.logTimeFromMinute!==''&&!angular.isDate(vm.criteria.logDateFrom)){
 					valid = false;
-				}else if(vm.logTimeToHour!==''&&vm.logTimeToMinute!==''&&!angular.isDate(vm.logListModel.logDateTo)){
+				}else if(vm.logTimeToHour!==''&&vm.logTimeToMinute!==''&&!angular.isDate(vm.criteria.logDateTo)){
 					valid = false;
 				}
 			}
 			
 			//Wrong time format
 			if(valid){
-				if(angular.isDefined(vm.logListModel.logDateFrom)){
+				if(angular.isDefined(vm.criteria.logDateFrom)){
 					if(vm.logTimeFromHour===''&&vm.logTimeFromMinute===''){
 						valid = true;
 					}else if(vm.logTimeFromHour!==''&&vm.logTimeFromMinute!==''){
@@ -248,7 +187,7 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 			}
 			
 			if(valid){
-				if(angular.isDefined(vm.logListModel.logDateTo)){
+				if(angular.isDefined(vm.criteria.logDateTo)){
 					if(vm.logTimeToHour===''&&vm.logTimeToMinute===''){
 						valid = true;
 					}else if((vm.logTimeToHour!==''&&vm.logTimeToMinute!=='')){
@@ -270,7 +209,7 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 				vm.wrongDateFromTo = false;
 			}else{
 				//Wrong date from to
-				if (angular.isDate(vm.logListModel.logDateFrom)&&angular.isDate(vm.logListModel.logDateTo)) {
+				if (angular.isDate(vm.criteria.logDateFrom)&&angular.isDate(vm.criteria.logDateTo)) {
 					var hourFrom = vm.logTimeFromHour;
 					var minuteFrom = vm.logTimeFromMinute;
 					var hourTo = vm.logTimeToHour;
@@ -289,14 +228,14 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 						minuteTo = 59;
 					}
 					
-					var datetimeFrom = new Date(vm.logListModel.logDateFrom.getFullYear(), 
-							vm.logListModel.logDateFrom.getMonth(), 
-							vm.logListModel.logDateFrom.getDate(), 
+					var datetimeFrom = new Date(vm.criteria.logDateFrom.getFullYear(), 
+							vm.criteria.logDateFrom.getMonth(), 
+							vm.criteria.logDateFrom.getDate(), 
 							hourFrom, minuteFrom, 0);
 					
-					var datetimeTo = new Date(vm.logListModel.logDateTo.getFullYear(), 
-							vm.logListModel.logDateTo.getMonth(), 
-							vm.logListModel.logDateTo.getDate(), 
+					var datetimeTo = new Date(vm.criteria.logDateTo.getFullYear(), 
+							vm.criteria.logDateTo.getMonth(), 
+							vm.criteria.logDateTo.getDate(), 
 							hourTo, minuteTo, 0);
 					
 					if(datetimeFrom > datetimeTo){
@@ -309,40 +248,51 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 			
 			return valid;
 		};
-		
 
+		vm.searchTrackingLog = function(pageModel){
+			// if (isValid()) {
+				prepareCriteria();
+				var logDiferred = vm.pagingController.search(pageModel || ( $stateParams.backAction? {
+					offset : vm.criteria.offset,
+					limit : vm.criteria.limit
+				}: undefined));
+
+				vm.showInfomation = true;
+			// }
+		}
+		
 		vm.initLoad = function() {
-			var backAction = $stateParams.backAction;
-			if(backAction === true){
-				var cacheCriteria = $cookieStore.get(listStoreKey);
-				if(cacheCriteria.logDateFrom != '' && cacheCriteria.logDateFrom !== undefined){
-					var dateTimeFrom = new Date(cacheCriteria.logDateFrom);
-					vm.logListModel.logDateFrom = dateTimeFrom;
+			if($stateParams.backAction){
+				if(vm.criteria.logDateFrom != '' && vm.criteria.logDateFrom !== undefined){
+					var dateTimeFrom = new Date(vm.criteria.logDateFrom);
+					vm.criteria.logDateFrom = dateTimeFrom;
 					vm.logTimeFromHour = dateTimeFrom.getHours();
 					vm.logTimeFromMinute = dateTimeFrom.getMinutes();
 				}
 				
-				if(cacheCriteria.logDateTo != '' && cacheCriteria.logDateTo !== undefined){
-					var dateTimeTo = new Date(cacheCriteria.logDateTo);
-					vm.logListModel.logDateTo = dateTimeTo;
+				if(vm.criteria.logDateTo != '' && vm.criteria.logDateTo !== undefined){
+					var dateTimeTo = new Date(vm.criteria.logDateTo);
+					vm.criteria.logDateTo = dateTimeTo;
 					vm.logTimeToHour = dateTimeTo.getHours();
 					vm.logTimeToMinute = dateTimeTo.getMinutes();
 				}
-
-				if(cacheCriteria.refNo != '' && cacheCriteria.refNo !== undefined){
-					vm.logListModel.refNo = cacheCriteria.refNo;
-				}
-
-				if(cacheCriteria.refNo != '' && cacheCriteria.refNo !== undefined){
-					vm.logListModel.refNo = cacheCriteria.refNo;
-				}
-				if(cacheCriteria.processNo != '' && cacheCriteria.processNo !== undefined){
-					vm.logListModel.processNo = cacheCriteria.processNo;
-				}
+				$stateParams.backAction = false;
 			}
 			vm.searchTrackingLog();	
+		}();
+		
+		vm.viewMessage = function(data){
+			SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+			var params = {params: data};
+			PageNavigation.nextStep('/view-transaction-tracking-message', params,{criteria : vm.criteria});
 		}
 		
-		vm.initLoad();
+		vm.openCalendarDateFrom = function() {
+			vm.openDateFrom = true;
+		}
+
+		vm.openCalendarDateTo = function() {
+			vm.openDateTo = true;
+		}
 		
 } ]);

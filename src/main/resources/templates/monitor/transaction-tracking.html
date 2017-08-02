@@ -24,10 +24,10 @@
 											class="control-label">{{'From' | translate}}: </label>
 										<scf-date-picker-from text-id="log-date-from-textbox"
 											button-id="log-date-from-button"
-											text-model="ctrl.logListModel.logDateFrom"
+											text-model="ctrl.criteria.logDateFrom"
 											date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
 											open-calendar-action="ctrl.openCalendarDateFrom()"
-											max-date="ctrl.logListModel.logDateTo">
+											max-date="ctrl.criteria.logDateTo">
 										</scf-date-picker-from>
 									</div>
 									<div class="col-md-2 col-sm-3 gec-calendar-group">
@@ -49,10 +49,10 @@
 											class="control-label">{{'to' | translate}}: </label>
 										<scf-date-picker-to text-id="log-date-to-textbox"
 											button-id="log-date-to-button"
-											text-model="ctrl.logListModel.logDateTo"
+											text-model="ctrl.criteria.logDateTo"
 											date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
 											open-calendar-action="ctrl.openCalendarDateTo()"
-											min-date="ctrl.logListModel.logDateFrom">
+											min-date="ctrl.criteria.logDateFrom">
 										</scf-date-picker-to>
 									</div>
 									<div class="col-md-2 col-sm-3 gec-calendar-group">
@@ -84,7 +84,7 @@
 										no' | translate}}: </label>
 									<div class="col-md-5 col-sm-5">		
 										<scf-input-text id="ref-no-textbox"
-											ng-model="ctrl.logListModel.refNo" maxlength="100"
+											ng-model="ctrl.criteria.refNo" maxlength="100"
 											placeholder=""></scf-input-text>
 									</div>
 								</div>
@@ -94,7 +94,7 @@
 										class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Process no' | translate}}: </label>
 									<div class="col-md-5 col-sm-5">		
 										<scf-input-text id="process-no-textbox"
-											ng-model="ctrl.logListModel.processNo" maxlength="100"
+											ng-model="ctrl.criteria.processNo" maxlength="100"
 											placeholder=""></scf-input-text>
 									</div>
 									<div class="col-md-3 col-sm-3">
@@ -114,7 +114,7 @@
 													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 													total-page="ctrl.pagingController.pagingModel.totalPage"
 													current-page="ctrl.pagingController.pagingModel.currentPage"
-													page-size-list="ctrl.pageSizeList"
+													page-size-list="ctrl.pagingController.pageSizeList"
 													page-action="ctrl.searchTrackingLog"></scf-pagination>
 											</span>
 										</div>

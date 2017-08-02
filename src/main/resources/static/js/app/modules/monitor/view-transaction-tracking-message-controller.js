@@ -1,13 +1,15 @@
 'use strict';
 var scfApp = angular.module('scfApp');
 scfApp.controller('ViewTransactionTrackingMessageController', 
-[ '$scope', 'Service', '$stateParams', 'UIFactory', '$q','$rootScope', '$http','PageNavigation',
-	function($scope, Service, $stateParams, UIFactory, $q, $rootScope, $http, PageNavigation) {
+[ '$scope', 'Service', '$stateParams', 'UIFactory', '$q','$rootScope', '$http','PageNavigation','$timeout',
+	function($scope, Service, $stateParams, UIFactory, $q, $rootScope, $http, PageNavigation, $timeout) {
         var vm = this;
 
         vm.trackingMessage = $stateParams.params;
         vm.back = function(){
-            PageNavigation.gotoPreviousPage();
+            $timeout(function(){
+                PageNavigation.backStep();
+            }, 10);
         }
 
         var initial = function(){
