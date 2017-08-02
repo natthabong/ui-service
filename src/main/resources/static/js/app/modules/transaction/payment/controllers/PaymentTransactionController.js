@@ -29,7 +29,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		rejectIncomplete: 'REJECT_INCOMPLETE'			
    }
     var _criteria = {};
-    
+   
     vm.criteria = $stateParams.criteria || {
         sponsorId : ownerId,
         supplierId : null,
@@ -264,6 +264,8 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     };
 
     vm.searchTransaction = function(pagingModel) {
+    	console.log(pagingModel)
+    	console.log(vm.criteria )
     	if(_validateForSearch()){
 	    	angular.copy(vm.criteria, _criteria);
 	    	if(vm.sponsor){
@@ -274,7 +276,10 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	    		_criteria.supplierId = vm.supplier.organizeId;
 	            _supplier = vm.supplier;
 	    	}
-	    	vm.loadData(pagingModel);
+	    	vm.loadData(pagingModel || ( $stateParams.backAction? {
+	    		offset : _criteria.offset,
+				limit : _criteria.limit
+	    	}: undefined));
 	    	_loadSummaryOfTransaction(_criteria);
     	}
 	}

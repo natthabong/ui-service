@@ -228,12 +228,17 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 	   },
 	   search: function(pagingData, callback){
 		var self = ctrl;
-		if (pagingData === undefined) {
-		    self.pagingModel.pageSizeSelectModel = defaultPageSize;
-		    self.pagingModel.currentPage = defaultPage;
+			if (pagingData === undefined) {
+			    self.pagingModel.pageSizeSelectModel = defaultPageSize;
+			    self.pagingModel.currentPage = defaultPage;
 	        } else {
+	        	if(!pagingData.pageSize){
+	        		pagingData.pageSize = pagingData.limit;
+	        	}
 	            self.pagingModel.pageSizeSelectModel = pagingData.pageSize;
 	            self.pagingModel.currentPage = pagingData.page;
+	            self.pagingModel.offset = pagingData.offset;
+	            self.pagingModel.limit = pagingData.limit;
 	        }
 		
 		if(self.clientMode){
@@ -295,7 +300,10 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 	    _prepareCriteria: function(pagingModel, postParams) {
 	        var criteria = postParams;
 	        criteria.limit = pagingModel.pageSizeSelectModel;
-	        criteria.offset = pagingModel.currentPage * pagingModel.pageSizeSelectModel;
+	        criteria.offset = pagingModel.offset || (pagingModel.currentPage * pagingModel.pageSizeSelectModel);
+	        if(pagingModel.offset){
+	           pagingModel.currentPage = pagingModel.offset / pagingModel.pageSizeSelectModel;
+	        }
 	        return criteria;
 	    }
 	};
