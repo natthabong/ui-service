@@ -232,9 +232,12 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 			    self.pagingModel.pageSizeSelectModel = defaultPageSize;
 			    self.pagingModel.currentPage = defaultPage;
 	        } else {
-	        	if(!pagingData.pageSize){
+	        	if(!angular.isDefined(pagingData.pageSize)){
 	        		pagingData.pageSize = pagingData.limit;
 	        	}
+	        	if(!angular.isDefined(pagingData.page)){
+	        		pagingData.page = pagingData.offset / pagingData.pageSize;
+	   	        }
 	            self.pagingModel.pageSizeSelectModel = pagingData.pageSize;
 	            self.pagingModel.currentPage = pagingData.page;
 	            self.pagingModel.offset = pagingData.offset;
@@ -301,9 +304,9 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 	        var criteria = postParams;
 	        criteria.limit = pagingModel.pageSizeSelectModel;
 	        criteria.offset = pagingModel.offset || (pagingModel.currentPage * pagingModel.pageSizeSelectModel);
-	        if(pagingModel.offset){
-	           pagingModel.currentPage = pagingModel.offset / pagingModel.pageSizeSelectModel;
-	        }
+//	        if(pagingModel.offset){
+//	           pagingModel.currentPage = pagingModel.offset / pagingModel.pageSizeSelectModel;
+//	        }
 	        return criteria;
 	    }
 	};
