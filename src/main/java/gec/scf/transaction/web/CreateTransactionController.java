@@ -11,8 +11,8 @@ import gec.scf.util.AjaxUtils;
 @RequestMapping("/create-transaction")
 public class CreateTransactionController {
 
-	private static final String CREATE_TRANSACTION_VIEW_NAME = "create-transactions/create";
-	private static final String VALIDATE_AND_SUBMIT_TRANSACTION_VIEW_NAME = "create-transactions/validate-submit";
+	private static final String CREATE_TRANSACTION_VIEW_NAME = "transaction/loan/create";
+	private static final String VALIDATE_AND_SUBMIT_TRANSACTION_VIEW_NAME = "transaction/loan/validate-submit";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String createLoan(@RequestHeader("X-Requested-With") String requestedWith) {
