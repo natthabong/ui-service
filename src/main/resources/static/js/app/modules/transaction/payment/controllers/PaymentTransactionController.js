@@ -281,6 +281,9 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	    		offset : _criteria.offset,
 				limit : _criteria.limit
 	    	}: undefined));
+	    	if($stateParams.backAction){
+	    		$stateParams.backAction = false;
+	    	}
 	    	_loadSummaryOfTransaction(_criteria);
     	}
 	}
