@@ -1,7 +1,7 @@
 angular.module('scfApp').controller(
 		'VerifyTransactionController',
-		[ 'VerifyTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state','PageNavigation', 'ngDialog', '$log',
-				function(VerifyTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state,PageNavigation, ngDialog, $log) {
+		[ 'VerifyTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state','PageNavigation', 'UIFactory', 'ngDialog', '$log',
+				function(VerifyTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state,PageNavigation, UIFactory, ngDialog, $log) {
 					var vm = this;
 					var log = $log;
 					vm.dataTable = {
@@ -98,63 +98,92 @@ angular.module('scfApp').controller(
 						
 					}
 					vm.confirmApprove = function(){
-						ngDialog.openConfirm({
-		                    template: 'confirmDialogId',
-		                    className: 'ngdialog-theme-default'
-		                }).then(function (value) {
-		                	vm.approve();
-		                }, function (reason) {
-		                    log.error('Modal promise rejected. Reason: ', reason);
-		                });
+						UIFactory.showConfirmDialog({
+							data : {
+								headerMessage : 'Confirm approval ?',
+								mode: '',
+								credentialMode : false,
+								transactionModel : vm.transactionModel
+							}, 
+							confirm : function() {
+								return vm.approve();
+							},
+							onFail : function(response) {					
+								$scope.response = response.data;
+								UIFactory.showFailDialog({
+									data : {
+										mode: 'transaction',
+										headerMessage : 'Verify transaction fail',
+										backAndReset : vm.backNotReset,
+										viewHistory : vm.viewHistory,
+										viewRecent : vm.viewRecent,
+										errorCode : response.data.errorCode
+									}
+								});						
+							},
+							onSuccess : function(response) {
+								UIFactory.showSuccessDialog({
+									data : {
+										mode: 'transaction',
+										headerMessage : 'Verify transaction success.',						
+										bodyMessage : vm.transactionModel.transactionNo,
+										backAndReset : vm.backNotReset,
+										viewRecent : vm.viewRecent,
+										viewHistory : vm.viewHistory
+									},
+								});				
+							}
+						});
 					}
 					
 					vm.approve = function(){
 						 var deffered = VerifyTransactionService.approve(vm.transactionModel);
-				            deffered.promise.then(function (response) {
-				            	  vm.transactionModel = angular.extend(vm.transactionModel, response.data);
-				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
-				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-				            	  vm.transactionNo = vm.transactionModel.transactionNo;
-				            	  $scope.successPopup = true;
-				                }).catch(function(response) {
-				                    vm.errorMessageModel = response.data;
-				                    ngDialog.open({
-				                        template: '/js/app/verify-transactions/concurency-dialog.html',
-					                    scope: $scope,
-					                    disableAnimation: true
-				                    });
-				                    
-				                });
+						 return deffered;
 					}
 					
 					vm.confirmReject = function(){
-						ngDialog.open({
-							template: '/js/app/verify-transactions/confirm-reject-dialog.html',
-							scope: $scope,
-                        	disableAnimation: true
+						UIFactory.showConfirmDialog({
+							data : {
+								headerMessage : 'Confirm reject ?',
+								mode: 'transaction',
+								credentialMode : false,
+								rejectReason : '',
+								transactionModel : vm.transactionModel
+							}, 
+							confirm : function() {
+								return vm.reject();
+							},
+							onFail : function(response) {					
+								$scope.response = response.data;
+								UIFactory.showFailDialog({
+									data : {
+										mode: 'transaction',
+										headerMessage : 'Reject transaction fail.',
+										backAndReset : vm.backNotReset,
+										viewHistory : vm.viewHistory,
+										viewRecent : vm.viewRecent,
+										errorCode : response.data.errorCode
+									}
+								});						
+							},
+							onSuccess : function(response) {
+								UIFactory.showSuccessDialog({
+									data : {
+										mode: 'transaction',
+										headerMessage : 'Reject transaction success.',						
+										bodyMessage : vm.transactionModel.transactionNo,
+										backAndReset : vm.backNotReset,
+										viewRecent : vm.viewRecent,
+										viewHistory : vm.viewHistory
+									},
+								});				
+							}
 						});
 					}
 					
 					vm.reject = function(){
 						var deffered = VerifyTransactionService.reject(vm.transactionModel);
-			            deffered.promise.then(function (response) {
-			            	  vm.transactionModel = angular.extend(vm.transactionModel, response.data);
-			            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
-			            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-			            	  vm.transactionNo = vm.transactionModel.transactionNo;
-			            	  ngDialog.open({
-									template: '/js/app/verify-transactions/reject-success-dialog.html',
-									scope: $scope,
-									disableAnimation: true
-								});
-		                }).catch(function (response) {
-		                	 vm.errorMessageModel = response.data;
-		                     ngDialog.open({
-		                         template: '/js/app/verify-transactions/concurency-dialog.html',
-		 	                    scope: $scope,
-		 	                    disableAnimation: true
-		                     });
-						});
+						return deffered;
 					}
 					
 					vm.backAndReset = function(){
