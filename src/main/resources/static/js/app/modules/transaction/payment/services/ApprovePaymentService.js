@@ -3,6 +3,7 @@ function ApprovePaymentService($http, $q, blockUI,$window){
 	
 	return {
         approve : approve,
+        reject: reject,
 		getTransaction : getTransaction,
 		getRequestForm : getRequestForm
 	}
@@ -28,6 +29,27 @@ function ApprovePaymentService($http, $q, blockUI,$window){
         return deffered;
     }
 	
+    function reject(transactionApproveModel) {
+        var deffered = $q.defer();
+        blockUI.start();
+        $http({
+            method: 'POST',
+            url: '/api/approve-transaction/reject',
+            data: transactionApproveModel
+        }).then(function(response) {
+            blockUI.stop();
+            deffered.resolve(response);
+        }).catch(function(response) {
+            blockUI.stop();
+            if(response.status == 403){
+        	$window.location.href = "/error/403";
+            }else{
+        	deffered.reject(response);
+            }
+        });
+        return deffered;
+    }
+    
     function getTransaction(transactionModel) {
         var deffered = $q.defer();
         $http({

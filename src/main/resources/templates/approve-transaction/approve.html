@@ -37,7 +37,7 @@
 							ng-bind="'Back' | translate" ng-click="ctrl.backPage()"></scf-button>
 						<scf-button id="reject-button" class="popup-button"
 							ng-disabled="!ctrl.canReject"
-							ng-click="ctrl.reject()"
+							ng-click="ctrl.confirmRejectPopup()"
 							ng-bind="'Reject' | translate"></scf-button>
 						<scf-button id="approve-button" ng-disabled="ctrl.disable()"
 							type="submit" ng-click="ctrl.confirmPopup()"
