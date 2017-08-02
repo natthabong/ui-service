@@ -223,6 +223,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     function _loadSummaryOfTransaction(criteria){
         var criteriaSummary = {
             sponsorId : criteria.sponsorId,
+            supplierId : criteria.supplierId,
             statusGroup : criteria.statusGroup,
             transactionType : criteria.transactionType
         }
