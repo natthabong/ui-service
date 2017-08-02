@@ -683,7 +683,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		saveSearchCriteriaData();
 		var transactionModel = angular.extend(vm.listTransactionModel, {
 			page: vm.pageModel.currentPage,
-			pageSize: vm.pageModel.pageSizeSelectModel
+			pageSize: vm.pageModel.pageSizeSelectModel,
+			transactionType: 'DRAWDOWN'
 		});
 		
 		currentParty = $stateParams.party;
