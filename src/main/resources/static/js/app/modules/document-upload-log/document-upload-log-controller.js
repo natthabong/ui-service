@@ -7,13 +7,9 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		var log = $log;
 		var userId = $rootScope.userInfo.userId;
 
-		vm.splitePageTxt = '';
-
 		vm.dateFormat = "dd/MM/yyyy";
 		vm.openDateFrom = false;
 		vm.openDateTo = false;
-		vm.defaultPageSize = '20';
-		vm.defaultPage = 0;
 		vm.showSponsor = true;
 		
 		vm.headerName = '';
@@ -22,7 +18,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		vm.hideColSponsor = false;
 		vm.hideColFileType = false;
 		
-		vm.criteria =  {
+		vm.criteria = $stateParams.criteria || {
 				oraganizeId : null,
 				fileType : null,
 				uploadDateFrom : null,
@@ -31,17 +27,6 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 				status : null,
 				isBankDoc : false
 		};
-		
-		vm.pageSizeList = [ {
-			label : '10',
-			value : '10'
-		}, {
-			label : '20',
-			value : '20'
-		}, {
-			label : '50',
-			value : '50'
-		} ];
 		
 		var mode = {
 			SPONSOR : 'sponsor',
@@ -62,14 +47,6 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 			sponsor : undefined,
 			role : undefined
 		}
-		
-		vm.pageModel = {
-			pageSizeSelectModel : vm.defaultPageSize,
-			totalRecord : 0,
-			totalPage : 0,
-			currentPage : vm.defaultPage,
-			clearSortOrder : false
-		};
 
 		// Prepare Auto Suggest
 		var initSponsorAutoSuggest = function() {
@@ -115,12 +92,10 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 
 		var getFileType = function(sponsorID,sponsorConfigId,integrateType) {
 			vm.docType = [];
-//			if(currentMode == mode.BANKVIEWBANK){
 				vm.docType.push({
 					label : 'All',
 					value : null
 				});
-//			}
 			if(sponsorID != ''){
 				var uri = 'api/v1/organize-customers/'+sponsorID+'/sponsor-configs/'+sponsorConfigId+'/process-types';
 				var deffered = Service.doGet(uri,{integrateType : integrateType});
@@ -216,8 +191,12 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 			}
 			
 			if(isValid()){
-				vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
-				vm.pagingController.search(pagingModel);
+				console.log($stateParams.backAction)
+				vm.pagingController.search(pagingModel|| ( $stateParams.backAction? {
+					offset : vm.criteria.offset,
+					limit : vm.criteria.limit
+				}: undefined));
+				$stateParams.backAction = false;
 			}
 		}
 
@@ -226,7 +205,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 				documentUploadLogModel: data,
 				roleType: vm.documentUploadLogModel.roleType
 			}
-			PageNavigation.gotoPage('/document-upload-log/view-log',params,params)
+			PageNavigation.nextStep('/document-upload-log/view-log',params,{criteria : vm.criteria})
 		}
 
 		vm.initLoad = function() {

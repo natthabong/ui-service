@@ -256,6 +256,7 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 					offset : vm.criteria.offset,
 					limit : vm.criteria.limit
 				}: undefined));
+				$stateParams.backAction = false;
 
 				vm.showInfomation = true;
 			// }
@@ -276,7 +277,6 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 					vm.logTimeToHour = dateTimeTo.getHours();
 					vm.logTimeToMinute = dateTimeTo.getMinutes();
 				}
-				$stateParams.backAction = false;
 			}
 			vm.searchTrackingLog();	
 		}();
