@@ -226,7 +226,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	vm.searchDocument = function(pagingModel) {
 		if(_validateForSearch()){
 			_prepareCriteria();
-			vm.loadData(pagingModel);
+			console.log($stateParams.backAction);
+
+			vm.loadData(pagingModel || ($stateParams.backAction? {
+				limit: _criteria.limit,
+				offset: _criteria.offset
+			}:undefined));
 		}else{
             vm.display = false;
         }
