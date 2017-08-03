@@ -232,6 +232,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 				limit: _criteria.limit,
 				offset: _criteria.offset
 			}:undefined));
+			if($stateParams.backAction){
+	    		$stateParams.backAction = false;
+	    	}
 		}else{
             vm.display = false;
         }
