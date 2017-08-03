@@ -229,9 +229,10 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 	   search: function(pagingData, callback){
 		var self = ctrl;
 			if (pagingData === undefined) {
-				console.log(defaultPageSize);
 			    self.pagingModel.pageSizeSelectModel = defaultPageSize;
 			    self.pagingModel.currentPage = defaultPage;
+			    self.pagingModel.offset = undefined;
+			    self.pagingModel.limit = undefined;
 	        } else {
 	        	if(!angular.isDefined(pagingData.pageSize)){
 	        		pagingData.pageSize = pagingData.limit;
@@ -305,10 +306,6 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 	        var criteria = postParams;
 	        criteria.limit = pagingModel.pageSizeSelectModel;
 	        criteria.offset = pagingModel.offset || (pagingModel.currentPage * pagingModel.pageSizeSelectModel);
-// if(pagingModel.offset){
-// pagingModel.currentPage = pagingModel.offset /
-// pagingModel.pageSizeSelectModel;
-// }
 	        return criteria;
 	    }
 	};
