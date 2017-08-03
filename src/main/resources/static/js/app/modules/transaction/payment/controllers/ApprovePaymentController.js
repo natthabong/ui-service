@@ -99,6 +99,57 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
     		ApprovePaymentService.generateEvidenceForm(vm.transaction);
     	}
     }
+
+	vm.handleDialogFail = function(response){
+		$scope.response = response.data;
+    	if(response.status == 400){
+			vm.wrongPassword = true;
+			vm.passwordErrorMsg = $scope.response.attributes.errorMessage;
+    		dialogPopup = UIFactory.showConfirmDialog({
+				data : {
+					headerMessage : 'Confirm approve ?',
+					mode: 'transaction',
+					credentialMode : true,
+					displayName : vm.displayName,
+					wrongPassword : vm.wrongPassword,
+					passwordErrorMsg : vm.passwordErrorMsg,
+					rejectReason : null,
+					hideReason: true,
+					transactionModel : vm.transactionApproveModel
+				},
+				confirm : function() {
+					if (_validateCredential(vm.transactionApproveModel.credential)) {
+						return approve(vm.transactionApproveModel);
+					}else {
+						vm.wrongPassword = true;
+						vm.passwordErrorMsg = 'Password is required';
+						closeDialogPopUp();
+						vm.confirmPopup('error');
+					}
+				},
+				onFail : function(response) {	
+					vm.handleDialogFail(response);					
+				},
+				onSuccess : function(response) {
+					UIFactory.showSuccessDialog({
+						data : {
+							mode: 'transactionComplete',
+							headerMessage : 'Approve success.',						
+							bodyMessage : vm.transaction,
+							viewRecent : vm.viewRecent,
+							viewHistory: vm.viewHistory,
+							backAndReset: vm.backPage,
+							hideBackButton : false,
+							hideViewRecentButton : false,
+							hideViewHistoryButton : false,
+							showOkButton : false,
+							printEvidenceFormAction: vm.printEvidenceFormAction
+						},
+					});
+				}
+			});
+    	}
+    };
 	
 	vm.confirmPopup = function(msg) {
 		if(msg == 'clear'){
@@ -159,72 +210,6 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 		});
 		return deffered;
 	}
-	
-    vm.handleDialogFail = function(response){
-    	if(response.status == 400){
-    		
-    	}
-    };
-    
-// vm.approve = function() {
-// if (_validateCredential(vm.transactionApproveModel.credential)) {
-// vm.wrongPassword = false;
-//			
-// var deffered = ApprovePaymentService.approve(vm.transactionApproveModel);
-// deffered.promise.then(function(response) {
-// vm.transaction = response.data;
-// vm.showEvidenceForm = printEvidence(vm.transaction);
-// ngDialog.open({
-// template: '/js/app/approve-transactions/success-dialog.html',
-// scope: $scope,
-// disableAnimation: true
-// });
-//
-// }).catch(function(response) {
-//				
-// $scope.response = response.data;
-// if($scope.response.errorCode=='E0400'){
-// vm.confirmPopup();
-// vm.wrongPassword = true;
-// vm.passwordErrorMsg = $scope.response.attributes.errorMessage;
-// }else{
-// $scope.response.showViewRecentBtn = false;
-// $scope.response.showViewHistoryBtn = true;
-// $scope.response.showCloseBtn = $scope.response.errorCode ==
-// 'E1012'?true:false;
-// if($scope.response.errorCode == 'E1012'){
-// vm.txnHour.allowSendToBank = false;
-// vm.disableButton = true;
-// }
-// $scope.response.showBackBtn = true;
-//					
-// if($scope.response.errorCode != 'E0403'){
-// vm.errorMessageModel = response.data;
-// var dialogUrl =
-// TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode,
-// 'approve');
-// ngDialog.open({
-// template: dialogUrl,
-// scope: $scope,
-// disableAnimation: true
-// });
-// }
-// }
-// });
-// } else {
-// vm.confirmPopup();
-// vm.wrongPassword = true;
-// vm.passwordErrorMsg = 'Password is required';
-// }
-// };
-	
-// vm.confirmPopup = function() {
-// ngDialog.open({
-// template: '/js/app/approve-transactions/confirm-dialog.html',
-// scope: $scope,
-// disableAnimation: true
-// });
-// };
 	
 	var reject = function(transactionModel) {
     	var deferred = ApprovePaymentService.reject(transactionModel);
