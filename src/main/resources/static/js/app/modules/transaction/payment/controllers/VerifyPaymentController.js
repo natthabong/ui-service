@@ -83,12 +83,14 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
 				$scope.response = response.data;
 				UIFactory.showFailDialog({
 					data : {
-						mode: 'transaction',
+						mode: 'concurrency',
 						headerMessage : 'Verify transaction fail.',
 						backAndReset : vm.back,
 						viewHistory : vm.viewHistory,
 						viewRecent : vm.viewRecent,
-						errorCode : response.data.errorCode
+						errorCode : response.data.errorCode,
+						action : response.data.attributes.action,
+						actionBy : response.data.attributes.actionBy
 					}
 				});						
 			},
@@ -128,12 +130,14 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
 				$scope.response = response.data;
 				UIFactory.showFailDialog({
 					data : {
-						mode: 'transaction',
+						mode: 'concurrency',
 						headerMessage : 'Reject transaction fail.',
 						backAndReset : vm.back,
 						viewHistory : vm.viewHistory,
 						viewRecent : vm.viewRecent,
-						errorCode : response.data.errorCode
+						errorCode : response.data.errorCode,
+						action : response.data.attributes.action,
+						actionBy : response.data.attributes.actionBy
 					}
 				});						
 			},
