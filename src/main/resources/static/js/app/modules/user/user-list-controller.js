@@ -39,7 +39,14 @@ userModule
 					passwordStatus : vm.passwordStatusDropdowns[0].value
 			    }
 
-				var _criteria = {};
+			    var _criteria = {};
+			    
+			    vm.criteria = $stateParams.criteria || {
+					userId : '',
+					organizeId : '',
+					userStatus : undefined,
+					passwordStatus : undefined
+			    }
 
 			    vm.user = null;
 			    vm.resetPasswordUser = function(data) {
@@ -178,38 +185,37 @@ userModule
 					query : searchOrganizeTypeHead
 				    });
 
-			    vm.userCriteria = {
-					userId : '',
-					organizeId : '',
-					userStatus : undefined,
-					passwordStatus : undefined
-			    }
-
 			    vm.pagingController = PagingController.create(
-				    '/api/v1/users', vm.userCriteria, 'GET');
+				    '/api/v1/users', _criteria, 'GET');
 
 			    vm.searchUser = function(pageModel) {
 					if (angular.isDefined(vm.userListModel.user)) {
-						vm.userCriteria.userId = vm.userListModel.user.userId;
+						vm.criteria.userId = vm.userListModel.user.userId;
 					}
 
 					if (angular.isDefined(vm.userListModel.organize)) {
-						vm.userCriteria.organizeId = vm.userListModel.organize.organizeId;
+						vm.criteria.organizeId = vm.userListModel.organize.organizeId;
 					}
 
 					UserStatus.forEach(function(status) {
 							if (vm.userListModel.userStatus == status.value) {
-							vm.userCriteria.userStatus = status.valueObject;
+							vm.criteria.userStatus = status.valueObject;
 							}
 						});
 
 					PasswordStatus.forEach(function(status) {
 							if (vm.userListModel.passwordStatus == status.value) {
-							vm.userCriteria.passwordStatus = status.valueObject;
+							vm.criteria.passwordStatus = status.valueObject;
 							}
 						});
 					_storeCriteria();
-					vm.pagingController.search(pageModel);
+					vm.pagingController.search(pageModel || ( $stateParams.backAction? {
+			    		offset : _criteria.offset,
+						limit : _criteria.limit
+			    	}: undefined));
+					if($stateParams.backAction){
+			    		$stateParams.backAction = false;
+			    	}
 			    }
 
 			    vm.dataTable = {
@@ -290,7 +296,7 @@ userModule
 			    }
 
 				function _storeCriteria() {
-					angular.copy(vm.userListModel, _criteria);
+					angular.copy(vm.criteria, _criteria);
 				}
 
 			    vm.initLoad = function() {
