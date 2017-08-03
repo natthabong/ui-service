@@ -622,8 +622,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         }else{
         	vm.listTransactionModel.supplier = null;
         }
-        
-        if (criteria === undefined) {
+		
+        if (criteria === undefined || criteria == null) {
             vm.pageModel.currentPage = '0';
             vm.pageModel.pageSizeSelectModel = '20';
 			vm.pageModel.clearSortOrder = !vm.pageModel.clearSortOrder;
