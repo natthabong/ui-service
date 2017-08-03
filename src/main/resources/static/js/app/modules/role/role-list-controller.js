@@ -66,7 +66,6 @@ angular.module('scfApp').controller('RoleListController',['$scope','Service', '$
 				pageSize:"20"
 			}
 			if($stateParams.backAction){
-				console.log($stateParams);
 				pageModel.page = $stateParams.criteria.page;
 				pageModel.pageSize = $stateParams.criteria.pageSize;
 			}

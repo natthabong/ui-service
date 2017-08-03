@@ -587,6 +587,11 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		vm.openDateTo = true;
 	};
 	
+	var _criteria = {
+		page:0,
+		pageSize:"20"
+	}
+	
 	vm.searchTransaction = function(criteria){
 		vm.invalidDateCriteria = false;
 		vm.invalidDateCriteriaMsg = '';
@@ -628,6 +633,9 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             vm.pageModel.currentPage = criteria.page;
             vm.pageModel.pageSizeSelectModel = criteria.pageSize;				
         }
+        
+        _criteria.page = vm.pageModel.currentPage;
+        _criteria.pageSize = vm.pageModel.pageSizeSelectModel;
         
         if (angular.isUndefined(dateFrom)) {
 			vm.invalidDateCriteria = true;
@@ -775,7 +783,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 		vm.storeCriteria();
 		PageNavigation.gotoPage('/verify-transaction', {
-            transactionModel: data
+            transactionModel: data,
+            criteria:_criteria
         });
 	}
 	
@@ -788,7 +797,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		var params = { transactionModel: data,
 				party: currentParty,
 	            isShowViewHistoryButton: false,
-	            isShowBackButton: true
+	            isShowBackButton: true,
+	            criteria:_criteria
 	        }
 		PageNavigation.gotoPage('/view-transaction',params,params)
 	}
@@ -844,7 +854,14 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		}else if (currentParty == partyRole.bank) {
 			sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
 		}
-		vm.searchTransaction();
+        
+        if($stateParams.backAction){
+        	vm.searchTransaction($stateParams.criteria);
+        }else{
+        	vm.searchTransaction();
+        }
+		
+		
 		$cookieStore.remove(listStoreKey);
     };
 
@@ -952,7 +969,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	
 	vm.approveTransaction = function(data){
 		vm.storeCriteria();
-		var params = {transaction: data};
+		var params = {transaction: data, criteria:_criteria};
 		PageNavigation.gotoPage('/approve-transaction/approve',params,params)
 	}
 	

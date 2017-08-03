@@ -167,21 +167,21 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/transaction-list/sponsor',
 				controller: 'ListTransactionController',
 				controllerAs: 'ctrl',
-				params: {backAction: false,party:'sponsor'},
+				params: {backAction: false, party:'sponsor', criteria : null},
 				templateUrl: '/list-transaction/sponsor',
 				resolve: load(['js/app/list-transactions/list-transaction-service.js', 'js/app/modules/transaction/services/TransactionService.js', 'js/app/list-transactions/list-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/transaction-list/supplier', {
 				url: '/transaction-list/supplier',
 				controller: 'ListTransactionController',
 				controllerAs: 'ctrl',
-				params: {backAction: false,party:'supplier'},
+				params: {backAction: false, party:'supplier', criteria : null},
 				templateUrl: '/list-transaction/supplier',
 				resolve: load(['js/app/list-transactions/list-transaction-service.js', 'js/app/modules/transaction/services/TransactionService.js', 'js/app/list-transactions/list-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/transaction-list/bank', {
 				url: '/transaction-list/bank',
 				controller: 'ListTransactionController',
 				controllerAs: 'ctrl',
-				params: {backAction: false,party:'bank'},
+				params: {backAction: false, party:'bank', criteria : null},
 				templateUrl: '/list-transaction/bank',
 				resolve: load(['js/app/list-transactions/list-transaction-service.js', 'js/app/modules/transaction/services/TransactionService.js', 'js/app/list-transactions/list-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/dashboard', {
