@@ -783,9 +783,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 		vm.storeCriteria();
 		PageNavigation.gotoPage('/verify-transaction', {
-            transactionModel: data,
-            criteria:_criteria
-        });
+            transactionModel: data         
+        },{criteria:_criteria});
 	}
 	
 	vm.view = function(data){		
