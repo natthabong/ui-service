@@ -85,7 +85,7 @@ tpModule.controller('TradingPartnerController', [
             $scope.save = function() {
                 if(_validate()){
                     var preCloseCallback = function(confirm) {
-					PageNavigation.gotoPreviousPage(true);
+					PageNavigation.backStep(true);
 				    }
 
 				    UIFactory.showConfirmDialog({
