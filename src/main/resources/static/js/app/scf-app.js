@@ -301,7 +301,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'RoleListController',
 				controllerAs: 'ctrl',
 				templateUrl: '/role',
-				params: {backAction: false},
+				params: {backAction: false, criteria : null},
 				resolve: load(['js/app/modules/role/role-list-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/role/new',{
 				url: '/role/new',
@@ -370,21 +370,21 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/document-upload-log',
 				controller: 'DocumentUploadLogController',
 				controllerAs: 'ctrl',
-				params: {mode:'sponsor'},
+				params: {mode:'sponsor',criteria: null, backAction:false},
 				templateUrl: '/document-upload-log',
 				resolve: load(['js/app/modules/document-upload-log/document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/document-upload-log/bank',{
 				url: '/document-upload-log/bank',
 				controller: 'DocumentUploadLogController',
 				controllerAs: 'ctrl',
-				params: {mode:'bankbank'},
+				params: {mode:'bankbank',criteria: null, backAction:false},
 				templateUrl: '/document-upload-log/bank',
 				resolve: load(['js/app/modules/document-upload-log/document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/document-upload-log/sponsor',{
 				url: '/document-upload-log/sponsor',
 				controller: 'DocumentUploadLogController',
 				controllerAs: 'ctrl',
-				params: {mode:'banksponsor'},
+				params: {mode:'banksponsor',criteria: null, backAction:false},
 				templateUrl: '/document-upload-log/sponsor',
 				resolve: load(['js/app/modules/document-upload-log/document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/document-upload-log/view-log',{

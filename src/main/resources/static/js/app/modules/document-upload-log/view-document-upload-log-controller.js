@@ -15,7 +15,7 @@ angular
 			'ngDialog',
 			'$q', 
 			'UIFactory', 
-			'PagingController', 
+			'PagingController',
 			function(SCFCommonService, $log, $scope, $stateParams, $timeout, $rootScope,
 				PageNavigation, Service, $http, blockUI, ngDialog, $q, UIFactory, PagingController) {
 		
@@ -65,7 +65,9 @@ angular
 			    }
 
 				vm.backToDocumentUploadLogPage = function() {
-					PageNavigation.gotoPreviousPage();
+					$timeout(function(){
+						PageNavigation.backStep();
+					}, 10);
 				}
 				
 				vm.pagingController = PagingController.create('api/v1/upload-logs/'+uploadLogId+'/items', vm.viewCriteria, 'GET');
