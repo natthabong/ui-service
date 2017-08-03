@@ -82,8 +82,6 @@ tpModule.controller('TradingPartnerListController',['$scope','$stateParams','UIF
 				vm.criteria.organizeId = undefined;
 			}
 
-			console.log($stateParams.backAction)
-			console.log(pageModel)
 			vm.pagingController.search(pageModel || ( $stateParams.backAction? {
 				offset : vm.criteria.offset,
 				limit : vm.criteria.limit
@@ -163,7 +161,10 @@ tpModule.controller('TradingPartnerListController',['$scope','$stateParams','UIF
 		// Main of program
 		var initLoad = function() {
 			if($stateParams.backAction){
-				vm.organize = TradingPartnerService._prepareItem(vm.organize);
+				console.log(vm.organize)
+				if(vm.organize != null){
+					vm.organize = TradingPartnerService._prepareItem(vm.organize);
+				}
 			}
 			vm.search();
 		}();
