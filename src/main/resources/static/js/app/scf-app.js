@@ -470,7 +470,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'TradingPartnerListController',
 				controllerAs: 'ctrl',
 				templateUrl: '/trading-partners',
-				params: { params: [], backAction: false},
+				params: { params: [], backAction: false, criteria : null, organize: null},
 				resolve: load(['js/app/modules/trading-partner/controllers/TradingPartnerListController.js', 'js/app/modules/trading-partner/services/TradingPartnerService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/trading-partners/new',{
 				url: '/trading-partners/new',

@@ -1,8 +1,8 @@
 'use strict';
 var tradeFinanceModule = angular.module('gecscf.tradingPartner.financing');
 tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$stateParams','UIFactory',
-	'PageNavigation','PagingController','ConfigTradeFinanceService','$log','SCFCommonService','$state','$cookieStore',
-    function($scope, $stateParams, UIFactory,PageNavigation, PagingController,ConfigTradeFinanceService,$log,SCFCommonService,$state,$cookieStore) {
+	'PageNavigation','PagingController','ConfigTradeFinanceService','$log','SCFCommonService','$state','$cookieStore','$timeout',
+    function($scope, $stateParams, UIFactory,PageNavigation, PagingController,ConfigTradeFinanceService,$log,SCFCommonService,$state,$cookieStore,$timeout) {
 
         var vm = this;
 		var log = $log;
@@ -87,7 +87,9 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
         }();
 
         vm.back = function(){
-            PageNavigation.gotoPreviousPage();
+            $timeout(function(){
+                PageNavigation.backStep();
+            }, 10);
         }
 
 		vm.newTF = function(){

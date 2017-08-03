@@ -79,6 +79,7 @@ tpModule.factory('TradingPartnerService', [ '$http', '$q', 'Service', function($
 		getOrganizeByNameOrCodeLike : getOrganizeByNameOrCodeLike,
 		createTradingPartner : createTradingPartner,
 		findTradingPartnerBySponsorIdAndSupplierId : findTradingPartnerBySponsorIdAndSupplierId,
-		deleteTradingPartner: deleteTradingPartner
+		deleteTradingPartner: deleteTradingPartner,
+		_prepareItem : _prepareItem
 	}
 } ]);

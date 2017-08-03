@@ -8,8 +8,9 @@ tpModule.controller('TradingPartnerController', [
 		'PagingController',
 		'TradingPartnerService',
         '$log',
+        '$timeout',
         function($scope, $stateParams, UIFactory, PageNavigation,
-				PagingController, TradingPartnerService, $log){
+				PagingController, TradingPartnerService, $log,$timeout){
 
             var vm = this;
             var log = $log;
@@ -59,7 +60,9 @@ tpModule.controller('TradingPartnerController', [
             }
 
             $scope.cancel = function() {
-                PageNavigation.gotoPreviousPage();
+                $timeout(function(){
+                    PageNavigation.backStep();
+                }, 10);
             }
 
             var _save = function(tp){
