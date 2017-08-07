@@ -73,7 +73,7 @@
 										min-date="ctrl.criteria.dueDateFrom"> </scf-date-picker-to>
 								</div>
 								<div class="col-md-3 col-sm-3">
-									<scf-button id="search-button" class="btn-default"
+									<scf-button type="submit" id="search-button" class="btn-default"
 										ng-click="ctrl.searchDocument();ctrl.clearSelectDocument();">Search</scf-button>
 								</div>
 							</div>
@@ -210,7 +210,7 @@
 												ng-model="ctrl.maturityDateModel"
 												component-data="ctrl.maturityDateDropDown"></scf-dropdown>
 										</div>
-										<label ng-show="ctrl.isLoanPayment">
+										<label style="padding-top:5px;" ng-show="ctrl.isLoanPayment">
 											<span>(Tenor</span>
 											<span ng-bind="ctrl.tradingpartnerInfoModel.tenor"></span>
 											<span>days)</span>
