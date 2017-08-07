@@ -67,7 +67,11 @@ paymentModule.controller('ValidateSubmitController', [
         	vm.transactionModel.maturityDate = SCFCommonService.convertStringTodate(vm.transactionModel.maturityDate);
         	var deffered = TransactionService.submitTransaction(vm.transactionModel);
 			deffered.promise.then(function(response) {
+				var storeAccount = vm.transactionModel.payerAccountNo;
 				vm.transactionModel = response.data;
+                if(storeAccount == 'LOAN'){
+                    vm.transactionModel.payerAccountNo = 'LOAN';
+                }
 				vm.transactionNo = vm.transactionModel.transactionNo;
 				$scope.confirmPopup = false;
 				$scope.validateDataPopup = true;
