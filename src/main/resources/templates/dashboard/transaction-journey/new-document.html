@@ -35,8 +35,11 @@
             </div>
         </div>
         <ng-form> <input type="hidden"
-			ng-init="newDocCtrl.isSuppliler=true"
+			ng-init="newDocCtrl.isMaker=true"
 			sec:authorize="hasAuthority('CREATE_LOANS_OF_MY_ORGANIZE')" /></ng-form>
+		<ng-form> <input type="hidden"
+			ng-init="newDocCtrl.isSuppliler=true"
+			sec:authorize="hasAnyAuthority('APPROVE_LOANS_OF_MY_ORGANIZE', 'VERIFY_LOANS_OF_MY_ORGANIZE')" /></ng-form>
         <ng-form> <input type="hidden"
 			ng-init="newDocCtrl.canViewDocs=true"
 			sec:authorize="hasAuthority('VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZE')" /></ng-form>

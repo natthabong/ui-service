@@ -4,6 +4,7 @@ angular.module('scfApp').controller('JourneyNewDocumentController', ['$scope', '
     var dashboarParent = compositParent.$parent;
     var dahsboarItemParent = dashboarParent.dashboardItem;
     vm.headerLabel = dahsboarItemParent.headerLabel;
+    vm.isMaker = false;
 	vm.isSuppliler = false;
     vm.journeyDocModel = {
         totalDocument: 0,
@@ -25,9 +26,11 @@ angular.module('scfApp').controller('JourneyNewDocumentController', ['$scope', '
     
     vm.documentList = function(){
     	if($rootScope.isDesktopDevice){
-    		if(vm.isSuppliler){
+    		if(vm.isMaker){
+    			PageNavigation.gotoPage('/create-transaction');	
+    		}else if(vm.isSuppliler){
     			PageNavigation.gotoPage('/document-list/supplier');	
-    		}    		
+    		}   		
     	}
     }
     
