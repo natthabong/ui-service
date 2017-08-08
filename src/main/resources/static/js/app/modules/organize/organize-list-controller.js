@@ -4,6 +4,9 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 
 	var vm = this;
 	var log = $log;
+	
+	var _criteria = {
+	};
 	    
 	vm.newOrganizeProfile = function(){
 		PageNavigation.gotoPage('/');
@@ -16,8 +19,9 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	}
 	
 	vm.sponsorConfig = function(data){
+		
 		var params = {organizeModel: data};
-		PageNavigation.gotoPage('/sponsor-configuration', params);
+		PageNavigation.gotoPage('/sponsor-configuration', params, {criteria: _criteria});
 	}
     
     var organizeAutoSuggestServiceUrl = 'api/v1/organizes';
@@ -59,8 +63,16 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
         }else{
         	vm.organizeCriteria.organizeId = undefined;
         }
-		
-        vm.pagingController.search(pageModel);
+        
+        _storeCriteria();
+        vm.pagingController.search(pageModel || ( $stateParams.backAction? {
+    		offset : vm.organizeCriteria.offset,
+			limit : vm.organizeCriteria.limit
+    	}: undefined));
+        
+        if($stateParams.backAction){
+    		$stateParams.backAction = false;
+    	}
         
 	}
     
@@ -102,8 +114,16 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 			}]
     }
     
+    function _storeCriteria() {
+		angular.copy(vm.organizeCriteria, _criteria);
+	}
+    
 	vm.initLoad = function() {
-       
+		var backAction = $stateParams.backAction;
+		
+		if(backAction && Object.keys($stateParams.criteria).length != 0){
+			vm.organizeCriteria = $stateParams.criteria;
+		}
         vm.searchOrganize();
 	}
 
