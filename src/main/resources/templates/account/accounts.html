@@ -1,0 +1,80 @@
+<div id="content" th:fragment="content">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft"
+						ng-bind="'Account' | translate">Account</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<form name="accountSearchForm" ng-submit="ctrl.search()"
+							autocomplete="off" class="form-horizontal">
+							<div class="form-group">
+								<label for="sponsor-textbox"
+									class="col-md-2 col-sm-3 col-xs-12 control-label"
+									id="organize-label">{{'Organize'| translate}}: </label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
+										ng-model="ctrl.organize" id="organize-auto-suggest"></gec-auto-suggest>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="status" id="status-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status'
+									| translate}} :</label>
+								<div class="col-md-3 col-sm-4 col-xs-12">
+									<scf-dropdown id="status-dropdown"
+										ng-model="ctrl.criteria.suspend"
+										component-data="ctrl.accountStatusDrpodowns"></scf-dropdown>
+								</div>
+								<div class="col-md-6 col-sm-5">
+									<scf-button type="submit" id="search-button"
+										class="btn-default" ng-bind="'Search' | translate"
+										ng-click="ctrl.submitted = true"></scf-button>
+
+								</div>
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div>
+									<div class="col-md-12 col-sm-12 text-right">
+										<div class="row">
+											<div class="col-md-12 col-sm-12">
+												<span> <b
+													ng-bind="ctrl.pagingController.splitePageTxt"
+													id="account-list-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+														dropdown-id="account-page-limit-dropdown"
+														name="account"
+														page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+														total-page="ctrl.pagingController.pagingModel.totalPage"
+														current-page="ctrl.pagingController.pagingModel.currentPage"
+														page-size-list="ctrl.pagingController.pageSizeList"
+														page-action="ctrl.search"></scf-pagination>
+												</span>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<scf-table id="account-list-table"
+												component-config="ctrl.dataTable"
+												component-datas="ctrl.pagingController.tableRowCollection"
+												current-page="ctrl.pagingController.pagingModel.currentPage"
+												record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+												clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,6 +1,6 @@
 var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'ui.mask', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
-                        			'legendDirectives','chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.transaction', 'gecscf.tradingPartner.financing'
+                        			'legendDirectives','chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing'
 									,'gecscf.sponsorConfiguration.workflow'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider','$urlRouterProvider','ngDialogProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider,$compileProvider, $urlRouterProvider, ngDialogProvider) {
@@ -465,6 +465,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/view-batch-job-tracking-message',
 				params: { params: []},
 				resolve: load(['js/app/modules/monitor/view-batch-job-tracking-message-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/account',{
+				url: '/account',
+				controller: 'AccountController',
+				controllerAs: 'ctrl',
+				templateUrl: '/account',
+				params: { params: [], backAction: false, criteria : null, organize: null},
+				resolve: load(['js/app/modules/account/controllers/AccountListController.js', 'js/app/modules/account/services/AccountService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/trading-partners',{
 				url: '/trading-partners',
 				controller: 'TradingPartnerListController',
