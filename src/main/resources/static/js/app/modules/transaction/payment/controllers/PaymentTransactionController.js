@@ -19,7 +19,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     vm.approve = false;
     vm.reject = false;
     
-    vm.summaryStatusGroup = {};
+    vm.summaryInternalStep = {};
 	vm.statusDocuments = {
 		waitForVerify: 'WAIT_FOR_VERIFY',
 		waitForApprove: 'WAIT_FOR_APPROVE',
@@ -219,22 +219,53 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     vm.disabledReject = function(data){
     	return true;
     }
+    
+	vm.clearSummary = function(){
+		vm.summaryInternalStep = {
+			wait_for_verify: {
+				totalRecord: 0,
+				totalAmount: 0
+			  },
+			 wait_for_approve:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			 },
+			 reject_by_checker:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			  },
+			 reject_by_approver:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			  },
+			  cancelled_by_supplier:{
+				  totalRecord: 0,
+				  totalAmount: 0              
+			  }		
+		};
+	}
 
     function _loadSummaryOfTransaction(criteria){
         var criteriaSummary = {
             sponsorId : criteria.sponsorId,
             supplierId : criteria.supplierId,
             statusGroup : criteria.statusGroup,
-            transactionType : criteria.transactionType
+            transactionType : criteria.transactionType,
+            transactionNo : criteria.transactionNo,
+            supplierCode: criteria.supplierCode,
+            dateFrom: criteria.dateFrom,
+            dateTo: criteria.dateTo
         }
+        vm.clearSummary();
     	var deffered = PaymentTransactionService.getSummaryOfTransaction(criteriaSummary);
     	deffered.promise.then(function(response) {
-			var summaryStatusGroup = response.data;
-			summaryStatusGroup.forEach(function(summary) {
-				if(vm.summaryStatusGroup[summary.statusMessageKey]){
+    		console.log(response.data);
+			var summaryInternalStep = response.data;
+			summaryInternalStep.forEach(function(summary) {
+				if(vm.summaryInternalStep[summary.statusMessageKey]){
 					
-					vm.summaryStatusGroup[summary.statusMessageKey].totalRecord = summary.totalRecord;
-					vm.summaryStatusGroup[summary.statusMessageKey].totalAmount = summary.totalAmount;
+					vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
+					vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
 				}
 			});
 		}).catch(function(response) {
@@ -265,8 +296,6 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     };
 
     vm.searchTransaction = function(pagingModel) {
-    	console.log(pagingModel)
-    	console.log(vm.criteria )
     	if(_validateForSearch()){
 	    	angular.copy(vm.criteria, _criteria);
 	    	if(vm.sponsor){
@@ -289,7 +318,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	}
 
     _clearSummaryStatus = function(){
-		vm.summaryStatusGroup = {
+		vm.summaryInternalStep = {
 			wait_for_verify: {
 				totalRecord: 0,
 				totalAmount: 0
