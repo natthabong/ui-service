@@ -58,10 +58,8 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 		var getFinanceInfo = function(sponsorId,supplierId){
 			var defered = ConfigTradeFinanceService.getTradeFinanceInfo(sponsorId,supplierId);
 			defered.promise.then(function(response) {
-				if(response.data.length == 0 || response.data[0] != null){
-					vm.pagingController.tableRowCollection = null;
-					vm.pagingController.tableRowCollection = response.data;
-				}
+				vm.pagingController.tableRowCollection = response.data;
+					
 			}).catch(function(response) {
 				log.error('Get trading finance fail');
 			});
@@ -113,7 +111,7 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 		
 		vm.deleteTradeFinance = function(record){
 			var preCloseCallback = function(confirm) {
-				 getFinanceInfo();
+				 getFinanceInfo(vm.financeModel.sponsorId, vm.financeModel.supplierId);
 			}
 
 			UIFactory.showConfirmDialog({
