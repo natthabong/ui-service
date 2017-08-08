@@ -68,15 +68,16 @@ accountModule.controller('AccountController', [
 					labelTH : 'Organize name',
 					id : 'organizeName-{value}',
 					sortable : false,
-					cssTemplate : 'text-center',
+					cssTemplate : 'text-left',
 				}, {
 					fieldName : 'accountNo',
 					headerId : 'accountNo-header-label',
 					labelEN : 'Account No.',
 					labelTH : 'Account No.',
+					filterType : 'accountNo',
 					id : 'accountNo-{value}',
 					sortable : false,
-					cssTemplate : 'text-left'
+					cssTemplate : 'text-center'
 				}, {
 					fieldName : 'status',
 					labelEN : 'Status',
@@ -102,5 +103,8 @@ accountModule.controller('AccountController', [
 						} : undefined));
 				$stateParams.backAction = false;
 			}
-
+			
+			var init = function(){
+				vm.search();
+			}();
 		} ]);
