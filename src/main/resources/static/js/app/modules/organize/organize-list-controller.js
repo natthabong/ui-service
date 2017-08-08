@@ -5,9 +5,14 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	var vm = this;
 	var log = $log;
 	
-	var _criteria = {
-	};
-	    
+	var _criteria = {};
+	   
+    vm.criteria = $stateParams.criteria || {
+    	organizeId: undefined
+	}   
+    
+    vm.organize =  $stateParams.organize || undefined;
+    
 	vm.newOrganizeProfile = function(){
 		PageNavigation.gotoPage('/');
 	}
@@ -21,7 +26,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	vm.sponsorConfig = function(data){
 		
 		var params = {organizeModel: data};
-		PageNavigation.gotoPage('/sponsor-configuration', params, {criteria: _criteria});
+		PageNavigation.gotoPage('/sponsor-configuration', params, {criteria: _criteria, organize: vm.organize});
 	}
     
     var organizeAutoSuggestServiceUrl = 'api/v1/organizes';
@@ -54,25 +59,26 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 			organizeId: undefined
 	}
 	
-	vm.pagingController = PagingController.create('/api/v1/organize-customers/', vm.organizeCriteria, 'GET');
-	
-	vm.searchOrganize = function(pageModel){
-        var organizeId = undefined;
-        if(angular.isObject(vm.organize)){
-        	vm.organizeCriteria.organizeId = vm.organize.organizeId;
-        }else{
-        	vm.organizeCriteria.organizeId = undefined;
-        }
-        
-        _storeCriteria();
-        vm.pagingController.search(pageModel || ( $stateParams.backAction? {
-    		offset : vm.organizeCriteria.offset,
-			limit : vm.organizeCriteria.limit
+	vm.pagingController = PagingController.create('/api/v1/organize-customers/', _criteria, 'GET');
+	vm.loadData = function(pageModel){
+		vm.pagingController.search(pageModel || ( $stateParams.backAction? {
+    		offset : _criteria.offset,
+			limit : _criteria.limit
     	}: undefined));
         
         if($stateParams.backAction){
     		$stateParams.backAction = false;
     	}
+	}
+	vm.searchOrganize = function(pageModel){
+        var organizeId = undefined;
+        if(angular.isObject(vm.organize)){
+        	vm.criteria.organizeId = vm.organize.organizeId;
+        }else{
+        	vm.criteria.organizeId = undefined;
+        }
+        _storeCriteria();
+        vm.loadData(pageModel);
         
 	}
     
@@ -115,7 +121,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
     }
     
     function _storeCriteria() {
-		angular.copy(vm.organizeCriteria, _criteria);
+		angular.copy(vm.criteria, _criteria);
 	}
     
 	vm.initLoad = function() {

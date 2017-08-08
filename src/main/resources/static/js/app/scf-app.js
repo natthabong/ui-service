@@ -71,7 +71,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/organize-list/bank',
 				controller: 'OrganizeListController',
 				controllerAs: 'ctrl',
-				params: {backAction: false,party:'bank', criteria:null},
+				params: {backAction: false,party:'bank', criteria:null, organize:null},
 				templateUrl: '/organize-list/bank',
 				resolve: load(['js/app/modules/organize/organize-list-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
