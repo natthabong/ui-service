@@ -6,7 +6,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	var log = $log;
 
 	var ownerId = $rootScope.userInfo.organizeId;
-    var backAction = $stateParams.backAction;
+//    var backAction = $stateParams.backAction;
     var fristTime = true;
     vm.isLoanPayment = false;
 	
@@ -118,7 +118,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                      vm.suppliers.push(selectObj);
                  });
 
-                if(!backAction){
+                if(!$stateParams.backAction){
                     vm.criteria.supplierId = _suppliers[0].supplierId;
                 }
             	
@@ -148,7 +148,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                      vm.customerCodes.push(selectObj);
                  });
 
-                 if(!backAction){
+                 if(!$stateParams.backAction){
                 	vm.criteria.customerCode = _buyerCodes[0];
                  }
 
@@ -226,7 +226,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	vm.searchDocument = function(pagingModel) {
 		if(_validateForSearch()){
 			_prepareCriteria();
-			console.log($stateParams.backAction);
 
 			vm.loadData(pagingModel || ($stateParams.backAction? {
 				limit: _criteria.limit,
@@ -279,7 +278,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 
             });
 
-            if(!backAction){
+            if(!$stateParams.backAction){
                 vm.transactionModel.payerAccountId = accounts[0].accountId;
                 vm.transactionModel.payerAccountNo = accounts[0].accountNo;
                 vm.tradingpartnerInfoModel.available = accounts[0].remainingAmount - accounts[0].pendingAmount;
@@ -328,11 +327,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     				vm.maturityDateModel = vm.maturityDateDropDown[0].value;
     			}
     			
-				 if(backAction && vm.transactionModel.maturityDate != null){
+				 if($stateParams.backAction && vm.transactionModel.maturityDate != null){
 	             	vm.maturityDateModel = vm.transactionModel.maturityDate;
 	             }
-                 //Clear back action
-                 backAction = false;
+
     		})
     		.catch(function(response) {
                 log.error(response);
@@ -358,7 +356,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     })
                 });
 
-                if(backAction && vm.transactionModel.transactionDate != null){
+                if($stateParams.backAction && vm.transactionModel.transactionDate != null){
                 	vm.paymentModel = vm.transactionModel.transactionDate;
                 }else{
                     vm.paymentModel = vm.paymentDropDown[0].value;
