@@ -1,5 +1,5 @@
 'use strict';
-var ac = angular.module('gecscf.tradingPartner.financing');
+var ac = angular.module('gecscf.account');
 ac
 		.controller(
 				'AccountController',
