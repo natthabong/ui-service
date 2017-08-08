@@ -19,8 +19,10 @@ angular.module('scfApp').controller('RoleListController',['$scope','Service', '$
 		
 		vm.searchRole = function(pageModel){
 			vm.pagingController.search(pageModel);
-			_criteria.page = pageModel.page;
-			_criteria.pageSize = pageModel.pageSize;
+			if(pageModel != undefined){				
+				_criteria.page = pageModel.page;
+				_criteria.pageSize = pageModel.pageSize;
+			}
 		}
 
 		vm.newRole = function(){
