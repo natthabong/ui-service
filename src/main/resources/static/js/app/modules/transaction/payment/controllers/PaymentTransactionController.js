@@ -238,7 +238,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 				  totalRecord: 0,
 				  totalAmount: 0
 			  },
-			  cancelled_by_supplier:{
+			  cancel_by_buyer:{
 				  totalRecord: 0,
 				  totalAmount: 0              
 			  }		
@@ -246,31 +246,35 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	}
 
     function _loadSummaryOfTransaction(criteria){
-        var criteriaSummary = {
-            sponsorId : criteria.sponsorId,
-            supplierId : criteria.supplierId,
-            statusGroup : criteria.statusGroup,
-            transactionType : criteria.transactionType,
-            transactionNo : criteria.transactionNo,
-            supplierCode: criteria.supplierCode,
-            dateFrom: criteria.dateFrom,
-            dateTo: criteria.dateTo
-        }
-        vm.clearSummary();
-    	var deffered = PaymentTransactionService.getSummaryOfTransaction(criteriaSummary);
-    	deffered.promise.then(function(response) {
-    		console.log(response.data);
-			var summaryInternalStep = response.data;
-			summaryInternalStep.forEach(function(summary) {
-				if(vm.summaryInternalStep[summary.statusMessageKey]){
-					
-					vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
-					vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
-				}
+    	
+    	vm.clearSummary();
+    	
+    	if(criteria.statusGroup == 'INTERNAL_STEP' || criteria.statusGroup == '' ){
+	        var criteriaSummary = {
+	            sponsorId : criteria.sponsorId,
+	            supplierId : criteria.supplierId,
+	            statusGroup : criteria.statusGroup,
+	            transactionType : criteria.transactionType,
+	            transactionNo : criteria.transactionNo,
+	            supplierCode: criteria.supplierCode,
+	            dateFrom: criteria.dateFrom,
+	            dateTo: criteria.dateTo
+	        }
+	        
+	    	var deffered = PaymentTransactionService.getSummaryOfTransaction(criteriaSummary);
+	    	deffered.promise.then(function(response) {
+				var summaryInternalStep = response.data;
+				summaryInternalStep.forEach(function(summary) {
+					if(vm.summaryInternalStep[summary.statusMessageKey]){
+						
+						vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
+						vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
+					}
+				});
+			}).catch(function(response) {
+				$log.error('Summary Group Status Error');
 			});
-		}).catch(function(response) {
-			$log.error('Summary Group Status Error');
-		});
+    	}
     }
 
     vm.loadData = function(pagingModel){
