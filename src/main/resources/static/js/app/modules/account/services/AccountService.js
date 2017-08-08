@@ -1,7 +1,23 @@
 angular.module('gecscf.account').factory('AccountService', ['$http', '$q', function($http, $q) {
     return {
-    	getAccounts: getAccounts
+    	getAccounts: getAccounts,
+    	save: save
     };	
+    function save(account){
+        var serviceUrl = '/api/v1/organize-customers/'+account.organizeId+'/accounts';
+        var deferred = $q.defer();
+        $http({
+            method : 'POST',
+            url : serviceUrl,
+            data: account
+        }).then(function(response) {
+            return deferred.resolve(response);
+        }).catch(function(response) {
+            return deferred.reject(response);
+        });
+        return deferred;
+    
+    }
 
     function getAccounts(organizeId, offset, limit) {
         var deffered = $q.defer();
