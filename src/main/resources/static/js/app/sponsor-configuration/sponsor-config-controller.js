@@ -16,6 +16,10 @@ angular.module('scfApp').controller(
 			    $scope.sponsorId = vm.organizeModel.organizeId;
 				$rootScope.sponsorId = vm.organizeModel.organizeId;
 				
+				$scope.backAction = function() {
+					PageNavigation.gotoPreviousPage();
+			    }
+				
 			    function init(){
 					if(vm.organizeModel === null){
 						PageNavigation.gotoPreviousPage();
