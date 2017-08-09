@@ -82,17 +82,17 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         });
     }
 	
-	function _loadTradingPartnerInfo(sponsorId, supplierId){
-		vm.tradingpartnerInfoModel.supplierId = supplierId;
-        vm.tradingpartnerInfoModel.supplierName = getSupplierName(supplierId);
-    	var deffered = TransactionService.getTradingInfo(sponsorId, supplierId);
-    	deffered.promise.then(function(response){
-    		vm.tradingpartnerInfoModel.tenor = response.data.tenor;
-    		vm.tradingpartnerInfoModel.interestRate = response.data.interestRate;
-    	}).catch(function(response) {
-            log.error(response);
-        });
-    }
+//	function _loadTradingPartnerInfo(sponsorId, supplierId){
+//		vm.tradingpartnerInfoModel.supplierId = supplierId;
+//        vm.tradingpartnerInfoModel.supplierName = getSupplierName(supplierId);
+//    	var deffered = TransactionService.getTradingInfo(sponsorId, supplierId);
+//    	deffered.promise.then(function(response){
+//    		vm.tradingpartnerInfoModel.tenor = response.data.tenor;
+//    		vm.tradingpartnerInfoModel.interestRate = response.data.interestRate;
+//    	}).catch(function(response) {
+//            log.error(response);
+//        });
+//    }
 
     function getSupplierName(supplierId){
         var supplierName = null;
@@ -123,7 +123,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 }
             	
             	if(angular.isDefined(vm.criteria.supplierId)){
-            		_loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
+//            		_loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
             		_loadAccount(ownerId, vm.criteria.supplierId);
             		_loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
             	}
@@ -267,7 +267,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         label : "Loan",
                         value : account.accountId,
                         item : account
-                    })
+                    });
             	}else{
                     vm.accountDropDown.push({
                         label : account.accountNo,
@@ -279,12 +279,16 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             });
 
             if(!$stateParams.backAction){
-                vm.transactionModel.payerAccountId = accounts[0].accountId;
-                vm.transactionModel.payerAccountNo = accounts[0].accountNo;
-                vm.tradingpartnerInfoModel.available = accounts[0].remainingAmount - accounts[0].pendingAmount;
+            	if(accounts.length > 0){
+            		vm.transactionModel.payerAccountId = accounts[0].accountId;
+                    vm.transactionModel.payerAccountNo = accounts[0].accountNo;
+                    vm.tradingpartnerInfoModel.available = accounts[0].remainingAmount - accounts[0].pendingAmount;
+                    vm.tradingpartnerInfoModel.tenor = accounts[0].tenor;
+                    vm.tradingpartnerInfoModel.interestRate = accounts[0].interestRate;
+            	}
             }
             
-            if(accounts !=null && accounts[0].accountType =='LOAN'){
+            if(accounts.length > 0 && accounts[0].accountType =='LOAN'){
            	 	 vm.transactionModel.transactionMethod = 'TERM_LOAN';
 				 vm.isLoanPayment = true;
 				 _loadMaturityDate();
@@ -301,9 +305,11 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	
     	vm.accountDropDown.forEach(function(account) {
     		if(accountId == account.item.accountId){
-    			console.log(account);
     			vm.transactionModel.payerAccountNo = account.item.accountNo;
     			vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
+    			vm.tradingpartnerInfoModel.tenor = account.item.tenor;
+                vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
+                
     			if(account.item.accountType == 'LOAN'){
     				 vm.transactionModel.transactionMethod = 'TERM_LOAN';
     				 vm.isLoanPayment = true;
@@ -529,7 +535,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     vm.supplierChange = function() {
     	vm.showErrorMsg = false;
     	vm.display = false;
-    	_loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
+//    	_loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
     	_loadAccount(ownerId, vm.criteria.supplierId);
         _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
         vm.maturityDateModel = null;
