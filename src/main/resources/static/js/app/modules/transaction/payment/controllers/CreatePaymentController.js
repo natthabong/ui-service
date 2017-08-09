@@ -6,7 +6,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	var log = $log;
 
 	var ownerId = $rootScope.userInfo.organizeId;
-//    var backAction = $stateParams.backAction;
+// var backAction = $stateParams.backAction;
     var fristTime = true;
     vm.isLoanPayment = false;
 	
@@ -262,7 +262,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             var accounts = response.data;
             vm.isLoanPayment = false;
             accounts.forEach(function(account) {
-            	if(account.accountNo == 'LOAN'){
+            	if(account.accountType == 'LOAN'){
                     vm.accountDropDown.push({
                         label : "Loan",
                         value : account.accountId,
@@ -283,10 +283,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 vm.transactionModel.payerAccountNo = accounts[0].accountNo;
                 vm.tradingpartnerInfoModel.available = accounts[0].remainingAmount - accounts[0].pendingAmount;
             }
-
-            if(vm.transactionModel.payerAccountNo == 'LOAN'){
-                vm.isLoanPayment = true;
-            }
+            
+            if(accounts !=null && accounts[0].accountType =='LOAN'){
+           	 	 vm.transactionModel.transactionMethod = 'TERM_LOAN';
+				 vm.isLoanPayment = true;
+				 _loadMaturityDate();
+           }
             
         }).catch(function(response) {
             log.error(response);
@@ -294,16 +296,22 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     }
 
     vm.accountChange = function() {
+    	
     	var accountId = vm.transactionModel.payerAccountId;
+    	
     	vm.accountDropDown.forEach(function(account) {
     		if(accountId == account.item.accountId){
+    			console.log(account);
     			vm.transactionModel.payerAccountNo = account.item.accountNo;
     			vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
-    			if(account.item.accountNo != 'LOAN'){
-    				vm.isLoanPayment = false;
-    			}else{
-    				vm.isLoanPayment = true;
-    				_loadMaturityDate();
+    			if(account.item.accountType == 'LOAN'){
+    				 vm.transactionModel.transactionMethod = 'TERM_LOAN';
+    				 vm.isLoanPayment = true;
+    				 _loadMaturityDate();
+    			}
+    			else{
+    				 vm.transactionModel.transactionMethod = 'DEBIT';
+    				 vm.isLoanPayment = false;
     			}
     		}
         });    	
