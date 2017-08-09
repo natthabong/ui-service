@@ -258,4 +258,16 @@ angular
 				}
 			}
 	    };
+	}).filter('accountNo', function() {
+	    return function(data) {    
+			if(data == undefined){
+				return "";
+			}else{
+				var p1 = data.substring(0,3);
+				var p2 = data.substring(3,4);
+				var p3 = data.substring(4, 9);
+				var p4 = data.substring(9,10);
+				return [p1, p2, p3, p4].join('-');
+			}
+	    };
 	})
