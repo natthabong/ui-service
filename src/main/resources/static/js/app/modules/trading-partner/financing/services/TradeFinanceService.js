@@ -2,13 +2,20 @@
 var tradeFinanceModule = angular.module('gecscf.tradingPartner.financing');
 tradeFinanceModule.factory('TradeFinanceService', [ '$http', '$q','Service', function($http, $q, Service ) {
 
-	function createTradeFinance(sponsorId,supplierId,data){
+	function createTradeFinance(sponsorId,supplierId,data,isSupplier){
+		var borrowerType = null;
+		if(isSupplier){
+			borrowerType = "SUPPLIER";
+		}else{
+			borrowerType = "BUYER";
+		}
 		var url = '/api/v1/organize-customers/'+sponsorId+'/trading-partners/'+supplierId+'/trade-finance';
 		var deferred = $q.defer();
 		$http({
 			method : 'POST',
 			url : url,
-			data: data
+			data: data,
+			param : borrowerType
 		}).then(function(response) {
 			return deferred.resolve(response);
 		}).catch(function(response) {

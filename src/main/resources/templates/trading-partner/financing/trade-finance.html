@@ -22,6 +22,7 @@
                                 <scf-dropdown id="borrower-dropdown"
                                     ng-disabled="!ctrl.isNewMode"
                                     ng-model="ctrl.tradeFinanceModel.borrower"
+                                    ng-change="ctrl.changeBorrower()"
                                     component-data="ctrl.borrowerModel" translate-label="true"></scf-dropdown>
                             </div>
                         </div>
@@ -56,9 +57,11 @@
                                     ng-model="ctrl.tradeFinanceModel.tenor">
                                 </scf-input-number>
                             </div>
-                            <label id="percentage-loan-label"
+                            <label ng-hide="ctrl.isSupplier"
+                                class="col-md-6 col-sm-6 col-xs-6 col-lg-6 control-label"></label>
+                            <label id="percentage-loan-label" ng-show="ctrl.isSupplier"
                                 class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Percentage loan (%)' | translate}}: </label>
-                            <div class="col-md-3 col-sm-8 col-xs-12">
+                            <div class="col-md-3 col-sm-8 col-xs-12" ng-show="ctrl.isSupplier">
                                 <scf-input-number id="percentage-loan-textbox" maxlength="3" max="100"
                                     ng-model="ctrl.tradeFinanceModel.percentageLoan">
                                 </scf-input-number>
@@ -143,43 +146,6 @@
                                     ng-bind="errors.creditExpirationDate.message"> </span> 
                             </div>
                         </div>
-
-                        <!--<div class="form-group">
-							<label id="active-date-label"
-								class="col-md-2 col-sm-3 control-label">{{'Active date'
-								| translate}}:</label>
-							<div class="col-md-3 col-sm-4 gec-calendar-group">
-								<scf-date-picker-from text-id="active-date-textbox"
-									text-model="ctrl.tradeFinanceModel.activeDate" 
-                                    date-format="{{ctrl.dateFormat}}"
-									is-open="ctrl.openActiveDate"
-									open-calendar-action="ctrl.openCalendarActiveDate()"
-									max-date="ctrl.tradeFinanceModel.expiryDate"
-									button-id="active-date-calendar-button">
-								</scf-date-picker-from>
-							</div>
-							<div>
-								<div class="col-md-2 col-sm-2 col-xs-2"
-									style="padding-left: 25px;">
-									<scf-checkbox id="expire-date-checkbox"
-										ng-model="ctrl.isUseExpireDate"></scf-checkbox>
-									<label id="expire-date-label" class="checkbox-inline"
-										style="padding-bottom: 10px;">{{'Expire date' |
-										translate}}:</label>
-								</div>
-								<div class="col-md-3 col-sm-4 gec-calendar-group">
-									<scf-date-picker-to text-id="expire-date-textbox"
-										text-model="ctrl.tradeFinanceModel.expiryDate" date-format="dd/MM/yyyy"
-										is-open="ctrl.openExpireDate"
-										open-calendar-action="ctrl.openCalendarExpireDate()"
-										min-date="ctrl.tradeFinanceModel.activeDate"
-										ng-disabled="!ctrl.isUseExpireDate"
-										button-id="expire-date-calendar-button">
-									</scf-date-picker-to>
-								</div>
-							</div>
-							<div class="col-md-3"></div>
-						</div>-->
 
                         <div class="form-group">
 							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
