@@ -1,8 +1,8 @@
 'use strict';
 var tradeFinanceModule = angular.module('gecscf.tradingPartner.financing');
 tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$stateParams','UIFactory',
-	'PageNavigation','PagingController','ConfigTradeFinanceService','$log','SCFCommonService','$state','$cookieStore','$timeout',
-    function($scope, $stateParams, UIFactory,PageNavigation, PagingController,ConfigTradeFinanceService,$log,SCFCommonService,$state,$cookieStore,$timeout) {
+	'PageNavigation','PagingController','ConfigTradeFinanceService','$log','SCFCommonService','$state','$cookieStore','$timeout', '$filter',
+    function($scope, $stateParams, UIFactory,PageNavigation, PagingController,ConfigTradeFinanceService,$log,SCFCommonService,$state,$cookieStore,$timeout,$filter) {
 
         var vm = this;
 		var log = $log;
@@ -26,7 +26,7 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 					id : 'borrower-name-{value}-label',
 					sortable : false,
 					dataRenderer: function(record){
-						return record.borrowerType+': '+record.borrowerName;
+						return ($filter('borrowDisplay')(record.borrowerType, record.borrowerName));
 					}
 				},{
 					fieldName : 'accountNo',
@@ -151,3 +151,13 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 			});
 		}
     } ]);
+tradeFinanceModule.filter('borrowDisplay', function() {
+    return function(borrowerType, borrowerName) {
+        if(borrowerType == 'SUPPLIER'){
+        	return 'Supplier'+ ': ' + borrowerName;
+        }else if(borrowerType == 'BUYER'){
+        	return "Buyer"+ ': ' + borrowerName;
+        }
+        return borrowerType+ ': ' + borrowerName;
+    };
+});
