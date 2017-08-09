@@ -47,7 +47,8 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 				params : {
 					q : value,
 					offset : 0,
-					limit : 5
+					limit : 5,
+					accountType : "LOAN"
 				}
 			}).then(function(response) {
 				return response.data.map(function(item) {
