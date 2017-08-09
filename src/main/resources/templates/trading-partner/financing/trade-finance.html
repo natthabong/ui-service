@@ -57,10 +57,11 @@
                                     ng-model="ctrl.tradeFinanceModel.tenor">
                                 </scf-input-number>
                             </div>
-
-                            <label id="percentage-loan-label"
-                                class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Pre-Percentage loan (%)' | translate}}: </label>
-                            <div class="col-md-3 col-sm-8 col-xs-12">
+                            <label ng-hide="ctrl.isSupplier"
+                                class="col-md-6 col-sm-6 col-xs-6 control-label"></label>
+                            <label id="percentage-loan-label" ng-show="ctrl.isSupplier"
+                                class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Pre-Percentage loan (%)' | translate}}: </label>
+                            <div class="col-md-3 col-sm-8 col-xs-12" ng-show="ctrl.isSupplier">
 
                                 <scf-input-number id="percentage-loan-textbox" maxlength="3" max="100"
                                     ng-model="ctrl.tradeFinanceModel.percentageLoan">

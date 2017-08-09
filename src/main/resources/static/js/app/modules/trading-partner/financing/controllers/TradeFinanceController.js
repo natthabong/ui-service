@@ -256,8 +256,8 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             var sponsorId = borrower.sponsorId;
             var supplierId = borrower.supplierId;
             var tradeFinanceModule = {
-                sponsorId : sponsorId,
-                supplierId : supplierId,
+                sponsorId : vm.isSupplier? borrower.supplierId:borrower.sponsorId,
+                supplierId : vm.tradeFinanceModel.borrower,
                 accountId : vm.tradeFinanceModel.financeAccount.accountId,
                 limitExpiryDate : vm.tradeFinanceModel.creditExpirationDate,
                 tenor : vm.tradeFinanceModel.tenor,
@@ -265,6 +265,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                 interestRate : vm.tradeFinanceModel.interestRate,
                 agreementDate : vm.tradeFinanceModel.agreementDate,
                 suspend : vm.tradeFinanceModel.isSuspend,
+                borrowerType : vm.isSupplier? "SUPPLIER":"BUYER"
             }
             var deferred = TradeFinanceService.createTradeFinance(sponsorId,supplierId,tradeFinanceModule,vm.isSupplier);
             deferred.promise.then(function(response){}).catch(function(response){
