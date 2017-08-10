@@ -14,6 +14,11 @@ paymentModule.controller('ValidateSubmitController', [
         var vm = this;
         vm.transactionModel = $stateParams.transactionModel;
         vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
+
+        if(vm.transactionModel == null || vm.tradingpartnerInfoModel == null){
+            PageNavigation.gotoPage('/create-payment');
+        }
+
         vm.pagingController = PagingController.create(vm.transactionModel.documents);
         vm.isLoanPayment = true;
         
