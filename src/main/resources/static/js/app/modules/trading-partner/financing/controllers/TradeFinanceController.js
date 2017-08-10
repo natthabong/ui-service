@@ -34,11 +34,11 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         vm.borrowerModel = [
             {
                 label : '[Buyer] '+borrower.sponsorId+': '+borrower.sponsorName,
-                value : borrower.sponsorId
+                value : "BUYER"
             },
             {
                 label : '[Supplier] '+borrower.supplierId+': '+borrower.supplierName,
-                value : borrower.supplierId
+                value : "SUPPLIER"
             }
         ];
 
@@ -52,7 +52,12 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         }
 
         var queryAccount = function(value) {
-			var organizeId = vm.tradeFinanceModel.borrower;
+			var organizeId = null;
+            if(vm.tradeFinanceModel.borrower == "BUYER"){
+                organizeId = borrower.sponsorId;
+            }else{
+                organizeId = borrower.supplierId;
+            }
 			var accountServiceUrl = 'api/v1/organize-customers/'+organizeId+'/accounts';
 
 			value = value = UIFactory.createCriteria(value);
@@ -90,8 +95,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             creditExpirationDate: null,
             isSuspend: false
         };
-
-
+        
         var prepareAutoSuggestLabel = function(accountId,accountNo) {
             var accountNoSetFormat = _setAccountNoFormat(accountNo);
             var item = {
@@ -114,12 +118,14 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                 vm.isUseExpireDate = true;
             }
             if(tradeFinanceData != null){
-                vm.tradeFinanceModel.borrower = tradeFinanceData.borrowerId;
-                if(vm.tradeFinanceModel.borrower == borrower.supplierId){
+                vm.tradeFinanceModel.borrower = tradeFinanceData.borrowerType;
+
+                if(vm.tradeFinanceModel.borrower == "SUPPLIER"){
                     vm.isSupplier = true;
                 }else{
                     vm.isSupplier = false;
                 }
+                
                 vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(tradeFinanceData.accountId,tradeFinanceData.accountNo);
                 vm.tradeFinanceModel.tenor = tradeFinanceData.tenor;
                 vm.tradeFinanceModel.percentageLoan = tradeFinanceData.prePercentageDrawdown;
@@ -138,6 +144,131 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 				log.error('Get trading finance fail');
 			});
 		}
+
+        var initLoad = function() {
+            if(currentMode=='NEW'){
+                vm.headerName = 'New trade finance';
+                vm.isNewMode = true;
+                vm.isSupplier = false;
+            }else if(currentMode=='EDIT'){
+                vm.headerName = 'Edit trade finance';
+                vm.isNewMode = false;
+                if($stateParams.data == ''){
+                    log.error("Trade finance data is null.");
+                    PageNavigation.gotoPage('/trading-partners');
+                }else{
+                    var sponsorId = $stateParams.data.sponsorId;
+                    var supplierId = $stateParams.data.supplierId;
+                    var accountId = $stateParams.data.accountId;
+                    _getTradeFinanceInfo(sponsorId,supplierId,accountId);
+                }
+            }
+        }();
+
+        vm.openCalendarAgreementDate = function() {
+			vm.openAgreementDate = true;
+		}
+
+		vm.openCalendarCreditExpirationDate = function() {
+			vm.openCreditExpirationDate = true;
+		}
+        
+        vm.openCalendarActiveDate = function() {
+            vm.openActiveDate = true;
+        };
+        
+        vm.openCalendarExpireDate = function() {
+            vm.openExpireDate = true;
+        };
+
+        vm.add = function(){
+            var organizeId = null;
+            if(vm.tradeFinanceModel.borrower == "BUYER"){
+                organizeId = borrower.sponsorId;
+            }else{
+                organizeId = borrower.supplierId;
+            }
+        	if(vm.tradeFinanceModel.borrower){
+        		UIFactory.showDialog({
+            		templateUrl: '/js/app/modules/trading-partner/financing/templates/dialog-new-account.html',
+            		controller: 'AccountController',
+            		data: {organizeId: organizeId},
+            		preCloseCallback : function(data){
+            			if(data){
+            				vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(data.accountId,data.accountNo);
+            			}
+            		}
+    			});
+        	}
+        }
+
+        var _save = function(){
+            var sponsorId = borrower.sponsorId;
+            var supplierId = borrower.supplierId;
+            var tradeFinanceModule = {
+                sponsorId : vm.isSupplier? borrower.supplierId:borrower.sponsorId,
+                supplierId : vm.isSupplier? borrower.sponsorId:borrower.supplierId,
+                accountId : vm.tradeFinanceModel.financeAccount.accountId,
+                limitExpiryDate : vm.tradeFinanceModel.creditExpirationDate,
+                tenor : vm.tradeFinanceModel.tenor,
+                prePercentageDrawdown : vm.tradeFinanceModel.percentageLoan,
+                interestRate : vm.tradeFinanceModel.interestRate,
+                agreementDate : vm.tradeFinanceModel.agreementDate,
+                suspend : vm.tradeFinanceModel.isSuspend,
+                borrowerType : vm.isSupplier? "SUPPLIER":"BUYER"
+            }
+
+            var deferred = TradeFinanceService.createTradeFinance(sponsorId,supplierId,tradeFinanceModule,vm.isSupplier);
+            deferred.promise.then(function(response){}).catch(function(response){
+            	if (response) {
+                    if(Array.isArray(response.data)){
+                        response.data.forEach(function(error){
+                            $scope.errors[error.errorCode] = {
+                                message : error.errorMessage
+                            };
+                        });
+                    }
+                }
+                deferred.reject(response);
+            });
+            return deferred;
+        }
+
+        var _update = function(){
+            var sponsorId = borrower.sponsorId;
+            var supplierId = borrower.supplierId;
+
+            if(vm.tradeFinanceModel.creditExpirationDate == "Invalid Date"){
+                vm.tradeFinanceModel.creditExpirationDate = null;
+            }
+
+            var tradeFinanceModule = {
+                sponsorId : sponsorId,
+                supplierId : supplierId,
+                accountId : vm.tradeFinanceModel.financeAccount.accountId,
+                limitExpiryDate : vm.tradeFinanceModel.creditExpirationDate,
+                tenor : vm.tradeFinanceModel.tenor,
+                prePercentageDrawdown : vm.tradeFinanceModel.percentageLoan,
+                interestRate : vm.tradeFinanceModel.interestRate,
+                agreementDate : vm.tradeFinanceModel.agreementDate,
+                suspend : vm.tradeFinanceModel.isSuspend,
+                version: $stateParams.data.version
+            }
+            var deferred = TradeFinanceService.updateTradeFinance(sponsorId,supplierId,tradeFinanceModule.accountId,tradeFinanceModule);
+            deferred.promise.then(function(response){}).catch(function(response){
+            	if (response) {
+            		if(Array.isArray(response.data)){
+                        response.data.forEach(function(error){
+                            $scope.errors[error.errorCode] = {
+                                message : error.errorMessage
+                            };
+                        });
+                    }
+                }
+                deferred.reject(response);
+            });
+            return deferred;
+        }
 
         var _validate = function(){
             $scope.errors = {};
@@ -199,124 +330,6 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                 }
             }
             return valid;
-        }
-
-        var initLoad = function() {
-            if(currentMode=='NEW'){
-                vm.headerName = 'New trade finance';
-                vm.isNewMode = true;
-                vm.isSupplier = false;
-            }else if(currentMode=='EDIT'){
-                vm.headerName = 'Edit trade finance';
-                vm.isNewMode = false;
-                if($stateParams.data == ''){
-                    log.error("Trade finance data is null.");
-                    PageNavigation.gotoPage('/trading-partners');
-                }else{
-                    var sponsorId = $stateParams.data.sponsorId;
-                    var supplierId = $stateParams.data.supplierId;
-                    var accountId = $stateParams.data.accountId;
-                    _getTradeFinanceInfo(sponsorId,supplierId,accountId);
-                }
-            }
-        }();
-
-        vm.openCalendarAgreementDate = function() {
-			vm.openAgreementDate = true;
-		}
-
-		vm.openCalendarCreditExpirationDate = function() {
-			vm.openCreditExpirationDate = true;
-		}
-        
-        vm.openCalendarActiveDate = function() {
-            vm.openActiveDate = true;
-        };
-        
-        vm.openCalendarExpireDate = function() {
-            vm.openExpireDate = true;
-        };
-
-        vm.add = function(){
-        	if(vm.tradeFinanceModel.borrower){
-        		UIFactory.showDialog({
-            		templateUrl: '/js/app/modules/trading-partner/financing/templates/dialog-new-account.html',
-            		controller: 'AccountController',
-            		data: {organizeId: vm.tradeFinanceModel.borrower},
-            		preCloseCallback : function(data){
-            			if(data){
-            				vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(data.accountId,data.accountNo);
-            			}
-            		}
-    			});
-        	}
-        }
-
-        var _save = function(){
-            var sponsorId = borrower.sponsorId;
-            var supplierId = borrower.supplierId;
-            var tradeFinanceModule = {
-                sponsorId : vm.isSupplier? borrower.supplierId:borrower.sponsorId,
-                supplierId : vm.tradeFinanceModel.borrower,
-                accountId : vm.tradeFinanceModel.financeAccount.accountId,
-                limitExpiryDate : vm.tradeFinanceModel.creditExpirationDate,
-                tenor : vm.tradeFinanceModel.tenor,
-                prePercentageDrawdown : vm.tradeFinanceModel.percentageLoan,
-                interestRate : vm.tradeFinanceModel.interestRate,
-                agreementDate : vm.tradeFinanceModel.agreementDate,
-                suspend : vm.tradeFinanceModel.isSuspend,
-                borrowerType : vm.isSupplier? "SUPPLIER":"BUYER"
-            }
-            var deferred = TradeFinanceService.createTradeFinance(sponsorId,supplierId,tradeFinanceModule,vm.isSupplier);
-            deferred.promise.then(function(response){}).catch(function(response){
-            	if (response) {
-                    if(Array.isArray(response.data)){
-                        response.data.forEach(function(error){
-                            $scope.errors[error.errorCode] = {
-                                message : error.errorMessage
-                            };
-                        });
-                    }
-                }
-                deferred.reject(response);
-            });
-            return deferred;
-        }
-
-        var _update = function(){
-            var sponsorId = borrower.sponsorId;
-            var supplierId = borrower.supplierId;
-
-            if(vm.tradeFinanceModel.creditExpirationDate == "Invalid Date"){
-                vm.tradeFinanceModel.creditExpirationDate = null;
-            }
-
-            var tradeFinanceModule = {
-                sponsorId : sponsorId,
-                supplierId : supplierId,
-                accountId : vm.tradeFinanceModel.financeAccount.accountId,
-                limitExpiryDate : vm.tradeFinanceModel.creditExpirationDate,
-                tenor : vm.tradeFinanceModel.tenor,
-                prePercentageDrawdown : vm.tradeFinanceModel.percentageLoan,
-                interestRate : vm.tradeFinanceModel.interestRate,
-                agreementDate : vm.tradeFinanceModel.agreementDate,
-                suspend : vm.tradeFinanceModel.isSuspend,
-                version: $stateParams.data.version
-            }
-            var deferred = TradeFinanceService.updateTradeFinance(sponsorId,supplierId,tradeFinanceModule.accountId,tradeFinanceModule);
-            deferred.promise.then(function(response){}).catch(function(response){
-            	if (response) {
-            		if(Array.isArray(response.data)){
-                        response.data.forEach(function(error){
-                            $scope.errors[error.errorCode] = {
-                                message : error.errorMessage
-                            };
-                        });
-                    }
-                }
-                deferred.reject(response);
-            });
-            return deferred;
         }
 		
         vm.save = function(){
@@ -391,7 +404,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         }
 
         vm.changeBorrower = function(){
-            if(vm.tradeFinanceModel.borrower == borrower.supplierId){
+            if(vm.tradeFinanceModel.borrower == "SUPPLIER"){
                 vm.isSupplier = true;
             }else{
                 vm.isSupplier = false;
