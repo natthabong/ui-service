@@ -59,11 +59,8 @@ function transactionService($http, $q, blockUI, $window) {
 	function getAccounts(organizeId, supplierId) {
         var deffered = $q.defer();
         $http({
-        	    url :'api/v1/organize-customers/'+organizeId+'/accounts',
-            	method: 'GET',
-            	params:{
-            		supplierId: supplierId
-            	}
+        	    url :'api/v1/organize-customers/'+organizeId+'/trading-partners/'+supplierId+'/accounts',
+            	method: 'GET'
             })
             .then(function(response) {
                 deffered.resolve(response);
