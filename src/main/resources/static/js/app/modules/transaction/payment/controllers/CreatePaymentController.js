@@ -510,6 +510,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.transactionModel.documents = vm.documentSelects;
             vm.transactionModel.transactionDate = vm.paymentModel;
             vm.transactionModel.maturityDate = vm.maturityDateModel;
+            vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
             
             var objectToSend = {
                 transactionModel: vm.transactionModel,
