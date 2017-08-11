@@ -33,6 +33,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
             $httpProvider.defaults.headers.common['Accept-Language'] = 'en_EN';
             $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
             $httpProvider.interceptors.push('httpErrorResponseInterceptor');
+            $httpProvider.interceptors.push('templateInterceptor');
             
 	    $stateProviderRef = $stateProvider;
 			
@@ -823,7 +824,21 @@ app.controller('MenuController', ['scfFactory', '$state', function (scfFactory, 
     self.goTo = function(state){
 	$state.go(state);
     }
-
+ // register the interceptor as a service
+app.factory('templateInterceptor', function($q) {
+  return {
+    'responseError': function(rejection) {
+    	
+       var isTemplate = !!rejection.config.url.match(/^content/g);
+       if (isTemplate) {
+         rejection.data = '<div><template-error url="\''+ (rejection.config.url) + '\'"><strong>Error from interceptor.</strong></template-error></div>';
+         return rejection;
+       } else {
+         return $q.reject(rejection);
+       }
+    }
+  }
+});
 app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', 'blockUI', '$state', '$filter', '$cookieStore', function ($rootScope, $q, $http, $urlRouter, $window, blockUI, $state, $filter, $cookieStore) {
 // $window.Date.prototype.toISOString = function(){
 // return $filter('date')(this, 'yyyy-MM-ddTHH:mm:ss.000+0000');
