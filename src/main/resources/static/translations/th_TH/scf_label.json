@@ -23,6 +23,8 @@
     "Sponsor payment date": "Sponsor payment date",
     "pre-percentage": "Prepercentage",
     "numbero": "ลำดับที่",
+    "Due date": "Due date", 
+    "Buyer code": "Buyer code",
     "due-date": "วันครบกำหนดชำระ", 
     "payment-date": "Payment date",
     "Payment date": "Payment date",
@@ -120,7 +122,8 @@
 	"_comment": "Page New due date group (Top 10)",
 	"New due date group (Top 10)": "New due date group (Top 10)",
 	"Summary of outstanding amount": "Summary of outstanding amount",
-
+	"Invoice to pay (Top 10)": "Invoice to pay (Top 10)",
+	
 	"wait_for_verify": "Wait for verify",
 	"wait_for_approve": "Wait for approve",
 	"reject_by_checker": "Reject by checker",

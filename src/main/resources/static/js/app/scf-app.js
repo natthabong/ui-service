@@ -205,6 +205,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							  'js/app/dashboard/transaction-journey/future-drawdown.js',
 							  'js/app/dashboard/transaction-journey/result.js',
 							  'js/app/dashboard/payment/payment-todolist-controller.js',
+							  'js/app/dashboard/payment/invoice-to-pay-controller.js',
 							  'js/app/dashboard/payment/approve-payment-todolist-controller.js'])
 			}).state('/sponsor-configuration',{
 				url: '/sponsor-configuration',
@@ -522,7 +523,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'CreatePaymentController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment/create',
-                params: {transactionModel: null, tradingpartnerInfoModel: null, criteria: null, documentSelects: null, backAction: false},
+				params: {transactionModel: null, tradingpartnerInfoModel: null, criteria: null, documentSelects: null, backAction: false, dashboardParams: null, showBackButton: false},
 				resolve: load(['js/app/modules/transaction/services/TransactionService.js','js/app/modules/transaction/payment/controllers/CreatePaymentController.js'])
 			}).state('/create-payment/validate-submit', {
 				url: '/create-payment/validate-submit',

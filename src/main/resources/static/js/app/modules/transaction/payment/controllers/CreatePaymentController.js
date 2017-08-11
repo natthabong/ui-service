@@ -6,9 +6,11 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	var log = $log;
 
 	var ownerId = $rootScope.userInfo.organizeId;
-// var backAction = $stateParams.backAction;
+	vm.showBackButton = false;
+	var backAction = $stateParams.backAction || false;
     var fristTime = true;
     vm.isLoanPayment = false;
+    var dashboardParams = $stateParams.dashboardParams;
 	
     var _criteria = {};
     
@@ -118,8 +120,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                      vm.suppliers.push(selectObj);
                  });
 
-                if(!$stateParams.backAction){
+                if(!$stateParams.backAction && dashboardParams==null){
                     vm.criteria.supplierId = _suppliers[0].supplierId;
+                }else if(dashboardParams!=null){
+                	vm.criteria.supplierId = dashboardParams.supplierId;
                 }
             	
             	if(angular.isDefined(vm.criteria.supplierId)){
@@ -148,8 +152,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                      vm.customerCodes.push(selectObj);
                  });
 
-                 if(!$stateParams.backAction){
+                 if(!$stateParams.backAction && dashboardParams == null){
                 	vm.criteria.customerCode = _buyerCodes[0];
+                 }else if(dashboardParams != null){
+                	 vm.criteria.customerCode = dashboardParams.buyerCode;       	
                  }
 
                  if(fristTime){
@@ -233,7 +239,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 			}:undefined));
 			if($stateParams.backAction){
 	    		$stateParams.backAction = false;
-	    	}
+	    	}else if(!$stateParams.backAction && dashboardParams != null){
+                vm.selectAllDocument();
+                //clear dashboard param after search
+                $stateParams.dashboardParams = null;
+                dashboardParams = null;
+            }
 		}else{
             vm.display = false;
         }
@@ -372,6 +383,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
                 if($stateParams.backAction && vm.transactionModel.transactionDate != null){
                 	vm.paymentModel = vm.transactionModel.transactionDate;
+                }else if(dashboardParams != null){
+                    vm.paymentModel = SCFCommonService.convertDate(dashboardParams.dueDate);
+                    dashboardInitLoad();
                 }else{
                     vm.paymentModel = vm.paymentDropDown[0].value;
                 }
@@ -527,12 +541,20 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     }
     
 	var init = function(){
+		vm.showBackButton = $stateParams.showBackButton;
+		
 		_loadSuppliers();
         if(vm.documentSelects.length > 0){
         	_loadPaymentDate();
         }
 	}();
 
+	var dashboardInitLoad = function(){
+		vm.showBackButton = true;
+		vm.searchDocument(undefined);
+		console.log(vm.showBackButton);
+	}
+	
     vm.supplierChange = function() {
     	vm.showErrorMsg = false;
     	vm.display = false;

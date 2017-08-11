@@ -25,6 +25,7 @@ public class DashboardController {
 	private static final String JOURNEY_FUTURE_DRAWDOWN = "dashboard/transaction-journey/future-drawdown";
 	private static final String JOURNEY_RESULT = "dashboard/transaction-journey/result";
 
+	private static final String INVOICE_TO_PAY = "dashboard/payment/invoice-to-pay";
 	private static final String PAYMENT_TODOLIST = "dashboard/payment/payment-todolist";
 	private static final String APPROVE_PAYMENT_TODOLIST = "dashboard/payment/approve-payment-todolist";
 
@@ -168,6 +169,14 @@ public class DashboardController {
 			return JOURNEY_RESULT.concat(" :: content");
 		}
 		return JOURNEY_RESULT;
+	}
+	
+	@RequestMapping(path = "/invoice-to-pay")
+	public String invoiceToPay(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return INVOICE_TO_PAY.concat(" :: content");
+		}
+		return INVOICE_TO_PAY;
 	}
 
 }
