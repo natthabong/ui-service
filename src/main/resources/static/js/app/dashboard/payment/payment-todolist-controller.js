@@ -54,6 +54,7 @@ angular
 								},
 								columns : [
 										{
+											fieldName : 'TP',
 											label : 'TP',
 											sortData : true,
 											cssTemplate : 'text-center',
