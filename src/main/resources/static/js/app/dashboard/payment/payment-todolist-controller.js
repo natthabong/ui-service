@@ -11,7 +11,7 @@ angular.module('scfApp').controller('WaitForPaymentTodoListController',['$scope'
 			organizeId: organizeId,
 			statusCode: 'WAIT_FOR_VERIFY',
 			transactionType: 'PAYMENT',
-			orders: vm.dashboardItem.orderItems,
+			orders: vm.dashboardItem.orderItems
 	}
 
 	vm.statusTransaction = {
@@ -46,7 +46,7 @@ angular.module('scfApp').controller('WaitForPaymentTodoListController',['$scope'
                 sortData: true,
                 cssTemplate: 'text-center',
 				cellTemplate: '<img	title="{{data.supplier}}" style="height: 32px; width: 32px;"	'+
-				'data-ng-src="data:image/png;base64,{{paymentTodoListCtrl.decodeBase64(data.sponsorLogo)}}" data-err-src="images/png/avatar.png" />'
+				'data-ng-src="data:image/png;base64,{{paymentTodoListCtrl.decodeBase64(data.supplierLogo)}}" data-err-src="images/png/avatar.png" />'
             },{
             	fieldName: 'transactionNo',
                 label: 'Transaction No',
