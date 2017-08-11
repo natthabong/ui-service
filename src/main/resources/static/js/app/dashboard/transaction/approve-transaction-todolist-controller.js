@@ -23,7 +23,7 @@ angular.module('scfApp').controller(
 					vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
 					
 					vm.criteria = {
-							supplierId: organizeId,
+							organizeId: organizeId,
 							statusCode: 'WAIT_FOR_APPROVE',
 							transactionType: 'DRAWDOWN',
 							orders: vm.dashboardItem.orderItems,

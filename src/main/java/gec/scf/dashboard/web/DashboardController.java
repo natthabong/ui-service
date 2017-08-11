@@ -10,20 +10,31 @@ import gec.scf.util.AjaxUtils;
 
 @Controller
 public class DashboardController {
-	private static final String APPROVE_TRANSACTION_TODOLIST = "dashboard/approve-transaction-todolist";
+	private static final String APPROVE_TRANSACTION_TODOLIST = "dashboard/transaction/approve-transaction-todolist";
 	private static final String DASHBOARD_COMPOSITE = "dashboard/composite";
 	private static final String CREDIT_INFORMATION = "dashboard/credit-information";
-	private static String NEW_DUEDATE_GROUP = "dashboard/newduedate-group";
-	private static String CREDIT_INFORMATION_SUMMARY = "dashboard/credit-information-summary";
-	private static String TWELVE_MONTHS_CREDIT_MOVEMENT = "dashboard/twelve-months-credit-movement";
-	private static String INTERNAL_STEP = "dashboard/internal-step";
-	private String DASHBOARD_URL = "dashboard/dashboard-template";
-	private static String TRANSACTION_TODOLIST = "dashboard/transaction-todolist";
+	private static final String NEW_DUEDATE_GROUP = "dashboard/transaction/newduedate-group";
+	private static final String CREDIT_INFORMATION_SUMMARY = "dashboard/credit-information-summary";
+	private static final String TWELVE_MONTHS_CREDIT_MOVEMENT = "dashboard/twelve-months-credit-movement";
+	private static final String INTERNAL_STEP = "dashboard/transaction/internal-step";
+	private static final String DASHBOARD_URL = "dashboard/dashboard-template";
+	private static final String TRANSACTION_TODOLIST = "dashboard/transaction/transaction-todolist";
 	private static final String JOURNEY_NEW_DOCUMENT = "dashboard/transaction-journey/new-document";
 	private static final String JOURNEY_WAIT_FOR_VERIFY = "dashboard/transaction-journey/wait-for-verify";
 	private static final String JOURNEY_WAIT_FOR_APPROVE = "dashboard/transaction-journey/wait-for-approve";
 	private static final String JOURNEY_FUTURE_DRAWDOWN = "dashboard/transaction-journey/future-drawdown";
 	private static final String JOURNEY_RESULT = "dashboard/transaction-journey/result";
+	
+	private static String PAYMENT_TODOLIST = "dashboard/payment/payment-todolist";
+	
+	@RequestMapping(path = "/payment-todolist")
+	public String paymentTodolist(
+			@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return PAYMENT_TODOLIST.concat(" :: content");
+		}
+		return PAYMENT_TODOLIST;
+	}
 
 	@RequestMapping(path = "/newduedate-group")
 	public String newduedateGroup(
@@ -86,7 +97,7 @@ public class DashboardController {
 		}
 		return TRANSACTION_TODOLIST;
 	}
-
+	
 	@RequestMapping(path = "/dashboard")
 	public String dashboard(HttpServletRequest req) {
 		String requestedWith = req.getHeader("X-Requested-With");
