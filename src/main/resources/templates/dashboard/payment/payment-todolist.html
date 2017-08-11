@@ -3,16 +3,16 @@
 	<div
 		ng-controller="WaitForPaymentTodoListController as paymentTodoListCtrl">
 		<h3 class="animated fadeInLeft"
-			id="wait-for-verify-transaction-header-label"
+			id="wait-for-verify-payments-header-label"
 			ng-bind="dashboardItem.headerLabel"></h3>
 
 		<div class="row">
 			<div class="col-md-12 col-sm-12 text-right">
 				<span> <b
 					ng-bind="paymentTodoListCtrl.pagingController.splitePageTxt"
-					id="wait-for-verify-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+					id="wait-for-verify-payments-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 						dropdown-id="page-limit-dropdown"
-						name="wait-for-verify-transaction"
+						name="wait-for-verify-payments"
 						page-size-model="paymentTodoListCtrl.pagingController.pagingModel.pageSizeSelectModel"
 						total-page="paymentTodoListCtrl.pagingController.pagingModel.totalPage"
 						current-page="paymentTodoListCtrl.pagingController.pagingModel.currentPage"
@@ -25,7 +25,7 @@
 		<!-- Start Table-->
 		<div class="row">
 			<div class="col-md-12">
-				<scf-table id="wait-for-verify-transaction-table"
+				<scf-table id="wait-for-verify-payments-table"
 					class="transaction-table"
 					component-config="paymentTodoListCtrl.dataTable"
 					component-datas="paymentTodoListCtrl.pagingController.tableRowCollection"

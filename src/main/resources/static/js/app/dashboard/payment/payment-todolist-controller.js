@@ -83,7 +83,7 @@ angular.module('scfApp').controller('WaitForPaymentTodoListController',['$scope'
 				label: '',
 				cssTemplate: 'text-center',
 				sortable: false,
-				cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="(paymentTodoListCtrl.verify && (data.statusCode === paymentTodoListCtrl.statusTransaction.waitForVerify))" id="wait-for-verify-payment-{{data.transactionNo}}-button" ng-click="paymentTodoListCtrl.verifyPayment(data)" title="Verify a Pransaction"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'
+				cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="(paymentTodoListCtrl.verify && (data.statusCode === paymentTodoListCtrl.statusTransaction.waitForVerify))" id="wait-for-verify-payment-{{data.transactionNo}}-button" ng-click="paymentTodoListCtrl.verifyPayment(data)" title="Verify a payment"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'
 			}]
     };
     
