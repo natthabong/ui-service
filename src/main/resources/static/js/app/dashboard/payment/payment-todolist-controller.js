@@ -1,4 +1,4 @@
-angular.module('scfApp').('WaitForPaymentTodoListController',['$scope','$rootScope','PageNavigation','PagingController',
+angular.module('scfApp').controller('WaitForPaymentTodoListController',['$scope','$rootScope','PageNavigation','PagingController',
 		function($scope,$rootScope,PageNavigation,PagingController){
 	var vm = this;
 	var organizeId = $rootScope.userInfo.organizeId;
@@ -32,7 +32,7 @@ angular.module('scfApp').('WaitForPaymentTodoListController',['$scope','$rootSco
 		});
 	}
 	
-	vm.pagingController = PagingController.create(transactionTodoListUrl, vm.criteria, 'GET');
+	vm.pagingController = PagingController.create(todoListUrl, vm.criteria, 'GET');
 
     vm.dataTable = {
             options: {
