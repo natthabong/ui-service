@@ -24,7 +24,7 @@ angular
 
 						        $http({
 						            method: 'GET',
-						            url: 'api/v1/create-transaction/document-groupby-duedate',
+						            url: 'api/v1/create-transaction/document-groupby-sponsorpaymentdate',
 						            params: {
 						            	supplierId: organizeId
 						            }
