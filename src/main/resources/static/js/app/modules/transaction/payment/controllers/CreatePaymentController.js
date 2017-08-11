@@ -6,7 +6,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	var log = $log;
 
 	var ownerId = $rootScope.userInfo.organizeId;
-	vm.showBackButton = false;
 	var backAction = $stateParams.backAction || false;
     var fristTime = true;
     vm.isLoanPayment = false;
@@ -84,17 +83,17 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         });
     }
 	
-//	function _loadTradingPartnerInfo(sponsorId, supplierId){
-//		vm.tradingpartnerInfoModel.supplierId = supplierId;
-//        vm.tradingpartnerInfoModel.supplierName = getSupplierName(supplierId);
-//    	var deffered = TransactionService.getTradingInfo(sponsorId, supplierId);
-//    	deffered.promise.then(function(response){
-//    		vm.tradingpartnerInfoModel.tenor = response.data.tenor;
-//    		vm.tradingpartnerInfoModel.interestRate = response.data.interestRate;
-//    	}).catch(function(response) {
-//            log.error(response);
-//        });
-//    }
+// function _loadTradingPartnerInfo(sponsorId, supplierId){
+// vm.tradingpartnerInfoModel.supplierId = supplierId;
+// vm.tradingpartnerInfoModel.supplierName = getSupplierName(supplierId);
+// var deffered = TransactionService.getTradingInfo(sponsorId, supplierId);
+// deffered.promise.then(function(response){
+// vm.tradingpartnerInfoModel.tenor = response.data.tenor;
+// vm.tradingpartnerInfoModel.interestRate = response.data.interestRate;
+// }).catch(function(response) {
+// log.error(response);
+// });
+// }
 
     function getSupplierName(supplierId){
         var supplierName = null;
@@ -106,7 +105,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         return supplierName;
     }
 	
-	function _loadSuppliers() {
+	function _loadSuppliers(dashboardParams) {
         var deffered = TransactionService.getSuppliers('RECEIVABLE');
         deffered.promise.then(function(response) {
         	 vm.suppliers = [];
@@ -119,7 +118,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                      }
                      vm.suppliers.push(selectObj);
                  });
-
+            	 
                 if(!$stateParams.backAction && dashboardParams==null){
                     vm.criteria.supplierId = _suppliers[0].supplierId;
                 }else if(dashboardParams!=null){
@@ -127,7 +126,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 }
             	
             	if(angular.isDefined(vm.criteria.supplierId)){
-//            		_loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
+// _loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
             		_loadAccount(ownerId, vm.criteria.supplierId);
             		_loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
             	}
@@ -155,7 +154,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                  if(!$stateParams.backAction && dashboardParams == null){
                 	vm.criteria.customerCode = _buyerCodes[0];
                  }else if(dashboardParams != null){
-                	 vm.criteria.customerCode = dashboardParams.buyerCode;       	
+                	vm.criteria.customerCode = dashboardParams.buyerCode;       	
                  }
 
                  if(fristTime){
@@ -213,7 +212,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	vm.pagingController = PagingController.create('api/v1/documents', _criteria, 'GET');
 	vm.display = false;
 	
-	vm.loadData = function(pagingModel){
+	vm.loadData = function(pagingModel, callback){
 		var diferred = vm.pagingController.search(pagingModel);
         diferred.promise.then(function(response) {
             if(!vm.display){
@@ -225,6 +224,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             	vm.selectAllModel = true;
             }
             vm.showInfomation = true;
+            
+            if(callback){
+            	callback();
+            }
         }).catch(function(response) {
             log.error(response);
         });
@@ -236,15 +239,16 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 			vm.loadData(pagingModel || ($stateParams.backAction? {
 				limit: _criteria.limit,
 				offset: _criteria.offset
-			}:undefined));
-			if($stateParams.backAction){
-	    		$stateParams.backAction = false;
-	    	}else if(!$stateParams.backAction && dashboardParams != null){
-                vm.selectAllDocument();
-                //clear dashboard param after search
-                $stateParams.dashboardParams = null;
-                dashboardParams = null;
-            }
+			}:undefined), function(){
+				if($stateParams.backAction){
+		    		$stateParams.backAction = false;
+		    	}else if(!$stateParams.backAction && dashboardParams != null){
+	                vm.selectAllDocument();
+	                // clear dashboard param after search
+	                $stateParams.dashboardParams = null;
+	                dashboardParams = null;
+	            }
+			});
 		}else{
             vm.display = false;
         }
@@ -383,9 +387,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
                 if($stateParams.backAction && vm.transactionModel.transactionDate != null){
                 	vm.paymentModel = vm.transactionModel.transactionDate;
-                }else if(dashboardParams != null){
-                    vm.paymentModel = SCFCommonService.convertDate(dashboardParams.dueDate);
-                    dashboardInitLoad();
                 }else{
                     vm.paymentModel = vm.paymentDropDown[0].value;
                 }
@@ -465,6 +466,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 supplierId: _criteria.supplierId,
                 showOverdue: false
             }
+            
             var diferredDocumentAll = TransactionService.getDocuments(searchDocumentCriteria);
             diferredDocumentAll.promise.then(function(response){
                 vm.documentSelects = response.data;
@@ -540,25 +542,30 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
     }
     
+    var dashboardInitLoad = function(){
+		vm.showBackButton = true;
+	}
+    
 	var init = function(){
 		vm.showBackButton = $stateParams.showBackButton;
-		
-		_loadSuppliers();
+
+		_loadSuppliers(dashboardParams);
         if(vm.documentSelects.length > 0){
         	_loadPaymentDate();
         }
+  
+        if(dashboardParams != null){
+            vm.criteria.dueDateFrom = SCFCommonService.convertStringTodate(dashboardParams.dueDate);
+            vm.criteria.dueDateTo = SCFCommonService.convertStringTodate(dashboardParams.dueDate);
+            dashboardInitLoad();
+        }
+        
 	}();
 
-	var dashboardInitLoad = function(){
-		vm.showBackButton = true;
-		vm.searchDocument(undefined);
-		console.log(vm.showBackButton);
-	}
-	
     vm.supplierChange = function() {
     	vm.showErrorMsg = false;
     	vm.display = false;
-//    	_loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
+// _loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
     	_loadAccount(ownerId, vm.criteria.supplierId);
         _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
         vm.maturityDateModel = null;
@@ -570,4 +577,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 		vm.display = false;
     }
     
+    vm.backStep = function(){
+		PageNavigation.gotoPreviousPage(true);
+	}
 } ]);
