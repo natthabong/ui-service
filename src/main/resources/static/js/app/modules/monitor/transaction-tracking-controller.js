@@ -14,6 +14,7 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 		vm.logTimeFromMinute = '';
 		vm.logTimeToHour = '';
 		vm.logTimeToMinute = '';
+		
 
 		var cssTemplate = function(record,align){
 			if(record.messageType === 'WARNING')
@@ -99,10 +100,17 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 		}
 		
 		vm.criteria = $stateParams.criteria || {
-			logDateFrom : undefined,
-			logDateTo : undefined,
-			refNo : '',
-			processNo : ''
+			logDateFrom : null,
+			logDateTo : null,
+			refNo : null,
+			processNo : null
+		}
+
+		vm.storeSearchCriteria = {
+			logDateFrom : null,
+			logDateTo : null,
+			refNo : null,
+			processNo : null
 		}
 		
 		function prepareCriteria() {
@@ -122,7 +130,7 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 						hour, min, 0);
 				vm.criteria.logDateFrom = datetime;
 			}else{
-				vm.criteria.logDateFrom = undefined;
+				vm.criteria.logDateFrom = null;
 			}
 
 			if (angular.isDate(vm.criteria.logDateTo)) {
@@ -141,23 +149,20 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 						hour, min, 0);
 				vm.criteria.logDateTo = datetime;
 			}else{
-				vm.criteria.logDateTo = undefined;
+				vm.criteria.logDateTo = null;
 			}
 			
 			return vm.criteria;
 
 		}
 
-		vm.pagingController = PagingController.create('api/v1/transaction-trackings', vm.criteria, 'GET');
-
-		
 		var isValid = function() {
 			var valid = true;
 			vm.wrongDateFormat = false;
 			vm.wrongDateFromTo = false;
 			
 			//Wrong date format
-			if (angular.isUndefined(vm.criteria.logDateFrom) || angular.isUndefined(vm.criteria.logDateTo)) {
+			if (angular.isUndefined(vm.criteria.logDateFrom)||angular.isUndefined(vm.criteria.logDateTo)) {
 				valid = false;
 			}else{
 				if(vm.logTimeFromHour!==''&&vm.logTimeFromMinute!==''&&!angular.isDate(vm.criteria.logDateFrom)){
@@ -185,7 +190,6 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 					}
 				}
 			}
-			
 			if(valid){
 				if(angular.isDefined(vm.criteria.logDateTo)){
 					if(vm.logTimeToHour===''&&vm.logTimeToMinute===''){
@@ -201,9 +205,11 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 					}else{
 						valid = false;
 					}
+				}else{
+					valid = false;
 				}
 			}
-
+			
 			if(!valid){
 				vm.wrongDateFormat = true;
 				vm.wrongDateFromTo = false;
@@ -249,29 +255,34 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 			return valid;
 		};
 
+		vm.pagingController = PagingController.create('api/v1/transaction-trackings', vm.criteria, 'GET');
+		
 		vm.searchTrackingLog = function(pageModel){
-			// if (isValid()) {
+			if (isValid()) { 
 				prepareCriteria();
 				var logDiferred = vm.pagingController.search(pageModel || ( $stateParams.backAction? {
 					offset : vm.criteria.offset,
 					limit : vm.criteria.limit
 				}: undefined));
 				$stateParams.backAction = false;
-
+				
 				vm.showInfomation = true;
-			// }
+				angular.copy(vm.criteria,vm.storeSearchCriteria);
+			}else{
+				vm.showInfomation = false;
+			}
 		}
 		
 		vm.initLoad = function() {
 			if($stateParams.backAction){
-				if(vm.criteria.logDateFrom != '' && vm.criteria.logDateFrom !== undefined){
+				if(vm.criteria.logDateFrom != '' && vm.criteria.logDateFrom != null){
 					var dateTimeFrom = new Date(vm.criteria.logDateFrom);
 					vm.criteria.logDateFrom = dateTimeFrom;
 					vm.logTimeFromHour = dateTimeFrom.getHours();
 					vm.logTimeFromMinute = dateTimeFrom.getMinutes();
 				}
 				
-				if(vm.criteria.logDateTo != '' && vm.criteria.logDateTo !== undefined){
+				if(vm.criteria.logDateTo != '' && vm.criteria.logDateTo != null){
 					var dateTimeTo = new Date(vm.criteria.logDateTo);
 					vm.criteria.logDateTo = dateTimeTo;
 					vm.logTimeToHour = dateTimeTo.getHours();
@@ -284,7 +295,7 @@ scfApp.controller('TransactionTrackingController', [ '$scope', 'Service', '$stat
 		vm.viewMessage = function(data){
 			SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 			var params = {params: data};
-			PageNavigation.nextStep('/view-transaction-tracking-message', params,{criteria : vm.criteria});
+			PageNavigation.nextStep('/view-transaction-tracking-message', params,{criteria : vm.storeSearchCriteria});
 		}
 		
 		vm.openCalendarDateFrom = function() {
