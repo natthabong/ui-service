@@ -27,7 +27,7 @@ public class DashboardController {
 	
 	private static String PAYMENT_TODOLIST = "dashboard/payment/payment-todolist";
 	
-	@RequestMapping(path = "/payment-todolist")
+	@RequestMapping(path = "/payment-transaction-todolist")
 	public String paymentTodolist(
 			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
