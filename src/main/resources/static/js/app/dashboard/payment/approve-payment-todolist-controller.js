@@ -1,7 +1,7 @@
 angular
 		.module('scfApp')
 		.controller(
-				'WaitForPaymentTodoListController',
+				'ApprovePaymentTodoListController',
 				[
 						'$scope',
 						'$rootScope',
@@ -14,11 +14,11 @@ angular
 							var todoListUrl = 'api/v1/list-transaction/todo-list';
 							vm.dashboardItem = $scope.$parent.$parent.dashboardItem;
 
-							vm.verify = false;
+							vm.approve = false;
 
 							vm.criteria = {
 								organizeId : organizeId,
-								statusCode : 'WAIT_FOR_VERIFY',
+								statusCode : 'WAIT_FOR_APPROVE',
 								transactionType : 'PAYMENT',
 								orders : vm.dashboardItem.orderItems
 							}
@@ -35,11 +35,11 @@ angular
 								return atob(data);
 							}
 
-							vm.verifyPayment = function(data) {
-								PageNavigation.nextStep(
-										'/payment-transaction/verify', {
+							vm.approvePayment = function(data) {
+								PageNavigation.gotoPage(
+										'/payment-transaction/approve', {
 											transaction : data
-										}, {});
+										});
 							}
 
 							vm.pagingController = PagingController.create(
@@ -49,7 +49,7 @@ angular
 								options : {
 									displayRowNo : {
 										idValueField : 'template',
-										id : 'wait-for-verify-payment-{value}-row-no-label'
+										id : 'wait-for-approve-payment-{value}-row-no-label'
 									}
 								},
 								columns : [
@@ -65,7 +65,7 @@ angular
 											fieldName : 'transactionNo',
 											label : 'Transaction No',
 											idValueField : 'template',
-											id : 'wait-for-verify-payment-{value}-transaction-no',
+											id : 'wait-for-approve-payment-{value}-transaction-no',
 											sortable : false,
 											cssTemplate : 'text-center',
 										},
@@ -73,7 +73,7 @@ angular
 											fieldName : 'transactionDate',
 											label : 'Payment date',
 											idValueField : 'template',
-											id : 'wait-for-verify-payment-{value}-payment-date',
+											id : 'wait-for-approve-payment-{value}-payment-date',
 											filterType : 'date',
 											filterFormat : 'dd/MM/yyyy',
 											sortable : false,
@@ -83,14 +83,14 @@ angular
 											fieldName : 'noOfDocument',
 											label : 'No of document',
 											idValueField : 'template',
-											id : 'wait-for-verify-payment-{value}-no-of-document',
+											id : 'wait-for-approve-payment-{value}-no-of-document',
 											cssTemplate : 'text-right',
 										},
 										{
 											fieldName : 'transactionAmount',
 											label : 'Payment amount',
 											idValueField : 'template',
-											id : 'wait-for-verify-payment-{value}-payment-amount',
+											id : 'wait-for-approve-payment-{value}-payment-amount',
 											sortable : false,
 											cssTemplate : 'text-right',
 											filterType : 'number',
@@ -101,7 +101,7 @@ angular
 											label : '',
 											cssTemplate : 'text-center',
 											sortable : false,
-											cellTemplate : '<scf-button class="btn-default gec-btn-action" ng-show="(paymentTodoListCtrl.verify && (data.statusCode === paymentTodoListCtrl.statusTransaction.waitForVerify))" id="wait-for-verify-payment-{{data.transactionNo}}-button" ng-click="paymentTodoListCtrl.verifyPayment(data)" title="Verify a payment"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'
+											cellTemplate : '<scf-button class="btn-default gec-btn-action" ng-show="(paymentTodoListCtrl.approve && (data.statusCode === paymentTodoListCtrl.statusTransaction.waitForApprove))" id="wait-for-approve-payment-{{data.transactionNo}}-button" ng-click="paymentTodoListCtrl.approvePayment(data)" title="Approve a payment"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'
 										} ]
 							};
 

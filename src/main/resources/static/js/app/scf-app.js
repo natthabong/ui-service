@@ -204,7 +204,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							  'js/app/dashboard/transaction-journey/wait-for-approve.js',
 							  'js/app/dashboard/transaction-journey/future-drawdown.js',
 							  'js/app/dashboard/transaction-journey/result.js',
-							  'js/app/dashboard/payment/payment-todolist-controller.js',])
+							  'js/app/dashboard/payment/payment-todolist-controller.js',
+							  'js/app/dashboard/payment/approve-payment-todolist-controller.js'])
 			}).state('/sponsor-configuration',{
 				url: '/sponsor-configuration',
 				controller: 'SponsorConfigController',
