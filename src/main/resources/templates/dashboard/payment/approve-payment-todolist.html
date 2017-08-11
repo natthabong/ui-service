@@ -1,0 +1,41 @@
+<div th:fragment="content"
+	sec:authorize="hasAnyAuthority('APPROVE_PAYMENTS_OF_MY_ORGANIZE')">
+	<div
+		ng-controller="ApprovePaymentTodoListController as approvePaymentTodoListCtrl">
+		<h3 class="animated fadeInLeft"
+			id="wait-for-approve-payments-header-label"
+			ng-bind="dashboardItem.headerLabel"></h3>
+
+		<div class="row">
+			<div class="col-md-12 col-sm-12 text-right">
+				<span> <b
+					ng-bind="approvePaymentTodoListCtrl.pagingController.splitePageTxt"
+					id="wait-for-approve-payments-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+						dropdown-id="page-limit-dropdown" name="wait-for-approve-payments"
+						page-size-model="approvePaymentTodoListCtrl.pagingController.pagingModel.pageSizeSelectModel"
+						total-page="approvePaymentTodoListCtrl.pagingController.pagingModel.totalPage"
+						current-page="approvePaymentTodoListCtrl.pagingController.pagingModel.currentPage"
+						page-size-list="approvePaymentTodoListCtrl.pagingController.pageSizeList"
+						page-action="approvePaymentTodoListCtrl.loadData"></scf-pagination>
+				</span>
+			</div>
+		</div>
+
+		<!-- Start Table-->
+		<div class="row">
+			<div class="col-md-12">
+				<scf-table id="wait-for-approve-payments-table"
+					class="transaction-table"
+					component-config="approvePaymentTodoListCtrl.dataTable"
+					component-datas="approvePaymentTodoListCtrl.pagingController.tableRowCollection"
+					current-page="approvePaymentTodoListCtrl.pagingController.pagingModel.currentPage"
+					record-per-page="approvePaymentTodoListCtrl.pagingController.pagingModel.pageSizeSelectModel"
+					clear-sort-order="approvePaymentTodoListCtrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+			</div>
+			<div id="fixed-bottom" class="col-md-12"></div>
+		</div>
+		<input type="hidden" ng-init="approvePaymentTodoListCtrl.approve=true"
+			sec:authorize="hasAuthority('APPROVE_PAYMENTS_OF_MY_ORGANIZE')" />
+	</div>
+
+</div>

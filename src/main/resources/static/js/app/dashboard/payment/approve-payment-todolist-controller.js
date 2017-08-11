@@ -36,10 +36,10 @@ angular
 							}
 
 							vm.approvePayment = function(data) {
-								PageNavigation.gotoPage(
+								PageNavigation.nextStep(
 										'/payment-transaction/approve', {
 											transaction : data
-										});
+										},{});
 							}
 
 							vm.pagingController = PagingController.create(
@@ -59,7 +59,7 @@ angular
 											sortData : true,
 											cssTemplate : 'text-center',
 											cellTemplate : '<img	title="{{data.supplier}}" style="height: 32px; width: 32px;"	'
-													+ 'data-ng-src="data:image/png;base64,{{paymentTodoListCtrl.decodeBase64(data.supplierLogo)}}" data-err-src="images/png/avatar.png" />'
+													+ 'data-ng-src="data:image/png;base64,{{approvePaymentTodoListCtrl.decodeBase64(data.supplierLogo)}}" data-err-src="images/png/avatar.png" />'
 										},
 										{
 											fieldName : 'transactionNo',
@@ -101,7 +101,7 @@ angular
 											label : '',
 											cssTemplate : 'text-center',
 											sortable : false,
-											cellTemplate : '<scf-button class="btn-default gec-btn-action" ng-show="(paymentTodoListCtrl.approve && (data.statusCode === paymentTodoListCtrl.statusTransaction.waitForApprove))" id="wait-for-approve-payment-{{data.transactionNo}}-button" ng-click="paymentTodoListCtrl.approvePayment(data)" title="Approve a payment"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'
+											cellTemplate : '<scf-button class="btn-default gec-btn-action" ng-show="(approvePaymentTodoListCtrl.approve && (data.statusCode === approvePaymentTodoListCtrl.statusTransaction.waitForApprove))" id="wait-for-approve-payment-{{data.transactionNo}}-button" ng-click="approvePaymentTodoListCtrl.approvePayment(data)" title="Approve a payment"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'
 										} ]
 							};
 
