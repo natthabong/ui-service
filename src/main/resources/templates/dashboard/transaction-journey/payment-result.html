@@ -1,21 +1,21 @@
 <div th:fragment="content"
-	sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZE')">
+	sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZE')">
 	<div class="panel result-panel panel-shadow"
 		ng-controller="JourneyResultController as resultCtrl">
-		<a class="mouse-pointer " id="result-transaction-journey-link">
+		<a class="mouse-pointer " id="payment-result-transaction-journey-link">
 			<div class="panel-heading txn-journey">
 				<span class="pull-left" ng-bind="resultCtrl.headerLabel"></span>
 				<div class="clearfix"></div>
 			</div>
 		</a>
 
-		<div class="panel-body" ng-init="resultCtrl.load('DRAWDOWN')">
+		<div class="panel-body" ng-init="resultCtrl.load('PAYMENT')">
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="row">
 						<div class="col-xs-12 text-right">
 							<span ng-bind="'success today' | translate"></span> <span
-								id="today-success-total-lable" class="huge"
+								id="today-payment-success-total-lable" class="huge"
 								ng-bind="resultCtrl.resultModel.transactionSuccess"></span>
 						</div>
 
@@ -23,14 +23,14 @@
 					<div class="row">
 						<div class="col-xs-12 text-right">
 							<span ng-bind="'retry' | translate"></span> <span
-								id="retryable-total-lable"
+								id="retryable-payment-total-lable"
 								ng-bind="resultCtrl.resultModel.transactionRetry"></span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-xs-12 text-right">
 							<span ng-bind="'fail today' | translate"></span> <span
-								id="today-fail-total-lable"
+								id="today-payment-fail-total-lable"
 								ng-bind="resultCtrl.resultModel.transactionFail"></span>
 						</div>
 					</div>
@@ -38,7 +38,7 @@
 			</div>
 		</div>
 		<ng-form> <input type="hidden"
-			ng-init="resultCtrl.canViewLoans=true"
-			sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZE')" /></ng-form>
+			ng-init="resultCtrl.canViewPayment=true"
+			sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZE')" /></ng-form>
 	</div>
 </div>
