@@ -49,14 +49,15 @@ angular.module('scfApp').controller(
 					
 					vm.pagingController = PagingController.create(transactionTodoListUrl, vm.criteria, 'GET');
 					
-				    vm.dataTable = {
-				            options: {
-				                displayRowNo: {
-				                	idValueField: 'template',
-				                	id: 'wait-for-verify-transaction-{value}-row-no-label'
-				                }
-				            },
+				    vm.dataTable = {			            
 				            columns: [{
+							    fieldName: '$rowNo',
+								labelEN: 'No.',
+							    labelTH: 'ลำดับที่',
+							    idValueField: '$rowNo',
+							    id: 'wait-for-verify-transaction-{value}-row-no-label',
+							    cssTemplate: 'text-center',	
+							},{
 				                label: 'TP',
 				                sortData: true,
 				                cssTemplate: 'text-center',

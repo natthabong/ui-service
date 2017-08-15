@@ -39,20 +39,22 @@ angular
 								PageNavigation.nextStep(
 										'/payment-transaction/approve', {
 											transaction : data
-										},{});
+										}, {});
 							}
 
 							vm.pagingController = PagingController.create(
 									todoListUrl, vm.criteria, 'GET');
 
 							vm.dataTable = {
-								options : {
-									displayRowNo : {
-										idValueField : 'template',
-										id : 'wait-for-approve-payment-{value}-row-no-label'
-									}
-								},
 								columns : [
+										{
+											fieldName : '$rowNo',
+											labelEN : 'No.',
+											labelTH : 'ลำดับที่',
+											idValueField : '$rowNo',
+											id : 'wait-for-approve-payment-{value}-row-no-label',
+											cssTemplate : 'text-center',
+										},
 										{
 											fieldName : 'TP',
 											label : 'TP',

@@ -55,7 +55,7 @@ angular.module('scfApp').controller(
 								labelEN: 'No.',
 							    labelTH: 'ลำดับที่',
 							    idValueField: '$rowNo',
-							    id: 'internal-step-{value}-no',
+							    id: 'wait-for-approve-transaction-{value}-row-no-label',
 							    cssTemplate: 'text-center',	
 							},
 				            {
