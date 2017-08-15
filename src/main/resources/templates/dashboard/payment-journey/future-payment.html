@@ -1,0 +1,39 @@
+<div th:fragment="content"
+    sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZE')">
+    <div class="panel future-drawdown-panel panel-shadow" ng-controller="JourneyFuturePaymentController as futurePaymentCtrl">
+        <a class="mouse-pointer " id="future-drawdown-transaction-journey-link">
+            <div class="panel-heading txn-journey">
+                <span class="pull-left" ng-bind="futurePaymentCtrl.headerLabel"></span>
+                <div class="clearfix"></div>
+            </div>
+        </a>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-2 col-xs-2">
+                    <i class="fa fa-hourglass-start fa-3x"></i>
+                </div>
+                <div class="col-lg-9 col-xs-10 transaction-journey-lg">
+                    <div class="row">
+                        <div id="future-total-lable" class="col-xs-12 text-right huge" ng-bind="futurePaymentCtrl.futurePaymentModel.totalTransaction"></div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
+                            <span id="future-drawdown-amount-lable" ng-bind="futurePaymentCtrl.futurePaymentModel.totalAmount"></span>&nbsp;
+                            <span ng-bind="'THB' | translate"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right"><span ng-bind="'Max age' | translate"></span>
+                        <span id="future-max-age-lable" ng-bind="futurePaymentCtrl.futurePaymentModel.maxAge"></span>
+                        <span ng-bind="'days' | translate"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-form> <input type="hidden"
+			ng-init="futurePaymentCtrl.canViewPayments=true"
+			sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZE')" /></ng-form>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div th:fragment="content"
+    sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZE')">
+    <div class="panel wait-for-approve-panel panel-shadow" ng-controller="JourneyWaitForApprovePaymentController as waitForApprovePaymentCtrl">
+        <a class="mouse-pointer" id="wait-for-approve-payment-transaction-journey-link" ng-click="waitForApprovePaymentCtrl.paymentList()">
+            <div class="panel-heading txn-journey">
+                <span class="pull-left" ng-bind="waitForApprovePaymentCtrl.headerLabel"></span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                <div class="clearfix"></div>
+            </div>
+        </a>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-2 col-xs-2">
+                    <i class="fa fa-check-square-o fa-3x"></i>
+                </div>
+                <div class="col-lg-9 col-xs-10 text-right transaction-journey-lg">
+                    <div class="row">
+                        <div id="wait-for-approve-payment-total-lable" class="col-xs-12 text-right huge"><span ng-bind="waitForApprovePaymentCtrl.waitForApproveModel.totalTransaction"></span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
+                            <span id="wait-for-approve-payment-amount-lable" ng-bind="waitForApprovePaymentCtrl.waitForApproveModel.totalAmount"></span>
+                            <span ng-bind="'THB' | translate"></span>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right"><span ng-bind="'Max age' | translate"></span>
+                        <span id="wait-for-approve-payment-max-age-lable" ng-bind="waitForApprovePaymentCtrl.waitForApproveModel.maxAge"></span>
+                        <span ng-bind="'days' | translate"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-form> <input type="hidden"
+			ng-init="waitForApprovePaymentCtrl.canViewPayments=true"
+			sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZE')" /></ng-form>
+    </div>
+</div>

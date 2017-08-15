@@ -17,7 +17,7 @@ angular.module('scfApp').controller(
 				};
 				
 				vm.transactionCriteria = {
-					supplierId: organizeId,
+					ownerId: organizeId,
 					statusCode: 'WAIT_FOR_DRAWDOWN_RESULT',
 					transactionType: 'DRAWDOWN'
 				}
