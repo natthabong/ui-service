@@ -18,7 +18,8 @@ angular.module('scfApp').controller(
 				
 				vm.transactionCriteria = {
 					supplierId: organizeId,
-					statusCode: 'WAIT_FOR_DRAWDOWN_RESULT'
+					statusCode: 'WAIT_FOR_DRAWDOWN_RESULT',
+					transactionType: 'DRAWDOWN'
 				}
 				
 //			    var orderItems = splitCriteriaSortOrderData(dashboardParent.orderItems);
