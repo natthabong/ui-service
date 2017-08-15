@@ -352,6 +352,7 @@
 	"WEB" : "Web",
 	"FTP" : "FTP",
 	"CUSTOMER_PROFILE" : "Customer profile",
+	"CUSTOMER_ACCOUNT" : "Customer account",
 	"monitor" : "Monitor",
 	"bank-system-integration-monitor" : "Bank system integration monitor",
     "sponsor-system-integration-monitor" : "Sponsor system integration monitor",
