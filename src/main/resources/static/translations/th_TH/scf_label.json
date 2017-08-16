@@ -149,6 +149,9 @@
 	"WAIT_FOR_VERIFY": "Wait for verify",
 	"PROCESSING": "Processing",
 	"REJECT_INCOMPLETE": "Reject incomplete",
+	"wait_for_payment_result": "Wait for payment result",
+	"WAIT_FOR_PAYMENT_RESULT": "Wait for payment result",
+	
 	
 	"_comment": "Page Verify Transaction",
 	"Confirm approval ?": "Confirm approval ?",	
