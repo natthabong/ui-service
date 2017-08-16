@@ -15,30 +15,18 @@
                 <div class="col-lg-9 col-xs-10 text-right transaction-journey-lg">
                     <div class="row">
                         <div class="col-xs-12 text-right ">
-                            <span id="new-document-total-lable" class="huge" ng-bind="ctrl.totalDocument"></span>
+                            <span id="payment-new-document-total-label" class="huge" ng-bind="ctrl.totalDocument"></span>
                             <span ng-bind="'doc' | translate"></span>
                         </div>                        
                     </div>
                     <div class="row">
                         <div class="col-xs-12 text-right">
                         <span ng-bind="'Payable amt.' | translate"></span>
-                        <span id="new-document-payable-amount-lable" ng-bind="ctrl.payableAmount"></span>
+                        <span id="payment-new-document-payable-amount-label" ng-bind="ctrl.payableAmount"></span>
                         <span ng-bind="'THB' | translate"></span></div>
                     </div>               
                 </div>
             </div>
         </div>
-        <!--<ng-form> <input type="hidden"
-			ng-init="ctrl.isMaker=true"
-			sec:authorize="hasAuthority('CREATE_LOANS_OF_MY_ORGANIZE')" /></ng-form>
-        <ng-form> <input type="hidden"
-			ng-init="ctrl.isBuyer=true"
-			sec:authorize="hasAuthority('CREATE_PAYMENTS_OF_MY_ORGANIZE')" /></ng-form>
-		<ng-form> <input type="hidden"
-			ng-init="ctrl.isSuppliler=true"
-			sec:authorize="hasAnyAuthority('APPROVE_LOANS_OF_MY_ORGANIZE', 'VERIFY_LOANS_OF_MY_ORGANIZE')" /></ng-form>
-        <ng-form> <input type="hidden"
-			ng-init="ctrl.canViewDocs=true"
-			sec:authorize="hasAuthority('VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZE')" /></ng-form>-->
     </div>
 </div>

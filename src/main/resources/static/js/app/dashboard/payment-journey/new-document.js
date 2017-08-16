@@ -5,18 +5,16 @@ angular.module('scfApp').controller('JourneyNewDocumentPaymentController', ['$sc
     var dahsboarItemParent = dashboarParent.dashboardItem;
     vm.headerLabel = dahsboarItemParent.headerLabel;
 
-    vm.journeyDocModel = {
-        totalDocument: 0,
-        totalDocumentAmount: '0',
-        canLoanAmount: '0'
-    };
+    vm.totalDocument = 0;
+    vm.payableAmount = '0';
 	
     vm.load = function() {
         var newDocumentDeferred = Service.doGet('/api/view-summary-new-ar-document');
         newDocumentDeferred.promise.then(function(response) {
-            console.log(response)
-			vm.totalDocument = response.data.totalDocument;
-			vm.payableAmount = SCFCommonService.shortenLargeNumber(response.data.payableAmount);
+            if(response.data != ""){
+                vm.totalDocument = response.data.totalDocument;
+			    vm.payableAmount = SCFCommonService.shortenLargeNumber(response.data.payableAmount);
+            }
         }).catch(function(response) {
 			
         });
