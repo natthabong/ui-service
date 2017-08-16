@@ -33,11 +33,11 @@
 												ng-show="{{viewTxnCtrl.isSponsor}}"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label id="supplier-label" ng-show="{{viewTxnCtrl.isBank}}">{{'Supplier'
 												| translate}}:</label>
 										</div>
-										<div class="col-md-3 col-sm-2">
+										<div class="col-md-2 col-sm-2">
 											<span
 												id="{{viewTxnCtrl.isBank?'supplier-value-label':'supplier-value-label-ignore'}}"
 												ng-bind="viewTxnCtrl.transactionModel.supplier"
@@ -55,11 +55,11 @@
 											<label id="transaction-no-value-label">{{viewTxnCtrl.transactionModel.transactionNo}}</label>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label id="transaction-type-label">{{'Transaction
 												type' | translate}}:</label>
 										</div>
-										<div class="col-md-3 col-sm-2">
+										<div class="col-md-2 col-sm-2">
 											<span id="transaction-type-value-label" ng-bind="'Loan'"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
@@ -67,8 +67,8 @@
 
 									<div class="row">
 										<div class="col-md-3 col-sm-3">
-											<label id="loan-document-label">{{'Loan
-												documents' | translate}}:</label>
+											<label id="loan-document-label">{{'Loan documents' |
+												translate}}:</label>
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="loan-document-value-label"
@@ -76,9 +76,17 @@
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
 
-										<div class="col-md-2 col-sm-3"></div>
-										<div class="col-md-3 col-sm-2"></div>
-										<div class="col-md-1 col-sm-1"></div>
+										<div class="col-md-3 col-sm-3">
+											<label id="interest-label">{{'Interest' |
+												translate}}:</label>
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="interest-value-label"
+												ng-bind="(viewTxnCtrl.transactionModel.interestAmount||0)| number:2"></span>
+										</div>
+										<div class="col-md-1 col-sm-1">
+											<span id="interest-thb-label" ng-bind="'THB' | translate"></span>
+										</div>
 									</div>
 									<div class="row">
 										<div class="col-md-3 col-sm-3">
@@ -93,16 +101,18 @@
 											<span id="value-of-document-thb-label"
 												ng-bind="'THB' | translate"></span>
 										</div>
-										<div class="col-md-2 col-sm-3">
-											<label id="sponsor-payment-date-label">{{'Sponsor
-												payment date' | translate}}:</label>
+										<div class="col-md-3 col-sm-3">
+											<label id="fee-label">{{'Fee' | translate}}:</label>
 										</div>
-										<div class="col-md-3 col-sm-2">
-											<span id="sponsor-payment-date-value-label"
-												ng-bind="viewTxnCtrl.transactionModel.sponsorPaymentDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+										<div class="col-md-2 col-sm-2">
+											<span id="fee-value-label"
+												ng-bind="(viewTxnCtrl.transactionModel.fee||0) | number:2"></span>
 										</div>
-										<div class="col-md-1 col-sm-1"></div>
+										<div class="col-md-1 col-sm-1">
+											<span id="fee-thb-label" ng-bind="'THB' | translate"></span>
+										</div>
 									</div>
+
 									<div class="row">
 										<div class="col-md-3 col-sm-3">
 											<label id="predrawdown-percentage-label">{{'Pre-drawdown
@@ -115,13 +125,13 @@
 										<div class="col-md-1 col-sm-1">
 											<span></span>
 										</div>
-										<div class="col-md-2 col-sm-3">
-											<label id="transaction-date-label">{{'Transaction
-												date' | translate}}:</label>
+										<div class="col-md-3 col-sm-3">
+											<label id="sponsor-payment-date-label">{{'Sponsor
+												payment date' | translate}}:</label>
 										</div>
-										<div class="col-md-3 col-sm-2">
-											<span id="transaction-date-value-label"
-												ng-bind="viewTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+										<div class="col-md-2 col-sm-2">
+											<span id="sponsor-payment-date-value-label"
+												ng-bind="viewTxnCtrl.transactionModel.sponsorPaymentDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
 									</div>
@@ -138,15 +148,43 @@
 											<span id="transaction-amount-thb-label"
 												ng-bind="'THB' | translate"></span>
 										</div>
-										<div class="col-md-2 col-sm-3">
+
+										<div class="col-md-3 col-sm-3">
+											<label id="transaction-date-label">{{'Transaction
+												date' | translate}}:</label>
+										</div>
+										<div class="col-md-2 col-sm-2">
+											<span id="transaction-date-value-label"
+												ng-bind="viewTxnCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+										</div>
+										<div class="col-md-1 col-sm-1"></div>
+
+									</div>
+
+									<div class="row">
+										<div class="col-md-3 col-sm-3">
+											<label id="repayment-amount-label">{{'Repayment
+												amount' |translate}}:</label>
+										</div>
+										<div class="col-md-2 col-sm-2 text-right">
+											<span id="repayment-amount-value-label"
+												ng-bind="(viewTxnCtrl.transactionModel.repaymentAmount||0)  | number:2"></span>
+										</div>
+										<div class="col-md-1 col-sm-1">
+											<span id="repayment-amount-thb-label"
+												ng-bind="'THB' | translate"></span>
+										</div>
+
+										<div class="col-md-3 col-sm-3">
 											<label id="loan-maturity-label">{{'Loan maturity
 												date' | translate}}:</label>
 										</div>
-										<div class="col-md-3 col-sm-2">
+										<div class="col-md-2 col-sm-2">
 											<span id="loan-maturity-value-label"
 												ng-bind="viewTxnCtrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
+
 									</div>
 									<div class="row"
 										ng-show="{{viewTxnCtrl.isSupplier || viewTxnCtrl.isBank}}">
@@ -159,11 +197,11 @@
 												ng-bind="viewTxnCtrl.transactionModel.createdBy"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label id="create-date-label">{{'Create date' |
 												translate}}:</label>
 										</div>
-										<div class="col-md-3 col-sm-2">
+										<div class="col-md-2 col-sm-2">
 											<span id="create-date-value-label"
 												ng-bind="viewTxnCtrl.transactionModel.createdTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
 										</div>
@@ -180,11 +218,11 @@
 												ng-bind="viewTxnCtrl.transactionModel.verifiedBy"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label id="verify-date-label">{{'Verify date' |
 												translate}}:</label>
 										</div>
-										<div class="col-md-3 col-sm-2">
+										<div class="col-md-2 col-sm-2">
 											<span id="verify-date-value-label"
 												ng-bind="viewTxnCtrl.transactionModel.verifiedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
 										</div>
@@ -201,11 +239,11 @@
 												ng-bind="viewTxnCtrl.transactionModel.approvedBy"></span>
 										</div>
 										<div class="col-md-1 col-sm-1"></div>
-										<div class="col-md-2 col-sm-3">
+										<div class="col-md-3 col-sm-3">
 											<label id="approve-date-label">{{'Approve date' |
 												translate}}:</label>
 										</div>
-										<div class="col-md-3 col-sm-2">
+										<div class="col-md-2 col-sm-2">
 											<span id="approve-date-value-label"
 												ng-bind="viewTxnCtrl.transactionModel.approvedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
 										</div>
@@ -231,10 +269,10 @@
 												ng-bind="viewTxnCtrl.transactionModel | transactionErrorMessage"></span>
 											</span>
 										</div>
-<!-- 										<div class="col-md-1 col-sm-1"></div> -->
-<!-- 										<div class="col-md-3 col-sm-3"></div> -->
-<!-- 										<div class="col-md-2 col-sm-2"></div> -->
-<!-- 										<div class="col-md-1 col-sm-1"></div> -->
+										<!-- 										<div class="col-md-1 col-sm-1"></div> -->
+										<!-- 										<div class="col-md-3 col-sm-3"></div> -->
+										<!-- 										<div class="col-md-2 col-sm-2"></div> -->
+										<!-- 										<div class="col-md-1 col-sm-1"></div> -->
 									</div>
 									<div class="row" style="display: {{viewTxnCtrl.isDisplayReason">
 										<div class="col-md-1 col-sm-1">
@@ -244,10 +282,6 @@
 										<div class="col-md-11 col-sm-11 text-left">
 											<label id="reject-reason-value-label" style="color: red">{{viewTxnCtrl.transactionModel.rejectReason}}</label>
 										</div>
-<!-- 										<div class="col-md-1 col-sm-1"></div> -->
-<!-- 										<div class="col-md-3 col-sm-3"></div> -->
-<!-- 										<div class="col-md-2 col-sm-2"></div> -->
-<!-- 										<div class="col-md-1 col-sm-1"></div> -->
 									</div>
 								</div>
 							</div>
