@@ -10,7 +10,7 @@ import gec.scf.util.AjaxUtils;
 @Controller
 @RequestMapping("/list-transaction")
 public class ListTransactionController {
-	private static final String LIST_TRANSACTION = "list-transactions/list";
+	private static final String LIST_TRANSACTION = "transaction/loan/list";
 
 	@RequestMapping(path = { "/sponsor", "/supplier",
 		"/bank" },method = RequestMethod.GET)
