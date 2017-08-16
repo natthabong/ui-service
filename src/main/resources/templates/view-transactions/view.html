@@ -82,7 +82,7 @@
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="interest-value-label"
-												ng-bind="viewTxnCtrl.transactionModel.interest| number:2"></span>
+												ng-bind="(viewTxnCtrl.transactionModel.interestAmount||0)| number:2"></span>
 										</div>
 										<div class="col-md-1 col-sm-1">
 											<span id="interest-thb-label" ng-bind="'THB' | translate"></span>
@@ -106,7 +106,7 @@
 										</div>
 										<div class="col-md-2 col-sm-2">
 											<span id="fee-value-label"
-												ng-bind="viewTxnCtrl.transactionModel.fee | number:2"></span>
+												ng-bind="(viewTxnCtrl.transactionModel.fee||0) | number:2"></span>
 										</div>
 										<div class="col-md-1 col-sm-1">
 											<span id="fee-thb-label" ng-bind="'THB' | translate"></span>
@@ -168,7 +168,7 @@
 										</div>
 										<div class="col-md-2 col-sm-2 text-right">
 											<span id="repayment-amount-value-label"
-												ng-bind="viewTxnCtrl.transactionModel.repaymentAmount | number:2"></span>
+												ng-bind="(viewTxnCtrl.transactionModel.repaymentAmount||0)  | number:2"></span>
 										</div>
 										<div class="col-md-1 col-sm-1">
 											<span id="repayment-amount-thb-label"
@@ -282,10 +282,6 @@
 										<div class="col-md-11 col-sm-11 text-left">
 											<label id="reject-reason-value-label" style="color: red">{{viewTxnCtrl.transactionModel.rejectReason}}</label>
 										</div>
-										<!-- 										<div class="col-md-1 col-sm-1"></div> -->
-										<!-- 										<div class="col-md-3 col-sm-3"></div> -->
-										<!-- 										<div class="col-md-2 col-sm-2"></div> -->
-										<!-- 										<div class="col-md-1 col-sm-1"></div> -->
 									</div>
 								</div>
 							</div>
