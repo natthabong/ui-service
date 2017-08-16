@@ -1,7 +1,7 @@
 <div th:fragment="content"
     sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZE')">
     <div class="panel wait-for-verify-panel panel-shadow" ng-controller="JourneyWaitForVerifyPaymentController as waitForVerifyPaymentCtrl">
-        <a class="mouse-pointer " id="wait-for-verify-payment-transaction-journey-link" ng-click="waitForVerifyPaymentCtrl.paymentList()">
+        <a class="mouse-pointer " id="payment-wait-for-verify-transaction-journey-link" ng-click="waitForVerifyPaymentCtrl.paymentList()">
             <div class="panel-heading txn-journey">
                 <span class="pull-left" ng-bind="waitForVerifyPaymentCtrl.headerLabel"></span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                 <div class="clearfix"></div>
@@ -16,17 +16,17 @@
                 <div class="col-lg-9 col-xs-10 text-right transaction-journey-lg">
                     <div class="row">
                         <div class="col-xs-12 text-right">
-                            <span id="wait-for-verify-payment-total-lable" class="huge" ng-bind="waitForVerifyPaymentCtrl.waitForVerifyModel.totalTransaction"></span>
+                            <span id="payment-wait-for-verify-total-label" class="huge" ng-bind="waitForVerifyPaymentCtrl.waitForVerifyModel.totalTransaction"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 text-right">
-                        <span id="wait-for-verify-payment-payment-amount-lable" ng-bind="waitForVerifyPaymentCtrl.waitForVerifyModel.totalAmount"></span>
+                        <span id="payment-wait-for-verify-payment-amount-label" ng-bind="waitForVerifyPaymentCtrl.waitForVerifyModel.totalAmount"></span>
                         <span ng-bind="'THB' | translate"></span></div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 text-right"><span ng-bind="'Max age' | translate"></span>
-                        <span id="wait-for-verify-payment-max-age-lable" ng-bind="waitForVerifyPaymentCtrl.waitForVerifyModel.maxAge"></span>
+                        <span id="payment-wait-for-verify-max-age-label" ng-bind="waitForVerifyPaymentCtrl.waitForVerifyModel.maxAge"></span>
                         <span ng-bind="'days' | translate"></span></div>
                        
                     </div>
