@@ -278,6 +278,10 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     }
 
     vm.loadData = function(pagingModel){
+    	if(pagingModel.offset == undefined){
+    		pagingModel.offset = 0 ;
+    		pagingModel.limit = 20 ;		
+    	}
     	vm.pagingController.search(pagingModel);
     }
 
