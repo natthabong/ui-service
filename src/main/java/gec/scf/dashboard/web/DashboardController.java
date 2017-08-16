@@ -28,6 +28,7 @@ public class DashboardController {
 	private static final String INVOICE_TO_PAY = "dashboard/payment/invoice-to-pay";
 	private static final String PAYMENT_TODOLIST = "dashboard/payment/payment-todolist";
 	private static final String APPROVE_PAYMENT_TODOLIST = "dashboard/payment/approve-payment-todolist";
+	private static final String PAYMENT_JOURNEY_NEW_DOCUMENT = "dashboard/payment-journey/new-document";
 	private static final String PAYMENT_JOURNEY_WAIT_FOR_VERIFY = "dashboard/payment-journey/wait-for-verify";
 	private static final String PAYMENT_JOURNEY_WAIT_FOR_APPROVE = "dashboard/payment-journey/wait-for-approve";
 	private static final String PAYMENT_JOURNEY_WAIT_FOR_FUTURE_DRAWDOWN = "dashboard/payment-journey/future-payment";
@@ -49,6 +50,16 @@ public class DashboardController {
 			return APPROVE_PAYMENT_TODOLIST.concat(" :: content");
 		}
 		return APPROVE_PAYMENT_TODOLIST;
+	}
+	
+	
+	@RequestMapping(path = "/payment-journey-new-document")
+	public String paymentJourneyNewDocument(
+			@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return PAYMENT_JOURNEY_NEW_DOCUMENT.concat(" :: content");
+		}
+		return PAYMENT_JOURNEY_NEW_DOCUMENT;
 	}
 
 	@RequestMapping(path = "/payment-journey-wait-for-verify")

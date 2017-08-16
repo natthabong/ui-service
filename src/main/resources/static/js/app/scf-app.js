@@ -208,6 +208,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							  'js/app/dashboard/payment/payment-todolist-controller.js',
 							  'js/app/dashboard/payment/invoice-to-pay-controller.js',
 							  'js/app/dashboard/payment/approve-payment-todolist-controller.js',
+							  'js/app/dashboard/payment-journey/new-document.js',
 							  'js/app/dashboard/payment-journey/wait-for-verify.js',
 							  'js/app/dashboard/payment-journey/wait-for-approve.js',
 							  'js/app/dashboard/payment-journey/future-payment.js'])
