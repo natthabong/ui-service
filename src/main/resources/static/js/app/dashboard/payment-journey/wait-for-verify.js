@@ -44,9 +44,7 @@ angular.module('scfApp').controller('JourneyWaitForVerifyPaymentController',
 
 		    vm.paymentList = function() {
 		    	if($rootScope.isDesktopDevice){
-			        $state.go('/payment-transaction/buyer', {
-			            backAction: true
-			        });
+			        $state.go('/payment-transaction/buyer');
 		    	}
 		    }
 		    
