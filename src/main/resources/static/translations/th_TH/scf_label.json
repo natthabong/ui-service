@@ -521,5 +521,6 @@
 	"LOAN": "Loan",
 	"TERM_LOAN": "Loan",
 	"DEBIT": "Payment",
+	"wait_for_payment_result": "Wait for payment result",
 	"Payment amount": "Payment amount"
 }
