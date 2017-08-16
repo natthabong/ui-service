@@ -509,26 +509,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             sortData: true,
             cssTemplate: 'text-center',
         }, {
-			fieldName: 'interest',
-            field: 'interest',
-            label: 'Interest',
-            idValueField: 'transactionNo',
-            id: 'transaction-{value}-interest-label',
-            sortData: false,
-            cssTemplate: 'text-right',
-            filterType: 'number',
-            filterFormat: '2'
-        }, {
-			fieldName: 'fee',
-            field: 'fee',
-            label: 'Fee',
-            sortData: false,
-            idValueField: 'transactionNo',
-            id: 'transaction-{value}-fee-label',
-            cssTemplate: 'text-right',
-            filterType: 'number',
-            filterFormat: '2'
-        }, {
 			fieldName: 'bankTransactionNo',
             field: 'bankTransactionNo',
             label: 'Bank Transaction No',
@@ -536,16 +516,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             id: 'transaction-{value}-bank-transaction-no-label',
             sortData: true,
             cssTemplate: 'text-center'
-        }, {
-			fieldName: 'repaymentAmount',
-            field: 'repaymentAmount',
-            label: 'Repayment Amount',
-            idValueField: 'transactionNo',
-            id: 'transaction-{value}-repayment-amount-label',
-            sortData: true,
-            cssTemplate: 'text-right',
-            filterType: 'number',
-            filterFormat: '2'
         }, {
 			fieldName: 'maturityDate',
             field: 'maturityDate',
