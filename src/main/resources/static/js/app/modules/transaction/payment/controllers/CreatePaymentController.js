@@ -555,8 +555,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
   
         if(dashboardParams != null){
-            vm.criteria.dueDateFrom = SCFCommonService.convertStringTodate(dashboardParams.dueDate);
-            vm.criteria.dueDateTo = SCFCommonService.convertStringTodate(dashboardParams.dueDate);
+            vm.criteria.dueDateFrom = new Date(dashboardParams.dueDate);
+            vm.criteria.dueDateTo = new Date(dashboardParams.dueDate);
             dashboardInitLoad();
         }
         
