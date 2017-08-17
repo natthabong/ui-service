@@ -95,6 +95,16 @@ app.service('SCFCommonService', [
             }
             return result
 		}
+		
+		vm.changeDateFormat = function(date) {
+            result = '';
+            if (date != undefined && date != '') {
+                var dateSplite = date.toString().split('-');
+                console.log(dateSplite)
+                result = dateSplite[2] + '/' + dateSplite[1] + '/' + dateSplite[0];
+            }
+            return result
+		}
 
 		vm.getDocumentDisplayConfig = function(ownerId, mode) {
 			var differed = $q.defer();

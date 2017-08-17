@@ -126,7 +126,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 }
             	
             	if(angular.isDefined(vm.criteria.supplierId)){
-// _loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
             		_loadAccount(ownerId, vm.criteria.supplierId);
             		_loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
             	}
@@ -542,22 +541,19 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
     }
     
-    var dashboardInitLoad = function(){
-		vm.showBackButton = true;
-	}
-    
 	var init = function(){
 		vm.showBackButton = $stateParams.showBackButton;
-
-		_loadSuppliers(dashboardParams);
-        if(vm.documentSelects.length > 0){
-        	_loadPaymentDate();
-        }
   
         if(dashboardParams != null){
+            dashboardParams.dueDate = SCFCommonService.changeDateFormat(dashboardParams.dueDate);
             vm.criteria.dueDateFrom = SCFCommonService.convertStringTodate(dashboardParams.dueDate);
             vm.criteria.dueDateTo = SCFCommonService.convertStringTodate(dashboardParams.dueDate);
-            dashboardInitLoad();
+            vm.showBackButton = true;
+        }
+
+        _loadSuppliers(dashboardParams);
+        if(vm.documentSelects.length > 0){
+        	_loadPaymentDate();
         }
         
 	}();
@@ -565,7 +561,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     vm.supplierChange = function() {
     	vm.showErrorMsg = false;
     	vm.display = false;
-// _loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
     	_loadAccount(ownerId, vm.criteria.supplierId);
         _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
         vm.maturityDateModel = null;
