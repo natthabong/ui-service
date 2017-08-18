@@ -12,109 +12,92 @@
         <div class="panel panel-default col-md-12 padding-0">
             <div class="panel-body" style="padding-bottom: 30px;">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="form-group">
-                        <div class="row">
-                            <label id="supplier-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Supplier' | translate}}: </label>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="supplier-value-label" ng-bind="ctrl.transactionModel.supplier"></span>
-                            </div>
-
-                            <label id="buyer-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Buyer' | translate}}: </label>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="buyer-value-label" ng-bind="ctrl.transactionModel.sponsor"></span>
-                            </div>
+                    <div class="row">
+                        <label id="supplier-label" class="col-md-1 col-sm-1 control-label">{{'Supplier' | translate}}: </label>
+                        <div class="col-md-11 col-sm-11 text-left">
+                            <span id="supplier-value-label" ng-bind="ctrl.transactionModel.supplier"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label id="buyer-label" class="col-md-1 col-sm-1 control-label">{{'Buyer' | translate}}: </label>
+                        <div class="col-md-11 col-sm-11 text-left">
+                            <span id="buyer-value-label" ng-bind="ctrl.transactionModel.sponsor"></span>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="row">
-                            <label id="payment-documents-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Payment documents' | translate}}: </label>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="payment-documents-label" ng-bind="ctrl.transactionModel.documents.length"></span>
-                            </div>
+					<div class="row" style="padding-bottom: 15px;"></div>
+					
+                    <div class="row">
+                       <label id="payment-documents-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Payment documents' | translate}}: </label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                           <span id="payment-documents-label" ng-bind="ctrl.transactionModel.documents.length"></span>
+                       </div>
 
-                            <label id="transaction-type-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Transaction type' | translate}}: </label>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="transaction-type-value-label" ng-bind="ctrl.transactionModel.transactionType | translate"></span>
-                            </div>
-                        </div>
-                    </div>
+                       <label id="transaction-type-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Transaction type' | translate}}: </label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                           <span id="transaction-type-value-label" ng-bind="ctrl.transactionModel.transactionType | translate"></span>
+                       </div>
+                   </div>
+                   <div class="row">
+                       <label id="payment-amount-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Payment amount (THB)' | translate}}: </label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                           <span id="payment-amount-label" ng-bind="ctrl.transactionModel.transactionAmount | number: 2"></span>
+                       </div>
 
-                    <div class="form-group">
-                        <div class="row">
-                            <label id="payment-amount-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Payment amount (THB)' | translate}}: </label>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="payment-amount-label" ng-bind="ctrl.transactionModel.transactionAmount | number: 2"></span>
-                            </div>
+                       <label id="payment-date-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Payment date' | translate}}: </label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                           <span id="payment-date-value-label" ng-bind="ctrl.transactionModel.transactionDate | date: 'dd/MM/yyyy': 'UTC+0700'"></span>
+                       </div>
+                   </div>
+                   <div class="row">
+                       <label id="create-by-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Create by' | translate}}: </label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                           <span id="create-by-label" ng-bind="ctrl.transactionModel.createdBy"></span>
+                       </div>
 
-                            <label id="payment-date-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Payment date' | translate}}: </label>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="payment-date-value-label" ng-bind="ctrl.transactionModel.transactionDate | date: 'dd/MM/yyyy': 'UTC+0700'"></span>
-                            </div>
-                        </div>
-                    </div>
+                       <label id="create-date-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Create date' | translate}}: </label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                           <span id="create-date-value-label" ng-bind="ctrl.transactionModel.createdTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+                       </div>
+                   </div>
+                   <div class="row">
+                       <label id="verify-by-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Verify by' | translate}}: </label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                           <span id="verify-by-label" ng-bind="ctrl.transactionModel.verifiedBy"></span>
+                       </div>
 
-                    <div class="form-group">
-                        <div class="row">
-                            <label id="create-by-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Create by' | translate}}: </label>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="create-by-label" ng-bind="ctrl.transactionModel.createdBy"></span>
-                            </div>
+                       <label id="verify-date-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Verify date' | translate}}: </label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                           <span id="verify-date-value-label" ng-bind="ctrl.transactionModel.verifiedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+                       </div>
+                   </div>
+                   <div class="row">
+                       <label id="approve-by-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Approve by' | translate}}: </label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                           <span id="approve-by-label" ng-bind="ctrl.transactionModel.approvedBy"></span>
+                       </div>
 
-                            <label id="create-date-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Create date' | translate}}: </label>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="create-date-value-label" ng-bind="ctrl.transactionModel.createdTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="row">
-                            <label id="verify-by-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Verify by' | translate}}: </label>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="verify-by-label" ng-bind="ctrl.transactionModel.verifiedBy"></span>
-                            </div>
-
-                            <label id="verify-date-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Verify date' | translate}}: </label>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="verify-date-value-label" ng-bind="ctrl.transactionModel.verifiedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="row">
-                            <label id="approve-by-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Approve by' | translate}}: </label>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="approve-by-label" ng-bind="ctrl.transactionModel.approvedBy"></span>
-                            </div>
-
-                            <label id="approve-date-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Approve date' | translate}}: </label>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="approve-date-value-label" ng-bind="ctrl.transactionModel.approvedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="row">
-                            <label id="status-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Status' | translate}}: </label>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="status-value-label" ng-bind="ctrl.transactionModel.statusCode | translate"></span>
-                            </div>
-                            <label id="reason-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Reason' | translate}}: </label>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <span id="reason-value-label" style="color:red" ng-bind="ctrl.transactionModel.rejectReason"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--<div class="form-group">
-                        <div class="row">
-                            
-                        </div>
-                    </div>-->
-
+                       <label id="approve-date-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Approve date' | translate}}: </label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                           <span id="approve-date-value-label" ng-bind="ctrl.transactionModel.approvedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+                       </div>
+                   </div>
+                   
+                   <div class="row" style="padding-bottom: 15px;"></div>
+                   
+                   <div class="row">
+                       <label id="status-label" class="col-md-1 col-sm-1 control-label">{{'Status' | translate}}: </label>
+                       <div class="col-md-11 col-sm-11 text-left">
+                           <span id="status-value-label" ng-bind="ctrl.transactionModel.statusCode | translate"></span>
+                       </div>
+                   </div>
+                   <div class="row">
+                       <label id="reason-label" class="col-md-1 col-sm-1 control-label">{{'Reason' | translate}}: </label>
+                       <div class="col-md-11 col-sm-11 text-left">
+                           <span id="reason-value-label" style="color:red" ng-bind="ctrl.transactionModel.rejectReason"></span>
+                       </div>
+                   </div>
+                   
                     <div>
                         <div class="row">
                             <div class="col-md-12 col-sm-12 text-right">
