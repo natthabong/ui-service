@@ -18,6 +18,20 @@ paymentModule.controller('ViewPaymentController', [
     				PageNavigation.gotoPage('/payment-transaction/buyer');
     			}, 10);
             }
+            
+            vm.isBuyer = false;
+			vm.isSupplier = false;
+			vm.isBank = false;
+			
+			var currentParty = '';
+			var partyRole = {
+				buyer : 'BUYER',
+				supplier : 'SUPPLIER',
+				bank : 'BANK'
+			}
+			
+			currentParty = $stateParams.mode;
+			
             vm.isTypeLoan = false;
             vm.transactionModel = $stateParams.transactionModel;
             vm.isShowViewHistoryButton = $stateParams.isShowViewHistoryButton;
@@ -79,6 +93,15 @@ paymentModule.controller('ViewPaymentController', [
             }
 
             var init = function() {
+            	
+            	if (currentParty == partyRole.buyer) {
+					vm.isBuyer = true;
+				} else if (currentParty == partyRole.supplier) {
+					vm.isSupplier = true;
+				} else if (currentParty == partyRole.bank) {
+					vm.isBank = true;
+				}
+            	console.log(currentParty);
                 loadTransaction();
                 
             }();

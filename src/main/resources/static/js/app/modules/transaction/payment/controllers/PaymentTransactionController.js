@@ -15,6 +15,13 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         organizeName : $rootScope.userInfo.organizeName
     }
 
+    var currentParty = '';
+    var partyRole = {
+		sponsor : 'sponsor',
+		supplier : 'supplier',
+		bank : 'bank'
+	}
+    
     vm.verify = false;
     vm.approve = false;
     vm.reject = false;
@@ -347,6 +354,8 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     }
     
     var initLoad = function() {
+    	currentParty = $stateParams.mode;
+    	
         var buyerInfo = prepareBuyerAutoSuggestLabel(organizeInfo);
         vm.sponsor = buyerInfo;
 
@@ -388,7 +397,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     vm.viewTransaction = function(transactionModel){
 		$timeout(function(){		
 			PageNavigation.nextStep('/payment-transaction/view', 
-                {transactionModel: transactionModel, isShowViewHistoryButton: false, isShowBackButton: true},
+                {mode: currentParty, transactionModel: transactionModel, isShowViewHistoryButton: false, isShowBackButton: true},
                 {criteria : _criteria,buyer : _sponsor,supplier : _supplier});
     	}, 10);
 	};

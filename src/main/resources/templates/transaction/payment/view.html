@@ -13,14 +13,24 @@
 			<div class="panel-body" style="padding-bottom: 30px;">
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<div class="row">
-						<label id="supplier-label" class="col-md-1 col-sm-1 control-label">{{'Supplier'
-							| translate}}: </label>
+						<div class="col-md-1 col-sm-1">
+							<label id="sponsor-label"
+								ng-show="{{ctrl.isBuyer || ctrl.isBank}}">{{'Supplier' | translate}}:</label>
+							<label id="supplier-label" 
+								ng-show="{{ctrl.isSupplier}}">{{'Buyer' |
+								translate}}:</label>
+						</div>
 						<div class="col-md-11 col-sm-11 text-left">
 							<span id="supplier-value-label"
-								ng-bind="ctrl.transactionModel.supplier"></span>
+								ng-bind="ctrl.transactionModel.supplier"
+								ng-show="{{ctrl.isBuyer || ctrl.isBank}}"></span>
+							<span
+								id="ctrl.isSupplier?'buyer-value-label':'buyer-value-label-ignore'}}"
+								ng-bind="ctrl.transactionModel.sponsor"
+								ng-show="{{ctrl.isSupplier}}"></span>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" ng-show="{{ctrl.isBank}}">
 						<label id="buyer-label" class="col-md-1 col-sm-1 control-label">{{'Buyer'
 							| translate}}: </label>
 						<div class="col-md-11 col-sm-11 text-left">
