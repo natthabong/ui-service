@@ -18,6 +18,7 @@ paymentModule.controller('ViewPaymentController', [
     				PageNavigation.gotoPage('/payment-transaction/buyer');
     			}, 10);
             }
+            vm.isTypeLoan = false;
             vm.transactionModel = $stateParams.transactionModel;
             vm.isShowViewHistoryButton = $stateParams.isShowViewHistoryButton;
             vm.isShowBackButton = $stateParams.isShowBackButton;
@@ -34,6 +35,10 @@ paymentModule.controller('ViewPaymentController', [
                     vm.transactionModel.supplier =  response.data.supplierOrganize.organizeName;
                     vm.transactionModel.sponsor =  response.data.sponsorOrganize.organizeName;
                     vm.transactionModel.documents = response.data.documents;
+                    
+                    if(vm.transactionModel.transactionMethod == 'TERM_LOAN'){
+                    	vm.isTypeLoan = true;
+                    }
 
                     var _criteria = {
                         transactionId : vm.transactionModel.transactionId
