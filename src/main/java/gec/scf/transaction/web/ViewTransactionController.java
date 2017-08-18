@@ -10,7 +10,7 @@ import gec.scf.util.AjaxUtils;
 @Controller
 @RequestMapping("/view-transaction")
 public class ViewTransactionController {
-	private static final String VIEW_TRANSACTION = "view-transactions/view";
+	private static final String VIEW_TRANSACTION = "transaction/loan/view";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String listTransaction(
