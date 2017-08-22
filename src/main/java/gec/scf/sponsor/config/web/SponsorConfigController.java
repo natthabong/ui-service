@@ -32,6 +32,8 @@ public class SponsorConfigController {
 	private static String SETTINGS_PAYMENT_DATE_FORMULA = "sponsor-configuration/payment-date-formulas/settings";
 
 	private static String AP_MAPPING_DATA = "sponsor-configuration/ap-document-config/mapping-data";
+	private static String AR_MAPPING_DATA = "sponsor-configuration/ar-document-config/mapping-data";
+	
 	
 	private static String SETTINGS_ORGANIZE_LOGO = "sponsor-configuration/organize-logo/settings";
 
@@ -140,6 +142,14 @@ public class SponsorConfigController {
 			return AP_MAPPING_DATA.concat(" :: content");
 		}
 		return AP_MAPPING_DATA;
+	}
+	
+	@RequestMapping(path = "/ar-mapping-data", method = RequestMethod.GET)
+	public String arMappingData(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return AR_MAPPING_DATA.concat(" :: content");
+		}
+		return AR_MAPPING_DATA;
 	}
 	
 	@RequestMapping(path = "/organize-logo/settings", method = RequestMethod.GET)

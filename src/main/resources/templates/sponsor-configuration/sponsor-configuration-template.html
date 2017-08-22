@@ -131,31 +131,8 @@
 							</div>
 						</div>
 					</div>
-
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-						<div class="panel panel-default">
-							<div class="panel-body" style="min-height: 360px;">
-								<div class="row">
-									<div class="col-lg-10 col-md-10 col-xs-10">
-										<h3 class="animated fadeInLeft"
-											id="ar-mapping-data-header-label">{{'Mapping data' |
-											translate}}</h3>
-									</div>
-									<div class="col-lg-2 col-md-2 col-xs-2 text-right">
-										<br />
-										<scf-button class="btn-default gec-btn-action"
-											id="ar-mapping-data-new-button" title="New a mapping data"
-											ng-disabled="true"> <i class="fa fa-plus"
-											aria-hidden="true"></i></scf-button>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12 col-sm-12 text-right">
-										<!-- TODO: AR mapping data table here -->
-									</div>
-								</div>
-							</div>
-						</div>
+						<div ng-include="'/sponsor-configuration/ar-mapping-data'"></div>
 					</div>
 
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -203,14 +180,6 @@
 							id="ap-document-configuration-header-label">AP document
 							configuration</h3>
 					</div>
-					<!-- 					<div class="col-md-3 col-sm-3 col-xs-6" -->
-					<!-- 						ng-include="'/sponsor-configuration/file-layouts'"></div> -->
-					<!-- 					<div class="col-md-3 col-sm-3 col-xs-6" -->
-					<!-- 						ng-include="'/sponsor-configuration/customer-code-groups'"></div> -->
-					<!-- 					<div class="col-md-3 col-sm-3 col-xs-6" -->
-					<!-- 						ng-include="'/sponsor-configuration/display-document-configs'"></div> -->
-					<!-- 					<div class="col-md-3 col-sm-3 col-xs-6" -->
-					<!-- 						ng-include="'/sponsor-configuration/transaction-document-configs'"></div> -->
 					<div class="col-md-3 col-sm-3 col-xs-6"
 						ng-controller="FileLayoutsController as fileLayoutsCtrl">
 						<input type="hidden" ng-init="fileLayoutsCtrl.viewAllConfig=true"
