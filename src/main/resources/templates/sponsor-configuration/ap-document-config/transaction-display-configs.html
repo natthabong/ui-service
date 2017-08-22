@@ -1,0 +1,27 @@
+<div th:fragment="content"
+	sec:authorize="hasAnyAuthority('VIEW_ALL_DOCUMENT_DISPLAY_LAYOUTS','MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')">
+	<div id="wrapper"
+		ng-controller="DocumentDisplayConfigController as docDisplayCtrl">
+
+		<div class="panel panel-default config-box">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-lg-10 col-md-10 col-xs-10">
+						<h3 class="animated fadeInLeft" id="transaction-display-header-label"
+							ng-bind="'Create transaction display' | translate"></h3>
+					</div>
+					<div class="col-lg-2 col-md-2 col-xs-2">
+						<br />
+						<scf-button
+							id="display-{{docDisplayCtrl.data.displayName}}-setup-button"
+							class="btn-default gec-btn-action"
+							ng-click="docDisplayCtrl.setupDisplayDocument(docDisplayCtrl.data)"
+							title="Config a file layout"
+							ng-disabled="docDisplayCtrl.unauthenConfig()"> <i
+							class="fa fa-cog" aria-hidden="true"></i> </scf-button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

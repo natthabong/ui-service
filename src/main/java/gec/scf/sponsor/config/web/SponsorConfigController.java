@@ -15,19 +15,24 @@ public class SponsorConfigController {
 	private static String PROFILE = "sponsor-configuration/profile";
 	private static String WORKFLOW = "sponsor-configuration/workflow/workflow";
 	private static String SETUP_WORKFLOW = "sponsor-configuration/workflow/setup";
-	private static String CHANNEL = "sponsor-configuration/channel-configs";
-	private static String FILE_LAYOUTS = "sponsor-configuration/file-layouts";
+	
+	private static String AP_IMPORT_CHANNEL = "sponsor-configuration/ap-document-config/channel-configs";
+	private static String AP_FILE_LAYOUTS = "sponsor-configuration/ap-document-config/file-layouts";
+	
 	private static String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
 
-	private static String CUSTOMER_CODE_GROUPS = "sponsor-configuration/customer-code-groups";
+	private static String AP_CUSTOMER_CODE_GROUPS = "sponsor-configuration/ap-document-config/customer-code-groups";
 	private static String SETTINGS_CUSTOMER_CODE_GROUPS = "sponsor-configuration/customer-code-groups/settings";
 
-	private static String DOCUMENT_DISPLAY_CONFIGS = "sponsor-configuration/document-display-configs";
+	private static String AP_DOCUMENT_DISPLAY_CONFIGS = "sponsor-configuration/ap-document-config/document-display-configs";
+	private static String AP_CREATE_TRANSACTION_DISPLAY_CONFIGS = "sponsor-configuration/ap-document-config/transaction-display-configs";
 	private static String SETTINGS_DOCUMENT_DISPLAY = "sponsor-configuration/document-displays/settings";
 
-	private static String PAYMENT_DATE_FORMULA = "sponsor-configuration/payment-date-formulas";
+	private static String AP_PAYMENT_DATE_FORMULA = "sponsor-configuration/ap-document-config/payment-date-formulas";
 	private static String SETTINGS_PAYMENT_DATE_FORMULA = "sponsor-configuration/payment-date-formulas/settings";
 
+	private static String AP_MAPPING_DATA = "sponsor-configuration/ap-document-config/mapping-data";
+	
 	private static String SETTINGS_ORGANIZE_LOGO = "sponsor-configuration/organize-logo/settings";
 
 	private static String SETTINGS_IMPORT_CHANNEL = "sponsor-configuration/import-channels/settings";
@@ -52,17 +57,17 @@ public class SponsorConfigController {
 	@RequestMapping(path = "/channel-configs", method = RequestMethod.GET)
 	public String channelConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return CHANNEL.concat(" :: content");
+			return AP_IMPORT_CHANNEL.concat(" :: content");
 		}
-		return CHANNEL;
+		return AP_IMPORT_CHANNEL;
 	}
 
 	@RequestMapping(path = "/file-layouts", method = RequestMethod.GET)
 	public String fileLayouts(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return FILE_LAYOUTS.concat(" :: content");
+			return AP_FILE_LAYOUTS.concat(" :: content");
 		}
-		return FILE_LAYOUTS;
+		return AP_FILE_LAYOUTS;
 	}
 
 	@RequestMapping(path = "/file-layouts/new-file-layout", method = RequestMethod.GET)
@@ -76,9 +81,9 @@ public class SponsorConfigController {
 	@RequestMapping(path = "/customer-code-groups", method = RequestMethod.GET)
 	public String customerCodeGroups(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return CUSTOMER_CODE_GROUPS.concat(" :: content");
+			return AP_CUSTOMER_CODE_GROUPS.concat(" :: content");
 		}
-		return CUSTOMER_CODE_GROUPS;
+		return AP_CUSTOMER_CODE_GROUPS;
 	}
 
 	@RequestMapping(path = "/customer-code-groups/settings", method = RequestMethod.GET)
@@ -92,9 +97,17 @@ public class SponsorConfigController {
 	@RequestMapping(path = "/display-document-configs", method = RequestMethod.GET)
 	public String documentDisplayConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return DOCUMENT_DISPLAY_CONFIGS.concat(" :: content");
+			return AP_DOCUMENT_DISPLAY_CONFIGS.concat(" :: content");
 		}
-		return DOCUMENT_DISPLAY_CONFIGS;
+		return AP_DOCUMENT_DISPLAY_CONFIGS;
+	}
+	
+	@RequestMapping(path = "/transaction-document-configs", method = RequestMethod.GET)
+	public String transactionDisplayConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return AP_CREATE_TRANSACTION_DISPLAY_CONFIGS.concat(" :: content");
+		}
+		return AP_CREATE_TRANSACTION_DISPLAY_CONFIGS;
 	}
 
 	@RequestMapping(path = "/document-display/settings", method = RequestMethod.GET)
@@ -108,9 +121,9 @@ public class SponsorConfigController {
 	@RequestMapping(path = "/payment-date-formulas", method = RequestMethod.GET)
 	public String paymentDateFormulaConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return PAYMENT_DATE_FORMULA.concat(" :: content");
+			return AP_PAYMENT_DATE_FORMULA.concat(" :: content");
 		}
-		return PAYMENT_DATE_FORMULA;
+		return AP_PAYMENT_DATE_FORMULA;
 	}
 
 	@RequestMapping(path = "/payment-date-formulas/settings", method = RequestMethod.GET)
@@ -121,6 +134,14 @@ public class SponsorConfigController {
 		return SETTINGS_PAYMENT_DATE_FORMULA;
 	}
 
+	@RequestMapping(path = "/mapping-data", method = RequestMethod.GET)
+	public String mappingData(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return AP_MAPPING_DATA.concat(" :: content");
+		}
+		return AP_MAPPING_DATA;
+	}
+	
 	@RequestMapping(path = "/organize-logo/settings", method = RequestMethod.GET)
 	public String settingOrganizeLogo(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {

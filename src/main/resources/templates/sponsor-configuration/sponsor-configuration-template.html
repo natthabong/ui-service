@@ -20,34 +20,34 @@
 				<div class="panel-body">
 					<div class="col-md-12">
 						<h3 class="animated fadeInLeft"
-							id="import-ap-document-configuration-header-label">Import AP
-							document configuration</h3>
+							id="ar-document-configuration-header-label">AR document
+							configuration</h3>
 					</div>
-					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-						<div ng-include="'/sponsor-configuration/file-layouts'"></div>
+				</div>
+				<div class="panel-body">
+					<div class="col-md-12">
+						<h3 class="animated fadeInLeft"
+							id="ap-document-configuration-header-label">AP document
+							configuration</h3>
 					</div>
-					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-						<div ng-include="'/sponsor-configuration/customer-code-groups'"></div>
-					</div>
+					<div class="col-md-3 col-sm-3 col-xs-6"
+						ng-include="'/sponsor-configuration/file-layouts'"></div>
+					<div class="col-md-3 col-sm-3 col-xs-6"
+						ng-include="'/sponsor-configuration/customer-code-groups'"></div>
+					<div class="col-md-3 col-sm-3 col-xs-6"
+						ng-include="'/sponsor-configuration/display-document-configs'"></div>
+					<div class="col-md-3 col-sm-3 col-xs-6"
+						ng-include="'/sponsor-configuration/transaction-document-configs'"></div>
+
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<div ng-include="'/sponsor-configuration/payment-date-formulas'"></div>
 					</div>
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+						<div ng-include="'/sponsor-configuration/mapping-data'"></div>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<div ng-include="'/sponsor-configuration/channel-configs'"></div>
 					</div>
-				</div>
-
-				<div class="panel-body">
-					<div class="col-md-12">
-						<h3 class="animated fadeInLeft"
-							id="display-document-configuration-header-label">AP Document
-							display configuration</h3>
-					</div>
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div
-							ng-include="'/sponsor-configuration/display-document-configs'"></div>
-					</div>
-					<div id="fixed-bottom" class="col-md-12"></div>
 				</div>
 
 				<div class="panel-body">
