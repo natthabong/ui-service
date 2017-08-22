@@ -67,7 +67,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         };
         var _criteria = $stateParams.criteria || {
             accountingTransactionType: 'PAYABLE',
-            buyerId: vm.createTransactionModel.sponsorCode,
+            sponsorId: vm.createTransactionModel.sponsorCode,
             supplierId : ownerId,
             customerCode: vm.createTransactionModel.supplierCode,
             documentStatus: ['NEW'],
@@ -147,13 +147,15 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         };
 
         function _loadTradingPartnerInfo(sponsorCode,sponsorPaymentDate){
+        	var differed = null;
             var tradingInfo = TransactionService.getTradingInfo(sponsorCode, ownerId);
             tradingInfo.promise.then(function(response) {
                 vm.tradingpartnerInfoModel = response.data;
-                _loadTransactionDate(sponsorCode,sponsorPaymentDate);
+                differed = _loadTransactionDate(sponsorCode,sponsorPaymentDate);
             }).catch(function(response){
                 log.error("Load trading partner fail !");
             });
+            return differed;
         }
 
         function validateSponsorPaymentDate(paymentDate) {
@@ -217,7 +219,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     vm.createTransactionModel.sponsorPaymentDate = vm.sponsorPaymentDates[0].value;
                 }
                 else if(dashboardParams != null){
-                    vm.createTransactionModel.sponsorPaymentDate = SCFCommonService.convertDate(dashboardParams.sponsorPaymentDate);
+                    vm.createTransactionModel.sponsorPaymentDate = SCFCommonService.convertDate(dashboardParams.paymentDate);
                     dashboardInitLoad();
                 }
                 else{
@@ -253,7 +255,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     });
 
 					if(dashboardParams != null){
-						vm.createTransactionModel.supplierCode = dashboardParams.supplierCode;       	
+						vm.createTransactionModel.supplierCode = dashboardParams.customerCode;       	
                     }
 					else if (backAction === false && dashboardParams == null) {
                         vm.createTransactionModel.supplierCode = vm.supplierCodes[0].value;
@@ -297,7 +299,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                         vm.sponsorCodes.push(selectObj);
                     });
 					if(dashboardParams!=null){
-                     	vm.createTransactionModel.sponsorCode = dashboardParams.sponsorId;
+                     	vm.createTransactionModel.sponsorCode = dashboardParams.buyerId;
                     }
 
 					// Check action come from page validate
