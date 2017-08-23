@@ -8,48 +8,91 @@ tpModule.controller('EditMappingDataController', [
 		'PageNavigation',
 		'PagingController',
 		'MappingDataService',
+		'$log',
         function($scope, $rootScope, $stateParams, UIFactory, PageNavigation,
-				PagingController, MappingDataService){
+				PagingController, MappingDataService,$log){
 
             var vm = this;
-			var mappingData = $stateParams.mappingData;
-			console.log(mappingData)
-			if(mappingData == null){
-				PageNavigation.gotoPage('/organize-list/bank');
-			}
-            
+			var log = $log;
+			var defalutData = $stateParams.mappingData;
+			// var hideSignFlag = defalutData.mappingType == 'TEXT_MAPPING'? true:false;
+			// console.log(hideSignFlag)
+			
+
+            vm.criteria = {};
             
             vm.dataTable = {
-        			columns : [
-        				{
-        					fieldName : 'mappingDataName',
-        					headerId : 'mapping-data-name-header-label',
-        					labelEN : 'Mapping data name',
-        					labelTH : 'Mapping data name',
-        					id : 'mapping-data-name-{value}',
-        					sortable : false,
-        					cssTemplate : 'text-left',
-        				},
-        				{
-        					fieldName : 'action',
-        					label : '',
-        					cssTemplate : 'text-center',
-        					sortData : false,
-        					cellTemplate : '<scf-button id="mapping-data-{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
-        							+ '<scf-button id="mapping{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteTP(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
-        				} ]
-        		}
-            
-            
-            var _criteria = {};
-           
-            
+				options: {
+					displayRowNo: {
+						idValueField: '$rowNo',
+						id: 'mapping-data-{value}-row-no-label'
+					}
+				},
+				expansion:{
+					expanded: true
+				},
+				columns : [
+					{
+						fieldName : 'code',
+						field : 'code',
+						label : 'Code',
+						idValueField :'$rowNo',
+						id : 'code-{value}-label',
+						sortable : false,
+						cssTemplate : 'text-left',
+					},{
+						fieldName : 'display ',
+						field : 'display',
+						label : 'Display',
+						idValueField : '$rowNo',
+						id : 'display-{value}-label',
+						sortable : false,
+						cssTemplate : 'text-left',
+					},{
+						fieldName : 'signFlag ',
+						field : 'signFlag',
+						label : 'Sign flag',
+						idValueField :'$rowNo',
+						id : 'sign-flag-{value}',
+						sortable : false,
+						cssTemplate : 'text-left'
+					},{
+						fieldName: 'action',
+						field: 'action',
+						label: '',
+						cssTemplate: 'text-center',
+						sortData: false,
+						cellTemplate: '<scf-button id="mapping-data-{{data.mappingDataName}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+									+ '<scf-button id="mapping-data-{{data.mappingDataName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteTP(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+					}
+				]
+			}
+
+
+			vm.loadData = function(pagingModel){
+				vm.pagingController.search(pagingModel);
+			}
+			
+			var initialPaging = function(criteria){
+				var uri = 'api/v1/organize-customers/'+criteria.ownerId+'/accounting-transactions/'+criteria.accountingTransactionType+'/mapping-datas/'+criteria.mappingDataId+'/items';
+				vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
+				vm.loadData();
+			}
+
             var init = function() {
-            	//  var uri = 'api/v1/organize-customers/'+ownerId+'/accounting-transactions/'+accountingTransactionType+'/mapping-datas'
-                //  vm.pagingController = PagingController.create(uri, _criteria, 'GET');
-            	 
-            	//  vm.pagingController.search();
-			};
+				if(defalutData == null){
+					PageNavigation.gotoPage('/organize-list/bank');
+				}else{
+					var deffered = MappingDataService.getMappingData(defalutData);
+					deffered.promise.then(function(response){
+						vm.criteria = response.data;
+						console.log(vm.criteria)
+						initialPaging(vm.criteria);
+					}).catch(function(response){
+						log.error("Can not load mapping data !")
+					});
+				}
+			}();
 
         }
 ]);

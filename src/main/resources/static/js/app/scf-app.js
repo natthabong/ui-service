@@ -237,7 +237,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 			}).state('/sponsor-configuration/mapping-data/edit',{
 				url: '/sponsor-configuration/mapping-data/edit',
 				controller: 'EditMappingDataController',
-				controllerAs: 'editMappingDataController',
+				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/mapping-data/edit',
 				params: { mappingData: null},
 				resolve: load(['js/app/modules/organize/configuration/mapping-data/controllers/EditMappingDataController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])

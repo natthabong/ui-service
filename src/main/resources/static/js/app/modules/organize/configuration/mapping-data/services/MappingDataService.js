@@ -44,9 +44,26 @@ tpModule.factory('MappingDataService', [ '$http', '$q', function($http, $q) {
 	     
         return deffered;
 	}
+
+	function getMappingData(criteria){
+		var deffered = $q.defer();
+	
+	    $http({
+	    	    url :'api/v1/organize-customers/'+criteria.ownerId+'/mapping-data/'+criteria.mappingDataId,
+	        	method: 'GET'
+	        })
+	        .then(function(response) {
+	            deffered.resolve(response);
+	        })
+	        .catch(function(response) {
+	            deffered.reject('Cannot load mapping data');
+	        });
+	    return deffered;
+	}
 	
 	return {
 		create: create,
-		remove: remove
+		remove: remove,
+		getMappingData:getMappingData
 	}
 } ]);
