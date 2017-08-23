@@ -63,7 +63,7 @@ tpModule
 														UIFactory
 																.showFailDialog({
 																	data : {
-																		headerMessage : 'Add new trade finance fail.',
+																		headerMessage : 'Add new mapping data fail.',
 																		bodyMessage : msg[status] ? msg[status]
 																				: response.errorMessage
 																	},
