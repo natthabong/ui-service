@@ -17,7 +17,8 @@ tpModule
 							vm.model = {
 								mappingType : 'TEXT_MAPPING',
 								ownerId : data.ownerId,
-								accountingTransactionType : data.accountingTransactionType
+								accountingTransactionType : data.accountingTransactionType,
+								mappingDataName: ''
 							}
 
 							vm.mappingTypes = [ {
@@ -32,7 +33,7 @@ tpModule
 							
 							var _isValid = function() {
 								vm.hasError = false;
-								if (vm.model.mappingDataName == null) {
+								if (!vm.model.mappingDataName.length) {
 									vm.hasError = true;
 									return false;
 								}
