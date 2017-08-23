@@ -113,10 +113,10 @@ tpModule.controller('EditMappingDataController', [
 						return MappingDataService.deleteMappingData(vm.criteria,mappingItem);
 					},
 					onFail: function(response){
-						var msg = {409:'Role has been deleted.', 405:'Role has been used.'};
+						var msg = {409:'Data mapping code has been deleted.', 405:'Data mapping code has been used.'};
 						UIFactory.showFailDialog({
 						data: {
-							headerMessage: 'Delete role fail.',
+							headerMessage: 'Delete data mapping code fail.',
 							bodyMessage: msg[response.status]?msg[response.status]:response.statusText
 						},
 						preCloseCallback: preCloseCallback
@@ -125,7 +125,7 @@ tpModule.controller('EditMappingDataController', [
 					onSuccess: function(response){
 						UIFactory.showSuccessDialog({
 						data: {
-							headerMessage: 'Delete role success.',
+							headerMessage: 'Delete data mapping code success.',
 							bodyMessage: ''
 						},
 						preCloseCallback: preCloseCallback
