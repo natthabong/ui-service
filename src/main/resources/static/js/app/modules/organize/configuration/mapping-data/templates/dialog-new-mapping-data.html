@@ -27,6 +27,18 @@
 
 				</div>
 			</div>
+			<div class="row" ng-if="ctrl.hasError">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="form-group">
+						<label for="message-error-text"
+							class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<div class="col-md-6 col-sm-4 col-xs-12">
+							<strong class="text-danger" id="message-error-text">
+								{{'Mapping name is required'}}</strong>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<div class="form-group">
@@ -42,18 +54,7 @@
 
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-12 col-sm-12 col-xs-12">
-					<div class="form-group">
-						<label for="message-error-text"
-							class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
-						<div class="col-md-6 col-sm-4 col-xs-12">
-							<strong class="text-danger" id="message-error-text">
-								{{ctrl.messageError}}</strong>
-						</div>
-					</div>
-				</div>
-			</div>
+
 		</div>
 		<div class="modal-footer">
 			<div class="row">

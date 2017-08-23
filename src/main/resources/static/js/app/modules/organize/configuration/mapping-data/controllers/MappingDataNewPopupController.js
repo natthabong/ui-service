@@ -27,7 +27,15 @@ tpModule
 								label : 'Sign flag mapping',
 								value : 'SIGN_FLAG_MAPPING'
 							} ]
+							
+							vm.hasError = false;
+							
 							var _isValid = function() {
+								vm.hasError = false;
+								if (vm.model.mappingDataName == null) {
+									vm.hasError = true;
+									return false;
+								}
 								return true;
 							}
 							vm.save = function(callback) {
