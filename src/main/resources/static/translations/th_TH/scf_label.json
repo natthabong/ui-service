@@ -516,6 +516,8 @@
 	"create-payment-request": "Create payment",
 	"payment-transaction-buyer" : "Payment transaction",
 	"PAYMENT": "Payment",
+	"TEXT_MAPPING" : "Text mapping",
+	"SIGN_FLAG_MAPPING" : "Sign flag mapping",
 	
 	"Loan account": "Loan account",
 	"SUPPLIER_FINANCING" : "Supplier financing",

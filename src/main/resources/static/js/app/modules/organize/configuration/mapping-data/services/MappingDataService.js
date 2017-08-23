@@ -60,10 +60,35 @@ tpModule.factory('MappingDataService', [ '$http', '$q', function($http, $q) {
 	        });
 	    return deffered;
 	}
+
+	function deleteMappingData(mappingModel,mappingItem){
+		var uri = 'api/v1/organize-customers/'+mappingModel.ownerId+'/accounting-transactions/'+mappingModel.accountingTransactionType+'/mapping-datas/'+mappingItem.mappingDataId+'/items/'+mappingItem.mappingDataItemId;
+		var deffered = $q.defer();
+
+		$http({
+	    	    url : uri,
+	        	method: 'POST',
+				headers : {
+					'If-Match' : mappingItem.version,
+					'X-HTTP-Method-Override': 'DELETE'
+				},
+	        	data: mappingItem
+	        })
+	        .then(function(response) {
+                deffered.resolve(response);
+            })
+            .catch(function(response) {
+                deffered.reject('Cannot delete mapping');
+            });
+
+		return deffered;
+		
+	}
 	
 	return {
 		create: create,
 		remove: remove,
+		deleteMappingData:deleteMappingData,
 		getMappingData:getMappingData
 	}
 } ]);

@@ -63,7 +63,7 @@ tpModule.controller('EditMappingDataController', [
 						cssTemplate: 'text-center',
 						sortData: false,
 						cellTemplate: '<scf-button id="mapping-data-{{data.mappingDataName}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
-									+ '<scf-button id="mapping-data-{{data.mappingDataName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.delete(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+									+ '<scf-button id="mapping-data-{{data.mappingDataName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 					}
 				]
 			}
@@ -93,6 +93,42 @@ tpModule.controller('EditMappingDataController', [
 					});
 				}
 			}();
+
+			
+			vm.deleteMappingData = function(mappingItem){
+				console.log(mappingItem)
+				var preCloseCallback = function(confirm) {
+					vm.loadData();
+				}
+				
+				UIFactory.showConfirmDialog({
+					data: { 
+						headerMessage: 'Confirm delete?'
+					},
+					confirm: function(){
+						return MappingDataService.deleteMappingData(vm.criteria,mappingItem);
+					},
+					onFail: function(response){
+						var msg = {409:'Role has been deleted.', 405:'Role has been used.'};
+						UIFactory.showFailDialog({
+						data: {
+							headerMessage: 'Delete role fail.',
+							bodyMessage: msg[response.status]?msg[response.status]:response.statusText
+						},
+						preCloseCallback: preCloseCallback
+						});
+					},
+					onSuccess: function(response){
+						UIFactory.showSuccessDialog({
+						data: {
+							headerMessage: 'Delete role success.',
+							bodyMessage: ''
+						},
+						preCloseCallback: preCloseCallback
+						});
+					}
+				});
+			} 
 
 			vm.back = function(){
 				PageNavigation.gotoPreviousPage(false);
