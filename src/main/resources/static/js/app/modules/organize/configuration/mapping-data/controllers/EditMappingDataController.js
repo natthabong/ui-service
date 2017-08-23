@@ -63,7 +63,7 @@ tpModule.controller('EditMappingDataController', [
 						cssTemplate: 'text-center',
 						sortData: false,
 						cellTemplate: '<scf-button id="mapping-data-{{data.mappingDataName}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
-									+ '<scf-button id="mapping-data-{{data.mappingDataName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteTP(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+									+ '<scf-button id="mapping-data-{{data.mappingDataName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.delete(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 					}
 				]
 			}
@@ -93,6 +93,10 @@ tpModule.controller('EditMappingDataController', [
 					});
 				}
 			}();
+
+			vm.back = function(){
+				PageNavigation.gotoPreviousPage(false);
+			}
 
         }
 ]);
