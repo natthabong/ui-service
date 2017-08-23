@@ -1,0 +1,65 @@
+<div id="content" th:fragment="content">
+    <div id="wrapper">
+        <div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 ng-if="ctrl.isNewMode" id="header-message-label" class="animated fadeInLeft">{{'Add new code' | translate}}</h3>
+				</div>
+			</div>
+		</div>
+
+        <div class="form-element">
+            <div class="panel panel-default col-md-12 padding-0">
+                <div class="panel-body">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <form name="mappingDateItemForm" class="form-horizontal" ng-submit="ctrl.save()" autocomplete="off">
+                            
+                            <div class="form-group">
+                                <label id="mapping-type-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Mapping type' | translate}}: </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12 control-label">
+                                	<label id="mapping-type-value-label">{{ctrl.mappingDataModel.mappingType | translate}}</label>
+                                </div>
+                                <div class="col-md-3 col-sm-2"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label id="code-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Code' | translate}}:</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <scf-input-text id="code-textbox" ng-model="ctrl.mappingDataItemModel.code" maxlength="100" ></scf-input-text>
+                                </div>
+                                <div class="col-md-3 col-sm-2"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label id="display-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Display' | translate}}:</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <scf-input-text id="display-textbox" ng-model="ctrl.mappingDataItemModel.display" maxlength="255" ></scf-input-text>
+                                </div>
+                                <div class="col-md-3 col-sm-2"></div>
+                            </div>
+                            
+                            <div class="form-group" ng-if="ctrl.isSignFlagMapping">
+                                <label id="sign-flag-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sign flag' | translate}}:</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <scf-dropdown id="sign-flag-dropdown"
+										ng-model="ctrl.mappingDataItemModel.signFlag"
+										component-data="ctrl.signFlagTypes"
+										convert-to-number="">
+									</scf-dropdown>
+                                </div>
+                                <div class="col-md-3 col-sm-2"></div>
+                            </div>
+							
+							<div class="col-md-12 col-sm-12 text-right">
+								<div class="form-group">
+									<scf-button id="cancel-button" class="popup-button btn" ng-click="ctrl.cancel()" >{{'Cancel' | translate}}</scf-button>
+									<scf-button id="save-button" type="submit" >{{'Save' | translate}}</scf-button>
+								</div>
+							</div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

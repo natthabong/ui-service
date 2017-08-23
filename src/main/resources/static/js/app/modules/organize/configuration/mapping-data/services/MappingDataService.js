@@ -85,10 +85,30 @@ tpModule.factory('MappingDataService', [ '$http', '$q', function($http, $q) {
 		
 	}
 	
+	function createMappingDataItem(mappingModel, mappingDataItemModel, editMode){
+		var uri = 'api/v1/organize-customers/'+mappingModel.ownerId+'/accounting-transactions/'+mappingModel.accountingTransactionType+'/mapping-datas/'+mappingModel.mappingDataId+'/items'; 
+		var deffered = $q.defer();
+		 
+		 $http({
+	    	    url : uri,
+	        	method: 'POST',
+	        	data: mappingDataItemModel
+	        })
+	        .then(function(response) {
+                deffered.resolve(response);
+            })
+            .catch(function(response) {
+                deffered.reject('Cannot save mapping data item');
+            });
+	     
+        return deffered;
+	}
+	
 	return {
 		create: create,
 		remove: remove,
 		deleteMappingData:deleteMappingData,
+		createMappingDataItem: createMappingDataItem,
 		getMappingData:getMappingData
 	}
 } ]);

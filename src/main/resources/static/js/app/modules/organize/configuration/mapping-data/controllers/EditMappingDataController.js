@@ -133,6 +133,14 @@ tpModule.controller('EditMappingDataController', [
 			vm.back = function(){
 				PageNavigation.gotoPreviousPage(false);
 			}
+			
+			vm.newMappingDataCode = function(){
+				var params = {
+						mappingData : defalutData
+					};
+					
+				PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/new', params, {});
+			}
 
         }
 ]);
