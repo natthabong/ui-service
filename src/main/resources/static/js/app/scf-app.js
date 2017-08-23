@@ -231,7 +231,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							  'js/app/sponsor-configuration/document-display-configs.js',
 							  'js/app/sponsor-configuration/payment-date-formula-controller.js',
 							  'js/app/sponsor-configuration/payment-date-formula-service.js',
-							  'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataListController.js', 
+							  'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataListController.js',
+							  'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataNewPopupController.js',
 							  'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js', ])
 			}).state('/sponsor-configuration/mapping-data/edit',{
 				url: '/sponsor-configuration/mapping-data/edit',
