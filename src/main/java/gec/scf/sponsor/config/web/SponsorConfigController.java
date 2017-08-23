@@ -40,6 +40,8 @@ public class SponsorConfigController {
 	private static String SETTINGS_IMPORT_CHANNEL = "sponsor-configuration/import-channels/settings";
 	private static String SETTINGS_IMPORT_CHANNEL_FTP = "sponsor-configuration/import-channels/ftp-settings";
 
+	private static String EDIT_MAPPING_DATA = "sponsor-configuration/edit-mapping-data";
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String sponsorConfiguration(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
@@ -142,6 +144,16 @@ public class SponsorConfigController {
 			return AP_MAPPING_DATA.concat(" :: content");
 		}
 		return AP_MAPPING_DATA;
+	}
+
+	@RequestMapping(path = "/mapping-data/edit", method = RequestMethod.GET)
+	public String editMappingData(@RequestHeader("X-Requested-With") String requestedWith) {
+
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return EDIT_MAPPING_DATA.concat(" :: content");
+		}
+		return EDIT_MAPPING_DATA;
+
 	}
 	
 	@RequestMapping(path = "/ar-mapping-data", method = RequestMethod.GET)

@@ -233,6 +233,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							  'js/app/sponsor-configuration/payment-date-formula-service.js',
 							  'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataListController.js', 
 							  'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js', ])
+			}).state('/sponsor-configuration/mapping-data/edit',{
+				url: '/sponsor-configuration/mapping-data/edit',
+				controller: 'EditMappingDataController',
+				controllerAs: 'editMappingDataController',
+				templateUrl: '/sponsor-configuration/mapping-data/edit',
+				params: { mappingData: null},
+				resolve: load(['js/app/modules/organize/configuration/mapping-data/controllers/EditMappingDataController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/sponsor-configuration/file-layouts/new-file-layout',{
 				url: '/sponsor-configuration/file-layouts/new-file-layout',
 				controller: 'NewFileLayoutController',

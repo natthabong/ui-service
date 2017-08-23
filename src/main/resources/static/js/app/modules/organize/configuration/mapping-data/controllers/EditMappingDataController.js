@@ -1,6 +1,6 @@
 'use strict';
 var tpModule = angular.module('gecscf.organize.configuration');
-tpModule.controller('MappingDataListController', [
+tpModule.controller('EditMappingDataController', [
         '$scope',
         '$rootScope',
 		'$stateParams',
@@ -12,12 +12,15 @@ tpModule.controller('MappingDataListController', [
 				PagingController, MappingDataService){
 
             var vm = this;
+			var mappingData = $stateParams.mappingData;
+			console.log(mappingData)
+			if(mappingData == null){
+				PageNavigation.gotoPage('/organize-list/bank');
+			}
             
-            vm.accountingTransactionType = 'PAYABLE';
             
             vm.dataTable = {
         			columns : [
-        				
         				{
         					fieldName : 'mappingDataName',
         					headerId : 'mapping-data-name-header-label',
@@ -37,20 +40,15 @@ tpModule.controller('MappingDataListController', [
         				} ]
         		}
             
-            var ownerId = $scope.sponsorId;
+            
             var _criteria = {};
-
-			vm.edit = function(data){
-				var params = {mappingData: data};
-				PageNavigation.gotoPage('/sponsor-configuration/mapping-data/edit', params, {});
-			}
            
             
-            vm.init = function(accountingTransactionType) {
-            	 var uri = 'api/v1/organize-customers/'+ownerId+'/accounting-transactions/'+accountingTransactionType+'/mapping-datas'
-                 vm.pagingController = PagingController.create(uri, _criteria, 'GET');
+            var init = function() {
+            	//  var uri = 'api/v1/organize-customers/'+ownerId+'/accounting-transactions/'+accountingTransactionType+'/mapping-datas'
+                //  vm.pagingController = PagingController.create(uri, _criteria, 'GET');
             	 
-            	 vm.pagingController.search();
+            	//  vm.pagingController.search();
 			};
 
         }
