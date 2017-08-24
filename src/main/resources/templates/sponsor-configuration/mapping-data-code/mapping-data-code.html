@@ -26,7 +26,7 @@
                             <div class="form-group">
                                 <label id="code-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Code' | translate}}:</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <scf-input-text id="code-textbox" ng-model="ctrl.mappingDataItemModel.code" maxlength="100" ></scf-input-text>
+                                    <scf-input-text id="code-textbox" ng-model="ctrl.mappingDataItemModel.code" maxlength="100" ng-disabled="!ctrl.isNewMode" ></scf-input-text>
                                 </div>
                                 <div class="col-md-3 col-sm-2"></div>
                             </div>
