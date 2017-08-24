@@ -60,9 +60,9 @@ tpModule.controller('EditMappingDataController', [
 						hiddenColumn: hideSignFlag,
 						dataRenderer: function(record){
 							if(record.signFlag){
-								record = "Positive";
+								record = "Negative";
 							}else{
-								record = "Negative ";
+								record = "Positive";
 							}
 							return record;
 						},
@@ -70,7 +70,7 @@ tpModule.controller('EditMappingDataController', [
 						fieldName: 'action',
 						cssTemplate: 'text-center',
 						sortData: false,
-						cellTemplate: '<scf-button id="mapping-data-{{$parent.$index+1}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+						cellTemplate: '<scf-button id="mapping-data-{{$parent.$index+1}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.editMappingDataCode(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
 									+ '<scf-button id="mapping-data-{{$parent.$index+1}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 					}
 				]
@@ -144,6 +144,21 @@ tpModule.controller('EditMappingDataController', [
 					};
 					
 				PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/new', params, {});
+			}
+			
+			vm.editMappingDataCode = function(data){
+				if(data.signFlag){
+					data.signFlag = 1;
+				}else{
+					data.signFlag = 0;
+				}
+				
+				var params = {
+						mappingData : defalutData,
+						mappingDataItem: data
+					};
+					
+				PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/edit', params, {});
 			}
 
         }

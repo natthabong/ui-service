@@ -246,14 +246,14 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'MappingDataCodeController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/mapping-data/code/new',
-				params: { mappingData: null, mode: "newCode"},
+				params: { mappingData: null, mode: "newCode", mappingDataItem: null},
 				resolve: load(['js/app/modules/organize/configuration/mapping-data/controllers/MappingDataCodeController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])	
 			}).state('/sponsor-configuration/mapping-data/code/edit',{
 				url: '/sponsor-configuration/mapping-data/code/edit',
 				controller: 'MappingDataCodeController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/mapping-data/code/new',
-				params: { mappingData: null, mode: "editCode"},
+				params: { mappingData: null, mode: "editCode", mappingDataItem: null},
 				resolve: load(['js/app/modules/organize/configuration/mapping-data/controllers/MappingDataCodeController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])	
 					
 			}).state('/sponsor-configuration/file-layouts/new-file-layout',{

@@ -30,7 +30,7 @@ mappingDataModule.controller('MappingDataCodeController', [
         	vm.isSignFlagMapping = true;
         }
         
-        vm.mappingDataItemModel = {
+        vm.mappingDataItemModel = $stateParams.mappingDataItem || {
             code: '',
             display: '',
             signFlag: 1,
@@ -51,7 +51,6 @@ mappingDataModule.controller('MappingDataCodeController', [
         }
         
         var _save = function(){
-        	console.log(vm.mappingDataModel);
         	var deferred = MappingDataService.createMappingDataItem(vm.mappingDataModel, vm.mappingDataItemModel, vm.isNewMode);
 			deferred.promise.then(function(response){}).catch(function(response){
 			    if (response) {
