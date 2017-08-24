@@ -69,7 +69,7 @@ mappingDataModule.controller('MappingDataCodeController', [
         
         vm.save = function(){
         	var preCloseCallback = function(confirm) {
-				PageNavigation.gotoPreviousPage(true);
+				PageNavigation.gotoPreviousPage(false);
 			}
         	
         	if(_validate(vm.mappingDataItemModel)){
