@@ -66,8 +66,8 @@ tpModule.controller('EditMappingDataController', [
 						fieldName: 'action',
 						cssTemplate: 'text-center',
 						sortData: false,
-						cellTemplate: '<scf-button id="mapping-data-{{$parent.$index+1}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.editMappingDataCode(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
-									+ '<scf-button id="mapping-data-{{$parent.$index+1}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+						cellTemplate: '<scf-button id="{{data.code}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.editMappingDataCode(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+									+ '<scf-button id="{{data.code}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 					}
 				]
 			}
