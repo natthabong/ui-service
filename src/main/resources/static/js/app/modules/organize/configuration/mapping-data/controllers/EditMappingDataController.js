@@ -22,6 +22,7 @@ tpModule.controller('EditMappingDataController', [
             vm.criteria = {};
             
             vm.dataTable = {
+				identityField : 'code',
 				columns : [
 					{
 						fieldName : '$rowNo',
@@ -41,15 +42,14 @@ tpModule.controller('EditMappingDataController', [
 						fieldName : 'display',
 						labelEN : 'Display',
 						labelTH : 'Display',
-						idValueField : '$rowNo',
-						id : 'display-{value}-label',
+						id : 'display-{value}',
 						sortable : false,
 						cssTemplate : 'text-left',
 					},{
 						fieldName : 'signFlag',
 						labelEN : 'Sign flag',
 						labelTH : 'Sign flag',
-						idValueField :'$rowNo',
+						idValueField :'code',
 						id : 'sign-flag-{value}',
 						sortable : false,
 						cssTemplate : 'text-left',
