@@ -41,6 +41,8 @@ public class SponsorConfigController {
 	private static String SETTINGS_IMPORT_CHANNEL_FTP = "sponsor-configuration/import-channels/ftp-settings";
 
 	private static String EDIT_MAPPING_DATA = "sponsor-configuration/edit-mapping-data";
+	
+	private static String MAPPING_DATA_CODE = "sponsor-configuration/mapping-data-code/mapping-data-code";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String sponsorConfiguration(@RequestHeader("X-Requested-With") String requestedWith) {
@@ -153,6 +155,16 @@ public class SponsorConfigController {
 			return EDIT_MAPPING_DATA.concat(" :: content");
 		}
 		return EDIT_MAPPING_DATA;
+
+	}
+	
+	@RequestMapping(path = "/mapping-data/code/new", method = RequestMethod.GET)
+	public String newMappingDataCode(@RequestHeader("X-Requested-With") String requestedWith) {
+
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return MAPPING_DATA_CODE.concat(" :: content");
+		}
+		return MAPPING_DATA_CODE;
 
 	}
 	
