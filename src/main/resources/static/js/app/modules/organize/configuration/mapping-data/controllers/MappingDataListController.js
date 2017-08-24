@@ -29,17 +29,17 @@ tpModule
 											headerId : 'mapping-data-name-header-label',
 											labelEN : 'Mapping data name',
 											labelTH : 'Mapping data name',
-											id : 'AR-mapping-data-{value}',
 											sortable : false,
 											cssTemplate : 'text-left',
+											cellTemplate : '<span id="{{ctrl.accountingTransactionType}}-mapping-data-{{data.mappingDataName}}-label">{{data.mappingDataName}}</span>'
 										},
 										{
 											fieldName : 'action',
 											label : '',
 											cssTemplate : 'text-center',
 											sortData : false,
-											cellTemplate : '<scf-button id="AR-mapping-data-{{data.mappingDataName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
-													+ '<scf-button id="AR-mapping-data-{{data.mappingDataName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+											cellTemplate : '<scf-button id="{{ctrl.accountingTransactionType}}-mapping-data-{{data.mappingDataName}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+													+ '<scf-button id="{{ctrl.accountingTransactionType}}-mapping-data-{{data.mappingDataName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 										} ]
 							}
 
@@ -104,7 +104,7 @@ tpModule
 										UIFactory
 												.showSuccessDialog({
 													data : {
-														headerMessage : 'Add new mapping data success.',
+														headerMessage : 'Delete mapping data success.',
 														bodyMessage : ''
 													},
 													preCloseCallback : loadData
@@ -115,6 +115,7 @@ tpModule
 
 
 							vm.init = function(accountingTransactionType) {
+								vm.accountingTransactionType = accountingTransactionType;
 								var uri = 'api/v1/organize-customers/'
 										+ ownerId + '/accounting-transactions/'
 										+ accountingTransactionType
