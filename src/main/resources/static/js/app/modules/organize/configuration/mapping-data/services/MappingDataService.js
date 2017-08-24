@@ -85,21 +85,27 @@ tpModule.factory('MappingDataService', [ '$http', '$q', function($http, $q) {
 		
 	}
 	
-	function createMappingDataItem(mappingModel, mappingDataItemModel, editMode){
-		var uri = 'api/v1/organize-customers/'+mappingModel.ownerId+'/accounting-transactions/'+mappingModel.accountingTransactionType+'/mapping-datas/'+mappingModel.mappingDataId+'/items'; 
+	function createMappingDataItem(mappingModel, mappingDataItemModel, newMode){
+		var serviceUrl = 'api/v1/organize-customers/'+mappingModel.ownerId+'/accounting-transactions/'+mappingModel.accountingTransactionType+'/mapping-datas/'+mappingModel.mappingDataId+'/items'+(newMode?'': '/' + mappingDataItemModel.mappingDataItemId); 
 		var deffered = $q.defer();
 		 
-		 $http({
-	    	    url : uri,
-	        	method: 'POST',
-	        	data: mappingDataItemModel
-	        })
-	        .then(function(response) {
-                deffered.resolve(response);
-            })
-            .catch(function(response) {
-                deffered.reject('Cannot save mapping data item');
-            });
+		var req = {
+    		method : newMode?'POST': 'PUT',
+    		url : serviceUrl,
+    		data: mappingDataItemModel
+    	}
+    	if(!newMode){
+	        req.headers = {
+	        	'If-Match' : mappingDataItemModel.version
+		   }
+    	}
+
+		$http(req).then(function(response) {
+            deffered.resolve(response);
+        })
+        .catch(function(response) {
+            deffered.reject('Cannot save mapping data item');
+        });
 	     
         return deffered;
 	}
