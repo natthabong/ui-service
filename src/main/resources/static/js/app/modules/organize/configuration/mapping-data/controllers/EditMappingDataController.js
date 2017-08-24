@@ -29,7 +29,7 @@ tpModule.controller('EditMappingDataController', [
 						labelTH : 'No.',
 						id : 'No-{value}',
 						sortable : false,
-						cssTemplate : 'text-left',
+						cssTemplate : 'text-right',
 					},{
 						fieldName : 'code',
 						labelEN : 'Code',
