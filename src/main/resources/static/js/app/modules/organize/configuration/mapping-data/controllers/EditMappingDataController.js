@@ -1,27 +1,23 @@
 'use strict';
 var tpModule = angular.module('gecscf.organize.configuration');
 tpModule.controller('EditMappingDataController', [
-        '$scope',
-        '$rootScope',
 		'$stateParams',
+		'$log',
 		'UIFactory',
 		'PageNavigation',
 		'PagingController',
 		'MappingDataService',
-		'$log',
-        function($scope, $rootScope, $stateParams, UIFactory, PageNavigation,
-				PagingController, MappingDataService,$log){
+		
+        function($stateParams, $log, UIFactory, PageNavigation,
+				PagingController, MappingDataService){
 
             var vm = this;
 			var log = $log;
-			var defalutData = $stateParams.mappingData;
-			var hideSignFlag = false;
-			if(defalutData == null){
-				PageNavigation.gotoPage('/organize-list/bank');
-			}else{
-				hideSignFlag = defalutData.mappingType == 'TEXT_MAPPING'? true:false;
-			}
-			
+			var model = $stateParams.mappingData || {
+				mappingDataId: undefined,
+				mappingType: 'TEXT_MAPPING'
+			};
+			var hideSignFlag = model.mappingType == 'TEXT_MAPPING'? true:false;
 
             vm.criteria = {};
             
@@ -88,8 +84,8 @@ tpModule.controller('EditMappingDataController', [
 			}
 
             var init = function() {
-				if(defalutData != null){
-					var deffered = MappingDataService.getMappingData(defalutData);
+				if(model.mappingDataId != undefined){
+					var deffered = MappingDataService.getMappingData(model);
 					deffered.promise.then(function(response){
 						vm.criteria = response.data;
 						initialPaging(vm.criteria);
@@ -140,10 +136,10 @@ tpModule.controller('EditMappingDataController', [
 			
 			vm.newMappingDataCode = function(){
 				var params = {
-						mappingData : defalutData
+						mappingData : model
 					};
 					
-				PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/new', params, {});
+				PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/new', params, {mappingData: model});
 			}
 			
 			vm.editMappingDataCode = function(data){
@@ -154,11 +150,11 @@ tpModule.controller('EditMappingDataController', [
 				}
 				
 				var params = {
-						mappingData : defalutData,
+						mappingData : model,
 						mappingDataItem: data
 					};
 					
-				PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/edit', params, {});
+				PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/edit', params, {mappingData: model});
 			}
 
         }

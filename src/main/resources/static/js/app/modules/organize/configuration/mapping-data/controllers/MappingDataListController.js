@@ -72,47 +72,47 @@ tpModule
 											}
 										});
 							}
-							
+
 							vm.deleteMappingData = function(data) {
 								UIFactory
-								.showConfirmDialog({
-									data : {
-										headerMessage : 'Confirm delete?'
-									},
-									confirm : function() {
-										return MappingDataService.remove(data);
-									},
-									onFail : function(response) {
-										var status = response.status;
-										if (status != 400) {
-											var msg = {
-												404 : "Mapping data has been deleted."
+										.showConfirmDialog({
+											data : {
+												headerMessage : 'Confirm delete?'
+											},
+											confirm : function() {
+												return MappingDataService
+														.remove(data);
+											},
+											onFail : function(response) {
+												var status = response.status;
+												if (status != 400) {
+													var msg = {
+														404 : "Mapping data has been deleted."
+													}
+													UIFactory
+															.showFailDialog({
+																data : {
+																	headerMessage : 'Delete mapping data fail.',
+																	bodyMessage : msg[status] ? msg[status]
+																			: response.errorMessage
+																},
+																preCloseCallback : loadData
+															});
+												}
+
+											},
+											onSuccess : function(response) {
+												UIFactory
+														.showSuccessDialog({
+															data : {
+																headerMessage : 'Delete mapping data success.',
+																bodyMessage : ''
+															},
+															preCloseCallback : loadData
+														});
 											}
-											UIFactory
-													.showFailDialog({
-														data : {
-															headerMessage : 'Delete mapping data fail.',
-															bodyMessage : msg[status] ? msg[status]
-																	: response.errorMessage
-														},
-														preCloseCallback : loadData
-													});
-										}
-
-									},
-									onSuccess : function(response) {
-										UIFactory
-												.showSuccessDialog({
-													data : {
-														headerMessage : 'Delete mapping data success.',
-														bodyMessage : ''
-													},
-													preCloseCallback : loadData
-												});
-									}
-								});
+										});
 							}
-
 
 							vm.init = function(accountingTransactionType) {
 								vm.accountingTransactionType = accountingTransactionType;
