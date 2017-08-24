@@ -16,7 +16,7 @@ tpModule.factory('MappingDataService', [ '$http', '$q', function($http, $q) {
                 deffered.resolve(response);
             })
             .catch(function(response) {
-                deffered.reject('Cannot save mapping');
+            	  deffered.reject(response);
             });
 	     
         return deffered;
@@ -39,7 +39,7 @@ tpModule.factory('MappingDataService', [ '$http', '$q', function($http, $q) {
                 deffered.resolve(response);
             })
             .catch(function(response) {
-                deffered.reject('Cannot delete mapping');
+            	  deffered.reject(response);
             });
 	     
         return deffered;
@@ -56,7 +56,7 @@ tpModule.factory('MappingDataService', [ '$http', '$q', function($http, $q) {
 	            deffered.resolve(response);
 	        })
 	        .catch(function(response) {
-	            deffered.reject('Cannot load mapping data');
+	        	  deffered.reject(response);
 	        });
 	    return deffered;
 	}
@@ -78,7 +78,7 @@ tpModule.factory('MappingDataService', [ '$http', '$q', function($http, $q) {
                 deffered.resolve(response);
             })
             .catch(function(response) {
-                deffered.reject('Cannot delete mapping');
+            	  deffered.reject(response);
             });
 
 		return deffered;
@@ -104,7 +104,7 @@ tpModule.factory('MappingDataService', [ '$http', '$q', function($http, $q) {
             deffered.resolve(response);
         })
         .catch(function(response) {
-            deffered.reject('Cannot save mapping data item');
+        	  deffered.reject(response);
         });
 	     
         return deffered;

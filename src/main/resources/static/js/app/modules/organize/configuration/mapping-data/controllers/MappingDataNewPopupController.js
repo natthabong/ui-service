@@ -12,7 +12,9 @@ tpModule
 								MappingDataService) {
 
 							var vm = this;
-
+							$scope.errors = undefined;
+							
+							
 							var data = $scope.ngDialogData.data;
 							vm.model = {
 								mappingType : 'TEXT_MAPPING',
@@ -32,9 +34,9 @@ tpModule
 							vm.hasError = false;
 							
 							var _isValid = function() {
-								vm.hasError = false;
+								$scope.errors = undefined;
 								if (!vm.model.mappingDataName.length) {
-									vm.hasError = true;
+									$scope.errors = {'mappingDataName':'Mapping name is required'};
 									return false;
 								}
 								return true;
@@ -69,6 +71,10 @@ tpModule
 																	},
 																	preCloseCallback : preCloseCallback
 																});
+													}
+													else{
+														$scope.errors = {};
+														$scope.errors[response.data.errorCode] = response.data.errorMessage;
 													}
 
 												},

@@ -842,7 +842,21 @@ app.factory('httpErrorResponseInterceptor', ['$q', '$location', '$window',
       };
     }
   ]);
-
+// register the interceptor as a service
+app.factory('templateInterceptor', function($q) {
+  return {
+    'responseError': function(rejection) {
+       if(rejection.config != undefined){
+    	   var isTemplate = !!rejection.config.url.match(/^content/g);
+           if (isTemplate) {
+             rejection.data = '<div><template-error url="\''+ (rejection.config.url) + '\'"><strong>Error from interceptor.</strong></template-error></div>';
+             return rejection;
+           } 
+       }
+       return $q.reject(rejection);
+    }
+  }
+});
 app.controller('MenuController', ['scfFactory', '$state', function (scfFactory, $state) {
     var self = this;
     self.menu = [];
@@ -856,21 +870,7 @@ app.controller('MenuController', ['scfFactory', '$state', function (scfFactory, 
     self.goTo = function(state){
 	$state.go(state);
     }
- // register the interceptor as a service
-app.factory('templateInterceptor', function($q) {
-  return {
-    'responseError': function(rejection) {
-    	
-       var isTemplate = !!rejection.config.url.match(/^content/g);
-       if (isTemplate) {
-         rejection.data = '<div><template-error url="\''+ (rejection.config.url) + '\'"><strong>Error from interceptor.</strong></template-error></div>';
-         return rejection;
-       } else {
-         return $q.reject(rejection);
-       }
-    }
-  }
-});
+
 app.run(['$rootScope', '$q', '$http', '$urlRouter', '$window', 'blockUI', '$state', '$filter', '$cookieStore', function ($rootScope, $q, $http, $urlRouter, $window, blockUI, $state, $filter, $cookieStore) {
 // $window.Date.prototype.toISOString = function(){
 // return $filter('date')(this, 'yyyy-MM-ddTHH:mm:ss.000+0000');
