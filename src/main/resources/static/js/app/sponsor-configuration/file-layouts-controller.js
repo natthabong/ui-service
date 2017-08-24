@@ -40,8 +40,8 @@ angular
 								value : '50'
 							} ];
 							
-							vm.newFileLayout = function(data){		
-								var params = {fileLayoutModel: data};
+							vm.newFileLayout = function(data,processType){		
+								var params = {fileLayoutModel: data, processType:processType};
 								PageNavigation.gotoPage('/sponsor-configuration/file-layouts/new-file-layout',params)
 							}
 							
@@ -74,9 +74,6 @@ angular
 							};
 
 							vm.data = [];
-//							vm.data = [{
-//						    	"displayName" : "Big C file layout"
-//						    }]
 
 							vm.decodeBase64 = function(data) {
 								return atob(data);
@@ -118,6 +115,7 @@ angular
 								
 								serviceDiferred.promise.then(function(response){
 									vm.data = response.data[0];
+									console.log(vm.data)
 									vm.pageModel.totalRecord = response.headers("X-Total-Count");
 									vm.pageModel.totalPage = response.headers("X-Total-Page");									
 									vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.page, vm.pageModel.totalRecord);

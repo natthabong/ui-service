@@ -23,8 +23,8 @@
 							id="ar-document-configuration-header-label">AR document
 							configuration</h3>
 					</div>
-					<div class="col-md-2 col-sm-2 col-xs-6">
-						<button class="thumbnail" ng-click="" id="AR Import file layout-setup-button">
+					<div class="col-md-2 col-sm-2 col-xs-6" ng-controller="FileLayoutsController as fileLayoutsCtrl">
+						<button class="thumbnail" ng-click="fileLayoutsCtrl.newFileLayout(fileLayoutsCtrl.data,'BFP')" id="AR Import file layout-setup-button">
 							<div class="caption config-box">
 								<div class="media">
 									<div class="media-body">
@@ -189,7 +189,7 @@
 							sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" />
 						<button class="thumbnail"
 							id="layout-{{fileLayoutsCtrl.data.displayName}}-setup-button"
-							ng-click="fileLayoutsCtrl.newFileLayout(fileLayoutsCtrl.data)"
+							ng-click="fileLayoutsCtrl.newFileLayout(fileLayoutsCtrl.data,'SFP')"
 							title="Config a file layout"
 							ng-disabled="fileLayoutsCtrl.unauthenConfig()">
 							<div class="caption config-box">

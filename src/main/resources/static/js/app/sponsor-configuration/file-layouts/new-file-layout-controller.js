@@ -26,6 +26,12 @@ app.controller('NewFileLayoutController', [
 		var sponsorId = $rootScope.sponsorId;
 
 		var selectedItem = $stateParams.fileLayoutModel;
+		vm.processType = $stateParams.processType;
+		var headerName = {
+			"SFP" : "AP Document file layout",
+			"BFP" : "AP Document file layout"
+		}
+		vm.headerName = headerName[vm.processType];
 
 		var BASE_URI = 'api/v1/organize-customers/' + sponsorId
 			+ '/sponsor-configs/SFP';
