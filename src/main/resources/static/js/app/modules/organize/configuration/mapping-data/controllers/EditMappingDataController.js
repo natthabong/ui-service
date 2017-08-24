@@ -15,55 +15,63 @@ tpModule.controller('EditMappingDataController', [
             var vm = this;
 			var log = $log;
 			var defalutData = $stateParams.mappingData;
-			// var hideSignFlag = defalutData.mappingType == 'TEXT_MAPPING'? true:false;
-			// console.log(hideSignFlag)
+			var hideSignFlag = false;
+			if(defalutData == null){
+				PageNavigation.gotoPage('/organize-list/bank');
+			}else{
+				hideSignFlag = defalutData.mappingType == 'TEXT_MAPPING'? true:false;
+			}
 			
 
             vm.criteria = {};
             
             vm.dataTable = {
-				options: {
-					displayRowNo: {
-						idValueField: '$rowNo',
-						id: 'mapping-data-{value}-row-no-label'
-					}
-				},
-				expansion:{
-					expanded: true
-				},
 				columns : [
 					{
-						fieldName : 'code',
-						field : 'code',
-						label : 'Code',
-						idValueField :'$rowNo',
-						id : 'code-{value}-label',
+						fieldName : '$rowNo',
+						labelEN : 'No.',
+						labelTH : 'No.',
+						id : 'No-{value}',
 						sortable : false,
 						cssTemplate : 'text-left',
 					},{
-						fieldName : 'display ',
-						field : 'display',
-						label : 'Display',
+						fieldName : 'code',
+						labelEN : 'Code',
+						labelTH : 'Code',
+						id : 'code-{value}',
+						sortable : false,
+						cssTemplate : 'text-left',
+					},{
+						fieldName : 'display',
+						labelEN : 'Display',
+						labelTH : 'Display',
 						idValueField : '$rowNo',
 						id : 'display-{value}-label',
 						sortable : false,
 						cssTemplate : 'text-left',
 					},{
-						fieldName : 'signFlag ',
-						field : 'signFlag',
-						label : 'Sign flag',
+						fieldName : 'signFlag',
+						labelEN : 'Sign flag',
+						labelTH : 'Sign flag',
 						idValueField :'$rowNo',
 						id : 'sign-flag-{value}',
 						sortable : false,
-						cssTemplate : 'text-left'
+						cssTemplate : 'text-left',
+						hiddenColumn: hideSignFlag,
+						dataRenderer: function(record){
+							if(record.signFlag){
+								record = "Positive";
+							}else{
+								record = "Negative ";
+							}
+							return record;
+						},
 					},{
 						fieldName: 'action',
-						field: 'action',
-						label: '',
 						cssTemplate: 'text-center',
 						sortData: false,
-						cellTemplate: '<scf-button id="mapping-data-{{data.mappingDataName}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
-									+ '<scf-button id="mapping-data-{{data.mappingDataName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+						cellTemplate: '<scf-button id="mapping-data-{{$parent.$index+1}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+									+ '<scf-button id="mapping-data-{{$parent.$index+1}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 					}
 				]
 			}
@@ -80,13 +88,10 @@ tpModule.controller('EditMappingDataController', [
 			}
 
             var init = function() {
-				if(defalutData == null){
-					PageNavigation.gotoPage('/organize-list/bank');
-				}else{
+				if(defalutData != null){
 					var deffered = MappingDataService.getMappingData(defalutData);
 					deffered.promise.then(function(response){
 						vm.criteria = response.data;
-						console.log(vm.criteria)
 						initialPaging(vm.criteria);
 					}).catch(function(response){
 						log.error("Can not load mapping data !")
@@ -96,11 +101,10 @@ tpModule.controller('EditMappingDataController', [
 
 			
 			vm.deleteMappingData = function(mappingItem){
-				console.log(mappingItem)
 				var preCloseCallback = function(confirm) {
 					vm.loadData();
 				}
-				
+
 				UIFactory.showConfirmDialog({
 					data: { 
 						headerMessage: 'Confirm delete?'
@@ -109,10 +113,10 @@ tpModule.controller('EditMappingDataController', [
 						return MappingDataService.deleteMappingData(vm.criteria,mappingItem);
 					},
 					onFail: function(response){
-						var msg = {409:'Role has been deleted.', 405:'Role has been used.'};
+						var msg = {409:'Data mapping code has been deleted.', 405:'Data mapping code has been used.'};
 						UIFactory.showFailDialog({
 						data: {
-							headerMessage: 'Delete role fail.',
+							headerMessage: 'Delete data mapping code fail.',
 							bodyMessage: msg[response.status]?msg[response.status]:response.statusText
 						},
 						preCloseCallback: preCloseCallback
@@ -121,7 +125,7 @@ tpModule.controller('EditMappingDataController', [
 					onSuccess: function(response){
 						UIFactory.showSuccessDialog({
 						data: {
-							headerMessage: 'Delete role success.',
+							headerMessage: 'Delete data mapping code success.',
 							bodyMessage: ''
 						},
 						preCloseCallback: preCloseCallback

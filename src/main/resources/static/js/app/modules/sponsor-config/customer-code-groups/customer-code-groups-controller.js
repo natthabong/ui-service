@@ -50,7 +50,7 @@ scfApp.controller(
 			vm.data = []
 
 			vm.search = function() {
-				var serviceUrl = '/api/v1/organize-customers/' + $scope.sponsorId + '/sponsor-configs/SFP/customer-code-groups';
+				var serviceUrl = '/api/v1/organize-customers/' + $scope.sponsorId + '/accounting-transactions/PAYABLE/customer-code-groups';
 				var serviceDiferred = Service.doGet(serviceUrl, {
 					limit : vm.pageModel.pageSizeSelectModel,
 					offset : vm.pageModel.currentPage
@@ -135,7 +135,7 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 				vm.customerCodeGroupRequest.sponsorId = vm.sponsorId;
 				vm.customerCodeGroupRequest.completed = false;
 
-				var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups';
+				var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/accounting-transactions/PAYABLE/customer-code-groups';
 
 				var serviceDiferred = Service.requestURL(serviceUrl, vm.customerCodeGroupRequest, 'POST');
 				serviceDiferred.promise.then(function(response) {
@@ -156,7 +156,7 @@ scfApp.controller('CustomerCodeGroupDiaglogController',
 			vm.saveCustomerGroup = function() {
 				blockUI.start();
 				var groupId = vm.customerCodeGroupRequest.groupId;
-				var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups/'+groupId;
+				var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/accounting-transactions/PAYABLE/customer-code-groups/'+groupId;
 				
 				var serviceDiferred = Service.requestURL(serviceUrl, vm.customerCodeGroupRequest, 'PUT');
 				serviceDiferred.promise.then(function(response) {
@@ -282,7 +282,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	
 	var deleteCustomerCode = function(customerCode){
 	    
-		var serviceUrl = '/api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/customer-code-groups/'+groupId+'/customers/'+customerCode.supplierId+'/customer-codes/' + customerCode.customerCode;
+		var serviceUrl = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/PAYABLE/customer-code-groups/'+groupId+'/customers/'+customerCode.organizeId+'/customer-codes/' + customerCode.customerCode;
 		var deferred = $q.defer();
 		$http({
 		    method: 'DELETE',
@@ -352,7 +352,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			customerCode: '',
 			suspend: '',
 			status: '',
-			supplierId: ''
+			organizeId: ''
 	}
 	var prepareSearchCriteria = function(){
 		
@@ -360,9 +360,9 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		vm.searchCriteria.customerCode = vm.criteria.customerCode || '';
 		
 		if(angular.isDefined(vm.criteria.customer)){
-			vm.searchCriteria.supplierId = vm.criteria.customer.supplierId;
+			vm.searchCriteria.organizeId = vm.criteria.customer.supplierId;
 		}else{
-			vm.searchCriteria.supplierId = '';
+			vm.searchCriteria.organizeId = '';
 		}
 		CustomerCodeStatus.forEach(function(item) {
 			if(item.value == vm.criteria.status){
@@ -412,15 +412,15 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		
 		groupId = selectedItem.groupId;
 	    vm.model = selectedItem;
-	    vm.sponsorId = selectedItem.sponsorId;
-	    var customerCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/customer-code-groups/'+groupId+'/customer-codes';
+	    vm.sponsorId = selectedItem.ownerId;
+	    var customerCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/PAYABLE/customer-code-groups/'+groupId+'/customer-codes';
 	    vm.pagingController = PagingController.create(customerCodeURL, vm.searchCriteria, 'GET');
 		vm.search();
 	}
 	
 	if(currentMode == mode.PERSONAL){
 		vm.personalMode = true;
-		var serviceUrl = '/api/v1/organize-customers/' + organizeId + '/sponsor-configs/SFP/customer-code-groups';
+		var serviceUrl = '/api/v1/organize-customers/' + organizeId + '/accounting-transactions/PAYABLE/customer-code-groups';
 		var serviceDiferred = Service.doGet(serviceUrl, {
 			limit : 1,
 			offset : 0
@@ -445,10 +445,10 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		if(vm.isNewCusotmerCode){
 			customerCode.groupId = groupId;
 			
-			var newCustCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/customer-code-groups/'+groupId+'/customer-codes';
+			var newCustCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/PAYABLE/customer-code-groups/'+groupId+'/customer-codes';
 			saveCustomerDiferred = Service.requestURL(newCustCodeURL, customerCode);
 		}else{
-			var editCustCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/sponsor-configs/SFP/customer-code-groups/'+groupId+'/customer-codes/'+ vm.oldCustomerCode;
+			var editCustCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/PAYABLE/customer-code-groups/'+groupId+'/customer-codes/'+ vm.oldCustomerCode;
 			saveCustomerDiferred = Service.doPut(editCustCodeURL, customerCode);
 		}
 		return saveCustomerDiferred;
@@ -465,7 +465,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			closeDialogSucccess();
 			
 			vm.customerCodeSetup({
-			    supplierId: customerCode.supplierId
+			    supplierId: customerCode.organizeId
 			});
 		}};
 		
@@ -619,10 +619,10 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 	}
 	
 	var prepreSupplierDisplay= function(){
-		var customerCodeQuery = queryCustomerCode(vm.model.supplierId);
+		var customerCodeQuery = queryCustomerCode(vm.model.organizeId);
 		customerCodeQuery.then(function(values){
 			values.forEach(function(value){
-				if(value.supplierId == vm.model.supplierId){
+				if(value.supplierId == vm.model.organizeId){
 					vm.customerSuggestModel = value;
 				}
 			});			
@@ -633,14 +633,14 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 		var supplierIdInitial = null;
 		if(vm.isNewCusotmerCode){
 			if(vm.isAddMoreCustomerCode){
-				supplierIdInitial = vm.model.supplierId;
+				supplierIdInitial = vm.model.organizeId;
 				prepreSupplierDisplay();
 			}
 			
 			vm.model = {
 				activeDate: new Date(),
 				suspend: false,
-				supplierId: supplierIdInitial
+				organizeId: supplierIdInitial
 			}
 			
 			var currentDate = getCurrentDate();
@@ -691,7 +691,7 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 		vm.invalideExpiryDate = false;
 		
 		if(angular.isDefined(vm.customerSuggestModel)){
-			vm.model.supplierId = vm.customerSuggestModel.supplierId;
+			vm.model.organizeId = vm.customerSuggestModel.supplierId;
 		}
 		
 		if($scope.newEditCustCode.customer.$error.required){
