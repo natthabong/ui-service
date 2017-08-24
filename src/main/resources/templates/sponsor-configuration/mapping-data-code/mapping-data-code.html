@@ -30,6 +30,11 @@
                                 <div class="col-md-3 col-sm-2"></div>
                             </div>
                             
+                            <div class="form-group" ng-show="errors.code">
+								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+								<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="code-warning-message-label" ng-bind="errors.code.message | translate"></span>
+							</div>
+                            
                             <div class="form-group">
                                 <label id="display-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Display' | translate}}:</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -37,6 +42,11 @@
                                 </div>
                                 <div class="col-md-3 col-sm-2"></div>
                             </div>
+                            
+                            <div class="form-group" ng-show="errors.display">
+								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+								<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="code-warning-message-label" ng-bind="errors.display.message | translate"></span>
+							</div>
                             
                             <div class="form-group" ng-if="ctrl.isSignFlagMapping">
                                 <label id="sign-flag-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sign flag' | translate}}:</label>

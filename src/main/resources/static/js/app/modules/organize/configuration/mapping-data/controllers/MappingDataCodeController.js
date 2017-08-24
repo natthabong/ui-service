@@ -25,6 +25,7 @@ mappingDataModule.controller('MappingDataCodeController', [
         if(currentMode == mode.NEW){
         	vm.isNewMode = true;
         }
+        
         if(vm.mappingDataModel.mappingType == 'SIGN_FLAG_MAPPING'){
         	vm.isSignFlagMapping = true;
         }
@@ -72,26 +73,66 @@ mappingDataModule.controller('MappingDataCodeController', [
 				PageNavigation.gotoPreviousPage(true);
 			}
         	
-        	UIFactory.showConfirmDialog({
-			data : {
-				headerMessage : 'Confirm save?'
-			},
-			confirm : function() {
-				return _save(vm.mappingDataItemModel);
-			},
-			onFail : function(response) {
-				
-			},
-			onSuccess : function(response) {
-				UIFactory.showSuccessDialog({
-						data : {
-							headerMessage : vm.isNewMode? 'Add new code success.':'Edit code complete.',
-							bodyMessage : ''
-						},
-						preCloseCallback : preCloseCallback
-					});
-				}
-		    });
+        	if(_validate(vm.mappingDataItemModel)){
+        		
+        		UIFactory.showConfirmDialog({
+    			data : {
+    				headerMessage : 'Confirm save?'
+    			},
+    			confirm : function() {
+    				return _save(vm.mappingDataItemModel);
+    			},
+    			onFail : function(response) {
+    				var status = response.status;
+					if (status != 400) {
+						var msg = {
+							404 : "Code has been deleted."
+						}
+						UIFactory.showFailDialog({
+							data : {
+								headerMessage : vm.isNewMode? 'Add new code fail.': 'Edit code fail.' ,
+								bodyMessage : msg[status] ? msg[status] : response.errorMessage
+							},
+							preCloseCallback : preCloseCallback
+						});
+					}
+    			},
+    			onSuccess : function(response) {
+    				UIFactory.showSuccessDialog({
+    						data : {
+    							headerMessage : vm.isNewMode? 'Add new code success.':'Edit code complete.',
+    							bodyMessage : ''
+    						},
+    						preCloseCallback : preCloseCallback
+    					});
+    				}
+    		    });
+        	}
+        	
+        }
+        
+        var isRequire = function(data) {
+			return (data == '' || data == null);
+		}
+        
+        var _validate = function(mappingDataItem){
+        	$scope.errors = {};
+        	var valid = true;
+        	if(isRequire(mappingDataItem.code)){
+        		valid = false;
+			    $scope.errors.code = {
+			    		message : 'Code is required.'
+			    }
+        	}
+        	
+        	if(isRequire(mappingDataItem.display)){
+        		valid = false;
+			    $scope.errors.display = {
+			    		message : 'Display is required.'
+			    }
+        	}
+        	
+        	return valid;
         }
     }
 ]);
