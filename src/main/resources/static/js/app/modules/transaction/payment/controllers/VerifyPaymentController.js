@@ -25,6 +25,10 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
         }, 10);
     }
 
+	var _criteria = {
+		transactionId : null
+	}
+
 	var loadTransaction = function(callback){
         var deffered = VerifyPaymentService.getTransaction(vm.transactionModel);
         deffered.promise.then(function(response){
@@ -38,9 +42,7 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
             	vm.isLoanPayment = true;
             }
             
-            var _criteria = {
-                transactionId : vm.transactionModel.transactionId
-            }
+            _criteria.transactionId = vm.transactionModel.transactionId;
             
             vm.pagingController = PagingController.create('api/v1/transaction-documents', _criteria, 'GET');
             
@@ -56,6 +58,7 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
         var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE','TRANSACTION_DOCUMENT');
         deffered.promise.then(function(response) {
             vm.dataTable.columns = response.items;
+			_criteria.sort = response.sort;
             callback();
         });
     }
