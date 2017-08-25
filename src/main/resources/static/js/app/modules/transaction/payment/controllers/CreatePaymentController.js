@@ -6,6 +6,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         //<-------------------------------------- declare variable ---------------------------------------->
         var vm = this;
         var log = $log;
+        var comparator = angular.equals;
 
         var ownerId = $rootScope.userInfo.organizeId;
         var backAction = $stateParams.backAction || false;
@@ -121,7 +122,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             return valid;
         }
 
-        //vm.pagingController = PagingController.create('api/v1/documents', _criteria, 'GET');
+        vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
         vm.pagingController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
         vm.display = false;
 
@@ -141,12 +142,17 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         vm.loadData = function(pagingModel, callback) {
+        	_criteria.searchMatching = false;
             var diferred = vm.pagingController.search(pagingModel);
             diferred.promise.then(function(response) {
                 if (!vm.display) {
                     vm.clearSelectDocument();
                 }
                 vm.watchCheckAll();
+                
+                _criteria.searchMatching = true;
+                var deffered = vm.pagingAllController.search(pagingModel);
+                
                 var totalRecord = vm.pagingController.pagingModel.totalRecord;
                 if (vm.documentSelects.length == totalRecord && vm.documentSelects.length > 0) {
                     vm.selectAllModel = true;
@@ -501,7 +507,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     offset: 0,
                     buyerId: ownerId,
                     supplierId: _criteria.supplierId,
-                    showOverdue: false
+                    showOverdue: false,
+                    searchMatching: false
                 }
 
                 var diferredDocumentAll = TransactionService.getDocuments(searchDocumentCriteria);
@@ -525,7 +532,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
         vm.watchCheckAll = function() {
             vm.checkAllModel = false;
-            var comparator = angular.equals;
             var countRecordData = 0;
             vm.pagingController.tableRowCollection.forEach(function(document) {
                 for (var index = vm.documentSelects.length; index--;) {

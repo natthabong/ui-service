@@ -107,24 +107,27 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             } : undefined));
 
             deffered.promise.then(function (response) {
-                if (backAction) {
-                    vm.documentSelects = $stateParams.documentSelects;
-                    // clear param
-                    $stateParams.documentSelects = [];
-                    $stateParams.backAction = false;
-                    backAction = false;
-                    calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
-                } else if (!backAction && dashboardParams != null) {
-                    vm.selectAllDocument();
-                    //clear dashboard param after search
-                    $stateParams.dashboardParams = null;
-                    dashboardParams = null;
-                }
-                vm.watchCheckAll();
-                blockUI.stop();
-                
                 _criteria.searchMatching = true;
-                var deffered = vm.pagingAllController.search(pagingModel);
+                var defferedAll = vm.pagingAllController.search(pagingModel);
+                defferedAll.promise.then(function (response) {
+                	if (backAction) {
+                        vm.documentSelects = $stateParams.documentSelects;
+                        // clear param
+                        $stateParams.documentSelects = [];
+                        $stateParams.backAction = false;
+                        backAction = false;
+                        calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                    } else if (!backAction && dashboardParams != null) {
+                        vm.selectAllDocument();
+                        //clear dashboard param after search
+                        $stateParams.dashboardParams = null;
+                        dashboardParams = null;
+                    }
+                    vm.watchCheckAll();
+                    blockUI.stop();
+                }).catch(function (response) {
+                    blockUI.stop();
+                });
             }).catch(function (response) {
                 blockUI.stop();
             });
@@ -504,11 +507,12 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 	}
             	});
             }
+            
+            calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
         }
 
         vm.selectAllDocument = function () {
         	var allDocument = vm.pagingAllController.tableRowCollection;
-        	
             if (!vm.selectAllModel) {
             	allDocument.forEach(function (document) {
 	            	vm.documentSelects.push(document);
