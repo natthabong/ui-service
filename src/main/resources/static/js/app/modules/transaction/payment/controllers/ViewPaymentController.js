@@ -36,6 +36,10 @@ paymentModule.controller('ViewPaymentController', [
                 columns: []
             };
 
+            var _criteria = {
+                transactionId : null
+            }
+
             var loadTransaction = function(callback){
                 var deffered = ViewPaymentService.getTransaction(vm.transactionModel);
                 deffered.promise.then(function(response){
@@ -49,9 +53,7 @@ paymentModule.controller('ViewPaymentController', [
                     	vm.isTypeLoan = true;
                     }
 
-                    var _criteria = {
-                        transactionId : vm.transactionModel.transactionId
-                    }
+                    _criteria.transactionId = vm.transactionModel.transactionId;
                     
                     vm.pagingController = PagingController.create('api/v1/transaction-documents', _criteria, 'GET');
                     
@@ -67,6 +69,7 @@ paymentModule.controller('ViewPaymentController', [
                 var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId,'RECEIVABLE','TRANSACTION_DOCUMENT');
                 deffered.promise.then(function(response) {
                     vm.dataTable.columns = response.items;
+                    _criteria.sort = response.sort;
                     callback();
                 });
             }
