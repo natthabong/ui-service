@@ -561,7 +561,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             if (vm.documentSelects.length === 0) {
                 $scope.errors.message = 'Please select document.';
                 vm.errorDisplay = true;
-            } else if (vm.isLoanPayment && !angular.isDefined(vm.maturityDateModel) || vm.maturityDateModel == '') {
+            } else if (vm.isLoanPayment && (!angular.isDefined(vm.maturityDateModel) || vm.maturityDateModel == '')) {
                 $scope.errors.message = 'Maturity date is required.';
                 vm.errorDisplay = true;
             } else {
