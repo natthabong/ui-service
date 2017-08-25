@@ -25,25 +25,27 @@ angular.module('scfApp').controller(
 							currentPage : 0
 						};
 					vm.transactionModel = $stateParams.transactionModel || {};
+
+					var sort = null;
 					
 					vm.splitePageTxt = '';
 					function init(){
 					     var deffered = VerifyTransactionService.prepare(vm.transactionModel);
-				            deffered.promise.then(function (response) {
-				            	  vm.transactionModel = angular.extend(vm.transactionModel, response.data);
-									
-				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
-				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-				            	  vm.searchDocument();
-				                })
-				                .catch(function (response) {
-				                    log.error('Cannot initial data');
-				                });
-				            
-				          var columnDisplayConfig = vm.loadDocumentDisplayConfig(vm.transactionModel.sponsorId);
+						var columnDisplayConfig = vm.loadDocumentDisplayConfig(vm.transactionModel.sponsorId);
 							columnDisplayConfig.promise.then(function(response){
 								vm.dataTable.columns = response.items;
-						  });
+								sort = response.sort;
+						});
+						deffered.promise.then(function (response) {
+							vm.transactionModel = angular.extend(vm.transactionModel, response.data);
+							
+							vm.pageModel.totalRecord = vm.transactionModel.documents.length;
+							vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+							vm.searchDocument();
+						})
+						.catch(function (response) {
+							log.error('Cannot initial data');
+						});
 					}
 					
 					
@@ -83,7 +85,8 @@ angular.module('scfApp').controller(
 						var txnDocCriteria = {
 								transactionId: 	vm.transactionModel.transactionId,
 								page: vm.pageModel.currentPage,
-								pageSize: +vm.pageModel.pageSizeSelectModel
+								pageSize: +vm.pageModel.pageSizeSelectModel,
+								sort : sort
 							}
 						var deffered = VerifyTransactionService.getDocuments(txnDocCriteria);
 						deffered.promise.then(function(response){
