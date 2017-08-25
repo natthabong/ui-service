@@ -79,7 +79,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             pageOptions.loanRequestMode = response.loanRequestMode;
             pageOptions.documentSelection = response.documentSelection;
             pageOptions.buyerCodeSelectionMode = response.buyerCodeSelectionMode;
-//            vm.criteria.sort = response.sort.join();
+            vm.criteria.sort = response.sort;
             _loadBuyerCodes(ownerId);
         });
     }
