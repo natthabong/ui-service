@@ -77,7 +77,7 @@ var app = angular.module('scfApp');
 							}
 							
 							vm.search = function(){
-								var serviceUrl = '/api/v1/organize-customers/'+$scope.sponsorId+'/sponsor-configs/SFP/payment-date-formulas';
+								var serviceUrl = '/api/v1/organize-customers/'+$scope.sponsorId+'/processTypes/AP_DOCUMENT/payment-date-formulas';
 								var serviceDiferred = Service.doGet(serviceUrl, {
 									limit:  vm.pageModel.pageSizeSelectModel,
 									offset: vm.pageModel.currentPage

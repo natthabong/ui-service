@@ -258,14 +258,19 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					
 			}).state('/sponsor-configuration/file-layouts/new-file-layout',{
 				url: '/sponsor-configuration/file-layouts/new-file-layout',
-				controller: 'NewFileLayoutController',
+				controller: 'FileLayoutController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/file-layouts/new-file-layout',
 				params: { fileLayoutModel: null,processType:null},
-				resolve: load(['js/app/sponsor-configuration/file-layouts/new-file-layout-controller.js',
-							'js/app/modules/sponsor-config/customer-code-groups/customer-code-groups-controller.js',
-							'js/app/modules/organize/configuration/file-layout/controllers/TextLayoutConfigController.js',
-							'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/organize/configuration/file-layout/controllers/FileLayotController.js',
+					'js/app/modules/organize/configuration/file-layout/controllers/TextLayoutConfigController.js',
+					'js/app/modules/organize/configuration/file-layout/controllers/DateTimeLayoutConfigController.js',
+					'js/app/modules/organize/configuration/file-layout/controllers/NumericLayoutConfigController.js',
+					'js/app/modules/organize/configuration/file-layout/controllers/RecordTypeLayoutConfigController.js',
+					'js/app/modules/organize/configuration/file-layout/controllers/FillerLayoutConfigController.js',
+					'js/app/modules/organize/configuration/file-layout/controllers/SignFlagLayoutConfigController.js',
+					'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
+					'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/sponsor-configuration/document-display/settings',{
 				url: '/sponsor-configuration/document-display/settings',
 				controller: 'DocumentDisplayController',

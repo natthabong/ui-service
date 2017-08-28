@@ -14,7 +14,7 @@
 						<h3 class="animated fadeInLeft" id="file-layouts-header-label">{{'Import file
 							layout' | translate}}</h3>
 					</div>
-					<div class="col-lg-2 col-md-2 col-xs-2">
+					<div class="col-lg-2 col-md-2 col-xs-2" ng-init="fileLayoutsCtrl.init('AP_DOCUMENT')">
 						<br />
 						<scf-button
 							id="layout-{{fileLayoutsCtrl.data.displayName}}-setup-button"

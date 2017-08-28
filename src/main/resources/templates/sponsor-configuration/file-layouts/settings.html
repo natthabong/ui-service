@@ -4,8 +4,7 @@
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft" ng-bind="ctrl.headerName">{{'AP
-						Document file layout' | translate}}</h3>
+					<h3 id="header-message-label" class="animated fadeInLeft">{{ctrl.headerName | translate}}</h3>
 				</div>
 			</div>
 		</div>
@@ -15,18 +14,6 @@
 				<div class="panel panel-default col-md-12 padding-0">
 					<div class="panel-body">
 
-						<div class="form-group">
-							<label for="dealer" id="layout-name-label"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
-								layout name' | translate}}: </label>
-
-							<div class="col-md-4 col-sm-5 col-xs-12">
-								<scf-input-text id="layout-name-textbox" maxlength="255"
-									ng-disabled="!ctrl.manageAll"
-									ng-model="ctrl.model.displayName"></scf-input-text>
-							</div>
-							<div class="col-md-6 col-sm-4"></div>
-						</div>
 						<div class="form-group">
 							<label for="dealer" id="file-type-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
@@ -96,29 +83,6 @@
 									ng-model="ctrl.specificModel"
 									component-data="ctrl.specificsDropdown"
 									translate-label="true"></scf-dropdown>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-							<label for="customer-code"
-								class="col-md-2 col-sm-3 col-xs-12 control-label"
-								id="customer-code-group-label">{{'Customer code group' |
-								translate}}:</label>
-							<div class="col-md-3 col-sm-3 col-xs-12">
-								<scf-dropdown id="customer-code-group-dropdown"
-									ng-disabled="ctrl.model.fileType != ctrl.fileType.specific || !ctrl.manageAll"
-									ng-model="ctrl.customerCodeGroup"
-									component-data="ctrl.customerCodeGroupDropdown"
-									translate-label="true" convert-to-number="true"></scf-dropdown>
-							</div>
-							<div class="col-md-1 col-sm-1 col-xs-12">
-								<scf-button id="new-customer-code-group-button"
-									class="btn-default gec-btn-action"
-									ng-click="ctrl.newCustomerCodeGroup()"
-									ng-disabled="ctrl.model.fileType != ctrl.fileType.specific"
-									ng-show="false"
-									title="New a customer code group"> <i
-									class="fa fa-plus" aria-hidden="true"></i></scf-button>
 							</div>
 						</div>
 						<div class="form-group">
@@ -580,11 +544,11 @@
 								</div>
 							</fieldset>
 							<br
-								ng-hide="ctrl.model.fileType == ctrl.fileType.specific || ctrl.processType=='BFP'" />
+								ng-hide="ctrl.model.fileType == ctrl.fileType.specific || ctrl.processType=='AR_DOCUMENT'" />
 							<br
-								ng-hide="ctrl.model.fileType == ctrl.fileType.specific || ctrl.processType=='BFP'" />
+								ng-hide="ctrl.model.fileType == ctrl.fileType.specific || ctrl.processType=='AR_DOCUMENT'" />
 							<div class="form-group"
-								ng-hide="ctrl.model.fileType == ctrl.fileType.specific || ctrl.processType=='BFP'">
+								ng-hide="ctrl.model.fileType == ctrl.fileType.specific || ctrl.processType=='AR_DOCUMENT'">
 								<label id="payment-date-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'payment-date'
 									| translate}}: </label>
@@ -611,7 +575,7 @@
 								</div>
 							</div>
 							<div class="form-group"
-								ng-hide="ctrl.model.fileType == ctrl.fileType.specific || ctrl.processType=='BFP'">
+								ng-hide="ctrl.model.fileType == ctrl.fileType.specific || ctrl.processType=='AR_DOCUMENT'">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<div class="col-sm-9 col-xs-12">
 									<div class="row">

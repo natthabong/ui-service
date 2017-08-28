@@ -1,0 +1,475 @@
+'use strict';
+var module = angular.module('gecscf.organize.configuration.fileLayout');
+module.controller('FileLayoutController', [
+		'$log',
+		'$rootScope',
+		'$scope',
+		'$state',
+		'$stateParams',
+		'ngDialog',
+		'UIFactory',
+		'blockUI','FileLayoutService',
+		'FILE_TYPE_ITEM',
+		'DELIMITER_TYPE_TEM',
+		'CHARSET_ITEM','Service',
+		function(log, $rootScope, $scope, $state, $stateParams, ngDialog, UIFactory,
+				blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, Service) {
+			
+			var vm = this;
+			vm.manageAll = false;
+
+			vm.newMode = true;
+			var ownerId = $rootScope.sponsorId;
+			var selectedItem = $stateParams.fileLayoutModel;
+			
+			var BASE_URI = 'api/v1/organize-customers/' + ownerId
+			+ '/sponsor-configs/SFP';
+			
+			vm.dataTypes = [];
+			vm.dataTypeHeaders = [];
+			vm.dataTypeFooters = [];
+			
+			vm.configHeader = false;
+			vm.configFooter = false;
+			vm.isConfigOffsetRowNo = false; 
+
+			vm.paymentDateConfigStrategy = {
+				'FIELD' : 'FIELD',
+				'FORMULA' : 'FORMULA'
+			}
+			
+			vm.recordType = {
+					'HEADER': 'HEADER',
+					'DETAIL': 'DETAIL',
+					'FOOTER': 'FOOTER'
+				}
+
+			var defaultDropdown = [ {
+				value : null,
+				label : 'Please select'
+			} ];
+
+			vm.delimitersDropdown = [];
+			vm.dataTypeDropdown = angular.copy(defaultDropdown);
+			vm.dataTypeHeaderDropdown = angular.copy(defaultDropdown);
+			vm.dataTypeFooterDropdown = angular.copy(defaultDropdown);
+			
+			vm.specificsDropdown = [];
+			vm.specificModel = null;
+
+			vm.fileEncodeDropdown = [];
+			vm.paymentDateFieldDropdown = [];
+			vm.credittermFieldDropdown = [];
+
+			vm.fileType = FILE_TYPE_ITEM;
+
+			var fieldCounter = {};
+
+			var newItem = {
+				primaryKeyField : false,
+				docFieldName : null,
+				dataType : null,
+				dataLength : 0,
+				startIndex : 0
+			}
+
+			vm.headerItems = [];
+
+			vm.items = [];
+			vm.dataDetailItems = [];
+
+			vm.footerItems = [];
+
+			vm.backToSponsorConfigPage = function() {
+				PageNavigation.gotoPreviousPage();
+			}
+			
+			vm.model = {
+				ownerId : ownerId,
+				paymentDateConfig : {
+					strategy : 'FIELD',
+					documentDateField : null,
+					paymentDateFormulaId : null
+				}
+			};
+
+			var loadDataTypes = function() {
+				var diferred = FileLayoutService.getDataTypes();
+				diferred.promise.then(function(response) {
+					vm.dataTypes = response.data;
+					vm.dataTypes.forEach(function(obj) {
+						var item = {
+							value : obj.layoutFileDataTypeId,
+	                        label : obj.displayFieldName
+						}
+						vm.dataTypeDropdown.push(item);
+					});
+
+				}).catch(function(response) {
+					log.error('Load customer code group data error');
+				});
+			}
+
+			var loadHeaderDataTypes = function() {
+				var diferred = FileLayoutService.getValidationDataTypes();
+				diferred.promise.then(function(response) {
+					vm.dataTypeHeaders = response.data;
+					vm.dataTypeHeaders.forEach(function(obj) {
+						var item = {
+							value : obj.layoutFileDataTypeId,
+							label : obj.displayFieldName
+						}
+						vm.dataTypeHeaderDropdown.push(item);
+					});
+
+				}).catch(function(response) {
+					log.error('Load data type header data error');
+				});
+			}
+
+			var loadFooterDataTypes = function() {
+				var diferred = FileLayoutService.getValidationDataTypes();
+				diferred.promise.then(function(response) {
+					vm.dataTypeFooters = response.data;
+					vm.dataTypeFooters.forEach(function(obj) {
+						var item = {
+							value : obj.layoutFileDataTypeId,
+							label : obj.displayFieldName
+						}
+						vm.dataTypeFooterDropdown.push(item);
+					});
+
+				}).catch(function(response) {
+					log.error('Load data type footer data error');
+				});
+			}
+
+			var loadDelimiters = function() {
+				DELIMITER_TYPE_TEM.forEach(function(obj) {
+					var selectObj = {
+						label : obj.delimiterName,
+						value : obj.delimiterId
+					}
+
+					vm.delimitersDropdown.push(selectObj);
+				});
+			}
+
+			var loadFileEncode = function() {
+				CHARSET_ITEM.forEach(function(obj) {
+					var selectObj = {
+						label : obj.fileEncodeName,
+						value : obj.fileEncodeId
+					}
+
+					vm.fileEncodeDropdown.push(selectObj);
+				});
+			}
+			
+			var loadFileSpecificsData = function() {
+				var deffered = FileLayoutService.getSpecificData();
+				deffered.promise.then(function(response) {
+					
+					var specificModels = response.data;
+					if (specificModels !== undefined) {
+						specificModels.forEach(function(obj) {
+							var selectObj = {
+								label : obj.specificName,
+								value : obj.specificName,
+								item : obj.specificItem
+							}
+							vm.specificsDropdown.push(selectObj);
+						});
+					}
+
+					deffered.resolve(vm.specificModels);
+				}).catch(function(response) {
+					log.error('Load relational operators format Fail');
+					deffered.reject();
+				});
+			}
+			
+			
+			var sendRequest = function(uri, succcesFunc, failedFunc) {
+				var serviceDiferred = Service.doGet(BASE_URI + uri);
+
+				var failedFunc = failedFunc | function(response) {
+					log.error('Load data error');
+				};
+				serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
+			}
+			
+			var isEmptyValue = function(value) {
+				if (angular.isUndefined(value) || value == null) {
+					return true;
+				}
+				return false;
+			}
+			
+			vm.paymentDateFormularModelDropdowns = [];
+			var addPaymentDateFormulaDropdown = function(formulaData) {
+				var dropdownPleaseSelect = [ {
+					label : 'Please select',
+					value : null,
+					formulaType : ''
+				} ];
+				vm.paymentDateFormularModelDropdowns = dropdownPleaseSelect;
+
+				if (formulaData.length > 0) {
+					formulaData.forEach(function(item) {
+						var paymentDateFormulaItem = {
+							value : item.paymentDateFormulaId,
+							label : item.formulaName,
+							formulaType : item.formulaType
+						}
+						vm.paymentDateFormularModelDropdowns.push(paymentDateFormulaItem);
+					})
+
+				}
+			}
+			
+			var addPaymentDateFieldDropdown = function(configItems) {
+				var paymentDateDropdown = [ {
+					label : 'Please select',
+					value : null
+				} ];
+
+				if (!isEmptyValue(configItems)) {
+					fieldCounter = {};
+					configItems.forEach(function(data) {
+						if ('DATE_TIME' == data.dataType && !isEmptyValue(data.displayValue) && data.completed && !data.isTransient) {
+							paymentDateDropdown.push({
+								label : data.displayValue,
+								value : data.docFieldName
+							});
+						}
+
+						if (!fieldCounter[data.dataType]) {
+							fieldCounter[data.dataType] = 1;
+						} else {
+							fieldCounter[data.dataType]++;
+						}
+					});
+				}
+
+				return paymentDateDropdown;
+			}
+
+			
+			vm.reloadPaymentDateFields = function() {
+				vm.paymentDateFieldDropdown = addPaymentDateFieldDropdown(vm.items);
+			}
+			
+			vm.setup = function() {
+				loadDelimiters();
+				loadFileEncode();
+				loadDataTypes();
+				loadHeaderDataTypes();
+				loadFooterDataTypes();
+				loadFileSpecificsData();
+				
+				if (!angular.isUndefined(selectedItem) && selectedItem != null) {
+					vm.newMode = false;
+					var reqUrlLayoutConfg = '/layouts/' + selectedItem.layoutConfigId;
+					var reqUrlHeaderField = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=FIELD&recordType=HEADER';
+					var reqUrlFooterField = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=FIELD&recordType=FOOTER';
+					var reqUrlField = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=FIELD&recordType=DETAIL';
+					var reqUrlData = '/layouts/' + selectedItem.layoutConfigId + '/items?itemType=DATA&recordType=DETAIL';
+					var reqUrlFormula = '/payment-date-formulas/';
+					var reqCustomerCodeConfg = '/layouts/' + selectedItem.layoutConfigId + '/items?dataType=CUSTOMER_CODE';
+
+					sendRequest(reqUrlLayoutConfg, function(response) {
+						vm.model = response.data;
+						
+						vm.oldStateFileType = vm.model.fileType;
+						if(angular.isDefined(vm.model.offsetRowNo) && vm.model.offsetRowNo != null){
+							vm.isConfigOffsetRowNo = true;
+						}
+						
+						vm.reloadPaymentDateFields();
+
+						if (vm.model.delimeter != null && vm.model.delimeter != '') {
+							vm.delimeter = 'Other';
+							vm.delimeterOther = vm.model.delimeter;
+							
+							DELIMITER_TYPE_TEM.forEach(function(obj) {
+								if (obj.delimiterId == vm.model.delimeter) {
+									vm.delimeter = vm.model.delimeter;
+									vm.delimeterOther = '';
+								}
+							});
+						}
+
+						if (vm.model.fileType != 'CSV') {
+							vm.delimeter = ',';
+							vm.delimeterOther = '';
+						}
+						vm.specificModel = 'Specific 1';		
+						vm.displayLayout = true;
+					});
+					
+					sendRequest(reqUrlField, function(response) {
+						vm.items = response.data;
+						if (vm.items.length < 1) {
+							vm.addItem();
+						}
+					});
+
+					sendRequest(reqUrlData, function(response) {
+						var detailData = response.data;
+						detailData.forEach(function(item) {
+							vm.dataDetailItems.push(item);
+						})
+					});
+
+					sendRequest(reqUrlFormula, function(response) {
+						var formulaData = response.data;
+						addPaymentDateFormulaDropdown(formulaData);
+					});
+
+					sendRequest(reqUrlHeaderField, function(response) {
+						var headerItems = response.data;
+						if (headerItems.length > 0) {
+							vm.configHeader = true;
+							vm.headerItems = headerItems;
+						}
+					});
+
+					sendRequest(reqUrlFooterField, function(response) {
+						var footerItems = response.data;
+						if (footerItems.length > 0) {
+							vm.configFooter = true;
+							vm.footerItems = footerItems;
+						}
+					});
+					
+				} else {
+					initialModel();
+					addPaymentDateFormulaDropdown([]);
+					vm.displayLayout = true;
+				}
+			}()
+			
+			
+			vm.addItem = function() {
+				var itemConfig = {
+					primaryKeyField : false,
+					docFieldName : null,
+					dataType : null,
+					dataLength : null,
+					startIndex : null,
+					endIndex : null,
+					isTransient : false,
+					recordType : "DETAIL",
+					itemType : 'FIELD'
+				};
+				vm.items.push(itemConfig);
+			}
+
+			vm.addHeaderItem = function() {
+				var headerItemConfig = {
+					primaryKeyField : false,
+					docFieldName : null,
+					dataType : null,
+					dataLength : null,
+					startIndex : null,
+					endIndex : null,
+					isTransient : true,
+					recordType : "HEADER",
+					itemType : 'FIELD'
+				};
+				vm.headerItems.push(headerItemConfig);
+			}
+
+			vm.addFooterItem = function() {
+				var footerItemConfig = {
+					primaryKeyField : false,
+					docFieldName : null,
+					dataType : null,
+					dataLength : null,
+					startIndex : null,
+					endIndex : null,
+					isTransient : true,
+					recordType : "FOOTER",
+					itemType : 'FIELD'
+				};
+				vm.footerItems.push(footerItemConfig);
+			}
+
+			vm.removeItem = function(record) {
+				var index = vm.itemsindexOf(record);
+				vm.items.splice(index, 1);
+			}
+
+			vm.formula = {
+				paymentDateFormulaId : null,
+				formulaName : '',
+				formulaType : 'CREDIT_TERM',
+				sponsorId : ownerId,
+				isCompleted : '0'
+			};
+
+			vm.openNewFormula = function() {
+
+				vm.formula = {
+					paymentDateFormulaId : null,
+					formulaName : '',
+					formulaType : 'CREDIT_TERM',
+					sponsorId : sponsorId,
+					isCompleted : '0'
+				};
+
+				vm.newFormulaDialog = ngDialog.open({
+					id : 'new-formula-dialog',
+					template : '/js/app/sponsor-configuration/file-layouts/dialog-new-formula.html',
+					className : 'ngdialog-theme-default',
+					controller : 'NewPaymentDateFormulaController',
+					controllerAs : 'ctrl',
+					scope : $scope,
+					data : {
+						formula : vm.formula,
+						paymentDateFormulaId : ''
+					},
+					cache : false,
+					preCloseCallback : function(value) {
+						vm.model.paymentDateConfig.paymentDateFormulaId = value;
+						vm.refershFormulaDropDown();
+						return true;
+					}
+				});
+			};
+
+			
+
+		} ]);
+
+app.constant('FILE_TYPE_ITEM', {
+	fixedLength : 'FIXED_LENGTH',
+	delimited : 'CSV',
+	specific : 'SPECIFIC'
+});
+
+app.constant('DELIMITER_TYPE_TEM', [ {
+	delimiterName : 'Comma (,)',
+	delimiterId : ','
+}, {
+	delimiterName : 'Colon (:)',
+	delimiterId : ':'
+}, {
+	delimiterName : 'Tab',
+	delimiterId : '3'
+}, {
+	delimiterName : 'Semicolon (;)',
+	delimiterId : ';'
+}, {
+	delimiterName : 'Other',
+	delimiterId : 'Other'
+} ]);
+
+app.constant('CHARSET_ITEM', [ {
+	fileEncodeName : 'UTF-8',
+	fileEncodeId : 'UTF-8'
+}, {
+	fileEncodeName : 'TIS-620',
+	fileEncodeId : 'TIS-620'
+} ]);
