@@ -269,6 +269,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					'js/app/modules/organize/configuration/file-layout/controllers/RecordTypeLayoutConfigController.js',
 					'js/app/modules/organize/configuration/file-layout/controllers/FillerLayoutConfigController.js',
 					'js/app/modules/organize/configuration/file-layout/controllers/SignFlagLayoutConfigController.js',
+					'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataNewPopupController.js',
+					'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
 					'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
 					'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/sponsor-configuration/document-display/settings',{

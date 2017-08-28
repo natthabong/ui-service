@@ -109,12 +109,33 @@ tpModule.factory('MappingDataService', [ '$http', '$q', function($http, $q) {
 	     
         return deffered;
 	}
+
+	function loadMappingData(owner,accountingTransactionType){
+		var serviceUrl = 'api/v1/organize-customers/'+ owner + '/accounting-transactions/'+ accountingTransactionType + '/mapping-datas';
+		var deffered = $q.defer();
+	    $http({
+	    	    url : serviceUrl,
+	        	method: 'GET',
+				params:{
+					limit : 999,
+					offset : 0
+				}
+	        })
+	        .then(function(response) {
+	            deffered.resolve(response);
+	        })
+	        .catch(function(response) {
+	        	  deffered.reject(response);
+	        });
+	    return deffered;
+	}
 	
 	return {
 		create: create,
 		remove: remove,
 		deleteMappingData:deleteMappingData,
 		createMappingDataItem: createMappingDataItem,
-		getMappingData:getMappingData
+		getMappingData:getMappingData,
+		loadMappingData : loadMappingData 
 	}
 } ]);

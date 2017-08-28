@@ -464,37 +464,64 @@ module.controller('FileLayoutController', [
 					dataTypeDropdowns = vm.dataTypeFooters;
 				}
 				
-				dataTypeDropdowns.forEach(function(obj) {
-					if (layoutFileDataTypeId == obj.layoutFileDataTypeId) {
-						var dataType = obj.dataType;
+				// dataTypeDropdowns.forEach(function(obj) {
+				// 	if (layoutFileDataTypeId == obj.layoutFileDataTypeId) {
+				// 		var dataType = obj.dataType;
+				// 		var dialog = ngDialog.open({
+				// 			id : 'layout-setting-dialog-' + index,
+				// 			template : obj.configActionUrl,
+				// 			className : 'ngdialog-theme-default',
+				// 			controller : _convertToHumanize(dataType) + 'LayoutConfigController',
+				// 			controllerAs : 'ctrl',
+				// 			scope : $scope,
+				// 			data : {
+				// 				record : record,
+				// 				config : obj,
+				// 				headerItems : vm.headerItems,
+				// 				detailItems : vm.items,
+				// 				footerItems : vm.footerItems
+				// 			},
+				// 			cache : false,
+				// 			preCloseCallback : function(value) {
+				// 				if (value != null) {
+				// 					if(value.dataType === 'CUSTOMER_CODE'){
+				// 						vm.loadCustomerCodeGroup();
+				// 					}
+				// 					value = settingDocFieldName(record, value, obj);
+				// 					angular.copy(value, record);
+				// 					record.completed = true;
+				// 				}
+				// 			}
+				// 		});
+				// 	}
+				// });
+
+				// dataTypeDropdowns.forEach(function(obj) {
+				// 	console.log(dataType)
+				// 	console.log(obj)
+				// 	if (dataType == obj.layoutFileDataTypeId) {
 						var dialog = ngDialog.open({
-							id : 'layout-setting-dialog-' + index,
-							template : obj.configActionUrl,
-							className : 'ngdialog-theme-default',
-							controller : _convertToHumanize(dataType) + 'LayoutConfigController',
+							template : 'js/app/modules/organize/configuration/file-layout/templates/dialog-text-field-format.html',
+							controller : 'TextLayoutConfigController',
 							controllerAs : 'ctrl',
 							scope : $scope,
 							data : {
 								record : record,
-								config : obj,
-								headerItems : vm.headerItems,
-								detailItems : vm.items,
-								footerItems : vm.footerItems
 							},
 							cache : false,
 							preCloseCallback : function(value) {
-								if (value != null) {
-									if(value.dataType === 'CUSTOMER_CODE'){
-										vm.loadCustomerCodeGroup();
-									}
-									value = settingDocFieldName(record, value, obj);
-									angular.copy(value, record);
-									record.completed = true;
-								}
+								// if (value != null) {
+								// 	if(value.dataType === 'CUSTOMER_CODE'){
+								// 		vm.loadCustomerCodeGroup();
+								// 	}
+								// 	value = settingDocFieldName(record, value, obj);
+								// 	angular.copy(value, record);
+								// 	record.completed = true;
+								// }
 							}
 						});
-					}
-				});
+				// 	}
+				// });
 
 			}
 
