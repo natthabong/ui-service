@@ -107,16 +107,14 @@ app.controller('NewFileLayoutController', [
 
 		var loadDataTypes = function() {
 			var serviceURI = 'api/v1/configs/gecscf/layouts/file/data-types';
-			var serviceDiferred = Service.doGet(serviceURI, {
-				recordType : 'DETAIL'
-			});
+			var serviceDiferred = Service.doGet(serviceURI, {});
 
 			serviceDiferred.promise.then(function(response) {
 				vm.dataTypes = response.data;
 				vm.dataTypes.forEach(function(obj) {
 					var item = {
 						value : obj.layoutFileDataTypeId,
-						label : obj.dataTypeDisplay
+						label : obj.displayFieldName
 					}
 					vm.dataTypeDropdown.push(item);
 				});
@@ -129,7 +127,7 @@ app.controller('NewFileLayoutController', [
 		var loadHeaderDataTypes = function() {
 			var serviceURI = 'api/v1/configs/gecscf/layouts/file/data-types';
 			var serviceDiferred = Service.doGet(serviceURI, {
-				recordType : 'HEADER'
+				isTransient : 'true'
 			});
 
 			serviceDiferred.promise.then(function(response) {
@@ -137,7 +135,7 @@ app.controller('NewFileLayoutController', [
 				vm.dataTypeHeaders.forEach(function(obj) {
 					var item = {
 						value : obj.layoutFileDataTypeId,
-						label : obj.dataTypeDisplay
+						label : obj.displayFieldName
 					}
 					vm.dataTypeHeaderDropdown.push(item);
 				});
@@ -150,7 +148,7 @@ app.controller('NewFileLayoutController', [
 		var loadFooterDataTypes = function() {
 			var serviceURI = 'api/v1/configs/gecscf/layouts/file/data-types';
 			var serviceDiferred = Service.doGet(serviceURI, {
-				recordType : 'FOOTER'
+				isTransient : 'true'
 			});
 
 			serviceDiferred.promise.then(function(response) {
@@ -158,7 +156,7 @@ app.controller('NewFileLayoutController', [
 				vm.dataTypeFooters.forEach(function(obj) {
 					var item = {
 						value : obj.layoutFileDataTypeId,
-						label : obj.dataTypeDisplay
+						label : obj.displayFieldName
 					}
 					vm.dataTypeFooterDropdown.push(item);
 				});
@@ -971,7 +969,7 @@ app.controller('NewFileLayoutController', [
 				value : ''
 			}];
 
-			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/customer-code-groups';
+			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/accounting-transactions/PAYABLE/customer-code-groups';
 			var serviceDiferred = Service.doGet(serviceUrl, {
 				offset : 0,
 				limit : 20
@@ -1094,7 +1092,7 @@ app.controller('CUSTOMER_CODELayoutConfigController', [ '$scope', '$rootScope', 
 				value : ''
 			} ];
 
-			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/customer-code-groups';
+			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/accounting-transactions/PAYABLE/customer-code-groups';
 			var serviceDiferred = Service.doGet(serviceUrl, {
 				offset : 0,
 				limit : 20

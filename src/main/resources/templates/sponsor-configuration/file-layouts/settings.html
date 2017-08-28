@@ -220,10 +220,10 @@
 
 											<td class="text-center" style="width: 15%"><scf-dropdown
 													id="header-data-type-{{$index+1}}-dropdown"
-													ng-model="record.dataType"
+													ng-model="record.layoutFileDataTypeId"
 													component-data="ctrl.dataTypeHeaderDropdown"
 													ng-disabled="!ctrl.manageAll"
-													translate-label="true"></scf-dropdown></td>
+													translate-label="true" convert-to-number="true"></scf-dropdown></td>
 											<td class="text-right" style="width: 3%"></td>
 											<td class="text-center" style="width: 15%"><scf-input-text
 													id="header-length-{{$index+1}}-textbox"
@@ -330,11 +330,11 @@
 
 												<td class="text-center" style="width: 15%"><scf-dropdown
 														id="data-type-{{$index+1}}-dropdown"
-														ng-model="record.dataType"
+														ng-model="record.layoutFileDataTypeId"
 														component-data="ctrl.dataTypeDropdown"
 														ng-change="ctrl.isChangeDataType(record)"
 														ng-disabled="!ctrl.manageAll"
-														translate-label="true"></scf-dropdown></td>
+														translate-label="true" convert-to-number="true"></scf-dropdown></td>
 
 												<td class="text-center" style="width: 3%"><scf-checkbox
 														id="save-{{$index+1}}-checkbox"
@@ -411,10 +411,10 @@
 
 												<td class="text-center" style="width: 15%"><scf-dropdown
 														id="data-type-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-dropdown"
-														ng-model="record.dataType"
+														ng-model="record.layoutFileDataTypeId"
 														component-data="ctrl.dataTypeDropdown"
 														ng-disabled="!ctrl.manageAll"
-														translate-label="true"></scf-dropdown></td>
+														translate-label="true" convert-to-number="true"></scf-dropdown></td>
 
 												<td class="text-center" style="width: 3%"></td>
 												<td class="text-center" style="width: 15%"></td>
@@ -519,10 +519,10 @@
 
 												<td class="text-center" style="width: 15%"><scf-dropdown
 														id="footer-data-type-{{$index+1}}-dropdown"
-														ng-model="record.dataType"
+														ng-model="record.layoutFileDataTypeId"
 														component-data="ctrl.dataTypeFooterDropdown"
 														ng-disabled="!ctrl.manageAll"
-														translate-label="true"></scf-dropdown></td>
+														translate-label="true" convert-to-number="true"></scf-dropdown></td>
 												<td class="text-right" style="width: 3%"></td>
 												<td class="text-center" style="width: 15%"><scf-input-text
 														id="footer-length-{{$index+1}}-textbox"
