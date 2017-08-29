@@ -876,12 +876,11 @@ module.controller('FileLayoutController', [
 
 			vm.displayExample = function(record) {
 				var msg = '';
-				vm.dataTypes.forEach(function(obj) {
-					if (record.layoutFileDataTypeId == obj.layoutFileDataTypeId) {
-							msg = $injector.get('FileLayerExampleDisplayService')[record.dataType + '_DisplayExample'](record, obj, vm.customerCodeGroupDropdown);
-							return msg;
-					}
-				});
+				var dataType = vm.dataTypeByIds[record.layoutFileDataTypeId];
+				if(angular.isDefined(dataType)){
+						msg = $injector.get('FileLayerExampleDisplayService')[dataType.dataType + '_DisplayExample'](record, dataType);	
+				}
+				
 				return msg;
 			}
 
