@@ -44,6 +44,7 @@ module.controller('FileLayoutController', [
 
 			
 			vm.dataTypes = [];
+			vm.dataTypeByIds = {};
 			
 			vm.dataTypeHeaders = [];
 			vm.dataTypeFooters = [];
@@ -111,6 +112,7 @@ module.controller('FileLayoutController', [
 				deffered.promise.then(function(response) {
 					vm.dataTypes = response.data;
 					vm.dataTypes.forEach(function(obj) {
+						vm.dataTypeByIds[obj.layoutFileDataTypeId] = obj;
 						if(!vm.dataTypeByGroupsDropdown[obj.dataType]){
 							vm.dataTypeByGroupsDropdown[obj.dataType] = [];
 						}
@@ -426,30 +428,6 @@ module.controller('FileLayoutController', [
 
 			vm.tempDocFieldName = [];
 			
-			var settingDocFieldName = function(record, value, dataTypeObj) {
-				if (value.docFieldName == null) {
-					if (dataTypeObj.docFieldName != null) {
-						var field = dataTypeObj.docFieldName;
-						var patt = /{sequenceNo}/g;
-						var res = field.match(patt);
-						if (res != null) {
-							// field = field.replace(patt,
-							// fieldCounter[record.dataType]++);
-							for (i = 1; i <= fieldCounter[record.dataType]; i++) { 
-								var tempField = field.replace(patt, i);
-								if(vm.tempDocFieldName.indexOf(tempField) == -1) {
-									vm.tempDocFieldName.push(tempField);
-									field = field.replace(patt, i);
-									break;
-								}
-							}
-						}
-						value.docFieldName = field;
-					}
-				}
-				return value;
-			}
-			
 			var _convertToHumanize = function(str){
 				  str = str.toLowerCase().split('_');
 
@@ -496,7 +474,6 @@ module.controller('FileLayoutController', [
 							cache : false,
 							preCloseCallback : function(value) {
 								if (value != null) {
-									value = settingDocFieldName(record, value, obj);
 									angular.copy(value, record);
 									record.completed = true;
 								}
@@ -936,10 +913,11 @@ module.controller('FileLayoutController', [
 				};
 				dataItems.push(itemConfig)
 			}
-			
+			vm.getAllSameDataTypes = function(record){
+				var dataType = vm.dataTypeByIds[record.layoutFileDataTypeId];
+				return vm.dataTypeByGroupsDropdown[dataType.dataType];
+			}
 			vm.addValueClonningField = function(record){
-				console.log(vm.dataTypeByGroupsDropdown);
-				console.log(vm.dataTypeByGroupsDropdown[record.dataType]);
 				if(!angular.isDefined(record.valueCloningFields)){
 					record.valueCloningFields = [];
 				}

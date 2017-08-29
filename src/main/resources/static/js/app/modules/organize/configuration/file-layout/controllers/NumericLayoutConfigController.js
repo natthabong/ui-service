@@ -144,7 +144,7 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 	
 	var headerFlagList = function() {		
 		headerItems.forEach(function(item , index) {
-			if (item.completed && item.dataType == 'SIGN_FLAG') {
+			if (item.dataType == 'SIGN_FLAG') {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.displayValue,
@@ -157,7 +157,7 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 	
 	var detailFlagList = function() {		
 		detailItems.forEach(function(item , index) {
-			if (item.completed && item.dataType == 'SIGN_FLAG') {
+			if (item.dataType == 'SIGN_FLAG') {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.displayValue,
@@ -170,7 +170,7 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 
 	var footerFlagList = function() {		
 		footerItems.forEach(function(item , index) {
-			if (item.completed && item.dataType == 'SIGN_FLAG') {
+			if (item.dataType == 'SIGN_FLAG') {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.displayValue,

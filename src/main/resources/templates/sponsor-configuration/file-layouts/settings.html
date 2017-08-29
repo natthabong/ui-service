@@ -327,7 +327,7 @@
 												<td class="text-center" style="width: 15%"></td>
 												<td class="text-center" style="width: 15%"><scf-dropdown
 														ng-model="cloneFieldRecord.layoutFileDataTypeId"
-														component-data="ctrl.dataTypeByGroupsDropdown[record.dataType]"
+														component-data="ctrl.getAllSameDataTypes(record)"
 														ng-disabled="!ctrl.manageAll" translate-label="true"
 														convert-to-number="true"></scf-dropdown></td>
 												<td class="text-center" style="width: 3%"><scf-button
