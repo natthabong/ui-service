@@ -6,6 +6,7 @@ module.controller('FileLayoutController', [
 		'$scope',
 		'$state',
 		'$stateParams',
+		'$injector',
 		'ngDialog',
 		'UIFactory',
 		'PageNavigation',
@@ -13,7 +14,7 @@ module.controller('FileLayoutController', [
 		'FILE_TYPE_ITEM',
 		'DELIMITER_TYPE_TEM',
 		'CHARSET_ITEM','Service',
-		function(log, $rootScope, $scope, $state, $stateParams, ngDialog, UIFactory, PageNavigation,
+		function(log, $rootScope, $scope, $state, $stateParams, $injector, ngDialog, UIFactory, PageNavigation,
 				blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, Service) {
 
 			var vm = this;
@@ -228,7 +229,6 @@ module.controller('FileLayoutController', [
 				} ];
 				if (!isEmptyValue(configItems)) {
 					configItems.forEach(function(data) {
-						console.log(data.layoutFileDataTypeId)
 						if (dateTimeFieldIds.indexOf(data.layoutFileDataTypeId) != -1 && !isEmptyValue(data.displayValue) && !data.isTransient) {
 							paymentDateDropdown.push({
 								label : data.displayValue,
@@ -886,10 +886,9 @@ module.controller('FileLayoutController', [
 			vm.displayExample = function(record) {
 				var msg = '';
 				vm.dataTypes.forEach(function(obj) {
-					if (record.dataType == obj.layoutFileDataTypeId) {
-						if (record.completed) {
-							msg = $injector.get('NewFileLayerExampleDisplayService')[record.dataType + '_DisplayExample'](record, obj, vm.customerCodeGroupDropdown);
-						}
+					if (record.layoutFileDataTypeId == obj.layoutFileDataTypeId) {
+							msg = $injector.get('FileLayerExampleDisplayService')[record.dataType + '_DisplayExample'](record, obj, vm.customerCodeGroupDropdown);
+							return msg;
 					}
 				});
 				return msg;
