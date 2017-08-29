@@ -280,7 +280,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/document-display/settings',
 				params: { selectedItem: null},
-				resolve: load(['js/app/sponsor-configuration/document-display/document-display-controller.js'])
+				resolve: load(['js/app/sponsor-configuration/document-display/document-display-controller.js',
+					'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js'])
 			}).state('/sponsor-configuration/payment-date-formulas/settings',{
 				url: '/sponsor-configuration/payment-date-formulas/settings',
 				controller: 'PaymentDateFormulaSettingController',

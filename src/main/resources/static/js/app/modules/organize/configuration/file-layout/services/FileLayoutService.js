@@ -10,7 +10,26 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
     	    url : uri,
         	method: 'GET',
         	params: {
-        		dataType: dataType
+        		dataType: dataType,
+        		isDisplayField : 'false'
+        	}
+	    }).then(function(response) {
+            deffered.resolve(response);
+        }).catch(function(response) {
+           deffered.reject(response);
+        });
+        return deffered;
+	}
+	
+	var getDisplayDataTypes = function(){
+		var deffered = $q.defer();
+		
+		var uri = 'api/v1/configs/gecscf/layouts/file/data-types';
+		$http({
+    	    url : uri,
+        	method: 'GET',
+        	params: {
+        		isTransient : 'false'
         	}
 	    }).then(function(response) {
             deffered.resolve(response);
@@ -65,6 +84,7 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 			params:{
 				dataType : "TEXT",
 				isTransient : false
+        		isDisplayField : 'false'
 			}
 	    }).then(function(response) {
 	    	deffered.resolve(response);
@@ -76,6 +96,7 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 	}
 	return {
 		getDataTypes: getDataTypes,
+		getDisplayDataTypes: getDisplayDataTypes,
 		getValidationDataTypes: getValidationDataTypes,
 		loadDataMappingTo:loadDataMappingTo,
 		getSpecificData: getSpecificData
