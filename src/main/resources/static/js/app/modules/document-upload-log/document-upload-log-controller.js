@@ -97,7 +97,7 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 					value : null
 				});
 			if(sponsorID != ''){
-				var uri = 'api/v1/organize-customers/'+sponsorID+'/sponsor-configs/'+sponsorConfigId+'/process-types';
+				var uri = 'api/v1/organize-customers/'+sponsorID+'/process-types';
 				var deffered = Service.doGet(uri,{integrateType : integrateType});
 				deffered.promise.then(function(response) {
 					response.data.forEach(function(module) {
