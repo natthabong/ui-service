@@ -286,12 +286,11 @@
 														ng-disabled="!ctrl.manageAll" translate-label="true"
 														convert-to-number="true"></scf-dropdown></td>
 												<td class="text-center" style="width: 3%"><scf-button
-														type="button"
-														id="add-gec-field-{{$index+1}}-button"
+														type="button" id="add-gec-field-{{$index+1}}-button"
 														class="btn-default gec-btn-action"
-														ng-disabled="true"
-														ng-click="ctrl.addGECField()"> <i
-														class="fa fa-plus" aria-hidden="true"></i> </scf-button></td>
+														ng-disabled="!ctrl.manageAll"
+														ng-click="ctrl.addValueClonningField(record)">
+													<i class="fa fa-plus" aria-hidden="true"></i> </scf-button></td>
 												<td class="text-center" style="width: 15%"><scf-input-text
 														id="length-{{$index+1}}-textbox"
 														style="text-align: right;" convert-to-number=""
@@ -320,6 +319,29 @@
 														ng-click="ctrl.removeDataItem(ctrl.items,record)">
 													<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
 											</tr>
+											<tr ng-repeat="cloneFieldRecord in record.valueCloningFields"
+												ng-class="$even?'tr-odd':'tr-even'">
+
+												<td class="text-center" style="width: 3%"></td>
+												<td class="text-right" style="width: 3%"></td>
+												<td class="text-center" style="width: 15%"></td>
+												<td class="text-center" style="width: 15%"><scf-dropdown
+														ng-model="cloneFieldRecord.layoutFileDataTypeId"
+														component-data="ctrl.dataTypeDropdown"
+														ng-disabled="!ctrl.manageAll" translate-label="true"
+														convert-to-number="true"></scf-dropdown></td>
+												<td class="text-center" style="width: 3%"><scf-button
+														type="button" id="add-gec-field-{{$index+1}}-button"
+														class="btn-default gec-btn-action"
+														ng-disabled="!ctrl.manageAll"
+														ng-click="ctrl.removeValueClonningField(record.valueCloningFields, cloneFieldRecord)">
+													<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
+												<td class="text-center" style="width: 15%"></td>
+												<td class="text-center" style="width: 15%"></td>
+												<td class="text-center" style="width: 15%"
+													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></td>
+												<td class="text-center" style="width: 16%"></td>
+											</tr>
 											<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
 
 												<td colspan="10"
@@ -340,13 +362,21 @@
 												ng-repeat-start="record in ctrl.dataDetailItems track by $index"
 												ng-class="ctrl.isEven(ctrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
 
-												<td class="text-center" style="width: 3%"></td>
+												<td class="text-center" style="width: 3%"><input
+													type="checkbox" ng-disabled="!ctrl.manageAll"
+													ng-model="record.primaryKeyField" /></td>
+
 
 												<td class="text-right" style="width: 3%"><label
 													id="layout-item-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-no-label"
 													class="text-right control-label">{{ctrl.dataRowNo(ctrl.getDetailFieldSize(),
 														$index)}}</label></td>
-												<td class="text-center" style="width: 15%"></td>
+												<td class="text-center" style="width: 15%"><scf-input-text
+														maxlength="255"
+														id="sponsor-field-name-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-textbox"
+														ng-disabled="!ctrl.manageAll"
+														ng-model="record.displayValue" /></td>
+
 
 												<td colspan="2" class="text-center" style="width: 18%"><scf-dropdown
 														id="data-type-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-dropdown"
@@ -373,6 +403,7 @@
 														ng-click="ctrl.removeDataItem(ctrl.dataDetailItems, record)">
 													<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
 											</tr>
+
 											<tr ng-repeat-end=""
 												ng-class="ctrl.isEven(ctrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
 												<td colspan="10"

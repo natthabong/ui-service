@@ -722,7 +722,7 @@ module.controller('FileLayoutController', [
 				}else{
 					sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateFieldOfFormula;
 				}
-				
+				console.log(sponsorLayout)
 				var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode ? 'POST' : 'PUT');
 
 				return fileLayoutDiferred;
@@ -813,7 +813,20 @@ module.controller('FileLayoutController', [
 				};
 				dataItems.push(itemConfig)
 			}
-
+			
+			vm.addValueClonningField = function(record){
+				if(!angular.isDefined(record.valueCloningFields)){
+					record.valueCloningFields = [];
+				}
+				record.valueCloningFields.push({
+					layoutFileDataTypeId: record.layoutFileDataTypeId
+				});
+			}
+			
+			vm.removeValueClonningField = function(dataItems, valueCloningField) {
+				var index = dataItems.indexOf(valueCloningField);
+				dataItems.splice(index, 1);
+			}
 			vm.removeDataItem = function(dataItems, item) {
 				var index = dataItems.indexOf(item);
 				dataItems.splice(index, 1);
