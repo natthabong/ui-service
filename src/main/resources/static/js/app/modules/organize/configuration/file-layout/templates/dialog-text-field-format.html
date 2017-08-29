@@ -61,7 +61,7 @@
 								<div class="col-lg-7 col-md-7 col-sm-7 col-xs-11">
 									<scf-dropdown id="expected-in-dropdown" ng-model="record.dataType" 
 										component-data="ctrl.expectedInDropDown" 
-										ng-change="ctrl.isChangeDataType(record)"
+										ng-change="ctrl.changeExpectedInValue()"
 										ng-disabled='!ctrl.expected || ctrl.openExpectedValueField' translate-label="true">
 									</scf-dropdown>
 								</div>
@@ -100,7 +100,6 @@
 				<div class="col-xs-12 text-right">
 					<scf-button id="text-field-format-popup-cancel-button" class="popup-button" ng-click="closeThisDialog()" ng-bind="'Cancel' | translate"></scf-button>
 					<scf-button id="text-field-format-popup-ok-button" class="popup-button" type="submit" ng-bind="'OK' | translate" ng-click="ctrl.submit()"></scf-button>
-
 				</div>
 			</div>
 		</div>
