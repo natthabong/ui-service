@@ -597,7 +597,6 @@ module.controller('FileLayoutController', [
 			}
 
 			var validSave = function(){
-				console.log(vm.processType);
 				if(vm.processType=='AR_DOCUMENT'){
 					
 					vm.requireDocDueDate = true;
@@ -605,11 +604,12 @@ module.controller('FileLayoutController', [
 					var layoutFileDataTypeId = [];
 					vm.layoutFileDataTypeIdDupplicate = [];
 					vm.items.forEach(function(item) {
+						var dataType = vm.dataTypeByIds[item.layoutFileDataTypeId];
 						if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(item.layoutFileDataTypeId)>-1){
 							if(vm.layoutFileDataTypeIdDupplicate.indexOf(item.layoutFileDataTypeId) < 0){
 								vm.layoutFileDataTypeIdDupplicate.push(item.layoutFileDataTypeId);
-							}
-						}else if(item.layoutFileDataTypeId != null){
+							}						
+						}else if(item.layoutFileDataTypeId != null && !dataType.transient){
 							if(item.layoutFileDataTypeId == 13){
 								vm.requireNetAmount = false;
 							}else if(item.layoutFileDataTypeId == 8){
@@ -624,7 +624,7 @@ module.controller('FileLayoutController', [
 									if(vm.layoutFileDataTypeIdDupplicate.indexOf(itemClone.layoutFileDataTypeId) < 0){
 										vm.layoutFileDataTypeIdDupplicate.push(itemClone.layoutFileDataTypeId);
 									}
-								}else if(item.layoutFileDataTypeId != null){
+								}else if(item.layoutFileDataTypeId != null && !dataType.transient){
 									if(item.layoutFileDataTypeId == 13){
 										vm.requireNetAmount = false;
 									}else if(item.layoutFileDataTypeId == 8){
@@ -637,11 +637,12 @@ module.controller('FileLayoutController', [
 					});			
 					
 					vm.dataDetailItems.forEach(function(item) {
+						var dataType = vm.dataTypeByIds[item.layoutFileDataTypeId];
 						if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(item.layoutFileDataTypeId)>-1){
 							if(vm.layoutFileDataTypeIdDupplicate.indexOf(item.layoutFileDataTypeId) < 0){
 								vm.layoutFileDataTypeIdDupplicate.push(item.layoutFileDataTypeId);
 							}
-						}else if(item.layoutFileDataTypeId != null){
+						}else if(item.layoutFileDataTypeId != null && !dataType.transient){
 							if(item.layoutFileDataTypeId == 13){
 								vm.requireNetAmount = false;
 							}else if(item.layoutFileDataTypeId == 8){
@@ -662,11 +663,13 @@ module.controller('FileLayoutController', [
 					vm.layoutFileDataTypeIdDupplicate = [];
 
 					vm.items.forEach(function(item) {
+						var dataType = vm.dataTypeByIds[item.layoutFileDataTypeId];
+						console.log(dataType);
 						if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(item.layoutFileDataTypeId)>-1){
 							if(vm.layoutFileDataTypeIdDupplicate.indexOf(item.layoutFileDataTypeId) < 0){
 								vm.layoutFileDataTypeIdDupplicate.push(item.layoutFileDataTypeId);
 							}
-						}else if(item.layoutFileDataTypeId != null){
+						}else if(item.layoutFileDataTypeId != null && !dataType.transient){
 							if(item.layoutFileDataTypeId == 17){
 								vm.requirePaymentAmount = false;
 							}
@@ -679,7 +682,7 @@ module.controller('FileLayoutController', [
 									if(vm.layoutFileDataTypeIdDupplicate.indexOf(itemClone.layoutFileDataTypeId) < 0){
 										vm.layoutFileDataTypeIdDupplicate.push(itemClone.layoutFileDataTypeId);
 									}
-								}else if(item.layoutFileDataTypeId != null){
+								}else if(item.layoutFileDataTypeId != null && !dataType.transient){
 									if(item.layoutFileDataTypeId == 17){
 										vm.requirePaymentAmount = false;
 									}
@@ -690,11 +693,12 @@ module.controller('FileLayoutController', [
 					});			
 					
 					vm.dataDetailItems.forEach(function(item) {
+						var dataType = vm.dataTypeByIds[item.layoutFileDataTypeId];
 						if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(item.layoutFileDataTypeId)>-1){
 							if(vm.layoutFileDataTypeIdDupplicate.indexOf(item.layoutFileDataTypeId) < 0){
 								vm.layoutFileDataTypeIdDupplicate.push(item.layoutFileDataTypeId);
 							}
-						}else if(item.layoutFileDataTypeId != null){
+						}else if(item.layoutFileDataTypeId != null && !dataType.transient){
 							if(item.layoutFileDataTypeId == 17){
 								vm.requirePaymentAmount = false;
 							}
