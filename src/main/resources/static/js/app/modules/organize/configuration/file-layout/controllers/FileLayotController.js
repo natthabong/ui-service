@@ -18,12 +18,13 @@ module.controller('FileLayoutController', [
 
 			var vm = this;
 
-			vm.manageAll=false;
+			vm.manageAll = false;
 			
 			vm.newMode = true;
+
 			var ownerId = $rootScope.sponsorId;
 
-			
+			vm.processType = $stateParams.processType;
 			vm.model = $stateParams.fileLayoutModel || {
 					ownerId : ownerId,
 					paymentDateConfig : vm.processType == 'AP_DOCUMENT' ? {
@@ -33,13 +34,7 @@ module.controller('FileLayoutController', [
 					}: null
 				};
 			
-			vm.processType = $stateParams.processType;
-			
-			var headerName = {
-				"AP_DOCUMENT" : "AP Document file layout",
-				"AR_DOCUMENT" : "AR Document file layout"
-			}
-			vm.headerName = headerName[vm.processType];
+			vm.headerName = vm.processType == 'AP_DOCUMENT' ? "AP Document file layout": "AR Document file layout";
 
 			var BASE_URI = 'api/v1/organize-customers/' + ownerId
 				+ '/processTypes/'+vm.processType;
@@ -103,8 +98,6 @@ module.controller('FileLayoutController', [
 			vm.backToSponsorConfigPage = function() {
 				PageNavigation.gotoPreviousPage();
 			}
-			
-			
 			
 			var dateTimeFieldIds = [];
 			
@@ -452,6 +445,7 @@ module.controller('FileLayoutController', [
 				  return str.join('');
 			}
 			
+
 			vm.openSetting = function(index, record) {
 				console.log(record);
 				var layoutFileDataTypeId = record.layoutFileDataTypeId;
@@ -464,65 +458,39 @@ module.controller('FileLayoutController', [
 					dataTypeDropdowns = vm.dataTypeFooters;
 				}
 				
-				// dataTypeDropdowns.forEach(function(obj) {
-				// 	if (layoutFileDataTypeId == obj.layoutFileDataTypeId) {
-				// 		var dataType = obj.dataType;
-				// 		var dialog = ngDialog.open({
-				// 			id : 'layout-setting-dialog-' + index,
-				// 			template : obj.configActionUrl,
-				// 			className : 'ngdialog-theme-default',
-				// 			controller : _convertToHumanize(dataType) + 'LayoutConfigController',
-				// 			controllerAs : 'ctrl',
-				// 			scope : $scope,
-				// 			data : {
-				// 				record : record,
-				// 				config : obj,
-				// 				headerItems : vm.headerItems,
-				// 				detailItems : vm.items,
-				// 				footerItems : vm.footerItems
-				// 			},
-				// 			cache : false,
-				// 			preCloseCallback : function(value) {
-				// 				if (value != null) {
-				// 					if(value.dataType === 'CUSTOMER_CODE'){
-				// 						vm.loadCustomerCodeGroup();
-				// 					}
-				// 					value = settingDocFieldName(record, value, obj);
-				// 					angular.copy(value, record);
-				// 					record.completed = true;
-				// 				}
-				// 			}
-				// 		});
-				// 	}
-				// });
-
-				// dataTypeDropdowns.forEach(function(obj) {
-				// 	console.log(dataType)
-				// 	console.log(obj)
-				// 	if (dataType == obj.layoutFileDataTypeId) {
+				dataTypeDropdowns.forEach(function(obj) {
+					if (layoutFileDataTypeId == obj.layoutFileDataTypeId) {
+						var dataType = obj.dataType;
 						var dialog = ngDialog.open({
-							template : 'js/app/modules/organize/configuration/file-layout/templates/dialog-text-field-format.html',
-							controller : 'TextLayoutConfigController',
+							id : 'layout-setting-dialog-' + index,
+							template : obj.configActionUrl,
+							className : 'ngdialog-theme-default',
+							controller : _convertToHumanize(dataType) + 'LayoutConfigController',
 							controllerAs : 'ctrl',
 							scope : $scope,
 							data : {
+								processType : vm.processType,
+								owner : ownerId,
 								record : record,
+								config : obj,
+								headerItems : vm.headerItems,
+								detailItems : vm.items,
+								footerItems : vm.footerItems
 							},
 							cache : false,
 							preCloseCallback : function(value) {
-								// if (value != null) {
-								// 	if(value.dataType === 'CUSTOMER_CODE'){
-								// 		vm.loadCustomerCodeGroup();
-								// 	}
-								// 	value = settingDocFieldName(record, value, obj);
-								// 	angular.copy(value, record);
-								// 	record.completed = true;
-								// }
+								if (value != null) {
+									if(value.dataType === 'CUSTOMER_CODE'){
+										vm.loadCustomerCodeGroup();
+									}
+									value = settingDocFieldName(record, value, obj);
+									angular.copy(value, record);
+									record.completed = true;
+								}
 							}
 						});
-				// 	}
-				// });
-
+					}
+				});
 			}
 
 			vm.addItem = function() {

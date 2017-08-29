@@ -52,9 +52,29 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 		return deffered;
 	
 	}
+
+	var loadDataMappingTo = function(){
+		var deffered = $q.defer();
+		var uri = 'api/v1/configs/gecscf/layouts/file/data-types'
+		$http({
+    	    url : uri,
+        	method: 'GET',
+			params:{
+				dataType : "TEXT",
+				isTransient : false
+			}
+	    }).then(function(response) {
+	    	deffered.resolve(response);
+		}).catch(function(response) {
+			deffered.reject(response);
+		});
+		
+		return deffered;
+	}
 	return {
 		getDataTypes: getDataTypes,
 		getValidationDataTypes: getValidationDataTypes,
+		loadDataMappingTo:loadDataMappingTo,
 		getSpecificData: getSpecificData
 	}
 } ]);

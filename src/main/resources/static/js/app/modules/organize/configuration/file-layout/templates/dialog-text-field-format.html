@@ -60,7 +60,7 @@
 							<div>
 								<div class="col-lg-7 col-md-7 col-sm-7 col-xs-11">
 									<scf-dropdown id="expected-in-dropdown" ng-model="record.dataType" 
-										component-data="ctrl.expectedInDropdown" 
+										component-data="ctrl.expectedInDropDown" 
 										ng-change="ctrl.isChangeDataType(record)"
 										ng-disabled='!ctrl.expected || ctrl.openExpectedValueField' translate-label="true">
 									</scf-dropdown>
@@ -84,8 +84,7 @@
 								ng-bind="'Mapping to' | translate"></span>:</label>
 							<div class="col-md-7 col-sm-5 col-xs-12">
 								<scf-dropdown id="data-type-{{$index+1}}-dropdown" 
-									ng-model="record.dataType" component-data="ctrl.dataTypeDropdown" 
-									ng-change="ctrl.isChangeDataType(record)"
+									ng-model="record.dataType" component-data="ctrl.mappingToDropDown"
 									translate-label="true">
 								</scf-dropdown>
 							</div>

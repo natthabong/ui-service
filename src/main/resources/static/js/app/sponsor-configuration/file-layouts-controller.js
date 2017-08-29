@@ -42,7 +42,7 @@ angular
 							
 							vm.newFileLayout = function(data, processType){		
 								var params = {fileLayoutModel: data, processType:processType};
-								PageNavigation.gotoPage('/sponsor-configuration/file-layouts/new-file-layout',params)
+								PageNavigation.gotoPage('/sponsor-configuration/file-layouts/new-file-layout',params);
 							}
 							
 							vm.decodeBase64 = function(data){
