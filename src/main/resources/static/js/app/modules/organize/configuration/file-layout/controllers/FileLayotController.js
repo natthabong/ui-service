@@ -611,27 +611,96 @@ module.controller('FileLayoutController', [
 				});
 			}
 
-			vm.save = function() {
-				UIFactory.showConfirmDialog({
-					data : {
-						headerMessage : 'Confirm save?'
-					},
-					confirm : $scope.confirmSave,
-					onSuccess: function(response){
-						dialogSuccess = UIFactory.showSuccessDialog({
-							data: {
-								headerMessage : 'Edit file layout complete.',
-								bodyMessage : ''
-							},
-							preCloseCallback: function(){
-								vm.backToSponsorConfigPage();
+			var validSave = function(){
+				
+				if(vm.processType=='AR_DOCUMENT'){
+					
+					vm.requireDocDueDate = true;
+					vm.requireNetAmount = true;
+					var layoutFileDataTypeId = [];
+					vm.layoutFileDataTypeIdDupplicate = [];
+					vm.items.forEach(function(item) {
+						console.log(item);
+						if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(item.layoutFileDataTypeId)>-1){
+							if(vm.layoutFileDataTypeIdDupplicate.indexOf(item.layoutFileDataTypeId) < 0){
+								vm.layoutFileDataTypeIdDupplicate.push(item.layoutFileDataTypeId);
 							}
-					    });
-					},
-					onFail : function(response) {
-						blockUI.stop();
+						}else if(item.layoutFileDataTypeId != null){
+							if(item.layoutFileDataTypeId == 13){
+								vm.requireNetAmount = false;
+							}else if(item.layoutFileDataTypeId == 8){
+								vm.requireDocDueDate = false;
+							}
+							layoutFileDataTypeId.push(item.layoutFileDataTypeId);
+						}
+						
+						if(item.valueCloningFields!=null && item.valueCloningFields.length>0){
+							item.valueCloningFields.forEach(function(itemClone) {
+								if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(itemClone.layoutFileDataTypeId)>-1){
+									if(vm.layoutFileDataTypeIdDupplicate.indexOf(itemClone.layoutFileDataTypeId) < 0){
+										vm.layoutFileDataTypeIdDupplicate.push(itemClone.layoutFileDataTypeId);
+									}
+								}else if(item.layoutFileDataTypeId != null){
+									if(item.layoutFileDataTypeId == 13){
+										vm.requireNetAmount = false;
+									}else if(item.layoutFileDataTypeId == 8){
+										vm.requireDocDueDate = false;
+									}
+									layoutFileDataTypeId.push(itemClone.layoutFileDataTypeId);
+								}								
+							});		
+						}
+					});			
+					
+					vm.dataDetailItems.forEach(function(item) {
+						if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(item.layoutFileDataTypeId)>-1){
+							if(vm.layoutFileDataTypeIdDupplicate.indexOf(item.layoutFileDataTypeId) < 0){
+								vm.layoutFileDataTypeIdDupplicate.push(item.layoutFileDataTypeId);
+							}
+						}else if(item.layoutFileDataTypeId != null){
+							if(item.layoutFileDataTypeId == 13){
+								vm.requireNetAmount = false;
+							}else if(item.layoutFileDataTypeId == 8){
+								vm.requireDocDueDate = false;
+							}
+							layoutFileDataTypeId.push(item.layoutFileDataTypeId);
+						}
+					});		
+					
+					if(vm.requireDocDueDate || vm.requireNetAmount || vm.layoutFileDataTypeIdDupplicate.length > 0){
+						return false;
 					}
-				});
+					
+				}else if(vm.processType=='AP_DOCUMENT'){
+					
+				}
+				
+				return true;
+			}
+			
+			vm.save = function() {
+				if(validSave()){
+					UIFactory.showConfirmDialog({
+						data : {
+							headerMessage : 'Confirm save?'
+						},
+						confirm : $scope.confirmSave,
+						onSuccess: function(response){
+							dialogSuccess = UIFactory.showSuccessDialog({
+								data: {
+									headerMessage : 'Edit file layout complete.',
+									bodyMessage : ''
+								},
+								preCloseCallback: function(){
+									vm.backToSponsorConfigPage();
+								}
+						    });
+						},
+						onFail : function(response) {
+							blockUI.stop();
+						}
+					});
+				}
 			}
 
 			$scope.confirmSave = function() {
@@ -1024,3 +1093,14 @@ app.constant('CHARSET_ITEM', [ {
 	fileEncodeName : 'TIS-620',
 	fileEncodeId : 'TIS-620'
 } ]);
+
+module.filter('layoutFileDataTypeDisplay', function() {
+    return function(id, layoutFileDataTypeItem) {
+    	for(var i=0; i < layoutFileDataTypeItem.length; i++){
+    		if(id == layoutFileDataTypeItem[i].value){
+    			return layoutFileDataTypeItem[i].label + ' is duplicated';
+    		}	
+    	}
+    	return "";
+    };
+});

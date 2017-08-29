@@ -651,7 +651,23 @@
 							</div>
 						</div>
 					</div>
-
+					<div class="panel-body">
+						<div ng-show="ctrl.requireDocDueDate">
+							<span class="col-md-12 col-sm-12 text-left error-msg"
+								id="log-date-format-warning-message-label">{{'Document
+								due date is required' | translate}}.</span>
+						</div>
+						<div ng-show="ctrl.requireNetAmount">
+							<span class="col-md-12 col-sm-12 text-left error-msg"
+								id="log-date-format-warning-message-label">{{'Net amount
+								is required' | translate}}.</span>
+						</div>
+						<div ng-show="ctrl.layoutFileDataTypeIdDupplicate.length>0">
+							<span class="col-md-12 col-sm-12 text-left error-msg"
+								ng-repeat="dupplicateId in ctrl.layoutFileDataTypeIdDupplicate">{{dupplicateId
+								| layoutFileDataTypeDisplay : ctrl.dataTypeDropdown}}.</span>
+						</div>
+					</div>
 					<div class="panel-body">
 						<div class="col-md-12 col-sm-12 text-right">
 							<scf-button id="layout-cancel-button" class="popup-button"
