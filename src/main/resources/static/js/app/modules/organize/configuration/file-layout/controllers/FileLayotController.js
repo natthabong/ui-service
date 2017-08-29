@@ -29,6 +29,8 @@ module.controller('FileLayoutController', [
 					ownerId : ownerId,
 					paymentDateConfig : vm.processType == 'AP_DOCUMENT' ? {
 						strategy : 'FIELD',
+						documentDateFieldOfField : null,
+						documentDateFieldOfFormula : null,
 						documentDateField : null,
 						paymentDateFormulaId : null
 					}: null
@@ -261,6 +263,8 @@ module.controller('FileLayoutController', [
 					ownerId : ownerId,
 					paymentDateConfig : {
 						strategy : 'FIELD',
+						documentDateFieldOfField : null,
+						documentDateFieldOfFormula : null,
 						documentDateField : null,
 						paymentDateFormulaId : null
 					}
@@ -328,6 +332,14 @@ module.controller('FileLayoutController', [
 
 					sendRequest(reqUrlLayoutConfg, function(response) {
 						vm.model = response.data;
+						
+						if(vm.model.paymentDateConfig.strategy == 'FIELD'){
+							vm.model.paymentDateConfig.documentDateFieldOfField = vm.model.paymentDateConfig.documentDateField;
+							vm.model.paymentDateConfig.documentDateFieldOfFormula = null;
+						}else{
+							vm.model.paymentDateConfig.documentDateFieldOfField = null;
+							vm.model.paymentDateConfig.documentDateFieldOfFormula = vm.model.paymentDateConfig.documentDateField;
+						}
 						
 						vm.oldStateFileType = vm.model.fileType;
 						if(angular.isDefined(vm.model.offsetRowNo) && vm.model.offsetRowNo != null){
@@ -712,6 +724,12 @@ module.controller('FileLayoutController', [
 					apiURL = apiURL + '/' + vm.model.layoutConfigId;
 				}
 				
+				if(sponsorLayout.paymentDateConfig.strategy == 'FIELD'){
+					sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateFieldOfField;
+				}else{
+					sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateFieldOfFormula;
+				}
+				
 				var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode ? 'POST' : 'PUT');
 
 				return fileLayoutDiferred;
@@ -744,6 +762,8 @@ module.controller('FileLayoutController', [
 				if(vm.model.paymentDateConfig == null){
 					vm.model.paymentDateConfig = {
 						strategy : 'FIELD',
+						documentDateFieldOfField : null,
+						documentDateFieldOfFormula : null,
 						documentDateField : null,
 						paymentDateFormulaId : null
 					};
@@ -866,8 +886,10 @@ module.controller('FileLayoutController', [
 					vm.model.paymentDateConfig.formula = null;
 					vm.model.paymentDateConfig.creditTermField = null;
 					vm.model.paymentDateConfig.paymentDateFormulaId = null;
+					vm.model.paymentDateConfig.documentDateFieldOfFormula = null;
+				}else{
+					vm.model.paymentDateConfig.documentDateFieldOfField = null;
 				}
-				vm.model.paymentDateConfig.documentDateField = null;
 			}
 
 			vm.clearHeaderConfig = function() {
