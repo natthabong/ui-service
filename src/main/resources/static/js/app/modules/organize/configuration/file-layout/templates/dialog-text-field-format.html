@@ -15,24 +15,24 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 
 					<fieldset>
-						<legend>Validation</legend>
+						<legend id="validation-label">Validation</legend>
 						<div class="form-group">
 							<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-									id="text-field-format-popup-require-checkbox"
+									id="require-checkbox"
 									ng-model="ctrl.model.isRequired"></scf-checkbox> <span
-								ng-bind="'Require' | translate" id="require-label"></span> </label>
+								ng-bind="'Require' | translate" id="require-label"></span></label>
 						</div>
 
 						<div class="form-group">
 							<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-									id="text-field-format-popup-require-checkbox"
+									id="expected-checkbox"
 									ng-model="ctrl.expected"></scf-checkbox> <span
-								ng-bind="'Expected' | translate" id="require-label"></span> </label>
+								ng-bind="'Expected' | translate" id="expected-label"></span> </label>
 						</div>
 
 						<div class="form-group">
 							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-								<scf-radio id="expected-value-raido-button" name="expected-popup-radio" ng-value="true"
+								<scf-radio id="expected-value-radio" name="expected-popup-radio" ng-value="true"
 									ng-model="ctrl.openExpectedValueField" ng-disabled="!ctrl.expected" ng-change="ctrl.clearExpectedValue()"></scf-radio>
 							</div>
 							<div>
@@ -41,7 +41,7 @@
 								</label>
 							</div>
 							<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-								<scf-input-text id="expected-value-textbox" ng-model="ctrl.model.expectedValue" 
+								<scf-input-text id="expected-value-textbox" ng-model="ctrl.expectedValue" 
 									maxlength="255" ng-disabled="!ctrl.expected || !ctrl.openExpectedValueField">
 								</scf-input-text>
 							</div>
@@ -49,7 +49,7 @@
 
 						<div class="form-group">
 							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-								<scf-radio id="expected-in-raido-button" name="expected-popup-radio" ng-value="false"
+								<scf-radio id="expected-in-radio" name="expected-popup-radio" ng-value="false"
 									ng-model="ctrl.openExpectedValueField" ng-disabled="!ctrl.expected" ng-change="ctrl.clearExpectedValue()">
 								</scf-radio>
 							</div>
@@ -65,7 +65,7 @@
 										ng-disabled='!ctrl.expected || ctrl.openExpectedValueField' translate-label="true">
 									</scf-dropdown>
 								</div>
-								<scf-button id="new-button" ng-click="ctrl.newMapping()" class="btn-default gec-btn-action" title="New"
+								<scf-button id="popup-add-button" ng-click="ctrl.newMapping()" class="btn-default gec-btn-action" title="New"
 									ng-disabled='!ctrl.expected || ctrl.openExpectedValueField'>
 									<i class="fa fa-plus" aria-hidden="true"></i>
 								</scf-button>
@@ -83,7 +83,7 @@
 							<label id="mapping-to-label" class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 								ng-bind="'Mapping to' | translate"></span>:</label>
 							<div class="col-md-7 col-sm-5 col-xs-12">
-								<scf-dropdown id="data-type-{{$index+1}}-dropdown" 
+								<scf-dropdown id="mapping-to-dropdown" 
 									ng-model="ctrl.model.mappingToFieldName" component-data="ctrl.mappingToDropDown"
 									translate-label="true">
 								</scf-dropdown>
@@ -98,8 +98,8 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<scf-button id="text-field-format-popup-cancel-button" class="popup-button" ng-click="closeThisDialog()" ng-bind="'Cancel' | translate"></scf-button>
-					<scf-button id="text-field-format-popup-ok-button" class="popup-button" type="submit" ng-bind="'OK' | translate" ng-click="ctrl.submit()"></scf-button>
+					<scf-button id="popup-cancel-button" class="popup-button" ng-click="closeThisDialog()" ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="popup-ok-button" class="popup-button" type="submit" ng-bind="'OK' | translate" ng-click="ctrl.submit()"></scf-button>
 				</div>
 			</div>
 		</div>

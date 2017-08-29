@@ -6,13 +6,17 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 		var vm = this;
 		var log = $log;
 
-		vm.expected = false;
-		vm.openExpectedValueField = true;
-		vm.openExpectedInField = false;
-
 		vm.model = angular.copy($scope.ngDialogData.record);
+		var validationType = "IN_MAPPING_TYPE";
+
+		vm.expected = angular.isDefined(vm.model.expectedValue) ? true : false;
+		vm.openExpectedValueField = vm.model.validationType == validationType ? false : true;
+		
 		vm.expectedInDataList = [];
-		vm.expectedInValue = null;
+
+		vm.expectedInValue = vm.model.validationType == validationType ? angular.copy(vm.model.expectedValue) : null;
+		vm.expectedValue = vm.model.validationType == null ? angular.copy(vm.model.expectedValue) : null;
+
 		vm.mappingType = null;
 
 		var owner = angular.copy($scope.ngDialogData.owner);
@@ -28,13 +32,10 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 			}
 		];
 
-		
-		
 		vm.loadMappingData = function(newData){
 			var deffered = MappingDataService.loadMappingData(owner,accountingTransactionType);
 			deffered.promise.then(function(response) {
 				vm.expectedInDataList = response.data;
-				console.log(vm.expectedInDataList)
 				vm.expectedInDataList.forEach(function(data){
 					vm.expectedInDropDown.push({
 						label : data.mappingDataName,
@@ -44,8 +45,10 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 				if(angular.isDefined(newData)){
 					vm.expectedInValue = newData.toString();
 					vm.changeExpectedInValue();
-				}else{
-					vm.expectedInValue = null;
+				}
+
+				if(vm.expectedInValue != null){
+					vm.changeExpectedInValue();
 				}
 			}).catch(function(response) {
 				log.error("Can not load mapping data!");
@@ -62,7 +65,9 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 						value:data.layoutFileDataTypeId
 					});
 				});
-				vm.model.mappingToFieldName = vm.mappingToDropDown[0].value.toString();
+				if(angular.isUndefined(vm.model.mappingToFieldName)){
+					vm.model.mappingToFieldName = vm.mappingToDropDown[0].value.toString();
+				}
 				
 			}).catch(function(response) {
 				log.error("Can not load mapping data to!");
@@ -75,9 +80,10 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 		}();
 
 		vm.clearExpectedValue = function(){
-			vm.model.expectedValue = null;
+			vm.expectedValue = null;
 			vm.expectedInValue = null;
 			vm.mappingType = null;
+			vm.model.validationType = null;
 		}
 		
 		vm.changeExpectedInValue = function(){
@@ -87,6 +93,7 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 					vm.mappingType = data.mappingType;
 				}
 			})
+			vm.model.validationType = validationType;
 		}
 
 		vm.newMapping = function () {
@@ -96,7 +103,6 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 					accountingTransactionType: accountingTransactionType
 				},
 				preCloseCallback: function (response) {
-					console.log(response)
 					vm.expectedInDropDown = [
 						{
 							label : "Please select",
@@ -108,6 +114,15 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 					vm.changeExpectedInValue();
 				}
 			});
+		}
+
+		vm.submit = function(){
+			if(vm.model.validationType != null){
+				vm.model.expectedValue = vm.expectedInValue;
+			}else{
+				vm.model.expectedValue = vm.expectedValue;
+			}
+			$scope.closeThisDialog(vm.model)
 		}
 
 	}]);
