@@ -466,6 +466,7 @@ module.controller('FileLayoutController', [
 								processType : vm.processType,
 								owner : ownerId,
 								record : record,
+								index:index,
 								config : obj,
 								headerItems : vm.headerItems,
 								detailItems : vm.items,

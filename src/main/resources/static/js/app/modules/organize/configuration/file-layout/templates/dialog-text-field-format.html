@@ -16,6 +16,7 @@
 
 					<fieldset>
 						<legend id="validation-label">Validation</legend>
+						
 						<div class="form-group">
 							<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
 									id="require-checkbox"
@@ -71,6 +72,14 @@
 								</scf-button>
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-md-1 col-sm-1 col-xs-1" ng-show="ctrl.error.expectedInRequire">
+							</label>
+							<span class="col-md-10 col-sm-10 col-xs-10 error-msg" 
+								ng-show="ctrl.error.expectedInRequire"
+								ng-bind="ctrl.error.msg">
+							</span>
+						</div>
 
 						<div class="form-group">
 							<label id="mapping-type-label" class="col-lg-3 col-md-3 col-sm-3 col-xs-12 control-label"><span
@@ -80,7 +89,7 @@
 						</div>
 
 						<div class="form-group">
-							<label id="mapping-to-label" class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							<label id="mapping-to-label" class="col-md-3 col-sm-4 col-xs-12"><span
 								ng-bind="'Mapping to' | translate"></span>:</label>
 							<div class="col-md-7 col-sm-5 col-xs-12">
 								<scf-dropdown id="mapping-to-dropdown" 
@@ -88,6 +97,15 @@
 									translate-label="true">
 								</scf-dropdown>
 							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-1 col-sm-1 col-xs-1" ng-show="ctrl.error.duplicate || ctrl.error.mappingToRequire">
+							</label>
+								<span class="col-md-10 col-sm-10 col-xs-10 error-msg"
+									ng-show="ctrl.error.duplicate || ctrl.error.mappingToRequire" 
+									ng-bind="ctrl.error.msg">
+								</span>
 						</div>
 
 					</fieldset>

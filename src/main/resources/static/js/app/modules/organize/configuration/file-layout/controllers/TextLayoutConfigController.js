@@ -6,7 +6,17 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 		var vm = this;
 		var log = $log;
 
+		vm.error ={
+			msg : null
+		}
+
 		vm.model = angular.copy($scope.ngDialogData.record);
+		var detailItems = angular.copy($scope.ngDialogData.detailItems);
+		var headerItems = angular.copy($scope.ngDialogData.headerItems);
+		var footerItems = angular.copy($scope.ngDialogData.footerItems);
+		var index = angular.copy($scope.ngDialogData.index);
+		var fieldList = [];
+		
 		var validationType = "IN_MAPPING_TYPE";
 
 		vm.expected = angular.isDefined(vm.model.expectedValue) ? true : false;
@@ -23,7 +33,12 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 		var processType = angular.copy( $scope.ngDialogData.processType);
 		var accountingTransactionType = processType == "AP_DOCUMENT" ? "PAYABLE" : "RECEIVABLE";
 
-		vm.mappingToDropDown = [];
+		vm.mappingToDropDown = [
+			{
+				label : "Please select",
+				value : ''
+			}
+		];
 
 		vm.expectedInDropDown = [
 			{
@@ -84,6 +99,9 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 			vm.expectedInValue = null;
 			vm.mappingType = null;
 			vm.model.validationType = null;
+			vm.error.msg = null;
+			vm.error.require = false;
+			vm.error.duplicate = false;
 		}
 		
 		vm.changeExpectedInValue = function(){
@@ -94,6 +112,9 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 				}
 			})
 			vm.model.validationType = validationType;
+			vm.error.msg = null;
+			vm.error.require = false;
+			vm.error.duplicate = false;
 		}
 
 		vm.newMapping = function () {
@@ -116,13 +137,124 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 			});
 		}
 
-		vm.submit = function(){
-			if(vm.model.validationType != null){
-				vm.model.expectedValue = vm.expectedInValue;
+		var prepareValidDuppicate = function(){
+			var temp = [];
+			if(vm.model.recordType == "DETAIL"){
+				for(var i=0;i<detailItems.length;i++){
+					if(i!=index){
+						temp.push(detailItems[i]);
+					}
+				}
+				headerItems.forEach(function(data){
+					fieldList.push(data);
+				})
+				footerItems.forEach(function(data){
+					fieldList.push(data);
+				});
+				temp.forEach(function(data){
+					fieldList.push(data);
+				});
+
+			}else if(vm.model.recordType == "HEADER"){
+				for(var i=0;i<headerItems.length;i++){
+					if(i!=index){
+						temp.push(headerItems[i]);
+					}
+				}
+				detailItems.forEach(function(data){
+					fieldList.push(data);
+				})
+				footerItems.forEach(function(data){
+					fieldList.push(data);
+				});
+				temp.forEach(function(data){
+					fieldList.push(data);
+				});
 			}else{
-				vm.model.expectedValue = vm.expectedValue;
+				for(var i=0;i<footerItems.length;i++){
+					if(i!=index){
+						temp.push(footerItems[i]);
+					}
+				}
+				detailItems.forEach(function(data){
+					fieldList.push(data);
+				})
+				headerItems.forEach(function(data){
+					fieldList.push(data);
+				});
+				temp.forEach(function(data){
+					fieldList.push(data);
+				});
 			}
-			$scope.closeThisDialog(vm.model)
+		}();
+
+		var validate = function(){
+			var valid = true;
+			vm.error.msg = null;
+			vm.error.expectedInRequire = false;
+			vm.error.duplicate = false;
+			vm.error.mappingToRequire = false;
+
+			//Check required
+			if((!vm.openExpectedValueField) && (vm.expectedInValue == null || vm.expectedInValue == '')){
+				vm.error.msg = "Expected in is required.";
+				vm.error.expectedInRequire = true;
+				valid = false;
+			}
+
+			// //Check duplicate
+			if(valid){
+				var count = 0;
+				fieldList.forEach(function(data){
+					if(data.validationType == validationType && data.expectedValue == vm.expectedInValue){
+						count++;
+					}
+				})
+				if(count != 0){
+					vm.error.msg = "Expected in is duplicate.";
+					vm.error.expectedInRequire = true;
+					valid = false;
+				}
+			}
+
+			//Check required
+			if(valid){
+				if((angular.isUndefined(vm.model.mappingToFieldName) || vm.model.mappingToFieldName == null || vm.model.mappingToFieldName == '') 
+					&& (!vm.openExpectedValueField)){
+					vm.error.msg = "Mapping to is required.";
+					vm.error.mappingToRequire = true;
+					valid = false;
+				}
+			}
+
+			//Check duplicate
+			if(valid){
+				var count = 0;
+				fieldList.forEach(function(data){
+					if(data.mappingToFieldName == vm.model.mappingToFieldName){
+						count++;
+					}
+				})
+				if(count != 0){
+					vm.error.msg = "Mapping to is duplicate.";
+					vm.error.duplicate = true;
+					valid = false;
+				}
+			}
+
+			return valid;
+		}
+
+		vm.submit = function(){
+			if(validate()){
+				if(vm.model.validationType != null){
+					vm.model.expectedValue = vm.expectedInValue;
+				}else{
+					vm.model.expectedValue = vm.expectedValue;
+				}
+				vm.model.dataType = "TEXT";
+				$scope.closeThisDialog(vm.model)
+			}
 		}
 
 	}]);
