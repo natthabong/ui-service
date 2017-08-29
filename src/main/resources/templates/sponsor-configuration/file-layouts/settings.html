@@ -662,6 +662,11 @@
 								id="log-date-format-warning-message-label">{{'Net amount
 								is required' | translate}}.</span>
 						</div>
+						<div ng-show="ctrl.requirePaymentAmount">
+							<span class="col-md-12 col-sm-12 text-left error-msg"
+								id="log-date-format-warning-message-label">{{'Payment amount
+								is required' | translate}}.</span>
+						</div>						
 						<div ng-show="ctrl.layoutFileDataTypeIdDupplicate.length>0">
 							<span class="col-md-12 col-sm-12 text-left error-msg"
 								ng-repeat="dupplicateId in ctrl.layoutFileDataTypeIdDupplicate">{{dupplicateId
