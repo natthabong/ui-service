@@ -9,12 +9,13 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 	var headerItems = $scope.ngDialogData.headerItems;
 	var detailItems = $scope.ngDialogData.detailItems;
 	var footerItems = $scope.ngDialogData.footerItems;
+	var dataTypeByIds = $scope.ngDialogData.dataTypeByIds;
 	
 	vm.requiredRelationalSummary = false;
 	vm.relationalSummary = [];
 	var diferred = $q.defer();
 		
-	var serviceUrl = 'js/app/sponsor-configuration/file-layouts/numeric_relational_summary.json';
+	var serviceUrl = 'js/app/modules/organize/configuration/file-layout/data/numeric_relational_summary.jsonn';
 	var serviceDiferred = Service.doGet(serviceUrl);
 	serviceDiferred.promise.then(function(response) {
 		var dateRelationalSummaryList = response.data;
@@ -82,7 +83,7 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 		var diferred = $q.defer();
 		vm.signFlagDropdown = [];
 
-		var serviceUrl = 'js/app/sponsor-configuration/file-layouts/sign_flag_list.json';
+		var serviceUrl = 'js/app/modules/organize/configuration/file-layout/data/sign_flag_list.json';
 		var serviceDiferred = Service.doGet(serviceUrl);
 		serviceDiferred.promise.then(function(response) {
 
@@ -144,7 +145,8 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 	
 	var headerFlagList = function() {		
 		headerItems.forEach(function(item , index) {
-			if (item.dataType == 'SIGN_FLAG') {
+			var dataType = dataTypeByIds[item.layoutFileDataTypeId];
+			if (dataType.dataType == 'SIGN_FLAG') {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.displayValue,
@@ -157,7 +159,8 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 	
 	var detailFlagList = function() {		
 		detailItems.forEach(function(item , index) {
-			if (item.dataType == 'SIGN_FLAG') {
+			var dataType = dataTypeByIds[item.layoutFileDataTypeId];
+			if (dataType.dataType == 'SIGN_FLAG') {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.displayValue,
@@ -170,7 +173,8 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 
 	var footerFlagList = function() {		
 		footerItems.forEach(function(item , index) {
-			if (item.dataType == 'SIGN_FLAG') {
+			var dataType = dataTypeByIds[item.layoutFileDataTypeId];
+			if (dataType.dataType == 'SIGN_FLAG') {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.displayValue,

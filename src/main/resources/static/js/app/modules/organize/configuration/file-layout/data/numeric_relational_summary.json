@@ -1,0 +1,9 @@
+[
+	{
+		"dateRelationalSummaryName" : "Count of document detail",
+		"dateRelationalSummaryId" : "COUNT_OF_DOCUMENT_DETAIL"
+	}, {
+		"dateRelationalSummaryName" : "Summary of field ...",
+		"dateRelationalSummaryId" : "SUMMARY_OF_FIELD"
+	}
+]

@@ -469,7 +469,9 @@ module.controller('FileLayoutController', [
 								config : obj,
 								headerItems : vm.headerItems,
 								detailItems : vm.items,
-								footerItems : vm.footerItems
+								footerItems : vm.footerItems,                                
+                                dataTypeByIds: vm.dataTypeByIds
+
 							},
 							cache : false,
 							preCloseCallback : function(value) {
