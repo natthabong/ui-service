@@ -2,13 +2,16 @@
 var module = angular.module('gecscf.organize.configuration.fileLayout');
 module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 
-	var getDataTypes = function(){
+	var getDataTypes = function(dataType){
 		var deffered = $q.defer();
 		
 		var uri = 'api/v1/configs/gecscf/layouts/file/data-types';
 		$http({
     	    url : uri,
-        	method: 'GET'
+        	method: 'GET',
+        	params: {
+        		dataType: dataType
+        	}
 	    }).then(function(response) {
             deffered.resolve(response);
         }).catch(function(response) {

@@ -42,8 +42,9 @@ module.controller('FileLayoutController', [
 			var BASE_URI = 'api/v1/organize-customers/' + ownerId
 				+ '/processTypes/'+vm.processType;
 
-
+			
 			vm.dataTypes = [];
+			
 			vm.dataTypeHeaders = [];
 			vm.dataTypeFooters = [];
 			
@@ -71,6 +72,7 @@ module.controller('FileLayoutController', [
 			vm.dataTypeDropdown = angular.copy(defaultDropdown);
 			vm.dataTypeHeaderDropdown = angular.copy(defaultDropdown);
 			vm.dataTypeFooterDropdown = angular.copy(defaultDropdown);
+			vm.dataTypeByGroupsDropdown = {};
 			
 			vm.specificsDropdown = [];
 			vm.specificModel = null;
@@ -109,6 +111,11 @@ module.controller('FileLayoutController', [
 				deffered.promise.then(function(response) {
 					vm.dataTypes = response.data;
 					vm.dataTypes.forEach(function(obj) {
+						if(!vm.dataTypeByGroupsDropdown[obj.dataType]){
+							vm.dataTypeByGroupsDropdown[obj.dataType] = [];
+						}
+						
+						
 						if(obj.dataType == 'DATE_TIME'){
 							dateTimeFieldIds.push(obj.layoutFileDataTypeId);
 						}
@@ -117,6 +124,7 @@ module.controller('FileLayoutController', [
 							label : obj.displayFieldName
 						}
 						vm.dataTypeDropdown.push(item);
+						vm.dataTypeByGroupsDropdown[obj.dataType].push(item);
 					});
 					
 					console.log(dateTimeFieldIds);
@@ -733,7 +741,7 @@ module.controller('FileLayoutController', [
 						},
 						confirm : $scope.confirmSave,
 						onSuccess: function(response){
-							dialogSuccess = UIFactory.showSuccessDialog({
+							UIFactory.showSuccessDialog({
 								data: {
 									headerMessage : 'Edit file layout complete.',
 									bodyMessage : ''
@@ -930,6 +938,8 @@ module.controller('FileLayoutController', [
 			}
 			
 			vm.addValueClonningField = function(record){
+				console.log(vm.dataTypeByGroupsDropdown);
+				console.log(vm.dataTypeByGroupsDropdown[record.dataType]);
 				if(!angular.isDefined(record.valueCloningFields)){
 					record.valueCloningFields = [];
 				}
