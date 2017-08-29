@@ -83,7 +83,7 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
         	method: 'GET',
 			params:{
 				dataType : "TEXT",
-				isTransient : false
+				isTransient : false,
         		isDisplayField : 'false'
 			}
 	    }).then(function(response) {
