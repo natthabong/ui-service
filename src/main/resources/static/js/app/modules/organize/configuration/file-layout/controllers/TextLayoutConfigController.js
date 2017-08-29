@@ -11,8 +11,10 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 		vm.openExpectedInField = false;
 
 		vm.model = angular.copy($scope.ngDialogData.record);
-		console.log(vm.model)
-		console.log($scope.record)
+		vm.expectedInDataList = [];
+		vm.expectedInValue = null;
+		vm.mappingType = null;
+
 		var owner = angular.copy($scope.ngDialogData.owner);
 		var processType = angular.copy( $scope.ngDialogData.processType);
 		var accountingTransactionType = processType == "AP_DOCUMENT" ? "PAYABLE" : "RECEIVABLE";
@@ -26,20 +28,25 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 			}
 		];
 
-
-		// mappingToFieldName
 		
-		vm.loadMappingData = function(){
+		
+		vm.loadMappingData = function(newData){
 			var deffered = MappingDataService.loadMappingData(owner,accountingTransactionType);
 			deffered.promise.then(function(response) {
-				var expectedInData = response.data;
-				console.log(expectedInData)
-				expectedInData.forEach(function(data){
+				vm.expectedInDataList = response.data;
+				console.log(vm.expectedInDataList)
+				vm.expectedInDataList.forEach(function(data){
 					vm.expectedInDropDown.push({
 						label : data.mappingDataName,
 						value : data.mappingDataId
 					});
 				});
+				if(angular.isDefined(newData)){
+					vm.expectedInValue = newData.toString();
+					vm.changeExpectedInValue();
+				}else{
+					vm.expectedInValue = null;
+				}
 			}).catch(function(response) {
 				log.error("Can not load mapping data!");
 			});
@@ -49,13 +56,14 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 			var deffered = FileLayoutService.loadDataMappingTo();
 			deffered.promise.then(function(response) {
 				var mappingTo = response.data;
-				console.log(mappingTo)
 				mappingTo.forEach(function(data){
 					vm.mappingToDropDown.push({
 						label:data.displayFieldName,
 						value:data.layoutFileDataTypeId
 					});
 				});
+				vm.model.mappingToFieldName = vm.mappingToDropDown[0].value.toString();
+				
 			}).catch(function(response) {
 				log.error("Can not load mapping data to!");
 			});
@@ -65,6 +73,21 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 			vm.loadMappingData();
 			vm.loadDataMappingTo();
 		}();
+
+		vm.clearExpectedValue = function(){
+			vm.model.expectedValue = null;
+			vm.expectedInValue = null;
+			vm.mappingType = null;
+		}
+		
+		vm.changeExpectedInValue = function(){
+			vm.mappingType = null;
+			vm.expectedInDataList.forEach(function(data){
+				if(data.mappingDataId == vm.expectedInValue){
+					vm.mappingType = data.mappingType;
+				}
+			})
+		}
 
 		vm.newMapping = function () {
 			MappingDataUtils.showCreateMappingDataDialog({
@@ -80,7 +103,9 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 							value : ''
 						}
 					];
-					vm.loadMappingData();
+					var newData = response.data.mappingDataId;
+					vm.loadMappingData(newData);
+					vm.changeExpectedInValue();
 				}
 			});
 		}

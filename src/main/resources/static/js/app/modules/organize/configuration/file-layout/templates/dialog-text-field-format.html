@@ -19,7 +19,7 @@
 						<div class="form-group">
 							<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
 									id="text-field-format-popup-require-checkbox"
-									ng-model="ctrl.model.required"></scf-checkbox> <span
+									ng-model="ctrl.model.isRequired"></scf-checkbox> <span
 								ng-bind="'Require' | translate" id="require-label"></span> </label>
 						</div>
 
@@ -33,7 +33,7 @@
 						<div class="form-group">
 							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 								<scf-radio id="expected-value-raido-button" name="expected-popup-radio" ng-value="true"
-									ng-model="ctrl.openExpectedValueField" ng-disabled="!ctrl.expected"></scf-radio>
+									ng-model="ctrl.openExpectedValueField" ng-disabled="!ctrl.expected" ng-change="ctrl.clearExpectedValue()"></scf-radio>
 							</div>
 							<div>
 								<label id="expected-value-label" class="col-lg-3 col-md-3 col-sm-3 col-xs-9 control-label">
@@ -50,7 +50,7 @@
 						<div class="form-group">
 							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 								<scf-radio id="expected-in-raido-button" name="expected-popup-radio" ng-value="false"
-									ng-model="ctrl.openExpectedValueField" ng-disabled="!ctrl.expected">
+									ng-model="ctrl.openExpectedValueField" ng-disabled="!ctrl.expected" ng-change="ctrl.clearExpectedValue()">
 								</scf-radio>
 							</div>
 							<div>
@@ -59,7 +59,7 @@
 							</div>
 							<div>
 								<div class="col-lg-7 col-md-7 col-sm-7 col-xs-11">
-									<scf-dropdown id="expected-in-dropdown" ng-model="record.dataType" 
+									<scf-dropdown id="expected-in-dropdown" ng-model="ctrl.expectedInValue" 
 										component-data="ctrl.expectedInDropDown" 
 										ng-change="ctrl.changeExpectedInValue()"
 										ng-disabled='!ctrl.expected || ctrl.openExpectedValueField' translate-label="true">
@@ -84,7 +84,7 @@
 								ng-bind="'Mapping to' | translate"></span>:</label>
 							<div class="col-md-7 col-sm-5 col-xs-12">
 								<scf-dropdown id="data-type-{{$index+1}}-dropdown" 
-									ng-model="record.dataType" component-data="ctrl.mappingToDropDown"
+									ng-model="ctrl.model.mappingToFieldName" component-data="ctrl.mappingToDropDown"
 									translate-label="true">
 								</scf-dropdown>
 							</div>
