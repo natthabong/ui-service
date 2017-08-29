@@ -226,11 +226,9 @@ module.controller('FileLayoutController', [
 					label : 'Please select',
 					value : null
 				} ];
-				console.log(configItems)
 				if (!isEmptyValue(configItems)) {
 					configItems.forEach(function(data) {
-						console.log(data.layoutFileDataTypeId);
-						console.log(dateTimeFieldIds);
+						console.log(data.layoutFileDataTypeId)
 						if (dateTimeFieldIds.indexOf(data.layoutFileDataTypeId) != -1 && !isEmptyValue(data.displayValue) && !data.isTransient) {
 							paymentDateDropdown.push({
 								label : data.displayValue,
@@ -343,7 +341,6 @@ module.controller('FileLayoutController', [
 							vm.isConfigOffsetRowNo = true;
 						}
 						
-						vm.reloadPaymentDateFields();
 
 						if (vm.model.delimeter != null && vm.model.delimeter != '') {
 							vm.delimeter = 'Other';
@@ -378,6 +375,8 @@ module.controller('FileLayoutController', [
 						if (vm.items.length < 1) {
 							vm.addItem();
 						}
+						vm.reloadPaymentDateFields();
+						addCreditTermFields(vm.items);
 					});
 
 					sendRequest(reqUrlData, function(response) {
@@ -489,9 +488,6 @@ module.controller('FileLayoutController', [
 							cache : false,
 							preCloseCallback : function(value) {
 								if (value != null) {
-									if(value.dataType === 'CUSTOMER_CODE'){
-										vm.loadCustomerCodeGroup();
-									}
 									value = settingDocFieldName(record, value, obj);
 									angular.copy(value, record);
 									record.completed = true;
