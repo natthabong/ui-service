@@ -45,7 +45,7 @@ tpModule
 								if (_isValid()) {
 									var preCloseCallback = function(confirm) {
 										callback();
-										$scope.ngDialogData.preCloseCallback();
+										$scope.ngDialogData.preCloseCallback(confirm);
 									}
 									UIFactory
 											.showConfirmDialog({
@@ -85,7 +85,7 @@ tpModule
 																	headerMessage : 'Add new mapping data success.',
 																	bodyMessage : ''
 																},
-																preCloseCallback : preCloseCallback
+																preCloseCallback : preCloseCallback(response)
 															});
 												}
 											});
