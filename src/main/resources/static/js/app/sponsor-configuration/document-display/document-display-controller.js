@@ -20,9 +20,11 @@ angular
             'SUPPLIER_CODE_GROUP_SELECTION_ITEM',
 			'UIFactory',
 			'blockUI',
+			'FileLayoutService',
             function($log, $scope, $state, SCFCommonService,
                 $stateParams, $timeout, ngDialog,
-                PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService, LOAN_REQUEST_MODE_ITEM, DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM,UIFactory,blockUI) {
+                PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService, LOAN_REQUEST_MODE_ITEM, 
+                DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM, UIFactory, blockUI, FileLayoutService) {
 
 
                 var vm = this;
@@ -76,6 +78,24 @@ angular
     			vm.backToSponsorConfigPage = function(){
     				PageNavigation.gotoPreviousPage();
     			}
+    			
+    			var loadDataTypes = function() {
+    				var deffered = FileLayoutService.getDisplayDataTypes();
+    				deffered.promise.then(function(response) {
+    					vm.documentFieldData = response.data;
+    					
+                        vm.documentFieldData.forEach(function(obj) {
+                            var item = {
+                        		value : obj.layoutFileDataTypeId,
+    							label : obj.displayFieldName
+                            };
+                            vm.documentFields.push(item);
+                        });
+
+    				}).catch(function(response) {
+    					log.error('Load customer code group data error');
+    				});
+    			}
 
                 var sendRequest = function(uri, succcesFunc, failedFunc) {
                     var serviceDiferred = Service.doGet(BASE_URI + uri);
@@ -95,17 +115,18 @@ angular
                         }
                     });
 
-                    sendRequest('/display-document-fields', function(response) {
-                        vm.documentFieldData = response.data;
-
-                        vm.documentFieldData.forEach(function(obj) {
-                            var item = {
-                                value: obj.docFieldName,
-                                label: obj.displayName
-                            };
-                            vm.documentFields.push(item);
-                        });
-                    });
+                    loadDataTypes();
+//                    sendRequest('/display-document-fields', function(response) {
+//                        vm.documentFieldData = response.data;
+//
+//                        vm.documentFieldData.forEach(function(obj) {
+//                            var item = {
+//                                value: obj.docFieldName,
+//                                label: obj.displayName
+//                            };
+//                            vm.documentFields.push(item);
+//                        });
+//                    });
                 }
 
                 vm.addItem = function() {
