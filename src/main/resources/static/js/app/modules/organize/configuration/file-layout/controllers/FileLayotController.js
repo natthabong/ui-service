@@ -115,6 +115,8 @@ module.controller('FileLayoutController', [
 						}
 						vm.dataTypeDropdown.push(item);
 					});
+					
+					console.log(dateTimeFieldIds);
 
 				}).catch(function(response) {
 					log.error('Load customer code group data error');
@@ -222,21 +224,16 @@ module.controller('FileLayoutController', [
 					label : 'Please select',
 					value : null
 				} ];
-
+				console.log(configItems)
 				if (!isEmptyValue(configItems)) {
-					fieldCounter = {};
 					configItems.forEach(function(data) {
+						console.log(data.layoutFileDataTypeId);
+						console.log(dateTimeFieldIds);
 						if (dateTimeFieldIds.indexOf(data.layoutFileDataTypeId) != -1 && !isEmptyValue(data.displayValue) && !data.isTransient) {
 							paymentDateDropdown.push({
 								label : data.displayValue,
 								value : data.docFieldName
 							});
-						}
-
-						if (!fieldCounter[data.dataType]) {
-							fieldCounter[data.dataType] = 1;
-						} else {
-							fieldCounter[data.dataType]++;
 						}
 					});
 				}
@@ -706,7 +703,7 @@ module.controller('FileLayoutController', [
 					});			
 				}
 
-				var apiURL = 'api/v1/organize-customers/' + ownerId + '/sponsor-configs/SFP/layouts';
+				var apiURL = 'api/v1/organize-customers/' + ownerId + '/processTypes/'+vm.processType+'/layouts';
 				if (!vm.newMode) {
 					sponsorLayout.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
 					apiURL = apiURL + '/' + vm.model.layoutConfigId;
