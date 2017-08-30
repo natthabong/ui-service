@@ -21,7 +21,7 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
         return deffered;
 	}
 	
-	var getDisplayDataTypes = function(){
+	var getDisplayDataTypes = function(dataType){
 		var deffered = $q.defer();
 		
 		var uri = 'api/v1/configs/gecscf/layouts/file/data-types';
@@ -29,6 +29,7 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
     	    url : uri,
         	method: 'GET',
         	params: {
+        		dataType : dataType,
         		isTransient : 'false'
         	}
 	    }).then(function(response) {
