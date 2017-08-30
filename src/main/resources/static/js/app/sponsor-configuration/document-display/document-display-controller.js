@@ -37,11 +37,11 @@ angular
                 var displayMode = $stateParams.displayMode;
                 var selectedItem = $stateParams.selectedItem;
 
-                var BASE_URI = 'api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType +'/display-modes/' + displayMode;
+                var BASE_URI = 'api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType +'/display-modes/' + displayMode + '/displays';
 
                 var newDisplayConfig = function() {
                     return {
-                        filedName: null,
+                    	layoutFileDataTypeId: null,
                         sortType: null
                     }
                 }
@@ -50,6 +50,7 @@ angular
                 vm.mode = "Loan request mode";
                 vm.groupSelection = "Supplier code group selection";
                 
+                vm.isCreateTransactionMode = false;
 				vm.loanRequestMode = LOAN_REQUEST_MODE_ITEM;
                 vm.documentSelection = DOCUMENT_SELECTION_ITEM;
                 vm.supplierCodeSelectionMode = SUPPLIER_CODE_GROUP_SELECTION_ITEM;
@@ -81,6 +82,11 @@ angular
                 }];
                 vm.documentFieldData = [];
                 
+                vm.documentGroupByFields = [{
+                    value: null,
+                    label: 'Please select'
+                }];
+                
     			vm.backToSponsorConfigPage = function(){
     				PageNavigation.gotoPreviousPage();
     			}
@@ -101,7 +107,24 @@ angular
     					log.error('Load customer code group data error');
     				});
     			}
-
+    			
+    			var loadGroupByDataTypes = function() {
+    				var deffered = FileLayoutService.getDisplayDataTypes('TEXT');
+    				deffered.promise.then(function(response) {
+    					vm.documentFieldData = response.data;
+    					
+                        vm.documentFieldData.forEach(function(obj) {
+                            var item = {
+                        		value : obj.layoutFileDataTypeId,
+    							label : obj.displayFieldName
+                            };
+                            vm.documentGroupByFields.push(item);
+                        });
+    				}).catch(function(response) {
+    					log.error('Load customer code group data error');
+    				});
+    			}
+    			
                 var sendRequest = function(uri, succcesFunc, failedFunc) {
                     var serviceDiferred = Service.doGet(BASE_URI + uri);
 
@@ -112,20 +135,32 @@ angular
                 }
 
                 vm.setup = function() {
-
+                	loadDataTypes();
+                	loadGroupByDataTypes();
+                	
                     sendRequest('', function(response) {
                         vm.dataModel = response.data;
-                        if (vm.dataModel.items.length < 1) {
+                        if (vm.dataModel.items == null || vm.dataModel.items.length < 1) {
                             vm.addItem();
                         }
+                        
+                        if(vm.dataModel.displayMode == 'DOCUMENT'){
+                        	vm.headerMessageLabel = "Setup document display";
+                        }else{
+                        	vm.isCreateTransactionMode = true;
+                        	
+                        	if(vm.dataModel.accountingTransactionType == 'RECEIVABLE'){
+                        		vm.mode = "Payment mode";
+                                vm.groupSelection = "Buyer code group selection";
+                        	}
+                        }
+                        
                     });
-
-                    loadDataTypes();
                 }
 
                 vm.addItem = function() {
                     vm.dataModel.items.push({
-                        filedName: null,
+                    	layoutFileDataTypeId: null,
                         sortType: null,
 						completed: false
                     });
@@ -137,10 +172,9 @@ angular
                 }
 
                 vm.openSetting = function(index, record) {
-                    var fieldName = record.fieldName;
+                    var layoutFileDataTypeId = record.layoutFileDataType.layoutFileDataTypeId;
                     vm.documentFieldData.forEach(function(obj) {
-                        if (fieldName == obj.docFieldName) {
-
+                        if (layoutFileDataTypeId == obj.layoutFileDataTypeId) {
                             var dialog = ngDialog.open({
                                 id: 'setting-dialog-' + index,
                                 template: obj.displayActionUrl,
@@ -211,7 +245,7 @@ angular
                         vm.dataModel.completed =  obj.completed && vm.dataModel.completed; 
                     })
                     
-                    var url =  BASE_URI+'/displays/' + vm.dataModel.documentDisplayId;
+                    var url =  BASE_URI+'/' + vm.dataModel.documentDisplayId;
                     var deffered = Service.requestURL(url, vm.dataModel,'PUT');
                     return deffered;
 				}
@@ -239,7 +273,7 @@ angular
                 vm.displayExample = function(record) {
                     var msg = '';
                     vm.documentFieldData.forEach(function(obj) {
-                        if (record.fieldName == obj.docFieldName) {
+                        if (record.layoutFileDataType != null && record.layoutFileDataType.layoutFileDataTypeId == obj.layoutFileDataTypeId) {
                             if (record.completed) {
                             	msg = $injector.get('DocumentDisplayConfigExampleService')[obj.dataType+'_DisplayExample'](record, obj);
                             }
@@ -272,7 +306,7 @@ angular
 	    	current : 'CURRENT'
 	    }).constant('DOCUMENT_SELECTION_ITEM', {
 	    	anyDocument : 'ANY_DOCUMENT',
-	    	groupByMatchingRefNo : 'GROUP_BY_MATCHING_REF_NO'
+	    	groupBy : 'GROUP_BY'
 	    }).constant('SUPPLIER_CODE_GROUP_SELECTION_ITEM', {
 	    	singlePerTransaction : 'SINGLE_PER_TRANSACTION',
 	    	multiplePerTransaction : 'MULTIPLE_PER_TRANSACTION'
@@ -500,12 +534,16 @@ angular
              return SCFCommonService.replacementStringFormat(displayMessage, replacements);
 		 }
 		 function NUMERIC_DisplayExample(record, config){
-			 var displayMessage = config.displayDetailPattern;
-			 var exampleRawData =  parseFloat(config.defaultExampleValue).toFixed(2);
-				var examplePosDataDisplay = $filter(record.filterType)(exampleRawData, 2);
-		    	var exampleNegDataDisplay = $filter(record.filterType)(-exampleRawData, 2);
-             var replacements = [SCFCommonService.camelize(record.alignment), examplePosDataDisplay, exampleNegDataDisplay];
-            	return SCFCommonService.replacementStringFormat(displayMessage, replacements);
+			 if(record.filterType != null){
+				 var displayMessage = config.displayDetailPattern;
+				 var exampleRawData =  parseFloat(config.defaultExampleValue).toFixed(2);
+				 var examplePosDataDisplay = $filter(record.filterType)(exampleRawData, 2);
+		    	 var exampleNegDataDisplay = $filter(record.filterType)(-exampleRawData, 2);
+	             var replacements = [SCFCommonService.camelize(record.alignment), examplePosDataDisplay, exampleNegDataDisplay];
+	             return SCFCommonService.replacementStringFormat(displayMessage, replacements);
+			 }else{
+				 return "";
+			 }
 		 }
 		 function PAYMENT_AMOUNT_DisplayExample(record, config) {
 			var displayMessage = config.displayDetailPattern;

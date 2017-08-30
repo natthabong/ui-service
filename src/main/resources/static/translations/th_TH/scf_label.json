@@ -529,5 +529,12 @@
 	"wait_for_payment_result": "Wait for payment result",
 	"Payment amount": "Payment amount",
 	
-	"Document display column": "Document display column"
+	"Document display column": "Document display column",
+	"Setup create transaction display": "Setup create transaction display",
+	"Setup document display": "Setup document display",
+	"Payment mode": "Payment mode",
+	"Supplier code group selection": "Supplier code group selection",
+	"Buyer code group selection": "Buyer code group selection",
+	"GECSCF field name": "GECSCF field name",
+	"Support partial payment": "Support partial payment"
 }
