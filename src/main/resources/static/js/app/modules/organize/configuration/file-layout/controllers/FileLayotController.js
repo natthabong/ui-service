@@ -279,9 +279,9 @@ module.controller('FileLayoutController', [
 
 			var initialModel = function() {
 				vm.model = {
+					displayName: vm.headerName,	
 					sponsorConfigId : 'SFP',
 					sponsorId : ownerId,
-					displayName : null,
 					delimeter : ',',
 					wrapper : '"',
 					fileExtensions : 'csv',
