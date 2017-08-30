@@ -26,13 +26,13 @@
 
 						<div class="form-group">
 							<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-									id="expected-checkbox"
+									id="expected-checkbox" ng-change="ctrl.changeExpected()"
 									ng-model="ctrl.expected"></scf-checkbox> <span
 								ng-bind="'Expected' | translate" id="expected-label"></span> </label>
 						</div>
 
 						<div class="form-group">
-							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="padding-top:7px">
 								<scf-radio id="expected-value-radio" name="expected-popup-radio" ng-value="true"
 									ng-model="ctrl.openExpectedValueField" ng-disabled="!ctrl.expected" ng-change="ctrl.clearExpectedValue()"></scf-radio>
 							</div>
@@ -49,7 +49,7 @@
 						</div>
 
 						<div class="form-group">
-							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="padding-top:7px">
 								<scf-radio id="expected-in-radio" name="expected-popup-radio" ng-value="false"
 									ng-model="ctrl.openExpectedValueField" ng-disabled="!ctrl.expected" ng-change="ctrl.clearExpectedValue()">
 								</scf-radio>
@@ -94,6 +94,7 @@
 							<div class="col-md-7 col-sm-5 col-xs-12">
 								<scf-dropdown id="mapping-to-dropdown" 
 									ng-model="ctrl.model.mappingToFieldName" component-data="ctrl.mappingToDropDown"
+									ng-disabled='!ctrl.expected'
 									translate-label="true">
 								</scf-dropdown>
 							</div>
