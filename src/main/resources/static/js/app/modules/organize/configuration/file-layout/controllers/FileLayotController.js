@@ -708,11 +708,11 @@ module.controller('FileLayoutController', [
 					sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateFieldOfFormula;
 				}
 				
-				var onFial = function(errors){
+				var onFail = function(errors){
 					 $scope.errors = errors;
 				}
 				
-				if(FileLayoutService.validate(sponsorLayout, onFial)){
+				if(FileLayoutService.validate(sponsorLayout, vm.dataTypeByIds, onFail)){
 					UIFactory.showConfirmDialog({
 						data : {
 							headerMessage : 'Confirm save?'

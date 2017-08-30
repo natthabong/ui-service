@@ -652,24 +652,24 @@
 						</div>
 					</div>
 					<div class="panel-body">
-						<div ng-show="ctrl.requireDocDueDate">
+						<div ng-show="errors.requireDocDueDate">
 							<span class="col-md-12 col-sm-12 text-left error-msg"
 								id="log-date-format-warning-message-label">{{'Document
 								due date is required' | translate}}.</span>
 						</div>
-						<div ng-show="ctrl.requireNetAmount">
+						<div ng-show="errors.requireNetAmount">
 							<span class="col-md-12 col-sm-12 text-left error-msg"
 								id="log-date-format-warning-message-label">{{'Net amount
 								is required' | translate}}.</span>
 						</div>
-						<div ng-show="ctrl.requirePaymentAmount">
+						<div ng-show="errors.requirePaymentAmount">
 							<span class="col-md-12 col-sm-12 text-left error-msg"
 								id="log-date-format-warning-message-label">{{'Payment amount
 								is required' | translate}}.</span>
 						</div>						
-						<div ng-show="ctrl.layoutFileDataTypeIdDupplicate.length>0">
+						<div ng-show="errors.layoutFileDataTypeIdDupplicate.length > 0">
 							<span class="col-md-12 col-sm-12 text-left error-msg"
-								ng-repeat="dupplicateId in ctrl.layoutFileDataTypeIdDupplicate">{{dupplicateId
+								ng-repeat="dupplicateId in errors.layoutFileDataTypeIdDupplicate">{{dupplicateId
 								| layoutFileDataTypeDisplay : ctrl.dataTypeDropdown}}.</span>
 						</div>
 					</div>
