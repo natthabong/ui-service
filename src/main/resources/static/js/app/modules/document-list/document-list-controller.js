@@ -7,6 +7,8 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		var log = $log;
 		var organizeId = $rootScope.userInfo.organizeId;
 		var sponsorAutoSuggestServiceUrl;
+		var accountingTransactionType = 'PAYABLE';
+		var displayMode = 'DOCUMENT';
 
 		vm.submitted = false;
 		vm.sponsorTxtDisable = false;
@@ -111,9 +113,9 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			cellTemplate : '<scf-button id="{{data.documentId}}-delete-button" class="btn-default gec-btn-action" ng-disabled="{{!ctrl.canDelete(data)}}" ng-click="ctrl.deleteDocument(data)" title="Delete a document"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 		};
 
-		vm.loadDocumentDisplayConfig = function(sponsorId) {
+		vm.loadDocumentDisplayConfig = function(sponsorId, accountingTransactionType, displayMode) {
 			var docDisplayPromise = $q.defer();
-			var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId);
+			var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId, accountingTransactionType, displayMode);
 			vm.dataTable.columns = [];
 			displayConfig.promise.then(function(response) {
 				vm.dataTable.columns = response.items;
@@ -409,7 +411,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 		$scope.$watch('ctrl.documentListModel.sponsor', function() {
 			if (angular.isDefined(vm.documentListModel.sponsor) && angular.isObject(vm.documentListModel.sponsor)) {
-				vm.loadDocumentDisplayConfig(vm.documentListModel.sponsor.organizeId);
+				vm.loadDocumentDisplayConfig(vm.documentListModel.sponsor.organizeId, accountingTransactionType, displayMode);
 				
 			}
 
@@ -430,7 +432,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
 			vm.documentListModel.sponsor = sponsorInfo;
 
-			var loadDisplayConfigDiferred = vm.loadDocumentDisplayConfig(organizeId);
+			var loadDisplayConfigDiferred = vm.loadDocumentDisplayConfig(organizeId, accountingTransactionType, displayMode);
 			loadDisplayConfigDiferred.promise.then(function() {
 				vm.searchDocument();
 			});

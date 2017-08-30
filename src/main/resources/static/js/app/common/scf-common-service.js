@@ -98,8 +98,8 @@ app.service('SCFCommonService', [
 
 		vm.getDocumentDisplayConfig = function(ownerId, accountingTransactionType, displayMode) {
 			var differed = $q.defer();
-			var displayConfig = [];
-			var reqUrl = '/v1/organize-customers/'+ownerId+'/accounting-transactions/'+accountingTransactionType+'/display-modes/'+displayMode+'/displays';
+			var displayConfig = []; 
+			var reqUrl = '/api/v1/organize-customers/'+ownerId+'/accounting-transactions/'+accountingTransactionType+'/display-modes/'+displayMode+'/displays';
 			var documentDisplayDiferred = Service.doGet(reqUrl);
 			documentDisplayDiferred.promise.then(function(response) {
 				
