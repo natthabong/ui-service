@@ -15,25 +15,26 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 
 					<fieldset>
-						<legend>Validation</legend>
+						<legend id="validation-label">Validation</legend>
+						
 						<div class="form-group">
 							<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-									id="text-field-format-popup-require-checkbox"
-									ng-model="ctrl.model.required"></scf-checkbox> <span
-								ng-bind="'Require' | translate" id="require-label"></span> </label>
+									id="require-checkbox"
+									ng-model="ctrl.model.isRequired"></scf-checkbox> <span
+								ng-bind="'Require' | translate" id="require-label"></span></label>
 						</div>
 
 						<div class="form-group">
 							<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-									id="text-field-format-popup-require-checkbox"
+									id="expected-checkbox"
 									ng-model="ctrl.expected"></scf-checkbox> <span
-								ng-bind="'Expected' | translate" id="require-label"></span> </label>
+								ng-bind="'Expected' | translate" id="expected-label"></span> </label>
 						</div>
 
 						<div class="form-group">
 							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-								<scf-radio id="expected-value-raido-button" name="expected-popup-radio" ng-value="true"
-									ng-model="ctrl.openExpectedValueField" ng-disabled="!ctrl.expected"></scf-radio>
+								<scf-radio id="expected-value-radio" name="expected-popup-radio" ng-value="true"
+									ng-model="ctrl.openExpectedValueField" ng-disabled="!ctrl.expected" ng-change="ctrl.clearExpectedValue()"></scf-radio>
 							</div>
 							<div>
 								<label id="expected-value-label" class="col-lg-3 col-md-3 col-sm-3 col-xs-9 control-label">
@@ -41,7 +42,7 @@
 								</label>
 							</div>
 							<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-								<scf-input-text id="expected-value-textbox" ng-model="ctrl.model.expectedValue" 
+								<scf-input-text id="expected-value-textbox" ng-model="ctrl.expectedValue" 
 									maxlength="255" ng-disabled="!ctrl.expected || !ctrl.openExpectedValueField">
 								</scf-input-text>
 							</div>
@@ -49,8 +50,8 @@
 
 						<div class="form-group">
 							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-								<scf-radio id="expected-in-raido-button" name="expected-popup-radio" ng-value="false"
-									ng-model="ctrl.openExpectedValueField" ng-disabled="!ctrl.expected">
+								<scf-radio id="expected-in-radio" name="expected-popup-radio" ng-value="false"
+									ng-model="ctrl.openExpectedValueField" ng-disabled="!ctrl.expected" ng-change="ctrl.clearExpectedValue()">
 								</scf-radio>
 							</div>
 							<div>
@@ -59,35 +60,52 @@
 							</div>
 							<div>
 								<div class="col-lg-7 col-md-7 col-sm-7 col-xs-11">
-									<scf-dropdown id="expected-in-dropdown" ng-model="record.dataType" 
-										component-data="ctrl.dataTypeDropdown" 
-										ng-change="ctrl.isChangeDataType(record)"
+									<scf-dropdown id="expected-in-dropdown" ng-model="ctrl.expectedInValue" 
+										component-data="ctrl.expectedInDropDown" 
+										ng-change="ctrl.changeExpectedInValue()"
 										ng-disabled='!ctrl.expected || ctrl.openExpectedValueField' translate-label="true">
 									</scf-dropdown>
 								</div>
-								<scf-button id="new-button" ng-click="ctrl.newMapping()" class="btn-default gec-btn-action" title="New"
+								<scf-button id="popup-add-button" ng-click="ctrl.newMapping()" class="btn-default gec-btn-action" title="New"
 									ng-disabled='!ctrl.expected || ctrl.openExpectedValueField'>
 									<i class="fa fa-plus" aria-hidden="true"></i>
 								</scf-button>
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-md-1 col-sm-1 col-xs-1" ng-show="ctrl.error.expectedInRequire">
+							</label>
+							<span class="col-md-10 col-sm-10 col-xs-10 error-msg" 
+								ng-show="ctrl.error.expectedInRequire"
+								ng-bind="ctrl.error.msg">
+							</span>
+						</div>
 
 						<div class="form-group">
-							<label id="mapping-type-label" class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							<label id="mapping-type-label" class="col-lg-3 col-md-3 col-sm-3 col-xs-12 control-label"><span
 								ng-bind="'Mapping type' | translate"></span>:</label>
+							<label id="mapping-type-value-label" class="col-lg-8 col-md-8 col-sm-8 col-xs-12 control-label"><span
+								ng-bind="ctrl.mappingType | translate"></span></label>
+						</div>
+
+						<div class="form-group">
+							<label id="mapping-to-label" class="col-md-3 col-sm-4 col-xs-12"><span
+								ng-bind="'Mapping to' | translate"></span>:</label>
 							<div class="col-md-7 col-sm-5 col-xs-12">
-								<scf-input-text id="text-field-format-popup-mapping-type-textbox" ng-model="ctrl.model.expectedValue" maxlength="255" ng-disabled="!ctrl.model.required"></scf-input-text>
+								<scf-dropdown id="mapping-to-dropdown" 
+									ng-model="ctrl.model.mappingToFieldName" component-data="ctrl.mappingToDropDown"
+									translate-label="true">
+								</scf-dropdown>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label id="mapping-to-label" class="col-md-3 col-sm-4 col-xs-12 control-label"><span
-								ng-bind="'Mapping to' | translate"></span>:</label>
-							<div class="col-md-7 col-sm-5 col-xs-12">
-								<scf-dropdown id="data-type-{{$index+1}}-dropdown" ng-model="record.dataType" component-data="ctrl.dataTypeDropdown" ng-change="ctrl.isChangeDataType(record)"
-									ng-disabled="!ctrl.manageAll" translate-label="true">
-								</scf-dropdown>
-							</div>
+							<label class="col-md-1 col-sm-1 col-xs-1" ng-show="ctrl.error.duplicate || ctrl.error.mappingToRequire">
+							</label>
+								<span class="col-md-10 col-sm-10 col-xs-10 error-msg"
+									ng-show="ctrl.error.duplicate || ctrl.error.mappingToRequire" 
+									ng-bind="ctrl.error.msg">
+								</span>
 						</div>
 
 					</fieldset>
@@ -98,9 +116,8 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<scf-button id="text-field-format-popup-cancel-button" class="popup-button" ng-click="closeThisDialog()" ng-bind="'Cancel' | translate"></scf-button>
-					<scf-button id="text-field-format-popup-ok-button" class="popup-button" type="submit" ng-bind="'OK' | translate" ng-click="ctrl.submit()"></scf-button>
-
+					<scf-button id="popup-cancel-button" class="popup-button" ng-click="closeThisDialog()" ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="popup-ok-button" class="popup-button" type="submit" ng-bind="'OK' | translate" ng-click="ctrl.submit()"></scf-button>
 				</div>
 			</div>
 		</div>

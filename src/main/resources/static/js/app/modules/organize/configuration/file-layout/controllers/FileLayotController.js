@@ -599,154 +599,12 @@ module.controller('FileLayoutController', [
 				});
 			}
 
-			var validSave = function(){
-				if(vm.processType=='AR_DOCUMENT'){
-					
-					vm.requireDocDueDate = true;
-					vm.requireNetAmount = true;
-					var layoutFileDataTypeId = [];
-					vm.layoutFileDataTypeIdDupplicate = [];
-					vm.items.forEach(function(item) {
-						var dataType = vm.dataTypeByIds[item.layoutFileDataTypeId];
-						if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(item.layoutFileDataTypeId)>-1){
-							if(vm.layoutFileDataTypeIdDupplicate.indexOf(item.layoutFileDataTypeId) < 0){
-								vm.layoutFileDataTypeIdDupplicate.push(item.layoutFileDataTypeId);
-							}						
-						}else if(item.layoutFileDataTypeId != null && !dataType.transient){
-							if(item.layoutFileDataTypeId == 13){
-								vm.requireNetAmount = false;
-							}else if(item.layoutFileDataTypeId == 8){
-								vm.requireDocDueDate = false;
-							}
-							layoutFileDataTypeId.push(item.layoutFileDataTypeId);
-						}
-						
-						if(item.valueCloningFields!=null && item.valueCloningFields.length>0){
-							item.valueCloningFields.forEach(function(itemClone) {
-								if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(itemClone.layoutFileDataTypeId)>-1){
-									if(vm.layoutFileDataTypeIdDupplicate.indexOf(itemClone.layoutFileDataTypeId) < 0){
-										vm.layoutFileDataTypeIdDupplicate.push(itemClone.layoutFileDataTypeId);
-									}
-								}else if(item.layoutFileDataTypeId != null && !dataType.transient){
-									if(item.layoutFileDataTypeId == 13){
-										vm.requireNetAmount = false;
-									}else if(item.layoutFileDataTypeId == 8){
-										vm.requireDocDueDate = false;
-									}
-									layoutFileDataTypeId.push(itemClone.layoutFileDataTypeId);
-								}								
-							});		
-						}
-					});			
-					
-					vm.dataDetailItems.forEach(function(item) {
-						var dataType = vm.dataTypeByIds[item.layoutFileDataTypeId];
-						if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(item.layoutFileDataTypeId)>-1){
-							if(vm.layoutFileDataTypeIdDupplicate.indexOf(item.layoutFileDataTypeId) < 0){
-								vm.layoutFileDataTypeIdDupplicate.push(item.layoutFileDataTypeId);
-							}
-						}else if(item.layoutFileDataTypeId != null && !dataType.transient){
-							if(item.layoutFileDataTypeId == 13){
-								vm.requireNetAmount = false;
-							}else if(item.layoutFileDataTypeId == 8){
-								vm.requireDocDueDate = false;
-							}
-							layoutFileDataTypeId.push(item.layoutFileDataTypeId);
-						}
-					});		
-					
-					if(vm.requireDocDueDate || vm.requireNetAmount || vm.layoutFileDataTypeIdDupplicate.length > 0){
-						return false;
-					}
-					
-				}else if(vm.processType=='AP_DOCUMENT'){
-
-					vm.requirePaymentAmount = true;
-					var layoutFileDataTypeId = [];
-					vm.layoutFileDataTypeIdDupplicate = [];
-
-					vm.items.forEach(function(item) {
-						var dataType = vm.dataTypeByIds[item.layoutFileDataTypeId];
-						console.log(dataType);
-						if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(item.layoutFileDataTypeId)>-1){
-							if(vm.layoutFileDataTypeIdDupplicate.indexOf(item.layoutFileDataTypeId) < 0){
-								vm.layoutFileDataTypeIdDupplicate.push(item.layoutFileDataTypeId);
-							}
-						}else if(item.layoutFileDataTypeId != null && !dataType.transient){
-							if(item.layoutFileDataTypeId == 17){
-								vm.requirePaymentAmount = false;
-							}
-							layoutFileDataTypeId.push(item.layoutFileDataTypeId);
-						}
-						
-						if(item.valueCloningFields!=null && item.valueCloningFields.length>0){
-							item.valueCloningFields.forEach(function(itemClone) {
-								if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(itemClone.layoutFileDataTypeId)>-1){
-									if(vm.layoutFileDataTypeIdDupplicate.indexOf(itemClone.layoutFileDataTypeId) < 0){
-										vm.layoutFileDataTypeIdDupplicate.push(itemClone.layoutFileDataTypeId);
-									}
-								}else if(item.layoutFileDataTypeId != null && !dataType.transient){
-									if(item.layoutFileDataTypeId == 17){
-										vm.requirePaymentAmount = false;
-									}
-									layoutFileDataTypeId.push(itemClone.layoutFileDataTypeId);
-								}								
-							});		
-						}
-					});			
-					
-					vm.dataDetailItems.forEach(function(item) {
-						var dataType = vm.dataTypeByIds[item.layoutFileDataTypeId];
-						if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(item.layoutFileDataTypeId)>-1){
-							if(vm.layoutFileDataTypeIdDupplicate.indexOf(item.layoutFileDataTypeId) < 0){
-								vm.layoutFileDataTypeIdDupplicate.push(item.layoutFileDataTypeId);
-							}
-						}else if(item.layoutFileDataTypeId != null && !dataType.transient){
-							if(item.layoutFileDataTypeId == 17){
-								vm.requirePaymentAmount = false;
-							}
-							layoutFileDataTypeId.push(item.layoutFileDataTypeId);
-						}
-					});	
-					
-					if(vm.requirePaymentAmount || vm.layoutFileDataTypeIdDupplicate.length > 0){
-						return false;
-					}
-				}
-				
-				return true;
-			}
 			
 			vm.save = function() {
-				if(validSave()){
-					UIFactory.showConfirmDialog({
-						data : {
-							headerMessage : 'Confirm save?'
-						},
-						confirm : $scope.confirmSave,
-						onSuccess: function(response){
-							UIFactory.showSuccessDialog({
-								data: {
-									headerMessage : 'Edit file layout complete.',
-									bodyMessage : ''
-								},
-								preCloseCallback: function(){
-									vm.backToSponsorConfigPage();
-								}
-						    });
-						},
-						onFail : function(response) {
-							blockUI.stop();
-						}
-					});
-				}
-			}
-
-			$scope.confirmSave = function() {
 				
 				var sponsorLayout = null;
 				vm.model.completed = true;
-				
+				vm.model.processType = vm.processType;
 				if(vm.model.fileType == vm.fileType.specific){
 						vm.specificsDropdown.forEach(function(obj) {
 							vm.model.fileExtensions = obj.item.fileExtensions;
@@ -818,19 +676,49 @@ module.controller('FileLayoutController', [
 						sponsorLayout.completed = obj.completed && sponsorLayout.completed;
 					});			
 				}
-
-				var apiURL = 'api/v1/organize-customers/' + ownerId + '/processTypes/'+vm.processType+'/layouts';
-				if (!vm.newMode) {
-					sponsorLayout.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
-					apiURL = apiURL + '/' + vm.model.layoutConfigId;
-				}
 				
 				if(sponsorLayout.paymentDateConfig.strategy == 'FIELD'){
 					sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateFieldOfField;
 				}else{
 					sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateFieldOfFormula;
 				}
-				console.log(sponsorLayout)
+				
+				var onFial = function(errors){
+					 $scope.errors = errors;
+				}
+				
+				if(FileLayoutService.validate(sponsorLayout, onFial)){
+					UIFactory.showConfirmDialog({
+						data : {
+							headerMessage : 'Confirm save?'
+						},
+						confirm : function(){ return $scope.confirmSave(sponsorLayout)},
+						onSuccess: function(response){
+							UIFactory.showSuccessDialog({
+								data: {
+									headerMessage : 'Edit file layout complete.',
+									bodyMessage : ''
+								},
+								preCloseCallback: function(){
+									vm.backToSponsorConfigPage();
+								}
+						    });
+						},
+						onFail : function(response) {
+							blockUI.stop();
+						}
+					});
+				}
+			}
+
+			$scope.confirmSave = function(sponsorLayout) {
+			
+				var apiURL = 'api/v1/organize-customers/' + sponsorLayout.ownerId + '/processTypes/'+sponsorLayout.processType+'/layouts';
+				if (!vm.newMode) {
+					sponsorLayout.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
+					apiURL = apiURL + '/' + sponsorLayout.layoutConfigId;
+				}
+				
 				var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode ? 'POST' : 'PUT');
 
 				return fileLayoutDiferred;
