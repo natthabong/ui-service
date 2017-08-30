@@ -251,6 +251,32 @@ module.controller('FileLayoutController', [
 				return paymentDateDropdown;
 			}
 
+			//check not customer code
+			vm.checkDisable = function(record){
+				var disable = false;
+				if(angular.isUndefined(record.layoutFileDataTypeId) || isNaN(record.layoutFileDataTypeId)){
+					disable = true;
+				}else{
+					var layoutFileDataTypeId = record.layoutFileDataTypeId;
+					var recordType = record.recordType;
+					
+					var dataTypeDropdowns = vm.dataTypes;
+					if(recordType == vm.recordType.HEADER){
+						dataTypeDropdowns = vm.dataTypeHeaders;
+					}else if(recordType == vm.recordType.FOOTER){
+						dataTypeDropdowns = vm.dataTypeFooters;
+					}
+					dataTypeDropdowns.forEach(function(obj){
+						if (layoutFileDataTypeId == obj.layoutFileDataTypeId) {
+							if(obj.configActionUrl == null){
+								disable = true;
+							}
+						}
+					});
+				}
+				return disable;
+			}
+
 
 			var initialModel = function() {
 				vm.model = {
@@ -441,7 +467,6 @@ module.controller('FileLayoutController', [
 			
 
 			vm.openSetting = function(index, record) {
-				console.log(record);
 				var layoutFileDataTypeId = record.layoutFileDataTypeId;
 				var recordType = record.recordType;
 				

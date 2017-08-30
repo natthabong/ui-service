@@ -199,7 +199,7 @@
 													type="button" id="header-field-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="ctrl.openSetting($index, record)"
-													ng-disabled="!ctrl.manageAll"> <i
+													ng-disabled="!ctrl.manageAll || ctrl.checkDisable(record)"> <i
 													class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
 													type="button" id="header-delete-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
@@ -311,7 +311,7 @@
 														type="button" id="field-setup-{{$index+1}}-button"
 														class="btn-default gec-btn-action"
 														ng-click="ctrl.openSetting($index, record)"
-														ng-disabled="!ctrl.manageAll"> <i
+														ng-disabled="!ctrl.manageAll || ctrl.checkDisable(record)"> <i
 														class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
 														type="button" id="delete-{{$index+1}}-button"
 														class="btn-default gec-btn-action"
@@ -511,7 +511,7 @@
 														type="button" id="footer-field-setup-{{$index+1}}-button"
 														class="btn-default gec-btn-action"
 														ng-click="ctrl.openSetting($index, record)"
-														ng-disabled="!ctrl.manageAll"> <i
+														ng-disabled="!ctrl.manageAll || ctrl.checkDisable(record)"> <i
 														class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
 														type="button" id="footer-delete-{{$index+1}}-button"
 														class="btn-default gec-btn-action"
