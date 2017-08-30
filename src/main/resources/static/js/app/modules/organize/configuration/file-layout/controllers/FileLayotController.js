@@ -648,25 +648,16 @@ module.controller('FileLayoutController', [
 									sponsorLayout.items = [];
 									addHeaderModel(sponsorLayout, vm.headerItems);
 									vm.items.forEach(function(item) {
-										if(item.dataType == 'CUSTOMER_CODE' && vm.customerCodeGroup !=null){
-											item.expectedValue = vm.customerCodeGroup;
-										}
 										sponsorLayout.items.push(item);
 									});	
 									
 									vm.dataDetailItems.forEach(function(item) {
-										if(item.dataType == 'CUSTOMER_CODE' && vm.customerCodeGroup !=null){
-											item.expectedValue = vm.customerCodeGroup;
-										}									
 										sponsorLayout.items.push(item);
 									});
 									
 								}else{					        
 									sponsorLayout.items = [];
 									obj.item.items.forEach(function(item) {
-										if(item.dataType == 'CUSTOMER_CODE' && vm.customerCodeGroup !=null){
-											item.expectedValue = vm.customerCodeGroup;
-										}									
 										sponsorLayout.items.push(item);
 									});
 									
@@ -698,7 +689,13 @@ module.controller('FileLayoutController', [
 					addFooterModel(sponsorLayout, vm.footerItems);
 		
 					sponsorLayout.items.forEach(function(obj, index) {
-						sponsorLayout.completed = obj.completed && sponsorLayout.completed;
+						var dataType = vm.dataTypeByIds[obj.layoutFileDataTypeId];
+						obj.docFieldName = dataType.docFieldName;
+						obj.dataType = dataType.datatType;
+						obj.transient = dataType.transient;
+						if(obj.dataType == 'CUSTOMER_CODE'){
+							item.validationType = 'IN_CUSTOMER_CODE_GROUP';
+						}
 					});			
 				}
 				

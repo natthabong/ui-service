@@ -159,7 +159,8 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 	var detailFlagList = function() {		
 		detailItems.forEach(function(item , index) {
 			var dataType = dataTypeByIds[item.layoutFileDataTypeId];
-			if (dataType.dataType == 'SIGN_FLAG') {
+			// TODO: Refactor here
+			if (dataType.dataType == 'SIGN_FLAG' || dataType.layoutFileDataTypeId == 10 ) {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.displayValue,
