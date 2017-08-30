@@ -1,7 +1,7 @@
 'use strict';
 var module = angular.module('gecscf.organize.configuration.fileLayout');
 
-module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', '$filter', function($scope, $rootScope, $q, Service, $filter) {
+module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', '$filter', '$log', function($scope, $rootScope, $q, Service, $filter, $log) {
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
 	vm.config = $scope.ngDialogData.config;

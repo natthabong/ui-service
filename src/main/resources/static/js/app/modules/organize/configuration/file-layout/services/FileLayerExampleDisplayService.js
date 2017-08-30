@@ -51,7 +51,8 @@ module.factory('FileLayerExampleDisplayService', [ '$filter', function($filter) 
 	}
 
 	function DATE_TIME_DisplayExample(record, config) {
-		if (angular.isUndefined(record.datetimeFormat) || record.datetimeFormat.length == 0) {
+		var format = record.datetimeFormat || '';
+		if (format == 0) {
 			return '';
 		}
 		var displayMessage = config.configDetailPattern;
