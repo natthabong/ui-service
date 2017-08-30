@@ -145,16 +145,16 @@
 									<thead>
 										<tr>
 											<th ng-bind=""></th>
-											<th ng-bind="'No' | translate">No</th>
-											<th ng-bind="'Sponsor field name' | translate">Sponsor
+											<th ng-bind="'No' | translate" id="header-no-header-label">No</th>
+											<th ng-bind="'Sponsor field name' | translate" id="header-sponsor-field-name-header-label">Sponsor
 												field name</th>
-											<th ng-bind="'GECSCF field name' | translate">GECSCF
+											<th ng-bind="'GECSCF field name' | translate" id="header-gecscf-field-name-header-label">GECSCF
 												field name</th>
-											<th ng-bind="'Length' | translate">Length</th>
-											<th
+											<th ng-bind="'Length' | translate" id="header-length-header-label">Length</th>
+											<th id="header-start-index-header-label"
 												ng-bind="ctrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index  (start 0)'| translate">{{ctrl.model.fileType=='FIXED_LENGTH'?'Start
 												index':'Index (start 0)'}}</th>
-											<th ng-bind="'End index' | translate"
+											<th ng-bind="'End index' | translate" id="header-end-index-header-label"
 												ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></th>
 											<th></th>
 										</tr>
@@ -247,7 +247,7 @@
 												<th id="sponsor-field-name-header-label"
 													ng-bind="'Sponsor field name' | translate">Sponsor
 													field name</th>
-												<th colspan="2" id="data-type-header-label"
+												<th colspan="2" id="gecscf-field-name-header-label"
 													ng-bind="'GECSCF field name' | translate">GECSCF field
 													name</th>
 												<th id="length-header-label" ng-bind="'Length' | translate">Length</th>
@@ -457,16 +457,16 @@
 										<thead>
 											<tr>
 												<th ng-bind=""></th>
-												<th ng-bind="'No' | translate">No</th>
-												<th ng-bind="'Sponsor field name' | translate">Sponsor
+												<th ng-bind="'No' | translate" id="footer-no-header-label" >No</th>
+												<th ng-bind="'Sponsor field name' | translate" id="footer-sponsor-field-name-header-label">Sponsor
 													field name</th>
-												<th ng-bind="'GECSCF field name' | translate">GECSCF
+												<th ng-bind="'GECSCF field name' | translate" id="footer-gecscf-field-name-header-label">GECSCF
 													field name</th>
-												<th ng-bind="'Length' | translate">Length</th>
-												<th
+												<th ng-bind="'Length' | translate" id="footer-length-header-label">Length</th>
+												<th id="footer-start-index-header-label"
 													ng-bind="ctrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index (start 0)'| translate">{{ctrl.model.fileType=='FIXED_LENGTH'?'Start
 													index':'Index (start 0)'}}</th>
-												<th ng-bind="'End index' | translate"
+												<th ng-bind="'End index' | translate" id="footer-end-index-header-label"
 													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></th>
 												<th></th>
 											</tr>
