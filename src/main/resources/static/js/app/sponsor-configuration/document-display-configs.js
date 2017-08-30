@@ -87,6 +87,8 @@ angular.module('scfApp').controller('DocumentDisplayConfigController', ['Service
         
         vm.setupDisplayDocument = function(displayDocumentCfg) {
             var params = {
+            	accountingTransactionType: "PAYABLE",
+            	displayMode: "DOCUMENT",
             	selectedItem: displayDocumentCfg
             };
             PageNavigation.gotoPage('/sponsor-configuration/document-display/settings', params)

@@ -32,10 +32,12 @@ angular
 
                 vm.manageAll=false;
             	
-                var sponsorId = $rootScope.sponsorId;
+                var ownerId = $rootScope.sponsorId;
+                var accountingTransactionType = $stateParams.accountingTransactionType;
+                var displayMode = $stateParams.displayMode;
                 var selectedItem = $stateParams.selectedItem;
 
-                var BASE_URI = 'api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP';
+                var BASE_URI = 'api/v1/organize-customers/' + ownerId + '/sponsor-configs/SFP';
 
                 var newDisplayConfig = function() {
                     return {
@@ -91,7 +93,6 @@ angular
                             };
                             vm.documentFields.push(item);
                         });
-
     				}).catch(function(response) {
     					log.error('Load customer code group data error');
     				});
@@ -173,7 +174,7 @@ angular
 
                 vm.save = function() {
                 	var preCloseCallback = function() {
-						var organizeModel = {organizeId: sponsorId};
+						var organizeModel = {organizeId: ownerId};
                         PageNavigation.gotoPage('/sponsor-configuration', {
                         	organizeModel: organizeModel
                         });
