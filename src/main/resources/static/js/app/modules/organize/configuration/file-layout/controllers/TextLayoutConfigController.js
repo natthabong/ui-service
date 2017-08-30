@@ -204,16 +204,18 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 
 			// //Check duplicate
 			if(valid){
-				var count = 0;
-				fieldList.forEach(function(data){
-					if(data.validationType == validationType && data.expectedValue == vm.expectedInValue){
-						count++;
+				if(!vm.openExpectedValueField){
+					var count = 0;
+					fieldList.forEach(function(data){
+						if(data.validationType == validationType && data.expectedValue == vm.expectedInValue){
+							count++;
+						}
+					})
+					if(count != 0){
+						vm.error.msg = "Expected in is duplicate.";
+						vm.error.expectedInRequire = true;
+						valid = false;
 					}
-				})
-				if(count != 0){
-					vm.error.msg = "Expected in is duplicate.";
-					vm.error.expectedInRequire = true;
-					valid = false;
 				}
 			}
 
@@ -229,16 +231,18 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 
 			//Check duplicate
 			if(valid){
-				var count = 0;
-				fieldList.forEach(function(data){
-					if(data.mappingToFieldName == vm.model.mappingToFieldName){
-						count++;
+				if(!vm.openExpectedValueField){
+					var count = 0;
+					fieldList.forEach(function(data){
+						if(data.mappingToFieldName == vm.model.mappingToFieldName){
+							count++;
+						}
+					})
+					if(count != 0){
+						vm.error.msg = "Mapping to is duplicate.";
+						vm.error.duplicate = true;
+						valid = false;
 					}
-				})
-				if(count != 0){
-					vm.error.msg = "Mapping to is duplicate.";
-					vm.error.duplicate = true;
-					valid = false;
 				}
 			}
 
