@@ -5,6 +5,7 @@ module.controller('DateTimeLayoutConfigController', [ '$scope', '$rootScope', '$
 	vm.model = angular.copy($scope.ngDialogData.record);
 	vm.config = $scope.ngDialogData.config;
 	var headerItems = $scope.ngDialogData.headerItems;
+	var dataTypeByIds = $scope.ngDialogData.dataTypeByIds;
 
 	vm.requiredRelationalOperators = false;
 	vm.relationalOperators = [];
@@ -133,7 +134,8 @@ module.controller('DateTimeLayoutConfigController', [ '$scope', '$rootScope', '$
 
 	var headerDatetimeList = function() {		
 		headerItems.forEach(function(item) {
-			if (item.completed && item.dataType == 'DATE_TIME') {
+			var dataType = dataTypeByIds[item.layoutFileDataTypeId];
+			if (dataType.dataType == 'DATE_TIME') {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.displayValue,

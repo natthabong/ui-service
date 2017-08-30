@@ -5,7 +5,6 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
 	vm.config = $scope.ngDialogData.config;
-	
 	var headerItems = $scope.ngDialogData.headerItems;
 	var detailItems = $scope.ngDialogData.detailItems;
 	var footerItems = $scope.ngDialogData.footerItems;
@@ -15,7 +14,7 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 	vm.relationalSummary = [];
 	var diferred = $q.defer();
 		
-	var serviceUrl = 'js/app/modules/organize/configuration/file-layout/data/numeric_relational_summary.jsonn';
+	var serviceUrl = 'js/app/modules/organize/configuration/file-layout/data/numeric_relational_summary.json';
 	var serviceDiferred = Service.doGet(serviceUrl);
 	serviceDiferred.promise.then(function(response) {
 		var dateRelationalSummaryList = response.data;
@@ -121,9 +120,9 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 		vm.signFlagFieldDropdown.push(pleaseSelect);
 		vm.numericeModel.signFlagId = null;		
 		
-		if(vm.config.recordType == 'HEADER'){
+		if(vm.model.recordType == 'HEADER'){
 			headerFlagList();
-		}else if(vm.config.recordType == 'FOOTER'){
+		}else if(vm.model.recordType == 'FOOTER'){
 			footerFlagList();
 		}else{
 			detailFlagList();
@@ -203,7 +202,8 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 		vm.relationalField.push(pleaseSelect);
 		
 		detailItems.forEach(function(item , index) {
-			if (item.completed && item.dataType == 'NUMERIC') {
+			var dataType = dataTypeByIds[item.layoutFileDataTypeId];
+			if (dataType.dataType == 'NUMERIC') {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.displayValue,

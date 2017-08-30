@@ -100,7 +100,7 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 		
 		var layoutFileDataTypeId = [];
 		
-		if(layout.processType=='AR_DOCUMENT'){
+		/*if(layout.processType=='AR_DOCUMENT'){
 			var errors = { 
 					requireDocDueDate : true,
 					requireNetAmount : true,
@@ -183,7 +183,7 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 				failFunc(errors);
 				return false;
 			}			
-		}
+		}*/
 		
 		return true;
 	}

@@ -129,7 +129,6 @@ module.controller('FileLayoutController', [
 						vm.dataTypeByGroupsDropdown[obj.dataType].push(item);
 					});
 					
-					console.log(dateTimeFieldIds);
 
 				}).catch(function(response) {
 					log.error('Load customer code group data error');
@@ -363,13 +362,14 @@ module.controller('FileLayoutController', [
 
 					sendRequest(reqUrlLayoutConfg, function(response) {
 						vm.model = response.data;
-						
-						if(vm.model.paymentDateConfig.strategy == 'FIELD'){
-							vm.model.paymentDateConfig.documentDateFieldOfField = vm.model.paymentDateConfig.documentDateField;
-							vm.model.paymentDateConfig.documentDateFieldOfFormula = null;
-						}else{
-							vm.model.paymentDateConfig.documentDateFieldOfField = null;
-							vm.model.paymentDateConfig.documentDateFieldOfFormula = vm.model.paymentDateConfig.documentDateField;
+						if(vm.model.processType == 'AP_DOCUMENT'){
+							if(vm.model.paymentDateConfig.strategy == 'FIELD'){
+								vm.model.paymentDateConfig.documentDateFieldOfField = vm.model.paymentDateConfig.documentDateField;
+								vm.model.paymentDateConfig.documentDateFieldOfFormula = null;
+							}else{
+								vm.model.paymentDateConfig.documentDateFieldOfField = null;
+								vm.model.paymentDateConfig.documentDateFieldOfFormula = vm.model.paymentDateConfig.documentDateField;
+							}
 						}
 						
 						vm.oldStateFileType = vm.model.fileType;
@@ -702,11 +702,14 @@ module.controller('FileLayoutController', [
 					});			
 				}
 				
-				if(sponsorLayout.paymentDateConfig.strategy == 'FIELD'){
-					sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateFieldOfField;
-				}else{
-					sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateFieldOfFormula;
+				if(sponsorLayout.processType = 'AP_DOCUMENT'){
+					if(sponsorLayout.paymentDateConfig.strategy == 'FIELD'){
+						sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateFieldOfField;
+					}else{
+						sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateFieldOfFormula;
+					}
 				}
+				
 				
 				var onFail = function(errors){
 					 $scope.errors = errors;
