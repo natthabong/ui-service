@@ -702,7 +702,7 @@ module.controller('FileLayoutController', [
 					});			
 				}
 				
-				if(sponsorLayout.processType = 'AP_DOCUMENT'){
+				if(sponsorLayout.processType == 'AP_DOCUMENT'){
 					if(sponsorLayout.paymentDateConfig.strategy == 'FIELD'){
 						sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateFieldOfField;
 					}else{
@@ -743,7 +743,9 @@ module.controller('FileLayoutController', [
 			
 				var apiURL = 'api/v1/organize-customers/' + sponsorLayout.ownerId + '/processTypes/'+sponsorLayout.processType+'/layouts';
 				if (!vm.newMode) {
-					sponsorLayout.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
+					if(sponsorLayout.processType == 'AP_DOCUMENT'){
+						sponsorLayout.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
+					}
 					apiURL = apiURL + '/' + sponsorLayout.layoutConfigId;
 				}
 				
