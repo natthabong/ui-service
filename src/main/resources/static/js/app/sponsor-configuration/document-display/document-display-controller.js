@@ -252,6 +252,25 @@ angular
 
                 vm.setup();
 
+                vm.canSetup = function(record){
+                	console.log(record);
+                	var hasUrl = true;
+                	var layoutFileDataTypeId = record.layoutFileDataType.layoutFileDataTypeId;
+                    vm.documentFieldData.forEach(function(obj) {
+                        if (layoutFileDataTypeId == obj.layoutFileDataTypeId) {
+                        	if(displayActionUrl == null){
+                        		hasUrl = false;
+                        	}
+                        }
+                    });
+                    
+                	if(!ctrl.manageAll || !hasUrl){
+                		return false;
+                	}else{
+                		return true;
+                	}
+                }
+                
                 vm.moveItemUp = function(item) {
                     var itemIndex = vm.dataModel.items.indexOf(item);
                     addItemToIndex(itemIndex - 1, item);

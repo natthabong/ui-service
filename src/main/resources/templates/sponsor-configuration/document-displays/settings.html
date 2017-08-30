@@ -175,7 +175,7 @@
 													<i class="fa fa-sort-down" aria-hidden="true"></i> 
 												</scf-button>
 												<scf-button type="button" id="field-setup-{{$index+1}}-button" class="btn-default gec-btn-action"
-													ng-disabled="!ctrl.manageAll" ng-click="ctrl.openSetting($index, record)"> 
+													ng-disabled="ctrl.canSetup(record)" ng-click="ctrl.openSetting($index, record)"> 
 													<i class="fa fa-cog" aria-hidden="true"></i> 
 												</scf-button>
 												<scf-button type="button" id="delete-{{$index+1}}-button" class="btn-default gec-btn-action"
