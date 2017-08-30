@@ -26,7 +26,7 @@
 
 						<div class="form-group">
 							<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
-									id="expected-checkbox"
+									id="expected-checkbox" ng-change="ctrl.changeExpected()"
 									ng-model="ctrl.expected"></scf-checkbox> <span
 								ng-bind="'Expected' | translate" id="expected-label"></span> </label>
 						</div>
@@ -94,6 +94,7 @@
 							<div class="col-md-7 col-sm-5 col-xs-12">
 								<scf-dropdown id="mapping-to-dropdown" 
 									ng-model="ctrl.model.mappingToFieldName" component-data="ctrl.mappingToDropDown"
+									ng-disabled='!ctrl.expected'
 									translate-label="true">
 								</scf-dropdown>
 							</div>

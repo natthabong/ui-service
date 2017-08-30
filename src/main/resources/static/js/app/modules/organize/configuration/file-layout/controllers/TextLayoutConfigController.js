@@ -19,7 +19,7 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 		
 		var validationType = "IN_MAPPING_TYPE";
 
-		vm.expected = angular.isDefined(vm.model.expectedValue) ? true : false;
+		vm.expected = angular.isDefined(vm.model.expectedValue) && vm.model.expectedValue != null ? true : false;
 		vm.openExpectedValueField = vm.model.validationType == validationType ? false : true;
 		
 		vm.expectedInDataList = [];
@@ -117,6 +117,13 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 			vm.error.duplicate = false;
 		}
 
+		vm.changeExpected = function(){
+			vm.model.mappingToFieldName = null;
+			vm.expectedInValue = null;
+			vm.expectedValue = null;
+			vm.mappingType = null;
+		}
+
 		vm.newMapping = function () {
 			MappingDataUtils.showCreateMappingDataDialog({
 				data: {
@@ -196,7 +203,7 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 			vm.error.mappingToRequire = false;
 
 			//Check required
-			if((!vm.openExpectedValueField) && (vm.expectedInValue == null || vm.expectedInValue == '')){
+			if((!vm.openExpectedValueField) && (vm.expectedInValue == null || vm.expectedInValue == '') && vm.expected){
 				vm.error.msg = "Expected in is required.";
 				vm.error.expectedInRequire = true;
 				valid = false;
@@ -204,7 +211,7 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 
 			// //Check duplicate
 			if(valid){
-				if(!vm.openExpectedValueField){
+				if(!vm.openExpectedValueField && vm.expected){
 					var count = 0;
 					fieldList.forEach(function(data){
 						if(data.validationType == validationType && data.expectedValue == vm.expectedInValue){
@@ -222,7 +229,7 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 			//Check required
 			if(valid){
 				if((angular.isUndefined(vm.model.mappingToFieldName) || vm.model.mappingToFieldName == null || vm.model.mappingToFieldName == '') 
-					&& (!vm.openExpectedValueField)){
+					&& (!vm.openExpectedValueField) && vm.expected){
 					vm.error.msg = "Mapping to is required.";
 					vm.error.mappingToRequire = true;
 					valid = false;
@@ -231,7 +238,7 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 
 			//Check duplicate
 			if(valid){
-				if(!vm.openExpectedValueField){
+				if(!vm.openExpectedValueField && vm.expected){
 					var count = 0;
 					fieldList.forEach(function(data){
 						if(data.mappingToFieldName == vm.model.mappingToFieldName){
