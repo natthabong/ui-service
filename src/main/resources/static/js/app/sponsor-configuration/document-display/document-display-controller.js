@@ -37,7 +37,7 @@ angular
                 var displayMode = $stateParams.displayMode;
                 var selectedItem = $stateParams.selectedItem;
 
-                var BASE_URI = 'api/v1/organize-customers/' + ownerId + '/sponsor-configs/SFP';
+                var BASE_URI = 'api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType +'/display-modes/' + displayMode;
 
                 var newDisplayConfig = function() {
                     return {
@@ -46,6 +46,10 @@ angular
                     }
                 }
 
+                vm.headerMessageLabel = "Setup create transaction display";
+                vm.mode = "Loan request mode";
+                vm.groupSelection = "Supplier code group selection";
+                
 				vm.loanRequestMode = LOAN_REQUEST_MODE_ITEM;
                 vm.documentSelection = DOCUMENT_SELECTION_ITEM;
                 vm.supplierCodeSelectionMode = SUPPLIER_CODE_GROUP_SELECTION_ITEM;
@@ -109,7 +113,7 @@ angular
 
                 vm.setup = function() {
 
-                    sendRequest('/displays/' + selectedItem.documentDisplayId, function(response) {
+                    sendRequest('', function(response) {
                         vm.dataModel = response.data;
                         if (vm.dataModel.items.length < 1) {
                             vm.addItem();
@@ -117,17 +121,6 @@ angular
                     });
 
                     loadDataTypes();
-//                    sendRequest('/display-document-fields', function(response) {
-//                        vm.documentFieldData = response.data;
-//
-//                        vm.documentFieldData.forEach(function(obj) {
-//                            var item = {
-//                                value: obj.docFieldName,
-//                                label: obj.displayName
-//                            };
-//                            vm.documentFields.push(item);
-//                        });
-//                    });
                 }
 
                 vm.addItem = function() {
@@ -218,7 +211,7 @@ angular
                         vm.dataModel.completed =  obj.completed && vm.dataModel.completed; 
                     })
                     
-                    var url =  BASE_URI+'/displays/'+ vm.dataModel.documentDisplayId;
+                    var url =  BASE_URI+'/displays/' + vm.dataModel.documentDisplayId;
                     var deffered = Service.requestURL(url, vm.dataModel,'PUT');
                     return deffered;
 				}

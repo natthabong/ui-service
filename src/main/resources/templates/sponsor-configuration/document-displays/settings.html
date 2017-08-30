@@ -4,8 +4,7 @@
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft">{{'AP
-						Document display configuration' | translate}}</h3>
+					<h3 id="header-message-label" class="animated fadeInLeft">{{ctrl.headerMessageLabel | translate}}</h3>
 				</div>
 			</div>
 		</div>
@@ -14,21 +13,8 @@
 				<div class="panel-body">
 					<form name="createForm" class="form-horizontal">
 						<div class="form-group">
-							<label id="document-display-name-label" for="dealer"
-								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Document
-								display name' | translate}}: </label>
-
-							<div class="col-md-3 col-sm-4 col-xs-12">
-								<scf-input-text id="document-display-name-textbox"
-								 	ng-disabled="!ctrl.manageAll"
-									ng-model="ctrl.dataModel.displayName"
-									maxlength="255"></scf-input-text>
-							</div>
-							<div class="col-md-6 col-sm-4"></div>
-						</div>
-						<div class="form-group">
 							<label id="loan-request-mode-label" for="dealer"
-								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Loan request mode' | translate}}: 
+								class="col-md-3 col-sm-4 col-xs-12 control-label">{{ctrl.mode | translate}}: 
 							
 							</label>
 
@@ -76,7 +62,7 @@
 				
 						<div class="form-group">
 							<label id="supplier-code-group-selection-label" for="dealer"
-								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Supplier code group selection' | translate}}: 
+								class="col-md-3 col-sm-4 col-xs-12 control-label">{{ctrl.groupSelection | translate}}: 
 							
 							</label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
@@ -100,7 +86,7 @@
 						
 						<br/>
 						<fieldset>
-							<legend ng-bind="'Display column' | translate"></legend>
+							<legend ng-bind="'Document display column' | translate"></legend>
 							<div class="responsive-table">
 								<table id="display-config-item-table"
 									class="table table-striped table-bordered" cellspacing="0">
