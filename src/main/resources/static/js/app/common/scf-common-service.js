@@ -96,11 +96,10 @@ app.service('SCFCommonService', [
             return result
 		}
 
-		vm.getDocumentDisplayConfig = function(ownerId, mode) {
+		vm.getDocumentDisplayConfig = function(ownerId, accountingTransactionType, displayMode) {
 			var differed = $q.defer();
-			mode = mode || 'SFP';
 			var displayConfig = [];
-			var reqUrl = '/api/v1/organize-customers/' + ownerId + '/sponsor-configs/'+ mode + '/displays'
+			var reqUrl = '/v1/organize-customers/'+ownerId+'/accounting-transactions/'+accountingTransactionType+'/display-modes/'+displayMode+'/displays';
 			var documentDisplayDiferred = Service.doGet(reqUrl);
 			documentDisplayDiferred.promise.then(function(response) {
 				
@@ -110,7 +109,7 @@ app.service('SCFCommonService', [
 					if (response.data.length == 0) {
 						displayConfig = defaultColumDisplay;
 					} else {
-						displayConfig = response.data[0];
+						displayConfig = response.data;
 					}
 				}
 

@@ -4,8 +4,7 @@
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft">{{'AP
-						Document display configuration' | translate}}</h3>
+					<h3 id="header-message-label" class="animated fadeInLeft">{{ctrl.headerMessageLabel | translate}}</h3>
 				</div>
 			</div>
 		</div>
@@ -13,102 +12,111 @@
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body">
 					<form name="createForm" class="form-horizontal">
-						<div class="form-group">
-							<label id="document-display-name-label" for="dealer"
-								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Document
-								display name' | translate}}: </label>
-
-							<div class="col-md-3 col-sm-4 col-xs-12">
-								<scf-input-text id="document-display-name-textbox"
-								 	ng-disabled="!ctrl.manageAll"
-									ng-model="ctrl.dataModel.displayName"
-									maxlength="255"></scf-input-text>
-							</div>
-							<div class="col-md-6 col-sm-4"></div>
-						</div>
-						<div class="form-group">
-							<label id="loan-request-mode-label" for="dealer"
-								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Loan request mode' | translate}}: 
-							
-							</label>
-
-							<div class="col-md-5 col-sm-5 col-xs-12">
-								<label class="radio-inline"><scf-radio
-										id="current-and-future-loan-request-mode-radio" name="loan-request-mode-radio"
-										ng-value="ctrl.loanRequestMode.currentAndFuture"
-										ng-disabled="!ctrl.manageAll"
-										ng-model="ctrl.dataModel.loanRequestMode"></scf-radio>
-									{{'Current and future' | translate}}
-								</label> <label class="radio-inline"> <scf-radio
-										id="current-request-mode-radio" name="loan-request-mode-radio"
-										ng-value="ctrl.loanRequestMode.current"
-										ng-disabled="!ctrl.manageAll"
-										ng-model="ctrl.dataModel.loanRequestMode"></scf-radio>
-									{{'Current' | translate}}
+						<div ng-show="ctrl.isCreateTransactionMode">
+							<div class="form-group">
+								<label id="loan-request-mode-label" for="dealer"
+									class="col-md-3 col-sm-4 col-xs-12 control-label">{{ctrl.mode | translate}}: 
+								
 								</label>
-							</div>
-							<div class="col-md-4 col-sm-3"></div>
-						</div>
-						<div class="form-group">
-							<label id="document-selection-label" for="dealer"
-								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Document selection' | translate}}: 
-							
-							</label>
-
-							<div class="col-md-5 col-sm-5 col-xs-12">
-								<label class="radio-inline"> <scf-radio
-										id="any-document-document-selection-radio" name="document-selection-radio"
-										ng-value="ctrl.documentSelection.anyDocument"
-										ng-disabled="!ctrl.manageAll"
-										ng-model="ctrl.dataModel.documentSelection"></scf-radio>
-									{{'Any document' | translate}}
-								</label> <label class="radio-inline"> <scf-radio
-										id="matching-ref-document-selection-radio" name="document-selection-radio"
-										ng-value="ctrl.documentSelection.groupByMatchingRefNo"
-										ng-disabled="!ctrl.manageAll"
-										ng-model="ctrl.dataModel.documentSelection"></scf-radio>
-									{{'Group by matching ref no' | translate}}
-								</label>
-							</div>
-							<div class="col-md-4 col-sm-3"></div>
-						</div>
-						
-				
-						<div class="form-group">
-							<label id="supplier-code-group-selection-label" for="dealer"
-								class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Supplier code group selection' | translate}}: 
-							
-							</label>
+	
 								<div class="col-md-5 col-sm-5 col-xs-12">
-								<label class="radio-inline"><scf-radio
-										id="single-supplier-code-group-selection-radio" name="supplier-code-group-selection-radio"
-										ng-value="ctrl.supplierCodeSelectionMode.singlePerTransaction"
-										ng-disabled="!ctrl.manageAll"
-										ng-model="ctrl.dataModel.supplierCodeSelectionMode"></scf-radio>
-									{{'Single per transaction' | translate}}
-								</label> <label class="radio-inline"><scf-radio
-										id="multiple-supplier-code-group-selection-radio" name="supplier-code-group-selection-radio"
-										ng-value="ctrl.supplierCodeSelectionMode.multiplePerTransaction"
-										ng-disabled="!ctrl.manageAll"
-										ng-model="ctrl.dataModel.supplierCodeSelectionMode"></scf-radio>
-									{{'Multiple per transaction' | translate}}
-									
-								</label>
+									<label class="radio-inline"><scf-radio
+											id="current-and-future-loan-request-mode-radio" name="loan-request-mode-radio"
+											ng-value="ctrl.loanRequestMode.currentAndFuture"
+											ng-disabled="!ctrl.manageAll"
+											ng-model="ctrl.dataModel.loanRequestMode"></scf-radio>
+										{{'Current and future' | translate}}
+									</label> <label class="radio-inline"> <scf-radio
+											id="current-request-mode-radio" name="loan-request-mode-radio"
+											ng-value="ctrl.loanRequestMode.current"
+											ng-disabled="!ctrl.manageAll"
+											ng-model="ctrl.dataModel.loanRequestMode"></scf-radio>
+										{{'Current' | translate}}
+									</label>
+								</div>
+								<div class="col-md-4 col-sm-3"></div>
 							</div>
-							<div class="col-md-4 col-sm-3"></div>
+							<div class="form-group">
+								<label for="dealer"
+									class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+	
+								<div class="col-md-5 col-sm-5 col-xs-12">
+									<label><scf-checkbox
+										ng-model="ctrl.dataModel.supportPartial"
+										id="support-partial-payment-checkbox"
+										ng-disabled="false"></scf-checkbox>
+										{{'Support partial payment' | translate}}
+									</label>
+								</div>
+								<div class="col-md-4 col-sm-3"></div>
+							</div>
+							<div class="form-group">
+								<label id="document-selection-label" for="dealer"
+									class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Document selection' | translate}}: 
+								
+								</label>
+	
+								<div class="col-md-2 col-sm-2 col-xs-12">
+									<label class="radio-inline"> <scf-radio
+											id="any-document-document-selection-radio" name="document-selection-radio"
+											ng-value="ctrl.documentSelection.anyDocument"
+											ng-disabled="!ctrl.manageAll"
+											ng-model="ctrl.dataModel.documentSelection"></scf-radio>
+										{{'Any document' | translate}}
+									</label> <label class="radio-inline"> <scf-radio
+											id="matching-ref-document-selection-radio" name="document-selection-radio"
+											ng-value="ctrl.documentSelection.groupBy"
+											ng-disabled="!ctrl.manageAll"
+											ng-model="ctrl.dataModel.documentSelection"></scf-radio>
+										{{'Group by' | translate}}
+									</label>
+								</div>
+								<div class="col-md-3 col-sm-3">
+									<scf-dropdown
+										id="group-by-gecscf-field-name-{{$index+1}}-dropdown"
+										ng-model="record.groupByFieldId"
+										component-data="ctrl.documentGroupByFields"
+										ng-disabled="!ctrl.manageAll"
+										translate-label="false"
+										convert-to-number="true"></scf-dropdown>
+								</div>
+							</div>
+							
+					
+							<div class="form-group">
+								<label id="supplier-code-group-selection-label" for="dealer"
+									class="col-md-3 col-sm-4 col-xs-12 control-label">{{ctrl.groupSelection | translate}}: 
+								
+								</label>
+									<div class="col-md-5 col-sm-5 col-xs-12">
+									<label class="radio-inline"><scf-radio
+											id="single-supplier-code-group-selection-radio" name="supplier-code-group-selection-radio"
+											ng-value="ctrl.supplierCodeSelectionMode.singlePerTransaction"
+											ng-disabled="!ctrl.manageAll"
+											ng-model="ctrl.dataModel.supplierCodeSelectionMode"></scf-radio>
+										{{'Single per transaction' | translate}}
+									</label> <label class="radio-inline"><scf-radio
+											id="multiple-supplier-code-group-selection-radio" name="supplier-code-group-selection-radio"
+											ng-value="ctrl.supplierCodeSelectionMode.multiplePerTransaction"
+											ng-disabled="!ctrl.manageAll"
+											ng-model="ctrl.dataModel.supplierCodeSelectionMode"></scf-radio>
+										{{'Multiple per transaction' | translate}}
+										
+									</label>
+								</div>
+								<div class="col-md-4 col-sm-3"></div>
+							</div>
 						</div>
-						
 						<br/>
 						<fieldset>
-							<legend ng-bind="'Display column' | translate"></legend>
+							<legend ng-bind="'Document display column' | translate"></legend>
 							<div class="responsive-table">
 								<table id="display-config-item-table"
 									class="table table-striped table-bordered" cellspacing="0">
 									<thead>
 										<tr>
 											<th id="sequence-no-header-label" ng-bind="'No' | translate">No</th>
-											<th id="document-field-name-header-label" ng-bind="'Document field name' | translate">Document
-												field name</th>
+											<th id="gecscf-field-name-header-label" ng-bind="'GECSCF field name' | translate">GECSCF field name</th>
 											<th id="th-label-header-label" ng-bind="'TH Label' | translate" style="width: 15%">TH
 												Label</th>
 											<th id="en-label-header-label" ng-bind="'EN Label' | translate" style="width: 15%">EN
@@ -126,11 +134,12 @@
 												id="sequence-no-{{$index+1}}-label" ng-bind="{{$index+1}}"></label></td>
 
 											<td class="text-right"><scf-dropdown
-													id="document-field-name-{{$index+1}}-dropdown"
-													ng-model="record.fieldName"
+													id="gecscf-field-name-{{$index+1}}-dropdown"
+													ng-model="record.layoutFileDataType.layoutFileDataTypeId"
 													component-data="ctrl.documentFields"
 													ng-disabled="!ctrl.manageAll"
-													translate-label="false"></scf-dropdown></td>
+													translate-label="false"
+													convert-to-number="true"></scf-dropdown></td>
 
 											<td class="text-right"><scf-input-text
 													id="th-label-{{$index+1}}-textbox"
@@ -166,7 +175,7 @@
 													<i class="fa fa-sort-down" aria-hidden="true"></i> 
 												</scf-button>
 												<scf-button type="button" id="field-setup-{{$index+1}}-button" class="btn-default gec-btn-action"
-													ng-disabled="!ctrl.manageAll" ng-click="ctrl.openSetting($index, record)"> 
+													ng-disabled="ctrl.canSetup(record)" ng-click="ctrl.openSetting($index, record)"> 
 													<i class="fa fa-cog" aria-hidden="true"></i> 
 												</scf-button>
 												<scf-button type="button" id="delete-{{$index+1}}-button" class="btn-default gec-btn-action"
