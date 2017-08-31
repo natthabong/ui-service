@@ -76,7 +76,7 @@
 										id="group-by-gecscf-field-name-{{$index+1}}-dropdown"
 										ng-model="record.groupByFieldId"
 										component-data="ctrl.documentGroupByFields"
-										ng-disabled="!ctrl.manageAll"
+										ng-disabled="ctrl.isUnCheckGroupBy()"
 										translate-label="false"
 										convert-to-number="true"></scf-dropdown>
 								</div>
@@ -175,7 +175,7 @@
 													<i class="fa fa-sort-down" aria-hidden="true"></i> 
 												</scf-button>
 												<scf-button type="button" id="field-setup-{{$index+1}}-button" class="btn-default gec-btn-action"
-													ng-disabled="ctrl.canSetup(record)" ng-click="ctrl.openSetting($index, record)"> 
+													ng-disabled="ctrl.cannotSetup(record)" ng-click="ctrl.openSetting($index, record)"> 
 													<i class="fa fa-cog" aria-hidden="true"></i> 
 												</scf-button>
 												<scf-button type="button" id="delete-{{$index+1}}-button" class="btn-default gec-btn-action"
@@ -184,7 +184,7 @@
 												</scf-button>
 											</td>
 										</tr>
-										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
+										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'" ng-show="ctrl.displayExample(record)">
 											<td colspan="7">
 												<p id="description-{{$index+1}}-label"
 													ng-bind="ctrl.displayExample(record)"></p>

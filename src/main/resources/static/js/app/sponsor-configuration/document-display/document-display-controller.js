@@ -86,6 +86,7 @@ angular
                     value: null,
                     label: 'Please select'
                 }];
+                vm.documentGroupByFieldData = [];
                 
     			vm.backToSponsorConfigPage = function(){
     				PageNavigation.gotoPreviousPage();
@@ -111,9 +112,9 @@ angular
     			var loadGroupByDataTypes = function() {
     				var deffered = FileLayoutService.getDisplayDataTypes('TEXT');
     				deffered.promise.then(function(response) {
-    					vm.documentFieldData = response.data;
+    					vm.documentGroupByFieldData = response.data;
     					
-                        vm.documentFieldData.forEach(function(obj) {
+                        vm.documentGroupByFieldData.forEach(function(obj) {
                             var item = {
                         		value : obj.layoutFileDataTypeId,
     							label : obj.displayFieldName
@@ -251,23 +252,32 @@ angular
 				}
 
                 vm.setup();
-
-                vm.canSetup = function(record){
-                	console.log(record);
-                	var hasUrl = true;
-                	var layoutFileDataTypeId = record.layoutFileDataType.layoutFileDataTypeId;
-                    vm.documentFieldData.forEach(function(obj) {
-                        if (layoutFileDataTypeId == obj.layoutFileDataTypeId) {
-                        	if(displayActionUrl == null){
-                        		hasUrl = false;
-                        	}
-                        }
-                    });
-                    
-                	if(!ctrl.manageAll || !hasUrl){
-                		return false;
-                	}else{
+                
+                vm.isUnCheckGroupBy = function(){
+                	if(!vm.manageAll || vm.dataModel.documentSelection != 'GROUP_BY'){
                 		return true;
+                	}else{
+                		return false;
+                	}
+                }
+                
+                vm.cannotSetup = function(record){
+                	if(angular.isDefined(record.layoutFileDataType)){
+                		var hasUrl = true;
+                    	var layoutFileDataTypeId = record.layoutFileDataType.layoutFileDataTypeId;
+                        vm.documentFieldData.forEach(function(obj) {
+                            if (layoutFileDataTypeId == obj.layoutFileDataTypeId) {
+                        		if(obj.displayActionUrl == null){
+                            		hasUrl = false;
+                            	}
+                            }
+                        });
+                        
+                    	if(!vm.manageAll || !hasUrl){
+                    		return true;
+                    	}else{
+                    		return false;
+                    	}
                 	}
                 }
                 
@@ -372,7 +382,7 @@ angular
              function($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 	    	 var vm = this;
     	     var dataTypeConfig =  $scope.ngDialogData.config;
-    	     
+
     	     vm.dlgData = {useSeperator:false, filterType: null};
     	    	 
     	     vm.model = angular.copy($scope.ngDialogData.record);
