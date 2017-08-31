@@ -59,7 +59,7 @@ angular.module('scfApp').controller(
 					} ];
 					
 					vm.loadDocumentDisplayConfig = function(sponsorId){
-						var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId);
+						var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId,'PAYABLE','TRANSACTION_DOCUMENT');
 						return displayConfig;
 					}
 					

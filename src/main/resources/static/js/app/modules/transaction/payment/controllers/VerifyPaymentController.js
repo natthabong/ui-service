@@ -44,7 +44,7 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
             
             vm.pagingController = PagingController.create('api/v1/transaction-documents', _criteria, 'GET');
             
-            loadDocumentDisplayConfig(vm.transactionModel.supplierId, 'BFP', vm.searchDocument);
+            loadDocumentDisplayConfig(vm.transactionModel.supplierId, vm.searchDocument);
             
         })
         .catch(function(response){
@@ -52,8 +52,8 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
         })
     }
 	
-	var loadDocumentDisplayConfig = function(ownerId, mode, callback) {
-        var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, mode);
+	var loadDocumentDisplayConfig = function(ownerId, callback) {
+        var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE','TRANSACTION_DOCUMENT');
         deffered.promise.then(function(response) {
             vm.dataTable.columns = response.items;
             callback();

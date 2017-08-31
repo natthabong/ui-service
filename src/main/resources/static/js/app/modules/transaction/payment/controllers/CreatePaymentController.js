@@ -72,8 +72,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         columns: []
     };
 
-	var _loadDocumentDisplayConfig = function(ownerId, mode) {
-        var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, mode);
+	var _loadDocumentDisplayConfig = function(ownerId) {
+        var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId,'RECEIVABLE','TRANSACTION_DOCUMENT');
         deffered.promise.then(function(response) {
             vm.dataTable.columns = response.items;
             pageOptions.loanRequestMode = response.loanRequestMode;
@@ -128,7 +128,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             	if(angular.isDefined(vm.criteria.supplierId)){
 // _loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
             		_loadAccount(ownerId, vm.criteria.supplierId);
-            		_loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
+            		_loadDocumentDisplayConfig(vm.criteria.supplierId);
             	}
              }
         }).catch(function(response) {
@@ -565,9 +565,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     vm.supplierChange = function() {
     	vm.showErrorMsg = false;
     	vm.display = false;
-// _loadTradingPartnerInfo(ownerId, vm.criteria.supplierId);
     	_loadAccount(ownerId, vm.criteria.supplierId);
-        _loadDocumentDisplayConfig(vm.criteria.supplierId, 'BFP');
+        _loadDocumentDisplayConfig(vm.criteria.supplierId);
         vm.maturityDateModel = null;
         
     }

@@ -269,7 +269,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         };
 
         function _loadDocumentDisplayConfig(sponsorId) {
-            var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId);
+            var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId,'PAYABLE','TRANSACTION_DOCUMENT');
             displayConfig.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
                 vm.pagingController = PagingController.create('api/v1/documents', _criteria, 'GET');
