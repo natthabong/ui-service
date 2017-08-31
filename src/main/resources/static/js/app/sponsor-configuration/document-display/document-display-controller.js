@@ -192,7 +192,6 @@ angular
                                     if (value != null) {
                                         angular.copy(value, record);
                                         record.layoutFileDataTypeId = record.layoutFileDataType.layoutFileDataTypeId;
-                                        console.log(record);
 										record.completed = true;
                                     }
                                 }
