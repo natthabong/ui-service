@@ -48,7 +48,7 @@ validateandsubmit.controller('ValidateAndSubmitController', [
             }
 			
 			vm.getDisplaySponsorConfig = function(sponsorId){
-				var deffered = SCFCommonService.getDocumentDisplayConfig(sponsorId);
+				var deffered = SCFCommonService.getDocumentDisplayConfig(sponsorId, 'PAYABLE', 'TRANSACTION_DOCUMENT');
 				deffered.promise.then(function(response){
 					vm.dataTable.columns = response.items;
 				});

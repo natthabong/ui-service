@@ -26,8 +26,8 @@ paymentModule.controller('ValidateSubmitController', [
             columns: []
         };
 
-        var loadDocumentDisplayConfig = function(ownerId, mode) {
-            var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, mode);
+        var loadDocumentDisplayConfig = function(ownerId) {
+            var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE','TRANSACTION_DOCUMENT');
             deffered.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
             });
@@ -88,7 +88,7 @@ paymentModule.controller('ValidateSubmitController', [
 
         var init = function() {
             vm.pagingController.search();
-            loadDocumentDisplayConfig(vm.transactionModel.supplierId, 'BFP');
+            loadDocumentDisplayConfig(vm.transactionModel.supplierId);
             
             if(vm.transactionModel.payerAccountNo != 'LOAN'){
             	vm.isLoanPayment = false;
