@@ -262,7 +262,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/file-layouts/new-file-layout',
 				params: { fileLayoutModel: null,processType:null},
-				resolve: load(['js/app/modules/organize/configuration/file-layout/controllers/FileLayotController.js',
+				resolve: load(['js/app/modules/organize/configuration/file-layout/controllers/FileLayoutController.js',
 					'js/app/modules/organize/configuration/file-layout/controllers/TextLayoutConfigController.js',
 					'js/app/modules/organize/configuration/file-layout/controllers/DateTimeLayoutConfigController.js',
 					'js/app/modules/organize/configuration/file-layout/controllers/NumericLayoutConfigController.js',
