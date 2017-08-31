@@ -73,8 +73,8 @@
 								</div>
 								<div class="col-md-3 col-sm-3">
 									<scf-dropdown
-										id="group-by-gecscf-field-name-{{$index+1}}-dropdown"
-										ng-model="record.groupByFieldId"
+										id="group-by-dropdown"
+										ng-model="ctrl.dataModel.groupByFieldId"
 										component-data="ctrl.documentGroupByFields"
 										ng-disabled="ctrl.isUnCheckGroupBy()"
 										translate-label="false"
