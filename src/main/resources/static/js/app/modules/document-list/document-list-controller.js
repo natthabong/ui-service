@@ -84,6 +84,26 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		    return data.documentStatus == 'NEW' && !($stateParams.party == partyRole.supplier) && vm.deleteAuthority; 
 		}
 		
+		var columRowNo = {
+			fieldName: '$rowNo',
+			labelEN : 'No.',
+			labelTH : 'ลำดับที่',
+			sortable : false,
+			id : '$rowNo-{value}',
+			filterType : 'translate',
+			cssTemplate : 'text-center'
+		};
+		
+		var columnSupplierName = {
+			fieldName: 'supplierName',
+			labelEN : 'Supplier name',
+			labelTH : 'ชื่อคู่ค้า',
+			sortable : false,
+			id : 'supplierName-{value}',
+			filterType : 'translate',
+			cssTemplate : 'text-center'
+		};
+		
 		var columnStatus = {
 			fieldName : 'statusMessageKey',
 			labelEN : 'Status',
@@ -118,13 +138,24 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId, accountingTransactionType, displayMode);
 			vm.dataTable.columns = [];
 			displayConfig.promise.then(function(response) {
-				vm.dataTable.columns = response.items;
+
+				vm.dataTable.columns.push(columRowNo);
+				if(currentParty != partyRole.supplier){
+					vm.dataTable.columns.push(columnSupplierName);
+				}
+				
+				var configItems = response.items;
+				configItems.forEach(function(data) {
+					vm.dataTable.columns.push(data);
+				});
 				
 				if (vm.dataTable.columns.indexOf(columnLastUpload) == -1) {
 					vm.dataTable.columns.push(columnLastUpload);
 					vm.dataTable.columns.push(columnStatus);
 					vm.dataTable.columns.push(columnAction);
 				}
+				
+				
 				
 				return docDisplayPromise.resolve('Load display success');
 			});
@@ -410,7 +441,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		};
 
 		$scope.$watch('ctrl.documentListModel.sponsor', function() {
-			if (angular.isDefined(vm.documentListModel.sponsor) && angular.isObject(vm.documentListModel.sponsor)) {
+			if (currentParty != partyRole.sponsor && angular.isDefined(vm.documentListModel.sponsor) && angular.isObject(vm.documentListModel.sponsor)) {
 				vm.loadDocumentDisplayConfig(vm.documentListModel.sponsor.organizeId, accountingTransactionType, displayMode);
 				
 			}
