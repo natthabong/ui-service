@@ -191,6 +191,8 @@ angular
                                 preCloseCallback: function(value) {
                                     if (value != null) {
                                         angular.copy(value, record);
+                                        record.layoutFileDataTypeId = record.layoutFileDataType.layoutFileDataTypeId;
+                                        console.log(record);
 										record.completed = true;
                                     }
                                 }
@@ -255,6 +257,7 @@ angular
                 
                 vm.isUnCheckGroupBy = function(){
                 	if(!vm.manageAll || vm.dataModel.documentSelection != 'GROUP_BY'){
+                		vm.dataModel.groupByFieldId = null;
                 		return true;
                 	}else{
                 		return false;
