@@ -191,7 +191,6 @@ angular
                                 preCloseCallback: function(value) {
                                     if (value != null) {
                                         angular.copy(value, record);
-                                        record.layoutFileDataTypeId = record.layoutFileDataType.layoutFileDataTypeId;
 										record.completed = true;
                                     }
                                 }
@@ -242,8 +241,9 @@ angular
 
 				$scope.confirmSave = function() {
 					vm.dataModel.completed = true;
-                    vm.dataModel.items.forEach(function(obj, index) {
+					vm.dataModel.items.forEach(function(obj, index) {
                         obj.sequenceNo = index + 1;
+                        vm.dataModel.items[index].layoutFileDataTypeId = obj.layoutFileDataType.layoutFileDataTypeId;
                         vm.dataModel.completed =  obj.completed && vm.dataModel.completed; 
                     })
                     
