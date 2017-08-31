@@ -155,7 +155,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 					vm.dataTable.columns.push(columnAction);
 				}
 				
-				
+				vm.documentListCriterial.sort = response.sort.join();
 				
 				return docDisplayPromise.resolve('Load display success');
 			});

@@ -112,7 +112,16 @@ app.service('SCFCommonService', [
 						displayConfig = response.data;
 					}
 				}
-
+				displayConfig.sort = [];
+				displayConfig.items.forEach(function(item){
+					if(item.sortSequenceNo != null){
+						displayConfig.sort[item.sortSequenceNo] = (item.sortType=='DESC'?'-':'') + item.fieldName;
+					}
+				});
+				
+				if(displayConfig.sort.length > 0){
+					displayConfig.sort.splice(0, 1);
+				}
 				differed.resolve(displayConfig);
 			}).catch(function(response) {
 				log.error('Load Display config error');

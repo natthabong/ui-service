@@ -79,21 +79,11 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             pageOptions.loanRequestMode = response.loanRequestMode;
             pageOptions.documentSelection = response.documentSelection;
             pageOptions.buyerCodeSelectionMode = response.buyerCodeSelectionMode;
+            vm.criteria.sort = response.sort.join();
             _loadBuyerCodes(ownerId);
         });
     }
 	
-// function _loadTradingPartnerInfo(sponsorId, supplierId){
-// vm.tradingpartnerInfoModel.supplierId = supplierId;
-// vm.tradingpartnerInfoModel.supplierName = getSupplierName(supplierId);
-// var deffered = TransactionService.getTradingInfo(sponsorId, supplierId);
-// deffered.promise.then(function(response){
-// vm.tradingpartnerInfoModel.tenor = response.data.tenor;
-// vm.tradingpartnerInfoModel.interestRate = response.data.interestRate;
-// }).catch(function(response) {
-// log.error(response);
-// });
-// }
 
     function getSupplierName(supplierId){
         var supplierName = null;
@@ -205,6 +195,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     	return valid;
     }
 	function _prepareCriteria() {
+		console.log(_criteria)
 		angular.copy(vm.criteria, _criteria);
 		
 	}
