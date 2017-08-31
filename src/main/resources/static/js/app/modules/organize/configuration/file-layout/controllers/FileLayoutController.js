@@ -854,13 +854,10 @@ module.controller('FileLayoutController', [
 			vm.removeDataItem = function(dataItems, item) {
 				var index = dataItems.indexOf(item);
 				dataItems.splice(index, 1);
-				
-				console.log(vm.tempDocFieldName);
-				console.log(item);
+			
 				var indexDocFieldName = vm.tempDocFieldName.indexOf(item.docFieldName);
 				if(indexDocFieldName>-1){
 					vm.tempDocFieldName.splice(indexDocFieldName, 1);
-					console.log(vm.tempDocFieldName);
 				}
 			}
 
@@ -1014,6 +1011,14 @@ module.controller('FileLayoutController', [
 				if (vm.delimeter != 'Other') {
 					vm.delimeterOther = '';
 				}
+			}
+			
+			vm.unSelectFieldName = function(item){
+				if(!vm.manageAll || isNaN(item.layoutFileDataTypeId)){
+            		return true;
+            	}else{
+            		return false;
+            	}
 			}
 			
 		} ]);

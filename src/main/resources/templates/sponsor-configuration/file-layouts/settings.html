@@ -288,7 +288,7 @@
 												<td class="text-center" style="width: 3%"><scf-button
 														type="button" id="add-gec-field-{{$index+1}}-button"
 														class="btn-default gec-btn-action"
-														ng-disabled="!ctrl.manageAll"
+														ng-disabled="ctrl.unSelectFieldName(record)"
 														ng-click="ctrl.addValueClonningField(record)">
 													<i class="fa fa-plus" aria-hidden="true"></i> </scf-button></td>
 												<td class="text-center" style="width: 15%"><scf-input-text
