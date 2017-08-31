@@ -73,9 +73,9 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-1 col-sm-1 col-xs-1" ng-show="ctrl.error.expectedInRequire">
+							<label  class="col-md-1 col-sm-1 col-xs-1" ng-show="ctrl.error.expectedInRequire">
 							</label>
-							<span class="col-md-10 col-sm-10 col-xs-10 error-msg" 
+							<span id="expected-in-warning-message-label" class="col-md-10 col-sm-10 col-xs-10 error-msg" 
 								ng-show="ctrl.error.expectedInRequire"
 								ng-bind="ctrl.error.msg">
 							</span>
@@ -103,7 +103,7 @@
 						<div class="form-group">
 							<label class="col-md-1 col-sm-1 col-xs-1" ng-show="ctrl.error.duplicate || ctrl.error.mappingToRequire">
 							</label>
-								<span class="col-md-10 col-sm-10 col-xs-10 error-msg"
+								<span id="mapping-to-warning-message-label"  class="col-md-10 col-sm-10 col-xs-10 error-msg"
 									ng-show="ctrl.error.duplicate || ctrl.error.mappingToRequire" 
 									ng-bind="ctrl.error.msg">
 								</span>
