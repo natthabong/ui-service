@@ -494,7 +494,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			    return saveCustomerCode(customerCode);
 			},
 			onFail: function(response){
-			    var msg = {405:'Customer code is used.'};
+			    var msg = {400:'Customer is not trading partner with this sponsor.', 404:'Supplier code has been deleted.', 405:'Supplier code has been used.', 409:'Supplier code has been modified.'};
 			    dialogFail = UIFactory.showFailDialog({
 				data: {
 				    headerMessage: vm.isNewCusotmerCode?'Add new supplier code fail.':'Edit supplier code fail.',
@@ -506,7 +506,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			    });
 			},
 			onSuccess: function(response){
-			    	closeCustomerCodeSetup();
+		    	closeCustomerCodeSetup();
 				dialogSuccess = UIFactory.showSuccessDialog({
 				data: {
 				    headerMessage: vm.isNewCusotmerCode == true?'Add new supplier code success.':'Edit supplier code complete.',
