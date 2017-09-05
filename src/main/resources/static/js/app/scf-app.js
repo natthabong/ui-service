@@ -68,16 +68,16 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/create-transaction/validate-submit',
 				params: { transactionModel: null, totalDocumentAmount:0.00, tradingpartnerInfoModel: null, documentSelects: null},
 				resolve: load(['js/app/modules/transaction/loan/services/ValidateAndSubmitService.js','js/app/modules/transaction/loan/controllers/ValidateAndSubmitController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/organize-list/bank', {
-				url: '/organize-list/bank',
+			}).state('/customer-registration/organizes', {
+				url: '/customer-registration/organizes',
 				controller: 'OrganizeListController',
 				controllerAs: 'ctrl',
 				params: {backAction: false,party:'bank', criteria:null, organize:null},
 				templateUrl: '/organize-list/bank',
 				resolve: load(['js/app/modules/organize/organize-list-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
-			.state('/supplier-credit-information', {
-				url: '/supplier-credit-information',
+			.state('/customer-report/credit-information', {
+				url: '/customer-report/credit-information',
 				controller: 'SupplierCreditInformationController',
 				controllerAs: 'ctrl',
 				templateUrl: '/supplier-credit-information',
@@ -316,8 +316,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/workflow/setup',
 				params: { workflowModel: null},
 				resolve: load(['js/app/sponsor-configuration/workflow/controllers/setup-workflow-controller.js','js/app/sponsor-configuration/workflow/services/workflow-service.js'])
-			}).state('/bank-holidays',{
-				url: '/bank-holidays',
+			}).state('/bank-information/holidays',{
+				url: '/bank-information/holidays',
 				controller: 'BankHolidayController',
 				controllerAs: 'ctrl',
 				templateUrl: '/holidays/',
@@ -336,14 +336,14 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				params: {mode:'personal'},
 				templateUrl: '/activity-log',
 				resolve: load(['js/app/modules/activity-log/activity-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/policy',{
-				url: '/policy',
+			}).state('/settings/user-and-password-policy',{
+				url: '/settings/user-and-password-policy',
 				controller: 'PolicyController',
 				controllerAs: 'ctrl',
 				templateUrl: '/policy',
 				resolve: load(['js/app/modules/policy/policy-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/role',{
-				url: '/role',
+			}).state('/settings/role',{
+				url: '/settings/role',
 				controller: 'RoleListController',
 				controllerAs: 'ctrl',
 				templateUrl: '/role',
@@ -511,15 +511,15 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/view-batch-job-tracking-message',
 				params: { params: []},
 				resolve: load(['js/app/modules/monitor/view-batch-job-tracking-message-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/account',{
-				url: '/account',
+			}).state('/customer-registration/account',{
+				url: '/customer-registration/account',
 				controller: 'AccountController',
 				controllerAs: 'ctrl',
 				templateUrl: '/account',
 				params: { params: [], backAction: false, criteria : null, organize: null},
 				resolve: load(['js/app/modules/account/controllers/AccountListController.js', 'js/app/modules/account/services/AccountService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/trading-partners',{
-				url: '/trading-partners',
+			}).state('/customer-registration/trading-partners',{
+				url: '/customer-registration/trading-partners',
 				controller: 'TradingPartnerListController',
 				controllerAs: 'ctrl',
 				templateUrl: '/trading-partners',
