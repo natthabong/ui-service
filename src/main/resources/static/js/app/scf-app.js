@@ -224,7 +224,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							   'js/app/sponsor-configuration/workflow/controllers/setup-workflow-controller.js',
 							   'js/app/sponsor-configuration/workflow/services/workflow-service.js',
 							   'js/app/sponsor-configuration/file-layouts-controller.js', 
-							   'js/app/modules/sponsor-config/customer-code-groups/customer-code-groups-controller.js',
+							   'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupController.js',
 							   'js/app/sponsor-configuration/channel-config-controller.js',
 							   'js/app/common/scf-component.js', 
 							   'js/app/common/scf-component.css',
