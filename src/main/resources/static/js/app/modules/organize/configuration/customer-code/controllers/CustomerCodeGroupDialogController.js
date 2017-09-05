@@ -1,4 +1,5 @@
-scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIFactory', '$http', 'SCFCommonService', function($scope, $rootScope, UIFactory, $http, SCFCommonService) {
+var cusCodeModule = angular.module('gecscf.organize.configuration');
+cusCodeModule.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIFactory', '$http', 'SCFCommonService', function($scope, $rootScope, UIFactory, $http, SCFCommonService) {
 	var vm = this;
 	var sponsorId = $scope.ngDialogData.sponsorId;
 	$scope.errors = {};

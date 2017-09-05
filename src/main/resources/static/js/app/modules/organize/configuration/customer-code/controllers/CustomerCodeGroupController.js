@@ -1,4 +1,5 @@
-scfApp.controller('CustomerCodeGroupController', [ '$q','$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 'ngDialog', '$rootScope',
+var cusCodeModule = angular.module('gecscf.organize.configuration');
+cusCodeModule.controller('CustomerCodeGroupController', [ '$q','$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 'ngDialog', '$rootScope',
 	function($q, $scope, $stateParams, Service, UIFactory, 
 			CustomerCodeStatus, PageNavigation, PagingController, $http, ngDialog, $rootScope) {
 	var vm = this;
