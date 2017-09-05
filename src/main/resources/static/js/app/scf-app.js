@@ -407,11 +407,15 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				resolve: load(['js/app/modules/profile/change-password/password-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/supplier-code-list',{
 				url: '/supplier-code-list',
-				controller: 'CustomerCodeGroupSettingController',
+				controller: 'CustomerCodeGroupController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
 				params: { selectedItem: null, mode: 'personal'},
-				resolve: load(['js/app/modules/sponsor-config/customer-code-groups/customer-code-groups-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupController.js',
+								'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
+								'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
+								'js/app/common/scf-component.js',
+								'js/app/common/scf-component.css'])
 			}).state('/document-upload-log',{
 				url: '/document-upload-log',
 				controller: 'DocumentUploadLogController',
