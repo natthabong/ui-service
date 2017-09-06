@@ -519,6 +519,11 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.transactionModel.maturityDate = vm.maturityDateModel;
             vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
             
+            //TODO wait Refactor when PBI payment partial document
+            vm.transactionModel.documents.forEach(function(document) {
+            	document.paymentAmount = document.netAmount;
+            });
+            
             var objectToSend = {
                 transactionModel: vm.transactionModel,
                 tradingpartnerInfoModel: vm.tradingpartnerInfoModel
