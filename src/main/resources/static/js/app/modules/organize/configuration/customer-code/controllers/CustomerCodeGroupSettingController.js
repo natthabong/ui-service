@@ -15,7 +15,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	}
 	var currentMode = $stateParams.mode;
 	var accountingTransactionType = $stateParams.accountingTransactionType;
-	console.log(accountingTransactionType);
 	var organizeId = $rootScope.userInfo.organizeId;
 	var groupId = null;
 	vm.criteria = {};
@@ -240,7 +239,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		groupId = selectedItem.groupId;
 	    vm.model = selectedItem;
 	    vm.sponsorId = selectedItem.ownerId;
-	    var customerCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/PAYABLE/customer-code-groups/'+groupId+'/customer-codes';
+	    var customerCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/'+accountingTransactionType+'/customer-code-groups/'+groupId+'/customer-codes';
 	    vm.pagingController = PagingController.create(customerCodeURL, vm.searchCriteria, 'GET');
 		vm.search();
 	}
