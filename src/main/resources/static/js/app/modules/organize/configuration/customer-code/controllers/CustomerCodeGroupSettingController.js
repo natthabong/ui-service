@@ -111,8 +111,13 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		var serviceUrl = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/PAYABLE/customer-code-groups/'+groupId+'/customers/'+customerCode.organizeId+'/customer-codes/' + customerCode.customerCode;
 		var deferred = $q.defer();
 		$http({
-		    method: 'DELETE',
-		    url: serviceUrl
+			method : 'POST',
+			url : serviceUrl,
+			headers : {
+				'If-Match' : customerCode.version,
+				'X-HTTP-Method-Override': 'DELETE'
+			},
+			data: customerCode
 		  }).then(function(response){
 		      return deferred.resolve(response);
 		 }).catch(function(response){
@@ -152,7 +157,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		    return deleteCustomerCode(customerCode);
 		},
 		onFail: function(response){
-		    var msg = {409:'Supplier code has already been deleted.', 405:'Supplier code is used.'};
+		    var msg = {404:'Supplier code has been deleted.', 405:'Supplier code has been used.', 409:'Supplier code has been modified.'};
 		    UIFactory.showFailDialog({
 			data: {
 			    headerMessage: 'Delete supplier code fail.',
@@ -317,7 +322,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			    return saveCustomerCode(customerCode);
 			},
 			onFail: function(response){
-			    var msg = {405:'Customer code is used.'};
+				var msg = {400:'Customer is not trading partner with this sponsor.', 404:'Supplier code has been deleted.', 405:'Supplier code has been used.', 409:'Supplier code has been modified.'};
 			    dialogFail = UIFactory.showFailDialog({
 				data: {
 				    headerMessage: vm.isNewCusotmerCode?'Add new supplier code fail.':'Edit supplier code fail.',
