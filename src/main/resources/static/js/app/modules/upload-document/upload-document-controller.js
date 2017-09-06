@@ -182,16 +182,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 	};
 	
 	vm.initial = function(){
-		currentParty = $stateParams.party;
-		var sponsorConfigId = 'SFP';
-		if(currentParty == partyRole.bank){
-			sponsorConfigId = 'MASTER';
-			vm.showSuccessTotalAmount = false;
-		}
-		else if(currentParty == partyRole.supplier){
-			sponsorConfigId = 'BFP';
-		}
-		vm.getFileType(sponsorConfigId);
+		vm.getFileType();
 	}
 
     function validateFileUpload(data, acceptFileExtention, errorMsgKey) {

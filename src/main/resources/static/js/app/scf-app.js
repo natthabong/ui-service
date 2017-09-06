@@ -104,24 +104,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/approve-transaction/approve',
 				params: {transaction: null},
 				resolve: load(['js/app/approve-transactions/approve-transaction-service.js','js/app/modules/transaction/services/TransactionService.js','js/app/approve-transactions/approve-transaction-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/upload-document',{
-				url: '/upload-document',
-				controller: 'UploadDocumentController',
-				controllerAs: 'ctrl',
-				params: {party:'sponsor'},
-				templateUrl: '/upload-document',
-				onEnter: ['UploadDocumentService','$state', function(UploadDocumentService, $state){
-					var deffered = UploadDocumentService.verifyChannel('WEB');
-					deffered.promise.then(function (response) {
-					}).catch(function (response) {
-		                	 $state.go('/error', {
-		                		 errorCode: response.data.errorCode
-		 	                });
-				   });
-				}],
-				resolve: load(['js/app/modules/upload-document/upload-document-service.js','js/app/modules/upload-document/upload-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/upload-document/supplier',{
-				url: '/upload-document/supplier',
+			}).state('/my-organize/upload-document',{
+				url: '/my-organize/upload-document',
 				controller: 'UploadDocumentController',
 				controllerAs: 'ctrl',
 				params: {party:'supplier'},
@@ -135,13 +119,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 		 	                });
 				   });
 				}],
-				resolve: load(['js/app/modules/upload-document/upload-document-service.js','js/app/modules/upload-document/upload-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/upload-document/bank',{
-				url: '/upload-document/bank',
-				controller: 'UploadDocumentController',
-				controllerAs: 'ctrl',
-				params: {party:'bank'},
-				templateUrl: '/upload-document/bank',
 				resolve: load(['js/app/modules/upload-document/upload-document-service.js','js/app/modules/upload-document/upload-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/document-list/sponsor',{
 				url: '/document-list/sponsor',
