@@ -440,8 +440,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/document-upload-log/view-log',
 				params: { documentUploadLogModel: null, roleType: null},
 				resolve: load(['js/app/modules/document-upload-log/view-document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/system-integration-monitor/bank',{
-				url: '/system-integration-monitor/bank',
+			}).state('/monitoring/bank-system-integration',{
+				url: '/monitoring/bank-system-integration',
 				controller: 'BankSystemIntegrationMonitorController',
 				controllerAs: 'ctrl',
 				templateUrl: '/system-integration-monitor/bank',
@@ -454,8 +454,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						,'js/app/modules/monitor/system-integration-monitor-service.js'
 						,'js/app/common/scf-component.js'
 						,'js/app/common/scf-component.css'])
-			}).state('/system-integration-monitor/sponsor',{
-				url: '/system-integration-monitor/sponsor',
+			}).state('/monitoring/customer-system-integration',{
+				url: '/monitoring/customer-system-integration',
 				controller: 'SponsorSystemIntegrationMonitorController',
 				controllerAs: 'ctrl',
 				templateUrl: '/system-integration-monitor/sponsor',
@@ -468,8 +468,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						,'js/app/modules/monitor/system-integration-monitor-service.js'
 						,'js/app/common/scf-component.js'
 						,'js/app/common/scf-component.css'])
-			}).state('/system-integration-monitor/gec',{
-				url: '/system-integration-monitor/gec',
+			}).state('/monitoring/gec-system-integration',{
+				url: '/monitoring/gec-system-integration',
 				controller: 'GECSystemIntegrationMonitorController',
 				controllerAs: 'ctrl',
 				templateUrl: '/system-integration-monitor/gec',
@@ -483,8 +483,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						,'js/app/common/scf-component.js'
 						,'js/app/common/scf-component.css'
 					])
-			}).state('/transaction-tracking',{
-				url: '/transaction-tracking',
+			}).state('/monitoring/transaction-tracking',{
+				url: '/monitoring/transaction-tracking',
 				controller: 'TransactionTrackingController',
 				controllerAs: 'ctrl',
 				templateUrl: '/transaction-tracking',
