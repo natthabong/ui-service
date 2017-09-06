@@ -120,26 +120,26 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				   });
 				}],
 				resolve: load(['js/app/modules/upload-document/upload-document-service.js','js/app/modules/upload-document/upload-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/document-list/sponsor',{
-				url: '/document-list/sponsor',
+			}).state('/my-organize/ap-document-list',{
+				url: '/my-organize/ap-document-list',
 				controller: 'DocumentListController',
 				controllerAs: 'ctrl',
-				params: {party:'sponsor'},
-				templateUrl: '/document-list/sponsor',
+				params: {viewMode:'MY_ORGANIZE'},
+				templateUrl: '/ap-document-list/my-organize',
 				resolve: load(['js/app/modules/document-list/ap-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/document-list/supplier',{
-				url: '/document-list/supplier',
+			}).state('/partner-organize/ap-document-list',{
+				url: '/partner-organize/ap-document-list',
 				controller: 'DocumentListController',
 				controllerAs: 'ctrl',
-				params: {party:'supplier'},
-				templateUrl: '/document-list/supplier',
+				params: {viewMode:'PARTNER'},
+				templateUrl: '/ap-document-list/partner-organize',
 				resolve: load(['js/app/modules/document-list/ap-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/document-list/bank',{
-				url: '/document-list/bank',
+			}).state('/customer-organize/ap-document-list',{
+				url: '/customer-organize/ap-document-list',
 				controller: 'DocumentListController',
 				controllerAs: 'ctrl',
-				params: {party:'bank'},
-				templateUrl: '/document-list/bank',
+				params: {viewMode:'CUSTOMER'},
+				templateUrl: '/ap-document-list/customer-organize',
 				resolve: load(['js/app/modules/document-list/ap-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/my-organize/transaction-list', {
 				url: '/my-organize/transaction-list',

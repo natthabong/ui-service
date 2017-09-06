@@ -1,5 +1,5 @@
 <div id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('VIEW_ALL_DOCUMENTS','VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZE','VIEW_DOCUMENTS_OF_MY_ORGANIZE')">
+	sec:authorize="hasAnyAuthority('VIEW_ALL_AP_DOCUMENTS','VIEW_AP_DOCUMENTS_REFER_TO_MY_ORGANIZE','VIEW_AP_DOCUMENTS_OF_MY_ORGANIZE')">
 	<input type="hidden" ng-init="ctrl.deleteAuthority=true"
 		sec:authorize="hasAnyAuthority('DELETE_ALL_DOCUMENTS','DELETE_DOCUMENTS_OF_MY_ORGANIZE')" />
 	<div id="wrapper">

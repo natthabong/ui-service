@@ -26,11 +26,11 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		vm.defaultPageSize = '20';
 		vm.defaultPage = 0;
 
-		var currentParty = '';
-		var partyRole = {
-			sponsor : 'sponsor',
-			supplier : 'supplier',
-			bank : 'bank'
+		var viewMode = '';
+		var viewModeData = {
+			myOrganize : 'MY_ORGANIZE',
+			partner : 'PARTNER',
+			customer : 'CUSTOMER'
 		}
 
 		vm.documentStatusDrpodowns = DocumentListStatus;
@@ -81,7 +81,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		};
 		
 		vm.canDelete = function(data){
-		    return data.documentStatus == 'NEW' && !($stateParams.party == partyRole.supplier) && vm.deleteAuthority; 
+		    return data.documentStatus == 'NEW' && !($stateParams.viewMode == viewModeData.partner) && vm.deleteAuthority; 
 		}
 		
 		var columRowNo = {
@@ -140,7 +140,7 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 			displayConfig.promise.then(function(response) {
 
 				vm.dataTable.columns.push(columRowNo);
-				if(currentParty != partyRole.supplier){
+				if(viewMode != viewModeData.partner){
 					vm.dataTable.columns.push(columnSupplierName);
 				}
 				
@@ -185,18 +185,18 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		}
 
 		vm.initLoad = function() {
-			currentParty = $stateParams.party;
+			viewMode = $stateParams.viewMode;
 			
-			if (currentParty == partyRole.sponsor) {
+			if (viewMode == viewModeData.myOrganize) {
 				vm.sponsorTxtDisable = true;
 				initSponsorAutoSuggest();
 				sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
-			} else if (currentParty == partyRole.supplier) {
+			} else if (viewMode == viewModeData.partner) {
 				vm.supplierTxtDisable = true;
 				initSupplierAutoSuggest();
 				sponsorAutoSuggestServiceUrl = 'api/v1/buyers?supplierId='+organizeId;
 				checkSupplierTP(organizeId);
-			} else if (currentParty == partyRole.bank) {
+			} else if (viewMode == viewModeData.customer) {
 				sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
 			}
 		}
@@ -393,13 +393,13 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 
 		vm.disableSupplierSuggest = function() {
 			var isDisable = false;
-			if (currentParty == partyRole.bank) {
+			if (viewMode == viewModeData.customer) {
 				if (angular.isUndefined(vm.documentListModel.sponsor)) {
 					isDisable = true;
 				} else {
 					isDisable = false;
 				}
-			} else if (currentParty == partyRole.supplier) {
+			} else if (viewMode == viewModeData.partner) {
 				isDisable = true;
 			}
 			return isDisable;
@@ -441,12 +441,12 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 		};
 
 		$scope.$watch('ctrl.documentListModel.sponsor', function() {
-			if (currentParty != partyRole.sponsor && angular.isDefined(vm.documentListModel.sponsor) && angular.isObject(vm.documentListModel.sponsor)) {
+			if (viewMode != viewModeData.myOrganize && angular.isDefined(vm.documentListModel.sponsor) && angular.isObject(vm.documentListModel.sponsor)) {
 				vm.loadDocumentDisplayConfig(vm.documentListModel.sponsor.organizeId, accountingTransactionType, displayMode);
 				
 			}
 
-			if(currentParty != partyRole.supplier){
+			if(viewMode != viewModeData.partner){
 				vm.documentListModel.supplier = undefined;
 			}
 			
