@@ -16,9 +16,14 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     vm.serverTime = '';
     vm.splitePageTxt = '';
     vm.transactionType = {
-            transactionDate: 'transactionDate',
-            maturityDate: 'maturityDate'
+        transactionDate: 'transactionDate',
+        maturityDate: 'maturityDate'
     }
+
+	var hiddenSponsor = null;
+	var hiddenSponsorPic = null;
+	var hiddenSupplier = null;
+
         // Data Sponsor for select box
 	vm.verify = false;
 	vm.approve = false;
@@ -43,48 +48,31 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		transaction: null,
 		credential: ''
 	};
+
+	var viewMode = $stateParams.viewMode;
+
+    var mode = {
+		MY_ORGANIZE : 'MY_ORGANIZE',
+		PARTNER : 'PARTNER',
+		CUSTOMER : 'CUSTOMER'
+	}
+
+	var initialHidden = function(){
+		if (viewMode == mode.CUSTOMER) {
+			hiddenSponsor = true;
+			hiddenSponsorPic = false;
+			hiddenSupplier = false;
+		}else if(viewMode == mode.PARTNER){
+			hiddenSponsor = true;
+			hiddenSponsorPic = true;
+			hiddenSupplier = false;
+		}else if(viewMode == mode.MY_ORGANIZE){
+			hiddenSponsor = false;
+			hiddenSponsorPic = true;
+			hiddenSupplier = true;
+		}
+	}();
 	
-	var currentParty = '';
-    var partyRole = {
-		sponsor : 'sponsor',
-		supplier : 'supplier',
-		bank : 'bank'
-	}
-	var hiddenSponsor = function(){
-		var isHidden = false;
-		if (currentParty == partyRole.bank) {
-			isHidden = true;
-		}else if(currentParty == partyRole.sponsor){
-			isHidden = true;
-		}else if(currentParty == partyRole.supplier){
-			isHidden = false;
-		}
-		return isHidden;
-	}
-
-	var hiddenSponsorPic = function(){
-		var isHidden = false;
-		if (currentParty == partyRole.bank) {
-			isHidden = false;
-		}else if(currentParty == partyRole.sponsor){
-			isHidden = true;
-		}else if(currentParty == partyRole.supplier){
-			isHidden = true;
-		}
-		return isHidden;
-	}
-
-	var hiddenSupplier = function(){
-		var isHidden = false;
-		if (currentParty == partyRole.bank) {
-			isHidden = false;
-		}else if(currentParty == partyRole.sponsor){
-			isHidden = false;
-		}else if(currentParty == partyRole.supplier){
-			isHidden = true;
-		}
-		return isHidden;
-	}
     vm.documentListModel = {
 		sponsor : undefined,
 		supplier : undefined,
@@ -462,7 +450,9 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			dataRenderer: function(record){
 				return '<img style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+atob(record.sponsorLogo)+'"></img>';
 			},
-			hidden : hiddenSponsorPic
+			hidden : function(){
+				return hiddenSponsorPic
+			}
         },{
 			fieldName: 'sponsor',
             field: 'sponsor',
@@ -471,7 +461,9 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             id: 'transaction-{value}-sponsor-name-label',
             sortData: true,
             cssTemplate: 'text-center',
-			hidden : hiddenSponsor
+			hidden : function(){
+				return hiddenSponsor
+			}
         },{
 			fieldName: 'supplier',
             field: 'supplier',
@@ -480,7 +472,9 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             id: 'transaction-{value}-supplier-name-label',
             sortData: true,
             cssTemplate: 'text-center',
-			hidden : hiddenSupplier
+			hidden : function(){
+				return hiddenSupplier
+			}
         },{
 			fieldName: 'transactionDate',
             field: 'transactionDate',
@@ -666,12 +660,12 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			transactionType: 'DRAWDOWN'
 		});
 		
-		currentParty = $stateParams.party;
-		if (currentParty == partyRole.sponsor) {
+		// viewMode = $stateParams.party;
+		if (viewMode == mode.PARTNER) {
 			transactionModel.sponsorId = organizeId;
-		}else if (currentParty == partyRole.supplier) {
+		}else if (viewMode == mode.MY_ORGANIZE) {
 			transactionModel.supplierId = organizeId;
-		} else if (currentParty == partyRole.bank) {
+		} else if (viewMode == mode.CUSTOMER) {
 
 		}
 			
@@ -689,11 +683,12 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
 			vm.clearInternalStep();
 			// reset value of internal step
-			if (currentParty == partyRole.supplier || currentParty == partyRole.sponsor) {
+			if (viewMode == mode.MY_ORGANIZE || viewMode == mode.PARTNER) {
 				if (vm.listTransactionModel.statusGroup === 'INTERNAL_STEP' || vm.listTransactionModel.statusGroup === '') {
 					var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
 					internalStepDeffered.promise.then(function(response) {
-						var internalStemp = response.data;							
+						var internalStemp = response.data;
+						console.log(internalStemp);
 						if (internalStemp.length > 0) {
 							internalStemp.forEach(function(summary) {
 								if(vm.summaryInternalStep[summary.statusMessageKey]){
@@ -706,7 +701,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 						$log.error('Internal Error');
 					});
 				}
-			}else if (currentParty == partyRole.bank) {
+			}else if (viewMode == mode.CUSTOMER) {
 				var summaryStatusGroupDeffered = ListTransactionService.summaryStatusGroup(transactionModel);
 				summaryStatusGroupDeffered.promise.then(function(response) {
 					var summaryStatusGroup = response.data;
@@ -764,7 +759,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		var isShowBackButton = false;
 		
 		var params = { transactionModel: data,
-				party: currentParty,
+				party: viewMode,
 	            isShowViewHistoryButton: false,
 	            isShowBackButton: true,
 	            criteria:_criteria
@@ -810,17 +805,21 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			}
 		}
 
-        currentParty = $stateParams.party;
-        if (currentParty == partyRole.sponsor) {
+		vm.sponsorTxtDisable = false;
+		vm.supplierTxtDisable = false;
+
+        if (viewMode == mode.PARTNER) {
             vm.sponsorTxtDisable = true;
             initSponsorAutoSuggest();
             sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
-		} else if (currentParty == partyRole.supplier) {
+		} else if (viewMode == mode.MY_ORGANIZE) {
+			
             vm.supplierTxtDisable = true;
+			console.log(vm.supplierTxtDisable);
             initSupplierAutoSuggest();
             sponsorAutoSuggestServiceUrl ='api/v1/buyers?supplierId='+organizeId;
             checkSupplierTP(organizeId);
-		}else if (currentParty == partyRole.bank) {
+		}else if (viewMode == mode.CUSTOMER) {
 			sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
 		}
         
@@ -834,13 +833,13 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		$cookieStore.remove(listStoreKey);
     };
 
-	vm.disableSupplierSuggest = function() {
-		var isDisable = false;
-		if (currentParty == partyRole.supplier) {
-			isDisable = true;
-		}
-		return isDisable;
-	};
+	// vm.disableSupplierSuggest = function() {
+	// 	var isDisable = false;
+	// 	if (viewMode == mode.MY_ORGANIZE) {
+	// 		isDisable = true;
+	// 	}
+	// 	return isDisable;
+	// };
 
     var prepareAutoSuggestLabel = function(item) {
 		item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
@@ -889,7 +888,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	};
 
 	var placeholder;
-	if($stateParams.party == partyRole.bank){
+	if($stateParams.party == mode.CUSTOMER){
 		placeholder = 'Enter organize name or code';
 	}else{
 		placeholder = 'Please Enter organize name or code';
@@ -902,9 +901,9 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	});
 
 	var querySupplierCode = function(value) {
-		var currentParty = $stateParams.party;
+		var viewMode = $stateParams.party;
 		var buyerId;
-		if(currentParty == partyRole.bank){
+		if(viewMode == mode.CUSTOMER){
 			buyerId = null;
 		}else{
 			buyerId = vm.documentListModel.sponsor.organizeId;
