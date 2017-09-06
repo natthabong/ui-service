@@ -7,10 +7,11 @@
 					<h3>
 						<span ng-show="ctrl.isNewCusotmerCode"
 							id="customer-code-header-message-new-label"
-							class="animated fadeInLeft">{{'Add new supplier code' |
-							translate}}</span> <span ng-show="!ctrl.isNewCusotmerCode"
+							class="animated fadeInLeft">{{'Add new '+ctrl.headerMessage+' code' |
+							translate}}</span> 
+						<span ng-show="!ctrl.isNewCusotmerCode"
 							id="customer-code-header-message-edit-label"
-							class="animated fadeInLeft">{{'Edit supplier code' |
+							class="animated fadeInLeft">{{'Edit '+ctrl.headerMessage+' code' |
 							translate}}</span>
 					</h3>
 				</div>
@@ -24,7 +25,7 @@
 						<label for="customer-code-customer-textbox"
 							id="customer-code-customer-label"
 							class="col-md-2 col-sm-4 col-xs-12 control-label"><span
-							ng-bind="'Supplier' | translate"></span>:</label>
+							ng-bind="ctrl.initialLabel.customer | translate"></span>:</label>
 						<div class="col-md-6 col-sm-4 col-xs-12">
 							<gec-auto-suggest model="ctrl.customerAutoSuggest"
 								ng-model="ctrl.customerSuggestModel"
@@ -37,11 +38,11 @@
 						ng-show="ctrl.submitted && newEditCustCode.customer.$error.required">
 						<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
 						<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-							id="customer-code-customer-warning-message-label">{{'Supplier
-							is required' | translate}}.</span>
+							id="customer-code-customer-warning-message-label">
+							{{ctrl.initialLabel.customer+' is required' | translate}}.</span>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" ng-show="ctrl.isSetSupplierCode">
 						<label for="customer-code-supplier-textbox"
 							id="customer-code-supplier-code-label"
 							class="col-md-2 col-sm-4 col-xs-12 control-label"><span
@@ -53,12 +54,26 @@
 								maxlength="20" ng-required="true"></scf-input-text>
 						</div>
 					</div>
+
+					<div class="form-group" ng-hide="ctrl.isSetSupplierCode">
+						<label for="customer-code-buyer-textbox"
+							id="customer-code-buyer-code-label"
+							class="col-md-2 col-sm-4 col-xs-12 control-label"><span
+							ng-bind="'Buyer code' | translate"></span>:</label>
+						<div class="col-md-6 col-sm-4 col-xs-12">
+							<scf-input-text id="customer-code-buyer-code-textbox"
+								ng-model="ctrl.model.customerCode" name="buyer"
+								ng-disabled="!ctrl.isNewCusotmerCode"
+								maxlength="20" ng-required="true"></scf-input-text>
+						</div>
+					</div>
+
 					<div class="form-group"
 						ng-show="ctrl.submitted && newEditCustCode.supplier.$error.required">
 						<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
 						<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-							id="customer-code-supplier-code-warning-message-label">{{'Supplier
-							code is required' | translate}}.</span>
+							id="customer-code-{{ctrl.initialLabel.customer}}-code-warning-message-label">
+							{{ctrl.initialLabel.customer+' code is required' | translate}}.</span>
 					</div>
 
 					<div class="form-group">

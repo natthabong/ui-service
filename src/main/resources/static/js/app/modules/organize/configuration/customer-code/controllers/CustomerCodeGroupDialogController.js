@@ -8,11 +8,21 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 	vm.model = angular.copy($scope.ngDialogData.model);
 	vm.isNewCusotmerCode = $scope.ngDialogData.isNewCusotmerCode;
 	vm.isAddMoreCustomerCode = $scope.ngDialogData.isAddMoreCustomerCode;
+	vm.isSetSupplierCode = $scope.ngDialogData.accountingTransactionType == 'PAYABLE' ? true : false;
+	vm.headerMessage = vm.isSetSupplierCode ? "supplier" : "buyer";
 	vm.isUseExpireDate = false;
 	vm.isOpenActiveDate = false;
 	vm.isOpenExpiryDate = false;
 	vm.dateFormat = "dd/MM/yyyy";
 	vm.customerSuggestModel = '';
+
+	vm.initialLabel = vm.isSetSupplierCode ? {
+		customer : "Supplier",
+		customerCode : "Supplier code"
+	} : {
+		customer : "Buyer",
+		customerCode : "Buyer code"
+	};
 	
 	
 	vm.invalideExpiryDate = false;
@@ -78,9 +88,6 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 			});		
 			
 		}else{
-
-			// vm.model.activeDate =
-			// SCFCommonService.convertStringTodate(vm.model.activeDate);
 			if(vm.model.activeDate != null){
 				vm.model.activeDate = new Date(vm.model.activeDate);
 			}else{
@@ -88,17 +95,13 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 			}
 			
 			if(vm.model.expiryDate != null){
-				// vm.model.expiryDate =
-				// SCFCommonService.convertStringTodate(vm.model.expiryDate);
 		        vm.model.expiryDate = new Date(vm.model.expiryDate);
 				vm.isUseExpireDate = true;
 			}
 			
 			prepreSupplierDisplay();
 		}
-	}
-	
-	initialData();
+	}();
 	
 	vm.checkUseExpiryDate = function(){
 		if(vm.isUseExpireDate){

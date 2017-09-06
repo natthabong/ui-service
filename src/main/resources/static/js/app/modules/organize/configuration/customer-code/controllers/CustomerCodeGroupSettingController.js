@@ -143,7 +143,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		});
 	}
 	
-	
 	vm.deleteCustomerCode = function(customerCode){
 	    var preCloseCallback = function(confirm) {
 		vm.search(vm.criteria);
@@ -278,10 +277,10 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		if(vm.isNewCusotmerCode){
 			customerCode.groupId = groupId;
 			
-			var newCustCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/PAYABLE/customer-code-groups/'+groupId+'/customer-codes';
+			var newCustCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/'+accountingTransactionType+'/customer-code-groups/'+groupId+'/customer-codes';
 			saveCustomerDiferred = Service.requestURL(newCustCodeURL, customerCode);
 		}else{
-			var editCustCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/PAYABLE/customer-code-groups/'+groupId+'/customer-codes/'+ vm.oldCustomerCode;
+			var editCustCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/'+accountingTransactionType+'/customer-code-groups/'+groupId+'/customer-codes/'+ vm.oldCustomerCode;
 			saveCustomerDiferred = Service.doPut(editCustCodeURL, customerCode);
 		}
 		return saveCustomerDiferred;
@@ -373,7 +372,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 				sponsorId : vm.sponsorId,
 				model: model,
 				isNewCusotmerCode: vm.isNewCusotmerCode,
-				isAddMoreCustomerCode: vm.isAddMoreCustomerCode
+				isAddMoreCustomerCode: vm.isAddMoreCustomerCode,
+				accountingTransactionType : accountingTransactionType
 			},
 			preCloseCallback : function(value) {
 				if(angular.isDefined(value)){
