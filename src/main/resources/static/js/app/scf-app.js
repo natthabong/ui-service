@@ -347,13 +347,16 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/role/view',
 				params: {mode:'',data:''},
 				resolve: load(['js/app/modules/role/role-controller.js', 'js/app/modules/role/role-service.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/user',{
-				url: '/user',
+			}).state('/customer-registration/users',{
+				url: '/customer-registration/users',
 				controller: 'UserListController',
 				controllerAs: 'ctrl',
 				templateUrl: '/user',
 				params: {backAction: false , criteria:null},
-				resolve: load(['js/app/modules/user/user-list-controller.js', 'js/app/modules/user/user-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/user/user-list-controller.js',
+								'js/app/modules/user/user-service.js',
+								'js/app/common/scf-component.js',
+								'js/app/common/scf-component.css'])
 			}).state('/user/new',{
 				url: '/user/new',
 				controller: 'UserController',
