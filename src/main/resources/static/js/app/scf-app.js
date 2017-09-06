@@ -405,8 +405,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				params: {mode:'profileChange'},
 				templateUrl: '/change-password',
 				resolve: load(['js/app/modules/profile/change-password/password-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/supplier-code-list',{
-				url: '/supplier-code-list',
+			}).state('/my-organize/supplier-code-list',{
+				url: '/my-organize/supplier-code-list',
 				controller: 'CustomerCodeGroupSettingController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
