@@ -43,8 +43,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
                 url: '/home',
 				templateUrl: '/home',
 				redirectTo: '/dashboard'
-            }).state('/create-transaction', {
-				url: '/create-transaction',
+            }).state('/my-organize/create-transaction', {
+				url: '/my-organize/create-transaction',
 				controller: 'CreateLoanController',
 				onEnter: ['TransactionService','$state', function(TransactionService,$state){
 					var deffered = TransactionService.verifyTradingPartner();
@@ -560,8 +560,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/trade-finance/edit',
 				params: { mode: 'EDIT', params:'',data:''},
 				resolve: load(['js/app/modules/trading-partner/financing/controllers/TradeFinanceController.js', 'js/app/modules/account/controllers/AccountController.js', 'js/app/modules/account/services/AccountService.js', 'js/app/modules/trading-partner/financing/services/TradeFinanceService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/create-payment', {
-				url: '/create-payment',
+			}).state('/my-organize/create-payment', {
+				url: '/my-organize/create-payment',
 				controller: 'CreatePaymentController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment/create',
@@ -602,8 +602,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/payment-transaction/approve',
 				params: {transaction: null},
 				resolve: load(['js/app/modules/transaction/payment/services/ApprovePaymentService.js','js/app/modules/transaction/payment/controllers/ApprovePaymentController.js'])
-			}).state('/download-payment-result/supplier',{
-				url: '/download-payment-result/supplier',
+			}).state('/partner-organize/download-payment-advices',{
+				url: '/partner-organize/download-payment-advices',
 				controller: 'DownloadPaymentResultController',
 				controllerAs: 'ctrl',
 				templateUrl: '/download-payment-result/supplier',
