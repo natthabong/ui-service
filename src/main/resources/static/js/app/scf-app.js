@@ -294,7 +294,12 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'CustomerCodeGroupSettingController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
-				params: { selectedItem: null, mode: 'all'}
+				params: { selectedItem: null, mode: 'all'},
+				resolve: load(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
+								'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
+								'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
+								'js/app/common/scf-component.js',
+								'js/app/common/scf-component.css'])
 			}).state('/sponsor-configuration/organize-logo/settings',{
 				url: '/sponsor-configuration/organize-logo/settings',
 				controller: 'OrganizeLogoSettingController',
@@ -407,11 +412,11 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				resolve: load(['js/app/modules/profile/change-password/password-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/supplier-code-list',{
 				url: '/supplier-code-list',
-				controller: 'CustomerCodeGroupController',
+				controller: 'CustomerCodeGroupSettingController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
 				params: { selectedItem: null, mode: 'personal'},
-				resolve: load(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupController.js',
+				resolve: load(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
 								'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
 								'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
 								'js/app/common/scf-component.js',
