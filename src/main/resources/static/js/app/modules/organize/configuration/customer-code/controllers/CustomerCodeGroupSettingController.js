@@ -250,7 +250,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	
 	if(currentMode == mode.PERSONAL){
 		vm.personalMode = true;
-		var serviceUrl = '/api/v1/organize-customers/' + organizeId + '/accounting-transactions/PAYABLE/customer-code-groups';
+		var serviceUrl = '/api/v1/organize-customers/' + organizeId + '/accounting-transactions/'+accountingTransactionType+'/customer-code-groups';
 		var serviceDiferred = Service.doGet(serviceUrl, {
 			limit : 1,
 			offset : 0
