@@ -15,14 +15,15 @@ public class SponsorConfigController {
 	private static String PROFILE = "sponsor-configuration/profile";
 	private static String WORKFLOW = "sponsor-configuration/workflow/workflow";
 	private static String SETUP_WORKFLOW = "sponsor-configuration/workflow/setup";
-	
+
 	private static String AP_IMPORT_CHANNEL = "sponsor-configuration/ap-document-config/channel-configs";
 	private static String AP_FILE_LAYOUTS = "sponsor-configuration/ap-document-config/file-layouts";
-	
+
 	private static String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
 
 	private static String AP_CUSTOMER_CODE_GROUPS = "sponsor-configuration/ap-document-config/customer-code-groups";
-	private static String SETTINGS_CUSTOMER_CODE_GROUPS = "sponsor-configuration/customer-code-groups/settings";
+	private static String SETTINGS_SUPPLIER_CODE_GROUPS = "sponsor-configuration/customer-code-groups/supplier-code-list/settings";
+	private static String SETTINGS_BUYER_CODE_GROUPS = "sponsor-configuration/customer-code-groups/buyer-code-list/settings";
 
 	private static String AP_DOCUMENT_DISPLAY_CONFIGS = "sponsor-configuration/ap-document-config/document-display-configs";
 	private static String AP_CREATE_TRANSACTION_DISPLAY_CONFIGS = "sponsor-configuration/ap-document-config/transaction-display-configs";
@@ -33,15 +34,14 @@ public class SponsorConfigController {
 
 	private static String AP_MAPPING_DATA = "sponsor-configuration/ap-document-config/mapping-data";
 	private static String AR_MAPPING_DATA = "sponsor-configuration/ar-document-config/mapping-data";
-	
-	
+
 	private static String SETTINGS_ORGANIZE_LOGO = "sponsor-configuration/organize-logo/settings";
 
 	private static String SETTINGS_IMPORT_CHANNEL = "sponsor-configuration/import-channels/settings";
 	private static String SETTINGS_IMPORT_CHANNEL_FTP = "sponsor-configuration/import-channels/ftp-settings";
 
 	private static String EDIT_MAPPING_DATA = "sponsor-configuration/edit-mapping-data";
-	
+
 	private static String MAPPING_DATA_CODE = "sponsor-configuration/mapping-data-code/mapping-data-code";
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -92,12 +92,20 @@ public class SponsorConfigController {
 		return AP_CUSTOMER_CODE_GROUPS;
 	}
 
-	@RequestMapping(path = "/customer-code-groups/settings", method = RequestMethod.GET)
-	public String customerCodeGroupsConfig(@RequestHeader("X-Requested-With") String requestedWith) {
+	@RequestMapping(path = "/customer-code-groups/supplier-code-list/settings", method = RequestMethod.GET)
+	public String supplierCodeGroupsConfig(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return SETTINGS_CUSTOMER_CODE_GROUPS.concat(" :: content");
+			return SETTINGS_SUPPLIER_CODE_GROUPS.concat(" :: content");
 		}
-		return SETTINGS_CUSTOMER_CODE_GROUPS;
+		return SETTINGS_SUPPLIER_CODE_GROUPS;
+	}
+
+	@RequestMapping(path = "/customer-code-groups/buyer-code-list/settings", method = RequestMethod.GET)
+	public String buyerCodeGroupsConfig(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETTINGS_BUYER_CODE_GROUPS.concat(" :: content");
+		}
+		return SETTINGS_BUYER_CODE_GROUPS;
 	}
 
 	@RequestMapping(path = "/display-document-configs", method = RequestMethod.GET)
@@ -107,7 +115,7 @@ public class SponsorConfigController {
 		}
 		return AP_DOCUMENT_DISPLAY_CONFIGS;
 	}
-	
+
 	@RequestMapping(path = "/transaction-document-configs", method = RequestMethod.GET)
 	public String transactionDisplayConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
@@ -157,7 +165,7 @@ public class SponsorConfigController {
 		return EDIT_MAPPING_DATA;
 
 	}
-	
+
 	@RequestMapping(path = "/mapping-data/code/new", method = RequestMethod.GET)
 	public String newMappingDataCode(@RequestHeader("X-Requested-With") String requestedWith) {
 
@@ -167,7 +175,7 @@ public class SponsorConfigController {
 		return MAPPING_DATA_CODE;
 
 	}
-	
+
 	@RequestMapping(path = "/ar-mapping-data", method = RequestMethod.GET)
 	public String arMappingData(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
@@ -175,7 +183,7 @@ public class SponsorConfigController {
 		}
 		return AR_MAPPING_DATA;
 	}
-	
+
 	@RequestMapping(path = "/organize-logo/settings", method = RequestMethod.GET)
 	public String settingOrganizeLogo(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {

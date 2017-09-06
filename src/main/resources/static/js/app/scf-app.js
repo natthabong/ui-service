@@ -289,12 +289,23 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/payment-date-formulas/settings',
 				params: { paymentDateFormulaModel: null},
 				resolve: load(['js/app/sponsor-configuration/payment-date-formulas/payment-date-formula-setting-controller.js','js/app/sponsor-configuration/payment-date-formulas/payment-date-formula-setting-service.js', 'js/app/sponsor-configuration/credit-terms/credit-terms-setting-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/sponsor-configuration/customer-code-groups/settings',{
-				url: '/sponsor-configuration/customer-code-groups/settings',
+			}).state('/sponsor-configuration/customer-code-groups/supplier-code-list/settings',{
+				url: '/sponsor-configuration/customer-code-groups/supplier-code-list/settings',
 				controller: 'CustomerCodeGroupSettingController',
 				controllerAs: 'ctrl',
-				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
-				params: { selectedItem: null, mode: 'all'},
+				templateUrl: '/sponsor-configuration/customer-code-groups/supplier-code-list/settings',
+				params: { selectedItem: null, mode: 'all', accountingTransactionType: 'PAYABLE'},
+				resolve: load(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
+								'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
+								'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
+								'js/app/common/scf-component.js',
+								'js/app/common/scf-component.css'])
+			}).state('/sponsor-configuration/customer-code-groups/buyer-code-list/settings',{
+				url: '/sponsor-configuration/customer-code-groups/buyer-code-list/settings',
+				controller: 'CustomerCodeGroupSettingController',
+				controllerAs: 'ctrl',
+				templateUrl: '/sponsor-configuration/customer-code-groups/buyer-code-list/settings',
+				params: { selectedItem: null, mode: 'all', accountingTransactionType: 'RECEIVABLE'},
 				resolve: load(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
 								'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
 								'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',

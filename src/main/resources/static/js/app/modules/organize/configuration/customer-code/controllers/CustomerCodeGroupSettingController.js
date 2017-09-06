@@ -14,7 +14,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			PERSONAL: 'personal'
 	}
 	var currentMode = $stateParams.mode;
-	console.log(currentMode);
+	var accountingTransactionType = $stateParams.accountingTransactionType;
+	console.log(accountingTransactionType);
 	var organizeId = $rootScope.userInfo.organizeId;
 	var groupId = null;
 	vm.criteria = {};

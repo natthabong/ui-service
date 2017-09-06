@@ -15,7 +15,7 @@ scfApp.controller(
 			PageNavigation, Service, ngDialog) {
 			var vm = this;
 			var log = $log;
-
+			
 			vm.manageAllConfig=false;
 			vm.manageMyOrgConfig=false;
 			
@@ -86,11 +86,17 @@ scfApp.controller(
 				});
 			};
 
-			vm.config = function(customerCodeGroup) {
+			vm.config = function(customerCodeGroup, accountingTransactionType) {
 				var params = {
 					selectedItem : customerCodeGroup
 				};
-				PageNavigation.gotoPage('/sponsor-configuration/customer-code-groups/settings', params)
+				
+				if(accountingTransactionType == 'PAYABLE'){
+					PageNavigation.gotoPage('/sponsor-configuration/customer-code-groups/supplier-code-list/settings', params)
+				}else if(accountingTransactionType == 'RECEIVABLE'){
+					PageNavigation.gotoPage('/sponsor-configuration/customer-code-groups/buyer-code-list/settings', params)
+				}
+				
 			}
 
 			vm.initLoad = function() {
