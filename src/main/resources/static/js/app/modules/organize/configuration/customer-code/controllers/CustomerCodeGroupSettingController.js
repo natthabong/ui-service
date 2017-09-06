@@ -108,7 +108,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	
 	var deleteCustomerCode = function(customerCode){
 	    
-		var serviceUrl = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/PAYABLE/customer-code-groups/'+groupId+'/customers/'+customerCode.organizeId+'/customer-codes/' + customerCode.customerCode;
+		var serviceUrl = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/'+accountingTransactionType+'/customer-code-groups/'+groupId+'/customers/'+customerCode.organizeId+'/customer-codes/' + customerCode.customerCode;
 		var deferred = $q.defer();
 		$http({
 			method : 'POST',
