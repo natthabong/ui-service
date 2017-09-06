@@ -47,7 +47,8 @@ scfApp.controller(
 				return atob(data);
 			}
 
-			vm.data = []
+			vm.buyerdata = [];
+			vm.supplierdata = [];
 
 			vm.search = function() {
 				var serviceUrl = '/api/v1/organize-customers/' + $scope.sponsorId + '/accounting-transactions/PAYABLE/customer-code-groups';
@@ -57,7 +58,22 @@ scfApp.controller(
 				});
 
 				serviceDiferred.promise.then(function(response) {
-					vm.data = response.data[0];
+					vm.supplierdata = response.data[0];
+					vm.pageModel.totalRecord = response.headers('X-Total-Count');
+					vm.pageModel.totalPage = response.headers('X-Total-Page');
+					vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.page, vm.pageModel.totalRecord);
+				}).catch(function(response) {
+					log.error('Load customer code group data error');
+				});
+				
+				serviceUrl = '/api/v1/organize-customers/' + $scope.sponsorId + '/accounting-transactions/RECEIVABLE/customer-code-groups';
+				serviceDiferred = Service.doGet(serviceUrl, {
+					limit : vm.pageModel.pageSizeSelectModel,
+					offset : vm.pageModel.currentPage
+				});
+
+				serviceDiferred.promise.then(function(response) {
+					vm.buyerdata = response.data[0];
 					vm.pageModel.totalRecord = response.headers('X-Total-Count');
 					vm.pageModel.totalPage = response.headers('X-Total-Page');
 					vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.page, vm.pageModel.totalRecord);
