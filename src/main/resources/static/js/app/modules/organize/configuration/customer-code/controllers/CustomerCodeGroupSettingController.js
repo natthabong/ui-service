@@ -15,6 +15,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	}
 	var currentMode = $stateParams.mode;
 	var accountingTransactionType = $stateParams.accountingTransactionType;
+	var isSetSupplierCode = accountingTransactionType == 'PAYABLE' ? true : false;
+	console.log(isSetSupplierCode);
 	var organizeId = $rootScope.userInfo.organizeId;
 	var groupId = null;
 	vm.criteria = {};
@@ -145,7 +147,12 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	
 	vm.deleteCustomerCode = function(customerCode){
 	    var preCloseCallback = function(confirm) {
-		vm.search(vm.criteria);
+	    	vm.search(vm.criteria);
+	    }
+	    
+	    var customerCodeType = "Supplier code";
+	    if(!isSetSupplierCode){
+	    	customerCodeType = "Buyer code";
 	    }
 	    
 	    UIFactory.showConfirmDialog({
@@ -156,10 +163,10 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		    return deleteCustomerCode(customerCode);
 		},
 		onFail: function(response){
-		    var msg = {404:'Supplier code has been deleted.', 405:'Supplier code has been used.', 409:'Supplier code has been modified.'};
+		    var msg = {404: customerCodeType+' has been deleted.', 405: customerCodeType+' has been used.', 409: customerCodeType+' has been modified.'};
 		    UIFactory.showFailDialog({
 			data: {
-			    headerMessage: 'Delete supplier code fail.',
+			    headerMessage: 'Delete '+customerCodeType.toLowerCase()+' fail.',
 			    bodyMessage: msg[response.status]?msg[response.status]:response.statusText
 			},
 			preCloseCallback: preCloseCallback
@@ -168,7 +175,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		onSuccess: function(response){
 		    UIFactory.showSuccessDialog({
 			data: {
-			    headerMessage: 'Delete supplier code success.',
+			    headerMessage: 'Delete '+customerCodeType.toLowerCase()+' success.',
 			    bodyMessage: ''
 			},
 			preCloseCallback: preCloseCallback
