@@ -435,21 +435,27 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				params: {viewMode:'MY_ORGANIZE',criteria: null, backAction:false},
 				templateUrl: '/document-upload-log',
-				resolve: load(['js/app/modules/document-upload-log/document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/document-upload-log/controllers/DocumentUploadLogController.js',
+								'js/app/modules/document-upload-log/Services/DocumentUploadLogService.js',
+								'js/app/common/scf-component.js',
+								'js/app/common/scf-component.css'])
 			}).state('/customer-organize/upload-document-logs',{
 				url: '/customer-organize/upload-document-logs',
 				controller: 'DocumentUploadLogController',
 				controllerAs: 'ctrl',
 				params: {viewMode:'CUSTOMER',criteria: null, backAction:false},
 				templateUrl: '/document-upload-log/sponsor',
-				resolve: load(['js/app/modules/document-upload-log/document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/document-upload-log/controllers/DocumentUploadLogController.js',
+								'js/app/modules/document-upload-log/Services/DocumentUploadLogService.js',
+								'js/app/common/scf-component.js', 
+								'js/app/common/scf-component.css'])
 			}).state('/document-upload-log/view-log',{
 				url: '/document-upload-log/view-log',
 				controller: 'ViewDocumentUplaodLogController',
 				controllerAs: 'ctrl',
 				templateUrl: '/document-upload-log/view-log',
 				params: { documentUploadLogModel: null, roleType: null},
-				resolve: load(['js/app/modules/document-upload-log/view-document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/document-upload-log/controllers/ViewDocumentUplaodLogController.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/monitoring/bank-system-integration',{
 				url: '/monitoring/bank-system-integration',
 				controller: 'BankSystemIntegrationMonitorController',
