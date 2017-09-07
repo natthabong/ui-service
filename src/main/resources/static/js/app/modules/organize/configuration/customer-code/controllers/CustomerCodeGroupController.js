@@ -82,25 +82,25 @@ scfApp.controller(
 				});
 			}
 
-			vm.addNew = function() {
-				vm.newCustCodeDialog = ngDialog.open({
-					id : 'new-customer-code-setting-dialog',
-					template : '/js/app/modules/sponsor-config/customer-code-groups/dialog-new-customer-code-group.html',
-					className : 'ngdialog-theme-default',
-					scope : $scope,
-					controller : 'CustomerCodeGroupDiaglogController',
-					controllerAs : 'ctrl',
-					data : {
-						sponsorId : $scope.sponsorId
-					},
-					preCloseCallback : function(value) {
-						if (value != null) {
-							vm.search();
-						}
-						return true;
-					}
-				});
-			};
+//			vm.addNew = function() {
+//				vm.newCustCodeDialog = ngDialog.open({
+//					id : 'new-customer-code-setting-dialog',
+//					template : '/js/app/modules/sponsor-config/customer-code-groups/dialog-new-customer-code-group.html',
+//					className : 'ngdialog-theme-default',
+//					scope : $scope,
+//					controller : 'CustomerCodeGroupDiaglogController',
+//					controllerAs : 'ctrl',
+//					data : {
+//						sponsorId : $scope.sponsorId
+//					},
+//					preCloseCallback : function(value) {
+//						if (value != null) {
+//							vm.search();
+//						}
+//						return true;
+//					}
+//				});
+//			};
 
 			vm.config = function(customerCodeGroup, accountingTransactionType) {
 				var params = {

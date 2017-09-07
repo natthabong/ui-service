@@ -28,8 +28,13 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		PageNavigation.gotoPreviousPage();
 	}
 
+	var customerCodeName = "Supplier";
+    if(!isSetSupplierCode){
+    	customerCodeName = "Buyer";
+    }
+    
 	vm.dataTable = {
-			identityField:'customerCode',
+		identityField:'customerCode',
 		columns : [
 			{
 				fieldName : '$rowNo',
@@ -42,8 +47,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			},
 			{
 				fieldName : 'customerName',
-				labelEN : 'Supplier',
-				labelTH : 'Supplier',
+				labelEN : customerCodeName,
+				labelTH : customerCodeName,
 				sortable : false,
 				id : 'customer-{value}',
 				filterType : 'translate',
@@ -51,8 +56,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			},
 			{
 				fieldName : 'customerCode',
-				labelEN : 'Supplier code',
-				labelTH : 'Supplier code',
+				labelEN : customerCodeName+' code',
+				labelTH : customerCodeName+' code',
 				sortable : false,
 				id : 'customer-code-{value}',
 				filterType : 'translate',
@@ -111,7 +116,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	
 	var deleteCustomerCode = function(customerCode){
 	    
-		var serviceUrl = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/'+accountingTransactionType+'/customer-code-groups/'+groupId+'/customers/'+customerCode.organizeId+'/customer-codes/' + customerCode.customerCode;
+		var serviceUrl = '/api/v1/organize-customers/'+ ownerId +'/accounting-transactions/'+accountingTransactionType+'/customers/'+customerCode.organizeId+'/customer-codes/' + customerCode.customerCode;
 		var deferred = $q.defer();
 		$http({
 			method : 'POST',
@@ -151,11 +156,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	    	vm.search(vm.criteria);
 	    }
 	    
-	    var customerCodeType = "Supplier code";
-	    if(!isSetSupplierCode){
-	    	customerCodeType = "Buyer code";
-	    }
-	    
 	    UIFactory.showConfirmDialog({
 		data: { 
 		    headerMessage: 'Confirm delete?'
@@ -164,10 +164,10 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		    return deleteCustomerCode(customerCode);
 		},
 		onFail: function(response){
-		    var msg = {404: customerCodeType+' has been deleted.', 405: customerCodeType+' has been used.', 409: customerCodeType+' has been modified.'};
+		    var msg = {404: customerCodeName+' code has been deleted.', 405: customerCodeName+' code has been used.', 409: customerCodeName+' code has been modified.'};
 		    UIFactory.showFailDialog({
 			data: {
-			    headerMessage: 'Delete '+customerCodeType.toLowerCase()+' fail.',
+			    headerMessage: 'Delete '+customerCodeName.toLowerCase()+' code fail.',
 			    bodyMessage: msg[response.status]?msg[response.status]:response.statusText
 			},
 			preCloseCallback: preCloseCallback
@@ -176,7 +176,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		onSuccess: function(response){
 		    UIFactory.showSuccessDialog({
 			data: {
-			    headerMessage: 'Delete '+customerCodeType.toLowerCase()+' success.',
+			    headerMessage: 'Delete '+customerCodeName.toLowerCase()+' code success.',
 			    bodyMessage: ''
 			},
 			preCloseCallback: preCloseCallback
@@ -198,7 +198,11 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		vm.searchCriteria.customerCode = vm.criteria.customerCode || '';
 		
 		if(angular.isDefined(vm.criteria.customer)){
-			vm.searchCriteria.organizeId = vm.criteria.customer.supplierId;
+			if(accountingTransactionType=="PAYABLE"){
+				vm.searchCriteria.organizeId = vm.criteria.customer.supplierId;
+			}else{
+				vm.searchCriteria.organizeId = vm.criteria.customer.sponsorId;
+			}
 		}else{
 			vm.searchCriteria.organizeId = '';
 		}
@@ -219,19 +223,28 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	
 	var queryCustomerCode = function(value){
 
-		var serviceUrl = 'api/v1/organize-customers/' + vm.sponsorId + '/trading-partners'
+		var serviceUrl = 'api/v1/organize-customers/' + ownerId + '/trading-partners'
 		return $http.get(serviceUrl, {
 			params: {
 				q : value,
 				offset: 0,
-				limit: 5
+				limit: 5,
+				accountingTransactionType: accountingTransactionType
 			}
 		}).then(function(response){
-			return response.data.map(function(item) {	
-				item.identity = ['customer-',item.supplierId,'-option'].join('');
-				item.label = [item.supplierId, ': ',item.supplierName].join('');
-				return item;
-			});
+			if(accountingTransactionType=="PAYABLE"){
+				return response.data.map(function(item) {	
+					item.identity = ['customer-',item.supplierId,'-option'].join('');
+					item.label = [item.supplierId, ': ',item.supplierName].join('');
+					return item;
+				});
+			}else{
+				return response.data.map(function(item) {	
+					item.identity = ['customer-',item.sponsorId,'-option'].join('');
+					item.label = [item.sponsorId, ': ',item.sponsorName].join('');
+					return item;
+				});
+			}
 		});
 	}
 	
@@ -284,12 +297,12 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		
 		var saveCustomerDiferred = '';
 		if(vm.isNewCusotmerCode){
-			customerCode.groupId = groupId;
+//			customerCode.groupId = groupId;
 			
-			var newCustCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/'+accountingTransactionType+'/customer-code-groups/'+groupId+'/customer-codes';
+			var newCustCodeURL = '/api/v1/organize-customers/'+ ownerId +'/accounting-transactions/'+accountingTransactionType+'/customer-codes';
 			saveCustomerDiferred = Service.requestURL(newCustCodeURL, customerCode);
 		}else{
-			var editCustCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/'+accountingTransactionType+'/customer-code-groups/'+groupId+'/customer-codes/'+ vm.oldCustomerCode;
+			var editCustCodeURL = '/api/v1/organize-customers/'+ ownerId +'/accounting-transactions/'+accountingTransactionType+'/customer-codes/'+ vm.oldCustomerCode;
 			saveCustomerDiferred = Service.doPut(editCustCodeURL, customerCode);
 		}
 		return saveCustomerDiferred;
@@ -330,10 +343,11 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			    return saveCustomerCode(customerCode);
 			},
 			onFail: function(response){
-				var msg = {400:'Customer is not trading partner with this sponsor.', 404:'Supplier code has been deleted.', 405:'Supplier code has been used.', 409:'Supplier code has been modified.'};
+				console.log(response.status);
+				var msg = {400:'Customer is not trading partner with this sponsor.', 404: customerCodeName+' code has been deleted.', 405: customerCodeName+' code has been used.', 409: customerCodeName+' code has been modified.'};
 			    dialogFail = UIFactory.showFailDialog({
 				data: {
-				    headerMessage: vm.isNewCusotmerCode?'Add new supplier code fail.':'Edit supplier code fail.',
+				    headerMessage: vm.isNewCusotmerCode?'Add new '+customerCodeName.toLowerCase()+' code fail.':'Edit '+customerCodeName.toLowerCase()+' code fail.',
 				    bodyMessage: msg[response.status]?msg[response.status]:response.message
 				},
 				preCloseCallback: function(){
@@ -342,10 +356,10 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			    });
 			},
 			onSuccess: function(response){
-			    	closeCustomerCodeSetup();
+			    closeCustomerCodeSetup();
 				dialogSuccess = UIFactory.showSuccessDialog({
 				data: {
-				    headerMessage: vm.isNewCusotmerCode == true?'Add new supplier code success.':'Edit supplier code complete.',
+				    headerMessage: vm.isNewCusotmerCode == true?'Add new '+customerCodeName.toLowerCase()+' code success.':'Edit '+customerCodeName.toLowerCase()+' code complete.',
 				    bodyMessage: ''
 				},
 				preCloseCallback: function(){
@@ -361,7 +375,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	};
 	
 	vm.customerCodeSetup = function(model){
-	    
 		vm.isNewCusotmerCode = angular.isUndefined(model);
 		if(!vm.isNewCusotmerCode){
 			vm.isNewCusotmerCode = angular.isUndefined(model.customerCode);
@@ -378,7 +391,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			controller : 'CustomerCodeDiaglogController',
 			controllerAs : 'ctrl',
 			data : {
-				sponsorId : vm.sponsorId,
+				sponsorId : ownerId,
 				model: model,
 				isNewCusotmerCode: vm.isNewCusotmerCode,
 				isAddMoreCustomerCode: vm.isAddMoreCustomerCode,

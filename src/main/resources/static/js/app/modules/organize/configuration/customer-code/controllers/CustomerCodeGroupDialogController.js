@@ -68,29 +68,37 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 		return differed;
 	}
 	
-	var prepreSupplierDisplay= function(){
+	var prepreOrganizeDisplay= function(){
+		console.log(vm.model);
 		var customerCodeQuery = queryCustomerCode(vm.model.organizeId);
 		customerCodeQuery.then(function(values){
 			values.forEach(function(value){
-				if(value.supplierId == vm.model.organizeId){
-					vm.customerSuggestModel = value;
+				if(accountingTransactionType=="PAYABLE"){
+					if(value.supplierId == vm.model.organizeId){
+						vm.customerSuggestModel = value;
+					}
+				}else{
+					if(value.sponsorId == vm.model.organizeId){
+						console.log(value.sponsorId);
+						vm.customerSuggestModel = value;
+					}
 				}
 			});			
 		});
 	}
 		
 	var initialData = function(){
-		var supplierIdInitial = null;
+		var organizeIdInitial = null;
 		if(vm.isNewCusotmerCode){
 			if(vm.isAddMoreCustomerCode){
-				supplierIdInitial = vm.model.organizeId;
-				prepreSupplierDisplay();
+				organizeIdInitial = vm.model.supplierId;
+				prepreOrganizeDisplay();
 			}
 			
 			vm.model = {
 				activeDate: new Date(),
 				suspend: false,
-				organizeId: supplierIdInitial
+				organizeId: organizeIdInitial
 			}
 			
 			var currentDate = getCurrentDate();
@@ -110,7 +118,7 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 				vm.isUseExpireDate = true;
 			}
 			
-			prepreSupplierDisplay();
+			prepreOrganizeDisplay();
 		}
 	}();
 	
@@ -134,7 +142,11 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 		vm.invalideExpiryDate = false;
 		
 		if(angular.isDefined(vm.customerSuggestModel)){
-			vm.model.organizeId = vm.customerSuggestModel.supplierId;
+			if(accountingTransactionType=="PAYABLE"){
+				vm.model.organizeId = vm.customerSuggestModel.supplierId;
+			}else{
+				vm.model.organizeId = vm.customerSuggestModel.sponsorId;
+			}
 		}
 		
 		if($scope.newEditCustCode.customer.$error.required){
