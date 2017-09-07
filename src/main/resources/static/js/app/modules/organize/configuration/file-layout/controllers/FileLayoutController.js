@@ -112,17 +112,17 @@ module.controller('FileLayoutController', [
 				deffered.promise.then(function(response) {
 					vm.dataTypes = response.data;
 					vm.dataTypes.forEach(function(obj) {
-						vm.dataTypeByIds[obj.layoutFileDataTypeId] = obj;
+						vm.dataTypeByIds[obj.documentFieldId] = obj;
 						if(!vm.dataTypeByGroupsDropdown[obj.dataType]){
 							vm.dataTypeByGroupsDropdown[obj.dataType] = [];
 						}
 						
 						
 						if(obj.dataType == 'DATE_TIME'){
-							dateTimeFieldIds.push(obj.layoutFileDataTypeId);
+							dateTimeFieldIds.push(obj.documentFieldId);
 						}
 						var item = {
-							value : obj.layoutFileDataTypeId,
+							value : obj.documentFieldId,
 							label : obj.displayFieldName
 						}
 						vm.dataTypeDropdown.push(item);
@@ -141,7 +141,7 @@ module.controller('FileLayoutController', [
 					vm.dataTypeHeaders = response.data;
 					vm.dataTypeHeaders.forEach(function(obj) {
 						var item = {
-							value : obj.layoutFileDataTypeId,
+							value : obj.documentFieldId,
 							label : obj.displayFieldName
 						}
 						vm.dataTypeHeaderDropdown.push(item);
@@ -158,7 +158,7 @@ module.controller('FileLayoutController', [
 					vm.dataTypeFooters = response.data;
 					vm.dataTypeFooters.forEach(function(obj) {
 						var item = {
-							value : obj.layoutFileDataTypeId,
+							value : obj.documentFieldId,
 							label : obj.displayFieldName
 						}
 						vm.dataTypeFooterDropdown.push(item);
@@ -238,7 +238,7 @@ module.controller('FileLayoutController', [
 				} ];
 				if (!isEmptyValue(configItems)) {
 					configItems.forEach(function(data) {
-						if (dateTimeFieldIds.indexOf(data.layoutFileDataTypeId) != -1 && !isEmptyValue(data.displayValue) && !data.isTransient) {
+						if (dateTimeFieldIds.indexOf(data.documentFieldId) != -1 && !isEmptyValue(data.displayValue) && !data.isTransient) {
 							paymentDateDropdown.push({
 								label : data.displayValue,
 								value : data.docFieldName
@@ -253,10 +253,10 @@ module.controller('FileLayoutController', [
 			//check not customer code
 			vm.checkDisable = function(record){
 				var disable = false;
-				if(angular.isUndefined(record.layoutFileDataTypeId) || isNaN(record.layoutFileDataTypeId)){
+				if(angular.isUndefined(record.documentFieldId) || isNaN(record.documentFieldId)){
 					disable = true;
 				}else{
-					var layoutFileDataTypeId = record.layoutFileDataTypeId;
+					var documentFieldId = record.documentFieldId;
 					var recordType = record.recordType;
 					
 					var dataTypeDropdowns = vm.dataTypes;
@@ -266,7 +266,7 @@ module.controller('FileLayoutController', [
 						dataTypeDropdowns = vm.dataTypeFooters;
 					}
 					dataTypeDropdowns.forEach(function(obj){
-						if (layoutFileDataTypeId == obj.layoutFileDataTypeId) {
+						if (documentFieldId == obj.documentFieldId) {
 							if(obj.configActionUrl == null){
 								disable = true;
 							}
@@ -467,7 +467,7 @@ module.controller('FileLayoutController', [
 			
 
 			vm.openSetting = function(index, record) {
-				var layoutFileDataTypeId = record.layoutFileDataTypeId;
+				var documentFieldId = record.documentFieldId;
 				var recordType = record.recordType;
 				
 				var dataTypeDropdowns = vm.dataTypes;
@@ -478,7 +478,7 @@ module.controller('FileLayoutController', [
 				}
 				
 				dataTypeDropdowns.forEach(function(obj) {
-					if (layoutFileDataTypeId == obj.layoutFileDataTypeId) {
+					if (documentFieldId == obj.documentFieldId) {
 						var dataType = obj.dataType;
 						var dialog = ngDialog.open({
 							id : 'layout-setting-dialog-' + index,
@@ -689,7 +689,7 @@ module.controller('FileLayoutController', [
 					addFooterModel(sponsorLayout, vm.footerItems);
 		
 					sponsorLayout.items.forEach(function(obj, index) {
-						var dataType = vm.dataTypeByIds[obj.layoutFileDataTypeId];
+						var dataType = vm.dataTypeByIds[obj.documentFieldId];
 						obj.docFieldName = dataType.docFieldName;
 						obj.dataType = dataType.dataType;
 						obj.transient = dataType.transient;
@@ -792,7 +792,7 @@ module.controller('FileLayoutController', [
 
 			vm.displayExample = function(record) {
 				var msg = '';
-				var dataType = vm.dataTypeByIds[record.layoutFileDataTypeId];
+				var dataType = vm.dataTypeByIds[record.documentFieldId];
 				if(angular.isDefined(dataType)){
 						msg = $injector.get('FileLayerExampleDisplayService')[dataType.dataType + '_DisplayExample'](record, dataType);	
 				}
@@ -803,7 +803,7 @@ module.controller('FileLayoutController', [
 			vm.isHideSaveCheckbox = function(item) {
 				var disabled = false;
 				vm.dataTypes.forEach(function(obj) {
-					if (item.dataType == obj.layoutFileDataTypeId) {
+					if (item.dataType == obj.documentFieldId) {
 						if (obj.transient == true) {
 							item.isTransient = true;
 							disabled = true;
@@ -815,7 +815,7 @@ module.controller('FileLayoutController', [
 			
 			vm.isChangeDataType = function(item) {
 				vm.dataTypes.forEach(function(obj) {
-					if (item.dataType == obj.layoutFileDataTypeId) {
+					if (item.dataType == obj.documentFieldId) {
 						item.isTransient = obj.transient;
 					}
 				});
@@ -835,7 +835,7 @@ module.controller('FileLayoutController', [
 				dataItems.push(itemConfig)
 			}
 			vm.getAllSameDataTypes = function(record){
-				var dataType = vm.dataTypeByIds[record.layoutFileDataTypeId];
+				var dataType = vm.dataTypeByIds[record.documentFieldId];
 				return vm.dataTypeByGroupsDropdown[dataType.dataType];
 			}
 			vm.addValueClonningField = function(record){
@@ -843,7 +843,7 @@ module.controller('FileLayoutController', [
 					record.valueCloningFields = [];
 				}
 				record.valueCloningFields.push({
-					layoutFileDataTypeId: record.layoutFileDataTypeId
+					documentFieldId: record.documentFieldId
 				});
 			}
 			
@@ -1014,7 +1014,7 @@ module.controller('FileLayoutController', [
 			}
 			
 			vm.unSelectFieldName = function(item){
-				if(!vm.manageAll || isNaN(item.layoutFileDataTypeId)){
+				if(!vm.manageAll || isNaN(item.documentFieldId)){
             		return true;
             	}else{
             		return false;

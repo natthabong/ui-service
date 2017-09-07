@@ -5,13 +5,13 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 	var getDataTypes = function(dataType){
 		var deffered = $q.defer();
 		
-		var uri = 'api/v1/configs/gecscf/layouts/file/data-types';
+		var uri = 'api/v1/configs/gecscf/layouts/document-field';
 		$http({
     	    url : uri,
         	method: 'GET',
         	params: {
-        		dataType: dataType,
-        		isDisplayField : 'false'
+        		fileLayoutType: 'IMPORT',
+        		sectionType : 'DETAIL'
         	}
 	    }).then(function(response) {
             deffered.resolve(response);
@@ -43,12 +43,13 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 	var getValidationDataTypes = function(){
 		var deffered = $q.defer();
 		
-		var uri = 'api/v1/configs/gecscf/layouts/file/data-types';
+		var uri = 'api/v1/configs/gecscf/layouts/document-field';
 		$http({
     	    url : uri,
         	method: 'GET',
         	params: {
-                isTransient : 'true'
+        		fileLayoutType: 'IMPORT',
+        		sectionType : 'HEADER'
         	}
 	    }).then(function(response) {
             deffered.resolve(response);
