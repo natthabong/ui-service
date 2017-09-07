@@ -2,13 +2,15 @@
 var scfApp = angular.module('scfApp');
 scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIFactory', '$http', 'SCFCommonService', function($scope, $rootScope, UIFactory, $http, SCFCommonService) {
 	var vm = this;
-	var sponsorId = $scope.ngDialogData.sponsorId;
+	var ownerId = $scope.ngDialogData.sponsorId;
 	$scope.errors = {};
 	vm.submitForm = false;
 	vm.model = angular.copy($scope.ngDialogData.model);
 	vm.isNewCusotmerCode = $scope.ngDialogData.isNewCusotmerCode;
 	vm.isAddMoreCustomerCode = $scope.ngDialogData.isAddMoreCustomerCode;
-	vm.isSetSupplierCode = $scope.ngDialogData.accountingTransactionType == 'PAYABLE' ? true : false;
+
+	var accountingTransactionType = angular.copy($scope.ngDialogData.accountingTransactionType);
+	vm.isSetSupplierCode = accountingTransactionType == 'PAYABLE' ? true : false;
 	vm.headerMessage = vm.isSetSupplierCode ? "supplier" : "buyer";
 	vm.isUseExpireDate = false;
 	vm.isOpenActiveDate = false;
@@ -35,20 +37,29 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 	}
 	
 	var queryCustomerCode = function(value){
-
-		var serviceUrl = 'api/v1/organize-customers/' + sponsorId + '/trading-partners'
+		var serviceUrl = 'api/v1/organize-customers/' + ownerId + '/trading-partners'
 		return $http.get(serviceUrl, {
 			params: {
 				q : value,
 				offset: 0,
-				limit: 5
+				limit: 5,
+				accountingTransactionType : accountingTransactionType
 			}
 		}).then(function(response){
-			return response.data.map(function(item) {	
-				item.identity = ['customer-',item.supplierId,'-option'].join('');
-				item.label = [item.supplierId, ': ',item.supplierName].join('');
-				return item;
-			});
+			if(accountingTransactionType=="PAYABLE"){
+				return response.data.map(function(item) {	
+					item.identity = ['customer-',item.supplierId,'-option'].join('');
+					item.label = [item.supplierId, ': ',item.supplierName].join('');
+					return item;
+				});
+			}else{
+				return response.data.map(function(item) {	
+					item.identity = ['customer-',item.sponsorId,'-option'].join('');
+					item.label = [item.sponsorId, ': ',item.sponsorName].join('');
+					return item;
+				});
+			}
+			
 		});
 	}
 	
