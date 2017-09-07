@@ -389,9 +389,24 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/my-organize/supplier-code-list',
 				controller: 'CustomerCodeGroupSettingController',
 				controllerAs: 'ctrl',
-				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
-				params: { selectedItem: null, mode: 'personal'},
-				resolve: load(['js/app/modules/sponsor-config/customer-code-groups/customer-code-groups-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				templateUrl: '/sponsor-configuration/customer-code-group/supplier-code-lists/settings',
+				params: { selectedItem: null, mode: 'all', accountingTransactionType: 'PAYABLE'},
+				resolve: load(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
+								'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
+								'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
+								'js/app/common/scf-component.js',
+								'js/app/common/scf-component.css'])
+			}).state('/my-organize/buyer-code-list',{
+				url: '/my-organize/buyer-code-list',
+				controller: 'CustomerCodeGroupSettingController',
+				controllerAs: 'ctrl',
+				templateUrl: '/sponsor-configuration/customer-code-groups/buyer-code-list/settings',
+				params: { selectedItem: null, mode: 'all', accountingTransactionType: 'RECEIVABLE'},
+				resolve: load(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
+								'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
+								'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
+								'js/app/common/scf-component.js',
+								'js/app/common/scf-component.css'])
 			}).state('/my-organize/document-upload-log',{
 				url: '/my-organize/document-upload-log',
 				controller: 'DocumentUploadLogController',
