@@ -343,7 +343,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			    return saveCustomerCode(customerCode);
 			},
 			onFail: function(response){
-				console.log(response.status);
 				var msg = {400:'Customer is not trading partner with this sponsor.', 404: customerCodeName+' code has been deleted.', 405: customerCodeName+' code has been used.', 409: customerCodeName+' code has been modified.'};
 			    dialogFail = UIFactory.showFailDialog({
 				data: {
