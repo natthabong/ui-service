@@ -49,7 +49,7 @@ angular
 							vm.create = function(data){
 								var duedate = moment(data.dueDate);
 								console.log(duedate)
-								PageNavigation.gotoPage('/create-payment', {
+								PageNavigation.gotoPage('/my-organize/create-payment', {
 									dashboardParams: {
 										dueDate: duedate.toDate(),
 										supplierId: data.supplierId,

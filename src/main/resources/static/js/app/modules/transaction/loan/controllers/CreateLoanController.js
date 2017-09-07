@@ -549,7 +549,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 						
                     });
                     var transaction = response.data;
-                    SCFCommonService.parentStatePage().saveCurrentState('/create-transaction');
+                    SCFCommonService.parentStatePage().saveCurrentState('/my-organize/create-transaction');
                     PageNavigation.nextStep('/create-transaction/validate-submit', {
                         transactionModel: transaction,
                         totalDocumentAmount: vm.totalDocumentAmount,

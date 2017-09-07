@@ -47,7 +47,7 @@ angular
 							}
 							
 							vm.create = function(data){
-								PageNavigation.gotoPage('/create-transaction', {
+								PageNavigation.gotoPage('/my-organize/create-transaction', {
 									dashboardParams: {
 										paymentDate: data.paymentDate,
 										buyerId: data.buyerId,

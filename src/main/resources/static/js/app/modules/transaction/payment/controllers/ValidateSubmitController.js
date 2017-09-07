@@ -16,7 +16,7 @@ paymentModule.controller('ValidateSubmitController', [
         vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
 
         if(vm.transactionModel == null || vm.tradingpartnerInfoModel == null){
-            PageNavigation.gotoPage('/create-payment');
+            PageNavigation.gotoPage('/my-organize/create-payment');
         }
 
         vm.pagingController = PagingController.create(vm.transactionModel.documents);

@@ -211,7 +211,7 @@ angular.module('scfApp').controller(
 					
 					vm.viewHistory = function(){
 						$timeout(function(){
-							PageNavigation.gotoPage('/transaction-list/supplier');
+							PageNavigation.gotoPage('/my-organize/transaction-list');
 						}, 10);
 					};					
 					

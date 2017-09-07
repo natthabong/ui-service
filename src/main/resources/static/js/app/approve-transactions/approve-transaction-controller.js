@@ -217,7 +217,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
         vm.init = function() {
             vm.transactionApproveModel.transaction = $stateParams.transaction;
             if (vm.transactionApproveModel.transaction == null) {
-            	PageNavigation.gotoPage('/transaction-list/supplier');
+            	PageNavigation.gotoPage('/my-organize/transaction-list');
             }else{
             	 var params = {
             		bankCode: vm.transactionApproveModel.transaction.bankCode,
@@ -275,7 +275,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 		
 		vm.viewHistory = function(){
 			$timeout(function(){
-				PageNavigation.gotoPage('/transaction-list/supplier');
+				PageNavigation.gotoPage('/my-organize/transaction-list');
 			}, 10);
 		};	
 

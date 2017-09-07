@@ -11,7 +11,7 @@ angular.module('scfApp').controller(
 			    
 			    vm.organizeModel = $rootScope.organizeModel;
 				if(angular.isUndefined(vm.organizeModel)){
-					PageNavigation.gotoPage('/organize-list/bank');
+					PageNavigation.gotoPage('/customer-registration/organizes');
 				}
 			    $scope.sponsorId = vm.organizeModel.organizeId;
 				$rootScope.sponsorId = vm.organizeModel.organizeId;

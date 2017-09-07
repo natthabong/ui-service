@@ -28,7 +28,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         var currentDate = new Date();
 
         if($stateParams.params ==''){
-            PageNavigation.gotoPage('/trading-partners');
+            PageNavigation.gotoPage('/customer-registration/trading-partners');
         }
 
         vm.borrowerModel = [
@@ -155,7 +155,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                 vm.isNewMode = false;
                 if($stateParams.data == ''){
                     log.error("Trade finance data is null.");
-                    PageNavigation.gotoPage('/trading-partners');
+                    PageNavigation.gotoPage('/customer-registration/trading-partners');
                 }else{
                     var sponsorId = $stateParams.data.sponsorId;
                     var supplierId = $stateParams.data.supplierId;

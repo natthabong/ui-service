@@ -45,7 +45,7 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('SetupWorkflow
         var initLoad = function() {
             if($stateParams.workflowModel == null){
                 $timeout(function(){
-                    PageNavigation.gotoPage('/organize-list/bank');
+                    PageNavigation.gotoPage('/customer-registration/organizes');
                 }, 10);
             }else{
                 var workflowModel = $stateParams.workflowModel;

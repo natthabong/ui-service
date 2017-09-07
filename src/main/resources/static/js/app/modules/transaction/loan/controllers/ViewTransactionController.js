@@ -134,13 +134,13 @@ angular.module('scfApp').controller(
 					vm.viewHistory = function(){
 						$timeout(function(){
 						    	if(vm.isSupplier){
-						    	    PageNavigation.gotoPage('/transaction-list/supplier');
+						    	    PageNavigation.gotoPage('/my-organize/transaction-list');
 						    	}
 						    	else if(vm.isSponsor){
-						    	    PageNavigation.gotoPage('/transaction-list/sponsor');
+						    	    PageNavigation.gotoPage('/partner-organize/transaction-list');
 						    	}
 						    	else{
-						    	    PageNavigation.gotoPage('/transaction-list/bank');
+						    	    PageNavigation.gotoPage('/customer-organize/transaction-list');
 						    	}
 						}, 10);
 					};

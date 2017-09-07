@@ -27,9 +27,9 @@ angular.module('scfApp').controller('JourneyNewDocumentController', ['$scope', '
     vm.documentList = function(){
     	if($rootScope.isDesktopDevice){
     		if(vm.isMaker){
-    			PageNavigation.gotoPage('/create-transaction');	
+    			PageNavigation.gotoPage('/my-organize/create-transaction');	
     		}else if(vm.isSuppliler){
-    			PageNavigation.gotoPage('/document-list/supplier');	
+    			PageNavigation.gotoPage('/partner-organize/ap-document-list');	
     		}   		
     	}
     }

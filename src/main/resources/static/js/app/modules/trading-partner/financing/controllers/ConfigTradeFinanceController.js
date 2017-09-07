@@ -79,7 +79,7 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 			}
 			
 			if(vm.financeModel == null){
-				PageNavigation.gotoPage('/trading-partners');
+				PageNavigation.gotoPage('/customer-registration/trading-partners');
 			}
 
 			var sponsorId = vm.financeModel.sponsorId;

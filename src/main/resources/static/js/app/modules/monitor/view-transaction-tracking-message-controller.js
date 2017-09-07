@@ -14,7 +14,7 @@ scfApp.controller('ViewTransactionTrackingMessageController',
 
         var initial = function(){
             if($stateParams.params.length == 0){
-                PageNavigation.gotoPage("/transaction-tracking",undefined,undefined);
+                PageNavigation.gotoPage("/monitoring/transaction-tracking",undefined,undefined);
             }
         }
         initial();

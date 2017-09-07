@@ -21,7 +21,7 @@ angular.module('scfApp').controller('JourneyNewDocumentPaymentController', ['$sc
     }
     
     vm.documentList = function(){
-    	PageNavigation.gotoPage('/create-payment');
+    	PageNavigation.gotoPage('/my-organize/create-payment');
     }
     
 }]);
