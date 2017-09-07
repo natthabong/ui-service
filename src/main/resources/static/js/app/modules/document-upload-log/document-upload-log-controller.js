@@ -29,11 +29,11 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		};
 		
 		var mode = {
-			SPONSOR : 'sponsor',
-			BANKVIEWSPONSOR : 'banksponsor',
+			MY_ORGANIZE : 'MY_ORGANIZE',
+			CUSTOMER : 'CUSTOMER',
 			BANKVIEWBANK : 'bankbank'
 		}
-		var currentMode = $stateParams.mode;
+		var currentMode = $stateParams.viewMode;
 
 		vm.openCalendarDateFrom = function() {
 			vm.openDateFrom = true;
@@ -209,21 +209,24 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
 		}
 
 		vm.initLoad = function() {
-			if (currentMode == mode.SPONSOR) {
-				vm.headerName = 'Document upload log';
+			console.log(currentMode);
+			if (currentMode == mode.MY_ORGANIZE) {
+				vm.headerName = 'Upload document logs';
 				vm.hideColSponsor = true;
 				vm.hideColFileType = true;
 				vm.sponsorTxtDisable = true;
 				vm.documentUploadLogModel.roleType = ' ';
+				vm.showSponsor = false;
 				sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
 				var sponsorID = initSponsorAutoSuggest();
 //				vm.docTypeDropdowns = getFileType(sponsorID,'SFP','IMPORT');
-			}else if(currentMode == mode.BANKVIEWSPONSOR){
-				vm.headerName = 'Sponsor document upload log';
+			}else if(currentMode == mode.CUSTOMER){
+				vm.headerName = 'Customer document upload log';
 				vm.sponsorTxtDisable = false;
 				vm.documentUploadLogModel.roleType = 'sponsor';
 				vm.hideColSponsor = false;
 				vm.hideColFileType = true;
+				vm.showSponsor = true;
 				sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
 //				var organize = getOrganize();
 //				vm.docTypeDropdowns = getFileType('','SFP','IMPORT');
@@ -259,8 +262,8 @@ scfApp.controller('DocumentUploadLogController', [ '$scope', 'Service', '$stateP
             },
 			{
     			fieldName: 'organizeLogo',
-            	labelEN: 'Sponsor',
-            	labelTH: 'Sponsor',
+            	labelEN: 'Customer',
+            	labelTH: 'Customer',
                 idValueField: '$rowNo',
                 id: 'module-{value}',
                 sortable: false,

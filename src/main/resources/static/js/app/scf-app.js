@@ -392,25 +392,18 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
 				params: { selectedItem: null, mode: 'personal'},
 				resolve: load(['js/app/modules/sponsor-config/customer-code-groups/customer-code-groups-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/document-upload-log',{
-				url: '/document-upload-log',
+			}).state('/my-organize/document-upload-log',{
+				url: '/my-organize/document-upload-log',
 				controller: 'DocumentUploadLogController',
 				controllerAs: 'ctrl',
-				params: {mode:'sponsor',criteria: null, backAction:false},
+				params: {viewMode:'MY_ORGANIZE',criteria: null, backAction:false},
 				templateUrl: '/document-upload-log',
 				resolve: load(['js/app/modules/document-upload-log/document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/document-upload-log/bank',{
-				url: '/document-upload-log/bank',
+			}).state('/customer-organize/upload-document-logs',{
+				url: '/customer-organize/upload-document-logs',
 				controller: 'DocumentUploadLogController',
 				controllerAs: 'ctrl',
-				params: {mode:'bankbank',criteria: null, backAction:false},
-				templateUrl: '/document-upload-log/bank',
-				resolve: load(['js/app/modules/document-upload-log/document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/document-upload-log/sponsor',{
-				url: '/document-upload-log/sponsor',
-				controller: 'DocumentUploadLogController',
-				controllerAs: 'ctrl',
-				params: {mode:'banksponsor',criteria: null, backAction:false},
+				params: {viewMode:'CUSTOMER',criteria: null, backAction:false},
 				templateUrl: '/document-upload-log/sponsor',
 				resolve: load(['js/app/modules/document-upload-log/document-upload-log-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/document-upload-log/view-log',{
