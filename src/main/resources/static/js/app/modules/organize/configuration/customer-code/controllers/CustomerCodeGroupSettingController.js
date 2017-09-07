@@ -7,18 +7,19 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	
 	vm.manageAll=false;
 	vm.manageMyOrg=false;
-	var selectedItem;
+//	var selectedItem;
 	
-	var mode = {
-			ALL: 'all',
-			PERSONAL: 'personal'
-	}
-	var currentMode = $stateParams.mode;
+//	var mode = {
+//			ALL: 'all',
+//			PERSONAL: 'personal'
+//	}
+	
 	var accountingTransactionType = $stateParams.accountingTransactionType;
 	var isSetSupplierCode = accountingTransactionType == 'PAYABLE' ? true : false;
-	console.log(isSetSupplierCode);
-	var organizeId = $rootScope.userInfo.organizeId;
-	var groupId = null;
+	
+	var viewMode = $stateParams.viewMode;
+	var ownerId = viewMode == 'MY_ORGANIZE' ? $rootScope.userInfo.organizeId : $stateParams.organizeId;
+//	var groupId = null;
 	vm.criteria = {};
 	
 	vm.statusDropdown = CustomerCodeStatus;
@@ -129,21 +130,21 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	}
 	
 	/* Edit a customer code group name */
-	vm.edit = function(model) {
-		
-		vm.editCustCodeDialog = ngDialog.open({
-			id : 'new-customer-code-setting-dialog',
-			template : '/js/app/modules/organize/configuration/customer-code/templates/dialog-edit-customer-code-group.html',
-			className : 'ngdialog-theme-default',
-			scope : $scope,
-			controller : 'CustomerCodeGroupDiaglogController',
-			controllerAs : 'ctrl',
-			data : {
-				sponsorId : $scope.sponsorId,
-				model: vm.model
-			}
-		});
-	}
+//	vm.edit = function(model) {
+//		
+//		vm.editCustCodeDialog = ngDialog.open({
+//			id : 'new-customer-code-setting-dialog',
+//			template : '/js/app/modules/organize/configuration/customer-code/templates/dialog-edit-customer-code-group.html',
+//			className : 'ngdialog-theme-default',
+//			scope : $scope,
+//			controller : 'CustomerCodeGroupDiaglogController',
+//			controllerAs : 'ctrl',
+//			data : {
+//				sponsorId : $scope.sponsorId,
+//				model: vm.model
+//			}
+//		});
+//	}
 	
 	vm.deleteCustomerCode = function(customerCode){
 	    var preCloseCallback = function(confirm) {
@@ -245,38 +246,39 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 		vm.pagingController.search();
 	};
 
-	vm.initialPage = function(selectedItem) {
+	vm.initialPage = function() {
 		
-		groupId = selectedItem.groupId;
-	    vm.model = selectedItem;
-	    vm.sponsorId = selectedItem.ownerId;
-	    var customerCodeURL = '/api/v1/organize-customers/'+ vm.sponsorId +'/accounting-transactions/'+accountingTransactionType+'/customer-code-groups/'+groupId+'/customer-codes';
+//		groupId = selectedItem.groupId;
+//	    vm.model = selectedItem;
+//	    vm.sponsorId = selectedItem.ownerId;
+	    var customerCodeURL = '/api/v1/organize-customers/'+ ownerId +'/accounting-transactions/'+accountingTransactionType+'/customer-codes';
 	    vm.pagingController = PagingController.create(customerCodeURL, vm.searchCriteria, 'GET');
 		vm.search();
 	}
 	
-	if(currentMode == mode.PERSONAL){
-		vm.personalMode = true;
-		var serviceUrl = '/api/v1/organize-customers/' + organizeId + '/accounting-transactions/'+accountingTransactionType+'/customer-code-groups';
-		var serviceDiferred = Service.doGet(serviceUrl, {
-			limit : 1,
-			offset : 0
-		});
-		serviceDiferred.promise.then(function(response) {
-			selectedItem = response.data[0];
-			console.log(selectedItem);
-			vm.initialPage(selectedItem);
-
-		}).catch(function(response) {
-			log.error('Load customer code group data error');
-		});
-		
-	}else{
-		vm.personalMode = false;
-		selectedItem = $stateParams.selectedItem;
-		console.log(selectedItem);
-		vm.initialPage(selectedItem);
-	}
+	vm.initialPage();
+	
+//	if(currentMode == mode.PERSONAL){
+//		vm.personalMode = true;
+//		var serviceUrl = '/api/v1/organize-customers/' + organizeId + '/accounting-transactions/'+accountingTransactionType+'/customer-code-groups';
+//		var serviceDiferred = Service.doGet(serviceUrl, {
+//			limit : 1,
+//			offset : 0
+//		});
+//		serviceDiferred.promise.then(function(response) {
+//			selectedItem = response.data[0];
+//			vm.initialPage(selectedItem);
+//
+//		}).catch(function(response) {
+//			log.error('Load customer code group data error');
+//		});
+//		
+//	}else{
+//		vm.personalMode = false;
+//		selectedItem = $stateParams.selectedItem;
+//		console.log(selectedItem);
+//		vm.initialPage(selectedItem);
+//	}
 	
 	var saveCustomerCode = function(customerCode){
 		

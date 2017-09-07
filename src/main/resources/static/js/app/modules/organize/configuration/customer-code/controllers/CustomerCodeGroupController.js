@@ -104,13 +104,13 @@ scfApp.controller(
 
 			vm.config = function(customerCodeGroup, accountingTransactionType) {
 				var params = {
-					selectedItem : customerCodeGroup
+					organizeId : $scope.sponsorId
 				};
 				
 				if(accountingTransactionType == 'PAYABLE'){
-					PageNavigation.gotoPage('/sponsor-configuration/customer-code-groups/supplier-code-list/settings', params)
+					PageNavigation.gotoPage('/customer-organize/supplier-code-list', params)
 				}else if(accountingTransactionType == 'RECEIVABLE'){
-					PageNavigation.gotoPage('/sponsor-configuration/customer-code-groups/buyer-code-list/settings', params)
+					PageNavigation.gotoPage('/customer-organize/buyer-code-list', params)
 				}
 				
 			}
