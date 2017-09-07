@@ -37,6 +37,7 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 	}
 	
 	var queryCustomerCode = function(value){
+		console.log(value);
 		var serviceUrl = 'api/v1/organize-customers/' + ownerId + '/trading-partners'
 		return $http.get(serviceUrl, {
 			params: {
@@ -46,6 +47,7 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 				accountingTransactionType : accountingTransactionType
 			}
 		}).then(function(response){
+			console.log(response);
 			if(accountingTransactionType=="PAYABLE"){
 				return response.data.map(function(item) {	
 					item.identity = ['customer-',item.supplierId,'-option'].join('');
@@ -78,6 +80,8 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 						vm.customerSuggestModel = value;
 					}
 				}else{
+					console.log(value.sponsorId);
+					console.log(vm.model);
 					if(value.sponsorId == vm.model.organizeId){
 						console.log(value.sponsorId);
 						vm.customerSuggestModel = value;
@@ -91,7 +95,7 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 		var organizeIdInitial = null;
 		if(vm.isNewCusotmerCode){
 			if(vm.isAddMoreCustomerCode){
-				organizeIdInitial = vm.model.supplierId;
+				organizeIdInitial = vm.model.organizeId;
 				prepreOrganizeDisplay();
 			}
 			

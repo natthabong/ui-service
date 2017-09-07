@@ -319,7 +319,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			closeDialogSucccess();
 			
 			vm.customerCodeSetup({
-			    supplierId: customerCode.organizeId
+			    organizeId: customerCode.organizeId
 			});
 		}};
 		
