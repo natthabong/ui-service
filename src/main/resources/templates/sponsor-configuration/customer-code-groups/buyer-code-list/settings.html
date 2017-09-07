@@ -1,0 +1,99 @@
+<div id="content" th:fragment="content"
+	sec:authorize="hasAnyAuthority('MANAGE_ALL_BUYER_CODES','MANAGE_BUYER_CODES_OF_MY_ORGANIZE')">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft">{{'Buyer code list' | translate}}</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<form name="manageForm" class="form-horizontal">
+						<div class="form-group">
+							<label id="customer-label"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer'
+								| translate}}: </label>
+
+							<div class="col-md-4 col-sm-3 col-xs-12">
+								<gec-auto-suggest model="ctrl.customerAutoSuggestModel"
+									ng-model="ctrl.criteria.customer" id="customer-auto-suggest"></gec-auto-suggest>
+							</div>
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"
+								id="customer-code-label">{{'Buyer code' |
+								translate}}: </label>
+							<div class="col-md-2 col-sm-3 col-xs-12">
+								<scf-input-text id="customer-code-textbox"
+									maxlength="20"
+									ng-model="ctrl.criteria.customerCode"></scf-input-text>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"
+								id="status-label">{{'Status' | translate}}: </label>
+
+							<div class="col-md-2 col-sm-3 col-xs-12">
+								<scf-dropdown id="status-dropdown"
+									ng-model="ctrl.criteria.status"
+									component-data="ctrl.statusDropdown" translate-label="true"></scf-dropdown>
+							</div>
+							<div class="col-md-2 col-sm-3">
+								<scf-button id="search-button" class="popup-button"
+									data-dismiss="modal" ng-click="ctrl.search(ctrl.criteria)"
+									ng-bind="'Search' | translate"></scf-button>
+							</div>
+						</div>
+					</form>
+
+					<div class="row">
+						<div class="col-md-12 text-right">
+							<scf-button id="new-button" class="btn-default gec-btn-action"
+								ng-disabled="ctrl.unauthen()" ng-click="ctrl.customerCodeSetup()">
+							<i class="fa fa-plus" aria-hidden="true"></i></scf-button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 text-right">
+							<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
+								id="customer-code-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+									name="customer-code"
+									page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+									total-page="ctrl.pagingController.pagingModel.totalPage"
+									current-page="ctrl.pagingController.pagingModel.currentPage"
+									page-size-list="ctrl.pagingController.pageSizeList"
+									page-action="ctrl.pagingController.search"></scf-pagination>
+							</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="responsive-table">
+								<scf-table id="customer-code-table"
+									component-config="ctrl.dataTable"
+									component-datas="ctrl.pagingController.tableRowCollection"
+									current-page="ctrl.pagingController.pagingModel.currentPage"
+									record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+									clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body">
+
+					<div class="col-md-12 col-sm-12 text-right">
+						<scf-button ng-if="!ctrl.personalMode" id="back-button" class="popup-button"
+							data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
+							ng-bind="'Back' | translate"></scf-button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" ng-init="ctrl.manageAll=true"
+		sec:authorize="hasAuthority('MANAGE_ALL_BUYER_CODES')" /> 
+	<input type="hidden" ng-init="ctrl.manageMyOrg=true"
+		sec:authorize="hasAuthority('MANAGE_BUYER_CODES_OF_MY_ORGANIZE')" />
+</div>
