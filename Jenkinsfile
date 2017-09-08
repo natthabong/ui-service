@@ -1,4 +1,4 @@
-def GIT_REPOSITORY_REPO = "http://gitlab.gec.co.th/gecscf/ui-service.git"
+def GIT_REPOSITORY_REPO = "http://gitlab.gec.io/gecscf/ui-service.git"
 pipeline {
   agent { node { label 'gecscf-unix-001' } }
   triggers { pollSCM('H/3 * * * *') }
