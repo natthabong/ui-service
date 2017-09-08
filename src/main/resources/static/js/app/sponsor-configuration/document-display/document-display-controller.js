@@ -105,7 +105,7 @@ angular
                             vm.documentFields.push(item);
                         });
     				}).catch(function(response) {
-    					log.error('Load customer code group data error');
+    					log.error('Load data type error');
     				});
     			}
     			
