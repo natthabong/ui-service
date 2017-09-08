@@ -2,13 +2,16 @@
 var module = angular.module('gecscf.organize.configuration.fileLayout');
 module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 	
-	var getDocumentFields = function(fileLayoutType, sectionType){
+	var getDocumentFields = function(fileLayoutType, sectionType, dataType){
 		var deffered = $q.defer();
 		
 		var uri = 'api/v1/configs/file-layout-types/'+fileLayoutType+'/section-types/'+ sectionType + '/document-field';
 		$http({
     	    url : uri,
-        	method: 'GET'
+        	method: 'GET',
+        	params: {
+        		dataType: dataType
+	    	}
         		
 	    }).then(function(response) {
             deffered.resolve(response);
