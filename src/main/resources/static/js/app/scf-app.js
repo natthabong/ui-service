@@ -590,19 +590,33 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/payment/validate-submit',
                 params: {transactionModel: null, tradingpartnerInfoModel: null},
 				resolve: load(['js/app/modules/transaction/services/TransactionService.js','js/app/modules/transaction/payment/controllers/ValidateSubmitController.js'])
-			}).state('/payment-transaction/buyer', {
-				url: '/payment-transaction/buyer',
+			}).state('/my-organize/payment-transaction', {
+				url: '/my-organize/payment-transaction',
 				controller: 'PaymentTransactionController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment-transaction/',
-                params: {mode:"BUYER",transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
+                params: {viewMode:'MY_ORGANIZE',transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
+				resolve: load(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js'])
+			}).state('/partner-organize/payment-transaction', {
+				url: '/partner-organize/payment-transaction',
+				controller: 'PaymentTransactionController',
+				controllerAs: 'ctrl',				
+				templateUrl: '/payment-transaction/',
+                params: {viewMode:'PARTNER',transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
+				resolve: load(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js'])
+			}).state('/customer-organize/payment-transaction', {
+				url: '/customer-organize/payment-transaction',
+				controller: 'PaymentTransactionController',
+				controllerAs: 'ctrl',				
+				templateUrl: '/payment-transaction/',
+                params: {viewMode:'CUSTOMER',transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
 				resolve: load(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js'])
 			}).state('/payment-transaction/view', {
 				url: '/payment-transaction/view',
 				controller: 'ViewPaymentController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment-transaction/view',
-                params: {mode: null, transactionModel: null, isShowViewHistoryButton: false, isShowBackButton: false},
+                params: {viewMode: null, transactionModel: null, isShowViewHistoryButton: false, isShowBackButton: false},
 				resolve: load(['js/app/modules/transaction/payment/services/ViewPaymentService.js','js/app/modules/transaction/payment/controllers/ViewPaymentController.js'])
 			}).state('/payment-transaction/verify',{
 				url: '/payment-transaction/verify',

@@ -13,24 +13,19 @@ paymentModule.controller('ViewPaymentController', [
 
             var vm = this;
             var log = $log;
-            if($stateParams.transactionModel == null){
-                $timeout(function(){		
-    				PageNavigation.gotoPage('/payment-transaction/buyer');
-    			}, 10);
-            }
+            var viewMode = $stateParams.viewMode;
+            var url = '';
             
             vm.isBuyer = false;
 			vm.isSupplier = false;
 			vm.isBank = false;
 			
-			var currentParty = '';
-			var partyRole = {
-				buyer : 'BUYER',
-				supplier : 'SUPPLIER',
-				bank : 'BANK'
-			}
 			
-			currentParty = $stateParams.mode;
+			var viewModeData = {
+				myOrganize : 'MY_ORGANIZE',
+				partner : 'PARTNER',
+				customer : 'CUSTOMER'
+			}	
 			
             vm.isTypeLoan = false;
             vm.transactionModel = $stateParams.transactionModel;
@@ -88,20 +83,28 @@ paymentModule.controller('ViewPaymentController', [
             
             vm.viewHistory = function(){
             	$timeout(function(){		
-    				PageNavigation.gotoPage('/payment-transaction/buyer');
+    				PageNavigation.gotoPage(url);
     			}, 10);
             }
 
             var init = function() {
-            	
-            	if (currentParty == partyRole.buyer) {
+            	if (viewMode == viewModeData.myOrganize) {
 					vm.isBuyer = true;
-				} else if (currentParty == partyRole.supplier) {
+					url = '/my-organize/payment-transaction';
+				} else if (viewMode == viewModeData.partner) {
 					vm.isSupplier = true;
-				} else if (currentParty == partyRole.bank) {
+					url = '/partner-organize/payment-transaction';
+				} else if (viewMode == viewModeData.customer) {
 					vm.isBank = true;
+					url = '/customer-organize/payment-transaction';
 				}
-            	console.log(currentParty);
+            	
+            	if($stateParams.transactionModel == null){
+                    $timeout(function(){
+        				PageNavigation.gotoPage(url);
+        			}, 10);
+                }
+            	
                 loadTransaction();
                 
             }();

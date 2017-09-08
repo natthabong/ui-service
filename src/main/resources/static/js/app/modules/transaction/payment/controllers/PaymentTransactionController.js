@@ -397,7 +397,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     vm.viewTransaction = function(transactionModel){
 		$timeout(function(){		
 			PageNavigation.nextStep('/payment-transaction/view', 
-                {mode: currentParty, transactionModel: transactionModel, isShowViewHistoryButton: false, isShowBackButton: true},
+                {mode: 'BUYER', transactionModel: transactionModel, isShowViewHistoryButton: false, isShowBackButton: true},
                 {criteria : _criteria,buyer : _sponsor,supplier : _supplier});
     	}, 10);
 	};

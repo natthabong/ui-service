@@ -31,7 +31,7 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 	
 	vm.viewHistory = function(){
 		$timeout(function(){
-			PageNavigation.gotoPage('/payment-transaction/buyer');
+			PageNavigation.gotoPage('/my-organize/payment-transaction');
 		}, 10);
 	};	
 
@@ -48,7 +48,7 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 	var init = function(){
 		vm.transactionApproveModel.transaction = $stateParams.transaction;
         if (vm.transactionApproveModel.transaction == null) {
-        	PageNavigation.gotoPage('/payment-transaction/buyer');
+        	PageNavigation.gotoPage('/my-organize/payment-transaction');
         }else{
         	vm.displayName = $scope.userInfo.displayName;
         	var transactionMethod = vm.transactionApproveModel.transaction.transactionMethod;

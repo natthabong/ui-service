@@ -57,7 +57,7 @@ paymentModule.controller('ValidateSubmitController', [
 		
 		vm.viewHistory = function(){
 			$timeout(function(){		
-				PageNavigation.gotoPage('/payment-transaction/buyer');
+				PageNavigation.gotoPage('/my-organize/payment-transaction');
 			}, 10);
 		};
 		

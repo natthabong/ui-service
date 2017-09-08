@@ -9,7 +9,7 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
 	
 	if($stateParams.transaction == null){
         $timeout(function(){		
-			PageNavigation.gotoPage('/payment-transaction/buyer');
+			PageNavigation.gotoPage('/my-organize/payment-transaction');
 		}, 10);
     }
 	vm.transactionModel = $stateParams.transaction;
@@ -170,7 +170,7 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
 	
 	vm.viewHistory = function(){
 		$timeout(function(){
-			PageNavigation.gotoPage('/payment-transaction/buyer');
+			PageNavigation.gotoPage('/my-organize/payment-transaction');
 		}, 10);
 	};	
 }]);	
