@@ -15,7 +15,7 @@
 						style="padding-top: 5px">
 						<scf-button class="btn-default gec-btn-action"
 							id="{{record.jobName}}-run-button" ng-click="ctrl.runJob(record)"
-							ng-disabled="true"
+							ng-disabled="!ctrl.canRunNow"
 							title="Run now"> <span class="fa fa-history"
 							aria-hidden="true"></span></scf-button>
 						<scf-button class="btn-default gec-btn-action"
