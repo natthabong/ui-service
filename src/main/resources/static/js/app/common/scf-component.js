@@ -87,12 +87,13 @@
 				restrict : 'AE',
 				transclude : true,
 				replace : true,
-				template : btnTemplate
+				template : btnTemplate,
+				ngDisabled : '='
 			};
 
 			function btnTemplate(element, attrs) {
 				var btnType = (typeof attrs.type === 'undefined') ? 'button' : attrs.type;
-				return '<button type="' + btnType + '" class="btn">' + '<ng-transclude></ng-transclude>' + '</button>';
+				return '<button type="' + btnType + '" ng-disabled="" class="btn">' + '<ng-transclude></ng-transclude>' + '</button>';
 			}
 		} ])
 		.directive('scfTextArea', [ function() {

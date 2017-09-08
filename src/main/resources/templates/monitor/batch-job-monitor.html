@@ -15,11 +15,12 @@
 						style="padding-top: 5px">
 						<scf-button class="btn-default gec-btn-action"
 							id="{{record.jobName}}-run-button" ng-click="ctrl.runJob(record)"
+							ng-disabled="true"
 							title="Run now"> <span class="fa fa-history"
 							aria-hidden="true"></span></scf-button>
 						<scf-button class="btn-default gec-btn-action"
 							sec:authorize="!hasAnyAuthority('MONITOR_ALL_TRACKING_LOG')"
-							id="{{record.jobName}}-view-button" ng-disabled="true"
+							id="{{record.jobName}}-view-button"
 							title="Tracking log"> <span
 							class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
 						<scf-button class="btn-default gec-btn-action"
@@ -30,6 +31,7 @@
 					</div>
 				</div>
 			</div>
+			<input type="hidden" ng-init="ctrl.canRunNow=true" sec:authorize="hasAuthority('RUN_MANUAL_BATCH_JOB')" />
 		</div>
 	</div>
 	

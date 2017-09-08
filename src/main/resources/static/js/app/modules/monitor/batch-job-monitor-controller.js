@@ -13,6 +13,8 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', '$stateParams', 'Serv
 		SPONSOR : 'sponsor'
 	}
 
+	vm.canRunNow = false;
+
 	var currentMode = $stateParams.mode;
 	$scope.$on('onload', function(e) {
 		if(currentMode == mode.BANK){
