@@ -41,7 +41,7 @@ angular
 
                 var newDisplayConfig = function() {
                     return {
-                    	layoutFileDataTypeId: null,
+                    	documentFieldId: null,
                         sortType: null
                     }
                 }
@@ -109,22 +109,22 @@ angular
     				});
     			}
     			
-    			// var loadGroupByDataTypes = function() {
-    			// 	var deffered = FileLayoutService.getDisplayDataTypes('TEXT');
-    			// 	deffered.promise.then(function(response) {
-    			// 		vm.documentGroupByFieldData = response.data;
+    			var loadGroupByDataTypes = function() {
+    				var deffered = FileLayoutService.getDocumentFields('DISPLAY', 'DETAIL', 'TEXT');
+    				deffered.promise.then(function(response) {
+    					vm.documentGroupByFieldData = response.data;
     					
-                //         vm.documentGroupByFieldData.forEach(function(obj) {
-                //             var item = {
-                //         		value : obj.layoutFileDataTypeId,
-    			// 				label : obj.displayFieldName
-                //             };
-                //             vm.documentGroupByFields.push(item);
-                //         });
-    			// 	}).catch(function(response) {
-    			// 		log.error('Load customer code group data error');
-    			// 	});
-    			// }
+                        vm.documentGroupByFieldData.forEach(function(obj) {
+                            var item = {
+                        		value : obj.documentFieldId,
+    							label : obj.displayFieldName
+                            };
+                            vm.documentGroupByFields.push(item);
+                        });
+    				}).catch(function(response) {
+    					log.error('Load customer code group data error');
+    				});
+    			}
     			
                 var sendRequest = function(uri, succcesFunc, failedFunc) {
                     var serviceDiferred = Service.doGet(BASE_URI + uri);
@@ -137,7 +137,7 @@ angular
 
                 vm.setup = function() {
                 	loadDataTypes();
-                	//loadGroupByDataTypes();
+                	loadGroupByDataTypes();
                 	
                     sendRequest('', function(response) {
                         vm.dataModel = response.data;
@@ -161,7 +161,7 @@ angular
 
                 vm.addItem = function() {
                     vm.dataModel.items.push({
-                    	layoutFileDataTypeId: null,
+                    	documentFieldId: null,
                         sortType: null,
 						completed: false
                     });
@@ -173,12 +173,13 @@ angular
                 }
 
                 vm.openSetting = function(index, record) {
-                    var layoutFileDataTypeId = record.layoutFileDataType.layoutFileDataTypeId;
+                    var documentFieldId = record.documentField.documentFieldId;
                     vm.documentFieldData.forEach(function(obj) {
-                        if (layoutFileDataTypeId == obj.layoutFileDataTypeId) {
+                        if (documentFieldId == obj.documentFieldId) {
+                        	
                             var dialog = ngDialog.open({
                                 id: 'setting-dialog-' + index,
-                                template: obj.displayActionUrl,
+                                template: obj.configUrl,
                                 className: 'ngdialog-theme-default',
                                 controller: obj.dataType + 'DisplayConfigController',
                                 controllerAs: 'ctrl',
@@ -243,7 +244,7 @@ angular
 					vm.dataModel.completed = true;
 					vm.dataModel.items.forEach(function(obj, index) {
                         obj.sequenceNo = index + 1;
-                        vm.dataModel.items[index].layoutFileDataTypeId = obj.layoutFileDataType.layoutFileDataTypeId;
+                        vm.dataModel.items[index].documentFieldId = obj.documentField.documentFieldId;
                         vm.dataModel.completed =  obj.completed && vm.dataModel.completed; 
                     })
                     
@@ -264,12 +265,13 @@ angular
                 }
                 
                 vm.cannotSetup = function(record){
-                	if(angular.isDefined(record.layoutFileDataType)){
+                	if(angular.isDefined(record.documentField)){
                 		var hasUrl = true;
-                    	var layoutFileDataTypeId = record.layoutFileDataType.layoutFileDataTypeId;
+                    	var documentFieldId = record.documentField.documentFieldId;
                         vm.documentFieldData.forEach(function(obj) {
-                            if (layoutFileDataTypeId == obj.layoutFileDataTypeId) {
-                        		if(obj.displayActionUrl == null){
+                            if (documentFieldId == obj.documentFieldId) {
+                            	
+                        		if(obj.configUrl == null){
                             		hasUrl = false;
                             	}
                             }
@@ -304,8 +306,10 @@ angular
                 vm.displayExample = function(record) {
                     var msg = '';
                     vm.documentFieldData.forEach(function(obj) {
-                        if (record.layoutFileDataType != null && record.layoutFileDataType.layoutFileDataTypeId == obj.layoutFileDataTypeId) {
+                    	
+                        if (record.documentField != null && record.documentField.documentFieldId == obj.documentFieldId) {
                             if (record.completed) {
+                            	
                             	msg = $injector.get('DocumentDisplayConfigExampleService')[obj.dataType+'_DisplayExample'](record, obj);
                             }
                         }
@@ -542,31 +546,31 @@ angular
 		 }
 		 
 		 function TEXT_DisplayExample(record, config){
-			 var displayMessage = config.displayDetailPattern;
+			 var displayMessage = config.detailExamplePattern;
              var replacements = [SCFCommonService.camelize(record.alignment), config.defaultExampleValue];
              return SCFCommonService.replacementStringFormat(displayMessage, replacements);
 		 }
 		 
 		 function DOCUMENT_TYPE_DisplayExample(record, config){
-			 var displayMessage = config.displayDetailPattern;
+			 var displayMessage = config.detailExamplePattern;
              var replacements = [SCFCommonService.camelize(record.alignment), config.defaultExampleValue];
              return SCFCommonService.replacementStringFormat(displayMessage, replacements);
 		 }
 		 
 		 function CUSTOMER_CODE_DisplayExample(record, config){
-			 var displayMessage = config.displayDetailPattern;
+			 var displayMessage = config.detailExamplePattern;
              var replacements = [SCFCommonService.camelize(record.alignment), config.defaultExampleValue];
              return SCFCommonService.replacementStringFormat(displayMessage, replacements);
 		 }
 		 
 		 function DOCUMENT_NO_DisplayExample(record, config){
-			 var displayMessage = config.displayDetailPattern;
+			 var displayMessage = config.detailExamplePattern;
              var replacements = [SCFCommonService.camelize(record.alignment), config.defaultExampleValue];
              return SCFCommonService.replacementStringFormat(displayMessage, replacements);
 		 }
 		 function NUMERIC_DisplayExample(record, config){
 			 if(record.filterType != null){
-				 var displayMessage = config.displayDetailPattern;
+				 var displayMessage = config.detailExamplePattern;
 				 var exampleRawData =  parseFloat(config.defaultExampleValue).toFixed(2);
 				 var examplePosDataDisplay = $filter(record.filterType)(exampleRawData, 2);
 		    	 var exampleNegDataDisplay = $filter(record.filterType)(-exampleRawData, 2);
@@ -577,7 +581,7 @@ angular
 			 }
 		 }
 		 function PAYMENT_AMOUNT_DisplayExample(record, config) {
-			var displayMessage = config.displayDetailPattern;
+			var displayMessage = config.detailExamplePattern;
 			
 			var exampleRawData =  parseFloat(config.defaultExampleValue).toFixed(2);		    
 			var examplePosDataDisplay = $filter(record.filterType)(exampleRawData, 2);
@@ -587,7 +591,7 @@ angular
 		}
 		 
 		 function DATE_TIME_DisplayExample(record, config) {
-			var displayMessage = config.displayDetailPattern;
+			var displayMessage = config.detailExamplePattern;
 			var date = new Date(config.defaultExampleValue);
 			var exampleDataDisplay = $filter('date')(date, record.format);
 			var replacements = [ SCFCommonService.camelize(record.alignment), record.format.toUpperCase(), exampleDataDisplay ];
