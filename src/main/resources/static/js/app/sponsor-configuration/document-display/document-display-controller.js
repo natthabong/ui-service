@@ -93,13 +93,13 @@ angular
     			}
     			
     			var loadDataTypes = function() {
-    				var deffered = FileLayoutService.getDisplayDataTypes();
+    				var deffered = FileLayoutService.getDocumentFields('DISPLAY', 'DETAIL');
     				deffered.promise.then(function(response) {
     					vm.documentFieldData = response.data;
     					
                         vm.documentFieldData.forEach(function(obj) {
                             var item = {
-                        		value : obj.layoutFileDataTypeId,
+                        		value : obj.documentFieldId,
     							label : obj.displayFieldName
                             };
                             vm.documentFields.push(item);
@@ -109,22 +109,22 @@ angular
     				});
     			}
     			
-    			var loadGroupByDataTypes = function() {
-    				var deffered = FileLayoutService.getDisplayDataTypes('TEXT');
-    				deffered.promise.then(function(response) {
-    					vm.documentGroupByFieldData = response.data;
+    			// var loadGroupByDataTypes = function() {
+    			// 	var deffered = FileLayoutService.getDisplayDataTypes('TEXT');
+    			// 	deffered.promise.then(function(response) {
+    			// 		vm.documentGroupByFieldData = response.data;
     					
-                        vm.documentGroupByFieldData.forEach(function(obj) {
-                            var item = {
-                        		value : obj.layoutFileDataTypeId,
-    							label : obj.displayFieldName
-                            };
-                            vm.documentGroupByFields.push(item);
-                        });
-    				}).catch(function(response) {
-    					log.error('Load customer code group data error');
-    				});
-    			}
+                //         vm.documentGroupByFieldData.forEach(function(obj) {
+                //             var item = {
+                //         		value : obj.layoutFileDataTypeId,
+    			// 				label : obj.displayFieldName
+                //             };
+                //             vm.documentGroupByFields.push(item);
+                //         });
+    			// 	}).catch(function(response) {
+    			// 		log.error('Load customer code group data error');
+    			// 	});
+    			// }
     			
                 var sendRequest = function(uri, succcesFunc, failedFunc) {
                     var serviceDiferred = Service.doGet(BASE_URI + uri);
@@ -137,7 +137,7 @@ angular
 
                 vm.setup = function() {
                 	loadDataTypes();
-                	loadGroupByDataTypes();
+                	//loadGroupByDataTypes();
                 	
                     sendRequest('', function(response) {
                         vm.dataModel = response.data;
