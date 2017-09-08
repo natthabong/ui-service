@@ -357,6 +357,16 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 								'js/app/modules/user/user-service.js',
 								'js/app/common/scf-component.js',
 								'js/app/common/scf-component.css'])
+			}).state('/customer-registration/customer-users',{
+				url: '/customer-registration/customer-users',
+				controller: 'UserListController',
+				controllerAs: 'ctrl',
+				templateUrl: '/user',
+				params: {backAction: false , criteria:null},
+				resolve: load(['js/app/modules/user/user-list-controller.js',
+								'js/app/modules/user/user-service.js',
+								'js/app/common/scf-component.js',
+								'js/app/common/scf-component.css'])
 			}).state('/user/new',{
 				url: '/user/new',
 				controller: 'UserController',
