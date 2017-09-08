@@ -28,9 +28,6 @@ pipeline {
     }
   }
   post { 
-    always { 
-       junit 'target/surefire-reports/*.xml'
-    }
     success {
        build 'Deploy/Deploy Dev.'
     }
