@@ -12,7 +12,7 @@ scfApp.controller('DocumentUploadLogController', ['$scope', '$stateParams', '$lo
 		vm.openDateTo = false;
 		vm.showSponsor = true;
 
-		var sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
+		var sponsorAutoSuggestServiceUrl = 'api/v1/organizes';
 		var pagingUrl = 'api/v1/upload-logs';
 		vm.sponsorTxtDisable = false;
 		vm.hideColSponsor = false;
@@ -79,6 +79,7 @@ scfApp.controller('DocumentUploadLogController', ['$scope', '$stateParams', '$lo
 			});
 			var deffered = DocumentUploadLogService.getFileType(ownerId, integrateType);
 			deffered.promise.then(function (response) {
+				console.log(response.data);
 				response.data.forEach(function (type) {
 					fileType.push({
 						label: type,
@@ -96,6 +97,11 @@ scfApp.controller('DocumentUploadLogController', ['$scope', '$stateParams', '$lo
 				}
 			}).catch(function (response) {
 				log.error('Get file type fail');
+				vm.hiddenColumn = true;
+				vm.pagingController = PagingController.create(pagingUrl, vm.criteria, 'GET');
+				if(currentMode == viewMode.MY_ORGANIZE){
+					vm.searchLog();
+				}
 			});
 
 			return fileType;
