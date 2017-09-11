@@ -144,7 +144,7 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 	
 	var headerFlagList = function() {		
 		headerItems.forEach(function(item , index) {
-			var dataType = dataTypeByIds[item.layoutFileDataTypeId];
+			var dataType = dataTypeByIds[item.documentFieldId];
 			if (dataType.dataType == 'SIGN_FLAG') {
 				var itemDropdown = {
 					label : item.displayValue,
@@ -158,9 +158,9 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 	
 	var detailFlagList = function() {		
 		detailItems.forEach(function(item , index) {
-			var dataType = dataTypeByIds[item.layoutFileDataTypeId];
+			var dataType = dataTypeByIds[item.documentFieldId];
 			// TODO: Refactor here
-			if (dataType.dataType == 'SIGN_FLAG' || dataType.layoutFileDataTypeId == 10 ) {
+			if (dataType.dataType == 'SIGN_FLAG' || dataType.documentFieldId == 10 ) {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.displayValue,
@@ -173,7 +173,7 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 
 	var footerFlagList = function() {		
 		footerItems.forEach(function(item , index) {
-			var dataType = dataTypeByIds[item.layoutFileDataTypeId];
+			var dataType = dataTypeByIds[item.documentFieldId];
 			if (dataType.dataType == 'SIGN_FLAG') {
 				var itemDropdown = {
 					label : item.displayValue,
@@ -203,7 +203,7 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 		vm.relationalField.push(pleaseSelect);
 		
 		detailItems.forEach(function(item , index) {
-			var dataType = dataTypeByIds[item.layoutFileDataTypeId];
+			var dataType = dataTypeByIds[item.documentFieldId];
 			if (dataType.dataType == 'NUMERIC') {
 				var itemDropdown = {
 					label : item.displayValue,
