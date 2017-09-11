@@ -43,7 +43,7 @@
 								</label>
 							</div>
 							<label for="dealer" id="delimiters-label"
-								class="col-md-1 col-sm-2 col-xs-12 control-label">{{'Delimiters'
+								class="col-md-1 col-sm-2 col-xs-12 control-label">{{'Delimiter'
 								| translate}}: </label>
 							<div class="col-md-3 col-sm-3 col-xs-12">
 								<scf-dropdown
@@ -100,7 +100,7 @@
 								<div class="col-md-2 col-sm-3 col-xs-12">
 									<label class="checkbox-inline"> <scf-checkbox
 											id="row-format-header-checkbox" ng-model="ctrl.configHeader"
-											ng-disabled="!ctrl.manageAll"
+											ng-disabled="ctrl.unauthenConfig()"
 											ng-click="ctrl.clearHeaderConfig()"></scf-checkbox> <span
 										ng-bind="'Header' | translate" id="header-label"></span>
 									</label> <br /> <label class="checkbox-inline"> <scf-checkbox
@@ -371,12 +371,7 @@
 													id="layout-item-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-no-label"
 													class="text-right control-label">{{ctrl.dataRowNo(ctrl.getDetailFieldSize(),
 														$index)}}</label></td>
-												<td class="text-center" style="width: 15%"><scf-input-text
-														maxlength="255"
-														id="sponsor-field-name-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-textbox"
-														ng-disabled="!ctrl.manageAll"
-														ng-model="record.displayValue" /></td>
-
+												<td class="text-center" style="width: 15%"></td>
 
 												<td colspan="2" class="text-center" style="width: 18%"><scf-dropdown
 														id="data-type-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-dropdown"

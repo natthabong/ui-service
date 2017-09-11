@@ -274,6 +274,14 @@ module.controller('FileLayoutController', [
 			}
 			return disable;
 		}
+		
+		vm.unauthenConfig = function(){
+			if(vm.manageAll && vm.model.fileType != vm.fileType.delimited){
+				return false;
+			}else{
+				return true;
+			}
+		}
 
 
 		var initialModel = function () {
