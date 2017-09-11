@@ -114,95 +114,100 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 		return deffered;
 	}
 	
-	var validate = function(layout, dataTypeByIds, failFunc){
+	var validate = function(layout, docFieldList, messageFunc){
 		
-		var layoutFileDataTypeId = [];
+		var documentFieldIdList = [];
 		
-		/*if(layout.processType=='AR_DOCUMENT'){
+		console.log(layout);
+		console.log(docFieldList);
+		
+		if(layout.processType=='AR_DOCUMENT'){
 			var errors = { 
 					requireDocDueDate : true,
 					requireNetAmount : true,
-					layoutFileDataTypeIdDupplicate : []
-			}
+					documentFieldIdListDupplicate : []
+			}	
+			
 			layout.items.forEach(function(item) {
-				var dataType = dataTypeByIds[item.layoutFileDataTypeId];
-				if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(item.layoutFileDataTypeId)>-1){
-					if(errors.layoutFileDataTypeIdDupplicate.indexOf(item.layoutFileDataTypeId) < 0){
-						errors.layoutFileDataTypeIdDupplicate.push(item.layoutFileDataTypeId);
+				var docFieldData = docFieldList[item.documentFieldId];
+				if(documentFieldIdList.length > 0 && documentFieldIdList.indexOf(item.documentFieldId)>-1){
+					if(errors.documentFieldIdListDupplicate.indexOf(item.documentFieldId) < 0){
+						errors.documentFieldIdListDupplicate.push(item.documentFieldId);
 					}						
-				}else if(item.layoutFileDataTypeId != null && !dataType.transient){
-					if(item.layoutFileDataTypeId == 13){
+				}else if(item.documentFieldId != null && docFieldData.documentFieldName!=null){
+					if(item.documentFieldId == 14){
 						errors.requireNetAmount = false;
-					}else if(item.layoutFileDataTypeId == 8){
+					}else if(item.documentFieldId == 9){
 						errors.requireDocDueDate = false;
 					}
-					layoutFileDataTypeId.push(item.layoutFileDataTypeId);
+					documentFieldIdList.push(item.documentFieldId);
 				}
 				
 				if(item.valueCloningFields!=null && item.valueCloningFields.length>0){
 					item.valueCloningFields.forEach(function(itemClone) {
-						if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(itemClone.layoutFileDataTypeId)>-1){
-							if(errors.layoutFileDataTypeIdDupplicate.indexOf(itemClone.layoutFileDataTypeId) < 0){
-								errors.layoutFileDataTypeIdDupplicate.push(itemClone.layoutFileDataTypeId);
+						if(documentFieldIdList.length > 0 && documentFieldIdList.indexOf(itemClone.documentFieldId)>-1){
+							if(errors.documentFieldIdListDupplicate.indexOf(itemClone.documentFieldId) < 0){
+								errors.documentFieldIdListDupplicate.push(itemClone.documentFieldId);
 							}
-						}else if(itemClone.layoutFileDataTypeId != null && !dataType.transient){
-							if(itemClone.layoutFileDataTypeId == 13){
+						}else if(itemClone.documentFieldId != null && docFieldData.documentFieldName!=null){
+							if(itemClone.documentFieldId == 14){
 								errors.requireNetAmount = false;
-							}else if(itemClone.layoutFileDataTypeId == 8){
+							}else if(itemClone.documentFieldId == 9){
 								errors.requireDocDueDate = false;
 							}
-							layoutFileDataTypeId.push(itemClone.layoutFileDataTypeId);
+							documentFieldIdList.push(itemClone.documentFieldId);
 						}								
 					});		
-				}
-					
+				}				
 			});
-						
-			if(errors.requireDocDueDate || errors.requireNetAmount || errors.layoutFileDataTypeIdDupplicate.length > 0){
-				failFunc(errors);
+			
+			if(errors.requireDocDueDate || errors.requireNetAmount || errors.documentFieldIdListDupplicate.length > 0){
+				messageFunc(errors);
 				return false;
 			}
 			
 		}else if(layout.processType=='AP_DOCUMENT'){
 			var errors = { 
-					requirePaymentAmount : true,
-					layoutFileDataTypeIdDupplicate : []
-			}			
+				requirePaymentAmount : true,
+				documentFieldIdListDupplicate : []
+			}
+			
 			layout.items.forEach(function(item) {
-				var dataType = dataTypeByIds[item.layoutFileDataTypeId];
-				if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(item.layoutFileDataTypeId)>-1){
-					if(errors.layoutFileDataTypeIdDupplicate.indexOf(item.layoutFileDataTypeId) < 0){
-						errors.layoutFileDataTypeIdDupplicate.push(item.layoutFileDataTypeId);
+				var docFieldData = docFieldList[item.documentFieldId];
+				if(documentFieldIdList.length > 0 && documentFieldIdList.indexOf(item.documentFieldId)>-1){
+					if(errors.documentFieldIdListDupplicate.indexOf(item.documentFieldId) < 0){
+						errors.documentFieldIdListDupplicate.push(item.documentFieldId);
 					}
-				}else if(item.layoutFileDataTypeId != null && !dataType.transient){
-					if(item.layoutFileDataTypeId == 17){
+				}else if(item.documentFieldId != null && docFieldData.documentFieldName!=null){
+					if(item.layoutFileDataTypeId == 18){
 						errors.requirePaymentAmount = false;
 					}
-					layoutFileDataTypeId.push(item.layoutFileDataTypeId);
+					documentFieldIdList.push(item.documentFieldId);
 				}
 				
 				if(item.valueCloningFields!=null && item.valueCloningFields.length>0){
 					item.valueCloningFields.forEach(function(itemClone) {
-						if(layoutFileDataTypeId.length > 0 && layoutFileDataTypeId.indexOf(itemClone.layoutFileDataTypeId)>-1){							
-							if(errors.layoutFileDataTypeIdDupplicate.indexOf(itemClone.layoutFileDataTypeId) < 0){
-								errors.layoutFileDataTypeIdDupplicate.push(itemClone.layoutFileDataTypeId);
+						if(documentFieldIdList.length > 0 && documentFieldIdList.indexOf(itemClone.documentFieldId)>-1){							
+							if(errors.documentFieldIdListDupplicate.indexOf(itemClone.documentFieldId) < 0){
+								errors.documentFieldIdListDupplicate.push(itemClone.documentFieldId);
 							}
-						}else if(itemClone.layoutFileDataTypeId != null && !dataType.transient){
-							if(itemClone.layoutFileDataTypeId == 17){
+						}else if(itemClone.documentFieldId != null && docFieldData.documentFieldName!=null){
+							if(itemClone.documentFieldId == 18){
 								errors.requirePaymentAmount = false;
 							}
-							layoutFileDataTypeId.push(itemClone.layoutFileDataTypeId);
+							documentFieldIdList.push(itemClone.documentFieldId);
 						}								
 					});		
 				}
-			});			
+			});		
 			
-			if(errors.requirePaymentAmount || errors.layoutFileDataTypeIdDupplicate.length > 0){
-				failFunc(errors);
+			if(errors.requirePaymentAmount || errors.documentFieldIdListDupplicate.length > 0){
+				messageFunc(errors);
 				return false;
-			}			
-		}*/
+			}
+		}
 		
+		messageFunc(errors);
 		return true;
 	}
 	return {
