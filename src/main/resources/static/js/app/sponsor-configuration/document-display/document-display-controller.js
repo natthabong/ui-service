@@ -158,7 +158,6 @@ angular
                 }
 
                 vm.addItem = function() {
-                	console.log(vm.dataModel);
                     vm.dataModel.items.push({
                     	documentFieldId: null,
                         sortType: null,
@@ -536,66 +535,46 @@ angular
 	 }]).factory('DocumentDisplayConfigExampleService', ['$filter', 'SCFCommonService', function($filter, SCFCommonService) {
 		 return {
 			 TEXT_DisplayExample: TEXT_DisplayExample,
-			 DOCUMENT_TYPE_DisplayExample: DOCUMENT_TYPE_DisplayExample,
 			 CUSTOMER_CODE_DisplayExample: CUSTOMER_CODE_DisplayExample,
-			 DOCUMENT_NO_DisplayExample: DOCUMENT_NO_DisplayExample,
 			 NUMERIC_DisplayExample: NUMERIC_DisplayExample,
-			 PAYMENT_AMOUNT_DisplayExample: PAYMENT_AMOUNT_DisplayExample,
 			 DATE_TIME_DisplayExample: DATE_TIME_DisplayExample
 		 }
-		 
 		 function TEXT_DisplayExample(record, config){
 			 var displayMessage = config.detailExamplePattern;
              var replacements = [SCFCommonService.camelize(record.alignment), config.defaultExampleValue];
              return SCFCommonService.replacementStringFormat(displayMessage, replacements);
 		 }
-		 
-		 function DOCUMENT_TYPE_DisplayExample(record, config){
-			 var displayMessage = config.detailExamplePattern;
-             var replacements = [SCFCommonService.camelize(record.alignment), config.defaultExampleValue];
-             return SCFCommonService.replacementStringFormat(displayMessage, replacements);
-		 }
-		 
 		 function CUSTOMER_CODE_DisplayExample(record, config){
 			 var displayMessage = config.detailExamplePattern;
              var replacements = [SCFCommonService.camelize(record.alignment), config.defaultExampleValue];
              return SCFCommonService.replacementStringFormat(displayMessage, replacements);
 		 }
-		 
-		 function DOCUMENT_NO_DisplayExample(record, config){
+		 function NUMERIC_DisplayExample(record, config){
 			 var displayMessage = config.detailExamplePattern;
-             var replacements = [SCFCommonService.camelize(record.alignment), config.defaultExampleValue];
+			 var exampleRawData =  parseFloat(config.defaultExampleValue).toFixed(2);
+			 var examplePosDataDisplay = '';
+			 var exampleNegDataDisplay = '';
+			 if(record.filterType != null){
+				 examplePosDataDisplay = $filter(record.filterType)(exampleRawData, 2);
+		    	 exampleNegDataDisplay = $filter(record.filterType)(-exampleRawData, 2);
+			 }else{
+				 examplePosDataDisplay = $filter('number')(exampleRawData, 2);
+		    	 exampleNegDataDisplay = $filter('number')(-exampleRawData, 2);
+			 }
+             var replacements = [SCFCommonService.camelize(record.alignment), examplePosDataDisplay, exampleNegDataDisplay];
              return SCFCommonService.replacementStringFormat(displayMessage, replacements);
 		 }
-		 function NUMERIC_DisplayExample(record, config){
-			 if(record.filterType != null){
-				 var displayMessage = config.detailExamplePattern;
-				 var exampleRawData =  parseFloat(config.defaultExampleValue).toFixed(2);
-				 var examplePosDataDisplay = $filter(record.filterType)(exampleRawData, 2);
-		    	 var exampleNegDataDisplay = $filter(record.filterType)(-exampleRawData, 2);
-	             var replacements = [SCFCommonService.camelize(record.alignment), examplePosDataDisplay, exampleNegDataDisplay];
-	             return SCFCommonService.replacementStringFormat(displayMessage, replacements);
-			 }else{
-				 return "";
-			 }
-		 }
-		 function PAYMENT_AMOUNT_DisplayExample(record, config) {
-			var displayMessage = config.detailExamplePattern;
-			
-			var exampleRawData =  parseFloat(config.defaultExampleValue).toFixed(2);		    
-			var examplePosDataDisplay = $filter(record.filterType)(exampleRawData, 2);
-			var exampleNegDataDisplay = $filter(record.filterType)(-exampleRawData, 2);
-			var replacements = [ SCFCommonService.camelize(record.alignment), examplePosDataDisplay, exampleNegDataDisplay ];
-			return SCFCommonService.replacementStringFormat(displayMessage, replacements);
-		}
-		 
 		 function DATE_TIME_DisplayExample(record, config) {
 			var displayMessage = config.detailExamplePattern;
 			var date = new Date(config.defaultExampleValue);
-			var exampleDataDisplay = $filter('date')(date, record.format);
-			console.log(record);
-			console.log(config);
-			var replacements = [ SCFCommonService.camelize(record.alignment), record.format.toUpperCase(), exampleDataDisplay ];
+			var exampleDataDisplay = '';
+			var replacements = '';
+			if(record.format != null){
+				exampleDataDisplay = $filter('date')(date, record.format);
+				replacements = [ SCFCommonService.camelize(record.alignment), record.format.toUpperCase(), exampleDataDisplay ];
+			}else{
+				replacements = [ SCFCommonService.camelize(record.alignment), '-', config.defaultExampleValue ];
+			}
 			return SCFCommonService.replacementStringFormat(displayMessage, replacements);
 		}
 	 }]);

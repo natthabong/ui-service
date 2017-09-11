@@ -476,7 +476,6 @@ module.controller('FileLayoutController', [
 
 			dataTypeDropdowns.forEach(function (obj) {
 				if (documentFieldId == obj.documentFieldId) {
-					console.log(obj);
 					var dataType = obj.dataType;
 					var dialog = ngDialog.open({
 						id: 'layout-setting-dialog-' + index,
