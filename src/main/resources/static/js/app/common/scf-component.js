@@ -927,8 +927,8 @@
 				}
 				
 				function generateIdTemplate(data){
-					if(angular.isDefined(data.fieldName)){
-						return data.fieldName+'-{value}';
+					if(angular.isDefined(data.documentField.documentFieldName)){
+						return data.documentField.documentFieldName+'-{value}';
 					}
 					return undefined;
 				}
