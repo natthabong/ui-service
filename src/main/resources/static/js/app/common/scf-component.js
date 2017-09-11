@@ -808,7 +808,131 @@
 						});
 					}
 				};
-			}).directive('scfTable', [ '$compile', '$parse', function($complie, $parse) {
+			}).directive('scfLayoutTable', [ '$compile', '$parse', function($complie, $parse) {
+				return {
+					restrict : 'E',
+					transclude : true,
+					replace : true,
+					scope : true,
+					controller : [ '$scope', '$element', '$attrs', scfTableController ],
+					templateUrl : function(elem, attr) {
+						return attr.templateUrl || 'ui/template/table_template.html';
+					}
+				}
+
+				function scfTableController($scope, $element, $attrs) {
+					var vm = $scope;
+					vm.tableColumns = [];
+					vm.initSort = function() {
+						vm.order = '';
+						vm.reverse = false;
+					}
+
+					vm.$watch($attrs.clearSortOrder, function(data) {
+						vm.initSort();
+					});
+
+					vm.pageOptions = {
+						currentPage : 0,
+						recordPerPage : 20
+					};
+
+					vm.$watch($attrs.currentPage, function(data) {
+						if (data !== undefined) {
+							vm.pageOptions.currentPage = data;
+						}
+					});
+
+					vm.$watch($attrs.recordPerPage, function(data) {
+						if (data !== undefined) {
+							vm.pageOptions.recordPerPage = data;
+						}
+					});
+
+					vm.$watch($attrs.componentConfig, function(dataConfig) {
+						var tableOption = dataConfig.options || {};
+
+						// Clear value begin add column;
+						vm.tableColumns = [];
+						var identityField = dataConfig.identityField || '$rowNo';
+						dataConfig.columns.forEach(function(data) {
+							if(data['hiddenColumn'] != true){
+								var rowData = {
+									fieldName : data.documentField.documentFieldName,
+									labelEN : data['labelEN'] ? data['labelEN'] :data['label']  ,
+									labelTH : data['labelTH'] ? data['labelTH'] :data['label'] ,
+									cellTemplate : data['cellTemplate'],
+									sortable : data['sortable'] || false,
+									cssTemplateHeader : getCssConfigHeader(data),
+									cssTemplate : getCssConfig(data),
+									filterType : data['filterType'],
+									format : data['format'],
+									idValueField : identityField || data['idValueField'],
+									idTemplate : data.id || generateIdTemplate(data),
+									renderer : data['renderer'],
+									dataRenderer: data['dataRenderer'],
+									headerId: data['headerId']
+								};
+								vm.tableColumns.push(rowData);
+							}
+						});
+
+						// Check option set to Show checkBox
+						if (tableOption.displaySelect !== undefined) {
+							var rowData = {
+								label : tableOption.displaySelect['label'],
+								fieldName : 'selectBox',
+								idTemplate : tableOption.displaySelect['id'],
+								cellTemplate : tableOption.displaySelect['cellTemplate'],
+								idValueField : tableOption.displaySelect['idValueField']
+							};
+
+							if (tableOption.displaySelect['displayPosition'] === 'first') {
+								vm.tableColumns.splice(0, 0, rowData);
+							} else {
+								vm.tableColumns.push(rowData);
+							}
+						}
+					}, true);
+					vm.$watch($attrs.componentDatas, function(data) {
+						vm.componentDatas = data;
+					});
+				}
+				
+				function getCssConfig(data){
+					var result = '';
+					if(angular.isDefined(data.cssTemplate)){
+						result = data.cssTemplate;
+					}
+					
+					if(angular.isDefined(data.alignment)){
+						var alignment = data.alignment;
+						if(alignment == 'RIGHT'){
+							result += ' text-right';
+						}else if(alignment == 'CENTER' ){
+							result += ' text-center';
+						}else{
+							result += ' text-left';
+						}
+					}
+					return result;
+				}
+				
+				function getCssConfigHeader(data){
+					var result = 'text-center';
+					if(angular.isDefined(data.cssTemplate)){
+						result += ' '+data.cssTemplate;
+					}
+					return result;
+				}
+				
+				function generateIdTemplate(data){
+					if(angular.isDefined(data.fieldName)){
+						return data.fieldName+'-{value}';
+					}
+					return undefined;
+				}
+			} ]).directive('scfTable', [ '$compile', '$parse', function($complie, $parse) {
 			return {
 				restrict : 'E',
 				transclude : true,

@@ -80,7 +80,7 @@
 										<div class="panel-body">
 											<div class="row">
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Credit limit' | translate">วงเงินกู้
+													<label ng-bind="'Credit limit' | translate">à¸§à¸‡à¹€à¸‡à¸´à¸™à¸�à¸¹à¹‰
 													</label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
@@ -90,7 +90,7 @@
 												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
 
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Available' | translate">วงเงินกู้ที่สามารถเบิกถอนได้</label>:
+													<label ng-bind="'Available' | translate">à¸§à¸‡à¹€à¸‡à¸´à¸™à¸�à¸¹à¹‰à¸—à¸µà¹ˆà¸ªà¸²à¸¡à¸²à¸£à¸–à¹€à¸šà¸´à¸�à¸–à¸­à¸™à¹„à¸”à¹‰</label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
 													<span id="available-label"
@@ -100,7 +100,7 @@
 											</div>
 											<div class="row">
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Outstanding' | translate">ยอดเงินกู้ที่เบิกถอนแล้ว</label>:
+													<label ng-bind="'Outstanding' | translate">à¸¢à¸­à¸”à¹€à¸‡à¸´à¸™à¸�à¸¹à¹‰à¸—à¸µà¹ˆà¹€à¸šà¸´à¸�à¸–à¸­à¸™à¹�à¸¥à¹‰à¸§</label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
 													<span id="outstanding-label"
@@ -108,7 +108,7 @@
 												</div>
 												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Future drawdown' | translate">ยอดเงินกู้ล่วงหน้า</label>:
+													<label ng-bind="'Future drawdown' | translate">à¸¢à¸­à¸”à¹€à¸‡à¸´à¸™à¸�à¸¹à¹‰à¸¥à¹ˆà¸§à¸‡à¸«à¸™à¹‰à¸²</label>:
 												</div>
 												<div class="col-md-2  col-sm-2 text-right">
 													<span id="future-amount-label"
@@ -145,7 +145,7 @@
 												</div>
 												<div class="col-md-1 col-sm-1"></div>
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Interest rate' | translate">อัตราดอกเบี้ยเงินกู้</label>:
+													<label ng-bind="'Interest rate' | translate">à¸­à¸±à¸•à¸£à¸²à¸”à¸­à¸�à¹€à¸šà¸µà¹‰à¸¢à¹€à¸‡à¸´à¸™à¸�à¸¹à¹‰</label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
 													<span id="interest-rate-label"
@@ -197,12 +197,12 @@
 							<!-- Start Table-->
 							<div class="row">
 								<div class="col-md-12">
-									<scf-table id="create-transaction-table"
+									<scf-layout-table id="create-transaction-table"
 										component-config="ctrl.dataTable"
 										component-datas="ctrl.pagingController.tableRowCollection"
 										current-page="ctrl.pagingController.pagingModel.currentPage"
 										record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-										clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+										clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-layout-table>
 								</div>
 								<div id="fixed-bottom" class="col-md-12"></div>
 							</div>

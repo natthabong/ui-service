@@ -89,6 +89,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             _criteria.customerCode = vm.createTransactionModel.supplierCode;
             _criteria.sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
 
+            console.log(pagingModel);
             var deffered = vm.pagingController.search(pagingModel || ( $stateParams.backAction? {
 	    		offset : _criteria.offset,
 				limit : _criteria.limit
@@ -272,11 +273,12 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId,'PAYABLE','TRANSACTION_DOCUMENT');
             displayConfig.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
+                console.log(response);
                 vm.pagingController = PagingController.create('api/v1/documents', _criteria, 'GET');
                 vm.loanRequestMode = response.loanRequestMode;
                 vm.documentSelection = response.documentSelection;
                 supplierCodeSelectionMode = response.supplierCodeSelectionMode
-                _criteria.sort = response.sort;
+//                _criteria.sort = response.sort; 
                 if(vm.loanRequestMode != null){
                     _loadSupplierCode();
                 }
@@ -310,6 +312,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     }
 
                     // Load documentConfig from DB
+					console.log(vm.createTransactionModel.sponsorCode);
                     _loadDocumentDisplayConfig(vm.createTransactionModel.sponsorCode);
                 }
                
