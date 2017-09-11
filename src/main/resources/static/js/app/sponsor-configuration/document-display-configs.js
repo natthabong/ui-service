@@ -93,11 +93,10 @@ angular.module('scfApp').controller('DocumentDisplayConfigController', ['Service
 //            PageNavigation.gotoPage('/sponsor-configuration/document-display/settings', params)
 //        };
         
-        vm.setupDisplayDocument = function(type, mode, displayDocumentCfg) {
+        vm.setupDisplayDocument = function(type, mode) {
             var params = {
             	accountingTransactionType: type,
-            	displayMode: mode,
-            	selectedItem: displayDocumentCfg
+            	displayMode: mode
             };
             PageNavigation.gotoPage('/sponsor-configuration/document-display/settings', params)
         };

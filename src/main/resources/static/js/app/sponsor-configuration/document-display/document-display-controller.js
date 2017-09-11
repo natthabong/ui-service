@@ -35,8 +35,6 @@ angular
                 var ownerId = $rootScope.sponsorId;
                 var accountingTransactionType = $stateParams.accountingTransactionType;
                 var displayMode = $stateParams.displayMode;
-                var selectedItem = $stateParams.selectedItem;
-
                 var BASE_URI = 'api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType +'/display-modes/' + displayMode + '/displays';
 
                 var newDisplayConfig = function() {
@@ -160,6 +158,7 @@ angular
                 }
 
                 vm.addItem = function() {
+                	console.log(vm.dataModel);
                     vm.dataModel.items.push({
                     	documentFieldId: null,
                         sortType: null,
@@ -308,10 +307,10 @@ angular
                     vm.documentFieldData.forEach(function(obj) {
                     	
                         if (record.documentField != null && record.documentField.documentFieldId == obj.documentFieldId) {
-                            if (record.completed) {
+//                            if (record.completed) {
                             	
                             	msg = $injector.get('DocumentDisplayConfigExampleService')[obj.dataType+'_DisplayExample'](record, obj);
-                            }
+//                            }
                         }
                     });
                     return msg;
@@ -594,6 +593,8 @@ angular
 			var displayMessage = config.detailExamplePattern;
 			var date = new Date(config.defaultExampleValue);
 			var exampleDataDisplay = $filter('date')(date, record.format);
+			console.log(record);
+			console.log(config);
 			var replacements = [ SCFCommonService.camelize(record.alignment), record.format.toUpperCase(), exampleDataDisplay ];
 			return SCFCommonService.replacementStringFormat(displayMessage, replacements);
 		}

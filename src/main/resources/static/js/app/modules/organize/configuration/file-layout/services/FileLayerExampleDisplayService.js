@@ -16,7 +16,7 @@ module.factory('FileLayerExampleDisplayService', [ '$filter', function($filter) 
 	}
 
 	function TEXT_DisplayExample(record, config) {
-		var displayMessage = config.defaultExampleValue;
+		var displayMessage = config.detailExamplePattern;
 		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 		displayMessage = displayMessage.replace('{expectedValue}', (hasExpected ? record.expectedValue : ''));
@@ -25,7 +25,7 @@ module.factory('FileLayerExampleDisplayService', [ '$filter', function($filter) 
 	}
 	
 	function MATCHING_REF_DisplayExample(record, config) {
-		var displayMessage = config.defaultExampleValue;
+		var displayMessage = config.detailExamplePattern;
 		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 		displayMessage = displayMessage.replace('{expectedValue}', (hasExpected ? record.expectedValue : ''));
@@ -34,7 +34,7 @@ module.factory('FileLayerExampleDisplayService', [ '$filter', function($filter) 
 	}
 
 	function DOCUMENT_NO_DisplayExample(record, config) {
-		var displayMessage = config.defaultExampleValue;
+		var displayMessage = config.detailExamplePattern;
 
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 		displayMessage = displayMessage.replace('{expectedValue}', record.expectedValue);
@@ -43,7 +43,7 @@ module.factory('FileLayerExampleDisplayService', [ '$filter', function($filter) 
 	}
 
 	function CUSTOMER_CODE_DisplayExample(record, config) {
-		var displayMessage = config.defaultExampleValue;
+		var displayMessage = config.detailExamplePattern;
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 		displayMessage = displayMessage.replace('{expectedValue}', '');
 		displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);
@@ -55,7 +55,7 @@ module.factory('FileLayerExampleDisplayService', [ '$filter', function($filter) 
 		if (format == 0) {
 			return '';
 		}
-		var displayMessage = config.defaultExampleValue;
+		var displayMessage = config.detailExamplePattern;
 
 		var calendarEra = "Christ calendar (A.D.)";
 		if (record.calendarEra == "BE") {
@@ -88,7 +88,7 @@ module.factory('FileLayerExampleDisplayService', [ '$filter', function($filter) 
 	}
 
 	function NUMERIC_DisplayExample(record, config) {
-		var displayMessage = config.defaultExampleValue;
+		var displayMessage = config.detailExamplePattern;
 
 		var numberFormatDisplay = 'Any numeric format'
 		if ((record.paddingCharacter != null&&record.paddingCharacter != '') || record.has1000Separator == true || record.hasDecimalPlace == true) {
@@ -137,7 +137,7 @@ module.factory('FileLayerExampleDisplayService', [ '$filter', function($filter) 
 	}
 
 	function PAYMENT_AMOUNT_DisplayExample(record, config) {
-		var displayMessage = config.defaultExampleValue;
+		var displayMessage = config.detailExamplePattern;
 
 		var numberFormatDisplay = 'Any numeric format'
 
@@ -185,7 +185,7 @@ module.factory('FileLayerExampleDisplayService', [ '$filter', function($filter) 
 	}
 
 	function DOCUMENT_TYPE_DisplayExample(record, config) {
-		var displayMessage = config.defaultExampleValue;
+		var displayMessage = config.detailExamplePattern;
 
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 		displayMessage = displayMessage.replace('{expectedValue}', record.expectedValue || '-');
@@ -195,7 +195,7 @@ module.factory('FileLayerExampleDisplayService', [ '$filter', function($filter) 
 	}
 
 	function RECORD_TYPE_DisplayExample(record, config) {
-		var displayMessage = config.defaultExampleValue;
+		var displayMessage = config.detailExamplePattern;
 		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
 		displayMessage = displayMessage.replace('{expectedValue}', (hasExpected ? record.expectedValue : ''));
@@ -204,7 +204,7 @@ module.factory('FileLayerExampleDisplayService', [ '$filter', function($filter) 
 	}
 
 	function FILLER_DisplayExample(record, config) {
-		var displayMessage = config.defaultExampleValue;
+		var displayMessage = config.detailExamplePattern;
 		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
 		var fillerTypeMsg = '';
 
@@ -227,7 +227,7 @@ module.factory('FileLayerExampleDisplayService', [ '$filter', function($filter) 
 	}
 	
 	function SIGN_FLAG_DisplayExample(record, config) {
-		var displayMessage = config.defaultExampleValue;
+		var displayMessage = config.detailExamplePattern;
 		var hasPositiveValue = !(angular.isUndefined(record.positiveFlag) || record.positiveFlag === null);
 		var hasNegativeValue = !(angular.isUndefined(record.negativeFlag) || record.negativeFlag === null);
 		var examplePosDataDisplay = parseFloat(config.defaultExampleValue);
