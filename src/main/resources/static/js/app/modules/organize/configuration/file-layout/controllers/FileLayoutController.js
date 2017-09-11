@@ -282,8 +282,72 @@ module.controller('FileLayoutController', [
 				return true;
 			}
 		}
+		
+		vm.fileTypeChange = function () {
 
+			if (vm.oldStateFileType == 'SPECIFIC') {
+				vm.headerItems = [];
+				vm.items = [];
+				vm.dataDetailItems = [];
+				vm.footerItems = [];
+				vm.dataDetailItems = [];
 
+				vm.configHeader = false;
+				vm.configFooter = false;
+
+				vm.clearHeaderConfig;
+				vm.clearFooterConfig;
+				vm.clearRelationField;
+			}
+
+			if (vm.model.fileType != 'CSV') {
+				vm.delimeter = ',';
+				vm.delimeterOther = '';
+			}
+
+			if (vm.model.fileType == 'SPECIFIC') {
+				vm.headerItems = [];
+				vm.items = [];
+				vm.dataDetailItems = [];
+				vm.footerItems = [];
+				vm.dataDetailItems = [];
+
+				vm.configHeader = false;
+				vm.configFooter = false;
+
+				vm.clearHeaderConfig;
+				vm.clearFooterConfig;
+				vm.clearRelationField;
+			}else if(vm.model.fileType == 'CSV') {
+				vm.headerItems = [];
+				vm.footerItems = [];
+
+				vm.configHeader = false;
+				vm.configFooter = false;
+
+				vm.clearHeaderConfig;
+				vm.clearFooterConfig;
+			}else {
+				if (vm.items.length == 0) {
+					vm.items = [{
+						primaryKeyField: false,
+						docFieldName: null,
+						dataType: null,
+						isTransient: false,
+						dataLength: null,
+						startIndex: null,
+						endIndex: null,
+						recordType: "DETAIL",
+						itemType: 'FIELD'
+					}];
+				}
+				vm.customerCodeGroup = '';
+			}
+
+			vm.oldStateFileType = vm.model.fileType;
+
+		}
+		
 		var initialModel = function () {
 			vm.model = {
 				displayName: vm.headerName,
@@ -322,7 +386,7 @@ module.controller('FileLayoutController', [
 			vm.delimeter = ',';
 			vm.delimeterOther = '';
 
-			vm.specificModel = 'Specific 1'
+			vm.specificModel = 'Specific 1';
 		}
 
 		vm.paymentDateFormularModelDropdowns = [];
@@ -449,6 +513,8 @@ module.controller('FileLayoutController', [
 						vm.footerItems = footerItems;
 					}
 				});
+				
+				vm.fileTypeChange();
 
 			} else {
 				initialModel();
@@ -954,62 +1020,6 @@ module.controller('FileLayoutController', [
 			} else {
 				return false;
 			}
-		}
-
-		vm.fileTypeChange = function () {
-
-			if (vm.oldStateFileType == 'SPECIFIC') {
-				vm.headerItems = [];
-				vm.items = [];
-				vm.dataDetailItems = [];
-				vm.footerItems = [];
-				vm.dataDetailItems = [];
-
-				vm.configHeader = false;
-				vm.configFooter = false;
-
-				vm.clearHeaderConfig;
-				vm.clearFooterConfig;
-				vm.clearRelationField;
-			}
-
-			if (vm.model.fileType != 'CSV') {
-				vm.delimeter = ',';
-				vm.delimeterOther = '';
-			}
-
-			if (vm.model.fileType == 'SPECIFIC') {
-				vm.headerItems = [];
-				vm.items = [];
-				vm.dataDetailItems = [];
-				vm.footerItems = [];
-				vm.dataDetailItems = [];
-
-				vm.configHeader = false;
-				vm.configFooter = false;
-
-				vm.clearHeaderConfig;
-				vm.clearFooterConfig;
-				vm.clearRelationField;
-			} else {
-				if (vm.items.length == 0) {
-					vm.items = [{
-						primaryKeyField: false,
-						docFieldName: null,
-						dataType: null,
-						isTransient: false,
-						dataLength: null,
-						startIndex: null,
-						endIndex: null,
-						recordType: "DETAIL",
-						itemType: 'FIELD'
-					}];
-				}
-				vm.customerCodeGroup = '';
-			}
-
-			vm.oldStateFileType = vm.model.fileType;
-
 		}
 
 		vm.delimeterChange = function () {

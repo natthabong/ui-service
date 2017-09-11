@@ -109,7 +109,7 @@
 										ng-bind="'Detail' | translate" id="detail-label"></span>
 									</label> <br /> <label class="checkbox-inline"> <scf-checkbox
 											id="row-format-footer-checkbox" ng-model="ctrl.configFooter"
-											ng-disabled="!ctrl.manageAll"
+											ng-disabled="ctrl.unauthenConfig()"
 											ng-click="ctrl.clearFooterConfig()"></scf-checkbox> <span
 										ng-bind="'Footer' | translate" id="footer-label"></span>
 									</label>
