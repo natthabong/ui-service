@@ -79,7 +79,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             pageOptions.loanRequestMode = response.loanRequestMode;
             pageOptions.documentSelection = response.documentSelection;
             pageOptions.buyerCodeSelectionMode = response.buyerCodeSelectionMode;
-            vm.criteria.sort = response.sort.join();
+//            vm.criteria.sort = response.sort.join();
             _loadBuyerCodes(ownerId);
         });
     }
@@ -398,7 +398,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     function _calculateTransactionAmount(documentSelects) {
         var sumAmount = 0;
         documentSelects.forEach(function(document) {
-            sumAmount += document.paymentAmount;
+            sumAmount += document.netAmount;
         });
         vm.transactionModel.transactionAmount = sumAmount;
     }
