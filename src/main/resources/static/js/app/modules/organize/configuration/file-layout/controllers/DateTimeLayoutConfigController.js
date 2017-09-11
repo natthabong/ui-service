@@ -1,6 +1,6 @@
 'use strict';
 var module = angular.module('gecscf.organize.configuration.fileLayout');
-module.controller('DateTimeLayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', function($scope, $rootScope, $q, Service) {
+module.controller('DateTimeLayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service','$log', function($scope, $rootScope, $q, Service, $log) {
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
 	vm.config = $scope.ngDialogData.config;
@@ -134,7 +134,7 @@ module.controller('DateTimeLayoutConfigController', [ '$scope', '$rootScope', '$
 
 	var headerDatetimeList = function() {		
 		headerItems.forEach(function(item) {
-			var dataType = dataTypeByIds[item.layoutFileDataTypeId];
+			var dataType = dataTypeByIds[item.documentFieldId];
 			if (dataType.dataType == 'DATE_TIME') {
 				var itemDropdown = {
 					label : item.displayValue,
