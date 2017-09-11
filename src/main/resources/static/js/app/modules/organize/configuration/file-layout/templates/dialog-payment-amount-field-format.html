@@ -1,0 +1,178 @@
+<div class="modal-content">
+<form name="numericFieldFormat" class="form-horizontal" ng-submit="ctrl.saveNumericValidation();closeThisDialog(ctrl.model)">
+	<div class="modal-header">
+		<div class="row">
+			<div class="col-md-10 col-sm-10">
+				<h3>
+					<span id="payment-amount-field-format-popup-header-message-label"
+						class="popup-text"
+						ng-bind="'Payment amount field format' | translate">Payment
+						amount field format</span>
+				</h3>
+			</div>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				
+					<fieldset>
+						<legend>Format</legend>
+						<div class="form-group">
+							<div class="col-md-6 col-sm-4 col-xs-12">
+								<label class="radio-inline"> <scf-radio
+										id="any-numeric-type"
+										name="payment-amount-field-format-popup-numeric-format-radio"
+										ng-click="ctrl.checkCustomNumeric()"
+										ng-value="ctrl.numericType.anyNumericFormat"
+										ng-model="ctrl.numericeModel.numericTypeFormat"></scf-radio>
+									{{'Any numeric format' | translate}}
+								</label> <br /> <label class="radio-inline"> <scf-radio
+										id="custom-numeric-type"
+										name="payment-amount-field-format-popup-numeric-format-radio"
+										ng-click="ctrl.checkCustomNumeric()"
+										ng-value="ctrl.numericType.customNumericFormat"
+										ng-model="ctrl.numericeModel.numericTypeFormat"></scf-radio>
+									{{'Custom numeric format' | translate}}
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="dealer"
+								class="col-md-1 col-sm-2 col-xs-12 control-label"></label>
+							<div class="col-md-4 col-sm-5 col-xs-12">
+								<label class="checkbox-inline"> <scf-checkbox
+										id="padding-checkbox" ng-model="ctrl.numericeModel.usePadding"
+										ng-click="ctrl.resetPadding()"
+										ng-disabled="ctrl.numericeModel.disableCustomField"></scf-checkbox>
+									<span ng-bind="'Padding character' | translate"
+									id="padding-label"></span>:
+								</label> <br /> <label class="checkbox-inline"> <scf-checkbox
+										id="has-seperator-checkbox"
+										ng-model="ctrl.model.has1000Separator"
+										ng-disabled="ctrl.numericeModel.disableCustomField"></scf-checkbox>
+									<span ng-bind="'Has 1,000 seperator' | translate"
+									id="has-seperator-label"></span>
+								</label> <br /> <label class="checkbox-inline"> <scf-checkbox
+										id="has-decimal-place-checkbox"
+										ng-model="ctrl.model.hasDecimalPlace"
+										ng-disabled="ctrl.numericeModel.disableCustomField"></scf-checkbox>
+									<span ng-bind="'Has decimal place' | translate"
+									id="has-decimal-place-label"></span>
+								</label>
+							</div>
+							<div class="col-md-2 col-sm-3 col-xs-12">
+								<scf-input-text id="padding-value-textbox"
+									maxlength="5"
+									ng-model="ctrl.model.paddingCharacter"
+									ng-disabled="!ctrl.numericeModel.usePadding"></scf-input-text>
+							</div>
+							<div class="col-md-8 col-sm-2 col-xs-12"></div>
+						</div>
+						
+						
+						<div class="form-group">
+							<label for="decimal-place-format"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+								ng-bind="'Decimal places' | translate"></span>:</label>
+							<div class="col-md-2 col-sm-3 col-xs-12">
+								<scf-input-text
+									id="payment-amount-field-format-popup-numeric-decimal-place-textbox"
+									maxlength="10"
+									ng-model="ctrl.model.decimalPlace"></scf-input-text>
+							</div>
+							<div class="col-md-7 col-sm-5 col-xs-12"></div>
+						</div>
+						<div class="form-group">
+							<label for="sign-flag-format"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+								ng-bind="'Sign flag' | translate"></span>:</label>
+							<div class="col-md-6 col-sm-4 col-xs-12">
+								<scf-dropdown
+									id="payment-amount-field-format-popup-sign-flag-dropdown"
+									ng-model="ctrl.numericeModel.signFlag"
+									component-data="ctrl.signFlagDropdown" translate-label="true"></scf-dropdown>
+							</div>
+						</div>
+						
+						<div class="form-group"
+							ng-show="ctrl.numericeModel.signFlag=='Sign flag field'">
+							<label for="sign-flag-format"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+								ng-bind="'' | translate"></span></label> <label for="sign-flag-format"
+								class="col-md-1 col-sm-2 col-xs-12 control-label"><span
+								ng-bind="'Field' | translate"></span>:</label>
+							<div class="col-md-5 col-sm-3 col-xs-12">
+								<scf-dropdown
+									id="payment-amount-field-format-popup-sign-flag-field-dropdown"
+									ng-model="ctrl.numericeModel.signFlagId"
+									component-data="ctrl.signFlagFieldDropdown"
+									translate-label="true"></scf-dropdown>
+							</div>
+							<div class="col-md-3 col-sm-3 col-xs-12"></div>
+						</div>
+						
+						<div class="form-group" ng-show="ctrl.numericeModel.signFlag=='Within field'">
+							<label for="sign-flag-format"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+							<div class="col-md-6 col-sm-4 col-xs-12">
+								<label class="radio-inline"> <scf-radio
+										id="sign-flag-type" name="sign-flag-type-radio"
+										ng-value="ctrl.signFlagType.ignorePlusSymbol"
+										ng-model="ctrl.model.signFlagTypeFormat"></scf-radio>
+									{{'Ignore plus symbol (+) on positive value' | translate}}
+								</label> <br /> <label class="radio-inline"> <scf-radio
+										id="sign-flag-type" name="sign-flag-type-radio"
+										ng-value="ctrl.signFlagType.needPlusSymbol"
+										ng-model="ctrl.model.signFlagTypeFormat"></scf-radio> {{'Need
+									plus symbol (+) on positive value' | translate}}
+								</label> <br /> <label class="radio-inline"> <scf-radio
+										id="sign-flag-type" name="sign-flag-type-radio"
+										ng-value="ctrl.signFlagType.avoidPlusSymbol"
+										ng-model="ctrl.model.signFlagTypeFormat"></scf-radio> {{'Avoid
+									plus symbol (+) on positive value' | translate}}
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="numeric-label"
+								class="col-md-12 col-sm-12 col-xs-12 control-label"> Ex.
+								Positive: <span
+								id="payment-amount-field-format-popup-positive-example-label">{{ctrl.examplePosDataDisplay}}
+							</span> <br /> &nbsp;&nbsp;&nbsp; Negative: <span
+								id="payment-amount-field-format-popup-negative-example-label">{{ctrl.exampleNegDataDisplay}}</span>
+							</label>
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend>Validation</legend>
+						<div class="form-group">
+							<label for="dealer"
+								class="col-md-2 col-sm-3 col-xs-12 control-label"><scf-checkbox
+									id="payment-amount-field-format-popup-require-checkbox"
+									ng-model="ctrl.model.required" ng-checked="true"
+									ng-init="ctrl.model.required=true"></scf-checkbox>
+								<span ng-bind="'Require' | translate" id="require-label"></span>
+							</label>
+						</div>
+					</fieldset>
+				
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-xs-12 text-right">
+				<scf-button id="payment-amount-field-format-popup-cancel-button"
+					class="popup-button" ng-click="closeThisDialog()"
+					ng-bind="'Cancel' | translate"></scf-button>
+				<scf-button id="payment-amount-field-format-popup-ok-button"
+					class="popup-button"
+					type="submit"
+					ng-bind="'OK' | translate"></scf-button>
+
+			</div>
+		</div>
+	</div>
+	</form>
+</div>

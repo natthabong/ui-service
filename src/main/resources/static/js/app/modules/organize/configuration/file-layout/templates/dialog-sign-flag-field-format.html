@@ -1,0 +1,76 @@
+<div class="modal-content">
+<form name="signFlagFieldFormat" class="form-horizontal" ng-submit="closeThisDialog(ctrl.model)">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3><span id="sign-flag-field-format-popup-header-message-label" class="popup-text" ng-bind="'Sign flag field format' | translate">Sign flag field format</span></h3>
+				</div>				
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					
+						<fieldset>
+							<legend><span id="sign-flag-field-format-popup-format-label">Format</span></legend>
+							<div class="form-group">
+							<label for="sign-flag-format"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span id="sign-flag-field-format-popup-positive-flag-label" 
+								ng-bind="'Positive flag' | translate"></span>:</label>
+								<div class="col-md-6 col-sm-4 col-xs-12">
+									<scf-input-text id="sign-flag-field-format-popup-positive-flag-textbox" maxlength = "1"
+										ng-model="ctrl.model.positiveFlag"></scf-input-text>
+								</div>
+							</div>
+							<div class="form-group">
+							<label for="sign-flag-format"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span id="sign-flag-field-format-popup-negative-flag-label"
+								ng-bind="'Negative flag' | translate"></span>:</label>
+								<div class="col-md-6 col-sm-4 col-xs-12">
+									<scf-input-text id="sign-flag-field-format-popup-negative-flag-textbox" maxlength = "1"
+										ng-model="ctrl.model.negativeFlag"></scf-input-text>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="sign-flag-label" class="col-md-12 col-sm-12 col-xs-12 control-label">
+										<span id="sign-flag-field-format-popup-positive-example-label">Ex. Positive: {{ctrl.examplePosDataDisplay}}</span>
+										<br/>
+										&nbsp;&nbsp;&nbsp;
+										<span id="sign-flag-field-format-popup-negative-example-label">Negative: {{ctrl.exampleNegDataDisplay}}</span>
+								</label>
+							</div>
+						</fieldset>
+						<fieldset>
+							<legend><span id="sign-flag-field-format-popup-validation-label">Validation</span></legend>
+							<div class="form-group">
+								<div class="col-md-12 col-sm-12 col-xs-12 ">
+									<label for="dealer" class="checkbox-inline">
+										<scf-checkbox
+											id="sign-flag-field-format-popup-require-checkbox"
+											ng-model="ctrl.model.required"></scf-checkbox>
+										<span id="sign-flag-field-format-popup-require-label" ng-bind="'Require' | translate"></span>
+									</label>
+									
+								</div>
+								
+							</div>
+						</fieldset>
+					
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="sign-flag-field-format-popup-cancel-button" class="popup-button"  
+						ng-click="closeThisDialog()"
+						ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="sign-flag-field-format-popup-ok-button" class="popup-button" 
+						type="submit"
+						ng-bind="'OK' | translate"></scf-button>
+					
+				</div>
+			</div>
+		</div>
+		</form>
+	</div>
