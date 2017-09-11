@@ -51,7 +51,7 @@ paymentModule.controller('ValidateSubmitController', [
         
 		vm.viewRecent = function(){			
 			$timeout(function(){		
-				PageNavigation.gotoPage('/payment-transaction/view', {transactionModel: vm.transactionModel, isShowViewHistoryButton: true});
+				PageNavigation.gotoPage('/payment-transaction/view', {transactionModel: vm.transactionModel, isShowViewHistoryButton: true, viewMode: 'MY_ORGANIZE'});
         	}, 10);
 		};
 		

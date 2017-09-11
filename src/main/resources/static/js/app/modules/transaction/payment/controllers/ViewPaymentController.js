@@ -82,6 +82,7 @@ paymentModule.controller('ViewPaymentController', [
             }
             
             vm.viewHistory = function(){
+            	console.log(url);
             	$timeout(function(){		
     				PageNavigation.gotoPage(url);
     			}, 10);
