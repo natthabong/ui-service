@@ -71,13 +71,13 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 		}
 
 		vm.loadDataMappingTo = function(){
-			var deffered = FileLayoutService.loadDataMappingTo();
+			var deffered = FileLayoutService.loadDataMappingToDropDown(vm.model.recordType);
 			deffered.promise.then(function(response) {
 				var mappingTo = response.data;
 				mappingTo.forEach(function(data){
 					vm.mappingToDropDown.push({
 						label:data.displayFieldName,
-						value:data.layoutFileDataTypeId
+						value:data.documentFieldId
 					});
 				});
 				if(angular.isUndefined(vm.model.mappingToFieldName)){

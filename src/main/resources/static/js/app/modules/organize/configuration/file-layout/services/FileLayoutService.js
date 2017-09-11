@@ -96,16 +96,14 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 	
 	}
 
-	var loadDataMappingTo = function(){
+	var loadDataMappingToDropDown = function(sectionType){
 		var deffered = $q.defer();
-		var uri = 'api/v1/configs/gecscf/layouts/file/data-types'
+		var uri = 'api/v1/configs/file-layout-types/IMPORT/section-types/'+sectionType+'/document-field'
 		$http({
     	    url : uri,
         	method: 'GET',
 			params:{
-				dataType : "TEXT",
-				isTransient : false,
-        		isDisplayField : 'false'
+				isTransient : false
 			}
 	    }).then(function(response) {
 	    	deffered.resolve(response);
@@ -208,7 +206,7 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 		return true;
 	}
 	return {
-		loadDataMappingTo:loadDataMappingTo,
+		loadDataMappingToDropDown:loadDataMappingToDropDown,
 		getDocumentFields: getDocumentFields,
 		getSpecificData: getSpecificData,
 		validate: validate

@@ -116,9 +116,8 @@ tpModule.factory('MappingDataService', [ '$http', '$q', function($http, $q) {
 	    $http({
 	    	    url : serviceUrl,
 	        	method: 'GET',
-				params:{
-					limit : 999,
-					offset : 0
+				params : {
+
 				}
 	        })
 	        .then(function(response) {
