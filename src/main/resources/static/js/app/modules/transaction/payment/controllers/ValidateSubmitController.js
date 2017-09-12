@@ -68,6 +68,9 @@ paymentModule.controller('ValidateSubmitController', [
 		};
 
         vm.submitTransaction = function() {
+        	vm.transactionModel.documents.forEach(function(document) {
+            	document.paymentAmount = document.netAmount;
+            });
         	vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.transactionModel.transactionDate);
         	vm.transactionModel.maturityDate = SCFCommonService.convertStringTodate(vm.transactionModel.maturityDate);
         	var deffered = TransactionService.submitTransaction(vm.transactionModel);
