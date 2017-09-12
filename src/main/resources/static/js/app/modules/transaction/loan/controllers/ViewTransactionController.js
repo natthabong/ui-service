@@ -12,14 +12,14 @@ angular.module('scfApp').controller(
 					vm.isSupplier = false;
 					vm.isBank = false;
 					
-					var currentParty = '';
-					var partyRole = {
-						sponsor : 'sponsor',
-						supplier : 'supplier',
-						bank : 'bank'
+					var currentViewMode = '';
+					var viewMode = {
+						sponsor : 'PARTNER',
+						supplier : 'MY_ORGANIZE',
+						bank : 'CUSTOMER'
 					}
 					
-					currentParty = $stateParams.party;
+					currentViewMode = $stateParams.party;
 					vm.transactionModel = $stateParams.transactionModel;
 					vm.isShowViewHistoryButton = $stateParams.isShowViewHistoryButton;;
 					vm.isShowBackButton = $stateParams.isShowBackButton;
@@ -45,11 +45,11 @@ angular.module('scfApp').controller(
 							PageNavigation.gotoPreviousPage();
 						}
 						
-						if (currentParty == partyRole.sponsor) {
+						if (currentViewMode == viewMode.sponsor) {
 							vm.isSponsor = true;
-						} else if (currentParty == partyRole.supplier) {
+						} else if (currentViewMode == viewMode.supplier) {
 							vm.isSupplier = true;
-						} else if (currentParty == partyRole.bank) {
+						} else if (currentViewMode == viewMode.bank) {
 							vm.isBank = true;
 						}
 						

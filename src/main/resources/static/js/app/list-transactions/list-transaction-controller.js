@@ -660,7 +660,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			transactionType: 'DRAWDOWN'
 		});
 		
-		// viewMode = $stateParams.party;
+		
 		if (viewMode == mode.PARTNER) {
 			transactionModel.sponsorId = organizeId;
 		}else if (viewMode == mode.MY_ORGANIZE) {
