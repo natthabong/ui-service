@@ -168,7 +168,7 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 			
 		}else if(layout.processType=='AP_DOCUMENT'){
 			var errors = { 
-				requirePaymentAmount : true,
+//				requirePaymentAmount : true,
 				documentFieldIdListDupplicate : []
 			}
 			
@@ -179,9 +179,9 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 						errors.documentFieldIdListDupplicate.push(item.documentFieldId);
 					}
 				}else if(item.documentFieldId != null && docFieldData.documentFieldName!=null){
-					if(item.layoutFileDataTypeId == 18){
-						errors.requirePaymentAmount = false;
-					}
+//					if(item.documentFieldId == 18){
+//						errors.requirePaymentAmount = false;
+//					}
 					documentFieldIdList.push(item.documentFieldId);
 				}
 				
@@ -192,9 +192,9 @@ module.factory('FileLayoutService', [ '$http', '$q', function($http, $q) {
 								errors.documentFieldIdListDupplicate.push(itemClone.documentFieldId);
 							}
 						}else if(itemClone.documentFieldId != null && docFieldData.documentFieldName!=null){
-							if(itemClone.documentFieldId == 18){
-								errors.requirePaymentAmount = false;
-							}
+//							if(itemClone.documentFieldId == 18){
+//								errors.requirePaymentAmount = false;
+//							}
 							documentFieldIdList.push(itemClone.documentFieldId);
 						}								
 					});		
