@@ -843,7 +843,7 @@ module.controller('FileLayoutController', [
 		}
 
 
-		$scope.$watch('newFileLayoutCtrl.items', function () {
+		$scope.$watch('ctrl.items', function () {
 			vm.reloadPaymentDateFields();
 			addCreditTermFields(vm.items);
 			if (vm.model.paymentDateConfig == null) {
