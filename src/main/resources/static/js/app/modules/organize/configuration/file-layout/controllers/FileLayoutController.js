@@ -239,7 +239,7 @@ module.controller('FileLayoutController', [
 					if (dateTimeFieldIds.indexOf(data.documentFieldId) != -1 && !isEmptyValue(data.displayValue) && !data.isTransient) {
 						paymentDateDropdown.push({
 							label: data.displayValue,
-							value: data.docFieldName
+							value: data.documentFieldName
 						});
 					}
 				});

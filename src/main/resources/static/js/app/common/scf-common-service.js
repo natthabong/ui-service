@@ -115,7 +115,7 @@ app.service('SCFCommonService', [
 				displayConfig.sort = [];
 				displayConfig.items.forEach(function(item){
 					if(item.sortSequenceNo != null){
-						displayConfig.sort[item.sortSequenceNo] = (item.sortType=='DESC'?'-':'') + item.fieldName;
+						displayConfig.sort[item.sortSequenceNo] = (item.sortType=='DESC'?'-':'') + item.documentField.documentFieldName;
 					}
 				});
 				
