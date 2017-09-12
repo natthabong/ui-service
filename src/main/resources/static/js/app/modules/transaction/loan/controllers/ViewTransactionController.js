@@ -11,6 +11,7 @@ angular.module('scfApp').controller(
 					vm.isSponsor = false;
 					vm.isSupplier = false;
 					vm.isBank = false;
+					var sort = null;
 					
 					var currentViewMode = '';
 					var viewMode = {
@@ -54,6 +55,13 @@ angular.module('scfApp').controller(
 						}
 						
 					     var deffered = ViewTransactionService.prepare(vm.transactionModel);
+							var columnDisplayConfig = vm.loadDocumentDisplayConfig(vm.transactionModel.sponsorId);
+								columnDisplayConfig.promise.then(function(response){
+									vm.dataTable.columns = response.items;
+									sort = response.sort;
+									console.log(sort);
+							});
+
 				            deffered.promise.then(function (response) {
 				            	  vm.transactionModel = angular.extend(response.data,{sponsor: vm.transactionModel.sponsor, supplier: vm.transactionModel.supplier});
 				            	  
@@ -70,10 +78,7 @@ angular.module('scfApp').controller(
 				                .catch(function (response) {
 				                    console.log('View Transaction load error');
 				                });
-				            var columnDisplayConfig = vm.loadDocumentDisplayConfig(vm.transactionModel.sponsorId);
-							columnDisplayConfig.promise.then(function(response){
-								vm.dataTable.columns = response.items;
-						  });
+				            
 					}
 					vm.loadDocumentDisplayConfig = function(sponsorId){
 						var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId,'PAYABLE','TRANSACTION_DOCUMENT');
@@ -91,9 +96,6 @@ angular.module('scfApp').controller(
 						value : '50'
 					} ];
 
-					
-					
-					
 					
 					vm.back = function(){
 						PageNavigation.gotoPreviousPage();
@@ -116,7 +118,8 @@ angular.module('scfApp').controller(
 						var txnDocCriteria = {
 								transactionId: 	vm.transactionModel.transactionId,
 								page: vm.pageModel.currentPage,
-								pageSize: +vm.pageModel.pageSizeSelectModel
+								pageSize: +vm.pageModel.pageSizeSelectModel,
+								sort : sort
 							}
 						var deffered = ViewTransactionService.getDocuments(txnDocCriteria);
 						deffered.promise.then(function(response){
