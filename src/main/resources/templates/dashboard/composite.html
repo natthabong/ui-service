@@ -1,5 +1,5 @@
 <div th:fragment="content"
-	sec:authorize="hasAnyAuthority('VIEW_LOANS_OF_MY_ORGANIZE','VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZE', 'VIEW_AR_DOCUMENTS_REFER_TO_MY_ORGANIZE')">
+	sec:authorize="hasAnyAuthority('VIEW_LOANS_OF_MY_ORGANIZE','VIEW_PAYMENTS_OF_MY_ORGANIZE')">
 	<h3 class="animated fadeInLeft"
 		id="{{dashboardItem.headerLabel | convertToHeadderId}}">{{dashboardItem.headerLabel}}</h3>
 	<div class="row">
