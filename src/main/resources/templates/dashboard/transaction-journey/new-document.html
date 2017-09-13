@@ -1,5 +1,5 @@
 <div th:fragment="content"
-    sec:authorize="hasAnyAuthority('CREATE_LOANS_OF_MY_ORGANIZE','VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZE')">
+    sec:authorize="hasAnyAuthority('CREATE_LOANS_OF_MY_ORGANIZE','VIEW_AP_DOCUMENTS_REFER_TO_MY_ORGANIZE')">
     <div class="panel new-document-panel panel-shadow" ng-controller="JourneyNewDocumentController as newDocCtrl" ng-init="newDocCtrl.load()">
         <a class="mouse-pointer" id="new-document-button" ng-click="newDocCtrl.documentList()">
             <div class="panel-heading txn-journey">
