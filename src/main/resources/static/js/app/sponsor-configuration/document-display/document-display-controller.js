@@ -142,6 +142,16 @@ angular
                         if (vm.dataModel.items == null || vm.dataModel.items.length < 1) {
                             vm.addItem();
                         }
+                      
+                        if (vm.dataModel.loanRequestMode == null || vm.dataModel.loanRequestMode == ''){
+                        	vm.dataModel.loanRequestMode = 'CURRENT_AND_FUTURE';
+                        }
+                        if (vm.dataModel.documentSelection == null || vm.dataModel.documentSelection == ''){
+                        	vm.dataModel.documentSelection = 'ANY_DOCUMENT';
+                        }
+                        if (vm.dataModel.supplierCodeSelectionMode == null || vm.dataModel.supplierCodeSelectionMode == ''){
+                        	vm.dataModel.supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
+                        }
                         
                         if(vm.dataModel.displayMode == 'DOCUMENT'){
                         	vm.headerMessageLabel = "Setup document display";
