@@ -264,7 +264,6 @@ module.controller('FileLayoutController', [
 					dataTypeDropdowns = vm.dataTypeFooters;
 				}
 				dataTypeDropdowns.forEach(function (obj) {
-					// console.log(obj);
 					if (documentFieldId == obj.documentFieldId) {
 						if (obj.configUrl == null) {
 							disable = true;
@@ -817,6 +816,7 @@ module.controller('FileLayoutController', [
 				apiURL = apiURL + '/' + sponsorLayout.layoutConfigId;
 			}
 
+			console.log(sponsorLayout);
 			var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode ? 'POST' : 'PUT');
 
 			return fileLayoutDiferred;
@@ -832,9 +832,10 @@ module.controller('FileLayoutController', [
 			if (angular.isDefined(configItems) && configItems.length > 0) {
 				configItems.forEach(function (data) {
 					if (!isEmptyValue(data.displayValue)) {
+						console.log(data);
 						creditermDropdowns.push({
 							label: data.displayValue,
-							value: data.docFieldName
+							value: vm.dataTypeByIds[data.documentFieldId].documentFieldName
 						});
 					}
 				});
