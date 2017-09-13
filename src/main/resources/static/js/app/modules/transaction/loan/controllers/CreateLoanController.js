@@ -78,7 +78,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         function calculateTransactionAmount(documentSelects, prepercentagDrawdown) {
             var sumAmount = 0;
             documentSelects.forEach(function(document) {
-                sumAmount += document.outstandingAmount;
+                sumAmount += document.netAmount;
             });
             vm.totalDocumentAmount = sumAmount;
             vm.submitTransactionAmount = TransactionService.calculateTransactionAmount(sumAmount, prepercentagDrawdown);
