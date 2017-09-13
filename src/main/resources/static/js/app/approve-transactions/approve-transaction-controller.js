@@ -268,7 +268,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 
 		vm.viewRecent = function(){
 			$timeout(function(){
-            	var params = {transactionModel: vm.transaction, isShowViewHistoryButton:'show', isShowViewHistoryButton: true};
+            	var params = {transactionModel: vm.transaction, isShowViewHistoryButton:'show', isShowViewHistoryButton: true, viewMode: 'MY_ORGANIZE'};
             	PageNavigation.gotoPage('/view-transaction', params, params);
         	}, 10);
 		};

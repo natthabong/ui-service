@@ -20,7 +20,8 @@ angular.module('scfApp').controller(
 						bank : 'CUSTOMER'
 					}
 					
-					currentViewMode = $stateParams.party;
+					currentViewMode = $stateParams.viewMode;
+					
 					vm.transactionModel = $stateParams.transactionModel;
 					vm.isShowViewHistoryButton = $stateParams.isShowViewHistoryButton;;
 					vm.isShowBackButton = $stateParams.isShowBackButton;

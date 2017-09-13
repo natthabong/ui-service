@@ -759,7 +759,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		var isShowBackButton = false;
 		
 		var params = { transactionModel: data,
-				party: viewMode,
+				viewMode: viewMode,
 	            isShowViewHistoryButton: false,
 	            isShowBackButton: true,
 	            criteria:_criteria
@@ -833,13 +833,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		$cookieStore.remove(listStoreKey);
     };
 
-	// vm.disableSupplierSuggest = function() {
-	// 	var isDisable = false;
-	// 	if (viewMode == mode.MY_ORGANIZE) {
-	// 		isDisable = true;
-	// 	}
-	// 	return isDisable;
-	// };
 
     var prepareAutoSuggestLabel = function(item) {
 		item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
@@ -888,7 +881,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	};
 
 	var placeholder;
-	if($stateParams.party == mode.CUSTOMER){
+	if($stateParams.viewMode == mode.CUSTOMER){
 		placeholder = 'Enter organize name or code';
 	}else{
 		placeholder = 'Please Enter organize name or code';
@@ -901,7 +894,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	});
 
 	var querySupplierCode = function(value) {
-		var viewMode = $stateParams.party;
+		var viewMode = $stateParams.viewMode;
 		var buyerId;
 		if(viewMode == mode.CUSTOMER){
 			buyerId = null;

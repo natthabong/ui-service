@@ -167,7 +167,7 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
 	vm.viewRecent = function(){
 		$timeout(function(){		
 			PageNavigation.nextStep('/payment-transaction/view', 
-                {transactionModel: vm.transactionModel, isShowViewHistoryButton: true, isShowBackButton: false});
+                {transactionModel: vm.transactionModel, isShowViewHistoryButton: true, isShowBackButton: false, viewMode: 'MY_ORGANIZE'});
     	}, 10);
 	};
 	

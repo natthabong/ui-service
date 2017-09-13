@@ -95,7 +95,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'ViewTransactionController',
 				controllerAs: 'viewTxnCtrl',
 				templateUrl: '/view-transaction',
-				params: { party: null, transactionModel: null, listTransactionModel: null, backAction: false, isShowBackButton: false, isShowBackButton: false, isShowViewHistoryButton: false, isDisplayReason: 'none'},
+				params: { viewMode: null, transactionModel: null, listTransactionModel: null, backAction: false, isShowBackButton: false, isShowBackButton: false, isShowViewHistoryButton: false, isDisplayReason: 'none'},
 				resolve: load(['js/app/modules/transaction/loan/services/ViewTransactionService.js', 'js/app/modules/transaction/loan/controllers/ViewTransactionController.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/approve-transaction/approve',{
 				url: '/approve-transaction/approve',
@@ -626,7 +626,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'ViewPaymentController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment-transaction/view',
-                params: {viewMode: null, transactionModel: null, isShowViewHistoryButton: false, isShowBackButton: false, viewMode: null},
+                params: {viewMode: null, transactionModel: null, isShowViewHistoryButton: false, isShowBackButton: false},
 				resolve: load(['js/app/modules/transaction/payment/services/ViewPaymentService.js','js/app/modules/transaction/payment/controllers/ViewPaymentController.js'])
 			}).state('/payment-transaction/verify',{
 				url: '/payment-transaction/verify',
