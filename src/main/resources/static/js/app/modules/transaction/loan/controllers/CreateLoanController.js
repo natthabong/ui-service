@@ -275,8 +275,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 vm.pagingController = PagingController.create('api/v1/documents', _criteria, 'GET');
                 vm.loanRequestMode = response.loanRequestMode;
                 vm.documentSelection = response.documentSelection;
-                supplierCodeSelectionMode = response.supplierCodeSelectionMode
-                console.log(response.sort);
+                supplierCodeSelectionMode = response.supplierCodeSelectionMode;
                _criteria.sort = response.sort;
                 if(vm.loanRequestMode != null){
                     _loadSupplierCode();

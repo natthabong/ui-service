@@ -55,31 +55,30 @@ angular.module('scfApp').controller(
 							vm.isBank = true;
 						}
 						
-					     var deffered = ViewTransactionService.prepare(vm.transactionModel);
-							var columnDisplayConfig = vm.loadDocumentDisplayConfig(vm.transactionModel.sponsorId);
-								columnDisplayConfig.promise.then(function(response){
-									vm.dataTable.columns = response.items;
-									sort = response.sort;
-									console.log(sort);
+					     
+						var columnDisplayConfig = vm.loadDocumentDisplayConfig(vm.transactionModel.sponsorId);
+						columnDisplayConfig.promise.then(function(response){
+							vm.dataTable.columns = response.items;
+							sort = response.sort;
+							var deffered = ViewTransactionService.prepare(vm.transactionModel);
+							deffered.promise.then(function (response) {
+								vm.transactionModel = angular.extend(response.data,{sponsor: vm.transactionModel.sponsor, supplier: vm.transactionModel.supplier});
+								
+								if(vm.transactionModel.statusCode == 'REJECT_BY_CHECKER' || vm.transactionModel.statusCode == 'REJECT_BY_APPROVER'){
+									vm.isDisplayReason = 'block-inline';
+								}else{
+									vm.isDisplayReason = 'none';
+								}
+								
+								vm.pageModel.totalRecord = vm.transactionModel.documents.length;
+								vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
+								vm.searchDocument();
+							})
+							.catch(function (response) {
+								console.log('View Transaction load error');
 							});
+						});
 
-				            deffered.promise.then(function (response) {
-				            	  vm.transactionModel = angular.extend(response.data,{sponsor: vm.transactionModel.sponsor, supplier: vm.transactionModel.supplier});
-				            	  
-				            	  if(vm.transactionModel.statusCode == 'REJECT_BY_CHECKER' || vm.transactionModel.statusCode == 'REJECT_BY_APPROVER'){
-				            		  vm.isDisplayReason = 'block-inline';
-				            	  }else{
-				            		  vm.isDisplayReason = 'none';
-				            	  }
-				            	  
-				            	  vm.pageModel.totalRecord = vm.transactionModel.documents.length;
-				            	  vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
-				            	  vm.searchDocument();
-				                })
-				                .catch(function (response) {
-				                    console.log('View Transaction load error');
-				                });
-				            
 					}
 					vm.loadDocumentDisplayConfig = function(sponsorId){
 						var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId,'PAYABLE','TRANSACTION_DOCUMENT');
