@@ -428,7 +428,8 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         vm.selectDocument = function(data) {
             vm.checkAllModel = false;
             vm.selectAllModel = false;
-            if(data.matchingRef != null && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){
+            
+            if(data.matchingRef != null && vm.documentSelection === 'GROUP_BY'){
             	selectFormMatchingRef(data);
             }else{
             	calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
@@ -447,7 +448,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     }).indexOf(document.documentId) > -1);
 
                     if (!foundDataSelect){
-                    	if(document.matchingRef != null && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){                   		
+                    	if(document.matchingRef != null && vm.documentSelection === 'GROUP_BY'){                   		
                     		var foundMatchingRefInTemp = tempMatchingRefNotQueryAgain.indexOf(document.matchingRef)
                     		if(foundMatchingRefInTemp === -1){
                     			
@@ -477,7 +478,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             	vm.selectAllModel = false;
             	vm.pagingController.tableRowCollection.forEach(function(document) {
                     var foundMatchingRefInTemp = tempMatchingRefNotQueryAgain.indexOf(document.matchingRef);
-        			if(document.matchingRef != null && foundMatchingRefInTemp === -1 && vm.documentSelection === 'GROUP_BY_MATCHING_REF_NO'){
+        			if(document.matchingRef != null && foundMatchingRefInTemp === -1 && vm.documentSelection === 'GROUP_BY'){
         				tempMatchingRefNotQueryAgain.push(document.matchingRef);
         				for (var index = vm.documentSelects.length-1; index > -1;index--) {
                 			if(document.matchingRef === vm.documentSelects[index].matchingRef){
