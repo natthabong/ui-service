@@ -26,7 +26,7 @@ angular
 							vm.view = function(data){		
 								SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 								var params = { transactionModel: data,
-										party: 'supplier',
+										viewMode: 'MY_ORGANIZE',
 							            isShowViewHistoryButton: false,
 							            isShowBackButton: true
 							        }
