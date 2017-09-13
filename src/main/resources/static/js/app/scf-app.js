@@ -446,7 +446,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				params: {viewMode:'MY_ORGANIZE',criteria: null, backAction:false},
 				templateUrl: '/document-upload-log',
 				resolve: load(['js/app/modules/document-upload-log/controllers/DocumentUploadLogController.js',
-								'js/app/modules/document-upload-log/Services/DocumentUploadLogService.js',
+								'js/app/modules/document-upload-log/services/DocumentUploadLogService.js',
 								'js/app/common/scf-component.js',
 								'js/app/common/scf-component.css'])
 			}).state('/customer-organize/upload-document-logs',{
@@ -456,7 +456,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				params: {viewMode:'CUSTOMER',criteria: null, backAction:false},
 				templateUrl: '/document-upload-log/sponsor',
 				resolve: load(['js/app/modules/document-upload-log/controllers/DocumentUploadLogController.js',
-								'js/app/modules/document-upload-log/Services/DocumentUploadLogService.js',
+								'js/app/modules/document-upload-log/services/DocumentUploadLogService.js',
 								'js/app/common/scf-component.js', 
 								'js/app/common/scf-component.css'])
 			}).state('/document-upload-log/view-log',{
