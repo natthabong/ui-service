@@ -25,7 +25,7 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 
 	vm.viewRecent = function(){
 		$timeout(function(){
-        	PageNavigation.gotoPage('/payment-transaction/view', {transactionModel: vm.transaction, isShowViewHistoryButton: true});
+        	PageNavigation.gotoPage('/payment-transaction/view', {transactionModel: vm.transaction, isShowViewHistoryButton: true, viewMode: 'MY_ORGANIZE'});
     	}, 10);
 	};
 	

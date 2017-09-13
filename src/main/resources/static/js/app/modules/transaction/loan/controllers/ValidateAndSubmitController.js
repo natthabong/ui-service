@@ -103,7 +103,7 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 				
 				$timeout(function(){		
 					vm.transactionModel.sponsor = vm.tradingpartnerInfoModel.sponsorName;
-					PageNavigation.gotoPage('/view-transaction', {transactionModel: vm.transactionModel, isShowViewHistoryButton: true,party: 'MY_ORGANIZE'});
+					PageNavigation.gotoPage('/view-transaction', {transactionModel: vm.transactionModel, isShowViewHistoryButton: true,viewMode: 'MY_ORGANIZE'});
             	}, 10);
 			};
 			

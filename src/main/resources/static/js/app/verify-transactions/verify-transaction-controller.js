@@ -207,7 +207,7 @@ angular.module('scfApp').controller(
 
 					vm.viewRecent = function(){
 						$timeout(function(){
-		                	var params = {transactionModel: vm.transactionModel, party: 'supplier' , isShowViewHistoryButton:'show', isShowViewHistoryButton: true};
+		                	var params = {transactionModel: vm.transactionModel, viewMode: 'MY_ORGANIZE' , isShowViewHistoryButton:'show', isShowViewHistoryButton: true};
 		                	PageNavigation.gotoPage('/view-transaction', params, params);
 		            	}, 10);
 					};
