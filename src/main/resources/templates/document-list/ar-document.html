@@ -1,5 +1,5 @@
 <div id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('VIEW_ALL_AP_DOCUMENTS','VIEW_AR_DOCUMENTS_REFER_TO_MY_ORGANIZE','VIEW_AR_DOCUMENTS_OF_MY_ORGANIZE')">
+	sec:authorize="hasAnyAuthority('VIEW_ALL_AR_DOCUMENTS','VIEW_AR_DOCUMENTS_REFER_TO_MY_ORGANIZE','VIEW_AR_DOCUMENTS_OF_MY_ORGANIZE')">
 	<input type="hidden" ng-init="ctrl.deleteAuthority=true"
 		sec:authorize="hasAnyAuthority('DELETE_ALL_DOCUMENTS','DELETE_DOCUMENTS_OF_MY_ORGANIZE')" />
 	<div id="wrapper">
@@ -35,7 +35,7 @@
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
                             
-							<div class="form-group" ng-show="ctrl.requireSponsor">
+							<div class="form-group" ng-show="ctrl.requireSupplier">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
 									id="sponsor-warning-message-label">{{'Supplier is
@@ -153,7 +153,7 @@
 													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 													total-page="ctrl.pagingController.pagingModel.totalPage"
 													current-page="ctrl.pagingController.pagingModel.currentPage"
-													page-size-list="ctrl.pageSizeList"
+													page-size-list="ctrl.pagingController.pageSizeList"
 													page-action="ctrl.searchDocument"></scf-pagination>
 											</span>
 
@@ -161,7 +161,7 @@
 									</div>
 								</div>
 							</div>
-							<!-- Start Table-->
+
 							<div class="row">
 								<div class="col-md-12">
 									<scf-table id="document-table"
@@ -178,7 +178,7 @@
 					</div>
 				</div>
 
-				<div class="panel-body" ng-show="ctrl.showInfomation">
+				<!--<div class="panel-body" ng-show="ctrl.showInfomation">
 					<div class="row">
 						<div id="bottom-sticker">
 							<div class="col-md-12 col-sm-12">
@@ -216,7 +216,7 @@
 						</div>
 					</div>
 
-				</div>
+				</div>-->
 			</div>
 		</div>
 
