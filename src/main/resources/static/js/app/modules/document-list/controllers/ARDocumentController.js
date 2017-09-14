@@ -115,6 +115,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
             return $http.get(serviceUrl, {
                 params: {
                     q: value,
+                    buyerId : vm.documentListModel.buyer.organizeId || null,
                     offset: 0,
                     limit: 5
                 }
@@ -305,6 +306,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
             viewMode = $stateParams.viewMode;
 
             if (viewMode == viewModeData.myOrganize) {
+                vm.supplierTxtDisable = true;
                 initSupplierAutoSuggest();
             } else if (viewMode == viewModeData.partner) {
                 initBuyerAutoSuggest();
