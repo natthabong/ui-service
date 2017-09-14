@@ -832,7 +832,6 @@ module.controller('FileLayoutController', [
 			if (angular.isDefined(configItems) && configItems.length > 0) {
 				configItems.forEach(function (data) {
 					if (!isEmptyValue(data.displayValue)) {
-						console.log(data);
 						creditermDropdowns.push({
 							label: data.displayValue,
 							value: vm.dataTypeByIds[data.documentFieldId].documentFieldName
