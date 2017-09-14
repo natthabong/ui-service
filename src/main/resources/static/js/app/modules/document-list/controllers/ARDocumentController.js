@@ -1,10 +1,10 @@
 var docMod = angular.module('gecscf.document');
 docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
     '$stateParams', 'SCFCommonService', 'PageNavigation', 'UIFactory', 'ngDialog', '$timeout',
-    'DocumentService', 'ARDocumentStatus', 'PagingController', '$http','$q',
+    'DocumentService', 'ARDocumentStatus', 'PagingController', '$http','$q','Service',
     function ($rootScope, $scope, $log, $stateParams, SCFCommonService,
         PageNavigation, UIFactory, ngDialog, $timeout, DocumentService,
-        ARDocumentStatus, PagingController, $http,$q) {
+        ARDocumentStatus, PagingController, $http,$q, Service) {
 
         var vm = this;
         var log = $log;
@@ -287,30 +287,14 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
             });
         }
 
-        // var checkSupplierTP = function (organizeId) {
-        //     var supplierTPDeferred = Service.doGet(sponsorAutoSuggestServiceUrl, { q: '', offset: 0, limit: 5 });
-        //     supplierTPDeferred.promise.then(function (response) {
-        //         if (response.data.length == 1) {
-        //             var sponsorInfo = response.data[0];
-        //             sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
-        //             vm.documentListModel.sponsor = sponsorInfo;
-        //             vm.searchDocument();
-        //         }
-        //     });
-        // }
-        
-
         var initLoad = function () {
             viewMode = $stateParams.viewMode;
 
             if (viewMode == viewModeData.myOrganize) {
                 vm.supplierTxtDisable = true;
                 initSupplierAutoSuggest();
-
-                // sponsorAutoSuggestServiceUrl = 'api/v1/buyers';
             } else if (viewMode == viewModeData.partner) {
                 initBuyerAutoSuggest();
-                // checkSupplierTP(organizeId);
             } else if (viewMode == viewModeData.customer) {
                 // var loadDisplayConfigDiferred = vm.loadDocumentDisplayConfig(organizeId, accountingTransactionType, displayMode);
                 // loadDisplayConfigDiferred.promise.then(function () {
@@ -331,7 +315,6 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 
         vm.disableBuyerSuggest = function () {
             var isDisable = false;
-            console.log(typeof vm.documentListModel.supplier == 'object');
             if (viewMode == viewModeData.customer) {
                 if (angular.isUndefined(vm.documentListModel.supplier) || !(typeof vm.documentListModel.supplier == 'object')) {
                     isDisable = true;
@@ -353,6 +336,20 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
                 vm.documentListModel.buyer = undefined;
             }
         });
+        
+        vm.getDocumentSummary = function(criteria) {
+        	vm.totalNetAmount = 0;
+        	
+			var documentSummaryDiffered = Service.doGet('/api/documents/status-summary', criteria);
+			documentSummaryDiffered.promise.then(function(response) {
+			    response.data.forEach(function(data) {
+			    	vm.totalNetAmount += data.totalOutstandingAmount;
+				});
+			    
+			}).catch(function(response) {
+				log.error("Document summary error");
+			});
+		}
 
         var deleteDocument = function(document) {
 
@@ -430,7 +427,7 @@ docMod.constant("ARDocumentStatus", [
         valueObject: 'NEW'
     },
     {
-        label: 'In progress',
+        label: 'In process',
         value: 'IN_PROGRESS',
         valueObject: 'IN_PROGRESS'
     },
