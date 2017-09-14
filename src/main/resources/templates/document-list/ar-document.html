@@ -103,6 +103,12 @@
 									format data' | translate}}.</span>
 							</div>
 
+							<div class="form-group" ng-show="ctrl.wrongDateFromLessThanDateTo">
+								<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
+								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+									id="date-from-less-than-warning-message-label">{{'From date must be less than or equal to To date' | translate}}.</span>
+							</div>
+
 							<div class="form-group">
 								<label for="document-no-textbox" id="document-no-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Document

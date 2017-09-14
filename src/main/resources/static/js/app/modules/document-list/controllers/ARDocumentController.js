@@ -168,6 +168,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 
             vm.requireSupplier = false;
             vm.wrongDateFormat = false;
+            vm.wrongDateFromLessThanDateTo = false;
 
             if (vm.submitted && $scope.documentList.supplierCode.$error.required) {
                 vm.requireSupplier = true;
@@ -188,10 +189,13 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
                 vm.wrongDateFormat = true;
                 isValidatePass = false;
             }
-            if (vm.documentListModel.uploadDateFrom != '' && vm.documentListModel.uploadDateTo != '') {
-                if (vm.documentListModel.uploadDateFrom > vm.documentListModel.uploadDateTo) {
-                    vm.wrongDateFormat = true;
-                    isValidatePass = false;
+            
+            if(!vm.wrongDateFormat){
+                if (vm.documentListModel.uploadDateFrom != '' && vm.documentListModel.uploadDateTo != '') {
+                    if (vm.documentListModel.uploadDateFrom > vm.documentListModel.uploadDateTo) {
+                        vm.wrongDateFromLessThanDateTo = true;
+                        isValidatePass = false;
+                    }
                 }
             }
 
