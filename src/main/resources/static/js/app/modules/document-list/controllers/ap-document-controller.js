@@ -430,12 +430,15 @@ scfApp.controller('DocumentListController', [ '$scope', 'Service', '$stateParams
 				vm.wrongDateFormat = true;
 				isValidatePass = false;
 			}
-			if(vm.documentListModel.uploadDateFrom != '' &&  vm.documentListModel.uploadDateTo != ''){
-				if(vm.documentListModel.uploadDateFrom > vm.documentListModel.uploadDateTo){
-					vm.wrongDateFormat = true;
-					isValidatePass = false;
-				}
-			}
+			
+			if(!vm.wrongDateFormat){
+                if (vm.documentListModel.uploadDateFrom != '' && vm.documentListModel.uploadDateTo != '') {
+                    if (vm.documentListModel.uploadDateFrom > vm.documentListModel.uploadDateTo) {
+                        vm.wrongDateFromLessThanDateTo = true;
+                        isValidatePass = false;
+                    }
+                }
+            }
 
 			return isValidatePass;
 		};

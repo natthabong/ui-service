@@ -102,6 +102,12 @@
 									format data' | translate}}.</span>
 							</div>
 
+							<div class="form-group" ng-show="ctrl.wrongDateFromLessThanDateTo">
+								<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
+								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+									id="date-from-less-than-warning-message-label">{{'From date must be less than or equal to To date' | translate}}.</span>
+							</div>
+
 							<div class="form-group">
 								<label for="document-no-textbox" id="document-no-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Document
@@ -194,20 +200,6 @@
 									</div>
 								</div>
 							</div>
-
-							<!--
-							<div class="col-md-12 col-sm-12">
-								<div class="form-horizontal">
-									<label class="col-md-2 col-sm-3"><b>{{'BOOKED' | translate}} :</b></label>									
-									<div class="col-md-1 col-sm-2 text-right">
-										<span id="document-list-booked-amount-label" ng-bind="ctrl.document.totalOutstandingAmount | number:2"></span>
-									</div>
-									<div class="col-md-9 col-sm-7">
-										<span ng-bind="'THB' | translate"></span>
-									</div>									
-								</div>								
-							</div>
--->
 
 							<div class="col-md-12 col-sm-12"
 								ng-repeat="document in ctrl.documentSummaryDisplay.documents track by $id(document)">
