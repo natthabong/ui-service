@@ -11,9 +11,10 @@ angular.module('scfApp').controller('JourneyNewDocumentPaymentController', ['$sc
     vm.load = function() {
         var newDocumentDeferred = Service.doGet('/api/view-summary-new-ar-document');
         newDocumentDeferred.promise.then(function(response) {
+        	
             if(response.data != ""){
                 vm.totalDocument = response.data.totalDocument;
-			    vm.payableAmount = SCFCommonService.shortenLargeNumber(response.data.payableAmount);
+			    vm.payableAmount = SCFCommonService.shortenLargeNumber(response.data.totalPayableAmount);
             }
         }).catch(function(response) {
 			
