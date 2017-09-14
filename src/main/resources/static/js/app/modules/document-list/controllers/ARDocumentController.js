@@ -4,7 +4,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
     'DocumentService', 'ARDocumentStatus', 'PagingController', '$http','$q','Service',
     function ($rootScope, $scope, $log, $stateParams, SCFCommonService,
         PageNavigation, UIFactory, ngDialog, $timeout, DocumentService,
-        ARDocumentStatus, PagingController, $http,$q, Service) {
+        ARDocumentStatus, PagingController, $http,$q,Service) {
 
         var vm = this;
         var log = $log;
@@ -271,14 +271,14 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
         }
 
         var initBuyerAutoSuggest = function () {
-            var sponsorInfo = angular.copy($rootScope.userInfo);
-            sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
-            vm.documentListModel.sponsor = sponsorInfo;
+            var buyerInfo = angular.copy($rootScope.userInfo);
+            buyerInfo = DocumentService.prepareAutoSuggestLabel(buyerInfo);
+            vm.documentListModel.buyer = buyerInfo;
         }
 
         var initSupplierAutoSuggest = function () {
             var supplierInfo = angular.copy($rootScope.userInfo);
-            supplierInfo = prepareAutoSuggestLabel(supplierInfo);
+            supplierInfo = DocumentService.prepareAutoSuggestLabel(supplierInfo);
             vm.documentListModel.supplier = supplierInfo;
 
             var loadDisplayConfigDiferred = vm.loadDocumentDisplayConfig(organizeId, accountingTransactionType, displayMode);
@@ -287,19 +287,31 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
             });
         }
 
+        var checkBuyerTP = function (organizeId,serviceUrl) {
+            var supplierTPDeferred = Service.doGet(serviceUrl, { q: '', offset: 0, limit: 5 });
+            supplierTPDeferred.promise.then(function (response) {
+                console.log(response.data);
+                if (response.data.length == 1) {
+                    var supplierInfo = response.data[0];
+                    supplierInfo = prepareAutoSuggestLabel(supplierInfo);
+                    vm.documentListModel.supplier = supplierInfo;
+                    vm.searchDocument();
+                }
+            });
+        }
+        
+
         var initLoad = function () {
             viewMode = $stateParams.viewMode;
 
             if (viewMode == viewModeData.myOrganize) {
-                vm.supplierTxtDisable = true;
                 initSupplierAutoSuggest();
             } else if (viewMode == viewModeData.partner) {
                 initBuyerAutoSuggest();
+                var serviceUrl = 'api/v1/suppliers?buyerId='+organizeId;
+                checkBuyerTP(organizeId,serviceUrl);
             } else if (viewMode == viewModeData.customer) {
-                // var loadDisplayConfigDiferred = vm.loadDocumentDisplayConfig(organizeId, accountingTransactionType, displayMode);
-                // loadDisplayConfigDiferred.promise.then(function () {
-                //     vm.searchDocument();
-                // });
+
             }
         } ();
 
@@ -316,7 +328,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
         vm.disableBuyerSuggest = function () {
             var isDisable = false;
             if (viewMode == viewModeData.customer) {
-                if (angular.isUndefined(vm.documentListModel.supplier) || !(typeof vm.documentListModel.supplier == 'object')) {
+                if (angular.isUndefined(vm.documentListModel.supplier)) {
                     isDisable = true;
                 } else {
                     isDisable = false;
@@ -336,20 +348,6 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
                 vm.documentListModel.buyer = undefined;
             }
         });
-        
-        vm.getDocumentSummary = function(criteria) {
-        	vm.totalNetAmount = 0;
-        	
-			var documentSummaryDiffered = Service.doGet('/api/documents/status-summary', criteria);
-			documentSummaryDiffered.promise.then(function(response) {
-			    response.data.forEach(function(data) {
-			    	vm.totalNetAmount += data.totalOutstandingAmount;
-				});
-			    
-			}).catch(function(response) {
-				log.error("Document summary error");
-			});
-		}
 
         var deleteDocument = function(document) {
 
@@ -369,6 +367,20 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 				return deferred.reject(response);
 			});
 			return deferred;
+		}
+		
+		vm.getDocumentSummary = function(criteria) {
+        	vm.totalNetAmount = 0;
+        	
+			var documentSummaryDiffered = Service.doGet('/api/documents/status-summary', criteria);
+			documentSummaryDiffered.promise.then(function(response) {
+			    response.data.forEach(function(data) {
+			    	vm.totalNetAmount += data.totalOutstandingAmount;
+				});
+			    
+			}).catch(function(response) {
+				log.error("Document summary error");
+			});
 		}
 
         vm.deleteDocument = function(document) {
