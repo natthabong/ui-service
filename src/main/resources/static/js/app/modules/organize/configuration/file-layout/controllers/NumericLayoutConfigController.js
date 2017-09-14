@@ -7,7 +7,7 @@ module.controller('NumericLayoutConfigController',
 
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
-	console.log(vm.model);
+
 	vm.config = $scope.ngDialogData.config;
 	var headerItems = $scope.ngDialogData.headerItems;
 	var detailItems = $scope.ngDialogData.detailItems;
@@ -170,35 +170,17 @@ module.controller('NumericLayoutConfigController',
 	}
 	
 	var detailFlagList = function() {
-		console.log("Hi");
-		var defered = MappingDataService.loadMappingData(owner,accountingTransactionType);
-		defered.promise.then(function(response){
-			detailItems.forEach(function(item , index) {
-				var dataType = dataTypeByIds[item.documentFieldId];
-				// TODO: Refactor here
-				if (dataType.dataType == 'SIGN_FLAG' || dataType.documentFieldId == 10 ) {
-					var itemDropdown = {
-						label : item.displayValue,
-						value : item.displayValue,
-						item: item
-					}
-					vm.signFlagFieldDropdown.push(itemDropdown);
+		detailItems.forEach(function(item , index) {
+			var dataType = dataTypeByIds[item.documentFieldId];
+			if (dataType.dataType == 'SIGN_FLAG' || (item.expectedValue != null && item.validationType == 'IN_MAPPING_TYPE')) {
+				var itemDropdown = {
+					label : item.displayValue,
+					value : item.displayValue,
+					item: item
 				}
-			});
-
-			response.data.forEach(function(data){
-				if(data.mappingType == 'SIGN_FLAG_MAPPING'){
-					var mappingItem = {
-						label : data.mappingDataName,
-						value : data.mappingDataId,
-						item: 'MAPPING_TYPE'
-					}
-					vm.signFlagFieldDropdown.push(mappingItem);
-				}
-			});
-			
+				vm.signFlagFieldDropdown.push(itemDropdown);
+			}
 		});
-		
 	}
 
 	var footerFlagList = function() {		
@@ -263,22 +245,13 @@ module.controller('NumericLayoutConfigController',
 		if (isValueEmpty(vm.model.signFlagTypeFormat)) {
 			vm.model.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
 		}
-		// console.log(vm.model.signFlagConfig);
-		// if (vm.model.signFlagConfig == null) {
-		// 	console.log('ggg');
-		// 	if(vm.model.expectedValue == null && vm.model.validationType == null){
-		// 		vm.numericeModel.signFlag = "Within field";
-		// 	}else{
-		// 		console.log('object');
-		// 		vm.numericeModel.signFlag = "Sign flag field";
-		// 		console.log(vm.numericeModel.signFlag);
-		// 		vm.numericeModel.signFlagId = vm.model.expectedValue;
-		// 	}
-			
-		// }else{
-		// 	vm.numericeModel.signFlag = "Sign flag field";
-		// 	vm.numericeModel.signFlagId = vm.model.signFlagConfig.displayValue;
-		// }
+		
+		if (vm.model.signFlagConfig == null) {
+				vm.numericeModel.signFlag = "Within field";
+		}else{
+			vm.numericeModel.signFlag = "Sign flag field";
+			vm.numericeModel.signFlagId = vm.model.signFlagConfig;
+		}
 
 		if(angular.isDefined(vm.model.validationRecordFieldConfig) && vm.model.validationRecordFieldConfig != null && vm.model.validationType != null){
 			vm.requiredRelationalSummary = true;
@@ -315,7 +288,6 @@ module.controller('NumericLayoutConfigController',
 	}
 	
 	vm.saveNumericValidation = function() {
-		console.log(vm.numericeModel.signFlag);
 		if(vm.numericeModel.signFlag == 'Within field'){
 			vm.model.signFlagConfig = null;
 			
