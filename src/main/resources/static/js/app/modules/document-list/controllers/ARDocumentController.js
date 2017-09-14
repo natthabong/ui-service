@@ -112,10 +112,14 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
         var querySupplierCode = function (value) {
             var serviceUrl = 'api/v1/suppliers';
             value = value = UIFactory.createCriteria(value);
+            var buyer = null;
+            if(angular.isDefined(vm.documentListModel.buyer) && vm.documentListModel.buyer != null){
+                buyer = vm.documentListModel.buyer.organizeId;
+            }
             return $http.get(serviceUrl, {
                 params: {
                     q: value,
-                    buyerId : vm.documentListModel.buyer.organizeId || null,
+                    buyerId : buyer,
                     offset: 0,
                     limit: 5
                 }
