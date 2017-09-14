@@ -40,6 +40,7 @@ module.controller('FileLayoutController', [
 		var BASE_URI = 'api/v1/organize-customers/' + ownerId
 			+ '/processTypes/' + vm.processType;
 
+		var reqUrlFormula = '';
 
 		vm.dataTypes = [];
 		vm.dataTypeByIds = {};
@@ -427,7 +428,7 @@ module.controller('FileLayoutController', [
 				var reqUrlFooterField = '/layouts/' + vm.model.layoutConfigId + '/items?itemType=FIELD&recordType=FOOTER';
 				var reqUrlField = '/layouts/' + vm.model.layoutConfigId + '/items?itemType=FIELD&recordType=DETAIL';
 				var reqUrlData = '/layouts/' + vm.model.layoutConfigId + '/items?itemType=DATA&recordType=DETAIL';
-				var reqUrlFormula = '/payment-date-formulas/';
+				reqUrlFormula = '/payment-date-formulas/';
 				var reqCustomerCodeConfg = '/layouts/' + vm.model.layoutConfigId + '/items?dataType=CUSTOMER_CODE';
 
 				sendRequest(reqUrlLayoutConfg, function (response) {
@@ -663,17 +664,15 @@ module.controller('FileLayoutController', [
 				cache: false,
 				preCloseCallback: function (value) {
 					vm.model.paymentDateConfig.paymentDateFormulaId = value;
-					vm.refershFormulaDropDown();
+					vm.refreshFormulaDropDown();
 					return true;
 				}
 			});
 		};
 
 
-		vm.refershFormulaDropDown = function () {
-			var serviceGetFormula = '/api/v1/organize-customers/' + ownerId
-				+ '/sponsor-configs/SFP/payment-date-formulas';
-			var serviceDiferred = Service.doGet(serviceGetFormula);
+		vm.refreshFormulaDropDown = function () {
+			var serviceDiferred = Service.doGet(BASE_URI + reqUrlFormula);
 			serviceDiferred.promise.then(function (response) {
 				var formulaData = response.data;
 				vm.paymentDateFormularModelDropdowns = [];
