@@ -11,6 +11,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
         var organizeId = $rootScope.userInfo.organizeId;
         var accountingTransactionType = 'RECEIVABLE';
         var displayMode = 'DOCUMENT';
+        vm.deleteAuthority = false;
 
         vm.submitted = false;
         vm.supplierTxtDisable = false;
@@ -28,6 +29,10 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 
         vm.documentStatusDrpodowns = ARDocumentStatus;
 
+        vm.canDelete = function(data){
+		    return data.documentStatus == 'NEW' && !($stateParams.viewMode == viewModeData.partner) && vm.deleteAuthority; 
+		}
+
         vm.dataTable = {
             identityField: 'documentId',
             columns: []
@@ -44,7 +49,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
         };
 
         var columnSupplierName = {
-            fieldName: 'sponsorName',
+            fieldName: 'buyerName',
             labelEN: 'Buyer name',
             labelTH: 'ชื่อคู่ค้า',
             sortable: false,
@@ -225,10 +230,10 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
         }
 
 
-        // vm.pagingController = PagingController.create('api/v1/documents', vm.documentListCriterial, 'GET');
+        vm.pagingController = PagingController.create('api/v1/documents', vm.documentListCriterial, 'GET');
 
         vm.searchDocument = function (pagingModel) {
-            vm.pagingController = PagingController.create('api/v1/documents', vm.documentListCriterial, 'GET');
+            // vm.pagingController = PagingController.create('api/v1/documents', vm.documentListCriterial, 'GET');
             if (isValidateCriteriaPass()) {
                 var criteria = prepareCriteria();
                 var documentListDiferred = vm.pagingController.search(pagingModel, vm.getDocumentSummary);
@@ -348,6 +353,63 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
                 vm.documentListModel.buyer = undefined;
             }
         });
+
+        var deleteDocument = function(document) {
+
+			var serviceUrl = 'api/v1/documents/' + document.documentId
+			var deferred = $q.defer();
+			$http({
+				method : 'POST',
+				url : serviceUrl,
+				headers : {
+					'If-Match' : document.version,
+					'X-HTTP-Method-Override': 'DELETE'
+				},
+				data: document
+			}).then(function(response) {
+				return deferred.resolve(response);
+			}).catch(function(response) {
+				return deferred.reject(response);
+			});
+			return deferred;
+		}
+
+        vm.deleteDocument = function(document) {
+			var preCloseCallback = function(confirm) {
+				vm.pagingController.reload(vm.getDocumentSummary);
+			}
+
+			UIFactory.showConfirmDialog({
+				data : {
+					headerMessage : 'Confirm delete?'
+				},
+				confirm : function() {
+					return deleteDocument(document);
+				},
+				onFail : function(response) {
+					var msg = {
+						409 : 'Document has already been deleted.',
+						405 : 'Document has already been used.'
+					};
+					UIFactory.showFailDialog({
+						data : {
+							headerMessage : 'Delete document fail.',
+							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+						},
+						preCloseCallback : preCloseCallback
+					});
+				},
+				onSuccess : function(response) {
+					UIFactory.showSuccessDialog({
+						data : {
+							headerMessage : 'Delete document success.',
+							bodyMessage : ''
+						},
+						preCloseCallback : preCloseCallback
+					});
+				}
+			});
+		}
 
         //<-------------------------------------------->
     }]);
