@@ -1,14 +1,20 @@
 'use strict';
 var module = angular.module('gecscf.organize.configuration.fileLayout');
 
-module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q', 'Service', '$filter', '$log', function($scope, $rootScope, $q, Service, $filter, $log) {
+module.controller('NumericLayoutConfigController', 
+	[ '$scope', '$rootScope', '$q', 'Service', '$filter', '$log', 'MappingDataService', 
+	function($scope, $rootScope, $q, Service, $filter, $log, MappingDataService) {
+
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
+	console.log(vm.model);
 	vm.config = $scope.ngDialogData.config;
 	var headerItems = $scope.ngDialogData.headerItems;
 	var detailItems = $scope.ngDialogData.detailItems;
 	var footerItems = $scope.ngDialogData.footerItems;
 	var dataTypeByIds = $scope.ngDialogData.dataTypeByIds;
+	var accountingTransactionType = $scope.ngDialogData.processType == 'AP_DOCUMENT' ? 'PAYABLE' : 'RECEIVABLE';
+	var owner = $scope.ngDialogData.owner;
 	
 	vm.requiredRelationalSummary = false;
 	vm.relationalSummary = [];
@@ -95,10 +101,17 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 					}
 					vm.signFlagDropdown.push(selectObj);
 				});
-				vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
+				
 				if(vm.model.signFlagConfig != null){
 					vm.numericeModel.signFlag = vm.signFlagDropdown[1].value;
-					vm.numericeModel.signFlagId = vm.model.signFlagConfig.displayValue;			
+					vm.numericeModel.signFlagId = vm.model.signFlagConfig.displayValue;
+				}else{
+					if(vm.model.expectedValue == null && vm.model.validationType == null){
+						vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
+					}else{
+						vm.numericeModel.signFlag = vm.signFlagDropdown[1].value;
+						vm.numericeModel.signFlagId = vm.model.expectedValue;
+					}
 				}		
 			}
 			diferred.resolve(vm.signFlagDropdown);
@@ -156,19 +169,36 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 		});		
 	}
 	
-	var detailFlagList = function() {		
-		detailItems.forEach(function(item , index) {
-			var dataType = dataTypeByIds[item.documentFieldId];
-			// TODO: Refactor here
-			if (dataType.dataType == 'SIGN_FLAG' || dataType.documentFieldId == 10 ) {
-				var itemDropdown = {
-					label : item.displayValue,
-					value : item.displayValue,
-					item: item
+	var detailFlagList = function() {
+		console.log("Hi");
+		var defered = MappingDataService.loadMappingData(owner,accountingTransactionType);
+		defered.promise.then(function(response){
+			detailItems.forEach(function(item , index) {
+				var dataType = dataTypeByIds[item.documentFieldId];
+				// TODO: Refactor here
+				if (dataType.dataType == 'SIGN_FLAG' || dataType.documentFieldId == 10 ) {
+					var itemDropdown = {
+						label : item.displayValue,
+						value : item.displayValue,
+						item: item
+					}
+					vm.signFlagFieldDropdown.push(itemDropdown);
 				}
-				vm.signFlagFieldDropdown.push(itemDropdown);
-			}
+			});
+
+			response.data.forEach(function(data){
+				if(data.mappingType == 'SIGN_FLAG_MAPPING'){
+					var mappingItem = {
+						label : data.mappingDataName,
+						value : data.mappingDataId,
+						item: 'MAPPING_TYPE'
+					}
+					vm.signFlagFieldDropdown.push(mappingItem);
+				}
+			});
+			
 		});
+		
 	}
 
 	var footerFlagList = function() {		
@@ -233,9 +263,22 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 		if (isValueEmpty(vm.model.signFlagTypeFormat)) {
 			vm.model.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
 		}
-		if (vm.model.signFlagConfig == null) {
-			vm.numericeModel.signFlag = "Within field";
-		}
+		// console.log(vm.model.signFlagConfig);
+		// if (vm.model.signFlagConfig == null) {
+		// 	console.log('ggg');
+		// 	if(vm.model.expectedValue == null && vm.model.validationType == null){
+		// 		vm.numericeModel.signFlag = "Within field";
+		// 	}else{
+		// 		console.log('object');
+		// 		vm.numericeModel.signFlag = "Sign flag field";
+		// 		console.log(vm.numericeModel.signFlag);
+		// 		vm.numericeModel.signFlagId = vm.model.expectedValue;
+		// 	}
+			
+		// }else{
+		// 	vm.numericeModel.signFlag = "Sign flag field";
+		// 	vm.numericeModel.signFlagId = vm.model.signFlagConfig.displayValue;
+		// }
 
 		if(angular.isDefined(vm.model.validationRecordFieldConfig) && vm.model.validationRecordFieldConfig != null && vm.model.validationType != null){
 			vm.requiredRelationalSummary = true;
@@ -243,6 +286,14 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 			vm.selectedRelationalField = vm.model.validationRecordFieldConfig.displayValue;
 		}	
 
+	}
+
+	function mapSignFlag(signFlagConfig){
+		console.log(signFlagConfig);
+	} 
+
+	vm.changeDropDown = function(){
+		console.log(vm.numericeModel.signFlagId);
 	}
 	
 	vm.initLoad();
@@ -263,18 +314,28 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 		}
 	}
 	
-	vm.saveNumericValidation = function() {	
+	vm.saveNumericValidation = function() {
+		console.log(vm.numericeModel.signFlag);
 		if(vm.numericeModel.signFlag == 'Within field'){
 			vm.model.signFlagConfig = null;
 			
 		}else{
 			vm.model.signFlagTypeFormat = null;
-			vm.signFlagFieldDropdown.forEach(function(dropdownItem) {	
+			vm.signFlagFieldDropdown.forEach(function(dropdownItem) {
 				if(vm.numericeModel.signFlagId == dropdownItem.value){
-					vm.model.signFlagConfig = dropdownItem.item;
+					if(typeof dropdownItem.item === "object"){
+						vm.model.signFlagConfig = dropdownItem.item;
+						vm.model.validationType = null;
+					}else{
+						vm.model.expectedValue = vm.numericeModel.signFlagId;
+						vm.model.validationType = "IN_MAPPING_TYPE";
+						vm.model.signFlagConfig = null;
+					}
+					
 				}
 			});
 		}
+		console.log(vm.model);
 
 		if(vm.requiredRelationalSummary){
 			vm.model.validationType = vm.selectedRelationalSummary;
@@ -289,7 +350,7 @@ module.controller('NumericLayoutConfigController', [ '$scope', '$rootScope', '$q
 				vm.model.validationRecordFieldConfig = null;
 			}
 		}else{
-			vm.model.validationType = null;
+			vm.model.validationType = vm.model.validationType == 'IN_MAPPING_TYPE' ? 'IN_MAPPING_TYPE' : null;
 			vm.model.validationRecordFieldConfig = null;
 		}
 	}
