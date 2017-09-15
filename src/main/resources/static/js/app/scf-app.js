@@ -1,7 +1,7 @@
 var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'ui.mask', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
                         			'legendDirectives','chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing'
-									,'gecscf.sponsorConfiguration.workflow'])
+									,'gecscf.sponsorConfiguration.workflow','gecscf.document'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider','$urlRouterProvider','ngDialogProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider,$compileProvider, $urlRouterProvider, ngDialogProvider) {
 
@@ -126,21 +126,42 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				params: {viewMode:'MY_ORGANIZE'},
 				templateUrl: '/ap-document-list/my-organize',
-				resolve: load(['js/app/modules/document-list/ap-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/document-list/controllers/ap-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/partner-organize/ap-document-list',{
 				url: '/partner-organize/ap-document-list',
 				controller: 'DocumentListController',
 				controllerAs: 'ctrl',
 				params: {viewMode:'PARTNER'},
 				templateUrl: '/ap-document-list/partner-organize',
-				resolve: load(['js/app/modules/document-list/ap-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/document-list/controllers/ap-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/customer-organize/ap-document-list',{
 				url: '/customer-organize/ap-document-list',
 				controller: 'DocumentListController',
 				controllerAs: 'ctrl',
 				params: {viewMode:'CUSTOMER'},
 				templateUrl: '/ap-document-list/customer-organize',
-				resolve: load(['js/app/modules/document-list/ap-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/document-list/controllers/ap-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/my-organize/ar-document-list',{
+				url: '/my-organize/ar-document-list',
+				controller: 'ARDocumentController',
+				controllerAs: 'ctrl',
+				params: {viewMode:'MY_ORGANIZE'},
+				templateUrl: '/ar-document-list/my-organize',
+				resolve: load(['js/app/modules/document-list/controllers/ARDocumentController.js', 'js/app/modules/document-list/services/DocumentService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/partner-organize/ar-document-list',{
+				url: '/partner-organize/ar-document-list',
+				controller: 'ARDocumentController',
+				controllerAs: 'ctrl',
+				params: {viewMode:'PARTNER'},
+				templateUrl: '/ar-document-list/partner-organize',
+				resolve: load(['js/app/modules/document-list/controllers/ARDocumentController.js', 'js/app/modules/document-list/services/DocumentService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/customer-organize/ar-document-list',{
+				url: '/customer-organize/ar-document-list',
+				controller: 'ARDocumentController',
+				controllerAs: 'ctrl',
+				params: {viewMode:'CUSTOMER'},
+				templateUrl: '/ar-document-list/customer-organize',
+				resolve: load(['js/app/modules/document-list/controllers/ARDocumentController.js', 'js/app/modules/document-list/services/DocumentService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/my-organize/transaction-list', {
 				url: '/my-organize/transaction-list',
 				controller: 'ListTransactionController',

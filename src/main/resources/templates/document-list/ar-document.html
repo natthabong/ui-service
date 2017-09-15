@@ -1,5 +1,5 @@
 <div id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('VIEW_ALL_AP_DOCUMENTS','VIEW_AP_DOCUMENTS_REFER_TO_MY_ORGANIZE','VIEW_AP_DOCUMENTS_OF_MY_ORGANIZE')">
+	sec:authorize="hasAnyAuthority('VIEW_ALL_AR_DOCUMENTS','VIEW_AR_DOCUMENTS_REFER_TO_MY_ORGANIZE','VIEW_AR_DOCUMENTS_OF_MY_ORGANIZE')">
 	<input type="hidden" ng-init="ctrl.deleteAuthority=true"
 		sec:authorize="hasAnyAuthority('DELETE_ALL_DOCUMENTS','DELETE_DOCUMENTS_OF_MY_ORGANIZE')" />
 	<div id="wrapper">
@@ -7,7 +7,7 @@
 			<div class="panel-body">
 				<div class="col-md-12">
 					<h3 id="header-message-label" class="animated fadeInLeft"
-						ng-bind="'AP document' | translate"></h3>
+						ng-bind="'AR Document' | translate"></h3>
 				</div>
 			</div>
 		</div>
@@ -17,52 +17,53 @@
 				<div class="panel-body">
 					<!-- Start Column Panel-->
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<form name="documentListSponsorForm" class="form-horizontal"
+						<form name="documentList" class="form-horizontal"
 							novalidate="" ng-submit="ctrl.searchDocument()"
 							autocomplete="off">
 
 							<div class="form-group">
-								<label for="sponsor-auto-suggest" id="sponsor-label"
-									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor'
+								<label for="supplier-auto-suggest" id="supplier-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
 									| translate}}:</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<gec-auto-suggest id="sponsor-auto-suggest" required="required"
-										disable="ctrl.sponsorTxtDisable"
-										model="ctrl.sponsorAutoSuggestModel" name="sponsorCode"
-										ng-model="ctrl.documentListModel.sponsor" maxlength="100"></gec-auto-suggest>
+									<gec-auto-suggest id="supplier-auto-suggest" required="required"
+										disable="ctrl.supplierTxtDisable"
+										model="ctrl.supplierAutoSuggestModel" name="supplierCode"
+										ng-model="ctrl.documentListModel.supplier" maxlength="100"></gec-auto-suggest>
 
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
-							<div class="form-group" ng-show="ctrl.requireSponsor">
+                            
+							<div class="form-group" ng-show="ctrl.requireSupplier">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-									id="sponsor-warning-message-label">{{'Sponsor is
+									id="sponsor-warning-message-label">{{'Supplier is
 									required' | translate}}.</span>
 							</div>
 
 							<div class="form-group">
-								<label for="supplier-auto-suggest" id="supplier-label"
-									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'|
+								<label for="buyer-auto-suggest" id="buyer-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer'|
 									translate}}: </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<gec-auto-suggest model="ctrl.supplierAutoSuggestModel"
-										ng-model="ctrl.documentListModel.supplier"
-										id="supplier-auto-suggest"
-										disable="ctrl.disableSupplierSuggest()" name="supplierCode"
+									<gec-auto-suggest model="ctrl.buyerAutoSuggestModel"
+										ng-model="ctrl.documentListModel.buyer"
+										id="buyer-auto-suggest"
+										disable="ctrl.disableBuyerSuggest()" name="buyerCode"
 										maxlength="100"></gec-auto-suggest>
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
 
 							<div class="form-group">
-								<label for="supplier-code-textbox" id="supplier-code-label"
-									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier
+								<label for="buyer-code-textbox" id="buyer-code-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer
 									code' | translate}}: </label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
-									<scf-input-text id="supplier-code-textbox"
-										ng-disabled="ctrl.supplierCodeDisable"
-										ng-model="ctrl.documentListModel.supplierCode" maxlength="100"></scf-input-text>
+									<scf-input-text id="buyer-code-textbox"
+										ng-disabled="ctrl.buyerCodeDisable"
+										ng-model="ctrl.documentListModel.buyerCode" maxlength="100"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-4"></div>
 							</div>
@@ -158,7 +159,7 @@
 													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 													total-page="ctrl.pagingController.pagingModel.totalPage"
 													current-page="ctrl.pagingController.pagingModel.currentPage"
-													page-size-list="ctrl.pageSizeList"
+													page-size-list="ctrl.pagingController.pageSizeList"
 													page-action="ctrl.searchDocument"></scf-pagination>
 											</span>
 
@@ -166,7 +167,7 @@
 									</div>
 								</div>
 							</div>
-							<!-- Start Table-->
+
 							<div class="row">
 								<div class="col-md-12">
 									<scf-table id="document-table"
@@ -188,36 +189,17 @@
 						<div id="bottom-sticker">
 							<div class="col-md-12 col-sm-12">
 								<div class="form-horizontal">
-									<label class="col-md-2 col-sm-3" id="total-amount-label"><b>{{'Total
-											amount' | translate}}:</b></label>
-									<div class="col-md-2 col-sm-3 text-right">
+									<label class="col-md-2 col-sm-3" id="total-amount-label"><b>{{'Total net amount' | translate}}:</b></label>
+									<div class="col-md-1 col-sm-3 text-right">
 										<span id="total-amount-value-label"
-											ng-bind="ctrl.documentSummaryDisplay.totalDocumentAmount | number:2"></span>
+											ng-bind="ctrl.totalNetAmount | number:2"></span>
 									</div>
-									<div class="col-md-1 col-sm-7">
+									<div class="col-md-8 col-sm-6">
 										<span id="wait-for-approve-amount-label"
 											ng-bind="'THB' | translate"></span>
 									</div>
 								</div>
 							</div>
-
-							<div class="col-md-12 col-sm-12"
-								ng-repeat="document in ctrl.documentSummaryDisplay.documents track by $id(document)">
-								<div class="form-horizontal">
-									<label class="col-md-2 col-sm-3"
-										id="{{document.status}}-amount-label"><b>{{document.status
-											| translate}}:</b></label>
-									<div class="col-md-2 col-sm-3 text-right">
-										<span id="{{document.status}}-amount-value-label"
-											ng-bind="document.totalOutstandingAmount | number:2"></span>
-									</div>
-									<div class="col-md-1 col-sm-7">
-										<span ng-bind="'THB' | translate"></span>
-
-									</div>
-								</div>
-							</div>
-
 						</div>
 					</div>
 
