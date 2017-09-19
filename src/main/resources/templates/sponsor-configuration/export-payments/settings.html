@@ -111,7 +111,6 @@
 												<th id="header-label" ng-bind="'Header label' | translate">Header label</th>
 												<th id="length-header-label" ng-bind="'Length' | translate">Length</th>
 												<th id="start-index-header-label" ng-bind="'Index'| translate">Index</th>
-												<th id="end-index-header-label" ng-bind="'End index' | translate" ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></th>
 												<th></th>
 											</tr>
 										</thead>
@@ -122,96 +121,41 @@
 												<td class="text-right" style="width: 3%"><label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label></td>
 
 												<td class="text-center" style="width: 15%">
-													<scf-dropdown id="gecscf-field-name-{{$index+1}}-dropdown" ng-model="record.documentFieldId" component-data="ctrl.dataTypeDropdown"
-														ng-change="ctrl.isChangeDataType(record)"  translate-label="true" convert-to-number="true"></scf-dropdown>
+													<scf-dropdown id="gecscf-field-name-{{$index+1}}-dropdown" ng-model="record.documentFieldId" component-data="ctrl.doucmentGECDropdown"
+														ng-change="ctrl.isChangeDataType(record)" translate-label="true" convert-to-number="true"></scf-dropdown>
 												</td>
 
 												<td class="text-center" style="width: 15%">
-													<scf-input-text id="length-{{$index+1}}-textbox" style="text-align: right;" convert-to-number="" 
-														ng-model="record.dataLength" maxlength="3" />
+													<scf-input-text id="length-{{$index+1}}-textbox" style="text-align:left;" maxlength="25" ng-model="record.dataLength" />
 												</td>
 
 												<td class="text-center" style="width: 15%">
-													<scf-input-text id="length-{{$index+1}}-textbox" style="text-align: right;" convert-to-number="" 
-														ng-model="record.dataLength" maxlength="3" />
+													<scf-input-text id="length-{{$index+1}}-textbox" style="text-align: right;" convert-to-number="" ng-model="record.dataLength"
+														maxlength="3" />
 												</td>
 												<td class="text-center" style="width: 15%">
-													<scf-input-text id="detail-start-index-{{$index+1}}-textbox" style="text-align: right;" convert-to-number="" 
-														ng-model="record.startIndex" maxlength="3" />
-												</td>
-												<td class="text-center" style="width: 15%" ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength">
-													<scf-input-text value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
-														id="detail-end-index-{{$index+1}}-textbox"  style="text-align: right;" maxlength="3"
-													/>
+													<scf-input-text id="detail-start-index-{{$index+1}}-textbox" style="text-align: right;" convert-to-number="" ng-model="record.startIndex"
+														maxlength="3" />
 												</td>
 												<td class="text-center" style="width: 16%">
 													<scf-button type="button" id="field-setup-{{$index+1}}-button" class="btn-default gec-btn-action" ng-click="ctrl.openSetting($index, record)"
 														ng-disabled="!ctrl.manageAll || ctrl.checkDisable(record)"> <i class="fa fa-cog" aria-hidden="true"></i> </scf-button>
-													<scf-button type="button" id="delete-{{$index+1}}-button" class="btn-default gec-btn-action" 
-														ng-click="ctrl.removeDataItem(ctrl.items,record)">
+													<scf-button type="button" id="delete-{{$index+1}}-button" class="btn-default gec-btn-action" ng-click="ctrl.removeDataItem(ctrl.items,record)">
 														<i class="fa fa-trash" aria-hidden="true"></i> </scf-button>
 												</td>
 											</tr>
-
-											<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
-
-												<td colspan="10" ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength">
-													<p id="description-{{$index+1}}-label{{ctrl.model.fileType == ctrl.fileType.fixedLength?'':'-ignore'}}" ng-bind="ctrl.displayExample(record)"></p>
-												</td>
-												<td colspan="9" ng-show="ctrl.model.fileType == ctrl.fileType.delimited">
-													<p id="description-{{$index+1}}-label{{ctrl.model.fileType == ctrl.fileType.delimited?'':'-ignore'}}" ng-bind="ctrl.displayExample(record)"></p>
-												</td>
-											</tr>
-											<!-- Detail Data -->
-											<tr ng-repeat-start="record in ctrl.dataDetailItems track by $index" ng-class="ctrl.isEven(ctrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
-
-												<td class="text-center" style="width: 3%"><input type="checkbox"  ng-model="record.primaryKeyField" /></td>
-
-
-												<td class="text-right" style="width: 3%"><label id="layout-item-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-no-label" class="text-right control-label">{{ctrl.dataRowNo(ctrl.getDetailFieldSize(),
-														$index)}}</label></td>
-												<td class="text-center" style="width: 15%"></td>
-
-												<td colspan="2" class="text-center" style="width: 18%">
-													<scf-dropdown id="data-type-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-dropdown" ng-model="record.documentFieldId"
-														component-data="ctrl.dataTypeDropdown"  translate-label="true" convert-to-number="true"></scf-dropdown>
-												</td>
-
-												<td class="text-center" style="width: 15%"></td>
-												<td class="text-center" style="width: 15%"></td>
-												<td class="text-center" style="width: 15%" ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></td>
-												<td class="text-center" style="width: 16%">
-													<scf-button type="button" id="data-setup-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-button" class="btn-default gec-btn-action"
-														ng-click="ctrl.openSetting($index, record)" > <i class="fa fa-cog" aria-hidden="true"></i> </scf-button>
-													<scf-button type="button" id="delete-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-button" class="btn-default gec-btn-action"
-														 ng-click="ctrl.removeDataItem(ctrl.dataDetailItems, record)">
-														<i class="fa fa-trash" aria-hidden="true"></i> </scf-button>
-												</td>
-											</tr>
-
-											<tr ng-repeat-end="" ng-class="ctrl.isEven(ctrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
-												<td colspan="10" ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength">
-													<p id="description-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-label" ng-bind="ctrl.displayExample(record)"></p>
-												</td>
-												<td colspan="9" ng-show="ctrl.model.fileType == ctrl.fileType.delimited">
-													<p id="description-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-label" ng-bind="ctrl.displayExample(record)"></p>
-												</td>
-											</tr>
+											<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'"></tr>
 
 										</tbody>
 									</table>
-
 									<div>
-										<!-- Split button -->
-										<button id="add-another-field-detail-button" type="button" class="btn btn-default" ng-click="ctrl.addItem()"
-											ng-bind="'Add another field' | translate">Add
+										<button id="add-another-field-detail-button" type="button" class="btn btn-default" ng-click="ctrl.addItem()" ng-bind="'Add another field' | translate">Add
 											another field</button>
 									</div>
 								</div>
 
 							</fieldset>
 						</div>
-
 					</div>
 
 					<div class="panel-body">

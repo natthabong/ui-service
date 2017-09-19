@@ -130,6 +130,25 @@ app.service('SCFCommonService', [
 			return differed;
 		};
 
+		vm.getDocumentFields = function(fileLayoutType, sectionType, dataType){
+			var deffered = $q.defer();
+			
+			var uri = 'api/v1/configs/file-layout-types/'+fileLayoutType+'/section-types/'+ sectionType + '/document-field';
+			$http({
+				url : uri,
+				method: 'GET',
+				params: {
+					dataType: dataType
+				}
+					
+			}).then(function(response) {
+				deffered.resolve(response);
+			}).catch(function(response) {
+			deffered.reject(response);
+			});
+			return deffered;
+		}
+
         vm.shortenLargeNumber = function(amount) {
             var shortenNumber = ['k', 'M', 'G', 'T'];
             var amountBase, result;
