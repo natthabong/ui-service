@@ -10,7 +10,7 @@ angular.module('scfApp').controller('ExportPaymentConfigController', ['Service',
         vm.setupExportPayment = function() {
             var params = {
             };
-            PageNavigation.gotoPage('/sponsor-configuration/export-payment/settings', params)
+            PageNavigation.gotoPage('/sponsor-configuration/export-payments/settings', params)
         };
     }
 ]);

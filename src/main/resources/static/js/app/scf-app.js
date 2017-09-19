@@ -231,7 +231,9 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							  'js/app/sponsor-configuration/payment-date-formula-service.js',
 							  'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataListController.js',
 							  'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataNewPopupController.js',
-							  'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js', ])
+							  'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
+							  'js/app/sponsor-configuration/ExportPaymentConfigController.js'
+							   ])
 			}).state('/sponsor-configuration/mapping-data/edit',{
 				url: '/sponsor-configuration/mapping-data/edit',
 				controller: 'EditMappingDataController',
@@ -280,6 +282,18 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				params: { accountingTransactionType: null, displayMode: null, selectedItem: null},
 				resolve: load(['js/app/sponsor-configuration/document-display/document-display-controller.js',
 					'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js'])
+			}).state('/sponsor-configuration/export-payments/settings',{
+				url: '/sponsor-configuration/export-payments/settings',
+				controller: 'ExportPaymentController',
+				controllerAs: 'ctrl',
+				templateUrl: '/sponsor-configuration/export-payments/settings',
+				params: { accountingTransactionType: null, displayMode: null, selectedItem: null},
+				resolve: load(
+					[
+						'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
+						'js/app/modules/organize/configuration/export-payment/controllers/ExportPaymentController.js',
+						'js/app/modules/organize/configuration/export-payment/services/ExportPaymentService.js'
+					])
 			}).state('/sponsor-configuration/payment-date-formulas/settings',{
 				url: '/sponsor-configuration/payment-date-formulas/settings',
 				controller: 'PaymentDateFormulaSettingController',

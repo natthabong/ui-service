@@ -116,8 +116,9 @@
 							</div>
 						</button>
 					</div>
-					<div class="col-md-3 col-sm-3 col-xs-6">
-						<button class="thumbnail" ng-click=""
+					<div class="col-md-3 col-sm-3 col-xs-6"
+						ng-controller="ExportPaymentConfigController as exportPaymentCtrl">
+						<button class="thumbnail" ng-click="exportPaymentCtrl.setupExportPayment()"
 							id="export-payment-result-layout-setup">
 							<div class="caption config-box">
 								<div class="media">

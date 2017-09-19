@@ -44,6 +44,8 @@ public class SponsorConfigController {
 
 	private static String MAPPING_DATA_CODE = "sponsor-configuration/mapping-data-code/mapping-data-code";
 
+	private static String SETTINGS_EXPORT_PAYMENT = "sponsor-configuration/export-payments/settings";
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String sponsorConfiguration(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
@@ -223,4 +225,14 @@ public class SponsorConfigController {
 		}
 		return SETUP_WORKFLOW;
 	}
+
+	
+	@RequestMapping(path = "/export-payments/settings", method = RequestMethod.GET)
+	public String setupExportPayment(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETTINGS_EXPORT_PAYMENT.concat(" :: content");
+		}
+		return SETTINGS_EXPORT_PAYMENT;
+	}
+
 }
