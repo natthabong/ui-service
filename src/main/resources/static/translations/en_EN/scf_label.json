@@ -594,6 +594,8 @@
 	"GECSCF field name": "GECSCF field name",
 	"Support partial payment": "Support partial payment",
 	
-	"Specific value": "Value"
+	"Specific value": "Value",
+	"Loan value": "'Loan' value",
+	"Debit value": "'Debit' value"
 
 }

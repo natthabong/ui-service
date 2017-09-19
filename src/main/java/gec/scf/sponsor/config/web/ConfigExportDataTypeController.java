@@ -12,6 +12,8 @@ public class ConfigExportDataTypeController {
 	private static String FILLER_FIELD = "sponsor-configuration/export-payments/dialog-filler-field-format";
 	private static String SIGN_FLAG_FIELD = "sponsor-configuration/export-payments/dialog-sign-flag-field-format";
 	private static String DATE_TIME_FIELD = "sponsor-configuration/export-payments/dialog-date-time-field-format";
+	private static String PAYMENT_TYPE_FIELD = "sponsor-configuration/export-payments/dialog-payment-type-field-format";
+	private static String NUMERIC_FIELD = "sponsor-configuration/export-payments/dialog-numeric-field-format";
 
 	@RequestMapping(path = "/specific-text", method = RequestMethod.GET)
 	public String getSpecificTextFieldConfig() {
@@ -22,14 +24,24 @@ public class ConfigExportDataTypeController {
 	public String getFillerFieldConfig() {
 		return FILLER_FIELD;
 	}
-	
+
 	@RequestMapping(path = "/sign-flag", method = RequestMethod.GET)
 	public String getSignFlagFieldConfig() {
 		return SIGN_FLAG_FIELD;
 	}
-	
+
 	@RequestMapping(path = "/date-time", method = RequestMethod.GET)
 	public String getDateTimeFieldConfig() {
 		return DATE_TIME_FIELD;
+	}
+
+	@RequestMapping(path = "/payment-type", method = RequestMethod.GET)
+	public String getPaymentTypeFieldConfig() {
+		return PAYMENT_TYPE_FIELD;
+	}
+
+	@RequestMapping(path = "/numeric", method = RequestMethod.GET)
+	public String getNumericFieldConfig() {
+		return NUMERIC_FIELD;
 	}
 }

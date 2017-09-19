@@ -1,0 +1,52 @@
+<div class="modal-content">
+<form name="paymentTypeFieldFormat" class="form-horizontal" ng-submit="closeThisDialog(ctrl.model)">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3><span id="payment-type-format-popup-header-message-label" class="popup-text">{{ngDialogData.config.displayFieldName}} field format</span></h3>
+				</div>				
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					
+						<fieldset>
+							<legend><span id="payment-type-format-popup-format-label">Payment type mapping</span></legend>
+							<div class="form-group">
+							<label for="payment-type-format"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span id="payment-type-format-popup-loan-value-label" 
+								ng-bind="'Loan value' | translate"></span>:</label>
+								<div class="col-md-6 col-sm-4 col-xs-12">
+									<scf-input-text id="payment-type-format-popup-loan-value-textbox" maxlength = "100"
+										ng-model="ctrl.model.paymentTypeLoanValue"></scf-input-text>
+								</div>
+							</div>
+							<div class="form-group">
+							<label for="sign-flag-format"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span id="payment-type-format-popup-debit-value-label"
+								ng-bind="'Debit value' | translate"></span>:</label>
+								<div class="col-md-6 col-sm-4 col-xs-12">
+									<scf-input-text id="payment-type-format-popup-debit-value-textbox" maxlength = "100"
+										ng-model="ctrl.model.paymentTypeDebitValue"></scf-input-text>
+								</div>
+							</div>
+						</fieldset>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="payment-type-format-popup-cancel-button" class="popup-button"  
+						ng-click="closeThisDialog()"
+						ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="payment-type-format-popup-ok-button" class="popup-button" 
+						type="submit"
+						ng-bind="'OK' | translate"></scf-button>
+					
+				</div>
+			</div>
+		</div>
+		</form>
+	</div>

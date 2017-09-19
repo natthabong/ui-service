@@ -296,7 +296,9 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						'js/app/modules/organize/configuration/export-payment/controllers/SpecificTextExportLayoutConfigController.js',
 						'js/app/modules/organize/configuration/export-payment/controllers/FillerExportLayoutConfigController.js',
 						'js/app/modules/organize/configuration/export-payment/controllers/SignFlagExportLayoutConfigController.js',
-						'js/app/modules/organize/configuration/export-payment/controllers/DateTimeExportLayoutConfigController.js'
+						'js/app/modules/organize/configuration/export-payment/controllers/DateTimeExportLayoutConfigController.js',
+						'js/app/modules/organize/configuration/export-payment/controllers/PaymentTypeExportLayoutConfigController.js',
+						'js/app/modules/organize/configuration/export-payment/controllers/NumericExportLayoutConfigController.js'
 					])
 			}).state('/sponsor-configuration/payment-date-formulas/settings',{
 				url: '/sponsor-configuration/payment-date-formulas/settings',

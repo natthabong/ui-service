@@ -67,7 +67,6 @@ module.controller('ExportPaymentController', [
             deffered.promise.then(function (response) {
                 dropDownData.push(defaultDropDown);
                 vm.dataTypes[sectionType] = response.data;
-                console.log(vm.dataTypes);
                 response.data.forEach(function (obj) {
                     var item = {
                         value: obj.documentFieldId,
@@ -176,8 +175,7 @@ module.controller('ExportPaymentController', [
             loadDelimiters();
             loadFileSpecificsData();
 
-            var test = loadDocumentFields('HEADER', vm.headerGECDropdown, vm.headerDataTypes);
-            console.log(test);
+            loadDocumentFields('HEADER', vm.headerGECDropdown, vm.headerDataTypes);
             loadDocumentFields('FOOTER', vm.footerGECDropdown, vm.footerDataTypes);
             loadDocumentFields('PAYMENT', vm.paymentGECDropdown, vm.paymentDataTypes);
             loadDocumentFields('DOCUMENT', vm.doucmentGECDropdown, vm.doucmentDataTypes);
@@ -221,18 +219,14 @@ module.controller('ExportPaymentController', [
                 dataTypeDropdowns = vm.dataTypes["FOOTER"];
             }
 
-            console.log(dataTypeDropdowns);
-
             dataTypeDropdowns.forEach(function (obj) {
-                console.log(obj);
                 if (documentFieldId == obj.documentFieldId) {
                     var dataType = obj.dataType;
-                    console.log(dataType);
                     var dialog = ngDialog.open({
                         id: 'layout-setting-dialog-' + index,
                         template: obj.configUrl,
                         className: 'ngdialog-theme-default',
-                        controller: _convertToHumanize(dataType) + 'LayoutConfigController',
+                        controller: _convertToHumanize(dataType) + 'ExportLayoutConfigController',
                         controllerAs: 'ctrl',
                         scope: $scope,
                         data: {
@@ -242,7 +236,8 @@ module.controller('ExportPaymentController', [
                             index: index,
                             config: obj,
                             headerItems: vm.headerItems,
-                            detailItems: vm.items,
+                            paymentItems: vm.paymentItems,
+                            documentItems: vm.items,
                             footerItems: vm.footerItems,
                             dataTypeByIds: vm.dataTypeByIds
 
@@ -334,7 +329,6 @@ module.controller('ExportPaymentController', [
 			// 	apiURL = apiURL + '/' + sponsorLayout.layoutConfigId;
 			// }
 
-			console.log(sponsorLayout);
 			var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode ? 'POST' : 'PUT');
 
 			return fileLayoutDiferred;
