@@ -22,18 +22,21 @@ module.controller('ExportPaymentController', [
         // <----------------------- initial varible start --------------------->
         var vm = this;
         var ownerId = $rootScope.sponsorId;
-        vm.processType = $stateParams.processType;
 
         var defaultDropDown = {
             value: null,
             label: 'Please select'
         }
-
+        
         vm.fileType = FILE_TYPE_ITEM;
         vm.fileEncodeDropdown = [];
         vm.delimitersDropdown = [];
         vm.specificsDropdown = [];
         vm.items = [];
+        vm.displayHeaderColumn = false;
+
+        vm.delimeter = null;
+        vm.delimeterOther = null;
 
         // GECSCF dropdown
         vm.headerGECDropdown = [];
@@ -49,25 +52,22 @@ module.controller('ExportPaymentController', [
             FOOTER : null
         }
 
+        vm.dataTypeByIds = {};
+
          // <----------------------- initial varible end --------------------->
 
-        // vm.model = $stateParams.fileLayoutModel || {
-        //     ownerId: ownerId,
-        //     paymentDateConfig: vm.processType == 'AP_DOCUMENT' ? {
-        //         strategy: 'FIELD',
-        //         documentDateFieldOfField: null,
-        //         documentDateFieldOfFormula: null,
-        //         documentDateField: null,
-        //         paymentDateFormulaId: null
-        //     } : null
-        // };
+        vm.model = $stateParams.fileLayoutModel || {
+            ownerId: ownerId
+        };
+        console.log(vm.model);
 
-        var loadDocumentFields = function (sectionType, dropDownData, dataType) {
+        var loadDocumentFields = function (sectionType, dropDownData) {
             var deffered = SCFCommonService.getDocumentFields('EXPORT', sectionType, null);
             deffered.promise.then(function (response) {
                 dropDownData.push(defaultDropDown);
                 vm.dataTypes[sectionType] = response.data;
                 response.data.forEach(function (obj) {
+                    vm.dataTypeByIds[obj.documentFieldId] = obj;
                     var item = {
                         value: obj.documentFieldId,
                         label: obj.displayFieldName
@@ -175,10 +175,10 @@ module.controller('ExportPaymentController', [
             loadDelimiters();
             loadFileSpecificsData();
 
-            loadDocumentFields('HEADER', vm.headerGECDropdown, vm.headerDataTypes);
-            loadDocumentFields('FOOTER', vm.footerGECDropdown, vm.footerDataTypes);
-            loadDocumentFields('PAYMENT', vm.paymentGECDropdown, vm.paymentDataTypes);
-            loadDocumentFields('DOCUMENT', vm.doucmentGECDropdown, vm.doucmentDataTypes);
+            loadDocumentFields('HEADER', vm.headerGECDropdown);
+            loadDocumentFields('FOOTER', vm.footerGECDropdown);
+            loadDocumentFields('PAYMENT', vm.paymentGECDropdown);
+            loadDocumentFields('DOCUMENT', vm.doucmentGECDropdown);
 
             initialModel();
 
@@ -259,6 +259,8 @@ module.controller('ExportPaymentController', [
 			vm.model.completed = true;
 			vm.model.processType = vm.processType;
 
+            vm.model.displayHeaderColumn = vm.displayHeaderColumn;
+
             if (vm.model.fileType == 'CSV') {
                 if (vm.delimeter == 'Other') {
                     vm.model.delimeter = vm.delimeterOther;
@@ -269,20 +271,14 @@ module.controller('ExportPaymentController', [
 
             sponsorLayout = angular.copy(vm.model);
             sponsorLayout.items = angular.copy(vm.items);
-            vm.dataDetailItems.forEach(function (detailItem) {
-                sponsorLayout.items.push(detailItem);
-            });
-
-            if (!vm.isConfigOffsetRowNo) {
-                sponsorLayout.offsetRowNo = null;
-            }
-
-            addHeaderModel(sponsorLayout, vm.headerItems);
-            addFooterModel(sponsorLayout, vm.footerItems);
+            // console.log(sponsorLayout);
+            // vm.dataDetailItems.forEach(function (detailItem) {
+            //     sponsorLayout.items.push(detailItem);
+            // });
+            // console.log(vm.dataTypeByIds);
 
             sponsorLayout.items.forEach(function (obj, index) {
                 var dataType = vm.dataTypeByIds[obj.documentFieldId];
-                obj.docFieldName = dataType.docFieldName;
                 obj.dataType = dataType.dataType;
                 obj.transient = dataType.transient;
                 if (dataType.dataType == 'CUSTOMER_CODE') {
@@ -291,45 +287,43 @@ module.controller('ExportPaymentController', [
             });
 
 
-			var onFail = function (errors) {
-				$scope.errors = errors;
-			}
+			// var onFail = function (errors) {
+			// 	$scope.errors = errors;
+			// }
 
-			if (FileLayoutService.validate(sponsorLayout, vm.dataTypeByIds, onFail)) {
-				UIFactory.showConfirmDialog({
-					data: {
-						headerMessage: 'Confirm save?'
-					},
-					confirm: function () { return $scope.confirmSave(sponsorLayout) },
-					onSuccess: function (response) {
-						UIFactory.showSuccessDialog({
-							data: {
-								headerMessage: 'Edit file layout complete.',
-								bodyMessage: ''
-							},
-							preCloseCallback: function () {
-								vm.backToSponsorConfigPage();
-							}
-						});
-					},
-					onFail: function (response) {
-						blockUI.stop();
-					}
-				});
-			}
+			// if (FileLayoutService.validate(sponsorLayout, vm.dataTypeByIds, onFail)) {
+            UIFactory.showConfirmDialog({
+                data: {
+                    headerMessage: 'Confirm save?'
+                },
+                confirm: function () { return $scope.confirmSave(sponsorLayout) },
+                onSuccess: function (response) {
+                    UIFactory.showSuccessDialog({
+                        data: {
+                            headerMessage: 'Edit file layout complete.',
+                            bodyMessage: ''
+                        },
+                        preCloseCallback: function () {
+                            vm.backToSponsorConfigPage();
+                        }
+                    });
+                },
+                onFail: function (response) {
+                    blockUI.stop();
+                }
+            });
+			// }
 		}
 
 		$scope.confirmSave = function (sponsorLayout) {
-
-			var apiURL = 'api/v1/organize-customers/' + sponsorLayout.ownerId + '/processTypes/' + sponsorLayout.processType + '/layouts';
+            
+			var apiURL = 'api/v1/organize-customers/' + sponsorLayout.ownerId + '/process-types/EXPORT_DOCUMENT/integrate-types/EXPORT/layouts';
 			// if (!vm.newMode) {
-			// 	if (sponsorLayout.processType == 'AP_DOCUMENT') {
-			// 		sponsorLayout.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
-			// 	}
 			// 	apiURL = apiURL + '/' + sponsorLayout.layoutConfigId;
 			// }
 
-			var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode ? 'POST' : 'PUT');
+			console.log(sponsorLayout);
+			var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, 'POST');
 
 			return fileLayoutDiferred;
 
