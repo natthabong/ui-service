@@ -16,14 +16,14 @@ pipeline {
     stage('[DOCKER] Build an image') {
       steps {
         sh 'docker build -t ui-service - < target/ui-service-0.1-SNAPSHOT-bin.tar.gz'
-        sh "docker tag ui-service mantis-gecscf.gec.io:5000/ui-service"
+        sh "docker tag ui-service registry-gecscf.gec.io:5000/ui-service"
         
       }
     }
     stage('[DOCKER] Shift an image to private registry') {
       steps {
-        sh 'docker login mantis-gecscf.gec.io:5000 -u testuser -p testpassword'
-        sh "docker push mantis-gecscf.gec.io:5000/ui-service"
+        sh 'docker login registry-gecscf.gec.io:5000 -u gecscf -p gecscf123!'
+        sh "docker push registry-gecscf.gec.io:5000/ui-service"
       }
     }
   }
