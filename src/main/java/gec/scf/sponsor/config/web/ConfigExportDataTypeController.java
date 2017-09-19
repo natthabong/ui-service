@@ -11,6 +11,7 @@ public class ConfigExportDataTypeController {
 	private static String SPECIFIC_TEXT_FIELD = "sponsor-configuration/export-payments/dialog-specific-text-field-format";
 	private static String FILLER_FIELD = "sponsor-configuration/export-payments/dialog-filler-field-format";
 	private static String SIGN_FLAG_FIELD = "sponsor-configuration/export-payments/dialog-sign-flag-field-format";
+	private static String DATE_TIME_FIELD = "sponsor-configuration/export-payments/dialog-date-time-field-format";
 
 	@RequestMapping(path = "/specific-text", method = RequestMethod.GET)
 	public String getSpecificTextFieldConfig() {
@@ -25,5 +26,10 @@ public class ConfigExportDataTypeController {
 	@RequestMapping(path = "/sign-flag", method = RequestMethod.GET)
 	public String getSignFlagFieldConfig() {
 		return SIGN_FLAG_FIELD;
+	}
+	
+	@RequestMapping(path = "/date-time", method = RequestMethod.GET)
+	public String getDateTimeFieldConfig() {
+		return DATE_TIME_FIELD;
 	}
 }

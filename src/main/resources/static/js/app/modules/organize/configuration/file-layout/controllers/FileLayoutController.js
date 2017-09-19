@@ -540,7 +540,6 @@ module.controller('FileLayoutController', [
 		vm.openSetting = function (index, record) {
 			var documentFieldId = record.documentFieldId;
 			var recordType = record.recordType;
-
 			var dataTypeDropdowns = vm.dataTypes;
 			if (recordType == vm.recordType.HEADER) {
 				dataTypeDropdowns = vm.dataTypeHeaders;
