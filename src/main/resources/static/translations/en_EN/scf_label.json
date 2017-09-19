@@ -596,6 +596,8 @@
 	
 	"Specific value": "Value",
 	"Loan value": "'Loan' value",
-	"Debit value": "'Debit' value"
+	"Debit value": "'Debit' value",
+	
+	"Sign flag with in field": "Sign flag with in field; Recommend for delimeter format"
 
 }
