@@ -40,8 +40,8 @@ angular
 								value : '50'
 							} ];
 							
-							vm.newFileLayout = function(data, processType){		
-								var params = {fileLayoutModel: data, processType:processType};
+							vm.newFileLayout = function(data, processType, integrateType){		
+								var params = {fileLayoutModel: data, processType:processType, integrateType: integrateType};
 								PageNavigation.gotoPage('/sponsor-configuration/file-layouts/new-file-layout',params);
 							}
 							
@@ -80,10 +80,10 @@ angular
 							}
 							
 							
-							vm.init = function(processType) {
+							vm.init = function(processType, integrateType) {
 				                vm.pageModel.currentPage = 0;
 				                vm.pageModel.pageSizeSelectModel = '20';
-				            	callService(processType);
+				            	callService(processType, integrateType);
 							}
 
 							
@@ -95,7 +95,7 @@ angular
 								}
 							}
 							
-							function callService(processType){
+							function callService(processType, integrateType){
 								var sponsorId = $scope.sponsorId;
 								
 								var offset = 0;
@@ -103,7 +103,7 @@ angular
 									offset = vm.pageModel.currentPage*vm.pageModel.pageSizeSelectModel;
 								}
 								
-								var fileLayoutsUrl = '/api/v1/organize-customers/'+sponsorId+'/processTypes/'+processType+'/layouts';
+								var fileLayoutsUrl = '/api/v1/organize-customers/'+sponsorId+'/process-types/'+processType+ '/integrate-types/' + integrateType+'/layouts';
 								var serviceDiferred = Service.doGet(fileLayoutsUrl, {
 									offset: offset,
 									limit: vm.pageModel.pageSizeSelectModel

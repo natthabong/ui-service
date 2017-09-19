@@ -24,6 +24,7 @@ module.controller('FileLayoutController', [
 		var ownerId = $rootScope.sponsorId;
 
 		vm.processType = $stateParams.processType;
+		vm.integrateType = $stateParams.integrateType;
 		vm.model = $stateParams.fileLayoutModel || {
 			ownerId: ownerId,
 			paymentDateConfig: vm.processType == 'AP_DOCUMENT' ? {
@@ -34,11 +35,12 @@ module.controller('FileLayoutController', [
 				paymentDateFormulaId: null
 			} : null
 		};
+		
+		console.log($stateParams.fileLayoutModel);
 
 		vm.headerName = vm.processType == 'AP_DOCUMENT' ? "AP Document file layout" : "AR Document file layout";
 
-		var BASE_URI = 'api/v1/organize-customers/' + ownerId
-			+ '/processTypes/' + vm.processType;
+		var BASE_URI = 'api/v1/organize-customers/' + ownerId + '/process-types/' + vm.processType + '/integrate-types/' + vm.integrateType ;
 
 		var reqUrlFormula = '';
 
@@ -223,6 +225,16 @@ module.controller('FileLayoutController', [
 			};
 			serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
 		}
+		
+		var sendRequestFormula = function (uri, succcesFunc, failedFunc) {
+			var serviceDiferred = Service.doGet(uri);
+
+			var failedFunc = failedFunc | function (response) {
+				log.error('Load data error');
+			};
+			serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
+		}
+		
 		var isEmptyValue = function (value) {
 			if (angular.isUndefined(value) || value == null) {
 				return true;
@@ -428,7 +440,7 @@ module.controller('FileLayoutController', [
 				var reqUrlFooterField = '/layouts/' + vm.model.layoutConfigId + '/items?itemType=FIELD&recordType=FOOTER';
 				var reqUrlField = '/layouts/' + vm.model.layoutConfigId + '/items?itemType=FIELD&recordType=DETAIL';
 				var reqUrlData = '/layouts/' + vm.model.layoutConfigId + '/items?itemType=DATA&recordType=DETAIL';
-				reqUrlFormula = '/payment-date-formulas/';
+				reqUrlFormula = 'api/v1/organize-customers/' + ownerId + '/processTypes/' + vm.processType + '/payment-date-formulas/';
 				var reqCustomerCodeConfg = '/layouts/' + vm.model.layoutConfigId + '/items?dataType=CUSTOMER_CODE';
 
 				sendRequest(reqUrlLayoutConfg, function (response) {
@@ -493,7 +505,7 @@ module.controller('FileLayoutController', [
 					})
 				});
 
-				sendRequest(reqUrlFormula, function (response) {
+				sendRequestFormula(reqUrlFormula, function (response) {
 					var formulaData = response.data;
 					addPaymentDateFormulaDropdown(formulaData);
 				});
@@ -671,7 +683,8 @@ module.controller('FileLayoutController', [
 
 
 		vm.refreshFormulaDropDown = function () {
-			var serviceDiferred = Service.doGet(BASE_URI + reqUrlFormula);
+			
+			var serviceDiferred = Service.doGet(reqUrlFormula);
 			serviceDiferred.promise.then(function (response) {
 				var formulaData = response.data;
 				vm.paymentDateFormularModelDropdowns = [];

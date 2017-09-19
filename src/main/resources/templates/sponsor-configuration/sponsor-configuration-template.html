@@ -26,9 +26,9 @@
 					<div class="col-md-2 col-sm-2 col-xs-6"
 						ng-controller="FileLayoutsController as fileLayoutsCtrl">
 						<div style="visibility: hidden;"
-							ng-init="fileLayoutsCtrl.init('AR_DOCUMENT')"></div>
+							ng-init="fileLayoutsCtrl.init('AR_DOCUMENT', 'IMPORT')"></div>
 						<button class="thumbnail"
-							ng-click="fileLayoutsCtrl.newFileLayout(fileLayoutsCtrl.data,'AR_DOCUMENT')"
+							ng-click="fileLayoutsCtrl.newFileLayout(fileLayoutsCtrl.data,'AR_DOCUMENT', 'IMPORT')"
 							id="layout-AR document file layout config-setup-button">
 							<div class="caption config-box">
 								<div class="media">
@@ -216,10 +216,10 @@
 							ng-init="fileLayoutsCtrl.manageAllConfig=true"
 							sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" />
 						<div style="visibility: hidden;"
-							ng-init="fileLayoutsCtrl.init('AP_DOCUMENT')"></div>
+							ng-init="fileLayoutsCtrl.init('AP_DOCUMENT', 'IMPORT')"></div>
 						<button class="thumbnail"
 							id="layout-AP Document file layout-setup-button"
-							ng-click="fileLayoutsCtrl.newFileLayout(fileLayoutsCtrl.data,'AP_DOCUMENT')"
+							ng-click="fileLayoutsCtrl.newFileLayout(fileLayoutsCtrl.data,'AP_DOCUMENT', 'IMPORT')"
 							title="Config a file layout"
 							ng-disabled="fileLayoutsCtrl.unauthenConfig()">
 							<div class="caption config-box">
