@@ -9,9 +9,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ConfigExportDataTypeController {
 
 	private static String SPECIFIC_TEXT_FIELD = "sponsor-configuration/export-payments/dialog-specific-text-field-format";
+	private static String FILLER_FIELD = "sponsor-configuration/export-payments/dialog-filler-field-format";
 
 	@RequestMapping(path = "/specific-text", method = RequestMethod.GET)
 	public String getSpecificTextFieldConfig() {
 		return SPECIFIC_TEXT_FIELD;
+	}
+
+	@RequestMapping(path = "/filler", method = RequestMethod.GET)
+	public String getFillerFieldConfig() {
+		return FILLER_FIELD;
 	}
 }

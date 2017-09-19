@@ -4,7 +4,7 @@
 		<div class="row">
 			<div class="col-md-10 col-sm-10">
 				<h3>
-					<span id="specific-text-field-format-popup-header-message-label"
+					<span id="specific-text-format-popup-header-message-label"
 						class="popup-text">{{ngDialogData.config.displayFieldName}} field format</span>
 				</h3>
 			</div>
@@ -21,7 +21,7 @@
 								ng-bind="'Specific value' | translate"></span>:</label>
 							<div class="col-md-7 col-sm-5 col-xs-12">
 								<scf-input-text
-									id="specific-text-field-format-popup-expected-value-textbox"
+									id="specific-text-format-popup-expected-value-textbox"
 									ng-model="ctrl.model.expectedValue"
 									maxlength="255"></scf-input-text>
 							</div>
@@ -34,10 +34,10 @@
 	<div class="modal-footer">
 		<div class="row">
 			<div class="col-xs-12 text-right">
-				<scf-button id="specific-text-field-format-popup-cancel-button"
+				<scf-button id="specific-text-format-popup-cancel-button"
 					class="popup-button" ng-click="closeThisDialog()"
 					ng-bind="'Cancel' | translate"></scf-button>
-				<scf-button id="specific-text-field-format-popup-ok-button"
+				<scf-button id="specific-text-format-popup-ok-button"
 					class="popup-button"
 					type="submit"
 					ng-bind="'OK' | translate"></scf-button>
