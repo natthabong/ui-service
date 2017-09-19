@@ -38,6 +38,18 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		return serviceDiferred
 	}
 
+	var createFileLayout = function (owner, processTypes, integrateTypes, layoutConfigData) {
+		var url = 'api/v1/organize-customers/' + owner + '/process-types/' + processTypes + '/integrate-types/' + integrateTypes + '/layouts'
+		var fileLayoutDiferred = Service.requestURL(url, layoutConfigData, 'POST');
+		return fileLayoutDiferred;
+	}
+
+	var updateFileLayout = function (owner, processTypes, integrateTypes, layoutId, layoutConfigData) {
+		var url = 'api/v1/organize-customers/' + owner + '/process-types/' + processTypes + '/integrate-types/' + integrateTypes + '/layouts/' + layoutId;
+		var fileLayoutDiferred = Service.requestURL(url, layoutConfigData, 'PUT');
+		return fileLayoutDiferred;
+	}
+
 	var getSpecificData = function () {
 
 		var deffered = $q.defer();
@@ -174,7 +186,7 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		getDocumentFields: getDocumentFields,
 		getSpecificData: getSpecificData,
 		validate: validate,
-		getFileLayouts : getFileLayouts,
-		getFileLayout : getFileLayout
+		getFileLayouts: getFileLayouts,
+		getFileLayout: getFileLayout
 	}
 }]);
