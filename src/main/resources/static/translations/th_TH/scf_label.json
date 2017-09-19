@@ -584,5 +584,7 @@
 	"Supplier code group selection": "Supplier code group selection",
 	"Buyer code group selection": "Buyer code group selection",
 	"GECSCF field name": "GECSCF field name",
-	"Support partial payment": "Support partial payment"
+	"Support partial payment": "Support partial payment",
+	
+	"Specific value": "Value"
 }
