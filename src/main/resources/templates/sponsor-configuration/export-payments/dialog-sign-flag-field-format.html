@@ -1,0 +1,52 @@
+<div class="modal-content">
+<form name="signFlagFieldFormat" class="form-horizontal" ng-submit="closeThisDialog(ctrl.model)">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3><span id="sign-flag-format-popup-header-message-label" class="popup-text">{{ngDialogData.config.displayFieldName}} field format</span></h3>
+				</div>				
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					
+						<fieldset>
+							<legend><span id="sign-flag-format-popup-format-label">Format</span></legend>
+							<div class="form-group">
+							<label for="sign-flag-format"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span id="sign-flag-format-popup-positive-flag-label" 
+								ng-bind="'Positive flag' | translate"></span>:</label>
+								<div class="col-md-6 col-sm-4 col-xs-12">
+									<scf-input-text id="sign-flag-format-popup-positive-flag-textbox" maxlength = "1"
+										ng-model="ctrl.model.positiveFlag"></scf-input-text>
+								</div>
+							</div>
+							<div class="form-group">
+							<label for="sign-flag-format"
+								class="col-md-3 col-sm-4 col-xs-12 control-label"><span id="sign-flag-format-popup-negative-flag-label"
+								ng-bind="'Negative flag' | translate"></span>:</label>
+								<div class="col-md-6 col-sm-4 col-xs-12">
+									<scf-input-text id="sign-flag-format-popup-negative-flag-textbox" maxlength = "1"
+										ng-model="ctrl.model.negativeFlag"></scf-input-text>
+								</div>
+							</div>
+						</fieldset>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="sign-flag-format-popup-cancel-button" class="popup-button"  
+						ng-click="closeThisDialog()"
+						ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="sign-flag-format-popup-ok-button" class="popup-button" 
+						type="submit"
+						ng-bind="'OK' | translate"></scf-button>
+					
+				</div>
+			</div>
+		</div>
+		</form>
+	</div>
