@@ -255,10 +255,11 @@ module.controller('FileLayoutController', [
 			}];
 			if (!isEmptyValue(configItems)) {
 				configItems.forEach(function (data) {
+					
 					if (dateTimeFieldIds.indexOf(data.documentFieldId) != -1 && !isEmptyValue(data.displayValue) && !data.isTransient) {
 						paymentDateDropdown.push({
 							label: data.displayValue,
-							value: data.documentFieldName
+							value: vm.dataTypeByIds[data.documentFieldId].documentFieldName
 						});
 					}
 				});
@@ -712,7 +713,7 @@ module.controller('FileLayoutController', [
 
 
 		vm.save = function () {
-
+			
 			var sponsorLayout = null;
 			vm.model.completed = true;
 			vm.model.processType = vm.processType;
@@ -776,12 +777,14 @@ module.controller('FileLayoutController', [
 				addFooterModel(sponsorLayout, vm.footerItems);
 
 				sponsorLayout.items.forEach(function (obj, index) {
-					var dataType = vm.dataTypeByIds[obj.documentFieldId];
-					obj.docFieldName = dataType.docFieldName;
-					obj.dataType = dataType.dataType;
-					obj.transient = dataType.transient;
-					if (dataType.dataType == 'CUSTOMER_CODE') {
-						obj.validationType = 'IN_CUSTOMER_CODE_GROUP';
+					if(!isEmptyValue(obj.documentFieldId)){
+						var dataType = vm.dataTypeByIds[obj.documentFieldId];
+						obj.docFieldName = dataType.docFieldName;
+						obj.dataType = dataType.dataType;
+						obj.transient = dataType.transient;
+						if (dataType.dataType == 'CUSTOMER_CODE') {
+							obj.validationType = 'IN_CUSTOMER_CODE_GROUP';
+						}
 					}
 				});
 			}
@@ -876,6 +879,7 @@ module.controller('FileLayoutController', [
 		}, true);
 
 		vm.reloadPaymentDateFields = function () {
+			
 			vm.paymentDateFieldDropdown = addPaymentDateFieldDropdown(vm.items);
 		}
 
