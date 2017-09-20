@@ -10,7 +10,8 @@ pipeline {
     }
     stage('[MAVEN] Pack sources') {
       steps {
-        sh 'mvn clean install'
+        sh 'mvn clean generate-resources'
+        sh 'mvn process-resources install'
       }
     }
     stage('[DOCKER] Build an image') {
