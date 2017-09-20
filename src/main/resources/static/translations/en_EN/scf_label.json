@@ -579,7 +579,6 @@
 	
 	"download-payment-result-supplier": "Download payment result",
 	"LOAN": "Loan",
-	
 	"TERM_LOAN": "Loan",
 	"DEBIT": "Payment",
 	"wait_for_payment_result": "Wait for payment result",
@@ -599,5 +598,4 @@
 	"Debit value": "'Debit' value",
 	
 	"Sign flag with in field": "Sign flag with in field; Recommend for delimeter format"
-
 }
