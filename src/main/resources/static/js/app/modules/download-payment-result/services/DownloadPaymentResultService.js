@@ -2,7 +2,7 @@ var downloadModule = angular.module('gecscf.downloadPaymentResult');
 downloadModule.factory('DownloadPaymentResultService', [ '$http', '$q',
 		'Service', 'blockUI', function($http, $q, Service, blockUI) {
 
-			var exportCSVFile = function(exportCriteria) {
+			var exportPaymentResultFile = function(exportCriteria) {
 				blockUI.start();
 				$http({
 					url : '/api/export-document/export',
@@ -19,7 +19,7 @@ downloadModule.factory('DownloadPaymentResultService', [ '$http', '$q',
 					var a = document.createElement('a');
 					a.href = fileURL;
 					a.target = '_blank';
-					a.download = headers('fileName') + '.csv';
+					a.download = headers('fileName');
 					document.body.appendChild(a);
 					blockUI.stop();
 					a.click();
@@ -29,6 +29,6 @@ downloadModule.factory('DownloadPaymentResultService', [ '$http', '$q',
 			}
 
 			return {
-				exportCSVFile : exportCSVFile
+				exportPaymentResultFile : exportPaymentResultFile
 			}
 		} ]);
