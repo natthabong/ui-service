@@ -29,14 +29,13 @@ module.controller('FileLayoutController', [
 			ownerId: ownerId,
 			paymentDateConfig: vm.processType == 'AP_DOCUMENT' ? {
 				strategy: 'FIELD',
-				documentDateFieldOfField: null,
+				documentDateField: null,
 				documentDateFieldOfFormula: null,
 				documentDateField: null,
 				paymentDateFormulaId: null
 			} : null
 		};
 		
-		console.log($stateParams.fileLayoutModel);
 
 		vm.headerName = vm.processType == 'AP_DOCUMENT' ? "AP Document file layout" : "AR Document file layout";
 
@@ -214,7 +213,14 @@ module.controller('FileLayoutController', [
 				deffered.reject();
 			});
 		}
-
+		
+		var sendRequestGetFileLayout = function(layoutId, succcesFunc, failedFunc){
+			var serviceDiferred = FileLayoutService.getFileLayout(ownerId, vm.processType, vm.integrateType, layoutId);
+			var failedFunc = failedFunc | function (response) {
+				log.error('Load data error');
+			};
+			serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
+		}
 
 
 		var sendRequest = function (uri, succcesFunc, failedFunc) {
@@ -376,7 +382,7 @@ module.controller('FileLayoutController', [
 				ownerId: ownerId,
 				paymentDateConfig: {
 					strategy: 'FIELD',
-					documentDateFieldOfField: null,
+					documentDateField: null,
 					documentDateFieldOfFormula: null,
 					documentDateField: null,
 					paymentDateFormulaId: null
@@ -435,7 +441,6 @@ module.controller('FileLayoutController', [
 
 			if (vm.model.layoutConfigId != null) {
 				vm.newMode = false;
-				var reqUrlLayoutConfg = '/layouts/' + vm.model.layoutConfigId;
 				var reqUrlHeaderField = '/layouts/' + vm.model.layoutConfigId + '/items?itemType=FIELD&recordType=HEADER';
 				var reqUrlFooterField = '/layouts/' + vm.model.layoutConfigId + '/items?itemType=FIELD&recordType=FOOTER';
 				var reqUrlField = '/layouts/' + vm.model.layoutConfigId + '/items?itemType=FIELD&recordType=DETAIL';
@@ -443,14 +448,14 @@ module.controller('FileLayoutController', [
 				reqUrlFormula = 'api/v1/organize-customers/' + ownerId + '/processTypes/' + vm.processType + '/payment-date-formulas/';
 				var reqCustomerCodeConfg = '/layouts/' + vm.model.layoutConfigId + '/items?dataType=CUSTOMER_CODE';
 
-				sendRequest(reqUrlLayoutConfg, function (response) {
+				sendRequestGetFileLayout(vm.model.layoutConfigId, function (response) {
 					vm.model = response.data;
 					if (vm.model.processType == 'AP_DOCUMENT') {
 						if (vm.model.paymentDateConfig.strategy == 'FIELD') {
-							vm.model.paymentDateConfig.documentDateFieldOfField = vm.model.paymentDateConfig.documentDateField;
+							vm.model.paymentDateConfig.documentDateField = vm.model.paymentDateConfig.documentDateField;
 							vm.model.paymentDateConfig.documentDateFieldOfFormula = null;
 						} else {
-							vm.model.paymentDateConfig.documentDateFieldOfField = null;
+							vm.model.paymentDateConfig.documentDateField = null;
 							vm.model.paymentDateConfig.documentDateFieldOfFormula = vm.model.paymentDateConfig.documentDateField;
 						}
 					}
@@ -758,6 +763,7 @@ module.controller('FileLayoutController', [
 
 				sponsorLayout = angular.copy(vm.model);
 				sponsorLayout.items = angular.copy(vm.items);
+				
 				vm.dataDetailItems.forEach(function (detailItem) {
 					sponsorLayout.items.push(detailItem);
 				});
@@ -782,7 +788,7 @@ module.controller('FileLayoutController', [
 
 			if (sponsorLayout.processType == 'AP_DOCUMENT') {
 				if (sponsorLayout.paymentDateConfig.strategy == 'FIELD') {
-					sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateFieldOfField;
+					sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateField;
 				} else {
 					sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateFieldOfFormula;
 				}
@@ -819,18 +825,18 @@ module.controller('FileLayoutController', [
 
 		$scope.confirmSave = function (sponsorLayout) {
 
-			var apiURL = 'api/v1/organize-customers/' + sponsorLayout.ownerId + '/processTypes/' + sponsorLayout.processType + '/layouts';
-			if (!vm.newMode) {
+			if(vm.newMode){
+				
+				return FileLayoutService.createFileLayout(sponsorLayout.ownerId, sponsorLayout.processType, sponsorLayout.integrateType, sponsorLayout);
+				
+			}else {
 				if (sponsorLayout.processType == 'AP_DOCUMENT') {
 					sponsorLayout.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
 				}
-				apiURL = apiURL + '/' + sponsorLayout.layoutConfigId;
+				
+				return FileLayoutService.updateFileLayout(sponsorLayout.ownerId, sponsorLayout.processType, sponsorLayout.integrateType, sponsorLayout.layoutConfigId, sponsorLayout);
+				
 			}
-
-			console.log(sponsorLayout);
-			var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode ? 'POST' : 'PUT');
-
-			return fileLayoutDiferred;
 
 		};
 
@@ -842,7 +848,8 @@ module.controller('FileLayoutController', [
 
 			if (angular.isDefined(configItems) && configItems.length > 0) {
 				configItems.forEach(function (data) {
-					if (!isEmptyValue(data.displayValue)) {
+
+					if (!isEmptyValue(data.displayValue) && !isEmptyValue(data.documentFieldId)) {
 						creditermDropdowns.push({
 							label: data.displayValue,
 							value: vm.dataTypeByIds[data.documentFieldId].documentFieldName
@@ -860,7 +867,7 @@ module.controller('FileLayoutController', [
 			if (vm.model.paymentDateConfig == null) {
 				vm.model.paymentDateConfig = {
 					strategy: 'FIELD',
-					documentDateFieldOfField: null,
+					documentDateField: null,
 					documentDateFieldOfFormula: null,
 					documentDateField: null,
 					paymentDateFormulaId: null
@@ -997,7 +1004,7 @@ module.controller('FileLayoutController', [
 				vm.model.paymentDateConfig.paymentDateFormulaId = null;
 				vm.model.paymentDateConfig.documentDateFieldOfFormula = null;
 			} else {
-				vm.model.paymentDateConfig.documentDateFieldOfField = null;
+				vm.model.paymentDateConfig.documentDateField = null;
 			}
 		}
 

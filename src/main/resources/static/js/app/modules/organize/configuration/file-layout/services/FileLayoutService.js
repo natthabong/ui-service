@@ -46,7 +46,7 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 
 	var updateFileLayout = function (owner, processTypes, integrateTypes, layoutId, layoutConfigData) {
 		var url = 'api/v1/organize-customers/' + owner + '/process-types/' + processTypes + '/integrate-types/' + integrateTypes + '/layouts/' + layoutId;
-		var fileLayoutDiferred = Service.requestURL(url, layoutConfigData, 'PUT');
+		var fileLayoutDiferred = Service.requestURL(url, layoutConfigData, 'POST', {'X-HTTP-Method-Override': 'PUT'});
 		return fileLayoutDiferred;
 	}
 
@@ -89,9 +89,6 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 	var validate = function (layout, docFieldList, messageFunc) {
 
 		var documentFieldIdList = [];
-
-		console.log(layout);
-		console.log(docFieldList);
 
 		if (layout.processType == 'AR_DOCUMENT') {
 			var errors = {
@@ -187,6 +184,8 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		getSpecificData: getSpecificData,
 		validate: validate,
 		getFileLayouts: getFileLayouts,
-		getFileLayout: getFileLayout
+		getFileLayout: getFileLayout,
+		createFileLayout: createFileLayout,
+		updateFileLayout: updateFileLayout
 	}
 }]);
