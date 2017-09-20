@@ -18,7 +18,7 @@ module.controller('ExportPaymentController', [
     'SCFCommonService',
     function (log, $rootScope, $scope, $state, $stateParams, $injector, ngDialog, UIFactory, PageNavigation,
         blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, Service, SCFCommonService) {
-        
+
         // <----------------------- initial varible start --------------------->
         var vm = this;
         var ownerId = $rootScope.sponsorId;
@@ -27,13 +27,14 @@ module.controller('ExportPaymentController', [
             value: null,
             label: 'Please select'
         }
-        
+
         vm.fileType = FILE_TYPE_ITEM;
         vm.fileEncodeDropdown = [];
         vm.delimitersDropdown = [];
         vm.specificsDropdown = [];
         vm.items = [];
         vm.displayHeaderColumn = false;
+        var isCreate = true;
 
         vm.delimeter = null;
         vm.delimeterOther = null;
@@ -43,23 +44,23 @@ module.controller('ExportPaymentController', [
         vm.footerGECDropdown = [];
         vm.paymentGECDropdown = [];
         vm.doucmentGECDropdown = [];
+        vm.model = null;
 
         // dropdown data type
         vm.dataTypes = {
-            HEADER : null,
-            PAYMENT : null,
-            DOCUMENT : null,
-            FOOTER : null
+            HEADER: null,
+            PAYMENT: null,
+            DOCUMENT: null,
+            FOOTER: null
         }
 
         vm.dataTypeByIds = {};
 
-         // <----------------------- initial varible end --------------------->
+        // <----------------------- initial varible end --------------------->
 
-        vm.model = $stateParams.fileLayoutModel || {
-            ownerId: ownerId
-        };
-        console.log(vm.model);
+        // vm.model = $stateParams.fileLayoutModel || {
+        //     ownerId: ownerId
+        // };
 
         var loadDocumentFields = function (sectionType, dropDownData) {
             var deffered = SCFCommonService.getDocumentFields('EXPORT', sectionType, null);
@@ -77,7 +78,7 @@ module.controller('ExportPaymentController', [
             }).catch(function (response) {
                 log.error('Load data error');
             });
-            
+
         }
 
         var loadFileEncode = function () {
@@ -125,33 +126,31 @@ module.controller('ExportPaymentController', [
             });
         }
 
-        var initialModel = function () {
-            vm.model = {
-                displayName: vm.headerName,
-                sponsorConfigId: 'BFP',
+        var initialModel = function (model) {
+            vm.model = model != null ? model : {
+                charsetName: 'TIS-620',
+                delimeter: null,
+                fileType: 'FIXED_LENGTH',
                 sponsorId: ownerId,
-                delimeter: ',',
-                wrapper: '"',
+                displayName: 'Export file layout',
+                sponsorConfigId: 'BFP',
                 fileExtensions: 'txt',
                 integrateType: 'EXPORT',
-                fileType: 'FIXED_LENGTH',
-                charsetName: 'TIS-620',
                 checkBinaryFile: false,
-                completed: false,
-                ownerId: ownerId
-            }
+                processType: "EXPORT_DOCUMENT",
+                completed: false
+            };
 
-            vm.items = [{
-                primaryKeyField: false,
-                docFieldName: null,
-                dataType: null,
-                isTransient: false,
-                dataLength: null,
-                startIndex: null,
-                endIndex: null,
-                recordType: "DOCUMENT",
-                itemType: 'FIELD'
-            }];
+            // vm.items = [{
+            //     primaryKeyField: false,
+            //     documentFieldId: null,
+            //     dataType: null,
+            //     isTransient: false,
+            //     dataLength: null,
+            //     startIndex: null,
+            //     endIndex: null,
+            //     recordType: "DOCUMENT",
+            // }];
 
             vm.delimeter = ',';
             vm.delimeterOther = '';
@@ -170,18 +169,55 @@ module.controller('ExportPaymentController', [
             return str.join('');
         }
 
+        var loadSectionItem = function (owner,layoutId,section,data) {
+            var deferred = FileLayoutService.getFileLayoutItems(owner,layoutId,section);
+            deferred.promise.then(function(response){
+                response.data.forEach(function(obj){
+                    data.push(obj);
+                });
+                console.log(vm.items);
+            }).catch(function(response){
+
+            });
+        }
+
+        function loadFileLayout(layoutId) {
+            var defferd = FileLayoutService.getFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT', layoutId);
+            defferd.promise.then(function (response) {
+                isCreate = false;
+                var model = null;
+                if (response.data != null) {
+                    model = response.data;
+                    console.log(model);
+                }
+                initialModel(model);
+                loadSectionItem(ownerId,layoutId,'DOCUMENT',vm.items);
+            }).catch(function (response) {
+            });
+        }
+
         var initial = function () {
-            loadFileEncode();
-            loadDelimiters();
-            loadFileSpecificsData();
+            var defferd = FileLayoutService.getFileLayouts(ownerId, 'EXPORT_DOCUMENT', 'EXPORT');
+            defferd.promise.then(function (response) {
+                if (response.data.length > 0) {
+                    loadFileLayout(response.data[0].layoutConfigId);
+                } else {
+                    isCreate = true;
+                    initialModel();
+                    vm.addItem();
+                }
 
-            loadDocumentFields('HEADER', vm.headerGECDropdown);
-            loadDocumentFields('FOOTER', vm.footerGECDropdown);
-            loadDocumentFields('PAYMENT', vm.paymentGECDropdown);
-            loadDocumentFields('DOCUMENT', vm.doucmentGECDropdown);
+                loadFileEncode();
+                loadDelimiters();
+                loadFileSpecificsData();
 
-            initialModel();
+                loadDocumentFields('HEADER', vm.headerGECDropdown);
+                loadDocumentFields('FOOTER', vm.footerGECDropdown);
+                loadDocumentFields('PAYMENT', vm.paymentGECDropdown);
+                loadDocumentFields('DOCUMENT', vm.doucmentGECDropdown);
+            }).catch(function (response) {
 
+            });
         } ();
 
         //<---------------- founction for user action  ---------------->
@@ -194,28 +230,42 @@ module.controller('ExportPaymentController', [
                 startIndex: null,
                 endIndex: null,
                 isTransient: false,
-                recordType: "DOCUMENT",
-                itemType: 'FIELD'
+                recordType: "DOCUMENT"
             };
             vm.items.push(itemConfig);
         }
 
+        vm.fileTypeChange = function () {
+
+            if (vm.model.fileType != 'CSV') {
+                vm.delimeter = ',';
+                vm.delimeterOther = '';
+            }
+
+            if (vm.model.fileType == 'CSV') {
+                vm.model.fileExtensions = 'csv';
+            } else {
+                vm.model.fileExtensions = 'txt';
+            }
+
+        }
+
         vm.backToSponsorConfigPage = function () {
-			PageNavigation.gotoPreviousPage();
-		}
+            PageNavigation.gotoPreviousPage();
+        }
 
         vm.openSetting = function (index, record) {
             var documentFieldId = record.documentFieldId;
             var recordType = record.recordType;
             var dataTypeDropdowns = [];
 
-            if(recordType == "HEADER"){
+            if (recordType == "HEADER") {
                 dataTypeDropdowns = vm.dataTypes["HEADER"];
-            }else if(recordType == "PAYMENT"){
+            } else if (recordType == "PAYMENT") {
                 dataTypeDropdowns = vm.dataTypes["PAYMENT"];
-            }else if(recordType == "DOCUMENT"){
+            } else if (recordType == "DOCUMENT") {
                 dataTypeDropdowns = vm.dataTypes["DOCUMENT"];
-            }else if(recordType == "FOOTER"){
+            } else if (recordType == "FOOTER") {
                 dataTypeDropdowns = vm.dataTypes["FOOTER"];
             }
 
@@ -255,11 +305,9 @@ module.controller('ExportPaymentController', [
         }
 
         vm.save = function () {
-			var sponsorLayout = null;
-			vm.model.completed = true;
-			vm.model.processType = vm.processType;
-
-            vm.model.displayHeaderColumn = vm.displayHeaderColumn;
+            var sponsorLayout = null;
+            vm.model.completed = true;
+            vm.model.processType = vm.processType;
 
             if (vm.model.fileType == 'CSV') {
                 if (vm.delimeter == 'Other') {
@@ -287,11 +335,11 @@ module.controller('ExportPaymentController', [
             });
 
 
-			// var onFail = function (errors) {
-			// 	$scope.errors = errors;
-			// }
+            // var onFail = function (errors) {
+            // 	$scope.errors = errors;
+            // }
 
-			// if (FileLayoutService.validate(sponsorLayout, vm.dataTypeByIds, onFail)) {
+            // if (FileLayoutService.validate(sponsorLayout, vm.dataTypeByIds, onFail)) {
             UIFactory.showConfirmDialog({
                 data: {
                     headerMessage: 'Confirm save?'
@@ -312,24 +360,23 @@ module.controller('ExportPaymentController', [
                     blockUI.stop();
                 }
             });
-			// }
-		}
+            // }
+        }
 
-		$scope.confirmSave = function (sponsorLayout) {
+        $scope.confirmSave = function (sponsorLayout) {
+            var fileLayoutDiferred = null;
+            console.log(sponsorLayout);
+            if(isCreate){
+                fileLayoutDiferred = FileLayoutService.createFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT',sponsorLayout);
+            }else{
+                fileLayoutDiferred = FileLayoutService.updateFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT',sponsorLayout.layoutConfigId,sponsorLayout);
+            }
             
-			var apiURL = 'api/v1/organize-customers/' + sponsorLayout.ownerId + '/process-types/EXPORT_DOCUMENT/integrate-types/EXPORT/layouts';
-			// if (!vm.newMode) {
-			// 	apiURL = apiURL + '/' + sponsorLayout.layoutConfigId;
-			// }
 
-			console.log(sponsorLayout);
-			var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, 'POST');
+		    return fileLayoutDiferred;
+        };
 
-			return fileLayoutDiferred;
 
-		};
-
-		
         //<---------------- founction for user action  ---------------->
     }
 ]);

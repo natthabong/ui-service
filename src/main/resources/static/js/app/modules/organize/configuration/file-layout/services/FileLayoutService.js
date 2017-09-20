@@ -44,10 +44,24 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		return fileLayoutDiferred;
 	}
 
-	var updateFileLayout = function (owner, processTypes, integrateTypes, layoutId, layoutConfigData) {
-		var url = 'api/v1/organize-customers/' + owner + '/process-types/' + processTypes + '/integrate-types/' + integrateTypes + '/layouts/' + layoutId;
-		var fileLayoutDiferred = Service.requestURL(url, layoutConfigData, 'POST', {'X-HTTP-Method-Override': 'PUT'});
-		return fileLayoutDiferred;
+	var updateFileLayout = function(owner, processTypes, integrateTypes, layoutId, layoutConfigData){
+	    
+		var serviceUrl = 'api/v1/organize-customers/' + owner +
+			 '/process-types/' + processTypes + '/integrate-types/' + integrateTypes + '/layouts/' + layoutId;
+		var deferred = $q.defer();
+		$http({
+			method : 'POST',
+			url : serviceUrl,
+			data : layoutConfigData,
+			headers : {
+				'X-HTTP-Method-Override': 'PUT'
+			}
+		  }).then(function(response){
+		      return deferred.resolve(response);
+		 }).catch(function(response){
+		      return deferred.reject(response);
+		 });
+		 return deferred;
 	}
 
 	var getSpecificData = function () {
@@ -178,6 +192,16 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		messageFunc(errors);
 		return true;
 	}
+
+	var getFileLayoutItems = function(ownerId,layoutId,section){
+		var uri = 'api/v1/organize-customers/' + ownerId + 
+                '/process-types/EXPORT_DOCUMENT/integrate-types/EXPORT/layouts/' + layoutId + '/items';
+		var deffered = Service.doGet(uri, {
+			recordType: section
+		});
+
+		return deffered;
+	}
 	return {
 		loadDataMappingToDropDown: loadDataMappingToDropDown,
 		getDocumentFields: getDocumentFields,
@@ -185,6 +209,7 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		validate: validate,
 		getFileLayouts: getFileLayouts,
 		getFileLayout: getFileLayout,
+		getFileLayoutItems : getFileLayoutItems,
 		createFileLayout: createFileLayout,
 		updateFileLayout: updateFileLayout
 	}
