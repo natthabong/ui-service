@@ -1,6 +1,6 @@
 'use strict';
 var module = angular.module('gecscf.organize.configuration');
-module.controller('TextExportLayoutConfigController', ['$scope', '$log',
+module.controller('SpecificTextExportLayoutConfigController', ['$scope', '$log',
 	'UIFactory', 'ngDialog', 'PageNavigation',
 		function ($scope, $log, UIFactory, ngDialog ,PageNavigation) {
 		var vm = this;
