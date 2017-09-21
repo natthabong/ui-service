@@ -37,7 +37,8 @@
 							<label for="dealer" id="delimiters-label" class="col-md-1 col-sm-2 col-xs-12 control-label">{{'Delimiter'
 								| translate}}: </label>
 							<div class="col-md-3 col-sm-3 col-xs-12">
-								<scf-dropdown ng-disabled="ctrl.model.fileType != ctrl.fileType.delimited || false" id="delimiters-dropdown" ng-model="ctrl.delimeter"
+								<scf-dropdown ng-disabled="ctrl.model.fileType != ctrl.fileType.delimited || false" 
+									id="delimiters-dropdown" ng-model="ctrl.delimeter"
 									ng-change="ctrl.delimeterChange()" component-data="ctrl.delimitersDropdown" translate-label="true"></scf-dropdown>
 							</div>
 							<div class="col-md-1 col-sm-1 col-xs-12">

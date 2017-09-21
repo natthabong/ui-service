@@ -6,7 +6,6 @@ module.controller('ExportPaymentController', [
     '$scope',
     '$state',
     '$stateParams',
-    '$injector',
     'ngDialog',
     'UIFactory',
     'PageNavigation',
@@ -14,10 +13,9 @@ module.controller('ExportPaymentController', [
     'FILE_TYPE_ITEM',
     'DELIMITER_TYPE_TEM',
     'CHARSET_ITEM',
-    'Service',
     'SCFCommonService',
-    function (log, $rootScope, $scope, $state, $stateParams, $injector, ngDialog, UIFactory, PageNavigation,
-        blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, Service, SCFCommonService) {
+    function (log, $rootScope, $scope, $state, $stateParams, ngDialog, UIFactory, PageNavigation,
+        blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, SCFCommonService) {
 
         // <----------------------- initial varible start --------------------->
         var vm = this;
@@ -200,6 +198,7 @@ module.controller('ExportPaymentController', [
                     model = response.data;
                 }
                 initialModel(model);
+                console.log(vm.model);
                 loadSectionItem(ownerId,layoutId,'HEADER',vm.headerItem);
                 loadSectionItem(ownerId,layoutId,'PAYMENT',vm.paymentItem);
                 loadSectionItem(ownerId,layoutId,'DOCUMENT',vm.documentItem);
@@ -374,11 +373,7 @@ module.controller('ExportPaymentController', [
                     obj.validationType = 'IN_CUSTOMER_CODE_GROUP';
                 }
             });
-            // var onFail = function (errors) {
-            // 	$scope.errors = errors;
-            // }
 
-            // if (FileLayoutService.validate(sponsorLayout, vm.dataTypeByIds, onFail)) {
             UIFactory.showConfirmDialog({
                 data: {
                     headerMessage: 'Confirm save?'
@@ -399,7 +394,6 @@ module.controller('ExportPaymentController', [
                     blockUI.stop();
                 }
             });
-            // }
         }
 
         $scope.$watch('ctrl.model.fileType', function () {
@@ -418,6 +412,12 @@ module.controller('ExportPaymentController', [
                     vm.clearSectionItem(vm.footerSelected,'FOOTER');
                     vm.model.fileExtensions = 'csv';
 
+                    var index = vm.delimitersDropdown.findIndex(i => i.value == vm.model.delimeter);
+                    if(index < 0){
+                        vm.delimeter = 'Other';
+                        vm.delimeterOther = vm.model.delimeter;
+                    }
+                    
                 }else if(vm.model.fileType == vm.fileType.specific){
                     vm.isDelimited = false;
                     vm.delimeter = ',';
