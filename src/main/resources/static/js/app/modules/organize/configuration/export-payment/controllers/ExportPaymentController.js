@@ -172,10 +172,20 @@ module.controller('ExportPaymentController', [
         var loadSectionItem = function (owner,layoutId,section,data) {
             var deferred = FileLayoutService.getFileLayoutItems(owner,layoutId,section);
             deferred.promise.then(function(response){
-                response.data.forEach(function(obj){
-                    data.push(obj);
-                });
-                console.log(vm.items);
+                if(response.data.length > 0){
+                    if(section == 'HEADER'){
+                        vm.headerSelected = true;
+                    }else if(section == 'PAYMENT'){
+                        vm.paymentSelected = true;
+                    }else if(section == 'FOOTER'){
+                        vm.footerSelected = true;
+                    }
+
+                    response.data.forEach(function(obj){
+                        data.push(obj);
+                    });
+                }
+                
             }).catch(function(response){
 
             });
@@ -252,18 +262,13 @@ module.controller('ExportPaymentController', [
         }
 
         vm.fileTypeChange = function () {
-
-            if (vm.model.fileType != 'CSV') {
-                vm.delimeter = ',';
-                vm.delimeterOther = '';
-            }
-
             if (vm.model.fileType == 'CSV') {
                 vm.model.fileExtensions = 'csv';
             } else {
                 vm.model.fileExtensions = 'txt';
+                vm.delimeter = ',';
+                vm.delimeterOther = '';
             }
-
         }
 
         vm.backToSponsorConfigPage = function () {
@@ -320,6 +325,36 @@ module.controller('ExportPaymentController', [
             });
         }
 
+        var addSectionItems = function(section){
+            var sectionItem = null;
+            if(section == 'HEADER'){
+                sectionItem = vm.headerItem;
+            }else if(section == 'PAYMENT'){
+                sectionItem = vm.paymentItem;
+            }else if(section == 'DOCUMENT'){
+                sectionItem = vm.documentItem;
+            }else if(section == 'FOOTER'){
+                sectionItem = vm.footerItem;
+            }
+
+            if(sectionItem.length > 0){
+                sectionItem.forEach(function(obj){
+                    vm.items.push(obj)
+                });
+            }
+        }
+
+        $scope.confirmSave = function (sponsorLayout) {
+            console.log(sponsorLayout);
+            var fileLayoutDiferred = null;
+            if(isCreate){
+                fileLayoutDiferred = FileLayoutService.createFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT',sponsorLayout);
+            }else{
+                fileLayoutDiferred = FileLayoutService.updateFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT',sponsorLayout.layoutConfigId,sponsorLayout);
+            }
+		    return fileLayoutDiferred;
+        };
+
         vm.save = function () {
             var sponsorLayout = null;
             vm.model.completed = true;
@@ -332,14 +367,14 @@ module.controller('ExportPaymentController', [
                     vm.model.delimeter = vm.delimeter;
                 }
             }
-
             sponsorLayout = angular.copy(vm.model);
+
+            vm.items = [];
+            addSectionItems('HEADER');
+            addSectionItems('PAYMENT');
+            addSectionItems('DOCUMENT');
+            addSectionItems('FOOTER');
             sponsorLayout.items = angular.copy(vm.items);
-            // console.log(sponsorLayout);
-            // vm.dataDetailItems.forEach(function (detailItem) {
-            //     sponsorLayout.items.push(detailItem);
-            // });
-            // console.log(vm.dataTypeByIds);
 
             sponsorLayout.items.forEach(function (obj, index) {
                 var dataType = vm.dataTypeByIds[obj.documentFieldId];
@@ -349,8 +384,6 @@ module.controller('ExportPaymentController', [
                     obj.validationType = 'IN_CUSTOMER_CODE_GROUP';
                 }
             });
-
-
             // var onFail = function (errors) {
             // 	$scope.errors = errors;
             // }
@@ -387,7 +420,9 @@ module.controller('ExportPaymentController', [
                 }else if(vm.model.fileType == vm.fileType.delimited){
                     vm.isDelimited = true;
                     vm.headerSelected = false;
+                    vm.clearSectionItem(vm.headerSelected,'HEADER');
                     vm.footerSelected = false;
+                    vm.clearSectionItem(vm.footerSelected,'FOOTER');
 
                 }else if(vm.model.fileType == vm.fileType.specific){
                     vm.isDelimited = false;
@@ -395,18 +430,9 @@ module.controller('ExportPaymentController', [
             }
         });
 
-        $scope.confirmSave = function (sponsorLayout) {
-            var fileLayoutDiferred = null;
-            if(isCreate){
-                fileLayoutDiferred = FileLayoutService.createFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT',sponsorLayout);
-            }else{
-                fileLayoutDiferred = FileLayoutService.updateFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT',sponsorLayout.layoutConfigId,sponsorLayout);
-            }
-		    return fileLayoutDiferred;
-        };
-
         vm.clearSectionItem = function(selected,section){
             if(selected){
+                vm.clearItem(section);
                 vm.addItem(section);
             }else{
                 vm.clearItem(section);
