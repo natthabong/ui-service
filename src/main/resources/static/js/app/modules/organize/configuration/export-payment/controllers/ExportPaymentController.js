@@ -261,16 +261,6 @@ module.controller('ExportPaymentController', [
             }
         }
 
-        vm.fileTypeChange = function () {
-            if (vm.model.fileType == 'CSV') {
-                vm.model.fileExtensions = 'csv';
-            } else {
-                vm.model.fileExtensions = 'txt';
-                vm.delimeter = ',';
-                vm.delimeterOther = '';
-            }
-        }
-
         vm.backToSponsorConfigPage = function () {
             PageNavigation.gotoPreviousPage();
         }
@@ -416,6 +406,9 @@ module.controller('ExportPaymentController', [
             if(vm.model.fileType != null){
                 if(vm.model.fileType == vm.fileType.fixedLength){
                     vm.isDelimited = false;
+                    vm.model.fileExtensions = 'txt';
+                    vm.delimeter = ',';
+                    vm.delimeterOther = '';
 
                 }else if(vm.model.fileType == vm.fileType.delimited){
                     vm.isDelimited = true;
@@ -423,9 +416,12 @@ module.controller('ExportPaymentController', [
                     vm.clearSectionItem(vm.headerSelected,'HEADER');
                     vm.footerSelected = false;
                     vm.clearSectionItem(vm.footerSelected,'FOOTER');
+                    vm.model.fileExtensions = 'csv';
 
                 }else if(vm.model.fileType == vm.fileType.specific){
                     vm.isDelimited = false;
+                    vm.delimeter = ',';
+                    vm.delimeterOther = '';
                 }
             }
         });
@@ -449,6 +445,36 @@ module.controller('ExportPaymentController', [
             }else if(section == 'FOOTER'){
                 vm.footerItem.splice(index,1);
             }
+        }
+
+        vm.disableSetting = function(record){
+            var disable = false;
+            var documentFieldId = record.documentFieldId;
+            var recordType = record.recordType;
+            var dataTypeDropdowns = [];
+
+            if (recordType == "HEADER") {
+                dataTypeDropdowns = vm.dataTypes["HEADER"];
+            } else if (recordType == "PAYMENT") {
+                dataTypeDropdowns = vm.dataTypes["PAYMENT"];
+            } else if (recordType == "DOCUMENT") {
+                dataTypeDropdowns = vm.dataTypes["DOCUMENT"];
+            } else if (recordType == "FOOTER") {
+                dataTypeDropdowns = vm.dataTypes["FOOTER"];
+            }
+            if(documentFieldId != null){
+                var index = dataTypeDropdowns.findIndex(i => i.documentFieldId == documentFieldId);
+                if(index >=0 ){
+                    if(dataTypeDropdowns[index].configUrl == '' || dataTypeDropdowns[index].configUrl == null){
+                        disable = true;
+                    }
+                }else{
+                    disable = true;
+                }
+            }else{
+                disable = true;
+            }
+            return disable;
         }
         //<---------------- founction for user action  ---------------->
     }
