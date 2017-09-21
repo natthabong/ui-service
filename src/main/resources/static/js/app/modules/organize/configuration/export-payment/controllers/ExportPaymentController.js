@@ -374,10 +374,12 @@ module.controller('ExportPaymentController', [
 
             sponsorLayout.items.forEach(function (obj, index) {
                 var dataType = vm.dataTypeByIds[obj.documentFieldId];
-                obj.dataType = dataType.dataType;
-                obj.transient = dataType.transient;
-                if (dataType.dataType == 'CUSTOMER_CODE') {
-                    obj.validationType = 'IN_CUSTOMER_CODE_GROUP';
+                if(angular.isDefined(dataType)){
+                    obj.dataType = dataType.dataType;
+                    obj.transient = dataType.transient;
+                    if (dataType.dataType == 'CUSTOMER_CODE') {
+                        obj.validationType = 'IN_CUSTOMER_CODE_GROUP';
+                    }
                 }
             });
 
