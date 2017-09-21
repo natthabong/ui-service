@@ -7,9 +7,6 @@ module.controller('FillerExportLayoutConfigController', [ '$scope', function($sc
 
 	vm.fillerTypeDropdown = [
 		{
-			label : 'Unexpect',
-			value : null
-		},{
 			label : 'Space',
 			value : 'space'
 		},
