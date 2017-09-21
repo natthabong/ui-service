@@ -25,7 +25,7 @@ module.controller('ExportPaymentController', [
             // back to main page
             PageNavigation.gotoPage('/settings/organizes');
         }
-        
+
         vm.manageAll = false;
 
         var defaultDropDown = {
@@ -455,7 +455,6 @@ module.controller('ExportPaymentController', [
         }
 
         $scope.$watch('ctrl.model.fileType', function () {
-            watchCount++;
             if(vm.model.fileType != null){
                 if(vm.model.fileType == vm.fileType.fixedLength){
                     vm.isDelimited = false;
@@ -468,10 +467,8 @@ module.controller('ExportPaymentController', [
 
                     vm.headerSelected = false;
                     vm.clearSectionItem(vm.headerSelected,'HEADER');
-                    if(watchCount > 2){
-                        vm.paymentSelected = false;
-                        vm.clearSectionItem(vm.paymentSelected,'PAYMENT');
-                    }
+                    vm.paymentSelected = false;
+                    vm.clearSectionItem(vm.paymentSelected,'PAYMENT');
                     vm.footerSelected = false;
                     vm.clearSectionItem(vm.footerSelected,'FOOTER');
                     vm.model.fileExtensions = 'csv';

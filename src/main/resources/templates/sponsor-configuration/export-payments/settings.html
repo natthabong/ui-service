@@ -82,7 +82,7 @@
                                 </label> <br />
 								<label class="checkbox-inline"> <scf-checkbox
                                         id="row-format-payment-checkbox" ng-model="ctrl.paymentSelected"
-										ng-disabled="!ctrl.manageAll"
+										ng-disabled="ctrl.isDelimited || !ctrl.manageAll"
 										ng-click="ctrl.clearSectionItem(ctrl.paymentSelected,'PAYMENT')">
 										</scf-checkbox> <span
                                     ng-bind="'Payment' | translate" id="payment-label"></span>
