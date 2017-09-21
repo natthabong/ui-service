@@ -21,6 +21,13 @@ module.controller('ExportPaymentController', [
         var vm = this;
         var ownerId = $rootScope.sponsorId;
 
+        if(angular.isUndefined(ownerId)){
+            // back to main page
+            PageNavigation.gotoPage('/settings/organizes');
+        }
+        
+        vm.manageAll = false;
+
         var defaultDropDown = {
             value: null,
             label: 'Please select'
@@ -67,9 +74,10 @@ module.controller('ExportPaymentController', [
         vm.footerSelected = false;
 
         vm.dataTypeByIds = {};
+        var watchCount = 0;
 
         // <----------------------- initial varible end --------------------->
-
+        
         var loadDocumentFields = function (sectionType, dropDownData) {
             var deffered = SCFCommonService.getDocumentFields('EXPORT', sectionType, null);
             deffered.promise.then(function (response) {
@@ -178,7 +186,6 @@ module.controller('ExportPaymentController', [
                     }else if(section == 'FOOTER'){
                         vm.footerSelected = true;
                     }
-
                     response.data.forEach(function(obj){
                         data.push(obj);
                     });
@@ -198,7 +205,6 @@ module.controller('ExportPaymentController', [
                     model = response.data;
                 }
                 initialModel(model);
-                console.log(vm.model);
                 loadSectionItem(ownerId,layoutId,'HEADER',vm.headerItem);
                 loadSectionItem(ownerId,layoutId,'PAYMENT',vm.paymentItem);
                 loadSectionItem(ownerId,layoutId,'DOCUMENT',vm.documentItem);
@@ -282,6 +288,7 @@ module.controller('ExportPaymentController', [
             dataTypeDropdowns.forEach(function (obj) {
                 if (documentFieldId == obj.documentFieldId) {
                     var dataType = obj.dataType;
+                    console.log(dataType);
                     var dialog = ngDialog.open({
                         id: 'layout-setting-dialog-' + index,
                         template: obj.configUrl,
@@ -396,36 +403,6 @@ module.controller('ExportPaymentController', [
             });
         }
 
-        $scope.$watch('ctrl.model.fileType', function () {
-            if(vm.model.fileType != null){
-                if(vm.model.fileType == vm.fileType.fixedLength){
-                    vm.isDelimited = false;
-                    vm.model.fileExtensions = 'txt';
-                    vm.delimeter = ',';
-                    vm.delimeterOther = '';
-
-                }else if(vm.model.fileType == vm.fileType.delimited){
-                    vm.isDelimited = true;
-                    vm.headerSelected = false;
-                    vm.clearSectionItem(vm.headerSelected,'HEADER');
-                    vm.footerSelected = false;
-                    vm.clearSectionItem(vm.footerSelected,'FOOTER');
-                    vm.model.fileExtensions = 'csv';
-
-                    var index = vm.delimitersDropdown.findIndex(i => i.value == vm.model.delimeter);
-                    if(index < 0){
-                        vm.delimeter = 'Other';
-                        vm.delimeterOther = vm.model.delimeter;
-                    }
-                    
-                }else if(vm.model.fileType == vm.fileType.specific){
-                    vm.isDelimited = false;
-                    vm.delimeter = ',';
-                    vm.delimeterOther = '';
-                }
-            }
-        });
-
         vm.clearSectionItem = function(selected,section){
             if(selected){
                 vm.clearItem(section);
@@ -476,6 +453,44 @@ module.controller('ExportPaymentController', [
             }
             return disable;
         }
+
+        $scope.$watch('ctrl.model.fileType', function () {
+            watchCount++;
+            if(vm.model.fileType != null){
+                if(vm.model.fileType == vm.fileType.fixedLength){
+                    vm.isDelimited = false;
+                    vm.model.fileExtensions = 'txt';
+                    vm.delimeter = ',';
+                    vm.delimeterOther = '';
+
+                }else if(vm.model.fileType == vm.fileType.delimited){
+                    vm.isDelimited = true;
+
+                    vm.headerSelected = false;
+                    vm.clearSectionItem(vm.headerSelected,'HEADER');
+                    if(watchCount > 2){
+                        vm.paymentSelected = false;
+                        vm.clearSectionItem(vm.paymentSelected,'PAYMENT');
+                    }
+                    vm.footerSelected = false;
+                    vm.clearSectionItem(vm.footerSelected,'FOOTER');
+                    vm.model.fileExtensions = 'csv';
+
+                    if(vm.model.delimeter != null){
+                        var index = vm.delimitersDropdown.findIndex(i => i.value == vm.model.delimeter);
+                        if(index < 0){
+                            vm.delimeter = 'Other';
+                            vm.delimeterOther = vm.model.delimeter;
+                        }
+                    }
+                    
+                }else if(vm.model.fileType == vm.fileType.specific){
+                    vm.isDelimited = false;
+                    vm.delimeter = ',';
+                    vm.delimeterOther = '';
+                }
+            }
+        });
         //<---------------- founction for user action  ---------------->
     }
 ]);
