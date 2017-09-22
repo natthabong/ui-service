@@ -87,10 +87,12 @@ angular
 								}
 								
 							}
-
+							
 							vm.data = [];
-
-							vm.dataTable = {
+							
+							vm.dataTable = null;
+							if(vm.processType == 'AP_DOCUMENT'){
+								vm.dataTable = {
 								identityField : 'channelType',
 								options : {},
 								columns : [
@@ -98,7 +100,7 @@ angular
 											fieldName : 'channelType',
 											labelEN : 'Channel',
 											labelTH : 'Channel',
-											id : 'channel-{value}',
+											id : 'ap-channel-{value}',
 											filterType : 'translate',
 											cssTemplate : 'text-left'
 										},
@@ -106,7 +108,7 @@ angular
 											fieldName : 'status',
 											labelEN : 'Status',
 											labelTH : 'Status',
-											id : 'status-{value}',
+											id : 'ap-status-{value}',
 											filterType : 'translate',
 											cssTemplate : 'text-center'
 										},
@@ -114,7 +116,7 @@ angular
 											fieldName : 'activeDate',
 											labelEN : 'Active date',
 											labelTH : 'Active date',
-											id : 'active-date-{value}',
+											id : 'ap-active-date-{value}',
 											filterType : 'date',
 											filterFormat : 'dd/MM/yyyy',
 											cssTemplate : 'text-center'
@@ -123,7 +125,7 @@ angular
 											fieldName : 'expiryDate',
 											labelEN : 'Expire date',
 											labelTH : 'Expire date',
-										    id : 'expire-date-{value}',
+										    id : 'ap-expire-date-{value}',
 										    filterType : 'date',
 										    filterFormat : 'dd/MM/yyyy',
 										    cssTemplate : 'text-center'
@@ -131,9 +133,57 @@ angular
 										{
 											cssTemplate : 'text-center',
 											sortData : false,
-											cellTemplate : '<scf-button id="{{data.channelType}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
-													+ '<scf-button id="{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.testConnection(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
+											cellTemplate : '<scf-button id="ap-{{data.channelType}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
+													+ '<scf-button id="ap-{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.testConnection(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
 										} ]
+								}
+								
+							}else{
+								vm.dataTable = {
+								identityField : 'channelType',
+								options : {},
+								columns : [
+										{
+											fieldName : 'channelType',
+											labelEN : 'Channel',
+											labelTH : 'Channel',
+											id : 'ar-channel-{value}',
+											filterType : 'translate',
+											cssTemplate : 'text-left'
+										},
+										{
+											fieldName : 'status',
+											labelEN : 'Status',
+											labelTH : 'Status',
+											id : 'ar-status-{value}',
+											filterType : 'translate',
+											cssTemplate : 'text-center'
+										},
+										{
+											fieldName : 'activeDate',
+											labelEN : 'Active date',
+											labelTH : 'Active date',
+											id : 'ar-active-date-{value}',
+											filterType : 'date',
+											filterFormat : 'dd/MM/yyyy',
+											cssTemplate : 'text-center'
+										},
+										{
+											fieldName : 'expiryDate',
+											labelEN : 'Expire date',
+											labelTH : 'Expire date',
+										    id : 'ar-expire-date-{value}',
+										    filterType : 'date',
+										    filterFormat : 'dd/MM/yyyy',
+										    cssTemplate : 'text-center'
+										},
+										{
+											cssTemplate : 'text-center',
+											sortData : false,
+											cellTemplate : '<scf-button id="ar-{{data.channelType}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
+													+ '<scf-button id="ar-{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.testConnection(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
+										} ]
+									}
 							}
 
 							vm.searchChannels = function(pageModel){
