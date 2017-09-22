@@ -10,13 +10,15 @@ angular
 						'$stateParams',
 						'$timeout',
 						'PageNavigation',
+						'PagingController',
 						'Service',
 						'ngDialog',
 						function($log, $scope, $state, SCFCommonService,
-								$stateParams, $timeout, PageNavigation, Service, ngDialog) {
+								$stateParams, $timeout, PageNavigation, PagingController, Service, ngDialog) {
 							
 							var vm = this;
 							vm.splitePageTxt = '';
+							vm.processType = '';
 
 							vm.pageModel = {
 								pageSizeSelectModel : '20',
@@ -42,6 +44,7 @@ angular
 							}
 
 							vm.editChannel = function(data) {
+								console.log(data);
 								var params = {
 						            	selectedItem: data
 						            };
@@ -148,7 +151,7 @@ angular
 									offset = vm.pageModel.currentPage*vm.pageModel.pageSizeSelectModel
 								}
 								
-								var serviceUrl = '/api/v1/organize-customers/'+sponsorId+'/sponsor-configs/SFP/channels';
+								var serviceUrl = '/api/v1/organize-customers/'+sponsorId+'/process-types/'+ vm.processType +'/channels';
 								var serviceDiferred = Service.doGet(serviceUrl);	
 								
 								serviceDiferred.promise.then(function(response){
@@ -159,14 +162,15 @@ angular
 
 							} 
 							
-							vm.initLoad = function() {
+							vm.initLoad = function(processType) {
+								vm.processType = processType;
 								vm.pageModel.currentPage = 0;
 								vm.pageModel.pageSizeSelectModel = '20';
 
 								vm.searchChannels();
 							}
 
-							vm.initLoad();
+							//vm.initLoad();
 
 						} ]).controller('TestConnectionResultController', [ '$scope', '$rootScope', '$q','$http', function($scope, $rootScope, $q, $http) {
 							 var vm = this;
