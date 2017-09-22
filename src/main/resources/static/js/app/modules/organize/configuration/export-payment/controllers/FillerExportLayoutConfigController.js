@@ -22,9 +22,7 @@ module.controller('FillerExportLayoutConfigController', [ '$scope', function($sc
 
 	vm.initial = function() {
 		vm.fillerType = null;
-		if (vm.model.expectedValue == null) {
-			vm.fillerType = null;
-		} else if (vm.model.expectedValue == ' ') {
+		if (vm.model.expectedValue == ' ') {
 			vm.fillerType = 'space';
 		} else if (vm.model.expectedValue == 0) {
 			vm.fillerType = 'zero';
