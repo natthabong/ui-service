@@ -10,13 +10,15 @@ angular
 						'$stateParams',
 						'$timeout',
 						'PageNavigation',
+						'PagingController',
 						'Service',
 						'ngDialog',
 						function($log, $scope, $state, SCFCommonService,
-								$stateParams, $timeout, PageNavigation, Service, ngDialog) {
+								$stateParams, $timeout, PageNavigation, PagingController, Service, ngDialog) {
 							
 							var vm = this;
 							vm.splitePageTxt = '';
+							vm.processType = '';
 
 							vm.pageModel = {
 								pageSizeSelectModel : '20',
@@ -42,6 +44,7 @@ angular
 							}
 
 							vm.editChannel = function(data) {
+								console.log(data);
 								var params = {
 						            	selectedItem: data
 						            };
@@ -84,54 +87,12 @@ angular
 								}
 								
 							}
-
+							
 							vm.data = [];
-
-							vm.dataTable = {
-								identityField : 'channelType',
-								options : {},
-								columns : [
-										{
-											fieldName : 'channelType',
-											labelEN : 'Channel',
-											labelTH : 'Channel',
-											id : 'channel-{value}',
-											filterType : 'translate',
-											cssTemplate : 'text-left'
-										},
-										{
-											fieldName : 'status',
-											labelEN : 'Status',
-											labelTH : 'Status',
-											id : 'status-{value}',
-											filterType : 'translate',
-											cssTemplate : 'text-center'
-										},
-										{
-											fieldName : 'activeDate',
-											labelEN : 'Active date',
-											labelTH : 'Active date',
-											id : 'active-date-{value}',
-											filterType : 'date',
-											filterFormat : 'dd/MM/yyyy',
-											cssTemplate : 'text-center'
-										},
-										{
-											fieldName : 'expiryDate',
-											labelEN : 'Expire date',
-											labelTH : 'Expire date',
-										    id : 'expire-date-{value}',
-										    filterType : 'date',
-										    filterFormat : 'dd/MM/yyyy',
-										    cssTemplate : 'text-center'
-										},
-										{
-											cssTemplate : 'text-center',
-											sortData : false,
-											cellTemplate : '<scf-button id="{{data.channelType}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
-													+ '<scf-button id="{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.testConnection(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
-										} ]
-							}
+							
+							vm.dataTable = null;
+							
+							
 
 							vm.searchChannels = function(pageModel){
 								var sponsorId = $scope.sponsorId
@@ -148,7 +109,7 @@ angular
 									offset = vm.pageModel.currentPage*vm.pageModel.pageSizeSelectModel
 								}
 								
-								var serviceUrl = '/api/v1/organize-customers/'+sponsorId+'/sponsor-configs/SFP/channels';
+								var serviceUrl = '/api/v1/organize-customers/'+sponsorId+'/process-types/'+ vm.processType +'/channels';
 								var serviceDiferred = Service.doGet(serviceUrl);	
 								
 								serviceDiferred.promise.then(function(response){
@@ -159,14 +120,113 @@ angular
 
 							} 
 							
-							vm.initLoad = function() {
+							vm.initLoad = function(processType) {
+								vm.processType = processType;
 								vm.pageModel.currentPage = 0;
 								vm.pageModel.pageSizeSelectModel = '20';
-
+								vm.getDataTable();
 								vm.searchChannels();
+								
+							}
+							
+							vm.getDataTable = function(){
+								if(vm.processType == 'AP_DOCUMENT'){
+									vm.dataTable = {
+									identityField : 'channelType',
+									options : {},
+									columns : [
+											{
+												fieldName : 'channelType',
+												labelEN : 'Channel',
+												labelTH : 'Channel',
+												id : 'ap-channel-{value}',
+												filterType : 'translate',
+												cssTemplate : 'text-left'
+											},
+											{
+												fieldName : 'status',
+												labelEN : 'Status',
+												labelTH : 'Status',
+												id : 'ap-status-{value}',
+												filterType : 'translate',
+												cssTemplate : 'text-center'
+											},
+											{
+												fieldName : 'activeDate',
+												labelEN : 'Active date',
+												labelTH : 'Active date',
+												id : 'ap-active-date-{value}',
+												filterType : 'date',
+												filterFormat : 'dd/MM/yyyy',
+												cssTemplate : 'text-center'
+											},
+											{
+												fieldName : 'expiryDate',
+												labelEN : 'Expire date',
+												labelTH : 'Expire date',
+											    id : 'ap-expire-date-{value}',
+											    filterType : 'date',
+											    filterFormat : 'dd/MM/yyyy',
+											    cssTemplate : 'text-center'
+											},
+											{
+												cssTemplate : 'text-center',
+												sortData : false,
+												cellTemplate : '<scf-button id="ap-{{data.channelType}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
+														+ '<scf-button id="ap-{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.testConnection(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
+											} ]
+									}
+									
+								}else{
+									vm.dataTable = {
+									identityField : 'channelType',
+									options : {},
+									columns : [
+											{
+												fieldName : 'channelType',
+												labelEN : 'Channel',
+												labelTH : 'Channel',
+												id : 'ar-channel-{value}',
+												filterType : 'translate',
+												cssTemplate : 'text-left'
+											},
+											{
+												fieldName : 'status',
+												labelEN : 'Status',
+												labelTH : 'Status',
+												id : 'ar-status-{value}',
+												filterType : 'translate',
+												cssTemplate : 'text-center'
+											},
+											{
+												fieldName : 'activeDate',
+												labelEN : 'Active date',
+												labelTH : 'Active date',
+												id : 'ar-active-date-{value}',
+												filterType : 'date',
+												filterFormat : 'dd/MM/yyyy',
+												cssTemplate : 'text-center'
+											},
+											{
+												fieldName : 'expiryDate',
+												labelEN : 'Expire date',
+												labelTH : 'Expire date',
+											    id : 'ar-expire-date-{value}',
+											    filterType : 'date',
+											    filterFormat : 'dd/MM/yyyy',
+											    cssTemplate : 'text-center'
+											},
+											{
+												cssTemplate : 'text-center',
+												sortData : false,
+												cellTemplate : '<scf-button id="ar-{{data.channelType}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
+														+ '<scf-button id="ar-{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.testConnection(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
+											} ]
+										}
+								}
 							}
 
-							vm.initLoad();
+							//vm.initLoad();
 
 						} ]).controller('TestConnectionResultController', [ '$scope', '$rootScope', '$q','$http', function($scope, $rootScope, $q, $http) {
 							 var vm = this;

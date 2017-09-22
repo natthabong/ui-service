@@ -4,15 +4,14 @@
 			<div class="panel-body" style="min-height: 360px;">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-xs-12">
-						<h3 class="animated fadeInLeft" id="channel-configs-header-label">Import
+						<h3 class="animated fadeInLeft" id="ar-channel-configs-header-label">Import
 							document channel</h3>
 					</div>
 				</div>
-				<div class="row" ng-init="ctrl.initLoad('AP_DOCUMENT')">
+				<div class="row" ng-init="ctrl.initLoad('AR_DOCUMENT')">
 					<div class="col-md-12 col-sm-12 text-right">
-						<scf-table id="channel-configs-table"
-							component-config="ctrl.dataTable" 
-							component-datas="ctrl.data"
+						<scf-table id="ar-channel-configs-table"
+							component-config="ctrl.dataTable" component-datas="ctrl.data"
 							current-page="ctrl.currentPage"
 							record-per-page="ctrl.pageModel.pageSizeSelectModel"
 							clear-sort-order="ctrl.pageModel.clearSortOrder"> </scf-table>

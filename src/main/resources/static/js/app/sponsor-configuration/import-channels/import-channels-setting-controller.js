@@ -50,7 +50,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 		vm.isSetupFTP = true;
 	}
 	
-    var BASE_URI = 'api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP';
+    var BASE_URI = 'api/v1/organize-customers/' + sponsorId + '/process-types/'+ selectedItem.processType;
     
     vm.channelModel = {};
     $scope.errors = {};
@@ -353,10 +353,11 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 		var serviceUrl = BASE_URI+'/channels/' + vm.channelModel.channelId;
 		var deffered = $q.defer();
 		var serviceDiferred =  $http({
-			method : 'PUT',
+			method : 'POST',
 			url : serviceUrl,
 			headers: {
-				'If-Match' : vm.channelModel.version
+				'If-Match' : vm.channelModel.version,
+				'x-http-method-override' : 'PUT'
 			},
 			data: vm.channelModel
 		}).then(function(response) {
