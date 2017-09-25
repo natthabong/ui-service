@@ -40,15 +40,9 @@
 								ng-bind="ngDialogData.data.bodyMessage.statusMessageKey | translate">
 							</span>
 							&nbsp;&nbsp; 
-							<a class="dropdown-toggle" style="cursor: pointer;" 
-								ng-show="ngDialogData.data.canPrintEvidence"
-								data-toggle="dropdown" title="print">
+							<a id="evident-form-label" ng-click="ngDialogData.data.printEvidenceFormAction()"
+								ng-show="ngDialogData.data.canPrintEvidence" title="Print">
 								<i class="fa fa-print" aria-hidden="true"></i></a>
-							<ul class="dropdown-menu">
-								<li><a id="evident-form-label" ng-click="ngDialogData.data.printEvidenceFormAction()">{{'Evident form' | translate}}</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a id="credit-advice-form-label" ng-click="">{{'Credit advice form' | translate}}</a></li>
-							</ul>
 						</div>
 					</div>
 				</div>
