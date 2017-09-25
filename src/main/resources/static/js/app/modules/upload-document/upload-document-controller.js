@@ -13,7 +13,10 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
     
     vm.errorMsgKey = '';
     vm.showErrorMsg = false;
-    vm.fileTypeDropdown = [];
+    vm.fileTypeDropdown = [{
+    	label: '',
+    	value: ''
+    }];
     vm.storeFileTypeDatas = [];
     vm.acceptFileExtention = '';
     vm.errorFileFormat = '';
