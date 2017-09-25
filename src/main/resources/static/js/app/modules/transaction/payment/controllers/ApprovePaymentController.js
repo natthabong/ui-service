@@ -1,7 +1,9 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log', 
-	'$stateParams', 'SCFCommonService','PageNavigation', 'UIFactory','ngDialog','$timeout', 'ApprovePaymentService', 
-	function($rootScope, $scope, $log, $stateParams, SCFCommonService, PageNavigation, UIFactory, ngDialog, $timeout, ApprovePaymentService) {
+	'$stateParams', 'SCFCommonService','PageNavigation', 'UIFactory','ngDialog',
+	'$timeout', 'ApprovePaymentService', 'TransactionService',
+	function($rootScope, $scope, $log, $stateParams, SCFCommonService, PageNavigation, UIFactory, 
+		ngDialog, $timeout, ApprovePaymentService, TransactionService) {
 
 	var vm = this;
 	var log = $log;
@@ -91,7 +93,7 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
     }
 	
     vm.printEvidenceFormAction = function(){
-    	ApprovePaymentService.generateEvidenceForm(vm.transaction);
+    	TransactionService.generateEvidenceForm(vm.transaction);
     }
 
 	vm.handleDialogFail = function(response){
