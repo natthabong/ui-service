@@ -125,6 +125,10 @@ module.controller('FileLayoutController', [
 						value: obj.documentFieldId,
 						label: obj.displayFieldName
 					}
+						
+					if(obj.dataType == 'RECORD_TYPE'){
+						vm.recordTypeId = obj.documentFieldId;
+					}
 					vm.dataTypeDropdown.push(item);
 					vm.dataTypeByGroupsDropdown[obj.dataType].push(item);
 				});
@@ -760,6 +764,28 @@ module.controller('FileLayoutController', [
 					} else {
 						vm.model.delimeter = vm.delimeter;
 					}
+					vm.model.headerRecordType = null;
+					vm.model.detailRecordType = null;
+					vm.model.footerRecordType = null;
+				}else{
+					vm.items.forEach(function (item) {
+						if(item.documentFieldId == vm.recordTypeId){
+							vm.model.detailRecordType = item.expectedValue;
+						}
+					});
+
+					vm.headerItems.forEach(function (item) {
+						if(item.documentFieldId == vm.recordTypeId){
+							vm.model.headerRecordType = item.expectedValue;
+						}
+					});
+					
+					vm.footerItems.forEach(function (item) {
+						if(item.documentFieldId == vm.recordTypeId){
+							vm.model.footerRecordType = item.expectedValue;
+						}
+					});
+
 				}
 
 				sponsorLayout = angular.copy(vm.model);
