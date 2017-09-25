@@ -25,10 +25,11 @@ function UploadDocumentService($http, $q, blockUI){
 		return deffered;
 	}
 	
-	function getFileType(){
+	function getFileType(processType){
 		var deffered = $q.defer();		
-		$http.post('/api/upload-document/file-types')
+		$http.get('/api/upload-document/file-types?processType='+processType)
 		.then(function(response){
+			console.log(response);
 			deffered.resolve(response);
 		}).catch(function(response){
 			deffered.reject('Get file type fail');

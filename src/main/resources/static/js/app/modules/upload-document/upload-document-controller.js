@@ -58,8 +58,9 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
     };
     $scope.showUploadPopUp = false;
    
-    vm.getFileType = function(sponsorConfigId) {
-        var deffered = Service.doGet('/api/upload-document/file-types', {sponsorConfigId: sponsorConfigId});
+    vm.getFileType = function(processType) {
+    	var deffered = UploadDocumentService.getFileType(processType);
+    	
         deffered.promise.then(function(response) {
             vm.storeFileTypeDatas = response.data;
             // Check size of fileType
