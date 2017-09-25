@@ -28,9 +28,31 @@ function PaymentTransactionService($http, $q){
 			deffered.reject(response);
 		});	
 		return deffered;
-	}
+	};
+	function generateCreditAdviceForm(transactionModel){
+		$http({
+            method: 'POST',
+            url: '/api/approve-transaction/credit-advice-form',
+            data: transactionModel,
+            responseType: 'arraybuffer'
+        }).success(function(response) {
+            var file = new Blob([response], {
+                type: 'application/pdf'
+            });
+            var fileURL = URL.createObjectURL(file);
+            var a = document.createElement('a');
+            a.href = fileURL;
+            a.target = '_blank';
+            a.download = transactionModel.transactionNo + '.pdf';
+            document.body.appendChild(a);
+            a.click();
+        }).error(function(response) {
+
+        });
+	};
 	return {
 		getTransactionStatusGroups:getTransactionStatusGroups,
 		getSummaryOfTransaction: getSummaryOfTransaction,
+		generateCreditAdviceForm: generateCreditAdviceForm,
 	}
 }

@@ -208,7 +208,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             '<ul class="dropdown-menu">'+
             '<li><a id="evident-form-label">{{"Evident form" | translate}}</a></li>'+
             '<li role="separator" class="divider"></li>'+
-            '<li><a id="credit-advice-form-label">{{"Credit advice form" | translate}}</a></li></ul></div>'+
+            '<li><a id="credit-advice-form-label" ng-click="ctrl.generateCreditAdviceForm(data)">{{"Credit advice form" | translate}}</a></li></ul></div>'+
 			'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 		}]
     };
@@ -416,6 +416,10 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		    PageNavigation.nextStep('/payment-transaction/approve',params,
             {criteria : _criteria,buyer : _sponsor,supplier : _supplier})
         }, 10);
+	}
+	
+	vm.generateCreditAdviceForm = function(data){
+		PaymentTransactionService.generateCreditAdviceForm(data);
 	}
 
 } ]);
