@@ -37,10 +37,18 @@
 						</div>
 						<div class="col-xs-7 col-md-8 col-sm-8">
 							<span id="result-label"
-								ng-bind="ngDialogData.data.bodyMessage.statusMessageKey | translate"></span>
-							&nbsp;&nbsp; <a style="cursor: pointer;" ng-show="ngDialogData.data.canPrintEvidence"
-								ng-click="ngDialogData.data.printEvidenceFormAction()"><i
-								class="fa fa-print" aria-hidden="true"></i></a>
+								ng-bind="ngDialogData.data.bodyMessage.statusMessageKey | translate">
+							</span>
+							&nbsp;&nbsp; 
+							<a class="dropdown-toggle" style="cursor: pointer;" 
+								ng-show="ngDialogData.data.canPrintEvidence"
+								data-toggle="dropdown" title="print">
+								<i class="fa fa-print" aria-hidden="true"></i></a>
+							<ul class="dropdown-menu">
+								<li><a id="evident-form-label" ng-click="ngDialogData.data.printEvidenceFormAction()">{{'Evident form' | translate}}</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a id="credit-advice-form-label" ng-click="">{{'Credit advice form' | translate}}</a></li>
+							</ul>
 						</div>
 					</div>
 				</div>
