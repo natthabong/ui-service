@@ -172,7 +172,7 @@ module.controller('NumericLayoutConfigController',
 	var detailFlagList = function() {
 		detailItems.forEach(function(item , index) {
 			var dataType = dataTypeByIds[item.documentFieldId];
-			if (dataType.dataType == 'SIGN_FLAG' || (item.expectedValue != null && item.validationType == 'IN_MAPPING_TYPE')) {
+			if (dataType.dataType == 'SIGN_FLAG' || (dataType.dataType == 'TEXT' && item.expectedValue != null && item.validationType == 'IN_MAPPING_TYPE_SIGN_FLAG')) {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.displayValue,
