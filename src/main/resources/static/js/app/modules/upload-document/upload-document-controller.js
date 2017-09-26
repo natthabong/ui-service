@@ -3,14 +3,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
 	function($log, UploadDocumentService, $scope, $state, $stateParams, $timeout, PageNavigation, SCFCommonService, Service) {
     var vm = this;
     var log = $log;
-    
-    var currentParty = '';
-    var partyRole = {
-			sponsor : 'sponsor',
-			bank : 'bank',
-			supplier : 'supplier'
-	}
-    
+
     vm.errorMsgKey = '';
     vm.showErrorMsg = false;
     vm.fileTypeDropdown = [{
@@ -68,6 +61,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
             vm.storeFileTypeDatas = response.data;
             // Check size of fileType
             if (vm.storeFileTypeDatas.length > 0) {
+            	vm.fileTypeDropdown = [];
                 // Use index for find position of SponsorIntegrateFileConfig
 				// when send to api
                 var index = 0;
