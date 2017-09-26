@@ -1,0 +1,27 @@
+<div id="content" th:fragment="content" sec:authorize="hasAuthority('VIEW_ALL_PAYMENTS')">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft" ng-bind="'Payment transaction' | translate">Payment transaction
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<div class="col-md-12">
+						<div ng-include="'/payment-transaction/components/criteria-search'"></div>
+					</div>
+					<div class="col-md-12">
+						<div ng-include="'/payment-transaction/components/list-transaction'"></div>
+					</div>
+				</div>
+
+				<div class="panel-body" block-ui="summary-internal-block">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
