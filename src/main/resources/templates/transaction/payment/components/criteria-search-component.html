@@ -31,7 +31,7 @@
 				<label for="supplier-auto-suggest" id="supplier-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
 					| translate}}: </label>
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					<gec-auto-suggest id="supplier-auto-suggest" model="ctrl.supplierAutoSuggestModel" name="supplier" ng-model="ctrl.supplier"
+					<gec-auto-suggest id="supplier-auto-suggest" disable="ctrl.disableSupplierAutoSuggest" model="ctrl.supplierAutoSuggestModel" name="supplier" ng-model="ctrl.supplier"
 						maxlength="100"></gec-auto-suggest>
 				</div>
 				<div class="col-md-3 col-sm-2"></div>
@@ -41,7 +41,7 @@
 				<label for="buyer-auto-suggest" id="buyer-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer'
 					| translate}}: </label>
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					<gec-auto-suggest id="buyer-auto-suggest" disable="true" model="ctrl.buyerAutoSuggestModel" name="buyer" ng-model="ctrl.sponsor"
+					<gec-auto-suggest id="buyer-auto-suggest" disable="ctrl.disableBuyerAutoSuggest" model="ctrl.buyerAutoSuggestModel" name="buyer" ng-model="ctrl.buyer"
 						maxlength="100"></gec-auto-suggest>
 				</div>
 				<div class="col-md-3 col-sm-2"></div>
