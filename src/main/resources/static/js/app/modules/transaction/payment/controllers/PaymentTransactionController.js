@@ -1,7 +1,7 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log', '$stateParams', 'PaymentTransactionService',
-		'PagingController', 'PageNavigation','UIFactory','$http', '$timeout', function($rootScope, $scope, $log, $stateParams, PaymentTransactionService
-        , PagingController, PageNavigation, UIFactory,$http, $timeout) {
+		'PagingController', 'PageNavigation','UIFactory','$http', '$timeout','TransactionService', function($rootScope, $scope, $log, $stateParams, PaymentTransactionService
+        , PagingController, PageNavigation, UIFactory,$http, $timeout,TransactionService) {
 	
 	var vm = this;
 	var log = $log;
@@ -20,6 +20,8 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     vm.verify = false;
     vm.approve = false;
     vm.reject = false;
+
+    vm.statusPaymentSuccess = 'PAYMENT_SUCCESS';
     
     vm.summaryInternalStep = {};
 	vm.statusDocuments = {
@@ -203,7 +205,14 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			'<scf-button id="transaction-{{data.transactionNo}}-approve-button" ng-disabled="!(ctrl.approve &&(data.statusCode === ctrl.statusDocuments.waitForApprove))" class="btn-default gec-btn-action"  ng-click="ctrl.approveTransaction(data)" title="Approve"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
 			'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-view-button" ng-disabled="{{!ctrl.canView}}" ng-click="ctrl.viewTransaction(data)" title="View"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
 			'<scf-button id="transaction-{{data.transactionNo}}-re-check-button" class="btn-default gec-btn-action" ng-disabled="{{!(data.retriable && ctrl.canRetry)}}" ng-click="ctrl.retry(data)" title="Re-check"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
-			'<scf-button id="transaction-{{data.transactionNo}}-print-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledPrint(data.returnStatus)" ng-click="ctrl.printEvidenceFormAction(data)" title="Print"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>'+
+            '<scf-button class="btn-default gec-btn-action" ng-show ="data.statusCode == ctrl.statusPaymentSuccess" ng-disabled="data.statusCode != ctrl.statusPaymentSuccess" title="Print">'+
+			'<span class="dropdown"><span class="dropdown-toggle" data-toggle="dropdown" id="transaction-{{data.transactionNo}}-print-button">'+
+            '<i class="fa fa-print" aria-hidden="true"></i></span>'+
+            '<ul class="dropdown-menu">'+
+            '<li><a id="evident-form-label" ng-click="ctrl.printEvidence(data)">{{"Evident form" | translate}}</a></li>'+
+            '<li role="separator" class="divider"></li>'+
+            '<li><a id="credit-advice-form-label" ng-click="ctrl.generateCreditAdviceForm(data)">{{"Credit advice form" | translate}}</a></li></ul></span></scf-button>'+
+            '<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-print-button-disable" ng-hide ="data.statusCode == ctrl.statusPaymentSuccess" ng-disabled="true" title="Print"><i class="fa fa-print" aria-hidden="true"></i></scf-button>'+
 			'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 		}]
     };
@@ -412,5 +421,19 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             {criteria : _criteria,buyer : _sponsor,supplier : _supplier})
         }, 10);
 	}
+	
+	vm.generateCreditAdviceForm = function(data){
+		PaymentTransactionService.generateCreditAdviceForm(data);
+	}
+
+    vm.printEvidence = function(transaction){
+        console.log(transaction);
+        var deffered = TransactionService.getTransaction(transaction);
+        deffered.promise.then(function(response){
+            TransactionService.generateEvidenceForm(transaction);
+        }).catch(function(response){
+            log.error("Load transaction fail!");
+        });
+    }
 
 } ]);

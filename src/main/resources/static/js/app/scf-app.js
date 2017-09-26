@@ -647,23 +647,23 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/my-organize/payment-transaction',
 				controller: 'PaymentTransactionController',
 				controllerAs: 'ctrl',				
-				templateUrl: '/payment-transaction/',
+				templateUrl: '/payment-transaction/my',
                 params: {viewMode:'MY_ORGANIZE',transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
-				resolve: load(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js'])
+				resolve: load(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js','js/app/modules/transaction/services/TransactionService.js'])
 			}).state('/partner-organize/payment-transaction', {
 				url: '/partner-organize/payment-transaction',
 				controller: 'PaymentTransactionController',
 				controllerAs: 'ctrl',				
-				templateUrl: '/payment-transaction/',
+				templateUrl: '/payment-transaction/partner',
                 params: {viewMode:'PARTNER',transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
-				resolve: load(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js'])
+				resolve: load(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js','js/app/modules/transaction/services/TransactionService.js'])
 			}).state('/customer-organize/payment-transaction', {
 				url: '/customer-organize/payment-transaction',
 				controller: 'PaymentTransactionController',
 				controllerAs: 'ctrl',				
-				templateUrl: '/payment-transaction/',
+				templateUrl: '/payment-transaction/all',
                 params: {viewMode:'CUSTOMER',transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
-				resolve: load(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js'])
+				resolve: load(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js','js/app/modules/transaction/services/TransactionService.js'])
 			}).state('/payment-transaction/view', {
 				url: '/payment-transaction/view',
 				controller: 'ViewPaymentController',
@@ -684,7 +684,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/payment-transaction/approve',
 				params: {transaction: null},
-				resolve: load(['js/app/modules/transaction/payment/services/ApprovePaymentService.js','js/app/modules/transaction/payment/controllers/ApprovePaymentController.js'])
+				resolve: load(['js/app/modules/transaction/payment/services/ApprovePaymentService.js','js/app/modules/transaction/payment/controllers/ApprovePaymentController.js','js/app/modules/transaction/services/TransactionService.js'])
 			}).state('/partner-organize/download-payment-advices',{
 				url: '/partner-organize/download-payment-advices',
 				controller: 'DownloadPaymentResultController',

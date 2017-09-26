@@ -1,7 +1,9 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log', 
-	'$stateParams', 'SCFCommonService','PageNavigation', 'UIFactory','ngDialog','$timeout', 'ApprovePaymentService', 
-	function($rootScope, $scope, $log, $stateParams, SCFCommonService, PageNavigation, UIFactory, ngDialog, $timeout, ApprovePaymentService) {
+	'$stateParams', 'SCFCommonService','PageNavigation', 'UIFactory','ngDialog',
+	'$timeout', 'ApprovePaymentService', 'TransactionService',
+	function($rootScope, $scope, $log, $stateParams, SCFCommonService, PageNavigation, UIFactory, 
+		ngDialog, $timeout, ApprovePaymentService, TransactionService) {
 
 	var vm = this;
 	var log = $log;
@@ -78,10 +80,6 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 		return result;
 	}
 
-	function printEvidence(transaction){
-		return false;
-	}
-
 	var dialogPopup;
 	var closeDialogPopUp = function(){
 		dialogPopup.close();
@@ -95,9 +93,7 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
     }
 	
     vm.printEvidenceFormAction = function(){
-    	if(printEvidence(vm.transaction)){
-    		ApprovePaymentService.generateEvidenceForm(vm.transaction);
-    	}
+    	TransactionService.generateEvidenceForm(vm.transaction);
     }
 
 	vm.handleDialogFail = function(response){
@@ -143,7 +139,8 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 							hideViewRecentButton : false,
 							hideViewHistoryButton : false,
 							showOkButton : false,
-							printEvidenceFormAction: vm.printEvidenceFormAction
+							printEvidenceFormAction: vm.printEvidenceFormAction,
+							canPrintEvidence : printEvidence(vm.transaction)
 						},
 					});
 				}
@@ -196,7 +193,8 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 						hideViewRecentButton : false,
 						hideViewHistoryButton : false,
 						showOkButton : false,
-						printEvidenceFormAction: vm.printEvidenceFormAction
+						printEvidenceFormAction: vm.printEvidenceFormAction,
+						canPrintEvidence : printEvidence(vm.transaction)
 					},
 				});
 			}

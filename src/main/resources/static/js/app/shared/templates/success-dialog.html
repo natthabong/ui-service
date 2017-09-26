@@ -29,9 +29,6 @@
 						<div class="col-xs-7 col-md-8 col-sm-8">
 							<span id="transaction-no-label" class="gec-pop-up-font-size"
 								ng-bind="ngDialogData.data.bodyMessage.transactionNo"></span>
-							&nbsp;&nbsp; <a style="cursor: pointer;" ng-hide="true"
-								ng-click="ngDialogData.data.printEvidenceFormAction()"><i
-								class="fa fa-print" aria-hidden="true"></i></a>
 						</div>
 					</div>
 					<div class="row">
@@ -40,7 +37,12 @@
 						</div>
 						<div class="col-xs-7 col-md-8 col-sm-8">
 							<span id="result-label"
-								ng-bind="ngDialogData.data.bodyMessage.statusMessageKey | translate"></span>
+								ng-bind="ngDialogData.data.bodyMessage.statusMessageKey | translate">
+							</span>
+							&nbsp;&nbsp; 
+							<a id="evident-form-label" ng-click="ngDialogData.data.printEvidenceFormAction()"
+								ng-show="ngDialogData.data.canPrintEvidence" title="Print">
+								<i class="fa fa-print" aria-hidden="true"></i></a>
 						</div>
 					</div>
 				</div>

@@ -360,6 +360,87 @@ function transactionService($http, $q, blockUI, $window) {
         return deffered;
         
     }
+
+    function generateCreditAdviceForm(transactionModel) {
+        $http({
+            method: 'POST',
+            url: '/api/approve-transaction/evidence-form',
+            data: transactionModel,
+            responseType: 'arraybuffer'
+        }).success(function(response) {
+            var file = new Blob([response], {
+                type: 'application/pdf'
+            });
+            var fileURL = URL.createObjectURL(file);
+            var a = document.createElement('a');
+            a.href = fileURL;
+            a.target = '_blank';
+            if(transactionModel.transactionType == 'PAYMENT'){
+                if(transactionModel.transactionMethod == 'DEBIT'){
+                    a.download = "EvidenceOfReceiptBFPDirectDebit_"+transactionModel.transactionNo + '.pdf';
+                }else{
+                    a.download = "EvidenceOfReceiptBFPDrawdown_"+transactionModel.transactionNo + '.pdf';
+                }
+            }else{
+                a.download = transactionModel.transactionNo + '.pdf';
+            }
+            
+            document.body.appendChild(a);
+            a.click();
+        }).error(function(response) {
+
+        });
+    }
+
+    function getTransaction(transaction){
+        var deffered = $q.defer();
+        $http({
+            method: 'GET',
+            url: 'api/v1/transactions/'+transaction.transactionId,
+            headers : {
+                'If-Match': transaction.version
+            },
+            params : {
+                mode : 'view'
+            }
+        }).then(function(response){
+            deffered.resolve(response);
+        }).catch(function(response){
+            deffered.reject(response);
+        });
+        return deffered;
+    }
+
+    function generateEvidenceForm(transactionModel) {
+        $http({
+            method: 'POST',
+            url: '/api/approve-transaction/evidence-form',
+            data: transactionModel,
+            responseType: 'arraybuffer'
+        }).success(function(response) {
+            var file = new Blob([response], {
+                type: 'application/pdf'
+            });
+            var fileURL = URL.createObjectURL(file);
+            var a = document.createElement('a');
+            a.href = fileURL;
+            a.target = '_blank';
+            if(transactionModel.transactionType == 'PAYMENT'){
+                if(transactionModel.transactionMethod == 'DEBIT'){
+                    a.download = "EvidenceOfReceiptBFPDirectDebit_"+transactionModel.transactionNo + '.pdf';
+                }else{
+                    a.download = "EvidenceOfReceiptBFPDrawdown_"+transactionModel.transactionNo + '.pdf';
+                }
+            }else{
+                a.download = transactionModel.transactionNo + '.pdf';
+            }
+            
+            document.body.appendChild(a);
+            a.click();
+        }).error(function(response) {
+
+        });
+    }
     
     return {
         getSponsorPaymentDate: getSponsorPaymentDate,
@@ -379,6 +460,8 @@ function transactionService($http, $q, blockUI, $window) {
         retry: retry,
         reject: reject,
         getAvailableMaturityDates: getAvailableMaturityDates,
-        getTransactionDialogErrorUrl: getTransactionDialogErrorUrl
+        getTransactionDialogErrorUrl: getTransactionDialogErrorUrl,
+        getTransaction: getTransaction,
+        generateEvidenceForm : generateEvidenceForm
 	}
 }
