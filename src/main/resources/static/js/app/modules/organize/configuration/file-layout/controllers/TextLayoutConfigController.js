@@ -17,14 +17,20 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 		var index = angular.copy($scope.ngDialogData.index);
 		var fieldList = [];
 		
-		var validationType = "IN_MAPPING_TYPE";
+		console.log(vm.model);
+		
+		var validationTypeText = "IN_MAPPING_TYPE_TEXT";
+		var validationTypeSignFlag = "IN_MAPPING_TYPE_SIGN_FLAG";
 
+		var expectedInMapping =  (vm.model.validationType == validationTypeText || vm.model.validationType == validationTypeSignFlag);
+		console.log(expectedInMapping);
+		
 		vm.expected = angular.isDefined(vm.model.expectedValue) && vm.model.expectedValue != null ? true : false;
-		vm.openExpectedValueField = vm.model.validationType == validationType ? false : true;
+		vm.openExpectedValueField = expectedInMapping  ? false : true;
 		
 		vm.expectedInDataList = [];
 
-		vm.expectedInValue = vm.model.validationType == validationType ? angular.copy(vm.model.expectedValue) : null;
+		vm.expectedInValue = expectedInMapping ? angular.copy(vm.model.expectedValue) : null;
 		vm.expectedValue = vm.model.validationType == null ? angular.copy(vm.model.expectedValue) : null;
 
 		vm.mappingType = null;
@@ -111,7 +117,12 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 					vm.mappingType = data.mappingType;
 				}
 			})
-			vm.model.validationType = validationType;
+			console.log(vm.mappingType);
+			if(vm.mappingType == 'TEXT_MAPPING'){
+				vm.model.validationType = validationTypeText;
+			}else if(vm.mappingType == 'SIGN_FLAG_MAPPING'){
+				vm.model.validationType = validationTypeSignFlag;
+			}
 			vm.error.msg = null;
 			vm.error.require = false;
 			vm.error.duplicate = false;
@@ -214,7 +225,7 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 				if(!vm.openExpectedValueField && vm.expected){
 					var count = 0;
 					fieldList.forEach(function(data){
-						if(data.validationType == validationType && data.expectedValue == vm.expectedInValue){
+						if((data.validationType == validationTypeText||data.validationType == validationTypeSignFlag) && data.expectedValue == vm.expectedInValue){
 							count++;
 						}
 					})

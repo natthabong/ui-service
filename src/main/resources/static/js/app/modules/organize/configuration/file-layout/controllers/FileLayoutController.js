@@ -30,8 +30,6 @@ module.controller('FileLayoutController', [
 			paymentDateConfig: vm.processType == 'AP_DOCUMENT' ? {
 				strategy: 'FIELD',
 				documentDateField: null,
-				documentDateFieldOfFormula: null,
-				documentDateField: null,
 				paymentDateFormulaId: null
 			} : null
 		};
@@ -388,8 +386,6 @@ module.controller('FileLayoutController', [
 				paymentDateConfig: {
 					strategy: 'FIELD',
 					documentDateField: null,
-					documentDateFieldOfFormula: null,
-					documentDateField: null,
 					paymentDateFormulaId: null
 				}
 			}
@@ -455,15 +451,6 @@ module.controller('FileLayoutController', [
 
 				sendRequestGetFileLayout(vm.model.layoutConfigId, function (response) {
 					vm.model = response.data;
-					if (vm.model.processType == 'AP_DOCUMENT') {
-						if (vm.model.paymentDateConfig.strategy == 'FIELD') {
-							vm.model.paymentDateConfig.documentDateField = vm.model.paymentDateConfig.documentDateField;
-							vm.model.paymentDateConfig.documentDateFieldOfFormula = null;
-						} else {
-							vm.model.paymentDateConfig.documentDateField = null;
-							vm.model.paymentDateConfig.documentDateFieldOfFormula = vm.model.paymentDateConfig.documentDateField;
-						}
-					}
 
 					vm.oldStateFileType = vm.model.fileType;
 					if (angular.isDefined(vm.model.offsetRowNo) && vm.model.offsetRowNo != null) {
@@ -815,14 +802,6 @@ module.controller('FileLayoutController', [
 				});
 			}
 
-			if (sponsorLayout.processType == 'AP_DOCUMENT') {
-				if (sponsorLayout.paymentDateConfig.strategy == 'FIELD') {
-					sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateField;
-				} else {
-					sponsorLayout.paymentDateConfig.documentDateField = sponsorLayout.paymentDateConfig.documentDateFieldOfFormula;
-				}
-			}
-
 
 			var onFail = function (errors) {
 				$scope.errors = errors;
@@ -853,7 +832,7 @@ module.controller('FileLayoutController', [
 		}
 
 		$scope.confirmSave = function (sponsorLayout) {
-
+			console.log(sponsorLayout);
 			if(vm.newMode){
 				
 				return FileLayoutService.createFileLayout(sponsorLayout.ownerId, sponsorLayout.processType, sponsorLayout.integrateType, sponsorLayout);
@@ -896,8 +875,6 @@ module.controller('FileLayoutController', [
 			if (vm.model.paymentDateConfig == null) {
 				vm.model.paymentDateConfig = {
 					strategy: 'FIELD',
-					documentDateField: null,
-					documentDateFieldOfFormula: null,
 					documentDateField: null,
 					paymentDateFormulaId: null
 				};
@@ -1032,7 +1009,7 @@ module.controller('FileLayoutController', [
 				vm.model.paymentDateConfig.formula = null;
 				vm.model.paymentDateConfig.creditTermField = null;
 				vm.model.paymentDateConfig.paymentDateFormulaId = null;
-				vm.model.paymentDateConfig.documentDateFieldOfFormula = null;
+				vm.model.paymentDateConfig.documentDateField = null;
 			} else {
 				vm.model.paymentDateConfig.documentDateField = null;
 			}
