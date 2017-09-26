@@ -5,8 +5,7 @@ function ApprovePaymentService($http, $q, blockUI,$window){
         approve : approve,
         reject: reject,
 		getTransaction : getTransaction,
-		getRequestForm : getRequestForm,
-		generateEvidenceForm: generateEvidenceForm
+		getRequestForm : getRequestForm
 	}
 
     function approve(transactionApproveModel) {
