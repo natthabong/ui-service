@@ -1,0 +1,27 @@
+<div id="content" th:fragment="content"
+	sec:authorize="hasAuthority('VIEW_PAYMENTS_REFER_TO_MY_ORGANIZE')">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft"
+						ng-bind="'Payment transaction' | translate">Payment
+						transaction</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<!-- Start Column Panel-->
+					<div class="col-md-12">
+
+					</div>
+				</div>
+
+				<div class="panel-body" block-ui="summary-internal-block">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,145 @@
+<div id="content" th:fragment="content" sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZE')">
+	<input type="hidden" ng-init="ctrl.approve=true"
+		sec:authorize="hasAuthority('APPROVE_PAYMENTS_OF_MY_ORGANIZE')" />
+	<input type="hidden" ng-init="ctrl.verify=true"
+		sec:authorize="hasAuthority('VERIFY_PAYMENTS_OF_MY_ORGANIZE')" />
+	<input type="hidden" ng-init="ctrl.reject=true"
+		sec:authorize="hasAuthority('REJECT_ALL_WAIT_FOR_BANK_PAYMENTS')" />
+	<input type="hidden" ng-init="ctrl.canRetry=true"
+		sec:authorize="hasAnyAuthority('RECHECK_ALL_REJECT_INCOMPLETE_PAYMENTS', 'RECHECK_ALL_INCOMPLETE_PAYMENTS', 'RECHECK_ONLY_INCOMPLETE_PAYMENTS_OF_MY_ORGANIZE')" />
+	<input type="hidden" ng-init="ctrl.canView=true"
+		sec:authorize="hasAnyAuthority('VIEW_ALL_PAYMENTS', 'VIEW_PAYMENTS_OF_MY_ORGANIZE', 'VIEW_PAYMENTS_REFER_TO_MY_ORGANIZE')" />
+	
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft"
+						ng-bind="'Payment transaction' | translate">Payment
+						transaction</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					
+				</div>
+
+				<div class="panel-body" block-ui="summary-internal-block">
+
+					<div class="row">
+						<div id="bottom-sticker">
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<span class="col-md-2 col-sm-3" id="internal-step-label"><b>{{'Internal
+											step' | translate}}</b>:</span>
+									<div class="col-md-2 col-sm-3">
+										<span id="wait-for-verify-label"
+											ng-bind="'wait_for_verify' | translate">list-transaction-wait-for-verify</span>
+									</div>
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="wait-for-verify-record-label"
+											ng-bind="ctrl.summaryInternalStep.wait_for_verify.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="wait-for-verify-amount-label"
+											ng-bind="ctrl.summaryInternalStep.wait_for_verify.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-4 col-sm-1"></div>
+								</div>
+							</div>
+
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<label class="col-md-2 col-sm-3"></label>
+									<div class="col-md-2 col-sm-3">
+										<span id="wait-for-approve-label"
+											ng-bind="'wait_for_approve' | translate">list-transaction-wait-for-approve</span>
+									</div>
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="wait-for-approve-record-label"
+											ng-bind="ctrl.summaryInternalStep.wait_for_approve.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="wait-for-approve-amount-label"
+											ng-bind="ctrl.summaryInternalStep.wait_for_approve.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-4 col-sm-1"></div>
+								</div>
+							</div>
+
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<label class="col-md-2 col-sm-3"></label>
+									<div class="col-md-2 col-sm-3">
+										<span id="reject-by-checker-label"
+											ng-bind="'reject_by_checker' | translate">Reject by
+											Checker</span>
+									</div>
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="reject-by-checker-record-label"
+											ng-bind="ctrl.summaryInternalStep.reject_by_checker.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="reject-by-checker-amount-label"
+											ng-bind="ctrl.summaryInternalStep.reject_by_checker.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-4 col-sm-1"></div>
+								</div>
+							</div>
+
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<label class="col-md-2 col-sm-3"></label>
+									<div class="col-md-2 col-sm-3">
+										<span id="reject-by-approver-label"
+											ng-bind="'reject_by_approver'  | translate">Reject by
+											Approver</span>
+									</div>
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="reject-by-approver-record-label"
+											ng-bind="ctrl.summaryInternalStep.reject_by_approver.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="reject-by-approver-amount-label"
+											ng-bind="ctrl.summaryInternalStep.reject_by_approver.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-4 col-sm-1"></div>
+								</div>
+							</div>
+
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<label class="col-md-2 col-sm-3"></label>
+									<div class="col-md-2 col-sm-3">
+										<span id="cancel-by-buyer-label">Cancel by buyer</span>
+									</div>
+									<div class="col-md-1 col-sm-2 text-right">
+										<span id="cancel-by-buyer-record-label"
+											ng-bind="ctrl.summaryInternalStep.cancel_by_buyer.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="cancel-by-buyer-amount-label"
+											ng-bind="ctrl.summaryInternalStep.cancel_by_buyer.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-4 col-sm-1"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
