@@ -126,19 +126,18 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 
     
     function _loadSummaryStatusGroup(criteria){
-        console.log(vm.criteria.dateTo);
         _clearSummaryStatusGroup();
 
         var criteriaSummary = {
-            sponsorId : vm.criteria.sponsorId,
-            supplierId : vm.criteria.supplierId,
-            statusGroup : vm.criteria.statusGroup,
+            sponsorId : criteria.sponsorId,
+            supplierId : criteria.supplierId,
+            statusGroup : criteria.statusGroup,
             transactionType : 'PAYMENT',
             dateType : "transactionDate",
-            transactionNo : vm.criteria.transactionNo,
-            supplierCode: vm.criteria.supplierCode,
-            dateFrom: SCFCommonService.convertDate(vm.criteria.dateFrom),
-            dateTo: SCFCommonService.convertDate(vm.criteria.dateTo)
+            transactionNo : criteria.transactionNo,
+            supplierCode: criteria.supplierCode,
+            dateFrom: SCFCommonService.convertDate(criteria.dateFrom),
+            dateTo: SCFCommonService.convertDate(criteria.dateTo)
         }
         var deferred = TransactionService.summaryStatusGroup(criteriaSummary);
         deferred.promise.then(function(response) {
