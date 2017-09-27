@@ -434,7 +434,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			'<span class="dropdown"><span class="dropdown-toggle" data-toggle="dropdown" id="transaction-{{data.transactionNo}}-print-button">'+
             '<i class="fa fa-print" aria-hidden="true"></i></span>'+
             '<ul class="dropdown-menu">'+
-            '<li><a id="evident-form-button" ng-click="ctrl.printEvidence(data)">{{"Evident form" | translate}}</a></li>'+
+            '<li><a id="evident-form-button" ng-click="ctrl.printEvidence(data)">{{"Evidence form" | translate}}</a></li>'+
             '<li role="separator" class="divider"></li>'+
             '<li><a id="credit-advice-form-button" ng-click="ctrl.generateCreditAdviceForm(data)">{{"Credit advice form" | translate}}</a></li></ul></span></scf-button>'+
             '<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-print-button-disable" ng-hide ="data.statusCode == ctrl.statusPaymentSuccess" ng-disabled="true" title="Print"><i class="fa fa-print" aria-hidden="true"></i></scf-button>'+
