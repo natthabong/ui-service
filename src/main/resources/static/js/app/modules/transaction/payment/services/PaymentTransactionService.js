@@ -43,7 +43,7 @@ function PaymentTransactionService($http, $q){
             var a = document.createElement('a');
             a.href = fileURL;
             a.target = '_blank';
-            a.download = transactionModel.transactionNo + '.pdf';
+            a.download = "NotificationOfCreditAdvice_"+ transactionModel.transactionNo + '.pdf';
             document.body.appendChild(a);
             a.click();
         }).error(function(response) {
