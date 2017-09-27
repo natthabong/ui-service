@@ -647,7 +647,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/my-organize/payment-transaction',
 				controller: 'PaymentTransactionController',
 				controllerAs: 'ctrl',				
-				templateUrl: '/payment-transaction/my',
+				templateUrl: '/payment-transaction/',
                 params: {viewMode:'MY_ORGANIZE',transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
 				resolve: load(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js','js/app/modules/transaction/services/TransactionService.js'])
 			}).state('/partner-organize/payment-transaction', {
