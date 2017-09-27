@@ -432,7 +432,7 @@ function transactionService($http, $q, blockUI, $window) {
                     a.download = "EvidenceOfReceiptBFPDrawdown_"+transactionModel.transactionNo + '.pdf';
                 }
             }else{
-                a.download = transactionModel.transactionNo + '.pdf';
+                a.download = "EvidenceOfReceiptSFPDrawdown_"+transactionModel.transactionNo + '.pdf';
             }
             
             document.body.appendChild(a);

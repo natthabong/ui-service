@@ -971,8 +971,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     }
 	
 	vm.printEvidenceFormAction = function(data){    	
-		ListTransactionService.generateEvidenceForm(data);
-
+		TransactionService.generateEvidenceForm(data);
     }
 	
     function printEvidence(transaction){

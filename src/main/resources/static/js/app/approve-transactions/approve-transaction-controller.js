@@ -250,7 +250,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 
         vm.printEvidenceFormAction = function(){
         	if(printEvidence(vm.transaction)){
-        		ApproveTransactionService.generateEvidenceForm(vm.transaction);
+        		TransactionService.generateEvidenceForm(vm.transaction);
         	}
         }
        

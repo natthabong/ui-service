@@ -9,8 +9,8 @@ function ListTransactionServices($http, $q, blockUI){
 		getTransactionDocument: getTransactionDocument,
 		summaryInternalStep: summaryInternalStep,
 		summaryStatusGroup: summaryStatusGroup,
-		exportCSVFile: exportCSVFile,
-		generateEvidenceForm: generateEvidenceForm
+		exportCSVFile: exportCSVFile
+//		generateEvidenceForm: generateEvidenceForm
 	}
 	
 	function getSponsors(){
@@ -110,24 +110,24 @@ function ListTransactionServices($http, $q, blockUI){
             // TODO when WS error
         });
 	}
-	
-	function generateEvidenceForm(transactionModel){
-		 $http({
-	            method: 'POST',
-	            url: '/api/approve-transaction/evidence-form',
-	            data: transactionModel,
-	            responseType: 'arraybuffer'
-	        }).success(function(response) {
-	        	var file = new Blob([response], {type: 'application/pdf'});
-	        	var fileURL = URL.createObjectURL(file);
-	        	var a         = document.createElement('a');
-	            a.href        = fileURL; 
-	            a.target      = '_blank';
-	            a.download    = transactionModel.transactionNo+'.pdf';
-	            document.body.appendChild(a);
-	            a.click();
-	        }).error(function(response) {
-	            
-	        });
-	}
+//	
+//	function generateEvidenceForm(transactionModel){
+//		 $http({
+//	            method: 'POST',
+//	            url: '/api/approve-transaction/evidence-form',
+//	            data: transactionModel,
+//	            responseType: 'arraybuffer'
+//	        }).success(function(response) {
+//	        	var file = new Blob([response], {type: 'application/pdf'});
+//	        	var fileURL = URL.createObjectURL(file);
+//	        	var a         = document.createElement('a');
+//	            a.href        = fileURL; 
+//	            a.target      = '_blank';
+//	            a.download    = transactionModel.transactionNo+'.pdf';
+//	            document.body.appendChild(a);
+//	            a.click();
+//	        }).error(function(response) {
+//	            
+//	        });
+//	}
 }
