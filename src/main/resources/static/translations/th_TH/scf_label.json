@@ -566,6 +566,7 @@
 	"PAYMENT": "Payment",
 	"TEXT_MAPPING" : "Text mapping",
 	"SIGN_FLAG_MAPPING" : "Sign flag mapping",
+	"payment_fail" : "Payment fail",
 	
 	"Loan account": "Loan account",
 	"SUPPLIER_FINANCING" : "Supplier financing",
