@@ -148,7 +148,9 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	vm.openDateFrom = false;
 	vm.dateFormat = 'dd/MM/yyyy';
 	vm.openDateTo = false;
-	
+	vm.test = function(){
+		console.log(vm.dateModel);
+	}
 	vm.dateModel = {
 		dateFrom: '',
 		dateTo: ''
@@ -566,6 +568,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		vm.listTransactionModel.supplierId = '';
         vm.listTransactionModel.dateFrom = SCFCommonService.convertDate(dateFrom);
         vm.listTransactionModel.dateTo = SCFCommonService.convertDate(dateTo);
+		console.log(SCFCommonService.convertDate(dateFrom));
 
         if(typeof vm.documentListModel.sponsor == 'object' && vm.documentListModel.sponsor != undefined){
             vm.listTransactionModel.sponsorId = vm.documentListModel.sponsor.organizeId;
@@ -702,7 +705,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 					});
 				}
 			}else if (viewMode == mode.CUSTOMER) {
-				var summaryStatusGroupDeffered = ListTransactionService.summaryStatusGroup(transactionModel);
+				var summaryStatusGroupDeffered = TransactionService.summaryStatusGroup(transactionModel);
 				summaryStatusGroupDeffered.promise.then(function(response) {
 					var summaryStatusGroup = response.data;
 					summaryStatusGroup.forEach(function(summary) {

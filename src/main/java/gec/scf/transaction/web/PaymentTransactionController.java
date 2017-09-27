@@ -11,8 +11,6 @@ import gec.scf.util.AjaxUtils;
 @RequestMapping("/payment-transaction")
 public class PaymentTransactionController {
 
-	private static final String PAYMENT_TRANSACTION = "transaction/payment/transaction";
-
 	private static final String MY_PAYMENT_TRANSACTION = "transaction/payment/my-transaction";
 	private static final String PARTNER_PAYMENT_TRANSACTION = "transaction/payment/partner-transaction";
 	private static final String ALL_PAYMENT_TRANSACTION = "transaction/payment/all-transaction";
@@ -24,14 +22,6 @@ public class PaymentTransactionController {
 	private static final String VIEW_PAYMENT_TRANSACTION = "transaction/payment/view";
 	private static final String VERIFY_PAYMENT_TRANSACTION = "transaction/payment/verify";
 	private static final String APPROVE_PAYMENT_TRANSACTION = "transaction/payment/approve";
-
-	@RequestMapping(path = "/", method = RequestMethod.GET)
-	public String paymentTransaction(@RequestHeader("X-Requested-With") String requestedWith) {
-		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return PAYMENT_TRANSACTION.concat(" :: content");
-		}
-		return PAYMENT_TRANSACTION;
-	}
 
 	@RequestMapping(path = "/partner", method = RequestMethod.GET)
 	public String partnerPaymentTransaction(@RequestHeader("X-Requested-With") String requestedWith) {

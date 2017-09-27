@@ -1,29 +1,57 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log', '$stateParams', 'PaymentTransactionService',
-		'PagingController', 'PageNavigation','UIFactory','$http', '$timeout','TransactionService', function($rootScope, $scope, $log, $stateParams, PaymentTransactionService
-        , PagingController, PageNavigation, UIFactory,$http, $timeout,TransactionService) {
+		'PagingController', 'PageNavigation','UIFactory','$http', '$timeout','TransactionService','SCFCommonService', function($rootScope, $scope, $log, $stateParams, PaymentTransactionService
+        , PagingController, PageNavigation, UIFactory,$http, $timeout,TransactionService,SCFCommonService) {
 	
 	var vm = this;
 	var log = $log;
+
+    vm.openDateFrom = false;
+	vm.openDateTo = false;
+
+    vm.approve = false;
+    vm.verify = false;
+    vm.reject = false;
+    vm.canRetry = false;
+    vm.canView = false;
+
+    var viewMode = $stateParams.viewMode;
+
+    var enumViewMode = {
+        MY_ORGANIZE : 'MY_ORGANIZE',
+        PARTNER : 'PARTNER',
+        CUSTOMER : 'CUSTOMER'
+    }
+
     var ownerId = $rootScope.userInfo.organizeId;
-    _sponsor = null;
-    _supplier = null;
-    vm.sponsor = null;
-    vm.supplier = $stateParams.supplier || null;
+
     var organizeInfo = {
         organizeId : $rootScope.userInfo.organizeId,
         organizeName : $rootScope.userInfo.organizeName
     }
-	
-	var viewMode = $stateParams.viewMode;
-    
-    vm.verify = false;
-    vm.approve = false;
-    vm.reject = false;
+
+    _sponsor = null;
+    _supplier = null;
+
+    vm.buyer = $stateParams.buyer || null;;
+    vm.supplier = $stateParams.supplier || null;
+
+    var buyerPlaceholder = null;
+    var supplierPlaceholder = null;
+
+    vm.disableBuyerAutoSuggest = false;
+    vm.disableSupplierAutoSuggest = false;
+
+    vm.statusStepDropDown = [{
+		label: 'All',
+		value: ''
+	}];
 
     vm.statusPaymentSuccess = 'PAYMENT_SUCCESS';
     
     vm.summaryInternalStep = {};
+    vm.summaryStatusGroup = {};
+
 	vm.statusDocuments = {
 		waitForVerify: 'WAIT_FOR_VERIFY',
 		waitForApprove: 'WAIT_FOR_APPROVE',
@@ -32,10 +60,11 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		canceledBySupplier: 'CANCELLED_BY_SUPPLIER',
 		rejectIncomplete: 'REJECT_INCOMPLETE'			
    }
+
     var _criteria = {};
    
     vm.criteria = $stateParams.criteria || {
-        sponsorId : ownerId,
+        sponsorId : null,
         supplierId : null,
         supplierCode : null,
         dateFrom : null,
@@ -45,58 +74,221 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         transactionType: 'PAYMENT'
 	}
 
-    vm.openDateFrom = false;
-	vm.openDateTo = false;
-	
-	vm.openCalendarDateFrom = function() {
-		vm.openDateFrom = true;
+    _clearSummaryStatus = function(){
+		vm.summaryInternalStep = {
+			wait_for_verify: {
+				totalRecord: 0,
+				totalAmount: 0
+			  },
+			 wait_for_approve:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			 },
+			 reject_by_checker:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			  },
+			 reject_by_approver:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			  },
+			  cancel_by_buyer:{
+				  totalRecord: 0,
+				  totalAmount: 0              
+			  }		
+		};
+    }
+
+    _clearSummaryStatusGroup = function(){
+        vm.summaryStatusGroup = {
+			INTERNAL_STEP: {
+				totalRecord: 0,
+				totalAmount: 0
+			  },
+			  WAIT_FOR_PAYMENT_RESULT:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			 },
+			 PAYMENT_SUCCESS:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			  },
+			  PAYMENT_FAIL:{
+				  totalRecord: 0,
+				  totalAmount: 0
+			  },
+			  GRAND_TOTAL:{
+				  totalRecord: 0,
+				  totalAmount: 0              
+			  }		
+		};
+    }
+
+    
+    function _loadSummaryStatusGroup(criteria){
+        console.log(vm.criteria.dateTo);
+        _clearSummaryStatusGroup();
+
+        var criteriaSummary = {
+            sponsorId : vm.criteria.sponsorId,
+            supplierId : vm.criteria.supplierId,
+            statusGroup : vm.criteria.statusGroup,
+            transactionType : 'PAYMENT',
+            dateType : "transactionDate",
+            transactionNo : vm.criteria.transactionNo,
+            supplierCode: vm.criteria.supplierCode,
+            dateFrom: SCFCommonService.convertDate(vm.criteria.dateFrom),
+            dateTo: SCFCommonService.convertDate(vm.criteria.dateTo)
+        }
+        var deferred = TransactionService.summaryStatusGroup(criteriaSummary);
+        deferred.promise.then(function(response) {
+            var summaryStatusGroup = response.data;
+            summaryStatusGroup.forEach(function(summary) {
+                if(vm.summaryStatusGroup[summary.statusGroup]){
+                    vm.summaryStatusGroup[summary.statusGroup].totalRecord = summary.totalRecord;
+                    vm.summaryStatusGroup[summary.statusGroup].totalAmount = summary.totalAmount;	
+                }					
+            });
+        }).catch(function(response) {
+            $log.error('Summary Group Status Error');
+        });
+    }
+
+    function _loadSummaryOfTransaction(criteria){
+    	_clearSummaryStatus();
+    	
+    	if(criteria.statusGroup == 'INTERNAL_STEP' || criteria.statusGroup == '' ){
+	        var criteriaSummary = {
+	            sponsorId : criteria.sponsorId,
+	            supplierId : criteria.supplierId,
+	            statusGroup : criteria.statusGroup,
+	            transactionType : criteria.transactionType,
+	            transactionNo : criteria.transactionNo,
+	            supplierCode: criteria.supplierCode,
+	            dateFrom: criteria.dateFrom,
+	            dateTo: criteria.dateTo
+	        }
+	        
+	    	var deffered = PaymentTransactionService.getSummaryOfTransaction(criteriaSummary);
+	    	deffered.promise.then(function(response) {
+				var summaryInternalStep = response.data;
+				summaryInternalStep.forEach(function(summary) {
+					if(vm.summaryInternalStep[summary.statusMessageKey]){
+						
+						vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
+						vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
+					}
+				});
+			}).catch(function(response) {
+				$log.error('Summary Internal Step Error');
+			});
+    	}
+    }
+
+    vm.loadData = function(pagingModel){
+    	vm.pagingController.search(pagingModel);
+    }
+
+    function _loadTransactionGroup(){
+        var transactionStatusGroupDefered = PaymentTransactionService.getTransactionStatusGroups('PAYMENT');
+        transactionStatusGroupDefered.promise.then(function(response) {
+            var transactionStatusGroupList = response.data;
+            if (transactionStatusGroupList !== undefined) {
+                transactionStatusGroupList.forEach(function(obj) {
+                    var selectObj = {
+                        label: obj.statusMessageKey,
+                        value: obj.statusGroup
+                    }
+                    vm.statusStepDropDown.push(selectObj);
+                });
+            }
+        }).catch(function(response) {
+			$log.error('Load TransactionStatusGroup Fail');
+        });    	
+    };
+
+    function _validateForSearch(){
+    	$scope.errors = {};
+    	var valid = true;
+    	
+    	if((vm.criteria.dateFrom != null && !angular.isDate(vm.criteria.dateFrom)) || !angular.isDefined(vm.criteria.dateFrom)){
+			valid = false;
+			$scope.errors.transactionDateFormat = {
+                message : 'Wrong date format data.'
+            }
+		}else if((vm.criteria.dateTo != null && !angular.isDate(vm.criteria.dateTo)) || !angular.isDefined(vm.criteria.dateTo)){
+			valid = false;
+			$scope.errors.transactionDateFormat = {
+                message : 'Wrong date format data.'
+            }
+		}else{
+			var isDateFromAfterDateTo = moment(vm.criteria.dateFrom).isAfter(vm.criteria.dateTo);
+	    	
+            if(isDateFromAfterDateTo){
+                valid = false;
+                $scope.errors.transactionDateFormat = {
+                    message : 'From date must be less than or equal to To date.'
+                }
+            }
+		}
+    	
+    	return valid;
+    }
+
+    vm.pagingController = PagingController.create('api/v1/list-transaction', _criteria, 'GET');
+
+    vm.searchTransaction = function(pagingModel) {
+    	if(_validateForSearch()){
+	    	angular.copy(vm.criteria, _criteria);
+	    	if(vm.buyer){
+	    		_criteria.sponsorId = vm.buyer.organizeId;
+	            _sponsor = vm.buyer;
+	    	}
+	    	if(vm.supplier){
+	    		_criteria.supplierId = vm.supplier.organizeId;
+	            _supplier = vm.supplier;
+	    	}
+	    	vm.loadData(pagingModel || ( $stateParams.backAction? {
+	    		offset : _criteria.offset,
+				limit : _criteria.limit
+	    	}: undefined));
+	    	if($stateParams.backAction){
+	    		$stateParams.backAction = false;
+	    	}
+
+            if(viewMode != enumViewMode.CUSTOMER){
+                _loadSummaryOfTransaction(_criteria);
+            }else{
+                _loadSummaryStatusGroup(_criteria);
+            }
+	    	
+    	}
 	}
 
-	vm.openCalendarDateTo = function() {
-		vm.openDateTo = true;
-	}
-
-    var prepareSupplierAutoSuggestLabel = function(item) {
-		item.identity = [ 'supplier-', item.organizeId, '-option' ].join('');
+    var prepareAutoSuggestLabel = function(item,role) {
+		item.identity = [ role,'-', item.organizeId, '-option' ].join('');
 		item.label = [ item.organizeId, ': ', item.organizeName ].join('');
 		item.value = item.organizeId;
 		return item;
 	}
     
-
-    var querySupplierId = function(value) {
-        var supplierCodeServiceUrl = 'api/v1/suppliers';
+    var querySupplierAutoSuggest = function(value) {
         value = value = UIFactory.createCriteria(value);
-                
-        return $http.get(supplierCodeServiceUrl, {
-            params : {
+        return $http.get('api/v1/suppliers', {
+        params : {
             q : value,
-            buyerId : ownerId,
             offset : 0,
             limit : 5
         }
         }).then(function(response) {
             return response.data.map(function(item) {
-                item = prepareSupplierAutoSuggestLabel(item);
+                item = prepareAutoSuggestLabel(item,'supplier');
                 return item;
             });
         });
 	};
 
-	vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
-        placeholder : 'Enter organize name or code',
-        itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
-        query : querySupplierId
-	});
-
-    var prepareBuyerAutoSuggestLabel = function(item) {
-		item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
-		item.label = [ item.organizeId, ': ', item.organizeName ].join('');
-		item.value = item.organizeId;
-		return item;
-	}
-
-	var queryBuyerId = function(value) {
+	var queryBuyerAutoSuggest = function(value) {
         value = value = UIFactory.createCriteria(value);
         return $http.get('api/v1/buyers', {
         params : {
@@ -106,20 +298,43 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         }
         }).then(function(response) {
             return response.data.map(function(item) {
-                item = prepareBuyerAutoSuggestLabel(item);
+                item = prepareAutoSuggestLabel(item,'buyer');
                 return item;
             });
         });
 	};
+    
+    var initial = function() {
+        if(viewMode == enumViewMode.MY_ORGANIZE){
+            hideSupplierCol = false;
+            hideBuyerCol = true;
 
-    vm.buyerAutoSuggestModel = UIFactory.createAutoSuggestModel({
-        placeholder : 'Please Enter organize name or code',
-        itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
-        query : queryBuyerId
-	});
+            vm.disableBuyerAutoSuggest = true;
+            vm.disableSupplierAutoSuggest = false;
+            
+            vm.buyer = prepareAutoSuggestLabel(organizeInfo,'buyer');
+            
 
+        }else if(viewMode == enumViewMode.PARTNER){
+            hideSupplierCol = true;
+            hideBuyerCol = false;
 
-    vm.pagingController = PagingController.create('api/v1/list-transaction', _criteria, 'GET');
+            vm.disableBuyerAutoSuggest = false;
+            vm.disableSupplierAutoSuggest = true;
+            
+            vm.supplier = prepareAutoSuggestLabel(organizeInfo,'supplier');
+
+        }else if(viewMode == enumViewMode.CUSTOMER){
+            hideSupplierCol = false;
+            hideBuyerCol = false;
+
+            vm.disableBuyerAutoSuggest = false;
+            vm.disableSupplierAutoSuggest = false;
+        }
+        
+        vm.searchTransaction();
+        _loadTransactionGroup();
+    }();
 
     vm.dataTable = {
         identityField : 'transactionNo',
@@ -150,8 +365,18 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             cssTemplate: 'text-center',
 			dataRenderer: function(record){
 				return '<img title="'+record.supplier+'" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+ (record.supplierLogo?atob(record.supplierLogo):UIFactory.constants.NOLOGO) +'"></img>';
-			}
-        }, {
+			},
+            hiddenColumn : hideSupplierCol
+        },{
+			fieldName: 'sponsor',
+            field: 'sponsor',
+            label: 'Buyer',
+            idValueField: 'transactionNo',
+            id: 'transaction-{value}-buyer-name',
+            sortData: true,
+            cssTemplate: 'text-center',
+            hiddenColumn : hideBuyerCol
+        },{
 			fieldName: 'transactionNo',
             field: 'transactionNo',
             label: 'Transaction no',
@@ -216,14 +441,19 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
 		}]
     };
-    
-    
-	
-    vm.statusStepDropDown = [{
-		label: 'All',
-		value: ''
-	}];
-    
+
+    vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
+        placeholder : 'Enter organize name or code',
+        itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
+        query : querySupplierAutoSuggest
+	});
+
+    vm.buyerAutoSuggestModel = UIFactory.createAutoSuggestModel({
+        placeholder : 'Enter organize name or code',
+        itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
+        query : queryBuyerAutoSuggest
+	});
+
     vm.disabledPrint = function(){
     	return true;
     }
@@ -231,173 +461,6 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     	return true;
     }
     
-	vm.clearSummary = function(){
-		vm.summaryInternalStep = {
-			wait_for_verify: {
-				totalRecord: 0,
-				totalAmount: 0
-			  },
-			 wait_for_approve:{
-				  totalRecord: 0,
-				  totalAmount: 0
-			 },
-			 reject_by_checker:{
-				  totalRecord: 0,
-				  totalAmount: 0
-			  },
-			 reject_by_approver:{
-				  totalRecord: 0,
-				  totalAmount: 0
-			  },
-			  cancel_by_buyer:{
-				  totalRecord: 0,
-				  totalAmount: 0              
-			  }		
-		};
-	}
-
-    function _loadSummaryOfTransaction(criteria){
-    	
-    	vm.clearSummary();
-    	
-    	if(criteria.statusGroup == 'INTERNAL_STEP' || criteria.statusGroup == '' ){
-	        var criteriaSummary = {
-	            sponsorId : criteria.sponsorId,
-	            supplierId : criteria.supplierId,
-	            statusGroup : criteria.statusGroup,
-	            transactionType : criteria.transactionType,
-	            transactionNo : criteria.transactionNo,
-	            supplierCode: criteria.supplierCode,
-	            dateFrom: criteria.dateFrom,
-	            dateTo: criteria.dateTo
-	        }
-	        
-	    	var deffered = PaymentTransactionService.getSummaryOfTransaction(criteriaSummary);
-	    	deffered.promise.then(function(response) {
-				var summaryInternalStep = response.data;
-				summaryInternalStep.forEach(function(summary) {
-					if(vm.summaryInternalStep[summary.statusMessageKey]){
-						
-						vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
-						vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
-					}
-				});
-			}).catch(function(response) {
-				$log.error('Summary Group Status Error');
-			});
-    	}
-    }
-
-    vm.loadData = function(pagingModel){
-    	vm.pagingController.search(pagingModel);
-    }
-
-    function _loadTransactionGroup(){
-        var transactionStatusGroupDefered = PaymentTransactionService.getTransactionStatusGroups('PAYMENT');
-        transactionStatusGroupDefered.promise.then(function(response) {
-            var transactionStatusGroupList = response.data;
-            if (transactionStatusGroupList !== undefined) {
-                transactionStatusGroupList.forEach(function(obj) {
-                    var selectObj = {
-                        label: obj.statusMessageKey,
-                        value: obj.statusGroup
-                    }
-                    vm.statusStepDropDown.push(selectObj);
-                });
-            }
-        }).catch(function(response) {
-			$log.error('Load TransactionStatusGroup Fail');
-        });    	
-    };
-
-    vm.searchTransaction = function(pagingModel) {
-    	if(_validateForSearch()){
-	    	angular.copy(vm.criteria, _criteria);
-	    	if(vm.sponsor){
-	    		_criteria.sponsorId = vm.sponsor.organizeId;
-	            _sponsor = vm.sponsor;
-	    	}
-	    	if(vm.supplier){
-	    		_criteria.supplierId = vm.supplier.organizeId;
-	            _supplier = vm.supplier;
-	    	}
-	    	vm.loadData(pagingModel || ( $stateParams.backAction? {
-	    		offset : _criteria.offset,
-				limit : _criteria.limit
-	    	}: undefined));
-	    	if($stateParams.backAction){
-	    		$stateParams.backAction = false;
-	    	}
-	    	_loadSummaryOfTransaction(_criteria);
-    	}
-	}
-
-    _clearSummaryStatus = function(){
-		vm.summaryInternalStep = {
-			wait_for_verify: {
-				totalRecord: 0,
-				totalAmount: 0
-			  },
-			 wait_for_approve:{
-				  totalRecord: 0,
-				  totalAmount: 0
-			 },
-			 reject_by_checker:{
-				  totalRecord: 0,
-				  totalAmount: 0
-			  },
-			 reject_by_approver:{
-				  totalRecord: 0,
-				  totalAmount: 0
-			  },
-			  cancel_by_buyer:{
-				  totalRecord: 0,
-				  totalAmount: 0              
-			  }		
-		};
-    }
-    
-    var initLoad = function() {
-    	
-    	
-        var buyerInfo = prepareBuyerAutoSuggestLabel(organizeInfo);
-        vm.sponsor = buyerInfo;
-
-        _clearSummaryStatus();
-        
-        vm.searchTransaction();
-        _loadTransactionGroup();
-       
-    }();
-
-    function _validateForSearch(){
-    	$scope.errors = {};
-    	var valid = true;
-    	
-    	if((vm.criteria.dateFrom != null && !angular.isDate(vm.criteria.dateFrom)) || !angular.isDefined(vm.criteria.dateFrom)){
-			valid = false;
-			$scope.errors.transactionDateFormat = {
-                message : 'Wrong date format data.'
-            }
-		}else if((vm.criteria.dateTo != null && !angular.isDate(vm.criteria.dateTo)) || !angular.isDefined(vm.criteria.dateTo)){
-			valid = false;
-			$scope.errors.transactionDateFormat = {
-                message : 'Wrong date format data.'
-            }
-		}else{
-			var isDateFromAfterDateTo = moment(vm.criteria.dateFrom).isAfter(vm.criteria.dateTo);
-	    	
-            if(isDateFromAfterDateTo){
-                valid = false;
-                $scope.errors.transactionDateFormat = {
-                    message : 'From date must be less than or equal to To date.'
-                }
-            }
-		}
-    	
-    	return valid;
-    }
-
     vm.viewTransaction = function(transactionModel){
 		$timeout(function(){		
 			PageNavigation.nextStep('/payment-transaction/view', 
@@ -435,5 +498,13 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
             log.error("Load transaction fail!");
         });
     }
+
+    vm.openCalendarDateFrom = function() {
+		vm.openDateFrom = true;
+	}
+
+	vm.openCalendarDateTo = function() {
+		vm.openDateTo = true;
+	}
 
 } ]);

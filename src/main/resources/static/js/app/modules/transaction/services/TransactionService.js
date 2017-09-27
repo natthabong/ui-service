@@ -441,6 +441,20 @@ function transactionService($http, $q, blockUI, $window) {
 
         });
     }
+
+    function summaryStatusGroup(listTransactionModel){
+		var deffered = $q.defer();
+		$http({
+			url: 'api/v1/list-transaction/summary-status-group',
+			method: 'POST',
+			data: listTransactionModel
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});	
+		return deffered;
+	}
     
     return {
         getSponsorPaymentDate: getSponsorPaymentDate,
@@ -462,6 +476,7 @@ function transactionService($http, $q, blockUI, $window) {
         getAvailableMaturityDates: getAvailableMaturityDates,
         getTransactionDialogErrorUrl: getTransactionDialogErrorUrl,
         getTransaction: getTransaction,
-        generateEvidenceForm : generateEvidenceForm
+        generateEvidenceForm : generateEvidenceForm,
+        summaryStatusGroup : summaryStatusGroup
 	}
 }
