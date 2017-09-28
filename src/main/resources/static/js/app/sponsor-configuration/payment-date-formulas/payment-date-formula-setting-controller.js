@@ -130,8 +130,14 @@ app.controller('PaymentDateFormulaSettingController', [
 		vm.manageAll=false;
 		
 		var sponsorId = $rootScope.sponsorId;
+		var organize = {
+			organizeId : sponsorId
+		}
 
 		var selectedItem = $stateParams.paymentDateFormulaModel;
+		if(selectedItem == null || angular.isUndefined(selectedItem)){
+			PageNavigation.gotoPage("/settings/organizes");
+		}
 		var formulaId = selectedItem.paymentDateFormulaId;
 
 		var BASE_URI = 'api/v1/organize-customers/' + sponsorId
