@@ -23,11 +23,7 @@
 					</div>
 					<div class="col-xs-7 col-md-8 col-sm-8">
 						<span id="transaction-no-label" class="gec-pop-up-font-size"
-							ng-bind="ctrl.transaction.transactionNo"></span> &nbsp;&nbsp; <a
-							style="cursor: pointer;"
-							ng-click="ctrl.printEvidenceFormAction()"
-							ng-show="ctrl.showEvidenceForm"><i class="fa fa-print"
-							aria-hidden="true"></i></a>
+							ng-bind="ctrl.transaction.transactionNo"></span>
 					</div>
 				</div>
 				<div class="row">
@@ -36,7 +32,12 @@
 					</div>
 					<div class="col-xs-7 col-md-8 col-sm-8">
 						<span id="result-label"
-							ng-bind="ctrl.transaction.statusMessageKey | translate"></span>
+							ng-bind="ctrl.transaction.statusMessageKey | translate"></span> 
+							&nbsp;&nbsp; 
+						<a id="evident-form-button" style="cursor: pointer;"
+							ng-click="ctrl.printEvidenceFormAction()"
+							ng-show="ctrl.showEvidenceForm"><i class="fa fa-print"
+							aria-hidden="true"></i></a>
 					</div>
 				</div>
 			</div>
