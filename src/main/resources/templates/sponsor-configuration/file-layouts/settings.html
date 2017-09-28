@@ -192,7 +192,7 @@
 											<td class="text-center" style="width: 15%"
 												ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"><scf-input-text
 													id="header-end-index-{{$index+1}}-textbox"
-													value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
+													value="{{(record.startIndex==null||record.dataLength==null||record.startIndex=='NaN'||record.dataLength=='NaN')?null:((record.startIndex-0 + (record.dataLength-0)-1 )|number)}}"
 													ng-disabled="!ctrl.manageAll" style="text-align: right;"
 													maxlength="3" /></td>
 											<td class="text-center" style="width: 16%"><scf-button
@@ -303,7 +303,7 @@
 														maxlength="3" /></td>
 												<td class="text-center" style="width: 15%"
 													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"><scf-input-text
-														value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
+														value="{{(record.startIndex==null||record.dataLength==null||record.startIndex=='NaN'||record.dataLength=='NaN')?null:((record.startIndex-0 + (record.dataLength-0)-1 )|number)}}"
 														id="detail-end-index-{{$index+1}}-textbox"
 														ng-disabled="!ctrl.manageAll" style="text-align: right;"
 														maxlength="3" /></td>
@@ -500,7 +500,7 @@
 												<td class="text-center" style="width: 15%"
 													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"><scf-input-text
 														id="footer-end-index-{{$index+1}}-textbox"
-														value="{{(record.startIndex==null||record.dataLength==null||record.startIndex==''||record.dataLength=='')?'':((record.startIndex-0 + (record.dataLength-0))-1|number)}}"
+														value="{{(record.startIndex==null||record.dataLength==null||record.startIndex=='NaN'||record.dataLength=='NaN')?null:((record.startIndex-0 + (record.dataLength-0)-1 )|number)}}"
 														ng-disabled="!ctrl.manageAll" style="text-align: right;"
 														maxlength="3" /></td>
 												<td class="text-center" style="width: 16%"><scf-button
