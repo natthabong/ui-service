@@ -13,9 +13,9 @@ module.controller('FileLayoutController', [
 	'blockUI', 'FileLayoutService',
 	'FILE_TYPE_ITEM',
 	'DELIMITER_TYPE_TEM',
-	'CHARSET_ITEM', 'Service',
+	'CHARSET_ITEM', 'Service', 'MappingDataService',
 	function (log, $rootScope, $scope, $state, $stateParams, $injector, ngDialog, UIFactory, PageNavigation,
-		blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, Service) {
+		blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, Service, MappingDataService) {
 
 		var vm = this;
 
@@ -66,6 +66,19 @@ module.controller('FileLayoutController', [
 			value: null,
 			label: 'Please select'
 		}];
+		
+		
+		vm.expectedInDataList = [];
+		var loadMappingData = function(){
+			var accountingTransactionType = vm.processType == 'AP_DOCUMENT' ? "PAYABLE" : "RECEIVABLE";
+			var deffered = MappingDataService.loadMappingData(ownerId,accountingTransactionType);
+			deffered.promise.then(function(response) {
+				vm.expectedInDataList = response.data;
+			}).catch(function(response) {
+				log.error("Can not load mapping data!");
+			});
+		}		
+		loadMappingData();
 
 		vm.delimitersDropdown = [];
 		vm.dataTypeDropdown = angular.copy(defaultDropdown);
@@ -432,7 +445,7 @@ module.controller('FileLayoutController', [
 
 		vm.displayLayout = false;
 
-		var setup = function () {
+		var setup = function () {			
 			loadDelimiters();
 			loadFileEncode();
 			loadDataTypes();
@@ -583,6 +596,9 @@ module.controller('FileLayoutController', [
 							if (value != null) {
 								angular.copy(value, record);
 								record.completed = true;
+								if(value.dataType='TEXT'){
+									loadMappingData();
+								}
 							}
 						}
 					});
@@ -887,9 +903,13 @@ module.controller('FileLayoutController', [
 
 		vm.displayExample = function (record) {
 			var msg = '';
-			var dataType = vm.dataTypeByIds[record.documentFieldId];
-			if (angular.isDefined(dataType)) {
-				msg = $injector.get('FileLayerExampleDisplayService')[dataType.dataType + '_DisplayExample'](record, dataType);
+			var dataTypeObject = vm.dataTypeByIds[record.documentFieldId];
+			if (angular.isDefined(dataTypeObject)) {
+				if(dataTypeObject.dataType == 'TEXT'){
+					msg = $injector.get('FileLayerExampleDisplayService')[dataTypeObject.dataType + '_DisplayExample'](record, dataTypeObject, vm.expectedInDataList);
+				}else{
+					msg = $injector.get('FileLayerExampleDisplayService')[dataTypeObject.dataType + '_DisplayExample'](record, dataTypeObject);
+				}
 			}
 
 			return msg;

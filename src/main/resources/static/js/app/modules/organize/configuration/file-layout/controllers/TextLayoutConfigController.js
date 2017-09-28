@@ -16,14 +16,11 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 		var footerItems = angular.copy($scope.ngDialogData.footerItems);
 		var index = angular.copy($scope.ngDialogData.index);
 		var fieldList = [];
-		
-		console.log(vm.model);
-		
+				
 		var validationTypeText = "IN_MAPPING_TYPE_TEXT";
 		var validationTypeSignFlag = "IN_MAPPING_TYPE_SIGN_FLAG";
 
 		var expectedInMapping =  (vm.model.validationType == validationTypeText || vm.model.validationType == validationTypeSignFlag);
-		console.log(expectedInMapping);
 		
 		vm.expected = angular.isDefined(vm.model.expectedValue) && vm.model.expectedValue != null ? true : false;
 		vm.openExpectedValueField = expectedInMapping  ? false : true;
@@ -117,7 +114,7 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 					vm.mappingType = data.mappingType;
 				}
 			})
-			console.log(vm.mappingType);
+
 			if(vm.mappingType == 'TEXT_MAPPING'){
 				vm.model.validationType = validationTypeText;
 			}else if(vm.mappingType == 'SIGN_FLAG_MAPPING'){

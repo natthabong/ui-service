@@ -1,6 +1,7 @@
 'use strict';
 var module = angular.module('gecscf.organize.configuration.fileLayout');
-module.factory('FileLayerExampleDisplayService', [ '$filter', function($filter) {
+module.factory('FileLayerExampleDisplayService', ['$filter', function($filter) {
+	
 	return {
 		TEXT_DisplayExample : TEXT_DisplayExample,
 		DOCUMENT_NO_DisplayExample : DOCUMENT_NO_DisplayExample,
@@ -15,12 +16,29 @@ module.factory('FileLayerExampleDisplayService', [ '$filter', function($filter) 
 		MATCHING_REF_DisplayExample : MATCHING_REF_DisplayExample
 	}
 
-	function TEXT_DisplayExample(record, config) {
+	function TEXT_DisplayExample(record, config, mappingDataList) {
 		var displayMessage = config.detailExamplePattern;
 		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
+		var hasValidationType = !(angular.isUndefined(record.validationType) || record.validationType === null);
+		
 		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
-		displayMessage = displayMessage.replace('{expectedValue}', (hasExpected ? record.expectedValue : ''));
-		displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));
+		if(hasValidationType){	
+			displayMessage = displayMessage.replace('Expected value', 'Expected in');	
+			if(mappingDataList != null){
+				for (var i = 0; i < mappingDataList.length; i++) { 
+					if(mappingDataList[i].mappingDataId == record.expectedValue){
+						displayMessage = displayMessage.replace('{expectedValue}', mappingDataList[i].mappingDataName);
+					}
+				}
+			}else{
+				displayMessage = displayMessage.replace('{expectedValue}', 'Mapping data');
+			}
+			displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);	
+		}else{
+			displayMessage = displayMessage.replace('{expectedValue}', (hasExpected ? record.expectedValue : ''));		
+			displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));			
+		}
+		
 		return displayMessage;
 	}
 	
