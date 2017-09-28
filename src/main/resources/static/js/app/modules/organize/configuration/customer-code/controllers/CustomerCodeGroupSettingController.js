@@ -374,6 +374,7 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	};
 	
 	vm.customerCodeSetup = function(model){
+		vm.isAddMoreCustomerCode = false;
 		vm.isNewCusotmerCode = angular.isUndefined(model);
 		if(!vm.isNewCusotmerCode){
 			vm.isNewCusotmerCode = angular.isUndefined(model.customerCode);
