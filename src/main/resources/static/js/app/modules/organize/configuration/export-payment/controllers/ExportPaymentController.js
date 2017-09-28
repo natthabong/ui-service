@@ -288,7 +288,6 @@ module.controller('ExportPaymentController', [
             dataTypeDropdowns.forEach(function (obj) {
                 if (documentFieldId == obj.documentFieldId) {
                     var dataType = obj.dataType;
-                    console.log(dataType);
                     var dialog = ngDialog.open({
                         id: 'layout-setting-dialog-' + index,
                         template: obj.configUrl,
@@ -341,7 +340,6 @@ module.controller('ExportPaymentController', [
         }
 
         $scope.confirmSave = function (sponsorLayout) {
-            console.log(sponsorLayout);
             var fileLayoutDiferred = null;
             if(isCreate){
                 fileLayoutDiferred = FileLayoutService.createFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT',sponsorLayout);
@@ -362,6 +360,10 @@ module.controller('ExportPaymentController', [
                 } else {
                     vm.model.delimeter = vm.delimeter;
                 }
+                vm.model.wrapper = '"';
+                vm.model.headerRecordType = null;
+				vm.model.detailRecordType = null;
+				vm.model.footerRecordType = null;
             }
             sponsorLayout = angular.copy(vm.model);
 
@@ -463,6 +465,7 @@ module.controller('ExportPaymentController', [
                     vm.model.fileExtensions = 'txt';
                     vm.delimeter = ',';
                     vm.delimeterOther = '';
+                    vm.model.displayHeaderColumn = false;
 
                 }else if(vm.model.fileType == vm.fileType.delimited){
                     vm.isDelimited = true;
@@ -487,6 +490,7 @@ module.controller('ExportPaymentController', [
                     vm.isDelimited = false;
                     vm.delimeter = ',';
                     vm.delimeterOther = '';
+                    vm.model.displayHeaderColumn = false;
                 }
             }
         });

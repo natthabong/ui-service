@@ -744,13 +744,13 @@ module.controller('FileLayoutController', [
 					}
 				});
 			} else {
-
 				if (vm.model.fileType == 'CSV') {
 					if (vm.delimeter == 'Other') {
 						vm.model.delimeter = vm.delimeterOther;
 					} else {
 						vm.model.delimeter = vm.delimeter;
 					}
+					vm.model.wrapper = '"';
 					vm.model.headerRecordType = null;
 					vm.model.detailRecordType = null;
 					vm.model.footerRecordType = null;
@@ -832,7 +832,6 @@ module.controller('FileLayoutController', [
 		}
 
 		$scope.confirmSave = function (sponsorLayout) {
-			console.log(sponsorLayout);
 			if(vm.newMode){
 				
 				return FileLayoutService.createFileLayout(sponsorLayout.ownerId, sponsorLayout.processType, sponsorLayout.integrateType, sponsorLayout);
