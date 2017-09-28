@@ -582,11 +582,11 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				resolve: load(['js/app/modules/monitor/view-batch-job-tracking-message-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/customer-registration/account',{
 				url: '/customer-registration/account',
-				controller: 'AccountController',
+				controller: 'AccountListController',
 				controllerAs: 'ctrl',
 				templateUrl: '/account',
 				params: { params: [], backAction: false, criteria : null, organize: null},
-				resolve: load(['js/app/modules/account/controllers/AccountListController.js', 'js/app/modules/account/services/AccountService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: load(['js/app/modules/account/controllers/AccountListController.js', 'js/app/modules/account/controllers/AccountController.js', 'js/app/modules/account/services/AccountService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/customer-registration/trading-partners',{
 				url: '/customer-registration/trading-partners',
 				controller: 'TradingPartnerListController',

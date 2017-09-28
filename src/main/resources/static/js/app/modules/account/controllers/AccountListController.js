@@ -1,5 +1,5 @@
 var accountModule = angular.module('gecscf.account');
-accountModule.controller('AccountController', [
+accountModule.controller('AccountListController', [
 		'AccountService',
 		'AccountStatus',
 		'UIFactory',
@@ -17,7 +17,7 @@ accountModule.controller('AccountController', [
 				suspend : undefined,
 				accountType: 'CURRENT_SAVING'
 			};
-
+			
 			vm.organize = $stateParams.organize || null;
 
 			// The pagingController is a tool for navigate the
@@ -47,12 +47,14 @@ accountModule.controller('AccountController', [
 							});
 						});
 			}
-
-			vm.organizeAutoSuggestModel = UIFactory.createAutoSuggestModel({
+			
+			var orgAutoSuggest = {
 				placeholder : 'Enter organize name or code',
 				itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
 				query : searchOrganizeTypeHead
-			});
+			}
+			
+			vm.organizeAutoSuggestModel = UIFactory.createAutoSuggestModel(orgAutoSuggest);
 
 			// Data table model
 			vm.dataTable = {
