@@ -45,11 +45,6 @@ public class ConfigDataTypeController {
 		return NUMERIC_FIELD;
 	}
 	
-	@RequestMapping(path = "/payment-amount", method = RequestMethod.GET)
-	public String getPaymentAmountFieldConfig() {
-		return PAYMENT_AMOUNT_FIELD;
-	}
-	
 	@RequestMapping(path = "/document-type", method = RequestMethod.GET)
 	public String getDocumentTypeFieldConfig() {
 		return DOCUMENT_TYPE_FIELD;

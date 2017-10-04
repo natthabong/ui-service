@@ -7,7 +7,7 @@ module.controller('NumericLayoutConfigController',
 
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
-
+	
 	vm.config = $scope.ngDialogData.config;
 	var headerItems = $scope.ngDialogData.headerItems;
 	var detailItems = $scope.ngDialogData.detailItems;
@@ -151,7 +151,7 @@ module.controller('NumericLayoutConfigController',
 			vm.loadSignFlagFieldList();
 			vm.numericeModel.signFlagId = vm.signFlagFieldDropdown[0].value;
 		}else if(vm.numericeModel.signFlag == vm.signFlagDropdown[0].value){
-			vm.model.signFlagTypeFormat = 'IGNORE_PLUS';
+			vm.numericeModel.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
 		}
 	}
 	
@@ -242,12 +242,15 @@ module.controller('NumericLayoutConfigController',
 		vm.loadSignFlagFieldList();
 		vm.detailNumericList();
 		
-		if (isValueEmpty(vm.model.signFlagTypeFormat)) {
-			vm.model.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
-		}
-		
 		if (vm.model.signFlagConfig == null) {
 				vm.numericeModel.signFlag = "Within field";
+				if (isValueEmpty(vm.model.hasDecimalSign)) {
+					vm.numericeModel.signFlagTypeFormat = vm.signFlagType.ignorePlusSymbol;
+				}else if(vm.model.hasDecimalSign == true){
+					vm.numericeModel.signFlagTypeFormat = vm.signFlagType.needPlusSymbol;
+				}else{
+					vm.numericeModel.signFlagTypeFormat = vm.signFlagType.avoidPlusSymbol;
+				}
 		}else{
 			vm.numericeModel.signFlag = "Sign flag field";
 			vm.numericeModel.signFlagId = vm.model.signFlagConfig;
@@ -291,7 +294,16 @@ module.controller('NumericLayoutConfigController',
 		if(vm.numericeModel.signFlag == 'Within field'){
 			vm.model.signFlagConfig = null;
 			
+			if(vm.numericeModel.signFlagTypeFormat == vm.signFlagType.ignorePlusSymbol){
+				vm.model.hasDecimalSign = null;
+			}else if(vm.numericeModel.signFlagTypeFormat == vm.signFlagType.needPlusSymbol){
+				vm.model.hasDecimalSign = true;
+			}else{
+				vm.model.hasDecimalSign = false;
+			}
+			
 		}else{
+			vm.model.hasDecimalSign = null;
 			vm.model.signFlagTypeFormat = null;
 			vm.signFlagFieldDropdown.forEach(function(dropdownItem) {
 				if(vm.numericeModel.signFlagId == dropdownItem.value){

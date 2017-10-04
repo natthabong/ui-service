@@ -124,13 +124,13 @@ module.factory('FileLayerExampleDisplayService', ['$filter', function($filter) {
 		}
 			
 		var signFlagTypeDisplay = '';
-		if(record.signFlagConfig !=null){
+		if(record.signFlagConfig !=null && !angular.isUndefined(record.signFlagConfig)){
 			signFlagTypeDisplay = ' sign flag field ('+record.signFlagConfig.displayValue+')'
-		}else if (record.signFlagTypeFormat == "IGNORE_PLUS") {
+		}else if (record.hasDecimalSign == null) {
 			signFlagTypeDisplay = ' within field (ignore plus symbol (+) on positive value)'
-		} else if (record.signFlagTypeFormat == "NEES_PLUS") {
+		} else if (record.hasDecimalSign == true) {
 			signFlagTypeDisplay = ' within field (need plus symbol (+) on positive value)'
-		} else if (record.signFlagTypeFormat == "AVOID_PLUS") {
+		} else if (record.hasDecimalSign == false) {
 			signFlagTypeDisplay = ' within field (avoid plus symbol (+) on positive value)'
 		}
 		
@@ -141,7 +141,7 @@ module.factory('FileLayerExampleDisplayService', ['$filter', function($filter) {
 
 		displayMessage = displayMessage.replace('{numberFormat}', numberFormatDisplay);
 		
-		if(record.decimalPlace != null){
+		if(record.decimalPlace != null && record.decimalPlace.length> 0){
 			displayMessage = displayMessage.replace('{decimalPlace}', record.decimalPlace);
 		}else{
 			displayMessage = displayMessage.replace('{decimalPlace}', '0');
