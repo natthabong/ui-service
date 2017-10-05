@@ -24,6 +24,12 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         }else{
             vm.isNewMode = false;
         }
+        
+        if(currentMode == 'VIEW'){
+            vm.isViewMode = true;
+        }else{
+            vm.isViewMode = false;
+        }
 
         var currentDate = new Date();
 
@@ -137,13 +143,15 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 		}
 
         var initLoad = function() {
+        	vm.headerName = currentMode.charAt(0).toUpperCase() + currentMode.slice(1).toLowerCase()+" trade finance";
             if(currentMode=='NEW'){
-                vm.headerName = 'New trade finance';
                 vm.isNewMode = true;
                 vm.isSupplier = false;
-            }else if(currentMode=='EDIT'){
-                vm.headerName = 'Edit trade finance';
+            }else if(currentMode=='EDIT'||currentMode=='VIEW'){
                 vm.isNewMode = false;
+                if(currentMode=='VIEW'){
+                	vm.isViewMode = true;
+                }              
                 if($stateParams.data == ''){
                     log.error("Trade finance data is null.");
                     PageNavigation.gotoPage('/customer-registration/trading-partners');

@@ -1,4 +1,6 @@
 <div id="content" th:fragment="content" sec:authorize="hasAuthority('VIEW_ALL_TRADING_PARTNERS')">
+	<input type="hidden" ng-init="ctrl.canView=true"
+		sec:authorize="hasAuthority('VIEW_ALL_TRADING_PARTNERS')" />
 	<input type="hidden" ng-init="ctrl.canManage=true"
 		sec:authorize="hasAuthority('MANAGE_ALL_TRADING_PARTNERS')" />
     <div class="panel box-shadow-none content-header">

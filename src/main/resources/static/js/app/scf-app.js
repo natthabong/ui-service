@@ -629,6 +629,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/trade-finance/edit',
 				params: { mode: 'EDIT', params:'',data:''},
 				resolve: load(['js/app/modules/trading-partner/financing/controllers/TradeFinanceController.js', 'js/app/modules/account/controllers/AccountController.js', 'js/app/modules/account/services/AccountService.js', 'js/app/modules/trading-partner/financing/services/TradeFinanceService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/trade-finance/view',{
+				url: '/trade-finance/view',
+				controller: 'TradeFinanceController',
+				controllerAs: 'ctrl',
+				templateUrl: '/trade-finance/view',
+				params: { mode: 'VIEW', params:'',data:''},
+				resolve: load(['js/app/modules/trading-partner/financing/controllers/TradeFinanceController.js', 'js/app/modules/account/controllers/AccountController.js', 'js/app/modules/account/services/AccountService.js', 'js/app/modules/trading-partner/financing/services/TradeFinanceService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/my-organize/create-payment', {
 				url: '/my-organize/create-payment',
 				controller: 'CreatePaymentController',
