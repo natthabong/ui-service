@@ -1,8 +1,8 @@
 'use strict';
 var tradeFinanceModule = angular.module('gecscf.tradingPartner.financing');
 tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams','UIFactory',
-    'PageNavigation','PagingController','$log','$http','TradeFinanceService',
-    function($scope, $stateParams, UIFactory,PageNavigation, PagingController,$log,$http,TradeFinanceService) {
+    'PageNavigation','PagingController','$log','$http','$filter','TradeFinanceService',
+    function($scope, $stateParams, UIFactory,PageNavigation, PagingController,$log,$http,$filter,TradeFinanceService) {
 
         var vm = this;
         var log = $log;
@@ -42,15 +42,6 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             }
         ];
 
-        function _setAccountNoFormat(accountNo){
-            var word1 = accountNo.substring(0,3);
-            var word2 = accountNo.substring(3,4);
-            var word3 = accountNo.substring(4, 9);
-            var word4 = accountNo.substring(9,10);
-            var accountSetFormat = word1+'-'+word2+'-'+word3+'-'+word4;
-            return accountSetFormat;
-        }
-
         var queryAccount = function(value) {
 			var organizeId = null;
             if(vm.tradeFinanceModel.borrower == "BUYER"){
@@ -71,7 +62,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 				}
 			}).then(function(response) {
 				return response.data.map(function(item) {
-                    var accountNo = _setAccountNoFormat(item.accountNo);
+                    var accountNo = ($filter('accountNoDisplay')(item.accountNo));
 					item.identity = [ 'account-', item.accountNo, '-option' ].join('');
 					item.label = [ accountNo ].join('');
 					return item;
@@ -97,7 +88,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
         };
         
         var prepareAutoSuggestLabel = function(accountId,accountNo) {
-            var accountNoSetFormat = _setAccountNoFormat(accountNo);
+            var accountNoSetFormat = ($filter('accountNoDisplay')(accountNo));
             var item = {
                 accountId : accountId,
                 accountNo : accountNo,
