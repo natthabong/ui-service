@@ -1,6 +1,6 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService',
-		'PagingController', 'PageNavigation', function($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation) {
+		'PagingController', 'PageNavigation', '$filter', function($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter) {
 	
 	var vm = this;
 	var log = $log;
@@ -268,20 +268,11 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             var accounts = response.data;
             vm.isLoanPayment = false;
             accounts.forEach(function(account) {
-            	if(account.accountType == 'LOAN'){
-                    vm.accountDropDown.push({
-                        label : "Loan",
-                        value : account.accountId,
-                        item : account
-                    });
-            	}else{
-                    vm.accountDropDown.push({
-                        label : account.accountNo,
-                        value : account.accountId,
-                        item : account
-                    })
-                }
-                
+                vm.accountDropDown.push({
+                    label : ($filter('accountNoDisplay')(account.accountNo)),
+                    value : account.accountId,
+                    item : account
+                })
             });
 
             if(!$stateParams.backAction){
