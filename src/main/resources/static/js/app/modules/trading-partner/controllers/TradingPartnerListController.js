@@ -5,7 +5,8 @@ tpModule.controller('TradingPartnerListController',['$scope','$stateParams','UIF
 	function($scope, $stateParams, UIFactory,PageNavigation, PagingController,TradingPartnerService, 
 	$timeout,$cookieStore,SCFCommonService,$state) {
 		var vm = this;
-
+		vm.canManage = false;
+		
 		vm.criteria = $stateParams.criteria || {
 			organizeId : null,
 		};
@@ -68,9 +69,9 @@ tpModule.controller('TradingPartnerListController',['$scope','$stateParams','UIF
 					label : '',
 					cssTemplate : 'text-center',
 					sortData : false,
-					cellTemplate : '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+					cellTemplate : '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
 							+ '<scf-button id="{{$parent.$index + 1}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setup(data)" title="Configure a trade finance"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
-							+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteTP(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+							+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.deleteTP(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 				} ]
 		}
 		// All functions of a controller.

@@ -5,6 +5,8 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
     function($scope, $stateParams, UIFactory,PageNavigation, PagingController,ConfigTradeFinanceService,$log,SCFCommonService,$state,$cookieStore,$timeout,$filter) {
 
         var vm = this;
+        vm.canManage = false;
+        vm.canView = false;
 		var log = $log;
 		var listStoreKey = 'config';
 
@@ -36,18 +38,14 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 					id : 'finance-account-{value}-label',
 					sortable : false,
 					dataRenderer: function(record){
-						var word1 = record.accountNo.substring(0,3);
-						var word2 = record.accountNo.substring(3,4);
-						var word3 = record.accountNo.substring(4, 9);
-						var word4 = record.accountNo.substring(9,10);
-						var accountNo = word1+'-'+word2+'-'+word3+'-'+word4;
-						return accountNo;
+						return ($filter('accountNoDisplay')(record.accountNo));
 					}
 				},{
 					cssTemplate : 'text-center',
 					sortable : false,
-					cellTemplate : '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
-								+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteTradeFinance(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+					cellTemplate : '<scf-button id="{{$parent.$index + 1}}-view-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canView" ng-click="ctrl.view(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
+								+ '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+								+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.deleteTradeFinance(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 				} ]
 		}
 
@@ -113,6 +111,16 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 			PageNavigation.gotoPage('/trade-finance/edit',param,param);
 		}
 		
+		vm.view = function(data){
+			SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+			storeCriteria();
+			var param = {
+				params: vm.financeModel,
+				data : data
+			}
+			PageNavigation.gotoPage('/trade-finance/view',param,param);
+		}
+		
 		vm.deleteTradeFinance = function(record){
 			var preCloseCallback = function(confirm) {
 				 getFinanceInfo(vm.financeModel.sponsorId, vm.financeModel.supplierId);
@@ -151,13 +159,3 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 			});
 		}
     } ]);
-tradeFinanceModule.filter('borrowDisplay', function() {
-    return function(borrowerType, borrowerName) {
-        if(borrowerType == 'SUPPLIER'){
-        	return 'Supplier'+ ': ' + borrowerName;
-        }else if(borrowerType == 'BUYER'){
-        	return "Buyer"+ ': ' + borrowerName;
-        }
-        return borrowerType+ ': ' + borrowerName;
-    };
-});
