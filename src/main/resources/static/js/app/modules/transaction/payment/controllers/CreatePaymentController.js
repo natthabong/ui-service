@@ -267,25 +267,34 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         deffered.promise.then(function(response) {
             var accounts = response.data;
             vm.isLoanPayment = false;
-            accounts.forEach(function(account) {
-                vm.accountDropDown.push({
-                    label : ($filter('accountNoDisplay')(account.accountNo)),
-                    value : account.accountId,
-                    item : account
-                })
+            
+            var loanAccountIndex = 0;
+            accounts.forEach(function(account, index) {
+            	var a = {
+                        label : ($filter('accountNoDisplay')(account.accountNo)),
+                        value : account.accountId,
+                        item : account
+                    };
+            	if(account.accountType == 'LOAN'){
+            		loanAccountIndex = index;
+            		vm.accountDropDown.unshift(a)  
+            	}else{
+            		vm.accountDropDown.push(a)
+            	}
+                
             });
 
             if(!$stateParams.backAction){
             	if(accounts.length > 0){
-            		vm.transactionModel.payerAccountId = accounts[0].accountId;
-                    vm.transactionModel.payerAccountNo = accounts[0].accountNo;
-                    vm.tradingpartnerInfoModel.available = accounts[0].remainingAmount - accounts[0].pendingAmount;
-                    vm.tradingpartnerInfoModel.tenor = accounts[0].tenor;
-                    vm.tradingpartnerInfoModel.interestRate = accounts[0].interestRate;
+            		vm.transactionModel.payerAccountId = accounts[loanAccountIndex].accountId;
+                    vm.transactionModel.payerAccountNo = accounts[loanAccountIndex].accountNo;
+                    vm.tradingpartnerInfoModel.available = accounts[loanAccountIndex].remainingAmount - accounts[loanAccountIndex].pendingAmount;
+                    vm.tradingpartnerInfoModel.tenor = accounts[loanAccountIndex].tenor;
+                    vm.tradingpartnerInfoModel.interestRate = accounts[loanAccountIndex].interestRate;
             	}
             }
             
-            if(accounts.length > 0 && accounts[0].accountType =='LOAN'){
+            if(accounts.length > 0 && accounts[loanAccountIndex].accountType =='LOAN'){
            	 	 vm.transactionModel.transactionMethod = 'TERM_LOAN';
 				 vm.isLoanPayment = true;
 				 _loadMaturityDate();
