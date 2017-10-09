@@ -221,7 +221,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
             }else{
             	 var params = {
             		bankCode: vm.transactionApproveModel.transaction.bankCode,
-            		transactionType: 'DRAWDOWN',
+            		transactionMethod: vm.transactionApproveModel.transaction.transactionMethod,
             		transactionDate: vm.transactionApproveModel.transaction.transactionDate
             	 };
             	 var deffered = Service.requestURL('/api/transaction/verify-transaction-hour', params);
