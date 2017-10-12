@@ -568,6 +568,8 @@
 	"TEXT_MAPPING" : "Text mapping",
 	"SIGN_FLAG_MAPPING" : "Sign flag mapping",
 	"payment_fail" : "Payment fail",
+	"fail_to_payment": "Fail to pay",
+	"FAIL_TO_PAYMENT": "Fail to pay",
 	
 	"Loan account": "Loan account",
 	"SUPPLIER_FINANCING" : "Supplier financing",

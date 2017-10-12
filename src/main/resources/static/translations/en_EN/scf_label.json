@@ -219,6 +219,8 @@
 	"REJECT_INCOMPLETE": "Reject incomplete",
 	"wait_for_payment_result": "Wait for payment result",
 	"WAIT_FOR_PAYMENT_RESULT": "Wait for payment result",
+	"fail_to_payment": "Fail to pay",
+	"FAIL_TO_PAYMENT": "Fail to pay",
 	
 	"_comment": "Page Verify Transaction",
 	"Confirm approve ?": "Confirm approve ?",
