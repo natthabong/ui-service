@@ -27,38 +27,26 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         }
 
         vm.documentItems = [{
-            optionVarcharField1: "",
-            optionVarcharField2: "",
-            netAmount: ""
+            optionVarcharField1: null,
+            optionVarcharField2: null,
+            netAmount: null
         }];
 
-        vm.removeDocumentItem = function(documentItem, item) {
-
+        vm.removeDocumentItem = function(documentItems, item) {
+            var index = documentItems.indexOf(item);
+            documentItems.splice(index, 1);
         }
 
-        // function _loadSuppliers(dashboardParams) {
-        //     var deffered = TransactionService.getSuppliers('RECEIVABLE');
-        //     deffered.promise.then(function(response) {
-        //         vm.suppliers = [];
-        //         var _suppliers = response.data;
-        //         if (_suppliers !== undefined) {
-
-        //             _suppliers.forEach(function(supplier) {
-        //                 var selectObj = {
-        //                     label: supplier.supplierName,
-        //                     value: supplier.supplierId
-        //                 }
-        //                 vm.suppliers.push(selectObj);
-        //             });
-        //         }
-        //     }).catch(function(response) {
-        //         log.error(response);
-        //     });
-        //     return deffered;
-        // };
+        vm.addItem = function() {
+            var documentItem = {
+                optionVarcharField1: null,
+                optionVarcharField2: null,
+                netAmount: null
+            }
+            vm.documentItems.push(documentItem);
+        }
 
         var init = function() {
-            // _loadSuppliers();
 
         }();
     }

@@ -47,7 +47,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat-start="record in ctrl.documentItems track by $index" ng-class="$even?'tr-odd':'tr-even'">
+                                                <tr ng-repeat="record in ctrl.documentItems track by $index" ng-class="$even?'tr-odd':'tr-even'">
                                                     <td class="text-right" style="width: 3%"></td>
                                                     <td class="text-right" style="width: 3%"><label id="$rowNo-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label></td>
                                                     <td class="text-center" style="width: 30%">
@@ -64,10 +64,16 @@
                                                         </scf-button>
                                                     </td>
                                                 </tr>
-                                                <tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
-                                                </tr>
+                                                <!--<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
+                                                </tr>-->
                                             </tbody>
                                         </table>
+
+                                        <div>
+                                            <div class="col-md-12">
+                                                <button id="add-item-button" type="button" class="btn btn-default" ng-click="ctrl.addItem()" ng-bind="'Add' | translate">Add</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
