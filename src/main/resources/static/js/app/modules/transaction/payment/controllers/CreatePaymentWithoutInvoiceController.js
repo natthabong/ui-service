@@ -1,7 +1,7 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService',
-    'PagingController', 'PageNavigation', '$filter','CreatePaymentService',
-    function($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter,CreatePaymentService) {
+    'PagingController', 'PageNavigation', '$filter', 'CreatePaymentService',
+    function($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, CreatePaymentService) {
 
         var vm = this;
         var _criteria = {};
@@ -40,8 +40,25 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             maturityDate: null
         }
 
-        vm.supplierChange = function() {
+        var _checkCreatePaymentType = function(supplierId) {
+            var result = $.grep(_suppliers, function(td) { return td.supplierId == supplierId; });
+            if (result[0].createTransactionType !== undefined && result[0].createTransactionType == 'WITH_INVOICE') {
+                var params = {
+                    tradingpartnerInfoModel: _suppliers,
+                    criteria: {
+                        accountingTransactionType: 'RECEIVABLE',
+                        documentStatus: 'NEW',
+                        supplierId: result[0].supplierId,
+                        buyerId: ownerId,
+                        showOverdue: false
+                    }
+                }
+                PageNavigation.gotoPage('/my-organize/create-payment', params);
+            }
+        }
 
+        vm.supplierChange = function() {
+            _checkCreatePaymentType(vm.criteria.supplierId);
         }
 
         vm.removeDocumentItem = function(documents, item) {
@@ -59,7 +76,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         }
 
         function _calculateTransactionAmount(documentSelects) {
-        	vm.transactionModel.transactionAmount = CreatePaymentService.calculateTransactionAmount(documentSelects);
+            vm.transactionModel.transactionAmount = CreatePaymentService.calculateTransactionAmount(documentSelects);
         }
 
         var init = function() {

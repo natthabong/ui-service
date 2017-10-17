@@ -78,7 +78,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         function _calculateTransactionAmount(documentSelects) {
-        	vm.transactionModel.transactionAmount = CreatePaymentService.calculateTransactionAmount(documentSelects);
+            vm.transactionModel.transactionAmount = CreatePaymentService.calculateTransactionAmount(documentSelects);
         }
 
         function _validateForSearch() {
@@ -391,7 +391,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     tradingpartnerInfoModel: tradingPartnerList,
                     criteria: {
                         accountingTransactionType: 'RECEIVABLE',
-                        supplierId: tradingPartnerList[0].supplierId,
+                        supplierId: result[0].supplierId,
                         buyerId: ownerId
                     }
                 }
