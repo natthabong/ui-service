@@ -24,16 +24,17 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                 }
                 vm.suppliers.push(selectObj);
             });
-            console.log(_suppliers);
         }
 
-        vm.documentItems = [];
-        var document = {
+        vm.documentItems = [{
             optionVarcharField1: "",
             optionVarcharField2: "",
             netAmount: ""
+        }];
+
+        vm.removeDocumentItem = function(documentItem, item) {
+
         }
-        vm.documentItems.push(document);
 
         // function _loadSuppliers(dashboardParams) {
         //     var deffered = TransactionService.getSuppliers('RECEIVABLE');
