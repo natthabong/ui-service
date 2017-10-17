@@ -1,7 +1,7 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService',
-    'PagingController', 'PageNavigation', '$filter',
-    function($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter) {
+    'PagingController', 'PageNavigation', '$filter','CreatePaymentService',
+    function($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter,CreatePaymentService) {
 
         var vm = this;
         var _criteria = {};
@@ -56,6 +56,10 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                 netAmount: null
             }
             vm.documents.push(document);
+        }
+
+        function _calculateTransactionAmount(documentSelects) {
+        	vm.transactionModel.transactionAmount = CreatePaymentService.calculateTransactionAmount(documentSelects);
         }
 
         var init = function() {
