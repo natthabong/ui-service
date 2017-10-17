@@ -26,24 +26,36 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             });
         }
 
-        vm.documentItems = [{
+        vm.documents = [{
             optionVarcharField1: null,
             optionVarcharField2: null,
             netAmount: null
         }];
 
-        vm.removeDocumentItem = function(documentItems, item) {
-            var index = documentItems.indexOf(item);
-            documentItems.splice(index, 1);
+        vm.transactionModel = $stateParams.transactionModel || {
+            sponsorId: ownerId,
+            transactionAmount: 0.0,
+            documents: [],
+            transactionDate: null,
+            maturityDate: null
+        }
+
+        vm.supplierChange = function() {
+
+        }
+
+        vm.removeDocumentItem = function(documents, item) {
+            var index = documents.indexOf(item);
+            documents.splice(index, 1);
         }
 
         vm.addItem = function() {
-            var documentItem = {
+            var document = {
                 optionVarcharField1: null,
                 optionVarcharField2: null,
                 netAmount: null
             }
-            vm.documentItems.push(documentItem);
+            vm.documents.push(document);
         }
 
         var init = function() {

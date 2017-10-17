@@ -47,7 +47,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="record in ctrl.documentItems track by $index" ng-class="$even?'tr-odd':'tr-even'">
+                                                <tr ng-repeat="record in ctrl.documents track by $index" ng-class="$even?'tr-odd':'tr-even'">
                                                     <td class="text-right" style="width: 3%"></td>
                                                     <td class="text-right" style="width: 3%"><label id="$rowNo-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label></td>
                                                     <td class="text-center" style="width: 30%">
@@ -57,15 +57,13 @@
                                                         <scf-input-text id="remark-{{$index+1}}-textbox" ng-model="record.optionVarcharField2" maxlength="255" />
                                                     </td>
                                                     <td class="text-center" style="width: 20%">
-                                                        <scf-input-text id="payment-amount-{{$index+1}}-textbox" ng-model="record.netAmount" maxlength="20" />
+                                                        <scf-input-text id="payment-amount-{{$index+1}}-textbox" placeholder="0.00" ng-model="record.netAmount" maxlength="20" />
                                                     </td>
                                                     <td class="text-center" style="width: 14%">
-                                                        <scf-button type="button" id="delete-{{$index+1}}-button" class="btn-default gec-btn-action" ng-click="ctrl.removeDocumentItem(ctrl.documentItems,record)"><i class="fa fa-trash" aria-hidden="true"></i>
+                                                        <scf-button type="button" id="delete-{{$index+1}}-button" class="btn-default gec-btn-action" ng-click="ctrl.removeDocumentItem(ctrl.documents,record)"><i class="fa fa-trash" aria-hidden="true"></i>
                                                         </scf-button>
                                                     </td>
                                                 </tr>
-                                                <!--<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
-                                                </tr>-->
                                             </tbody>
                                         </table>
 
