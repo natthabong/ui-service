@@ -1,7 +1,7 @@
 var txnMod = angular.module('gecscf.transaction');
-txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService',
+txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService', 'CreatePaymentService',
     'PagingController', 'PageNavigation', '$filter',
-    function($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter) {
+    function($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, CreatePaymentService, PagingController, PageNavigation, $filter) {
 
         //<-------------------------------------- declare variable ---------------------------------------->
         var vm = this;
@@ -78,11 +78,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         function _calculateTransactionAmount(documentSelects) {
-            var sumAmount = 0;
-            documentSelects.forEach(function(document) {
-                sumAmount += document.netAmount;
-            });
-            vm.transactionModel.transactionAmount = sumAmount;
+        	vm.transactionModel.transactionAmount = CreatePaymentService.calculateTransactionAmount(documentSelects);
         }
 
         function _validateForSearch() {
