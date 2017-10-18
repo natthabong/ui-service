@@ -207,6 +207,30 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         	_loadAccount(ownerId, vm.criteria.supplierId);
         	_loadPaymentDate();
         }();
+
+        var validateDescription = function(){
+            var valid = true;
+            vm.errorDisplay = false;
+            if($scope.documents == [] || $scope.documents.length == 0){
+                valid = false;
+                vm.errorDisplay = true;
+                $scope.error.message = "Document is required."
+            }
+
+            return valid;
+        }
+
+        vm.nextStep = function(){
+            console.log($scope.documents);
+            // if(validateDescription){
+            //     PageNavigation.nextStep('/create-payment/validate-submit', objectToSend, {
+            //         transactionModel: vm.transactionModel,
+            //         tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
+            //         criteria: _criteria,
+            //         documentSelects: vm.documentSelects
+            //     });
+            // }
+        }
     }
 ]).constant('formatFactory', {
     currency: {
@@ -221,8 +245,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         restrict: 'A',
         require: ['ngModel'],
         link: function (scope, element, attrs, ctrls) {
-            console.log(scope);
-            console.log(ctrls)
             var ngModelCtrl = ctrls[0],
                 thisFormat = formatFactory[attrs.format];
             
