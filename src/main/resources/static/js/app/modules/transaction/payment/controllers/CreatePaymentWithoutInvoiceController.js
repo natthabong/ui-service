@@ -77,46 +77,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             }
         }
 
-        vm.accountChange = function () {
-            var accountId = vm.transactionModel.payerAccountId;
-
-            vm.accountDropDown.forEach(function (account) {
-                if (accountId == account.item.accountId) {
-                    vm.transactionModel.payerAccountNo = account.item.accountNo;
-                    vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
-                    vm.tradingpartnerInfoModel.tenor = account.item.tenor;
-                    vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
-
-                    if (account.item.accountType == 'LOAN') {
-                        vm.transactionModel.transactionMethod = 'TERM_LOAN';
-                        vm.isLoanPayment = true;
-                        _loadMaturityDate();
-                    } else {
-                        vm.transactionModel.transactionMethod = 'DEBIT';
-                        vm.isLoanPayment = false;
-                    }
-                }
-            });
-        }
-
-        vm.supplierChange = function () {
-            _checkCreatePaymentType(vm.criteria.supplierId);
-        }
-
-        vm.removeDocumentItem = function (documents, item) {
-            var index = documents.indexOf(item);
-            documents.splice(index, 1);
-        }
-
-        vm.addItem = function () {
-            var document = {
-                optionVarcharField1: null,
-                optionVarcharField2: null,
-                netAmount: null
-            }
-            $scope.documents.push(document);
-        }
-
         function _loadMaturityDate() {
             vm.maturityDateDropDown = [];
             if (angular.isDefined(vm.paymentModel) && vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
@@ -221,10 +181,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             });
         }
 
-        vm.paymentDateChange = function () {
-            _loadMaturityDate();
-        }
-
 
         var init = function () {
             _loadAccount(ownerId, vm.criteria.supplierId);
@@ -266,12 +222,14 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             tradingpartnerInfoModel: vm.tradingpartnerInfoModel
         };
 
+        // <---------------------------------- User Action ---------------------------------->
+
         vm.nextStep = function () {
             if (validate()) {
                 vm.transactionModel.documents = $scope.documents;
+                vm.transactionModel.supplierName = 
                 vm.tradingpartnerInfoModel.createTransactionType = createTransactionType;
-                console.log(vm.transactionModel);
-                console.log(vm.tradingpartnerInfoModel);
+
                 PageNavigation.nextStep('/create-payment/validate-submit', objectToSend, {
                     transactionModel: vm.transactionModel,
                     tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
@@ -280,6 +238,52 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                 });
             }
         }
+
+        vm.supplierChange = function () {
+            _checkCreatePaymentType(vm.criteria.supplierId);
+        }
+
+        vm.removeDocumentItem = function (documents, item) {
+            var index = documents.indexOf(item);
+            documents.splice(index, 1);
+        }
+
+        vm.addItem = function () {
+            var document = {
+                optionVarcharField1: null,
+                optionVarcharField2: null,
+                netAmount: null
+            }
+            $scope.documents.push(document);
+        }
+
+        vm.paymentDateChange = function () {
+            _loadMaturityDate();
+        }
+
+        vm.accountChange = function () {
+            var accountId = vm.transactionModel.payerAccountId;
+
+            vm.accountDropDown.forEach(function (account) {
+                if (accountId == account.item.accountId) {
+                    vm.transactionModel.payerAccountNo = account.item.accountNo;
+                    vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
+                    vm.tradingpartnerInfoModel.tenor = account.item.tenor;
+                    vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
+
+                    if (account.item.accountType == 'LOAN') {
+                        vm.transactionModel.transactionMethod = 'TERM_LOAN';
+                        vm.isLoanPayment = true;
+                        _loadMaturityDate();
+                    } else {
+                        vm.transactionModel.transactionMethod = 'DEBIT';
+                        vm.isLoanPayment = false;
+                    }
+                }
+            });
+        }
+
+        // <---------------------------------- User Action ---------------------------------->
     }
 ]).constant('formatFactory', {
     currency: {
