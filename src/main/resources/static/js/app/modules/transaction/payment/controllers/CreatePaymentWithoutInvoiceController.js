@@ -210,25 +210,29 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             return total;
         };
 
-        var validate = function () {
-            var valid = true;
-            vm.errorDisplay = false;
-            if ($scope.documents == [] || $scope.documents.length == 0) {
-                valid = false;
-                vm.errorDisplay = true;
-                $scope.errors.message = "Document is required."
-            } else {
-                $scope.documents.forEach(function (document) {
-                    if (document.optionVarcharField1 == null || document.optionVarcharField1 == "") {
-                        valid = false;
-                        vm.errorDisplay = true;
-                        $scope.errors.message = "Description is required."
-                    }
-                });
-            }
-
-            return valid;
-        }
+//        var validate = function () {
+//            var valid = true;
+//            vm.errorDisplay = false;
+//            if ($scope.documents == [] || $scope.documents.length == 0) {
+//                valid = false;
+//                vm.errorDisplay = true;
+//                $scope.errors.message = "Document is required."
+//            } else {
+//                $scope.documents.forEach(function (document) {
+//                    if (document.optionVarcharField1 == null || document.optionVarcharField1 == "") {
+//                        valid = false;
+//                        vm.errorDisplay = true;
+//                        $scope.errors.message = "Description is required."
+//                    }else if (document.netAmount == null || document.netAmount == "") {
+//                        valid = false;
+//                        vm.errorDisplay = true;
+//                        $scope.errors.message = "Payment amount is required."
+//                    }
+//                });
+//            }
+//
+//            return valid;
+//        }
 
         var validateDocument = function () {
             var valid = true;
@@ -245,6 +249,10 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                         valid = false;
                         vm.errorDisplay = true;
                         $scope.errors.message = "Description is required."
+                    }else if (document.netAmount == null || document.netAmount == "") {
+            			valid = false;
+            			vm.errorDisplay = true;
+            			$scope.errors.message = "Payment amount is required."
                     }
                 });
             }
