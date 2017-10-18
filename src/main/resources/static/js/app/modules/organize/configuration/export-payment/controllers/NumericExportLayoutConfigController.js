@@ -9,7 +9,7 @@ module.controller('NumericExportLayoutConfigController',
 	vm.model = angular.copy($scope.ngDialogData.record);
 	
 	if(!$scope.ngDialogData.isDelimited){
-		if(vm.model.paddingCharacter.length == 0){
+		if(vm.model.paddingCharacter == undefined || vm.model.paddingCharacter.length == 0){
 			vm.model.paddingCharacter = "0";
 			vm.usePadding = true;
 		}else{

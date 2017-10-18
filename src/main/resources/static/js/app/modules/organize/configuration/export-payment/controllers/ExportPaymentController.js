@@ -461,7 +461,7 @@ module.controller('ExportPaymentController', [
 			var dataType = getChangedDataType();
 			if(!isDataTypeNumeric(dataType.toUpperCase())){
 				recordChanged.paddingCharacter = "";
-			}else if(isDataTypeNumeric(dataType.toUpperCase()) && recordChanged.paddingCharacter.length == 0){
+			}else if(isDataTypeNumeric(dataType.toUpperCase()) && (recordChanged.paddingCharacter == undefined || recordChanged.paddingCharacter.length == 0)){
 				recordChanged.paddingCharacter = "0";
 			}
 		}
