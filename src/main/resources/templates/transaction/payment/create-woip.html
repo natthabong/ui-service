@@ -60,7 +60,7 @@
                                                         <input id="payment-amount-{{$index+1}}-textbox" placeholder="0.00" style="text-align: right;" ng-model="record.netAmount" maxlength="20" format="currency" />
                                                     </td>
                                                     <td class="text-center" style="width: 14%">
-                                                        <scf-button type="button" id="delete-{{$index+1}}-button" class="btn-default gec-btn-action" ng-click="ctrl.removeDocumentItem(ctrl.documents,record)"><i class="fa fa-trash" aria-hidden="true"></i>
+                                                        <scf-button type="button" id="delete-{{$index+1}}-button" class="btn-default gec-btn-action" ng-click="ctrl.removeDocumentItem(documents,record)"><i class="fa fa-trash" aria-hidden="true"></i>
                                                         </scf-button>
                                                     </td>
                                                 </tr>
