@@ -7,6 +7,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         var log = $log;
         var _criteria = {};
         var ownerId = $rootScope.userInfo.organizeId;
+        var createTransactionType = 'WITHOUT_INVOICE';
 
         vm.suppliers = [];
 
@@ -36,9 +37,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             showOverdue: false
         }
 
-        var createTransactionType = 'WITHOUT_INVOICE';
-
-        $scope.documents = [{
+        $scope.documents = $stateParams.documents || [{
             optionVarcharField1: null,
             optionVarcharField2: null,
             netAmount: null
@@ -234,8 +233,9 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                 PageNavigation.nextStep('/create-payment/validate-submit', objectToSend, {
                     transactionModel: vm.transactionModel,
                     tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
-                    criteria: _criteria,
-                    documentSelects: vm.documentSelects
+                    criteria: vm.criteria,
+                    supplierList: _suppliers,
+                    documents : $scope.documents
                 });
             }
         }
