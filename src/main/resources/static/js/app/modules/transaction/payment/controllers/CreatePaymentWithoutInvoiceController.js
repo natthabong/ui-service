@@ -12,7 +12,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
 
         vm.suppliers = [];
         var tradingPartnerList = [];
-        
+
         vm.maturityDateErrorDisplay = false;
         vm.errorDisplay = false;
 
@@ -297,7 +297,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                         transactionModel: vm.transactionModel,
                         tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
                         criteria: vm.criteria,
-                        supplierList: _suppliers,
+                        supplierModel: tradingPartnerList,
                         documents: $scope.documents
                     });
                 }
