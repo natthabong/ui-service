@@ -226,8 +226,9 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
 
         vm.nextStep = function () {
             if (validate()) {
+                var supplier = $.grep(vm.suppliers, function (td) {return td.value == vm.criteria.supplierId;});
                 vm.transactionModel.documents = $scope.documents;
-                vm.transactionModel.supplierName = 
+                vm.transactionModel.supplierName = supplier[0].label;
                 vm.tradingpartnerInfoModel.createTransactionType = createTransactionType;
 
                 PageNavigation.nextStep('/create-payment/validate-submit', objectToSend, {
