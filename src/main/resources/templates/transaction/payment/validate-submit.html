@@ -1,33 +1,32 @@
 <div id="content" th:fragment="content">
-	<div class="panel box-shadow-none content-header">
-		<div class="panel-body">
-			<div class="col-md-12">
-				<h3 id="header-message-label" class="animated fadeInLeft">{{
-					'Validate and Submit' | translate}}</h3>
-			</div>
-		</div>
-	</div>
+    <div class="panel box-shadow-none content-header">
+        <div class="panel-body">
+            <div class="col-md-12">
+                <h3 id="header-message-label" class="animated fadeInLeft">{{ 'Validate and Submit' | translate}}</h3>
+            </div>
+        </div>
+    </div>
 
-	<div class="form-element">
-		<div class="panel panel-default col-md-12 padding-0">
-			<div class="panel-body" style="padding-bottom: 30px;">
-				<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="form-element">
+        <div class="panel panel-default col-md-12 padding-0">
+            <div class="panel-body" style="padding-bottom: 30px;">
+                <div class="col-md-12 col-sm-12 col-xs-12">
 
-					<div class="form-group">
-						<div class="row">
-							<label id="supplier-label"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
+                    <div class="form-group">
+                        <div class="row">
+                            <label id="supplier-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
 								| translate}}: </label>
-							<div class="col-md-8 col-sm-7 col-xs-12">
-								<span id="supplier-value-label"
-									ng-bind="ctrl.transactionModel.supplierName"></span>
-							</div>
-						</div>
+                            <div class="col-md-8 col-sm-7 col-xs-12">
+                                <span id="supplier-value-label" ng-bind="ctrl.transactionModel.supplierName"></span>
+                            </div>
+                        </div>
 
-					</div>
+                    </div>
 
-					<div>
-						<div class="row">
+                    <div>
+                        <ng-include ng-show="ctrl.isCreateTransWithInvoice" src="'/payment/validate-submit-with-invoice'" ng-if="true"></ng-include>
+                        <ng-include ng-show="!ctrl.isCreateTransWithInvoice" src="'/payment/validate-submit-without-invoice'" ng-if="true"></ng-include>
+                        <!--<div class="row">
 							<div class="col-md-3 col-sm-3 gec-select">
 								<b class="gec-pop-up-font-size" ng-bind="'Selected' | translate">Select</b>:
 								<b class="gec-pop-up-font-size" id="document-selected-label"
@@ -62,183 +61,153 @@
 									clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-layout-table>
 							</div>
 							<div id="fixed-bottom" class="col-md-12"></div>
-						</div>
-					</div>
-				</div>
-			</div>
+						</div>-->
+                    </div>
+                </div>
+            </div>
 
 
-			<div class="panel-body">
-				<div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="panel-body">
+                <div class="col-md-12 col-sm-12 col-xs-12">
 
-					<div class="form-group">
-						<div class="row">
-							<b id="total-payment-amount-label"
-								class="gec-pop-up-font-size col-sm-3 col-md-3 col-xs-12 control-label">{{'Total
+                    <div class="form-group">
+                        <div class="row">
+                            <b id="total-payment-amount-label" class="gec-pop-up-font-size col-sm-3 col-md-3 col-xs-12 control-label">{{'Total
 								payment amount' | translate}}: </b>
 
-							<div class="col-sm-3 col-md-3 col-xs-12">
-								<span id="total-payment-amount-value-label"
-									ng-bind="ctrl.transactionModel.transactionAmount | number: 2">0.00</span>&nbsp;
-								<span ng-bind="'THB' | translate"></span>
-							</div>
+                            <div class="col-sm-3 col-md-3 col-xs-12">
+                                <span id="total-payment-amount-value-label" ng-bind="ctrl.transactionModel.transactionAmount | number: 2">0.00</span>&nbsp;
+                                <span ng-bind="'THB' | translate"></span>
+                            </div>
 
-							<div class="col-md-2 col-sm-2 col-hidden-xs">&nbsp;</div>
-						</div>
+                            <div class="col-md-2 col-sm-2 col-hidden-xs">&nbsp;</div>
+                        </div>
 
-					</div>
+                    </div>
 
-					<div class="form-group">
-						<div class="row">
-							<b id="buyer-account-label"
-								class="gec-pop-up-font-size col-md-3 col-sm-3 col-xs-12 control-label">{{'Buyer
+                    <div class="form-group">
+                        <div class="row">
+                            <b id="buyer-account-label" class="gec-pop-up-font-size col-md-3 col-sm-3 col-xs-12 control-label">{{'Buyer
 								account' | translate}}: </b>
-							<div class="col-md-3 col-sm-3 col-xs-12">
-								<span id="buyer-account-value-label"
-									ng-bind="ctrl.transactionModel.payerAccountNo | accountFormat | translate"></span>
-							</div>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <span id="buyer-account-value-label" ng-bind="ctrl.transactionModel.payerAccountNo | accountFormat | translate"></span>
+                            </div>
 
-							<b id="available-label" ng-show="ctrl.isLoanPayment"
-								class="gec-pop-up-font-size col-md-2 col-sm-2 col-xs-12 control-label">{{'Available'
+                            <b id="available-label" ng-show="ctrl.isLoanPayment" class="gec-pop-up-font-size col-md-2 col-sm-2 col-xs-12 control-label">{{'Available'
 								| translate}}: </b>
-							<div class="col-md-3 col-sm-3 col-xs-12" ng-show="ctrl.isLoanPayment">
-								<span id="available-value-label"
-									ng-bind="ctrl.tradingpartnerInfoModel.available | number:2"></span>&nbsp;
-								<span ng-bind="'THB' | translate"></span>&nbsp;
-										
-								<label id="interest-rate-value-label" >
+                            <div class="col-md-3 col-sm-3 col-xs-12" ng-show="ctrl.isLoanPayment">
+                                <span id="available-value-label" ng-bind="ctrl.tradingpartnerInfoModel.available | number:2"></span>&nbsp;
+                                <span ng-bind="'THB' | translate"></span>&nbsp;
+
+                                <label id="interest-rate-value-label">
 									<span>(Int.</span>
 									<span ng-bind="ctrl.tradingpartnerInfoModel.interestRate"></span>
 									<span>)</span>
 								</label>
-							</div>
-						</div>
+                            </div>
+                        </div>
 
-					</div>
+                    </div>
 
-					<div class="form-group">
-						<div class="row">						
-							<b id="payment-date-label"
-								class="gec-pop-up-font-size col-md-3 col-sm-3 col-xs-12 control-label">{{'Payment
+                    <div class="form-group">
+                        <div class="row">
+                            <b id="payment-date-label" class="gec-pop-up-font-size col-md-3 col-sm-3 col-xs-12 control-label">{{'Payment
 								date' | translate}}: </b>
 
-							<div class="col-sm-3 col-md-3 col-xs-12">
-								<span id="payment-date-value-label"
-									ng-bind="ctrl.transactionModel.transactionDate |  date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
-							</div>
+                            <div class="col-sm-3 col-md-3 col-xs-12">
+                                <span id="payment-date-value-label" ng-bind="ctrl.transactionModel.transactionDate |  date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+                            </div>
 
-							<label ng-show="ctrl.isLoanPayment" id="maturity-date-label"
-								class="col-md-2 col-sm-2 col-lg-2 col-xs-12 control-label"><b
+                            <label ng-show="ctrl.isLoanPayment" id="maturity-date-label" class="col-md-2 col-sm-2 col-lg-2 col-xs-12 control-label"><b
 								ng-bind="'Maturity date' | translate">Maturity date</b>:</label>
-							<div ng-show="ctrl.isLoanPayment" class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label">
-								<span id="maturity-date-value-label"
-									ng-bind="ctrl.transactionModel.maturityDate |  date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+                            <div ng-show="ctrl.isLoanPayment" class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label">
+                                <span id="maturity-date-value-label" ng-bind="ctrl.transactionModel.maturityDate |  date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
 
-								<label id="tenor-value-label" ng-show="ctrl.isLoanPayment">
+                                <label id="tenor-value-label" ng-show="ctrl.isLoanPayment">
 									<span>(Tenor</span>
 									<span ng-bind="ctrl.tradingpartnerInfoModel.tenor"></span>
 									<span>days)</span>
 								</label>
-							</div>
-						</div>
+                            </div>
+                        </div>
 
-					</div>
+                    </div>
 
-				</div>
+                </div>
 
-				<div class="col-md-12 text-right">
-					<scf-button id="back-button" class="btn btn-default" type="submit"
-						ng-click="ctrl.backToCreate()">{{'Back' | translate}}</scf-button>
-					<scf-button id="submit-button" class="btn btn-default"
-						type="submit" ng-click="ctrl.submitTransaction()">{{'Submit'
-					| translate}}</scf-button>
-				</div>
+                <div class="col-md-12 text-right">
+                    <scf-button id="back-button" class="btn btn-default" type="submit" ng-click="ctrl.backToCreate()">{{'Back' | translate}}</scf-button>
+                    <scf-button id="submit-button" class="btn btn-default" type="submit" ng-click="ctrl.submitTransaction()">{{'Submit' | translate}}</scf-button>
+                </div>
 
-			</div>
+            </div>
 
-		</div>
-	</div>
-	<scf-modal visible="validateDataPopup">
-	<div class="modal-content">
-		<div class="modal-header">
-			<div class="row">
-				<div class="col-md-2 col-sm-2">
-					<image width="70" height="70" ng-src="img/success-icon.png"></image>
-				</div>
-				<div class="col-md-10 col-sm-10">
-					<h2>
-						<span class="gec-pop-up-font-size-green"
-							id="success-header-message-label"
-							ng-bind="'Add new transaction success.' | translate">Add
+        </div>
+    </div>
+    <scf-modal visible="validateDataPopup">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-2 col-sm-2">
+                        <image width="70" height="70" ng-src="img/success-icon.png"></image>
+                    </div>
+                    <div class="col-md-10 col-sm-10">
+                        <h2>
+                            <span class="gec-pop-up-font-size-green" id="success-header-message-label" ng-bind="'Add new transaction success.' | translate">Add
 							new transaction success.</span>
-					</h2>
-				</div>
-			</div>
-		</div>
-		<div class="modal-body">
-			<div class="row">
-				<div class="col-md-2 col-sm-2"></div>
-				<div class="col-md-10 col-sm-10 col-xs-12">
-					<h2 id="transaction-no">
-						<b class="gec-pop-up-font-size"
-							ng-bind="'Transaction No.' | translate">Transaction No.</b> <span
-							class="gec-pop-up-font-size">:</span> <span
-							class="gec-pop-up-font-size" ng-bind="ctrl.transactionNo"
-							id="transaction-no-label"></span>
-					</h2>
-				</div>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<div class="row">
-				<div class="col-md-12 col-xs-12 text-right">
-					<scf-button type="submit" data-dismiss="modal" id="home-button"
-						ng-click="ctrl.homeAction()" ng-bind="'Home' | translate"></scf-button>
-					<scf-button type="submit" data-dismiss="modal"
-						id="create-new-button" ng-click="ctrl.createNewAction()"
-						ng-bind="'Create new' | translate"></scf-button>
-					<scf-button type="submit" data-dismiss="modal"
-						id="view-recent-button" ng-click="ctrl.viewRecent()"
-						ng-bind="'View recent' | translate"></scf-button>
-					<scf-button type="submit" data-dismiss="modal"
-						id="view-history-button" ng-click="ctrl.viewHistory()"
-						ng-bind="'View history' | translate"></scf-button>
-				</div>
-			</div>
-		</div>
-	</div>
-	</scf-modal>
-	<scf-modal visible="submitFailPopup">
-	<div class="modal-content">
-		<div class="modal-header">
-			<div class="row">
-				<div class="col-md-2 col-sm-2">
-					<image width="70" height="70" ng-src="img/error-icon.png"></image>
-				</div>
-				<div class="col-md-10 col-sm-10" style="color: red;">
-					<h2 ng-bind="'Add new transaction fail.' | translate">Add new
-						transaction fail.</h2>
-				</div>
-			</div>
-		</div>
-		<div class="modal-body">
-			<div class="row">
-				<div class="col-md-2 col-sm-2"></div>
-				<div class="col-md-10 col-sm-10 col-xs-12">
-					<h3 id="error-message-label" class="gec-pop-up-font-size"
-						ng-bind="ctrl.errorMsgPopup | translate"></h3>
-				</div>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<div class="row">
-				<div class="col-xs-12 text-right">
-					<scf-button id="back-button" class="popup-button"
-						data-dismiss="modal" ng-click="ctrl.backToCreate()"
-						ng-bind="'Back' | translate"></scf-button>
-				</div>
-			</div>
-		</div>
-	</div>
-	</scf-modal>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2 col-sm-2"></div>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                        <h2 id="transaction-no">
+                            <b class="gec-pop-up-font-size" ng-bind="'Transaction No.' | translate">Transaction No.</b> <span class="gec-pop-up-font-size">:</span> <span class="gec-pop-up-font-size" ng-bind="ctrl.transactionNo" id="transaction-no-label"></span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 text-right">
+                        <scf-button type="submit" data-dismiss="modal" id="home-button" ng-click="ctrl.homeAction()" ng-bind="'Home' | translate"></scf-button>
+                        <scf-button type="submit" data-dismiss="modal" id="create-new-button" ng-click="ctrl.createNewAction()" ng-bind="'Create new' | translate"></scf-button>
+                        <scf-button type="submit" data-dismiss="modal" id="view-recent-button" ng-click="ctrl.viewRecent()" ng-bind="'View recent' | translate"></scf-button>
+                        <scf-button type="submit" data-dismiss="modal" id="view-history-button" ng-click="ctrl.viewHistory()" ng-bind="'View history' | translate"></scf-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </scf-modal>
+    <scf-modal visible="submitFailPopup">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-2 col-sm-2">
+                        <image width="70" height="70" ng-src="img/error-icon.png"></image>
+                    </div>
+                    <div class="col-md-10 col-sm-10" style="color: red;">
+                        <h2 ng-bind="'Add new transaction fail.' | translate">Add new transaction fail.</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2 col-sm-2"></div>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                        <h3 id="error-message-label" class="gec-pop-up-font-size" ng-bind="ctrl.errorMsgPopup | translate"></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 text-right">
+                        <scf-button id="back-button" class="popup-button" data-dismiss="modal" ng-click="ctrl.backToCreate()" ng-bind="'Back' | translate"></scf-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </scf-modal>
 </div>
