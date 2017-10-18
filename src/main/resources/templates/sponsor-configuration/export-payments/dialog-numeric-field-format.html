@@ -21,12 +21,15 @@
 							<label for="dealer"
 								class="col-md-1 col-sm-2 col-xs-12 control-label"></label>
 							<div class="col-md-4 col-sm-5 col-xs-12">
+								<div ng-hide="ngDialogData.isDelimited">
+									<label class="checkbox-inline" > <scf-checkbox
+											id="padding-checkbox" ng-model="ctrl.usePadding"
+											disabled="disabled"></scf-checkbox>
+										<span ng-bind="'Padding character' | translate"
+										id="padding-label"></span>:
+									</label> <br />
+								</div>
 								<label class="checkbox-inline"> <scf-checkbox
-										id="padding-checkbox" ng-model="ctrl.usePadding"
-										ng-click="ctrl.resetPadding()"></scf-checkbox>
-									<span ng-bind="'Padding character' | translate"
-									id="padding-label"></span>:
-								</label> <br /> <label class="checkbox-inline"> <scf-checkbox
 										id="has-seperator-checkbox"
 										ng-model="ctrl.model.has1000Separator"></scf-checkbox>
 									<span ng-bind="'Has 1,000 seperator' | translate"
@@ -40,9 +43,10 @@
 							</div>
 							<div class="col-md-2 col-sm-3 col-xs-12">
 								<scf-input-text id="padding-value-textbox"
+									ng-hide="ngDialogData.isDelimited"
 									maxlength="5"
-									ng-disabled="!ctrl.usePadding"
-									ng-model="ctrl.model.paddingCharacter"></scf-input-text>
+									ng-model="ctrl.model.paddingCharacter"
+									disabled="disabled"></scf-input-text>
 							</div>
 							<div class="col-md-8 col-sm-2 col-xs-12"></div>
 						</div>
