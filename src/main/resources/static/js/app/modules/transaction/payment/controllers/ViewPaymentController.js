@@ -33,6 +33,10 @@ paymentModule.controller('ViewPaymentController', [
         vm.isShowViewHistoryButton = $stateParams.isShowViewHistoryButton;
         vm.isShowBackButton = $stateParams.isShowBackButton;
 
+        if (vm.transactionModel.createTransactionType !== undefined && vm.transactionModel.createTransactionType == 'WITHOUT_INVOICE') {
+            vm.isCreateTransWithInvoice = false;
+        }
+
         vm.dataTable = {
             columns: []
         };
@@ -54,11 +58,14 @@ paymentModule.controller('ViewPaymentController', [
                         vm.isTypeLoan = true;
                     }
 
-                    _criteria.transactionId = vm.transactionModel.transactionId;
+                    if (vm.isCreateTransWithInvoice) {
+                        _criteria.transactionId = vm.transactionModel.transactionId;
 
-                    vm.pagingController = PagingController.create('api/v1/transaction-documents', _criteria, 'GET');
+                        vm.pagingController = PagingController.create('api/v1/transaction-documents', _criteria, 'GET');
 
-                    loadDocumentDisplayConfig(vm.transactionModel.supplierId, vm.searchDocument);
+                        loadDocumentDisplayConfig(vm.transactionModel.supplierId, vm.searchDocument);
+                    }
+
 
                 })
                 .catch(function(response) {
@@ -86,7 +93,6 @@ paymentModule.controller('ViewPaymentController', [
         }
 
         vm.viewHistory = function() {
-            console.log(url);
             $timeout(function() {
                 PageNavigation.gotoPage(url);
             }, 10);
