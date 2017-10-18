@@ -79,8 +79,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
 
         function _loadMaturityDate() {
             vm.maturityDateDropDown = [];
-            if (angular.isDefined(vm.paymentModel) && vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
-
+            if (angular.isDefined(vm.paymentModel) && vm.paymentModel != null) {
                 var deffered = TransactionService.getAvailableMaturityDates(vm.paymentModel, vm.tradingpartnerInfoModel.tenor);
                 deffered.promise.then(function (response) {
                     var maturityDates = response.data;
@@ -99,46 +98,44 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                         vm.maturityDateModel = vm.transactionModel.maturityDate;
                     }
 
-                })
-                    .catch(function (response) {
-                        log.error(response);
-                    });
+                }).catch(function (response) {
+                    log.error(response);
+                });
             }
+            $stateParams.backAction = false;
         }
 
         function _loadPaymentDate() {
             vm.paymentDropDown = [];
             vm.transactionModel.documents = $scope.documents;
             vm.transactionModel.supplierId = vm.criteria.supplierId;
-            if (vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
-                var deffered = TransactionService.getPaymentDate(vm.transactionModel, createTransactionType);
-                deffered.promise.then(function (response) {
-                    var paymentDates = response.data;
+            var deffered = TransactionService.getPaymentDate(vm.transactionModel, createTransactionType);
+            deffered.promise.then(function (response) {
+                var paymentDates = response.data;
 
-                    paymentDates.forEach(function (data) {
-                        vm.paymentDropDown.push({
-                            label: data,
-                            value: data
-                        })
-                    });
+                paymentDates.forEach(function (data) {
+                    vm.paymentDropDown.push({
+                        label: data,
+                        value: data
+                    })
+                });
 
-                    if ($stateParams.backAction && vm.transactionModel.transactionDate != null) {
-                        vm.paymentModel = vm.transactionModel.transactionDate;
-                    } else {
-                        vm.paymentModel = vm.paymentDropDown[0].value;
-                    }
-                    _loadMaturityDate();
-                })
-                    .catch(function (response) {
-                        log.error(response);
-                    });
-            } else {
+                if ($stateParams.backAction && vm.transactionModel.transactionDate != null) {
+                    vm.paymentModel = vm.transactionModel.transactionDate;
+                } else {
+                    vm.paymentModel = vm.paymentDropDown[0].value;
+                }
                 _loadMaturityDate();
-            }
+            }).catch(function (response) {
+                log.error(response);
+            });
+
         }
 
         function _loadAccount(ownerId, supplierId) {
             vm.accountDropDown = [];
+            console.log(ownerId);
+            console.log(supplierId);
             var deffered = TransactionService.getAccounts(ownerId, supplierId);
             deffered.promise.then(function (response) {
                 var accounts = response.data;
@@ -160,6 +157,10 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
 
                 });
 
+                console.log(accounts);
+                console.log($stateParams.backAction);
+                console.log(vm.transactionModel);
+
                 if (!$stateParams.backAction) {
                     if (accounts.length > 0) {
                         vm.transactionModel.payerAccountId = accounts[loanAccountIndex].accountId;
@@ -168,13 +169,16 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                         vm.tradingpartnerInfoModel.tenor = accounts[loanAccountIndex].tenor;
                         vm.tradingpartnerInfoModel.interestRate = accounts[loanAccountIndex].interestRate;
                     }
+                } else {
+
                 }
 
                 if (accounts.length > 0 && accounts[loanAccountIndex].accountType == 'LOAN') {
                     vm.transactionModel.transactionMethod = 'TERM_LOAN';
                     vm.isLoanPayment = true;
-                    _loadMaturityDate();
+                    // _loadMaturityDate();
                 }
+                _loadPaymentDate();
 
             }).catch(function (response) {
                 log.error(response);
@@ -184,7 +188,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
 
         var init = function () {
             _loadAccount(ownerId, vm.criteria.supplierId);
-            _loadPaymentDate();
+            // _loadPaymentDate();
         } ();
 
         $scope.sum = function (documents) {
@@ -223,9 +227,9 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
 
         // <---------------------------------- User Action ---------------------------------->
 
-        var defaultEmptyValue = function(documents){
-            documents.forEach(function(document){
-                if(document.netAmount == null || document.netAmount ==""){
+        var defaultEmptyValue = function (documents) {
+            documents.forEach(function (document) {
+                if (document.netAmount == null || document.netAmount == "") {
                     document.netAmount = 0;
                 }
             });
@@ -235,14 +239,13 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         vm.nextStep = function () {
             if (validate()) {
                 var supplier = $.grep(vm.suppliers, function (td) { return td.value == vm.criteria.supplierId; });
-                
+
                 vm.transactionModel.documents = defaultEmptyValue($scope.documents);
                 vm.transactionModel.supplierName = supplier[0].label;
                 vm.tradingpartnerInfoModel.createTransactionType = createTransactionType;
                 vm.transactionModel.supplierId = vm.criteria.supplierId;
                 vm.transactionModel.transactionDate = vm.paymentModel;
                 vm.transactionModel.maturityDate = vm.maturityDateModel;
-                console.log(vm.transactionModel.documents);
 
                 PageNavigation.nextStep('/create-payment/validate-submit', objectToSend, {
                     transactionModel: vm.transactionModel,
@@ -255,7 +258,13 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         }
 
         vm.supplierChange = function () {
+            $scope.documents = [{
+                optionVarcharField1: null,
+                optionVarcharField2: null,
+                netAmount: null
+            }];
             _checkCreatePaymentType(vm.criteria.supplierId);
+
         }
 
         vm.removeDocumentItem = function (documents, item) {
