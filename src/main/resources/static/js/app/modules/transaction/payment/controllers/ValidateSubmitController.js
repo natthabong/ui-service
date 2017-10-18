@@ -14,7 +14,11 @@ paymentModule.controller('ValidateSubmitController', [
         var vm = this;
         vm.transactionModel = $stateParams.transactionModel;
         vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
-        vm.isCreateTransWithInvoice = false;
+
+        vm.isCreateTransWithInvoice = true;
+        if (vm.tradingpartnerInfoModel.createTransactionType !== undefined && vm.tradingpartnerInfoModel.createTransactionType == 'WITHOUT_INVOICE') {
+            vm.isCreateTransWithInvoice = false;
+        }
 
         if (vm.transactionModel == null || vm.tradingpartnerInfoModel == null) {
             PageNavigation.gotoPage('/my-organize/create-payment');
@@ -92,8 +96,11 @@ paymentModule.controller('ValidateSubmitController', [
         };
 
         var init = function() {
-            vm.pagingController.search();
-            loadDocumentDisplayConfig(vm.transactionModel.supplierId);
+            if (vm.isCreateTransWithInvoice) {
+                vm.pagingController.search();
+                loadDocumentDisplayConfig(vm.transactionModel.supplierId);
+            }
+
 
             if (vm.transactionModel.payerAccountNo != 'LOAN') {
                 vm.isLoanPayment = false;
