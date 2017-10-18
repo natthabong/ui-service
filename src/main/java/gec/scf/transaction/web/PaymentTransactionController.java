@@ -22,6 +22,8 @@ public class PaymentTransactionController {
 	private static final String VIEW_PAYMENT_TRANSACTION = "transaction/payment/view";
 	private static final String VERIFY_PAYMENT_TRANSACTION = "transaction/payment/verify";
 	private static final String APPROVE_PAYMENT_TRANSACTION = "transaction/payment/approve";
+	private static final String VIEW_PAYMENT_TRANSACTION_WIP = "transaction/payment/view-with-invoice";
+	private static final String VIEW_PAYMENT_TRANSACTION_WOIP = "transaction/payment/view-without-invoice";
 
 	@RequestMapping(path = "/partner", method = RequestMethod.GET)
 	public String partnerPaymentTransaction(@RequestHeader("X-Requested-With") String requestedWith) {
@@ -79,6 +81,23 @@ public class PaymentTransactionController {
 		}
 		return VIEW_PAYMENT_TRANSACTION;
 	}
+	
+	@RequestMapping(path = "/with-invoice/view", method = RequestMethod.GET)
+	public String viewPaymentTransactionWithInvoice(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return VIEW_PAYMENT_TRANSACTION_WIP.concat(" :: content");
+		}
+		return VIEW_PAYMENT_TRANSACTION_WIP;
+	}
+	
+	@RequestMapping(path = "/without-invoice/view", method = RequestMethod.GET)
+	public String viewPaymentTransactionWithoutInvoice(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return VIEW_PAYMENT_TRANSACTION_WOIP.concat(" :: content");
+		}
+		return VIEW_PAYMENT_TRANSACTION_WOIP;
+	}
+
 
 	@RequestMapping(path = "/verify", method = RequestMethod.GET)
 	public String verifyTransaction(@RequestHeader("X-Requested-With") String requestedWith) {
