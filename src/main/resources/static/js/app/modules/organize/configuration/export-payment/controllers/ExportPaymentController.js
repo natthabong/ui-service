@@ -87,7 +87,8 @@ module.controller('ExportPaymentController', [
                     vm.dataTypeByIds[obj.documentFieldId] = obj;
                     var item = {
                         value: obj.documentFieldId,
-                        label: obj.displayFieldName
+                        label: obj.displayFieldName,
+                        dataType: obj.dataType
                     }
                     dropDownData.push(item);
                 });
@@ -305,7 +306,8 @@ module.controller('ExportPaymentController', [
                             paymentItems: vm.paymentItems,
                             documentItems: vm.items,
                             footerItems: vm.footerItems,
-                            dataTypeByIds: vm.dataTypeByIds
+                            dataTypeByIds: vm.dataTypeByIds,
+                            isDelimited: vm.isDelimited
 
                         },
                         cache: false,
@@ -427,6 +429,51 @@ module.controller('ExportPaymentController', [
                 vm.footerItem.splice(index,1);
             }
         }
+        
+        vm.clearPaddingCharacter = function(sectionObjectItems){
+        	sectionObjectItems.forEach(function (rowItem) {
+        		var dataType = rowItem.dataType.toUpperCase();
+        		if(dataType == 'NUMERIC' || dataType == 'COUNT' || dataType == 'SUMMARY'){
+        			rowItem.paddingCharacter = "";
+        		}
+			});
+		}
+		
+		vm.setPaddingCharacter = function(sectionObjectItems, pad){
+        	sectionObjectItems.forEach(function (rowItem) {
+        		var dataType = rowItem.dataType.toUpperCase();
+        		if(dataType == 'NUMERIC' || dataType == 'COUNT' || dataType == 'SUMMARY'){
+        			rowItem.paddingCharacter = pad;
+        		}
+			});
+		}
+		
+		vm.isChangeDataType = function (recordChanged, dropdownItems ){
+			
+			function findByFieldId(item) {
+    			return item.value == recordChanged.documentFieldId;
+			}
+
+			function getChangedDataType() {
+    			return dropdownItems.find(findByFieldId).dataType;
+			}	
+			
+			var dataType = getChangedDataType();
+			if(!isDataTypeNumeric(dataType.toUpperCase())){
+				recordChanged.paddingCharacter = "";
+			}else if(isDataTypeNumeric(dataType.toUpperCase()) && recordChanged.paddingCharacter.length == 0){
+				recordChanged.paddingCharacter = "0";
+			}
+		}
+		
+		function isDataTypeNumeric(dataType){
+			var dataTypeUpperCase = dataType.toUpperCase();
+			if(dataTypeUpperCase == 'COUNT' || dataTypeUpperCase == 'NUMERIC' || dataTypeUpperCase == 'SUMMARY' ){
+				return true;
+			}
+			
+			return false;
+		}
 
         vm.disableSetting = function(record){
             var disable = false;
@@ -466,6 +513,7 @@ module.controller('ExportPaymentController', [
                     vm.delimeter = ',';
                     vm.delimeterOther = '';
                     vm.model.displayHeaderColumn = false;
+                    vm.setPaddingCharacter(vm.documentItem, '0');        
 
                 }else if(vm.model.fileType == vm.fileType.delimited){
                     vm.isDelimited = true;
@@ -477,6 +525,7 @@ module.controller('ExportPaymentController', [
                     vm.footerSelected = false;
                     vm.clearSectionItem(vm.footerSelected,'FOOTER');
                     vm.model.fileExtensions = 'csv';
+                    vm.clearPaddingCharacter(vm.documentItem);
 
                     if(vm.model.delimeter != null){
                         var index = vm.delimitersDropdown.findIndex(i => i.value == vm.model.delimeter);
@@ -485,6 +534,7 @@ module.controller('ExportPaymentController', [
                             vm.delimeterOther = vm.model.delimeter;
                         }
                     }
+                    
                     
                 }else if(vm.model.fileType == vm.fileType.specific){
                     vm.isDelimited = false;
