@@ -6,6 +6,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         var vm = this;
         var _criteria = {};
         var ownerId = $rootScope.userInfo.organizeId;
+        $scope.test=[];
         vm.suppliers = [];
         vm.criteria = $stateParams.criteria || {
             accountingTransactionType: 'RECEIVABLE',
@@ -26,7 +27,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             });
         }
 
-        vm.documents = [{
+        $scope.documents = [{
             optionVarcharField1: null,
             optionVarcharField2: null,
             netAmount: null
@@ -80,10 +81,10 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                 optionVarcharField2: null,
                 netAmount: null
             }
-            vm.documents.push(document);
+            $scope.documents.push(document);
         }
 
-        function _calculateTransactionAmount(documentSelects) {
+        vm.calculateTransactionAmount = function(documentSelects) {
             vm.transactionModel.transactionAmount = CreatePaymentService.calculateTransactionAmount(documentSelects);
         }
 
@@ -191,9 +192,77 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                 log.error(response);
             });
         }
+
+        $scope.sum = function (documents) {
+            var total = 0;
+            documents.forEach(function(document){
+                total = parseFloat(total) + (parseFloat(document.netAmount) || 0);
+            });
+            vm.transactionModel.transactionAmount = total;
+            return total;
+        };
         
         var init = function() {
         	_loadAccount(ownerId, vm.criteria.supplierId);
         }();
     }
-]);
+]).constant('formatFactory', {
+    currency: {
+        pattern: /^[\(\-\+]?\d*,?\d*\.?\d+[\)]/,
+        patternError: 'This field must be formatted as Currency.<br/>A sample valid input looks like: 1000.00',
+        replaceDollar: /[\$]/g,
+        replaceComma: /[,]/g
+    }
+}).directive('format', function ($filter, formatFactory) {
+    return {
+        scope: true,
+        restrict: 'A',
+        require: ['ngModel'],
+        link: function (scope, element, attrs, ctrls) {
+            console.log(scope);
+            console.log(ctrls)
+            var ngModelCtrl = ctrls[0],
+                thisFormat = formatFactory[attrs.format];
+            
+            var ctrl = ctrls[1];
+
+            // This is the toModel routine
+            var parser = function (value) {
+                var removeParens;
+                if (!value) {
+                    return undefined;
+                }
+                // get rid of currency indicators
+                value = value.toString().replace(thisFormat.replaceComma, '');
+                // Check for parens, currency filter (5) is -5
+                removeParens = value.replace(/[\(\)]/g, '');
+                // having parens indicates the number is negative
+                if (value.length !== removeParens.length) {
+                    value = -removeParens;
+                }
+                return value || undefined;
+            },
+                // This is the toView routine
+                formatter = function (value) {
+                    // the currency filter returns undefined if parse error
+                    value = $filter(attrs.format)(parser(value)) || '';
+                    value = value.toString().replace(thisFormat.replaceDollar, '');
+                    return value;
+                };
+
+            // This sets the format/parse to happen on blur/focus
+            element.on("blur", function () {
+                ngModelCtrl.$setViewValue(formatter(this.value));
+                ngModelCtrl.$render();
+            }).on("focus", function () {
+                ngModelCtrl.$setViewValue(parser(this.value));
+                ngModelCtrl.$render();
+            });
+
+            // Model Formatter
+            ngModelCtrl.$formatters.push(formatter);
+            // Model Parser
+            ngModelCtrl.$parsers.push(parser);
+        }
+    }
+});
