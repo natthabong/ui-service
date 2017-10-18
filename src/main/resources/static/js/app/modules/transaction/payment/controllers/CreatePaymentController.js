@@ -12,6 +12,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         var fristTime = true;
         vm.isLoanPayment = false;
         var dashboardParams = $stateParams.dashboardParams;
+        var tradingPartnerList = [];
+        vm.suppliers = [];
         var supplierList = [];
         vm.paymentDropDown = [];
         var _criteria = {};
@@ -328,29 +330,41 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         function _loadSuppliers(dashboardParams) {
-            var deffered = TransactionService.getSuppliers('RECEIVABLE');
-            deffered.promise.then(function (response) {
-                vm.suppliers = [];
-                supplierList = response.data;
-                if (supplierList !== undefined) {
-                    supplierList.forEach(function (supplier) {
-                        var selectObj = {
-                            label: supplier.supplierName,
-                            value: supplier.supplierId
-                        }
-                        vm.suppliers.push(selectObj);
-                    });
-                    if (!$stateParams.backAction && dashboardParams == null) {
-                        vm.criteria.supplierId = supplierList[0].supplierId;
-                    } else if (dashboardParams != null) {
-                        vm.criteria.supplierId = dashboardParams.supplierId;
+        	if($stateParams.supplierModel !== undefined && $stateParams.supplierModel !== null){
+            	tradingPartnerList = $stateParams.supplierModel;
+            	tradingPartnerList.forEach(function(supplier) {
+                    var selectObj = {
+                        label: supplier.supplierName,
+                        value: supplier.supplierId
                     }
-                    checkCreatePaymentType(vm.criteria.supplierId);
-                }
-            }).catch(function (response) {
-                log.error(response);
-            });
-            return deffered;
+                    vm.suppliers.push(selectObj);
+                });
+            	checkCreatePaymentType(vm.criteria.supplierId);
+        	}else{
+        		var deffered = TransactionService.getSuppliers('RECEIVABLE');
+                deffered.promise.then(function(response) {
+                    tradingPartnerList = response.data;
+                    if (tradingPartnerList !== undefined) {
+                        tradingPartnerList.forEach(function(supplier) {
+                            var selectObj = {
+                                label: supplier.supplierName,
+                                value: supplier.supplierId
+                            }
+                            vm.suppliers.push(selectObj);
+                        });
+                        
+                        if (!$stateParams.backAction && dashboardParams == null) {
+                            vm.criteria.supplierId = tradingPartnerList[0].supplierId;
+                        } else if (dashboardParams != null) {
+                            vm.criteria.supplierId = dashboardParams.supplierId;
+                        }
+                        checkCreatePaymentType(vm.criteria.supplierId);
+                    }
+                }).catch(function(response) {
+                    log.error(response);
+                });
+                return deffered;
+        	}
         };
 
         var init = function () {
@@ -371,12 +385,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
         function checkCreatePaymentType(supplierId) {
             // find in list by supplier id
-            var result = $.grep(supplierList, function (supplier) { return supplier.supplierId == supplierId; });
+            var result = $.grep(tradingPartnerList, function (supplier) { return supplier.supplierId == supplierId; });
 
             if (result[0].createTransactionType !== undefined && result[0].createTransactionType == 'WITHOUT_INVOICE') {
                 vm.displayPaymentPage = false;
                 var params = {
-                    supplierList: supplierList,
+                	supplierModel: tradingPartnerList,
                     criteria: {
                         accountingTransactionType: 'RECEIVABLE',
                         supplierId: result[0].supplierId,

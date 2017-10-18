@@ -641,14 +641,14 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'CreatePaymentController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment/create',
-				params: {transactionModel: null, tradingpartnerInfoModel: null, criteria: null, documentSelects: null, backAction: false, dashboardParams: null, showBackButton: false},
+				params: {transactionModel: null, tradingpartnerInfoModel: null, criteria: null, supplierModel: null, documentSelects: null, backAction: false, dashboardParams: null, showBackButton: false},
 				resolve: load(['js/app/modules/transaction/services/TransactionService.js','js/app/modules/transaction/payment/controllers/CreatePaymentController.js', 'js/app/modules/transaction/payment/services/CreatePaymentService.js'])
 			}).state('/my-organize/create-payment-woip', {
 				url: '/my-organize/create-payment-woip',
 				controller: 'CreatePaymentWithoutInvoiceController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment/create-woip',
-				params: {transactionModel: null, tradingpartnerInfoModel: null, criteria: null, backAction: false ,supplierList : null, documents: null},
+				params: {transactionModel: null, tradingpartnerInfoModel: null, criteria: null, supplierModel: null, backAction: false , documents: null},
 				resolve: load(['js/app/modules/transaction/services/TransactionService.js','js/app/modules/transaction/payment/controllers/CreatePaymentWithoutInvoiceController.js', 'js/app/modules/transaction/payment/services/CreatePaymentService.js'])
 			}).state('/create-payment/validate-submit', {
 				url: '/create-payment/validate-submit',

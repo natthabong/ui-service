@@ -1,7 +1,7 @@
 var txnMod = angular.module('gecscf.transaction');
-txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService', 'CreatePaymentService',
+txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService',
     'PagingController', 'PageNavigation', '$filter',
-    function ($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, CreatePaymentService, PagingController, PageNavigation, $filter) {
+    function ($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter) {
 
         var vm = this;
         var log = $log;
@@ -9,24 +9,40 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         var ownerId = $rootScope.userInfo.organizeId;
         var createTransactionType = 'WITHOUT_INVOICE';
         vm.paymentModel = null;
-        vm.paymentModel = null;
 
         vm.suppliers = [];
-
+        var tradingPartnerList = [];
+        
         vm.errorDisplay = false;
 
         $scope.errors = {
             message: null
         }
 
-        var _suppliers = $stateParams.supplierList;
-        if (_suppliers !== undefined && _suppliers != null) {
-            _suppliers.forEach(function (supplier) {
+        tradingPartnerList = $stateParams.supplierModel;
+        if (tradingPartnerList !== undefined) {
+        	tradingPartnerList.forEach(function(supplier) {
                 var selectObj = {
                     label: supplier.supplierName,
                     value: supplier.supplierId
                 }
                 vm.suppliers.push(selectObj);
+            });
+        }else{
+        	var deffered = TransactionService.getSuppliers('RECEIVABLE');
+            deffered.promise.then(function(response) {
+            	tradingPartnerList = response.data;
+                if (tradingPartnerList !== undefined) {
+                	vm.suppliers.forEach(function(supplier) {
+                        var selectObj = {
+                            label: supplier.supplierName,
+                            value: supplier.supplierId
+                        }
+                        vm.suppliers.push(selectObj);
+                    });
+                }
+            }).catch(function(response) {
+                log.error(response);
             });
         }
 
@@ -59,10 +75,10 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         }
 
         var _checkCreatePaymentType = function (supplierId) {
-            var result = $.grep(_suppliers, function (td) { return td.supplierId == supplierId; });
+            var result = $.grep(tradingPartnerList, function (td) { return td.supplierId == supplierId; });
             if (result[0].createTransactionType !== undefined && result[0].createTransactionType == 'WITH_INVOICE') {
                 var params = {
-                    tradingpartnerInfoModel: _suppliers,
+                	supplierModel: tradingPartnerList,
                     criteria: {
                         accountingTransactionType: 'RECEIVABLE',
                         documentStatus: 'NEW',
@@ -134,8 +150,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
 
         function _loadAccount(ownerId, supplierId) {
             vm.accountDropDown = [];
-            console.log(ownerId);
-            console.log(supplierId);
             var deffered = TransactionService.getAccounts(ownerId, supplierId);
             deffered.promise.then(function (response) {
                 var accounts = response.data;
@@ -156,10 +170,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                     }
 
                 });
-
-                console.log(accounts);
-                console.log($stateParams.backAction);
-                console.log(vm.transactionModel);
 
                 if (!$stateParams.backAction) {
                     if (accounts.length > 0) {
@@ -187,8 +197,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
 
 
         var init = function () {
-            _loadAccount(ownerId, vm.criteria.supplierId);
-            // _loadPaymentDate();
+        	_loadAccount(ownerId, vm.criteria.supplierId);
         } ();
 
         $scope.sum = function (documents) {
