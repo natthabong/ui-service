@@ -68,6 +68,28 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             }
         }
 
+        vm.accountChange = function() {
+            var accountId = vm.transactionModel.payerAccountId;
+
+            vm.accountDropDown.forEach(function(account) {
+                if (accountId == account.item.accountId) {
+                    vm.transactionModel.payerAccountNo = account.item.accountNo;
+                    vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
+                    vm.tradingpartnerInfoModel.tenor = account.item.tenor;
+                    vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
+
+                    if (account.item.accountType == 'LOAN') {
+                        vm.transactionModel.transactionMethod = 'TERM_LOAN';
+                        vm.isLoanPayment = true;
+                        _loadMaturityDate();
+                    } else {
+                        vm.transactionModel.transactionMethod = 'DEBIT';
+                        vm.isLoanPayment = false;
+                    }
+                }
+            });
+        }
+        
         vm.supplierChange = function() {
             _checkCreatePaymentType(vm.criteria.supplierId);
         }
