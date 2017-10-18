@@ -16,6 +16,8 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             showOverdue: false
         }
 
+        var createTransactionType = 'WITHOUT_INVOICE';
+        
         var _suppliers = $stateParams.tradingpartnerInfoModel;
         if (_suppliers !== undefined) {
             _suppliers.forEach(function(supplier) {
@@ -84,10 +86,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             $scope.documents.push(document);
         }
 
-        vm.calculateTransactionAmount = function(documentSelects) {
-            vm.transactionModel.transactionAmount = CreatePaymentService.calculateTransactionAmount(documentSelects);
-        }
-
         function _loadMaturityDate() {
             vm.maturityDateDropDown = [];
             if (angular.isDefined(vm.paymentModel) && vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
@@ -119,11 +117,10 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
 
         function _loadPaymentDate() {
             vm.paymentDropDown = [];
-            vm.transactionModel.documents = vm.documents;
-            console.log(vm.transactionModel.documents);
+            vm.transactionModel.documents = $scope.documents;
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             if (vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
-                var deffered = TransactionService.getPaymentDate(vm.transactionModel);
+                var deffered = TransactionService.getPaymentDate(vm.transactionModel, createTransactionType);
                 deffered.promise.then(function(response) {
                         var paymentDates = response.data;
 
@@ -192,6 +189,10 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                 log.error(response);
             });
         }
+        
+        vm.paymentDateChange = function() {
+            _loadMaturityDate();
+        }
 
         $scope.sum = function (documents) {
             var total = 0;
@@ -204,6 +205,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         
         var init = function() {
         	_loadAccount(ownerId, vm.criteria.supplierId);
+        	_loadPaymentDate();
         }();
     }
 ]).constant('formatFactory', {

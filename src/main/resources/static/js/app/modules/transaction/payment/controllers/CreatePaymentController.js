@@ -16,6 +16,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.paymentDropDown = [];
         var _criteria = {};
         vm.displayPaymentPage = false;
+        var createTransactionType = 'WITH_INVOICE';
 
         var enterPageByBackAction = $stateParams.backAction || false;
         vm.criteria = $stateParams.criteria || {
@@ -244,7 +245,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.transactionModel.documents = vm.documentSelects;
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             if (vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
-                var deffered = TransactionService.getPaymentDate(vm.transactionModel);
+                var deffered = TransactionService.getPaymentDate(vm.transactionModel, createTransactionType);
                 deffered.promise.then(function(response) {
                         var paymentDates = response.data;
 

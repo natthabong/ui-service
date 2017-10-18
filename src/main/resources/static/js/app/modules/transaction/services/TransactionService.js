@@ -86,7 +86,7 @@ function transactionService($http, $q, blockUI, $window) {
         return deffered;
     }
 
-	function getPaymentDate(transactionModel) {
+	function getPaymentDate(transactionModel, type) {
         var deffered = $q.defer();
         $http({
         	    url :'api/v1/create-transaction/payment-dates/calculate',
@@ -97,7 +97,8 @@ function transactionService($http, $q, blockUI, $window) {
 					documents : transactionModel.documents
             	},
 				params: {
-					loanRequestMode : "CURRENT_AND_FUTURE"
+					loanRequestMode : "CURRENT_AND_FUTURE",
+					createTransactionType : type
 				}
             })
             .then(function(response) {
