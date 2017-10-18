@@ -25,7 +25,7 @@
                                         <span id="remark-{{$index+1}}-label" ng-bind="record.optionVarcharField2"></span>
                                     </td>
                                     <td class="text-center" style="width: 20%">
-                                        <span id="payment-amount-{{$index+1}}-label" ng-bind="record.netAmount"></span>
+                                        <span id="payment-amount-{{$index+1}}-label" ng-bind="record.netAmount | number: 2"></span>
                                     </td>
                                 </tr>
                             </tbody>
