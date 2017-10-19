@@ -76,7 +76,7 @@
 								translate}}:</label>
                         </div>
                         <div class="col-md-2 col-sm-2 text-right">
-                            <span id="payment-amount-label" ng-bind="ctrl.transactionModel.transactionAmount | number: 2"></span>
+                            <span id="payment-amount-value-label" ng-bind="ctrl.transactionModel.transactionAmount | number: 2"></span>
                         </div>
                         <div class="col-md-1 col-sm-1">
                             <span id="payment-amount-thb-label" ng-bind="'THB' | translate"></span>
@@ -114,7 +114,7 @@
                             <label id="create-by-label">{{'Create by' | translate}}:</label>
                         </div>
                         <div class="col-md-2 col-sm-2 text-right">
-                            <span id="create-by-label" ng-bind="ctrl.transactionModel.createdBy"></span>
+                            <span id="create-by-value-label" ng-bind="ctrl.transactionModel.createdBy"></span>
                         </div>
                         <div class="col-md-1 col-sm-1"></div>
                         <div class="col-md-3 col-sm-3">
@@ -131,7 +131,7 @@
                             <label id="verify-by-label">{{'Verify by' | translate}}:</label>
                         </div>
                         <div class="col-md-2 col-sm-2 text-right">
-                            <span id="verify-by-label" ng-bind="ctrl.transactionModel.verifiedBy"></span>
+                            <span id="verify-by-value-label" ng-bind="ctrl.transactionModel.verifiedBy"></span>
                         </div>
                         <div class="col-md-1 col-sm-1"></div>
                         <div class="col-md-3 col-sm-3">
@@ -148,7 +148,7 @@
                             <label id="verify-by-label">{{'Approve by' | translate}}:</label>
                         </div>
                         <div class="col-md-2 col-sm-2 text-right">
-                            <span id="approve-by-label" ng-bind="ctrl.transactionModel.approvedBy"></span>
+                            <span id="approve-by-value-label" ng-bind="ctrl.transactionModel.approvedBy"></span>
                         </div>
                         <div class="col-md-1 col-sm-1"></div>
                         <div class="col-md-3 col-sm-3">
