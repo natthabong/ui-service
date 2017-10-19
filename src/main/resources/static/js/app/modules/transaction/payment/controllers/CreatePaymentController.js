@@ -18,7 +18,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.paymentDropDown = [];
         var _criteria = {};
         vm.displayPaymentPage = false;
+        $scope.validateDataFailPopup = false;
         var createTransactionType = 'WITH_INVOICE';
+        vm.errorDisplay = false;
 
         var enterPageByBackAction = $stateParams.backAction || false;
         vm.criteria = $stateParams.criteria || {
@@ -132,7 +134,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.paymentDropDown = [];
             vm.documentSelects = [];
             vm.transactionModel.transactionAmount = '0.00';
-            vm.showErrorMsg = false;
+//            vm.showErrorMsg = false;
+            vm.errorDisplay = false;
             vm.selectAllModel = false;
             vm.checkAllModel = false;
 
@@ -429,7 +432,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         vm.supplierChange = function () {
-            vm.showErrorMsg = false;
+//            vm.showErrorMsg = false;
+        	vm.errorDisplay = false;
             vm.display = false;
             checkCreatePaymentType(vm.criteria.supplierId)
             vm.maturityDateModel = null;
@@ -437,7 +441,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         vm.customerCodeChange = function () {
-            vm.showErrorMsg = false;
+//            vm.showErrorMsg = false;
+        	vm.errorDisplay = false;
             vm.display = false;
         }
 
@@ -545,32 +550,49 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             }
         }
 
+        var validatePaymentAmount = function () {
+            var valid = true;
+            if (vm.transactionModel.transactionAmount <= 0) {
+                valid = false;
+                vm.errorMsgPopup = "Transaction amount must be greater than zero";
+                $scope.validateDataFailPopup = true;
+            }
+            return valid;
+        }
+        
         // next to page verify and submit
         vm.nextStep = function () {
+        	vm.errorDisplay = false;
             if (vm.documentSelects.length === 0) {
-                vm.errorMsgGroups = 'Please select document.';
-                vm.showErrorMsg = true;
+//                vm.errorMsgGroups = 'Please select document.';
+//              vm.showErrorMsg = true;
+                $scope.errors.message = 'Please select document.';
+                vm.errorDisplay = true;
             } else if (vm.isLoanPayment && !angular.isDefined(vm.maturityDateModel) || vm.maturityDateModel == '') {
-                vm.errorMsgGroups = 'Maturity date is required.';
-                vm.showErrorMsg = true;
+//                vm.errorMsgGroups = 'Maturity date is required.';
+//                vm.showErrorMsg = true;
+                $scope.errors.message = 'Maturity date is required.';
+                vm.errorDisplay = true;
             } else {
-                vm.transactionModel.supplierId = vm.criteria.supplierId;
-                vm.transactionModel.documents = vm.documentSelects;
-                vm.transactionModel.transactionDate = vm.paymentModel;
-                vm.transactionModel.maturityDate = vm.maturityDateModel;
-                vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
-
-                var objectToSend = {
-                    transactionModel: vm.transactionModel,
-                    tradingpartnerInfoModel: vm.tradingpartnerInfoModel
-                };
-
-                PageNavigation.nextStep('/create-payment/validate-submit', objectToSend, {
-                    transactionModel: vm.transactionModel,
-                    tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
-                    criteria: _criteria,
-                    documentSelects: vm.documentSelects
-                });
+            	if (validatePaymentAmount()){
+	                vm.transactionModel.supplierId = vm.criteria.supplierId;
+	                vm.transactionModel.documents = vm.documentSelects;
+	                vm.transactionModel.transactionDate = vm.paymentModel;
+	                vm.transactionModel.maturityDate = vm.maturityDateModel;
+	                vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
+	
+	                var objectToSend = {
+	                    transactionModel: vm.transactionModel,
+	                    tradingpartnerInfoModel: vm.tradingpartnerInfoModel
+	                };
+	
+	                PageNavigation.nextStep('/create-payment/validate-submit', objectToSend, {
+	                    transactionModel: vm.transactionModel,
+	                    tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
+	                    criteria: _criteria,
+	                    documentSelects: vm.documentSelects
+	                });
+            	}
             }
         }
 

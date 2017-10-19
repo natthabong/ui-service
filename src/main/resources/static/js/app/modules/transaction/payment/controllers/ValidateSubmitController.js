@@ -14,7 +14,6 @@ paymentModule.controller('ValidateSubmitController', [
         var vm = this;
         vm.transactionModel = $stateParams.transactionModel;
         vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
-        $scope.validateDataFailPopup = false;
 
         vm.isCreateTransWithInvoice = true;
         if (vm.tradingpartnerInfoModel.createTransactionType !== undefined && vm.tradingpartnerInfoModel.createTransactionType == 'WITHOUT_INVOICE') {
@@ -73,16 +72,6 @@ paymentModule.controller('ValidateSubmitController', [
             }, 10);
         };
 
-        var validatePaymentAmount = function () {
-            var valid = true;
-            if (vm.transactionModel.transactionAmount <= 0) {
-                valid = false;
-                vm.errorMsgPopup = "Transaction amount must be greater than zero";
-                $scope.validateDataFailPopup = true;
-            }
-            return valid;
-        }
-
         vm.submitTransaction = function () {
             if (vm.isCreateTransWithInvoice) {
                 vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.transactionModel.transactionDate);
@@ -108,34 +97,32 @@ paymentModule.controller('ValidateSubmitController', [
                     vm.errorMsgPopup = response.data.errorCode;
                 });
             } else {
-                if (validatePaymentAmount()) {
-                    vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.transactionModel.transactionDate);
-                    vm.transactionModel.maturityDate = SCFCommonService.convertStringTodate(vm.transactionModel.maturityDate);
+                vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.transactionModel.transactionDate);
+                vm.transactionModel.maturityDate = SCFCommonService.convertStringTodate(vm.transactionModel.maturityDate);
 
-                    vm.transactionModel.documents.forEach(function (document) {
-                        document.documentId = null;
-                        document.documentNo = null;
-                        document.documentType = null;
-                        document.customerCode = null;
-                        document.paymentAmount = document.netAmount;
-                        document.paymentDate = vm.transactionModel.transactionDate;
-                    });
-                    vm.transactionModel.createTransactionType = "WITHOUT_INVOICE";
-                    var deffered = TransactionService.submitTransaction(vm.transactionModel);
-                    deffered.promise.then(function (response) {
-                        var storeAccount = vm.transactionModel.payerAccountNo;
-                        vm.transactionModel = response.data;
-                        if (storeAccount == 'LOAN') {
-                            vm.transactionModel.payerAccountNo = 'LOAN';
-                        }
-                        vm.transactionNo = vm.transactionModel.transactionNo;
-                        $scope.confirmPopup = false;
-                        $scope.validateDataPopup = true;
-                    }).catch(function (response) {
-                        $scope.submitFailPopup = true;
-                        vm.errorMsgPopup = response.data.errorCode;
-                    });
-                }
+                vm.transactionModel.documents.forEach(function (document) {
+                    document.documentId = null;
+                    document.documentNo = null;
+                    document.documentType = null;
+                    document.customerCode = null;
+                    document.paymentAmount = document.netAmount;
+                    document.paymentDate = vm.transactionModel.transactionDate;
+                });
+                vm.transactionModel.createTransactionType = "WITHOUT_INVOICE";
+                var deffered = TransactionService.submitTransaction(vm.transactionModel);
+                deffered.promise.then(function (response) {
+                    var storeAccount = vm.transactionModel.payerAccountNo;
+                    vm.transactionModel = response.data;
+                    if (storeAccount == 'LOAN') {
+                        vm.transactionModel.payerAccountNo = 'LOAN';
+                    }
+                    vm.transactionNo = vm.transactionModel.transactionNo;
+                    $scope.confirmPopup = false;
+                    $scope.validateDataPopup = true;
+                }).catch(function (response) {
+                    $scope.submitFailPopup = true;
+                    vm.errorMsgPopup = response.data.errorCode;
+                });
             }
 
         };

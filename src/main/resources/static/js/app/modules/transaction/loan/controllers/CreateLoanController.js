@@ -10,8 +10,9 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         $scope.validateDataFailPopup = false;
         
         vm.errorMsgPopup = 'Insufficient Fund'
-        vm.showErrorMsg = false;
-        vm.errorMsgGroups = '';
+//      vm.showErrorMsg = false;
+//      vm.errorMsgGroups = '';
+        vm.errorDisplay = false;
 		vm.showBackButton = false;
         
         // SponsorCode dropdown
@@ -25,6 +26,8 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         var dashboardParams = $stateParams.dashboardParams;
         var backAction = $stateParams.backAction || false;
 
+        $scope.errors = {}
+        
         function _setDefualtValue(clearAll) {
             if(clearAll){
                 vm.supplierCodes = [];
@@ -522,9 +525,12 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         
         // next to page verify and submit
         vm.nextStep = function() {
+        	vm.errorDisplay = false;
             if (vm.documentSelects.length === 0) {
-                vm.errorMsgGroups = 'Please select document.';
-                vm.showErrorMsg = true;
+//                vm.errorMsgGroups = 'Please select document.';
+//                vm.showErrorMsg = true;
+            	$scope.errors.message = 'Please select document.';
+            	vm.errorDisplay = true;
             } else {
                 var transactionModel = angular.extend(vm.createTransactionModel, {
                     documents: vm.documentSelects,

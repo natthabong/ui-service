@@ -9,6 +9,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         var ownerId = $rootScope.userInfo.organizeId;
         var createTransactionType = 'WITHOUT_INVOICE';
         vm.paymentModel = null;
+        $scope.validateDataFailPopup = false;
 
         vm.suppliers = [];
         var tradingPartnerList = [];
@@ -264,26 +265,37 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
 
         // <---------------------------------- User Action ---------------------------------->
 
-
+        var validatePaymentAmount = function () {
+            var valid = true;
+            if (vm.transactionModel.transactionAmount <= 0) {
+                valid = false;
+                vm.errorMsgPopup = "Transaction amount must be greater than zero";
+                $scope.validateDataFailPopup = true;
+            }
+            return valid;
+        }
+        
         vm.nextStep = function () {
             if (validateDocument()) {
                 if (validateMaturityDate()) {
-                    var supplier = $.grep(vm.suppliers, function (td) { return td.value == vm.criteria.supplierId; });
-
-                    vm.transactionModel.documents = defaultEmptyValue($scope.documents);
-                    vm.transactionModel.supplierName = supplier[0].label;
-                    vm.tradingpartnerInfoModel.createTransactionType = createTransactionType;
-                    vm.transactionModel.supplierId = vm.criteria.supplierId;
-                    vm.transactionModel.transactionDate = vm.paymentModel;
-                    vm.transactionModel.maturityDate = vm.maturityDateModel;
-
-                    PageNavigation.nextStep('/create-payment/validate-submit', objectToSend, {
-                        transactionModel: vm.transactionModel,
-                        tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
-                        criteria: vm.criteria,
-                        supplierModel: tradingPartnerList,
-                        documents: $scope.documents
-                    });
+                	if (validatePaymentAmount()){
+	                    var supplier = $.grep(vm.suppliers, function (td) { return td.value == vm.criteria.supplierId; });
+	
+	                    vm.transactionModel.documents = defaultEmptyValue($scope.documents);
+	                    vm.transactionModel.supplierName = supplier[0].label;
+	                    vm.tradingpartnerInfoModel.createTransactionType = createTransactionType;
+	                    vm.transactionModel.supplierId = vm.criteria.supplierId;
+	                    vm.transactionModel.transactionDate = vm.paymentModel;
+	                    vm.transactionModel.maturityDate = vm.maturityDateModel;
+	
+	                    PageNavigation.nextStep('/create-payment/validate-submit', objectToSend, {
+	                        transactionModel: vm.transactionModel,
+	                        tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
+	                        criteria: vm.criteria,
+	                        supplierModel: tradingPartnerList,
+	                        documents: $scope.documents
+	                    });
+                	}
                 }
             }
         }
