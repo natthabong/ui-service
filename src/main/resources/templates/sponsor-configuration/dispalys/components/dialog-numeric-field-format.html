@@ -1,0 +1,78 @@
+<div class="modal-content">
+	<div class="modal-header">
+		<div class="row">
+			<div class="col-md-10 col-sm-10">
+				<h3>
+					<span id="numeric-field-format-popup-header-message-label"
+						class="popup-text">{{ngDialogData.config.displayFieldName}}
+						column format</span>
+				</h3>
+			</div>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<form name="numericFieldFormat" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							id="numeric-field-format-popup-alignment-label"
+							ng-bind="'Alignment' | translate"></span>:</label>
+						<div class="col-md-7 col-sm-5 col-xs-12">
+							<scf-dropdown id="numeric-field-format-popup-alignment-dropdown"
+								ng-model="ctrl.model.alignment"
+								component-data="ctrl.alignDropdownItems" translate-label="true"></scf-dropdown>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<div class="col-md-7 col-sm-5 col-xs-12">
+							<label class="checkbox-inline"> <scf-checkbox
+									id="use-seperator-checkbox"
+									ng-model="ctrl.dlgData.useSeperator"></scf-checkbox> <span
+								ng-bind="'Use 1000 Separator (,)' | translate"
+								id="use-seperator-label"></span>
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							id="numeric-field-format-popup-negative-numbers-label"
+							ng-bind="'Negative numbers' | translate"></span>:</label>
+						<div class="col-md-7 col-sm-5 col-xs-12">
+							<scf-dropdown
+								id="numeric-field-format-popup-negative-numbers-dropdown"
+								ng-model="ctrl.dlgData.filterType"
+								component-data="ctrl.negativeNumberDropdownItems"
+								translate-label="true"></scf-dropdown>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="numeric-label"
+							class="col-md-12 col-sm-12 col-xs-12 control-label"> Ex.
+							Positive: <span
+							id="numeric-field-format-popup-positive-example-label"
+							ng-bind="ctrl.examplePosDataDisplay"></span> <br />
+							&nbsp;&nbsp;&nbsp; Negative: <span
+							id="numeric-field-format-popup-negative-example-label"
+							ng-bind="ctrl.exampleNegDataDisplay"></span>
+						</label>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-xs-12 text-right">
+				<scf-button id="numeric-field-format-popup-cancel-button"
+					class="popup-button" ng-click="closeThisDialog()"
+					ng-bind="'Cancel' | translate"></scf-button>
+				<scf-button id="numeric-field-format-popup-ok-button"
+					class="popup-button" ng-click="closeThisDialog(ctrl.model);"
+					ng-bind="'OK' | translate"></scf-button>
+
+			</div>
+		</div>
+	</div>
+</div>
