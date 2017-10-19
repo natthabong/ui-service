@@ -102,7 +102,7 @@ paymentModule.controller('ValidateSubmitController', [
 
                 vm.transactionModel.documents.forEach(function (document) {
                     document.documentId = null;
-                    document.documentNo = null;
+                    document.documentNo = document.documentNo;
                     document.documentType = null;
                     document.customerCode = null;
                     document.paymentAmount = document.netAmount;

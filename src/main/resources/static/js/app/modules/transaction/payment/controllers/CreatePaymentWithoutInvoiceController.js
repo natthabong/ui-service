@@ -53,10 +53,12 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             supplierId: ownerId,
             buyerId: ownerId,
             documentStatus: 'NEW',
-            showOverdue: false
+            showOverdue: false,
+            viewMyOrganize: false
         }
 
         $scope.documents = $stateParams.documents || [{
+        	documentNo: null,
             optionVarcharField1: null,
             optionVarcharField2: null,
             netAmount: null
@@ -221,6 +223,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                 vm.errorDisplay = true;
                 $scope.errors.message = "Document is required."
             } else {
+            	var index = 0;
                 $scope.documents.forEach(function (document) {
                     if (document.optionVarcharField1 == null || document.optionVarcharField1 == "") {
                         valid = false;
@@ -231,6 +234,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             			vm.errorDisplay = true;
             			$scope.errors.message = "Payment amount is required."
                     }
+                    $scope.documents[index].documentNo = ++index;
                 });
             }
             return valid;
