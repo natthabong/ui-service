@@ -1,7 +1,7 @@
 var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'ui.mask', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
                         			'legendDirectives','chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing'
-									,'gecscf.sponsorConfiguration.workflow','gecscf.document','gecscf.organize.configuration.exportPayment'])
+									,'gecscf.sponsorConfiguration.workflow','gecscf.document','gecscf.organize.configuration.exportPayment','gecscf.organize.configuration.display'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider','$urlRouterProvider','ngDialogProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider,$compileProvider, $urlRouterProvider, ngDialogProvider) {
 
@@ -281,7 +281,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/document-display/settings',
 				params: { accountingTransactionType: null, displayMode: null, selectedItem: null},
 				resolve: load(['js/app/modules/organize/configuration/display/controllers/DisplayController.js',
-					'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js'])
+					'js/app/modules/organize/configuration/display/services/DisplayService.js'])
 			}).state('/sponsor-configuration/create-transaction-displays/settings',{
 				url: '/sponsor-configuration/create-transaction-displays/settings',
 				controller: 'DisplayController',
@@ -289,7 +289,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/create-transaction-displays/settings',
 				params: { accountingTransactionType: null, displayMode: null, selectedItem: null},
 				resolve: load(['js/app/modules/organize/configuration/display/controllers/DisplayController.js',
-					'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js'])
+					'js/app/modules/organize/configuration/display/services/DisplayService.js'])
 			}).state('/sponsor-configuration/components/setup-display-fields',{
 				url: '/sponsor-configuration/components/setup-display-fields',
 				templateUrl: '/sponsor-configuration/components/setup-display-fields'
