@@ -543,6 +543,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
                 transactionModel.sponsorPaymentDate = SCFCommonService.convertStringTodate(transactionModel.sponsorPaymentDate);
                 transactionModel.transactionDate = SCFCommonService.convertStringTodate(transactionModel.transactionDate);
+                transactionModel.transactionType = 'DRAWDOWN';
 
                 var deffered = TransactionService.verifyTransaction(transactionModel);
                 deffered.promise.then(function(response) {

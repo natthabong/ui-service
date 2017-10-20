@@ -115,7 +115,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                     }
 
                     if ($stateParams.backAction && vm.transactionModel.maturityDate != null) {
-                        vm.maturityDateModel = vm.transactionModel.maturityDate;
+                        vm.maturityDateModel = SCFCommonService.convertDate(vm.transactionModel.maturityDate);
                     }
 
                 }).catch(function (response) {
@@ -141,7 +141,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                 });
 
                 if ($stateParams.backAction && vm.transactionModel.transactionDate != null) {
-                    vm.paymentModel = vm.transactionModel.transactionDate;
+                    vm.paymentModel = SCFCommonService.convertDate(vm.transactionModel.transactionDate);
                 } else {
                     vm.paymentModel = vm.paymentDropDown[0].value;
                 }
@@ -253,11 +253,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             return valid;
         }
 
-        var objectToSend = {
-            transactionModel: vm.transactionModel,
-            tradingpartnerInfoModel: vm.tradingpartnerInfoModel
-        };
-
         var defaultEmptyValue = function (documents) {
             documents.forEach(function (document) {
                 if (document.netAmount == null || document.netAmount == "") {
@@ -268,30 +263,31 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         }
 
         // <---------------------------------- User Action ---------------------------------->
-
-        var validatePaymentAmount = function () {
-            var valid = true;
-            if (vm.transactionModel.transactionAmount <= 0) {
-                valid = false;
-                vm.errorMsgPopup = "Transaction amount must be greater than zero";
-                $scope.validateDataFailPopup = true;
-            }
-            return valid;
-        }
-        
         vm.nextStep = function () {
             if (validateDocument()) {
                 if (validateMaturityDate()) {
-                	if (validatePaymentAmount()){
-	                    var supplier = $.grep(vm.suppliers, function (td) { return td.value == vm.criteria.supplierId; });
-	
-	                    vm.transactionModel.documents = defaultEmptyValue($scope.documents);
-	                    vm.transactionModel.supplierName = supplier[0].label;
-	                    vm.tradingpartnerInfoModel.createTransactionType = createTransactionType;
-	                    vm.transactionModel.supplierId = vm.criteria.supplierId;
-	                    vm.transactionModel.transactionDate = vm.paymentModel;
-	                    vm.transactionModel.maturityDate = vm.maturityDateModel;
-	
+                	vm.transactionModel.supplierId = vm.criteria.supplierId;
+                    vm.transactionModel.sponsorId = ownerId;
+                    vm.transactionModel.documents = defaultEmptyValue($scope.documents);
+                    vm.transactionModel.sponsorPaymentDate = SCFCommonService.convertStringTodate(vm.paymentModel);
+                    vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.paymentModel);
+                    vm.transactionModel.maturityDate = SCFCommonService.convertStringTodate(vm.maturityDateModel);
+                    vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
+                    vm.transactionModel.transactionType = 'PAYMENT';
+                    vm.tradingpartnerInfoModel.createTransactionType = createTransactionType;
+                    
+                	var deffered = TransactionService.verifyTransaction(vm.transactionModel);
+                    deffered.promise.then(function(response) {
+                        var transaction = response.data;
+                        SCFCommonService.parentStatePage().saveCurrentState('/my-organize/create-transaction');
+                        
+                        var supplier = $.grep(vm.suppliers, function (td) { return td.value == vm.criteria.supplierId; });
+
+	                    var objectToSend = {
+                            transactionModel: vm.transactionModel,
+                            tradingpartnerInfoModel: vm.tradingpartnerInfoModel
+                        };
+	                    
 	                    PageNavigation.nextStep('/create-payment/validate-submit', objectToSend, {
 	                        transactionModel: vm.transactionModel,
 	                        tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
@@ -299,7 +295,10 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
 	                        supplierModel: tradingPartnerList,
 	                        documents: $scope.documents
 	                    });
-                	}
+                    }).catch(function(response) {
+                        vm.errorMsgPopup = response.data.errorCode;
+                        $scope.validateDataFailPopup = true;
+                    });
                 }
             }
         }
@@ -351,6 +350,16 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                     }
                 }
             });
+        }
+        
+        function getSupplierName(supplierId) {
+            var supplierName = null;
+            vm.suppliers.map(function(obj) {
+                if (obj.value == supplierId) {
+                    supplierName = obj.label;
+                }
+            });
+            return supplierName;
         }
 
         // <---------------------------------- User Action ---------------------------------->

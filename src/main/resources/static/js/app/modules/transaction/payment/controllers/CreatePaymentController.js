@@ -14,7 +14,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         var dashboardParams = $stateParams.dashboardParams;
         var tradingPartnerList = [];
         vm.suppliers = [];
-        var supplierList = [];
         vm.paymentDropDown = [];
         var _criteria = {};
         vm.displayPaymentPage = false;
@@ -135,7 +134,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.paymentDropDown = [];
             vm.documentSelects = [];
             vm.transactionModel.transactionAmount = '0.00';
-            //            vm.showErrorMsg = false;
             vm.errorDisplay = false;
             vm.selectAllModel = false;
             vm.checkAllModel = false;
@@ -236,7 +234,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         }
 
                         if ($stateParams.backAction && vm.transactionModel.maturityDate != null) {
-                            vm.maturityDateModel = vm.transactionModel.maturityDate;
+                            vm.maturityDateModel = SCFCommonService.convertDate(vm.transactionModel.maturityDate);
                         }
 
                     })
@@ -261,9 +259,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                 value: data
                             })
                         });
-
+                        
                         if ($stateParams.backAction && vm.transactionModel.transactionDate != null) {
-                            vm.paymentModel = vm.transactionModel.transactionDate;
+                            vm.paymentModel = SCFCommonService.convertDate(vm.transactionModel.transactionDate);
                         } else {
                             vm.paymentModel = vm.paymentDropDown[0].value;
                         }
@@ -315,7 +313,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     vm.isLoanPayment = true;
                     _loadMaturityDate();
                 }
-
             }).catch(function(response) {
                 log.error(response);
             });
@@ -384,7 +381,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 vm.criteria.dueDateTo = dashboardParams.dueDate;
                 vm.showBackButton = true;
             }
-
         }();
 
         function checkCreatePaymentType(supplierId) {
@@ -433,7 +429,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         vm.supplierChange = function() {
-            //            vm.showErrorMsg = false;
             vm.errorDisplay = false;
             vm.display = false;
             checkCreatePaymentType(vm.criteria.supplierId)
@@ -442,7 +437,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         vm.customerCodeChange = function() {
-            //            vm.showErrorMsg = false;
             vm.errorDisplay = false;
             vm.display = false;
         }
@@ -551,49 +545,56 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             }
         }
 
-        var validatePaymentAmount = function() {
-            var valid = true;
-            if (vm.transactionModel.transactionAmount <= 0) {
-                valid = false;
-                vm.errorMsgPopup = "Transaction amount must be greater than zero";
-                $scope.validateDataFailPopup = true;
-            }
-            return valid;
-        }
+//        var validatePaymentAmount = function() {
+//            var valid = true;
+//            if (vm.transactionModel.transactionAmount <= 0) {
+//                valid = false;
+//                vm.errorMsgPopup = "Transaction amount must be greater than zero";
+//                $scope.validateDataFailPopup = true;
+//            }
+//            return valid;
+//        }
 
         // next to page verify and submit
         vm.nextStep = function() {
             vm.errorDisplay = false;
             if (vm.documentSelects.length === 0) {
-                //                vm.errorMsgGroups = 'Please select document.';
-                //              vm.showErrorMsg = true;
                 $scope.errors.message = 'Please select document.';
                 vm.errorDisplay = true;
             } else if (vm.isLoanPayment && !angular.isDefined(vm.maturityDateModel) || vm.maturityDateModel == '') {
-                //                vm.errorMsgGroups = 'Maturity date is required.';
-                //                vm.showErrorMsg = true;
                 $scope.errors.message = 'Maturity date is required.';
                 vm.errorDisplay = true;
             } else {
-                if (validatePaymentAmount()) {
-                    vm.transactionModel.supplierId = vm.criteria.supplierId;
-                    vm.transactionModel.documents = vm.documentSelects;
-                    vm.transactionModel.transactionDate = vm.paymentModel;
-                    vm.transactionModel.maturityDate = vm.maturityDateModel;
-                    vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
-
-                    var objectToSend = {
-                        transactionModel: vm.transactionModel,
-                        tradingpartnerInfoModel: vm.tradingpartnerInfoModel
-                    };
-
+            	vm.transactionModel.sponsorId = ownerId;
+            	vm.transactionModel.supplierId = vm.criteria.supplierId;
+                vm.transactionModel.documents = vm.documentSelects;
+                vm.transactionModel.sponsorPaymentDate = SCFCommonService.convertStringTodate(vm.paymentModel);
+                vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.paymentModel);
+                vm.transactionModel.maturityDate = SCFCommonService.convertStringTodate(vm.maturityDateModel);
+                vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
+                vm.transactionModel.transactionType = 'PAYMENT';
+                vm.tradingpartnerInfoModel.createTransactionType = createTransactionType;
+                
+                var deffered = TransactionService.verifyTransaction(vm.transactionModel);
+                deffered.promise.then(function(response) {
+                    var transaction = response.data;
+                    SCFCommonService.parentStatePage().saveCurrentState('/my-organize/create-transaction');
+                    
+	                var objectToSend = {
+	                    transactionModel: vm.transactionModel,
+	                    tradingpartnerInfoModel: vm.tradingpartnerInfoModel
+	                };
+	                
                     PageNavigation.nextStep('/create-payment/validate-submit', objectToSend, {
-                        transactionModel: vm.transactionModel,
-                        tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
-                        criteria: _criteria,
-                        documentSelects: vm.documentSelects
-                    });
-                }
+	                    transactionModel: vm.transactionModel,
+	                    tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
+	                    criteria: _criteria,
+	                    documentSelects: vm.documentSelects
+	                });
+                }).catch(function(response) {
+                    vm.errorMsgPopup = response.data.errorCode;
+                    $scope.validateDataFailPopup = true;
+                });
             }
         }
 
