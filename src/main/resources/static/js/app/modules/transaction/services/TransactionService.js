@@ -121,7 +121,7 @@ function transactionService($http, $q, blockUI, $window) {
             deffered.resolve(response);
         })
         .catch(function(response) {
-            deffered.reject('Cannot load payment date');
+        	deffered.reject(response);
         });
         return deffered;		
 	}
@@ -215,8 +215,6 @@ function transactionService($http, $q, blockUI, $window) {
     
     function verifyTransaction(transaction){
     	var deffered = $q.defer();
-    	console.log('Verify');
-    	console.log(transaction);
         $http.post('api/v1/create-transaction/transaction/verify', transaction)
             .then(function(response) {
                 deffered.resolve(response);
