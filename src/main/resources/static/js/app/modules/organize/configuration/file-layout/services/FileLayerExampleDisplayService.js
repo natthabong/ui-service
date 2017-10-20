@@ -76,7 +76,7 @@ module.factory('FileLayerExampleDisplayService', ['$filter', function($filter) {
 		var displayMessage = config.detailExamplePattern;
 
 		var calendarEra = "Christ calendar (A.D.)";
-		if (record.calendarEra == "BE") {
+		if (record.calendarEra == "B.E.") {
 			calendarEra = "Buddhist calendar (B.E.)";
 		}
 

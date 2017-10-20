@@ -1,10 +1,10 @@
 var docMod = angular.module('gecscf.document');
 docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
     '$stateParams', 'SCFCommonService', 'PageNavigation', 'UIFactory', 'ngDialog', '$timeout',
-    'DocumentService', 'ARDocumentStatus', 'PagingController', '$http','$q','Service',
-    function ($rootScope, $scope, $log, $stateParams, SCFCommonService,
+    'DocumentService', 'ARDocumentStatus', 'PagingController', '$http', '$q', 'Service',
+    function($rootScope, $scope, $log, $stateParams, SCFCommonService,
         PageNavigation, UIFactory, ngDialog, $timeout, DocumentService,
-        ARDocumentStatus, PagingController, $http,$q,Service) {
+        ARDocumentStatus, PagingController, $http, $q, Service) {
 
         var vm = this;
         var log = $log;
@@ -29,9 +29,9 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 
         vm.documentStatusDrpodowns = ARDocumentStatus;
 
-        vm.canDelete = function(data){
-		    return data.documentStatus == 'NEW' && !($stateParams.viewMode == viewModeData.partner) && vm.deleteAuthority; 
-		}
+        vm.canDelete = function(data) {
+            return data.documentStatus == 'NEW' && !($stateParams.viewMode == viewModeData.partner) && vm.deleteAuthority;
+        }
 
         vm.dataTable = {
             identityField: 'documentId',
@@ -106,25 +106,30 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
             documentNo: '',
             documentStatus: undefined,
             accountingTransactionType: 'RECEIVABLE',
-            showOverdue: true
+            showOverdue: true,
+            viewMyOrganize: true
         }
 
-        var querySupplierCode = function (value) {
+        if (viewModeData.partner == $stateParams.viewMode) {
+            vm.documentListCriterial.viewMyOrganize = false;
+        }
+
+        var querySupplierCode = function(value) {
             var serviceUrl = 'api/v1/suppliers';
             value = value = UIFactory.createCriteria(value);
             var buyer = null;
-            if(angular.isDefined(vm.documentListModel.buyer) && vm.documentListModel.buyer != null){
+            if (angular.isDefined(vm.documentListModel.buyer) && vm.documentListModel.buyer != null) {
                 buyer = vm.documentListModel.buyer.organizeId;
             }
             return $http.get(serviceUrl, {
                 params: {
                     q: value,
-                    buyerId : buyer,
+                    buyerId: buyer,
                     offset: 0,
                     limit: 5
                 }
-            }).then(function (response) {
-                return response.data.map(function (item) {
+            }).then(function(response) {
+                return response.data.map(function(item) {
                     item.identity = ['supplier-', item.organizeId, '-option'].join('');
                     item.label = [item.organizeId, ': ', item.organizeName].join('');
                     return item;
@@ -138,7 +143,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
             query: querySupplierCode
         });
 
-        var queryBuyerCode = function (value) {
+        var queryBuyerCode = function(value) {
             var serviceUrl = 'api/v1/buyers';
             value = value = UIFactory.createCriteria(value);
             return $http.get(serviceUrl, {
@@ -148,8 +153,8 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
                     offset: 0,
                     limit: 5
                 }
-            }).then(function (response) {
-                return response.data.map(function (item) {
+            }).then(function(response) {
+                return response.data.map(function(item) {
                     item.identity = ['buyer-', item.organizeId, '-option'].join('');
                     item.label = [item.organizeId, ': ', item.organizeName].join('');
                     return item;
@@ -163,7 +168,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
             query: queryBuyerCode
         });
 
-        var isValidateCriteriaPass = function () {
+        var isValidateCriteriaPass = function() {
             var isValidatePass = true;
 
             vm.requireSupplier = false;
@@ -189,8 +194,8 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
                 vm.wrongDateFormat = true;
                 isValidatePass = false;
             }
-            
-            if(!vm.wrongDateFormat){
+
+            if (!vm.wrongDateFormat) {
                 if (vm.documentListModel.uploadDateFrom != '' && vm.documentListModel.uploadDateTo != '') {
                     if (vm.documentListModel.uploadDateFrom > vm.documentListModel.uploadDateTo) {
                         vm.wrongDateFromLessThanDateTo = true;
@@ -228,7 +233,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 
             vm.documentListCriterial.documentNo = UIFactory.createCriteria(vm.documentListModel.documentNo);
 
-            ARDocumentStatus.forEach(function (status) {
+            ARDocumentStatus.forEach(function(status) {
                 if (vm.documentListModel.documentStatus == status.value) {
                     vm.documentListCriterial.documentStatus = status.valueObject;
                 }
@@ -241,7 +246,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 
         vm.pagingController = PagingController.create('api/v1/documents', vm.documentListCriterial, 'GET');
 
-        vm.searchDocument = function (pagingModel) {
+        vm.searchDocument = function(pagingModel) {
             // vm.pagingController = PagingController.create('api/v1/documents', vm.documentListCriterial, 'GET');
             if (isValidateCriteriaPass()) {
                 var criteria = prepareCriteria();
@@ -250,11 +255,11 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
             }
         }
 
-        vm.loadDocumentDisplayConfig = function (sponsorId, accountingTransactionType, displayMode) {
+        vm.loadDocumentDisplayConfig = function(sponsorId, accountingTransactionType, displayMode) {
             var docDisplayPromise = $q.defer();
             var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId, accountingTransactionType, displayMode);
             vm.dataTable.columns = [];
-            displayConfig.promise.then(function (response) {
+            displayConfig.promise.then(function(response) {
 
                 vm.dataTable.columns.push(columRowNo);
                 if (viewMode != viewModeData.partner) {
@@ -262,7 +267,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
                 }
 
                 var configItems = response.items;
-                configItems.forEach(function (data) {
+                configItems.forEach(function(data) {
                     vm.dataTable.columns.push(data);
                 });
 
@@ -279,27 +284,26 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
             return docDisplayPromise;
         }
 
-        var initBuyerAutoSuggest = function () {
+        var initBuyerAutoSuggest = function() {
             var buyerInfo = angular.copy($rootScope.userInfo);
             buyerInfo = DocumentService.prepareAutoSuggestLabel(buyerInfo);
             vm.documentListModel.buyer = buyerInfo;
         }
 
-        var initSupplierAutoSuggest = function () {
+        var initSupplierAutoSuggest = function() {
             var supplierInfo = angular.copy($rootScope.userInfo);
             supplierInfo = DocumentService.prepareAutoSuggestLabel(supplierInfo);
             vm.documentListModel.supplier = supplierInfo;
 
             var loadDisplayConfigDiferred = vm.loadDocumentDisplayConfig(organizeId, accountingTransactionType, displayMode);
-            loadDisplayConfigDiferred.promise.then(function () {
+            loadDisplayConfigDiferred.promise.then(function() {
                 vm.searchDocument();
             });
         }
 
-        var checkBuyerTP = function (organizeId,serviceUrl) {
+        var checkBuyerTP = function(organizeId, serviceUrl) {
             var supplierTPDeferred = Service.doGet(serviceUrl, { q: '', offset: 0, limit: 5 });
-            supplierTPDeferred.promise.then(function (response) {
-                console.log(response.data);
+            supplierTPDeferred.promise.then(function(response) {
                 if (response.data.length == 1) {
                     var supplierInfo = response.data[0];
                     supplierInfo = prepareAutoSuggestLabel(supplierInfo);
@@ -308,9 +312,9 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
                 }
             });
         }
-        
 
-        var initLoad = function () {
+
+        var initLoad = function() {
             viewMode = $stateParams.viewMode;
 
             if (viewMode == viewModeData.myOrganize) {
@@ -318,24 +322,24 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
                 initSupplierAutoSuggest();
             } else if (viewMode == viewModeData.partner) {
                 initBuyerAutoSuggest();
-                var serviceUrl = 'api/v1/suppliers?buyerId='+organizeId;
-                checkBuyerTP(organizeId,serviceUrl);
+                var serviceUrl = 'api/v1/suppliers?buyerId=' + organizeId;
+                checkBuyerTP(organizeId, serviceUrl);
             } else if (viewMode == viewModeData.customer) {
 
             }
-        } ();
+        }();
 
         //<----------- function call by page ---------->
 
-        vm.openCalendarDateFrom = function () {
+        vm.openCalendarDateFrom = function() {
             vm.openDateFrom = true;
         }
 
-        vm.openCalendarDateTo = function () {
+        vm.openCalendarDateTo = function() {
             vm.openDateTo = true;
         }
 
-        vm.disableBuyerSuggest = function () {
+        vm.disableBuyerSuggest = function() {
             var isDisable = false;
             if (viewMode == viewModeData.customer) {
                 if (angular.isUndefined(vm.documentListModel.supplier)) {
@@ -349,7 +353,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
             return isDisable;
         };
 
-        $scope.$watch('ctrl.documentListModel.supplier', function () {
+        $scope.$watch('ctrl.documentListModel.supplier', function() {
             if (viewMode != viewModeData.myOrganize && angular.isDefined(vm.documentListModel.supplier) && angular.isObject(vm.documentListModel.supplier)) {
                 vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode);
             }
@@ -361,79 +365,79 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 
         var deleteDocument = function(document) {
 
-			var serviceUrl = 'api/v1/documents/' + document.documentId
-			var deferred = $q.defer();
-			$http({
-				method : 'POST',
-				url : serviceUrl,
-				headers : {
-					'If-Match' : document.version,
-					'X-HTTP-Method-Override': 'DELETE'
-				},
-				data: document
-			}).then(function(response) {
-				return deferred.resolve(response);
-			}).catch(function(response) {
-				return deferred.reject(response);
-			});
-			return deferred;
-		}
-		
-		vm.getDocumentSummary = function(criteria) {
-        	vm.totalNetAmount = 0;
-        	
-			var documentSummaryDiffered = Service.doGet('/api/documents/status-summary', criteria);
-			documentSummaryDiffered.promise.then(function(response) {
-			    response.data.forEach(function(data) {
-			    	vm.totalNetAmount += data.totalOutstandingAmount;
-				});
-			    
-			}).catch(function(response) {
-				log.error("Document summary error");
-			});
-		}
+            var serviceUrl = 'api/v1/documents/' + document.documentId
+            var deferred = $q.defer();
+            $http({
+                method: 'POST',
+                url: serviceUrl,
+                headers: {
+                    'If-Match': document.version,
+                    'X-HTTP-Method-Override': 'DELETE'
+                },
+                data: document
+            }).then(function(response) {
+                return deferred.resolve(response);
+            }).catch(function(response) {
+                return deferred.reject(response);
+            });
+            return deferred;
+        }
+
+        vm.getDocumentSummary = function(criteria) {
+            vm.totalNetAmount = 0;
+
+            var documentSummaryDiffered = Service.doGet('/api/documents/status-summary', criteria);
+            documentSummaryDiffered.promise.then(function(response) {
+                response.data.forEach(function(data) {
+                    vm.totalNetAmount += data.totalOutstandingAmount;
+                });
+
+            }).catch(function(response) {
+                log.error("Document summary error");
+            });
+        }
 
         vm.deleteDocument = function(document) {
-			var preCloseCallback = function(confirm) {
-				vm.pagingController.reload(vm.getDocumentSummary);
-			}
+            var preCloseCallback = function(confirm) {
+                vm.pagingController.reload(vm.getDocumentSummary);
+            }
 
-			UIFactory.showConfirmDialog({
-				data : {
-					headerMessage : 'Confirm delete?'
-				},
-				confirm : function() {
-					return deleteDocument(document);
-				},
-				onFail : function(response) {
-					var msg = {
-						409 : 'Document has already been deleted.',
-						405 : 'Document has already been used.'
-					};
-					UIFactory.showFailDialog({
-						data : {
-							headerMessage : 'Delete document fail.',
-							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
-						},
-						preCloseCallback : preCloseCallback
-					});
-				},
-				onSuccess : function(response) {
-					UIFactory.showSuccessDialog({
-						data : {
-							headerMessage : 'Delete document success.',
-							bodyMessage : ''
-						},
-						preCloseCallback : preCloseCallback
-					});
-				}
-			});
-		}
+            UIFactory.showConfirmDialog({
+                data: {
+                    headerMessage: 'Confirm delete?'
+                },
+                confirm: function() {
+                    return deleteDocument(document);
+                },
+                onFail: function(response) {
+                    var msg = {
+                        409: 'Document has already been deleted.',
+                        405: 'Document has already been used.'
+                    };
+                    UIFactory.showFailDialog({
+                        data: {
+                            headerMessage: 'Delete document fail.',
+                            bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
+                        },
+                        preCloseCallback: preCloseCallback
+                    });
+                },
+                onSuccess: function(response) {
+                    UIFactory.showSuccessDialog({
+                        data: {
+                            headerMessage: 'Delete document success.',
+                            bodyMessage: ''
+                        },
+                        preCloseCallback: preCloseCallback
+                    });
+                }
+            });
+        }
 
         //<-------------------------------------------->
-    }]);
-docMod.constant("ARDocumentStatus", [
-    {
+    }
+]);
+docMod.constant("ARDocumentStatus", [{
         label: 'All',
         value: '',
         valueObject: null

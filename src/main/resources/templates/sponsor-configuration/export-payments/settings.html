@@ -126,7 +126,7 @@
 													<scf-dropdown id="gecscf-field-name-{{$index+1}}-dropdown" 
 														ng-model="record.documentFieldId" component-data="ctrl.headerGECDropdown "
 														ng-disabled="!ctrl.manageAll"
-														ng-change="ctrl.isChangeDataType(record)" translate-label="true" 
+														ng-change="ctrl.isChangeDataType(record, ctrl.headerGECDropdown)" translate-label="true" 
 														convert-to-number="true"></scf-dropdown>
 												</td>
 
@@ -193,7 +193,7 @@
 													<scf-dropdown id="gecscf-field-name-{{$index+1}}-dropdown" 
 														ng-model="record.documentFieldId" component-data="ctrl.paymentGECDropdown"
 														ng-disabled="!ctrl.manageAll"
-														ng-change="ctrl.isChangeDataType(record)" translate-label="true" 
+														ng-change="ctrl.isChangeDataType(record, ctrl.paymentGECDropdown)" translate-label="true" 
 														convert-to-number="true"></scf-dropdown>
 												</td>
 
@@ -271,7 +271,7 @@
 													<scf-dropdown id="gecscf-field-name-{{$index+1}}-dropdown"
 														ng-disabled="!ctrl.manageAll"
 														ng-model="record.documentFieldId" component-data="ctrl.doucmentGECDropdown"
-														ng-change="ctrl.isChangeDataType(record)" translate-label="true" convert-to-number="true"></scf-dropdown>
+														ng-change="ctrl.isChangeDataType(record, ctrl.doucmentGECDropdown)" translate-label="true" convert-to-number="true"></scf-dropdown>
 												</td>
 
 												<td class="text-center" style="width: 23%">
@@ -348,7 +348,7 @@
 													<scf-dropdown id="gecscf-field-name-{{$index+1}}-dropdown" 
 														ng-disabled="!ctrl.manageAll"
 														ng-model="record.documentFieldId" component-data="ctrl.footerGECDropdown"
-														ng-change="ctrl.isChangeDataType(record)" translate-label="true" 
+														ng-change="ctrl.isChangeDataType(record, ctrl.footerGECDropdown)" translate-label="true" 
 														convert-to-number="true"></scf-dropdown>
 												</td>
 

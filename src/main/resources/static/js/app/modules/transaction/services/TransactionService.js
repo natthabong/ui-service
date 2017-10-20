@@ -86,7 +86,7 @@ function transactionService($http, $q, blockUI, $window) {
         return deffered;
     }
 
-	function getPaymentDate(transactionModel) {
+	function getPaymentDate(transactionModel, type) {
         var deffered = $q.defer();
         $http({
         	    url :'api/v1/create-transaction/payment-dates/calculate',
@@ -97,7 +97,8 @@ function transactionService($http, $q, blockUI, $window) {
 					documents : transactionModel.documents
             	},
 				params: {
-					loanRequestMode : "CURRENT_AND_FUTURE"
+					loanRequestMode : "CURRENT_AND_FUTURE",
+					createTransactionType : type
 				}
             })
             .then(function(response) {
@@ -120,7 +121,7 @@ function transactionService($http, $q, blockUI, $window) {
             deffered.resolve(response);
         })
         .catch(function(response) {
-            deffered.reject('Cannot load payment date');
+        	deffered.reject(response);
         });
         return deffered;		
 	}
@@ -214,7 +215,6 @@ function transactionService($http, $q, blockUI, $window) {
     
     function verifyTransaction(transaction){
     	var deffered = $q.defer();
-
         $http.post('api/v1/create-transaction/transaction/verify', transaction)
             .then(function(response) {
                 deffered.resolve(response);

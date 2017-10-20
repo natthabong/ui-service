@@ -14,12 +14,12 @@
 
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body">
-					<div class="col-md-12" ng-show="ctrl.showErrorMsg">
-						<div class="alert alert-danger" role="alert">
-							<span id="message-alert-label"
-								ng-bind="ctrl.errorMsgGroups | translate"></span>
-						</div>
-					</div>
+<!-- 					<div class="col-md-12" ng-show="ctrl.showErrorMsg"> -->
+<!-- 						<div class="alert alert-danger" role="alert"> -->
+<!-- 							<span id="message-alert-label" -->
+<!-- 								ng-bind="ctrl.errorMsgGroups | translate"></span> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 					<!-- Start Column Panel-->
 					<div class="col-md-12">
 						<form name="createForm" class="form-horizontal">
@@ -35,7 +35,8 @@
 								</div>
 								<div class="col-md-5 col-sm-5"></div>
 							</div>
-							<div class="form-group">
+
+							<div class="form-group" ng-show="ctrl.displayPaymentPage">
 								<label for="dealer" id="buyer-code-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer
 									code' | translate}}: </label>
@@ -48,7 +49,8 @@
 								</div>
 								<div class="col-md-5 col-sm-5"></div>
 							</div>
-							<div class="form-group">
+
+							<div class="form-group" ng-show="ctrl.displayPaymentPage">
 								<label id="date-label" class="col-md-2 col-sm-3 control-label">{{'Due
 									date' | translate}}:</label>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
@@ -78,7 +80,7 @@
 								</div>
 							</div>
 							<div class="form-group"
-								ng-show="errors.dueDateToLessThanFrom || errors.dueDateFormat">
+								ng-show="(errors.dueDateToLessThanFrom || errors.dueDateFormat) &amp;&amp; ctrl.displayPaymentPage">
 								<label class="col-md-2 col-sm-3 col-xs-12  control-label"></label>
 								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
 									ng-show="errors.dueDateToLessThanFrom"
@@ -139,6 +141,9 @@
 										current-page="ctrl.pagingController.pagingModel.currentPage"
 										record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 										clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-layout-table>
+									<div class="form-group" ng-show="ctrl.errorDisplay">
+										<span class="col-md-3 col-sm-3 col-xs-12 error-msg" id="warning-message-label" ng-bind="errors.message | translate"></span>
+									</div>
 								</div>
 								<div id="fixed-bottom" class="col-md-12"></div>
 							</div>
@@ -252,4 +257,33 @@
 			</div>
 		</div>
 	</div>
+	<scf-modal visible="validateDataFailPopup">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="row">
+					<div class="col-md-2 col-sm-2">
+						<image width="70" height="70" ng-src="img/error-icon.png"></image>
+					</div>
+					<div class="col-md-10 col-sm-10" style="color: red;">
+						<h2 ng-bind="'Fail' | translate">Fail</h2>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-2 col-sm-2"></div>
+					<div class="col-md-10 col-sm-10 col-xs-12">
+						<h3 id="error-message-label" class="gec-pop-up-font-size" ng-bind="ctrl.errorMsgPopup | translate"></h3>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="row">
+					<div class="col-xs-12 text-right">
+						<scf-button id="popup-back-button" class="popup-button" data-dismiss="modal" ng-bind="'Back' | translate"></scf-button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</scf-modal>
 </div>

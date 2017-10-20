@@ -7,16 +7,21 @@ module.controller('NumericExportLayoutConfigController',
 
 	var vm = this;
 	vm.model = angular.copy($scope.ngDialogData.record);
-
-	vm.usePadding = vm.model.paddingCharacter ? true : false;
-	vm.signFlag = vm.model.hasDecimalSign ? true : false;
-
-	vm.resetPadding = function() {
-		if (!vm.usePadding) {
-			vm.model.paddingCharacter = null;
+	
+	if(!$scope.ngDialogData.isDelimited){
+		if(vm.model.paddingCharacter == undefined || vm.model.paddingCharacter.length == 0){
+			vm.model.paddingCharacter = "0";
+			vm.usePadding = true;
+		}else{
+			vm.usePadding = vm.model.paddingCharacter ? true : false;
 		}
+	}else{
+		vm.model.paddingCharacter = "";
+		vm.usePadding = false;
 	}
 	
+	vm.signFlag = vm.model.hasDecimalSign ? true : false;
+
 	vm.resetDecimalSign = function(){
 		if (!vm.signFlag) {
 			vm.model.hasDecimalSign = false;

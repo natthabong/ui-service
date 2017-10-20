@@ -14,12 +14,12 @@
 
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body">
-					<div class="col-md-12" ng-show="ctrl.showErrorMsg">
-						<div class="alert alert-danger" role="alert">
-							<span id="message-alert-label"
-								ng-bind="ctrl.errorMsgGroups | translate"></span>
-						</div>
-					</div>
+<!-- 					<div class="col-md-12" ng-show="ctrl.showErrorMsg"> -->
+<!-- 						<div class="alert alert-danger" role="alert"> -->
+<!-- 							<span id="message-alert-label" -->
+<!-- 								ng-bind="ctrl.errorMsgGroups | translate"></span> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 					<!-- Start Column Panel-->
 					<div class="col-md-12">
 						<form name="createForm" class="form-horizontal">
@@ -80,7 +80,7 @@
 										<div class="panel-body">
 											<div class="row">
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Credit limit' | translate">à¸§à¸‡à¹€à¸‡à¸´à¸™à¸�à¸¹à¹‰
+													<label ng-bind="'Credit limit' | translate">วงเงิน�?ู้
 													</label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
@@ -90,7 +90,7 @@
 												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
 
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Available' | translate">à¸§à¸‡à¹€à¸‡à¸´à¸™à¸�à¸¹à¹‰à¸—à¸µà¹ˆà¸ªà¸²à¸¡à¸²à¸£à¸–à¹€à¸šà¸´à¸�à¸–à¸­à¸™à¹„à¸”à¹‰</label>:
+													<label ng-bind="'Available' | translate">วงเงิน�?ู้ที่สามารถเบิ�?ถอนได้</label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
 													<span id="available-label"
@@ -100,7 +100,7 @@
 											</div>
 											<div class="row">
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Outstanding' | translate">à¸¢à¸­à¸”à¹€à¸‡à¸´à¸™à¸�à¸¹à¹‰à¸—à¸µà¹ˆà¹€à¸šà¸´à¸�à¸–à¸­à¸™à¹�à¸¥à¹‰à¸§</label>:
+													<label ng-bind="'Outstanding' | translate">ยอดเงิน�?ู้ที่เบิ�?ถอน�?ล้ว</label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
 													<span id="outstanding-label"
@@ -108,7 +108,7 @@
 												</div>
 												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Future drawdown' | translate">à¸¢à¸­à¸”à¹€à¸‡à¸´à¸™à¸�à¸¹à¹‰à¸¥à¹ˆà¸§à¸‡à¸«à¸™à¹‰à¸²</label>:
+													<label ng-bind="'Future drawdown' | translate">ยอดเงิน�?ู้ล่วงหน้า</label>:
 												</div>
 												<div class="col-md-2  col-sm-2 text-right">
 													<span id="future-amount-label"
@@ -145,7 +145,7 @@
 												</div>
 												<div class="col-md-1 col-sm-1"></div>
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Interest rate' | translate">à¸­à¸±à¸•à¸£à¸²à¸”à¸­à¸�à¹€à¸šà¸µà¹‰à¸¢à¹€à¸‡à¸´à¸™à¸�à¸¹à¹‰</label>:
+													<label ng-bind="'Interest rate' | translate">อัตราดอ�?เบี้ยเงิน�?ู้</label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
 													<span id="interest-rate-label"
@@ -203,6 +203,10 @@
 										current-page="ctrl.pagingController.pagingModel.currentPage"
 										record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 										clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-layout-table>
+										
+									<div class="form-group" ng-show="ctrl.errorDisplay">
+											<span class="col-md-3 col-sm-3 col-xs-12 error-msg" id="warning-message-label" ng-bind="errors.message | translate"></span>
+										</div>
 								</div>
 								<div id="fixed-bottom" class="col-md-12"></div>
 							</div>
