@@ -48,11 +48,11 @@
 								<div class="col-md-4 col-sm-3"></div>
 							</div>
 
-							<div class="form-group">
+							<div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
 								<label for="dealer" id="display-cn-documents-label" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Display CN documents' | translate}}:</label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
-										ng-model="ctrl.dataModel.isDisplayNegativeDocument"
+										ng-model="ctrl.dataModel.displayNegativeDocument"
 										id="display-checkbox"
 										ng-disabled="false"></scf-checkbox>
 										{{'Display' | translate}}
@@ -70,6 +70,7 @@
 											id="any-document-radio" name="document-selection-radio"
 											ng-value="ctrl.documentSelection.anyDocument"
 											ng-disabled="!ctrl.manageAll"
+											ng-click="ctrl.changeDocumentSelection()"
 											ng-model="ctrl.dataModel.documentSelection"></scf-radio>
 										{{'Any document' | translate}}
 									</label>
@@ -81,31 +82,35 @@
 											id="group-by-radio" name="document-selection-radio"
 											ng-value="ctrl.documentSelection.groupBy"
 											ng-disabled="!ctrl.manageAll"
+											ng-click="ctrl.changeDocumentSelection()"
 											ng-model="ctrl.dataModel.documentSelection"></scf-radio>
 										{{'Group by' | translate}}
 									</label>
 								</div>
 
-								<label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
-								<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-									<label class="radio-inline"> <scf-radio
-											id="all-document-selected-radio" name="group-by-radio"
-											ng-value="ctrl.documentSelection.allDocument"
-											ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)"
-											ng-model="ctrl.groupDocumentType"></scf-radio>
-										{{'All document selected' | translate}}
-									</label>
+								<div ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+									<label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
+									<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+										<label class="radio-inline"> <scf-radio
+												id="all-document-selected-radio" name="group-by-radio"
+												ng-value="ctrl.documentSelection.allDocument"
+												ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)"
+												ng-model="ctrl.groupDocumentType"></scf-radio>
+											{{'All document selected' | translate}}
+										</label>
+									</div>
 								</div>
-
-								<label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
-								<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-									<label class="radio-inline"> <scf-radio
-											id="at-least-1-document-selected-radio" name="group-by-radio"
-											ng-value="ctrl.documentSelection.atLeastOneDocument"
-											ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)"
-											ng-model="ctrl.groupDocumentType"></scf-radio>
-										{{'All CN document and Invoice at least 1 document selected' | translate}}
-									</label>
+								<div ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+									<label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
+									<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+										<label class="radio-inline"> <scf-radio
+												id="at-least-1-document-selected-radio" name="group-by-radio"
+												ng-value="ctrl.documentSelection.atLeastOneDocument"
+												ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)"
+												ng-model="ctrl.groupDocumentType"></scf-radio>
+											{{'All CN document and Invoice at least 1 document selected' | translate}}
+										</label>
+									</div>
 								</div>
 
 								<label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 control-label"></label>
@@ -113,21 +118,23 @@
 								<label class="col-lg-7 col-md-7 col-sm-7 col-xs-12" id="group-document-condition-field-label">
 									{{'Group document condition field' | translate}}:
 								</label>
-								
-								<div ng-repeat="field in ctrl.dataModel.groupByFieldId track by $index">
+
+								<div ng-repeat="field in ctrl.dataModel.documentGroupingFields track by $index">
 									<label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
 									<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
 										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-											<scf-dropdown id="group-document-condition-field-{{$index+1}}-dropdown" ng-model="field.documentFieldId" component-data="ctrl.documentGroupByFields"
-												ng-disabled="ctrl.isUnCheckGroupBy()" translate-label="false" convert-to-number="true"></scf-dropdown>
+											<scf-dropdown id="group-document-condition-field-{{$index+1}}-dropdown" ng-model="field.documentFieldId" component-data="ctrl.documentFields"
+												ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)" translate-label="false"
+												convert-to-number="true"></scf-dropdown>
 										</div>
 										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 											<scf-button type="button" id="group-document-condition-field-delete-{{$index+1}}-button" class="btn-default gec-btn-action"
-												ng-show="$index != 0" ng-disabled="!ctrl.manageAll" ng-click="ctrl.removeGroupDocumentCondition(field)">
+												ng-show="$index != 0" ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)"
+												ng-click="ctrl.removeGroupDocumentCondition(field)">
 												<i class="fa fa-trash" aria-hidden="true"></i>
 											</scf-button>
 											<scf-button class="btn-default gec-btn-action" id="group-document-condition-field-add-button" title="Add" ng-hide="$index != 0"
-												ng-disabled="!ctrl.manageAll" ng-click="ctrl.addGroupDocumentCondition()">
+												ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)" ng-click="ctrl.addGroupDocumentCondition()">
 												<i class="fa fa-plus" aria-hidden="true"></i>
 											</scf-button>
 										</div>

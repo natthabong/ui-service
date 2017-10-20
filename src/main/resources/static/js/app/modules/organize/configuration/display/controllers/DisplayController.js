@@ -23,7 +23,7 @@ displayModule.controller('DisplayController', [
 	function ($log, $scope, $state, SCFCommonService,
 		$stateParams, $timeout, ngDialog,
 		PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService, LOAN_REQUEST_MODE_ITEM,
-		DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM, UIFactory, blockUI,DisplayService) {
+		DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM, UIFactory, blockUI, DisplayService) {
 
 		var vm = this;
 		var log = $log;
@@ -33,6 +33,7 @@ displayModule.controller('DisplayController', [
 		var ownerId = $rootScope.sponsorId;
 		var accountingTransactionType = $stateParams.accountingTransactionType;
 		var displayMode = $stateParams.displayMode;
+		console.log(displayMode);
 
 		var BASE_URI = 'api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/display-modes/' + displayMode + '/displays';
 
@@ -43,26 +44,18 @@ displayModule.controller('DisplayController', [
 			}
 		}
 
-		vm.headerMessageLabel = "Setup create transaction display";
-		vm.mode = "Loan request mode";
-		vm.groupSelection = "Supplier code group selection";
+		vm.headerMessageLabel = displayMode == "TRANSACTION_DOCUMENT" ? "Setup create transaction display" : "Setup document display";
 
-		vm.isCreateTransactionMode = false;
+		vm.mode = accountingTransactionType == "RECEIVABLE" ? "Payment mode" : "Loan request mode";
+		vm.groupSelection = accountingTransactionType == "RECEIVABLE" ? "Buyer code group selection" : "Supplier code group selection";
+
+		vm.isCreateTransactionMode = displayMode == "TRANSACTION_DOCUMENT" ? true : false;
+
 		vm.loanRequestMode = LOAN_REQUEST_MODE_ITEM;
 		vm.documentSelection = DOCUMENT_SELECTION_ITEM;
 		vm.supplierCodeSelectionMode = SUPPLIER_CODE_GROUP_SELECTION_ITEM;
 
-		vm.dataModel = {
-			displayName: null,
-			items: null,
-			loanRequestMode: null,
-			documentSelection: null,
-			supplierCodeSelectionMode: null
-		};
-
-		vm.groupDocumentType = null;
-
-		vm.dataModel.items = [newDisplayConfig()];
+		vm.groupDocumentType = DOCUMENT_SELECTION_ITEM.allDocument;
 
 		vm.sortTypes = [{
 			label: 'ASC',
@@ -81,28 +74,45 @@ displayModule.controller('DisplayController', [
 		}];
 		vm.documentFieldData = [];
 
-		vm.documentGroupByFields = [{
-			value: null,
-			label: 'Please select'
-		}];
-		vm.documentGroupByFieldData = [];
+		// vm.documentGroupByFields = [{
+		// 	value: null,
+		// 	label: 'Please select'
+		// }];
+		// vm.documentGroupByFieldData = [];
 
-		vm.backToSponsorConfigPage = function () {
-			PageNavigation.gotoPreviousPage();
-		}
-
-		var groupItem = [{
-			documentFieldId: null,
-			documentDisplayId: null,
-			documentGroupingFieldId: null
-		}];
-
-		var loadDisplayConfig = function(ownerId, accountingTransactionType, displayMode) {
+		var loadDisplayConfig = function (ownerId, accountingTransactionType, displayMode) {
 			var deffered = DisplayService.getDocumentDisplayConfig(ownerId, accountingTransactionType, displayMode);
-			deffered.promise.then(function(response){
-				vm.dataModel = response.data;
-				vm.dataModel.groupByFieldId = groupItem;
+			deffered.promise.then(function (response) {
+				var data = response.data;
+				vm.dataModel = data || {
+					displayName: null,
+					items: [newDisplayConfig()],
+					loanRequestMode: null,
+					documentSelection: null,
+					supplierCodeSelectionMode: null,
+					documentGroupingFields: [],
+					displayNegativeDocument: null
+				};
 				console.log(vm.dataModel);
+
+				// default grouping field 1 record if don't have data
+				if (vm.dataModel.documentGroupingFields == [] || vm.dataModel.documentGroupingFields.length == 0) {
+					var groupItem = {
+						documentFieldId: null,
+						documentDisplayId: vm.dataModel.documentDisplayId
+					}
+					vm.dataModel.documentGroupingFields.push(groupItem);
+				}
+
+				// default Display CN documents is select record if don't have data and accounting transaction type is RECEIVABLE
+				if (vm.dataModel.displayNegativeDocument == null && accountingTransactionType == "RECEIVABLE") {
+					vm.dataModel.displayNegativeDocument = true;
+				}
+
+				if (vm.dataModel.documentSelection != DOCUMENT_SELECTION_ITEM.anyDocument) {
+					vm.groupDocumentType = angular.copy(vm.dataModel.documentSelection);
+					vm.dataModel.documentSelection = DOCUMENT_SELECTION_ITEM.groupBy;
+				}
 
 				if (vm.dataModel.items == null || vm.dataModel.items.length < 1) {
 					vm.addItem();
@@ -118,17 +128,7 @@ displayModule.controller('DisplayController', [
 					vm.dataModel.supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
 				}
 
-				if (vm.dataModel.displayMode == 'DOCUMENT') {
-					vm.headerMessageLabel = "Setup document display";
-				} else {
-					vm.isCreateTransactionMode = true;
-
-					if (vm.dataModel.accountingTransactionType == 'RECEIVABLE') {
-						vm.mode = "Payment mode";
-						vm.groupSelection = "Buyer code group selection";
-					}
-				}
-			}).catch(function(response){
+			}).catch(function (response) {
 				log.error('Load data error');
 			});
 		}
@@ -156,13 +156,34 @@ displayModule.controller('DisplayController', [
 		} ();
 
 		// <------------------------------------------  User Action ------------------------------------------->
-		vm.removeGroupDocumentCondition = function(field){
-			var index = vm.dataModel.groupByFieldId.indexOf(field);
-			vm.dataModel.groupByFieldId.splice(index, 1);
+		vm.removeGroupDocumentCondition = function (field) {
+			var index = vm.dataModel.documentGroupingFields.indexOf(field);
+			vm.dataModel.documentGroupingFields.splice(index, 1);
 		}
 
-		vm.addGroupDocumentCondition = function(){
-			vm.dataModel.groupByFieldId.push(groupItem);
+		vm.addGroupDocumentCondition = function () {
+			var groupItem = {
+				documentFieldId: null,
+				documentDisplayId: vm.dataModel.documentDisplayId
+			}
+			vm.dataModel.documentGroupingFields.push(groupItem);
+		}
+
+		var clearGroupDocumentConditionField = function () {
+			vm.dataModel.documentGroupingFields = [];
+			var groupItem = {
+				documentFieldId: null,
+				documentDisplayId: vm.dataModel.documentDisplayId
+			}
+			vm.dataModel.documentGroupingFields.push(groupItem);
+		}
+
+		vm.changeDocumentSelection = function () {
+			console.log("object");
+			if (vm.dataModel.documentSelection == DOCUMENT_SELECTION_ITEM.anyDocument) {
+				clearGroupDocumentConditionField();
+				vm.groupDocumentType = DOCUMENT_SELECTION_ITEM.allDocument;
+			}
 		}
 
 		vm.addItem = function () {
@@ -207,6 +228,10 @@ displayModule.controller('DisplayController', [
 
 		}
 
+		vm.backToSponsorConfigPage = function () {
+			PageNavigation.gotoPreviousPage();
+		}
+
 		vm.save = function () {
 			var preCloseCallback = function () {
 				var organizeModel = { organizeId: ownerId };
@@ -247,6 +272,16 @@ displayModule.controller('DisplayController', [
 		}
 
 		$scope.confirmSave = function () {
+			if (vm.dataModel.documentSelection == DOCUMENT_SELECTION_ITEM.groupBy) {
+				if(accountingTransactionType == "RECEIVABLE"){
+					vm.dataModel.documentSelection = vm.groupDocumentType;
+				}else{
+					vm.dataModel.documentSelection = DOCUMENT_SELECTION_ITEM.allDocument;
+				}
+			} else {
+				vm.dataModel.documentGroupingFields = [];
+			}
+
 			vm.dataModel.completed = true;
 			vm.dataModel.items.forEach(function (obj, index) {
 				obj.sequenceNo = index + 1;
@@ -254,19 +289,8 @@ displayModule.controller('DisplayController', [
 				vm.dataModel.completed = obj.completed && vm.dataModel.completed;
 			})
 
-			var url = BASE_URI + '/' + vm.dataModel.documentDisplayId;
-			var deffered = Service.requestURL(url, vm.dataModel, 'PUT');
-			return deffered;
+			return DisplayService.updateDisplay(ownerId, accountingTransactionType, displayMode, vm.dataModel);
 		}
-
-		// vm.isUnCheckGroupBy = function () {
-		// 	if (!vm.manageAll || vm.dataModel.documentSelection != 'GROUP_BY') {
-		// 		vm.dataModel.groupByFieldId = null;
-		// 		return true;
-		// 	} else {
-		// 		return false;
-		// 	}
-		// }
 
 		vm.cannotSetup = function (record) {
 			if (angular.isDefined(record.documentField)) {
