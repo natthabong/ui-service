@@ -100,19 +100,8 @@ module.controller('NumericLayoutConfigController',
 						value : obj.signFlagName
 					}
 					vm.signFlagDropdown.push(selectObj);
-				});
-				
-				if(vm.model.signFlagConfig != null){
-					vm.numericeModel.signFlag = vm.signFlagDropdown[1].value;
-					vm.numericeModel.signFlagId = vm.model.signFlagConfig.displayValue;
-				}else{
-					if(vm.model.expectedValue == null && vm.model.validationType == null){
-						vm.numericeModel.signFlag = vm.signFlagDropdown[0].value;
-					}else{
-						vm.numericeModel.signFlag = vm.signFlagDropdown[1].value;
-						vm.numericeModel.signFlagId = vm.model.expectedValue;
-					}
-				}		
+				});   
+					
 			}
 			diferred.resolve(vm.signFlagDropdown);
 		}).catch(function(response) {
@@ -253,7 +242,7 @@ module.controller('NumericLayoutConfigController',
 				}
 		}else{
 			vm.numericeModel.signFlag = "Sign flag field";
-			vm.numericeModel.signFlagId = vm.model.signFlagConfig;
+			vm.numericeModel.signFlagId = vm.model.signFlagConfig.displayValue;
 		}
 
 		if(angular.isDefined(vm.model.validationRecordFieldConfig) && vm.model.validationRecordFieldConfig != null && vm.model.validationType != null){
