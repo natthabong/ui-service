@@ -168,34 +168,34 @@
 												id="header-layout-item-{{$index+1}}-no-label"
 												class="text-right control-label">{{$index+1}}</label></td>
 
-											<td class="text-center" style="width: 15%"><scf-input-text
+											<td class="text-center" style="width: 24%"><scf-input-text
 													id="header-sponsor-field-name-{{$index+1}}-textbox"
 													ng-disabled="!ctrl.manageAll"
 													ng-model="record.displayValue" maxlength="255" /></td>
 
-											<td class="text-center" style="width: 15%"><scf-dropdown
+											<td class="text-center" style="width: 24%"><scf-dropdown
 													id="header-gecscf-field-name-{{$index+1}}-dropdown"
 													ng-model="record.documentFieldId"
 													component-data="ctrl.dataTypeHeaderDropdown"
 													ng-disabled="!ctrl.manageAll" translate-label="true"
 													convert-to-number="true"></scf-dropdown></td>
-											<td class="text-center" style="width: 15%"><scf-input-text
+											<td class="text-center" style="width: 10%"><scf-input-text
 													id="header-length-{{$index+1}}-textbox"
 													convert-to-number="" style="text-align: right;"
 													ng-disabled="!ctrl.manageAll" ng-model="record.dataLength"
 													maxlength="3" /></td>
-											<td class="text-center" style="width: 15%"><scf-input-text
+											<td class="text-center" style="width: 10%"><scf-input-text
 													id="header-start-index-{{$index+1}}-textbox"
 													convert-to-number="" style="text-align: right;"
 													ng-disabled="!ctrl.manageAll" ng-model="record.startIndex"
 													maxlength="3" /></td>
-											<td class="text-center" style="width: 15%"
+											<td class="text-center" style="width: 10%"
 												ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"><scf-input-text
 													id="header-end-index-{{$index+1}}-textbox"
 													value="{{(record.startIndex==null||record.dataLength==null||record.startIndex=='NaN'||record.dataLength=='NaN')?null:((record.startIndex-0 + (record.dataLength-0)-1 )|number)}}"
 													ng-disabled="!ctrl.manageAll" style="text-align: right;"
 													maxlength="3" /></td>
-											<td class="text-center" style="width: 16%"><scf-button
+											<td class="text-center" style="width: 10%"><scf-button
 													type="button" id="header-field-setup-{{$index+1}}-button"
 													class="btn-default gec-btn-action"
 													ng-click="ctrl.openSetting($index, record)"
@@ -273,12 +273,12 @@
 													id="layout-item-{{$index+1}}-no-label"
 													class="text-right control-label">{{$index+1}}</label></td>
 
-												<td class="text-center" style="width: 15%"><scf-input-text
+												<td class="text-center" style="width: 24%"><scf-input-text
 														id="sponsor-field-name-{{$index+1}}-textbox"
 														ng-disabled="!ctrl.manageAll"
 														ng-model="record.displayValue" maxlength="255" /></td>
 
-												<td class="text-center" style="width: 15%"><scf-dropdown
+												<td class="text-center" style="width: 21%"><scf-dropdown
 														id="gecscf-field-name-{{$index+1}}-dropdown"
 														ng-model="record.documentFieldId"
 														component-data="ctrl.dataTypeDropdown"
@@ -291,23 +291,23 @@
 														ng-disabled="ctrl.unSelectFieldName(record)"
 														ng-click="ctrl.addValueClonningField(record)">
 													<i class="fa fa-plus" aria-hidden="true"></i> </scf-button></td>
-												<td class="text-center" style="width: 15%"><scf-input-text
+												<td class="text-center" style="width: 10%"><scf-input-text
 														id="length-{{$index+1}}-textbox"
 														style="text-align: right;" convert-to-number=""
 														ng-disabled="!ctrl.manageAll" ng-model="record.dataLength"
 														maxlength="3" /></td>
-												<td class="text-center" style="width: 15%"><scf-input-text
+												<td class="text-center" style="width: 10%"><scf-input-text
 														id="detail-start-index-{{$index+1}}-textbox"
 														style="text-align: right;" convert-to-number=""
 														ng-disabled="!ctrl.manageAll" ng-model="record.startIndex"
 														maxlength="3" /></td>
-												<td class="text-center" style="width: 15%"
+												<td class="text-center" style="width: 10%"
 													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"><scf-input-text
 														value="{{(record.startIndex==null||record.dataLength==null||record.startIndex=='NaN'||record.dataLength=='NaN')?null:((record.startIndex-0 + (record.dataLength-0)-1 )|number)}}"
 														id="detail-end-index-{{$index+1}}-textbox"
 														ng-disabled="!ctrl.manageAll" style="text-align: right;"
 														maxlength="3" /></td>
-												<td class="text-center" style="width: 16%"><scf-button
+												<td class="text-center" style="width: 10%"><scf-button
 														type="button" id="field-setup-{{$index+1}}-button"
 														class="btn-default gec-btn-action"
 														ng-click="ctrl.openSetting($index, record)"
@@ -324,8 +324,8 @@
 
 												<td class="text-center" style="width: 3%"></td>
 												<td class="text-right" style="width: 3%"></td>
-												<td class="text-center" style="width: 15%"></td>
-												<td class="text-center" style="width: 15%"><scf-dropdown
+												<td class="text-center" style="width: 24%"></td>
+												<td class="text-center" style="width: 21%"><scf-dropdown
 														id="gecscf-field-name-{{$parent.$index+1}}-{{$index+1}}-dropdown"
 														ng-model="cloneFieldRecord.documentFieldId"
 														component-data="ctrl.getAllSameDataTypes(record)"
@@ -337,11 +337,11 @@
 														ng-disabled="!ctrl.manageAll"
 														ng-click="ctrl.removeValueClonningField(record.valueCloningFields, cloneFieldRecord)">
 													<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
-												<td class="text-center" style="width: 15%"></td>
-												<td class="text-center" style="width: 15%"></td>
-												<td class="text-center" style="width: 15%"
+												<td class="text-center" style="width: 10%"></td>
+												<td class="text-center" style="width: 10%"></td>
+												<td class="text-center" style="width: 10%"
 													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></td>
-												<td class="text-center" style="width: 16%"></td>
+												<td class="text-center" style="width: 10%"></td>
 											</tr>
 											<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
 
@@ -372,20 +372,20 @@
 													id="layout-item-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-no-label"
 													class="text-right control-label">{{ctrl.dataRowNo(ctrl.getDetailFieldSize(),
 														$index)}}</label></td>
-												<td class="text-center" style="width: 15%"></td>
+												<td class="text-center" style="width: 24%"></td>
 
-												<td colspan="2" class="text-center" style="width: 18%"><scf-dropdown
+												<td colspan="2" class="text-center" style="width: 24%"><scf-dropdown
 														id="data-type-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-dropdown"
 														ng-model="record.documentFieldId"
 														component-data="ctrl.dataTypeDropdown"
 														ng-disabled="!ctrl.manageAll" translate-label="true"
 														convert-to-number="true"></scf-dropdown></td>
 
-												<td class="text-center" style="width: 15%"></td>
-												<td class="text-center" style="width: 15%"></td>
-												<td class="text-center" style="width: 15%"
+												<td class="text-center" style="width: 10%"></td>
+												<td class="text-center" style="width: 10%"></td>
+												<td class="text-center" style="width: 10%"
 													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></td>
-												<td class="text-center" style="width: 16%"><scf-button
+												<td class="text-center" style="width: 10%"><scf-button
 														type="button"
 														id="data-setup-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-button"
 														class="btn-default gec-btn-action"
@@ -476,34 +476,34 @@
 													id="footer-layout-item-{{$index+1}}-no-label"
 													class="text-right control-label">{{$index+1}}</label></td>
 
-												<td class="text-center" style="width: 15%"><scf-input-text
+												<td class="text-center" style="width: 24%"><scf-input-text
 														id="footer-sponsor-field-name-{{$index+1}}-textbox"
 														ng-disabled="!ctrl.manageAll"
 														ng-model="record.displayValue" maxlength="255" /></td>
 
-												<td class="text-center" style="width: 15%"><scf-dropdown
+												<td class="text-center" style="width: 24%"><scf-dropdown
 														id="footer-gecscf-field-name-{{$index+1}}-dropdown"
 														ng-model="record.documentFieldId"
 														component-data="ctrl.dataTypeFooterDropdown"
 														ng-disabled="!ctrl.manageAll" translate-label="true"
 														convert-to-number="true"></scf-dropdown></td>
-												<td class="text-center" style="width: 15%"><scf-input-text
+												<td class="text-center" style="width: 10%"><scf-input-text
 														id="footer-length-{{$index+1}}-textbox"
 														style="text-align: right;" ng-model="record.dataLength"
 														ng-disabled="!ctrl.manageAll" convert-to-number="true"
 														maxlength="3" /></td>
-												<td class="text-center" style="width: 15%"><scf-input-text
+												<td class="text-center" style="width: 10%"><scf-input-text
 														id="footer-start-index-{{$index+1}}-textbox"
 														style="text-align: right;" ng-model="record.startIndex"
 														ng-disabled="!ctrl.manageAll" convert-to-number="true"
 														maxlength="3" /></td>
-												<td class="text-center" style="width: 15%"
+												<td class="text-center" style="width: 10%"
 													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"><scf-input-text
 														id="footer-end-index-{{$index+1}}-textbox"
 														value="{{(record.startIndex==null||record.dataLength==null||record.startIndex=='NaN'||record.dataLength=='NaN')?null:((record.startIndex-0 + (record.dataLength-0)-1 )|number)}}"
 														ng-disabled="!ctrl.manageAll" style="text-align: right;"
 														maxlength="3" /></td>
-												<td class="text-center" style="width: 16%"><scf-button
+												<td class="text-center" style="width: 10%"><scf-button
 														type="button" id="footer-field-setup-{{$index+1}}-button"
 														class="btn-default gec-btn-action"
 														ng-click="ctrl.openSetting($index, record)"
