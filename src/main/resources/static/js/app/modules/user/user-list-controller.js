@@ -363,7 +363,7 @@ userModule.constant("PasswordStatus", [ {
     valueObject : null
 }, {
     label : 'Enable',
-    value : 'ENABLE',
+    value : 'ENABLED',
     valueObject : 'ENABLED'
 }, {
     label : 'Lock',
