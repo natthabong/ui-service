@@ -1,119 +1,101 @@
-<div id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('UPLOAD_DOCUMENTS_OF_MY_ORGANIZE')">
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3 id="upload-header-label" class="animated fadeInLeft"
-						ng-bind="'Upload document' | translate">Upload document</h3>
-				</div>
-			</div>
-		</div>
-	</div>
+<div id="content" th:fragment="content" sec:authorize="hasAnyAuthority('UPLOAD_DOCUMENTS_OF_MY_ORGANIZE')">
+    <div id="wrapper" ng-show="ctrl.canUploadFile">
+        <div class="panel box-shadow-none content-header">
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <h3 id="upload-header-label" class="animated fadeInLeft" ng-bind="'Upload document' | translate">Upload document</h3>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<div class="form-element">
-		<div class="panel panel-default col-md-12 padding-0">
-			<div class="panel-body">
-				<div class="col-md-12" ng-show="ctrl.showErrorMsg"></div>
+    <div class="form-element" ng-show="ctrl.canUploadFile">
+        <div class="panel panel-default col-md-12 padding-0">
+            <div class="panel-body">
+                <div class="col-md-12" ng-show="ctrl.showErrorMsg"></div>
 
-				<div class="col-md-12" block-ui="summary-internal-block">
-					<form name="uploadForm" class="form-horizontal">
-						<div class="form-group">
-							<label id="file-type-label" for="file-type-dropdown"
-								class="col-sm-2 col-md-2 control-label">{{'File type' | translate}}: </label>
-							<div class="col-sm-3 col-md-3">
-								<scf-dropdown id="file-type-dropdown"
-									ng-model="ctrl.uploadModel.fileTypeIndex"
-									component-data="ctrl.fileTypeDropdown"
-									ng-change="ctrl.filterExtentionAction()"></scf-dropdown>
-							</div>
-							<div class="col-sm-6 col-md-6"></div>
-						</div>
-						<div class="form-group">
-							<label id="file-name-label" for="file-name"
-								class="col-sm-2 col-md-2 control-label">{{'File name' | translate}}: </label>
-							<div class="col-sm-3 col-md-3">
-								<scf-file-upload browse-file-id="select-button"
-									input-text-id="file-name-textbox"
-									file-upload="ctrl.uploadModel.file"
-									accept-file-extention="ctrl.acceptFileExtention"></scf-file-upload>
-							</div>
-							<div class="col-sm-6 col-md-6">
-								<scf-button type="submit" id="upload-button"
-									ng-click="ctrl.uploadAction()">Upload</scf-button>
-							</div>
-						</div>
-						<div class="form-group" ng-show="ctrl.showErrorMsg">
-							<label class="col-sm-2 col-md-2 control-label"></label> <span
-								class="ol-sm-9 col-md-9 error-msg" id="message-alert-label"
-								ng-bind="ctrl.errorMsgKey | translate: {fileFormat: ctrl.errorFileFormat}">
+                <div class="col-md-12" block-ui="summary-internal-block">
+                    <form name="uploadForm" class="form-horizontal">
+                        <div class="form-group">
+                            <label id="file-type-label" for="file-type-dropdown" class="col-sm-2 col-md-2 control-label">{{'File type' | translate}}: </label>
+                            <div class="col-sm-3 col-md-3">
+                                <scf-dropdown id="file-type-dropdown" ng-model="ctrl.uploadModel.fileTypeIndex" component-data="ctrl.fileTypeDropdown" ng-change="ctrl.filterExtentionAction()"></scf-dropdown>
+                            </div>
+                            <div class="col-sm-6 col-md-6"></div>
+                        </div>
+                        <div class="form-group">
+                            <label id="file-name-label" for="file-name" class="col-sm-2 col-md-2 control-label">{{'File name' | translate}}: </label>
+                            <div class="col-sm-3 col-md-3">
+                                <scf-file-upload browse-file-id="select-button" input-text-id="file-name-textbox" file-upload="ctrl.uploadModel.file" accept-file-extention="ctrl.acceptFileExtention"></scf-file-upload>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <scf-button type="submit" id="upload-button" ng-click="ctrl.uploadAction()">Upload</scf-button>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="ctrl.showErrorMsg">
+                            <label class="col-sm-2 col-md-2 control-label"></label> <span class="ol-sm-9 col-md-9 error-msg" id="message-alert-label" ng-bind="ctrl.errorMsgKey | translate: {fileFormat: ctrl.errorFileFormat}">
 							</span>
-						</div>
-					</form>
-				</div>
+                        </div>
+                    </form>
+                </div>
 
 
-				<div class="panel-body" ng-show="ctrl.isShowConfirmation">
-					<div class="col-md-12">
-						<div class="row">
-							<div class="col-md-12">
-								<h3>
-									<span id="file-upload-confirmation-header-label"
-										ng-bind="'File upload confirmation' | translate"></span>
-								</h3>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-2 col-md-2">
-								<label>{{'File name' | translate}}: </label>
-							</div>
-							<div class="col-sm-10 col-md-10">
-								<span id="file-upload-confirmation-file-name-label"
-									ng-bind="ctrl.uploadResult.information.sourceFileName || 'N/A'"></span>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-1 col-md-2" id="success-label">
-								<label ng-bind="'Success' | translate"></label>:
-							</div>
-							<div class="col-sm-2 col-md-3">
-								<span id="file-upload-confirmation-success-records-label"
-									ng-bind="(ctrl.uploadResult.success | number) || 'N/A'"></span>
-							</div>
-							<div ng-show="ctrl.showSuccessTotalAmount">
-								<div class="col-sm-4 col-md-3">
-									<label ng-bind="'Success total amount' | translate"></label>:
-								</div>
-								<div class="col-sm-2 col-md-1">
-									<span id="file-upload-confirmation-success-amount-label"
-										ng-bind="(ctrl.uploadResult.totalAmount | number:2) || 'N/A'"></span>
-								</div>
-								<div class="col-sm-3 col-md-3">{{'THB' | translate}}</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-1 col-md-2 control-label" id="fail-label">
-								<label ng-bind="'Fail' | translate"></label>:
-							</div>
-							<div class="col-sm-11 col-md-10">
-								<span id="file-upload-confirmation-fail-records-label"
-									ng-bind="(ctrl.uploadResult.fail | number) || 'N/A'"></span>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12 col-md-12">
-								<br />
-							</div>
-						</div>
+                <div class="panel-body" ng-show="ctrl.isShowConfirmation">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>
+                                    <span id="file-upload-confirmation-header-label" ng-bind="'File upload confirmation' | translate"></span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2 col-md-2">
+                                <label>{{'File name' | translate}}: </label>
+                            </div>
+                            <div class="col-sm-10 col-md-10">
+                                <span id="file-upload-confirmation-file-name-label" ng-bind="ctrl.uploadResult.information.sourceFileName || 'N/A'"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-1 col-md-2" id="success-label">
+                                <label ng-bind="'Success' | translate"></label>:
+                            </div>
+                            <div class="col-sm-2 col-md-3">
+                                <span id="file-upload-confirmation-success-records-label" ng-bind="(ctrl.uploadResult.success | number) || 'N/A'"></span>
+                            </div>
+                            <div ng-show="ctrl.showSuccessTotalAmount">
+                                <div class="col-sm-4 col-md-3">
+                                    <label ng-bind="'Success total amount' | translate"></label>:
+                                </div>
+                                <div class="col-sm-2 col-md-1">
+                                    <span id="file-upload-confirmation-success-amount-label" ng-bind="(ctrl.uploadResult.totalAmount | number:2) || 'N/A'"></span>
+                                </div>
+                                <div class="col-sm-3 col-md-3">{{'THB' | translate}}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-1 col-md-2 control-label" id="fail-label">
+                                <label ng-bind="'Fail' | translate"></label>:
+                            </div>
+                            <div class="col-sm-11 col-md-10">
+                                <span id="file-upload-confirmation-fail-records-label" ng-bind="(ctrl.uploadResult.fail | number) || 'N/A'"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <br />
+                            </div>
+                        </div>
 
-						<div class="row">
-							<div class="col-md-4 col-sm-4 gec-select">
-								<b><span ng-bind="'Data correction needed' | translate"></span></b>
-							</div>
-							<div class="col-md-8 col-sm-8 text-right">
-								<div class="row">
-									<div class="col-md-12 col-sm-12">
-										<span> <b ng-bind="ctrl.splitePageTxt"
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4 gec-select">
+                                <b><span ng-bind="'Data correction needed' | translate"></span></b>
+                            </div>
+                            <div class="col-md-8 col-sm-8 text-right">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <span> <b ng-bind="ctrl.splitePageTxt"
 											id="upload-document-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 												dropdown-id="page-limit-dropdown"
 												page-size-model="ctrl.pageModel.pageSizeSelectModel"
@@ -122,106 +104,92 @@
 												page-size-list="ctrl.pageSizeList"
 												page-action="ctrl.uploadNextPage"></scf-pagination>
 										</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<scf-data-table id="transaction-table"
-									component-config="ctrl.dataTable"
-									component-datas="ctrl.uploadDocumentDisplayError"
-									current-page="ctrl.pageModel.currentPage"
-									record-per-page="ctrl.pageModel.pageSizeSelectModel"></scf-data-table>
-							</div>
-							<div id="fixed-bottom" class="col-md-12"></div>
-						</div>
-						<div class="row">
-							<div class="col-md-12 text-right">
-								<scf-button id="upload-cancel-button" type="submit"
-									ng-click="ctrl.cancelUpload()">{{'Cancel' |
-								translate}}</scf-button>
-								<scf-button ng-disabled="!ctrl.showConfirmBtn"
-									id="file-upload-confirmation-confirm-button" type="submit"
-									ng-click="ctrl.confirmUpload()">{{'Confirm' |
-								translate}}</scf-button>
-							</div>
-						</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <scf-data-table id="transaction-table" component-config="ctrl.dataTable" component-datas="ctrl.uploadDocumentDisplayError" current-page="ctrl.pageModel.currentPage" record-per-page="ctrl.pageModel.pageSizeSelectModel"></scf-data-table>
+                            </div>
+                            <div id="fixed-bottom" class="col-md-12"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <scf-button id="upload-cancel-button" type="submit" ng-click="ctrl.cancelUpload()">{{'Cancel' | translate}}
+                                </scf-button>
+                                <scf-button ng-disabled="!ctrl.showConfirmBtn" id="file-upload-confirmation-confirm-button" type="submit" ng-click="ctrl.confirmUpload()">{{'Confirm' | translate}}
+                                </scf-button>
+                            </div>
+                        </div>
 
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<scf-modal visible="showUploadPopUp">
-	<div class="modal-content">
-		<div class="modal-header">
-			<div class="row">
-				<div class="col-md-2 col-sm-2">
-					<image width="70" height="70" ng-src="img/success-icon.png"></image>
-				</div>
-				<div class="col-md-10 col-sm-10">
-					<h2>
-					<span id="upload-complete-popup-header-label"
-						class="gec-pop-up-font-size-green"
-						ng-bind="'Upload complete' | translate">Upload complete.</span></h2>
-				</div>
-			</div>
-		</div>
-		<div class="modal-body">
-			<div class="row">
-				<div class="col-md-2 col-sm-2"></div>
-				<div class="col-md-10 col-sm-10 col-xs-12">
-					<div class="row">
-						<div class="col-xs-2" id="upload-complete-total-label">
-							<b class="gec-pop-up-font-size" ng-bind="'Total' | translate"></b>
-						</div>
-						<div class="col-xs-2 text-right">
-							<span id="upload-complete-total-value-label"
-								ng-bind="ctrl.uploadResult.total || 0"></span>
-						</div>
-						<div class="col-xs-8">
-							<span ng-bind="'records' | translate"></span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-2" id="upload-complete-success-label">
-							<b ng-bind="'Success' | translate"></b><b>:</b>
-						</div>
-						<div class="col-xs-2 text-right">
-							<span id="upload-complete-success-value-label"
-								ng-bind="ctrl.uploadResult.success || 0"></span>
-						</div>
-						<div class="col-xs-8">
-							<span ng-bind="'records' | translate"></span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-2" id="upload-complete-fail-label">
-							<b ng-bind="'Fail' | translate"></b><b>:</b>
-						</div>
-						<div class="col-xs-2 text-right">
-							<span id="upload-complete-fail-value-label"
-								ng-bind="ctrl.uploadResult.fail || 0"></span>
-						</div>
-						<div class="col-xs-8">
-							<span ng-bind="'records' | translate"></span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<div class="row">
-				<div class="col-xs-12 text-right">
-					<scf-button id="upload-complete-popup-ok-button"
-						data-dismiss="modal" type="submit" ng-click="ctrl.closeModal()"
-						ng-bind="'OK' | translate"></scf-button>
+    <scf-modal visible="showUploadPopUp">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-2 col-sm-2">
+                        <image width="70" height="70" ng-src="img/success-icon.png"></image>
+                    </div>
+                    <div class="col-md-10 col-sm-10">
+                        <h2>
+                            <span id="upload-complete-popup-header-label" class="gec-pop-up-font-size-green" ng-bind="'Upload complete' | translate">Upload complete.</span></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2 col-sm-2"></div>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-2" id="upload-complete-total-label">
+                                <b class="gec-pop-up-font-size" ng-bind="'Total' | translate"></b>
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                <span id="upload-complete-total-value-label" ng-bind="ctrl.uploadResult.total || 0"></span>
+                            </div>
+                            <div class="col-xs-8">
+                                <span ng-bind="'records' | translate"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2" id="upload-complete-success-label">
+                                <b ng-bind="'Success' | translate"></b><b>:</b>
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                <span id="upload-complete-success-value-label" ng-bind="ctrl.uploadResult.success || 0"></span>
+                            </div>
+                            <div class="col-xs-8">
+                                <span ng-bind="'records' | translate"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2" id="upload-complete-fail-label">
+                                <b ng-bind="'Fail' | translate"></b><b>:</b>
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                <span id="upload-complete-fail-value-label" ng-bind="ctrl.uploadResult.fail || 0"></span>
+                            </div>
+                            <div class="col-xs-8">
+                                <span ng-bind="'records' | translate"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 text-right">
+                        <scf-button id="upload-complete-popup-ok-button" data-dismiss="modal" type="submit" ng-click="ctrl.closeModal()" ng-bind="'OK' | translate"></scf-button>
 
-				</div>
-			</div>
-		</div>
-	</div>
-	</scf-modal>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </scf-modal>
 </div>
