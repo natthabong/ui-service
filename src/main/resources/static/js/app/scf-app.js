@@ -110,15 +110,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				params: {party:'supplier'},
 				templateUrl: '/upload-document',
-				onEnter: ['UploadDocumentService','$state', function(UploadDocumentService, $state){
-					var deffered = UploadDocumentService.verifyChannel('WEB');
-					deffered.promise.then(function (response) {
-					}).catch(function (response) {
-		                	 $state.go('/error', {
-		                		 errorCode: response.data.errorCode
-		 	                });
-				   });
-				}],
 				resolve: load(['js/app/modules/upload-document/upload-document-service.js','js/app/modules/upload-document/upload-document-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/my-organize/ap-document-list',{
 				url: '/my-organize/ap-document-list',

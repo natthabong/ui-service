@@ -49,7 +49,8 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             supplierCodeSelected: '',
             sponsorIdSelected: '',
             order: '',
-            orderBy: ''
+            orderBy: '',
+            createTransactionType: 'WITH_INVOICE'
         };
 
         vm.tradingpartnerInfoModel = {};

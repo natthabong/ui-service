@@ -122,7 +122,7 @@
 													<label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label>
 												</td>
 
-												<td class="text-center" style="width: 40%">
+												<td class="text-center" style="width: 77%">
 													<scf-dropdown id="gecscf-field-name-{{$index+1}}-dropdown" 
 														ng-model="record.documentFieldId" component-data="ctrl.headerGECDropdown "
 														ng-disabled="!ctrl.manageAll"
@@ -130,19 +130,19 @@
 														convert-to-number="true"></scf-dropdown>
 												</td>
 
-												<td class="text-center" style="width: 15%">
+												<td class="text-center" style="width: 5%">
 													<scf-input-text id="length-{{$index+1}}-textbox"
 														ng-disabled="!ctrl.manageAll"
 														style="text-align: right;" convert-to-number="" ng-model="record.dataLength"
 														maxlength="3" />
 												</td>
-												<td class="text-center" style="width: 15%">
+												<td class="text-center" style="width: 5%">
 													<scf-input-text id="detail-start-index-{{$index+1}}-textbox"
 														ng-disabled="!ctrl.manageAll"
 														style="text-align: right;" convert-to-number="" ng-model="record.startIndex"
 														maxlength="3" />
 												</td>
-												<td class="text-center" style="width: 16%">
+												<td class="text-center" style="width: 10%">
 													<scf-button type="button" id="field-setup-{{$index+1}}-button" 
 														ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll"
 														class="btn-default gec-btn-action" ng-click="ctrl.openSetting($index, record)">
@@ -189,7 +189,7 @@
 
 												<td class="text-right" style="width: 3%"><label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label></td>
 
-												<td class="text-center" style="width: 40%">
+												<td class="text-center" style="width: 77%">
 													<scf-dropdown id="gecscf-field-name-{{$index+1}}-dropdown" 
 														ng-model="record.documentFieldId" component-data="ctrl.paymentGECDropdown"
 														ng-disabled="!ctrl.manageAll"
@@ -197,19 +197,19 @@
 														convert-to-number="true"></scf-dropdown>
 												</td>
 
-												<td class="text-center" style="width: 15%">
+												<td class="text-center" style="width: 5%">
 													<scf-input-text id="length-{{$index+1}}-textbox" style="text-align: right;" 
 														ng-disabled="!ctrl.manageAll"
 														convert-to-number="" ng-model="record.dataLength"
 														maxlength="3" />
 												</td>
-												<td class="text-center" style="width: 15%">
+												<td class="text-center" style="width: 5%">
 													<scf-input-text id="detail-start-index-{{$index+1}}-textbox" 
 														style="text-align: right;" convert-to-number="" ng-model="record.startIndex"
 														ng-disabled="!ctrl.manageAll"
 														maxlength="3" />
 												</td>
-												<td class="text-center" style="width: 16%">
+												<td class="text-center" style="width: 10%">
 													<scf-button type="button" id="field-setup-{{$index+1}}-button" class="btn-default gec-btn-action"
 														ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll"
 														ng-click="ctrl.openSetting($index, record)">
@@ -240,7 +240,7 @@
 						<div>
 							<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Document!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 							<fieldset>
-								<legend class="col-md-2 col-sm-2 col-xs-12" id="detail-field-layout-label" ng-bind="'Document field layout' | translate"></legend>
+								<legend class="col-md-3 col-sm-3 col-xs-12" id="detail-field-layout-label" ng-bind="'Document field layout' | translate"></legend>
 								<label class="checkbox-inline">
 									<scf-checkbox id="row-format-header-checkbox" 
 										ng-model="ctrl.model.displayHeaderColumn"
@@ -267,35 +267,35 @@
 												<td class="text-right" style="width: 3%">
 													<label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label></td>
 
-												<td class="text-center" style="width: 18%">
+												<td class="text-center" style="width: 36%">
 													<scf-dropdown id="gecscf-field-name-{{$index+1}}-dropdown"
 														ng-disabled="!ctrl.manageAll"
 														ng-model="record.documentFieldId" component-data="ctrl.doucmentGECDropdown"
 														ng-change="ctrl.isChangeDataType(record, ctrl.doucmentGECDropdown)" translate-label="true" convert-to-number="true"></scf-dropdown>
 												</td>
 
-												<td class="text-center" style="width: 23%">
-													<scf-input-text id="length-{{$index+1}}-textbox" 
+												<td class="text-center" style="width: 41%">
+													<scf-input-text id="header-label-{{$index+1}}-textbox" 
 														style="text-align:left;" maxlength="25"
 														ng-disabled="!ctrl.manageAll"
 														ng-model="record.displayValue" />
 												</td>
 
-												<td class="text-center" style="width: 15%">
+												<td class="text-center" style="width: 5%">
 													<scf-input-text id="length-{{$index+1}}-textbox" 
 														style="text-align: right;" convert-to-number="" 
 														ng-disabled="!ctrl.manageAll"
 														ng-model="record.dataLength"
 														maxlength="3" />
 												</td>
-												<td class="text-center" style="width: 15%">
+												<td class="text-center" style="width: 5%">
 													<scf-input-text id="detail-start-index-{{$index+1}}-textbox" 
 														style="text-align: right;" convert-to-number=""
 														ng-disabled="!ctrl.manageAll" 
 														ng-model="record.startIndex"
 														maxlength="3" />
 												</td>
-												<td class="text-center" style="width: 16%">
+												<td class="text-center" style="width: 10%">
 													<scf-button type="button" id="field-setup-{{$index+1}}-button" class="btn-default gec-btn-action" 
 														ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll"
 														ng-click="ctrl.openSetting($index, record)">
@@ -344,7 +344,7 @@
 												<td class="text-right" style="width: 3%">
 													<label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label></td>
 
-												<td class="text-center" style="width: 40%">
+												<td class="text-center" style="width: 77%">
 													<scf-dropdown id="gecscf-field-name-{{$index+1}}-dropdown" 
 														ng-disabled="!ctrl.manageAll"
 														ng-model="record.documentFieldId" component-data="ctrl.footerGECDropdown"
@@ -352,19 +352,19 @@
 														convert-to-number="true"></scf-dropdown>
 												</td>
 
-												<td class="text-center" style="width: 15%">
+												<td class="text-center" style="width: 5%">
 													<scf-input-text id="length-{{$index+1}}-textbox" style="text-align: right;"
 														ng-disabled="!ctrl.manageAll"
 														convert-to-number="" ng-model="record.dataLength"
 														maxlength="3" />
 												</td>
-												<td class="text-center" style="width: 15%">
+												<td class="text-center" style="width: 5%">
 													<scf-input-text id="detail-start-index-{{$index+1}}-textbox"
 														ng-disabled="!ctrl.manageAll"
 														style="text-align: right;" convert-to-number="" ng-model="record.startIndex"
 														maxlength="3" />
 												</td>
-												<td class="text-center" style="width: 16%">
+												<td class="text-center" style="width: 10%">
 													<scf-button type="button" id="field-setup-{{$index+1}}-button" class="btn-default gec-btn-action"
 														ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll" 
 														ng-click="ctrl.openSetting($index, record)">

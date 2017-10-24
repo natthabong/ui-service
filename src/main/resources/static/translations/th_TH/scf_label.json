@@ -570,6 +570,7 @@
 	"payment_fail" : "Payment fail",
 	"fail_to_payment": "Fail to pay",
 	"FAIL_TO_PAYMENT": "Fail to pay",
+	"ar_status_paid":"Paid",
 	
 	"Loan account": "Loan account",
 	"SUPPLIER_FINANCING" : "Supplier financing",
