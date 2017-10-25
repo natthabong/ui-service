@@ -1,6 +1,6 @@
 'use strict';
 var sciModule = angular.module('gecscf.supplierCreditInformation');
-sciModule.controller('SupplierCreditInformationController',[
+sciModule.controller('SupplierCreditInformationController', [
 	'$scope',
 	'$stateParams',
 	'UIFactory',
@@ -8,72 +8,125 @@ sciModule.controller('SupplierCreditInformationController',[
 	'SupplierCreditInformationService',
 	'SCFCommonService',
 	'$http',
-	function($scope,$stateParams, UIFactory,PagingController,SupplierCreditInformationService,SCFCommonService,$http) {
+	'$q',
+	'blockUI',
+	function ($scope, $stateParams, UIFactory, PagingController, SupplierCreditInformationService, SCFCommonService, $http, $q, blockUI) {
 		var vm = this;
-		
+
 		vm.buyer = $stateParams.buyer || null;
 		vm.supplier = $stateParams.supplier || null;
-		
+
 		vm.data = [];
-		
-		vm.search = function(){
+
+		vm.search = function () {
 			var buyer = undefined;
 			var supplier = undefined;
-			if(angular.isObject(vm.buyer)){
-				if(angular.isObject(vm.supplier)){
+			if (angular.isObject(vm.buyer)) {
+				if (angular.isObject(vm.supplier)) {
 					buyer = vm.buyer.organizeId;
 					supplier = vm.supplier.organizeId;
 				} else {
 					buyer = vm.buyer.organizeId;
 				}
-			} else if(angular.isObject(vm.supplier)){
+			} else if (angular.isObject(vm.supplier)) {
 				supplier = vm.supplier.organizeId;
 			} else {
 				buyer = null;
 				supplier = null;
 			}
-			var dataSource = $http({url:'/api/v1/supplier-credit-information', method: 'GET',params: {buyerId:buyer,supplierId:supplier}});
+			var dataSource = $http({ url: '/api/v1/supplier-credit-information', method: 'GET', params: { buyerId: buyer, supplierId: supplier } });
 			//var dataSource = SupplierCreditInformationService.getCreditInformation(buyer,supplier);
-			dataSource.success(function(response) {						
+			dataSource.success(function (response) {
 				vm.data = response.content;
 				var i = 0;
-				angular.forEach(vm.data, function(value, idx) {
-					if(isSameAccount(value.accountId, vm.data, idx)){
+				angular.forEach(vm.data, function (value, idx) {
+					if (isSameAccount(value.accountId, vm.data, idx)) {
 						value.showAccountFlag = true;
 					}
 					value.rowNo = ++i;
 				});
 			});
 		};
-	
+
 		// Organize auto suggestion model.
-		var _organizeTypeHead = function(q) {
+		var _organizeTypeHead = function (q) {
 			q = UIFactory.createCriteria(q);
 			return SupplierCreditInformationService.getOrganizeByNameOrCodeLike(q);
 		}
 
 		vm.organizeAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder : 'Enter organize name or code',
-			itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
-			query : _organizeTypeHead
+			placeholder: 'Enter organize name or code',
+			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
+			query: _organizeTypeHead
 		});
 
 		// Main of program
-		var initLoad = function() {
+		var initLoad = function () {
 			vm.search();
 		}();
-		
-		vm.decodeBase64 = function(data){
+
+		vm.decodeBase64 = function (data) {
 			return atob(data);
 		};
-		
-		var isSameAccount = function(accountId, data, index){
-			if(index == 0 ){
+
+		var isSameAccount = function (accountId, data, index) {
+			if (index == 0) {
 				return true;
-			}
-			else{
-				return accountId != data[index-1].accountId;
+			} else {
+				return accountId != data[index - 1].accountId;
 			}
 		}
 
-	} ]);
+		function inquiryAccountToApi(tpAccountModel) {
+			var deffered = $q.defer();
+			$http({
+				url: '/api/v1/supplier-credit-information/' + tpAccountModel.accountId + '/inquiry',
+				method: 'POST',
+				data: tpAccountModel
+			}).then(function (response) {
+				deffered.resolve(response);
+			}).catch(function (response) {
+				deffered.reject(response);
+			});
+			return deffered;
+		}
+
+		vm.inquiryAccount = function (data) {
+			blockUI.start("Processing...");
+			var deffered = $q.defer();
+			var tpAccountModel = {
+				accountId: data.accountId,
+			}
+			var inquiryAccountDeffered = inquiryAccountToApi(tpAccountModel);
+			inquiryAccountDeffered.promise.then(function (response) {
+				blockUI.stop();
+				if (response.status == 200) {
+					UIFactory.showSuccessDialog({
+						data: {
+							headerMessage: 'Inquiry credit information success.',
+							bodyMessage: ''
+						},
+						showOkButton: true,
+					});
+				} else {
+					UIFactory.showFailDialog({
+						data: {
+							headerMessage: 'Inquiry credit information failure',
+							bodyMessage: 'please try again.'
+						},
+						showOkButton: true,
+					});
+				}
+			}).catch(function (response) {
+				blockUI.stop();
+				UIFactory.showFailDialog({
+					data: {
+						headerMessage: 'Inquiry credit information failure',
+						bodyMessage: ' please try again.'
+					},
+					showOkButton: true,
+				});
+			});
+		}
+
+	}]);

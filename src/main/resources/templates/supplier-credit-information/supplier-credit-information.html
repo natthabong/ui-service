@@ -125,13 +125,19 @@
 											ng-show="record.showAccountFlag"
 											id="credit-status-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.accountStatus | translate"></span></td>
-										<td class="text-center"><scf-button
-												ng-show="record.showAccountFlag"
-												class="btn-default gec-btn-action"
-												id="credit-information-{{record.accountId}}-{{record.sponsorName}}-button"
-												ng-click="ctrl.inquiryAccount(record)"
-												title="Inquiry Account"> <i
-												class="fa fa-repeat" aria-hidden="true"></i></scf-button></td>
+										<td class="text-center"><button 
+											type="button" 
+											ng-disabled="" 
+											class="btn-default gec-btn-action btn" 
+											ng-show="record.showAccountFlag" 
+											id="credit-information-{{record.accountId}}-{{record.sponsorName}}-button"
+											ng-click="ctrl.inquiryAccount(record)"
+											title="Inquiry Account">
+												<ng-transclude> 
+													<i class="fa fa-repeat" aria-hidden="true"></i>
+												</ng-transclude>
+											</button>
+										</td>
 									</tr>
 								</tbody>
 							</table>
