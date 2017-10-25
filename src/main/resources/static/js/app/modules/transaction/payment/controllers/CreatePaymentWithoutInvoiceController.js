@@ -142,6 +142,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
 
                 if ($stateParams.backAction && vm.transactionModel.transactionDate != null) {
                     vm.paymentModel = SCFCommonService.convertDate(vm.transactionModel.transactionDate);
+                    vm.accountChange();
                 } else {
                     vm.paymentModel = vm.paymentDropDown[0].value;
                 }
@@ -174,7 +175,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                     }
 
                 });
-
                 if (!$stateParams.backAction) {
                     if (accounts.length > 0) {
                         vm.transactionModel.payerAccountId = accounts[loanAccountIndex].accountId;
@@ -183,10 +183,8 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                         vm.tradingpartnerInfoModel.tenor = accounts[loanAccountIndex].tenor;
                         vm.tradingpartnerInfoModel.interestRate = accounts[loanAccountIndex].interestRate;
                     }
-                } else {
-
                 }
-
+                
                 if (accounts.length > 0 && accounts[loanAccountIndex].accountType == 'LOAN') {
                     vm.transactionModel.transactionMethod = 'TERM_LOAN';
                     vm.isLoanPayment = true;
@@ -340,7 +338,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                     vm.tradingpartnerInfoModel.tenor = account.item.tenor;
                     vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
 
-                    if (account.item.accountType == 'LOAN') {
+                	if (account.item.accountType == 'LOAN') {
                         vm.transactionModel.transactionMethod = 'TERM_LOAN';
                         vm.isLoanPayment = true;
                         _loadMaturityDate();

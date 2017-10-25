@@ -297,7 +297,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     }
 
                 });
-
+                
                 if (!$stateParams.backAction) {
                     if (accounts.length > 0) {
                         vm.transactionModel.payerAccountId = accounts[loanAccountIndex].accountId;
@@ -307,7 +307,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         vm.tradingpartnerInfoModel.interestRate = accounts[loanAccountIndex].interestRate;
                     }
                 }
-
+                
                 if (accounts.length > 0 && accounts[loanAccountIndex].accountType == 'LOAN') {
                     vm.transactionModel.transactionMethod = 'TERM_LOAN';
                     vm.isLoanPayment = true;
@@ -406,16 +406,13 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         vm.accountChange = function() {
-
             var accountId = vm.transactionModel.payerAccountId;
-
             vm.accountDropDown.forEach(function(account) {
                 if (accountId == account.item.accountId) {
                     vm.transactionModel.payerAccountNo = account.item.accountNo;
                     vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
                     vm.tradingpartnerInfoModel.tenor = account.item.tenor;
                     vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
-
                     if (account.item.accountType == 'LOAN') {
                         vm.transactionModel.transactionMethod = 'TERM_LOAN';
                         vm.isLoanPayment = true;
