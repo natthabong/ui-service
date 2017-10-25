@@ -288,7 +288,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     documentGroupingFields.forEach(function (documentFeild) {
                         var deferred = SCFCommonService.getDocumentField(documentFeild.documentFieldId);
                         deferred.promise.then(function (response) {
-                            console.log(response);
                             var field = response.data.documentFieldName;
                             matchingField.push(field);
                         }).catch(function (response) {
@@ -362,6 +361,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         } ();
 
         vm.watchCheckAll = function () {
+            console.log(vm.documentSelects);
             vm.checkAllModel = false;
             var comparator = angular.equals;
             var countRecordData = 0;
@@ -387,65 +387,57 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             }
         }
 
-        var searchByMatchingFeild = function (valueOfField) {
-            var deferred = $q.defer();
-            var documents = [];
-            var totalRecord = vm.pagingController.splitePageTxt.split(" of")[1];
-
-            var searchCriteria = {
-                accountingTransactionType: _criteria.accountingTransactionType,
-                buyerId: _criteria.buyerId,
-                supplierId: _criteria.supplierId,
-                customerCode: _criteria.customerCode,
-                documentStatus: _criteria.documentStatus,
-                showOverdue: _criteria.showOverdue,
-                offset: _criteria.offset,
-                limit: totalRecord,
-                matchingRef: null
-            }
-            searchCriteria[matchingField[0]] = valueOfField;
-            // searchCriteria.limit = totalRecord;
-            // searchCriteria.matchingRef = matchingRef;
-            console.log(searchCriteria);
-
-            var diferredDocumentAll = TransactionService.getDocuments(searchCriteria);
-            diferredDocumentAll.promise.then(function (response) {
-                documents = response.data;
-                deferred.resolve(documents);
-            }).catch(function (response) {
-                log.error('matchingRef error !')
-                deferred.reject(response);
-            });
-
-            return deferred;
-        }
-
         var selectMatchingField = function (data) {
             // search docment is selected ?
             var isSelected = (vm.documentSelects.map(function (o) {
                 return o.documentId;
             }).indexOf(data.documentId) > -1);
-            // console.log(data[matchingField[0]]);
-            var valueOfField = data[matchingField[0]];
+
+            var params = {
+                accountingTransactionType: _criteria.accountingTransactionType,
+                buyerId: _criteria.buyerId,
+                supplierId: _criteria.supplierId,
+                customerCode: _criteria.customerCode,
+                paymentDate: _criteria.sponsorPaymentDate
+            }
+
+            var groupingFieldCriteria = {
+                fieldName: matchingField[0],
+                fieldValue: data[matchingField[0]],
+            }
+
+            var listGroupingFieldCriteria = [];
+            listGroupingFieldCriteria.push(groupingFieldCriteria);
 
             if (isSelected) {
                 var removeDupDataFormSearch = vm.documentSelects.indexOf(data);
                 vm.documentSelects.splice(removeDupDataFormSearch, 1);
 
-                var result = searchByMatchingFeild(valueOfField);
+                var result = TransactionService.searchMatchingField(params, listGroupingFieldCriteria);
                 result.promise.then(function (response) {
-                    vm.documentSelects = vm.documentSelects.concat(response);
+                    console.log(response.data);
+                    vm.documentSelects = vm.documentSelects.concat(response.data);
                     calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
                 }).catch(function (response) {
 
                 });
             } else {
-                for (var index = vm.documentSelects.length - 1; index > -1; index--) {
-                    if (valueOfField === vm.documentSelects[index].matchingRef) {
-                        vm.documentSelects.splice(index, 1);
+                var result = TransactionService.searchMatchingField(params, listGroupingFieldCriteria);
+                result.promise.then(function (response) {
+                    var matchingDocuments = response.data;
+                    if (matchingDocuments.length > 0) {
+                        matchingDocuments.forEach(function (docment) {
+                            vm.documentSelects.some(item => {
+                                if (item.documentId == docment.documentId) {
+                                    vm.documentSelects.splice(vm.documentSelects.indexOf(item), 1);
+                                }
+                            })
+                        });
                     }
-                }
-                calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                    calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                }).catch(function (response) {
+
+                });
             }
         }
 
@@ -539,7 +531,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             vm.checkAllModel = false;
             vm.selectAllModel = false;
 
-            if (data.matchingRef != null && checkSelectMatchingRef) {
+            if (checkSelectMatchingRef) {
                 selectMatchingField(data);
             } else {
                 calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
@@ -547,76 +539,147 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             vm.watchCheckAll();
         }
 
-        // Select All in page
+        // this function control selected all document in page
         vm.checkAllDocument = function () {
-            var tempMatchingRefNotQueryAgain = [];
-            if (vm.checkAllModel) {
-                vm.pagingController.tableRowCollection.forEach(function (document) {
 
+            var params = {
+                accountingTransactionType: _criteria.accountingTransactionType,
+                buyerId: _criteria.buyerId,
+                supplierId: _criteria.supplierId,
+                customerCode: _criteria.customerCode,
+                paymentDate: _criteria.sponsorPaymentDate
+            }
+
+            var allDocumentInPage = vm.pagingController.tableRowCollection;
+            if (vm.checkAllModel) {
+                allDocumentInPage.forEach(function (document, documentInPageIndex) {
+                    console.log(documentInPageIndex);
+                    // check document is selected already
+                    // find a document in list
                     var foundDataSelect = (vm.documentSelects.map(function (o) {
                         return o.documentId;
                     }).indexOf(document.documentId) > -1);
 
                     if (!foundDataSelect) {
-                        if (document.matchingRef != null && vm.documentSelection === 'GROUP_BY') {
-                            var foundMatchingRefInTemp = tempMatchingRefNotQueryAgain.indexOf(document.matchingRef)
-                            if (foundMatchingRefInTemp === -1) {
-
-                                for (var index = vm.documentSelects.length - 1; index > -1; index--) {
-                                    if (document.matchingRef === vm.documentSelects[index].matchingRef) {
-                                        vm.documentSelects.splice(index, 1);
-                                    }
-                                }
-
-                                tempMatchingRefNotQueryAgain.push(document.matchingRef);
-                                var result = searchByMatchingFeild(document.matchingRef);
-                                result.promise.then(function (response) {
-                                    vm.documentSelects = vm.documentSelects.concat(response);
-                                    calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
-                                }).catch(function (response) {
-
-                                });
+                        if (checkSelectMatchingRef) {
+                            var groupingFieldCriteria = {
+                                fieldName: matchingField[0],
+                                fieldValue: document[matchingField[0]]
                             }
 
+                            var listGroupingFieldCriteria = [];
+                            listGroupingFieldCriteria.push(groupingFieldCriteria);
+
+                            var result = TransactionService.searchMatchingField(params, listGroupingFieldCriteria);
+                            result.promise.then(function (response) {
+                                var matchingDocuments = response.data;
+                                if (matchingDocuments.length > 0) {
+                                    matchingDocuments.forEach(function (document, index) {
+
+                                        // check document is selected already
+                                        // find a document in list
+                                        var foundDataSelect = (vm.documentSelects.map(function (o) {
+                                            return o.documentId;
+                                        }).indexOf(document.documentId) > -1);
+
+                                        if (!foundDataSelect) {
+                                            vm.documentSelects.push(document);
+                                        }
+
+                                        if (documentInPageIndex + 1 == allDocumentInPage.length) {
+                                            vm.watchCheckAll();
+                                            calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                                        }
+                                    });
+                                    
+                                }
+                            });
                         } else {
                             vm.documentSelects.push(document);
                             calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
                         }
                     }
+
+
                 });
+
             } else {
-                vm.selectAllModel = false;
-                vm.pagingController.tableRowCollection.forEach(function (document) {
-                    var foundMatchingRefInTemp = tempMatchingRefNotQueryAgain.indexOf(document.matchingRef);
-                    if (document.matchingRef != null && foundMatchingRefInTemp === -1 && vm.documentSelection === 'GROUP_BY') {
-                        tempMatchingRefNotQueryAgain.push(document.matchingRef);
-                        for (var index = vm.documentSelects.length - 1; index > -1; index--) {
-                            if (document.matchingRef === vm.documentSelects[index].matchingRef) {
+                // vm.selectAllModel = false;
+                allDocumentInPage.forEach(function (document,documentInPageIndex) {
+                    
+
+                    // check document is selected already
+                    // find a document in list
+                    var foundDataSelect = (vm.documentSelects.map(function (o) {
+                        return o.documentId;
+                    }).indexOf(document.documentId) > -1);
+
+                    if (foundDataSelect) {
+                        if (checkSelectMatchingRef) {
+                            var groupingFieldCriteria = {
+                                fieldName: matchingField[0],
+                                fieldValue: document[matchingField[0]]
+                            }
+
+                            var listGroupingFieldCriteria = [];
+                            listGroupingFieldCriteria.push(groupingFieldCriteria);
+
+                            var result = TransactionService.searchMatchingField(params, listGroupingFieldCriteria);
+                            result.promise.then(function (response) {
+                                var matchingDocuments = response.data;
+                                if (matchingDocuments.length > 0) {
+                                    matchingDocuments.forEach(function (document, index) {
+
+                                        // check document is selected already
+                                        // find a document in list
+                                        var deleteDocIndex = vm.documentSelects.map(function (o) {
+                                            return o.documentId;
+                                        }).indexOf(document.documentId);
+
+                                        if (deleteDocIndex >= 0) {
+                                            vm.documentSelects.splice(deleteDocIndex, 1);
+                                        }
+
+                                        if (documentInPageIndex + 1 == allDocumentInPage.length) {
+                                            vm.watchCheckAll();
+                                            calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+                                        }
+
+                                    });
+                                    
+                                }
+                            });
+                        } else {
+                            var index = vm.documentSelects.map(function (o) {
+                                return o.documentId;
+                            }).indexOf(document.documentId);
+
+                            if (index >= 0) {
                                 vm.documentSelects.splice(index, 1);
                             }
-                        }
-                    } else {
-                        for (var index = vm.documentSelects.length - 1; index > -1; index--) {
-                            if (document.documentId === vm.documentSelects[index].documentId) {
-                                vm.documentSelects.splice(index, 1);
-                            }
+                            calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
                         }
                     }
 
+                    if (index + 1 == allDocumentInPage.length) {
+                        vm.watchCheckAll();
+                    }
                 });
-                calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
             }
-            vm.watchCheckAll();
+
+
         }
 
         vm.selectAllDocument = function () {
             if (!vm.selectAllModel) {
                 var totalRecord = vm.pagingController.splitePageTxt.split(" of")[1];
-                var searchCriteria = _criteria;
+                var searchCriteria = angular.copy(_criteria);
+                searchCriteria.offset = 0;
                 searchCriteria.limit = totalRecord;
 
                 var diferredDocumentAll = TransactionService.getDocuments(searchCriteria);
                 diferredDocumentAll.promise.then(function (response) {
+                    console.log(response.data);
                     vm.documentSelects = response.data;
                     calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
                     vm.selectAllModel = true;
