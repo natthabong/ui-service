@@ -601,5 +601,19 @@
 	"SEND_DEBIT_REQUEST_TO_BANK": "Send debit request to bank",
 	"RECEIVED_DEBIT_RESPONSE_FROM_BANK": "Received debit response from bank",
 	"SEND_DEBIT_RESPONSE_TO_CLIENT": "Send debit response to client",
-	"RECEIVED_DEBIT_RESPONSE_FROM_GATEWAY": "Received debit response from gateway"
+	"RECEIVED_DEBIT_RESPONSE_FROM_GATEWAY": "Received debit response from gateway",
+	
+	"ACCOUNT": "Account",
+	"BATCH_JOB": "Batch job",
+	"CHANGE_PASSWORD": "Change password",
+	"DOCUMENT": "Document",
+	"DOWNLOAD": "Download",
+	"LOGIN": "Login",
+	"ORGANIZE": "Organize",
+	"ROLE": "Role",
+	"TRADE_FINANCE": "Trade finance",
+	"TRADING_PARTNER": "Trading partner",
+	"TRANSACTION": "Transaction",
+	"UPLOAD_DOCUMENT": "Upload document",
+	"USER": "User"
 }

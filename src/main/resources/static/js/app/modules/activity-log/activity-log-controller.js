@@ -224,9 +224,9 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
         	        deffered.promise.then(function(response) {
         	        	response.data.forEach(function(module) {
         	    			vm.moduleDropdowns.push({
-        	    			    label : module.moduleName,
-        	    			    value : module.moduleId,
-        	    			    valueObject : module.moduleId
+        	    			    label : module,
+        	    			    value : module,
+        	    			    valueObject : module
         	    			});
             		    });
         	        	
