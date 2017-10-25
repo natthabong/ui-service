@@ -18,9 +18,19 @@
 							<label for="sponsor-textbox"
 								class="col-md-2 col-sm-3 col-xs-12 control-label" id="supplier-label">{{'Supplier'| translate}}: </label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<gec-auto-suggest model="ctrl.supplierAutoSuggestModel"
-									ng-model="ctrl.documentListModel.supplier"
+								<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
+									ng-model="ctrl.supplier"
 									id="supplier-auto-suggest" name="supplierCode"
+									maxlength="100"></gec-auto-suggest>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="sponsor-textbox"
+								class="col-md-2 col-sm-3 col-xs-12 control-label" id="buyer-label">{{'Buyer'| translate}}: </label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
+									ng-model="ctrl.buyer"
+									id="buyer-auto-suggest" name="buyerCode"
 									maxlength="100"></gec-auto-suggest>
 							</div>
 							<div class="col-md-3 col-sm-2">
@@ -30,12 +40,6 @@
 
 							</div>
 						</div>
-						<div class="form-group" ng-show="ctrl.requireSupplier">
-								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-								<span class="col-md-6 col-sm-6 col-xs-12 error-msg"
-									id="supplier-warning-message-label">{{'Supplier is
-									required' | translate}}.</span>
-							</div>
 						<br/>
 						<div class="responsive-table">
 							<table id="supplier-credit-information-table"
@@ -46,7 +50,8 @@
 										<th id="credit-limit-header-label" ng-bind="'Credit limit' | translate">Credit limit</th>
 										<th id="outstanding-header-label" ng-bind="'Outstanding' | translate">Outstanding</th>
 										<th id="future-header-label" ng-bind="'Future' | translate">Future</th>
-										<th id="sponsor-header-label" ng-bind="'Sponsor' | translate">Sponsor</th>
+										<th id="supplier-header-label" ng-bind="'Supplier' | translate">Supplier</th>
+										<th id="buyer-header-label" ng-bind="'Buyer' | translate">Buyer</th>
 										<th id="trading-status-header-label" ng-bind="'Trading status' | translate">Trading status</th>
 										<th id="internal-header-label" ng-bind="'Internal' | translate">Internal</th>
 										<th id="available-header-label" ng-bind="'Available' | translate">Available</th>
@@ -56,7 +61,7 @@
 										<th id="pre-drawdown-header-label" ng-bind="'Pre-drawdown(%)' | translate">Pre-drawdown(%)</th>
 										<th id="interest-rate-header-label" ng-bind="'Interest rate' | translate">Interest rate</th>
 										<th id="expiry-date-header-label" ng-bind="'Expire date' | translate">Expire date</th>
-										<th id="account-status-header-label" ng-bind="'Account status' | translate">Account status</th>
+										<th id="credit-status-header-label" ng-bind="'Credit status' | translate">Credit status</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -78,6 +83,9 @@
 											ng-show="record.showAccountFlag"
 											id="future-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.futureDrawdown | number : 2"></span></td>
+										<td class="text-right"><span
+											id="supplier-name-{{record.accountId}}-{{record.sponsorName}}-label"
+											ng-bind="record.supplierName | translate"></span></td>
 										<td class="text-center"><img id="sponsor-"
 											title="{{record.sponsorName}}"
 											style="height: 32px; width: 32px;"
@@ -115,7 +123,7 @@
 											ng-bind="record.limitExpiryDate | date: 'dd/MM/yyyy': 'UTC+0700'"></span></td>
 										<td class="text-center"><span
 											ng-show="record.showAccountFlag"
-											id="account-status-{{record.accountId}}-{{record.sponsorName}}-label"
+											id="credit-status-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.accountStatus | translate"></span></td>
 										<td class="text-center"><scf-button
 												ng-show="record.showAccountFlag"
