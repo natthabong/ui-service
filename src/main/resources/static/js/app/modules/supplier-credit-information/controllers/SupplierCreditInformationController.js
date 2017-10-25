@@ -39,9 +39,9 @@ sciModule.controller('SupplierCreditInformationController',[
 				var i = 0;
 				angular.forEach(vm.data, function(value, idx) {
 					if(isSameAccount(value.accountId, vm.data, idx)){
-						value.rowNo = ++i;
 						value.showAccountFlag = true;
 					}
+					value.rowNo = ++i;
 				});
 			});
 		};
