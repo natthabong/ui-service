@@ -33,6 +33,7 @@ sciModule.controller('SupplierCreditInformationController',[
 				supplier = null;
 			}
 			var dataSource = $http({url:'/api/v1/supplier-credit-information', method: 'GET',params: {buyerId:buyer,supplierId:supplier}});
+			//var dataSource = SupplierCreditInformationService.getCreditInformation(buyer,supplier);
 			dataSource.success(function(response) {						
 				vm.data = response.content;
 				var i = 0;
@@ -43,7 +44,6 @@ sciModule.controller('SupplierCreditInformationController',[
 					}
 				});
 			});
-			//vm.data = SupplierCreditInformationService.getCreditInformation(buyer,supplier);
 		};
 	
 		// Organize auto suggestion model.
@@ -60,7 +60,7 @@ sciModule.controller('SupplierCreditInformationController',[
 
 		// Main of program
 		var initLoad = function() {
-			//vm.search();
+			vm.search();
 		}();
 		
 		vm.decodeBase64 = function(data){

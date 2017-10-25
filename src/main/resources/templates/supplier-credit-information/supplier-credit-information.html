@@ -85,7 +85,7 @@
 											ng-bind="record.futureDrawdown | number : 2"></span></td>
 										<td class="text-right"><span
 											id="supplier-name-{{record.accountId}}-{{record.sponsorName}}-label"
-											ng-bind="record.supplierId | translate"></span></td>
+											ng-bind="record.supplierName | translate"></span></td>
 										<td class="text-center"><img id="sponsor-"
 											title="{{record.sponsorName}}"
 											style="height: 32px; width: 32px;"
@@ -106,19 +106,19 @@
 											id="remaining-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.bankRemaining | number : 2"></span></td>
 										<td class="text-center"><span
-											ng-show="record.showAccountFlag"
+											
 											id="tenor-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.tenor"></span></td>
 										<td class="text-center"><span
-											ng-show="record.showAccountFlag"
+											
 											id="pre-drawdown-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.prePercentageDrawdown"></span></td>
 										<td class="text-center"><span
-											ng-show="record.showAccountFlag"
+											
 											id="interest-rate-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.interestRate"></span></td>
 										<td class="text-center"><span
-											ng-show="record.showAccountFlag"
+											
 											id="expiry-date-{{record.accountId}}-{{record.sponsorName}}-label"
 											ng-bind="record.limitExpiryDate | date: 'dd/MM/yyyy': 'UTC+0700'"></span></td>
 										<td class="text-center"><span
