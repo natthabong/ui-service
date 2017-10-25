@@ -91,16 +91,26 @@ sciModule.controller('SupplierCreditInformationController', [
 			return deffered;
 		}
 
-		vm.inquiryAccount = function (data) {
+		function getRecordIndexByAccountId(accountId) {
+			for (var i = 0; i < vm.data.length; ++i) {
+				if (vm.data[i].accountId == accountId) {
+					return i;
+				}
+			}
+			return -1;
+		}
+
+		vm.inquiryAccount = function (record) {
 			blockUI.start("Processing...");
 			var deffered = $q.defer();
 			var tpAccountModel = {
-				accountId: data.accountId,
+				accountId: record.accountId,
 			}
 			var inquiryAccountDeffered = inquiryAccountToApi(tpAccountModel);
 			inquiryAccountDeffered.promise.then(function (response) {
 				blockUI.stop();
 				if (response.status == 200) {
+					vm.search();
 					UIFactory.showSuccessDialog({
 						data: {
 							headerMessage: 'Inquiry credit information success.',
