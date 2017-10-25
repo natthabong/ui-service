@@ -35,6 +35,13 @@ sciModule.controller('SupplierCreditInformationController',[
 			var dataSource = $http({url:'/api/v1/supplier-credit-information', method: 'GET',params: {buyerId:buyer,supplierId:supplier}});
 			dataSource.success(function(response) {						
 				vm.data = response.content;
+				var i = 0;
+				angular.forEach(vm.data, function(value, idx) {
+					if(isSameAccount(value.accountId, vm.data, idx)){
+						value.rowNo = ++i;
+						value.showAccountFlag = true;
+					}
+				});
 			});
 			//vm.data = SupplierCreditInformationService.getCreditInformation(buyer,supplier);
 		};
@@ -59,5 +66,14 @@ sciModule.controller('SupplierCreditInformationController',[
 		vm.decodeBase64 = function(data){
 			return atob(data);
 		};
+		
+		var isSameAccount = function(accountId, data, index){
+			if(index == 0 ){
+				return true;
+			}
+			else{
+				return accountId != data[index-1].accountId;
+			}
+		}
 
 	} ]);
