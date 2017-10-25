@@ -308,7 +308,10 @@ module.controller('NumericLayoutConfigController',
 				}
 			});
 		}
-		console.log(vm.model);
+
+		if(vm.model.hasDecimalPlace == null){
+			vm.model.hasDecimalPlace = false;
+		}
 
 		if(vm.requiredRelationalSummary){
 			vm.model.validationType = vm.selectedRelationalSummary;
