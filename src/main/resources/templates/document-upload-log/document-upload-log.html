@@ -1,120 +1,89 @@
 <div id="content" th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_UPLOAD_DOCUMENTS_LOG','VIEW_UPLOAD_DOCUMENTS_LOG_OF_MY_ORGANIZE')">
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3 id="header-message-label"
-						class="animated fadeInLeft" ng-bind="ctrl.headerName | translate"></h3>
-				</div>
-			</div>
-		</div>
-		<div class="form-element">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<!-- Start Column Panel-->
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<form name="activityLogForm" class="form-horizontal" novalidate=""
-							ng-submit="ctrl.searchLog()" autocomplete="off">
+    <div id="wrapper">
+        <div class="panel box-shadow-none content-header">
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <h3 id="header-message-label" class="animated fadeInLeft" ng-bind="ctrl.headerName | translate"></h3>
+                </div>
+            </div>
+        </div>
+        <div class="form-element">
+            <div class="panel panel-default col-md-12 padding-0">
+                <div class="panel-body">
+                    <!-- Start Column Panel-->
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <form name="activityLogForm" class="form-horizontal" novalidate="" ng-submit="ctrl.searchLog()" autocomplete="off">
 
-							<div class="form-group" ng-show="ctrl.showSponsor">
-								<label for="sponsor-auto-suggest" id="sponsor-label"
-									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Customer'
+                            <div class="form-group" ng-show="ctrl.showSponsor">
+                                <label for="sponsor-auto-suggest" id="sponsor-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Customer'
 									| translate}}: </label>
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									<gec-auto-suggest id="sponsor-auto-suggest"
-										disable="ctrl.sponsorTxtDisable"
-										model="ctrl.sponsorAutoSuggestModel" name="sponsorCode"
-										ng-model="ctrl.documentUploadLogModel.sponsor"
-										ng-change="ctrl.getSponsorFileType()" maxlength="100"></gec-auto-suggest>
-								</div>
-								<div class="col-md-3 col-sm-2"></div>
-							</div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <gec-auto-suggest id="sponsor-auto-suggest" disable="ctrl.sponsorTxtDisable" model="ctrl.sponsorAutoSuggestModel" name="sponsorCode" ng-model="ctrl.documentUploadLogModel.sponsor" ng-change="ctrl.getSponsorFileType()" maxlength="100"></gec-auto-suggest>
+                                </div>
+                                <div class="col-md-3 col-sm-2"></div>
+                            </div>
 
-							<div class="form-group">
-								<label for="status" id="file-type-label"
-									class="col-md-2 col-sm-2 col-xs-12 control-label">{{'File
+                            <div class="form-group">
+                                <label for="status" id="file-type-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'File
 									type' | translate}}:</label>
-								<div class="col-md-2 col-sm-3 col-xs-12">
-									<scf-dropdown id="file-type-dropdown"
-										ng-model="ctrl.criteria.fileType"
-										component-data="ctrl.fileTypeDropdowns" translate-label="true"></scf-dropdown>
-								</div>
-							</div>
+                                <div class="col-md-2 col-sm-3 col-xs-12">
+                                    <scf-dropdown id="file-type-dropdown" ng-model="ctrl.criteria.fileType" component-data="ctrl.fileTypeDropdowns" translate-label="true"></scf-dropdown>
+                                </div>
+                            </div>
 
-							<div class="form-group">
-								<label id="upload-date-from-label"
-									class="col-md-2 col-sm-3 control-label">{{'Upload date
+                            <div class="form-group">
+                                <label id="upload-date-from-label" class="col-md-2 col-sm-3 control-label">{{'Upload date
 									from' | translate}}:</label>
-								<div class="col-md-3 col-sm-3 gec-calendar-group">
-									<scf-date-picker-from text-id="upload-date-from-textbox"
-										button-id="date-from-calendar-button"
-										text-model="ctrl.criteria.uploadDateFrom"
-										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
-										open-calendar-action="ctrl.openCalendarDateFrom()"
-										max-date="ctrl.criteria.uploadDateTo">
-									</scf-date-picker-from>
+                                <div class="col-md-3 col-sm-3 gec-calendar-group">
+                                    <scf-date-picker-from text-id="upload-date-from-textbox" button-id="date-from-calendar-button" text-model="ctrl.criteria.uploadDateFrom" date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom" open-calendar-action="ctrl.openCalendarDateFrom()" max-date="ctrl.criteria.uploadDateTo">
+                                    </scf-date-picker-from>
 
-								</div>
-								<div class="col-md-3 col-sm-3 gec-calendar-group">
-									<label id="upload-date-to-label" for="date-to-calendar"
-										class="control-label">{{'to' | translate}}: </label>
-									<scf-date-picker-to text-id="upload-date-to-textbox"
-										button-id="date-to-calendar-button"
-										text-model="ctrl.criteria.uploadDateTo"
-										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
-										open-calendar-action="ctrl.openCalendarDateTo()"
-										min-date="ctrl.criteria.uploadDateFrom">
-									</scf-date-picker-to>
-								</div>
-								<div class="col-md-4 col-sm-3"></div>
-							</div>
-							<div class="form-group" ng-show="ctrl.wrongDateFormat">
-								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-									id="log-date-format-warning-message-label">{{'Wrong date
+                                </div>
+                                <div class="col-md-3 col-sm-3 gec-calendar-group">
+                                    <label id="upload-date-to-label" for="date-to-calendar" class="control-label">{{'to' | translate}}: </label>
+                                    <scf-date-picker-to text-id="upload-date-to-textbox" button-id="date-to-calendar-button" text-model="ctrl.criteria.uploadDateTo" date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo" open-calendar-action="ctrl.openCalendarDateTo()" min-date="ctrl.criteria.uploadDateFrom">
+                                    </scf-date-picker-to>
+                                </div>
+                                <div class="col-md-4 col-sm-3"></div>
+                            </div>
+                            <div class="form-group" ng-show="ctrl.wrongDateFormat">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+                                <span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="log-date-format-warning-message-label">{{'Wrong date
 									format data.' | translate}}</span>
-							</div>
-							<div class="form-group" ng-show="ctrl.wrongDateFromTo">
-								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-									id="log-date-from-to-warning-message-label">{{'From date
+                            </div>
+                            <div class="form-group" ng-show="ctrl.wrongDateFromTo">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+                                <span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="log-date-from-to-warning-message-label">{{'From date
 									must be less than or equal to To date.' | translate}}</span>
-							</div>
+                            </div>
 
-							<div class="form-group">
-								<label for="status" id="channel-label"
-									class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Channel'
+                            <div class="form-group">
+                                <label for="status" id="channel-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Channel'
 									| translate}}:</label>
-								<div class="col-md-2 col-sm-3 col-xs-12">
-									<scf-dropdown id="channel-dropdown"
-										ng-model="ctrl.criteria.channel"
-										component-data="ctrl.docChannelDropdowns"></scf-dropdown>
-								</div>
-							</div>
+                                <div class="col-md-2 col-sm-3 col-xs-12">
+                                    <scf-dropdown id="channel-dropdown" ng-model="ctrl.criteria.channel" component-data="ctrl.docChannelDropdowns"></scf-dropdown>
+                                </div>
+                            </div>
 
-							<div class="form-group">
-								<label for="status" id="status-label"
-									class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Status'
+                            <div class="form-group">
+                                <label for="status" id="status-label" class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Status'
 									| translate}}:</label>
-								<div class="col-md-2 col-sm-3 col-xs-12">
-									<scf-dropdown id="status-dropdown"
-										ng-model="ctrl.criteria.status"
-										component-data="ctrl.docStatusDropdowns"></scf-dropdown>
-								</div>
-								<div class="col-md-6 col-sm-5">
-									<scf-button type="submit" id="search-button"
-										class="btn-default" ng-bind="'Search' | translate"></scf-button>
-								</div>
-							</div>
-						</form>
-						<!-- End Payment Field-->
+                                <div class="col-md-2 col-sm-3 col-xs-12">
+                                    <scf-dropdown id="status-dropdown" ng-model="ctrl.criteria.status" component-data="ctrl.docStatusDropdowns"></scf-dropdown>
+                                </div>
+                                <div class="col-md-6 col-sm-5">
+                                    <scf-button type="submit" id="search-button" class="btn-default" ng-bind="'Search' | translate"></scf-button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- End Payment Field-->
 
-						<div ng-show="ctrl.showTable">
-							<div class="row">
-								<div class="col-md-12 col-sm-12 text-right">
-									<div class="row">
-										<div class="col-md-12 col-sm-12">
-											<span> <b
+                        <div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 text-right">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <span> <b
 												ng-bind="ctrl.pagingController.splitePageTxt"
 												id="document-upload-log-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 													dropdown-id="page-limit-dropdown"
@@ -126,27 +95,23 @@
 													page-action="ctrl.searchLog"></scf-pagination>
 											</span>
 
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Start Table-->
-							<div class="row">
-								<div class="col-md-12">
-									<scf-table id="document-upload-log-table"
-										component-config="ctrl.dataTable"
-										component-datas="ctrl.pagingController.tableRowCollection"
-										current-page="ctrl.pagingController.pagingModel.currentPage"
-										record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-										clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
-								</div>
-							</div>
-						</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Start Table-->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <scf-table id="document-upload-log-table" component-config="ctrl.dataTable" component-datas="ctrl.pagingController.tableRowCollection" current-page="ctrl.pagingController.pagingModel.currentPage" record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+                                        clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+                                </div>
+                            </div>
+                        </div>
 
-					</div>
-				</div>
-			</div>
-		</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-	</div>
+    </div>
 </div>
