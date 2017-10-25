@@ -259,7 +259,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                 value: data
                             })
                         });
-                        
+
                         if ($stateParams.backAction && vm.transactionModel.transactionDate != null) {
                             vm.paymentModel = SCFCommonService.convertDate(vm.transactionModel.transactionDate);
                         } else {
@@ -297,7 +297,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     }
 
                 });
-                
+
                 if (!$stateParams.backAction) {
                     if (accounts.length > 0) {
                         vm.transactionModel.payerAccountId = accounts[loanAccountIndex].accountId;
@@ -305,13 +305,20 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         vm.tradingpartnerInfoModel.available = accounts[loanAccountIndex].remainingAmount - accounts[loanAccountIndex].pendingAmount;
                         vm.tradingpartnerInfoModel.tenor = accounts[loanAccountIndex].tenor;
                         vm.tradingpartnerInfoModel.interestRate = accounts[loanAccountIndex].interestRate;
+
+                        if (accounts[loanAccountIndex].accountType == 'LOAN') {
+                            vm.transactionModel.transactionMethod = 'TERM_LOAN';
+                            vm.isLoanPayment = true;
+                            _loadMaturityDate();
+                        }
                     }
-                }
-                
-                if (accounts.length > 0 && accounts[loanAccountIndex].accountType == 'LOAN') {
-                    vm.transactionModel.transactionMethod = 'TERM_LOAN';
-                    vm.isLoanPayment = true;
-                    _loadMaturityDate();
+                } else {
+
+                    var result = $.grep(accounts, function(account) { return account.accountId == vm.transactionModel.payerAccountId; });
+                    if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
+                        vm.isLoanPayment = true;
+                        _loadMaturityDate();
+                    }
                 }
             }).catch(function(response) {
                 log.error(response);
@@ -542,15 +549,15 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             }
         }
 
-//        var validatePaymentAmount = function() {
-//            var valid = true;
-//            if (vm.transactionModel.transactionAmount <= 0) {
-//                valid = false;
-//                vm.errorMsgPopup = "Transaction amount must be greater than zero";
-//                $scope.validateDataFailPopup = true;
-//            }
-//            return valid;
-//        }
+        //        var validatePaymentAmount = function() {
+        //            var valid = true;
+        //            if (vm.transactionModel.transactionAmount <= 0) {
+        //                valid = false;
+        //                vm.errorMsgPopup = "Transaction amount must be greater than zero";
+        //                $scope.validateDataFailPopup = true;
+        //            }
+        //            return valid;
+        //        }
 
         // next to page verify and submit
         vm.nextStep = function() {
@@ -562,8 +569,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 $scope.errors.message = 'Maturity date is required.';
                 vm.errorDisplay = true;
             } else {
-            	vm.transactionModel.sponsorId = ownerId;
-            	vm.transactionModel.supplierId = vm.criteria.supplierId;
+                vm.transactionModel.sponsorId = ownerId;
+                vm.transactionModel.supplierId = vm.criteria.supplierId;
                 vm.transactionModel.documents = vm.documentSelects;
                 vm.transactionModel.sponsorPaymentDate = SCFCommonService.convertStringTodate(vm.paymentModel);
                 vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.paymentModel);
@@ -571,23 +578,23 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
                 vm.transactionModel.transactionType = 'PAYMENT';
                 vm.tradingpartnerInfoModel.createTransactionType = createTransactionType;
-                
+
                 var deffered = TransactionService.verifyTransaction(vm.transactionModel);
                 deffered.promise.then(function(response) {
                     var transaction = response.data;
                     SCFCommonService.parentStatePage().saveCurrentState('/my-organize/create-transaction');
-                    
-	                var objectToSend = {
-	                    transactionModel: vm.transactionModel,
-	                    tradingpartnerInfoModel: vm.tradingpartnerInfoModel
-	                };
-	                
+
+                    var objectToSend = {
+                        transactionModel: vm.transactionModel,
+                        tradingpartnerInfoModel: vm.tradingpartnerInfoModel
+                    };
+
                     PageNavigation.nextStep('/create-payment/validate-submit', objectToSend, {
-	                    transactionModel: vm.transactionModel,
-	                    tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
-	                    criteria: _criteria,
-	                    documentSelects: vm.documentSelects
-	                });
+                        transactionModel: vm.transactionModel,
+                        tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
+                        criteria: _criteria,
+                        documentSelects: vm.documentSelects
+                    });
                 }).catch(function(response) {
                     vm.errorMsgPopup = response.data.errorCode;
                     $scope.validateDataFailPopup = true;
