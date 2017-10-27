@@ -67,16 +67,16 @@
 					</div>
 
 					<div class="col-md-2 col-sm-2 col-xs-6"
-						ng-controller="DocumentDisplayConfigController as docDisplayCtrl">
-						<input type="hidden" ng-init="docDisplayCtrl.viewAllConfig=true"
+						ng-controller="DisplayConfigController as displayCtrl">
+						<input type="hidden" ng-init="displayCtrl.viewAllConfig=true"
 							sec:authorize="hasAuthority('VIEW_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
-						<input type="hidden" ng-init="docDisplayCtrl.manageAllConfig=true"
+						<input type="hidden" ng-init="displayCtrl.manageAllConfig=true"
 							sec:authorize="hasAuthority('MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
 						<button class="thumbnail" 
 							id="display-AR Document layout-setup-button"
-							ng-click="docDisplayCtrl.setupDisplayDocument('RECEIVABLE','DOCUMENT')"
+							ng-click="displayCtrl.setupDisplayDocument('RECEIVABLE','DOCUMENT')"
 							title="Config a document display"
-							ng-disabled="docDisplayCtrl.unauthenConfig()">
+							ng-disabled="displayCtrl.unauthenConfig()">
 							<div class="caption config-box">
 								<div class="media">
 									<div class="media-body">
@@ -92,16 +92,16 @@
 						</button>
 					</div>
 					<div class="col-md-3 col-sm-3 col-xs-6"
-						ng-controller="DocumentDisplayConfigController as docDisplayCtrl">
-						<input type="hidden" ng-init="docDisplayCtrl.viewAllConfig=true"
+						ng-controller="DisplayConfigController as displayCtrl">
+						<input type="hidden" ng-init="displayCtrl.viewAllConfig=true"
 							sec:authorize="hasAuthority('VIEW_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
-						<input type="hidden" ng-init="docDisplayCtrl.manageAllConfig=true"
+						<input type="hidden" ng-init="displayCtrl.manageAllConfig=true"
 							sec:authorize="hasAuthority('MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
 						<button class="thumbnail"
 							id="transaction-display-AR Document layout-setup-button"
-							ng-click="docDisplayCtrl.setupDisplayDocument('RECEIVABLE','TRANSACTION_DOCUMENT')"
+							ng-click="displayCtrl.setupDisplayDocument('RECEIVABLE','TRANSACTION_DOCUMENT')"
 							title="Config a create transaction display"
-							ng-disabled="docDisplayCtrl.unauthenConfig()">
+							ng-disabled="displayCtrl.unauthenConfig()">
 							<div class="caption config-box">
 								<div class="media">
 									<div class="media-body">
@@ -254,16 +254,16 @@
 					</div>
 
 					<div class="col-md-3 col-sm-3 col-xs-6"
-						ng-controller="DocumentDisplayConfigController as docDisplayCtrl">
-						<input type="hidden" ng-init="docDisplayCtrl.viewAllConfig=true"
+						ng-controller="DisplayConfigController as displayCtrl">
+						<input type="hidden" ng-init="displayCtrl.viewAllConfig=true"
 							sec:authorize="hasAuthority('VIEW_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
-						<input type="hidden" ng-init="docDisplayCtrl.manageAllConfig=true"
+						<input type="hidden" ng-init="displayCtrl.manageAllConfig=true"
 							sec:authorize="hasAuthority('MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
 						<button class="thumbnail"
 							id="display-AP Document layout-setup-button"
-							ng-click="docDisplayCtrl.setupDisplayDocument('PAYABLE','DOCUMENT')"
+							ng-click="displayCtrl.setupDisplayDocument('PAYABLE','DOCUMENT')"
 							title="Config a document display"
-							ng-disabled="docDisplayCtrl.unauthenConfig()">
+							ng-disabled="displayCtrl.unauthenConfig()">
 							<div class="caption config-box">
 								<div class="media">
 									<div class="media-body">
@@ -279,16 +279,16 @@
 						</button>
 					</div>
 					<div class="col-md-3 col-sm-3 col-xs-6"
-						ng-controller="DocumentDisplayConfigController as docDisplayCtrl">
-						<input type="hidden" ng-init="docDisplayCtrl.viewAllConfig=true"
+						ng-controller="DisplayConfigController as displayCtrl">
+						<input type="hidden" ng-init="displayCtrl.viewAllConfig=true"
 							sec:authorize="hasAuthority('VIEW_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
-						<input type="hidden" ng-init="docDisplayCtrl.manageAllConfig=true"
+						<input type="hidden" ng-init="displayCtrl.manageAllConfig=true"
 							sec:authorize="hasAuthority('MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
 						<button class="thumbnail" 
 							id="transaction-display-AP Document layout-setup-button"
-							ng-click="docDisplayCtrl.setupDisplayDocument('PAYABLE','TRANSACTION_DOCUMENT')"
+							ng-click="displayCtrl.setupDisplayDocument('PAYABLE','TRANSACTION_DOCUMENT')"
 							title="Config a create transaction display"
-							ng-disabled="docDisplayCtrl.unauthenConfig()">
+							ng-disabled="displayCtrl.unauthenConfig()">
 							<div class="caption config-box">
 								<div class="media">
 									<div class="media-body">

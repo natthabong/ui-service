@@ -29,7 +29,10 @@ public class SponsorConfigController {
 
 	private static String AP_DOCUMENT_DISPLAY_CONFIGS = "sponsor-configuration/ap-document-config/document-display-configs";
 	private static String AP_CREATE_TRANSACTION_DISPLAY_CONFIGS = "sponsor-configuration/ap-document-config/transaction-display-configs";
-	private static String SETTINGS_DOCUMENT_DISPLAY = "sponsor-configuration/document-displays/settings";
+
+	private static String SETTINGS_DOCUMENT_DISPLAY = "sponsor-configuration/dispalys/document-displays/settings";
+	private static String SETTINGS_CREATE_TRANSACTION_DISPLAY = "sponsor-configuration/dispalys/create-transaction-displays/settings";
+	private static String SETUP_DISPLAY_FIELDS = "sponsor-configuration/dispalys/components/setup-display-fields";
 
 	private static String AP_PAYMENT_DATE_FORMULA = "sponsor-configuration/ap-document-config/payment-date-formulas";
 	private static String SETTINGS_PAYMENT_DATE_FORMULA = "sponsor-configuration/payment-date-formulas/settings";
@@ -143,6 +146,24 @@ public class SponsorConfigController {
 		}
 		return SETTINGS_DOCUMENT_DISPLAY;
 	}
+
+	@RequestMapping(path = "/create-transaction-displays/settings", method = RequestMethod.GET)
+	public String settingCreateTransactionDisplay(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETTINGS_CREATE_TRANSACTION_DISPLAY.concat(" :: content");
+		}
+		return SETTINGS_CREATE_TRANSACTION_DISPLAY;
+	}
+
+	@RequestMapping(path = "/components/setup-display-fields", method = RequestMethod.GET)
+	public String setupDisplayFields(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETUP_DISPLAY_FIELDS.concat(" :: content");
+		}
+		return SETUP_DISPLAY_FIELDS;
+	}
+
+	
 
 	@RequestMapping(path = "/payment-date-formulas", method = RequestMethod.GET)
 	public String paymentDateFormulaConfigs(@RequestHeader("X-Requested-With") String requestedWith) {

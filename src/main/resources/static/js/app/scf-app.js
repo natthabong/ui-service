@@ -1,7 +1,7 @@
 var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'ui.mask', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
                         			'legendDirectives','chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing'
-									,'gecscf.sponsorConfiguration.workflow','gecscf.document','gecscf.organize.configuration.exportPayment'])
+									,'gecscf.sponsorConfiguration.workflow','gecscf.document','gecscf.organize.configuration.exportPayment','gecscf.organize.configuration.display'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider','$urlRouterProvider','ngDialogProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider,$compileProvider, $urlRouterProvider, ngDialogProvider) {
 
@@ -217,7 +217,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							   'js/app/sponsor-configuration/channel-config-controller.js',
 							   'js/app/common/scf-component.js', 
 							   'js/app/common/scf-component.css',
-							  'js/app/sponsor-configuration/document-display-configs.js',
+							  'js/app/sponsor-configuration/DisplayConfigController.js',
 							  'js/app/sponsor-configuration/payment-date-formula-controller.js',
 							  'js/app/sponsor-configuration/payment-date-formula-service.js',
 							  'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataListController.js',
@@ -267,13 +267,25 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/sponsor-configuration/document-display/settings',{
 				url: '/sponsor-configuration/document-display/settings',
-				controller: 'DocumentDisplayController',
+				controller: 'DisplayController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/document-display/settings',
 				params: { accountingTransactionType: null, displayMode: null, selectedItem: null},
-				resolve: load(['js/app/sponsor-configuration/document-display/document-display-controller.js',
-					'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js'])
-			}).state('/sponsor-configuration/export-payments/settings',{
+				resolve: load(['js/app/modules/organize/configuration/display/controllers/DisplayController.js',
+					'js/app/modules/organize/configuration/display/services/DisplayService.js'])
+			}).state('/sponsor-configuration/create-transaction-displays/settings',{
+				url: '/sponsor-configuration/create-transaction-displays/settings',
+				controller: 'DisplayController',
+				controllerAs: 'ctrl',
+				templateUrl: '/sponsor-configuration/create-transaction-displays/settings',
+				params: { accountingTransactionType: null, displayMode: null, selectedItem: null},
+				resolve: load(['js/app/modules/organize/configuration/display/controllers/DisplayController.js',
+					'js/app/modules/organize/configuration/display/services/DisplayService.js'])
+			}).state('/sponsor-configuration/components/setup-display-fields',{
+				url: '/sponsor-configuration/components/setup-display-fields',
+				templateUrl: '/sponsor-configuration/components/setup-display-fields'
+			})
+			.state('/sponsor-configuration/export-payments/settings',{
 				url: '/sponsor-configuration/export-payments/settings',
 				controller: 'ExportPaymentController',
 				controllerAs: 'ctrl',

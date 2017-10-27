@@ -149,6 +149,22 @@ app.service('SCFCommonService', [
 			return deffered;
 		}
 
+		vm.getDocumentField = function(documentFieldId){
+			var deffered = $q.defer();
+			
+			var uri = 'api/v1/document-field/'+documentFieldId;
+			$http({
+				url : uri,
+				method: 'GET'
+					
+			}).then(function(response) {
+				deffered.resolve(response);
+			}).catch(function(response) {
+			deffered.reject(response);
+			});
+			return deffered;
+		}
+
         vm.shortenLargeNumber = function(amount) {
             var shortenNumber = ['k', 'M', 'G', 'T'];
             var amountBase, result;

@@ -455,8 +455,24 @@ function transactionService($http, $q, blockUI, $window) {
 		});	
 		return deffered;
 	}
+
+    function searchMatchingField(params,data){
+        var deffered = $q.defer();
+        $http({
+			url: 'api/v1/documents/matching-by-fields',
+			method: 'POST',
+            params : params,
+			data: data
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});	
+		return deffered;
+    }
     
     return {
+        searchMatchingField:searchMatchingField,
         getSponsorPaymentDate: getSponsorPaymentDate,
         getTransactionDate: getTransactionDate,
         getTradingInfo: getTradingInfo,

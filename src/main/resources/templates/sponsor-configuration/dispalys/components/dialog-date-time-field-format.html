@@ -1,0 +1,63 @@
+<div class="modal-content">
+	<div class="modal-header">
+		<div class="row">
+			<div class="col-md-10 col-sm-10">
+				<h3>
+					<span id="date-time-field-format-popup-header-message-label"
+						class="popup-text">{{ngDialogData.config.displayFieldName}}
+						column format</span>
+				</h3>
+			</div>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<form name="datetimeFieldFormat" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							id="date-time-field-format-popup-alignment-label"
+							ng-bind="'Alignment' | translate"></span>:</label>
+						<div class="col-md-7 col-sm-5 col-xs-12">
+							<scf-dropdown
+								id="date-time-field-format-popup-alignment-dropdown"
+								ng-model="ctrl.model.alignment"
+								component-data="ctrl.alignDropdownItems" translate-label="true"></scf-dropdown>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							id="date-time-field-format-popup-date-time-format-label"
+							ng-bind="'Date time format' | translate"></span>:</label>
+						<div class="col-md-7 col-sm-5 col-xs-12">
+							<scf-dropdown
+								id="date-time-field-format-popup-date-time-format-dropdown"
+								ng-model="ctrl.model.format"
+								component-data="ctrl.formatDropdownItems" translate-label="true"></scf-dropdown>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="date-time-label"
+							class="col-md-12 col-sm-12 col-xs-12 control-label"> Ex.
+							<span id="date-time-format-popup-example-label"
+							ng-bind="ctrl.exampleDataDisplay"></span>
+						</label>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-xs-12 text-right">
+				<scf-button id="date-time-field-format-popup-cancel-button"
+					class="popup-button" ng-click="closeThisDialog()"
+					ng-bind="'Cancel' | translate"></scf-button>
+				<scf-button id="date-time-field-format-popup-ok-button"
+					class="popup-button" ng-click="closeThisDialog(ctrl.model);"
+					ng-bind="'OK' | translate"></scf-button>
+
+			</div>
+		</div>
+	</div>
+</div>
