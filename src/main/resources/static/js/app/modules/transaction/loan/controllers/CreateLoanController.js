@@ -294,6 +294,8 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
                         });
                     });
+                } else {
+                    checkSelectMatchingRef = false;
                 }
 
                 if (vm.loanRequestMode != null) {
@@ -415,8 +417,8 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
                 var result = TransactionService.searchMatchingField(params, listGroupingFieldCriteria);
                 result.promise.then(function (response) {
-                    console.log(response.data);
                     vm.documentSelects = vm.documentSelects.concat(response.data);
+                    vm.watchCheckAll();
                     calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
                 }).catch(function (response) {
 
@@ -434,6 +436,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                             })
                         });
                     }
+                    vm.watchCheckAll();
                     calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
                 }).catch(function (response) {
 
@@ -534,9 +537,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             if (checkSelectMatchingRef) {
                 selectMatchingField(data);
             } else {
+                vm.watchCheckAll();
                 calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
             }
-            vm.watchCheckAll();
+
         }
 
         // this function control selected all document in page
@@ -553,7 +557,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             var allDocumentInPage = vm.pagingController.tableRowCollection;
             if (vm.checkAllModel) {
                 allDocumentInPage.forEach(function (document, documentInPageIndex) {
-                    console.log(documentInPageIndex);
                     // check document is selected already
                     // find a document in list
                     var foundDataSelect = (vm.documentSelects.map(function (o) {
@@ -591,7 +594,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                                             calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
                                         }
                                     });
-                                    
+
                                 }
                             });
                         } else {
@@ -605,8 +608,8 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
             } else {
                 // vm.selectAllModel = false;
-                allDocumentInPage.forEach(function (document,documentInPageIndex) {
-                    
+                allDocumentInPage.forEach(function (document, documentInPageIndex) {
+
 
                     // check document is selected already
                     // find a document in list
@@ -646,7 +649,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                                         }
 
                                     });
-                                    
+
                                 }
                             });
                         } else {
@@ -679,7 +682,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
                 var diferredDocumentAll = TransactionService.getDocuments(searchCriteria);
                 diferredDocumentAll.promise.then(function (response) {
-                    console.log(response.data);
                     vm.documentSelects = response.data;
                     calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
                     vm.selectAllModel = true;
