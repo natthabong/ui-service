@@ -8,7 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import eu.bitwalker.useragentutils.UserAgent;
 import eu.bitwalker.useragentutils.Version;
-import gec.scf.security.domain.BrowserInfo;
 
 public class BrowserResolverHandlerInterceptor implements HandlerInterceptor {
 

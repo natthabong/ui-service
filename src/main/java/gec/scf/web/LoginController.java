@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import gec.scf.security.domain.BrowserInfo;
+import gec.scf.core.config.BrowserInfo;
 
 @Controller
 public class LoginController {

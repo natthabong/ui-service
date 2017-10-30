@@ -1,4 +1,4 @@
-package gec.scf.security.domain;
+package gec.scf.core.config;
 
 public class BrowserInfo {
 	private String name;

@@ -2,10 +2,7 @@ package gec.scf.core.config;
 
 import java.util.List;
 
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -18,7 +15,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-//		registry.addViewController("/login").setViewName("login");
+		// registry.addViewController("/login").setViewName("login");
 	}
 
 	@Override
@@ -26,25 +23,21 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 		configurer.favorPathExtension(true).favorParameter(true);
 	}
 
-	@Bean
-	public FilterRegistrationBean hiddenFilterRegistrationBean() {
-		return new FilterRegistrationBean(new HiddenHttpMethodFilter());
-	}
-
 	@Override
 	public void configureDefaultServletHandling(
 			DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
 	}
-	
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-	    registry.addInterceptor(new BrowserResolverHandlerInterceptor());
+		registry.addInterceptor(new BrowserResolverHandlerInterceptor());
 	}
-	
+
 	@Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(new BrowserInfoResolver ());
-    }
+	public void addArgumentResolvers(
+			List<HandlerMethodArgumentResolver> argumentResolvers) {
+		argumentResolvers.add(new BrowserInfoResolver());
+	}
 
 }

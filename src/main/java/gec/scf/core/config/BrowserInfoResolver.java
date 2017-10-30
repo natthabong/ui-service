@@ -7,8 +7,6 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import gec.scf.security.domain.BrowserInfo;
-
 public class BrowserInfoResolver implements HandlerMethodArgumentResolver {
 
 	@Override
