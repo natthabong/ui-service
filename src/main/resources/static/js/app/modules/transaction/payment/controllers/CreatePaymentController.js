@@ -27,8 +27,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             sponsorId: ownerId,
             buyerId: ownerId,
             documentStatus: 'NEW',
-            showOverdue: false,
-            viewMyOrganize: false
+            showOverdue: false
         }
 
         vm.transactionModel = $stateParams.transactionModel || {
@@ -122,7 +121,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             return valid;
         }
 
-        vm.pagingController = PagingController.create('api/v1/documents', _criteria, 'GET');
+        //vm.pagingController = PagingController.create('api/v1/documents', _criteria, 'GET');
+        vm.pagingController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
         vm.display = false;
 
         vm.clearSelectDocument = function() {
