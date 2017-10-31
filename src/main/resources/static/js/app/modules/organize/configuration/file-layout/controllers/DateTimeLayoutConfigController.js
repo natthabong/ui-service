@@ -135,7 +135,7 @@ module.controller('DateTimeLayoutConfigController', [ '$scope', '$rootScope', '$
 	var headerDatetimeList = function() {		
 		headerItems.forEach(function(item) {
 			var dataType = dataTypeByIds[item.documentFieldId];
-			if (dataType.dataType == 'DATE_TIME') {
+			if (angular.isDefined(dataType) && dataType != null && dataType.dataType == 'DATE_TIME') {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.displayValue,

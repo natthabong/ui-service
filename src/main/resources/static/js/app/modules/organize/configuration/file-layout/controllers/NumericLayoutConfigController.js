@@ -205,7 +205,7 @@ module.controller('NumericLayoutConfigController',
 		
 		detailItems.forEach(function(item , index) {
 			var dataType = dataTypeByIds[item.documentFieldId];
-			if (dataType.dataType == 'NUMERIC') {
+			if (angular.isDefined(dataType) && dataType != null && dataType.dataType == 'NUMERIC') {
 				var itemDropdown = {
 					label : item.displayValue,
 					value : item.displayValue,
