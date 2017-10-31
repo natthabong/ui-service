@@ -83,7 +83,7 @@ displayModule.controller('DisplayController', [
             var deffered = DisplayService.getDocumentDisplayConfig(ownerId, accountingTransactionType, displayMode);
             deffered.promise.then(function(response) {
                 var data = response.data;
-                console.log(data);
+
                 vm.dataModel = data || {
                     displayName: null,
                     items: [newDisplayConfig()],
@@ -110,7 +110,6 @@ displayModule.controller('DisplayController', [
 
                 if (vm.dataModel.documentSelection != DOCUMENT_SELECTION_ITEM.anyDocument) {
                     vm.groupDocumentType = angular.copy(vm.dataModel.documentSelection);
-                    console.log(vm.dataModel.documentSelection);
                     vm.dataModel.documentSelection = DOCUMENT_SELECTION_ITEM.groupBy;
                 }
 
