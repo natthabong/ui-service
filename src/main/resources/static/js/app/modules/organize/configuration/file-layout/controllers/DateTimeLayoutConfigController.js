@@ -141,6 +141,7 @@ module.controller('DateTimeLayoutConfigController', [ '$scope', '$rootScope', '$
 					value : item.displayValue,
 					item: item
 				}
+				itemDropdown.item.dataType = 'DATE_TIME';
 				vm.relationalField.push(itemDropdown);
 			}
 		});
