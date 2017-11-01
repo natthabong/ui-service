@@ -17,6 +17,9 @@ spring:
     cache: false
   jackson:
     time-zone: Asia/Bangkok
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_POST:6379}
 security:
   user:
     password: none
