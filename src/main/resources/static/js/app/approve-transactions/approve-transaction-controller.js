@@ -128,13 +128,13 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                     });
 
                 }).catch(function(response) {
-
                     $scope.response = response.data;
                     if ($scope.response.errorCode == 'E0400') {
                         vm.confirmPopup();
                         vm.wrongPassword = true;
                         vm.passwordErrorMsg = $scope.response.attributes.errorMessage;
                     } else {
+                    	
                         $scope.response.showViewRecentBtn = false;
                         $scope.response.showViewHistoryBtn = true;
                         $scope.response.showCloseBtn = $scope.response.errorCode == 'E1012' ? true : false;
