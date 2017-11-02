@@ -30,9 +30,9 @@ public class SponsorConfigController {
 	private static String AP_DOCUMENT_DISPLAY_CONFIGS = "sponsor-configuration/ap-document-config/document-display-configs";
 	private static String AP_CREATE_TRANSACTION_DISPLAY_CONFIGS = "sponsor-configuration/ap-document-config/transaction-display-configs";
 
-	private static String SETTINGS_DOCUMENT_DISPLAY = "sponsor-configuration/dispalys/document-displays/settings";
-	private static String SETTINGS_CREATE_TRANSACTION_DISPLAY = "sponsor-configuration/dispalys/create-transaction-displays/settings";
-	private static String SETUP_DISPLAY_FIELDS = "sponsor-configuration/dispalys/components/setup-display-fields";
+	private static String SETTINGS_DOCUMENT_DISPLAY = "sponsor-configuration/displays/document-displays/settings";
+	private static String SETTINGS_CREATE_TRANSACTION_DISPLAY = "sponsor-configuration/displays/create-transaction-displays/settings";
+	private static String SETUP_DISPLAY_FIELDS = "sponsor-configuration/displays/components/setup-display-fields";
 
 	private static String AP_PAYMENT_DATE_FORMULA = "sponsor-configuration/ap-document-config/payment-date-formulas";
 	private static String SETTINGS_PAYMENT_DATE_FORMULA = "sponsor-configuration/payment-date-formulas/settings";

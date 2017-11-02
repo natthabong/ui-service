@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping(path = "/configs/displays/document/data-types")
 public class ConfigDisplayDataTypeController {
-	private static String TEXT_FIELD = "sponsor-configuration/dispalys/components/dialog-text-field-format";
-	private static String DATE_TIME_FIELD = "sponsor-configuration/dispalys/components/dialog-date-time-field-format";
-	private static String NUMERIC_FIELD = "sponsor-configuration/dispalys/components/dialog-numeric-field-format";
+	private static String TEXT_FIELD = "sponsor-configuration/displays/components/dialog-text-field-format";
+	private static String DATE_TIME_FIELD = "sponsor-configuration/displays/components/dialog-date-time-field-format";
+	private static String NUMERIC_FIELD = "sponsor-configuration/displays/components/dialog-numeric-field-format";
 
 	@RequestMapping(path = "/text", method = RequestMethod.GET)
 	public String getTextFieldConfig() {
