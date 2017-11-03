@@ -281,6 +281,7 @@ displayModule.controller('DisplayController', [
             }
             
             vm.dataModel.completed = true;
+            
             var isEmpty = false;
             vm.dataModel.items.forEach(function(obj, index) {
             	var dataType = vm.documentFields[obj.documentFieldId];
@@ -293,11 +294,12 @@ displayModule.controller('DisplayController', [
                 }
             })
             
+            var dataTempModel = jQuery.extend(true, {}, vm.dataModel);
             if(isEmpty){
-            	vm.dataModel.items = [];
+            	dataTempModel.items = [];
             }
             
-            return DisplayService.updateDisplay(ownerId, vm.accountingTransactionType, displayMode, vm.dataModel);
+            return DisplayService.updateDisplay(ownerId, vm.accountingTransactionType, displayMode, dataTempModel);
         }
 
         vm.cannotSetup = function(record) {
