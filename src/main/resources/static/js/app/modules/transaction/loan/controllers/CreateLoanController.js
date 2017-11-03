@@ -27,9 +27,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         var backAction = $stateParams.backAction || false;
 
         var checkSelectMatchingRef = false;
-        var documentGroupingFields = [];
-        var matchingField = [];
-
 
         $scope.errors = {}
 
@@ -297,17 +294,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
                 if (vm.documentSelection != 'ANY_DOCUMENT') {
                     checkSelectMatchingRef = true;
-                    documentGroupingFields = response.documentGroupingFields;
-
-                    documentGroupingFields.forEach(function (documentFeild) {
-                        var deferred = SCFCommonService.getDocumentField(documentFeild.documentFieldId);
-                        deferred.promise.then(function (response) {
-                            var field = response.data.documentFieldName;
-                            matchingField.push(field);
-                        }).catch(function (response) {
-
-                        });
-                    });
                 } else {
                     checkSelectMatchingRef = false;
                 }

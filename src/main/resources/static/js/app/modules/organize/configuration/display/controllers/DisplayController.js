@@ -279,14 +279,24 @@ displayModule.controller('DisplayController', [
             } else {
                 vm.dataModel.documentGroupingFields = [];
             }
-
+            
             vm.dataModel.completed = true;
+            var isEmpty = false;
             vm.dataModel.items.forEach(function(obj, index) {
-                obj.sequenceNo = index + 1;
-                vm.dataModel.items[index].documentFieldId = obj.documentField.documentFieldId;
-                vm.dataModel.completed = obj.completed && vm.dataModel.completed;
+            	var dataType = vm.documentFields[obj.documentFieldId];
+                if(angular.isDefined(dataType)){
+                	obj.sequenceNo = index + 1;
+                	vm.dataModel.items[index].documentFieldId = obj.documentField.documentFieldId;
+                    vm.dataModel.completed = obj.completed && vm.dataModel.completed;
+                }else{
+                	isEmpty = true;
+                }
             })
-
+            
+            if(isEmpty){
+            	vm.dataModel.items = [];
+            }
+            
             return DisplayService.updateDisplay(ownerId, vm.accountingTransactionType, displayMode, vm.dataModel);
         }
 
