@@ -1,8 +1,8 @@
 'use strict';
 var scfApp = angular.module('scfApp');
-scfApp.controller('DocumentUploadLogController', ['$scope', '$stateParams', '$log', 'SCFCommonService', 'PagingController', 'UIFactory',
-    '$rootScope', '$http', 'docStatus', 'PageNavigation', 'docChannel', 'DocumentUploadLogService',
-    function($scope, $stateParams, $log, SCFCommonService, PagingController, UIFactory, $rootScope, $http, docStatus, PageNavigation, docChannel, DocumentUploadLogService) {
+scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stateParams', '$log', '$http', 'PagingController', 'UIFactory',
+     'docStatus', 'PageNavigation', 'docChannel', 'DocumentUploadLogService',
+    function( $rootScope, $scope, $stateParams, $log, $http,  PagingController, UIFactory, docStatus, PageNavigation, docChannel, DocumentUploadLogService) {
         var vm = this;
         var log = $log;
 
@@ -28,7 +28,6 @@ scfApp.controller('DocumentUploadLogController', ['$scope', '$stateParams', '$lo
             status: null,
             isBankDoc: false
         };
-
         var viewMode = {
             MY_ORGANIZE: 'MY_ORGANIZE',
             CUSTOMER: 'CUSTOMER'
@@ -88,10 +87,6 @@ scfApp.controller('DocumentUploadLogController', ['$scope', '$stateParams', '$lo
                 } else {
                     vm.hiddenColumn = true;
                 }
-                // vm.pagingController = PagingController.create(pagingUrl, vm.criteria, 'GET');
-                // if (currentMode == viewMode.MY_ORGANIZE) {
-                //     vm.searchLog();
-                // }
             }).catch(function(response) {
                 log.error('Get file type fail');
                 vm.hiddenColumn = true;
@@ -125,7 +120,7 @@ scfApp.controller('DocumentUploadLogController', ['$scope', '$stateParams', '$lo
             vm.wrongDateFormat = false;
             vm.wrongDateFromTo = false;
 
-            //Wrong date format
+            // Wrong date format
             if (angular.isUndefined(vm.criteria.uploadDateFrom) && !angular.isDate(vm.criteria.uploadDateFrom)) {
                 valid = false;
             } else if (angular.isUndefined(vm.criteria.uploadDateTo) && !angular.isDate(vm.criteria.uploadDateTo)) {
@@ -135,7 +130,7 @@ scfApp.controller('DocumentUploadLogController', ['$scope', '$stateParams', '$lo
             if (!valid) {
                 vm.wrongDateFormat = true;
             } else {
-                //Wrong date from to
+                // Wrong date from to
                 if (angular.isDate(vm.criteria.uploadDateFrom) && angular.isDate(vm.criteria.uploadDateTo)) {
 
                     var datetimeFrom = new Date(vm.criteria.uploadDateFrom.getFullYear(),
@@ -186,7 +181,10 @@ scfApp.controller('DocumentUploadLogController', ['$scope', '$stateParams', '$lo
                 owner = prepareAutoSuggestLabel(owner);
                 vm.documentUploadLogModel.sponsor = owner;
                 vm.fileTypeDropdowns = getFileType(owner.organizeId, "IMPORT");
-                vm.criteria.fileType = vm.fileTypeDropdowns[0].value;
+                if(vm.criteria.fileType == null){
+                	 vm.criteria.fileType = vm.fileTypeDropdowns[0].value;
+                }
+               
             } else if (currentMode == viewMode.CUSTOMER) {
                 vm.sponsorTxtDisable = false;
                 vm.documentUploadLogModel.roleType = 'sponsor';
