@@ -286,7 +286,6 @@ function transactionService($http, $q, blockUI, $window) {
     }
 
     function checkSelectAllDocumentInPage(documentSelects, allDocumentInPage) {
-        console.log(documentSelects);
         var selectAllDocumentInPage = false;
         var countRecordData = 0;
         if (documentSelects.length > 0) {

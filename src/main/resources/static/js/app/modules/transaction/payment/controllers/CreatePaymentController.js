@@ -62,7 +62,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 displaySelect: {
                     label: '<input type="checkbox" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
                     cssTemplate: 'text-center',
-                    cellTemplate: '<input type="checkbox" checklist-model="ctrl.documentSelects" checklist-value="data" ng-click="ctrl.selectDocument(data)"/>',
+                    cellTemplate: '<input type="checkbox" checklist-model="ctrl.documentSelects" checklist-value="data" ng-disabled="ctrl.disableDocment(data)" ng-click="ctrl.selectDocument(data)"/>',
                     displayPosition: 'first',
                     idValueField: '$rowNo',
                     id: 'document-{value}-checkbox'
@@ -336,14 +336,14 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT');
             deffered.promise.then(function (response) {
                 vm.dataTable.columns = response.items;
-                pageOptions.loanRequestMode = response.loanRequestMode;
-                pageOptions.documentSelection = response.documentSelection;
-                pageOptions.buyerCodeSelectionMode = response.buyerCodeSelectionMode;
+                // pageOptions.loanRequestMode = response.loanRequestMode;
+                // pageOptions.documentSelection = response.documentSelection;
+                // pageOptions.buyerCodeSelectionMode = response.buyerCodeSelectionMode;
 
-                var documentSelection = response.documentSelection;
+                vm.documentSelection = response.documentSelection;
                 vm.criteria.sort = response.sort;
 
-                if (documentSelection != 'ANY_DOCUMENT') {
+                if (vm.documentSelection != 'ANY_DOCUMENT') {
                     checkSelectMatchingRef = true;
                 } else {
                     checkSelectMatchingRef = false;
@@ -427,6 +427,14 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             }
         }
 
+        vm.disableDocment = function (document) {
+            if (vm.documentSelection == 'AT_LEAST_ONE_DOCUMENT' && document.netAmount < 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         vm.accountChange = function () {
             var accountId = vm.transactionModel.payerAccountId;
             vm.accountDropDown.forEach(function (account) {
@@ -470,7 +478,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
         var watchCheckAll = function () {
             var allDocumentInPage = vm.pagingController.tableRowCollection;
-            console.log(vm.documentSelects);
             vm.checkAllModel = TransactionService.checkSelectAllDocumentInPage(vm.documentSelects, allDocumentInPage);
             watchSelectAll();
         }
@@ -486,16 +493,46 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     vm.pagingAllController.tableRowCollection.forEach(function (document) {
                         if (comparator(data.groupingKey, document.groupingKey)) {
                             if (!isFound(document)) {
-                                vm.documentSelects = vm.documentSelects.concat(document);
+                                console.log(vm.documentSelection);
+                                if (vm.documentSelection == 'AT_LEAST_ONE_DOCUMENT') {
+                                    if (document.netAmount < 0) {
+                                        vm.documentSelects = vm.documentSelects.concat(document);
+                                    }
+                                } else {
+                                    vm.documentSelects = vm.documentSelects.concat(document);
+                                }
+
                             }
                         }
                     });
                 }
             } else {
                 if (data.groupingKey != null) {
-                    for (var index = vm.documentSelects.length; index--;) {
-                        if (comparator(data.groupingKey, vm.documentSelects[index].groupingKey)) {
-                            vm.documentSelects.splice(index, 1);
+                    if (vm.documentSelection == 'AT_LEAST_ONE_DOCUMENT') {
+                        var temp = [];
+                        var unselectNagativeInvoice = true;
+                        for(var index = vm.documentSelects.length; index--;){
+                            if (comparator(data.groupingKey, vm.documentSelects[index].groupingKey)){
+                                if(vm.documentSelects[index].netAmount < 0){
+                                    temp.push(index);
+                                }else{
+                                    unselectNagativeInvoice = false;
+                                }
+                            }
+                        }
+
+                        if(unselectNagativeInvoice){
+                            if(temp.length > 0){
+                                temp.forEach(function(index){
+                                    vm.documentSelects.splice(index, 1);
+                                })
+                            }
+                        }
+                    } else {
+                        for (var index = vm.documentSelects.length; index--;) {
+                            if (comparator(data.groupingKey, vm.documentSelects[index].groupingKey)) {
+                                vm.documentSelects.splice(index, 1);
+                            }
                         }
                     }
                 }
