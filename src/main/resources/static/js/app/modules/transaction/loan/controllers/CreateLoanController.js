@@ -6,7 +6,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         var vm = this;
         var log = $log;
         var comparator = angular.equals;
-        
+
         $scope.validateDataFailPopup = false;
 
         vm.errorMsgPopup = 'Insufficient Fund'
@@ -84,12 +84,8 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         }
 
         function calculateTransactionAmount(documentSelects, prepercentagDrawdown) {
-            var sumAmount = 0;
-            documentSelects.forEach(function (document) {
-                sumAmount += document.netAmount;
-            });
-            vm.totalDocumentAmount = sumAmount;
-            vm.submitTransactionAmount = TransactionService.calculateTransactionAmount(sumAmount, prepercentagDrawdown);
+            vm.totalDocumentAmount = TransactionService.summaryAllDocumentAmount(documentSelects);
+            vm.submitTransactionAmount = TransactionService.calculateTotalDocumentAmountWithPrePercentTag(vm.totalDocumentAmount, prepercentagDrawdown);
         }
 
         vm.loadDocument = function (pagingModel) {
@@ -97,7 +93,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             _criteria.customerCode = vm.createTransactionModel.supplierCode;
             _criteria.sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
             _criteria.searchMatching = false;
-            
+
             var deffered = vm.pagingController.search(pagingModel || ($stateParams.backAction ? {
                 offset: _criteria.offset,
                 limit: _criteria.limit
@@ -107,7 +103,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 _criteria.searchMatching = true;
                 var defferedAll = vm.pagingAllController.search(pagingModel);
                 defferedAll.promise.then(function (response) {
-                	if (backAction) {
+                    if (backAction) {
                         vm.documentSelects = $stateParams.documentSelects;
                         // clear param
                         $stateParams.documentSelects = [];
@@ -286,11 +282,12 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 vm.dataTable.columns = response.items;
                 vm.pagingController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
                 vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
-                
+
                 vm.loanRequestMode = response.loanRequestMode;
                 vm.documentSelection = response.documentSelection;
                 supplierCodeSelectionMode = response.supplierCodeSelectionMode;
                 _criteria.sort = response.sort;
+                console.log(response.documentSelection);
 
                 if (vm.documentSelection != 'ANY_DOCUMENT') {
                     checkSelectMatchingRef = true;
@@ -373,7 +370,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     }
                 }
             });
-            
+
             if (countRecordData === vm.pagingController.tableRowCollection.length && countRecordData > 0) {
                 vm.checkAllModel = true;
             }
@@ -392,7 +389,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             vm.showBackButton = true;
             vm.searchDocument(undefined);
         }
-
 
         $scope.sortData = function (order, orderBy) {
             vm.createTransactionModel.order = order;
@@ -419,39 +415,39 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             PageNavigation.gotoPreviousPage(true);
         }
 
-        var selectMatchingField = function (data) {
-            if (isFound(data)) {
-            	if(data.groupingKey != null){
-            		vm.pagingAllController.tableRowCollection.forEach(function (document) {
-                            if (comparator(data.groupingKey, document.groupingKey)) {
-                            	if(!isFound(document)){
-                                	vm.documentSelects = vm.documentSelects.concat(document);  
-                            	} 
-                        	}
-                    });
-            	}
-            } else {
-            	if(data.groupingKey != null){
-            		for (var index = vm.documentSelects.length; index--;) {
-                        if (comparator(data.groupingKey, vm.documentSelects[index].groupingKey)) {
-                        	vm.documentSelects.splice(index, 1);
-                    	}
-                    }
-            	}
-            }
-            
-        	vm.watchCheckAll();
-            calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+        function isFound(data) {
+            return getIndex(data) > -1;
         }
-        
-        function isFound(data){
-        	return getIndex(data) > -1;
-        }
-        
-        function getIndex(data){
-        	return vm.documentSelects.map(function (o) {
+
+        function getIndex(data) {
+            return vm.documentSelects.map(function (o) {
                 return o.documentId;
             }).indexOf(data.documentId);
+        }
+
+        var selectMatchingField = function (data) {
+            if (isFound(data)) {
+                if (data.groupingKey != null) {
+                    vm.pagingAllController.tableRowCollection.forEach(function (document) {
+                        if (comparator(data.groupingKey, document.groupingKey)) {
+                            if (!isFound(document)) {
+                                vm.documentSelects = vm.documentSelects.concat(document);
+                            }
+                        }
+                    });
+                }
+            } else {
+                if (data.groupingKey != null) {
+                    for (var index = vm.documentSelects.length; index--;) {
+                        if (comparator(data.groupingKey, vm.documentSelects[index].groupingKey)) {
+                            vm.documentSelects.splice(index, 1);
+                        }
+                    }
+                }
+            }
+
+            vm.watchCheckAll();
+            calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
         }
 
         vm.selectDocument = function (data) {
@@ -470,41 +466,39 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         // this function control selected all document in page
         vm.checkAllDocument = function () {
             var allDocumentInPage = vm.pagingController.tableRowCollection;
-            
+
             if (vm.checkAllModel) {
-            	allDocumentInPage.forEach(function (document) {
-	            	if(!isFound(document)){
-	            		vm.documentSelects.push(document);
-	            		
-	            		if(checkSelectMatchingRef){
-	                		selectMatchingField(document);
-	                	}
-	            	} 
-            	});
-            }else{
-            	allDocumentInPage.forEach(function (document) {
-            		var index = getIndex(document);
-                    if(index > -1){
-                    	vm.documentSelects.splice(index, 1);
+                allDocumentInPage.forEach(function (document) {
+                    if (!isFound(document)) {
+                        vm.documentSelects.push(document);
+
+                        if (checkSelectMatchingRef) {
+                            selectMatchingField(document);
+                        }
                     }
-                    
-            		if(checkSelectMatchingRef){
-                		selectMatchingField(document);
-                	}
-            	});
+                });
+            } else {
+                allDocumentInPage.forEach(function (document) {
+                    var index = getIndex(document);
+                    if (index > -1) {
+                        vm.documentSelects.splice(index, 1);
+                    }
+
+                    if (checkSelectMatchingRef) {
+                        selectMatchingField(document);
+                    }
+                });
             }
-            
+
             calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
         }
 
         vm.selectAllDocument = function () {
-        	var allDocument = vm.pagingAllController.tableRowCollection;
             if (!vm.selectAllModel) {
-            	allDocument.forEach(function (document) {
-	            	vm.documentSelects.push(document);
-            	});
-            	
-            	vm.selectAllModel = true;
+                var allDocument = vm.pagingAllController.tableRowCollection;
+                angular.copy(allDocument,vm.documentSelects);
+
+                vm.selectAllModel = true;
                 vm.checkAllModel = true;
             } else {
                 _setDefualtValue(false);
@@ -512,7 +506,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             }
             calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
         };
-        
+
         // next to page verify and submit
         vm.nextStep = function () {
             vm.errorDisplay = false;

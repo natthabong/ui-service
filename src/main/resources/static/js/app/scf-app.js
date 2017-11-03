@@ -645,7 +645,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment/create',
 				params: {transactionModel: null, tradingpartnerInfoModel: null, criteria: null, supplierModel: null, documentSelects: null, backAction: false, dashboardParams: null, showBackButton: false},
-				resolve: load(['js/app/modules/transaction/services/TransactionService.js','js/app/modules/transaction/payment/controllers/CreatePaymentController.js', 'js/app/modules/transaction/payment/services/CreatePaymentService.js'])
+				resolve: load(['js/app/modules/transaction/services/TransactionService.js','js/app/modules/transaction/payment/controllers/CreatePaymentController.js'])
 			}).state('/my-organize/create-payment-woip', {
 				url: '/my-organize/create-payment-woip',
 				controller: 'CreatePaymentWithoutInvoiceController',

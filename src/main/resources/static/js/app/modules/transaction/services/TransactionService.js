@@ -266,9 +266,23 @@ function transactionService($http, $q, blockUI, $window) {
         return deffered;
     }
 
-    function calculateTransactionAmount(totalAmount, preDradowPercentag) {
+    function calculateTotalDocumentAmountWithPrePercentTag(totalAmount, preDradowPercentag){
         var sumAmount = (totalAmount * (preDradowPercentag / 100)).toFixed(2);
         return sumAmount;
+    }
+
+    function summaryAllDocumentAmount(documentSelects){
+        var sumAmount = 0;
+        documentSelects.forEach(function (document) {
+            sumAmount += document.netAmount;
+        });
+		return sumAmount;	
+    }
+
+    function getIndexDoucmentListByDocument(ducument, documentList){
+        return vm.documentList.map(function (o) {
+                return o.documentId;
+            }).indexOf(ducument.documentId);
     }
 
     function retry(transactionApproveModel) {
@@ -485,7 +499,7 @@ function transactionService($http, $q, blockUI, $window) {
         getAccounts : getAccounts,
         getBuyerCodes: getBuyerCodes,
         getSuppliers: getSuppliers,
-        calculateTransactionAmount:calculateTransactionAmount,
+        calculateTotalDocumentAmountWithPrePercentTag:calculateTotalDocumentAmountWithPrePercentTag,
         submitTransaction:submitTransaction,
         retry: retry,
         reject: reject,
@@ -493,6 +507,7 @@ function transactionService($http, $q, blockUI, $window) {
         getTransactionDialogErrorUrl: getTransactionDialogErrorUrl,
         getTransaction: getTransaction,
         generateEvidenceForm : generateEvidenceForm,
-        summaryStatusGroup : summaryStatusGroup
+        summaryStatusGroup : summaryStatusGroup,
+        summaryAllDocumentAmount:summaryAllDocumentAmount
 	}
 }
