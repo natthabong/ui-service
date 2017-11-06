@@ -72,6 +72,7 @@ displayModule.controller('DisplayController', [
             label: 'Please select'
         }];
         vm.documentFieldData = [];
+        vm.documentConditions = [];
 
         // vm.documentGroupByFields = [{
         // 	value: null,
@@ -132,6 +133,23 @@ displayModule.controller('DisplayController', [
             });
         }
 
+        var loadDocumentCondition = function() {
+            var deffered = SCFCommonService.getDocumentFields('DISPLAY', 'DETAIL','TEXT',false);
+            deffered.promise.then(function(response) {
+                var documentFieldData = response.data;
+
+                documentFieldData.forEach(function(obj) {
+                    var item = {
+                        value: obj.documentFieldId,
+                        label: obj.displayFieldName
+                    };
+                    vm.documentConditions.push(item);
+                });
+            }).catch(function(response) {
+                log.error('Load data condition error');
+            });
+        }
+
         var loadDataTypes = function() {
             var deffered = SCFCommonService.getDocumentFields('DISPLAY', 'DETAIL');
             deffered.promise.then(function(response) {
@@ -152,6 +170,7 @@ displayModule.controller('DisplayController', [
         var init = function() {
             loadDataTypes();
             loadDisplayConfig(ownerId, vm.accountingTransactionType, displayMode);
+            loadDocumentCondition();
         }();
 
         // <------------------------------------------  User Action ------------------------------------------->

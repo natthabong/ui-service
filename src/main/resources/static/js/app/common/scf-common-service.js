@@ -130,7 +130,7 @@ app.service('SCFCommonService', [
 			return differed;
 		};
 
-		vm.getDocumentFields = function(fileLayoutType, sectionType, dataType){
+		vm.getDocumentFields = function(fileLayoutType, sectionType, dataType,isTransient){
 			var deffered = $q.defer();
 			
 			var uri = 'api/v1/configs/file-layout-types/'+fileLayoutType+'/section-types/'+ sectionType + '/document-field';
@@ -138,7 +138,8 @@ app.service('SCFCommonService', [
 				url : uri,
 				method: 'GET',
 				params: {
-					dataType: dataType
+					dataType: dataType,
+					isTransient: isTransient || null
 				}
 					
 			}).then(function(response) {
