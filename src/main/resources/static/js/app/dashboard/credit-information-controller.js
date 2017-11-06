@@ -19,7 +19,7 @@ angular.module('scfApp').controller(
 					var organizeId = $rootScope.userInfo.organizeId;
 					var log = $log;
 					vm.index = 0;
-					var dataSource = $http({url:'/api/credit-information/get', method: 'GET',params: {organizeId:organizeId}});
+					var dataSource = $http({url:'/api/credit-information/get', method: 'GET', params: {organizeId:organizeId}});
 					
 					dataSource.success(function(response) {						
 		                vm.data = response.content;
@@ -58,14 +58,14 @@ angular.module('scfApp').controller(
 							$scope.closeThisDialog();
 						}
 						blockUI.start("Processing...");
-						var deffered = $q.defer();
+						var deferred = $q.defer();
 						var tpAccountModel = {
-							sponsorId : data.sponsorId,
+							buyerId : data.buyerId,
 							supplierId : data.supplierId,
 							accountId : data.accountId,
 						}			
-						var inquiryAccountDeffered = inquiryAccountToApi(tpAccountModel);
-						inquiryAccountDeffered.promise.then(function(response) {
+						var inquiryAccountDeferred = inquiryAccountToApi(tpAccountModel);
+						inquiryAccountDeferred.promise.then(function(response) {
 							blockUI.stop();
 							if(response.status==200){
 								dialogPopup = UIFactory.showSuccessDialog({
@@ -120,16 +120,16 @@ angular.module('scfApp').controller(
 					
 					
 					function inquiryAccountToApi(tpAccountModel){
-						var deffered = $q.defer();	
+						var deferred = $q.defer();	
 						$http({
 							url: '/api/v1/update-credit-limit-from-bank',
 							method: 'POST',
 							data: tpAccountModel
 						}).then(function(response){
-							deffered.resolve(response);
+							deferred.resolve(response);
 						}).catch(function(response){
-							deffered.reject(response);
+							deferred.reject(response);
 						});	
-						return deffered;
+						return deferred;
 					}
 				}]);
