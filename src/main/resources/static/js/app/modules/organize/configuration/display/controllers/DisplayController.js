@@ -303,7 +303,7 @@ displayModule.controller('DisplayController', [
             
             var isEmpty = false;
             vm.dataModel.items.forEach(function(obj, index) {
-            	var dataType = vm.documentFields[obj.documentFieldId];
+            	var dataType = vm.documentFields[obj.documentField.documentFieldId];
                 if(angular.isDefined(dataType)){
                 	obj.sequenceNo = index + 1;
                 	vm.dataModel.items[index].documentFieldId = obj.documentField.documentFieldId;
@@ -313,11 +313,12 @@ displayModule.controller('DisplayController', [
                 }
             })
             
+            console.log(vm.dataModel);
             var dataTempModel = jQuery.extend(true, {}, vm.dataModel);
             if(isEmpty){
             	dataTempModel.items = [];
             }
-            
+            console.log(dataTempModel);
             return DisplayService.updateDisplay(ownerId, vm.accountingTransactionType, displayMode, dataTempModel);
         }
 
