@@ -72,7 +72,11 @@ displayModule.controller('DisplayController', [
             label: 'Please select'
         }];
         vm.documentFieldData = [];
-        vm.documentConditions = [];
+        
+        vm.documentConditions = [{
+            value: null,
+            label: 'Please select'
+        }];
 
         // vm.documentGroupByFields = [{
         // 	value: null,
