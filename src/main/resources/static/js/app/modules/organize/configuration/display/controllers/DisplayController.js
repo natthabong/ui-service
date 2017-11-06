@@ -301,24 +301,21 @@ displayModule.controller('DisplayController', [
             
             vm.dataModel.completed = true;
             
-            var isEmpty = false;
-            vm.dataModel.items.forEach(function(obj, index) {
-            	var dataType = vm.documentFields[obj.documentField.documentFieldId];
-                if(angular.isDefined(dataType)){
-                	obj.sequenceNo = index + 1;
-                	vm.dataModel.items[index].documentFieldId = obj.documentField.documentFieldId;
-                    vm.dataModel.completed = obj.completed && vm.dataModel.completed;
-                }else{
-                	isEmpty = true;
+            var dataSaveModel = jQuery.extend(true, {}, vm.dataModel);
+            dataSaveModel.items.forEach(function(obj, index) {
+            	if(obj.documentField != null){
+            		var dataType = vm.documentFields[obj.documentField.documentFieldId];
+                    if(angular.isDefined(dataType)){
+                    	obj.sequenceNo = index + 1;
+                    	dataSaveModel.items[index].documentFieldId = obj.documentField.documentFieldId;
+                        dataSaveModel.completed = obj.completed && dataSaveModel.completed;
+                    }
+            	}else{
+            		dataSaveModel.items.splice(index, 1);
                 }
             })
             
-            var dataTempModel = jQuery.extend(true, {}, vm.dataModel);
-            if(isEmpty){
-            	dataTempModel.items = [];
-            }
-            
-            return DisplayService.updateDisplay(ownerId, vm.accountingTransactionType, displayMode, dataTempModel);
+            return DisplayService.updateDisplay(ownerId, vm.accountingTransactionType, displayMode, dataSaveModel);
         }
 
         vm.cannotSetup = function(record) {
