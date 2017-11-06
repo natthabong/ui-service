@@ -84,7 +84,7 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 					});
 				});
 				if(angular.isUndefined(vm.model.mappingToFieldName)){
-					vm.model.mappingToFieldName = vm.mappingToDropDown[0].value.toString();
+					vm.model.mappingToFieldName = null;
 				}
 				
 			}).catch(function(response) {
