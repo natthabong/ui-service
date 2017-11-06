@@ -313,12 +313,11 @@ displayModule.controller('DisplayController', [
                 }
             })
             
-            console.log(vm.dataModel);
             var dataTempModel = jQuery.extend(true, {}, vm.dataModel);
             if(isEmpty){
             	dataTempModel.items = [];
             }
-            console.log(dataTempModel);
+            
             return DisplayService.updateDisplay(ownerId, vm.accountingTransactionType, displayMode, dataTempModel);
         }
 
