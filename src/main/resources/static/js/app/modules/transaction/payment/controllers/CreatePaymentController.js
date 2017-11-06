@@ -123,8 +123,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             return valid;
         }
 
-        vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
-        vm.pagingController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
         vm.display = false;
 
         vm.clearSelectDocument = function () {
@@ -142,49 +140,39 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
         }
 
-        vm.loadData = function (pagingModel, callback) {
+        vm.loadDocument = function (pagingModel) {
             _criteria.searchMatching = false;
-            var diferred = vm.pagingController.search(pagingModel);
-            diferred.promise.then(function (response) {
-                if (!vm.display) {
+            var deffered = vm.pagingController.search(pagingModel || ($stateParams.backAction ? {
+                offset: _criteria.offset,
+                limit: _criteria.limit
+            } : undefined));
+            deffered.promise.then(function (response) {
+            	if (!vm.display) {
                     vm.clearSelectDocument();
                 }
-                watchCheckAll();
-
                 _criteria.searchMatching = true;
-                var deffered = vm.pagingAllController.search(pagingModel);
-
-                var totalRecord = vm.pagingController.pagingModel.totalRecord;
-                if (vm.documentSelects.length == totalRecord && vm.documentSelects.length > 0) {
-                    vm.selectAllModel = true;
-                }
-                vm.showInfomation = true;
-
-                if (callback) {
-                    callback();
-                }
+                var defferedAll = vm.pagingAllController.search(pagingModel);
+                defferedAll.promise.then(function (response) {
+                	 if ($stateParams.backAction) {
+                         $stateParams.backAction = false;
+                     } else if (!$stateParams.backAction && dashboardParams != null) {
+                         vm.selectAllDocument();
+                         // clear dashboard param after search
+                         $stateParams.dashboardParams = null;
+                         dashboardParams = null;
+                     }
+                    watchCheckAll();
+                });
             }).catch(function (response) {
-                log.error(response);
+            	log.error(response);
             });
+            vm.showInfomation = true;
         }
 
         vm.searchDocument = function (pagingModel) {
             if (_validateForSearch()) {
                 angular.copy(vm.criteria, _criteria);
-
-                vm.loadData(pagingModel || ($stateParams.backAction ? {
-                    limit: _criteria.limit,
-                    offset: _criteria.offset
-                } : undefined), function () {
-                    if ($stateParams.backAction) {
-                        $stateParams.backAction = false;
-                    } else if (!$stateParams.backAction && dashboardParams != null) {
-                        vm.selectAllDocument();
-                        // clear dashboard param after search
-                        $stateParams.dashboardParams = null;
-                        dashboardParams = null;
-                    }
-                });
+                vm.loadDocument();
             } else {
                 vm.display = false;
             }
@@ -336,10 +324,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT');
             deffered.promise.then(function (response) {
                 vm.dataTable.columns = response.items;
-                // pageOptions.loanRequestMode = response.loanRequestMode;
-                // pageOptions.documentSelection = response.documentSelection;
-                // pageOptions.buyerCodeSelectionMode = response.buyerCodeSelectionMode;
-
+                vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
+                vm.pagingController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
+                
+                
                 vm.documentSelection = response.documentSelection;
                 vm.criteria.sort = response.sort;
 
