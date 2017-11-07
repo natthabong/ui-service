@@ -101,7 +101,7 @@ angular.module('scfApp').controller('SupplierCreditInformationController',['$sco
 			blockUI.start("Processing...");
 			var deffered = $q.defer();
 			var tpAccountModel = {
-				buyerId : data.buyerId,
+				sponsorId : data.sponsorId,
 				supplierId : data.supplierId,
 				accountId : data.accountId,
 			}			
