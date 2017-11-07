@@ -79,8 +79,8 @@ displayModule.controller('DisplayController', [
         }];
 
         // vm.documentGroupByFields = [{
-        // 	value: null,
-        // 	label: 'Please select'
+        // value: null,
+        // label: 'Please select'
         // }];
         // vm.documentGroupByFieldData = [];
 
@@ -108,7 +108,8 @@ displayModule.controller('DisplayController', [
                     vm.dataModel.documentGroupingFields.push(groupItem);
                 }
 
-                // default Display CN documents is select record if don't have data and accounting transaction type is RECEIVABLE
+                // default Display CN documents is select record if don't have
+				// data and accounting transaction type is RECEIVABLE
                 if (vm.dataModel.displayNegativeDocument == null && vm.accountingTransactionType == "RECEIVABLE") {
                     vm.dataModel.displayNegativeDocument = true;
                 }
@@ -177,7 +178,7 @@ displayModule.controller('DisplayController', [
             loadDocumentCondition();
         }();
 
-        // <------------------------------------------  User Action ------------------------------------------->
+        // <------------------------------------------ User Action ------------------------------------------->
         vm.removeGroupDocumentCondition = function(field) {
             var index = vm.dataModel.documentGroupingFields.indexOf(field);
             vm.dataModel.documentGroupingFields.splice(index, 1);
@@ -208,6 +209,7 @@ displayModule.controller('DisplayController', [
         }
 
         vm.addItem = function() {
+        	callRestRefresh();
             vm.dataModel.items.push({
                 documentFieldId: null,
                 sortType: null,
@@ -216,6 +218,7 @@ displayModule.controller('DisplayController', [
         }
 
         vm.removeItem = function(record) {
+        	callRestRefresh();
             var index = vm.dataModel.items.indexOf(record);
             vm.dataModel.items.splice(index, 1);
         }
@@ -344,13 +347,19 @@ displayModule.controller('DisplayController', [
         }
 
         vm.moveItemUp = function(item) {
+        	callRestRefresh();
             var itemIndex = vm.dataModel.items.indexOf(item);
             addItemToIndex(itemIndex - 1, item);
         }
 
         vm.moveItemDown = function(item) {
+        	callRestRefresh();
             var itemIndex = vm.dataModel.items.indexOf(item);
             addItemToIndex(itemIndex + 1, item);
+        }
+        
+        function callRestRefresh(){
+        	Service.doGet('/api/rest',null);
         }
 
         function addItemToIndex(index, item) {
@@ -366,16 +375,16 @@ displayModule.controller('DisplayController', [
             vm.documentFieldData.forEach(function(obj) {
 
                 if (record.documentField != null && record.documentField.documentFieldId == obj.documentFieldId) {
-                    //                            if (record.completed) {
+                    // if (record.completed) {
 
                     msg = $injector.get('DocumentDisplayConfigExampleService')[obj.dataType + '_DisplayExample'](record, obj);
-                    //                            }
+                    // }
                 }
             });
             return msg;
         };
 
-        // <------------------------------------------  User Action ------------------------------------------->
+        // <------------------------------------------ User Action ------------------------------------------->
     }
 
 ]).constant('ALIGNMENT_DROPDOWN_ITEM', [{
