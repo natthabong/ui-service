@@ -60,7 +60,7 @@ angular.module('scfApp').controller(
 						blockUI.start("Processing...");
 						var deffered = $q.defer();
 						var tpAccountModel = {
-							sponsorId : data.sponsorId,
+							sponsorId : data.buyerId,
 							supplierId : data.supplierId,
 							accountId : data.accountId,
 						}			
