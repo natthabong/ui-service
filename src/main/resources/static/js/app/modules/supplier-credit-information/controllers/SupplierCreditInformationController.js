@@ -1,6 +1,7 @@
 'use strict';
 var sciModule = angular.module('gecscf.supplierCreditInformation');
 sciModule.controller('SupplierCreditInformationController', [
+	'$rootScope',
 	'$scope',
 	'$stateParams',
 	'UIFactory',
@@ -10,17 +11,25 @@ sciModule.controller('SupplierCreditInformationController', [
 	'$http',
 	'$q',
 	'blockUI',
-	function ($scope, $stateParams, UIFactory, PagingController, SupplierCreditInformationService, SCFCommonService, $http, $q, blockUI) {
+	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, SupplierCreditInformationService, SCFCommonService, $http, $q, blockUI) {
 		var vm = this;
-
+		
+		var organizeId = $rootScope.userInfo.organizeId;
 		vm.buyer = $stateParams.buyer || null;
 		vm.supplier = $stateParams.supplier || null;
 		vm.showSupplier = true;
 		vm.data = [];
-
+		
+        var viewModeData = {
+            myOrganize: 'MY_ORGANIZE',
+            customer: 'CUSTOMER'
+        }
+        
 		vm.search = function () {
-			var buyer = undefined;
+        	
+        	var buyer = undefined;
 			var supplier = undefined;
+			
 			if (angular.isObject(vm.buyer)) {
 				if (angular.isObject(vm.supplier)) {
 					buyer = vm.buyer.organizeId;
@@ -31,8 +40,12 @@ sciModule.controller('SupplierCreditInformationController', [
 			} else if (angular.isObject(vm.supplier)) {
 				supplier = vm.supplier.organizeId;
 			} else {
+				if(viewModeData.myOrganize == $stateParams.viewMode){
+					supplier = organizeId;
+				} else {
+					supplier = null;
+				}
 				buyer = null;
-				supplier = null;
 			}
 			var dataSource = $http({ url: '/api/v1/supplier-credit-information', method: 'GET', params: { buyerId: buyer, supplierId: supplier } });
 			dataSource.success(function (response) {
@@ -50,7 +63,12 @@ sciModule.controller('SupplierCreditInformationController', [
 		// Organize auto suggestion model.
 		var _organizeTypeHead = function (q) {
 			q = UIFactory.createCriteria(q);
-			return SupplierCreditInformationService.getOrganizeByNameOrCodeLike(q);
+			
+			if(viewModeData.myOrganize == $stateParams.viewMode){
+				return SupplierCreditInformationService.getBuyerNameOrCodeLike(organizeId,q);
+			} else {
+				return SupplierCreditInformationService.getOrganizeByNameOrCodeLike(q);
+			}
 		}
 
 		vm.organizeAutoSuggestModel = UIFactory.createAutoSuggestModel({
@@ -62,7 +80,7 @@ sciModule.controller('SupplierCreditInformationController', [
 		// Main of program
 		var initLoad = function () {
 			vm.search();
-			if("supplier" == $stateParams.party){
+			if(viewModeData.myOrganize == $stateParams.viewMode){
 				vm.showSupplier = false;
 			}
 		}();

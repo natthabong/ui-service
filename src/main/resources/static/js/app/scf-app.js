@@ -81,7 +81,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'SupplierCreditInformationController',
 				controllerAs: 'ctrl',
 				templateUrl: '/supplier-credit-information',
-				params: { party:'bank', backAction: false, criteria : null, organize: null},
+				params: { viewMode:'CUSTOMER', backAction: false, criteria : null, organize: null},
 				resolve: load(['js/app/modules/supplier-credit-information/controllers/SupplierCreditInformationController.js', 'js/app/modules/supplier-credit-information/services/SupplierCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
 			.state('/my-organize/supplier-credit-information', {
@@ -89,7 +89,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'SupplierCreditInformationController',
 				controllerAs: 'ctrl',
 				templateUrl: '/supplier-credit-information',
-				params: { party:'supplier', backAction: false, criteria : null, organize: null},
+				params: { viewMode:'MY_ORGANIZE', backAction: false, criteria : null, organize: null},
 				resolve: load(['js/app/modules/supplier-credit-information/controllers/SupplierCreditInformationController.js', 'js/app/modules/supplier-credit-information/services/SupplierCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
 			.state('/verify-transaction', {
