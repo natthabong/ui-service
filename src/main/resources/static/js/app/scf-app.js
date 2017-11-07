@@ -1,6 +1,6 @@
 var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'ui.mask', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
-                        			'legendDirectives','chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing'
+                        			'legendDirectives','chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing','gecscf.supplierCreditInformation'
 									,'gecscf.sponsorConfiguration.workflow','gecscf.document','gecscf.organize.configuration.exportPayment','gecscf.organize.configuration.display'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider','$urlRouterProvider','ngDialogProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider,$compileProvider, $urlRouterProvider, ngDialogProvider) {
@@ -76,12 +76,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/organize-list/bank',
 				resolve: load(['js/app/modules/organize/organize-list-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
-			.state('/customer-report/credit-information', {
-				url: '/customer-report/credit-information',
+			.state('/customer-registration/credit-information', {
+				url: '/customer-registration/credit-information',
 				controller: 'SupplierCreditInformationController',
 				controllerAs: 'ctrl',
 				templateUrl: '/supplier-credit-information',
-				resolve: load(['js/app/modules/supplier-credit-information/supplier-credit-information-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				params: { params: [], backAction: false, criteria : null, organize: null},
+				resolve: load(['js/app/modules/supplier-credit-information/controllers/SupplierCreditInformationController.js', 'js/app/modules/supplier-credit-information/services/SupplierCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
 			.state('/verify-transaction', {
 				url: '/verify-transaction',
