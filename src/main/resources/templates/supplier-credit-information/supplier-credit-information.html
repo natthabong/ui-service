@@ -14,7 +14,8 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<form name="supplierCreditInformationForm"
 							autocomplete="off" class="form-horizontal">
-						<div class="form-group">
+						<br/>
+						<div class="form-group" ng-show="ctrl.showSupplier">
 							<label for="sponsor-textbox"
 								class="col-md-2 col-sm-3 col-xs-12 control-label" id="supplier-label">{{'Supplier'| translate}}: </label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
@@ -50,7 +51,7 @@
 										<th id="credit-limit-header-label" ng-bind="'Credit limit' | translate">Credit limit</th>
 										<th id="outstanding-header-label" ng-bind="'Outstanding' | translate">Outstanding</th>
 										<th id="future-header-label" ng-bind="'Future' | translate">Future</th>
-										<th id="supplier-header-label" ng-bind="'Supplier' | translate">Supplier</th>
+										<th id="supplier-header-label" ng-bind="'Supplier' | translate" ng-show="ctrl.showSupplier">Supplier</th>
 										<th id="buyer-header-label" ng-bind="'Buyer' | translate">Buyer</th>
 										<th id="trading-status-header-label" ng-bind="'Trading status' | translate">Trading status</th>
 										<th id="internal-header-label" ng-bind="'Internal' | translate">Internal</th>
@@ -69,68 +70,68 @@
 									<tr ng-repeat="record in ctrl.data track by $index">
 										<td class="text-center"><span
 											
-											id="$rowNo-{{record.accountId}}-{{record.sponsorName}}-label"
+											id="$rowNo-{{record.accountId}}-{{record.buyerName}}-label"
 											ng-bind="record.rowNo"></span></td>
 										<td class="text-right"><span
 											ng-show="record.showAccountFlag"
-											id="credit-limit-{{record.accountId}}-{{record.sponsorName}}-label"
+											id="credit-limit-{{record.accountId}}-{{record.buyerName}}-label"
 											ng-bind="record.creditLimit | number : 2"></span></td>
 										<td class="text-right"><span
 											ng-show="record.showAccountFlag"
-											id="outstanding-{{record.accountId}}-{{record.sponsorName}}-label"
+											id="outstanding-{{record.accountId}}-{{record.buyerName}}-label"
 											ng-bind="record.outstanding | number : 2"></span></td>
 										<td class="text-right"><span
 											ng-show="record.showAccountFlag"
-											id="future-{{record.accountId}}-{{record.sponsorName}}-label"
+											id="future-{{record.accountId}}-{{record.buyerName}}-label"
 											ng-bind="record.futureDrawdown | number : 2"></span></td>
-										<td class="text-right"><span
-											id="supplier-name-{{record.accountId}}-{{record.sponsorName}}-label"
+										<td class="text-right" ng-show="ctrl.showSupplier"><span
+											id="supplier-name-{{record.accountId}}-{{record.buyerName}}-label"
 											ng-bind="record.supplierName | translate"></span></td>
 										<td class="text-center"><img id="sponsor-"
-											title="{{record.sponsorName}}"
+											title="{{record.buyerName}}"
 											style="height: 32px; width: 32px;"
 											data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.sponsorLogo)}}"
 											/></td>
 										<td class="text-right"><span
-											id="trading-status-{{record.accountId}}-{{record.sponsorName}}-label"
+											id="trading-status-{{record.accountId}}-{{record.buyerName}}-label"
 											ng-bind="record.tradingStatus | translate"></span></td>
 										<td class="text-right"><span
-											id="internal-{{record.accountId}}-{{record.sponsorName}}-label"
+											id="internal-{{record.accountId}}-{{record.buyerName}}-label"
 											ng-bind="record.internalStep | number : 2"></span></td>
 										<td class="text-right"><span
 											ng-show="record.showAccountFlag"
-											id="available-{{record.accountId}}-{{record.sponsorName}}-label"
-											ng-bind="record.supplierAvailable | number : 2"></span></td>
+											id="available-{{record.accountId}}-{{record.buyerName}}-label"
+											ng-bind="record.available | number : 2"></span></td>
 										<td class="text-right"><span
 											ng-show="record.showAccountFlag"
-											id="remaining-{{record.accountId}}-{{record.sponsorName}}-label"
+											id="remaining-{{record.accountId}}-{{record.buyerName}}-label"
 											ng-bind="record.bankRemaining | number : 2"></span></td>
 										<td class="text-center"><span
 											
-											id="tenor-{{record.accountId}}-{{record.sponsorName}}-label"
+											id="tenor-{{record.accountId}}-{{record.buyerName}}-label"
 											ng-bind="record.tenor"></span></td>
 										<td class="text-center"><span
 											
-											id="pre-drawdown-{{record.accountId}}-{{record.sponsorName}}-label"
+											id="pre-drawdown-{{record.accountId}}-{{record.buyerName}}-label"
 											ng-bind="record.prePercentageDrawdown"></span></td>
 										<td class="text-center"><span
 											
-											id="interest-rate-{{record.accountId}}-{{record.sponsorName}}-label"
+											id="interest-rate-{{record.accountId}}-{{record.buyerName}}-label"
 											ng-bind="record.interestRate"></span></td>
 										<td class="text-center"><span
 											
-											id="expiry-date-{{record.accountId}}-{{record.sponsorName}}-label"
+											id="expiry-date-{{record.accountId}}-{{record.buyerName}}-label"
 											ng-bind="record.limitExpiryDate | date: 'dd/MM/yyyy': 'UTC+0700'"></span></td>
 										<td class="text-center"><span
 											ng-show="record.showAccountFlag"
-											id="credit-status-{{record.accountId}}-{{record.sponsorName}}-label"
+											id="credit-status-{{record.accountId}}-{{record.buyerName}}-label"
 											ng-bind="record.accountStatus | translate"></span></td>
 										<td class="text-center"><button 
 											type="button" 
 											ng-disabled="" 
 											class="btn-default gec-btn-action btn" 
 											ng-show="record.showAccountFlag" 
-											id="credit-information-{{record.accountId}}-{{record.sponsorName}}-button"
+											id="credit-information-{{record.accountId}}-{{record.buyerName}}-button"
 											ng-click="ctrl.inquiryAccount(record)"
 											title="Inquiry Account">
 												<ng-transclude> 
