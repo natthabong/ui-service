@@ -209,6 +209,7 @@ displayModule.controller('DisplayController', [
         }
 
         vm.addItem = function() {
+        	refreshSession();
             vm.dataModel.items.push({
                 documentFieldId: null,
                 sortType: null,
@@ -345,11 +346,13 @@ displayModule.controller('DisplayController', [
         }
 
         vm.moveItemUp = function(item) {
+        	refreshSession();
             var itemIndex = vm.dataModel.items.indexOf(item);
             addItemToIndex(itemIndex - 1, item);
         }
 
         vm.moveItemDown = function(item) {
+        	refreshSession();
             var itemIndex = vm.dataModel.items.indexOf(item);
             addItemToIndex(itemIndex + 1, item);
         }
@@ -363,6 +366,10 @@ displayModule.controller('DisplayController', [
             }
         }
 
+        function refreshSession(){
+        	Service.doGet('/api/rest');
+        }
+        
         vm.displayExample = function(record) {
             var msg = '';
             vm.documentFieldData.forEach(function(obj) {
