@@ -29,13 +29,19 @@ sciModule.controller('SupplierCreditInformationController', [
         	
         	var buyer = undefined;
 			var supplier = undefined;
-			
+			if(viewModeData.myOrganize == $stateParams.viewMode){
+				supplier = organizeId;
+			}
 			if (angular.isObject(vm.buyer)) {
 				if (angular.isObject(vm.supplier)) {
 					buyer = vm.buyer.organizeId;
 					supplier = vm.supplier.organizeId;
 				} else {
-					buyer = vm.buyer.organizeId;
+					if(viewModeData.myOrganize == $stateParams.viewMode){
+						buyer = vm.buyer.sponsorId;
+					}else {
+						buyer = vm.buyer.organizeId;
+					}
 				}
 			} else if (angular.isObject(vm.supplier)) {
 				supplier = vm.supplier.organizeId;
