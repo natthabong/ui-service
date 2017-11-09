@@ -69,11 +69,16 @@ sciModule.controller('SupplierCreditInformationController', [
 		// Organize auto suggestion model.
 		var _organizeTypeHead = function (q) {
 			q = UIFactory.createCriteria(q);
+			return SupplierCreditInformationService.getOrganizeByNameOrCodeLike(q);
+		}
+		
+		var _buyerTypeHead = function (q) {
+			q = UIFactory.createCriteria(q);
 			
 			if(viewModeData.myOrganize == $stateParams.viewMode){
 				return SupplierCreditInformationService.getBuyerNameOrCodeLike(organizeId,q);
 			} else {
-				return SupplierCreditInformationService.getOrganizeByNameOrCodeLike(q);
+				return SupplierCreditInformationService.getBuyerForBankByNameOrCodeLike(q);
 			}
 		}
 
@@ -81,6 +86,12 @@ sciModule.controller('SupplierCreditInformationController', [
 			placeholder: 'Enter organize name or code',
 			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 			query: _organizeTypeHead
+		});
+		
+		vm.buyerAutoSuggestModel = UIFactory.createAutoSuggestModel({
+			placeholder: 'Enter organize name or code',
+			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
+			query: _buyerTypeHead
 		});
 
 		// Main of program

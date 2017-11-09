@@ -13,6 +13,12 @@ sciModule.factory('SupplierCreditInformationService', ['$http', '$q', 'Service',
 		item.label = [item.sponsorId, ': ', item.sponsorName].join('');
 		return item;
 	}
+	
+	var _prepareItemBuyersForBank = function (item) {
+		item.identity = ['buyer-', item.organizeId, '-option'].join('');
+		item.label = [item.organizeId, ': ', item.organizeName].join('');
+		return item;
+	}
 
 	var getOrganizeByNameOrCodeLike = function (query) {
 		var http = $http.get('/api/v1/organizes', {
@@ -25,6 +31,22 @@ sciModule.factory('SupplierCreditInformationService', ['$http', '$q', 'Service',
 			}
 		}).then(function (response) {
 			return response.data.map(_prepareItem);
+		});
+
+		return http;
+	}
+	
+	var getBuyerForBankByNameOrCodeLike = function (query) {
+		var http = $http.get('/api/v1/organizes', {
+			params: {
+				q: query,
+				supporter: false,
+				founder: false,
+				offset: 0,
+				limit: 5
+			}
+		}).then(function (response) {
+			return response.data.map(_prepareItemBuyersForBank);
 		});
 
 		return http;
@@ -55,6 +77,7 @@ sciModule.factory('SupplierCreditInformationService', ['$http', '$q', 'Service',
 		getOrganizeByNameOrCodeLike: getOrganizeByNameOrCodeLike,
 		getCreditInformation: getCreditInformation,
 		getBuyerNameOrCodeLike: getBuyerNameOrCodeLike,
+		getBuyerForBankByNameOrCodeLike: getBuyerForBankByNameOrCodeLike,
 		_prepareItem: _prepareItem
 	}
 
