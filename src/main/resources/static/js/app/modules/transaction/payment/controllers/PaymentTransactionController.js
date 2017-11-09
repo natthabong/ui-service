@@ -479,6 +479,8 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     };
     
     vm.handleDialogFail = function(response){
+    	vm.searchTransaction();
+    	
     	if(response.status == 400){
 			if(response.data.errorCode=='E0400'){
 				vm.wrongPassword = true;
@@ -570,6 +572,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 				},
 			});						
 		}
+    	
     };    
     
     vm.dataTable = {
