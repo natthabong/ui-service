@@ -329,7 +329,7 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 		            self.splitePageTxt = SCFCommonService.splitePage(self.pagingModel.pageSizeSelectModel, self.pagingModel.currentPage, self.pagingModel.totalRecord);
 		            
 		            if(callback!=null){
-		        	callback(criteriaData);
+		        	callback(criteriaData, response);
 		            }
 		            
 		            diferred.resolve(response);

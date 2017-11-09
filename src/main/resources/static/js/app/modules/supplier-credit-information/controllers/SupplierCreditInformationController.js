@@ -19,13 +19,18 @@ sciModule.controller('SupplierCreditInformationController', [
 		vm.supplier = $stateParams.supplier || null;
 		vm.showSupplier = true;
 		vm.data = [];
+		vm.criteria = $stateParams.criteria || {};
+		vm.pagingController = PagingController.create('/api/v1/supplier-credit-information', vm.criteria,'GET');
+		
+		console.log(vm.pagingController);
+		console.log(vm.criteria);
 		
         var viewModeData = {
             myOrganize: 'MY_ORGANIZE',
             customer: 'CUSTOMER'
         }
         
-		vm.search = function () {
+		vm.search = function (pageModel) {
         	var buyer = undefined;
 			var supplier = undefined;
 
@@ -44,15 +49,20 @@ sciModule.controller('SupplierCreditInformationController', [
 					supplier = vm.supplier.organizeId;
 				}
 			}
-			var dataSource = $http({ url: '/api/v1/supplier-credit-information', method: 'GET', params: { buyerId: buyer, supplierId: supplier } });
-			dataSource.success(function (response) {
-				vm.data = response.content;
+			
+			vm.criteria.buyerId = buyer;
+			vm.criteria.supplierId = supplier;
+			vm.pagingController.search(pageModel, function (criteriaData, response) {
+				var data = response.data;
+				var baseRowNo = ((vm.pagingController.pagingModel.currentPage));
 				var i = 0;
-				angular.forEach(vm.data, function (value, idx) {
-					if (isSameAccount(value.accountId, vm.data, idx)) {
+				angular.forEach(data, function (value, idx) {
+					if (isSameAccount(value.accountId, data, idx)) {
+						
 						value.showAccountFlag = true;
 					}
-					value.rowNo = ++i;
+					++i;
+					value.rowNo = baseRowNo+i;
 				});
 			});
 		};
@@ -93,7 +103,7 @@ sciModule.controller('SupplierCreditInformationController', [
 		}();
 
 		vm.decodeBase64 = function (data) {
-			return atob(data);
+			return  (data?atob(data):UIFactory.constants.NOLOGO);
 		};
 
 		var isSameAccount = function (accountId, data, index) {
