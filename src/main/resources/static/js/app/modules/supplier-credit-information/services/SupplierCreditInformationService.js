@@ -78,7 +78,9 @@ sciModule.factory('SupplierCreditInformationService', ['$http', '$q', 'Service',
 		getCreditInformation: getCreditInformation,
 		getBuyerNameOrCodeLike: getBuyerNameOrCodeLike,
 		getBuyerForBankByNameOrCodeLike: getBuyerForBankByNameOrCodeLike,
-		_prepareItem: _prepareItem
+		_prepareItem: _prepareItem,
+		_prepareItemBuyers: _prepareItemBuyers,
+		_prepareItemBuyersForBank: _prepareItemBuyersForBank
 	}
 
 }]);

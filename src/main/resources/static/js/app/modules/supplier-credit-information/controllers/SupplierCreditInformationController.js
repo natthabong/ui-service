@@ -26,32 +26,23 @@ sciModule.controller('SupplierCreditInformationController', [
         }
         
 		vm.search = function () {
-        	
         	var buyer = undefined;
 			var supplier = undefined;
+
+			// mode MY_ORGANIZE 
 			if(viewModeData.myOrganize == $stateParams.viewMode){
 				supplier = organizeId;
-			}
-			if (angular.isObject(vm.buyer)) {
-				if (angular.isObject(vm.supplier)) {
-					buyer = vm.buyer.organizeId;
-					supplier = vm.supplier.organizeId;
-				} else {
-					if(viewModeData.myOrganize == $stateParams.viewMode){
-						buyer = vm.buyer.sponsorId;
-					}else {
-						buyer = vm.buyer.organizeId;
-					}
+				if (angular.isObject(vm.buyer)) {
+					buyer = vm.buyer.sponsorId;
 				}
-			} else if (angular.isObject(vm.supplier)) {
-				supplier = vm.supplier.organizeId;
 			} else {
-				if(viewModeData.myOrganize == $stateParams.viewMode){
-					supplier = organizeId;
-				} else {
-					supplier = null;
+				// mode CUSTOMER
+				if (angular.isObject(vm.buyer)) {
+					buyer = vm.buyer.organizeId;
 				}
-				buyer = null;
+				if (angular.isObject(vm.supplier)) {
+					supplier = vm.supplier.organizeId;
+				}
 			}
 			var dataSource = $http({ url: '/api/v1/supplier-credit-information', method: 'GET', params: { buyerId: buyer, supplierId: supplier } });
 			dataSource.success(function (response) {
@@ -74,7 +65,6 @@ sciModule.controller('SupplierCreditInformationController', [
 		
 		var _buyerTypeHead = function (q) {
 			q = UIFactory.createCriteria(q);
-			
 			if(viewModeData.myOrganize == $stateParams.viewMode){
 				return SupplierCreditInformationService.getBuyerNameOrCodeLike(organizeId,q);
 			} else {
