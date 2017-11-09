@@ -116,6 +116,7 @@ angular.module('scfApp').controller(
 							},
 							onFail : function(response) {					
 								$scope.response = response.data;
+								console.log(response);
 								UIFactory.showFailDialog({
 									data : {
 										mode: 'concurrency',
@@ -124,8 +125,8 @@ angular.module('scfApp').controller(
 										viewHistory : vm.viewHistory,
 										viewRecent : vm.viewRecent,
 										errorCode : response.data.errorCode,
-										action : response.data.attributes.action,
-										actionBy : response.data.attributes.actionBy
+										action : response.data.action,
+										actionBy : response.data.actionBy
 									}
 								});						
 							},
@@ -171,8 +172,8 @@ angular.module('scfApp').controller(
 										viewHistory : vm.viewHistory,
 										viewRecent : vm.viewRecent,
 										errorCode : response.data.errorCode,
-										action : response.data.attributes.action,
-										actionBy : response.data.attributes.actionBy
+										action : response.data.action,
+										actionBy : response.data.actionBy
 									}
 								});						
 							},
