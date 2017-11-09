@@ -211,6 +211,7 @@
 	"FAIL_TO_REJECTED": "Fail to rejected",
 	"REJECT_BY_APPROVER": "Rejected by approver",
 	"REJECT_BY_CHECKER": "Rejected by checker",
+	"rejected_by_bank": "Rejected by bank",
 	"REJECTED_BY_BANK": "Rejected by bank",
 	"TIME_OUT": "Time out",
 	"WAIT_FOR_APPROVE": "Wait for approve",

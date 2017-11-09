@@ -307,7 +307,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 				transactionModel : vm.transactionPayload
 			},
 			confirm : function() {
-				if (validateCredential(vm.transactionPayload.credential)) {
+				if (TransactionService.validateCredential(vm.transactionPayload.credential)) {
 					return reject(vm.transactionPayload);
 				}else {
 					vm.wrongPassword = true;
@@ -781,7 +781,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	vm.disabledReject = function(data){
 		var condition1 = vm.reject!= undefined && vm.reject == true;
 		var condition2 = data.statusCode == vm.statusDocuments.waitForDrawdownResult
-		var condition3 = isAfterToday(data);
+		var condition3 = TransactionService.isAfterToday(data, vm.serverTime);
 		if(condition1 && condition2 && condition3){
 			return false;
 		}else{
@@ -984,44 +984,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     	return false;
     }
 
-    function validateCredential(data) {
-        var result = true;
-        if (angular.isUndefined(data) || data === '') {
-            result = false;
-        }
-        return result;
-    }
-    
-    function isAfterToday(data) {
-       
-        var from_date = data.transactionDate;
-        var YYYY = from_date.substring(0, 4);
-        var MM = from_date.substring(5, 7);
-        var DD = from_date.substring(8,10);
-        var txnDate = new Date();
-        txnDate.setHours(0);
-        txnDate.setMilliseconds(0);
-        txnDate.setMinutes(0);
-        txnDate.setSeconds(0);
-        txnDate.setFullYear(YYYY,(MM-1), DD);
 
-        var now = vm.serverTime;
-        var Year = now.substring(0, 4);
-        var Month = now.substring(5, 7);
-        var Day = now.substring(8,10);
-        var todayDate = new Date();
-        todayDate.setHours(0);
-        todayDate.setMilliseconds(0);
-        todayDate.setMinutes(0);
-        todayDate.setSeconds(0);
-        todayDate.setFullYear(Year,(Month-1), Day);    
-
-        if (txnDate.getTime() > todayDate.getTime()) {
-        	return true;
-        }else{
-        	return false;
-        }   
-    }
     
 }]);
 

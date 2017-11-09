@@ -14,6 +14,8 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     vm.reject = false;
     vm.canRetry = false;
     vm.canView = false;
+    
+    vm.serverTime = '';
 
     var viewMode = $stateParams.viewMode;
 
@@ -58,7 +60,8 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		rejectByChecker: 'REJECT_BY_CHECKER',
 		rejectByApprover: 'REJECT_BY_APPROVER',
 		canceledBySupplier: 'CANCELLED_BY_SUPPLIER',
-		rejectIncomplete: 'REJECT_INCOMPLETE'			
+		rejectIncomplete: 'REJECT_INCOMPLETE',
+		waitForPaymentResult: 'WAIT_FOR_PAYMENT_RESULT'
    }
 
     var _criteria = {};
@@ -185,7 +188,10 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     }
 
     vm.loadData = function(pagingModel){
-    	vm.pagingController.search(pagingModel);
+    	var diferred = vm.pagingController.search(pagingModel);
+    	diferred.promise.then(function(response) {
+			vm.serverTime = response.headers('current-date');
+		});
     }
 
     function _loadTransactionGroup(){
@@ -335,6 +341,237 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
         _loadTransactionGroup();
     }();
 
+	var dialogPopup;
+
+	var closeDialogPopUp = function(){
+		dialogPopup.close();
+	}
+
+	vm.displayName = $scope.userInfo.displayName;
+	vm.transactionPayload = {
+		transaction: null,
+		credential: ''
+	};
+	
+    var reject = function(transactionPayload) {   
+        var deffered = TransactionService.reject(transactionPayload);
+        deffered.promise.then(function(response) {
+        	vm.transaction = response.data;
+        	vm.searchTransaction();
+        });
+        return deffered;
+    }   
+    
+    var retryReject = function(transaction) {   	
+        var deffered = TransactionService.retry(transaction);
+        deffered.promise.then(function(response) {
+        	vm.transaction = response.data;
+        	vm.searchTransaction();
+        });
+        return deffered;
+    }  
+    
+    vm.retryReject = function() {
+    	vm.transaction.transactionId = vm.transactionIdForRetry;
+    	var deffered = retryReject(vm.transaction);
+    	deffered.promise.then(function(response) {
+    		if(response.status == 200){
+    			if(vm.transaction.returnStatus == 'C'){
+					UIFactory.showSuccessDialog({
+						data : {
+							mode: 'transaction',
+							headerMessage : 'Reject transaction success.',						
+							bodyMessage : vm.transaction.transactionNo,
+							viewRecent : vm.viewRecent,
+							viewHistory: vm.searchTransactionService,
+							hideBackButton : true,
+							hideViewRecentButton : false,
+							hideViewHistoryButton : true,
+							showOkButton : true
+						},
+					});
+    			}else{
+    				vm.transaction.retriable = true;
+    				vm.transaction.rejectReason = null;
+    				UIFactory.showIncompleteDialog({
+    					data : {
+    						mode: 'transaction',
+    						headerMessage : 'Reject transaction incomplete.',						
+    						transaction : vm.transaction,
+    						retry : vm.retryReject,
+    						viewHistory: vm.searchTransactionService,
+    						hideBackButton : true,
+    						hideViewRecentButton : true,								
+    						hideViewHistoryButton : true,
+    						showOkButton : true
+    					},
+    				});	    				
+    			}
+    		}else{
+    			vm.handleDialogFail(response);
+    		}
+        }).catch(function(response) {
+        	vm.handleDialogFail(response);
+        });    	
+    };   
+    
+    vm.confirmRejectPopup = function(data, msg) {
+ 	   if(msg == 'clear'){
+			vm.wrongPassword = false;
+			vm.passwordErrorMsg = '';	
+			vm.transactionPayload.credential = '';
+			vm.transactionPayload.rejectReason = '';
+			vm.transactionPayload.transaction = null;
+ 	   }
+ 	   
+	   vm.transaction = {};
+	   vm.transaction.transactionId = data.transactionId;
+	   vm.transaction.transactionNo = data.transactionNo;
+	   vm.transaction.version = data.version;
+	   vm.transaction.statusCode = data.statusCode;
+	   vm.transaction.rejectReason  = data.rejectReason;
+	   vm.transaction.sponsorId = data.sponsorId;
+	   vm.transaction.supplierId = data.supplierId;
+	   vm.transaction.transactionType = data.transactionType;
+	   vm.transactionIdForRetry = data.transactionId;
+ 	   
+ 	   vm.transactionPayload.transaction = vm.transaction;
+ 	   dialogPopup = UIFactory.showConfirmDialog({
+			data : {
+				headerMessage : 'Confirm reject ?',
+				mode: 'transaction',
+				credentialMode : true,
+				displayName : vm.displayName,
+				wrongPassword : vm.wrongPassword,
+				passwordErrorMsg : vm.passwordErrorMsg,
+				rejectReason : null,
+				transactionModel : vm.transactionPayload
+			},
+			confirm : function() {
+				if (TransactionService.validateCredential(vm.transactionPayload.credential)) {
+					return reject(vm.transactionPayload);
+				}else {
+					vm.wrongPassword = true;
+					vm.passwordErrorMsg = 'Password is required';
+					closeDialogPopUp();
+					vm.confirmRejectPopup(vm.transactionPayload.transaction,'error');
+				}
+			},
+			onFail : function(response) {	
+				vm.handleDialogFail(response);					
+			},
+			onSuccess : function(response) {
+				UIFactory.showSuccessDialog({
+					data : {
+						mode: 'transaction',
+						headerMessage : 'Reject transaction success.',						
+						bodyMessage : vm.transaction.transactionNo,
+						viewRecent : vm.viewRecent,
+						viewHistory: vm.searchTransactionService,
+						hideBackButton : true,
+						hideViewRecentButton : false,
+						hideViewHistoryButton : true,
+						showOkButton : true
+					},
+				});
+			}
+		});    	   
+    };
+    
+    vm.handleDialogFail = function(response){
+    	if(response.status == 400){
+			if(response.data.errorCode=='E0400'){
+				vm.wrongPassword = true;
+				vm.passwordErrorMsg = response.data.errorMessage;						
+				vm.confirmRejectPopup(vm.transactionPayload.transaction,'error');
+			}
+			else if(response.data.errorCode == 'INVALID'){
+				UIFactory.showHourDialog({
+					data : {
+						mode: 'transaction',
+						headerMessage : 'Transaction hour.',
+						bodyMessage: 'Please reject transaction within',
+						startTransactionHour : response.data.attributes.startTransactionHour,
+						endTransactionHour : response.data.attributes.endTransactionHour
+					},
+				});	
+			} 
+		}
+		else if(response.status == 409){
+			if(response.data.errorCode == 'FAILED'){
+				UIFactory.showFailDialog({
+					data : {
+						mode: 'transaction',
+						headerMessage : 'Reject transaction fail.',
+						backAndReset : vm.backAndReset,
+						viewHistory : vm.searchTransactionService,
+						errorCode : response.data.errorCode,
+						action : response.data.attributes.action,
+						actionBy : response.data.attributes.actionBy
+					},
+				});							
+			}
+		}else if(response.status == 500){
+			if(response.data.errorCode=='INCOMPLETE'){
+				vm.transaction.transactionNo = response.data.attributes.transactionNo;
+				vm.transaction.returnCode = response.data.attributes.returnCode;
+				vm.transaction.returnMessage = response.data.attributes.returnMessage;
+		    	vm.transaction.retriable = response.data.attributes.retriable;
+		    	vm.transaction.version = response.data.attributes.version;
+				vm.transaction.rejectReason  = null;
+				UIFactory.showIncompleteDialog({
+					data : {
+						mode: 'transaction',
+						headerMessage : 'Reject transaction incomplete.',						
+						transaction : vm.transaction,
+						retry : vm.retryReject,
+						viewHistory: vm.searchTransactionService,
+						hideBackButton : true,
+						hideViewRecentButton : true,								
+						hideViewHistoryButton : true,
+						showOkButton : true
+					},
+				});										
+			}else if(response.data.errorCode=='FAILED'){
+				vm.transaction.transactionNo = response.data.attributes.transactionNo;
+				vm.transaction.returnCode = response.data.attributes.returnCode;
+				vm.transaction.returnMessage = response.data.attributes.returnMessage;
+		    	vm.transaction.retriable = response.data.attributes.retriable;
+		    	vm.transaction.version = response.data.attributes.version;
+				vm.transaction.rejectReason  = null;
+				UIFactory.showFailDialog({
+					data : {
+						mode: 'transaction',
+						headerMessage : 'Reject transaction fail.',						
+						transaction : vm.transaction,
+						retry : vm.retryReject,
+						backAndReset : vm.backAndReset,
+						viewRecent : vm.viewRecent,
+						viewHistory : vm.searchTransactionService,
+						hideBackButton : true,
+						hideViewRecentButton : true,
+						hideViewHistoryButton : true,
+						showOkButton : true,
+						showContactInfo : true
+					},
+				});	
+			}
+		}
+		else{
+			UIFactory.showFailDialog({
+				data : {
+					mode: 'transaction',
+					headerMessage : 'Reject transaction fail',
+					backAndReset : vm.backAndReset,
+					viewHistory : vm.searchTransactionService,
+					errorCode : response.data.errorCode,
+					action : response.data.attributes.action,
+					actionBy : response.data.attributes.actionBy
+				},
+			});						
+		}
+    };    
+    
     vm.dataTable = {
         identityField : 'transactionNo',
         options: {
@@ -457,7 +694,14 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     	return true;
     }
     vm.disabledReject = function(data){
-    	return true;
+		var condition1 = vm.reject!= undefined && vm.reject == true;
+		var condition2 = data.statusCode == vm.statusDocuments.waitForPaymentResult
+		var condition3 = TransactionService.isAfterToday(data, vm.serverTime);
+		if(condition1 && condition2 && condition3){
+			return false;
+		}else{
+			return true;
+		}
     }
     
     vm.viewTransaction = function(transactionModel){
@@ -505,5 +749,5 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	vm.openCalendarDateTo = function() {
 		vm.openDateTo = true;
 	}
-
+    
 } ]);

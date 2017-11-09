@@ -1,4 +1,4 @@
-angular.module('gecscf.transaction').factory('TransactionService', ['$http', '$q', 'blockUI', '$window', transactionService]);
+angular.module('gecscf.transaction').service('TransactionService', ['$http', '$q', 'blockUI', '$window', transactionService]);
 
 function transactionService($http, $q, blockUI, $window) {
 
@@ -512,33 +512,73 @@ function transactionService($http, $q, blockUI, $window) {
         });
         return deffered;
     }
+    
+    function isAfterToday(data , serverTime) {
+        
+        var from_date = data.transactionDate;
+        var YYYY = from_date.substring(0, 4);
+        var MM = from_date.substring(5, 7);
+        var DD = from_date.substring(8,10);
+        var txnDate = new Date();
+        txnDate.setHours(0);
+        txnDate.setMilliseconds(0);
+        txnDate.setMinutes(0);
+        txnDate.setSeconds(0);
+        txnDate.setFullYear(YYYY,(MM-1), DD);
 
-    return {
-        searchMatchingField: searchMatchingField,
-        getSponsorPaymentDate: getSponsorPaymentDate,
-        getTransactionDate: getTransactionDate,
-        getTradingInfo: getTradingInfo,
-        verifyTransaction: verifyTransaction,
-        verifyTradingPartner: verifyTradingPartner,
-        getSponsor: getSponsor,
-        getSupplier: getSupplier,
-        getPaymentDate: getPaymentDate,
-        getDocuments: getDocuments,
-        getAccounts: getAccounts,
-        getBuyerCodes: getBuyerCodes,
-        getSuppliers: getSuppliers,
-        calculateTotalDocumentAmountWithPrePercentTag: calculateTotalDocumentAmountWithPrePercentTag,
-        submitTransaction: submitTransaction,
-        retry: retry,
-        reject: reject,
-        getAvailableMaturityDates: getAvailableMaturityDates,
-        getTransactionDialogErrorUrl: getTransactionDialogErrorUrl,
-        getTransaction: getTransaction,
-        generateEvidenceForm: generateEvidenceForm,
-        summaryStatusGroup: summaryStatusGroup,
-        findIndexFromDoucmentListByDocument: findIndexFromDoucmentListByDocument,
-        checkSelectAllDocumentInPage: checkSelectAllDocumentInPage,
-        checkSelectAllDocument: checkSelectAllDocument,
-        summaryAllDocumentAmount: summaryAllDocumentAmount
+        var now = serverTime;
+        var Year = now.substring(0, 4);
+        var Month = now.substring(5, 7);
+        var Day = now.substring(8,10);
+        var todayDate = new Date();
+        todayDate.setHours(0);
+        todayDate.setMilliseconds(0);
+        todayDate.setMinutes(0);
+        todayDate.setSeconds(0);
+        todayDate.setFullYear(Year,(Month-1), Day);    
+
+        if (txnDate.getTime() > todayDate.getTime()) {
+        	return true;
+        }else{
+        	return false;
+        }   
     }
+    
+    function validateCredential(data) {
+        var result = true;
+        if (angular.isUndefined(data) || data === '') {
+            result = false;
+        }
+        return result;
+    }
+
+    this.searchMatchingField = searchMatchingField;
+    this.getSponsorPaymentDate = getSponsorPaymentDate;
+    this.getTransactionDate = getTransactionDate;
+    this.getTradingInfo = getTradingInfo;
+    this.verifyTransaction = verifyTransaction;
+    this.verifyTradingPartner = verifyTradingPartner;
+    this.getSponsor = getSponsor;
+    this.getSupplier = getSupplier;
+    this.getPaymentDate = getPaymentDate;
+    this.getDocuments = getDocuments;
+    this.getAccounts = getAccounts;
+    this.getBuyerCodes = getBuyerCodes;
+    this.getSuppliers = getSuppliers;
+    this.calculateTotalDocumentAmountWithPrePercentTag = calculateTotalDocumentAmountWithPrePercentTag;
+    this.submitTransaction = submitTransaction;
+    this.retry = retry;
+    this.reject = reject;
+    this.getAvailableMaturityDates = getAvailableMaturityDates;
+    this.getTransactionDialogErrorUrl = getTransactionDialogErrorUrl;
+    this.getTransaction = getTransaction;
+    this.generateEvidenceForm = generateEvidenceForm;
+    this.summaryStatusGroup = summaryStatusGroup;
+    this.findIndexFromDoucmentListByDocument = findIndexFromDoucmentListByDocument;
+    this.checkSelectAllDocumentInPage = checkSelectAllDocumentInPage;
+    this.checkSelectAllDocument = checkSelectAllDocument;
+    this.summaryAllDocumentAmount = summaryAllDocumentAmount;
+    this.isAfterToday = isAfterToday;
+    this.validateCredential = validateCredential;
+        
 }
