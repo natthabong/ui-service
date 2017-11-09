@@ -353,6 +353,26 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		credential: ''
 	};
 	
+	
+    vm.retry = function(data) {
+    	vm.transaction = {};
+    	if(angular.isUndefined(data)){
+    		 vm.transaction.transactionId = vm.transactionIdForRetry;
+    	}else{
+    		vm.transaction.transactionId = data.transactionId;
+    		vm.transaction.version = data.version;
+    		vm.transaction.statusCode = data.statusCode;
+    		vm.transactionIdForRetry = vm.transaction.transactionId;
+    	}
+
+        var deffered = TransactionService.retry(vm.transaction);
+        deffered.promise.then(function(response) {
+        	 vm.searchTransaction();
+        }).catch(function(response) {
+        	vm.handleDialogFail(response);
+        });
+    }
+	
     var reject = function(transactionPayload) {   
         var deffered = TransactionService.reject(transactionPayload);
         deffered.promise.then(function(response) {
