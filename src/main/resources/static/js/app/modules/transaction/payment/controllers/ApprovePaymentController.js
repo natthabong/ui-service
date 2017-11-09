@@ -172,7 +172,6 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 					}
 				});
 			} else {
-				console.log("Hi");
 				$scope.response.showViewRecentBtn = false;
 				$scope.response.showViewHistoryBtn = true;
 				$scope.response.showCloseBtn = $scope.response.errorCode == 'E1012' ? true : false;
