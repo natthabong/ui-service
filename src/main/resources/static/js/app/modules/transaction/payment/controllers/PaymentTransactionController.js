@@ -353,6 +353,11 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		credential: ''
 	};
 	
+	vm.viewRecent = function () {
+		$timeout(function () {
+			PageNavigation.gotoPage('/payment-transaction/view', { transactionModel: vm.transaction, isShowViewHistoryButton: true, viewMode: 'CUSTOMER' });
+		}, 10);
+	};
 	
     vm.retry = function(data) {
     	vm.transaction = {};
