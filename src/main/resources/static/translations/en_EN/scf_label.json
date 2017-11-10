@@ -218,6 +218,7 @@
 	"WAIT_FOR_DRAWDOWN_RESULT": "Wait for drawdown result",
 	"WAIT_FOR_VERIFY": "Wait for verify",
 	"PROCESSING": "Processing",
+	"reject_incomplete": "Reject incomplete",
 	"REJECT_INCOMPLETE": "Reject incomplete",
 	"wait_for_payment_result": "Wait for payment result",
 	"WAIT_FOR_PAYMENT_RESULT": "Wait for payment result",
