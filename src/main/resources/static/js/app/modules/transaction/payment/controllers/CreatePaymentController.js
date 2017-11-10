@@ -30,7 +30,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             sponsorId: ownerId,
             buyerId: ownerId,
             documentStatus: 'NEW',
-            showOverdue: false
+            showOverdue: false,
+            displayNegativeDocument : false
         }
 
         vm.transactionModel = $stateParams.transactionModel || {
@@ -327,8 +328,13 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
                 vm.pagingController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
                 
-                
+                var displayNegativeDocument = response.displayNegativeDocument;
                 vm.documentSelection = response.documentSelection;
+                if(displayNegativeDocument === false){
+                    vm.criteria.displayNegativeDocument = false;
+                }else{
+                    vm.criteria.displayNegativeDocument = true;
+                }
                 vm.criteria.sort = response.sort;
 
                 if (vm.documentSelection != 'ANY_DOCUMENT') {
