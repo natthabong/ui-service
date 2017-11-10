@@ -120,6 +120,32 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 		vm.printEvidenceFormAction = function () {
 			TransactionService.generateEvidenceForm(vm.transaction);
 		}
+		
+        vm.retry = function() {
+            vm.transaction = vm.transactionApproveModel.transaction;
+            var deffered = TransactionService.retry(vm.transaction);
+            deffered.promise.then(function(response) {
+            	vm.transaction = response.data;
+				UIFactory.showSuccessDialog({
+					data: {
+						mode: 'transactionComplete',
+						headerMessage: 'Approve success.',
+						bodyMessage: vm.transaction,
+						viewRecent: vm.viewRecent,
+						viewHistory: vm.viewHistory,
+						backAndReset: vm.backPage,
+						hideBackButton: false,
+						hideViewRecentButton: false,
+						hideViewHistoryButton: false,
+						showOkButton: false,
+						printEvidenceFormAction: vm.printEvidenceFormAction,
+						canPrintEvidence: printEvidence(vm.transaction)
+					},
+				});
+            }).catch(function(response) {
+            	vm.handleDialogFail(response);
+            });
+        }
 
 		vm.handleDialogFail = function (response) {
 			$scope.response = response.data;
