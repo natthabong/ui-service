@@ -1,12 +1,12 @@
-(function() {
+(function () {
 	'use strict';
 
-	angular.module('ui/template/scftemplate', []).run([ "$templateCache", function($templateCache) {
+	angular.module('ui/template/scftemplate', []).run(["$templateCache", function ($templateCache) {
 		$templateCache.put('ui/template/calendar.html',
 			'<p class="input-group">' + '<input type="text" name="{{textName}}" ng-required="textRequired" placeholder="DD/MM/YYYY" ng-model-options="{timezone: \'UTC+0700\'}" show-weeks="false" class="form-control" ng-disabled="ngDisabled" ng-model="textModel" uib-datepicker-popup="{{dateFormat}}" is-open="isOpen" close-text="Close" min-date="minDate" max-date="maxDate"/>' + '<span class="input-group-btn">' + '<button type="button" ng-disabled="ngDisabled" class="btn btn-default" ng-click="openCalendarAction()">' + '<i class="glyphicon glyphicon-calendar"></i>' + '</button>' + "</span>" + '</p>');
-	
+
 		$templateCache.put('ui/template/timepicker.html',
-			'<p class="input-group">'+ '<div uib-timepicker="true" show-spinners="false" show-meridian="false"></div>' + '</p>');
+			'<p class="input-group">' + '<div uib-timepicker="true" show-spinners="false" show-meridian="false"></div>' + '</p>');
 
 		$templateCache.put('ui/template/data_table.html',
 			'<table st-table="componentDatas" class="table table-bordered">'
@@ -21,19 +21,19 @@
 			+ '</talbe>'
 		);
 		$templateCache.put('ui/template/data_table_collapse.html',
-			'<table st-table="componentDatas" class="table table-bordered">' 
-			+ '<thead><tr><th class="text-center" scf-th="column" ng-repeat="column in tableColumns track by $index"></th>' 
-			+ '</tr>' 
-			+ '</thead>' 
-			+ '<tbody>' 
-			+ '<tr ng-repeat-start="data in componentDatas track by $id(data)" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">' 
-			+ '<td scf-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>' 
-			+ '</tr>' 
-			+ '<tr scf-td-collapes="data" ng-repeat-end ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">' 
-			+ '<td>' 
-			+ '</td>' 
-			+ '</tr>' 
-			+ '</tbody>' 
+			'<table st-table="componentDatas" class="table table-bordered">'
+			+ '<thead><tr><th class="text-center" scf-th="column" ng-repeat="column in tableColumns track by $index"></th>'
+			+ '</tr>'
+			+ '</thead>'
+			+ '<tbody>'
+			+ '<tr ng-repeat-start="data in componentDatas track by $id(data)" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
+			+ '<td scf-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>'
+			+ '</tr>'
+			+ '<tr scf-td-collapes="data" ng-repeat-end ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
+			+ '<td>'
+			+ '</td>'
+			+ '</tr>'
+			+ '</tbody>'
 			+ '</talbe>'
 		);
 
@@ -49,74 +49,74 @@
 			+ '</tbody>'
 			+ '</talbe>'
 		);
-	} ]);
+	}]);
 
-	angular.module('scf-component', [ 'ui/template/scftemplate' ])
-		.directive('scfInputPassword', [ function() {
+	angular.module('scf-component', ['ui/template/scftemplate'])
+		.directive('scfInputPassword', [function () {
 			return {
-				restrict : 'AE',
-				replace : true,
-				template : '<input type="password" class="form-control" />'
+				restrict: 'AE',
+				replace: true,
+				template: '<input type="password" class="form-control" />'
 			};
-		} ])		
-		.directive('scfInputNumber', [ function() {
+		}])
+		.directive('scfInputNumber', [function () {
 			return {
-				restrict : 'AE',
-				replace : true,
-				template : '<input type="text" class="form-control" />',
+				restrict: 'AE',
+				replace: true,
+				template: '<input type="text" class="form-control" />',
 				require: 'ngModel',
 				link: function (scope, element, attr, ngModelCtrl) {
-		            function fromUser(text) {
-		                if (text) {
-		                    var transformedInput = text.replace(/[^0-9]/g, '');
+					function fromUser(text) {
+						if (text) {
+							var transformedInput = text.replace(/[^0-9]/g, '');
 
-		                    if (transformedInput !== text) {
-		                        ngModelCtrl.$setViewValue(transformedInput);
-		                        ngModelCtrl.$render();
-		                    }
-		                    return transformedInput;
-		                }
-		                return undefined;
-		            }            
-		            ngModelCtrl.$parsers.push(fromUser);
-		        }
+							if (transformedInput !== text) {
+								ngModelCtrl.$setViewValue(transformedInput);
+								ngModelCtrl.$render();
+							}
+							return transformedInput;
+						}
+						return undefined;
+					}
+					ngModelCtrl.$parsers.push(fromUser);
+				}
 			};
-		} ])
-		.directive('scfButton', [ function() {
+		}])
+		.directive('scfButton', [function () {
 			return {
-				restrict : 'AE',
-				transclude : true,
-				replace : true,
-				template : btnTemplate,
-				ngDisabled : '='
+				restrict: 'AE',
+				transclude: true,
+				replace: true,
+				template: btnTemplate,
+				ngDisabled: '='
 			};
 
 			function btnTemplate(element, attrs) {
 				var btnType = (typeof attrs.type === 'undefined') ? 'button' : attrs.type;
 				return '<button type="' + btnType + '" ng-disabled="" class="btn">' + '<ng-transclude></ng-transclude>' + '</button>';
 			}
-		} ])
-		.directive('scfTextArea', [ function() {
+		}])
+		.directive('scfTextArea', [function () {
 			return {
-				restrict : 'AE',
-				replace : true,
-				scope : {
-					maxLength : '='
+				restrict: 'AE',
+				replace: true,
+				scope: {
+					maxLength: '='
 				},
-				template : '<textarea class="form-control" style="resize:none;" rows="3" ng-change="textChange()"></textarea>',
-				controller : textAreaController
+				template: '<textarea class="form-control" style="resize:none;" rows="3" ng-change="textChange()"></textarea>',
+				controller: textAreaController
 			};
 
 			function textAreaController($scope, $element, $attrs) {
 				var vm = $scope;
-				if($scope.maxLength == 'max'){
+				if ($scope.maxLength == 'max') {
 					$element.maxlength = undefined;
 				}
-				else{
+				else {
 					$element.maxlength = $scope.maxLength;
 				}
-				vm.textChange = function() {
-					if($scope.maxLength  == 'max'){
+				vm.textChange = function () {
+					if ($scope.maxLength == 'max') {
 						var textInput = $element[0].value;
 						$element[0].value = textAreaNewLine(textInput);
 					}
@@ -143,89 +143,89 @@
 					return textResult;
 				}
 			}
-		} ])
-		.directive('scfDropdown', [ function() {
+		}])
+		.directive('scfDropdown', [function () {
 			return {
-				restrict : 'AE',
-				replace : true,
-				scope : {
-					componentData : '<'
+				restrict: 'AE',
+				replace: true,
+				scope: {
+					componentData: '<'
 				},
-				link : function(scope, element, attrs) {
+				link: function (scope, element, attrs) {
 					scope.translateLable = attrs.translateLabel;
 				},
-				template : ['<select class="form-control">' , 
-					'<option ng-repeat="option in componentData track by $id(option)" value="{{option.value}}">{{translateLable? (option.label | translate) :  option.label}}</option>' , 
+				template: ['<select class="form-control">',
+					'<option ng-repeat="option in componentData track by $id(option)" value="{{option.value}}">{{translateLable? (option.label | translate) :  option.label}}</option>',
 					'</select>'].join()
 			};
-		} ])
-		.directive('scfDropdownAccount', [ function() {
+		}])
+		.directive('scfDropdownAccount', [function () {
 			return {
-				restrict : 'AE',
-				replace : true,
-				scope : {
-					componentData : '<'
+				restrict: 'AE',
+				replace: true,
+				scope: {
+					componentData: '<'
 				},
-				link : function(scope, element, attrs) {
+				link: function (scope, element, attrs) {
 					scope.translateLable = attrs.translateLabel;
 				},
-				template : ['<select class="form-control">' , 
-					'<option ng-repeat="option in componentData track by $id(option)" value="{{option.value}}">{{option.label | accountFormat}}</option>' , 
+				template: ['<select class="form-control">',
+					'<option ng-repeat="option in componentData track by $id(option)" value="{{option.value}}">{{option.label | accountFormat}}</option>',
 					'</select>'].join()
 			};
-		} ])
-		.directive('convertToNumber', function() {
-		  return {
-		    require: 'ngModel',
-		    link: function(scope, element, attrs, ngModel) {
-		      ngModel.$parsers.push(function(val) {
-		        return val != null ? parseInt(val, 10) : null;
-		      });
-		      ngModel.$formatters.push(function(val) {
-		        return val != null ? '' + val : null;
-		      });
-		    }
-		  };
+		}])
+		.directive('convertToNumber', function () {
+			return {
+				require: 'ngModel',
+				link: function (scope, element, attrs, ngModel) {
+					ngModel.$parsers.push(function (val) {
+						return val != null ? parseInt(val, 10) : null;
+					});
+					ngModel.$formatters.push(function (val) {
+						return val != null ? '' + val : null;
+					});
+				}
+			};
 		})
-		.directive('scfAccountNo', [ function() {
+		.directive('scfAccountNo', [function () {
 			return {
-				restrict : 'AE',
-				replace : true,
-				template : '<input type="text" ui-mask="999-9-99999-9" ui-mask-placeholder="" class="form-control" />',
+				restrict: 'AE',
+				replace: true,
+				template: '<input type="text" ui-mask="999-9-99999-9" ui-mask-placeholder="" class="form-control" />',
 				require: 'ngModel'
 			};
-		} ])
-		.directive('scfRadio', [ function() {
+		}])
+		.directive('scfRadio', [function () {
 			return {
-				restrict : 'AE',
-				replace : true,
-				template : '<input type="radio"/>'
+				restrict: 'AE',
+				replace: true,
+				template: '<input type="radio"/>'
 			};
-		} ])
-		.directive('scfCheckbox', [ function() {
+		}])
+		.directive('scfCheckbox', [function () {
 			return {
-				restrict : 'AE',
-				replace : true,
-				template : checkboxTemplate
+				restrict: 'AE',
+				replace: true,
+				template: checkboxTemplate
 			};
 
 			function checkboxTemplate(element, attrs) {
 				return '<input type="checkbox"/>';
 			}
-		} ])
-		.directive('scfDatePicker', [ '$templateCache', '$compile', function($templateCache, $compile) {
+		}])
+		.directive('scfDatePicker', ['$templateCache', '$compile', function ($templateCache, $compile) {
 			return {
-				restrict : 'AE',
-				replace : true,
-				scope : {
-					textModel : '=',
-					dateFormat : '@',
-					isOpen : '=',
-					openCalendarAction : '&',
-					defaultValue : '@',
+				restrict: 'AE',
+				replace: true,
+				scope: {
+					textModel: '=',
+					dateFormat: '@',
+					isOpen: '=',
+					openCalendarAction: '&',
+					defaultValue: '@',
 					ngDisabled: '='
 				},
-				link : function(scope, element, attrs) {
+				link: function (scope, element, attrs) {
 					if (attrs.textId !== undefined) {
 						element[0].children[0].id = attrs.textId;
 					}
@@ -233,44 +233,44 @@
 					if (attrs.buttonId !== undefined) {
 						element[0].children[2].children[0].id = attrs.buttonId;
 					}
-					
-					if(scope.defaultValue != undefined){
+
+					if (scope.defaultValue != undefined) {
 						var momentObj = moment(scope.defaultValue, 'DD/MM/YYYY').toDate();
 						scope.textModel = momentObj;
 					}
-					
+
 				},
-				templateUrl : 'ui/template/calendar.html'
+				templateUrl: 'ui/template/calendar.html'
 			};
-		} ])
-		.directive('scfTimePickerFrom', [ function() {
+		}])
+		.directive('scfTimePickerFrom', [function () {
 			return {
-				restrict : 'AE',
-				replace : true,
-				templateUrl : 'ui/template/timepicker.html'
+				restrict: 'AE',
+				replace: true,
+				templateUrl: 'ui/template/timepicker.html'
 				//template: '<div uib-timepicker="true" show-spinners="false" show-meridian="false"></div>'
 				//template : '<input type="time" class="form-control" placeholder="HH:MM" min="00:00:00" max="23:59:59"></input>'
 			};
-		} ])
-		.directive('scfDatePickerFrom', [ '$templateCache', '$compile', function($templateCache, $compile) {
+		}])
+		.directive('scfDatePickerFrom', ['$templateCache', '$compile', function ($templateCache, $compile) {
 			return {
-				restrict : 'AE',
-				replace : true,
-				scope : {
-					textModel : '=',
-					dateFormat : '@',
-					isOpen : '=',
-					openCalendarAction : '&',
-					maxDate : '=',
+				restrict: 'AE',
+				replace: true,
+				scope: {
+					textModel: '=',
+					dateFormat: '@',
+					isOpen: '=',
+					openCalendarAction: '&',
+					maxDate: '=',
 					textName: '@',
 					defaultValue: '@',
 					textRequired: "@",
 					ngDisabled: '='
 				},
-				link : function(scope, element, attrs) {
-				    	if(angular.isDefined(scope.defaultValue)){
-				    	    scope.textModel = scope.defaultValue;
-				    	}
+				link: function (scope, element, attrs) {
+					if (angular.isDefined(scope.defaultValue)) {
+						scope.textModel = scope.defaultValue;
+					}
 					scope.minDate = null;
 					if (attrs.textId !== undefined) {
 						element[0].children[0].id = attrs.textId;
@@ -279,30 +279,30 @@
 					if (attrs.buttonId !== undefined) {
 						element[0].children[2].children[0].id = attrs.buttonId;
 					}
-					
-					
-					if(angular.isDefined(scope.textRequired)){
+
+
+					if (angular.isDefined(scope.textRequired)) {
 						scope.textRequired = true;
 					}
 				},
-				templateUrl : 'ui/template/calendar.html'
+				templateUrl: 'ui/template/calendar.html'
 			};
-		} ])
-		.directive('scfDatePickerTo', [ '$templateCache', '$compile', function($templateCache, $compile) {
+		}])
+		.directive('scfDatePickerTo', ['$templateCache', '$compile', function ($templateCache, $compile) {
 			return {
-				restrict : 'AE',
-				replace : true,
-				scope : {
-					textModel : '=textModel',
-					dateFormat : '@',
-					isOpen : '=',
-					openCalendarAction : '&',
-					minDate : '=',
+				restrict: 'AE',
+				replace: true,
+				scope: {
+					textModel: '=textModel',
+					dateFormat: '@',
+					isOpen: '=',
+					openCalendarAction: '&',
+					minDate: '=',
 					ngDisabled: '='
-						
+
 				},
-				link : function(scope, element, attrs) {
-					if(angular.isUndefined(scope.ngDisable)){
+				link: function (scope, element, attrs) {
+					if (angular.isUndefined(scope.ngDisable)) {
 						scope.ngDisable = false;
 					}
 					scope.maxDate = null;
@@ -313,70 +313,70 @@
 					if (attrs.buttonId !== undefined) {
 						element[0].children[2].children[0].id = attrs.buttonId;
 					}
-					
+
 				},
-				templateUrl : 'ui/template/calendar.html'
+				templateUrl: 'ui/template/calendar.html'
 			};
-		} ])
-		.directive('scfDataTable', [ '$compile', '$parse', function($compile, $parse) {
+		}])
+		.directive('scfDataTable', ['$compile', '$parse', function ($compile, $parse) {
 			return {
-				restrict : 'E',
-				priority : 1001,
-				transclude : true,
-				replace : true,
-				scope : true,
-				controller : [ '$scope', '$element', '$attrs', '$window', '$document', function($scope, $element, $attrs, $window, $document) {
+				restrict: 'E',
+				priority: 1001,
+				transclude: true,
+				replace: true,
+				scope: true,
+				controller: ['$scope', '$element', '$attrs', '$window', '$document', function ($scope, $element, $attrs, $window, $document) {
 					var vm = $scope;
 					vm.tableColumns = [];
-					vm.initSort = function() {
+					vm.initSort = function () {
 						vm.order = '';
 						vm.reverse = false;
 					}
 
-					vm.$watch($attrs.clearSortOrder, function(data) {
+					vm.$watch($attrs.clearSortOrder, function (data) {
 						vm.initSort();
 					});
 					vm.pageOptions = {
-						currentPage : 0,
-						recordPerPage : 20
+						currentPage: 0,
+						recordPerPage: 20
 					};
 
-					vm.$watch($attrs.currentPage, function(data) {
+					vm.$watch($attrs.currentPage, function (data) {
 						if (data !== undefined) {
 							vm.pageOptions.currentPage = data;
 						}
 					});
 
-					vm.$watch($attrs.recordPerPage, function(data) {
+					vm.$watch($attrs.recordPerPage, function (data) {
 						if (data !== undefined) {
 							vm.pageOptions.recordPerPage = data;
 						}
 					});
 
-					vm.$watch($attrs.componentConfig, function(dataConfig) {
+					vm.$watch($attrs.componentConfig, function (dataConfig) {
 						var tableOption = dataConfig.options || {};
 						vm.expansion = dataConfig.expansion || {};
 
 						// Clear value begin add column;
 						vm.tableColumns = [];
-						dataConfig.columns.forEach(function(data) {
+						dataConfig.columns.forEach(function (data) {
 							var rowData = {
-								fieldName : data['fieldName'],
-								field : data['field'],
-								idValueField : data['idValueField'],
-								id : data['id'],
-								label : data['label'],
-								cellTemplate : data['cellTemplate'],
-								headerId : data['headerId'],
-								sortable : data['sortable'],
-								cssTemplate : data['cssTemplate'],
-								filterType : data['filterType'],
-								filterFormat : data['filterFormat'],
-								renderer : data['renderer'],
+								fieldName: data['fieldName'],
+								field: data['field'],
+								idValueField: data['idValueField'],
+								id: data['id'],
+								label: data['label'],
+								cellTemplate: data['cellTemplate'],
+								headerId: data['headerId'],
+								sortable: data['sortable'],
+								cssTemplate: data['cssTemplate'],
+								filterType: data['filterType'],
+								filterFormat: data['filterFormat'],
+								renderer: data['renderer'],
 								dataRenderer: data['dataRenderer'],
-								hidden: data['hidden'] || function(){return false;}
+								hidden: data['hidden'] || function () { return false; }
 							};
-							if(!rowData.hidden()){
+							if (!rowData.hidden()) {
 								vm.tableColumns.push(rowData);
 							}
 						});
@@ -384,10 +384,10 @@
 						// Check option set to Show row number.
 						if (tableOption.displayRowNo !== undefined) {
 							var rowData = {
-								field : 'no',
-								label : '<span ng-bind="\'numbero\' | translate"></span>',
-								id : tableOption.displayRowNo['id'],
-								idValueField : tableOption.displayRowNo['idValueField']
+								field: 'no',
+								label: '<span ng-bind="\'numbero\' | translate"></span>',
+								id: tableOption.displayRowNo['id'],
+								idValueField: tableOption.displayRowNo['idValueField']
 							};
 							vm.tableColumns.splice(0, 0, rowData);
 						}
@@ -395,11 +395,11 @@
 						// Check option set to Show checkBox
 						if (tableOption.displaySelect !== undefined) {
 							var rowData = {
-								field : tableOption.displaySelect['field'],
-								id : tableOption.displaySelect['id'],
-								label : tableOption.displaySelect['label'],
-								cellTemplate : tableOption.displaySelect['cellTemplate'],
-								idValueField : tableOption.displaySelect['idValueField']
+								field: tableOption.displaySelect['field'],
+								id: tableOption.displaySelect['id'],
+								label: tableOption.displaySelect['label'],
+								cellTemplate: tableOption.displaySelect['cellTemplate'],
+								idValueField: tableOption.displaySelect['idValueField']
 							};
 
 							if (tableOption.displaySelect['displayPosition'] === 'first') {
@@ -410,31 +410,31 @@
 						}
 					}, true);
 
-					vm.$watch($attrs.componentDatas, function(data) {
+					vm.$watch($attrs.componentDatas, function (data) {
 						vm.componentDatas = data;
 					});
 
-				} ],
-				templateUrl : function(elem, attr) {
+				}],
+				templateUrl: function (elem, attr) {
 					return attr.templateUrl || 'ui/template/data_table.html';
 				}
 			}
-		} ])
-		.directive('scfTh', [ '$compile', '$filter','$translate', function($compile, $filter, $translate) {
+		}])
+		.directive('scfTh', ['$compile', '$filter', '$translate', function ($compile, $filter, $translate) {
 			return {
-				restrict : 'A',
-				replace : true,
-				link : scfLink
+				restrict: 'A',
+				replace: true,
+				link: scfLink
 			}
-			
+
 			function scfLink(scope, elements, attrs) {
-				scope.$watch(attrs.scfTh, function(column) {					
+				scope.$watch(attrs.scfTh, function (column) {
 					renderTableHeader(scope, elements, column, $translate.use());
 				});
 			}
 
 			function scfTableThController($scope, $rootScope, $element, $attrs) {
-				$rootScope.$on('$translateChangeSuccess', function(translateChangeSuccess, currentLange) {
+				$rootScope.$on('$translateChangeSuccess', function (translateChangeSuccess, currentLange) {
 					var column = $scope.$eval($attrs.scfTh);
 					renderTableHeader($scope, $element, column, currentLange.language);
 				});
@@ -442,69 +442,69 @@
 
 			function renderTableHeader(scope, elements, column, currentLange) {
 				var htmlText = column.label;
-				
+
 				if (column.sortable) {
 					htmlText = '<span sort by="{{column.field}}" reverse="reverse" order="orders" >' + htmlText + '</span>';
 				}
-				
+
 				var colClass = column.cssTemplateHeader || 'text-center';
 				elements.addClass(colClass)
 				elements.html(htmlText);
 				$compile(elements.contents())(scope);
-				
+
 				if (column.fieldName != 'selectBox') {
-					if(angular.isDefined(elements[0].childNodes[0])){
-						if(angular.isDefined(column.field) && column.field != 'no'){
-							if(column.headerId != null){
+					if (angular.isDefined(elements[0].childNodes[0])) {
+						if (angular.isDefined(column.field) && column.field != 'no') {
+							if (column.headerId != null) {
 								elements[0].childNodes[0].id = column.headerId;
 							}
-							else{
+							else {
 								elements[0].childNodes[0].id = column.fieldName + '-header-label';
 							}
-							
-						}else if(angular.isDefined(column.field) && column.field == 'no'){
+
+						} else if (angular.isDefined(column.field) && column.field == 'no') {
 							elements[0].childNodes[0].id = '$rowNo-header-label';
 						}
 					}
 				}
 			}
-		} ])
-		.directive('scfTd', [ '$compile', '$filter', '$log', function($compile, $filter, $log) {
+		}])
+		.directive('scfTd', ['$compile', '$filter', '$log', function ($compile, $filter, $log) {
 			var log = $log;
 			return {
-				scope : false,
-				restrict : 'A',
-				replace : true,
-				link : scfLink
+				scope: false,
+				restrict: 'A',
+				replace: true,
+				link: scfLink
 			}
 
 			function scfLink(scope, elements, attrs) {
 				var pageOptions = scope.$eval(attrs.pageOptions);
 
-				scope.$watch(attrs.scfTd, function(data) {
+				scope.$watch(attrs.scfTd, function (data) {
 					var rowNo = renderNo(scope, attrs, pageOptions);
 					var column = scope.$eval(attrs.columnRender);
 					var dataRender = '';
-					var colClass = typeof column.cssTemplate === 'function' ? column.cssTemplate(data):column.cssTemplate  || 'text-center';
+					var colClass = typeof column.cssTemplate === 'function' ? column.cssTemplate(data) : column.cssTemplate || 'text-center';
 
 					if (column.field === 'no') {
 						elements.addClass(colClass);
 						elements.html(rowNo);
 						dataRender = rowNo;
-					// return;
+						// return;
 					}
 
 					if (column.filterType !== undefined && column.filterType !== null) {
 						dataRender = filterData(column, data);
 					} else {
-						if(angular.isDefined(column.cellTemplate) && column.cellTemplate !== null){
+						if (angular.isDefined(column.cellTemplate) && column.cellTemplate !== null) {
 							dataRender = column.cellTemplate;
 
 						}
-						else if(angular.isDefined(column.dataRenderer) && column.dataRenderer !== null){
-								dataRender = column.dataRenderer(data);
+						else if (angular.isDefined(column.dataRenderer) && column.dataRenderer !== null) {
+							dataRender = column.dataRenderer(data);
 						}
-						else{
+						else {
 							dataRender = data[column.field];
 						}
 					}
@@ -557,23 +557,23 @@
 				}
 				return columnId.replace('{value}', rowNo);
 			}
-		} ]).directive('scfTdCollapes', function() {
-		return {
-			restrict : 'A',
-			replace : true,
-			link : scfLink
-		}
-
-		function scfLink(scope, elements, attrs) {
-		}
-	})
-		.directive('sort', [ '$compile', function($compile) {
+		}]).directive('scfTdCollapes', function () {
 			return {
-				restrict : 'A',
-				transclude : true,
-				scope : false,
-				link : function(scope, element, attrs) {
-					scope.onClick = function() {
+				restrict: 'A',
+				replace: true,
+				link: scfLink
+			}
+
+			function scfLink(scope, elements, attrs) {
+			}
+		})
+		.directive('sort', ['$compile', function ($compile) {
+			return {
+				restrict: 'A',
+				transclude: true,
+				scope: false,
+				link: function (scope, element, attrs) {
+					scope.onClick = function () {
 						var parent = scope.$parent;
 						scope.by = attrs.by;
 						if (parent.order === scope.by) {
@@ -587,48 +587,48 @@
 						scope.$parent.sortData(parent.order, scope.orderBy);
 					}
 				},
-				template : '<a class="gec-table-sort" ng-click="onClick()">' +
-					'<span ng-transclude></span>' +
-					'<i class="glyphicon" ng-class="{\'glyphicon-menu-down\' : order === by && !reverse,  \'glyphicon-menu-up\' : order===by && reverse}"></i>' +
-					'</a>'
+				template: '<a class="gec-table-sort" ng-click="onClick()">' +
+				'<span ng-transclude></span>' +
+				'<i class="glyphicon" ng-class="{\'glyphicon-menu-down\' : order === by && !reverse,  \'glyphicon-menu-up\' : order===by && reverse}"></i>' +
+				'</a>'
 			};
-		} ])
-		.directive('scfPagination', [ function() {
+		}])
+		.directive('scfPagination', [function () {
 			return {
-				restrict : 'AE',
-				replace : true,
-				scope : {
-					currentPage : '=',
-					pageSizeModel : '=',
-					pageSizeList : '<',
-					totalPage : '=',
-					pageAction : '=',
+				restrict: 'AE',
+				replace: true,
+				scope: {
+					currentPage: '=',
+					pageSizeModel: '=',
+					pageSizeList: '<',
+					totalPage: '=',
+					pageAction: '=',
 					name: '@',
-					firstPageButtonId : '@',
-					backPageButtonId : '@',
-					nextPageButtonId : '@',
-					lastPageButtonId : '@',
+					firstPageButtonId: '@',
+					backPageButtonId: '@',
+					nextPageButtonId: '@',
+					lastPageButtonId: '@',
 					dropdownPageLimitId: '@'
 				},
-				link : fieldLink,
-				template : fieldTemplate
+				link: fieldLink,
+				template: fieldTemplate
 			};
 
 			function fieldLink(scope, element, attrs) {
-			    	var prefixId = scope.name? scope.name+'-':'';
-				scope.firstPageButtonId = angular.isUndefined(scope.firstPageButtonId) ?  prefixId+'first-page-button' : scope.firstPageButtonId;
-				scope.backPageButtonId = angular.isUndefined(scope.backPageButtonId) ? prefixId+'back-page-button' : scope.backPageButtonId;
-				scope.nextPageButtonId = angular.isUndefined(scope.nextPageButtonId) ? prefixId+'next-page-button' : scope.nextPageButtonId;
-				scope.lastPageButtonId = angular.isUndefined(scope.lastPageButtonId) ? prefixId+'last-page-button' : scope.lastPageButtonId;
-				scope.dropdownPageLimitId = angular.isUndefined(scope.dropdownPageLimitId) ? prefixId+'page-limit-dropdown' : scope.dropdownPageLimitId;
-				scope.$watch('[totalPage, currentPage]', function(value) {
+				var prefixId = scope.name ? scope.name + '-' : '';
+				scope.firstPageButtonId = angular.isUndefined(scope.firstPageButtonId) ? prefixId + 'first-page-button' : scope.firstPageButtonId;
+				scope.backPageButtonId = angular.isUndefined(scope.backPageButtonId) ? prefixId + 'back-page-button' : scope.backPageButtonId;
+				scope.nextPageButtonId = angular.isUndefined(scope.nextPageButtonId) ? prefixId + 'next-page-button' : scope.nextPageButtonId;
+				scope.lastPageButtonId = angular.isUndefined(scope.lastPageButtonId) ? prefixId + 'last-page-button' : scope.lastPageButtonId;
+				scope.dropdownPageLimitId = angular.isUndefined(scope.dropdownPageLimitId) ? prefixId + 'page-limit-dropdown' : scope.dropdownPageLimitId;
+				scope.$watch('[totalPage, currentPage]', function (value) {
 					disableButton(scope, element);
 				});
 
-				scope.scfPaginationAction = function(btnAction) {
+				scope.scfPaginationAction = function (btnAction) {
 					var pageModel = {
-						page : scope.currentPage,
-						pageSize : scope.pageSizeModel
+						page: scope.currentPage,
+						pageSize: scope.pageSizeModel
 					};
 					if (btnAction === 'first' || btnAction === 'changeSize') {
 						pageModel.page = 0;
@@ -676,42 +676,42 @@
 				var template = '<ul class="scf-paging form-inline">' + '<li><button type="button" ng-click="scfPaginationAction(\'first\')" class="btn btn-sm" id="{{firstPageButtonId}}"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></button></li>' + '<li><button type="button" ng-click="scfPaginationAction(\'back\')" class="btn btn-sm" id="{{backPageButtonId}}"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></button></li>' + '<li><scf-dropdown ng-model="pageSizeModel" ng-change="scfPaginationAction(\'changeSize\')" component-data="pageSizeList" id="{{dropdownPageLimitId}}"></scf-dropdown</li>' + '<li><button type="button" ng-click="scfPaginationAction(\'next\')" class="btn btn-sm" id="{{nextPageButtonId}}"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button></li>' + '<li><button type="button" ng-click="scfPaginationAction(\'last\')" class="btn btn-sm" id="{{lastPageButtonId}}"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button></li>' + '</ul>';
 				return template;
 			}
-		} ])
-		.directive('scfModal', [ function() {
+		}])
+		.directive('scfModal', [function () {
 			return {
-				template : '<div class="modal" data-keyboard="false" data-backdrop="static">' +
-					'<div class="modal-dialog">' +
-					'<div class="modal-content" ng-transclude></div>' +
-					'</div>' +
-					'</div>',
-				restrict : 'E',
-				transclude : true,
-				replace : true,
-				scope : true,
-				link : function postLink(scope, element, attrs) {
+				template: '<div class="modal" data-keyboard="false" data-backdrop="static">' +
+				'<div class="modal-dialog">' +
+				'<div class="modal-content" ng-transclude></div>' +
+				'</div>' +
+				'</div>',
+				restrict: 'E',
+				transclude: true,
+				replace: true,
+				scope: true,
+				link: function postLink(scope, element, attrs) {
 
-					scope.$watch(attrs.visible, function(value) {
+					scope.$watch(attrs.visible, function (value) {
 						if (value == true)
 							$(element).modal('show');
 						else
 							$(element).modal('hide');
 					});
 
-					$(element).on('shown.bs.modal', function() {
+					$(element).on('shown.bs.modal', function () {
 						scope.$parent[attrs.visible] = true;
 					});
 
-					$(element).on('hidden.bs.modal', function() {
-						scope.$apply(function() {
+					$(element).on('hidden.bs.modal', function () {
+						scope.$apply(function () {
 							scope.$parent[attrs.visible] = false;
 						});
 					});
 				}
 			};
-		} ])
-		.directive('scfCheckAll', [ function() {
+		}])
+		.directive('scfCheckAll', [function () {
 			function postLinkFn(scope, element, attrs) {
-				element.bind('click', function() {
+				element.bind('click', function () {
 					var checkListModelData = scope.$eval(attrs.scfCheckAllListModel);
 					var dataList = scope.$eval(attrs.scfDataList);
 					var checked = element[0].checked;
@@ -719,9 +719,9 @@
 					element[0].checked = checked;
 				});
 
-				scope.$watch(element[0].checked, function() {});
+				scope.$watch(element[0].checked, function () { });
 
-				scope.$watch(attrs.scfDataList, function() {
+				scope.$watch(attrs.scfDataList, function () {
 					var checkListModelData = scope.$eval(attrs.scfCheckAllListModel);
 					var dataList = scope.$eval(attrs.scfDataList);
 					var checked = elementCheckAll(checkListModelData, dataList);
@@ -733,7 +733,7 @@
 			function elementCheckAll(checkListModelData, dataList) {
 				var comparator = angular.equals;
 				var countRecordData = 0;
-				dataList.forEach(function(document) {
+				dataList.forEach(function (document) {
 					for (var index = checkListModelData.length; index--;) {
 						if (comparator(document, checkListModelData[index])) {
 							countRecordData++;
@@ -752,7 +752,7 @@
 				var documentSelectClone = angular.copy(checkListModelData);
 				var documentSelects = [];
 				if (checked) {
-					dataList.forEach(function(document) {
+					dataList.forEach(function (document) {
 						var foundDataSelect = false;
 						for (var index = documentSelectClone.length; index--;) {
 							if (comparator(document, documentSelectClone[index])) {
@@ -767,7 +767,7 @@
 					});
 					documentSelects = angular.copy(documentSelectClone);
 				} else {
-					dataList.forEach(function(document) {
+					dataList.forEach(function (document) {
 						for (var index = documentSelectClone.length; index--;) {
 							if (comparator(document, documentSelectClone[index])) {
 								documentSelectClone.splice(index, 1);
@@ -782,164 +782,40 @@
 			}
 
 			return {
-				restrict : 'A',
-				terminal : true,
-				scope : true,
-				compile : function() {
+				restrict: 'A',
+				terminal: true,
+				scope: true,
+				compile: function () {
 					return postLinkFn
 				},
 			};
 
 
-		} ])
+		}])
 		.directive('focus',
-			function($timeout) {
-				return {
-					scope : {
-						trigger : '@focus'
-					},
-					link : function(scope, element) {
-						scope.$watch('trigger', function(value) {
-							if (value === "true") {
-								$timeout(function() {
-									element[0].focus();
-								});
-							}
-						});
-					}
-				};
-			}).directive('scfLayoutTable', [ '$compile', '$parse', function($complie, $parse) {
-				return {
-					restrict : 'E',
-					transclude : true,
-					replace : true,
-					scope : true,
-					controller : [ '$scope', '$element', '$attrs', scfTableController ],
-					templateUrl : function(elem, attr) {
-						return attr.templateUrl || 'ui/template/table_template.html';
-					}
-				}
-
-				function scfTableController($scope, $element, $attrs) {
-					var vm = $scope;
-					vm.tableColumns = [];
-					vm.initSort = function() {
-						vm.order = '';
-						vm.reverse = false;
-					}
-
-					vm.$watch($attrs.clearSortOrder, function(data) {
-						vm.initSort();
-					});
-
-					vm.pageOptions = {
-						currentPage : 0,
-						recordPerPage : 20
-					};
-
-					vm.$watch($attrs.currentPage, function(data) {
-						if (data !== undefined) {
-							vm.pageOptions.currentPage = data;
-						}
-					});
-
-					vm.$watch($attrs.recordPerPage, function(data) {
-						if (data !== undefined) {
-							vm.pageOptions.recordPerPage = data;
-						}
-					});
-
-					vm.$watch($attrs.componentConfig, function(dataConfig) {
-						var tableOption = dataConfig.options || {};
-
-						// Clear value begin add column;
-						vm.tableColumns = [];
-						var identityField = dataConfig.identityField || '$rowNo';
-						dataConfig.columns.forEach(function(data) {
-							if(data['hiddenColumn'] != true){
-								var rowData = {
-									fieldName : data.documentField.documentFieldName,
-									labelEN : data['labelEN'] ? data['labelEN'] :data['label']  ,
-									labelTH : data['labelTH'] ? data['labelTH'] :data['label'] ,
-									cellTemplate : data['cellTemplate'],
-									sortable : data['sortable'] || false,
-									cssTemplateHeader : getCssConfigHeader(data),
-									cssTemplate : getCssConfig(data),
-									filterType : data['filterType'],
-									format : data['format'],
-									idValueField : identityField || data['idValueField'],
-									idTemplate : data.id || generateIdTemplate(data),
-									renderer : data['renderer'],
-									dataRenderer: data['dataRenderer'],
-									headerId: data['headerId']
-								};
-								vm.tableColumns.push(rowData);
-							}
-						});
-
-						// Check option set to Show checkBox
-						if (tableOption.displaySelect !== undefined) {
-							var rowData = {
-								label : tableOption.displaySelect['label'],
-								fieldName : 'selectBox',
-								idTemplate : tableOption.displaySelect['id'],
-								cellTemplate : tableOption.displaySelect['cellTemplate'],
-								idValueField : tableOption.displaySelect['idValueField']
-							};
-
-							if (tableOption.displaySelect['displayPosition'] === 'first') {
-								vm.tableColumns.splice(0, 0, rowData);
-							} else {
-								vm.tableColumns.push(rowData);
-							}
-						}
-					}, true);
-					vm.$watch($attrs.componentDatas, function(data) {
-						vm.componentDatas = data;
-					});
-				}
-				
-				function getCssConfig(data){
-					var result = '';
-					if(angular.isDefined(data.cssTemplate)){
-						result = data.cssTemplate;
-					}
-					
-					if(angular.isDefined(data.alignment)){
-						var alignment = data.alignment;
-						if(alignment == 'RIGHT'){
-							result += ' text-right';
-						}else if(alignment == 'CENTER' ){
-							result += ' text-center';
-						}else{
-							result += ' text-left';
-						}
-					}
-					return result;
-				}
-				
-				function getCssConfigHeader(data){
-					var result = 'text-center';
-					if(angular.isDefined(data.cssTemplate)){
-						result += ' '+data.cssTemplate;
-					}
-					return result;
-				}
-				
-				function generateIdTemplate(data){
-					if(angular.isDefined(data.documentField.documentFieldName)){
-						return data.documentField.documentFieldName+'-{value}';
-					}
-					return undefined;
-				}
-			} ]).directive('scfTable', [ '$compile', '$parse', function($complie, $parse) {
+		function ($timeout) {
 			return {
-				restrict : 'E',
-				transclude : true,
-				replace : true,
-				scope : true,
-				controller : [ '$scope', '$element', '$attrs', scfTableController ],
-				templateUrl : function(elem, attr) {
+				scope: {
+					trigger: '@focus'
+				},
+				link: function (scope, element) {
+					scope.$watch('trigger', function (value) {
+						if (value === "true") {
+							$timeout(function () {
+								element[0].focus();
+							});
+						}
+					});
+				}
+			};
+		}).directive('scfLayoutTable', ['$compile', '$parse', function ($complie, $parse) {
+			return {
+				restrict: 'E',
+				transclude: true,
+				replace: true,
+				scope: true,
+				controller: ['$scope', '$element', '$attrs', scfTableController],
+				templateUrl: function (elem, attr) {
 					return attr.templateUrl || 'ui/template/table_template.html';
 				}
 			}
@@ -947,53 +823,53 @@
 			function scfTableController($scope, $element, $attrs) {
 				var vm = $scope;
 				vm.tableColumns = [];
-				vm.initSort = function() {
+				vm.initSort = function () {
 					vm.order = '';
 					vm.reverse = false;
 				}
 
-				vm.$watch($attrs.clearSortOrder, function(data) {
+				vm.$watch($attrs.clearSortOrder, function (data) {
 					vm.initSort();
 				});
 
 				vm.pageOptions = {
-					currentPage : 0,
-					recordPerPage : 20
+					currentPage: 0,
+					recordPerPage: 20
 				};
 
-				vm.$watch($attrs.currentPage, function(data) {
+				vm.$watch($attrs.currentPage, function (data) {
 					if (data !== undefined) {
 						vm.pageOptions.currentPage = data;
 					}
 				});
 
-				vm.$watch($attrs.recordPerPage, function(data) {
+				vm.$watch($attrs.recordPerPage, function (data) {
 					if (data !== undefined) {
 						vm.pageOptions.recordPerPage = data;
 					}
 				});
 
-				vm.$watch($attrs.componentConfig, function(dataConfig) {
+				vm.$watch($attrs.componentConfig, function (dataConfig) {
 					var tableOption = dataConfig.options || {};
 
 					// Clear value begin add column;
 					vm.tableColumns = [];
 					var identityField = dataConfig.identityField || '$rowNo';
-					dataConfig.columns.forEach(function(data) {
-						if(data['hiddenColumn'] != true){
+					dataConfig.columns.forEach(function (data) {
+						if (data['hiddenColumn'] != true) {
 							var rowData = {
-								fieldName : data['fieldName'],
-								labelEN : data['labelEN'] ? data['labelEN'] :data['label']  ,
-								labelTH : data['labelTH'] ? data['labelTH'] :data['label'] ,
-								cellTemplate : data['cellTemplate'],
-								sortable : data['sortable'] || false,
-								cssTemplateHeader : getCssConfigHeader(data),
-								cssTemplate : getCssConfig(data),
-								filterType : data['filterType'],
-								format : data['format'],
-								idValueField : identityField || data['idValueField'],
-								idTemplate : data.id || generateIdTemplate(data),
-								renderer : data['renderer'],
+								fieldName: data.documentField.documentFieldName,
+								labelEN: data['labelEN'] ? data['labelEN'] : data['label'],
+								labelTH: data['labelTH'] ? data['labelTH'] : data['label'],
+								cellTemplate: data['cellTemplate'],
+								sortable: data['sortable'] || false,
+								cssTemplateHeader: getCssConfigHeader(data),
+								cssTemplate: getCssConfig(data),
+								filterType: data['filterType'],
+								format: data['format'],
+								idValueField: identityField || data['idValueField'],
+								idTemplate: data.id || generateIdTemplate(data),
+								renderer: data['renderer'],
 								dataRenderer: data['dataRenderer'],
 								headerId: data['headerId']
 							};
@@ -1004,11 +880,11 @@
 					// Check option set to Show checkBox
 					if (tableOption.displaySelect !== undefined) {
 						var rowData = {
-							label : tableOption.displaySelect['label'],
-							fieldName : 'selectBox',
-							idTemplate : tableOption.displaySelect['id'],
-							cellTemplate : tableOption.displaySelect['cellTemplate'],
-							idValueField : tableOption.displaySelect['idValueField']
+							label: tableOption.displaySelect['label'],
+							fieldName: 'selectBox',
+							idTemplate: tableOption.displaySelect['id'],
+							cellTemplate: tableOption.displaySelect['cellTemplate'],
+							idValueField: tableOption.displaySelect['idValueField']
 						};
 
 						if (tableOption.displaySelect['displayPosition'] === 'first') {
@@ -1018,61 +894,185 @@
 						}
 					}
 				}, true);
-				vm.$watch($attrs.componentDatas, function(data) {
+				vm.$watch($attrs.componentDatas, function (data) {
 					vm.componentDatas = data;
 				});
 			}
-			
-			function getCssConfig(data){
+
+			function getCssConfig(data) {
 				var result = '';
-				if(angular.isDefined(data.cssTemplate)){
+				if (angular.isDefined(data.cssTemplate)) {
 					result = data.cssTemplate;
 				}
-				
-				if(angular.isDefined(data.alignment)){
+
+				if (angular.isDefined(data.alignment)) {
 					var alignment = data.alignment;
-					if(alignment == 'RIGHT'){
+					if (alignment == 'RIGHT') {
 						result += ' text-right';
-					}else if(alignment == 'CENTER' ){
+					} else if (alignment == 'CENTER') {
 						result += ' text-center';
-					}else{
+					} else {
 						result += ' text-left';
 					}
 				}
 				return result;
 			}
-			
-			function getCssConfigHeader(data){
+
+			function getCssConfigHeader(data) {
 				var result = 'text-center';
-				if(angular.isDefined(data.cssTemplate)){
-					result += ' '+data.cssTemplate;
+				if (angular.isDefined(data.cssTemplate)) {
+					result += ' ' + data.cssTemplate;
 				}
 				return result;
 			}
-			
-			function generateIdTemplate(data){
-				if(angular.isDefined(data.fieldName)){
-					return data.fieldName+'-{value}';
+
+			function generateIdTemplate(data) {
+				if (angular.isDefined(data.documentField.documentFieldName)) {
+					return data.documentField.documentFieldName + '-{value}';
 				}
 				return undefined;
 			}
-		} ])
-		.directive('scfTableTh', [ '$compile', '$filter', '$translate', function($compile, $filter, $translate) {
+		}]).directive('scfTable', ['$compile', '$parse', function ($complie, $parse) {
 			return {
-				restrict : 'A',
-				replace : true,
-				link : scfLink,
-				controller : [ '$scope', '$rootScope', '$element', '$attrs', scfTableThController ]
+				restrict: 'E',
+				transclude: true,
+				replace: true,
+				scope: true,
+				controller: ['$scope', '$element', '$attrs', scfTableController],
+				templateUrl: function (elem, attr) {
+					return attr.templateUrl || 'ui/template/table_template.html';
+				}
 			}
-			
+
+			function scfTableController($scope, $element, $attrs) {
+				var vm = $scope;
+				vm.tableColumns = [];
+				vm.initSort = function () {
+					vm.order = '';
+					vm.reverse = false;
+				}
+
+				vm.$watch($attrs.clearSortOrder, function (data) {
+					vm.initSort();
+				});
+
+				vm.pageOptions = {
+					currentPage: 0,
+					recordPerPage: 20
+				};
+
+				vm.$watch($attrs.currentPage, function (data) {
+					if (data !== undefined) {
+						vm.pageOptions.currentPage = data;
+					}
+				});
+
+				vm.$watch($attrs.recordPerPage, function (data) {
+					if (data !== undefined) {
+						vm.pageOptions.recordPerPage = data;
+					}
+				});
+
+				vm.$watch($attrs.componentConfig, function (dataConfig) {
+					var tableOption = dataConfig.options || {};
+
+					// Clear value begin add column;
+					vm.tableColumns = [];
+					var identityField = dataConfig.identityField || '$rowNo';
+					dataConfig.columns.forEach(function (data) {
+						if (data['hiddenColumn'] != true) {
+							var rowData = {
+								fieldName: data['fieldName'],
+								labelEN: data['labelEN'] ? data['labelEN'] : data['label'],
+								labelTH: data['labelTH'] ? data['labelTH'] : data['label'],
+								cellTemplate: data['cellTemplate'],
+								sortable: data['sortable'] || false,
+								cssTemplateHeader: getCssConfigHeader(data),
+								cssTemplate: getCssConfig(data),
+								filterType: data['filterType'],
+								format: data['format'],
+								idValueField: identityField || data['idValueField'],
+								idTemplate: data.id || generateIdTemplate(data),
+								renderer: data['renderer'],
+								dataRenderer: data['dataRenderer'],
+								headerId: data['headerId']
+							};
+							vm.tableColumns.push(rowData);
+						}
+					});
+
+					// Check option set to Show checkBox
+					if (tableOption.displaySelect !== undefined) {
+						var rowData = {
+							label: tableOption.displaySelect['label'],
+							fieldName: 'selectBox',
+							idTemplate: tableOption.displaySelect['id'],
+							cellTemplate: tableOption.displaySelect['cellTemplate'],
+							idValueField: tableOption.displaySelect['idValueField']
+						};
+
+						if (tableOption.displaySelect['displayPosition'] === 'first') {
+							vm.tableColumns.splice(0, 0, rowData);
+						} else {
+							vm.tableColumns.push(rowData);
+						}
+					}
+				}, true);
+				vm.$watch($attrs.componentDatas, function (data) {
+					vm.componentDatas = data;
+				});
+			}
+
+			function getCssConfig(data) {
+				var result = '';
+				if (angular.isDefined(data.cssTemplate)) {
+					result = data.cssTemplate;
+				}
+
+				if (angular.isDefined(data.alignment)) {
+					var alignment = data.alignment;
+					if (alignment == 'RIGHT') {
+						result += ' text-right';
+					} else if (alignment == 'CENTER') {
+						result += ' text-center';
+					} else {
+						result += ' text-left';
+					}
+				}
+				return result;
+			}
+
+			function getCssConfigHeader(data) {
+				var result = 'text-center';
+				if (angular.isDefined(data.cssTemplate)) {
+					result += ' ' + data.cssTemplate;
+				}
+				return result;
+			}
+
+			function generateIdTemplate(data) {
+				if (angular.isDefined(data.fieldName)) {
+					return data.fieldName + '-{value}';
+				}
+				return undefined;
+			}
+		}])
+		.directive('scfTableTh', ['$compile', '$filter', '$translate', function ($compile, $filter, $translate) {
+			return {
+				restrict: 'A',
+				replace: true,
+				link: scfLink,
+				controller: ['$scope', '$rootScope', '$element', '$attrs', scfTableThController]
+			}
+
 			function scfLink(scope, elements, attrs) {
-				scope.$watch(attrs.scfTableTh, function(column) {					
+				scope.$watch(attrs.scfTableTh, function (column) {
 					renderTableHeader(scope, elements, column, $translate.use());
 				});
 			}
 
 			function scfTableThController($scope, $rootScope, $element, $attrs) {
-				$rootScope.$on('$translateChangeSuccess', function(translateChangeSuccess, currentLange) {
+				$rootScope.$on('$translateChangeSuccess', function (translateChangeSuccess, currentLange) {
 					var column = $scope.$eval($attrs.scfTableTh);
 					renderTableHeader($scope, $element, column, currentLange.language);
 				});
@@ -1082,106 +1082,106 @@
 				var htmlText = '';
 
 				htmlText = getDisplayLanguage(currentLange, column);
-				
+
 				if (column.sortable) {
 					htmlText = '<span sort by="{{column.fieldName}}" reverse="reverse" order="orders" >' + htmlText + '</span>';
 				}
-				
+
 				var colClass = column.cssTemplateHeader || 'text-center';
 				elements.addClass(colClass)
 				elements.html(htmlText);
 				$compile(elements.contents())(scope);
-				
+
 				if (column.fieldName != 'selectBox') {
-					if(angular.isDefined(elements[0].childNodes[0])){
-						if(angular.isDefined(column.headerId)){
+					if (angular.isDefined(elements[0].childNodes[0])) {
+						if (angular.isDefined(column.headerId)) {
 							elements[0].childNodes[0].id = column.headerId;
 						}
-						else if(angular.isDefined(column.fieldName)){
+						else if (angular.isDefined(column.fieldName)) {
 							elements[0].childNodes[0].id = column.fieldName + '-header-label';
 						}
 					}
 				}
 			}
-			
-			function getDisplayLanguage(currentLange, column){
+
+			function getDisplayLanguage(currentLange, column) {
 				var htmlText = '';
 				if (column.fieldName == 'selectBox') {
 					htmlText = column.label;
-				}else{
-					if(currentLange == 'en_EN'){
+				} else {
+					if (currentLange == 'en_EN') {
 						htmlText = column.labelEN;
-					}else{
+					} else {
 						htmlText = column.labelTH;
 					}
 				}
 				return htmlText;
 			}
-		} ])
-		.directive('scfTableTd', [ '$compile', '$filter', '$log', function($compile, $filter, $log) {
+		}])
+		.directive('scfTableTd', ['$compile', '$filter', '$log', function ($compile, $filter, $log) {
 			var log = $log;
 			return {
-				scope : false,
-				restrict : 'A',
-				replace : true,
-				link : scfLink
+				scope: false,
+				restrict: 'A',
+				replace: true,
+				link: scfLink
 			}
 
 			function scfLink(scope, elements, attrs) {
 				var pageOptions = scope.$eval(attrs.pageOptions);
 
-				scope.$watch(attrs.scfTableTd, function(data) {
+				scope.$watch(attrs.scfTableTd, function (data) {
 
 					var rowNo = renderNo(scope, attrs, pageOptions);
 					var column = scope.$eval(attrs.columnRender);
-					
+
 					var dataRender = '';
 					var colClass = column.cssTemplate || 'text-center';
-					
+
 					if (column.fieldName === '$rowNo') {
 						elements.addClass(colClass);
 						elements.html(rowNo);
 						dataRender = rowNo;
 					}
-					
+
 					if (angular.isDefined(column.filterType) && column.filterType !== null) {
 						dataRender = filterData(column, data);
 					} else {
-						if(angular.isDefined(column.cellTemplate) && column.cellTemplate !== null){
+						if (angular.isDefined(column.cellTemplate) && column.cellTemplate !== null) {
 							dataRender = column.cellTemplate;
-						}else if(angular.isDefined(column.dataRenderer) && column.dataRenderer !== null){
+						} else if (angular.isDefined(column.dataRenderer) && column.dataRenderer !== null) {
 							dataRender = column.dataRenderer(data);
-						}else{
+						} else {
 							dataRender = data[column.fieldName];
 						}
 					}
 
-					if(column.renderer != null){
-					    dataRender = column.renderer(dataRender, data);
+					if (column.renderer != null) {
+						dataRender = column.renderer(dataRender, data);
 					}
 					elements.addClass(colClass);
 					elements.html(dataRender);
 					$compile(elements.contents())(scope);
-					
+
 					if (angular.isDefined(column.idTemplate) && column.idTemplate !== null) {
 						// Check add id is rowNo for checkBox
 						if (column.idValueField === '$rowNo') {
-					
+
 							if (elements[0].children.length > 0) {
 								elements[0].children[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);
-							    	
+
 
 							} else {
 								elements[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);
-							    	
+
 							}
 						} else {
 							if (elements[0].children.length > 0) {
 								elements[0].children[0].id = addId(data[column.idValueField != null ? column.idValueField : column.field], column.idTemplate, column.renderer, column.fieldName);
 							} else {
 								//comment for import channel
-//								elements[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);	
-								elements[0].id = addId(data[column.idValueField != null ? column.idValueField : column.field], column.idTemplate, column.renderer, column.fieldName);	
+								//								elements[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);	
+								elements[0].id = addId(data[column.idValueField != null ? column.idValueField : column.field], column.idTemplate, column.renderer, column.fieldName);
 							}
 						}
 					}
@@ -1205,9 +1205,9 @@
 					var pDate = Date.parse(data);
 					filterFormat = filterFormat || 'dd/MM/yyyy';
 					result = $filter(filterType)(data, filterFormat, 'UTC+0700');
-				} else if(filterType === 'number'){
+				} else if (filterType === 'number') {
 					result = $filter(filterType)(data, 2);
-				}else{
+				} else {
 					result = $filter(filterType)(data, filterFormat);
 				}
 				return result;
@@ -1217,38 +1217,96 @@
 				if (angular.isDefined(renderer) && renderer != null) {
 					rowNo = renderer(rowNo);
 				}
-				
-				if(fieldName != 'selectBox'){
-					return columnId.replace('{value}', rowNo)+"-label";
-				}else{
+
+				if (fieldName != 'selectBox') {
+					return columnId.replace('{value}', rowNo) + "-label";
+				} else {
 					return columnId.replace('{value}', rowNo);
 				}
 			}
-		} ])
-		.directive('scfShowOnMobile', ['$compile', function($compile){
+		}])
+		.directive('scfShowOnMobile', ['$compile', function ($compile) {
 			return {
-				scope : false,
-				restrict : 'A',
-				replace : true,
-				link : scfShowOnMobileLink
+				scope: false,
+				restrict: 'A',
+				replace: true,
+				link: scfShowOnMobileLink
 			}
-			function scfShowOnMobileLink(scope, elements, attrs){
+			function scfShowOnMobileLink(scope, elements, attrs) {
 				var isShowOnMobile = scope.$eval(attrs.scfShowOnMobile);
-				if(!isShowOnMobile){
-					elements.addClass('hidden-sm hidden-xs');				
+				if (!isShowOnMobile) {
+					elements.addClass('hidden-sm hidden-xs');
 				}
 			}
 		}])
-		.directive('scfEnter', [function(){
-			return function(scope, elements, attrs){
-				elements.bind('keypress', function(event){
-					if(event.keyCode == 13){
-						scope.$apply(function(){
-							scope.$eval(attrs.ngEnter, {'event': event})
+		.directive('scfEnter', [function () {
+			return function (scope, elements, attrs) {
+				elements.bind('keypress', function (event) {
+					if (event.keyCode == 13) {
+						scope.$apply(function () {
+							scope.$eval(attrs.ngEnter, { 'event': event })
 						});
 					}
 				});
 			}
-		}]);
-		
+		}])
+		.constant('formatFactory', {
+			currency: {
+				pattern: /^[\(\-\+]?\d*,?\d*\.?\d+[\)]/,
+				patternError: 'This field must be formatted as Currency.<br/>A sample valid input looks like: 1000.00',
+				replaceDollar: /[\$]/g,
+				replaceComma: /[,]/g
+			}
+		}).directive('format', function ($filter, formatFactory) {
+			return {
+				scope: true,
+				restrict: 'A',
+				require: ['ngModel'],
+				link: function (scope, element, attrs, ctrls) {
+					var ngModelCtrl = ctrls[0],
+						thisFormat = formatFactory[attrs.format];
+
+					var ctrl = ctrls[1];
+
+					// This is the toModel routine
+					var parser = function (value) {
+						var removeParens;
+						if (!value) {
+							return undefined;
+						}
+						// get rid of currency indicators
+						value = value.toString().replace(thisFormat.replaceComma, '');
+						// Check for parens, currency filter (5) is -5
+						removeParens = value.replace(/[\(\)]/g, '');
+						// having parens indicates the number is negative
+						if (value.length !== removeParens.length) {
+							value = -removeParens;
+						}
+						return value || undefined;
+					},
+						// This is the toView routine
+						formatter = function (value) {
+							// the currency filter returns undefined if parse error
+							value = $filter(attrs.format)(parser(value)) || '';
+							value = value.toString().replace(thisFormat.replaceDollar, '');
+							return value;
+						};
+
+					// This sets the format/parse to happen on blur/focus
+					element.on("blur", function () {
+						ngModelCtrl.$setViewValue(formatter(this.value));
+						ngModelCtrl.$render();
+					}).on("focus", function () {
+						ngModelCtrl.$setViewValue(parser(this.value));
+						ngModelCtrl.$render();
+					});
+
+					// Model Formatter
+					ngModelCtrl.$formatters.push(formatter);
+					// Model Parser
+					ngModelCtrl.$parsers.push(parser);
+				}
+			}
+		});
+
 })();
