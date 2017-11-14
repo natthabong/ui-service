@@ -4,7 +4,9 @@
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3><span id="header-message-label" class="animated fadeInLeft">{{'Transaction tracking detail' | translate}}</span>
+					<h3>
+						<span id="header-message-label" class="animated fadeInLeft">{{'Transaction
+							tracking detail' | translate}}</span>
 					</h3>
 				</div>
 			</div>
@@ -14,50 +16,46 @@
 				<div class="panel-body">
 					<!-- Start Column Panel-->
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<form name="viewTransacntionTrackingDetailForm" class="form-horizontal"
-							novalidate=""
-							autocomplete="off">
+						<form name="viewTransacntionTrackingDetailForm"
+							class="form-horizontal" novalidate="" autocomplete="off">
 
 							<div class="form-group">
 								<label id="ref-no-label"
-									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Ref no'
-									| translate}}:</label>
-								<label class="col-md-6 col-sm-6 col-xs-12 control-label" id="ref-no-value-label"
-									ng-bind="ctrl.trackingMessage.refNo">
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Ref
+									no' | translate}}:</label> <label
+									class="col-md-6 col-sm-6 col-xs-12 control-label"
+									id="ref-no-value-label" ng-bind="ctrl.trackingMessage.refNo">
 								</label>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
 
 							<div class="form-group">
 								<label id="process-no-label"
-									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Process no'
-									| translate}}:</label>
-								<label class="col-md-6 col-sm-6 col-xs-12 control-label" id="process-no-value-label"
-									ng-bind="ctrl.trackingMessage.processNo">
-								</label>
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Process
+									no' | translate}}:</label> <label
+									class="col-md-6 col-sm-6 col-xs-12 control-label"
+									id="process-no-value-label"
+									ng-bind="ctrl.trackingMessage.processNo"> </label>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
 
 							<div class="form-group">
 								<label id="message-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Message'
-									| translate}}:</label>
-								<br/>
-								<div style="max-height:100px;">
-									<label id="message-value-label"
-										class="col-md-6 col-xs-9" 
-										style="border:1px solid; min-height: 100px;
-										max-height:100px;overflow: auto;
-										overflow-x: hidden;
-    									overflow-y: visible;word-wrap: break-word;">
-										{{ctrl.trackingMessage.transactionMessage}}</label>
+									| translate}}:</label> <br />
+								<div class="col-md-6 col-xs-9">
+									<textarea id="message-value-label" readonly="readonly"
+										ng-trim="true"
+										style="overflow-y: scroll; overflow-x: scroll; height: 100px; resize: none; width: 100%"
+										ng-model="ctrl.trackingMessage.transactionMessage"></textarea>
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
 
 							<div class="col-md-12 col-sm-12 text-right">
 								<div class="form-group">
-									<scf-button id="back-button" class="popup-button btn" ng-click="ctrl.back()">{{'Back' | translate}}</scf-button>
+									<scf-button id="back-button" class="popup-button btn"
+										ng-click="ctrl.back()">{{'Back' | translate}}</scf-button>
 								</div>
 							</div>
 						</form>
@@ -65,5 +63,5 @@
 				</div>
 			</div>
 		</div>
-    </div>
+	</div>
 </div>
