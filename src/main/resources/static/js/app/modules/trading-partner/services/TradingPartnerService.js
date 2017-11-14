@@ -32,13 +32,14 @@ tpModule.factory('TradingPartnerService', [ '$http', '$q', 'Service', function($
 		}
 		
 		var req = {
-			method : editMode ? 'PUT': 'POST',
+			method : 'POST',
 			url : serviceUrl,
 			data: tp
 		}
 		if(editMode){
 			req.headers = {
-			'If-Match' : tp.version
+			'If-Match' : tp.version,
+			'X-HTTP-Method-Override': 'PUT'
 			}
 		}
 		var deferred = $q.defer();
