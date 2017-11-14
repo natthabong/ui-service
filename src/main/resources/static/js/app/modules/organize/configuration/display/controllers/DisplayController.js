@@ -251,7 +251,7 @@ displayModule.controller('DisplayController', [
 
         }
 
-        vm.backToSponsorConfigPage = function() {
+        vm.backToSponsorConfigPage = function () {
             PageNavigation.gotoPreviousPage();
         }
 
@@ -278,7 +278,9 @@ displayModule.controller('DisplayController', [
                             headerMessage: 'Edit display document configuration fail.',
                             bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
                         },
-                        preCloseCallback: preCloseCallback
+                        preCloseCallback: function () {
+                            vm.backToSponsorConfigPage();
+                        }
                     });
                 },
                 onSuccess: function(response) {
@@ -288,7 +290,9 @@ displayModule.controller('DisplayController', [
                             headerMessage: 'Edit display document configuration complete.',
                             bodyMessage: ''
                         },
-                        preCloseCallback: preCloseCallback
+                        preCloseCallback: function () {
+                            vm.backToSponsorConfigPage();
+                        }
                     });
                 }
             });
