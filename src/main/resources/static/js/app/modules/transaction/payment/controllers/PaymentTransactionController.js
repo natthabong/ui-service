@@ -541,7 +541,6 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		}else if(response.status == 500){
 			if(response.data.errorCode=='INCOMPLETE'){
 				vm.transaction.transactionNo = response.data.attributes.transactionNo;
-				vm.transaction.returnCode = response.data.attributes.returnCode;
 				vm.transaction.returnMessage = response.data.attributes.returnMessage;
 		    	vm.transaction.retriable = response.data.attributes.retriable;
 		    	vm.transaction.version = response.data.attributes.version;
