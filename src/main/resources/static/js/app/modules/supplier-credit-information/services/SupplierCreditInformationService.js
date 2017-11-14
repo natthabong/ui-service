@@ -53,11 +53,12 @@ sciModule.factory('SupplierCreditInformationService', ['$http', '$q', 'Service',
 	}
 	
 	var getBuyerNameOrCodeLike = function (organizeId,query) {
-		var http = $http.get('/api/v1/organizes/'+organizeId+'/buyers', {
+		var http = $http.get('/api/v1/organize-customers/'+organizeId+'/trading-partners', {
 			params: {
 				q: query,
 				offset: 0,
-				limit: 5
+				limit: 5 ,
+				accountingTransactionType : 'RECEIVABLE'
 			}
 		}).then(function (response) {
 			return response.data.map(_prepareItemBuyers);
