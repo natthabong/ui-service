@@ -76,8 +76,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/organize-list/bank',
 				resolve: load(['js/app/modules/organize/organize-list-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
-			.state('/customer-registration/credit-information', {
-				url: '/customer-registration/credit-information',
+			.state('/customer-registration/supplier-credit-information', {
+				url: '/customer-registration/supplier-credit-information',
 				controller: 'SupplierCreditInformationController',
 				controllerAs: 'ctrl',
 				templateUrl: '/supplier-credit-information',
