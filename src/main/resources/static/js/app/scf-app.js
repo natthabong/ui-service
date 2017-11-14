@@ -100,6 +100,22 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				params: { viewMode:'CUSTOMER', backAction: false, criteria : null, organize: null},
 				resolve: load(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
+			.state('/my-organize/buyer-credit-information', {
+				url: '/my-organize/buyer-credit-information',
+				controller: 'BuyerCreditInformationController',
+				controllerAs: 'ctrl',
+				templateUrl: '/buyer-credit-information',
+				params: { viewMode:'MY_ORGANIZE', backAction: false, criteria : null, organize: null},
+				resolve: load(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			})
+			.state('/partner-organize/buyer-credit-information', {
+				url: '/partner-organize/buyer-credit-information',
+				controller: 'BuyerCreditInformationController',
+				controllerAs: 'ctrl',
+				templateUrl: '/buyer-credit-information',
+				params: { viewMode:'PARTNER', backAction: false, criteria : null, organize: null},
+				resolve: load(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			})
 			.state('/verify-transaction', {
 				url: '/verify-transaction',
 				controller: 'VerifyTransactionController',

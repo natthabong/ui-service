@@ -19,6 +19,8 @@ sciModule.controller('BuyerCreditInformationController', [
 		vm.supplier = $stateParams.supplier || null;
 		vm.showSupplier = true;
 		vm.showBuyer = true;
+		vm.showButtonSearchBuyer = false;
+		vm.buyerMode = false;
 		vm.data = [];
 		vm.criteria = $stateParams.criteria || {};
 		vm.pagingController = PagingController.create('/api/v1/buyer-credit-information', vm.criteria,'GET');
@@ -108,8 +110,14 @@ sciModule.controller('BuyerCreditInformationController', [
 		var initLoad = function () {
 			vm.search();
 			if(viewModeData.myOrganize == $stateParams.viewMode){
+				vm.showSupplier = true;
+				vm.showBuyer = false;
+				vm.buyerMode = true;
+			} else if (viewModeData.partner == $stateParams.viewMode){
 				vm.showSupplier = false;
-			}
+				vm.showBuyer = true;
+				vm.showButtonSearchBuyer = true;
+			} 
 		}();
 
 		vm.decodeBase64 = function (data) {

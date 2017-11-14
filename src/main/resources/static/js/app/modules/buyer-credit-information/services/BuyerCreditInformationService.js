@@ -8,11 +8,24 @@ sciModule.factory('BuyerCreditInformationService', ['$http', '$q', 'Service', fu
 		return item;
 	}
 	
+	var _prepareItemSupplierForBuyer = function (item) {
+		item.identity = ['supplier-', item.organizeId, '-option'].join('');
+		item.label = [item.supplierId, ': ', item.supplierName].join('');
+		return item;
+	}
+	
 	var _prepareItemBuyers = function (item) {
 		item.identity = ['buyer-', item.sponsorId, '-option'].join('');
 		item.label = [item.sponsorId, ': ', item.sponsorName].join('');
 		return item;
 	}
+	
+	var _prepareItemBuyersForBank = function (item) {
+		item.identity = ['buyer-', item.organizeId, '-option'].join('');
+		item.label = [item.organizeId, ': ', item.organizeName].join('');
+		return item;
+	}
+	
 	
 	var getItemSuggestBuyers = function (query) {
 		var http = $http.get('/api/v1/organizes', {
@@ -22,7 +35,7 @@ sciModule.factory('BuyerCreditInformationService', ['$http', '$q', 'Service', fu
 				limit: 5
 			}
 		}).then(function (response) {
-			return response.data.map(_prepareItemBuyers);
+			return response.data.map(_prepareItemBuyersForBank);
 		});
 		return http;
 	}
@@ -63,7 +76,7 @@ sciModule.factory('BuyerCreditInformationService', ['$http', '$q', 'Service', fu
 				accountingTransactionType: "PAYABLE"
 			}
 		}).then(function (response) {
-			return response.data.map(_prepareItemSupplier);
+			return response.data.map(_prepareItemSupplierForBuyer);
 		});
 		return http;
 	}
