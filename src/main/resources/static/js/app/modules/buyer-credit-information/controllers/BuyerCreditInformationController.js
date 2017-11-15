@@ -21,6 +21,7 @@ sciModule.controller('BuyerCreditInformationController', [
 		vm.showBuyer = true;
 		vm.showButtonSearchBuyer = false;
 		vm.buyerMode = false;
+		vm.supplierMode = false;
 		vm.data = [];
 		vm.criteria = $stateParams.criteria || {};
 		vm.pagingController = PagingController.create('/api/v1/buyer-credit-information', vm.criteria,'GET');
@@ -117,6 +118,7 @@ sciModule.controller('BuyerCreditInformationController', [
 				vm.showSupplier = false;
 				vm.showBuyer = true;
 				vm.showButtonSearchBuyer = true;
+				vm.supplierMode = true;
 			} 
 		}();
 
@@ -126,9 +128,9 @@ sciModule.controller('BuyerCreditInformationController', [
 
 		var isSameAccount = function (accountId, data, index) {
 			if (index == 0) {
-				return true;
+				return false;
 			} else {
-				return accountId != data[index - 1].accountId;
+				return accountId == data[index - 1].accountId;
 			}
 		}
 
