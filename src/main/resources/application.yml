@@ -6,10 +6,11 @@ server:
       secure: true
   port: 443
   ssl:
+    enabled: true
     key-store: classpath:keystore.p12
     key-store-password: gecadmin
-    keyStoreType: PKCS12
-    keyAlias: gecscf
+    key-store-Type: PKCS12
+    key-alias: gecscf
 spring:
   application:
     name: ui-service
@@ -23,3 +24,9 @@ spring:
 security:
   user:
     password: none
+scf:
+  services:
+    api:
+      host: localhost
+      port: 8443
+      context-path: /api

@@ -96,9 +96,13 @@
         };
         
     }]);
-    app.controller('LogoutController', ['$window', 'AuthenticationService', function ($window, AuthenticationService) {
+    app.controller('LogoutController', ['$window', '$cookieStore', 'AuthenticationService', function ($window, $cookieStore, AuthenticationService) {
 
         var vm = this;
+        var access_token = $cookieStore.get("access_token")
+        var refresh_token = $cookieStore.get("refresh_token")
+        vm.at = access_token;
+        vm.rf = refresh_token;
         vm.logout = function () {
 
             AuthenticationService.Logout(function (response) {
@@ -108,11 +112,11 @@
 
 }]);
  
-      app.factory('AuthenticationService', ['$http', '$httpParamSerializer', '$cookieStore', '$rootScope', '$timeout',  'blockUI', '$q', function ($http, $httpParamSerializer, $cookieStore, $rootScope, $timeout, blockUI, $q) {
+      app.factory('AuthenticationService', ['$http', '$window', '$httpParamSerializer', '$cookieStore', '$rootScope', '$timeout',  'blockUI', '$q', function ($http, $window, $httpParamSerializer, $cookieStore, $rootScope, $timeout, blockUI, $q) {
         var service = {};
 
         service.Login = Login;
-        service.Logout = Logout;
+        service.Logout = logout;
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
         service.validateForceChangePassword = validateForceChangePassword;
@@ -172,8 +176,12 @@
             })	 
         	return deffered;
         }
-
-        function Logout(callback) {
+        function logout(){
+        	 var access_token = $cookieStore.get("access_token")
+             var refresh_token = $cookieStore.get("refresh_token")
+        	 $window.location.href = ['/login?logout_at=',access_token,"&rf=",refresh_token].join("");
+        }
+        function Logout1(callback) {
             var deffered = $q.defer();
             blockUI.start();
             var access_token = $cookieStore.get("access_token")
