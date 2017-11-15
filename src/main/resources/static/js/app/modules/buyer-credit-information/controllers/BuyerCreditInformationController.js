@@ -42,12 +42,12 @@ sciModule.controller('BuyerCreditInformationController', [
 			if (viewModeData.myOrganize == $stateParams.viewMode) {
 				buyerId = organizeId;
 				if (angular.isObject(vm.supplier)) {
-					supplierId = vm.supplier.organizeId;
+					supplierId = vm.supplier.supplierId;
 				}
 			} else if (viewModeData.partner == $stateParams.viewMode) {
 				supplierId = organizeId;
 				if (angular.isObject(vm.buyer)) {
-					buyerId = vm.buyer.organizeId;
+					buyerId = vm.buyer.sponsorId;
 				}
 			} else if (viewModeData.customer == $stateParams.viewMode) {
 				if (angular.isObject(vm.buyer)) {
