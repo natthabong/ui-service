@@ -26,7 +26,7 @@
 										ng-model="ctrl.buyer" id="buyer-auto-suggest" name="buyerCode"
 										maxlength="100"></gec-auto-suggest>
 								</div>
-								<div class="col-md-3 col-sm-2" ng-show="ctrl.showButtonSearchBuyer">
+								<div class="col-md-3 col-sm-2" ng-if="ctrl.showButtonSearchBuyer">
 									<scf-button type="submit" id="search-button"
 										class="btn-default" ng-bind="'Search' | translate"
 										ng-click="ctrl.search()"></scf-button>
@@ -42,7 +42,7 @@
 										name="supplierCode" maxlength="100"></gec-auto-suggest>
 								</div>
 								<div class="col-md-3 col-sm-2">
-									<scf-button type="submit" id="search-button"
+									<scf-button type="submit" id="search-button" ng-if="!ctrl.showButtonSearchBuyer"
 										class="btn-default" ng-bind="'Search' | translate"
 										ng-click="ctrl.search()"></scf-button>
 								</div>
