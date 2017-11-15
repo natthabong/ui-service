@@ -1,6 +1,6 @@
 var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'ui.mask', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
-                        			'legendDirectives','chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing','gecscf.supplierCreditInformation'
+                        			'legendDirectives','chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing','gecscf.supplierCreditInformation','gecscf.buyerCreditInformation'
 									,'gecscf.sponsorConfiguration.workflow','gecscf.document','gecscf.organize.configuration.exportPayment','gecscf.organize.configuration.display'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider','$urlRouterProvider','ngDialogProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider,$compileProvider, $urlRouterProvider, ngDialogProvider) {
@@ -91,6 +91,30 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/supplier-credit-information',
 				params: { viewMode:'MY_ORGANIZE', backAction: false, criteria : null, organize: null},
 				resolve: load(['js/app/modules/supplier-credit-information/controllers/SupplierCreditInformationController.js', 'js/app/modules/supplier-credit-information/services/SupplierCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			})
+			.state('/customer-registration/buyer-credit-information', {
+				url: '/customer-registration/buyer-credit-information',
+				controller: 'BuyerCreditInformationController',
+				controllerAs: 'ctrl',
+				templateUrl: '/buyer-credit-information',
+				params: { viewMode:'CUSTOMER', backAction: false, criteria : null, organize: null},
+				resolve: load(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			})
+			.state('/my-organize/buyer-credit-information', {
+				url: '/my-organize/buyer-credit-information',
+				controller: 'BuyerCreditInformationController',
+				controllerAs: 'ctrl',
+				templateUrl: '/buyer-credit-information',
+				params: { viewMode:'MY_ORGANIZE', backAction: false, criteria : null, organize: null},
+				resolve: load(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			})
+			.state('/partner-organize/buyer-credit-information', {
+				url: '/partner-organize/buyer-credit-information',
+				controller: 'BuyerCreditInformationController',
+				controllerAs: 'ctrl',
+				templateUrl: '/buyer-credit-information',
+				params: { viewMode:'PARTNER', backAction: false, criteria : null, organize: null},
+				resolve: load(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
 			.state('/verify-transaction', {
 				url: '/verify-transaction',

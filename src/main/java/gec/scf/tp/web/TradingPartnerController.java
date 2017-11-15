@@ -10,6 +10,7 @@ import gec.scf.util.AjaxUtils;
 @Controller
 
 public class TradingPartnerController {
+	private static final String BUYER_CREDIT_INFORMATION = "buyer-credit-information/buyer-credit-information";
 	private static final String SUPPLIER_CREDIT_INFORMATION = "supplier-credit-information/supplier-credit-information";
 	private static final String TRADING_PARTNER = "trading-partner/trading-partners";
 	private static final String TRADING_PARTNER_MGNT = "trading-partner/new";
@@ -22,6 +23,17 @@ public class TradingPartnerController {
 			return SUPPLIER_CREDIT_INFORMATION.concat(" :: content");
 		}
 		return SUPPLIER_CREDIT_INFORMATION;
+
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, path = "/buyer-credit-information")
+	public String buyerCreditInformation(
+			@RequestHeader("X-Requested-With") String requestedWith) {
+
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return BUYER_CREDIT_INFORMATION.concat(" :: content");
+		}
+		return BUYER_CREDIT_INFORMATION;
 
 	}
 

@@ -11,6 +11,8 @@
 	"my-organize-buyer-codes": "Buyer codes",
 	"my-organize-supplier-codes": "Supplier codes",
 	"my-organize-supplier-credit-information": "Supplier credit information",
+	"my-organize-buyer-credit-information": "Buyer credit information",
+	"partner-organize-buyer-credit-information": "Buyer credit information",
 	"partner-organize": "Partner organize",
 	"partner-organize-payment-transactions": "Payment transactions",
 	"partner-organize-download-payment-advices": "Download payment advices",
@@ -41,6 +43,7 @@
 	"customer-registration-accounts": "Accounts",
 	"customer-registration-customer-users": "Users",
 	"customer-registration-supplier-credit-information": "Supplier credit information",
+	"customer-registration-buyer-credit-information": "Buyer credit information",
 	"customer-report": "Customer report",
 	
 	
