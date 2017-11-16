@@ -21,7 +21,7 @@
 
                         <div class="form-group">
 							<label id="buyer-label"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer' | translate}}: </label>
+								class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Buyer' | translate}}: </label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<gec-auto-suggest model="ctrl.organizeAutoSuggestModel" disable="ctrl.isEditMode"
 										ng-model="ctrl.organizeListModel.buyer" id="buyer-auto-suggest">
@@ -32,7 +32,7 @@
 						</div>
 
 						<div class="form-group" ng-show="errors.sponsorId">
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<label class="col-md-3 col-sm-3 col-xs-12 control-label"></label>
 							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
 								id="buyer-warning-message-label"
 								ng-bind="errors.sponsorId.message | translate"></span>
@@ -40,7 +40,7 @@
 
                         <div class="form-group">
 							<label id="supplier-label"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier' | translate}}:</label>
+								class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Supplier' | translate}}:</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<gec-auto-suggest model="ctrl.supplierAutoSuggestModel" disable="ctrl.isEditMode"
 										ng-model="ctrl.organizeListModel.supplier" id="supplier-auto-suggest">
@@ -51,7 +51,7 @@
 						</div>
 
 						<div class="form-group" ng-show="errors.supplierId">
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<label class="col-md-3 col-sm-3 col-xs-12 control-label"></label>
 							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
 								id="supplier-warning-message-label"
 								ng-bind="errors.supplierId.message | translate"></span>
@@ -59,7 +59,7 @@
 						
 						 <div class="form-group">
 							<label id="createppayment-mode-label"
-								class="col-md-2 col-sm-3 col-hidden-xs control-label">{{'Create payment mode' | translate}}:</label>
+								class="col-md-3 col-sm-3 col-hidden-xs control-label">{{'Create payment mode' | translate}}:</label>
 							<div class="col-md-6 col-sm-6 col-xs-12" style="padding-left: 25px;">
 							
 								<label class="radio-inline"><scf-radio
@@ -85,7 +85,7 @@
 						
 						
 						<div class="form-group">
-							<label class="col-md-2 col-sm-3 col-hidden-xs  control-label"></label>
+							<label class="col-md-3 col-sm-3 col-hidden-xs  control-label"></label>
 							<div class="col-md-6 col-sm-6 col-xs-12" style="padding-left: 25px;">
 								<scf-checkbox id="suspend-checkbox" 
 									ng-model="ctrl.tradingPartner.suspend" ></scf-checkbox>
