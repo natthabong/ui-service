@@ -54,9 +54,15 @@
 										id="credit-information-{{$index+1}}-future-drawdown-label"
 										ng-bind="record.futureDrawdown | number : 2"></span></td>
 									<td class="text-center"><img
+										data-ng-if="record.borrowerType=='SUPPLIER'"
 										title="{{record.buyerName}}"
 										style="height: 32px; width: 32px;"
 										data-ng-src="data:image/png;base64,{{creditInfoCtrl.decodeBase64(record.buyerLogo)}}"
+										data-err-src="images/png/avatar.png" /><img
+										data-ng-if="record.borrowerType=='BUYER'"
+										title="{{record.supplierName}}"
+										style="height: 32px; width: 32px;"
+										data-ng-src="data:image/png;base64,{{creditInfoCtrl.decodeBase64(record.supplierLogo)}}"
 										data-err-src="images/png/avatar.png" /></td>
 									<td class="text-right"
 										id="credit-information-{{$index+1}}-internal-step-label"
@@ -70,12 +76,12 @@
 										id="credit-information-{{$index+1}}-remaining-label"
 										ng-bind="record.bankRemaining | number : 2"></span></td>
 									<td class="text-center"><scf-button
-										ng-show="record.showAccountFlag"
-										class="btn-default gec-btn-action"
-										id="credit-information-{{record.accountId}}-{{record.buyerName}}-button"
-										ng-click="creditInfoCtrl.inquiryAccount(record)"
-										title="Inquiry Account"> <i
-										class="fa fa-repeat" aria-hidden="true"></i></scf-button></td>
+											ng-show="record.showAccountFlag"
+											class="btn-default gec-btn-action"
+											id="credit-information-{{record.accountId}}-{{record.buyerName}}-button"
+											ng-click="creditInfoCtrl.inquiryAccount(record)"
+											title="Inquiry Account"> <i class="fa fa-repeat"
+											aria-hidden="true"></i></scf-button></td>
 								</tr>
 							</tbody>
 						</table>
