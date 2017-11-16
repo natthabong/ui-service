@@ -21,9 +21,7 @@ sciModule.controller('SupplierCreditInformationController', [
 		vm.data = [];
 		vm.criteria = $stateParams.criteria || {};
 		vm.pagingController = PagingController.create('/api/v1/supplier-credit-information', vm.criteria,'GET');
-		
-		console.log(vm.pagingController);
-		console.log(vm.criteria);
+	
 		
         var viewModeData = {
             myOrganize: 'MY_ORGANIZE',
@@ -54,8 +52,10 @@ sciModule.controller('SupplierCreditInformationController', [
 			vm.criteria.supplierId = supplier;
 			vm.pagingController.search(pageModel, function (criteriaData, response) {
 				var data = response.data;
-				var baseRowNo = ((vm.pagingController.pagingModel.currentPage));
+				var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
+				var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
 				var i = 0;
+				var baseRowNo = pageSize * currentPage; 
 				angular.forEach(data, function (value, idx) {
 					if (isSameAccount(value.accountId, data, idx)) {
 						
