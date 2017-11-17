@@ -21,26 +21,25 @@ displayModule.controller('DisplayController', [
     'blockUI',
     'DisplayService',
     'MappingDataService',
-    function($log, $scope, $state, SCFCommonService,
+    'MappingDataUtils',
+    function ($log, $scope, $state, SCFCommonService,
         $stateParams, $timeout, ngDialog,
-        PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService, LOAN_REQUEST_MODE_ITEM,
-        DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM, UIFactory, blockUI, DisplayService,MappingDataService) {
+        PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService,
+        LOAN_REQUEST_MODE_ITEM, DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM,
+        UIFactory, blockUI, DisplayService, MappingDataService, MappingDataUtils) {
 
         var vm = this;
         var log = $log;
 
         vm.manageAll = false;
 
-     
-        
-        
         var ownerId = $rootScope.sponsorId;
         vm.accountingTransactionType = $stateParams.accountingTransactionType;
         var displayMode = $stateParams.displayMode;
 
         var BASE_URI = 'api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + vm.accountingTransactionType + '/display-modes/' + displayMode + '/displays';
 
-        var newDisplayConfig = function() {
+        var newDisplayConfig = function () {
             return {
                 documentFieldId: null,
                 sortType: null
@@ -76,33 +75,21 @@ displayModule.controller('DisplayController', [
             label: 'Please select'
         }];
         vm.documentFieldData = [];
-        
+
         vm.dataMappingType = [{
-        	value: null,
+            value: null,
             label: 'Please select'
         }];
-        
+
         vm.documentConditions = [{
             value: null,
             label: 'Please select'
         }];
 
-        // vm.documentGroupByFields = [{
-        // value: null,
-        // label: 'Please select'
-        // }];
-        // vm.documentGroupByFieldData = [];
-        
-        var loadMappingDataType = function(ownerId,accountingTransactionType){
-        	var deffered = SCFCommonService.loadMappingData(ownerId,accountingTransactionType);
-        	 deffered.promise.then(function(response) {
-                 var data = response.data;
-                vm.dataModel.mappingType = data; 
-        });
-        };
-        var loadDisplayConfig = function(ownerId, accountingTransactionType, displayMode) {
+
+        var loadDisplayConfig = function (ownerId, accountingTransactionType, displayMode) {
             var deffered = DisplayService.getDocumentDisplayConfig(ownerId, accountingTransactionType, displayMode);
-            deffered.promise.then(function(response) {
+            deffered.promise.then(function (response) {
                 var data = response.data;
 
                 vm.dataModel = data || {
@@ -112,10 +99,12 @@ displayModule.controller('DisplayController', [
                     documentSelection: null,
                     supplierCodeSelectionMode: null,
                     documentGroupingFields: [],
-                    displayNegativeDocument: null
+                    displayNegativeDocument: null,
+                    reasonCodeMappingId: null,
+                    supportPartial: false
                 };
-               
-                
+
+
                 // default grouping field 1 record if don't have data
                 if (vm.dataModel.documentGroupingFields == [] || vm.dataModel.documentGroupingFields.length == 0) {
                     var groupItem = {
@@ -126,7 +115,7 @@ displayModule.controller('DisplayController', [
                 }
 
                 // default Display CN documents is select record if don't have
-				// data and accounting transaction type is RECEIVABLE
+                // data and accounting transaction type is RECEIVABLE
                 if (vm.dataModel.displayNegativeDocument == null && vm.accountingTransactionType == "RECEIVABLE") {
                     vm.dataModel.displayNegativeDocument = true;
                 }
@@ -150,59 +139,77 @@ displayModule.controller('DisplayController', [
                     vm.dataModel.supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
                 }
 
-            }).catch(function(response) {
+            }).catch(function (response) {
                 log.error('Load data error');
             });
         }
-        
-        var loadDocumentCondition = function() {
-            var deffered = SCFCommonService.getDocumentFields('DISPLAY', 'DETAIL','TEXT',false);
-            deffered.promise.then(function(response) {
+
+        var loadMappingData = function (ownerId, accountingTransactionType) {
+            var dataType = ["TEXT_MAPPING_WITH_DEFAULT"];
+            var deffered = SCFCommonService.loadMappingData(ownerId, accountingTransactionType, dataType);
+            deffered.promise.then(function (response) {
+                var mapping = response.data;
+                if (mapping != null) {
+                    mapping.forEach(function (data) {
+                        var mappingData = {
+                            value: data.mappingDataId,
+                            label: data.mappingDataName
+                        }
+                        vm.dataMappingType.push(mappingData);
+                    });
+                }
+                loadDisplayConfig(ownerId, accountingTransactionType, displayMode);
+
+            });
+        }
+
+        var loadDocumentCondition = function () {
+            var deffered = SCFCommonService.getDocumentFields('DISPLAY', 'DETAIL', 'TEXT', false);
+            deffered.promise.then(function (response) {
                 var documentFieldData = response.data;
 
-                documentFieldData.forEach(function(obj) {
+                documentFieldData.forEach(function (obj) {
                     var item = {
                         value: obj.documentFieldId,
                         label: obj.displayFieldName
                     };
                     vm.documentConditions.push(item);
                 });
-            }).catch(function(response) {
+            }).catch(function (response) {
                 log.error('Load data condition error');
             });
         }
 
-        var loadDataTypes = function() {
+        var loadDataTypes = function () {
             var deffered = SCFCommonService.getDocumentFields('DISPLAY', 'DETAIL');
-            deffered.promise.then(function(response) {
+            deffered.promise.then(function (response) {
                 vm.documentFieldData = response.data;
 
-                vm.documentFieldData.forEach(function(obj) {
+                vm.documentFieldData.forEach(function (obj) {
                     var item = {
                         value: obj.documentFieldId,
                         label: obj.displayFieldName
                     };
                     vm.documentFields.push(item);
                 });
-            }).catch(function(response) {
+            }).catch(function (response) {
                 log.error('Load data type error');
             });
         }
 
-        var init = function() {
+        var init = function () {
             loadDataTypes();
-            loadDisplayConfig(ownerId, vm.accountingTransactionType, displayMode);
             loadDocumentCondition();
-            loadMappingDataType(ownerId,vm.accountingTransactionType);
-        }();
+            loadMappingData(ownerId, vm.accountingTransactionType);
+        } ();
 
         // <------------------------------------------ User Action ------------------------------------------->
-        vm.removeGroupDocumentCondition = function(field) {
+        vm.removeGroupDocumentCondition = function (field) {
             var index = vm.dataModel.documentGroupingFields.indexOf(field);
             vm.dataModel.documentGroupingFields.splice(index, 1);
         }
 
-        vm.addGroupDocumentCondition = function() {
+        vm.addGroupDocumentCondition = function () {
             var groupItem = {
                 documentFieldId: null,
                 documentDisplayId: vm.dataModel.documentDisplayId
@@ -210,7 +217,7 @@ displayModule.controller('DisplayController', [
             vm.dataModel.documentGroupingFields.push(groupItem);
         }
 
-        var clearGroupDocumentConditionField = function() {
+        var clearGroupDocumentConditionField = function () {
             vm.dataModel.documentGroupingFields = [];
             var groupItem = {
                 documentFieldId: null,
@@ -219,15 +226,15 @@ displayModule.controller('DisplayController', [
             vm.dataModel.documentGroupingFields.push(groupItem);
         }
 
-        vm.changeDocumentSelection = function() {
+        vm.changeDocumentSelection = function () {
             if (vm.dataModel.documentSelection == DOCUMENT_SELECTION_ITEM.anyDocument) {
                 clearGroupDocumentConditionField();
                 vm.groupDocumentType = DOCUMENT_SELECTION_ITEM.allDocument;
             }
         }
 
-        vm.addItem = function() {
-        	refreshSession();
+        vm.addItem = function () {
+            refreshSession();
             vm.dataModel.items.push({
                 documentFieldId: null,
                 sortType: null,
@@ -235,14 +242,14 @@ displayModule.controller('DisplayController', [
             });
         }
 
-        vm.removeItem = function(record) {
+        vm.removeItem = function (record) {
             var index = vm.dataModel.items.indexOf(record);
             vm.dataModel.items.splice(index, 1);
         }
 
-        vm.openSetting = function(index, record) {
+        vm.openSetting = function (index, record) {
             var documentFieldId = record.documentField.documentFieldId;
-            vm.documentFieldData.forEach(function(obj) {
+            vm.documentFieldData.forEach(function (obj) {
                 if (documentFieldId == obj.documentFieldId) {
 
                     var dialog = ngDialog.open({
@@ -257,7 +264,7 @@ displayModule.controller('DisplayController', [
                             config: obj
                         },
                         cache: false,
-                        preCloseCallback: function(value) {
+                        preCloseCallback: function (value) {
                             if (value != null) {
                                 angular.copy(value, record);
                                 record.completed = true;
@@ -269,12 +276,49 @@ displayModule.controller('DisplayController', [
 
         }
 
-        vm.backToSponsorConfigPage = function() {
+        vm.clearSelectMappingData = function(){
+            if(!vm.dataModel.supportPartial){
+                vm.dataModel.reasonCodeMappingId = null;
+            }
+        }
+
+        vm.newMapping = function () {
+            MappingDataUtils.showCreateMappingDataDialog({
+                data: {
+                    ownerId: ownerId,
+                    accountingTransactionType: vm.accountingTransactionType
+                },
+                preCloseCallback: function (saveResponse) {
+                    var dataType = ["TEXT_MAPPING_WITH_DEFAULT"];
+                    var deffered = SCFCommonService.loadMappingData(ownerId, vm.accountingTransactionType, dataType);
+                    deffered.promise.then(function (response) {
+                        vm.dataMappingType = [{
+                            value: null,
+                            label: 'Please select'
+                        }];
+                        var mapping = response.data;
+                        if (mapping != null) {
+                            mapping.forEach(function (data) {
+                                var mappingData = {
+                                    value: data.mappingDataId,
+                                    label: data.mappingDataName
+                                }
+                                vm.dataMappingType.push(mappingData);
+                            });
+                        }
+
+                        vm.dataModel.reasonCodeMappingId = saveResponse.data.mappingDataId;
+                    });
+                }
+            });
+        }
+
+        vm.backToSponsorConfigPage = function () {
             PageNavigation.gotoPreviousPage();
         }
 
-        vm.save = function() {
-            var preCloseCallback = function() {
+        vm.save = function () {
+            var preCloseCallback = function () {
                 var organizeModel = { organizeId: ownerId };
                 PageNavigation.gotoPage('/sponsor-configuration', {
                     organizeModel: organizeModel
@@ -285,7 +329,7 @@ displayModule.controller('DisplayController', [
                     headerMessage: 'Confirm save?'
                 },
                 confirm: $scope.confirmSave,
-                onFail: function(response) {
+                onFail: function (response) {
                     blockUI.stop();
                     var msg = {
                         409: 'Display document has been deleted.',
@@ -299,7 +343,7 @@ displayModule.controller('DisplayController', [
                         preCloseCallback: preCloseCallback
                     });
                 },
-                onSuccess: function(response) {
+                onSuccess: function (response) {
                     blockUI.stop();
                     UIFactory.showSuccessDialog({
                         data: {
@@ -312,7 +356,7 @@ displayModule.controller('DisplayController', [
             });
         }
 
-        $scope.confirmSave = function() {
+        $scope.confirmSave = function () {
             if (vm.dataModel.documentSelection == DOCUMENT_SELECTION_ITEM.groupBy) {
                 if (vm.accountingTransactionType == "RECEIVABLE") {
                     vm.dataModel.documentSelection = vm.groupDocumentType;
@@ -322,31 +366,31 @@ displayModule.controller('DisplayController', [
             } else {
                 vm.dataModel.documentGroupingFields = [];
             }
-            
+
             vm.dataModel.completed = true;
-            
+
             var dataSaveModel = jQuery.extend(true, {}, vm.dataModel);
-            dataSaveModel.items.forEach(function(obj, index) {
-            	if(obj.documentField != null){
-            		var dataType = vm.documentFields[obj.documentField.documentFieldId];
-                    if(angular.isDefined(dataType)){
-                    	obj.sequenceNo = index + 1;
-                    	dataSaveModel.items[index].documentFieldId = obj.documentField.documentFieldId;
+            dataSaveModel.items.forEach(function (obj, index) {
+                if (obj.documentField != null) {
+                    var dataType = vm.documentFields[obj.documentField.documentFieldId];
+                    if (angular.isDefined(dataType)) {
+                        obj.sequenceNo = index + 1;
+                        dataSaveModel.items[index].documentFieldId = obj.documentField.documentFieldId;
                         dataSaveModel.completed = obj.completed && dataSaveModel.completed;
                     }
-            	}else{
-            		dataSaveModel.items.splice(index, 1);
+                } else {
+                    dataSaveModel.items.splice(index, 1);
                 }
             })
-            
+
             return DisplayService.updateDisplay(ownerId, vm.accountingTransactionType, displayMode, dataSaveModel);
         }
 
-        vm.cannotSetup = function(record) {
+        vm.cannotSetup = function (record) {
             if (angular.isDefined(record.documentField)) {
                 var hasUrl = true;
                 var documentFieldId = record.documentField.documentFieldId;
-                vm.documentFieldData.forEach(function(obj) {
+                vm.documentFieldData.forEach(function (obj) {
                     if (documentFieldId == obj.documentFieldId) {
 
                         if (obj.configUrl == null) {
@@ -363,14 +407,14 @@ displayModule.controller('DisplayController', [
             }
         }
 
-        vm.moveItemUp = function(item) {
-        	refreshSession();
+        vm.moveItemUp = function (item) {
+            refreshSession();
             var itemIndex = vm.dataModel.items.indexOf(item);
             addItemToIndex(itemIndex - 1, item);
         }
 
-        vm.moveItemDown = function(item) {
-        	refreshSession();
+        vm.moveItemDown = function (item) {
+            refreshSession();
             var itemIndex = vm.dataModel.items.indexOf(item);
             addItemToIndex(itemIndex + 1, item);
         }
@@ -384,13 +428,13 @@ displayModule.controller('DisplayController', [
             }
         }
 
-        function refreshSession(){
-        	Service.doGet('/api/rest');
+        function refreshSession() {
+            Service.doGet('/api/rest');
         }
-        
-        vm.displayExample = function(record) {
+
+        vm.displayExample = function (record) {
             var msg = '';
-            vm.documentFieldData.forEach(function(obj) {
+            vm.documentFieldData.forEach(function (obj) {
 
                 if (record.documentField != null && record.documentField.documentFieldId == obj.documentFieldId) {
                     // if (record.completed) {
@@ -435,7 +479,7 @@ displayModule.controller('DisplayController', [
     singlePerTransaction: 'SINGLE_PER_TRANSACTION',
     multiplePerTransaction: 'MULTIPLE_PER_TRANSACTION'
 }).controller('TEXTDisplayConfigController', ['$scope', 'ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
-    function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+    function ($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 
         this.model = angular.copy($scope.ngDialogData.record);
 
@@ -443,7 +487,7 @@ displayModule.controller('DisplayController', [
 
     }
 ]).controller('MATCHING_REFDisplayConfigController', ['$scope', 'ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
-    function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+    function ($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 
         this.model = angular.copy($scope.ngDialogData.record);
 
@@ -451,7 +495,7 @@ displayModule.controller('DisplayController', [
 
     }
 ]).controller('CUSTOMER_CODEDisplayConfigController', ['$scope', 'ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
-    function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+    function ($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 
         this.model = angular.copy($scope.ngDialogData.record);
 
@@ -459,7 +503,7 @@ displayModule.controller('DisplayController', [
 
     }
 ]).controller('DOCUMENT_NODisplayConfigController', ['$scope', 'ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
-    function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+    function ($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 
         this.model = angular.copy($scope.ngDialogData.record);
 
@@ -467,7 +511,7 @@ displayModule.controller('DisplayController', [
 
     }
 ]).controller('DOCUMENT_TYPEDisplayConfigController', ['$scope', 'ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
-    function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+    function ($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 
         this.model = angular.copy($scope.ngDialogData.record);
 
@@ -479,7 +523,7 @@ displayModule.controller('DisplayController', [
     'ALIGNMENT_DROPDOWN_ITEM',
     'NEGATIVE_NUMMBER_DROPDOWN_ITEM',
     '$rootScope', 'SCFCommonService',
-    function($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+    function ($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
         var vm = this;
         var dataTypeConfig = $scope.ngDialogData.config;
 
@@ -494,7 +538,7 @@ displayModule.controller('DisplayController', [
         var rawExample = parseFloat(dataTypeConfig.defaultExampleValue).toFixed(2);
         vm.exampleRawData = isNaN(rawExample) ? 123456.00 : rawExample;
 
-        var prepareDiaglogData = function() {
+        var prepareDiaglogData = function () {
 
             if (vm.model.filterType == 'negativeParenthesis') {
                 vm.dlgData.useSeperator = true;
@@ -513,7 +557,7 @@ displayModule.controller('DisplayController', [
 
         prepareDiaglogData();
 
-        $scope.$watch('ctrl.dlgData', function() {
+        $scope.$watch('ctrl.dlgData', function () {
             if (vm.dlgData.useSeperator) {
                 vm.model.filterType = vm.dlgData.filterType;
             } else {
@@ -533,7 +577,7 @@ displayModule.controller('DisplayController', [
     'ALIGNMENT_DROPDOWN_ITEM',
     'NEGATIVE_NUMMBER_DROPDOWN_ITEM',
     '$rootScope', 'SCFCommonService',
-    function($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+    function ($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
         var vm = this;
         var dataTypeConfig = $scope.ngDialogData.config;
 
@@ -548,7 +592,7 @@ displayModule.controller('DisplayController', [
         var rawExample = parseFloat(dataTypeConfig.defaultExampleValue).toFixed(2);
         vm.exampleRawData = isNaN(rawExample) ? 123456.00 : rawExample;
 
-        var prepareDiaglogData = function() {
+        var prepareDiaglogData = function () {
 
             if (vm.model.filterType == 'negativeParenthesis') {
                 vm.dlgData.useSeperator = true;
@@ -567,7 +611,7 @@ displayModule.controller('DisplayController', [
 
         prepareDiaglogData();
 
-        $scope.$watch('ctrl.dlgData', function() {
+        $scope.$watch('ctrl.dlgData', function () {
             if (vm.dlgData.useSeperator) {
                 vm.model.filterType = vm.dlgData.filterType;
             } else {
@@ -583,7 +627,7 @@ displayModule.controller('DisplayController', [
 
     }
 ]).controller('DATE_TIMEDisplayConfigController', ['$scope', '$filter', '$log', 'ALIGNMENT_DROPDOWN_ITEM', 'Service', '$rootScope', 'SCFCommonService',
-    function($scope, $filter, $log, ALIGNMENT_DROPDOWN_ITEM, Service, $rootScope, SCFCommonService) {
+    function ($scope, $filter, $log, ALIGNMENT_DROPDOWN_ITEM, Service, $rootScope, SCFCommonService) {
         var vm = this;
         vm.model = angular.copy($scope.ngDialogData.record);
         if (!vm.model.filterType) {
@@ -597,10 +641,10 @@ displayModule.controller('DisplayController', [
 
         var serviceUrl = 'js/app/sponsor-configuration/file-layouts/date_time_format.json';
         var diferred = Service.doGet(serviceUrl);
-        diferred.promise.then(function(response) {
+        diferred.promise.then(function (response) {
             var dateTimeDropdownList = response.data;
             if (dateTimeDropdownList !== undefined) {
-                dateTimeDropdownList.forEach(function(obj) {
+                dateTimeDropdownList.forEach(function (obj) {
                     var selectObj = {
                         label: obj.dateTimeName,
                         value: obj.dateTimeId
@@ -609,19 +653,19 @@ displayModule.controller('DisplayController', [
                 });
             }
             diferred.resolve(vm.formatDropdownItems);
-        }).catch(function(response) {
+        }).catch(function (response) {
             $log.error('Load date time format Fail');
             diferred.reject();
         });
 
-        $scope.$watch('ctrl.model.format', function() {
+        $scope.$watch('ctrl.model.format', function () {
             var collectionDate = '2016-04-13T00:00:00';
             var date = new Date(collectionDate);
             vm.exampleDataDisplay = $filter('date')(date, vm.model.format);
         });
 
     }
-]).factory('DocumentDisplayConfigExampleService', ['$filter', 'SCFCommonService', function($filter, SCFCommonService) {
+]).factory('DocumentDisplayConfigExampleService', ['$filter', 'SCFCommonService', function ($filter, SCFCommonService) {
     return {
         TEXT_DisplayExample: TEXT_DisplayExample,
         CUSTOMER_CODE_DisplayExample: CUSTOMER_CODE_DisplayExample,
