@@ -17,7 +17,15 @@ tpModule.controller('EditMappingDataController', [
 				mappingDataId: undefined,
 				mappingType: 'TEXT_MAPPING'
 			};
-			var hideSignFlag = model.mappingType == 'TEXT_MAPPING'? true:false;
+			var hideSignFlagColumn = false;
+			if(model.mappingType == 'TEXT_MAPPING' || model.mappingType == 'TEXT_MAPPING_WITH_DEFAULT'){
+				hideSignFlagColumn = true;
+			}
+			
+			vm.hideDefaultCodeColumn = false;
+			if(model.mappingType == 'TEXT_MAPPING' || model.mappingType == 'SIGN_FLAG_MAPPING'){
+				vm.hideDefaultCodeColumn = true;
+			}
 
             vm.criteria = {};
             
@@ -53,7 +61,7 @@ tpModule.controller('EditMappingDataController', [
 						id : 'sign-flag-{value}',
 						sortable : false,
 						cssTemplate : 'text-left',
-						hiddenColumn: hideSignFlag,
+						hiddenColumn: hideSignFlagColumn,
 						dataRenderer: function(record){
 							if(record.signFlag){
 								record = "Negative";
@@ -61,13 +69,23 @@ tpModule.controller('EditMappingDataController', [
 								record = "Positive";
 							}
 							return record;
-						},
+						}
+					},{
+						fieldName : 'defaultCode',
+						labelEN : 'Default code',
+						labelTH : 'Default code',
+						idValueField :'code',
+						id : 'default-code-{value}',
+						sortable : false,
+						cellTemplate: '<img	style="height: 16px; width: 16px;" ng-show="data.defaultCode" data-ng-src="img/checkmark.png"/>',
+						hiddenColumn: vm.hideDefaultCodeColumn
 					},{
 						fieldName: 'action',
 						cssTemplate: 'text-center',
 						sortData: false,
 						cellTemplate: '<scf-button id="{{data.code}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.editMappingDataCode(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
 									+ '<scf-button id="{{data.code}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+									+ '<scf-button id="{{data.code}}-set-default-button" class="btn-default gec-btn-action" ng-hide="ctrl.hideDefaultCodeColumn" ng-click="" title="Set default"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>'
 					}
 				]
 			}
