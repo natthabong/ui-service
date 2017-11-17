@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 
+import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 
 public class SCFSimpleClientHttpRequestFactory extends SimpleClientHttpRequestFactory {
@@ -25,5 +26,10 @@ public class SCFSimpleClientHttpRequestFactory extends SimpleClientHttpRequestFa
 			((HttpsURLConnection) connection).setHostnameVerifier(verifier);
 		}
 		super.prepareConnection(connection, httpMethod);
+	}
+
+	@Override
+	public void setTaskExecutor(AsyncListenableTaskExecutor taskExecutor) {
+		super.setTaskExecutor(taskExecutor);
 	}
 }

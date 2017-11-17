@@ -1,7 +1,5 @@
 package gec.scf.core.config;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.security.KeyStore;
 import java.security.SecureRandom;
 
@@ -20,7 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.core.task.AsyncListenableTaskExecutor;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -79,22 +78,10 @@ public class RestConfiguration {
 		return new RestTemplate(factory);
 	}
 
-	public class SCFSimpleClientHttpRequestFactory
-			extends SimpleClientHttpRequestFactory {
-		private final HostnameVerifier verifier;
-
-		public SCFSimpleClientHttpRequestFactory(final HostnameVerifier verifier) {
-			this.verifier = verifier;
-		}
-
-		@Override
-		protected void prepareConnection(final HttpURLConnection connection,
-				final String httpMethod) throws IOException {
-			if (connection instanceof HttpsURLConnection) {
-				((HttpsURLConnection) connection).setHostnameVerifier(verifier);
-			}
-			super.prepareConnection(connection, httpMethod);
-		}
+	@Bean
+	AsyncListenableTaskExecutor taskExecutor() {
+		SimpleAsyncTaskExecutor t = new SimpleAsyncTaskExecutor();
+		t.setConcurrencyLimit(100);
+		return t;
 	}
-
 }

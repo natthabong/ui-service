@@ -16,9 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -60,22 +62,37 @@ public class LoginController {
 		String view = null;
 		if (params.get("logout_at") != null && params.get("rf") != null) {
 			String accessToken = params.get("logout_at")[0];
-			String refreshToken = params.get("rf")[0];
+			final String refreshToken = params.get("rf")[0];
 
 			UriComponentsBuilder uriBuilder = serviceProvider
 					.getServiceURIBuilder("/oauth/revoke-token");
 			uriBuilder.queryParam("refreshToken", refreshToken);
 			try {
-				RestTemplate restTemplate = provider.getRestTemplate();
+				AsyncRestTemplate restTemplate = provider.getRestTemplate();
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_JSON);
 				headers.set("Authorization", "Bearer " + accessToken);
 
 				HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-				ResponseEntity<String> response = restTemplate
+
+				ListenableFuture<ResponseEntity<String>> future = restTemplate
 						.postForEntity(uriBuilder.toUriString(), entity, String.class);
-				log.info("Logout session success=> " + refreshToken + " response => "
-						+ response);
+				future.addCallback(
+						new ListenableFutureCallback<ResponseEntity<String>>() {
+
+							@Override
+							public void onSuccess(ResponseEntity<String> result) {
+								log.info("Logout session success=>  " + result.getBody());
+
+							}
+
+							@Override
+							public void onFailure(Throwable ex) {
+								log.error(ex.getMessage(), ex);
+
+							}
+						});
+
 			}
 			catch (Exception e) {
 				log.error(e.getMessage(), e);
