@@ -20,16 +20,20 @@ displayModule.controller('DisplayController', [
     'UIFactory',
     'blockUI',
     'DisplayService',
+    'MappingDataService',
     function($log, $scope, $state, SCFCommonService,
         $stateParams, $timeout, ngDialog,
         PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService, LOAN_REQUEST_MODE_ITEM,
-        DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM, UIFactory, blockUI, DisplayService) {
+        DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM, UIFactory, blockUI, DisplayService,MappingDataService) {
 
         var vm = this;
         var log = $log;
 
         vm.manageAll = false;
 
+     
+        
+        
         var ownerId = $rootScope.sponsorId;
         vm.accountingTransactionType = $stateParams.accountingTransactionType;
         var displayMode = $stateParams.displayMode;
@@ -73,6 +77,11 @@ displayModule.controller('DisplayController', [
         }];
         vm.documentFieldData = [];
         
+        vm.dataMappingType = [{
+        	value: null,
+            label: 'Please select'
+        }];
+        
         vm.documentConditions = [{
             value: null,
             label: 'Please select'
@@ -83,7 +92,14 @@ displayModule.controller('DisplayController', [
         // label: 'Please select'
         // }];
         // vm.documentGroupByFieldData = [];
-
+        
+        var loadMappingDataType = function(ownerId,accountingTransactionType){
+        	var deffered = MappingDataService.loadMappingData(ownerId,accountingTransactionType);
+        	 deffered.promise.then(function(response) {
+                 var data = response.data;
+                vm.dataModel.mappingType = data; 
+        });
+        };
         var loadDisplayConfig = function(ownerId, accountingTransactionType, displayMode) {
             var deffered = DisplayService.getDocumentDisplayConfig(ownerId, accountingTransactionType, displayMode);
             deffered.promise.then(function(response) {
@@ -98,7 +114,8 @@ displayModule.controller('DisplayController', [
                     documentGroupingFields: [],
                     displayNegativeDocument: null
                 };
-
+               
+                
                 // default grouping field 1 record if don't have data
                 if (vm.dataModel.documentGroupingFields == [] || vm.dataModel.documentGroupingFields.length == 0) {
                     var groupItem = {
@@ -137,7 +154,7 @@ displayModule.controller('DisplayController', [
                 log.error('Load data error');
             });
         }
-
+        
         var loadDocumentCondition = function() {
             var deffered = SCFCommonService.getDocumentFields('DISPLAY', 'DETAIL','TEXT',false);
             deffered.promise.then(function(response) {
@@ -176,6 +193,7 @@ displayModule.controller('DisplayController', [
             loadDataTypes();
             loadDisplayConfig(ownerId, vm.accountingTransactionType, displayMode);
             loadDocumentCondition();
+            loadMappingDataType(ownerId,vm.accountingTransactionType);
         }();
 
         // <------------------------------------------ User Action ------------------------------------------->

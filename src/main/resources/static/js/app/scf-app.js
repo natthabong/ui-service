@@ -289,6 +289,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/create-transaction-displays/settings',
 				params: { accountingTransactionType: null, displayMode: null, selectedItem: null},
 				resolve: load(['js/app/modules/organize/configuration/display/controllers/DisplayController.js',
+					'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
 					'js/app/modules/organize/configuration/display/services/DisplayService.js'])
 			}).state('/sponsor-configuration/components/setup-display-fields',{
 				url: '/sponsor-configuration/components/setup-display-fields',
