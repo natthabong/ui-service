@@ -27,6 +27,9 @@ tpModule
 								label : 'Text mapping',
 								value : 'TEXT_MAPPING'
 							}, {
+								label : 'Text mapping with default',
+								value : 'TEXT_MAPPING_WITH_DEFAULT'
+							}, {
 								label : 'Sign flag mapping',
 								value : 'SIGN_FLAG_MAPPING'
 							} ]
