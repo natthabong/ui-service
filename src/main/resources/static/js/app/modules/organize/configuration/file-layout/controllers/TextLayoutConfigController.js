@@ -1,8 +1,8 @@
 'use strict';
 var module = angular.module('gecscf.organize.configuration');
 module.controller('TextLayoutConfigController', ['$scope', '$log',
-	'UIFactory', 'ngDialog', 'MappingDataUtils', 'MappingDataService', 'FileLayoutService','PageNavigation',
-		function ($scope, $log, UIFactory, ngDialog, MappingDataUtils, MappingDataService, FileLayoutService,PageNavigation) {
+	'UIFactory', 'ngDialog', 'MappingDataUtils', 'MappingDataService', 'FileLayoutService','PageNavigation','SCFCommonService',
+		function ($scope, $log, UIFactory, ngDialog, MappingDataUtils, MappingDataService, FileLayoutService,PageNavigation,SCFCommonService) {
 		var vm = this;
 		var log = $log;
 
@@ -51,7 +51,8 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 		];
 
 		vm.loadMappingData = function(newData){
-			var deffered = MappingDataService.loadMappingData(owner,accountingTransactionType);
+			var mappingTypeList = ["SIGN_FLAG_MAPPING","TEXT_MAPPING"];
+			var deffered = SCFCommonService.loadMappingData(owner,accountingTransactionType,mappingTypeList);
 			deffered.promise.then(function(response) {
 				vm.expectedInDataList = response.data;
 				vm.expectedInDataList.forEach(function(data){

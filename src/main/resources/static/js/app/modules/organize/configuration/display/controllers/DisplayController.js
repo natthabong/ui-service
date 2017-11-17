@@ -94,7 +94,7 @@ displayModule.controller('DisplayController', [
         // vm.documentGroupByFieldData = [];
         
         var loadMappingDataType = function(ownerId,accountingTransactionType){
-        	var deffered = MappingDataService.loadMappingData(ownerId,accountingTransactionType);
+        	var deffered = SCFCommonService.loadMappingData(ownerId,accountingTransactionType);
         	 deffered.promise.then(function(response) {
                  var data = response.data;
                 vm.dataModel.mappingType = data; 
