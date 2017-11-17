@@ -17,22 +17,29 @@ tpModule
 							
 							var data = $scope.ngDialogData.data;
 							vm.model = {
-								mappingType : 'TEXT_MAPPING',
+								mappingType : data.showAll? 'TEXT_MAPPING' : 'TEXT_MAPPING_WITH_DEFAULT',
 								ownerId : data.ownerId,
 								accountingTransactionType : data.accountingTransactionType,
 								mappingDataName: ''
 							}
 
-							vm.mappingTypes = [ {
-								label : 'Text mapping',
-								value : 'TEXT_MAPPING'
-							}, {
-								label : 'Text mapping with default',
-								value : 'TEXT_MAPPING_WITH_DEFAULT'
-							}, {
-								label : 'Sign flag mapping',
-								value : 'SIGN_FLAG_MAPPING'
-							} ]
+							if(data.showAll){
+								vm.mappingTypes = [ {
+									label : 'Text mapping',
+									value : 'TEXT_MAPPING'
+								}, {
+									label : 'Text mapping with default',
+									value : 'TEXT_MAPPING_WITH_DEFAULT'
+								}, {
+									label : 'Sign flag mapping',
+									value : 'SIGN_FLAG_MAPPING'
+								} ]
+							}else{
+								vm.mappingTypes = [ {
+									label : 'Text mapping with default',
+									value : 'TEXT_MAPPING_WITH_DEFAULT'
+								} ]
+							}
 							
 							vm.hasError = false;
 							

@@ -286,7 +286,8 @@ displayModule.controller('DisplayController', [
             MappingDataUtils.showCreateMappingDataDialog({
                 data: {
                     ownerId: ownerId,
-                    accountingTransactionType: vm.accountingTransactionType
+                    accountingTransactionType: vm.accountingTransactionType,
+                    showAll: false
                 },
                 preCloseCallback: function (saveResponse) {
                     var dataType = ["TEXT_MAPPING_WITH_DEFAULT"];
