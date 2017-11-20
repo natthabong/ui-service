@@ -111,7 +111,7 @@ tpModule.factory('MappingDataService', ['$http', '$q', function ($http, $q) {
 	}
 
 	function setDefaultCode(model, dataItem) {
-		var serviceUrl = '/v1/organize-customers/' + model.ownerId + '/accounting-transactions/' + model.accountingTransactionType + 'mapping-datas/' + model.mappingDataId + '/items/' + dataItem.mappingDataItemId + '/set-default';
+		var serviceUrl = 'api/v1/organize-customers/' + model.ownerId + '/accounting-transactions/' + model.accountingTransactionType + '/mapping-datas/' + model.mappingDataId + '/items/' + dataItem.mappingDataItemId + '/set-default';
 		var deffered = $q.defer();
 
 		$http({

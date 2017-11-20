@@ -12,7 +12,6 @@ tpModule.controller('EditMappingDataController', [
 
         var vm = this;
         var log = $log;
-        console.log($stateParams.mappingData);
         var model = $stateParams.mappingData || {
             mappingDataId: undefined,
             mappingType: 'TEXT_MAPPING'
@@ -162,6 +161,7 @@ tpModule.controller('EditMappingDataController', [
         }
 
         vm.setDefaultCode = function (dataItem) {
+        	dataItem.mappingData = model;
             var deffered = MappingDataService.setDefaultCode(model, dataItem);
             deffered.promise.then(function (response) {
                 vm.loadData();
