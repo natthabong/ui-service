@@ -113,39 +113,50 @@ tpModule.controller('EditMappingDataController', [
 				}
 			}();
 
-			
+			vm.errors = {deleteMappingItem: {}};
 			vm.deleteMappingData = function(mappingItem){
-				var preCloseCallback = function(confirm) {
-					vm.loadData();
+				if(mappingItem.defaultCode){
+					vm.errors.deleteMappingItem = {
+						message : 'Cannot delete default code.'
+				    }
 				}
-
-				UIFactory.showConfirmDialog({
-					data: { 
-						headerMessage: 'Confirm delete?'
-					},
-					confirm: function(){
-						return MappingDataService.deleteMappingData(vm.criteria,mappingItem);
-					},
-					onFail: function(response){
-						var msg = {409:'Code has been deleted.', 405:'Code has been used.'};
-						UIFactory.showFailDialog({
-						data: {
-							headerMessage: 'Delete code fail.',
-							bodyMessage: msg[response.status]?msg[response.status]:response.statusText
-						},
-						preCloseCallback: preCloseCallback
-						});
-					},
-					onSuccess: function(response){
-						UIFactory.showSuccessDialog({
-						data: {
-							headerMessage: 'Delete code success.',
-							bodyMessage: ''
-						},
-						preCloseCallback: preCloseCallback
-						});
+				else{
+					vm.errors.deleteMappingItem = {};
+				    
+					var preCloseCallback = function(confirm) {
+					vm.loadData();
 					}
-				});
+	
+					UIFactory.showConfirmDialog({
+						data: { 
+							headerMessage: 'Confirm delete?'
+						},
+						confirm: function(){
+							return MappingDataService.deleteMappingData(vm.criteria,mappingItem);
+						},
+						onFail: function(response){
+							var msg = {409:'Code has been deleted.', 405:'Code has been used.'};
+							UIFactory.showFailDialog({
+							data: {
+								headerMessage: 'Delete code fail.',
+								bodyMessage: msg[response.status]?msg[response.status]:response.statusText
+							},
+							preCloseCallback: preCloseCallback
+							});
+						},
+						onSuccess: function(response){
+							UIFactory.showSuccessDialog({
+							data: {
+								headerMessage: 'Delete code success.',
+								bodyMessage: ''
+							},
+							preCloseCallback: preCloseCallback
+							});
+						}
+					});
+				}
+			
+				
 			} 
 
 			vm.back = function(){
