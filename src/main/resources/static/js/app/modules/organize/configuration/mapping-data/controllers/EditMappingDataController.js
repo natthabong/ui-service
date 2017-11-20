@@ -7,12 +7,12 @@ tpModule.controller('EditMappingDataController', [
     'PageNavigation',
     'PagingController',
     'MappingDataService',
-
-    function($stateParams, $log, UIFactory, PageNavigation,
+    function ($stateParams, $log, UIFactory, PageNavigation,
         PagingController, MappingDataService) {
 
         var vm = this;
         var log = $log;
+        console.log($stateParams.mappingData);
         var model = $stateParams.mappingData || {
             mappingDataId: undefined,
             mappingType: 'TEXT_MAPPING'
@@ -61,7 +61,7 @@ tpModule.controller('EditMappingDataController', [
                 sortable: false,
                 cssTemplate: 'text-left',
                 hiddenColumn: hideSignFlagColumn,
-                dataRenderer: function(record) {
+                dataRenderer: function (record) {
                     if (record.signFlag) {
                         record = "Negative";
                     } else {
@@ -83,26 +83,26 @@ tpModule.controller('EditMappingDataController', [
                 cssTemplate: 'text-center',
                 sortData: false,
                 cellTemplate: '<scf-button id="{{data.code}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.editMappingDataCode(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
-                    '<scf-button id="{{data.code}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>' +
-                    '<scf-button id="{{data.code}}-set-default-button" class="btn-default gec-btn-action" ng-hide="ctrl.hideDefaultCodeColumn" ng-click="" title="Set default"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>'
+                '<scf-button id="{{data.code}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>' +
+                '<scf-button id="{{data.code}}-set-default-button" class="btn-default gec-btn-action" ng-hide="ctrl.hideDefaultCodeColumn" ng-click="ctrl.setDefaultCode(data)" title="Set default"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>'
             }]
         }
 
 
-        vm.loadData = function(pagingModel) {
+        vm.loadData = function (pagingModel) {
             vm.pagingController.search(pagingModel);
         }
 
-        var initialPaging = function(criteria) {
+        var initialPaging = function (criteria) {
             var uri = 'api/v1/organize-customers/' + criteria.ownerId + '/accounting-transactions/' + criteria.accountingTransactionType + '/mapping-datas/' + criteria.mappingDataId + '/items';
             vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
             vm.loadData();
         }
 
-        var init = function() {
+        var init = function () {
             if (model.mappingDataId != undefined) {
                 var deffered = MappingDataService.getMappingData(model);
-                deffered.promise.then(function(response) {
+                deffered.promise.then(function (response) {
                     vm.criteria = response.data;
                     if (response.data.mappingType == 'TEXT_MAPPING_WITH_DEFAULT') {
                         vm.criteria.sort = ['defaultCode', 'code'];
@@ -110,58 +110,67 @@ tpModule.controller('EditMappingDataController', [
                         vm.criteria.sort = ['code'];
                     }
                     initialPaging(vm.criteria);
-                }).catch(function(response) {
+                }).catch(function (response) {
                     log.error("Can not load mapping data !")
                 });
             }
-        }();
+        } ();
 
-		vm.errors = {deleteMappingItem: {}};
-        vm.deleteMappingData = function(mappingItem) {
-        	if(mappingItem.defaultCode){
-					vm.errors.deleteMappingItem = {
-						message : 'Cannot delete default code.'
-				    }
-			}else{
-	            var preCloseCallback = function(confirm) {
-	                vm.loadData();
-	            }
-	
-	            UIFactory.showConfirmDialog({
-	                data: {
-	                    headerMessage: 'Confirm delete?'
-	                },
-	                confirm: function() {
-	                    return MappingDataService.deleteMappingData(vm.criteria, mappingItem);
-	                },
-	                onFail: function(response) {
-	                    var msg = { 409: 'Code has been deleted.', 405: 'Code has been used.' };
-	                    UIFactory.showFailDialog({
-	                        data: {
-	                            headerMessage: 'Delete code fail.',
-	                            bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
-	                        },
-	                        preCloseCallback: preCloseCallback
-	                    });
-	                },
-	                onSuccess: function(response) {
-	                    UIFactory.showSuccessDialog({
-	                        data: {
-	                            headerMessage: 'Delete code success.',
-	                            bodyMessage: ''
-	                        },
-	                        preCloseCallback: preCloseCallback
-	                    });
-	                }
-	            });
-	        }
+        vm.errors = { deleteMappingItem: {} };
+        vm.deleteMappingData = function (mappingItem) {
+            if (mappingItem.defaultCode) {
+                vm.errors.deleteMappingItem = {
+                    message: 'Cannot delete default code.'
+                }
+            } else {
+                var preCloseCallback = function (confirm) {
+                    vm.loadData();
+                }
+
+                UIFactory.showConfirmDialog({
+                    data: {
+                        headerMessage: 'Confirm delete?'
+                    },
+                    confirm: function () {
+                        return MappingDataService.deleteMappingData(vm.criteria, mappingItem);
+                    },
+                    onFail: function (response) {
+                        var msg = { 409: 'Code has been deleted.', 405: 'Code has been used.' };
+                        UIFactory.showFailDialog({
+                            data: {
+                                headerMessage: 'Delete code fail.',
+                                bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
+                            },
+                            preCloseCallback: preCloseCallback
+                        });
+                    },
+                    onSuccess: function (response) {
+                        UIFactory.showSuccessDialog({
+                            data: {
+                                headerMessage: 'Delete code success.',
+                                bodyMessage: ''
+                            },
+                            preCloseCallback: preCloseCallback
+                        });
+                    }
+                });
+            }
         }
 
-        vm.back = function() {
+        vm.back = function () {
             PageNavigation.gotoPreviousPage(false);
         }
 
-        vm.newMappingDataCode = function() {
+        vm.setDefaultCode = function (dataItem) {
+            var deffered = MappingDataService.setDefaultCode(model, dataItem);
+            deffered.promise.then(function (response) {
+                vm.loadData();
+            }).catch(function (response) {
+                log.error("Can not set default code !");
+            });
+        }
+
+        vm.newMappingDataCode = function () {
             var params = {
                 mappingData: model
             };
@@ -169,7 +178,7 @@ tpModule.controller('EditMappingDataController', [
             PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/new', params, { mappingData: model });
         }
 
-        vm.editMappingDataCode = function(data) {
+        vm.editMappingDataCode = function (data) {
             if (data.signFlag) {
                 data.signFlag = 1;
             } else {
