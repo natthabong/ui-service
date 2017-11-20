@@ -90,13 +90,14 @@ tpModule.factory('MappingDataService', ['$http', '$q', function ($http, $q) {
 		var deffered = $q.defer();
 
 		var req = {
-			method: newMode ? 'POST' : 'PUT',
+			method: 'POST',
 			url: serviceUrl,
 			data: mappingDataItemModel
 		}
 		if (!newMode) {
 			req.headers = {
-				'If-Match': mappingDataItemModel.version
+				'If-Match': mappingDataItemModel.version,
+				'X-HTTP-Method-Override': 'PUT'
 			}
 		}
 
