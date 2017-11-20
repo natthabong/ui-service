@@ -65,7 +65,8 @@ tpModule
 										.showCreateMappingDataDialog({
 											data : {
 												ownerId : ownerId,
-												accountingTransactionType : accountingTxnType
+												accountingTransactionType : accountingTxnType,
+												showAll: true
 											},
 											preCloseCallback : function() {
 												loadData();

@@ -110,14 +110,14 @@ tpModule.factory('MappingDataService', [ '$http', '$q', function($http, $q) {
         return deffered;
 	}
 
-	function loadMappingData(owner,accountingTransactionType){
+	function loadMappingData(owner,accountingTransactionType,mappingTypeList){
 		var serviceUrl = 'api/v1/organize-customers/'+ owner + '/accounting-transactions/'+ accountingTransactionType + '/mapping-datas';
 		var deffered = $q.defer();
 	    $http({
 	    	    url : serviceUrl,
 	        	method: 'GET',
 				params : {
-
+					mappingType : mappingTypeList
 				}
 	        })
 	        .then(function(response) {

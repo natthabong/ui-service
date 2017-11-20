@@ -18,6 +18,7 @@ displayModule.factory('DisplayService', ['$http', '$q', 'Service', function ($ht
 		});
 		return differed;
 	};
+	
 
 	var updateDisplay = function (ownerId, accountingTransactionType, displayMode, dataModel) {
 		var reqUrl = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/display-modes/' + displayMode + '/displays';

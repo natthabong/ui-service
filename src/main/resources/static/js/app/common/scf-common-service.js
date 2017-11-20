@@ -96,6 +96,25 @@ app.service('SCFCommonService', [
             return result
 		}
 
+		vm.loadMappingData = function(owner,accountingTransactionType,mappingTypeList){
+			var serviceUrl = 'api/v1/organize-customers/'+ owner + '/accounting-transactions/'+ accountingTransactionType + '/mapping-datas';
+			var deffered = $q.defer();
+			$http({
+					url : serviceUrl,
+					method: 'GET',
+					params : {
+						mappingTypes : mappingTypeList
+					}
+				})
+				.then(function(response) {
+					deffered.resolve(response);
+				})
+				.catch(function(response) {
+					deffered.reject(response);
+				});
+			return deffered;
+		}
+
 		vm.getDocumentDisplayConfig = function(ownerId, accountingTransactionType, displayMode) {
 			var differed = $q.defer();
 			var displayConfig = []; 

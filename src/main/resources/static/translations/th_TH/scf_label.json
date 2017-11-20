@@ -576,6 +576,7 @@
 	"PAYMENT": "Payment",
 	"TEXT_MAPPING" : "Text mapping",
 	"SIGN_FLAG_MAPPING" : "Sign flag mapping",
+	"TEXT_MAPPING_WITH_DEFAULT" : "Text mapping with default",
 	"payment_fail" : "Payment fail",
 	"fail_to_payment": "Fail to pay",
 	"FAIL_TO_PAYMENT": "Fail to pay",

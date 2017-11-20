@@ -13,9 +13,9 @@ module.controller('FileLayoutController', [
 	'blockUI', 'FileLayoutService',
 	'FILE_TYPE_ITEM',
 	'DELIMITER_TYPE_TEM',
-	'CHARSET_ITEM', 'Service', 'MappingDataService',
+	'CHARSET_ITEM', 'Service', 'MappingDataService','SCFCommonService',
 	function (log, $rootScope, $scope, $state, $stateParams, $injector, ngDialog, UIFactory, PageNavigation,
-		blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, Service, MappingDataService) {
+		blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, Service, MappingDataService,SCFCommonService) {
 
 		var vm = this;
 
@@ -71,7 +71,8 @@ module.controller('FileLayoutController', [
 		vm.expectedInDataList = [];
 		var loadMappingData = function(){
 			var accountingTransactionType = vm.processType == 'AP_DOCUMENT' ? "PAYABLE" : "RECEIVABLE";
-			var deffered = MappingDataService.loadMappingData(ownerId,accountingTransactionType);
+			var mappingTypeList = ["SIGN_FLAG_MAPPING","TEXT_MAPPING"];
+			var deffered = SCFCommonService.loadMappingData(ownerId,accountingTransactionType,mappingTypeList);
 			deffered.promise.then(function(response) {
 				vm.expectedInDataList = response.data;
 			}).catch(function(response) {
