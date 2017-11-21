@@ -326,7 +326,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             deffered.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
                 if (response.supportPartial) {
-                    addColumnForCreatePartial(response.supportPartial);
+                    addColumnForCreatePartial();
                 }
 
                 vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
@@ -664,7 +664,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.openDateTo = true;
         }
 
-        var addColumnForCreatePartial = function(supportPartial) {
+        var addColumnForCreatePartial = function() {
             var columnNetAmount = {
                 documentField: {
                     displayFieldName: 'Net amount',
@@ -681,7 +681,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 labelEN: 'Payment amount',
                 labelTH: 'Payment amount',
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-input-text maxlength="19" ng-model="data.paymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
+                cellTemplate: '<scf-input-text maxlength="19" ng-model="data.paymentAmount" style="text-align: right;" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
                 documentField: {
                     displayFieldName: 'Payment amount',
                     documentFieldName: 'paymentAmount'
