@@ -27,7 +27,7 @@
 			+ '</thead>'
 			+ '<tbody>'
 			+ '<tr ng-repeat-start="data in componentDatas track by $id(data)" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
-			+ '<td scf-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>'
+			+ '<td scf-table-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>'
 			+ '</tr>'
 			+ '<tr scf-td-collapes="data" ng-repeat-end ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
 			+ '<td>'
@@ -851,6 +851,8 @@
 
 				vm.$watch($attrs.componentConfig, function (dataConfig) {
 					var tableOption = dataConfig.options || {};
+					var expansion = dataConfig.expansion || {};
+					console.log(dataConfig.columns.length);
 
 					// Clear value begin add column;
 					vm.tableColumns = [];
@@ -892,6 +894,31 @@
 						} else {
 							vm.tableColumns.push(rowData);
 						}
+					}
+					
+					// show Collapse
+					vm.tableCollapseColumns = [];
+					if(expansion.expanded){
+						expansion.columns.forEach(function(data){
+							if (data['hiddenColumn'] != true) {
+								var rowData = {
+									labelEN: data['labelEN'] ? data['labelEN'] : data['label'],
+									labelTH: data['labelTH'] ? data['labelTH'] : data['label'],
+									cellTemplate: data['cellTemplate'],
+									sortable: data['sortable'] || false,
+									cssTemplateHeader: getCssConfigHeader(data),
+									cssTemplate: getCssConfig(data),
+									filterType: data['filterType'],
+									format: data['format'],
+									idValueField: identityField || data['idValueField'],
+									idTemplate: data.id || generateIdTemplate(data),
+									renderer: data['renderer'],
+									dataRenderer: data['dataRenderer'],
+									headerId: data['headerId']
+								};
+								vm.tableCollapseColumns.push(rowData);
+							}
+						});
 					}
 					
 				}, true);

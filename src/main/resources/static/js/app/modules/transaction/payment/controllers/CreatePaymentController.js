@@ -69,6 +69,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     id: 'document-{value}-checkbox'
                 }
             },
+            expansion: {
+                expanded: true,
+                columns: []
+            },
             columns: []
         };
 
@@ -665,6 +669,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         var addColumnForCreatePartial = function() {
+
             var columnNetAmount = {
                 documentField: {
                     displayFieldName: 'Net amount',
@@ -697,6 +702,24 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 vm.dataTable.columns.push(columnNetAmount);
                 vm.dataTable.columns.push(columnPaymentAmount);
             }
+
+            var columnReasonCodeLabel = {
+                labelEN: 'Reason code',
+                labelTH: 'Reason code',
+                cssTemplate: 'text-right',
+                idValueField: '$rowNo',
+                id: 'reasonCode-{value}-label'
+            }
+
+            var columnReasonCodeDropdown = {
+                cssTemplate: 'text-center',
+                cellTemplate: '<scf-dropdown ng-model="ctrl.resonCodeMappingDatas" component-data="data.reasonCode" translate-label="true"></scf-dropdown>',
+                id: 'reason-code-{value}-dropdown',
+                idValueField: '$rowNo',
+            }
+
+            vm.dataTable.expansion.columns.push(columnReasonCodeLabel);
+            vm.dataTable.expansion.columns.push(columnReasonCodeDropdown);
         }
     }
 ]);
