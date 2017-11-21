@@ -64,7 +64,8 @@
                                 <label for="dealer" id="remittance-of-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Remittance of' | translate}}: </label>
 
                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                    <scf-dropdown id="remittance-of-dropdown" ng-model="ctrl.listRemittanceAdvice.remittanceOf" component-data="ctrl.remittanceOfDropdown" translate-label="true"></scf-dropdown>
+                                    <scf-dropdown id="remittance-of-dropdown" ng-model="ctrl.listRemittanceAdvice.remittanceOf" 
+                                    component-data="ctrl.remittanceOfDropdown" translate-label="true" ng-change="ctrl.onSelectRemittance()"></scf-dropdown>
                                 </div>
                             </div>
 <!-- 							Supplier -->
@@ -177,10 +178,10 @@
 									<td class="text-center"><span
 										id="$rowNo-{{record.remittanceAdviceId}}-label"
 										ng-bind="record.rowNo"></span></td>
-									<td class="text-left" ng-show="ctrl.buyerMode"><span
+									<td class="text-left" ng-show="ctrl.showBuyer"><span
 										id="buyer-name-{{record.remittanceAdviceId}}-label"
 										ng-bind="record.buyerName | translate"></span></td>
-									<td class="text-left" ng-show="!ctrl.buyerMode"><span
+									<td class="text-left" ng-show="ctrl.showSupplier"><span
 										id="supplier-name-{{record.remittanceAdviceId}}-label"
 										ng-bind="record.supplierName | translate"></span></td>	
 									<td class="text-left" ><span

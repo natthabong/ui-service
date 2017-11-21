@@ -165,4 +165,15 @@ sciModule.controller('RemittanceAdviceBankController', [
 			vm.searchRemittanceAdvice();		
 		}();
 
+		vm.onSelectRemittance = function () {
+			if(vm.listRemittanceAdvice.remittanceOf == 'BUYER'){
+				vm.showBuyer = true;
+				vm.showSupplier = false;
+			} else{
+				vm.showBuyer = false;
+				vm.showSupplier = true;
+			}
+			vm.searchRemittanceAdvice();	
+		}
+		
 	}]);
