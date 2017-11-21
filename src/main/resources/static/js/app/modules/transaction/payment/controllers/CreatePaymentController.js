@@ -67,37 +67,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     displayPosition: 'first',
                     idValueField: '$rowNo',
                     id: 'document-{value}-checkbox'
-                },
-                partialPaymentAmount: {
-                    labelEN: 'Payment amount',
-                    labelTH: 'Payment amount',
-                    cssTemplate: 'text-center',
-                    cellTemplate: '<scf-input-text maxlength="19" ng-model="data.paymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
-                    documentField: {
-                        displayFieldName: 'Payment amount',
-                        documentFieldName: 'paymentAmount'
-                    },
-                    fieldName: 'paymentAmount',
-                    displayPosition: 'last',
-                    idValueField: '$rowNo',
-                    id: 'payment-amount-{value}-textbox'
-
                 }
             },
             columns: []
         };
-
-        var columnNetAmount = {
-            documentField: {
-                displayFieldName: 'Net amount',
-                documentFieldName: 'netAmount'
-            },
-            fieldName: 'netAmount',
-            labelEN: 'Net amount',
-            labelTH: 'Net amount',
-            filterType: 'number',
-            alignment: 'RIGHT'
-        }
 
         //<-------------------------------------- declare variable ---------------------------------------->
 
@@ -352,8 +325,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT');
             deffered.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
-                if (response.supportPartial && vm.dataTable.columns.indexOf(columnNetAmount) == -1) {
-                    vm.dataTable.columns.push(columnNetAmount)
+                if (response.supportPartial) {
+                    addColumnForCreatePartial(response.supportPartial);
                 }
 
                 vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
@@ -691,6 +664,39 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.openDateTo = true;
         }
 
+        var addColumnForCreatePartial = function(supportPartial) {
+            var columnNetAmount = {
+                documentField: {
+                    displayFieldName: 'Net amount',
+                    documentFieldName: 'netAmount'
+                },
+                fieldName: 'netAmount',
+                labelEN: 'Net amount',
+                labelTH: 'Net amount',
+                filterType: 'number',
+                alignment: 'RIGHT'
+            }
 
+            var columnPaymentAmount = {
+                labelEN: 'Payment amount',
+                labelTH: 'Payment amount',
+                cssTemplate: 'text-center',
+                cellTemplate: '<scf-input-text maxlength="19" ng-model="data.paymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
+                documentField: {
+                    displayFieldName: 'Payment amount',
+                    documentFieldName: 'paymentAmount'
+                },
+                fieldName: 'paymentAmount',
+                displayPosition: 'last',
+                idValueField: '$rowNo',
+                id: 'payment-amount-{value}-textbox'
+
+            }
+
+            if (vm.dataTable.columns.indexOf(columnNetAmount) == -1) {
+                vm.dataTable.columns.push(columnNetAmount);
+                vm.dataTable.columns.push(columnPaymentAmount);
+            }
+        }
     }
 ]);
