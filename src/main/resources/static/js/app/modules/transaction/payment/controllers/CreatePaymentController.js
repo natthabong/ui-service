@@ -461,7 +461,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         vm.disablePaymentAmount = function(document) {
-            return false;
+            if (document.netAmount !== undefined && document.netAmount < 0) {
+                return true
+            } else {
+                return false;
+            }
+
         }
 
         vm.accountChange = function() {
