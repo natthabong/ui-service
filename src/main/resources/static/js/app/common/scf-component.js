@@ -897,7 +897,7 @@
 					if(tableOption.partialPaymentAmount !== undefined){
 						var data = tableOption.partialPaymentAmount;
 						var rowData = {
-							fieldName: data.documentFieldName,
+							fieldName: data.documentField.documentFieldName,
 							labelEN: data['labelEN'] ? data['labelEN'] : data['label'],
 							labelTH: data['labelTH'] ? data['labelTH'] : data['label'],
 							idTemplate: data.id,
@@ -1146,7 +1146,7 @@
 
 			function scfLink(scope, elements, attrs) {
 				var pageOptions = scope.$eval(attrs.pageOptions);
-
+				
 				scope.$watch(attrs.scfTableTd, function (data) {
 
 					var rowNo = renderNo(scope, attrs, pageOptions);

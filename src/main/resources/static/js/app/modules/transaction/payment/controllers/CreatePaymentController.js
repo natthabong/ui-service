@@ -72,7 +72,11 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     labelEN: 'Payment amount',
                     labelTH: 'Payment amount',
                     cssTemplate: 'text-center',
-                    cellTemplate: '<scf-input-text maxlength="19" ng-model="ctrl.pagingController.tableRowCollection[$parent.$index].paymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
+                    cellTemplate: '<scf-input-text maxlength="19" ng-model="data.paymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
+                    documentField: {
+                        displayFieldName: 'Payment amount',
+                        documentFieldName: 'paymentAmount'
+                    },
                     fieldName: 'paymentAmount',
                     displayPosition: 'last',
                     idValueField: '$rowNo',
@@ -171,7 +175,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 limit: _criteria.limit
             } : undefined));
             deffered.promise.then(function(response) {
-                console.log(vm.pagingController.tableRowCollectio);
                 if (!vm.display) {
                     vm.clearSelectDocument();
                 }
@@ -519,7 +522,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     vm.pagingAllController.tableRowCollection.forEach(function(document) {
                         if (comparator(data.groupingKey, document.groupingKey)) {
                             if (!isFound(document)) {
-                                console.log(vm.documentSelection);
                                 if (vm.documentSelection == 'AT_LEAST_ONE_DOCUMENT') {
                                     if (document.netAmount < 0) {
                                         vm.documentSelects = vm.documentSelects.concat(document);
