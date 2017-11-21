@@ -67,6 +67,17 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     displayPosition: 'first',
                     idValueField: '$rowNo',
                     id: 'document-{value}-checkbox'
+                },
+                partialPaymentAmount: {
+                    labelEN: 'Payment amount',
+                    labelTH: 'Payment amount',
+                    cssTemplate: 'text-center',
+                    cellTemplate: '<scf-input-text maxlength="19" ng-model="ctrl.pagingController.tableRowCollection[$parent.$index].paymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
+                    fieldName: 'paymentAmount',
+                    displayPosition: 'last',
+                    idValueField: '$rowNo',
+                    id: 'payment-amount-{value}-textbox'
+
                 }
             },
             columns: []
@@ -160,6 +171,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 limit: _criteria.limit
             } : undefined));
             deffered.promise.then(function(response) {
+                console.log(vm.pagingController.tableRowCollectio);
                 if (!vm.display) {
                     vm.clearSelectDocument();
                 }
@@ -443,6 +455,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             } else {
                 return false;
             }
+        }
+
+        vm.disablePaymentAmount = function(document) {
+            return false;
         }
 
         vm.accountChange = function() {

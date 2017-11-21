@@ -893,6 +893,23 @@
 							vm.tableColumns.push(rowData);
 						}
 					}
+					
+					if(tableOption.partialPaymentAmount !== undefined){
+						var data = tableOption.partialPaymentAmount;
+						var rowData = {
+							fieldName: data.documentFieldName,
+							labelEN: data['labelEN'] ? data['labelEN'] : data['label'],
+							labelTH: data['labelTH'] ? data['labelTH'] : data['label'],
+							idTemplate: data.id,
+							cellTemplate: data['cellTemplate'],
+							idValueField: data['idValueField'],
+						}
+						
+						if(data['displayPosition'] === 'last'){
+							vm.tableColumns.push(rowData);
+						}
+					}
+					
 				}, true);
 				vm.$watch($attrs.componentDatas, function (data) {
 					vm.componentDatas = data;
