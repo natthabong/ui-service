@@ -92,20 +92,19 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			return validate
 		}
 
-
-		var verifySystemStatusWebService = function(index){
-			var deffered = SystemIntegrationMonitorService.verifySystemStatusWebService(vm.webServiceModel[index]);
-				deffered.promise.then(function(response) {
-					if(response.data.status == "UP"){
-						vm.webServiceModel[index].status = "success";
-					}else{
-						vm.webServiceModel[index].errorMessage = response.data.code + ' - ' + response.data.message;
-						vm.webServiceModel[index].status = "fail";
-					}
-				}).catch(function(response) {
-					vm.webServiceModel[index].errorMessage = response.status + ' - ' + response.statusText;
-					vm.webServiceModel[index].status = "fail";
-				});
+		var verifyService = function(service){
+			var deffered = SystemIntegrationMonitorService.verifySystemStatusWebService(service);
+			deffered.promise.then(function(response) {
+				if(response.data.status == "UP"){
+					service.status = "success";
+				}else{
+					service.errorMessage = response.data.code + ' - ' + response.data.message;
+					service.status = "fail";
+				}
+			}).catch(function(response) {
+				service.errorMessage = response.status + ' - ' + response.statusText;
+				service.status = "fail";
+			});
 		}
 
 		var verifySystemStatusFTP = function(index){
@@ -122,6 +121,21 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 					vm.ftpModel[index].status = "fail";
 				});
 		}
+		
+		var verifyFTP = function(ftp){
+			var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(ftp.jobId);
+			deffered.promise.then(function(response) {
+				if(response.data.returnCode == "200"){
+					ftp.status = "success";
+				}else{
+					ftp.errorMessage = response.data.returnCode + ' - ' + response.data.returnMessage;
+					ftp.status = "fail";
+				}
+			}).catch(function(response) {
+				ftp.errorMessage = response.status + ' - ' + response.statusText;
+				ftp.status = "fail";
+			});
+	    } 
 
 		//Check User Double Click
 		var validateDoubleClickFTPChecking = function(){
@@ -129,11 +143,11 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			if(firstTimeFTPChecking){
 				firstTimeFTPChecking = false;
 			}else{
-				for(var i=0; i<vm.ftpModel.length;i++){
-					if(vm.ftpModel[i].status=='loading'){
+				vm.ftpModel.forEach(function(ftp) {
+					if(ftp.status=='loading'){
 						validate = false;
 					}
-				}
+				});
 			}
 			return validate;
 		}
@@ -143,11 +157,11 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 			if(firstTimeWebServiceChecking){
 				firstTimeWebServiceChecking = false;
 			}else{
-				for(var i=0; i<vm.webServiceModel.length;i++){
-					if(vm.webServiceModel[i].status=='loading'){
+				vm.webServiceModel.forEach(function(service) {
+					if(service.status=='loading'){
 						validate = false;
 					}
-				}
+				});
 			}
 			return validate;
 		}
@@ -155,26 +169,19 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 
 		var systemFTPChecking = function(){
 			if(validateDoubleClickFTPChecking()){
-				for(var i=0; i<vm.ftpModel.length;i++){
-					vm.ftpModel[i].status = "loading";
-					verifySystemStatusFTP(i);
-				}
-			}else{
-				console.log("please wait system processing");
+				vm.ftpModel.forEach(function(ftp) {
+					verifyFTP(ftp);
+				});
 			}
 		}
-
 		var systemWebServiceChecking = function(){
 			if(validateDoubleClickWebServiceChecking()){
-				for(var i=0; i<vm.webServiceModel.length;i++){
-					vm.webServiceModel[i].status = "loading";
-					verifySystemStatusWebService(i);
-				}
-			}else{
-				console.log("please wait system processing");
+				vm.webServiceModel.forEach(function(service) {
+					verifyService(service);
+				});
 			}
+			
 		}
-
 
 		// initial Display Name
 		var getWebServiceList = function(){
