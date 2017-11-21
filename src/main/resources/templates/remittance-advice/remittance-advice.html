@@ -20,19 +20,19 @@
 											id="effective-date-type"
 											ng-value="ctrl.dateSelected.effectiveDate"
 											name="date-type-radio"
-											ng-model="ctrl.listTransactionModel.dateType"></scf-radio>
+											ng-model="ctrl.listRemittanceAdvice.dateType"></scf-radio>
 										{{'Effective date' | translate}}
 									</label> <label class="radio-inline"> <scf-radio
 											id="maturity-date-type"
 											ng-value="ctrl.dateSelected.maturityDate"
 											name="date-type-radio"
-											ng-model="ctrl.listTransactionModel.dateType"></scf-radio>
+											ng-model="ctrl.listRemittanceAdvice.dateType"></scf-radio>
 										{{'Maturity date' | translate}}
 									</label> <label class="radio-inline"> <scf-radio
 											id="remittance-date-type"
 											ng-value="ctrl.dateSelected.remittanceDate"
 											name="date-type-radio"
-											ng-model="ctrl.listTransactionModel.dateType"></scf-radio>
+											ng-model="ctrl.listRemittanceAdvice.dateType"></scf-radio>
 										{{'Maturity date' | translate}}
 									</label>
                                 </div>
@@ -64,7 +64,7 @@
                                 <label for="dealer" id="remittance-of-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Remittance of' | translate}}: </label>
 
                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                    <scf-dropdown id="remittance-of-dropdown" ng-model="ctrl.listTransactionModel.remittanceOf" component-data="ctrl.remittanceOfDropdown" translate-label="true"></scf-dropdown>
+                                    <scf-dropdown id="remittance-of-dropdown" ng-model="ctrl.listRemittanceAdvice.remittanceOf" component-data="ctrl.remittanceOfDropdown" translate-label="true"></scf-dropdown>
                                 </div>
                             </div>
 <!-- 							Supplier -->
@@ -72,7 +72,10 @@
                                 <label for="supplier-auto-suggest" id="supplier-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
 									| translate}}: </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <gec-auto-suggest id="supplier-auto-suggest" disable="ctrl.supplierTxtDisable" model="ctrl.supplierAutoSuggestModel" name="supplierCode" ng-model="ctrl.supplier" maxlength="100"></gec-auto-suggest>
+                                    <gec-auto-suggest id="supplier-auto-suggest" disable="ctrl.supplierTxtDisable" 
+                                    model="ctrl.supplierAutoSuggestModel" name="supplierCode" 
+                                    ng-model="ctrl.supplier" maxlength="100"></gec-auto-suggest>
+                                    
                                 </div>
                                 <div class="col-md-3 col-sm-2"></div>
                             </div>
@@ -81,7 +84,9 @@
                                 <label for="buyer-auto-suggest" id="buyer-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer'
 									| translate}}: </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <gec-auto-suggest id="buyer-auto-suggest" disable="ctrl.buyerTxtDisable" model="ctrl.buyerAutoSuggestModel" name="buyerCode" ng-model="ctrl.buyer" maxlength="100"></gec-auto-suggest>
+                                    <gec-auto-suggest id="buyer-auto-suggest" disable="ctrl.buyerTxtDisable" 
+                                    model="ctrl.buyerAutoSuggestModel" name="buyerCode" 
+                                    ng-model="ctrl.buyer" maxlength="100"></gec-auto-suggest>
                                 </div>
                                 <div class="col-md-3 col-sm-2"></div>
                             </div>
@@ -90,7 +95,7 @@
                                 <label for="dealer" id="paid-status-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Paid Status' | translate}}: </label>
 
                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                    <scf-dropdown id="paid-status-dropdown" ng-model="ctrl.listTransactionModel.paidStatus" component-data="ctrl.paidStatusDropdown" translate-label="true"></scf-dropdown>
+                                    <scf-dropdown id="paid-status-dropdown" ng-model="ctrl.listRemittanceAdvice.paidStatus" component-data="ctrl.paidStatusDropdown" translate-label="true"></scf-dropdown>
                                 </div>
                                 <!--style="padding-right:40px"-->
                                 <div class="hidden-lg hidden-md col-sm-12 hidden-xs">
@@ -100,7 +105,7 @@
 									no' | translate}}: </label>
                                 <!--style="padding-right:35px;padding-left:40px;"-->
                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                    <scf-input-text id="transaction-no-textbox" ng-model="ctrl.listTransactionModel.transactionNo" maxlength="20"></scf-input-text>
+                                    <scf-input-text id="transaction-no-textbox" ng-model="ctrl.listRemittanceAdvice.transactionNo" maxlength="20"></scf-input-text>
                                 </div>
                             </div>
 <!-- 							Close Status -->
@@ -108,7 +113,7 @@
                                 <label for="dealer" id="close-status-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Close status' | translate}}: </label>
 
                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                    <scf-dropdown id="close-status-dropdown" ng-model="ctrl.listTransactionModel.closeStatus" component-data="ctrl.closeStatusDropdown" translate-label="true"></scf-dropdown>
+                                    <scf-dropdown id="close-status-dropdown" ng-model="ctrl.listRemittanceAdvice.closeStatus" component-data="ctrl.closeStatusDropdown" translate-label="true"></scf-dropdown>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <scf-button id="search-button" class="popup-button btn" ng-click="ctrl.searchRemittanceAdvice()">{{'Search' | translate}}

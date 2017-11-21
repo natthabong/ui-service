@@ -18,7 +18,7 @@ sciModule.controller('RemittanceAdviceBankController', [
 			maturityDate: 'maturityDate',
 			remittanceDate: 'remittanceDate'
 		}
-		vm.listTransactionModel = {
+		vm.listRemittanceAdvice = {
 		    dateType: vm.dateSelected.effectiveDate,
 		    dateFrom: '',
 		    dateTo: '',
@@ -26,14 +26,15 @@ sciModule.controller('RemittanceAdviceBankController', [
 		    paidStatus: '',
 			transactionNo:'',
 			closeStatus: '',
-		    order: '',
-		    orderBy:'',
 		    sort:'-remittanceTime'
 		}
 		vm.dateModel = {
 			dateFrom: '',
 			dateTo: ''
 		}
+		vm.showBuyer = false;
+		vm.showSupplier = false;
+		
 		// Datepicker
 		vm.openDateFrom = false;
 		vm.dateFormat = 'dd/MM/yyyy';
@@ -95,11 +96,58 @@ sciModule.controller('RemittanceAdviceBankController', [
 		vm.pagingController = PagingController.create('/api/v1/remittance-advices', vm.criteria,'GET');
     
 		vm.searchRemittanceAdvice = function (pageModel) {
-        	var buyerId = undefined;
-			var supplierId = undefined;
-
-			vm.criteria.buyerId = buyerId;
-			vm.criteria.supplierId = supplierId;
+			vm.invalidDateCriteria = false;
+			vm.invalidDateCriteriaMsg = '';
+			var dateFrom = vm.dateModel.dateFrom;
+	        var dateTo = vm.dateModel.dateTo;
+	        if (angular.isUndefined(dateFrom)) {
+				vm.invalidDateCriteria = true;
+				vm.invalidDateCriteriaMsg = {
+	                message : 'Wrong date format data.'
+	            }
+			}
+			if (angular.isUndefined(dateTo)) {
+				vm.invalidDateCriteria = true;
+				vm.invalidDateCriteriaMsg = {
+	                message : 'Wrong date format data.'
+	            }
+			}
+			if(dateFrom != '' &&  dateFrom != null && dateTo != '' && dateTo != null){
+				var dateTimeFrom = new Date(dateFrom);
+				var dateTimeTo = new Date(dateTo);
+				if(dateTimeFrom > dateTimeTo){
+					vm.invalidDateCriteria = true;
+					vm.invalidDateCriteriaMsg = {
+	                    message : 'From date must be less than or equal to To date.'
+	                }
+				}
+			}
+	        vm.listRemittanceAdvice.dateFrom = SCFCommonService.convertDate(dateFrom);
+	        vm.listRemittanceAdvice.dateTo = SCFCommonService.convertDate(dateTo);
+	        
+	        //set criteria
+			vm.criteria.borrowerType = vm.listRemittanceAdvice.remittanceOf;
+			if (angular.isObject(vm.buyer)) {
+				vm.criteria.buyerId = vm.buyer.organizeId;
+			}
+			if (angular.isObject(vm.supplier)) {
+				vm.criteria.supplierId = vm.supplier.organizeId;
+			}
+			if('effectiveDate' == vm.listRemittanceAdvice.dateType){
+				vm.criteria.effectiveDateFrom = vm.listRemittanceAdvice.dateFrom;
+				vm.criteria.effectiveDateTo = vm.listRemittanceAdvice.dateTo;
+			} else if('maturityDate' == vm.listRemittanceAdvice.dateType){
+				vm.criteria.maturityDateFrom = vm.listRemittanceAdvice.dateFrom;
+				vm.criteria.maturityDateTo = vm.listRemittanceAdvice.dateTo;
+			} else {
+				vm.criteria.remittanceDateFrom = vm.listRemittanceAdvice.dateFrom;
+				vm.criteria.remittanceDateTo = vm.listRemittanceAdvice.dateTo;
+			}	
+			vm.criteria.paidStatus = vm.listRemittanceAdvice.paidStatus;
+			vm.criteria.closeStatus = vm.listRemittanceAdvice.closeStatus;
+			vm.criteria.transactionNo = vm.listRemittanceAdvice.transactionNo;
+			vm.criteria.sorting = vm.listRemittanceAdvice.sorting;
+			
 			vm.pagingController.search(pageModel, function (criteriaData, response) {
 				var data = response.data;
 				var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
@@ -107,8 +155,6 @@ sciModule.controller('RemittanceAdviceBankController', [
 				var i = 0;
 				var baseRowNo = pageSize * currentPage; 
 				angular.forEach(data, function (value, idx) {
-					value.isSameAccount = true;
-					++i;
 					value.rowNo = baseRowNo+i;
 				});
 			});
@@ -116,8 +162,8 @@ sciModule.controller('RemittanceAdviceBankController', [
 
 		// Main of program
 		var initLoad = function () {
-			//vm.searchRemittanceAdvice();
-			
+			vm.showBuyer = true;
+			vm.searchRemittanceAdvice();		
 		}();
 
 	}]);
