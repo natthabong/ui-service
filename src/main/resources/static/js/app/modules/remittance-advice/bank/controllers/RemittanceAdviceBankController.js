@@ -10,8 +10,7 @@ sciModule.controller('RemittanceAdviceBankController', [
 	'SCFCommonService',
 	'$http',
 	'$q',
-	'blockUI',
-	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, RemittanceAdviceBankService, SCFCommonService, $http, $q, blockUI) {
+	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, RemittanceAdviceBankService, SCFCommonService, $http, $q) {
 		var vm = this;
 		vm.dateSelected = {
 			effectiveDate: 'effectiveDate',

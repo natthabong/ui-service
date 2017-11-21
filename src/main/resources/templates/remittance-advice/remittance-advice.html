@@ -33,7 +33,7 @@
 											ng-value="ctrl.dateSelected.remittanceDate"
 											name="date-type-radio"
 											ng-model="ctrl.listRemittanceAdvice.dateType"></scf-radio>
-										{{'Maturity date' | translate}}
+										{{'Remittance date' | translate}}
 									</label>
                                 </div>
                                 <div class="col-md-1 col-sm-1"></div>
@@ -43,7 +43,7 @@
                                 <label id="date-label" class="col-md-2 col-sm-3 control-label">{{'Date'
 									| translate}}:</label>
                                 <div class="col-md-3 col-sm-3 gec-calendar-group">
-                                    <label id="from-label" for="date-from-calendar" class="control-label">{{'From' | translate}}: </label>
+                                    <label id="from-label" for="date-from-calendar" class="control-label">{{'from' | translate}}: </label>
                                     <scf-date-picker-from text-id="date-from-textbox" button-id="date-from-calendar-button" text-model="ctrl.dateModel.dateFrom" date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom" open-calendar-action="ctrl.openCalendarDateFrom()" max-date="ctrl.dateModel.dateTo">
                                     </scf-date-picker-from>
 
