@@ -719,7 +719,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/customer-organize/remittance-advice',
 				controller: 'RemittanceAdviceBankController',
 				controllerAs: 'ctrl',				
-				templateUrl: '/remittance-advice',
+				templateUrl: '/remittance-advice-bank',
                 params: {viewMode:'CUSTOMER',transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
 				resolve: load(['js/app/modules/remittance-advice/bank/controllers/RemittanceAdviceBankController.js','js/app/modules/remittance-advice/bank/services/RemittanceAdviceBankService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/payment-transaction/view', {

@@ -12,7 +12,7 @@ public class RemittanceAdviceBankController {
 	
 	private static final String REMITTANCE_ADVICE = "remittance-advice/remittance-advice";
 	
-	@RequestMapping(method = RequestMethod.GET, path = "/remittance-advice")
+	@RequestMapping(method = RequestMethod.GET, path = "/remittance-advice-bank")
 	public String remittanceAdvice(
 			@RequestHeader("X-Requested-With") String requestedWith) {
 
