@@ -21,16 +21,16 @@
 			+ '</talbe>'
 		);
 		$templateCache.put('ui/template/data_table_collapse.html',
-			'<table st-table="componentDatas" class="table table-bordered">'
-			+ '<thead><tr><th class="text-center" scf-th="column" ng-repeat="column in tableColumns track by $index"></th>'
+			'<table class="table table-bordered">'
+			+ '<thead><tr><th scf-table-th="column" ng-repeat="column in tableColumns track by $index"></th>'
 			+ '</tr>'
 			+ '</thead>'
 			+ '<tbody>'
 			+ '<tr ng-repeat-start="data in componentDatas track by $id(data)" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
 			+ '<td scf-table-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>'
 			+ '</tr>'
-			+ '<tr scf-td-collapes="data" ng-repeat-end ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
-			+ '<td>'
+			+ '<tr ng-repeat-end ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
+			+ '<td colspan="{{tableColumns.length-1}}" scf-td-collapes="data" ng-repeat="column in tableCollapseColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions">'
 			+ '</td>'
 			+ '</tr>'
 			+ '</tbody>'
@@ -557,16 +557,96 @@
 				}
 				return columnId.replace('{value}', rowNo);
 			}
-		}]).directive('scfTdCollapes', function () {
+		}]).directive('scfTdCollapes', ['$compile', '$filter', '$log', '$translate', function ($compile, $filter, $log, $translate)  {
 			return {
+				scope: false,
 				restrict: 'A',
 				replace: true,
 				link: scfLink
 			}
+			
+			
 
 			function scfLink(scope, elements, attrs) {
+				var pageOptions = scope.$eval(attrs.pageOptions);
+				
+				scope.$watch(attrs.scfTdCollapes, function (data) {
+					var rowNo = renderNo(scope, attrs, pageOptions);
+					
+					var column = scope.$eval(attrs.columnRender);
+					
+					var dataRender = '';
+					var colClass = column.cssTemplate || 'text-center';
+					
+					if(column.component){
+						if (angular.isDefined(column.cellTemplate) && column.cellTemplate !== null) {
+							dataRender = column.cellTemplate;
+						} else if (angular.isDefined(column.dataRenderer) && column.dataRenderer !== null) {
+							dataRender = column.dataRenderer(data);
+						} else {
+							dataRender = data[column.fieldName];
+						}
+						
+						if (column.renderer != null) {
+							dataRender = column.renderer(dataRender, data);
+						}
+						
+						elements.addClass(colClass);
+						elements.html(dataRender);
+						$compile(elements.contents())(scope);
+						
+					}else{
+						
+						renderLabel(scope, elements, column, $translate.use());
+						
+					}
+				});
 			}
-		})
+			
+			function renderLabel(scope, elements, column, currentLange) {
+				var htmlText = '';
+				htmlText = getDisplayLanguage(currentLange, column);
+
+				if(column.border){
+					htmlText = '<b><span>' + htmlText + '</span></b>';
+				}
+				
+				var colClass = column.cssTemplate || 'text-center';
+				elements.addClass(colClass)
+				elements.html(htmlText);
+				$compile(elements.contents())(scope);
+			}
+			
+			function getDisplayLanguage(currentLange, column) {
+				var htmlText = '';
+				if (column.fieldName !== 'reasonCode') {
+					if (currentLange == 'en_EN') {
+						htmlText = column.labelEN;
+					} else {
+						htmlText = column.labelTH;
+					}
+				}
+				return htmlText;
+			}
+			
+			function renderNo(scope, attrs, pageOptions) {
+				var indexNo = scope.$eval(attrs.indexNo);
+				var rowNo = (pageOptions.currentPage * pageOptions.recordPerPage) + (indexNo + 1)
+				return rowNo;
+			}
+			
+//			function addId(rowNo, columnId, renderer, fieldName) {
+//				if (angular.isDefined(renderer) && renderer != null) {
+//					rowNo = renderer(rowNo);
+//				}
+//
+//				if (fieldName != 'selectBox') {
+//					return columnId.replace('{value}', rowNo) + "-label";
+//				} else {
+//					return columnId.replace('{value}', rowNo);
+//				}
+//			}
+		}])
 		.directive('sort', ['$compile', function ($compile) {
 			return {
 				restrict: 'A',
@@ -816,6 +896,7 @@
 				scope: true,
 				controller: ['$scope', '$element', '$attrs', scfTableController],
 				templateUrl: function (elem, attr) {
+					console.log(attr);
 					return attr.templateUrl || 'ui/template/table_template.html';
 				}
 			}
@@ -852,7 +933,6 @@
 				vm.$watch($attrs.componentConfig, function (dataConfig) {
 					var tableOption = dataConfig.options || {};
 					var expansion = dataConfig.expansion || {};
-					console.log(dataConfig.columns.length);
 
 					// Clear value begin add column;
 					vm.tableColumns = [];
@@ -902,6 +982,7 @@
 						expansion.columns.forEach(function(data){
 							if (data['hiddenColumn'] != true) {
 								var rowData = {
+									fieldName: data.fieldName,
 									labelEN: data['labelEN'] ? data['labelEN'] : data['label'],
 									labelTH: data['labelTH'] ? data['labelTH'] : data['label'],
 									cellTemplate: data['cellTemplate'],
@@ -910,11 +991,13 @@
 									cssTemplate: getCssConfig(data),
 									filterType: data['filterType'],
 									format: data['format'],
-									idValueField: identityField || data['idValueField'],
+									idValueField: data['idValueField'],
 									idTemplate: data.id || generateIdTemplate(data),
 									renderer: data['renderer'],
 									dataRenderer: data['dataRenderer'],
-									headerId: data['headerId']
+									headerId: data['headerId'],
+									border: data['border'],
+									component: data['component'],
 								};
 								vm.tableCollapseColumns.push(rowData);
 							}

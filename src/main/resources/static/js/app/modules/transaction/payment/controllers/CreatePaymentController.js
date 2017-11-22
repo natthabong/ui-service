@@ -76,6 +76,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             columns: []
         };
 
+        vm.templateUrl = 'ui/template/table_template.html';
         //<-------------------------------------- declare variable ---------------------------------------->
 
         function getSupplierName(supplierId) {
@@ -330,6 +331,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             deffered.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
                 if (response.supportPartial) {
+                    vm.pagingAllController.templateUrl = 'ui/template/data_table_collapse.html';
                     addColumnForCreatePartial();
                 }
 
@@ -673,7 +675,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             var columnNetAmount = {
                 documentField: {
                     displayFieldName: 'Net amount',
-                    documentFieldName: 'netAmount'
+                    documentFieldName: 'calculatedNetAmount'
                 },
                 fieldName: 'netAmount',
                 labelEN: 'Net amount',
@@ -708,7 +710,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 labelTH: 'Reason code',
                 cssTemplate: 'text-right',
                 idValueField: '$rowNo',
-                id: 'reasonCode-{value}-label'
+                id: 'reasonCode-{value}-label',
+                fieldName: 'reasonCodeLabel',
+                border: true,
+                component: false
             }
 
             var columnReasonCodeDropdown = {
@@ -716,6 +721,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 cellTemplate: '<scf-dropdown ng-model="ctrl.resonCodeMappingDatas" component-data="data.reasonCode" translate-label="true"></scf-dropdown>',
                 id: 'reason-code-{value}-dropdown',
                 idValueField: '$rowNo',
+                fieldName: 'reasonCode',
+                component: true
             }
 
             vm.dataTable.expansion.columns.push(columnReasonCodeLabel);
