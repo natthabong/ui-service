@@ -1,5 +1,8 @@
 package gec.scf.remittance;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -22,7 +25,8 @@ import gec.scf.web.LoginController;
 @Controller
 public class RemittanceAdviceCustomerController {
 
-	private static final String REMITTANCE_ADVICE = "remittance-advice/remittance-advice";
+	private static final String REMITTANCE_ADVICE_CUSTOMER = "remittance-advice/remittance-advice-customer";
+	private static final String REMITTANCE_ADVICE_CUSTOMER_NO_BORROWER_TYPE = "remittance-advice/remittance-advice-customer-no-borrower-type";
 
 	private static final Logger log = Logger.getLogger(LoginController.class);
 
@@ -47,20 +51,20 @@ public class RemittanceAdviceCustomerController {
 
 			HttpEntity<String[]> entity = new HttpEntity<String[]>(null, headers);
 
-			ResponseEntity<String[]> future = restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET, entity,
-					String[].class);
+			@SuppressWarnings("unchecked")
+			ResponseEntity<List<String>> future = restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET,
+					entity, (Class<List<String>>) new ArrayList<String>().getClass());
 
-			// TODO: redirect to their correct pages
-			System.out.println(future.getBody()[0] + future.getBody()[1]);
+			List<String> borrowerTypeList = future.getBody();
+			if (borrowerTypeList.size() > 0) {
+				return REMITTANCE_ADVICE_CUSTOMER;
+			} else {
+				return REMITTANCE_ADVICE_CUSTOMER_NO_BORROWER_TYPE;
+			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+			return "";
 		}
-
-		// if (AjaxUtils.isAjaxRequest(requestedWith)) {
-		// return REMITTANCE_ADVICE.concat(" :: content");
-		// }
-		return REMITTANCE_ADVICE;
-
 	}
 
 }
