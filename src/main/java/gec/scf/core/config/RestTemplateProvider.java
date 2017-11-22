@@ -8,6 +8,7 @@ import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.ResponseErrorHandler;
+import org.springframework.web.client.RestTemplate;
 
 @Component
 public class RestTemplateProvider {
@@ -34,7 +35,21 @@ public class RestTemplateProvider {
 			restTemplate.setErrorHandler(responseErrorHandler);
 		}
 		return restTemplate;
+	}
 
+	public RestTemplate getSynchRestTemplate() {
+		SCFSimpleClientHttpRequestFactory requestFactory = new SCFSimpleClientHttpRequestFactory(
+				new HostnameVerifier() {
+
+					public boolean verify(String hostname, SSLSession sslSession) {
+						return true;
+					}
+				});
+		requestFactory.setTaskExecutor(asyncListenableTaskExecutor);
+
+		RestTemplate restTemplate = new RestTemplate(requestFactory);
+
+		return restTemplate;
 	}
 
 }
