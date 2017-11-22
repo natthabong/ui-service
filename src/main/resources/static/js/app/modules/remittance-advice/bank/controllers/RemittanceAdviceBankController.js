@@ -122,7 +122,7 @@ sciModule.controller('RemittanceAdviceBankController', [
 			vm.criteria.paidStatus = vm.listRemittanceAdvice.paidStatus || undefined;
 			vm.criteria.closeStatus = vm.listRemittanceAdvice.closeStatus || undefined;
 			vm.criteria.transactionNo = vm.listRemittanceAdvice.transactionNo || undefined;
-			vm.criteria.sort = vm.listRemittanceAdvice.sorting;
+			vm.criteria.sort = vm.listRemittanceAdvice.sort;
 			
 			vm.pagingController.search(pageModel, function (criteriaData, response) {
 				var data = response.data;
