@@ -69,7 +69,8 @@ sciModule.controller('RemittanceAdviceBankController', [
 			{label: 'O : Open',value: 'O'}];
 		
 		vm.searchRemittanceAdvice = function (pageModel) {
-			
+			var buyerId = undefined;
+			var supplierId = undefined;
 			vm.invalidDateCriteria = false;
 			vm.invalidDateCriteriaMsg = '';
 			var dateFrom = vm.dateModel.dateFrom;
@@ -98,16 +99,14 @@ sciModule.controller('RemittanceAdviceBankController', [
 			}
 	        vm.listRemittanceAdvice.dateFrom = dateFrom;
 	        vm.listRemittanceAdvice.dateTo = dateTo;
-//	        vm.listRemittanceAdvice.dateFrom = SCFCommonService.convertDate(dateFrom);
-//	        vm.listRemittanceAdvice.dateTo = SCFCommonService.convertDate(dateTo);
 	        
 	        //set criteria
 			vm.criteria.borrowerType = vm.listRemittanceAdvice.remittanceOf;
 			if (angular.isObject(vm.buyer)) {
-				vm.criteria.buyerId = vm.buyer.organizeId;
+				buyerId = vm.buyer.organizeId;
 			}
 			if (angular.isObject(vm.supplier)) {
-				vm.criteria.supplierId = vm.supplier.organizeId;
+				supplierId = vm.supplier.organizeId;
 			}
 			if('effectiveDate' == vm.listRemittanceAdvice.dateType){
 				vm.criteria.effectiveDateFrom = vm.listRemittanceAdvice.dateFrom || undefined;
@@ -119,6 +118,8 @@ sciModule.controller('RemittanceAdviceBankController', [
 				vm.criteria.remittanceDateFrom = vm.listRemittanceAdvice.dateFrom || undefined;
 				vm.criteria.remittanceDateTo = vm.listRemittanceAdvice.dateTo || undefined;
 			}	
+			vm.criteria.buyerId = buyerId;
+			vm.criteria.supplierId = supplierId;
 			vm.criteria.paidStatus = vm.listRemittanceAdvice.paidStatus || undefined;
 			vm.criteria.closeStatus = vm.listRemittanceAdvice.closeStatus || undefined;
 			vm.criteria.transactionNo = vm.listRemittanceAdvice.transactionNo || undefined;
@@ -137,6 +138,8 @@ sciModule.controller('RemittanceAdviceBankController', [
 			});
 		};
 
+		
+		
 		vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
 			placeholder: 'Enter organize name or code',
 			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
@@ -149,20 +152,19 @@ sciModule.controller('RemittanceAdviceBankController', [
 			query: _buyerTypeAhead
 		});
 		
-		var _supplierTypeAhead = function (q) {
+		 function _supplierTypeAhead(q) {
 			q = UIFactory.createCriteria(q);
-			console.log("test"+q);
 			return RemittanceAdviceBankService.getItemSuggestSuppliers(q);
 		}
 		
-		var _buyerTypeAhead = function (q) {
+		 function _buyerTypeAhead(q) {
 			q = UIFactory.createCriteria(q);
-			console.log("test"+q);
 			return RemittanceAdviceBankService.getItemSuggestBuyers(q);
 		}
 		
 		// Main of program
 		var initLoad = function () {
+			console.log("test");
 			vm.showBuyer = true;
 			vm.searchRemittanceAdvice();		
 		}();
