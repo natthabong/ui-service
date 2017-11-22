@@ -1414,7 +1414,7 @@
 								defaultValue = defaultValue.toString().replace(thisFormat.replaceDollar, '');
 							}
 							
-							if(value < 0 && attrs.formatOnlyPositive){
+							if(parser(value) < 0 && attrs.formatOnlyPositive){
 								value = defaultValue;
 							}
 							
