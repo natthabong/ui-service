@@ -15,6 +15,8 @@ sciModule.controller('RemittanceAdviceBankController', [
 		var vm = this;
 		vm.buyer = $stateParams.buyer || null;
 		vm.supplier = $stateParams.supplier || null;
+		vm.criteria = $stateParams.criteria || {};
+		vm.pagingController = PagingController.create('/api/v1/remittance-advices', vm.criteria,'GET');
 		vm.dateSelected = {
 			effectiveDate: 'effectiveDate',
 			maturityDate: 'maturityDate',
@@ -66,40 +68,6 @@ sciModule.controller('RemittanceAdviceBankController', [
 			{label: 'C : Close',value: 'C'},
 			{label: 'O : Open',value: 'O'}];
 		
-		vm.buyerTxtDisable = false;
-		vm.supplierTxtDisable = false;
-		
-		vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder: 'Enter organize name or code',
-			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
-			query: _organizeTypeHead
-		});
-		
-		vm.buyerAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder: 'Enter organize name or code',
-			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
-			query: _buyerTypeAhead
-		});
-		
-		var _supplierTypeAhead = function (q) {
-			q = UIFactory.createCriteria(q);
-			return RemittanceAdviceBankService.getItemSuggestSuppliers(q);
-		}
-		
-		var _buyerTypeAhead = function (q) {
-			q = UIFactory.createCriteria(q);
-			return RemittanceAdviceBankService.getItemSuggestBuyers(q);
-		}
-		
-		var _organizeTypeHead = function (q) {
-			q = UIFactory.createCriteria(q);
-			return RemittanceAdviceBankService.getItemSuggestSuppliers(q);
-		}
-		
-		
-		vm.criteria = $stateParams.criteria || {};
-		vm.pagingController = PagingController.create('/api/v1/remittance-advices', vm.criteria,'GET');
-    
 		vm.searchRemittanceAdvice = function (pageModel) {
 			
 			vm.invalidDateCriteria = false;
@@ -169,6 +137,28 @@ sciModule.controller('RemittanceAdviceBankController', [
 			});
 		};
 
+		vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
+			placeholder: 'Enter organize name or code',
+			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
+			query: _supplierTypeAhead
+		});
+		
+		vm.buyerAutoSuggestModel = UIFactory.createAutoSuggestModel({
+			placeholder: 'Enter organize name or code',
+			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
+			query: _buyerTypeAhead
+		});
+		
+		var _supplierTypeAhead = function (q) {
+			q = UIFactory.createCriteria(q);
+			return RemittanceAdviceBankService.getItemSuggestSuppliers(q);
+		}
+		
+		var _buyerTypeAhead = function (q) {
+			q = UIFactory.createCriteria(q);
+			return RemittanceAdviceBankService.getItemSuggestBuyers(q);
+		}
+		
 		// Main of program
 		var initLoad = function () {
 			vm.showBuyer = true;
