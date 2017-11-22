@@ -688,7 +688,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 labelEN: 'Payment amount',
                 labelTH: 'Payment amount',
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-input-text maxlength="19" id="reason-code-{{$parent.$index+1}}-dropdown" ng-model="data.paymentAmount" style="text-align: right;" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
+                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$index+1}}-textbox" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" ng-model="data.paymentAmount" style="text-align: right;" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
+
                 documentField: {
                     displayFieldName: 'Payment amount',
                     documentFieldName: 'paymentAmount'
