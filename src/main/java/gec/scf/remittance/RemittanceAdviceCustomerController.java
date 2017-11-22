@@ -1,8 +1,5 @@
 package gec.scf.remittance;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -40,7 +37,8 @@ public class RemittanceAdviceCustomerController {
 	public String remittanceAdvice(HttpServletRequest req) {
 		String accessToken = req.getHeader("authorization");
 
-		UriComponentsBuilder uriBuilder = serviceProvider.getServiceURIBuilder("/v1/organizes/my/borrower-types");
+		UriComponentsBuilder uriBuilder = serviceProvider
+				.getServiceURIBuilder("/v1/organizes/my/borrower-types");
 
 		try {
 			RestTemplate restTemplate = templateProvider.getSynchRestTemplate();
@@ -51,17 +49,18 @@ public class RemittanceAdviceCustomerController {
 
 			HttpEntity<String[]> entity = new HttpEntity<String[]>(null, headers);
 
-			@SuppressWarnings("unchecked")
-			ResponseEntity<List<String>> future = restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET,
-					entity, (Class<List<String>>) new ArrayList<String>().getClass());
+			ResponseEntity<String[]> future = restTemplate.exchange(
+					uriBuilder.toUriString(), HttpMethod.GET, entity, String[].class);
 
-			List<String> borrowerTypeList = future.getBody();
-			if (borrowerTypeList.size() > 0) {
+			String[] borrowerTypeList = future.getBody();
+			if (borrowerTypeList != null && borrowerTypeList.length > 0) {
 				return REMITTANCE_ADVICE_CUSTOMER;
-			} else {
+			}
+			else {
 				return REMITTANCE_ADVICE_CUSTOMER_NO_BORROWER_TYPE;
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return "";
 		}
