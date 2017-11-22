@@ -40,16 +40,33 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 					vm.ftpModel[index].status = "fail";
 				});
 		}
+		
+		var verifyStatusFTP= function(ftpModel){
+			var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(ftpModel.jobId);
+			deffered.promise.then(function(response) {
+				if(response.data.returnCode == "200"){
+					ftpModel.status = "success";
+				}else{
+					ftpModel.errorMessage = response.data.returnCode + ' - ' + response.data.returnMessage;
+					ftpModel.status = "fail";
+				}
+			}).catch(function(response) {
+				ftpModel.errorMessage = response.status + ' - ' + response.statusText;
+				ftpModel.status = "fail";
+			});
+		}
 
 		var validateDoubleClickFTPChecking = function(){
 			var validate = true;
 			if(firstTimeFTPChecking){
 				firstTimeFTPChecking = false;
 			}else{
-				for(var i=0; i<vm.ftpModel.length;i++){
-					if(vm.ftpModel[i].status=='loading'){
-						validate = false;
-					}
+				if(vm.ftpModel != null){
+					vm.ftpModel.forEach(function(ftpModel){
+						if(ftpModel.status=='loading'){
+							validate = false;
+						}
+					});
 				}
 			}
 			return validate;
@@ -57,9 +74,10 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 
 		var systemFTPChecking = function(){
 			if(validateDoubleClickFTPChecking()){
-				for(var i=0; i<vm.ftpModel.length;i++){
-					vm.ftpModel[i].status = "loading";
-					verifySystemStatusFTP(i);
+				if(vm.ftpModel != null){
+					vm.ftpModel.forEach(function(ftpModel){
+						verifyStatusFTP(ftpModel);
+					});
 				}
 			}else{
 				console.log("please wait system processing");
