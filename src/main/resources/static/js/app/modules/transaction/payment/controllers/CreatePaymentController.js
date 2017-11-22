@@ -29,7 +29,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             accountingTransactionType: 'RECEIVABLE',
             sponsorId: ownerId,
             buyerId: ownerId,
-            documentStatus: 'NEW',
             showOverdue: false,
             displayNegativeDocument: false
         }
