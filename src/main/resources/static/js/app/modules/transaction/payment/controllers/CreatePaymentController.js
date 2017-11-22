@@ -330,7 +330,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             deffered.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
                 if (response.supportPartial) {
-                    vm.pagingAllController.templateUrl = 'ui/template/data_table_collapse.html';
+                    //vm.pagingAllController.templateUrl = 'ui/template/data_table_collapse.html';
                     addColumnForCreatePartial();
                 }
 
@@ -695,7 +695,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 fieldName: 'paymentAmount',
                 displayPosition: 'last',
                 idValueField: '$rowNo',
-                id: 'payment-amount-{value}-textbox'
+                id: 'payment-amount-{value}',
+                component: true
 
             }
 

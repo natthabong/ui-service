@@ -101,7 +101,7 @@
                             <!-- Start Table-->
                             <div class="row">
                                 <div class="col-md-12">
-                                    <scf-layout-table id="payment-table" component-config="ctrl.dataTable" template-url="ui/template/table_template.html" component-datas="ctrl.pagingController.tableRowCollection" current-page="ctrl.pagingController.pagingModel.currentPage" record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+                                    <scf-layout-table id="payment-table" component-config="ctrl.dataTable" template-url="ui/template/data_table_collapse.html" component-datas="ctrl.pagingController.tableRowCollection" current-page="ctrl.pagingController.pagingModel.currentPage" record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
                                         clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-layout-table>
                                     <div class="form-group" ng-show="ctrl.errorDisplay">
                                         <span class="col-md-3 col-sm-3 col-xs-12 error-msg" id="warning-message-label" ng-bind="errors.message | translate"></span>

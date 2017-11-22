@@ -896,7 +896,6 @@
 				scope: true,
 				controller: ['$scope', '$element', '$attrs', scfTableController],
 				templateUrl: function (elem, attr) {
-					console.log(attr);
 					return attr.templateUrl || 'ui/template/table_template.html';
 				}
 			}
@@ -953,7 +952,8 @@
 								idTemplate: data.id || generateIdTemplate(data),
 								renderer: data['renderer'],
 								dataRenderer: data['dataRenderer'],
-								headerId: data['headerId']
+								headerId: data['headerId'],
+								component: data['component']
 							};
 							vm.tableColumns.push(rowData);
 						}
@@ -1277,15 +1277,17 @@
 					if (angular.isDefined(column.idTemplate) && column.idTemplate !== null) {
 						// Check add id is rowNo for checkBox
 						if (column.idValueField === '$rowNo') {
-
+							
 							if (elements[0].children.length > 0) {
 								elements[0].children[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);
 
 
 							} else {
+								
 								elements[0].id = addId(rowNo, column.idTemplate, column.renderer, column.fieldName);
 
 							}
+							
 						} else {
 							if (elements[0].children.length > 0) {
 								elements[0].children[0].id = addId(data[column.idValueField != null ? column.idValueField : column.field], column.idTemplate, column.renderer, column.fieldName);
@@ -1335,6 +1337,8 @@
 					return columnId.replace('{value}', rowNo);
 				}
 			}
+			
+			
 		}])
 		.directive('scfShowOnMobile', ['$compile', function ($compile) {
 			return {
