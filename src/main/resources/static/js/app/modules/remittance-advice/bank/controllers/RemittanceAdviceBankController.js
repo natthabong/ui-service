@@ -30,7 +30,7 @@ sciModule.controller('RemittanceAdviceBankController', [
 		    paidStatus: '',
 			transactionNo:'',
 			closeStatus: '',
-		    sort:'-remittanceTime'
+		    sort:'-remittanceTime,-remittanceNo'
 		}
 		vm.dateModel = {
 			dateFrom: '',
