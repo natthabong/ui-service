@@ -896,7 +896,7 @@
 				scope: true,
 				controller: ['$scope', '$element', '$attrs', scfTableController],
 				templateUrl: function (elem, attr) {
-					return attr.templateUrl || 'ui/template/table_template.html';
+					return attr.templateUrl || 'ui/template/data_table_collapse.html';
 				}
 			}
 

@@ -23,6 +23,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.errorDisplay = false;
         var checkSelectMatchingRef = false;
         vm.documentSelects = [];
+        vm.reasonCodeMappingId = null;
 
         var enterPageByBackAction = $stateParams.backAction || false;
         vm.criteria = $stateParams.criteria || {
@@ -75,7 +76,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             columns: []
         };
 
-        vm.templateUrl = 'ui/template/table_template.html';
         //<-------------------------------------- declare variable ---------------------------------------->
 
         function getSupplierName(supplierId) {
@@ -330,7 +330,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             deffered.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
                 if (response.supportPartial) {
-                    //vm.pagingAllController.templateUrl = 'ui/template/data_table_collapse.html';
                     addColumnForCreatePartial();
                 }
 
