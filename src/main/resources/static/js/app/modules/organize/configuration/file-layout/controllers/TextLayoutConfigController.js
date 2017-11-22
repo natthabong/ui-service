@@ -137,7 +137,8 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 			MappingDataUtils.showCreateMappingDataDialog({
 				data: {
 					ownerId: owner,
-					accountingTransactionType: accountingTransactionType
+					accountingTransactionType: accountingTransactionType,
+					showAll: true
 				},
 				preCloseCallback: function (response) {
 					vm.expectedInDropDown = [
