@@ -16,33 +16,43 @@
 			</div>
 		</div>
 		<div class="modal-body">
-			<div class="row">
-				<div class="col-md-2 col-sm-2"></div>
-				<div class="col-md-10 col-sm-10">
-					<label ng-bind="'Transaction No.' | translate"></label>:&nbsp;<span
-						id="popup-transaction-no-value-label"
-						ng-bind="ngDialogData.data.transaction.transactionNo"></span>
+			<div ng-show="ngDialogData.data.mode == undefined || ngDialogData.data.mode == null">
+				<div class="row">
+					<div class="col-md-2 col-sm-2"></div>
+					<div class="col-md-10 col-sm-10">
+						<label ng-bind="'Transaction No.' | translate"></label>:&nbsp;<span
+							id="popup-transaction-no-value-label"
+							ng-bind="ngDialogData.data.transaction.transactionNo"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2 col-sm-2"></div>
+					<div class="col-md-10 col-sm-10">
+						<label ng-bind="'Reason' | translate"></label>:&nbsp;<span
+							id="popup-reason-label"
+							ng-bind="ngDialogData.data.transaction | transactionErrorMessagePopup"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2 col-sm-2"></div>
+					<div class="col-md-10 col-sm-10">
+						<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><span
+							id="popup-info-label"
+							ng-bind="ngDialogData.data.infoMessage | translate"></span>
+					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row"
+				ng-show="ngDialogData.data.mode == 'general_warning'">
 				<div class="col-md-2 col-sm-2"></div>
 				<div class="col-md-10 col-sm-10">
-					<label ng-bind="'Reason' | translate"></label>:&nbsp;<span
-						id="popup-reason-label"
-						ng-bind="ngDialogData.data.transaction | transactionErrorMessagePopup"></span>
-				</div>
-			</div>
-			<div class="row" ng-if="ngDialogData.data.infoMessage != undefined">
-				<div class="col-md-2 col-sm-2"></div>
-				<div class="col-md-10 col-sm-10">
-					<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><span
-						id="popup-info-label"
+					<span id="popup-message-label"
 						ng-bind="ngDialogData.data.infoMessage | translate"></span>
 				</div>
 			</div>
 		</div>
 		<div class="modal-footer">
-			<div class="row">
+			<div class="row" ng-if="ngDialogData.data.mode == undefined || ngDialogData.data.mode == null">
 				<div class="col-xs-12 text-right">
 					<scf-button id="popup-back-button" class="popup-button"
 						data-dismiss="modal"
@@ -74,6 +84,22 @@
 						ng-click="closeThisDialog(false);ngDialogData.data.viewHistory()"
 						ng-bind="'OK' | translate"></scf-button>
 				</div>
+			</div>
+			
+			<div class="row"
+				ng-if="ngDialogData.data.mode == 'general_warning'">
+				<div class="col-xs-12 text-right" ng-if="!ngDialogData.buttons">
+					<scf-button id="popup-ok-button" class="popup-button" type="submit"
+						ng-bind="'OK' | translate"></scf-button>
+	
+				</div>
+				<div class="col-xs-12 text-right" ng-if="ngDialogData.buttons">
+					<scf-button
+						ng-repeat="button in ngDialogData.buttons track by $index"
+						id="popup-{{button.id}}" class="popup-button"
+						ng-bind="button.label | translate" ng-click="button.action()"></scf-button>
+				</div>
+	
 			</div>
 		</div>
 	</form>
