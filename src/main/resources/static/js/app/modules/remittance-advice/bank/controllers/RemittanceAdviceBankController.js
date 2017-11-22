@@ -122,7 +122,7 @@ sciModule.controller('RemittanceAdviceBankController', [
 			vm.criteria.paidStatus = vm.listRemittanceAdvice.paidStatus || undefined;
 			vm.criteria.closeStatus = vm.listRemittanceAdvice.closeStatus || undefined;
 			vm.criteria.transactionNo = vm.listRemittanceAdvice.transactionNo || undefined;
-			vm.criteria.sorting = vm.listRemittanceAdvice.sorting;
+			vm.criteria.sort = vm.listRemittanceAdvice.sorting;
 			
 			vm.pagingController.search(pageModel, function (criteriaData, response) {
 				var data = response.data;
@@ -151,11 +151,13 @@ sciModule.controller('RemittanceAdviceBankController', [
 		
 		var _supplierTypeAhead = function (q) {
 			q = UIFactory.createCriteria(q);
+			console.log("test"+q);
 			return RemittanceAdviceBankService.getItemSuggestSuppliers(q);
 		}
 		
 		var _buyerTypeAhead = function (q) {
 			q = UIFactory.createCriteria(q);
+			console.log("test"+q);
 			return RemittanceAdviceBankService.getItemSuggestBuyers(q);
 		}
 		
