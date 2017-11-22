@@ -1304,19 +1304,37 @@
 						}
 						// get rid of currency indicators
 						value = value.toString().replace(thisFormat.replaceComma, '');
+						
 						// Check for parens, currency filter (5) is -5
 						removeParens = value.replace(/[\(\)]/g, '');
+						
 						// having parens indicates the number is negative
 						if (value.length !== removeParens.length) {
 							value = -removeParens;
 						}
 						return value || undefined;
 					},
-						// This is the toView routine
-						formatter = function (value) {
+					
+					// This is the toView routine
+					formatter = function (value) {
 							// the currency filter returns undefined if parse error
 							value = $filter(attrs.format)(parser(value)) || '';
 							value = value.toString().replace(thisFormat.replaceDollar, '');
+							
+							var defaultValue = '';
+							if(attrs.formatDefaultValue != null && attrs.formatDefaultValue != undefined){
+								defaultValue = $filter(attrs.format)(parser(attrs.formatDefaultValue)) || '';
+								defaultValue = defaultValue.toString().replace(thisFormat.replaceDollar, '');
+							}
+							
+							if(value < 0 && attrs.formatOnlyPositive){
+								value = defaultValue;
+							}
+							
+							if(value == '' && defaultValue != ''){
+								value = defaultValue;
+							}
+							
 							return value;
 						};
 
