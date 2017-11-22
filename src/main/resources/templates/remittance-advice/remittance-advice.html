@@ -72,24 +72,23 @@
                             <div class="form-group">
                                 <label for="supplier-auto-suggest" id="supplier-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
 									| translate}}: </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <gec-auto-suggest id="supplier-auto-suggest" disable="ctrl.supplierTxtDisable" 
-                                    model="ctrl.supplierAutoSuggestModel" name="supplierCode" 
-                                    ng-model="ctrl.supplier" maxlength="100"></gec-auto-suggest>
-                                    
-                                </div>
-                                <div class="col-md-3 col-sm-2"></div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<gec-auto-suggest model="ctrl.supplierAutoSuggestModel"
+										ng-model="ctrl.supplier" id="supplier-auto-suggest"
+										name="supplierCode" maxlength="100"></gec-auto-suggest>
+								</div>
+								<div class="col-md-3 col-sm-2"></div>
                             </div>
 <!-- 							Buyer -->
                             <div class="form-group">
                                 <label for="buyer-auto-suggest" id="buyer-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer'
 									| translate}}: </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <gec-auto-suggest id="buyer-auto-suggest" disable="ctrl.buyerTxtDisable" 
-                                    model="ctrl.buyerAutoSuggestModel" name="buyerCode" 
-                                    ng-model="ctrl.buyer" maxlength="100"></gec-auto-suggest>
-                                </div>
-                                <div class="col-md-3 col-sm-2"></div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<gec-auto-suggest model="ctrl.buyerAutoSuggestModel"
+										ng-model="ctrl.buyer" id="buyer-auto-suggest" name="buyerCode"
+										maxlength="100"></gec-auto-suggest>
+								</div>
+								<div class="col-md-3 col-sm-2"></div>
                             </div>
 <!-- 							Paid Status and Transaction No -->
                             <div class="form-group">
@@ -180,10 +179,10 @@
 										ng-bind="record.rowNo"></span></td>
 									<td class="text-left" ng-show="ctrl.showBuyer"><span
 										id="buyer-name-{{record.remittanceAdviceId}}-label"
-										ng-bind="record.buyerName | translate"></span></td>
+										ng-bind="record.buyer.organizeName | translate"></span></td>
 									<td class="text-left" ng-show="ctrl.showSupplier"><span
 										id="supplier-name-{{record.remittanceAdviceId}}-label"
-										ng-bind="record.supplierName | translate"></span></td>	
+										ng-bind="record.supplier.organizeName | translate"></span></td>	
 									<td class="text-left" ><span
 										id="transaction-no-{{record.remittanceAdviceId}}-label"
 										ng-bind="record.transactionNo"></span></td>
@@ -192,7 +191,7 @@
 										ng-bind="record.remittanceNo"></span></td>
 									<td class="text-right"><span
 										id="remittance-date-{{record.remittanceAdviceId}}-label"
-										ng-bind="record.remittanceDate | date: 'dd/MM/yyyy hh:mm': 'UTC+0700'"></span></td>
+										ng-bind="record.remittanceTime | date: 'dd/MM/yyyy hh:mm': 'UTC+0700'"></span></td>
 									<td class="text-center"><span
 										id="effective-date-{{record.remittanceAdviceId}}-label"
 										ng-bind="record.effectiveDate | date: 'dd/MM/yyyy': 'UTC+0700'"></span></td>
@@ -201,19 +200,19 @@
 										ng-bind="record.maturityDate | date: 'dd/MM/yyyy': 'UTC+0700'"></span></td>
 									<td class="text-right"><span
 										id="principal-amt-{{record.remittanceAdviceId}}-label"
-										ng-bind="record.principalAmt | number : 2"></span></td>
+										ng-bind="record.principalAmount | number : 2"></span></td>
 									<td class="text-right"><span
 										id="interest-amt-{{record.remittanceAdviceId}}-label"
-										ng-bind="record.interestAmt | number : 2"></span></td>	
+										ng-bind="record.interestAmount | number : 2"></span></td>	
 									<td class="text-right"><span
 										id="repay-fee-{{record.remittanceAdviceId}}-label"
-										ng-bind="record.repayFee | number : 2"></span></td>	
+										ng-bind="record.repaymentFee | number : 2"></span></td>	
 									<td class="text-right"><span
 										id="outstanding-amt-{{record.remittanceAdviceId}}-label"
-										ng-bind="record.outstandingAmt | number : 2"></span></td>	
+										ng-bind="record.outstandingAmount | number : 2"></span></td>	
 									<td class="text-right"><span
 										id="repay-amt-{{record.remittanceAdviceId}}-label"
-										ng-bind="record.repayAmt | number : 2"></span></td>
+										ng-bind="record.paymentAmount | number : 2"></span></td>
 									<td class="text-center" ><span
 										id="paid-status-{{record.remittanceAdviceId}}-label"
 										ng-bind="record.paidStatus"></span></td>

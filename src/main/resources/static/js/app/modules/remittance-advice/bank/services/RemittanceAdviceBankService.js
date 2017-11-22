@@ -43,7 +43,9 @@ sciModule.factory('RemittanceAdviceBankService', ['$http', '$q', 'Service', func
 	
 	return {
 		getItemSuggestBuyers: getItemSuggestBuyers,
-		getItemSuggestSuppliers: getItemSuggestSuppliers
+		getItemSuggestSuppliers: getItemSuggestSuppliers,
+		_prepareItemSupplier: _prepareItemSupplier,
+		_prepareItemBuyer: _prepareItemBuyer
 	}
 
 }]);

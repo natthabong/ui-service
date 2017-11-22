@@ -10,8 +10,11 @@ sciModule.controller('RemittanceAdviceBankController', [
 	'SCFCommonService',
 	'$http',
 	'$q',
-	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, RemittanceAdviceBankService, SCFCommonService, $http, $q) {
+	'blockUI',
+	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, RemittanceAdviceBankService, SCFCommonService, $http, $q,blockUI) {
 		var vm = this;
+		vm.buyer = $stateParams.buyer || null;
+		vm.supplier = $stateParams.supplier || null;
 		vm.dateSelected = {
 			effectiveDate: 'effectiveDate',
 			maturityDate: 'maturityDate',
@@ -34,7 +37,7 @@ sciModule.controller('RemittanceAdviceBankController', [
 		vm.showBuyer = false;
 		vm.showSupplier = false;
 		
-		// Datepicker
+		// Date picker
 		vm.openDateFrom = false;
 		vm.dateFormat = 'dd/MM/yyyy';
 		vm.openDateTo = false;
@@ -69,7 +72,7 @@ sciModule.controller('RemittanceAdviceBankController', [
 		vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
 			placeholder: 'Enter organize name or code',
 			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
-			query: _supplierTypeAhead
+			query: _organizeTypeHead
 		});
 		
 		vm.buyerAutoSuggestModel = UIFactory.createAutoSuggestModel({
@@ -88,13 +91,17 @@ sciModule.controller('RemittanceAdviceBankController', [
 			return RemittanceAdviceBankService.getItemSuggestBuyers(q);
 		}
 		
-		vm.buyer = $stateParams.buyer || null;
-		vm.supplier = $stateParams.supplier || null;
+		var _organizeTypeHead = function (q) {
+			q = UIFactory.createCriteria(q);
+			return RemittanceAdviceBankService.getItemSuggestSuppliers(q);
+		}
+		
 		
 		vm.criteria = $stateParams.criteria || {};
 		vm.pagingController = PagingController.create('/api/v1/remittance-advices', vm.criteria,'GET');
     
 		vm.searchRemittanceAdvice = function (pageModel) {
+			
 			vm.invalidDateCriteria = false;
 			vm.invalidDateCriteriaMsg = '';
 			var dateFrom = vm.dateModel.dateFrom;
@@ -121,8 +128,10 @@ sciModule.controller('RemittanceAdviceBankController', [
 	                }
 				}
 			}
-	        vm.listRemittanceAdvice.dateFrom = SCFCommonService.convertDate(dateFrom);
-	        vm.listRemittanceAdvice.dateTo = SCFCommonService.convertDate(dateTo);
+	        vm.listRemittanceAdvice.dateFrom = dateFrom;
+	        vm.listRemittanceAdvice.dateTo = dateTo;
+//	        vm.listRemittanceAdvice.dateFrom = SCFCommonService.convertDate(dateFrom);
+//	        vm.listRemittanceAdvice.dateTo = SCFCommonService.convertDate(dateTo);
 	        
 	        //set criteria
 			vm.criteria.borrowerType = vm.listRemittanceAdvice.remittanceOf;
@@ -133,18 +142,18 @@ sciModule.controller('RemittanceAdviceBankController', [
 				vm.criteria.supplierId = vm.supplier.organizeId;
 			}
 			if('effectiveDate' == vm.listRemittanceAdvice.dateType){
-				vm.criteria.effectiveDateFrom = vm.listRemittanceAdvice.dateFrom;
-				vm.criteria.effectiveDateTo = vm.listRemittanceAdvice.dateTo;
+				vm.criteria.effectiveDateFrom = vm.listRemittanceAdvice.dateFrom || undefined;
+				vm.criteria.effectiveDateTo = vm.listRemittanceAdvice.dateTo || undefined;
 			} else if('maturityDate' == vm.listRemittanceAdvice.dateType){
-				vm.criteria.maturityDateFrom = vm.listRemittanceAdvice.dateFrom;
-				vm.criteria.maturityDateTo = vm.listRemittanceAdvice.dateTo;
+				vm.criteria.maturityDateFrom = vm.listRemittanceAdvice.dateFrom || undefined;
+				vm.criteria.maturityDateTo = vm.listRemittanceAdvice.dateTo || undefined;
 			} else {
-				vm.criteria.remittanceDateFrom = vm.listRemittanceAdvice.dateFrom;
-				vm.criteria.remittanceDateTo = vm.listRemittanceAdvice.dateTo;
+				vm.criteria.remittanceDateFrom = vm.listRemittanceAdvice.dateFrom || undefined;
+				vm.criteria.remittanceDateTo = vm.listRemittanceAdvice.dateTo || undefined;
 			}	
-			vm.criteria.paidStatus = vm.listRemittanceAdvice.paidStatus;
-			vm.criteria.closeStatus = vm.listRemittanceAdvice.closeStatus;
-			vm.criteria.transactionNo = vm.listRemittanceAdvice.transactionNo;
+			vm.criteria.paidStatus = vm.listRemittanceAdvice.paidStatus || undefined;
+			vm.criteria.closeStatus = vm.listRemittanceAdvice.closeStatus || undefined;
+			vm.criteria.transactionNo = vm.listRemittanceAdvice.transactionNo || undefined;
 			vm.criteria.sorting = vm.listRemittanceAdvice.sorting;
 			
 			vm.pagingController.search(pageModel, function (criteriaData, response) {
@@ -154,6 +163,7 @@ sciModule.controller('RemittanceAdviceBankController', [
 				var i = 0;
 				var baseRowNo = pageSize * currentPage; 
 				angular.forEach(data, function (value, idx) {
+					i++;
 					value.rowNo = baseRowNo+i;
 				});
 			});
