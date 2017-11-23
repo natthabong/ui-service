@@ -696,14 +696,14 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 labelEN: 'Payment amount',
                 labelTH: 'Payment amount',
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$index+1}}-textbox" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" ng-model="data.paymentAmount" style="text-align: right;" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
-
+                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$parent.$parent.$index+1}}-textbox" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" ng-model="data.paymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
                 documentField: {
                     displayFieldName: 'Payment amount',
                     documentFieldName: 'paymentAmount'
                 },
-                fieldName: 'paymentAmount'
-
+                fieldName: 'paymentAmount',
+                idValueField: '$rowNo',
+				id: 'payment-amount-{value}-textbox'
             }
 
             if (vm.dataTable.columns.indexOf(columnNetAmount) == -1) {
