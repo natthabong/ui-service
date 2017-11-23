@@ -1,6 +1,6 @@
 'use strict';
-var sciModule = angular.module('gecscf.buyerCreditInformation');
-sciModule.controller('BuyerCreditInformationController', [
+var bciModule = angular.module('gecscf.buyerCreditInformation');
+bciModule.controller('BuyerCreditInformationController', [
 	'$rootScope',
 	'$scope',
 	'$stateParams',
