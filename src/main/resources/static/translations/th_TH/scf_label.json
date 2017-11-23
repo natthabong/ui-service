@@ -30,6 +30,7 @@
 	"customer-organize-payment-transactions": "Payment transactions",
 	"customer-organize-ar-documents": "AR documents",
 	"customer-organize-financing-transactions": "Financing transactions",
+	"customer-organize-remittance-advice": "Remittance advice",
 	"customer-organize-ap-documents": "AP documents",
 	"customer-organize-upload-document-logs": "Upload document logs",
 	"monitoring": "Monitoring",
@@ -477,6 +478,7 @@
 	"DRAWDOWN_ADVICE": "Drawdown advice",
 	"DEBIT_ADVICE" : "Debit advice",
 	"TRADING_PROFILE": "Trading profile",
+	"REMITTANCE_ADVICE": "Remittance advice",
 	
 	"Service information": "Service information",
 	"Service name": "Service name",
