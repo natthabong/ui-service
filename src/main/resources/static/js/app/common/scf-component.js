@@ -1379,7 +1379,7 @@
 			}
 		}).directive('format', function ($filter, formatFactory) {
 			return {
-				scope: true,
+				scope: {},
 				restrict: 'A',
 				require: ['ngModel'],
 				link: function (scope, element, attrs, ctrls) {
