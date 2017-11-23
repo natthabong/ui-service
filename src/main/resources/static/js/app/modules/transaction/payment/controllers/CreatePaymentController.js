@@ -749,8 +749,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 var reasonCodes = response.data;
                 reasonCodes.forEach(function(data) {
                     vm.resonCodeDropdown.push({
-                        label: data.code + ' : ' + data.display,
-                        value: data.code + ' : ' + data.display
+                        label: data.code + ': ' + data.display,
+                        value: data.code + ': ' + data.display
                     });
                 });
 
