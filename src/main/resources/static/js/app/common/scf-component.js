@@ -1419,7 +1419,12 @@
 								defaultValue = defaultValue.toString().replace(thisFormat.replaceDollar, '');
 							}
 							
-							if(parser(value) < 0 && attrs.formatOnlyPositive){
+							var parsedValue = parser(value);
+							if(parsedValue < 0 && attrs.formatOnlyPositive){
+								value = defaultValue;
+							}
+							
+							if(parsedValue == 0 && attrs.formatNotBeZero){
 								value = defaultValue;
 							}
 							
