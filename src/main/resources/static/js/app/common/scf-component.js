@@ -30,7 +30,7 @@
 			+ '<td scf-table-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>'
 			+ '</tr>'
 			+ '<tr ng-repeat-end ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
-			+ '<td colspan="{{tableColumns.length-1}}" scf-td-collapes="data" ng-repeat="column in tableCollapseColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions">'
+			+ '<td colspan="{{tableColumns.length - exceptedMergeColumn}}" scf-td-collapes="data" ng-repeat="column in tableCollapseColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions">'
 			+ '</td>'
 			+ '</tr>'
 			+ '</tbody>'
@@ -1002,6 +1002,11 @@
 								vm.tableCollapseColumns.push(rowData);
 							}
 						});
+					}
+					
+					vm.exceptedMergeColumn = 0;
+					if(expansion.exceptedMergeColumn !== undefined){
+						vm.exceptedMergeColumn = expansion.exceptedMergeColumn;
 					}
 					
 				}, true);

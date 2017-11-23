@@ -71,6 +71,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             },
             expansion: {
                 expanded: true,
+                exceptedMergeColumn: 1,
                 columns: []
             },
             columns: []
@@ -685,7 +686,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     displayFieldName: 'Net amount',
                     documentFieldName: 'calculatedNetAmount'
                 },
-                fieldName: 'netAmount',
+                fieldName: 'calculatedNetAmount',
                 labelEN: 'Net amount',
                 labelTH: 'Net amount',
                 filterType: 'number',
