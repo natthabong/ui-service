@@ -697,7 +697,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 labelEN: 'Payment amount',
                 labelTH: 'Payment amount',
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$parent.$parent.$index+1}}-textbox" ng-focus="ctrl.onFocusPaymentAmount($parent.$parent.$parent.$index+1, data)" ng-blur="ctrl.validatePaymentAmount($parent.$parent.$parent.$index+1, data)" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" format-not-be-zero = "true" ng-model="data.paymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
+                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$parent.$parent.$index+1}}-textbox" ng-blur="ctrl.validatePaymentAmount($parent.$parent.$parent.$index+1, data)" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" format-not-be-zero = "true" ng-model="data.paymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
                 documentField: {
                     displayFieldName: 'Payment amount',
                     documentFieldName: 'paymentAmount'
@@ -772,12 +772,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         
         var getPaymentAmountTextboxElement = function (row){
         	return $window.document.getElementById('payment-amount-'+row+'-textbox');
-        }
-        
-        // --- when focus payment amount
-        vm.onFocusPaymentAmount = function(row, record){
-        	//vm.resetPaymentAmount(row,record);
-        	//vm.resetReasonCode(row, record);
         }
         
         vm.resetReasonCode = function(row, record){
