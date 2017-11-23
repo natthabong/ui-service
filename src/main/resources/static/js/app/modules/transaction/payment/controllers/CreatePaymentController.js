@@ -1,8 +1,7 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService',
-    'PagingController', 'PageNavigation', '$filter',
-    function($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter) {
-
+    'PagingController', 'PageNavigation', '$filter', 'MappingDataService',
+    function($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService) {
         //<-------------------------------------- declare variable ---------------------------------------->
         var vm = this;
         var log = $log;
@@ -24,6 +23,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         var checkSelectMatchingRef = false;
         vm.documentSelects = [];
         vm.reasonCodeMappingId = null;
+        var supportPartial = false;
 
         var enterPageByBackAction = $stateParams.backAction || false;
         vm.criteria = $stateParams.criteria || {
@@ -152,6 +152,13 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 limit: _criteria.limit
             } : undefined));
             deffered.promise.then(function(response) {
+
+                if (supportPartial) {
+                    response.data.forEach(function(data) {
+                        data.reasonCode = vm.resonCodeDropdown[0].value;
+                    });
+                }
+
                 if (!vm.display) {
                     vm.clearSelectDocument();
                 }
@@ -329,9 +336,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT');
             deffered.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
-                if (response.supportPartial) {
+                supportPartial = response.supportPartial;
+                if (supportPartial) {
                     vm.reasonCodeMappingId = response.reasonCodeMappingId;
-
+                    _loadReasonCodeMappingDatas();
                     addColumnForCreatePartial();
                 }
 
@@ -716,7 +724,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
             var columnReasonCodeDropdown = {
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-dropdown ng-model="ctrl.resonCodeMappingDatas" component-data="data.reasonCode" translate-label="true"></scf-dropdown>',
+                cellTemplate: '<scf-dropdown id="reason-code-{{$parent.$index+1}}-dropdown" ng-model="data.reasonCode" component-data="ctrl.resonCodeDropdown" ng-disabled="ctrl.disableReasonCode(data)" translate-label="true"></scf-dropdown>',
                 id: 'reason-code-{value}-dropdown',
                 idValueField: '$rowNo',
                 fieldName: 'reasonCode',
@@ -725,6 +733,37 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
             vm.dataTable.expansion.columns.push(columnReasonCodeLabel);
             vm.dataTable.expansion.columns.push(columnReasonCodeDropdown);
+        }
+
+        var _loadReasonCodeMappingDatas = function() {
+            vm.resonCodeDropdown = [];
+            var params = {
+                offset: 0,
+                limit: 999,
+                sort: ['defaultCode', 'code']
+            }
+            var deffered = MappingDataService.loadMappingDataItems(vm.criteria.supplierId, 'RECEIVABLE', vm.reasonCodeMappingId, params);
+            deffered.promise.then(function(response) {
+
+                var reasonCodes = response.data;
+                reasonCodes.forEach(function(data) {
+                    vm.resonCodeDropdown.push({
+                        label: data.code + ' : ' + data.display,
+                        value: data.code + ' : ' + data.display
+                    });
+                });
+
+            }).catch(function(response) {
+                log.error(response);
+            });
+        }
+
+        vm.disableReasonCode = function(data) {
+            if (data.reasonCode == vm.resonCodeDropdown[0].value) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 ]);
