@@ -1,6 +1,6 @@
 'use strict';
-var sciModule = angular.module('gecscf.remittanceAdviceCustomer');
-sciModule.factory('RemittanceAdviceCustomerService', ['$http', '$q', 'Service', function ($http, $q, Service) {
+var raccModule = angular.module('gecscf.remittanceAdviceCustomer');
+raccModule.factory('RemittanceAdviceCustomerService', ['$http', '$q', 'Service', function ($http, $q, Service) {
 
 	var _prepareItemSupplier = function (item) {
 		item.identity = ['supplier-', item.organizeId, '-option'].join('');
