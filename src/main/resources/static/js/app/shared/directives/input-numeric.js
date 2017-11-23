@@ -32,3 +32,10 @@ app.directive("formatOnlyPositive", function () {
         scope: {},
     };
 });
+
+app.directive("formatNotBeZero", function () {
+    return {
+        restrict: 'E',
+        scope: {},
+    };
+});
