@@ -83,7 +83,7 @@ paymentModule.controller('ViewPaymentController', [
             deffered.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
                 _criteria.sort = response.sort;
-                if (response.supportPartial) {
+                if (response.supportPartial !== undefined && response.supportPartial) {
                     addColumnForCreatePartial();
                 }
 
