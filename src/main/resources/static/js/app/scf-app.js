@@ -727,7 +727,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'RemittanceAdviceCustomerController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/remittance-advice-customer',
-                params: {},
+                params: {criteria : null},
 				resolve: load(['js/app/modules/remittance-advice/customer/controllers/RemittanceAdviceCustomerController.js', 'js/app/modules/remittance-advice/customer/services/RemittanceAdviceCustomerService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/payment-transaction/view', {
 				url: '/payment-transaction/view',
