@@ -1,7 +1,7 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService',
-    'PagingController', 'PageNavigation', '$filter', 'MappingDataService',
-    function($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService) {
+    'PagingController', 'PageNavigation', '$filter', 'MappingDataService','UIFactory','$window',
+    function($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, UIFactory, $window) {
         //<-------------------------------------- declare variable ---------------------------------------->
         var vm = this;
         var log = $log;
@@ -697,7 +697,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 labelEN: 'Payment amount',
                 labelTH: 'Payment amount',
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$parent.$parent.$index+1}}-textbox" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" ng-model="data.paymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
+                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$parent.$parent.$index+1}}-textbox" ng-blur="ctrl.validatePaymentAmount($parent.$parent.$parent.$index+1, data)" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" ng-model="data.paymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
                 documentField: {
                     displayFieldName: 'Payment amount',
                     documentFieldName: 'paymentAmount'
@@ -766,5 +766,62 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 return false;
             }
         }
+        
+        // --- after blur payment amount
+		vm.validatePaymentAmount = function(row, record){
+			var reasonCodeDropdownElementID = 'reason-code-' + row + '-dropdown';
+        	var reasonCodeDropdown = $window.document.getElementById(reasonCodeDropdownElementID);
+        	console.log('aaa' + record);console.log('aaa' + row);
+			if(record.paymentAmount < record.calculatedNetAmount){
+				reasonCodeDropdown.disabled = false;
+				reasonCodeDropdown.focus();
+			}else if(record.paymentAmount == record.calculatedNetAmount){
+				record.reasonCode = vm.resonCodeDropdown[0].value; //reset to default reason code
+				reasonCodeDropdown.disabled = true;
+			}else{
+				UIFactory.showIncompleteDialog({
+	            	data: {
+	                	mode : 'general_warning',
+	                            headerMessage: 'Payment amount',
+	                            infoMessage: 'Payment amount cannot be greater than net amount.'
+	                },
+	                preCloseCallback: function(){ 
+	                	record.reasonCode = vm.resonCodeDropdown[0].value; //reset to default reason code
+						reasonCodeDropdown.disabled = true;
+				
+						var paymentAmountTextbox = $window.document.getElementById('payment-amount-'+row+'-textbox');
+						record.paymentAmount = record.calculatedNetAmount; //reset to default value
+						paymentAmountTextbox.focus();
+					}
+	           	});
+			}
+		}
+		
+		// --- after blur reason code dropdown
+		vm.validatePaymentAmountAndReasonCode = function(row, record){
+				var paymentAmountTextbox = $window.document.getElementById('payment-amount-'+row+'-textbox');
+				paymentAmountTextbox.disabled = true;
+				
+				var invalid = true;
+				if(record.optionVarcharField2 == '123'){
+					invalid = false;
+				}
+				if(invalid){
+					UIFactory.showIncompleteDialog({
+	                        data: {
+	                            mode : 'general_warning',
+	                            headerMessage: 'Reason code warning.',
+	                            infoMessage: 'Please select payment partial reason code.'
+	                        },
+	                        preCloseCallback: function(){ 
+								vm.focusReasonCodeIfPartialPay(row);
+							}
+	                });
+					
+				}else{
+					test.disabled = false;
+				}
+		}
+        
     }
 ]);
