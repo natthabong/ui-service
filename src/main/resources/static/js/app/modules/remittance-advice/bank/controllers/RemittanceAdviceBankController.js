@@ -164,7 +164,6 @@ sciModule.controller('RemittanceAdviceBankController', [
 		
 		// Main of program
 		var initLoad = function () {
-			console.log("test");
 			vm.showBuyer = true;
 			vm.searchRemittanceAdvice();		
 		}();
