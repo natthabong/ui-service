@@ -1,6 +1,7 @@
 'use strict';
 var sciModule = angular.module('gecscf.remittanceAdviceCustomer');
 sciModule.controller('RemittanceAdviceCustomerController', [
+	'$log',
 	'$rootScope',
 	'$scope',
 	'$stateParams',
@@ -11,31 +12,35 @@ sciModule.controller('RemittanceAdviceCustomerController', [
 	'$http',
 	'$q',
 	'blockUI',
-	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, RemittanceAdviceCustomerService, SCFCommonService, $http, $q,blockUI) {
+	function ($log, $rootScope, $scope, $stateParams, UIFactory, PagingController, RemittanceAdviceCustomerService, SCFCommonService, $http, $q,blockUI) {
 		var vm = this;
 		vm.buyer = $stateParams.buyer || null;
 		vm.supplier = $stateParams.supplier || null;
 		vm.criteria = $stateParams.criteria || {};
-		vm.pagingController = PagingController.create('/api/v1/remittance-advices', vm.criteria,'GET');
+		vm.pagingController = PagingController.create('/api/v1/remittance-advices', vm.criteria, 'GET');
+		
 		vm.dateSelected = {
 			effectiveDate: 'effectiveDate',
 			maturityDate: 'maturityDate',
 			remittanceDate: 'remittanceDate'
-		}
+		};
+		
 		vm.listRemittanceAdvice = {
 		    dateType: vm.dateSelected.effectiveDate,
 		    dateFrom: '',
 		    dateTo: '',
 		    remittanceOf: '',
 		    paidStatus: '',
-			transactionNo:'',
+			transactionNo: '',
 			closeStatus: '',
-		    sort:'-remittanceTime,-remittanceNo'
-		}
+		    sort: '-remittanceTime,-remittanceNo'
+		};
+		
 		vm.dateModel = {
 			dateFrom: '',
 			dateTo: ''
-		}
+		};
+		
 		vm.showBuyer = false;
 		vm.showSupplier = false;
 		
@@ -43,30 +48,28 @@ sciModule.controller('RemittanceAdviceCustomerController', [
 		vm.openDateFrom = false;
 		vm.dateFormat = 'dd/MM/yyyy';
 		vm.openDateTo = false;
-		vm.openCalendarDateFrom = function(){
+		vm.openCalendarDateFrom = function() {
 			vm.openDateFrom = true;
 		};
 		
-		vm.openCalendarDateTo = function(){
+		vm.openCalendarDateTo = function() {
 			vm.openDateTo = true;
 		};
 		
-		vm.remittanceOfDropdown = [
-			{label: 'Buyer',value: 'BUYER'},
-			{label: 'Supplier',value: 'SUPPLIER'}];
-		
 		vm.paidStatusDropdown = [
-			{label: 'All',value: ''},
-			{label: 'P : Paid',value: 'P'},
-			{label: 'OD : Overdue',value: 'OD'},
-			{label: 'POD : Paid Overdue',value: 'POD'},
-			{label: 'NL : Non Accrual Loan',value: 'NL'},
-			{label: 'PNL : Paid NAL',value: 'PNL'}];
+			{label: 'All', value: ''},
+			{label: 'P : Paid', value: 'P'},
+			{label: 'OD : Overdue', value: 'OD'},
+			{label: 'POD : Paid Overdue', value: 'POD'},
+			{label: 'NL : Non Accrual Loan', value: 'NL'},
+			{label: 'PNL : Paid NAL', value: 'PNL'}
+		];
 		
 		vm.closeStatusDropdown = [
-			{label: 'All',value: ''},
-			{label: 'C : Close',value: 'C'},
-			{label: 'O : Open',value: 'O'}];
+			{label: 'All', value: ''},
+			{label: 'C : Close', value: 'C'},
+			{label: 'O : Open', value: 'O'}
+		];
 		
 		vm.searchRemittanceAdvice = function (pageModel) {
 			var buyerId = undefined;
@@ -75,19 +78,22 @@ sciModule.controller('RemittanceAdviceCustomerController', [
 			vm.invalidDateCriteriaMsg = '';
 			var dateFrom = vm.dateModel.dateFrom;
 	        var dateTo = vm.dateModel.dateTo;
+	        
 	        if (angular.isUndefined(dateFrom)) {
 				vm.invalidDateCriteria = true;
 				vm.invalidDateCriteriaMsg = {
 	                message : 'Wrong date format data.'
 	            }
 			}
+	        
 			if (angular.isUndefined(dateTo)) {
 				vm.invalidDateCriteria = true;
 				vm.invalidDateCriteriaMsg = {
 	                message : 'Wrong date format data.'
 	            }
 			}
-			if(dateFrom != '' &&  dateFrom != null && dateTo != '' && dateTo != null){
+			
+			if (dateFrom != '' && dateFrom != null && dateTo != '' && dateTo != null) {
 				var dateTimeFrom = new Date(dateFrom);
 				var dateTimeTo = new Date(dateTo);
 				if(dateTimeFrom > dateTimeTo){
@@ -102,12 +108,15 @@ sciModule.controller('RemittanceAdviceCustomerController', [
 	        
 	        //set criteria
 			vm.criteria.borrowerType = vm.listRemittanceAdvice.remittanceOf;
+			
 			if (angular.isObject(vm.buyer)) {
 				buyerId = vm.buyer.organizeId;
 			}
+			
 			if (angular.isObject(vm.supplier)) {
 				supplierId = vm.supplier.organizeId;
 			}
+			
 			if('effectiveDate' == vm.listRemittanceAdvice.dateType){
 				vm.criteria.effectiveDateFrom = vm.listRemittanceAdvice.dateFrom || undefined;
 				vm.criteria.effectiveDateTo = vm.listRemittanceAdvice.dateTo || undefined;
@@ -117,7 +126,8 @@ sciModule.controller('RemittanceAdviceCustomerController', [
 			} else {
 				vm.criteria.remittanceDateFrom = vm.listRemittanceAdvice.dateFrom || undefined;
 				vm.criteria.remittanceDateTo = vm.listRemittanceAdvice.dateTo || undefined;
-			}	
+			}
+			
 			vm.criteria.buyerId = buyerId;
 			vm.criteria.supplierId = supplierId;
 			vm.criteria.paidStatus = vm.listRemittanceAdvice.paidStatus || undefined;
@@ -150,37 +160,75 @@ sciModule.controller('RemittanceAdviceCustomerController', [
 			query: _buyerTypeAhead
 		});
 		
-		 function _supplierTypeAhead(q) {
-			q = UIFactory.createCriteria(q);
-			return RemittanceAdviceCustomerService.getItemSuggestSuppliers(q);
-		}
-		
-		 function _buyerTypeAhead(q) {
-			q = UIFactory.createCriteria(q);
-			return RemittanceAdviceCustomerService.getItemSuggestBuyers(q);
-		}
-		
-		function checkBorrowerType() {
-			// TODO: Check borrower type
-			return 'BUYER';
-		}
-		 
-		// Main of program
-		var initLoad = function () {
-			vm.showBuyer = true;
-			vm.listRemittanceAdvice.remittanceOf = checkBorrowerType();
-			vm.searchRemittanceAdvice();		
-		}();
-
 		vm.onSelectRemittance = function () {
-			if(vm.listRemittanceAdvice.remittanceOf == 'BUYER'){
+			if (vm.listRemittanceAdvice.remittanceOf == 'BUYER') {
 				vm.showBuyer = true;
 				vm.showSupplier = false;
-			} else{
+				vm.disableBuyerSearch = false;
+				vm.disableSupplierSearch = true;
+				vm.buyer = undefined;
+				vm.supplier = $rootScope.userInfo.organizeId + ': ' + $rootScope.userInfo.organizeName;
+			} else if (vm.listRemittanceAdvice.remittanceOf == 'SUPPLIER') {
 				vm.showBuyer = false;
 				vm.showSupplier = true;
+				vm.disableBuyerSearch = true;
+				vm.disableSupplierSearch = false;
+				vm.buyer = $rootScope.userInfo.organizeId + ': ' + $rootScope.userInfo.organizeName;
+				vm.supplier = undefined;
 			}
 			vm.searchRemittanceAdvice();	
 		}
 		
-	}]);
+		function _supplierTypeAhead(q) {
+			q = UIFactory.createCriteria(q);
+			return RemittanceAdviceCustomerService.getItemSuggestSuppliers(q);
+		}
+		
+		function _buyerTypeAhead(q) {
+			q = UIFactory.createCriteria(q);
+			return RemittanceAdviceCustomerService.getItemSuggestBuyers(q);
+		}
+		
+		function initRemittanceOfDropdown() {
+			var deferred = RemittanceAdviceCustomerService.getBorrowerTypes($rootScope.userInfo.organizeId);
+			deferred.promise.then(function (response) {
+				var borrowerTypeList = response.data;
+				
+				vm.remittanceOfDropdown = [];
+
+				// Construct drop-down list
+				if (borrowerTypeList.indexOf('BUYER') > -1) {
+					vm.remittanceOfDropdown.push({label: 'Buyer', value: 'BUYER'});
+				}
+				if (borrowerTypeList.indexOf('SUPPLIER') > -1) {
+					vm.remittanceOfDropdown.push({label: 'Supplier', value: 'SUPPLIER'});
+				}
+				
+				// Set initial selected item in drop-down list
+				if (borrowerTypeList.indexOf('BUYER') > -1) {
+					vm.disableDropDown = false;
+					vm.listRemittanceAdvice.remittanceOf = 'BUYER';
+					vm.onSelectRemittance();
+				} else if (borrowerTypeList.indexOf('SUPPLIER') > -1) {
+					vm.disableDropDown = false;
+					vm.listRemittanceAdvice.remittanceOf = 'SUPPLIER';
+					vm.onSelectRemittance();
+				} else {
+					vm.disableDropDown = true;
+					vm.disableBuyerSearch = true;
+					vm.disableSupplierSearch = true;
+					return;
+				}
+			}).catch(function (response) {
+				log.error('Fail to load borrower type.');
+			});
+		}
+
+		// Main of program
+		var initLoad = function () {
+			vm.showBuyer = true;
+			initRemittanceOfDropdown();	
+		}();
+		
+	}]
+);

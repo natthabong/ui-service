@@ -64,7 +64,7 @@
                                 <label for="dealer" id="remittance-of-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Remittance of' | translate}}: </label>
 
                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                    <scf-dropdown id="remittance-of-dropdown" ng-disabled="true" ng-model="ctrl.listRemittanceAdvice.remittanceOf" 
+                                    <scf-dropdown id="remittance-of-dropdown" ng-disabled="ctrl.disableDropDown" ng-model="ctrl.listRemittanceAdvice.remittanceOf" 
                                     component-data="ctrl.remittanceOfDropdown" translate-label="true" ng-change="ctrl.onSelectRemittance()"></scf-dropdown>
                                 </div>
                             </div>
@@ -74,9 +74,8 @@
 									| translate}}: </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<gec-auto-suggest model="ctrl.supplierAutoSuggestModel"
-										ng-model="ctrl.supplier" id="supplier-auto-suggest"
-										name="supplierCode" maxlength="100"
-										disable="ctrl.toggleSupplierSearch"></gec-auto-suggest>
+										disable="ctrl.disableSupplierSearch" ng-model="ctrl.supplier" id="supplier-auto-suggest"
+										name="supplierCode" maxlength="100"></gec-auto-suggest>
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
                             </div>
@@ -86,9 +85,8 @@
 									| translate}}: </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<gec-auto-suggest model="ctrl.buyerAutoSuggestModel"
-										ng-model="ctrl.buyer" id="buyer-auto-suggest"
-										name="buyerCode" maxlength="100"
-										disable="ctrl.toggleBuyerSearch"></gec-auto-suggest>
+										disable="ctrl.disableBuyerSearch" ng-model="ctrl.buyer" id="buyer-auto-suggest"
+										name="buyerCode" maxlength="100"></gec-auto-suggest>
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
                             </div>
