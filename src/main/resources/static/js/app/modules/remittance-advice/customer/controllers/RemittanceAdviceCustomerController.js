@@ -14,6 +14,9 @@ raccModule.controller('RemittanceAdviceCustomerController', [
 	'blockUI',
 	function ($log, $rootScope, $scope, $stateParams, UIFactory, PagingController, RemittanceAdviceCustomerService, SCFCommonService, $http, $q, blockUI) {
 		var vm = this;
+		var organizeId = $rootScope.userInfo.organizeId;
+		var organizeName = $rootScope.userInfo.organizeName;
+		
 		vm.buyer = $stateParams.buyer || null;
 		vm.supplier = $stateParams.supplier || null;
 		vm.criteria = $stateParams.criteria || {};
@@ -147,46 +150,46 @@ raccModule.controller('RemittanceAdviceCustomerController', [
 				});
 			});
 		};
+		
+		var _supplierTypeAhead = function (q) {
+			q = UIFactory.createCriteria(q);
+			return RemittanceAdviceCustomerService.getItemSuggestSuppliers(organizeId, q);
+		}
+
+		var _buyerTypeAhead = function (q) {
+			q = UIFactory.createCriteria(q);
+			return RemittanceAdviceCustomerService.getItemSuggestBuyers(organizeId, q);
+		}
 
 		vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder: 'Enter organize name or code',
+            placeholder: 'Enter organization name or code',
 			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 			query: _supplierTypeAhead
 		});
 		
 		vm.buyerAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder: 'Enter organize name or code',
+			placeholder: 'Enter organization name or code',
 			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 			query: _buyerTypeAhead
 		});
 		
 		vm.onSelectRemittance = function () {
 			if (vm.listRemittanceAdvice.remittanceOf == 'BUYER') {
+				vm.showBuyer = false;
+				vm.showSupplier = true;
+				vm.disableBuyerSearch = true;
+				vm.disableSupplierSearch = false;
+				vm.buyer = organizeId + ': ' + organizeName;
+				vm.supplier = undefined;
+			} else if (vm.listRemittanceAdvice.remittanceOf == 'SUPPLIER') {
 				vm.showBuyer = true;
 				vm.showSupplier = false;
 				vm.disableBuyerSearch = false;
 				vm.disableSupplierSearch = true;
 				vm.buyer = undefined;
-				vm.supplier = $rootScope.userInfo.organizeId + ': ' + $rootScope.userInfo.organizeName;
-			} else if (vm.listRemittanceAdvice.remittanceOf == 'SUPPLIER') {
-				vm.showBuyer = false;
-				vm.showSupplier = true;
-				vm.disableBuyerSearch = true;
-				vm.disableSupplierSearch = false;
-				vm.buyer = $rootScope.userInfo.organizeId + ': ' + $rootScope.userInfo.organizeName;
-				vm.supplier = undefined;
+				vm.supplier = organizeId + ': ' + organizeName;
 			}
 			vm.searchRemittanceAdvice();	
-		}
-		
-		function _supplierTypeAhead(q) {
-			q = UIFactory.createCriteria(q);
-			return RemittanceAdviceCustomerService.getItemSuggestSuppliers(q);
-		}
-		
-		function _buyerTypeAhead(q) {
-			q = UIFactory.createCriteria(q);
-			return RemittanceAdviceCustomerService.getItemSuggestBuyers(q);
 		}
 		
 		function initRemittanceOfDropdown() {
