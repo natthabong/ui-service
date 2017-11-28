@@ -101,7 +101,8 @@ displayModule.controller('DisplayController', [
                     documentGroupingFields: [],
                     displayNegativeDocument: null,
                     reasonCodeMappingId: null,
-                    supportPartial: false
+                    supportPartial: false,
+                    specialPaymentMethod : null
                 };
 
 
@@ -118,6 +119,9 @@ displayModule.controller('DisplayController', [
                 // data and accounting transaction type is RECEIVABLE
                 if (vm.dataModel.displayNegativeDocument == null && vm.accountingTransactionType == "RECEIVABLE") {
                     vm.dataModel.displayNegativeDocument = true;
+                }
+                if (vm.dataModel.specialPaymentMethod == null && vm.accountingTransactionType == "RECEIVABLE") {
+                    vm.dataModel.specialPaymentMethod = false;
                 }
 
                 if (vm.dataModel.documentSelection != DOCUMENT_SELECTION_ITEM.anyDocument) {
@@ -196,7 +200,8 @@ displayModule.controller('DisplayController', [
                 log.error('Load data type error');
             });
         }
-
+        
+        
         var init = function () {
             loadDataTypes();
             loadDocumentCondition();
