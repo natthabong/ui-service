@@ -9,17 +9,14 @@ import gec.scf.util.AjaxUtils;
 
 @Controller
 public class RemittanceAdviceBankController {
-	
-	private static final String REMITTANCE_ADVICE = "remittance-advice/remittance-advice";
-	
-	@RequestMapping(method = RequestMethod.GET, path = "/remittance-advice-bank")
-	public String remittanceAdvice(
-			@RequestHeader("X-Requested-With") String requestedWith) {
 
+	private static final String REMITTANCE_ADVICE = "remittance-advice/remittance-advice-bank";
+
+	@RequestMapping(method = RequestMethod.GET, path = "/remittance-advice-bank")
+	public String remittanceAdvice(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return REMITTANCE_ADVICE.concat(" :: content");
 		}
 		return REMITTANCE_ADVICE;
-
 	}
 }

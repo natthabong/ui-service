@@ -12,6 +12,7 @@
 	"my-organize-supplier-codes": "Supplier codes",
 	"my-organize-supplier-credit-information": "Supplier credit information",
 	"my-organize-buyer-credit-information": "Buyer credit information",
+	"my-organize-remittance-advice": "Remittance advice",
 	"partner-organize-buyer-credit-information": "Buyer credit information",
 	"partner-organize": "Partner organization",
 	"partner-organize-payment-transactions": "Payment transactions",
@@ -240,6 +241,7 @@
     "E1008": "เอกสารมีการ แก้ไข",
     "E1009": "เอกสารผิด format",
     "E1010": "ระบบไม่สามารถทำรายการได้ เนื่องจากไม่มีเอกสารสำหรับทำรายการ",
+    "E1011": "ไม่พบ Remittance Advice ในระบบ",
     "Today is bank holiday.": "Can't create transaction. Please create next working day.",
     "ULE1001": "ช่องทางนำเข้าเอกสารผ่านเว็ปถูกปิด (Inactive)",
      
