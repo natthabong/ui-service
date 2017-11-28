@@ -1,6 +1,6 @@
 'use strict';
-var sciModule = angular.module('gecscf.remittanceAdviceCustomer');
-sciModule.controller('RemittanceAdviceCustomerController', [
+var raccModule = angular.module('gecscf.remittanceAdviceCustomer');
+raccModule.controller('RemittanceAdviceCustomerController', [
 	'$log',
 	'$rootScope',
 	'$scope',
@@ -12,7 +12,7 @@ sciModule.controller('RemittanceAdviceCustomerController', [
 	'$http',
 	'$q',
 	'blockUI',
-	function ($log, $rootScope, $scope, $stateParams, UIFactory, PagingController, RemittanceAdviceCustomerService, SCFCommonService, $http, $q,blockUI) {
+	function ($log, $rootScope, $scope, $stateParams, UIFactory, PagingController, RemittanceAdviceCustomerService, SCFCommonService, $http, $q, blockUI) {
 		var vm = this;
 		vm.buyer = $stateParams.buyer || null;
 		vm.supplier = $stateParams.supplier || null;
@@ -106,7 +106,7 @@ sciModule.controller('RemittanceAdviceCustomerController', [
 	        vm.listRemittanceAdvice.dateFrom = dateFrom;
 	        vm.listRemittanceAdvice.dateTo = dateTo;
 	        
-	        //set criteria
+	        // set criteria
 			vm.criteria.borrowerType = vm.listRemittanceAdvice.remittanceOf;
 			
 			if (angular.isObject(vm.buyer)) {
@@ -117,10 +117,10 @@ sciModule.controller('RemittanceAdviceCustomerController', [
 				supplierId = vm.supplier.organizeId;
 			}
 			
-			if('effectiveDate' == vm.listRemittanceAdvice.dateType){
+			if ('effectiveDate' == vm.listRemittanceAdvice.dateType) {
 				vm.criteria.effectiveDateFrom = vm.listRemittanceAdvice.dateFrom || undefined;
 				vm.criteria.effectiveDateTo = vm.listRemittanceAdvice.dateTo || undefined;
-			} else if('maturityDate' == vm.listRemittanceAdvice.dateType){
+			} else if ('maturityDate' == vm.listRemittanceAdvice.dateType) {
 				vm.criteria.maturityDateFrom = vm.listRemittanceAdvice.dateFrom || undefined;
 				vm.criteria.maturityDateTo = vm.listRemittanceAdvice.dateTo || undefined;
 			} else {
@@ -135,7 +135,7 @@ sciModule.controller('RemittanceAdviceCustomerController', [
 			vm.criteria.transactionNo = vm.listRemittanceAdvice.transactionNo || undefined;
 			vm.criteria.sort = vm.listRemittanceAdvice.sort;
 			
-			vm.pagingController.search(pageModel, function (criteriaData, response) {
+			vm.pagingController.search(pageModel, function(criteriaData, response) {
 				var data = response.data;
 				var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
 				var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
@@ -225,7 +225,7 @@ sciModule.controller('RemittanceAdviceCustomerController', [
 		}
 
 		// Main of program
-		var initLoad = function () {
+		var initLoad = function() {
 			vm.showBuyer = true;
 			initRemittanceOfDropdown();	
 		}();
