@@ -723,6 +723,15 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
                 params: {viewMode:'CUSTOMER',transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
 				resolve: load(['js/app/modules/remittance-advice/bank/controllers/RemittanceAdviceBankController.js','js/app/modules/remittance-advice/bank/services/RemittanceAdviceBankService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/my-organize/remittance-advice', {
+				onEnter: ['RemittanceAdviceCustomerService', '$state', function(RemittanceAdviceCustomerService, $state){
+					var deferred = RemittanceAdviceCustomerService.verifyBorrowerType();
+					deferred.promise.then(function(response) {
+	                }).catch(function(response) {
+	                	 $state.go('/error', {
+	                		 errorCode: response.data.errorCode
+	 	                });
+	                });
+				}],
 				url: '/my-organize/remittance-advice',
 				controller: 'RemittanceAdviceCustomerController',
 				controllerAs: 'ctrl',				

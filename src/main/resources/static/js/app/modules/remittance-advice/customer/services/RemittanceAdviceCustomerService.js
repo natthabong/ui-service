@@ -52,11 +52,23 @@ raccModule.factory('RemittanceAdviceCustomerService', ['$http', '$q', 'Service',
 		});
 		return deferred;
 	}
+	
+    var verifyBorrowerType = function() {
+		var deferred = $q.defer();
+		var http = $http.get('/api/v1/organizes/my/borrower-types', {
+		}).then(function (response) {
+			deferred.resolve(response);
+		}).catch(function (response) {
+			deferred.reject(response);
+		});
+		return deferred;
+    }
 
 	return {
 		getItemSuggestSuppliers: getItemSuggestSuppliers,
 		getItemSuggestBuyers: getItemSuggestBuyers,
-		getBorrowerTypes: getBorrowerTypes
+		getBorrowerTypes: getBorrowerTypes,
+		verifyBorrowerType: verifyBorrowerType
 	}
 
 }]);
