@@ -13,15 +13,6 @@ paymentModule.controller('ValidateSubmitController', [
 
         var vm = this;
         vm.transactionModel = $stateParams.transactionModel;
-        if (vm.transactionModel.documents != null) {
-            vm.transactionModel.documents.forEach(function (data) {
-                var reasonCode = data.reasonCode.split(" : ")[0];
-                var reasonCodeDisplay = data.reasonCode.split(" : ")[1];
-                console.log(reasonCodeDisplay);
-                data.reasonCode = reasonCode;
-                data.reasonCodeDisplay = reasonCodeDisplay;
-            });
-        }
         vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
 
         vm.isCreateTransWithInvoice = true;
@@ -62,6 +53,7 @@ paymentModule.controller('ValidateSubmitController', [
             var columnPaymentAmount = {
                 labelEN: 'Payment amount',
                 labelTH: 'Payment amount',
+                filterType: 'number',
                 cssTemplate: 'text-right',
                 documentField: {
                     displayFieldName: 'Payment amount',

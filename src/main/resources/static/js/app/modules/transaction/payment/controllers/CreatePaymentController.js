@@ -24,6 +24,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.documentSelects = [];
         vm.reasonCodeMappingId = null;
         var supportPartial = false;
+        vm.reasonCodes = {};
 
         var enterPageByBackAction = $stateParams.backAction || false;
         vm.criteria = $stateParams.criteria || {
@@ -643,6 +644,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
                 vm.transactionModel.transactionType = 'PAYMENT';
                 vm.tradingpartnerInfoModel.createTransactionType = createTransactionType;
+                vm.transactionModel.documents.forEach(function(document){
+                    document.reasonCodeDisplay = vm.reasonCodes[document.reasonCode];
+                });
 
                 var deffered = TransactionService.verifyTransaction(vm.transactionModel);
                 deffered.promise.then(function(response) {
@@ -745,19 +749,21 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             }
             var deffered = MappingDataService.loadMappingDataItems(vm.criteria.supplierId, 'RECEIVABLE', vm.reasonCodeMappingId, params);
             deffered.promise.then(function(response) {
-
+                vm.reasonCodes = {};
                 var reasonCodes = response.data;
                 reasonCodes.forEach(function(data) {
                     vm.resonCodeDropdown.push({
                         label: data.code + ': ' + data.display,
-                        value: data.code + ': ' + data.display
+                        value: data.code
                     });
+                    vm.reasonCodes[data.code] = data.display;
                 });
 
             }).catch(function(response) {
                 log.error(response);
             });
         }
+
         vm.disableReasonCode = function(data) {
             if (data.reasonCode == vm.resonCodeDropdown[0].value) {
                 return true;
