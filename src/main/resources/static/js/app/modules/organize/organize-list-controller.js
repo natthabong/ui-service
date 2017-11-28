@@ -50,7 +50,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	}
 	
 	vm.organizeAutoSuggestModel = UIFactory.createAutoSuggestModel({
-		placeholder: 'Enter organize name or code',
+		placeholder: 'Enter organization name or code',
 		itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 		query: searchOrganizeTypeHead
 	});
@@ -86,15 +86,15 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
     		identityField: 'organizeId',
             columns: [{
             	fieldName: 'organizeId',
-                labelEN: 'Organize Code',
-                labelTH: 'Organize Code',
+                labelEN: 'Organization Code',
+                labelTH: 'Organization Code',
                 id: '{value}-organize-code',
                 sortable: false,
                 cssTemplate: 'text-center',
             },{
             	fieldName: 'organizeName',
-            	labelEN: 'Organize Name',
-            	labelTH: 'Organize Name',
+            	labelEN: 'Organization Name',
+            	labelTH: 'Organization Name',
                 id: '{value}-organize-name',
                 sortable: false,
                 cssTemplate: 'text-left'

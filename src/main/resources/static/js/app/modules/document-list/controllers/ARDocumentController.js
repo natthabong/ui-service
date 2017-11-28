@@ -138,7 +138,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
         };
 
         vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
-            placeholder: 'Please Enter organize name or code',
+            placeholder: 'Please Enter organization name or code',
             itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
             query: querySupplierCode
         });
@@ -163,7 +163,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
         };
 
         vm.buyerAutoSuggestModel = UIFactory.createAutoSuggestModel({
-            placeholder: 'Enter organize name or code',
+            placeholder: 'Enter organization name or code',
             itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
             query: queryBuyerCode
         });

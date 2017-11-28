@@ -34,7 +34,7 @@ userModule.controller('UserOrganizeController', [ '$scope', '$http', 'UserServic
     
     vm.organizeAutoSuggestModel = UIFactory
 	    .createAutoSuggestModel({
-		placeholder : 'Enter organize name or code',
+		placeholder : 'Enter organization name or code',
 		itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
 		query : searchOrganizeTypeHead
 	    });

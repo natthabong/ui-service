@@ -941,7 +941,7 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', '$window', function ($
 			deferred.resolve(response);
 			return deferred;
 		}).catch(function(response){
-			deferred.reject("User Organize List Error");
+			deferred.reject("User Organization List Error");
 			return deferred;
 		});
     	return deferred;
@@ -953,7 +953,7 @@ app.factory('scfFactory', ['$http', '$q', '$cookieStore', '$window', function ($
 			deferred.resolve(response);
 			return deferred;
 		}).catch(function(response){
-			deferred.reject("Change User Organize Error");
+			deferred.reject("Change User Organization Error");
 			return deferred;
 		});
 		return deferred;

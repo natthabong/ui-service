@@ -25,7 +25,7 @@ scfApp.controller('GECSystemIntegrationMonitorController', [ '$scope', 'Service'
             organizeDeferred.promise.then(function(response){
                 vm.organize = response.data[0];
             }).catch(function(response){
-                console.log("get organize fail.")
+                console.log("get organization fail.")
             });
         }
 
