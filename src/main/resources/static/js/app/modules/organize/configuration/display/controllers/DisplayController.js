@@ -341,6 +341,9 @@ displayModule.controller('DisplayController', [
                         409: 'Display document has been deleted.',
                         405: 'Display document has been used.'
                     };
+                    if(vm.isNotTradeFinance == true){
+                    	vm.isNotTradeFinance = true;
+                    }
                     UIFactory.showFailDialog({
                         data: {
                             headerMessage: 'Edit display document configuration fail.',
@@ -365,7 +368,14 @@ displayModule.controller('DisplayController', [
                 }
             });
         }
-
+        	vm.isNotTradeFinance = false;
+            $scope.errors = {};
+			    $scope.errors.isNotTradeFinance = {
+				message : 'Please setup trade finance before creating special direct debit.'
+			    }
+  
+        
+        
         $scope.confirmSave = function () {
             if (vm.dataModel.documentSelection == DOCUMENT_SELECTION_ITEM.groupBy) {
                 if (vm.accountingTransactionType == "RECEIVABLE") {

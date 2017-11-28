@@ -189,6 +189,29 @@
 								</div>
 								<div class="col-md-4 col-sm-3"></div>
 							</div>
+							
+							
+							<div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+								<label for="dealer" id="special-payment-method-label" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Special payment method' | translate}}:</label>
+								<div class="col-md-5 col-sm-5 col-xs-12">
+									<label><scf-checkbox
+										ng-model="ctrl.dataModel.specialPaymentMethod"
+										id="support-special-direct-debit-checkbox"
+										ng-disabled="false"></scf-checkbox>
+										{{'Support special direct debit' | translate}}
+									</label>
+								</div>
+								<div class="col-md-4 col-sm-3"></div>
+							</div>
+							
+							<div class="form-group" ng-show="ctrl.vm.isNotTradeFinance == true">
+							<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+							<span class="col-md-5 col-sm-5 col-xs-12 error-msg"
+								id="special-payment-method-warning-message-label"
+								ng-bind="errors.isNotTradeFinance.message | translate"></span>
+						</div>
+							
+							
 						</div>
 						<br/>
 						<div ng-include="'/sponsor-configuration/components/setup-display-fields'"></div>
