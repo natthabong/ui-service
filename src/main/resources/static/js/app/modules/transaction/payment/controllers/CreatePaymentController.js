@@ -91,7 +91,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         function calculateTransactionAmount(documentSelects) {
-//        	console.log(documentSelects);
             vm.transactionModel.transactionAmount = TransactionService.summaryAllDocumentAmount(documentSelects);
         }
 
@@ -155,7 +154,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 limit: _criteria.limit
             } : undefined));
             deffered.promise.then(function(response) {
-console.log(response.data);
                 if (supportPartial) {
                     response.data.forEach(function(data) {
                         data.reasonCode = vm.resonCodeDropdown[0].value;
@@ -566,7 +564,6 @@ console.log(response.data);
         }
 
         vm.selectDocument = function(data) {
-        	console.log(data);
             vm.transactionModel.transactionDate = null;
             vm.checkAllModel = false;
             vm.selectAllModel = false;
@@ -703,12 +700,12 @@ console.log(response.data);
                 labelEN: 'Payment amount',
                 labelTH: 'Payment amount',
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$parent.$parent.$index+1}}-textbox" ng-blur="ctrl.validatePaymentAmount($parent.$parent.$parent.$index+1, data)" maxlength="19" format-default-value="{{data.paymentAmount}}" format-only-positive="true" format-not-be-zero = "true" ng-model="data.paymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
+                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$parent.$parent.$index+1}}-textbox" ng-blur="ctrl.validatePaymentAmount($parent.$parent.$parent.$index+1, data)" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" format-not-be-zero = "true" ng-model="data.calculatedPaymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
                 documentField: {
                     displayFieldName: 'Payment amount',
-                    documentFieldName: 'paymentAmount'
+                    documentFieldName: 'calculatedPaymentAmount'
                 },
-                fieldName: 'paymentAmount',
+                fieldName: 'calculatedPaymentAmount',
                 idValueField: '$rowNo',
 				id: 'payment-amount-{value}-textbox'
             }
@@ -789,7 +786,7 @@ console.log(response.data);
         }
         
         vm.resetPaymentAmount = function(row, record){
-			record.paymentAmount = record.calculatedNetAmount; //reset to default value
+			record.calculatedPaymentAmount = record.calculatedNetAmount; //reset to default value
         }
         
         // --- after blur payment amount
@@ -800,23 +797,23 @@ console.log(response.data);
         		the 'format' directive will correct the data after. So, this condition is just 
         		for control the appearing of reason code dropdown.
         	**/
-        	if(record.paymentAmount == 0 || record.paymentAmount < 0
-        		|| isNaN(Number(record.paymentAmount.replace(/,/g, ""))) 
-        		|| typeof(record.paymentAmount) === "boolean"){
+        	if(record.calculatedPaymentAmount == 0 || record.calculatedPaymentAmount < 0
+        		|| isNaN(Number(record.calculatedPaymentAmount.replace(/,/g, ""))) 
+        		|| typeof(record.calculatedPaymentAmount) === "boolean"){
         		vm.resetReasonCode(row, record);
         	}
        		
        		/** for case valid format--- control the appearing of reason code dropdown
        			according to business rules.
         	**/
-			else if(record.paymentAmount < record.calculatedNetAmount){
+			else if(record.calculatedPaymentAmount < record.calculatedNetAmount){
 				reasonCodeDropdown.disabled = false;
 				reasonCodeDropdown.focus();
 				calculateTransactionAmount(vm.documentSelects);
-			}else if(record.paymentAmount == record.calculatedNetAmount){
+			}else if(record.calculatedPaymentAmount == record.calculatedNetAmount){
 				vm.resetReasonCode(row, record);
 				calculateTransactionAmount(vm.documentSelects);
-			}else if (record.paymentAmount > record.calculatedNetAmount){
+			}else if (record.calculatedPaymentAmount > record.calculatedNetAmount){
 				UIFactory.showIncompleteDialog({
 	            	data: {
 	                	mode : 'general_warning',
@@ -844,7 +841,7 @@ console.log(response.data);
 				}
 				
 				var errorMessage = '';
-				if(record.paymentAmount < record.calculatedNetAmount && isDefaultReasonCode){
+				if(record.calculatedPaymentAmount < record.calculatedNetAmount && isDefaultReasonCode){
 					//partial payment but select full payment reason code
 					errorMessage = '"' + record.reasonCode + '" Reason code can only be used for full payment.';
 				}

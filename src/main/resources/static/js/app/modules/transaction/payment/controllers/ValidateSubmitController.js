@@ -57,9 +57,9 @@ paymentModule.controller('ValidateSubmitController', [
                 cssTemplate: 'text-right',
                 documentField: {
                     displayFieldName: 'Payment amount',
-                    documentFieldName: 'paymentAmount'
+                    documentFieldName: 'calculatedPaymentAmount'
                 },
-                fieldName: 'paymentAmount'
+                fieldName: 'calculatedPaymentAmount'
 
             }
 
@@ -88,8 +88,8 @@ paymentModule.controller('ValidateSubmitController', [
             var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT');
             deffered.promise.then(function (response) {
                 vm.dataTable.columns = response.items;
-                supportPartial = response.supportPartial;
-                if (supportPartial) {
+                vm.supportPartial = response.supportPartial;
+                if (vm.supportPartial) {
                     // vm.reasonCodeMappingId = response.reasonCodeMappingId;
                     // _loadReasonCodeMappingDatas();
                     addColumnForCreatePartial();
@@ -150,12 +150,11 @@ paymentModule.controller('ValidateSubmitController', [
                 vm.transactionModel.maturityDate = SCFCommonService.convertStringTodate(vm.transactionModel.maturityDate);
 
                 vm.transactionModel.documents.forEach(function (document) {
-                	if(!supportPartial){
-                		document.paymentAmount = document.netAmount;
-                	}
+                	document.paymentAmount = document.calculatedPaymentAmount;
                     document.paymentDate = vm.transactionModel.transactionDate;
                 });
                 vm.transactionModel.createTransactionType = "WITH_INVOICE";
+                console.log(vm.transactionModel.documents);
                 var deffered = TransactionService.submitTransaction(vm.transactionModel);
                 deffered.promise.then(function (response) {
                     var storeAccount = vm.transactionModel.payerAccountNo;
