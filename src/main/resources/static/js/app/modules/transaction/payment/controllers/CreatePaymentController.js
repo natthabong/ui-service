@@ -817,7 +817,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	            	data: {
 	                	mode : 'general_warning',
 	                            headerMessage: 'Payment amount',
-	                            infoMessage: 'Payment amount cannot be greater than net amount.'
+	                            infoMessage: 'Payment amount cannot over net amount.'
 	                },
 	                preCloseCallback: function(){ 
 	                	vm.resetReasonCode(row, record);
