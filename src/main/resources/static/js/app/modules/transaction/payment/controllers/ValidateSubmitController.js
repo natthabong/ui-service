@@ -150,7 +150,9 @@ paymentModule.controller('ValidateSubmitController', [
                 vm.transactionModel.maturityDate = SCFCommonService.convertStringTodate(vm.transactionModel.maturityDate);
 
                 vm.transactionModel.documents.forEach(function (document) {
-                    document.paymentAmount = document.netAmount;
+                	if(!supportPartial){
+                		document.paymentAmount = document.netAmount;
+                	}
                     document.paymentDate = vm.transactionModel.transactionDate;
                 });
                 vm.transactionModel.createTransactionType = "WITH_INVOICE";
