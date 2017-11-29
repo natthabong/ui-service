@@ -91,6 +91,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         function calculateTransactionAmount(documentSelects) {
+//        	console.log(documentSelects);
             vm.transactionModel.transactionAmount = TransactionService.summaryAllDocumentAmount(documentSelects);
         }
 
@@ -126,7 +127,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     }
                 }
             }
-
+ 
             return valid;
         }
 
@@ -154,7 +155,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 limit: _criteria.limit
             } : undefined));
             deffered.promise.then(function(response) {
-
+console.log(response.data);
                 if (supportPartial) {
                     response.data.forEach(function(data) {
                         data.reasonCode = vm.resonCodeDropdown[0].value;
@@ -565,6 +566,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         vm.selectDocument = function(data) {
+        	console.log(data);
             vm.transactionModel.transactionDate = null;
             vm.checkAllModel = false;
             vm.selectAllModel = false;
@@ -701,7 +703,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 labelEN: 'Payment amount',
                 labelTH: 'Payment amount',
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$parent.$parent.$index+1}}-textbox" ng-blur="ctrl.validatePaymentAmount($parent.$parent.$parent.$index+1, data)" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" format-not-be-zero = "true" ng-model="data.paymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
+                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$parent.$parent.$index+1}}-textbox" ng-blur="ctrl.validatePaymentAmount($parent.$parent.$parent.$index+1, data)" maxlength="19" format-default-value="{{data.paymentAmount}}" format-only-positive="true" format-not-be-zero = "true" ng-model="data.paymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
                 documentField: {
                     displayFieldName: 'Payment amount',
                     documentFieldName: 'paymentAmount'
@@ -810,14 +812,16 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 			else if(record.paymentAmount < record.calculatedNetAmount){
 				reasonCodeDropdown.disabled = false;
 				reasonCodeDropdown.focus();
+				calculateTransactionAmount(vm.documentSelects);
 			}else if(record.paymentAmount == record.calculatedNetAmount){
 				vm.resetReasonCode(row, record);
+				calculateTransactionAmount(vm.documentSelects);
 			}else if (record.paymentAmount > record.calculatedNetAmount){
 				UIFactory.showIncompleteDialog({
 	            	data: {
 	                	mode : 'general_warning',
 	                            headerMessage: 'Payment amount',
-	                            infoMessage: 'Payment amount cannot over net amount.'
+	                            infoMessage: 'Payment amount cannot be greater than net amount.'
 	                },
 	                preCloseCallback: function(){ 
 	                	vm.resetReasonCode(row, record);
