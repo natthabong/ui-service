@@ -102,7 +102,7 @@ displayModule.controller('DisplayController', [
                     displayNegativeDocument: null,
                     reasonCodeMappingId: null,
                     supportPartial: false,
-                    specialPaymentMethod : null
+                    supportSpecialDebit : null
                 };
 
 
@@ -120,8 +120,8 @@ displayModule.controller('DisplayController', [
                 if (vm.dataModel.displayNegativeDocument == null && vm.accountingTransactionType == "RECEIVABLE") {
                     vm.dataModel.displayNegativeDocument = true;
                 }
-                if (vm.dataModel.specialPaymentMethod == null && vm.accountingTransactionType == "RECEIVABLE") {
-                    vm.dataModel.specialPaymentMethod = false;
+                if (vm.dataModel.supportSpecialDebit == null && vm.accountingTransactionType == "RECEIVABLE") {
+                    vm.dataModel.supportSpecialDebit = false;
                 }
 
                 if (vm.dataModel.documentSelection != DOCUMENT_SELECTION_ITEM.anyDocument) {
@@ -341,7 +341,7 @@ displayModule.controller('DisplayController', [
                         409: 'Display document has been deleted.',
                         405: 'Display document has been used.'
                     };
-                    if(vm.isNotTradeFinance == true){
+                    if(response.status==403){
                     	vm.isNotTradeFinance = true;
                     }
                     UIFactory.showFailDialog({
@@ -368,7 +368,7 @@ displayModule.controller('DisplayController', [
                 }
             });
         }
-        	vm.isNotTradeFinance = false;
+        	
             $scope.errors = {};
 			    $scope.errors.isNotTradeFinance = {
 				message : 'Please setup trade finance before creating special direct debit.'
