@@ -1,6 +1,6 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService',
-    'PagingController', 'PageNavigation', '$filter', 'MappingDataService','UIFactory','$window',
+    'PagingController', 'PageNavigation', '$filter', 'MappingDataService', 'UIFactory', '$window',
     function($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, UIFactory, $window) {
         //<-------------------------------------- declare variable ---------------------------------------->
         var vm = this;
@@ -25,6 +25,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.reasonCodeMappingId = null;
         var supportPartial = false;
         vm.reasonCodes = {};
+        vm.temporalDocuments = [];
 
         var enterPageByBackAction = $stateParams.backAction || false;
         vm.criteria = $stateParams.criteria || {
@@ -126,7 +127,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     }
                 }
             }
- 
+
             return valid;
         }
 
@@ -155,9 +156,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             } : undefined));
             deffered.promise.then(function(response) {
                 if (supportPartial) {
-                    response.data.forEach(function(data) {
+                    vm.pagingController.tableRowCollection.forEach(function(data) {
                         data.reasonCode = vm.resonCodeDropdown[0].value;
                     });
+                    vm.temporalDocuments = vm.pagingController.tableRowCollection;
                 }
 
                 if (!vm.display) {
@@ -609,10 +611,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
         vm.selectAllDocument = function() {
             vm.transactionModel.transactionDate = null;
-
             if (!vm.selectAllModel) {
-                var allDocument = vm.pagingAllController.tableRowCollection;
-                angular.copy(allDocument, vm.documentSelects);
+                vm.documentSelects = [];
+                vm.documentSelects = vm.temporalDocuments;
                 vm.selectAllModel = true;
                 vm.checkAllModel = true;
             } else {
@@ -643,7 +644,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
                 vm.transactionModel.transactionType = 'PAYMENT';
                 vm.tradingpartnerInfoModel.createTransactionType = createTransactionType;
-                vm.transactionModel.documents.forEach(function(document){
+                vm.transactionModel.documents.forEach(function(document) {
                     document.reasonCodeDisplay = vm.reasonCodes[document.reasonCode];
                 });
 
@@ -707,7 +708,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 },
                 fieldName: 'calculatedPaymentAmount',
                 idValueField: '$rowNo',
-				id: 'payment-amount-{value}-textbox'
+                id: 'payment-amount-{value}-textbox'
             }
 
             if (vm.dataTable.columns.indexOf(columnNetAmount) == -1) {
@@ -769,101 +770,101 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             } else {
                 return false;
             }
-		}
-		
-        var getReasonCodeDropdownElement = function (row){
-        	return $window.document.getElementById('reason-code-' + row + '-dropdown');
         }
-        
-        var getPaymentAmountTextboxElement = function (row){
-        	return $window.document.getElementById('payment-amount-'+row+'-textbox');
+
+        var getReasonCodeDropdownElement = function(row) {
+            return $window.document.getElementById('reason-code-' + row + '-dropdown');
         }
-        
-        vm.resetReasonCode = function(row, record){
-        	var reasonCodeDropdown = getReasonCodeDropdownElement(row);
-        	record.reasonCode = vm.resonCodeDropdown[0].value; //reset to default reason code
-			reasonCodeDropdown.disabled = true;
+
+        var getPaymentAmountTextboxElement = function(row) {
+            return $window.document.getElementById('payment-amount-' + row + '-textbox');
         }
-        
-        vm.resetPaymentAmount = function(row, record){
-			record.calculatedPaymentAmount = record.calculatedNetAmount; //reset to default value
+
+        vm.resetReasonCode = function(row, record) {
+            var reasonCodeDropdown = getReasonCodeDropdownElement(row);
+            record.reasonCode = vm.resonCodeDropdown[0].value; //reset to default reason code
+            reasonCodeDropdown.disabled = true;
         }
-        
+
+        vm.resetPaymentAmount = function(row, record) {
+            record.calculatedPaymentAmount = record.calculatedNetAmount; //reset to default value
+        }
+
         // --- after blur payment amount
-		vm.validatePaymentAmount = function(row, record){
-        	var reasonCodeDropdown = getReasonCodeDropdownElement(row);
-        	
-        	/** for case invalid format---after blur payment amount textbox, 
-        		the 'format' directive will correct the data after. So, this condition is just 
-        		for control the appearing of reason code dropdown.
-        	**/
-        	if(record.calculatedPaymentAmount == 0 || record.calculatedPaymentAmount < 0
-        		|| isNaN(Number(record.calculatedPaymentAmount.replace(/,/g, ""))) 
-        		|| typeof(record.calculatedPaymentAmount) === "boolean"){
-        		vm.resetReasonCode(row, record);
-        	}
-       		
-       		/** for case valid format--- control the appearing of reason code dropdown
+        vm.validatePaymentAmount = function(row, record) {
+            var reasonCodeDropdown = getReasonCodeDropdownElement(row);
+
+            /** for case invalid format---after blur payment amount textbox, 
+            	the 'format' directive will correct the data after. So, this condition is just 
+            	for control the appearing of reason code dropdown.
+            **/
+            if (record.calculatedPaymentAmount == 0 || record.calculatedPaymentAmount < 0 ||
+                isNaN(Number(record.calculatedPaymentAmount.replace(/,/g, ""))) ||
+                typeof(record.calculatedPaymentAmount) === "boolean") {
+                vm.resetReasonCode(row, record);
+            }
+
+            /** for case valid format--- control the appearing of reason code dropdown
        			according to business rules.
         	**/
-			else if(record.calculatedPaymentAmount < record.calculatedNetAmount){
-				reasonCodeDropdown.disabled = false;
-				reasonCodeDropdown.focus();
-				calculateTransactionAmount(vm.documentSelects);
-			}else if(record.calculatedPaymentAmount == record.calculatedNetAmount){
-				vm.resetReasonCode(row, record);
-				calculateTransactionAmount(vm.documentSelects);
-			}else if (record.calculatedPaymentAmount > record.calculatedNetAmount){
-				UIFactory.showIncompleteDialog({
-	            	data: {
-	                	mode : 'general_warning',
-	                            headerMessage: 'Payment amount',
-	                            infoMessage: 'Payment amount cannot be greater than net amount.'
-	                },
-	                preCloseCallback: function(){ 
-	                	vm.resetReasonCode(row, record);
-						vm.resetPaymentAmount(row, record);
-						var paymentAmountTextbox = getPaymentAmountTextboxElement(row);
-						paymentAmountTextbox.focus();
-					}
-	           	});
-			}
-		}
-		
-		// --- after blur reason code dropdown
-		vm.validatePaymentAmountAndReasonCode = function(row, record){
-				var paymentAmountTextbox = getPaymentAmountTextboxElement(row);
-				paymentAmountTextbox.disabled = true;
-				
-				var isDefaultReasonCode = false; //full payment reason code
-				if(record.reasonCode == vm.resonCodeDropdown[0].value){
-					isDefaultReasonCode = true;
-				}
-				
-				var errorMessage = '';
-				if(record.calculatedPaymentAmount < record.calculatedNetAmount && isDefaultReasonCode){
-					//partial payment but select full payment reason code
-					errorMessage = '"' + record.reasonCode + '" Reason code can only be used for full payment.';
-				}
-				
-				if(errorMessage !== ''){
-					UIFactory.showIncompleteDialog({
-	                	data: {
-	                    	mode : 'general_warning',
-	                    	headerMessage: 'Reason code',
-	                    	infoMessage: errorMessage
-	                	},
-	                	preCloseCallback: function(){ 
-							var reasonCodeDropdown = getReasonCodeDropdownElement(row);
-							reasonCodeDropdown.disabled = false;
-							reasonCodeDropdown.focus();
-						}
-	                });
-					
-				}else{
-					paymentAmountTextbox.disabled = false;
-				}
-		}
-        
+            else if (record.calculatedPaymentAmount < record.calculatedNetAmount) {
+                reasonCodeDropdown.disabled = false;
+                reasonCodeDropdown.focus();
+                calculateTransactionAmount(vm.documentSelects);
+            } else if (record.calculatedPaymentAmount == record.calculatedNetAmount) {
+                vm.resetReasonCode(row, record);
+                calculateTransactionAmount(vm.documentSelects);
+            } else if (record.calculatedPaymentAmount > record.calculatedNetAmount) {
+                UIFactory.showIncompleteDialog({
+                    data: {
+                        mode: 'general_warning',
+                        headerMessage: 'Payment amount',
+                        infoMessage: 'Payment amount cannot be greater than net amount.'
+                    },
+                    preCloseCallback: function() {
+                        vm.resetReasonCode(row, record);
+                        vm.resetPaymentAmount(row, record);
+                        var paymentAmountTextbox = getPaymentAmountTextboxElement(row);
+                        paymentAmountTextbox.focus();
+                    }
+                });
+            }
+        }
+
+        // --- after blur reason code dropdown
+        vm.validatePaymentAmountAndReasonCode = function(row, record) {
+            var paymentAmountTextbox = getPaymentAmountTextboxElement(row);
+            paymentAmountTextbox.disabled = true;
+
+            var isDefaultReasonCode = false; //full payment reason code
+            if (record.reasonCode == vm.resonCodeDropdown[0].value) {
+                isDefaultReasonCode = true;
+            }
+
+            var errorMessage = '';
+            if (record.calculatedPaymentAmount < record.calculatedNetAmount && isDefaultReasonCode) {
+                //partial payment but select full payment reason code
+                errorMessage = '"' + record.reasonCode + '" Reason code can only be used for full payment.';
+            }
+
+            if (errorMessage !== '') {
+                UIFactory.showIncompleteDialog({
+                    data: {
+                        mode: 'general_warning',
+                        headerMessage: 'Reason code',
+                        infoMessage: errorMessage
+                    },
+                    preCloseCallback: function() {
+                        var reasonCodeDropdown = getReasonCodeDropdownElement(row);
+                        reasonCodeDropdown.disabled = false;
+                        reasonCodeDropdown.focus();
+                    }
+                });
+
+            } else {
+                paymentAmountTextbox.disabled = false;
+            }
+        }
+
     }
 ]);
