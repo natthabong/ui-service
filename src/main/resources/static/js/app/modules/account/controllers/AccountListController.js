@@ -49,7 +49,7 @@ accountModule.controller('AccountListController', [
 			}
 			
 			var orgAutoSuggest = {
-				placeholder : 'Enter organize name or code',
+				placeholder : 'Enter organization name or code',
 				itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
 				query : searchOrganizeTypeHead
 			}
@@ -66,8 +66,8 @@ accountModule.controller('AccountListController', [
 				}, {
 					fieldName : 'organizeName',
 					headerId : 'organizeName-header-label',
-					labelEN : 'Organize name',
-					labelTH : 'Organize name',
+					labelEN : 'Organization name',
+					labelTH : 'Organization name',
 					id : 'organizeName-{value}',
 					sortable : false,
 					cssTemplate : 'text-left',

@@ -25,7 +25,6 @@ module.controller('FillerLayoutConfigController', [ '$scope', function($scope) {
 
 	vm.initial = function() {
 		vm.fillerType = null;
-		vm.model.required = true;
 		if (vm.model.expectedValue == null) {
 			vm.fillerType = null;
 		} else if (vm.model.expectedValue == ' ') {
@@ -53,8 +52,11 @@ module.controller('FillerLayoutConfigController', [ '$scope', function($scope) {
 	}
 
 	vm.saveFiller = function() {
+		vm.model.required = true;
+		
 		if (vm.fillerType == null) {
 			vm.model.expectedValue = null;
+			vm.model.required = false;
 		} else if (vm.fillerType == 'space') {
 			vm.model.expectedValue = ' ';
 		} else if (vm.fillerType == 'zero') {

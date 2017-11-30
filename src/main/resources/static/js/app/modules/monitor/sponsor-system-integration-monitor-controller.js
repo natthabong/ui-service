@@ -50,7 +50,7 @@ scfApp.controller('SponsorSystemIntegrationMonitorController', [ '$scope', 'Serv
 		};
 
 		vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder : 'Please enter organize name or code',
+			placeholder : 'Please enter organization name or code',
 			itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
 			query : querySponsorCode
 			});

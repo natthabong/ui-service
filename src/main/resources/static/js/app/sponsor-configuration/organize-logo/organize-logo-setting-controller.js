@@ -131,7 +131,7 @@ angular
 						    });
 					}else{
 						vm.showErrorMsgLogo = true;
-						vm.errorMsgKeyLogo = 'Organize logo is required';
+						vm.errorMsgKeyLogo = 'Organization logo is required';
 					}
 			    }
 			    

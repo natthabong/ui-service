@@ -33,8 +33,8 @@ userModule
 				columns : [
 					{
 					    fieldName : 'organize',
-					    labelEN : 'Organize',
-					    labelTH : 'Organize',
+					    labelEN : 'Organization',
+					    labelTH : 'Organization',
 					    idTemplate : 'organize-{value}',
 					    idValueField : '$rowNo',
 					    sortable : false,

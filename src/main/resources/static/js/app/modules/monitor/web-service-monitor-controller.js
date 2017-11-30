@@ -104,7 +104,7 @@ scfApp.controller('WebServiceMonitorController', [ '$scope', 'Service', '$stateP
 						console.log("connect api fail.");
 					});
 			}else{
-				console.log("validate organize fail.");
+				console.log("validate organization fail.");
 			}
 			return deffered;
 		}
