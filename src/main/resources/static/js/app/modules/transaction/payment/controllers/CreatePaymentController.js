@@ -728,7 +728,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
             var columnReasonCodeDropdown = {
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-dropdown id="reason-code-{{$parent.$index+1}}-dropdown" ng-model="data.reasonCode" component-data="ctrl.resonCodeDropdown" ng-blur="ctrl.validatePaymentAmountAndReasonCode($parent.$index+1, data)" translate-label="true" ng-disabled = "ctrl.disableReasonCode(data)"></scf-dropdown>',
+                cellTemplate: '<scf-dropdown id="reason-code-{{$parent.$index+1}}-dropdown" ng-model="data.reasonCode" component-data="ctrl.resonCodeDropdown"  translate-label="true" ng-disabled = "ctrl.disableReasonCode(data)"></scf-dropdown>',
                 id: 'reason-code-{value}-dropdown',
                 idValueField: '$rowNo',
                 fieldName: 'reasonCode',
@@ -788,7 +788,25 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.resetPaymentAmount = function(row, record){
 			record.calculatedPaymentAmount = record.calculatedNetAmount; //reset to default value
         }
-        
+
+        var showSelectReasonCodePopup = function(record) {
+		    var dialog = UIFactory.showDialog({
+		        templateUrl: '/js/app/modules/transaction/payment/reason-code/templates/dialog-partial-payment-reason-code.html',
+		        controller:  'SelectReasonCodePopupController',
+		        data: {
+        			reasonCodeDropdown: vm.resonCodeDropdown
+        		}
+		    });
+		    
+		 dialog.closePromise.then(function(selectedReasonCode) {
+		 	console.log(selectedReasonCode);
+		     if (selectedReasonCode.value != null && selectedReasonCode.value !== undefined) {
+		     	record.reasonCode = selectedReasonCode.value;
+		     }
+		 });
+		 		    
+		}  
+		
         // --- after blur payment amount
 		vm.validatePaymentAmount = function(row, record){
         	var reasonCodeDropdown = getReasonCodeDropdownElement(row);
@@ -808,7 +826,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         	**/
 			else if(record.calculatedPaymentAmount < record.calculatedNetAmount){
 				reasonCodeDropdown.disabled = false;
-				reasonCodeDropdown.focus();
+				showSelectReasonCodePopup(record);
 				calculateTransactionAmount(vm.documentSelects);
 			}else if(record.calculatedPaymentAmount == record.calculatedNetAmount){
 				vm.resetReasonCode(row, record);
@@ -828,41 +846,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 					}
 	           	});
 			}
-		}
-		
-		// --- after blur reason code dropdown
-		vm.validatePaymentAmountAndReasonCode = function(row, record){
-				var paymentAmountTextbox = getPaymentAmountTextboxElement(row);
-				paymentAmountTextbox.disabled = true;
-				
-				var isDefaultReasonCode = false; //full payment reason code
-				if(record.reasonCode == vm.resonCodeDropdown[0].value){
-					isDefaultReasonCode = true;
-				}
-				
-				var errorMessage = '';
-				if(record.calculatedPaymentAmount < record.calculatedNetAmount && isDefaultReasonCode){
-					//partial payment but select full payment reason code
-					errorMessage = '"' + record.reasonCode + '" Reason code can only be used for full payment.';
-				}
-				
-				if(errorMessage !== ''){
-					UIFactory.showIncompleteDialog({
-	                	data: {
-	                    	mode : 'general_warning',
-	                    	headerMessage: 'Reason code',
-	                    	infoMessage: errorMessage
-	                	},
-	                	preCloseCallback: function(){ 
-							var reasonCodeDropdown = getReasonCodeDropdownElement(row);
-							reasonCodeDropdown.disabled = false;
-							reasonCodeDropdown.focus();
-						}
-	                });
-					
-				}else{
-					paymentAmountTextbox.disabled = false;
-				}
 		}
         
     }
