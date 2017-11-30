@@ -336,6 +336,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         var _loadDocumentDisplayConfig = function(ownerId) {
+            vm.dataTable.expansion.columns = [];
             var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT');
             deffered.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
@@ -736,8 +737,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 component: true
             }
 
-            vm.dataTable.expansion.columns.push(columnReasonCodeLabel);
-            vm.dataTable.expansion.columns.push(columnReasonCodeDropdown);
+            if (vm.dataTable.columns.indexOf(columnReasonCodeLabel) == -1) {
+                vm.dataTable.expansion.columns.push(columnReasonCodeLabel);
+                vm.dataTable.expansion.columns.push(columnReasonCodeDropdown);
+            }
         }
 
         var _loadReasonCodeMappingDatas = function() {
