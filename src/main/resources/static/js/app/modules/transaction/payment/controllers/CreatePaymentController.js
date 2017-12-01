@@ -65,7 +65,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 displaySelect: {
                     label: '<input type="checkbox" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
                     cssTemplate: 'text-center',
-                    cellTemplate: '<input type="checkbox" checklist-model="ctrl.documentSelects" checklist-value="data" ng-disabled="ctrl.disableDocment(data)" ng-click="ctrl.selectDocument(data)"/>',
+                    cellTemplate: '<input type="checkbox" checklist-model="ctrl.documentSelects" checklist-value="data" ng-disabled="ctrl.disableDocment(data)" ng-click="ctrl.selectDocument(data)" ng-change="ctrl.changeSelectedDocument(this, $parent.$index+1 , data)"/>',
                     displayPosition: 'first',
                     idValueField: '$rowNo',
                     id: 'document-{value}-checkbox'
@@ -468,15 +468,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             }
         }
 
-        vm.disablePaymentAmount = function(document) {
-            if (document.netAmount !== undefined && document.netAmount < 0) {
-                return true
-            } else {
-                return false;
-            }
-
-        }
-
         vm.accountChange = function() {
             var accountId = vm.transactionModel.payerAccountId;
             vm.accountDropDown.forEach(function(account) {
@@ -584,7 +575,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         vm.selectDocument = function(data) {
-        	console.log(data);
             vm.transactionModel.transactionDate = null;
             vm.checkAllModel = false;
             vm.selectAllModel = false;
@@ -720,7 +710,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 labelEN: 'Payment amount',
                 labelTH: 'Payment amount',
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$parent.$parent.$index+1}}-textbox" ng-blur="ctrl.validatePaymentAmount($parent.$parent.$parent.$index+1, data)" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" format-not-be-zero = "true" ng-model="data.calculatedPaymentAmount" ng-disabled="ctrl.disablePaymentAmount(data)"></scf-input-text>',
+                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$parent.$parent.$index+1}}-textbox" ng-blur="ctrl.validatePaymentAmount($parent.$parent.$parent.$index+1, data)" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" format-not-be-zero = "true" ng-model="data.calculatedPaymentAmount" disabled></scf-input-text>',
                 documentField: {
                     displayFieldName: 'Payment amount',
                     documentFieldName: 'calculatedPaymentAmount'
@@ -801,13 +791,13 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             return $window.document.getElementById('payment-amount-' + row + '-textbox');
         }
 
-        vm.resetReasonCode = function(row, record) {
+        var resetReasonCode = function(row, record) {
             var reasonCodeDropdown = getReasonCodeDropdownElement(row);
             record.reasonCode = vm.resonCodeDropdown[0].value; //reset to default reason code
             reasonCodeDropdown.disabled = true;
         }
 
-        vm.resetPaymentAmount = function(row, record) {
+        var resetPaymentAmount = function(row, record) {
             record.calculatedPaymentAmount = record.calculatedNetAmount; //reset to default value
         }
 
@@ -821,7 +811,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 		    });
 		    
 		 dialog.closePromise.then(function(selectedReasonCode) {
-		 	console.log(selectedReasonCode);
 		     if (selectedReasonCode.value != null && selectedReasonCode.value !== undefined) {
 		     	record.reasonCode = selectedReasonCode.value;
 		     }
@@ -840,19 +829,18 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             if (record.calculatedPaymentAmount == 0 || record.calculatedPaymentAmount < 0 ||
                 isNaN(Number(record.calculatedPaymentAmount.replace(/,/g, ""))) ||
                 typeof(record.calculatedPaymentAmount) === "boolean") {
-                vm.resetReasonCode(row, record);
+                resetReasonCode(row, record);
             }
 
             /** for case valid format--- control the appearing of reason code dropdown
        			according to business rules.
         	**/
-
 			else if(record.calculatedPaymentAmount < record.calculatedNetAmount){
 				reasonCodeDropdown.disabled = false;
 				showSelectReasonCodePopup(record);
 				calculateTransactionAmount(vm.documentSelects);
 			}else if(record.calculatedPaymentAmount == record.calculatedNetAmount){
-				vm.resetReasonCode(row, record);
+				resetReasonCode(row, record);
 				calculateTransactionAmount(vm.documentSelects);
 			}else if (record.calculatedPaymentAmount > record.calculatedNetAmount){
 				UIFactory.showIncompleteDialog({
@@ -862,8 +850,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	                            infoMessage: 'Payment amount cannot be greater than net amount.'
 	                },
 	                preCloseCallback: function(){ 
-	                	vm.resetReasonCode(row, record);
-						vm.resetPaymentAmount(row, record);
+	                	resetReasonCode(row, record);
+						resetPaymentAmount(row, record);
 						var paymentAmountTextbox = getPaymentAmountTextboxElement(row);
 						paymentAmountTextbox.focus();
 					}
@@ -872,15 +860,24 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 		}
 		
 		
-		//
-		var enablePaymentAmount = function(record){
+		var selectDocument = function(row, record){
+			getPaymentAmountTextboxElement(row).disabled = false;
 		}
 		
-		var disablePaymentAmount = function(record){
+		var deselectDocument = function(row, record){
+			getPaymentAmountTextboxElement(row).disabled = true;
+			resetPaymentAmount(row, record)
+			resetReasonCode(row, record)
 		}
 		
-		vm.changeSelectedDocument = function(record){
-			
+		vm.changeSelectedDocument = function(element,row, record){
+			if(supportPartial){
+				if(element.checked){
+					selectDocument(row, record);
+				}else{
+					deselectDocument(row, record);
+				}
+			}
 		}
         
 
