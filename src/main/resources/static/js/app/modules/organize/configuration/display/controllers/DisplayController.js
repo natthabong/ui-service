@@ -353,6 +353,9 @@ displayModule.controller('DisplayController', [
                         preCloseCallback: function () {
                             if(response.status!=404){
                             	vm.backToSponsorConfigPage();
+                            }else{
+                            	vm.isNotTradeFinance = true;
+                            	vm.dataModel.supportSpecialDebit = false;
                             }
                         }
                     });
