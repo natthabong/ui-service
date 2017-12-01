@@ -159,6 +159,23 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     vm.pagingController.tableRowCollection.forEach(function(data) {
                         data.reasonCode = vm.resonCodeDropdown[0].value;
                     });
+                    
+                    if ($stateParams.backAction) {
+                        var temp = angular.copy(vm.documentSelects);
+                        vm.documentSelects = [];
+                        if (temp.length > 0) {
+                            temp.forEach(function (documentSelect) {
+                                vm.pagingController.tableRowCollection.forEach(function (data) {
+                                    if (documentSelect.documentId == data.documentId) {
+                                        data.calculatedPaymentAmount = documentSelect.calculatedPaymentAmount;
+                                        data.reasonCode = documentSelect.reasonCode;
+                                        vm.documentSelects.push(data);
+                                    }
+                                });
+                            });
+                        }
+                    }
+
                     vm.temporalDocuments = vm.pagingController.tableRowCollection;
                 }
 
