@@ -710,7 +710,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 labelEN: 'Payment amount',
                 labelTH: 'Payment amount',
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$parent.$parent.$index+1}}-textbox" ng-blur="ctrl.validatePaymentAmount($parent.$parent.$parent.$index+1, data)" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" format-not-be-zero = "true" ng-model="data.calculatedPaymentAmount" disabled></scf-input-text>',
+                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$parent.$parent.$index+1}}-textbox" ng-blur="ctrl.validatePaymentAmount($parent.$parent.$parent.$index+1, data)" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" format-not-be-zero = "true" ng-model="data.calculatedPaymentAmount" ng-disabled="ctrl.disablePaymentAmount($parent.$parent.$parent.$index+1, data, this)"></scf-input-text>',
                 documentField: {
                     displayFieldName: 'Payment amount',
                     documentFieldName: 'calculatedPaymentAmount'
@@ -720,10 +720,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 id: 'payment-amount-{value}-textbox'
             }
 
-            if (vm.dataTable.columns.indexOf(columnNetAmount) == -1) {
-                vm.dataTable.columns.push(columnNetAmount);
-                vm.dataTable.columns.push(columnPaymentAmount);
-            }
+           
+            vm.dataTable.columns.push(columnNetAmount);
+            vm.dataTable.columns.push(columnPaymentAmount);
+            
 
             var columnReasonCodeLabel = {
                 labelEN: 'Reason code',
@@ -745,10 +745,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 component: true
             }
 
-            if (vm.dataTable.columns.indexOf(columnReasonCodeLabel) == -1) {
-                vm.dataTable.expansion.columns.push(columnReasonCodeLabel);
-                vm.dataTable.expansion.columns.push(columnReasonCodeDropdown);
-            }
+            
+            vm.dataTable.expansion.columns.push(columnReasonCodeLabel);
+            vm.dataTable.expansion.columns.push(columnReasonCodeDropdown);
+            
         }
 
         var _loadReasonCodeMappingDatas = function() {
@@ -791,6 +791,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             return $window.document.getElementById('payment-amount-' + row + '-textbox');
         }
 
+		var getDocumentCheckboxElement = function(row) {
+            return $window.document.getElementById('document-' + row + '-checkbox');
+        }
+        
         var resetReasonCode = function(row, record) {
             var reasonCodeDropdown = getReasonCodeDropdownElement(row);
             record.reasonCode = vm.resonCodeDropdown[0].value; //reset to default reason code
@@ -859,24 +863,14 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 			}
 		}
 		
-		
-		var selectDocument = function(row, record){
-			if(record.calculatedNetAmount>0){
-				getPaymentAmountTextboxElement(row).disabled = false;
-			}
-		}
-		
 		var deselectDocument = function(row, record){
-			getPaymentAmountTextboxElement(row).disabled = true;
 			resetPaymentAmount(row, record)
 			resetReasonCode(row, record)
 		}
 		
 		vm.changeSelectedDocument = function(element,row, record){
 			if(supportPartial){
-				if(element.checked){
-					selectDocument(row, record);
-				}else{
+				if(!element.checked){
 					deselectDocument(row, record);
 				}
 			}
@@ -886,6 +880,19 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 			if(record.reasonCode == vm.resonCodeDropdown[0].value){
 				resetPaymentAmount(row, record)
 			}
+		}
+		
+		vm.disablePaymentAmount = function(row, record, element){
+			console.log(record.documentNo +", " + row);
+			var selectDocCheckbox = getDocumentCheckboxElement(row);
+			
+			if(selectDocCheckbox.checked 
+				&& record.calculatedNetAmount>0){
+				return false;
+			}else{
+				return true;
+			}
+			
 		}
 
     }
