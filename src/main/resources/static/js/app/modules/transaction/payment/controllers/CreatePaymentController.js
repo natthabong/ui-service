@@ -65,7 +65,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 displaySelect: {
                     label: '<input type="checkbox" id="select-all-checkbox" ng-model="ctrl.checkAllModel" ng-click="ctrl.checkAllDocument()"/>',
                     cssTemplate: 'text-center',
-                    cellTemplate: '<input type="checkbox" checklist-model="ctrl.documentSelects" checklist-value="data" ng-disabled="ctrl.disableDocment(data)" ng-click="ctrl.selectDocument(data)" ng-change="ctrl.changeSelectedDocument(this, $parent.$index+1 , data)"/>',
+                    cellTemplate: '<input type="checkbox" checklist-model="ctrl.documentSelects" checklist-value="data" ng-disabled="ctrl.disableDocment(data)" ng-click="ctrl.selectDocument(data)" ng-change="ctrl.changeSelectedDocument(this, $parent.$parent.$index+1 , data)"/>',
                     displayPosition: 'first',
                     idValueField: '$rowNo',
                     id: 'document-{value}-checkbox'
@@ -738,7 +738,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
             var columnReasonCodeDropdown = {
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-dropdown id="reason-code-{{$parent.$index+1}}-dropdown" ng-model="data.reasonCode" component-data="ctrl.resonCodeDropdown"  translate-label="true" ng-disabled = "ctrl.disableReasonCode(data)"></scf-dropdown>',
+                cellTemplate: '<scf-dropdown id="reason-code-{{$parent.$index+1}}-dropdown" ng-model="data.reasonCode" component-data="ctrl.resonCodeDropdown"  translate-label="true" ng-disabled = "ctrl.disableReasonCode(data)" ng-change="ctrl.changeReasonCode($parent.$index+1, data)"></scf-dropdown>',
                 id: 'reason-code-{value}-dropdown',
                 idValueField: '$rowNo',
                 fieldName: 'reasonCode',
@@ -861,7 +861,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 		
 		
 		var selectDocument = function(row, record){
-			getPaymentAmountTextboxElement(row).disabled = false;
+			if(record.calculatedNetAmount>0){
+				getPaymentAmountTextboxElement(row).disabled = false;
+			}
 		}
 		
 		var deselectDocument = function(row, record){
@@ -879,7 +881,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 				}
 			}
 		}
-        
+		
+		vm.changeReasonCode = function(row, record){
+			if(record.reasonCode == vm.resonCodeDropdown[0].value){
+				resetPaymentAmount(row, record)
+			}
+		}
 
     }
 ]);
