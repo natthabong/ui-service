@@ -14,7 +14,9 @@ tpModule.controller('TradingPartnerController', [
 
             var vm = this;
             var log = $log;
-            vm.tradingPartner = {};
+            vm.tradingPartner = {
+            	supportDebit: true
+            };
             vm.tradingPartner.createTransactionType = 'WITH_INVOICE';
             vm.organizeListModel = {
                 buyer : undefined,

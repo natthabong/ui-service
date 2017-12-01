@@ -82,9 +82,14 @@
 							<div class="col-md-3 col-sm-2"></div>
 						</div>
 						
-						
-						
 						<div class="form-group">
+							<label class="col-md-3 col-sm-3 col-hidden-xs  control-label"></label>
+							<div class="col-md-6 col-sm-6 col-xs-12" style="padding-left: 25px;">
+								<scf-checkbox id="support-debit-checkbox" 
+									ng-model="ctrl.tradingPartner.supportDebit" ></scf-checkbox>
+								<label id="suspend-label" class="checkbox-inline"
+									style="padding-bottom: 10px;">{{'Support payment by debit' | translate}}</label>
+							</div>
 							<label class="col-md-3 col-sm-3 col-hidden-xs  control-label"></label>
 							<div class="col-md-6 col-sm-6 col-xs-12" style="padding-left: 25px;">
 								<scf-checkbox id="suspend-checkbox" 
@@ -93,6 +98,10 @@
 									style="padding-bottom: 10px;">{{'Suspend' | translate}}</label>
 							</div>
 							<div class="col-md-3 col-sm-2 col-hidden-xs"></div>
+						</div>
+						
+						<div class="form-group">
+							
 						</div>
 
 						<div class="col-md-12 col-sm-12 text-right">
