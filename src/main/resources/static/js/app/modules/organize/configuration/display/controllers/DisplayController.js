@@ -322,6 +322,7 @@ displayModule.controller('DisplayController', [
         vm.backToSponsorConfigPage = function () {
             PageNavigation.gotoPreviousPage();
         }
+        
 
         vm.save = function () {
             var preCloseCallback = function () {
@@ -341,7 +342,7 @@ displayModule.controller('DisplayController', [
                         409: 'Display document has been deleted.',
                         405: 'Display document has been used.'
                     };
-                    if(response.status==403){
+                    if(response.status==404){
                     	vm.isNotTradeFinance = true;
                     }
                     UIFactory.showFailDialog({
@@ -350,7 +351,9 @@ displayModule.controller('DisplayController', [
                             bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
                         },
                         preCloseCallback: function () {
-                            vm.backToSponsorConfigPage();
+                            if(response.status!=404){
+                            	vm.backToSponsorConfigPage();
+                            }
                         }
                     });
                 },
