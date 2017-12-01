@@ -24,7 +24,7 @@ tpModule.controller('TradingPartnerListController',['$scope','$stateParams','UIF
 		}
 
 		vm.organizeAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder : 'Enter organize name or code',
+			placeholder : 'Enter organization name or code',
 			itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
 			query : _organizeTypeHead
 		});

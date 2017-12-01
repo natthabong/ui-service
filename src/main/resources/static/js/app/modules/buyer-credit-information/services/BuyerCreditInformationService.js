@@ -1,6 +1,6 @@
 'use strict';
-var sciModule = angular.module('gecscf.buyerCreditInformation');
-sciModule.factory('BuyerCreditInformationService', ['$http', '$q', 'Service', function ($http, $q, Service) {
+var bciModule = angular.module('gecscf.buyerCreditInformation');
+bciModule.factory('BuyerCreditInformationService', ['$http', '$q', 'Service', function ($http, $q, Service) {
 
 	var _prepareItemSupplier = function (item) {
 		item.identity = ['supplier-', item.organizeId, '-option'].join('');

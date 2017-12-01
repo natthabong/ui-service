@@ -1,6 +1,6 @@
 'use strict';
-var sciModule = angular.module('gecscf.buyerCreditInformation');
-sciModule.controller('BuyerCreditInformationController', [
+var bciModule = angular.module('gecscf.buyerCreditInformation');
+bciModule.controller('BuyerCreditInformationController', [
 	'$rootScope',
 	'$scope',
 	'$stateParams',
@@ -95,13 +95,13 @@ sciModule.controller('BuyerCreditInformationController', [
 		}
 
 		vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder: 'Enter organize name or code',
+			placeholder: 'Enter organization name or code',
 			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 			query: _supplierTypeAhead
 		});
 		
 		vm.buyerAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder: 'Enter organize name or code',
+			placeholder: 'Enter organization name or code',
 			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 			query: _buyerTypeAhead
 		});

@@ -885,9 +885,9 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 
 	var placeholder;
 	if($stateParams.viewMode == mode.CUSTOMER){
-		placeholder = 'Enter organize name or code';
+		placeholder = 'Enter organization name or code';
 	}else{
-		placeholder = 'Please Enter organize name or code';
+		placeholder = 'Please Enter organization name or code';
 	}
 
 	vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
@@ -923,7 +923,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         });
 	};
 	vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
-        placeholder : 'Enter organize name or code',
+        placeholder : 'Enter organization name or code',
         itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
         query : querySupplierCode
 	});

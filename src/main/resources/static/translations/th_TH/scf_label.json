@@ -1,5 +1,5 @@
 {
-	"my-organize": "My organize",
+	"my-organize": "My organization",
 	"my-organize-upload-documents": "Upload documents",
 	"my-organize-upload-document-logs": "Upload document logs",
 	"my-organize-ar-documents": "AR documents",
@@ -12,8 +12,9 @@
 	"my-organize-supplier-codes": "Supplier codes",
 	"my-organize-supplier-credit-information": "Supplier credit information",
 	"my-organize-buyer-credit-information": "Buyer credit information",
+	"my-organize-remittance-advice": "Remittance advice",
 	"partner-organize-buyer-credit-information": "Buyer credit information",
-	"partner-organize": "Partner organize",
+	"partner-organize": "Partner organization",
 	"partner-organize-payment-transactions": "Payment transactions",
 	"partner-organize-download-payment-advices": "Download payment advices",
 	"partner-organize-ar-documents": "AR documents",
@@ -25,8 +26,8 @@
 	"settings-user-and-password-policy": "User and password policies",
 	"settings-roles": "Roles",
 	"settings-users": "Users",
-	"settings-organizes": "Organizes",
-	"customer-organize": "Customer organize",
+	"settings-organizes": "Organizations",
+	"customer-organize": "Customer organization",
 	"customer-organize-payment-transactions": "Payment transactions",
 	"customer-organize-ar-documents": "AR documents",
 	"customer-organize-financing-transactions": "Financing transactions",
@@ -67,7 +68,7 @@
     "Verify payment": "Verify payment",
     "Sponsor": "คู่ค้ารายใหญ่",
     "Loan documents": "Loan documents",
-    "Payment documents": "Payment documents",
+    "No. of document": "No. of document",
     "Transaction type": "Transaction type",
     "Value of document": "Value of document",
     "Sponsor payment date": "Sponsor payment date",
@@ -179,8 +180,8 @@
 	
 	"wait_for_verify": "Wait for verify",
 	"wait_for_approve": "Wait for approve",
-	"reject_by_checker": "Reject by checker",
-	"reject_by_approver": "Reject by approver",
+	"reject_by_checker": "Rejected by checker",
+	"reject_by_approver": "Rejected by approver",
 	"cancelled_by_supplier": "Cancel by supplier",
 	"wait_for_drawdown_result": "Wait for drawdown result",
 	
@@ -240,6 +241,7 @@
     "E1008": "เอกสารมีการ แก้ไข",
     "E1009": "เอกสารผิด format",
     "E1010": "ระบบไม่สามารถทำรายการได้ เนื่องจากไม่มีเอกสารสำหรับทำรายการ",
+    "E1011": "ไม่พบ Remittance Advice ในระบบ",
     "Today is bank holiday.": "Can't create transaction. Please create next working day.",
     "ULE1001": "ช่องทางนำเข้าเอกสารผ่านเว็ปถูกปิด (Inactive)",
      
@@ -277,8 +279,8 @@
 	"upload-document-bank": "Upload document",
 	"upload-document-supplier": "Upload document",
 	
-	"organize": "Organize",
-	"organize-list": "Organize list",
+	"organize": "Organization",
+	"organize-list": "Organization list",
 	
 	"Document list": "Document list",
 	"document-list-sponsor": "Document list",
@@ -298,7 +300,7 @@
     "transaction-buyer": "Transaction",
 	"create-payment": "Create payment",
 	
-	"organize-sponsor": "Organize",
+	"organize-sponsor": "Organization",
 	"supplier-code-list": "Supplier code list",
 
 	"user-list": "User list",
@@ -452,17 +454,17 @@
 	"e-mail is required":"e-mail is required",
 	"Birth date":"Birth date",
 	"Birth date is required":"Birth date is required",
-	"Organize links":"Organize links",
-	"Organize links is required":"Organize links is required",
+	"Organization links":"Organization links",
+	"Organization links is required":"Organization links is required",
 	
 	"Could not be create transaction because the document not found.": "Could not be create transaction because the document not found.",
 	"Supplier credit information":"Supplier credit information",
 	"supplier-credit-information":"Supplier credit information",
 	
-	"Edit organize logo": "Edit organize logo",
-	"Organize logo": "Organize logo",
+	"Edit organization logo": "Edit organization logo",
+	"Organization logo": "Organization logo",
 	"No logo": "No logo",
-	"Organize logo is required": "Organize logo is required",
+	"Organization logo is required": "Organization logo is required",
 	
 	"View document upload log": "View {{roleName}} document upload log",
 	"Channel": "Channel",
@@ -590,7 +592,8 @@
 	"download-payment-result-supplier": "Download payment result",
 	"LOAN": "Loan",
 	"TERM_LOAN": "Loan",
-	"DEBIT": "Payment",
+	"DEBIT": "Direct debit",
+	"DEBIT_SPECIAL": "Special direct debit",
 	"wait_for_payment_result": "Wait for payment result",
 	"Payment amount": "Payment amount",
 	
@@ -622,7 +625,7 @@
 	"DOCUMENT": "Document",
 	"DOWNLOAD": "Download",
 	"LOGIN": "Login",
-	"ORGANIZE": "Organize",
+	"ORGANIZE": "Organization",
 	"ROLE": "Role",
 	"TRADE_FINANCE": "Trade finance",
 	"TRADING_PARTNER": "Trading partner",

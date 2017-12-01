@@ -362,7 +362,7 @@ scfApp.controller('DocumentListController', ['$scope', 'Service', '$stateParams'
         };
 
         vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
-            placeholder: 'Please Enter organize name or code',
+            placeholder: 'Please Enter organization name or code',
             itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
             query: querySponsorCode
         });
@@ -389,7 +389,7 @@ scfApp.controller('DocumentListController', ['$scope', 'Service', '$stateParams'
             });
         };
         vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
-            placeholder: 'Enter organize name or code',
+            placeholder: 'Enter organization name or code',
             itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
             query: querySupplierCode
         });

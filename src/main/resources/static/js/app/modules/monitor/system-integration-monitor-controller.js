@@ -52,7 +52,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 		};
 
 		vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder : 'Please enter organize name or code',
+			placeholder : 'Please enter organization name or code',
 			itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
 			query : querySponsorCode
 			});
@@ -235,7 +235,7 @@ scfApp.controller('SystemIntegrationMonitorController', [ '$scope', 'Service', '
 						});
 				}
 			}else{
-				console.log("validate organize fail.")
+				console.log("validate organization fail.")
 			}
 		}
 		// initial Display Name
