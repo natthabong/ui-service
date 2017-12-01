@@ -82,7 +82,7 @@ tpModule.controller('EditMappingDataController', [
                 cssTemplate: 'text-center',
                 sortData: false,
                 cellTemplate: '<scf-button id="{{data.code}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.editMappingDataCode(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
-                '<scf-button id="{{data.code}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>' +
+                '<scf-button id="{{data.code}}-delete-button" class="btn-default gec-btn-action" ng-disabled="data.defaultCode" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>' +
                 '<scf-button id="{{data.code}}-set-default-button" class="btn-default gec-btn-action" ng-hide="ctrl.hideDefaultCodeColumn" ng-click="ctrl.setDefaultCode(data)" title="Set default"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>'
             }]
         }

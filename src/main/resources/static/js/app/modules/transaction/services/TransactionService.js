@@ -274,7 +274,7 @@ function transactionService($http, $q, blockUI, $window) {
     function summaryAllDocumentAmount(documentSelects) {
         var sumAmount = 0;
         documentSelects.forEach(function (document) {
-            sumAmount += document.netAmount;
+            sumAmount += Number(document.calculatedPaymentAmount);
         });
         return sumAmount;
     }

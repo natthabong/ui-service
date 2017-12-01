@@ -20,6 +20,11 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
         }
 
         vm.dataTable = {
+            expansion: {
+                expanded: true,
+                exceptedMergeColumn: 0,
+                columns: []
+            },
             columns: []
         };
 
@@ -65,8 +70,60 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
             deffered.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
                 _criteria.sort = response.sort;
+
+                if (response.supportPartial !== undefined && response.supportPartial) {
+                    addColumnForCreatePartial();
+                }
+
                 callback();
             });
+        }
+
+        var addColumnForCreatePartial = function() {
+            var columnNetAmount = {
+                documentField: {
+                    displayFieldName: 'Net amount',
+                    documentFieldName: 'netAmount'
+                },
+                fieldName: 'netAmount',
+                labelEN: 'Net amount',
+                labelTH: 'Net amount',
+                filterType: 'number',
+                alignment: 'RIGHT'
+            }
+
+            var columnPaymentAmount = {
+                documentField: {
+                    displayFieldName: 'Payment amount',
+                    documentFieldName: 'paymentAmount'
+                },
+                labelEN: 'Payment amount',
+                labelTH: 'Payment amount',
+                fieldName: 'paymentAmount',
+                filterType: 'number',
+                alignment: 'RIGHT'
+
+            }
+
+            if (vm.dataTable.columns.indexOf(columnNetAmount) == -1) {
+                vm.dataTable.columns.push(columnNetAmount);
+                vm.dataTable.columns.push(columnPaymentAmount);
+            }
+
+            var columnReasonCodeLabel = {
+                labelEN: 'Reason code',
+                labelTH: 'Reason code',
+                cssTemplate: 'text-left',
+                idValueField: '$rowNo',
+                id: 'reasonCode-{value}-label',
+                fieldName: 'reasonCode',
+                dataRenderer: function(record) {
+                    return '<span id="reason-code-{{$parent.$index+1}}-value"><b>Reason code</b>&nbsp;&nbsp;' + record.reasonCode + ' : ' + record.reasonCodeDisplay + '</span>';
+                },
+                component: true
+            }
+
+            vm.dataTable.expansion.columns.push(columnReasonCodeLabel);
         }
 
         vm.searchDocument = function(pagingModel) {

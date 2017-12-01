@@ -262,6 +262,7 @@
     "E1009": "Wrong file format data.",
     "E1010": "Could not be create transaction because the document not found.",
     "E1011": "Remittance Advice is not available",
+    "E1012": "Net payment amount is wrong",
     "Today is bank holiday.": "Can't create transaction. Please create next working day.",
     "ULE1001": "Could not upload file because channel is inactive.",
     
@@ -635,5 +636,7 @@
 	"TRADING_PARTNER": "Trading partner",
 	"TRANSACTION": "Transaction",
 	"UPLOAD_DOCUMENT": "Upload document",
-	"USER": "User"
+	"USER": "User",
+	"SELECT_REASON_CODE": "Select partial payment reason code",
+	"REASON_CODE": "Reason code"
 }
