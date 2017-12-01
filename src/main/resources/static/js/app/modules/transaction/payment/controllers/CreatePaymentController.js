@@ -567,6 +567,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         vm.selectDocument = function(data) {
+        	console.log(data);
             vm.transactionModel.transactionDate = null;
             vm.checkAllModel = false;
             vm.selectAllModel = false;
@@ -851,6 +852,18 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 					}
 	           	});
 			}
+		}
+		
+		
+		//
+		var enablePaymentAmount = function(record){
+		}
+		
+		var disablePaymentAmount = function(record){
+		}
+		
+		vm.changeSelectedDocument = function(record){
+			
 		}
         
 
