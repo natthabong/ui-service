@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('[SCM] Checkout UI service') {
       steps {
-        git branch: "${git_branch}", credentialsId: '28413f37-4882-46c8-9b30-6530cc145bed', url: GIT_REPOSITORY_REPO
+        git branch: '${git_branch}', credentialsId: '28413f37-4882-46c8-9b30-6530cc145bed', url: GIT_REPOSITORY_REPO
       }
     }
     stage('[MAVEN] Pack sources') {
