@@ -83,6 +83,9 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 					} else if (transactionMethod == 'TERM_LOAN') {
 						vm.contractHeaderMsg = 'contract header loan';
 						vm.agreeConditionMsg = 'agree condition loan';
+					} else if(transactionMethod == 'DEBIT_SPECIAL'){
+						vm.contractHeaderMsg = 'contract header special debit';
+						vm.agreeConditionMsg = 'agree condition special debit';
 					}
 
 					_getRequestForm(vm.transactionApproveModel.transaction);
