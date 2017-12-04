@@ -49,22 +49,38 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
         }
 
         var _save = function(data){
-            var url;
-            var method;
-            if(mode === 'NEW'){
-                uri = '/api/v1/roles';
-                method = 'POST';
-            }else{
-                uri = '/api/v1/roles';
-                method = 'PUT';
+            var url = '/api/v1/roles';
+            var deferred = $q.defer();
+
+            if (mode === 'NEW') {
+        		$http({
+        			method : 'POST',
+        			url : url,
+        			data: data
+        		}).then(function(response) {
+        			return deferred.resolve(response);
+        		}).catch(function(response) {
+        			log.error('Save role fail');
+        			return deferred.reject(response);
+        		});
+        		return deferred;
+            } else {
+        		$http({
+        			method : 'POST',
+        			url : url,
+        			headers : {
+        				'If-Match' : data.version,
+        				'X-HTTP-Method-Override': 'PUT'
+        			},
+        			data: data
+        		}).then(function(response) {
+        			return deferred.resolve(response);
+        		}).catch(function(response) {
+        			log.error('Save role fail');
+        			return deferred.reject(response);
+        		});
+        		return deferred;
             }
-            
-            var defered = Service.requestURL(uri,data,method,null);
-            defered.promise.then(function(response){
-            }).catch(function(response) {
-                log.error('Save role fail');
-            });
-            return defered;
         }
 
         $scope.error = {};
