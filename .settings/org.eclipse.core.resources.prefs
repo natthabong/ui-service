@@ -7,4 +7,5 @@ encoding//src/main/resources/templates/create-transactions/validate-submit.html=
 encoding//src/main/resources/templates/transaction/payment/create.html=UTF-8
 encoding//src/test/java=UTF-8
 encoding//src/test/resources=UTF-8
+encoding//target/generated-resources=UTF-8
 encoding/<project>=UTF-8
