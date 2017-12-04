@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('[SCM] Checkout UI service') {
       steps {
-        git branch: '${git_branch}', credentialsId: '28413f37-4882-46c8-9b30-6530cc145bed', url: GIT_REPOSITORY_REPO
+        git branch: "${git_branch}", credentialsId: '28413f37-4882-46c8-9b30-6530cc145bed', url: GIT_REPOSITORY_REPO
       }
     }
     stage('[MAVEN] Pack sources') {
@@ -15,7 +15,7 @@ pipeline {
     }
     stage('[DOCKER] Build an image') {
       steps {
-        sh 'docker build -t ui-service:${image_tag} - < target/ui-service-0.1-SNAPSHOT-bin.tar.gz'
+        sh "docker build -t ui-service:${image_tag} - < target/ui-service-0.1-SNAPSHOT-bin.tar.gz"
         sh "docker tag ui-service:${image_tag} registry-gecscf.gec.io:5000/ui-service:${image_tag}"
         
       }
@@ -29,7 +29,7 @@ pipeline {
   }
   post { 
     success {
-       build ':${downstream_job}'
+        build "${downstream_job}"
     }
   }
 }
