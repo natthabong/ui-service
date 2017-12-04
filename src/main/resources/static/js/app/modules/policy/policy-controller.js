@@ -11,12 +11,9 @@ angular.module('scfApp').controller(
 		'$state',
 		'UIFactory',
 		'$http',
-		function($scope, Service, $stateParams, $log, SCFCommonService,
-			blockUI, PageNavigation, $state, UIFactory,
-			$http) {
+		function($scope, Service, $stateParams, $log, SCFCommonService, blockUI, PageNavigation, $state, UIFactory, $http) {
 		    var model = {};
 		    $scope.userPolicies = []
-		    
 		    $scope.passwordPolicies = []
 
 		    var getPolicies = function(criteria) {
@@ -31,8 +28,7 @@ angular.module('scfApp').controller(
 				
 				if (data.policyType == 'USER') {
 				    $scope.userPolicies.push(data);
-				}
-				else if(data.policyType == 'PASSWORD'){
+				} else if(data.policyType == 'PASSWORD') {
 				    $scope.passwordPolicies.push(data);
 				}
 			    });
@@ -70,16 +66,28 @@ angular.module('scfApp').controller(
 		    }
 		    
 		    $scope.confirmSave = function() { 
-			blockUI.start();
-			var policyItems = [];
-			policyItems = policyItems.concat($scope.userPolicies);
-			policyItems = policyItems.concat($scope.passwordPolicies);
-			model.policyItems = policyItems;
-			
-    			var serviceUrl = '/api/v1/policies/common';
-    			var deferred = Service.requestURL(serviceUrl, model, 'PUT');
+				blockUI.start();
+				var policyItems = [];
+				policyItems = policyItems.concat($scope.userPolicies);
+				policyItems = policyItems.concat($scope.passwordPolicies);
+				model.policyItems = policyItems;	
+    			var url = '/api/v1/policies/common';	
+    			var deferred = $q.defer();
+    			
+    			$http({
+    				method : 'POST',
+    				url : url,
+    				headers : {
+    					'X-HTTP-Method-Override': 'PUT'
+    				},
+    				data: model
+    			}).then(function(response) {
+    				return deferred.resolve(response);
+    			}).catch(function(response) {
+    				return deferred.reject(response);
+    			});
     			return deferred;
-    	            }
+    	    }
 		    
 		    var init = function() {
 			getPolicies();
