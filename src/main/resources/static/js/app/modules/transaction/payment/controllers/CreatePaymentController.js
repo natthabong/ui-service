@@ -169,13 +169,13 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     });
 
                     if (vm.documentSelects.length > 0) {
-                        vm.documentSelects.forEach(function (documentSelect,index) {
+                        vm.documentSelects.forEach(function (documentSelect, index) {
                             vm.pagingController.tableRowCollection.forEach(function (data) {
                                 if (documentSelect.documentId == data.documentId) {
                                     data.calculatedPaymentAmount = documentSelect.calculatedPaymentAmount;
                                     data.reasonCode = documentSelect.reasonCode;
-                                    vm.documentSelects.splice(index,1);
-                                    vm.documentSelects.splice(index,0,data);
+                                    vm.documentSelects.splice(index, 1);
+                                    vm.documentSelects.splice(index, 0, data);
                                 }
                             });
                         });
@@ -608,7 +608,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     }
                 });
             } else {
-                allDocumentInPage.forEach(function (document,dataTableIndex) {
+                allDocumentInPage.forEach(function (document, dataTableIndex) {
                     var index = TransactionService.findIndexFromDoucmentListByDocument(document, vm.documentSelects);
                     if (index > -1) {
                         vm.documentSelects.splice(index, 1);
@@ -629,37 +629,42 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.selectAllDocument = function () {
             vm.transactionModel.transactionDate = null;
             if (!vm.selectAllModel) {
-                vm.documentSelects = [];
+
                 var temporalDocuments = angular.copy(vm.temporalDocuments);
+                
+                if (supportPartial) {
+                    console.log(vm.documentSelects);
+                    var unselectedData = [];
+                    temporalDocuments.forEach(function (data) {
+                        data.reasonCode = vm.resonCodeDropdown[0].value;
+                        vm.documentSelects.forEach(function (documentSelect) {
+                            if (documentSelect.documentId == data.documentId) {
+                                data.calculatedPaymentAmount = documentSelect.calculatedPaymentAmount;
+                                data.reasonCode = documentSelect.reasonCode;
+                            }
+                            
+                        });
+                        unselectedData.push(data);
+                        // if(unselectedData.length == vm.pagingController.tableRowCollection.length){
+                        //     vm.pagingController.tableRowCollection = angular.copy(unselectedData);
+                        // }
+                    });
+                    vm.documentSelects = unselectedData;
+                } else {
+                    vm.documentSelects = [];
+                    vm.documentSelects = temporalDocuments;
+                }
 
-                // if (supportPartial) {
-                //     temporalDocuments.forEach(function (data) {
-                //         data.reasonCode = vm.resonCodeDropdown[0].value;
-                //     });
-
-                //     if (vm.documentSelects.length > 0) {
-                //         vm.documentSelects.forEach(function (documentSelect) {
-                //             temporalDocuments.forEach(function (data) {
-                //                 if (documentSelect.documentId == data.documentId) {
-                //                     data.calculatedPaymentAmount = documentSelect.calculatedPaymentAmount;
-                //                     data.reasonCode = documentSelect.reasonCode;
-                //                 }
-                //             });
-                //         });
-                //     }
-                // }
-
-                vm.documentSelects = temporalDocuments;
                 vm.selectAllModel = true;
                 vm.checkAllModel = true;
             } else {
                 vm.documentSelects = [];
-                // if (supportPartial) {
-                //     vm.pagingController.tableRowCollection.forEach(function (document) {
-                //         document.reasonCode = vm.resonCodeDropdown[0].value;
-                //         document.calculatedPaymentAmount = document.calculatedNetAmount;
-                //     });
-                // }
+                if (supportPartial) {
+                    vm.pagingController.tableRowCollection.forEach(function (document) {
+                        document.reasonCode = vm.resonCodeDropdown[0].value;
+                        document.calculatedPaymentAmount = document.calculatedNetAmount;
+                    });
+                }
                 vm.selectAllModel = false;
                 vm.checkAllModel = false;
             }
