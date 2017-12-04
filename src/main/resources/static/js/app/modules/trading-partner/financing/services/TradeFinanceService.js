@@ -1,15 +1,16 @@
 'use strict';
 var tradeFinanceModule = angular.module('gecscf.tradingPartner.financing');
-tradeFinanceModule.factory('TradeFinanceService', [ '$http', '$q','Service', function($http, $q, Service ) {
-
-	function createTradeFinance(sponsorId,supplierId,data,isSupplier){
+tradeFinanceModule.factory('TradeFinanceService', ['$http', '$q', 'Service', function($http, $q, Service) {
+	function createTradeFinance(sponsorId, supplierId, data, isSupplier) {
 		var borrowerType = null;
-		if(isSupplier){
+		
+		if (isSupplier) {
 			borrowerType = "SUPPLIER";
-		}else{
+		} else {
 			borrowerType = "BUYER";
 		}
-		var url = '/api/v1/organize-customers/'+sponsorId+'/trading-partners/'+supplierId+'/trade-finance';
+		
+		var url = '/api/v1/organize-customers/' + sponsorId + '/trading-partners/' + supplierId + '/trade-finance';
 		var deferred = $q.defer();
 		$http({
 			method : 'POST',
@@ -24,12 +25,16 @@ tradeFinanceModule.factory('TradeFinanceService', [ '$http', '$q','Service', fun
 		return deferred;
 	}
 
-	function updateTradeFinance(sponsorId,supplierId,accountId,data){
-		var url = '/api/v1/organize-customers/'+sponsorId+'/trading-partners/'+supplierId+'/trade-finance/'+accountId;
+	function updateTradeFinance(sponsorId, supplierId, accountId, data) {
+		var url = '/api/v1/organize-customers/' + sponsorId + '/trading-partners/' + supplierId + '/trade-finance/' + accountId;
 		var deferred = $q.defer();
 		$http({
-			method : 'PUT',
+			method : 'POST',
 			url : url,
+			headers : {
+				'If-Match' : data.version,
+				'X-HTTP-Method-Override': 'PUT'
+			},
 			data: data
 		}).then(function(response) {
 			return deferred.resolve(response);
@@ -39,8 +44,8 @@ tradeFinanceModule.factory('TradeFinanceService', [ '$http', '$q','Service', fun
 		return deferred;
 	}
 
-	function getTradeFinanceInfo(sponsorId,supplierId,accountId){
-		var url = '/api/v1/organize-customers/'+sponsorId+'/trading-partners/'+supplierId+'/trade-finance/'+accountId;
+	function getTradeFinanceInfo(sponsorId, supplierId, accountId){
+		var url = '/api/v1/organize-customers/' + sponsorId + '/trading-partners/' + supplierId + '/trade-finance/' + accountId;
 		return Service.doGet(url);
 	}
 
@@ -49,4 +54,4 @@ tradeFinanceModule.factory('TradeFinanceService', [ '$http', '$q','Service', fun
 		updateTradeFinance:updateTradeFinance,
 		createTradeFinance:createTradeFinance
 	}
-} ]);
+}]);
