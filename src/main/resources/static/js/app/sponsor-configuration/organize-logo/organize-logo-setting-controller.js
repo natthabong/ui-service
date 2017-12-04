@@ -138,14 +138,15 @@ angular
 			    $scope.confirmSave = function() { 
 			    	vm.organizeInfo.organizeLogo = vm.sponsorLogo;
 					
-					var serviceUrl = 'api/v1/organize-customers/' + organizeId+ '/logo';
+					var serviceUrl = 'api/v1/organize-customers/' + organizeId + '/logo';
 					var deffered = $q.defer();
 					var serviceDiferred =  $http({
-						method : 'PUT',
+						method : 'POST',
 						url : serviceUrl,
 						data : vm.sponsorLogo,
 						headers: {
-							'If-Match' : vm.organizeInfo.version
+							'If-Match': vm.organizeInfo.version,
+							'X-HTTP-Method-Override': 'PUT'
 						}
 					}).success(function(data, status, headers, config) {
 						deffered.resolve({data:data, headers:headers})
