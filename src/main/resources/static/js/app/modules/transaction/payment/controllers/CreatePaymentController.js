@@ -148,6 +148,14 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
         }
 
+        vm.test = function () {
+            console.log(vm.documentSelects)
+        }
+
+        vm.test2 = function () {
+            console.log(vm.pagingController.tableRowCollection)
+        }
+
         vm.loadDocument = function (pagingModel) {
             _criteria.searchMatching = false;
             var deffered = vm.pagingController.search(pagingModel || ($stateParams.backAction ? {
@@ -160,34 +168,19 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         data.reasonCode = vm.resonCodeDropdown[0].value;
                     });
 
-                    if ($stateParams.backAction) {
-                        var temp = angular.copy(vm.documentSelects);
-                        vm.documentSelects = [];
-                        if (temp.length > 0) {
-                            temp.forEach(function (documentSelect) {
-                                vm.pagingController.tableRowCollection.forEach(function (data) {
-                                    if (documentSelect.documentId == data.documentId) {
-                                        data.calculatedPaymentAmount = documentSelect.calculatedPaymentAmount;
-                                        data.reasonCode = documentSelect.reasonCode;
-                                        vm.documentSelects.push(data);
-                                    }
-                                });
+                    if (vm.documentSelects.length > 0) {
+                        vm.documentSelects.forEach(function (documentSelect,index) {
+                            vm.pagingController.tableRowCollection.forEach(function (data) {
+                                if (documentSelect.documentId == data.documentId) {
+                                    data.calculatedPaymentAmount = documentSelect.calculatedPaymentAmount;
+                                    data.reasonCode = documentSelect.reasonCode;
+                                    vm.documentSelects.splice(index,1);
+                                    vm.documentSelects.splice(index,0,data);
+                                }
                             });
-                        }
-                    } else {
-                        if (vm.documentSelects.length > 0) {
-                            vm.documentSelects.forEach(function (documentSelect) {
-                                vm.pagingController.tableRowCollection.forEach(function (data) {
-                                    if (documentSelect.documentId == data.documentId) {
-                                        data.calculatedPaymentAmount = documentSelect.calculatedPaymentAmount;
-                                        data.reasonCode = documentSelect.reasonCode;
-                                    }
-                                });
-                            });
-                        }
+                        });
                     }
-
-                    vm.temporalDocuments = vm.pagingController.tableRowCollection;
+                    watchCheckAll();
                 }
 
                 if (!vm.display) {
@@ -196,6 +189,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 _criteria.searchMatching = true;
                 var defferedAll = vm.pagingAllController.search(pagingModel);
                 defferedAll.promise.then(function (response) {
+                    vm.temporalDocuments = vm.pagingAllController.tableRowCollection;
+
                     if ($stateParams.backAction) {
                         $stateParams.backAction = false;
                     } else if (!$stateParams.backAction && dashboardParams != null) {
@@ -633,11 +628,36 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.transactionModel.transactionDate = null;
             if (!vm.selectAllModel) {
                 vm.documentSelects = [];
-                vm.documentSelects = vm.temporalDocuments;
+                var temporalDocuments = angular.copy(vm.temporalDocuments);
+
+                // if (supportPartial) {
+                //     temporalDocuments.forEach(function (data) {
+                //         data.reasonCode = vm.resonCodeDropdown[0].value;
+                //     });
+
+                //     if (vm.documentSelects.length > 0) {
+                //         vm.documentSelects.forEach(function (documentSelect) {
+                //             temporalDocuments.forEach(function (data) {
+                //                 if (documentSelect.documentId == data.documentId) {
+                //                     data.calculatedPaymentAmount = documentSelect.calculatedPaymentAmount;
+                //                     data.reasonCode = documentSelect.reasonCode;
+                //                 }
+                //             });
+                //         });
+                //     }
+                // }
+
+                vm.documentSelects = temporalDocuments;
                 vm.selectAllModel = true;
                 vm.checkAllModel = true;
             } else {
                 vm.documentSelects = [];
+                // if (supportPartial) {
+                //     vm.pagingController.tableRowCollection.forEach(function (document) {
+                //         document.reasonCode = vm.resonCodeDropdown[0].value;
+                //         document.calculatedPaymentAmount = document.calculatedNetAmount;
+                //     });
+                // }
                 vm.selectAllModel = false;
                 vm.checkAllModel = false;
             }
@@ -835,7 +855,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
         // --- after blur payment amount
         vm.validatePaymentAmount = function (row, record) {
-        	console.log(row);
             var reasonCodeDropdown = getReasonCodeDropdownElement(row);
 
             /** for case invalid format---after blur payment amount textbox, 
