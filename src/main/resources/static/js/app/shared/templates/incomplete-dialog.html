@@ -16,7 +16,7 @@
 			</div>
 		</div>
 		<div class="modal-body">
-			<div ng-show="ngDialogData.data.mode == undefined || ngDialogData.data.mode == null">
+			<div ng-show="ngDialogData.data.mode == undefined || ngDialogData.data.mode == null || ngDialogData.data.mode == 'transaction'">
 				<div class="row">
 					<div class="col-md-2 col-sm-2"></div>
 					<div class="col-md-10 col-sm-10">
@@ -52,7 +52,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<div class="row" ng-if="ngDialogData.data.mode == undefined || ngDialogData.data.mode == null">
+			<div class="row" ng-if="ngDialogData.data.mode == undefined || ngDialogData.data.mode == null || ngDialogData.data.mode == 'transaction'">
 				<div class="col-xs-12 text-right">
 					<scf-button id="popup-back-button" class="popup-button"
 						data-dismiss="modal"
