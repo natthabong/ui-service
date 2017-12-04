@@ -608,10 +608,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     }
                 });
             } else {
-                allDocumentInPage.forEach(function (document) {
+                allDocumentInPage.forEach(function (document,dataTableIndex) {
                     var index = TransactionService.findIndexFromDoucmentListByDocument(document, vm.documentSelects);
                     if (index > -1) {
                         vm.documentSelects.splice(index, 1);
+                        document.reasonCode = vm.resonCodeDropdown[0].value;
+                        document.calculatedPaymentAmount = document.calculatedNetAmount;
                     }
 
                     if (checkSelectMatchingRef) {
