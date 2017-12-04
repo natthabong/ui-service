@@ -572,6 +572,7 @@
 				
 				scope.$watch(attrs.scfTdCollapes, function (data) {
 					var rowNo = renderNo(scope, attrs, pageOptions);
+					scope['$rowNo'] = rowNo;
 					
 					var column = scope.$eval(attrs.columnRender);
 					
@@ -1249,6 +1250,7 @@
 				scope.$watch(attrs.scfTableTd, function (data) {
 
 					var rowNo = renderNo(scope, attrs, pageOptions);
+					scope['$rowNo'] = rowNo;
 					var column = scope.$eval(attrs.columnRender);
 
 					var dataRender = '';

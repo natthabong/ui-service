@@ -721,7 +721,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 labelEN: 'Payment amount',
                 labelTH: 'Payment amount',
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-input-numeric id="payment-amount-{{$parent.$parent.$parent.$index+1}}-textbox" ng-blur="ctrl.validatePaymentAmount($parent.$parent.$parent.$index+1, data)" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" format-not-be-zero = "true" ng-model="data.calculatedPaymentAmount" ng-disabled="ctrl.disablePaymentAmount($parent.$parent.$parent.$index+1, data, this)"></scf-input-text>',
+                cellTemplate: '<scf-input-numeric id="payment-amount-{{$rowNo}}-textbox" ng-blur="ctrl.validatePaymentAmount($rowNo, data)" maxlength="19" format-default-value="{{data.calculatedNetAmount}}" format-only-positive="true" format-not-be-zero = "true" ng-model="data.calculatedPaymentAmount" ng-disabled="ctrl.disablePaymentAmount($rowNo, data, this)"></scf-input-text>',
                 documentField: {
                     displayFieldName: 'Payment amount',
                     documentFieldName: 'calculatedPaymentAmount'
@@ -749,7 +749,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
             var columnReasonCodeDropdown = {
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-dropdown id="reason-code-{{$parent.$index+1}}-dropdown" ng-model="data.reasonCode" component-data="ctrl.resonCodeDropdown"  translate-label="true" ng-disabled = "ctrl.disableReasonCode(data)" ng-change="ctrl.changeReasonCode($parent.$index+1, data)"></scf-dropdown>',
+                cellTemplate: '<scf-dropdown id="reason-code-{{$rowNo}}-dropdown" ng-model="data.reasonCode" component-data="ctrl.resonCodeDropdown"  translate-label="true" ng-disabled = "ctrl.disableReasonCode(data)" ng-change="ctrl.changeReasonCode($rowNo, data)"></scf-dropdown>',
                 id: 'reason-code-{value}-dropdown',
                 idValueField: '$rowNo',
                 fieldName: 'reasonCode',
@@ -835,6 +835,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
         // --- after blur payment amount
         vm.validatePaymentAmount = function (row, record) {
+        	console.log(row);
             var reasonCodeDropdown = getReasonCodeDropdownElement(row);
 
             /** for case invalid format---after blur payment amount textbox, 
@@ -895,7 +896,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
         vm.disablePaymentAmount = function (row, record, element) {
             var selectDocCheckbox = getDocumentCheckboxElement(row);
-            console.log(selectDocCheckbox);
 
             if (selectDocCheckbox.checked
                 && record.calculatedNetAmount > 0) {
