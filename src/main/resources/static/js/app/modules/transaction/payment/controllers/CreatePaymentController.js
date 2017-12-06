@@ -631,9 +631,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             if (!vm.selectAllModel) {
 
                 var temporalDocuments = angular.copy(vm.temporalDocuments);
-                
+
                 if (supportPartial) {
-                    console.log(vm.documentSelects);
                     var unselectedData = [];
                     temporalDocuments.forEach(function (data) {
                         data.reasonCode = vm.resonCodeDropdown[0].value;
@@ -642,14 +641,24 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                 data.calculatedPaymentAmount = documentSelect.calculatedPaymentAmount;
                                 data.reasonCode = documentSelect.reasonCode;
                             }
-                            
+
                         });
                         unselectedData.push(data);
-                        // if(unselectedData.length == vm.pagingController.tableRowCollection.length){
-                        //     vm.pagingController.tableRowCollection = angular.copy(unselectedData);
-                        // }
                     });
                     vm.documentSelects = unselectedData;
+                    if (vm.documentSelects.length > 0) {
+                        vm.documentSelects.forEach(function (documentSelect, index) {
+                            vm.pagingController.tableRowCollection.forEach(function (data) {
+                                if (documentSelect.documentId == data.documentId) {
+                                    data.calculatedPaymentAmount = documentSelect.calculatedPaymentAmount;
+                                    data.reasonCode = documentSelect.reasonCode;
+                                    vm.documentSelects.splice(index, 1);
+                                    vm.documentSelects.splice(index, 0, data);
+                                }
+                            });
+                        });
+                    }
+
                 } else {
                     vm.documentSelects = [];
                     vm.documentSelects = temporalDocuments;
