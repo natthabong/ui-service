@@ -71,7 +71,6 @@ angular.module('scfApp').controller(
 				                labelTH: 'Transaction No',
 				                idValueField: '$rowNo',
 				                id: 'wait-for-approve-transaction-{value}-transaction-no',
-				                sortable: true,
 				                cssTemplate: 'text-center',
 				            },{
 				            	fieldName: 'sponsorPaymentDate',
@@ -81,7 +80,6 @@ angular.module('scfApp').controller(
 				                id: 'wait-for-approve-transaction-{value}-sponsor-payment-date',
 				                filterType: 'date',
 				                filterFormat: 'dd/MM/yyyy',
-				                sortable: true,
 				                cssTemplate: 'hidden-sm hidden-xs text-center'
 				            }, {
 				            	fieldName: 'noOfDocument',
@@ -96,7 +94,6 @@ angular.module('scfApp').controller(
 				                labelTH: 'Transaction amount',
 				                idValueField: '$rowNo',
 				                id: 'wait-for-approve-transaction-{value}-transaction-amount',
-				                sortable: true,
 				                cssTemplate: 'text-right',
 				                filterType: 'number',
 				                filterFormat: '2'
