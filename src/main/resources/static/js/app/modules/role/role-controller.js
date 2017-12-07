@@ -1,6 +1,6 @@
 angular.module('scfApp').controller('RoleController',['$scope','Service', '$stateParams', '$log', 
-	'SCFCommonService','PagingController','PageNavigation', '$state', 'UIFactory', '$http', 
-	function($scope,Service, $stateParams, $log, SCFCommonService,PagingController, PageNavigation, $state, UIFactory, $http ){
+	'SCFCommonService','PagingController','PageNavigation', '$state', 'UIFactory', '$http', '$q',
+	function($scope,Service, $stateParams, $log, SCFCommonService,PagingController, PageNavigation, $state, UIFactory, $http ,$q){
 		
 		var vm = this;
 		var log = $log;
@@ -98,7 +98,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
                         return _save(rolePrivilegeModel);
                     },
                     onFail : function(response) {
-                        if(response == 403){
+                        if(response.data == 403){
                             vm.roleMessageError = vm.isNewMode? 'New role fail. Role name is exits' : 'Edit role fail. Role name is exits';
                             $scope.error.roleNameIsRequired = true;
                         }else{
@@ -109,7 +109,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
                             UIFactory.showFailDialog({
                                 data : {
                                     headerMessage : vm.isNewMode? 'Add new role fail.':'Edit role fail.',
-                                    bodyMessage : msg[response.message] ? msg[response.message] : response.statusText
+                                    bodyMessage : msg[response.data.message] ? msg[response.data.message] : response.statusText
                                 },
                                 preCloseCallback : preCloseCallback
                             });
