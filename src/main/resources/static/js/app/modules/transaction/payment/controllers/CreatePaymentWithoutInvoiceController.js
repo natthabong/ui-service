@@ -185,10 +185,14 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                     }
                 }
                 
-                if (accounts.length > 0 && accounts[loanAccountIndex].accountType == 'LOAN') {
-                    vm.transactionModel.transactionMethod = 'TERM_LOAN';
-                    vm.isLoanPayment = true;
-                    // _loadMaturityDate();
+                if(accounts.length > 0){
+                    if(accounts[loanAccountIndex].accountType == 'LOAN'){
+                        vm.transactionModel.transactionMethod = 'TERM_LOAN';
+                        vm.isLoanPayment = true;
+                    }else{
+                        vm.transactionModel.transactionMethod = 'DEBIT';
+                        vm.isLoanPayment = false;
+                    }
                 }
                 _loadPaymentDate();
 
@@ -272,6 +276,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                     vm.transactionModel.maturityDate = SCFCommonService.convertStringTodate(vm.maturityDateModel);
                     vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
                     vm.transactionModel.transactionType = 'PAYMENT';
+                    console.log(vm.transactionModel);
                     vm.tradingpartnerInfoModel.createTransactionType = createTransactionType;
                     
                 	var deffered = TransactionService.verifyTransaction(vm.transactionModel);

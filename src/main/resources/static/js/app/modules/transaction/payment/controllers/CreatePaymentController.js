@@ -334,8 +334,11 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         if (accounts[loanAccountIndex].accountType == 'LOAN') {
                             vm.transactionModel.transactionMethod = 'TERM_LOAN';
                             vm.isLoanPayment = true;
-                            _loadMaturityDate();
+                        }else{
+                            vm.transactionModel.transactionMethod = 'DEBIT';
+                            vm.isLoanPayment = false;
                         }
+                        _loadMaturityDate();
                     }
                 } else {
 
