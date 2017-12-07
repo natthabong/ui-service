@@ -11,7 +11,8 @@ angular.module('scfApp').controller(
 		'$state',
 		'UIFactory',
 		'$http',
-		function($scope, Service, $stateParams, $log, SCFCommonService, blockUI, PageNavigation, $state, UIFactory, $http) {
+		'$q',
+		function($scope, Service, $stateParams, $log, SCFCommonService, blockUI, PageNavigation, $state, UIFactory, $http,$q) {
 		    var model = {};
 		    $scope.userPolicies = []
 		    $scope.passwordPolicies = []
