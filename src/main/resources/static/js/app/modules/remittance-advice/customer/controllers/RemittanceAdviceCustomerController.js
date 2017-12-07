@@ -16,7 +16,7 @@ raccModule.controller('RemittanceAdviceCustomerController', [
 		var vm = this;
 		var organizeId = $rootScope.userInfo.organizeId;
 		var organizeName = $rootScope.userInfo.organizeName;
-		
+
 		vm.buyer = $stateParams.buyer || null;
 		vm.supplier = $stateParams.supplier || null;
 		vm.criteria = $stateParams.criteria || {};
@@ -75,8 +75,8 @@ raccModule.controller('RemittanceAdviceCustomerController', [
 		];
 		
 		vm.searchRemittanceAdvice = function (pageModel) {
-			var buyerId = undefined;
-			var supplierId = undefined;
+			var buyerId = $stateParams.buyer || null;
+			var supplierId = $stateParams.supplier || null;
 			vm.invalidDateCriteria = false;
 			vm.invalidDateCriteriaMsg = '';
 			var dateFrom = vm.dateModel.dateFrom;
@@ -112,12 +112,14 @@ raccModule.controller('RemittanceAdviceCustomerController', [
 	        // set criteria
 			vm.criteria.borrowerType = vm.listRemittanceAdvice.remittanceOf;
 			
-			if (angular.isObject(vm.buyer)) {
-				buyerId = vm.buyer.organizeId;
+			if (angular.isObject(vm.supplier)) {
+				supplierId = vm.supplier.supplierId;
+				buyerId = vm.supplier.sponsorId;
 			}
 			
-			if (angular.isObject(vm.supplier)) {
-				supplierId = vm.supplier.organizeId;
+			if (angular.isObject(vm.buyer)) {
+				buyerId = vm.buyer.sponsorId;
+				supplierId = vm.buyer.supplierId;
 			}
 			
 			if ('effectiveDate' == vm.listRemittanceAdvice.dateType) {

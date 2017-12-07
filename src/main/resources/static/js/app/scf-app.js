@@ -723,17 +723,15 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
                 params: {viewMode:'CUSTOMER',transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
 				resolve: load(['js/app/modules/remittance-advice/bank/controllers/RemittanceAdviceBankController.js','js/app/modules/remittance-advice/bank/services/RemittanceAdviceBankService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/my-organize/remittance-advice', {
-				onEnter: ['RemittanceAdviceCustomerService', '$state', function(RemittanceAdviceCustomerService, $state) {
+				onEnter: ['RemittanceAdviceCustomerService', '$state', "$stateParams", function(RemittanceAdviceCustomerService, $state, $stateParams) {
 					var deferred = RemittanceAdviceCustomerService.verifyBorrowerType();
 					deferred.promise.then(function(response) {
 						if (response.data.length <= 0) {
-		                	$state.go('/error', {
-		                		 errorCode: 'E1011'
+		                	$state.go('/my-organize/remittance-advice/error', {
 		 	                });
 						}
 	                }).catch(function(response) {
-	                	$state.go('/error', {
-	                		 errorCode: response.data.errorCode
+	                	$state.go('/my-organize/remittance-advice/error', {
 	 	                });
 	                });
 				}],
@@ -743,6 +741,12 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/remittance-advice-customer',
                 params: {criteria : null},
 				resolve: load(['js/app/modules/remittance-advice/customer/controllers/RemittanceAdviceCustomerController.js', 'js/app/modules/remittance-advice/customer/services/RemittanceAdviceCustomerService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/my-organize/remittance-advice/error', {
+				url: '/my-organize/remittance-advice/error',
+				controller: 'ErrorController',
+				controllerAs: 'ctrl',
+				templateUrl: '/remittance-advice-error',
+				resolve: load(['js/app/common/error-controller.js'])
 			}).state('/payment-transaction/view', {
 				url: '/payment-transaction/view',
 				controller: 'ViewPaymentController',
