@@ -470,6 +470,8 @@ function transactionService($http, $q, blockUI, $window) {
             if (transactionModel.transactionType == 'PAYMENT') {
                 if (transactionModel.transactionMethod == 'DEBIT') {
                     a.download = "EvidenceOfReceiptBFPDirectDebit_" + transactionModel.transactionNo + '.pdf';
+                } else if (transactionModel.transactionMethod == 'DEBIT_SPECIAL') {
+                    a.download = "EvidenceOfReceiptBFPDirectDebitSP_" + transactionModel.transactionNo + '.pdf';
                 } else {
                     a.download = "EvidenceOfReceiptBFPDrawdown_" + transactionModel.transactionNo + '.pdf';
                 }
