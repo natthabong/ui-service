@@ -18,7 +18,7 @@ public class SponsorConfigController {
 
 	private static String AP_IMPORT_CHANNEL = "sponsor-configuration/ap-document-config/channel-configs";
 	private static String AR_IMPORT_CHANNEL = "sponsor-configuration/ar-document-config/channel-configs";
-	
+
 	private static String AP_FILE_LAYOUTS = "sponsor-configuration/ap-document-config/file-layouts";
 
 	private static String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
@@ -26,6 +26,8 @@ public class SponsorConfigController {
 	private static String AP_CUSTOMER_CODE_GROUPS = "sponsor-configuration/ap-document-config/customer-code-groups";
 	private static String SETTINGS_SUPPLIER_CODE_GROUPS = "sponsor-configuration/customer-code-groups/supplier-code-list/settings";
 	private static String SETTINGS_BUYER_CODE_GROUPS = "sponsor-configuration/customer-code-groups/buyer-code-list/settings";
+
+	private static String PRODUCT_TYPE_LIST = "sponsor-configuration/product-types/settings";
 
 	private static String AP_DOCUMENT_DISPLAY_CONFIGS = "sponsor-configuration/ap-document-config/document-display-configs";
 	private static String AP_CREATE_TRANSACTION_DISPLAY_CONFIGS = "sponsor-configuration/ap-document-config/transaction-display-configs";
@@ -74,7 +76,7 @@ public class SponsorConfigController {
 		}
 		return AP_IMPORT_CHANNEL;
 	}
-	
+
 	@RequestMapping(path = "/ar-channel-configs", method = RequestMethod.GET)
 	public String arChannelConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
@@ -123,6 +125,14 @@ public class SponsorConfigController {
 		return SETTINGS_BUYER_CODE_GROUPS;
 	}
 
+	@RequestMapping(path = "/product-type-list", method = RequestMethod.GET)
+	public String productTypeList(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return PRODUCT_TYPE_LIST.concat(" :: content");
+		}
+		return PRODUCT_TYPE_LIST;
+	}
+
 	@RequestMapping(path = "/display-document-configs", method = RequestMethod.GET)
 	public String documentDisplayConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
@@ -162,8 +172,6 @@ public class SponsorConfigController {
 		}
 		return SETUP_DISPLAY_FIELDS;
 	}
-
-	
 
 	@RequestMapping(path = "/payment-date-formulas", method = RequestMethod.GET)
 	public String paymentDateFormulaConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
@@ -257,7 +265,6 @@ public class SponsorConfigController {
 		return SETUP_WORKFLOW;
 	}
 
-	
 	@RequestMapping(path = "/export-payments/settings", method = RequestMethod.GET)
 	public String setupExportPayment(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {

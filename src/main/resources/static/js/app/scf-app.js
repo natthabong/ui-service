@@ -239,7 +239,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'SponsorConfigController',
 				controllerAs: 'sponsorConfigCtrl',
 				templateUrl: '/sponsor-configuration',
-				params: { organizeModel: null, fileLayoutModel: null},
+				params: {organizeModel: null, fileLayoutModel: null},
 				resolve: load(['js/app/sponsor-configuration/sponsor-config-controller.js', 
 							   'js/app/sponsor-configuration/profile-controller.js', 
 							   'js/app/sponsor-configuration/workflow/controllers/workflow-controller.js',
@@ -250,14 +250,15 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							   'js/app/sponsor-configuration/channel-config-controller.js',
 							   'js/app/common/scf-component.js', 
 							   'js/app/common/scf-component.css',
-							  'js/app/sponsor-configuration/DisplayConfigController.js',
-							  'js/app/sponsor-configuration/payment-date-formula-controller.js',
-							  'js/app/sponsor-configuration/payment-date-formula-service.js',
-							  'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataListController.js',
-							  'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataNewPopupController.js',
-							  'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
-							  'js/app/sponsor-configuration/ExportPaymentConfigController.js'
-							   ])
+							   'js/app/sponsor-configuration/DisplayConfigController.js',
+							   'js/app/sponsor-configuration/payment-date-formula-controller.js',
+							   'js/app/sponsor-configuration/payment-date-formula-service.js',
+							   'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataListController.js',
+							   'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataNewPopupController.js',
+							   'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
+							   'js/app/sponsor-configuration/ExportPaymentConfigController.js',
+							   'js/app/modules/organize/configuration/product-type/controllers/ProductTypeSettingController.js',
+							   'js/app/modules/organize/configuration/product-type/services/ProductTypeSettingService.js'])
 			}).state('/sponsor-configuration/mapping-data/edit',{
 				url: '/sponsor-configuration/mapping-data/edit',
 				controller: 'EditMappingDataController',
@@ -519,6 +520,19 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 								'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
 								'js/app/common/scf-component.js',
 								'js/app/common/scf-component.css'])
+//			}).state('/customer-organize/product-type-list',{
+//				onEnter: [function() {
+//					console.log('SAAAD');
+//				}],
+//				url: '/customer-organize/product-type-list',
+//				controller: 'ProductTypeSettingController',
+//				controllerAs: 'ctrl',
+//				templateUrl: '/sponsor-configuration/product-types/settings',
+//				params: {},
+//				resolve: load(['js/app/modules/organize/configuration/product-type/controllers/ProductTypeSettingController.js',
+//								'js/app/modules/organize/configuration/product-type/services/ProductTypeSettingService.js',
+//								'js/app/common/scf-component.js',
+//								'js/app/common/scf-component.css'])
 			}).state('/my-organize/document-upload-log',{
 				url: '/my-organize/document-upload-log',
 				controller: 'DocumentUploadLogController',
@@ -713,14 +727,14 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'PaymentTransactionController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment-transaction/all',
-                params: {viewMode:'CUSTOMER',transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
+                params: {viewMode: 'CUSTOMER', transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
 				resolve: load(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js','js/app/modules/transaction/services/TransactionService.js'])
 			}).state('/customer-organize/remittance-advice', {
 				url: '/customer-organize/remittance-advice',
 				controller: 'RemittanceAdviceBankController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/remittance-advice-bank',
-                params: {viewMode:'CUSTOMER',transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
+                params: {viewMode: 'CUSTOMER', transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
 				resolve: load(['js/app/modules/remittance-advice/bank/controllers/RemittanceAdviceBankController.js','js/app/modules/remittance-advice/bank/services/RemittanceAdviceBankService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/my-organize/remittance-advice', {
 				onEnter: ['RemittanceAdviceCustomerService', '$state', "$stateParams", function(RemittanceAdviceCustomerService, $state, $stateParams) {
