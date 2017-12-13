@@ -334,7 +334,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         if (accounts[loanAccountIndex].accountType == 'LOAN') {
                             vm.transactionModel.transactionMethod = 'TERM_LOAN';
                             vm.isLoanPayment = true;
-                        }else{
+                        } else {
                             vm.transactionModel.transactionMethod = 'DEBIT';
                             vm.isLoanPayment = false;
                         }
@@ -348,6 +348,31 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         _loadMaturityDate();
                     }
                 }
+            }).catch(function (response) {
+                log.error(response);
+            });
+        }
+
+        var _loadReasonCodeMappingDatas = function () {
+            vm.resonCodeDropdown = [];
+            var params = {
+                offset: 0,
+                limit: 999,
+                sort: ['defaultCode', 'code']
+            }
+            var deffered = MappingDataService.loadMappingDataItems(vm.criteria.supplierId, 'RECEIVABLE', vm.reasonCodeMappingId, params);
+            deffered.promise.then(function (response) {
+                vm.reasonCodes = {};
+                var reasonCodes = response.data;
+                reasonCodes.forEach(function (data) {
+                    vm.resonCodeDropdown.push({
+                        label: data.code + ': ' + data.display,
+                        value: data.code
+                    });
+                    vm.reasonCodes[data.code] = data.display;
+                });
+                console.log(vm.reasonCodes);
+
             }).catch(function (response) {
                 log.error(response);
             });
@@ -521,20 +546,42 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.selectAllModel = TransactionService.checkSelectAllDocument(vm.documentSelects, pageSize);
         }
 
+        var addDocUmentInpage = function (document) {
+            var document = document;
+            vm.pagingController.tableRowCollection.forEach(function (documentInpage) {
+                if (document.documentId == documentInpage.documentId) {
+                    document = documentInpage;
+                }
+            });
+            return document;
+        }
+
         var selectMatchingField = function (data) {
+            var allDocument = angular.copy(vm.pagingAllController.tableRowCollection);
             if (isFound(data)) {
                 if (data.groupingKey != null) {
                     vm.pagingAllController.tableRowCollection.forEach(function (document) {
                         if (comparator(data.groupingKey, document.groupingKey)) {
                             if (!isFound(document)) {
-                                if (vm.documentSelection == 'AT_LEAST_ONE_DOCUMENT') {
-                                    if (document.netAmount < 0) {
+                                if (supportPartial) {
+                                    document.reasonCode = vm.resonCodeDropdown[0].value;
+                                    if (vm.documentSelection == 'AT_LEAST_ONE_DOCUMENT') {
+                                        if (document.netAmount < 0) {
+                                            vm.documentSelects = vm.documentSelects.concat(addDocUmentInpage(document));
+                                        }
+                                    } else {
+                                        vm.documentSelects = vm.documentSelects.concat(addDocUmentInpage(document));
+                                    }
+
+                                } else {
+                                    if (vm.documentSelection == 'AT_LEAST_ONE_DOCUMENT') {
+                                        if (document.netAmount < 0) {
+                                            vm.documentSelects = vm.documentSelects.concat(document);
+                                        }
+                                    } else {
                                         vm.documentSelects = vm.documentSelects.concat(document);
                                     }
-                                } else {
-                                    vm.documentSelects = vm.documentSelects.concat(document);
                                 }
-
                             }
                         }
                     });
@@ -587,6 +634,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             }
             _loadPaymentDate();
 
+        }
+
+        vm.test = function () {
+            console.log(vm.documentSelects);
         }
 
         vm.checkAllDocument = function () {
@@ -793,30 +844,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.dataTable.expansion.columns.push(columnReasonCodeLabel);
             vm.dataTable.expansion.columns.push(columnReasonCodeDropdown);
 
-        }
-
-        var _loadReasonCodeMappingDatas = function () {
-            vm.resonCodeDropdown = [];
-            var params = {
-                offset: 0,
-                limit: 999,
-                sort: ['defaultCode', 'code']
-            }
-            var deffered = MappingDataService.loadMappingDataItems(vm.criteria.supplierId, 'RECEIVABLE', vm.reasonCodeMappingId, params);
-            deffered.promise.then(function (response) {
-                vm.reasonCodes = {};
-                var reasonCodes = response.data;
-                reasonCodes.forEach(function (data) {
-                    vm.resonCodeDropdown.push({
-                        label: data.code + ': ' + data.display,
-                        value: data.code
-                    });
-                    vm.reasonCodes[data.code] = data.display;
-                });
-
-            }).catch(function (response) {
-                log.error(response);
-            });
         }
 
         vm.disableReasonCode = function (data) {
