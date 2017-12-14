@@ -25,9 +25,33 @@ tradeFinanceModule.factory('ConfigTradeFinanceService', [ '$http', '$q', 'Servic
 		});
 		return deferred;
 	}
+	
+	function setDefaultCode(tfData) {
+        var serviceUrl = 'api/v1/organize-customers/' + tfData.sponsorId + '/trading-partners/' + tfData.supplierId + '/trade-finance/' + tfData.accountId + '/set-default-account';
+        var deffered = $q.defer();
+
+        $http({
+                url: serviceUrl,
+                method: 'POST',
+                headers: {
+                    'If-Match': tfData.version,
+                    'X-HTTP-Method-Override': 'PUT'
+                },
+                data: tfData
+            })
+            .then(function(response) {
+                deffered.resolve(response);
+            })
+            .catch(function(response) {
+                deffered.reject(response);
+            });
+
+        return deffered;
+    }
 
 	return {
 		getTradeFinanceInfo : getTradeFinanceInfo,
-		deleteTradeFinance : deleteTradeFinance
+		deleteTradeFinance : deleteTradeFinance,
+        setDefaultCode: setDefaultCode
 	}
 } ]);

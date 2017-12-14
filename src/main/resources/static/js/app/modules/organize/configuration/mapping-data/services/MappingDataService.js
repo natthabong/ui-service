@@ -182,6 +182,6 @@ tpModule.factory('MappingDataService', ['$http', '$q', function($http, $q) {
         getMappingData: getMappingData,
         loadMappingData: loadMappingData,
         setDefaultCode: setDefaultCode,
-        loadMappingDataItems: loadMappingDataItems,
+        loadMappingDataItems: loadMappingDataItems
     }
 }]);

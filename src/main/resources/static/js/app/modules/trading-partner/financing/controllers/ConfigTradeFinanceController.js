@@ -77,8 +77,6 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 				if(response.data[0] != null){
 					vm.pagingController.tableRowCollection = response.data;
 				}
-				
-					
 			}).catch(function(response) {
 				log.error('Get trading finance fail');
 			});
@@ -109,6 +107,16 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
             }, 10);
         }
 
+        vm.setDefaultCode = function (data) {
+        	console.log(data);
+            var deffered = ConfigTradeFinanceService.setDefaultCode(data);
+            deffered.promise.then(function (response) {
+            	getFinanceInfo(data.sponsorId,data.supplierId);
+            }).catch(function (response) {
+                log.error("Can not set default code !");
+            });
+        }
+        
 		vm.newTF = function(){
 			SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 			storeCriteria();
