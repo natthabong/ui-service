@@ -6,14 +6,12 @@ productTypeModule.controller('ProductTypeSettingController', [
 		'$stateParams',
 		'Service',
 		'UIFactory',
-		'CustomerCodeStatus',
 		'PageNavigation',
 		'PagingController',
 		'$http',
 		'ngDialog',
 		'$rootScope',
-		function($q, $scope, $stateParams, Service, UIFactory,
-				CustomerCodeStatus, PageNavigation, PagingController, $http,
+		function($q, $scope, $stateParams, Service, UIFactory, PageNavigation, PagingController, $http,
 				ngDialog, $rootScope) {
 
 		} 
