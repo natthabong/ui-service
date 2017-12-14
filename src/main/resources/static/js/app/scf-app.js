@@ -375,19 +375,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/workflow/setup',
 				params: { workflowModel: null},
 				resolve: load(['js/app/sponsor-configuration/workflow/controllers/setup-workflow-controller.js','js/app/sponsor-configuration/workflow/services/workflow-service.js'])
-			}).state('/customer-organize/product-type-list',{
-				onEnter: [function() {
-					console.log('SAAAD');
-				}],
-				url: '/customer-organize/product-type-list',
-				controller: 'ProductTypeSettingController',
-				controllerAs: 'ctrl',
-				templateUrl: '/sponsor-configuration/product-types/settings',
-				params: {},
-				resolve: load(['js/app/modules/organize/configuration/product-type/controllers/ProductTypeSettingController.js',
-								'js/app/modules/organize/configuration/product-type/services/ProductTypeSettingService.js',
-								'js/app/common/scf-component.js',
-								'js/app/common/scf-component.css'])
 			}).state('/bank-information/holidays',{
 				url: '/bank-information/holidays',
 				controller: 'BankHolidayController',
@@ -532,6 +519,16 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				resolve: load(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
 								'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
 								'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
+								'js/app/common/scf-component.js',
+								'js/app/common/scf-component.css'])
+			}).state('/customer-organize/product-type-list',{
+				url: '/customer-organize/product-type-list',
+				controller: 'ProductTypeSettingController',
+				controllerAs: 'ctrl',
+				templateUrl: '/sponsor-configuration/product-types/settings',
+				params: {},
+				resolve: load(['js/app/modules/organize/configuration/product-type/controllers/ProductTypeSettingController.js',
+								'js/app/modules/organize/configuration/product-type/services/ProductTypeSettingService.js',
 								'js/app/common/scf-component.js',
 								'js/app/common/scf-component.css'])
 			}).state('/my-organize/document-upload-log',{

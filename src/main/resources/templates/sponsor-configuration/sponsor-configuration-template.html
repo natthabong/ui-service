@@ -69,15 +69,14 @@
 					</div>
 					<div class="col-md-2 col-sm-2 col-xs-6"
 						ng-controller="ProductTypeSettingController as productTypeCtrl">
-						<input type="hidden"
+						<!-- <input type="hidden"
 							ng-init="productTypeCtrl.manageAllConfig=true"
 							sec:authorize="hasAuthority('MANAGE_ALL_BUYER_CODES')" /> <input
 							type="hidden" ng-init="productTypeCtrl.manageMyOrgConfig=true"
-							sec:authorize="hasAuthority('MANAGE_BUYER_CODES_OF_MY_ORGANIZE')" />
-						<button class="thumbnail"
-							ng-click="productTypeCtrl.config(productTypeCtrl.buyerdata, 'RECEIVABLE')"
-							title="Config a buyer code" id="buyer-code-list-setup-button"
-							ng-disabled="productTypeCtrl.unauthenConfig()">
+							sec:authorize="hasAuthority('MANAGE_BUYER_CODES_OF_MY_ORGANIZE')" /> -->
+						<button class="thumbnail" ng-click="productTypeCtrl.gotoPage"
+							title="Config product type" id="product-type-setup-button">
+							<!-- ng-disabled="productTypeCtrl.unauthenConfig()"> -->
 							<div class="caption config-box">
 								<div class="media">
 									<div class="media-body">
