@@ -68,7 +68,14 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 				}
 			}).then(function(response) {
 				return response.data.map(function(item) {
-                    var accountNo = ($filter('accountNoDisplay')(item.accountNo));
+                    console.log(item);
+                    var accountNo = null;
+                    if(item.format){
+                        var accountNo = ($filter('accountNoDisplay')(item.accountNo));
+                    }else{
+                        var accountNo = item.accountNo;
+                    }
+                    
 					item.identity = [ 'account-', item.accountNo, '-option' ].join('');
 					item.label = [ accountNo ].join('');
 					return item;
