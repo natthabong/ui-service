@@ -15,36 +15,19 @@ productTypeModule.controller('ProductTypeListController', [
 		function(Service, UIFactory, PageNavigation, PagingController, ngDialog, $http, $q, $rootScope, $scope, $stateParams, $log) {
 			var vm = this;
 			var log = $log;
+			var organizeId = $rootScope.userInfo.organizeId;
 
 			vm.manageAllConfig = false;
 			vm.manageMyOrgConfig = false;
-
+			
 			vm.pageModel = {
-				pageSizeSelectModel : '20',
+				pageSizeSelectModel : '10',
 				totalRecord : 0,
 				currentPage : 0,
 				clearSortOrder : false,
 				page : 0,
-				pageSize : 20
+				pageSize : 10
 			};
-
-			vm.pageSizeList = [ {
-				label : '10',
-				value : '10'
-			}, {
-				label : '20',
-				value : '20'
-			}, {
-				label : '50',
-				value : '50'
-			} ];
-
-			vm.decodeBase64 = function(data) {
-				if (angular.isUndefined(data)) {
-					return '';
-				}
-				return atob(data);
-			}
 			
 			vm.gotoListPage = function() {
 				var params = {
@@ -62,12 +45,12 @@ productTypeModule.controller('ProductTypeListController', [
 				PageNavigation.gotoPage('/customer-organize/product-types/setup', params);
 			}
 			
-			vm.initLoad = function() {
-				vm.pageModel.currentPage = 0;
-				vm.pageModel.pageSizeSelectModel = '20';
+			vm.initLoad = function() {	
+				var url = '/api/v1/organize-customers/'+ organizeId + '/product-types';
+				vm.pagingController = PagingController.create(url, null, 'GET');
+				
+				console.log(vm.pagingController);
 			}
-
-			vm.initLoad();
 
 			vm.unauthenConfig = function() {
 				return false;
@@ -77,6 +60,8 @@ productTypeModule.controller('ProductTypeListController', [
 					return true;
 				}
 			}
+			
+			vm.initLoad();
 		} 
 	]
 );

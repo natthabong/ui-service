@@ -4,7 +4,8 @@
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft">{{'Product type list' | translate}}</h3>
+					<h3 id="header-message-label" class="animated fadeInLeft">{{'Product
+						type list' | translate}}</h3>
 				</div>
 			</div>
 		</div>
@@ -18,12 +19,11 @@
 							<i class="fa fa-plus" aria-hidden="true"></i></scf-button>
 						</div>
 					</div>
-					<!--
 					<div class="row">
 						<div class="col-md-12 col-sm-12 text-right">
 							<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
 								id="product-type-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-									name="customer-code"
+									name="product-type"
 									page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 									total-page="ctrl.pagingController.pagingModel.totalPage"
 									current-page="ctrl.pagingController.pagingModel.currentPage"
@@ -44,14 +44,12 @@
 							</div>
 						</div>
 					</div>
-					-->
 				</div>
-
 				<div class="panel-body">
-
 					<div class="col-md-12 col-sm-12 text-right">
-						<scf-button ng-if="!ctrl.personalMode" id="back-button" class="popup-button"
-							data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
+						<scf-button ng-if="!ctrl.personalMode" id="back-button"
+							class="popup-button" data-dismiss="modal"
+							ng-click="ctrl.backToSponsorConfigPage()"
 							ng-bind="'Back' | translate"></scf-button>
 					</div>
 				</div>
@@ -59,7 +57,5 @@
 		</div>
 	</div>
 	<input type="hidden" ng-init="ctrl.manageAll=true"
-		sec:authorize="hasAuthority('MANAGE_ALL_BUYER_CODES')" /> 
-	<input type="hidden" ng-init="ctrl.manageMyOrg=true"
-		sec:authorize="hasAuthority('MANAGE_BUYER_CODES_OF_MY_ORGANIZE')" />
+		sec:authorize="hasAuthority('MANAGE_ALL_PRODUCT_TYPES')" />
 </div>

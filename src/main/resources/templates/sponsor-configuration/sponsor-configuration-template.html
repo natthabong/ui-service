@@ -71,7 +71,7 @@
 						ng-controller="ProductTypeListController as productTypeCtrl">
 						<input type="hidden"
 							ng-init="productTypeCtrl.manageAllConfig=true"
-							sec:authorize="hasAuthority('MANAGE_ALL_BUYER_CODES')" />
+							sec:authorize="hasAuthority('MANAGE_ALL_PRODUCT_TYPES')" />
 						<button class="thumbnail" title="Config product type"
 							id="product-type-setup-button"
 							ng-click="productTypeCtrl.gotoListPage()"
