@@ -125,7 +125,7 @@ public class SponsorConfigController {
 		return SETTINGS_BUYER_CODE_GROUPS;
 	}
 
-	@RequestMapping(path = "/product-type-list", method = RequestMethod.GET)
+	@RequestMapping(path = "/product-type-list/settings", method = RequestMethod.GET)
 	public String productTypeList(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return PRODUCT_TYPE_LIST.concat(" :: content");

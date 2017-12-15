@@ -525,7 +525,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				url: '/customer-organize/product-type-list',
 				controller: 'ProductTypeSettingController',
 				controllerAs: 'ctrl',
-				templateUrl: '/sponsor-configuration/product-types/settings',
+				templateUrl: '/sponsor-configuration/product-type-list/settings',
 				params: {},
 				resolve: load(['js/app/modules/organize/configuration/product-type/controllers/ProductTypeSettingController.js',
 								'js/app/modules/organize/configuration/product-type/services/ProductTypeSettingService.js',
