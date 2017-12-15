@@ -304,23 +304,28 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.accountDropDown = [];
             var deffered = TransactionService.getAccounts(ownerId, supplierId);
             deffered.promise.then(function (response) {
+                console.log(response);
                 var accounts = response.data;
                 vm.isLoanPayment = false;
 
                 var loanAccountIndex = 0;
                 accounts.forEach(function (account, index) {
-                    var a = {
-                        label: ($filter('accountNoDisplay')(account.accountNo)),
-                        value: account.accountId,
-                        item: account
-                    };
-                    if (account.accountType == 'LOAN') {
-                        loanAccountIndex = index;
-                        vm.accountDropDown.unshift(a)
-                    } else {
-                        vm.accountDropDown.push(a)
-                    }
 
+                    if (account.format) {
+                        var a = {
+                            label: ($filter('accountNoDisplay')(account.accountNo)),
+                            value: account.accountId,
+                            item: account
+                        };
+                        vm.accountDropDown.push(a);
+                    }else{
+                        var a = {
+                            label: account.accountNo,
+                            value: account.accountId,
+                            item: account
+                        };
+                        vm.accountDropDown.push(a);
+                    }
                 });
 
                 if (!$stateParams.backAction) {
