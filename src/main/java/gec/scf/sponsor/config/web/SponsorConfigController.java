@@ -27,7 +27,7 @@ public class SponsorConfigController {
 	private static String SETTINGS_SUPPLIER_CODE_GROUPS = "sponsor-configuration/customer-code-groups/supplier-code-list/settings";
 	private static String SETTINGS_BUYER_CODE_GROUPS = "sponsor-configuration/customer-code-groups/buyer-code-list/settings";
 
-	private static String PRODUCT_TYPE_LIST = "sponsor-configuration/product-types/settings";
+	private static String PRODUCT_TYPE_LIST = "sponsor-configuration/product-types/list";
 
 	private static String AP_DOCUMENT_DISPLAY_CONFIGS = "sponsor-configuration/ap-document-config/document-display-configs";
 	private static String AP_CREATE_TRANSACTION_DISPLAY_CONFIGS = "sponsor-configuration/ap-document-config/transaction-display-configs";
@@ -125,7 +125,7 @@ public class SponsorConfigController {
 		return SETTINGS_BUYER_CODE_GROUPS;
 	}
 
-	@RequestMapping(path = "/product-type-list/settings", method = RequestMethod.GET)
+	@RequestMapping(path = "/product-types", method = RequestMethod.GET)
 	public String productTypeList(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return PRODUCT_TYPE_LIST.concat(" :: content");

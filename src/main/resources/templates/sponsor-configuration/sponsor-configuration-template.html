@@ -68,15 +68,13 @@
 						</button>
 					</div>
 					<div class="col-md-2 col-sm-2 col-xs-6"
-						ng-controller="ProductTypeSettingController as productTypeCtrl">
-						<!-- <input type="hidden"
+						ng-controller="ProductTypeListController as productTypeCtrl">
+						<input type="hidden"
 							ng-init="productTypeCtrl.manageAllConfig=true"
-							sec:authorize="hasAuthority('MANAGE_ALL_BUYER_CODES')" /> <input
-							type="hidden" ng-init="productTypeCtrl.manageMyOrgConfig=true"
-							sec:authorize="hasAuthority('MANAGE_BUYER_CODES_OF_MY_ORGANIZE')" /> -->
+							sec:authorize="hasAuthority('MANAGE_ALL_BUYER_CODES')" />
 						<button class="thumbnail" title="Config product type"
 							id="product-type-setup-button"
-							ng-click="productTypeCtrl.gotoPage()"
+							ng-click="productTypeCtrl.gotoListPage()"
 							ng-disabled="productTypeCtrl.unauthenConfig()">
 							<div class="caption config-box">
 								<div class="media">

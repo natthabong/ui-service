@@ -1,6 +1,6 @@
 'use strict';
-var productTypeModule = angular.module('productTypeSetting');
-productTypeModule.controller('ProductTypeSettingController', [
+var productTypeModule = angular.module('gecscf.organize.configuration.productType');
+productTypeModule.controller('ProductTypeListController', [
 		'Service',
 		'UIFactory',
 		'PageNavigation',
@@ -45,18 +45,23 @@ productTypeModule.controller('ProductTypeSettingController', [
 				}
 				return atob(data);
 			}
-
-			vm.buyerdata = [];
-			vm.supplierdata = [];
-
-			vm.gotoPage = function(customerCodeGroup, accountingTransactionType) {
+			
+			vm.gotoListPage = function() {
 				var params = {
 					organizeId : $scope.sponsorId
 				};
 				
-				PageNavigation.gotoPage('/customer-organize/product-type-list', params);
+				PageNavigation.gotoPage('/customer-organize/product-types', params);
 			}
-
+			
+			vm.gotoSetupPage = function() {
+				var params = {
+						organizeId : $scope.sponsorId
+				};
+				
+				PageNavigation.gotoPage('/customer-organize/product-types/setup', params);
+			}
+			
 			vm.initLoad = function() {
 				vm.pageModel.currentPage = 0;
 				vm.pageModel.pageSizeSelectModel = '20';
