@@ -257,8 +257,9 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							   'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataNewPopupController.js',
 							   'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
 							   'js/app/sponsor-configuration/ExportPaymentConfigController.js',
-							   'js/app/modules/organize/configuration/product-type/controllers/ProductTypeSettingController.js',
-							   'js/app/modules/organize/configuration/product-type/services/ProductTypeSettingService.js'])
+							   'js/app/modules/organize/configuration/product-type/controllers/ProductTypeListController.js',
+							   'js/app/modules/organize/configuration/product-type/services/ProductTypeService.js'
+							   ])
 			}).state('/sponsor-configuration/mapping-data/edit',{
 				url: '/sponsor-configuration/mapping-data/edit',
 				controller: 'EditMappingDataController',
@@ -520,19 +521,16 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 								'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
 								'js/app/common/scf-component.js',
 								'js/app/common/scf-component.css'])
-//			}).state('/customer-organize/product-type-list',{
-//				onEnter: [function() {
-//					console.log('SAAAD');
-//				}],
-//				url: '/customer-organize/product-type-list',
-//				controller: 'ProductTypeSettingController',
-//				controllerAs: 'ctrl',
-//				templateUrl: '/sponsor-configuration/product-types/settings',
-//				params: {},
-//				resolve: load(['js/app/modules/organize/configuration/product-type/controllers/ProductTypeSettingController.js',
-//								'js/app/modules/organize/configuration/product-type/services/ProductTypeSettingService.js',
-//								'js/app/common/scf-component.js',
-//								'js/app/common/scf-component.css'])
+			}).state('/customer-organize/product-types',{
+				url: '/customer-organize/product-types',
+				controller: 'ProductTypeListController',
+				controllerAs: 'ctrl',
+				templateUrl: '/sponsor-configuration/product-types',
+				params: {},
+				resolve: load(['js/app/modules/organize/configuration/product-type/controllers/ProductTypeListController.js',
+								'js/app/modules/organize/configuration/product-type/services/ProductTypeService.js',
+								'js/app/common/scf-component.js',
+								'js/app/common/scf-component.css'])
 			}).state('/my-organize/document-upload-log',{
 				url: '/my-organize/document-upload-log',
 				controller: 'DocumentUploadLogController',
