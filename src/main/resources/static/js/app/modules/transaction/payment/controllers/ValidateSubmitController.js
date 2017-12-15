@@ -154,7 +154,6 @@ paymentModule.controller('ValidateSubmitController', [
                     document.paymentDate = vm.transactionModel.transactionDate;
                 });
                 vm.transactionModel.createTransactionType = "WITH_INVOICE";
-                console.log(vm.transactionModel.documents);
                 var deffered = TransactionService.submitTransaction(vm.transactionModel);
                 deffered.promise.then(function (response) {
                     var storeAccount = vm.transactionModel.payerAccountNo;

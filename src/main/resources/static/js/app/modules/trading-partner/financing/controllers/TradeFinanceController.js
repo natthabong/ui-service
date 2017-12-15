@@ -68,7 +68,14 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
 				}
 			}).then(function(response) {
 				return response.data.map(function(item) {
-                    var accountNo = ($filter('accountNoDisplay')(item.accountNo));
+                    console.log(item);
+                    var accountNo = null;
+                    if(item.format){
+                        var accountNo = ($filter('accountNoDisplay')(item.accountNo));
+                    }else{
+                        var accountNo = item.accountNo;
+                    }
+                    
 					item.identity = [ 'account-', item.accountNo, '-option' ].join('');
 					item.label = [ accountNo ].join('');
 					return item;
@@ -93,12 +100,18 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             isSuspend: false
         };
         
-        var prepareAutoSuggestLabel = function(accountId,accountNo) {
-            var accountNoSetFormat = ($filter('accountNoDisplay')(accountNo));
+        var prepareAutoSuggestLabel = function(data) {
+            var accountNoSetFormat = null;
+            if(data.format){
+                accountNoSetFormat = ($filter('accountNoDisplay')(data.accountNo));
+            }else{
+                accountNoSetFormat = data.accountNo;
+            }
+            
             var item = {
-                accountId : accountId,
-                accountNo : accountNo,
-                identity : [ 'account-', accountNo, '-option' ].join(''),
+                accountId : data.accountId,
+                accountNo : data.accountNo,
+                identity : [ 'account-', data.accountNo, '-option' ].join(''),
                 label : [ accountNoSetFormat ].join(''),
             }
 			return item;
@@ -122,8 +135,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
                 }else{
                     vm.isSupplier = false;
                 }
-                
-                vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(tradeFinanceData.accountId,tradeFinanceData.accountNo);
+                vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(tradeFinanceData);
                 vm.tradeFinanceModel.tenor = tradeFinanceData.tenor;
                 vm.tradeFinanceModel.percentageLoan = tradeFinanceData.prePercentageDrawdown;
                 vm.tradeFinanceModel.interestRate = tradeFinanceData.interestRate;
@@ -194,7 +206,7 @@ tradeFinanceModule.controller('TradeFinanceController',['$scope','$stateParams',
             		data: {organizeId: organizeId},
             		preCloseCallback : function(data){
             			if(data){
-            				vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(data.accountId,data.accountNo);
+            				vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(data);
             			}
             		}
     			});

@@ -1,12 +1,10 @@
 <div class="modal-content">
-	<form name="newAccountForm" class="form-horizontal"
-		ng-submit="ctrl.save(ctrl.model, closeThisDialog)">
+	<form name="newAccountForm" class="form-horizontal" ng-submit="ctrl.save(closeThisDialog)">
 		<div class="modal-header">
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
 					<h3>
-						<span id="account-popup-header-message-label" class="popup-text"
-							ng-bind="'New account' | translate">New account</span>
+						<span id="account-popup-header-message-label" class="popup-text" ng-bind="'New account' | translate">New account</span>
 					</h3>
 				</div>
 			</div>
@@ -15,21 +13,49 @@
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<div class="form-group">
-						<label id="account-no-label"
-							class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Account
-							No.' | translate}}: </label>
-						<div class="col-md-6 col-sm-4 col-xs-12">
-							<scf-account-no id="account-no-textbox"
-								ng-model="ctrl.model.accountNo"></scf-account-no>
+						<div class="col-log-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-log-3 col-md-3 col-sm-3 col-xs-3">
+								<label class="radio-inline">
+									<scf-radio id="account-no-format"
+										ng-value="ctrl.formatType.ACCOUNT_NO"
+										name="date-type-radio"
+										ng-model="ctrl.format"
+										ng-change="ctrl.changeFormat()">
+									</scf-radio>{{'Account No.' | translate}}:
+								</label>
+							</div>
+							<div class="col-log-6 col-md-6 col-sm-6 col-xs-6">
+								<scf-account-no id="account-no-textbox" ng-disabled="ctrl.format != ctrl.formatType.ACCOUNT_NO" ng-model="ctrl.accountNo"></scf-account-no>
+							</div>	
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="form-group">
+						<div class="col-log-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-log-3 col-md-3 col-sm-3 col-xs-3">
+								<label class="radio-inline">
+									<scf-radio id="term-loan-format"
+										ng-value="ctrl.formatType.TERM_LOAN"
+										name="date-type-radio"
+										ng-model="ctrl.format"
+										ng-change="ctrl.changeFormat()">
+									</scf-radio>{{'Term loan' | translate}}:
+								</label>
+							</div>
+							<div class="col-log-6 col-md-6 col-sm-6 col-xs-6">
+								<scf-input-text id="term-loan-textbox" ng-disabled="ctrl.format != ctrl.formatType.TERM_LOAN" ng-model="ctrl.termLoan" maxlength="100"></scf-input-text>
+							</div>	
 						</div>
 					</div>
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<div class="form-group" ng-show="errors.accountNo">
 						<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-						<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-							id="account-no-warning-message-label"
-							ng-bind="errors.accountNo.message | translate"></span>
+						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="account-no-warning-message-label" ng-bind="errors.accountNo.message | translate"></span>
 					</div>
 				</div>
 			</div>
@@ -37,11 +63,8 @@
 		<div class="modal-footer">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<scf-button id="popup-cancel-button" class="popup-button"
-						ng-click="closeThisDialog()" ng-bind="'Cancel' | translate"></scf-button>
-					<scf-button id="popup-save-button" class="popup-button"
-						type="submit" ng-bind="'Save' | translate"></scf-button>
-
+					<scf-button id="popup-cancel-button" class="popup-button" ng-click="closeThisDialog()" ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="popup-save-button" class="popup-button" type="submit" ng-bind="'Save' | translate"></scf-button>
 				</div>
 			</div>
 		</div>

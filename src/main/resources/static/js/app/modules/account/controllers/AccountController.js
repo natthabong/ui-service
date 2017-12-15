@@ -1,84 +1,120 @@
 'use strict';
 var ac = angular.module('gecscf.account');
-ac
-		.controller(
-				'AccountController',
-				[
-						'$scope',
-						'$stateParams',
-						'UIFactory',
-						'AccountService',
-						function($scope, $stateParams, UIFactory,
-								AccountService) {
+ac.controller('AccountController', ['$scope', '$stateParams', 'UIFactory', 'AccountService',
+	function ($scope, $stateParams, UIFactory, AccountService) {
 
-							var vm = this;
-							var dialogData = $scope.ngDialogData;
+		var vm = this;
+		var dialogData = $scope.ngDialogData;
 
-							var _validate = function(data) {
-								$scope.errors = {};
-								var valid = true;
-								
-								if(!angular.isDefined(data)){
-					                valid = false;
-					                $scope.errors.accountNo = {
-					                    message : 'Account No. is required.'
-					                }
-					            }
-								else if (data.accountNo.length != 10) {
-									valid = false;
-									$scope.errors.accountNo = {
-										message : 'Account No. must be 10-digit number.'
-									}
-								}
-								return valid;
+		vm.formatType = {
+			ACCOUNT_NO: "ACCOUNT_NO",
+			TERM_LOAN: "TERM_LOAN"
+		}
+
+		vm.format = vm.formatType.ACCOUNT_NO;
+		vm.accountNo = null;
+		vm.termLoan = null;
+
+		var _validate = function (data) {
+			$scope.errors = {};
+			var valid = true;
+
+			if (!angular.isDefined(data) || data == null || data == "") {
+				valid = false;
+				if (vm.format == vm.formatType.ACCOUNT_NO) {
+					$scope.errors.accountNo = {
+						message: 'Account No. is required.'
+					}
+				} else {
+					$scope.errors.accountNo = {
+						message: 'Term loan is required.'
+					}
+				}
+
+			}
+			if (vm.format === vm.formatType.ACCOUNT_NO) {
+				if (data.length != 10) {
+					valid = false;
+					$scope.errors.accountNo = {
+						message: 'Account No. must be 10-digit number.'
+					}
+				}
+			}
+			return valid;
+		}
+
+		vm.save = function (callback) {
+			var accountNo = null;
+			if (vm.format === vm.formatType.ACCOUNT_NO) {
+				accountNo = vm.accountNo;
+			} else {
+				accountNo = vm.termLoan;
+			}
+			console.log(accountNo);
+			if (_validate(accountNo)) {
+				var data = {
+					accountNo: accountNo
+				}
+
+				if (vm.format == vm.formatType.ACCOUNT_NO) {
+					data.format = true;
+				} else {
+					data.format = false;
+				}
+
+				var preCloseCallback = function (account) {
+					callback(account);
+				}
+				UIFactory
+					.showConfirmDialog({
+						data: {
+							headerMessage: 'Confirm save?'
+						},
+						confirm: function () {
+							return AccountService
+								.save({
+									organizeId: dialogData.organizeId,
+									accountNo: data.accountNo,
+									format: data.format
+								});
+						},
+						onFail: function (response) {
+							if (response.status != 400) {
+								console.log(response);
+								var msg = {
+								};
+								UIFactory
+									.showFailDialog({
+										data: {
+											headerMessage: 'Add new account fail.',
+											bodyMessage: msg[response.status] ? msg[response.status]
+												: response.data.message
+										},
+										preCloseCallback: preCloseCallback
+									});
 							}
-
-							vm.save = function(data, callback) {
-								if (_validate(data)) {
-									var preCloseCallback = function(account) {
-										callback(account);
+						},
+						onSuccess: function (response) {
+							UIFactory
+								.showSuccessDialog({
+									data: {
+										headerMessage: 'Add new account success.',
+										bodyMessage: ''
+									},
+									preCloseCallback: function () {
+										preCloseCallback(response.data);
 									}
-									UIFactory
-											.showConfirmDialog({
-												data : {
-													headerMessage : 'Confirm save?'
-												},
-												confirm : function() {
-													return AccountService
-															.save({
-																organizeId : dialogData.organizeId,
-																accountNo : data.accountNo
-															});
-												},
-												onFail : function(response) {
-													if (response.status != 400) {
-														var msg = {
-															409 : 'Account No. is existed.'
-														};
-														UIFactory
-																.showFailDialog({
-																	data : {
-																		headerMessage : 'Add new account fail.',
-																		bodyMessage : msg[response.status] ? msg[response.status]
-																				: response.statusText
-																	},
-																	preCloseCallback : preCloseCallback
-																});
-													}
-												},
-												onSuccess : function(response) {
-													UIFactory
-															.showSuccessDialog({
-																data : {
-																	headerMessage : 'Add new account success.',
-																	bodyMessage : ''
-																},
-																preCloseCallback : function() {
-																	preCloseCallback(response.data);
-																}
-															});
-												}
-											});
-								}
-							}
-						} ]);
+								});
+						}
+					});
+			}
+		}
+
+		vm.changeFormat = function () {
+			if (vm.format === vm.formatType.ACCOUNT_NO) {
+				vm.termLoan = null;
+			} else {
+				vm.accountNo = null;
+			}
+		}
+	}]);
