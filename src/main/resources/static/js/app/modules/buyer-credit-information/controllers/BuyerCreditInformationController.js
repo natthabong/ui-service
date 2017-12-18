@@ -11,10 +11,10 @@ bciModule.controller('BuyerCreditInformationController', [
 	'$http',
 	'$q',
 	'blockUI',
-	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, BuyerCreditInformationService, SCFCommonService, $http, $q, blockUI) {
+	'scfFactory',
+	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, BuyerCreditInformationService, SCFCommonService, $http, $q, blockUI, scfFactory) {
 		var vm = this;
 		
-		var organizeId = $rootScope.userInfo.organizeId;
 		vm.buyer = $stateParams.buyer || null;
 		vm.supplier = $stateParams.supplier || null;
 		vm.showSupplier = true;
@@ -35,43 +35,46 @@ bciModule.controller('BuyerCreditInformationController', [
 		vm.search = function (pageModel) {
         	var buyerId = undefined;
 			var supplierId = undefined;
-
-			if (viewModeData.myOrganize == $stateParams.viewMode) {
-				buyerId = organizeId;
-				if (angular.isObject(vm.supplier)) {
-					supplierId = vm.supplier.supplierId;
-				}
-			} else if (viewModeData.partner == $stateParams.viewMode) {
-				supplierId = organizeId;
-				if (angular.isObject(vm.buyer)) {
-					buyerId = vm.buyer.sponsorId;
-				}
-			} else if (viewModeData.customer == $stateParams.viewMode) {
-				if (angular.isObject(vm.buyer)) {
-					buyerId = vm.buyer.organizeId;
-				}
-				if (angular.isObject(vm.supplier)) {
-					supplierId = vm.supplier.organizeId;
-				}
-			} else {
-				buyerId = null;
-				supplierId = null;
-			}
-			
-			vm.criteria.buyerId = buyerId;
-			vm.criteria.supplierId = supplierId;
-			vm.pagingController.search(pageModel, function (criteriaData, response) {
-				var data = response.data;
-				var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
-				var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
-				var i = 0;
-				var baseRowNo = pageSize * currentPage; 
-				angular.forEach(data, function (value, idx) {
-					if (isSameAccount(value.accountId, data, idx)) {
-						value.isSameAccount = true;
+			var defered = scfFactory.getUserInfo();
+			defered.promise.then(function(response){
+				var organizeId = response.organizeId;
+				if (viewModeData.myOrganize == $stateParams.viewMode) {
+					buyerId = organizeId;
+					if (angular.isObject(vm.supplier)) {
+						supplierId = vm.supplier.supplierId;
 					}
-					++i;
-					value.rowNo = baseRowNo+i;
+				} else if (viewModeData.partner == $stateParams.viewMode) {
+					supplierId = organizeId;
+					if (angular.isObject(vm.buyer)) {
+						buyerId = vm.buyer.sponsorId;
+					}
+				} else if (viewModeData.customer == $stateParams.viewMode) {
+					if (angular.isObject(vm.buyer)) {
+						buyerId = vm.buyer.organizeId;
+					}
+					if (angular.isObject(vm.supplier)) {
+						supplierId = vm.supplier.organizeId;
+					}
+				} else {
+					buyerId = null;
+					supplierId = null;
+				}
+				
+				vm.criteria.buyerId = buyerId;
+				vm.criteria.supplierId = supplierId;
+				vm.pagingController.search(pageModel, function (criteriaData, response) {
+					var data = response.data;
+					var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
+					var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
+					var i = 0;
+					var baseRowNo = pageSize * currentPage; 
+					angular.forEach(data, function (value, idx) {
+						if (isSameAccount(value.accountId, data, idx)) {
+							value.isSameAccount = true;
+						}
+						++i;
+						value.rowNo = baseRowNo+i;
+					});
 				});
 			});
 		};
@@ -79,7 +82,7 @@ bciModule.controller('BuyerCreditInformationController', [
 		var _supplierTypeAhead = function (q) {
 			q = UIFactory.createCriteria(q);
 			if(viewModeData.myOrganize == $stateParams.viewMode){
-				return BuyerCreditInformationService.getItemSuggestSuppliersByBuyerId(organizeId, q);
+				return BuyerCreditInformationService.getItemSuggestSuppliersByBuyerId($rootScope.userInfo.organizeId, q);
 			} else {
 				return BuyerCreditInformationService.getItemSuggestSuppliers(q);
 			}
@@ -88,7 +91,7 @@ bciModule.controller('BuyerCreditInformationController', [
 		var _buyerTypeAhead = function (q) {
 			q = UIFactory.createCriteria(q);
 			if(viewModeData.partner == $stateParams.viewMode){
-				return BuyerCreditInformationService.getItemSuggestBuyersBySupplierId(organizeId, q);
+				return BuyerCreditInformationService.getItemSuggestBuyersBySupplierId($rootScope.userInfo.organizeId, q);
 			} else {
 				return BuyerCreditInformationService.getItemSuggestBuyers(q);
 			}
