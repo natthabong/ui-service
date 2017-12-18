@@ -19,6 +19,7 @@ public class SponsorConfigController {
 	private static String AP_IMPORT_CHANNEL = "sponsor-configuration/ap-document-config/channel-configs";
 	private static String AR_IMPORT_CHANNEL = "sponsor-configuration/ar-document-config/channel-configs";
 
+	private static String AR_IMPORT_LAYOUTS = "sponsor-configuration/ar-document-config/import-layouts";
 	private static String AP_FILE_LAYOUTS = "sponsor-configuration/ap-document-config/file-layouts";
 
 	private static String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
@@ -83,6 +84,14 @@ public class SponsorConfigController {
 			return AR_IMPORT_CHANNEL.concat(" :: content");
 		}
 		return AR_IMPORT_CHANNEL;
+	}
+	
+	@RequestMapping(path = "/ar-file-layouts", method = RequestMethod.GET)
+	public String arFileLayouts(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return AR_IMPORT_LAYOUTS.concat(" :: content");
+		}
+		return AR_IMPORT_LAYOUTS;
 	}
 
 	@RequestMapping(path = "/file-layouts", method = RequestMethod.GET)
