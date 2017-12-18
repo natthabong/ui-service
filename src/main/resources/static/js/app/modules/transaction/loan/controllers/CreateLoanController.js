@@ -1,9 +1,12 @@
 var createapp = angular.module('gecscf.transaction');
 createapp.controller('CreateLoanController', ['TransactionService', '$state',
-    '$scope', 'SCFCommonService', '$stateParams', '$log', 'PageNavigation', '$q', 'PagingController', '$rootScope', 'blockUI',
-    function (TransactionService, $state, $scope, SCFCommonService, $stateParams, $log, PageNavigation, $q, PagingController, $rootScope, blockUI) {
+    '$scope', 'SCFCommonService', '$stateParams', '$log', 'PageNavigation', '$q', 'PagingController', '$rootScope', 'blockUI', 'scfFactory',
+    function (TransactionService, $state, $scope, SCFCommonService, $stateParams, $log, PageNavigation, $q, PagingController, $rootScope, blockUI, scfFactory) {
 
         var vm = this;
+        var defered = scfFactory.getUserInfo();
+		defered.promise.then(function(response){				
+		var	ownerId = response.organizeId;
         var log = $log;
         var comparator = angular.equals;
 
@@ -17,9 +20,8 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
         // SponsorCode dropdown
         vm.sponsorCodes = [];
-
-        var ownerId = $rootScope.userInfo.organizeId;
-
+		//var ownerId = $rootScope.userInfo.organizeId;
+		
         vm.loanRequestMode = null;
         var supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
         var hasSponsorPaymentDate = false;
@@ -545,7 +547,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 });
             }
         };
-
+	});
         // <------------------------------------- User Action ------------------------------->
     }
 ]);
