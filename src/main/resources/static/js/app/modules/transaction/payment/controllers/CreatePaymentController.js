@@ -19,10 +19,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.displayPaymentPage = false;
         $scope.validateDataFailPopup = false;
         var createTransactionType = 'WITH_INVOICE';
+        vm.accountType = '';
         vm.errorDisplay = false;
         var checkSelectMatchingRef = false;
         vm.documentSelects = [];
         vm.reasonCodeMappingId = null;
+        var supportSpecialDebit = false;
         var supportPartial = false;
         vm.reasonCodes = {};
         vm.temporalDocuments = [];
@@ -275,7 +277,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.transactionModel.documents = vm.documentSelects;
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             if (vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
-                var deffered = TransactionService.getPaymentDate(vm.transactionModel, createTransactionType);
+                var deffered = TransactionService.getPaymentDate(vm.transactionModel, createTransactionType, vm.accountType);
                 deffered.promise.then(function (response) {
                     var paymentDates = response.data;
 
@@ -305,7 +307,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.accountDropDown = [];
             var deffered = TransactionService.getAccounts(ownerId, supplierId);
             deffered.promise.then(function (response) {
-                console.log(response);
                 var accounts = response.data;
                 vm.isLoanPayment = false;
 
@@ -333,7 +334,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     if (accounts.length > 0) {
                         vm.transactionModel.payerAccountId = accounts[0].accountId;
                         vm.transactionModel.payerAccountNo = accounts[0].accountNo;
-
+                        vm.accountType = accounts[0].accountType;
+                        
                         if (accounts[0].accountType == 'LOAN') {
                             vm.transactionModel.transactionMethod = 'TERM_LOAN';
                             vm.tradingpartnerInfoModel.available = accounts[0].remainingAmount - accounts[0].pendingAmount;
@@ -341,14 +343,19 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                             vm.tradingpartnerInfoModel.interestRate = accounts[0].interestRate;
                             vm.isLoanPayment = true;
                         } else {
-                            vm.transactionModel.transactionMethod = 'DEBIT';
-                            vm.isLoanPayment = false;
+                        	if(supportSpecialDebit){
+                        		vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
+                        	}else{
+                        		vm.transactionModel.transactionMethod = 'DEBIT';
+                        	}
+                        	vm.isLoanPayment = false;
                         }
                         _loadMaturityDate();
                     }
                 } else {
 
                     var result = $.grep(accounts, function (account) { return account.accountId == vm.transactionModel.payerAccountId; });
+                    vm.accountType = result[0].accountType;
                     if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
                         vm.isLoanPayment = true;
                         _loadMaturityDate();
@@ -400,6 +407,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             deffered.promise.then(function (response) {
                 vm.dataTable.columns = response.items;
                 supportPartial = response.supportPartial;
+                supportSpecialDebit = response.supportSpecialDebit;
                 if (supportPartial) {
                     vm.reasonCodeMappingId = response.reasonCodeMappingId;
                     _loadReasonCodeMappingDatas();
@@ -518,14 +526,21 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
                     vm.tradingpartnerInfoModel.tenor = account.item.tenor;
                     vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
-                    if (account.item.accountType == 'LOAN') {
+                    vm.accountType = account.item.accountType;
+                    
+                    if (vm.accountType == 'LOAN') {
                         vm.transactionModel.transactionMethod = 'TERM_LOAN';
                         vm.isLoanPayment = true;
-                        _loadMaturityDate();
                     } else {
-                        vm.transactionModel.transactionMethod = 'DEBIT';
-                        vm.isLoanPayment = false;
+                    	if(supportSpecialDebit){
+                    		vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
+                    	}else{
+                    		vm.transactionModel.transactionMethod = 'DEBIT';
+                    	}
+                    	vm.isLoanPayment = false;
                     }
+                    
+                    _loadPaymentDate();
                 }
             });
         }
