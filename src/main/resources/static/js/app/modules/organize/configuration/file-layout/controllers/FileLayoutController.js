@@ -420,7 +420,7 @@ module.controller('FileLayoutController', [
 		
 		var initialModel = function () {
 			vm.model = {
-				displayName: vm.headerName,
+				displayName: '',
 				sponsorConfigId: 'SFP',
 				sponsorId: ownerId,
 				delimeter: ',',
