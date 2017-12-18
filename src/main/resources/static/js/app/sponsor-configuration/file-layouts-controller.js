@@ -62,6 +62,7 @@ angular
 				                vm.pageModel.currentPage = 0;
 				                vm.pageModel.pageSizeSelectModel = '20';
 				                vm.processType = processType;
+				                vm.integrateType = integrateType;
 				            	callService(processType, integrateType);
 							}
 
@@ -83,7 +84,7 @@ angular
 													label: '',
 													cssTemplate: 'text-center',
 													sortData: false,
-													cellTemplate: '<scf-button id="{{ctrl.processType}}-layout-{{data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.newFileLayout(data)" title="Config a file layout"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
+													cellTemplate: '<scf-button id="{{ctrl.processType}}-layout-{{data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.newFileLayout(data ,ctrl.processType , ctrl.integrateType)" title="Config a file layout"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
 													'<scf-button id="{{ctrl.processType}}-layout-{{data.displayName}}-delete-button" class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.delete()" title="Delete a file layout"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 												} ]
 									};
