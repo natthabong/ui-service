@@ -68,12 +68,25 @@ productTypeModule.controller('ProductTypeListController', [
 				PageNavigation.gotoPage('/customer-organize/product-types', params);
 			}
 
-			vm.gotoSetupPage = function() {
+			vm.gotoNewProductTypePage = function() {
 				var params = {
-						organizeId : $scope.sponsorId
+					organizeId : $scope.sponsorId
 				};
 
 				PageNavigation.gotoPage('/customer-organize/product-types/setup', params);
+			}
+			
+			vm.gotoEditProductTypePage = function() {
+				var params = {
+					organizeId : $scope.sponsorId
+//					productType : 
+				};
+
+				PageNavigation.gotoPage('/customer-organize/product-types/setup', params);
+			}
+			
+			vm.gotoPreviousPage = function() {
+				PageNavigation.gotoPreviousPage();
 			}
 
 			vm.initLoad = function() {
@@ -84,7 +97,6 @@ productTypeModule.controller('ProductTypeListController', [
 			}
 
 			vm.unauthenConfig = function() {
-				return false;
 				if (vm.manageAllConfig || vm.manageMyOrgConfig) {
 					return false;
 				} else {
