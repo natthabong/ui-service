@@ -82,7 +82,7 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 
 	}
 
-	var loadDataMappingToDropDown = function (sectionType) {
+	var loadDocumentFieldData = function (sectionType) {
 		var deffered = $q.defer();
 		var uri = 'api/v1/configs/file-layout-types/IMPORT/section-types/' + sectionType + '/document-field'
 		$http({
@@ -203,7 +203,7 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		return deffered;
 	}
 	return {
-		loadDataMappingToDropDown: loadDataMappingToDropDown,
+		loadDocumentFieldData: loadDocumentFieldData,
 		getDocumentFields: getDocumentFields,
 		getSpecificData: getSpecificData,
 		validate: validate,
