@@ -14,9 +14,22 @@ ptModule
 							var vm = this;
 
 							var params = PageNavigation.getParameters();
+							vm.editMode = params.productType != null;
+
 							vm.model = {
 								organizeId : params.organizeId
 							};
+
+							var init = function() {
+								if (vm.editMode) {
+									ProductTypeService.getProductType(
+											params.organizeId,
+											params.productType.productType)
+											.then(function(response) {
+												vm.model = response.data;
+											});
+								}
+							}();
 
 							vm.errors = {};
 
@@ -46,7 +59,9 @@ ptModule
 								}
 								return valid;
 							}
-
+							vm.cancel = function() {
+								PageNavigation.gotoPreviousPage(true);
+							}
 							vm.save = function() {
 								if (_validate(vm.model)) {
 									var preCloseCallback = function(confirm) {
@@ -59,30 +74,38 @@ ptModule
 													headerMessage : 'Confirm save?'
 												},
 												confirm : function() {
-													return ProductTypeService
-															.createProductType(vm.model);
+													return vm.editMode ? ProductTypeService
+															.updateProductType(vm.model)
+															: ProductTypeService
+																	.createProductType(vm.model);
 												},
 												onFail : function(response) {
 													if (response.status != 400) {
-														var msg = {
-														};
+														var msg = {};
 														UIFactory
-															.showFailDialog({
-																data: {
-																	headerMessage: 'Add new account fail.',
-																	bodyMessage: msg[response.status] ? msg[response.status]
-																		: response.data.message
-																},
-																preCloseCallback: preCloseCallback
-															});
+																.showFailDialog({
+																	data : {
+																		headerMessage : vm.editMode ? 'Edit product type fail.'
+																				: 'Add new product type fail.',
+																		bodyMessage : msg[response.status] ? msg[response.status]
+																				: response.data.message
+																	},
+																	preCloseCallback : preCloseCallback
+																});
+													} else {
+														$scope.errors = {};
+														$scope.errors[response.data.reference] = {
+															message : response.data.errorMessage
+														}
+														console.log($scope.errors)
 													}
 												},
 												onSuccess : function(response) {
 													UIFactory
 															.showSuccessDialog({
 																data : {
-																	headerMessage : vm.isNewMode ? 'Add new role success.'
-																			: 'Edit role complete.',
+																	headerMessage : vm.editMode ? 'Add new product type success.'
+																			: 'Edit product type complete.',
 																	bodyMessage : ''
 																},
 																preCloseCallback : preCloseCallback
