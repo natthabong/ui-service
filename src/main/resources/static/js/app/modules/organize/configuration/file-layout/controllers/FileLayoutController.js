@@ -865,19 +865,52 @@ module.controller('FileLayoutController', [
 					data: {
 						headerMessage: 'Confirm save?'
 					},
-					confirm: function () { return $scope.confirmSave(sponsorLayout) },
+					confirm: function () {
+						blockUI.start();
+						return $scope.confirmSave(sponsorLayout)
+					},
 					onSuccess: function (response) {
+						var headerMessage = "Add new file layout complete.";
+						if(response.version != 0){
+							headerMessage = "Edit file layout complete."
+						}
 						UIFactory.showSuccessDialog({
 							data: {
-								headerMessage: 'Edit file layout complete.',
+								headerMessage: headerMessage,
 								bodyMessage: ''
 							},
 							preCloseCallback: function () {
 								vm.backToSponsorConfigPage();
 							}
 						});
+						blockUI.stop();
 					},
 					onFail: function (response) {
+						console.log(response);
+						if (response.status != 400) {
+							var msg = {};
+							UIFactory
+									.showFailDialog({
+										data : {
+											headerMessage : vm.editMode ? 'Edit file layout fail.'
+													: 'Add new file layout fail.',
+											bodyMessage : msg[response.status] ? msg[response.status]
+													: response.data.message
+										},
+										preCloseCallback : preCloseCallback
+									});
+						} else {
+							$scope.errors = {};
+							$scope.errors[response.data.reference] = {
+								message : response.data.errorMessage
+							}
+							
+							var errors = {
+								duplicateLayoutName : true
+							}
+							
+							onFail(errors)
+						}
 						blockUI.stop();
 					}
 				});
