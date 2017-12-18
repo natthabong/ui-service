@@ -75,7 +75,7 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 		}
 
 		vm.loadDataMappingTo = function(){
-			var deffered = FileLayoutService.loadDataMappingToDropDown(vm.model.recordType);
+			var deffered = FileLayoutService.loadDocumentFieldData(vm.model.recordType);
 			deffered.promise.then(function(response) {
 				var mappingTo = response.data;
 				mappingTo.forEach(function(data){

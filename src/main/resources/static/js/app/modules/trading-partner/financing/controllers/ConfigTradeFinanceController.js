@@ -38,7 +38,11 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
 					id : 'finance-account-{value}-label',
 					sortable : false,
 					dataRenderer: function(record){
-						return ($filter('accountNoDisplay')(record.accountNo));
+						if(record.format){
+							return ($filter('accountNoDisplay')(record.accountNo));
+						}else{
+							return record.accountNo;
+						}
 					}
 				},{
 					fieldName : 'defaultLoanNo',

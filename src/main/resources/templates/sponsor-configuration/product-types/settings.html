@@ -1,0 +1,66 @@
+<div id="content" th:fragment="content"
+	sec:authorize="hasAnyAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS','MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="product-type-header-label" class="animated fadeInLeft">{{'Product
+						type' | translate}}</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<form name="createForm" class="form-horizontal">
+						<div class="form-group">
+							<label id="product-type-label" for="dealer"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Product
+								type' | translate}}: </label>
+
+							<div class="col-md-4 col-sm-3 col-xs-12">
+								<scf-input-text id="product-type-textbox" maxlength="20" ng-disabled="ctrl.editMode"
+									ng-model="ctrl.model.productType"></scf-input-text>
+							</div>
+							<div class="col-md-4 col-sm-4"></div>
+						</div>
+						<div class="form-group" ng-if="errors.productType">
+							<div>
+								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+									id="product-type-warning-message-label"
+									ng-bind="errors.productType.message"> </span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label id="display-name-label" for="display-name"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Display
+								name' | translate}}: </label>
+
+							<div class="col-md-4 col-sm-4 col-xs-12">
+								<scf-input-text id="display-name" maxlength="100"
+									ng-model="ctrl.model.displayName"></scf-input-text>
+							</div>
+							<div class="col-md-2 col-sm-3"></div>
+						</div>
+						<div class="form-group" ng-if="errors.displayName">
+							<div>
+								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+									id="display-name-warning-message-label"
+									ng-bind="errors.displayName.message"> </span>
+							</div>
+						</div>
+					</form>
+					<div class="col-md-12 col-sm-12 text-right">
+						<scf-button id="cancel-button" class="popup-button"
+							data-dismiss="modal" ng-click="ctrl.cancel()"
+							ng-bind="'Cancel' | translate"></scf-button>
+						<scf-button id="save-button" type="submit" ng-click="ctrl.save()">{{'Save'
+						| translate}}</scf-button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

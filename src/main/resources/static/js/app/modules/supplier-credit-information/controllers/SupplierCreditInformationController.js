@@ -11,17 +11,16 @@ sciModule.controller('SupplierCreditInformationController', [
 	'$http',
 	'$q',
 	'blockUI',
-	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, SupplierCreditInformationService, SCFCommonService, $http, $q, blockUI) {
+	'scfFactory',
+	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, SupplierCreditInformationService, SCFCommonService, $http, $q, blockUI,scfFactory) {
 		var vm = this;
 		
-		var organizeId = $rootScope.userInfo.organizeId;
 		vm.buyer = $stateParams.buyer || null;
 		vm.supplier = $stateParams.supplier || null;
 		vm.showSupplier = true;
 		vm.data = [];
 		vm.criteria = $stateParams.criteria || {};
 		vm.pagingController = PagingController.create('/api/v1/supplier-credit-information', vm.criteria,'GET');
-	
 		
         var viewModeData = {
             myOrganize: 'MY_ORGANIZE',
@@ -31,38 +30,41 @@ sciModule.controller('SupplierCreditInformationController', [
 		vm.search = function (pageModel) {
         	var buyer = undefined;
 			var supplier = undefined;
-
-			// mode MY_ORGANIZE 
-			if(viewModeData.myOrganize == $stateParams.viewMode){
-				supplier = organizeId;
-				if (angular.isObject(vm.buyer)) {
-					buyer = vm.buyer.sponsorId;
-				}
-			} else {
-				// mode CUSTOMER
-				if (angular.isObject(vm.buyer)) {
-					buyer = vm.buyer.organizeId;
-				}
-				if (angular.isObject(vm.supplier)) {
-					supplier = vm.supplier.organizeId;
-				}
-			}
-			
-			vm.criteria.buyerId = buyer;
-			vm.criteria.supplierId = supplier;
-			vm.pagingController.search(pageModel, function (criteriaData, response) {
-				var data = response.data;
-				var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
-				var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
-				var i = 0;
-				var baseRowNo = pageSize * currentPage; 
-				angular.forEach(data, function (value, idx) {
-					if (isSameAccount(value.accountId, data, idx)) {
-						
-						value.showAccountFlag = true;
+			var defered = scfFactory.getUserInfo();
+				defered.promise.then(function(response){
+			var organizeId = response.organizeId;
+				// mode MY_ORGANIZE
+				if(viewModeData.myOrganize == $stateParams.viewMode){
+					supplier = organizeId;
+					if (angular.isObject(vm.buyer)) {
+						buyer = vm.buyer.sponsorId;
 					}
-					++i;
-					value.rowNo = baseRowNo+i;
+				} else {
+					// mode CUSTOMER
+					if (angular.isObject(vm.buyer)) {
+						buyer = vm.buyer.organizeId;
+					}
+					if (angular.isObject(vm.supplier)) {
+						supplier = vm.supplier.organizeId;
+					}
+				}
+				
+				vm.criteria.buyerId = buyer;
+				vm.criteria.supplierId = supplier;
+				vm.pagingController.search(pageModel, function (criteriaData, response) {
+					var data = response.data;
+					var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
+					var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
+					var i = 0;
+					var baseRowNo = pageSize * currentPage; 
+					angular.forEach(data, function (value, idx) {
+						if (isSameAccount(value.accountId, data, idx)) {
+							
+							value.showAccountFlag = true;
+						}
+						++i;
+						value.rowNo = baseRowNo+i;
+					});
 				});
 			});
 		};
@@ -76,7 +78,7 @@ sciModule.controller('SupplierCreditInformationController', [
 		var _buyerTypeHead = function (q) {
 			q = UIFactory.createCriteria(q);
 			if(viewModeData.myOrganize == $stateParams.viewMode){
-				return SupplierCreditInformationService.getBuyerNameOrCodeLike(organizeId,q);
+				return SupplierCreditInformationService.getBuyerNameOrCodeLike($rootScope.userInfo.organizeId,q);
 			} else {
 				return SupplierCreditInformationService.getBuyerForBankByNameOrCodeLike(q);
 			}
@@ -113,7 +115,7 @@ sciModule.controller('SupplierCreditInformationController', [
 				return accountId != data[index - 1].accountId;
 			}
 		}
-
+	
 		function inquiryAccountToApi(tpAccountModel) {
 			var deffered = $q.defer();
 			$http({

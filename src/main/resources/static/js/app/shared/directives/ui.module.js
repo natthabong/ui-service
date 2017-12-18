@@ -54,6 +54,77 @@ angular
 			disableAnimation : true
 		});
 	} ])
+	app.service('PageNavigation', [
+	    '$filter',
+	    '$http',
+	    '$log',
+	    '$q',
+	    '$state',
+	    '$stateParams',
+	    function($filter, $http, $log, $q, $state, $stateParams) {
+	        var vm = this;
+	        var log = $log;
+
+	        var homePage = '/';
+
+	        var previousPages = new Array();
+	        var steps = new Array();
+
+	        vm.gotoPage = function(page, params, keepStateObject) {
+	            var currentState = $state.current.name == '' ? '/' : $state.current.name;
+	            previousPages.push({
+	                page: currentState,
+	                stateObject: keepStateObject
+	            });
+	            if (params === undefined) {
+	                params = {};
+	            }
+	            params.backAction = false;
+	            $state.go(page, params);
+	        }
+
+	        vm.gotoPreviousPage = function(reset) {
+	            var previousPage = previousPages.pop();
+	            if (previousPage != null) {
+	                if (previousPage.stateObject === undefined) {
+	                    previousPage.stateObject = {};
+	                }
+	                previousPage.stateObject.backAction = true;
+	                $state.go(previousPage.page, reset ? {} : previousPage.stateObject, {
+	                    reload: reset
+	                });
+	            } else {
+	                $state.go(homePage);
+	            }
+	        }
+
+	        vm.nextStep = function(nextPage, params, keepStateObject) {
+	            steps.push({
+	                page: $state.current.name,
+	                stateObject: keepStateObject
+	            });
+
+	            params.backAction = false;
+
+	            $state.go(nextPage, params);
+	        }
+
+	        vm.backStep = function(reset) {
+	            var previousStep = steps.pop();
+	            if (previousStep != null) {
+	                previousStep.stateObject.backAction = true;
+	                $state.go(previousStep.page, reset ? {} : previousStep.stateObject, {
+	                    reload: reset
+	                });
+	            }
+	        }
+	        
+	        vm.getParameters = function(){
+	        	return  $stateParams;
+	        }
+
+	    }
+	])
 	.factory(
 		'UIFactory',
 		[

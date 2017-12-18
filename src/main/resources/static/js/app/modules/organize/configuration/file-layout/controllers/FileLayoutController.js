@@ -46,6 +46,8 @@ module.controller('FileLayoutController', [
 
 		vm.dataTypeHeaders = [];
 		vm.dataTypeFooters = [];
+		
+		vm.documentFieldData = [];
 
 		vm.configHeader = false;
 		vm.configFooter = false;
@@ -85,6 +87,7 @@ module.controller('FileLayoutController', [
 		vm.dataTypeDropdown = angular.copy(defaultDropdown);
 		vm.dataTypeHeaderDropdown = angular.copy(defaultDropdown);
 		vm.dataTypeFooterDropdown = angular.copy(defaultDropdown);
+		vm.documentFieldDropdown = angular.copy(defaultDropdown);
 		vm.dataTypeByGroupsDropdown = {};
 
 		vm.specificsDropdown = [];
@@ -143,6 +146,38 @@ module.controller('FileLayoutController', [
 					}
 					vm.dataTypeDropdown.push(item);
 					vm.dataTypeByGroupsDropdown[obj.dataType].push(item);
+				});
+
+
+			}).catch(function (response) {
+				log.error('Load customer code group data error');
+			});
+		}
+
+		var loadDocumentFieldData = function () {
+			var deffered = FileLayoutService.loadDocumentFieldData('DETAIL');
+			deffered.promise.then(function (response) {
+				vm.documentFieldData = response.data;
+				vm.documentFieldData.forEach(function (obj) {
+					if (!vm.dataTypeByGroupsDropdown[obj.dataType]) {
+						vm.dataTypeByGroupsDropdown[obj.dataType] = [];
+					}
+
+					if (obj.dataType == 'DATE_TIME') {
+						dateTimeFieldIds.push(obj.documentFieldId);
+					}
+					var item = {
+						value: obj.documentFieldId,
+						label: obj.displayFieldName
+					}
+						
+					if(obj.dataType == 'RECORD_TYPE'){
+						vm.recordTypeId = obj.documentFieldId;
+					}else{
+						vm.documentFieldDropdown.push(item);
+						vm.dataTypeByGroupsDropdown[obj.dataType].push(item);						
+					}
+					
 				});
 
 
@@ -450,6 +485,7 @@ module.controller('FileLayoutController', [
 			loadDelimiters();
 			loadFileEncode();
 			loadDataTypes();
+			loadDocumentFieldData();
 			loadHeaderDataTypes();
 			loadFooterDataTypes();
 			loadFileSpecificsData();

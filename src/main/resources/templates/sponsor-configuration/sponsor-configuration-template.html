@@ -68,14 +68,12 @@
 						</button>
 					</div>
 					<div class="col-md-2 col-sm-2 col-xs-6"
-						ng-controller="ProductTypeListController as productTypeCtrl">
-						<input type="hidden"
-							ng-init="productTypeCtrl.manageAllConfig=true"
+						ng-controller="ProductTypeListController as ctrl">
+						<input type="hidden" ng-init="ctrl.manageAllConfig=true"
 							sec:authorize="hasAuthority('MANAGE_ALL_PRODUCT_TYPES')" />
 						<button class="thumbnail" title="Config product type"
-							id="product-type-setup-button"
-							ng-click="productTypeCtrl.gotoListPage()"
-							ng-disabled="productTypeCtrl.unauthenConfig()">
+							id="product-type-setup-button" ng-click="ctrl.gotoListPage()"
+							ng-disabled="ctrl.unauthenConfig()">
 							<div class="caption config-box">
 								<div class="media">
 									<div class="media-body">
