@@ -52,28 +52,6 @@ angular
 								return atob(data);
 							}
 
-							vm.dataTable = {
-								options : {
-								},
-								columns : [
-										{
-											field : 'displayName',
-										    label: 'File layout name',
-										    idValueField: 'template',
-										    id: 'file-layouts-{value}-file-layout-name-label',
-										    sortData: true,
-										    cssTemplate: 'text-left',
-										}, {
-											field: '',
-											label: '',
-											cssTemplate: 'text-center',
-											sortData: false,
-											cellTemplate: '<scf-button id="layout-{{data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="fileLayoutsCtrl.newFileLayout(data)" title="Config a file layout"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
-											'<scf-button id="layout-{{data.displayName}}-delete-button" class="btn-default gec-btn-action" ng-disabled="true" ng-click="fileLayoutsCtrl.delete()" title="Delete a file layout"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
-										} ]
-							};
-
-							vm.data = [];
 
 							vm.decodeBase64 = function(data) {
 								return atob(data);
@@ -83,9 +61,32 @@ angular
 							vm.init = function(processType, integrateType) {
 				                vm.pageModel.currentPage = 0;
 				                vm.pageModel.pageSizeSelectModel = '20';
+				                vm.processType = processType;
 				            	callService(processType, integrateType);
 							}
 
+							vm.data = [];
+								vm.dataTable = {
+										options : {
+										},
+										columns : [
+												{
+													field : 'displayName',
+												    label: 'File layout name',
+												    idValueField: 'layoutConfigId',
+												    id: 'file-layouts-{value}-display-layout-name-label',
+												    sortData: true,
+												    cssTemplate: 'text-left',
+												    cellTemplate : '<span id="{{ctrl.processType}}-import-layout-{{data.layoutConfigId}}-label">{{data.displayName}}</span>'
+												}, {
+													field: '',
+													label: '',
+													cssTemplate: 'text-center',
+													sortData: false,
+													cellTemplate: '<scf-button id="{{ctrl.processType}}-layout-{{data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.newFileLayout(data)" title="Config a file layout"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
+													'<scf-button id="{{ctrl.processType}}-layout-{{data.displayName}}-delete-button" class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.delete()" title="Delete a file layout"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+												} ]
+									};
 							
 							vm.unauthenConfig = function(){
 								if(vm.viewAllConfig || vm.manageAllConfig){
@@ -110,9 +111,10 @@ angular
 								});									
 								
 								serviceDiferred.promise.then(function(response){
-									vm.data = response.data[0];
+									vm.data = response.data;
+									console.log(vm.data);
 									vm.pageModel.totalRecord = response.headers("X-Total-Count");
-									vm.pageModel.totalPage = response.headers("X-Total-Page");									
+									vm.pageModel.totalPage = response.headers("X-Total-Page");	
 									vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.page, vm.pageModel.totalRecord);
 								}).catch(function(response){
 									log.error('Load File layouts data error');
