@@ -26,6 +26,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         var supportPartial = false;
         vm.reasonCodes = {};
         vm.temporalDocuments = [];
+        vm.accountNotSupportSpecialDirectDebit = false;
 
         var enterPageByBackAction = $stateParams.backAction || false;
         vm.criteria = $stateParams.criteria || {
@@ -308,7 +309,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 var accounts = response.data;
                 vm.isLoanPayment = false;
 
-                var loanAccountIndex = 0;
+                // var loanAccountIndex = 0;
                 accounts.forEach(function (account, index) {
 
                     if (account.format) {
@@ -318,7 +319,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                             item: account
                         };
                         vm.accountDropDown.push(a);
-                    }else{
+                    } else {
                         var a = {
                             label: account.accountNo,
                             value: account.accountId,
@@ -327,17 +328,17 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         vm.accountDropDown.push(a);
                     }
                 });
-
+                // accountNotSupportSpecialDirectDebit
                 if (!$stateParams.backAction) {
                     if (accounts.length > 0) {
-                        vm.transactionModel.payerAccountId = accounts[loanAccountIndex].accountId;
-                        vm.transactionModel.payerAccountNo = accounts[loanAccountIndex].accountNo;
-                        vm.tradingpartnerInfoModel.available = accounts[loanAccountIndex].remainingAmount - accounts[loanAccountIndex].pendingAmount;
-                        vm.tradingpartnerInfoModel.tenor = accounts[loanAccountIndex].tenor;
-                        vm.tradingpartnerInfoModel.interestRate = accounts[loanAccountIndex].interestRate;
+                        vm.transactionModel.payerAccountId = accounts[0].accountId;
+                        vm.transactionModel.payerAccountNo = accounts[0].accountNo;
 
-                        if (accounts[loanAccountIndex].accountType == 'LOAN') {
+                        if (accounts[0].accountType == 'LOAN') {
                             vm.transactionModel.transactionMethod = 'TERM_LOAN';
+                            vm.tradingpartnerInfoModel.available = accounts[0].remainingAmount - accounts[0].pendingAmount;
+                            vm.tradingpartnerInfoModel.tenor = accounts[0].tenor;
+                            vm.tradingpartnerInfoModel.interestRate = accounts[0].interestRate;
                             vm.isLoanPayment = true;
                         } else {
                             vm.transactionModel.transactionMethod = 'DEBIT';
@@ -352,6 +353,16 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         vm.isLoanPayment = true;
                         _loadMaturityDate();
                     }
+                }
+
+                if(accounts.length > 0){
+                    if(accounts[0].defaultLoanNo){
+                        vm.accountNotSupportSpecialDirectDebit = false;
+                    }else{
+                        vm.accountNotSupportSpecialDirectDebit = true;
+                    }
+                }else{
+                    vm.accountNotSupportSpecialDirectDebit = true;
                 }
             }).catch(function (response) {
                 log.error(response);
