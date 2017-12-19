@@ -650,7 +650,7 @@ module.controller('FileLayoutController', [
 							id: 'layout-setting-dialog-' + index,
 							template: 'js/app/modules/organize/configuration/file-layout/templates/dialog-data-field-format.html',
 							className: 'ngdialog-theme-default',
-							controller: 'DATALayoutConfigController',
+							controller: 'DataLayoutConfigController',
 							controllerAs: 'ctrl',
 							scope: $scope,
 							data: {

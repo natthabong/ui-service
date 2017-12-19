@@ -124,6 +124,7 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 			if(layout.displayName != ''){
 				errors.requireLayoutName = false;
 			}
+			console.log(errors.requireLayoutName);
 
 			layout.items.forEach(function (item) {
 				if (item.recordType == 'DETAIL') {
@@ -160,19 +161,14 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 				}
 			});
 
-			if (errors.requireDocDueDate || errors.requireNetAmount || errors.documentFieldIdListDupplicate.length > 0) {
+			if (errors.requireLayoutName || errors.requireDocDueDate || errors.requireNetAmount || errors.documentFieldIdListDupplicate.length > 0) {
 				messageFunc(errors);
 				return false;
 			}
 
 		} else if (layout.processType == 'AP_DOCUMENT') {
 			var errors = {
-				requireLayoutName : true,
 				documentFieldIdListDupplicate: []
-			}
-			
-			if(layout.displayName != ''){
-				errors.requireLayoutName = false;
 			}
 
 			layout.items.forEach(function (item) {

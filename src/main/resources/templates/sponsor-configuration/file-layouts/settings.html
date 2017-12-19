@@ -14,7 +14,7 @@
 				ng-submit="ctrl.save()">
 				<div class="panel panel-default col-md-12 padding-0">
 					<div class="panel-body">
-						<div class="form-group">
+						<div class="form-group" data-ng-if="ctrl.processType != 'AP_DOCUMENT'">
 							<label for="dealer" id="layout-name-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Layout name' | translate}}: </label>
 
@@ -27,23 +27,16 @@
 						<div class="form-group">
 							<label for="dealer"
 								class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-							<div ng-show="errors.duplicateLayoutName">
-								<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+							<div ng-show="errors.duplicateLayoutName || errors.requireLayoutName">
+								<span ng-show="errors.duplicateLayoutName" class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
 									id="layout-name-error-message-label">{{'Layout name is
 									duplicate' | translate}}.</span>
-							</div>
-							<div class="col-md-4 col-sm-4"></div>
-						</div>						
-						<div class="form-group">
-							<label for="dealer"
-								class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-							<div ng-show="errors.requireLayoutName">
-								<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+								<span ng-show="errors.requireLayoutName" class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
 									id="layout-name-warning-message-label">{{'Layout name is
 									required' | translate}}.</span>
 							</div>
 							<div class="col-md-4 col-sm-4"></div>
-						</div>
+						</div>						
 						<div class="form-group">
 							<label for="dealer" id="file-type-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
