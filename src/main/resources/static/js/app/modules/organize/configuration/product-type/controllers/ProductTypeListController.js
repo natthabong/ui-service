@@ -13,47 +13,11 @@ productTypeModule.controller('ProductTypeListController', [
 
 			vm.manageAllConfig = false;
 			vm.manageMyOrgConfig = false;
-
-			vm.dataTable = {
-				identityField:'customerCode',
-				columns : [
-					{
-						fieldName: '$rowNo',
-						labelEN: 'No.',
-						labelTH: 'ลำดับ',
-						sortable: true,
-						id: '$rowNo-{value}',
-						filterType: 'translate',
-						cssTemplate: 'text-right'
-					},
-					{
-						fieldName: 'productType',
-						labelEN: 'Product type',
-						labelTH: 'ประเภทสินค้า',
-						sortable: true,
-						id: 'product-type-{value}',
-						filterType: 'translate',
-						cssTemplate: 'text-left'
-					},
-					{
-						fieldName: 'name',
-						labelEN: 'Name',
-						labelTH: 'ชื่อ',
-						sortable: true,
-						id: 'name-{value}',
-						filterType: 'translate',
-						cssTemplate: 'text-left'
-					},
-					{
-						labelEN: '',
-						labelTH: '',
-						sortable: false,
-						cssTemplate: 'text-left',
-						cellTemplate: '<scf-button id="{{data.customerCode}}-edit-button" class="btn-default gec-btn-action" ng-disabled="ctrl.unauthen()" ng-click="ctrl.customerCodeSetup(data)" title="Setup customer code"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
-							'<scf-button id="{{data.customerCode}}-delete-button"  class="btn-default gec-btn-action" ng-disabled="ctrl.unauthen()" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
-					}
-				]
-			};
+			
+			var url = '/api/v1/organize-customers/'+ organizeId + '/product-types';
+			
+			vm.criteria = $stateParams.criteria || {};
+			vm.pagingController = PagingController.create(url, vm.criteria,'GET');
 
 			vm.gotoListPage = function() {
 				var params = {
@@ -63,21 +27,28 @@ productTypeModule.controller('ProductTypeListController', [
 				PageNavigation.gotoPage('/customer-organize/product-types', params);
 			}
 
-			vm.gotoNewProductTypePage = function() {
+			vm.newProductType = function() {
 				var params = {
 					organizeId: organizeId
 				};
 
-				PageNavigation.gotoPage('/customer-organize/product-types/setup', params);
+				PageNavigation.gotoPage('/customer-organize/product-types/setup', params, {
+					organizeId: organizeId,
+					criteria: vm.criteria
+				});
 			}
 
-			vm.gotoEditProductTypePage = function() {
+			vm.editProductType = function(data) {
 				var params = {
-					organizeId: organizeId
-//					productType : 
+					organizeId: organizeId,
+					productType : data.productType,
+					model: data
 				};
 
-				PageNavigation.gotoPage('/customer-organize/product-types/setup', params);
+				PageNavigation.gotoPage('/customer-organize/product-types/setup', params, {
+					organizeId: organizeId,
+					criteria: vm.criteria
+				});
 			}
 
 			vm.gotoPreviousPage = function() {
@@ -92,12 +63,19 @@ productTypeModule.controller('ProductTypeListController', [
 				}
 			}
 			
-			function init() {
-				var url = '/api/v1/organize-customers/'+ organizeId + '/product-types';
-				vm.pagingController = PagingController.create(url, null, 'GET');
+			vm.searchProductType = function (pageModel) {
+				vm.pagingController.search(pageModel, function (criteriaData, response) {
+					$scope.currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
+					$scope.pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
+				});
 			}
+			
+			var init = function () {
+				vm.searchProductType();
+			}();
 
-			init();
+			
+			
 		}
 	]
 );

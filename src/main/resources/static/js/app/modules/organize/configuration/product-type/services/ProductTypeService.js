@@ -16,6 +16,27 @@ angular.module('gecscf.organize.configuration.productType').service(
 	     		return deferred;
 			}
 			
+			this.updateProductType = function(data){
+				   var url = '/api/v1/organize-customers/' + data.organizeId +'/product-types/' + data.productType
+				   var req = {
+			            method: 'POST',
+			            url: url,
+			            data: data,
+			            headers: {
+			                'If-Match': data.version,
+			                'X-HTTP-Method-Override': 'PUT'
+			            }
+			        }
+				    var deffered = $q.defer();
+			        $http(req).then(function(response) {
+			        	deffered.resolve(response);
+		            })
+		            .catch(function(response) {
+		            	deffered.reject(response);
+		            });
+			        return deffered;
+				}
+			
 			this.getProductType = function(organizeId, productType){
 			    var deferred = $q.defer();
 	     		$http({
@@ -28,5 +49,8 @@ angular.module('gecscf.organize.configuration.productType').service(
 	     		});
 	     		return deferred;
 			}
+			
+			
+			
 			
 		} ]);
