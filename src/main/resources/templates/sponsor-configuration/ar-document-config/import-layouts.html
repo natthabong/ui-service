@@ -1,0 +1,30 @@
+<div th:fragment="content">
+	<div id="wrapper" ng-controller="FileLayoutsController as ctrl">
+		<div class="panel panel-default col-md-12 padding-0">
+			<div class="panel-body" style="min-height: 360px;">
+				<div class="row">
+					<div class="col-lg-10 col-md-10 col-xs-10">
+						<h3 class="animated fadeInLeft" id="ar-file-layouts-header-label">Import
+							file layout</h3>
+					</div>
+					<div class="col-lg-2 col-md-2 col-xs-2 text-right">
+						<br />
+						<scf-button class="btn-default gec-btn-action"
+							id="AR-import-layout-new-button" title="New Import File Layout"
+							ng-click="ctrl.newFileLayout(ctrl.data,'AR_DOCUMENT', 'IMPORT')"> <i
+							class="fa fa-plus" aria-hidden="true"></i></scf-button>
+					</div>
+				</div>
+				<div class="row" ng-init="ctrl.init('AR_DOCUMENT', 'IMPORT')">
+					<div class="col-md-12 col-sm-12 text-right">
+						<scf-table id="ar-channel-configs-table"
+							component-config="ctrl.dataTable" component-datas="ctrl.data"
+							current-page="ctrl.currentPage"
+							record-per-page="ctrl.pageModel.pageSizeSelectModel"
+							clear-sort-order="ctrl.pageModel.clearSortOrder"> </scf-table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

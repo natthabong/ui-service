@@ -39,9 +39,18 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 	}
 
 	var createFileLayout = function (owner, processTypes, integrateTypes, layoutConfigData) {
-		var url = 'api/v1/organize-customers/' + owner + '/process-types/' + processTypes + '/integrate-types/' + integrateTypes + '/layouts'
-		var fileLayoutDiferred = Service.requestURL(url, layoutConfigData, 'POST');
-		return fileLayoutDiferred;
+		var serviceUrl = 'api/v1/organize-customers/' + owner + '/process-types/' + processTypes + '/integrate-types/' + integrateTypes + '/layouts';
+		var deferred = $q.defer();
+		$http({
+			method : 'POST',
+			url : serviceUrl,
+			data : layoutConfigData
+		  }).then(function(response){
+		      return deferred.resolve(response);
+		 }).catch(function(response){
+		      return deferred.reject(response);
+		 });
+		 return deferred;
 	}
 
 	var updateFileLayout = function(owner, processTypes, integrateTypes, layoutId, layoutConfigData){
@@ -106,9 +115,14 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 
 		if (layout.processType == 'AR_DOCUMENT') {
 			var errors = {
+				requireLayoutName : true,
 				requireDocDueDate: true,
 				requireNetAmount: true,
 				documentFieldIdListDupplicate: []
+			}
+			
+			if(layout.displayName != ''){
+				errors.requireLayoutName = false;
 			}
 
 			layout.items.forEach(function (item) {
@@ -153,7 +167,12 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 
 		} else if (layout.processType == 'AP_DOCUMENT') {
 			var errors = {
+				requireLayoutName : true,
 				documentFieldIdListDupplicate: []
+			}
+			
+			if(layout.displayName != ''){
+				errors.requireLayoutName = false;
 			}
 
 			layout.items.forEach(function (item) {
