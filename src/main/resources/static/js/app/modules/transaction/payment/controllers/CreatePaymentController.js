@@ -475,12 +475,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	            if (result[0].createTransactionType !== undefined && result[0].createTransactionType == 'WITHOUT_INVOICE') {
 	                vm.displayPaymentPage = false;
 	                var params = {
-	                    supplierModel: tradingPartnerList,
-	                    criteria: {
+	                    //supplierModel: tradingPartnerList,
+	                    //criteria: {
 	                        accountingTransactionType: 'RECEIVABLE',
 	                        supplierId: result[0].supplierId,
 	                        buyerId: ownerId
-	                    }
+	                    //}
 	                }
 	                PageNavigation.gotoPage('/my-organize/create-payment-woip', params);
 	            } else {
