@@ -29,6 +29,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.reasonCodes = {};
         vm.temporalDocuments = [];
         vm.accountNotSupportSpecialDirectDebit = false;
+        var accountList = [];
 
         var enterPageByBackAction = $stateParams.backAction || false;
         vm.criteria = $stateParams.criteria || {
@@ -325,6 +326,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.accountDropDown = [];
             var deffered = TransactionService.getAccounts(ownerId, supplierId);
             deffered.promise.then(function (response) {
+                accountList = response.data; 
                 var accounts = response.data;
                 vm.isLoanPayment = false;
 
@@ -800,10 +802,14 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 deffered.promise.then(function (response) {
                     var transaction = response.data;
                     SCFCommonService.parentStatePage().saveCurrentState('/my-organize/create-transaction');
-
+                    
+                    var result = $.grep(accountList, function (account) { return account.accountId == vm.transactionModel.payerAccountId; });
+                    var formatAccount = result[0].format || false;
+                    
                     var objectToSend = {
                         transactionModel: vm.transactionModel,
-                        tradingpartnerInfoModel: vm.tradingpartnerInfoModel
+                        tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
+                        formatAccount : formatAccount
                     };
 
                     PageNavigation.nextStep('/create-payment/validate-submit', objectToSend, {

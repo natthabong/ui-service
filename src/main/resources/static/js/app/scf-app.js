@@ -694,7 +694,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'ValidateSubmitController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment/validate-submit',
-                params: {transactionModel: null, tradingpartnerInfoModel: null},
+                params: {transactionModel: null, tradingpartnerInfoModel: null, formatAccount: null},
 				resolve: WebHelper.loadScript(['js/app/modules/transaction/services/TransactionService.js','js/app/modules/transaction/payment/controllers/ValidateSubmitController.js'])
 			}).state('/my-organize/payment-transaction', {
 				url: '/my-organize/payment-transaction',

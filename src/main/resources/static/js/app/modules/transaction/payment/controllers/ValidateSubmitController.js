@@ -14,6 +14,11 @@ paymentModule.controller('ValidateSubmitController', [
         var vm = this;
         vm.transactionModel = $stateParams.transactionModel;
         vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
+        var formatAccount = $stateParams.formatAccount;
+        console.log(formatAccount);
+        if(formatAccount){
+            vm.transactionModel.payerAccountNo = $filter('accountNoDisplay')(vm.transactionModel.payerAccountNo);
+        }
 
         vm.isCreateTransWithInvoice = true;
         if (vm.tradingpartnerInfoModel.createTransactionType !== undefined && vm.tradingpartnerInfoModel.createTransactionType == 'WITHOUT_INVOICE') {
