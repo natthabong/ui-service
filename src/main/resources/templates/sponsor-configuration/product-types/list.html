@@ -15,32 +15,66 @@
 					<div class="row">
 						<div class="col-md-12 text-right">
 							<scf-button id="new-button" class="btn-default gec-btn-action"
-								ng-disabled="ctrl.unauthen()" ng-click="ctrl.gotoNewProductTypePage()">
-							<i class="fa fa-plus" aria-hidden="true"></i></scf-button>
+								ng-disabled="ctrl.unauthen()"
+								ng-click="ctrl.newProductType()"> <i
+								class="fa fa-plus" aria-hidden="true"></i></scf-button>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 col-sm-12 text-right">
 							<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
 								id="product-type-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+									dropdown-id="product-type-page-limit-dropdown"
 									name="product-type"
 									page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 									total-page="ctrl.pagingController.pagingModel.totalPage"
 									current-page="ctrl.pagingController.pagingModel.currentPage"
 									page-size-list="ctrl.pagingController.pageSizeList"
-									page-action="ctrl.pagingController.search"></scf-pagination>
+									page-action="ctrl.searchProductType"></scf-pagination>
 							</span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="responsive-table">
-								<scf-table id="product-type-table"
-									component-config="ctrl.dataTable"
-									component-datas="ctrl.pagingController.tableRowCollection"
-									current-page="ctrl.pagingController.pagingModel.currentPage"
-									record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-									clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder" />
+								<table id="remittance-advice-table"
+									class="table table-striped table-bordered" cellspacing="0">
+									<thead>
+										<tr>
+											<th id="$rowNo-header-label" ng-bind="'No.' | translate" width="10%">No.</th>
+											<th id="product-type-header-label"
+												ng-bind="'Product type' | translate" width="20%">Product type</th>
+											<th id="display-name-header-label"
+												ng-bind="'Name' | translate">Name</th>
+											<th width="10%" id="action-header-label">&nbsp;</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
+											<td class="text-center"><span
+												id="$rowNo-{{record.productType}}-label"
+												ng-bind="((currentPage * pageSize) + $index + 1)"></span></td>
+											<td class="text-left"><span
+												id="product-type-{{record.productType}}-label"
+												ng-bind="record.productType"></span></td>
+											<td class="text-left"><span
+												id="display-name-{{record.productType}}-label"
+												ng-bind="record.displayName"></span></td>
+											<td class="text-center"><scf-button
+													id="{{record.productType}}-edit-button"
+													class="btn-default gec-btn-action"
+													ng-click="ctrl.editProductType(record)"
+													title="Setup product type"> <i
+													class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button> <scf-button
+													id="{{record.productType}}-delete-button"
+													class="btn-default gec-btn-action"
+													ng-click="ctrl.deleteProductType(record)"
+													title="Delete product type"> <i
+													class="fa fa-trash-o" aria-hidden="true"></i></scf-button></td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -49,8 +83,7 @@
 					<div class="col-md-12 col-sm-12 text-right">
 						<scf-button ng-if="!ctrl.personalMode" id="back-button"
 							class="popup-button" data-dismiss="modal"
-							ng-click="ctrl.gotoPreviousPage()"
-							ng-bind="'Back' | translate"></scf-button>
+							ng-click="ctrl.gotoPreviousPage()" ng-bind="'Back' | translate"></scf-button>
 					</div>
 				</div>
 			</div>
