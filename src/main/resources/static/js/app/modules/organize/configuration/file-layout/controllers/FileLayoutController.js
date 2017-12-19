@@ -606,41 +606,73 @@ module.controller('FileLayoutController', [
 				dataTypeDropdowns = vm.dataTypeFooters;
 			}
 
-			dataTypeDropdowns.forEach(function (obj) {
-				if (documentFieldId == obj.documentFieldId) {
-					var dataType = obj.dataType;
-					var dialog = ngDialog.open({
-						id: 'layout-setting-dialog-' + index,
-						template: obj.configUrl,
-						className: 'ngdialog-theme-default',
-						controller: _convertToHumanize(dataType) + 'LayoutConfigController',
-						controllerAs: 'ctrl',
-						scope: $scope,
-						data: {
-							processType: vm.processType,
-							owner: ownerId,
-							record: record,
-							index: index,
-							config: obj,
-							headerItems: vm.headerItems,
-							detailItems: vm.items,
-							footerItems: vm.footerItems,
-							dataTypeByIds: vm.dataTypeByIds
-
-						},
-						cache: false,
-						preCloseCallback: function (value) {
-							if (value != null) {
-								angular.copy(value, record);
-								record.completed = true;
-								if(value.dataType='TEXT'){
-									loadMappingData();
+			if(record.itemType == 'FIELD'){
+				dataTypeDropdowns.forEach(function (obj) {
+					if (documentFieldId == obj.documentFieldId) {
+						var dataType = obj.dataType;
+						var dialog = ngDialog.open({
+							id: 'layout-setting-dialog-' + index,
+							template: obj.configUrl,
+							className: 'ngdialog-theme-default',
+							controller: _convertToHumanize(dataType) + 'LayoutConfigController',
+							controllerAs: 'ctrl',
+							scope: $scope,
+							data: {
+								processType: vm.processType,
+								owner: ownerId,
+								record: record,
+								index: index,
+								config: obj,
+								headerItems: vm.headerItems,
+								detailItems: vm.items,
+								footerItems: vm.footerItems,
+								dataTypeByIds: vm.dataTypeByIds
+	
+							},
+							cache: false,
+							preCloseCallback: function (value) {
+								if (value != null) {
+									angular.copy(value, record);
+									record.completed = true;
+									if(value.dataType='TEXT'){
+										loadMappingData();
+									}
 								}
 							}
-						}
-					});
-				}
-			});
+						});
+					}
+				});
+			
+			}else if(record.itemType == 'DATA'){
+				dataTypeDropdowns.forEach(function (obj) {
+					if (documentFieldId == obj.documentFieldId) {
+						var dialog = ngDialog.open({
+							id: 'layout-setting-dialog-' + index,
+							template: 'js/app/modules/organize/configuration/file-layout/templates/dialog-data-field-format.html',
+							className: 'ngdialog-theme-default',
+							controller: 'DATALayoutConfigController',
+							controllerAs: 'ctrl',
+							scope: $scope,
+							data: {
+								processType: vm.processType,
+								owner: ownerId,
+								record: record,
+								index: index,
+								config: obj,
+								dataTypeByIds: vm.dataTypeByIds
+	
+							},
+							cache: false,
+							preCloseCallback: function (value) {
+								if (value != null) {
+									angular.copy(value, record);
+									record.completed = true;
+								}
+							}
+						});
+					}	
+				});
+			}
 		}
 
 		vm.addItem = function () {
