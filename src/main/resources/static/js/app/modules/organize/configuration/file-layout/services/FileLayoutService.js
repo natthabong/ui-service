@@ -124,7 +124,6 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 			if(layout.displayName != ''){
 				errors.requireLayoutName = false;
 			}
-			console.log(errors.requireLayoutName);
 
 			layout.items.forEach(function (item) {
 				if (item.recordType == 'DETAIL') {

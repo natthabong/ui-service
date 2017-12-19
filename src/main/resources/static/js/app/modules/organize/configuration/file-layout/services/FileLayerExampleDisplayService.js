@@ -17,26 +17,34 @@ module.factory('FileLayerExampleDisplayService', ['$filter', function($filter) {
 	}
 
 	function TEXT_DisplayExample(record, config, mappingDataList) {
-		var displayMessage = config.detailExamplePattern;
-		var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
-		var hasValidationType = !(angular.isUndefined(record.validationType) || record.validationType === null);
-		
-		displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
-		if(hasValidationType){	
-			displayMessage = displayMessage.replace('Expected value', 'Expected in');	
-			if(mappingDataList != null){
-				for (var i = 0; i < mappingDataList.length; i++) { 
-					if(mappingDataList[i].mappingDataId == record.expectedValue){
-						displayMessage = displayMessage.replace('{expectedValue}', mappingDataList[i].mappingDataName);
+		if(record.itemType=='FIELD'){
+			var displayMessage = config.detailExamplePattern;
+			var hasExpected = !(angular.isUndefined(record.expectedValue) || record.expectedValue === null);
+			var hasValidationType = !(angular.isUndefined(record.validationType) || record.validationType === null);
+			
+			displayMessage = displayMessage.replace('{required}', convertRequiredToString(record));
+			if(hasValidationType){	
+				displayMessage = displayMessage.replace('Expected value', 'Expected in');	
+				if(mappingDataList != null){
+					for (var i = 0; i < mappingDataList.length; i++) { 
+						if(mappingDataList[i].mappingDataId == record.expectedValue){
+							displayMessage = displayMessage.replace('{expectedValue}', mappingDataList[i].mappingDataName);
+						}
 					}
+				}else{
+					displayMessage = displayMessage.replace('{expectedValue}', 'Mapping data');
 				}
+				displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);	
 			}else{
-				displayMessage = displayMessage.replace('{expectedValue}', 'Mapping data');
+				displayMessage = displayMessage.replace('{expectedValue}', (hasExpected ? record.expectedValue : ''));		
+				displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));			
 			}
-			displayMessage = displayMessage.replace('{exampleData}', config.defaultExampleValue);	
-		}else{
-			displayMessage = displayMessage.replace('{expectedValue}', (hasExpected ? record.expectedValue : ''));		
-			displayMessage = displayMessage.replace('{exampleData}', (hasExpected ? record.expectedValue : config.defaultExampleValue));			
+		}else if(record.itemType=='DATA'){
+			var displayValue = '';
+			if(record.defaultValue != '' && record.defaultValue !=null){
+				displayValue = record.defaultValue;
+			}
+			displayMessage = 'Expected value: '+displayValue+' (Ex. '+displayValue+')';
 		}
 		
 		return displayMessage;

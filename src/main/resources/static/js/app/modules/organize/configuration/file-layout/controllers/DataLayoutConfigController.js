@@ -8,15 +8,19 @@ module.controller('DataLayoutConfigController', [ '$scope', function($scope) {
 	vm.initial = function() {
 		vm.defaultValue = '';
 		vm.DataTypeDisplay = $scope.ngDialogData.config.displayFieldName;
-		if (vm.model.defaultValue != null) {
+		if (vm.model.defaultValue != '' && vm.model.defaultValue != null) {
 			vm.defaultValue = vm.model.defaultValue;
-			
-		} 
+		}
 	}
 	vm.initial();
 
 	vm.saveData = function() {
-		vm.model.defaultValue = vm.defaultValue;
+		vm.requiredValue = true;
+		if (vm.defaultValue != '' && vm.defaultValue != null) {
+			vm.requiredValue = false;
+			vm.model.defaultValue = vm.defaultValue;
+			$scope.closeThisDialog(vm.model)
+		}
 	}
-	
+
 } ]);
