@@ -1,12 +1,13 @@
 <div class="modal-content">
 	<form name="dataFieldFormat" class="form-horizontal"
-		ng-submit="ctrl.saveData();closeThisDialog(ctrl.model)">
+		ng-submit="ctrl.saveData();">
 		<div class="modal-header">
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
 					<h3>
 						<span id="data-field-format-popup-header-message-label"
-							class="popup-text" ng-bind="ctrl.model+' field format' | translate"></span>
+							class="popup-text"
+							ng-bind="ctrl.DataTypeDisplay+' field format' | translate"></span>
 					</h3>
 				</div>
 			</div>
@@ -16,13 +17,23 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 
 					<div class="form-group">
-						<div class="col-md-3 col-sm-4 col-xs-12 control-label"></div>
+						<div class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Value:'
+							| translate}}</div>
 						<div class="col-md-6 col-sm-4 col-xs-12">
-							<scf-input-text ng-model="ctrl.defaultValue"
-								id="data-textbox" maxlength="200"></scf-input-text>
+							<scf-input-text ng-model="ctrl.defaultValue" id="default-value-textbox"
+								maxlength="200"></scf-input-text>
 						</div>
 					</div>
-
+					<div class="form-group">
+						<label for="dealer"
+							class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<div ng-show="ctrl.requiredValue">
+							<span class="col-md-6 col-sm-4 col-xs-12 text-left error-msg"
+								id="data-warning-message-label">{{'Value is required' |
+								translate}}.</span>
+						</div>
+						<div class="col-md-4 col-sm-4"></div>
+					</div>
 				</div>
 			</div>
 		</div>

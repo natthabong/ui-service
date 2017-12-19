@@ -22,12 +22,13 @@ ptModule
 
 							var init = function() {
 								if (vm.editMode) {
-									ProductTypeService.getProductType(
-											params.organizeId,
-											params.productType.productType)
-											.then(function(response) {
-												vm.model = response.data;
-											});
+									var deffered = ProductTypeService
+											.getProductType(params.organizeId,
+													params.productType)
+									deffered.promise.then(function(response) {
+										vm.model = response.data;
+									});
+
 								}
 							}();
 
@@ -60,12 +61,12 @@ ptModule
 								return valid;
 							}
 							vm.cancel = function() {
-								PageNavigation.gotoPreviousPage(true);
+								PageNavigation.gotoPreviousPage(false);
 							}
 							vm.save = function() {
 								if (_validate(vm.model)) {
 									var preCloseCallback = function(confirm) {
-										PageNavigation.gotoPreviousPage(true);
+										PageNavigation.gotoPreviousPage(false);
 									}
 
 									UIFactory
@@ -97,7 +98,8 @@ ptModule
 														$scope.errors[response.data.reference] = {
 															message : response.data.errorMessage
 														}
-														console.log($scope.errors)
+														console
+																.log($scope.errors)
 													}
 												},
 												onSuccess : function(response) {

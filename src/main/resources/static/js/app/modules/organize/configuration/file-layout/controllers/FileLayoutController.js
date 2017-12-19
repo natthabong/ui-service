@@ -345,6 +345,27 @@ module.controller('FileLayoutController', [
 			return disable;
 		}
 		
+		vm.checkDisableDataItem = function (record) {
+			var disable = false;
+			if(vm.processType != 'AP_DOCUMENT'){
+				if (angular.isUndefined(record.documentFieldId) || isNaN(record.documentFieldId)) {
+					disable = true;
+				} else {
+					var documentFieldId = record.documentFieldId;
+					var dataTypeDropdowns = vm.documentFieldData;
+					dataTypeDropdowns.forEach(function (obj) {
+						if (documentFieldId == obj.documentFieldId) {
+							if (obj.dataType != 'TEXT') {
+								disable = true;
+							}
+						}
+					});
+				}				
+			}
+			
+			return disable;
+		}
+		
 		vm.unauthenConfig = function(){
 			if(vm.manageAll && vm.model.fileType != vm.fileType.delimited){
 				return false;
@@ -650,7 +671,7 @@ module.controller('FileLayoutController', [
 							id: 'layout-setting-dialog-' + index,
 							template: 'js/app/modules/organize/configuration/file-layout/templates/dialog-data-field-format.html',
 							className: 'ngdialog-theme-default',
-							controller: 'DATALayoutConfigController',
+							controller: 'DataLayoutConfigController',
 							controllerAs: 'ctrl',
 							scope: $scope,
 							data: {
@@ -903,7 +924,7 @@ module.controller('FileLayoutController', [
 					},
 					onSuccess: function (response) {
 						var headerMessage = "Add new file layout complete.";
-						if(response.version != 0){
+						if(response.status != 201){
 							headerMessage = "Edit file layout complete."
 						}
 						UIFactory.showSuccessDialog({
@@ -918,7 +939,6 @@ module.controller('FileLayoutController', [
 						blockUI.stop();
 					},
 					onFail: function (response) {
-						console.log(response);
 						if (response.status != 400) {
 							var msg = {};
 							UIFactory
