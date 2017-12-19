@@ -65,7 +65,6 @@
         	if(loginFlag){
 	             var deffered = AuthenticationService.Login(self.username, self.password, function (response) {});
 	              deffered.promise.then(function(response) {
-	        	    console.log(response);
 	        	    if(response.data.forceChangePassword){
 	        		self.forceChangeDialog = ngDialog.open({
     					id : 'force-change-password-dialog',

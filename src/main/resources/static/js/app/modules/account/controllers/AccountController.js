@@ -50,7 +50,6 @@ ac.controller('AccountController', ['$scope', '$stateParams', 'UIFactory', 'Acco
 			} else {
 				accountNo = vm.termLoan;
 			}
-			console.log(accountNo);
 			if (_validate(accountNo)) {
 				var data = {
 					accountNo: accountNo
@@ -80,7 +79,6 @@ ac.controller('AccountController', ['$scope', '$stateParams', 'UIFactory', 'Acco
 						},
 						onFail: function (response) {
 							if (response.status != 400) {
-								console.log(response);
 								var msg = {
 								};
 								UIFactory

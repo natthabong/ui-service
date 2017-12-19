@@ -76,7 +76,6 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('SetupWorkflow
                     return _save(vm.criteria);
                 },
                 onFail : function(response) {
-                    console.log(response)
                     if(response.status != 400){
                     var msg = {
                             409 : 'Workflow has been modified.'

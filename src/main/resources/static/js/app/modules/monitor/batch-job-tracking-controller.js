@@ -186,9 +186,7 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 			
 			vm.searchCriteria.batchJobId = UIFactory.createCriteria(jobId);
 			vm.searchCriteria.processNo = UIFactory.createCriteria(vm.logListModel.processNo);
-			console.log(ownerId);
 			return vm.searchCriteria;
-
 		}
 
 		vm.pagingController = PagingController.create('api/v1/organizes/'+ownerId+'/batch-jobs/'+jobId+"/logs", vm.searchCriteria, 'GET');

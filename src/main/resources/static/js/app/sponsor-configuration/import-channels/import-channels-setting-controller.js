@@ -346,8 +346,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 		}
 	}	
 	
-	$scope.confirmSave = function() { 
-		console.log(vm.channelModel);
+	$scope.confirmSave = function() {
 		vm.channelModel.jobTrigger.ownerId = selectedItem.organizeId;
 
 		var serviceUrl = BASE_URI+'/channels/' + vm.channelModel.channelId;

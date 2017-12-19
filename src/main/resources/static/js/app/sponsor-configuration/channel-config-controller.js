@@ -44,7 +44,6 @@ angular
 							}
 
 							vm.editChannel = function(data) {
-								console.log(data);
 								var params = {
 						            	selectedItem: data
 						            };

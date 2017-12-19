@@ -162,7 +162,6 @@ tpModule.controller('TradingPartnerListController',['$scope','$stateParams','UIF
 		// Main of program
 		var initLoad = function() {
 			if($stateParams.backAction){
-				console.log(vm.organize)
 				if(vm.organize != null){
 					vm.organize = TradingPartnerService._prepareItem(vm.organize);
 				}

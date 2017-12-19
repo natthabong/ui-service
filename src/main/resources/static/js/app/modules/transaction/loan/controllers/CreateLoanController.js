@@ -361,7 +361,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
         var watchCheckAll = function () {
             var allDocumentInPage = vm.pagingController.tableRowCollection;
-            console.log(vm.documentSelects);
             vm.checkAllModel = TransactionService.checkSelectAllDocumentInPage(vm.documentSelects, allDocumentInPage);
             watchSelectAll();
         }

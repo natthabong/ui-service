@@ -116,7 +116,6 @@ angular.module('scfApp').controller(
 							},
 							onFail : function(response) {					
 								$scope.response = response.data;
-								console.log(response);
 								UIFactory.showFailDialog({
 									data : {
 										mode: 'concurrency',

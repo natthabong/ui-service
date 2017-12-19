@@ -10,7 +10,6 @@ downloadModule.factory('DownloadPaymentResultService', [ '$http', '$q',
 					data : exportCriteria,
 					responseType : 'arraybuffer'
 				}).success(function(data, status, headers, config) {
-					console.log(headers);
 					var file = new Blob([ data ], {
 						type : 'text/csv'
 					});
