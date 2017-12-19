@@ -1,4 +1,4 @@
-<div id="content" th:fragment="content"
+<div ng-if="ctrl.getUserInfoSuccess" id="content" th:fragment="content"
 	sec:authorize="hasAnyAuthority('MANAGE_ALL_SUPPLIER_CODES','MANAGE_SUPPLIER_CODES_OF_MY_ORGANIZE')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">

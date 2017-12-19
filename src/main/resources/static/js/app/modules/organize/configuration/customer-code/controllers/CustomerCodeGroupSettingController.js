@@ -1,10 +1,14 @@
 'use strict';
 var scfApp = angular.module('scfApp');
-scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 'ngDialog', '$rootScope',
+scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 'ngDialog', '$rootScope','scfFactory',
 	function($q, $scope, $stateParams, Service, UIFactory, 
-			CustomerCodeStatus, PageNavigation, PagingController, $http, ngDialog, $rootScope) {
+			CustomerCodeStatus, PageNavigation, PagingController, $http, ngDialog, $rootScope, scfFactory) {
 	var vm = this;
 	
+	vm.getUserInfoSuccess = false;
+	var defered = scfFactory.getUserInfo();
+	defered.promise.then(function(response) {
+		vm.getUserInfoSuccess = true;
 	vm.manageAll=false;
 	vm.manageMyOrg=false;
 //	var selectedItem;
@@ -424,8 +428,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 			return true;
 		}
 	}
-}
-]);
+	})
+}]);
 scfApp.constant('CustomerCodeStatus', [
 	{
 		label : 'All',
