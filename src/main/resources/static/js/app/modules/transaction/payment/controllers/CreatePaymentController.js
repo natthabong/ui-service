@@ -277,6 +277,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.transactionModel.documents = vm.documentSelects;
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             if (vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
+                console.log(vm.accountType);
                 var deffered = TransactionService.getPaymentDate(vm.transactionModel, createTransactionType, vm.accountType);
                 deffered.promise.then(function (response) {
                     var paymentDates = response.data;
@@ -301,6 +302,23 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             } else {
                 _loadMaturityDate();
             }
+        }
+
+        var setTransactionMethod = function (supportSpecialDebit) {
+            if (supportSpecialDebit) {
+                vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
+            } else {
+                vm.transactionModel.transactionMethod = 'DEBIT';
+            }
+            vm.isLoanPayment = false;
+        }
+
+        var setTradingpartnerInfoModel = function (account) {
+            vm.transactionModel.transactionMethod = 'TERM_LOAN';
+            vm.tradingpartnerInfoModel.available = account.remainingAmount - account.pendingAmount;
+            vm.tradingpartnerInfoModel.tenor = account.tenor;
+            vm.tradingpartnerInfoModel.interestRate = account.interestRate;
+            vm.isLoanPayment = true;
         }
 
         function _loadAccount(ownerId, supplierId) {
@@ -329,48 +347,41 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         vm.accountDropDown.push(a);
                     }
                 });
-                // accountNotSupportSpecialDirectDebit
+
                 if (!$stateParams.backAction) {
                     if (accounts.length > 0) {
                         vm.transactionModel.payerAccountId = accounts[0].accountId;
                         vm.transactionModel.payerAccountNo = accounts[0].accountNo;
                         vm.accountType = accounts[0].accountType;
-                        
+
                         if (accounts[0].accountType == 'LOAN') {
-                            vm.transactionModel.transactionMethod = 'TERM_LOAN';
-                            vm.tradingpartnerInfoModel.available = accounts[0].remainingAmount - accounts[0].pendingAmount;
-                            vm.tradingpartnerInfoModel.tenor = accounts[0].tenor;
-                            vm.tradingpartnerInfoModel.interestRate = accounts[0].interestRate;
-                            vm.isLoanPayment = true;
+                            setTradingpartnerInfoModel(accounts[0]);
                         } else {
-                        	if(supportSpecialDebit){
-                        		vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
-                        	}else{
-                        		vm.transactionModel.transactionMethod = 'DEBIT';
-                        	}
-                        	vm.isLoanPayment = false;
+                            setTransactionMethod(supportSpecialDebit);
                         }
                         _loadMaturityDate();
                     }
                 } else {
-
                     var result = $.grep(accounts, function (account) { return account.accountId == vm.transactionModel.payerAccountId; });
                     vm.accountType = result[0].accountType;
                     if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
-                        vm.isLoanPayment = true;
-                        _loadMaturityDate();
+                        setTradingpartnerInfoModel(accounts[0]);
+                    } else {
+                        setTransactionMethod(supportSpecialDebit);
                     }
+                    _loadPaymentDate();
                 }
 
-                if(accounts.length > 0){
-                    if(accounts[0].defaultLoanNo){
+                if (accounts.length > 0) {
+                    if (accounts[0].defaultLoanNo) {
                         vm.accountNotSupportSpecialDirectDebit = false;
-                    }else{
+                    } else {
                         vm.accountNotSupportSpecialDirectDebit = true;
                     }
-                }else{
+                } else {
                     vm.accountNotSupportSpecialDirectDebit = true;
                 }
+
             }).catch(function (response) {
                 log.error(response);
             });
@@ -401,9 +412,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             });
         }
 
-        var _loadDocumentDisplayConfig = function (ownerId) {
+        var _loadDocumentDisplayConfig = function (supplierId) {
             vm.dataTable.expansion.columns = [];
-            var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT');
+            var deffered = SCFCommonService.getDocumentDisplayConfig(supplierId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT');
             deffered.promise.then(function (response) {
                 vm.dataTable.columns = response.items;
                 supportPartial = response.supportPartial;
@@ -431,7 +442,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 } else {
                     checkSelectMatchingRef = false;
                 }
-                _loadBuyerCodes(ownerId);
+
+                _loadAccount(ownerId, supplierId);
+                _loadBuyerCodes(supplierId);
             });
         }
 
@@ -477,9 +490,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.showBackButton = $stateParams.showBackButton;
 
             _loadSuppliers(dashboardParams);
-            if (vm.documentSelects.length > 0) {
-                _loadPaymentDate();
-            }
+            // if (vm.documentSelects.length > 0) {
+            //     _loadPaymentDate();
+            // }
 
             if (dashboardParams != null) {
                 vm.criteria.dueDateFrom = dashboardParams.dueDate;
@@ -505,7 +518,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 PageNavigation.gotoPage('/my-organize/create-payment-woip', params);
             } else {
                 vm.displayPaymentPage = true;
-                _loadAccount(ownerId, vm.criteria.supplierId);
+
                 _loadDocumentDisplayConfig(vm.criteria.supplierId);
             }
         }
@@ -527,19 +540,19 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     vm.tradingpartnerInfoModel.tenor = account.item.tenor;
                     vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
                     vm.accountType = account.item.accountType;
-                    
+
                     if (vm.accountType == 'LOAN') {
                         vm.transactionModel.transactionMethod = 'TERM_LOAN';
                         vm.isLoanPayment = true;
                     } else {
-                    	if(supportSpecialDebit){
-                    		vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
-                    	}else{
-                    		vm.transactionModel.transactionMethod = 'DEBIT';
-                    	}
-                    	vm.isLoanPayment = false;
+                        if (supportSpecialDebit) {
+                            vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
+                        } else {
+                            vm.transactionModel.transactionMethod = 'DEBIT';
+                        }
+                        vm.isLoanPayment = false;
                     }
-                    
+
                     _loadPaymentDate();
                 }
             });
