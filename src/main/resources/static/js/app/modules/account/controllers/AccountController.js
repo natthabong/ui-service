@@ -32,14 +32,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', 'UIFactory', 'Acco
 				}
 
 			}
-			if (vm.format === vm.formatType.ACCOUNT_NO) {
-				if (data.length != 10) {
-					valid = false;
-					$scope.errors.accountNo = {
-						message: 'Account No. must be 10-digit number.'
-					}
-				}
-			}
+			
 			return valid;
 		}
 
