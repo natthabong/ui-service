@@ -800,6 +800,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                             if(supportSpecialDebit){
                                 vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
                             }
+                            vm.transactionModel.transactionMethod = 'DEBIT';
+                        }else{
+                            vm.transactionModel.transactionMethod = 'TERM_LOAN';
                         }
 
                         var objectToSend = {
