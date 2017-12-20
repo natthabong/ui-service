@@ -6,7 +6,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         var vm = this;
         var log = $log;
         var _criteria = {};
-        var ownerId = $rootScope.userInfo.organizeId;
+        var ownerId = $stateParams.buyerId;
         var createTransactionType = 'WITHOUT_INVOICE';
         vm.paymentModel = null;
         $scope.validateDataFailPopup = false;
@@ -21,21 +21,21 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             message: null
         }
 
-        tradingPartnerList = $stateParams.supplierModel;
-        if (tradingPartnerList !== undefined) {
-            tradingPartnerList.forEach(function (supplier) {
-                var selectObj = {
-                    label: supplier.supplierName,
-                    value: supplier.supplierId
-                }
-                vm.suppliers.push(selectObj);
-            });
-        } else {
-            var deffered = TransactionService.getSuppliers('RECEIVABLE');
+//        tradingPartnerList = $stateParams.supplierModel;
+//        if (tradingPartnerList !== undefined) {
+//            tradingPartnerList.forEach(function (supplier) {
+//                var selectObj = {
+//                    label: supplier.supplierName,
+//                    value: supplier.supplierId
+//                }
+//                vm.suppliers.push(selectObj);
+//            });
+//        } else {
+            var deffered = TransactionService.getSuppliers($stateParams.accountingTransactionType);
             deffered.promise.then(function (response) {
                 tradingPartnerList = response.data;
                 if (tradingPartnerList !== undefined) {
-                    vm.suppliers.forEach(function (supplier) {
+                	tradingPartnerList.forEach(function (supplier) {
                         var selectObj = {
                             label: supplier.supplierName,
                             value: supplier.supplierId
@@ -46,12 +46,12 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             }).catch(function (response) {
                 log.error(response);
             });
-        }
+        //}
 
-        vm.criteria = $stateParams.criteria || {
-            accountingTransactionType: 'RECEIVABLE',
-            supplierId: ownerId,
-            buyerId: ownerId,
+        vm.criteria = {
+            accountingTransactionType: $stateParams.accountingTransactionType,
+            supplierId: $stateParams.supplierId,
+            buyerId: $stateParams.buyerId,
             documentStatus: 'NEW',
             showOverdue: false,
             viewMyOrganize: false
