@@ -29,7 +29,7 @@ angular
 								pageSize : 20
 							};
 
-							vm.pageModel.pageSizeList = [ {
+							vm.pageModel.pageSizeList = [{
 								label : '10',
 								value : '10'
 							}, {
@@ -38,13 +38,19 @@ angular
 							}, {
 								label : '50',
 								value : '50'
-							} ];
+							}];
+
+							vm.newChannelDropdown = [{
+								label : 'FTP',
+								value : 'FTP'
+							}, {
+								label : 'Web',
+								value : 'Web'
+							}];
 
 							vm.newChannel = function() {
 								ConfigurationUtils.showCreateImportChannelDialog({
 									data : {
-//											ownerId : ownerId,
-//											accountingTransactionType : accountingTxnType,
 										showAll: true
 									}, preCloseCallback : function() {
 									}

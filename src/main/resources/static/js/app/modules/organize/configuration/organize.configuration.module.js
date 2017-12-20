@@ -1,8 +1,9 @@
 'use strict';
-angular.module('gecscf.organize.configuration', [ 
-	'ui.router', 
-	'gecscf.ui', 
-	'gecscf.organize.configuration.fileLayout', 
+angular.module('gecscf.organize.configuration', [
+	'ui.router',
+	'scfApp',
+	'gecscf.ui',
+	'gecscf.organize.configuration.fileLayout',
 	'gecscf.organize.configuration.productType',
 	'gecscf.organize.configuration.importChannel'
 	]).config([ '$stateProvider', function($stateProvider) {	
@@ -34,11 +35,11 @@ angular.module('gecscf.organize.configuration', [
 				preCloseCallback: callback,
 				templateUrl: '/js/app/modules/organize/configuration/import-channels/templates/dialog-new-import-channel.html',
 //				templateUrl: '/customer-organize/import-channels/setup',
-				controller: 'MappingDataNewPopupController',
+				controller: 'ChannelConfigsController',
 				data: data
 			});
 		}
-		
+
 		return {
 			showCreateMappingDataDialog: showCreateMappingDataDialog,
 			showCreateImportChannelDialog: showCreateImportChannelDialog
