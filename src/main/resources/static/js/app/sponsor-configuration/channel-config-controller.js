@@ -40,6 +40,7 @@ angular
 							} ];
 
 							vm.newChannel = function() {
+								//TODO NEW
 								PageNavigation.gotoPage('/');
 							}
 
@@ -219,6 +220,7 @@ angular
 												cssTemplate : 'text-center',
 												sortData : false,
 												cellTemplate : '<scf-button id="ar-{{data.channelType}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
+														+ '<scf-button id="{{ctrl.processType}}-layout-{{data.displayName}}-delete-button" class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.delete()" title="Delete a channel"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 														+ '<scf-button id="ar-{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.testConnection(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
 											} ]
 										}
