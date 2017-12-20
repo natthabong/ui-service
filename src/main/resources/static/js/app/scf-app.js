@@ -259,7 +259,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							   'js/app/sponsor-configuration/ExportPaymentConfigController.js',
 							   'js/app/modules/organize/configuration/product-type/controllers/ProductTypeListController.js',
 							   'js/app/modules/organize/configuration/product-type/services/ProductTypeService.js',
-							   'js/app/modules/organize/configuration/import-channels/controllers/ImportChannelsSettingController.js',
+							   'js/app/modules/organize/configuration/import-channels/controllers/ImportChannelController.js',
 							   'js/app/modules/organize/configuration/import-channels/services/ImportChannelService.js'
 							   ])
 			}).state('/sponsor-configuration/mapping-data/edit',{

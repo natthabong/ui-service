@@ -21,12 +21,12 @@ displayModule.controller('DisplayController', [
     'blockUI',
     'DisplayService',
     'MappingDataService',
-    'MappingDataUtils',
+    'ConfigurationUtils',
     function ($log, $scope, $state, SCFCommonService,
         $stateParams, $timeout, ngDialog,
         PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService,
         LOAN_REQUEST_MODE_ITEM, DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM,
-        UIFactory, blockUI, DisplayService, MappingDataService, MappingDataUtils) {
+        UIFactory, blockUI, DisplayService, MappingDataService, ConfigurationUtils) {
 
         var vm = this;
         var log = $log;
@@ -288,7 +288,7 @@ displayModule.controller('DisplayController', [
         }
 
         vm.newMapping = function () {
-            MappingDataUtils.showCreateMappingDataDialog({
+        	ConfigurationUtils.showCreateMappingDataDialog({
                 data: {
                     ownerId: ownerId,
                     accountingTransactionType: vm.accountingTransactionType,

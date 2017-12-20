@@ -13,8 +13,9 @@ angular
 						'PagingController',
 						'Service',
 						'ngDialog',
+						'ConfigurationUtils',
 						function($log, $scope, $state, SCFCommonService,
-								$stateParams, $timeout, PageNavigation, PagingController, Service, ngDialog) {
+								$stateParams, $timeout, PageNavigation, PagingController, Service, ngDialog, ConfigurationUtils) {
 							
 							var vm = this;
 							vm.splitePageTxt = '';
@@ -40,8 +41,14 @@ angular
 							} ];
 
 							vm.newChannel = function() {
-								//TODO NEW
-								PageNavigation.gotoPage('/');
+								ConfigurationUtils.showCreateImportChannelDialog({
+									data : {
+//											ownerId : ownerId,
+//											accountingTransactionType : accountingTxnType,
+										showAll: true
+									}, preCloseCallback : function() {
+									}
+								});
 							}
 
 							vm.editChannel = function(data) {

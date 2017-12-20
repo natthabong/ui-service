@@ -1,8 +1,8 @@
 'use strict';
 var module = angular.module('gecscf.organize.configuration');
 module.controller('TextLayoutConfigController', ['$scope', '$log',
-	'UIFactory', 'ngDialog', 'MappingDataUtils', 'MappingDataService', 'FileLayoutService','PageNavigation','SCFCommonService',
-		function ($scope, $log, UIFactory, ngDialog, MappingDataUtils, MappingDataService, FileLayoutService,PageNavigation,SCFCommonService) {
+	'UIFactory', 'ngDialog', 'ConfigurationUtils', 'MappingDataService', 'FileLayoutService','PageNavigation','SCFCommonService',
+		function ($scope, $log, UIFactory, ngDialog, ConfigurationUtils, MappingDataService, FileLayoutService,PageNavigation,SCFCommonService) {
 		var vm = this;
 		var log = $log;
 
@@ -134,7 +134,7 @@ module.controller('TextLayoutConfigController', ['$scope', '$log',
 		}
 
 		vm.newMapping = function () {
-			MappingDataUtils.showCreateMappingDataDialog({
+			ConfigurationUtils.showCreateMappingDataDialog({
 				data: {
 					ownerId: owner,
 					accountingTransactionType: accountingTransactionType,
