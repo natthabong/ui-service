@@ -61,7 +61,7 @@ angular
 								var params = {
 						            	selectedItem: data
 						            };
-						        PageNavigation.gotoPage('/customer-organize/import-channels/setup', params);
+						        PageNavigation.gotoPage('/customer-organize/import-channels/config', params);
 							}
 							
 							vm.testConnection = function(data){
@@ -99,12 +99,8 @@ angular
 								}
 								
 							}
-							
 							vm.data = [];
-							
 							vm.dataTable = null;
-							
-							
 
 							vm.searchChannels = function(pageModel){
 								var sponsorId = $scope.sponsorId
@@ -131,15 +127,6 @@ angular
 								});
 
 							} 
-							
-							vm.initLoad = function(processType) {
-								vm.processType = processType;
-								vm.pageModel.currentPage = 0;
-								vm.pageModel.pageSizeSelectModel = '20';
-								vm.getDataTable();
-								vm.searchChannels();
-								
-							}
 							
 							vm.getDataTable = function(){
 								if(vm.processType == 'AP_DOCUMENT'){
@@ -188,66 +175,16 @@ angular
 														+ '<scf-button id="ap-{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.testConnection(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
 											} ]
 									}
-									
-								}else{
-									vm.dataTable = {
-									identityField : 'channelType',
-									options : {},
-									columns : [
-											{
-												fieldName : 'channelType',
-												labelEN : 'Channel',
-												labelTH : 'Channel',
-												id : 'ar-channel-{value}',
-												filterType : 'translate',
-												cssTemplate : 'text-left'
-											},
-											{
-												fieldName : 'layoutConfigId',
-												labelEN : 'Import file layout',
-												labelTH : 'Import file layout',
-												id : 'ar-import-file-layout-{value}',
-												filterType : 'translate',
-												cssTemplate : 'text-left'
-											},
-											{
-												fieldName : 'status',
-												labelEN : 'Status',
-												labelTH : 'Status',
-												id : 'ar-status-{value}',
-												filterType : 'translate',
-												cssTemplate : 'text-center'
-											},
-											{
-												fieldName : 'activeDate',
-												labelEN : 'Active date',
-												labelTH : 'Active date',
-												id : 'ar-active-date-{value}',
-												filterType : 'date',
-												filterFormat : 'dd/MM/yyyy',
-												cssTemplate : 'text-center'
-											},
-											{
-												fieldName : 'expiryDate',
-												labelEN : 'Expire date',
-												labelTH : 'Expire date',
-											    id : 'ar-expire-date-{value}',
-											    filterType : 'date',
-											    filterFormat : 'dd/MM/yyyy',
-											    cssTemplate : 'text-center'
-											},
-											{
-												cssTemplate : 'text-center',
-												sortData : false,
-												cellTemplate : '<scf-button id="ar-{{data.channelType}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
-														+ '<scf-button id="{{ctrl.processType}}-layout-{{data.displayName}}-delete-button" class="btn-default gec-btn-action" ng-disabled="false" ng-click="ctrl.delete()" title="Delete a channel"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
-														+ '<scf-button id="ar-{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.testConnection(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
-											} ]
-										}
 								}
 							}
 
-							//vm.initLoad();
+							vm.initLoad = function(processType) {
+								vm.processType = processType;
+								vm.pageModel.currentPage = 0;
+								vm.pageModel.pageSizeSelectModel = '20';
+								vm.getDataTable();
+								vm.searchChannels();
+							};
 
 						} ]).controller('TestConnectionResultController', [ '$scope', '$rootScope', '$q','$http', function($scope, $rootScope, $q, $http) {
 							 var vm = this;
