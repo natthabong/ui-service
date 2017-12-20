@@ -282,7 +282,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 vm.transactionModel.documents = vm.documentSelects;
                 vm.transactionModel.supplierId = vm.criteria.supplierId;
                 if (vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
-                    console.log(vm.accountType);
                     var deffered = TransactionService.getPaymentDate(vm.transactionModel, createTransactionType, vm.accountType);
                     deffered.promise.then(function (response) {
                         var paymentDates = response.data;
@@ -333,7 +332,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     accountList = response.data;
                     var accounts = response.data;
                     vm.isLoanPayment = false;
-                    console.log(accounts);
 
                     if (accounts.length > 0) {
                         accounts.forEach(function (account, index) {
@@ -799,6 +797,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
                         if (accountSelected[0].accountType != 'LOAN') {
                             vm.transactionModel.payerLoanAccountId = accountList[0].defaultLoanNo ? accountList[0].accountId : null;
+                            if(supportSpecialDebit){
+                                vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
+                            }
                         }
 
                         var objectToSend = {
