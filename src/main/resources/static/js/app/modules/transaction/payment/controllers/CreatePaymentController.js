@@ -799,12 +799,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                             vm.transactionModel.payerLoanAccountId = accountList[0].defaultLoanNo ? accountList[0].accountId : null;
                             if(supportSpecialDebit){
                                 vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
+                            }else{
+                                vm.transactionModel.transactionMethod = 'DEBIT';
                             }
-                            vm.transactionModel.transactionMethod = 'DEBIT';
                         }else{
                             vm.transactionModel.transactionMethod = 'TERM_LOAN';
                         }
-
                         var objectToSend = {
                             transactionModel: vm.transactionModel,
                             tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
