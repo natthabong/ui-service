@@ -1,8 +1,12 @@
 angular.module('scfApp').controller('ListTransactionController', ['ListTransactionService', 'TransactionService', '$state', '$timeout','$translate', 
-'$rootScope', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'UIFactory', 'PageNavigation','ngDialog','$log','$http','$q','Service',
+'$rootScope', '$scope', 'SCFCommonService', '$stateParams', '$cookieStore' , 'UIFactory', 'PageNavigation','ngDialog','$log','$http','$q','Service','scfFactory',
 function(ListTransactionService, TransactionService, $state, $timeout,$translate, 
-$rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, PageNavigation, ngDialog, $log, $http, $q, Service) {
+$rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, PageNavigation, ngDialog, $log, $http, $q, Service, scfFactory) {
     var vm = this;
+    vm.getUserInfoSuccess = false;
+	var defered = scfFactory.getUserInfo();
+	defered.promise.then(function(response) {
+		vm.getUserInfoSuccess = true;
 	var log = $log;
     var listStoreKey = 'listrancri';
     var organizeId = $rootScope.userInfo.organizeId;
@@ -979,6 +983,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     }
 
 
-    
+	})
 }]);
 

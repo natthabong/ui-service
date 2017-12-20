@@ -1,9 +1,13 @@
 'use strict';
 var scfApp = angular.module('scfApp');
 scfApp.controller('DocumentListController', ['$scope', 'Service', '$stateParams', '$log', 'SCFCommonService', 'PagingController', 'UIFactory', '$q',
-    '$rootScope', '$http', 'DocumentListStatus',
-    function($scope, Service, $stateParams, $log, SCFCommonService, PagingController, UIFactory, $q, $rootScope, $http, DocumentListStatus) {
+    '$rootScope', '$http', 'DocumentListStatus','scfFactory',
+    function($scope, Service, $stateParams, $log, SCFCommonService, PagingController, UIFactory, $q, $rootScope, $http, DocumentListStatus, scfFactory) {
         var vm = this;
+        vm.getUserInfoSuccess = false;
+		var defered = scfFactory.getUserInfo();
+		defered.promise.then(function(response) {
+			vm.getUserInfoSuccess = true;
         var log = $log;
         var organizeId = $rootScope.userInfo.organizeId;
         var sponsorAutoSuggestServiceUrl;
@@ -410,12 +414,11 @@ scfApp.controller('DocumentListController', ['$scope', 'Service', '$stateParams'
 
         var isValidateCriteriaPass = function() {
             var isValidatePass = true;
-
             vm.requireSponsor = false;
             vm.wrongDateFormat = false;
             vm.wrongDateFromLessThanDateTo = false;
-
-            if (vm.submitted && $scope.documentListSponsorForm.sponsorCode.$error.required) {
+            
+            if (vm.submitted && vm.documentListSponsorForm.sponsorCode.$error.required) {
                 vm.requireSponsor = true;
                 isValidatePass = false;
             }
@@ -494,9 +497,8 @@ scfApp.controller('DocumentListController', ['$scope', 'Service', '$stateParams'
             });
         }
         vm.initLoad();
-
-    }
-]);
+		})
+    }]);
 scfApp.constant("DocumentListStatus", [{
         label: 'All',
         value: '',

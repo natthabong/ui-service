@@ -1,9 +1,13 @@
 'use strict';
 var scfApp = angular.module('scfApp');
 scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams', '$log', 'SCFCommonService', 'PagingController', 'UIFactory', '$q',
-	'$rootScope', '$http', 'LogStatus',
-	function($scope, Service, $stateParams, $log, SCFCommonService, PagingController, UIFactory, $q, $rootScope, $http, LogStatus) {
+	'$rootScope', '$http', 'LogStatus','scfFactory',
+	function($scope, Service, $stateParams, $log, SCFCommonService, PagingController, UIFactory, $q, $rootScope, $http, LogStatus, scfFactory) {
 		var vm = this;
+		vm.getUserInfoSuccess = false;
+		var defered = scfFactory.getUserInfo();
+		defered.promise.then(function(response) {
+			vm.getUserInfoSuccess = true;
 		var log = $log;
 		var userId = $rootScope.userInfo.userId;
 
@@ -374,7 +378,7 @@ scfApp.controller('ActivityLogController', [ '$scope', 'Service', '$stateParams'
 		}
 		
 		vm.initLoad();
-		
+		})
 	} ]);
 scfApp.constant("LogStatus", [
 	{

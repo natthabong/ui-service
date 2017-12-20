@@ -12,11 +12,9 @@ raccModule.controller('RemittanceAdviceCustomerController', [
 	'$http',
 	'$q',
 	'blockUI',
-	function ($log, $rootScope, $scope, $stateParams, UIFactory, PagingController, RemittanceAdviceCustomerService, SCFCommonService, $http, $q, blockUI) {
+	'scfFactory',
+	function ($log, $rootScope, $scope, $stateParams, UIFactory, PagingController, RemittanceAdviceCustomerService, SCFCommonService, $http, $q, blockUI, scfFactory) {
 		var vm = this;
-		var organizeId = $rootScope.userInfo.organizeId;
-		var organizeName = $rootScope.userInfo.organizeName;
-
 		vm.buyer = $stateParams.buyer || null;
 		vm.supplier = $stateParams.supplier || null;
 		vm.criteria = $stateParams.criteria || {};
@@ -155,12 +153,12 @@ raccModule.controller('RemittanceAdviceCustomerController', [
 		
 		var _supplierTypeAhead = function (q) {
 			q = UIFactory.createCriteria(q);
-			return RemittanceAdviceCustomerService.getItemSuggestSuppliers(organizeId, q);
+			return RemittanceAdviceCustomerService.getItemSuggestSuppliers($rootScope.userInfo.organizeId, q);
 		}
 
 		var _buyerTypeAhead = function (q) {
 			q = UIFactory.createCriteria(q);
-			return RemittanceAdviceCustomerService.getItemSuggestBuyers(organizeId, q);
+			return RemittanceAdviceCustomerService.getItemSuggestBuyers($rootScope.userInfo.organizeId, q);
 		}
 
 		vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
@@ -176,22 +174,27 @@ raccModule.controller('RemittanceAdviceCustomerController', [
 		});
 		
 		vm.onSelectRemittance = function () {
-			if (vm.listRemittanceAdvice.remittanceOf == 'BUYER') {
-				vm.showBuyer = false;
-				vm.showSupplier = true;
-				vm.disableBuyerSearch = true;
-				vm.disableSupplierSearch = false;
-				vm.buyer = organizeId + ': ' + organizeName;
-				vm.supplier = undefined;
-			} else if (vm.listRemittanceAdvice.remittanceOf == 'SUPPLIER') {
-				vm.showBuyer = true;
-				vm.showSupplier = false;
-				vm.disableBuyerSearch = false;
-				vm.disableSupplierSearch = true;
-				vm.buyer = undefined;
-				vm.supplier = organizeId + ': ' + organizeName;
-			}
-			vm.searchRemittanceAdvice();	
+			var defered = scfFactory.getUserInfo();
+			defered.promise.then(function(response){
+			var organizeId = response.organizeId;
+			var organizeName = response.organizeName;
+				if (vm.listRemittanceAdvice.remittanceOf == 'BUYER') {
+					vm.showBuyer = false;
+					vm.showSupplier = true;
+					vm.disableBuyerSearch = true;
+					vm.disableSupplierSearch = false;
+					vm.buyer = organizeId + ': ' + organizeName;
+					vm.supplier = undefined;
+				} else if (vm.listRemittanceAdvice.remittanceOf == 'SUPPLIER') {
+					vm.showBuyer = true;
+					vm.showSupplier = false;
+					vm.disableBuyerSearch = false;
+					vm.disableSupplierSearch = true;
+					vm.buyer = undefined;
+					vm.supplier = organizeId + ': ' + organizeName;
+				}
+				vm.searchRemittanceAdvice();
+			});
 		}
 		
 		function initRemittanceOfDropdown() {

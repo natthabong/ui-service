@@ -684,7 +684,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				params: {transactionModel: null, tradingpartnerInfoModel: null, criteria: null, supplierModel: null, documentSelects: null, backAction: false, dashboardParams: null, showBackButton: false},
 				resolve: WebHelper.loadScript(['js/app/modules/transaction/services/TransactionService.js','js/app/modules/transaction/payment/controllers/CreatePaymentController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js', 'js/app/modules/transaction/payment/reason-code/controllers/SelectReasonCodePopupController.js'])
 			}).state('/my-organize/create-payment-woip', {
-				url: '/my-organize/create-payment-woip',
+				url: '/my-organize/create-payment-woip/:accountingTransactionType/:supplierId/:buyerId',
 				controller: 'CreatePaymentWithoutInvoiceController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment/create-woip',
