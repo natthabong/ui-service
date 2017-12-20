@@ -1,7 +1,7 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService',
-    'PagingController', 'PageNavigation', '$filter', 'MappingDataService', 'UIFactory', '$window',
-    function ($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, UIFactory, $window) {
+    'PagingController', 'PageNavigation', '$filter', 'MappingDataService', 'UIFactory', '$window','scfFactory',
+    function ($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, UIFactory, $window,scfFactory) {
         //<-------------------------------------- declare variable ---------------------------------------->
         var vm = this;
         var log = $log;
