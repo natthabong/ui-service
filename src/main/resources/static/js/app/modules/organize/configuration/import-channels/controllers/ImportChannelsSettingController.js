@@ -45,8 +45,16 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	
     var sponsorId = $rootScope.sponsorId;
     var selectedItem = $stateParams.selectedItem;
+    
+	function searchFileLayout() {
+		var organizeId = $stateParams.organizeId;
+//		var url = '/api/v1/organize-customers/'+ organizeId + '/product-types';
+		var url = '/api/v1/organize-customers/YAMAHO_CO/product-types';
+		console.log(url);
+	}
+	searchFileLayout();
 	
-	if(selectedItem.channelType == 'FTP'){
+	if (selectedItem.channelType == 'FTP') {
 		vm.isSetupFTP = true;
 	}
 	
@@ -78,9 +86,9 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	vm.frequencyDropdown = FREQUENCY_DROPDOWN;
 
 	vm.changePostProcess = function() {
-		if(vm.channelModel.jobTrigger.jobDetail.postProcessType == 'BACKUP'){
+		if (vm.channelModel.jobTrigger.jobDetail.postProcessType == 'BACKUP') {
 			vm.postProcessBackup = true;
-		}else{
+		} else {
 			vm.postProcessBackup = false;
 			vm.channelModel.jobTrigger.jobDetail.remoteBackupFolderPattern = '/';
 		}
@@ -103,7 +111,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
         serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
     }
 
-	var formattedNumber = function(data){
+	var formattedNumber = function(data) {
 		return ("0" + data).slice(-2);
 	}
 
@@ -554,6 +562,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	
 	vm.initLoad = function() {
 		vm.searchChannel();
+		vm.searchFileLayout();
     }
 	
 	vm.initLoad();

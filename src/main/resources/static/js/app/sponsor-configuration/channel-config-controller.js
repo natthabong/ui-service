@@ -48,9 +48,8 @@ angular
 								var params = {
 						            	selectedItem: data
 						            };
-						        PageNavigation.gotoPage('/sponsor-configuration/import-channels/settings', params);
+						        PageNavigation.gotoPage('/customer-organize/import-channels/setup', params);
 							}
-							
 							
 							vm.testConnection = function(data){
 								vm.serviceInfo = {

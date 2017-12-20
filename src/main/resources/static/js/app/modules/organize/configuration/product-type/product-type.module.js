@@ -24,5 +24,6 @@ angular.module('gecscf.organize.configuration.productType',
 				params: {organizeId:null, productType: null, model: null},
 				resolve: WebHelper.loadScript(resources)
 			});
-
-		} ]);
+		} 
+	]
+);

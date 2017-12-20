@@ -362,13 +362,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/organize-logo/settings',
 				params: { organizeInfo: null},
 				resolve: WebHelper.loadScript(['js/app/sponsor-configuration/organize-logo/organize-logo-setting-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/sponsor-configuration/import-channels/settings',{
-				url: '/sponsor-configuration/import-channels/settings',
-				controller: 'ChannelSettingController',
-				controllerAs: 'ctrl',
-				templateUrl: '/sponsor-configuration/import-channels/settings',
-				params: { selectedItem: null},
-				resolve: WebHelper.loadScript(['js/app/sponsor-configuration/import-channels/import-channels-setting-controller.js'])
 			}).state('/sponsor-configuration/workflow/setup',{
 				url: '/sponsor-configuration/workflow/setup',
 				controller: 'SetupWorkflowController',
