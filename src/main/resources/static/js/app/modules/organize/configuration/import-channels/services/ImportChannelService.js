@@ -1,6 +1,6 @@
 'use strict';
-var raccModule = angular.module('gecscf.remittanceAdviceCustomer');
-raccModule.factory('RemittanceAdviceCustomerService', ['$http', '$q', 'Service', function($http, $q, Service) {
+var importChannelModule = angular.module('gecscf.organize.configuration.importChannel');
+importChannelModule.factory('ImportChannelService', ['$http', '$q', 'Service', function($http, $q, Service) {
 
 	var _prepareItemSupplier = function(item) {
 		item.identity = ['supplier-', item.supplierId, '-option'].join('');

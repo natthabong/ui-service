@@ -1,29 +1,29 @@
-var app = angular.module('scfApp');
-app.constant('ChannelDropdown',[
+var importChannelModule = angular.module('gecscf.organize.configuration.importChannel');
+importChannelModule.constant('ChannelDropdown',[
 	{label:'Web', value: 'WEB'},
 	{label:'FTP', value: 'FTP'}
 	]);
-app.constant('PROTOCOL_DROPDOWN',[
+importChannelModule.constant('PROTOCOL_DROPDOWN',[
 	{label:'SFTP', value: 'SFTP'}
 	]);
-app.constant('POST_PROCESS_DROPDOWN',[
+importChannelModule.constant('POST_PROCESS_DROPDOWN',[
 	{label:'None', value: 'NONE'},
 	{label:'Delete', value: 'DELETE'},
 	{label:'Backup', value: 'BACKUP'}
 	]);
-app.constant('BACKUP_PATH_PATTERN_DROPDOWN',[
+importChannelModule.constant('BACKUP_PATH_PATTERN_DROPDOWN',[
 	{label:'/', value: '/'},
 	{label:'/YYYYMMDD', value: '/YYYYMMdd'},
 	{label:'/DDMMYYYY', value: '/ddMMYYYY'}
 	]);
-app.constant('FREQUENCY_DROPDOWN',[
+importChannelModule.constant('FREQUENCY_DROPDOWN',[
 	{label:'Daily', value: 'DAILY'}
 	]);
-app.constant('ENCRYPT_TYPE_DROPDOWN',[
+importChannelModule.constant('ENCRYPT_TYPE_DROPDOWN',[
    	{label:'None', value: 'NONE'},
    	{label:'PGP', value: 'PGP'}
    	]);
-app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$stateParams', 'ngDialog', 
+importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$state', '$stateParams', 'ngDialog', 
     'ChannelDropdown', '$rootScope', 'SCFCommonService', 'UIFactory', 'Service', 'blockUI', 'PageNavigation',
 	'$q','$http','PROTOCOL_DROPDOWN','POST_PROCESS_DROPDOWN', 'BACKUP_PATH_PATTERN_DROPDOWN','FREQUENCY_DROPDOWN',
 	function($log, $scope, $state, $stateParams, ngDialog, ChannelDropdown, $rootScope, SCFCommonService, 
@@ -568,7 +568,7 @@ app.controller('ChannelSettingController', [ '$log', '$scope', '$state', '$state
 	vm.initLoad();
 	
 } ]);
-app.controller('SetupFTPUserController', [ '$scope', '$rootScope', function($scope, $rootScope) {
+importChannelModule.controller('SetupFTPUserController', [ '$scope', '$rootScope', function($scope, $rootScope) {
 	 var vm = this;
 	 vm.username = angular.copy($scope.ngDialogData.username);
 	 vm.userInfo = {
@@ -598,7 +598,7 @@ app.controller('SetupFTPUserController', [ '$scope', '$rootScope', function($sco
 		 }
 	 }
 } ]);
-app.controller('SetupFileEncryptionController', [ '$scope', '$rootScope', 'ENCRYPT_TYPE_DROPDOWN', function($scope, $rootScope, ENCRYPT_TYPE_DROPDOWN) {
+importChannelModule.controller('SetupFileEncryptionController', [ '$scope', '$rootScope', 'ENCRYPT_TYPE_DROPDOWN', function($scope, $rootScope, ENCRYPT_TYPE_DROPDOWN) {
 	 var vm = this;
 	 vm.encryptType = angular.copy($scope.ngDialogData.encryptType);
 	 vm.encryptPassword = angular.copy($scope.ngDialogData.encryptPassword);

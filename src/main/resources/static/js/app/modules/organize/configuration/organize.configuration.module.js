@@ -1,6 +1,12 @@
 'use strict';
 
-angular.module('gecscf.organize.configuration', [ 'ui.router', 'gecscf.ui', 'gecscf.organize.configuration.fileLayout', 'gecscf.organize.configuration.productType' ])
+angular.module('gecscf.organize.configuration', [ 
+	'ui.router', 
+	'gecscf.ui', 
+	'gecscf.organize.configuration.fileLayout', 
+	'gecscf.organize.configuration.productType',
+	'gecscf.organize.configuration.importChannel'
+	])
 		.config([ '$stateProvider', function($stateProvider) {
 
 		} ]).factory('MappingDataUtils', [ "UIFactory", function(UIFactory) {
