@@ -29,7 +29,7 @@ angular.module('gecscf.organize.configuration', [
 				data: data
 			});
 		}
-		
+
 		var showCreateImportChannelDialog = function(data, callback) {
 			UIFactory.showDialog({
 				preCloseCallback: callback,

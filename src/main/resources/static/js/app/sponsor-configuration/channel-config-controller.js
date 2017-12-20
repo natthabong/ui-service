@@ -14,8 +14,9 @@ angular
 						'Service',
 						'ngDialog',
 						'ConfigurationUtils',
+						'UIFactory',
 						function($log, $scope, $state, SCFCommonService,
-								$stateParams, $timeout, PageNavigation, PagingController, Service, ngDialog, ConfigurationUtils) {
+								$stateParams, $timeout, PageNavigation, PagingController, Service, ngDialog, ConfigurationUtils, UIFactory) {
 							
 							var vm = this;
 							vm.splitePageTxt = '';
@@ -47,14 +48,69 @@ angular
 								label : 'Web',
 								value : 'Web'
 							}];
+							
+							vm.channelModel = {
+								organizeId: 'YAMAHA_CO',
+								processType: ''
+							}
 
-							vm.newChannel = function() {
+							vm.newChannel = function(callback) {
 								ConfigurationUtils.showCreateImportChannelDialog({
-									data : {
+									data : { 
 										showAll: true
 									}, preCloseCallback : function() {
+										callback();
 									}
 								});
+							}
+							
+							vm.save = function(callback) {
+								var preCloseCallback = function(confirm) {
+									callback();
+									$scope.ngDialogData.preCloseCallback(confirm);
+								}
+								UIFactory
+										.showConfirmDialog({
+											data : {
+												headerMessage : 'Confirm save?'
+											},
+											confirm : function() {
+												return MappingDataService
+														.create(vm.channelModel);
+											},
+											onFail : function(response) {
+												var status = response.status;
+												if (status != 400) {
+													var msg = {
+														404 : "Mapping data has been deleted."
+													}
+													UIFactory
+															.showFailDialog({
+																data : {
+																	headerMessage : 'Add new mapping data fail.',
+																	bodyMessage : msg[status] ? msg[status]
+																			: response.errorMessage
+																},
+																preCloseCallback : preCloseCallback
+															});
+												}
+												else{
+													$scope.errors = {};
+													$scope.errors[response.data.errorCode] = response.data.errorMessage;
+												}
+
+											},
+											onSuccess : function(response) {
+												UIFactory
+														.showSuccessDialog({
+															data : {
+																headerMessage : 'Add new mapping data success.',
+																bodyMessage : ''
+															},
+															preCloseCallback : preCloseCallback(response)
+														});
+											}
+									});
 							}
 
 							vm.editChannel = function(data) {
