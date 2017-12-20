@@ -112,7 +112,6 @@ tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$statePa
         }
 
         vm.setDefaultCode = function (data) {
-        	console.log(data);
             var deffered = ConfigTradeFinanceService.setDefaultCode(data);
             deffered.promise.then(function (response) {
             	getFinanceInfo(data.sponsorId,data.supplierId);

@@ -148,9 +148,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	vm.openDateFrom = false;
 	vm.dateFormat = 'dd/MM/yyyy';
 	vm.openDateTo = false;
-	vm.test = function(){
-		console.log(vm.dateModel);
-	}
 	vm.dateModel = {
 		dateFrom: '',
 		dateTo: ''
@@ -568,7 +565,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		vm.listTransactionModel.supplierId = '';
         vm.listTransactionModel.dateFrom = SCFCommonService.convertDate(dateFrom);
         vm.listTransactionModel.dateTo = SCFCommonService.convertDate(dateTo);
-		console.log(SCFCommonService.convertDate(dateFrom));
 
         if(typeof vm.documentListModel.sponsor == 'object' && vm.documentListModel.sponsor != undefined){
             vm.listTransactionModel.sponsorId = vm.documentListModel.sponsor.organizeId;
@@ -691,7 +687,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 					var internalStepDeffered = ListTransactionService.summaryInternalStep(transactionModel);
 					internalStepDeffered.promise.then(function(response) {
 						var internalStemp = response.data;
-						console.log(internalStemp);
 						if (internalStemp.length > 0) {
 							internalStemp.forEach(function(summary) {
 								if(vm.summaryInternalStep[summary.statusMessageKey]){
@@ -818,7 +813,6 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		} else if (viewMode == mode.MY_ORGANIZE) {
 			
             vm.supplierTxtDisable = true;
-			console.log(vm.supplierTxtDisable);
             initSupplierAutoSuggest();
             sponsorAutoSuggestServiceUrl ='api/v1/buyers?supplierId='+organizeId;
             checkSupplierTP(organizeId);

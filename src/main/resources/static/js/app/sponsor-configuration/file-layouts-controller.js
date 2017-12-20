@@ -112,8 +112,11 @@ angular
 								});									
 								
 								serviceDiferred.promise.then(function(response){
-									vm.data = response.data;
-									console.log(vm.data);
+									if (vm.processType == 'AP_DOCUMENT'){
+										vm.data = response.data[0];
+									}else{
+										vm.data = response.data;
+									}
 									vm.pageModel.totalRecord = response.headers("X-Total-Count");
 									vm.pageModel.totalPage = response.headers("X-Total-Page");	
 									vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.page, vm.pageModel.totalRecord);

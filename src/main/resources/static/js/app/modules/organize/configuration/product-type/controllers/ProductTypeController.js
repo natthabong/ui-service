@@ -22,12 +22,13 @@ ptModule
 
 							var init = function() {
 								if (vm.editMode) {
-									ProductTypeService.getProductType(
-											params.organizeId,
-											params.productType.productType)
-											.then(function(response) {
-												vm.model = response.data;
-											});
+									var deffered = ProductTypeService
+											.getProductType(params.organizeId,
+													params.productType)
+									deffered.promise.then(function(response) {
+										vm.model = response.data;
+									});
+
 								}
 							}();
 
@@ -60,12 +61,12 @@ ptModule
 								return valid;
 							}
 							vm.cancel = function() {
-								PageNavigation.gotoPreviousPage(true);
+								PageNavigation.gotoPreviousPage(false);
 							}
 							vm.save = function() {
 								if (_validate(vm.model)) {
 									var preCloseCallback = function(confirm) {
-										PageNavigation.gotoPreviousPage(true);
+										PageNavigation.gotoPreviousPage(false);
 									}
 
 									UIFactory
@@ -93,19 +94,26 @@ ptModule
 																	preCloseCallback : preCloseCallback
 																});
 													} else {
+														console.log(response);
 														$scope.errors = {};
-														$scope.errors[response.data.reference] = {
-															message : response.data.errorMessage
+														for (var i = 0; i < response.data.length; i++) { 
+															$scope.errors[response.data[i].reference] = {
+																	message : response.data[i].errorMessage
+															}
 														}
-														console.log($scope.errors)
+//														$scope.errors[response.data.reference] = {
+//															message : response.data.errorMessage
+//														}
+														console
+																.log($scope.errors)
 													}
 												},
 												onSuccess : function(response) {
 													UIFactory
 															.showSuccessDialog({
 																data : {
-																	headerMessage : vm.editMode ? 'Add new product type success.'
-																			: 'Edit product type complete.',
+																	headerMessage : vm.editMode ? 'Edit product type complete.'
+																			: 'Add new product type success.',
 																	bodyMessage : ''
 																},
 																preCloseCallback : preCloseCallback

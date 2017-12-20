@@ -48,7 +48,6 @@ angular
 							
 							vm.create = function(data){
 								var duedate = moment(data.dueDate);
-								console.log(duedate)
 								PageNavigation.gotoPage('/my-organize/create-payment', {
 									dashboardParams: {
 										dueDate: duedate.toDate(),
