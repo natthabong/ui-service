@@ -159,7 +159,7 @@ angular
 							vm.dataTable = null;
 
 							vm.searchChannels = function(pageModel){
-								var sponsorId = $scope.sponsorId
+								var sponsorId = $stateParams.organizeId;
 						        if (pageModel === undefined) {
 						            vm.pageModel.pageSizeSelectModel = '20';
 						            vm.pageModel.currentPage = 0;
