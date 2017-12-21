@@ -13,8 +13,10 @@ angular
 						'PagingController',
 						'Service',
 						'ngDialog',
+						'ConfigurationUtils',
+						'UIFactory',
 						function($log, $scope, $state, SCFCommonService,
-								$stateParams, $timeout, PageNavigation, PagingController, Service, ngDialog) {
+								$stateParams, $timeout, PageNavigation, PagingController, Service, ngDialog, ConfigurationUtils, UIFactory) {
 							
 							var vm = this;
 							vm.splitePageTxt = '';
@@ -28,7 +30,7 @@ angular
 								pageSize : 20
 							};
 
-							vm.pageModel.pageSizeList = [ {
+							vm.pageModel.pageSizeList = [{
 								label : '10',
 								value : '10'
 							}, {
@@ -37,20 +39,86 @@ angular
 							}, {
 								label : '50',
 								value : '50'
-							} ];
+							}];
 
-							vm.newChannel = function() {
-								//TODO NEW
-								PageNavigation.gotoPage('/');
+							vm.newChannelDropdown = [{
+								label : 'FTP',
+								value : 'FTP'
+							}, {
+								label : 'Web',
+								value : 'Web'
+							}];
+							
+							vm.channelModel = {
+								organizeId: 'YAMAHA_CO',
+								processType: ''
+							}
+
+							vm.newChannel = function(callback) {
+								ConfigurationUtils.showCreateImportChannelDialog({
+									data : { 
+										showAll: true
+									}, preCloseCallback : function() {
+										callback();
+									}
+								});
+							}
+							
+							vm.save = function(callback) {
+								var preCloseCallback = function(confirm) {
+									callback();
+									$scope.ngDialogData.preCloseCallback(confirm);
+								}
+								UIFactory
+										.showConfirmDialog({
+											data : {
+												headerMessage : 'Confirm save?'
+											},
+											confirm : function() {
+												return MappingDataService
+														.create(vm.channelModel);
+											},
+											onFail : function(response) {
+												var status = response.status;
+												if (status != 400) {
+													var msg = {
+														404 : "Mapping data has been deleted."
+													}
+													UIFactory
+															.showFailDialog({
+																data : {
+																	headerMessage : 'Add new mapping data fail.',
+																	bodyMessage : msg[status] ? msg[status]
+																			: response.errorMessage
+																},
+																preCloseCallback : preCloseCallback
+															});
+												}
+												else{
+													$scope.errors = {};
+													$scope.errors[response.data.errorCode] = response.data.errorMessage;
+												}
+
+											},
+											onSuccess : function(response) {
+												UIFactory
+														.showSuccessDialog({
+															data : {
+																headerMessage : 'Add new mapping data success.',
+																bodyMessage : ''
+															},
+															preCloseCallback : preCloseCallback(response)
+														});
+											}
+									});
 							}
 
 							vm.editChannel = function(data) {
 								var params = {
 						            	selectedItem: data
 						            };
-						        PageNavigation.gotoPage('/sponsor-configuration/import-channels/settings', params);
+						        PageNavigation.gotoPage('/customer-organize/import-channels/config', params);
 							}
-							
 							
 							vm.testConnection = function(data){
 								vm.serviceInfo = {
@@ -87,12 +155,8 @@ angular
 								}
 								
 							}
-							
 							vm.data = [];
-							
 							vm.dataTable = null;
-							
-							
 
 							vm.searchChannels = function(pageModel){
 								var sponsorId = $scope.sponsorId
@@ -119,15 +183,6 @@ angular
 								});
 
 							} 
-							
-							vm.initLoad = function(processType) {
-								vm.processType = processType;
-								vm.pageModel.currentPage = 0;
-								vm.pageModel.pageSizeSelectModel = '20';
-								vm.getDataTable();
-								vm.searchChannels();
-								
-							}
 							
 							vm.getDataTable = function(){
 								if(vm.processType == 'AP_DOCUMENT'){
@@ -176,58 +231,16 @@ angular
 														+ '<scf-button id="ap-{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.testConnection(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
 											} ]
 									}
-									
-								}else{
-									vm.dataTable = {
-									identityField : 'channelType',
-									options : {},
-									columns : [
-											{
-												fieldName : 'channelType',
-												labelEN : 'Channel',
-												labelTH : 'Channel',
-												id : 'ar-channel-{value}',
-												filterType : 'translate',
-												cssTemplate : 'text-left'
-											},
-											{
-												fieldName : 'status',
-												labelEN : 'Status',
-												labelTH : 'Status',
-												id : 'ar-status-{value}',
-												filterType : 'translate',
-												cssTemplate : 'text-center'
-											},
-											{
-												fieldName : 'activeDate',
-												labelEN : 'Active date',
-												labelTH : 'Active date',
-												id : 'ar-active-date-{value}',
-												filterType : 'date',
-												filterFormat : 'dd/MM/yyyy',
-												cssTemplate : 'text-center'
-											},
-											{
-												fieldName : 'expiryDate',
-												labelEN : 'Expire date',
-												labelTH : 'Expire date',
-											    id : 'ar-expire-date-{value}',
-											    filterType : 'date',
-											    filterFormat : 'dd/MM/yyyy',
-											    cssTemplate : 'text-center'
-											},
-											{
-												cssTemplate : 'text-center',
-												sortData : false,
-												cellTemplate : '<scf-button id="ar-{{data.channelType}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
-														+ '<scf-button id="{{ctrl.processType}}-layout-{{data.displayName}}-delete-button" class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.delete()" title="Delete a channel"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
-														+ '<scf-button id="ar-{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.testConnection(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
-											} ]
-										}
 								}
 							}
 
-							//vm.initLoad();
+							vm.initLoad = function(processType) {
+								vm.processType = processType;
+								vm.pageModel.currentPage = 0;
+								vm.pageModel.pageSizeSelectModel = '20';
+								vm.getDataTable();
+								vm.searchChannels();
+							};
 
 						} ]).controller('TestConnectionResultController', [ '$scope', '$rootScope', '$q','$http', function($scope, $rootScope, $q, $http) {
 							 var vm = this;

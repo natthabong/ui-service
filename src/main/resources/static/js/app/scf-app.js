@@ -258,7 +258,9 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							   'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
 							   'js/app/sponsor-configuration/ExportPaymentConfigController.js',
 							   'js/app/modules/organize/configuration/product-type/controllers/ProductTypeListController.js',
-							   'js/app/modules/organize/configuration/product-type/services/ProductTypeService.js'
+							   'js/app/modules/organize/configuration/product-type/services/ProductTypeService.js',
+							   'js/app/modules/organize/configuration/import-channels/controllers/ImportChannelController.js',
+							   'js/app/modules/organize/configuration/import-channels/services/ImportChannelService.js'
 							   ])
 			}).state('/sponsor-configuration/mapping-data/edit',{
 				url: '/sponsor-configuration/mapping-data/edit',
@@ -362,13 +364,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/organize-logo/settings',
 				params: { organizeInfo: null},
 				resolve: WebHelper.loadScript(['js/app/sponsor-configuration/organize-logo/organize-logo-setting-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/sponsor-configuration/import-channels/settings',{
-				url: '/sponsor-configuration/import-channels/settings',
-				controller: 'ChannelSettingController',
-				controllerAs: 'ctrl',
-				templateUrl: '/sponsor-configuration/import-channels/settings',
-				params: { selectedItem: null},
-				resolve: WebHelper.loadScript(['js/app/sponsor-configuration/import-channels/import-channels-setting-controller.js'])
 			}).state('/sponsor-configuration/workflow/setup',{
 				url: '/sponsor-configuration/workflow/setup',
 				controller: 'SetupWorkflowController',

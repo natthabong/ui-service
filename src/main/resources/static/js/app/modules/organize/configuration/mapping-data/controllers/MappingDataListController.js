@@ -11,10 +11,10 @@ tpModule
 						'PageNavigation',
 						'PagingController',
 						'MappingDataService',
-						'MappingDataUtils',
+						'ConfigurationUtils',
 						function($scope, $rootScope, $stateParams, UIFactory,
 								PageNavigation, PagingController,
-								MappingDataService, MappingDataUtils) {
+								MappingDataService, ConfigurationUtils) {
 
 							var vm = this;
 
@@ -61,7 +61,7 @@ tpModule
 							}
 
 							vm.addNewMappingData = function(accountingTxnType) {
-								MappingDataUtils
+								ConfigurationUtils
 										.showCreateMappingDataDialog({
 											data : {
 												ownerId : ownerId,

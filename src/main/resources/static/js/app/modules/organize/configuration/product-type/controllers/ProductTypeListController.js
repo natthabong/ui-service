@@ -14,7 +14,7 @@ productTypeModule.controller('ProductTypeListController', [
 			vm.manageAllConfig = false;
 			vm.manageMyOrgConfig = false;
 			
-			var url = '/api/v1/organize-customers/'+ organizeId + '/product-types';
+			var url = '/api/v1/organize-customers/' + organizeId + '/product-types';
 			
 			vm.criteria = $stateParams.criteria || {};
 			vm.pagingController = PagingController.create(url, vm.criteria,'GET');

@@ -1,0 +1,42 @@
+<div class="modal-content">
+	<form name="newMappingData" class="form-horizontal"
+		ng-submit="ctrl.save(closeThisDialog)">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3>
+						<span id="ar-import-channel-popup-header-message-label"
+							class="popup-text"
+							ng-bind="'Add new import doccument channel' | translate">Add
+							new import document channel</span>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="form-group">
+						<label for="group-name" id="channel-label"
+							class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							ng-bind="'Channel' | translate"></span>:</label>
+						<div class="col-md-6 col-sm-4 col-xs-12">
+							<scf-dropdown id="channel-dropdown"
+								component-data="ctrl.newChannelDropdown"></scf-dropdown>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="popup-cancel-button" class="popup-button"
+						ng-click="closeThisDialog()" ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="popup-save-button" class="popup-button"
+						type="submit" ng-bind="'Save' | translate"></scf-button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
