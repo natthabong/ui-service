@@ -53,8 +53,7 @@ angular
 			appendTo : false,
 			disableAnimation : true
 		});
-	} ])
-	app.service('PageNavigation', [
+	} ]).service('PageNavigation', [
 	    '$filter',
 	    '$http',
 	    '$log',
