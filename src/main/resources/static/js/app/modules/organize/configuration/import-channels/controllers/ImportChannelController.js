@@ -23,15 +23,14 @@ importChannelModule.constant('ENCRYPT_TYPE_DROPDOWN',[
    	{label:'None', value: 'NONE'},
    	{label:'PGP', value: 'PGP'}
    	]);
-importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$state', '$stateParams', 'ngDialog', 
+importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$state', 'ngDialog', 
     'ChannelDropdown', '$rootScope', 'SCFCommonService', 'UIFactory', 'Service', 'blockUI', 'PageNavigation',
-	'$q','$http','PROTOCOL_DROPDOWN','POST_PROCESS_DROPDOWN', 'BACKUP_PATH_PATTERN_DROPDOWN','FREQUENCY_DROPDOWN',
-	function($log, $scope, $state, $stateParams, ngDialog, ChannelDropdown, $rootScope, SCFCommonService, 
-			UIFactory, Service, blockUI, PageNavigation, $q, $http, PROTOCOL_DROPDOWN, POST_PROCESS_DROPDOWN, BACKUP_PATH_PATTERN_DROPDOWN, FREQUENCY_DROPDOWN) {
+	'FileLayoutService', '$q','$http','PROTOCOL_DROPDOWN','POST_PROCESS_DROPDOWN', 'BACKUP_PATH_PATTERN_DROPDOWN','FREQUENCY_DROPDOWN',
+	function($log, $scope, $state, ngDialog, ChannelDropdown, $rootScope, SCFCommonService, 
+			UIFactory, Service, blockUI, PageNavigation, FileLayoutService, $q, $http, PROTOCOL_DROPDOWN, POST_PROCESS_DROPDOWN, BACKUP_PATH_PATTERN_DROPDOWN, FREQUENCY_DROPDOWN) {
 	var vm = this;
 	
 	vm.manageAll=false;
-	vm.isSetupFTP = false;
 	vm.postProcessBackup = false;
 	var dayOfWeekFrequency = {
 		SUNDAY : 1,
@@ -43,22 +42,34 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 		SATURDAY : 7
 	}
 	
-    var sponsorId = $rootScope.sponsorId;
-    var selectedItem = $stateParams.selectedItem;
+	var parameters = PageNavigation.getParameters();
+	
+    var organizeId = parameters.organizeId;
     
-	function searchFileLayout() {
-		var organizeId = $stateParams.organizeId;
-//		var url = '/api/v1/organize-customers/'+ organizeId + '/product-types';
-		var url = '/api/v1/organize-customers/YAMAHO_CO/product-types';
-		console.log(url);
-	}
-	searchFileLayout();
+    vm.isSetupFTP = false;
+    
+    vm.fileLayouts = [];
+	vm.searchFileLayout = function(){
+		 var deffered = FileLayoutService.getFileLayouts(organizeId, parameters.processType, 'IMPORT');
+		 deffered.promise.then(function(response){
+			 vm.fileLayouts = [];
+        	 var _fileLayouts = response.data;
+        	 if (angular.isDefined(_fileLayouts)) {
+        		 _fileLayouts.forEach(function (fileLayout) {
+                    var selectObj = {
+                        label: fileLayout.displayName,
+                        value: fileLayout.layoutConfigId
+                    }
+                    vm.fileLayouts.push(selectObj);
+                 });
+        	  }
+		 });
+		
+	};
 	
-	if (selectedItem.channelType == 'FTP') {
-		vm.isSetupFTP = true;
-	}
 	
-    var BASE_URI = 'api/v1/organize-customers/' + sponsorId + '/process-types/'+ selectedItem.processType;
+	
+    var BASE_URI = 'api/v1/organize-customers/' + organizeId + '/process-types/'+ parameters.processType;
     
     vm.channelModel = {};
     $scope.errors = {};
@@ -95,7 +106,9 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	}
 	
 	vm.backToSponsorConfigPage = function(){
-		PageNavigation.gotoPreviousPage();
+		 PageNavigation.gotoPage('/sponsor-configuration',  {
+	        	organizeId:  organizeId
+	     });
 	}
 	
 	var isRequire = function(data) {
@@ -116,7 +129,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	}
 
 	var setupPrepareData = function(){
-		if(vm.isSetupFTP){
+		if(vm.channelModel.channelType == 'FTP'){
 			vm.channelModel.jobTrigger.startHour = null;
 			vm.channelModel.jobTrigger.startMinute = null;
 			vm.channelModel.jobTrigger.endHour = null;
@@ -173,7 +186,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 		var jobTrigger = vm.channelModel.jobTrigger;
 		var jobDetail = vm.channelModel.jobTrigger.jobDetail;
 
-		if(vm.isSetupFTP){
+		if(vm.channelModel.channelType == 'FTP'){
 
 			if(jobDetail.remoteHost == null || jobDetail.remoteHost ==""){
 				isValid = false;
@@ -355,7 +368,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	}	
 	
 	$scope.confirmSave = function() {
-		vm.channelModel.jobTrigger.ownerId = selectedItem.organizeId;
+		vm.channelModel.jobTrigger.ownerId = parameters.organizeId;
 
 		var serviceUrl = BASE_URI+'/channels/' + vm.channelModel.channelId;
 		var deffered = $q.defer();
@@ -376,7 +389,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
     }
 
 	vm.searchChannel = function(){
-		sendRequest('/channels/' + selectedItem.channelId, function(response) {
+		sendRequest('/channels/' + parameters.channelId, function(response) {
             vm.channelModel = response.data;
             
             if(response.data.activeDate != null){
@@ -391,8 +404,10 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 			}else{
 				vm.channelModel.expiryDate = null;
 			}
+            
 			
-			if(vm.isSetupFTP){
+			if(vm.channelModel.channelType == 'FTP'){
+				vm.isSetupFTP = true;
 				vm.channelModel.fileProtocol = 'SFTP';
 
 				if(response.data.jobTrigger.jobDetail.remotePort == null){
@@ -563,9 +578,8 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	vm.initLoad = function() {
 		vm.searchChannel();
 		vm.searchFileLayout();
-    }
+    }();
 	
-	vm.initLoad();
 	
 } ]);
 importChannelModule.controller('SetupFTPUserController', [ '$scope', '$rootScope', function($scope, $rootScope) {
