@@ -285,7 +285,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/mapping-data/controllers/MappingDataCodeController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])	
 					
 			}).state('/sponsor-configuration/file-layouts/new-file-layout',{
-				url: '/sponsor-configuration/file-layouts/new-file-layout',
+				url: '/sponsor-configuration/file-layouts/new-file-layout/:organizeId',
 				controller: 'FileLayoutController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/file-layouts/new-file-layout',
