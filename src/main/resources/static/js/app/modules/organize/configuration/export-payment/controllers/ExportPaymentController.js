@@ -263,7 +263,8 @@ module.controller('ExportPaymentController', [
         }
 
         vm.backToSponsorConfigPage = function () {
-            PageNavigation.gotoPreviousPage();
+        	var params = {organizeId: ownerId};
+			PageNavigation.gotoPage("/sponsor-configuration",params);
         }
 
         vm.openSetting = function (index, record) {
