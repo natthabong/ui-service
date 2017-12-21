@@ -6,12 +6,12 @@ profileApp
 			'$scope',
 			'blockUI',
 			'ngDialog',
-			'PageNavigation',
 			'UIFactory',
+			'PageNavigation',			
 			'PasswordService',
 			'$window',
-			function($scope, blockUI, ngDialog, PageNavigation,
-				UIFactory, PasswordService, $window) {
+			function($scope, blockUI, ngDialog,
+				UIFactory, PageNavigation, PasswordService, $window) {
 			    $scope.errors = {};
 			    $scope.reset = function() {
 				$scope.user = {
