@@ -773,6 +773,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/download-payment-result/supplier',
 				params: {transaction: null},
 				resolve: WebHelper.loadScript(['js/app/modules/download-payment-result/services/DownloadPaymentResultService.js','js/app/modules/download-payment-result/controllers/DownloadPaymentResultController.js'])
+			}).state('/upload-document-error', {
+				url: '/upload-document-error',
+				controller: 'ErrorController',
+				controllerAs: 'ctrl',
+				templateUrl: '/upload-document-error',
+				params: { errorCode: null},
+				resolve: WebHelper.loadScript([ 'js/app/common/error-controller.js'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',
