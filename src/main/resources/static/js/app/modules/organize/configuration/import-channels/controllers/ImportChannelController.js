@@ -183,11 +183,13 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 		$scope.errors = {};
 		var isValid = true;
 		var channel = vm.channelModel;
-		var jobTrigger = vm.channelModel.jobTrigger;
-		var jobDetail = vm.channelModel.jobTrigger.jobDetail;
+
 
 		if(vm.channelModel.channelType == 'FTP'){
-
+			
+			var jobTrigger = vm.channelModel.jobTrigger;
+			var jobDetail = vm.channelModel.jobTrigger.jobDetail;
+			
 			if(jobDetail.remoteHost == null || jobDetail.remoteHost ==""){
 				isValid = false;
 				$scope.errors.hostName = {
@@ -368,7 +370,10 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	}	
 	
 	$scope.confirmSave = function() {
-		vm.channelModel.jobTrigger.ownerId = parameters.organizeId;
+		if(vm.channelModel.channelType == 'FTP'){
+			
+			vm.channelModel.jobTrigger.ownerId = parameters.organizeId;
+		}
 
 		var serviceUrl = BASE_URI+'/channels/' + vm.channelModel.channelId;
 		var deffered = $q.defer();
@@ -521,7 +526,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 		
 		var userInfo = ngDialog.open({
 			id : 'user-info-dialog',
-			template : '/js/app/sponsor-configuration/import-channels/dialog-user-info.html',
+			template : '/js/app/modules/organize/configuration/import-channels/dialog-user-info.html',
 			className : 'ngdialog-theme-default',
 			scope : $scope,
 			data : {
@@ -556,7 +561,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 		
 		var decryptInfo = ngDialog.open({
 			id : 'user-info-dialog',
-			template : '/js/app/sponsor-configuration/import-channels/dialog-encrypt-info.html',
+			template : '/js/app/modules/organize/configuration/import-channels/dialog-encrypt-info.html',
 			className : 'ngdialog-theme-default',
 			scope : $scope,
 			data : {
