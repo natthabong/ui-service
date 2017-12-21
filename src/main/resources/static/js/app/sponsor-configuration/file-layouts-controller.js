@@ -49,9 +49,10 @@ angular
 							vm.newARFileLayout = function(data, processType, integrateType){		
 								ConfigurationUtils.showCreateImportLayoutDialog({
 									data : { 
-										showAll: true
+										showAll: true ,
+										ownerId : $stateParams.organizeId
 									}, preCloseCallback : function() {
-										callback();
+										vm.init(processType, integrateType);
 									}
 								});
 							}

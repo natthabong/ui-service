@@ -16,13 +16,14 @@ tpModule
 							
 							
 							var data = $scope.ngDialogData.data;
-							vm.dataTypeByIds = {};
+							vm.dataTypeByIds = [];
 							vm.model = {
 								ownerId : data.ownerId,
 								accountingTransactionType : data.accountingTransactionType,
 								displayName: '',
 								processType: 'AR_DOCUMENT' ,
-								items: {}
+								integrateType: 'IMPORT',
+								items: []
 							}
 
 							vm.hasError = false;
@@ -35,16 +36,27 @@ tpModule
 								}
 								return true;
 							}
+							
+							$scope.confirmSave = function (sponsorLayout) {
+								return FileLayoutService.createFileLayout(sponsorLayout.ownerId, sponsorLayout.processType, sponsorLayout.integrateType, sponsorLayout);
+							};
+							
+							var onFail = function (errors) {
+								console.log(errors);
+							}
+							
 							vm.save = function(callback) {
 								if (_isValid()) {
-									if (FileLayoutService.validate(sponsorLayout, vm.dataTypeByIds, onFail)) {
+										var preCloseCallback = function(confirm) {
+											callback();
+											$scope.ngDialogData.preCloseCallback(confirm);
+										}
 										UIFactory.showConfirmDialog({
 											data: {
 												headerMessage: 'Confirm save?'
 											},
 											confirm: function () {
-												blockUI.start();
-												return $scope.confirmSave(sponsorLayout)
+												return $scope.confirmSave(vm.model)
 											},
 											onSuccess: function (response) {
 												var headerMessage = "Add new file layout complete.";
@@ -53,11 +65,8 @@ tpModule
 														headerMessage: headerMessage,
 														bodyMessage: ''
 													},
-													preCloseCallback: function () {
-														vm.backToSponsorConfigPage();
-													}
+													preCloseCallback : preCloseCallback(response)
 												});
-												blockUI.stop();
 											},
 											onFail: function (response) {
 												if (response.status != 400) {
@@ -66,8 +75,7 @@ tpModule
 															.showFailDialog({
 																data : {
 																	headerMessage : 'Add new file layout fail.',
-																	bodyMessage : msg[response.status] ? msg[response.status]
-																			: response.data.message
+																	bodyMessage : msg[response.status] 
 																},
 																preCloseCallback : preCloseCallback
 															});
@@ -83,10 +91,8 @@ tpModule
 													
 													onFail(errors)
 												}
-												blockUI.stop();
 											}
 										});
-									}
 								}
 							}
 
