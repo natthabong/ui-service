@@ -11,17 +11,20 @@ angular
 						'$timeout',
 						'PageNavigation',
 						'PagingController',
+						'ImportChannelService',
 						'Service',
 						'ngDialog',
 						'ConfigurationUtils',
 						'UIFactory',
 						function($log, $scope, $state, SCFCommonService,
-								$stateParams, $timeout, PageNavigation, PagingController, Service, ngDialog, ConfigurationUtils, UIFactory) {
+								$stateParams, $timeout, PageNavigation, PagingController, ImportChannelService, Service, ngDialog, ConfigurationUtils, UIFactory) {
 							
 							var vm = this;
 							vm.splitePageTxt = '';
 							vm.processType = '';
-
+							
+							var parameters = PageNavigation.getParameters();
+							var ownerId = parameters.organizeId;
 							vm.pageModel = {
 								pageSizeSelectModel : '20',
 								totalRecord : 0,
@@ -41,22 +44,14 @@ angular
 								value : '50'
 							}];
 
-							vm.newChannelDropdown = [{
-								label : 'FTP',
-								value : 'FTP'
-							}, {
-								label : 'Web',
-								value : 'Web'
-							}];
-							
-							vm.channelModel = {
-								organizeId: 'YAMAHA_CO',
-								processType: ''
-							}
+						
 
 							vm.newChannel = function(callback) {
 								ConfigurationUtils.showCreateImportChannelDialog({
 									data : { 
+										organizeId : ownerId,
+										processType : vm.processType,
+										channelType : 'WEB',
 										showAll: true
 									}, preCloseCallback : function() {
 										callback();
@@ -64,55 +59,7 @@ angular
 								});
 							}
 							
-							vm.save = function(callback) {
-								var preCloseCallback = function(confirm) {
-									callback();
-									$scope.ngDialogData.preCloseCallback(confirm);
-								}
-								UIFactory
-										.showConfirmDialog({
-											data : {
-												headerMessage : 'Confirm save?'
-											},
-											confirm : function() {
-												return MappingDataService
-														.create(vm.channelModel);
-											},
-											onFail : function(response) {
-												var status = response.status;
-												if (status != 400) {
-													var msg = {
-														404 : "Mapping data has been deleted."
-													}
-													UIFactory
-															.showFailDialog({
-																data : {
-																	headerMessage : 'Add new mapping data fail.',
-																	bodyMessage : msg[status] ? msg[status]
-																			: response.errorMessage
-																},
-																preCloseCallback : preCloseCallback
-															});
-												}
-												else{
-													$scope.errors = {};
-													$scope.errors[response.data.errorCode] = response.data.errorMessage;
-												}
-
-											},
-											onSuccess : function(response) {
-												UIFactory
-														.showSuccessDialog({
-															data : {
-																headerMessage : 'Add new mapping data success.',
-																bodyMessage : ''
-															},
-															preCloseCallback : preCloseCallback(response)
-														});
-											}
-									});
-							}
-
+							
 							vm.editChannel = function(data) {
 								var params = {
 						            	selectedItem: data
@@ -269,4 +216,81 @@ angular
 							 
 							 verifySystemStatusFTP(vm.data);
 							 
-							} ]);
+							} ]).controller(
+											'ImportChannelNewPopupController',
+											[
+													'$scope',
+													'UIFactory',
+													'PageNavigation',
+													'ImportChannelService',
+													function($scope, UIFactory, PageNavigation,
+															ImportChannelService) {
+
+														var vm = this;
+														$scope.errors = undefined;
+														
+														vm.newChannelDropdown = [{
+															label : 'FTP',
+															value : 'FTP'
+														}, {
+															label : 'Web',
+															value : 'WEB'
+														}];
+														
+														var data = $scope.ngDialogData.data;
+														vm.model = {
+															organizeId : data.organizeId,
+															processType : data.processType,
+															channelType: data.channelType
+														}
+														vm.save = function(callback) {
+															var preCloseCallback = function(confirm) {
+																callback();
+																$scope.ngDialogData.preCloseCallback(confirm);
+															}
+															UIFactory
+																	.showConfirmDialog({
+																		data : {
+																			headerMessage : 'Confirm save?'
+																		},
+																		confirm : function() {
+																			return ImportChannelService.create(vm.model);
+																		},
+																		onFail : function(response) {
+																			var status = response.status;
+																			if (status != 400) {
+																				var msg = {
+																					404 : "Import channel has been deleted."
+																				}
+																				UIFactory
+																						.showFailDialog({
+																							data : {
+																								headerMessage : 'Add new import channel fail.',
+																								bodyMessage : msg[status] ? msg[status]
+																										: response.errorMessage
+																							},
+																							preCloseCallback : preCloseCallback
+																						});
+																			}
+																			else{
+																				$scope.errors = {};
+																				$scope.errors[response.data.errorCode] = response.data.errorMessage;
+																			}
+
+																		},
+																		onSuccess : function(response) {
+																			UIFactory
+																					.showSuccessDialog({
+																						data : {
+																							headerMessage : 'Add new mapping data success.',
+																							bodyMessage : ''
+																						},
+																						preCloseCallback : preCloseCallback(response)
+																					});
+																		}
+																});
+														}
+
+														
+
+													} ]);
