@@ -85,7 +85,8 @@ importChannelModule.factory('ImportChannelService', ['$http', '$q', 'Service', f
 		getItemSuggestSuppliers: getItemSuggestSuppliers,
 		getItemSuggestBuyers: getItemSuggestBuyers,
 		getBorrowerTypes: getBorrowerTypes,
-		verifyBorrowerType: verifyBorrowerType
+		verifyBorrowerType: verifyBorrowerType,
+		create: create
 	}
 
 }]);
