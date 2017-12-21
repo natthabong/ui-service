@@ -78,14 +78,14 @@ angular
 												    id: 'file-layouts-{value}-display-layout-name-label',
 												    sortData: true,
 												    cssTemplate: 'text-left',
-												    cellTemplate : '<span id="{{ctrl.processType}}-import-layout-{{data.layoutConfigId}}-label">{{data.displayName}}</span>'
+												    cellTemplate : '<span id="{{ctrl.processType}}-import-layout-{{data.displayName}}-label">{{data.displayName}}</span>'
 												}, {
 													field: '',
 													label: '',
 													cssTemplate: 'text-center',
 													sortData: false,
-													cellTemplate: '<scf-button id="{{ctrl.processType}}-layout-{{data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.newFileLayout(data ,ctrl.processType , ctrl.integrateType)" title="Config a file layout"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
-													'<scf-button id="{{ctrl.processType}}-layout-{{data.displayName}}-delete-button" class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.delete()" title="Delete a file layout"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+													cellTemplate: '<scf-button id="{{ctrl.processType}}-import-layout-{{data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.newFileLayout(data ,ctrl.processType , ctrl.integrateType)" title="Config a file layout"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
+													'<scf-button id="{{ctrl.processType}}-import-layout-{{data.displayName}}-delete-button" class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.delete()" title="Delete a file layout"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 												} ]
 									};
 							
