@@ -42,7 +42,8 @@ angular
 							
 							vm.config = function(data){
 								var params = {
-										organizeInfo: data
+										organizeInfo: data,
+										organizeId:vm.organizeId
 								};
 								PageNavigation.gotoPage('/sponsor-configuration/organize-logo/settings',params);
 							}

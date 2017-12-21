@@ -358,7 +358,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
 				params: { selectedItem: null, mode: 'all'}
 			}).state('/sponsor-configuration/organize-logo/settings',{
-				url: '/sponsor-configuration/organize-logo/settings',
+				url: '/sponsor-configuration/organize-logo/settings/:organizeId',
 				controller: 'OrganizeLogoSettingController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/organize-logo/settings',
