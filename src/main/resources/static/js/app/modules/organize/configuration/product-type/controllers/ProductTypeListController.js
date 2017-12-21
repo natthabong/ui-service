@@ -21,7 +21,7 @@ productTypeModule.controller('ProductTypeListController', [
 
 			vm.gotoListPage = function() {
 				var params = {
-					organizeId: $scope.sponsorId
+					organizeId: organizeId
 				};
 
 				PageNavigation.gotoPage('/customer-organize/product-types', params);
@@ -52,7 +52,8 @@ productTypeModule.controller('ProductTypeListController', [
 			}
 
 			vm.gotoPreviousPage = function() {
-				PageNavigation.gotoPreviousPage();
+				var params = {organizeId: organizeId};
+				PageNavigation.gotoPage("/sponsor-configuration",params);
 			}
 
 			vm.unauthenConfig = function() {

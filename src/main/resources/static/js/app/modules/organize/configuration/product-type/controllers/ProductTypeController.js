@@ -61,12 +61,18 @@ ptModule
 								return valid;
 							}
 							vm.cancel = function() {
-								PageNavigation.gotoPreviousPage(false);
+								var params = {
+										organizeId: vm.model.organizeId
+									};
+								PageNavigation.gotoPage('/customer-organize/product-types', params);
 							}
 							vm.save = function() {
 								if (_validate(vm.model)) {
 									var preCloseCallback = function(confirm) {
-										PageNavigation.gotoPreviousPage(false);
+										var params = {
+												organizeId: vm.model.organizeId
+											};
+										PageNavigation.gotoPage('/customer-organize/product-types', params);
 									}
 
 									UIFactory
