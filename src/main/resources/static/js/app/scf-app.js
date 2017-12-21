@@ -365,7 +365,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				params: { organizeInfo: null},
 				resolve: WebHelper.loadScript(['js/app/sponsor-configuration/organize-logo/organize-logo-setting-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/sponsor-configuration/workflow/setup',{
-				url: '/sponsor-configuration/workflow/setup',
+				url: '/sponsor-configuration/workflow/setup/:organizeId',
 				controller: 'SetupWorkflowController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/workflow/setup',
