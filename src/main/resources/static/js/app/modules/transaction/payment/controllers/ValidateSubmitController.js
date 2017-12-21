@@ -8,12 +8,18 @@ paymentModule.controller('ValidateSubmitController', [
     '$timeout',
     'SCFCommonService',
     'TransactionService',
-    function ($scope, $stateParams, UIFactory, PageNavigation,
-        PagingController, $timeout, SCFCommonService, TransactionService) {
+    '$filter',
+    function($scope, $stateParams, UIFactory, PageNavigation,
+        PagingController, $timeout, SCFCommonService, TransactionService, $filter) {
 
         var vm = this;
         vm.transactionModel = $stateParams.transactionModel;
         vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
+        var formatAccount = $stateParams.formatAccount;
+        console.log(formatAccount);
+        if (formatAccount) {
+            vm.transactionModel.payerAccountNo = $filter('accountNoDisplay')(vm.transactionModel.payerAccountNo);
+        }
 
         vm.isCreateTransWithInvoice = true;
         if (vm.tradingpartnerInfoModel.createTransactionType !== undefined && vm.tradingpartnerInfoModel.createTransactionType == 'WITHOUT_INVOICE') {
@@ -36,7 +42,7 @@ paymentModule.controller('ValidateSubmitController', [
             columns: []
         };
 
-        var addColumnForCreatePartial = function () {
+        var addColumnForCreatePartial = function() {
 
             var columnNetAmount = {
                 documentField: {
@@ -75,7 +81,7 @@ paymentModule.controller('ValidateSubmitController', [
                 idValueField: '$rowNo',
                 id: 'reasonCode-{value}-label',
                 fieldName: 'reasonCode',
-                dataRenderer: function (record) {
+                dataRenderer: function(record) {
                     return '<span id="reason-code-{{$parent.$index+1}}-value"><b>Reason code</b>&nbsp;&nbsp;' + record.reasonCode + ': ' + record.reasonCodeDisplay + '</span>';
                 },
                 component: true
@@ -84,9 +90,9 @@ paymentModule.controller('ValidateSubmitController', [
             vm.dataTable.expansion.columns.push(columnReasonCodeLabel);
         }
 
-        var loadDocumentDisplayConfig = function (ownerId) {
+        var loadDocumentDisplayConfig = function(ownerId) {
             var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT');
-            deffered.promise.then(function (response) {
+            deffered.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
                 vm.supportPartial = response.supportPartial;
                 if (vm.supportPartial) {
@@ -97,7 +103,7 @@ paymentModule.controller('ValidateSubmitController', [
             });
         }
 
-        var init = function () {
+        var init = function() {
             if (vm.isCreateTransWithInvoice) {
                 vm.pagingController.search();
                 loadDocumentDisplayConfig(vm.transactionModel.supplierId);
@@ -107,55 +113,55 @@ paymentModule.controller('ValidateSubmitController', [
             if (vm.transactionModel.transactionMethod != 'TERM_LOAN') {
                 vm.isLoanPayment = false;
             }
-        } ();
+        }();
 
         // <----------------------------- User Action ------------------------->
-        vm.searchDocument = function (pagingModel) {
+        vm.searchDocument = function(pagingModel) {
             vm.pagingController.search(pagingModel);
         }
 
-        vm.backToCreate = function () {
-            $timeout(function () {
+        vm.backToCreate = function() {
+            $timeout(function() {
                 PageNavigation.backStep();
             }, 10);
         };
 
-        vm.createNewAction = function () {
-            $timeout(function () {
+        vm.createNewAction = function() {
+            $timeout(function() {
                 PageNavigation.gotoPage('/my-organize/create-payment');
             }, 10);
         };
 
-        vm.viewRecent = function () {
-            $timeout(function () {
+        vm.viewRecent = function() {
+            $timeout(function() {
                 PageNavigation.gotoPage('/payment-transaction/view', { transactionModel: vm.transactionModel, isShowViewHistoryButton: true, viewMode: 'MY_ORGANIZE' });
             }, 10);
         };
 
-        vm.viewHistory = function () {
-            $timeout(function () {
+        vm.viewHistory = function() {
+            $timeout(function() {
                 PageNavigation.gotoPage('/my-organize/payment-transaction');
             }, 10);
         };
 
-        vm.homeAction = function () {
-            $timeout(function () {
+        vm.homeAction = function() {
+            $timeout(function() {
                 PageNavigation.gotoPage('/home');
             }, 10);
         };
 
-        vm.submitTransaction = function () {
+        vm.submitTransaction = function() {
             if (vm.isCreateTransWithInvoice) {
                 vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.transactionModel.transactionDate);
                 vm.transactionModel.maturityDate = SCFCommonService.convertStringTodate(vm.transactionModel.maturityDate);
 
-                vm.transactionModel.documents.forEach(function (document) {
-                	document.paymentAmount = document.calculatedPaymentAmount;
+                vm.transactionModel.documents.forEach(function(document) {
+                    document.paymentAmount = document.calculatedPaymentAmount;
                     document.paymentDate = vm.transactionModel.transactionDate;
                 });
                 vm.transactionModel.createTransactionType = "WITH_INVOICE";
                 var deffered = TransactionService.submitTransaction(vm.transactionModel);
-                deffered.promise.then(function (response) {
+                deffered.promise.then(function(response) {
                     var storeAccount = vm.transactionModel.payerAccountNo;
                     vm.transactionModel = response.data;
                     if (storeAccount == 'LOAN') {
@@ -164,7 +170,7 @@ paymentModule.controller('ValidateSubmitController', [
                     vm.transactionNo = vm.transactionModel.transactionNo;
                     $scope.confirmPopup = false;
                     $scope.validateDataPopup = true;
-                }).catch(function (response) {
+                }).catch(function(response) {
                     $scope.submitFailPopup = true;
                     vm.errorMsgPopup = response.data.errorCode;
                 });
@@ -172,7 +178,7 @@ paymentModule.controller('ValidateSubmitController', [
                 vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.transactionModel.transactionDate);
                 vm.transactionModel.maturityDate = SCFCommonService.convertStringTodate(vm.transactionModel.maturityDate);
 
-                vm.transactionModel.documents.forEach(function (document) {
+                vm.transactionModel.documents.forEach(function(document) {
                     document.documentId = null;
                     document.documentNo = document.documentNo;
                     document.documentType = null;
@@ -182,7 +188,7 @@ paymentModule.controller('ValidateSubmitController', [
                 });
                 vm.transactionModel.createTransactionType = "WITHOUT_INVOICE";
                 var deffered = TransactionService.submitTransaction(vm.transactionModel);
-                deffered.promise.then(function (response) {
+                deffered.promise.then(function(response) {
                     var storeAccount = vm.transactionModel.payerAccountNo;
                     vm.transactionModel = response.data;
                     if (storeAccount == 'LOAN') {
@@ -191,7 +197,7 @@ paymentModule.controller('ValidateSubmitController', [
                     vm.transactionNo = vm.transactionModel.transactionNo;
                     $scope.confirmPopup = false;
                     $scope.validateDataPopup = true;
-                }).catch(function (response) {
+                }).catch(function(response) {
                     $scope.submitFailPopup = true;
                     vm.errorMsgPopup = response.data.errorCode;
                 });

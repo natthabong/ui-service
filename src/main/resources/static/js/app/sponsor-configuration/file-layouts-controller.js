@@ -42,7 +42,7 @@ angular
 							} ];
 							
 							vm.newFileLayout = function(data, processType, integrateType){		
-								var params = {fileLayoutModel: data, processType:processType, integrateType: integrateType};
+								var params = {fileLayoutModel: data, processType:processType, integrateType: integrateType, organizeId:$stateParams.organizeId};
 								PageNavigation.gotoPage('/sponsor-configuration/file-layouts/new-file-layout',params);
 							}
 							
@@ -111,7 +111,7 @@ angular
 							}
 							
 							function callService(processType, integrateType){
-								var sponsorId = $scope.sponsorId;
+								var sponsorId = $stateParams.organizeId;
 								
 								var offset = 0;
 								if(vm.pageModel.currentPage>0){

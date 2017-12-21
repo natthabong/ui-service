@@ -28,7 +28,7 @@ angular.module('gecscf.transaction', [ 'ui.router', 'gecscf.ui', 'gecscf.organiz
 				controller: 'ValidateSubmitController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment/validate-submit',
-                params: {transactionModel: null, tradingpartnerInfoModel: null},
+                params: {transactionModel: null, tradingpartnerInfoModel: null, formatAccount: null},
 				resolve: WebHelper.loadScript(requiredModules)
 			}).state('/my-organize/payment-transaction', {
 				url: '/my-organize/payment-transaction',

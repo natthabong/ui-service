@@ -288,7 +288,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/mapping-data/controllers/MappingDataCodeController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])	
 					
 			}).state('/sponsor-configuration/file-layouts/new-file-layout',{
-				url: '/sponsor-configuration/file-layouts/new-file-layout',
+				url: '/sponsor-configuration/file-layouts/new-file-layout/:organizeId',
 				controller: 'FileLayoutController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/file-layouts/new-file-layout',
@@ -500,7 +500,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 								'js/app/common/scf-component.js',
 								'js/app/common/scf-component.css'])
 			}).state('/customer-organize/supplier-code-list',{
-				url: '/customer-organize/supplier-code-list',
+				url: '/customer-organize/supplier-code-list/:organizeId/:accountingTransactionType',
 				controller: 'CustomerCodeGroupSettingController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/customer-code-groups/supplier-code-list/settings',
@@ -511,7 +511,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 								'js/app/common/scf-component.js',
 								'js/app/common/scf-component.css'])
 			}).state('/customer-organize/buyer-code-list',{
-				url: '/customer-organize/buyer-code-list',
+				url: '/customer-organize/buyer-code-list/:organizeId/:accountingTransactionType',
 				controller: 'CustomerCodeGroupSettingController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/customer-code-groups/buyer-code-list/settings',

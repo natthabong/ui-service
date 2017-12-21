@@ -104,7 +104,8 @@ scfApp.controller(
 
 			vm.config = function(customerCodeGroup, accountingTransactionType) {
 				var params = {
-					organizeId : $scope.sponsorId
+					organizeId: $stateParams.organizeId,
+					accountingTransactionType: accountingTransactionType
 				};
 				
 				if(accountingTransactionType == 'PAYABLE'){

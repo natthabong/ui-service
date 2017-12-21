@@ -29,7 +29,8 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 	vm.statusDropdown = CustomerCodeStatus;
 
 	vm.backToSponsorConfigPage = function() {
-		PageNavigation.gotoPreviousPage();
+		var params = {organizeId: ownerId};
+		PageNavigation.gotoPage("/sponsor-configuration",params);
 	}
 
 	var customerCodeName = "Supplier";

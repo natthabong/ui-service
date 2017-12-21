@@ -21,10 +21,14 @@ module.controller('FileLayoutController', [
 
 		vm.manageAll = false;
 		vm.newMode = true;
-		var ownerId = $rootScope.sponsorId;
+		var ownerId = $stateParams.organizeId;
 
 		vm.processType = $stateParams.processType;
 		vm.integrateType = $stateParams.integrateType;
+		if($stateParams.fileLayoutModel == null || angular.isUndefined($stateParams.fileLayoutModel)){
+			var params = {organizeId: ownerId};
+			PageNavigation.gotoPage("/sponsor-configuration",params);
+		}
 		vm.model = $stateParams.fileLayoutModel || {
 			ownerId: ownerId,
 			paymentDateConfig: vm.processType == 'AP_DOCUMENT' ? {
@@ -117,7 +121,8 @@ module.controller('FileLayoutController', [
 		vm.footerItems = [];
 
 		vm.backToSponsorConfigPage = function () {
-			PageNavigation.gotoPreviousPage();
+			var params = {organizeId: ownerId};
+			PageNavigation.gotoPage("/sponsor-configuration",params);
 		}
 
 		var dateTimeFieldIds = [];
