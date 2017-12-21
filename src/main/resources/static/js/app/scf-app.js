@@ -239,7 +239,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'SponsorConfigController',
 				controllerAs: 'sponsorConfigCtrl',
 				templateUrl: '/sponsor-configuration',
-				params: {organizeModel: null, fileLayoutModel: null},
+				params: {organizeModel: null, fileLayoutModel: null, organizeId: null},
 				resolve: WebHelper.loadScript(['js/app/sponsor-configuration/sponsor-config-controller.js', 
 							   'js/app/sponsor-configuration/profile-controller.js', 
 							   'js/app/sponsor-configuration/workflow/controllers/workflow-controller.js',

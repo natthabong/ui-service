@@ -62,9 +62,13 @@ angular
 							
 							vm.editChannel = function(data) {
 								var params = {
-						            	selectedItem: data
+						            	channelId: data.channelId,
+						            	organizeId: data.organizeId,
+						            	processType: data.processType
 						            };
-						        PageNavigation.gotoPage('/customer-organize/import-channels/config', params);
+						        PageNavigation.gotoPage('/customer-organize/import-channels/config', params, {
+						        	organizeId:  data.organizeId
+						        });
 							}
 							
 							vm.testConnection = function(data){
