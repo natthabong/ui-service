@@ -57,7 +57,8 @@ angular
 				}
 				
 				vm.backToSponsorConfigPage = function() {
-					PageNavigation.gotoPreviousPage();
+					var params = {organizeId: sponsorId};
+					PageNavigation.gotoPage("/sponsor-configuration",params);
 				}
 				
 				var reader = new FileReader();
