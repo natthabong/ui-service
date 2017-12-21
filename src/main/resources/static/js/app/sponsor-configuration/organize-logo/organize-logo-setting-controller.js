@@ -31,6 +31,10 @@ angular
 				var sponsorId = $stateParams.organizeId;
 				
 				vm.organizeInfo = $stateParams.organizeInfo;
+				if(vm.organizeInfo == null || angular.isUndefined(vm.organizeInfo)){
+					var params = {organizeId: sponsorId};
+					PageNavigation.gotoPage("/sponsor-configuration",params);
+				}
 				var organizeId = vm.organizeInfo.organizeId;
 		
 				vm.uploadModel = {
