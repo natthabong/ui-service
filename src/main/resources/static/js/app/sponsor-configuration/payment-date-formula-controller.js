@@ -18,7 +18,7 @@ var app = angular.module('scfApp');
 							vm.viewAllConfig=false;
 							vm.manageAllConfig=false;
 							
-							vm.sponsorId = $scope.sponsorId;
+							vm.sponsorId = $stateParams.organizeId;
 							
 							vm.pageModel = {
 								pageSizeSelectModel : '20',
@@ -72,12 +72,15 @@ var app = angular.module('scfApp');
 							vm.data = []
 							
 							vm.config = function(data){		
-								var params = {paymentDateFormulaModel: data};
+								var params = {
+										paymentDateFormulaModel: data,
+										organizeId: vm.sponsorId		
+								};
 								PageNavigation.gotoPage('/sponsor-configuration/payment-date-formulas/settings',params);
 							}
 							
 							vm.search = function(){
-								var serviceUrl = '/api/v1/organize-customers/'+$scope.sponsorId+'/processTypes/AP_DOCUMENT/payment-date-formulas';
+								var serviceUrl = '/api/v1/organize-customers/'+$stateParams.organizeId+'/processTypes/AP_DOCUMENT/payment-date-formulas';
 								var serviceDiferred = Service.doGet(serviceUrl, {
 									limit:  vm.pageModel.pageSizeSelectModel,
 									offset: vm.pageModel.currentPage

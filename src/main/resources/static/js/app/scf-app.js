@@ -345,7 +345,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						'js/app/modules/organize/configuration/export-payment/controllers/SummaryExportLayoutConfigController.js'
 					])
 			}).state('/sponsor-configuration/payment-date-formulas/settings',{
-				url: '/sponsor-configuration/payment-date-formulas/settings',
+				url: '/sponsor-configuration/payment-date-formulas/settings/:organizeId',
 				controller: 'PaymentDateFormulaSettingController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/payment-date-formulas/settings',
