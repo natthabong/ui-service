@@ -47,7 +47,8 @@ mappingDataModule.controller('MappingDataCodeController', [
 		} ]
         
         vm.cancel = function(){
-        	PageNavigation.gotoPreviousPage(false);
+        	var params = {organizeId: $stateParams.organizeId};
+			PageNavigation.gotoPage("/sponsor-configuration",params);
         }
         
         var _save = function(){
@@ -69,7 +70,8 @@ mappingDataModule.controller('MappingDataCodeController', [
         
         vm.save = function(){
         	var preCloseCallback = function(confirm) {
-				PageNavigation.gotoPreviousPage(false);
+        		var params = {organizeId: $stateParams.organizeId};
+    			PageNavigation.gotoPage("/sponsor-configuration",params);
 			}
         	
         	if(_validate(vm.mappingDataItemModel)){
