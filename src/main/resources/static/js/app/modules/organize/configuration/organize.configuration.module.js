@@ -43,7 +43,7 @@ angular.module('gecscf.organize.configuration', [
 		var showCreateImportLayoutDialog = function(data, callback) {
 			UIFactory.showDialog({
 				preCloseCallback: callback,
-				templateUrl: '/js/app/modules/organize/configuration/mapping-data/templates/dialog-new-import-layout-data.html',
+				templateUrl: '/js/app/modules/organize/configuration/file-layout/templates/dialog-new-import-layout-data.html',
 				controller: 'ImportLayoutNewPopupController',
 				data: data
 			});

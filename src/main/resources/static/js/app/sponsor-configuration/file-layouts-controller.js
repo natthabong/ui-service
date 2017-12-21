@@ -11,8 +11,9 @@ angular
 						'$timeout',
 						'PageNavigation',
 						'Service',
+						'ConfigurationUtils',
 						function($log, $scope, $state, SCFCommonService, $stateParams, $timeout,
-								PageNavigation, Service) {
+								PageNavigation, Service , ConfigurationUtils) {
 							var vm = this;
 							vm.splitePageTxt = '';
 							var log = $log;
@@ -44,6 +45,18 @@ angular
 								var params = {fileLayoutModel: data, processType:processType, integrateType: integrateType};
 								PageNavigation.gotoPage('/sponsor-configuration/file-layouts/new-file-layout',params);
 							}
+							
+							vm.newARFileLayout = function(data, processType, integrateType){		
+								ConfigurationUtils.showCreateImportLayoutDialog({
+									data : { 
+										showAll: true
+									}, preCloseCallback : function() {
+										callback();
+									}
+								});
+							}
+							
+							
 							
 							vm.decodeBase64 = function(data){
 								if(angular.isUndefined(data)){
