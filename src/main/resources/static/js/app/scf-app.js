@@ -325,7 +325,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/components/setup-display-fields'
 			})
 			.state('/sponsor-configuration/export-payments/settings',{
-				url: '/sponsor-configuration/export-payments/settings',
+				url: '/sponsor-configuration/export-payments/settings/:organizeId',
 				controller: 'ExportPaymentController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/export-payments/settings',

@@ -19,12 +19,7 @@ module.controller('ExportPaymentController', [
 
         // <----------------------- initial varible start --------------------->
         var vm = this;
-        var ownerId = $rootScope.sponsorId;
-
-        if(angular.isUndefined(ownerId)){
-            // back to main page
-            PageNavigation.gotoPage('/settings/organizes');
-        }
+        var ownerId = $stateParams.organizeId;
 
         vm.manageAll = false;
 
