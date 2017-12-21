@@ -157,7 +157,8 @@ tpModule.controller('EditMappingDataController', [
         }
 
         vm.back = function () {
-            PageNavigation.gotoPreviousPage(false);
+        	var params = {organizeId: $stateParams.organizeId};
+			PageNavigation.gotoPage("/sponsor-configuration",params);
         }
 
         vm.setDefaultCode = function (dataItem) {
@@ -172,7 +173,8 @@ tpModule.controller('EditMappingDataController', [
 
         vm.newMappingDataCode = function () {
             var params = {
-                mappingData: model
+                mappingData: model,
+                organizeId: $stateParams.organizeId
             };
 
             PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/new', params, { mappingData: model });
@@ -187,7 +189,8 @@ tpModule.controller('EditMappingDataController', [
 
             var params = {
                 mappingData: model,
-                mappingDataItem: data
+                mappingDataItem: data,
+                organizeId: $stateParams.organizeId
             };
 
             PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/edit', params, { mappingData: model });

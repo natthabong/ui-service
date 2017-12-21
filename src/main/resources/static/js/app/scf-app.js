@@ -239,7 +239,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'SponsorConfigController',
 				controllerAs: 'sponsorConfigCtrl',
 				templateUrl: '/sponsor-configuration',
-				params: {organizeModel: null, fileLayoutModel: null},
+				params: {organizeModel: null, fileLayoutModel: null, organizeId: null},
 				resolve: WebHelper.loadScript(['js/app/sponsor-configuration/sponsor-config-controller.js', 
 							   'js/app/sponsor-configuration/profile-controller.js', 
 							   'js/app/sponsor-configuration/workflow/controllers/workflow-controller.js',
@@ -266,21 +266,21 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							   'js/app/modules/organize/configuration/import-channels/services/ImportChannelService.js'
 							   ])
 			}).state('/sponsor-configuration/mapping-data/edit',{
-				url: '/sponsor-configuration/mapping-data/edit',
+				url: '/sponsor-configuration/mapping-data/edit/:organizeId',
 				controller: 'EditMappingDataController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/mapping-data/edit',
 				params: { mappingData: null, backAction: null},
 				resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/mapping-data/controllers/EditMappingDataController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/sponsor-configuration/mapping-data/code/new',{
-				url: '/sponsor-configuration/mapping-data/code/new',
+				url: '/sponsor-configuration/mapping-data/code/new/:organizeId',
 				controller: 'MappingDataCodeController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/mapping-data/code/new',
 				params: { mappingData: null, mode: "newCode", mappingDataItem: null},
 				resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/mapping-data/controllers/MappingDataCodeController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])	
 			}).state('/sponsor-configuration/mapping-data/code/edit',{
-				url: '/sponsor-configuration/mapping-data/code/edit',
+				url: '/sponsor-configuration/mapping-data/code/edit/:organizeId',
 				controller: 'MappingDataCodeController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/mapping-data/code/new',

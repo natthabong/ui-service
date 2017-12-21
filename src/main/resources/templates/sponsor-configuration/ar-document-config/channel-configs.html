@@ -34,19 +34,19 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="record in ctrl.data track by $index">
-								<td class="text-left"><span
+								<td class="text-center"><span
 									id="channel-{{record.channelId}}-{{record.organizeId}}-label"
 									ng-bind="record.channelType"></span></td>
 								<td class="text-left"><span
 									id="import-file-layout-{{record.channelId}}-{{record.organizeId}}-label"
 									ng-bind="record.sponsorLayoutConfig.displayName"></span></td>
-								<td class="text-left"><span
+								<td class="text-center"><span
 									id="status-{{record.channelId}}-{{record.organizeId}}-label"
-									ng-bind="record.status"></span></td>
-								<td class="text-left"><span
+									ng-bind="record.status | translate"></span></td>
+								<td class="text-center"><span
 									id="active-date-{{record.channelId}}-{{record.organizeId}}-label"
 									ng-bind="record.activeDate | date: 'dd/MM/yyyy'"></span></td>
-								<td class="text-left"><span
+								<td class="text-center"><span
 									id="expire-date-{{record.channelId}}-{{record.organizeId}}-label"
 									ng-bind="record.expiryDate | date: 'dd/MM/yyyy'"></span></td>
 								<td class="text-center">

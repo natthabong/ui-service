@@ -43,7 +43,7 @@ tpModule
 										} ]
 							}
 
-							var ownerId = $scope.sponsorId;
+							var ownerId = $stateParams.organizeId;
 							var _criteria = {};
 
 							var loadData = function() {
@@ -52,7 +52,8 @@ tpModule
 
 							vm.edit = function(data) {
 								var params = {
-									mappingData : data
+									mappingData : data,
+									organizeId : ownerId
 								};
 								PageNavigation
 										.gotoPage(
