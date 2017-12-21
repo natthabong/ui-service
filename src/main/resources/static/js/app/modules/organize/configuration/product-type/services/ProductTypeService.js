@@ -50,7 +50,19 @@ angular.module('gecscf.organize.configuration.productType').service(
 	     		return deferred;
 			}
 			
-			
+			this.getProductTypes = function(organizeId, criteria){
+			    var deferred = $q.defer();
+	     		$http({
+	     			method : 'GET',
+	     			url : '/api/v1/organize-customers/' + organizeId +'/product-types',
+	     			params: criteria
+	     		}).then(function(response) {
+	     			return deferred.resolve(response);
+	     		}).catch(function(response) {
+	     			return deferred.reject(response);
+	     		});
+	     		return deferred;
+			}
 			
 			
 		} ]);

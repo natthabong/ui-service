@@ -1,7 +1,57 @@
 'use strict';
 
-angular.module('gecscf.transaction', [ 'ui.router', 'gecscf.ui' ]).config(
+angular.module('gecscf.transaction', [ 'ui.router', 'gecscf.ui', 'gecscf.organize.configuration' ]).config(
 		[ '$stateProvider', function($stateProvider) {
+			var requiredModules = ['js/app/modules/transaction/services/TransactionService.js',
+				'js/app/modules/transaction/payment/controllers/CreatePaymentController.js', 
+				'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js', 
+				'js/app/modules/organize/configuration/product-type/services/ProductTypeService.js',
+				'js/app/modules/transaction/payment/reason-code/controllers/SelectReasonCodePopupController.js',
+				'js/app/modules/transaction/payment/controllers/ValidateSubmitController.js'];
+			
+			$stateProvider.state('/my-organize/create-payment', {
+				url: '/my-organize/create-payment',
+				controller: 'CreatePaymentController',
+				controllerAs: 'ctrl',				
+				templateUrl: '/payment/create',
+				params: {transactionModel: null, tradingpartnerInfoModel: null, criteria: null, supplierModel: null, documentSelects: null, backAction: false, dashboardParams: null, showBackButton: false},
+				resolve: WebHelper.loadScript(requiredModules)
+			}).state('/my-organize/create-payment-woip', {
+				url: '/my-organize/create-payment-woip/:accountingTransactionType/:supplierId/:buyerId',
+				controller: 'CreatePaymentWithoutInvoiceController',
+				controllerAs: 'ctrl',				
+				templateUrl: '/payment/create-woip',
+				params: {transactionModel: null, tradingpartnerInfoModel: null, criteria: null, supplierModel: null, backAction: false , documents: null},
+				resolve: WebHelper.loadScript(['js/app/modules/transaction/services/TransactionService.js','js/app/modules/transaction/payment/controllers/CreatePaymentWithoutInvoiceController.js'])
+			}).state('/create-payment/validate-submit', {
+				url: '/create-payment/validate-submit',
+				controller: 'ValidateSubmitController',
+				controllerAs: 'ctrl',				
+				templateUrl: '/payment/validate-submit',
+                params: {transactionModel: null, tradingpartnerInfoModel: null},
+				resolve: WebHelper.loadScript(requiredModules)
+			}).state('/my-organize/payment-transaction', {
+				url: '/my-organize/payment-transaction',
+				controller: 'PaymentTransactionController',
+				controllerAs: 'ctrl',				
+				templateUrl: '/payment-transaction/my',
+                params: {viewMode:'MY_ORGANIZE',transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
+				resolve: WebHelper.loadScript(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js','js/app/modules/transaction/services/TransactionService.js'])
+			}).state('/partner-organize/payment-transaction', {
+				url: '/partner-organize/payment-transaction',
+				controller: 'PaymentTransactionController',
+				controllerAs: 'ctrl',				
+				templateUrl: '/payment-transaction/partner',
+                params: {viewMode:'PARTNER',transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
+				resolve: WebHelper.loadScript(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js','js/app/modules/transaction/services/TransactionService.js'])
+			}).state('/customer-organize/payment-transaction', {
+				url: '/customer-organize/payment-transaction',
+				controller: 'PaymentTransactionController',
+				controllerAs: 'ctrl',				
+				templateUrl: '/payment-transaction/all',
+                params: {viewMode: 'CUSTOMER', transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
+				resolve: WebHelper.loadScript(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js','js/app/modules/transaction/services/TransactionService.js'])
+			})
 			
 		} ]).filter('accountNoDisplay', function() {
 		    return function(accountNo) {
