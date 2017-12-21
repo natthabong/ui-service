@@ -22,18 +22,19 @@ displayModule.controller('DisplayController', [
     'DisplayService',
     'MappingDataService',
     'ConfigurationUtils',
+    'scfFactory',
     function ($log, $scope, $state, SCFCommonService,
         $stateParams, $timeout, ngDialog,
         PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService,
         LOAN_REQUEST_MODE_ITEM, DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM,
-        UIFactory, blockUI, DisplayService, MappingDataService, ConfigurationUtils) {
+        UIFactory, blockUI, DisplayService, MappingDataService, ConfigurationUtils, scfFactory) {
 
         var vm = this;
         var log = $log;
 
         vm.manageAll = false;
 
-        var ownerId = $rootScope.sponsorId;
+        var ownerId = $stateParams.organizeId;
         vm.accountingTransactionType = $stateParams.accountingTransactionType;
         var displayMode = $stateParams.displayMode;
 
@@ -102,7 +103,7 @@ displayModule.controller('DisplayController', [
                     displayNegativeDocument: null,
                     reasonCodeMappingId: null,
                     supportPartial: false,
-                    supportSpecialDebit : null
+                    supportSpecialDebit: null
                 };
 
 
@@ -200,8 +201,8 @@ displayModule.controller('DisplayController', [
                 log.error('Load data type error');
             });
         }
-        
-        
+
+
         var init = function () {
             loadDataTypes();
             loadDocumentCondition();
@@ -280,15 +281,15 @@ displayModule.controller('DisplayController', [
             });
 
         }
-        
-        vm.clearSelectMappingData = function(){
-            if(!vm.dataModel.supportPartial){
+
+        vm.clearSelectMappingData = function () {
+            if (!vm.dataModel.supportPartial) {
                 vm.dataModel.reasonCodeMappingId = null;
             }
         }
 
         vm.newMapping = function () {
-        	ConfigurationUtils.showCreateMappingDataDialog({
+            ConfigurationUtils.showCreateMappingDataDialog({
                 data: {
                     ownerId: ownerId,
                     accountingTransactionType: vm.accountingTransactionType,
@@ -320,9 +321,11 @@ displayModule.controller('DisplayController', [
         }
 
         vm.backToSponsorConfigPage = function () {
-            PageNavigation.gotoPreviousPage();
+            PageNavigation.gotoPage('/sponsor-configuration', {
+                organizeId: ownerId
+            });
         }
-        
+
 
         vm.save = function () {
             var preCloseCallback = function () {
@@ -342,8 +345,8 @@ displayModule.controller('DisplayController', [
                         409: 'Display document has been deleted.',
                         405: 'Display document has been used.'
                     };
-                    if(response.status==404){
-                    	vm.isNotTradeFinance = true;
+                    if (response.status == 404) {
+                        vm.isNotTradeFinance = true;
                     }
                     UIFactory.showFailDialog({
                         data: {
@@ -351,11 +354,11 @@ displayModule.controller('DisplayController', [
                             bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
                         },
                         preCloseCallback: function () {
-                            if(response.status!=404){
-                            	vm.backToSponsorConfigPage();
-                            }else{
-                            	vm.isNotTradeFinance = true;
-                            	vm.dataModel.supportSpecialDebit = false;
+                            if (response.status != 404) {
+                                vm.backToSponsorConfigPage();
+                            } else {
+                                vm.isNotTradeFinance = true;
+                                vm.dataModel.supportSpecialDebit = false;
                             }
                         }
                     });
@@ -374,14 +377,14 @@ displayModule.controller('DisplayController', [
                 }
             });
         }
-        	
-            $scope.errors = {};
-			    $scope.errors.isNotTradeFinance = {
-				message : 'Please setup trade finance before creating special direct debit.'
-			    }
-  
-        
-        
+
+        $scope.errors = {};
+        $scope.errors.isNotTradeFinance = {
+            message: 'Please setup trade finance before creating special direct debit.'
+        }
+
+
+
         $scope.confirmSave = function () {
             if (vm.dataModel.documentSelection == DOCUMENT_SELECTION_ITEM.groupBy) {
                 if (vm.accountingTransactionType == "RECEIVABLE") {
@@ -471,7 +474,6 @@ displayModule.controller('DisplayController', [
             });
             return msg;
         };
-
         // <------------------------------------------ User Action ------------------------------------------->
     }
 
@@ -740,4 +742,6 @@ displayModule.controller('DisplayController', [
         }
         return SCFCommonService.replacementStringFormat(displayMessage, replacements);
     }
-}]);
+
+}
+]);

@@ -304,7 +304,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					'js/app/modules/organize/configuration/file-layout/services/FileLayerExampleDisplayService.js',
 					'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/sponsor-configuration/document-display/settings',{
-				url: '/sponsor-configuration/document-display/settings',
+				url: '/sponsor-configuration/document-display/settings/:organizeId/:accountingTransactionType/:displayMode',
 				controller: 'DisplayController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/document-display/settings',
@@ -312,7 +312,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/display/controllers/DisplayController.js',
 					'js/app/modules/organize/configuration/display/services/DisplayService.js'])
 			}).state('/sponsor-configuration/create-transaction-displays/settings',{
-				url: '/sponsor-configuration/create-transaction-displays/settings',
+				url: '/sponsor-configuration/create-transaction-displays/settings/:organizeId/:accountingTransactionType/:displayMode',
 				controller: 'DisplayController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/create-transaction-displays/settings',
