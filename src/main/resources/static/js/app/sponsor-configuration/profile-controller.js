@@ -20,14 +20,14 @@ angular
 							vm.viewAllConfig = false;
 							vm.completed = false;
 							
-						    if($stateParams.organizeModel != null){
-						    	vm.organizeModel = $stateParams.organizeModel;	
+						    if($stateParams.organizeId != null){
+						    	vm.organizeId = $stateParams.organizeId;	
 						    }else{
-						    	vm.organizeModel = $rootScope.organizeModel;
+						    	vm.organizeId = $rootScope.organizeId;
 						    }
 						    
 							vm.initLoad = function() {						
-								var serviceUrl = '/api/v1/organize-customers/'+vm.organizeModel.organizeId+'/profile';
+								var serviceUrl = '/api/v1/organize-customers/'+vm.organizeId+'/profile';
 								var serviceDiferred = Service.doGet(serviceUrl, {});		
 								serviceDiferred.promise.then(function(response){
 									vm.organizeData = response.data;
