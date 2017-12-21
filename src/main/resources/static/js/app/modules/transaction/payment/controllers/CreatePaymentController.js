@@ -1,7 +1,7 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService',
-    'PagingController', 'PageNavigation', '$filter', 'MappingDataService', 'UIFactory', '$window', 'scfFactory',
-    function ($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, UIFactory, $window, scfFactory) {
+    'PagingController', 'PageNavigation', '$filter', 'MappingDataService', 'ProductTypeService', 'UIFactory', '$window', 'scfFactory',
+    function ($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, ProductTypeService, UIFactory, $window, scfFactory) {
         //<-------------------------------------- declare variable ---------------------------------------->
         var vm = this;
         var log = $log;
@@ -30,6 +30,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	        var supportPartial = false;
 	        vm.reasonCodes = {};
 	        vm.temporalDocuments = [];
+	        
+	        vm.hasProductType = false;
 	
 	        var enterPageByBackAction = $stateParams.backAction || false;
 	        vm.criteria = $stateParams.criteria || {
@@ -211,6 +213,31 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	                vm.display = false;
 	            }
 	        }
+	        
+	        function _loadProducTypes(supplierId) {
+	        	var deffered = ProductTypeService.getProductTypes(supplierId);
+	            deffered.promise.then(function (response) {
+	            	 vm.productTypes = [];
+	            	 vm.hasProductType = false;
+	            	 var _productTypes = response.data;
+	            	 if (angular.isDefined(_productTypes)) {
+	            		 _productTypes.forEach(function (productType) {
+	                        var selectObj = {
+	                            label: productType.displayName,
+	                            value: productType.productType
+	                        }
+	                        vm.productTypes.push(selectObj);
+		                 });
+	            		 if(_productTypes.length>0){
+	            			vm.hasProductType = true;
+	 	            		if (!$stateParams.backAction) {
+	 	                        vm.criteria.productType = _productTypes[0].productType;
+	 	                    }
+	            		 }
+	            	  }
+	            })
+	        	 _loadDocumentDisplayConfig(supplierId);
+	        };
 	
 	        function _loadBuyerCodes(supplierId) {
 	            var deffered = TransactionService.getBuyerCodes(supplierId);
@@ -486,7 +513,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	            } else {
 	                vm.displayPaymentPage = true;
 	                _loadAccount(ownerId, vm.criteria.supplierId);
-	                _loadDocumentDisplayConfig(vm.criteria.supplierId);
+	                _loadProducTypes(vm.criteria.supplierId);
+	               
 	            }
 	        }
 	
