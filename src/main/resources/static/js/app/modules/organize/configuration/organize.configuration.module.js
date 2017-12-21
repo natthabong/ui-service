@@ -39,10 +39,20 @@ angular.module('gecscf.organize.configuration', [
 				data: data
 			});
 		}
+		
+		var showCreateImportLayoutDialog = function(data, callback) {
+			UIFactory.showDialog({
+				preCloseCallback: callback,
+				templateUrl: '/js/app/modules/organize/configuration/mapping-data/templates/dialog-new-import-layout-data.html',
+				controller: 'ImportLayoutNewPopupController',
+				data: data
+			});
+		}
 
 		return {
 			showCreateMappingDataDialog: showCreateMappingDataDialog,
-			showCreateImportChannelDialog: showCreateImportChannelDialog
+			showCreateImportChannelDialog: showCreateImportChannelDialog,
+			showCreateImportLayoutDialog: showCreateImportLayoutDialog
 		};
 	}]
 );
