@@ -5,7 +5,7 @@ angular.module('scfApp').controller(
 				var vm = this;
 			    var log = $log;
 			    
-			    if($stateParams.organizeId != null){
+			    if($stateParams.organizeModel != null){
 			    	$rootScope.organizeModel = $stateParams.organizeModel;
 			    }
 			    
