@@ -235,7 +235,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							  'js/app/dashboard/payment-journey/wait-for-approve.js',
 							  'js/app/dashboard/payment-journey/future-payment.js'])
 			}).state('/sponsor-configuration',{
-				url: '/sponsor-configuration',
+				url: '/sponsor-configuration/:organizeId',
 				controller: 'SponsorConfigController',
 				controllerAs: 'sponsorConfigCtrl',
 				templateUrl: '/sponsor-configuration',
@@ -304,7 +304,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					'js/app/modules/organize/configuration/file-layout/services/FileLayerExampleDisplayService.js',
 					'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/sponsor-configuration/document-display/settings',{
-				url: '/sponsor-configuration/document-display/settings',
+				url: '/sponsor-configuration/document-display/settings/:organizeId/:accountingTransactionType/:displayMode',
 				controller: 'DisplayController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/document-display/settings',
@@ -312,7 +312,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/display/controllers/DisplayController.js',
 					'js/app/modules/organize/configuration/display/services/DisplayService.js'])
 			}).state('/sponsor-configuration/create-transaction-displays/settings',{
-				url: '/sponsor-configuration/create-transaction-displays/settings',
+				url: '/sponsor-configuration/create-transaction-displays/settings/:organizeId/:accountingTransactionType/:displayMode',
 				controller: 'DisplayController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/create-transaction-displays/settings',
@@ -358,7 +358,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/sponsor-configuration/customer-code-groups/settings',
 				params: { selectedItem: null, mode: 'all'}
 			}).state('/sponsor-configuration/organize-logo/settings',{
-				url: '/sponsor-configuration/organize-logo/settings',
+				url: '/sponsor-configuration/organize-logo/settings/:organizeId',
 				controller: 'OrganizeLogoSettingController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/organize-logo/settings',
@@ -773,6 +773,13 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/download-payment-result/supplier',
 				params: {transaction: null},
 				resolve: WebHelper.loadScript(['js/app/modules/download-payment-result/services/DownloadPaymentResultService.js','js/app/modules/download-payment-result/controllers/DownloadPaymentResultController.js'])
+			}).state('/upload-document-error', {
+				url: '/upload-document-error',
+				controller: 'ErrorController',
+				controllerAs: 'ctrl',
+				templateUrl: '/upload-document-error',
+				params: { errorCode: null},
+				resolve: WebHelper.loadScript([ 'js/app/common/error-controller.js'])
 			}).state('/error', {
 				url: '/error',
 				controller: 'ErrorController',

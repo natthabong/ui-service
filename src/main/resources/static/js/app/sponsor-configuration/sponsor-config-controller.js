@@ -5,16 +5,16 @@ angular.module('scfApp').controller(
 				var vm = this;
 			    var log = $log;
 			    
-			    if($stateParams.organizeModel != null){
-			    	$rootScope.organizeModel = $stateParams.organizeModel;
-			    }
-			    
-			    vm.organizeModel = $rootScope.organizeModel;
-				if(angular.isUndefined(vm.organizeModel)){
-					PageNavigation.gotoPage('/settings/organizes');
-				}
-			    $scope.sponsorId = vm.organizeModel.organizeId;
-				$rootScope.sponsorId = vm.organizeModel.organizeId;
+//			    if($stateParams.organizeModel != null){
+//			    	$rootScope.organizeModel = $stateParams.organizeModel;
+//			    }
+//			    
+//			    vm.organizeModel = $rootScope.organizeModel;
+//				if(angular.isUndefined(vm.organizeModel)){
+//					PageNavigation.gotoPage('/settings/organizes');
+//				}
+//			    $scope.sponsorId = vm.organizeModel.organizeId;
+//				$rootScope.sponsorId = vm.organizeModel.organizeId;
 				
 				$scope.backAction = function() {
 					PageNavigation.gotoPreviousPage();

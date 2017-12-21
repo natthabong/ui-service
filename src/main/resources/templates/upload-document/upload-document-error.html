@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="errors/head :: headTag"></head>
+
+<body ng-app="scfError">
+
+	<div id="wrapper" ng-controller="ErrorController as ctrl">
+		<header th:replace="errors/header :: header"></header>
+
+		<div id="content" style="margin-top:12%;" th:fragment="content">
+			<div id="wrapper">
+				<div class="panel box-shadow-none content-header">
+					<div class="panel-body">
+						<div class="col-md-12">
+							<h3 id="error-message-label" class="animated fadeInLeft"
+								ng-bind="'Could not upload file because channel is inactive.'"></h3>
+							<p class="text-right">
+								<a class="btn btn-primary btn-lg" type="submit" id="ok-button"
+									href="javascript:history.go(-2)">OK</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/js/app/modules/errors/errors.module.js}"
+		src="../static/js/js/app/modules/errors/errors.module.js"></script>
+	<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+
+</html>

@@ -24,8 +24,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	}
 	
 	vm.sponsorConfig = function(data){
-		
-		var params = {organizeModel: data};
+		var params = {organizeId: data.organizeId};
 		PageNavigation.gotoPage('/sponsor-configuration', params, {criteria: _criteria, organize: vm.organize});
 	}
     

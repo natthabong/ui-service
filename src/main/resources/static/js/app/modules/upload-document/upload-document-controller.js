@@ -59,7 +59,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
             deffered.promise.then(function(response) {
                 vm.canUploadFile = true;
             }).catch(function(response) {
-                $state.go('/error', {
+                $state.go('/upload-document-error', {
                     errorCode: response.data.errorCode
                 });
             });

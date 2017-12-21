@@ -3,10 +3,11 @@ angular.module('scfApp').controller('DisplayConfigController', ['Service',
     '$scope',
     'PageNavigation',
     'SCFCommonService',
-    function(Service, $log, $scope, PageNavigation, SCFCommonService) {
+    '$stateParams',
+    function(Service, $log, $scope, PageNavigation, SCFCommonService,$stateParams) {
         var vm = this;
         var log = $log;
-
+        var organizeId = $stateParams.organizeId;
         vm.viewAllConfig=false;
 		vm.manageAllConfig=false;
 
@@ -21,7 +22,8 @@ angular.module('scfApp').controller('DisplayConfigController', ['Service',
         vm.setupDisplayDocument = function(type, mode) {
             var params = {
             	accountingTransactionType: type,
-            	displayMode: mode
+            	displayMode: mode,
+                organizeId: organizeId
             };
 
             if(mode == 'TRANSACTION_DOCUMENT'){
