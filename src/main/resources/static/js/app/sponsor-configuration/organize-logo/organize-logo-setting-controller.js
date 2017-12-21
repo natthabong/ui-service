@@ -28,8 +28,8 @@ angular
 				vm.manageAll=false;
 				vm.sponsorLogo = null;
 				
-				var sponsorId = $rootScope.sponsorId;
-		
+				var sponsorId = $stateParams.organizeId;
+				
 				vm.organizeInfo = $stateParams.organizeInfo;
 				var organizeId = vm.organizeInfo.organizeId;
 		

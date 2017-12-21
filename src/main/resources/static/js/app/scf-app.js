@@ -235,7 +235,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							  'js/app/dashboard/payment-journey/wait-for-approve.js',
 							  'js/app/dashboard/payment-journey/future-payment.js'])
 			}).state('/sponsor-configuration',{
-				url: '/sponsor-configuration',
+				url: '/sponsor-configuration/:organizeId',
 				controller: 'SponsorConfigController',
 				controllerAs: 'sponsorConfigCtrl',
 				templateUrl: '/sponsor-configuration',
