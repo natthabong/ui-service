@@ -21,6 +21,8 @@ tpModule
 								ownerId : data.ownerId,
 								accountingTransactionType : data.accountingTransactionType,
 								displayName: '',
+								fileType: 'FIXED_LENGTH',
+								charsetName: 'TIS-620',
 								processType: 'AR_DOCUMENT' ,
 								integrateType: 'IMPORT',
 								items: []
