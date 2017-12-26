@@ -108,6 +108,14 @@ sciModule.controller('RemittanceAdviceBankController', [
 			if (angular.isObject(vm.supplier)) {
 				supplierId = vm.supplier.organizeId;
 			}
+			
+			// Clear previous criteria
+			vm.criteria.effectiveDateFrom = undefined;
+			vm.criteria.effectiveDateTo = undefined;
+			vm.criteria.maturityDateFrom = undefined;
+			vm.criteria.maturityDateTo = undefined;
+			vm.criteria.remittanceDateFrom = undefined;
+			vm.criteria.remittanceDateTo = undefined;
 			if('effectiveDate' == vm.listRemittanceAdvice.dateType){
 				vm.criteria.effectiveDateFrom = vm.listRemittanceAdvice.dateFrom || undefined;
 				vm.criteria.effectiveDateTo = vm.listRemittanceAdvice.dateTo || undefined;
