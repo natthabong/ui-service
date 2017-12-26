@@ -108,8 +108,23 @@ raccModule.controller('RemittanceAdviceCustomerController', [
 			}
 	        vm.listRemittanceAdvice.dateFrom = dateFrom;
 	        vm.listRemittanceAdvice.dateTo = dateTo;
-	        
-	        // set criteria
+
+			// Clear previous criteria
+			vm.criteria.buyerId = buyerId;
+			vm.criteria.supplierId = supplierId;
+			vm.criteria.transactionNo = undefined;
+	        vm.criteria.borrowerType = undefined;
+			vm.criteria.effectiveDateFrom = undefined;
+			vm.criteria.effectiveDateTo = undefined;
+			vm.criteria.maturityDateFrom = undefined;
+			vm.criteria.maturityDateTo = undefined;
+			vm.criteria.remittanceDateFrom = undefined;
+			vm.criteria.remittanceDateTo = undefined;
+			vm.criteria.paidStatus = undefined;
+			vm.criteria.closeStatus = undefined;
+			vm.criteria.sort = undefined;
+
+	        // Set criteria
 			vm.criteria.borrowerType = vm.listRemittanceAdvice.remittanceOf;
 			
 			if (angular.isObject(vm.supplier)) {
@@ -121,14 +136,7 @@ raccModule.controller('RemittanceAdviceCustomerController', [
 				buyerId = vm.buyer.sponsorId;
 				supplierId = vm.buyer.supplierId;
 			}
-			
-			// Clear previous criteria
-			vm.criteria.effectiveDateFrom = undefined;
-			vm.criteria.effectiveDateTo = undefined;
-			vm.criteria.maturityDateFrom = undefined;
-			vm.criteria.maturityDateTo = undefined;
-			vm.criteria.remittanceDateFrom = undefined;
-			vm.criteria.remittanceDateTo = undefined;
+
 			if ('effectiveDate' == vm.listRemittanceAdvice.dateType) {
 				vm.criteria.effectiveDateFrom = vm.listRemittanceAdvice.dateFrom || undefined;
 				vm.criteria.effectiveDateTo = vm.listRemittanceAdvice.dateTo || undefined;
