@@ -15,6 +15,7 @@ raccModule.controller('RemittanceAdviceCustomerController', [
 	'scfFactory',
 	function ($log, $rootScope, $scope, $stateParams, UIFactory, PagingController, RemittanceAdviceCustomerService, SCFCommonService, $http, $q, blockUI, scfFactory) {
 		var vm = this;
+		vm.getUserInfoSuccess = false;
 		vm.buyer = $stateParams.buyer || null;
 		vm.supplier = $stateParams.supplier || null;
 		vm.criteria = $stateParams.criteria || {};
@@ -198,35 +199,42 @@ raccModule.controller('RemittanceAdviceCustomerController', [
 		}
 		
 		function initRemittanceOfDropdown() {
-			var deferred = RemittanceAdviceCustomerService.getBorrowerTypes($rootScope.userInfo.organizeId);
-			deferred.promise.then(function (response) {
-				var borrowerTypeList = response.data;
-				
-				vm.remittanceOfDropdown = [];
-
-				// Construct drop-down list
-				if (borrowerTypeList.indexOf('BUYER') > -1) {
-					vm.remittanceOfDropdown.push({label: 'Buyer', value: 'BUYER'});
-				}
-				if (borrowerTypeList.indexOf('SUPPLIER') > -1) {
-					vm.remittanceOfDropdown.push({label: 'Supplier', value: 'SUPPLIER'});
-				}
-				
-				// Set initial selected item in drop-down list
-				if (borrowerTypeList.indexOf('BUYER') > -1) {
-					vm.disableDropDown = false;
-					vm.listRemittanceAdvice.remittanceOf = 'BUYER';
-					vm.onSelectRemittance();
-				} else if (borrowerTypeList.indexOf('SUPPLIER') > -1) {
-					vm.disableDropDown = false;
-					vm.listRemittanceAdvice.remittanceOf = 'SUPPLIER';
-					vm.onSelectRemittance();
-				} else {
-					vm.disableDropDown = true;
-					vm.disableBuyerSearch = true;
-					vm.disableSupplierSearch = true;
-					return;
-				}
+			vm.getUserInfoSuccess = false;
+			var coverDeffered = scfFactory.getUserInfo();
+			coverDeffered.promise.then(function (response) {
+				vm.getUserInfoSuccess = true;
+				var deferred = RemittanceAdviceCustomerService.getBorrowerTypes($rootScope.userInfo.organizeId);
+				deferred.promise.then(function (response) {
+					var borrowerTypeList = response.data;
+					
+					vm.remittanceOfDropdown = [];
+	
+					// Construct drop-down list
+					if (borrowerTypeList.indexOf('BUYER') > -1) {
+						vm.remittanceOfDropdown.push({label: 'Buyer', value: 'BUYER'});
+					}
+					if (borrowerTypeList.indexOf('SUPPLIER') > -1) {
+						vm.remittanceOfDropdown.push({label: 'Supplier', value: 'SUPPLIER'});
+					}
+					
+					// Set initial selected item in drop-down list
+					if (borrowerTypeList.indexOf('BUYER') > -1) {
+						vm.disableDropDown = false;
+						vm.listRemittanceAdvice.remittanceOf = 'BUYER';
+						vm.onSelectRemittance();
+					} else if (borrowerTypeList.indexOf('SUPPLIER') > -1) {
+						vm.disableDropDown = false;
+						vm.listRemittanceAdvice.remittanceOf = 'SUPPLIER';
+						vm.onSelectRemittance();
+					} else {
+						vm.disableDropDown = true;
+						vm.disableBuyerSearch = true;
+						vm.disableSupplierSearch = true;
+						return;
+					}
+				}).catch(function (response) {
+					log.error('Fail to load borrower type.');
+				});
 			}).catch(function (response) {
 				log.error('Fail to load borrower type.');
 			});
