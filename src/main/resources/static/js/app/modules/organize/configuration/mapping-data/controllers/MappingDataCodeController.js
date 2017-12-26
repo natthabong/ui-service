@@ -47,8 +47,14 @@ mappingDataModule.controller('MappingDataCodeController', [
 		} ]
         
         vm.cancel = function(){
-        	var params = {organizeId: $stateParams.organizeId};
-			PageNavigation.gotoPage("/sponsor-configuration",params);
+        	var params = {
+					mappingData : $stateParams.mappingData,
+					organizeId : $stateParams.organizeId
+				};
+				PageNavigation
+						.gotoPage(
+								'/sponsor-configuration/mapping-data/edit',
+								params, {});
         }
         
         var _save = function(){
@@ -70,8 +76,14 @@ mappingDataModule.controller('MappingDataCodeController', [
         
         vm.save = function(){
         	var preCloseCallback = function(confirm) {
-        		var params = {organizeId: $stateParams.organizeId};
-    			PageNavigation.gotoPage("/sponsor-configuration",params);
+        		var params = {
+    					mappingData : $stateParams.mappingData,
+    					organizeId : $stateParams.organizeId
+    				};
+    				PageNavigation
+    						.gotoPage(
+    								'/sponsor-configuration/mapping-data/edit',
+    								params, {});
 			}
         	
         	if(_validate(vm.mappingDataItemModel)){

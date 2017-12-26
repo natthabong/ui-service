@@ -17,12 +17,14 @@ angular.module('scfApp').controller(
 //				$rootScope.sponsorId = vm.organizeModel.organizeId;
 				
 				$scope.backAction = function() {
-					PageNavigation.gotoPreviousPage();
+//					PageNavigation.gotoPreviousPage();
+					PageNavigation.gotoPage('/settings/organizes');
 			    }
 				
 			    function init(){
 					if(vm.organizeModel === null){
-						PageNavigation.gotoPreviousPage();
+						PageNavigation.gotoPage('/settings/organizes');
+//						PageNavigation.gotoPreviousPage();
 					}
 			    }
 			    init();
