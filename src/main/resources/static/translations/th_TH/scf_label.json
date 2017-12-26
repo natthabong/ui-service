@@ -184,6 +184,7 @@
 	"reject_by_approver": "Rejected by approver",
 	"cancelled_by_supplier": "Cancel by supplier",
 	"wait_for_drawdown_result": "Wait for drawdown result",
+	"expired": "Expired",
 	
 	"CANCELLED_BY_BANK" : "Cancelled by bank",
 	"CANCELLED_BY_SUPPLIER" : "Cancelled by supplier",
