@@ -109,8 +109,8 @@ raccModule.controller('RemittanceAdviceCustomerController', [
 	        vm.listRemittanceAdvice.dateTo = dateTo;
 
 			// Clear previous criteria
-			vm.criteria.buyerId = buyerId;
-			vm.criteria.supplierId = supplierId;
+			vm.criteria.buyerId = undefined;
+			vm.criteria.supplierId = undefined;
 			vm.criteria.transactionNo = undefined;
 	        vm.criteria.borrowerType = undefined;
 			vm.criteria.effectiveDateFrom = undefined;
