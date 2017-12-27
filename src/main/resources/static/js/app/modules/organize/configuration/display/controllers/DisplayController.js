@@ -42,8 +42,6 @@ displayModule.controller('DisplayController', [
         vm.accountingTransactionType = $stateParams.accountingTransactionType;
         var displayMode = $stateParams.displayMode;
 
-        var BASE_URI = 'api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + vm.accountingTransactionType + '/display-modes/' + displayMode + '/displays';
-
         var newDisplayConfig = function () {
             return {
                 documentFieldId: null,
