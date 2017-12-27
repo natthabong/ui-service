@@ -23,11 +23,15 @@ displayModule.controller('DisplayController', [
     'MappingDataService',
     'ConfigurationUtils',
     'scfFactory',
+    'OVERDUE_DROPDOWN_ITEM',
+    'PAYMENT_DATE_DROPDOWN_ITEM',
+    'GRACE_PERIOD_DROPDOWN_ITEM',
     function ($log, $scope, $state, SCFCommonService,
         $stateParams, $timeout, ngDialog,
         PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService,
         LOAN_REQUEST_MODE_ITEM, DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM,
-        UIFactory, blockUI, DisplayService, MappingDataService, ConfigurationUtils, scfFactory) {
+        UIFactory, blockUI, DisplayService, MappingDataService, ConfigurationUtils, scfFactory,
+        OVERDUE_DROPDOWN_ITEM, PAYMENT_DATE_DROPDOWN_ITEM, GRACE_PERIOD_DROPDOWN_ITEM) {
 
         var vm = this;
         var log = $log;
@@ -57,8 +61,21 @@ displayModule.controller('DisplayController', [
         vm.loanRequestMode = LOAN_REQUEST_MODE_ITEM;
         vm.documentSelection = DOCUMENT_SELECTION_ITEM;
         vm.supplierCodeSelectionMode = SUPPLIER_CODE_GROUP_SELECTION_ITEM;
+        vm.overdueDropDown = OVERDUE_DROPDOWN_ITEM;
+        vm.paymentDropDown = PAYMENT_DATE_DROPDOWN_ITEM;
+        vm.gracePeriodDropDown = GRACE_PERIOD_DROPDOWN_ITEM;
 
         vm.groupDocumentType = DOCUMENT_SELECTION_ITEM.allDocument;
+
+        vm.overdueRadioType = {
+            "UNLIMITED": "UNLIMITED",
+            "PERIOD": "PERIOD"
+        }
+
+        vm.productTypeDropDown = [{
+            label: 'Default',
+            value: 'DEFAULT'
+        }]
 
         vm.sortTypes = [{
             label: 'ASC',
@@ -69,7 +86,7 @@ displayModule.controller('DisplayController', [
         }, {
             label: '-',
             value: null
-        }]
+        }];
 
         vm.documentFields = [{
             value: null,
@@ -86,6 +103,8 @@ displayModule.controller('DisplayController', [
             value: null,
             label: 'Please select'
         }];
+
+        vm.overdueType = vm.overdueRadioType.UNLIMITED;
 
 
         var loadDisplayConfig = function (ownerId, accountingTransactionType, displayMode) {
@@ -105,6 +124,8 @@ displayModule.controller('DisplayController', [
                     supportPartial: false,
                     supportSpecialDebit: null
                 };
+
+                vm.dataModel.displayOverdue = vm.dataModel.displayOverdue ? "true" : "false";
 
 
                 // default grouping field 1 record if don't have data
@@ -320,10 +341,37 @@ displayModule.controller('DisplayController', [
             });
         }
 
+        vm.changeOverdue = function () {
+            if (vm.dataModel.displayOverdue == "false") {
+                vm.overdueType = vm.overdueRadioType.UNLIMITED
+                vm.dataModel.overDuePeriod = null;
+            }
+        }
+
+        vm.changeOverdueType = function () {
+            if (vm.overdueType == vm.overdueRadioType.UNLIMITED) {
+                vm.dataModel.overDuePeriod = null;
+            } else {
+                vm.dataModel.overDuePeriod = 1;
+            }
+        }
+
         vm.backToSponsorConfigPage = function () {
             PageNavigation.gotoPage('/sponsor-configuration', {
                 organizeId: ownerId
             });
+        }
+
+        var initialOverdue = function () {
+            if (vm.dataModel.displayOverdue == 'false') {
+                vm.dataModel.overDuePeriod = null;
+                vm.dataModel.displayOverdue = false;
+            } else if(vm.dataModel.displayOverdue == 'true'){
+                vm.dataModel.displayOverdue = true;
+                if (vm.overdueType == vm.overdueRadioType.UNLIMITED) {
+                    vm.dataModel.overDuePeriod = 0;
+                }
+            }
         }
 
 
@@ -386,6 +434,7 @@ displayModule.controller('DisplayController', [
 
 
         $scope.confirmSave = function () {
+            initialOverdue();
             if (vm.dataModel.documentSelection == DOCUMENT_SELECTION_ITEM.groupBy) {
                 if (vm.accountingTransactionType == "RECEIVABLE") {
                     vm.dataModel.documentSelection = vm.groupDocumentType;
@@ -397,7 +446,6 @@ displayModule.controller('DisplayController', [
             }
 
             vm.dataModel.completed = true;
-
             var dataSaveModel = jQuery.extend(true, {}, vm.dataModel);
             dataSaveModel.items.forEach(function (obj, index) {
                 if (obj.documentField != null) {
@@ -477,7 +525,25 @@ displayModule.controller('DisplayController', [
         // <------------------------------------------ User Action ------------------------------------------->
     }
 
-]).constant('ALIGNMENT_DROPDOWN_ITEM', [{
+]).constant('OVERDUE_DROPDOWN_ITEM', [{
+    label: 'Not display overdue invoice',
+    value: false
+}, {
+    label: 'Display overdue invoice',
+    value: true
+}]).constant('PAYMENT_DATE_DROPDOWN_ITEM', [{
+    label: 'Current date',
+    value: 'CURRENT'
+}, {
+    label: 'Current date - Min due date',
+    value: 'CURRENT_AND_FUTURE'
+}]).constant('GRACE_PERIOD_DROPDOWN_ITEM', [{
+    label: 'Not support invoice grace period',
+    value: false
+}, {
+    label: 'Support invoice grace period',
+    value: true
+}]).constant('ALIGNMENT_DROPDOWN_ITEM', [{
     label: 'Please select',
     value: null
 }, {
