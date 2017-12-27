@@ -110,7 +110,6 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            documentNo: '',
 	            documentStatus: undefined,
 	            accountingTransactionType: 'RECEIVABLE',
-	            showOverdue: true,
 	            viewMyOrganize: true
 	        }
 	

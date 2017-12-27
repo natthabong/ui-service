@@ -185,7 +185,6 @@ scfApp.controller('DocumentListController', ['$scope', 'Service', '$stateParams'
             documentNo: '',
             documentStatus: undefined,
             accountingTransactionType: 'PAYABLE',
-            showOverdue: true,
             viewMyOrganize: true
         }
 
