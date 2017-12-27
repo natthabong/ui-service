@@ -1091,47 +1091,49 @@
 				});
 
 				vm.$watch($attrs.componentConfig, function (dataConfig) {
-					var tableOption = dataConfig.options || {};
-
-					// Clear value begin add column;
-					vm.tableColumns = [];
-					var identityField = dataConfig.identityField || '$rowNo';
-					dataConfig.columns.forEach(function (data) {
-						if (data['hiddenColumn'] != true) {
+					if(!angular.isUndefined(dataConfig)){
+						var tableOption = dataConfig.options || {};
+	
+						// Clear value begin add column;
+						vm.tableColumns = [];
+						var identityField = dataConfig.identityField || '$rowNo';
+						dataConfig.columns.forEach(function (data) {
+							if (data['hiddenColumn'] != true) {
+								var rowData = {
+									fieldName: data['fieldName'],
+									labelEN: data['labelEN'] ? data['labelEN'] : data['label'],
+									labelTH: data['labelTH'] ? data['labelTH'] : data['label'],
+									cellTemplate: data['cellTemplate'],
+									sortable: data['sortable'] || false,
+									cssTemplateHeader: getCssConfigHeader(data),
+									cssTemplate: getCssConfig(data),
+									filterType: data['filterType'],
+									format: data['format'],
+									idValueField: identityField || data['idValueField'],
+									idTemplate: data.id || generateIdTemplate(data),
+									renderer: data['renderer'],
+									dataRenderer: data['dataRenderer'],
+									headerId: data['headerId']
+								};
+								vm.tableColumns.push(rowData);
+							}
+						});
+	
+						// Check option set to Show checkBox
+						if (tableOption.displaySelect !== undefined) {
 							var rowData = {
-								fieldName: data['fieldName'],
-								labelEN: data['labelEN'] ? data['labelEN'] : data['label'],
-								labelTH: data['labelTH'] ? data['labelTH'] : data['label'],
-								cellTemplate: data['cellTemplate'],
-								sortable: data['sortable'] || false,
-								cssTemplateHeader: getCssConfigHeader(data),
-								cssTemplate: getCssConfig(data),
-								filterType: data['filterType'],
-								format: data['format'],
-								idValueField: identityField || data['idValueField'],
-								idTemplate: data.id || generateIdTemplate(data),
-								renderer: data['renderer'],
-								dataRenderer: data['dataRenderer'],
-								headerId: data['headerId']
+								label: tableOption.displaySelect['label'],
+								fieldName: 'selectBox',
+								idTemplate: tableOption.displaySelect['id'],
+								cellTemplate: tableOption.displaySelect['cellTemplate'],
+								idValueField: tableOption.displaySelect['idValueField']
 							};
-							vm.tableColumns.push(rowData);
-						}
-					});
-
-					// Check option set to Show checkBox
-					if (tableOption.displaySelect !== undefined) {
-						var rowData = {
-							label: tableOption.displaySelect['label'],
-							fieldName: 'selectBox',
-							idTemplate: tableOption.displaySelect['id'],
-							cellTemplate: tableOption.displaySelect['cellTemplate'],
-							idValueField: tableOption.displaySelect['idValueField']
-						};
-
-						if (tableOption.displaySelect['displayPosition'] === 'first') {
-							vm.tableColumns.splice(0, 0, rowData);
-						} else {
-							vm.tableColumns.push(rowData);
+	
+							if (tableOption.displaySelect['displayPosition'] === 'first') {
+								vm.tableColumns.splice(0, 0, rowData);
+							} else {
+								vm.tableColumns.push(rowData);
+							}
 						}
 					}
 				}, true);

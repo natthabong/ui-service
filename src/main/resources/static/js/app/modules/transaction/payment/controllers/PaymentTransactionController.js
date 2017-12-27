@@ -6,18 +6,18 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	var vm = this;
 	var log = $log;
 	vm.getUserInfoSuccess = false;
+    vm.approve = false;
+    vm.verify = false;
+    vm.reject = false;
+    vm.canRetry = false;
+    vm.canView = false;
+    
     var defered = scfFactory.getUserInfo();
     defered.promise.then(function(response) {
         vm.getUserInfoSuccess = true;
 	    vm.openDateFrom = false;
 		vm.openDateTo = false;
-	
-	    vm.approve = false;
-	    vm.verify = false;
-	    vm.reject = false;
-	    vm.canRetry = false;
-	    vm.canView = false;
-	    
+		    
 	    vm.serverTime = '';
 	
 	    var viewMode = $stateParams.viewMode;
@@ -727,6 +727,9 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			var condition1 = vm.reject!= undefined && vm.reject == true;
 			var condition2 = data.statusCode == vm.statusDocuments.waitForPaymentResult
 			var condition3 = TransactionService.isAfterToday(data, vm.serverTime);
+			console.log(condition1);
+			console.log(condition2);
+			console.log(condition3);
 			if(condition1 && condition2 && condition3){
 				return false;
 			}else{

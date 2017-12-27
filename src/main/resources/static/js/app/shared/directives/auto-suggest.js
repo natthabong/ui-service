@@ -17,7 +17,7 @@ app.directive('gecAutoSuggest', [ function() {
 		},
 		link: function(scope, elements, attrs){			
 			elements.context.id="undefined";
-			if(angular.isUndefined(scope.model.itemTemplateUrl) || scope.model.itemTemplateUrl == null){
+			if(angular.isUndefined(scope.model) || angular.isUndefined(scope.model.itemTemplateUrl) || scope.model.itemTemplateUrl == null){
 				scope.model.itemTemplateUrl = 'uib/template/typeahead/typeahead-match.html';
 			}
 			

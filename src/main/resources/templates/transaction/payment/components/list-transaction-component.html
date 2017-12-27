@@ -1,30 +1,33 @@
-<div th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_PAYMENTS','VIEW_PAYMENTS_REFER_TO_MY_ORGANIZE','VIEW_PAYMENTS_OF_MY_ORGANIZE')">
-	<div id="wrapper">
-		<div class="row">
-			<div class="col-md-12 col-sm-12 text-right">
-				<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
-                    id="payment-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-                        dropdown-id="page-limit-dropdown" name="payment-transaction"
-                        page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-                        total-page="ctrl.pagingController.pagingModel.totalPage"
-                        current-page="ctrl.pagingController.pagingModel.currentPage"
-                        page-size-list="ctrl.pagingController.pageSizeList"
-                        page-action="ctrl.loadData"></scf-pagination>
-                </span>
+<div ng-if="ctrl.getUserInfoSuccess">
+	<div th:fragment="content"
+		sec:authorize="hasAnyAuthority('VIEW_ALL_PAYMENTS','VIEW_PAYMENTS_REFER_TO_MY_ORGANIZE','VIEW_PAYMENTS_OF_MY_ORGANIZE')">
+		<div id="wrapper">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 text-right">
+					<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
+						id="payment-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+							dropdown-id="page-limit-dropdown" name="payment-transaction"
+							page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+							total-page="ctrl.pagingController.pagingModel.totalPage"
+							current-page="ctrl.pagingController.pagingModel.currentPage"
+							page-size-list="ctrl.pagingController.pageSizeList"
+							page-action="ctrl.loadData"></scf-pagination>
+					</span>
+				</div>
 			</div>
-		</div>
-        
-		<!-- Start Table-->
-		<div class="row">
-			<div class="col-md-12">
-				<scf-table id="payment-transaction-table" 
-					component-config="ctrl.dataTable" 
-					component-datas="ctrl.pagingController.tableRowCollection"
-					current-page="ctrl.pagingController.pagingModel.currentPage" 
-					record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-					clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+
+			<!-- Start Table-->
+			<div class="row">
+				<div class="col-md-12">
+					<scf-table id="payment-transaction-table"
+						component-config="ctrl.dataTable"
+						component-datas="ctrl.pagingController.tableRowCollection"
+						current-page="ctrl.pagingController.pagingModel.currentPage"
+						record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+						clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+				</div>
+				<div id="fixed-bottom" class="col-md-12"></div>
 			</div>
-			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
 	</div>
 </div>
