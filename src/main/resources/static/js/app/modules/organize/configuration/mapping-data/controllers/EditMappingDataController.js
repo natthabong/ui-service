@@ -177,7 +177,7 @@ tpModule.controller('EditMappingDataController', [
                 organizeId: $stateParams.organizeId
             };
 
-            PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/new', params, { mappingData: model });
+            PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/new', params);
         }
 
         vm.editMappingDataCode = function (data) {
@@ -193,7 +193,7 @@ tpModule.controller('EditMappingDataController', [
                 organizeId: $stateParams.organizeId
             };
 
-            PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/edit', params, { mappingData: model });
+            PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/edit', params);
         }
 
     }

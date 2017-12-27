@@ -11,12 +11,6 @@
 		<div class="form-element">
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body">
-					<!--<div class="col-md-12" ng-show="ctrl.showErrorMsg">
-                        <div class="alert alert-danger" role="alert">
-                            <span id="message-alert-label" ng-bind="ctrl.errorMsgGroups | translate"></span>
-                        </div>
-                    </div>-->
-					<!-- Start Column Panel-->
 					<div class="col-md-12">
 						<form name="createForm" class="form-horizontal" autocomplete="off">
 
@@ -139,6 +133,12 @@
 									</div>
 									<label class="col-md-12 col-sm-12 col-lg-12 col-xs-12 control-label"></label>
 								</div>
+								<div class="form-horizontal">
+                                    <label class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"></label>
+                                    <div>
+                                        <span class="col-md-3 col-sm-3 col-xs-12 error-msg" ng-show="ctrl.accountNotSupportSpecialDirectDebit" id="account-no-not-support-special-direct-debit-error-message-label" ng-bind="'Account is not support special debit' | translate"></span>
+                                    </div>
+                                </div>
 								<div class="form-horizontal">
 									<label ng-show="ctrl.isLoanPayment" id="maturity-date-label" class="col-xs-2 col-sm-3 col-md-3 hidden-lg control-label"><b
 										ng-bind="'Maturity date' | translate">Maturity date</b>:</label>
