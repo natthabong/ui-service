@@ -6,11 +6,9 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	var log = $log;
 	
 	var _criteria = {};
-	console.log($stateParams.criteria);
     vm.criteria = $stateParams.criteria || {
     	organizeId: undefined
-	}   
-    console.log(vm.criteria);
+	}
     vm.organize =  $stateParams.organize || undefined;
     
 	vm.newOrganizeProfile = function(){

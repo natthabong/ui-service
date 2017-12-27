@@ -120,8 +120,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             vm.paymentDropDown = [];
             vm.transactionModel.documents = $scope.documents;
             vm.transactionModel.supplierId = vm.criteria.supplierId;
-            console.log(vm.transactionModel);
-            console.log(vm.accountType);
             var deffered = TransactionService.getPaymentDate(vm.transactionModel, createTransactionType, vm.accountType);
             deffered.promise.then(function (response) {
                 var paymentDates = response.data;
@@ -314,7 +312,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                         var formatAccount = accountSelected[0].format || false;
 
                         var supplier = $.grep(vm.suppliers, function (td) { return td.value == vm.criteria.supplierId; });
-                        console.log(vm.transactionModel);
                         var objectToSend = {
                             transactionModel: vm.transactionModel,
                             tradingpartnerInfoModel: vm.tradingpartnerInfoModel,

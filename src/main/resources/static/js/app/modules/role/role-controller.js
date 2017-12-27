@@ -127,7 +127,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
                     }
                 });
             }else{
-                console.log('Invalidate data for save');
+                console.log('Invalid data for save');
             }
 		}
 

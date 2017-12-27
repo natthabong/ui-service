@@ -100,7 +100,6 @@ ptModule
 																	preCloseCallback : preCloseCallback
 																});
 													} else {
-														console.log(response);
 														$scope.errors = {};
 														for (var i = 0; i < response.data.length; i++) { 
 															$scope.errors[response.data[i].reference] = {
@@ -127,7 +126,7 @@ ptModule
 												}
 											});
 								} else {
-									console.log('Invalidate data for save');
+									console.log('Invalid data for save');
 								}
 							}
 

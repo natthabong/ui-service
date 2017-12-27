@@ -727,9 +727,6 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			var condition1 = vm.reject!= undefined && vm.reject == true;
 			var condition2 = data.statusCode == vm.statusDocuments.waitForPaymentResult
 			var condition3 = TransactionService.isAfterToday(data, vm.serverTime);
-			console.log(condition1);
-			console.log(condition2);
-			console.log(condition3);
 			if(condition1 && condition2 && condition3){
 				return false;
 			}else{
@@ -766,7 +763,6 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		}
 	
 	    vm.printEvidence = function(transaction){
-	        console.log(transaction);
 	        var deffered = TransactionService.getTransaction(transaction);
 	        deffered.promise.then(function(response){
 	            TransactionService.generateEvidenceForm(transaction);
