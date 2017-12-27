@@ -212,12 +212,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         vm.accountDropDown.push(formatAccount);
                     });
                 } else {
-                    if(vm.supportSpecialDebit){
+                    if (vm.supportSpecialDebit) {
                         vm.accountNotSupportSpecialDirectDebit = true;
-                    }else{
+                    } else {
                         vm.accountNotSupportSpecialDirectDebit = false;
                     }
-                    
+
                 }
                 deffered.resolve(accounts);
             });
@@ -256,7 +256,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 var deffered = TransactionService.getPaymentDate(vm.transactionModel, vm.createTransactionType, vm.accountType, vm.criteria.loanRequestMode, vm.criteria.productType);
                 deffered.promise.then(function (response) {
                     var paymentDates = response.data;
-
+                    vm.paymentDropDown = [];
                     paymentDates.forEach(function (data) {
                         vm.paymentDropDown.push({
                             label: data,
@@ -264,10 +264,14 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         })
                     });
 
-                    if ($stateParams.backAction && vm.transactionModel.transactionDate != null) {
-                        vm.paymentModel = SCFCommonService.convertDate(vm.transactionModel.transactionDate);
-                    } else {
-                        vm.paymentModel = vm.paymentDropDown[0].value;
+                    vm.paymentModel = vm.paymentDropDown[0].value;
+                    console.log($stateParams.backAction);
+                    if ($stateParams.backAction) {
+                        if (vm.transactionModel.transactionDate != null) {
+                            vm.paymentModel = SCFCommonService.convertDate(vm.transactionModel.transactionDate);
+                        }
+                        $stateParams.backAction = false;
+
                     }
 
                     _loadMaturityDate();
@@ -550,7 +554,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 defferedGetAllDocument.promise.then(function (response) {
                     vm.temporalDocuments = vm.pagingAllController.tableRowCollection;
                     if ($stateParams.backAction) {
-                        $stateParams.backAction = false;
+
                     } else if (!$stateParams.backAction && $stateParams.dashboardParams != null) {
                         vm.selectAllDocument();
                         $stateParams.dashboardParams = null;
@@ -773,7 +777,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                             } else {
                                                 _setTransactionMethod(vm.supportSpecialDebit);
                                             }
-                                            _loadPaymentDate();
+                                            // _loadPaymentDate();
                                         }
                                     });
                                 });
@@ -1127,27 +1131,27 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     document.reasonCodeDisplay = vm.reasonCodes[document.reasonCode];
                 });
 
+                var _accountList = [];
+                angular.copy(vm.accountList, _accountList);
+                var accountSelected = $.grep(_accountList, function (account) { return account.accountId == vm.transactionModel.payerAccountId; });
+                var formatAccount = accountSelected[0].format || false;
+
+                if (accountSelected[0].accountType != 'LOAN') {
+                    vm.transactionModel.payerLoanAccountId = _accountList[0].defaultLoanNo ? _accountList[0].accountId : null;
+                    if (vm.supportSpecialDebit) {
+                        console.log(vm.supportSpecialDebit);
+                        vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
+                    } else {
+                        vm.transactionModel.transactionMethod = 'DEBIT';
+                    }
+                } else {
+                    vm.transactionModel.transactionMethod = 'TERM_LOAN';
+                }
+
                 var deffered = TransactionService.verifyTransaction(vm.transactionModel);
                 deffered.promise.then(function (response) {
                     var transaction = response.data;
                     SCFCommonService.parentStatePage().saveCurrentState('/my-organize/create-transaction');
-
-                    var _accountList = [];
-                    angular.copy(vm.accountList, _accountList);
-                    var accountSelected = $.grep(_accountList, function (account) { return account.accountId == vm.transactionModel.payerAccountId; });
-                    var formatAccount = accountSelected[0].format || false;
-
-                    if (accountSelected[0].accountType != 'LOAN') {
-                        vm.transactionModel.payerLoanAccountId = _accountList[0].defaultLoanNo ? _accountList[0].accountId : null;
-                        if (vm.supportSpecialDebit) {
-                            console.log(vm.supportSpecialDebit);
-                            vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
-                        } else {
-                            vm.transactionModel.transactionMethod = 'DEBIT';
-                        }
-                    } else {
-                        vm.transactionModel.transactionMethod = 'TERM_LOAN';
-                    }
 
                     var objectToSend = {
                         transactionModel: vm.transactionModel,
