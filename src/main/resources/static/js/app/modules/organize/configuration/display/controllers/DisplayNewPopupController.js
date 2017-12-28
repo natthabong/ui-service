@@ -1,5 +1,5 @@
 'use strict';
-var tpModule = angular.module('gecscf.organize.configuration.display');
+var tpModule = angular.module('gecscf.organize.configuration');
 tpModule
 		.controller(
 				'DisplayNewPopupController',
@@ -16,6 +16,14 @@ tpModule
 							
 							
 							var data = $scope.ngDialogData.data;
+							
+							var newDisplayConfig = function () {
+					            return {
+					                documentFieldId: null,
+					                sortType: null
+					            }
+					        }
+							
 							vm.model = {
 								displayName: null,
 					            items: [newDisplayConfig()],
@@ -28,12 +36,6 @@ tpModule
 					            supportPartial: false,
 					            supportSpecialDebit: null
 							}
-							var newDisplayConfig = function () {
-					            return {
-					                documentFieldId: null,
-					                sortType: null
-					            }
-					        }
 							
 							vm.hasError = false;
 							
@@ -57,7 +59,7 @@ tpModule
 													headerMessage : 'Confirm save?'
 												},
 												confirm : function() {
-													return DisplayService.create(vm.model);
+													//return DisplayService.create(vm.model);
 												},
 												onFail : function(response) {
 													var status = response.status;

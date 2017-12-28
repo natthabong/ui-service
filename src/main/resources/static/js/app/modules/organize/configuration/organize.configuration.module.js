@@ -27,6 +27,8 @@ angular
                           'js/app/sponsor-configuration/payment-date-formula-service.js',
                           'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataListController.js',
                           'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataNewPopupController.js',
+                          'js/app/modules/organize/configuration/display/controllers/DisplayNewPopupController.js',
+                          'js/app/modules/organize/configuration/display/services/DisplayService.js',
                           'js/app/modules/organize/configuration/file-layout/controllers/ImportLayoutNewPopupController.js',
                           'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
                           'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
