@@ -103,6 +103,53 @@ displayModule.controller('DisplayController', [
 
         vm.overdueType = vm.overdueRadioType.UNLIMITED;
 
+        vm.displayOverdue = "false";
+        vm.supportGracePeriod = "false";
+        vm.gracePriod = null;
+
+        var defaultAllowablePaymentDays = function(){
+            var allowablePaymentDays = [];
+            var forDebit = {
+                allowablePaymentDay : "ALL_DAY",
+                transactionMethod : "DEBIT"
+            }
+            var forDrawdown = {
+                allowablePaymentDay : "ALL_DAY",
+                transactionMethod : "TERM_LOAN"
+            }
+            var forSpecialDebit = {
+                allowablePaymentDay : "ALL_DAY",
+                transactionMethod : "DEBIT_SPECIAL"
+            }
+            allowablePaymentDays.push(forDebit);
+            allowablePaymentDays.push(forDrawdown);
+            allowablePaymentDays.push(forSpecialDebit);
+            return allowablePaymentDays;
+        }
+
+        vm.checkedForDebit = false;
+        vm.checkedForDrawdown = false;
+        vm.checkedForSpecialDebit = false;
+
+        var checkIsWorkingDay= function(data){
+            var isWorkingDay = true
+            if(data.allowablePaymentDay == "ALL_DAY"){
+                isWorkingDay = false;
+            }
+            return isWorkingDay;
+        }
+
+        var initCheckBoxPayOnlyBankWorkingDay = function(){
+            vm.allowablePaymentDays.forEach(function(data){
+                if(data.transactionMethod == "DEBIT"){
+                    vm.checkedForDebit = checkIsWorkingDay(data);
+                }else if(data.transactionMethod == "TERM_LOAN"){
+                    vm.checkedForDrawdown = checkIsWorkingDay(data);
+                }else if(data.transactionMethod == "DEBIT_SPECIAL"){
+                    vm.checkedForSpecialDebit = checkIsWorkingDay(data);
+                }
+            });
+        }
 
         var loadDisplayConfig = function (ownerId, accountingTransactionType, displayMode) {
             var deffered = DisplayService.getDocumentDisplayConfig(ownerId, accountingTransactionType, displayMode);
@@ -122,7 +169,11 @@ displayModule.controller('DisplayController', [
                     supportSpecialDebit: null
                 };
 
-                vm.dataModel.displayOverdue = vm.dataModel.displayOverdue ? "true" : "false";
+                vm.displayOverdue = vm.dataModel.displayOverdue ? "true" : "false";
+                vm.supportGracePeriod = vm.dataModel.supportGracePeriod ? "true" : "false";
+                vm.gracePriod = vm.dataModel.gracePriod;
+                vm.allowablePaymentDays = vm.dataModel.allowablePaymentDays.length > 0 ? vm.dataModel.allowablePaymentDays : defaultAllowablePaymentDays();
+                initCheckBoxPayOnlyBankWorkingDay();
 
                 // default grouping field 1 record if don't have data
                 if (vm.dataModel.documentGroupingFields == [] || vm.dataModel.documentGroupingFields.length == 0) {
@@ -366,6 +417,14 @@ displayModule.controller('DisplayController', [
                 vm.dataModel.overDuePeriod = null;
             } else {
                 vm.dataModel.overDuePeriod = 1;
+            }
+        }
+
+        vm.changeSupportGracePeriod = function(){
+            if(vm.supportGracePeriod == 'true'){
+                vm.gracePriod = 1;
+            }else{
+                vm.gracePriod = null;
             }
         }
 
