@@ -72,7 +72,7 @@ displayModule.controller('DisplayController', [
 
         vm.productTypeDropDown = [{
             label: 'Default',
-            value: 'DEFAULT'
+            value: null
         }]
 
         vm.sortTypes = [{
