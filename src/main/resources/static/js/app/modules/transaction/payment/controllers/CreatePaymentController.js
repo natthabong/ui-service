@@ -41,7 +41,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 accountingTransactionType: 'RECEIVABLE',
                 sponsorId: ownerId,
                 buyerId: ownerId,
-                showOverdue: false,
+                overDuePeriod: null,
                 displayNegativeDocument: false
             }
 
@@ -445,17 +445,14 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         _loadReasonCodeMappingDatas();
                         addColumnForCreatePartial();
                     }
-
+                    
                     vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
                     vm.pagingController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
 
-                    var displayNegativeDocument = response.displayNegativeDocument;
                     vm.documentSelection = response.documentSelection;
-                    if (displayNegativeDocument === false) {
-                        vm.criteria.displayNegativeDocument = false;
-                    } else {
-                        vm.criteria.displayNegativeDocument = true;
-                    }
+                    vm.criteria.displayNegativeDocument = response.displayNegativeDocument;
+                    vm.criteria.overDuePeriod = response.overDuePeriod;
+                    console.log(vm.criteria);
                     vm.criteria.sort = response.sort;
 
                     if (vm.documentSelection != 'ANY_DOCUMENT') {
