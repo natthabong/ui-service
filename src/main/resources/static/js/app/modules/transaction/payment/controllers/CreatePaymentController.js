@@ -308,7 +308,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 vm.transactionModel.documents = vm.documentSelects;
                 vm.transactionModel.supplierId = vm.criteria.supplierId;
                 if (vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
-                    var deffered = TransactionService.getPaymentDate(vm.transactionModel, createTransactionType, vm.accountType);
+                    var deffered = TransactionService.getPaymentDate(vm.transactionModel, createTransactionType, vm.accountType, vm.criteria.productType);
                     deffered.promise.then(function(response) {
                             var paymentDates = response.data;
 
@@ -451,7 +451,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     vm.documentSelection = response.documentSelection;
                     vm.criteria.displayNegativeDocument = response.displayNegativeDocument;
                     vm.criteria.overDuePeriod = response.overDuePeriod;
-                    console.log(vm.criteria);
                     vm.criteria.sort = response.sort;
 
                     if (vm.documentSelection != 'ANY_DOCUMENT') {
