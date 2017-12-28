@@ -302,8 +302,9 @@
 								<label for="dealer" id="" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Shift payment date' | translate}}:</label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
-										ng-model=""
+										ng-model="ctrl.dataModel.shiftPaymentDate"
 										id=""
+										ng-change= "ctrl.changeShiftPaymentDate()"
 										ng-disabled="false"></scf-checkbox>
 										{{'In case of last payment date is equal to bank holiday' | translate}}
 									</label>
@@ -313,15 +314,15 @@
 								<label class="col-md-4 col-sm-4 col-xs-12 control-label"></label>
 								<label class="radio-inline"><scf-radio
 											id="" name=""
-											ng-value="test"
-											ng-disabled="!ctrl.manageAll"
-											ng-model=""></scf-radio>
+											ng-value="true"
+											ng-disabled="(!ctrl.manageAll) || (!ctrl.dataModel.shiftPaymentDate)"
+											ng-model="ctrl.shiftIn"></scf-radio>
 										{{'Pay before holiday' | translate}}
 									</label> <label class="radio-inline"><scf-radio
 											id="" name=""
-											ng-value="test"
-											ng-disabled="!ctrl.manageAll"
-											ng-model=""></scf-radio>
+											ng-value="false"
+											ng-disabled="(!ctrl.manageAll) || (!ctrl.dataModel.shiftPaymentDate)"
+											ng-model="ctrl.shiftIn"></scf-radio>
 										{{'Pay after holiday' | translate}}
 									</label>
 							</div>

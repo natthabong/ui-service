@@ -102,25 +102,23 @@ displayModule.controller('DisplayController', [
             label: 'Please select'
         }];
 
-        vm.overdueType = vm.overdueRadioType.UNLIMITED;
-
         vm.displayOverdue = "false";
         vm.supportGracePeriod = "false";
         vm.gracePriod = null;
 
-        var defaultAllowablePaymentDays = function(){
+        var defaultAllowablePaymentDays = function () {
             var allowablePaymentDays = [];
             var forDebit = {
-                allowablePaymentDay : "ALL_DAY",
-                transactionMethod : "DEBIT"
+                allowablePaymentDay: "ALL_DAY",
+                transactionMethod: "DEBIT"
             }
             var forDrawdown = {
-                allowablePaymentDay : "ALL_DAY",
-                transactionMethod : "TERM_LOAN"
+                allowablePaymentDay: "ALL_DAY",
+                transactionMethod: "TERM_LOAN"
             }
             var forSpecialDebit = {
-                allowablePaymentDay : "ALL_DAY",
-                transactionMethod : "DEBIT_SPECIAL"
+                allowablePaymentDay: "ALL_DAY",
+                transactionMethod: "DEBIT_SPECIAL"
             }
             allowablePaymentDays.push(forDebit);
             allowablePaymentDays.push(forDrawdown);
@@ -132,31 +130,44 @@ displayModule.controller('DisplayController', [
         vm.checkedForDrawdown = false;
         vm.checkedForSpecialDebit = false;
 
-        var checkIsWorkingDay= function(data){
+        var checkIsWorkingDay = function (data) {
             var isWorkingDay = true
-            if(data.allowablePaymentDay == "ALL_DAY"){
+            if (data.allowablePaymentDay == "ALL_DAY") {
                 isWorkingDay = false;
             }
             return isWorkingDay;
         }
+        vm.overdueType = vm.overdueRadioType.UNLIMITED;
 
-        var initCheckBoxPayOnlyBankWorkingDay = function(){
-            vm.allowablePaymentDays.forEach(function(data){
-                if(data.transactionMethod == "DEBIT"){
+        var initialCheckBoxPayOnlyBankWorkingDay = function () {
+            console.log("object");
+            vm.allowablePaymentDays.forEach(function (data) {
+                if (data.transactionMethod == "DEBIT") {
                     vm.checkedForDebit = checkIsWorkingDay(data);
-                }else if(data.transactionMethod == "TERM_LOAN"){
+                } else if (data.transactionMethod == "TERM_LOAN") {
                     vm.checkedForDrawdown = checkIsWorkingDay(data);
-                }else if(data.transactionMethod == "DEBIT_SPECIAL"){
+                } else if (data.transactionMethod == "DEBIT_SPECIAL") {
                     vm.checkedForSpecialDebit = checkIsWorkingDay(data);
                 }
             });
         }
 
+        vm.initialOverdue = function () {
+            console.log(vm.dataModel.overDuePeriod);
+            if (vm.dataModel.overDuePeriod == 0 || vm.dataModel.overDuePeriod == null) {
+                vm.overDuePeriod = null;
+                vm.overdueType = vm.overdueRadioType.UNLIMITED;
+            } else {
+                vm.overDuePeriod = 1;
+                vm.overdueType = vm.overdueRadioType.PERIOD;
+            }
+        }
+
         var loadDisplayConfig = function (ownerId, accountingTransactionType, displayMode) {
-            var deffered = DisplayService.getDocumentDisplayConfig(ownerId, accountingTransactionType, displayMode,displayId);
+            var deffered = DisplayService.getDocumentDisplayConfig(ownerId, accountingTransactionType, displayMode, displayId);
             deffered.promise.then(function (response) {
                 var data = response.data;
-
+                console.log(data);
                 vm.dataModel = data || {
                     displayName: null,
                     items: [newDisplayConfig()],
@@ -171,10 +182,15 @@ displayModule.controller('DisplayController', [
                 };
 
                 vm.displayOverdue = vm.dataModel.displayOverdue ? "true" : "false";
+                vm.initialOverdue();
+
                 vm.supportGracePeriod = vm.dataModel.supportGracePeriod ? "true" : "false";
                 vm.gracePriod = vm.dataModel.gracePriod;
+
                 vm.allowablePaymentDays = vm.dataModel.allowablePaymentDays.length > 0 ? vm.dataModel.allowablePaymentDays : defaultAllowablePaymentDays();
-                initCheckBoxPayOnlyBankWorkingDay();
+                initialCheckBoxPayOnlyBankWorkingDay();
+
+                vm.shiftIn = vm.dataModel.shiftIn == null ? true : vm.dataModel.shiftIn;
 
                 // default grouping field 1 record if don't have data
                 if (vm.dataModel.documentGroupingFields == [] || vm.dataModel.documentGroupingFields.length == 0) {
@@ -270,20 +286,20 @@ displayModule.controller('DisplayController', [
                 log.error('Load data type error');
             });
         }
-        
+
         var loadProductTypeDropdawn = function (ownerId) {
             var deffered = DisplayService.getProductTypes(ownerId);
             deffered.promise.then(function (response) {
                 var productTypes = response.data;
                 if (productTypes != null) {
-                	productTypes.forEach(function (data) {
+                    productTypes.forEach(function (data) {
                         var productTypeData = {
                             value: data.productType,
                             label: data.displayName
                         }
                         vm.productTypeDropDown.push(productTypeData);
                     });
-                } 
+                }
             });
         }
 
@@ -421,11 +437,17 @@ displayModule.controller('DisplayController', [
             }
         }
 
-        vm.changeSupportGracePeriod = function(){
-            if(vm.supportGracePeriod == 'true'){
+        vm.changeSupportGracePeriod = function () {
+            if (vm.supportGracePeriod == 'true') {
                 vm.gracePriod = 1;
-            }else{
+            } else {
                 vm.gracePriod = null;
+            }
+        }
+
+        vm.changeShiftPaymentDate = function () {
+            if (!vm.dataModel.shiftPaymentDate) {
+                vm.shiftIn = true
             }
         }
 
@@ -439,7 +461,7 @@ displayModule.controller('DisplayController', [
             if (vm.dataModel.displayOverdue == 'false') {
                 vm.dataModel.overDuePeriod = null;
                 vm.dataModel.displayOverdue = false;
-            } else if(vm.dataModel.displayOverdue == 'true'){
+            } else if (vm.dataModel.displayOverdue == 'true') {
                 vm.dataModel.displayOverdue = true;
                 if (vm.overdueType == vm.overdueRadioType.UNLIMITED) {
                     vm.dataModel.overDuePeriod = 0;
@@ -455,67 +477,67 @@ displayModule.controller('DisplayController', [
                     organizeModel: organizeModel
                 });
             }
-            if(vm.dataModel.displayName == ''){
-            	var errors = {
-            			requireLayoutName : true
-				}
-				onFail(errors)
+            if (vm.dataModel.displayName == '') {
+                var errors = {
+                    requireLayoutName: true
+                }
+                onFail(errors)
             } else {
-	            UIFactory.showConfirmDialog({
-	                data: {
-	                    headerMessage: 'Confirm save?'
-	                },
-	                confirm: $scope.confirmSave,
-	                onFail: function (response) {
-	                    var msg = {
-	                        409: 'Display document has been deleted.',
-	                        405: 'Display document has been used.'
-	                    };
-	                    if (response.status == 404) {
-	                        vm.isNotTradeFinance = true;
-	                    }
-	                    else if (response.status != 400) {
-							 UIFactory.showFailDialog({
-			                        data: {
-			                            headerMessage: 'Edit display document configuration fail.',
-			                            bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
-			                        },
-			                        preCloseCallback: function () {
-			                            if (response.status != 404) {
-			                                vm.backToSponsorConfigPage();
-			                            } else {
-			                                vm.isNotTradeFinance = true;
-			                                vm.dataModel.supportSpecialDebit = false;
-			                            }
-			                        }
-			                 });
-						} else {
-							$scope.errors[response.data.reference] = {
-								message : response.data.errorMessage
-							}
-							
-							var errors = {
-								duplicateLayoutName : true
-							}
-							
-							onFail(errors)
-						}
-						blockUI.stop();
-					
-	                },
-	                onSuccess: function (response) {
-	                    blockUI.stop();
-	                    UIFactory.showSuccessDialog({
-	                        data: {
-	                            headerMessage: 'Edit display document configuration complete.',
-	                            bodyMessage: ''
-	                        },
-	                        preCloseCallback: function () {
-	                            vm.backToSponsorConfigPage();
-	                        }
-	                    });
-	                }
-	            });
+                UIFactory.showConfirmDialog({
+                    data: {
+                        headerMessage: 'Confirm save?'
+                    },
+                    confirm: $scope.confirmSave,
+                    onFail: function (response) {
+                        var msg = {
+                            409: 'Display document has been deleted.',
+                            405: 'Display document has been used.'
+                        };
+                        if (response.status == 404) {
+                            vm.isNotTradeFinance = true;
+                        }
+                        else if (response.status != 400) {
+                            UIFactory.showFailDialog({
+                                data: {
+                                    headerMessage: 'Edit display document configuration fail.',
+                                    bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
+                                },
+                                preCloseCallback: function () {
+                                    if (response.status != 404) {
+                                        vm.backToSponsorConfigPage();
+                                    } else {
+                                        vm.isNotTradeFinance = true;
+                                        vm.dataModel.supportSpecialDebit = false;
+                                    }
+                                }
+                            });
+                        } else {
+                            $scope.errors[response.data.reference] = {
+                                message: response.data.errorMessage
+                            }
+
+                            var errors = {
+                                duplicateLayoutName: true
+                            }
+
+                            onFail(errors)
+                        }
+                        blockUI.stop();
+
+                    },
+                    onSuccess: function (response) {
+                        blockUI.stop();
+                        UIFactory.showSuccessDialog({
+                            data: {
+                                headerMessage: 'Edit display document configuration complete.',
+                                bodyMessage: ''
+                            },
+                            preCloseCallback: function () {
+                                vm.backToSponsorConfigPage();
+                            }
+                        });
+                    }
+                });
             }
         }
 
@@ -525,8 +547,12 @@ displayModule.controller('DisplayController', [
         }
 
         var onFail = function (errors) {
-			$scope.errors = errors;
-		}
+            $scope.errors = errors;
+        }
+
+        var validateOverdueAndGracePeriod = function () {
+
+        }
 
         $scope.confirmSave = function () {
             initialOverdue();
