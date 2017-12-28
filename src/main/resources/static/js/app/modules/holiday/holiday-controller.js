@@ -19,32 +19,32 @@ scfApp.controller('BankHolidayController', [
 
 	    vm.yearDropDownItems = [];
 	    vm.criteria = {
-		year : null
+			year : null
 	    }
 
 	    vm.dataTable = {
-		identityField : 'holidayDate',
-		columns : [ {
-		    fieldName : '$rowNo',
-		    labelEN : 'No.',
-		    labelTH : 'ลำดับที่',
-		    sortable : false,
-		    cssTemplate : 'text-right'
-		}, {
-		    fieldName : 'holidayDate',
-		    labelEN : 'Date',
-		    labelTH : 'วันที่',
-		    sortable : false,
-		    filterType : 'date',
-		    format: 'EEEE d LLLL',
-		    cssTemplate : 'text-left'
-		}, {
-		    fieldName : 'holidayName',
-		    labelEN : 'Description',
-		    labelTH : 'คำอธิบาย',
-		    sortable : false,
-		    cssTemplate : 'text-left'
-		} ]
+			identityField : 'holidayDate',
+			columns : [ {
+			    fieldName : '$rowNo',
+			    labelEN : 'No.',
+			    labelTH : 'ลำดับที่',
+			    sortable : false,
+			    cssTemplate : 'text-right'
+			}, {
+			    fieldName : 'holidayDate',
+			    labelEN : 'Date',
+			    labelTH : 'วันที่',
+			    sortable : false,
+			    filterType : 'date',
+			    format: 'EEEE d LLLL',
+			    cssTemplate : 'text-left'
+			}, {
+			    fieldName : 'holidayName',
+			    labelEN : 'Description',
+			    labelTH : 'คำอธิบาย',
+			    sortable : false,
+			    cssTemplate : 'text-left'
+			} ]
 	    };
 
 	    vm.pagingController = PagingController.create('api/v1/holidays',
@@ -55,27 +55,36 @@ scfApp.controller('BankHolidayController', [
 	    }
 
 	    var loadAllYears = function(callback) {
-		var diferred = Service.doGet('api/holidays/all-years');
-		diferred.promise.then(function(response) {
-		    response.data.forEach(function(year) {
-			vm.yearDropDownItems.push({
-			    label : year,
-			    value : year,
-			    valueObject : year
+			var diferred = Service.doGet('api/holidays/all-years');
+			diferred.promise.then(function(response) {
+				var currentYear = new Date().getFullYear();
+				var i = 0;
+				var currentYearIndex = -1;
+			    response.data.forEach(function(year) {
+					vm.yearDropDownItems.push({
+					    label : year,
+					    value : year,
+					    valueObject : year
+					});
+
+					if (year === currentYear) {
+						currentYearIndex = i;
+					}
+					++i;
+			    });
+			    if (vm.yearDropDownItems.length > 0) {
+			    	vm.criteria.year = vm.yearDropDownItems[currentYearIndex].value;
+			    }
+			    callback();
 			});
-		    });
-		    if (vm.yearDropDownItems.length > 0) {
-			vm.criteria.year = vm.yearDropDownItems[0].value;
-		    }
-		    callback();
-		});
 	    }
 
 	    var initial = function() {
-		loadAllYears(function() {
-		    vm.searchHoliday();
-		})
+			loadAllYears(function() {
+			    vm.searchHoliday();
+			})
 	    }
 
 	    initial();
-	} ]);
+	}
+]);
