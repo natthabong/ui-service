@@ -53,6 +53,10 @@ displayModule.factory('DisplayService', ['$http', '$q', 'Service', function ($ht
 		 });
 		 return deferred;
 	}
+	
+	var create = function (dataModel) {
+		
+	}
 
 	return {
 		getDocumentDisplayConfig: getDocumentDisplayConfig,

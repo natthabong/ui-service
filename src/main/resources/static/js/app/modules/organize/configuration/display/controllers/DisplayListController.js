@@ -1,5 +1,5 @@
 'use strict';
-var displayListCtrl = function(PageNavigation, PagingController, UIFactory) {
+var displayListCtrl = function(PageNavigation, PagingController, UIFactory, ConfigurationUtils) {
 
   var vm = this;
 
@@ -26,11 +26,16 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory) {
   };
 
   vm.addNewDocumentDisplay = function(type, mode) {
-    setting({
-      accountingTransactionType: type,
-      displayMode: mode,
-      organizeId: ownerId
-    })
+	  ConfigurationUtils.showCreateNewCreateDisplayDialog({
+			data : { 
+				showAll: true ,
+				ownerId : ownerId,
+				accountingTransactionType : type,
+				displayMode : mode
+			}, preCloseCallback : function() {
+				vm.init(processType, integrateType);
+			}
+		});
   }
 
   vm.editDocumentDisplay = function(record) {
@@ -59,4 +64,4 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory) {
 }
 angular.module('gecscf.organize.configuration.display').controller(
         'DisplayListController',
-        ['PageNavigation', 'PagingController', 'UIFactory', displayListCtrl]);
+        ['PageNavigation', 'PagingController', 'UIFactory','ConfigurationUtils', displayListCtrl]);

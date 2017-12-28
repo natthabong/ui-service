@@ -88,10 +88,22 @@ angular
                                   data: data
                                 });
                       }
+                      
+                      var showCreateNewCreateDisplayDialog = function(data,
+                              callback) {
+                        UIFactory
+                                .showDialog({
+                                  preCloseCallback: callback,
+                                  templateUrl: '/js/app/modules/organize/configuration/display/templates/dialog-new-create-transaction-display.html',
+                                  controller: 'DisplayNewPopupController',
+                                  data: data
+                                });
+                      }
 
                       return {
                         showCreateMappingDataDialog: showCreateMappingDataDialog,
                         showCreateImportChannelDialog: showCreateImportChannelDialog,
-                        showCreateImportLayoutDialog: showCreateImportLayoutDialog
+                        showCreateImportLayoutDialog: showCreateImportLayoutDialog,
+                        showCreateNewCreateDisplayDialog: showCreateNewCreateDisplayDialog
                       };
                     }]);
