@@ -44,29 +44,6 @@
 								</div>
 							</div>
 
-							<div class="form-group">
-								<label id="loan-request-mode-label" for="dealer" class="col-md-3 col-sm-4 col-xs-12 control-label">{{ctrl.mode | translate}}: 
-								
-								</label>
-
-								<div class="col-md-5 col-sm-5 col-xs-12">
-									<label class="radio-inline"><scf-radio
-											id="current-and-future-loan-request-mode-radio" name="loan-request-mode-radio"
-											ng-value="ctrl.loanRequestMode.currentAndFuture"
-											ng-disabled="!ctrl.manageAll"
-											ng-model="ctrl.dataModel.loanRequestMode"></scf-radio>
-										{{'Current and future' | translate}}
-									</label> <label class="radio-inline"> <scf-radio
-											id="current-request-mode-radio" name="loan-request-mode-radio"
-											ng-value="ctrl.loanRequestMode.current"
-											ng-disabled="!ctrl.manageAll"
-											ng-model="ctrl.dataModel.loanRequestMode"></scf-radio>
-										{{'Current' | translate}}
-									</label>
-								</div>
-								<div class="col-md-4 col-sm-3"></div>
-							</div>
-
 							<div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
 								<label for="dealer" class="col-lg-3 col-md-3 col-sm-12 col-xs-12 control-label">{{'Support partial payment' | translate}}</label>
 								<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="padding-left: 0px;">
@@ -217,7 +194,7 @@
 								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
 									<scf-dropdown id="show-overdue-dropdown" 
 										ng-change="ctrl.changeOverdue()"
-										ng-model="ctrl.dataModel.displayOverdue" translate-label="true"
+										ng-model="ctrl.displayOverdue" translate-label="true"
 										component-data="ctrl.overdueDropDown"></scf-dropdown>
 								</div>
 								&nbsp;
@@ -225,7 +202,7 @@
 											id="unlimited-radio" name="show-overdue-radio"
 											ng-value="ctrl.overdueRadioType.UNLIMITED"
 											ng-change="ctrl.changeOverdueType()"
-											ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.displayOverdue == 'false')"
+											ng-disabled="(!ctrl.manageAll) || (ctrl.displayOverdue == 'false')"
 											ng-model="ctrl.overdueType"></scf-radio>
 										{{'Unlimited' | translate}}
 								</label>
@@ -233,13 +210,13 @@
 											id="period-radio" name="show-overdue-radio"
 											ng-value="ctrl.overdueRadioType.PERIOD"
 											ng-change="ctrl.changeOverdueType()"
-											ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.displayOverdue == 'false')"
+											ng-disabled="(!ctrl.manageAll) || (ctrl.displayOverdue == 'false')"
 											ng-model="ctrl.overdueType"></scf-radio>
 										{{'Period' | translate}}
 									</label>
 								<input id="period-textbox" 
 									type="number" min="1" max="999" ng-model="ctrl.dataModel.overDuePeriod"
-									ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.displayOverdue == 'false')"
+									ng-disabled="(!ctrl.manageAll) || (ctrl.displayOverdue == 'false') || (ctrl.overdueType == ctrl.overdueRadioType.UNLIMITED)"
 									maxlength="3" class="form-control-input"></input> days
 							</div>
 
@@ -261,31 +238,36 @@
 								<span class="col-md-5 col-sm-5 col-xs-12 error-msg" id="special-payment-method-warning-message-label" ng-bind="errors.isNotTradeFinance.message | translate"></span>
 							</div>
 
-							<!--<div class="form-group">
-								<label id="overdue-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Grace period' | translate}}:
+							<div class="form-group">
+								<label id="grace-period-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Grace period' | translate}}:
 								</label>
 								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="show-grace-period-dropdown" ng-model="" translate-label="true" convert-to-number="true"
+									<scf-dropdown id="support-grace-period-dropdown" 
+										ng-model="ctrl.supportGracePeriod"
+										ng-change="ctrl.changeSupportGracePeriod()"
+										translate-label="true"
 										component-data="ctrl.gracePeriodDropDown"></scf-dropdown>
 								</div>
-								<input id="" type="number" min="1" max="999" ng-model=""
+								<input id="grace-period-textbox" type="number" min="1" max="999" 
+									ng-disabled="(!ctrl.manageAll) || (ctrl.supportGracePeriod == 'false')"
+									ng-model="ctrl.gracePriod"
 									maxlength="3" class="form-control-input"></input> days
-							</div>-->
+							</div>
 
-							<!--<div class="form-group">
+							<div class="form-group">
 								<label id="overdue-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Payment date' | translate}}:
 								</label>
 								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="payment-date-dropdown" ng-model="" translate-label="true" convert-to-number="true"
+									<scf-dropdown id="payment-date-dropdown" ng-model="ctrl.dataModel.loanRequestMode" translate-label="true"
 										component-data="ctrl.paymentDropDown"></scf-dropdown>
 								</div>
-							</div>-->
+							</div>
 
-							<!--<div class="form-group">
+							<div class="form-group">
 								<label for="dealer" id="" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Pay only bank working day' | translate}}:</label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
-										ng-model=""
+										ng-model="ctrl.checkedForDebit"
 										id=""
 										ng-disabled="false"></scf-checkbox>
 										{{'For debit' | translate}}
@@ -296,7 +278,7 @@
 								<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
-										ng-model=""
+										ng-model="ctrl.checkedForDrawdown"
 										id=""
 										ng-disabled="false"></scf-checkbox>
 										{{'For drawdown' | translate}}
@@ -307,16 +289,16 @@
 								<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
-										ng-model=""
+										ng-model="ctrl.checkedForSpecialDebit"
 										id=""
 										ng-disabled="false"></scf-checkbox>
 										{{'For special debit' | translate}}
 									</label>
 								</div>
 								<label class="col-md-12 col-sm-12 col-xs-12 control-label"></label>
-							</div>-->
+							</div>
 
-							<!--<div class="form-group" style="margin-bottom: 0px">
+							<div class="form-group" style="margin-bottom: 0px">
 								<label for="dealer" id="" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Shift payment date' | translate}}:</label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
@@ -326,8 +308,8 @@
 										{{'In case of last payment date is equal to bank holiday' | translate}}
 									</label>
 								</div>
-							</div>-->
-							<!--<div class="form-group">
+							</div>
+							<div class="form-group">
 								<label class="col-md-4 col-sm-4 col-xs-12 control-label"></label>
 								<label class="radio-inline"><scf-radio
 											id="" name=""
@@ -342,7 +324,7 @@
 											ng-model=""></scf-radio>
 										{{'Pay after holiday' | translate}}
 									</label>
-							</div>-->
+							</div>
 
 						</div>
 
