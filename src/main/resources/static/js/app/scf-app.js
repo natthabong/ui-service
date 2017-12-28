@@ -234,37 +234,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							  'js/app/dashboard/payment-journey/wait-for-verify.js',
 							  'js/app/dashboard/payment-journey/wait-for-approve.js',
 							  'js/app/dashboard/payment-journey/future-payment.js'])
-			}).state('/sponsor-configuration',{
-				url: '/sponsor-configuration/:organizeId',
-				controller: 'SponsorConfigController',
-				controllerAs: 'sponsorConfigCtrl',
-				templateUrl: '/sponsor-configuration',
-				params: {organizeModel: null, fileLayoutModel: null, organizeId: null},
-				resolve: WebHelper.loadScript(['js/app/sponsor-configuration/sponsor-config-controller.js', 
-							   'js/app/sponsor-configuration/profile-controller.js', 
-							   'js/app/sponsor-configuration/workflow/controllers/workflow-controller.js',
-							   'js/app/sponsor-configuration/workflow/controllers/setup-workflow-controller.js',
-							   'js/app/sponsor-configuration/workflow/services/workflow-service.js',
-							   'js/app/sponsor-configuration/file-layouts-controller.js',
-							   'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupController.js',
-							   'js/app/sponsor-configuration/channel-config-controller.js',
-							   'js/app/common/scf-component.js', 
-							   'js/app/common/scf-component.css',
-							   'js/app/sponsor-configuration/DisplayConfigController.js',
-							   'js/app/sponsor-configuration/payment-date-formula-controller.js',
-							   'js/app/sponsor-configuration/payment-date-formula-service.js',
-							   'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataListController.js',
-							   'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataNewPopupController.js',
-							   'js/app/modules/organize/configuration/file-layout/controllers/ImportLayoutNewPopupController.js',
-							   'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
-							   'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
-							   'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
-							   'js/app/sponsor-configuration/ExportPaymentConfigController.js',
-							   'js/app/modules/organize/configuration/product-type/controllers/ProductTypeListController.js',
-							   'js/app/modules/organize/configuration/product-type/services/ProductTypeService.js',
-							   'js/app/modules/organize/configuration/import-channels/controllers/ImportChannelController.js',
-							   'js/app/modules/organize/configuration/import-channels/services/ImportChannelService.js'
-							   ])
 			}).state('/sponsor-configuration/mapping-data/edit',{
 				url: '/sponsor-configuration/mapping-data/edit/:organizeId',
 				controller: 'EditMappingDataController',
@@ -307,26 +276,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
 					'js/app/modules/organize/configuration/file-layout/services/FileLayerExampleDisplayService.js',
 					'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-			}).state('/sponsor-configuration/document-display/settings',{
-				url: '/sponsor-configuration/document-display/settings/:organizeId/:accountingTransactionType/:displayMode',
-				controller: 'DisplayController',
-				controllerAs: 'ctrl',
-				templateUrl: '/sponsor-configuration/document-display/settings',
-				params: { accountingTransactionType: null, displayMode: null, selectedItem: null},
-				resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/display/controllers/DisplayController.js',
-					'js/app/modules/organize/configuration/display/services/DisplayService.js'])
-			}).state('/sponsor-configuration/create-transaction-displays/settings',{
-				url: '/sponsor-configuration/create-transaction-displays/settings/:organizeId/:accountingTransactionType/:displayMode',
-				controller: 'DisplayController',
-				controllerAs: 'ctrl',
-				templateUrl: '/sponsor-configuration/create-transaction-displays/settings',
-				params: { accountingTransactionType: null, displayMode: null, selectedItem: null},
-				resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/display/controllers/DisplayController.js',
-					'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
-					'js/app/modules/organize/configuration/display/services/DisplayService.js'])
-			}).state('/sponsor-configuration/components/setup-display-fields',{
-				url: '/sponsor-configuration/components/setup-display-fields',
-				templateUrl: '/sponsor-configuration/components/setup-display-fields'
 			})
 			.state('/sponsor-configuration/export-payments/settings',{
 				url: '/sponsor-configuration/export-payments/settings/:organizeId',
