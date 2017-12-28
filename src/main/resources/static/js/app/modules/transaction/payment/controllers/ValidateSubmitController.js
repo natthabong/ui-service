@@ -16,7 +16,6 @@ paymentModule.controller('ValidateSubmitController', [
         vm.transactionModel = $stateParams.transactionModel;
         vm.tradingpartnerInfoModel = $stateParams.tradingpartnerInfoModel;
         var formatAccount = $stateParams.formatAccount;
-        console.log(formatAccount);
         if (formatAccount) {
             vm.transactionModel.payerAccountNo = $filter('accountNoDisplay')(vm.transactionModel.payerAccountNo);
         }

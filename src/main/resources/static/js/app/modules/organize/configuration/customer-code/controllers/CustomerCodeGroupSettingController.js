@@ -294,7 +294,6 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 //	}else{
 //		vm.personalMode = false;
 //		selectedItem = $stateParams.selectedItem;
-//		console.log(selectedItem);
 //		vm.initialPage(selectedItem);
 //	}
 	

@@ -1,32 +1,19 @@
 angular.module('scfApp').controller(
-		'SponsorConfigController', 
-		['$log', '$stateParams', 'PageNavigation', '$scope', '$rootScope',
-         	function($log, $stateParams, PageNavigation, $scope, $rootScope) {
-				var vm = this;
-			    var log = $log;
-			    
-//			    if($stateParams.organizeModel != null){
-//			    	$rootScope.organizeModel = $stateParams.organizeModel;
-//			    }
-//			    
-//			    vm.organizeModel = $rootScope.organizeModel;
-//				if(angular.isUndefined(vm.organizeModel)){
-//					PageNavigation.gotoPage('/settings/organizes');
-//				}
-//			    $scope.sponsorId = vm.organizeModel.organizeId;
-//				$rootScope.sponsorId = vm.organizeModel.organizeId;
-				
-				$scope.backAction = function() {
-//					PageNavigation.gotoPreviousPage();
-					PageNavigation.gotoPage('/settings/organizes');
-			    }
-				
-			    function init(){
-					if(vm.organizeModel === null){
-						PageNavigation.gotoPage('/settings/organizes');
-//						PageNavigation.gotoPreviousPage();
-					}
-			    }
-			    init();
+	'SponsorConfigController',
+	['$log', '$stateParams', 'PageNavigation', '$scope', '$rootScope',
+		function ($log, $stateParams, PageNavigation, $scope, $rootScope) {
+			var vm = this;
+			var log = $log;
+
+			$scope.backAction = function () {
+				PageNavigation.backStep(false);
 			}
-        ]);
+
+			function init() {
+				if (vm.organizeModel === null) {
+					PageNavigation.backStep(false);
+				}
+			}
+			init();
+		}
+	]);

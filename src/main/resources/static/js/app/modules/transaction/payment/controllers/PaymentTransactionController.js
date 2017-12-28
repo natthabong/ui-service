@@ -6,18 +6,18 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	var vm = this;
 	var log = $log;
 	vm.getUserInfoSuccess = false;
+    vm.approve = false;
+    vm.verify = false;
+    vm.reject = false;
+    vm.canRetry = false;
+    vm.canView = false;
+    
     var defered = scfFactory.getUserInfo();
     defered.promise.then(function(response) {
         vm.getUserInfoSuccess = true;
 	    vm.openDateFrom = false;
 		vm.openDateTo = false;
-	
-	    vm.approve = false;
-	    vm.verify = false;
-	    vm.reject = false;
-	    vm.canRetry = false;
-	    vm.canView = false;
-	    
+		    
 	    vm.serverTime = '';
 	
 	    var viewMode = $stateParams.viewMode;
@@ -763,7 +763,6 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		}
 	
 	    vm.printEvidence = function(transaction){
-	        console.log(transaction);
 	        var deffered = TransactionService.getTransaction(transaction);
 	        deffered.promise.then(function(response){
 	            TransactionService.generateEvidenceForm(transaction);

@@ -6,11 +6,9 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	var log = $log;
 	
 	var _criteria = {};
-	   
     vm.criteria = $stateParams.criteria || {
     	organizeId: undefined
-	}   
-    
+	}
     vm.organize =  $stateParams.organize || undefined;
     
 	vm.newOrganizeProfile = function(){
@@ -22,10 +20,11 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 			
 		});
 	}
+
 	
 	vm.sponsorConfig = function(data){
 		var params = {organizeId: data.organizeId};
-		PageNavigation.gotoPage('/sponsor-configuration', params, {criteria: _criteria, organize: vm.organize});
+		PageNavigation.nextStep('/sponsor-configuration', params, {criteria: _criteria, organize: vm.organize});
 	}
     
     var organizeAutoSuggestServiceUrl = 'api/v1/organizes';

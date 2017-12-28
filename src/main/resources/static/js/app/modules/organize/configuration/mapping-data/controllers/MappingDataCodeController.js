@@ -109,12 +109,10 @@ mappingDataModule.controller('MappingDataCodeController', [
 							preCloseCallback : preCloseCallback
 						});
 					}else{
-						console.log(response);
 						$scope.errors = {};
 						$scope.errors[response.data.code] = {
 								message: response.data.message
 						}
-						console.log($scope.errors);
 					}
     			},
     			onSuccess : function(response) {

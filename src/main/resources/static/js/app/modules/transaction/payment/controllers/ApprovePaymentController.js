@@ -62,7 +62,6 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 			} else {
 				var deffered = ApprovePaymentService.checkTransactionHour(vm.transactionApproveModel.transaction);
 				deffered.promise.then(function (response) {
-					console.log(response);
 					vm.txnHour = response.data;
 					if (!vm.txnHour.allowSendToBank) {
 						UIFactory.showHourDialog({
@@ -152,7 +151,6 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 
 		vm.handleDialogFail = function (response) {
 			$scope.response = response.data;
-			console.log(response.data.errorCode);
 			if (response.data.errorCode == "E0400") {
 				vm.wrongPassword = true;
 				vm.passwordErrorMsg = $scope.response.attributes.errorMessage;
@@ -255,7 +253,6 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 					vm.handleDialogFail(response);
 				},
 				onSuccess: function (response) {
-					console.log(response);
 					UIFactory.showSuccessDialog({
 						data: {
 							mode: 'transactionComplete',

@@ -358,7 +358,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     accountList = response.data;
                     var accounts = response.data;
                     vm.isLoanPayment = false;
-                    console.log(accounts);
                     if (accounts.length > 0) {
                         accounts.forEach(function(account, index) {
                             if (index == 0) {
