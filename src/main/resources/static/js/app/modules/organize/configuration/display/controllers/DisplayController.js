@@ -152,13 +152,14 @@ displayModule.controller('DisplayController', [
             });
         }
 
-        vm.initialOverdue = function () {
+        vm.overDuePeriod = null;
+        var initialOverdue = function () {
             console.log(vm.dataModel.overDuePeriod);
             if (vm.dataModel.overDuePeriod == 0 || vm.dataModel.overDuePeriod == null) {
                 vm.overDuePeriod = null;
                 vm.overdueType = vm.overdueRadioType.UNLIMITED;
             } else {
-                vm.overDuePeriod = 1;
+                vm.overDuePeriod = vm.dataModel.overDuePeriod;
                 vm.overdueType = vm.overdueRadioType.PERIOD;
             }
         }
@@ -182,7 +183,7 @@ displayModule.controller('DisplayController', [
                 };
 
                 vm.displayOverdue = vm.dataModel.displayOverdue ? "true" : "false";
-                vm.initialOverdue();
+                initialOverdue();
 
                 vm.supportGracePeriod = vm.dataModel.supportGracePeriod ? "true" : "false";
                 vm.gracePriod = vm.dataModel.gracePriod;
@@ -423,7 +424,7 @@ displayModule.controller('DisplayController', [
         }
 
         vm.changeOverdue = function () {
-            if (vm.dataModel.displayOverdue == "false") {
+            if (vm.displayOverdue == "false") {
                 vm.overdueType = vm.overdueRadioType.UNLIMITED
                 vm.dataModel.overDuePeriod = null;
             }
@@ -457,20 +458,50 @@ displayModule.controller('DisplayController', [
             });
         }
 
-        var initialOverdue = function () {
-            if (vm.dataModel.displayOverdue == 'false') {
+        var setOverdueValueBeforeSave = function () {
+            if (vm.displayOverdue == 'false') {
                 vm.dataModel.overDuePeriod = null;
-                vm.dataModel.displayOverdue = false;
-            } else if (vm.dataModel.displayOverdue == 'true') {
-                vm.dataModel.displayOverdue = true;
+            } else if (vm.displayOverdue == 'true') {
                 if (vm.overdueType == vm.overdueRadioType.UNLIMITED) {
                     vm.dataModel.overDuePeriod = 0;
+                }else{
+                    vm.dataModel.overDuePeriod = vm.overDuePeriod;
                 }
             }
         }
 
+        vm.showMessagePeriodError = false;
+        vm.showMessageGracePeriodError = false;
+
+        var validateOverdueAndGracePeriod = function () {
+            var validate = true;
+            if(vm.overdueType == vm.overdueRadioType.PERIOD){
+                if(angular.isUndefined(vm.overDuePeriod)){
+                    vm.showMessagePeriodError = true;
+                    validate = false;
+                }else{
+                    vm.showMessagePeriodError = false;
+                }
+                
+            }
+
+            if(vm.supportGracePeriod == "true"){
+                if(angular.isUndefined(vm.gracePriod)){
+                    vm.showMessageGracePeriodError = true;
+                    validate = false;
+                }else{
+                    vm.showMessageGracePeriodError = false;
+                }
+                
+            }
+            return validate;
+            
+        }
 
         vm.save = function () {
+            if(validateOverdueAndGracePeriod()){
+
+            }
             var preCloseCallback = function () {
                 var organizeModel = { organizeId: ownerId };
                 PageNavigation.gotoPage('/sponsor-configuration', {
@@ -550,12 +581,11 @@ displayModule.controller('DisplayController', [
             $scope.errors = errors;
         }
 
-        var validateOverdueAndGracePeriod = function () {
-
-        }
+        
 
         $scope.confirmSave = function () {
-            initialOverdue();
+            // setOverdueValueBeforeSave();
+
             if (vm.dataModel.documentSelection == DOCUMENT_SELECTION_ITEM.groupBy) {
                 if (vm.accountingTransactionType == "RECEIVABLE") {
                     vm.dataModel.documentSelection = vm.groupDocumentType;

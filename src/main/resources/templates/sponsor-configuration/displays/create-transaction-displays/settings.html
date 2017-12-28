@@ -215,9 +215,14 @@
 										{{'Period' | translate}}
 									</label>
 								<input id="period-textbox" 
-									type="number" min="1" max="999" ng-model="ctrl.dataModel.overDuePeriod"
+									type="number" min="1" max="999" ng-model="ctrl.overDuePeriod"
 									ng-disabled="(!ctrl.manageAll) || (ctrl.displayOverdue == 'false') || (ctrl.overdueType == ctrl.overdueRadioType.UNLIMITED)"
 									maxlength="3" class="form-control-input"></input> days
+							</div>
+
+							<div class="form-group" ng-show="ctrl.showMessagePeriodError">
+								<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+								<span class="col-md-5 col-sm-5 col-xs-12 error-msg" id="period-warning-message-label">{{'period must be 1-999 days' | translate}}</span>
 							</div>
 
 							<div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
@@ -254,6 +259,11 @@
 									maxlength="3" class="form-control-input"></input> days
 							</div>
 
+							<div class="form-group" ng-show="ctrl.showMessageGracePeriodError">
+								<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+								<span class="col-md-5 col-sm-5 col-xs-12 error-msg" id="grace-period-warning-message-label">{{'Grace period must be 1-999 days' | translate}}</span>
+							</div>
+
 							<div class="form-group">
 								<label id="overdue-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Payment date' | translate}}:
 								</label>
@@ -263,7 +273,7 @@
 								</div>
 							</div>
 
-							<div class="form-group">
+							<!--<div class="form-group">
 								<label for="dealer" id="" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Pay only bank working day' | translate}}:</label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
@@ -296,9 +306,9 @@
 									</label>
 								</div>
 								<label class="col-md-12 col-sm-12 col-xs-12 control-label"></label>
-							</div>
+							</div>-->
 
-							<div class="form-group" style="margin-bottom: 0px">
+							<!--<div class="form-group" style="margin-bottom: 0px">
 								<label for="dealer" id="" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Shift payment date' | translate}}:</label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
@@ -309,8 +319,8 @@
 										{{'In case of last payment date is equal to bank holiday' | translate}}
 									</label>
 								</div>
-							</div>
-							<div class="form-group">
+							</div>-->
+							<!--<div class="form-group">
 								<label class="col-md-4 col-sm-4 col-xs-12 control-label"></label>
 								<label class="radio-inline"><scf-radio
 											id="" name=""
@@ -325,7 +335,7 @@
 											ng-model="ctrl.shiftIn"></scf-radio>
 										{{'Pay after holiday' | translate}}
 									</label>
-							</div>
+							</div>-->
 
 						</div>
 
