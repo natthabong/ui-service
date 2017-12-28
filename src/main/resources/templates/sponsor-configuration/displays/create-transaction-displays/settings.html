@@ -12,13 +12,25 @@
 				<div class="panel-body">
 					<form name="createForm" class="form-horizontal">
 						<div>
-							<!--<div class="form-group">
+							<div class="form-group">
 								<label id="display-name-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Display name' | translate}}:
 								</label>
 								<div class="col-md-6 col-sm-6 col-sm-6 col-xs-12">
-									<scf-input-text id="display-name-textbox" ng-model="" maxlength="255"></scf-input-text>
+									<scf-input-text id="display-name-textbox" ng-model="ctrl.dataModel.displayName" maxlength="255"></scf-input-text>
 								</div>
-							</div>-->
+							</div>
+							<div class="form-group">
+								<label for="display-name-textbox"
+									class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+								<div
+									ng-show="errors.duplicateLayoutName || errors.requireLayoutName">
+									<span ng-show="errors.duplicateLayoutName"
+										class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+										id="layout-name-error-message-label">{{'Display name is
+										duplicate' | translate}}.</span>
+								</div>
+								<div class="col-md-4 col-sm-4"></div>
+							</div>
 							<div class="form-group">
 								<label id="product-type-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Product type' | translate}}:
 								</label>
@@ -334,7 +346,13 @@
 						<div ng-include="'/sponsor-configuration/components/setup-display-fields'"></div>
 					</form>
 				</div>
-
+				<div class="panel-body">
+					<div ng-show="errors.duplicateLayoutName">
+						<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+							id="layout-name-error-bottom-message-label">{{'Display name
+							is duplicate' | translate}}.</span>
+					</div>
+				</div>
 				<div class="panel-body">
 					<div class="col-md-12 col-sm-12 text-right">
 						<scf-button id="document-display-cancel-button" class="popup-button" data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"

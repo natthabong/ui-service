@@ -71,9 +71,9 @@ displayModule.controller('DisplayController', [
         }
 
         vm.productTypeDropDown = [{
-            label: 'Default',
-            value: null
-        }]
+            value: null,
+            label: 'Default'
+        }];
 
         vm.sortTypes = [{
             label: 'ASC',
@@ -124,7 +124,6 @@ displayModule.controller('DisplayController', [
                 };
 
                 vm.dataModel.displayOverdue = vm.dataModel.displayOverdue ? "true" : "false";
-
 
                 // default grouping field 1 record if don't have data
                 if (vm.dataModel.documentGroupingFields == [] || vm.dataModel.documentGroupingFields.length == 0) {
@@ -220,12 +219,29 @@ displayModule.controller('DisplayController', [
                 log.error('Load data type error');
             });
         }
+        
+        var loadProductTypeDropdawn = function (ownerId) {
+            var deffered = DisplayService.getProductTypes(ownerId);
+            deffered.promise.then(function (response) {
+                var productTypes = response.data;
+                if (productTypes != null) {
+                	productTypes.forEach(function (data) {
+                        var productTypeData = {
+                            value: data.productType,
+                            label: data.displayName
+                        }
+                        vm.productTypeDropDown.push(productTypeData);
+                    });
+                } 
+            });
+        }
 
 
         var init = function () {
             loadDataTypes();
             loadDocumentCondition();
             loadMappingData(ownerId, vm.accountingTransactionType);
+            loadProductTypeDropdawn(ownerId);
         } ();
 
         // <------------------------------------------ User Action ------------------------------------------->
@@ -386,7 +402,6 @@ displayModule.controller('DisplayController', [
                 },
                 confirm: $scope.confirmSave,
                 onFail: function (response) {
-                    blockUI.stop();
                     var msg = {
                         409: 'Display document has been deleted.',
                         405: 'Display document has been used.'
@@ -394,20 +409,34 @@ displayModule.controller('DisplayController', [
                     if (response.status == 404) {
                         vm.isNotTradeFinance = true;
                     }
-                    UIFactory.showFailDialog({
-                        data: {
-                            headerMessage: 'Edit display document configuration fail.',
-                            bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
-                        },
-                        preCloseCallback: function () {
-                            if (response.status != 404) {
-                                vm.backToSponsorConfigPage();
-                            } else {
-                                vm.isNotTradeFinance = true;
-                                vm.dataModel.supportSpecialDebit = false;
-                            }
-                        }
-                    });
+                    else if (response.status != 400) {
+						 UIFactory.showFailDialog({
+		                        data: {
+		                            headerMessage: 'Edit display document configuration fail.',
+		                            bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
+		                        },
+		                        preCloseCallback: function () {
+		                            if (response.status != 404) {
+		                                vm.backToSponsorConfigPage();
+		                            } else {
+		                                vm.isNotTradeFinance = true;
+		                                vm.dataModel.supportSpecialDebit = false;
+		                            }
+		                        }
+		                 });
+					} else {
+						$scope.errors[response.data.reference] = {
+							message : response.data.errorMessage
+						}
+						
+						var errors = {
+							duplicateLayoutName : true
+						}
+						
+						onFail(errors)
+					}
+					blockUI.stop();
+				
                 },
                 onSuccess: function (response) {
                     blockUI.stop();
@@ -429,7 +458,9 @@ displayModule.controller('DisplayController', [
             message: 'Please setup trade finance before creating special direct debit.'
         }
 
-
+        var onFail = function (errors) {
+			$scope.errors = errors;
+		}
 
         $scope.confirmSave = function () {
             initialOverdue();
@@ -457,7 +488,6 @@ displayModule.controller('DisplayController', [
                     dataSaveModel.items.splice(index, 1);
                 }
             })
-
             return DisplayService.updateDisplay(ownerId, vm.accountingTransactionType, displayMode, dataSaveModel);
         }
 

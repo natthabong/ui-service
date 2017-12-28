@@ -19,6 +19,21 @@ displayModule.factory('DisplayService', ['$http', '$q', 'Service', function ($ht
 		return differed;
 	};
 	
+	var getProductTypes = function (ownerId) {
+		var differed = $q.defer();
+		var reqUrl = '/api/v1/organize-customers/' + ownerId + '/product-types';
+		$http({
+			url: reqUrl,
+			method: 'GET',
+
+		}).then(function (response) {
+			differed.resolve(response);
+		}).catch(function (response) {
+			differed.resolve(response);
+		});
+		return differed;
+	};
+	
 
 	var updateDisplay = function (ownerId, accountingTransactionType, displayMode, dataModel) {
 		var reqUrl = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/display-modes/' + displayMode + '/displays';
@@ -41,6 +56,7 @@ displayModule.factory('DisplayService', ['$http', '$q', 'Service', function ($ht
 
 	return {
 		getDocumentDisplayConfig: getDocumentDisplayConfig,
-		updateDisplay: updateDisplay
+		updateDisplay: updateDisplay,
+		getProductTypes: getProductTypes
 	}
 }]);
