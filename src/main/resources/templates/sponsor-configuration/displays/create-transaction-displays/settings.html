@@ -12,13 +12,13 @@
 				<div class="panel-body">
 					<form name="createForm" class="form-horizontal">
 						<div>
-							<!--<div class="form-group">
+							<div class="form-group">
 								<label id="display-name-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Display name' | translate}}:
 								</label>
 								<div class="col-md-6 col-sm-6 col-sm-6 col-xs-12">
-									<scf-input-text id="display-name-textbox" ng-model="ctrl.criteria.supplierCode" maxlength="255"></scf-input-text>
+									<scf-input-text id="display-name-textbox" ng-model="" maxlength="255"></scf-input-text>
 								</div>
-							</div>-->
+							</div>
 							<div class="form-group">
 								<label id="product-type-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Product type' | translate}}:
 								</label>
@@ -246,32 +246,32 @@
 								<span class="col-md-5 col-sm-5 col-xs-12 error-msg" id="special-payment-method-warning-message-label" ng-bind="errors.isNotTradeFinance.message | translate"></span>
 							</div>
 
-							<!--<div class="form-group">
+							<div class="form-group">
 								<label id="overdue-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Grace period' | translate}}:
 								</label>
 								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="show-grace-period-dropdown" ng-model="ctrl.dataModel.reasonCodeMappingId" translate-label="true" convert-to-number="true"
+									<scf-dropdown id="show-grace-period-dropdown" ng-model="" translate-label="true" convert-to-number="true"
 										component-data="ctrl.gracePeriodDropDown"></scf-dropdown>
 								</div>
-								<input name="lockedUser" id="password-locked-user-number" type="number" min="1" max="999" ng-model="policy.numericValue1"
+								<input id="" type="number" min="1" max="999" ng-model=""
 									maxlength="3" class="form-control-input"></input> days
-							</div>-->
+							</div>
 
-							<!--<div class="form-group">
+							<div class="form-group">
 								<label id="overdue-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Payment date' | translate}}:
 								</label>
 								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="payment-date-dropdown" ng-model="ctrl.dataModel.productType" translate-label="true" convert-to-number="true"
+									<scf-dropdown id="payment-date-dropdown" ng-model="" translate-label="true" convert-to-number="true"
 										component-data="ctrl.paymentDropDown"></scf-dropdown>
 								</div>
-							</div>-->
+							</div>
 
-							<!--<div class="form-group">
-								<label for="dealer" id="special-payment-method-label" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Pay only bank working day' | translate}}:</label>
+							<div class="form-group">
+								<label for="dealer" id="" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Pay only bank working day' | translate}}:</label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
-										ng-model="ctrl.dataModel.supportSpecialDebit"
-										id="support-special-direct-debit-checkbox"
+										ng-model=""
+										id=""
 										ng-disabled="false"></scf-checkbox>
 										{{'For debit' | translate}}
 									</label>
@@ -281,8 +281,8 @@
 								<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
-										ng-model="ctrl.dataModel.supportSpecialDebit"
-										id="support-special-direct-debit-checkbox"
+										ng-model=""
+										id=""
 										ng-disabled="false"></scf-checkbox>
 										{{'For drawdown' | translate}}
 									</label>
@@ -292,21 +292,21 @@
 								<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
-										ng-model="ctrl.dataModel.supportSpecialDebit"
-										id="support-special-direct-debit-checkbox"
+										ng-model=""
+										id=""
 										ng-disabled="false"></scf-checkbox>
 										{{'For special debit' | translate}}
 									</label>
 								</div>
 								<label class="col-md-12 col-sm-12 col-xs-12 control-label"></label>
-							</div>-->
+							</div>
 
-							<!--<div class="form-group" style="margin-bottom: 0px">
-								<label for="dealer" id="special-payment-method-label" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Shift payment date' | translate}}:</label>
+							<div class="form-group" style="margin-bottom: 0px">
+								<label for="dealer" id="" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Shift payment date' | translate}}:</label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
-										ng-model="ctrl.dataModel.supportSpecialDebit"
-										id="support-special-direct-debit-checkbox"
+										ng-model=""
+										id=""
 										ng-disabled="false"></scf-checkbox>
 										{{'In case of last payment date is equal to bank holiday' | translate}}
 									</label>
@@ -327,7 +327,7 @@
 											ng-model=""></scf-radio>
 										{{'Pay after holiday' | translate}}
 									</label>
-							</div>-->
+							</div>
 
 						</div>
 
