@@ -20,7 +20,6 @@ displayModule.controller('DisplayController', [
     'UIFactory',
     'blockUI',
     'DisplayService',
-    'MappingDataService',
     'ConfigurationUtils',
     'scfFactory',
     'OVERDUE_DROPDOWN_ITEM',
@@ -30,7 +29,7 @@ displayModule.controller('DisplayController', [
         $stateParams, $timeout, ngDialog,
         PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService,
         LOAN_REQUEST_MODE_ITEM, DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM,
-        UIFactory, blockUI, DisplayService, MappingDataService, ConfigurationUtils, scfFactory,
+        UIFactory, blockUI, DisplayService, ConfigurationUtils, scfFactory,
         OVERDUE_DROPDOWN_ITEM, PAYMENT_DATE_DROPDOWN_ITEM, GRACE_PERIOD_DROPDOWN_ITEM) {
 
         var vm = this;
@@ -396,61 +395,68 @@ displayModule.controller('DisplayController', [
                     organizeModel: organizeModel
                 });
             }
-            UIFactory.showConfirmDialog({
-                data: {
-                    headerMessage: 'Confirm save?'
-                },
-                confirm: $scope.confirmSave,
-                onFail: function (response) {
-                    var msg = {
-                        409: 'Display document has been deleted.',
-                        405: 'Display document has been used.'
-                    };
-                    if (response.status == 404) {
-                        vm.isNotTradeFinance = true;
-                    }
-                    else if (response.status != 400) {
-						 UIFactory.showFailDialog({
-		                        data: {
-		                            headerMessage: 'Edit display document configuration fail.',
-		                            bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
-		                        },
-		                        preCloseCallback: function () {
-		                            if (response.status != 404) {
-		                                vm.backToSponsorConfigPage();
-		                            } else {
-		                                vm.isNotTradeFinance = true;
-		                                vm.dataModel.supportSpecialDebit = false;
-		                            }
-		                        }
-		                 });
-					} else {
-						$scope.errors[response.data.reference] = {
-							message : response.data.errorMessage
+            if(vm.dataModel.displayName == ''){
+            	var errors = {
+            			requireLayoutName : true
+				}
+				onFail(errors)
+            } else {
+	            UIFactory.showConfirmDialog({
+	                data: {
+	                    headerMessage: 'Confirm save?'
+	                },
+	                confirm: $scope.confirmSave,
+	                onFail: function (response) {
+	                    var msg = {
+	                        409: 'Display document has been deleted.',
+	                        405: 'Display document has been used.'
+	                    };
+	                    if (response.status == 404) {
+	                        vm.isNotTradeFinance = true;
+	                    }
+	                    else if (response.status != 400) {
+							 UIFactory.showFailDialog({
+			                        data: {
+			                            headerMessage: 'Edit display document configuration fail.',
+			                            bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
+			                        },
+			                        preCloseCallback: function () {
+			                            if (response.status != 404) {
+			                                vm.backToSponsorConfigPage();
+			                            } else {
+			                                vm.isNotTradeFinance = true;
+			                                vm.dataModel.supportSpecialDebit = false;
+			                            }
+			                        }
+			                 });
+						} else {
+							$scope.errors[response.data.reference] = {
+								message : response.data.errorMessage
+							}
+							
+							var errors = {
+								duplicateLayoutName : true
+							}
+							
+							onFail(errors)
 						}
-						
-						var errors = {
-							duplicateLayoutName : true
-						}
-						
-						onFail(errors)
-					}
-					blockUI.stop();
-				
-                },
-                onSuccess: function (response) {
-                    blockUI.stop();
-                    UIFactory.showSuccessDialog({
-                        data: {
-                            headerMessage: 'Edit display document configuration complete.',
-                            bodyMessage: ''
-                        },
-                        preCloseCallback: function () {
-                            vm.backToSponsorConfigPage();
-                        }
-                    });
-                }
-            });
+						blockUI.stop();
+					
+	                },
+	                onSuccess: function (response) {
+	                    blockUI.stop();
+	                    UIFactory.showSuccessDialog({
+	                        data: {
+	                            headerMessage: 'Edit display document configuration complete.',
+	                            bodyMessage: ''
+	                        },
+	                        preCloseCallback: function () {
+	                            vm.backToSponsorConfigPage();
+	                        }
+	                    });
+	                }
+	            });
+            }
         }
 
         $scope.errors = {};

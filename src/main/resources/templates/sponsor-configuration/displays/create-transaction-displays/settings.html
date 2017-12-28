@@ -27,7 +27,11 @@
 									<span ng-show="errors.duplicateLayoutName"
 										class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
 										id="layout-name-error-message-label">{{'Display name is
-										duplicate' | translate}}.</span>
+										duplicate' | translate}}.</span><span
+										ng-show="errors.requireLayoutName"
+										class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+										id="layout-name-warning-message-label">{{'Display name
+										is required' | translate}}.</span>
 								</div>
 								<div class="col-md-4 col-sm-4"></div>
 							</div>
@@ -351,6 +355,11 @@
 						<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
 							id="layout-name-error-bottom-message-label">{{'Display name
 							is duplicate' | translate}}.</span>
+					</div>
+					<div ng-show="errors.requireLayoutName">
+						<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+							id="layout-name-warning-bottom-message-label">{{'Display
+							name is required' | translate}}.</span>
 					</div>
 				</div>
 				<div class="panel-body">
