@@ -4,9 +4,9 @@ displayModule.factory('DisplayService', ['$http', '$q', 'Service', function ($ht
 
 	
 
-	var getDocumentDisplayConfig = function (ownerId, accountingTransactionType, displayMode) {
+	var getDocumentDisplayConfig = function (ownerId, accountingTransactionType, displayMode, displayId) {
 		var differed = $q.defer();
-		var reqUrl = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/display-modes/' + displayMode + '/displays';
+		var reqUrl = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/display-modes/' + displayMode + '/displays/'+ displayId;
 		$http({
 			url: reqUrl,
 			method: 'GET',

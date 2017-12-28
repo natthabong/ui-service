@@ -40,6 +40,7 @@ displayModule.controller('DisplayController', [
         var ownerId = $stateParams.organizeId;
         vm.accountingTransactionType = $stateParams.accountingTransactionType;
         var displayMode = $stateParams.displayMode;
+        var displayId = $stateParams.documentDisplayId;
 
         var newDisplayConfig = function () {
             return {
@@ -152,7 +153,7 @@ displayModule.controller('DisplayController', [
         }
 
         var loadDisplayConfig = function (ownerId, accountingTransactionType, displayMode) {
-            var deffered = DisplayService.getDocumentDisplayConfig(ownerId, accountingTransactionType, displayMode);
+            var deffered = DisplayService.getDocumentDisplayConfig(ownerId, accountingTransactionType, displayMode,displayId);
             deffered.promise.then(function (response) {
                 var data = response.data;
 
