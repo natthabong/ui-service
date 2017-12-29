@@ -6,7 +6,8 @@
 				<div class="row">
 					<div class="col-lg-10 col-md-10 col-xs-10">
 						<h3 class="animated fadeInLeft"
-							id="RECEIVABLE-document-display-header-label">{{'Document display' | translate}}</h3>
+							id="RECEIVABLE-document-display-header-label">{{'Document
+							display' | translate}}</h3>
 					</div>
 					<div class="col-lg-2 col-md-2 col-xs-2 text-right">
 						<br />
@@ -17,8 +18,7 @@
 						<i class="fa fa-plus" aria-hidden="true"></i></scf-button>
 					</div>
 				</div>
-				<div class="row"
-					ng-init="ctrl.init('RECEIVABLE', 'DOCUMENT')">
+				<div class="row" ng-init="ctrl.init('RECEIVABLE', 'DOCUMENT')">
 					<div class="col-md-12 col-sm-12 text-right">
 						<scf-table id="ar-document-display-table"
 							component-config="ctrl.dataTable"
@@ -44,13 +44,12 @@
 											ng-bind="record.displayName | translate"></span></td>
 										<td class="text-left"><span
 											id="RECEIVABLE-document-display-product-type-{{record.documentDisplayId}}-label"
-											ng-bind="(record.productType?record.product.displayName:'Default') | translate"></span></td>
+											ng-bind="(record.product.productType ? (record.product.productType +' : '+ record.product.displayName) : 'Default') | translate"></span></td>
 										<td class="text-center"><scf-button
 												id="RECEIVABLE-document-display-{{record.documentDisplayId}}-edit-button"
 												class="btn-default gec-btn-action"
-												ng-click="ctrl.editDocumentDisplay(record)" title="Edit"> <i
-												class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>
-											<scf-button
+												ng-click="ctrl.editDocumentDisplay(record)" title="Edit">
+											<i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button> <scf-button
 												id="RECEIVABLE-document-display-{{record.documentDisplayId}}-delete-button"
 												class="btn-default gec-btn-action"
 												ng-click="ctrl.deleteDocumentDisplay(record)" title="Delete">

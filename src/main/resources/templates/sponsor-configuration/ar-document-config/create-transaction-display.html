@@ -45,13 +45,12 @@
 											ng-bind="record.displayName | translate"></span></td>
 										<td class="text-left"><span
 											id="RECEIVABLE-create-transaction-display-product-type-{{record.documentDisplayId}}-label"
-											ng-bind="(record.productType?record.product.displayName:'Default') | translate"></span></td>
+											ng-bind="(record.product.productType ? (record.product.productType +' : '+ record.product.displayName) : 'Default') | translate"></span></td>
 										<td class="text-center"><scf-button
 												id="RECEIVABLE-create-transaction-display-{{record.documentDisplayId}}-edit-button"
 												class="btn-default gec-btn-action"
-												ng-click="ctrl.editDocumentDisplay(record)" title="Edit"> <i
-												class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>
-											<scf-button
+												ng-click="ctrl.editDocumentDisplay(record)" title="Edit">
+											<i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button> <scf-button
 												id="RECEIVABLE-create-transaction-display-{{record.documentDisplayId}}-delete-button"
 												class="btn-default gec-btn-action"
 												ng-click="ctrl.deleteDocumentDisplay(record)" title="Delete">
