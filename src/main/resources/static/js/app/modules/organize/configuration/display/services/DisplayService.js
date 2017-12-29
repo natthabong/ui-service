@@ -1,10 +1,10 @@
 'use strict';
 var displayModule = angular.module('gecscf.organize.configuration.display');
-displayModule.factory('DisplayService', ['$http', '$q', 'Service', function ($http, $q, Service) {
+displayModule.service('DisplayService', ['$http', '$q', 'Service', function ($http, $q, Service) {
 
 	
 
-	var getDocumentDisplayConfig = function (ownerId, accountingTransactionType, displayMode, displayId) {
+	this.getDocumentDisplayConfig = function (ownerId, accountingTransactionType, displayMode, displayId) {
 		var differed = $q.defer();
 		var reqUrl = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/display-modes/' + displayMode + '/displays/'+ displayId;
 		$http({
@@ -19,7 +19,7 @@ displayModule.factory('DisplayService', ['$http', '$q', 'Service', function ($ht
 		return differed;
 	};
 	
-	var getProductTypes = function (ownerId) {
+  this.getProductTypes = function (ownerId) {
 		var differed = $q.defer();
 		var reqUrl = '/api/v1/organize-customers/' + ownerId + '/product-types';
 		$http({
@@ -34,8 +34,7 @@ displayModule.factory('DisplayService', ['$http', '$q', 'Service', function ($ht
 		return differed;
 	};
 	
-
-	var updateDisplay = function (ownerId, accountingTransactionType, displayMode, dataModel) {
+  this.updateDisplay = function (ownerId, accountingTransactionType, displayMode, dataModel) {
 		var reqUrl = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/display-modes/' + displayMode + '/displays';
 		var deferred = $q.defer();
 		$http({
@@ -54,17 +53,13 @@ displayModule.factory('DisplayService', ['$http', '$q', 'Service', function ($ht
 		 return deferred;
 	}
 	
-	var create = function (ownerId, accountingTransactionType, displayMode, dataModel)  {
+  this.create = function (ownerId, accountingTransactionType, displayMode, dataModel)  {
 		var reqUrl = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/display-modes/' + displayMode + '/displays';
 		var deferred = $q.defer();
 		$http({
 			method : 'POST',
-			url : reqUrl + '/'+ dataModel.documentDisplayId,
-			data : dataModel,
-			headers : {
-				'If-Match' : dataModel.version,
-				'X-HTTP-Method-Override': 'PUT'
-			}
+			url : reqUrl ,
+			data : dataModel
 		  }).then(function(response){
 		      return deferred.resolve(response);
 		 }).catch(function(response){
@@ -73,10 +68,4 @@ displayModule.factory('DisplayService', ['$http', '$q', 'Service', function ($ht
 		 return deferred;
 	}
 
-	return {
-		getDocumentDisplayConfig: getDocumentDisplayConfig,
-		updateDisplay: updateDisplay,
-		getProductTypes: getProductTypes,
-		create: create
-	}
 }]);
