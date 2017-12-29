@@ -76,6 +76,7 @@ displayModule.factory('DisplayService', ['$http', '$q', 'Service', function ($ht
 	return {
 		getDocumentDisplayConfig: getDocumentDisplayConfig,
 		updateDisplay: updateDisplay,
-		getProductTypes: getProductTypes
+		getProductTypes: getProductTypes,
+		create: create
 	}
 }]);
