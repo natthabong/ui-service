@@ -25,16 +25,8 @@ tpModule
 					        }
 					        console.log(vm.modeCreateDisplay);
 					        
-							var newDisplayConfig = function () {
-					            return {
-					                documentFieldId: null,
-					                sortType: null
-					            }
-					        }
-							
 							vm.model = {
 								displayName: null,
-					            items: [newDisplayConfig()],
 					            loanRequestMode: null,
 					            documentSelection: null,
 					            supplierCodeSelectionMode: null,
