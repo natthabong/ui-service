@@ -33,7 +33,7 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
 				accountingTransactionType : type,
 				displayMode : mode
 			}, preCloseCallback : function() {
-				vm.init(processType, integrateType);
+				vm.init(type, mode);
 			}
 		});
   }
