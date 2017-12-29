@@ -19,11 +19,11 @@ tpModule
 					        vm.accountingTransactionType = data.accountingTransactionType;
 					        var displayMode = data.displayMode;
 					        console.log(displayMode);
-					        var modeCreateDisplay = true;
+					        vm.modeCreateDisplay = true;
 					        if(displayMode == 'DOCUMENT'){
-					        	modeCreateDisplay = false;
+					        	vm.modeCreateDisplay = false;
 					        }
-					        console.log(modeCreateDisplay);
+					        console.log(vm.modeCreateDisplay);
 					        
 							var newDisplayConfig = function () {
 					            return {

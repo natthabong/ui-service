@@ -5,15 +5,14 @@
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
 					<h3>
-						<div ng-if="modeCreateDisplay">
+						<div ng-if="ctrl.modeCreateDisplay">
 							<span id="display-data-popup-header-message-label" 
 							class="popup-text" ng-bind="'Add new create transaction display' | translate">Add new create transaction display</span>
 						</div>
-						<div ng-if="!modeCreateDisplay">
+						<div ng-if="!ctrl.modeCreateDisplay">
 							<span id="display-data-popup-header-message-label" 
 							class="popup-text" ng-bind="'Add new document display' | translate">Add new document display</span>
 						</div>
-						
 					</h3>
 				</div>
 			</div>
