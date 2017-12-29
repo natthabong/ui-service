@@ -89,8 +89,8 @@ paymentModule.controller('ValidateSubmitController', [
             vm.dataTable.expansion.columns.push(columnReasonCodeLabel);
         }
 
-        var loadDocumentDisplayConfig = function(ownerId) {
-            var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT');
+        var loadDocumentDisplayConfig = function(ownerId, productType) {
+            var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT', productType);
             deffered.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
                 vm.supportPartial = response.supportPartial;
@@ -105,7 +105,7 @@ paymentModule.controller('ValidateSubmitController', [
         var init = function() {
             if (vm.isCreateTransWithInvoice) {
                 vm.pagingController.search();
-                loadDocumentDisplayConfig(vm.transactionModel.supplierId);
+                loadDocumentDisplayConfig(vm.transactionModel.supplierId, vm.transactionModel.productType);
             }
 
 
