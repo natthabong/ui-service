@@ -480,6 +480,7 @@ displayModule.controller('DisplayController', [
             }
 
             // Shift In
+            console.log(vm.dataModel.shiftPaymentDate);
             if(!vm.dataModel.shiftPaymentDate){
                 vm.dataModel.shiftIn = null;
             }else{
