@@ -40,7 +40,7 @@ displayModule.controller('DisplayController', [
         var ownerId = $stateParams.organizeId;
         vm.accountingTransactionType = $stateParams.accountingTransactionType;
         var displayMode = $stateParams.displayMode;
-        var displayId = $stateParams.documentDisplayId;
+        vm.displayId = $stateParams.documentDisplayId;
 
         var newDisplayConfig = function () {
             return {
@@ -163,8 +163,8 @@ displayModule.controller('DisplayController', [
                 vm.overdueType = vm.overdueRadioType.PERIOD;
             }
         }
-
-        var loadDisplayConfig = function (ownerId, accountingTransactionType, displayMode) {
+        
+        var loadDisplayConfig = function (ownerId, accountingTransactionType, displayMode, displayId) {
             var deffered = DisplayService.getDocumentDisplayConfig(ownerId, accountingTransactionType, displayMode, displayId);
             deffered.promise.then(function (response) {
                 var data = response.data;
@@ -235,6 +235,18 @@ displayModule.controller('DisplayController', [
             });
         }
 
+        var loadDisplayConfigs = function (ownerId, accountingTransactionType, displayMode) {
+            var deffered = DisplayService.getDocumentDisplayConfigs(ownerId, accountingTransactionType, displayMode);
+            deffered.promise.then(function (response) {
+                var data = response.data[0];
+                console.log(data);
+                loadDisplayConfig(ownerId, accountingTransactionType, displayMode,data.documentDisplayId);
+
+            }).catch(function (response) {
+                log.error('Load data error');
+            });
+        }
+        
         var loadMappingData = function (ownerId, accountingTransactionType) {
             var dataType = ["TEXT_MAPPING_WITH_DEFAULT"];
             var deffered = SCFCommonService.loadMappingData(ownerId, accountingTransactionType, dataType);
@@ -249,8 +261,12 @@ displayModule.controller('DisplayController', [
                         vm.dataMappingType.push(mappingData);
                     });
                 }
-                loadDisplayConfig(ownerId, accountingTransactionType, displayMode);
-
+                
+                if (accountingTransactionType == 'PAYABLE'){
+                	loadDisplayConfigs(ownerId, accountingTransactionType, displayMode);
+                } else {
+                	loadDisplayConfig(ownerId, accountingTransactionType, displayMode, vm.displayId);
+                }
             });
         }
 

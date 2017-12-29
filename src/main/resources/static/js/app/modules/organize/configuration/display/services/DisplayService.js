@@ -19,6 +19,21 @@ displayModule.service('DisplayService', ['$http', '$q', 'Service', function ($ht
 		return differed;
 	};
 	
+	this.getDocumentDisplayConfigs = function (ownerId, accountingTransactionType, displayMode) {
+		var differed = $q.defer();
+		var reqUrl = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/display-modes/' + displayMode + '/displays';
+		$http({
+			url: reqUrl,
+			method: 'GET',
+
+		}).then(function (response) {
+			differed.resolve(response);
+		}).catch(function (response) {
+			differed.resolve(response);
+		});
+		return differed;
+	};
+	
   this.getProductTypes = function (ownerId) {
 		var differed = $q.defer();
 		var reqUrl = '/api/v1/organize-customers/' + ownerId + '/product-types';
