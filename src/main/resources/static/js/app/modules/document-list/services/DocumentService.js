@@ -7,7 +7,22 @@ docModule.factory('DocumentService', ['$http', '$q', 'Service', '$log', 'UIFacto
             item.identity = [role, '-', item.organizeId, '-option'].join('');
             item.label = [item.organizeId, ': ', item.organizeName].join('');
             return item;
-        }
+        };
+        
+        function getProductTypes (ownerId) {
+    		var differed = $q.defer();
+    		var reqUrl = '/api/v1/organize-customers/' + ownerId + '/product-types';
+    		$http({
+    			url: reqUrl,
+    			method: 'GET',
+
+    		}).then(function (response) {
+    			differed.resolve(response);
+    		}).catch(function (response) {
+    			differed.resolve(response);
+    		});
+    		return differed;
+    	};
 
         function queryAutoSuggest(serviceUrl, value, buyer, supplier, role) {
             value = value = UIFactory.createCriteria(value);
@@ -28,11 +43,12 @@ docModule.factory('DocumentService', ['$http', '$q', 'Service', '$log', 'UIFacto
                 log.error("Load auto suggest fail!")
                 return null;
             });
-        }
+        };
 
         return {
             prepareAutoSuggestLabel: prepareAutoSuggestLabel,
-            queryAutoSuggest: queryAutoSuggest
+            queryAutoSuggest: queryAutoSuggest,
+            getProductTypes: getProductTypes
         }
     }
 ]);

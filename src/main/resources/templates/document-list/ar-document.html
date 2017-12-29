@@ -25,14 +25,22 @@
 								<label for="supplier-auto-suggest" id="supplier-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
 									| translate}}:</label>
-								<div class="col-md-6 col-sm-6 col-xs-12">
+								<div class="col-md-4 col-sm-4 col-xs-12">
 									<gec-auto-suggest id="supplier-auto-suggest"
 										required="required" disable="ctrl.supplierTxtDisable"
 										model="ctrl.supplierAutoSuggestModel" name="supplierCode"
 										ng-model="ctrl.documentListModel.supplier" maxlength="100"></gec-auto-suggest>
 
 								</div>
-								<div class="col-md-3 col-sm-2"></div>
+								<div ng-show="ctrl.showProductType()" class="col-md-2 col-sm-1 col-xs-12">
+									<label for="product-type-dropdown" id="product-type-label"
+									class="col-md-12 col-sm-12 col-xs-12 control-label">{{'Product Type'
+									| translate}}:</label></div>
+								<div ng-show="ctrl.showProductType()" class="col-md-3 col-sm-4 col-xs-12">
+									<scf-dropdown id="product-type-dropdown"
+										ng-model="ctrl.documentListModel.productType"
+										component-data="ctrl.productTypeDropdowns"></scf-dropdown>
+								</div>
 							</div>
 
 							<div class="form-group" ng-show="ctrl.requireSupplier">
@@ -46,7 +54,7 @@
 								<label for="buyer-auto-suggest" id="buyer-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer'|
 									translate}}: </label>
-								<div class="col-md-6 col-sm-6 col-xs-12">
+								<div class="col-md-4 col-sm-4 col-xs-12">
 									<gec-auto-suggest model="ctrl.buyerAutoSuggestModel"
 										ng-model="ctrl.documentListModel.buyer"
 										id="buyer-auto-suggest" disable="ctrl.disableBuyerSuggest()"

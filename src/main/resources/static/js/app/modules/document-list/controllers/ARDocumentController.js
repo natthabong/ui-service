@@ -32,6 +32,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	        }
 	
 	        vm.documentStatusDrpodowns = ARDocumentStatus;
+	        vm.productTypeDropdowns = [];
 	
 	        vm.canDelete = function(data) {
 	            return data.documentStatus == 'NEW' && !($stateParams.viewMode == viewModeData.partner) && vm.deleteAuthority;
@@ -98,6 +99,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            uploadDateFrom: '',
 	            uploadDateTo: '',
 	            documentNo: undefined,
+	            productType: undefined,
 	            documentStatus: vm.documentStatusDrpodowns[0].value
 	        }
 	
@@ -109,6 +111,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            uploadDateTo: undefined,
 	            documentNo: '',
 	            documentStatus: undefined,
+	            productType: undefined,
 	            accountingTransactionType: 'RECEIVABLE',
 	            viewMyOrganize: true
 	        }
@@ -170,6 +173,15 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 	            query: queryBuyerCode
 	        });
+	        
+	        
+	        vm.showProductType = function (){
+	        	if (vm.productTypeDropdowns.length > 0) {
+	                 return true;
+	            }else{
+	            	return false;
+	            }
+	        }
 	
 	        var isValidateCriteriaPass = function() {
 	            var isValidatePass = true;
@@ -220,7 +232,9 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            vm.documentListCriterial.buyerId = buyerCriteria;
 	            vm.documentListCriterial.supplierId = supplierCriteria;
 	            vm.documentListCriterial.customerCode = UIFactory.createCriteria(vm.documentListModel.buyerCode);
-	
+	            
+	            vm.documentListCriterial.productType = vm.documentListModel.productType;
+	            
 	            if (angular.isDate(vm.documentListModel.uploadDateFrom)) {
 	                vm.documentListCriterial.uploadDateFrom = vm.documentListModel.uploadDateFrom
 	            } else {
@@ -261,6 +275,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            var docDisplayPromise = $q.defer();
 	            var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId, accountingTransactionType, displayMode);
 	            vm.dataTable.columns = [];
+	            
 	            displayConfig.promise.then(function(response) {
 	
 	                vm.dataTable.columns.push(columRowNo);
@@ -296,7 +311,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            var supplierInfo = angular.copy($rootScope.userInfo);
 	            supplierInfo = DocumentService.prepareAutoSuggestLabel(supplierInfo);
 	            vm.documentListModel.supplier = supplierInfo;
-	
+	         
 	            var loadDisplayConfigDiferred = vm.loadDocumentDisplayConfig(organizeId, accountingTransactionType, displayMode);
 	            loadDisplayConfigDiferred.promise.then(function() {
 	                vm.searchDocument();
@@ -358,6 +373,24 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	        $scope.$watch('ctrl.documentListModel.supplier', function() {
 	            if (viewMode != viewModeData.myOrganize && angular.isDefined(vm.documentListModel.supplier) && angular.isObject(vm.documentListModel.supplier)) {
 	                vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode);
+	                var deffered = DocumentService.getProductTypes(vm.documentListModel.supplier.organizeId);
+		            deffered.promise.then(function (response) {
+		                    var productTypes = response.data;
+		                    if (productTypes != null) {
+		                    	vm.productTypeDropdowns = [];
+		                        productTypes.forEach(function (data) {
+		                            var productTypeData = {
+		                                value: data.productType,
+		                                label: data.displayName
+		                            }
+		                            vm.productTypeDropdowns.push(productTypeData);
+		                        });
+		                        vm.documentListModel.productType = vm.productTypeDropdowns[0].value;
+		                    }else{
+		                    	vm.documentListModel.productType =  undefined;
+		                    	vm.productTypeDropdowns = [];
+		                    }
+		             });
 	            }
 	
 	            if (viewMode != viewModeData.partner) {
