@@ -87,31 +87,31 @@
 							</div>
 						</button>
 					</div>
-					<div class="col-md-2 col-sm-2 col-xs-6"
-						ng-controller="DisplayConfigController as displayCtrl">
-						<input type="hidden" ng-init="displayCtrl.viewAllConfig=true"
-							sec:authorize="hasAuthority('VIEW_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
-						<input type="hidden" ng-init="displayCtrl.manageAllConfig=true"
-							sec:authorize="hasAuthority('MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
-						<button class="thumbnail"
-							id="display-AR Document layout-setup-button"
-							ng-click="displayCtrl.setupDisplayDocument('RECEIVABLE','DOCUMENT')"
-							title="Config a document display"
-							ng-disabled="displayCtrl.unauthenConfig()">
-							<div class="caption config-box">
-								<div class="media">
-									<div class="media-body">
-										<h5 class="media-heading animated fadeInLeft"
-											id="ar-document-display-header-label"
-											ng-bind="'Document display' | translate"></h5>
-									</div>
-									<div class="media-right btn-default">
-										<i class="fa fa-cog" aria-hidden="true"></i>
-									</div>
-								</div>
-							</div>
-						</button>
-					</div>
+<!-- 					<div class="col-md-2 col-sm-2 col-xs-6" -->
+<!-- 						ng-controller="DisplayConfigController as displayCtrl"> -->
+<!-- 						<input type="hidden" ng-init="displayCtrl.viewAllConfig=true" -->
+<!-- 							sec:authorize="hasAuthority('VIEW_ALL_DOCUMENT_DISPLAY_LAYOUTS')" /> -->
+<!-- 						<input type="hidden" ng-init="displayCtrl.manageAllConfig=true" -->
+<!-- 							sec:authorize="hasAuthority('MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')" /> -->
+<!-- 						<button class="thumbnail" -->
+<!-- 							id="display-AR Document layout-setup-button" -->
+<!-- 							ng-click="displayCtrl.setupDisplayDocument('RECEIVABLE','DOCUMENT')" -->
+<!-- 							title="Config a document display" -->
+<!-- 							ng-disabled="displayCtrl.unauthenConfig()"> -->
+<!-- 							<div class="caption config-box"> -->
+<!-- 								<div class="media"> -->
+<!-- 									<div class="media-body"> -->
+<!-- 										<h5 class="media-heading animated fadeInLeft" -->
+<!-- 											id="ar-document-display-header-label" -->
+<!-- 											ng-bind="'Document display' | translate"></h5> -->
+<!-- 									</div> -->
+<!-- 									<div class="media-right btn-default"> -->
+<!-- 										<i class="fa fa-cog" aria-hidden="true"></i> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</button> -->
+<!-- 					</div> -->
 					<!-- <div class="col-md-3 col-sm-3 col-xs-6"
 						ng-controller="DisplayConfigController as displayCtrl">
 						<input type="hidden" ng-init="displayCtrl.viewAllConfig=true"
@@ -216,6 +216,9 @@
 					<!-- 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> -->
 					<div class="col-md-12">
 						<div ng-include="'/sponsor-configuration/ar-channel-configs'"></div>
+					</div>
+					<div class="col-md-12">
+						<div ng-include="'/sponsor-configuration/document-display-configs'"></div>
 					</div>
 					<div class="col-md-12">
 						<div ng-include="'/sponsor-configuration/create-payment-display-configs'"></div>

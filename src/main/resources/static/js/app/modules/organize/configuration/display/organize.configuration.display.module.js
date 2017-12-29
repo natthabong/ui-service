@@ -15,7 +15,7 @@ angular
                               .state(
                                       '/sponsor-configuration/document-display/settings',
                                       {
-                                        url: '/sponsor-configuration/document-display/settings/:organizeId/:accountingTransactionType/:displayMode',
+                                        url: '/sponsor-configuration/document-display/settings/:organizeId/:accountingTransactionType/:displayMode/displays/:documentDisplayId',
                                         controller: 'DisplayController',
                                         controllerAs: 'ctrl',
                                         templateUrl: '/sponsor-configuration/document-display/settings',

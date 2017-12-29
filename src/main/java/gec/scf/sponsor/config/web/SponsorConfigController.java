@@ -37,6 +37,7 @@ public class SponsorConfigController {
 	
 	private static String AP_CREATE_TRANSACTION_DISPLAY = "sponsor-configuration/ap-document-config/create-transaction-display";
 	private static String AR_CREATE_TRANSACTION_DISPLAY = "sponsor-configuration/ar-document-config/create-transaction-display";
+	private static String AR_DOCUMENT_DISPLAY = "sponsor-configuration/ar-document-config/document-display";
 	
 	private static String SETTINGS_DOCUMENT_DISPLAY = "sponsor-configuration/displays/document-displays/settings";
 	private static String SETTINGS_CREATE_TRANSACTION_DISPLAY = "sponsor-configuration/displays/create-transaction-displays/settings";
@@ -178,6 +179,16 @@ public class SponsorConfigController {
 			return AR_CREATE_TRANSACTION_DISPLAY.concat(" :: content");
 		}
 		return AR_CREATE_TRANSACTION_DISPLAY;
+
+	}
+	
+	@RequestMapping(path = "/document-display-configs", method = RequestMethod.GET)
+	public String arDocumentDisplay(@RequestHeader("X-Requested-With") String requestedWith) {
+
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return AR_DOCUMENT_DISPLAY.concat(" :: content");
+		}
+		return AR_DOCUMENT_DISPLAY;
 
 	}
 
