@@ -115,11 +115,14 @@ app.service('SCFCommonService', [
 			return deffered;
 		}
 
-		vm.getDocumentDisplayConfig = function(ownerId, accountingTransactionType, displayMode) {
+		vm.getDocumentDisplayConfig = function(ownerId, accountingTransactionType, displayMode, productType) {
 			var differed = $q.defer();
 			var displayConfig = []; 
-			var reqUrl = '/api/v1/organize-customers/'+ownerId+'/accounting-transactions/'+accountingTransactionType+'/display-modes/'+displayMode+'/displays';
-			var documentDisplayDiferred = Service.doGet(reqUrl);
+			var reqUrl = '/api/v1/organize-customers/'+ownerId+'/accounting-transactions/'+accountingTransactionType+'/display-modes/'+displayMode+'/display';
+			var criteria = {
+				productType: productType
+			}
+			var documentDisplayDiferred = Service.doGet(reqUrl, criteria);
 			documentDisplayDiferred.promise.then(function(response) {
 				
 				if (angular.isUndefined(response.data)) {
