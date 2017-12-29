@@ -20,16 +20,10 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="display-name-textbox"
-									class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
-								<div
-									ng-show="errors.duplicateLayoutName || errors.requireLayoutName">
-									<span ng-show="errors.duplicateLayoutName"
-										class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
-										id="layout-name-error-message-label">{{'Display name is
-										duplicate' | translate}}.</span><span
-										ng-show="errors.requireLayoutName"
-										class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+								<label for="display-name-textbox" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+								<div ng-show="errors.duplicateLayoutName || errors.requireLayoutName">
+									<span ng-show="errors.duplicateLayoutName" class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-error-message-label">{{'Display name is
+										duplicate' | translate}}.</span><span ng-show="errors.requireLayoutName" class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
 										id="layout-name-warning-message-label">{{'Display name
 										is required' | translate}}.</span>
 								</div>
@@ -39,8 +33,7 @@
 								<label id="product-type-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Product type' | translate}}:
 								</label>
 								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="product-type-dropdown" ng-model="ctrl.dataModel.productType" translate-label="true"
-										component-data="ctrl.productTypeDropDown"></scf-dropdown>
+									<scf-dropdown id="product-type-dropdown" ng-model="ctrl.dataModel.productType" translate-label="true" component-data="ctrl.productTypeDropDown"></scf-dropdown>
 								</div>
 							</div>
 
@@ -187,14 +180,12 @@
 									<label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 control-label"></label>
 								</div>
 							</div>
-							
+
 							<div class="form-group">
 								<label id="overdue-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Overdue' | translate}}:
 								</label>
 								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="show-overdue-dropdown" 
-										ng-change="ctrl.changeOverdue()"
-										ng-model="ctrl.displayOverdue" translate-label="true"
+									<scf-dropdown id="show-overdue-dropdown" ng-change="ctrl.changeOverdue()" ng-model="ctrl.displayOverdue" translate-label="true"
 										component-data="ctrl.overdueDropDown"></scf-dropdown>
 								</div>
 								&nbsp;
@@ -214,10 +205,13 @@
 											ng-model="ctrl.overdueType"></scf-radio>
 										{{'Period' | translate}}
 									</label>
-								<input id="period-textbox" 
-									type="number" min="1" max="999" ng-model="ctrl.dataModel.overDuePeriod"
-									ng-disabled="(!ctrl.manageAll) || (ctrl.displayOverdue == 'false') || (ctrl.overdueType == ctrl.overdueRadioType.UNLIMITED)"
+								<input id="period-textbox" type="number" min="1" max="999" ng-model="ctrl.overDuePeriod" ng-disabled="(!ctrl.manageAll) || (ctrl.displayOverdue == 'false') || (ctrl.overdueType == ctrl.overdueRadioType.UNLIMITED)"
 									maxlength="3" class="form-control-input"></input> days
+							</div>
+
+							<div class="form-group" ng-show="ctrl.showMessagePeriodError">
+								<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+								<span class="col-md-5 col-sm-5 col-xs-12 error-msg" id="period-warning-message-label">{{'period must be 1-999 days' | translate}}</span>
 							</div>
 
 							<div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
@@ -242,33 +236,32 @@
 								<label id="grace-period-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Grace period' | translate}}:
 								</label>
 								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="support-grace-period-dropdown" 
-										ng-model="ctrl.supportGracePeriod"
-										ng-change="ctrl.changeSupportGracePeriod()"
-										translate-label="true"
-										component-data="ctrl.gracePeriodDropDown"></scf-dropdown>
+									<scf-dropdown id="support-grace-period-dropdown" ng-model="ctrl.supportGracePeriod" ng-change="ctrl.changeSupportGracePeriod()"
+										translate-label="true" component-data="ctrl.gracePeriodDropDown"></scf-dropdown>
 								</div>
-								<input id="grace-period-textbox" type="number" min="1" max="999" 
-									ng-disabled="(!ctrl.manageAll) || (ctrl.supportGracePeriod == 'false')"
-									ng-model="ctrl.gracePriod"
-									maxlength="3" class="form-control-input"></input> days
+								<input id="grace-period-textbox" type="number" min="1" max="999" ng-disabled="(!ctrl.manageAll) || (ctrl.supportGracePeriod == 'false')"
+									ng-model="ctrl.gracePriod" maxlength="3" class="form-control-input"></input> days
+							</div>
+
+							<div class="form-group" ng-show="ctrl.showMessageGracePeriodError">
+								<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+								<span class="col-md-5 col-sm-5 col-xs-12 error-msg" id="grace-period-warning-message-label">{{'Grace period must be 1-999 days' | translate}}</span>
 							</div>
 
 							<div class="form-group">
 								<label id="overdue-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Payment date' | translate}}:
 								</label>
 								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="payment-date-dropdown" ng-model="ctrl.dataModel.loanRequestMode" translate-label="true"
-										component-data="ctrl.paymentDropDown"></scf-dropdown>
+									<scf-dropdown id="payment-date-dropdown" ng-model="ctrl.dataModel.loanRequestMode" translate-label="true" component-data="ctrl.paymentDropDown"></scf-dropdown>
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label for="dealer" id="" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Pay only bank working day' | translate}}:</label>
+								<label for="dealer" id="pay-only-bank-working-day-label" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Pay only bank working day' | translate}}:</label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
 										ng-model="ctrl.checkedForDebit"
-										id=""
+										id="for-debit-check-box"
 										ng-disabled="false"></scf-checkbox>
 										{{'For debit' | translate}}
 									</label>
@@ -279,7 +272,7 @@
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
 										ng-model="ctrl.checkedForDrawdown"
-										id=""
+										id="for-drawdown-check-box"
 										ng-disabled="false"></scf-checkbox>
 										{{'For drawdown' | translate}}
 									</label>
@@ -290,7 +283,7 @@
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
 										ng-model="ctrl.checkedForSpecialDebit"
-										id=""
+										id="for-special-debit-check-box"
 										ng-disabled="false"></scf-checkbox>
 										{{'For special debit' | translate}}
 									</label>
@@ -299,11 +292,11 @@
 							</div>
 
 							<div class="form-group" style="margin-bottom: 0px">
-								<label for="dealer" id="" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Shift payment date' | translate}}:</label>
+								<label for="dealer" id="shift-payment-date-label" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Shift payment date' | translate}}:</label>
 								<div class="col-md-5 col-sm-5 col-xs-12">
 									<label><scf-checkbox
 										ng-model="ctrl.dataModel.shiftPaymentDate"
-										id=""
+										id="in-case-of-last-payment-date-is-equal-to-bank-holiday-check-box"
 										ng-change= "ctrl.changeShiftPaymentDate()"
 										ng-disabled="false"></scf-checkbox>
 										{{'In case of last payment date is equal to bank holiday' | translate}}
@@ -313,13 +306,14 @@
 							<div class="form-group">
 								<label class="col-md-4 col-sm-4 col-xs-12 control-label"></label>
 								<label class="radio-inline"><scf-radio
-											id="" name=""
+											id="pay-before-holiday-radio-button" name="shift-payment-date"
 											ng-value="true"
 											ng-disabled="(!ctrl.manageAll) || (!ctrl.dataModel.shiftPaymentDate)"
 											ng-model="ctrl.shiftIn"></scf-radio>
 										{{'Pay before holiday' | translate}}
-									</label> <label class="radio-inline"><scf-radio
-											id="" name=""
+									</label>
+								<label class="radio-inline"><scf-radio
+											id="pay-after-holiday-radio-button" name="shift-payment-date"
 											ng-value="false"
 											ng-disabled="(!ctrl.manageAll) || (!ctrl.dataModel.shiftPaymentDate)"
 											ng-model="ctrl.shiftIn"></scf-radio>
@@ -335,13 +329,11 @@
 				</div>
 				<div class="panel-body">
 					<div ng-show="errors.duplicateLayoutName">
-						<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
-							id="layout-name-error-bottom-message-label">{{'Display name
+						<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-error-bottom-message-label">{{'Display name
 							is duplicate' | translate}}.</span>
 					</div>
 					<div ng-show="errors.requireLayoutName">
-						<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
-							id="layout-name-warning-bottom-message-label">{{'Display
+						<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-warning-bottom-message-label">{{'Display
 							name is required' | translate}}.</span>
 					</div>
 				</div>

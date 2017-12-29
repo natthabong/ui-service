@@ -152,13 +152,14 @@ displayModule.controller('DisplayController', [
             });
         }
 
-        vm.initialOverdue = function () {
+        vm.overDuePeriod = null;
+        var initialOverdue = function () {
             console.log(vm.dataModel.overDuePeriod);
             if (vm.dataModel.overDuePeriod == 0 || vm.dataModel.overDuePeriod == null) {
                 vm.overDuePeriod = null;
                 vm.overdueType = vm.overdueRadioType.UNLIMITED;
             } else {
-                vm.overDuePeriod = 1;
+                vm.overDuePeriod = vm.dataModel.overDuePeriod;
                 vm.overdueType = vm.overdueRadioType.PERIOD;
             }
         }
@@ -182,7 +183,7 @@ displayModule.controller('DisplayController', [
                 };
 
                 vm.displayOverdue = vm.dataModel.displayOverdue ? "true" : "false";
-                vm.initialOverdue();
+                initialOverdue();
 
                 vm.supportGracePeriod = vm.dataModel.supportGracePeriod ? "true" : "false";
                 vm.gracePriod = vm.dataModel.gracePriod;
@@ -423,17 +424,19 @@ displayModule.controller('DisplayController', [
         }
 
         vm.changeOverdue = function () {
-            if (vm.dataModel.displayOverdue == "false") {
+            if (vm.displayOverdue == "false") {
                 vm.overdueType = vm.overdueRadioType.UNLIMITED
-                vm.dataModel.overDuePeriod = null;
+                vm.overDuePeriod = null;
+                vm.showMessagePeriodError = false;
             }
         }
 
         vm.changeOverdueType = function () {
             if (vm.overdueType == vm.overdueRadioType.UNLIMITED) {
-                vm.dataModel.overDuePeriod = null;
+                vm.overDuePeriod = null;
+                vm.showMessagePeriodError = false;
             } else {
-                vm.dataModel.overDuePeriod = 1;
+                vm.overDuePeriod = 1;
             }
         }
 
@@ -457,87 +460,133 @@ displayModule.controller('DisplayController', [
             });
         }
 
-        var initialOverdue = function () {
-            if (vm.dataModel.displayOverdue == 'false') {
+        var setValueBeforeSave = function () {
+            // Overdue
+            if (vm.displayOverdue == 'false') {
                 vm.dataModel.overDuePeriod = null;
-                vm.dataModel.displayOverdue = false;
-            } else if (vm.dataModel.displayOverdue == 'true') {
-                vm.dataModel.displayOverdue = true;
+            } else if (vm.displayOverdue == 'true') {
                 if (vm.overdueType == vm.overdueRadioType.UNLIMITED) {
                     vm.dataModel.overDuePeriod = 0;
+                } else {
+                    vm.dataModel.overDuePeriod = vm.overDuePeriod;
                 }
+            }
+
+            // Grace period
+            if (vm.supportGracePeriod == "false") {
+                vm.dataModel.gracePriod = null;
+            } else if (vm.supportGracePeriod == 'true'){
+                vm.dataModel.gracePriod = vm.gracePriod;
+            }
+
+            // Shift In
+            console.log(vm.dataModel.shiftPaymentDate);
+            if(!vm.dataModel.shiftPaymentDate){
+                vm.dataModel.shiftIn = null;
+            }else{
+                vm.dataModel.shiftIn = vm.shiftIn;
             }
         }
 
+        vm.showMessagePeriodError = false;
+        vm.showMessageGracePeriodError = false;
+
+        var validateOverdueAndGracePeriod = function () {
+            var validate = true;
+            if (vm.overdueType == vm.overdueRadioType.PERIOD) {
+                if (angular.isUndefined(vm.overDuePeriod)) {
+                    vm.showMessagePeriodError = true;
+                    validate = false;
+                } else {
+                    vm.showMessagePeriodError = false;
+                }
+
+            }
+
+            if (vm.supportGracePeriod == "true") {
+                if (angular.isUndefined(vm.gracePriod)) {
+                    vm.showMessageGracePeriodError = true;
+                    validate = false;
+                } else {
+                    vm.showMessageGracePeriodError = false;
+                }
+
+            }
+            return validate;
+
+        }
 
         vm.save = function () {
-            var preCloseCallback = function () {
-                var organizeModel = { organizeId: ownerId };
-                PageNavigation.gotoPage('/sponsor-configuration', {
-                    organizeModel: organizeModel
-                });
-            }
-            if (vm.dataModel.displayName == '') {
-                var errors = {
-                    requireLayoutName: true
+            if (validateOverdueAndGracePeriod()) {
+                setValueBeforeSave();
+                var preCloseCallback = function () {
+                    var organizeModel = { organizeId: ownerId };
+                    PageNavigation.gotoPage('/sponsor-configuration', {
+                        organizeModel: organizeModel
+                    });
                 }
-                onFail(errors)
-            } else {
-                UIFactory.showConfirmDialog({
-                    data: {
-                        headerMessage: 'Confirm save?'
-                    },
-                    confirm: $scope.confirmSave,
-                    onFail: function (response) {
-                        var msg = {
-                            409: 'Display document has been deleted.',
-                            405: 'Display document has been used.'
-                        };
-                        if (response.status == 404) {
-                            vm.isNotTradeFinance = true;
-                        }
-                        else if (response.status != 400) {
-                            UIFactory.showFailDialog({
+                if (vm.dataModel.displayName == '') {
+                    var errors = {
+                        requireLayoutName: true
+                    }
+                    onFail(errors)
+                } else {
+                    UIFactory.showConfirmDialog({
+                        data: {
+                            headerMessage: 'Confirm save?'
+                        },
+                        confirm: $scope.confirmSave,
+                        onFail: function (response) {
+                            var msg = {
+                                409: 'Display document has been deleted.',
+                                405: 'Display document has been used.'
+                            };
+                            if (response.status == 404) {
+                                vm.isNotTradeFinance = true;
+                            }
+                            else if (response.status != 400) {
+                                UIFactory.showFailDialog({
+                                    data: {
+                                        headerMessage: 'Edit display document configuration fail.',
+                                        bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
+                                    },
+                                    preCloseCallback: function () {
+                                        if (response.status != 404) {
+                                            vm.backToSponsorConfigPage();
+                                        } else {
+                                            vm.isNotTradeFinance = true;
+                                            vm.dataModel.supportSpecialDebit = false;
+                                        }
+                                    }
+                                });
+                            } else {
+                                $scope.errors[response.data.reference] = {
+                                    message: response.data.errorMessage
+                                }
+
+                                var errors = {
+                                    duplicateLayoutName: true
+                                }
+
+                                onFail(errors)
+                            }
+                            blockUI.stop();
+
+                        },
+                        onSuccess: function (response) {
+                            blockUI.stop();
+                            UIFactory.showSuccessDialog({
                                 data: {
-                                    headerMessage: 'Edit display document configuration fail.',
-                                    bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
+                                    headerMessage: 'Edit display document configuration complete.',
+                                    bodyMessage: ''
                                 },
                                 preCloseCallback: function () {
-                                    if (response.status != 404) {
-                                        vm.backToSponsorConfigPage();
-                                    } else {
-                                        vm.isNotTradeFinance = true;
-                                        vm.dataModel.supportSpecialDebit = false;
-                                    }
+                                    vm.backToSponsorConfigPage();
                                 }
                             });
-                        } else {
-                            $scope.errors[response.data.reference] = {
-                                message: response.data.errorMessage
-                            }
-
-                            var errors = {
-                                duplicateLayoutName: true
-                            }
-
-                            onFail(errors)
                         }
-                        blockUI.stop();
-
-                    },
-                    onSuccess: function (response) {
-                        blockUI.stop();
-                        UIFactory.showSuccessDialog({
-                            data: {
-                                headerMessage: 'Edit display document configuration complete.',
-                                bodyMessage: ''
-                            },
-                            preCloseCallback: function () {
-                                vm.backToSponsorConfigPage();
-                            }
-                        });
-                    }
-                });
+                    });
+                }
             }
         }
 
@@ -550,12 +599,9 @@ displayModule.controller('DisplayController', [
             $scope.errors = errors;
         }
 
-        var validateOverdueAndGracePeriod = function () {
 
-        }
 
         $scope.confirmSave = function () {
-            initialOverdue();
             if (vm.dataModel.documentSelection == DOCUMENT_SELECTION_ITEM.groupBy) {
                 if (vm.accountingTransactionType == "RECEIVABLE") {
                     vm.dataModel.documentSelection = vm.groupDocumentType;
