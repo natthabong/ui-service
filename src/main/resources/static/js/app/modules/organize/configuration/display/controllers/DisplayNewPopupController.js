@@ -8,15 +8,23 @@ tpModule
 						'UIFactory',
 						'PageNavigation',
 						'DisplayService',
-						function($scope, UIFactory, PageNavigation,
-								DisplayService) {
+						function($scope, UIFactory, PageNavigation,	DisplayService) {
 
 							var vm = this;
 							$scope.errors = undefined;
 							
 							
 							var data = $scope.ngDialogData.data;
-							
+							var ownerId = data.ownerId;
+					        vm.accountingTransactionType = data.accountingTransactionType;
+					        var displayMode = data.displayMode;
+					        console.log(displayMode);
+					        var modeCreateDisplay = true;
+					        if(displayMode == 'DOCUMENT'){
+					        	modeCreateDisplay = false;
+					        }
+					        console.log(modeCreateDisplay);
+					        
 							var newDisplayConfig = function () {
 					            return {
 					                documentFieldId: null,
@@ -39,27 +47,29 @@ tpModule
 							
 							vm.hasError = false;
 							
-							var _isValid = function() {
-								$scope.errors = undefined;
-								if (!vm.model.displayName.length) {
-									$scope.errors = {'displayName':'Display name is required'};
-									return false;
-								}
-								return true;
-							}
+													
+							var onFail = function (errors) {
+					            $scope.errors = errors;
+					        }
+							
 							vm.save = function(callback) {
-								if (_isValid()) {
-									var preCloseCallback = function(confirm) {
+								var preCloseCallback = function(confirm) {
 										callback();
 										$scope.ngDialogData.preCloseCallback(confirm);
+								}
+								if (vm.model.displayName == null) {
+									var errors = {
+										requireLayoutName : true
 									}
+									onFail(errors)
+								} else {
 									UIFactory
 											.showConfirmDialog({
 												data : {
 													headerMessage : 'Confirm save?'
 												},
 												confirm : function() {
-													//return DisplayService.create(vm.model);
+													 return	 DisplayService.create(ownerId, vm.accountingTransactionType, displayMode, vm.model);
 												},
 												onFail : function(response) {
 													var status = response.status;
@@ -76,10 +86,15 @@ tpModule
 																	},
 																	preCloseCallback : preCloseCallback
 																});
-													}
-													else{
+													} else {
 														$scope.errors = {};
 														$scope.errors[response.data.errorCode] = response.data.errorMessage;
+														
+														var errors = {
+							                                    duplicateLayoutName: true
+							                                }
+
+							                            onFail(errors)
 													}
 
 												},
