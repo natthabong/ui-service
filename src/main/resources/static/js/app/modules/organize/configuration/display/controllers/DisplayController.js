@@ -476,6 +476,32 @@ displayModule.controller('DisplayController', [
             });
         }
 
+        var setAllowAblePaymentDay = function(){
+            vm.allowablePaymentDays.forEach(function(data){
+                if(data.transactionMethod == 'DEBIT'){
+                    if(vm.checkedForDebit){
+                        data.allowablePaymentDay = 'WORKING_DAY';
+                    }else{
+                        data.allowablePaymentDay = 'ALL_DAY';
+                    }
+                }else if(data.transactionMethod == 'TERM_LOAN'){
+                    if(vm.checkedForDrawdown){
+                        data.allowablePaymentDay = 'WORKING_DAY';
+                    }else{
+                        data.allowablePaymentDay = 'ALL_DAY';
+                    }
+                }else if(data.transactionMethod == 'DEBIT_SPECIAL'){
+                    if(vm.checkedForSpecialDebit){
+                        data.allowablePaymentDay = 'WORKING_DAY';
+                    }else{
+                        data.allowablePaymentDay = 'ALL_DAY';
+                    }
+                }
+            });
+            
+            vm.dataModel.allowablePaymentDays = vm.allowablePaymentDays;
+        }
+
         var setValueBeforeSave = function () {
             // Overdue
             if (vm.displayOverdue == 'false') {
@@ -496,12 +522,13 @@ displayModule.controller('DisplayController', [
             }
 
             // Shift In
-            console.log(vm.dataModel.shiftPaymentDate);
             if(!vm.dataModel.shiftPaymentDate){
                 vm.dataModel.shiftIn = null;
             }else{
                 vm.dataModel.shiftIn = vm.shiftIn;
             }
+
+            setAllowAblePaymentDay();
         }
 
         vm.showMessagePeriodError = false;
