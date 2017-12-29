@@ -541,10 +541,7 @@ displayModule.controller('DisplayController', [
                                 409: 'Display document has been deleted.',
                                 405: 'Display document has been used.'
                             };
-                            if (response.status == 404) {
-                                vm.isNotTradeFinance = true;
-                            }
-                            else if (response.status != 400) {
+                            if (response.status != 400) {
                                 UIFactory.showFailDialog({
                                     data: {
                                         headerMessage: 'Edit display document configuration fail.',
