@@ -494,7 +494,7 @@ displayModule.controller('DisplayController', [
         var validateOverdueAndGracePeriod = function () {
             var validate = true;
             if (vm.overdueType == vm.overdueRadioType.PERIOD) {
-                if (angular.isUndefined(vm.overDuePeriod)) {
+                if (angular.isUndefined(vm.overDuePeriod) || vm.overDuePeriod == null) {
                     vm.showMessagePeriodError = true;
                     validate = false;
                 } else {
