@@ -3,6 +3,10 @@ angular.module('scfApp').controller('WorkflowController',['SCFCommonService','$l
     , $scope,$rootScope, $stateParams, $timeout,PageNavigation, Service, PagingController) 
     {
         var vm = this;
+
+        vm.pagingController = {
+            tableRowCollection : null
+        }
         
         if($stateParams.organizeModel != null){
             var organizeModel = $stateParams.organizeModel;	
@@ -46,11 +50,25 @@ angular.module('scfApp').controller('WorkflowController',['SCFCommonService','$l
             if(!angular.isUndefined(organizeModel)){
                 var owner = organizeModel.organizeId;
                 var getWorkflowUrl = "/api/v1/organizes/"+owner+"/workflows";
-                vm.pagingController = PagingController.create(getWorkflowUrl, {}, 'GET');
-                vm.pagingController.search();
+                var deferred = Service.requestURL(getWorkflowUrl, {}, 'GET');
+                deferred.promise.then(function(response) {
+                    console.log(response)
+                    var dataFromDB = response;
+                    var list = [];
+                    if(dataFromDB.length > 0){
+                        for(var i=0; i<dataFromDB.length; i++){
+                            list.push({
+                                type : dataFromDB[i].workflowType,
+                                workflow : dataFromDB[i].workflow.workflowName
+                            });
+                        }
+                    }
+                    vm.pagingController.tableRowCollection = list;
+                }).catch(function(response) {
+                    log.error('Cannot load dashboard');
+                });
                 
-                //data test
-                vm.pagingController.tableRowCollection = [{type:"test",workflow:"make-app"}];
+                
             }
         }();
     } ]);
