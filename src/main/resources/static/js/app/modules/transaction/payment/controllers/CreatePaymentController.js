@@ -507,11 +507,16 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             _criteria.searchMatching = false;
 
             var deffered = vm.pagingController.search(pagingModel || ($stateParams.backAction ? {
-                offset: _criteria.offset,
-                limit: _criteria.limit
-            } : undefined));
+            	page: $stateParams.criteria.pagingModel.currentPage,
+            	pageSize: $stateParams.criteria.pagingModel.pageSizeSelectModel
+            } : undefined));  
             
             deffered.promise.then(function(response) {
+            	
+                if($stateParams.backAction){
+                	vm.pagingController.pagingModel.pageSizeSelectModel = $stateParams.criteria.pagingModel.pageSizeSelectModel;
+                }
+                
             	if(vm.supportPartial){
 	                vm.pagingController.tableRowCollection.forEach(function(data) {
 	                    data.reasonCode = vm.resonCodeDropdown[0].value;
@@ -1140,7 +1145,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     };
 
                     var _criteria = {};
-                    angular.copy(vm.criteria, _criteria);                  
+                    angular.copy(vm.criteria, _criteria);   
+                    _criteria.pagingModel = vm.pagingController.pagingModel;                    
                     PageNavigation.nextStep('/create-payment/validate-submit', objectToSend, {
                         transactionModel: vm.transactionModel,
                         tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
