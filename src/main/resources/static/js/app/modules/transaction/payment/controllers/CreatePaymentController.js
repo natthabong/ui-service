@@ -4,9 +4,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
     function($rootScope, $scope, $log, $stateParams, $q, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, ProductTypeService, UIFactory, $window, scfFactory) {		
 	    var vm = this;
 	    var log = $log;
-	    
-	    //***Start Investigate Initial at line - 295*****
-	    
+	    	    
 	    function prepareCriteria(){
 	    	var ownerId = $rootScope.userInfo.organizeId;
 	    	return $stateParams.criteria || {
@@ -122,7 +120,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     
                     if (_productTypes.length > 0) {
                         vm.hasProductType = true;
-                        if (!$stateParams.backAction) {
+                        var dashboardParams = $stateParams.dashboardParams;
+                        if (dashboardParams != null) {
+                            vm.criteria.productType = dashboardParams.productType;
+                        }else if (!$stateParams.backAction) {
                             vm.criteria.productType = _productTypes[0].productType;
                         }else{
                         	vm.criteria.productType = $stateParams.transactionModel.productType;
@@ -247,7 +248,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.transactionModel.documents = vm.documentSelects;
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             if (vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
-            	var deffered = TransactionService.getPaymentDate(vm.transactionModel, 'WITH_INVOICE' , vm.accountType, vm.criteria.productType);
+            	var deffered = TransactionService.getPaymentDate(vm.transactionModel, vm.createTransactionType , vm.accountType, vm.criteria.productType);
             	deffered.promise.then(function(response) {
                     var paymentDates = response.data;
 
@@ -275,26 +276,29 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
         
         function _loadReasonCodeMappingDatas(){
+        	var deffered = $q.defer();
             var params = {
                     offset: 0,
                     limit: 999,
                     sort: ['defaultCode', 'code']
             }  
-            var deffered = MappingDataService.loadMappingDataItems(vm.criteria.supplierId, 'RECEIVABLE', vm.reasonCodeMappingId, params);
-            deffered.promise.then(function(response) {
-                vm.reasonCodes = {};
-                var reasonCodes = response.data;
-                reasonCodes.forEach(function(data) {
+            var defferedMappingData = MappingDataService.loadMappingDataItems(vm.criteria.supplierId, 'RECEIVABLE', vm.reasonCodeMappingId, params);
+            defferedMappingData.promise.then(function(response) {
+                vm.reasonCodes = response.data;
+                vm.reasonCodes.forEach(function(data) {
                     vm.resonCodeDropdown.push({
                         label: data.code + ': ' + data.display,
                         value: data.code
                     });
                     vm.reasonCodes[data.code] = data.display;
                 });
-
+                deffered.resolve();
             }).catch(function(response) {
                 log.error(response);
-            });           
+                deffered.resolve();
+            });
+            
+            return deffered;           
         }
         
         function addColumnForCreatePartial() {
@@ -363,14 +367,13 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         	defferedDocumentDisplay.promise.then(function(response) {
         		vm.dataTable.columns = response.items;
         		vm.supportPartial = response.supportPartial;
-        		var supportSpecialDebit = response.supportSpecialDebit;
+        		vm.supportSpecialDebit = response.supportSpecialDebit;
                 if (vm.supportPartial) {
                     vm.reasonCodeMappingId = response.reasonCodeMappingId;
-                    _loadReasonCodeMappingDatas();
+                    var defferedReasonCode = _loadReasonCodeMappingDatas();
                     addColumnForCreatePartial();
                 }
                 
-
             	var _criteria = {};
                 angular.copy(vm.criteria, _criteria);
                 vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
@@ -386,7 +389,15 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 } else {
                 	vm.checkSelectMatchingRef = false;
                 }
-                deffered.resolve(response);
+                
+                if(vm.supportPartial){
+                	defferedReasonCode.promise.then(function(response) {
+                		deffered.resolve(response);
+                	});
+                }else{
+                	deffered.resolve(response);
+                }
+                
         	});
         	
         	return deffered;
@@ -422,10 +433,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
         
         function _selectMatchingField(data){
-        	var allDocument = angular.copy(vm.pagingAllController.tableRowCollection);
         	if (isFound(data)) {
         		if (data.groupingKey != null) {
-        			vm.pagingAllController.tableRowCollection.forEach(function(document) {
+        			vm.temporalDocuments.forEach(function(document) {
         				if (angular.equals(data.groupingKey, document.groupingKey)) {
         					if (!isFound(document)) {
         						if (vm.supportPartial) {
@@ -484,23 +494,21 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         		}
         	}
         	
-            watchCheckAll();
-            calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
+            _watchCheckAll();
+            _calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
         }
-        
-        function _loadDocument(displayDocumentConfig){
-        	console.log(vm.documentSelects);
+
+        function _loadDocument(pagingModel){
         	
         	var _criteria = {};      	
             angular.copy(vm.criteria, _criteria);         
             _criteria.searchMatching = false;
-            
-            var pagingModel =  {
+
+            var deffered = vm.pagingController.search(pagingModel || ($stateParams.backAction ? {
                 offset: _criteria.offset,
                 limit: _criteria.limit
-            };
-
-            var deffered = vm.pagingController.search(pagingModel);  
+            } : undefined));
+            
             deffered.promise.then(function(response) {
             	if(vm.supportPartial){
 	                vm.pagingController.tableRowCollection.forEach(function(data) {
@@ -520,38 +528,42 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	            	}
 	            	_watchCheckAll();
             	}
-
-				if (!vm.displayTable) {
-				    vm.clearSelectDocument();
-				}
-				                
+	                
 				_criteria.searchMatching = true;                
-				var defferedAll = vm.pagingAllController.search(pagingModel);
-				defferedAll.promise.then(function(response) {            	
+				var defferedGetAllDocument = vm.pagingAllController.search({
+	                offset: 0,
+	                limit: 9999
+	            });
+				defferedGetAllDocument.promise.then(function(response) {            	
 				    vm.temporalDocuments = vm.pagingAllController.tableRowCollection;
-				    
 				    if ($stateParams.backAction) {
 				        $stateParams.backAction = false;
 				    } else if (!$stateParams.backAction && $stateParams.dashboardParams != null) {
 				        vm.selectAllDocument();
 				        $stateParams.dashboardParams = null;
+				    }else{
+						if (!vm.display) {
+						    vm.clearSelectDocument();
+						}
 				    }
 				    _watchCheckAll();
 				});
 	
 				if (vm.documentSelects.length > 0) {
-					
-					
-					
 					_loadPaymentDate();
 				}
 
+	            if (_validateForSearch()) {
+	            	vm.display = true;
+	            } else {
+	            	vm.display = false;
+	            }
+	            
                 
             }).catch(function(response) {
                 log.error(response);
             });
 
-            console.log(vm.documentSelects);
         }
         
         function _validateForSearch() {
@@ -650,6 +662,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 			vm.criteria = prepareCriteria();			 		
 			vm.transactionModel = prepareTransactionModel();	 
 			
+			vm.tradingPartnerList = [];
             vm.tradingpartnerInfoModel = prepareTradingpartnerInfoModel();
             vm.suppliers = [];
             
@@ -660,6 +673,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             
             vm.reasonCodeMappingId = null;
             
+            vm.supportSpecialDebit = false;
             vm.accountList = [];
             vm.accountDropDown = [];
             vm.isLoanPayment = false;
@@ -672,8 +686,11 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.temporalDocuments = [];
             vm.documentSelects = $stateParams.documentSelects || [];
             vm.documentSelection = null;
-            vm.displayTable = false;
+            vm.display = false;
             vm.checkSelectMatchingRef = false;
+            vm.resonCodeDropdown = [];
+            
+            vm.createTransactionType = 'WITH_INVOICE';
 
             vm.dataTable = {
                 options: {
@@ -700,8 +717,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 var dashboardParams = $stateParams.dashboardParams;
                 var defferedSupplier = _loadSuppliers(dashboardParams);
                 defferedSupplier.promise.then(function(response) {
-                	var tradingPartnerList = response;
-                	var defferedCheckCreatePaymentType = _checkCreatePaymentType(tradingPartnerList, vm.criteria.supplierId);
+                	vm.tradingPartnerList = response;
+                	var defferedCheckCreatePaymentType = _checkCreatePaymentType(vm.tradingPartnerList, vm.criteria.supplierId);
                 	defferedCheckCreatePaymentType.promise.then(function(response) {
                 		var defferedProducTypes = _loadProducTypes(vm.criteria.supplierId);
                 		defferedProducTypes.promise.then(function(response) {                			
@@ -713,7 +730,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 	                            		vm.criteria.offset = 0;
 	                            		vm.criteria.limit= 20;	                            	
                                 		var displayDocumentConfig = response;
-                                    	var defferedDocument = _loadDocument(displayDocumentConfig);
+                                    	var defferedDocument = _loadDocument();
                                         vm.initFlag = false;                                			                                	
 	                                }
                             	});
@@ -733,7 +750,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                         if (_accounts[0].accountType == 'LOAN') {
                                             _setTradingpartnerInfoModel(_accounts[0]);
                                         } else {
-                                            _setTransactionMethod(supportSpecialDebit);
+                                            _setTransactionMethod(vm.supportSpecialDebit);
                                         }
                                         _loadMaturityDate();               						
                 					}
@@ -743,7 +760,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                     if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
                                         _setTradingpartnerInfoModel(_accounts[0]);
                                     } else {
-                                        _setTransactionMethod(supportSpecialDebit);
+                                        _setTransactionMethod(vm.supportSpecialDebit);
                                     }
                                     _loadPaymentDate();
                 				}
@@ -765,21 +782,19 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             if (_validateForSearch()) {
             	var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
             	defferedDocumentDisplayConfig.promise.then(function(response) {
-            		var displayDocumentConfig = response;
-                	var defferedDocument = _loadDocument(displayDocumentConfig);
-                    vm.initFlag = false;                                		
+                	var defferedDocument = _loadDocument();                                		
             	});
             } else {
-            	vm.displayTable = false;
+            	vm.display = false;
             }
         }
         
+        
+        vm.loadDocument = function(pagingModel){
+        	_loadDocument(pagingModel);
+        }
+        
         vm.clearSelectDocument = function() {
-            if (_validateForSearch()) {
-            	vm.displayTable = true;
-            } else {
-            	vm.displayTable = false;
-            }
             vm.paymentDropDown = [];
             vm.documentSelects = [];
             vm.transactionModel.transactionAmount = '0.00';
@@ -838,8 +853,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         
         vm.selectAllDocument = function() {
             vm.transactionModel.transactionDate = null;
-            if (!vm.selectAllModel) {
-            	 var temporalDocuments = angular.copy(vm.temporalDocuments);          	 
+            if (!vm.selectAllModel) {            	
+            	 var temporalDocuments = angular.copy(vm.temporalDocuments);   
             	 if (vm.supportPartial) {
             		 var unselectedData = [];
                      temporalDocuments.forEach(function(data) {
@@ -897,6 +912,69 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             }
         }
  
+         vm.changeReasonCode = function(row, record) {
+            if (record.reasonCode == vm.resonCodeDropdown[0].value) {
+                resetPaymentAmount(row, record)
+            }
+        }
+		
+		vm.compareDocument = function(obj1, obj2) {
+            return obj1.documentId === obj2.documentId;
+        }
+
+        // --- after blur payment amount
+        vm.validatePaymentAmount = function(row, record) {
+            var reasonCodeDropdown = getReasonCodeDropdownElement(row);
+
+            /** for case invalid format---after blur payment amount textbox, 
+                the 'format' directive will correct the data after. So, this condition is just 
+                for control the appearing of reason code dropdown.
+            **/
+            if (record.calculatedPaymentAmount == 0 || record.calculatedPaymentAmount < 0 ||
+                isNaN(Number(record.calculatedPaymentAmount.replace(/,/g, ""))) ||
+                typeof(record.calculatedPaymentAmount) === "boolean") {
+                resetReasonCode(row, record);
+            }
+
+            /** for case valid format--- control the appearing of reason code dropdown
+                        according to business rules.
+            **/
+            else if (record.calculatedPaymentAmount < record.calculatedNetAmount) {
+                reasonCodeDropdown.disabled = false;
+                showSelectReasonCodePopup(record);
+                _calculateTransactionAmount(vm.documentSelects);
+            } else if (record.calculatedPaymentAmount == record.calculatedNetAmount) {
+                resetReasonCode(row, record);
+                _calculateTransactionAmount(vm.documentSelects);
+            } else if (record.calculatedPaymentAmount > record.calculatedNetAmount) {
+                UIFactory.showIncompleteDialog({
+                    data: {
+                        mode: 'general_warning',
+                        headerMessage: 'Payment amount',
+                        infoMessage: 'Payment amount cannot be greater than net amount.'
+                    },
+                    preCloseCallback: function() {
+                        resetReasonCode(row, record);
+                        resetPaymentAmount(row, record);
+                        var paymentAmountTextbox = getPaymentAmountTextboxElement(row);
+                        paymentAmountTextbox.focus();
+                    }
+                });
+            }
+        }
+        
+        vm.disablePaymentAmount = function(row, record, element) {
+            var selectDocCheckbox = getDocumentCheckboxElement(row);
+
+            if (selectDocCheckbox.checked &&
+                record.calculatedNetAmount > 0) {
+                return false;
+            } else {
+                return true;
+            }
+
+        }
+		
         vm.disableDocment = function(document) {
             if (vm.documentSelection == 'AT_LEAST_ONE_DOCUMENT' && document.netAmount < 0) {
                 return true;
@@ -927,7 +1005,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         vm.transactionModel.transactionMethod = 'TERM_LOAN';
                         vm.isLoanPayment = true;
                     } else {
-                        if (supportSpecialDebit) {
+                        if (vm.supportSpecialDebit) {
                             vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
                         } else {
                             vm.transactionModel.transactionMethod = 'DEBIT';
@@ -943,9 +1021,53 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.supplierChange = function() {
             vm.errorDisplay = false;
             vm.display = false;
-            checkCreatePaymentType(vm.criteria.supplierId)
             vm.maturityDateModel = null;
+        	var defferedCheckCreatePaymentType = _checkCreatePaymentType(vm.tradingPartnerList, vm.criteria.supplierId);
+        	defferedCheckCreatePaymentType.promise.then(function(response) {
+        		var defferedProducTypes = _loadProducTypes(vm.criteria.supplierId);
+        		defferedProducTypes.promise.then(function(response) {                			
+        			var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
+        			defferedBuyerCodes.promise.then(function(response) {
+                    	var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
+                    	defferedDocumentDisplayConfig.promise.then(function(response) {
+                    		vm.criteria.offset = 0;
+                    		vm.criteria.limit= 20;	                            	
+                        	_loadDocument();                            			                                	
+                    	});
+        			});
+        			
+        			var defferedAccounts = _loadAccount(vm.criteria.supplierId);
+        			defferedAccounts.promise.then(function(response) {
+    					vm.accountList = response;
+    					var _accounts = [];
+    					angular.copy(vm.accountList, _accounts);
+        				if (!$stateParams.backAction) {
+        					if (_accounts.length > 0) {
+                                vm.transactionModel.payerAccountId = _accounts[0].accountId;
+                                vm.transactionModel.payerAccountNo = _accounts[0].accountNo;
+                                vm.accountType = _accounts[0].accountType;
 
+                                if (_accounts[0].accountType == 'LOAN') {
+                                    _setTradingpartnerInfoModel(_accounts[0]);
+                                } else {
+                                    _setTransactionMethod(vm.supportSpecialDebit);
+                                }
+                                _loadMaturityDate();               						
+        					}
+        				} else {
+        					var result = $.grep(_accounts, function(account) { return account.accountId == vm.transactionModel.payerAccountId; });
+        					vm.accountType = result[0].accountType;
+                            if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
+                                _setTradingpartnerInfoModel(_accounts[0]);
+                            } else {
+                                _setTransactionMethod(vm.supportSpecialDebit);
+                            }
+                            _loadPaymentDate();
+        				}
+        			});
+        			
+        		});
+        	});
         }
 
         vm.customerCodeChange = function() {
@@ -964,37 +1086,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.openCalendarDateTo = function() {
             vm.openDateTo = true;
         }        
- 
-        vm.changeSelectedDocument = function(element, row, record) {
-            if (vm.supportPartial) {
-                if (!element.checked) {
-                    deselectDocument(row, record);
-                }
-            }
-        }
 
-        vm.changeReasonCode = function(row, record) {
-            if (record.reasonCode == vm.resonCodeDropdown[0].value) {
-                resetPaymentAmount(row, record)
-            }
-        }
-
-        vm.disablePaymentAmount = function(row, record, element) {
-            var selectDocCheckbox = getDocumentCheckboxElement(row);
-
-            if (selectDocCheckbox.checked &&
-                record.calculatedNetAmount > 0) {
-                return false;
-            } else {
-                return true;
-            }
-
-        }
-        
-        vm.compareDocument = function(obj1, obj2) {
-            return obj1.documentId === obj2.documentId;
-        }
-        
         vm.nextStep = function() {
         	vm.errorDisplay = false;
         	if (vm.documentSelects.length === 0) {
@@ -1013,7 +1105,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
                 vm.transactionModel.transactionType = 'PAYMENT';
                 vm.transactionModel.productType = vm.criteria.productType;
-                vm.tradingpartnerInfoModel.createTransactionType = 'WITH_INVOICE';
+                vm.tradingpartnerInfoModel.createTransactionType = vm.createTransactionType;
                 vm.transactionModel.documents.forEach(function(document) {
                     document.reasonCodeDisplay = vm.reasonCodes[document.reasonCode];
                 });
@@ -1030,7 +1122,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     
                     if (accountSelected[0].accountType != 'LOAN') {
                         vm.transactionModel.payerLoanAccountId = _accountList[0].defaultLoanNo ? _accountList[0].accountId : null;
-                        if (supportSpecialDebit) {
+                        if (vm.supportSpecialDebit) {
                             vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
                         } else {
                             vm.transactionModel.transactionMethod = 'DEBIT';

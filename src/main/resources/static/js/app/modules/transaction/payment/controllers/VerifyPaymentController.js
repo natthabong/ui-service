@@ -37,6 +37,23 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
         var _criteria = {
             transactionId: null
         }
+        
+        var _loadDocument = function(pagingModel){
+        	var diferred = vm.pagingController.search(pagingModel);
+            return diferred;
+        }
+
+        var loadDocumentDisplayConfig = function(ownerId, productType) {
+            var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT', productType);
+            deffered.promise.then(function(response) {
+                vm.dataTable.columns = response.items;
+                _criteria.sort = response.sort;
+
+                if (response.supportPartial !== undefined && response.supportPartial) {
+                    addColumnForCreatePartial();
+                }
+            });
+        }
 
         var loadTransaction = function(callback) {
             var deffered = VerifyPaymentService.getTransaction(vm.transactionModel);
@@ -56,27 +73,17 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
 
                         vm.pagingController = PagingController.create('api/v1/transaction-documents', _criteria, 'GET');
 
-                        loadDocumentDisplayConfig(vm.transactionModel.supplierId, vm.searchDocument);
+                        var deffered = _loadDocument();
+                        deffered.promise.then(function(response) {
+                            var productType = response.data[0].productType;
+                            loadDocumentDisplayConfig(vm.transactionModel.supplierId,productType);
+                        });                        
                     }
 
                 })
                 .catch(function(response) {
                     log.error('verify payment load error');
                 })
-        }
-
-        var loadDocumentDisplayConfig = function(ownerId, callback) {
-            var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT');
-            deffered.promise.then(function(response) {
-                vm.dataTable.columns = response.items;
-                _criteria.sort = response.sort;
-
-                if (response.supportPartial !== undefined && response.supportPartial) {
-                    addColumnForCreatePartial();
-                }
-
-                callback();
-            });
         }
 
         var addColumnForCreatePartial = function() {
@@ -125,9 +132,9 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
 
             vm.dataTable.expansion.columns.push(columnReasonCodeLabel);
         }
-
+        
         vm.searchDocument = function(pagingModel) {
-            vm.pagingController.search(pagingModel);
+           _loadDocument(pagingModel);
         }
 
         var init = function() {

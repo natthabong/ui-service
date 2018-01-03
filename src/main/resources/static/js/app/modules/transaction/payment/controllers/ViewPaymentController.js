@@ -49,6 +49,22 @@ paymentModule.controller('ViewPaymentController', [
         var _criteria = {
             transactionId: null
         }
+        
+        var _loadDocument = function(pagingModel){
+        	var diferred = vm.pagingController.search(pagingModel);
+            return diferred;
+        }
+
+        var loadDocumentDisplayConfig = function(ownerId, productType) {
+            var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT', productType);
+            deffered.promise.then(function(response) {
+                vm.dataTable.columns = response.items;
+                _criteria.sort = response.sort;
+                if (response.supportPartial !== undefined && response.supportPartial) {
+                    addColumnForCreatePartial();
+                }
+            });
+        }
 
         var loadTransaction = function(callback) {
             var deffered = ViewPaymentService.getTransaction(vm.transactionModel);
@@ -68,7 +84,11 @@ paymentModule.controller('ViewPaymentController', [
 
                         vm.pagingController = PagingController.create('api/v1/transaction-documents', _criteria, 'GET');
 
-                        loadDocumentDisplayConfig(vm.transactionModel.supplierId, vm.searchDocument);
+                        var deffered = _loadDocument();
+                        deffered.promise.then(function(response) {
+                            var productType = response.data[0].productType;
+                            loadDocumentDisplayConfig(vm.transactionModel.supplierId,productType);
+                        });
                     }
 
 
@@ -77,20 +97,7 @@ paymentModule.controller('ViewPaymentController', [
                     log.error('view payment load error');
                 })
         }
-
-        var loadDocumentDisplayConfig = function(ownerId, callback) {
-            var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT');
-            deffered.promise.then(function(response) {
-                vm.dataTable.columns = response.items;
-                _criteria.sort = response.sort;
-                if (response.supportPartial !== undefined && response.supportPartial) {
-                    addColumnForCreatePartial();
-                }
-
-                callback();
-            });
-        }
-
+        
         var addColumnForCreatePartial = function() {
             var columnNetAmount = {
                 documentField: {
@@ -139,8 +146,8 @@ paymentModule.controller('ViewPaymentController', [
         }
 
         vm.searchDocument = function(pagingModel) {
-            vm.pagingController.search(pagingModel);
-        }
+            _loadDocument(pagingModel);
+         }
 
         vm.back = function() {
             $timeout(function() {

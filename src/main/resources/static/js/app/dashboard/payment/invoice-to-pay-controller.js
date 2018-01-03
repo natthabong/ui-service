@@ -52,7 +52,8 @@ angular
 									dashboardParams: {
 										dueDate: duedate.toDate(),
 										supplierId: data.supplierId,
-										buyerCode: data.buyerCode
+										buyerCode: data.buyerCode,
+										productType: data.productType
 									}
 								})
 							}
