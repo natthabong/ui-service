@@ -248,7 +248,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.transactionModel.documents = vm.documentSelects;
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             if (vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
-            	var deffered = TransactionService.getPaymentDate(vm.transactionModel, vm.createTransactionType , vm.accountType, vm.criteria.productType);
+            	var deffered = TransactionService.getPaymentDate(vm.transactionModel, vm.createTransactionType , vm.accountType, vm.criteria.loanRequestMode, vm.criteria.productType);
             	deffered.promise.then(function(response) {
                     var paymentDates = response.data;
 
@@ -381,6 +381,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 vm.criteria.displayNegativeDocument = response.displayNegativeDocument;
                 vm.criteria.overDuePeriod = response.overDuePeriod;
                 vm.criteria.sort = response.sort;
+                vm.criteria.loanRequestMode = response.loanRequestMode;
 
                 angular.copy(vm.criteria, _criteria);
                 vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');

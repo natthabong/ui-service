@@ -17,6 +17,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
 
         vm.maturityDateErrorDisplay = false;
         vm.errorDisplay = false;
+        vm.loanRequestMode = 'CURRENT_AND_FUTURE';
 
         $scope.errors = {
             message: null
@@ -120,7 +121,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             vm.paymentDropDown = [];
             vm.transactionModel.documents = $scope.documents;
             vm.transactionModel.supplierId = vm.criteria.supplierId;
-            var deffered = TransactionService.getPaymentDate(vm.transactionModel, createTransactionType, vm.accountType);
+            var deffered = TransactionService.getPaymentDate(vm.transactionModel, createTransactionType, vm.accountType, vm.loanRequestMode);
             deffered.promise.then(function (response) {
                 var paymentDates = response.data;
 
@@ -221,6 +222,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             var deffered = SCFCommonService.getDocumentDisplayConfig(vm.criteria.supplierId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT');
             deffered.promise.then(function (response) {
                 supportSpecialDebit = response.supportSpecialDebit;
+                vm.loanRequestMode = response.loanRequestMode;
                 _loadAccount(ownerId, vm.criteria.supplierId);
             });
         }
