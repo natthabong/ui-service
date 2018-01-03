@@ -12,7 +12,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 			    sponsorId: ownerId,
 			    buyerId: ownerId,
 			    overDuePeriod: null,
-			    displayNegativeDocument: false
+			    displayNegativeDocument: true 
 			}
 	    }
 	    
