@@ -53,7 +53,7 @@ angular
 										dueDate: duedate.toDate(),
 										supplierId: data.supplierId,
 										buyerCode: data.buyerCode,
-										productType: data.productType
+										productType: data.productType == 'NONE' ? null : data.productType
 									}
 								})
 							}
