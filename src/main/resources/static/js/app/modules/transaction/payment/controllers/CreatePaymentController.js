@@ -276,6 +276,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
         
         function _loadReasonCodeMappingDatas(){
+        	vm.resonCodeDropdown = [];
         	var deffered = $q.defer();
             var params = {
                     offset: 0,
