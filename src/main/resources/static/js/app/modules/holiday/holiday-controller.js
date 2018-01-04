@@ -73,6 +73,9 @@ scfApp.controller('BankHolidayController', [
 					++i;
 			    });
 			    if (vm.yearDropDownItems.length > 0) {
+			    	if(currentYearIndex == -1){
+			    		currentYearIndex = 0;
+			    	}
 			    	vm.criteria.year = vm.yearDropDownItems[currentYearIndex].value;
 			    }
 			    callback();
