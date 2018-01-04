@@ -271,13 +271,12 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            }
 	        }
 	
-	        vm.loadDocumentDisplayConfig = function(sponsorId, accountingTransactionType, displayMode) {
-	            var docDisplayPromise = $q.defer();
-	            var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId, accountingTransactionType, displayMode);
+	        vm.loadDocumentDisplayConfig = function(sponsorId, accountingTransactionType, displayMode, productType) {
+	            var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId, accountingTransactionType, displayMode, productType);
 	            vm.dataTable.columns = [];
-	            
+	           
 	            displayConfig.promise.then(function(response) {
-	
+	              console.log(vm.dataTable.columns);
 	                vm.dataTable.columns.push(columRowNo);
 	                if (viewMode != viewModeData.partner) {
 	                    vm.dataTable.columns.push(columnSupplierName);
@@ -296,9 +295,8 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	
 	                vm.documentListCriterial.sort = response.sort;
 	                vm.pagingController = PagingController.create('api/v1/documents', vm.documentListCriterial, 'GET');
-	                return docDisplayPromise.resolve('Load display success');
 	            });
-	            return docDisplayPromise;
+	            return displayConfig;
 	        }
 	
 	        var initBuyerAutoSuggest = function() {
@@ -312,10 +310,6 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            supplierInfo = DocumentService.prepareAutoSuggestLabel(supplierInfo);
 	            vm.documentListModel.supplier = supplierInfo;
 	         
-	            var loadDisplayConfigDiferred = vm.loadDocumentDisplayConfig(organizeId, accountingTransactionType, displayMode);
-	            loadDisplayConfigDiferred.promise.then(function() {
-	                vm.searchDocument();
-	            });
 	        }
 	
 	        var checkBuyerTP = function(organizeId, serviceUrl) {
@@ -371,13 +365,12 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	        };
 	
 	        $scope.$watch('ctrl.documentListModel.supplier', function() {
-	            if (viewMode != viewModeData.myOrganize && angular.isDefined(vm.documentListModel.supplier) && angular.isObject(vm.documentListModel.supplier)) {
-	                vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode);
+	            if (angular.isDefined(vm.documentListModel.supplier) && angular.isObject(vm.documentListModel.supplier)) {
 	                var deffered = DocumentService.getProductTypes(vm.documentListModel.supplier.organizeId);
-		            deffered.promise.then(function (response) {
+		              deffered.promise.then(function (response) {
 		                    var productTypes = response.data;
 		                    if (productTypes != null) {
-		                    	vm.productTypeDropdowns = [];
+		                       	vm.productTypeDropdowns = [];
 		                        productTypes.forEach(function (data) {
 		                            var productTypeData = {
 		                                value: data.productType,
@@ -385,17 +378,24 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 		                            }
 		                            vm.productTypeDropdowns.push(productTypeData);
 		                        });
-		                        vm.documentListModel.productType = vm.productTypeDropdowns[0].value;
+		                        if(vm.productTypeDropdowns.length >0){
+		                          vm.documentListModel.productType = vm.productTypeDropdowns[0].value;
+		                        }
+		                        
 		                    }else{
 		                    	vm.documentListModel.productType =  undefined;
 		                    	vm.productTypeDropdowns = [];
 		                    }
+		                    //vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode,  vm.documentListModel.productType );
 		             });
 	            }
 	
 	            if (viewMode != viewModeData.partner) {
 	                vm.documentListModel.buyer = undefined;
 	            }
+	        });
+	        $scope.$watch('ctrl.documentListModel.productType', function() {
+	           vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode,  vm.documentListModel.productType );
 	        });
 	
 	        var deleteDocument = function(document) {

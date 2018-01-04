@@ -63,7 +63,7 @@
         	}
         	
         	if(loginFlag){
-	             var deffered = AuthenticationService.Login(self.username, self.password, function (response) {});
+	             var deffered = AuthenticationService.Login(self.username, self.password, self.funding, function (response) {});
 	              deffered.promise.then(function(response) {
 	        	    if(response.data.forceChangePassword){
 	        		self.forceChangeDialog = ngDialog.open({
@@ -122,7 +122,7 @@
 
         return service;
 
-        function Login(username, password) {
+        function Login(username, password, funding) {
 
             /* Use this for real authentication
              ----------------------------------------------*/
@@ -140,6 +140,7 @@
     	            data: $httpParamSerializer({
     	        	username: username,
     	        	password: password,
+    	        	funding: funding,
     	        	grant_type: 'password'
     	            })
     	        }
