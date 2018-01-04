@@ -1,6 +1,9 @@
 .navbar {
     background-color: #223358;
 }
+#title, #organize-user-menu, #profile-menu{
+	color: #ffffff;
+}
 .gec-menu-bar {
     background-color: #ffffff;
     min-height: 45px;
