@@ -115,10 +115,12 @@ public class LoginController {
 			view = UNSUPPORT_BROWSER_VIEW_NAME;
 		}
 
+		String funding = req.getHeader("X-Funding");
 		Map<String, Object> object = new HashMap<String, Object>();
 		object.put("fixedHeader", fixedHeader);
 		object.put("browserName", browser.getName());
 		object.put("browserVersion", browser.getVersion());
+		object.put("funding", funding);
 
 		return new ModelAndView(view, object);
 	}

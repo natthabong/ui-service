@@ -25,7 +25,10 @@
 	rel="stylesheet" />
 <link th:href="@{/css/loading-overlay.css}"
 	href="../static/css/loading-overlay.css" rel="stylesheet" />
-
+<link th:href="@{/assets/css/theme.css}"
+	href="../static/assets/css/theme.css}" rel="stylesheet" />
+<link th:href="@{/assets/css/login.css}"
+	href="../static/assets/css/login.css}" rel="stylesheet" />
 <!-- controller -->
 <script th:src="@{/js/app/scf-app.js}" src="../static/js/app/scf-app.js"></script>
 
@@ -57,18 +60,6 @@
 
 <script th:src="@{/js/app/modules/profile/profile.module.js}"
 	src="../static/js/app/modules/profile/profile.module.js"></script>
-
-
-<style>
-body {
-	background: url(img/bg_login.jpg) no-repeat center center fixed;
-	background-size: cover;
-}
-
-form {
-	background-color: rgba(255, 255, 255, 0.5);
-}
-</style>
 </head>
 
 <body ng-app="authenApp">
@@ -84,7 +75,7 @@ form {
 				class="form-signin" autocomplete="off"
 				ng-submit="controller.login()">
 				<h3 class="form-signin-heading text-center">
-					<img ng-src="img/logo_login.png" alt="" />
+					<img ng-src="assets/img/logo_login.png" alt="" />
 				</h3>
 				<hr class="spartan" />
 				<div class="alert alert-danger" role="alert"
@@ -102,13 +93,15 @@ form {
 					<span id="username-error-message-label" style="color: red">username
 						is required.</span>
 				</div>
-				<br ng-if="controller.usernameRequired"/>
+				<br ng-if="controller.usernameRequired" />
 				<div class="input-group">
 					<span class="input-group-addon" id="sizing-addon1"> <i
 						class="fa fa-lock"></i>
 					</span> <input type="password" class="form-control" id="password"
 						ng-model="controller.password" name="password"
-						placeholder="Password" />
+						placeholder="Password" /> <input type="hidden"
+						th:attr="ng-init='controller.funding=\''+ ${funding} +'\''" 
+						ng-model="controller.funding" name="funding" />
 				</div>
 				<div role="alert" ng-if="controller.passwordRequired">
 					<span id="password-error-message-label" style="color: red">password

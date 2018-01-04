@@ -718,9 +718,10 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
     ]);
 
 app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFactory','$scope', 
-                               'Service', '$window', '$rootScope',
-    function ($translate, $translatePartialLoader, scfFactory, $scope, Service, $window,$rootScope) {
+                               'Service', '$window', '$rootScope', '$http',
+    function ($translate, $translatePartialLoader, scfFactory, $scope, Service, $window,$rootScope, $http) {
         var vm = this;
+        vm.title = 'Loading...';
         vm.sysMessage = "";
         vm.menus = [];
         vm.changeLanguage = function (lang) {
@@ -736,6 +737,11 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
             });
 
         };
+        
+        $http.get('assets/theme.json')
+        .then(function(res){
+          vm.title = res.data.title;                
+         });
 		
 		// Begin Code Get Organize List
 		vm.organizeHeader;

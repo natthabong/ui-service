@@ -12,11 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
@@ -32,7 +29,7 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.formLogin().loginPage("/login").and().authorizeRequests()
-				.antMatchers("/login", "/css/**/*", "/js/**/*", "/fonts/**", "/img/**").permitAll()
+				.antMatchers("/login", "/assets/**", "/css/**/*", "/js/**/*", "/fonts/**", "/img/**").permitAll()
 				.anyRequest().permitAll();
 //		http.csrf().csrfTokenRepository(csrfTokenRepository()).and()
 //				.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);

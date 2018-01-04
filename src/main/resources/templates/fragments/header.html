@@ -3,24 +3,23 @@
 	<!-- start: Header -->
 
 	<nav class="navbar navbar-default header"
-		th:classappend="${fixedHeader} ? navbar-fixed-top : navbar-static-top">
+		th:classappend="${fixedHeader} ? navbar-fixed-top : navbar-static-top" ng-controller="ScfHomeCtrl as ctrl">
 		<div class="col-xs-12 col-md-12 col-lg-12 nav-wrapper">
 			<ul class="col-xs-3 col-md-5 col-lg-5 nav navbar-nav navbar-left">
 				<li class="col-xs-3 col-md-1 col-lg-1"><img
-					ng-src="img/logo.png" class="img-circle avatar" alt="user name" ui-sref="/dashboard" id="gec-home-link" 
+					ng-src="assets/img/logo.png" class="img-circle avatar" alt="user name" ui-sref="/dashboard" id="gec-home-link" 
 					ui-sref-opts="{reload: true, inherit: false}"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" /></li>
 				<li class="hidden-md hidden-sm hidden-xs"><a
 					class="navbar-brand" ui-sref="/home"  
-					ui-sref-opts="{reload: true, inherit: false}"> <b>GEC
-							Supply Chain Financing</b>
+					ui-sref-opts="{reload: true, inherit: false}"> <b><span id="title" ng-bind="ctrl.title"></span></b>
 				</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right user-nav">
 				<li class="hidden-xs">
 					<div class="dropdown">
 						<a id="profile-menu" aria-hidden="true" class="dropdown-toggle"
-							style="color: #fff !important;cursor: pointer;" data-toggle="dropdown"
+							style="cursor: pointer;" data-toggle="dropdown"
 							aria-haspopup="true" aria-expanded="true"> <span
 							class="icon-avata"> <span class="glyphicon glyphicon-user"></span>
 								<span id="display-name" class="user-name" ng-bind="userInfo.displayName">Avanta</span>
@@ -36,10 +35,10 @@
 					</div>
 				</li>
 
-				<li class="hidden-xs" ng-controller="ScfHomeCtrl as ctrl">
+				<li class="hidden-xs" >
 					<div class="dropdown" style="padding-top:17px">|
 						<a id="organize-user-menu" aria-hidden="true" class="dropdown-toggle"
-							style="color: #fff !important;cursor: pointer;" data-toggle="dropdown"
+							style="cursor: pointer;" data-toggle="dropdown"
 							aria-haspopup="true" aria-expanded="true"> <span
 							class="icon-avata">
 								<span class="user-name" ng-bind="ctrl.organizeHeader.organizeName" 
