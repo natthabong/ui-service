@@ -263,11 +263,13 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	        vm.pagingController = PagingController.create('api/v1/documents', vm.documentListCriterial, 'GET');
 	
 	        vm.searchDocument = function(pagingModel) {
-	            // vm.pagingController = PagingController.create('api/v1/documents', vm.documentListCriterial, 'GET');
 	            if (isValidateCriteriaPass()) {
-	                var criteria = prepareCriteria();
-	                var documentListDiferred = vm.pagingController.search(pagingModel, vm.getDocumentSummary);
-	                vm.showInfomation = true;
+	            	var diffredDisplay = vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode,  vm.documentListModel.productType);
+	            	diffredDisplay.promise.then(function(response) {
+		                var criteria = prepareCriteria();
+		                var documentListDiferred = vm.pagingController.search(pagingModel, vm.getDocumentSummary);
+		                vm.showInfomation = true;	            		
+	            	});
 	            }
 	        }
 	
@@ -276,7 +278,6 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            vm.dataTable.columns = [];
 	           
 	            displayConfig.promise.then(function(response) {
-	              console.log(vm.dataTable.columns);
 	                vm.dataTable.columns.push(columRowNo);
 	                if (viewMode != viewModeData.partner) {
 	                    vm.dataTable.columns.push(columnSupplierName);
@@ -386,17 +387,34 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 		                    	vm.documentListModel.productType =  undefined;
 		                    	vm.productTypeDropdowns = [];
 		                    }
-		                    //vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode,  vm.documentListModel.productType );
+		                    
+		                    if (viewMode == viewModeData.myOrganize) {
+		    	                if (isValidateCriteriaPass()) {
+		    		            	var diffredDisplay = vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode,  vm.documentListModel.productType);
+		    		            	diffredDisplay.promise.then(function(response) {
+		    			                var criteria = prepareCriteria();
+		    			                var pagingModel = {
+		    			                    page: 0,
+		    			                    pageSize: 20
+		    			                }
+		    			                var documentListDiferred = vm.pagingController.search(undefined , vm.getDocumentSummary);  			               		    			              
+		    			                vm.showInfomation = true;	            		
+		    		            	});
+		    	                }
+		                    }
 		             });
 	            }
-	
+	            
 	            if (viewMode != viewModeData.partner) {
 	                vm.documentListModel.buyer = undefined;
 	            }
 	        });
-	        $scope.$watch('ctrl.documentListModel.productType', function() {
-	           vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode,  vm.documentListModel.productType );
-	        });
+	        
+//	        $scope.$watch('ctrl.documentListModel.productType', function() {
+//	        	if(!angular.isUndefined(vm.documentListModel.supplier)){
+//	        		vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode,  vm.documentListModel.productType );
+//	        	}       
+//	        });
 	
 	        var deleteDocument = function(document) {
 	
