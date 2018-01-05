@@ -2,8 +2,7 @@
 	<div class="panel box-shadow-none content-header">
 		<div class="panel-body">
 			<div class="col-md-12">
-				<h3 id="header-message-label" class="animated fadeInLeft">{{
-					'View payment transaction' | translate}}</h3>
+				<h3 id="header-message-label" class="animated fadeInLeft">{{ 'View payment transaction' | translate}}</h3>
 			</div>
 		</div>
 	</div>
@@ -14,17 +13,11 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<div class="row">
 						<div class="col-md-1 col-sm-1">
-							<label id="sponsor-label"
-								ng-show="{{ctrl.isBuyer || ctrl.isBank}}">{{'Supplier' |
-								translate}}:</label> <label id="supplier-label"
-								ng-show="{{ctrl.isSupplier}}">{{'Buyer' | translate}}:</label>
+							<label id="sponsor-label" ng-show="{{ctrl.isBuyer || ctrl.isBank}}">{{'Supplier' |
+								translate}}:</label> <label id="supplier-label" ng-show="{{ctrl.isSupplier}}">{{'Buyer' | translate}}:</label>
 						</div>
 						<div class="col-md-11 col-sm-11 text-left">
-							<span id="supplier-value-label"
-								ng-bind="ctrl.transactionModel.supplier"
-								ng-show="{{ctrl.isBuyer || ctrl.isBank}}"></span> <span
-								id="ctrl.isSupplier?'buyer-value-label':'buyer-value-label-ignore'}}"
-								ng-bind="ctrl.transactionModel.sponsor"
+							<span id="supplier-value-label" ng-bind="ctrl.transactionModel.supplier" ng-show="{{ctrl.isBuyer || ctrl.isBank}}"></span>							<span id="ctrl.isSupplier?'buyer-value-label':'buyer-value-label-ignore'}}" ng-bind="ctrl.transactionModel.sponsor"
 								ng-show="{{ctrl.isSupplier}}"></span>
 						</div>
 					</div>
@@ -32,8 +25,7 @@
 						<label id="buyer-label" class="col-md-1 col-sm-1 control-label">{{'Buyer'
 							| translate}}: </label>
 						<div class="col-md-11 col-sm-11 text-left">
-							<span id="buyer-value-label"
-								ng-bind="ctrl.transactionModel.sponsor"></span>
+							<span id="buyer-value-label" ng-bind="ctrl.transactionModel.sponsor"></span>
 						</div>
 					</div>
 
@@ -53,8 +45,7 @@
 								translate}}:</label>
 						</div>
 						<div class="col-md-2 col-sm-2">
-							<span id="transaction-type-value-label"
-								ng-bind="ctrl.transactionModel.transactionMethod | translate"></span>
+							<span id="transaction-type-value-label" ng-bind="ctrl.transactionModel.transactionMethod | translate"></span>
 						</div>
 						<div class="col-md-1 col-sm-1"></div>
 					</div>
@@ -64,8 +55,7 @@
 								| translate}}:</label>
 						</div>
 						<div class="col-md-2 col-sm-2 text-right">
-							<span id="payment-documents-label"
-								ng-bind="ctrl.transactionModel.documents.length"></span>
+							<span id="payment-documents-label" ng-bind="ctrl.transactionModel.documents.length"></span>
 						</div>
 						<div class="col-md-1 col-sm-1"></div>
 						<div class="col-md-3 col-sm-3">
@@ -73,12 +63,10 @@
 								| translate}}:</label>
 						</div>
 						<div class="col-md-2 col-sm-2">
-							<span id="interest-value-label" ng-show="ctrl.isTypeLoan"
-								ng-bind="(ctrl.transactionModel.interestAmount||0)| number:2"></span>
+							<span id="interest-value-label" ng-show="ctrl.isTypeLoan" ng-bind="(ctrl.transactionModel.interestAmount||0)| number:2"></span>
 						</div>
 						<div class="col-md-1 col-sm-1">
-							<span id="interest-thb-label" ng-show="ctrl.isTypeLoan"
-								ng-bind="'THB' | translate"></span>
+							<span id="interest-thb-label" ng-show="ctrl.isTypeLoan" ng-bind="'THB' | translate"></span>
 						</div>
 					</div>
 					<div class="row">
@@ -87,8 +75,7 @@
 								translate}}:</label>
 						</div>
 						<div class="col-md-2 col-sm-2 text-right">
-							<span id="payment-amount-value-label"
-								ng-bind="ctrl.transactionModel.transactionAmount | number: 2"></span>
+							<span id="payment-amount-value-label" ng-bind="ctrl.transactionModel.transactionAmount | number: 2"></span>
 						</div>
 						<div class="col-md-1 col-sm-1">
 							<span id="payment-amount-thb-label" ng-bind="'THB' | translate"></span>
@@ -98,12 +85,10 @@
 								translate}}:</label>
 						</div>
 						<div class="col-md-2 col-sm-2">
-							<span id="fee-value-label" ng-show="ctrl.isTypeLoan"
-								ng-bind="(ctrl.transactionModel.repaymentFee||0) | number:2"></span>
+							<span id="fee-value-label" ng-show="ctrl.isTypeLoan" ng-bind="(ctrl.transactionModel.repaymentFee||0) | number:2"></span>
 						</div>
 						<div class="col-md-1 col-sm-1">
-							<span id="fee-thb-label" ng-show="ctrl.isTypeLoan"
-								ng-bind="'THB' | translate"></span>
+							<span id="fee-thb-label" ng-show="ctrl.isTypeLoan" ng-bind="'THB' | translate"></span>
 						</div>
 					</div>
 					<div class="row">
@@ -112,8 +97,7 @@
 								translate}}:</label>
 						</div>
 						<div class="col-md-2 col-sm-2 text-right">
-							<span id="payment-date-value-label"
-								ng-bind="ctrl.transactionModel.transactionDate | date: 'dd/MM/yyyy': 'UTC+0700'"></span>
+							<span id="payment-date-value-label" ng-bind="ctrl.transactionModel.transactionDate | date: 'dd/MM/yyyy': 'UTC+0700'"></span>
 						</div>
 						<div class="col-md-1 col-sm-1"></div>
 						<div class="col-md-3 col-sm-3">
@@ -121,8 +105,7 @@
 								maturity date' | translate}}:</label>
 						</div>
 						<div class="col-md-2 col-sm-2">
-							<span id="loan-maturity-value-label" ng-show="ctrl.isTypeLoan"
-								ng-bind="ctrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+							<span id="loan-maturity-value-label" ng-show="ctrl.isTypeLoan" ng-bind="ctrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
 						</div>
 						<div class="col-md-1 col-sm-1"></div>
 					</div>
@@ -131,8 +114,7 @@
 							<label id="create-by-label">{{'Create by' | translate}}:</label>
 						</div>
 						<div class="col-md-2 col-sm-2 text-right">
-							<span id="create-by-value-label"
-								ng-bind="ctrl.transactionModel.createdBy"></span>
+							<span id="create-by-value-label" ng-bind="ctrl.transactionModel.createdBy"></span>
 						</div>
 						<div class="col-md-1 col-sm-1"></div>
 						<div class="col-md-3 col-sm-3">
@@ -140,8 +122,7 @@
 								translate}}:</label>
 						</div>
 						<div class="col-md-2 col-sm-2">
-							<span id="create-date-value-label"
-								ng-bind="ctrl.transactionModel.createdTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+							<span id="create-date-value-label" ng-bind="ctrl.transactionModel.createdTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
 						</div>
 						<div class="col-md-1 col-sm-1"></div>
 					</div>
@@ -150,8 +131,7 @@
 							<label id="verify-by-label">{{'Verify by' | translate}}:</label>
 						</div>
 						<div class="col-md-2 col-sm-2 text-right">
-							<span id="verify-by-value-label"
-								ng-bind="ctrl.transactionModel.verifiedBy"></span>
+							<span id="verify-by-value-label" ng-bind="ctrl.transactionModel.verifiedBy"></span>
 						</div>
 						<div class="col-md-1 col-sm-1"></div>
 						<div class="col-md-3 col-sm-3">
@@ -159,8 +139,7 @@
 								translate}}:</label>
 						</div>
 						<div class="col-md-2 col-sm-2">
-							<span id="verify-date-value-label"
-								ng-bind="ctrl.transactionModel.verifiedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+							<span id="verify-date-value-label" ng-bind="ctrl.transactionModel.verifiedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
 						</div>
 						<div class="col-md-1 col-sm-1"></div>
 					</div>
@@ -169,8 +148,7 @@
 							<label id="verify-by-label">{{'Approve by' | translate}}:</label>
 						</div>
 						<div class="col-md-2 col-sm-2 text-right">
-							<span id="approve-by-value-label"
-								ng-bind="ctrl.transactionModel.approvedBy"></span>
+							<span id="approve-by-value-label" ng-bind="ctrl.transactionModel.approvedBy"></span>
 						</div>
 						<div class="col-md-1 col-sm-1"></div>
 						<div class="col-md-3 col-sm-3">
@@ -178,8 +156,7 @@
 								translate}}:</label>
 						</div>
 						<div class="col-md-2 col-sm-2">
-							<span id="approve-date-value-label"
-								ng-bind="ctrl.transactionModel.approvedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+							<span id="approve-date-value-label" ng-bind="ctrl.transactionModel.approvedTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
 						</div>
 						<div class="col-md-1 col-sm-1"></div>
 					</div>
@@ -192,9 +169,6 @@
 						<div class="col-md-11 col-sm-11 text-left">
 							<span id="status-value-label"> <span
 								ng-bind="ctrl.transactionModel.statusCode | translate"></span>
-								<span style="color: red"
-								ng-show="ctrl.transactionModel.statusCode == 'INCOMPLETE' || ctrl.transactionModel.statusCode == 'FAIL_TO_PAYMENT' || ctrl.transactionModel.statusCode == 'REJECT_INCOMPLETE'"
-								ng-bind="ctrl.transactionModel | transactionErrorMessage"></span>
 							</span>
 						</div>
 					</div>
@@ -202,16 +176,16 @@
 						<label id="reason-label" class="col-md-1 col-sm-1">{{'Reason'
 							| translate}}: </label>
 						<div class="col-md-11 col-sm-11 text-left">
-							<label id="reason-value-label" style="color: red"
-								ng-bind="ctrl.transactionModel.rejectReason"></label>
+							<span id="reason-value-label" style="color: red" 
+								ng-show="ctrl.transactionModel.statusCode == 'INCOMPLETE' || ctrl.transactionModel.statusCode == 'FAIL_TO_PAYMENT' || ctrl.transactionModel.statusCode == 'REJECT_INCOMPLETE'"
+								ng-bind="ctrl.transactionModel | transactionErrorMessage"></span>
 						</div>
+
 					</div>
 
 					<div>
-						<ng-include ng-show="ctrl.isCreateTransWithInvoice"
-							src="'/payment-transaction/with-invoice/view'" ng-if="true"></ng-include>
-						<ng-include ng-show="!ctrl.isCreateTransWithInvoice"
-							src="'/payment-transaction/without-invoice/view'" ng-if="true"></ng-include>
+						<ng-include ng-show="ctrl.isCreateTransWithInvoice" src="'/payment-transaction/with-invoice/view'" ng-if="true"></ng-include>
+						<ng-include ng-show="!ctrl.isCreateTransWithInvoice" src="'/payment-transaction/without-invoice/view'" ng-if="true"></ng-include>
 					</div>
 
 				</div>
@@ -219,13 +193,8 @@
 
 			<div class="panel-body">
 				<div class="col-md-12 text-right">
-					<scf-button id="back-button" class="btn btn-default" type="submit"
-						ng-click="ctrl.back()" ng-show="ctrl.isShowBackButton">{{'Back'
-					| translate}}</scf-button>
-					<scf-button id="view-history-button" class="btn btn-default"
-						ng-click="ctrl.viewHistory()" type="submit"
-						ng-show="ctrl.isShowViewHistoryButton">{{'View
-					History' | translate}}</scf-button>
+					<scf-button id="back-button" class="btn btn-default" type="submit" ng-click="ctrl.back()" ng-show="ctrl.isShowBackButton">{{'Back' | translate}}</scf-button>
+					<scf-button id="view-history-button" class="btn btn-default" ng-click="ctrl.viewHistory()" type="submit" ng-show="ctrl.isShowViewHistoryButton">{{'View History' | translate}}</scf-button>
 				</div>
 			</div>
 
