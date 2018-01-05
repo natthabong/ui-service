@@ -3,6 +3,7 @@ package gec.scf.web;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,8 +34,13 @@ public class LoginController {
 
 	private String LOGIN_VIEW_NAME = "login";
 	private String UNSUPPORT_BROWSER_VIEW_NAME = "unsupport-browser";
+	
 	@Value(value = "${scf.ui.header.fixed:true}")
 	private boolean fixedHeader;
+	
+	@Value(value = "${scf.application.id:004}")
+	private String applicationId;
+	
 	@Autowired
 	GECSCFServiceProvider serviceProvider;
 
@@ -120,7 +126,7 @@ public class LoginController {
 		object.put("fixedHeader", fixedHeader);
 		object.put("browserName", browser.getName());
 		object.put("browserVersion", browser.getVersion());
-		object.put("funding", funding);
+		object.put("funding", Optional.ofNullable(funding).orElse(applicationId));
 
 		return new ModelAndView(view, object);
 	}
