@@ -219,7 +219,7 @@ displayModule.controller('DisplayController', [
                 if (vm.dataModel.items == null || vm.dataModel.items.length < 1) {
                     vm.addItem();
                 }
-
+                
                 if (vm.dataModel.loanRequestMode == null || vm.dataModel.loanRequestMode == '') {
                     vm.dataModel.loanRequestMode = 'CURRENT_AND_FUTURE';
                 }
