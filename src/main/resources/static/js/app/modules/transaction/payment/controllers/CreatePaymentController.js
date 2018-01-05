@@ -196,7 +196,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 vm.isLoanPayment = false;
                 if (accounts.length > 0) {
                     accounts.forEach(function (account, index) {
-                        if (index == 0) {
+                        if (index == 0 && vm.supportSpecialDebit) {
                             if (account.defaultLoanNo && account.accountType == 'LOAN') {
                                 vm.accountNotSupportSpecialDirectDebit = false;
                             } else {
@@ -212,7 +212,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                         vm.accountDropDown.push(formatAccount);
                     });
                 } else {
-                    vm.accountNotSupportSpecialDirectDebit = true;
+                    if(vm.supportSpecialDebit){
+                        vm.accountNotSupportSpecialDirectDebit = true;
+                    }else{
+                        vm.accountNotSupportSpecialDirectDebit = false;
+                    }
+                    
                 }
                 deffered.resolve(accounts);
             });
