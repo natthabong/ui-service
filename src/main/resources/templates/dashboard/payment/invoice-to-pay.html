@@ -33,7 +33,9 @@
 							<td class="text-center"><img title="{{record.supplierName}}"
 								style="height: 32px; width: 32px;"
 								data-ng-src="data:image/png;base64,{{invoiceToPayCtrl.decodeBase64(record.supplierLogo)}}"
-								data-err-src="images/png/avatar.png" /></td>
+								data-err-src="images/png/avatar.png" /><span
+								data-ng-show="{{record.productTypeDisplay!='NONE'}}"
+								id="invoice-to-pay-{{$index+1}}-product-type-display-label"> ({{record.productTypeDisplay}})</span></td>
 							<td class="text-center"
 								id="invoice-to-pay-{{$index+1}}-due-date-label"
 								ng-bind="record.dueDate | date : 'dd/MM/yyyy'"></td>
