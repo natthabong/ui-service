@@ -184,11 +184,15 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 		var isValid = true;
 		var channel = vm.channelModel;
 		
-		if(vm.channelModel.layoutConfigId == null || vm.channelModel.layoutConfigId ==""){
-			isValid = false;
-			$scope.errors.layout = {
-					message : 'File layout is required.'
-			}			
+		
+		//Atithat
+		if (parameters.processType == 'AR_DOCUMENT'){
+			if(vm.channelModel.layoutConfigId == null || vm.channelModel.layoutConfigId ==""){
+				isValid = false;
+				$scope.errors.layout = {
+						message : 'File layout is required.'
+				}			
+			}
 		}
 
 		if(vm.channelModel.channelType == 'FTP'){
