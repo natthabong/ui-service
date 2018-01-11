@@ -229,7 +229,7 @@ angular
 				var createCriteria = function(criteria){
 					if(angular.isDefined(criteria) && criteria != null){
 						if(criteria.length > 0){
-							return '%' + criteria + '%';
+							return criteria;
 						}						
 					}
 					
