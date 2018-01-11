@@ -530,7 +530,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	vm.setupUserInfo = function(){
 		vm.username = '';
 		
-		if(angular.isDefined(vm.channelModel.jobTrigger.jobDetail.remoteUsername)){
+		if(angular.isDefined(vm.channelModel.jobTrigger) && angular.isDefined(vm.channelModel.jobTrigger.jobDetail.remoteUsername)){
 			vm.username = vm.channelModel.jobTrigger.jobDetail.remoteUsername;
 		}
 		
