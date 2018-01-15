@@ -25,10 +25,7 @@ module.controller('FileLayoutController', [
 
 		vm.processType = $stateParams.processType;
 		vm.integrateType = $stateParams.integrateType;
-//		if($stateParams.fileLayoutModel == null || angular.isUndefined($stateParams.fileLayoutModel)){
-//			var params = {organizeId: ownerId};
-//			PageNavigation.gotoPage("/sponsor-configuration",params);
-//		}
+
 		vm.model = $stateParams.fileLayoutModel || {
 			ownerId: ownerId,
 			paymentDateConfig: vm.processType == 'AP_DOCUMENT' ? {
@@ -977,14 +974,14 @@ module.controller('FileLayoutController', [
 		$scope.confirmSave = function (sponsorLayout) {
 			if(vm.newMode){
 				
-				return FileLayoutService.createFileLayout(sponsorLayout.ownerId, sponsorLayout.processType, sponsorLayout.integrateType, sponsorLayout);
+				return FileLayoutService.createFileLayout(ownerId, sponsorLayout.processType, sponsorLayout.integrateType, sponsorLayout);
 				
 			}else {
 				if (sponsorLayout.processType == 'AP_DOCUMENT') {
 					sponsorLayout.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
 				}
 				
-				return FileLayoutService.updateFileLayout(sponsorLayout.ownerId, sponsorLayout.processType, sponsorLayout.integrateType, sponsorLayout.layoutConfigId, sponsorLayout);
+				return FileLayoutService.updateFileLayout(ownerId, sponsorLayout.processType, sponsorLayout.integrateType, sponsorLayout.layoutConfigId, sponsorLayout);
 				
 			}
 
