@@ -295,7 +295,7 @@ angular
 			if(data == undefined){
 				return "";
 			}else{
-				if(data.statusCode == 'DRAWDOWN_SUCCESS'||data.statusCode == 'WAIT_FOR_DRAWDOWN_RESULT'){
+				if(data.statusCode == 'DRAWDOWN_SUCCESS'||data.statusCode == 'WAIT_FOR_DRAWDOWN_RESULT'||data.statusCode == 'PAYMENT_SUCCESS'||data.statusCode == 'WAIT_FOR_PAYMENT_RESULT'){
 					return "";
 				}
 				if(data.statusCode == 'REJECTED_BY_BANK' || data.statusCode == 'REJECT_BY_CHECKER' || data.statusCode == 'REJECT_BY_APPROVER' || data.statusCode == 'EXPIRED'){
