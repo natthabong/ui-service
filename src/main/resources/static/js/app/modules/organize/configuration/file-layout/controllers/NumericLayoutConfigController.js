@@ -147,14 +147,16 @@ module.controller('NumericLayoutConfigController',
 	var headerFlagList = function() {		
 		headerItems.forEach(function(item , index) {
 			var dataType = dataTypeByIds[item.documentFieldId];
-			if (dataType.dataType == 'SIGN_FLAG') {
-				var itemDropdown = {
-					label : item.displayValue,
-					value : item.displayValue,
-					item: item
+			if (angular.isDefined(dataType) && dataType != null ){
+				if (dataType.dataType == 'SIGN_FLAG') {
+					var itemDropdown = {
+						label : item.displayValue,
+						value : item.displayValue,
+						item: item
+					}
+					itemDropdown.item.dataType = 'SIGN_FLAG';
+					vm.signFlagFieldDropdown.push(itemDropdown);
 				}
-				itemDropdown.item.dataType = 'SIGN_FLAG';
-				vm.signFlagFieldDropdown.push(itemDropdown);
 			}
 		});		
 	}
@@ -179,14 +181,16 @@ module.controller('NumericLayoutConfigController',
 	var footerFlagList = function() {		
 		footerItems.forEach(function(item , index) {
 			var dataType = dataTypeByIds[item.documentFieldId];
-			if (dataType.dataType == 'SIGN_FLAG') {
-				var itemDropdown = {
-					label : item.displayValue,
-					value : item.displayValue,
-					item: item
+			if (angular.isDefined(dataType) && dataType != null ){
+				if (dataType.dataType == 'SIGN_FLAG') {
+					var itemDropdown = {
+						label : item.displayValue,
+						value : item.displayValue,
+						item: item
+					}
+					itemDropdown.item.dataType = 'SIGN_FLAG';
+					vm.signFlagFieldDropdown.push(itemDropdown);
 				}
-				itemDropdown.item.dataType = 'SIGN_FLAG';
-				vm.signFlagFieldDropdown.push(itemDropdown);
 			}
 		});	
 	}
