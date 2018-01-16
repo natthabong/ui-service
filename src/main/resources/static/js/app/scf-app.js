@@ -1,7 +1,7 @@
 var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'ui.mask', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
                         			'legendDirectives','chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing','gecscf.supplierCreditInformation','gecscf.buyerCreditInformation'
-									,'gecscf.sponsorConfiguration.workflow','gecscf.document','gecscf.organize.configuration.exportPayment','gecscf.organize.configuration.display'])
+									,'gecscf.sponsorConfiguration.workflow','gecscf.document','gecscf.organize.configuration.exportPayment','gecscf.organize.configuration.display','gecscf.downloadPaymentResult'])
     .config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider','blockUIConfig','$logProvider','$compileProvider','$urlRouterProvider','ngDialogProvider',
         function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider,$compileProvider, $urlRouterProvider, ngDialogProvider) {
 
@@ -677,13 +677,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/payment-transaction/approve',
 				params: {transaction: null},
 				resolve: WebHelper.loadScript(['js/app/modules/transaction/payment/services/ApprovePaymentService.js','js/app/modules/transaction/payment/controllers/ApprovePaymentController.js','js/app/modules/transaction/services/TransactionService.js'])
-			}).state('/partner-organize/download-payment-advices',{
-				url: '/partner-organize/download-payment-advices',
-				controller: 'DownloadPaymentResultController',
-				controllerAs: 'ctrl',
-				templateUrl: '/download-payment-result/supplier',
-				params: {transaction: null},
-				resolve: WebHelper.loadScript(['js/app/modules/download-payment-result/services/DownloadPaymentResultService.js','js/app/modules/download-payment-result/controllers/DownloadPaymentResultController.js'])
 			}).state('/upload-document-error', {
 				url: '/upload-document-error',
 				controller: 'ErrorController',
