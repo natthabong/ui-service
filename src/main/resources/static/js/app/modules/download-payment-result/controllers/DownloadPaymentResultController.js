@@ -37,7 +37,7 @@ downloadModule.controller('DownloadPaymentResultController', [
         if (_validate()) {
           var exportCriteria = {
             paymentDate: vm.paymentDate,
-            fileType: vm.fileType
+            channel: vm.channel
           }
           var differd = DownloadPaymentResultService
                   .exportPaymentResultFile(exportCriteria);
@@ -53,25 +53,24 @@ downloadModule.controller('DownloadPaymentResultController', [
                   .then(function(response) {
                     var exportLayouts = response.data;
                     if (exportLayouts != null) {
-                      if(exportLayouts.length > 1){
+                      if (exportLayouts.length > 1) {
                         vm.exportLayoutDropdowns = [{
                           value: 'ALL',
                           label: 'All'
                         }];
                         $scope.multiLayout = true;
-                      }
-                      else{
+                      } else {
                         $scope.multiLayout = false;
                       }
                       exportLayouts.forEach(function(data) {
                         var productTypeData = {
-                          value: data.productType,
+                          value: data.channelId,
                           label: data.displayName
                         }
                         vm.exportLayoutDropdowns.push(productTypeData);
-                        
+
                       });
-                      vm.fileType = vm.exportLayoutDropdowns[0].value;
+                      vm.channel = vm.exportLayoutDropdowns[0].value;
                     }
                   });
         });

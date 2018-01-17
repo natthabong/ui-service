@@ -5,7 +5,7 @@ downloadModule.service('DownloadPaymentResultService', ['$http', '$q',
       this.exportPaymentResultFile = function(exportCriteria) {
         blockUI.start();
         $http({
-          url: '/api/v1/export-document/export',
+          url: '/api/v1/export-document/' + exportCriteria.channel + '/export',
           method: 'POST',
           data: exportCriteria,
           responseType: 'arraybuffer'
