@@ -298,21 +298,21 @@ scfApp.controller('CustomerCodeGroupSettingController', [ '$q','$scope', '$state
 //	}
 	
 	var saveCustomerCode = function(customerCode){
-		
 		var saveCustomerDiferred = '';
-		if(vm.isNewCusotmerCode){
-//			customerCode.groupId = groupId;
-			
+		if (vm.isNewCusotmerCode) {
+//			customerCode.groupId = groupId;		
 			var newCustCodeURL = '/api/v1/organize-customers/'+ ownerId +'/accounting-transactions/'+accountingTransactionType+'/customer-codes';
 			saveCustomerDiferred = Service.requestURL(newCustCodeURL, customerCode);
-		}else{
+		} else {
 			var editCustCodeURL = '/api/v1/organize-customers/'+ ownerId +'/accounting-transactions/'+accountingTransactionType+'/customer-codes/'+ vm.oldCustomerCode;
-			saveCustomerDiferred = Service.doPut(editCustCodeURL, customerCode);
+            var putHeader = {
+            	'X-HTTP-Method-Override': 'PUT'
+            }
+			saveCustomerDiferred = Service.requestURL(editCustCodeURL, customerCode, 'POST', putHeader);
 		}
 		return saveCustomerDiferred;
-		
 	}
-	
+
 	var dialogSuccess, dialogFail = ''
 	vm.confirmSaveCustomerCode = function(customerCode){
 		var preCloseCallback = function(confirm) {
