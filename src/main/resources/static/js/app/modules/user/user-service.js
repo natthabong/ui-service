@@ -18,13 +18,14 @@ userModule.factory('UserService', [ '$http', '$q', function($http, $q) {
 	saveUser: function(user, editMode){
 	    	var serviceUrl = 'api/v1/users' + (editMode?('/'+ user.userId):'');
         	var req = {
-        		method : editMode ? 'PUT': 'POST',
+        		method : 'POST',
         		url : serviceUrl,
         		data: user
         	}
         	if(editMode){
-    	           req.headers = {
-    			'If-Match' : user.version
+    	       req.headers = {
+					'If-Match' : user.version,
+					'X-HTTP-Method-Override': 'PUT'
     		   }
         	}
 		var deferred = $q.defer();

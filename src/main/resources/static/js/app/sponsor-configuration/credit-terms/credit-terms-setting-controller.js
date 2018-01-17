@@ -377,10 +377,11 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 			var serviceUrl = BASE_URI+'/payment-date-formulas/' + formulaId + '/credit-terms/'+vm.model.creditterm.creditTermId;
 			var deffered = $q.defer();
 			var serviceDiferred =  $http({
-				method : 'PUT',
+				method : 'POST',
 				url : serviceUrl,
 				headers: {
-					'If-Match' : vm.model.creditterm.version
+					'If-Match' : vm.model.creditterm.version,
+					'X-HTTP-Method-Override': 'PUT'
 				},
 				data: vm.model.creditterm
 			}).then(function(response) {

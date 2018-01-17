@@ -709,11 +709,13 @@ app.controller('NewFileLayoutController', [
 				sponsorLayout.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
 				apiURL = apiURL + '/' + vm.model.layoutConfigId;
 			}
-			
-			var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, vm.newMode ? 'POST' : 'PUT');
+
+			var putHeader = {
+				'X-HTTP-Method-Override': 'PUT'
+			}
+			var fileLayoutDiferred = Service.requestURL(apiURL, sponsorLayout, 'POST', vm.newMode ? null, putHeader);
 
 			return fileLayoutDiferred;
-
 		};
 
 		var addCreditTermFields = function(configItems) {

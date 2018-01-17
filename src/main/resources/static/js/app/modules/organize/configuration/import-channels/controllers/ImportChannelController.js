@@ -392,7 +392,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 			url : serviceUrl,
 			headers: {
 				'If-Match' : vm.channelModel.version,
-				'x-http-method-override' : 'PUT'
+				'X-HTTP-Method-Override': 'PUT'
 			},
 			data: vm.channelModel
 		}).then(function(response) {

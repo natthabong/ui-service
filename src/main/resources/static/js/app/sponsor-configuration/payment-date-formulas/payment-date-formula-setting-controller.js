@@ -322,10 +322,11 @@ app.controller('PaymentDateFormulaSettingController', [
 			var serviceUrl = '/api/v1/organize-customers/' + sponsorId + '/sponsor-configs/SFP/payment-date-formulas/' + formulaId;
 			var deffered = $q.defer();
 			var serviceDiferred =  $http({
-				method : 'PUT',
+				method : 'POST',
 				url : serviceUrl,
 				headers: {
-					'If-Match' : vm.model.version
+					'If-Match' : vm.model.version,
+					'X-HTTP-Method-Override': 'PUT'
 				},
 				data: vm.formulaPayload
 			}).then(function(response) {
@@ -766,16 +767,21 @@ app.controller('NewPaymentPeriodController', [ '$scope', '$rootScope', 'Service'
 			vm.period.dateOfMonth = null;
 		}
 		
-		var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas/'+vm.paymentDateFormulaId+'/periods';
-		var method = 'POST';
-		if(vm.period.paymentPeriodId!=null){
-			serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas/'+vm.paymentDateFormulaId+'/periods/'+vm.period.paymentPeriodId;	
-			method = 'PUT';
+		var serviceDiferred = null;
+		if (vm.period.paymentPeriodId == null) {
+			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas/'+vm.paymentDateFormulaId+'/periods';
+			var method = 'POST';
+			serviceDiferred = Service.requestURL(serviceUrl, vm.period, method);
+		} else {
+			var serviceUrl = '/api/v1/organize-customers/' + vm.sponsorId + '/sponsor-configs/SFP/payment-date-formulas/'+vm.paymentDateFormulaId+'/periods/'+vm.period.paymentPeriodId;	
+			var method = 'POST';
+			var header = {
+				'X-HTTP-Method-Override': 'PUT'
+			}
+			serviceDiferred = Service.requestURL(serviceUrl, vm.period, method, header);
 		}
-		
-		var serviceDiferred = Service.requestURL(serviceUrl, vm.period, method);
-		return serviceDiferred;
 
+		return serviceDiferred;
 	};
 } ]);
 
