@@ -337,7 +337,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 					});
 				},
 				onFail : function(response) {
-				    blockUI.stop();
+					blockUI.stop();
 				    var headerMessage = 'Add new credit term fail.';
 				    if(vm.editMode){
 				    	headerMessage = 'Edit credit term fail.';
@@ -349,7 +349,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 					UIFactory.showFailDialog({
 						data : {
 							headerMessage : headerMessage,
-							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+							bodyMessage : msg[response.data.errorCode] ? msg[response.data.errorCode] : response.statusText
 						},
 						preCloseCallback : callback
 					});
