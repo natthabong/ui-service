@@ -39,10 +39,10 @@ function WorkflowService($http, $q, blockUI){
         var url = 'api/v1/organizes/' + workflowModel.organizeId + '/workflows/' + workflowModel.module + '/' + workflowModel.workflowType;
         var deffered = $q.defer();
         $http({
-        		method: 'PUT',
+        		method: 'POST',
         	    url : url,
 				headers: {
-					'If-Match' : vm.model.version,
+					'If-Match' : workflowModel.version,
 					'X-HTTP-Method-Override': 'PUT'
 				},
             	data: workflowModel,
