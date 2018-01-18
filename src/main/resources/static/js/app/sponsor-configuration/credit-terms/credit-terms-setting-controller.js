@@ -349,7 +349,7 @@ app.controller('CreditTermsSettingController', [ '$scope', 'ngDialog', 'Document
 					UIFactory.showFailDialog({
 						data : {
 							headerMessage : headerMessage,
-							bodyMessage : msg[response.data.errorCode] ? msg[response.data.errorCode] : response.statusText
+							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
 						},
 						preCloseCallback : callback
 					});
