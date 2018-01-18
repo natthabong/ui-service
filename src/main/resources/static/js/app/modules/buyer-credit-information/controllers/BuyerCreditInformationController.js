@@ -161,9 +161,12 @@ bciModule.controller('BuyerCreditInformationController', [
 
 		vm.inquiryAccount = function (record) {
 			blockUI.start("Processing...");
+			console.log(record);
 			var deffered = $q.defer();
 			var tpAccountModel = {
 				accountId: record.accountId,
+				sponsorId: record.buyerId,
+				supplierId: record.supplierId
 			}
 			var inquiryAccountDeffered = inquiryAccountToApi(tpAccountModel);
 			inquiryAccountDeffered.promise.then(function (response) {
