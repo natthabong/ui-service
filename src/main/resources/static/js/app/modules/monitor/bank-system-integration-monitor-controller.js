@@ -14,13 +14,13 @@ scfApp.controller('BankSystemIntegrationMonitorController', [ '$scope', 'Service
             $scope.$broadcast('onload');
         }
 
-        var getBankCode = function(){
-			if($stateParams.bankCode != null && $stateParams.bankCode != ''){
-				return $stateParams.bankCode;
-			}else{
-				return null;
-			}
-		}
+//        var getBankCode = function(){
+//			if($stateParams.bankCode != null && $stateParams.bankCode != ''){
+//				return $stateParams.bankCode;
+//			}else{
+//				return null;
+//			}
+//		}
 
         var getBankProfile = function(bankCode){
 			var serviceUrl = '/api/v1/organize-customers/'+bankCode+'/profile';
@@ -34,8 +34,7 @@ scfApp.controller('BankSystemIntegrationMonitorController', [ '$scope', 'Service
 		}
 
         var initial = function(){
-            var bankCode = getBankCode();
-            getBankProfile(bankCode);
+            getBankProfile($rootScope.userInfo.fundingId);
         }
         initial();
 } ]);

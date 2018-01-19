@@ -502,7 +502,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'BankSystemIntegrationMonitorController',
 				controllerAs: 'ctrl',
 				templateUrl: '/system-integration-monitor/bank',
-				params: { mode: 'bank', bankCode: '004'},
+				params: { mode: 'bank'},
 				resolve: WebHelper.loadScript(['js/app/modules/monitor/bank-system-integration-monitor-controller.js'
 						,'js/app/modules/monitor/web-service-monitor-controller.js'
 						,'js/app/modules/monitor/ftp-monitor-controller.js'
