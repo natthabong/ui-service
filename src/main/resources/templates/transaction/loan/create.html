@@ -14,12 +14,6 @@
 
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body">
-<!-- 					<div class="col-md-12" ng-show="ctrl.showErrorMsg"> -->
-<!-- 						<div class="alert alert-danger" role="alert"> -->
-<!-- 							<span id="message-alert-label" -->
-<!-- 								ng-bind="ctrl.errorMsgGroups | translate"></span> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
 					<!-- Start Column Panel-->
 					<div class="col-md-12">
 						<form name="createForm" class="form-horizontal">
@@ -52,7 +46,7 @@
 							<!-- Start Payment Field-->
 							<div class="form-group" ng-show="ctrl.canViewOrgProfilesReferToMyOrg">
 								<label for="paymentDate" id="sponsor-payment-date-label"
-									class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Sponsor
+									class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Buyer
 									payment date' | translate}}: </label>
 								<div class="col-md-3 col-sm-3 col-xs-12">
 									<scf-dropdown id="sponsor-payment-date-dropdown"
@@ -80,39 +74,38 @@
 										<div class="panel-body">
 											<div class="row">
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Credit limit' | translate">วงเงิน�?ู้
-													</label>:
+													<label ng-bind="'Credit limit' | translate"></label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
 													<span id="creditlimit-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.creditLimit | number:2">0.00</span>
+														ng-bind="ctrl.tradingpartnerInfoModel.creditLimit | number:2"></span>
 												</div>
 												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
 
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Available' | translate">วงเงิน�?ู้ที่สามารถเบิ�?ถอนได้</label>:
+													<label ng-bind="'Available' | translate"></label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
 													<span id="available-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.supplierAvailableAmount | number:2">0.00</span>
+														ng-bind="ctrl.tradingpartnerInfoModel.supplierAvailableAmount | number:2"></span>
 												</div>
 												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
 											</div>
 											<div class="row">
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Outstanding' | translate">ยอดเงิน�?ู้ที่เบิ�?ถอน�?ล้ว</label>:
+													<label ng-bind="'Outstanding' | translate"></label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
 													<span id="outstanding-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.outstandingAmount | number:2">0.00</span>
+														ng-bind="ctrl.tradingpartnerInfoModel.outstandingAmount | number:2"></span>
 												</div>
 												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Future drawdown' | translate">ยอดเงิน�?ู้ล่วงหน้า</label>:
+													<label ng-bind="'Future drawdown' | translate"></label>:
 												</div>
 												<div class="col-md-2  col-sm-2 text-right">
 													<span id="future-amount-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.futureAmount | number:2">0.00</span>
+														ng-bind="ctrl.tradingpartnerInfoModel.futureAmount | number:2"></span>
 												</div>
 												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
 											</div>
@@ -122,34 +115,33 @@
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
 													<span id="internal-step-amount-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.pendingAmount | number:2">0.00</span>
+														ng-bind="ctrl.tradingpartnerInfoModel.pendingAmount | number:2"></span>
 												</div>
 												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Tenor' | translate">Tenor</label>:
+													<label ng-bind="'Tenor' | translate"></label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
 													<span id="tenor-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.tenor">0</span>
+														ng-bind="ctrl.tradingpartnerInfoModel.tenor"></span>
 												</div>
 												<div class="col-md-1 col-sm-1">{{'Days' | translate}}</div>
 											</div>
 											<div class="row">
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Pre-drawdown percentage' | translate">Pre-Dradown
-														Percentag</label>:
+													<label ng-bind="'Pre-drawdown percentage' | translate"></label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
 													<span id="predrawdown-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.prePercentageDrawdown | number:2">0.00</span>%
+														ng-bind="ctrl.tradingpartnerInfoModel.prePercentageDrawdown | number:2"></span>%
 												</div>
 												<div class="col-md-1 col-sm-1"></div>
 												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Interest rate' | translate">อัตราดอ�?เบี้ยเงิน�?ู้</label>:
+													<label ng-bind="'Interest rate' | translate"></label>:
 												</div>
 												<div class="col-md-2 col-sm-2 text-right">
 													<span id="interest-rate-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.interestRate">0.000000</span>
+														ng-bind="ctrl.tradingpartnerInfoModel.interestRate"></span>
 												</div>
 												<div class="col-md-1 col-sm-1"></div>
 											</div>
