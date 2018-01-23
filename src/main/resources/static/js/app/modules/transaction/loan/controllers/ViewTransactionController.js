@@ -1,7 +1,7 @@
 angular.module('scfApp').controller(
 		'ViewTransactionController',
-		[ 'ViewTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state','$log', 'PageNavigation',
-				function(ViewTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state, $log, PageNavigation) {
+		[ 'ViewTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state','$log', 'PageNavigation', '$filter',
+				function(ViewTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state, $log, PageNavigation, $filter) {
 					var vm = this;
 					var log = $log;
 					$scope.showConfirmPopup = false; 
@@ -69,6 +69,10 @@ angular.module('scfApp').controller(
 								}else{
 									vm.isDisplayReason = 'none';
 								}
+								
+								if(vm.transactionModel.payerAccount.format){
+									vm.transactionModel.payerAccountNo = $filter('accountNoDisplay')(vm.transactionModel.payerAccountNo);
+								} 
 								
 								vm.pageModel.totalRecord = vm.transactionModel.documents.length;
 								vm.splitePageTxt = SCFCommonService.splitePage(vm.pageModel.pageSizeSelectModel, vm.pageModel.currentPage, vm.pageModel.totalRecord);
