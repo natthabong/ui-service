@@ -4,6 +4,7 @@ angular
                 'gecscf.organize.configuration',
                 ['ui.router', 'scfApp', 'gecscf.ui',
                     'gecscf.organize.configuration.fileLayout',
+                    'gecscf.organize.configuration.exportPayment',
                     'gecscf.organize.configuration.productType',
                     'gecscf.organize.configuration.importChannel'])
         .config(
@@ -30,6 +31,7 @@ angular
                           'js/app/modules/organize/configuration/display/controllers/DisplayNewPopupController.js',
                           'js/app/modules/organize/configuration/display/services/DisplayService.js',
                           'js/app/modules/organize/configuration/file-layout/controllers/ImportLayoutNewPopupController.js',
+                          'js/app/modules/organize/configuration/export-payment/controllers/ExportLayoutNewPopupController.js',
                           'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
                           'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
                           'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
@@ -91,6 +93,17 @@ angular
                                 });
                       }
                       
+                      var showCreateExportLayoutDialog = function(data,
+                              callback) {
+                        UIFactory
+                                .showDialog({
+                                  preCloseCallback: callback,
+                                  templateUrl: '/js/app/modules/organize/configuration/export-payment/templates/dialog-new-export-layout-data.html',
+                                  controller: 'ExportLayoutNewPopupController',
+                                  data: data
+                                });
+                      }
+                      
                       var showCreateNewCreateDisplayDialog = function(data,
                               callback) {
                         UIFactory
@@ -106,6 +119,7 @@ angular
                         showCreateMappingDataDialog: showCreateMappingDataDialog,
                         showCreateImportChannelDialog: showCreateImportChannelDialog,
                         showCreateImportLayoutDialog: showCreateImportLayoutDialog,
+                        showCreateExportLayoutDialog: showCreateExportLayoutDialog,
                         showCreateNewCreateDisplayDialog: showCreateNewCreateDisplayDialog
                       };
                     }]);
