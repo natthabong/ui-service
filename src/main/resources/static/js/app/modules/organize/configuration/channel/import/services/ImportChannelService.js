@@ -1,24 +1,7 @@
 'use strict';
-var importChannelModule = angular.module('gecscf.organize.configuration.importChannel');
+var importChannelModule = angular.module('gecscf.organize.configuration.channel.import');
 importChannelModule.factory('ImportChannelService', ['$http', '$q', 'Service', function($http, $q, Service) {
 	
-    var create = function(model) {
-        var uri = 'api/v1/organize-customers/' + model.organizeId + '/process-types/' + model.processType + '/channels';
-        var deferred = $q.defer();
-
-        $http({
-            url: uri,
-            method: 'POST',
-            data: model
-        }).then(function(response) {
-        	deferred.resolve(response);
-        }).catch(function(response) {
-        	deferred.reject(response);
-        });
-
-        return deferred;
-    }
-
 	var _prepareItemSupplier = function(item) {
 		item.identity = ['supplier-', item.supplierId, '-option'].join('');
 		item.label = [item.supplierId, ': ', item.supplierName].join('');
@@ -85,8 +68,7 @@ importChannelModule.factory('ImportChannelService', ['$http', '$q', 'Service', f
 		getItemSuggestSuppliers: getItemSuggestSuppliers,
 		getItemSuggestBuyers: getItemSuggestBuyers,
 		getBorrowerTypes: getBorrowerTypes,
-		verifyBorrowerType: verifyBorrowerType,
-		create: create
+		verifyBorrowerType: verifyBorrowerType 
 	}
 
 }]);

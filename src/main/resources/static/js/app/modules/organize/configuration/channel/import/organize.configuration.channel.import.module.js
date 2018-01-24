@@ -1,10 +1,11 @@
 'use strict';
-angular.module('gecscf.organize.configuration.importChannel',
+angular.module('gecscf.organize.configuration.channel.import',
 		[ 'ui.router', 'gecscf.ui','gecscf.organize.configuration.fileLayout' ]).config(
 		[ '$stateProvider', function($stateProvider) {
 
-			var resources = ['js/app/modules/organize/configuration/import-channels/controllers/ImportChannelController.js',
-				'js/app/modules/organize/configuration/import-channels/services/ImportChannelService.js',
+			var resources = ['js/app/modules/organize/configuration/channel/import/controllers/ImportChannelController.js',
+				'js/app/modules/organize/configuration/channel/import/services/ImportChannelService.js',
+        'js/app/modules/organize/configuration/channel/common/services/ChannelService.js',
 				'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
 				'js/app/common/scf-component.js',
 				'js/app/common/scf-component.css'];
