@@ -80,24 +80,26 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', '$stateParams', 'Serv
 		
 		vm.runJob = function(job){
 
-			var organizeId = '';
+			vm.organizeId = '';
 			if(currentMode == mode.BANK){
 				getMyOrganize();
-				organizeId = response.fundingId;
+				vm.organizeId = response.fundingId;
 			}else if(currentMode == mode.GEC){
 				getMyOrganize();
-				organizeId = response.organizeId;
+				vm.organizeId = response.organizeId;
+			}else{
+				vm.organizeId = $scope.organize.organizeId;
 			}
 			
 			var preCloseCallback = function(confirm) {
-				getBatchJobInfo(organizeId);
+				getBatchJobInfo(vm.organizeId);
 			}
 			UIFactory.showConfirmDialog({
 				data : {
 					headerMessage : 'Confirm run now?'
 				},
 				confirm : function() {
-					return BatchJobMonitorService.runJob(organizeId, job.jobId);
+					return BatchJobMonitorService.runJob(vm.organizeId, job.jobId);
 				},
 				onFail : function(response) {
 					var msg = {
