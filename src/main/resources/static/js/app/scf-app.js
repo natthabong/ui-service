@@ -282,7 +282,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'ExportPaymentController',
 				controllerAs: 'ctrl',
 				templateUrl: '/sponsor-configuration/export-payments/settings',
-				params: { fileLayoutModel: null},
+				params: { layoutConfigId: ':layoutConfigId'},
 				resolve: WebHelper.loadScript(
 					[
 						'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',

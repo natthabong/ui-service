@@ -20,8 +20,7 @@ module.controller('ExportPaymentController', [
         // <----------------------- initial variable start --------------------->
         var vm = this;
         var ownerId = $stateParams.organizeId;
-        console.log($stateParams);
-        var layoutConfigId = $stateParams.layoutConfigId != null ? $stateParams.layoutConfigId : '54';
+        var layoutConfigId = $stateParams.layoutConfigId;
 
         vm.manageAll = false;
 
