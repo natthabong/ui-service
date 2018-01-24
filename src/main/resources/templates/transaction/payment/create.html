@@ -7,9 +7,7 @@
                 </div>
             </div>
         </div>
-
         <div class="form-element" ng-if="ctrl.getUserInfoSuccess">
-
             <div class="panel panel-default col-md-12 padding-0">
                 <div class="panel-body">
                     <!-- 					<div class="col-md-12" ng-show="ctrl.showErrorMsg"> -->
@@ -46,7 +44,6 @@
                                 </div>
                                 <div class="col-md-5 col-sm-5"></div>
                             </div>
-
                             <div class="form-group" ng-show="ctrl.displayPaymentPage">
                                 <label id="date-label" class="col-md-2 col-sm-3 control-label">{{'Due
 									date' | translate}}:</label>
@@ -54,7 +51,6 @@
                                     <label id="due-date-from-label" for="due-date-from-textbox" class="control-label">{{'from' | translate}}: </label>
                                     <scf-date-picker-from text-id="due-date-from-textbox" button-id="due-date-from-calendar-button" text-model="ctrl.criteria.dueDateFrom" date-format="dd/MM/yyyy" is-open="ctrl.openDateFrom" open-calendar-action="ctrl.openCalendarDateFrom()" max-date="ctrl.criteria.dueDateTo">
                                     </scf-date-picker-from>
-
                                 </div>
                                 <div class="col-md-3 col-sm-4 gec-calendar-group">
                                     <label id="due-date-to-label" for="due-date-to-textbox" class="control-label">{{'to' | translate}}: </label>
@@ -68,7 +64,6 @@
                             <div class="form-group" ng-show="(errors.dueDateToLessThanFrom || errors.dueDateFormat) &amp;&amp; ctrl.displayPaymentPage">
                                 <label class="col-md-2 col-sm-3 col-xs-12  control-label"></label>
                                 <span class="col-md-3 col-sm-3 col-xs-12 error-msg" ng-show="errors.dueDateToLessThanFrom" id="due-date-from-to-warning-message-label" ng-bind="errors.dueDateToLessThanFrom.message | translate"></span>
-
                                 <span class="col-md-3 col-sm-3 col-xs-12 error-msg" ng-show="errors.dueDateFormat" id="due-date-format-warning-message-label" ng-bind="errors.dueDateFormat.message | translate"></span>
                             </div>
                         </form>
@@ -79,7 +74,6 @@
                                     <scf-button id="select-all-page-button" class="btn-default" ng-show="!ctrl.selectAllModel" style="height:30px;" ng-click="ctrl.selectAllDocument()"> <i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;Select all
                                     </scf-button>
                                     <scf-button id="unselect-all-page-button" class="btn-default" ng-show="ctrl.selectAllModel" style="height:30px;" ng-click="ctrl.selectAllDocument()"> <i class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp;Select all</scf-button>
-
                                 </div>
                                 <div class="col-md-3 col-sm-3 gec-select">
                                     <b><span ng-bind="'Selected' | translate">Select</span>: <span
@@ -100,7 +94,6 @@
 													page-size-list="ctrl.pagingController.pageSizeList"
 													page-action="ctrl.loadDocument"></scf-pagination>
 											</span>
-
                                         </div>
                                     </div>
                                 </div>
@@ -139,17 +132,33 @@
                                     <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
                                         <scf-dropdown-account id="buyer-account-dropdown" ng-change="ctrl.accountChange()" ng-model="ctrl.transactionModel.payerAccountId" convert-to-number="true" component-data="ctrl.accountDropDown"></scf-dropdown-account>
                                     </div>
-                                    <label id="available-label" ng-show="ctrl.isLoanPayment" class="col-md-2 col-sm-2 col-lg-2 col-xs-12 control-label"><b
+                                    <label id="available-label" class="col-md-2 col-sm-2 col-lg-2 col-xs-12 control-label"><b
 										ng-bind="'Available' | translate">Available</b>:</label>
-                                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label" ng-show="ctrl.isLoanPayment">
+                                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label">
                                         <span id="available-value-label" ng-bind="ctrl.tradingpartnerInfoModel.available | number: 2">0.00</span>&nbsp;
                                         <span ng-bind="'THB' | translate"></span>&nbsp;
-
                                         <label id="interest-rate-value-label">
 											<span>(Int.</span>
 											<span ng-bind="ctrl.tradingpartnerInfoModel.interestRate"></span>
 											<span>)</span>
 										</label>
+
+										<!-- ng-show="record.showAccountFlag" -->
+										<scf-button
+											ng-show="true"
+											class="btn-default gec-btn-action"
+											id="credit-information-{{record.accountId}}-{{record.buyerName}}-button"
+											ng-click="ctrl.inquiryAccount(record)"
+											title="Inquiry Account"> <i class="fa fa-repeat"
+											aria-hidden="true"></i>
+										</scf-button>
+										<div>
+											<label id="update-time-label">
+													<span>(Update : </span>
+													<span ng-bind="ctrl.tradingpartnerInfoModel.updateTime"></span>
+													<span>)</span>
+											</label>
+										</div>
 
                                     </div>
                                     <label class="col-md-12 col-sm-12 col-lg-12 col-xs-12 control-label"></label>
@@ -160,7 +169,6 @@
                                     <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
                                         <scf-dropdown id="payment-date-dropdown" ng-model="ctrl.paymentModel" component-data="ctrl.paymentDropDown" ng-change="ctrl.paymentDateChange()"></scf-dropdown>
                                     </div>
-
                                     <label ng-show="ctrl.isLoanPayment" class="hidden-xs hidden-sm hidden-md col-lg-2 control-label"><b
 										ng-bind="'Maturity date' | translate">Maturity date</b>:</label>
                                     <div ng-show="ctrl.isLoanPayment" class="hidden-xs hidden-sm hidden-md col-lg-4 control-label" style="padding-top:0px;">
@@ -196,7 +204,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-md-12 col-sm-12 text-right">
                                 <scf-button ng-show="ctrl.showBackButton" id="back-step-button" type="submit" ng-click="ctrl.backStep()">{{'Back' | translate}}</scf-button>
                                 <scf-button id="next-button" type="submit" ng-click="ctrl.nextStep()">{{'Next' | translate}}</scf-button>

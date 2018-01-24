@@ -1,7 +1,7 @@
 var txnMod = angular.module('gecscf.transaction');
 txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService',
-    'PagingController', 'PageNavigation', '$filter',
-    function ($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter) {
+    'PagingController', 'PageNavigation', '$filter', 'blockUI', '$q',
+    function ($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, blockUI, $q) {
 
         var vm = this;
         var log = $log;
@@ -159,6 +159,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             vm.tradingpartnerInfoModel.available = account.remainingAmount - account.pendingAmount;
             vm.tradingpartnerInfoModel.tenor = account.tenor;
             vm.tradingpartnerInfoModel.interestRate = account.interestRate;
+            vm.tradingpartnerInfoModel.updateTime = "10/01/2018 16:25";
             vm.isLoanPayment = true;
         }
 
@@ -371,6 +372,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                     vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
                     vm.tradingpartnerInfoModel.tenor = account.item.tenor;
                     vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
+                    vm.tradingpartnerInfoModel.updateTime = "10/01/2018 16:25";
                     vm.accountType = account.item.accountType;
 
                     if (vm.accountType == 'LOAN') {
@@ -399,6 +401,88 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             });
             return supplierName;
         }
+        
+        vm.inquiryAccount = function(data) {
+			var preCloseCallback = function(confirm) {
+				$scope.closeThisDialog();
+			}
+			
+			blockUI.start("Processing...");
+			var deffered = $q.defer();
+			var tpAccountModel = {
+				sponsorId : data.buyerId,
+				supplierId : data.supplierId,
+				accountId : data.accountId,
+			}			
+			var inquiryAccountDeffered = inquiryAccountToApi(tpAccountModel);
+			inquiryAccountDeffered.promise.then(function(response) {
+				blockUI.stop();
+				if(response.status==200){
+					dialogPopup = UIFactory.showSuccessDialog({
+						data: {
+						    headerMessage: 'Inquiry credit information success.',
+						    bodyMessage: ''
+						},
+						buttons : [{
+							id: 'ok-button',
+							label: 'OK',
+							action:function(){
+								vm.getCreditInformation();
+								closeDialogSucccess();
+							}
+						}],
+						preCloseCallback: null
+				    });
+				}else{
+				    dialogPopup = UIFactory.showFailDialog({
+						data: {
+						    headerMessage: 'Inquiry credit information failure',
+						    bodyMessage: 'please try again.'
+						},
+						buttons : [{
+							id: 'ok-button',
+							label: 'OK',
+							action:function(){
+								closeDialogFail();
+							}
+						}],
+						preCloseCallback: null
+					});					
+				}
+			}).catch(function(response) {
+				blockUI.stop();
+			    dialogPopup = UIFactory.showFailDialog({
+					data: {
+					    headerMessage: 'Inquiry credit information failure',
+					    bodyMessage: ' please try again.'
+					},
+					buttons : [{
+							id: 'ok-button',
+							label: 'OK',
+							action:function(){
+								closeDialogFail();
+							}
+						}],
+					preCloseCallback: null
+				});
+	        });
+			
+		}
+		
+		
+		function inquiryAccountToApi(tpAccountModel){
+			var deffered = $q.defer();	
+			$http({
+				url: '/api/v1/update-credit-limit-from-bank',
+				method: 'POST',
+				data: tpAccountModel
+			}).then(function(response){
+				deffered.resolve(response);
+			}).catch(function(response){
+				deffered.reject(response);
+			});	
+			return deffered;
+		}
 
         // <---------------------------------- User Action ---------------------------------->
     }

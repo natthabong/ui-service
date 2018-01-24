@@ -183,6 +183,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.tradingpartnerInfoModel.available = account.remainingAmount - account.pendingAmount;
             vm.tradingpartnerInfoModel.tenor = account.tenor;
             vm.tradingpartnerInfoModel.interestRate = account.interestRate;
+            vm.tradingpartnerInfoModel.updateTime = "10/01/2018 16:25";
             vm.isLoanPayment = true;
         }
 
@@ -1018,6 +1019,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
                     vm.tradingpartnerInfoModel.tenor = account.item.tenor;
                     vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
+                    vm.tradingpartnerInfoModel.updateTime = "10/01/2018 16:25";
                     vm.accountType = account.item.accountType;
 
                     if (vm.accountType == 'LOAN') {
