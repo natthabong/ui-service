@@ -13,10 +13,7 @@ tpModule
 
 							var vm = this;
 							$scope.errors = undefined;
-							
-							
 							var data = $scope.ngDialogData.data;
-							vm.dataTypeByIds = [];
 							vm.model = {
 								ownerId : data.ownerId,
 								accountingTransactionType : data.accountingTransactionType,
@@ -27,13 +24,13 @@ tpModule
 								integrateType: 'EXPORT',
 								items: []
 							}
-
-							vm.hasError = false;
-							
 							var _isValid = function() {
 								$scope.errors = undefined;
 								if (!vm.model.displayName.length) {
-									$scope.errors = {'displayName':'Layout name is required'};
+									$scope.errors = {};
+									$scope.errors['layoutName'] = {
+										message : 'Layout name is required'
+									}
 									return false;
 								}
 								return true;

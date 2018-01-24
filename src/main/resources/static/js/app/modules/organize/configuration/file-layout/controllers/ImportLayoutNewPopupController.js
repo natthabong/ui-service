@@ -33,7 +33,10 @@ tpModule
 							var _isValid = function() {
 								$scope.errors = undefined;
 								if (!vm.model.displayName.length) {
-									$scope.errors = {'displayName':'Layout name is required'};
+									$scope.errors = {};
+									$scope.errors['layoutName'] = {
+										message : 'Layout name is required'
+									}
 									return false;
 								}
 								return true;
