@@ -67,88 +67,6 @@
 						</form>
 						<!-- End Payment Field-->
 						<div ng-show="ctrl.showInfomation">
-
-							<div class="row">
-								<div class="col-md-12">
-									<div class="panel panel-default">
-										<div class="panel-body">
-											<div class="row">
-												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Credit limit' | translate"></label>:
-												</div>
-												<div class="col-md-2 col-sm-2 text-right">
-													<span id="creditlimit-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.creditLimit | number:2"></span>
-												</div>
-												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
-
-												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Available' | translate"></label>:
-												</div>
-												<div class="col-md-2 col-sm-2 text-right">
-													<span id="available-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.supplierAvailableAmount | number:2"></span>
-												</div>
-												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
-											</div>
-											<div class="row">
-												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Outstanding' | translate"></label>:
-												</div>
-												<div class="col-md-2 col-sm-2 text-right">
-													<span id="outstanding-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.outstandingAmount | number:2"></span>
-												</div>
-												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
-												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Future drawdown' | translate"></label>:
-												</div>
-												<div class="col-md-2  col-sm-2 text-right">
-													<span id="future-amount-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.futureAmount | number:2"></span>
-												</div>
-												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
-											</div>
-											<div class="row">
-												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Internal step' | translate"></label>:
-												</div>
-												<div class="col-md-2 col-sm-2 text-right">
-													<span id="internal-step-amount-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.pendingAmount | number:2"></span>
-												</div>
-												<div class="col-md-1 col-sm-1">{{'THB' | translate}}</div>
-												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Tenor' | translate"></label>:
-												</div>
-												<div class="col-md-2 col-sm-2 text-right">
-													<span id="tenor-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.tenor"></span>
-												</div>
-												<div class="col-md-1 col-sm-1">{{'Days' | translate}}</div>
-											</div>
-											<div class="row">
-												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Pre-drawdown percentage' | translate"></label>:
-												</div>
-												<div class="col-md-2 col-sm-2 text-right">
-													<span id="predrawdown-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.prePercentageDrawdown | number:2"></span>%
-												</div>
-												<div class="col-md-1 col-sm-1"></div>
-												<div class="col-md-3 col-sm-3">
-													<label ng-bind="'Interest rate' | translate"></label>:
-												</div>
-												<div class="col-md-2 col-sm-2 text-right">
-													<span id="interest-rate-label"
-														ng-bind="ctrl.tradingpartnerInfoModel.interestRate"></span>
-												</div>
-												<div class="col-md-1 col-sm-1"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
 							<div class="row">
 								<div class="col-md-2 col-sm-2">
 									<scf-button id="unselect-all-page-button" class="btn-default"
@@ -209,41 +127,118 @@
 					<!-- End Column Panel-->
 
 				</div>
-				<div class="panel-body" ng-show="ctrl.showInfomation">
-					<div class="row">
-						<div id="bottom-sticker">
-							<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-								<div class="form-horizontal">
-									<label
-										class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b
-										ng-bind="'Transaction amount' | translate">Transaction
-											amount</b>:</label>
-									<div class="col-md-7 col-sm-7 col-lg-7 col-xs-12 control-label">
-										<span id="create-transaction-amount-label"
-											ng-bind="ctrl.submitTransactionAmount | number: 2">0.00</span>&nbsp;
-										<span ng-bind="'THB' | translate"></span>
+				 <div class="panel-body" ng-show="ctrl.showInfomation">
+	                 <div class="row">
+	                     <div id="bottom-sticker">
+	                         <div class="col-md-11 col-sm-11 col-lg-11 col-xs-11">
+	                             <div class="row">
+	                             	 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+	                             	 	<label id="transaction-amount-label">
+	                             	 		<b ng-bind="'Transaction amount' | translate"></b>
+	                             	 	</label>:
+	                             	 </div>	 
+	                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+	                                     <span id="transaction-amount-value-label"	ng-bind="ctrl.submitTransactionAmount | number: 2"></span>
+	                                 </div>
+	                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+	                                 	&nbsp;<span ng-bind="'THB' | translate"></span>
+	                                 </div>
+	                                 
+	                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+	                                 	<label id="pre-drawdown-percentage-label">
+	                                 		<b ng-bind="'Pre-drawdown percentage' | translate"></b>
+	                                 	</label>:
 									</div>
-									<label
-										class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b
-										ng-bind="'Transaction date' | translate">Transaction date</b>:</label>
-									<div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
-										<scf-dropdown id="transaction-date-dropdown"
-											ng-model="ctrl.createTransactionModel.transactionDate"
-											component-data="ctrl.transactionDates"></scf-dropdown>
+									<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 text-right">
+										<span id="predrawdown-label"
+											ng-bind="ctrl.selectedAccountInfo.prePercentageDrawdown | number:2"></span>
 									</div>
-									<div class="col-md-4 col-sm-4 col-lg-4"></div>
-								</div>
+									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">%</div>
+	                                 
+	                             </div>
+	                             <div class="row">
+		                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+		                          	 	<label id="loan-account-label">
+		                          	 		<b ng-bind="'Loan account' | translate"></b>
+		                          	 	</label>:
+		                          	 </div>	 
+		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+		                                  <scf-dropdown-account id="loan-account-dropdown" ng-change="ctrl.accountChange(data)" ng-model="vm.createTransactionModel.payerAccountId" convert-to-number="true" component-data="ctrl.accountDropDown"></scf-dropdown-account>
+		                             </div>
+		                             
+		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+		                             </div>
+		                              
+		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+		                             	<label id="available-label">
+		                              		<b ng-bind="'Available' | translate"></b>
+		                              	</label>:
+		                             </div>
+		                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+										<span id="available-value-label" ng-bind="ctrl.selectedAccountInfo.supplierAvailableAmount | number: 2"></span>&nbsp;
+		                                 
+									  </div>
+									  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+										 <span ng-bind="'THB' | translate"></span>&nbsp;
+		
+		                                  <label id="interest-rate-value-label" ng-hide="ctrl.selectedAccountInfo.accountType == 'OVERDRAFT'">
+													<span>(Int.</span>
+													<span ng-bind="ctrl.selectedAccountInfo.interestRate"></span>
+													<span>)</span>
+										  </label>
+										  <scf-button id="transaction-{{data.transactionNo}}-re-check-button" 
+										  	class="btn-default gec-btn-action" title="Inquiry account">
+										  	<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+										  </scf-button>
+										  
+									   </div>
+									   
+	                             </div>
+	                             <div class="row">
+		                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>	 
+		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right"></div>
+		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
+		                              
+		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
+		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+		                             (Updated: <span id="available-value-label" ng-bind="ctrl.selectedAccountInfo.lastModifiedTime"></span>)
+									  </div>
+									  
+									  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>
+									  
+								 </div>
+	                             <div class="row">
+		                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+		                             	<label id="transaction-date-label">
+	                                 	<b	ng-bind="'Transaction date' | translate"></b>:</label>
+		                             </div>	 
+		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+		                             	<scf-dropdown id="transaction-date-dropdown"
+								  		ng-model="ctrl.createTransactionModel.transactionDate"
+								  		component-data="ctrl.transactionDates"></scf-dropdown>
+		                             </div>
+		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
+		                              
+		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
+		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right"></div>
+									 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>	
+								 </div>
+	                             <div class="row">
+	                                 <label class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"></label>
+	                                 <div>
+	                                     <span class="col-md-3 col-sm-3 col-xs-12 error-msg" ng-show="ctrl.accountNotSupportSpecialDirectDebit" id="account-no-not-support-special-direct-debit-error-message-label" ng-bind="'Account is not support special debit' | translate"></span>
+	                                 </div>
+	                             </div>
+	                             
+	                         </div>
+
+	                         <div class="col-md-12 col-sm-12 text-right">
+								<scf-button ng-show="ctrl.showBackButton" id="back-step-button" type="submit" ng-click="ctrl.backStep()">{{'Back'| translate}}</scf-button>
+								<scf-button id="next-button" type="submit" ng-click="ctrl.nextStep()">{{'Next' | translate}}</scf-button>
 							</div>
-							<div class="col-md-12 col-sm-12 text-right">
-								<scf-button ng-show="ctrl.showBackButton" id="back-step-button"
-									type="submit" ng-click="ctrl.backStep()">{{'Back'
-								| translate}}</scf-button>
-								<scf-button id="next-button" type="submit"
-									ng-click="ctrl.nextStep()">{{'Next' | translate}}</scf-button>
-							</div>
-						</div>
-					</div>
-				</div>
+	                     </div>
+	                 </div>
+	             </div>
 			</div>
 		</div>
 		<ng-form> <input type="hidden"

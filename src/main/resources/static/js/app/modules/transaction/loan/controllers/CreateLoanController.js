@@ -1,7 +1,7 @@
 var createapp = angular.module('gecscf.transaction');
 createapp.controller('CreateLoanController', ['TransactionService', '$state',
-    '$scope', 'SCFCommonService', '$stateParams', '$log', 'PageNavigation', '$q', 'PagingController', '$rootScope', 'blockUI', 'scfFactory',
-    function (TransactionService, $state, $scope, SCFCommonService, $stateParams, $log, PageNavigation, $q, PagingController, $rootScope, blockUI, scfFactory) {
+    '$scope', 'SCFCommonService', '$stateParams', '$log', 'PageNavigation', '$q', 'PagingController', '$rootScope', 'blockUI', 'scfFactory','$filter',
+    function (TransactionService, $state, $scope, SCFCommonService, $stateParams, $log, PageNavigation, $q, PagingController, $rootScope, blockUI, scfFactory, $filter) {
 
         var vm = this;
         var defered = scfFactory.getUserInfo();
@@ -17,6 +17,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         //      vm.errorMsgGroups = '';
         vm.errorDisplay = false;
         vm.showBackButton = false;
+        vm.selectedAccountInfo = [];
 
         // SponsorCode dropdown
         vm.sponsorCodes = [];
@@ -166,6 +167,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             tradingInfo.promise.then(function (response) {
                 vm.tradingpartnerInfoModel = response.data;
                 differed = _loadTransactionDate(sponsorCode, sponsorPaymentDate);
+                prepareAccountDropdown();
             }).catch(function (response) {
                 log.error("Load trading partner fail !");
             });
@@ -187,6 +189,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             if (hasSponsorPaymentDate) {
                 if (validateSponsorPaymentDate(sponsorPaymentDate)) {
                     _loadTradingPartnerInfo(sponsorCode, sponsorPaymentDate);
+                    
                     // set supplierCode after search
                     vm.createTransactionModel.supplierCodeSelected = vm.createTransactionModel.supplierCode;
                     vm.createTransactionModel.sponsorIdSelected = vm.createTransactionModel.sponsorCode;
@@ -432,6 +435,32 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             watchCheckAll();
             calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
         }
+        
+        function prepareAccountDropdown() {
+            vm.accountDropDown = [];
+            var formatAccount = {
+            	label: vm.tradingpartnerInfoModel.format ? ($filter('accountNoDisplay')(vm.tradingpartnerInfoModel.accountNo)) : vm.tradingpartnerInfoModel.accountNo,
+                value: vm.tradingpartnerInfoModel.accountId,
+                item: {
+                	accountId: vm.tradingpartnerInfoModel.accountId,
+                	accountType: vm.tradingpartnerInfoModel.accountType,
+                	accountNo: vm.tradingpartnerInfoModel.accountNo,
+                	prePercentageDrawdown: vm.tradingpartnerInfoModel.prePercentageDrawdown,
+                	supplierAvailableAmount: vm.tradingpartnerInfoModel.supplierAvailableAmount,
+                	interestRate: vm.tradingpartnerInfoModel.interestRate,
+                	lastModifiedTime: '00/00/0000 00:00'
+                }
+            }
+            vm.accountDropDown.push(formatAccount);
+            
+            vm.createTransactionModel.payerAccountId = vm.accountDropDown[0].value;
+            vm.selectedAccountInfo = vm.accountDropDown[0].item;
+            
+        }
+        
+        vm.accountChange = function (data) {
+        	
+        }
 
         vm.selectDocument = function (data) {
             vm.checkAllModel = false;
@@ -503,7 +532,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     documents: vm.documentSelects,
                     transactionAmount: vm.submitTransactionAmount,
                     sponsorId: vm.createTransactionModel.sponsorIdSelected,
-                    payerAccountId: vm.tradingpartnerInfoModel.accountId
+                    payerAccountId: vm.createTransactionModel.payerAccountId
                 });
                 var sponsorNameSelect = '';
                 vm.sponsorCodes.forEach(function (sponsorObj) {
