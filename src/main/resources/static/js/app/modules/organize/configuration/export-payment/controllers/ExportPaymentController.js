@@ -340,7 +340,7 @@ module.controller('ExportPaymentController', [
         vm.save = function () {
             var sponsorLayout = null;
             vm.model.completed = true;
-            vm.model.processType = vm.processType;
+            vm.model.processType = 'EXPORT_DOCUMENT';
             $scope.errors = [];
             
             if (vm.model.displayName == '') {
