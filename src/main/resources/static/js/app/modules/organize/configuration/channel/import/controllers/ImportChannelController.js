@@ -1,4 +1,4 @@
-var importChannelModule = angular.module('gecscf.organize.configuration.importChannel');
+var importChannelModule = angular.module('gecscf.organize.configuration.channel.import');
 importChannelModule.constant('ChannelDropdown',[
 	{label:'Web', value: 'WEB'},
 	{label:'FTP', value: 'FTP'}
@@ -536,7 +536,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 		
 		var userInfo = ngDialog.open({
 			id : 'user-info-dialog',
-			template : '/js/app/modules/organize/configuration/import-channels/dialog-user-info.html',
+			template : '/js/app/modules/organize/configuration/channel/import/dialog-user-info.html',
 			className : 'ngdialog-theme-default',
 			scope : $scope,
 			data : {
@@ -571,7 +571,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 		
 		var decryptInfo = ngDialog.open({
 			id : 'user-info-dialog',
-			template : '/js/app/modules/organize/configuration/import-channels/dialog-encrypt-info.html',
+			template : '/js/app/modules/organize/configuration/channel/import/dialog-encrypt-info.html',
 			className : 'ngdialog-theme-default',
 			scope : $scope,
 			data : {

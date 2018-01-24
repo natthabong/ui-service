@@ -6,7 +6,7 @@ angular
                     'gecscf.organize.configuration.fileLayout',
                     'gecscf.organize.configuration.exportPayment',
                     'gecscf.organize.configuration.productType',
-                    'gecscf.organize.configuration.importChannel'])
+                    'gecscf.organize.configuration.channel'])
         .config(
                 [
                     '$stateProvider',
@@ -38,8 +38,9 @@ angular
                           'js/app/sponsor-configuration/ExportPaymentConfigController.js',
                           'js/app/modules/organize/configuration/product-type/controllers/ProductTypeListController.js',
                           'js/app/modules/organize/configuration/product-type/services/ProductTypeService.js',
-                          'js/app/modules/organize/configuration/import-channels/controllers/ImportChannelController.js',
-                          'js/app/modules/organize/configuration/import-channels/services/ImportChannelService.js',
+                          'js/app/modules/organize/configuration/channel/import/controllers/ImportChannelController.js',
+                          'js/app/modules/organize/configuration/channel/common/services/ChannelService.js',
+                          'js/app/modules/organize/configuration/channel/import/services/ImportChannelService.js',
                           'js/app/modules/organize/configuration/display/controllers/DisplayListController.js'];
 
                       $stateProvider.state('/sponsor-configuration', {
