@@ -209,41 +209,89 @@
 					<!-- End Column Panel-->
 
 				</div>
-				<div class="panel-body" ng-show="ctrl.showInfomation">
-					<div class="row">
-						<div id="bottom-sticker">
-							<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-								<div class="form-horizontal">
-									<label
-										class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b
-										ng-bind="'Transaction amount' | translate">Transaction
-											amount</b>:</label>
-									<div class="col-md-7 col-sm-7 col-lg-7 col-xs-12 control-label">
-										<span id="create-transaction-amount-label"
-											ng-bind="ctrl.submitTransactionAmount | number: 2">0.00</span>&nbsp;
-										<span ng-bind="'THB' | translate"></span>
-									</div>
-									<label
-										class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label"><b
-										ng-bind="'Transaction date' | translate">Transaction date</b>:</label>
-									<div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
-										<scf-dropdown id="transaction-date-dropdown"
-											ng-model="ctrl.createTransactionModel.transactionDate"
-											component-data="ctrl.transactionDates"></scf-dropdown>
-									</div>
-									<div class="col-md-4 col-sm-4 col-lg-4"></div>
-								</div>
+				 <div class="panel-body" ng-show="ctrl.showInfomation">
+	                 <div class="row">
+	                     <div id="bottom-sticker">
+	                         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+	                             <div class="form-horizontal">
+	                                 <label id="transaction-amount-label" class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"><b
+											ng-bind="'Transaction amount' | translate"></b>:</label>
+	                                 <div class="col-md-7 col-sm-8 col-lg-8 col-xs-12 control-label">
+	                                     <span id="transaction-amount-value-label"	ng-bind="ctrl.submitTransactionAmount | number: 2"></span>&nbsp;
+	 									 <span ng-bind="'THB' | translate"></span>
+	                                 </div>
+	                             </div>
+	                             <div class="form-horizontal">
+	                                 <label id="loan-account-label" class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"><b
+											ng-bind="'Loan account' | translate"></b>:</label>
+	                                 <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
+	                                     <scf-dropdown-account id="loan-account-dropdown" ng-change="ctrl.accountChange()" ng-model="ctrl.transactionModel.payerAccountId" convert-to-number="true" component-data="ctrl.accountDropDown"></scf-dropdown-account>
+	                                 </div>
+	                                 <label id="available-label" class="col-md-2 col-sm-2 col-lg-2 col-xs-12 control-label"><b
+											ng-bind="'Available' | translate"></b>:</label>
+	                                 <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label" ng-show="ctrl.isLoanPayment">
+	                                     <span id="available-value-label" ng-bind="ctrl.tradingpartnerInfoModel.available | number: 2"></span>&nbsp;
+	                                     <span ng-bind="'THB' | translate"></span>&nbsp;
+	
+	                                     <label id="interest-rate-value-label" ng-hide="ctrl.isAccountTypeOD">
+												<span>(Int.</span>
+												<span ng-bind="ctrl.tradingpartnerInfoModel.interestRate"></span>
+												<span>)</span>
+											</label>
+	
+	                                 </div>
+	                                 <label class="col-md-12 col-sm-12 col-lg-12 col-xs-12 control-label"></label>
+	                             </div>
+	                             <div class="form-horizontal">
+	                                 <label id="payment-date-label" class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"><b
+											ng-bind="'Transaction date' | translate">Payment date</b>:</label>
+	                                 <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
+	                                     <scf-dropdown id="payment-date-dropdown" ng-model="ctrl.paymentModel" component-data="ctrl.paymentDropDown" ng-change="ctrl.paymentDateChange()"></scf-dropdown>
+	                                 </div>
+	
+	                                 <label ng-show="ctrl.isLoanPayment" class="hidden-xs hidden-sm hidden-md col-lg-2 control-label"><b
+											ng-bind="'Maturity date' | translate">Maturity date</b>:</label>
+	                                 <div ng-show="ctrl.isLoanPayment" class="hidden-xs hidden-sm hidden-md col-lg-4 control-label" style="padding-top:0px;">
+	                                     <div class="col-sm-12 col-xs-12 col-md-9 col-lg-9" style="padding-left:1px;">
+	                                         <scf-dropdown ng-model="ctrl.maturityDateModel" component-data="ctrl.maturityDateDropDown"></scf-dropdown>
+	                                     </div>
+	                                     <label style="padding-top:5px;" ng-show="ctrl.isLoanPayment">
+												<span>(Tenor</span>
+												<span ng-bind="ctrl.tradingpartnerInfoModel.tenor"></span>
+												<span>days)</span>
+											</label>
+	                                 </div>
+	                                 <label class="col-md-12 col-sm-12 col-lg-12 col-xs-12 control-label"></label>
+	                             </div>
+	                             <div class="form-horizontal">
+	                                 <label class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"></label>
+	                                 <div>
+	                                     <span class="col-md-3 col-sm-3 col-xs-12 error-msg" ng-show="ctrl.accountNotSupportSpecialDirectDebit" id="account-no-not-support-special-direct-debit-error-message-label" ng-bind="'Account is not support special debit' | translate"></span>
+	                                 </div>
+	                             </div>
+	                             <div class="form-horizontal">
+	                                 <label ng-show="ctrl.isLoanPayment" id="maturity-date-label" class="col-xs-2 col-sm-3 col-md-3 hidden-lg control-label"><b
+											ng-bind="'Maturity date' | translate">Maturity date</b>:</label>
+	                                 <div ng-show="ctrl.isLoanPayment" class="col-xs-4 col-sm-5 col-md-4 hidden-lg control-label" style="padding-top:0px;">
+	                                     <div class="col-xs-12 col-sm-7 col-md-9 col-lg-9" style="padding-left:1px">
+	                                         <scf-dropdown id="maturity-date-dropdown" ng-model="ctrl.maturityDateModel" component-data="ctrl.maturityDateDropDown"></scf-dropdown>
+	                                     </div>
+	                                     <label id="tenor-value-label" ng-show="ctrl.isLoanPayment">
+												<span>(Tenor</span>
+												<span ng-bind="ctrl.tradingpartnerInfoModel.tenor"></span>
+												<span>days)</span>
+											</label>
+	                                 </div>
+	                             </div>
+	                         </div>
+
+	                         <div class="col-md-12 col-sm-12 text-right">
+								<scf-button ng-show="ctrl.showBackButton" id="back-step-button" type="submit" ng-click="ctrl.backStep()">{{'Back'| translate}}</scf-button>
+								<scf-button id="next-button" type="submit" ng-click="ctrl.nextStep()">{{'Next' | translate}}</scf-button>
 							</div>
-							<div class="col-md-12 col-sm-12 text-right">
-								<scf-button ng-show="ctrl.showBackButton" id="back-step-button"
-									type="submit" ng-click="ctrl.backStep()">{{'Back'
-								| translate}}</scf-button>
-								<scf-button id="next-button" type="submit"
-									ng-click="ctrl.nextStep()">{{'Next' | translate}}</scf-button>
-							</div>
-						</div>
-					</div>
-				</div>
+	                     </div>
+	                 </div>
+	             </div>
 			</div>
 		</div>
 		<ng-form> <input type="hidden"
