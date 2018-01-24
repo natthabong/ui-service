@@ -22,6 +22,7 @@ tpModule
 								charsetName: 'TIS-620',
 								processType: 'EXPORT_DOCUMENT' ,
 								integrateType: 'EXPORT',
+								sponsorConfigId: 'BFP',
 								items: []
 							}
 							var _isValid = function() {
