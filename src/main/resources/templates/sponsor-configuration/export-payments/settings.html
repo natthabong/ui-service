@@ -12,6 +12,34 @@
 			<form name="createForm" class="form-horizontal" ng-submit="ctrl.save()">
 				<div class="panel panel-default col-md-12 padding-0">
 					<div class="panel-body">
+						<div class="form-group"
+							data-ng-if="ctrl.processType != 'AP_DOCUMENT'">
+							<label for="dealer" id="layout-name-label"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Layout
+								name' | translate}}: </label>
+
+							<div class="col-md-4 col-sm-5 col-xs-12">
+								<scf-input-text id="layout-name-textbox" maxlength="255"
+									ng-disabled="!ctrl.manageAll" ng-model="ctrl.model.displayName"></scf-input-text>
+							</div>
+							<div class="col-md-4 col-sm-4"></div>
+						</div>
+						<div class="form-group">
+							<label for="dealer"
+								class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<div
+								ng-show="errors.duplicateLayoutName || errors.requireLayoutName">
+								<span ng-show="errors.duplicateLayoutName"
+									class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+									id="layout-name-error-message-label">{{'Layout name is
+									duplicate' | translate}}.</span> <span
+									ng-show="errors.requireLayoutName"
+									class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+									id="layout-name-warning-message-label">{{'Layout name is
+									required' | translate}}.</span>
+							</div>
+							<div class="col-md-4 col-sm-4"></div>
+						</div>					
 						<div class="form-group">
 							<label for="dealer" id="file-type-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
 								type' | translate}}: </label>
@@ -123,7 +151,7 @@
 												</td>
 
 												<td class="text-center" style="width: 71%">
-													<scf-dropdown id="gecscf-field-name-{{$index+1}}-dropdown" 
+													<scf-dropdown id="gecscf-field-name-{{$index+1}}-header-dropdown" 
 														ng-model="record.documentFieldId" component-data="ctrl.headerGECDropdown "
 														ng-disabled="!ctrl.manageAll"
 														ng-change="ctrl.isChangeDataType(record, ctrl.headerGECDropdown)" translate-label="true" 
@@ -131,23 +159,23 @@
 												</td>
 
 												<td class="text-center" style="width: 8%">
-													<scf-input-text id="length-{{$index+1}}-textbox"
+													<scf-input-text id="length-{{$index+1}}-header-textbox"
 														ng-disabled="!ctrl.manageAll"
 														style="text-align: right;" convert-to-number="" ng-model="record.dataLength"
 														maxlength="3" />
 												</td>
 												<td class="text-center" style="width: 8%">
-													<scf-input-text id="detail-start-index-{{$index+1}}-textbox"
+													<scf-input-text id="detail-start-index-{{$index+1}}-header-textbox"
 														ng-disabled="!ctrl.manageAll"
 														style="text-align: right;" convert-to-number="" ng-model="record.startIndex"
 														maxlength="3" />
 												</td>
 												<td class="text-center" style="width: 10%">
-													<scf-button type="button" id="field-setup-{{$index+1}}-button" 
+													<scf-button type="button" id="field-setup-{{$index+1}}-header-button" 
 														ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll"
 														class="btn-default gec-btn-action" ng-click="ctrl.openSetting($index, record)">
                                                         <i class="fa fa-cog" aria-hidden="true"></i> </scf-button>
-													<scf-button type="button" id="delete-{{$index+1}}-button"
+													<scf-button type="button" id="delete-{{$index+1}}-header-button"
 														ng-disabled="ctrl.headerItem.length == 1 || !ctrl.manageAll" 
 														class="btn-default gec-btn-action" ng-click="ctrl.removeDataItem($index,'HEADER')">
 														<i class="fa fa-trash" aria-hidden="true"></i> </scf-button>
@@ -157,7 +185,7 @@
 										</tbody>
 									</table>
 									<div>
-										<button id="add-another-field-detail-button" type="button" class="btn btn-default"
+										<button id="add-another-field-header-button" type="button" class="btn btn-default"
 											ng-disabled="!ctrl.manageAll" 
 											ng-click="ctrl.addItem('HEADER')" ng-bind="'Add another field' | translate">Add
 											another field</button>
@@ -190,7 +218,7 @@
 												<td class="text-right" style="width: 3%"><label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label></td>
 
 												<td class="text-center" style="width: 71%">
-													<scf-dropdown id="gecscf-field-name-{{$index+1}}-dropdown" 
+													<scf-dropdown id="gecscf-field-name-{{$index+1}}-payment-dropdown" 
 														ng-model="record.documentFieldId" component-data="ctrl.paymentGECDropdown"
 														ng-disabled="!ctrl.manageAll"
 														ng-change="ctrl.isChangeDataType(record, ctrl.paymentGECDropdown)" translate-label="true" 
@@ -198,23 +226,23 @@
 												</td>
 
 												<td class="text-center" style="width: 8%">
-													<scf-input-text id="length-{{$index+1}}-textbox" style="text-align: right;" 
+													<scf-input-text id="length-{{$index+1}}-payment-textbox" style="text-align: right;" 
 														ng-disabled="!ctrl.manageAll"
 														convert-to-number="" ng-model="record.dataLength"
 														maxlength="3" />
 												</td>
 												<td class="text-center" style="width: 8%">
-													<scf-input-text id="detail-start-index-{{$index+1}}-textbox" 
+													<scf-input-text id="detail-start-index-{{$index+1}}-payment-textbox" 
 														style="text-align: right;" convert-to-number="" ng-model="record.startIndex"
 														ng-disabled="!ctrl.manageAll"
 														maxlength="3" />
 												</td>
 												<td class="text-center" style="width: 10%">
-													<scf-button type="button" id="field-setup-{{$index+1}}-button" class="btn-default gec-btn-action"
+													<scf-button type="button" id="field-setup-{{$index+1}}-payment-button" class="btn-default gec-btn-action"
 														ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll"
 														ng-click="ctrl.openSetting($index, record)">
                                                         <i class="fa fa-cog" aria-hidden="true"></i> </scf-button>
-													<scf-button type="button" id="delete-{{$index+1}}-button" class="btn-default gec-btn-action"
+													<scf-button type="button" id="delete-{{$index+1}}-payment-button" class="btn-default gec-btn-action"
 														ng-disabled="ctrl.paymentItem.length == 1 || !ctrl.manageAll"
 														ng-click="ctrl.removeDataItem($index,'PAYMENT')">
 														<i class="fa fa-trash" aria-hidden="true"></i> </scf-button>
@@ -225,7 +253,7 @@
 										</tbody>
 									</table>
 									<div>
-										<button id="add-another-field-detail-button" type="button" 
+										<button id="add-another-field-payment-button" type="button" 
 											class="btn btn-default" ng-click="ctrl.addItem('PAYMENT')" 
 											ng-disabled="!ctrl.manageAll"
 											ng-bind="'Add another field' | translate">Add
@@ -242,7 +270,7 @@
 							<fieldset>
 								<legend class="col-md-3 col-sm-3 col-xs-12" id="detail-field-layout-label" ng-bind="'Document field layout' | translate"></legend>
 								<label class="checkbox-inline">
-									<scf-checkbox id="row-format-header-checkbox" 
+									<scf-checkbox id="print-header-checkbox" 
 										ng-model="ctrl.model.displayHeaderColumn"
 										ng-disabled="!(ctrl.model.fileType == 'CSV') || !ctrl.manageAll">
 										</scf-checkbox>
@@ -268,39 +296,39 @@
 													<label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label></td>
 
 												<td class="text-center" style="width: 35%">
-													<scf-dropdown id="gecscf-field-name-{{$index+1}}-dropdown"
+													<scf-dropdown id="gecscf-field-name-{{$index+1}}-document-dropdown"
 														ng-disabled="!ctrl.manageAll"
 														ng-model="record.documentFieldId" component-data="ctrl.doucmentGECDropdown"
 														ng-change="ctrl.isChangeDataType(record, ctrl.doucmentGECDropdown)" translate-label="true" convert-to-number="true"></scf-dropdown>
 												</td>
 
 												<td class="text-center" style="width: 36%">
-													<scf-input-text id="header-label-{{$index+1}}-textbox" 
+													<scf-input-text id="header-label-{{$index+1}}-document-textbox" 
 														style="text-align:left;" maxlength="25"
 														ng-disabled="!ctrl.manageAll"
 														ng-model="record.displayValue" />
 												</td>
 
 												<td class="text-center" style="width: 8%">
-													<scf-input-text id="length-{{$index+1}}-textbox" 
+													<scf-input-text id="length-{{$index+1}}-document-textbox" 
 														style="text-align: right;" convert-to-number="" 
 														ng-disabled="!ctrl.manageAll"
 														ng-model="record.dataLength"
 														maxlength="3" />
 												</td>
 												<td class="text-center" style="width: 8%">
-													<scf-input-text id="detail-start-index-{{$index+1}}-textbox" 
+													<scf-input-text id="detail-start-index-{{$index+1}}-document-textbox" 
 														style="text-align: right;" convert-to-number=""
 														ng-disabled="!ctrl.manageAll" 
 														ng-model="record.startIndex"
 														maxlength="3" />
 												</td>
 												<td class="text-center" style="width: 10%">
-													<scf-button type="button" id="field-setup-{{$index+1}}-button" class="btn-default gec-btn-action" 
+													<scf-button type="button" id="field-setup-{{$index+1}}-document-button" class="btn-default gec-btn-action" 
 														ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll"
 														ng-click="ctrl.openSetting($index, record)">
                                                         <i class="fa fa-cog" aria-hidden="true"></i> </scf-button>
-													<scf-button type="button" id="delete-{{$index+1}}-button"
+													<scf-button type="button" id="delete-{{$index+1}}-document-button"
 														ng-disabled="ctrl.documentItem.length == 1 || !ctrl.manageAll"
 														class="btn-default gec-btn-action" ng-click="ctrl.removeDataItem($index,'DOCUMENT')">
 														<i class="fa fa-trash" aria-hidden="true"></i> </scf-button>
@@ -311,7 +339,7 @@
 										</tbody>
 									</table>
 									<div>
-										<button id="add-another-field-detail-button" type="button" class="btn btn-default"
+										<button id="add-another-field-document-button" type="button" class="btn btn-default"
 											ng-disabled="!ctrl.manageAll"
 											ng-click="ctrl.addItem('DOCUMENT')" ng-bind="'Add another field' | translate">Add
 											another field</button>
@@ -345,7 +373,7 @@
 													<label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label></td>
 
 												<td class="text-center" style="width: 71%">
-													<scf-dropdown id="gecscf-field-name-{{$index+1}}-dropdown" 
+													<scf-dropdown id="gecscf-field-name-{{$index+1}}-footer-dropdown" 
 														ng-disabled="!ctrl.manageAll"
 														ng-model="record.documentFieldId" component-data="ctrl.footerGECDropdown"
 														ng-change="ctrl.isChangeDataType(record, ctrl.footerGECDropdown)" translate-label="true" 
@@ -353,23 +381,23 @@
 												</td>
 
 												<td class="text-center" style="width: 8%">
-													<scf-input-text id="length-{{$index+1}}-textbox" style="text-align: right;"
+													<scf-input-text id="length-{{$index+1}}-footer-textbox" style="text-align: right;"
 														ng-disabled="!ctrl.manageAll"
 														convert-to-number="" ng-model="record.dataLength"
 														maxlength="3" />
 												</td>
 												<td class="text-center" style="width: 8%">
-													<scf-input-text id="detail-start-index-{{$index+1}}-textbox"
+													<scf-input-text id="detail-start-index-{{$index+1}}-footer-textbox"
 														ng-disabled="!ctrl.manageAll"
 														style="text-align: right;" convert-to-number="" ng-model="record.startIndex"
 														maxlength="3" />
 												</td>
 												<td class="text-center" style="width: 10%">
-													<scf-button type="button" id="field-setup-{{$index+1}}-button" class="btn-default gec-btn-action"
+													<scf-button type="button" id="field-setup-{{$index+1}}-footer-button" class="btn-default gec-btn-action"
 														ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll" 
 														ng-click="ctrl.openSetting($index, record)">
                                                         <i class="fa fa-cog" aria-hidden="true"></i> </scf-button>
-													<scf-button type="button" id="delete-{{$index+1}}-button"
+													<scf-button type="button" id="delete-{{$index+1}}-footer-button"
 														ng-disabled="ctrl.footerItem.length == 1 || !ctrl.manageAll"
 														class="btn-default gec-btn-action" ng-click="ctrl.removeDataItem($index,'FOOTER')">
 														<i class="fa fa-trash" aria-hidden="true"></i> </scf-button>
@@ -380,7 +408,7 @@
 										</tbody>
 									</table>
 									<div>
-										<button id="add-another-field-detail-button" type="button" 
+										<button id="add-another-field-footer-button" type="button" 
 											ng-disabled="!ctrl.manageAll"
 											class="btn btn-default" ng-click="ctrl.addItem('FOOTER')" ng-bind="'Add another field' | translate">Add
 											another field</button>
@@ -391,7 +419,18 @@
 							<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Footer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 						</div>
 					</div>
-
+					<div class="panel-body">
+						<div ng-show="errors.duplicateLayoutName">
+							<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+								id="layout-name-error-bottom-message-label">{{'Layout name is
+								duplicate' | translate}}.</span>
+						</div>
+						<div ng-show="errors.requireLayoutName">
+							<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+								id="layout-name-warning-bottom-message-label">{{'Layout name is
+								required' | translate}}.</span>
+						</div>
+					</div>
 					<div class="panel-body">
 						<div class="col-md-12 col-sm-12 text-right">
 							<scf-button id="layout-cancel-button" class="popup-button" 
