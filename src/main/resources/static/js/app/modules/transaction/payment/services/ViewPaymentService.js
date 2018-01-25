@@ -22,9 +22,9 @@ function ViewPaymentService($http, $q) {
 		return deffered;
     }
 
-	var getAccountDetails = function(organize, account) {
+	var getAccountDetails = function(sponsorId, supplierId, accountId) {
 		var deffered = $q.defer();
-		var serviceUrl = 'api/v1/organize-customers/'+organize+'/account/'+account
+		var serviceUrl = 'api/v1/organize-customers/'+sponsorId+'/trading-partners/'+supplierId+'/trade-finance/'+accountId
 		$http({
 			url: serviceUrl,
 			method: 'GET',

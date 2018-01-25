@@ -67,8 +67,8 @@ paymentModule.controller('ViewPaymentController', [
             });
         }
 
-        var loadAccountDetails = function (organize, account) {
-            var deffered = ViewPaymentService.getAccountDetails(organize, account);
+        var loadAccountDetails = function (sponsorId, supplierId, accountId) {
+            var deffered = ViewPaymentService.getAccountDetails(sponsorId, supplierId, accountId);
             deffered.promise.then(function (response) {
                 var account = response.data;
                 console.log(response);
@@ -93,7 +93,7 @@ paymentModule.controller('ViewPaymentController', [
                 vm.transactionModel.sponsor = response.data.sponsorOrganize.organizeName;
                 vm.transactionModel.documents = response.data.documents;
 
-                loadAccountDetails(vm.transactionModel.sponsorId, vm.transactionModel.payerAccountId);
+                loadAccountDetails(vm.transactionModel.sponsorId, vm.transactionModel.supplierId, vm.transactionModel.payerAccountId);
 
                 if (vm.transactionModel.transactionMethod == 'TERM_LOAN') {
                     vm.isTypeLoan = true;
