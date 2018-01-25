@@ -280,6 +280,7 @@ exportChannelModule.controller('ExportChannelController', [
  	 }     
      
      $scope.confirmSave = function() {
+    	console.log(vm.channelModel);
  		var serviceUrl = BASE_URI+'/export-channels/' + vm.channelModel.channelId;
  		var deffered = $q.defer();
  		var serviceDiferred =  $http({
@@ -408,10 +409,13 @@ exportChannelModule.controller('ExportChannelController', [
 		}
 	 }
 	 
+	 vm.changeExportData();
+	 
 	 vm.initLoad = function() {
 	   	vm.searchChannel();
 	 	vm.searchFileLayout();
 	 	vm.searchProductTypes();
+	 	console.log(vm.productTypes);
 	 }();
 	 
 }]);
