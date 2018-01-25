@@ -1,6 +1,20 @@
 var txnMod = angular.module('gecscf.transaction');
-txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$stateParams', '$q', 'SCFCommonService', 'TransactionService',
-    'PagingController', 'PageNavigation', '$filter', 'MappingDataService', 'ProductTypeService', 'UIFactory', '$window', 'scfFactory',
+txnMod.controller('CreatePaymentController', [
+    '$rootScope',
+    '$scope',
+    '$log',
+    '$stateParams',
+    '$q',
+    'SCFCommonService',
+    'TransactionService',
+    'PagingController',
+    'PageNavigation',
+    '$filter',
+    'MappingDataService',
+    'ProductTypeService',
+    'UIFactory',
+    '$window',
+    'scfFactory',
     function ($rootScope, $scope, $log, $stateParams, $q, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, ProductTypeService, UIFactory, $window, scfFactory) {
         var vm = this;
         var log = $log;
@@ -81,24 +95,27 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         }
 
         function _checkCreatePaymentType(tradingPartnerList, supplierId) {
-            var deffered = $q.defer();
-            // find in list by supplier id
-            var result = $.grep(tradingPartnerList, function (supplier) { return supplier.supplierId == supplierId; });
-            var isWOIPMode = result[0].createTransactionType !== undefined && result[0].createTransactionType == 'WITHOUT_INVOICE';
-            if (isWOIPMode) {
+            var deferred = $q.defer();
+            var result = $.grep(tradingPartnerList, function (supplier) {
+                return supplier.supplierId == supplierId;
+            });
+            if (result[0].createTransactionType !== undefined && result[0].createTransactionType == 'WITHOUT_INVOICE') {
                 vm.displayPaymentPage = false;
                 var ownerId = $rootScope.userInfo.organizeId;
                 var params = {
-                    accountingTransactionType: 'RECEIVABLE',
-                    supplierId: result[0].supplierId,
-                    buyerId: ownerId
+                    supplierModel: tradingPartnerList,
+                    criteria: {
+                        accountingTransactionType: 'RECEIVABLE',
+                        supplierId: result[0].supplierId,
+                        buyerId: ownerId,
+                    }
                 }
                 PageNavigation.gotoPage('/my-organize/create-payment-woip', params);
             } else {
                 vm.displayPaymentPage = true;
-                deffered.resolve();
+                deferred.resolve();
             }
-            return deffered;
+            return deferred;
         }
 
         function _loadProducTypes(supplierId) {
@@ -109,7 +126,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             defferedProductTypes.promise.then(function (response) {
                 var _productTypes = response.data;
                 if (angular.isDefined(_productTypes)) {
-
                     _productTypes.forEach(function (productType) {
                         var selectObj = {
                             label: productType.displayName,
@@ -217,7 +233,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     } else {
                         vm.accountNotSupportSpecialDirectDebit = false;
                     }
-
                 }
                 deffered.resolve(accounts);
             });
@@ -337,10 +352,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 id: 'payment-amount-{value}-textbox'
             }
 
-
             vm.dataTable.columns.push(columnNetAmount);
             vm.dataTable.columns.push(columnPaymentAmount);
-
 
             var columnReasonCodeLabel = {
                 labelEN: 'Reason code',
@@ -361,7 +374,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 fieldName: 'reasonCode',
                 component: true
             }
-
 
             vm.dataTable.expansion.columns.push(columnReasonCodeLabel);
             vm.dataTable.expansion.columns.push(columnReasonCodeDropdown);
@@ -616,16 +628,16 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
             return valid;
         }
-        
+
         function _padZero(s) {
-        	return (s < 10) ? '0' + s : s;
+            return (s < 10) ? '0' + s : s;
         }
-        
+
         function _dateToString(date) {
-			var dateString = [_padZero(date.getDate()), _padZero(date.getMonth()+1), date.getFullYear()].join('/');
-			var timeString = [_padZero(date.getHours()), _padZero(date.getMinutes())].join(':');
-			return [dateString, timeString].join(' ');
-		}
+            var dateString = [_padZero(date.getDate()), _padZero(date.getMonth() + 1), date.getFullYear()].join('/');
+            var timeString = [_padZero(date.getHours()), _padZero(date.getMinutes())].join(':');
+            return [dateString, timeString].join(' ');
+        }
 
         function getReasonCodeDropdownElement(row) {
             return $window.document.getElementById('reason-code-' + row + '-dropdown');
@@ -770,7 +782,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                                 vm.transactionModel.payerAccountNo = _accounts[0].accountNo;
                                                 vm.accountType = _accounts[0].accountType;
                                                 var date = new Date(_accounts[0].accountUpdatedTime);
-            									vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+                                                vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
 
                                                 if (_accounts[0].accountType == 'LOAN') {
                                                     _setTradingpartnerInfoModel(_accounts[0]);
@@ -780,11 +792,13 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                                 _loadMaturityDate();
                                             }
                                         } else {
-                                            var result = $.grep(_accounts, function (account) { return account.accountId == vm.transactionModel.payerAccountId; });
+                                            var result = $.grep(_accounts, function (account) {
+                                                return account.accountId == vm.transactionModel.payerAccountId;
+                                            });
                                             vm.accountType = result[0].accountType;
                                             var date = new Date(result[0].accountUpdatedTime);
-            								vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
-                                            
+                                            vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+
                                             if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
                                                 _setTradingpartnerInfoModel(_accounts[0]);
                                             } else {
@@ -795,9 +809,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                     });
                                 });
                             });
-
-
-
                         });
                     });
                 });
@@ -807,7 +818,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     vm.criteria.dueDateTo = dashboardParams.dueDate;
                     vm.showBackButton = true;
                 }
-            } ();
+            }();
         });
 
         vm.searchDocument = function () {
@@ -1032,7 +1043,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     vm.tradingpartnerInfoModel.tenor = account.item.tenor;
                     vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
                     vm.accountType = account.item.accountType;
-                    
+
                     var date = new Date(account.item.accountUpdatedTime);
                     vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
 
@@ -1079,8 +1090,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                         vm.transactionModel.payerAccountId = _accounts[0].accountId;
                                         vm.transactionModel.payerAccountNo = _accounts[0].accountNo;
                                         vm.accountType = _accounts[0].accountType;
-                                        var date = new Date(accounts[0].accountUpdatedTime);
-            							vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+                                        var date = new Date(_accounts[0].accountUpdatedTime);
+                                        vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
 
                                         if (_accounts[0].accountType == 'LOAN') {
                                             _setTradingpartnerInfoModel(_accounts[0]);
@@ -1090,10 +1101,12 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                         _loadMaturityDate();
                                     }
                                 } else {
-                                    var result = $.grep(_accounts, function (account) { return account.accountId == vm.transactionModel.payerAccountId; });
+                                    var result = $.grep(_accounts, function (account) {
+                                        return account.accountId == vm.transactionModel.payerAccountId;
+                                    });
                                     vm.accountType = result[0].accountType;
                                     var date = new Date(result[0].accountUpdatedTime);
-            						vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+                                    vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
 
                                     if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
                                         _setTradingpartnerInfoModel(_accounts[0]);
@@ -1152,7 +1165,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
                 var _accountList = [];
                 angular.copy(vm.accountList, _accountList);
-                var accountSelected = $.grep(_accountList, function (account) { return account.accountId == vm.transactionModel.payerAccountId; });
+                var accountSelected = $.grep(_accountList, function (account) {
+                    return account.accountId == vm.transactionModel.payerAccountId;
+                });
                 var formatAccount = accountSelected[0].format || false;
 
                 if (accountSelected[0].accountType != 'LOAN') {
@@ -1196,4 +1211,5 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
         vm.backStep = function () {
             PageNavigation.gotoPreviousPage(true);
         }
-    }]);
+    }
+]);

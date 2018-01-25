@@ -17,7 +17,7 @@ angular.module('gecscf.transaction', [ 'ui.router', 'gecscf.ui', 'gecscf.organiz
 				params: {transactionModel: null, tradingpartnerInfoModel: null, criteria: null, supplierModel: null, documentSelects: null, backAction: false, dashboardParams: null, showBackButton: false},
 				resolve: WebHelper.loadScript(requiredModules)
 			}).state('/my-organize/create-payment-woip', {
-				url: '/my-organize/create-payment-woip/:accountingTransactionType/:supplierId/:buyerId',
+				url: '/my-organize/create-payment-woip',
 				controller: 'CreatePaymentWithoutInvoiceController',
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment/create-woip',

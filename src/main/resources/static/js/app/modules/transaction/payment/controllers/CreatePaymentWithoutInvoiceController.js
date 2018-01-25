@@ -1,12 +1,21 @@
 var txnMod = angular.module('gecscf.transaction');
-txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scope', '$log', '$stateParams', 'SCFCommonService', 'TransactionService',
-    'PagingController', 'PageNavigation', '$filter', 'blockUI', '$q',
-    function ($rootScope, $scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, blockUI, $q) {
-
+txnMod.controller('CreatePaymentWithoutInvoiceController', [
+    '$scope',
+    '$log',
+    '$stateParams',
+    'SCFCommonService',
+    'TransactionService',
+    'PagingController',
+    'PageNavigation',
+    '$filter',
+    'blockUI',
+    '$q',
+    'scfFactory',
+    function ($scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, blockUI, $q, scfFactory) {
         var vm = this;
         var log = $log;
         var _criteria = {};
-        var ownerId = $stateParams.buyerId;
+        var ownerId = $stateParams.criteria.buyerId;
         var createTransactionType = 'WITHOUT_INVOICE';
         vm.paymentModel = null;
         $scope.validateDataFailPopup = false;
@@ -23,7 +32,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             message: null
         }
 
-        var deffered = TransactionService.getSuppliers($stateParams.accountingTransactionType);
+        var deffered = TransactionService.getSuppliers($stateParams.criteria.accountingTransactionType);
         deffered.promise.then(function (response) {
             tradingPartnerList = response.data;
             if (tradingPartnerList !== undefined) {
@@ -38,12 +47,11 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         }).catch(function (response) {
             log.error(response);
         });
-        //}
 
         vm.criteria = {
-            accountingTransactionType: $stateParams.accountingTransactionType,
-            supplierId: $stateParams.supplierId,
-            buyerId: $stateParams.buyerId,
+            accountingTransactionType: $stateParams.criteria.accountingTransactionType,
+            supplierId: $stateParams.criteria.supplierId,
+            buyerId: $stateParams.criteria.buyerId,
             documentStatus: 'NEW',
             showOverdue: false,
             viewMyOrganize: false
@@ -71,7 +79,9 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
         }
 
         var _checkCreatePaymentType = function (supplierId) {
-            var result = $.grep(tradingPartnerList, function (td) { return td.supplierId == supplierId; });
+            var result = $.grep(tradingPartnerList, function (td) {
+                return td.supplierId == supplierId;
+            });
             if (result[0].createTransactionType !== undefined && result[0].createTransactionType == 'WITH_INVOICE') {
                 var params = {
                     supplierModel: tradingPartnerList,
@@ -144,16 +154,16 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             });
 
         }
-        
+
         function _padZero(s) {
-        	return (s < 10) ? '0' + s : s;
+            return (s < 10) ? '0' + s : s;
         }
-        
+
         function _dateToString(date) {
-			var dateString = [_padZero(date.getDate()), _padZero(date.getMonth()+1), date.getFullYear()].join('/');
-			var timeString = [_padZero(date.getHours()), _padZero(date.getMinutes())].join(':');
-			return [dateString, timeString].join(' ');
-		}
+            var dateString = [_padZero(date.getDate()), _padZero(date.getMonth() + 1), date.getFullYear()].join('/');
+            var timeString = [_padZero(date.getHours()), _padZero(date.getMinutes())].join(':');
+            return [dateString, timeString].join(' ');
+        }
 
         var setTransactionMethod = function (supportSpecialDebit) {
             if (supportSpecialDebit) {
@@ -206,7 +216,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                         vm.transactionModel.payerAccountNo = accounts[0].accountNo;
                         vm.accountType = accounts[0].accountType;
                         var date = new Date(accounts[0].accountUpdatedTime);
-            			vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+                        vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
 
                         if (accounts[0].accountType == 'LOAN') {
                             setTradingpartnerInfoModel(accounts[0]);
@@ -215,10 +225,12 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                         }
                     }
                 } else {
-                    var result = $.grep(accounts, function (account) { return account.accountId == vm.transactionModel.payerAccountId; });
+                    var result = $.grep(accounts, function (account) {
+                        return account.accountId == vm.transactionModel.payerAccountId;
+                    });
                     vm.accountType = result[0].accountType;
                     var date = new Date(result[0].accountUpdatedTime);
-            		vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+                    vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
 
                     if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
                         setTradingpartnerInfoModel(accounts[0]);
@@ -242,10 +254,15 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             });
         }
 
-
         var init = function () {
+            var deferred = scfFactory.getUserInfo();
+            deferred.promise.then(function (response) {
+                ownerId = response.organizeId;
+            }).catch(function (response) {
+
+            });
             _loadDocumentDisplayConfig();
-        } ();
+        }();
 
         $scope.sum = function (documents) {
             var total = 0;
@@ -325,10 +342,14 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                         var transaction = response.data;
                         SCFCommonService.parentStatePage().saveCurrentState('/my-organize/create-transaction');
 
-                        var accountSelected = $.grep(accountList, function (account) { return account.accountId == vm.transactionModel.payerAccountId; });
+                        var accountSelected = $.grep(accountList, function (account) {
+                            return account.accountId == vm.transactionModel.payerAccountId;
+                        });
                         var formatAccount = accountSelected[0].format || false;
 
-                        var supplier = $.grep(vm.suppliers, function (td) { return td.value == vm.criteria.supplierId; });
+                        var supplier = $.grep(vm.suppliers, function (td) {
+                            return td.value == vm.criteria.supplierId;
+                        });
                         var objectToSend = {
                             transactionModel: vm.transactionModel,
                             tradingpartnerInfoModel: vm.tradingpartnerInfoModel,
@@ -387,7 +408,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                     vm.tradingpartnerInfoModel.tenor = account.item.tenor;
                     vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
                     vm.accountType = account.item.accountType;
-                    
+
                     var date = new Date(account.item.accountUpdatedTime);
                     vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
 
@@ -417,88 +438,87 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             });
             return supplierName;
         }
-        
-        vm.inquiryAccount = function(data) {
-			var preCloseCallback = function(confirm) {
-				$scope.closeThisDialog();
-			}
-			
-			blockUI.start("Processing...");
-			var deffered = $q.defer();
-			var tpAccountModel = {
-				sponsorId : data.buyerId,
-				supplierId : data.supplierId,
-				accountId : data.accountId,
-			}			
-			var inquiryAccountDeffered = inquiryAccountToApi(tpAccountModel);
-			inquiryAccountDeffered.promise.then(function(response) {
-				blockUI.stop();
-				if(response.status==200){
-					dialogPopup = UIFactory.showSuccessDialog({
-						data: {
-						    headerMessage: 'Inquiry credit information success.',
-						    bodyMessage: ''
-						},
-						buttons : [{
-							id: 'ok-button',
-							label: 'OK',
-							action:function(){
-								vm.getCreditInformation();
-								closeDialogSucccess();
-							}
-						}],
-						preCloseCallback: null
-				    });
-				}else{
-				    dialogPopup = UIFactory.showFailDialog({
-						data: {
-						    headerMessage: 'Inquiry credit information failure',
-						    bodyMessage: 'please try again.'
-						},
-						buttons : [{
-							id: 'ok-button',
-							label: 'OK',
-							action:function(){
-								closeDialogFail();
-							}
-						}],
-						preCloseCallback: null
-					});					
-				}
-			}).catch(function(response) {
-				blockUI.stop();
-			    dialogPopup = UIFactory.showFailDialog({
-					data: {
-					    headerMessage: 'Inquiry credit information failure',
-					    bodyMessage: ' please try again.'
-					},
-					buttons : [{
-							id: 'ok-button',
-							label: 'OK',
-							action:function(){
-								closeDialogFail();
-							}
-						}],
-					preCloseCallback: null
-				});
-	        });
-			
-		}
-		
-		
-		function inquiryAccountToApi(tpAccountModel){
-			var deffered = $q.defer();	
-			$http({
-				url: '/api/v1/update-credit-limit-from-bank',
-				method: 'POST',
-				data: tpAccountModel
-			}).then(function(response){
-				deffered.resolve(response);
-			}).catch(function(response){
-				deffered.reject(response);
-			});	
-			return deffered;
-		}
+
+        vm.inquiryAccount = function (data) {
+            var preCloseCallback = function (confirm) {
+                $scope.closeThisDialog();
+            }
+
+            blockUI.start("Processing...");
+            var deffered = $q.defer();
+            var tpAccountModel = {
+                sponsorId: data.buyerId,
+                supplierId: data.supplierId,
+                accountId: data.accountId,
+            }
+            var inquiryAccountDeffered = inquiryAccountToApi(tpAccountModel);
+            inquiryAccountDeffered.promise.then(function (response) {
+                blockUI.stop();
+                if (response.status == 200) {
+                    dialogPopup = UIFactory.showSuccessDialog({
+                        data: {
+                            headerMessage: 'Inquiry credit information success.',
+                            bodyMessage: ''
+                        },
+                        buttons: [{
+                            id: 'ok-button',
+                            label: 'OK',
+                            action: function () {
+                                vm.getCreditInformation();
+                                closeDialogSucccess();
+                            }
+                        }],
+                        preCloseCallback: null
+                    });
+                } else {
+                    dialogPopup = UIFactory.showFailDialog({
+                        data: {
+                            headerMessage: 'Inquiry credit information failure',
+                            bodyMessage: 'please try again.'
+                        },
+                        buttons: [{
+                            id: 'ok-button',
+                            label: 'OK',
+                            action: function () {
+                                closeDialogFail();
+                            }
+                        }],
+                        preCloseCallback: null
+                    });
+                }
+            }).catch(function (response) {
+                blockUI.stop();
+                dialogPopup = UIFactory.showFailDialog({
+                    data: {
+                        headerMessage: 'Inquiry credit information failure',
+                        bodyMessage: ' please try again.'
+                    },
+                    buttons: [{
+                        id: 'ok-button',
+                        label: 'OK',
+                        action: function () {
+                            closeDialogFail();
+                        }
+                    }],
+                    preCloseCallback: null
+                });
+            });
+
+        }
+
+        function inquiryAccountToApi(tpAccountModel) {
+            var deffered = $q.defer();
+            $http({
+                url: '/api/v1/update-credit-limit-from-bank',
+                method: 'POST',
+                data: tpAccountModel
+            }).then(function (response) {
+                deffered.resolve(response);
+            }).catch(function (response) {
+                deffered.reject(response);
+            });
+            return deffered;
+        }
 
         // <---------------------------------- User Action ---------------------------------->
     }
