@@ -41,18 +41,18 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3 col-sm-3">
-                                            <label id="payment-document-label" ng-bind="'No. of document' | translate"></label>:
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 text-right">
-                                            <span id="payment-document-value-label" ng-bind="ctrl.transactionModel.documents.length"></span>
-                                        </div>
-                                        <div class="col-md-1 col-sm-1"></div>
-
-                                        <div class="col-md-3 col-sm-3">
                                             <label id="payment-date-label" ng-bind="'Payment date' | translate"></label>:
                                         </div>
-                                        <div class="col-md-2 col-sm-2">
+                                        <div class="col-md-2 col-sm-2 text-right">
                                             <span id="payment-date-value-label" ng-bind="ctrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+                                        </div>
+                                        <div class="col-md-1 col-sm-1"></div>
+                                        <div class="col-md-3 col-sm-3">
+                                            <label id="buyer-account-label" ng-bind="'Buyer account' | translate"></label>:
+                                        </div>
+                                        <div class="col-md-2 col-sm-2">
+                                            <span id="buyer-account-value-label" ng-bind="ctrl.accountNo"></span>
+                                            <span id="interest-rate-value-label" ng-show="ctrl.interestRate">(Int. {{ctrl.interestRate}})</span>
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
                                     </div>
@@ -71,6 +71,7 @@
                                         </div>
                                         <div class="col-md-2 col-sm-2" ng-show="ctrl.isLoanPayment">
                                             <span id="maturity-date-value-label" ng-bind="ctrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+                                            <span id="tenor-value-label" ng-show="ctrl.tenor">(Tenor {{ctrl.tenor}} days)</span>
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
                                     </div>
