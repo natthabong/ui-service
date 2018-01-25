@@ -782,7 +782,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                         } else {
                                             var result = $.grep(_accounts, function (account) { return account.accountId == vm.transactionModel.payerAccountId; });
                                             vm.accountType = result[0].accountType;
-                                            var date = new Date(accounts[0].accountUpdatedTime);
+                                            var date = new Date(result[0].accountUpdatedTime);
             								vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
                                             
                                             if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
