@@ -448,12 +448,13 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 	prePercentageDrawdown: vm.tradingpartnerInfoModel.prePercentageDrawdown,
                 	supplierAvailableAmount: vm.tradingpartnerInfoModel.supplierAvailableAmount,
                 	interestRate: vm.tradingpartnerInfoModel.interestRate,
-                	lastModifiedTime: '00/00/0000 00:00'
+                	accountUpdatedTime: vm.tradingpartnerInfoModel.accountUpdatedTime
                 }
             }
             vm.accountDropDown.push(formatAccount);
             
             vm.createTransactionModel.payerAccountId = vm.accountDropDown[0].value;
+            console.log(vm.createTransactionModel.payerAccountId);
             vm.selectedAccountInfo = vm.accountDropDown[0].item;
             
         }
