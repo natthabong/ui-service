@@ -25,7 +25,8 @@ app
                       var data = $scope.ngDialogData.data;
                       vm.model = {
                         organizeId: data.organizeId,
-                        channelType: data.channelType
+                        channelType: data.channelType,
+                        displayName: null
                       }
                       vm.save = function(callback) {
                         var preCloseCallback = function(confirm) {
