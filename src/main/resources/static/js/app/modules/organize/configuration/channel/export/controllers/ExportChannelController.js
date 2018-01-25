@@ -10,9 +10,9 @@ exportChannelModule.constant('ExportDataTypeDropdown',[
 	]);
 exportChannelModule.controller('ExportChannelController', [
 			'$log','$scope','$state','$stateParams','Service','ChannelDropdown','ExportDataTypeDropdown','FileLayoutService',
-			'PageNavigation',
+			'PageNavigation','UIFactory','blockUI','$q','$http',
 	function($log , $scope , $state , $stateParams , Service , ChannelDropdown , ExportDataTypeDropdown , FileLayoutService ,
-			PageNavigation) {
+			 PageNavigation , UIFactory , blockUI , $q , $http) {
 
       var vm = this;
       var channelId = $stateParams.channelId;
@@ -159,6 +159,25 @@ exportChannelModule.controller('ExportChannelController', [
  		}
  		return isValid;
  	 }     
+     
+     $scope.confirmSave = function() {
+ 		var serviceUrl = BASE_URI+'/channels/' + vm.channelModel.channelId;
+ 		var deffered = $q.defer();
+ 		var serviceDiferred =  $http({
+ 			method : 'POST',
+ 			url : serviceUrl,
+ 			headers: {
+ 				'If-Match' : vm.channelModel.version,
+ 				'X-HTTP-Method-Override': 'PUT'
+ 			},
+ 			data: vm.channelModel
+ 		}).then(function(response) {
+ 			deffered.resolve(response.data)
+ 		}).catch(function(response) {
+ 			deffered.reject(response);
+ 		});
+ 		return deffered;
+     }
      
      vm.saveChannel = function(){
     	setupPrepareData();
