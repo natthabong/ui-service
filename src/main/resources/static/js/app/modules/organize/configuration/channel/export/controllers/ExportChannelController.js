@@ -83,9 +83,11 @@ exportChannelModule.controller('ExportChannelController', [
 	  				vm.channelModel.expiryDate = null;
 	  			}
 	            
-	            if(vm.channelModel.exportDataType == 'ALL'){
-	            	vm.isAllProductType = true;
-	  			}
+	            if(response.data.exportDataType == 'ALL'){
+	             	vm.isAllProductType = true;
+	    		} else {
+	    			vm.isAllProductType = false;
+	    		}
 	            
 	            if(vm.channelModel.channelType == 'FTP'){
 					vm.isSetupFTP = true;
@@ -398,6 +400,14 @@ exportChannelModule.controller('ExportChannelController', [
 		});
 	 }
 	
+	 vm.changeExportData = function(){
+        if(vm.channelModel.exportDataType == 'ALL'){
+         	vm.isAllProductType = true;
+		} else {
+			vm.isAllProductType = false;
+		}
+	 }
+	 
 	 vm.initLoad = function() {
 	   	vm.searchChannel();
 	 	vm.searchFileLayout();
