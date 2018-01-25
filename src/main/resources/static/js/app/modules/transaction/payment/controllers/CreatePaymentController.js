@@ -183,10 +183,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.tradingpartnerInfoModel.available = account.remainingAmount - account.pendingAmount;
             vm.tradingpartnerInfoModel.tenor = account.tenor;
             vm.tradingpartnerInfoModel.interestRate = account.interestRate;
-
-            var date = new Date(account.accountUpdatedTime);
-            vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
-
             vm.isLoanPayment = true;
         }
 
@@ -773,6 +769,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                                 vm.transactionModel.payerAccountId = _accounts[0].accountId;
                                                 vm.transactionModel.payerAccountNo = _accounts[0].accountNo;
                                                 vm.accountType = _accounts[0].accountType;
+                                                var date = new Date(_accounts[0].accountUpdatedTime);
+            									vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
 
                                                 if (_accounts[0].accountType == 'LOAN') {
                                                     _setTradingpartnerInfoModel(_accounts[0]);
@@ -784,6 +782,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                         } else {
                                             var result = $.grep(_accounts, function (account) { return account.accountId == vm.transactionModel.payerAccountId; });
                                             vm.accountType = result[0].accountType;
+                                            var date = new Date(accounts[0].accountUpdatedTime);
+            								vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+                                            
                                             if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
                                                 _setTradingpartnerInfoModel(_accounts[0]);
                                             } else {
@@ -1078,6 +1079,8 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                         vm.transactionModel.payerAccountId = _accounts[0].accountId;
                                         vm.transactionModel.payerAccountNo = _accounts[0].accountNo;
                                         vm.accountType = _accounts[0].accountType;
+                                        var date = new Date(accounts[0].accountUpdatedTime);
+            							vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
 
                                         if (_accounts[0].accountType == 'LOAN') {
                                             _setTradingpartnerInfoModel(_accounts[0]);
@@ -1089,6 +1092,9 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                 } else {
                                     var result = $.grep(_accounts, function (account) { return account.accountId == vm.transactionModel.payerAccountId; });
                                     vm.accountType = result[0].accountType;
+                                    var date = new Date(result[0].accountUpdatedTime);
+            						vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+
                                     if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
                                         _setTradingpartnerInfoModel(_accounts[0]);
                                     } else {
