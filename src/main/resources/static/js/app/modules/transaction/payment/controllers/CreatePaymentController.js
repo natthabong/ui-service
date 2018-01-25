@@ -183,7 +183,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
             vm.tradingpartnerInfoModel.available = account.remainingAmount - account.pendingAmount;
             vm.tradingpartnerInfoModel.tenor = account.tenor;
             vm.tradingpartnerInfoModel.interestRate = account.interestRate;
-            vm.tradingpartnerInfoModel.updateTime = "10/01/2018 16:25";
+
+            var date = new Date(account.accountUpdatedTime);
+            vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+
             vm.isLoanPayment = true;
         }
 
