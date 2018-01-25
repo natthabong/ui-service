@@ -1,3 +1,4 @@
+'use strict';
 var exportChannelModule = angular
         .module('gecscf.organize.configuration.channel.export');
 exportChannelModule.controller('ExportChannelListController', [
@@ -8,7 +9,9 @@ exportChannelModule.controller('ExportChannelListController', [
     'ngDialog',
     'PagingController',
     'PageNavigation',
-    function($log, $scope, $state, $stateParams, ngDialog, PagingController, PageNavigation) {
+    'ConfigurationUtils',
+    function($log, $scope, $state, $stateParams, ngDialog, PagingController,
+            PageNavigation, ConfigurationUtils) {
 
       var vm = this;
       vm.organizeId = $stateParams.organizeId || null;
@@ -21,17 +24,41 @@ exportChannelModule.controller('ExportChannelListController', [
         vm.pagingController.search(pageModel, function(criteriaData, response) {
         });
       }
-      
-      vm.editExportChannel = function(data){
-         var params = {
-                channelId: data.channelId,
-                organizeId:  vm.organizeId
-              };
-          PageNavigation.gotoPage('/customer-organize/export-channels/config', params, {
-            organizeId:  vm.organizeId
-          });
+
+      vm.newChannel = function(callback) {
+        ConfigurationUtils.showCreateExportChannelDialog({
+          data: {
+            organizeId: ownerId,
+            channelType: 'WEB',
+            showAll: true
+          },
+          preCloseCallback: function() {
+            callback();
+          }
+        });
       }
-      
+      vm.newExportChannel = function(callback) {
+        ConfigurationUtils.showCreateExportChannelDialog({
+          data : { 
+            organizeId :  vm.organizeId,
+            channelType : 'WEB',
+            showAll: true
+          }, preCloseCallback : function() {
+            callback();
+          }
+        });
+      }
+      vm.editExportChannel = function(data) {
+        var params = {
+          channelId: data.channelId,
+          organizeId: vm.organizeId
+        };
+        PageNavigation.gotoPage('/customer-organize/export-channels/config',
+                params, {
+                  organizeId: vm.organizeId
+                });
+      }
+
       var initLoad = function() {
         vm.search();
       }();

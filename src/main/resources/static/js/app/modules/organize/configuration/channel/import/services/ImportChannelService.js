@@ -63,12 +63,30 @@ importChannelModule.factory('ImportChannelService', ['$http', '$q', 'Service', f
 		});
 		return deferred;
     }
+    
+    var create = function(model) {
+      var uri = 'api/v1/organize-customers/' + model.organizeId + '/process-types/' + model.processType + '/channels';
+      var deferred = $q.defer();
+
+      $http({
+          url: uri,
+          method: 'POST',
+          data: model
+      }).then(function(response) {
+        deferred.resolve(response);
+      }).catch(function(response) {
+        deferred.reject(response);
+      });
+
+      return deferred;
+  }
 
 	return {
 		getItemSuggestSuppliers: getItemSuggestSuppliers,
 		getItemSuggestBuyers: getItemSuggestBuyers,
 		getBorrowerTypes: getBorrowerTypes,
-		verifyBorrowerType: verifyBorrowerType 
+		verifyBorrowerType: verifyBorrowerType,
+		create: create
 	}
 
 }]);

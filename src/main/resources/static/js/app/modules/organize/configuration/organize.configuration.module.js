@@ -39,9 +39,10 @@ angular
                           'js/app/modules/organize/configuration/product-type/controllers/ProductTypeListController.js',
                           'js/app/modules/organize/configuration/product-type/services/ProductTypeService.js',
                           'js/app/modules/organize/configuration/channel/import/controllers/ImportChannelController.js',
-                          'js/app/modules/organize/configuration/channel/common/services/ChannelService.js',
+                          'js/app/modules/organize/configuration/channel/export/services/ExportChannelService.js',
                           'js/app/modules/organize/configuration/channel/import/services/ImportChannelService.js',
                           'js/app/modules/organize/configuration/channel/export/controllers/ExportChannelListController.js',
+                          'js/app/modules/organize/configuration/channel/export/controllers/ExportChannelNewPopupController.js',
                           'js/app/modules/organize/configuration/display/controllers/DisplayListController.js'];
 
                       $stateProvider.state('/sponsor-configuration', {
@@ -78,8 +79,19 @@ angular
                         UIFactory
                                 .showDialog({
                                   preCloseCallback: callback,
-                                  templateUrl: '/js/app/modules/organize/configuration/import-channels/templates/dialog-new-import-channel.html',
+                                  templateUrl: '/js/app/modules/organize/configuration/channel/import/templates/dialog-new-import-channel.html',
                                   controller: 'ImportChannelNewPopupController',
+                                  data: data
+                                });
+                      }
+                      
+                      var showCreateExportChannelDialog = function(data,
+                              callback) {
+                        UIFactory
+                                .showDialog({
+                                  preCloseCallback: callback,
+                                  templateUrl: '/js/app/modules/organize/configuration/channel/export/templates/dialog-new-export-channel.html',
+                                  controller: 'ExportChannelNewPopupController',
                                   data: data
                                 });
                       }
@@ -122,6 +134,7 @@ angular
                         showCreateImportChannelDialog: showCreateImportChannelDialog,
                         showCreateImportLayoutDialog: showCreateImportLayoutDialog,
                         showCreateExportLayoutDialog: showCreateExportLayoutDialog,
-                        showCreateNewCreateDisplayDialog: showCreateNewCreateDisplayDialog
+                        showCreateNewCreateDisplayDialog: showCreateNewCreateDisplayDialog,
+                        showCreateExportChannelDialog: showCreateExportChannelDialog
                       };
                     }]);

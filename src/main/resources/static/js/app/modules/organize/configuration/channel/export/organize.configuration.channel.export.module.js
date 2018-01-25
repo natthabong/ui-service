@@ -4,7 +4,7 @@ angular.module('gecscf.organize.configuration.channel.export',
 		[ '$stateProvider', function($stateProvider) {
 
 			var resources = ['js/app/modules/organize/configuration/channel/export/controllers/ExportChannelController.js',
-				'js/app/modules/organize/configuration/channel/common/services/ChannelService.js',
+				'js/app/modules/organize/configuration/channel/export/services/ExportChannelService.js',
 				'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
 				'js/app/common/scf-component.js',
 				'js/app/common/scf-component.css'];

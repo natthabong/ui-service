@@ -5,7 +5,7 @@ angular.module('gecscf.organize.configuration.channel.import',
 
 			var resources = ['js/app/modules/organize/configuration/channel/import/controllers/ImportChannelController.js',
 				'js/app/modules/organize/configuration/channel/import/services/ImportChannelService.js',
-        'js/app/modules/organize/configuration/channel/common/services/ChannelService.js',
+				'js/app/modules/organize/configuration/channel/export/services/ExportChannelService.js',
 				'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
 				'js/app/common/scf-component.js',
 				'js/app/common/scf-component.css'];
