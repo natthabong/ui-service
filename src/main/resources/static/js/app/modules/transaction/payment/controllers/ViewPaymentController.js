@@ -7,9 +7,9 @@ paymentModule.controller('ViewPaymentController', [
     'PagingController',
     '$timeout',
     'SCFCommonService',
-    'ViewPaymentService', '$log',
-    function($scope, $stateParams, UIFactory, PageNavigation,
-        PagingController, $timeout, SCFCommonService, ViewPaymentService, $log) {
+    'ViewPaymentService', '$log', '$filter',
+    function ($scope, $stateParams, UIFactory, PageNavigation,
+        PagingController, $timeout, SCFCommonService, ViewPaymentService, $log, $filter) {
 
         var vm = this;
         var log = $log;
@@ -20,6 +20,7 @@ paymentModule.controller('ViewPaymentController', [
         vm.isSupplier = false;
         vm.isBank = false;
         vm.isCreateTransWithInvoice = true;
+        vm.accountNo = null;
 
 
         var viewModeData = {
@@ -49,15 +50,15 @@ paymentModule.controller('ViewPaymentController', [
         var _criteria = {
             transactionId: null
         }
-        
-        var _loadDocument = function(pagingModel){
-        	var diferred = vm.pagingController.search(pagingModel);
+
+        var _loadDocument = function (pagingModel) {
+            var diferred = vm.pagingController.search(pagingModel);
             return diferred;
         }
 
-        var loadDocumentDisplayConfig = function(ownerId, productType) {
+        var loadDocumentDisplayConfig = function (ownerId, productType) {
             var deffered = SCFCommonService.getDocumentDisplayConfig(ownerId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT', productType);
-            deffered.promise.then(function(response) {
+            deffered.promise.then(function (response) {
                 vm.dataTable.columns = response.items;
                 _criteria.sort = response.sort;
                 if (response.supportPartial !== undefined && response.supportPartial) {
@@ -66,39 +67,57 @@ paymentModule.controller('ViewPaymentController', [
             });
         }
 
-        var loadTransaction = function(callback) {
-            var deffered = ViewPaymentService.getTransaction(vm.transactionModel);
-            deffered.promise.then(function(response) {
-
-                    vm.transactionModel = response.data;
-                    vm.transactionModel.supplier = response.data.supplierOrganize.organizeName;
-                    vm.transactionModel.sponsor = response.data.sponsorOrganize.organizeName;
-                    vm.transactionModel.documents = response.data.documents;
-
-                    if (vm.transactionModel.transactionMethod == 'TERM_LOAN') {
-                        vm.isTypeLoan = true;
-                    }
-
-                    if (vm.isCreateTransWithInvoice) {
-                        _criteria.transactionId = vm.transactionModel.transactionId;
-
-                        vm.pagingController = PagingController.create('api/v1/transaction-documents', _criteria, 'GET');
-
-                        var deffered = _loadDocument();
-                        deffered.promise.then(function(response) {
-                            var productType = response.data[0].productType;
-                            loadDocumentDisplayConfig(vm.transactionModel.supplierId,productType);
-                        });
-                    }
-
-
-                })
-                .catch(function(response) {
-                    log.error('view payment load error');
-                })
+        var loadAccountDetails = function (organize, account) {
+            var deffered = ViewPaymentService.getAccountDetails(organize, account);
+            deffered.promise.then(function (response) {
+                var account = response.data;
+                console.log(response);
+                vm.accountNo = account.format ? ($filter('accountNoDisplay')(account.accountNo)) : account.accountNo;
+                // var formatAccount = {
+                //     label: account.format ? ($filter('accountNoDisplay')(account.accountNo)) : account.accountNo,
+                //     value: account.accountId,
+                //     item: account
+                // }
+            }).catch(function (response) {
+                log.error('load account error');
+            });
         }
-        
-        var addColumnForCreatePartial = function() {
+
+        var loadTransaction = function (callback) {
+            var deffered = ViewPaymentService.getTransaction(vm.transactionModel);
+            deffered.promise.then(function (response) {
+
+                vm.transactionModel = response.data;
+                console.log(vm.transactionModel);
+                vm.transactionModel.supplier = response.data.supplierOrganize.organizeName;
+                vm.transactionModel.sponsor = response.data.sponsorOrganize.organizeName;
+                vm.transactionModel.documents = response.data.documents;
+
+                loadAccountDetails(vm.transactionModel.sponsorId, vm.transactionModel.payerAccountId);
+
+                if (vm.transactionModel.transactionMethod == 'TERM_LOAN') {
+                    vm.isTypeLoan = true;
+                }
+
+                if (vm.isCreateTransWithInvoice) {
+                    _criteria.transactionId = vm.transactionModel.transactionId;
+
+                    vm.pagingController = PagingController.create('api/v1/transaction-documents', _criteria, 'GET');
+
+                    var deffered = _loadDocument();
+                    deffered.promise.then(function (response) {
+                        var productType = response.data[0].productType;
+                        loadDocumentDisplayConfig(vm.transactionModel.supplierId, productType);
+                    });
+                }
+
+
+            }).catch(function (response) {
+                log.error('view payment load error');
+            })
+        }
+
+        var addColumnForCreatePartial = function () {
             var columnNetAmount = {
                 documentField: {
                     displayFieldName: 'Net amount',
@@ -136,7 +155,7 @@ paymentModule.controller('ViewPaymentController', [
                 idValueField: '$rowNo',
                 id: 'reasonCode-{value}-label',
                 fieldName: 'reasonCode',
-                dataRenderer: function(record) {
+                dataRenderer: function (record) {
                     return '<span id="reason-code-{{$parent.$index+1}}-value"><b>Reason code</b>&nbsp;&nbsp;' + record.reasonCode + ' : ' + record.reasonCodeDisplay + '</span>';
                 },
                 component: true
@@ -145,23 +164,23 @@ paymentModule.controller('ViewPaymentController', [
             vm.dataTable.expansion.columns.push(columnReasonCodeLabel);
         }
 
-        vm.searchDocument = function(pagingModel) {
+        vm.searchDocument = function (pagingModel) {
             _loadDocument(pagingModel);
-         }
+        }
 
-        vm.back = function() {
-            $timeout(function() {
+        vm.back = function () {
+            $timeout(function () {
                 PageNavigation.backStep();
             }, 10);
         }
 
-        vm.viewHistory = function() {
-            $timeout(function() {
+        vm.viewHistory = function () {
+            $timeout(function () {
                 PageNavigation.gotoPage(url);
             }, 10);
         }
 
-        var init = function() {
+        var init = function () {
             if (viewMode == viewModeData.myOrganize) {
                 vm.isBuyer = true;
                 url = '/my-organize/payment-transaction';
@@ -174,13 +193,13 @@ paymentModule.controller('ViewPaymentController', [
             }
 
             if ($stateParams.transactionModel == null) {
-                $timeout(function() {
+                $timeout(function () {
                     PageNavigation.gotoPage(url);
                 }, 10);
             }
 
             loadTransaction();
 
-        }();
+        } ();
     }
 ]);

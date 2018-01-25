@@ -22,7 +22,23 @@ function ViewPaymentService($http, $q) {
 		return deffered;
     }
 
+	var getAccountDetails = function(organize, account) {
+		var deffered = $q.defer();
+		var serviceUrl = 'api/v1/organize-customers/'+organize+'/account/'+account
+		$http({
+			url: serviceUrl,
+			method: 'GET',
+            
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});	
+		return deffered;
+	}
+
     return {
-        getTransaction: getTransaction
+        getTransaction: getTransaction,
+		getAccountDetails:getAccountDetails
     };
 }
