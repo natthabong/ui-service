@@ -1,7 +1,7 @@
 var validateandsubmit = angular.module('scfApp');
 validateandsubmit.controller('ValidateAndSubmitController', [
-		'ValidateAndSubmitService', '$state', '$scope', '$window', '$timeout','$stateParams', 'SCFCommonService', '$log', 'PageNavigation',
-		function(ValidateAndSubmitService, $state, $scope, $window, $timeout, $stateParams, SCFCommonService, $log, PageNavigation) {
+		'ValidateAndSubmitService', '$state', '$scope', '$window', '$timeout','$stateParams', 'SCFCommonService', '$log', 'PageNavigation','$filter',
+		function(ValidateAndSubmitService, $state, $scope, $window, $timeout, $stateParams, SCFCommonService, $log, PageNavigation,$filter) {
 			var vm = this;
 			var log = $log;
 			$scope.validateDataPopup = false;
@@ -44,6 +44,8 @@ validateandsubmit.controller('ValidateAndSubmitController', [
 					vm.valueOfDocument = $stateParams.totalDocumentAmount;
 					vm.pageModel.totalRecord  = vm.transactionModel.documents.length;
 					vm.searchDocument();
+					
+					vm.tradingpartnerInfoModel.accountNoFormat = vm.tradingpartnerInfoModel.format ? ($filter('accountNoDisplay')(vm.tradingpartnerInfoModel.accountNo)) : vm.tradingpartnerInfoModel.accountNo;
                 }
             }
 			

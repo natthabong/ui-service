@@ -18,8 +18,8 @@
 					<div class="col-md-12">
 						<form name="createForm" class="form-horizontal">
 							<div class="form-group" ng-show="ctrl.canViewOrgProfilesReferToMyOrg">
-								<label for="sponsor" id="sponsor-code-label"
-									class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Sponsor'
+								<label for="buyer" id="sponsor-code-label"
+									class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Buyer'
 									| translate}}: </label>
 								<div class="col-md-3 col-sm-3 col-xs-12">
 									<scf-dropdown id="sponsor-dropdown"
@@ -130,18 +130,18 @@
 				 <div class="panel-body" ng-show="ctrl.showInfomation">
 	                 <div class="row">
 	                     <div id="bottom-sticker">
-	                         <div class="col-md-11 col-sm-11 col-lg-11 col-xs-11">
+	                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 	                             <div class="row">
 	                             	 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 	                             	 	<label id="transaction-amount-label">
 	                             	 		<b ng-bind="'Transaction amount' | translate"></b>
 	                             	 	</label>:
 	                             	 </div>	 
-	                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+	                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 	                                     <span id="transaction-amount-value-label"	ng-bind="ctrl.submitTransactionAmount | number: 2"></span>
+	                                     &nbsp;<span ng-bind="'THB' | translate"></span>
 	                                 </div>
 	                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
-	                                 	&nbsp;<span ng-bind="'THB' | translate"></span>
 	                                 </div>
 	                                 
 	                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -149,11 +149,11 @@
 	                                 		<b ng-bind="'Pre-drawdown percentage' | translate"></b>
 	                                 	</label>:
 									</div>
-									<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 text-right">
+									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 										<span id="predrawdown-label"
-											ng-bind="ctrl.selectedAccountInfo.prePercentageDrawdown | number:2"></span>
+											ng-bind="ctrl.selectedAccountInfo.prePercentageDrawdown | number:2"></span>%
 									</div>
-									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">%</div>
+									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>
 	                                 
 	                             </div>
 	                             <div class="row">
@@ -162,25 +162,19 @@
 		                          	 		<b ng-bind="'Loan account' | translate"></b>
 		                          	 	</label>:
 		                          	 </div>	 
-		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
-		                                  <scf-dropdown-account id="loan-account-dropdown" ng-change="ctrl.accountChange(data)" ng-model="vm.createTransactionModel.payerAccountId" convert-to-number="true" component-data="ctrl.accountDropDown"></scf-dropdown-account>
-		                             </div>
-		                             
-		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+		                                  <scf-dropdown-account id="loan-account-dropdown" ng-change="ctrl.accountChange(data)" ng-model="ctrl.createTransactionModel.payerAccountId" convert-to-number="true" component-data="ctrl.accountDropDown"></scf-dropdown-account>
 		                             </div>
 		                              
-		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+		                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 		                             	<label id="available-label">
 		                              		<b ng-bind="'Available' | translate"></b>
 		                              	</label>:
 		                             </div>
-		                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+		                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
 										<span id="available-value-label" ng-bind="ctrl.selectedAccountInfo.supplierAvailableAmount | number: 2"></span>&nbsp;
-		                                 
-									  </div>
-									  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-										 <span ng-bind="'THB' | translate"></span>&nbsp;
-		
+										&nbsp;<span ng-bind="'THB' | translate"></span>&nbsp;
+										
 		                                  <label id="interest-rate-value-label" ng-hide="ctrl.selectedAccountInfo.accountType == 'OVERDRAFT'">
 													<span>(Int.</span>
 													<span ng-bind="ctrl.selectedAccountInfo.interestRate"></span>
@@ -190,18 +184,17 @@
 										  	class="btn-default gec-btn-action" title="Inquiry account">
 										  	<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
 										  </scf-button>
-										  
-									   </div>
-									   
+									  </div>
+									  
 	                             </div>
 	                             <div class="row">
 		                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>	 
-		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right"></div>
+		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
 		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
 		                              
 		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
-		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
-		                             (Updated: <span id="available-value-label" ng-bind="ctrl.selectedAccountInfo.lastModifiedTime"></span>)
+		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+		                             (Updated: <span id="available-value-label" ng-bind="ctrl.selectedAccountInfo.accountUpdatedTime | date: 'dd/MM/yyyy HH:mm' : 'UTC+0700'"></span>)
 									  </div>
 									  
 									  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>
@@ -212,7 +205,7 @@
 		                             	<label id="transaction-date-label">
 	                                 	<b	ng-bind="'Transaction date' | translate"></b>:</label>
 		                             </div>	 
-		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 		                             	<scf-dropdown id="transaction-date-dropdown"
 								  		ng-model="ctrl.createTransactionModel.transactionDate"
 								  		component-data="ctrl.transactionDates"></scf-dropdown>
@@ -220,7 +213,7 @@
 		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
 		                              
 		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
-		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right"></div>
+		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
 									 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>	
 								 </div>
 	                             <div class="row">
