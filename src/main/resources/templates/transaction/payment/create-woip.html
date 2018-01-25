@@ -37,7 +37,9 @@
 											</thead>
 											<tbody>
 												<tr ng-repeat="record in documents track by $index" ng-class="$even?'tr-odd':'tr-even'">
-													<td class="text-right" style="width: 3%"><label id="$rowNo-{{$index+1}}-label" class="text-right control-label">{{$index+1}}</label></td>
+													<td class="text-right" style="width: 3%">
+														<label id="$rowNo-{{$index+1}}-label" class="text-right control-label">{{$index+1}}</label>
+													</td>
 													<td class="text-center" style="width: 30%">
 														<scf-input-text id="description-{{$index+1}}-textbox" ng-model="record.optionVarcharField1" maxlength="255" />
 													</td>
@@ -48,7 +50,8 @@
 														<scf-input-numeric id="payment-amount-{{$index+1}}-textbox" ng-model="record.netAmount" maxlength="20" />
 													</td>
 													<td class="text-center" style="width: 14%">
-														<scf-button type="button" id="delete-{{$index+1}}-button" class="btn-default gec-btn-action" ng-click="ctrl.removeDocumentItem(documents,record)"><i class="fa fa-trash" aria-hidden="true"></i>
+														<scf-button type="button" id="delete-{{$index+1}}-button" class="btn-default gec-btn-action" ng-click="ctrl.removeDocumentItem(documents,record)">
+															<i class="fa fa-trash" aria-hidden="true"></i>
 														</scf-button>
 													</td>
 												</tr>
@@ -73,23 +76,23 @@
 						<div id="bottom-sticker">
 							<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
 								<div class="form-horizontal">
-									<label id="total-payment-amount-label" class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"><b
-										ng-bind="'Total payment amount' | translate">Total payment
-											amount</b>:</label>
+									<label id="total-payment-amount-label" class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label">
+										<b ng-bind="'Total payment amount' | translate">Total payment amount
+										</b>:</label>
 									<div class="col-md-7 col-sm-8 col-lg-8 col-xs-12 control-label">
 										<span id="total-payment-amount-value-label" ng-bind="sum(documents) | number: 2">0.00</span>&nbsp;
 										<span ng-bind="'THB' | translate"></span>
 									</div>
 								</div>
 								<div class="form-horizontal">
-									<label id="buyer-account-label" class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"><b
-										ng-bind="'Buyer account' | translate">Buyer account</b>:</label>
+									<label id="buyer-account-label" class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label">
+										<b ng-bind="'Buyer account' | translate">Buyer account</b>:</label>
 									<div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
 										<scf-dropdown-account id="buyer-account-dropdown" ng-change="ctrl.accountChange()" ng-model="ctrl.transactionModel.payerAccountId"
-											convert-to-number="true" component-data="ctrl.accountDropDown"></scf-dropdown-account>
+										    convert-to-number="true" component-data="ctrl.accountDropDown"></scf-dropdown-account>
 									</div>
-									<label id="available-label" class="col-md-2 col-sm-2 col-lg-2 col-xs-12 control-label"><b
-										ng-bind="'Available' | translate">Available</b>:</label>
+									<label id="available-label" class="col-md-2 col-sm-2 col-lg-2 col-xs-12 control-label">
+										<b ng-bind="'Available' | translate">Available</b>:</label>
 									<div class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label">
 										<span id="available-value-label" ng-bind="ctrl.tradingpartnerInfoModel.available | number: 2">0.00</span>&nbsp;
 										<span ng-bind="'THB' | translate"></span>&nbsp;
@@ -100,19 +103,15 @@
 										</label>
 
 										<!-- ng-show="record.showAccountFlag" -->
-										<scf-button
-											ng-show="true"
-											class="btn-default gec-btn-action"
-											id="credit-information-{{record.accountId}}-{{record.buyerName}}-button"
-											ng-click="ctrl.inquiryAccount(record)"
-											title="Inquiry Account"> <i class="fa fa-repeat"
-											aria-hidden="true"></i>
+										<scf-button ng-show="true" class="btn-default gec-btn-action" id="credit-information-{{record.accountId}}-{{record.buyerName}}-button"
+										    ng-click="ctrl.inquiryAccount(record)" title="Inquiry Account">
+											<i class="fa fa-repeat" aria-hidden="true"></i>
 										</scf-button>
 										<div>
 											<label id="update-time-label">
-													<span>(Updated : </span>
-													<span ng-bind="ctrl.tradingpartnerInfoModel.updateTime"></span>
-													<span>)</span>
+												<span>(Updated : </span>
+												<span ng-bind="ctrl.tradingpartnerInfoModel.updateTime"></span>
+												<span>)</span>
 											</label>
 										</div>
 
@@ -120,14 +119,14 @@
 									<label class="col-md-12 col-sm-12 col-lg-12 col-xs-12 control-label"></label>
 								</div>
 								<div class="form-horizontal">
-									<label id="payment-date-label" class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"><b
-										ng-bind="'Payment date' | translate">Payment date</b>:</label>
+									<label id="payment-date-label" class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label">
+										<b ng-bind="'Payment date' | translate">Payment date</b>:</label>
 									<div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
 										<scf-dropdown id="payment-date-dropdown" ng-model="ctrl.paymentModel" component-data="ctrl.paymentDropDown" ng-change="ctrl.paymentDateChange()"></scf-dropdown>
 									</div>
 
-									<label ng-show="ctrl.isLoanPayment" class="hidden-xs hidden-sm hidden-md col-lg-2 control-label"><b
-										ng-bind="'Maturity date' | translate">Maturity date</b>:</label>
+									<label ng-show="ctrl.isLoanPayment" class="hidden-xs hidden-sm hidden-md col-lg-2 control-label">
+										<b ng-bind="'Maturity date' | translate">Maturity date</b>:</label>
 									<div ng-show="ctrl.isLoanPayment" class="hidden-xs hidden-sm hidden-md col-lg-4 control-label" style="padding-top:0px;">
 										<div class="col-sm-12 col-xs-12 col-md-9 col-lg-9" style="padding-left:1px;">
 											<scf-dropdown ng-model="ctrl.maturityDateModel" component-data="ctrl.maturityDateDropDown"></scf-dropdown>
@@ -141,14 +140,15 @@
 									<label class="col-md-12 col-sm-12 col-lg-12 col-xs-12 control-label"></label>
 								</div>
 								<div class="form-horizontal">
-                                    <label class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"></label>
-                                    <div>
-                                        <span class="col-md-3 col-sm-3 col-xs-12 error-msg" ng-show="ctrl.accountNotSupportSpecialDirectDebit" id="account-no-not-support-special-direct-debit-error-message-label" ng-bind="'Account is not support special debit' | translate"></span>
-                                    </div>
-                                </div>
+									<label class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"></label>
+									<div>
+										<span class="col-md-3 col-sm-3 col-xs-12 error-msg" ng-show="ctrl.accountNotSupportSpecialDirectDebit" id="account-no-not-support-special-direct-debit-error-message-label"
+										    ng-bind="'Account is not support special debit' | translate"></span>
+									</div>
+								</div>
 								<div class="form-horizontal">
-									<label ng-show="ctrl.isLoanPayment" id="maturity-date-label" class="col-xs-2 col-sm-3 col-md-3 hidden-lg control-label"><b
-										ng-bind="'Maturity date' | translate">Maturity date</b>:</label>
+									<label ng-show="ctrl.isLoanPayment" id="maturity-date-label" class="col-xs-2 col-sm-3 col-md-3 hidden-lg control-label">
+										<b ng-bind="'Maturity date' | translate">Maturity date</b>:</label>
 									<div ng-show="ctrl.isLoanPayment" class="col-xs-4 col-sm-5 col-md-4 hidden-lg control-label" style="padding-top:0px;">
 										<div class="col-xs-12 col-sm-7 col-md-9 col-lg-9" style="padding-left:1px">
 											<scf-dropdown id="maturity-date-dropdown" ng-model="ctrl.maturityDateModel" component-data="ctrl.maturityDateDropDown"></scf-dropdown>
