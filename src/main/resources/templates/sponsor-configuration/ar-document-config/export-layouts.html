@@ -27,18 +27,18 @@
 						<tbody>
 							<tr ng-repeat="record in ctrl.data track by $index">
 								<td class="text-left"><span
-									id="{{ctrl.processType}}-export-layout-{{data.displayName}}-label"
+									id="{{ctrl.processType}}-export-layout-{{record.displayName}}-label"
 									ng-bind="record.displayName"></span></td>
 								<td class="text-center">
 									<button
-										id="{{ctrl.processType}}-export-layout-{{data.displayName}}-setup-button"
+										id="{{ctrl.processType}}-export-layout-{{record.displayName}}-setup-button"
 										class="btn-default gec-btn-action"
 										ng-click="ctrl.setupExportPayment(record)" title="Config a file layout">
 										<ng-transclude> <i class="fa fa-cog"
 											aria-hidden="true"></i></ng-transclude>
 									</button>
 									<button
-										id="{{ctrl.processType}}-export-layout-{{data.displayName}}-delete-button"
+										id="{{ctrl.processType}}-export-layout-{{record.displayName}}-delete-button"
 										class="btn-default gec-btn-action" ng-disabled="true"
 										ng-click="ctrl.deleteExportLayout(record)" title="Delete a file layout">
 										<ng-transclude> <i class="fa fa-trash-o"
