@@ -21,6 +21,7 @@ public class SponsorConfigController {
 	private static String AR_IMPORT_CHANNEL_SETUP = "sponsor-configuration/import-channels/dialog-new-import-channel";
 
 	private static String EXPORT_CHANNEL = "sponsor-configuration/export-channels/list";
+	private static String EXPORT_CHANNEL_SETUP = "sponsor-configuration/export-channels/settings";
 
 	private static String AR_IMPORT_LAYOUTS = "sponsor-configuration/ar-document-config/import-layouts";
 	private static String AR_EXPORT_LAYOUTS = "sponsor-configuration/ar-document-config/export-layouts";
@@ -363,7 +364,16 @@ public class SponsorConfigController {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return EXPORT_CHANNEL.concat(" :: content");
 		}
+
 		return EXPORT_CHANNEL;
 	}
 
+	@RequestMapping(path = "/export-channel-configs/settings", method = RequestMethod.GET)
+	public String exportChannelSetup(
+			@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return EXPORT_CHANNEL_SETUP.concat(" :: content");
+		}
+		return EXPORT_CHANNEL_SETUP;
+	}
 }

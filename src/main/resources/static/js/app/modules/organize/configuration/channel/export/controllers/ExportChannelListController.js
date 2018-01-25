@@ -7,7 +7,8 @@ exportChannelModule.controller('ExportChannelListController', [
     '$stateParams',
     'ngDialog',
     'PagingController',
-    function($log, $scope, $state, $stateParams, ngDialog, PagingController) {
+    'PageNavigation',
+    function($log, $scope, $state, $stateParams, ngDialog, PagingController, PageNavigation) {
 
       var vm = this;
       vm.organizeId = $stateParams.organizeId || null;
@@ -20,7 +21,17 @@ exportChannelModule.controller('ExportChannelListController', [
         vm.pagingController.search(pageModel, function(criteriaData, response) {
         });
       }
-
+      
+      vm.editExportChannel = function(data){
+         var params = {
+                channelId: data.channelId,
+                organizeId:  vm.organizeId
+              };
+          PageNavigation.gotoPage('/customer-organize/export-channels/config', params, {
+            organizeId:  vm.organizeId
+          });
+      }
+      
       var initLoad = function() {
         vm.search();
       }();
