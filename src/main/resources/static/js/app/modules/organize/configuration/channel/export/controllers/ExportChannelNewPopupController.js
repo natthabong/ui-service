@@ -68,7 +68,7 @@ app
                                     UIFactory
                                             .showSuccessDialog({
                                               data: {
-                                                headerMessage: 'Add new mapping data success.',
+                                                headerMessage: 'Add new export channel success.',
                                                 bodyMessage: ''
                                               },
                                               preCloseCallback: preCloseCallback(response)
