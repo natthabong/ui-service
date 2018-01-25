@@ -42,6 +42,7 @@ angular
                           'js/app/modules/organize/configuration/channel/common/services/ChannelService.js',
                           'js/app/modules/organize/configuration/channel/import/services/ImportChannelService.js',
                           'js/app/modules/organize/configuration/channel/export/controllers/ExportChannelListController.js',
+                          'js/app/modules/organize/configuration/channel/export/controllers/ExportChannelController.js',
                           'js/app/modules/organize/configuration/display/controllers/DisplayListController.js'];
 
                       $stateProvider.state('/sponsor-configuration', {
