@@ -71,13 +71,7 @@ paymentModule.controller('ViewPaymentController', [
             var deffered = ViewPaymentService.getAccountDetails(sponsorId, supplierId, accountId);
             deffered.promise.then(function (response) {
                 var account = response.data;
-                console.log(response);
                 vm.accountNo = account.format ? ($filter('accountNoDisplay')(account.accountNo)) : account.accountNo;
-                // var formatAccount = {
-                //     label: account.format ? ($filter('accountNoDisplay')(account.accountNo)) : account.accountNo,
-                //     value: account.accountId,
-                //     item: account
-                // }
             }).catch(function (response) {
                 log.error('load account error');
             });
@@ -88,7 +82,6 @@ paymentModule.controller('ViewPaymentController', [
             deffered.promise.then(function (response) {
 
                 vm.transactionModel = response.data;
-                console.log(vm.transactionModel);
                 vm.transactionModel.supplier = response.data.supplierOrganize.organizeName;
                 vm.transactionModel.sponsor = response.data.sponsorOrganize.organizeName;
                 vm.transactionModel.documents = response.data.documents;
