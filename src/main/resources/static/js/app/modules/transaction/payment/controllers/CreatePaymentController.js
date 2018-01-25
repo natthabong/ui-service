@@ -266,7 +266,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     });
 
                     vm.paymentModel = vm.paymentDropDown[0].value;
-                    console.log($stateParams.backAction);
                     if ($stateParams.backAction) {
                         if (vm.transactionModel.transactionDate != null) {
                             vm.paymentModel = SCFCommonService.convertDate(vm.transactionModel.transactionDate);
@@ -618,6 +617,16 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
 
             return valid;
         }
+        
+        function _padZero(s) {
+        	return (s < 10) ? '0' + s : s;
+        }
+        
+        function _dateToString(date) {
+			var dateString = [_padZero(date.getDate()), _padZero(date.getMonth()+1), date.getFullYear()].join('/');
+			var timeString = [_padZero(date.getHours()), _padZero(date.getMinutes())].join(':');
+			return [dateString, timeString].join(' ');
+		}
 
         function getReasonCodeDropdownElement(row) {
             return $window.document.getElementById('reason-code-' + row + '-dropdown');
@@ -670,7 +679,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     record.reasonCode = selectedReasonCode.value;
                 }
             });
-
         }
 
         vm.getUserInfoSuccess = false;
@@ -1019,8 +1027,10 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                     vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
                     vm.tradingpartnerInfoModel.tenor = account.item.tenor;
                     vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
-                    vm.tradingpartnerInfoModel.updateTime = "10/01/2018 16:25";
                     vm.accountType = account.item.accountType;
+                    
+                    var date = new Date(account.item.accountUpdatedTime);
+                    vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
 
                     if (vm.accountType == 'LOAN') {
                         vm.transactionModel.transactionMethod = 'TERM_LOAN';
@@ -1065,7 +1075,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                         vm.transactionModel.payerAccountId = _accounts[0].accountId;
                                         vm.transactionModel.payerAccountNo = _accounts[0].accountNo;
                                         vm.accountType = _accounts[0].accountType;
-                                        console.log(_accounts[0]);
 
                                         if (_accounts[0].accountType == 'LOAN') {
                                             _setTradingpartnerInfoModel(_accounts[0]);
@@ -1077,7 +1086,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                                 } else {
                                     var result = $.grep(_accounts, function (account) { return account.accountId == vm.transactionModel.payerAccountId; });
                                     vm.accountType = result[0].accountType;
-                                    console.log(result[0]);
                                     if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
                                         _setTradingpartnerInfoModel(_accounts[0]);
                                     } else {
@@ -1141,7 +1149,6 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 if (accountSelected[0].accountType != 'LOAN') {
                     vm.transactionModel.payerLoanAccountId = _accountList[0].defaultLoanNo ? _accountList[0].accountId : null;
                     if (vm.supportSpecialDebit) {
-                        console.log(vm.supportSpecialDebit);
                         vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
                     } else {
                         vm.transactionModel.transactionMethod = 'DEBIT';

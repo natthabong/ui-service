@@ -144,6 +144,16 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
             });
 
         }
+        
+        function _padZero(s) {
+        	return (s < 10) ? '0' + s : s;
+        }
+        
+        function _dateToString(date) {
+			var dateString = [_padZero(date.getDate()), _padZero(date.getMonth()+1), date.getFullYear()].join('/');
+			var timeString = [_padZero(date.getHours()), _padZero(date.getMinutes())].join(':');
+			return [dateString, timeString].join(' ');
+		}
 
         var setTransactionMethod = function (supportSpecialDebit) {
             if (supportSpecialDebit) {
@@ -372,8 +382,10 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', ['$rootScope', '$scop
                     vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
                     vm.tradingpartnerInfoModel.tenor = account.item.tenor;
                     vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
-                    vm.tradingpartnerInfoModel.updateTime = "10/01/2018 16:25";
                     vm.accountType = account.item.accountType;
+                    
+                    var date = new Date(account.item.accountUpdatedTime);
+                    vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
 
                     if (vm.accountType == 'LOAN') {
                         vm.transactionModel.transactionMethod = 'TERM_LOAN';
