@@ -37,9 +37,6 @@
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
-<!-- 						<ng-include ng-show="ctrl.isSetupFTP" -->
-<!-- 							src="'/sponsor-configuration/import-channels/ftp-settings'" -->
-<!-- 							ng-if="true"></ng-include> -->
 						<div class="form-group">
 							<label id="display-name-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Display name' | translate}}: </label>
@@ -97,7 +94,10 @@
 								</label><br/>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
-						</div>	
+						</div>
+						<ng-include ng-show="ctrl.isSetupFTP"
+							src="'/sponsor-configuration/export-channels/ftp-settings'"
+							ng-if="true"></ng-include>
 						<div class="form-group">
 							<label id="active-date-label"
 								class="col-md-2 col-sm-3 control-label">{{'Active date'	| translate}}:</label>

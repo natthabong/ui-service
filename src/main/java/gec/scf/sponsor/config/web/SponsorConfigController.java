@@ -56,6 +56,7 @@ public class SponsorConfigController {
 
 	private static String SETTINGS_IMPORT_CHANNEL = "sponsor-configuration/import-channels/settings";
 	private static String SETTINGS_IMPORT_CHANNEL_FTP = "sponsor-configuration/import-channels/ftp-settings";
+	private static String SETTINGS_EXPORT_CHANNEL_FTP = "sponsor-configuration/export-channels/ftp-settings";
 
 	private static String EDIT_MAPPING_DATA = "sponsor-configuration/edit-mapping-data";
 
@@ -332,6 +333,15 @@ public class SponsorConfigController {
 			return SETTINGS_IMPORT_CHANNEL_FTP.concat(" :: content");
 		}
 		return SETTINGS_IMPORT_CHANNEL_FTP;
+	}
+	
+	@RequestMapping(path = "/export-channels/ftp-settings", method = RequestMethod.GET)
+	public String settingExportChannelFTP(
+			@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETTINGS_EXPORT_CHANNEL_FTP.concat(" :: content");
+		}
+		return SETTINGS_EXPORT_CHANNEL_FTP;
 	}
 
 	@RequestMapping(path = "/workflow", method = RequestMethod.GET)
