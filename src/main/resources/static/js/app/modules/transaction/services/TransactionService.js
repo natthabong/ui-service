@@ -57,7 +57,7 @@ function transactionService($http, $q, blockUI, $window) {
     }
 
     function getAccounts(organizeId, supplierId) {
-        var sort = ["-accountType","-defaultLoanNo","accountNo"];
+        var sort = ["-defaultLoanNo","accountNo"];
         var deffered = $q.defer();
         $http({
             url: 'api/v1/organize-customers/' + organizeId + '/trading-partners/' + supplierId + '/accounts',

@@ -198,7 +198,7 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 if (accounts.length > 0) {
                     accounts.forEach(function (account, index) {
                         if (index == 0 && vm.supportSpecialDebit) {
-                            if (account.defaultLoanNo && account.accountType == 'LOAN') {
+                            if (account.defaultLoanNo) {
                                 vm.accountNotSupportSpecialDirectDebit = false;
                             } else {
                                 vm.accountNotSupportSpecialDirectDebit = true;
