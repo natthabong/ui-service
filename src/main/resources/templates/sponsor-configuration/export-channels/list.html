@@ -10,7 +10,8 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12 text-right">
-						<scf-button id="export-channel-new-button" class="btn-default gec-btn-action"
+						<scf-button id="export-channel-new-button"
+							class="btn-default gec-btn-action"
 							ng-click="ctrl.newExportChannel(ctrl.search)"> <i
 							class="fa fa-plus" aria-hidden="true"></i></scf-button>
 					</div>
@@ -26,8 +27,8 @@
 											width="10%">Channel</th>
 										<th id="export-file-layout-header-label"
 											ng-bind="'Export
-											file layout' | translate" width="20%">Export
-											file layout</th>
+											file layout' | translate"
+											width="20%">Export file layout</th>
 										<th id="runtime-label" ng-bind="'Run time' | translate">Run
 											time</th>
 										<th id="status-header-label" ng-bind="'Status' | translate">Status</th>
@@ -68,7 +69,13 @@
 												class="btn-default gec-btn-action"
 												ng-click="ctrl.deleteExportChannel(record)"
 												title="Delete export channel"> <i
-												class="fa fa-trash-o" aria-hidden="true"></i></scf-button></td>
+												class="fa fa-trash-o" aria-hidden="true"></i></scf-button>
+											<scf-button id="{{data.channelId}}-connection-button"
+												class="btn-default gec-btn-action"
+												ng-disabled="disableTestConnection(record)"
+												ng-click="ctrl.testConnection(record)" title="Test connection">
+											<i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>
+										</td>
 									</tr>
 								</tbody>
 							</table>
