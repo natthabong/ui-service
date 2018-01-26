@@ -50,9 +50,9 @@
 							<div class="col-md-3 col-sm-3 col-xs-12">
 								<span id="available-value-label" ng-bind="ctrl.tradingpartnerInfoModel.available | number:2"></span>&nbsp;
 								<span ng-bind="'THB' | translate"></span>&nbsp;
-								<label id="interest-rate-value-label" ng-show="ctrl.isLoanPayment">
+								<label ng-show="ctrl.isLoanPayment">
 									<span>(Int.</span>
-									<span ng-bind="ctrl.tradingpartnerInfoModel.interestRate"></span>
+									<span id="interest-rate-value-label" ng-bind="ctrl.tradingpartnerInfoModel.interestRate"></span>
 									<span>)</span>
 								</label>
 							</div>
@@ -65,7 +65,7 @@
 							<div class="col-sm-3 col-md-3 col-xs-12">
 								<span id="payment-date-value-label" ng-bind="ctrl.transactionModel.transactionDate |  date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
 							</div>
-							<label ng-show="ctrl.isLoanPayment" id="maturity-date-label" class="col-md-2 col-sm-2 col-lg-2 col-xs-12 control-label"><b
+							<label id="maturity-date-label" ng-show="ctrl.isLoanPayment" class="col-md-2 col-sm-2 col-lg-2 col-xs-12 control-label"><b
 								ng-bind="'Maturity date' | translate">Maturity date</b>:</label>
 							<div ng-show="ctrl.isLoanPayment" class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label">
 								<span id="maturity-date-value-label" ng-bind="ctrl.transactionModel.maturityDate |  date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
