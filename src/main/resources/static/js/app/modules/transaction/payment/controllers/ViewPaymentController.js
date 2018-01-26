@@ -21,6 +21,7 @@ paymentModule.controller('ViewPaymentController', [
         vm.isBank = false;
         vm.isCreateTransWithInvoice = true;
         vm.accountNo = null;
+        vm.accountType = null;
 
 
         var viewModeData = {
@@ -72,6 +73,7 @@ paymentModule.controller('ViewPaymentController', [
             deffered.promise.then(function (response) {
                 var account = response.data;
                 vm.accountNo = account.format ? ($filter('accountNoDisplay')(account.accountNo)) : account.accountNo;
+                vm.accountType = account.accountType;
             }).catch(function (response) {
                 log.error('load account error');
             });
