@@ -175,9 +175,9 @@
 										<span id="available-value-label" ng-bind="ctrl.selectedAccountInfo.supplierAvailableAmount | number: 2"></span>&nbsp;
 										&nbsp;<span ng-bind="'THB' | translate"></span>&nbsp;
 										
-		                                  <label id="interest-rate-value-label" ng-hide="ctrl.selectedAccountInfo.accountType == 'OVERDRAFT'">
+		                                  <label ng-hide="ctrl.selectedAccountInfo.accountType == 'OVERDRAFT'">
 													<span>(Int.</span>
-													<span ng-bind="ctrl.selectedAccountInfo.interestRate"></span>
+													<span id="interest-rate-value-label" ng-bind="ctrl.selectedAccountInfo.interestRate"></span>
 													<span>)</span>
 										  </label>
 										  <scf-button id="transaction-{{data.transactionNo}}-re-check-button" 
