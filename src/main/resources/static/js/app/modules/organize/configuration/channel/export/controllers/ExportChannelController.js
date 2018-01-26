@@ -39,13 +39,18 @@ exportChannelModule.controller('ExportChannelController', [
       var BASE_URI = 'api/v1/organize-customers/' + organizeId;
       vm.channelModel = {};
       vm.productTypes = {};
-      vm.runTimes = [
-    	    '10:00', 
-    	    '11:00', 
-    	    '12:00', 
-    	    '13:00'
-    	  ];
-      vm.runTime = '';
+      vm.runTimes = [];
+      vm.runTime = undefined;
+      var dayOfWeekFrequency = {
+    			SUNDAY : 1,
+    			MONDAY : 2,
+    			TUESDAY : 3,
+    			WEDNESDAY : 4,
+    			THURSDAY : 5,
+    			FRIDAY : 6,
+    			SATURDAY : 7
+      }
+      
       vm.haveProductType = false;
       vm.fileLayouts = [];
       vm.channelDropdown = ChannelDropdown;
@@ -70,7 +75,22 @@ exportChannelModule.controller('ExportChannelController', [
       vm.isAllProductType = false;
       
       vm.addRuntime = function(time) {
-         vm.runTimes.push(time);
+    	 if(angular.isUndefined(time)) {
+      		$scope.errors.runtime = {
+    				message : 'Time is required.'
+    		}
+      	 } else if (vm.runTimes.indexOf(time) !== -1) {
+    		$scope.errors.runtime = {
+  				message : 'Time already exists.'
+  			}
+    	 } else {
+    		vm.runTimes.push(time);
+    	 } 
+      };
+      
+      vm.deleteRuntime = function(item) { 
+    	  var index = vm.runTimes.indexOf(item);
+    	  vm.runTimes.splice(index, 1);     
       };
       
       vm.backToSponsorConfigPage = function(){
@@ -132,36 +152,10 @@ exportChannelModule.controller('ExportChannelController', [
 						vm.channelModel.jobTrigger.jobDetail.encryptType = 'NONE';
 					}
 
-					if(response.data.jobTrigger.jobDetail.connectionRetry == null){
-						vm.channelModel.jobTrigger.jobDetail.connectionRetry = '3';
-					}
-
-					if(response.data.jobTrigger.jobDetail.connectionRetryInterval == null){
-						vm.channelModel.jobTrigger.jobDetail.connectionRetryInterval = '60';
-					}
-
-					if(response.data.jobTrigger.jobDetail.postProcessType == null){
-						vm.channelModel.jobTrigger.jobDetail.postProcessType = 'NONE';
-					}
-
-					if(response.data.jobTrigger.jobDetail.postProcessType == 'BACKUP'){
-						vm.postProcessBackup = true;
-
-					}else if(response.data.jobTrigger.jobDetail.remoteBackupPath == null){
-						vm.channelModel.jobTrigger.jobDetail.remoteBackupPath = '/backup'
-					}
-
-					if(response.data.jobTrigger.jobDetail.remoteBackupFolderPattern == null){
-						vm.channelModel.jobTrigger.jobDetail.remoteBackupFolderPattern = '/';
-					}
-
 					if(response.data.jobTrigger.frequencyType == null){
 						vm.channelModel.jobTrigger.frequencyType = 'DAILY';
 					}
 
-					if(response.data.jobTrigger.intervalInMinutes == null){
-						vm.channelModel.jobTrigger.intervalInMinutes = '300';
-					}
 					if(response.data.jobTrigger.daysOfWeek == null || response.data.jobTrigger.daysOfWeek == ''){
 						vm.channelModel.monday = true;
 						vm.channelModel.tuesday = true
@@ -199,19 +193,6 @@ exportChannelModule.controller('ExportChannelController', [
 						});
 					}
 
-					if(response.data.jobTrigger.startHour == null || response.data.jobTrigger.startMinute == null){
-						vm.channelModel.beginTime = "00:00";
-					}else{
-						vm.channelModel.beginTime = formattedNumber(response.data.jobTrigger.startHour) + ":" + formattedNumber(response.data.jobTrigger.startMinute);
-					}	
-
-					if(response.data.jobTrigger.endHour == null || response.data.jobTrigger.endMinute == null){
-						vm.channelModel.endTime = "23:59";
-
-					}else{
-						vm.channelModel.endTime = formattedNumber(response.data.jobTrigger.endHour) + ":"+ formattedNumber(response.data.jobTrigger.endMinute);
-					}	
-
 					response.data.jobTrigger.jobDetail.remotePassword = null;
 					response.data.jobTrigger.jobDetail.encryptPassword = null;
 				}
@@ -245,6 +226,32 @@ exportChannelModule.controller('ExportChannelController', [
      }
 
      var setupPrepareData = function(){
+    	 if(vm.channelModel.channelType == 'FTP'){
+ 			var daysOfWeek = '';
+ 			if(vm.channelModel.sunday){
+ 				daysOfWeek += dayOfWeekFrequency.SUNDAY + ',';
+ 			}
+ 			if(vm.channelModel.monday){
+ 				daysOfWeek += dayOfWeekFrequency.MONDAY + ',';
+ 			}
+ 			if(vm.channelModel.tuesday){
+ 				daysOfWeek += dayOfWeekFrequency.TUESDAY + ',';
+ 			}
+ 			if(vm.channelModel.wednesday){
+ 				daysOfWeek += dayOfWeekFrequency.WEDNESDAY + ',';
+ 			}
+ 			if(vm.channelModel.thursday){
+ 				daysOfWeek += dayOfWeekFrequency.THURSDAY + ',';
+ 			}
+ 			if(vm.channelModel.friday){
+ 				daysOfWeek += dayOfWeekFrequency.FRIDAY + ',';
+ 			}
+ 			if(vm.channelModel.saturday){
+ 				daysOfWeek += dayOfWeekFrequency.SATURDAY + ',';
+ 			}
+ 			daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
+ 			vm.channelModel.jobTrigger.daysOfWeek = daysOfWeek;
+ 		}
  		if(!vm.isUseExpireDate){
  			vm.channelModel.expiryDate = null;
  		}
@@ -290,6 +297,54 @@ exportChannelModule.controller('ExportChannelController', [
  		    }
  		}
  		
+ 		if(vm.channelModel.channelType == 'FTP'){
+			var jobTrigger = vm.channelModel.jobTrigger;
+			var jobDetail = vm.channelModel.jobTrigger.jobDetail;
+			
+			if(jobDetail.remoteHost == null || jobDetail.remoteHost ==""){
+				isValid = false;
+				$scope.errors.hostName = {
+					message : 'Host name is required.'
+				}
+			}
+
+			if(jobDetail.remotePort == null || jobDetail.remotePort ==""){
+				isValid = false;
+				$scope.errors.portNumber = {
+					message : 'Port number is required.'
+				}
+			}
+
+			if(jobDetail.remoteUsername == null || jobDetail.remoteUsername == ""){
+				isValid = false;
+				$scope.errors.remoteUsername = {
+					message : 'FTP user is required.'
+				}
+			}
+
+			if(jobDetail.remotePath == null || jobDetail.remotePath == ""){
+				isValid = false;
+				$scope.errors.remoteDirectory = {
+					message : 'Remote directory is required.'
+				}
+			}
+
+			if(jobDetail.remoteFilenamePrefix == null || jobDetail.remoteFilenamePrefix == ""){
+				isValid = false;
+				$scope.errors.remoteFilenamePattern = {
+					message : 'File name prefix is required.'
+				}
+			}
+
+			if(jobTrigger.daysOfWeek == null || jobTrigger.daysOfWeek == ''){
+				isValid = false;
+				$scope.errors.daysOfWeek = {
+					message : 'Frequency is required.'
+				}
+			}
+
+		}
+ 		
  		if (vm.isUseExpireDate) {
  		    if (!angular.isDefined(channel.expiryDate)) {
  		    	isValid = false;
@@ -314,6 +369,7 @@ exportChannelModule.controller('ExportChannelController', [
      
      $scope.confirmSave = function() {
     	console.log(vm.channelModel);
+    	console.log(vm.runTimes);
  		var serviceUrl = BASE_URI+'/export-channels/' + vm.channelModel.channelId;
  		var deffered = $q.defer();
  		var serviceDiferred =  $http({
