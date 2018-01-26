@@ -268,9 +268,8 @@ exportChannelModule.controller('ExportChannelController', [
  					message : 'File layout is required.'
  			}			
  		}
- 		console.log(vm.channelModel.productTypes);
+
  		if(vm.channelModel.exportDataType == 'SPECIFIED'){
- 			console.log(vm.channelModel.productTypes.length);
  			if(vm.channelModel.productTypes.length == 0){
  				isValid = false;
 	 			$scope.errors.productTypes = {
