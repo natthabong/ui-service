@@ -186,9 +186,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         }
         
         function _loadAccount(supplierId) {
+        	var paymentDate = vm.createTransactionModel.sponsorPaymentDate;
             vm.accountDropDown = [];
             var deffered = $q.defer();
-            var defferedAccounts = TransactionService.getAccounts(supplierId, ownerId);
+            var defferedAccounts = TransactionService.getAccountsByTenor(supplierId, ownerId, paymentDate);
             defferedAccounts.promise.then(function (response) {
                 var accounts = response.data;
                 vm.isLoanPayment = false;
