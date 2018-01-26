@@ -74,6 +74,26 @@ function transactionService($http, $q, blockUI, $window) {
             });
         return deffered;
     }
+    
+    function getAccountsByTenor(organizeId, supplierId, paymentDate) {
+        var sort = ["-defaultLoanNo","accountNo"];
+        var deffered = $q.defer();
+        $http({
+            url: 'api/v1/organize-customers/' + organizeId + '/trading-partners/' + supplierId + '/accounts-by-tenor',
+            method: 'GET',
+            params: {
+            	paymentDate: paymentDate,
+                sort : sort
+            }
+        })
+            .then(function (response) {
+                deffered.resolve(response);
+            })
+            .catch(function (response) {
+                deffered.reject('Cannot load account');
+            });
+        return deffered;
+    }
 
     function getDocuments(criteria) {
         var deffered = $q.defer();
