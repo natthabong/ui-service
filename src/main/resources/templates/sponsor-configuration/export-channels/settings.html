@@ -76,13 +76,13 @@
 							<label id="export-data-label" for="dealer"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Export data' | translate}}: </label>
 							<div class="col-md-3 col-sm-4 col-xs-12">
-								<scf-dropdown id="export-data-dropdown" convert-to-number="" ng-change="ctrl.changeExportData()"
+								<scf-dropdown id="export-data-dropdown"  ng-change="ctrl.changeExportData()"
 									ng-model="ctrl.channelModel.exportDataType"
 									component-data="ctrl.exportDataTypeDropdown" ng-hide="false"></scf-dropdown>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
-						<div class="form-group" data-ng-if="ctrl.haveProductType">
+						<div class="form-group" ng-show="ctrl.haveProductType">
 							<label 	class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								&nbsp;&nbsp;
 							<div class="col-md-1 col-sm-2 col-xs-10" >
