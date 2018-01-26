@@ -629,16 +629,6 @@ txnMod.controller('CreatePaymentController', [
             return valid;
         }
 
-        function _padZero(s) {
-            return (s < 10) ? '0' + s : s;
-        }
-
-        function _dateToString(date) {
-            var dateString = [_padZero(date.getDate()), _padZero(date.getMonth() + 1), date.getFullYear()].join('/');
-            var timeString = [_padZero(date.getHours()), _padZero(date.getMinutes())].join(':');
-            return [dateString, timeString].join(' ');
-        }
-
         function getReasonCodeDropdownElement(row) {
             return $window.document.getElementById('reason-code-' + row + '-dropdown');
         }
@@ -781,8 +771,7 @@ txnMod.controller('CreatePaymentController', [
                                                 vm.transactionModel.payerAccountId = _accounts[0].accountId;
                                                 vm.transactionModel.payerAccountNo = _accounts[0].accountNo;
                                                 vm.accountType = _accounts[0].accountType;
-                                                var date = new Date(_accounts[0].accountUpdatedTime);
-                                                vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+                                                vm.tradingpartnerInfoModel.updateTime = _accounts[0].accountUpdatedTime;
 
                                                 if (_accounts[0].accountType == 'LOAN') {
                                                     _setTradingpartnerInfoModel(_accounts[0]);
@@ -796,8 +785,7 @@ txnMod.controller('CreatePaymentController', [
                                                 return account.accountId == vm.transactionModel.payerAccountId;
                                             });
                                             vm.accountType = result[0].accountType;
-                                            var date = new Date(result[0].accountUpdatedTime);
-                                            vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+                                            vm.tradingpartnerInfoModel.updateTime = result[0].accountUpdatedTime;
 
                                             if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
                                                 _setTradingpartnerInfoModel(_accounts[0]);
@@ -844,7 +832,6 @@ txnMod.controller('CreatePaymentController', [
             vm.errorDisplay = false;
             vm.selectAllModel = false;
             vm.checkAllModel = false;
-
         }
 
         vm.selectDocument = function (data) {
@@ -1043,9 +1030,7 @@ txnMod.controller('CreatePaymentController', [
                     vm.tradingpartnerInfoModel.tenor = account.item.tenor;
                     vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
                     vm.accountType = account.item.accountType;
-
-                    var date = new Date(account.item.accountUpdatedTime);
-                    vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+                    vm.tradingpartnerInfoModel.updateTime = account.item.accountUpdatedTime;
 
                     if (vm.accountType == 'LOAN') {
                         vm.transactionModel.transactionMethod = 'TERM_LOAN';
@@ -1090,8 +1075,7 @@ txnMod.controller('CreatePaymentController', [
                                         vm.transactionModel.payerAccountId = _accounts[0].accountId;
                                         vm.transactionModel.payerAccountNo = _accounts[0].accountNo;
                                         vm.accountType = _accounts[0].accountType;
-                                        var date = new Date(_accounts[0].accountUpdatedTime);
-                                        vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+                                        vm.tradingpartnerInfoModel.updateTime = _accounts[0].accountUpdatedTime;
 
                                         if (_accounts[0].accountType == 'LOAN') {
                                             _setTradingpartnerInfoModel(_accounts[0]);
@@ -1105,8 +1089,7 @@ txnMod.controller('CreatePaymentController', [
                                         return account.accountId == vm.transactionModel.payerAccountId;
                                     });
                                     vm.accountType = result[0].accountType;
-                                    var date = new Date(result[0].accountUpdatedTime);
-                                    vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+                                    vm.tradingpartnerInfoModel.updateTime = result[0].accountUpdatedTime;
 
                                     if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
                                         _setTradingpartnerInfoModel(_accounts[0]);

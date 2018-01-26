@@ -32,7 +32,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
             message: null
         }
 
-        var deffered = TransactionService.getSuppliers($stateParams.criteria.accountingTransactionType);
+        var deffered = TransactionService.getSuppliers('RECEIVABLE');
         deffered.promise.then(function (response) {
             tradingPartnerList = response.data;
             if (tradingPartnerList !== undefined) {
@@ -49,9 +49,9 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
         });
 
         vm.criteria = {
-            accountingTransactionType: $stateParams.criteria.accountingTransactionType,
+            accountingTransactionType: 'RECEIVABLE',
             supplierId: $stateParams.criteria.supplierId,
-            buyerId: $stateParams.criteria.buyerId,
+            buyerId: ownerId,
             documentStatus: 'NEW',
             showOverdue: false,
             viewMyOrganize: false
@@ -152,17 +152,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
             }).catch(function (response) {
                 log.error(response);
             });
-
-        }
-
-        function _padZero(s) {
-            return (s < 10) ? '0' + s : s;
-        }
-
-        function _dateToString(date) {
-            var dateString = [_padZero(date.getDate()), _padZero(date.getMonth() + 1), date.getFullYear()].join('/');
-            var timeString = [_padZero(date.getHours()), _padZero(date.getMinutes())].join(':');
-            return [dateString, timeString].join(' ');
         }
 
         var setTransactionMethod = function (supportSpecialDebit) {
@@ -215,8 +204,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                         vm.transactionModel.payerAccountId = accounts[0].accountId;
                         vm.transactionModel.payerAccountNo = accounts[0].accountNo;
                         vm.accountType = accounts[0].accountType;
-                        var date = new Date(accounts[0].accountUpdatedTime);
-                        vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+                        vm.tradingpartnerInfoModel.updateTime = accounts[0].accountUpdatedTime;
 
                         if (accounts[0].accountType == 'LOAN') {
                             setTradingpartnerInfoModel(accounts[0]);
@@ -229,8 +217,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                         return account.accountId == vm.transactionModel.payerAccountId;
                     });
                     vm.accountType = result[0].accountType;
-                    var date = new Date(result[0].accountUpdatedTime);
-                    vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+                    vm.tradingpartnerInfoModel.updateTime = result[0].accountUpdatedTime;
 
                     if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
                         setTradingpartnerInfoModel(accounts[0]);
@@ -408,9 +395,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                     vm.tradingpartnerInfoModel.tenor = account.item.tenor;
                     vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
                     vm.accountType = account.item.accountType;
-
-                    var date = new Date(account.item.accountUpdatedTime);
-                    vm.tradingpartnerInfoModel.updateTime = _dateToString(date);
+                    vm.tradingpartnerInfoModel.updateTime = account.item.accountUpdatedTime;
 
                     if (vm.accountType == 'LOAN') {
                         vm.transactionModel.transactionMethod = 'TERM_LOAN';

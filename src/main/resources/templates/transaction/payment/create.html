@@ -146,11 +146,7 @@
                                             <i class="fa fa-repeat" aria-hidden="true"></i>
                                         </scf-button>
                                         <div>
-                                            <label id="update-time-label">
-                                                <span>(Updated : </span>
-                                                <span ng-bind="ctrl.tradingpartnerInfoModel.updateTime"></span>
-                                                <span>)</span>
-                                            </label>
+                                        	(Updated: <span id="account-updated-time-value-label" ng-bind="ctrl.tradingpartnerInfoModel.updateTime | date: 'dd/MM/yyyy HH:mm' : 'UTC+0700'"></span>)
                                         </div>
 
                                     </div>
