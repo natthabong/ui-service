@@ -1,0 +1,61 @@
+<div class="modal-content">
+	<form name="newMappingData" class="form-horizontal"
+		ng-submit="ctrl.save(closeThisDialog)">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3>
+						<span id="export-channel-popup-header-message-label"
+							class="popup-text"
+							ng-bind="'Add new export payment result channel' | translate">Add
+							new export payment result channel</span>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="form-group">
+						<label id="display-name-label"
+							class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Display
+							name' | translate}}: </label>
+						<div class="col-md-6 col-sm-4 col-xs-12">
+							<scf-input-text id="display-name-textbox" maxlength="100"
+								ng-model="ctrl.model.displayName"></scf-input-text>
+						</div>
+					</div>
+					<div class="form-group" ng-show="errors.displayName">
+						<div ng-show="errors.displayName">
+							<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+								id="dispplay-name-warning-message-label"
+								ng-bind="errors.displayName.message"> </span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="group-name" id="channel-label"
+							class="col-md-3 col-sm-4 col-xs-12 control-label"><span
+							ng-bind="'Channel' | translate"></span>:</label>
+						<div class="col-md-6 col-sm-4 col-xs-12">
+							<scf-dropdown id="channel-dropdown"
+								ng-model="ctrl.model.channelType"
+								component-data="ctrl.newChannelDropdown"></scf-dropdown>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="popup-cancel-button" class="popup-button"
+						ng-click="closeThisDialog()" ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="popup-save-button" class="popup-button"
+						type="submit" ng-bind="'Save' | translate"></scf-button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

@@ -17,9 +17,10 @@ module.controller('ExportPaymentController', [
     function (log, $rootScope, $scope, $state, $stateParams, ngDialog, UIFactory, PageNavigation,
         blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, SCFCommonService) {
 
-        // <----------------------- initial varible start --------------------->
+        // <----------------------- initial variable start --------------------->
         var vm = this;
         var ownerId = $stateParams.organizeId;
+        var layoutConfigId = $stateParams.layoutConfigId;
 
         vm.manageAll = false;
 
@@ -39,8 +40,6 @@ module.controller('ExportPaymentController', [
         vm.documentItem = [];
         vm.paymentItem = [];
         vm.footerItem = [];
-
-        var isCreate = true;
 
         vm.delimeter = null;
         vm.delimeterOther = null;
@@ -151,7 +150,8 @@ module.controller('ExportPaymentController', [
                 checkBinaryFile: false,
                 processType: "EXPORT_DOCUMENT",
                 completed: false,
-                displayHeaderColumn : false
+                displayHeaderColumn : false,
+                layoutConfigId : layoutConfigId
             };
 
             vm.delimeter = ',';
@@ -192,43 +192,34 @@ module.controller('ExportPaymentController', [
             });
         }
 
-        function loadFileLayout(layoutId) {
-            var defferd = FileLayoutService.getFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT', layoutId);
+        function loadFileLayout(layoutConfigId) {
+            var defferd = FileLayoutService.getFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT', layoutConfigId);
             defferd.promise.then(function (response) {
-                isCreate = false;
                 var model = null;
                 if (response.data != null) {
                     model = response.data;
                 }
                 initialModel(model);
-                loadSectionItem(ownerId,layoutId,'HEADER',vm.headerItem);
-                loadSectionItem(ownerId,layoutId,'PAYMENT',vm.paymentItem);
-                loadSectionItem(ownerId,layoutId,'DOCUMENT',vm.documentItem);
-                loadSectionItem(ownerId,layoutId,'FOOTER',vm.footerItem);
+                loadSectionItem(ownerId,layoutConfigId,'HEADER',vm.headerItem);
+                loadSectionItem(ownerId,layoutConfigId,'PAYMENT',vm.paymentItem);
+                loadSectionItem(ownerId,layoutConfigId,'DOCUMENT',vm.documentItem);
+                loadSectionItem(ownerId,layoutConfigId,'FOOTER',vm.footerItem);
             }).catch(function (response) {
             });
+            return defferd;
         }
 
-        var initial = function () {
-            var defferd = FileLayoutService.getFileLayouts(ownerId, 'EXPORT_DOCUMENT', 'EXPORT');
-            defferd.promise.then(function (response) {
-                if (response.data.length > 0) {
-                    loadFileLayout(response.data[0].layoutConfigId);
-                } else {
-                    isCreate = true;
-                    initialModel();
-                    vm.addItem('DOCUMENT');
-                }
-                loadDocumentFields('HEADER', vm.headerGECDropdown);
-                loadDocumentFields('FOOTER', vm.footerGECDropdown);
-                loadDocumentFields('PAYMENT', vm.paymentGECDropdown);
-                loadDocumentFields('DOCUMENT', vm.doucmentGECDropdown);
-            }).catch(function (response) {
-
-            });
+        var initial = function () {        	
+        	var defferd = loadFileLayout(layoutConfigId);
+        	defferd.promise.then(function (response) {
+              loadDocumentFields('HEADER', vm.headerGECDropdown);
+              loadDocumentFields('FOOTER', vm.footerGECDropdown);
+              loadDocumentFields('PAYMENT', vm.paymentGECDropdown);
+              loadDocumentFields('DOCUMENT', vm.doucmentGECDropdown);        		
+        	});
         } ();
 
-        //<---------------- founction for user action  ---------------->
+        //<---------------- function for user action  ---------------->
         vm.addItem = function (section) {
             var itemConfig = {
                 primaryKeyField: false,
@@ -338,71 +329,105 @@ module.controller('ExportPaymentController', [
         }
 
         $scope.confirmSave = function (sponsorLayout) {
-            var fileLayoutDiferred = null;
-            if(isCreate){
-                fileLayoutDiferred = FileLayoutService.createFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT',sponsorLayout);
-            }else{
-                fileLayoutDiferred = FileLayoutService.updateFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT',sponsorLayout.layoutConfigId,sponsorLayout);
-            }
+            var fileLayoutDiferred = FileLayoutService.updateFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT',sponsorLayout.layoutConfigId,sponsorLayout);
 		    return fileLayoutDiferred;
         };
+        
+		var onFail = function (errors) {
+			$scope.errors = errors;
+		}
 
         vm.save = function () {
             var sponsorLayout = null;
             vm.model.completed = true;
-            vm.model.processType = vm.processType;
-
-            if (vm.model.fileType == 'CSV') {
-                if (vm.delimeter == 'Other') {
-                    vm.model.delimeter = vm.delimeterOther;
-                } else {
-                    vm.model.delimeter = vm.delimeter;
+            vm.model.processType = 'EXPORT_DOCUMENT';
+            $scope.errors = [];
+            
+            if (vm.model.displayName == '') {
+                var errors = {
+                    requireLayoutName: true
                 }
-                vm.model.wrapper = '"';
-                vm.model.headerRecordType = null;
-				vm.model.detailRecordType = null;
-				vm.model.footerRecordType = null;
+                onFail(errors)
+            }else{
+	            if (vm.model.fileType == 'CSV') {
+	                if (vm.delimeter == 'Other') {
+	                    vm.model.delimeter = vm.delimeterOther;
+	                } else {
+	                    vm.model.delimeter = vm.delimeter;
+	                }
+	                vm.model.wrapper = '"';
+	                vm.model.headerRecordType = null;
+					vm.model.detailRecordType = null;
+					vm.model.footerRecordType = null;
+	            }
+	            sponsorLayout = angular.copy(vm.model);
+	
+	            vm.items = [];
+	            addSectionItems('HEADER');
+	            addSectionItems('PAYMENT');
+	            addSectionItems('DOCUMENT');
+	            addSectionItems('FOOTER');
+	            sponsorLayout.items = angular.copy(vm.items);
+	
+	            sponsorLayout.items.forEach(function (obj, index) {
+	                var dataType = vm.dataTypeByIds[obj.documentFieldId];
+	                if(angular.isDefined(dataType)){
+	                    obj.dataType = dataType.dataType;
+	                    obj.transient = dataType.transient;
+	                    if (dataType.dataType == 'CUSTOMER_CODE') {
+	                        obj.validationType = 'IN_CUSTOMER_CODE_GROUP';
+	                    }
+	                }
+	            });
+	
+	            UIFactory.showConfirmDialog({
+	                data: {
+	                    headerMessage: 'Confirm save?'
+	                },
+	                confirm: function () { 
+	                	blockUI.start();
+	                	return $scope.confirmSave(sponsorLayout) 
+	                },
+	                onSuccess: function (response) {
+	                    UIFactory.showSuccessDialog({
+	                        data: {
+	                            headerMessage: 'Edit file layout complete.',
+	                            bodyMessage: ''
+	                        },
+	                        preCloseCallback: function () {
+	                            vm.backToSponsorConfigPage();
+	                        }
+	                    });
+	                    blockUI.stop();
+	                },
+	                onFail: function (response) {
+						if (response.status != 400) {
+							var msg = {};
+							UIFactory.showFailDialog({
+								data : {
+									headerMessage : 'Edit file layout fail.',
+									bodyMessage : msg[response.status] ? msg[response.status]
+											: response.data.message
+								},preCloseCallback: function () {
+                                   
+                                }
+							});
+						} else {
+							$scope.errors = {};
+							$scope.errors[response.data.reference] = {
+								message : response.data.errorMessage
+							}
+							
+							var errors = {
+								duplicateLayoutName : true
+							}
+							
+							onFail(errors)
+						}
+						blockUI.stop();
+	                }
+	            });
             }
-            sponsorLayout = angular.copy(vm.model);
-
-            vm.items = [];
-            addSectionItems('HEADER');
-            addSectionItems('PAYMENT');
-            addSectionItems('DOCUMENT');
-            addSectionItems('FOOTER');
-            sponsorLayout.items = angular.copy(vm.items);
-
-            sponsorLayout.items.forEach(function (obj, index) {
-                var dataType = vm.dataTypeByIds[obj.documentFieldId];
-                if(angular.isDefined(dataType)){
-                    obj.dataType = dataType.dataType;
-                    obj.transient = dataType.transient;
-                    if (dataType.dataType == 'CUSTOMER_CODE') {
-                        obj.validationType = 'IN_CUSTOMER_CODE_GROUP';
-                    }
-                }
-            });
-
-            UIFactory.showConfirmDialog({
-                data: {
-                    headerMessage: 'Confirm save?'
-                },
-                confirm: function () { return $scope.confirmSave(sponsorLayout) },
-                onSuccess: function (response) {
-                    UIFactory.showSuccessDialog({
-                        data: {
-                            headerMessage: 'Edit file layout complete.',
-                            bodyMessage: ''
-                        },
-                        preCloseCallback: function () {
-                            vm.backToSponsorConfigPage();
-                        }
-                    });
-                },
-                onFail: function (response) {
-                    blockUI.stop();
-                }
-            });
         }
 
         vm.clearSectionItem = function(selected,section){
@@ -444,7 +469,7 @@ module.controller('ExportPaymentController', [
 			});
 		}
 		
-		vm.isChangeDataType = function (recordChanged, dropdownItems ){
+		vm.isChangeDataType = function (recordChanged, dropdownItems){
 			
 			function findByFieldId(item) {
     			return item.value == recordChanged.documentFieldId;
@@ -486,7 +511,7 @@ module.controller('ExportPaymentController', [
             } else if (recordType == "FOOTER") {
                 dataTypeDropdowns = vm.dataTypes["FOOTER"];
             }
-            if(documentFieldId != null){
+            if(documentFieldId != null && dataTypeDropdowns != null){
                 var index = dataTypeDropdowns.findIndex(i => i.documentFieldId == documentFieldId);
                 if(index >=0 ){
                     if(dataTypeDropdowns[index].configUrl == '' || dataTypeDropdowns[index].configUrl == null){
@@ -540,6 +565,6 @@ module.controller('ExportPaymentController', [
                 }
             }
         });
-        //<---------------- founction for user action  ---------------->
+        //<---------------- function for user action  ---------------->
     }
 ]);

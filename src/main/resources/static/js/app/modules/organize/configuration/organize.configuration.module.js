@@ -4,8 +4,9 @@ angular
                 'gecscf.organize.configuration',
                 ['ui.router', 'scfApp', 'gecscf.ui',
                     'gecscf.organize.configuration.fileLayout',
+                    'gecscf.organize.configuration.exportPayment',
                     'gecscf.organize.configuration.productType',
-                    'gecscf.organize.configuration.importChannel'])
+                    'gecscf.organize.configuration.channel'])
         .config(
                 [
                     '$stateProvider',
@@ -30,14 +31,19 @@ angular
                           'js/app/modules/organize/configuration/display/controllers/DisplayNewPopupController.js',
                           'js/app/modules/organize/configuration/display/services/DisplayService.js',
                           'js/app/modules/organize/configuration/file-layout/controllers/ImportLayoutNewPopupController.js',
+                          'js/app/modules/organize/configuration/export-payment/controllers/ExportLayoutNewPopupController.js',
                           'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
                           'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
                           'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
                           'js/app/sponsor-configuration/ExportPaymentConfigController.js',
                           'js/app/modules/organize/configuration/product-type/controllers/ProductTypeListController.js',
                           'js/app/modules/organize/configuration/product-type/services/ProductTypeService.js',
-                          'js/app/modules/organize/configuration/import-channels/controllers/ImportChannelController.js',
-                          'js/app/modules/organize/configuration/import-channels/services/ImportChannelService.js',
+                          'js/app/modules/organize/configuration/channel/import/controllers/ImportChannelController.js',
+                          'js/app/modules/organize/configuration/channel/export/services/ExportChannelService.js',
+                          'js/app/modules/organize/configuration/channel/import/services/ImportChannelService.js',
+                          'js/app/modules/organize/configuration/channel/export/controllers/ExportChannelListController.js',
+                          'js/app/modules/organize/configuration/channel/export/controllers/ExportChannelNewPopupController.js',
+                          'js/app/modules/organize/configuration/channel/export/controllers/ExportChannelController.js',
                           'js/app/modules/organize/configuration/display/controllers/DisplayListController.js'];
 
                       $stateProvider.state('/sponsor-configuration', {
@@ -74,8 +80,19 @@ angular
                         UIFactory
                                 .showDialog({
                                   preCloseCallback: callback,
-                                  templateUrl: '/js/app/modules/organize/configuration/import-channels/templates/dialog-new-import-channel.html',
+                                  templateUrl: '/js/app/modules/organize/configuration/channel/import/templates/dialog-new-import-channel.html',
                                   controller: 'ImportChannelNewPopupController',
+                                  data: data
+                                });
+                      }
+                      
+                      var showCreateExportChannelDialog = function(data,
+                              callback) {
+                        UIFactory
+                                .showDialog({
+                                  preCloseCallback: callback,
+                                  templateUrl: '/js/app/modules/organize/configuration/channel/export/templates/dialog-new-export-channel.html',
+                                  controller: 'ExportChannelNewPopupController',
                                   data: data
                                 });
                       }
@@ -87,6 +104,17 @@ angular
                                   preCloseCallback: callback,
                                   templateUrl: '/js/app/modules/organize/configuration/file-layout/templates/dialog-new-import-layout-data.html',
                                   controller: 'ImportLayoutNewPopupController',
+                                  data: data
+                                });
+                      }
+                      
+                      var showCreateExportLayoutDialog = function(data,
+                              callback) {
+                        UIFactory
+                                .showDialog({
+                                  preCloseCallback: callback,
+                                  templateUrl: '/js/app/modules/organize/configuration/export-payment/templates/dialog-new-export-layout-data.html',
+                                  controller: 'ExportLayoutNewPopupController',
                                   data: data
                                 });
                       }
@@ -106,6 +134,8 @@ angular
                         showCreateMappingDataDialog: showCreateMappingDataDialog,
                         showCreateImportChannelDialog: showCreateImportChannelDialog,
                         showCreateImportLayoutDialog: showCreateImportLayoutDialog,
-                        showCreateNewCreateDisplayDialog: showCreateNewCreateDisplayDialog
+                        showCreateExportLayoutDialog: showCreateExportLayoutDialog,
+                        showCreateNewCreateDisplayDialog: showCreateNewCreateDisplayDialog,
+                        showCreateExportChannelDialog: showCreateExportChannelDialog
                       };
                     }]);

@@ -20,7 +20,11 @@ public class SponsorConfigController {
 	private static String AR_IMPORT_CHANNEL = "sponsor-configuration/ar-document-config/channel-configs";
 	private static String AR_IMPORT_CHANNEL_SETUP = "sponsor-configuration/import-channels/dialog-new-import-channel";
 
+	private static String EXPORT_CHANNEL = "sponsor-configuration/export-channels/list";
+	private static String EXPORT_CHANNEL_SETUP = "sponsor-configuration/export-channels/settings";
+
 	private static String AR_IMPORT_LAYOUTS = "sponsor-configuration/ar-document-config/import-layouts";
+	private static String AR_EXPORT_LAYOUTS = "sponsor-configuration/ar-document-config/export-layouts";
 	private static String AP_FILE_LAYOUTS = "sponsor-configuration/ap-document-config/file-layouts";
 
 	private static String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
@@ -34,11 +38,10 @@ public class SponsorConfigController {
 	private static String AP_DOCUMENT_DISPLAY_CONFIGS = "sponsor-configuration/ap-document-config/document-display-configs";
 	private static String AP_CREATE_TRANSACTION_DISPLAY_CONFIGS = "sponsor-configuration/ap-document-config/transaction-display-configs";
 
-	
 	private static String AP_CREATE_TRANSACTION_DISPLAY = "sponsor-configuration/ap-document-config/create-transaction-display";
 	private static String AR_CREATE_TRANSACTION_DISPLAY = "sponsor-configuration/ar-document-config/create-transaction-display";
 	private static String AR_DOCUMENT_DISPLAY = "sponsor-configuration/ar-document-config/document-display";
-	
+
 	private static String SETTINGS_DOCUMENT_DISPLAY = "sponsor-configuration/displays/document-displays/settings";
 	private static String SETTINGS_CREATE_TRANSACTION_DISPLAY = "sponsor-configuration/displays/create-transaction-displays/settings";
 	private static String SETUP_DISPLAY_FIELDS = "sponsor-configuration/displays/components/setup-display-fields";
@@ -53,6 +56,7 @@ public class SponsorConfigController {
 
 	private static String SETTINGS_IMPORT_CHANNEL = "sponsor-configuration/import-channels/settings";
 	private static String SETTINGS_IMPORT_CHANNEL_FTP = "sponsor-configuration/import-channels/ftp-settings";
+	private static String SETTINGS_EXPORT_CHANNEL_FTP = "sponsor-configuration/export-channels/ftp-settings";
 
 	private static String EDIT_MAPPING_DATA = "sponsor-configuration/edit-mapping-data";
 
@@ -61,7 +65,8 @@ public class SponsorConfigController {
 	private static String SETTINGS_EXPORT_PAYMENT = "sponsor-configuration/export-payments/settings";
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String sponsorConfiguration(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String sponsorConfiguration(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SPONSOR_CONFIGURATION.concat(" :: content");
 		}
@@ -77,7 +82,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/channel-configs", method = RequestMethod.GET)
-	public String channelConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String channelConfigs(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return AP_IMPORT_CHANNEL.concat(" :: content");
 		}
@@ -85,7 +91,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/ar-channel-configs", method = RequestMethod.GET)
-	public String arChannelConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String arChannelConfigs(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return AR_IMPORT_CHANNEL.concat(" :: content");
 		}
@@ -93,7 +100,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/ar-channel-setup", method = RequestMethod.GET)
-	public String arChannelSetup(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String arChannelSetup(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return AR_IMPORT_CHANNEL_SETUP.concat(" :: content");
 		}
@@ -106,6 +114,14 @@ public class SponsorConfigController {
 			return AR_IMPORT_LAYOUTS.concat(" :: content");
 		}
 		return AR_IMPORT_LAYOUTS;
+	}
+
+	@RequestMapping(path = "/export-layouts", method = RequestMethod.GET)
+	public String exportLayouts(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return AR_EXPORT_LAYOUTS.concat(" :: content");
+		}
+		return AR_EXPORT_LAYOUTS;
 	}
 
 	@RequestMapping(path = "/file-layouts", method = RequestMethod.GET)
@@ -125,7 +141,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/customer-code-groups", method = RequestMethod.GET)
-	public String customerCodeGroups(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String customerCodeGroups(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return AP_CUSTOMER_CODE_GROUPS.concat(" :: content");
 		}
@@ -133,7 +150,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/customer-code-groups/supplier-code-list/settings", method = RequestMethod.GET)
-	public String supplierCodeGroupsConfig(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String supplierCodeGroupsConfig(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_SUPPLIER_CODE_GROUPS.concat(" :: content");
 		}
@@ -141,7 +159,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/customer-code-groups/buyer-code-list/settings", method = RequestMethod.GET)
-	public String buyerCodeGroupsConfig(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String buyerCodeGroupsConfig(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_BUYER_CODE_GROUPS.concat(" :: content");
 		}
@@ -149,7 +168,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/product-types", method = RequestMethod.GET)
-	public String productTypeList(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String productTypeList(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return PRODUCT_TYPE_LIST.concat(" :: content");
 		}
@@ -157,7 +177,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/display-document-configs", method = RequestMethod.GET)
-	public String documentDisplayConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String documentDisplayConfigs(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return AP_DOCUMENT_DISPLAY_CONFIGS.concat(" :: content");
 		}
@@ -165,7 +186,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/transaction-document-configs", method = RequestMethod.GET)
-	public String transactionDisplayConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String transactionDisplayConfigs(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return AP_CREATE_TRANSACTION_DISPLAY_CONFIGS.concat(" :: content");
 		}
@@ -173,7 +195,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/create-payment-display-configs", method = RequestMethod.GET)
-	public String arCreateTransactionDisplay(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String arCreateTransactionDisplay(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return AR_CREATE_TRANSACTION_DISPLAY.concat(" :: content");
@@ -181,9 +204,10 @@ public class SponsorConfigController {
 		return AR_CREATE_TRANSACTION_DISPLAY;
 
 	}
-	
+
 	@RequestMapping(path = "/document-display-configs", method = RequestMethod.GET)
-	public String arDocumentDisplay(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String arDocumentDisplay(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return AR_DOCUMENT_DISPLAY.concat(" :: content");
@@ -193,15 +217,17 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/create-transaction-display-configs", method = RequestMethod.GET)
-	public String apCreateTransactionDisplay(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String apCreateTransactionDisplay(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return AP_CREATE_TRANSACTION_DISPLAY.concat(" :: content");
 		}
 		return AP_CREATE_TRANSACTION_DISPLAY;
 	}
-	
+
 	@RequestMapping(path = "/document-display/settings", method = RequestMethod.GET)
-	public String settingFileLayout(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String settingFileLayout(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_DOCUMENT_DISPLAY.concat(" :: content");
 		}
@@ -209,7 +235,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/create-transaction-displays/settings", method = RequestMethod.GET)
-	public String settingCreateTransactionDisplay(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String settingCreateTransactionDisplay(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_CREATE_TRANSACTION_DISPLAY.concat(" :: content");
 		}
@@ -217,7 +244,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/components/setup-display-fields", method = RequestMethod.GET)
-	public String setupDisplayFields(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String setupDisplayFields(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETUP_DISPLAY_FIELDS.concat(" :: content");
 		}
@@ -225,7 +253,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/payment-date-formulas", method = RequestMethod.GET)
-	public String paymentDateFormulaConfigs(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String paymentDateFormulaConfigs(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return AP_PAYMENT_DATE_FORMULA.concat(" :: content");
 		}
@@ -233,7 +262,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/payment-date-formulas/settings", method = RequestMethod.GET)
-	public String settingPaymentDateFormula(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String settingPaymentDateFormula(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_PAYMENT_DATE_FORMULA.concat(" :: content");
 		}
@@ -249,7 +279,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/mapping-data/edit", method = RequestMethod.GET)
-	public String editMappingData(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String editMappingData(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return EDIT_MAPPING_DATA.concat(" :: content");
@@ -259,7 +290,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/mapping-data/code/new", method = RequestMethod.GET)
-	public String newMappingDataCode(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String newMappingDataCode(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return MAPPING_DATA_CODE.concat(" :: content");
@@ -277,7 +309,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/organize-logo/settings", method = RequestMethod.GET)
-	public String settingOrganizeLogo(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String settingOrganizeLogo(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_ORGANIZE_LOGO.concat(" :: content");
 		}
@@ -285,7 +318,8 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/import-channels/settings", method = RequestMethod.GET)
-	public String settingImportChannel(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String settingImportChannel(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_IMPORT_CHANNEL.concat(" :: content");
 		}
@@ -293,11 +327,21 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/import-channels/ftp-settings", method = RequestMethod.GET)
-	public String settingImportChannelFTP(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String settingImportChannelFTP(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_IMPORT_CHANNEL_FTP.concat(" :: content");
 		}
 		return SETTINGS_IMPORT_CHANNEL_FTP;
+	}
+	
+	@RequestMapping(path = "/export-channels/ftp-settings", method = RequestMethod.GET)
+	public String settingExportChannelFTP(
+			@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETTINGS_EXPORT_CHANNEL_FTP.concat(" :: content");
+		}
+		return SETTINGS_EXPORT_CHANNEL_FTP;
 	}
 
 	@RequestMapping(path = "/workflow", method = RequestMethod.GET)
@@ -317,11 +361,29 @@ public class SponsorConfigController {
 	}
 
 	@RequestMapping(path = "/export-payments/settings", method = RequestMethod.GET)
-	public String setupExportPayment(@RequestHeader("X-Requested-With") String requestedWith) {
+	public String setupExportPayment(
+			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_EXPORT_PAYMENT.concat(" :: content");
 		}
 		return SETTINGS_EXPORT_PAYMENT;
 	}
 
+	@RequestMapping(path = "/export-channel-configs", method = RequestMethod.GET)
+	public String exportChannel(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return EXPORT_CHANNEL.concat(" :: content");
+		}
+
+		return EXPORT_CHANNEL;
+	}
+
+	@RequestMapping(path = "/export-channel-configs/settings", method = RequestMethod.GET)
+	public String exportChannelSetup(
+			@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return EXPORT_CHANNEL_SETUP.concat(" :: content");
+		}
+		return EXPORT_CHANNEL_SETUP;
+	}
 }

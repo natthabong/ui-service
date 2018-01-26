@@ -137,31 +137,32 @@
 							</div>
 						</button>
 					</div> -->
-					<div class="col-md-3 col-sm-3 col-xs-6"
-						ng-controller="ExportPaymentConfigController as exportPaymentCtrl">
-						<input type="hidden" ng-init="exportPaymentCtrl.viewAll=true"
-							sec:authorize="hasAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS')" />
-						<input type="hidden" ng-init="exportPaymentCtrl.manageAll=true"
-							sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" />
-						<button class="thumbnail"
-							ng-click="exportPaymentCtrl.setupExportPayment()"
-							title="Config a payment result file layout"
-							ng-disabled="exportPaymentCtrl.unauthenConfig()"
-							id="export-payment-result-layout-setup">
-							<div class="caption config-box">
-								<div class="media">
-									<div class="media-body">
-										<h5 class="media-heading animated fadeInLeft"
-											id="export-payment-result-config-header-label"
-											ng-bind="'Export payment result file layout' | translate"></h5>
-									</div>
-									<div class="media-right btn-default">
-										<i class="fa fa-cog" aria-hidden="true"></i>
-									</div>
-								</div>
-							</div>
-						</button>
-					</div>
+<!-- 					<div class="col-md-3 col-sm-3 col-xs-6" -->
+<!-- 						ng-controller="ExportPaymentConfigController as exportPaymentCtrl"> -->
+<!-- 						<input type="hidden" ng-init="exportPaymentCtrl.viewAll=true" -->
+<!-- 							sec:authorize="hasAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS')" /> -->
+<!-- 						<input type="hidden" ng-init="exportPaymentCtrl.manageAll=true" -->
+<!-- 							sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" /> -->
+<!-- 						<button class="thumbnail" -->
+<!-- 							ng-click="exportPaymentCtrl.setupExportPayment()" -->
+<!-- 							title="Config a payment result file layout" -->
+<!-- 							ng-disabled="exportPaymentCtrl.unauthenConfig()" -->
+<!-- 							id="export-payment-result-layout-setup"> -->
+<!-- 							<div class="caption config-box"> -->
+<!-- 								<div class="media"> -->
+<!-- 									<div class="media-body"> -->
+<!-- 										<h5 class="media-heading animated fadeInLeft" -->
+<!-- 											id="export-payment-result-config-header-label" -->
+<!-- 											ng-bind="'Export payment result file layout' | translate"></h5> -->
+<!-- 									</div> -->
+<!-- 									<div class="media-right btn-default"> -->
+<!-- 										<i class="fa fa-cog" aria-hidden="true"></i> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</button> -->
+<!-- 					</div> -->
+					<div><br/><br/><br/><br/><br/><br/><br/></div>
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<div class="panel panel-default">
 							<div class="panel-body" style="min-height: 360px;">
@@ -193,25 +194,8 @@
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<div ng-include="'/sponsor-configuration/ar-file-layouts'"></div>
 					</div>
-
-
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-						<div class="panel panel-default col-md-12 padding-0">
-							<div class="panel-body" style="min-height: 360px;">
-								<div class="row">
-									<div class="col-lg-12 col-md-12 col-xs-12">
-										<h3 class="animated fadeInLeft"
-											id="export-payment-result-channel-configs-header-label">Export
-											payment result channel</h3>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12 col-sm-12 text-right">
-										<!-- TODO: Export payment result channel table here-->
-									</div>
-								</div>
-							</div>
-						</div>
+						<div ng-include="'/sponsor-configuration/export-layouts'"></div>
 					</div>
 					<!-- 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> -->
 					<div class="col-md-12">
@@ -222,6 +206,9 @@
 					</div>
 					<div class="col-md-12">
 						<div ng-include="'/sponsor-configuration/create-payment-display-configs'"></div>
+					</div>
+					<div class="col-md-12">
+						<div ng-include="'/sponsor-configuration/export-channel-configs'"></div>
 					</div>
 				</div>
 				<div class="panel-body">

@@ -2,7 +2,7 @@
 var tpModule = angular.module('gecscf.organize.configuration');
 tpModule
 		.controller(
-				'ImportLayoutNewPopupController',
+				'ExportLayoutNewPopupController',
 				[
 						'$scope',
 						'UIFactory',
@@ -13,23 +13,18 @@ tpModule
 
 							var vm = this;
 							$scope.errors = undefined;
-							
-							
 							var data = $scope.ngDialogData.data;
-							vm.dataTypeByIds = [];
 							vm.model = {
 								ownerId : data.ownerId,
 								accountingTransactionType : data.accountingTransactionType,
 								displayName: '',
 								fileType: 'FIXED_LENGTH',
 								charsetName: 'TIS-620',
-								processType: 'AR_DOCUMENT' ,
-								integrateType: 'IMPORT',
+								processType: 'EXPORT_DOCUMENT' ,
+								integrateType: 'EXPORT',
+								sponsorConfigId: 'BFP',
 								items: []
 							}
-
-							vm.hasError = false;
-							
 							var _isValid = function() {
 								$scope.errors = undefined;
 								if (!vm.model.displayName.length) {
