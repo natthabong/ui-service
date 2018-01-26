@@ -489,15 +489,11 @@ exportChannelModule.controller('ExportChannelController', [
 	 }
 	 
 	 vm.changeExportData = function(){
-		console.log(vm.isAllProductType);
-		console.log(vm.channelModel.exportDataType);
         if(vm.channelModel.exportDataType == 'ALL'){
          	vm.isAllProductType = true;
 		} else {
 			vm.isAllProductType = false;
 		}
-        console.log(vm.isAllProductType);
-        console.log(vm.channelModel.exportDataType);
 	 }
 	 
 	 vm.changeExportData();
