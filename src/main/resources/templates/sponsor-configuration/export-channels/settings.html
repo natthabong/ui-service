@@ -95,6 +95,14 @@
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
+						<div class="form-group"	ng-show="errors.productTypes">
+							<div ng-show="errors.productTypes">
+								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+									id="layout-warning-message-label"
+									ng-bind="errors.productTypes.message"> </span>
+							</div>
+						</div>
 						<ng-include ng-show="ctrl.isSetupFTP"
 							src="'/sponsor-configuration/export-channels/ftp-settings'"
 							ng-if="true"></ng-include>

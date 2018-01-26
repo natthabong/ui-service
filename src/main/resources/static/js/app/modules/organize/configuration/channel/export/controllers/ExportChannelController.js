@@ -18,11 +18,20 @@ exportChannelModule.constant('ENCRYPT_TYPE_DROPDOWN',[
 exportChannelModule.constant('FREQUENCY_DROPDOWN',[
 	{label:'Daily', value: 'DAILY'}
 	]);
+exportChannelModule.constant('POSTFIX_DROPDOWN',[
+	{label:'YYYYMMDDHHMM', value: 'YYYYMMDDHHMM'}
+	]);
+exportChannelModule.constant('EXTENSION_DROPDOWN',[
+	{label:'.txt', value: 'TXT'},
+   	{label:'.csv', value: 'CSV'}
+   	]);
 exportChannelModule.controller('ExportChannelController', [
 			'$log','$scope','$state','$stateParams','Service','ChannelDropdown','ExportDataTypeDropdown','FileLayoutService',
-			'PageNavigation','UIFactory','blockUI','$q','$http','PROTOCOL_DROPDOWN','FREQUENCY_DROPDOWN',
+			'PageNavigation','UIFactory','blockUI','$q','$http','PROTOCOL_DROPDOWN','FREQUENCY_DROPDOWN','ngDialog',
+			'POSTFIX_DROPDOWN','EXTENSION_DROPDOWN',
 	function($log , $scope , $state , $stateParams , Service , ChannelDropdown , ExportDataTypeDropdown , FileLayoutService ,
-			 PageNavigation , UIFactory , blockUI , $q , $http , PROTOCOL_DROPDOWN , FREQUENCY_DROPDOWN) {
+			 PageNavigation , UIFactory , blockUI , $q , $http , PROTOCOL_DROPDOWN , FREQUENCY_DROPDOWN , ngDialog ,
+			 POSTFIX_DROPDOWN , EXTENSION_DROPDOWN) {
 
       var vm = this;
       var channelId = $stateParams.channelId;
@@ -30,16 +39,25 @@ exportChannelModule.controller('ExportChannelController', [
       var BASE_URI = 'api/v1/organize-customers/' + organizeId;
       vm.channelModel = {};
       vm.productTypes = {};
-      vm.runTimes = {};
+      vm.runTimes = [
+    	    '10:00', 
+    	    '11:00', 
+    	    '12:00', 
+    	    '13:00'
+    	  ];
+      vm.runTime = '';
       vm.haveProductType = false;
       vm.fileLayouts = [];
       vm.channelDropdown = ChannelDropdown;
       vm.exportDataTypeDropdown = ExportDataTypeDropdown;
       vm.fileProtocolDropdown = PROTOCOL_DROPDOWN;
+      vm.filenamePostfixDropdown = POSTFIX_DROPDOWN;
+      vm.fileExtensionDropdown = EXTENSION_DROPDOWN;
   	  vm.frequencyDropdown = FREQUENCY_DROPDOWN;
       $scope.errors = {};
       vm.manageAll=false;
       vm.isSetupFTP = false;
+      
       vm.openActiveDate = false;
       vm.openCalendarActiveDate = function() {
       	vm.openActiveDate = true;
@@ -50,6 +68,10 @@ exportChannelModule.controller('ExportChannelController', [
       };
       vm.isUseExpireDate = false;
       vm.isAllProductType = false;
+      
+      vm.addRuntime = function(time) {
+         vm.runTimes.push(time);
+      };
       
       vm.backToSponsorConfigPage = function(){
  		 PageNavigation.gotoPage('/sponsor-configuration',  {
@@ -92,6 +114,8 @@ exportChannelModule.controller('ExportChannelController', [
 	            if(vm.channelModel.channelType == 'FTP'){
 					vm.isSetupFTP = true;
 					vm.channelModel.fileProtocol = 'SFTP';
+					vm.channelModel.jobTrigger.jobDetail.remoteFilenamePostfix = 'YYYYMMDDHHMM';
+					vm.channelModel.jobTrigger.jobDetail.remoteFilenameExtension = 'TXT';
 
 					if(response.data.jobTrigger.jobDetail.remotePort == null){
 						vm.channelModel.jobTrigger.jobDetail.remotePort = '22';
@@ -243,6 +267,16 @@ exportChannelModule.controller('ExportChannelController', [
  			$scope.errors.layout = {
  					message : 'File layout is required.'
  			}			
+ 		}
+ 		console.log(vm.channelModel.productTypes);
+ 		if(vm.channelModel.exportDataType == 'SPECIFIED'){
+ 			console.log(vm.channelModel.productTypes.length);
+ 			if(vm.channelModel.productTypes.length == 0){
+ 				isValid = false;
+	 			$scope.errors.productTypes = {
+	 					message : 'Product type is required.'
+	 			}			
+ 			}
  		}
 
  		if (!angular.isDefined(channel.activeDate)) {
