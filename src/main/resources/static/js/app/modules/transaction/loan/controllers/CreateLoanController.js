@@ -454,7 +454,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             vm.accountDropDown.push(formatAccount);
             
             vm.createTransactionModel.payerAccountId = vm.accountDropDown[0].value;
-            console.log(vm.createTransactionModel.payerAccountId);
             vm.selectedAccountInfo = vm.accountDropDown[0].item;
             
         }
