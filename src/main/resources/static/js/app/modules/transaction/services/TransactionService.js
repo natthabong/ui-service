@@ -191,7 +191,7 @@ function transactionService($http, $q, blockUI, $window) {
         return deffered;
     }
 
-    function getTradingInfo(sponsorId, supplierId) {
+    function getTradingInfo(sponsorId, supplierId, accountId) {
         var deffered = $q.defer();
         blockUI.start();
         $http({
@@ -202,7 +202,8 @@ function transactionService($http, $q, blockUI, $window) {
             },
             data: {
                 sponsorId: sponsorId,
-                supplierId: supplierId
+                supplierId: supplierId,
+                accountId: accountId
             },
             transformRequest: function (data) {
                 if (data === undefined) {

@@ -151,7 +151,7 @@
 									</div>
 									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 										<span id="pre-drawdown-percentage-value-label"
-											ng-bind="ctrl.selectedAccountInfo.prePercentageDrawdown | number:2"></span>%
+											ng-bind="ctrl.tradingpartnerInfoModel.prePercentageDrawdown | number:2"></span>%
 									</div>
 									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>
 	                                 
@@ -163,7 +163,7 @@
 		                          	 	</label>:
 		                          	 </div>	 
 		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-		                                  <scf-dropdown-account id="loan-account-dropdown" ng-change="ctrl.accountChange(data)" ng-model="ctrl.createTransactionModel.payerAccountId" convert-to-number="true" component-data="ctrl.accountDropDown"></scf-dropdown-account>
+		                                  <scf-dropdown-account id="loan-account-dropdown" ng-change="ctrl.accountChange()" ng-model="ctrl.createTransactionModel.payerAccountId" convert-to-number="true" component-data="ctrl.accountDropDown"></scf-dropdown-account>
 		                             </div>
 		                              
 		                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
@@ -172,12 +172,12 @@
 		                              	</label>:
 		                             </div>
 		                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-										<span id="available-value-label" ng-bind="ctrl.selectedAccountInfo.supplierAvailableAmount | number: 2"></span>&nbsp;
+										<span id="available-value-label" ng-bind="ctrl.tradingpartnerInfoModel.supplierAvailableAmount | number: 2"></span>&nbsp;
 										&nbsp;<span ng-bind="'THB' | translate"></span>&nbsp;
 										
-		                                  <label ng-hide="ctrl.selectedAccountInfo.accountType == 'OVERDRAFT'">
+		                                  <label ng-hide="ctrl.tradingpartnerInfoModel.accountType == 'OVERDRAFT'">
 													<span>(Int.</span>
-													<span id="interest-rate-value-label" ng-bind="ctrl.selectedAccountInfo.interestRate"></span>
+													<span id="interest-rate-value-label" ng-bind="ctrl.tradingpartnerInfoModel.interestRate"></span>
 													<span>)</span>
 										  </label>
 										  <scf-button id="transaction-{{data.transactionNo}}-re-check-button" 
@@ -194,7 +194,7 @@
 		                              
 		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
 		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-		                             (Updated: <span id="account-updated-time-value-label" ng-bind="ctrl.selectedAccountInfo.accountUpdatedTime | date: 'dd/MM/yyyy HH:mm' : 'UTC+0700'"></span>)
+		                             (Updated: <span id="account-updated-time-value-label" ng-bind="ctrl.tradingpartnerInfoModel.accountUpdatedTime | date: 'dd/MM/yyyy HH:mm' : 'UTC+0700'"></span>)
 									  </div>
 									  
 									  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>

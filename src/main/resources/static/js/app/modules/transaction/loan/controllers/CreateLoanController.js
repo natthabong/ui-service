@@ -162,12 +162,19 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         };
 
         function _loadTradingPartnerInfo(sponsorCode, sponsorPaymentDate) {
+        	var accountId = vm.createTransactionModel.payerAccountId;
+        	vm.accountDropDown.forEach(function (account) {
+	        	if (accountId == account.item.accountId) {
+	        		vm.createTransactionModel.payerAccountNo = _accounts[0].accountNo;
+	        	}
+        	});
+        	
             var differed = null;
-            var tradingInfo = TransactionService.getTradingInfo(sponsorCode, ownerId);
+            var tradingInfo = TransactionService.getTradingInfo(sponsorCode, ownerId, accountId);
             tradingInfo.promise.then(function (response) {
                 vm.tradingpartnerInfoModel = response.data;
                 differed = _loadTransactionDate(sponsorCode, sponsorPaymentDate);
-                prepareAccountDropdown();
+//                prepareAccountDropdown();
             }).catch(function (response) {
                 log.error("Load trading partner fail !");
             });
@@ -176,6 +183,28 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
         function validateSponsorPaymentDate(paymentDate) {
             return paymentDate === '' ? false : true;
+        }
+        
+        function _loadAccount(supplierId) {
+            vm.accountDropDown = [];
+            var deffered = $q.defer();
+            var defferedAccounts = TransactionService.getAccounts(supplierId, ownerId);
+            defferedAccounts.promise.then(function (response) {
+                var accounts = response.data;
+                vm.isLoanPayment = false;
+                if (accounts.length > 0) {
+                    accounts.forEach(function (account, index) {
+                        var formatAccount = {
+                            label: account.format ? ($filter('accountNoDisplay')(account.accountNo)) : account.accountNo,
+                            value: account.accountId,
+                            item: account
+                        }
+                        vm.accountDropDown.push(formatAccount);
+                    });
+                }
+                deffered.resolve(accounts);
+            });
+            return deffered;
         }
 
         vm.searchDocument = function (pagingModel) {
@@ -188,6 +217,23 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             // validate SponsorPayment Date is Select
             if (hasSponsorPaymentDate) {
                 if (validateSponsorPaymentDate(sponsorPaymentDate)) {
+                	var defferedAccounts = _loadAccount(ownerId);
+                    defferedAccounts.promise.then(function (response) {
+                        vm.accountList = response;
+                        var _accounts = [];
+                        angular.copy(vm.accountList, _accounts);
+                        if (!$stateParams.backAction) {
+                            if (_accounts.length > 0) {
+                                vm.createTransactionModel.payerAccountId = _accounts[0].accountId;
+                                vm.createTransactionModel.payerAccountNo = _accounts[0].accountNo;
+                            }
+                        } else {
+                            var result = $.grep(_accounts, function (account) {
+                                return account.accountId == vm.createTransactionModel.payerAccountId;
+                            });
+                        }
+                    });
+                    
                     _loadTradingPartnerInfo(sponsorCode, sponsorPaymentDate);
                     
                     // set supplierCode after search
@@ -402,6 +448,12 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             _setDefualtValue(false);
             vm.requireSponsorPaymentDate = false;
         }
+        
+        vm.accountChange = function () {
+        	var sponsorCode = vm.createTransactionModel.sponsorCode;
+            var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
+        	_loadTradingPartnerInfo(sponsorCode, sponsorPaymentDate);
+        }
 
         vm.backStep = function () {
             PageNavigation.gotoPreviousPage(true);
@@ -434,32 +486,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
             watchCheckAll();
             calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
-        }
-        
-        function prepareAccountDropdown() {
-            vm.accountDropDown = [];
-            var formatAccount = {
-            	label: vm.tradingpartnerInfoModel.format ? ($filter('accountNoDisplay')(vm.tradingpartnerInfoModel.accountNo)) : vm.tradingpartnerInfoModel.accountNo,
-                value: vm.tradingpartnerInfoModel.accountId,
-                item: {
-                	accountId: vm.tradingpartnerInfoModel.accountId,
-                	accountType: vm.tradingpartnerInfoModel.accountType,
-                	accountNo: vm.tradingpartnerInfoModel.accountNo,
-                	prePercentageDrawdown: vm.tradingpartnerInfoModel.prePercentageDrawdown,
-                	supplierAvailableAmount: vm.tradingpartnerInfoModel.supplierAvailableAmount,
-                	interestRate: vm.tradingpartnerInfoModel.interestRate,
-                	accountUpdatedTime: vm.tradingpartnerInfoModel.accountUpdatedTime
-                }
-            }
-            vm.accountDropDown.push(formatAccount);
-            
-            vm.createTransactionModel.payerAccountId = vm.accountDropDown[0].value;
-            vm.selectedAccountInfo = vm.accountDropDown[0].item;
-            
-        }
-        
-        vm.accountChange = function (data) {
-        	
         }
 
         vm.selectDocument = function (data) {
