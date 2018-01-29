@@ -165,7 +165,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
         	var accountId = vm.createTransactionModel.payerAccountId;
         	vm.accountDropDown.forEach(function (account) {
 	        	if (accountId == account.item.accountId) {
-	        		vm.createTransactionModel.payerAccountNo = _accounts[0].accountNo;
+	        		vm.createTransactionModel.payerAccountNo = account.item.accountNo;
 	        	}
         	});
         	
@@ -174,7 +174,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             tradingInfo.promise.then(function (response) {
                 vm.tradingpartnerInfoModel = response.data;
                 differed = _loadTransactionDate(sponsorCode, sponsorPaymentDate);
-//                prepareAccountDropdown();
             }).catch(function (response) {
                 log.error("Load trading partner fail !");
             });
@@ -233,10 +232,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                                 return account.accountId == vm.createTransactionModel.payerAccountId;
                             });
                         }
+                        
+                        _loadTradingPartnerInfo(sponsorCode, sponsorPaymentDate);
                     });
-                    
-                    _loadTradingPartnerInfo(sponsorCode, sponsorPaymentDate);
-                    
+                   
                     // set supplierCode after search
                     vm.createTransactionModel.supplierCodeSelected = vm.createTransactionModel.supplierCode;
                     vm.createTransactionModel.sponsorIdSelected = vm.createTransactionModel.sponsorCode;
