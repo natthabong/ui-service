@@ -19,7 +19,7 @@
 			</div>
 			<div class="col-md-3 col-sm-3 col-xs-12">
 				<scf-input-text id="host-name-textbox" maxlength="255"
-					ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteHost">
+					ng-model="ctrl.channelModel.jobInformation.jobFtpDetail.remoteHost">
 				</scf-input-text>
 			</div>
 			<div class="col-md-1 col-sm-2 col-xs-8 control-label">
@@ -28,7 +28,7 @@
 			</div>
 			<div class="col-md-1 col-sm-2 col-xs-8">
 				<scf-input-number id="port-number-textbox" maxlength="5"
-					ng-model="ctrl.channelModel.jobTrigger.jobDetail.remotePort">
+					ng-model="ctrl.channelModel.jobInformation.jobFtpDetail.remotePort">
 				</scf-input-number>
 			</div>
 		</div>
@@ -55,7 +55,7 @@
 			<div class="col-md-3 col-sm-3 col-xs-12">
 				<scf-input-text id="ftp-user-textbox" ng-disabled="true"
 					maxlength="100"
-					ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteUsername">
+					ng-model="ctrl.channelModel.jobInformation.jobFtpDetail.remoteUsername">
 				</scf-input-text>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-12">
@@ -82,7 +82,7 @@
 
 			<div class="col-md-7 col-sm-8 col-xs-11">
 				<scf-input-text id="remote-directory-textbox" maxlength="255"
-					ng-model="ctrl.channelModel.jobTrigger.jobDetail.remotePath">
+					ng-model="ctrl.channelModel.jobInformation.jobFtpDetail.remotePath">
 				</scf-input-text>
 			</div>
 		</div>
@@ -101,18 +101,22 @@
 			<div class="col-md-2 col-sm-3 col-xs-11">
 				<scf-input-text id="filename-prefix-textbox" maxlength="200"
 					placeholder="filename prefix"
-					ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteFilenamePrefix">
+					ng-model="ctrl.channelModel.jobInformation.jobDatas.FILE_NAME_PREFIX">
 				</scf-input-text>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-11">
 				<scf-dropdown id="filename-postfix-textbox" ng-disabled="true"
-					ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteFilenamePostfix"
+					ng-model="ctrl.channelModel.jobInformation.jobDatas.DATETIME_PATTERN"
 					component-data="ctrl.filenamePostfixDropdown"> </scf-dropdown>
 			</div>
+			<div class="col-md-1 col-sm-1 col-xs-3 control-label">
+				<label >.</label>
+			</div>
 			<div class="col-md-1 col-sm-2 col-xs-8">
-				<scf-dropdown id="filename-extension-textbox"
-					ng-model="ctrl.channelModel.jobTrigger.jobDetail.remoteFilenameExtension"
-					component-data="ctrl.fileExtensionDropdown"> </scf-dropdown>
+				<scf-input-text id="filename-extension-textbox" maxlength="5"
+					placeholder="extension"
+					ng-model="ctrl.channelModel.jobInformation.jobDatas.FILE_EXTENSION">
+				</scf-input-text>
 			</div>
 		</div>
 		<div class="form-group"
@@ -141,10 +145,10 @@
 
 			<div class="col-md-3 col-sm-3 col-xs-12">
 				<input type="hidden"
-					ng-model="ctrl.channelModel.jobTrigger.jobDetail.encryptType" />
+					ng-model="ctrl.channelModel.jobInformation.jobFtpDetail.encryptType" />
 				<scf-input-text id="file-encryption-textbox" ng-disabled="true"
 					maxlength="255"
-					ng-value="ctrl.channelModel.jobTrigger.jobDetail.encryptType | translate">
+					ng-value="ctrl.channelModel.jobInformation.jobFtpDetail.encryptType | translate">
 				</scf-input-text>
 			</div>
 
@@ -164,7 +168,7 @@
 			</div>
 			<div class="col-md-3 col-sm-3 col-xs-12">
 				<scf-dropdown id="frequency-dropdown"
-					ng-model="ctrl.channelModel.jobTrigger.frequencyType"
+					ng-model="ctrl.channelModel.jobInformation.frequencyType"
 					component-data="ctrl.frequencyDropdown"> </scf-dropdown>
 			</div>
 			<div class="col-md-3 col-sm-3 col-hidden-xs"></div>

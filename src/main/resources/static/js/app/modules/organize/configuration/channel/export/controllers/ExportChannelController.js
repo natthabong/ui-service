@@ -39,6 +39,9 @@ exportChannelModule.controller('ExportChannelController', [
       var BASE_URI = 'api/v1/organize-customers/' + organizeId;
       vm.channelModel = {};
       vm.productTypes = {};
+      vm.remoteFilenamePrefix = '';
+      vm.dateTimePattern = '';
+      vm.fileExtension = '';
       vm.runTimes = [];
       vm.runTime = undefined;
       var dayOfWeekFrequency = {
@@ -132,29 +135,28 @@ exportChannelModule.controller('ExportChannelController', [
 	            if(vm.channelModel.channelType == 'FTP'){
 					vm.isSetupFTP = true;
 					vm.channelModel.fileProtocol = 'SFTP';
-					vm.channelModel.jobTrigger.jobDetail.remoteFilenamePostfix = 'YYYYMMDDHHMM';
-					vm.channelModel.jobTrigger.jobDetail.remoteFilenameExtension = 'TXT';
-
-					if(response.data.jobTrigger.jobDetail.remotePort == null){
-						vm.channelModel.jobTrigger.jobDetail.remotePort = '22';
+					
+					if(response.data.jobInformation.jobDatas.DATETIME_PATTERN == null){
+						vm.channelModel.jobInformation.jobDatas.DATETIME_PATTERN = 'YYYYMMDDHHMM';
+					}
+					
+					if(response.data.jobInformation.jobDatas.FILE_EXTENSION == null){
+						vm.channelModel.jobInformation.jobDatas.FILE_EXTENSION = 'txt';
 					}
 
-					if(response.data.jobTrigger.jobDetail.remoteFilenamePattern == null){
-						vm.channelModel.jobTrigger.jobDetail.remoteFilenamePattern = '*.*';
+					if(response.data.jobInformation.jobFtpDetail.remotePort == null){
+						vm.channelModel.jobInformation.jobFtpDetail.remotePort = '22';
 					}
 
-					if(response.data.jobTrigger.jobDetail.limitedFileSize == null){
-						vm.channelModel.jobTrigger.jobDetail.limitedFileSize = '5';
-					}
-					if(response.data.jobTrigger.jobDetail.encryptType == null){
-						vm.channelModel.jobTrigger.jobDetail.encryptType = 'NONE';
+					if(response.data.jobInformation.jobFtpDetail.encryptType == null){
+						vm.channelModel.jobInformation.jobFtpDetail.encryptType = 'NONE';
 					}
 
-					if(response.data.jobTrigger.frequencyType == null){
-						vm.channelModel.jobTrigger.frequencyType = 'DAILY';
+					if(response.data.jobInformation.frequencyType == null){
+						vm.channelModel.jobInformation.frequencyType = 'DAILY';
 					}
 
-					if(response.data.jobTrigger.daysOfWeek == null || response.data.jobTrigger.daysOfWeek == ''){
+					if(response.data.jobInformation.daysOfWeek == null || response.data.jobInformation.daysOfWeek == ''){
 						vm.channelModel.monday = true;
 						vm.channelModel.tuesday = true
 						vm.channelModel.wednesday = true
@@ -165,7 +167,7 @@ exportChannelModule.controller('ExportChannelController', [
 
 					}else {
 
-						var daysOfWeek = response.data.jobTrigger.daysOfWeek.split(",");
+						var daysOfWeek = response.data.jobInformation.daysOfWeek.split(",");
 						daysOfWeek.forEach(function(data){
 							if(data == dayOfWeekFrequency.SUNDAY){
 								vm.channelModel.sunday = true
@@ -191,8 +193,17 @@ exportChannelModule.controller('ExportChannelController', [
 						});
 					}
 
-					response.data.jobTrigger.jobDetail.remotePassword = null;
-					response.data.jobTrigger.jobDetail.encryptPassword = null;
+					response.data.jobInformation.jobFtpDetail.remotePassword = null;
+					response.data.jobInformation.jobFtpDetail.encryptPassword = null;
+					
+					if(response.data.jobInformation.triggerInformations.length != 0){
+						response.data.jobInformation.triggerInformations.forEach(function(data){
+							if(data.startHour != null && data.startMinute != null){
+								var time = data.startHour + ":" +data.startMinute;
+				 				vm.runTimes.push(time);
+							}
+			 			});
+					}
 				}
   			});
       }
@@ -248,7 +259,18 @@ exportChannelModule.controller('ExportChannelController', [
  				daysOfWeek += dayOfWeekFrequency.SATURDAY + ',';
  			}
  			daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
- 			vm.channelModel.jobTrigger.daysOfWeek = daysOfWeek;
+ 			vm.channelModel.jobInformation.daysOfWeek = daysOfWeek;
+ 			
+ 			vm.channelModel.jobInformation.triggerInformations = [];
+ 			vm.runTimes.forEach(function(data){
+ 				var triggerInformation = {};
+ 				var beginTime = data.split(":");
+ 				triggerInformation.startHour = beginTime[0];
+ 				triggerInformation.startMinute = beginTime[1];
+ 				
+ 				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
+ 			});
+ 			
  		}
  		if(!vm.isUseExpireDate){
  			vm.channelModel.expiryDate = null;
@@ -296,45 +318,53 @@ exportChannelModule.controller('ExportChannelController', [
  		}
  		
  		if(vm.channelModel.channelType == 'FTP'){
-			var jobTrigger = vm.channelModel.jobTrigger;
-			var jobDetail = vm.channelModel.jobTrigger.jobDetail;
+			var jobInformation = vm.channelModel.jobInformation;
+			var jobFtpDetail = vm.channelModel.jobInformation.jobFtpDetail;
+			var jobDatas = vm.channelModel.jobInformation.jobDatas;
 			
-			if(jobDetail.remoteHost == null || jobDetail.remoteHost ==""){
+			if(jobFtpDetail.remoteHost == null || jobFtpDetail.remoteHost ==""){
 				isValid = false;
 				$scope.errors.hostName = {
 					message : 'Host name is required.'
 				}
 			}
 
-			if(jobDetail.remotePort == null || jobDetail.remotePort ==""){
+			if(jobFtpDetail.remotePort == null || jobFtpDetail.remotePort ==""){
 				isValid = false;
 				$scope.errors.portNumber = {
 					message : 'Port number is required.'
 				}
 			}
 
-			if(jobDetail.remoteUsername == null || jobDetail.remoteUsername == ""){
+			if(jobFtpDetail.remoteUsername == null || jobFtpDetail.remoteUsername == ""){
 				isValid = false;
 				$scope.errors.remoteUsername = {
 					message : 'FTP user is required.'
 				}
 			}
 
-			if(jobDetail.remotePath == null || jobDetail.remotePath == ""){
+			if(jobFtpDetail.remotePath == null || jobFtpDetail.remotePath == ""){
 				isValid = false;
 				$scope.errors.remoteDirectory = {
 					message : 'Remote directory is required.'
 				}
 			}
 
-			if(jobDetail.remoteFilenamePrefix == null || jobDetail.remoteFilenamePrefix == ""){
+			if(jobDatas.FILE_NAME_PREFIX == null || jobDatas.FILE_NAME_PREFIX == ""){
 				isValid = false;
 				$scope.errors.remoteFilenamePattern = {
 					message : 'File name prefix is required.'
 				}
 			}
+			
+			if(jobDatas.FILE_EXTENSION == null || jobDatas.FILE_EXTENSION == ""){
+				isValid = false;
+				$scope.errors.remoteFilenamePattern = {
+					message : 'File name extension is required.'
+				}
+			}
 
-			if(jobTrigger.daysOfWeek == null || jobTrigger.daysOfWeek == ''){
+			if(jobInformation.daysOfWeek == null || jobInformation.daysOfWeek == ''){
 				isValid = false;
 				$scope.errors.daysOfWeek = {
 					message : 'Frequency is required.'
@@ -428,8 +458,8 @@ exportChannelModule.controller('ExportChannelController', [
  	vm.setupUserInfo = function(){
 		vm.username = '';
 		
-		if(angular.isDefined(vm.channelModel.jobTrigger) && angular.isDefined(vm.channelModel.jobTrigger.jobDetail.remoteUsername)){
-			vm.username = vm.channelModel.jobTrigger.jobDetail.remoteUsername;
+		if(angular.isDefined(vm.channelModel.jobInformation) && angular.isDefined(vm.channelModel.jobInformation.jobFtpDetail.remoteUsername)){
+			vm.username = vm.channelModel.jobInformation.jobFtpDetail.remoteUsername;
 		}
 		
 		var userInfo = ngDialog.open({
@@ -442,8 +472,8 @@ exportChannelModule.controller('ExportChannelController', [
 			},
 			preCloseCallback : function(value) {
 				if (angular.isDefined(value)) {
-					vm.channelModel.jobTrigger.jobDetail.remoteUsername = value.username;
-					vm.channelModel.jobTrigger.jobDetail.remotePassword = value.password;
+					vm.channelModel.jobInformation.jobFtpDetail.remoteUsername = value.username;
+					vm.channelModel.jobInformation.jobFtpDetail.remotePassword = value.password;
 				}
 				return true;
 			}
@@ -455,16 +485,16 @@ exportChannelModule.controller('ExportChannelController', [
 		vm.encryptPassword = null;
 		vm.decryptPrivateKey = null;
 			 
-		if(angular.isDefined(vm.channelModel.jobTrigger.jobDetail.encryptType)){
-			vm.encryptType = vm.channelModel.jobTrigger.jobDetail.encryptType;
+		if(angular.isDefined(vm.channelModel.jobInformation.jobFtpDetail.encryptType)){
+			vm.encryptType = vm.channelModel.jobInformation.jobFtpDetail.encryptType;
 		}
 		
-		if(angular.isDefined(vm.channelModel.jobTrigger.jobDetail.encryptPassword)){
-			vm.encryptPassword = vm.channelModel.jobTrigger.jobDetail.encryptPassword;
+		if(angular.isDefined(vm.channelModel.jobInformation.jobFtpDetail.encryptPassword)){
+			vm.encryptPassword = vm.channelModel.jobInformation.jobFtpDetail.encryptPassword;
 		}
 		
-		if(angular.isDefined(vm.channelModel.jobTrigger.jobDetail.decryptPrivateKey)){
-			vm.decryptPrivateKey = vm.channelModel.jobTrigger.jobDetail.decryptPrivateKey;
+		if(angular.isDefined(vm.channelModel.jobInformation.jobFtpDetail.decryptPrivateKey)){
+			vm.decryptPrivateKey = vm.channelModel.jobInformation.jobFtpDetail.decryptPrivateKey;
 		}
 		
 		var decryptInfo = ngDialog.open({
@@ -479,9 +509,9 @@ exportChannelModule.controller('ExportChannelController', [
 			},
 			preCloseCallback : function(value) {
 				if (angular.isDefined(value)) {
-					vm.channelModel.jobTrigger.jobDetail.encryptType = value.encryptType;
-					vm.channelModel.jobTrigger.jobDetail.encryptPassword = value.encryptPassword;
-					vm.channelModel.jobTrigger.jobDetail.decryptPrivateKey = value.decryptPrivateKey;
+					vm.channelModel.jobInformation.jobFtpDetail.encryptType = value.encryptType;
+					vm.channelModel.jobInformation.jobFtpDetail.encryptPassword = value.encryptPassword;
+					vm.channelModel.jobInformation.jobFtpDetail.decryptPrivateKey = value.decryptPrivateKey;
 				}
 				return true;
 			}
