@@ -4,7 +4,7 @@ exportChannelModule.constant('ChannelDropdown',[
 	{label:'Web', value: 'WEB'},
 	{label:'FTP', value: 'FTP'}
 	]);
-exportChannelModule.constant('ExportDataTypeDropdown',[
+exportChannelModule.constant('EXPORT_DATA_TYPE_DROPDOWN',[
 	{label:'All Product type', value: 'ALL'},
 	{label:'Specified product type', value: 'SPECIFIED'}
 	]);
@@ -26,10 +26,10 @@ exportChannelModule.constant('EXTENSION_DROPDOWN',[
    	{label:'.csv', value: 'CSV'}
    	]);
 exportChannelModule.controller('ExportChannelController', [
-			'$log','$scope','$state','$stateParams','Service','ChannelDropdown','ExportDataTypeDropdown','FileLayoutService',
+			'$log','$scope','$state','$stateParams','Service','ChannelDropdown','EXPORT_DATA_TYPE_DROPDOWN','FileLayoutService',
 			'PageNavigation','UIFactory','blockUI','$q','$http','PROTOCOL_DROPDOWN','FREQUENCY_DROPDOWN','ngDialog',
 			'POSTFIX_DROPDOWN','EXTENSION_DROPDOWN',
-	function($log , $scope , $state , $stateParams , Service , ChannelDropdown , ExportDataTypeDropdown , FileLayoutService ,
+	function($log , $scope , $state , $stateParams , Service , ChannelDropdown , EXPORT_DATA_TYPE_DROPDOWN , FileLayoutService ,
 			 PageNavigation , UIFactory , blockUI , $q , $http , PROTOCOL_DROPDOWN , FREQUENCY_DROPDOWN , ngDialog ,
 			 POSTFIX_DROPDOWN , EXTENSION_DROPDOWN) {
 
@@ -54,7 +54,7 @@ exportChannelModule.controller('ExportChannelController', [
       vm.haveProductType = false;
       vm.fileLayouts = [];
       vm.channelDropdown = ChannelDropdown;
-      vm.exportDataTypeDropdown = ExportDataTypeDropdown;
+      vm.exportDataTypeDropdown = EXPORT_DATA_TYPE_DROPDOWN;
       vm.fileProtocolDropdown = PROTOCOL_DROPDOWN;
       vm.filenamePostfixDropdown = POSTFIX_DROPDOWN;
       vm.fileExtensionDropdown = EXTENSION_DROPDOWN;
@@ -127,9 +127,7 @@ exportChannelModule.controller('ExportChannelController', [
 	            
 	            if(response.data.exportDataType == 'ALL'){
 	             	vm.isAllProductType = true;
-	    		} else {
-	    			vm.isAllProductType = false;
-	    		}
+	    		} 
 	            
 	            if(vm.channelModel.channelType == 'FTP'){
 					vm.isSetupFTP = true;
@@ -489,7 +487,7 @@ exportChannelModule.controller('ExportChannelController', [
 			}
 		});
 	 }
-	
+	 
 	 vm.changeExportData = function(){
         if(vm.channelModel.exportDataType == 'ALL'){
          	vm.isAllProductType = true;
