@@ -1,189 +1,228 @@
 'use strict';
 var tradeFinanceModule = angular.module('gecscf.tradingPartner.financing');
-tradeFinanceModule.controller('ConfigTradeFinanceController',['$scope','$stateParams','UIFactory',
-	'PageNavigation','PagingController','ConfigTradeFinanceService','$log','SCFCommonService','$state','$cookieStore','$timeout', '$filter',
-    function($scope, $stateParams, UIFactory,PageNavigation, PagingController,ConfigTradeFinanceService,$log,SCFCommonService,$state,$cookieStore,$timeout,$filter) {
+tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$stateParams', 'UIFactory',
+	'PageNavigation', 'PagingController', 'ConfigTradeFinanceService', '$log', 'SCFCommonService', '$state', '$cookieStore', '$timeout', '$filter',
+	function ($scope, $stateParams, UIFactory, PageNavigation, PagingController, ConfigTradeFinanceService, $log, SCFCommonService, $state, $cookieStore, $timeout, $filter) {
 
-        var vm = this;
-        vm.canManage = false;
-        vm.canView = false;
+		var vm = this;
+		vm.canManage = false;
+		vm.canView = false;
 		var log = $log;
 		var listStoreKey = 'config';
 
+		vm.supportedPaymentBy = "Not supported payment by debit";
+		vm.tradingPartner = null;
+		vm.payeeAccount = 'Undefined';
+
 		vm.pagingController = {
-			tableRowCollection : undefined
+			tableRowCollection: undefined
 		};
 
-		
-        vm.dataTable = {
-			options : {
-				
+
+		vm.dataTable = {
+			options: {
+
 			},
-			columns : [
+			columns: [
 				{
-                    fieldName : 'borrowerName',
-					field : 'borrowerName',
-					label : 'Borrower',
-					idValueField : 'template',
-					id : 'borrower-name-{value}-label',
-					sortable : false,
-					dataRenderer: function(record){
+					fieldName: 'borrowerName',
+					field: 'borrowerName',
+					label: 'Borrower',
+					idValueField: 'template',
+					id: 'borrower-name-{value}-label',
+					sortable: false,
+					dataRenderer: function (record) {
 						return ($filter('borrowDisplay')(record.borrowerType, record.borrowerName));
 					}
-				},{
-					fieldName : 'accountNo',
-					field : 'accountNo',
-					label : 'Loan account',
-					idValueField : 'template',
-					id : 'finance-account-{value}-label',
-					sortable : false,
-					dataRenderer: function(record){
-						if(record.format){
+				}, {
+					fieldName: 'accountNo',
+					field: 'accountNo',
+					label: 'Loan account',
+					idValueField: 'template',
+					id: 'finance-account-{value}-label',
+					sortable: false,
+					dataRenderer: function (record) {
+						if (record.format) {
 							return ($filter('accountNoDisplay')(record.accountNo));
-						}else{
+						} else {
 							return record.accountNo;
 						}
 					}
-				},{
-					fieldName : 'defaultLoanNo',
-					field : 'defaultLoanNo',
-					label : 'Default account',
-					idValueField : 'template',
-					id : 'default-loan-no-{value}-label',
-					sortable : false,
+				}, {
+					fieldName: 'defaultLoanNo',
+					field: 'defaultLoanNo',
+					label: 'Default account',
+					idValueField: 'template',
+					id: 'default-loan-no-{value}-label',
+					sortable: false,
 					cellTemplate: '<img	style="height: 16px; width: 16px;" ng-show="data.defaultLoanNo" data-ng-src="img/checkmark.png"/>',
-				},{
-					cssTemplate : 'text-center',
-					sortable : false,
-					cellTemplate : '<scf-button id="{{$parent.$index + 1}}-view-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canView" ng-click="ctrl.view(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
-								+ '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
-								+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage || data.defaultLoanNo" ng-click="ctrl.deleteTradeFinance(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
-								+ '<scf-button id="{{$parent.$index + 1}}-set-default-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage || ctrl.isSupplier(data.borrowerType)" ng-click="ctrl.setDefaultCode(data)" title="Set default"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>'
-				} ]
+				}, {
+					cssTemplate: 'text-center',
+					sortable: false,
+					cellTemplate: '<scf-button id="{{$parent.$index + 1}}-view-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canView" ng-click="ctrl.view(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
+					+ '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+					+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage || data.defaultLoanNo" ng-click="ctrl.deleteTradeFinance(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+					+ '<scf-button id="{{$parent.$index + 1}}-set-default-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage || ctrl.isSupplier(data.borrowerType)" ng-click="ctrl.setDefaultCode(data)" title="Set default"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>'
+				}]
 		}
 
-		vm.isSupplier = function(data){
+		vm.isSupplier = function (data) {
 			var disable = false;
-			if(data === "SUPPLIER"){
+			if (data === "SUPPLIER") {
 				disable = true;
 			}
 			return disable;
 		}
 
-		var storeCriteria = function(){
+		var storeCriteria = function () {
 			$cookieStore.put(listStoreKey, vm.financeModel);
 		}
 
-		var getFinanceInfo = function(sponsorId,supplierId){
-			var defered = ConfigTradeFinanceService.getTradeFinanceInfo(sponsorId,supplierId);
-			defered.promise.then(function(response) {
+		var getFinanceInfo = function (sponsorId, supplierId) {
+			var defered = ConfigTradeFinanceService.getTradeFinanceInfo(sponsorId, supplierId);
+			defered.promise.then(function (response) {
+				console.log(response.data);
 				vm.pagingController.tableRowCollection = null;
-				if(response.data[0] != null){
+				if (response.data[0] != null) {
 					vm.pagingController.tableRowCollection = response.data;
 				}
-			}).catch(function(response) {
+			}).catch(function (response) {
 				log.error('Get trading finance fail');
 			});
 		}
 
-		var initLoad = function() {
+		var getPayeeAccountDetails = function (supplierId, accountId) {
+			var defered = ConfigTradeFinanceService.getPayeeAccountDetails(supplierId, accountId);
+			defered.promise.then(function (response) {
+				var account = response.data;
+				if(!(account == null || account == "")){
+					vm.payeeAccount = account.format ? ($filter('accountNoDisplay')(account.accountNo)) : account.accountNo;
+				}else{
+					vm.payeeAccount = "Undefined";
+				}
+			}).catch(function (response) {
+				log.error('Get payee account details fail');
+				vm.payeeAccount = "Undefined";
+			});
+		}
+
+		var loadTradingPartner = function (sponsorId, supplierId) {
+			var deffered = ConfigTradeFinanceService.getTradingPartner(sponsorId, supplierId);
+			deffered.promise.then(function (response) {
+				vm.tradingPartner = response.data;
+				if (vm.tradingPartner != null) {
+					vm.supportedPaymentBy = vm.tradingPartner.supportDebit ? "Supported payment by debit" : "Not supported payment by debit";
+					console.log(vm.tradingPartner.debitPayeeAccount);
+					if(vm.tradingPartner.debitPayeeAccount != null){
+						getPayeeAccountDetails(supplierId, vm.tradingPartner.debitPayeeAccount);
+					}else{
+						vm.payeeAccount = "Undefined";
+					}
+				}
+			}).catch(function (response) {
+				log.error('Get trading partner fail');
+			});
+		}
+
+		var initLoad = function () {
 			var backAction = $stateParams.backAction;
 
-			if(backAction === true){
+			if (backAction === true) {
 				vm.financeModel = $cookieStore.get(listStoreKey);
-			}else{
+			} else {
 				vm.financeModel = $stateParams.setupModel;
 			}
-			
-			if(vm.financeModel == null){
+
+			if (vm.financeModel == null) {
 				PageNavigation.gotoPage('/customer-registration/trading-partners');
 			}
 
 			var sponsorId = vm.financeModel.sponsorId;
 			var supplierId = vm.financeModel.supplierId;
 
-            getFinanceInfo(sponsorId,supplierId);
-        }();
+			loadTradingPartner(sponsorId, supplierId);
+			getFinanceInfo(sponsorId, supplierId);
+		} ();
 
-        vm.back = function(){
-            $timeout(function(){
-                PageNavigation.backStep();
-            }, 10);
-        }
+		vm.back = function () {
+			$timeout(function () {
+				PageNavigation.backStep();
+			}, 10);
+		}
 
-        vm.setDefaultCode = function (data) {
-            var deffered = ConfigTradeFinanceService.setDefaultCode(data);
-            deffered.promise.then(function (response) {
-            	getFinanceInfo(data.sponsorId,data.supplierId);
-            }).catch(function (response) {
-                log.error("Can not set default code !");
-            });
-        }
-        
-		vm.newTF = function(){
+		vm.setDefaultCode = function (data) {
+			var deffered = ConfigTradeFinanceService.setDefaultCode(data);
+			deffered.promise.then(function (response) {
+				getFinanceInfo(data.sponsorId, data.supplierId);
+			}).catch(function (response) {
+				log.error("Can not set default code !");
+			});
+		}
+
+		vm.newTF = function () {
 			SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 			storeCriteria();
 			var param = {
 				params: vm.financeModel,
 			}
-			PageNavigation.gotoPage('/trade-finance/new',param,param);
+			PageNavigation.gotoPage('/trade-finance/new', param, param);
 		}
 
-		vm.edit = function(data){
+		vm.edit = function (data) {
 			SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 			storeCriteria();
 			var param = {
 				params: vm.financeModel,
-				data : data
+				data: data
 			}
-			PageNavigation.gotoPage('/trade-finance/edit',param,param);
+			PageNavigation.gotoPage('/trade-finance/edit', param, param);
 		}
-		
-		vm.view = function(data){
+
+		vm.view = function (data) {
 			SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
 			storeCriteria();
 			var param = {
 				params: vm.financeModel,
-				data : data
+				data: data
 			}
-			PageNavigation.gotoPage('/trade-finance/view',param,param);
+			PageNavigation.gotoPage('/trade-finance/view', param, param);
 		}
-		
-		vm.deleteTradeFinance = function(record){
-			var preCloseCallback = function(confirm) {
-				 getFinanceInfo(vm.financeModel.sponsorId, vm.financeModel.supplierId);
+
+		vm.deleteTradeFinance = function (record) {
+			var preCloseCallback = function (confirm) {
+				getFinanceInfo(vm.financeModel.sponsorId, vm.financeModel.supplierId);
 			}
 
 			UIFactory.showConfirmDialog({
-				data : {
-					headerMessage : 'Confirm delete?'
+				data: {
+					headerMessage: 'Confirm delete?'
 				},
-				confirm : function() {
+				confirm: function () {
 					return ConfigTradeFinanceService.deleteTradeFinance(record);
 				},
-				onFail : function(response) {
+				onFail: function (response) {
 					var msg = {
-						404 : 'Trade finance has been deleted.',
-						405 : 'Trade finance has been used.',
-						409 : 'Trade finance has been modified.'
+						404: 'Trade finance has been deleted.',
+						405: 'Trade finance has been used.',
+						409: 'Trade finance has been modified.'
 					};
 					UIFactory.showFailDialog({
-						data : {
-							headerMessage : 'Delete trade finance fail.',
-							bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+						data: {
+							headerMessage: 'Delete trade finance fail.',
+							bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
 						},
-						preCloseCallback : preCloseCallback
+						preCloseCallback: preCloseCallback
 					});
 				},
-				onSuccess : function(response) {
+				onSuccess: function (response) {
 					UIFactory.showSuccessDialog({
-						data : {
-							headerMessage : 'Delete trade finance success.',
-							bodyMessage : ''
+						data: {
+							headerMessage: 'Delete trade finance success.',
+							bodyMessage: ''
 						},
-						preCloseCallback : preCloseCallback
+						preCloseCallback: preCloseCallback
 					});
 				}
 			});
 		}
-    } ]);
+	}]);

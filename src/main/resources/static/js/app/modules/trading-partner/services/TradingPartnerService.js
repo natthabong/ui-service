@@ -52,7 +52,6 @@ tpModule.factory('TradingPartnerService', [ '$http', '$q', 'Service', function($
 	}
 
 	var findTradingPartnerBySponsorIdAndSupplierId = function(sponsorId, supplierId){
-
 		return Service.doGet('api/v1/organize-customers/' + sponsorId + '/trading-partners/' + supplierId);
 	}
 	

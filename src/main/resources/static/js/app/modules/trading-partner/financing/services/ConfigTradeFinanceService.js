@@ -49,9 +49,30 @@ tradeFinanceModule.factory('ConfigTradeFinanceService', [ '$http', '$q', 'Servic
         return deffered;
     }
 
+	function getPayeeAccountDetails(supplierId, accountId) {
+		var deffered = $q.defer();
+		var serviceUrl = 'api/v1/organize-customers/'+supplierId+'/account/'+accountId
+		$http({
+			url: serviceUrl,
+			method: 'GET',
+            
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});	
+		return deffered;
+	}
+
+	function getTradingPartner(sponsorId, supplierId){
+		return Service.doGet('api/v1/organize-customers/' + sponsorId + '/trading-partners/' + supplierId);
+	}
+
 	return {
+		getTradingPartner:getTradingPartner,
 		getTradeFinanceInfo : getTradeFinanceInfo,
 		deleteTradeFinance : deleteTradeFinance,
-        setDefaultCode: setDefaultCode
+        setDefaultCode: setDefaultCode,
+		getPayeeAccountDetails : getPayeeAccountDetails
 	}
 } ]);

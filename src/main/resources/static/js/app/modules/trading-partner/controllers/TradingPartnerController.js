@@ -15,9 +15,9 @@ tpModule.controller('TradingPartnerController', [
             var vm = this;
             var log = $log;
             vm.tradingPartner = {
-            	supportDebit: true
+            	createTransactionType: 'WITH_INVOICE'
             };
-            vm.tradingPartner.createTransactionType = 'WITH_INVOICE';
+            // vm.tradingPartner.createTransactionType = 'WITH_INVOICE';
             vm.organizeListModel = {
                 buyer : undefined,
                 supplier : undefined
@@ -44,7 +44,7 @@ tpModule.controller('TradingPartnerController', [
 
                     var deffered = TradingPartnerService.findTradingPartnerBySponsorIdAndSupplierId(sponsorId, supplierId);
                     deffered.promise.then(function(response) {
-
+                        console.log(response.data);
                         vm.tradingPartner = response.data;
                         var sponsorOrganize = _prepareItem(vm.tradingPartner.sponsorOrganize);
                         vm.organizeListModel.buyer = sponsorOrganize;
