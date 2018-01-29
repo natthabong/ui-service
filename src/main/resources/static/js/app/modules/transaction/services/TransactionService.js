@@ -591,6 +591,7 @@ function transactionService($http, $q, blockUI, $window) {
     this.getPaymentDate = getPaymentDate;
     this.getDocuments = getDocuments;
     this.getAccounts = getAccounts;
+    this.getAccountsByTenor = getAccountsByTenor;
     this.getBuyerCodes = getBuyerCodes;
     this.getSuppliers = getSuppliers;
     this.calculateTotalDocumentAmountWithPrePercentTag = calculateTotalDocumentAmountWithPrePercentTag;
