@@ -41,9 +41,13 @@
 									ng-model="ctrl.tradeFinanceModel.financeAccount"
 									maxlength="100"></gec-auto-suggest>
 							</div>
-							<scf-button id="add-button" class="btn-default gec-btn-action"
+							<scf-button id="add-loan-account-button" class="btn-default gec-btn-action"
 								ng-disabled="!ctrl.isNewMode" ng-click="ctrl.add()">
 							<i class="fa fa-plus" aria-hidden="true"></i></scf-button>
+							<label id="account-type-label"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Account type' | translate}}: </label>
+							<label id="account-type-value-label"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">Term loan</label>
 						</div>
 
 						<div class="form-group" ng-show="errors.financeAccount">
@@ -51,6 +55,26 @@
 							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
 								id="finance-account-warning-message-label"
 								ng-bind="errors.financeAccount.message | translate"></span>
+						</div>
+
+						<div class="form-group">
+							<label id="tenor-label"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Payee account (supplier)' | translate}}: </label>
+							<div class="col-md-3 col-sm-8 col-xs-12">
+								<scf-dropdown id="payee-account-dropdown"
+									ng-disabled="!ctrl.isNewMode"
+									translate-label="true"></scf-dropdown>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label id="tenor-label"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Pre-percentage loan (%)' | translate}}: </label>
+							<div class="col-md-3 col-sm-8 col-xs-12">
+								<scf-input-number id="tenor-textbox" maxlength="3"
+									ng-disabled="ctrl.isViewMode"
+									ng-model="ctrl.tradeFinanceModel.tenor"> </scf-input-number>
+							</div>
 						</div>
 
 						<div class="form-group">
