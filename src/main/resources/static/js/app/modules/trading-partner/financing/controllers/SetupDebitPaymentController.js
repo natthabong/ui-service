@@ -32,8 +32,6 @@ tradeFinanceModule.controller('SetupDebitPaymentController', ['$scope', '$stateP
                         value: data.accountId
                     })
                 });
-                console.log(vm.accountDropdown);
-                // vm.tradingPartner = response.data;
             }).catch(function (response) {
                 log.error('Get Payee account fail');
             });
@@ -46,7 +44,7 @@ tradeFinanceModule.controller('SetupDebitPaymentController', ['$scope', '$stateP
         var validateBeforeSave = function () {
             var valid = true;
             console.log(vm.tradingPartnerModel.debitPayeeAccount);
-            if (vm.tradingPartnerModel.debitPayeeAccount == null) {
+            if (vm.tradingPartnerModel.supportDebit && vm.tradingPartnerModel.debitPayeeAccount == null) {
                 valid = false;
                 vm.payeeAccountIsRequired = true;
             } else {
@@ -67,16 +65,14 @@ tradeFinanceModule.controller('SetupDebitPaymentController', ['$scope', '$stateP
                             headerMessage: 'Confirm save?'
                         },
                         confirm: function () {
-                            console.log(vm.tradingPartnerModel);
                             return TradingPartnerService
-                                .createTradingPartner(vm.tradingPartnerModel, true);
+                                .updateDebitPaymentInformation(vm.tradingPartnerModel);
                         },
                         onFail: function (response) {
                             if (response.status != 400) {
                                 var msg = {
                                     404: 'Trading partner has been deleted.',
-                                    405: 'Trading partner is existed.',
-                                    409: 'Trading partner has been modified.'
+                                    409: 'Debit payment information has been modified.'
                                 };
                                 UIFactory.showFailDialog({
                                     data: {
@@ -109,7 +105,6 @@ tradeFinanceModule.controller('SetupDebitPaymentController', ['$scope', '$stateP
 
         vm.changePayeeAccount = function () {
             vm.payeeAccountIsRequired = false;
-            console.log(vm.tradingPartnerModel.debitPayeeAccount);
         }
 
     }]);

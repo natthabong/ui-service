@@ -74,14 +74,14 @@ tpModule.factory('TradingPartnerService', ['$http', '$q', 'Service', function ($
 		return deferred;
 	}
 
-	var getPayeeAccounts = function(organizeId){
-		var serviceUrl = '/api/v1/organize-customers/'+organizeId+'/accounts';
+	var getPayeeAccounts = function (organizeId) {
+		var serviceUrl = '/api/v1/organize-customers/' + organizeId + '/accounts';
 		var deferred = $q.defer();
 		$http({
 			method: 'GET',
 			url: serviceUrl,
 			params: {
-				offset : 0,
+				offset: 0,
 				limit: 999
 			}
 		}).then(function (response) {
@@ -92,7 +92,29 @@ tpModule.factory('TradingPartnerService', ['$http', '$q', 'Service', function ($
 		return deferred;
 	}
 
+	var updateDebitPaymentInformation = function (tp) {
+		var serviceUrl = 'api/v1/organize-customers/' + tp.sponsorId + '/debit-payment-information/' + tp.supplierId;
+		var req = {
+			method: 'POST',
+			url: serviceUrl,
+			data: tp,
+			headers: {
+				'If-Match': tp.version,
+				'X-HTTP-Method-Override': 'PUT'
+			}
+		}
+
+		var deferred = $q.defer();
+		$http(req).then(function (response) {
+			return deferred.resolve(response);
+		}).catch(function (response) {
+			return deferred.reject(response);
+		});
+		return deferred;
+	}
+
 	return {
+		updateDebitPaymentInformation : updateDebitPaymentInformation,
 		getPayeeAccounts: getPayeeAccounts,
 		getOrganizeByNameOrCodeLike: getOrganizeByNameOrCodeLike,
 		createTradingPartner: createTradingPartner,
