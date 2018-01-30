@@ -262,7 +262,7 @@
 										<div class="row">
 											<div class="col-md-11 col-sm-11 col-xs-11">
 												<label class="radio-inline"> <scf-radio
-														id="payment-period-type-radio" name="payment-period-radio"
+														id="payment-period-type-radio-all" name="payment-period-radio"
 														ng-model="ctrl.model.creditterm.periodType"
 														ng-value="ctrl.periodType.EVERY_PERIOD"></scf-radio>
 														<div id="use-all-period-label">
@@ -274,7 +274,7 @@
 										<div class="row">
 											<div class="col-md-11 col-sm-11 col-xs-11">
 												<label class="radio-inline"> <scf-radio
-														id="payment-period-type-radio" name="payment-period-radio"
+														id="payment-period-type-radio-specific" name="payment-period-radio"
 														ng-model="ctrl.model.creditterm.periodType"
 														ng-value="ctrl.periodType.SPECIFIC"></scf-radio>
 														<div id="use-specific-period-label">
@@ -286,14 +286,14 @@
 												<div class="col-md-1 col-sm-1 col-xs-1"></div>
 												<div class="col-md-10 col-sm-10 col-xs-10">
 													<ul class="nav nav-list"
-														ng-repeat="payemtnPeriodItem in ctrl.paymentPeriods track by $index">
-														<li><label class="checkbox-inline"> <scf-checkbox
+														ng-repeat="paymentPeriodItem in ctrl.paymentPeriods track by $index">
+														<li><label class="checkbox-inline"> <input type="checkbox" 
 																	ng-disabled="ctrl.model.creditterm.periodType == ctrl.periodType.EVERY_PERIOD"
-																	ng-value="{{payemtnPeriodItem.paymentPeriodId}}"
+																	ng-value="{{paymentPeriodItem.paymentPeriodId}}"
 																	checklist-model="ctrl.model.creditterm.paymentPeriods"
-																	checklist-value="payemtnPeriodItem"
-																	id="payment-period-{{payemtnPeriodItem.paymentPeriodId}}-checkbox"></scf-checkbox>
-																<span ng-bind="payemtnPeriodItem | period"></span>
+																	checklist-value="paymentPeriodItem"
+																	id="payment-period-{{paymentPeriodItem.paymentPeriodId}}-checkbox"/>
+																<span ng-bind="paymentPeriodItem | period"></span>
 														</label></li>
 													</ul>
 												</div>
