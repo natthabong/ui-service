@@ -14,6 +14,11 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 		vm.tradingPartner = null;
 		vm.payeeAccount = 'Undefined';
 
+		var sponsorId = null;
+		var supplierId = null;
+
+		vm.financeModel = null;
+
 		vm.pagingController = {
 			tableRowCollection: undefined
 		};
@@ -95,10 +100,8 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 			var defered = ConfigTradeFinanceService.getPayeeAccountDetails(supplierId, accountId);
 			defered.promise.then(function (response) {
 				var account = response.data;
-				if(!(account == null || account == "")){
+				if(account != null){
 					vm.payeeAccount = account.format ? ($filter('accountNoDisplay')(account.accountNo)) : account.accountNo;
-				}else{
-					vm.payeeAccount = "Undefined";
 				}
 			}).catch(function (response) {
 				log.error('Get payee account details fail');
@@ -107,16 +110,18 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 		}
 
 		var loadTradingPartner = function (sponsorId, supplierId) {
+			console.log("test");
 			var deffered = ConfigTradeFinanceService.getTradingPartner(sponsorId, supplierId);
 			deffered.promise.then(function (response) {
 				vm.tradingPartner = response.data;
 				if (vm.tradingPartner != null) {
 					vm.supportedPaymentBy = vm.tradingPartner.supportDebit ? "Supported payment by debit" : "Not supported payment by debit";
-					console.log(vm.tradingPartner.debitPayeeAccount);
-					if(vm.tradingPartner.debitPayeeAccount != null){
-						getPayeeAccountDetails(supplierId, vm.tradingPartner.debitPayeeAccount);
-					}else{
+					if (vm.tradingPartner.debitPayeeAccount == null || vm.tradingPartner.debitPayeeAccount == "") {
+						vm.payeeAccount = "";
+					} else if (vm.tradingPartner.debitPayeeAccount == 0) {
 						vm.payeeAccount = "Undefined";
+					} else {
+						getPayeeAccountDetails(supplierId, vm.tradingPartner.debitPayeeAccount);
 					}
 				}
 			}).catch(function (response) {
@@ -137,12 +142,31 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 				PageNavigation.gotoPage('/customer-registration/trading-partners');
 			}
 
-			var sponsorId = vm.financeModel.sponsorId;
-			var supplierId = vm.financeModel.supplierId;
+			sponsorId = vm.financeModel.sponsorId;
+			supplierId = vm.financeModel.supplierId;
 
 			loadTradingPartner(sponsorId, supplierId);
 			getFinanceInfo(sponsorId, supplierId);
 		} ();
+
+		vm.setupDebitPayment = function () {
+			UIFactory.showDialog({
+				templateUrl: '/js/app/modules/trading-partner/financing/templates/dialog-setup-debit-payment-information.html',
+				controller: 'SetupDebitPaymentController',
+				controllerAs: 'ctrl',
+				scope: $scope,
+				data: {
+					tradingPartnerModel: vm.tradingPartner,
+					payeeOrganizeName: vm.financeModel.supplierName
+				},
+				preCloseCallback: function (data) {
+					console.log(data);
+					if(angular.isDefined(data) && data != null){
+						loadTradingPartner(data.sponsorId, data.supplierId);
+					}
+				}
+			});
+		}
 
 		vm.back = function () {
 			$timeout(function () {

@@ -1,0 +1,56 @@
+<div class="modal-content">
+	<form name="setupDebitPaymentForm" class="form-horizontal" ng-submit="ctrl.save(closeThisDialog)">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3>
+						<span id="popup-header-message-label" class="popup-text" ng-bind="'Setup debit payment information' | translate">Setup debit payment information</span>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="form-group">
+				&nbsp;&nbsp;
+				<label class="checkbox-inline"> 
+                    <scf-checkbox id="support-payment-by-debit-checkbox" 
+                        ng-model="ctrl.tradingPartnerModel.supportDebit"></scf-checkbox>
+                    <span id="support-payment-by-debit-label">{{'Support payment by debit' | translate}}</span>
+				</label>
+			</div>
+
+			<div class="form-group">
+				<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">
+					<span ng-bind="'Payee' | translate" id="payee-label"></span>:
+				</label>
+				<label class="col-md-8 col-sm-8 col-sm-7 col-xs-12 control-label">
+					<span ng-bind="ctrl.payeeOrganizeName" id="payee-value-label"></span>
+				</label>
+			</div>
+
+			<div class="form-group">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="form-group">
+						<label for="group-name" id="mapping-type-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"><span
+							ng-bind="'Payee account' | translate"></span>:</label>
+						<div class="col-md-6 col-sm-4 col-xs-12">
+							<scf-dropdown id="payee-account-dropdown" 
+								ng-model="ctrl.tradingPartnerModel.debitPayeeAccount" 
+								component-data="ctrl.accountDropdown"
+								convert-to-number="true">
+							</scf-dropdown>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="popup-cancel-button" class="popup-button" ng-click="closeThisDialog()" ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="popup-save-button" class="popup-button" type="submit" ng-bind="'Save' | translate"></scf-button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
