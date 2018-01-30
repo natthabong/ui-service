@@ -136,12 +136,12 @@ exportChannelModule.controller('ExportChannelController', [
 					vm.isSetupFTP = true;
 					vm.channelModel.fileProtocol = 'SFTP';
 					
-					if(response.data.jobInformation.jobDatas.DATETIME_PATTERN == null){
-						vm.channelModel.jobInformation.jobDatas.DATETIME_PATTERN = 'YYYYMMDDHHMM';
+					if(response.data.jobInformation.jobData.DATETIME_PATTERN == null){
+						vm.channelModel.jobInformation.jobData.DATETIME_PATTERN = 'YYYYMMDDHHMM';
 					}
 					
-					if(response.data.jobInformation.jobDatas.FILE_EXTENSION == null){
-						vm.channelModel.jobInformation.jobDatas.FILE_EXTENSION = 'txt';
+					if(response.data.jobInformation.jobData.FILE_EXTENSION == null){
+						vm.channelModel.jobInformation.jobData.FILE_EXTENSION = 'txt';
 					}
 
 					if(response.data.jobInformation.jobFtpDetail.remotePort == null){
@@ -320,7 +320,7 @@ exportChannelModule.controller('ExportChannelController', [
  		if(vm.channelModel.channelType == 'FTP'){
 			var jobInformation = vm.channelModel.jobInformation;
 			var jobFtpDetail = vm.channelModel.jobInformation.jobFtpDetail;
-			var jobDatas = vm.channelModel.jobInformation.jobDatas;
+			var jobData = vm.channelModel.jobInformation.jobData;
 			
 			if(jobFtpDetail.remoteHost == null || jobFtpDetail.remoteHost ==""){
 				isValid = false;
@@ -350,14 +350,14 @@ exportChannelModule.controller('ExportChannelController', [
 				}
 			}
 
-			if(jobDatas.FILE_NAME_PREFIX == null || jobDatas.FILE_NAME_PREFIX == ""){
+			if(jobData.FILE_NAME_PREFIX == null || jobData.FILE_NAME_PREFIX == ""){
 				isValid = false;
 				$scope.errors.remoteFilenamePattern = {
 					message : 'File name prefix is required.'
 				}
 			}
 			
-			if(jobDatas.FILE_EXTENSION == null || jobDatas.FILE_EXTENSION == ""){
+			if(jobData.FILE_EXTENSION == null || jobData.FILE_EXTENSION == ""){
 				isValid = false;
 				$scope.errors.remoteFilenamePattern = {
 					message : 'File name extension is required.'
