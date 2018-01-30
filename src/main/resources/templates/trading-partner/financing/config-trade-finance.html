@@ -44,19 +44,16 @@
 					</div>
 					<form autocomplete="off" class="form-horizontal">
 						<div class="form-group">
-							<label class="col-lg-2 col-md-3 col-sm-4 col-xs-5 control-label" id="debit-payment-information-label"><b>{{'Debit payment information'| translate}}</b></label>
-							&nbsp;&nbsp;
-                            <button type="button" class="btn-default gec-btn-action btn" 
-                                id="debit-payment-information-setup-button" ng-click="ctrl.setupDebitPayment()"
+							<label class="col-lg-2 col-md-3 col-sm-4 col-xs-5 control-label" id="debit-payment-information-label"><b>{{'Debit payment information'| translate}}</b></label>							&nbsp;&nbsp;
+							<button type="button" class="btn-default gec-btn-action btn" id="debit-payment-information-setup-button" ng-click="ctrl.setupDebitPayment()"
 								title="Configure debit payment information"><i class="fa fa-cog" aria-hidden="true"></i></button>
 						</div>
 						<div class="form-group">
 							<label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 control-label" id="support-payment-by-debit-label" ng-bind="ctrl.supportedPaymentBy"></label>
-						</div>
-
-						<div class="form-group" ng-hide="(!ctrl.tradingPartner.supportDebit) || ctrl.tradingPartner.supportDebit == null">
-							<label class="col-lg-2 col-md-3 col-sm-4 col-xs-5 control-label" id="payee-account-label">{{'Payee account(Supplier)'| translate}}:</label>
-							<label class="col-lg-8 col-md-7 col-sm-6 col-xs-5 control-label" id="payee-account-value-label" ng-bind="ctrl.payeeAccount"></label>
+							<label class="col-lg-2 col-md-3 col-sm-4 col-xs-5 control-label" id="payee-account-label" ng-hide="(!ctrl.tradingPartner.supportDebit) || ctrl.tradingPartner.supportDebit == null">
+									{{'Payee account(Supplier)'| translate}}:</label>
+							<label class="col-lg-8 col-md-7 col-sm-6 col-xs-5 control-label" id="payee-account-value-label" ng-hide="(!ctrl.tradingPartner.supportDebit) || ctrl.tradingPartner.supportDebit == null"
+								ng-bind="ctrl.payeeAccount"></label>
 						</div>
 					</form>
 					<div class="col-md-12 col-sm-12 text-right">

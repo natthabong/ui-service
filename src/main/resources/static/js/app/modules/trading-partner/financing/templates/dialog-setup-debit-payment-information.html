@@ -14,7 +14,8 @@
 				&nbsp;&nbsp;
 				<label class="checkbox-inline"> 
                     <scf-checkbox id="support-payment-by-debit-checkbox" 
-                        ng-model="ctrl.tradingPartnerModel.supportDebit"></scf-checkbox>
+                        ng-model="ctrl.tradingPartnerModel.supportDebit"
+						ng-change="ctrl.changeSupportPaymentByDebit()"></scf-checkbox>
                     <span id="support-payment-by-debit-label">{{'Support payment by debit' | translate}}</span>
 				</label>
 			</div>
@@ -37,9 +38,15 @@
 							<scf-dropdown id="payee-account-dropdown" 
 								ng-model="ctrl.tradingPartnerModel.debitPayeeAccount" 
 								component-data="ctrl.accountDropdown"
+								ng-change="ctrl.changePayeeAccount()"
+								ng-disabled="!ctrl.tradingPartnerModel.supportDebit"
 								convert-to-number="true">
 							</scf-dropdown>
 						</div>
+					</div>
+					<div class="form-group" ng-show="ctrl.payeeAccountIsRequired">
+						<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<span class="col-lg-7 col-md-7 col-sm-6 col-xs-12 error-msg" id="warning-message-label" ng-bind="'Please select payee account.' | translate"></span>
 					</div>
 				</div>
 			</div>
