@@ -110,13 +110,13 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 		}
 
 		var loadTradingPartner = function (sponsorId, supplierId) {
-			console.log("test");
 			var deffered = ConfigTradeFinanceService.getTradingPartner(sponsorId, supplierId);
 			deffered.promise.then(function (response) {
 				vm.tradingPartner = response.data;
 				if (vm.tradingPartner != null) {
 					vm.supportedPaymentBy = vm.tradingPartner.supportDebit ? "Supported payment by debit" : "Not supported payment by debit";
-					if (vm.tradingPartner.debitPayeeAccount == null || vm.tradingPartner.debitPayeeAccount == "") {
+					console.log(vm.tradingPartner.debitPayeeAccount);
+					if (vm.tradingPartner.debitPayeeAccount == null) {
 						vm.payeeAccount = "";
 					} else if (vm.tradingPartner.debitPayeeAccount == 0) {
 						vm.payeeAccount = "Undefined";

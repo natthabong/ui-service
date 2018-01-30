@@ -180,7 +180,5 @@ tpModule.controller('TradingPartnerController', [
 			    
 			}();
 			
-			
-
         }
 ]);
