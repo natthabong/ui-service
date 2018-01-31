@@ -48,8 +48,9 @@
 										<td class="text-left"><span
 											id="export-file-layout-{{record.channelId}}-label"
 											ng-bind="record.displayName"></span></td>
-										<td class="text-left"><span
-											id="runtime-{{record.channelId}}-label"></span></td>
+										<td class="text-center"><span
+											id="runtime-{{record.channelId}}-label"
+											ng-bind="record.runtime | translate"></span></td>
 										<td class="text-center"><span
 											id="status-layout-{{record.channelId}}-label"
 											ng-bind="record.status | translate"></span></td>
