@@ -148,7 +148,7 @@ exportChannelModule.controller('ExportChannelController', [
 								suspend: false,
 								triggerInformations:[],
 								ftpDetail:{},
-								jobData:[]								
+								jobData:{}								
 						};
 						
 						vm.channelModel.jobInformation.jobData['DATETIME_PATTERN'] = 'YYYYMMDDHHMM';
@@ -269,6 +269,11 @@ exportChannelModule.controller('ExportChannelController', [
  				var beginTime = data.split(":");
  				triggerInformation.startHour = beginTime[0];
  				triggerInformation.startMinute = beginTime[1];
+ 				var endTime = parseInt(beginTime[1])+1 == 60 ? 0 : parseInt(beginTime[1])+1;
+ 				var endHour = parseInt(beginTime[1])+1 == 60 ? parseInt(beginTime[0])+1 : parseInt(beginTime[0]);
+ 				triggerInformation.endHour = endHour.toString();
+ 				triggerInformation.endMinute = endTime.toString();
+ 				triggerInformation.intervalInMinutes = 2
  				
  				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
  			});
