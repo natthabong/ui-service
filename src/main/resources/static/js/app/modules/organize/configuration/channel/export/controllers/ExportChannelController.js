@@ -136,7 +136,9 @@ exportChannelModule.controller('ExportChannelController', [
 					vm.isSetupFTP = true;
 					vm.channelModel.fileProtocol = 'SFTP';
 					
-					if(angular.isUndefined(response.data.jobInformation.jobId)){
+					var isNotHasJob = angular.isUndefined(response.data.jobInformation) || angular.isUndefined(response.data.jobInformation.jobId);
+					
+					if(isNotHasJob){
 						
 						vm.channelModel.jobInformation = {
 								jobId: undefined,
