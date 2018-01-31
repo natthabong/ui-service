@@ -5,6 +5,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', 'UIFactory', 'Acco
 
 		var vm = this;
 		var dialogData = $scope.ngDialogData;
+		vm.organize = dialogData.organizeId + ': ' + dialogData.organizeName;
 
 		vm.formatType = {
 			ACCOUNT_NO: "ACCOUNT_NO",
@@ -12,6 +13,18 @@ ac.controller('AccountController', ['$scope', '$stateParams', 'UIFactory', 'Acco
 		}
 
 		vm.format = vm.formatType.ACCOUNT_NO;
+
+		vm.accountTypeDropDown = [
+			{
+				label : "Overdraft",
+				value : "OVERDRAFT"
+			},{
+				label : "Term loan",
+				value : "LOAN"
+			}
+		]
+
+		vm.accountType = vm.accountTypeDropDown[0].value;
 		vm.accountNo = null;
 		vm.termLoan = null;
 
@@ -45,6 +58,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', 'UIFactory', 'Acco
 			}
 			if (_validate(accountNo)) {
 				var data = {
+					accountType : vm.accountType,
 					accountNo: accountNo
 				}
 
@@ -67,7 +81,8 @@ ac.controller('AccountController', ['$scope', '$stateParams', 'UIFactory', 'Acco
 								.save({
 									organizeId: dialogData.organizeId,
 									accountNo: data.accountNo,
-									format: data.format
+									format: data.format,
+									accountType : data.accountType
 								});
 						},
 						onFail: function (response) {
