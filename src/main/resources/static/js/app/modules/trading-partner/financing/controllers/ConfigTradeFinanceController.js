@@ -86,7 +86,6 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 		var getFinanceInfo = function (sponsorId, supplierId) {
 			var defered = ConfigTradeFinanceService.getTradeFinanceInfo(sponsorId, supplierId);
 			defered.promise.then(function (response) {
-				console.log(response.data);
 				vm.pagingController.tableRowCollection = null;
 				if (response.data[0] != null) {
 					vm.pagingController.tableRowCollection = response.data;
@@ -115,7 +114,6 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 				vm.tradingPartner = response.data;
 				if (vm.tradingPartner != null) {
 					vm.supportedPaymentBy = vm.tradingPartner.supportDebit ? "Supported payment by debit" : "Not supported payment by debit";
-					console.log(vm.tradingPartner.debitPayeeAccount);
 					if (vm.tradingPartner.debitPayeeAccount == null) {
 						vm.payeeAccount = "";
 					} else if (vm.tradingPartner.debitPayeeAccount == 0) {
@@ -160,7 +158,6 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 					payeeOrganizeName: vm.financeModel.supplierName
 				},
 				preCloseCallback: function (data) {
-					console.log(data);
 					if(angular.isDefined(data) && data != null){
 						loadTradingPartner(data.sponsorId, data.supplierId);
 					}
