@@ -85,12 +85,12 @@ angular
 												var status = response.status;
 												if (status != 400) {
 													var msg = {
-														404 : "Mapping data has been deleted."
+														404 : "Import channel has been deleted."
 													}
 													UIFactory
 															.showFailDialog({
 																data : {
-																	headerMessage : 'Delete mapping data fail.',
+																	headerMessage : 'Delete Import channel fail.',
 																	bodyMessage : msg[status] ? msg[status]
 																			: response.errorMessage
 																},
@@ -103,7 +103,7 @@ angular
 												UIFactory
 														.showSuccessDialog({
 															data : {
-																headerMessage : 'Delete mapping data success.',
+																headerMessage : 'Delete Import channel success.',
 																bodyMessage : ''
 															},
 															preCloseCallback : loadData

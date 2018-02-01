@@ -64,5 +64,25 @@ angular.module('gecscf.organize.configuration.productType').service(
 	     		return deferred;
 			}
 			
+			this.removeProductType = function(data){
+				   var url = '/api/v1/organize-customers/' + data.organizeId +'/product-types/' + data.productType
+				   var req = {
+			            method: 'POST',
+			            url: url,
+			            data: data,
+			            headers: {
+			                'If-Match': data.version,
+			                'X-HTTP-Method-Override': 'DELETE'
+			            }
+			        }
+				    var deffered = $q.defer();
+			        $http(req).then(function(response) {
+			        	deffered.resolve(response);
+		            })
+		            .catch(function(response) {
+		            	deffered.reject(response);
+		            });
+			        return deffered;
+				}
 			
 		} ]);

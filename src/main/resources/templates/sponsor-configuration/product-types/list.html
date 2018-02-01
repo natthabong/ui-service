@@ -62,12 +62,14 @@
 											<td class="text-left"><span
 												id="display-name-{{record.productType}}-label"
 												ng-bind="record.displayName"></span></td>
-											<td class="text-center"><scf-button
+											<td class="text-center">
+												<scf-button
 													id="{{record.productType}}-edit-button"
 													class="btn-default gec-btn-action"
 													ng-click="ctrl.editProductType(record)"
 													title="Setup product type"> <i
-													class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button> <scf-button
+													class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button> 
+													<scf-button
 													id="{{record.productType}}-delete-button"
 													class="btn-default gec-btn-action"
 													ng-click="ctrl.deleteProductType(record)"

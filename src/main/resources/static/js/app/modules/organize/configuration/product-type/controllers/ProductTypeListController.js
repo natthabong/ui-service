@@ -3,10 +3,12 @@ var productTypeModule = angular.module('gecscf.organize.configuration.productTyp
 productTypeModule.controller('ProductTypeListController', [
 		'PageNavigation',
 		'PagingController',
+		'UIFactory',
 		'$log',
 		'$scope',
 		'$stateParams',
-		function(PageNavigation, PagingController, $log, $scope, $stateParams) {
+		'ProductTypeService',
+		function(PageNavigation, PagingController, UIFactory, $log, $scope, $stateParams , ProductTypeService) {
 			var vm = this;
 			var log = $log;
 			var organizeId = $stateParams.organizeId;
@@ -50,6 +52,47 @@ productTypeModule.controller('ProductTypeListController', [
 					criteria: vm.criteria
 				});
 			}
+			
+			vm.deleteProductType = function(data) {
+				UIFactory
+				.showConfirmDialog({
+					data : {
+						headerMessage : 'Confirm delete?'
+					},
+					confirm : function() {
+						return ProductTypeService
+								.removeProductType(data);
+					},
+					onFail : function(response) {
+						var status = response.status;
+						if (status != 400) {
+							var msg = {
+								404 : "Product type has been deleted."
+							}
+							UIFactory
+									.showFailDialog({
+										data : {
+											headerMessage : 'Delete Product type fail.',
+											bodyMessage : msg[status] ? msg[status]
+													: response.errorMessage
+										},
+										preCloseCallback : loadData
+									});
+						}
+
+					},
+					onSuccess : function(response) {
+						UIFactory
+								.showSuccessDialog({
+									data : {
+										headerMessage : 'Delete Product type success.',
+										bodyMessage : ''
+									},
+									preCloseCallback : loadData
+								});
+					}
+				});
+			}
 
 			vm.gotoPreviousPage = function() {
 				var params = {organizeId: organizeId};
@@ -69,6 +112,10 @@ productTypeModule.controller('ProductTypeListController', [
 					$scope.currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
 					$scope.pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
 				});
+			}
+			
+			var loadData = function() {
+				vm.searchProductType();
 			}
 			
 			var init = function () {

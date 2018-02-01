@@ -110,12 +110,12 @@ exportChannelModule
 											var status = response.status;
 											if (status != 400) {
 												var msg = {
-													404 : "Mapping data has been deleted."
+													404 : "Export channel has been deleted."
 												}
 												UIFactory
 														.showFailDialog({
 															data : {
-																headerMessage : 'Delete mapping data fail.',
+																headerMessage : 'Delete Export channel fail.',
 																bodyMessage : msg[status] ? msg[status]
 																		: response.errorMessage
 															},
@@ -128,7 +128,7 @@ exportChannelModule
 											UIFactory
 													.showSuccessDialog({
 														data : {
-															headerMessage : 'Delete mapping data success.',
+															headerMessage : 'Delete Export channel success.',
 															bodyMessage : ''
 														},
 														preCloseCallback : loadData
