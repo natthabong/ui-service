@@ -22,6 +22,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		vm.isSupplier = undefined;
 		vm.isLoanType = false;
 		vm.loanAccountList = undefined;
+		vm.payeeAccountNo = undefined;
 
 		if (currentMode == 'NEW') {
 			vm.isNewMode = true;
@@ -57,22 +58,19 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			vm.payeeAccountDropdown = [{
 				label: 'Please select',
 				value: null
+			}, {
+				label: 'Undefined',
+				value: 0
 			}];
 
 			var deffered = TradeFinanceService.getPayeeAccounts(borrower.supplierId);
 			deffered.promise.then(function (response) {
 				var account = response.data;
-
 				account.forEach(function (data) {
 					vm.payeeAccountDropdown.push({
 						label: data.format ? ($filter('accountNoDisplay')(data.accountNo)) : data.accountNo,
 						value: data.accountId
 					})
-				});
-
-				vm.payeeAccountDropdown.push({
-					label: 'Undefined',
-					value: 0
 				});
 			}).catch(function (response) {
 				log.error('Get payee account fail');
@@ -86,11 +84,11 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			} else {
 				organizeId = borrower.supplierId;
 			}
-			var accountServiceUrl = 'api/v1/organize-customers/' + organizeId + '/trading-partners/' + supplierId + '/accounts';
+			var url = 'api/v1/organize-customers/' + organizeId + '/accounts';
 
 			value = value = UIFactory.createCriteria(value);
 
-			return $http.get(accountServiceUrl, {
+			return $http.get(url, {
 				params: {
 					q: value,
 					offset: 0,
@@ -186,7 +184,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		}
 
 		$scope.$watch('ctrl.tradeFinanceModel.financeAccount', function () {
-			if (vm.loanAccountList != undefined) {
+			if (vm.loanAccountList != undefined && vm.tradeFinanceModel.financeAccount) {
 				for (var i = 0; i < vm.loanAccountList.length; i++) {
 					if (vm.loanAccountList[i].accountNo === vm.tradeFinanceModel.financeAccount.accountNo) {
 						if (vm.loanAccountList[i].accountType === 'LOAN') {
@@ -195,6 +193,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 						} else {
 							vm.isLoanType = false;
 							vm.accountType = 'Overdraft';
+							vm.tradeFinanceModel.percentageLoan = '';
 							vm.tradeFinanceModel.tenor = '';
 							vm.tradeFinanceModel.interestRate = '';
 							vm.isUseExpireDate = false;
@@ -287,7 +286,8 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				interestRate: vm.tradeFinanceModel.interestRate,
 				agreementDate: vm.tradeFinanceModel.agreementDate,
 				suspend: vm.tradeFinanceModel.isSuspend,
-				borrowerType: vm.isSupplier ? "SUPPLIER" : "BUYER"
+				borrowerType: vm.isSupplier ? "SUPPLIER" : "BUYER",
+				payeeAccountId: vm.payeeAccountNo
 			}
 
 			var deferred = TradeFinanceService.createTradeFinance(sponsorId, supplierId, tradeFinanceModule, vm.isSupplier);
@@ -345,6 +345,13 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		var _validate = function () {
 			$scope.errors = {};
 			var valid = true;
+			
+			if (vm.payeeAccountNo == null || vm.payeeAccountNo == '') {
+				valid = false;
+				$scope.errors.payeeAccountNo = {
+					message: 'Payee account is required.'
+				}
+			}
 
 			if (!angular.isObject(vm.tradeFinanceModel.financeAccount)) {
 				valid = false;
@@ -353,7 +360,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				}
 			}
 
-			if (vm.tradeFinanceModel.tenor == null || vm.tradeFinanceModel.tenor == '') {
+			if (vm.isLoanType && (vm.tradeFinanceModel.tenor == null || vm.tradeFinanceModel.tenor == '')) {
 				valid = false;
 				$scope.errors.tenor = {
 					message: 'Tenor (Day) is required.'
@@ -371,7 +378,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 
 			if (!angular.isDefined(vm.tradeFinanceModel.agreementDate) || vm.tradeFinanceModel.agreementDate == null) {
 				var agreementDate = document.getElementById("agreement-date-textbox").value;
-				if (agreementDate != null && agreementDate != '') {
+				if (vm.isLoanType && agreementDate != null && agreementDate != '') {
 					valid = false;
 					$scope.errors.agreementDate = {
 						message: 'Wrong date format data.'
@@ -388,7 +395,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			if (vm.isUseExpireDate) {
 				if (!angular.isDefined(vm.tradeFinanceModel.creditExpirationDate) || vm.tradeFinanceModel.creditExpirationDate == null) {
 					var creditExpirationDate = document.getElementById("credit-expiration-date-textbox").value;
-					if (creditExpirationDate != null && creditExpirationDate != '') {
+					if (vm.isLoanType && creditExpirationDate != null && creditExpirationDate != '') {
 						valid = false;
 						$scope.errors.creditExpirationDate = {
 							message: 'Wrong date format data.'
@@ -475,6 +482,11 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		}
 
 		vm.changeBorrower = function () {
+			vm.accountType = '';
+			vm.tradeFinanceModel.percentageLoan = '';
+			vm.tradeFinanceModel.tenor = '';
+			vm.tradeFinanceModel.interestRate = '';
+			vm.isUseExpireDate = false;
 			if (vm.tradeFinanceModel.borrower == "SUPPLIER") {
 				vm.isSupplier = true;
 			} else {
