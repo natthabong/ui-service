@@ -136,27 +136,26 @@ exportChannelModule.controller('ExportChannelController', [
 					vm.isSetupFTP = true;
 					vm.channelModel.fileProtocol = 'SFTP';
 					
-					if(response.data.jobInformation.jobDatas.DATETIME_PATTERN == null){
-						vm.channelModel.jobInformation.jobDatas.DATETIME_PATTERN = 'YYYYMMDDHHMM';
-					}
+					var isNotHasJob = angular.isUndefined(response.data.jobInformation) || response.data.jobInformation == null;
 					
-					if(response.data.jobInformation.jobDatas.FILE_EXTENSION == null){
-						vm.channelModel.jobInformation.jobDatas.FILE_EXTENSION = 'txt';
-					}
-
-					if(response.data.jobInformation.jobFtpDetail.remotePort == null){
-						vm.channelModel.jobInformation.jobFtpDetail.remotePort = '22';
-					}
-
-					if(response.data.jobInformation.jobFtpDetail.encryptType == null){
-						vm.channelModel.jobInformation.jobFtpDetail.encryptType = 'NONE';
-					}
-
-					if(response.data.jobInformation.frequencyType == null){
+					if(isNotHasJob){
+						
+						vm.channelModel.jobInformation = {
+								jobId: undefined,
+								jobName: organizeId+' Export Payment Result', 
+								jobGroup: organizeId,
+								jobType: 'UPLOAD_FTP_JOB',
+								suspend: false,
+								triggerInformations:[],
+								ftpDetail:{},
+								jobData:{}								
+						};
+						
+						vm.channelModel.jobInformation.jobData['DATETIME_PATTERN'] = 'YYYYMMDDHHMM';
+						vm.channelModel.jobInformation.jobData['FILE_EXTENSION'] = 'txt';
+						vm.channelModel.jobInformation.ftpDetail.remotePort = '22';
+						vm.channelModel.jobInformation.ftpDetail.encryptType = 'NONE';
 						vm.channelModel.jobInformation.frequencyType = 'DAILY';
-					}
-
-					if(response.data.jobInformation.daysOfWeek == null || response.data.jobInformation.daysOfWeek == ''){
 						vm.channelModel.monday = true;
 						vm.channelModel.tuesday = true
 						vm.channelModel.wednesday = true
@@ -164,10 +163,12 @@ exportChannelModule.controller('ExportChannelController', [
 						vm.channelModel.friday = true
 						vm.channelModel.saturday = true
 						vm.channelModel.sunday = true
+						
+					} else {
 
-					}else {
-
-						var daysOfWeek = response.data.jobInformation.daysOfWeek.split(",");
+						vm.channelModel.jobInformation.frequencyType = 'DAILY';
+						
+						var daysOfWeek = response.data.jobInformation.triggerInformations[0].daysOfWeek.replace("[","").replace("]","").split(",");
 						daysOfWeek.forEach(function(data){
 							if(data == dayOfWeekFrequency.SUNDAY){
 								vm.channelModel.sunday = true
@@ -193,13 +194,18 @@ exportChannelModule.controller('ExportChannelController', [
 						});
 					}
 
-					response.data.jobInformation.jobFtpDetail.remotePassword = null;
-					response.data.jobInformation.jobFtpDetail.encryptPassword = null;
+					//response.data.jobInformation.ftpDetail.remotePassword = null;
+					//response.data.jobInformation.ftpDetail.encryptPassword = null;
+					
+					vm.channelModel.jobInformation.ftpDetail.remotePassword = null;
+					vm.channelModel.jobInformation.ftpDetail.encryptPassword = null;
 					
 					if(response.data.jobInformation.triggerInformations.length != 0){
 						response.data.jobInformation.triggerInformations.forEach(function(data){
 							if(data.startHour != null && data.startMinute != null){
-								var time = data.startHour + ":" +data.startMinute;
+				 				var hour = data.startHour.length == 1 ? "0"+data.startHour : data.startHour;
+				 				var minute = data.startMinute.length == 1 ? "0"+data.startMinute : data.startMinute;
+								var time = hour + ":" +minute;
 				 				vm.runTimes.push(time);
 							}
 			 			});
@@ -267,6 +273,11 @@ exportChannelModule.controller('ExportChannelController', [
  				var beginTime = data.split(":");
  				triggerInformation.startHour = beginTime[0];
  				triggerInformation.startMinute = beginTime[1];
+ 				var endTime = parseInt(beginTime[1])+1 == 60 ? 0 : parseInt(beginTime[1])+1;
+ 				var endHour = parseInt(beginTime[1])+1 == 60 ? parseInt(beginTime[0])+1 : parseInt(beginTime[0]);
+ 				triggerInformation.endHour = endHour.toString();
+ 				triggerInformation.endMinute = endTime.toString();
+ 				triggerInformation.intervalInMinutes = 2;
  				
  				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
  			});
@@ -319,8 +330,8 @@ exportChannelModule.controller('ExportChannelController', [
  		
  		if(vm.channelModel.channelType == 'FTP'){
 			var jobInformation = vm.channelModel.jobInformation;
-			var jobFtpDetail = vm.channelModel.jobInformation.jobFtpDetail;
-			var jobDatas = vm.channelModel.jobInformation.jobDatas;
+			var jobFtpDetail = vm.channelModel.jobInformation.ftpDetail;
+			var jobData = vm.channelModel.jobInformation.jobData;
 			
 			if(jobFtpDetail.remoteHost == null || jobFtpDetail.remoteHost ==""){
 				isValid = false;
@@ -350,14 +361,14 @@ exportChannelModule.controller('ExportChannelController', [
 				}
 			}
 
-			if(jobDatas.FILE_NAME_PREFIX == null || jobDatas.FILE_NAME_PREFIX == ""){
+			if(jobData.FILE_NAME_PREFIX == null || jobData.FILE_NAME_PREFIX == ""){
 				isValid = false;
 				$scope.errors.remoteFilenamePattern = {
 					message : 'File name prefix is required.'
 				}
 			}
 			
-			if(jobDatas.FILE_EXTENSION == null || jobDatas.FILE_EXTENSION == ""){
+			if(jobData.FILE_EXTENSION == null || jobData.FILE_EXTENSION == ""){
 				isValid = false;
 				$scope.errors.remoteFilenamePattern = {
 					message : 'File name extension is required.'
@@ -458,8 +469,8 @@ exportChannelModule.controller('ExportChannelController', [
  	vm.setupUserInfo = function(){
 		vm.username = '';
 		
-		if(angular.isDefined(vm.channelModel.jobInformation) && angular.isDefined(vm.channelModel.jobInformation.jobFtpDetail.remoteUsername)){
-			vm.username = vm.channelModel.jobInformation.jobFtpDetail.remoteUsername;
+		if(angular.isDefined(vm.channelModel.jobInformation) && angular.isDefined(vm.channelModel.jobInformation.ftpDetail.remoteUsername)){
+			vm.username = vm.channelModel.jobInformation.ftpDetail.remoteUsername;
 		}
 		
 		var userInfo = ngDialog.open({
@@ -472,8 +483,8 @@ exportChannelModule.controller('ExportChannelController', [
 			},
 			preCloseCallback : function(value) {
 				if (angular.isDefined(value)) {
-					vm.channelModel.jobInformation.jobFtpDetail.remoteUsername = value.username;
-					vm.channelModel.jobInformation.jobFtpDetail.remotePassword = value.password;
+					vm.channelModel.jobInformation.ftpDetail.remoteUsername = value.username;
+					vm.channelModel.jobInformation.ftpDetail.remotePassword = value.password;
 				}
 				return true;
 			}
@@ -485,16 +496,16 @@ exportChannelModule.controller('ExportChannelController', [
 		vm.encryptPassword = null;
 		vm.decryptPrivateKey = null;
 			 
-		if(angular.isDefined(vm.channelModel.jobInformation.jobFtpDetail.encryptType)){
-			vm.encryptType = vm.channelModel.jobInformation.jobFtpDetail.encryptType;
+		if(angular.isDefined(vm.channelModel.jobInformation.ftpDetail.encryptType)){
+			vm.encryptType = vm.channelModel.jobInformation.ftpDetail.encryptType;
 		}
 		
-		if(angular.isDefined(vm.channelModel.jobInformation.jobFtpDetail.encryptPassword)){
-			vm.encryptPassword = vm.channelModel.jobInformation.jobFtpDetail.encryptPassword;
+		if(angular.isDefined(vm.channelModel.jobInformation.ftpDetail.encryptPassword)){
+			vm.encryptPassword = vm.channelModel.jobInformation.ftpDetail.encryptPassword;
 		}
 		
-		if(angular.isDefined(vm.channelModel.jobInformation.jobFtpDetail.decryptPrivateKey)){
-			vm.decryptPrivateKey = vm.channelModel.jobInformation.jobFtpDetail.decryptPrivateKey;
+		if(angular.isDefined(vm.channelModel.jobInformation.ftpDetail.decryptPrivateKey)){
+			vm.decryptPrivateKey = vm.channelModel.jobInformation.ftpDetail.decryptPrivateKey;
 		}
 		
 		var decryptInfo = ngDialog.open({
@@ -509,9 +520,9 @@ exportChannelModule.controller('ExportChannelController', [
 			},
 			preCloseCallback : function(value) {
 				if (angular.isDefined(value)) {
-					vm.channelModel.jobInformation.jobFtpDetail.encryptType = value.encryptType;
-					vm.channelModel.jobInformation.jobFtpDetail.encryptPassword = value.encryptPassword;
-					vm.channelModel.jobInformation.jobFtpDetail.decryptPrivateKey = value.decryptPrivateKey;
+					vm.channelModel.jobInformation.ftpDetail.encryptType = value.encryptType;
+					vm.channelModel.jobInformation.ftpDetail.encryptPassword = value.encryptPassword;
+					vm.channelModel.jobInformation.ftpDetail.decryptPrivateKey = value.decryptPrivateKey;
 				}
 				return true;
 			}
