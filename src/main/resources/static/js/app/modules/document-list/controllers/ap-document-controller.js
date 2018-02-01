@@ -215,7 +215,8 @@ scfApp.controller('DocumentListController', ['$scope', 'Service', '$stateParams'
             if (angular.isDefined(vm.documentListModel.supplier)) {
                 var supplierCriteria = vm.documentListModel.supplier.organizeId;
             }
-
+            
+            vm.documentListCriterial.viewMode = $stateParams.viewMode;
             vm.documentListCriterial.buyerId = buyerCriteria;
             vm.documentListCriterial.supplierId = supplierCriteria;
             vm.documentListCriterial.customerCode = UIFactory.createCriteria(vm.documentListModel.supplierCode);
