@@ -140,7 +140,6 @@ displayModule.controller('DisplayController', [
         vm.overdueType = vm.overdueRadioType.UNLIMITED;
 
         var initialCheckBoxPayOnlyBankWorkingDay = function () {
-            console.log("object");
             vm.allowablePaymentDays.forEach(function (data) {
                 if (data.transactionMethod == "DEBIT") {
                     vm.checkedForDebit = checkIsWorkingDay(data);
@@ -154,7 +153,6 @@ displayModule.controller('DisplayController', [
 
         vm.overDuePeriod = null;
         var initialOverdue = function () {
-            console.log(vm.dataModel.overDuePeriod);
             if (vm.dataModel.overDuePeriod == 0 || vm.dataModel.overDuePeriod == null) {
                 vm.overDuePeriod = null;
                 vm.overdueType = vm.overdueRadioType.UNLIMITED;
@@ -168,7 +166,6 @@ displayModule.controller('DisplayController', [
             var deffered = DisplayService.getDocumentDisplayConfig(ownerId, accountingTransactionType, displayMode, displayId);
             deffered.promise.then(function (response) {
                 var data = response.data;
-                console.log(data);
                 vm.dataModel = data || {
                     displayName: null,
                     items: [newDisplayConfig()],
@@ -239,7 +236,6 @@ displayModule.controller('DisplayController', [
             var deffered = DisplayService.getDocumentDisplayConfigs(ownerId, accountingTransactionType, displayMode);
             deffered.promise.then(function (response) {
                 var data = response.data[0];
-                console.log(data);
                 loadDisplayConfig(ownerId, accountingTransactionType, displayMode,data.documentDisplayId);
 
             }).catch(function (response) {

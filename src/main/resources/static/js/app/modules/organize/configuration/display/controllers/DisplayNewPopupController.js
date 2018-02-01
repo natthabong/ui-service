@@ -18,12 +18,10 @@ tpModule
 							var ownerId = data.ownerId;
 					        vm.accountingTransactionType = data.accountingTransactionType;
 					        var displayMode = data.displayMode;
-					        console.log(displayMode);
 					        vm.modeCreateDisplay = true;
 					        if(displayMode == 'DOCUMENT'){
 					        	vm.modeCreateDisplay = false;
 					        }
-					        console.log(vm.modeCreateDisplay);
 					        
 							vm.model = {
 								displayName: null,

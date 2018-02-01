@@ -141,7 +141,6 @@ sciModule.controller('SupplierCreditInformationController', [
 
 		vm.inquiryAccount = function (record) {
 			blockUI.start("Processing...");
-			console.log(record);
 			var deffered = $q.defer();
 			var tpAccountModel = {
 				accountId: record.accountId,

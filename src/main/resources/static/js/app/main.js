@@ -312,8 +312,6 @@
         $(".fileupload-v1-file").click();
         $(".fileupload-v1-file").on("change", function () {
             path.attr("placeholder", $(this).val());
-            console.log(wrapper);
-            console.log(path);
         });
     });
 

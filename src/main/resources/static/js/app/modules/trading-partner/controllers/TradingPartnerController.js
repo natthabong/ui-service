@@ -44,7 +44,6 @@ tpModule.controller('TradingPartnerController', [
 
                     var deffered = TradingPartnerService.findTradingPartnerBySponsorIdAndSupplierId(sponsorId, supplierId);
                     deffered.promise.then(function(response) {
-                        console.log(response.data);
                         vm.tradingPartner = response.data;
                         var sponsorOrganize = _prepareItem(vm.tradingPartner.sponsorOrganize);
                         vm.organizeListModel.buyer = sponsorOrganize;

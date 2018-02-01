@@ -43,7 +43,6 @@ tradeFinanceModule.controller('SetupDebitPaymentController', ['$scope', '$stateP
 
         var validateBeforeSave = function () {
             var valid = true;
-            console.log(vm.tradingPartnerModel.debitPayeeAccount);
             if (vm.tradingPartnerModel.supportDebit && vm.tradingPartnerModel.debitPayeeAccount == null) {
                 valid = false;
                 vm.payeeAccountIsRequired = true;
