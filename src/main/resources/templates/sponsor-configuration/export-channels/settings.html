@@ -85,13 +85,13 @@
 						<div class="form-group" ng-show="ctrl.haveProductType">
 							<label 	class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								&nbsp;&nbsp;
-							<div class="col-md-1 col-sm-2 col-xs-10" >
-								<label ng-repeat="productType in ctrl.productTypes"> <input type="checkbox" 
+							<div class="col-md-2 col-sm-2 col-xs-10" >
+								<div ng-repeat="productType in ctrl.productTypes"><input type="checkbox" 
 									ng-disabled="ctrl.isAllProductType"
 									checklist-model="ctrl.channelModel.productTypes" checklist-value="productType"
 									id="producttype-{{productType.displayName}}-checkbox"/>
 									{{productType.displayName}}
-								</label><br/>
+								</div><br/>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
