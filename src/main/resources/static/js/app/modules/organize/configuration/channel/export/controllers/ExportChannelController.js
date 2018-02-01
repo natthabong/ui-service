@@ -150,8 +150,8 @@ exportChannelModule.controller('ExportChannelController', [
 								jobData:{}								
 						};
 						
-						vm.channelModel.jobInformation.jobData['DATETIME_PATTERN'] = 'yyyyMMHHddHHmm';
-						vm.channelModel.jobInformation.jobData['FILE_EXTENSION'] = 'txt';
+						vm.channelModel.filenamePattern = 'yyyyMMHHddHHmm';
+						vm.channelModel.fileExtension = 'txt';
 						vm.channelModel.jobInformation.ftpDetail.remotePort = '22';
 						vm.channelModel.jobInformation.ftpDetail.encryptType = 'NONE';
 						vm.channelModel.jobInformation.frequencyType = 'DAILY';
@@ -206,7 +206,7 @@ exportChannelModule.controller('ExportChannelController', [
 						}
 					}
 					
-					vm.channelModel.jobInformation.jobData['DATETIME_PATTERN'] = 'yyyyMMHHddHHmm';
+					vm.channelModel.filenamePattern = 'yyyyMMHHddHHmm';
 					vm.channelModel.jobInformation.ftpDetail.remotePassword = null;
 					vm.channelModel.jobInformation.ftpDetail.encryptPassword = null;
 					
@@ -381,7 +381,7 @@ exportChannelModule.controller('ExportChannelController', [
 				}
 			}
 			
-			if(jobData.FILE_EXTENSION == null || vm.channelModel.fileExtension == ""){
+			if(vm.channelModel.fileExtension == null || vm.channelModel.fileExtension == ""){
 				isValid = false;
 				$scope.errors.remoteFilenamePattern = {
 					message : 'File name extension is required.'

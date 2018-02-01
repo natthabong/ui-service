@@ -101,23 +101,22 @@
 			<div class="col-md-2 col-sm-3 col-xs-11">
 				<scf-input-text id="filename-prefix-textbox" maxlength="200"
 					placeholder="filename prefix"
-					ng-model="ctrl.channelModel.prefixFileName">
-				</scf-input-text>
+					ng-model="ctrl.channelModel.prefixFileName"> </scf-input-text>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-11">
 				<scf-dropdown id="filename-postfix-textbox" ng-disabled="true"
 					ng-model="ctrl.channelModel.filenamePattern"
 					component-data="ctrl.filenamePostfixDropdown"> </scf-dropdown>
 			</div>
-			<div class="col-md-1 col-sm-1 col-xs-3 control-label">
-				<label>.</label>
-			</div>
 			<div class="col-md-1 col-sm-2 col-xs-8">
-				<scf-input-text id="filename-extension-textbox" maxlength="5"
-					placeholder="extension"
-					ng-model="ctrl.channelModel.fileExtension">
-				</scf-input-text>
-			</div>	
+				<div style="width: 85px;">
+					<label class="control-label"
+						style="width: 20px; float: left; display: inline-block; margin-right: 0px;">.</label>
+					<scf-input-text id="filename-extension-textbox" maxlength="5"
+						style="display: inline;width: 65px;" placeholder="extension"
+						ng-model="ctrl.channelModel.fileExtension"> </scf-input-text>
+				</div>
+			</div>
 		</div>
 		<div class="form-group"
 			ng-show="errors.remoteFilenamePattern || errors.limitedFileSize">
@@ -298,13 +297,13 @@
 		</div>
 
 		<div class="form-group" ng-show="errors.runtime">
-            <div ng-show="errors.runtime">
-                <label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-                <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
-                    id="begin-time-warning-message-label"
-                    ng-bind="errors.runtime.message"> </span> 
-            </div>
-        </div>
-  
-    </div>
+			<div ng-show="errors.runtime">
+				<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+					class="col-md-3 col-sm-3 col-xs-12 error-msg"
+					id="begin-time-warning-message-label"
+					ng-bind="errors.runtime.message"> </span>
+			</div>
+		</div>
+
+	</div>
 </div>
