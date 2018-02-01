@@ -1,8 +1,8 @@
 'use strict';
 var module = angular.module('gecscf.organize.configuration.fileLayout');
-module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, $q, Service) {
+module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, $q, Service) {
 
-	var getDocumentFields = function (fileLayoutType, sectionType, dataType) {
+	this.getDocumentFields = function (fileLayoutType, sectionType, dataType) {
 		var deffered = $q.defer();
 
 		var uri = 'api/v1/configs/file-layout-types/' + fileLayoutType + '/section-types/' + sectionType + '/document-field';
@@ -21,7 +21,7 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		return deffered;
 	}
 
-	var getFileLayouts = function (owner, processTypes, integrateTypes) {
+	this.getFileLayouts = function (owner, processTypes, integrateTypes) {
 		var url = '/api/v1/organize-customers/' + owner + '/process-types/' + processTypes +
 			'/integrate-types/' + integrateTypes + '/layouts';
 		var serviceDiferred = Service.doGet(url, {
@@ -31,14 +31,14 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		return serviceDiferred
 	}
 
-	var getFileLayout = function (owner, processTypes, integrateTypes, layoutId) {
+	this.getFileLayout = function (owner, processTypes, integrateTypes, layoutId) {
 		var url = '/api/v1/organize-customers/' + owner + '/process-types/' + processTypes +
 			'/integrate-types/' + integrateTypes + '/layouts/' + layoutId;
 		var serviceDiferred = Service.doGet(url);
 		return serviceDiferred
 	}
 
-	var createFileLayout = function (owner, processTypes, integrateTypes, layoutConfigData) {
+	this.createFileLayout = function (owner, processTypes, integrateTypes, layoutConfigData) {
 		var serviceUrl = 'api/v1/organize-customers/' + owner + '/process-types/' + processTypes + '/integrate-types/' + integrateTypes + '/layouts';
 		var deferred = $q.defer();
 		$http({
@@ -53,7 +53,7 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		 return deferred;
 	}
 
-	var updateFileLayout = function(owner, processTypes, integrateTypes, layoutId, layoutConfigData){
+	this.updateFileLayout = function(owner, processTypes, integrateTypes, layoutId, layoutConfigData){
 	    
 		var serviceUrl = 'api/v1/organize-customers/' + owner +
 			 '/process-types/' + processTypes + '/integrate-types/' + integrateTypes + '/layouts/' + layoutId;
@@ -73,7 +73,7 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		 return deferred;
 	}
 
-	var getSpecificData = function () {
+	this.getSpecificData = function () {
 
 		var deffered = $q.defer();
 		var uri = 'js/app/modules/organize/configuration/file-layout/data/specifics_data.json';
@@ -91,7 +91,7 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 
 	}
 
-	var loadDocumentFieldData = function (sectionType) {
+	this.loadDocumentFieldData = function (sectionType) {
 		var deffered = $q.defer();
 		var uri = 'api/v1/configs/file-layout-types/IMPORT/section-types/' + sectionType + '/document-field'
 		$http({
@@ -109,7 +109,7 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		return deffered;
 	}
 
-	var validate = function (layout, docFieldList, messageFunc) {
+	this.validate = function (layout, docFieldList, messageFunc) {
 
 		var documentFieldIdList = [];
 
@@ -207,7 +207,7 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		return true;
 	}
 
-	var getFileLayoutItems = function(ownerId,layoutId,section){
+	this.getFileLayoutItems = function(ownerId,layoutId,section){
 		var uri = 'api/v1/organize-customers/' + ownerId + 
                 '/process-types/EXPORT_DOCUMENT/integrate-types/EXPORT/layouts/' + layoutId + '/items';
 		var deffered = Service.doGet(uri, {
@@ -216,15 +216,30 @@ module.factory('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 
 		return deffered;
 	}
-	return {
-		loadDocumentFieldData: loadDocumentFieldData,
-		getDocumentFields: getDocumentFields,
-		getSpecificData: getSpecificData,
-		validate: validate,
-		getFileLayouts: getFileLayouts,
-		getFileLayout: getFileLayout,
-		getFileLayoutItems : getFileLayoutItems,
-		createFileLayout: createFileLayout,
-		updateFileLayout: updateFileLayout
+	
+	this.deleteLayout = function(model, processTypes, integrateTypes){
+	  var uri = 'api/v1/organize-customers/' +  model.sponsorId  + 
+    '/process-types/'+processTypes+'/integrate-types/'+integrateTypes+'/layouts/' + model.layoutConfigId;
+	  
+    var deffered = $q.defer();
+
+    $http({
+            url: uri,
+            method: 'POST',
+            headers: {
+                'If-Match': model.version,
+                'X-HTTP-Method-Override': 'DELETE'
+            },
+            data: model
+        })
+        .then(function(response) {
+            deffered.resolve(response);
+        })
+        .catch(function(response) {
+            deffered.reject(response);
+        });
+
+    return deffered;
+
 	}
 }]);

@@ -1,5 +1,5 @@
 <div th:fragment="content">
-	<div id="wrapper" ng-controller="FileLayoutsController as ctrl">
+	<div id="wrapper" ng-controller="FileLayoutListController as ctrl">
 		<div class="panel panel-default col-md-12 padding-0">
 			<div class="panel-body" style="min-height: 360px;">
 				<div class="row">
@@ -11,18 +11,40 @@
 						<br />
 						<scf-button class="btn-default gec-btn-action"
 							id="AR-import-layout-new-button" title="New Import File Layout"
-							ng-click="ctrl.newARFileLayout(ctrl.data,'AR_DOCUMENT', 'IMPORT')"> <i
-							class="fa fa-plus" aria-hidden="true"></i></scf-button>
+							ng-click="ctrl.newARFileLayout(ctrl.data,'AR_DOCUMENT', 'IMPORT')">
+						<i class="fa fa-plus" aria-hidden="true"></i></scf-button>
 					</div>
 				</div>
-				<div class="row" ng-init="ctrl.init('AR_DOCUMENT', 'IMPORT')">
-					<div class="col-md-12 col-sm-12 text-right">
-						<scf-table id="ar-channel-configs-table"
-							component-config="ctrl.dataTable" component-datas="ctrl.data"
-							current-page="ctrl.currentPage"
-							record-per-page="ctrl.pageModel.pageSizeSelectModel"
-							clear-sort-order="ctrl.pageModel.clearSortOrder"> </scf-table>
-					</div>
+				<div class="responsive-table"
+					ng-init="ctrl.init('AR_DOCUMENT', 'IMPORT')">
+					<table id="ar-channel-configs-table"
+						class="table table-striped table-bordered" cellspacing="0">
+						<thead>
+							<tr>
+								<th id="import-file-layout-header-label"
+									ng-bind="'Import file layout' | translate">Import file
+									layout</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in ctrl.data track by $index">
+								<td><span
+									id="{{ctrl.processType}}-import-layout-{{data.displayName}}-label"
+									ng-bind="data.displayName"> </span></td>
+								<td class="text-center"><scf-button
+										id="{{ctrl.processType}}-import-layout-{{data.displayName}}-setup-button"
+										class="btn-default gec-btn-action"
+										ng-click="ctrl.newFileLayout(data ,ctrl.processType , ctrl.integrateType)"
+										title="Config a file layout"> <i
+										class="fa fa-cog" aria-hidden="true"></i></scf-button> <scf-button
+										id="{{ctrl.processType}}-import-layout-{{data.displayName}}-delete-button"
+										class="btn-default gec-btn-action" ng-click="ctrl.deleteLayout(data)"
+										title="Delete a file layout"> <i
+										class="fa fa-trash-o" aria-hidden="true"></i></scf-button></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
