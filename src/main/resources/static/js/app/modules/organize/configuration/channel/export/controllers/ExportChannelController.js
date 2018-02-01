@@ -19,7 +19,7 @@ exportChannelModule.constant('FREQUENCY_DROPDOWN',[
 	{label:'Daily', value: 'DAILY'}
 	]);
 exportChannelModule.constant('POSTFIX_DROPDOWN',[
-	{label:'YYYYMMDDHHMM', value: 'YYYYMMDDHHMM'}
+	{label:'YYYYMMDDHHMM', value: 'yyyyMMHHddHHmm'}
 	]);
 exportChannelModule.constant('EXTENSION_DROPDOWN',[
 	{label:'.txt', value: 'TXT'},
@@ -150,7 +150,7 @@ exportChannelModule.controller('ExportChannelController', [
 								jobData:{}								
 						};
 						
-						vm.channelModel.jobInformation.jobData['DATETIME_PATTERN'] = 'YYYYMMDDHHMM';
+						vm.channelModel.jobInformation.jobData['DATETIME_PATTERN'] = 'yyyyMMHHddHHmm';
 						vm.channelModel.jobInformation.jobData['FILE_EXTENSION'] = 'txt';
 						vm.channelModel.jobInformation.ftpDetail.remotePort = '22';
 						vm.channelModel.jobInformation.ftpDetail.encryptType = 'NONE';
@@ -206,7 +206,7 @@ exportChannelModule.controller('ExportChannelController', [
 						}
 					}
 					
-					vm.channelModel.jobInformation.jobData['DATETIME_PATTERN'] = 'YYYYMMDDHHMM';
+					vm.channelModel.jobInformation.jobData['DATETIME_PATTERN'] = 'yyyyMMHHddHHmm';
 					vm.channelModel.jobInformation.ftpDetail.remotePassword = null;
 					vm.channelModel.jobInformation.ftpDetail.encryptPassword = null;
 					
@@ -374,14 +374,14 @@ exportChannelModule.controller('ExportChannelController', [
 				}
 			}
 
-			if(jobData.FILE_NAME_PREFIX == null || jobData.FILE_NAME_PREFIX == ""){
+			if(vm.channelModel.prefixFileName == null || vm.channelModel.prefixFileName == ""){
 				isValid = false;
 				$scope.errors.remoteFilenamePattern = {
 					message : 'File name prefix is required.'
 				}
 			}
 			
-			if(jobData.FILE_EXTENSION == null || jobData.FILE_EXTENSION == ""){
+			if(jobData.FILE_EXTENSION == null || vm.channelModel.fileExtension == ""){
 				isValid = false;
 				$scope.errors.remoteFilenamePattern = {
 					message : 'File name extension is required.'

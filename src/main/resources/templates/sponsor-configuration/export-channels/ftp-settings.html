@@ -101,12 +101,12 @@
 			<div class="col-md-2 col-sm-3 col-xs-11">
 				<scf-input-text id="filename-prefix-textbox" maxlength="200"
 					placeholder="filename prefix"
-					ng-model="ctrl.channelModel.jobInformation.jobData['FILE_NAME_PREFIX']">
+					ng-model="ctrl.channelModel.prefixFileName">
 				</scf-input-text>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-11">
 				<scf-dropdown id="filename-postfix-textbox" ng-disabled="true"
-					ng-model="ctrl.channelModel.jobInformation.jobData['DATETIME_PATTERN']"
+					ng-model="ctrl.channelModel.filenamePattern"
 					component-data="ctrl.filenamePostfixDropdown"> </scf-dropdown>
 			</div>
 			<div class="col-md-1 col-sm-1 col-xs-3 control-label">
@@ -115,7 +115,7 @@
 			<div class="col-md-1 col-sm-2 col-xs-8">
 				<scf-input-text id="filename-extension-textbox" maxlength="5"
 					placeholder="extension"
-					ng-model="ctrl.channelModel.jobInformation.jobData['FILE_EXTENSION']">
+					ng-model="ctrl.channelModel.fileExtension">
 				</scf-input-text>
 			</div>	
 		</div>
