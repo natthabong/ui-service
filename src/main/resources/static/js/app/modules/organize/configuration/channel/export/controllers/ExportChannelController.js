@@ -290,8 +290,12 @@ exportChannelModule.controller('ExportChannelController', [
  		}
         if(vm.channelModel.exportDataType == 'ALL'){
             vm.channelModel.productTypes.length = 0;
-       }
-
+        }
+        if(vm.channelModel.suspend == false){
+            vm.channelModel.status = 'ACTIVE';
+        } else {
+        	vm.channelModel.status = 'SUSPEND';
+        }
  	 }     
 
      var validSave = function(){
@@ -615,13 +619,13 @@ exportChannelModule.controller('SetupFileEncryptionController', [ '$scope', '$ro
 		 var isValid = true;
 		 vm.showPasswordMessageError = false;
 		 
-		 if(vm.encryptInfo.encryptType == 'PGP'){
-			 if(vm.encryptInfo.encryptPassword == null|| vm.encryptInfo.encryptPassword ==''){
-				 vm.showPasswordMessageError = true;
-				 vm.passwordMessageError = "PGP Password Require";
-				 isValid = false;
-			 }
-		 }
+//		 if(vm.encryptInfo.encryptType == 'PGP'){
+//			 if(vm.encryptInfo.encryptPassword == null|| vm.encryptInfo.encryptPassword ==''){
+//				 vm.showPasswordMessageError = true;
+//				 vm.passwordMessageError = "PGP Password Require";
+//				 isValid = false;
+//			 }
+//		 }
 		 
 		 if(isValid){
 			 $scope.closeThisDialog(vm.encryptInfo);
