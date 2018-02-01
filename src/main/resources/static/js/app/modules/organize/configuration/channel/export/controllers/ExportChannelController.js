@@ -144,7 +144,6 @@ exportChannelModule.controller('ExportChannelController', [
 								jobId: undefined,
 								jobName: organizeId+' Export Payment Result', 
 								jobGroup: organizeId,
-								jobType: 'UPLOAD_FTP_JOB',
 								suspend: false,
 								triggerInformations:[],
 								ftpDetail:{},
@@ -192,24 +191,25 @@ exportChannelModule.controller('ExportChannelController', [
 								vm.channelModel.saturday = true
 							}
 						});
+						
+						
+						if(response.data.jobInformation.triggerInformations.length > 0){
+							console.log(response.data.jobInformation.triggerInformations);
+							response.data.jobInformation.triggerInformations.forEach(function(data){
+								if(data.startHour != null && data.startMinute != null){
+					 				var hour = data.startHour.length == 1 ? "0"+data.startHour : data.startHour;
+					 				var minute = data.startMinute.length == 1 ? "0"+data.startMinute : data.startMinute;
+									var time = hour + ":" +minute;
+					 				vm.runTimes.push(time);
+								}
+				 			});
+						}
 					}
-
-					//response.data.jobInformation.ftpDetail.remotePassword = null;
-					//response.data.jobInformation.ftpDetail.encryptPassword = null;
 					
+					vm.channelModel.jobInformation.jobData['DATETIME_PATTERN'] = 'YYYYMMDDHHMM';
 					vm.channelModel.jobInformation.ftpDetail.remotePassword = null;
 					vm.channelModel.jobInformation.ftpDetail.encryptPassword = null;
 					
-					if(response.data.jobInformation.triggerInformations.length != 0){
-						response.data.jobInformation.triggerInformations.forEach(function(data){
-							if(data.startHour != null && data.startMinute != null){
-				 				var hour = data.startHour.length == 1 ? "0"+data.startHour : data.startHour;
-				 				var minute = data.startMinute.length == 1 ? "0"+data.startMinute : data.startMinute;
-								var time = hour + ":" +minute;
-				 				vm.runTimes.push(time);
-							}
-			 			});
-					}
 				}
   			});
       }
@@ -268,6 +268,8 @@ exportChannelModule.controller('ExportChannelController', [
  			vm.channelModel.jobInformation.daysOfWeek = daysOfWeek;
  			
  			vm.channelModel.jobInformation.triggerInformations = [];
+ 			console.log(vm.channelModel.runTimes);
+ 			console.log(vm.runTimes);
  			vm.runTimes.forEach(function(data){
  				var triggerInformation = {};
  				var beginTime = data.split(":");
@@ -286,9 +288,10 @@ exportChannelModule.controller('ExportChannelController', [
  		if(!vm.isUseExpireDate){
  			vm.channelModel.expiryDate = null;
  		}
- 		if(vm.channelModel.exportDataType == 'ALL'){
- 			vm.channelModel.productTypes.length = 0;
-		}
+        if(vm.channelModel.exportDataType == 'ALL'){
+            vm.channelModel.productTypes.length = 0;
+       }
+
  	 }     
 
      var validSave = function(){
@@ -332,6 +335,9 @@ exportChannelModule.controller('ExportChannelController', [
  		}
  		
  		if(vm.channelModel.channelType == 'FTP'){
+ 			vm.channelModel.jobInformation.suspend = vm.channelModel.suspend;
+ 			vm.channelModel.jobInformation.jobName = vm.channelModel.displayName;
+ 			vm.channelModel.jobInformation.jobType = 'UPLOAD_FTP_JOB';
 			var jobInformation = vm.channelModel.jobInformation;
 			var jobFtpDetail = vm.channelModel.jobInformation.ftpDetail;
 			var jobData = vm.channelModel.jobInformation.jobData;
