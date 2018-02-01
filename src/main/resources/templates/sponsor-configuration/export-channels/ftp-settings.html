@@ -19,7 +19,7 @@
 			</div>
 			<div class="col-md-3 col-sm-3 col-xs-12">
 				<scf-input-text id="host-name-textbox" maxlength="255"
-					ng-model="ctrl.channelModel.jobInformation.jobFtpDetail.remoteHost">
+					ng-model="ctrl.channelModel.jobInformation.ftpDetail.remoteHost">
 				</scf-input-text>
 			</div>
 			<div class="col-md-1 col-sm-2 col-xs-8 control-label">
@@ -28,7 +28,7 @@
 			</div>
 			<div class="col-md-1 col-sm-2 col-xs-8">
 				<scf-input-number id="port-number-textbox" maxlength="5"
-					ng-model="ctrl.channelModel.jobInformation.jobFtpDetail.remotePort">
+					ng-model="ctrl.channelModel.jobInformation.ftpDetail.remotePort">
 				</scf-input-number>
 			</div>
 		</div>
@@ -55,7 +55,7 @@
 			<div class="col-md-3 col-sm-3 col-xs-12">
 				<scf-input-text id="ftp-user-textbox" ng-disabled="true"
 					maxlength="100"
-					ng-model="ctrl.channelModel.jobInformation.jobFtpDetail.remoteUsername">
+					ng-model="ctrl.channelModel.jobInformation.ftpDetail.remoteUsername">
 				</scf-input-text>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-12">
@@ -82,7 +82,7 @@
 
 			<div class="col-md-7 col-sm-8 col-xs-11">
 				<scf-input-text id="remote-directory-textbox" maxlength="255"
-					ng-model="ctrl.channelModel.jobInformation.jobFtpDetail.remotePath">
+					ng-model="ctrl.channelModel.jobInformation.ftpDetail.remotePath">
 				</scf-input-text>
 			</div>
 		</div>
@@ -145,10 +145,10 @@
 
 			<div class="col-md-3 col-sm-3 col-xs-12">
 				<input type="hidden"
-					ng-model="ctrl.channelModel.jobInformation.jobFtpDetail.encryptType" />
+					ng-model="ctrl.channelModel.jobInformation.ftpDetail.encryptType" />
 				<scf-input-text id="file-encryption-textbox" ng-disabled="true"
 					maxlength="255"
-					ng-value="ctrl.channelModel.jobInformation.jobFtpDetail.encryptType | translate">
+					ng-value="ctrl.channelModel.jobInformation.ftpDetail.encryptType | translate">
 				</scf-input-text>
 			</div>
 
