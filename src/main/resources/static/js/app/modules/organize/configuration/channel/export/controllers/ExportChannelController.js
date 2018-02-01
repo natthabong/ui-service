@@ -19,7 +19,7 @@ exportChannelModule.constant('FREQUENCY_DROPDOWN',[
 	{label:'Daily', value: 'DAILY'}
 	]);
 exportChannelModule.constant('POSTFIX_DROPDOWN',[
-	{label:'YYYYMMDDHHMM', value: 'yyyyMMHHddHHmm'}
+	{label:'YYYYMMDDHHMM', value: 'yyyyMMddHHmm'}
 	]);
 exportChannelModule.constant('EXTENSION_DROPDOWN',[
 	{label:'.txt', value: 'TXT'},
@@ -150,7 +150,7 @@ exportChannelModule.controller('ExportChannelController', [
 								jobData:{}								
 						};
 						
-						vm.channelModel.filenamePattern = 'yyyyMMHHddHHmm';
+						vm.channelModel.filenamePattern = 'yyyyMMddHHmm';
 						vm.channelModel.fileExtension = 'txt';
 						vm.channelModel.jobInformation.ftpDetail.remotePort = '22';
 						vm.channelModel.jobInformation.ftpDetail.encryptType = 'NONE';
@@ -206,7 +206,7 @@ exportChannelModule.controller('ExportChannelController', [
 						}
 					}
 					
-					vm.channelModel.filenamePattern = 'yyyyMMHHddHHmm';
+					vm.channelModel.filenamePattern = 'yyyyMMddHHmm';
 					vm.channelModel.jobInformation.ftpDetail.remotePassword = null;
 					vm.channelModel.jobInformation.ftpDetail.encryptPassword = null;
 					
