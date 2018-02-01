@@ -1,7 +1,8 @@
-angular
-		.module('scfApp')
+'use strict';
+var module = angular.module('gecscf.organize.configuration.fileLayout');
+module
 		.controller(
-				'FileLayoutsController',
+				'FileLayoutListController',
 				[
 						'$log',
 						'$scope',
@@ -11,9 +12,11 @@ angular
 						'$timeout',
 						'PageNavigation',
 						'Service',
+						'FileLayoutService',
+						'UIFactory',    
 						'ConfigurationUtils',
 						function($log, $scope, $state, SCFCommonService, $stateParams, $timeout,
-								PageNavigation, Service , ConfigurationUtils) {
+								PageNavigation, Service, FileLayoutService, UIFactory, ConfigurationUtils) {
 							var vm = this;
 							vm.splitePageTxt = '';
 							var log = $log;
@@ -56,7 +59,51 @@ angular
 									}
 								});
 							}
-							
+							 
+							 vm.deleteLayout = function(data) {
+	                UIFactory
+	                    .showConfirmDialog({
+	                      data : {
+	                        headerMessage : 'Confirm delete?'
+	                      },
+	                      confirm : function() {
+	                        return FileLayoutService
+	                            .deleteLayout(data, vm.processType, vm.integrateType);
+	                      },
+	                      onFail : function(response) {
+	                        var status = response.status;
+	                          var msg = {
+	                            404 : "File layout has been deleted.",
+	                            409 : "File layout has been modified.",
+	                            405 : "File Layout has been used."
+	                          }
+	                          UIFactory
+	                              .showFailDialog({
+	                                data : {
+	                                  headerMessage : 'Delete file layout fail.',
+	                                  bodyMessage : msg[status] ? msg[status]
+	                                      : response.errorMessage
+	                                },
+	                                preCloseCallback : function(){
+	                                  callService(vm.processType, vm.integrateType);
+	                                }
+	                              });
+ 
+	                      },
+	                      onSuccess : function(response) {
+	                        UIFactory
+	                            .showSuccessDialog({
+	                              data : {
+	                                headerMessage : 'Delete file layout success.',
+	                                bodyMessage : ''
+	                              },
+	                              preCloseCallback : function(){
+	                                callService(vm.processType, vm.integrateType);
+	                              }
+	                            });
+	                      }
+	                    });
+	              }
 							
 							
 							vm.decodeBase64 = function(data){
@@ -81,27 +128,6 @@ angular
 							}
 
 							vm.data = [];
-								vm.dataTable = {
-										options : {
-										},
-										columns : [
-												{
-													field : 'displayName',
-												    label: 'File layout name',
-												    idValueField: 'layoutConfigId',
-												    id: 'file-layouts-{value}-display-layout-name-label',
-												    sortData: true,
-												    cssTemplate: 'text-left',
-												    cellTemplate : '<span id="{{ctrl.processType}}-import-layout-{{data.displayName}}-label">{{data.displayName}}</span>'
-												}, {
-													field: '',
-													label: '',
-													cssTemplate: 'text-center',
-													sortData: false,
-													cellTemplate: '<scf-button id="{{ctrl.processType}}-import-layout-{{data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.newFileLayout(data ,ctrl.processType , ctrl.integrateType)" title="Config a file layout"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
-													'<scf-button id="{{ctrl.processType}}-import-layout-{{data.displayName}}-delete-button" class="btn-default gec-btn-action" ng-disabled="true" ng-click="ctrl.delete()" title="Delete a file layout"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
-												} ]
-									};
 							
 							vm.unauthenConfig = function(){
 								if(vm.viewAllConfig || vm.manageAllConfig){
