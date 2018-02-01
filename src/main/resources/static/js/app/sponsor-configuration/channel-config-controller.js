@@ -71,6 +71,52 @@ angular
 						        });
 							}
 							
+							vm.deleteChannel = function(data) {
+								UIFactory
+										.showConfirmDialog({
+											data : {
+												headerMessage : 'Confirm delete?'
+											},
+											confirm : function() {
+												return ImportChannelService
+														.remove(data);
+											},
+											onFail : function(response) {
+												var status = response.status;
+												if (status != 400) {
+													var msg = {
+														404 : "Mapping data has been deleted."
+													}
+													UIFactory
+															.showFailDialog({
+																data : {
+																	headerMessage : 'Delete mapping data fail.',
+																	bodyMessage : msg[status] ? msg[status]
+																			: response.errorMessage
+																},
+																preCloseCallback : loadData
+															});
+												}
+
+											},
+											onSuccess : function(response) {
+												UIFactory
+														.showSuccessDialog({
+															data : {
+																headerMessage : 'Delete mapping data success.',
+																bodyMessage : ''
+															},
+															preCloseCallback : loadData
+														});
+											}
+										});
+							}
+							
+							var loadData = function() {
+								vm.searchChannels();
+							}
+
+							
 							vm.testConnection = function(data){
 								vm.serviceInfo = {
 									status : 'loading',
@@ -92,10 +138,6 @@ angular
 										
 									}
 								});
-							}
-							
-							vm.deleteChannel = function(data) {
-								PageNavigation.gotoPage('/');
 							}
 							
 							vm.disableTestConnection = function(data) {

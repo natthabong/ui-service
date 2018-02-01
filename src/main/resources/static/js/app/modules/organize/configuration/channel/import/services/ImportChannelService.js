@@ -80,13 +80,35 @@ importChannelModule.factory('ImportChannelService', ['$http', '$q', 'Service', f
 
       return deferred;
   }
+    
+    var remove = function(model) {
+        var uri = 'api/v1/organize-customers/' + model.organizeId + '/process-types/' + model.processType + '/channels/' + model.channelId;
+        var deferred = $q.defer();
+
+        $http({
+            url: uri,
+            method: 'POST',
+  	      	headers: {
+                'If-Match': model.version,
+                'X-HTTP-Method-Override': 'DELETE'
+            },
+            data: model
+        }).then(function(response) {
+          deferred.resolve(response);
+        }).catch(function(response) {
+          deferred.reject(response);
+        });
+
+        return deferred;
+    }
 
 	return {
 		getItemSuggestSuppliers: getItemSuggestSuppliers,
 		getItemSuggestBuyers: getItemSuggestBuyers,
 		getBorrowerTypes: getBorrowerTypes,
 		verifyBorrowerType: verifyBorrowerType,
-		create: create
+		create: create ,
+		remove: remove
 	}
 
 }]);

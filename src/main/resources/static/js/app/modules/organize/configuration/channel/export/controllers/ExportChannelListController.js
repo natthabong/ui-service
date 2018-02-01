@@ -9,13 +9,15 @@ exportChannelModule
                     '$scope',
                     '$state',
                     '$stateParams',
+                    'UIFactory',
                     'ngDialog',
                     'PagingController',
                     'PageNavigation',
                     'ConfigurationUtils',
-                    function($log, $scope, $state, $stateParams, ngDialog,
+                    'ExportChannelService',
+                    function($log, $scope, $state, $stateParams, UIFactory, ngDialog,
                             PagingController, PageNavigation,
-                            ConfigurationUtils) {
+                            ConfigurationUtils , ExportChannelService) {
 
                       var vm = this;
                       vm.organizeId = $stateParams.organizeId || null;
@@ -93,6 +95,51 @@ exportChannelModule
                                   organizeId: vm.organizeId
                                 });
                       }
+                      
+                      vm.deleteExportChannel = function(data) {
+							UIFactory
+									.showConfirmDialog({
+										data : {
+											headerMessage : 'Confirm delete?'
+										},
+										confirm : function() {
+											return ExportChannelService
+													.remove(data);
+										},
+										onFail : function(response) {
+											var status = response.status;
+											if (status != 400) {
+												var msg = {
+													404 : "Mapping data has been deleted."
+												}
+												UIFactory
+														.showFailDialog({
+															data : {
+																headerMessage : 'Delete mapping data fail.',
+																bodyMessage : msg[status] ? msg[status]
+																		: response.errorMessage
+															},
+															preCloseCallback : loadData
+														});
+											}
+
+										},
+										onSuccess : function(response) {
+											UIFactory
+													.showSuccessDialog({
+														data : {
+															headerMessage : 'Delete mapping data success.',
+															bodyMessage : ''
+														},
+														preCloseCallback : loadData
+													});
+										}
+									});
+						}
+                      
+                      var loadData = function() {
+                    	  vm.search();
+					  }
 
                       var initLoad = function() {
                         vm.search();

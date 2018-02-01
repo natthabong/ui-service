@@ -18,4 +18,25 @@ exportChannelModule.service('ExportChannelService', ['$http', '$q', function($ht
     return deferred;
   }
   
+  this.remove = function(model) {
+	 var uri = 'api/v1/organize-customers/' + model.organizeId + '/export-channels/' + model.channelId ;
+	 var deferred = $q.defer();
+
+	  $http({
+	      url: uri,
+	      method: 'POST',
+	      headers: {
+              'If-Match': model.version,
+              'X-HTTP-Method-Override': 'DELETE'
+          },
+	      data: model
+	  }).then(function(response) {
+	    deferred.resolve(response);
+	  }).catch(function(response) {
+	    deferred.reject(response);
+	  });
+
+	    return deferred;
+  }
+  
 }]);
