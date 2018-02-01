@@ -1,7 +1,7 @@
 'use strict';
 var module = angular.module('gecscf.organize.configuration.fileLayout');
 module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, $q, Service) {
-
+ 
 	this.getDocumentFields = function (fileLayoutType, sectionType, dataType) {
 		var deffered = $q.defer();
 

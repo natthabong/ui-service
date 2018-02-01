@@ -59,7 +59,7 @@ module
 									}
 								});
 							}
-							
+							 
 							 vm.deleteLayout = function(data) {
 	                UIFactory
 	                    .showConfirmDialog({
@@ -88,7 +88,7 @@ module
 	                                  callService(vm.processType, vm.integrateType);
 	                                }
 	                              });
-
+ 
 	                      },
 	                      onSuccess : function(response) {
 	                        UIFactory
