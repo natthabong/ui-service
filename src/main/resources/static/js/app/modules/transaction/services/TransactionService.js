@@ -75,7 +75,7 @@ function transactionService($http, $q, blockUI, $window) {
         return deffered;
     }
     
-    function getAccountsByTenor(organizeId, supplierId, paymentDate) {
+    function getAccountsByTenor(organizeId, supplierId, paymentDate, loanRequestMode) {
         var sort = ["-defaultLoanNo","accountNo"];
         var deffered = $q.defer();
         $http({
@@ -83,6 +83,7 @@ function transactionService($http, $q, blockUI, $window) {
             method: 'GET',
             params: {
             	paymentDate: paymentDate,
+            	loanRequestMode: loanRequestMode,
                 sort : sort
             }
         })

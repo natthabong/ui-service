@@ -184,11 +184,12 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             return paymentDate === '' ? false : true;
         }
         
-        function _loadAccount(supplierId) {
+        function _loadAccount(buyerId) {
         	var paymentDate = vm.createTransactionModel.sponsorPaymentDate;
+        	var loanRequestMode = vm.loanRequestMode;
             vm.accountDropDown = [];
             var deffered = $q.defer();
-            var defferedAccounts = TransactionService.getAccountsByTenor(supplierId, ownerId, paymentDate);
+            var defferedAccounts = TransactionService.getAccountsByTenor(ownerId, buyerId, paymentDate, loanRequestMode);
             defferedAccounts.promise.then(function (response) {
                 var accounts = response.data;
                 vm.isLoanPayment = false;
@@ -217,7 +218,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             // validate SponsorPayment Date is Select
             if (hasSponsorPaymentDate) {
                 if (validateSponsorPaymentDate(sponsorPaymentDate)) {
-                	var defferedAccounts = _loadAccount(ownerId);
+                	var defferedAccounts = _loadAccount(sponsorCode);
                     defferedAccounts.promise.then(function (response) {
                         vm.accountList = response;
                         var _accounts = [];
