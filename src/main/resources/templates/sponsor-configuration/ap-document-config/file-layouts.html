@@ -1,7 +1,7 @@
 <div th:fragment="content"
 	sec:authorize="hasAnyAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS','MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')">
 	<div id="wrapper"
-		ng-controller="FileLayoutsController as fileLayoutsCtrl">
+		ng-controller="FileLayoutListController as fileLayoutsCtrl">
 		<input type="hidden" ng-init="fileLayoutsCtrl.viewAllConfig=true"
 			sec:authorize="hasAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS')" /> <input
 			type="hidden" ng-init="fileLayoutsCtrl.manageAllConfig=true"
