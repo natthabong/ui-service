@@ -1,5 +1,5 @@
 'use strict';
-var displayListCtrl = function(PageNavigation, PagingController, UIFactory, ConfigurationUtils) {
+var displayListCtrl = function(PageNavigation, PagingController, UIFactory, ConfigurationUtils , DisplayService) {
 
   var vm = this;
 
@@ -48,7 +48,48 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
   }
 
   vm.deleteDocumentDisplay = function(record) {
+	  UIFactory
+		.showConfirmDialog({
+			data : {
+				headerMessage : 'Confirm delete?'
+			},
+			confirm : function() {
+				return DisplayService
+						.removeDisplay(ownerId, vm.accountingTransactionType, record.displayMode, record);
+			},
+			onFail : function(response) {
+				var status = response.status;
+				if (status != 400) {
+					var msg = {
+						404 : "Display has been deleted."
+					}
+					UIFactory
+							.showFailDialog({
+								data : {
+									headerMessage : 'Delete Display fail.',
+									bodyMessage : msg[status] ? msg[status]
+											: response.errorMessage
+								},
+								preCloseCallback : loadData
+							});
+				}
 
+			},
+			onSuccess : function(response) {
+				UIFactory
+						.showSuccessDialog({
+							data : {
+								headerMessage : 'Delete Display success.',
+								bodyMessage : ''
+							},
+							preCloseCallback : loadData
+						});
+			}
+		});
+  }
+  
+  var loadData = function() {
+	  vm.pagingController.search();
   }
 
   var setting = function(params) {
@@ -64,4 +105,4 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
 }
 angular.module('gecscf.organize.configuration.display').controller(
         'DisplayListController',
-        ['PageNavigation', 'PagingController', 'UIFactory','ConfigurationUtils', displayListCtrl]);
+        ['PageNavigation', 'PagingController', 'UIFactory','ConfigurationUtils' , 'DisplayService', displayListCtrl]);
