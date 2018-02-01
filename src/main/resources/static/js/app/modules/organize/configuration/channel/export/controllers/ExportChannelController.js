@@ -286,6 +286,9 @@ exportChannelModule.controller('ExportChannelController', [
  		if(!vm.isUseExpireDate){
  			vm.channelModel.expiryDate = null;
  		}
+ 		if(vm.channelModel.exportDataType == 'ALL'){
+ 			vm.channelModel.productTypes.length = 0;
+		}
  	 }     
 
      var validSave = function(){
