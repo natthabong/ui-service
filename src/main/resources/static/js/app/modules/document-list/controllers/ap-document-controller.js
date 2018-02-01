@@ -87,7 +87,7 @@ scfApp.controller('DocumentListController', ['$scope', 'Service', '$stateParams'
         vm.canDelete = function(data) {
             return data.documentStatus == 'NEW' && !($stateParams.viewMode == viewModeData.partner) && vm.deleteAuthority;
         }
-
+        
         var columRowNo = {
             fieldName: '$rowNo',
             labelEN: 'No.',
