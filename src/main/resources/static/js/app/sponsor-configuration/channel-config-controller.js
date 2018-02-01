@@ -85,7 +85,8 @@ angular
 												var status = response.status;
 												if (status != 400) {
 													var msg = {
-														404 : "Import channel has been deleted."
+														404 : "Import channel has been deleted.",
+														409 : "Import channel has been modified."
 													}
 													UIFactory
 															.showFailDialog({

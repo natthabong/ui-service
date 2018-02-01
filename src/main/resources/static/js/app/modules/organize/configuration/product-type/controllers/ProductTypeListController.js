@@ -67,7 +67,9 @@ productTypeModule.controller('ProductTypeListController', [
 						var status = response.status;
 						if (status != 400) {
 							var msg = {
-								404 : "Product type has been deleted."
+								404 : "Product type has been deleted.",
+								409 : "Product type has been modified.",
+								405 : "Product type has already use."
 							}
 							UIFactory
 									.showFailDialog({

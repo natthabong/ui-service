@@ -61,7 +61,8 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
 				var status = response.status;
 				if (status != 400) {
 					var msg = {
-						404 : "Display has been deleted."
+						404 : "Display has been deleted.",
+						409 : "Display has been modified."
 					}
 					UIFactory
 							.showFailDialog({

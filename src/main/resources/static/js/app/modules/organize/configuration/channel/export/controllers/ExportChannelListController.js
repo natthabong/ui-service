@@ -110,7 +110,8 @@ exportChannelModule
 											var status = response.status;
 											if (status != 400) {
 												var msg = {
-													404 : "Export channel has been deleted."
+													404 : "Export channel has been deleted.",
+													409 : "Export channel has been modified."
 												}
 												UIFactory
 														.showFailDialog({
