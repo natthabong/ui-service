@@ -255,26 +255,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				params: { mappingData: null, mode: "editCode", mappingDataItem: null},
 				resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/mapping-data/controllers/MappingDataCodeController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])	
 					
-			}).state('/sponsor-configuration/file-layouts/new-file-layout',{
-				url: '/sponsor-configuration/file-layouts/new-file-layout/:organizeId',
-				controller: 'FileLayoutController',
-				controllerAs: 'ctrl',
-				templateUrl: '/sponsor-configuration/file-layouts/new-file-layout',
-				params: { fileLayoutModel: null,processType:null,integrateType:null},
-				resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/file-layout/controllers/FileLayoutController.js',
-					'js/app/modules/organize/configuration/file-layout/controllers/TextLayoutConfigController.js',
-					'js/app/modules/organize/configuration/file-layout/controllers/DateTimeLayoutConfigController.js',
-					'js/app/modules/organize/configuration/file-layout/controllers/NumericLayoutConfigController.js',
-					'js/app/modules/organize/configuration/file-layout/controllers/RecordTypeLayoutConfigController.js',
-					'js/app/modules/organize/configuration/file-layout/controllers/FillerLayoutConfigController.js',
-					'js/app/modules/organize/configuration/file-layout/controllers/SignFlagLayoutConfigController.js',
-					'js/app/modules/organize/configuration/file-layout/controllers/DataLayoutConfigController.js',
-					'js/app/modules/organize/configuration/file-layout/controllers/ImportLayoutNewPopupController.js',
-					'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataNewPopupController.js',
-					'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
-					'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
-					'js/app/modules/organize/configuration/file-layout/services/FileLayerExampleDisplayService.js',
-					'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
 			.state('/sponsor-configuration/export-payments/settings',{
 				url: '/sponsor-configuration/export-payments/settings/:organizeId',
@@ -382,7 +362,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'UserListController',
 				controllerAs: 'ctrl',
 				templateUrl: '/user',
-				params: {backAction: false , criteria:null},
+				params: {backAction: false , criteria:null, userListModel:null},
 				resolve: WebHelper.loadScript(['js/app/modules/user/user-list-controller.js',
 								'js/app/modules/user/user-service.js',
 								'js/app/common/scf-component.js',
@@ -392,7 +372,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controller: 'UserListController',
 				controllerAs: 'ctrl',
 				templateUrl: '/user',
-				params: {backAction: false , criteria:null},
+				params: {backAction: false , criteria:null, userListModel:null},
 				resolve: WebHelper.loadScript(['js/app/modules/user/user-list-controller.js',
 								'js/app/modules/user/user-service.js',
 								'js/app/common/scf-component.js',
@@ -601,9 +581,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/trade-finance/config',
 				params: { setupModel: null,backAction: false},
-				resolve: WebHelper.loadScript(['js/app/modules/trading-partner/financing/controllers/ConfigTradeFinanceController.js', 'js/app/modules/trading-partner/financing/services/ConfigTradeFinanceService.js',
-				'js/app/modules/trading-partner/financing/controllers/SetupDebitPaymentController.js','js/app/modules/trading-partner/services/TradingPartnerService.js',
-				'js/app/modules/account/controllers/AccountController.js', 'js/app/modules/account/services/AccountService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: WebHelper.loadScript(['js/app/modules/trading-partner/financing/controllers/ConfigTradeFinanceController.js', 'js/app/modules/trading-partner/financing/services/ConfigTradeFinanceService.js', 'js/app/modules/account/controllers/AccountController.js', 'js/app/modules/account/services/AccountService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/trade-finance/new',{
 				url: '/trade-finance/new',
 				controller: 'TradeFinanceController',
