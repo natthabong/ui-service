@@ -112,6 +112,20 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				});
 			});
 		};
+		
+		function changeAccountType(accountType) {
+			if (accountType === 'LOAN') {
+				vm.isLoanType = true;
+				vm.accountType = 'Term loan';
+			} else if (accountType === 'OVERDRAFT') {
+				vm.isLoanType = false;
+				vm.accountType = 'Overdraft';
+				vm.tradeFinanceModel.percentageLoan = '';
+				vm.tradeFinanceModel.tenor = '';
+				vm.tradeFinanceModel.interestRate = '';
+				vm.isUseExpireDate = false;
+			}
+		}
 
 		vm.financeAccountAutoSuggestModel = UIFactory.createAutoSuggestModel({
 			placeholder: 'Please enter borrower account no.',
@@ -173,18 +187,8 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				vm.tradeFinanceModel.creditExpirationDate = new Date(tradeFinanceData.limitExpiryDate);
 				vm.tradeFinanceModel.isSuspend = tradeFinanceData.suspend;
 				vm.tradeFinanceModel.payeeAccountId = tradeFinanceData.payeeAccountId.toString();
-
-				if (tradeFinanceData.accountType === 'LOAN') {
-					vm.isLoanType = true;
-					vm.accountType = 'Term loan';
-				} else if (tradeFinanceData.accountType === 'OVERDRAFT') {
-					vm.isLoanType = false;
-					vm.accountType = 'Overdraft';
-					vm.tradeFinanceModel.percentageLoan = '';
-					vm.tradeFinanceModel.tenor = '';
-					vm.tradeFinanceModel.interestRate = '';
-					vm.isUseExpireDate = false;
-				}
+				
+				changeAccountType(tradeFinanceData.accountType);
 			}
 		}
 
@@ -201,17 +205,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			if (vm.loanAccountList != null && vm.tradeFinanceModel.financeAccount != null) {
 				for (var i = 0; i < vm.loanAccountList.length; i++) {
 					if (vm.loanAccountList[i].accountNo === vm.tradeFinanceModel.financeAccount.accountNo) {
-						if (vm.loanAccountList[i].accountType === 'LOAN') {
-							vm.isLoanType = true;
-							vm.accountType = 'Term loan';
-						} else if (vm.loanAccountList[i].accountType === 'OVERDRAFT') {
-							vm.isLoanType = false;
-							vm.accountType = 'Overdraft';
-							vm.tradeFinanceModel.percentageLoan = '';
-							vm.tradeFinanceModel.tenor = '';
-							vm.tradeFinanceModel.interestRate = '';
-							vm.isUseExpireDate = false;
-						}
+						changeAccountType(vm.loanAccountList[i].accountType);
 						break;
 					}
 				}
@@ -282,6 +276,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 						if (data) {
 							vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(data);
 							setPayeeAccountDropdown();
+							changeAccountType(data.accountType);
 						}
 					}
 				});

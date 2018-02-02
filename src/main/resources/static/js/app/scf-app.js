@@ -581,7 +581,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				controllerAs: 'ctrl',
 				templateUrl: '/trade-finance/config',
 				params: { setupModel: null,backAction: false},
-				resolve: WebHelper.loadScript(['js/app/modules/trading-partner/financing/controllers/ConfigTradeFinanceController.js', 'js/app/modules/trading-partner/financing/services/ConfigTradeFinanceService.js', 'js/app/modules/account/controllers/AccountController.js', 'js/app/modules/account/services/AccountService.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: WebHelper.loadScript(['js/app/modules/trading-partner/financing/controllers/ConfigTradeFinanceController.js', 'js/app/modules/trading-partner/financing/services/ConfigTradeFinanceService.js', 'js/app/modules/account/controllers/AccountController.js', 'js/app/modules/account/services/AccountService.js','js/app/modules/trading-partner/financing/controllers/SetupDebitPaymentController.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			}).state('/trade-finance/new',{
 				url: '/trade-finance/new',
 				controller: 'TradeFinanceController',
