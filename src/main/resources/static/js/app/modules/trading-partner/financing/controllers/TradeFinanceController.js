@@ -75,6 +75,8 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				log.error('Get payee account fail');
 			});
 		}
+		
+		setPayeeAccountDropdown();
 
 		var queryAccount = function (value) {
 			supplierId = borrower.supplierId;
@@ -170,9 +172,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				vm.tradeFinanceModel.agreementDate = new Date(tradeFinanceData.agreementDate);
 				vm.tradeFinanceModel.creditExpirationDate = new Date(tradeFinanceData.limitExpiryDate);
 				vm.tradeFinanceModel.isSuspend = tradeFinanceData.suspend;
-				vm.tradeFinanceModel.payeeAccountId = tradeFinanceData.payeeAccountId;
-
-				console.log(tradeFinanceData.payeeAccountId);
+				vm.tradeFinanceModel.payeeAccountId = tradeFinanceData.payeeAccountId.toString();
 
 				if (tradeFinanceData.accountType === 'LOAN') {
 					vm.isLoanType = true;
@@ -218,7 +218,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			}
 		});
 
-		var initLoad = function () {
+		function initLoad() {
 			vm.headerName = currentMode.charAt(0).toUpperCase() + currentMode.slice(1).toLowerCase() + " trade finance";
 			if (currentMode == 'NEW') {
 				vm.isNewMode = true;
@@ -238,9 +238,9 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 					_getTradeFinanceInfo(sponsorId, supplierId, accountId);
 				}
 			}
-
-			setPayeeAccountDropdown();
-		}();
+		}
+		
+		initLoad();
 
 		vm.openCalendarAgreementDate = function () {
 			vm.openAgreementDate = true;
