@@ -22,7 +22,6 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		vm.isSupplier = undefined;
 		vm.isLoanType = false;
 		vm.loanAccountList = null;
-		vm.payeeAccountId = undefined;
 
 		if (currentMode == 'NEW') {
 			vm.isNewMode = true;
@@ -171,6 +170,21 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				vm.tradeFinanceModel.agreementDate = new Date(tradeFinanceData.agreementDate);
 				vm.tradeFinanceModel.creditExpirationDate = new Date(tradeFinanceData.limitExpiryDate);
 				vm.tradeFinanceModel.isSuspend = tradeFinanceData.suspend;
+				vm.tradeFinanceModel.payeeAccountId = tradeFinanceData.payeeAccountId;
+
+				console.log(tradeFinanceData.payeeAccountId);
+
+				if (tradeFinanceData.accountType === 'LOAN') {
+					vm.isLoanType = true;
+					vm.accountType = 'Term loan';
+				} else if (tradeFinanceData.accountType === 'OVERDRAFT') {
+					vm.isLoanType = false;
+					vm.accountType = 'Overdraft';
+					vm.tradeFinanceModel.percentageLoan = '';
+					vm.tradeFinanceModel.tenor = '';
+					vm.tradeFinanceModel.interestRate = '';
+					vm.isUseExpireDate = false;
+				}
 			}
 		}
 
@@ -190,7 +204,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 						if (vm.loanAccountList[i].accountType === 'LOAN') {
 							vm.isLoanType = true;
 							vm.accountType = 'Term loan';
-						} else {
+						} else if (vm.loanAccountList[i].accountType === 'OVERDRAFT') {
 							vm.isLoanType = false;
 							vm.accountType = 'Overdraft';
 							vm.tradeFinanceModel.percentageLoan = '';
@@ -288,7 +302,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				agreementDate: vm.tradeFinanceModel.agreementDate,
 				suspend: vm.tradeFinanceModel.isSuspend,
 				borrowerType: vm.isSupplier ? "SUPPLIER" : "BUYER",
-				payeeAccountId: vm.payeeAccountId
+				payeeAccountId: vm.tradeFinanceModel.payeeAccountId
 			}
 
 			var deferred = TradeFinanceService.createTradeFinance(sponsorId, supplierId, tradeFinanceModule, vm.isSupplier);
@@ -346,8 +360,8 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		var _validate = function () {
 			$scope.errors = {};
 			var valid = true;
-			
-			if (vm.payeeAccountId == null || vm.payeeAccountId == '') {
+
+			if (vm.tradeFinanceModel.payeeAccountId == null || vm.tradeFinanceModel.payeeAccountId == '') {
 				valid = false;
 				$scope.errors.payeeAccountId = {
 					message: 'Payee account is required.'
@@ -445,7 +459,6 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 								preCloseCallback: preCloseCallback
 							});
 						}
-
 					},
 					onSuccess: function (response) {
 						UIFactory.showSuccessDialog({
