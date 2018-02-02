@@ -61,17 +61,18 @@
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Payee account (Supplier)' | translate}}: </label>
 							<div class="col-md-3 col-sm-8 col-xs-12">
 								<scf-dropdown id="payee-account-dropdown"
-									ng-disabled="!ctrl.isNewMode"
-									ng-model="ctrl.payeeAccountNo"
+									ng-disabled="ctrl.isViewMode"
+									ng-model="ctrl.payeeAccountId"
+									ng-change="ctrl.changePayeeAccount()"
 									component-data="ctrl.payeeAccountDropdown"
 									translate-label="true"></scf-dropdown>
 							</div>
 						</div>
-						<div class="form-group" ng-show="errors.payeeAccountNo">
+						<div class="form-group" ng-show="errors.payeeAccountId">
 							<div>
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
-									id="payee-account-warning-message-label" ng-bind="errors.payeeAccountNo.message">
+									id="payee-account-warning-message-label" ng-bind="errors.payeeAccountId.message">
 								</span>
 							</div>
 						</div>

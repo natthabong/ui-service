@@ -48,7 +48,7 @@ tradeFinanceModule.factory('TradeFinanceService', ['$http', '$q', 'Service', fun
 		var url = '/api/v1/organize-customers/' + sponsorId + '/trading-partners/' + supplierId + '/trade-finance/' + accountId;
 		return Service.doGet(url);
 	}
-	
+
 	function getPayeeAccounts(organizeId) {
 		var serviceUrl = '/api/v1/organize-customers/' + organizeId + '/accounts';
 		var deferred = $q.defer();

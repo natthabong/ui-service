@@ -21,8 +21,8 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		vm.accountType = '';
 		vm.isSupplier = undefined;
 		vm.isLoanType = false;
-		vm.loanAccountList = undefined;
-		vm.payeeAccountNo = undefined;
+		vm.loanAccountList = null;
+		vm.payeeAccountId = undefined;
 
 		if (currentMode == 'NEW') {
 			vm.isNewMode = true;
@@ -184,7 +184,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		}
 
 		$scope.$watch('ctrl.tradeFinanceModel.financeAccount', function () {
-			if (vm.loanAccountList != undefined && vm.tradeFinanceModel.financeAccount) {
+			if (vm.loanAccountList != null && vm.tradeFinanceModel.financeAccount != null) {
 				for (var i = 0; i < vm.loanAccountList.length; i++) {
 					if (vm.loanAccountList[i].accountNo === vm.tradeFinanceModel.financeAccount.accountNo) {
 						if (vm.loanAccountList[i].accountType === 'LOAN') {
@@ -267,6 +267,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 					preCloseCallback: function (data) {
 						if (data) {
 							vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(data);
+							setPayeeAccountDropdown();
 						}
 					}
 				});
@@ -287,7 +288,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				agreementDate: vm.tradeFinanceModel.agreementDate,
 				suspend: vm.tradeFinanceModel.isSuspend,
 				borrowerType: vm.isSupplier ? "SUPPLIER" : "BUYER",
-				payeeAccountId: vm.payeeAccountNo
+				payeeAccountId: vm.payeeAccountId
 			}
 
 			var deferred = TradeFinanceService.createTradeFinance(sponsorId, supplierId, tradeFinanceModule, vm.isSupplier);
@@ -346,9 +347,9 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			$scope.errors = {};
 			var valid = true;
 			
-			if (vm.payeeAccountNo == null || vm.payeeAccountNo == '') {
+			if (vm.payeeAccountId == null || vm.payeeAccountId == '') {
 				valid = false;
-				$scope.errors.payeeAccountNo = {
+				$scope.errors.payeeAccountId = {
 					message: 'Payee account is required.'
 				}
 			}
