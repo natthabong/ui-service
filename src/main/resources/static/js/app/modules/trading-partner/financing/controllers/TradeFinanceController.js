@@ -339,8 +339,10 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				interestRate: vm.tradeFinanceModel.interestRate,
 				agreementDate: vm.tradeFinanceModel.agreementDate,
 				suspend: vm.tradeFinanceModel.isSuspend,
+				payeeAccountId: vm.tradeFinanceModel.payeeAccountId,
 				version: $stateParams.data.version
 			}
+
 			var deferred = TradeFinanceService.updateTradeFinance(sponsorId, supplierId, tradeFinanceModule.accountId, tradeFinanceModule);
 			deferred.promise.then(function (response) {}).catch(function (response) {
 				if (response) {
