@@ -30,7 +30,7 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 			});
 	
 			var verifySystemStatusFTP = function(index){
-				var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(vm.ftpModel[index].jobId);
+				var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(vm.ftpModel[index].jobName);
 					deffered.promise.then(function(response) {
 						if(response.data.returnCode == "200"){
 							vm.ftpModel[index].status = "success";
@@ -45,7 +45,7 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 			}
 			
 			var verifyStatusFTP= function(ftpModel){
-				var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(ftpModel.jobId);
+				var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(ftpModel.jobName);
 				deffered.promise.then(function(response) {
 					if(response.data.returnCode == "200"){
 						ftpModel.status = "success";
@@ -166,7 +166,7 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 	
 	
 			vm.viewSystemInfo = function(updateModel){
-				var deffered = SystemIntegrationMonitorService.updateFTPInfomation(updateModel.jobId);
+				var deffered = SystemIntegrationMonitorService.updateFTPInfomation(updateModel.jobName);
 				deffered.promise.then(function(response) {
 					var data = response.data;
 					vm.serviceInfo = {
@@ -197,7 +197,7 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 			}
 	
 			var verifySystemStatusFTPRecheck = function(value){
-				var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(value.jobId);
+				var deffered = SystemIntegrationMonitorService.verifySystemStatusFTP(value.jobName);
 					deffered.promise.then(function(response) {
 						if(response.data.returnCode == "200"){
 							vm.ftpModel[value.recordNo].status = "success";
@@ -218,7 +218,7 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 	
 			vm.viewProblemDetail = function(data , index){
 				vm.serviceInfo = {
-					jobId : data.jobId,
+					jobName : data.jobName,
 					bankCode : null,
 					requestDataType: null,
 					requestMode: null,

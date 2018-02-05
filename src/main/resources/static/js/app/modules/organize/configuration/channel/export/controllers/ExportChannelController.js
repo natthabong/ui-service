@@ -136,7 +136,7 @@ exportChannelModule.controller('ExportChannelController', [
 					vm.isSetupFTP = true;
 					vm.channelModel.fileProtocol = 'SFTP';
 					
-					var isNotHasJob = angular.isUndefined(response.data.jobInformation) || response.data.jobInformation == null;
+					var isNotHasJob = angular.isUndefined(response.data.jobInformation) || response.data.jobInformation == null || response.data.jobInformation.jobId == null;
 					
 					if(isNotHasJob){
 						
@@ -226,7 +226,7 @@ exportChannelModule.controller('ExportChannelController', [
                             value: null
                     }
 	       			 vm.fileLayouts.push(pleaseSelectObj);
-	       		 }
+	       		 }				  
           		 _fileLayouts.forEach(function (fileLayout) {
                       var selectObj = {
                           label: fileLayout.displayName,
@@ -286,7 +286,8 @@ exportChannelModule.controller('ExportChannelController', [
  				var endHour = parseInt(beginTime[1])+1 == 60 ? parseInt(beginTime[0])+1 : parseInt(beginTime[0]);
  				triggerInformation.endHour = endHour.toString();
  				triggerInformation.endMinute = endTime.toString();
- 				triggerInformation.intervalInMinutes = 2;
+ 				triggerInformation.intervalInMinutes = 120;
+ 				triggerInformation.daysOfWeek = daysOfWeek;
  				
  				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
  			});
