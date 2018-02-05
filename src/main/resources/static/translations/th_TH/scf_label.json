@@ -643,5 +643,7 @@
 	"USER": "User",
 	
 	"SELECT_REASON_CODE": "Select partial payment reason code",
-	"REASON_CODE": "Reason code"
+	"REASON_CODE": "Reason code",
+	
+	"Account name": "Account name"
 }

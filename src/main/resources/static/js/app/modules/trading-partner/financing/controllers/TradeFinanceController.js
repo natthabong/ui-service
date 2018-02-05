@@ -186,7 +186,9 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				vm.tradeFinanceModel.agreementDate = new Date(tradeFinanceData.agreementDate);
 				vm.tradeFinanceModel.creditExpirationDate = new Date(tradeFinanceData.limitExpiryDate);
 				vm.tradeFinanceModel.isSuspend = tradeFinanceData.suspend;
-				vm.tradeFinanceModel.payeeAccountId = tradeFinanceData.payeeAccountId.toString();
+				if(tradeFinanceData.payeeAccountId != undefined && tradeFinanceData.payeeAccountId != null){
+					vm.tradeFinanceModel.payeeAccountId = tradeFinanceData.payeeAccountId.toString();
+				}
 				
 				changeAccountType(tradeFinanceData.accountType);
 			}
