@@ -220,6 +220,13 @@ exportChannelModule.controller('ExportChannelController', [
     		  vm.fileLayouts = [];
     		  var _fileLayouts = response.data;
           	  if (angular.isDefined(_fileLayouts)) {
+          		if (vm.channelModel.layoutConfigId == null){
+       			 var pleaseSelectObj = {
+                            label: '---Please select---',
+                            value: null
+                    }
+	       			 vm.fileLayouts.push(pleaseSelectObj);
+	       		 }
           		 _fileLayouts.forEach(function (fileLayout) {
                       var selectObj = {
                           label: fileLayout.displayName,
