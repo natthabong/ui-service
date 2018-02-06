@@ -14,8 +14,7 @@ accountModule.controller('AccountListController', [
 
 			vm.criteria = $stateParams.criteria || {
 				organizeId : undefined,
-				suspend : undefined,
-				accountType: 'CURRENT_SAVING'
+				suspend : undefined
 			};
 			
 			vm.organize = $stateParams.organize || null;
