@@ -125,10 +125,10 @@
 					<div class="col-md-3 col-sm-3 col-xs-6"
 						ng-controller="FileLayoutListController as fileLayoutsCtrl">
 						<input type="hidden" ng-init="fileLayoutsCtrl.viewAllConfig=true"
-							sec:authorize="hasAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS')" />
+							sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS')" />
 						<input type="hidden"
 							ng-init="fileLayoutsCtrl.manageAllConfig=true"
-							sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" />
+							sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS')" />
 						<div style="visibility: hidden;"
 							ng-init="fileLayoutsCtrl.init('AP_DOCUMENT', 'IMPORT')"></div>
 						<button class="thumbnail"

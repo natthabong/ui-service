@@ -1,11 +1,11 @@
 <div th:fragment="content"
-	sec:authorize="hasAnyAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS','MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')">
+	sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS','MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS')">
 	<div id="wrapper"
 		ng-controller="FileLayoutListController as fileLayoutsCtrl">
 		<input type="hidden" ng-init="fileLayoutsCtrl.viewAllConfig=true"
-			sec:authorize="hasAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS')" /> <input
+			sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS')" /> <input
 			type="hidden" ng-init="fileLayoutsCtrl.manageAllConfig=true"
-			sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" />
+			sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS')" />
 		<div class="panel panel-default config-box">
 			<div class="panel-body">
 				<div class="row">
