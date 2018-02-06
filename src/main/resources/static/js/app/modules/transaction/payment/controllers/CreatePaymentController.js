@@ -15,7 +15,7 @@ txnMod.controller('CreatePaymentController', [
     'UIFactory',
     '$window',
     'scfFactory',
-    function ($rootScope, $scope, $log, $stateParams, $q, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, ProductTypeService, UIFactory, $window, scfFactory) {
+    function($rootScope, $scope, $log, $stateParams, $q, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, ProductTypeService, UIFactory, $window, scfFactory) {
         var vm = this;
         var log = $log;
 
@@ -56,7 +56,7 @@ txnMod.controller('CreatePaymentController', [
             var deffered = $q.defer();
             if ($stateParams.supplierModel !== undefined && $stateParams.supplierModel !== null) {
                 tradingPartnerList = $stateParams.supplierModel;
-                tradingPartnerList.forEach(function (supplier) {
+                tradingPartnerList.forEach(function(supplier) {
                     var selectObj = {
                         label: supplier.supplierName,
                         value: supplier.supplierId
@@ -69,10 +69,10 @@ txnMod.controller('CreatePaymentController', [
                 return deffered;
             } else {
                 var subDeffered = TransactionService.getSuppliers('RECEIVABLE');
-                subDeffered.promise.then(function (response) {
+                subDeffered.promise.then(function(response) {
                     tradingPartnerList = response.data;
                     if (tradingPartnerList !== undefined) {
-                        tradingPartnerList.forEach(function (supplier) {
+                        tradingPartnerList.forEach(function(supplier) {
                             var selectObj = {
                                 label: supplier.supplierName,
                                 value: supplier.supplierId
@@ -87,7 +87,7 @@ txnMod.controller('CreatePaymentController', [
                         }
                     }
                     deffered.resolve(tradingPartnerList);
-                }).catch(function (response) {
+                }).catch(function(response) {
                     log.error(response);
                 });
                 return deffered;
@@ -96,7 +96,7 @@ txnMod.controller('CreatePaymentController', [
 
         function _checkCreatePaymentType(tradingPartnerList, supplierId) {
             var deferred = $q.defer();
-            var result = $.grep(tradingPartnerList, function (supplier) {
+            var result = $.grep(tradingPartnerList, function(supplier) {
                 return supplier.supplierId == supplierId;
             });
             if (result[0].createTransactionType !== undefined && result[0].createTransactionType == 'WITHOUT_INVOICE') {
@@ -123,10 +123,10 @@ txnMod.controller('CreatePaymentController', [
             vm.productTypes = [];
             var deffered = $q.defer();
             var defferedProductTypes = ProductTypeService.getProductTypes(supplierId);
-            defferedProductTypes.promise.then(function (response) {
+            defferedProductTypes.promise.then(function(response) {
                 var _productTypes = response.data;
                 if (angular.isDefined(_productTypes)) {
-                    _productTypes.forEach(function (productType) {
+                    _productTypes.forEach(function(productType) {
                         var selectObj = {
                             label: productType.displayName,
                             value: productType.productType
@@ -159,10 +159,10 @@ txnMod.controller('CreatePaymentController', [
             var deffered = $q.defer();
             var dashboardParams = $stateParams.dashboardParams;
             var defferedBuyerCodes = TransactionService.getBuyerCodes(supplierId);
-            defferedBuyerCodes.promise.then(function (response) {
+            defferedBuyerCodes.promise.then(function(response) {
                 var _buyerCodes = response.data;
                 if (angular.isDefined(_buyerCodes)) {
-                    _buyerCodes.forEach(function (code) {
+                    _buyerCodes.forEach(function(code) {
                         var selectObj = {
                             label: code,
                             value: code
@@ -179,7 +179,7 @@ txnMod.controller('CreatePaymentController', [
                 } else {
                     deffered.resolve();
                 }
-            }).catch(function (response) {
+            }).catch(function(response) {
                 log.error(response);
             });
             return deffered;
@@ -207,11 +207,11 @@ txnMod.controller('CreatePaymentController', [
             var deffered = $q.defer();
             var ownerId = $rootScope.userInfo.organizeId;
             var defferedAccounts = TransactionService.getAccounts(ownerId, supplierId);
-            defferedAccounts.promise.then(function (response) {
+            defferedAccounts.promise.then(function(response) {
                 var accounts = response.data;
                 vm.isLoanPayment = false;
                 if (accounts.length > 0) {
-                    accounts.forEach(function (account, index) {
+                    accounts.forEach(function(account, index) {
                         if (index == 0 && vm.supportSpecialDebit) {
                             if (account.defaultLoanNo) {
                                 vm.accountNotSupportSpecialDirectDebit = false;
@@ -243,9 +243,9 @@ txnMod.controller('CreatePaymentController', [
             vm.maturityDateDropDown = [];
             if (angular.isDefined(vm.paymentModel) && vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
                 var deffered = TransactionService.getAvailableMaturityDates(vm.paymentModel, vm.tradingpartnerInfoModel.tenor);
-                deffered.promise.then(function (response) {
+                deffered.promise.then(function(response) {
                     var maturityDates = response.data;
-                    maturityDates.forEach(function (data) {
+                    maturityDates.forEach(function(data) {
                         vm.maturityDateDropDown.push({
                             label: data,
                             value: data
@@ -257,7 +257,7 @@ txnMod.controller('CreatePaymentController', [
                     if ($stateParams.backAction && vm.transactionModel.maturityDate != null) {
                         vm.maturityDateModel = SCFCommonService.convertDate(vm.transactionModel.maturityDate);
                     }
-                }).catch(function (response) {
+                }).catch(function(response) {
                     log.error(response);
                 });
             }
@@ -269,10 +269,10 @@ txnMod.controller('CreatePaymentController', [
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             if (vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
                 var deffered = TransactionService.getPaymentDate(vm.transactionModel, vm.createTransactionType, vm.accountType, vm.criteria.loanRequestMode, vm.criteria.productType);
-                deffered.promise.then(function (response) {
+                deffered.promise.then(function(response) {
                     var paymentDates = response.data;
                     vm.paymentDropDown = [];
-                    paymentDates.forEach(function (data) {
+                    paymentDates.forEach(function(data) {
                         vm.paymentDropDown.push({
                             label: data,
                             value: data
@@ -290,7 +290,7 @@ txnMod.controller('CreatePaymentController', [
 
                     _loadMaturityDate();
 
-                }).catch(function (response) {
+                }).catch(function(response) {
                     log.error(response);
                 });
             } else {
@@ -307,9 +307,9 @@ txnMod.controller('CreatePaymentController', [
                 sort: ['defaultCode', 'code']
             }
             var defferedMappingData = MappingDataService.loadMappingDataItems(vm.criteria.supplierId, 'RECEIVABLE', vm.reasonCodeMappingId, params);
-            defferedMappingData.promise.then(function (response) {
+            defferedMappingData.promise.then(function(response) {
                 vm.reasonCodes = response.data;
-                vm.reasonCodes.forEach(function (data) {
+                vm.reasonCodes.forEach(function(data) {
                     vm.resonCodeDropdown.push({
                         label: data.code + ': ' + data.display,
                         value: data.code
@@ -317,7 +317,7 @@ txnMod.controller('CreatePaymentController', [
                     vm.reasonCodes[data.code] = data.display;
                 });
                 deffered.resolve();
-            }).catch(function (response) {
+            }).catch(function(response) {
                 log.error(response);
                 deffered.resolve();
             });
@@ -385,7 +385,7 @@ txnMod.controller('CreatePaymentController', [
 
             var deffered = $q.defer();
             var defferedDocumentDisplay = SCFCommonService.getDocumentDisplayConfig(supplierId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT', productType);
-            defferedDocumentDisplay.promise.then(function (response) {
+            defferedDocumentDisplay.promise.then(function(response) {
                 vm.dataTable.columns = response.items;
                 vm.supportPartial = response.supportPartial;
                 vm.supportSpecialDebit = response.supportSpecialDebit;
@@ -414,7 +414,7 @@ txnMod.controller('CreatePaymentController', [
                 }
 
                 if (vm.supportPartial) {
-                    defferedReasonCode.promise.then(function (response) {
+                    defferedReasonCode.promise.then(function(response) {
                         deffered.resolve(response);
                     });
                 } else {
@@ -441,9 +441,9 @@ txnMod.controller('CreatePaymentController', [
             _watchSelectAll();
         }
 
-        var addDocumentInPage = function (document) {
+        var addDocumentInPage = function(document) {
             var document = document;
-            vm.pagingController.tableRowCollection.forEach(function (documentInPage) {
+            vm.pagingController.tableRowCollection.forEach(function(documentInPage) {
                 if (document.documentId == documentInPage.documentId) {
                     document = documentInPage;
                 }
@@ -458,7 +458,7 @@ txnMod.controller('CreatePaymentController', [
         function _selectMatchingField(data) {
             if (isFound(data)) {
                 if (data.groupingKey != null) {
-                    vm.temporalDocuments.forEach(function (document) {
+                    vm.temporalDocuments.forEach(function(document) {
                         if (angular.equals(data.groupingKey, document.groupingKey)) {
                             if (!isFound(document)) {
                                 if (vm.supportPartial) {
@@ -501,7 +501,7 @@ txnMod.controller('CreatePaymentController', [
 
                         if (unselectNagativeInvoice) {
                             if (temp.length > 0) {
-                                temp.forEach(function (index) {
+                                temp.forEach(function(index) {
                                     vm.documentSelects.splice(index, 1);
                                 })
                             }
@@ -532,19 +532,19 @@ txnMod.controller('CreatePaymentController', [
                 pageSize: $stateParams.criteria.pagingModel.pageSizeSelectModel
             } : undefined));
 
-            deffered.promise.then(function (response) {
+            deffered.promise.then(function(response) {
 
                 if ($stateParams.backAction) {
                     vm.pagingController.pagingModel.pageSizeSelectModel = $stateParams.criteria.pagingModel.pageSizeSelectModel;
                 }
 
                 if (vm.supportPartial) {
-                    vm.pagingController.tableRowCollection.forEach(function (data) {
+                    vm.pagingController.tableRowCollection.forEach(function(data) {
                         data.reasonCode = vm.resonCodeDropdown[0].value;
                     });
                     if (vm.documentSelects.length > 0) {
-                        vm.documentSelects.forEach(function (documentSelect, index) {
-                            vm.pagingController.tableRowCollection.forEach(function (data) {
+                        vm.documentSelects.forEach(function(documentSelect, index) {
+                            vm.pagingController.tableRowCollection.forEach(function(data) {
                                 if (documentSelect.documentId == data.documentId) {
                                     data.calculatedPaymentAmount = documentSelect.calculatedPaymentAmount;
                                     data.reasonCode = documentSelect.reasonCode;
@@ -562,7 +562,7 @@ txnMod.controller('CreatePaymentController', [
                     offset: 0,
                     limit: 9999
                 });
-                defferedGetAllDocument.promise.then(function (response) {
+                defferedGetAllDocument.promise.then(function(response) {
                     vm.temporalDocuments = vm.pagingAllController.tableRowCollection;
                     if ($stateParams.backAction) {
 
@@ -588,7 +588,7 @@ txnMod.controller('CreatePaymentController', [
                 }
 
 
-            }).catch(function (response) {
+            }).catch(function(response) {
                 log.error(response);
             });
 
@@ -658,7 +658,7 @@ txnMod.controller('CreatePaymentController', [
 
         function getSupplierName(supplierId) {
             var supplierName = null;
-            vm.suppliers.map(function (obj) {
+            vm.suppliers.map(function(obj) {
                 if (obj.value == supplierId) {
                     supplierName = obj.label;
                 }
@@ -675,7 +675,7 @@ txnMod.controller('CreatePaymentController', [
                 }
             });
 
-            dialog.closePromise.then(function (selectedReasonCode) {
+            dialog.closePromise.then(function(selectedReasonCode) {
                 if (selectedReasonCode.value != null && selectedReasonCode.value !== undefined) {
                     record.reasonCode = selectedReasonCode.value;
                 }
@@ -684,7 +684,7 @@ txnMod.controller('CreatePaymentController', [
 
         vm.getUserInfoSuccess = false;
         var defered = scfFactory.getUserInfo();
-        defered.promise.then(function (response) {
+        defered.promise.then(function(response) {
             vm.getUserInfoSuccess = true;
             vm.criteria = prepareCriteria();
             vm.transactionModel = prepareTransactionModel();
@@ -739,20 +739,20 @@ txnMod.controller('CreatePaymentController', [
             };
 
             vm.initFlag = true;
-            var init = function () {
+            var init = function() {
                 vm.showBackButton = $stateParams.showBackButton;
                 var dashboardParams = $stateParams.dashboardParams;
                 var defferedSupplier = _loadSuppliers(dashboardParams);
-                defferedSupplier.promise.then(function (response) {
+                defferedSupplier.promise.then(function(response) {
                     vm.tradingPartnerList = response;
                     var defferedCheckCreatePaymentType = _checkCreatePaymentType(vm.tradingPartnerList, vm.criteria.supplierId);
-                    defferedCheckCreatePaymentType.promise.then(function (response) {
+                    defferedCheckCreatePaymentType.promise.then(function(response) {
                         var defferedProducTypes = _loadProducTypes(vm.criteria.supplierId);
-                        defferedProducTypes.promise.then(function (response) {
+                        defferedProducTypes.promise.then(function(response) {
                             var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
-                            defferedBuyerCodes.promise.then(function (response) {
+                            defferedBuyerCodes.promise.then(function(response) {
                                 var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
-                                defferedDocumentDisplayConfig.promise.then(function (response) {
+                                defferedDocumentDisplayConfig.promise.then(function(response) {
                                     if (vm.initFlag) {
                                         vm.criteria.offset = 0;
                                         vm.criteria.limit = 20;
@@ -762,7 +762,7 @@ txnMod.controller('CreatePaymentController', [
                                     }
 
                                     var defferedAccounts = _loadAccount(vm.criteria.supplierId);
-                                    defferedAccounts.promise.then(function (response) {
+                                    defferedAccounts.promise.then(function(response) {
                                         vm.accountList = response;
                                         var _accounts = [];
                                         angular.copy(vm.accountList, _accounts);
@@ -781,7 +781,7 @@ txnMod.controller('CreatePaymentController', [
                                                 _loadMaturityDate();
                                             }
                                         } else {
-                                            var result = $.grep(_accounts, function (account) {
+                                            var result = $.grep(_accounts, function(account) {
                                                 return account.accountId == vm.transactionModel.payerAccountId;
                                             });
                                             vm.accountType = result[0].accountType;
@@ -809,10 +809,10 @@ txnMod.controller('CreatePaymentController', [
             }();
         });
 
-        vm.searchDocument = function () {
+        vm.searchDocument = function() {
             if (_validateForSearch()) {
                 var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
-                defferedDocumentDisplayConfig.promise.then(function (response) {
+                defferedDocumentDisplayConfig.promise.then(function(response) {
                     var defferedDocument = _loadDocument();
                 });
             } else {
@@ -821,11 +821,11 @@ txnMod.controller('CreatePaymentController', [
         }
 
 
-        vm.loadDocument = function (pagingModel) {
+        vm.loadDocument = function(pagingModel) {
             _loadDocument(pagingModel);
         }
 
-        vm.clearSelectDocument = function () {
+        vm.clearSelectDocument = function() {
             vm.paymentDropDown = [];
             vm.documentSelects = [];
             vm.transactionModel.transactionAmount = '0.00';
@@ -834,7 +834,7 @@ txnMod.controller('CreatePaymentController', [
             vm.checkAllModel = false;
         }
 
-        vm.selectDocument = function (data) {
+        vm.selectDocument = function(data) {
             vm.transactionModel.transactionDate = null;
             vm.checkAllModel = false;
             vm.selectAllModel = false;
@@ -847,11 +847,11 @@ txnMod.controller('CreatePaymentController', [
             _loadPaymentDate();
         }
 
-        vm.checkAllDocument = function () {
+        vm.checkAllDocument = function() {
             vm.transactionModel.transactionDate = null;
             var allDocumentInPage = vm.pagingController.tableRowCollection;
             if (vm.checkAllModel) {
-                allDocumentInPage.forEach(function (document) {
+                allDocumentInPage.forEach(function(document) {
                     if (!isFound(document)) {
                         vm.documentSelects.push(document);
 
@@ -861,7 +861,7 @@ txnMod.controller('CreatePaymentController', [
                     }
                 });
             } else {
-                allDocumentInPage.forEach(function (document, dataTableIndex) {
+                allDocumentInPage.forEach(function(document, dataTableIndex) {
                     var index = TransactionService.findIndexFromDoucmentListByDocument(document, vm.documentSelects);
                     if (index > -1) {
                         vm.documentSelects.splice(index, 1);
@@ -881,15 +881,15 @@ txnMod.controller('CreatePaymentController', [
             _loadPaymentDate();
         };
 
-        vm.selectAllDocument = function () {
+        vm.selectAllDocument = function() {
             vm.transactionModel.transactionDate = null;
             if (!vm.selectAllModel) {
                 var temporalDocuments = angular.copy(vm.temporalDocuments);
                 if (vm.supportPartial) {
                     var unselectedData = [];
-                    temporalDocuments.forEach(function (data) {
+                    temporalDocuments.forEach(function(data) {
                         data.reasonCode = vm.resonCodeDropdown[0].value;
-                        vm.documentSelects.forEach(function (documentSelect) {
+                        vm.documentSelects.forEach(function(documentSelect) {
                             if (documentSelect.documentId == data.documentId) {
                                 data.calculatedPaymentAmount = documentSelect.calculatedPaymentAmount;
                                 data.reasonCode = documentSelect.reasonCode;
@@ -900,8 +900,8 @@ txnMod.controller('CreatePaymentController', [
                     });
                     vm.documentSelects = unselectedData;
                     if (vm.documentSelects.length > 0) {
-                        vm.documentSelects.forEach(function (documentSelect, index) {
-                            vm.pagingController.tableRowCollection.forEach(function (data) {
+                        vm.documentSelects.forEach(function(documentSelect, index) {
+                            vm.pagingController.tableRowCollection.forEach(function(data) {
                                 if (documentSelect.documentId == data.documentId) {
                                     data.calculatedPaymentAmount = documentSelect.calculatedPaymentAmount;
                                     data.reasonCode = documentSelect.reasonCode;
@@ -921,7 +921,7 @@ txnMod.controller('CreatePaymentController', [
             } else {
                 vm.documentSelects = [];
                 if (vm.supportPartial) {
-                    vm.pagingController.tableRowCollection.forEach(function (document) {
+                    vm.pagingController.tableRowCollection.forEach(function(document) {
                         document.reasonCode = vm.resonCodeDropdown[0].value;
                         document.calculatedPaymentAmount = document.calculatedNetAmount;
                     });
@@ -934,7 +934,7 @@ txnMod.controller('CreatePaymentController', [
             _loadPaymentDate();
         }
 
-        vm.changeSelectedDocument = function (element, row, record) {
+        vm.changeSelectedDocument = function(element, row, record) {
             if (vm.supportPartial) {
                 if (!element.checked) {
                     deselectDocument(row, record);
@@ -942,18 +942,18 @@ txnMod.controller('CreatePaymentController', [
             }
         }
 
-        vm.changeReasonCode = function (row, record) {
+        vm.changeReasonCode = function(row, record) {
             if (record.reasonCode == vm.resonCodeDropdown[0].value) {
                 resetPaymentAmount(row, record)
             }
         }
 
-        vm.compareDocument = function (obj1, obj2) {
+        vm.compareDocument = function(obj1, obj2) {
             return obj1.documentId === obj2.documentId;
         }
 
         // --- after blur payment amount
-        vm.validatePaymentAmount = function (row, record) {
+        vm.validatePaymentAmount = function(row, record) {
             var reasonCodeDropdown = getReasonCodeDropdownElement(row);
 
             /** for case invalid format---after blur payment amount textbox, 
@@ -962,7 +962,7 @@ txnMod.controller('CreatePaymentController', [
             **/
             if (record.calculatedPaymentAmount == 0 || record.calculatedPaymentAmount < 0 ||
                 isNaN(Number(record.calculatedPaymentAmount.replace(/,/g, ""))) ||
-                typeof (record.calculatedPaymentAmount) === "boolean") {
+                typeof(record.calculatedPaymentAmount) === "boolean") {
                 resetReasonCode(row, record);
             }
 
@@ -983,7 +983,7 @@ txnMod.controller('CreatePaymentController', [
                         headerMessage: 'Payment amount',
                         infoMessage: 'Payment amount cannot be greater than net amount.'
                     },
-                    preCloseCallback: function () {
+                    preCloseCallback: function() {
                         resetReasonCode(row, record);
                         resetPaymentAmount(row, record);
                         var paymentAmountTextbox = getPaymentAmountTextboxElement(row);
@@ -993,7 +993,7 @@ txnMod.controller('CreatePaymentController', [
             }
         }
 
-        vm.disablePaymentAmount = function (row, record, element) {
+        vm.disablePaymentAmount = function(row, record, element) {
             var selectDocCheckbox = getDocumentCheckboxElement(row);
 
             if (selectDocCheckbox.checked &&
@@ -1005,7 +1005,7 @@ txnMod.controller('CreatePaymentController', [
 
         }
 
-        vm.disableDocment = function (document) {
+        vm.disableDocment = function(document) {
             if (vm.documentSelection == 'AT_LEAST_ONE_DOCUMENT' && document.netAmount < 0) {
                 return true;
             } else {
@@ -1013,7 +1013,7 @@ txnMod.controller('CreatePaymentController', [
             }
         }
 
-        vm.disableReasonCode = function (data) {
+        vm.disableReasonCode = function(data) {
             if (data.reasonCode == vm.resonCodeDropdown[0].value) {
                 return true;
             } else {
@@ -1021,9 +1021,9 @@ txnMod.controller('CreatePaymentController', [
             }
         }
 
-        vm.accountChange = function () {
+        vm.accountChange = function() {
             var accountId = vm.transactionModel.payerAccountId;
-            vm.accountDropDown.forEach(function (account) {
+            vm.accountDropDown.forEach(function(account) {
                 if (accountId == account.item.accountId) {
                     vm.transactionModel.payerAccountNo = account.item.accountNo;
                     vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
@@ -1052,24 +1052,24 @@ txnMod.controller('CreatePaymentController', [
             });
         }
 
-        vm.supplierChange = function () {
+        vm.supplierChange = function() {
             vm.errorDisplay = false;
             vm.display = false;
             vm.maturityDateModel = null;
             var defferedCheckCreatePaymentType = _checkCreatePaymentType(vm.tradingPartnerList, vm.criteria.supplierId);
-            defferedCheckCreatePaymentType.promise.then(function (response) {
+            defferedCheckCreatePaymentType.promise.then(function(response) {
                 var defferedProducTypes = _loadProducTypes(vm.criteria.supplierId);
-                defferedProducTypes.promise.then(function (response) {
+                defferedProducTypes.promise.then(function(response) {
                     var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
-                    defferedBuyerCodes.promise.then(function (response) {
+                    defferedBuyerCodes.promise.then(function(response) {
                         var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
-                        defferedDocumentDisplayConfig.promise.then(function (response) {
+                        defferedDocumentDisplayConfig.promise.then(function(response) {
                             vm.criteria.offset = 0;
                             vm.criteria.limit = 20;
                             _loadDocument();
 
                             var defferedAccounts = _loadAccount(vm.criteria.supplierId);
-                            defferedAccounts.promise.then(function (response) {
+                            defferedAccounts.promise.then(function(response) {
                                 vm.accountList = response;
                                 var _accounts = [];
                                 angular.copy(vm.accountList, _accounts);
@@ -1088,7 +1088,7 @@ txnMod.controller('CreatePaymentController', [
                                         _loadMaturityDate();
                                     }
                                 } else {
-                                    var result = $.grep(_accounts, function (account) {
+                                    var result = $.grep(_accounts, function(account) {
                                         return account.accountId == vm.transactionModel.payerAccountId;
                                     });
                                     vm.accountType = result[0].accountType;
@@ -1109,24 +1109,24 @@ txnMod.controller('CreatePaymentController', [
             });
         }
 
-        vm.customerCodeChange = function () {
+        vm.customerCodeChange = function() {
             vm.errorDisplay = false;
             vm.display = false;
         }
 
-        vm.paymentDateChange = function () {
+        vm.paymentDateChange = function() {
             _loadMaturityDate();
         }
 
-        vm.openCalendarDateFrom = function () {
+        vm.openCalendarDateFrom = function() {
             vm.openDateFrom = true;
         }
 
-        vm.openCalendarDateTo = function () {
+        vm.openCalendarDateTo = function() {
             vm.openDateTo = true;
         }
 
-        vm.nextStep = function () {
+        vm.nextStep = function() {
             vm.errorDisplay = false;
             if (vm.documentSelects.length === 0) {
                 $scope.errors.message = 'Please select document.';
@@ -1144,14 +1144,15 @@ txnMod.controller('CreatePaymentController', [
                 vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
                 vm.transactionModel.transactionType = 'PAYMENT';
                 vm.transactionModel.productType = vm.criteria.productType;
+                vm.transactionModel.tenor = vm.tradingpartnerInfoModel.tenor;
                 vm.tradingpartnerInfoModel.createTransactionType = vm.createTransactionType;
-                vm.transactionModel.documents.forEach(function (document) {
+                vm.transactionModel.documents.forEach(function(document) {
                     document.reasonCodeDisplay = vm.reasonCodes[document.reasonCode];
                 });
 
                 var _accountList = [];
                 angular.copy(vm.accountList, _accountList);
-                var accountSelected = $.grep(_accountList, function (account) {
+                var accountSelected = $.grep(_accountList, function(account) {
                     return account.accountId == vm.transactionModel.payerAccountId;
                 });
                 var formatAccount = accountSelected[0].format || false;
@@ -1170,7 +1171,7 @@ txnMod.controller('CreatePaymentController', [
                 }
 
                 var deffered = TransactionService.verifyTransaction(vm.transactionModel);
-                deffered.promise.then(function (response) {
+                deffered.promise.then(function(response) {
                     var transaction = response.data;
                     SCFCommonService.parentStatePage().saveCurrentState('/my-organize/create-transaction');
 
@@ -1189,14 +1190,14 @@ txnMod.controller('CreatePaymentController', [
                         criteria: _criteria,
                         documentSelects: vm.documentSelects
                     });
-                }).catch(function (response) {
+                }).catch(function(response) {
                     vm.errorMsgPopup = response.data.errorCode;
                     $scope.validateDataFailPopup = true;
                 });
             }
         }
 
-        vm.backStep = function () {
+        vm.backStep = function() {
             PageNavigation.gotoPreviousPage(true);
         }
     }
