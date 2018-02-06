@@ -590,6 +590,8 @@
 	"TEXT_MAPPING" : "Text mapping",
 	"SIGN_FLAG_MAPPING" : "Sign flag mapping",
 	"TEXT_MAPPING_WITH_DEFAULT" : "Text mapping with default",
+	"REASON_CODE" : "Reason code",
+	
 	"payment_fail" : "Payment fail",
 	"fail_to_payment": "Fail to pay",
 	"FAIL_TO_PAYMENT": "Fail to pay",
