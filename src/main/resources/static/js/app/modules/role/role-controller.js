@@ -221,7 +221,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
         }
 
         var initialPrivilegeGroup = function(){
-            var url = '/api/v1/privilegeGroups';
+            var url = '/api/v1/privilege-groups';
             var defered = Service.doGet(url,null);
             defered.promise.then(function(response){
                 vm.privilegeGroupList = defualtValuePrivilegeGroupList(response.data);
