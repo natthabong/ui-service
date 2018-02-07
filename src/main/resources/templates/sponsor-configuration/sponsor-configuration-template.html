@@ -78,78 +78,6 @@
                         <h3 class="animated fadeInLeft" id="ap-document-configuration-header-label">AP document configuration
                         </h3>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6" ng-controller="FileLayoutListController as fileLayoutsCtrl">
-                        <input type="hidden" ng-init="fileLayoutsCtrl.viewAllConfig=true" sec:authorize="hasAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS')" />
-                        <input type="hidden" ng-init="fileLayoutsCtrl.manageAllConfig=true" sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" />
-                        <div style="visibility: hidden;" ng-init="fileLayoutsCtrl.init('AP_DOCUMENT', 'IMPORT')"></div>
-                        <button class="thumbnail" id="layout-AP Document file layout-setup-button" ng-click="fileLayoutsCtrl.newFileLayout(fileLayoutsCtrl.data,'AP_DOCUMENT', 'IMPORT')" title="Config a file layout" ng-disabled="fileLayoutsCtrl.unauthenConfig()">
-							<div class="caption config-box">
-								<div class="media">
-									<div class="media-body">
-										<h5 class="media-heading animated fadeInLeft"
-											id="file-layout-header-label">{{'Import file layout' |
-											translate}}</h5>
-									</div>
-									<div class="media-right btn-default">
-										<i class="fa fa-cog" aria-hidden="true"></i>
-									</div>
-								</div>
-							</div>
-						</button>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6" ng-controller="CustomerCodeGroupController as ctrl">
-                        <input type="hidden" ng-init="ctrl.manageAllConfig=true" sec:authorize="hasAuthority('MANAGE_ALL_SUPPLIER_CODES')" /> <input type="hidden" ng-init="ctrl.manageMyOrgConfig=true" sec:authorize="hasAuthority('MANAGE_SUPPLIER_CODES_OF_MY_ORGANIZE')"
-                        />
-                        <button class="thumbnail" id="supplier-code-list-setup-button" ng-click="ctrl.config(ctrl.supplierdata, 'PAYABLE')" title="Config a supplier code" ng-disabled="ctrl.unauthenConfig()">
-							<div class="caption config-box">
-								<div class="media">
-									<div class="media-body">
-										<h5 class="media-heading animated fadeInLeft">{{'Supplier code list' | translate}}</h5>
-									</div>
-									<div class="media-right btn-default">
-										<i class="fa fa-cog" aria-hidden="true"></i>
-									</div>
-								</div>
-							</div>
-						</button>
-                    </div>
-
-                    <div class="col-md-3 col-sm-3 col-xs-6" ng-controller="DisplayConfigController as displayCtrl">
-                        <input type="hidden" ng-init="displayCtrl.viewAllConfig=true" sec:authorize="hasAuthority('VIEW_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
-                        <input type="hidden" ng-init="displayCtrl.manageAllConfig=true" sec:authorize="hasAuthority('MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
-                        <button class="thumbnail" id="display-AP Document layout-setup-button" ng-click="displayCtrl.setupDisplayDocument('PAYABLE','DOCUMENT')" title="Config a document display" ng-disabled="displayCtrl.unauthenConfig()">
-							<div class="caption config-box">
-								<div class="media">
-									<div class="media-body">
-										<h5 class="media-heading animated fadeInLeft"
-											id="document-display-header-label"
-											ng-bind="'Document display' | translate"></h5>
-									</div>
-									<div class="media-right btn-default">
-										<i class="fa fa-cog" aria-hidden="true"></i>
-									</div>
-								</div>
-							</div>
-						</button>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6" ng-controller="DisplayConfigController as displayCtrl">
-                        <input type="hidden" ng-init="displayCtrl.viewAllConfig=true" sec:authorize="hasAuthority('VIEW_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
-                        <input type="hidden" ng-init="displayCtrl.manageAllConfig=true" sec:authorize="hasAuthority('MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
-                        <button class="thumbnail" id="transaction-display-AP Document layout-setup-button" ng-click="displayCtrl.setupDisplayDocument('PAYABLE','TRANSACTION_DOCUMENT')" title="Config a create transaction display" ng-disabled="displayCtrl.unauthenConfig()">
-							<div class="caption config-box">
-								<div class="media">
-									<div class="media-body">
-										<h5 class="media-heading animated fadeInLeft"
-											id="transaction-display-header-label"
-											ng-bind="'Create transaction display' | translate"></h5>
-									</div>
-									<div class="media-right btn-default">
-										<i class="fa fa-cog" aria-hidden="true"></i>
-									</div>
-								</div>
-							</div>
-						</button>
-                    </div>
 
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div ng-include="'/sponsor-configuration/supplier-code-list'"></div>
@@ -171,6 +99,10 @@
                     <div class="col-md-12">
                         <div ng-include="'/sponsor-configuration/ap-document-display-configs'"></div>
                     </div>
+                    <div class="col-md-12">
+                        <div ng-include="'/sponsor-configuration/create-transaction-display-configs'"></div>
+                    </div>
+
                 </div>
 
                 <div class="panel-body">

@@ -5,7 +5,7 @@
         <input type="hidden" ng-init="ctrl.manageAllConfig=true" sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" />
 
         <div class="panel panel-default">
-            <div class="panel-body" style="min-height: 120px;">
+            <div class="panel-body" style="min-height: 200px;">
                 <div class="row">
                     <div class="col-lg-10 col-md-10 col-xs-10">
                         <h3 class="animated fadeInLeft" id="file-layouts-header-label">{{'Import file layout' | translate}}</h3>
@@ -30,7 +30,7 @@
                                 <td><span id="{{ctrl.processType}}-import-layout-{{data.displayName}}-label" ng-bind="data.displayName"> </span></td>
                                 <td class="text-center">
                                     <scf-button class="btn-default gec-btn-action" id="{{ctrl.processType}}-import-layout-{{data.displayName}}-view-button" title="View a file layout"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
-                                    <scf-button id="{{ctrl.processType}}-import-layout-{{data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.newFileLayout(data ,ctrl.processType , ctrl.integrateType)" title="Config a file layout">
+                                    <scf-button id="{{ctrl.processType}}-import-layout-{{data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.newFileLayout(data ,ctrl.processType , ctrl.integrateType)" ng-disabled="ctrl.unauthenConfig()" title="Config a file layout">
                                         <i class="fa fa-cog" aria-hidden="true"></i></scf-button>
                                     <scf-button id="{{ctrl.processType}}-import-layout-{{data.displayName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteLayout(data)" title="Delete a file layout"> <i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>
                                 </td>
