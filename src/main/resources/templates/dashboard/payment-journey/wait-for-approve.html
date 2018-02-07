@@ -1,5 +1,5 @@
 <div th:fragment="content"
-    sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZE')">
+    sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZATION')">
     <div class="panel wait-for-approve-panel panel-shadow" ng-controller="JourneyWaitForApprovePaymentController as waitForApprovePaymentCtrl">
         <a class="mouse-pointer" id="wait-for-approve-payment-transaction-journey-link" ng-click="waitForApprovePaymentCtrl.paymentList()">
             <div class="panel-heading txn-journey">
@@ -33,6 +33,6 @@
         </div>
         <ng-form> <input type="hidden"
 			ng-init="waitForApprovePaymentCtrl.canViewPayments=true"
-			sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZE')" /></ng-form>
+			sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZATION')" /></ng-form>
     </div>
 </div>
