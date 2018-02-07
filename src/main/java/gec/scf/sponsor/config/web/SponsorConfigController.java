@@ -18,6 +18,8 @@ public class SponsorConfigController {
 	
 	private static String BUYER_CODE = "sponsor-configuration/ar-document-config/buyer-code";
 	private static String PRODUCT_TYPE = "sponsor-configuration/ar-document-config/product-type";
+	
+	private static String SUPPLIER_CODE = "sponsor-configuration/ap-document-config/supplier-code";
 
 	private static String AP_IMPORT_CHANNEL = "sponsor-configuration/ap-document-config/channel-configs";
 	private static String AR_IMPORT_CHANNEL = "sponsor-configuration/ar-document-config/channel-configs";
@@ -28,7 +30,8 @@ public class SponsorConfigController {
 
 	private static String AR_IMPORT_LAYOUTS = "sponsor-configuration/ar-document-config/import-layouts";
 	private static String AR_EXPORT_LAYOUTS = "sponsor-configuration/ar-document-config/export-layouts";
-	private static String AP_FILE_LAYOUTS = "sponsor-configuration/ap-document-config/file-layouts";
+	//private static String AP_FILE_LAYOUTS = "sponsor-configuration/ap-document-config/file-layouts";
+	private static String AP_FILE_LAYOUTS = "sponsor-configuration/ap-document-config/import-layouts";
 
 	private static String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
 
@@ -407,4 +410,13 @@ public class SponsorConfigController {
 		}
 		return PRODUCT_TYPE;
 	}
+	
+	@RequestMapping(path = "/supplier-code-list", method = RequestMethod.GET)
+	public String supplierCodeList(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SUPPLIER_CODE.concat(" :: content");
+		}
+		return SUPPLIER_CODE;
+	}
+	
 }
