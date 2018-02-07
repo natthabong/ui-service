@@ -232,17 +232,6 @@ displayModule.controller('DisplayController', [
             });
         }
 
-        var loadDisplayConfigs = function (ownerId, accountingTransactionType, displayMode) {
-            var deffered = DisplayService.getDocumentDisplayConfigs(ownerId, accountingTransactionType, displayMode);
-            deffered.promise.then(function (response) {
-                var data = response.data[0];
-                loadDisplayConfig(ownerId, accountingTransactionType, displayMode,data.documentDisplayId);
-
-            }).catch(function (response) {
-                log.error('Load data error');
-            });
-        }
-        
         var loadMappingData = function (ownerId, accountingTransactionType) {
             var dataType = ["TEXT_MAPPING_WITH_DEFAULT"];
             var deffered = SCFCommonService.loadMappingData(ownerId, accountingTransactionType, dataType);
@@ -258,11 +247,7 @@ displayModule.controller('DisplayController', [
                     });
                 }
                 
-                if (accountingTransactionType == 'PAYABLE'){
-                	loadDisplayConfigs(ownerId, accountingTransactionType, displayMode);
-                } else {
-                	loadDisplayConfig(ownerId, accountingTransactionType, displayMode, vm.displayId);
-                }
+                loadDisplayConfig(ownerId, accountingTransactionType, displayMode, vm.displayId);
             });
         }
 
