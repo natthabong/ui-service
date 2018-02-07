@@ -49,10 +49,11 @@ module
 								PageNavigation.gotoPage('/sponsor-configuration/file-layouts/new-file-layout',params);
 							}
 							
-							vm.newARFileLayout = function(data, processType, integrateType){		
+							vm.newFileLayoutPopup = function(data, processType, integrateType){		
 								ConfigurationUtils.showCreateImportLayoutDialog({
 									data : { 
-										ownerId : $stateParams.organizeId
+										ownerId : $stateParams.organizeId,
+										processType: processType
 									}, preCloseCallback : function() {
 										vm.init(processType, integrateType);
 									}
