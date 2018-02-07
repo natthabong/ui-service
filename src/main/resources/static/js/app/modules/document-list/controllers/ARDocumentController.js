@@ -229,6 +229,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            var supplierCriteria = vm.documentListModel.supplier.organizeId;
 	
 	
+	            vm.documentListCriterial.viewMode = $stateParams.viewMode;
 	            vm.documentListCriterial.buyerId = buyerCriteria;
 	            vm.documentListCriterial.supplierId = supplierCriteria;
 	            vm.documentListCriterial.customerCode = UIFactory.createCriteria(vm.documentListModel.buyerCode);
@@ -254,7 +255,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	                    vm.documentListCriterial.documentStatus = status.valueObject;
 	                }
 	            });
-	
+	            
 	            return vm.documentListCriterial;
 	
 	        }

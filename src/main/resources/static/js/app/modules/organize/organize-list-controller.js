@@ -83,14 +83,14 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
     vm.dataTable = {
     		identityField: 'organizeId',
             columns: [{
-            	fieldName: 'organizeId',
+            	fieldName: 'memberCode',
                 labelEN: 'Organization Code',
                 labelTH: 'Organization Code',
                 id: '{value}-organize-code',
                 sortable: false,
                 cssTemplate: 'text-center',
             },{
-            	fieldName: 'organizeName',
+            	fieldName: 'memberName',
             	labelEN: 'Organization Name',
             	labelTH: 'Organization Name',
                 id: '{value}-organize-name',
@@ -110,7 +110,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
                 id: '{value}-active',
                 sortable: false,
                 cssTemplate: 'text-center',
-                cellTemplate: '<span id="{{data.organizeId}}-status-label">{{data.active ? "Active" : "Suspend"}}</span>'	
+                cellTemplate: '<span id="{{data.memberId}}-status-label">{{data.active ? "Active" : "Suspend"}}</span>'	
             },{
 				cssTemplate: 'text-center',
 				sortable: false,
