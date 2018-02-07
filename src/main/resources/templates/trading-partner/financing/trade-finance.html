@@ -91,6 +91,15 @@
 								</scf-input-number>
 							</div>
 						</div>
+						<div class="form-group"
+							ng-show="errors.percentageLoan">
+							<div>
+								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+									id="percentage-loan-warning-message-label" ng-bind="errors.percentageLoan.message">
+								</span>
+							</div>
+						</div>
 						<div class="form-group" ng-show="ctrl.isLoanType">
 							<label id="tenor-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Tenor
@@ -102,20 +111,12 @@
 							</div>
 						</div>
 						<div class="form-group"
-							ng-show="errors.tenor || errors.percentageLoan">
-							<div ng-show="errors.tenor">
+							ng-show="errors.tenor">
+							<div>
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
 									id="tenor-warning-message-label" ng-bind="errors.tenor.message">
 								</span>
-							</div>
-							<div ng-show="errors.percentageLoan">
-								<label class="col-md-5 col-sm-3 col-xs-12 control-label"
-									ng-show="!errors.tenor"></label> <label
-									class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
-									class="col-md-3 col-sm-3 col-xs-12 error-msg"
-									id="percentage-loan-warning-message-label"
-									ng-bind="errors.percentageLoan.message"> </span>
 							</div>
 						</div>
 						<div class="form-group" ng-show="ctrl.isLoanType">

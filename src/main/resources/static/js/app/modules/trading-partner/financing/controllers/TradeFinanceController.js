@@ -56,10 +56,10 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		function setPayeeAccountDropdown() {
 			vm.payeeAccountDropdown = [{
 				label: 'Please select',
-				value: null
+				value: 'PLEASE_SELECT'
 			}, {
 				label: 'Undefined',
-				value: 0
+				value: 'UNDEFINED_ACCOUNT'
 			}];
 
 			var deffered = TradeFinanceService.getPayeeAccounts(borrower.supplierId);
@@ -188,6 +188,9 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				vm.tradeFinanceModel.isSuspend = tradeFinanceData.suspend;
 				if(tradeFinanceData.payeeAccountId != undefined && tradeFinanceData.payeeAccountId != null){
 					vm.tradeFinanceModel.payeeAccountId = tradeFinanceData.payeeAccountId.toString();
+				}else if(tradeFinanceData.payeeAccountId == null){
+					console.log("init null payee");
+					vm.tradeFinanceModel.payeeAccountId = 'UNDEFINED_ACCOUNT';
 				}
 				
 				changeAccountType(tradeFinanceData.accountType);
@@ -219,6 +222,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			if (currentMode == 'NEW') {
 				vm.isNewMode = true;
 				vm.isSupplier = false;
+				vm.tradeFinanceModel.payeeAccountId = 'PLEASE_SELECT'; 
 			} else if (currentMode == 'EDIT' || currentMode == 'VIEW') {
 				vm.isNewMode = false;
 				if (currentMode == 'VIEW') {
@@ -299,7 +303,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				agreementDate: vm.tradeFinanceModel.agreementDate,
 				suspend: vm.tradeFinanceModel.isSuspend,
 				borrowerType: vm.isSupplier ? "SUPPLIER" : "BUYER",
-				payeeAccountId: vm.tradeFinanceModel.payeeAccountId
+				payeeAccountId: vm.tradeFinanceModel.payeeAccountId == 'UNDEFINED_ACCOUNT'? null : vm.tradeFinanceModel.payeeAccountId
 			}
 
 			var deferred = TradeFinanceService.createTradeFinance(sponsorId, supplierId, tradeFinanceModule, vm.isSupplier);
@@ -336,7 +340,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				interestRate: vm.tradeFinanceModel.interestRate,
 				agreementDate: vm.tradeFinanceModel.agreementDate,
 				suspend: vm.tradeFinanceModel.isSuspend,
-				payeeAccountId: vm.tradeFinanceModel.payeeAccountId,
+				payeeAccountId: vm.tradeFinanceModel.payeeAccountId == 'UNDEFINED_ACCOUNT'? null : vm.tradeFinanceModel.payeeAccountId,
 				version: $stateParams.data.version
 			}
 
@@ -360,7 +364,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			$scope.errors = {};
 			var valid = true;
 
-			if (vm.tradeFinanceModel.payeeAccountId == null || vm.tradeFinanceModel.payeeAccountId == '') {
+			if (vm.tradeFinanceModel.payeeAccountId == 'PLEASE_SELECT') {
 				valid = false;
 				$scope.errors.payeeAccountId = {
 					message: 'Payee account is required.'
