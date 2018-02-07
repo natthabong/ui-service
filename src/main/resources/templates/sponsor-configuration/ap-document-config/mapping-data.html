@@ -1,31 +1,22 @@
 <div th:fragment="content">
-	<div id="wrapper" ng-controller="MappingDataListController as ctrl">
+    <div id="wrapper" ng-controller="MappingDataListController as ctrl">
 
-		<div class="panel panel-default">
-			<div class="panel-body" style="min-height: 360px;">
-				<div class="row">
-					<div class="col-lg-10 col-md-10 col-xs-10">
-						<h3 class="animated fadeInLeft" id="PAYABLE-mapping-data-header-label">{{'Mapping
-							data' | translate}}</h3>
-					</div>
-					<div class="col-lg-2 col-md-2 col-xs-2 text-right">
-						<br />
-						<scf-button class="btn-default gec-btn-action"
-							id="PAYABLE-mapping-data-new-button" title="New a mapping data"
-							ng-click="ctrl.addNewMappingData('PAYABLE')">
-						<i class="fa fa-plus" aria-hidden="true"></i></scf-button>
-					</div>
-				</div>
-				<div class="row" ng-init="ctrl.init('PAYABLE')">
-					<div class="col-md-12 col-sm-12 text-right">
-						<scf-table id="ap-mapping-data-table"
-							component-config="ctrl.dataTable"
-							component-datas="ctrl.pagingController.tableRowCollection"
-							current-page="ctrl.pagingController.pagingModel.currentPage"
-							record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"></scf-table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="panel panel-default">
+            <div class="panel-body" style="min-height: 360px;">
+                <div class="row">
+                    <div class="col-lg-10 col-md-10 col-xs-10">
+                        <h3 class="animated fadeInLeft" id="PAYABLE-mapping-data-header-label">{{'Mapping data' | translate}}</h3>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-xs-2 text-right">
+
+                    </div>
+                </div>
+                <div class="row" ng-init="ctrl.init('PAYABLE')">
+                    <div class="col-md-12 col-sm-12 text-right">
+                        <scf-table id="ap-mapping-data-table" component-config="ctrl.dataTable" component-datas="ctrl.pagingController.tableRowCollection" current-page="ctrl.pagingController.pagingModel.currentPage" record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"></scf-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

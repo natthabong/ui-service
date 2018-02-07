@@ -38,8 +38,9 @@ tpModule
 											label : '',
 											cssTemplate : 'text-center',
 											sortData : false,
-											cellTemplate : '<scf-button id="{{ctrl.accountingTransactionType}}-mapping-data-{{data.mappingDataName}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
-													+ '<scf-button id="{{ctrl.accountingTransactionType}}-mapping-data-{{data.mappingDataName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+											cellTemplate : '<scf-button class="btn-default gec-btn-action" id="{{ctrl.accountingTransactionType}}-mapping-data-{{data.mappingDataName}}-view-button"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'+ 
+												'<scf-button id="{{ctrl.accountingTransactionType}}-mapping-data-{{data.mappingDataName}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
+													+ '<scf-button id="{{ctrl.accountingTransactionType}}-mapping-data-{{data.mappingDataName}}-delete-button" class="btn-default gec-btn-action" ng-disabled="ctrl.checkMappingType(data)" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 										} ]
 							}
 
@@ -48,6 +49,15 @@ tpModule
 
 							var loadData = function() {
 								vm.pagingController.search();
+							}
+							
+							vm.checkMappingType = function(data){
+								
+								if(data.mappingType == 'REASON_CODE'){
+									return true;
+								}else{
+									return false;
+								}
 							}
 
 							vm.edit = function(data) {
