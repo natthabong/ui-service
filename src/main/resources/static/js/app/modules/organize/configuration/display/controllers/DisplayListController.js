@@ -28,7 +28,6 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
   vm.addNewDocumentDisplay = function(type, mode) {
 	  ConfigurationUtils.showCreateNewCreateDisplayDialog({
 			data : { 
-				showAll: true ,
 				ownerId : ownerId,
 				accountingTransactionType : type,
 				displayMode : mode

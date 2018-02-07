@@ -51,8 +51,7 @@ angular
 									data : { 
 										organizeId : ownerId,
 										processType : vm.processType,
-										channelType : 'WEB',
-										showAll: true
+										channelType : 'WEB'
 									}, preCloseCallback : function() {
 										callback();
 									}

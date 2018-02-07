@@ -61,20 +61,6 @@ tpModule
 												params, {});
 							}
 
-							vm.addNewMappingData = function(accountingTxnType) {
-								ConfigurationUtils
-										.showCreateMappingDataDialog({
-											data : {
-												ownerId : ownerId,
-												accountingTransactionType : accountingTxnType,
-												showAll: true
-											},
-											preCloseCallback : function() {
-												loadData();
-											}
-										});
-							}
-
 							vm.deleteMappingData = function(data) {
 								UIFactory
 										.showConfirmDialog({

@@ -36,8 +36,7 @@ exportChannelModule
                         ConfigurationUtils.showCreateExportChannelDialog({
                           data: {
                             organizeId: ownerId,
-                            channelType: 'WEB',
-                            showAll: true
+                            channelType: 'WEB'
                           },
                           preCloseCallback: function() {
                             callback();
@@ -48,8 +47,7 @@ exportChannelModule
                         ConfigurationUtils.showCreateExportChannelDialog({
                           data: {
                             organizeId: vm.organizeId,
-                            channelType: 'WEB',
-                            showAll: true
+                            channelType: 'WEB'
                           },
                           preCloseCallback: function() {
                             callback();

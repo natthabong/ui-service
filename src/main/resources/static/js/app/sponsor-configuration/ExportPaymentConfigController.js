@@ -59,7 +59,6 @@ angular.module('scfApp').controller('ExportPaymentConfigController', [
         vm.newExportFileLayout = function(data, processType, integrateType){		
 			ConfigurationUtils.showCreateExportLayoutDialog({
 				data : { 
-					showAll: true ,
 					ownerId : organizeId
 				}, preCloseCallback : function() {
 					vm.init(processType, integrateType);

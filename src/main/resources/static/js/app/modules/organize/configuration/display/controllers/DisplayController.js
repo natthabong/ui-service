@@ -407,8 +407,7 @@ displayModule.controller('DisplayController', [
             ConfigurationUtils.showCreateMappingDataDialog({
                 data: {
                     ownerId: ownerId,
-                    accountingTransactionType: vm.accountingTransactionType,
-                    showAll: false
+                    accountingTransactionType: vm.accountingTransactionType
                 },
                 preCloseCallback: function (saveResponse) {
                     var dataType = ["TEXT_MAPPING_WITH_DEFAULT"];
