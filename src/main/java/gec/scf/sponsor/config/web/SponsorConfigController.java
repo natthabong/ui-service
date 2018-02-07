@@ -15,6 +15,9 @@ public class SponsorConfigController {
 	private static String PROFILE = "sponsor-configuration/profile";
 	private static String WORKFLOW = "sponsor-configuration/workflow/workflow";
 	private static String SETUP_WORKFLOW = "sponsor-configuration/workflow/setup";
+	
+	private static String BUYER_CODE = "sponsor-configuration/ar-document-config/buyer-code";
+	private static String PRODUCT_TYPE = "sponsor-configuration/ar-document-config/product-type";
 
 	private static String AP_IMPORT_CHANNEL = "sponsor-configuration/ap-document-config/channel-configs";
 	private static String AR_IMPORT_CHANNEL = "sponsor-configuration/ar-document-config/channel-configs";
@@ -385,5 +388,23 @@ public class SponsorConfigController {
 			return EXPORT_CHANNEL_SETUP.concat(" :: content");
 		}
 		return EXPORT_CHANNEL_SETUP;
+	}
+	
+	
+	@RequestMapping(path = "/buyer-code-list", method = RequestMethod.GET)
+	public String buyerCodeList(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return BUYER_CODE.concat(" :: content");
+		}
+		return BUYER_CODE;
+	}
+	
+	
+	@RequestMapping(path = "/product-type-list", method = RequestMethod.GET)
+	public String productType(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return PRODUCT_TYPE.concat(" :: content");
+		}
+		return PRODUCT_TYPE;
 	}
 }

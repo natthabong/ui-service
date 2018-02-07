@@ -1,0 +1,39 @@
+<div th:fragment="content">
+    <div id="wrapper" ng-controller="ProductTypeListController as ctrl">
+        <input type="hidden" ng-init="ctrl.manageAllConfig=true" sec:authorize="hasAuthority('MANAGE_ALL_PRODUCT_TYPES')" />
+        <div class="panel panel-default">
+            <div class="panel-body" style="min-height: 120px;">
+                <div class="row">
+                    <div class="col-lg-10 col-md-10 col-xs-10">
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-xs-2 text-right">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 text-right">
+
+                        <table id="product-type-list-table" class="table table-striped table-bordered" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-left">
+                                        <span id="product-type-list-label">{{'Product type list' | translate}}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <scf-button class="btn-default gec-btn-action" id="product-type-list-view-button" title="View product type"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
+                                        <scf-button ng-disabled="ctrl.unauthenConfig()" id="product-type-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.gotoListPage()" title="Config product type"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
