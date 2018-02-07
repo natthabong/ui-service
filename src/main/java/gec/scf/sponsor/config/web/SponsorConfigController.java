@@ -182,7 +182,7 @@ public class SponsorConfigController {
 		return PRODUCT_TYPE_LIST;
 	}
 
-	@RequestMapping(path = "/display-document-configs", method = RequestMethod.GET)
+	@RequestMapping(path = "/ap-document-display-configs", method = RequestMethod.GET)
 	public String documentDisplayConfigs(
 			@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {

@@ -1,37 +1,26 @@
-<div th:fragment="content"
-	sec:authorize="hasAnyAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS','MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')">
-	<div id="wrapper" ng-controller="PaymentDateFormulaController as ctrl">
-		<input type="hidden" ng-init="ctrl.viewAllConfig=true"
-		sec:authorize="hasAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS')" /> 
-		<input type="hidden" ng-init="ctrl.manageAllConfig=true"
-		sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" />
-		
-		<div class="panel panel-default">
-			<div class="panel-body" style="min-height: 360px;">
-				<div class="row">
-					<div class="col-lg-10 col-md-10 col-xs-10">
-						<h3 class="animated fadeInLeft" id="payment-formula-header-label">{{'Payment date formula' | translate}}</h3>
-					</div>
-					<div class="col-lg-2 col-md-2 col-xs-2 text-right">
-						<br/>
-						<scf-button class="btn-default gec-btn-action"
-							id="formula-name-configs-new-button"
-							title="New a formula" ng-click="ctrl.openNewFormula()"
-							ng-disabled="!ctrl.manageAllConfig"> <i
-							class="fa fa-plus" aria-hidden="true"></i></scf-button>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12 col-sm-12 text-right">
-						<scf-data-table id="payment-formula-table"
-							component-config="ctrl.dataTable" component-datas="ctrl.data"
-							current-page="ctrl.pageModel.currentPage"
-							record-per-page="ctrl.pageModel.pageSizeSelectModel"
-							clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
-					</div>
-				</div>
-				<div id="fixed-bottom" class="col-md-12"></div>
-			</div>
-		</div>
-	</div>
+<div th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS','MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')">
+    <div id="wrapper" ng-controller="PaymentDateFormulaController as ctrl">
+        <input type="hidden" ng-init="ctrl.viewAllConfig=true" sec:authorize="hasAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS')" />
+        <input type="hidden" ng-init="ctrl.manageAllConfig=true" sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" />
+
+        <div class="panel panel-default">
+            <div class="panel-body" style="min-height: 360px;">
+                <div class="row">
+                    <div class="col-lg-10 col-md-10 col-xs-10">
+                        <h3 class="animated fadeInLeft" id="payment-formula-header-label">{{'Payment date formula' | translate}}</h3>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-xs-2 text-right">
+                        <br/>
+                        <scf-button class="btn-default gec-btn-action" id="formula-name-configs-new-button" title="New a formula" ng-click="ctrl.openNewFormula()" ng-disabled="!ctrl.manageAllConfig"> <i class="fa fa-plus" aria-hidden="true"></i></scf-button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 text-right">
+                        <scf-data-table id="payment-formula-table" component-config="ctrl.dataTable" component-datas="ctrl.data" current-page="ctrl.pageModel.currentPage" record-per-page="ctrl.pageModel.pageSizeSelectModel" clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
+                    </div>
+                </div>
+                <div id="fixed-bottom" class="col-md-12"></div>
+            </div>
+        </div>
+    </div>
 </div>

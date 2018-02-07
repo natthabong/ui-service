@@ -64,8 +64,10 @@ var app = angular.module('scfApp');
 											label: '',
 											cssTemplate: 'text-center',
 											sortData: false,
-											cellTemplate: '<scf-button id="payment-date-formula-{{data.formulaName}}-setup-button"  class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a payment date formula configs" ng-disabled="ctrl.unauthenConfig()"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
-											'<scf-button id="payment-date-formula-{{data.formulaName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteFormula(data)" title="Delete a file layout" ng-disabled="!ctrl.manageAllConfig"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+											cellTemplate: '<scf-button class="btn-default gec-btn-action" id="payment-date-formula-{{data.formulaName}}-view-button" title="View a payment date formula configs"><i class="fa fa-search" aria-hidden="true"></i></scf-button>' +
+												'<scf-button id="payment-date-formula-{{data.formulaName}}-setup-button"  class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a payment date formula configs" ng-disabled="ctrl.unauthenConfig()"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
+											'<scf-button id="payment-date-formula-{{data.formulaName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteFormula(data)" title="Delete a payment date formula configs" ng-disabled="!ctrl.manageAllConfig"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+											
 										} ]
 							};
 
