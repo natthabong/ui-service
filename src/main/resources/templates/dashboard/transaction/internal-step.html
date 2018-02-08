@@ -1,5 +1,5 @@
 <div th:fragment="content"
-	sec:authorize="hasAnyAuthority('CREATE_LOANS_OF_MY_ORGANIZE', 'VERIFY_LOANS_OF_MY_ORGANIZE', 'APPROVE_LOANS_OF_MY_ORGANIZE')">
+	sec:authorize="hasAnyAuthority('CREATE_LOANS_OF_MY_ORGANIZATION', 'VERIFY_LOANS_OF_MY_ORGANIZATION', 'APPROVE_LOANS_OF_MY_ORGANIZATION')">
 	<div
 		ng-controller="InternalStepDashboardController as internalStepCtrl">
 		<h3 class="animated fadeInLeft" id="{{dashboardItem.headerLabel | convertToHeadderId}}"
@@ -34,6 +34,6 @@
 		</div>
 		
 		<input type="hidden" ng-init="internalStepCtrl.canViewLoansOfMyOrganize=true"
-			sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZE')" />
+			sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZATION')" />
 	</div>
 </div>

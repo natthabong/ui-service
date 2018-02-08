@@ -1,10 +1,10 @@
 <div th:fragment="content" 
-	sec:authorize="hasAnyAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS','MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')">
+	sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATION_PROFILES','MANAGE_ALL_CUSTOMER_ORGANIZATION_PROFILES')">
 	<div id="wrapper" ng-controller="ProfileController as ctrl">
 		<input type="hidden" ng-init="ctrl.viewAllConfig=true"
-		sec:authorize="hasAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS')" /> 
+		sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATION_PROFILES')" /> 
 		<input type="hidden" ng-init="ctrl.manageAllConfig=true"
-		sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" />
+		sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATION_PROFILES')" />
 		
 		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">

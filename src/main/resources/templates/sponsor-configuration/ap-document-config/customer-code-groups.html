@@ -1,10 +1,10 @@
 <div th:fragment="content"
-	sec:authorize="hasAnyAuthority('MANAGE_ALL_SUPPLIER_CODES','MANAGE_SUPPLIER_CODES_OF_MY_ORGANIZE')">
+	sec:authorize="hasAnyAuthority('MANAGE_ALL_SUPPLIER_CODES','MANAGE_SUPPLIER_CODES_OF_MY_ORGANIZATION')">
 	<div id="wrapper" ng-controller="CustomerCodeGroupController as ctrl">
 		<input type="hidden" ng-init="ctrl.manageAllConfig=true"
 		sec:authorize="hasAuthority('MANAGE_ALL_SUPPLIER_CODES')" /> 
 		<input type="hidden" ng-init="ctrl.manageMyOrgConfig=true"
-		sec:authorize="hasAuthority('MANAGE_SUPPLIER_CODES_OF_MY_ORGANIZE')" />
+		sec:authorize="hasAuthority('MANAGE_SUPPLIER_CODES_OF_MY_ORGANIZATION')" />
 		
 		<div class="panel panel-default config-box">
 			<div class="panel-body">
