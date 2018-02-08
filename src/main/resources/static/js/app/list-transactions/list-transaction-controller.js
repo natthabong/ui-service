@@ -574,6 +574,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             vm.listTransactionModel.sponsorId = vm.documentListModel.sponsor.organizeId;
             vm.listTransactionModel.sponsorInfo = {
             	organizeId: vm.documentListModel.sponsor.organizeId,
+            	organizeCode: vm.documentListModel.sponsor.organizeCode,
             	organizeName: vm.documentListModel.sponsor.organizeName
             };
         }else{
@@ -584,10 +585,11 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
             vm.listTransactionModel.supplierId = vm.documentListModel.supplier.organizeId;
             vm.listTransactionModel.supplierInfo = {
             	organizeId: vm.documentListModel.supplier.organizeId,
+            	organizeCode: vm.documentListModel.supplier.organizeCode,
             	organizeName: vm.documentListModel.supplier.organizeName
             };
         }else{
-        	vm.listTransactionModel.supplier = null;
+        	vm.listTransactionModel.supplierInfo = null;
         }
 		
         if (criteria === undefined || criteria == null) {
@@ -651,6 +653,7 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			supplier : vm.listTransactionModel.supplier,
 			supplierCode : vm.listTransactionModel.supplierCode,
 			supplierId : vm.listTransactionModel.supplierId,
+			supplierInfo : vm.listTransactionModel.supplierInfo,
 			transactionNo : vm.listTransactionModel.transactionNo
 		}
 	}
@@ -797,12 +800,12 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 			vm.dateModel.dateTo = SCFCommonService.convertStringTodate(vm.listTransactionModel.dateTo);			
 
 			if(vm.listTransactionModel.sponsorInfo != undefined){
-				var sponsorInfo = prepareAutoSuggestLabel(vm.listTransactionModel.sponsorInfo);
+				var sponsorInfo = prepareAutoSuggestLabel(vm.listTransactionModel.sponsorInfo,'sponsor');
 				vm.documentListModel.sponsor = sponsorInfo;
 			}
 			
 			if(vm.listTransactionModel.supplierInfo != undefined){
-				var supplierInfo = prepareAutoSuggestLabel(vm.listTransactionModel.supplierInfo);
+				var supplierInfo = prepareAutoSuggestLabel(vm.listTransactionModel.supplierInfo,'supplier');
 				vm.documentListModel.supplier = supplierInfo;
 			}
 		}
@@ -835,9 +838,9 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
     };
 
 
-    var prepareAutoSuggestLabel = function(item) {
-		item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
-		item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+    var prepareAutoSuggestLabel = function(item,role) {
+		item.identity = [ role,'-', item.organizeId, '-option' ].join('');
+		item.label = [ item.organizeCode, ': ', item.organizeName ].join('');
 		return item;
 	}
 
@@ -846,23 +849,38 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 		supplierTPDeferred.promise.then(function(response){
 			if(response.data.length == 1){
 				var sponsorInfo = response.data[0];
-				sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
+				sponsorInfo = prepareAutoSuggestLabel(sponsorInfo,'sponsor');
 				vm.documentListModel.sponsor = sponsorInfo;
 				vm.searchDocument();
 			}
 		});
 	}
+    
+    var organizeInfo = {
+	        memberId : $rootScope.userInfo.organizeId,
+	        memberCode : $rootScope.userInfo.organizeCode,
+	        memberName : $rootScope.userInfo.organizeName
+    }
 
     var initSponsorAutoSuggest = function() {
         var sponsorInfo = angular.copy($rootScope.userInfo);
-        sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
+        sponsorInfo = prepareAutoSuggestLabel(sponsorInfo,'sponsor');
         vm.documentListModel.sponsor = sponsorInfo;
 	}
 
 	var initSupplierAutoSuggest = function() {
         var supplierInfo = angular.copy($rootScope.userInfo);
-        supplierInfo = prepareAutoSuggestLabel(supplierInfo);
+        supplierInfo = prepareAutoSuggestLabel(supplierInfo,'supplier');
         vm.documentListModel.supplier = supplierInfo;
+	}
+	
+	var convertFundingMemberToOrganize = function(fundingMember) {
+		var organize = {
+				organizeId : fundingMember.memberId,
+				organizeCode : fundingMember.memberCode,
+		        organizeName : fundingMember.memberName
+		}
+		return organize;
 	}
 
     var querySponsorCode = function(value) {
@@ -875,24 +893,12 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         }
         }).then(function(response) {
             return response.data.map(function(item) {
-                item = prepareAutoSuggestLabel(item);
+            	item = convertFundingMemberToOrganize(item);
+                item = prepareAutoSuggestLabel(item,'sponsor');
                 return item;
             });
         });
 	};
-
-	var placeholder;
-	if($stateParams.viewMode == mode.CUSTOMER){
-		placeholder = 'Enter organization name or code';
-	}else{
-		placeholder = 'Please Enter organization name or code';
-	}
-
-	vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
-        placeholder : placeholder,
-        itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
-        query : querySponsorCode
-	});
 
 	var querySupplierCode = function(value) {
 		var viewMode = $stateParams.viewMode;
@@ -914,12 +920,26 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         }
         }).then(function(response) {
             return response.data.map(function(item) {
-                item.identity = [ 'supplier-', item.organizeId, '-option' ].join('');
-                item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+            	item = convertFundingMemberToOrganize(item);
+            	item = prepareAutoSuggestLabel(item,'supplier');
                 return item;
             });
         });
 	};
+	
+	var placeholder;
+	if($stateParams.viewMode == mode.CUSTOMER){
+		placeholder = 'Enter organization name or code';
+	}else{
+		placeholder = 'Please Enter organization name or code';
+	}
+
+	vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
+        placeholder : placeholder,
+        itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
+        query : querySponsorCode
+	});
+	
 	vm.supplierAutoSuggestModel = UIFactory.createAutoSuggestModel({
         placeholder : 'Enter organization name or code',
         itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
