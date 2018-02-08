@@ -125,7 +125,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            value = value = UIFactory.createCriteria(value);
 	            var buyer = null;
 	            if (angular.isDefined(vm.documentListModel.buyer) && vm.documentListModel.buyer != null) {
-	                buyer = vm.documentListModel.buyer.organizeId;
+	                buyer = vm.documentListModel.buyer.memberId;
 	            }
 	            return $http.get(serviceUrl, {
 	                params: {
@@ -136,8 +136,8 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	                }
 	            }).then(function(response) {
 	                return response.data.map(function(item) {
-	                    item.identity = ['supplier-', item.organizeId, '-option'].join('');
-	                    item.label = [item.organizeId, ': ', item.organizeName].join('');
+	                    item.identity = ['supplier-', item.memberId, '-option'].join('');
+	                    item.label = [item.memberCode, ': ', item.memberName].join('');
 	                    return item;
 	                });
 	            });
@@ -155,14 +155,14 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            return $http.get(serviceUrl, {
 	                params: {
 	                    q: value,
-	                    supplierId: vm.documentListModel.supplier.organizeId,
+	                    supplierId: vm.documentListModel.supplier.memberId,
 	                    offset: 0,
 	                    limit: 5
 	                }
 	            }).then(function(response) {
 	                return response.data.map(function(item) {
-	                    item.identity = ['buyer-', item.organizeId, '-option'].join('');
-	                    item.label = [item.organizeId, ': ', item.organizeName].join('');
+	                    item.identity = ['buyer-', item.memberId, '-option'].join('');
+	                    item.label = [item.memberCode, ': ', item.memberName].join('');
 	                    return item;
 	                });
 	            });
@@ -223,10 +223,10 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	
 	        function prepareCriteria() {
 	            if (angular.isDefined(vm.documentListModel.buyer)) {
-	                var buyerCriteria = vm.documentListModel.buyer.organizeId || null;
+	                var buyerCriteria = vm.documentListModel.buyer.memberId || null;
 	            }
 	
-	            var supplierCriteria = vm.documentListModel.supplier.organizeId;
+	            var supplierCriteria = vm.documentListModel.supplier.memberId;
 	
 	
 	            vm.documentListCriterial.viewMode = $stateParams.viewMode;
