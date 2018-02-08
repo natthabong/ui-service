@@ -81,16 +81,16 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	}
     
     vm.dataTable = {
-    		identityField: 'organizeId',
+    		identityField: 'memberId',
             columns: [{
-            	fieldName: 'organizeId',
+            	fieldName: 'memberId',
                 labelEN: 'Organization Code',
                 labelTH: 'Organization Code',
                 id: '{value}-organize-code',
                 sortable: false,
                 cssTemplate: 'text-center',
             },{
-            	fieldName: 'organizeName',
+            	fieldName: 'memberName',
             	labelEN: 'Organization Name',
             	labelTH: 'Organization Name',
                 id: '{value}-organize-name',
@@ -110,11 +110,11 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
                 id: '{value}-active',
                 sortable: false,
                 cssTemplate: 'text-center',
-                cellTemplate: '<span id="{{data.organizeId}}-status-label">{{data.active ? "Active" : "Suspend"}}</span>'	
+                cellTemplate: '<span id="{{data.memberId}}-status-label">{{data.suspend ? "Suspend" :  "Active"}}</span>'	
             },{
 				cssTemplate: 'text-center',
 				sortable: false,
-				cellTemplate: '<scf-button ng-disabled="true" class="btn-default gec-btn-action" id="{{data.organizeId}}-profile-button" ng-click="ctrl.editOrganizeProfile(data)" title="Edit Profile"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button><scf-button class="btn-default gec-btn-action" id="{{data.organizeId}}-config-button" ng-click="ctrl.sponsorConfig(data)" title="Config Sponsor"> <i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
+				cellTemplate: '<scf-button ng-disabled="true" class="btn-default gec-btn-action" id="{{data.memberId}}-profile-button" ng-click="ctrl.editOrganizeProfile(data)" title="Edit Profile"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button><scf-button class="btn-default gec-btn-action" id="{{data.organizeId}}-config-button" ng-click="ctrl.sponsorConfig(data)" title="Config Sponsor"> <i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
 			}]
     }
     
