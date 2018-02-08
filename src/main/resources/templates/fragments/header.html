@@ -47,9 +47,9 @@
 						</a>
 						<ul class="dropdown-menu" ng-show = "ctrl.showDropDown">
 							<li ng-repeat="organize in ctrl.orgList track by $index">
-								<a id="{{organize.organizeName}}-menu" style="color:#000;padding-left:10px;"
+								<a id="{{organize.memberName}}-menu" style="color:#000;padding-left:10px;"
 								href="#" ng-click="ctrl.changeOrganize($index)"
-								>{{organize.organizeName}}
+								>{{organize.memberName}}
 								</a>
 								<div class="divider" style="margin:0px"></div>
 							</li>
