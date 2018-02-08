@@ -1,5 +1,5 @@
 <div th:fragment="content"
-	sec:authorize="hasAnyAuthority('VERIFY_PAYMENTS_OF_MY_ORGANIZE')">
+	sec:authorize="hasAnyAuthority('VERIFY_PAYMENTS_OF_MY_ORGANIZATION')">
 	<div
 		ng-controller="WaitForPaymentTodoListController as paymentTodoListCtrl">
 		<h3 class="animated fadeInLeft"
@@ -35,7 +35,7 @@
 			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
 		<input type="hidden" ng-init="paymentTodoListCtrl.verify=true"
-			sec:authorize="hasAuthority('VERIFY_PAYMENTS_OF_MY_ORGANIZE')" />
+			sec:authorize="hasAuthority('VERIFY_PAYMENTS_OF_MY_ORGANIZATION')" />
 	</div>
 
 </div>

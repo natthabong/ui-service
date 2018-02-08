@@ -1,5 +1,5 @@
 <div th:fragment="content"
-	sec:authorize="hasAuthority('VIEW_ACCOUNTS_OF_MY_ORGANIZE')">
+	sec:authorize="hasAuthority('VIEW_ACCOUNTS_OF_MY_ORGANIZATION')">
 	<div
 		ng-controller="CreditInformationSummaryDashboardController as ctrl">
 		<div class="row">
@@ -47,7 +47,7 @@
 		</div>
 		<ng-form> <input type="hidden"
 			ng-init="ctrl.canViewTrading=true"
-			sec:authorize="hasAuthority('VIEW_TRADING_PARTNERS_REFER_TO_MY_ORGANIZE')" /></ng-form>
+			sec:authorize="hasAuthority('VIEW_TRADING_PARTNERS_REFER_TO_MY_ORGANIZATION')" /></ng-form>
 		<!-- end: content -->
 	</div>
 </div>

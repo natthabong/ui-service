@@ -1,5 +1,5 @@
 <div th:fragment="content"
-    sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZE')">
+    sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZATION')">
     <div class="panel wait-for-verify-panel panel-shadow" ng-controller="JourneyWaitForVerifyController as waitForVerifyCtrl">
         <a class="mouse-pointer " id="wait-for-verify-transaction-journey-link" ng-click="waitForVerifyCtrl.transactionList()">
             <div class="panel-heading txn-journey">
@@ -36,6 +36,6 @@
         </div>
         <ng-form> <input type="hidden"
 			ng-init="waitForVerifyCtrl.canViewLoans=true"
-			sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZE')" /></ng-form>
+			sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZATION')" /></ng-form>
     </div>
 </div>

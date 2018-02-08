@@ -1,5 +1,5 @@
 <div id="content" th:fragment="content"
-	sec:authorize="hasAuthority('APPROVE_PAYMENTS_OF_MY_ORGANIZE')">
+	sec:authorize="hasAuthority('APPROVE_PAYMENTS_OF_MY_ORGANIZATION')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
@@ -49,6 +49,6 @@
 			</div>
 		</div>
 		<input type="hidden" ng-init="ctrl.canReject=true"
-			sec:authorize="hasAuthority('APPROVE_PAYMENTS_OF_MY_ORGANIZE')" />
+			sec:authorize="hasAuthority('APPROVE_PAYMENTS_OF_MY_ORGANIZATION')" />
 	</div>
 </div>
