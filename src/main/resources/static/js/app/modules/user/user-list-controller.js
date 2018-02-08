@@ -169,7 +169,7 @@ userModule
 									'-option' ]
 									.join('');
 								item.label = [
-									item.memberId,
+									item.memberCode,
 									': ',
 									item.memberName ]
 									.join('');

@@ -83,7 +83,7 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
     vm.dataTable = {
     		identityField: 'memberId',
             columns: [{
-            	fieldName: 'memberId',
+            	fieldName: 'memberCode',
                 labelEN: 'Organization Code',
                 labelTH: 'Organization Code',
                 id: '{value}-organize-code',
