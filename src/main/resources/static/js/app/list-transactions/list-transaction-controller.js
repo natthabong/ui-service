@@ -571,22 +571,22 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
         vm.listTransactionModel.dateTo = SCFCommonService.convertDate(dateTo);
 
         if(typeof vm.documentListModel.sponsor == 'object' && vm.documentListModel.sponsor != undefined){
-            vm.listTransactionModel.sponsorId = vm.documentListModel.sponsor.organizeId;
+            vm.listTransactionModel.sponsorId = vm.documentListModel.sponsor.memberId;
             vm.listTransactionModel.sponsorInfo = {
-            	organizeId: vm.documentListModel.sponsor.organizeId,
-            	organizeCode: vm.documentListModel.sponsor.organizeCode,
-            	organizeName: vm.documentListModel.sponsor.organizeName
+            	organizeId: vm.documentListModel.sponsor.memberId,
+            	organizeCode: vm.documentListModel.sponsor.memberCode,
+            	organizeName: vm.documentListModel.sponsor.memberName
             };
         }else{
         	vm.listTransactionModel.sponsorInfo = null;
         }
         
         if(typeof vm.documentListModel.supplier == 'object' && vm.documentListModel.supplier != undefined){
-            vm.listTransactionModel.supplierId = vm.documentListModel.supplier.organizeId;
+            vm.listTransactionModel.supplierId = vm.documentListModel.supplier.memberId;
             vm.listTransactionModel.supplierInfo = {
-            	organizeId: vm.documentListModel.supplier.organizeId,
-            	organizeCode: vm.documentListModel.supplier.organizeCode,
-            	organizeName: vm.documentListModel.supplier.organizeName
+            	organizeId: vm.documentListModel.supplier.memberId,
+            	organizeCode: vm.documentListModel.supplier.memberCode,
+            	organizeName: vm.documentListModel.supplier.memberName
             };
         }else{
         	vm.listTransactionModel.supplierInfo = null;
@@ -839,8 +839,8 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 
 
     var prepareAutoSuggestLabel = function(item,role) {
-		item.identity = [ role,'-', item.organizeId, '-option' ].join('');
-		item.label = [ item.organizeCode, ': ', item.organizeName ].join('');
+		item.identity = [ role,'-', item.memberId, '-option' ].join('');
+		item.label = [ item.memberCode, ': ', item.memberName ].join('');
 		return item;
 	}
 
@@ -876,9 +876,9 @@ $rootScope, $scope, SCFCommonService, $stateParams, $cookieStore, UIFactory, Pag
 	
 	var convertFundingMemberToOrganize = function(fundingMember) {
 		var organize = {
-				organizeId : fundingMember.memberId,
-				organizeCode : fundingMember.memberCode,
-		        organizeName : fundingMember.memberName
+				memberId : fundingMember.memberId,
+				memberCode : fundingMember.memberCode,
+				memberName : fundingMember.memberName
 		}
 		return organize;
 	}
