@@ -165,13 +165,13 @@ userModule
 							    .map(function(item) {
 								item.identity = [
 									'organize-',
-									item.organizeId,
+									item.memberId,
 									'-option' ]
 									.join('');
 								item.label = [
-									item.organizeId,
+									item.memberId,
 									': ',
-									item.organizeName ]
+									item.memberName ]
 									.join('');
 								return item;
 							    });
@@ -194,7 +194,7 @@ userModule
 					}
 
 					if (angular.isDefined(vm.userListModel.organize)) {
-						vm.criteria.organizeId = vm.userListModel.organize.organizeId;
+						vm.criteria.organizeId = vm.userListModel.organize.memberId;
 					}
 
 					UserStatus.forEach(function(status) {
@@ -211,7 +211,7 @@ userModule
 					_storeCriteria();
 					vm.pagingController.search(pageModel || ( $stateParams.backAction? {
 			    		offset : _criteria.offset,
-						limit : _criteria.limit
+						limit : _criteria.limit,
 			    	}: undefined));
 					if($stateParams.backAction){
 			    		$stateParams.backAction = false;
