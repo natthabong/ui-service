@@ -56,8 +56,8 @@ scfApp.controller('SponsorSystemIntegrationMonitorController', [ '$scope', 'Serv
 			});
 		
 		var prepareAutoSuggestLabel = function(item) {
-			item.identity = [ 'sponsor-', item.organizeId, '-option' ].join('');
-			item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+			item.identity = [ 'sponsor-', item.memberId, '-option' ].join('');
+			item.label = [ item.memberCode, ': ', item.memberName ].join('');
 			return item;
 		}
 		// Prepare Auto Suggest
