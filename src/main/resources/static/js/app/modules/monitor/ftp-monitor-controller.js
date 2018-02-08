@@ -95,10 +95,10 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 						vm.requireSponsor = true;
 						vm.showDetails = false;
 					}else{
-						if(organizeId != vm.sponsorModel.organizeId){
+						if(organizeId != vm.sponsorModel.memberId){
 							firstTimeFTPChecking = true;
 						}
-						organizeId = vm.sponsorModel.organizeId;
+						organizeId = vm.sponsorModel.memberId;
 						validate = true;
 						vm.requireSponsor = false;
 						vm.showDetails = true;
