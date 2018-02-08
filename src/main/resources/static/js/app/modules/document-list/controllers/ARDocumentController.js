@@ -265,7 +265,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	
 	        vm.searchDocument = function(pagingModel) {
 	            if (isValidateCriteriaPass()) {
-	            	var diffredDisplay = vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode,  vm.documentListModel.productType);
+	            	var diffredDisplay = vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.memberId, accountingTransactionType, displayMode,  vm.documentListModel.productType);
 	            	diffredDisplay.promise.then(function(response) {
 		                var criteria = prepareCriteria();
 		                var documentListDiferred = vm.pagingController.search(pagingModel, vm.getDocumentSummary);
@@ -391,7 +391,8 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 		                    
 		                    if (viewMode == viewModeData.myOrganize) {
 		    	                if (isValidateCriteriaPass()) {
-		    		            	var diffredDisplay = vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode,  vm.documentListModel.productType);
+		    	                	console.log(vm.documentListModel.supplier.memberId);
+		    		            	var diffredDisplay = vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.memberId, accountingTransactionType, displayMode,  vm.documentListModel.productType);
 		    		            	diffredDisplay.promise.then(function(response) {
 		    			                var criteria = prepareCriteria();
 		    			                var pagingModel = {
