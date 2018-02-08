@@ -42,10 +42,10 @@ sciModule.controller('SupplierCreditInformationController', [
 				} else {
 					// mode CUSTOMER
 					if (angular.isObject(vm.buyer)) {
-						buyer = vm.buyer.organizeId;
+						buyer = vm.buyer.memberId;
 					}
 					if (angular.isObject(vm.supplier)) {
-						supplier = vm.supplier.organizeId;
+						supplier = vm.supplier.memberId;
 					}
 				}
 				

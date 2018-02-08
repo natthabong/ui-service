@@ -3,8 +3,8 @@ var sciModule = angular.module('gecscf.supplierCreditInformation');
 sciModule.factory('SupplierCreditInformationService', ['$http', '$q', 'Service', function ($http, $q, Service) {
 
 	var _prepareItem = function (item) {
-		item.identity = ['supplier-', item.organizeId, '-option'].join('');
-		item.label = [item.organizeId, ': ', item.organizeName].join('');
+		item.identity = ['supplier-', item.memberId, '-option'].join('');
+		item.label = [item.memberCode, ': ', item.memberName].join('');
 		return item;
 	}
 	
@@ -15,8 +15,8 @@ sciModule.factory('SupplierCreditInformationService', ['$http', '$q', 'Service',
 	}
 	
 	var _prepareItemBuyersForBank = function (item) {
-		item.identity = ['buyer-', item.organizeId, '-option'].join('');
-		item.label = [item.organizeId, ': ', item.organizeName].join('');
+		item.identity = ['buyer-', item.memberId, '-option'].join('');
+		item.label = [item.memberCode, ': ', item.memberName].join('');
 		return item;
 	}
 
