@@ -16,14 +16,14 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	}
     
 	vm.editOrganizeProfile = function(data){
-		PageNavigation.gotoPage('/'+data.organizeId,{
+		PageNavigation.gotoPage('/'+data.memberId,{
 			
 		});
 	}
 
 	
 	vm.sponsorConfig = function(data){
-		var params = {organizeId: data.organizeId};
+		var params = {organizeId: data.memberId};
 		PageNavigation.nextStep('/sponsor-configuration', params, {criteria: _criteria, organize: vm.organize});
 	}
     
