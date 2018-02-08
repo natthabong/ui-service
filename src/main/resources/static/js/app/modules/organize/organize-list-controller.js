@@ -61,7 +61,8 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	vm.loadData = function(pageModel){
 		vm.pagingController.search(pageModel || ( $stateParams.backAction? {
     		offset : _criteria.offset,
-			limit : _criteria.limit
+			limit : _criteria.limit,
+			organizeId : _criteria.organizeId
     	}: undefined));
         
         if($stateParams.backAction){
@@ -71,13 +72,12 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	vm.searchOrganize = function(pageModel){
         var organizeId = undefined;
         if(angular.isObject(vm.organize)){
-        	vm.criteria.organizeId = vm.organize.organizeId;
+        	vm.criteria.organizeId = vm.organize.memberId;
         }else{
         	vm.criteria.organizeId = undefined;
         }
         _storeCriteria();
         vm.loadData(pageModel);
-        
 	}
     
     vm.dataTable = {
