@@ -40,8 +40,8 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 				}
 			}).then(function(response) {
 				return response.data.map(function(item) {
-					item.identity = [ 'organize-', item.organizeId, '-option' ].join('');
-					item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+					item.identity = [ 'organize-', item.memberId, '-option' ].join('');
+					item.label = [ item.memberCode, ': ', item.memberName ].join('');
 					return item;
 				});
 			});
