@@ -803,6 +803,8 @@ txnMod.controller('CreatePaymentController', [
                                             }
                                             // _loadPaymentDate();
                                         }
+                                        
+                                        vm.accountChange();
                                     });
                                 });
                             });
