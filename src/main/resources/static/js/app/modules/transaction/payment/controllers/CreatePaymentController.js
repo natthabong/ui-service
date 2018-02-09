@@ -85,6 +85,7 @@ txnMod.controller('CreatePaymentController', [
                             vm.criteria.supplierId = tradingPartnerList[0].supplierId;
                         } else if (dashboardParams != null) {
                             vm.criteria.supplierId = dashboardParams.supplierId;
+                            vm.criteria.customerCode = dashboardParams.buyerCode;
                         }
                     }
                     deffered.resolve(tradingPartnerList);
@@ -179,7 +180,7 @@ txnMod.controller('CreatePaymentController', [
                     });
 
                     if (!$stateParams.backAction && dashboardParams == null) {
-                        vm.criteria.customerCode = _buyerCodes[0];
+                        vm.criteria.customerCode = vm.customerCodes[0].value;;
                     } else if (dashboardParams != null) {
                         vm.criteria.customerCode = dashboardParams.buyerCode;
                     }
@@ -758,19 +759,21 @@ txnMod.controller('CreatePaymentController', [
                     defferedCheckCreatePaymentType.promise.then(function (response) {
                         var defferedProducTypes = _loadProducTypes(vm.criteria.supplierId);
                         defferedProducTypes.promise.then(function (response) {
-                            var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
-                            defferedBuyerCodes.promise.then(function (response) {
-                                var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
-                                defferedDocumentDisplayConfig.promise.then(function (response) {
-                                    if (vm.initFlag) {
-                                        vm.criteria.offset = 0;
-                                        vm.criteria.limit = 20;
-                                        var displayDocumentConfig = response;
-                                        var defferedDocument = _loadDocument();
-                                        vm.initFlag = false;
-                                    }
 
-                                    var defferedAccounts = _loadAccount(vm.criteria.supplierId);
+                            var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
+                            defferedDocumentDisplayConfig.promise.then(function (response) {
+                                if (vm.initFlag) {
+                                    vm.criteria.offset = 0;
+                                    vm.criteria.limit = 20;
+                                    var displayDocumentConfig = response;
+                                    vm.initFlag = false;
+                                }
+                                
+                                var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
+                                defferedBuyerCodes.promise.then(function (response) {
+                                	console.log(vm.criteria.customerCode);
+                                	var defferedDocument = _loadDocument();
+                                	var defferedAccounts = _loadAccount(vm.criteria.supplierId);
                                     defferedAccounts.promise.then(function (response) {
                                         vm.accountList = response;
                                         var _accounts = [];
@@ -1068,14 +1071,14 @@ txnMod.controller('CreatePaymentController', [
             defferedCheckCreatePaymentType.promise.then(function (response) {
                 var defferedProducTypes = _loadProducTypes(vm.criteria.supplierId);
                 defferedProducTypes.promise.then(function (response) {
-                    var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
-                    defferedBuyerCodes.promise.then(function (response) {
-                        var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
-                        defferedDocumentDisplayConfig.promise.then(function (response) {
-                            vm.criteria.offset = 0;
+
+                    var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
+                    defferedDocumentDisplayConfig.promise.then(function (response) {
+                    	var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
+                        defferedBuyerCodes.promise.then(function (response) {
+                        	vm.criteria.offset = 0;
                             vm.criteria.limit = 20;
                             _loadDocument();
-
                             var defferedAccounts = _loadAccount(vm.criteria.supplierId);
                             defferedAccounts.promise.then(function (response) {
                                 vm.accountList = response;
@@ -1110,9 +1113,9 @@ txnMod.controller('CreatePaymentController', [
                                     _loadPaymentDate();
                                 }
                             });
+                        	
                         });
                     });
-
                 });
             });
         }
