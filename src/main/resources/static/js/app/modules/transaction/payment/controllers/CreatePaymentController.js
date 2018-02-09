@@ -162,13 +162,13 @@ txnMod.controller('CreatePaymentController', [
             var dashboardParams = $stateParams.dashboardParams;
             var defferedBuyerCodes = TransactionService.getBuyerCodes(supplierId);
             defferedBuyerCodes.promise.then(function (response) {
-            	 if (supplierCodeSelectionMode == 'MULTIPLE_PER_TRANSACTION') {
-                     var customerCode = {
-                         label: 'All',
-                         value: ''
-                     }
-                     vm.customerCodes.push(customerCode);
-                 }
+                if (supplierCodeSelectionMode == 'MULTIPLE_PER_TRANSACTION') {
+                    var customerCode = {
+                        label: 'All',
+                        value: ''
+                    }
+                    vm.customerCodes.push(customerCode);
+                }
                 var _buyerCodes = response.data;
                 if (angular.isDefined(_buyerCodes)) {
                     _buyerCodes.forEach(function (code) {
@@ -768,7 +768,7 @@ txnMod.controller('CreatePaymentController', [
                                     var displayDocumentConfig = response;
                                     vm.initFlag = false;
                                 }
-                                
+
                                 var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
                                 defferedBuyerCodes.promise.then(function (response) {
                                 	console.log(vm.criteria.customerCode);
@@ -784,7 +784,6 @@ txnMod.controller('CreatePaymentController', [
                                                 vm.transactionModel.payerAccountNo = _accounts[0].accountNo;
                                                 vm.accountType = _accounts[0].accountType;
                                                 vm.tradingpartnerInfoModel.updateTime = _accounts[0].accountUpdatedTime;
-
                                                 if (_accounts[0].accountType == 'LOAN') {
                                                     _setTradingpartnerInfoModel(_accounts[0]);
                                                 } else {
@@ -1088,7 +1087,6 @@ txnMod.controller('CreatePaymentController', [
                                         vm.transactionModel.payerAccountNo = _accounts[0].accountNo;
                                         vm.accountType = _accounts[0].accountType;
                                         vm.tradingpartnerInfoModel.updateTime = _accounts[0].accountUpdatedTime;
-
                                         if (_accounts[0].accountType == 'LOAN') {
                                             _setTradingpartnerInfoModel(_accounts[0]);
                                         } else {
