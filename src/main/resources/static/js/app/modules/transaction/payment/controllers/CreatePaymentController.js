@@ -18,6 +18,7 @@ txnMod.controller('CreatePaymentController', [
     function ($rootScope, $scope, $log, $stateParams, $q, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, ProductTypeService, UIFactory, $window, scfFactory) {
         var vm = this;
         var log = $log;
+        var supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
 
         function prepareCriteria() {
             var ownerId = $rootScope.userInfo.organizeId;
@@ -160,6 +161,13 @@ txnMod.controller('CreatePaymentController', [
             var dashboardParams = $stateParams.dashboardParams;
             var defferedBuyerCodes = TransactionService.getBuyerCodes(supplierId);
             defferedBuyerCodes.promise.then(function (response) {
+            	 if (supplierCodeSelectionMode == 'MULTIPLE_PER_TRANSACTION') {
+                     var customerCode = {
+                         label: 'All',
+                         value: ''
+                     }
+                     vm.customerCodes.push(customerCode);
+                 }
                 var _buyerCodes = response.data;
                 if (angular.isDefined(_buyerCodes)) {
                     _buyerCodes.forEach(function (code) {
@@ -402,6 +410,7 @@ txnMod.controller('CreatePaymentController', [
                 vm.criteria.overDuePeriod = response.overDuePeriod;
                 vm.criteria.sort = response.sort;
                 vm.criteria.loanRequestMode = response.loanRequestMode;
+                supplierCodeSelectionMode = response.supplierCodeSelectionMode;
 
                 angular.copy(vm.criteria, _criteria);
                 vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
