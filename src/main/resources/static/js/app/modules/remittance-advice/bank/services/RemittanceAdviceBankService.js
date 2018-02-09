@@ -3,14 +3,14 @@ var sciModule = angular.module('gecscf.remittanceAdviceBank');
 sciModule.factory('RemittanceAdviceBankService', ['$http', '$q', 'Service', function ($http, $q, Service) {
 
 	var _prepareItemSupplier = function (item) {
-		item.identity = ['supplier-', item.organizeId, '-option'].join('');
-		item.label = [item.organizeId, ': ', item.organizeName].join('');
+		item.identity = ['supplier-', item.memberId, '-option'].join('');
+		item.label = [item.memberCode, ': ', item.memberName].join('');
 		return item;
 	}
 	
 	var _prepareItemBuyer = function (item) {
-		item.identity = ['buyer-', item.organizeId, '-option'].join('');
-		item.label = [item.organizeId, ': ', item.organizeName].join('');
+		item.identity = ['buyer-', item.memberId, '-option'].join('');
+		item.label = [item.memberCode, ': ', item.memberName].join('');
 		return item;
 	}
 	

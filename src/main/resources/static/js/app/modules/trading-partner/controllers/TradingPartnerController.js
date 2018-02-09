@@ -134,8 +134,8 @@ tpModule.controller('TradingPartnerController', [
             var _validate = function(){
                 $scope.errors = {};
                 var valid = true;
-                if(angular.isDefined(vm.organizeListModel.buyer) && !isRequire(vm.organizeListModel.buyer.organizeId) ){
-                    vm.tradingPartner.sponsorId = vm.organizeListModel.buyer.organizeId;
+                if(angular.isDefined(vm.organizeListModel.buyer) && !isRequire(vm.organizeListModel.buyer.memberId) ){
+                    vm.tradingPartner.sponsorId = vm.organizeListModel.buyer.memberId;
                 }else{
                     valid = false;
 				    $scope.errors.sponsorId = {
@@ -143,8 +143,8 @@ tpModule.controller('TradingPartnerController', [
 				    }
                 }
 
-                if(angular.isDefined(vm.organizeListModel.supplier) && !isRequire(vm.organizeListModel.supplier.organizeId)){
-                    vm.tradingPartner.supplierId = vm.organizeListModel.supplier.organizeId;
+                if(angular.isDefined(vm.organizeListModel.supplier) && !isRequire(vm.organizeListModel.supplier.memberId)){
+                    vm.tradingPartner.supplierId = vm.organizeListModel.supplier.memberId;
                 }else{
                     valid = false;
 				    $scope.errors.supplierId = {

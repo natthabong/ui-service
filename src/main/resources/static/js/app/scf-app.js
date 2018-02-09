@@ -741,10 +741,10 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 		var cutOrganizeHeaderFromOrganizeList = function(){
 			if(vm.ListOrgAndHeader.length != 0 && vm.ListOrgAndHeader != []){
 				for(var i = 0; i < vm.ListOrgAndHeader.length; i++){
-					if(vm.ListOrgAndHeader[i].organizeId != vm.organizeHeader.organizeId){
+					if(vm.ListOrgAndHeader[i].memberId != vm.organizeHeader.organizeId){
 						vm.orgList.push({
-							organizeId : vm.ListOrgAndHeader[i].organizeId,
-							organizeName : vm.ListOrgAndHeader[i].organizeName
+						  memberId : vm.ListOrgAndHeader[i].memberId,
+						  memberName : vm.ListOrgAndHeader[i].memberName
 						})
 						vm.showDropDown = true;
 					}

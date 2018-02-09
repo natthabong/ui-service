@@ -16,14 +16,14 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	}
     
 	vm.editOrganizeProfile = function(data){
-		PageNavigation.gotoPage('/'+data.organizeId,{
+		PageNavigation.gotoPage('/'+data.memberId,{
 			
 		});
 	}
 
 	
 	vm.sponsorConfig = function(data){
-		var params = {organizeId: data.organizeId};
+		var params = {organizeId: data.memberId};
 		PageNavigation.nextStep('/sponsor-configuration', params, {criteria: _criteria, organize: vm.organize});
 	}
     
@@ -40,8 +40,8 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 				}
 			}).then(function(response) {
 				return response.data.map(function(item) {
-					item.identity = [ 'organize-', item.organizeId, '-option' ].join('');
-					item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+					item.identity = [ 'organize-', item.memberId, '-option' ].join('');
+					item.label = [ item.memberCode, ': ', item.memberName ].join('');
 					return item;
 				});
 			});
@@ -61,7 +61,8 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	vm.loadData = function(pageModel){
 		vm.pagingController.search(pageModel || ( $stateParams.backAction? {
     		offset : _criteria.offset,
-			limit : _criteria.limit
+			limit : _criteria.limit,
+			organizeId : _criteria.organizeId
     	}: undefined));
         
         if($stateParams.backAction){
@@ -71,19 +72,18 @@ angular.module('scfApp').controller('OrganizeListController',['$scope','Service'
 	vm.searchOrganize = function(pageModel){
         var organizeId = undefined;
         if(angular.isObject(vm.organize)){
-        	vm.criteria.organizeId = vm.organize.organizeId;
+        	vm.criteria.organizeId = vm.organize.memberId;
         }else{
         	vm.criteria.organizeId = undefined;
         }
         _storeCriteria();
         vm.loadData(pageModel);
-        
 	}
     
     vm.dataTable = {
     		identityField: 'memberId',
             columns: [{
-            	fieldName: 'memberId',
+            	fieldName: 'memberCode',
                 labelEN: 'Organization Code',
                 labelTH: 'Organization Code',
                 id: '{value}-organize-code',
