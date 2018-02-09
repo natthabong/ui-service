@@ -128,16 +128,13 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
         var validateDataForSave = function(){
             var validate = true;
 
-            if(vm.roleName==null || vm.roleName==""){
+            if(vm.model.roleName==null || vm.model.roleName==""){
                 validate = false;
                 vm.roleMessageError = "Role name is required";
                 $scope.error.roleNameIsRequired = true;
             }else{
-                vm.model.roleName = vm.roleName;
                 $scope.error.roleNameIsRequired = false;
             }
-
-// vm.model.privileges = getValueRolePrivilegeIsSelected();
 
             if(vm.model.privileges.length == 0){
                 validate = false;
@@ -178,13 +175,16 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
       if(vm.model.privileges==null){
         vm.model.privileges = [];
       }
-      
-      if (vm.model.privileges.indexOf(privilege) === -1) {
+      if($scope.selection.indexOf(privilege.privilegeId) === -1) {
+        $scope.selection.push(privilege.privilegeId);
         vm.model.privileges.push(privilege);
       } else {
+        $scope.selection.splice($scope.selection.indexOf(privilege.privilegeId), 1);
         vm.model.privileges.splice(vm.model.privileges.indexOf(privilege), 1);
+        
       }
       console.log( vm.model);
+      console.log($scope.selection);
     }
     
 		var initial = function(){
