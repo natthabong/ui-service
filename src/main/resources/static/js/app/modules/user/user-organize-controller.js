@@ -23,9 +23,9 @@ userModule.controller('UserOrganizeController', [ '$scope', '$http', 'UserServic
 			function(response) {
 			    return response.data
 				    .map(function(item) {
-					item.identity = [ 'organize-', item.organizeId, '-option' ]
+					item.identity = [ 'organize-', item.memberId, '-option' ]
 						.join('');
-					item.label = [ item.organizeId, ': ', item.organizeName ]
+					item.label = [ item.memberCode, ': ', item.memberName ]
 						.join('');
 					return item;
 				    });
@@ -64,7 +64,7 @@ userModule.controller('UserOrganizeController', [ '$scope', '$http', 'UserServic
 						roleId: vm.selectedRoles[i].roleId,
 						role: vm.selectedRoles[i],
 						organize: vm.organize,
-						organizeId: vm.organize.organizeId
+						organizeId: vm.organize.memberId
 					});
 				}
 				callback(vm.organizeLinks);	
