@@ -125,7 +125,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            value = value = UIFactory.createCriteria(value);
 	            var buyer = null;
 	            if (angular.isDefined(vm.documentListModel.buyer) && vm.documentListModel.buyer != null) {
-	                buyer = vm.documentListModel.buyer.memberId;
+	                buyer = vm.documentListModel.buyer.organizeId;
 	            }
 	            return $http.get(serviceUrl, {
 	                params: {
@@ -136,8 +136,8 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	                }
 	            }).then(function(response) {
 	                return response.data.map(function(item) {
-	                    item.identity = ['supplier-', item.memberId, '-option'].join('');
-	                    item.label = [item.memberCode, ': ', item.memberName].join('');
+	                    item.identity = ['supplier-', item.organizeId, '-option'].join('');
+	                    item.label = [item.organizeId, ': ', item.organizeName].join('');
 	                    return item;
 	                });
 	            });
@@ -155,14 +155,14 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            return $http.get(serviceUrl, {
 	                params: {
 	                    q: value,
-	                    supplierId: vm.documentListModel.supplier.memberId,
+	                    supplierId: vm.documentListModel.supplier.organizeId,
 	                    offset: 0,
 	                    limit: 5
 	                }
 	            }).then(function(response) {
 	                return response.data.map(function(item) {
-	                    item.identity = ['buyer-', item.memberId, '-option'].join('');
-	                    item.label = [item.memberCode, ': ', item.memberName].join('');
+	                    item.identity = ['buyer-', item.organizeId, '-option'].join('');
+	                    item.label = [item.organizeId, ': ', item.organizeName].join('');
 	                    return item;
 	                });
 	            });
@@ -223,11 +223,13 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	
 	        function prepareCriteria() {
 	            if (angular.isDefined(vm.documentListModel.buyer)) {
-	                var buyerCriteria = vm.documentListModel.buyer.memberId || null;
+	                var buyerCriteria = vm.documentListModel.buyer.organizeId || null;
 	            }
 	
-	            var supplierCriteria = vm.documentListModel.supplier.memberId;
-	            vm.documentListCriterial.viewMode = $stateParams.viewMode;
+	            var supplierCriteria = vm.documentListModel.supplier.organizeId;
+	
+	            
+              vm.documentListCriterial.viewMode = $stateParams.viewMode;
 	            vm.documentListCriterial.buyerId = buyerCriteria;
 	            vm.documentListCriterial.supplierId = supplierCriteria;
 	            vm.documentListCriterial.customerCode = UIFactory.createCriteria(vm.documentListModel.buyerCode);
@@ -253,7 +255,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	                    vm.documentListCriterial.documentStatus = status.valueObject;
 	                }
 	            });
-	            
+	
 	            return vm.documentListCriterial;
 	
 	        }
@@ -263,7 +265,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	
 	        vm.searchDocument = function(pagingModel) {
 	            if (isValidateCriteriaPass()) {
-	            	var diffredDisplay = vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.memberId, accountingTransactionType, displayMode,  vm.documentListModel.productType);
+	            	var diffredDisplay = vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode,  vm.documentListModel.productType);
 	            	diffredDisplay.promise.then(function(response) {
 		                var criteria = prepareCriteria();
 		                var documentListDiferred = vm.pagingController.search(pagingModel, vm.getDocumentSummary);
@@ -389,8 +391,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 		                    
 		                    if (viewMode == viewModeData.myOrganize) {
 		    	                if (isValidateCriteriaPass()) {
-		    	                	console.log(vm.documentListModel.supplier.memberId);
-		    		            	var diffredDisplay = vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.memberId, accountingTransactionType, displayMode,  vm.documentListModel.productType);
+		    		            	var diffredDisplay = vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode,  vm.documentListModel.productType);
 		    		            	diffredDisplay.promise.then(function(response) {
 		    			                var criteria = prepareCriteria();
 		    			                var pagingModel = {
