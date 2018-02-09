@@ -771,9 +771,9 @@ txnMod.controller('CreatePaymentController', [
 
                                 var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
                                 defferedBuyerCodes.promise.then(function (response) {
-                                	console.log(vm.criteria.customerCode);
-                                	var defferedDocument = _loadDocument();
-                                	var defferedAccounts = _loadAccount(vm.criteria.supplierId);
+                                    console.log(vm.criteria.customerCode);
+                                    var defferedDocument = _loadDocument();
+                                    var defferedAccounts = _loadAccount(vm.criteria.supplierId);
                                     defferedAccounts.promise.then(function (response) {
                                         vm.accountList = response;
                                         var _accounts = [];
@@ -805,6 +805,8 @@ txnMod.controller('CreatePaymentController', [
                                             }
                                             // _loadPaymentDate();
                                         }
+
+                                        vm.accountChange();
                                     });
                                 });
                             });
@@ -1071,9 +1073,9 @@ txnMod.controller('CreatePaymentController', [
 
                     var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
                     defferedDocumentDisplayConfig.promise.then(function (response) {
-                    	var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
+                        var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
                         defferedBuyerCodes.promise.then(function (response) {
-                        	vm.criteria.offset = 0;
+                            vm.criteria.offset = 0;
                             vm.criteria.limit = 20;
                             _loadDocument();
                             var defferedAccounts = _loadAccount(vm.criteria.supplierId);
@@ -1109,7 +1111,7 @@ txnMod.controller('CreatePaymentController', [
                                     _loadPaymentDate();
                                 }
                             });
-                        	
+
                         });
                     });
                 });
