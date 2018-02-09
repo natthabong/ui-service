@@ -171,20 +171,55 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
         }
         
     $scope.selection = [];
-    $scope.toggleSelection =  function(privilege){
-      if(vm.model.privileges==null){
-        vm.model.privileges = [];
-      }
-      if($scope.selection.indexOf(privilege.privilegeId) === -1) {
-        $scope.selection.push(privilege.privilegeId);
-        vm.model.privileges.push(privilege);
-      } else {
-        $scope.selection.splice($scope.selection.indexOf(privilege.privilegeId), 1);
-        vm.model.privileges.splice(vm.model.privileges.indexOf(privilege), 1);
-        
-      }
-      console.log( vm.model);
-      console.log($scope.selection);
+    $scope.toggleSelection =  function(event, privilege){
+		if(vm.model.privileges==null){
+			vm.model.privileges = [];
+		}
+		if($scope.selection.indexOf(privilege.privilegeId) === -1) {
+			$scope.selection.push(privilege.privilegeId);
+			vm.model.privileges.push(privilege);
+		} else {
+			$scope.selection.splice($scope.selection.indexOf(privilege.privilegeId), 1);
+			vm.model.privileges.splice(vm.model.privileges.indexOf(privilege), 1);
+		}
+		  
+		console.log(privilege);
+		if(event.target.checked == true){			
+			 RoleService.getPrivilegeDependencies(privilege.privilegeId).promise.then(function(response)
+			 {
+				var privileges = response.data;
+				if(privileges !=null && privileges.length >0){
+				    console.log($scope.selection);				
+				    angular.forEach(privileges, function(privilege){
+						$scope.selection.push(privilege.privilegeId);
+					});
+				}
+			 }).catch(function(response) {
+				 log.error('Save role fail');
+				 return deferred.reject(response);
+			 });
+			
+//			var privileges = [];
+//			var privilege1 = {
+//				name:"Manage all user and password policies",
+//				privilegeGroupId:"USER_AND_PASSWORD_POLICY",
+//				privilegeId:"MANAGE_ALL_USER_AND_PASSWORD_POLICIES"
+//			}
+//			var privilege2 = {
+//				name:"Create payments of my organization",
+//				privilegeGroupId:"PAYMENT",
+//				privilegeId:"CREATE_PAYMENTS_OF_MY_ORGANIZATION"
+//			}			
+//			privileges.push(privilege1);
+//			privileges.push(privilege2);
+//			
+//			if(privileges !=null && privileges.length >0){
+//			    console.log($scope.selection);				
+//			    angular.forEach(privileges, function(privilege){
+//					$scope.selection.push(privilege.privilegeId);
+//				});
+//			}
+		}
     }
     
 		var initial = function(){
