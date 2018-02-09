@@ -161,13 +161,13 @@ txnMod.controller('CreatePaymentController', [
             var dashboardParams = $stateParams.dashboardParams;
             var defferedBuyerCodes = TransactionService.getBuyerCodes(supplierId);
             defferedBuyerCodes.promise.then(function (response) {
-            	 if (supplierCodeSelectionMode == 'MULTIPLE_PER_TRANSACTION') {
-                     var customerCode = {
-                         label: 'All',
-                         value: ''
-                     }
-                     vm.customerCodes.push(customerCode);
-                 }
+                if (supplierCodeSelectionMode == 'MULTIPLE_PER_TRANSACTION') {
+                    var customerCode = {
+                        label: 'All',
+                        value: ''
+                    }
+                    vm.customerCodes.push(customerCode);
+                }
                 var _buyerCodes = response.data;
                 if (angular.isDefined(_buyerCodes)) {
                     _buyerCodes.forEach(function (code) {
@@ -767,10 +767,10 @@ txnMod.controller('CreatePaymentController', [
                                     var displayDocumentConfig = response;
                                     vm.initFlag = false;
                                 }
-                                
+
                                 var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
-                                defferedBuyerCodes.promise.then(function (response) {});
-                                
+                                defferedBuyerCodes.promise.then(function (response) { });
+
                                 var defferedDocument = _loadDocument();
 
                                 var defferedAccounts = _loadAccount(vm.criteria.supplierId);
@@ -806,6 +806,8 @@ txnMod.controller('CreatePaymentController', [
                                         }
                                         // _loadPaymentDate();
                                     }
+
+                                    vm.accountChange();
                                 });
                             });
                         });
@@ -1071,9 +1073,9 @@ txnMod.controller('CreatePaymentController', [
 
                     var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
                     defferedDocumentDisplayConfig.promise.then(function (response) {
-                    	var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
-                        defferedBuyerCodes.promise.then(function (response) {});
-                    	
+                        var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
+                        defferedBuyerCodes.promise.then(function (response) { });
+
                         vm.criteria.offset = 0;
                         vm.criteria.limit = 20;
                         _loadDocument();
