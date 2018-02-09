@@ -771,7 +771,7 @@ txnMod.controller('CreatePaymentController', [
                                 
                                 var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
                                 defferedBuyerCodes.promise.then(function (response) {
-                                	console.log(vm.criteria.customerCode);
+                                	
                                 	var defferedDocument = _loadDocument();
                                 	var defferedAccounts = _loadAccount(vm.criteria.supplierId);
                                     defferedAccounts.promise.then(function (response) {
@@ -1049,6 +1049,9 @@ txnMod.controller('CreatePaymentController', [
                     if (vm.accountType == 'LOAN') {
                         vm.transactionModel.transactionMethod = 'TERM_LOAN';
                         vm.isLoanPayment = true;
+                    }else if(vm.accountType == 'OVERDRAFT'){
+                    	vm.transactionModel.transactionMethod = 'OD';
+                    	vm.isLoanPayment = false;
                     } else {
                         if (vm.supportSpecialDebit) {
                             vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
@@ -1057,7 +1060,7 @@ txnMod.controller('CreatePaymentController', [
                         }
                         vm.isLoanPayment = false;
                     }
-
+                    
                     _loadPaymentDate();
                 }
             });
@@ -1167,17 +1170,20 @@ txnMod.controller('CreatePaymentController', [
                 });
                 var formatAccount = accountSelected[0].format || false;
 
-                if (accountSelected[0].accountType != 'LOAN') {
+                if (accountSelected[0].accountType != 'LOAN' && accountSelected[0].accountType != 'OVERDRAFT') {
                     vm.transactionModel.payerLoanAccountId = _accountList[0].defaultLoanNo ? _accountList[0].accountId : null;
                     if (vm.supportSpecialDebit) {
                         vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
                     } else {
                         vm.transactionModel.transactionMethod = 'DEBIT';
                     }
+                }else if(accountSelected[0].accountType == 'OVERDRAFT'){
+                	vm.transactionModel.transactionMethod = 'OD';
+                
                 } else {
                     vm.transactionModel.transactionMethod = 'TERM_LOAN';
                 }
-
+                
                 var deffered = TransactionService.verifyTransaction(vm.transactionModel);
                 deffered.promise.then(function (response) {
                     var transaction = response.data;
