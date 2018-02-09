@@ -227,8 +227,6 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	            }
 	
 	            var supplierCriteria = vm.documentListModel.supplier.memberId;
-	
-	
 	            vm.documentListCriterial.viewMode = $stateParams.viewMode;
 	            vm.documentListCriterial.buyerId = buyerCriteria;
 	            vm.documentListCriterial.supplierId = supplierCriteria;

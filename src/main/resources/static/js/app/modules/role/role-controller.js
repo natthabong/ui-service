@@ -1,6 +1,6 @@
 angular.module('scfApp').controller('RoleController',['$scope','Service', '$stateParams', '$log', 
-	'SCFCommonService','PagingController','PageNavigation', '$state', 'UIFactory', '$http', '$q',
-	function($scope,Service, $stateParams, $log, SCFCommonService,PagingController, PageNavigation, $state, UIFactory, $http ,$q){
+	'SCFCommonService','PagingController','PageNavigation', 'RoleService', '$state', 'UIFactory', '$http', '$q',
+	function($scope,Service, $stateParams, $log, SCFCommonService,PagingController, PageNavigation, RoleService, $state, UIFactory, $http ,$q){
 		
 		var vm = this;
 		var log = $log;
@@ -238,18 +238,17 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
         }
 
         var initialRoleInformation = function(model){
-            var information = $stateParams.data;
-
-            for(var index=0; index<information.privileges.length; index++){
-                defaultPrivilegeListIsSelected.push(
-                    information.privileges[index].privilegeId
-                );
-            }
-
-            vm.roleName = information.roleName;
-            model.roleId = information.roleId;
-            model.version = information.version;
-            return model;
+            var roleId = $stateParams.roleId;
+            RoleService.getRole(roleId).promise.then(function(response) {
+              model = response.data;
+              model.privileges.forEach(function(p){
+                defaultPrivilegeListIsSelected.push(p.privilegeId);
+              });
+              vm.roleName = model.roleName;
+            }).catch(function(response) {
+               log.error('Save role fail');
+               return deferred.reject(response);
+            });
         }
 
 		var initial = function(){
@@ -259,12 +258,12 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
                     vm.headerMessage = page.NEW;
                 }else if(mode === 'EDIT'){
                     vm.headerMessage = page.EDIT;
-                    rolePrivilegeModel = initialRoleInformation(rolePrivilegeModel);
+                    initialRoleInformation(rolePrivilegeModel);
                 }else if(mode === 'VIEW'){
                     vm.button = 'Back';
                     vm.viewMode = true;
                     vm.headerMessage = page.VIEW;
-                    rolePrivilegeModel = initialRoleInformation(rolePrivilegeModel);
+                    initialRoleInformation(rolePrivilegeModel);
                 }
                 initialPrivilegeGroup();
             }else{

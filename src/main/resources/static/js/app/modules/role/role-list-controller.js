@@ -33,12 +33,13 @@ angular.module('scfApp').controller('RoleListController',['$scope','Service', '$
 		vm.editRole = function(data){
 			param.mode = 'EDIT';
 			param.data = data;
+			param.roleId = data.roleId;
 			PageNavigation.gotoPage('/role/edit', param, {criteria:_criteria});
 		}
 
 		vm.viewRole = function(data){
 			param.mode = 'VIEW';
-			param.data = data;
+		  param.roleId = data.roleId;
 			PageNavigation.gotoPage('/role/view', param, {criteria:_criteria});
 		}
 
