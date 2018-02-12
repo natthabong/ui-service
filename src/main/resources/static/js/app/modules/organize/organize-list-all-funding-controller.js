@@ -60,10 +60,8 @@ angular.module('scfApp').controller('OrganizeListAllFundingController',['$scope'
         var organizeId = undefined;
         if(angular.isObject(vm.organize)){
         	vm.criteria.organizeId = vm.organize.memberId;
-        	vm.criteria.taxId = vm.organize.memberId;
         }else{
         	vm.criteria.organizeId = undefined;
-        	vm.criteria.taxId = undefined;
         }
         _storeCriteria();
         vm.loadData(pageModel);
