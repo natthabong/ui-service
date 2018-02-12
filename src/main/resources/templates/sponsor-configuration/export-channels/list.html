@@ -1,5 +1,8 @@
-<div th:fragment="content">
+<div th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS_OF_ALL_FUNDING')">
 	<div id="wrapper" ng-controller="ExportChannelListController as ctrl">
+		<input type="hidden" ng-init="ctrl.hiddenFundingColumn=false"
+		sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS_OF_ALL_FUNDING')" />
+	
 		<div class="panel panel-default col-md-12 padding-0">
 			<div class="panel-body" style="min-height: 360px;">
 				<div class="row">
@@ -29,6 +32,7 @@
 											ng-bind="'Export
 											file layout' | translate"
 											width="20%">Export file layout</th>
+										<th id="export-file-layout-funding-header-label" ng-bind="'FUNDING'|translate" ng-hide="ctrl.hiddenFundingColumn"></th>
 										<th id="runtime-label" ng-bind="'Run time' | translate">Run
 											time</th>
 										<th id="status-header-label" ng-bind="'Status' | translate">Status</th>
@@ -48,6 +52,11 @@
 										<td class="text-left"><span
 											id="export-file-layout-{{record.channelId}}-label"
 											ng-bind="record.displayName"></span></td>
+										<td class="text-center" ng-hide="ctrl.hiddenFundingColumn">
+											<span ng-bind="record.fundingId"></span>
+											<img id="export-file-layout-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" 
+											data-ng-src="data:image/png;base64,'+atob(record.fundingOrganizeLogo)+'"></img>
+										</td>	
 										<td class="text-center"><span
 											id="runtime-{{record.channelId}}-label"
 											ng-bind="record.runtime"></span></td>

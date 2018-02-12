@@ -21,6 +21,8 @@ exportChannelModule
 
                       var vm = this;
                       vm.organizeId = $stateParams.organizeId || null;
+                      vm.hiddenFundingColumn = true;
+                      
                       vm.criteria = $stateParams.criteria || {};
                       vm.pagingController = PagingController.create(
                               '/api/v1/organize-customers/' + vm.organizeId

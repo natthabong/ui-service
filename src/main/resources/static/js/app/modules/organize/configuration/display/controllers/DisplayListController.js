@@ -6,6 +6,8 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
     var parameters = PageNavigation.getParameters();
 
     var ownerId = parameters.organizeId;
+    
+    vm.hiddenFundingColumn = true;
 
     var _criteria = {};
 

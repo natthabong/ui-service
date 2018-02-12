@@ -1,6 +1,7 @@
-<div th:fragment="content">
+<div th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT','VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT_OF_ALL_FUNDING')">
     <div id="wrapper" ng-controller="DisplayListController as ctrl">
-
+	    <input type="hidden" ng-init="ctrl.hiddenFundingColumn=false"
+		sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT_OF_ALL_FUNDING')" />
         <div class="panel panel-default">
             <div class="panel-body" style="min-height: 360px;">
                 <div class="row">
@@ -21,13 +22,19 @@
                             <table id="ar-document-display-table" class="table table-striped table-bordered" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th ng-bind="'Display layout' | translate">Display layout</th>
-                                        <th ng-bind="'Product type' | translate">Product type</th>
+                                    	<th ng-bind="'FUNDING' | translate" ng-hide="ctrl.hiddenFundingColumn"></th>
+                                        <th ng-bind="'Display layout' | translate"></th>
+                                        <th ng-bind="'Product type' | translate"></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
+	                                    <td class="text-center" ng-hide="ctrl.hiddenFundingColumn">
+											<span ng-bind="record.fundingId"></span>
+											<img id="RECEIVABLE-document-display-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" 
+											data-ng-src="data:image/png;base64,'+atob(record.fundingOrganizeLogo)+'"></img>
+										</td>
                                         <td class="text-left"><span id="RECEIVABLE-document-display-layout-name-{{record.documentDisplayId}}-label" ng-bind="record.displayName | translate"></span></td>
                                         <td class="text-left"><span id="RECEIVABLE-document-display-product-type-{{record.documentDisplayId}}-label" ng-bind="(record.product.productType ? (record.product.productType +' : '+ record.product.displayName) : 'Default') | translate"></span></td>
                                         <td class="text-center">
