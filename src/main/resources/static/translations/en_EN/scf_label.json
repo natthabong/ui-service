@@ -27,6 +27,7 @@
 	"settings-roles": "Roles",
 	"settings-users": "Users",
 	"settings-organizes": "Organizations",
+	"settings-organizes-of-all-funding": "Organizations",
 	"customer-organize": "Customer organization",
 	"customer-organize-payment-transactions": "Payment transactions",
 	"customer-organize-ar-documents": "AR documents",
@@ -299,6 +300,7 @@
 	
 	"organize-bank": "Organization",
 	"organize-list-bank": "Organization list",
+	"organize-list-all-funding": "Organization list",
 	
 	"Document list": "Document list",
 	"document-list-sponsor": "Document list",
