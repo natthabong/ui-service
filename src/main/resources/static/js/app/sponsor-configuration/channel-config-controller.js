@@ -23,6 +23,8 @@ angular
 							vm.splitePageTxt = '';
 							vm.processType = '';
 							
+							vm.hiddenFundingColumn = true;
+							
 							var parameters = PageNavigation.getParameters();
 							var ownerId = parameters.organizeId;
 							vm.pageModel = {

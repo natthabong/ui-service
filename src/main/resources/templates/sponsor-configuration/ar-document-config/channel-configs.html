@@ -1,5 +1,8 @@
-<div th:fragment="content">
+<div th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING','VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS')">
 	<div id="wrapper" ng-controller="ChannelConfigsController as ctrl">
+		<input type="hidden" ng-init="ctrl.hiddenFundingColumn=false"
+		sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')" />
+		
 		<div class="panel panel-default col-md-12 padding-0">
 			<div class="panel-body" style="min-height: 360px;">
 				<div class="row">
@@ -24,6 +27,8 @@
 								<th id="import-file-layout-header-label"
 									ng-bind="'Import file layout' | translate">Import file
 									layout</th>
+								<th id="import-channel-funding-header-label"
+									ng-bind="'FUNDING' | translate" ng-hide="ctrl.hiddenFundingColumn"></th>
 								<th id="status-header-label" ng-bind="'Status' | translate">Status</th>
 								<th id="active-date-header-label"
 									ng-bind="'Active date' | translate">Active date</th>
@@ -40,6 +45,11 @@
 								<td class="text-left"><span
 									id="import-file-layout-{{record.channelId}}-{{record.organizeId}}-label"
 									ng-bind="record.sponsorLayoutConfig.displayName"></span></td>
+								<td class="text-center" ng-hide="ctrl.hiddenFundingColumn">
+									<span ng-bind="record.fundingId"></span>
+									<img id="workflow-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" 
+									data-ng-src="data:image/png;base64,'+atob(record.fundingOrganizeLogo)+'"></img>
+									</td>
 								<td class="text-center"><span
 									id="status-{{record.channelId}}-{{record.organizeId}}-label"
 									ng-bind="record.status | translate"></span></td>
