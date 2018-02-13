@@ -64,6 +64,14 @@ angular
 										});
 							}
 
+							var isSameTaxId = function(taxId, data, index) {
+								if (index == 0) {
+									return false;
+								} else {
+									return taxId == data[index - 1].memberId;
+								}
+							}
+
 							vm.organizeAutoSuggestModel = UIFactory
 									.createAutoSuggestModel({
 										placeholder : 'Enter organization name or code',
@@ -75,14 +83,20 @@ angular
 									'/api/v1/organize-customers/', _criteria,
 									'GET');
 							vm.loadData = function(pageModel) {
-								vm.pagingController.search(pageModel
-										|| ($stateParams.backAction ? {
-											offset : _criteria.offset,
-											limit : _criteria.limit,
-											organizeId : _criteria.organizeId,
-											taxId : _criteria.taxId
-										} : undefined));
-
+								vm.pagingController.search(pageModel, function (criteriaData, response) {
+									var data = response.data;
+									var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
+									var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
+									var i = 0;
+									var baseRowNo = pageSize * currentPage; 
+									angular.forEach(data, function (value, idx) {
+										if (isSameTaxId(value.memberId, data, idx)) {
+											value.isSameTaxId = true;
+										}
+										++i;
+										value.rowNo = baseRowNo+i;
+									});
+								});
 								if ($stateParams.backAction) {
 									$stateParams.backAction = false;
 								}
@@ -107,6 +121,11 @@ angular
 								organizeId : undefined,
 								taxId : undefined
 							}
+
+							vm.decodeBase64 = function(data) {
+								return (data ? atob(data)
+										: UIFactory.constants.NOLOGO);
+							};
 
 							vm.initLoad = function() {
 								var backAction = $stateParams.backAction;

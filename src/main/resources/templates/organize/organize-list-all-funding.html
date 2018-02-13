@@ -83,6 +83,7 @@
 													<tr
 														ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
 														<td class="text-center"><span
+															ng-hide="record.isSameTaxId"
 															id="taxId-{{record.memberId}}-{{record.memberCode}}-label"
 															ng-bind="record.memberId"></span></td>
 														<td class="text-center"><img
@@ -104,6 +105,7 @@
 															id="status-{{record.memberId}}-{{record.memberCode}}-label">{{record.suspend
 																? "Suspend" : "Active"}}</span></td>
 														<td class="text-center"><button
+																ng-hide="record.isSameTaxId"
 																id="{{record.memberId}}-{{record.memberCode}}-setup-button"
 																class="btn-default gec-btn-action"
 																ng-click="ctrl.sponsorConfig(record)"
