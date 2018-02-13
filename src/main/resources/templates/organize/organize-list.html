@@ -32,7 +32,7 @@
 								<div class="col-md-12 col-sm-12 text-right">
 									<span> <scf-button id="new-organize-button"
 											title="Add new an organization" class="btn btn-default"
-											ng-click="ctrl.newOrganizationProfile()"> <i
+											ng-click="ctrl.newOrganization()"> <i
 											class="fa fa-plus" aria-hidden="true"></i></scf-button>
 									</span> <br /> <br />
 								</div>
@@ -84,14 +84,19 @@
 											<td class="text-center"><scf-button ng-disabled="true"
 													class="btn-default gec-btn-action"
 													id="{{record.memberId}}-profile-button"
-													ng-click="ctrl.editOrganizationProfile(record)"
-													title="Edit an organization profile"> <i
+													ng-click="ctrl.editOrganization(record)"
+													title="Edit an organization"> <i
 													class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button> <scf-button
 													class="btn-default gec-btn-action"
 													id="{{record.memberId}}-config-button"
 													ng-click="ctrl.configOrganizationProfile(record)"
 													title="Configure an organization profile"> <i
-													class="fa fa-cog" aria-hidden="true"></i></scf-button></td>
+													class="fa fa-cog" aria-hidden="true"></i></scf-button> <scf-button
+													class="btn-default gec-btn-action"
+													id="{{record.memberId}}-delete-button"
+													ng-click="ctrl.deleteOrganization(record)"
+													title="Delete an organization"> <i
+													class="fa fa-trash-o" aria-hidden="true"></i></scf-button></td>
 										</tr>
 									</tbody>
 								</table>

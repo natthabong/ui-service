@@ -21,7 +21,7 @@ angular
                       }
                       vm.organize = $stateParams.organize || undefined;
 
-                      vm.newOrganizationProfile = function() {
+                      vm.newOrganization = function() {
                         UIFactory
                                 .showDialog({
                                   templateUrl: '/js/app/modules/organize/templates/dialog-new-organization.html',
@@ -35,10 +35,53 @@ angular
                                 });
                       }
 
-                      vm.editOrganizationProfile = function(data) {
+                      vm.editOrganization = function(data) {
                         PageNavigation.gotoPage('/' + data.memberId, {
 
                         });
+                      }
+
+                      vm.deleteOrganization = function(data) {
+                        UIFactory
+                                .showConfirmDialog({
+                                  data: {
+                                    headerMessage: 'Confirm delete?'
+                                  },
+                                  confirm: function() {
+                                    return OrganizationService
+                                            .removeOrganization(data);
+                                  },
+                                  onFail: function(response) {
+                                    var status = response.status;
+                                    if (status != 400) {
+                                      var msg = {
+                                        404: "Organization has been deleted.",
+                                        409: "Organization has been modified."
+                                      }
+                                      UIFactory
+                                              .showFailDialog({
+                                                data: {
+                                                  headerMessage: 'Delete organization fail.',
+                                                  bodyMessage: msg[status]
+                                                          ? msg[status]
+                                                          : response.errorMessage
+                                                },
+                                                preCloseCallback: vm.loadData
+                                              });
+                                    }
+
+                                  },
+                                  onSuccess: function(response) {
+                                    UIFactory
+                                            .showSuccessDialog({
+                                              data: {
+                                                headerMessage: 'Delete organization success.',
+                                                bodyMessage: ''
+                                              },
+                                              preCloseCallback: vm.loadData
+                                            });
+                                  }
+                                });
                       }
 
                       vm.configOrganizationProfile = function(data) {
