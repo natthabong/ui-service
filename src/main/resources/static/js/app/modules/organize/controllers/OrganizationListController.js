@@ -24,21 +24,35 @@ angular
                       vm.newOrganization = function() {
                         UIFactory
                                 .showDialog({
-                                  templateUrl: '/js/app/modules/organize/templates/dialog-new-organization.html',
+                                  templateUrl: '/js/app/modules/organize/templates/dialog-organization.html',
                                   controller: 'OrganizationPopupController',
                                   data: {
                                     preCloseCallback: function(confirm) {
                                       vm.searchOrganize();
                                     },
-                                    creationMode: true
+                                    editionMode: false
                                   }
                                 });
                       }
 
                       vm.editOrganization = function(data) {
-                        PageNavigation.gotoPage('/' + data.memberId, {
-
-                        });
+                        UIFactory
+                                .showDialog({
+                                  templateUrl: '/js/app/modules/organize/templates/dialog-organization.html',
+                                  controller: 'OrganizationPopupController',
+                                  data: {
+                                    preCloseCallback: function(confirm) {
+                                      vm.searchOrganize();
+                                    },
+                                    editionMode: true,
+                                    model: {
+                                      organizationCode: data.memberCode,
+                                      organizationName: data.memberName,
+                                      taxId: data.memberId,
+                                      version: data.version
+                                    }
+                                  }
+                                });
                       }
 
                       vm.deleteOrganization = function(data) {
@@ -56,6 +70,7 @@ angular
                                     if (status != 400) {
                                       var msg = {
                                         404: "Organization has been deleted.",
+                                        405: "Organization already in use.",
                                         409: "Organization has been modified."
                                       }
                                       UIFactory
