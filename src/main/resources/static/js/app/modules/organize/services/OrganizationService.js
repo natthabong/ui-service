@@ -39,15 +39,35 @@ orgModule.service('OrganizationService', ['$http', '$q', function($http, $q) {
      return deferred;
   }
 
-    this.removeOrganization = function(organization) {
-      var uri = '/api/v1/organize-customers/' + organization.memberId;
+  this.updateOrganization = function(organization) {
+    var deferred = $q.defer();
+    var serviceUrl = '/api/v1/organize-customers/' + organization.taxId;
+    $http({
+      method : 'POST',
+      headers: {
+        'If-Match': organization.version,
+        'X-HTTP-Method-Override': 'PUT'
+      },
+      url : serviceUrl,
+      data : {
+        organizationName: organization.organizationName
+      }
+      }).then(function(response){
+          return deferred.resolve(response);
+     }).catch(function(response){
+          return deferred.reject(response);
+     });
+     return deferred;
+  }
+   this.removeOrganization = function(fundingMember) {
+      var uri = '/api/v1/organize-customers/' + fundingMember.memberId;
       var deferred = $q.defer();
   
       $http({
           url: uri,
           method: 'POST',
           headers: {
-              'If-Match': organization.version,
+              'If-Match': fundingMember.version,
               'X-HTTP-Method-Override': 'DELETE'
           },
           data: organization
