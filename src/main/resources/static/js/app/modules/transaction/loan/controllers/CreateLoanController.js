@@ -1,11 +1,11 @@
 var createapp = angular.module('gecscf.transaction');
 createapp.controller('CreateLoanController', ['TransactionService', '$state',
     '$scope', 'SCFCommonService', '$stateParams', '$log', 'PageNavigation', '$q', 'PagingController', '$rootScope', 'blockUI', 'scfFactory', '$filter',
-    function(TransactionService, $state, $scope, SCFCommonService, $stateParams, $log, PageNavigation, $q, PagingController, $rootScope, blockUI, scfFactory, $filter) {
+    function (TransactionService, $state, $scope, SCFCommonService, $stateParams, $log, PageNavigation, $q, PagingController, $rootScope, blockUI, scfFactory, $filter) {
 
         var vm = this;
         var defered = scfFactory.getUserInfo();
-        defered.promise.then(function(response) {
+        defered.promise.then(function (response) {
             var ownerId = response.organizeId;
             var log = $log;
             var comparator = angular.equals;
@@ -13,8 +13,8 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             $scope.validateDataFailPopup = false;
 
             vm.errorMsgPopup = 'Insufficient Fund'
-                //      vm.showErrorMsg = false;
-                //      vm.errorMsgGroups = '';
+            //      vm.showErrorMsg = false;
+            //      vm.errorMsgGroups = '';
             vm.errorDisplay = false;
             vm.showBackButton = false;
             vm.selectedAccountInfo = [];
@@ -92,7 +92,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 vm.submitTransactionAmount = TransactionService.calculateTotalDocumentAmountWithPrePercentTag(vm.totalDocumentAmount, prepercentagDrawdown);
             }
 
-            vm.loadDocument = function(pagingModel) {
+            vm.loadDocument = function (pagingModel) {
                 _criteria.buyerId = vm.createTransactionModel.sponsorCode;
                 _criteria.customerCode = vm.createTransactionModel.supplierCode;
                 _criteria.sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
@@ -103,10 +103,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     limit: _criteria.limit
                 } : undefined));
 
-                deffered.promise.then(function(response) {
+                deffered.promise.then(function (response) {
                     _criteria.searchMatching = true;
                     var defferedAll = vm.pagingAllController.search(pagingModel);
-                    defferedAll.promise.then(function(response) {
+                    defferedAll.promise.then(function (response) {
                         if (backAction) {
                             vm.documentSelects = $stateParams.documentSelects;
                             // clear param
@@ -122,10 +122,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                         }
                         watchCheckAll();
                         blockUI.stop();
-                    }).catch(function(response) {
+                    }).catch(function (response) {
                         blockUI.stop();
                     });
-                }).catch(function(response) {
+                }).catch(function (response) {
                     blockUI.stop();
                 });
                 vm.showInfomation = true;
@@ -135,13 +135,13 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 var tenor = vm.tradingpartnerInfoModel.tenor;
                 var loanRequestMode = vm.loanRequestMode;
                 var deffered = TransactionService.getTransactionDate(sponsorCode, sponsorPaymentDate, loanRequestMode, tenor);
-                deffered.promise.then(function(response) {
+                deffered.promise.then(function (response) {
                     // clear list transaction date
                     vm.transactionDates = [];
                     var transactionResponse = response.data;
 
                     if (transactionResponse.length > 0) {
-                        transactionResponse.forEach(function(data) {
+                        transactionResponse.forEach(function (data) {
                             vm.transactionDates.push({
                                 label: data,
                                 value: data
@@ -155,7 +155,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                         }
                     }
                     vm.loadDocument();
-                }).catch(function(response) {
+                }).catch(function (response) {
                     log.error(response);
                 });
                 return deffered;
@@ -163,13 +163,13 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
             function _loadTradingPartnerInfo(sponsorCode, sponsorPaymentDate) {
                 var accountId = vm.createTransactionModel.payerAccountId;
-                vm.accountDropDown.forEach(function(account) {
+                vm.accountDropDown.forEach(function (account) {
                     if (accountId == account.item.accountId) {
                         vm.createTransactionModel.payerAccountNo = account.item.accountNo;
                     }
                 });
 
-                var accountSelected = $.grep(vm.accountList, function(account) {
+                var accountSelected = $.grep(vm.accountList, function (account) {
                     return account.accountId == accountId;
                 });
 
@@ -181,10 +181,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
                 var differed = null;
                 var tradingInfo = TransactionService.getTradingInfo(sponsorCode, ownerId, accountId);
-                tradingInfo.promise.then(function(response) {
+                tradingInfo.promise.then(function (response) {
                     vm.tradingpartnerInfoModel = response.data;
                     differed = _loadTransactionDate(sponsorCode, sponsorPaymentDate);
-                }).catch(function(response) {
+                }).catch(function (response) {
                     log.error("Load trading partner fail !");
                 });
                 return differed;
@@ -200,11 +200,11 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 vm.accountDropDown = [];
                 var deffered = $q.defer();
                 var defferedAccounts = TransactionService.getAccountsByTenor(ownerId, buyerId, paymentDate, loanRequestMode);
-                defferedAccounts.promise.then(function(response) {
+                defferedAccounts.promise.then(function (response) {
                     var accounts = response.data;
                     vm.isLoanPayment = false;
                     if (accounts.length > 0) {
-                        accounts.forEach(function(account, index) {
+                        accounts.forEach(function (account, index) {
                             var formatAccount = {
                                 label: account.format ? ($filter('accountNoDisplay')(account.accountNo)) : account.accountNo,
                                 value: account.accountId,
@@ -225,7 +225,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 return deffered;
             }
 
-            vm.searchDocument = function(pagingModel) {
+            vm.searchDocument = function (pagingModel) {
                 blockUI.start();
                 var searchDocumentDeferred = $q.defer();
                 var sponsorCode = vm.createTransactionModel.sponsorCode;
@@ -236,7 +236,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 if (hasSponsorPaymentDate) {
                     if (validateSponsorPaymentDate(sponsorPaymentDate)) {
                         var defferedAccounts = _loadAccount(sponsorCode);
-                        defferedAccounts.promise.then(function(response) {
+                        defferedAccounts.promise.then(function (response) {
                             vm.accountList = response;
                             var _accounts = [];
                             angular.copy(vm.accountList, _accounts);
@@ -246,7 +246,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                                     vm.createTransactionModel.payerAccountNo = _accounts[0].accountNo;
                                 }
                             } else {
-                                var result = $.grep(_accounts, function(account) {
+                                var result = $.grep(_accounts, function (account) {
                                     return account.accountId == vm.createTransactionModel.payerAccountId;
                                 });
                             }
@@ -286,10 +286,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 }];
 
                 var deffered = TransactionService.getSponsorPaymentDate(sponsorId, supplierCode, loanRequestMode);
-                deffered.promise.then(function(response) {
+                deffered.promise.then(function (response) {
                         var supplierDates = response.data;
 
-                        supplierDates.forEach(function(data) {
+                        supplierDates.forEach(function (data) {
                             hasSponsorPaymentDate = true;
                             vm.sponsorPaymentDates.push({
                                 label: data,
@@ -306,7 +306,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                             vm.searchDocument(undefined);
                         }
                     })
-                    .catch(function(response) {
+                    .catch(function (response) {
                         log.error(response);
                     });
             }
@@ -314,7 +314,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             function _loadSupplierCode() {
                 var sponsorId = vm.createTransactionModel.sponsorCode;
                 var supplierDeffered = TransactionService.getSupplier(sponsorId);
-                supplierDeffered.promise.then(function(response) {
+                supplierDeffered.promise.then(function (response) {
                     vm.supplierCodes = [];
                     if (supplierCodeSelectionMode == 'MULTIPLE_PER_TRANSACTION') {
                         var supplierCode = {
@@ -325,7 +325,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     }
                     var supplilerCodeList = response.data;
                     if (supplilerCodeList.length > 0) {
-                        supplilerCodeList.forEach(function(obj) {
+                        supplilerCodeList.forEach(function (obj) {
                             var supplierCode = {
                                 label: obj,
                                 value: obj
@@ -340,7 +340,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                         }
                         _loadSponsorPaymentDate();
                     }
-                }).catch(function(response) {
+                }).catch(function (response) {
                     vm.errorMsgPopup = response.data.errorCode;
                     vm.showErrorMsgPopup = true;
                 });
@@ -348,10 +348,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
             function _loadDocumentDisplayConfig(sponsorId) {
                 var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId, 'PAYABLE', 'TRANSACTION_DOCUMENT');
-                displayConfig.promise.then(function(response) {
+                displayConfig.promise.then(function (response) {
                     vm.dataTable.columns = response.items;
                     vm.pagingController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
-                    vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
+                    vm.pagingAllController = vm.pagingController;
 
                     vm.loanRequestMode = response.loanRequestMode;
                     vm.documentSelection = response.documentSelection;
@@ -374,11 +374,11 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
             function _loadSponsor() {
                 var sponsorDeffered = TransactionService.getSponsor();
-                sponsorDeffered.promise.then(function(response) {
+                sponsorDeffered.promise.then(function (response) {
                     vm.sponsorCodes = [];
                     var sponsorCodeList = response.data;
                     if (sponsorCodeList !== undefined) {
-                        sponsorCodeList.forEach(function(obj) {
+                        sponsorCodeList.forEach(function (obj) {
                             var selectObj = {
                                 label: obj.sponsorName,
                                 value: obj.sponsorId
@@ -399,12 +399,12 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                         _loadDocumentDisplayConfig(vm.createTransactionModel.sponsorCode);
                     }
 
-                }).catch(function(response) {
+                }).catch(function (response) {
                     log.error(response);
                 });
             };
 
-            var initLoad = function() {
+            var initLoad = function () {
                 if (backAction) {
                     var tradingPartnerInfo = $stateParams.tradingpartnerInfoModel;
                     vm.showBackButton = $stateParams.showBackButton;
@@ -419,31 +419,32 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                         };
                         hasSponsorPaymentDate = true;
                     } else {
-                        $timeout(function() {
+                        $timeout(function () {
                             PageNavigation.gotoPage('/');
                         }, 10);
                     }
                 }
                 _loadSponsor();
+                vm.accountChange;
             }();
 
-            var watchCheckAll = function() {
+            var watchCheckAll = function () {
                 var allDocumentInPage = vm.pagingController.tableRowCollection;
                 vm.checkAllModel = TransactionService.checkSelectAllDocumentInPage(vm.documentSelects, allDocumentInPage);
                 watchSelectAll();
             }
 
-            var watchSelectAll = function() {
+            var watchSelectAll = function () {
                 var pageSize = vm.pagingController.splitePageTxt.split("of ")[1];
                 vm.selectAllModel = TransactionService.checkSelectAllDocument(vm.documentSelects, pageSize);
             }
 
-            var dashboardInitLoad = function() {
+            var dashboardInitLoad = function () {
                 vm.showBackButton = true;
                 vm.searchDocument(undefined);
             }
 
-            $scope.sortData = function(order, orderBy) {
+            $scope.sortData = function (order, orderBy) {
                 vm.createTransactionModel.order = order;
                 vm.createTransactionModel.orderBy = orderBy;
                 vm.loadDocument();
@@ -451,28 +452,29 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
             // <------------------------------------- User Action ------------------------------->
 
-            vm.sponsorChange = function() {
+            vm.sponsorChange = function () {
                 _setDefualtValue(true);
                 _loadDocumentDisplayConfig(vm.createTransactionModel.sponsorCode);
             }
 
-            vm.supplierCodeChange = function() {
+            vm.supplierCodeChange = function () {
                 _setDefualtValue(false);
                 _loadSponsorPaymentDate();
             }
 
-            vm.paymentDateChange = function() {
+            vm.paymentDateChange = function () {
                 _setDefualtValue(false);
                 vm.requireSponsorPaymentDate = false;
             }
 
-            vm.accountChange = function() {
+            vm.accountChange = function () {
                 var sponsorCode = vm.createTransactionModel.sponsorCode;
                 var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
                 _loadTradingPartnerInfo(sponsorCode, sponsorPaymentDate);
+                calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
             }
 
-            vm.backStep = function() {
+            vm.backStep = function () {
                 PageNavigation.gotoPreviousPage(true);
             }
 
@@ -480,10 +482,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 return TransactionService.findIndexFromDoucmentListByDocument(data, vm.documentSelects) > -1;
             }
 
-            var selectMatchingField = function(data) {
+            var selectMatchingField = function (data) {
                 if (isFound(data)) {
                     if (data.groupingKey != null) {
-                        vm.pagingAllController.tableRowCollection.forEach(function(document) {
+                        vm.pagingAllController.tableRowCollection.forEach(function (document) {
                             if (comparator(data.groupingKey, document.groupingKey)) {
                                 if (!isFound(document)) {
                                     vm.documentSelects = vm.documentSelects.concat(document);
@@ -505,7 +507,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
             }
 
-            vm.selectDocument = function(data) {
+            vm.selectDocument = function (data) {
                 vm.checkAllModel = false;
                 vm.selectAllModel = false;
 
@@ -519,11 +521,11 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             }
 
             // this function control selected all document in page
-            vm.checkAllDocument = function() {
+            vm.checkAllDocument = function () {
                 var allDocumentInPage = vm.pagingController.tableRowCollection;
 
                 if (vm.checkAllModel) {
-                    allDocumentInPage.forEach(function(document) {
+                    allDocumentInPage.forEach(function (document) {
                         if (!isFound(document)) {
                             vm.documentSelects.push(document);
 
@@ -533,7 +535,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                         }
                     });
                 } else {
-                    allDocumentInPage.forEach(function(document) {
+                    allDocumentInPage.forEach(function (document) {
                         var index = TransactionService.findIndexFromDoucmentListByDocument(document, vm.documentSelects);
                         if (index > -1) {
                             vm.documentSelects.splice(index, 1);
@@ -548,7 +550,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
             }
 
-            vm.selectAllDocument = function() {
+            vm.selectAllDocument = function () {
                 if (!vm.selectAllModel) {
                     var allDocument = vm.pagingAllController.tableRowCollection;
                     angular.copy(allDocument, vm.documentSelects);
@@ -563,7 +565,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             };
 
             // next to page verify and submit
-            vm.nextStep = function() {
+            vm.nextStep = function () {
                 vm.errorDisplay = false;
                 if (vm.documentSelects.length === 0) {
                     //                vm.errorMsgGroups = 'Please select document.';
@@ -579,7 +581,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                         payerAccountId: vm.createTransactionModel.payerAccountId
                     });
                     var sponsorNameSelect = '';
-                    vm.sponsorCodes.forEach(function(sponsorObj) {
+                    vm.sponsorCodes.forEach(function (sponsorObj) {
                         if (vm.createTransactionModel.sponsorIdSelected === sponsorObj.value) {
                             sponsorNameSelect = sponsorObj.label;
                         }
@@ -590,7 +592,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     transactionModel.transactionType = 'DRAWDOWN';
 
                     var deffered = TransactionService.verifyTransaction(transactionModel);
-                    deffered.promise.then(function(response) {
+                    deffered.promise.then(function (response) {
                         var tradingpartnerInfoExtend = angular.extend(vm.tradingpartnerInfoModel, {
                             sponsorName: sponsorNameSelect,
                             supplierCodeSelected: vm.createTransactionModel.supplierCodeSelected,
@@ -611,7 +613,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                             showBackButton: vm.showBackButton,
                             criteria: _criteria
                         });
-                    }).catch(function(response) {
+                    }).catch(function (response) {
                         vm.errorMsgPopup = response.data.errorCode;
                         $scope.validateDataFailPopup = true;
                         vm.createTransactionModel.sponsorPaymentDate = SCFCommonService.convertDate(vm.createTransactionModel.sponsorPaymentDate);
