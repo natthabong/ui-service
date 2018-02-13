@@ -20,8 +20,10 @@ module
                 vm.splitePageTxt = '';
                 var log = $log;
 
-                vm.viewAllConfig = false;
-                vm.manageAllConfig = false;
+                // vm.viewAllConfig = false;
+                // vm.manageAllConfig = false;
+                vm.manageAction = false;
+                vm.viewAction = false;
 
                 vm.pageModel = {
                     pageSizeSelectModel: '20',
@@ -128,8 +130,24 @@ module
 
                 vm.data = [];
 
-                vm.unauthenConfig = function() {
-                    if (vm.viewAllConfig || vm.manageAllConfig) {
+                // vm.unauthenConfig = function() {
+                //     if (vm.viewAllConfig || vm.manageAllConfig) {
+                //         return false;
+                //     } else {
+                //         return true;
+                //     }
+                // }
+
+                vm.unauthenMangeAction = function() {
+                    if (vm.manageAction) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+
+                vm.unauthenView = function() {
+                    if (vm.viewAction) {
                         return false;
                     } else {
                         return true;
