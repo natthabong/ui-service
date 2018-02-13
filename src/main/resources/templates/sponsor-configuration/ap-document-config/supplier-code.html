@@ -1,7 +1,8 @@
 <div th:fragment="content">
     <div id="wrapper" ng-controller="CustomerCodeGroupController as ctrl">
-        <input type="hidden" ng-init="ctrl.manageAllConfig=true" sec:authorize="hasAuthority('MANAGE_ALL_SUPPLIER_CODES')" /> <input type="hidden" ng-init="ctrl.manageMyOrgConfig=true" sec:authorize="hasAuthority('MANAGE_SUPPLIER_CODES_OF_MY_ORGANIZE')"
-        />
+        <input type="hidden" ng-init="ctrl.manageConfig=true" sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_SUPPLIER_CODES')" />
+        <input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_SUPPLIER_CODES_OF_ALL_FUNDING', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_SUPPLIER_CODES')" />
+
         <div class="panel panel-default">
             <div class="panel-body" style="min-height: 360px;">
                 <div class="row">
@@ -27,7 +28,7 @@
                                         <span id="supplier-code-list-label">{{'Supplier code list' | translate}}</span>
                                     </td>
                                     <td class="text-center">
-                                        <scf-button class="btn-default gec-btn-action" id="supplier-code-list-view-button" title="View a supplier code"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
+                                        <scf-button ng-disabled="ctrl.unauthenView()" class="btn-default gec-btn-action" id="supplier-code-list-view-button" title="View a supplier code"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
                                         <scf-button ng-disabled="ctrl.unauthenConfig()" id="supplier-code-list-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.supplierdata, 'PAYABLE')" title="Config a supplier code"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>
                                     </td>
                                 </tr>
