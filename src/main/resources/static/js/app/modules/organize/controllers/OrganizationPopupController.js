@@ -58,8 +58,11 @@ tpModule
                                       headerMessage: 'Confirm save?'
                                     },
                                     confirm: function() {
-                                      return OrganizationService
-                                              .createOrganization(vm.model);
+                                      return $scope.editionMode
+                                              ? OrganizationService
+                                                      .updateOrganization(vm.model)
+                                              : OrganizationService
+                                                      .createOrganization(vm.model);
                                     },
                                     onFail: function(response) {
                                       var status = response.status;
@@ -70,7 +73,9 @@ tpModule
                                         UIFactory
                                                 .showFailDialog({
                                                   data: {
-                                                    headerMessage: 'Add new organization fail.',
+                                                    headerMessage: ($scope.editionMode
+                                                            ? 'Edit new organization fail.'
+                                                            : 'Add new organization fail.'),
                                                     bodyMessage: msg[status]
                                                             ? msg[status]
                                                             : response.errorMessage
@@ -89,7 +94,9 @@ tpModule
                                       UIFactory
                                               .showSuccessDialog({
                                                 data: {
-                                                  headerMessage: 'Add new organization success.',
+                                                  headerMessage: ($scope.editionMode
+                                                          ? 'Edit organization success.'
+                                                          : 'Add new organization success.'),
                                                   bodyMessage: ''
                                                 },
                                                 preCloseCallback: preCloseCallback(response)
