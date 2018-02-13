@@ -20,18 +20,19 @@
 						<tbody>
 							<tr ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
 								<td class="text-center">
-									<span id="general-info-no-{{record.channelId}}-{{record.organizeId}}-label" ng-bind="record.rowNo"></span>
+									<span id="general-info-no-{{record.memberId}}-{{record.memberCode}}-label" ng-bind="record.rowNo"></span>
 								</td>
 								<td class="text-center">
-									<span id="general-info-funding-{{record.channelId}}-{{record.organizeId}}-img" ng-bind="record.fundingId"></span>
-									<img id="workflow-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+atob(record.fundingOrganizeLogo)+'"></img>
+									<img id="general-info-funding-{{record.memberId}}-{{record.memberCode}}-img" title="{{record.funding.organizeName}}" style="height: 32px; width: 32px;"
+									    data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.organizeLogo)}}" />
 								</td>
 								<td class="text-center">
-									<span id="general-info-code-{{record.channelId}}-{{record.organizeId}}-label" ng-bind="record.memberCode"></span>
+									<span id="general-info-code-{{record.memberId}}-{{record.memberCode}}-label" ng-bind="record.memberCode"></span>
 								</td>
 								<td class="text-center">
-									<span id="general-info-organization-{{record.channelId}}-{{record.organizeId}}-img" ng-bind="record.memberLogo"></span>
-									<img id="workflow-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+atob(record.fundingOrganizeLogo)+'"></img>
+									<img id="general-info-organization-{{record.memberId}}-{{record.memberCode}}-img" title="{{record.funding.organizeName}}"
+									    style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.organizeLogo)}}"
+									/>
 								</td>
 							</tr>
 						</tbody>
