@@ -22,8 +22,13 @@
 							<tr>
 								<th id="channel-header-label" ng-bind="'Channel' | translate">Channel</th>
 								<th id="import-file-layout-header-label"
-									ng-bind="'Import file layout' | translate">Import file
-									layout</th>
+									ng-bind="'Import display name' | translate">Import display
+									name</th>
+								<th id="import-file-layout-header-label"
+									sec:authorize="hasAnyAuthority(
+									'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING',
+									'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')"
+									ng-bind="'Funding logo' | translate">Funding logo</th>
 								<th id="status-header-label" ng-bind="'Status' | translate">Status</th>
 								<th id="active-date-header-label"
 									ng-bind="'Active date' | translate">Active date</th>
@@ -40,6 +45,11 @@
 								<td class="text-left"><span
 									id="import-file-layout-{{record.channelId}}-{{record.organizeId}}-label"
 									ng-bind="record.sponsorLayoutConfig.displayName"></span></td>
+								<td class="text-left"
+									sec:authorize="hasAnyAuthority(
+								 	'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING',
+								 	'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')"><span
+									id="import-file-layout-{{record.channelId}}-{{record.organizeId}}-label">Funding</span></td>
 								<td class="text-center"><span
 									id="status-{{record.channelId}}-{{record.organizeId}}-label"
 									ng-bind="record.status | translate"></span></td>
