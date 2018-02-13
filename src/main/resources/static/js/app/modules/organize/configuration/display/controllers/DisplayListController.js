@@ -67,7 +67,13 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
             documentDisplayId: record.documentDisplayId
         }
 
-        PageNavigation.gotoPage('/sponsor-configuration/document-display/view', params);
+        if (record.displayMode == 'DOCUMENT') {
+            PageNavigation.gotoPage('/sponsor-configuration/document-display/view', params);
+
+        } else if (record.displayMode == 'TRANSACTION_DOCUMENT') {
+            PageNavigation.gotoPage('/sponsor-configuration/create-transaction-displays/view', params);
+        }
+
 
     }
 

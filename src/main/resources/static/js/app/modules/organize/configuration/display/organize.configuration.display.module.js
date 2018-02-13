@@ -59,6 +59,19 @@ angular
                             },
                             resolve: WebHelper
                                 .loadScript(requiredModules)
+                        }).state(
+                        '/sponsor-configuration/create-transaction-displays/view', {
+                            url: '/sponsor-configuration/create-transaction-displays/view/:organizeId/:accountingTransactionType/:displayMode/displays/:documentDisplayId',
+                            controller: 'ViewDisplayController',
+                            controllerAs: 'ctrl',
+                            templateUrl: '/sponsor-configuration/create-transaction-displays/view',
+                            params: {
+                                accountingTransactionType: null,
+                                displayMode: null,
+                                selectedItem: null
+                            },
+                            resolve: WebHelper
+                                .loadScript(requiredModules)
                         });
             }
         ]);

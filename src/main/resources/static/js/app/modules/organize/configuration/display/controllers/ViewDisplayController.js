@@ -38,10 +38,13 @@ displayModule.controller('ViewDisplayController', [
         // read from stateParams
         var ownerId = $stateParams.organizeId;
         vm.accountingTransactionType = $stateParams.accountingTransactionType;
-        var displayMode = $stateParams.displayMode;
+        vm.displayMode = $stateParams.displayMode;
         vm.displayId = $stateParams.documentDisplayId;
 
-        vm.headerMessageLabel = displayMode == "TRANSACTION_DOCUMENT" ? "Create transaction display configuration" : "Document display configuration";
+        vm.headerMessageLabel = vm.displayMode == "TRANSACTION_DOCUMENT" ? "View create transaction display" : "Document display configuration";
+        vm.groupSelection = vm.accountingTransactionType == "RECEIVABLE" ? "Buyer code group selection" : "Supplier code group selection";
+        vm.supplierCodeSelectionMode = SUPPLIER_CODE_GROUP_SELECTION_ITEM;
+        vm.documentSelection = DOCUMENT_SELECTION_ITEM;
         vm.documentFieldData = [];
         vm.documentConditions = [];
         vm.showProductType = true;
@@ -101,10 +104,23 @@ displayModule.controller('ViewDisplayController', [
 
         var init = function() {
             loadDataTypes();
-            loadDisplayConfig(ownerId, vm.accountingTransactionType, displayMode, vm.displayId);
+            loadDisplayConfig(ownerId, vm.accountingTransactionType, vm.displayMode, vm.displayId);
         }();
     }
-]).factory('DocumentDisplayConfigExampleService', ['$filter', 'SCFCommonService', function($filter, SCFCommonService) {
+]).constant('DOCUMENT_SELECTION_ITEM', {
+    anyDocument: 'ANY_DOCUMENT',
+    groupBy: 'GROUP_BY',
+    allDocument: 'ALL_DOCUMENT',
+    atLeastOneDocument: 'AT_LEAST_ONE_DOCUMENT'
+}).constant('DOCUMENT_SELECTION_ITEM', {
+    anyDocument: 'ANY_DOCUMENT',
+    groupBy: 'GROUP_BY',
+    allDocument: 'ALL_DOCUMENT',
+    atLeastOneDocument: 'AT_LEAST_ONE_DOCUMENT'
+}).constant('SUPPLIER_CODE_GROUP_SELECTION_ITEM', {
+    singlePerTransaction: 'SINGLE_PER_TRANSACTION',
+    multiplePerTransaction: 'MULTIPLE_PER_TRANSACTION'
+}).factory('DocumentDisplayConfigExampleService', ['$filter', 'SCFCommonService', function($filter, SCFCommonService) {
     return {
         TEXT_DisplayExample: TEXT_DisplayExample,
         CUSTOMER_CODE_DisplayExample: CUSTOMER_CODE_DisplayExample,

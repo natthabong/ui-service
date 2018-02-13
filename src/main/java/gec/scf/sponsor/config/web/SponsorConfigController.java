@@ -56,6 +56,7 @@ public class SponsorConfigController {
 	private static String SETTINGS_CREATE_TRANSACTION_DISPLAY = "sponsor-configuration/displays/create-transaction-displays/settings";
 	private static String SETUP_DISPLAY_FIELDS = "sponsor-configuration/displays/components/setup-display-fields";
 	private static String VIEW_DOCUMENT_DISPLAY = "sponsor-configuration/displays/document-displays/view";
+	private static String VIEW_CREATE_TRANSACTION_DISPLAY = "sponsor-configuration/displays/create-transaction-displays/view";
 
 	private static String AP_PAYMENT_DATE_FORMULA = "sponsor-configuration/ap-document-config/payment-date-formulas";
 	private static String SETTINGS_PAYMENT_DATE_FORMULA = "sponsor-configuration/payment-date-formulas/settings";
@@ -410,6 +411,14 @@ public class SponsorConfigController {
 			return VIEW_DOCUMENT_DISPLAY.concat(" :: content");
 		}
 		return VIEW_DOCUMENT_DISPLAY;
+	}
+	
+	@RequestMapping(path = "/create-transaction-displays/view", method = RequestMethod.GET)
+	public String viewCreateTransactionDisplay(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return VIEW_CREATE_TRANSACTION_DISPLAY.concat(" :: content");
+		}
+		return VIEW_CREATE_TRANSACTION_DISPLAY;
 	}
 
 }
