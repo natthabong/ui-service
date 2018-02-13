@@ -67,6 +67,20 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 				templateUrl: '/create-transaction/validate-submit',
 				params: { transactionModel: null, totalDocumentAmount:0.00, tradingpartnerInfoModel: null, documentSelects: null},
 				resolve: WebHelper.loadScript(['js/app/modules/transaction/loan/services/ValidateAndSubmitService.js','js/app/modules/transaction/loan/controllers/ValidateAndSubmitController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/settings/organizes', {
+				url: '/settings/organizes',
+				controller: 'OrganizeListController',
+				controllerAs: 'ctrl',
+				params: {backAction: false,party:'bank', criteria:null, organize:null},
+				templateUrl: '/organize-list/bank',
+				resolve: WebHelper.loadScript(['js/app/modules/organize/organize-list-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+		    }).state('/settings/organizes/all-funding', {
+				url: '/settings/organizes/all-funding',
+				controller: 'OrganizeListAllFundingController',
+				controllerAs: 'ctrl',
+				params: {backAction: false, criteria:null, organize:null},
+				templateUrl: '/organize-list/all-funding',
+				resolve: WebHelper.loadScript(['js/app/modules/organize/organize-list-all-funding-controller.js','js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
 			.state('/customer-registration/supplier-credit-information', {
 				url: '/customer-registration/supplier-credit-information',
