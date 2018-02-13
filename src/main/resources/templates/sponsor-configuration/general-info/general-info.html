@@ -1,0 +1,41 @@
+<div th:fragment="content" sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATION_PROFILES_OF_ALL_FUNDING')">
+	<div id="wrapper" ng-controller="GeneralInfoController as ctrl">
+		<div class="panel panel-default col-md-12 padding-0">
+			<div class="panel-body" style="min-height: 360px;">
+				<div class="row">
+					<div class="col-lg-10 col-md-10 col-xs-10">
+						<h3 class="animated fadeInLeft" id="general-info-header-label">General Information</h3>
+					</div>
+				</div>
+				<div class="responsive-table" ng-init="">
+					<table id="general-info-table" class="table table-striped table-bordered" cellspacing="0">
+						<thead>
+							<tr>
+								<th id="general-info-number-label" ng-bind="'No.' | translate">No.</th>
+								<th id="general-info-funding-label" ng-bind="'Funding' | translate">Funding</th>
+								<th id="general-info-organization-code-label" ng-bind="'Organization code' | translate">Organization code</th>
+								<th id="general-info-organization-logo-label" ng-bind="'Organization logo' | translate">Organization logo</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="record in ctrl.data track by $index">
+								<td class="text-center">
+									<span id="channel-{{record.channelId}}-{{record.organizeId}}-label" ng-bind="record.channelType"></span>
+								</td>
+								<td class="text-left">
+									<span id="import-file-layout-{{record.channelId}}-{{record.organizeId}}-label" ng-bind="record.sponsorLayoutConfig.displayName"></span>
+								</td>
+								<td class="text-center">
+									<span id="status-{{record.channelId}}-{{record.organizeId}}-label" ng-bind="record.status | translate"></span>
+								</td>
+								<td class="text-center">
+									<span id="active-date-{{record.channelId}}-{{record.organizeId}}-label" ng-bind="record.activeDate | date: 'dd/MM/yyyy'"></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
