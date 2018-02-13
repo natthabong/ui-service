@@ -15,8 +15,8 @@ angular
         var requiredModules = [
           'js/app/sponsor-configuration/sponsor-config-controller.js',
           'js/app/sponsor-configuration/profile-controller.js',
-          'js/app/sponsor-configuration/general-information/controllers/GeneralInfoController.js',
-          'js/app/sponsor-configuration/general-information/services/GeneralInfoService.js',
+          'js/app/modules/organize/configuration/general-information/controllers/GeneralInfoController.js',
+          'js/app/modules/organize/configuration/general-information/services/GeneralInfoService.js',
           'js/app/sponsor-configuration/workflow/controllers/workflow-controller.js',
           'js/app/sponsor-configuration/workflow/controllers/setup-workflow-controller.js',
           'js/app/sponsor-configuration/workflow/services/workflow-service.js',

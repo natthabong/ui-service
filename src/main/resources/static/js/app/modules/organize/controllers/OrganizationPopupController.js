@@ -15,11 +15,13 @@ tpModule
                       $scope.errors = undefined;
 
                       var data = $scope.ngDialogData.data;
-                      vm.model = {
-                        organizationCode: null,
-                        organizationName: null,
-                        taxId: null
-                      }
+                      $scope.editionMode = $scope.ngDialogData.editionMode;
+                      vm.model = $scope.editionMode ? $scope.ngDialogData.model
+                              : {
+                                organizationCode: null,
+                                organizationName: null,
+                                taxId: null
+                              }
 
                       vm.hasError = false;
 
@@ -56,8 +58,11 @@ tpModule
                                       headerMessage: 'Confirm save?'
                                     },
                                     confirm: function() {
-                                      return OrganizationService
-                                              .createOrganization(vm.model);
+                                      return $scope.editionMode
+                                              ? OrganizationService
+                                                      .updateOrganization(vm.model)
+                                              : OrganizationService
+                                                      .createOrganization(vm.model);
                                     },
                                     onFail: function(response) {
                                       var status = response.status;
@@ -68,7 +73,9 @@ tpModule
                                         UIFactory
                                                 .showFailDialog({
                                                   data: {
-                                                    headerMessage: 'Add new organization fail.',
+                                                    headerMessage: ($scope.editionMode
+                                                            ? 'Edit new organization fail.'
+                                                            : 'Add new organization fail.'),
                                                     bodyMessage: msg[status]
                                                             ? msg[status]
                                                             : response.errorMessage
@@ -87,7 +94,9 @@ tpModule
                                       UIFactory
                                               .showSuccessDialog({
                                                 data: {
-                                                  headerMessage: 'Add new organization success.',
+                                                  headerMessage: ($scope.editionMode
+                                                          ? 'Edit organization success.'
+                                                          : 'Add new organization success.'),
                                                   bodyMessage: ''
                                                 },
                                                 preCloseCallback: preCloseCallback(response)

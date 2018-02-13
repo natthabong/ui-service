@@ -10,13 +10,13 @@
 
     <!-- Timeline CSS -->
     <link th:href="@{/css/timeline.css}" href="../static/css/timeline.css" rel="stylesheet" />
-	<!-- GECSCF Component -->
-	<link th:href="@{/js/app/common/scf-component.css}" href="../static/app/common/scf-component.css" rel="stylesheet" />
-	
+    <!-- GECSCF Component -->
+    <link th:href="@{/js/app/common/scf-component.css}" href="../static/app/common/scf-component.css" rel="stylesheet" />
+
     <!-- WRO4J CSS -->
-    <link th:href="@{/css/angular-bootstrap.css}" href="../static/css/angular-bootstrap.css" rel="stylesheet"/>
+    <link th:href="@{/css/angular-bootstrap.css}" href="../static/css/angular-bootstrap.css" rel="stylesheet" />
     <script th:src="@{/js/angular-bootstrap.js}" src="../static/js/angular-bootstrap.js"></script>
-	
+
     <!-- Mimin Theme -->
     <!-- plugins -->
     <link th:href="@{/css/style.css}" href="../static/css/style.css" rel="stylesheet" />
@@ -24,10 +24,11 @@
     <!-- GECSCF CSS -->
     <link th:href="@{/css/gecscf.css}" href="../static/css/gecscf.css" rel="stylesheet" />
     <link th:href="@{/js/app/components/scfjs.css}" href="../static/js/app/components/scfjs.css" rel="stylesheet" />
-	
-	<link th:href="${fixedHeader} ? @{/css/fixed.css} : @{/css/no-fixed.css}" href="../static/css/fixed.css}" rel="stylesheet" />
+
+    <link th:href="${fixedHeader} ? @{/css/fixed.css} : @{/css/no-fixed.css}" href="../static/css/fixed.css}" rel="stylesheet"
+    />
     <link th:href="@{/assets/css/theme.css}" href="../static/assets/css/theme.css}" rel="stylesheet" />
-    
+
     <!-- End Mimin Theme -->
 
     <!-- controller -->
@@ -43,52 +44,55 @@
     <!-- End Mimin Theme -->
     <script th:src="@{/js/plugins/loading-overlay.js}" src="../static/js/plugins/loading-overlay.js"></script>
     <script th:src="@{/js/plugins/ngDialog.js}" src="../static/js/plugins/ngDialog.js"></script>
-    
+
     <!-- Analytic -->
     <script th:src="@{/js/plugins/analytic/d3.js}" src="../static/js/plugins/analytic/d3.js"></script>
     <script th:src="@{/js/plugins/analytic/nv.d3.js}" src="../static/js/plugins/analytic/nv.d3.js"></script>
     <script th:src="@{/js/plugins/analytic/angularjs-nvd3-directives.min.js}" src="../static/js/plugins/analytic/angularjs-nvd3-directives.min.js"></script>
     <link th:href="@{/js/plugins/analytic/nv.d3.css}" rel="stylesheet" href="../static/js/plugins/analytic/nv.d3.css" />
-	
-	<!-- GECSCF Component -->
+
+    <!-- GECSCF Component -->
     <script th:src="@{/js/app/common/scf-component.js}" src="../static/js/app/common/scf-component.js"></script>
     <script th:src="@{/js/app/components/scfjs.js}" src="../static/js/app/components/scfjs.js"></script>
-    
+
     <script th:src="@{/js/app/common/scf-common-service.js}" src="../static/js/app/common/scf-common-service.js"></script>
-<!-- 	<script th:src="@{/js/app/common/ui-bootstrap-tpls-1.1.0.js}" src="../static/js/app/common/ui-bootstrap-tpls-1.1.0.js"></script>	 -->
-	
-	<script th:src="@{/js/app/dashboard/dashboard-controller.js}" src="../static/js/app/dashboard/dashboard-controller.js"></script>
+    <!-- 	<script th:src="@{/js/app/common/ui-bootstrap-tpls-1.1.0.js}" src="../static/js/app/common/ui-bootstrap-tpls-1.1.0.js"></script>	 -->
 
-	<script th:src="@{/js/app/shared/directives/ui.module.js}" src="../static/js/app/shared/directives/ui.module.js"></script>
-	<script th:src="@{/js/app/modules/document-list/document.module.js}" src="../static/js/app/modules/document-list/document.module.js"></script>
+    <script th:src="@{/js/app/dashboard/dashboard-controller.js}" src="../static/js/app/dashboard/dashboard-controller.js"></script>
+
+    <script th:src="@{/js/app/shared/directives/ui.module.js}" src="../static/js/app/shared/directives/ui.module.js"></script>
+    <script th:src="@{/js/app/modules/document-list/document.module.js}" src="../static/js/app/modules/document-list/document.module.js"></script>
     <script th:src="@{/js/app/modules/organize/organize.module.js}" src="../static/js/app/modules/organize/organize.module.js"></script>
-	<script th:src="@{/js/app/modules/organize/configuration/organize.configuration.module.js}" src="../static/js/app/modules/organize/configuration/organize.configuration.module.js"></script>
-	<script th:src="@{/js/app/modules/organize/configuration/file-layout/organize.configuration.fileLayout.module.js}" src="../static/js/app/modules/organize/configuration/file-layout/organize.configuration.fileLayout.module.js"></script>
-	<script th:src="@{/js/app/modules/organize/configuration/product-type/product-type.module.js}" src="../static/js/app/modules/organize/configuration/product-type/product-type.module.js"></script>
-	<script th:src="@{/js/app/modules/profile/profile.module.js}" src="../static/js/app/modules/profile/profile.module.js"></script>
-	<script th:src="@{/js/app/modules/user/user.module.js}" src="../static/js/app/modules/user/user.module.js"></script>
-	<script th:src="@{/js/app/modules/account/account.module.js}" src="../static/js/app/modules/account/account.module.js"></script>
-	<script th:src="@{/js/app/modules/supplier-credit-information/supplier-credit-information.module.js}" src="../static/js/app/modules/supplier-credit-information/supplier-credit-information.module.js"></script>
-	<script th:src="@{/js/app/modules/buyer-credit-information/buyer-credit-information.module.js}" src="../static/js/app/modules/buyer-credit-information/buyer-credit-information.module.js"></script>
-	<script th:src="@{/js/app/modules/remittance-advice/bank/remittance-advice-bank.module.js}" src="../static/js/app/modules/remittance-advice/bank/remittance-advice-bank.module.js"></script>
-	<script th:src="@{/js/app/modules/remittance-advice/customer/remittance-advice-customer.module.js}" src="../static/js/app/modules/remittance-advice/customer/remittance-advice-customer.module.js"></script>
-	<script th:src="@{/js/app/modules/trading-partner/trading-partner.module.js}" src="../static/js/app/modules/trading-partner/trading-partner.module.js"></script>
-	<script th:src="@{/js/app/modules/trading-partner/financing/trade-finance.module.js}" src="../static/js/app/modules/trading-partner/financing/trade-finance.module.js"></script>
-	<script th:src="@{/js/app/modules/transaction/transaction.module.js}" src="../static/js/app/modules/transaction/transaction.module.js"></script>
-    <script th:src="@{/js/app/modules/organize/configuration/export-payment/organize.configuration.exportPayment.module.js}" src="../static/js/app/modules/organize/configuration/export-payment/organize.configuration.exportPayment.module.js"></script>
-    <script th:src="@{/js/app/sponsor-configuration/general-information/general-info.module.js}" src="../static/js/app/sponsor-configuration/general-information/general-info.module.js"></script>
+    <script th:src="@{/js/app/modules/organize/configuration/organize.configuration.module.js}" src="../static/js/app/modules/organize/configuration/organize.configuration.module.js"></script>
+    <script th:src="@{/js/app/modules/organize/configuration/file-layout/organize.configuration.fileLayout.module.js}" src="../static/js/app/modules/organize/configuration/file-layout/organize.configuration.fileLayout.module.js"></script>
+    <script th:src="@{/js/app/modules/organize/configuration/product-type/product-type.module.js}" src="../static/js/app/modules/organize/configuration/product-type/product-type.module.js"></script>
+    <script th:src="@{/js/app/modules/profile/profile.module.js}" src="../static/js/app/modules/profile/profile.module.js"></script>
+    <script th:src="@{/js/app/modules/user/user.module.js}" src="../static/js/app/modules/user/user.module.js"></script>
+    <script th:src="@{/js/app/modules/account/account.module.js}" src="../static/js/app/modules/account/account.module.js"></script>
+    <script th:src="@{/js/app/modules/supplier-credit-information/supplier-credit-information.module.js}" src="../static/js/app/modules/supplier-credit-information/supplier-credit-information.module.js"></script>
+    <script th:src="@{/js/app/modules/buyer-credit-information/buyer-credit-information.module.js}" src="../static/js/app/modules/buyer-credit-information/buyer-credit-information.module.js"></script>
+    <script th:src="@{/js/app/modules/remittance-advice/bank/remittance-advice-bank.module.js}" src="../static/js/app/modules/remittance-advice/bank/remittance-advice-bank.module.js"></script>
+    <script th:src="@{/js/app/modules/remittance-advice/customer/remittance-advice-customer.module.js}" src="../static/js/app/modules/remittance-advice/customer/remittance-advice-customer.module.js"></script>
+    <script th:src="@{/js/app/modules/trading-partner/trading-partner.module.js}" src="../static/js/app/modules/trading-partner/trading-partner.module.js"></script>
+    <script th:src="@{/js/app/modules/trading-partner/financing/trade-finance.module.js}" src="../static/js/app/modules/trading-partner/financing/trade-finance.module.js"></script>
+    <script th:src="@{/js/app/modules/transaction/transaction.module.js}" src="../static/js/app/modules/transaction/transaction.module.js"></script>
+    <script th:src="@{/js/app/modules/organize/configuration/export-payment/organize.configuration.exportPayment.module.js}"
+        src="../static/js/app/modules/organize/configuration/export-payment/organize.configuration.exportPayment.module.js"></script>
+    <script th:src="@{/js/app/modules/organize/configuration/general-information/general-info.module.js}" src="../static/js/app/modules/organize/configuration/general-information/general-info.module.js"></script>
     <script th:src="@{/js/app/sponsor-configuration/workflow/workflow.module.js}" src="../static/js/app/sponsor-configuration/workflow/workflow.module.js"></script>
-	<script th:src="@{/js/app/modules/download-payment-result/download-payment-result.module.js}" src="../static/js/app/modules/download-payment-result/download-payment-result.module.js"></script>
-	<script th:src="@{/js/app/modules/organize/configuration/display/organize.configuration.display.module.js}" src="../static/js/app/modules/organize/configuration/display/organize.configuration.display.module.js"></script>
-	<script th:src="@{/js/app/modules/organize/configuration/product-type/product-type.module.js}" src="../static/js/app/modules/organize/configuration/product-type/product-type.module.js"></script>
-	<script th:src="@{/js/app/modules/organize/configuration/channel/organize.configuration.channel.module.js}" src="../static/js/app/modules/organize/configuration/channel/organize.configuration.channel.module.js"></script>
-	<script th:src="@{/js/app/modules/organize/configuration/channel/import/organize.configuration.channel.import.module.js}" src="../static/js/app/modules/organize/configuration/channel/import/organize.configuration.channel.import.module.js"></script>
-	<script th:src="@{/js/app/modules/organize/configuration/channel/export/organize.configuration.channel.export.module.js}" src="../static/js/app/modules/organize/configuration/channel/export/organize.configuration.channel.export.module.js"></script>
+    <script th:src="@{/js/app/modules/download-payment-result/download-payment-result.module.js}" src="../static/js/app/modules/download-payment-result/download-payment-result.module.js"></script>
+    <script th:src="@{/js/app/modules/organize/configuration/display/organize.configuration.display.module.js}" src="../static/js/app/modules/organize/configuration/display/organize.configuration.display.module.js"></script>
+    <script th:src="@{/js/app/modules/organize/configuration/product-type/product-type.module.js}" src="../static/js/app/modules/organize/configuration/product-type/product-type.module.js"></script>
+    <script th:src="@{/js/app/modules/organize/configuration/channel/organize.configuration.channel.module.js}" src="../static/js/app/modules/organize/configuration/channel/organize.configuration.channel.module.js"></script>
+    <script th:src="@{/js/app/modules/organize/configuration/channel/import/organize.configuration.channel.import.module.js}"
+        src="../static/js/app/modules/organize/configuration/channel/import/organize.configuration.channel.import.module.js"></script>
+    <script th:src="@{/js/app/modules/organize/configuration/channel/export/organize.configuration.channel.export.module.js}"
+        src="../static/js/app/modules/organize/configuration/channel/export/organize.configuration.channel.export.module.js"></script>
 
-	<script th:src="@{/js/app/shared/directives/auto-suggest.js}" src="../static/js/app/shared/directives/auto-suggest.js"></script>
-	<script th:src="@{/js/app/shared/directives/input-text.js}" src="../static/js/app/shared/directives/input-text.js"></script>
-	<script th:src="@{/js/app/shared/directives/input-numeric.js}" src="../static/js/app/shared/directives/input-numeric.js"></script>
-	<script th:src="@{/js/app/shared/directives/file-upload.js}" src="../static/js/app/shared/directives/file-upload.js"></script>
-	<script th:src="@{/js/app/shared/directives/checkbox-button.js}" src="../static/js/app/shared/directives/checkbox-button.js"></script>
+    <script th:src="@{/js/app/shared/directives/auto-suggest.js}" src="../static/js/app/shared/directives/auto-suggest.js"></script>
+    <script th:src="@{/js/app/shared/directives/input-text.js}" src="../static/js/app/shared/directives/input-text.js"></script>
+    <script th:src="@{/js/app/shared/directives/input-numeric.js}" src="../static/js/app/shared/directives/input-numeric.js"></script>
+    <script th:src="@{/js/app/shared/directives/file-upload.js}" src="../static/js/app/shared/directives/file-upload.js"></script>
+    <script th:src="@{/js/app/shared/directives/checkbox-button.js}" src="../static/js/app/shared/directives/checkbox-button.js"></script>
     <script th:src="@{/js/test/libs/checklist-model.js}" src="../static/js/test/libs/checklist-model.js"></script>
 </head>
