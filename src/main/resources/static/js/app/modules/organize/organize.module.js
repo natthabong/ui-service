@@ -24,6 +24,7 @@ angular
                                         resolve: WebHelper
                                                 .loadScript([
                                                     'js/app/modules/organize/controllers/OrganizationListController.js',
+                                                    'js/app/modules/organize/controllers/OrganizationPopupController.js',
                                                     'js/app/modules/organize/services/OrganizationService.js',
                                                     'js/app/common/scf-component.js',
                                                     'js/app/common/scf-component.css'])
