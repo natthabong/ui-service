@@ -51,8 +51,10 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('SetupWorkflow
                     var workflowModel = $stateParams.workflowModel;
                     _loadWorkflow(workflowModel);
                 }
-            } ();
-
+            } 
+            
+            initLoad();
+            
             var _save = function (workflowModel) {
                 var deffered = WorkflowService.saveWorkflow(workflowModel);
                 deffered.promise.then(function (response) {

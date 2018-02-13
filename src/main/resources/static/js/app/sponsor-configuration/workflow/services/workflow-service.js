@@ -4,7 +4,7 @@ angular.module('gecscf.sponsorConfiguration.workflow').factory('WorkflowService'
 function WorkflowService($http, $q, blockUI){
     function getWorkflow(workflowModel){
         var deffered = $q.defer();
-        var url = '/api/v1/organizes/'+workflowModel.organizeId+'/workflows/'+workflowModel.module+'/'+workflowModel.type;
+        var url = '/api/v1/organizes/'+workflowModel.organizeId+'/workflows/'+workflowModel.module+'/'+workflowModel.workflowType;
         $http({
         	    url : url,
             	method: 'GET',

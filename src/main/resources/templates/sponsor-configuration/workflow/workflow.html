@@ -22,9 +22,8 @@
 							<tbody>
 								<tr	ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
 									<td class="text-center" ng-hide="ctrl.hiddenFundingColumn">
-									<span ng-bind="record.fundingId"></span>
-									<img id="workflow-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" 
-									data-ng-src="data:image/png;base64,'+atob(record.fundingOrganizeLogo)+'"></img>
+										<img id="workflow-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" 
+										data-ng-src="data:image/png;base64,'+atob(record.funding.organizeLogo)+'"></img>
 									</td>
 									
 									<td class="text-left">
@@ -38,10 +37,10 @@
 									</td>
 									
 									<td class="text-center">
-									<scf-button id="{{$index}}-setup-button" 
-									class="btn-default gec-btn-action" ng-click="ctrl.setup(data)" 
-									title="Config a workflow"><i class="fa fa-cog" aria-hidden="true"></i>
-									</scf-button>
+										<scf-button id="{{$index}}-setup-button" 
+										class="btn-default gec-btn-action" ng-click="ctrl.setup(record)" 
+										title="Config a workflow"><i class="fa fa-cog" aria-hidden="true"></i>
+										</scf-button>
 									</td>
 								</tr>
 							</tbody>
