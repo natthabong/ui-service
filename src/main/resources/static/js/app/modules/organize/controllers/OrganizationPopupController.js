@@ -15,11 +15,13 @@ tpModule
                       $scope.errors = undefined;
 
                       var data = $scope.ngDialogData.data;
-                      vm.model = {
-                        organizationCode: null,
-                        organizationName: null,
-                        taxId: null
-                      }
+                      $scope.editionMode = $scope.ngDialogData.editionMode;
+                      vm.model = $scope.editionMode ? $scope.ngDialogData.model
+                              : {
+                                organizationCode: null,
+                                organizationName: null,
+                                taxId: null
+                              }
 
                       vm.hasError = false;
 
