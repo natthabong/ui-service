@@ -1,5 +1,7 @@
 <div th:fragment="content">
     <div id="wrapper" ng-controller="MappingDataListController as ctrl">
+        <input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_DATA_MAPPING_OF_ALL_FUNDING', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_DATA_MAPPING')" />
+        <input type="hidden" ng-init="ctrl.manageAction=true" sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_DATA_MAPPING_OF_ALL_FUNDING')" />
 
         <div class="panel panel-default">
             <div class="panel-body" style="min-height: 360px;">

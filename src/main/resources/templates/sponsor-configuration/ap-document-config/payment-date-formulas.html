@@ -1,7 +1,7 @@
-<div th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS','MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')">
+<div th:fragment="content">
     <div id="wrapper" ng-controller="PaymentDateFormulaController as ctrl">
-        <input type="hidden" ng-init="ctrl.viewAllConfig=true" sec:authorize="hasAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS')" />
-        <input type="hidden" ng-init="ctrl.manageAllConfig=true" sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" />
+        <input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_PAYMENT_DATE_FORMULA_OF_ALL_FUNDING', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_PAYMENT_DATE_FORMULA')" />
+        <input type="hidden" ng-init="ctrl.manageAction=true" sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_PAYMENT_DATE_FORMULA')" />
 
         <div class="panel panel-default">
             <div class="panel-body" style="min-height: 360px;">
@@ -11,7 +11,7 @@
                     </div>
                     <div class="col-lg-2 col-md-2 col-xs-2 text-right">
                         <br/>
-                        <scf-button class="btn-default gec-btn-action" id="formula-name-configs-new-button" title="New a formula" ng-click="ctrl.openNewFormula()" ng-disabled="!ctrl.manageAllConfig"> <i class="fa fa-plus" aria-hidden="true"></i></scf-button>
+                        <scf-button class="btn-default gec-btn-action" id="formula-name-configs-new-button" title="New a formula" ng-click="ctrl.openNewFormula()" ng-disabled="ctrl.unauthenMangeAction()"> <i class="fa fa-plus" aria-hidden="true"></i></scf-button>
                     </div>
                 </div>
                 <div class="row">
