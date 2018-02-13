@@ -33,4 +33,9 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('WorkflowContr
                 });
             }
         } ();
+        
+        vm.decodeBase64 = function (data) {
+			return (data ? atob(data) :
+				UIFactory.constants.NOLOGO);
+		};
     }]);

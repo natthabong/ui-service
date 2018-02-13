@@ -22,8 +22,9 @@
 							<tbody>
 								<tr	ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
 									<td class="text-center" ng-hide="ctrl.hiddenFundingColumn">
-										<img id="workflow-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" 
-										data-ng-src="data:image/png;base64,'+atob(record.funding.organizeLogo)+'"></img>
+										<img id="workflow-funding-{{$index}}-name-label"
+												title="{{record.funding.organizeName}}" style="height: 32px; width: 32px;"
+											    data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.organizeLogo)}}"></img>
 									</td>
 									
 									<td class="text-left">

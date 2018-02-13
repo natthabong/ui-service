@@ -35,7 +35,6 @@ angular.module('gecscf.sponsorConfiguration.generalInfo').controller('GeneralInf
 					value.rowNo = baseRowNo + i;
 				});
 
-				console.log(data)
 			});
 		}
 
