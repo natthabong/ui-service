@@ -22,15 +22,14 @@ angular
                       vm.organize = $stateParams.organize || undefined;
 
                       vm.newOrganizationProfile = function() {
-                        var callback = function() {
-                          vm.searchOrganize();
-                        }
                         UIFactory
                                 .showDialog({
-                                  preCloseCallback: callback,
                                   templateUrl: '/js/app/modules/organize/templates/dialog-new-organization.html',
                                   controller: 'OrganizationPopupController',
                                   data: {
+                                    preCloseCallback: function(confirm) {
+                                      vm.searchOrganize();
+                                    },
                                     creationMode: true
                                   }
                                 });
