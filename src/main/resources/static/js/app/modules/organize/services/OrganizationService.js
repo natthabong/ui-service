@@ -70,7 +70,7 @@ orgModule.service('OrganizationService', ['$http', '$q', function($http, $q) {
               'If-Match': fundingMember.version,
               'X-HTTP-Method-Override': 'DELETE'
           },
-          data: organization
+          data: fundingMember
       }).then(function(response) {
         deferred.resolve(response);
       }).catch(function(response) {
