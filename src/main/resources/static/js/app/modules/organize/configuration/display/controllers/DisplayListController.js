@@ -6,8 +6,10 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
     var parameters = PageNavigation.getParameters();
 
     var ownerId = parameters.organizeId;
-    
+
     vm.hiddenFundingColumn = true;
+    vm.manageAction = false;
+    vm.viewAction = true;
 
     var _criteria = {};
 
@@ -27,6 +29,22 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
         vm.loadData();
 
     };
+
+    vm.unauthenMangeAction = function() {
+        if (vm.manageAction) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    vm.unauthenView = function() {
+        if (vm.viewAction) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     vm.addNewDocumentDisplay = function(type, mode) {
         ConfigurationUtils.showCreateNewCreateDisplayDialog({
