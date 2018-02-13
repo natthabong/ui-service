@@ -20,8 +20,6 @@ module
                 vm.splitePageTxt = '';
                 var log = $log;
 
-                // vm.viewAllConfig = false;
-                // vm.manageAllConfig = false;
                 vm.manageAction = false;
                 vm.viewAction = false;
 
@@ -129,14 +127,6 @@ module
                 }
 
                 vm.data = [];
-
-                // vm.unauthenConfig = function() {
-                //     if (vm.viewAllConfig || vm.manageAllConfig) {
-                //         return false;
-                //     } else {
-                //         return true;
-                //     }
-                // }
 
                 vm.unauthenMangeAction = function() {
                     if (vm.manageAction) {

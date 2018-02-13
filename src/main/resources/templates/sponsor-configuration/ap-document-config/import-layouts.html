@@ -1,8 +1,8 @@
 ,
-<div th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS','MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')">
+<div th:fragment="content">
     <div id="wrapper" ng-controller="FileLayoutListController as ctrl">
-        <input type="hidden" ng-init="ctrl.viewAllConfig=true" sec:authorize="hasAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS')" />
-        <input type="hidden" ng-init="ctrl.manageAllConfig=true" sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" />
+        <input type="hidden" ng-init="ctrl.manageAction=true" sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS_OF_ALL_FUNDING')" />
+        <input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS_OF_ALL_FUNDING', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS')" />
 
         <div class="panel panel-default">
             <div class="panel-body" style="min-height: 360px;">
@@ -12,7 +12,7 @@
                     </div>
                     <div class="col-lg-2 col-md-2 col-xs-2 text-right">
                         <br />
-                        <scf-button class="btn-default gec-btn-action" id="AP-import-layout-new-button" title="New Import File Layout" ng-click="ctrl.newFileLayoutPopup(ctrl.data,'AP_DOCUMENT', 'IMPORT')">
+                        <scf-button class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenMangeAction()" id="AP-import-layout-new-button" title="New Import File Layout" ng-click="ctrl.newFileLayoutPopup(ctrl.data,'AP_DOCUMENT', 'IMPORT')">
                             <i class="fa fa-plus" aria-hidden="true"></i></scf-button>
                     </div>
                 </div>
@@ -29,10 +29,10 @@
                             <tr ng-repeat="data in ctrl.data track by $index">
                                 <td><span id="{{ctrl.processType}}-import-layout-{{data.displayName}}-label" ng-bind="data.displayName"> </span></td>
                                 <td class="text-center">
-                                    <scf-button class="btn-default gec-btn-action" id="{{ctrl.processType}}-import-layout-{{data.displayName}}-view-button" title="View a file layout"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
-                                    <scf-button id="{{ctrl.processType}}-import-layout-{{data.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.newFileLayout(data ,ctrl.processType , ctrl.integrateType)" ng-disabled="ctrl.unauthenConfig()" title="Config a file layout">
+                                    <scf-button class="btn-default gec-btn-action" id="{{ctrl.processType}}-import-layout-{{data.displayName}}-view-button" ng-disabled="ctrl.unauthenView()" title="View a file layout"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
+                                    <scf-button id="{{ctrl.processType}}-import-layout-{{data.displayName}}-setup-button" ng-disabled="ctrl.unauthenMangeAction()" class="btn-default gec-btn-action" ng-click="ctrl.newFileLayout(data ,ctrl.processType , ctrl.integrateType)" title="Config a file layout">
                                         <i class="fa fa-cog" aria-hidden="true"></i></scf-button>
-                                    <scf-button id="{{ctrl.processType}}-import-layout-{{data.displayName}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteLayout(data)" title="Delete a file layout"> <i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>
+                                    <scf-button id="{{ctrl.processType}}-import-layout-{{data.displayName}}-delete-button" ng-disabled="ctrl.unauthenMangeAction()" class="btn-default gec-btn-action" ng-click="ctrl.deleteLayout(data)" title="Delete a file layout"> <i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>
                                 </td>
                             </tr>
                         </tbody>

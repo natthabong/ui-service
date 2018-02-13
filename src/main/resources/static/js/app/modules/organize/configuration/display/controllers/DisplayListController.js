@@ -9,7 +9,7 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
 
     vm.hiddenFundingColumn = true;
     vm.manageAction = false;
-    vm.viewAction = true;
+    vm.viewAction = false;
 
     var _criteria = {};
 

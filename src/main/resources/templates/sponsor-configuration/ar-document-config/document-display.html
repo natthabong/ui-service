@@ -1,7 +1,7 @@
 <div th:fragment="content">
     <div id="wrapper" ng-controller="DisplayListController as ctrl">
         <input type="hidden" ng-init="ctrl.hiddenFundingColumn=false" sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT_OF_ALL_FUNDING')" />
-        <!--<input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_CREATE_TRANSACTION_LAYOUT_OF_ALL_FUNDING', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_CREATE_TRANSACTION_LAYOUT')" />-->
+        <input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT_OF_ALL_FUNDING', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT')" />
         <input type="hidden" ng-init="ctrl.manageAction=true" sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUTS')" />
 
         <div class="panel panel-default">
