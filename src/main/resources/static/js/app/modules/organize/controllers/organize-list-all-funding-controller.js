@@ -63,12 +63,12 @@ angular
 											});
 										});
 							}
-
-							var isSameTaxId = function(taxId, data, index) {
+							
+							var isSameTaxId = function (memberId, data, index) {
 								if (index == 0) {
 									return false;
 								} else {
-									return taxId == data[index - 1].memberId;
+									return memberId == data[index - 1].memberId;
 								}
 							}
 
@@ -83,23 +83,20 @@ angular
 									'/api/v1/organize-customers/', _criteria,
 									'GET');
 							vm.loadData = function(pageModel) {
-								vm.pagingController.search(pageModel, function (criteriaData, response) {
-									var data = response.data;
-									var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
-									var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
-									var i = 0;
-									var baseRowNo = pageSize * currentPage; 
-									angular.forEach(data, function (value, idx) {
-										if (isSameTaxId(value.memberId, data, idx)) {
-											value.isSameTaxId = true;
-										}
-										++i;
-										value.rowNo = baseRowNo+i;
-									});
-								});
-								if ($stateParams.backAction) {
-									$stateParams.backAction = false;
-								}
+		                        vm.pagingController.search(pageModel, function (criteriaData, response) {
+		        					var data = response.data;
+		        					var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
+		        					var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
+		        					var i = 0;
+		        					var baseRowNo = pageSize * currentPage; 
+		        					angular.forEach(data, function (value, idx) {
+		        						if (isSameTaxId(value.memberId, data, idx)) {
+		        							value.isSameTaxId = true;
+		        						}
+		        						++i;
+		        						value.rowNo = baseRowNo+i;
+		        					});
+		        				});
 							}
 
 							vm.searchOrganize = function(pageModel) {
