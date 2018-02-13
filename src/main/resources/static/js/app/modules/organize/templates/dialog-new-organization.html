@@ -25,7 +25,12 @@
 								ng-model="ctrl.model.organizationCode" maxlength="20"></scf-input-text>
 						</div>
 					</div>
-
+					<div class="form-group" ng-show="errors.organizationCode">
+						<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 error-msg"
+							id="organization-code-warning-message-label"
+							ng-bind="errors.organizationCode | translate"></span>
+					</div>
 					<div class="form-group">
 						<label for="group-name" id="organization-name-label"
 							class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"><span
@@ -35,6 +40,12 @@
 								ng-model="ctrl.model.organizationName" maxlength="100"></scf-input-text>
 						</div>
 					</div>
+					<div class="form-group" ng-show="errors.organizationName">
+						<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 error-msg"
+							id="organization-name-warning-message-label"
+							ng-bind="errors.organizationName | translate"></span>
+					</div>
 					<div class="form-group">
 						<label for="group-name" id="organization-tax-id-label"
 							class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"><span
@@ -43,6 +54,12 @@
 							<scf-input-text id="organization-tax-id-textbox"
 								ng-model="ctrl.model.taxId" maxlength="13"></scf-input-text>
 						</div>
+					</div>
+					<div class="form-group" ng-show="errors.taxId">
+						<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 error-msg"
+							id="organization-tax-id-warning-message-label"
+							ng-bind="errors.taxId | translate"></span>
 					</div>
 				</div>
 			</div>

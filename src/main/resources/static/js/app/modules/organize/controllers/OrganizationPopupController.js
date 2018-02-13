@@ -23,32 +23,31 @@ tpModule
 
                       vm.hasError = false;
 
+                      var isEmpty = function(data) {
+                        return !data || !data.length;
+                      }
                       var _isValid = function() {
-                        $scope.errors = undefined;
-                        if (!vm.model.organizationCode.length) {
-                          $scope.errors = {
-                            'organizationCode': 'Organization code is required'
-                          };
-                          return false;
+                        $scope.errors = {};
+                        var valid = true;
+                        if (isEmpty(vm.model.organizationCode)) {
+                          $scope.errors.organizationCode = 'Organization code is required';
+                          valid = false;
                         }
-                        if (!vm.model.organizationName.length) {
-                          $scope.errors = {
-                            'organizationName': 'Organization name is required'
-                          };
-                          return false;
+                        if (isEmpty(vm.model.organizationName)) {
+                          $scope.errors.organizationName = 'Organization name is required';
+                          valid = false;
                         }
-                        if (!vm.model.taxId.length) {
-                          $scope.errors = {
-                            'taxId': 'TAX ID is required'
-                          };
-                          return false;
+                        if (isEmpty(vm.model.taxId)) {
+                          $scope.errors.taxId = 'TAX ID is required';
+                          valid = false;
                         }
-                        return true;
+                        return valid;
                       }
                       vm.save = function(callback) {
                         if (_isValid()) {
                           var preCloseCallback = function(confirm) {
                             callback();
+                            console.log($scope.ngDialogData)
                             $scope.ngDialogData.preCloseCallback(confirm);
                           }
                           UIFactory
@@ -58,7 +57,7 @@ tpModule
                                     },
                                     confirm: function() {
                                       return OrganizationService
-                                              .create(vm.model);
+                                              .createOrganization(vm.model);
                                     },
                                     onFail: function(response) {
                                       var status = response.status;
@@ -78,7 +77,9 @@ tpModule
                                                 });
                                       } else {
                                         $scope.errors = {};
+
                                         $scope.errors[response.data.reference] = response.data.errorMessage;
+                                        console.log($scope.errors)
                                       }
 
                                     },
