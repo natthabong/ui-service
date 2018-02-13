@@ -28,14 +28,15 @@ angular
 				vm.manageAll=false;
 				vm.sponsorLogo = null;
 				
-				var sponsorId = $stateParams.organizeId;
+				var params = PageNavigation.getParameters();
+				var sponsorId = params.organizeId;
 				
 				vm.organizeInfo = $stateParams.organizeInfo;
 				if(vm.organizeInfo == null || angular.isUndefined(vm.organizeInfo)){
 					var params = {organizeId: sponsorId};
 					PageNavigation.gotoPage("/sponsor-configuration",params);
 				}
-				var organizeId = vm.organizeInfo.organizeId;
+				var organizeId = vm.organizeInfo.memberId;
 		
 				vm.uploadModel = {
 			        file: ''
@@ -52,8 +53,8 @@ angular
 					return atob(data);
 				}
 		
-				if(vm.organizeInfo.organizeLogo!=null){
-					vm.sponsorLogo = vm.decodeBase64(vm.organizeInfo.organizeLogo);
+				if (vm.organizeInfo.memberLogo != null) {
+					vm.sponsorLogo = vm.decodeBase64(vm.organizeInfo.memberLogo);
 				}
 				
 				vm.backToSponsorConfigPage = function() {
@@ -104,9 +105,9 @@ angular
 				
 				$scope.save = function(){
 					vm.showErrorMsgLogo = false;
-					vm.organizeInfo.organizeLogo = vm.sponsorLogo;
+					vm.organizeInfo.memberLogo = vm.sponsorLogo;
 					
-					if(vm.organizeInfo.organizeLogo!=null){
+					if(vm.organizeInfo.memberLogo != null){
 						UIFactory.showConfirmDialog({
 							data : {
 							    headerMessage : 'Confirm save?'
@@ -141,7 +142,7 @@ angular
 			    }
 			    
 			    $scope.confirmSave = function() { 
-			    	vm.organizeInfo.organizeLogo = vm.sponsorLogo;
+			    	vm.organizeInfo.memberLogo = vm.sponsorLogo;
 					
 					var serviceUrl = 'api/v1/organize-customers/' + organizeId + '/logo';
 					var deffered = $q.defer();
