@@ -2,6 +2,8 @@
 	<div id="wrapper" ng-controller="WorkflowController as ctrl">
 	<input type="hidden" ng-init="ctrl.hiddenFundingColumn=false"
 	sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATION_PROFILES_OF_ALL_FUNDING')" />
+	<input type="hidden" ng-init="ctrl.disableConfigButton=false"
+	sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATION_PROFILES')" />
 
 		<div class="panel panel-default col-md-12 padding-0">
 			<div class="panel-body">
@@ -40,7 +42,7 @@
 									<td class="text-center">
 										<scf-button id="{{$index}}-setup-button" 
 										class="btn-default gec-btn-action" ng-click="ctrl.setup(record)" 
-										title="Config a workflow"><i class="fa fa-cog" aria-hidden="true"></i>
+										title="Config a workflow" ng-disabled="ctrl.disableConfigButton"><i class="fa fa-cog" aria-hidden="true"></i>
 										</scf-button>
 									</td>
 								</tr>

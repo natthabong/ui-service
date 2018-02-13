@@ -11,6 +11,7 @@ angular.module('gecscf.sponsorConfiguration.workflow').controller('WorkflowContr
         var organizeId = $stateParams.organizeId;
 		
 		vm.hiddenFundingColumn = true;
+		vm.disableConfigButton = true;
 
         vm.setup = function (data) {
             $timeout(function () {
