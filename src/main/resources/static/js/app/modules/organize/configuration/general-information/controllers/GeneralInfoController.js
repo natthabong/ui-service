@@ -3,11 +3,16 @@ angular.module('gecscf.sponsorConfiguration.generalInfo').controller('GeneralInf
 	'$stateParams',
 	'GeneralInfoService',
 	'PagingController',
-	'scfFactory',
-	function ($stateParams, GeneralInfoService, PagingController, scfFactory) {
+	'UIFactory',
+	function ($stateParams, GeneralInfoService, PagingController, UIFactory) {
 		var vm = this;
 		vm.criteria = undefined;
 		vm.pagingController = undefined;
+
+		vm.decodeBase64 = function (data) {
+			return (data ? atob(data) :
+				UIFactory.constants.NOLOGO);
+		};
 
 		function setCriteria() {
 			vm.criteria = {
@@ -29,6 +34,8 @@ angular.module('gecscf.sponsorConfiguration.generalInfo').controller('GeneralInf
 					++i;
 					value.rowNo = baseRowNo + i;
 				});
+
+				console.log(data)
 			});
 		}
 
