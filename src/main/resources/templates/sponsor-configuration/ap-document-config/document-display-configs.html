@@ -1,8 +1,9 @@
 <div th:fragment="content">
     <div id="wrapper" ng-controller="DisplayListController as ctrl">
-        <input type="hidden" ng-init="ctrl.hiddenFundingColumn=false"
-		sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT_OF_ALL_FUNDING')" />
-        
+        <input type="hidden" ng-init="ctrl.hiddenFundingColumn=false" sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT_OF_ALL_FUNDING')" />
+        <input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT_OF_ALL_FUNDING', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT')" />
+        <input type="hidden" ng-init="ctrl.manageAction=true" sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUTS')" />
+
         <div class="panel panel-default">
             <div class="panel-body" style="min-height: 360px;">
                 <div class="row">
@@ -11,7 +12,7 @@
                     </div>
                     <div class="col-lg-2 col-md-2 col-xs-2 text-right">
                         <br />
-                        <scf-button class="btn-default gec-btn-action" id="PAYABLE-document-display-new-button" title="New a document display" ng-click="ctrl.addNewDocumentDisplay('PAYABLE', 'DOCUMENT')">
+                        <scf-button class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenMangeAction()" id="PAYABLE-document-display-new-button" title="New a document display" ng-click="ctrl.addNewDocumentDisplay('PAYABLE', 'DOCUMENT')">
                             <i class="fa fa-plus" aria-hidden="true"></i></scf-button>
                     </div>
                 </div>
@@ -23,24 +24,23 @@
                             <table id="ar-document-display-table" class="table table-striped table-bordered" cellspacing="0">
                                 <thead>
                                     <tr>
-                                    	<th ng-bind="'FUNDING' | translate" ng-hide="ctrl.hiddenFundingColumn"></th>
+                                        <th ng-bind="'FUNDING' | translate" ng-hide="ctrl.hiddenFundingColumn"></th>
                                         <th ng-bind="'Display layout' | translate">Display layout</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
-	                                    <td class="text-center" ng-hide="ctrl.hiddenFundingColumn">
-											<span ng-bind="record.fundingId"></span>
-											<img id="PAYABLE-document-display-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" 
-											data-ng-src="data:image/png;base64,'+atob(record.fundingOrganizeLogo)+'"></img>
-										</td>
+                                        <td class="text-center" ng-hide="ctrl.hiddenFundingColumn">
+                                            <span ng-bind="record.fundingId"></span>
+                                            <img id="PAYABLE-document-display-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+atob(record.fundingOrganizeLogo)+'"></img>
+                                        </td>
                                         <td class="text-left"><span id="PAYABLE-document-display-layout-name-{{record.documentDisplayId}}-label" ng-bind="record.displayName | translate"></span></td>
                                         <td class="text-center">
-                                            <scf-button class="btn-default gec-btn-action" id="PAYABLE-document-display-{{record.documentDisplayId}}-view-button" title="View a document display" ng-click="ctrl.viewDocumentDisplay(record)"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
-                                            <scf-button id="PAYABLE-document-display-{{record.documentDisplayId}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.editDocumentDisplay(record)" ng-disabled="ctrl.unauthenConfig()" title="Edit">
+                                            <scf-button class="btn-default gec-btn-action" id="PAYABLE-document-display-{{record.documentDisplayId}}-view-button" ng-disabled="ctrl.unauthenView()" title="View a document display" ng-click="ctrl.viewDocumentDisplay(record)"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
+                                            <scf-button id="PAYABLE-document-display-{{record.documentDisplayId}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.editDocumentDisplay(record)" ng-disabled="ctrl.unauthenMangeAction()" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>
-                                            <scf-button id="PAYABLE-document-display-{{record.documentDisplayId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteDocumentDisplay(record)" title="Delete">
+                                            <scf-button id="PAYABLE-document-display-{{record.documentDisplayId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteDocumentDisplay(record)" ng-disabled="ctrl.unauthenMangeAction()" title="Delete">
                                                 <i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>
                                         </td>
                                     </tr>
