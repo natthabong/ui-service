@@ -1,4 +1,4 @@
-<div th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATION_PROFILES_OF_ALL_FUNDING','VIEW_ALL_CUSTOMER_ORGANIZATION_PROFILES')">
+<div th:fragment="content">
 	<div id="wrapper" ng-controller="WorkflowController as ctrl">
 	<input type="hidden" ng-init="ctrl.hiddenFundingColumn=false"
 	sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATION_PROFILES_OF_ALL_FUNDING')" />
