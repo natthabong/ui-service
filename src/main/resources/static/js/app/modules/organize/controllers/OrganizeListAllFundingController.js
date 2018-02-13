@@ -71,7 +71,7 @@ angular
 									return memberId == data[index - 1].memberId;
 								}
 							}
-
+							
 							vm.organizeAutoSuggestModel = UIFactory
 									.createAutoSuggestModel({
 										placeholder : 'Enter organization name or code',
@@ -89,7 +89,7 @@ angular
 		        					var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
 		        					var i = 0;
 		        					var baseRowNo = pageSize * currentPage; 
-		        					angular.forEach(data, function (value, idx) {
+		        					angular.forEach(data, function (value, idx) {		        						
 		        						if (isSameTaxId(value.memberId, data, idx)) {
 		        							value.isSameTaxId = true;
 		        						}

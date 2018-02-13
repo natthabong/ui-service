@@ -43,7 +43,7 @@ angular
 												templateUrl : '/organize-list/all-funding',
 												resolve : WebHelper
 														.loadScript([
-																'js/app/modules/organize/controllers/organize-list-all-funding-controller.js',
+																'js/app/modules/organize/controllers/OrganizeListAllFundingController.js',
 																'js/app/modules/organize/controllers/OrganizationPopupController.js',
 																'js/app/modules/organize/services/OrganizationService.js',
 																'js/app/common/scf-component.js',
