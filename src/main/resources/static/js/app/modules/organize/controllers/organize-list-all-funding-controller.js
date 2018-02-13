@@ -29,7 +29,7 @@ angular.module('scfApp').controller('OrganizeListAllFundingController',['$scope'
 				}
 			}).then(function(response) {
 				return response.data.map(function(item) {
-					item.identity = [ 'organize-', item.memberId,'-option' ].join('');
+					item.identity = [ 'organize-', item.memberId,'-',item.memberCode,'-option' ].join('');
 					item.label = [ item.memberCode, ': ', item.memberName ].join('');
 					return item;
 				});
