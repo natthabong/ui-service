@@ -1,28 +1,42 @@
 'use strict';
 angular.module('gecscf.sponsorConfiguration.generalInfo').controller('GeneralInfoController', [
-	'$log',
-	'$rootScope',
-	'$scope',
 	'$stateParams',
 	'GeneralInfoService',
-	'UIFactory',
 	'PagingController',
-	'SCFCommonService',
-	'$http',
-	'$q',
 	'scfFactory',
-	function ($log, $rootScope, $scope, $stateParams, GeneralInfoService, UIFactory, PagingController, SCFCommonService, $http, $q, scfFactory) {
+	function ($stateParams, GeneralInfoService, PagingController, scfFactory) {
 		var vm = this;
+		vm.criteria = undefined;
+		vm.pagingController = undefined;
 
-		function loadTableData() {
-			console.log("Thailand")
-			// var deferred = GeneralInfoService.getGeneralInfo(organizeId);
+		function setCriteria() {
+			vm.criteria = {
+				organizeId: $stateParams.organizeId
+			}
 		}
 
-		// Main of program
-		function initPage() {
+		function loadTableData(pageModel) {
+			var url = '/api/v1/organize-customers';
+			var method = 'GET';
+			vm.pagingController = PagingController.create(url, vm.criteria, method);
+			vm.pagingController.search(pageModel, function (criteria, response) {
+				var data = response.data;
+				var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
+				var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
+				var i = 0;
+				var baseRowNo = pageSize * currentPage;
+				angular.forEach(data, function (value, idx) {
+					++i;
+					value.rowNo = baseRowNo + i;
+				});
+			});
+		}
+
+		function main() {
+			setCriteria();
 			loadTableData();
 		};
-		initPage();
+		main();
 	}
+
 ]);

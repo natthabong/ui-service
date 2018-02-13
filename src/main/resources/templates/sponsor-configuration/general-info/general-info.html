@@ -18,18 +18,20 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="record in ctrl.data track by $index">
+							<tr ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
 								<td class="text-center">
-									<span id="channel-{{record.channelId}}-{{record.organizeId}}-label" ng-bind="record.channelType"></span>
-								</td>
-								<td class="text-left">
-									<span id="import-file-layout-{{record.channelId}}-{{record.organizeId}}-label" ng-bind="record.sponsorLayoutConfig.displayName"></span>
+									<span id="general-info-no-{{record.channelId}}-{{record.organizeId}}-label" ng-bind="record.rowNo"></span>
 								</td>
 								<td class="text-center">
-									<span id="status-{{record.channelId}}-{{record.organizeId}}-label" ng-bind="record.status | translate"></span>
+									<span id="general-info-funding-{{record.channelId}}-{{record.organizeId}}-img" ng-bind="record.fundingId"></span>
+									<img id="workflow-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+atob(record.fundingOrganizeLogo)+'"></img>
 								</td>
 								<td class="text-center">
-									<span id="active-date-{{record.channelId}}-{{record.organizeId}}-label" ng-bind="record.activeDate | date: 'dd/MM/yyyy'"></span>
+									<span id="general-info-code-{{record.channelId}}-{{record.organizeId}}-label" ng-bind="record.memberCode"></span>
+								</td>
+								<td class="text-center">
+									<span id="general-info-organization-{{record.channelId}}-{{record.organizeId}}-img" ng-bind="record.memberLogo"></span>
+									<img id="workflow-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+atob(record.fundingOrganizeLogo)+'"></img>
 								</td>
 							</tr>
 						</tbody>

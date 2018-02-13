@@ -1,32 +1,27 @@
 'use strict';
-angular.module('gecscf.sponsorConfiguration.generalInfo').factory('GeneralInfoService', ['$http', '$q', function ($http, $q) {
+angular.module('gecscf.sponsorConfiguration.generalInfo').factory('GeneralInfoService', [
+	'$http',
+	'$q',
+	function ($http, $q) {
+		var getGeneralInfo = function (organizeId) {
+			var deferred = $q.defer();
+			$http.get('/api/v1/organize-customers', {
+				params: {
+					organizeId: organizeId,
+					offset: 0,
+					limit: 100
+				}
+			}).then(function (response) {
+				deferred.resolve(response);
+			}).catch(function (response) {
+				deferred.reject(response);
+			});
+			return deferred;
+		}
 
-	var getItemSuggestSuppliers = function (organizeId, query) {
-		var http = $http.get('/api/v1/organize-customers/' + organizeId + '/trading-partners', {
-			params: {
-				q: query,
-				offset: 0,
-				limit: 5,
-				accountingTransactionType: 'PAYABLE'
-			}
-		}).then(function (response) {
-			return response.data.map(_prepareItemSupplier);
-		});
-		return http;
+		return {
+			getGeneralInfo: getGeneralInfo
+		}
 	}
 
-	var getBorrowerTypes = function (organizeId) {
-		var deferred = $q.defer();
-		var http = $http.get('/api/v1/organizes/' + organizeId + '/borrower-types', {}).then(function (response) {
-			deferred.resolve(response);
-		}).catch(function (response) {
-			deferred.reject(response);
-		});
-		return deferred;
-	}
-
-	return {
-		getItemSuggestSuppliers: getItemSuggestSuppliers,
-	}
-
-}]);
+]);
