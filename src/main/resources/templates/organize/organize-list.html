@@ -15,59 +15,92 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<form name="organizeForm" ng-submit="ctrl.searchOrganize()"
 							autocomplete="off" class="form-horizontal">
-						<div class="form-group">
-							<label for="sponsor-textbox"
-								class="col-md-2 col-sm-3 col-xs-12 control-label" id="organize-label">{{'Organization'| translate}}: </label>
-							<div class="col-md-6 col-sm-6 col-xs-12">
-								<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
-									ng-model="ctrl.organize" 
-									id="organize-auto-suggest"></gec-auto-suggest>
+							<div class="form-group">
+								<label for="sponsor-textbox"
+									class="col-md-2 col-sm-3 col-xs-12 control-label"
+									id="organize-label">{{'Organization'| translate}}: </label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
+										ng-model="ctrl.organize" id="organize-auto-suggest"></gec-auto-suggest>
+								</div>
+								<div class="col-md-3 col-sm-2">
+									<scf-button type="submit" id="search-button"
+										class="btn-default">{{'Search' | translate}}</scf-button>
+								</div>
 							</div>
-							<div class="col-md-3 col-sm-2">
-								<scf-button type="submit" id="search-button"
-									class="btn-default">{{'Search' | translate}}</scf-button>
-							</div>
-						</div>
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div>
+							<div class="row">
 								<div class="col-md-12 col-sm-12 text-right">
-									<div class="row">
-										<div class="col-md-12 col-sm-12 text-right">
-											<span> <scf-button id="new-organize-button"
-													class="btn btn-default" ng-click="ctrl.new()">{{'New'
-												| translate}}</scf-button>
-											</span> <br /> <br />
-										</div>
-										<div class="col-md-12 col-sm-12">
-											<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
-												id="organize-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-													dropdown-id="page-limit-dropdown"
-													name="organize"
-													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-													total-page="ctrl.pagingController.pagingModel.totalPage"
-													current-page="ctrl.pagingController.pagingModel.currentPage"
-													page-size-list="ctrl.pagingController.pageSizeList"
-													page-action="ctrl.loadData"
-													first-page-button-id="organize-first-page-button"
-													back-page-button-id="organize-back-page-button"
-													next-page-button-id="organize-next-page-button"
-													last-page-button-id="organize-last-page-button"></scf-pagination>
-											</span>
-										</div>
-									</div>
+									<span> <scf-button id="new-organize-button"
+											title="Add new an organization" class="btn btn-default"
+											ng-click="ctrl.newOrganization()"> <i
+											class="fa fa-plus" aria-hidden="true"></i></scf-button>
+									</span> <br /> <br />
 								</div>
-								<div class="row">
-									<div class="col-md-12">
-										<scf-table id="organize-table"
-											component-config="ctrl.dataTable" component-datas="ctrl.pagingController.tableRowCollection"
+								<div class="col-md-12 col-sm-12 text-right">
+									<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
+										id="organize-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+											dropdown-id="page-limit-dropdown" name="organize"
+											page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+											total-page="ctrl.pagingController.pagingModel.totalPage"
 											current-page="ctrl.pagingController.pagingModel.currentPage"
-											record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-											clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
-									</div>
-									<div id="fixed-bottom" class="col-md-12"></div>
+											page-size-list="ctrl.pagingController.pageSizeList"
+											page-action="ctrl.loadData"
+											first-page-button-id="organize-first-page-button"
+											back-page-button-id="organize-back-page-button"
+											next-page-button-id="organize-next-page-button"
+											last-page-button-id="organize-last-page-button"></scf-pagination>
+									</span>
 								</div>
 							</div>
-						</div>
+							<div class="responsive-table">
+								<table id="remittance-advice-table"
+									class="table table-striped table-bordered" cellspacing="0">
+									<thead>
+										<tr>
+											<th id="organize-code-header-label"
+												ng-bind="'Organize code' | translate">Organize code</th>
+											<th id="organize-name-header-label"
+												ng-bind="'Organize Name' | translate">Organize Name</th>
+											<th id="sponsor-header-label" ng-bind="'Sponsor' | translate">Sponsor</th>
+											<th id="status-header-label" ng-bind="'Status' | translate">Status</th>
+											<th id="action-header-label"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
+											<td class="text-center"><span
+												id="organize-code-{{record.memberId}}-label"
+												ng-bind="record.memberCode"></span></td>
+											<td class="text-left"><span
+												id="organize-name-{{record.memberId}}-label"
+												ng-bind="record.memberName | translate"></span></td>
+											<td class="text-center"><img
+												style="height: 16px; width: 16px;" ng-show="record.sponsor"
+												data-ng-src="img/checkmark.png" /></td>
+											<td class="text-center"><span
+												id="{{record.memberId}}-status-label">{{record.suspend
+													? "Suspend" : "Active"}}</span></td>
+											<td class="text-center"><scf-button ng-disabled="true"
+													class="btn-default gec-btn-action"
+													id="{{record.memberId}}-profile-button"
+													ng-click="ctrl.editOrganization(record)"
+													title="Edit an organization"> <i
+													class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button> <scf-button
+													class="btn-default gec-btn-action"
+													id="{{record.memberId}}-config-button"
+													ng-click="ctrl.configOrganizationProfile(record)"
+													title="Configure an organization profile"> <i
+													class="fa fa-cog" aria-hidden="true"></i></scf-button> <scf-button
+													class="btn-default gec-btn-action"
+													id="{{record.memberId}}-delete-button"
+													ng-click="ctrl.deleteOrganization(record)"
+													title="Delete an organization"> <i
+													class="fa fa-trash-o" aria-hidden="true"></i></scf-button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</form>
 					</div>
 				</div>
