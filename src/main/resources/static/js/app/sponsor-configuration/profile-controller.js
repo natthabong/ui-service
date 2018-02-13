@@ -31,8 +31,7 @@ angular
 								var serviceDiferred = Service.doGet(serviceUrl, {});		
 								serviceDiferred.promise.then(function(response){
 									vm.organizeData = response.data;
-									
-									if(vm.organizeData.organizeLogo != null){
+									if(vm.organizeData.memberLogo != null){
 										vm.completed = true;
 									}
 								}).catch(function(response){
