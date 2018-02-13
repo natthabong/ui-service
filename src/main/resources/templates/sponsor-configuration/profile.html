@@ -13,7 +13,7 @@
 			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"
 				style="margin-top: 24px; margin-bottom: 10px;">
 				<span id="organize-name-label"
-					ng-bind="ctrl.organizeData.organizeName"></span>
+					ng-bind="ctrl.organizeData.memberName"></span>
 			</div>
 		</div>
 		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -21,11 +21,11 @@
 				<h3 class="animated fadeInLeft" id="organize-logo-header-label">{{'Organization logo' | translate}}:</h3>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 18px; margin-bottom: 10px;">
-				<img title="{{ctrl.organizeData.organizeName}}"
+				<img title="{{ctrl.organizeData.memberName}}"
 					style="height: 32px; width: 32px;"
-					data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(ctrl.organizeData.organizeLogo)}}"
+					data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(ctrl.organizeData.memberLogo)}}"
 					data-err-src="images/png/avatar.png" ng-if="ctrl.completed"
-					id="{{ctrl.organizeData.organizeId}}-organize-logo" />
+					id="{{ctrl.organizeData.memberCode}}-organize-logo" />
 				<label class="control-label" id="organize-logo-label" ng-show="!ctrl.completed">{{'No logo' | translate}}</label>
 				&nbsp;
 				<scf-button id="organize-logo-setup-button" class="btn-default gec-btn-action" 
