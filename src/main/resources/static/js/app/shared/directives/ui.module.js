@@ -23,6 +23,11 @@ angular
 						'<input type="text" id="{{id}}" ng-disabled="disable" placeholder="{{model.placeholder}}"'
 						+ ' class="form-control" uib-typeahead="data as data.label for data in model.query($viewValue)"'
 						+ ' autocomplete="off" ng-model="ngModel" typeahead-template-url="{{model.itemTemplateUrl}}" ng-required="ngRequired" name="{{name}}"/>');
+				$templateCache
+        .put(
+          'ui/template/organizationLogo.html',
+            '<div><img  ng-repeat="f in fundings" class="col-3 col-md-4 col-lg-4" data-ng-src="data:image/png;base64,{{decodeBase64(f.organizeLogo)}}" title="{{f.organizeName}}"></img>'
+          + '</div>');
 
 				$templateCache
 					.put(

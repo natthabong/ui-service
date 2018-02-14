@@ -20,6 +20,12 @@ module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		});
 		return deffered;
 	}
+	
+	this.getFundings = function () {
+		var url = '/api/v1/fundings';
+		var serviceDiferred = Service.doGet(url);
+		return serviceDiferred
+	}
 
 	this.getFileLayouts = function (owner, processTypes, integrateTypes) {
 		var url = '/api/v1/organize-customers/' + owner + '/process-types/' + processTypes +

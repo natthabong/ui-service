@@ -43,10 +43,43 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	}
 	
 	var parameters = PageNavigation.getParameters();
-	
     var organizeId = parameters.organizeId;
-    
     vm.isSetupFTP = false;
+    vm.runTimes = [];
+    vm.runTime = undefined;
+    vm.addRuntime = function(time) {
+   	 if(angular.isUndefined(time)) {
+     		$scope.errors.runtime = {
+   				message : 'Time is required.'
+   		}
+     	 } else if (vm.runTimes.indexOf(time) !== -1) {
+   		$scope.errors.runtime = {
+ 				message : 'Time already exists.'
+ 			}
+   	 } else {
+   		vm.runTimes.push(time);
+   	 } 
+     };
+     
+     vm.deleteRuntime = function(item) { 
+   	  var index = vm.runTimes.indexOf(item);
+   	  vm.runTimes.splice(index, 1);     
+     };
+    
+    vm.fundings = [];
+	vm.searchFundings = function(){
+		 var deffered = FileLayoutService.getFundings();
+		 deffered.promise.then(function(response){
+			 vm.fundings = [];
+        	 var _fundings = response.data;
+        	 if (angular.isDefined(_fundings)) {
+        		 _fundings.forEach(function (fundings) {
+                    vm.fundings.push(fundings);
+                 });
+        	  }
+		 });
+		
+	};
     
     vm.fileLayouts = [];
 	vm.searchFileLayout = function(){
@@ -167,19 +200,39 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 				daysOfWeek += dayOfWeekFrequency.SATURDAY + ',';
 			}
 			
-			vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek = daysOfWeek.replace("[","").replace("]","");
-			if(vm.channelModel.beginTime != null && vm.channelModel.beginTime != ''){
-				var beginTime = vm.channelModel.beginTime.split(":");
-				vm.channelModel.jobInformation.triggerInformations[0].startHour = beginTime[0];
-				vm.channelModel.jobInformation.triggerInformations[0].startMinute = beginTime[1];
+			if(vm.channelModel.runtimeType == 'INTERVAL'){
+				vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek = daysOfWeek.replace("[","").replace("]","");
+				if(vm.channelModel.beginTime != null && vm.channelModel.beginTime != ''){
+					var beginTime = vm.channelModel.beginTime.split(":");
+					vm.channelModel.jobInformation.triggerInformations[0].startHour = beginTime[0];
+					vm.channelModel.jobInformation.triggerInformations[0].startMinute = beginTime[1];
+				}
+	
+				if(vm.channelModel.endTime != null && vm.channelModel.endTime != ''){
+					var endTime = vm.channelModel.endTime.split(":");
+					vm.channelModel.jobInformation.triggerInformations[0].endHour = endTime[0];
+					vm.channelModel.jobInformation.triggerInformations[0].endMinute = endTime[1];
+				}
+				vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek = daysOfWeek;
+			} else {
+				daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
+	 			vm.channelModel.jobInformation.daysOfWeek = daysOfWeek;
+				vm.channelModel.jobInformation.triggerInformations = [];
+	 			vm.runTimes.forEach(function(data){
+	 				var triggerInformation = {};
+	 				var beginTime = data.split(":");
+	 				triggerInformation.startHour = beginTime[0];
+	 				triggerInformation.startMinute = beginTime[1];
+	 				var endTime = parseInt(beginTime[1])+1 == 60 ? 0 : parseInt(beginTime[1])+1;
+	 				var endHour = parseInt(beginTime[1])+1 == 60 ? parseInt(beginTime[0])+1 : parseInt(beginTime[0]);
+	 				triggerInformation.endHour = endHour.toString();
+	 				triggerInformation.endMinute = endTime.toString();
+	 				triggerInformation.intervalInMinutes = 120;
+	 				triggerInformation.daysOfWeek = daysOfWeek;
+	 				
+	 				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
+	 			});
 			}
-
-			if(vm.channelModel.endTime != null && vm.channelModel.endTime != ''){
-				var endTime = vm.channelModel.endTime.split(":");
-				vm.channelModel.jobInformation.triggerInformations[0].endHour = endTime[0];
-				vm.channelModel.jobInformation.triggerInformations[0].endMinute = endTime[1];
-			}
-			vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek = daysOfWeek;
 		}
 
 		if(!vm.isUseExpireDate){
@@ -192,8 +245,13 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 		var isValid = true;
 		var channel = vm.channelModel;
 		
+		if(vm.channelModel.displayName == null || vm.channelModel.displayName ==""){
+ 			isValid = false;
+ 			$scope.errors.displayName = {
+ 					message : 'Display name is required.'
+ 			}			
+ 		} 
 		
-		// Atithat
 		if (parameters.processType == 'AR_DOCUMENT'){
 			if(vm.channelModel.layoutConfigId == null || vm.channelModel.layoutConfigId ==""){
 				isValid = false;
@@ -428,6 +486,10 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 				vm.channelModel.expiryDate = null;
 			}
             
+            if(response.data.runtimeType == null){
+            	vm.channelModel.runtimeType =  'INTERVAL';
+			}
+            
 			
 			if(vm.channelModel.channelType == 'FTP'){
 				vm.isSetupFTP = true;
@@ -599,6 +661,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	vm.initLoad = function() {
 		vm.searchChannel();
 		vm.searchFileLayout();
+		vm.searchFundings();
     }();
 	
 	

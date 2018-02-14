@@ -419,6 +419,25 @@ app.filter('accountFormat', ['$filter', function ($filter) {
 		
     };
 }]);
+app.filter('fundingLogo', ['$filter', 'UIFactory', function ($filter, UIFactory) {
+  var decodeBase64 = function (data) {
+    return  (data?atob(data):UIFactory.constants.NOLOGO);
+  };
+
+  return function (fundings) {
+      
+      if(!angular.isArray(fundings)){
+        fundings = [fundings];
+      }
+      var results = [];
+      fundings.forEach(function(funding){
+        this.push('<img style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,'+decodeBase64(funding.organizeLogo)+'" title="'+ funding.organizeName +'"></img>');
+      }, results)
+      
+      return results.join('&nbsp;')
+  };
+}]);
+
 app.filter('negativeParenthesis', ['$filter', function ($filter) {
     return function (input, fractionSize) {
         if(!fractionSize){

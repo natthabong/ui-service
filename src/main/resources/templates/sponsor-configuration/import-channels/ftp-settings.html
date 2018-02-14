@@ -343,61 +343,123 @@
 
 		<div class="form-group">
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-				<label id="begin-time-label"> {{'Begin time' | translate}}:
-				</label>
+				<label id="run-time-label"> {{'Run time' | translate}}: </label>
 			</div>
-			<div class="col-md-3 col-sm-3 col-xs-12">
-				<scf-input-text id="begin-time-textbox"
-					ng-model="ctrl.channelModel.beginTime" name="beginTime"
-					ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
-				</scf-input-text>
+			<div class="form-group">
+				<div class="col-md-8 col-sm-9 col-xs-12">
+					<label class="radio-inline"><scf-radio
+							id="runtime-type-interval-radio"
+							name="runtime-type-interval-radio" value="INTERVAL"
+							ng-model="ctrl.channelModel.runtimeType"></scf-radio> {{ 'Interval' |
+						translate}} </label> <br />
+					<div class="form-group">
+						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+							<label id="begin-time-label"> {{'Begin time' |
+								translate}}: </label>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<scf-input-text id="begin-time-textbox"  ng-disabled="ctrl.channelModel.runtimeType=='FIXED'"
+								ng-model="ctrl.channelModel.beginTime" name="beginTime"
+								ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+							</scf-input-text>
+						</div>
+						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+							<label id="end-time-label"> {{'End time' | translate}}: </label>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<scf-input-text id="end-time-textbox"  ng-disabled="ctrl.channelModel.runtimeType=='FIXED'"
+								ng-model="ctrl.channelModel.endTime" name="endTime"
+								ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+							</scf-input-text>
+						</div>
+					</div>
+
+					<div class="form-group"
+						ng-show="errors.beginTime || errors.endTime">
+						<div ng-show="errors.beginTime">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+								id="begin-time-warning-message-label"
+								ng-bind="errors.beginTime.message"> </span>
+						</div>
+						<div ng-show="errors.endTime">
+							<label class="col-md-5 col-sm-3 col-xs-12 control-label"
+								ng-show="!errors.beginTime"></label> <label
+								class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+								class="col-md-3 col-sm-3 col-xs-12 error-msg"
+								id="end-time-warning-message-label"
+								ng-bind="errors.endTime.message"> </span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+							<label id="delayed-interval-label"> {{'Delayed interval
+								(sec)' | translate}}: </label>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<scf-input-number id="delayed-interval-textbox" maxlength="5" ng-disabled="ctrl.channelModel.runtimeType=='FIXED'"
+								ng-model="ctrl.channelModel.jobInformation.triggerInformations[0].intervalInMinutes">
+							</scf-input-number>
+						</div>
+						<div class="col-md-6 col-sm-4 col-hidden-xs"></div>
+					</div>
+
+					<div class="form-group" ng-show="errors.intervalInMinutes">
+						<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+						<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+							id="delayed-interval-warning-message-label"
+							ng-bind="errors.intervalInMinutes.message"> </span>
+					</div>
+					<label class="radio-inline"> <scf-radio
+							id="runtime-type-fixed-radio" name="runtime-type-fixed-radio"
+							value="FIXED" ng-model="ctrl.channelModel.runtimeType"></scf-radio> {{ 'Fixed'
+						| translate}}
+					</label>
+
+				</div>
 			</div>
+		</div>
+		<div class="form-group">
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-				<label id="end-time-label"> {{'End time' | translate}}: </label>
 			</div>
-			<div class="col-md-3 col-sm-3 col-xs-12">
-				<scf-input-text id="end-time-textbox"
-					ng-model="ctrl.channelModel.endTime" name="endTime"
-					ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
-				</scf-input-text>
+			<div class="form-group">
+				<div class="col-md-1 col-sm-1 col-xs-8">
+					<scf-input-text id="run-time-textbox" ng-model="ctrl.runTime" ng-disabled="ctrl.channelModel.runtimeType!='FIXED'"
+						name="runTime" ng-pattern="timeFormat" maxlength="5"
+						placeholder="hh:mm"> </scf-input-text>
+				</div>
+				<div class="col-md-1 col-sm-1 col-xs-8">
+					<scf-button id="add-runtime-button"
+						class="btn-default gec-btn-action"
+						ng-click="ctrl.addRuntime(ctrl.runTime)"> <i
+						class="fa fa-plus" aria-hidden="true"></i></scf-button>
+				</div>
+			</div>
+		</div>
+		<div class="form-group" ng-repeat="runtime in ctrl.runTimes">
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
+			<div class="col-md-1 col-sm-1 col-xs-8">
+				<input type="text" id="{{runtime}}-label"
+					class="form-control ng-valid ng-valid-pattern ng-valid-maxlength ng-not-empty ng-dirty ng-valid-parse ng-touched"
+					ng-model="ctrl.channelModel.runTimes" ng-value="runtime"
+					ng-disabled="true" />
+			</div>
+			<div class="col-md-1 col-sm-1 col-xs-8">
+				<scf-button id="{{runtime}}-delete-button"
+					class="btn-default gec-btn-action"
+					ng-click="ctrl.deleteRuntime(runtime)" title="Delete runtime">
+				<i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>
 			</div>
 		</div>
 
-		<div class="form-group" ng-show="errors.beginTime || errors.endTime">
-			<div ng-show="errors.beginTime">
+		<div class="form-group" ng-show="errors.runtime">
+			<div ng-show="errors.runtime">
 				<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
 					class="col-md-3 col-sm-3 col-xs-12 error-msg"
 					id="begin-time-warning-message-label"
-					ng-bind="errors.beginTime.message"> </span>
+					ng-bind="errors.runtime.message"> </span>
 			</div>
-			<div ng-show="errors.endTime">
-				<label class="col-md-5 col-sm-3 col-xs-12 control-label"
-					ng-show="!errors.beginTime"></label> <label
-					class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
-					class="col-md-3 col-sm-3 col-xs-12 error-msg"
-					id="end-time-warning-message-label"
-					ng-bind="errors.endTime.message"> </span>
-			</div>
-		</div>
-
-		<div class="form-group">
-			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-				<label id="delayed-interval-label"> {{'Delayed interval
-					(sec)' | translate}}: </label>
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-12">
-				<scf-input-number id="delayed-interval-textbox" maxlength="5"
-					ng-model="ctrl.channelModel.jobInformation.triggerInformations[0].intervalInMinutes">
-				</scf-input-number>
-			</div>
-			<div class="col-md-6 col-sm-4 col-hidden-xs"></div>
-		</div>
-
-		<div class="form-group" ng-show="errors.intervalInMinutes">
-			<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
-				class="col-md-3 col-sm-3 col-xs-12 error-msg"
-				id="delayed-interval-warning-message-label"
-				ng-bind="errors.intervalInMinutes.message"> </span>
 		</div>
 	</div>
 </div>

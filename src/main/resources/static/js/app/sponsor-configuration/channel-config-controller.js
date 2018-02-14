@@ -46,7 +46,10 @@ angular
 								value : '50'
 							}];
 
-						
+							vm.decodeBase64 = function(data) {
+								return (data ? atob(data)
+										: UIFactory.constants.NOLOGO);
+							};
 
 							vm.newChannel = function(callback) {
 								ConfigurationUtils.showCreateImportChannelDialog({
@@ -143,7 +146,7 @@ angular
 							}
 							
 							vm.disableTestConnection = function(data) {
-								if(data.channelType == 'WEB' || !data.completed){
+								if(data.channelType == 'WEB'){
 									return true;
 								}else{
 									return false;
