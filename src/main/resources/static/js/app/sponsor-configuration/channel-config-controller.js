@@ -141,7 +141,7 @@ angular
 							}
 							
 							vm.disableTestConnection = function(data) {
-								if(data.channelType == 'WEB' || !data.completed){
+								if(data.channelType == 'WEB'){
 									return true;
 								}else{
 									return false;

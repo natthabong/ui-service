@@ -1,4 +1,8 @@
-<div th:fragment="content">
+<div th:fragment="content" sec:authorize="hasAnyAuthority(
+		'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS',
+		'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING',
+		'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS',
+		'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')">
 	<div id="wrapper" ng-controller="ChannelConfigsController as ctrl">
 		<div class="panel panel-default col-md-12 padding-0">
 			<div class="panel-body" style="min-height: 360px;">
@@ -59,31 +63,21 @@
 								<td class="text-center"><span
 									id="expire-date-{{record.channelId}}-{{record.organizeId}}-label"
 									ng-bind="record.expiryDate | date: 'dd/MM/yyyy'"></span></td>
-								<td class="text-center">
-									<button
+								<td class="text-center"><scf-button
 										id="ar-{{record.channelId}}-{{record.organizeId}}-setup-button"
 										class="btn-default gec-btn-action"
 										ng-click="ctrl.editChannel(record)" title="Config a channel">
-										<ng-transclude> <i class="fa fa-cog"
-											aria-hidden="true"></i></ng-transclude>
-									</button>
-									<button
+									<i class="fa fa-cog" aria-hidden="true"></i></scf-button> <scf-button
 										id="ar-layout-{{record.channelId}}-{{record.organizeId}}-delete-button"
 										class="btn-default gec-btn-action"
 										ng-click="ctrl.deleteChannel(record)" title="Delete a channel">
-										<ng-transclude> <i class="fa fa-trash-o"
-											aria-hidden="true"></i></ng-transclude>
-									</button>
-									<button
+									<i class="fa fa-trash-o" aria-hidden="true"></i></scf-button> <scf-button
 										id="ar-{{record.channelId}}-{{record.organizeId}}-connection-button"
 										class="btn-default gec-btn-action"
 										ng-disabled="ctrl.disableTestConnection(record)"
-										ng-click="ctrl.testConnection(record)" title="Test connection">
-										<ng-transclude> <i
-											class="glyphicon glyphicon-transfer" aria-hidden="true"></i>
-										</ng-transclude>
-									</button>
-								</td>
+										ng-click="ctrl.testConnection(record)"
+										title="Test connection"> <i
+										class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button></td>
 							</tr>
 						</tbody>
 					</table>
