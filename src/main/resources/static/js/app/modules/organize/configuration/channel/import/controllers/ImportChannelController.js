@@ -48,6 +48,21 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
     
     vm.isSetupFTP = false;
     
+    vm.fundings = [];
+	vm.searchFundings = function(){
+		 var deffered = FileLayoutService.getFundings();
+		 deffered.promise.then(function(response){
+			 vm.fundings = [];
+        	 var _fundings = response.data;
+        	 if (angular.isDefined(_fundings)) {
+        		 _fundings.forEach(function (fundings) {
+                    vm.fundings.push(fundings);
+                 });
+        	  }
+		 });
+		
+	};
+    
     vm.fileLayouts = [];
 	vm.searchFileLayout = function(){
 		 var deffered = FileLayoutService.getFileLayouts(organizeId, parameters.processType, 'IMPORT');
@@ -192,8 +207,13 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 		var isValid = true;
 		var channel = vm.channelModel;
 		
+		if(vm.channelModel.displayName == null || vm.channelModel.displayName ==""){
+ 			isValid = false;
+ 			$scope.errors.displayName = {
+ 					message : 'Display name is required.'
+ 			}			
+ 		} 
 		
-		// Atithat
 		if (parameters.processType == 'AR_DOCUMENT'){
 			if(vm.channelModel.layoutConfigId == null || vm.channelModel.layoutConfigId ==""){
 				isValid = false;
@@ -599,6 +619,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	vm.initLoad = function() {
 		vm.searchChannel();
 		vm.searchFileLayout();
+		vm.searchFundings();
     }();
 	
 	
