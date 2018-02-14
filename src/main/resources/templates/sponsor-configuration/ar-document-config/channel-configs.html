@@ -14,6 +14,9 @@
 					<div class="col-lg-2 col-md-2 col-xs-2 text-right">
 						<br />
 						<scf-button class="btn-default gec-btn-action"
+							th:attr="ng-disabled=${#authorization.expression('!hasAnyAuthority(
+							''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS'',
+							''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING'')')}"
 							id="AR-import-channel-new-button" title="New Import Channel"
 							ng-click="ctrl.newChannel(ctrl.searchChannels)"> <i class="fa fa-plus"
 							aria-hidden="true"></i></scf-button>
@@ -72,10 +75,16 @@
 								<td class="text-center"><scf-button
 										id="ar-{{record.channelId}}-{{record.organizeId}}-setup-button"
 										class="btn-default gec-btn-action"
+										th:attr="ng-disabled=${#authorization.expression('!hasAnyAuthority(
+										''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS'',
+										''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING'')')}"
 										ng-click="ctrl.editChannel(record)" title="Config a channel">
 									<i class="fa fa-cog" aria-hidden="true"></i></scf-button> <scf-button
 										id="ar-layout-{{record.channelId}}-{{record.organizeId}}-delete-button"
 										class="btn-default gec-btn-action"
+										th:attr="ng-disabled=${#authorization.expression('!hasAnyAuthority(
+										''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS'',
+										''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING'')')}"
 										ng-click="ctrl.deleteChannel(record)" title="Delete a channel">
 									<i class="fa fa-trash-o" aria-hidden="true"></i></scf-button> <scf-button
 										id="ar-{{record.channelId}}-{{record.organizeId}}-connection-button"
