@@ -45,8 +45,28 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	var parameters = PageNavigation.getParameters();
 	
     var organizeId = parameters.organizeId;
-    
+    vm.runtimeType = 'INTERVAL';
     vm.isSetupFTP = false;
+    vm.runTimes = [];
+    vm.runTime = undefined;
+    vm.addRuntime = function(time) {
+   	 if(angular.isUndefined(time)) {
+     		$scope.errors.runtime = {
+   				message : 'Time is required.'
+   		}
+     	 } else if (vm.runTimes.indexOf(time) !== -1) {
+   		$scope.errors.runtime = {
+ 				message : 'Time already exists.'
+ 			}
+   	 } else {
+   		vm.runTimes.push(time);
+   	 } 
+     };
+     
+     vm.deleteRuntime = function(item) { 
+   	  var index = vm.runTimes.indexOf(item);
+   	  vm.runTimes.splice(index, 1);     
+     };
     
     vm.fundings = [];
 	vm.searchFundings = function(){

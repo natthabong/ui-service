@@ -16,7 +16,7 @@
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body">
 					<form name="createForm" class="form-horizontal">
-						<div class="form-group">
+						<div class="form-group" ng-if="ctrl.manageAll">
 							<label id="funding-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Funding'
 								| translate}}: </label>
@@ -70,7 +70,7 @@
 									ng-bind="errors.displayName.message"> </span>
 							</div>
 						</div>
-						<div class="form-group" ng-if="ctrl.channelModel.processType =='AR_DOCUMENT'">
+						<div class="form-group" >
 							<label id="file-layout-label" for="dealer"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
 								layout' | translate}}: </label>
