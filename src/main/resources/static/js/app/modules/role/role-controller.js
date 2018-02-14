@@ -191,6 +191,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
 				if(privileges !=null && privileges.length >0){
 				    console.log($scope.selection);				
 				    angular.forEach(privileges, function(privilege){
+				    	privilege.isDisable = true;
 						$scope.selection.push(privilege.privilegeId);
 					});
 				}
@@ -198,27 +199,6 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
 				 log.error('Save role fail');
 				 return deferred.reject(response);
 			 });
-			
-//			var privileges = [];
-//			var privilege1 = {
-//				name:"Manage all user and password policies",
-//				privilegeGroupId:"USER_AND_PASSWORD_POLICY",
-//				privilegeId:"MANAGE_ALL_USER_AND_PASSWORD_POLICIES"
-//			}
-//			var privilege2 = {
-//				name:"Create payments of my organization",
-//				privilegeGroupId:"PAYMENT",
-//				privilegeId:"CREATE_PAYMENTS_OF_MY_ORGANIZATION"
-//			}			
-//			privileges.push(privilege1);
-//			privileges.push(privilege2);
-//			
-//			if(privileges !=null && privileges.length >0){
-//			    console.log($scope.selection);				
-//			    angular.forEach(privileges, function(privilege){
-//					$scope.selection.push(privilege.privilegeId);
-//				});
-//			}
 		}
     }
     
