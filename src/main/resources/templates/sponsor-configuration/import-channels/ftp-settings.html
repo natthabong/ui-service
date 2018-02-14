@@ -350,7 +350,7 @@
 					<label class="radio-inline"><scf-radio
 							id="runtime-type-interval-radio"
 							name="runtime-type-interval-radio" value="INTERVAL"
-							ng-model="ctrl.runtimeType"></scf-radio> {{ 'Interval' |
+							ng-model="ctrl.channelModel.runtimeType"></scf-radio> {{ 'Interval' |
 						translate}} </label> <br />
 					<div class="form-group">
 						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
@@ -358,7 +358,7 @@
 								translate}}: </label>
 						</div>
 						<div class="col-md-3 col-sm-3 col-xs-12">
-							<scf-input-text id="begin-time-textbox"  ng-disabled="ctrl.runtimeType=='FIXED'"
+							<scf-input-text id="begin-time-textbox"  ng-disabled="ctrl.channelModel.runtimeType=='FIXED'"
 								ng-model="ctrl.channelModel.beginTime" name="beginTime"
 								ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 							</scf-input-text>
@@ -367,7 +367,7 @@
 							<label id="end-time-label"> {{'End time' | translate}}: </label>
 						</div>
 						<div class="col-md-3 col-sm-3 col-xs-12">
-							<scf-input-text id="end-time-textbox"  ng-disabled="ctrl.runtimeType=='FIXED'"
+							<scf-input-text id="end-time-textbox"  ng-disabled="ctrl.channelModel.runtimeType=='FIXED'"
 								ng-model="ctrl.channelModel.endTime" name="endTime"
 								ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 							</scf-input-text>
@@ -398,7 +398,7 @@
 								(sec)' | translate}}: </label>
 						</div>
 						<div class="col-md-3 col-sm-3 col-xs-12">
-							<scf-input-number id="delayed-interval-textbox" maxlength="5" ng-disabled="ctrl.runtimeType=='FIXED'"
+							<scf-input-number id="delayed-interval-textbox" maxlength="5" ng-disabled="ctrl.channelModel.runtimeType=='FIXED'"
 								ng-model="ctrl.channelModel.jobInformation.triggerInformations[0].intervalInMinutes">
 							</scf-input-number>
 						</div>
@@ -413,7 +413,7 @@
 					</div>
 					<label class="radio-inline"> <scf-radio
 							id="runtime-type-fixed-radio" name="runtime-type-fixed-radio"
-							value="FIXED" ng-model="ctrl.runtimeType"></scf-radio> {{ 'Fixed'
+							value="FIXED" ng-model="ctrl.channelModel.runtimeType"></scf-radio> {{ 'Fixed'
 						| translate}}
 					</label>
 
@@ -425,7 +425,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-md-1 col-sm-1 col-xs-8">
-					<scf-input-text id="run-time-textbox" ng-model="ctrl.runTime" ng-disabled="ctrl.runtimeType!='FIXED'"
+					<scf-input-text id="run-time-textbox" ng-model="ctrl.runTime" ng-disabled="ctrl.channelModel.runtimeType!='FIXED'"
 						name="runTime" ng-pattern="timeFormat" maxlength="5"
 						placeholder="hh:mm"> </scf-input-text>
 				</div>

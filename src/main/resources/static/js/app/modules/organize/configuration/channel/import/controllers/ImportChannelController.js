@@ -43,9 +43,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	}
 	
 	var parameters = PageNavigation.getParameters();
-	
     var organizeId = parameters.organizeId;
-    vm.runtimeType = 'INTERVAL';
     vm.isSetupFTP = false;
     vm.runTimes = [];
     vm.runTime = undefined;
@@ -202,19 +200,39 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 				daysOfWeek += dayOfWeekFrequency.SATURDAY + ',';
 			}
 			
-			vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek = daysOfWeek.replace("[","").replace("]","");
-			if(vm.channelModel.beginTime != null && vm.channelModel.beginTime != ''){
-				var beginTime = vm.channelModel.beginTime.split(":");
-				vm.channelModel.jobInformation.triggerInformations[0].startHour = beginTime[0];
-				vm.channelModel.jobInformation.triggerInformations[0].startMinute = beginTime[1];
+			if(vm.channelModel.runtimeType == 'INTERVAL'){
+				vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek = daysOfWeek.replace("[","").replace("]","");
+				if(vm.channelModel.beginTime != null && vm.channelModel.beginTime != ''){
+					var beginTime = vm.channelModel.beginTime.split(":");
+					vm.channelModel.jobInformation.triggerInformations[0].startHour = beginTime[0];
+					vm.channelModel.jobInformation.triggerInformations[0].startMinute = beginTime[1];
+				}
+	
+				if(vm.channelModel.endTime != null && vm.channelModel.endTime != ''){
+					var endTime = vm.channelModel.endTime.split(":");
+					vm.channelModel.jobInformation.triggerInformations[0].endHour = endTime[0];
+					vm.channelModel.jobInformation.triggerInformations[0].endMinute = endTime[1];
+				}
+				vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek = daysOfWeek;
+			} else {
+				daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
+	 			vm.channelModel.jobInformation.daysOfWeek = daysOfWeek;
+				vm.channelModel.jobInformation.triggerInformations = [];
+	 			vm.runTimes.forEach(function(data){
+	 				var triggerInformation = {};
+	 				var beginTime = data.split(":");
+	 				triggerInformation.startHour = beginTime[0];
+	 				triggerInformation.startMinute = beginTime[1];
+	 				var endTime = parseInt(beginTime[1])+1 == 60 ? 0 : parseInt(beginTime[1])+1;
+	 				var endHour = parseInt(beginTime[1])+1 == 60 ? parseInt(beginTime[0])+1 : parseInt(beginTime[0]);
+	 				triggerInformation.endHour = endHour.toString();
+	 				triggerInformation.endMinute = endTime.toString();
+	 				triggerInformation.intervalInMinutes = 120;
+	 				triggerInformation.daysOfWeek = daysOfWeek;
+	 				
+	 				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
+	 			});
 			}
-
-			if(vm.channelModel.endTime != null && vm.channelModel.endTime != ''){
-				var endTime = vm.channelModel.endTime.split(":");
-				vm.channelModel.jobInformation.triggerInformations[0].endHour = endTime[0];
-				vm.channelModel.jobInformation.triggerInformations[0].endMinute = endTime[1];
-			}
-			vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek = daysOfWeek;
 		}
 
 		if(!vm.isUseExpireDate){
@@ -466,6 +484,10 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 				vm.isUseExpireDate = true;
 			}else{
 				vm.channelModel.expiryDate = null;
+			}
+            
+            if(response.data.runtimeType == null){
+            	vm.channelModel.runtimeType =  'INTERVAL';
 			}
             
 			
