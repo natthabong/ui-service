@@ -39,6 +39,8 @@ public class SponsorConfigController {
 
 	private static String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
 
+	private static String PAYMENT_AMOUNT_FORMULA = "sponsor-configuration/payment-amount-formula/payment-amount-formula";
+
 	private static String AP_CUSTOMER_CODE_GROUPS = "sponsor-configuration/ap-document-config/customer-code-groups";
 	private static String SETTINGS_SUPPLIER_CODE_GROUPS = "sponsor-configuration/customer-code-groups/supplier-code-list/settings";
 	private static String SETTINGS_BUYER_CODE_GROUPS = "sponsor-configuration/customer-code-groups/buyer-code-list/settings";
@@ -293,6 +295,14 @@ public class SponsorConfigController {
 		return PRODUCT_TYPE_LIST;
 	}
 
+	@RequestMapping(path = "/payment-amount-formula", method = RequestMethod.GET)
+	public String paymentAmountFormula(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return PAYMENT_AMOUNT_FORMULA.concat(" :: content");
+		}
+		return PAYMENT_AMOUNT_FORMULA;
+	}
+
 	@RequestMapping(path = "/create-transaction-displays/settings", method = RequestMethod.GET)
 	public String settingCreateTransactionDisplay(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
@@ -412,7 +422,7 @@ public class SponsorConfigController {
 		}
 		return VIEW_DOCUMENT_DISPLAY;
 	}
-	
+
 	@RequestMapping(path = "/create-transaction-displays/view", method = RequestMethod.GET)
 	public String viewCreateTransactionDisplay(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
