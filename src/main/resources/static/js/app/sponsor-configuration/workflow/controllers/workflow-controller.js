@@ -1,6 +1,6 @@
 angular.module('gecscf.sponsorConfiguration.workflow').controller('WorkflowController', ['SCFCommonService', '$log', '$scope', '$rootScope',
-    '$stateParams', '$timeout', 'PageNavigation', 'Service', 'PagingController', function (SCFCommonService, $log
-        , $scope, $rootScope, $stateParams, $timeout, PageNavigation, Service, PagingController) {
+    '$stateParams', '$timeout', 'PageNavigation', 'Service', 'PagingController','UIFactory', function (SCFCommonService, $log
+        , $scope, $rootScope, $stateParams, $timeout, PageNavigation, Service, PagingController, UIFactory) {
         var vm = this;
         var log = $log;
 
