@@ -39,10 +39,10 @@
                                         <td class="text-left"><span id="RECEIVABLE-{{record.displayName}}-label" ng-bind="record.displayName | translate"></span></td>
                                         <td class="text-left"><span id="RECEIVABLE-{{record.displayName}}-product-type-label" ng-bind="(record.product.productType ? (record.product.productType +' : '+ record.product.displayName) : 'Default') | translate"></span></td>
                                         <td class="text-center">
-                                            <scf-button class="btn-default gec-btn-action" id="RECEIVABLE-{{record.displayName}}-view-button" ng-disabled="ctrl.unauthenView()" title="View a document display" ng-click="ctrl.viewDocumentDisplay(record)"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
-                                            <scf-button id="RECEIVABLE-{{record.displayName}}-edit-button" ng-disabled="ctrl.unauthenMangeAction()" class="btn-default gec-btn-action" ng-click="ctrl.editDocumentDisplay(record)" title="Edit">
+                                            <scf-button class="btn-default gec-btn-action" id="transaction-display-{{record.displayName}}-view-button" ng-disabled="ctrl.unauthenView()" title="View a document display" ng-click="ctrl.viewDocumentDisplay(record)"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
+                                            <scf-button id="transaction-display-{{record.displayName}}-setup-button" ng-disabled="ctrl.unauthenMangeAction()" class="btn-default gec-btn-action" ng-click="ctrl.editDocumentDisplay(record)" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>
-                                            <scf-button id="RECEIVABLE-{{record.displayName}}-delete-button" ng-disabled="ctrl.unauthenMangeAction()" class="btn-default gec-btn-action" ng-click="ctrl.deleteDocumentDisplay(record)" title="Delete">
+                                            <scf-button id="transaction-display-{{record.displayName}}-delete-button" ng-disabled="ctrl.unauthenMangeAction()" class="btn-default gec-btn-action" ng-click="ctrl.deleteDocumentDisplay(record)" title="Delete">
                                                 <i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>
                                         </td>
                                     </tr>

@@ -27,12 +27,12 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="data in ctrl.data track by $index">
-                                <td><span id="{{ctrl.processType}}-import-layout-{{data.displayName}}-label" ng-bind="data.displayName"> </span></td>
+                                <td><span id="layout-{{data.displayName}}-label" ng-bind="data.displayName"> </span></td>
                                 <td class="text-center">
-                                    <scf-button class="btn-default gec-btn-action" id="{{ctrl.processType}}-import-layout-{{data.displayName}}-view-button" ng-disabled="ctrl.unauthenView()" title="View a file layout"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
-                                    <scf-button id="{{ctrl.processType}}-import-layout-{{data.displayName}}-setup-button" ng-disabled="ctrl.unauthenMangeAction()" class="btn-default gec-btn-action" ng-click="ctrl.newFileLayout(data ,ctrl.processType , ctrl.integrateType)" title="Config a file layout">
+                                    <scf-button class="btn-default gec-btn-action" id="layout-{{data.displayName}}-view-button" ng-disabled="ctrl.unauthenView()" title="View a file layout"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
+                                    <scf-button id="layout-{{data.displayName}}-setup-button" ng-disabled="ctrl.unauthenMangeAction()" class="btn-default gec-btn-action" ng-click="ctrl.newFileLayout(data ,ctrl.processType , ctrl.integrateType)" title="Config a file layout">
                                         <i class="fa fa-cog" aria-hidden="true"></i></scf-button>
-                                    <scf-button id="{{ctrl.processType}}-import-layout-{{data.displayName}}-delete-button" ng-disabled="ctrl.unauthenMangeAction()" class="btn-default gec-btn-action" ng-click="ctrl.deleteLayout(data)" title="Delete a file layout"> <i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>
+                                    <scf-button id="layout-{{data.displayName}}-delete-button" ng-disabled="ctrl.unauthenMangeAction()" class="btn-default gec-btn-action" ng-click="ctrl.deleteLayout(data)" title="Delete a file layout"> <i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>
                                 </td>
                             </tr>
                         </tbody>
