@@ -55,13 +55,8 @@
 								<td class="text-left"
 									sec:authorize="hasAnyAuthority(
 								 	'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING',
-								 	'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')"><img
-									id="import-funding-{{record.channelId}}-{{record.organizeId}}-img"
-									title="funding name" style="height: 32px; width: 32px;"
-									data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.organizeLogo)}}" /><img
-									id="import-funding-{{record.channelId}}-{{record.organizeId}}-img"
-									title="funding name" style="height: 32px; width: 32px;"
-									data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.organizeLogo)}}" />
+								 	'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')">
+									<organization-logo ng-model="record.fundings"></organization-logo>
 								</td>
 								<td class="text-center"><span
 									id="status-{{record.channelId}}-{{record.organizeId}}-label"
