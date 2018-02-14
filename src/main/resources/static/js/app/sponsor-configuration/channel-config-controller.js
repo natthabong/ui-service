@@ -44,7 +44,10 @@ angular
 								value : '50'
 							}];
 
-						
+							vm.decodeBase64 = function(data) {
+								return (data ? atob(data)
+										: UIFactory.constants.NOLOGO);
+							};
 
 							vm.newChannel = function(callback) {
 								ConfigurationUtils.showCreateImportChannelDialog({
@@ -177,61 +180,10 @@ angular
 
 							} 
 							
-							vm.getDataTable = function(){
-								if(vm.processType == 'AP_DOCUMENT'){
-									vm.dataTable = {
-									identityField : 'channelType',
-									options : {},
-									columns : [
-											{
-												fieldName : 'channelType',
-												labelEN : 'Channel',
-												labelTH : 'Channel',
-												id : 'ap-channel-{value}',
-												filterType : 'translate',
-												cssTemplate : 'text-left'
-											},
-											{
-												fieldName : 'status',
-												labelEN : 'Status',
-												labelTH : 'Status',
-												id : 'ap-status-{value}',
-												filterType : 'translate',
-												cssTemplate : 'text-center'
-											},
-											{
-												fieldName : 'activeDate',
-												labelEN : 'Active date',
-												labelTH : 'Active date',
-												id : 'ap-active-date-{value}',
-												filterType : 'date',
-												filterFormat : 'dd/MM/yyyy',
-												cssTemplate : 'text-center'
-											},
-											{
-												fieldName : 'expiryDate',
-												labelEN : 'Expire date',
-												labelTH : 'Expire date',
-											    id : 'ap-expire-date-{value}',
-											    filterType : 'date',
-											    filterFormat : 'dd/MM/yyyy',
-											    cssTemplate : 'text-center'
-											},
-											{
-												cssTemplate : 'text-center',
-												sortData : false,
-												cellTemplate : '<scf-button id="ap-{{data.channelType}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editChannel(data)" title="Config a channel"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
-														+ '<scf-button id="ap-{{data.channelType}}-connection-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableTestConnection(data)" ng-click="ctrl.testConnection(data)" title="Test connection"><i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button>'
-											} ]
-									}
-								}
-							}
-
 							vm.initLoad = function(processType) {
 								vm.processType = processType;
 								vm.pageModel.currentPage = 0;
 								vm.pageModel.pageSizeSelectModel = '20';
-								vm.getDataTable();
 								vm.searchChannels();
 							};
 

@@ -32,7 +32,7 @@
 									sec:authorize="hasAnyAuthority(
 									'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING',
 									'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')"
-									ng-bind="'Funding logo' | translate">Funding logo</th>
+									ng-bind="'Funding' | translate">Funding</th>
 								<th id="status-header-label" ng-bind="'Status' | translate">Status</th>
 								<th id="active-date-header-label"
 									ng-bind="'Active date' | translate">Active date</th>
@@ -52,8 +52,14 @@
 								<td class="text-left"
 									sec:authorize="hasAnyAuthority(
 								 	'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING',
-								 	'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')"><span
-									id="import-file-layout-{{record.channelId}}-{{record.organizeId}}-label">Funding</span></td>
+								 	'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')"><img
+									id="import-funding-{{record.channelId}}-{{record.organizeId}}-img"
+									title="funding name" style="height: 32px; width: 32px;"
+									data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.organizeLogo)}}" /><img
+									id="import-funding-{{record.channelId}}-{{record.organizeId}}-img"
+									title="funding name" style="height: 32px; width: 32px;"
+									data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.organizeLogo)}}" />
+								</td>
 								<td class="text-center"><span
 									id="status-{{record.channelId}}-{{record.organizeId}}-label"
 									ng-bind="record.status | translate"></span></td>
