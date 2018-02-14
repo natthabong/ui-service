@@ -1,31 +1,24 @@
 <div th:fragment="content">
-	<div id="wrapper" ng-controller="MappingDataListController as ctrl">
+    <div id="wrapper" ng-controller="MappingDataListController as ctrl">
+        <input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_DATA_MAPPING_OF_ALL_FUNDING', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_DATA_MAPPING')" />
+        <input type="hidden" ng-init="ctrl.manageAction=true" sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_DATA_MAPPING_OF_ALL_FUNDING')" />
 
-		<div class="panel panel-default">
-			<div class="panel-body" style="min-height: 360px;">
-				<div class="row">
-					<div class="col-lg-10 col-md-10 col-xs-10">
-						<h3 class="animated fadeInLeft" id="RECEIVABLE-mapping-data-header-label">{{'Mapping
-							data' | translate}}</h3>
-					</div>
-					<div class="col-lg-2 col-md-2 col-xs-2 text-right">
-						<br />
-						<scf-button class="btn-default gec-btn-action"
-							id="RECEIVABLE-mapping-data-new-button" title="New a mapping data"
-							ng-click="ctrl.addNewMappingData('RECEIVABLE')"> <i
-							class="fa fa-plus" aria-hidden="true"></i></scf-button>
-					</div>
-				</div>
-				<div class="row" ng-init="ctrl.init('RECEIVABLE')">
-					<div class="col-md-12 col-sm-12 text-right">
-						<scf-table id="ar-mapping-data-table"
-							component-config="ctrl.dataTable"
-							component-datas="ctrl.pagingController.tableRowCollection"
-							current-page="ctrl.pagingController.pagingModel.currentPage"
-							record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"></scf-table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="panel panel-default">
+            <div class="panel-body" style="min-height: 360px;">
+                <div class="row">
+                    <div class="col-lg-10 col-md-10 col-xs-10">
+                        <h3 class="animated fadeInLeft" id="RECEIVABLE-mapping-data-header-label">{{'Mapping data' | translate}}</h3>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-xs-2 text-right">
+
+                    </div>
+                </div>
+                <div class="row" ng-init="ctrl.init('RECEIVABLE')">
+                    <div class="col-md-12 col-sm-12 text-right">
+                        <scf-table id="ar-mapping-data-table" component-config="ctrl.dataTable" component-datas="ctrl.pagingController.tableRowCollection" current-page="ctrl.pagingController.pagingModel.currentPage" record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"></scf-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

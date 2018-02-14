@@ -167,7 +167,12 @@ module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 
 		} else if (layout.processType == 'AP_DOCUMENT') {
 			var errors = {
+				requireLayoutName : true,
 				documentFieldIdListDupplicate: []
+			}
+			
+			if(layout.displayName != ''){
+				errors.requireLayoutName = false;
 			}
 
 			layout.items.forEach(function (item) {
@@ -197,7 +202,7 @@ module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 				}
 			});
 
-			if (errors.requirePaymentAmount || errors.documentFieldIdListDupplicate.length > 0) {
+			if (errors.requireLayoutName || errors.requirePaymentAmount || errors.documentFieldIdListDupplicate.length > 0) {
 				messageFunc(errors);
 				return false;
 			}
