@@ -21,11 +21,14 @@
 <!-- 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Funding' -->
 <!-- 								| translate}}: </label> -->
 <!-- 							<div class="col-md-2 col-sm-3 col-xs-11"> -->
-<!-- 								<label ng-repeat="funding in ctrl.fundings"> <input type="checkbox" -->
-<!-- 									checklist-model="ctrl.channelModel.fundings" checklist-value="funding"  -->
-<!-- 									id="funding-{{funding.organizeName}}-checkbox"/> -->
-<!-- 									{{funding.organizeName}} -->
-<!-- 								</label><br/> -->
+<!-- 								<div ng-repeat="funding in ctrl.fundings track by $index"> -->
+<!-- 									<input type="checkbox" id="{{funding.fundingId}}-checkbox" -->
+<!-- 										value="{{funding.fundingId}}" -->
+<!-- 										ng-checked="ctrl.fundingSelection.indexOf(funding.fundingId) > -1" -->
+<!-- 										ng-click="toggleSelection($event, privilege)" /> <span -->
+<!-- 										id="{{funding.fundingId}}-checkbox-label">{{funding.fundingId}}</span> -->
+<!-- 									</label> -->
+<!-- 								</div> -->
 <!-- 							</div> -->
 <!-- 							<div class="col-md-6 col-sm-4"></div> -->
 <!-- 						</div> -->
