@@ -93,7 +93,7 @@
 							&nbsp;&nbsp;
 							<div class="col-md-2 col-sm-2 col-xs-10">
 								<div ng-repeat="productType in ctrl.productTypes"><input type="checkbox" 
-									ng-disabled="ctrl.isAllProductType"
+									ng-disabled="ctrl.isAllProductType" checklist-comparator="ctrl.compareProductType"
 									checklist-model="ctrl.channelModel.productTypes" checklist-value="productType"
 										id="producttype-{{productType.displayName}}-checkbox" />
 									{{productType.displayName}}

@@ -55,6 +55,10 @@ exportChannelModule.controller('ExportChannelController', [
     			SATURDAY : 7
       }
       
+      vm.compareProductType = function(obj1, obj2){
+          return obj1.productType === obj2.productType;
+      };
+      
       vm.haveProductType = false;
       vm.fileLayouts = [];
       vm.channelDropdown = ChannelDropdown;
