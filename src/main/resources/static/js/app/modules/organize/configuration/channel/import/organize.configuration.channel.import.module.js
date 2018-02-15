@@ -17,7 +17,14 @@ angular.module('gecscf.organize.configuration.channel.import',
 				templateUrl: '/sponsor-configuration/import-channels/settings',
 				params: { organizeId: null, processType: null, channelId: null},
 				resolve: WebHelper.loadScript(resources)
-			});
+			}).state('/customer-organize/import-channels/view',{
+        url: '/organizes/:organizeId/process-types/:processType/import-channels/:channelId/view',
+        controller: 'ImportChannelController',
+        controllerAs: 'ctrl',
+        templateUrl: '/sponsor-configuration/import-channels/view',
+        params: { organizeId: null, processType: null, channelId: null},
+        resolve: WebHelper.loadScript(resources)
+      });
 		} 
 	]
 );

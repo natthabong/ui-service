@@ -1,7 +1,6 @@
-angular
-		.module('scfApp')
-		.controller(
-				'ChannelConfigsController',
+var importChannelModule = angular.module('gecscf.organize.configuration.channel.import');
+importChannelModule.controller(
+				'ImportChannelListController',
 				[
 						'$log',
 						'$scope',
@@ -74,6 +73,19 @@ angular
 						        	organizeId:  data.organizeId
 						        });
 							}
+							
+							vm.viewChannel = function(data) {
+		
+                var params = {
+                          channelId: data.channelId,
+                          organizeId: data.organizeId,
+                          processType: data.processType
+                        };
+                    PageNavigation.gotoPage('/customer-organize/import-channels/view', params, {
+                      organizeId:  data.organizeId
+                    });
+              }
+              
 							
 							vm.deleteChannel = function(data) {
 								UIFactory
@@ -189,108 +201,4 @@ angular
 								vm.searchChannels();
 							};
 
-						} ]).controller('TestConnectionResultController', [ '$scope', '$rootScope', '$q','$http', function($scope, $rootScope, $q, $http) {
-							 var vm = this;
-							 vm.serviceInfo = angular.copy($scope.ngDialogData.serviceInfo);
-							 vm.data = angular.copy($scope.ngDialogData.data);
-							 
-							 
-							 var verifySystemStatusFTP = function(data){
-						        var deffered = $q.defer();
-							    $http({
-							       method: 'POST',
-							       url: 'api/v1/check-ftp-connection/connections/'+data.jobId
-							    }).then(function(response) {
-							       if(response.data.returnCode == "200"){
-								    	vm.serviceInfo.status = "success";
-								    }else{
-								    	vm.serviceInfo.errorMessage = response.data.returnCode + ' - ' + response.data.returnMessage;
-										vm.serviceInfo.status = "fail";
-								    }
-							       
-							    }).catch(function(response) {
-							       vm.serviceInfo.errorMessage = response.status + ' - ' + response.statusText;
-							       vm.serviceInfo.status = "fail";
-							    });
-						    }
-							 
-							 verifySystemStatusFTP(vm.data);
-							 
-							} ]).controller(
-											'ImportChannelNewPopupController',
-											[
-													'$scope',
-													'UIFactory',
-													'PageNavigation',
-													'ImportChannelService',
-													function($scope, UIFactory, PageNavigation,
-															ImportChannelService) {
-
-														var vm = this;
-														$scope.errors = undefined;
-														
-														vm.newChannelDropdown = [{
-															label : 'FTP',
-															value : 'FTP'
-														}, {
-															label : 'Web',
-															value : 'WEB'
-														}];
-														
-														var data = $scope.ngDialogData.data;
-														vm.model = {
-															organizeId : data.organizeId,
-															processType : data.processType,
-															channelType: data.channelType
-														}
-														vm.save = function(callback) {
-															var preCloseCallback = function(confirm) {
-																callback();
-																$scope.ngDialogData.preCloseCallback(confirm);
-															}
-															UIFactory
-																	.showConfirmDialog({
-																		data : {
-																			headerMessage : 'Confirm save?'
-																		},
-																		confirm : function() {
-																			return ImportChannelService.create(vm.model);
-																		},
-																		onFail : function(response) {
-																			var status = response.status;
-																			if (status != 400) {
-																				var msg = {
-																					404 : "Import channel has been deleted."
-																				}
-																				UIFactory
-																						.showFailDialog({
-																							data : {
-																								headerMessage : 'Add new import channel fail.',
-																								bodyMessage : msg[status] ? msg[status]
-																										: response.errorMessage
-																							},
-																							preCloseCallback : preCloseCallback
-																						});
-																			}
-																			else{
-																				$scope.errors = {};
-																				$scope.errors[response.data.errorCode] = response.data.errorMessage;
-																			}
-
-																		},
-																		onSuccess : function(response) {
-																			UIFactory
-																					.showSuccessDialog({
-																						data : {
-																							headerMessage : 'Add new import channel success.',
-																							bodyMessage : ''
-																						},
-																						preCloseCallback : preCloseCallback(response)
-																					});
-																		}
-																});
-														}
-
-														
-
-													} ]);
+						} ])
