@@ -99,25 +99,7 @@
 									{{productType.displayName}}
 								</div>
 							</div>
-						</div>
-						
-						<div class="form-group" sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS_OF_ALL_FUNDING')">
-							<label id="funding-label"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Funding'
-								| translate}}: </label>
-							<div class="col-md-2 col-sm-3 col-xs-11">
-								<label ng-repeat="funding in ctrl.fundings"> <input
-									type="checkbox" checklist-model="ctrl.channelModel.fundings"
-									checklist-value="funding"
-									id="funding-{{funding.organizeName}}-checkbox" />
-									{{funding.organizeName}}
-								</label><br />
-							</div>
-							<div class="col-md-6 col-sm-4"></div>
-						</div>
-						
-						
-						
+						</div>	
 						<div class="form-group" ng-show="errors.productTypes">
 							<div ng-show="errors.productTypes">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>

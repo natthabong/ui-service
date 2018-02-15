@@ -132,6 +132,10 @@ exportChannelModule.controller('ExportChannelController', [
 	             	vm.isAllProductType = true;
 	    		} 
 	            
+	            if(response.data.runtimeType == null){
+	            	vm.channelModel.runtimeType =  'INTERVAL';
+				}
+	            
 	            if(vm.channelModel.channelType == 'FTP'){
 					vm.isSetupFTP = true;
 					vm.channelModel.fileProtocol = 'SFTP';
@@ -192,17 +196,23 @@ exportChannelModule.controller('ExportChannelController', [
 							}
 						});
 						
-						
-						if(response.data.jobInformation.triggerInformations.length > 0){
-							console.log(response.data.jobInformation.triggerInformations);
-							response.data.jobInformation.triggerInformations.forEach(function(data){
-								if(data.startHour != null && data.startMinute != null){
-					 				var hour = data.startHour.length == 1 ? "0"+data.startHour : data.startHour;
-					 				var minute = data.startMinute.length == 1 ? "0"+data.startMinute : data.startMinute;
-									var time = hour + ":" +minute;
-					 				vm.runTimes.push(time);
-								}
-				 			});
+						if(vm.channelModel.runtimeType == 'INTERVAL'){
+							var triggerInformation = response.data.jobInformation.triggerInformations[0];
+							vm.channelModel.beginTime = triggerInformation.startHour + ':' + triggerInformation.startMinute;
+							vm.channelModel.endTime = triggerInformation.endHour + ':' + triggerInformation.endMinute;
+							vm.channelModel.delayedInterval = triggerInformation.intervalInMinutes;
+						} else {
+							if(response.data.jobInformation.triggerInformations.length > 0){
+								console.log(response.data.jobInformation.triggerInformations);
+								response.data.jobInformation.triggerInformations.forEach(function(data){
+									if(data.startHour != null && data.startMinute != null){
+						 				var hour = data.startHour.length == 1 ? "0"+data.startHour : data.startHour;
+						 				var minute = data.startMinute.length == 1 ? "0"+data.startMinute : data.startMinute;
+										var time = hour + ":" +minute;
+						 				vm.runTimes.push(time);
+									}
+					 			});
+							}
 						}
 					}
 					
@@ -282,26 +292,49 @@ exportChannelModule.controller('ExportChannelController', [
  			if(vm.channelModel.saturday){
  				daysOfWeek += dayOfWeekFrequency.SATURDAY + ',';
  			}
- 			daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
+ 			
  			vm.channelModel.jobInformation.daysOfWeek = daysOfWeek;
  			
- 			vm.channelModel.jobInformation.triggerInformations = [];
- 			console.log(vm.channelModel.runTimes);
- 			console.log(vm.runTimes);
- 			vm.runTimes.forEach(function(data){
- 				var triggerInformation = {};
- 				var beginTime = data.split(":");
- 				triggerInformation.startHour = beginTime[0];
- 				triggerInformation.startMinute = beginTime[1];
- 				var endTime = parseInt(beginTime[1])+1 == 60 ? 0 : parseInt(beginTime[1])+1;
- 				var endHour = parseInt(beginTime[1])+1 == 60 ? parseInt(beginTime[0])+1 : parseInt(beginTime[0]);
- 				triggerInformation.endHour = endHour.toString();
- 				triggerInformation.endMinute = endTime.toString();
- 				triggerInformation.intervalInMinutes = 120;
+ 			if(vm.channelModel.runtimeType == 'INTERVAL'){
+				var beginTime = '';
+				var endTime = '';
+				var triggerInformation = {};
+				if(vm.channelModel.beginTime != null && vm.channelModel.beginTime != ''){
+					beginTime = vm.channelModel.beginTime.split(":");
+					triggerInformation.startHour = beginTime[0];
+					triggerInformation.startMinute = beginTime[1];
+				}
+	
+				if(vm.channelModel.endTime != null && vm.channelModel.endTime != ''){
+					endTime = vm.channelModel.endTime.split(":");
+					triggerInformation.endHour = endTime[0];
+					triggerInformation.endMinute = endTime[1];
+				}
+				triggerInformation.intervalInMinutes = vm.channelModel.delayedInterval;
  				triggerInformation.daysOfWeek = daysOfWeek;
- 				
- 				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
- 			});
+				
+				vm.channelModel.jobInformation.triggerInformations = [];
+				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
+
+			} else {
+				daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
+	 			vm.channelModel.jobInformation.daysOfWeek = daysOfWeek;
+				vm.channelModel.jobInformation.triggerInformations = [];
+	 			vm.runTimes.forEach(function(data){
+	 				var triggerInformation = {};
+	 				var beginTime = data.split(":");
+	 				triggerInformation.startHour = beginTime[0];
+	 				triggerInformation.startMinute = beginTime[1];
+	 				var endTime = parseInt(beginTime[1])+1 == 60 ? 0 : parseInt(beginTime[1])+1;
+	 				var endHour = parseInt(beginTime[1])+1 == 60 ? parseInt(beginTime[0])+1 : parseInt(beginTime[0]);
+	 				triggerInformation.endHour = endHour.toString();
+	 				triggerInformation.endMinute = endTime.toString();
+	 				triggerInformation.intervalInMinutes = 120;
+	 				triggerInformation.daysOfWeek = daysOfWeek;
+	 				
+	 				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
+	 			});
+			}
  			
  		}
  		if(!vm.isUseExpireDate){
@@ -411,6 +444,39 @@ exportChannelModule.controller('ExportChannelController', [
 				isValid = false;
 				$scope.errors.daysOfWeek = {
 					message : 'Frequency is required.'
+				}
+			}
+			
+			if($scope.createForm.beginTime.$error.pattern){
+				isValid = false;
+				$scope.errors.beginTime = {
+					message : 'Wrong time format data.'
+			    }
+
+			}else if(jobInformation.triggerInformations[0].startHour == null || jobInformation.triggerInformations[0].startMinute == null){
+				isValid = false;
+				$scope.errors.beginTime = {
+					message : 'Begin time is required.'
+			    }
+			}
+
+			if($scope.createForm.endTime.$error.pattern){
+				isValid = false;
+				$scope.errors.endTime = {
+					message : 'Wrong time format data.'
+			    }
+
+			}else if(jobInformation.triggerInformations[0].endHour == null || jobInformation.triggerInformations[0].endMinute == null){
+				isValid = false;
+				$scope.errors.endTime = {
+					message : 'End time is required.'
+			    }
+			}
+
+			if(jobInformation.triggerInformations[0].intervalInMinutes == null || jobInformation.triggerInformations[0].intervalInMinutes == ''){
+				isValid = false;
+				$scope.errors.intervalInMinutes = {
+					message : 'Delayed interval (sec) is required.'
 				}
 			}
 
