@@ -34,13 +34,19 @@ public class LoginController {
 
 	private String LOGIN_VIEW_NAME = "login";
 	private String UNSUPPORT_BROWSER_VIEW_NAME = "unsupport-browser";
-	
+
 	@Value(value = "${scf.ui.header.fixed:true}")
 	private boolean fixedHeader;
-	
+
 	@Value(value = "${scf.application.id:004}")
 	private String applicationId;
-	
+
+	@Value(value = "${scf.application.client.id:Vm0weE5HSXlVWGhTV0doVlYwZG9WRmx0Y3pGV01XeDBaRWhrYWxadVFsbFpNRlpMVlVaV1ZVMUVhejA9}")
+	private String clientId;
+
+	@Value(value = "${scf.application.client.secret:Vm0wd2VFNUdWWGhTV0doV1YwZG9WVll3WkZOVU1WcHpWMjFHVmsxV2NIbFdiWFJoVlVaV1ZVMUVhejA9}")
+	private String clientSecret;
+
 	@Autowired
 	GECSCFServiceProvider serviceProvider;
 
@@ -54,15 +60,13 @@ public class LoginController {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 			return auth.isAuthenticated();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
 
 	@RequestMapping(path = { "/login" }, method = RequestMethod.GET)
-	public ModelAndView login(HttpServletRequest req, BrowserInfo browser,
-			Principal principal) {
+	public ModelAndView login(HttpServletRequest req, BrowserInfo browser, Principal principal) {
 
 		Map<String, String[]> params = req.getParameterMap();
 		String view = null;
@@ -70,8 +74,7 @@ public class LoginController {
 			String accessToken = params.get("logout_at")[0];
 			final String refreshToken = params.get("rf")[0];
 
-			UriComponentsBuilder uriBuilder = serviceProvider
-					.getServiceURIBuilder("/oauth/revoke-token");
+			UriComponentsBuilder uriBuilder = serviceProvider.getServiceURIBuilder("/oauth/revoke-token");
 			uriBuilder.queryParam("refreshToken", refreshToken);
 			try {
 				AsyncRestTemplate restTemplate = provider.getRestTemplate();
@@ -81,52 +84,50 @@ public class LoginController {
 
 				HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
-				ListenableFuture<ResponseEntity<String>> future = restTemplate
-						.postForEntity(uriBuilder.toUriString(), entity, String.class);
-				future.addCallback(
-						new ListenableFutureCallback<ResponseEntity<String>>() {
+				ListenableFuture<ResponseEntity<String>> future = restTemplate.postForEntity(uriBuilder.toUriString(),
+						entity, String.class);
+				future.addCallback(new ListenableFutureCallback<ResponseEntity<String>>() {
 
-							@Override
-							public void onSuccess(ResponseEntity<String> result) {
-								log.info("Logout session success=>  " + result.getBody());
+					@Override
+					public void onSuccess(ResponseEntity<String> result) {
+						log.info("Logout session success=>  " + result.getBody());
 
-							}
+					}
 
-							@Override
-							public void onFailure(Throwable ex) {
-								log.error(ex.getMessage(), ex);
+					@Override
+					public void onFailure(Throwable ex) {
+						log.error(ex.getMessage(), ex);
 
-							}
-						});
+					}
+				});
 
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				log.error(e.getMessage(), e);
 			}
 
 		}
 		if (browser.getName().contains("CHROME") && (browser.getVersion() >= 53)) {
 			view = LOGIN_VIEW_NAME;
-		}
-		else if (browser.getName().contains("IE") && (browser.getVersion() >= 11)) {
+		} else if (browser.getName().contains("IE") && (browser.getVersion() >= 11)) {
 			view = LOGIN_VIEW_NAME;
-		}
-		else if (browser.getName().contains("FIREFOX") && (browser.getVersion() >= 45)) {
+		} else if (browser.getName().contains("FIREFOX") && (browser.getVersion() >= 45)) {
 			view = LOGIN_VIEW_NAME;
-		}
-		else if (browser.getName().contains("EDGE")) {
+		} else if (browser.getName().contains("EDGE")) {
 			view = LOGIN_VIEW_NAME;
-		}
-		else {
+		} else {
 			view = UNSUPPORT_BROWSER_VIEW_NAME;
 		}
 
 		String funding = req.getHeader("X-Funding");
+		String clientId = req.getHeader("X-ClientId");
+		String clientSecret = req.getHeader("X-ClientSecret");
 		Map<String, Object> object = new HashMap<String, Object>();
 		object.put("fixedHeader", fixedHeader);
 		object.put("browserName", browser.getName());
 		object.put("browserVersion", browser.getVersion());
 		object.put("funding", Optional.ofNullable(funding).orElse(applicationId));
+		object.put("clientId", Optional.ofNullable(clientId).orElse(this.clientId));
+		object.put("clientSecret", Optional.ofNullable(clientSecret).orElse(this.clientSecret));
 
 		return new ModelAndView(view, object);
 	}

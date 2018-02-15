@@ -100,8 +100,14 @@
 					</span> <input type="password" class="form-control" id="password"
 						ng-model="controller.password" name="password"
 						placeholder="Password" /> <input type="hidden"
-						th:attr="ng-init='controller.funding=\''+ ${funding} +'\''" 
-						ng-model="controller.funding" name="funding" />
+						th:attr="ng-init='controller.funding=\''+ ${funding} +'\''"
+						ng-model="controller.funding" name="funding" /> <input
+						type="hidden"
+						th:attr="ng-init='controller.clientId=\''+ ${clientId} +'\''"
+						ng-model="controller.clientId" name="clientId" /> <input
+						type="hidden"
+						th:attr="ng-init='controller.clientSecret=\''+ ${clientSecret} +'\''"
+						ng-model="controller.clientSecret" name="clientSecret" />
 				</div>
 				<div role="alert" ng-if="controller.passwordRequired">
 					<span id="password-error-message-label" style="color: red">password

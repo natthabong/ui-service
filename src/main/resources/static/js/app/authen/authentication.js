@@ -63,7 +63,7 @@
         	}
         	
         	if(loginFlag){
-	             var deffered = AuthenticationService.Login(self.username, self.password, self.funding, function (response) {});
+	             var deffered = AuthenticationService.Login(self.username, self.password, self.funding, self.clientId, self.clientSecret, function (response) {});
 	              deffered.promise.then(function(response) {
 	        	    if(response.data.forceChangePassword){
 	        		self.forceChangeDialog = ngDialog.open({
@@ -122,14 +122,14 @@
 
         return service;
 
-        function Login(username, password, funding) {
+        function Login(username, password, funding, clientId,  clientSecret) {
 
             /* Use this for real authentication
              ----------------------------------------------*/
         	
         	var deffered = $q.defer();
         	blockUI.start("Authentication...");
-        	var encoded = btoa("5fcc7c7228d70ba442953a3eaf8ec1f9:a5436aea37b9ed523dae94e4779c4922");
+        	var encoded = btoa(clientId+":"+clientSecret);
         	var req = {
     	            method: 'POST',
     	            url: "/api/oauth/token",
