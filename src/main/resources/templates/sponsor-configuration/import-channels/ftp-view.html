@@ -1,0 +1,320 @@
+<div th:fragment="content">
+	<div id="wrapper">
+		<div class="form-group">
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<label id="file-protocol-label"> {{'File protocol' |
+					translate}}: </label>
+			</div>
+
+			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+				<label id="file-protocol-value-label">
+					{{ctrl.channelModel.fileProtocol}} </label>
+			</div>
+			<div class="col-md-6 col-sm-4 col-hidden-xs"></div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<label id="host-name-label"> {{'Host name' | translate}}: </label>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+				<label id="host-name-value-label">
+					{{ctrl.channelModel.jobInformation.ftpDetail.remoteHost}}</label>
+			</div>
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<label id="port-number-label"> {{'Port number' |
+					translate}}: </label>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+				<label id="port-number-value-label">
+					{{ctrl.channelModel.jobInformation.ftpDetail.remotePort}}</label>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<label id="ftp-user-label"> {{'FTP user' | translate}}: </label>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+				<label id="ftp-user-value-label">
+					{{ctrl.channelModel.jobInformation.ftpDetail.remoteUsername}}</label>
+			</div>
+			<div class="col-md-2 col-sm-3 col-xs-12"></div>
+			<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<label id="remote-directory-label"> {{'Remote directory' |
+					translate}}: </label>
+			</div>
+
+			<div class="col-md-8 col-sm-9 col-xs-12 control-label">
+				<label id="remote-directory-value-label">
+					{{ctrl.channelModel.jobInformation.ftpDetail.remotePath}} </label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<label id="filename-pattern-label"> {{'File name pattern' |
+					translate}}: </label>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+				<label id="filename-pattern-value-label">
+					{{ctrl.channelModel.jobInformation.ftpDetail.remoteFilenamePattern}}</label>
+			</div>
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<label id="limited-file-size-label"> {{'Limited file size
+					(MB)' | translate}}: </label>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+				<label id="limited-file-size-value-label">
+					{{ctrl.channelModel.jobInformation.ftpDetail.limitedFileSize}}</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<label id="file-encryption-label"> {{'File encryption' |
+					translate}}: </label>
+			</div>
+
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				<label id="file-encryption-value-label control-label">
+					{{ctrl.channelModel.jobInformation.ftpDetail.encryptType |
+					translate}}</label>
+			</div>
+
+			<div class="col-md-2 col-sm-3 col-xs-12"></div>
+
+			<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+		</div>
+
+
+		<div class="form-group">
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<label id="retry-label"> {{'Retry' | translate}}: </label>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				<label id="retry-label">
+					{{ctrl.channelModel.jobInformation.ftpDetail.connectionRetry}}</label>
+			</div>
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<label id="retry-delayed-interval-label"> {{'Delayed
+					interval (sec)' | translate}}: </label>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+				<label id="retry-delayed-interval-value-label">
+					{{ctrl.channelModel.jobInformation.ftpDetail.connectionRetryInterval}}</label>
+			</div>
+		</div>
+
+
+		<div class="form-group">
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<label id="post-process-label"> {{'Post process' |
+					translate}}: </label>
+			</div>
+
+			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+				<label id="post-process-value-label">
+					{{ctrl.channelModel.jobInformation.ftpDetail.postProcessType}}</label>
+			</div>
+			<div class="col-md-6 col-sm-4 col-hidden-xs"></div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<label id="remote-backup-directory-label"> {{'Remote backup
+					directory' | translate}}: </label>
+			</div>
+
+			<div class="col-md-5 col-sm-6 col-xs-12 control-label">
+				<label id="remote-backup-directory-value-label">
+					{{ctrl.channelModel.jobInformation.ftpDetail.remoteBackupPath}}</label>
+			</div>
+
+			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+				<label id="remote-backup-directory-pattern-value-label">
+					{{ctrl.channelModel.jobInformation.ftpDetail.remoteBackupFolderPattern}}</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<label id="frequency-label"> {{'Frequency' | translate}}: </label>
+			</div>
+
+			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+				<label id="frequency-label">
+					{{ctrl.channelModel.jobInformation.frequencyType | translate}}</label>
+			</div>
+			<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+		</div>
+
+		<div class="form-group">
+
+			<div class="row">
+				<label class="col-md-2 col-sm-3 col-hidden-xs  control-label"></label>
+				<div class="col-md-3 col-sm-3 col-xs-12">
+					&nbsp;&nbsp;
+					<scf-checkbox id="monday-checkbox" ng-disabled="true"
+						ng-model="ctrl.channelModel.monday"></scf-checkbox>
+					<label class="checkbox-inline" id="monday-label"
+						style="padding-bottom: 10px;">{{'Monday' | translate}}</label>
+				</div>
+
+				<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+					<scf-checkbox id="tuesday-checkbox" ng-disabled="true"
+						ng-model="ctrl.channelModel.tuesday"></scf-checkbox>
+					<label class="checkbox-inline" id="tuesday-label"
+						style="padding-bottom: 10px;">{{'Tuesday' | translate}}</label>
+				</div>
+
+				<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+			</div>
+
+			<div class="row">
+				<label class="col-md-2 col-sm-3 col-hidden-xs control-label"></label>
+
+				<div class="col-md-3 col-sm-3 col-xs-12">
+					&nbsp;&nbsp;
+					<scf-checkbox id="wednesday-checkbox" ng-disabled="true"
+						ng-model="ctrl.channelModel.wednesday"></scf-checkbox>
+					<label class="checkbox-inline" id="wednesday-label"
+						style="padding-bottom: 10px;">{{'Wednesday' | translate}}</label>
+				</div>
+
+				<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+					<scf-checkbox id="thursday-checkbox" ng-disabled="true"
+						ng-model="ctrl.channelModel.thursday"></scf-checkbox>
+					<label class="checkbox-inline" id="thursday-label"
+						style="padding-bottom: 10px;">{{'Thursday' | translate}}</label>
+				</div>
+
+				<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+			</div>
+
+			<div class="row">
+				<label class="col-md-2 col-sm-3 col-hidden-xs control-label"></label>
+
+				<div class="col-md-3 col-sm-3 col-xs-12">
+					&nbsp;&nbsp;
+					<scf-checkbox id="friday-checkbox" ng-disabled="true"
+						ng-model="ctrl.channelModel.friday"></scf-checkbox>
+					<label class="checkbox-inline" id="friday-label"
+						style="padding-bottom: 10px;">{{'Friday' | translate}}</label>
+				</div>
+
+				<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+					<scf-checkbox id="saturday-checkbox" ng-disabled="true"
+						ng-model="ctrl.channelModel.saturday"></scf-checkbox>
+					<label class="checkbox-inline" id="saturday-label"
+						style="padding-bottom: 10px;">{{'Saturday' | translate}}</label>
+				</div>
+
+				<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+			</div>
+
+			<div class="row">
+
+				<label class="col-md-2 col-sm-3 col-hidden-xs control-label"></label>
+
+				<div class="col-md-3 col-sm-3 col-xs-12">
+					&nbsp;&nbsp;
+					<scf-checkbox id="sunday-checkbox" ng-disabled="true"
+						ng-model="ctrl.channelModel.sunday"></scf-checkbox>
+					<label class="checkbox-inline" id="sunday-label"
+						style="padding-bottom: 4px;">{{'Sunday' | translate}}</label>
+				</div>
+
+				<div class="col-md-2 col-sm-3 col-hidden-xs"></div>
+				<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+
+			</div>
+
+		</div>
+
+
+		<div class="form-group">
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<label id="run-time-label"> {{'Run time' | translate}}: </label>
+			</div>
+			<div class="form-group">
+				<div class="col-md-8 col-sm-9 col-xs-12">
+					<label class="radio-inline"><scf-radio ng-disabled="true"
+							id="runtime-type-interval-radio"
+							name="runtime-type-interval-radio" value="INTERVAL"
+							ng-model="ctrl.channelModel.runtimeType"></scf-radio> {{
+						'Interval' | translate}} </label> <br />
+					<div class="form-group">
+						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+							<label id="begin-time-label"> {{'Begin time' |
+								translate}}: </label>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+							<label id="begin-time-value-label">
+								{{ctrl.channelModel.beginTime}}</label>
+						</div>
+						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+							<label id="end-time-label"> {{'End time' | translate}}: </label>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+							<label id="end-time-value-label">
+								{{ctrl.channelModel.endTime}}</label>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+							<label id="delayed-interval-label"> {{'Delayed interval
+								(sec)' | translate}}: </label>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+							<label id="delayed-interval-value-label">
+								{{ctrl.channelModel.jobInformation.triggerInformations[0].intervalInMinutes}}</label>
+						</div>
+						<div class="col-md-6 col-sm-4 col-hidden-xs"></div>
+					</div>
+
+					<div class="form-group" ng-show="errors.intervalInMinutes">
+						<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+						<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+							id="delayed-interval-warning-message-label"
+							ng-bind="errors.intervalInMinutes.message"> </span>
+					</div>
+					<label class="radio-inline"> <scf-radio ng-disabled="true"
+							id="runtime-type-fixed-radio" name="runtime-type-fixed-radio"
+							value="FIXED" ng-model="ctrl.channelModel.runtimeType"></scf-radio>
+						{{ 'Fixed' | translate}}
+					</label>
+
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
+			<div class="form-group">
+				<div class="col-md-1 col-sm-1 col-xs-8">
+					<scf-input-text id="run-time-textbox" ng-model="ctrl.runTime"
+						ng-disabled="ctrl.channelModel.runtimeType!='FIXED'"
+						name="runTime" ng-pattern="timeFormat" maxlength="5"
+						placeholder="hh:mm"> </scf-input-text>
+				</div>
+				<div class="col-md-1 col-sm-1 col-xs-8">
+					<scf-button id="add-runtime-button"
+						class="btn-default gec-btn-action"
+						ng-click="ctrl.addRuntime(ctrl.runTime)"> <i
+						class="fa fa-plus" aria-hidden="true"></i></scf-button>
+				</div>
+			</div>
+		</div>
+		<div class="form-group" ng-repeat="runtime in ctrl.runTimes">
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
+			<span id="{{runtime}}-label"
+				ng-repeat-start="runtime in ctrl.runTimes" href="#">{{runtime}}</span><span
+				ng-repeat-end ng-if="!$last">, &nbsp;</span>
+		</div>
+
+	</div>
+</div>
