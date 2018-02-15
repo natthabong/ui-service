@@ -4,8 +4,8 @@ docModule.factory('DocumentService', ['$http', '$q', 'Service', '$log', 'UIFacto
     function($http, $q, Service, log, UIFactory) {
 
         function prepareAutoSuggestLabel(item, role) {
-            item.identity = [role, '-', item.organizeId, '-option'].join('');
-            item.label = [item.organizeId, ': ', item.organizeName].join('');
+            item.identity = [role, '-', item.memberId, '-option'].join('');
+            item.label = [item.memberId, ': ', item.memberName].join('');
             return item;
         };
         
