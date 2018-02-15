@@ -31,6 +31,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	var vm = this;
 	
 	vm.manageAll=false;
+	vm.manageAllFunding=false;
 	vm.postProcessBackup = false;
 	var dayOfWeekFrequency = {
 		SUNDAY : 1,

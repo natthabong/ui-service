@@ -16,7 +16,7 @@
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body">
 					<form name="createForm" class="form-horizontal">
-						<div class="form-group" ng-if="ctrl.manageAll">
+						<div class="form-group" ng-if="ctrl.manageAllFunding">
 							<label id="funding-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Funding'
 								| translate}}: </label>
@@ -169,4 +169,6 @@
 	<input type="hidden" ng-init="ctrl.manageAll=true"
 		sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS',
 	'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')" />
+	<input type="hidden" ng-init="ctrl.manageAllFunding=true"
+		sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')" />
 </div>
