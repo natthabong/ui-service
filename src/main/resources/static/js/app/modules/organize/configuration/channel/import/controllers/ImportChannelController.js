@@ -446,6 +446,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	}	
 	
 	$scope.confirmSave = function() {
+		console.log(vm.channelModel);
 		if(vm.channelModel.channelType == 'FTP'){
 			
 			vm.channelModel.jobInformation.ownerId = parameters.organizeId;
