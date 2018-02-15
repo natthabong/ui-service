@@ -22,7 +22,6 @@ module.controller('FileLayoutController', [
 		vm.manageAll = false;
 		vm.newMode = true;
 		var ownerId = $stateParams.organizeId;
-
 		vm.processType = $stateParams.processType;
 		vm.integrateType = $stateParams.integrateType;
 
@@ -286,12 +285,14 @@ module.controller('FileLayoutController', [
 		}
 		
 		var sendRequestFormula = function (uri, succcesFunc, failedFunc) {
-			var serviceDiferred = Service.doGet(uri);
-
-			var failedFunc = failedFunc | function (response) {
-				log.error('Load data error');
-			};
-			serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
+			if(vm.processType == 'AP_DOCUMENT'){
+				var serviceDiferred = Service.doGet(uri);
+	
+				var failedFunc = failedFunc | function (response) {
+					log.error('Load data error');
+				};
+				serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
+			}
 		}
 		
 		var isEmptyValue = function (value) {
@@ -575,10 +576,12 @@ module.controller('FileLayoutController', [
 					})
 				});
 
+				
 				sendRequestFormula(reqUrlFormula, function (response) {
 					var formulaData = response.data;
 					addPaymentDateFormulaDropdown(formulaData);
 				});
+				
 
 				sendRequest(reqUrlHeaderField, function (response) {
 					var headerItems = response.data;
@@ -788,14 +791,15 @@ module.controller('FileLayoutController', [
 
 
 		vm.refreshFormulaDropDown = function () {
-			
-			var serviceDiferred = Service.doGet(reqUrlFormula);
-			serviceDiferred.promise.then(function (response) {
-				var formulaData = response.data;
-				vm.paymentDateFormularModelDropdowns = [];
-
-				addPaymentDateFormulaDropdown(formulaData);
-			});
+			if(vm.processType == 'AP_DOCUMENT'){
+				var serviceDiferred = Service.doGet(reqUrlFormula);
+				serviceDiferred.promise.then(function (response) {
+					var formulaData = response.data;
+					vm.paymentDateFormularModelDropdowns = [];
+	
+					addPaymentDateFormulaDropdown(formulaData);
+				});
+			}
 		}
 
 		var addHeaderModel = function (model, headerItems) {
