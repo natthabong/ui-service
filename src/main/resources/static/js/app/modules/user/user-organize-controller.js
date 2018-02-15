@@ -59,14 +59,20 @@ userModule.controller('UserOrganizeController', [ '$scope', '$http', 'UserServic
 			if(typeof vm.organize === 'object' && vm.organize != [] && vm.organize.length != 0){
 				vm.errorOrganize = false;
 				vm.errorRole = false;
-				for(var i=0; i<vm.selectedRoles.length;i++){
-					vm.organizeLinks.push({
-						roleId: vm.selectedRoles[i].roleId,
-						role: vm.selectedRoles[i],
-						organize: vm.organize,
-						organizeId: vm.organize.memberId
-					});
-				}
+				
+				vm.selectedRoles.forEach(function(r){
+				  var org = {
+				     organizeId: vm.organize.memberId,
+				     organizeName: vm.organize.memberName
+				  };
+				  vm.organizeLinks.push({
+            roleId: r.roleId,
+            role: r,
+            organize: org,
+            organizeId: vm.organize.memberId
+          });
+				});
+				console.log(vm.organizeLinks)
 				callback(vm.organizeLinks);	
 			}else{
 				vm.errorOrganize = true;
