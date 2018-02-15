@@ -1,36 +1,41 @@
 'use strict';
-var displayListCtrl = function(PageNavigation, PagingController, UIFactory, ConfigurationUtils, DisplayService) {
-
+var displayListCtrl = function (PageNavigation, PagingController, UIFactory, ConfigurationUtils, DisplayService) {
     var vm = this;
-
     var parameters = PageNavigation.getParameters();
-
     var ownerId = parameters.organizeId;
+    var _criteria = {};
 
     vm.hiddenFundingColumn = true;
     vm.manageAction = false;
     vm.viewAction = false;
 
-    var _criteria = {};
+    vm.decodeBase64 = function (data) {
+        return (data ? atob(data) :
+            UIFactory.constants.NOLOGO);
+    };
 
     vm.pagingController = null;
-    vm.loadData = function() {
+    vm.loadData = function () {
         vm.pagingController.search();
     }
 
-    vm.init = function(type, mode) {
+    vm.init = function (type, mode) {
         vm.mode = mode;
-        var reqUrl = ['/api/v1/organize-customers', ownerId,
-                'accounting-transactions', type, 'display-modes', mode, 'displays'
+        var reqUrl = ['/api/v1/organize-customers',
+                ownerId,
+                'accounting-transactions',
+                type,
+                'display-modes',
+                mode,
+                'displays'
             ]
             .join('/');
         vm.pagingController = PagingController.create(reqUrl, _criteria, 'GET');
 
         vm.loadData();
-
     };
 
-    vm.unauthenMangeAction = function() {
+    vm.unauthenMangeAction = function () {
         if (vm.manageAction) {
             return false;
         } else {
@@ -38,7 +43,7 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
         }
     }
 
-    vm.unauthenView = function() {
+    vm.unauthenView = function () {
         if (vm.viewAction) {
             return false;
         } else {
@@ -46,20 +51,20 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
         }
     }
 
-    vm.addNewDocumentDisplay = function(type, mode) {
+    vm.addNewDocumentDisplay = function (type, mode) {
         ConfigurationUtils.showCreateNewCreateDisplayDialog({
             data: {
                 ownerId: ownerId,
                 accountingTransactionType: type,
                 displayMode: mode
             },
-            preCloseCallback: function() {
+            preCloseCallback: function () {
                 vm.init(type, mode);
             }
         });
     }
 
-    vm.viewDocumentDisplay = function(record) {
+    vm.viewDocumentDisplay = function (record) {
         var params = {
             accountingTransactionType: record.accountingTransactionType,
             displayMode: record.displayMode,
@@ -73,11 +78,9 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
         } else if (record.displayMode == 'TRANSACTION_DOCUMENT') {
             PageNavigation.gotoPage('/sponsor-configuration/create-transaction-displays/view', params);
         }
-
-
     }
 
-    vm.editDocumentDisplay = function(record) {
+    vm.editDocumentDisplay = function (record) {
         setting({
             accountingTransactionType: record.accountingTransactionType,
             displayMode: record.displayMode,
@@ -86,17 +89,17 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
         })
     }
 
-    vm.deleteDocumentDisplay = function(record) {
+    vm.deleteDocumentDisplay = function (record) {
         UIFactory
             .showConfirmDialog({
                 data: {
                     headerMessage: 'Confirm delete?'
                 },
-                confirm: function() {
+                confirm: function () {
                     return DisplayService
                         .removeDisplay(ownerId, vm.accountingTransactionType, record.displayMode, record);
                 },
-                onFail: function(response) {
+                onFail: function (response) {
                     var status = response.status;
                     if (status != 400) {
                         var msg = {
@@ -114,7 +117,7 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
                     }
 
                 },
-                onSuccess: function(response) {
+                onSuccess: function (response) {
                     UIFactory
                         .showSuccessDialog({
                             data: {
@@ -127,11 +130,11 @@ var displayListCtrl = function(PageNavigation, PagingController, UIFactory, Conf
             });
     }
 
-    var loadData = function() {
+    var loadData = function () {
         vm.pagingController.search();
     }
 
-    var setting = function(params) {
+    var setting = function (params) {
         if (vm.mode == 'TRANSACTION_DOCUMENT') {
             PageNavigation.gotoPage(
                 '/sponsor-configuration/create-transaction-displays/settings',
