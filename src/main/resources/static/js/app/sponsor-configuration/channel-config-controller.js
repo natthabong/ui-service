@@ -95,7 +95,7 @@ angular
 													UIFactory
 															.showFailDialog({
 																data : {
-																	headerMessage : 'Delete Import channel fail.',
+																	headerMessage : 'Delete import channel fail.',
 																	bodyMessage : msg[status] ? msg[status]
 																			: response.errorMessage
 																},
@@ -108,7 +108,7 @@ angular
 												UIFactory
 														.showSuccessDialog({
 															data : {
-																headerMessage : 'Delete Import channel success.',
+																headerMessage : 'Delete import channel success.',
 																bodyMessage : ''
 															},
 															preCloseCallback : loadData
@@ -282,7 +282,7 @@ angular
 																			UIFactory
 																					.showSuccessDialog({
 																						data : {
-																							headerMessage : 'Add new mapping data success.',
+																							headerMessage : 'Add new import channel success.',
 																							bodyMessage : ''
 																						},
 																						preCloseCallback : preCloseCallback(response)
