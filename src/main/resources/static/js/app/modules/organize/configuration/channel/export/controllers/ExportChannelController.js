@@ -39,6 +39,7 @@ exportChannelModule.controller('ExportChannelController', [
       var BASE_URI = 'api/v1/organize-customers/' + organizeId;
       vm.channelModel = {};
       vm.productTypes = {};
+      vm.fundings = {};
       vm.remoteFilenamePrefix = '';
       vm.dateTimePattern = '';
       vm.fileExtension = '';
@@ -63,7 +64,6 @@ exportChannelModule.controller('ExportChannelController', [
       vm.fileExtensionDropdown = EXTENSION_DROPDOWN;
   	  vm.frequencyDropdown = FREQUENCY_DROPDOWN;
       $scope.errors = {};
-      vm.manageAll=false;
       vm.isSetupFTP = false;
       
       vm.openActiveDate = false;
@@ -114,7 +114,7 @@ exportChannelModule.controller('ExportChannelController', [
       vm.searchChannel = function(){
   			sendRequest('/export-channels/' + channelId, function(response) {
 	            vm.channelModel = response.data;
-	              
+	            
 	            if(response.data.activeDate != null){
 	              	vm.channelModel.activeDate =  new Date(response.data.activeDate);
 	  			}else {
@@ -245,6 +245,17 @@ exportChannelModule.controller('ExportChannelController', [
 	           	vm.haveProductType =  true;
 	         }
     	 });
+     }
+     
+     vm.searchFundings = function(){
+    	 var serviceDiferred = Service.doGet('api/v1/fundings');
+         var failedFunc = function(response) {
+             log.error('Load data error');
+         };
+         var successFunc = function(response) {
+        	 vm.fundings = response.data;
+         };
+         serviceDiferred.promise.then(successFunc).catch(failedFunc);
      }
 
      var setupPrepareData = function(){
@@ -561,10 +572,12 @@ exportChannelModule.controller('ExportChannelController', [
 	 vm.changeExportData();
 	 
 	 vm.initLoad = function() {
-	   	vm.searchChannel();
 	 	vm.searchFileLayout();
 	 	vm.searchProductTypes();
-	 	console.log(vm.productTypes);
+	 	vm.searchFundings();
+	 	vm.searchChannel();
+	 	console.log(vm.channelModel.productTypes);
+	 	console.log(vm.channelModel.fundings);
 	 }();
 	 
 }]);
