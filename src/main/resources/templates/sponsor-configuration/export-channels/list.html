@@ -34,8 +34,8 @@
 										<th id="export-file-layout-funding-header-label"
 											ng-bind="'Funding' | translate"
 											sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS_OF_ALL_FUNDING')"></th>
-										<th id="runtime-label" ng-bind="'Run time' | translate">Run
-											time</th>
+<!-- 										<th id="runtime-label" ng-bind="'Run time' | translate">Run -->
+<!-- 											time</th> -->
 										<th id="status-header-label" ng-bind="'Status' | translate">Status</th>
 										<th id="active-date-header-label"
 											ng-bind="'Active date' | translate">Active date</th>
@@ -57,9 +57,9 @@
 											sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS_OF_ALL_FUNDING')">
 											<organization-logo ng-model="record.fundings"></organization-logo>
 										</td>
-										<td class="text-center"><span
-											id="runtime-{{record.channelId}}-label"
-											ng-bind="record.runtime"></span></td>
+<!-- 										<td class="text-center"><span -->
+<!-- 											id="runtime-{{record.channelId}}-label" -->
+<!-- 											ng-bind="record.runtime"></span></td> -->
 										<td class="text-center"><span
 											id="status-layout-{{record.channelId}}-label"
 											ng-bind="record.status | translate"></span></td>
@@ -70,12 +70,15 @@
 											id="expiry-date-file-layout-{{record.channelId}}-label"
 											ng-bind="record.expiryDate | date: 'dd/MM/yyyy': 'UTC+0700'"></span></td>
 										<td class="text-center"><scf-button
+												id="{{record.channelId}}-view-button"
+												class="btn-default gec-btn-action" title="View">
+											<i class="fa fa-search" aria-hidden="true"></i> </scf-button> <scf-button
 												id="{{record.channelId}}-edit-button"
 												th:attr="ng-disabled=${#authorization.expression('!hasAnyAuthority(''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS'',''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS_OF_ALL_FUNDING'')')}"
 												class="btn-default gec-btn-action"
 												ng-click="ctrl.editExportChannel(record)"
 												title="Setup export channel"> <i
-												class="fa fa-pencil-square-o" aria-hidden="true"></i> </scf-button> <scf-button
+												class="fa fa-cog" aria-hidden="true"></i> </scf-button> <scf-button
 												id="{{record.channelId}}-delete-button"
 												th:attr="ng-disabled=${#authorization.expression('!hasAnyAuthority(''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS'',''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS_OF_ALL_FUNDING'')')}"
 												class="btn-default gec-btn-action"

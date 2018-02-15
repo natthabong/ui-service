@@ -288,33 +288,17 @@
 							value="FIXED" ng-model="ctrl.channelModel.runtimeType"></scf-radio>
 						{{ 'Fixed' | translate}}
 					</label>
+					<div class="form-group">
+						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+							<span id="{{runtime}}-label"
+								ng-repeat-start="runtime in ctrl.runTimes" href="#">{{runtime}}</span><span
+								ng-repeat-end="" ng-if="!$last">, &nbsp;</span>
+						</div>
+
+					</div>
 
 				</div>
 			</div>
 		</div>
-		<div class="form-group">
-			<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
-			<div class="form-group">
-				<div class="col-md-1 col-sm-1 col-xs-8">
-					<scf-input-text id="run-time-textbox" ng-model="ctrl.runTime"
-						ng-disabled="ctrl.channelModel.runtimeType!='FIXED'"
-						name="runTime" ng-pattern="timeFormat" maxlength="5"
-						placeholder="hh:mm"> </scf-input-text>
-				</div>
-				<div class="col-md-1 col-sm-1 col-xs-8">
-					<scf-button id="add-runtime-button"
-						class="btn-default gec-btn-action"
-						ng-click="ctrl.addRuntime(ctrl.runTime)"> <i
-						class="fa fa-plus" aria-hidden="true"></i></scf-button>
-				</div>
-			</div>
-		</div>
-		<div class="form-group" ng-repeat="runtime in ctrl.runTimes">
-			<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
-			<span id="{{runtime}}-label"
-				ng-repeat-start="runtime in ctrl.runTimes" href="#">{{runtime}}</span><span
-				ng-repeat-end ng-if="!$last">, &nbsp;</span>
-		</div>
-
 	</div>
 </div>
