@@ -15,7 +15,8 @@ var displayListCtrl = function (PageNavigation, PagingController, UIFactory, Con
     };
 
     vm.pagingController = null;
-    vm.loadData = function () {
+
+    function loadData() {
         vm.pagingController.search();
     }
 
@@ -32,7 +33,8 @@ var displayListCtrl = function (PageNavigation, PagingController, UIFactory, Con
             .join('/');
         vm.pagingController = PagingController.create(reqUrl, _criteria, 'GET');
 
-        vm.loadData();
+        loadData();
+        console.log(vm.pagingController);
     };
 
     vm.unauthenMangeAction = function () {
