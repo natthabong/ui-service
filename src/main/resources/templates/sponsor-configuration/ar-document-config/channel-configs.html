@@ -1,9 +1,10 @@
-<div th:fragment="content" sec:authorize="hasAnyAuthority(
+<div th:fragment="content"
+	sec:authorize="hasAnyAuthority(
 		'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS',
 		'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING',
 		'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS',
 		'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')">
-	<div id="wrapper" ng-controller="ChannelConfigsController as ctrl">
+	<div id="wrapper" ng-controller="ImportChannelListController as ctrl">
 		<div class="panel panel-default col-md-12 padding-0">
 			<div class="panel-body" style="min-height: 360px;">
 				<div class="row">
@@ -18,8 +19,8 @@
 							''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS'',
 							''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING'')')}"
 							id="AR-import-channel-new-button" title="New Import Channel"
-							ng-click="ctrl.newChannel(ctrl.searchChannels)"> <i class="fa fa-plus"
-							aria-hidden="true"></i></scf-button>
+							ng-click="ctrl.newChannel(ctrl.searchChannels)"> <i
+							class="fa fa-plus" aria-hidden="true"></i></scf-button>
 					</div>
 				</div>
 				<div class="responsive-table" ng-init="ctrl.initLoad('AR_DOCUMENT')">
@@ -68,6 +69,10 @@
 									id="expire-date-{{record.channelId}}-{{record.organizeId}}-label"
 									ng-bind="record.expiryDate | date: 'dd/MM/yyyy'"></span></td>
 								<td class="text-center"><scf-button
+										id="ap-{{record.channelId}}-{{record.organizeId}}-view-button"
+										class="btn-default gec-btn-action"
+										ng-click="ctrl.viewChannel(record)" title="View a channel">
+									<i class="fa fa fa-search" aria-hidden="true"></i></scf-button> <scf-button
 										id="ar-{{record.channelId}}-{{record.organizeId}}-setup-button"
 										class="btn-default gec-btn-action"
 										th:attr="ng-disabled=${#authorization.expression('!hasAnyAuthority(
@@ -85,9 +90,8 @@
 										id="ar-{{record.channelId}}-{{record.organizeId}}-connection-button"
 										class="btn-default gec-btn-action"
 										ng-disabled="ctrl.disableTestConnection(record)"
-										ng-click="ctrl.testConnection(record)"
-										title="Test connection"> <i
-										class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button></td>
+										ng-click="ctrl.testConnection(record)" title="Test connection">
+									<i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button></td>
 							</tr>
 						</tbody>
 					</table>
