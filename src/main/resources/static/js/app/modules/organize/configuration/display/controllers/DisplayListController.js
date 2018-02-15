@@ -34,7 +34,6 @@ var displayListCtrl = function (PageNavigation, PagingController, UIFactory, Con
         vm.pagingController = PagingController.create(reqUrl, _criteria, 'GET');
 
         loadData();
-        console.log(vm.pagingController);
     };
 
     vm.unauthenMangeAction = function () {

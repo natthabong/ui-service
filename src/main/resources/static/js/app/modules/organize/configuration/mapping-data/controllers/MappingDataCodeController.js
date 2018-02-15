@@ -13,6 +13,7 @@ mappingDataModule.controller('MappingDataCodeController', [
             MappingDataService){
 
         var vm = this;
+        vm.manageAction = false;
         vm.mappingDataModel = $stateParams.mappingData;
         vm.isNewMode = false;
         vm.isSignFlagMapping = false;
