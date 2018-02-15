@@ -202,19 +202,23 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 			}
 			
 			if(vm.channelModel.runtimeType == 'INTERVAL'){
+				var triggerInformation = {};
 				vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek = daysOfWeek.replace("[","").replace("]","");
 				if(vm.channelModel.beginTime != null && vm.channelModel.beginTime != ''){
 					var beginTime = vm.channelModel.beginTime.split(":");
-					vm.channelModel.jobInformation.triggerInformations[0].startHour = beginTime[0];
-					vm.channelModel.jobInformation.triggerInformations[0].startMinute = beginTime[1];
+					triggerInformation.startHour = beginTime[0];
+					triggerInformation.startMinute = beginTime[1];
 				}
 	
 				if(vm.channelModel.endTime != null && vm.channelModel.endTime != ''){
 					var endTime = vm.channelModel.endTime.split(":");
-					vm.channelModel.jobInformation.triggerInformations[0].endHour = endTime[0];
-					vm.channelModel.jobInformation.triggerInformations[0].endMinute = endTime[1];
+					triggerInformation.endHour = endTime[0];
+					triggerInformation.endMinute = endTime[1];
 				}
-				vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek = daysOfWeek;
+				triggerInformation.intervalInMinutes = vm.channelModel.delayedInterval;
+				triggerInformation.daysOfWeek = daysOfWeek;
+				vm.channelModel.jobInformation.triggerInformations = [];
+				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
 			} else {
 				daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
 	 			vm.channelModel.jobInformation.daysOfWeek = daysOfWeek;
@@ -591,6 +595,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 					}else{
 						vm.channelModel.endTime = formattedNumber(response.data.jobInformation.triggerInformations[0].endHour) + ":"+ formattedNumber(response.data.jobInformation.triggerInformations[0].endMinute);
 					}
+					vm.channelModel.delayedInterval = response.data.jobInformation.triggerInformations[0].intervalInMinutes;
 				} else {
 					if(response.data.jobInformation.triggerInformations.length > 0){
 						console.log(response.data.jobInformation.triggerInformations);
