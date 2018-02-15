@@ -284,7 +284,7 @@
 						</div>
 						<div class="col-md-3 col-sm-3 col-xs-12">
 							<scf-input-text id="begin-time-textbox"  ng-disabled="ctrl.channelModel.runtimeType=='FIXED'"
-								ng-model="ctrl.channelModel.beginTime" name="beginTime"
+								ng-model="ctrl.channelModel.intervalBeginTime" name="beginTime"
 								ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 							</scf-input-text>
 						</div>
@@ -293,7 +293,7 @@
 						</div>
 						<div class="col-md-3 col-sm-3 col-xs-12">
 							<scf-input-text id="end-time-textbox"  ng-disabled="ctrl.channelModel.runtimeType=='FIXED'"
-								ng-model="ctrl.channelModel.endTime" name="endTime"
+								ng-model="ctrl.channelModel.intervalEndTime" name="endTime"
 								ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 							</scf-input-text>
 						</div>

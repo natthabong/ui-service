@@ -202,8 +202,13 @@ exportChannelModule.controller('ExportChannelController', [
 						
 						if(vm.channelModel.runtimeType == 'INTERVAL'){
 							var triggerInformation = response.data.jobInformation.triggerInformations[0];
-							vm.channelModel.beginTime = triggerInformation.startHour + ':' + triggerInformation.startMinute;
-							vm.channelModel.endTime = triggerInformation.endHour + ':' + triggerInformation.endMinute;
+							var hour = triggerInformation.startHour.length == 1 ? "0"+ triggerInformation.startHour : triggerInformation.startHour;
+			 				var minute = triggerInformation.startMinute.length == 1 ? "0"+triggerInformation.startMinute : triggerInformation.startMinute;
+							vm.channelModel.intervalBeginTime = hour + ':' + minute;
+							
+							hour = triggerInformation.endHour.length == 1 ? "0"+ triggerInformation.endHour : triggerInformation.endHour;
+			 				minute = triggerInformation.endMinute.length == 1 ? "0"+triggerInformation.endMinute : triggerInformation.endMinute;
+							vm.channelModel.intervalEndTime = hour + ':' + minute;
 							vm.channelModel.delayedInterval = triggerInformation.intervalInMinutes;
 						} else {
 							if(response.data.jobInformation.triggerInformations.length > 0){
@@ -303,16 +308,16 @@ exportChannelModule.controller('ExportChannelController', [
 				var beginTime = '';
 				var endTime = '';
 				var triggerInformation = {};
-				if(vm.channelModel.beginTime != null && vm.channelModel.beginTime != ''){
-					beginTime = vm.channelModel.beginTime.split(":");
+				if(vm.channelModel.intervalBeginTime != null && vm.channelModel.intervalBeginTime != ''){
+					beginTime = vm.channelModel.intervalBeginTime.split(":");
 					triggerInformation.startHour = beginTime[0];
 					triggerInformation.startMinute = beginTime[1];
 				}
 	
-				if(vm.channelModel.endTime != null && vm.channelModel.endTime != ''){
-					endTime = vm.channelModel.endTime.split(":");
-					triggerInformation.endHour = endTime[0];
-					triggerInformation.endMinute = endTime[1];
+				if(vm.channelModel.intervalEndTime != null && vm.channelModel.intervalEndTime != ''){
+					endTime = vm.channelModel.intervalEndTime.split(":");
+					triggerInformation.endHour = endTime[0].toString();
+					triggerInformation.endMinute = endTime[1].toString();
 				}
 				triggerInformation.intervalInMinutes = vm.channelModel.delayedInterval;
  				triggerInformation.daysOfWeek = daysOfWeek;

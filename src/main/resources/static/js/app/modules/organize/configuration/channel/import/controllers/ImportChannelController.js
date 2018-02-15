@@ -577,22 +577,35 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 					});
 				}
 
-				if(response.data.jobInformation.triggerInformations[0].startHour == null || response.data.jobInformation.triggerInformations[0].startMinute == null){
-					vm.channelModel.beginTime = "00:00";
-				}else{
-					vm.channelModel.beginTime = formattedNumber(response.data.jobInformation.triggerInformations[0].startHour) + ":" + formattedNumber(response.data.jobInformation.triggerInformations[0].startMinute);
-				}	
+					
+				if(vm.channelModel.runtimeType == 'INTERVAL'){
+					if(response.data.jobInformation.triggerInformations[0].startHour == null || response.data.jobInformation.triggerInformations[0].startMinute == null){
+						vm.channelModel.beginTime = "00:00";
+					}else{
+						vm.channelModel.beginTime = formattedNumber(response.data.jobInformation.triggerInformations[0].startHour) + ":" + formattedNumber(response.data.jobInformation.triggerInformations[0].startMinute);
+					}	
 
-				if(response.data.jobInformation.triggerInformations[0].endHour == null || response.data.jobInformation.triggerInformations[0].endMinute == null){
-					vm.channelModel.endTime = "23:59";
+					if(response.data.jobInformation.triggerInformations[0].endHour == null || response.data.jobInformation.triggerInformations[0].endMinute == null){
+						vm.channelModel.endTime = "23:59";
 
-				}else{
-					vm.channelModel.endTime = formattedNumber(response.data.jobInformation.triggerInformations[0].endHour) + ":"+ formattedNumber(response.data.jobInformation.triggerInformations[0].endMinute);
-				}	
-
+					}else{
+						vm.channelModel.endTime = formattedNumber(response.data.jobInformation.triggerInformations[0].endHour) + ":"+ formattedNumber(response.data.jobInformation.triggerInformations[0].endMinute);
+					}
+				} else {
+					if(response.data.jobInformation.triggerInformations.length > 0){
+						console.log(response.data.jobInformation.triggerInformations);
+						response.data.jobInformation.triggerInformations.forEach(function(data){
+							if(data.startHour != null && data.startMinute != null){
+				 				var hour = data.startHour.length == 1 ? "0"+data.startHour : data.startHour;
+				 				var minute = data.startMinute.length == 1 ? "0"+data.startMinute : data.startMinute;
+								var time = hour + ":" +minute;
+				 				vm.runTimes.push(time);
+							}
+			 			});
+					}
+				}
 				response.data.jobInformation.ftpDetail.remotePassword = null;
 				response.data.jobInformation.ftpDetail.encryptPassword = null;
-
 			}
         });
 	}
