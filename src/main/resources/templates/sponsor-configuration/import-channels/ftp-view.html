@@ -246,43 +246,43 @@
 							name="runtime-type-interval-radio" value="INTERVAL"
 							ng-model="ctrl.channelModel.runtimeType"></scf-radio> {{
 						'Interval' | translate}} </label> <br />
-					<div class="form-group">
+					<div class="form-group" >
 						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 							<label id="begin-time-label"> {{'Begin time' |
 								translate}}: </label>
 						</div>
 						<div class="col-md-3 col-sm-3 col-xs-12 control-label">
-							<label id="begin-time-value-label">
+							<label id="begin-time-value-label" ng-show="ctrl.channelModel.runtimeType == 'INTERVAL'">
 								{{ctrl.channelModel.beginTime}}</label>
 						</div>
 						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 							<label id="end-time-label"> {{'End time' | translate}}: </label>
 						</div>
 						<div class="col-md-3 col-sm-3 col-xs-12 control-label">
-							<label id="end-time-value-label">
+							<label id="end-time-value-label" ng-show="ctrl.channelModel.runtimeType == 'INTERVAL'">
 								{{ctrl.channelModel.endTime}}</label>
 						</div>
 					</div>
 
 
-					<div class="form-group">
+					<div class="form-group" >
 						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 							<label id="delayed-interval-label"> {{'Delayed interval
 								(sec)' | translate}}: </label>
 						</div>
 						<div class="col-md-3 col-sm-3 col-xs-12 control-label">
-							<label id="delayed-interval-value-label">
+							<label id="delayed-interval-value-label" ng-show="ctrl.channelModel.runtimeType == 'INTERVAL'">
 								{{ctrl.channelModel.jobInformation.triggerInformations[0].intervalInMinutes}}</label>
 						</div>
 						<div class="col-md-6 col-sm-4 col-hidden-xs"></div>
 					</div>
 
-					<div class="form-group" ng-show="errors.intervalInMinutes">
-						<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-						<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
-							id="delayed-interval-warning-message-label"
-							ng-bind="errors.intervalInMinutes.message"> </span>
-					</div>
+<!-- 					<div class="form-group" ng-show="errors.intervalInMinutes" > -->
+<!-- 						<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> -->
+<!-- 						<span class="col-md-3 col-sm-3 col-xs-12 error-msg" -->
+<!-- 							id="delayed-interval-warning-message-label" -->
+<!-- 							ng-bind="errors.intervalInMinutes.message"> </span> -->
+<!-- 					</div> -->
 					<label class="radio-inline"> <scf-radio ng-disabled="true"
 							id="runtime-type-fixed-radio" name="runtime-type-fixed-radio"
 							value="FIXED" ng-model="ctrl.channelModel.runtimeType"></scf-radio>
