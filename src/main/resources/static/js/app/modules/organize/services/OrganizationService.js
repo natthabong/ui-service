@@ -50,7 +50,8 @@ orgModule.service('OrganizationService', ['$http', '$q', function($http, $q) {
       },
       url : serviceUrl,
       data : {
-        organizationName: organization.organizationName
+        organizationName: organization.organizationName ,
+        organizationCode: organization.organizationCode
       }
       }).then(function(response){
           return deferred.resolve(response);
