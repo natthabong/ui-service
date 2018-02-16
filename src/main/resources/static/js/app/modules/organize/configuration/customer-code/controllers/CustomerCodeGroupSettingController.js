@@ -21,6 +21,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
             var accountingTransactionType = $stateParams.accountingTransactionType;
             var isSetSupplierCode = accountingTransactionType == 'PAYABLE' ? true : false;
 
+            vm.hiddenFundingColumn = false;
             var viewMode = $stateParams.viewMode;
             var ownerId = viewMode == 'MY_ORGANIZE' ? $rootScope.userInfo.organizeId : $stateParams.organizeId;
             //	var groupId = null;
@@ -33,93 +34,13 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
                 PageNavigation.gotoPage("/sponsor-configuration", params);
             }
 
-            var customerCodeName = "Supplier";
+            vm.customerCodeName = "Supplier";
             if (!isSetSupplierCode) {
-                customerCodeName = "Buyer";
+            	vm.customerCodeName = "Buyer";
             }
 
-            vm.dataTable = {
-                identityField: 'customerCode',
-                columns: [{
-                        fieldName: '$rowNo',
-                        labelEN: 'No.',
-                        labelTH: 'ลำดับ',
-                        sortable: false,
-                        id: '$rowNo-{value}',
-                        filterType: 'translate',
-                        cssTemplate: 'text-right'
-                    },
-                    {
-                        fieldName: 'customerName',
-                        labelEN: customerCodeName,
-                        labelTH: customerCodeName,
-                        sortable: false,
-                        id: 'customer-{value}',
-                        filterType: 'translate',
-                        cssTemplate: 'text-left'
-                    },
-                    {
-                        fieldName: 'customerCode',
-                        labelEN: customerCodeName + ' code',
-                        labelTH: customerCodeName + ' code',
-                        sortable: false,
-                        id: 'customer-code-{value}',
-                        filterType: 'translate',
-                        cssTemplate: 'text-left'
-                    },
-                    {
-                        fieldName: 'status',
-                        labelEN: 'Status',
-                        labelTH: 'Status',
-                        sortable: false,
-                        id: 'status-{value}',
-                        filterType: 'translate',
-                        filterFormat: 'dd/MM/yyyy',
-                        cssTemplate: 'text-center'
-                    },
-                    {
-                        fieldName: 'activeDate',
-                        labelEN: 'Active date',
-                        labelTH: 'Active date',
-                        sortable: false,
-                        id: 'active-date-{value}',
-                        filterType: 'date',
-                        filterFormat: 'dd/MM/yyyy',
-                        cssTemplate: 'text-center'
-                    },
-                    {
-                        fieldName: 'expiryDate',
-                        labelEN: 'Expire date',
-                        labelTH: 'Expire date',
-                        sortable: false,
-                        id: 'expire-date-{value}',
-                        filterType: 'date',
-                        cssTemplate: 'text-center',
-                        renderer: function(data) {
-                            return data || '';
-                        }
-                    },
-                    {
-                        fieldName: 'remark',
-                        labelEN: 'Remark',
-                        labelTH: 'Remark',
-                        sortable: false,
-                        id: 'remark-{value}',
-                        cssTemplate: 'text-left'
-                    },
-                    {
-                        labelEN: '',
-                        labelTH: '',
-                        sortable: false,
-                        cssTemplate: 'text-left',
-                        cellTemplate: '<scf-button id="{{data.customerCode}}-edit-button" class="btn-default gec-btn-action" ng-disabled="ctrl.unauthen()" ng-click="ctrl.customerCodeSetup(data)" title="Setup customer code"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
-                            '<scf-button id="{{data.customerCode}}-delete-button"  class="btn-default gec-btn-action" ng-disabled="ctrl.unauthen()" ng-click="ctrl.deleteCustomerCode(data)" title="Delete customer code"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
-                    }
-                ]
-            };
-
             var deleteCustomerCode = function(customerCode) {
-
+            	console.log(customerCode);
                 var serviceUrl = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/customers/' + customerCode.organizeId + '/customer-codes/' + customerCode.customerCode;
                 var deferred = $q.defer();
                 $http({
@@ -157,7 +78,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
 
             vm.deleteCustomerCode = function(customerCode) {
                 var preCloseCallback = function(confirm) {
-                    vm.search(vm.criteria);
+                    vm.search();
                 }
 
                 UIFactory.showConfirmDialog({
@@ -168,10 +89,10 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
                         return deleteCustomerCode(customerCode);
                     },
                     onFail: function(response) {
-                        var msg = { 404: customerCodeName + ' code has been deleted.', 405: customerCodeName + ' code has been used.', 409: customerCodeName + ' code has been modified.' };
+                        var msg = { 404: vm.customerCodeName + ' code has been deleted.', 405: vm.customerCodeName + ' code has been used.', 409: vm.customerCodeName + ' code has been modified.' };
                         UIFactory.showFailDialog({
                             data: {
-                                headerMessage: 'Delete ' + customerCodeName.toLowerCase() + ' code fail.',
+                                headerMessage: 'Delete ' + vm.customerCodeName.toLowerCase() + ' code fail.',
                                 bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
                             },
                             preCloseCallback: preCloseCallback
@@ -180,7 +101,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
                     onSuccess: function(response) {
                         UIFactory.showSuccessDialog({
                             data: {
-                                headerMessage: 'Delete ' + customerCodeName.toLowerCase() + ' code success.',
+                                headerMessage: 'Delete ' + vm.customerCodeName.toLowerCase() + ' code success.',
                                 bodyMessage: ''
                             },
                             preCloseCallback: preCloseCallback
@@ -258,9 +179,20 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
                 query: queryCustomerCode
             });
 
-            vm.search = function(criteria) {
+            vm.search = function(pageModel) {
                 prepareSearchCriteria();
-                vm.pagingController.search();
+                var criteria = vm.criteria;
+                vm.pagingController.search(pageModel, function (criteria, response) {
+    				var data = response.data;
+    				var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
+    				var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
+    				var i = 0;
+    				var baseRowNo = pageSize * currentPage;
+    				angular.forEach(data, function (value, idx) {
+    					++i;
+    					value.rowNo = baseRowNo + i;
+    				});
+    			});
             };
 
             vm.initialPage = function() {
@@ -315,7 +247,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
             var dialogSuccess, dialogFail = ''
             vm.confirmSaveCustomerCode = function(customerCode) {
                 var preCloseCallback = function(confirm) {
-                    vm.search(vm.criteria);
+                    vm.search();
                 }
 
                 var addMoreBtn = {
@@ -354,10 +286,10 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
                         return saveCustomerCode(customerCode);
                     },
                     onFail: function(response) {
-                        var msg = { 400: 'Customer is not trading partner with this sponsor.', 404: customerCodeName + ' code has been deleted.', 405: customerCodeName + ' code has been used.', 409: customerCodeName + ' code has been modified.' };
+                        var msg = { 400: 'Customer is not trading partner with this sponsor.', 404: vm.customerCodeName + ' code has been deleted.', 405: vm.customerCodeName + ' code has been used.', 409: vm.customerCodeName + ' code has been modified.' };
                         dialogFail = UIFactory.showFailDialog({
                             data: {
-                                headerMessage: vm.isNewCusotmerCode ? 'Add new ' + customerCodeName.toLowerCase() + ' code fail.' : 'Edit ' + customerCodeName.toLowerCase() + ' code fail.',
+                                headerMessage: vm.isNewCusotmerCode ? 'Add new ' + vm.customerCodeName.toLowerCase() + ' code fail.' : 'Edit ' + vm.customerCodeName.toLowerCase() + ' code fail.',
                                 bodyMessage: msg[response.status] ? msg[response.status] : response.message
                             },
                             preCloseCallback: function() {
@@ -369,7 +301,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
                         closeCustomerCodeSetup();
                         dialogSuccess = UIFactory.showSuccessDialog({
                             data: {
-                                headerMessage: vm.isNewCusotmerCode == true ? 'Add new ' + customerCodeName.toLowerCase() + ' code success.' : 'Edit ' + customerCodeName.toLowerCase() + ' code complete.',
+                                headerMessage: vm.isNewCusotmerCode == true ? 'Add new ' + vm.customerCodeName.toLowerCase() + ' code success.' : 'Edit ' + vm.customerCodeName.toLowerCase() + ' code complete.',
                                 bodyMessage: ''
                             },
                             preCloseCallback: function() {
