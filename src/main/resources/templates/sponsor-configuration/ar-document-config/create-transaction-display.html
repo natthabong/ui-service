@@ -39,7 +39,7 @@
                                     <tr ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
                                         <td class="text-center" ng-hide="ctrl.hiddenFundingColumn">
                                             <span ng-bind="record.fundingId"></span>
-                                            <img id="RECEIVABLE-create-transaction-display-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.organizeLogo)}}"></img>
+                                            <img id="RECEIVABLE-create-transaction-display-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" title="{{record.funding.organizeName}}" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.organizeLogo)}}"></img>
                                         </td>
                                         <td class="text-left">
                                             <span id="RECEIVABLE-{{record.displayName}}-label" ng-bind="record.displayName | translate"></span>
