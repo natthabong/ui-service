@@ -142,7 +142,7 @@ tpModule.controller('EditMappingDataController', [
                         return MappingDataService.deleteMappingData(vm.criteria, mappingItem);
                     },
                     onFail: function (response) {
-                        var msg = { 409: 'Code has been deleted.', 405: 'Code has been used.' };
+                        var msg = { 409: 'Code has been modified.', 405: 'Code has been used.' };
                         UIFactory.showFailDialog({
                             data: {
                                 headerMessage: 'Delete code fail.',

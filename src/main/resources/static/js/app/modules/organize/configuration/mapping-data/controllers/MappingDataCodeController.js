@@ -27,17 +27,23 @@ mappingDataModule.controller('MappingDataCodeController', [
         	vm.isNewMode = true;
         }
         
-        if(vm.mappingDataModel.mappingType == 'SIGN_FLAG_MAPPING'){
-        	vm.isSignFlagMapping = true;
-        }
-        
         vm.mappingDataItemModel = $stateParams.mappingDataItem || {
             code: '',
             display: '',
             signFlag: 1,
             mappingDataId: vm.mappingDataModel.mappingDataId,
-            mappingData: vm.mappingDataModel
+            mappingData: vm.mappingDataModel,
+            defaultCode: 0
         }
+        
+        if(vm.mappingDataModel.mappingType == 'SIGN_FLAG_MAPPING'){
+        	vm.isSignFlagMapping = true;
+        	vm.mappingDataItemModel.signFlag = 1;
+        }else{
+        	vm.mappingDataItemModel.signFlag = null;
+        }
+        
+        
         
         vm.signFlagTypes = [ {
 			label : 'Negative',
@@ -100,7 +106,8 @@ mappingDataModule.controller('MappingDataCodeController', [
     				var status = response.status;
 					if (status != 400) {
 						var msg = {
-							404 : "Code has been deleted."
+							404 : "Code has been deleted.",
+							409 : "Code has been modified."
 						}
 						UIFactory.showFailDialog({
 							data : {
