@@ -40,7 +40,6 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
             }
 
             var deleteCustomerCode = function(customerCode) {
-            	console.log(customerCode);
                 var serviceUrl = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/customers/' + customerCode.organizeId + '/customer-codes/' + customerCode.customerCode;
                 var deferred = $q.defer();
                 $http({
