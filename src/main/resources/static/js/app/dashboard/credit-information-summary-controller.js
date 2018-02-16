@@ -95,6 +95,7 @@ angular
 							vm.isOpenPopup = true;
 							$scope.$on('elementClick.directive',
 								function(event) {
+								console.log(vm.canViewTrading);
 									if (vm.canViewTrading) {
 										ngDialog
 											.open({
