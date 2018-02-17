@@ -19,9 +19,9 @@ txnMod.controller('CreatePaymentController', [
         var vm = this;
         var log = $log;
         var supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
+        var ownerId = $rootScope.userInfo.organizeId;
 
         function prepareCriteria() {
-            var ownerId = $rootScope.userInfo.organizeId;
             return $stateParams.criteria || {
                 accountingTransactionType: 'RECEIVABLE',
                 sponsorId: ownerId,
@@ -308,29 +308,46 @@ txnMod.controller('CreatePaymentController', [
         }
 
         function _loadReasonCodeMappingDatas() {
-            vm.resonCodeDropdown = [];
-            var deffered = $q.defer();
-            var params = {
-                offset: 0,
-                limit: 999,
-                sort: ['defaultCode', 'code']
-            }
-            var defferedMappingData = MappingDataService.loadMappingDataItems(vm.criteria.supplierId, 'RECEIVABLE', vm.reasonCodeMappingId, params);
-            defferedMappingData.promise.then(function (response) {
-                vm.reasonCodes = response.data;
-                vm.reasonCodes.forEach(function (data) {
-                    vm.resonCodeDropdown.push({
-                        label: data.code + ': ' + data.display,
-                        value: data.code
-                    });
-                    vm.reasonCodes[data.code] = data.display;
-                });
-                deffered.resolve();
-            }).catch(function (response) {
-                log.error(response);
-                deffered.resolve();
-            });
-
+        	var mappingTypeList = ["REASON_CODE"];
+			var deffered = SCFCommonService.loadMappingData(ownerId,'RECEIVABLE',mappingTypeList);
+			deffered.promise.then(function(response) {
+				var mappingList = response.data;
+				vm.reasonCodeMappingId = mappingList[0].mappingDataId;
+				
+				vm.reasonCodeDropdown = [];
+	            var deffered = $q.defer();
+	            var params = {
+	                offset: 0,
+	                limit: 999,
+	                sort: ['defaultCode', 'code']
+	            }
+	            var defferedMappingData = MappingDataService.loadMappingDataItems(vm.criteria.supplierId, 'RECEIVABLE', vm.reasonCodeMappingId, params);
+	            defferedMappingData.promise.then(function (response) {
+	                vm.reasonCodes = response.data;
+	                vm.reasonCodes.forEach(function (data) {
+	                    vm.reasonCodeDropdown.push({
+	                        label: data.code + ': ' + data.display,
+	                        value: data.code
+	                    });
+	                    vm.reasonCodes[data.code] = data.display;
+	                });
+	                
+	                if(vm.reasonCodeDropdown.length == 0){
+	                	vm.reasonCodeDropdown.push({
+	                        label: '',
+	                        value: ''
+	                    });
+	                }
+	                
+	                deffered.resolve();
+	            }).catch(function (response) {
+	                log.error(response);
+	                deffered.resolve();
+	            });
+			}).catch(function(response) {
+				log.error("Can not load mapping data!");
+			});
+        	
             return deffered;
         }
 
@@ -377,7 +394,7 @@ txnMod.controller('CreatePaymentController', [
 
             var columnReasonCodeDropdown = {
                 cssTemplate: 'text-center',
-                cellTemplate: '<scf-dropdown id="reason-code-{{$rowNo}}-dropdown" ng-model="data.reasonCode" component-data="ctrl.resonCodeDropdown"  translate-label="true" ng-disabled = "ctrl.disableReasonCode(data)" ng-change="ctrl.changeReasonCode($rowNo, data)"></scf-dropdown>',
+                cellTemplate: '<scf-dropdown id="reason-code-{{$rowNo}}-dropdown" ng-model="data.reasonCode" component-data="ctrl.reasonCodeDropdown"  translate-label="true" ng-disabled = "ctrl.disableReasonCode(data)" ng-change="ctrl.changeReasonCode($rowNo, data)"></scf-dropdown>',
                 id: 'reason-code-{value}-dropdown',
                 idValueField: '$rowNo',
                 fieldName: 'reasonCode',
@@ -399,7 +416,6 @@ txnMod.controller('CreatePaymentController', [
                 vm.supportPartial = response.supportPartial;
                 vm.supportSpecialDebit = response.supportSpecialDebit;
                 if (vm.supportPartial) {
-                    vm.reasonCodeMappingId = response.reasonCodeMappingId;
                     var defferedReasonCode = _loadReasonCodeMappingDatas();
                     addColumnForCreatePartial();
                 }
@@ -472,7 +488,7 @@ txnMod.controller('CreatePaymentController', [
                         if (angular.equals(data.groupingKey, document.groupingKey)) {
                             if (!isFound(document)) {
                                 if (vm.supportPartial) {
-                                    document.reasonCode = vm.resonCodeDropdown[0].value;
+                                    document.reasonCode = vm.reasonCodeDropdown[0].value;
                                     if (vm.documentSelection == 'AT_LEAST_ONE_DOCUMENT') {
                                         if (document.netAmount < 0) {
                                             vm.documentSelects = vm.documentSelects.concat(addDocumentInPage(document));
@@ -550,7 +566,7 @@ txnMod.controller('CreatePaymentController', [
 
                 if (vm.supportPartial) {
                     vm.pagingController.tableRowCollection.forEach(function (data) {
-                        data.reasonCode = vm.resonCodeDropdown[0].value;
+                        data.reasonCode = vm.reasonCodeDropdown[0].value;
                     });
                     if (vm.documentSelects.length > 0) {
                         vm.documentSelects.forEach(function (documentSelect, index) {
@@ -653,7 +669,7 @@ txnMod.controller('CreatePaymentController', [
 
         function resetReasonCode(row, record) {
             var reasonCodeDropdown = getReasonCodeDropdownElement(row);
-            record.reasonCode = vm.resonCodeDropdown[0].value; //reset to default reason code
+            record.reasonCode = vm.reasonCodeDropdown[0].value; //reset to default reason code
             reasonCodeDropdown.disabled = true;
         }
 
@@ -681,7 +697,7 @@ txnMod.controller('CreatePaymentController', [
                 templateUrl: '/js/app/modules/transaction/payment/reason-code/templates/dialog-partial-payment-reason-code.html',
                 controller: 'SelectReasonCodePopupController',
                 data: {
-                    reasonCodeDropdown: vm.resonCodeDropdown
+                    reasonCodeDropdown: vm.reasonCodeDropdown
                 }
             });
 
@@ -725,7 +741,7 @@ txnMod.controller('CreatePaymentController', [
             vm.documentSelection = null;
             vm.display = false;
             vm.checkSelectMatchingRef = false;
-            vm.resonCodeDropdown = [];
+            vm.reasonCodeDropdown = [];
 
             vm.createTransactionType = 'WITH_INVOICE';
 
@@ -880,7 +896,7 @@ txnMod.controller('CreatePaymentController', [
                     if (index > -1) {
                         vm.documentSelects.splice(index, 1);
                         if (vm.supportPartial) {
-                            document.reasonCode = vm.resonCodeDropdown[0].value;
+                            document.reasonCode = vm.reasonCodeDropdown[0].value;
                             document.calculatedPaymentAmount = document.calculatedNetAmount;
                         }
                     }
@@ -902,7 +918,7 @@ txnMod.controller('CreatePaymentController', [
                 if (vm.supportPartial) {
                     var unselectedData = [];
                     temporalDocuments.forEach(function (data) {
-                        data.reasonCode = vm.resonCodeDropdown[0].value;
+                        data.reasonCode = vm.reasonCodeDropdown[0].value;
                         vm.documentSelects.forEach(function (documentSelect) {
                             if (documentSelect.documentId == data.documentId) {
                                 data.calculatedPaymentAmount = documentSelect.calculatedPaymentAmount;
@@ -936,7 +952,7 @@ txnMod.controller('CreatePaymentController', [
                 vm.documentSelects = [];
                 if (vm.supportPartial) {
                     vm.pagingController.tableRowCollection.forEach(function (document) {
-                        document.reasonCode = vm.resonCodeDropdown[0].value;
+                        document.reasonCode = vm.reasonCodeDropdown[0].value;
                         document.calculatedPaymentAmount = document.calculatedNetAmount;
                     });
                 }
@@ -957,7 +973,7 @@ txnMod.controller('CreatePaymentController', [
         }
 
         vm.changeReasonCode = function (row, record) {
-            if (record.reasonCode == vm.resonCodeDropdown[0].value) {
+            if (record.reasonCode == vm.reasonCodeDropdown[0].value) {
                 resetPaymentAmount(row, record)
             }
         }
@@ -1028,7 +1044,7 @@ txnMod.controller('CreatePaymentController', [
         }
 
         vm.disableReasonCode = function (data) {
-            if (data.reasonCode == vm.resonCodeDropdown[0].value) {
+            if (data.reasonCode == vm.reasonCodeDropdown[0].value) {
                 return true;
             } else {
                 return false;

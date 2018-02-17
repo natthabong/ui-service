@@ -134,25 +134,6 @@ tpModule.factory('MappingDataService', ['$http', '$q', function($http, $q) {
         return deffered;
     }
 
-    function loadMappingData(owner, accountingTransactionType, mappingTypeList) {
-        var serviceUrl = 'api/v1/organize-customers/' + owner + '/accounting-transactions/' + accountingTransactionType + '/mapping-datas';
-        var deffered = $q.defer();
-        $http({
-                url: serviceUrl,
-                method: 'GET',
-                params: {
-                    mappingType: mappingTypeList
-                }
-            })
-            .then(function(response) {
-                deffered.resolve(response);
-            })
-            .catch(function(response) {
-                deffered.reject(response);
-            });
-        return deffered;
-    }
-
     function loadMappingDataItems(ownerId, accountingTransactionType, mappingDataId, params) {
         var serviceUrl = 'api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/mapping-datas/' + mappingDataId + '/items';
         var deffered = $q.defer();
@@ -180,7 +161,6 @@ tpModule.factory('MappingDataService', ['$http', '$q', function($http, $q) {
         deleteMappingData: deleteMappingData,
         createMappingDataItem: createMappingDataItem,
         getMappingData: getMappingData,
-        loadMappingData: loadMappingData,
         setDefaultCode: setDefaultCode,
         loadMappingDataItems: loadMappingDataItems
     }
