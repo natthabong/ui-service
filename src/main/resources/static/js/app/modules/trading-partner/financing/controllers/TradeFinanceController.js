@@ -42,7 +42,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		}
 
 		vm.borrowerModel = [{
-				label: '[Buyer] ' + borrower.sponsorId + ': ' + borrower.sponsorName,
+				label: '[Buyer] ' + borrower.buyerId + ': ' + borrower.sponsorName,
 				value: "BUYER"
 			},
 			{
@@ -81,7 +81,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		var queryAccount = function (value) {
 			supplierId = borrower.supplierId;
 			if (vm.tradeFinanceModel.borrower == "BUYER") {
-				organizeId = borrower.sponsorId;
+				organizeId = borrower.buyerId;
 			} else {
 				organizeId = borrower.supplierId;
 			}
@@ -198,8 +198,8 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			}
 		}
 
-		var _getTradeFinanceInfo = function (sponsorId, supplierId, accountId) {
-			var defered = TradeFinanceService.getTradeFinanceInfo(sponsorId, supplierId, accountId);
+		var _getTradeFinanceInfo = function (buyerId, supplierId, accountId) {
+			var defered = TradeFinanceService.getTradeFinanceInfo(buyerId, supplierId, accountId);
 			defered.promise.then(function (response) {
 				initialTradeFinance(response.data)
 			}).catch(function (response) {
@@ -233,10 +233,10 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 					log.error("Trade finance data is null.");
 					PageNavigation.gotoPage('/customer-registration/trading-partners');
 				} else {
-					var sponsorId = $stateParams.data.sponsorId;
+					var buyerId = $stateParams.data.buyerId;
 					var supplierId = $stateParams.data.supplierId;
 					var accountId = $stateParams.data.accountId;
-					_getTradeFinanceInfo(sponsorId, supplierId, accountId);
+					_getTradeFinanceInfo(buyerId, supplierId, accountId);
 				}
 			}
 		}
@@ -264,7 +264,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			var organizeName = null;
 
 			if (vm.tradeFinanceModel.borrower == "BUYER") {
-				organizeId = borrower.sponsorId;
+				organizeId = borrower.buyerId;
 				organizeName = borrower.sponsorName;
 			} else {
 				organizeId = borrower.supplierId;
@@ -291,11 +291,11 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		}
 
 		var _save = function () {
-			var sponsorId = borrower.sponsorId;
+			var buyerId = borrower.buyerId;
 			var supplierId = borrower.supplierId;
 			var tradeFinanceModule = {
-				sponsorId: vm.isSupplier ? borrower.supplierId : borrower.sponsorId,
-				supplierId: vm.isSupplier ? borrower.sponsorId : borrower.supplierId,
+				buyerId: vm.isSupplier ? borrower.supplierId : borrower.buyerId,
+				supplierId: vm.isSupplier ? borrower.buyerId : borrower.supplierId,
 				accountId: vm.tradeFinanceModel.financeAccount.accountId,
 				limitExpiryDate: vm.tradeFinanceModel.creditExpirationDate,
 				tenor: vm.tradeFinanceModel.tenor,
@@ -307,7 +307,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				payeeAccountId: vm.tradeFinanceModel.payeeAccountId == 'UNDEFINED_ACCOUNT'? null : vm.tradeFinanceModel.payeeAccountId
 			}
 
-			var deferred = TradeFinanceService.createTradeFinance(sponsorId, supplierId, tradeFinanceModule, vm.isSupplier);
+			var deferred = TradeFinanceService.createTradeFinance(buyerId, supplierId, tradeFinanceModule, vm.isSupplier);
 			deferred.promise.then(function (response) {}).catch(function (response) {
 				if (response) {
 					if (Array.isArray(response.data)) {
@@ -324,7 +324,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		}
 
 		var _update = function () {
-			var sponsorId = borrower.sponsorId;
+			var buyerId = borrower.buyerId;
 			var supplierId = borrower.supplierId;
 
 			if (vm.tradeFinanceModel.creditExpirationDate == "Invalid Date") {
@@ -332,7 +332,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			}
 
 			var tradeFinanceModule = {
-				sponsorId: sponsorId,
+				buyerId: buyerId,
 				supplierId: supplierId,
 				accountId: vm.tradeFinanceModel.financeAccount.accountId,
 				limitExpiryDate: vm.tradeFinanceModel.creditExpirationDate,
@@ -345,7 +345,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				version: $stateParams.data.version
 			}
 
-			var deferred = TradeFinanceService.updateTradeFinance(sponsorId, supplierId, tradeFinanceModule.accountId, tradeFinanceModule);
+			var deferred = TradeFinanceService.updateTradeFinance(buyerId, supplierId, tradeFinanceModule.accountId, tradeFinanceModule);
 			deferred.promise.then(function (response) {}).catch(function (response) {
 				if (response) {
 					if (Array.isArray(response.data)) {
