@@ -89,7 +89,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
             function calculateTransactionAmount(documentSelects, prepercentagDrawdown) {
                 vm.totalDocumentAmount = TransactionService.summaryAllDocumentAmount(documentSelects);
-                vm.submitTransactionAmount = TransactionService.calculateTotalDocumentAmountWithPrePercentTag(vm.totalDocumentAmount, prepercentagDrawdown);
+                vm.submitTransactionAmount = TransactionService.calculateTotalDocumentAmountWithPrePercentTage(vm.totalDocumentAmount, prepercentagDrawdown);
             }
 
             vm.loadDocument = function (pagingModel) {
@@ -179,15 +179,16 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     vm.createTransactionModel.transactionMethod = 'OD';
                 }
 
-                var differed = null;
+                var deferred = null;
                 var tradingInfo = TransactionService.getTradingInfo(sponsorCode, ownerId, accountId);
                 tradingInfo.promise.then(function (response) {
                     vm.tradingpartnerInfoModel = response.data;
-                    differed = _loadTransactionDate(sponsorCode, sponsorPaymentDate);
+                    deferred = _loadTransactionDate(sponsorCode, sponsorPaymentDate);
+                    calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
                 }).catch(function (response) {
                     log.error("Load trading partner fail !");
                 });
-                return differed;
+                return deferred;
             }
 
             function validateSponsorPaymentDate(paymentDate) {
@@ -296,6 +297,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                                 value: data
                             })
                         });
+
                         if (backAction === false && dashboardParams == null) {
                             vm.createTransactionModel.sponsorPaymentDate = vm.sponsorPaymentDates[0].value;
                         } else if (dashboardParams != null) {
@@ -471,7 +473,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 var sponsorCode = vm.createTransactionModel.sponsorCode;
                 var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
                 _loadTradingPartnerInfo(sponsorCode, sponsorPaymentDate);
-                calculateTransactionAmount(vm.documentSelects, vm.tradingpartnerInfoModel.prePercentageDrawdown);
             }
 
             vm.backStep = function () {
