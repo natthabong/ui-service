@@ -307,7 +307,7 @@ txnMod.controller('CreatePaymentController', [
 
         function _loadReasonCodeMappingDatas() {
         	var mappingTypeList = ["REASON_CODE"];
-			var deffered = SCFCommonService.loadMappingData(ownerId,'RECEIVABLE',mappingTypeList);
+			var deffered = SCFCommonService.loadMappingData(vm.criteria.supplierId,'RECEIVABLE',mappingTypeList);
 			deffered.promise.then(function(response) {
 				var mappingList = response.data;
 				vm.reasonCodeMappingId = mappingList[0].mappingDataId;
