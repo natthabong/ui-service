@@ -13,10 +13,10 @@ function transactionService($http, $q, blockUI, $window) {
                     accountingTransactionType: accountingTransactionType
                 }
             })
-            .then(function(response) {
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject('Cannot load supplierCode');
             });
         return deffered;
@@ -32,9 +32,9 @@ function transactionService($http, $q, blockUI, $window) {
             params: {
                 sponsorId: sponsorId
             }
-        }).then(function(response) {
+        }).then(function (response) {
             deffered.resolve(response);
-        }).catch(function(response) {
+        }).catch(function (response) {
             deffered.reject(response);
         });
         return deffered;
@@ -47,10 +47,10 @@ function transactionService($http, $q, blockUI, $window) {
                 url: 'api/v1/organize-customers/' + ownerId + '/customer-code-groups/me/customer-codes',
                 method: 'GET'
             })
-            .then(function(response) {
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject('Cannot load customer code');
             });
         return deffered;
@@ -66,10 +66,10 @@ function transactionService($http, $q, blockUI, $window) {
                     sort: sort
                 }
             })
-            .then(function(response) {
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject('Cannot load account');
             });
         return deffered;
@@ -87,10 +87,10 @@ function transactionService($http, $q, blockUI, $window) {
                     sort: sort
                 }
             })
-            .then(function(response) {
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject('Cannot load account');
             });
         return deffered;
@@ -102,10 +102,10 @@ function transactionService($http, $q, blockUI, $window) {
                 url: 'api/v1/documents',
                 method: 'GET',
                 params: criteria
-            }).then(function(response) {
+            }).then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject(response);
             });
         return deffered;
@@ -129,10 +129,10 @@ function transactionService($http, $q, blockUI, $window) {
                     productType: prodType
                 }
             })
-            .then(function(response) {
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject('Cannot load payment date');
             });
         return deffered;
@@ -145,10 +145,10 @@ function transactionService($http, $q, blockUI, $window) {
                 method: 'POST',
                 data: transactionModel
             })
-            .then(function(response) {
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject(response);
             });
         return deffered;
@@ -165,17 +165,17 @@ function transactionService($http, $q, blockUI, $window) {
                     supplierCode: supplierCode,
                     loanRequestMode: loanRequestMode
                 },
-                transformRequest: function(data) {
+                transformRequest: function (data) {
                     if (data === undefined) {
                         return data;
                     }
                     return $.param(data);
                 }
             })
-            .then(function(response) {
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject('Cannot load supplierCode');
             });
         return deffered;
@@ -196,17 +196,17 @@ function transactionService($http, $q, blockUI, $window) {
                     loanRequestMode: loanRequestMode,
                     tenor: tenor
                 },
-                transformRequest: function(data) {
+                transformRequest: function (data) {
                     if (data === undefined) {
                         return data;
                     }
                     return $.param(data);
                 }
             })
-            .then(function(response) {
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject(response);
             });
         return deffered;
@@ -226,16 +226,16 @@ function transactionService($http, $q, blockUI, $window) {
                 supplierId: supplierId,
                 accountId: accountId
             },
-            transformRequest: function(data) {
+            transformRequest: function (data) {
                 if (data === undefined) {
                     return data;
                 }
                 return $.param(data);
             }
-        }).then(function(response) {
+        }).then(function (response) {
             blockUI.stop();
             deffered.resolve(response);
-        }).catch(function(response) {
+        }).catch(function (response) {
             blockUI.stop();
             deffered.reject(response);
         });
@@ -245,11 +245,11 @@ function transactionService($http, $q, blockUI, $window) {
     function verifyTransaction(transaction) {
         var deffered = $q.defer();
         $http.post('api/v1/create-transaction/transaction/verify', transaction)
-            .then(function(response) {
+            .then(function (response) {
                 deffered.resolve(response);
 
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject(response);
             });
         return deffered;
@@ -259,10 +259,10 @@ function transactionService($http, $q, blockUI, $window) {
         var deffered = $q.defer();
 
         $http.get('api/v1/create-transaction/sponsor')
-            .then(function(response) {
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject(response);
             });
         return deffered;
@@ -279,37 +279,37 @@ function transactionService($http, $q, blockUI, $window) {
                 data: {
 
                 },
-                transformRequest: function(data) {
+                transformRequest: function (data) {
                     if (data === undefined) {
                         return data;
                     }
                     return $.param(data);
                 }
             })
-            .then(function(response) {
+            .then(function (response) {
                 deffered.resolve(response);
             })
-            .catch(function(response) {
+            .catch(function (response) {
                 deffered.reject(response);
             });
         return deffered;
     }
 
-    function calculateTotalDocumentAmountWithPrePercentTag(totalAmount, preDradowPercentag) {
+    function calculateTotalDocumentAmountWithPrePercentTage(totalAmount, preDradowPercentag) {
         var sumAmount = (totalAmount * (preDradowPercentag / 100)).toFixed(2);
         return sumAmount;
     }
 
     function summaryAllDocumentAmount(documentSelects) {
         var sumAmount = 0;
-        documentSelects.forEach(function(document) {
+        documentSelects.forEach(function (document) {
             sumAmount += Number(document.calculatedPaymentAmount);
         });
         return sumAmount;
     }
 
     function findIndexFromDoucmentListByDocument(ducument, documentList) {
-        return documentList.map(function(o) {
+        return documentList.map(function (o) {
             return o.documentId;
         }).indexOf(ducument.documentId);
     }
@@ -318,7 +318,7 @@ function transactionService($http, $q, blockUI, $window) {
         var selectAllDocumentInPage = false;
         var countRecordData = 0;
         if (documentSelects.length > 0) {
-            allDocumentInPage.forEach(function(document) {
+            allDocumentInPage.forEach(function (document) {
                 for (var index = documentSelects.length; index--;) {
                     if (angular.equals(document, documentSelects[index])) {
                         countRecordData++;
@@ -349,10 +349,10 @@ function transactionService($http, $q, blockUI, $window) {
             method: 'POST',
             url: '/api/transaction/retry',
             data: transactionApproveModel
-        }).then(function(response) {
+        }).then(function (response) {
             blockUI.stop();
             deffered.resolve(response);
-        }).catch(function(response) {
+        }).catch(function (response) {
             blockUI.stop();
             deffered.reject(response);
         });
@@ -366,10 +366,10 @@ function transactionService($http, $q, blockUI, $window) {
             method: 'POST',
             url: '/api/v1/reject-transaction/reject',
             data: transactionModel
-        }).then(function(response) {
+        }).then(function (response) {
             blockUI.stop();
             deffered.resolve(response);
-        }).catch(function(response) {
+        }).catch(function (response) {
             blockUI.stop();
             if (response.status == 403) {
                 $window.location.href = "/error/403";
@@ -421,9 +421,9 @@ function transactionService($http, $q, blockUI, $window) {
                 paymentDate: paymentDate,
                 tenor: tenor
             }
-        }).then(function(response) {
+        }).then(function (response) {
             deffered.resolve(response);
-        }).catch(function(response) {
+        }).catch(function (response) {
             deffered.reject(response);
         });
         return deffered;
@@ -436,7 +436,7 @@ function transactionService($http, $q, blockUI, $window) {
             url: '/api/approve-transaction/evidence-form',
             data: transactionModel,
             responseType: 'arraybuffer'
-        }).success(function(response) {
+        }).success(function (response) {
             var file = new Blob([response], {
                 type: 'application/pdf'
             });
@@ -456,7 +456,7 @@ function transactionService($http, $q, blockUI, $window) {
 
             document.body.appendChild(a);
             a.click();
-        }).error(function(response) {
+        }).error(function (response) {
 
         });
     }
@@ -472,9 +472,9 @@ function transactionService($http, $q, blockUI, $window) {
             params: {
                 mode: 'view'
             }
-        }).then(function(response) {
+        }).then(function (response) {
             deffered.resolve(response);
-        }).catch(function(response) {
+        }).catch(function (response) {
             deffered.reject(response);
         });
         return deffered;
@@ -486,7 +486,7 @@ function transactionService($http, $q, blockUI, $window) {
             url: '/api/approve-transaction/evidence-form',
             data: transactionModel,
             responseType: 'arraybuffer'
-        }).success(function(response) {
+        }).success(function (response) {
             var file = new Blob([response], {
                 type: 'application/pdf'
             });
@@ -515,7 +515,7 @@ function transactionService($http, $q, blockUI, $window) {
 
             document.body.appendChild(a);
             a.click();
-        }).error(function(response) {
+        }).error(function (response) {
 
         });
     }
@@ -526,9 +526,9 @@ function transactionService($http, $q, blockUI, $window) {
             url: 'api/v1/list-transaction/summary-status-group',
             method: 'POST',
             data: listTransactionModel
-        }).then(function(response) {
+        }).then(function (response) {
             deffered.resolve(response);
-        }).catch(function(response) {
+        }).catch(function (response) {
             deffered.reject(response);
         });
         return deffered;
@@ -541,9 +541,9 @@ function transactionService($http, $q, blockUI, $window) {
             method: 'POST',
             params: params,
             data: data
-        }).then(function(response) {
+        }).then(function (response) {
             deffered.resolve(response);
-        }).catch(function(response) {
+        }).catch(function (response) {
             deffered.reject(response);
         });
         return deffered;
@@ -602,7 +602,7 @@ function transactionService($http, $q, blockUI, $window) {
     this.getAccountsByTenor = getAccountsByTenor;
     this.getBuyerCodes = getBuyerCodes;
     this.getSuppliers = getSuppliers;
-    this.calculateTotalDocumentAmountWithPrePercentTag = calculateTotalDocumentAmountWithPrePercentTag;
+    this.calculateTotalDocumentAmountWithPrePercentTage = calculateTotalDocumentAmountWithPrePercentTage;
     this.submitTransaction = submitTransaction;
     this.retry = retry;
     this.reject = reject;
