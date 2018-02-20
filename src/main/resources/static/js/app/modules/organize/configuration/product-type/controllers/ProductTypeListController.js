@@ -8,7 +8,7 @@ productTypeModule.controller('ProductTypeListController', [
     '$scope',
     '$stateParams',
     'ProductTypeService',
-    function(PageNavigation, PagingController, UIFactory, $log, $scope, $stateParams, ProductTypeService) {
+    function (PageNavigation, PagingController, UIFactory, $log, $scope, $stateParams, ProductTypeService) {
         var vm = this;
         var log = $log;
         var organizeId = $stateParams.organizeId;
@@ -22,7 +22,7 @@ productTypeModule.controller('ProductTypeListController', [
         vm.criteria = $stateParams.criteria || {};
         vm.pagingController = PagingController.create(url, vm.criteria, 'GET');
 
-        vm.gotoListPage = function() {
+        vm.gotoListPage = function () {
             var params = {
                 organizeId: organizeId
             };
@@ -30,7 +30,7 @@ productTypeModule.controller('ProductTypeListController', [
             PageNavigation.gotoPage('/customer-organize/product-types', params);
         }
 
-        vm.newProductType = function() {
+        vm.newProductType = function () {
             var params = {
                 organizeId: organizeId
             };
@@ -41,7 +41,7 @@ productTypeModule.controller('ProductTypeListController', [
             });
         }
 
-        vm.editProductType = function(data) {
+        vm.editProductType = function (data) {
             var params = {
                 organizeId: organizeId,
                 productType: data.productType,
@@ -54,17 +54,17 @@ productTypeModule.controller('ProductTypeListController', [
             });
         }
 
-        vm.deleteProductType = function(data) {
+        vm.deleteProductType = function (data) {
             UIFactory
                 .showConfirmDialog({
                     data: {
                         headerMessage: 'Confirm delete?'
                     },
-                    confirm: function() {
+                    confirm: function () {
                         return ProductTypeService
                             .removeProductType(data);
                     },
-                    onFail: function(response) {
+                    onFail: function (response) {
                         var status = response.status;
                         if (status != 400) {
                             var msg = {
@@ -83,7 +83,7 @@ productTypeModule.controller('ProductTypeListController', [
                         }
 
                     },
-                    onSuccess: function(response) {
+                    onSuccess: function (response) {
                         UIFactory
                             .showSuccessDialog({
                                 data: {
@@ -96,12 +96,14 @@ productTypeModule.controller('ProductTypeListController', [
                 });
         }
 
-        vm.gotoPreviousPage = function() {
-            var params = { organizeId: organizeId };
+        vm.gotoPreviousPage = function () {
+            var params = {
+                organizeId: organizeId
+            };
             PageNavigation.gotoPage("/sponsor-configuration", params);
         }
 
-        vm.unauthenConfig = function() {
+        vm.unauthenConfig = function () {
             if (vm.manageAllConfig) {
                 return false;
             } else {
@@ -109,7 +111,7 @@ productTypeModule.controller('ProductTypeListController', [
             }
         }
 
-        vm.unauthenView = function() {
+        vm.unauthenView = function () {
             if (vm.viewAction) {
                 return false;
             } else {
@@ -117,22 +119,20 @@ productTypeModule.controller('ProductTypeListController', [
             }
         }
 
-        vm.searchProductType = function(pageModel) {
-            vm.pagingController.search(pageModel, function(criteriaData, response) {
+        vm.searchProductType = function (pageModel) {
+            vm.pagingController.search(pageModel, function (criteriaData, response) {
                 $scope.currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
                 $scope.pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
             });
         }
 
-        var loadData = function() {
+        var loadData = function () {
             vm.searchProductType();
         }
 
-        var init = function() {
+        var init = function () {
             vm.searchProductType();
         }();
-
-
 
     }
 ]);
