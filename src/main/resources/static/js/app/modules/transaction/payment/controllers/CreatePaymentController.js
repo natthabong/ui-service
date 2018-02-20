@@ -294,9 +294,7 @@ txnMod.controller('CreatePaymentController', [
                             vm.paymentModel = SCFCommonService.convertDate(vm.transactionModel.transactionDate);
                         }
                         $stateParams.backAction = false;
-
                     }
-
                     _loadMaturityDate();
 
                 }).catch(function (response) {
@@ -604,7 +602,7 @@ txnMod.controller('CreatePaymentController', [
                 });
 
                 if (vm.documentSelects.length > 0) {
-                    _loadPaymentDate();
+                	_loadPaymentDate();
                 }
 
                 if (_validateForSearch()) {
@@ -763,8 +761,9 @@ txnMod.controller('CreatePaymentController', [
                 },
                 columns: []
             };
-
+            
             vm.initFlag = true;
+            
             var init = function () {
                 vm.showBackButton = $stateParams.showBackButton;
                 var dashboardParams = $stateParams.dashboardParams;
@@ -820,10 +819,11 @@ txnMod.controller('CreatePaymentController', [
                                             } else {
                                                 _setTransactionMethod(vm.supportSpecialDebit);
                                             }
-                                            // _loadPaymentDate();
+                                            
                                         }
-
-                                        vm.accountChange();
+                                       
+                                       	vm.accountChange();
+                                        
                                     });
                                 });
                             });
@@ -836,6 +836,7 @@ txnMod.controller('CreatePaymentController', [
                     vm.criteria.dueDateTo = dashboardParams.dueDate;
                     vm.showBackButton = true;
                 }
+                
             }();
         });
 
@@ -844,6 +845,7 @@ txnMod.controller('CreatePaymentController', [
                 var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
                 defferedDocumentDisplayConfig.promise.then(function (response) {
                     var defferedDocument = _loadDocument();
+                    vm.transactionModel.payerAccountId = vm.accountDropDown[0].value;
                 });
             } else {
                 vm.display = false;
@@ -865,7 +867,6 @@ txnMod.controller('CreatePaymentController', [
         }
 
         vm.selectDocument = function (data) {
-            vm.transactionModel.transactionDate = null;
             vm.checkAllModel = false;
             vm.selectAllModel = false;
             if (vm.checkSelectMatchingRef) {
@@ -878,7 +879,6 @@ txnMod.controller('CreatePaymentController', [
         }
 
         vm.checkAllDocument = function () {
-            vm.transactionModel.transactionDate = null;
             var allDocumentInPage = vm.pagingController.tableRowCollection;
             if (vm.checkAllModel) {
                 allDocumentInPage.forEach(function (document) {
@@ -912,7 +912,6 @@ txnMod.controller('CreatePaymentController', [
         };
 
         vm.selectAllDocument = function () {
-            vm.transactionModel.transactionDate = null;
             if (!vm.selectAllModel) {
                 var temporalDocuments = angular.copy(vm.temporalDocuments);
                 if (vm.supportPartial) {
@@ -1076,8 +1075,6 @@ txnMod.controller('CreatePaymentController', [
                         }
                         vm.isLoanPayment = false;
                     }
-                    
-                    _loadPaymentDate();
                 }
             });
         }
