@@ -1,16 +1,19 @@
 <div th:fragment="content">
     <div id="wrapper" ng-controller="ProductTypeListController as ctrl">
-        <input type="hidden" ng-init="ctrl.manageAllConfig=true" sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES')" />
-        <input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES_OF_ALL_FUNDING')" />
+        <input type="hidden" ng-init="ctrl.manageAllConfig=true" sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES_OF_ALL_FUNDING', 'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES')"
+        />
+        <input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES_OF_ALL_FUNDING', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES')"
+        />
         <div class="panel panel-default">
             <div class="panel-body" style="min-height: 200px;">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 text-right">
-
                         <table id="product-type-list-table" class="table table-striped table-bordered" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th><br/></th>
+                                    <th>
+                                        <br/>
+                                    </th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -20,8 +23,13 @@
                                         <span id="product-type-list-label">{{'Product type list' | translate}}</span>
                                     </td>
                                     <td class="text-center">
-                                        <scf-button ng-disabled="ctrl.unauthenView()" class="btn-default gec-btn-action" id="product-type-list-view-button" title="View product type"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
-                                        <scf-button ng-disabled="ctrl.unauthenConfig()" id="product-type-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.gotoListPage()" title="Config product type"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>
+                                        <scf-button ng-disabled="ctrl.unauthenView()" class="btn-default gec-btn-action" id="product-type-list-view-button" title="View product type">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </scf-button>
+                                        <scf-button ng-disabled="ctrl.unauthenConfig()" id="product-type-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.gotoListPage()"
+                                            title="Config product type">
+                                            <i class="fa fa-cog" aria-hidden="true"></i>
+                                        </scf-button>
                                     </td>
                                 </tr>
                             </tbody>
