@@ -10,8 +10,8 @@ angular.module('gecscf.organize.configuration.productType', ['ui.router', 'gecsc
 			'js/app/common/scf-component.css'
 		];
 
-		$stateProvider.state('/sponsor-configuration/product-types', {
-			url: '/customer-organize/product-types/:organizeId',
+		$stateProvider.state('/organizations/product-types', {
+			url: '/organizations/:organizeId/product-types',
 			controller: 'ProductTypeController',
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/product-types',
@@ -19,8 +19,8 @@ angular.module('gecscf.organize.configuration.productType', ['ui.router', 'gecsc
 				organizeId: null
 			},
 			resolve: WebHelper.loadScript(resources)
-		}).state('/sponsor-configuration/product-type-list', {
-			url: '/customer-organize/product-types/:organizeId',
+		}).state('/organizations/product-types/list', {
+			url: '/organizations/:organizeId/product-types/list',
 			controller: 'ProductTypeListController',
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/product-type-list',
@@ -28,15 +28,23 @@ angular.module('gecscf.organize.configuration.productType', ['ui.router', 'gecsc
 				organizeId: null
 			},
 			resolve: WebHelper.loadScript(resources)
-		}).state('/sponsor-configuration/product-types-setup', {
-			url: '/customer-organize/product-types/setup/:organizeId/:productType',
+		}).state('/organizations/product-types/configuration', {
+			url: '/organizations/:organizeId/product-types/configuration',
+			controller: 'ProductTypeListController',
+			controllerAs: 'ctrl',
+			templateUrl: '/sponsor-configuration/product-type-list',
+			params: {
+				organizeId: null
+			},
+			resolve: WebHelper.loadScript(resources)
+		}).state('/organizations/product-types/setup', {
+			url: '/organizations/:organizeId/product-types/configuration/:productType/setup',
 			controller: 'ProductTypeSetupController',
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/product-types-setup',
 			params: {
 				organizeId: null,
-				productType: null,
-				model: null
+				productType: null
 			},
 			resolve: WebHelper.loadScript(resources)
 		});

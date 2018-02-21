@@ -15,14 +15,14 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
 			var params = {
 				organizeId: organizeId
 			};
-			PageNavigation.gotoPage('/sponsor-configuration/product-type-list', params);
+			PageNavigation.gotoPage('/organizations/product-types/configuration', params);
 		}
 
 		vm.gotoListPage = function () {
 			var params = {
 				organizeId: organizeId
 			};
-			PageNavigation.gotoPage('/sponsor-configuration/product-types-setup', params);
+			PageNavigation.gotoPage('/organizations/product-types/list', params);
 		}
 
 		vm.unauthenConfig = function () {

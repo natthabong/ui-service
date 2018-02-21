@@ -304,16 +304,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						'js/app/dashboard/payment-journey/wait-for-approve.js',
 						'js/app/dashboard/payment-journey/future-payment.js'
 					])
-				}).state('/sponsor-configuration/mapping-data/edit', {
-					url: '/sponsor-configuration/mapping-data/edit/:organizeId',
-					controller: 'EditMappingDataController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/mapping-data/edit',
-					params: {
-						mappingData: null,
-						backAction: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/mapping-data/controllers/EditMappingDataController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/sponsor-configuration/mapping-data/code/new', {
 					url: '/sponsor-configuration/mapping-data/code/new/:organizeId',
 					controller: 'MappingDataCodeController',
