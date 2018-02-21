@@ -14,7 +14,7 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 		vm.tradingPartner = null;
 		vm.payeeAccount = 'Undefined';
 
-		var sponsorId = null;
+		var buyerId = null;
 		var supplierId = null;
 
 		vm.financeModel = null;
@@ -83,8 +83,8 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 			$cookieStore.put(listStoreKey, vm.financeModel);
 		}
 
-		var getFinanceInfo = function (sponsorId, supplierId) {
-			var defered = ConfigTradeFinanceService.getTradeFinanceInfo(sponsorId, supplierId);
+		var getFinanceInfo = function (buyerId, supplierId) {
+			var defered = ConfigTradeFinanceService.getTradeFinanceInfo(buyerId, supplierId);
 			defered.promise.then(function (response) {
 				vm.pagingController.tableRowCollection = null;
 				if (response.data[0] != null) {
@@ -108,8 +108,8 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 			});
 		}
 
-		var loadTradingPartner = function (sponsorId, supplierId) {
-			var deffered = ConfigTradeFinanceService.getTradingPartner(sponsorId, supplierId);
+		var loadTradingPartner = function (buyerId, supplierId) {
+			var deffered = ConfigTradeFinanceService.getTradingPartner(buyerId, supplierId);
 			deffered.promise.then(function (response) {
 				vm.tradingPartner = response.data;
 				if (vm.tradingPartner != null) {
@@ -140,11 +140,11 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 				PageNavigation.gotoPage('/customer-registration/trading-partners');
 			}
 
-			sponsorId = vm.financeModel.sponsorId;
+			buyerId = vm.financeModel.buyerId;
 			supplierId = vm.financeModel.supplierId;
 
-			loadTradingPartner(sponsorId, supplierId);
-			getFinanceInfo(sponsorId, supplierId);
+			loadTradingPartner(buyerId, supplierId);
+			getFinanceInfo(buyerId, supplierId);
 		} ();
 
 		vm.setupDebitPayment = function () {
@@ -159,7 +159,7 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 				},
 				preCloseCallback: function (data) {
 					if(angular.isDefined(data) && data != null){
-						loadTradingPartner(data.sponsorId, data.supplierId);
+						loadTradingPartner(data.buyerId, data.supplierId);
 					}
 				}
 			});
@@ -174,7 +174,7 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 		vm.setDefaultCode = function (data) {
 			var deffered = ConfigTradeFinanceService.setDefaultCode(data);
 			deffered.promise.then(function (response) {
-				getFinanceInfo(data.sponsorId, data.supplierId);
+				getFinanceInfo(data.buyerId, data.supplierId);
 			}).catch(function (response) {
 				log.error("Can not set default code !");
 			});
@@ -211,7 +211,7 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 
 		vm.deleteTradeFinance = function (record) {
 			var preCloseCallback = function (confirm) {
-				getFinanceInfo(vm.financeModel.sponsorId, vm.financeModel.supplierId);
+				getFinanceInfo(vm.financeModel.buyerId, vm.financeModel.supplierId);
 			}
 
 			UIFactory.showConfirmDialog({

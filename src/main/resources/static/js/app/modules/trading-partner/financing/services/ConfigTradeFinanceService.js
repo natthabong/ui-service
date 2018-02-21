@@ -2,13 +2,13 @@
 var tradeFinanceModule = angular.module('scfApp');
 tradeFinanceModule.factory('ConfigTradeFinanceService', [ '$http', '$q', 'Service', function($http, $q, Service) {
 	
-	function getTradeFinanceInfo(sponsorId,supplierId){
-		var url = '/api/v1/organize-customers/'+sponsorId+'/trading-partners/'+supplierId+'/trade-finance';
+	function getTradeFinanceInfo(buyerId,supplierId){
+		var url = '/api/v1/organize-customers/'+buyerId+'/trading-partners/'+supplierId+'/trade-finance';
 		return Service.doGet(url);
 	}
 	
 	function deleteTradeFinance(tf){		
-		var serviceUrl = '/api/v1/organize-customers/'+tf.sponsorId+'/trading-partners/'+tf.supplierId+'/trade-finance/'+tf.accountId;
+		var serviceUrl = '/api/v1/organize-customers/'+tf.buyerId+'/trading-partners/'+tf.supplierId+'/trade-finance/'+tf.accountId;
 		var deferred = $q.defer();
 		$http({
 			method : 'POST',
@@ -27,7 +27,7 @@ tradeFinanceModule.factory('ConfigTradeFinanceService', [ '$http', '$q', 'Servic
 	}
 	
 	function setDefaultCode(tfData) {
-        var serviceUrl = 'api/v1/organize-customers/' + tfData.sponsorId + '/trading-partners/' + tfData.supplierId + '/trade-finance/' + tfData.accountId + '/set-default-account';
+        var serviceUrl = 'api/v1/organize-customers/' + tfData.buyerId + '/trading-partners/' + tfData.supplierId + '/trade-finance/' + tfData.accountId + '/set-default-account';
         var deffered = $q.defer();
 
         $http({
@@ -64,8 +64,8 @@ tradeFinanceModule.factory('ConfigTradeFinanceService', [ '$http', '$q', 'Servic
 		return deffered;
 	}
 
-	function getTradingPartner(sponsorId, supplierId){
-		return Service.doGet('api/v1/organize-customers/' + sponsorId + '/trading-partners/' + supplierId);
+	function getTradingPartner(buyerId, supplierId){
+		return Service.doGet('api/v1/organize-customers/' + buyerId + '/trading-partners/' + supplierId);
 	}
 
 	return {

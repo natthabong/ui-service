@@ -38,7 +38,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	    _sponsor = null;
 	    _supplier = null;
 	
-	    vm.buyer = $stateParams.buyer || null;;
+	    vm.buyer = $stateParams.buyer || null;
 	    vm.supplier = $stateParams.supplier || null;
 	
 	    var buyerPlaceholder = null;
