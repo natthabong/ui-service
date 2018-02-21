@@ -8,7 +8,7 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
 		var organizeId = $stateParams.organizeId;
 
 		vm.manageAllConfig = false;
-		vm.manageMyOrgConfig = false;
+		vm.manageConfig = false;
 		vm.viewAction = false;
 
 		vm.gotoConfigPage = function () {
@@ -26,7 +26,7 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
 		}
 
 		vm.unauthenConfig = function () {
-			if (vm.manageAllConfig || vm.manageMyOrgConfig) {
+			if (vm.manageAllConfig || vm.manageConfig) {
 				return false;
 			} else {
 				return true;

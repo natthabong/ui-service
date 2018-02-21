@@ -1,6 +1,6 @@
 <div th:fragment="content">
     <div id="wrapper" ng-controller="ProductTypeController as ctrl">
-        <input type="hidden" ng-init="ctrl.manageAllConfig=true; vm.manageMyOrgConfig=true;" sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES_OF_ALL_FUNDING', 'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES')"
+        <input type="hidden" ng-init="ctrl.manageAllConfig=true; vm.manageConfig=true;" sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES_OF_ALL_FUNDING', 'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES')"
         />
         <input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES_OF_ALL_FUNDING', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES')"
         />
