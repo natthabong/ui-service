@@ -1,6 +1,5 @@
 'use strict';
-var productTypeModule = angular.module('gecscf.organize.configuration.productType');
-productTypeModule.controller('ProductTypeListController', [
+angular.module('gecscf.organize.configuration.productType').controller('ProductTypeListController', [
     '$location',
     '$scope',
     '$stateParams',
@@ -13,11 +12,13 @@ productTypeModule.controller('ProductTypeListController', [
         var organizeId = $stateParams.organizeId;
 
         vm.configMode = undefined;
+        vm.criteria = undefined;
 
-        var url = '/api/v1/organize-customers/' + organizeId + '/product-types';
-
-        vm.criteria = $stateParams.criteria || {};
-        vm.pagingController = PagingController.create(url, vm.criteria, 'GET');
+        function initVariable() {
+            var url = '/api/v1/organize-customers/' + organizeId + '/product-types';
+            vm.criteria = $stateParams.criteria || {};
+            vm.pagingController = PagingController.create(url, vm.criteria, 'GET');
+        }
 
         function searchProductType(pageModel) {
             vm.pagingController.search(pageModel, function (criteriaData, response) {
@@ -104,10 +105,12 @@ productTypeModule.controller('ProductTypeListController', [
             PageNavigation.gotoPage("/sponsor-configuration", params);
         }
 
-        var init = function () {
+        function main() {
             setMode();
+            initVariable();
             searchProductType();
-        }();
+        }
+        main();
 
     }
 ]);
