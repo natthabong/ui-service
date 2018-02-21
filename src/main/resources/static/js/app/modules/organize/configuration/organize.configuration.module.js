@@ -7,7 +7,8 @@ angular.module('gecscf.organize.configuration', [
   'gecscf.organize.configuration.fileLayout',
   'gecscf.organize.configuration.exportPayment',
   'gecscf.organize.configuration.productType',
-  'gecscf.organize.configuration.channel'
+  'gecscf.organize.configuration.channel',
+  'gecscf.organize.configuration.mappingData'
 ]).config(['$stateProvider', function ($stateProvider) {
   var requiredModules = [
     'js/app/sponsor-configuration/sponsor-config-controller.js',

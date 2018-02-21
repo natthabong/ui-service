@@ -12,13 +12,18 @@ tpModule.controller('EditMappingDataController', [
 
         var vm = this;
         var log = $log;
+        var mode = {
+	    		VIEW : 'viewMapping',
+	    		EDIT : 'editMapping'
+		    }
+        
         var model = $stateParams.mappingData || {
             mappingDataId: undefined,
             mappingType: 'TEXT_MAPPING'
         };
-        var hideSignFlagColumn = false;
+        vm.hideSignFlagColumn = false;
         if (model.mappingType == 'TEXT_MAPPING' || model.mappingType == 'TEXT_MAPPING_WITH_DEFAULT'|| model.mappingType == 'REASON_CODE') {
-            hideSignFlagColumn = true;
+        	vm.hideSignFlagColumn = true;
         }
 
         vm.hideDefaultCodeColumn = false;
@@ -36,71 +41,27 @@ tpModule.controller('EditMappingDataController', [
         
         vm.criteria = {};
 
-        vm.dataTable = {
-            identityField: 'code',
-            columns: [{
-                fieldName: '$rowNo',
-                labelEN: 'No.',
-                labelTH: 'No.',
-                id: 'No-{value}',
-                sortable: false,
-                cssTemplate: 'text-right',
-            }, {
-                fieldName: 'code',
-                labelEN: 'Code',
-                labelTH: 'Code',
-                id: 'code-{value}',
-                sortable: false,
-                cssTemplate: 'text-left',
-            }, {
-                fieldName: 'display',
-                labelEN: 'Display',
-                labelTH: 'Display',
-                id: 'display-{value}',
-                sortable: false,
-                cssTemplate: 'text-left',
-            }, {
-                fieldName: 'signFlag',
-                labelEN: 'Sign flag',
-                labelTH: 'Sign flag',
-                idValueField: 'code',
-                id: 'sign-flag-{value}',
-                sortable: false,
-                cssTemplate: 'text-left',
-                hiddenColumn: hideSignFlagColumn,
-                dataRenderer: function (record) {
-                    if (record.signFlag) {
-                        record = "Negative";
-                    } else {
-                        record = "Positive";
-                    }
-                    return record;
-                }
-            }, {
-                fieldName: 'defaultCode',
-                labelEN: 'Default code',
-                labelTH: 'Default code',
-                idValueField: 'code',
-                id: 'default-code-{value}',
-                sortable: false,
-                cellTemplate: '<img	style="height: 16px; width: 16px;" ng-show="data.defaultCode" data-ng-src="img/checkmark.png"/>',
-                hiddenColumn: vm.hideDefaultCodeColumn
-            }, {
-                fieldName: 'action',
-                cssTemplate: 'text-center',
-                sortData: false,
-                cellTemplate: '<scf-button id="{{data.code}}-edit-button" class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenConfig()" ng-click="ctrl.editMappingDataCode(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
-                '<scf-button id="{{data.code}}-delete-button" class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenConfig(data.defaultCode)" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>' +
-                '<scf-button id="{{data.code}}-set-default-button" class="btn-default gec-btn-action" ng-hide="ctrl.hideDefaultCodeColumn" ng-disabled="ctrl.unauthenConfig()" ng-click="ctrl.setDefaultCode(data)" title="Set default"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>'
-            }]
-        }
-
-
+        
         vm.loadData = function (pagingModel) {
-            vm.pagingController.search(pagingModel);
+            vm.pagingController.search(pagingModel, function (criteria, response) {
+				var data = response.data;
+				var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
+				var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
+				var i = 0;
+				var baseRowNo = pageSize * currentPage;
+				angular.forEach(data, function (value, idx) {
+					++i;
+					value.rowNo = baseRowNo + i;
+				});
+			});
         }
 
+        var currentMode = $stateParams.mode;
         var initialPaging = function (criteria) {
+        	if(currentMode == mode.EDIT){
+    		    vm.isEditMode = true;
+    		}
+        	
             var uri = 'api/v1/organize-customers/' + criteria.ownerId + '/accounting-transactions/' + criteria.accountingTransactionType + '/mapping-datas/' + criteria.mappingDataId + '/items';
             vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
             vm.loadData();

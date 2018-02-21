@@ -304,31 +304,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						'js/app/dashboard/payment-journey/wait-for-approve.js',
 						'js/app/dashboard/payment-journey/future-payment.js'
 					])
-				}).state('/sponsor-configuration/mapping-data/code/new', {
-					url: '/sponsor-configuration/mapping-data/code/new/:organizeId',
-					controller: 'MappingDataCodeController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/mapping-data/code/new',
-					params: {
-						mappingData: null,
-						mode: "newCode",
-						mappingDataItem: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/mapping-data/controllers/MappingDataCodeController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/sponsor-configuration/mapping-data/code/edit', {
-					url: '/sponsor-configuration/mapping-data/code/edit/:organizeId',
-					controller: 'MappingDataCodeController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/mapping-data/code/new',
-					params: {
-						mappingData: null,
-						mode: "editCode",
-						mappingDataItem: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/mapping-data/controllers/MappingDataCodeController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-
-				})
-				.state('/sponsor-configuration/export-payments/settings', {
+				}).state('/sponsor-configuration/export-payments/settings', {
 					url: '/sponsor-configuration/export-payments/settings/:organizeId',
 					controller: 'ExportPaymentController',
 					controllerAs: 'ctrl',

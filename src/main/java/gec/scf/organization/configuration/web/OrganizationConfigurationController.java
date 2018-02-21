@@ -191,6 +191,16 @@ public class OrganizationConfigurationController {
 		return EDIT_MAPPING_DATA;
 
 	}
+	
+	@RequestMapping(path = "/mapping-data/view", method = RequestMethod.GET)
+	public String viewMappingData(@RequestHeader("X-Requested-With") String requestedWith) {
+
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return EDIT_MAPPING_DATA.concat(" :: content");
+		}
+		return EDIT_MAPPING_DATA;
+
+	}
 
 	@RequestMapping(path = "/export-channel-configs", method = RequestMethod.GET)
 	public String exportChannel(@RequestHeader("X-Requested-With") String requestedWith) {
