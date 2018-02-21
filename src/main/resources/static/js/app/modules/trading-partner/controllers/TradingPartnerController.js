@@ -24,13 +24,13 @@ tpModule.controller('TradingPartnerController', [
             }
             var mode = {
                 NEW : 'newTradingPartner',
-		    	EDIT : 'editTradingPartner'
+                EDIT : 'editTradingPartner'
             }
             var currentMode = $stateParams.mode;
 
             var _prepareItem = function(item) {
-        		item.identity = [ 'organize-', item.organizeId, '-option' ].join('');
-        		item.label = [ item.organizeId, ': ', item.organizeName ].join('');
+        		item.identity = [ 'organize-', item.memberId, '-option' ].join('');
+        		item.label = [ item.memberId, ': ', item.memberName ].join('');
         		return item;
         	}
             
@@ -45,9 +45,9 @@ tpModule.controller('TradingPartnerController', [
                     var deffered = TradingPartnerService.findTradingPartnerByBuyerIdAndSupplierId(buyerId, supplierId);
                     deffered.promise.then(function(response) {
                         vm.tradingPartner = response.data;
-                        var sponsorOrganize = _prepareItem(vm.tradingPartner.sponsorOrganize);
+                        var sponsorOrganize = _prepareItem(vm.tradingPartner.buyer);
                         vm.organizeListModel.buyer = sponsorOrganize;
-                        var supplierOrganize = _prepareItem(vm.tradingPartner.supplierOrganize);
+                        var supplierOrganize = _prepareItem(vm.tradingPartner.supplier);
                         vm.organizeListModel.supplier = supplierOrganize;
 
                     

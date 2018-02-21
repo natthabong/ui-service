@@ -42,7 +42,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		}
 
 		vm.borrowerModel = [{
-				label: '[Buyer] ' + borrower.buyerId + ': ' + borrower.sponsorName,
+				label: '[Buyer] ' + borrower.buyerId + ': ' + borrower.buyerName,
 				value: "BUYER"
 			},
 			{
@@ -265,7 +265,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 
 			if (vm.tradeFinanceModel.borrower == "BUYER") {
 				organizeId = borrower.buyerId;
-				organizeName = borrower.sponsorName;
+				organizeName = borrower.buyerName;
 			} else {
 				organizeId = borrower.supplierId;
 				organizeName = borrower.supplierName;
