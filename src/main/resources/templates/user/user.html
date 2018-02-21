@@ -227,8 +227,8 @@
 						</div>
 						<div class="col-md-12 col-sm-12 text-right">
 							<div class="form-group">
-								<scf-button id="back-button" class="popup-button btn" ng-click="cancel()" ng-if="ctrl.isViewMode">{{'Back' | translate}}</scf-button>
-								<scf-button id="cancel-button" class="popup-button btn" ng-click="cancel()" ng-if="!ctrl.isViewMode">{{'Cancel' | translate}}</scf-button>
+								<scf-button id="back-button" class="popup-button btn" ng-click="ctrl.back()" ng-if="ctrl.isViewMode">{{'Back' | translate}}</scf-button>
+								<scf-button id="cancel-button" class="popup-button btn" ng-click="ctrl.back()" ng-if="!ctrl.isViewMode">{{'Cancel' | translate}}</scf-button>
 								<scf-button id="save-button" type="submit" ng-if="!ctrl.isViewMode">{{'Save' | translate}}</scf-button>
 							</div>
 						</div>

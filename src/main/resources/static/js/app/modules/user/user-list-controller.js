@@ -32,20 +32,22 @@ userModule
 			    vm.userStatusDropdowns = UserStatus;
 			    vm.passwordStatusDropdowns = PasswordStatus;
 
+			    var _criteria = {};
+			    
+			    vm.criteria = $stateParams.criteria || {
+			    	userId : null,
+			    	user : {userId: '', displayName: ''},
+					organizeId : null,
+					organize : {memberId: '', memberCode: '', memberName: ''},
+					userStatus : null,
+					passwordStatus : null
+			    }
+			    
 			    vm.userListModel = {
 					user : undefined,
 					organize : undefined,
 					userStatus : vm.userStatusDropdowns[0].value,
 					passwordStatus : vm.passwordStatusDropdowns[0].value
-			    }
-
-			    var _criteria = {};
-			    
-			    vm.criteria = $stateParams.criteria || {
-					userId : '',
-					organizeId : '',
-					userStatus : undefined,
-					passwordStatus : undefined
 			    }
 
 			    vm.user = null;
@@ -115,6 +117,20 @@ userModule
 					return deferred;
 				}
 
+			    var prepareAutoSuggestUserLabel = function(item,module) {
+					item.identity = [ module,'-', item.displayName, '-option' ].join('');
+					item.label = [ item.displayName ].join('');
+					item.value = item.userId;
+					return item;
+				}
+			    
+			    var prepareAutoSuggestOrganizeLabel = function(item,module) {
+					item.identity = [ module,'-', item.memberId, '-option' ].join('');
+					item.label = [ item.memberCode, ': ', item.memberName ].join('');
+					item.value = item.memberId;
+					return item;
+				}
+			    
 			    var userAutoSuggestServiceUrl = 'api/v1/users';
 			    var searchUserTypeHead = function(value) {
 				value = UIFactory.createCriteria(value);
@@ -128,15 +144,8 @@ userModule
 					})
 					.then(
 						function(response) {
-						    return response.data
-							    .map(function(item) {
-								item.identity = [
-									'user-',
-									item.displayName,
-									'-option' ]
-									.join('');
-								item.label = [ item.displayName ]
-									.join('');
+						    return response.data.map(function(item) {
+						    	item = prepareAutoSuggestUserLabel(item,'user');
 								return item;
 							    });
 						});
@@ -161,18 +170,8 @@ userModule
 					})
 					.then(
 						function(response) {
-						    return response.data
-							    .map(function(item) {
-								item.identity = [
-									'organize-',
-									item.memberId,
-									'-option' ]
-									.join('');
-								item.label = [
-									item.memberCode,
-									': ',
-									item.memberName ]
-									.join('');
+						    return response.data.map(function(item) {
+							    item = prepareAutoSuggestOrganizeLabel(item,'organize');
 								return item;
 							    });
 						});
@@ -191,10 +190,15 @@ userModule
 			    vm.searchUser = function(pageModel) {
 					if (angular.isDefined(vm.userListModel.user)) {
 						vm.criteria.userId = vm.userListModel.user.userId;
+				    	vm.criteria.user.userId = vm.userListModel.user.userId;
+				    	vm.criteria.user.displayName = vm.userListModel.user.displayName;
 					}
 
 					if (angular.isDefined(vm.userListModel.organize)) {
 						vm.criteria.organizeId = vm.userListModel.organize.memberId;
+						vm.criteria.organize.memberId = vm.userListModel.organize.memberId;
+				    	vm.criteria.organize.memberCode = vm.userListModel.organize.memberCode;
+				    	vm.criteria.organize.memberName = vm.userListModel.organize.memberName;
 					}
 
 					UserStatus.forEach(function(status) {
@@ -208,7 +212,8 @@ userModule
 							vm.criteria.passwordStatus = status.valueObject;
 							}
 						});
-					_storeCriteria();
+
+			    	_storeCriteria();
 					vm.pagingController.search(pageModel || ( $stateParams.backAction? {
 			    		offset : _criteria.offset,
 						limit : _criteria.limit,
@@ -303,6 +308,8 @@ userModule
 					var backAction = $stateParams.backAction;
 					if(backAction){
 						vm.userListModel = $stateParams.criteria;
+						prepareAutoSuggestUserLabel(vm.userListModel.user,'user');
+						prepareAutoSuggestOrganizeLabel(vm.userListModel.organize,'organize');
 					}
 					vm.searchUser();
 			    }
@@ -314,7 +321,7 @@ userModule
 						userModel : null
 					};
 					
-					PageNavigation.gotoPage('/user/new', params, {criteria : _criteria});
+					PageNavigation.nextStep('/user/new', params, {criteria : _criteria});
 			    }
 
 			    vm.viewUser = function(data) {
@@ -322,7 +329,7 @@ userModule
 						userModel : data
 					};
 					$timeout(function() {
-						PageNavigation.gotoPage('/user/view', params, {criteria : _criteria});
+						PageNavigation.nextStep('/user/view', params, {criteria : _criteria});
 					}, 10);
 			    }
 
@@ -331,7 +338,7 @@ userModule
 						userModel : data
 					};
 					$timeout(function() {
-						PageNavigation.gotoPage('/user/edit', params, {criteria : _criteria});
+						PageNavigation.nextStep('/user/edit', params, {criteria : _criteria});
 					}, 10);
 			    }
 
