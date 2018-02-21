@@ -335,15 +335,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						paymentDateFormulaModel: null
 					},
 					resolve: WebHelper.loadScript(['js/app/sponsor-configuration/payment-date-formulas/payment-date-formula-setting-controller.js', 'js/app/sponsor-configuration/payment-date-formulas/payment-date-formula-setting-service.js', 'js/app/sponsor-configuration/credit-terms/credit-terms-setting-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/sponsor-configuration/customer-code-groups/settings', {
-					url: '/sponsor-configuration/customer-code-groups/settings',
-					controller: 'CustomerCodeGroupSettingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/customer-code-groups/settings',
-					params: {
-						selectedItem: null,
-						mode: 'all'
-					}
 				}).state('/sponsor-configuration/organize-logo/settings', {
 					url: '/sponsor-configuration/organize-logo/settings/:organizeId',
 					controller: 'OrganizeLogoSettingController',
@@ -502,70 +493,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					},
 					templateUrl: '/change-password',
 					resolve: WebHelper.loadScript(['js/app/modules/profile/change-password/password-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/my-organize/supplier-code-list', {
-					url: '/my-organize/supplier-code-list',
-					controller: 'CustomerCodeGroupSettingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/customer-code-groups/supplier-code-list/settings',
-					params: {
-						viewMode: 'MY_ORGANIZE',
-						organizeId: null,
-						accountingTransactionType: 'PAYABLE'
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
-						'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
-						'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
-				}).state('/my-organize/buyer-code-list', {
-					url: '/my-organize/buyer-code-list',
-					controller: 'CustomerCodeGroupSettingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/customer-code-groups/buyer-code-list/settings',
-					params: {
-						viewMode: 'MY_ORGANIZE',
-						organizeId: null,
-						accountingTransactionType: 'RECEIVABLE'
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
-						'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
-						'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
-				}).state('/customer-organize/supplier-code-list', {
-					url: '/customer-organize/supplier-code-list/:organizeId/:accountingTransactionType',
-					controller: 'CustomerCodeGroupSettingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/customer-code-groups/supplier-code-list/settings',
-					params: {
-						viewMode: 'CUSTOMER',
-						organizeId: null,
-						accountingTransactionType: 'PAYABLE'
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
-						'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
-						'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
-				}).state('/customer-organize/buyer-code-list', {
-					url: '/customer-organize/buyer-code-list/:organizeId/:accountingTransactionType',
-					controller: 'CustomerCodeGroupSettingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/customer-code-groups/buyer-code-list/settings',
-					params: {
-						viewMode: 'CUSTOMER',
-						organizeId: null,
-						accountingTransactionType: 'RECEIVABLE'
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
-						'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
-						'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
 				}).state('/my-organize/document-upload-log', {
 					url: '/my-organize/document-upload-log',
 					controller: 'DocumentUploadLogController',

@@ -143,7 +143,8 @@ tpModule.controller('EditMappingDataController', [
         vm.newMappingDataCode = function () {
             var params = {
                 mappingData: model,
-                organizeId: $stateParams.organizeId
+                organizeId: $stateParams.organizeId,
+                accountingTransactionType: vm.criteria.accountingTransactionType
             };
 
             PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/new', params);
@@ -159,7 +160,8 @@ tpModule.controller('EditMappingDataController', [
             var params = {
                 mappingData: model,
                 mappingDataItem: data,
-                organizeId: $stateParams.organizeId
+                organizeId: $stateParams.organizeId,
+                accountingTransactionType: vm.criteria.accountingTransactionType
             };
 
             PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/edit', params);

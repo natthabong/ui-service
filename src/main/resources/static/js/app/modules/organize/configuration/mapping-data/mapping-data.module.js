@@ -11,7 +11,7 @@ angular.module('gecscf.organize.configuration.mappingData', ['ui.router', 'gecsc
 		];
 
 		$stateProvider.state('/sponsor-configuration/mapping-data/edit', {
-			url: '/organizes/:organizeId/accounting-transactions/:accountingTransactionType/mapping-data/edit',
+			url: '/organizations/:organizeId/accounting-transactions/:accountingTransactionType/mapping-data/edit',
 			controller: 'EditMappingDataController',
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/mapping-data/edit',
@@ -24,7 +24,7 @@ angular.module('gecscf.organize.configuration.mappingData', ['ui.router', 'gecsc
 			},
 			resolve: WebHelper.loadScript(resources)
 		}).state('/sponsor-configuration/mapping-data/view', {
-			url: '/organizes/:organizeId/accounting-transactions/:accountingTransactionType/mapping-data/view',
+			url: '/organizations/:organizeId/accounting-transactions/:accountingTransactionType/mapping-data/view',
 			controller: 'EditMappingDataController',
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/mapping-data/view',
@@ -37,24 +37,26 @@ angular.module('gecscf.organize.configuration.mappingData', ['ui.router', 'gecsc
 			},
 			resolve: WebHelper.loadScript(resources)
 		}).state('/sponsor-configuration/mapping-data/code/new', {
-			url: '/sponsor-configuration/mapping-data/code/new/:organizeId',
+			url: '/organizations/:organizeId/accounting-transactions/:accountingTransactionType/mapping-data/code/new',
 			controller: 'MappingDataCodeController',
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/mapping-data/code/new',
 			params: {
 				mappingData: null,
 				mode: "newCode",
+				accountingTransactionType: null,
 				mappingDataItem: null
 			},
 			resolve: WebHelper.loadScript(resources)
 		}).state('/sponsor-configuration/mapping-data/code/edit', {
-			url: '/sponsor-configuration/mapping-data/code/edit/:organizeId',
+			url: '/organizations/:organizeId/accounting-transactions/:accountingTransactionType/mapping-data/code/edit',
 			controller: 'MappingDataCodeController',
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/mapping-data/code/new',
 			params: {
 				mappingData: null,
 				mode: "editCode",
+				accountingTransactionType: null,
 				mappingDataItem: null
 			},
 			resolve: WebHelper.loadScript(resources)
