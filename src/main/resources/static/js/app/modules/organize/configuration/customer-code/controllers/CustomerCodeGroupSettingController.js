@@ -13,11 +13,11 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
             //vm.manageMyOrg = false;
             //	var selectedItem;
 
-            //	var mode = {
-            //			ALL: 'all',
-            //			PERSONAL: 'personal'
-            //	}
-
+            var mode = {
+        		VIEW : 'viewCustCode',
+        		EDIT : 'editCustCode'
+    	    }
+            
             var accountingTransactionType = $stateParams.accountingTransactionType;
             var isSetSupplierCode = accountingTransactionType == 'PAYABLE' ? true : false;
 
@@ -194,11 +194,12 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
     			});
             };
 
+            var currentMode = $stateParams.mode;
             vm.initialPage = function() {
-
-                //		groupId = selectedItem.groupId;
-                //	    vm.model = selectedItem;
-                //	    vm.sponsorId = selectedItem.ownerId;
+            	if(currentMode == mode.EDIT){
+        		    vm.isEditMode = true;
+        		}
+            	
                 var customerCodeURL = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/customer-codes';
                 vm.pagingController = PagingController.create(customerCodeURL, vm.searchCriteria, 'GET');
                 vm.search();

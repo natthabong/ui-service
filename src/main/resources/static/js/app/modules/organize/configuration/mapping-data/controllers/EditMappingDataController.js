@@ -13,9 +13,9 @@ tpModule.controller('EditMappingDataController', [
         var vm = this;
         var log = $log;
         var mode = {
-	    		VIEW : 'viewMapping',
-	    		EDIT : 'editMapping'
-		    }
+    		VIEW : 'viewMapping',
+    		EDIT : 'editMapping'
+	    }
         
         var model = $stateParams.mappingData || {
             mappingDataId: undefined,

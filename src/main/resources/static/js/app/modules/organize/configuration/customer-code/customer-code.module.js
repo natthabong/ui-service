@@ -23,7 +23,7 @@ angular.module('gecscf.organize.configuration.customerCode', ['ui.router', 'gecs
 			url: '/my-organize/supplier-code-list',
 			controller: 'CustomerCodeGroupSettingController',
 			controllerAs: 'ctrl',
-			templateUrl: '/sponsor-configuration/customer-code-groups/supplier-code-list/settings',
+			templateUrl: '/sponsor-configuration/customer-code-groups/supplier-code-list/edit',
 			params: {
 				viewMode: 'MY_ORGANIZE',
 				organizeId: null,
@@ -34,30 +34,56 @@ angular.module('gecscf.organize.configuration.customerCode', ['ui.router', 'gecs
 			url: '/my-organize/buyer-code-list',
 			controller: 'CustomerCodeGroupSettingController',
 			controllerAs: 'ctrl',
-			templateUrl: '/sponsor-configuration/customer-code-groups/buyer-code-list/settings',
+			templateUrl: '/sponsor-configuration/customer-code-groups/buyer-code-list/edit',
 			params: {
 				viewMode: 'MY_ORGANIZE',
 				organizeId: null,
 				accountingTransactionType: 'RECEIVABLE'
 			},
 			resolve: WebHelper.loadScript(resources)
-		}).state('/customer-organize/supplier-code-list', {
-			url: '/organizations/:organizeId/accounting-transactions/:accountingTransactionType/customer-organize/supplier-code-list',
+		}).state('/customer-organize/supplier-code-list/edit', {
+			url: '/organizations/:organizeId/accounting-transactions/:accountingTransactionType/customer-organize/supplier-code-list/edit',
 			controller: 'CustomerCodeGroupSettingController',
 			controllerAs: 'ctrl',
-			templateUrl: '/sponsor-configuration/customer-code-groups/supplier-code-list/settings',
+			templateUrl: '/sponsor-configuration/customer-code-groups/supplier-code-list/edit',
 			params: {
+				mode: 'editCustCode',
 				viewMode: 'CUSTOMER',
 				organizeId: null,
 				accountingTransactionType: 'PAYABLE'
 			},
 			resolve: WebHelper.loadScript(resources)
-		}).state('/customer-organize/buyer-code-list', {
-			url: '/organizations/:organizeId/accounting-transactions/:accountingTransactionType/customer-organize/buyer-code-list',
+		}).state('/customer-organize/buyer-code-list/edit', {
+			url: '/organizations/:organizeId/accounting-transactions/:accountingTransactionType/customer-organize/buyer-code-list/edit',
 			controller: 'CustomerCodeGroupSettingController',
 			controllerAs: 'ctrl',
-			templateUrl: '/sponsor-configuration/customer-code-groups/buyer-code-list/settings',
+			templateUrl: '/sponsor-configuration/customer-code-groups/buyer-code-list/edit',
 			params: {
+				mode: 'editCustCode',
+				viewMode: 'CUSTOMER',
+				organizeId: null,
+				accountingTransactionType: 'RECEIVABLE'
+			},
+			resolve: WebHelper.loadScript(resources)
+		}).state('/customer-organize/supplier-code-list/view', {
+			url: '/organizations/:organizeId/accounting-transactions/:accountingTransactionType/customer-organize/supplier-code-list/view',
+			controller: 'CustomerCodeGroupSettingController',
+			controllerAs: 'ctrl',
+			templateUrl: '/sponsor-configuration/customer-code-groups/supplier-code-list/view',
+			params: {
+				mode: 'viewCustCode',
+				viewMode: 'CUSTOMER',
+				organizeId: null,
+				accountingTransactionType: 'PAYABLE'
+			},
+			resolve: WebHelper.loadScript(resources)
+		}).state('/customer-organize/buyer-code-list/view', {
+			url: '/organizations/:organizeId/accounting-transactions/:accountingTransactionType/customer-organize/buyer-code-list/view',
+			controller: 'CustomerCodeGroupSettingController',
+			controllerAs: 'ctrl',
+			templateUrl: '/sponsor-configuration/customer-code-groups/buyer-code-list/view',
+			params: {
+				mode: 'viewCustCode',
 				viewMode: 'CUSTOMER',
 				organizeId: null,
 				accountingTransactionType: 'RECEIVABLE'
