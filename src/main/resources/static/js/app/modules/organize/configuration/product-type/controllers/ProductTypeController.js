@@ -1,133 +1,45 @@
 'use strict';
-var ptModule = angular.module('gecscf.organize.configuration.productType');
-ptModule
-		.controller(
-				'ProductTypeController',
-				[
-						'$scope',
-						'PageNavigation',
-						'UIFactory',
-						'ProductTypeService',
-						function($scope, PageNavigation, UIFactory,
-								ProductTypeService) {
+angular.module('gecscf.organize.configuration.productType').controller('ProductTypeController', [
+	'$stateParams',
+	'PageNavigation',
+	'ProductTypeService',
+	function ($stateParams, PageNavigation, ProductTypeService) {
+		var vm = this;
+		var organizeId = $stateParams.organizeId;
 
-							var vm = this;
+		vm.manageAllConfig = false;
+		vm.manageMyOrgConfig = false;
+		vm.viewAction = false;
 
-							var params = PageNavigation.getParameters();
-							vm.editMode = params.productType != null;
+		vm.gotoConfigPage = function () {
+			var params = {
+				organizeId: organizeId
+			};
+			PageNavigation.gotoPage('/sponsor-configuration/product-type-list', params);
+		}
 
-							vm.model = {
-								organizeId : params.organizeId
-							};
+		vm.gotoListPage = function () {
+			var params = {
+				organizeId: organizeId
+			};
+			PageNavigation.gotoPage('/sponsor-configuration/product-types-setup', params);
+		}
 
-							var init = function() {
-								if (vm.editMode) {
-									var deffered = ProductTypeService
-											.getProductType(params.organizeId,
-													params.productType)
-									deffered.promise.then(function(response) {
-										vm.model = response.data;
-									});
+		vm.unauthenConfig = function () {
+			if (vm.manageAllConfig || vm.manageMyOrgConfig) {
+				return false;
+			} else {
+				return true;
+			}
+		}
 
-								}
-							}();
+		vm.unauthenView = function () {
+			if (vm.viewAction) {
+				return false;
+			} else {
+				return true;
+			}
+		}
 
-							vm.errors = {};
-
-							var isBlank = function(text) {
-								return !angular.isDefined(text) || text == null
-										|| text == ''
-							}
-
-							var _validate = function(data) {
-								$scope.errors = {};
-								var valid = true;
-
-								if (isBlank(data.productType)) {
-									valid = false;
-									$scope.errors.productType = {
-										message : 'Product type is required.'
-									}
-
-								}
-
-								if (isBlank(data.displayName)) {
-									valid = false;
-									$scope.errors.displayName = {
-										message : 'Display name is required.'
-									}
-
-								}
-								return valid;
-							}
-							vm.cancel = function() {
-								var params = {
-										organizeId: vm.model.organizeId
-									};
-								PageNavigation.gotoPage('/customer-organize/product-types', params);
-							}
-							vm.save = function() {
-								if (_validate(vm.model)) {
-									var preCloseCallback = function(confirm) {
-										var params = {
-												organizeId: vm.model.organizeId
-											};
-										PageNavigation.gotoPage('/customer-organize/product-types', params);
-									}
-
-									UIFactory
-											.showConfirmDialog({
-												data : {
-													headerMessage : 'Confirm save?'
-												},
-												confirm : function() {
-													return vm.editMode ? ProductTypeService
-															.updateProductType(vm.model)
-															: ProductTypeService
-																	.createProductType(vm.model);
-												},
-												onFail : function(response) {
-													if (response.status != 400) {
-														var msg = {};
-														UIFactory
-																.showFailDialog({
-																	data : {
-																		headerMessage : vm.editMode ? 'Edit product type fail.'
-																				: 'Add new product type fail.',
-																		bodyMessage : msg[response.status] ? msg[response.status]
-																				: response.data.message
-																	},
-																	preCloseCallback : preCloseCallback
-																});
-													} else {
-														$scope.errors = {};
-														for (var i = 0; i < response.data.length; i++) { 
-															$scope.errors[response.data[i].reference] = {
-																	message : response.data[i].errorMessage
-															}
-														}
-//														$scope.errors[response.data.reference] = {
-//															message : response.data.errorMessage
-//														}
-														console
-																.log($scope.errors)
-													}
-												},
-												onSuccess : function(response) {
-													UIFactory
-															.showSuccessDialog({
-																data : {
-																	headerMessage : vm.editMode ? 'Edit product type complete.'
-																			: 'Add new product type success.',
-																	bodyMessage : ''
-																},
-																preCloseCallback : preCloseCallback
-															});
-												}
-											});
-								} else {
-									console.log('Invalid data for save');
-								}
-							}
-
-						} ]);
+	}
+]);

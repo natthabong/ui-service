@@ -37,7 +37,7 @@ angular
           'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
           'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
           'js/app/sponsor-configuration/ExportPaymentConfigController.js',
-          'js/app/modules/organize/configuration/product-type/controllers/ProductTypeListController.js',
+          'js/app/modules/organize/configuration/product-type/controllers/ProductTypeController.js',
           'js/app/modules/organize/configuration/product-type/services/ProductTypeService.js',
           'js/app/modules/organize/configuration/channel/import/controllers/ImportChannelController.js',
           'js/app/modules/organize/configuration/channel/import/controllers/ImportChannelListController.js',
