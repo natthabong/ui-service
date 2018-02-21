@@ -125,7 +125,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
                         if (accountingTransactionType == "PAYABLE") {
                             vm.searchCriteria.organizeId = vm.criteria.customer.supplierId;
                         } else {
-                            vm.searchCriteria.organizeId = vm.criteria.customer.sponsorId;
+                            vm.searchCriteria.organizeId = vm.criteria.customer.buyerId;
                         }
                     } else {
                         vm.searchCriteria.organizeId = '';
@@ -164,8 +164,8 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
                         });
                     } else {
                         return response.data.map(function(item) {
-                            item.identity = ['customer-', item.sponsorId, '-option'].join('');
-                            item.label = [item.sponsorId, ': ', item.sponsorName].join('');
+                            item.identity = ['customer-', item.buyerId, '-option'].join('');
+                            item.label = [item.buyerId, ': ', item.buyerName].join('');
                             return item;
                         });
                     }
@@ -333,7 +333,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
                     controller: 'CustomerCodeDiaglogController',
                     controllerAs: 'ctrl',
                     data: {
-                        sponsorId: ownerId,
+                        buyerId: ownerId,
                         model: model,
                         isNewCusotmerCode: vm.isNewCusotmerCode,
                         isAddMoreCustomerCode: vm.isAddMoreCustomerCode,
