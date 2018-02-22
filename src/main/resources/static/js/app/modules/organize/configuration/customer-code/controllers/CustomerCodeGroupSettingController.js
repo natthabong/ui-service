@@ -6,6 +6,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
         var vm = this;
         var log = $log;
         
+        var isFirstSearch = true;
         vm.getUserInfoSuccess = false;
         var defered = scfFactory.getUserInfo();
         defered.promise.then(function(response) {
@@ -216,9 +217,13 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
     					value.rowNo = baseRowNo + i;
     				});
     				
-    				if(!vm.hiddenFundingColumn){
-                    	vm.loadFundings();
-                	}
+    				if(isFirstSearch){
+    					isFirstSearch = false;
+    					
+    					if(!vm.hiddenFundingColumn){
+    	                	vm.loadFundings();
+    	            	}
+    				}
     			});
             };
 
