@@ -40,6 +40,8 @@ public class OrganizationConfigurationController {
 	private static final String AP_FILE_LAYOUTS = "sponsor-configuration/ap-document-config/import-layouts";
 
 	private static final String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
+	
+	private static final String VIEW_FILE_LAYOUT = "sponsor-configuration/file-layouts/view";
 
 	private static final String PAYMENT_AMOUNT_FORMULA = "sponsor-configuration/payment-amount-formula/payment-amount-formula";
 
@@ -263,6 +265,14 @@ public class OrganizationConfigurationController {
 			return SETTING_FILE_LAYOUT.concat(" :: content");
 		}
 		return SETTING_FILE_LAYOUT;
+	}
+	
+	@RequestMapping(path = "/file-layouts/view-file-layout", method = RequestMethod.GET)
+	public String viewFileLayout(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return VIEW_FILE_LAYOUT.concat(" :: content");
+		}
+		return VIEW_FILE_LAYOUT;
 	}
 
 	@RequestMapping(path = "/mapping-data/code/new", method = RequestMethod.GET)

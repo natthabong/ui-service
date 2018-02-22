@@ -94,6 +94,37 @@ angular
                   'js/app/common/scf-component.css'
                 ])
             })
+            
+            .state(
+            '/sponsor-configuration/file-layouts/view-file-layout', {
+              url: '/sponsor-configuration/file-layouts/view-file-layout/:organizeId',
+              controller: 'FileLayoutController',
+              controllerAs: 'ctrl',
+              templateUrl: '/sponsor-configuration/file-layouts/view-file-layout',
+              params: {
+                fileLayoutModel: null,
+                processType: null,
+                integrateType: null
+              },
+              resolve: WebHelper
+                .loadScript([
+                  'js/app/modules/organize/configuration/file-layout/controllers/FileLayoutController.js',
+                  'js/app/modules/organize/configuration/file-layout/controllers/TextLayoutConfigController.js',
+                  'js/app/modules/organize/configuration/file-layout/controllers/DateTimeLayoutConfigController.js',
+                  'js/app/modules/organize/configuration/file-layout/controllers/NumericLayoutConfigController.js',
+                  'js/app/modules/organize/configuration/file-layout/controllers/RecordTypeLayoutConfigController.js',
+                  'js/app/modules/organize/configuration/file-layout/controllers/FillerLayoutConfigController.js',
+                  'js/app/modules/organize/configuration/file-layout/controllers/SignFlagLayoutConfigController.js',
+                  'js/app/modules/organize/configuration/file-layout/controllers/DataLayoutConfigController.js',
+                  'js/app/modules/organize/configuration/file-layout/controllers/ImportLayoutNewPopupController.js',
+                  'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataNewPopupController.js',
+                  'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
+                  'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
+                  'js/app/modules/organize/configuration/file-layout/services/FileLayerExampleDisplayService.js',
+                  'js/app/common/scf-component.js',
+                  'js/app/common/scf-component.css'
+                ])
+            })
 
       }
     ])
