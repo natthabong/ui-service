@@ -34,6 +34,7 @@ exportChannelModule.controller('ExportChannelController', [
 			 POSTFIX_DROPDOWN , EXTENSION_DROPDOWN) {
 
       var vm = this;
+      var log = $log;
       var channelId = $stateParams.channelId;
       var organizeId = $stateParams.organizeId;
       var BASE_URI = 'api/v1/organize-customers/' + organizeId;
@@ -54,6 +55,10 @@ exportChannelModule.controller('ExportChannelController', [
     			FRIDAY : 6,
     			SATURDAY : 7
       }
+      
+      vm.compareFunding = function(obj1, obj2){
+          return obj1.fundingId === obj2.fundingId;
+      };
       
       vm.compareProductType = function(obj1, obj2){
           return obj1.productType === obj2.productType;
@@ -212,7 +217,6 @@ exportChannelModule.controller('ExportChannelController', [
 							vm.channelModel.delayedInterval = triggerInformation.intervalInMinutes;
 						} else {
 							if(response.data.jobInformation.triggerInformations.length > 0){
-								console.log(response.data.jobInformation.triggerInformations);
 								response.data.jobInformation.triggerInformations.forEach(function(data){
 									if(data.startHour != null && data.startMinute != null){
 						 				var hour = data.startHour.length == 1 ? "0"+data.startHour : data.startHour;
@@ -651,8 +655,6 @@ exportChannelModule.controller('ExportChannelController', [
 	 	vm.searchProductTypes();
 	 	vm.searchFundings();
 	 	vm.searchChannel();
-	 	console.log(vm.channelModel.productTypes);
-	 	console.log(vm.channelModel.fundings);
 	 }();
 	 
 }]);
@@ -715,16 +717,30 @@ exportChannelModule.controller('SetupFileEncryptionController', [ '$scope', '$ro
 		 var isValid = true;
 		 vm.showPasswordMessageError = false;
 		 
-//		 if(vm.encryptInfo.encryptType == 'PGP'){
-//			 if(vm.encryptInfo.encryptPassword == null|| vm.encryptInfo.encryptPassword ==''){
-//				 vm.showPasswordMessageError = true;
-//				 vm.passwordMessageError = "PGP Password Require";
-//				 isValid = false;
-//			 }
-//		 }
+// if(vm.encryptInfo.encryptType == 'PGP'){
+// if(vm.encryptInfo.encryptPassword == null|| vm.encryptInfo.encryptPassword
+// ==''){
+// vm.showPasswordMessageError = true;
+// vm.passwordMessageError = "PGP Password Require";
+// isValid = false;
+// }
+// }
 		 
 		 if(isValid){
 			 $scope.closeThisDialog(vm.encryptInfo);
 		 }
 	 }
 } ]);
+
+
+exportChannelModule.filter('exportDataTypeDisplay', function(EXPORT_DATA_TYPE_DROPDOWN) {
+    return function(dataTypeValue) {
+    	if('ALL'==dataTypeValue){
+    		return 'All Product type';
+    	}else if('SPECIFIED'==dataTypeValue){
+    		return 'Specified product type';
+    	}else{
+    		return '';
+    	}
+    };
+});

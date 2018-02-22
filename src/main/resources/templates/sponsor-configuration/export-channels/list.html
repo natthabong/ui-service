@@ -70,7 +70,7 @@
 											id="expiry-date-file-layout-{{record.channelId}}-label"
 											ng-bind="record.expiryDate | date: 'dd/MM/yyyy': 'UTC+0700'"></span></td>
 										<td class="text-center"><scf-button
-												id="{{record.channelId}}-view-button"
+												id="{{record.channelId}}-view-button" ng-click="ctrl.viewChannel(record)"
 												class="btn-default gec-btn-action" title="View">
 											<i class="fa fa-search" aria-hidden="true"></i> </scf-button> <scf-button
 												id="{{record.channelId}}-edit-button"
