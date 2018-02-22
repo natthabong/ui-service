@@ -43,6 +43,10 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 		SATURDAY : 7
 	}
 	
+	vm.compareFunding = function(obj1, obj2){
+        return obj1.fundingId === obj2.fundingId;
+    };
+	
 	var parameters = PageNavigation.getParameters();
     var organizeId = parameters.organizeId;
     vm.isSetupFTP = false;
