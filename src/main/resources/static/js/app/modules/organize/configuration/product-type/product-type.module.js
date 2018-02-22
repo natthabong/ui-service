@@ -51,7 +51,8 @@ angular.module('gecscf.organize.configuration.productType', ['ui.router', 'gecsc
 			templateUrl: '/sponsor-configuration/product-types-setup',
 			params: {
 				organizeId: null,
-				productType: null
+				productType: null,
+				model: null
 			},
 			resolve: WebHelper.loadScript([resources[2], resources[3]])
 		});

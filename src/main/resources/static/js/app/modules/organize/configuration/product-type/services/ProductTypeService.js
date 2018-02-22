@@ -30,11 +30,10 @@ angular.module('gecscf.organize.configuration.productType').service('ProductType
 			}
 			var deffered = $q.defer();
 			$http(req).then(function (response) {
-					deffered.resolve(response);
-				})
-				.catch(function (response) {
-					deffered.reject(response);
-				});
+				return deffered.resolve(response);
+			}).catch(function (response) {
+				return deffered.reject(response);
+			});
 			return deffered;
 		}
 
@@ -78,11 +77,10 @@ angular.module('gecscf.organize.configuration.productType').service('ProductType
 			}
 			var deffered = $q.defer();
 			$http(req).then(function (response) {
-					deffered.resolve(response);
-				})
-				.catch(function (response) {
-					deffered.reject(response);
-				});
+				return deffered.resolve(response);
+			}).catch(function (response) {
+				return deffered.reject(response);
+			});
 			return deffered;
 		}
 	}

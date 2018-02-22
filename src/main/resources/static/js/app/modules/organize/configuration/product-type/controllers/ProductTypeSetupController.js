@@ -1,20 +1,29 @@
 'use strict';
 angular.module('gecscf.organize.configuration.productType').controller('ProductTypeSetupController', [
     '$location',
+    '$log',
     '$stateParams',
     'PageNavigation',
     'ProductTypeService',
     'UIFactory',
-    function ($location, $stateParams, PageNavigation, ProductTypeService, UIFactory) {
+    function ($location, $log, $stateParams, PageNavigation, ProductTypeService, UIFactory) {
         var vm = this;
+        var log = $log;
+        var organizeId = $stateParams.organizeId;
+        var productType = $stateParams.productType;
         var modes = ['new', 'edit'];
 
         vm.currentMode = undefined;
         vm.headerLabel = undefined;
         vm.model = {
-            organizeId: $stateParams.organizeId,
+            organizeId: organizeId,
             productType: '',
-            displayName: ''
+            displayName: '',
+            createdBy: '',
+            createdTime: '',
+            lastModifiedBy: '',
+            lastModifiedTime: '',
+            version: undefined
         };
 
         function setMode() {
@@ -25,6 +34,14 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
                 vm.headerLabel = 'Add product type';
             } else if (vm.isEditMode()) {
                 vm.headerLabel = 'Edit product type';
+
+                var deferred = ProductTypeService.getProductType(organizeId, productType);
+                deferred.promise.then(function (response) {
+                    vm.model = response.data;
+                }).catch(function (response) {
+                    log.error('Fail to load (' + productType + ') product type.');
+                    gotoConfigPage();
+                });
             } else {
                 vm.headerLabel = 'Product type';
             }
@@ -51,7 +68,11 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
                     headerMessage: 'Confirm save?'
                 },
                 confirm: function () {
-                    return ProductTypeService.createProductType(vm.model);
+                    if (vm.isNewMode()) {
+                        return ProductTypeService.createProductType(vm.model);
+                    } else if (vm.isEditMode()) {
+                        return ProductTypeService.updateProductType(vm.model);
+                    }
                 },
                 onFail: function (response) {
                     var errorMessage = '';
