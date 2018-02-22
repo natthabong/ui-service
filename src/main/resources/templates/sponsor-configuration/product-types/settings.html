@@ -19,11 +19,10 @@
 								</div>
 								<div class="col-md-4 col-sm-4"></div>
 							</div>
-							<div class="form-group" ng-if="errors.productType">
+							<div class="form-group" ng-if="ctrl.errors.productType.message">
 								<div>
 									<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-									<span class="col-md-3 col-sm-3 col-xs-12 error-msg" id="product-type-warning-message-label" ng-bind="errors.productType.message">
-									</span>
+									<span class="col-md-3 col-sm-3 col-xs-12 error-msg" id="product-type-warning-message-label" ng-bind="ctrl.errors.productType.message">ASDASD</span>
 								</div>
 							</div>
 							<div class="form-group">
@@ -33,11 +32,10 @@
 								</div>
 								<div class="col-md-2 col-sm-3"></div>
 							</div>
-							<div class="form-group" ng-if="errors.displayName">
+							<div class="form-group" ng-if="ctrl.errors.displayName.message">
 								<div>
 									<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-									<span class="col-md-3 col-sm-3 col-xs-12 error-msg" id="display-name-warning-message-label" ng-bind="errors.displayName.message">
-									</span>
+									<span class="col-md-3 col-sm-3 col-xs-12 error-msg" id="display-name-warning-message-label" ng-bind="ctrl.errors.displayName.message">ZXCZXC</span>
 								</div>
 							</div>
 						</form>

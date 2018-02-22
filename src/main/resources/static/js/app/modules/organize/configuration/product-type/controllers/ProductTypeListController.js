@@ -71,8 +71,7 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
                     headerMessage: 'Confirm delete?'
                 },
                 confirm: function () {
-                    return ProductTypeService
-                        .removeProductType(data);
+                    return ProductTypeService.removeProductType(data);
                 },
                 onFail: function (response) {
                     var status = response.status;
