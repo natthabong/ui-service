@@ -1,0 +1,84 @@
+<div id="content" th:fragment="content"
+	sec:authorize="hasAnyAuthority(
+	'VIEW_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS',
+	'VIEW_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS_OF_ALL_FUNDING')">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="view-export-channel-header-label"
+						class="animated fadeInLeft">{{'View import channel' |
+						translate}}</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<form name="createForm" class="form-horizontal">
+						<div class="form-group"
+							sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS_OF_ALL_FUNDING')">
+							<label id="funding-label"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Funding'
+								| translate}}: </label>
+							<div class="col-md-2 col-sm-3 col-xs-11">
+								<label ng-repeat="funding in ctrl.fundings"> <input
+									type="checkbox" checklist-model="ctrl.channelModel.fundings"
+									checklist-value="funding" ng-disabled="true"
+									checklist-comparator="ctrl.compareFunding"
+									id="funding-{{funding.fundingName}}-checkbox" />
+									{{funding.fundingName}}
+								</label><br />
+							</div>
+							<div class="col-md-6 col-sm-4"></div>
+						</div>
+						<div class="form-group">
+							<label id="channel-label"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Channel'
+								| translate}}: </label> <label id="channel-value-label"
+								class="col-md-4 col-sm-5 col-xs-12 control-label">{{ctrl.channelModel.channelType}}</label>
+							<div class="col-md-6 col-sm-4"></div>
+						</div>
+						<div class="form-group">
+							<label id="display-name-label"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Display
+								name' | translate}}: </label> <label id="display-name-value-label"
+								class="col-md-4 col-sm-5 col-xs-12 control-label">{{ctrl.channelModel.displayName}}</label>
+							<div class="col-md-4 col-sm-4"></div>
+						</div>
+						<div class="form-group">
+							<label id="file-layout-label" for="dealer"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
+								layout' | translate}}: </label> <label id="file-layout-value-label"
+								class="col-md-3 col-sm-4 col-xs-12 control-label">{{ctrl.channelModel.layoutConfig.displayName}}</label>
+							<div class="col-md-6 col-sm-4"></div>
+						</div>
+						<div class="form-group">
+							<label id="file-layout-label" for="dealer"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Export data' | translate}}: </label> <label id="export-data-value-label"
+								class="col-md-3 col-sm-4 col-xs-12 control-label">{{ctrl.channelModel.exportDataType | exportDataTypeDisplay}}</label>
+							<div class="col-md-6 col-sm-4"></div>
+						</div>
+						<div class="form-group" ng-show="ctrl.haveProductType">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							&nbsp;&nbsp;
+							<div class="col-md-2 col-sm-2 col-xs-10">
+								<div ng-repeat="productType in ctrl.productTypes"><input type="checkbox" 
+									ng-disabled="true" checklist-comparator="ctrl.compareProductType"
+									checklist-model="ctrl.channelModel.productTypes" checklist-value="productType"
+										id="producttype-{{productType.displayName}}-checkbox" />
+									{{productType.displayName}}
+								</div>
+							</div>
+						</div>											
+					</form>
+					<div class="col-md-12 col-sm-12 text-right">
+						<scf-button id="back-button" class="popup-button"
+							data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
+							ng-bind="'Back' | translate"></scf-button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

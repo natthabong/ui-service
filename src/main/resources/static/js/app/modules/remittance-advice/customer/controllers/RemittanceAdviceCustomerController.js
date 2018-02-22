@@ -153,11 +153,11 @@ raccModule.controller('RemittanceAdviceCustomerController', [
 
 			if (angular.isObject(vm.supplier)) {
 				supplierId = vm.supplier.supplierId;
-				buyerId = vm.supplier.sponsorId;
+				buyerId = vm.supplier.buyerId;
 			}
 
 			if (angular.isObject(vm.buyer)) {
-				buyerId = vm.buyer.sponsorId;
+				buyerId = vm.buyer.buyerId;
 				supplierId = vm.buyer.supplierId;
 			}
 

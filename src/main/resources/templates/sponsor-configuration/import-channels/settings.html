@@ -23,9 +23,9 @@
 							<div class="col-md-2 col-sm-3 col-xs-11">
 								<label ng-repeat="funding in ctrl.fundings"> <input
 									type="checkbox" checklist-model="ctrl.channelModel.fundings"
-									checklist-value="funding"
-									id="funding-{{funding.organizeName}}-checkbox" />
-									{{funding.organizeName}}
+									checklist-value="funding" checklist-comparator="ctrl.compareFunding"
+									id="funding-{{funding.fundingName}}-checkbox" />
+									{{funding.fundingName}}
 								</label><br />
 							</div>
 							<div class="col-md-6 col-sm-4"></div>

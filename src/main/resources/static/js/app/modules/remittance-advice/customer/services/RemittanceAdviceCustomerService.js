@@ -10,7 +10,7 @@ raccModule.factory('RemittanceAdviceCustomerService', ['$http', '$q', 'Service',
 
 	var _prepareItemBuyer = function (item) {
 		item.identity = ['buyer-', item.sponsorId, '-option'].join('');
-		item.label = [item.sponsorId, ': ', item.sponsorName].join('');
+		item.label = [item.buyerId, ': ', item.buyerName].join('');
 		return item;
 	}
 

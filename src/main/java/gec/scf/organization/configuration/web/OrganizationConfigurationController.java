@@ -76,6 +76,8 @@ public class OrganizationConfigurationController {
 
 	private static final String VIEW_IMPORT_CHANNEL = "sponsor-configuration/import-channels/view";
 	private static final String VIEW_IMPORT_CHANNEL_FTP = "sponsor-configuration/import-channels/ftp-view";
+	
+	private static final String VIEW_EXPORT_CHANNEL = "sponsor-configuration/export-channels/view";
 	private static final String VIEW_EXPORT_CHANNEL_FTP = "sponsor-configuration/export-channels/ftp-view";
 
 	private static final String EDIT_MAPPING_DATA = "sponsor-configuration/edit-mapping-data";
@@ -395,7 +397,16 @@ public class OrganizationConfigurationController {
 		}
 		return VIEW_IMPORT_CHANNEL;
 	}
-
+	
+	
+	@RequestMapping(path = "/export-channels/view", method = RequestMethod.GET)
+	public String viewExportChannel(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return VIEW_EXPORT_CHANNEL.concat(" :: content");
+		}
+		return VIEW_EXPORT_CHANNEL;
+	}
+	
 	@RequestMapping(path = "/import-channels/ftp-view", method = RequestMethod.GET)
 	public String viewImportChannelFTP(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
