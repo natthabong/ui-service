@@ -26,7 +26,7 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', '$stateParams', 'Serv
 				getBatchJobInfo($rootScope.userInfo.organizeId);
 			}else{
 				//For Customer
-				getBatchJobInfo( $scope.organize.organizeId);
+				getBatchJobInfo( $scope.organize.memberId);
 			}
 	    });
 	

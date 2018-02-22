@@ -17,7 +17,7 @@ tpModule.controller('EditMappingDataController', [
             mappingType: 'TEXT_MAPPING'
         };
         var hideSignFlagColumn = false;
-        if (model.mappingType == 'TEXT_MAPPING' || model.mappingType == 'TEXT_MAPPING_WITH_DEFAULT') {
+        if (model.mappingType == 'TEXT_MAPPING' || model.mappingType == 'TEXT_MAPPING_WITH_DEFAULT'|| model.mappingType == 'REASON_CODE') {
             hideSignFlagColumn = true;
         }
 
@@ -26,6 +26,14 @@ tpModule.controller('EditMappingDataController', [
             vm.hideDefaultCodeColumn = true;
         }
 
+        vm.unauthenConfig = function(isDefaultCode) {
+            if (vm.manageAction && !isDefaultCode) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        
         vm.criteria = {};
 
         vm.dataTable = {
@@ -81,9 +89,9 @@ tpModule.controller('EditMappingDataController', [
                 fieldName: 'action',
                 cssTemplate: 'text-center',
                 sortData: false,
-                cellTemplate: '<scf-button id="{{data.code}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.editMappingDataCode(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
-                '<scf-button id="{{data.code}}-delete-button" class="btn-default gec-btn-action" ng-disabled="data.defaultCode" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>' +
-                '<scf-button id="{{data.code}}-set-default-button" class="btn-default gec-btn-action" ng-hide="ctrl.hideDefaultCodeColumn" ng-click="ctrl.setDefaultCode(data)" title="Set default"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>'
+                cellTemplate: '<scf-button id="{{data.code}}-edit-button" class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenConfig()" ng-click="ctrl.editMappingDataCode(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
+                '<scf-button id="{{data.code}}-delete-button" class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenConfig(data.defaultCode)" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>' +
+                '<scf-button id="{{data.code}}-set-default-button" class="btn-default gec-btn-action" ng-hide="ctrl.hideDefaultCodeColumn" ng-disabled="ctrl.unauthenConfig()" ng-click="ctrl.setDefaultCode(data)" title="Set default"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>'
             }]
         }
 
@@ -103,7 +111,7 @@ tpModule.controller('EditMappingDataController', [
                 var deffered = MappingDataService.getMappingData(model);
                 deffered.promise.then(function (response) {
                     vm.criteria = response.data;
-                    if (response.data.mappingType == 'TEXT_MAPPING_WITH_DEFAULT') {
+                    if (response.data.mappingType == 'TEXT_MAPPING_WITH_DEFAULT' || response.data.mappingType == 'REASON_CODE') {
                         vm.criteria.sort = ['defaultCode', 'code'];
                     } else {
                         vm.criteria.sort = ['code'];
@@ -134,7 +142,7 @@ tpModule.controller('EditMappingDataController', [
                         return MappingDataService.deleteMappingData(vm.criteria, mappingItem);
                     },
                     onFail: function (response) {
-                        var msg = { 409: 'Code has been deleted.', 405: 'Code has been used.' };
+                        var msg = { 409: 'Code has been modified.', 405: 'Code has been used.' };
                         UIFactory.showFailDialog({
                             data: {
                                 headerMessage: 'Delete code fail.',

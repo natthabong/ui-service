@@ -2,8 +2,8 @@
 var tpModule = angular.module('gecscf.tradingPartner');
 tpModule.factory('TradingPartnerService', ['$http', '$q', 'Service', function ($http, $q, Service) {
 	var _prepareItem = function (item) {
-		item.identity = ['organize-', item.organizeId, '-option'].join('');
-		item.label = [item.organizeId, ': ', item.organizeName].join('');
+		item.identity = ['organize-', item.memberId, '-option'].join('');
+		item.label = [item.memberCode, ': ', item.memberName].join('');
 		return item;
 	}
 

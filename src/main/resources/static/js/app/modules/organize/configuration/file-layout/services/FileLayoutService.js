@@ -20,6 +20,12 @@ module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		});
 		return deffered;
 	}
+	
+	this.getFundings = function () {
+		var url = '/api/v1/fundings';
+		var serviceDiferred = Service.doGet(url);
+		return serviceDiferred
+	}
 
 	this.getFileLayouts = function (owner, processTypes, integrateTypes) {
 		var url = '/api/v1/organize-customers/' + owner + '/process-types/' + processTypes +
@@ -167,7 +173,12 @@ module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 
 		} else if (layout.processType == 'AP_DOCUMENT') {
 			var errors = {
+				requireLayoutName : true,
 				documentFieldIdListDupplicate: []
+			}
+			
+			if(layout.displayName != ''){
+				errors.requireLayoutName = false;
 			}
 
 			layout.items.forEach(function (item) {
@@ -197,7 +208,7 @@ module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 				}
 			});
 
-			if (errors.requirePaymentAmount || errors.documentFieldIdListDupplicate.length > 0) {
+			if (errors.requireLayoutName || errors.requirePaymentAmount || errors.documentFieldIdListDupplicate.length > 0) {
 				messageFunc(errors);
 				return false;
 			}

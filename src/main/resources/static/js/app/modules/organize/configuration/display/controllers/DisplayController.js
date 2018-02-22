@@ -25,7 +25,7 @@ displayModule.controller('DisplayController', [
     'OVERDUE_DROPDOWN_ITEM',
     'PAYMENT_DATE_DROPDOWN_ITEM',
     'GRACE_PERIOD_DROPDOWN_ITEM',
-    function ($log, $scope, $state, SCFCommonService,
+    function($log, $scope, $state, SCFCommonService,
         $stateParams, $timeout, ngDialog,
         PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService,
         LOAN_REQUEST_MODE_ITEM, DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM,
@@ -41,8 +41,9 @@ displayModule.controller('DisplayController', [
         vm.accountingTransactionType = $stateParams.accountingTransactionType;
         var displayMode = $stateParams.displayMode;
         vm.displayId = $stateParams.documentDisplayId;
+        vm.allowablePaymentDays = [];
 
-        var newDisplayConfig = function () {
+        var newDisplayConfig = function() {
             return {
                 documentFieldId: null,
                 sortType: null
@@ -92,11 +93,6 @@ displayModule.controller('DisplayController', [
         }];
         vm.documentFieldData = [];
 
-        vm.dataMappingType = [{
-            value: null,
-            label: 'Please select'
-        }];
-
         vm.documentConditions = [{
             value: null,
             label: 'Please select'
@@ -106,7 +102,7 @@ displayModule.controller('DisplayController', [
         vm.supportGracePeriod = "false";
         vm.gracePriod = null;
 
-        var defaultAllowablePaymentDays = function () {
+        var defaultAllowablePaymentDays = function() {
             var allowablePaymentDays = [];
             var forDebit = {
                 allowablePaymentDay: "ALL_DAY",
@@ -120,17 +116,23 @@ displayModule.controller('DisplayController', [
                 allowablePaymentDay: "ALL_DAY",
                 transactionMethod: "DEBIT_SPECIAL"
             }
+            var forOverdraft = {
+                allowablePaymentDay: "ALL_DAY",
+                transactionMethod: "OD"
+            }
             allowablePaymentDays.push(forDebit);
             allowablePaymentDays.push(forDrawdown);
             allowablePaymentDays.push(forSpecialDebit);
+            allowablePaymentDays.push(forOverdraft);
             return allowablePaymentDays;
         }
 
         vm.checkedForDebit = false;
         vm.checkedForDrawdown = false;
         vm.checkedForSpecialDebit = false;
+        vm.checkForOverdraft = false;
 
-        var checkIsWorkingDay = function (data) {
+        var checkIsWorkingDay = function(data) {
             var isWorkingDay = true
             if (data.allowablePaymentDay == "ALL_DAY") {
                 isWorkingDay = false;
@@ -139,20 +141,22 @@ displayModule.controller('DisplayController', [
         }
         vm.overdueType = vm.overdueRadioType.UNLIMITED;
 
-        var initialCheckBoxPayOnlyBankWorkingDay = function () {
-            vm.allowablePaymentDays.forEach(function (data) {
+        var initialCheckBoxPayOnlyBankWorkingDay = function() {
+            vm.allowablePaymentDays.forEach(function(data) {
                 if (data.transactionMethod == "DEBIT") {
                     vm.checkedForDebit = checkIsWorkingDay(data);
                 } else if (data.transactionMethod == "TERM_LOAN") {
                     vm.checkedForDrawdown = checkIsWorkingDay(data);
                 } else if (data.transactionMethod == "DEBIT_SPECIAL") {
                     vm.checkedForSpecialDebit = checkIsWorkingDay(data);
+                } else if (data.transactionMethod = "OD") {
+                    vm.checkForOverdraft = checkIsWorkingDay(data);
                 }
             });
         }
 
         vm.overDuePeriod = null;
-        var initialOverdue = function () {
+        var initialOverdue = function() {
             if (vm.dataModel.overDuePeriod == 0 || vm.dataModel.overDuePeriod == null) {
                 vm.overDuePeriod = null;
                 vm.overdueType = vm.overdueRadioType.UNLIMITED;
@@ -161,10 +165,10 @@ displayModule.controller('DisplayController', [
                 vm.overdueType = vm.overdueRadioType.PERIOD;
             }
         }
-        
-        var loadDisplayConfig = function (ownerId, accountingTransactionType, displayMode, displayId) {
+
+        var loadDisplayConfig = function(ownerId, accountingTransactionType, displayMode, displayId) {
             var deffered = DisplayService.getDocumentDisplayConfig(ownerId, accountingTransactionType, displayMode, displayId);
-            deffered.promise.then(function (response) {
+            deffered.promise.then(function(response) {
                 var data = response.data;
                 vm.dataModel = data || {
                     displayName: null,
@@ -216,7 +220,7 @@ displayModule.controller('DisplayController', [
                 if (vm.dataModel.items == null || vm.dataModel.items.length < 1) {
                     vm.addItem();
                 }
-                
+
                 if (vm.dataModel.loanRequestMode == null || vm.dataModel.loanRequestMode == '') {
                     vm.dataModel.loanRequestMode = 'CURRENT_AND_FUTURE';
                 }
@@ -227,85 +231,51 @@ displayModule.controller('DisplayController', [
                     vm.dataModel.supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
                 }
 
-            }).catch(function (response) {
+            }).catch(function(response) {
                 log.error('Load data error');
             });
         }
 
-        var loadDisplayConfigs = function (ownerId, accountingTransactionType, displayMode) {
-            var deffered = DisplayService.getDocumentDisplayConfigs(ownerId, accountingTransactionType, displayMode);
-            deffered.promise.then(function (response) {
-                var data = response.data[0];
-                loadDisplayConfig(ownerId, accountingTransactionType, displayMode,data.documentDisplayId);
-
-            }).catch(function (response) {
-                log.error('Load data error');
-            });
-        }
-        
-        var loadMappingData = function (ownerId, accountingTransactionType) {
-            var dataType = ["TEXT_MAPPING_WITH_DEFAULT"];
-            var deffered = SCFCommonService.loadMappingData(ownerId, accountingTransactionType, dataType);
-            deffered.promise.then(function (response) {
-                var mapping = response.data;
-                if (mapping != null) {
-                    mapping.forEach(function (data) {
-                        var mappingData = {
-                            value: data.mappingDataId,
-                            label: data.mappingDataName
-                        }
-                        vm.dataMappingType.push(mappingData);
-                    });
-                }
-                
-                if (accountingTransactionType == 'PAYABLE'){
-                	loadDisplayConfigs(ownerId, accountingTransactionType, displayMode);
-                } else {
-                	loadDisplayConfig(ownerId, accountingTransactionType, displayMode, vm.displayId);
-                }
-            });
-        }
-
-        var loadDocumentCondition = function () {
+        var loadDocumentCondition = function() {
             var deffered = SCFCommonService.getDocumentFields('DISPLAY', 'DETAIL', 'TEXT', false);
-            deffered.promise.then(function (response) {
+            deffered.promise.then(function(response) {
                 var documentFieldData = response.data;
 
-                documentFieldData.forEach(function (obj) {
+                documentFieldData.forEach(function(obj) {
                     var item = {
                         value: obj.documentFieldId,
                         label: obj.displayFieldName
                     };
                     vm.documentConditions.push(item);
                 });
-            }).catch(function (response) {
+            }).catch(function(response) {
                 log.error('Load data condition error');
             });
         }
 
-        var loadDataTypes = function () {
+        var loadDataTypes = function() {
             var deffered = SCFCommonService.getDocumentFields('DISPLAY', 'DETAIL');
-            deffered.promise.then(function (response) {
+            deffered.promise.then(function(response) {
                 vm.documentFieldData = response.data;
 
-                vm.documentFieldData.forEach(function (obj) {
+                vm.documentFieldData.forEach(function(obj) {
                     var item = {
                         value: obj.documentFieldId,
                         label: obj.displayFieldName
                     };
                     vm.documentFields.push(item);
                 });
-            }).catch(function (response) {
+            }).catch(function(response) {
                 log.error('Load data type error');
             });
         }
 
-        var loadProductTypeDropdawn = function (ownerId) {
+        var loadProductTypeDropdawn = function(ownerId) {
             var deffered = DisplayService.getProductTypes(ownerId);
-            deffered.promise.then(function (response) {
+            deffered.promise.then(function(response) {
                 var productTypes = response.data;
                 if (productTypes != null) {
-                    productTypes.forEach(function (data) {
+                    productTypes.forEach(function(data) {
                         var productTypeData = {
                             value: data.productType,
                             label: data.displayName
@@ -317,20 +287,20 @@ displayModule.controller('DisplayController', [
         }
 
 
-        var init = function () {
+        var init = function() {
             loadDataTypes();
             loadDocumentCondition();
-            loadMappingData(ownerId, vm.accountingTransactionType);
+            loadDisplayConfig(ownerId, vm.accountingTransactionType, displayMode, vm.displayId);
             loadProductTypeDropdawn(ownerId);
-        } ();
+        }();
 
         // <------------------------------------------ User Action ------------------------------------------->
-        vm.removeGroupDocumentCondition = function (field) {
+        vm.removeGroupDocumentCondition = function(field) {
             var index = vm.dataModel.documentGroupingFields.indexOf(field);
             vm.dataModel.documentGroupingFields.splice(index, 1);
         }
 
-        vm.addGroupDocumentCondition = function () {
+        vm.addGroupDocumentCondition = function() {
             var groupItem = {
                 documentFieldId: null,
                 documentDisplayId: vm.dataModel.documentDisplayId
@@ -338,7 +308,7 @@ displayModule.controller('DisplayController', [
             vm.dataModel.documentGroupingFields.push(groupItem);
         }
 
-        var clearGroupDocumentConditionField = function () {
+        var clearGroupDocumentConditionField = function() {
             vm.dataModel.documentGroupingFields = [];
             var groupItem = {
                 documentFieldId: null,
@@ -347,14 +317,14 @@ displayModule.controller('DisplayController', [
             vm.dataModel.documentGroupingFields.push(groupItem);
         }
 
-        vm.changeDocumentSelection = function () {
+        vm.changeDocumentSelection = function() {
             if (vm.dataModel.documentSelection == DOCUMENT_SELECTION_ITEM.anyDocument) {
                 clearGroupDocumentConditionField();
                 vm.groupDocumentType = DOCUMENT_SELECTION_ITEM.allDocument;
             }
         }
 
-        vm.addItem = function () {
+        vm.addItem = function() {
             refreshSession();
             vm.dataModel.items.push({
                 documentFieldId: null,
@@ -363,14 +333,14 @@ displayModule.controller('DisplayController', [
             });
         }
 
-        vm.removeItem = function (record) {
+        vm.removeItem = function(record) {
             var index = vm.dataModel.items.indexOf(record);
             vm.dataModel.items.splice(index, 1);
         }
 
-        vm.openSetting = function (index, record) {
+        vm.openSetting = function(index, record) {
             var documentFieldId = record.documentField.documentFieldId;
-            vm.documentFieldData.forEach(function (obj) {
+            vm.documentFieldData.forEach(function(obj) {
                 if (documentFieldId == obj.documentFieldId) {
 
                     var dialog = ngDialog.open({
@@ -385,7 +355,7 @@ displayModule.controller('DisplayController', [
                             config: obj
                         },
                         cache: false,
-                        preCloseCallback: function (value) {
+                        preCloseCallback: function(value) {
                             if (value != null) {
                                 angular.copy(value, record);
                                 record.completed = true;
@@ -397,45 +367,7 @@ displayModule.controller('DisplayController', [
 
         }
 
-        vm.clearSelectMappingData = function () {
-            if (!vm.dataModel.supportPartial) {
-                vm.dataModel.reasonCodeMappingId = null;
-            }
-        }
-
-        vm.newMapping = function () {
-            ConfigurationUtils.showCreateMappingDataDialog({
-                data: {
-                    ownerId: ownerId,
-                    accountingTransactionType: vm.accountingTransactionType,
-                    showAll: false
-                },
-                preCloseCallback: function (saveResponse) {
-                    var dataType = ["TEXT_MAPPING_WITH_DEFAULT"];
-                    var deffered = SCFCommonService.loadMappingData(ownerId, vm.accountingTransactionType, dataType);
-                    deffered.promise.then(function (response) {
-                        vm.dataMappingType = [{
-                            value: null,
-                            label: 'Please select'
-                        }];
-                        var mapping = response.data;
-                        if (mapping != null) {
-                            mapping.forEach(function (data) {
-                                var mappingData = {
-                                    value: data.mappingDataId,
-                                    label: data.mappingDataName
-                                }
-                                vm.dataMappingType.push(mappingData);
-                            });
-                        }
-
-                        vm.dataModel.reasonCodeMappingId = saveResponse.data.mappingDataId;
-                    });
-                }
-            });
-        }
-
-        vm.changeOverdue = function () {
+        vm.changeOverdue = function() {
             if (vm.displayOverdue == "false") {
                 vm.overdueType = vm.overdueRadioType.UNLIMITED
                 vm.overDuePeriod = null;
@@ -443,7 +375,7 @@ displayModule.controller('DisplayController', [
             }
         }
 
-        vm.changeOverdueType = function () {
+        vm.changeOverdueType = function() {
             if (vm.overdueType == vm.overdueRadioType.UNLIMITED) {
                 vm.overDuePeriod = null;
                 vm.showMessagePeriodError = false;
@@ -452,7 +384,7 @@ displayModule.controller('DisplayController', [
             }
         }
 
-        vm.changeSupportGracePeriod = function () {
+        vm.changeSupportGracePeriod = function() {
             if (vm.supportGracePeriod == 'true') {
                 vm.gracePriod = 1;
             } else {
@@ -460,60 +392,72 @@ displayModule.controller('DisplayController', [
             }
         }
 
-        vm.changeShiftPaymentDate = function () {
+        vm.changeShiftPaymentDate = function() {
             if (!vm.dataModel.shiftPaymentDate) {
                 vm.shiftIn = true
             }
         }
 
-        vm.changePayOnlyBankWorkingDayItem = function(){
-            if(!vm.checkedForDebit && !vm.checkedForDrawdown && !vm.checkedForSpecialDebit){
+        vm.changePayOnlyBankWorkingDayItem = function() {
+            if (!vm.checkedForDebit && !vm.checkedForDrawdown && !vm.checkedForSpecialDebit && !vm.checkForOverdraft) {
                 vm.dataModel.shiftPaymentDate = false;
                 vm.shiftIn = true;
             }
         }
 
-        vm.disableShiftPaymentDate = function(){
+        vm.disableShiftPaymentDate = function() {
             var disable = true;
-            if(vm.checkedForDebit || vm.checkedForDrawdown || vm.checkedForSpecialDebit){
+            if (vm.checkedForDebit || vm.checkedForDrawdown || vm.checkedForSpecialDebit || vm.checkForOverdraft) {
                 disable = false;
             }
             return disable;
         }
 
-        vm.backToSponsorConfigPage = function () {
+        vm.backToSponsorConfigPage = function() {
             PageNavigation.gotoPage('/sponsor-configuration', {
                 organizeId: ownerId
             });
         }
 
-        var setAllowAblePaymentDay = function(){
-            vm.allowablePaymentDays.forEach(function(data){
-                if(data.transactionMethod == 'DEBIT'){
-                    if(vm.checkedForDebit){
-                        data.allowablePaymentDay = 'WORKING_DAY';
-                    }else{
-                        data.allowablePaymentDay = 'ALL_DAY';
-                    }
-                }else if(data.transactionMethod == 'TERM_LOAN'){
-                    if(vm.checkedForDrawdown){
-                        data.allowablePaymentDay = 'WORKING_DAY';
-                    }else{
-                        data.allowablePaymentDay = 'ALL_DAY';
-                    }
-                }else if(data.transactionMethod == 'DEBIT_SPECIAL'){
-                    if(vm.checkedForSpecialDebit){
-                        data.allowablePaymentDay = 'WORKING_DAY';
-                    }else{
-                        data.allowablePaymentDay = 'ALL_DAY';
-                    }
-                }
-            });
-            
-            vm.dataModel.allowablePaymentDays = vm.allowablePaymentDays;
+        var setAllowAblePaymentDay = function() {
+            var items = [];
+            var forDebitItem = { transactionMethod: "DEBIT" };
+            if (vm.checkedForDebit) {
+                forDebitItem.allowablePaymentDay = 'WORKING_DAY';
+            } else {
+                forDebitItem.allowablePaymentDay = 'ALL_DAY';
+            }
+            items.push(forDebitItem);
+
+            var forDrawdownItem = { transactionMethod: "TERM_LOAN" };
+            if (vm.checkedForDrawdown) {
+                forDrawdownItem.allowablePaymentDay = 'WORKING_DAY';
+            } else {
+                forDrawdownItem.allowablePaymentDay = 'ALL_DAY';
+            }
+            items.push(forDrawdownItem);
+
+
+            var forSpecialDebitItem = { transactionMethod: "DEBIT_SPECIAL" };
+            if (vm.checkedForSpecialDebit) {
+                forSpecialDebitItem.allowablePaymentDay = 'WORKING_DAY';
+            } else {
+                forSpecialDebitItem.allowablePaymentDay = 'ALL_DAY';
+            }
+            items.push(forSpecialDebitItem);
+
+            var forOverdraftItem = { transactionMethod: "OD" };
+            if (vm.checkForOverdraft) {
+                forOverdraftItem.allowablePaymentDay = 'WORKING_DAY';
+            } else {
+                forOverdraftItem.allowablePaymentDay = 'ALL_DAY';
+            }
+            items.push(forOverdraftItem);
+
+            vm.dataModel.allowablePaymentDays = items;
         }
 
-        var setValueBeforeSave = function () {
+        var setValueBeforeSave = function() {
             // Overdue
             if (vm.displayOverdue == 'false') {
                 vm.dataModel.overDuePeriod = null;
@@ -528,14 +472,14 @@ displayModule.controller('DisplayController', [
             // Grace period
             if (vm.supportGracePeriod == "false") {
                 vm.dataModel.gracePriod = null;
-            } else if (vm.supportGracePeriod == 'true'){
+            } else if (vm.supportGracePeriod == 'true') {
                 vm.dataModel.gracePriod = vm.gracePriod;
             }
 
             // Shift In
-            if(!vm.dataModel.shiftPaymentDate){
+            if (!vm.dataModel.shiftPaymentDate) {
                 vm.dataModel.shiftIn = null;
-            }else{
+            } else {
                 vm.dataModel.shiftIn = vm.shiftIn;
             }
 
@@ -545,7 +489,7 @@ displayModule.controller('DisplayController', [
         vm.showMessagePeriodError = false;
         vm.showMessageGracePeriodError = false;
 
-        var validateOverdueAndGracePeriod = function () {
+        var validateOverdueAndGracePeriod = function() {
             var validate = true;
             if (vm.overdueType == vm.overdueRadioType.PERIOD) {
                 if (angular.isUndefined(vm.overDuePeriod) || vm.overDuePeriod == null) {
@@ -570,10 +514,10 @@ displayModule.controller('DisplayController', [
 
         }
 
-        vm.save = function () {
+        vm.save = function() {
             if (validateOverdueAndGracePeriod()) {
                 setValueBeforeSave();
-                var preCloseCallback = function () {
+                var preCloseCallback = function() {
                     var organizeModel = { organizeId: ownerId };
                     PageNavigation.gotoPage('/sponsor-configuration', {
                         organizeModel: organizeModel
@@ -590,7 +534,7 @@ displayModule.controller('DisplayController', [
                             headerMessage: 'Confirm save?'
                         },
                         confirm: $scope.confirmSave,
-                        onFail: function (response) {
+                        onFail: function(response) {
                             var msg = {
                                 409: 'Display document has been deleted.',
                                 405: 'Display document has been used.'
@@ -601,7 +545,7 @@ displayModule.controller('DisplayController', [
                                         headerMessage: 'Edit display document configuration fail.',
                                         bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
                                     },
-                                    preCloseCallback: function () {
+                                    preCloseCallback: function() {
                                         if (response.status != 404) {
                                             vm.backToSponsorConfigPage();
                                         } else {
@@ -624,14 +568,14 @@ displayModule.controller('DisplayController', [
                             blockUI.stop();
 
                         },
-                        onSuccess: function (response) {
+                        onSuccess: function(response) {
                             blockUI.stop();
                             UIFactory.showSuccessDialog({
                                 data: {
                                     headerMessage: 'Edit display document configuration complete.',
                                     bodyMessage: ''
                                 },
-                                preCloseCallback: function () {
+                                preCloseCallback: function() {
                                     vm.backToSponsorConfigPage();
                                 }
                             });
@@ -646,13 +590,13 @@ displayModule.controller('DisplayController', [
             message: 'Please setup trade finance before creating special direct debit.'
         }
 
-        var onFail = function (errors) {
+        var onFail = function(errors) {
             $scope.errors = errors;
         }
 
 
 
-        $scope.confirmSave = function () {
+        $scope.confirmSave = function() {
             if (vm.dataModel.documentSelection == DOCUMENT_SELECTION_ITEM.groupBy) {
                 if (vm.accountingTransactionType == "RECEIVABLE") {
                     vm.dataModel.documentSelection = vm.groupDocumentType;
@@ -665,7 +609,7 @@ displayModule.controller('DisplayController', [
 
             vm.dataModel.completed = true;
             var dataSaveModel = jQuery.extend(true, {}, vm.dataModel);
-            dataSaveModel.items.forEach(function (obj, index) {
+            dataSaveModel.items.forEach(function(obj, index) {
                 if (obj.documentField != null) {
                     var dataType = vm.documentFields[obj.documentField.documentFieldId];
                     if (angular.isDefined(dataType)) {
@@ -680,11 +624,11 @@ displayModule.controller('DisplayController', [
             return DisplayService.updateDisplay(ownerId, vm.accountingTransactionType, displayMode, dataSaveModel);
         }
 
-        vm.cannotSetup = function (record) {
+        vm.cannotSetup = function(record) {
             if (angular.isDefined(record.documentField)) {
                 var hasUrl = true;
                 var documentFieldId = record.documentField.documentFieldId;
-                vm.documentFieldData.forEach(function (obj) {
+                vm.documentFieldData.forEach(function(obj) {
                     if (documentFieldId == obj.documentFieldId) {
 
                         if (obj.configUrl == null) {
@@ -701,13 +645,13 @@ displayModule.controller('DisplayController', [
             }
         }
 
-        vm.moveItemUp = function (item) {
+        vm.moveItemUp = function(item) {
             refreshSession();
             var itemIndex = vm.dataModel.items.indexOf(item);
             addItemToIndex(itemIndex - 1, item);
         }
 
-        vm.moveItemDown = function (item) {
+        vm.moveItemDown = function(item) {
             refreshSession();
             var itemIndex = vm.dataModel.items.indexOf(item);
             addItemToIndex(itemIndex + 1, item);
@@ -726,9 +670,9 @@ displayModule.controller('DisplayController', [
             Service.doGet('/api/rest');
         }
 
-        vm.displayExample = function (record) {
+        vm.displayExample = function(record) {
             var msg = '';
-            vm.documentFieldData.forEach(function (obj) {
+            vm.documentFieldData.forEach(function(obj) {
 
                 if (record.documentField != null && record.documentField.documentFieldId == obj.documentFieldId) {
                     // if (record.completed) {
@@ -790,7 +734,7 @@ displayModule.controller('DisplayController', [
     singlePerTransaction: 'SINGLE_PER_TRANSACTION',
     multiplePerTransaction: 'MULTIPLE_PER_TRANSACTION'
 }).controller('TEXTDisplayConfigController', ['$scope', 'ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
-    function ($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+    function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 
         this.model = angular.copy($scope.ngDialogData.record);
 
@@ -798,7 +742,7 @@ displayModule.controller('DisplayController', [
 
     }
 ]).controller('MATCHING_REFDisplayConfigController', ['$scope', 'ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
-    function ($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+    function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 
         this.model = angular.copy($scope.ngDialogData.record);
 
@@ -806,7 +750,7 @@ displayModule.controller('DisplayController', [
 
     }
 ]).controller('CUSTOMER_CODEDisplayConfigController', ['$scope', 'ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
-    function ($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+    function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 
         this.model = angular.copy($scope.ngDialogData.record);
 
@@ -814,7 +758,7 @@ displayModule.controller('DisplayController', [
 
     }
 ]).controller('DOCUMENT_NODisplayConfigController', ['$scope', 'ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
-    function ($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+    function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 
         this.model = angular.copy($scope.ngDialogData.record);
 
@@ -822,7 +766,7 @@ displayModule.controller('DisplayController', [
 
     }
 ]).controller('DOCUMENT_TYPEDisplayConfigController', ['$scope', 'ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',
-    function ($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+    function($scope, ALIGNMENT_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
 
         this.model = angular.copy($scope.ngDialogData.record);
 
@@ -834,7 +778,7 @@ displayModule.controller('DisplayController', [
     'ALIGNMENT_DROPDOWN_ITEM',
     'NEGATIVE_NUMMBER_DROPDOWN_ITEM',
     '$rootScope', 'SCFCommonService',
-    function ($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+    function($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
         var vm = this;
         var dataTypeConfig = $scope.ngDialogData.config;
 
@@ -849,7 +793,7 @@ displayModule.controller('DisplayController', [
         var rawExample = parseFloat(dataTypeConfig.defaultExampleValue).toFixed(2);
         vm.exampleRawData = isNaN(rawExample) ? 123456.00 : rawExample;
 
-        var prepareDiaglogData = function () {
+        var prepareDiaglogData = function() {
 
             if (vm.model.filterType == 'negativeParenthesis') {
                 vm.dlgData.useSeperator = true;
@@ -868,7 +812,7 @@ displayModule.controller('DisplayController', [
 
         prepareDiaglogData();
 
-        $scope.$watch('ctrl.dlgData', function () {
+        $scope.$watch('ctrl.dlgData', function() {
             if (vm.dlgData.useSeperator) {
                 vm.model.filterType = vm.dlgData.filterType;
             } else {
@@ -888,7 +832,7 @@ displayModule.controller('DisplayController', [
     'ALIGNMENT_DROPDOWN_ITEM',
     'NEGATIVE_NUMMBER_DROPDOWN_ITEM',
     '$rootScope', 'SCFCommonService',
-    function ($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
+    function($scope, $filter, ALIGNMENT_DROPDOWN_ITEM, NEGATIVE_NUMMBER_DROPDOWN_ITEM, $rootScope, SCFCommonService) {
         var vm = this;
         var dataTypeConfig = $scope.ngDialogData.config;
 
@@ -903,7 +847,7 @@ displayModule.controller('DisplayController', [
         var rawExample = parseFloat(dataTypeConfig.defaultExampleValue).toFixed(2);
         vm.exampleRawData = isNaN(rawExample) ? 123456.00 : rawExample;
 
-        var prepareDiaglogData = function () {
+        var prepareDiaglogData = function() {
 
             if (vm.model.filterType == 'negativeParenthesis') {
                 vm.dlgData.useSeperator = true;
@@ -922,7 +866,7 @@ displayModule.controller('DisplayController', [
 
         prepareDiaglogData();
 
-        $scope.$watch('ctrl.dlgData', function () {
+        $scope.$watch('ctrl.dlgData', function() {
             if (vm.dlgData.useSeperator) {
                 vm.model.filterType = vm.dlgData.filterType;
             } else {
@@ -938,7 +882,7 @@ displayModule.controller('DisplayController', [
 
     }
 ]).controller('DATE_TIMEDisplayConfigController', ['$scope', '$filter', '$log', 'ALIGNMENT_DROPDOWN_ITEM', 'Service', '$rootScope', 'SCFCommonService',
-    function ($scope, $filter, $log, ALIGNMENT_DROPDOWN_ITEM, Service, $rootScope, SCFCommonService) {
+    function($scope, $filter, $log, ALIGNMENT_DROPDOWN_ITEM, Service, $rootScope, SCFCommonService) {
         var vm = this;
         vm.model = angular.copy($scope.ngDialogData.record);
         if (!vm.model.filterType) {
@@ -952,10 +896,10 @@ displayModule.controller('DisplayController', [
 
         var serviceUrl = 'js/app/sponsor-configuration/file-layouts/date_time_format.json';
         var diferred = Service.doGet(serviceUrl);
-        diferred.promise.then(function (response) {
+        diferred.promise.then(function(response) {
             var dateTimeDropdownList = response.data;
             if (dateTimeDropdownList !== undefined) {
-                dateTimeDropdownList.forEach(function (obj) {
+                dateTimeDropdownList.forEach(function(obj) {
                     var selectObj = {
                         label: obj.dateTimeName,
                         value: obj.dateTimeId
@@ -964,19 +908,19 @@ displayModule.controller('DisplayController', [
                 });
             }
             diferred.resolve(vm.formatDropdownItems);
-        }).catch(function (response) {
+        }).catch(function(response) {
             $log.error('Load date time format Fail');
             diferred.reject();
         });
 
-        $scope.$watch('ctrl.model.format', function () {
+        $scope.$watch('ctrl.model.format', function() {
             var collectionDate = '2016-04-13T00:00:00';
             var date = new Date(collectionDate);
             vm.exampleDataDisplay = $filter('date')(date, vm.model.format);
         });
 
     }
-]).factory('DocumentDisplayConfigExampleService', ['$filter', 'SCFCommonService', function ($filter, SCFCommonService) {
+]).factory('DocumentDisplayConfigExampleService', ['$filter', 'SCFCommonService', function($filter, SCFCommonService) {
     return {
         TEXT_DisplayExample: TEXT_DisplayExample,
         CUSTOMER_CODE_DisplayExample: CUSTOMER_CODE_DisplayExample,
@@ -1026,5 +970,4 @@ displayModule.controller('DisplayController', [
         return SCFCommonService.replacementStringFormat(displayMessage, replacements);
     }
 
-}
-]);
+}]);

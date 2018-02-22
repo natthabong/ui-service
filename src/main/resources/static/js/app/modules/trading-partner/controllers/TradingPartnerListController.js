@@ -78,7 +78,7 @@ tpModule.controller('TradingPartnerListController',['$scope','$stateParams','UIF
 		vm.search = function(pageModel) {
 			var organizeId = undefined;
 			if (angular.isObject(vm.organize)) {
-				vm.criteria.organizeId = vm.organize.organizeId;
+				vm.criteria.organizeId = vm.organize.memberId;
 			} else {
 				vm.criteria.organizeId = undefined;
 			}

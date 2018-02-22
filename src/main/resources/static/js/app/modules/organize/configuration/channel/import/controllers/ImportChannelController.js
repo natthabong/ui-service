@@ -31,6 +31,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	var vm = this;
 	
 	vm.manageAll=false;
+	vm.manageAllFunding=false;
 	vm.postProcessBackup = false;
 	var dayOfWeekFrequency = {
 		SUNDAY : 1,
@@ -43,10 +44,43 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	}
 	
 	var parameters = PageNavigation.getParameters();
-	
     var organizeId = parameters.organizeId;
-    
     vm.isSetupFTP = false;
+    vm.runTimes = [];
+    vm.runTime = undefined;
+    vm.addRuntime = function(time) {
+   	 if(angular.isUndefined(time)) {
+     		$scope.errors.runtime = {
+   				message : 'Time is required.'
+   		}
+     	 } else if (vm.runTimes.indexOf(time) !== -1) {
+   		$scope.errors.runtime = {
+ 				message : 'Time already exists.'
+ 			}
+   	 } else {
+   		vm.runTimes.push(time);
+   	 } 
+     };
+     
+     vm.deleteRuntime = function(item) { 
+   	  var index = vm.runTimes.indexOf(item);
+   	  vm.runTimes.splice(index, 1);     
+     };
+    
+    vm.fundings = [];
+	vm.searchFundings = function(){
+		 var deffered = FileLayoutService.getFundings();
+		 deffered.promise.then(function(response){
+			 vm.fundings = [];
+        	 var _fundings = response.data;
+        	 if (angular.isDefined(_fundings)) {
+        		 _fundings.forEach(function (fundings) {
+                    vm.fundings.push(fundings);
+                 });
+        	  }
+		 });
+		
+	};
     
     vm.fileLayouts = [];
 	vm.searchFileLayout = function(){
@@ -55,6 +89,13 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 			 vm.fileLayouts = [];
         	 var _fileLayouts = response.data;
         	 if (angular.isDefined(_fileLayouts)) {
+        		 if (vm.channelModel.layoutConfigId == null){
+        			 var pleaseSelectObj = {
+                             label: '---Please select---',
+                             value: null
+                     }
+        			 vm.fileLayouts.push(pleaseSelectObj);
+        		 }				 
         		 _fileLayouts.forEach(function (fileLayout) {
                     var selectObj = {
                         label: fileLayout.displayName,
@@ -97,11 +138,11 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	vm.frequencyDropdown = FREQUENCY_DROPDOWN;
 
 	vm.changePostProcess = function() {
-		if (vm.channelModel.jobTrigger.jobDetail.postProcessType == 'BACKUP') {
+		if (vm.channelModel.jobInformation.ftpDetail.postProcessType == 'BACKUP') {
 			vm.postProcessBackup = true;
 		} else {
 			vm.postProcessBackup = false;
-			vm.channelModel.jobTrigger.jobDetail.remoteBackupFolderPattern = '/';
+			vm.channelModel.jobInformation.ftpDetail.remoteBackupFolderPattern = '/';
 		}
 	}
 	
@@ -130,10 +171,12 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 
 	var setupPrepareData = function(){
 		if(vm.channelModel.channelType == 'FTP'){
-			vm.channelModel.jobTrigger.startHour = null;
-			vm.channelModel.jobTrigger.startMinute = null;
-			vm.channelModel.jobTrigger.endHour = null;
-			vm.channelModel.jobTrigger.endMinute = null;
+			vm.channelModel.jobInformation.suspend = vm.channelModel.suspend;
+			
+			vm.channelModel.jobInformation.startHour = null;
+			vm.channelModel.jobInformation.startMinute = null;
+			vm.channelModel.jobInformation.endHour = null;
+			vm.channelModel.jobInformation.endMinute = null;
 
 			var daysOfWeek = '';
 			if(vm.channelModel.sunday){
@@ -157,21 +200,44 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 			if(vm.channelModel.saturday){
 				daysOfWeek += dayOfWeekFrequency.SATURDAY + ',';
 			}
-			daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
-			vm.channelModel.jobTrigger.daysOfWeek = daysOfWeek;
-
-			if(vm.channelModel.beginTime != null && vm.channelModel.beginTime != ''){
-				var beginTime = vm.channelModel.beginTime.split(":");
-				vm.channelModel.jobTrigger.startHour = beginTime[0];
-				vm.channelModel.jobTrigger.startMinute = beginTime[1];
+			
+			if(vm.channelModel.runtimeType == 'INTERVAL'){
+				var triggerInformation = {};
+				vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek = daysOfWeek.replace("[","").replace("]","");
+				if(vm.channelModel.beginTime != null && vm.channelModel.beginTime != ''){
+					var beginTime = vm.channelModel.beginTime.split(":");
+					triggerInformation.startHour = beginTime[0];
+					triggerInformation.startMinute = beginTime[1];
+				}
+	
+				if(vm.channelModel.endTime != null && vm.channelModel.endTime != ''){
+					var endTime = vm.channelModel.endTime.split(":");
+					triggerInformation.endHour = endTime[0];
+					triggerInformation.endMinute = endTime[1];
+				}
+				triggerInformation.intervalInMinutes = vm.channelModel.delayedInterval;
+				triggerInformation.daysOfWeek = daysOfWeek;
+				vm.channelModel.jobInformation.triggerInformations = [];
+				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
+			} else {
+				daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
+	 			vm.channelModel.jobInformation.daysOfWeek = daysOfWeek;
+				vm.channelModel.jobInformation.triggerInformations = [];
+	 			vm.runTimes.forEach(function(data){
+	 				var triggerInformation = {};
+	 				var beginTime = data.split(":");
+	 				triggerInformation.startHour = beginTime[0];
+	 				triggerInformation.startMinute = beginTime[1];
+	 				var endTime = parseInt(beginTime[1])+1 == 60 ? 0 : parseInt(beginTime[1])+1;
+	 				var endHour = parseInt(beginTime[1])+1 == 60 ? parseInt(beginTime[0])+1 : parseInt(beginTime[0]);
+	 				triggerInformation.endHour = endHour.toString();
+	 				triggerInformation.endMinute = endTime.toString();
+	 				triggerInformation.intervalInMinutes = 120;
+	 				triggerInformation.daysOfWeek = daysOfWeek;
+	 				
+	 				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
+	 			});
 			}
-
-			if(vm.channelModel.endTime != null && vm.channelModel.endTime != ''){
-				var endTime = vm.channelModel.endTime.split(":");
-				vm.channelModel.jobTrigger.endHour = endTime[0];
-				vm.channelModel.jobTrigger.endMinute = endTime[1];
-			}
-
 		}
 
 		if(!vm.isUseExpireDate){
@@ -184,8 +250,13 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 		var isValid = true;
 		var channel = vm.channelModel;
 		
+		if(vm.channelModel.displayName == null || vm.channelModel.displayName ==""){
+ 			isValid = false;
+ 			$scope.errors.displayName = {
+ 					message : 'Display name is required.'
+ 			}			
+ 		} 
 		
-		//Atithat
 		if (parameters.processType == 'AR_DOCUMENT'){
 			if(vm.channelModel.layoutConfigId == null || vm.channelModel.layoutConfigId ==""){
 				isValid = false;
@@ -196,74 +267,74 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 		}
 
 		if(vm.channelModel.channelType == 'FTP'){
+			vm.channelModel.jobInformation.frequencyType = 'DAILY';
+			var jobInformation = vm.channelModel.jobInformation;
+			var ftpDetail = vm.channelModel.jobInformation.ftpDetail;
 			
-			var jobTrigger = vm.channelModel.jobTrigger;
-			var jobDetail = vm.channelModel.jobTrigger.jobDetail;
-			
-			if(jobDetail.remoteHost == null || jobDetail.remoteHost ==""){
+			if(ftpDetail.remoteHost == null || ftpDetail.remoteHost ==""){
 				isValid = false;
 				$scope.errors.hostName = {
 					message : 'Host name is required.'
 				}
 			}
 
-			if(jobDetail.remotePort == null || jobDetail.remotePort ==""){
+			if(ftpDetail.remotePort == null || ftpDetail.remotePort ==""){
 				isValid = false;
 				$scope.errors.portNumber = {
 					message : 'Port number is required.'
 				}
 			}
 
-			if(jobDetail.remoteUsername == null || jobDetail.remoteUsername == ""){
+			if(ftpDetail.remoteUsername == null || ftpDetail.remoteUsername == ""){
 				isValid = false;
 				$scope.errors.remoteUsername = {
 					message : 'FTP user is required.'
 				}
 			}
 
-			if(jobDetail.remotePath == null || jobDetail.remotePath == ""){
+			if(ftpDetail.remotePath == null || ftpDetail.remotePath == ""){
 				isValid = false;
 				$scope.errors.remoteDirectory = {
 					message : 'Remote directory is required.'
 				}
 			}
 
-			if(jobDetail.remoteFilenamePattern == null || jobDetail.remoteFilenamePattern == ""){
+			if(ftpDetail.remoteFilenamePattern == null || ftpDetail.remoteFilenamePattern == ""){
 				isValid = false;
 				$scope.errors.remoteFilenamePattern = {
 					message : 'File name pattern is required.'
 				}
 			}
 
-			if(jobDetail.limitedFileSize == null || jobDetail.limitedFileSize == ""){
+			if(ftpDetail.limitedFileSize == null || ftpDetail.limitedFileSize == ""){
 				isValid = false;
 				$scope.errors.limitedFileSize = {
 					message : 'Limited file size (MB) is required.'
 				}
 			}
 
-			if(jobDetail.connectionRetry == null || jobDetail.connectionRetry == ""){
+			if(ftpDetail.connectionRetry == null || ftpDetail.connectionRetry == ""){
 				isValid = false;
 				$scope.errors.connectionRetry = {
 					message : 'Retry is required.'
 				}
 			}
 
-			if(jobDetail.connectionRetryInterval == null || jobDetail.connectionRetryInterval == ""){
+			if(ftpDetail.connectionRetryInterval == null || ftpDetail.connectionRetryInterval == ""){
 				isValid = false;
 				$scope.errors.connectionRetryInterval = {
 					message : 'Delayed interval (sec) is required.'
 				}
 			}
 
-			if(vm.postProcessBackup && (jobDetail.remoteBackupPath == null || jobDetail.remoteBackupPath == "")){
+			if(vm.postProcessBackup && (ftpDetail.remoteBackupPath == null || ftpDetail.remoteBackupPath == "")){
 				isValid = false;
 				$scope.errors.remoteBackupPath = {
 					message : 'Remote backup directory is required.'
 				}
 			}
 
-			if(jobTrigger.daysOfWeek == null || jobTrigger.daysOfWeek == ''){
+			if(jobInformation.triggerInformations[0].daysOfWeek == null || jobInformation.triggerInformations[0].daysOfWeek == ''){
 				isValid = false;
 				$scope.errors.daysOfWeek = {
 					message : 'Frequency is required.'
@@ -276,7 +347,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 					message : 'Wrong time format data.'
 			    }
 
-			}else if(jobTrigger.startHour == null || jobTrigger.startMinute == null){
+			}else if(jobInformation.triggerInformations[0].startHour == null || jobInformation.triggerInformations[0].startMinute == null){
 				isValid = false;
 				$scope.errors.beginTime = {
 					message : 'Begin time is required.'
@@ -289,14 +360,14 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 					message : 'Wrong time format data.'
 			    }
 
-			}else if(jobTrigger.endHour == null || jobTrigger.endMinute == null){
+			}else if(jobInformation.triggerInformations[0].endHour == null || jobInformation.triggerInformations[0].endMinute == null){
 				isValid = false;
 				$scope.errors.endTime = {
 					message : 'End time is required.'
 			    }
 			}
 
-			if(jobTrigger.intervalInMinutes == null || jobTrigger.intervalInMinutes == ''){
+			if(jobInformation.triggerInformations[0].intervalInMinutes == null || jobInformation.triggerInformations[0].intervalInMinutes == ''){
 				isValid = false;
 				$scope.errors.intervalInMinutes = {
 					message : 'Delayed interval (sec) is required.'
@@ -380,9 +451,10 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	}	
 	
 	$scope.confirmSave = function() {
+		console.log(vm.channelModel);
 		if(vm.channelModel.channelType == 'FTP'){
 			
-			vm.channelModel.jobTrigger.ownerId = parameters.organizeId;
+			vm.channelModel.jobInformation.ownerId = parameters.organizeId;
 		}
 
 		var serviceUrl = BASE_URI+'/channels/' + vm.channelModel.channelId;
@@ -420,57 +492,59 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 				vm.channelModel.expiryDate = null;
 			}
             
+            if(response.data.runtimeType == null){
+            	vm.channelModel.runtimeType =  'INTERVAL';
+			}
+            
 			
 			if(vm.channelModel.channelType == 'FTP'){
 				vm.isSetupFTP = true;
 				vm.channelModel.fileProtocol = 'SFTP';
-
-				if(response.data.jobTrigger.jobDetail.remotePort == null){
-					vm.channelModel.jobTrigger.jobDetail.remotePort = '22';
+				
+				var isNotHasJob = angular.isUndefined(response.data.jobInformation) || response.data.jobInformation == null || response.data.jobInformation.jobId == null;
+				
+				if(isNotHasJob){									
+					vm.channelModel.jobInformation = {
+							jobId: undefined,
+							jobName: organizeId+' Export Payment Result', 
+							jobGroup: organizeId,
+							suspend: false,
+							triggerInformations:[],
+							ftpDetail:{
+								remotePort: '22',
+								remoteFilenamePattern: '*.*',
+								limitedFileSize: '5',
+								encryptType : 'NONE',
+								connectionRetry: '3',
+								connectionRetryInterval: '60',
+								postProcessType: 'NONE',
+								remoteBackupPath: '/backup',
+								remoteBackupFolderPattern : '/'
+							},
+							jobData:{}								
+					};			
+					
+	 				var triggerInformation = {};
+	 				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
 				}
 
-				if(response.data.jobTrigger.jobDetail.remoteFilenamePattern == null){
-					vm.channelModel.jobTrigger.jobDetail.remoteFilenamePattern = '*.*';
-				}
-
-				if(response.data.jobTrigger.jobDetail.limitedFileSize == null){
-					vm.channelModel.jobTrigger.jobDetail.limitedFileSize = '5';
-				}
-				if(response.data.jobTrigger.jobDetail.encryptType == null){
-					vm.channelModel.jobTrigger.jobDetail.encryptType = 'NONE';
-				}
-
-				if(response.data.jobTrigger.jobDetail.connectionRetry == null){
-					vm.channelModel.jobTrigger.jobDetail.connectionRetry = '3';
-				}
-
-				if(response.data.jobTrigger.jobDetail.connectionRetryInterval == null){
-					vm.channelModel.jobTrigger.jobDetail.connectionRetryInterval = '60';
-				}
-
-				if(response.data.jobTrigger.jobDetail.postProcessType == null){
-					vm.channelModel.jobTrigger.jobDetail.postProcessType = 'NONE';
-				}
-
-				if(response.data.jobTrigger.jobDetail.postProcessType == 'BACKUP'){
+				vm.channelModel.jobInformation.jobType = 'DOWNLOAD_FTP_JOB';
+				
+				if(response.data.jobInformation.ftpDetail.postProcessType == 'BACKUP'){
 					vm.postProcessBackup = true;
-
-				}else if(response.data.jobTrigger.jobDetail.remoteBackupPath == null){
-					vm.channelModel.jobTrigger.jobDetail.remoteBackupPath = '/backup'
 				}
 
-				if(response.data.jobTrigger.jobDetail.remoteBackupFolderPattern == null){
-					vm.channelModel.jobTrigger.jobDetail.remoteBackupFolderPattern = '/';
+				if(response.data.jobInformation.frequencyType == null){
+					vm.channelModel.jobInformation.frequencyType = 'DAILY';
 				}
 
-				if(response.data.jobTrigger.frequencyType == null){
-					vm.channelModel.jobTrigger.frequencyType = 'DAILY';
+				if(response.data.jobInformation.triggerInformations[0].intervalInMinutes == null){
+					vm.channelModel.jobInformation.triggerInformations[0].intervalInMinutes = '300';
+				}else{
+					vm.channelModel.intervalInMinutes = response.data.jobInformation.triggerInformations[0].intervalInMinutes;
 				}
-
-				if(response.data.jobTrigger.intervalInMinutes == null){
-					vm.channelModel.jobTrigger.intervalInMinutes = '300';
-				}
-				if(response.data.jobTrigger.daysOfWeek == null || response.data.jobTrigger.daysOfWeek == ''){
+				
+				if(response.data.jobInformation.triggerInformations[0].daysOfWeek == null || response.data.jobInformation.triggerInformations[0].daysOfWeek == ''){
 					vm.channelModel.monday = true;
 					vm.channelModel.tuesday = true
 					vm.channelModel.wednesday = true
@@ -481,7 +555,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 
 				}else {
 
-					var daysOfWeek = response.data.jobTrigger.daysOfWeek.split(",");
+					var daysOfWeek = response.data.jobInformation.triggerInformations[0].daysOfWeek.replace("[","").replace("]","").split(",");
 					daysOfWeek.forEach(function(data){
 						if(data == dayOfWeekFrequency.SUNDAY){
 							vm.channelModel.sunday = true
@@ -507,22 +581,36 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 					});
 				}
 
-				if(response.data.jobTrigger.startHour == null || response.data.jobTrigger.startMinute == null){
-					vm.channelModel.beginTime = "00:00";
-				}else{
-					vm.channelModel.beginTime = formattedNumber(response.data.jobTrigger.startHour) + ":" + formattedNumber(response.data.jobTrigger.startMinute);
-				}	
+					
+				if(vm.channelModel.runtimeType == 'INTERVAL'){
+					if(response.data.jobInformation.triggerInformations[0].startHour == null || response.data.jobInformation.triggerInformations[0].startMinute == null){
+						vm.channelModel.beginTime = "00:00";
+					}else{
+						vm.channelModel.beginTime = formattedNumber(response.data.jobInformation.triggerInformations[0].startHour) + ":" + formattedNumber(response.data.jobInformation.triggerInformations[0].startMinute);
+					}	
 
-				if(response.data.jobTrigger.endHour == null || response.data.jobTrigger.endMinute == null){
-					vm.channelModel.endTime = "23:59";
+					if(response.data.jobInformation.triggerInformations[0].endHour == null || response.data.jobInformation.triggerInformations[0].endMinute == null){
+						vm.channelModel.endTime = "23:59";
 
-				}else{
-					vm.channelModel.endTime = formattedNumber(response.data.jobTrigger.endHour) + ":"+ formattedNumber(response.data.jobTrigger.endMinute);
-				}	
-
-				response.data.jobTrigger.jobDetail.remotePassword = null;
-				response.data.jobTrigger.jobDetail.encryptPassword = null;
-
+					}else{
+						vm.channelModel.endTime = formattedNumber(response.data.jobInformation.triggerInformations[0].endHour) + ":"+ formattedNumber(response.data.jobInformation.triggerInformations[0].endMinute);
+					}
+					vm.channelModel.delayedInterval = response.data.jobInformation.triggerInformations[0].intervalInMinutes;
+				} else {
+					if(response.data.jobInformation.triggerInformations.length > 0){
+						console.log(response.data.jobInformation.triggerInformations);
+						response.data.jobInformation.triggerInformations.forEach(function(data){
+							if(data.startHour != null && data.startMinute != null){
+				 				var hour = data.startHour.length == 1 ? "0"+data.startHour : data.startHour;
+				 				var minute = data.startMinute.length == 1 ? "0"+data.startMinute : data.startMinute;
+								var time = hour + ":" +minute;
+				 				vm.runTimes.push(time);
+							}
+			 			});
+					}
+				}
+				response.data.jobInformation.ftpDetail.remotePassword = null;
+				response.data.jobInformation.ftpDetail.encryptPassword = null;
 			}
         });
 	}
@@ -530,8 +618,8 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	vm.setupUserInfo = function(){
 		vm.username = '';
 		
-		if(angular.isDefined(vm.channelModel.jobTrigger) && angular.isDefined(vm.channelModel.jobTrigger.jobDetail.remoteUsername)){
-			vm.username = vm.channelModel.jobTrigger.jobDetail.remoteUsername;
+		if(angular.isDefined(vm.channelModel.jobInformation) && angular.isDefined(vm.channelModel.jobInformation.ftpDetail.remoteUsername)){
+			vm.username = vm.channelModel.jobInformation.ftpDetail.remoteUsername;
 		}
 		
 		var userInfo = ngDialog.open({
@@ -544,8 +632,8 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 			},
 			preCloseCallback : function(value) {
 				if (angular.isDefined(value)) {
-					vm.channelModel.jobTrigger.jobDetail.remoteUsername = value.username;
-					vm.channelModel.jobTrigger.jobDetail.remotePassword = value.password;
+					vm.channelModel.jobInformation.ftpDetail.remoteUsername = value.username;
+					vm.channelModel.jobInformation.ftpDetail.remotePassword = value.password;
 				}
 				return true;
 			}
@@ -557,16 +645,16 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 		vm.encryptPassword = null;
 		vm.decryptPrivateKey = null;
 			 
-		if(angular.isDefined(vm.channelModel.jobTrigger.jobDetail.encryptType)){
-			vm.encryptType = vm.channelModel.jobTrigger.jobDetail.encryptType;
+		if(angular.isDefined(vm.channelModel.jobInformation.ftpDetail.encryptType)){
+			vm.encryptType = vm.channelModel.jobInformation.ftpDetail.encryptType;
 		}
 		
-		if(angular.isDefined(vm.channelModel.jobTrigger.jobDetail.encryptPassword)){
-			vm.encryptPassword = vm.channelModel.jobTrigger.jobDetail.encryptPassword;
+		if(angular.isDefined(vm.channelModel.jobInformation.ftpDetail.encryptPassword)){
+			vm.encryptPassword = vm.channelModel.jobInformation.ftpDetail.encryptPassword;
 		}
 		
-		if(angular.isDefined(vm.channelModel.jobTrigger.jobDetail.decryptPrivateKey)){
-			vm.decryptPrivateKey = vm.channelModel.jobTrigger.jobDetail.decryptPrivateKey;
+		if(angular.isDefined(vm.channelModel.jobInformation.ftpDetail.decryptPrivateKey)){
+			vm.decryptPrivateKey = vm.channelModel.jobInformation.ftpDetail.decryptPrivateKey;
 		}
 		
 		var decryptInfo = ngDialog.open({
@@ -581,9 +669,9 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 			},
 			preCloseCallback : function(value) {
 				if (angular.isDefined(value)) {
-					vm.channelModel.jobTrigger.jobDetail.encryptType = value.encryptType;
-					vm.channelModel.jobTrigger.jobDetail.encryptPassword = value.encryptPassword;
-					vm.channelModel.jobTrigger.jobDetail.decryptPrivateKey = value.decryptPrivateKey;
+					vm.channelModel.jobInformation.ftpDetail.encryptType = value.encryptType;
+					vm.channelModel.jobInformation.ftpDetail.encryptPassword = value.encryptPassword;
+					vm.channelModel.jobInformation.ftpDetail.decryptPrivateKey = value.decryptPrivateKey;
 				}
 				return true;
 			}
@@ -593,6 +681,7 @@ importChannelModule.controller('ImportChannelController', [ '$log', '$scope', '$
 	vm.initLoad = function() {
 		vm.searchChannel();
 		vm.searchFileLayout();
+		vm.searchFundings();
     }();
 	
 	

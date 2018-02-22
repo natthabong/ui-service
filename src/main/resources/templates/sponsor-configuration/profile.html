@@ -1,19 +1,15 @@
-<div th:fragment="content" 
-	sec:authorize="hasAnyAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS','MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')">
+<div th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATION_PROFILES','MANAGE_ALL_CUSTOMER_ORGANIZATION_PROFILES')">
 	<div id="wrapper" ng-controller="ProfileController as ctrl">
-		<input type="hidden" ng-init="ctrl.viewAllConfig=true"
-		sec:authorize="hasAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS')" /> 
-		<input type="hidden" ng-init="ctrl.manageAllConfig=true"
-		sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" />
-		
+		<input type="hidden" ng-init="ctrl.viewAllConfig=true" sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATION_PROFILES')"
+		/>
+		<input type="hidden" ng-init="ctrl.manageAllConfig=true" sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATION_PROFILES')"
+		/>
 		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 				<h3 class="animated fadeInLeft" id="organize-name-header-label">{{'Organization name' | translate}}:</h3>
 			</div>
-			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"
-				style="margin-top: 24px; margin-bottom: 10px;">
-				<span id="organize-name-label"
-					ng-bind="ctrl.organizeData.organizeName"></span>
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 24px; margin-bottom: 10px;">
+				<span id="organize-name-label" ng-bind="ctrl.organizeData.memberName"></span>
 			</div>
 		</div>
 		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -21,23 +17,15 @@
 				<h3 class="animated fadeInLeft" id="organize-logo-header-label">{{'Organization logo' | translate}}:</h3>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 18px; margin-bottom: 10px;">
-				<img title="{{ctrl.organizeData.organizeName}}"
-					style="height: 32px; width: 32px;"
-					data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(ctrl.organizeData.organizeLogo)}}"
-					data-err-src="images/png/avatar.png" ng-if="ctrl.completed"
-					id="{{ctrl.organizeData.organizeId}}-organize-logo" />
+				<img title="{{ctrl.organizeData.memberName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(ctrl.organizeData.memberLogo)}}"
+				    data-err-src="images/png/avatar.png" ng-if="ctrl.completed" id="{{ctrl.organizeData.memberCode}}-organize-logo" />
 				<label class="control-label" id="organize-logo-label" ng-show="!ctrl.completed">{{'No logo' | translate}}</label>
 				&nbsp;
-				<scf-button id="organize-logo-setup-button" class="btn-default gec-btn-action" 
-					ng-click="ctrl.config(ctrl.organizeData)" 
-					title="Config a organization logo"
-					ng-disabled="!ctrl.manageAllConfig">
+				<scf-button id="organize-logo-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.organizeData)"
+				    title="Config a organization logo" ng-disabled="!ctrl.manageAllConfig">
 					<i class="fa fa-cog" aria-hidden="true"></i>
 				</scf-button>
 			</div>
-		</div>
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<div ng-include="'/sponsor-configuration/workflow'"></div>
 		</div>
 	</div>
 </div>

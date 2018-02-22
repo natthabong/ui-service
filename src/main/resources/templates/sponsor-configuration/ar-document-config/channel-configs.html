@@ -1,7 +1,12 @@
-<div th:fragment="content">
-	<div id="wrapper" ng-controller="ChannelConfigsController as ctrl">
+<div th:fragment="content"
+	sec:authorize="hasAnyAuthority(
+		'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS',
+		'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING',
+		'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS',
+		'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')">
+	<div id="wrapper" ng-controller="ImportChannelListController as ctrl">
 		<div class="panel panel-default col-md-12 padding-0">
-			<div class="panel-body" style="min-height: 360px;">
+			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-10 col-md-10 col-xs-10">
 						<h3 class="animated fadeInLeft"
@@ -10,9 +15,12 @@
 					<div class="col-lg-2 col-md-2 col-xs-2 text-right">
 						<br />
 						<scf-button class="btn-default gec-btn-action"
+							th:attr="ng-disabled=${#authorization.expression('!hasAnyAuthority(
+							''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS'',
+							''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING'')')}"
 							id="AR-import-channel-new-button" title="New Import Channel"
-							ng-click="ctrl.newChannel(ctrl.searchChannels)"> <i class="fa fa-plus"
-							aria-hidden="true"></i></scf-button>
+							ng-click="ctrl.newChannel(ctrl.searchChannels)"> <i
+							class="fa fa-plus" aria-hidden="true"></i></scf-button>
 					</div>
 				</div>
 				<div class="responsive-table" ng-init="ctrl.initLoad('AR_DOCUMENT')">
@@ -22,8 +30,13 @@
 							<tr>
 								<th id="channel-header-label" ng-bind="'Channel' | translate">Channel</th>
 								<th id="import-file-layout-header-label"
-									ng-bind="'Import file layout' | translate">Import file
-									layout</th>
+									ng-bind="'Import display name' | translate">Import display
+									name</th>
+								<th id="import-file-layout-header-label"
+									sec:authorize="hasAnyAuthority(
+									'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING',
+									'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')"
+									ng-bind="'Funding' | translate">Funding</th>
 								<th id="status-header-label" ng-bind="'Status' | translate">Status</th>
 								<th id="active-date-header-label"
 									ng-bind="'Active date' | translate">Active date</th>
@@ -39,7 +52,13 @@
 									ng-bind="record.channelType"></span></td>
 								<td class="text-left"><span
 									id="import-file-layout-{{record.channelId}}-{{record.organizeId}}-label"
-									ng-bind="record.sponsorLayoutConfig.displayName"></span></td>
+									ng-bind="record.displayName"></span></td>
+								<td class="text-left"
+									sec:authorize="hasAnyAuthority(
+								 	'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING',
+								 	'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')">
+									<organization-logo ng-model="record.fundings"></organization-logo>
+								</td>
 								<td class="text-center"><span
 									id="status-{{record.channelId}}-{{record.organizeId}}-label"
 									ng-bind="record.status | translate"></span></td>
@@ -49,31 +68,30 @@
 								<td class="text-center"><span
 									id="expire-date-{{record.channelId}}-{{record.organizeId}}-label"
 									ng-bind="record.expiryDate | date: 'dd/MM/yyyy'"></span></td>
-								<td class="text-center">
-									<button
+								<td class="text-center"><scf-button
+										id="ap-{{record.channelId}}-{{record.organizeId}}-view-button"
+										class="btn-default gec-btn-action"
+										ng-click="ctrl.viewChannel(record)" title="View a channel">
+									<i class="fa fa fa-search" aria-hidden="true"></i></scf-button> <scf-button
 										id="ar-{{record.channelId}}-{{record.organizeId}}-setup-button"
 										class="btn-default gec-btn-action"
+										th:attr="ng-disabled=${#authorization.expression('!hasAnyAuthority(
+										''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS'',
+										''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING'')')}"
 										ng-click="ctrl.editChannel(record)" title="Config a channel">
-										<ng-transclude> <i class="fa fa-cog"
-											aria-hidden="true"></i></ng-transclude>
-									</button>
-									<button
+									<i class="fa fa-cog" aria-hidden="true"></i></scf-button> <scf-button
 										id="ar-layout-{{record.channelId}}-{{record.organizeId}}-delete-button"
 										class="btn-default gec-btn-action"
+										th:attr="ng-disabled=${#authorization.expression('!hasAnyAuthority(
+										''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS'',
+										''MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING'')')}"
 										ng-click="ctrl.deleteChannel(record)" title="Delete a channel">
-										<ng-transclude> <i class="fa fa-trash-o"
-											aria-hidden="true"></i></ng-transclude>
-									</button>
-									<button
+									<i class="fa fa-trash-o" aria-hidden="true"></i></scf-button> <scf-button
 										id="ar-{{record.channelId}}-{{record.organizeId}}-connection-button"
 										class="btn-default gec-btn-action"
 										ng-disabled="ctrl.disableTestConnection(record)"
 										ng-click="ctrl.testConnection(record)" title="Test connection">
-										<ng-transclude> <i
-											class="glyphicon glyphicon-transfer" aria-hidden="true"></i>
-										</ng-transclude>
-									</button>
-								</td>
+									<i class="glyphicon glyphicon-transfer" aria-hidden="true"></i></scf-button></td>
 							</tr>
 						</tbody>
 					</table>

@@ -1,5 +1,5 @@
 <div th:fragment="content"
-	sec:authorize="hasAnyAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZE')">
+	sec:authorize="hasAnyAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZATION')">
 	<div class="panel new-document-panel panel-shadow"
 		ng-controller="JourneyNewDocumentPaymentController as ctrl"
 		ng-init="ctrl.load()">

@@ -118,10 +118,10 @@ sciModule.controller('RemittanceAdviceBankController', [
 	        // Set criteria
 			vm.criteria.borrowerType = vm.listRemittanceAdvice.remittanceOf;
 			if (angular.isObject(vm.buyer)) {
-				buyerId = vm.buyer.organizeId;
+				buyerId = vm.buyer.memberId;
 			}
 			if (angular.isObject(vm.supplier)) {
-				supplierId = vm.supplier.organizeId;
+				supplierId = vm.supplier.memberId;
 			}
 
 			if('effectiveDate' == vm.listRemittanceAdvice.dateType){

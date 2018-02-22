@@ -1,12 +1,9 @@
-<div id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('VIEW_ALL_ORGANIZE_FILE_LAYOUTS','MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')">
-	
+<div id="content" th:fragment="content" sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_PAYMENT_DATE_FORMULA_OF_ALL_FUNDING', 'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_PAYMENT_DATE_FORMULA')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft">{{'Sponsor
-						payment date formula' | translate}}</h3>
+					<h3 id="header-message-label" class="animated fadeInLeft">{{'Sponsor payment date formula' | translate}}</h3>
 				</div>
 			</div>
 		</div>
@@ -15,144 +12,91 @@
 				<div class="panel-body">
 					<form name="manageForm" class="form-horizontal">
 						<div class="form-group">
-							<label for="payment-date-formula-name-textbox"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Formula
-								name' | translate}}: </label>
-
+							<label for="payment-date-formula-name-textbox" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Formula name' | translate}}: </label>
 							<div class="col-md-4 col-sm-5 col-xs-12">
-								<scf-input-text id="payment-date-formula-name-textbox"
-									ng-disabled="!ctrl.manageAll"
-									maxlength="255" ng-model="ctrl.model.formulaName"></scf-input-text>
+								<scf-input-text id="payment-date-formula-name-textbox" ng-disabled="!ctrl.manageAll" maxlength="255" ng-model="ctrl.model.formulaName"></scf-input-text>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
 						<div class="form-group" ng-show="ctrl.showMessageError">
 							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-							<span class="col-md-4 col-sm-5 col-xs-12 error-msg"
-								id="formula-name-warning-message-label">{{ctrl.messageError | translate}}.</span>
+							<span class="col-md-4 col-sm-5 col-xs-12 error-msg" id="formula-name-warning-message-label">{{ctrl.messageError | translate}}.</span>
 						</div>
 						<div class="form-group">
-							<label for="payment-date-formula-type-dropdown"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Formula
-								type' | translate}}: </label>
-
+							<label for="payment-date-formula-type-dropdown" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Formula type' | translate}}: </label>
 							<div class="col-md-4 col-sm-5 col-xs-12">
-								<scf-dropdown id="payment-date-formula-type-dropdown"
-									ng-model="ctrl.model.formulaType"
-									ng-disabled="!ctrl.manageAll"
-									component-data="ctrl.formulaTypes" translate-label="true"></scf-dropdown>
+								<scf-dropdown id="payment-date-formula-type-dropdown" ng-model="ctrl.model.formulaType" ng-disabled="!ctrl.manageAll" component-data="ctrl.formulaTypes"
+								    translate-label="true"></scf-dropdown>
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
 						<div class="col-md-12 col-sm-12 text-right">
-							<scf-button id="payment-date-formula-save-button" type="submit"
-								ng-disabled="!ctrl.manageAll"
-								ng-click="ctrl.save()">{{'Save' | translate}}</scf-button>
+							<scf-button id="payment-date-formula-save-button" type="submit" ng-disabled="!ctrl.manageAll" ng-click="ctrl.save()">{{'Save' | translate}}</scf-button>
 						</div>
 					</form>
 				</div>
 				<!-- Credit term -->
 				<div class="panel-body">
-					<h3 class="animated fadeInLeft" id="credit-term-header-label">{{'Credit
-						term' | translate}}</h3>
+					<h3 class="animated fadeInLeft" id="credit-term-header-label">{{'Credit term' | translate}}</h3>
 					<div class="row">
 						<div class="col-md-12 col-sm-12 text-right">
-							<span> <b ng-bind="ctrl.creditTermSplitePageTxt"
-								id="credit-term-paging-label"></b> &nbsp;&nbsp; <scf-pagination 
-									name="credit-term" 
-									dropdown-id="credit-term-page-limit-dropdown"
-									page-size-model="ctrl.creditTermTable.pageModel.pageSizeSelectModel"
-									total-page="ctrl.creditTermTable.pageModel.totalPage"
-									current-page="ctrl.creditTermTable.pageModel.currentPage"
-									page-size-list="ctrl.pageSizeList"
-									page-action="ctrl.searchCreditTerm"
-									first-page-button-id="credit-term-first-page-button"
-									back-page-button-id="credit-term-back-page-button"
-									next-page-button-id="credit-term-next-page-button"
-									last-page-button-id="credit-term-last-page-button"></scf-pagination>
+							<span>
+								<b ng-bind="ctrl.creditTermSplitePageTxt" id="credit-term-paging-label"></b> &nbsp;&nbsp;
+								<scf-pagination name="credit-term" dropdown-id="credit-term-page-limit-dropdown" page-size-model="ctrl.creditTermTable.pageModel.pageSizeSelectModel"
+								    total-page="ctrl.creditTermTable.pageModel.totalPage" current-page="ctrl.creditTermTable.pageModel.currentPage" page-size-list="ctrl.pageSizeList"
+								    page-action="ctrl.searchCreditTerm" first-page-button-id="credit-term-first-page-button" back-page-button-id="credit-term-back-page-button"
+								    next-page-button-id="credit-term-next-page-button" last-page-button-id="credit-term-last-page-button"></scf-pagination>
 							</span>
-
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<br />
-
-							<scf-table id="credit-term-table"
-								component-config="ctrl.creditTermTable.config"
-								component-datas="ctrl.creditTermData"
-								current-page="ctrl.creditTermTable.pageModel.currentPage"
-								record-per-page="ctrl.creditTermTable.pageModel.pageSizeSelectModel"
-								clear-sort-order="ctrl.creditTermTable.pageModel.clearSortOrder"></scf-table>
+							<scf-table id="credit-term-table" component-config="ctrl.creditTermTable.config" component-datas="ctrl.creditTermData" current-page="ctrl.creditTermTable.pageModel.currentPage"
+							    record-per-page="ctrl.creditTermTable.pageModel.pageSizeSelectModel" clear-sort-order="ctrl.creditTermTable.pageModel.clearSortOrder"></scf-table>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<scf-button id="add-another-code-button"
-								class="popup-button" data-dismiss="modal"
-								ng-click="ctrl.configCreditTerm()"
-								ng-disabled="!ctrl.manageAll"
-								ng-bind="'Add another code' | translate"></scf-button>
+							<scf-button id="add-another-code-button" class="popup-button" data-dismiss="modal" ng-click="ctrl.configCreditTerm()" ng-disabled="!ctrl.manageAll"
+							    ng-bind="'Add another code' | translate"></scf-button>
 						</div>
 					</div>
 				</div>
 				<!-- Payment period -->
 				<div class="panel-body">
-					<h3 class="animated fadeInLeft" id="payment-formula-header-label">{{'Period'
-						| translate}}</h3>
+					<h3 class="animated fadeInLeft" id="payment-formula-header-label">{{'Period' | translate}}</h3>
 					<div class="row">
 						<div class="col-md-12 col-sm-12 text-right">
-							<span> <b ng-bind="ctrl.periodSplitePageTxt"
-								id="payment-period-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-									name="payment-period"
-									dropdown-id="payment-period-page-limit-dropdown"
-									page-size-model="ctrl.periodTable.pageModel.pageSizeSelectModel"
-									total-page="ctrl.periodTable.pageModel.totalPage"
-									current-page="ctrl.periodTable.pageModel.currentPage"
-									page-size-list="ctrl.pageSizeList"
-									page-action="ctrl.searchPeriod"
-									first-page-button-id="payment-period-first-page-button"
-									back-page-button-id="payment-period-back-page-button"
-									next-page-button-id="payment-period-next-page-button"
-									last-page-button-id="payment-period-last-page-button"></scf-pagination>
+							<span>
+								<b ng-bind="ctrl.periodSplitePageTxt" id="payment-period-paging-label"></b> &nbsp;&nbsp;
+								<scf-pagination name="payment-period" dropdown-id="payment-period-page-limit-dropdown" page-size-model="ctrl.periodTable.pageModel.pageSizeSelectModel"
+								    total-page="ctrl.periodTable.pageModel.totalPage" current-page="ctrl.periodTable.pageModel.currentPage" page-size-list="ctrl.pageSizeList"
+								    page-action="ctrl.searchPeriod" first-page-button-id="payment-period-first-page-button" back-page-button-id="payment-period-back-page-button"
+								    next-page-button-id="payment-period-next-page-button" last-page-button-id="payment-period-last-page-button"></scf-pagination>
 							</span>
-
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<br />
-
-							<scf-table id="payment-period-table"
-								component-config="ctrl.periodTable.config"
-								component-datas="ctrl.periodData"
-								current-page="ctrl.periodTable.pageModel.currentPage"
-								record-per-page="ctrl.periodTable.pageModel.pageSizeSelectModel"
-								clear-sort-order="ctrl.periodTable.pageModel.clearSortOrder"></scf-table>
+							<scf-table id="payment-period-table" component-config="ctrl.periodTable.config" component-datas="ctrl.periodData" current-page="ctrl.periodTable.pageModel.currentPage"
+							    record-per-page="ctrl.periodTable.pageModel.pageSizeSelectModel" clear-sort-order="ctrl.periodTable.pageModel.clearSortOrder"></scf-table>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<scf-button id="add-another-period-button"
-								class="popup-button" data-dismiss="modal"
-								ng-click="ctrl.configPeriod()"
-								ng-disabled="!ctrl.manageAll"
-								ng-bind="'Add another period' | translate"></scf-button>
+							<scf-button id="add-another-period-button" class="popup-button" data-dismiss="modal" ng-click="ctrl.configPeriod()" ng-disabled="!ctrl.manageAll"
+							    ng-bind="'Add another period' | translate"></scf-button>
 						</div>
 					</div>
 				</div>
 				<div class="panel-body">
-
 					<div class="col-md-12 col-sm-12 text-right">
-						<scf-button id="back-button"
-							class="popup-button" data-dismiss="modal"
-							ng-click="ctrl.backToSponsorConfigPage()"
-							ng-bind="'Back' | translate"></scf-button>
+						<scf-button id="back-button" class="popup-button" data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()" ng-bind="'Back' | translate"></scf-button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<input type="hidden" ng-init="ctrl.manageAll=true"
-		sec:authorize="hasAuthority('MANAGE_ALL_ORGANIZE_FILE_LAYOUTS')" /> 
+	<input type="hidden" ng-init="ctrl.manageAll=true" sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_PAYMENT_DATE_FORMULA_OF_ALL_FUNDING', 'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_PAYMENT_DATE_FORMULA')"
+	/>
 </div>

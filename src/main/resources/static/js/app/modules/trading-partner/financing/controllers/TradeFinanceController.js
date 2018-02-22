@@ -179,6 +179,9 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				} else {
 					vm.isSupplier = false;
 				}
+				
+				changeAccountType(tradeFinanceData.accountType);
+				
 				vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(tradeFinanceData);
 				vm.tradeFinanceModel.tenor = tradeFinanceData.tenor;
 				vm.tradeFinanceModel.percentageLoan = tradeFinanceData.prePercentageDrawdown;
@@ -192,8 +195,6 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 					console.log("init null payee");
 					vm.tradeFinanceModel.payeeAccountId = 'UNDEFINED_ACCOUNT';
 				}
-				
-				changeAccountType(tradeFinanceData.accountType);
 			}
 		}
 

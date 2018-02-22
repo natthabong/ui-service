@@ -27,6 +27,7 @@
 	"settings-roles": "Roles",
 	"settings-users": "Users",
 	"settings-organizes": "Organizations",
+	"settings-organizes-of-all-funding": "Organizations",
 	"customer-organize": "Customer organization",
 	"customer-organize-payment-transactions": "Payment transactions",
 	"customer-organize-ar-documents": "AR documents",
@@ -299,6 +300,7 @@
 	
 	"organize-bank": "Organization",
 	"organize-list-bank": "Organization list",
+	"organize-list-all-funding": "Organization list",
 	
 	"Document list": "Document list",
 	"document-list-sponsor": "Document list",
@@ -596,6 +598,7 @@
 	"TEXT_MAPPING" : "Text mapping",
 	"SIGN_FLAG_MAPPING" : "Sign flag mapping",
 	"TEXT_MAPPING_WITH_DEFAULT" : "Text mapping with default",
+	"REASON_CODE" : "Reason code",
 	
 	"Loan account": "Loan account",
 	"SUPPLIER_FINANCING" : "Supplier financing",
@@ -645,8 +648,13 @@
 	"TRANSACTION": "Transaction",
 	"UPLOAD_DOCUMENT": "Upload document",
 	"USER": "User",
+	
 	"SELECT_REASON_CODE": "Select partial payment reason code",
 	"REASON_CODE": "Reason code",
+	
+	"FUNDING": "Funding",
+	"WORKFLOW_TYPE": "Type",
+	"WORKFLOW_NAME": "Workflow",
 	
 	"Account name": "Account name"
 }

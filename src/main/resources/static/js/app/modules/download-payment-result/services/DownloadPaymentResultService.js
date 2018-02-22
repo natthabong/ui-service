@@ -35,7 +35,8 @@ downloadModule.service('DownloadPaymentResultService', ['$http', '$q',
           method: 'GET',
           params: {
             channelType: 'WEB',
-            suspend: false
+            suspend: false ,
+            status: 'ACTIVE'
           }
         }).then(function (response) {
           differed.resolve(response);

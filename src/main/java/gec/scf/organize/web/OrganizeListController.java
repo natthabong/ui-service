@@ -12,6 +12,7 @@ import gec.scf.util.AjaxUtils;
 public class OrganizeListController {
 
 	private static final String ORGANIZE_LIST = "organize/organize-list";
+	private static final String ORGANIZE_LIST_ALL_FUNDING = "organize/organize-list-all-funding";
 
 	@RequestMapping(path = {"/sponsor", "/bank"}, method = RequestMethod.GET)
 	public String organizeList(@RequestHeader("X-Requested-With") String requestedWith) {
@@ -20,6 +21,16 @@ public class OrganizeListController {
 			return ORGANIZE_LIST.concat(" :: content");
 		}
 		return ORGANIZE_LIST;
+
+	}
+	
+	@RequestMapping(path = {"/all-funding"}, method = RequestMethod.GET)
+	public String organizeListGec(@RequestHeader("X-Requested-With") String requestedWith) {
+
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return ORGANIZE_LIST_ALL_FUNDING.concat(" :: content");
+		}
+		return ORGANIZE_LIST_ALL_FUNDING;
 
 	}
 }

@@ -162,6 +162,7 @@ userModule
 				}
 			    }
 			    var _addOrganize = function(data){
+			      console.log(data)
 				var filtered = vm.organizeLinks.filter(function(d){
 				    return (d.roleId == data.roleId && d.organizeId == data.organizeId);
 				});
@@ -222,58 +223,58 @@ userModule
 				PageNavigation.gotoPreviousPage();
 			    }
 			    $scope.save = function() {
-				var user = $scope.user;
-				user.organizeRoles = [];
-				vm.organizeLinks.forEach(function(organizeLink) {
-				    user.organizeRoles.push({
-					roleId: organizeLink.roleId,
-					organizeId: organizeLink.organizeId,
-					userId: (vm.isEditMode? $scope.user.userId: null)
-				    });
-				});
-				if (!vm.isUseExpireDate) {
-					$scope.user.expiryDate = null;
-				}
-				
-				if (_validate(user)) {
-				    var preCloseCallback = function(confirm) {
-					PageNavigation.gotoPreviousPage(true);
-				    }
-
-				    UIFactory.showConfirmDialog({
-					data : {
-						headerMessage : 'Confirm save?'
-					},
-					confirm : function() {
-						return _save(user);
-					},
-					onFail : function(response) {
-					    if(response.status != 400){
-						var msg = {
-			    				409 : 'User has been modified.'
-						};
-			    			UIFactory.showFailDialog({
-						   data : {
-						      headerMessage : vm.isNewMode? 'Add new user fail.':'Edit user fail.',
-						      bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
-						   },
-						   preCloseCallback : preCloseCallback
-						});
-					    }
-					},
-					onSuccess : function(response) {
-						UIFactory.showSuccessDialog({
-							data : {
-								headerMessage : vm.isNewMode? 'Add new user success.':'Edit user complete.',
-								bodyMessage : ''
-							},
-							preCloseCallback : preCloseCallback
-						});
-					}
-				    });
-				}else{
-				    console.log('Invalid');
-				}
+      				var user = $scope.user;
+      				user.organizeRoles = [];
+      				vm.organizeLinks.forEach(function(organizeLink) {
+      				    user.organizeRoles.push({
+          					roleId: organizeLink.roleId,
+          					organizeId: organizeLink.organizeId,
+          					userId: (vm.isEditMode? $scope.user.userId: null)
+      				    });
+      				});
+      				if (!vm.isUseExpireDate) {
+      					$scope.user.expiryDate = null;
+      				}
+      				
+      				if (_validate(user)) {
+      				    var preCloseCallback = function(confirm) {
+      					PageNavigation.gotoPreviousPage(true);
+      				    }
+      
+      				    UIFactory.showConfirmDialog({
+      					data : {
+      						headerMessage : 'Confirm save?'
+      					},
+      					confirm : function() {
+      						return _save(user);
+      					},
+      					onFail : function(response) {
+      					    if(response.status != 400){
+      						var msg = {
+      			    				409 : 'User has been modified.'
+      						};
+      			    			UIFactory.showFailDialog({
+      						   data : {
+      						      headerMessage : vm.isNewMode? 'Add new user fail.':'Edit user fail.',
+      						      bodyMessage : msg[response.status] ? msg[response.status] : response.statusText
+      						   },
+      						   preCloseCallback : preCloseCallback
+      						});
+      					    }
+      					},
+      					onSuccess : function(response) {
+      						UIFactory.showSuccessDialog({
+      							data : {
+      								headerMessage : vm.isNewMode? 'Add new user success.':'Edit user complete.',
+      								bodyMessage : ''
+      							},
+      							preCloseCallback : preCloseCallback
+      						});
+      					}
+      				    });
+      				}else{
+      				    console.log('Invalid');
+      				}
 			    }
 
 			    var _validate = function(user) {

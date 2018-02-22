@@ -1,74 +1,61 @@
-<div id="content" th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_DOCUMENT_DISPLAY_LAYOUTS','MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')">
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft">{{ctrl.headerMessageLabel | translate}}</h3>
-				</div>
-			</div>
-		</div>
-		<div class="form-element">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<form name="createForm" class="form-horizontal">
-						<div>
-							<div class="form-group">
-								<label id="display-name-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Display name' | translate}}:
+<div id="content" th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_CREATE_TRANSACTION_LAYOUT','MANAGE_ALL_CUSTOMER_ORGANIZATIONS_CREATE_TRANSACTION_LAYOUT')">
+    <div id="wrapper">
+        <div class="panel box-shadow-none content-header">
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <h3 id="header-message-label" class="animated fadeInLeft">{{ctrl.headerMessageLabel | translate}}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="form-element">
+            <div class="panel panel-default col-md-12 padding-0">
+                <div class="panel-body">
+                    <form name="createForm" class="form-horizontal">
+                        <div>
+                            <div class="form-group">
+                                <label id="display-name-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Display name' | translate}}:
 								</label>
-								<div class="col-md-6 col-sm-6 col-sm-6 col-xs-12">
-									<scf-input-text id="display-name-textbox" ng-model="ctrl.dataModel.displayName" maxlength="255"></scf-input-text>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="display-name-textbox" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
-								<div ng-show="errors.duplicateLayoutName || errors.requireLayoutName">
-									<span ng-show="errors.duplicateLayoutName" class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-error-message-label">{{'Display name is
-										duplicate' | translate}}.</span><span ng-show="errors.requireLayoutName" class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
-										id="layout-name-warning-message-label">{{'Display name
+                                <div class="col-md-6 col-sm-6 col-sm-6 col-xs-12">
+                                    <scf-input-text id="display-name-textbox" ng-model="ctrl.dataModel.displayName" maxlength="255"></scf-input-text>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="display-name-textbox" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+                                <div ng-show="errors.duplicateLayoutName || errors.requireLayoutName">
+                                    <span ng-show="errors.duplicateLayoutName" class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-error-message-label">{{'Display name is
+										duplicate' | translate}}.</span><span ng-show="errors.requireLayoutName" class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-warning-message-label">{{'Display name
 										is required' | translate}}.</span>
-								</div>
-								<div class="col-md-4 col-sm-4"></div>
-							</div>
-							<div class="form-group">
-								<label id="product-type-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Product type' | translate}}:
+                                </div>
+                                <div class="col-md-4 col-sm-4"></div>
+                            </div>
+                            <div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+                                <label id="product-type-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Product type' | translate}}:
 								</label>
-								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="product-type-dropdown" ng-model="ctrl.dataModel.productType" translate-label="true" component-data="ctrl.productTypeDropDown"></scf-dropdown>
-								</div>
-							</div>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                    <scf-dropdown id="product-type-dropdown" ng-model="ctrl.dataModel.productType" translate-label="true" component-data="ctrl.productTypeDropDown"></scf-dropdown>
+                                </div>
+                            </div>
 
-							<div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
-								<label for="dealer" class="col-lg-3 col-md-3 col-sm-12 col-xs-12 control-label">{{'Support partial payment' | translate}}</label>
-								<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="padding-left: 0px;">
-									<div class="col-lg-4 col-md-5 col-sm-4 col-xs-12">
-										<label><scf-checkbox
+                            <div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+                                <label for="dealer" class="col-lg-3 col-md-3 col-sm-12 col-xs-12 control-label"></label>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="padding-left: 0px;">
+                                    <div class="col-lg-4 col-md-5 col-sm-4 col-xs-12">
+                                        <label><scf-checkbox
 											ng-model="ctrl.dataModel.supportPartial"
 											id="support-partial-payment-checkbox"
-											ng-change="ctrl.clearSelectMappingData()"
 											ng-disabled="false"></scf-checkbox>
-											{{'Reason code (Mapping Name) :' | translate}}
+											{{'Support partial payment' | translate}}
 										</label>
-									</div>
-									<div class="col-lg-7 col-md-6 col-sm-7 col-xs-12">
-										<div class="col-md-10 col-sm-7 col-xs-12">
-											<scf-dropdown id="reason-code-dropdown" ng-model="ctrl.dataModel.reasonCodeMappingId" ng-disabled="!ctrl.dataModel.supportPartial"
-												translate-label="true" convert-to-number="true" component-data="ctrl.dataMappingType"></scf-dropdown>
-										</div>
-										<div class="col-md-1 col-sm-3 col-xs-12">
-											<scf-button class="btn-default gec-btn-action" id="support-partial-add-button" title="Add" ng-click="ctrl.newMapping()" ng-disabled="!ctrl.dataModel.supportPartial">
-												<i class="fa fa-plus" aria-hidden="true"></i>
-											</scf-button>
-										</div>
-									</div>
-								</div>
-							</div>
+                                    </div>
+                                </div>
+                            </div>
 
-							<div class="form-group">
-								<label id="supplier-code-group-selection-label" for="dealer" class="col-md-3 col-sm-4 col-xs-12 control-label">{{ctrl.groupSelection | translate}}: 
+                            <div class="form-group">
+                                <label id="supplier-code-group-selection-label" for="dealer" class="col-md-3 col-sm-4 col-xs-12 control-label">{{ctrl.groupSelection | translate}}: 
 								
 								</label>
-								<div class="col-md-5 col-sm-5 col-xs-12">
-									<label class="radio-inline"><scf-radio
+                                <div class="col-md-5 col-sm-5 col-xs-12">
+                                    <label class="radio-inline"><scf-radio
 											id="single-supplier-code-group-selection-radio" name="supplier-code-group-selection-radio"
 											ng-value="ctrl.supplierCodeSelectionMode.singlePerTransaction"
 											ng-disabled="!ctrl.manageAll"
@@ -82,29 +69,29 @@
 										{{'Multiple per transaction' | translate}}
 										
 									</label>
-								</div>
-								<div class="col-md-4 col-sm-3"></div>
-							</div>
+                                </div>
+                                <div class="col-md-4 col-sm-3"></div>
+                            </div>
 
-							<div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
-								<label for="dealer" id="display-cn-documents-label" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Display CN documents' | translate}}:</label>
-								<div class="col-md-5 col-sm-5 col-xs-12">
-									<label><scf-checkbox
+                            <div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+                                <label for="dealer" id="display-cn-documents-label" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Display CN documents' | translate}}:</label>
+                                <div class="col-md-5 col-sm-5 col-xs-12">
+                                    <label><scf-checkbox
 										ng-model="ctrl.dataModel.displayNegativeDocument"
 										id="display-checkbox"
 										ng-disabled="false"></scf-checkbox>
 										{{'Display' | translate}}
 									</label>
-								</div>
-								<div class="col-md-4 col-sm-3"></div>
-							</div>
+                                </div>
+                                <div class="col-md-4 col-sm-3"></div>
+                            </div>
 
-							<div class="form-group">
-								<label id="document-selection-label" for="dealer" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Document selection' | translate}}: 
+                            <div class="form-group">
+                                <label id="document-selection-label" for="dealer" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Document selection' | translate}}: 
 								</label>
 
-								<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-									<label class="radio-inline"> <scf-radio
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                    <label class="radio-inline"> <scf-radio
 											id="any-document-radio" name="document-selection-radio"
 											ng-value="ctrl.documentSelection.anyDocument"
 											ng-disabled="!ctrl.manageAll"
@@ -112,11 +99,11 @@
 											ng-model="ctrl.dataModel.documentSelection"></scf-radio>
 										{{'Any document' | translate}}
 									</label>
-								</div>
+                                </div>
 
-								<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
-								<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-									<label class="radio-inline"> <scf-radio
+                                <label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                    <label class="radio-inline"> <scf-radio
 											id="group-by-radio" name="document-selection-radio"
 											ng-value="ctrl.documentSelection.groupBy"
 											ng-disabled="!ctrl.manageAll"
@@ -124,72 +111,67 @@
 											ng-model="ctrl.dataModel.documentSelection"></scf-radio>
 										{{'Group by' | translate}}
 									</label>
-								</div>
+                                </div>
 
-								<div ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
-									<label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
-									<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-										<label class="radio-inline"> <scf-radio
+                                <div ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+                                    <label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                                        <label class="radio-inline"> <scf-radio
 												id="all-document-selected-radio" name="group-by-radio"
 												ng-value="ctrl.documentSelection.allDocument"
 												ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)"
 												ng-model="ctrl.groupDocumentType"></scf-radio>
 											{{'All document selected' | translate}}
 										</label>
-									</div>
-								</div>
-								<div ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
-									<label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
-									<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-										<label class="radio-inline"> <scf-radio
+                                    </div>
+                                </div>
+                                <div ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+                                    <label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                                        <label class="radio-inline"> <scf-radio
 												id="at-least-1-document-selected-radio" name="group-by-radio"
 												ng-value="ctrl.documentSelection.atLeastOneDocument"
 												ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)"
 												ng-model="ctrl.groupDocumentType"></scf-radio>
 											{{'All CN document and Invoice at least 1 document selected' | translate}}
 										</label>
-									</div>
-								</div>
+                                    </div>
+                                </div>
 
-								<label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 control-label"></label>
-								<label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
-								<label class="col-lg-7 col-md-7 col-sm-7 col-xs-12" id="group-document-condition-field-label">
+                                <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 control-label"></label>
+                                <label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
+                                <label class="col-lg-7 col-md-7 col-sm-7 col-xs-12" id="group-document-condition-field-label">
 									{{'Group document condition field' | translate}}:
 								</label>
 
-								<div ng-repeat="field in ctrl.dataModel.documentGroupingFields track by $index">
-									<label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
-									<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-											<scf-dropdown id="group-document-condition-field-{{$index+1}}-dropdown" ng-model="field.documentFieldId" component-data="ctrl.documentConditions"
-												ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)" translate-label="false"
-												convert-to-number="true"></scf-dropdown>
-										</div>
-										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-											<scf-button type="button" id="group-document-condition-field-delete-{{$index+1}}-button" class="btn-default gec-btn-action"
-												ng-show="$index != 0" ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)"
-												ng-click="ctrl.removeGroupDocumentCondition(field)">
-												<i class="fa fa-trash" aria-hidden="true"></i>
-											</scf-button>
-											<scf-button class="btn-default gec-btn-action" id="group-document-condition-field-add-button" title="Add" ng-hide="$index != 0"
-												ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)" ng-click="ctrl.addGroupDocumentCondition()">
-												<i class="fa fa-plus" aria-hidden="true"></i>
-											</scf-button>
-										</div>
-									</div>
-									<label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 control-label"></label>
-								</div>
-							</div>
+                                <div ng-repeat="field in ctrl.dataModel.documentGroupingFields track by $index">
+                                    <label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <scf-dropdown id="group-document-condition-field-{{$index+1}}-dropdown" ng-model="field.documentFieldId" component-data="ctrl.documentConditions" ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)" translate-label="false"
+                                                convert-to-number="true"></scf-dropdown>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                            <scf-button type="button" id="group-document-condition-field-delete-{{$index+1}}-button" class="btn-default gec-btn-action" ng-show="$index != 0" ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)" ng-click="ctrl.removeGroupDocumentCondition(field)">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </scf-button>
+                                            <scf-button class="btn-default gec-btn-action" id="group-document-condition-field-add-button" title="Add" ng-hide="$index != 0" ng-disabled="(!ctrl.manageAll) || (ctrl.dataModel.documentSelection != ctrl.documentSelection.groupBy)" ng-click="ctrl.addGroupDocumentCondition()">
+                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                            </scf-button>
+                                        </div>
+                                    </div>
+                                    <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 control-label"></label>
+                                </div>
+                            </div>
 
-							<div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
-								<label id="overdue-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Overdue' | translate}}:
+                            <div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+                                <label id="overdue-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Overdue' | translate}}:
 								</label>
-								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="show-overdue-dropdown" ng-change="ctrl.changeOverdue()" ng-model="ctrl.displayOverdue" translate-label="true"
-										component-data="ctrl.overdueDropDown"></scf-dropdown>
-								</div>
-								&nbsp;
-								<label class="radio-inline"><scf-radio
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                    <scf-dropdown id="show-overdue-dropdown" ng-change="ctrl.changeOverdue()" ng-model="ctrl.displayOverdue" translate-label="true" component-data="ctrl.overdueDropDown"></scf-dropdown>
+                                </div>
+                                &nbsp;
+                                <label class="radio-inline"><scf-radio
 											id="unlimited-radio" name="show-overdue-radio"
 											ng-value="ctrl.overdueRadioType.UNLIMITED"
 											ng-change="ctrl.changeOverdueType()"
@@ -197,7 +179,7 @@
 											ng-model="ctrl.overdueType"></scf-radio>
 										{{'Unlimited' | translate}}
 								</label>
-								<label class="radio-inline"> <scf-radio
+                                <label class="radio-inline"> <scf-radio
 											id="period-radio" name="show-overdue-radio"
 											ng-value="ctrl.overdueRadioType.PERIOD"
 											ng-change="ctrl.changeOverdueType()"
@@ -205,150 +187,159 @@
 											ng-model="ctrl.overdueType"></scf-radio>
 										{{'Period' | translate}}
 									</label>
-								<input id="period-textbox" type="number" min="1" max="999" ng-model="ctrl.overDuePeriod" ng-disabled="(!ctrl.manageAll) || (ctrl.displayOverdue == 'false') || (ctrl.overdueType == ctrl.overdueRadioType.UNLIMITED)"
-									maxlength="3" class="form-control-input"></input> days
-							</div>
+                                <input id="period-textbox" type="number" min="1" max="999" ng-model="ctrl.overDuePeriod" ng-disabled="(!ctrl.manageAll) || (ctrl.displayOverdue == 'false') || (ctrl.overdueType == ctrl.overdueRadioType.UNLIMITED)" maxlength="3" class="form-control-input"></input>
+                                days
+                            </div>
 
-							<div class="form-group" ng-show="ctrl.showMessagePeriodError &amp;&amp; ctrl.accountingTransactionType == 'RECEIVABLE'">
-								<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
-								<span class="col-md-5 col-sm-5 col-xs-12 error-msg" id="period-warning-message-label">{{'period must be 1-999 days' | translate}}</span>
-							</div>
+                            <div class="form-group" ng-show="ctrl.showMessagePeriodError &amp;&amp; ctrl.accountingTransactionType == 'RECEIVABLE'">
+                                <label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+                                <span class="col-md-5 col-sm-5 col-xs-12 error-msg" id="period-warning-message-label">{{'period must be 1-999 days' | translate}}</span>
+                            </div>
 
-							<div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
-								<label for="dealer" id="special-payment-method-label" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Special payment method' | translate}}:</label>
-								<div class="col-md-5 col-sm-5 col-xs-12">
-									<label><scf-checkbox
+                            <div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+                                <label for="dealer" id="special-payment-method-label" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Special payment method' | translate}}:</label>
+                                <div class="col-md-5 col-sm-5 col-xs-12">
+                                    <label><scf-checkbox
 										ng-model="ctrl.dataModel.supportSpecialDebit"
 										id="support-special-direct-debit-checkbox"
 										ng-disabled="false"></scf-checkbox>
 										{{'Support special direct debit' | translate}}
 									</label>
-								</div>
-								<div class="col-md-4 col-sm-3"></div>
-							</div>
+                                </div>
+                                <div class="col-md-4 col-sm-3"></div>
+                            </div>
 
-							<div class="form-group" ng-show="ctrl.isNotTradeFinance">
-								<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
-								<span class="col-md-5 col-sm-5 col-xs-12 error-msg" id="special-payment-method-warning-message-label" ng-bind="errors.isNotTradeFinance.message | translate"></span>
-							</div>
+                            <div class="form-group" ng-show="ctrl.isNotTradeFinance">
+                                <label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+                                <span class="col-md-5 col-sm-5 col-xs-12 error-msg" id="special-payment-method-warning-message-label" ng-bind="errors.isNotTradeFinance.message | translate"></span>
+                            </div>
 
-							<div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
-								<label id="grace-period-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Grace period' | translate}}:
+                            <div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+                                <label id="grace-period-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Grace period' | translate}}:
 								</label>
-								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="support-grace-period-dropdown" ng-model="ctrl.supportGracePeriod" ng-change="ctrl.changeSupportGracePeriod()"
-										translate-label="true" component-data="ctrl.gracePeriodDropDown"></scf-dropdown>
-								</div>
-								<input id="grace-period-textbox" type="number" min="1" max="999" ng-disabled="(!ctrl.manageAll) || (ctrl.supportGracePeriod == 'false')"
-									ng-model="ctrl.gracePriod" maxlength="3" class="form-control-input"></input> days
-							</div>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                    <scf-dropdown id="support-grace-period-dropdown" ng-model="ctrl.supportGracePeriod" ng-change="ctrl.changeSupportGracePeriod()" translate-label="true" component-data="ctrl.gracePeriodDropDown"></scf-dropdown>
+                                </div>
+                                <input id="grace-period-textbox" type="number" min="1" max="999" ng-disabled="(!ctrl.manageAll) || (ctrl.supportGracePeriod == 'false')" ng-model="ctrl.gracePriod" maxlength="3" class="form-control-input"></input> days
+                            </div>
 
-							<div class="form-group" ng-show="ctrl.showMessageGracePeriodError &amp;&amp; ctrl.accountingTransactionType == 'RECEIVABLE'">
-								<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
-								<span class="col-md-5 col-sm-5 col-xs-12 error-msg" id="grace-period-warning-message-label">{{'Grace period must be 1-999 days' | translate}}</span>
-							</div>
+                            <div class="form-group" ng-show="ctrl.showMessageGracePeriodError &amp;&amp; ctrl.accountingTransactionType == 'RECEIVABLE'">
+                                <label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+                                <span class="col-md-5 col-sm-5 col-xs-12 error-msg" id="grace-period-warning-message-label">{{'Grace period must be 1-999 days' | translate}}</span>
+                            </div>
 
-							<div class="form-group">
-								<label id="overdue-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Payment date' | translate}}:
+                            <div class="form-group">
+                                <label id="overdue-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Payment date' | translate}}:
 								</label>
-								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="payment-date-dropdown" ng-model="ctrl.dataModel.loanRequestMode" translate-label="true" component-data="ctrl.paymentDropDown"></scf-dropdown>
-								</div>
-							</div>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                    <scf-dropdown id="payment-date-dropdown" ng-model="ctrl.dataModel.loanRequestMode" translate-label="true" component-data="ctrl.paymentDropDown"></scf-dropdown>
+                                </div>
+                            </div>
 
-							<div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
-								<label for="dealer" id="pay-only-bank-working-day-label" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Pay only bank working day' | translate}}:</label>
-								<div class="col-md-5 col-sm-5 col-xs-12">
-									<label><scf-checkbox
+                            <div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+                                <label for="dealer" id="pay-only-bank-working-day-label" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Pay only bank working day' | translate}}:</label>
+                                <div class="col-md-5 col-sm-5 col-xs-12">
+                                    <label><scf-checkbox
 										ng-model="ctrl.checkedForDebit"
 										id="pay-only-bank-working-day-for-debit-checkbox"
 										ng-change= "ctrl.changePayOnlyBankWorkingDayItem()"
 										ng-disabled="(!ctrl.manageAll)"></scf-checkbox>
 										{{'For debit' | translate}}
 									</label>
-								</div>
-								<label class="col-md-12 col-sm-12 col-xs-12 control-label"></label>
+                                </div>
+                                <label class="col-md-12 col-sm-12 col-xs-12 control-label"></label>
 
-								<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
-								<div class="col-md-5 col-sm-5 col-xs-12">
-									<label><scf-checkbox
+                                <label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+                                <div class="col-md-5 col-sm-5 col-xs-12">
+                                    <label><scf-checkbox
 										ng-model="ctrl.checkedForDrawdown"
 										id="pay-only-bank-working-day-for-drawdown-checkbox"
 										ng-change= "ctrl.changePayOnlyBankWorkingDayItem()"
 										ng-disabled="(!ctrl.manageAll)"></scf-checkbox>
 										{{'For drawdown' | translate}}
 									</label>
-								</div>
-								<label class="col-md-12 col-sm-12 col-xs-12 control-label"></label>
+                                </div>
+                                <label class="col-md-12 col-sm-12 col-xs-12 control-label"></label>
 
-								<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
-								<div class="col-md-5 col-sm-5 col-xs-12">
-									<label><scf-checkbox
+                                <label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+                                <div class="col-md-5 col-sm-5 col-xs-12">
+                                    <label><scf-checkbox
 										ng-model="ctrl.checkedForSpecialDebit"
 										id="pay-only-bank-working-day-for-special-debit-checkbox"
 										ng-change= "ctrl.changePayOnlyBankWorkingDayItem()"
 										ng-disabled="(!ctrl.manageAll)"></scf-checkbox>
 										{{'For special debit' | translate}}
 									</label>
-								</div>
-								<label class="col-md-12 col-sm-12 col-xs-12 control-label"></label>
-							</div>
+                                </div>
+                                <label class="col-md-12 col-sm-12 col-xs-12 control-label"></label>
 
-							<div class="form-group" style="margin-bottom: 0px" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
-								<label for="dealer" id="shift-payment-date-label" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Shift payment date' | translate}}:</label>
-								<div class="col-md-5 col-sm-5 col-xs-12">
-									<label><scf-checkbox
+                                <label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+                                <div class="col-md-5 col-sm-5 col-xs-12">
+                                    <label><scf-checkbox
+										ng-model="ctrl.checkForOverdraft"
+										id="pay-only-bank-working-day-for-overdraft-checkbox"
+										ng-change= "ctrl.changePayOnlyBankWorkingDayItem()"
+										ng-disabled="(!ctrl.manageAll)"></scf-checkbox>
+										{{'For overdraft' | translate}}
+									</label>
+                                </div>
+                                <label class="col-md-12 col-sm-12 col-xs-12 control-label"></label>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 0px" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+                                <label for="dealer" id="shift-payment-date-label" class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Shift payment date' | translate}}:</label>
+                                <div class="col-md-5 col-sm-5 col-xs-12">
+                                    <label><scf-checkbox
 										ng-model="ctrl.dataModel.shiftPaymentDate"
 										id="shift-payment-date-checkbox"
 										ng-change= "ctrl.changeShiftPaymentDate()"
 										ng-disabled="(!ctrl.manageAll) || ctrl.disableShiftPaymentDate() || ctrl.changeShiftPaymentDate()"></scf-checkbox>
 										{{'In case of last payment date is equal to bank holiday' | translate}}
 									</label>
-								</div>
-							</div>
-							<div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
-								<label class="col-md-4 col-sm-4 col-xs-12 control-label"></label>
-								<label class="radio-inline"><scf-radio
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+                                <label class="col-md-4 col-sm-4 col-xs-12 control-label"></label>
+                                <label class="radio-inline"><scf-radio
 											id="pay-before-holiday-radio" name="shift-payment-date-radio"
 											ng-value="true"
 											ng-disabled="(!ctrl.manageAll) || (!ctrl.dataModel.shiftPaymentDate) || ctrl.changeShiftPaymentDate()"
 											ng-model="ctrl.shiftIn"></scf-radio>
 										{{'Pay before holiday' | translate}}
 									</label>
-								<label class="radio-inline"><scf-radio
+                                <label class="radio-inline"><scf-radio
 											id="pay-after-holiday-radio" name="shift-payment-date-radio"
 											ng-value="false"
 											ng-disabled="(!ctrl.manageAll) || (!ctrl.dataModel.shiftPaymentDate) || ctrl.changeShiftPaymentDate()"
 											ng-model="ctrl.shiftIn"></scf-radio>
 										{{'Pay after holiday' | translate}}
 									</label>
-							</div>
+                            </div>
 
-						</div>
+                        </div>
 
-						<br/>
-						<div ng-include="'/sponsor-configuration/components/setup-display-fields'"></div>
-					</form>
-				</div>
-				<div class="panel-body">
-					<div ng-show="errors.duplicateLayoutName">
-						<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-error-bottom-message-label">{{'Display name
+                        <br/>
+                        <div ng-include="'/sponsor-configuration/components/setup-display-fields'"></div>
+                    </form>
+                </div>
+                <div class="panel-body">
+                    <div ng-show="errors.duplicateLayoutName">
+                        <span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-error-bottom-message-label">{{'Display name
 							is duplicate' | translate}}.</span>
-					</div>
-					<div ng-show="errors.requireLayoutName">
-						<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-warning-bottom-message-label">{{'Display
+                    </div>
+                    <div ng-show="errors.requireLayoutName">
+                        <span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-warning-bottom-message-label">{{'Display
 							name is required' | translate}}.</span>
-					</div>
-				</div>
-				<div class="panel-body">
-					<div class="col-md-12 col-sm-12 text-right">
-						<scf-button id="document-display-cancel-button" class="popup-button" data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
-							ng-bind="'Cancel' | translate"></scf-button>
-						<scf-button id="document-display-save-button" type="submit" ng-disabled="!ctrl.manageAll" ng-click="ctrl.save()">{{'Save' | translate}}</scf-button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<input type="hidden" ng-init="ctrl.manageAll=true" sec:authorize="hasAuthority('MANAGE_ALL_DOCUMENT_DISPLAY_LAYOUTS')" />
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12 col-sm-12 text-right">
+                        <scf-button id="document-display-cancel-button" class="popup-button" data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()" ng-bind="'Cancel' | translate"></scf-button>
+                        <scf-button id="document-display-save-button" type="submit" ng-disabled="!ctrl.manageAll" ng-click="ctrl.save()">{{'Save' | translate}}</scf-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" ng-init="ctrl.manageAll=true" sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_CREATE_TRANSACTION_LAYOUT')" />
 </div>

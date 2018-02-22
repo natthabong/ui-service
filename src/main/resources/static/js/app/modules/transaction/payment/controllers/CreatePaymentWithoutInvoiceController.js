@@ -181,7 +181,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                 if (accounts.length > 0) {
                     accounts.forEach(function (account, index) {
                         if (index == 0) {
-                            if (account.defaultLoanNo && account.accountType == 'LOAN') {
+                            if (account.defaultLoanNo && (account.accountType === 'LOAN' || account.accountType === 'OVERDRAFT')) {
                                 vm.accountNotSupportSpecialDirectDebit = false;
                             } else {
                                 vm.accountNotSupportSpecialDirectDebit = true;
@@ -206,7 +206,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                         vm.accountType = accounts[0].accountType;
                         vm.tradingpartnerInfoModel.updateTime = accounts[0].accountUpdatedTime;
 
-                        if (accounts[0].accountType == 'LOAN') {
+                        if (accounts[0].accountType === 'LOAN' || accounts[0].accountType === 'OVERDRAFT') {
                             setTradingpartnerInfoModel(accounts[0]);
                         } else {
                             setTransactionMethod(supportSpecialDebit);
@@ -219,7 +219,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                     vm.accountType = result[0].accountType;
                     vm.tradingpartnerInfoModel.updateTime = result[0].accountUpdatedTime;
 
-                    if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
+                    if (result[0].accountType !== undefined && (result[0].accountType === 'LOAN' || result[0].accountType === 'OVERDRAFT')) {
                         setTradingpartnerInfoModel(accounts[0]);
                     } else {
                         setTransactionMethod(supportSpecialDebit);
@@ -397,8 +397,11 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                     vm.accountType = account.item.accountType;
                     vm.tradingpartnerInfoModel.updateTime = account.item.accountUpdatedTime;
 
-                    if (vm.accountType == 'LOAN') {
+                    if (vm.accountType === 'LOAN') {
                         vm.transactionModel.transactionMethod = 'TERM_LOAN';
+                        vm.isLoanPayment = true;
+                    } else if (vm.accountType === 'OVERDRAFT') {
+                        vm.transactionModel.transactionMethod = 'OD';
                         vm.isLoanPayment = true;
                     } else {
                         if (supportSpecialDebit) {

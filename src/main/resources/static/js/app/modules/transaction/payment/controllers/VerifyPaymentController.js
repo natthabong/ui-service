@@ -9,6 +9,7 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
         vm.accountNo = null;
         vm.interestRate = null;
         vm.tenor = null;
+        vm.displayTransactionType = null;
 
         if ($stateParams.transaction == null) {
             $timeout(function () {
@@ -78,6 +79,10 @@ txnMod.controller('VerifyPaymentController', ['$rootScope', '$scope', '$log',
                 vm.transactionModel.supplier = response.data.supplierOrganize.organizeName;
                 vm.transactionModel.sponsor = response.data.sponsorOrganize.organizeName;
                 vm.transactionModel.documents = response.data.documents;
+                vm.displayTransactionType = vm.transactionModel.transactionMethod;
+                if(vm.transactionModel.transactionMethod == 'OD'){
+                	vm.displayTransactionType = 'Loan';
+                }
 
                 loadAccountDetails(vm.transactionModel.sponsorId, vm.transactionModel.supplierId, vm.transactionModel.payerAccountId);
 

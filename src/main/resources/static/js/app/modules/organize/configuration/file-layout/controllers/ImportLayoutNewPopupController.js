@@ -23,7 +23,7 @@ tpModule
 								displayName: '',
 								fileType: 'FIXED_LENGTH',
 								charsetName: 'TIS-620',
-								processType: 'AR_DOCUMENT' ,
+								processType: data.processType ,
 								integrateType: 'IMPORT',
 								items: []
 							}

@@ -1,4 +1,4 @@
-<div th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_PAYMENTS','VIEW_PAYMENTS_REFER_TO_MY_ORGANIZE','VIEW_PAYMENTS_OF_MY_ORGANIZE')">
+<div th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_PAYMENTS','VIEW_PAYMENTS_REFER_TO_MY_ORGANIZATION','VIEW_PAYMENTS_OF_MY_ORGANIZATION')">
 	<div id="wrapper" ng-if="ctrl.getUserInfoSuccess">
 		<form name="transactionForm" class="form-horizontal">
 			<div class="form-group">

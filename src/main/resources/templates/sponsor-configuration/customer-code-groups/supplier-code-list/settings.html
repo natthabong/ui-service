@@ -1,10 +1,11 @@
 <div ng-if="ctrl.getUserInfoSuccess" id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('MANAGE_ALL_SUPPLIER_CODES','MANAGE_SUPPLIER_CODES_OF_MY_ORGANIZE')">
+	sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_SUPPLIER_CODES_OF_ALL_FUNDING','VIEW_ALL_CUSTOMER_ORGANIZATIONS_SUPPLIER_CODES')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft">{{'Supplier code list' | translate}}</h3>
+					<h3 id="header-message-label" class="animated fadeInLeft">{{'Supplier
+						code list' | translate}}</h3>
 				</div>
 			</div>
 		</div>
@@ -25,8 +26,7 @@
 								id="customer-code-label">{{'Supplier code' |
 								translate}}: </label>
 							<div class="col-md-2 col-sm-3 col-xs-12">
-								<scf-input-text id="customer-code-textbox"
-									maxlength="20"
+								<scf-input-text id="customer-code-textbox" maxlength="20"
 									ng-model="ctrl.criteria.customerCode"></scf-input-text>
 							</div>
 						</div>
@@ -41,7 +41,7 @@
 							</div>
 							<div class="col-md-2 col-sm-3">
 								<scf-button id="search-button" class="popup-button"
-									data-dismiss="modal" ng-click="ctrl.search(ctrl.criteria)"
+									data-dismiss="modal" ng-click="ctrl.search()"
 									ng-bind="'Search' | translate"></scf-button>
 							</div>
 						</div>
@@ -50,32 +50,79 @@
 					<div class="row">
 						<div class="col-md-12 text-right">
 							<scf-button id="new-button" class="btn-default gec-btn-action"
-								ng-disabled="ctrl.unauthen()" ng-click="ctrl.customerCodeSetup()">
-							<i class="fa fa-plus" aria-hidden="true"></i></scf-button>
+								ng-disabled="ctrl.unauthen()"
+								ng-click="ctrl.customerCodeSetup()"> <i
+								class="fa fa-plus" aria-hidden="true"></i></scf-button>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 col-sm-12 text-right">
-							<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
-								id="customer-code-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-									name="customer-code"
-									page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-									total-page="ctrl.pagingController.pagingModel.totalPage"
-									current-page="ctrl.pagingController.pagingModel.currentPage"
-									page-size-list="ctrl.pagingController.pageSizeList"
-									page-action="ctrl.pagingController.search"></scf-pagination>
-							</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
+							<div class="text-right">
+								<div class="col-md-12 col-sm-12">
+									<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
+										id="customer-code-paging-label"></b>
+										&nbsp;&nbsp; <scf-pagination
+											dropdown-id="customer-code-page-limit-dropdown"
+											name="customer-code"
+											page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+											total-page="ctrl.pagingController.pagingModel.totalPage"
+											current-page="ctrl.pagingController.pagingModel.currentPage"
+											page-size-list="ctrl.pagingController.pageSizeList"
+											page-action="ctrl.search"></scf-pagination>
+									</span>
+								</div>
+							</div>
 							<div class="responsive-table">
-								<scf-table id="customer-code-table"
-									component-config="ctrl.dataTable"
-									component-datas="ctrl.pagingController.tableRowCollection"
-									current-page="ctrl.pagingController.pagingModel.currentPage"
-									record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-									clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder" />
+								<table id="customer-code-table"
+									class="table table-striped table-bordered" cellspacing="0">
+									<thead>
+										<tr>
+											<th ng-bind="'numbero' | translate"></th>
+											<th ng-hide="ctrl.hiddenFundingColumn"
+												ng-bind="'FUNDING' | translate"></th>
+											<th ng-bind="'Supplier' | translate"></th>
+											<th ng-bind="'Supplier code' | translate"></th>
+											<th ng-bind="'status' | translate"></th>
+											<th ng-bind="'Active date' | translate"></th>
+											<th ng-bind="'Expire date' | translate"></th>
+											<th ng-bind="'Remark' | translate"></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
+											<td class="text-right"><span
+												id="{{record.rowNo}}-{{record.customerCode}}-label"
+												ng-bind="record.rowNo"></span></td>
+											<td class="text-center" ng-hide="ctrl.hiddenFundingColumn">
+												<organization-logo ng-model="record.funding"></organization-logo>
+											</td>
+											<td class="text-left"><span
+												id="customer-{{record.customerCode}}-label"
+												ng-bind="record.customerName | translate"></span></td>
+											<td class="text-left"><span
+												id="customer-code-{{record.customerCode}}-label"
+												ng-bind="record.customerCode | translate"></span></td>
+											<td class="text-center"><span
+												id="status-{{record.customerCode}}-label"
+												ng-bind="record.status | translate"></span></td>
+											<td class="text-center"><span
+												id="active-date-{{record.customerCode}}-label"
+												ng-bind="record.activeDate | date: 'dd/MM/yyyy'"></span></td>
+											<td class="text-center"><span
+												id="expiry-date-{{record.customerCode}}-label"
+												ng-bind="record.expiryDate | date: 'dd/MM/yyyy'"></span></td>
+											<td class="text-left"><span
+												id="remark-{{record.customerCode}}-label"
+												ng-bind="record.remark | translate"></span></td>
+											<td class="text-center">
+												<scf-button id="{{record.customerCode}}-edit-button" class="btn-default gec-btn-action" ng-disabled="ctrl.unauthen()" ng-click="ctrl.customerCodeSetup(record)" title="Setup customer code"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>
+                            					<scf-button id="{{record.customerCode}}-delete-button"  class="btn-default gec-btn-action" ng-disabled="ctrl.unauthen()" ng-click="ctrl.deleteCustomerCode(record)" title="Delete customer code"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>
+                            				</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -84,8 +131,9 @@
 				<div class="panel-body">
 
 					<div class="col-md-12 col-sm-12 text-right">
-						<scf-button ng-if="!ctrl.personalMode" id="back-button" class="popup-button"
-							data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
+						<scf-button ng-if="!ctrl.personalMode" id="back-button"
+							class="popup-button" data-dismiss="modal"
+							ng-click="ctrl.backToSponsorConfigPage()"
 							ng-bind="'Back' | translate"></scf-button>
 					</div>
 				</div>
@@ -93,7 +141,7 @@
 		</div>
 	</div>
 	<input type="hidden" ng-init="ctrl.manageAll=true"
-		sec:authorize="hasAuthority('MANAGE_ALL_SUPPLIER_CODES')" /> 
-	<input type="hidden" ng-init="ctrl.manageMyOrg=true"
-		sec:authorize="hasAuthority('MANAGE_SUPPLIER_CODES_OF_MY_ORGANIZE')" />
+		sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_SUPPLIER_CODES')" />
+	<input type="hidden" ng-init="ctrl.hiddenFundingColumn=true"
+		sec:authorize="hasAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_SUPPLIER_CODES')" />
 </div>

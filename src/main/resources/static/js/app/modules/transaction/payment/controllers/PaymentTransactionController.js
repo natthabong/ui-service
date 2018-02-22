@@ -31,8 +31,8 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	    var ownerId = $rootScope.userInfo.organizeId;
 	
 	    var organizeInfo = {
-	        organizeId : $rootScope.userInfo.organizeId,
-	        organizeName : $rootScope.userInfo.organizeName
+	        memberCode : $rootScope.userInfo.organizeId,
+	        memberName : $rootScope.userInfo.organizeName
 	    }
 	
 	    _sponsor = null;
@@ -249,11 +249,11 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	    	if(_validateForSearch()){
 		    	angular.copy(vm.criteria, _criteria);
 		    	if(vm.buyer){
-		    		_criteria.sponsorId = vm.buyer.organizeId;
+		    		_criteria.sponsorId = vm.buyer.memberId;
 		            _sponsor = vm.buyer;
 		    	}
 		    	if(vm.supplier){
-		    		_criteria.supplierId = vm.supplier.organizeId;
+		    		_criteria.supplierId = vm.supplier.memberId;
 		            _supplier = vm.supplier;
 		    	}
 		    	vm.loadData(pagingModel || ( $stateParams.backAction? {
@@ -274,9 +274,9 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		}
 	
 	    var prepareAutoSuggestLabel = function(item,role) {
-			item.identity = [ role,'-', item.organizeId, '-option' ].join('');
-			item.label = [ item.organizeId, ': ', item.organizeName ].join('');
-			item.value = item.organizeId;
+			item.identity = [ role,'-', item.memberId, '-option' ].join('');
+			item.label = [ item.memberCode, ': ', item.memberName ].join('');
+			item.value = item.memberId;
 			return item;
 		}
 	    

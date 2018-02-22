@@ -1,12 +1,14 @@
 <div id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('VIEW_ALL_CHANNEL','MANAGE_ALL_CHANNEL')">
+	sec:authorize="hasAnyAuthority(
+	'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS',
+	'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS_OF_ALL_FUNDING')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
 					<h3 id="edit-export-channel-header-label"
-						class="animated fadeInLeft">{{'Edit export payment result channel' |
-						translate}}</h3>
+						class="animated fadeInLeft">{{'Edit export payment result
+						channel' | translate}}</h3>
 				</div>
 			</div>
 		</div>
@@ -14,19 +16,23 @@
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body">
 					<form name="createForm" class="form-horizontal">
-<!-- 						<div class="form-group"> -->
-<!-- 							<label id="funding-label"  -->
-<!-- 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Funding' -->
-<!-- 								| translate}}: </label> -->
-<!-- 							<div class="col-md-2 col-sm-3 col-xs-11"> -->
-<!-- 								<label ng-repeat="funding in ctrl.fundings"> <input type="checkbox" -->
-<!-- 									checklist-model="ctrl.channelModel.fundings" checklist-value="funding"  -->
-<!-- 									id="funding-{{funding.organizeName}}-checkbox"/> -->
-<!-- 									{{funding.organizeName}} -->
-<!-- 								</label><br/> -->
-<!-- 							</div> -->
-<!-- 							<div class="col-md-6 col-sm-4"></div> -->
-<!-- 						</div> -->
+					
+						<div class="form-group" sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_EXPORT_CHANNELS_OF_ALL_FUNDING')">
+							<label id="funding-label"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Funding'
+								| translate}}: </label>
+							<div class="col-md-2 col-sm-3 col-xs-11">
+								<label ng-repeat="funding in ctrl.fundings"> <input
+									type="checkbox" checklist-model="ctrl.channelModel.fundings"
+									checklist-value="funding"
+									id="funding-{{funding.organizeName}}-checkbox" />
+									{{funding.organizeName}}
+								</label><br />
+							</div>
+							<div class="col-md-6 col-sm-4"></div>
+						</div>
+											
+						
 						<div class="form-group">
 							<label id="channel-label" for="dealer"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Channel' | translate}}: </label>
@@ -46,7 +52,7 @@
 							</div>
 							<div class="col-md-4 col-sm-4"></div>
 						</div>
-						<div class="form-group"	ng-show="errors.displayName">
+						<div class="form-group" ng-show="errors.displayName">
 							<div ng-show="errors.displayName">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
@@ -64,7 +70,7 @@
 							</div>
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
-						<div class="form-group"	ng-show="errors.layout">
+						<div class="form-group" ng-show="errors.layout">
 							<div ng-show="errors.layout">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
@@ -83,18 +89,18 @@
 							<div class="col-md-6 col-sm-4"></div>
 						</div>
 						<div class="form-group" ng-show="ctrl.haveProductType">
-							<label 	class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-								&nbsp;&nbsp;
-							<div class="col-md-2 col-sm-2 col-xs-10" >
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							&nbsp;&nbsp;
+							<div class="col-md-2 col-sm-2 col-xs-10">
 								<div ng-repeat="productType in ctrl.productTypes"><input type="checkbox" 
-									ng-disabled="ctrl.isAllProductType"
+									ng-disabled="ctrl.isAllProductType" checklist-comparator="ctrl.compareProductType"
 									checklist-model="ctrl.channelModel.productTypes" checklist-value="productType"
-									id="producttype-{{productType.displayName}}-checkbox"/>
+										id="producttype-{{productType.displayName}}-checkbox" />
 									{{productType.displayName}}
 								</div>
 							</div>
-						</div>
-						<div class="form-group"	ng-show="errors.productTypes">
+						</div>	
+						<div class="form-group" ng-show="errors.productTypes">
 							<div ng-show="errors.productTypes">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
@@ -114,14 +120,14 @@
 									date-format="dd/MM/yyyy" is-open="ctrl.openActiveDate"
 									open-calendar-action="ctrl.openCalendarActiveDate()"
 									max-date="ctrl.channelModel.expiryDate"
-									ng-disabled="!ctrl.manageAll" button-id="active-date-button">
+									button-id="active-date-button">
 								</scf-date-picker>
 							</div>
 							<div>
 								<div class="col-md-2 col-sm-3 col-xs-2"
 									style="padding-left: 25px;">
 									<scf-checkbox id="expire-date-checkbox"
-										ng-model="ctrl.isUseExpireDate" ng-disabled="!ctrl.manageAll"></scf-checkbox>
+										ng-model="ctrl.isUseExpireDate"></scf-checkbox>
 									<label id="expire-date-label" class="checkbox-inline"
 										style="padding-bottom: 10px;">{{'Expire date' |	translate}}:</label>
 								</div>
@@ -132,7 +138,7 @@
 										date-format="dd/MM/yyyy" is-open="ctrl.openExpireDate"
 										open-calendar-action="ctrl.openCalendarExpireDate()"
 										min-date="ctrl.channelModel.activeDate"
-										ng-disabled="!ctrl.isUseExpireDate || !ctrl.manageAll"
+										ng-disabled="!ctrl.isUseExpireDate"
 										button-id="expire-date-button"> </scf-date-picker>
 								</div>
 							</div>
@@ -158,8 +164,7 @@
 							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 							&nbsp;&nbsp;
 							<scf-checkbox id="suspend-checkbox"
-								ng-model="ctrl.channelModel.suspend"
-								ng-disabled="!ctrl.manageAll"></scf-checkbox>
+								ng-model="ctrl.channelModel.suspend"></scf-checkbox>
 							<label class="checkbox-inline" id="suspend-label"
 								style="padding-bottom: 10px;">{{'Suspend' | translate}}</label>
 						</div>
@@ -169,12 +174,10 @@
 							data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
 							ng-bind="'Cancel' | translate"></scf-button>
 						<scf-button id="save-button" type="submit"
-							ng-disabled="!ctrl.manageAll" ng-click="ctrl.saveChannel()">{{'Save' | translate}}</scf-button>
+							ng-click="ctrl.saveChannel()">{{'Save' | translate}}</scf-button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<input type="hidden" ng-init="ctrl.manageAll=true"
-		sec:authorize="hasAuthority('MANAGE_ALL_CHANNEL')" />
 </div>

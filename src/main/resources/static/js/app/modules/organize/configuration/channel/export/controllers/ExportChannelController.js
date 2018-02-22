@@ -39,6 +39,7 @@ exportChannelModule.controller('ExportChannelController', [
       var BASE_URI = 'api/v1/organize-customers/' + organizeId;
       vm.channelModel = {};
       vm.productTypes = {};
+      vm.fundings = {};
       vm.remoteFilenamePrefix = '';
       vm.dateTimePattern = '';
       vm.fileExtension = '';
@@ -54,6 +55,10 @@ exportChannelModule.controller('ExportChannelController', [
     			SATURDAY : 7
       }
       
+      vm.compareProductType = function(obj1, obj2){
+          return obj1.productType === obj2.productType;
+      };
+      
       vm.haveProductType = false;
       vm.fileLayouts = [];
       vm.channelDropdown = ChannelDropdown;
@@ -63,7 +68,6 @@ exportChannelModule.controller('ExportChannelController', [
       vm.fileExtensionDropdown = EXTENSION_DROPDOWN;
   	  vm.frequencyDropdown = FREQUENCY_DROPDOWN;
       $scope.errors = {};
-      vm.manageAll=false;
       vm.isSetupFTP = false;
       
       vm.openActiveDate = false;
@@ -114,7 +118,7 @@ exportChannelModule.controller('ExportChannelController', [
       vm.searchChannel = function(){
   			sendRequest('/export-channels/' + channelId, function(response) {
 	            vm.channelModel = response.data;
-	              
+	            
 	            if(response.data.activeDate != null){
 	              	vm.channelModel.activeDate =  new Date(response.data.activeDate);
 	  			}else {
@@ -132,11 +136,15 @@ exportChannelModule.controller('ExportChannelController', [
 	             	vm.isAllProductType = true;
 	    		} 
 	            
+	            if(response.data.runtimeType == null){
+	            	vm.channelModel.runtimeType =  'INTERVAL';
+				}
+	            
 	            if(vm.channelModel.channelType == 'FTP'){
 					vm.isSetupFTP = true;
 					vm.channelModel.fileProtocol = 'SFTP';
 					
-					var isNotHasJob = angular.isUndefined(response.data.jobInformation) || response.data.jobInformation == null;
+					var isNotHasJob = angular.isUndefined(response.data.jobInformation) || response.data.jobInformation == null || response.data.jobInformation.jobId == null;
 					
 					if(isNotHasJob){
 						
@@ -192,17 +200,28 @@ exportChannelModule.controller('ExportChannelController', [
 							}
 						});
 						
-						
-						if(response.data.jobInformation.triggerInformations.length > 0){
-							console.log(response.data.jobInformation.triggerInformations);
-							response.data.jobInformation.triggerInformations.forEach(function(data){
-								if(data.startHour != null && data.startMinute != null){
-					 				var hour = data.startHour.length == 1 ? "0"+data.startHour : data.startHour;
-					 				var minute = data.startMinute.length == 1 ? "0"+data.startMinute : data.startMinute;
-									var time = hour + ":" +minute;
-					 				vm.runTimes.push(time);
-								}
-				 			});
+						if(vm.channelModel.runtimeType == 'INTERVAL'){
+							var triggerInformation = response.data.jobInformation.triggerInformations[0];
+							var hour = triggerInformation.startHour.length == 1 ? "0"+ triggerInformation.startHour : triggerInformation.startHour;
+			 				var minute = triggerInformation.startMinute.length == 1 ? "0"+triggerInformation.startMinute : triggerInformation.startMinute;
+							vm.channelModel.intervalBeginTime = hour + ':' + minute;
+							
+							hour = triggerInformation.endHour.length == 1 ? "0"+ triggerInformation.endHour : triggerInformation.endHour;
+			 				minute = triggerInformation.endMinute.length == 1 ? "0"+triggerInformation.endMinute : triggerInformation.endMinute;
+							vm.channelModel.intervalEndTime = hour + ':' + minute;
+							vm.channelModel.delayedInterval = triggerInformation.intervalInMinutes;
+						} else {
+							if(response.data.jobInformation.triggerInformations.length > 0){
+								console.log(response.data.jobInformation.triggerInformations);
+								response.data.jobInformation.triggerInformations.forEach(function(data){
+									if(data.startHour != null && data.startMinute != null){
+						 				var hour = data.startHour.length == 1 ? "0"+data.startHour : data.startHour;
+						 				var minute = data.startMinute.length == 1 ? "0"+data.startMinute : data.startMinute;
+										var time = hour + ":" +minute;
+						 				vm.runTimes.push(time);
+									}
+					 			});
+							}
 						}
 					}
 					
@@ -220,6 +239,13 @@ exportChannelModule.controller('ExportChannelController', [
     		  vm.fileLayouts = [];
     		  var _fileLayouts = response.data;
           	  if (angular.isDefined(_fileLayouts)) {
+          		if (vm.channelModel.layoutConfigId == null){
+       			 var pleaseSelectObj = {
+                            label: '---Please select---',
+                            value: null
+                    }
+	       			 vm.fileLayouts.push(pleaseSelectObj);
+	       		 }				  
           		 _fileLayouts.forEach(function (fileLayout) {
                       var selectObj = {
                           label: fileLayout.displayName,
@@ -238,6 +264,17 @@ exportChannelModule.controller('ExportChannelController', [
 	           	vm.haveProductType =  true;
 	         }
     	 });
+     }
+     
+     vm.searchFundings = function(){
+    	 var serviceDiferred = Service.doGet('api/v1/fundings');
+         var failedFunc = function(response) {
+             log.error('Load data error');
+         };
+         var successFunc = function(response) {
+        	 vm.fundings = response.data;
+         };
+         serviceDiferred.promise.then(successFunc).catch(failedFunc);
      }
 
      var setupPrepareData = function(){
@@ -264,25 +301,49 @@ exportChannelModule.controller('ExportChannelController', [
  			if(vm.channelModel.saturday){
  				daysOfWeek += dayOfWeekFrequency.SATURDAY + ',';
  			}
- 			daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
+ 			
  			vm.channelModel.jobInformation.daysOfWeek = daysOfWeek;
  			
- 			vm.channelModel.jobInformation.triggerInformations = [];
- 			console.log(vm.channelModel.runTimes);
- 			console.log(vm.runTimes);
- 			vm.runTimes.forEach(function(data){
- 				var triggerInformation = {};
- 				var beginTime = data.split(":");
- 				triggerInformation.startHour = beginTime[0];
- 				triggerInformation.startMinute = beginTime[1];
- 				var endTime = parseInt(beginTime[1])+1 == 60 ? 0 : parseInt(beginTime[1])+1;
- 				var endHour = parseInt(beginTime[1])+1 == 60 ? parseInt(beginTime[0])+1 : parseInt(beginTime[0]);
- 				triggerInformation.endHour = endHour.toString();
- 				triggerInformation.endMinute = endTime.toString();
- 				triggerInformation.intervalInMinutes = 2;
- 				
- 				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
- 			});
+ 			if(vm.channelModel.runtimeType == 'INTERVAL'){
+				var beginTime = '';
+				var endTime = '';
+				var triggerInformation = {};
+				if(vm.channelModel.intervalBeginTime != null && vm.channelModel.intervalBeginTime != ''){
+					beginTime = vm.channelModel.intervalBeginTime.split(":");
+					triggerInformation.startHour = beginTime[0];
+					triggerInformation.startMinute = beginTime[1];
+				}
+	
+				if(vm.channelModel.intervalEndTime != null && vm.channelModel.intervalEndTime != ''){
+					endTime = vm.channelModel.intervalEndTime.split(":");
+					triggerInformation.endHour = endTime[0].toString();
+					triggerInformation.endMinute = endTime[1].toString();
+				}
+				triggerInformation.intervalInMinutes = vm.channelModel.delayedInterval;
+ 				triggerInformation.daysOfWeek = daysOfWeek;
+				
+				vm.channelModel.jobInformation.triggerInformations = [];
+				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
+
+			} else {
+				daysOfWeek = daysOfWeek.substring(0,daysOfWeek.length-1);
+	 			vm.channelModel.jobInformation.daysOfWeek = daysOfWeek;
+				vm.channelModel.jobInformation.triggerInformations = [];
+	 			vm.runTimes.forEach(function(data){
+	 				var triggerInformation = {};
+	 				var beginTime = data.split(":");
+	 				triggerInformation.startHour = beginTime[0];
+	 				triggerInformation.startMinute = beginTime[1];
+	 				var endTime = parseInt(beginTime[1])+1 == 60 ? 0 : parseInt(beginTime[1])+1;
+	 				var endHour = parseInt(beginTime[1])+1 == 60 ? parseInt(beginTime[0])+1 : parseInt(beginTime[0]);
+	 				triggerInformation.endHour = endHour.toString();
+	 				triggerInformation.endMinute = endTime.toString();
+	 				triggerInformation.intervalInMinutes = 120;
+	 				triggerInformation.daysOfWeek = daysOfWeek;
+	 				
+	 				vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
+	 			});
+			}
  			
  		}
  		if(!vm.isUseExpireDate){
@@ -392,6 +453,39 @@ exportChannelModule.controller('ExportChannelController', [
 				isValid = false;
 				$scope.errors.daysOfWeek = {
 					message : 'Frequency is required.'
+				}
+			}
+			
+			if($scope.createForm.beginTime.$error.pattern){
+				isValid = false;
+				$scope.errors.beginTime = {
+					message : 'Wrong time format data.'
+			    }
+
+			}else if(jobInformation.triggerInformations[0].startHour == null || jobInformation.triggerInformations[0].startMinute == null){
+				isValid = false;
+				$scope.errors.beginTime = {
+					message : 'Begin time is required.'
+			    }
+			}
+
+			if($scope.createForm.endTime.$error.pattern){
+				isValid = false;
+				$scope.errors.endTime = {
+					message : 'Wrong time format data.'
+			    }
+
+			}else if(jobInformation.triggerInformations[0].endHour == null || jobInformation.triggerInformations[0].endMinute == null){
+				isValid = false;
+				$scope.errors.endTime = {
+					message : 'End time is required.'
+			    }
+			}
+
+			if(jobInformation.triggerInformations[0].intervalInMinutes == null || jobInformation.triggerInformations[0].intervalInMinutes == ''){
+				isValid = false;
+				$scope.errors.intervalInMinutes = {
+					message : 'Delayed interval (sec) is required.'
 				}
 			}
 
@@ -553,10 +647,12 @@ exportChannelModule.controller('ExportChannelController', [
 	 vm.changeExportData();
 	 
 	 vm.initLoad = function() {
-	   	vm.searchChannel();
 	 	vm.searchFileLayout();
 	 	vm.searchProductTypes();
-	 	console.log(vm.productTypes);
+	 	vm.searchFundings();
+	 	vm.searchChannel();
+	 	console.log(vm.channelModel.productTypes);
+	 	console.log(vm.channelModel.fundings);
 	 }();
 	 
 }]);

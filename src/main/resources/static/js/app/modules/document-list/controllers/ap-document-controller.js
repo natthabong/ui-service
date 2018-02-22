@@ -210,10 +210,10 @@ scfApp.controller('DocumentListController', ['$scope', 'Service', '$stateParams'
         }
 
         function prepareCriteria() {
-            var buyerCriteria = vm.documentListModel.sponsor.organizeId || null;
+            var buyerCriteria = vm.documentListModel.sponsor.memberId || null;
 
             if (angular.isDefined(vm.documentListModel.supplier)) {
-                var supplierCriteria = vm.documentListModel.supplier.organizeId;
+                var supplierCriteria = vm.documentListModel.supplier.memberId;
             }
             
             vm.documentListCriterial.viewMode = $stateParams.viewMode;
@@ -372,7 +372,7 @@ scfApp.controller('DocumentListController', ['$scope', 'Service', '$stateParams'
         });
 
         var querySupplierCode = function(value) {
-            var buyerId = vm.documentListModel.sponsor.organizeId;
+            var buyerId = vm.documentListModel.sponsor.memberId;
             var supplierCodeServiceUrl = 'api/v1/suppliers';
 
             value = value = UIFactory.createCriteria(value);
@@ -386,8 +386,8 @@ scfApp.controller('DocumentListController', ['$scope', 'Service', '$stateParams'
                 }
             }).then(function(response) {
                 return response.data.map(function(item) {
-                    item.identity = ['supplier-', item.organizeId, '-option'].join('');
-                    item.label = [item.organizeId, ': ', item.organizeName].join('');
+                    item.identity = ['supplier-', item.memberId, '-option'].join('');
+                    item.label = [item.memberId, ': ', item.memberName].join('');
                     return item;
                 });
             });
@@ -452,7 +452,7 @@ scfApp.controller('DocumentListController', ['$scope', 'Service', '$stateParams'
 
         $scope.$watch('ctrl.documentListModel.sponsor', function() {
             if (viewMode != viewModeData.myOrganize && angular.isDefined(vm.documentListModel.sponsor) && angular.isObject(vm.documentListModel.sponsor)) {
-                vm.loadDocumentDisplayConfig(vm.documentListModel.sponsor.organizeId, accountingTransactionType, displayMode);
+                vm.loadDocumentDisplayConfig(vm.documentListModel.sponsor.memberId, accountingTransactionType, displayMode);
 
             }
 
@@ -463,13 +463,16 @@ scfApp.controller('DocumentListController', ['$scope', 'Service', '$stateParams'
         });
 
         var prepareAutoSuggestLabel = function(item) {
-            item.identity = ['sponsor-', item.organizeId, '-option'].join('');
-            item.label = [item.organizeId, ': ', item.organizeName].join('');
+            item.identity = ['sponsor-', item.memberId, '-option'].join('');
+            item.label = [item.memberId, ': ', item.memberName].join('');
             return item;
         }
 
         var initSponsorAutoSuggest = function() {
-            var sponsorInfo = angular.copy($rootScope.userInfo);
+        	var sponsorInfo = {
+        			memberId : $rootScope.userInfo.organizeId,
+        		  memberName : $rootScope.userInfo.organizeName
+        	}
             sponsorInfo = prepareAutoSuggestLabel(sponsorInfo);
             vm.documentListModel.sponsor = sponsorInfo;
 
@@ -480,7 +483,10 @@ scfApp.controller('DocumentListController', ['$scope', 'Service', '$stateParams'
         }
 
         var initSupplierAutoSuggest = function() {
-            var supplierInfo = angular.copy($rootScope.userInfo);
+            var supplierInfo = {
+        			memberId : $rootScope.userInfo.organizeId,
+        		  memberName : $rootScope.userInfo.organizeName
+        	}
             supplierInfo = prepareAutoSuggestLabel(supplierInfo);
             vm.documentListModel.supplier = supplierInfo;
         }
