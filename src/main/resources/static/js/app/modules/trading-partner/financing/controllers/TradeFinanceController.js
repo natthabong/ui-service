@@ -42,11 +42,11 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		}
 
 		vm.borrowerModel = [{
-				label: '[Buyer] ' + borrower.buyerId + ': ' + borrower.buyerName,
+				label: '[Buyer] ' + borrower.buyerId + ': ' + borrower.buyer.memberName,
 				value: "BUYER"
 			},
 			{
-				label: '[Supplier] ' + borrower.supplierId + ': ' + borrower.supplierName,
+				label: '[Supplier] ' + borrower.supplierId + ': ' + borrower.supplier.memberName,
 				value: "SUPPLIER"
 			}
 		];
@@ -265,10 +265,10 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 
 			if (vm.tradeFinanceModel.borrower == "BUYER") {
 				organizeId = borrower.buyerId;
-				organizeName = borrower.buyerName;
+				organizeName = borrower.buyer.memberName;
 			} else {
 				organizeId = borrower.supplierId;
-				organizeName = borrower.supplierName;
+				organizeName = borrower.supplier.memberName;
 			}
 
 			if (vm.tradeFinanceModel.borrower) {

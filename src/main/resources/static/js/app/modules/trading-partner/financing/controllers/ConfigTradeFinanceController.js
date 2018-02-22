@@ -139,7 +139,7 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 			if (vm.financeModel == null) {
 				PageNavigation.gotoPage('/customer-registration/trading-partners');
 			}
-
+			
 			buyerId = vm.financeModel.buyerId;
 			supplierId = vm.financeModel.supplierId;
 
