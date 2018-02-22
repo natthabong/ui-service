@@ -1,10 +1,11 @@
 'use strict';
 var scfApp = angular.module('gecscf.organize.configuration');
-scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 'ngDialog', '$rootScope', 'scfFactory',
-    function($q, $scope, $stateParams, Service, UIFactory,
+scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 'ngDialog', '$rootScope', 'scfFactory',
+    function($q, $log, $scope, $stateParams, Service, UIFactory,
         CustomerCodeStatus, PageNavigation, PagingController, $http, ngDialog, $rootScope, scfFactory) {
         var vm = this;
-
+        var log = $log;
+        
         vm.getUserInfoSuccess = false;
         var defered = scfFactory.getUserInfo();
         defered.promise.then(function(response) {
@@ -197,7 +198,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
 						});
 					}
 				}).catch(function (response) {
-					$log.error('Load fundings Fail');
+					log.error('Load fundings Fail');
 				});
 			};
 
@@ -214,6 +215,10 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
     					++i;
     					value.rowNo = baseRowNo + i;
     				});
+    				
+    				if(!vm.hiddenFundingColumn){
+                    	vm.loadFundings();
+                	}
     			});
             };
 
@@ -223,34 +228,12 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
         		    vm.isEditMode = true;
         		}
             	
-            	vm.loadFundings();
                 var customerCodeURL = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/customer-codes';
                 vm.pagingController = PagingController.create(customerCodeURL, vm.searchCriteria, 'GET');
                 vm.search();
             }
 
             vm.initialPage();
-
-            //	if(currentMode == mode.PERSONAL){
-            //		vm.personalMode = true;
-            //		var serviceUrl = '/api/v1/organize-customers/' + organizeId + '/accounting-transactions/'+accountingTransactionType+'/customer-code-groups';
-            //		var serviceDiferred = Service.doGet(serviceUrl, {
-            //			limit : 1,
-            //			offset : 0
-            //		});
-            //		serviceDiferred.promise.then(function(response) {
-            //			selectedItem = response.data[0];
-            //			vm.initialPage(selectedItem);
-            //
-            //		}).catch(function(response) {
-            //			log.error('Load customer code group data error');
-            //		});
-            //		
-            //	}else{
-            //		vm.personalMode = false;
-            //		selectedItem = $stateParams.selectedItem;
-            //		vm.initialPage(selectedItem);
-            //	}
 
             var saveCustomerCode = function(customerCode) {
                 var saveCustomerDiferred = '';
