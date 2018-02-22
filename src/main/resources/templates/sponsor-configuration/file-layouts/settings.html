@@ -182,8 +182,7 @@
 											<th ng-bind="'Length' | translate"
 												id="header-length-header-label">Length</th>
 											<th id="header-start-index-header-label"
-												ng-bind="ctrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index  (start 0)'| translate">{{ctrl.model.fileType=='FIXED_LENGTH'?'Start
-												index':'Index (start 0)'}}</th>
+													ng-bind="'Start index'| translate"></th>
 											<th ng-bind="'End index' | translate"
 												id="header-end-index-header-label"
 												ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></th>
@@ -283,8 +282,7 @@
 													name</th>
 												<th id="length-header-label" ng-bind="'Length' | translate">Length</th>
 												<th id="start-index-header-label"
-													ng-bind="ctrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index  (start 0)'| translate">{{ctrl.model.fileType=='FIXED_LENGTH'?'Start
-													index':'Index (start 0)'}}</th>
+														ng-bind="'Start index'| translate"></th>
 												<th id="end-index-header-label"
 													ng-bind="'End index' | translate"
 													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></th>
@@ -494,8 +492,7 @@
 												<th ng-bind="'Length' | translate"
 													id="footer-length-header-label">Length</th>
 												<th id="footer-start-index-header-label"
-													ng-bind="ctrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index (start 0)'| translate">{{ctrl.model.fileType=='FIXED_LENGTH'?'Start
-													index':'Index (start 0)'}}</th>
+														ng-bind="'Start index'| translate"></th>
 												<th ng-bind="'End index' | translate"
 													id="footer-end-index-header-label"
 													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></th>

@@ -87,18 +87,19 @@ angular.module('gecscf.organize.configuration', [
       'js/app/common/scf-component.js',
       'js/app/common/scf-component.css'
     ])
-  }).state('/sponsor-configuration/file-layouts/view-file-layout', {
-    url: '/sponsor-configuration/file-layouts/view-file-layout/:organizeId',
-    controller: 'FileLayoutController',
+  }).state('/organizations/file-layouts/view', {
+    url: '/organizations/:organizeId/file-layouts/view',
+    controller: 'ViewFileLayoutController',
     controllerAs: 'ctrl',
     templateUrl: '/sponsor-configuration/file-layouts/view-file-layout',
     params: {
       fileLayoutModel: null,
       processType: null,
-      integrateType: null
+      integrateType: null,
+      organizeId: null
     },
     resolve: WebHelper.loadScript([
-      'js/app/modules/organize/configuration/file-layout/controllers/FileLayoutController.js',
+      'js/app/modules/organize/configuration/file-layout/controllers/ViewFileLayoutController.js',
       'js/app/modules/organize/configuration/file-layout/controllers/TextLayoutConfigController.js',
       'js/app/modules/organize/configuration/file-layout/controllers/DateTimeLayoutConfigController.js',
       'js/app/modules/organize/configuration/file-layout/controllers/NumericLayoutConfigController.js',
