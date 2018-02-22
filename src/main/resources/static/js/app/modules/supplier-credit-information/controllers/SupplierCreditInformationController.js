@@ -37,7 +37,7 @@ sciModule.controller('SupplierCreditInformationController', [
 				if(viewModeData.myOrganize == $stateParams.viewMode){
 					supplier = organizeId;
 					if (angular.isObject(vm.buyer)) {
-						buyer = vm.buyer.sponsorId;
+						buyer = vm.buyer.buyerId;
 					}
 				} else {
 					// mode CUSTOMER
