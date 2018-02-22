@@ -1,8 +1,8 @@
 'use strict';
 angular.module('gecscf.organize.configuration.productType').service('ProductTypeService', [
-	'$q',
 	'$http',
-	function ($q, $http) {
+	'$q',
+	function ($http, $q) {
 		this.createProductType = function (data) {
 			var deferred = $q.defer();
 			$http({

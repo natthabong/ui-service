@@ -11,15 +11,11 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
         var vm = this;
         var organizeId = $stateParams.organizeId;
         var modes = ['configuration', 'list'];
+        var url = '/api/v1/organize-customers/' + organizeId + '/product-types';
 
         vm.currentMode = undefined;
-        vm.criteria = undefined;
-
-        function initVariable() {
-            var url = '/api/v1/organize-customers/' + organizeId + '/product-types';
-            vm.criteria = $stateParams.criteria || {};
-            vm.pagingController = PagingController.create(url, vm.criteria, 'GET');
-        }
+        vm.criteria = $stateParams.criteria || {};
+        vm.pagingController = PagingController.create(url, vm.criteria, 'GET');
 
         function setMode() {
             var params = $location.url().split('/');
@@ -117,7 +113,6 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
 
         function main() {
             setMode();
-            initVariable();
             vm.searchProductType();
         }
         main();

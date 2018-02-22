@@ -4,13 +4,18 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
     '$stateParams',
     'PageNavigation',
     'ProductTypeService',
-    function ($location, $stateParams, PageNavigation, ProductTypeService) {
+    'UIFactory',
+    function ($location, $stateParams, PageNavigation, ProductTypeService, UIFactory) {
         var vm = this;
-        var organizeId = $stateParams.organizeId;
         var modes = ['new', 'edit'];
 
         vm.currentMode = undefined;
         vm.headerLabel = undefined;
+        vm.model = {
+            organizeId: $stateParams.organizeId,
+            productType: '',
+            displayName: ''
+        };
 
         function setMode() {
             var urlParams = $location.url().split('/');
@@ -25,9 +30,9 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
             }
         }
 
-        function gotoConfigPage() {
+        var gotoConfigPage = function () {
             var params = {
-                organizeId: organizeId
+                organizeId: vm.model.organizeId
             };
             PageNavigation.gotoPage('/organizations/product-types/configuration', params);
         }
@@ -41,9 +46,36 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
         }
 
         vm.save = function () {
-                
-
-            gotoConfigPage();
+            UIFactory.showConfirmDialog({
+                data: {
+                    headerMessage: 'Confirm save?'
+                },
+                confirm: function () {
+                    return ProductTypeService.createProductType(vm.model);
+                },
+                onFail: function (response) {
+                    var errorMessage = '';
+                    response.data.forEach(function appendErrorMessage(data) {
+                        errorMessage += data.errorMessage + '\n';
+                    });
+                    UIFactory.showFailDialog({
+                        data: {
+                            headerMessage: 'Add product type fail.',
+                            bodyMessage: errorMessage
+                        },
+                        preCloseCallback: gotoConfigPage
+                    });
+                },
+                onSuccess: function (response) {
+                    UIFactory.showSuccessDialog({
+                        data: {
+                            headerMessage: 'Add product type success.',
+                            bodyMessage: ''
+                        },
+                        preCloseCallback: gotoConfigPage
+                    });
+                }
+            });
         }
 
         vm.cancel = function () {
