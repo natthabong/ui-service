@@ -61,20 +61,20 @@
 			<div class="col-md-2 col-sm-3 col-xs-11">
 				<label class="control-label"
 					style="vertical-align: bottom; float: left; display: inline-block; margin-right: 0px;"
-					id="file-encryption-value-label">
+					id="filename-prefix-value-label">
 					FundingCode_&nbsp;&nbsp;&nbsp;&nbsp;{{ctrl.channelModel.prefixFileName}}</label>
 			</div>
 			<div class="col-md-1 col-sm-3 col-xs-11">
 				<label class="control-label"
 					style="vertical-align: bottom; float: left; display: inline-block; margin-right: 0px;"
-					id="file-encryption-value-label">
-					{{ctrl.channelModel.filenamePattern}}</label>
+					id="filename-postfix-value-label">
+					{{ctrl.channelModel.filenamePattern | uppercase}}</label>
 			</div>
 			<div class="col-md-1 col-sm-3 col-xs-11">
 				<div style="width: 85px;">
 					<label class="control-label"
 						style="vertical-align: bottom; float: left; display: inline-block; margin-right: 0px;"
-						id="file-encryption-value-label">
+						id="filename-extension-value-label">
 						.{{ctrl.channelModel.fileExtension | translate}}</label>
 				</div>
 			</div>
@@ -154,7 +154,7 @@
 			</div>
 
 			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
-				<label id="frequency-label">
+				<label id="frequency-value-label">
 					{{ctrl.channelModel.jobInformation.frequencyType | translate}}</label>
 			</div>
 			<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
@@ -251,7 +251,7 @@
 			<div class="form-group">
 				<div class="col-md-8 col-sm-9 col-xs-12">
 					<div ng-if="ctrl.channelModel.runtimeType == 'INTERVAL'">
-						<label class="radio-inline">{{'Interval' | translate}} </label> <br />
+						<label id="run-time-value-label" class="control-label">{{'Interval' | translate}} </label> <br />
 						<div class="form-group">
 							<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 								<label id="begin-time-label"> {{'Begin time' |
@@ -288,7 +288,7 @@
 						</div>
 					</div>
 					<div ng-if="ctrl.channelModel.runtimeType == 'FIXED'">
-						<label class="radio-inline">{{ 'Fixed' | translate}}</label>
+						<label id="run-time-value-label" class="control-label">{{ 'Fixed' | translate}}</label>
 						<div class="form-group">
 							<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 								<span id="{{runtime}}-label"
