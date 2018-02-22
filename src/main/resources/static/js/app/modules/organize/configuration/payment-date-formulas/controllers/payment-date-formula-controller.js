@@ -62,7 +62,7 @@ app.controller('PaymentDateFormulaController', [
                 label: '',
                 cssTemplate: 'text-center',
                 sortData: false,
-                cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenView() && ctrl.unauthenMangeAction()" id="payment-date-formula-{{data.formulaName}}-view-button" title="View a payment date formula configs"><i class="fa fa-search" aria-hidden="true"></i></scf-button>' +
+                cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenView() && ctrl.unauthenMangeAction()" id="payment-date-formula-{{data.formulaName}}-view-button" ng-click="ctrl.view(data)" title="View a payment date formula configs"><i class="fa fa-search" aria-hidden="true"></i></scf-button>' +
                     '<scf-button id="payment-date-formula-{{data.formulaName}}-setup-button" ng-disabled="ctrl.unauthenMangeAction()"  class="btn-default gec-btn-action" ng-click="ctrl.config(data)" title="Config a payment date formula configs"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
                     '<scf-button id="payment-date-formula-{{data.formulaName}}-delete-button" ng-disabled="ctrl.unauthenMangeAction()" class="btn-default gec-btn-action" ng-click="ctrl.deleteFormula(data)" title="Delete a payment date formula configs"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
             }]
@@ -70,12 +70,20 @@ app.controller('PaymentDateFormulaController', [
 
         vm.data = []
 
+        vm.view = function (data) {
+            var params = {
+                paymentDateFormulaModel: data,
+                organizeId: vm.sponsorId
+            };
+            PageNavigation.gotoPage('/sponsor-configuration/payment-date-formulas/view', params);
+        }
+        
         vm.config = function (data) {
             var params = {
                 paymentDateFormulaModel: data,
                 organizeId: vm.sponsorId
             };
-            PageNavigation.gotoPage('/sponsor-configuration/payment-date-formulas/settings', params);
+            PageNavigation.gotoPage('/sponsor-configuration/payment-date-formulas/edit', params);
         }
 
         vm.search = function () {

@@ -423,8 +423,16 @@ public class OrganizationConfigurationController {
 		return SETTINGS_ORGANIZE_LOGO;
 	}
 
-	@RequestMapping(path = "/payment-date-formulas/settings", method = RequestMethod.GET)
-	public String settingPaymentDateFormula(@RequestHeader("X-Requested-With") String requestedWith) {
+	@RequestMapping(path = "/payment-date-formulas/edit", method = RequestMethod.GET)
+	public String editPaymentDateFormula(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETTINGS_PAYMENT_DATE_FORMULA.concat(" :: content");
+		}
+		return SETTINGS_PAYMENT_DATE_FORMULA;
+	}
+	
+	@RequestMapping(path = "/payment-date-formulas/view", method = RequestMethod.GET)
+	public String viewPaymentDateFormula(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_PAYMENT_DATE_FORMULA.concat(" :: content");
 		}

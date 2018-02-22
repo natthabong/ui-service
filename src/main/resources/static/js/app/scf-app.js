@@ -326,15 +326,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 							'js/app/modules/organize/configuration/export-payment/controllers/CountExportLayoutConfigController.js',
 							'js/app/modules/organize/configuration/export-payment/controllers/SummaryExportLayoutConfigController.js'
 						])
-				}).state('/sponsor-configuration/payment-date-formulas/settings', {
-					url: '/sponsor-configuration/payment-date-formulas/settings/:organizeId',
-					controller: 'PaymentDateFormulaSettingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/payment-date-formulas/settings',
-					params: {
-						paymentDateFormulaModel: null
-					},
-					resolve: WebHelper.loadScript(['js/app/sponsor-configuration/payment-date-formulas/payment-date-formula-setting-controller.js', 'js/app/sponsor-configuration/payment-date-formulas/payment-date-formula-setting-service.js', 'js/app/sponsor-configuration/credit-terms/credit-terms-setting-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/sponsor-configuration/organize-logo/settings', {
 					url: '/sponsor-configuration/organize-logo/settings/:organizeId',
 					controller: 'OrganizeLogoSettingController',

@@ -9,7 +9,8 @@ angular.module('gecscf.organize.configuration', [
   'gecscf.organize.configuration.productType',
   'gecscf.organize.configuration.channel',
   'gecscf.organize.configuration.mappingData',
-  'gecscf.organize.configuration.customerCode'
+  'gecscf.organize.configuration.customerCode',
+  'gecscf.organize.configuration.paymentDateFormula'
 ]).config(['$stateProvider', function ($stateProvider) {
   var requiredModules = [
     'js/app/sponsor-configuration/sponsor-config-controller.js',
@@ -23,8 +24,8 @@ angular.module('gecscf.organize.configuration', [
     'js/app/common/scf-component.js',
     'js/app/common/scf-component.css',
     'js/app/sponsor-configuration/DisplayConfigController.js',
-    'js/app/sponsor-configuration/payment-date-formula-controller.js',
-    'js/app/sponsor-configuration/payment-date-formula-service.js',
+    'js/app/modules/organize/configuration/payment-date-formulas/controllers/payment-date-formula-controller.js',
+    'js/app/modules/organize/configuration/payment-date-formulas/services/payment-date-formula-service.js',
     'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataListController.js',
     'js/app/modules/organize/configuration/mapping-data/controllers/MappingDataNewPopupController.js',
     'js/app/modules/organize/configuration/display/controllers/DisplayNewPopupController.js',
