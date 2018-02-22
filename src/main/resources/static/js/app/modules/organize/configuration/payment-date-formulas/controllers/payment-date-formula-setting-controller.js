@@ -133,6 +133,11 @@ app.controller('PaymentDateFormulaSettingController', [
 		var organize = {
 			organizeId : sponsorId
 		}
+		
+		var mode = {
+    		VIEW : 'viewPaymentDateFormula',
+    		EDIT : 'editPaymentDateFormula'
+	    }
 
 		var selectedItem = $stateParams.paymentDateFormulaModel;
 		if(selectedItem == null || angular.isUndefined(selectedItem)){
@@ -148,15 +153,17 @@ app.controller('PaymentDateFormulaSettingController', [
 		vm.creditTermData = [];
 
 		vm.periodTable = DataTableFactory.create({
-			options : {},
+			options : {
+				displayRowNo: {
+					idValueField: 'template',
+					id: '$rowNo-{value}-label',
+					cssTemplate : 'text-right'
+				}
+			},
 			columns : [ {
-				fieldName : '$rowNo',
-				labelEN : 'No.',
-				cssTemplate : 'text-right'
-			}, {
-				labelEN : 'Period',
-				idValueField : '$rowNo',
-				id : 'payment-period-{value}',
+				label : 'Period',
+				idValueField : 'template',
+				id : 'payment-period-{value}-label',
 				sortData : true,
 				cssTemplate : 'text-left',
 				cellTemplate : '{{data | period}}'
@@ -164,40 +171,46 @@ app.controller('PaymentDateFormulaSettingController', [
 				cssTemplate : 'text-center',
 				sortData : false,
 				cellTemplate : '<scf-button id="payment-period-{{data.paymentPeriodId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.configPeriod(data)" title="Config a payment period" ng-disabled="!ctrl.manageAll"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
-					'<scf-button id="payment-period-{{data.paymentPeriodId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deletePeriod(data)" title="Delete  a payment period" ng-disabled="!ctrl.manageAll"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+					'<scf-button id="payment-period-{{data.paymentPeriodId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deletePeriod(data)" title="Delete  a payment period" ng-disabled="!ctrl.manageAll"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>',
+				hidden: function () {
+					return !vm.isEditMode
+				}
 			} ]
 		});
 
 		vm.creditTermTable = DataTableFactory.create({
-			options : {},
+			options : {
+				displayRowNo: {
+					idValueField: 'template',
+					id: '$rowNo-{value}-label',
+					cssTemplate : 'text-right'
+				}
+			},
 			columns : [ {
-				fieldName : '$rowNo',
-				labelEN : 'No.',
-				cssTemplate : 'text-right'
-			}, {
 				fieldName : 'creditTermCode',
-				labelEN : 'Credit term code',
-				idValueField : '$rowNo',
+				field: 'creditTermCode',
+				label : 'Credit term code',
+				idValueField : 'template',
 				id : 'credit-term-code-{value}',
 				sortData : true,
 				cssTemplate : 'text-left',
 			}, {
-				labelEN : 'Document date',
-				idValueField : '$rowNo',
+				label : 'Document date',
+				idValueField : 'template',
 				id : 'document-date-{value}',
 				sortData : true,
 				cellTemplate : '{{data | documentDateRuleType}}',
 				cssTemplate : 'text-left',
 			},{
-				labelEN : 'Formula',
-				idValueField : '$rowNo',
+				label : 'Formula',
+				idValueField : 'template',
 				id : 'formula-{value}',
 				sortData : true,
 				cssTemplate : 'text-left',
 				cellTemplate : '{{data | paymentDateFormula}}'
 			}, {
-				labelEN : 'Period',
-				idValueField : '$rowNo',
+				label : 'Period',
+				idValueField : 'template',
 				id : 'period-{value}',
 				sortData : true,
 				cssTemplate : 'text-left',
@@ -207,7 +220,10 @@ app.controller('PaymentDateFormulaSettingController', [
 				sortData : false,
 				cellTemplate : '<scf-button id="credit-term-{{data.creditTermId}}-simulate-button" class="btn-default gec-btn-action" ng-click="ctrl.simulatePaymentDate(data)" title="Simulate payment date" ng-disabled="!ctrl.manageAll"><i class="fa fa-play-circle" aria-hidden="true"></i></scf-button>'+
 				'<scf-button id="credit-term-{{data.creditTermId}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.configCreditTerm(data)" title="Config a credit term" ng-disabled="!ctrl.manageAll"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
-					'<scf-button id="credit-term-{{data.creditTermId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteCreditTerm(data)" title="Delete a credit term" ng-disabled="!ctrl.manageAll"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+					'<scf-button id="credit-term-{{data.creditTermId}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteCreditTerm(data)" title="Delete a credit term" ng-disabled="!ctrl.manageAll"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>',
+				hidden: function () {
+					return !vm.isEditMode
+				}
 			} ]
 		});
 
@@ -289,7 +305,12 @@ app.controller('PaymentDateFormulaSettingController', [
 			});
 		}
 
+		var currentMode = $stateParams.mode;
 		vm.initLoad = function() {
+			if(currentMode == mode.EDIT){
+    		    vm.isEditMode = true;
+    		}
+			
 			loadTypes();
 			if (selectedItem.paymentDateFormulaId) {
 				var reqDataUrl = '/payment-date-formulas/' + formulaId;
