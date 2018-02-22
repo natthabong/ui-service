@@ -90,7 +90,7 @@ angular.module('gecscf.organize.configuration', [
     ])
   }).state('/organizations/file-layouts/view', {
     url: '/organizations/:organizeId/file-layouts/view',
-    controller: 'FileLayoutController',
+    controller: 'ViewFileLayoutController',
     controllerAs: 'ctrl',
     templateUrl: '/sponsor-configuration/file-layouts/view-file-layout',
     params: {
@@ -100,7 +100,7 @@ angular.module('gecscf.organize.configuration', [
       organizeId: null
     },
     resolve: WebHelper.loadScript([
-      'js/app/modules/organize/configuration/file-layout/controllers/FileLayoutController.js',
+      'js/app/modules/organize/configuration/file-layout/controllers/ViewFileLayoutController.js',
       'js/app/modules/organize/configuration/file-layout/controllers/TextLayoutConfigController.js',
       'js/app/modules/organize/configuration/file-layout/controllers/DateTimeLayoutConfigController.js',
       'js/app/modules/organize/configuration/file-layout/controllers/NumericLayoutConfigController.js',
