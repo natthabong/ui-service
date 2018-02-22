@@ -31,9 +31,9 @@
 					<tbody>
 						<tr
 							ng-repeat="record in newDuedateCtrl.data.documentGroupBySponsorpaymentdateList track by $index">
-							<td class="text-center"><img title="{{record.sponsorName}}"
+							<td class="text-center"><img title="{{record.buyerName}}"
 								style="height: 32px; width: 32px;"
-								data-ng-src="data:image/png;base64,{{newDuedateCtrl.decodeBase64(record.sponsorLogo)}}"
+								data-ng-src="data:image/png;base64,{{newDuedateCtrl.decodeBase64(record.buyerLogo)}}"
 								data-err-src="images/png/avatar.png" /></td>
 							<td class="text-center"
 								id="new-due-date-top-10-{{$index+1}}-sponsor-payment-date-label"

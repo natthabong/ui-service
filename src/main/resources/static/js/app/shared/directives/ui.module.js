@@ -26,7 +26,7 @@ angular
 				$templateCache
         .put(
           'ui/template/organizationLogo.html',
-            '<div style="display: inline-block"><img  ng-repeat="f in fundings" style="height: 32px; width: 32px;float: left;margin-left: 2px;" data-ng-src="data:image/png;base64,{{decodeBase64(f.organizeLogo)}}" title="{{f.organizeName}}"></img>'
+            '<div style="display: inline-block"><img  ng-repeat="f in fundings" style="height: 32px; width: 32px;float: left;margin-left: 2px;" data-ng-src="data:image/png;base64,{{decodeBase64(f.fundingLogo)}}" title="{{f.fundingName}}"></img>'
           + '</div>');
 
 				$templateCache

@@ -88,9 +88,9 @@
 															ng-bind="record.memberId"></span></td>
 														<td class="text-center"><img
 															id="funding-{{record.memberId}}-{{record.memberCode}}-img"
-															title="{{record.funding.organizeName}}"
+															title="{{record.funding.fundingName}}"
 															style="height: 32px; width: 32px;"
-															data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.organizeLogo)}}" /></td>
+															data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.fundingLogo)}}" /></td>
 														<td class="text-center"><span
 															id="organizeCode-{{record.memberId}}-{{record.memberCode}}-label"
 															ng-bind="record.memberCode"></span></td>

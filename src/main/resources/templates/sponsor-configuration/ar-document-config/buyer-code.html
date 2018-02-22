@@ -21,7 +21,7 @@
                                         <span id="buyer-code-list-label">{{'Buyer code list' | translate}}</span>
                                     </td>
                                     <td class="text-center">
-                                        <scf-button ng-disabled="ctrl.unauthenView()" class="btn-default gec-btn-action" id="buyer-code-list-view-button" title="View a buyer code"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
+                                        <scf-button ng-disabled="ctrl.unauthenView()" class="btn-default gec-btn-action" id="buyer-code-list-view-button" ng-click="ctrl.view(ctrl.buyerdata, 'RECEIVABLE')" title="View a buyer code"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
                                         <scf-button ng-disabled="ctrl.unauthenConfig()" id="buyer-code-list-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.buyerdata, 'RECEIVABLE')" title="Config a buyer code"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>
                                     </td>
                                 </tr>

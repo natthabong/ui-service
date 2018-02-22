@@ -12,13 +12,14 @@ userModule
 			'$http',
 			'Service',
 			'ngDialog',
+			'$timeout',
 			'SCFCommonService',
 			'UIFactory',
 			'PageNavigation',
 			'PagingController',
 			'UserService',
 			function($scope, $stateParams, $log, $q, $rootScope,
-				$http, Service, ngDialog, SCFCommonService,
+				$http, Service, ngDialog, $timeout, SCFCommonService,
 				UIFactory, PageNavigation, PagingController, UserService) {
 
 			    var vm = this;
@@ -219,9 +220,12 @@ userModule
 				return deferred;
 			    }
 			    
-			    $scope.cancel = function() {
-				PageNavigation.gotoPreviousPage();
+			    vm.back = function() {
+			    	$timeout(function () {
+		                PageNavigation.backStep();
+		            }, 10);
 			    }
+			    
 			    $scope.save = function() {
       				var user = $scope.user;
       				user.organizeRoles = [];

@@ -1,5 +1,5 @@
 'use strict';
-var scfApp = angular.module('scfApp');
+var scfApp = angular.module('gecscf.organize.configuration');
 scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$stateParams', 'Service', 'UIFactory', 'CustomerCodeStatus', 'PageNavigation', 'PagingController', '$http', 'ngDialog', '$rootScope', 'scfFactory',
     function($q, $scope, $stateParams, Service, UIFactory,
         CustomerCodeStatus, PageNavigation, PagingController, $http, ngDialog, $rootScope, scfFactory) {
@@ -13,11 +13,11 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
             //vm.manageMyOrg = false;
             //	var selectedItem;
 
-            //	var mode = {
-            //			ALL: 'all',
-            //			PERSONAL: 'personal'
-            //	}
-
+            var mode = {
+        		VIEW : 'viewCustCode',
+        		EDIT : 'editCustCode'
+    	    }
+            
             var accountingTransactionType = $stateParams.accountingTransactionType;
             var isSetSupplierCode = accountingTransactionType == 'PAYABLE' ? true : false;
 
@@ -125,7 +125,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
                         if (accountingTransactionType == "PAYABLE") {
                             vm.searchCriteria.organizeId = vm.criteria.customer.supplierId;
                         } else {
-                            vm.searchCriteria.organizeId = vm.criteria.customer.sponsorId;
+                            vm.searchCriteria.organizeId = vm.criteria.customer.buyerId;
                         }
                     } else {
                         vm.searchCriteria.organizeId = '';
@@ -164,8 +164,8 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
                         });
                     } else {
                         return response.data.map(function(item) {
-                            item.identity = ['customer-', item.sponsorId, '-option'].join('');
-                            item.label = [item.sponsorId, ': ', item.sponsorName].join('');
+                            item.identity = ['customer-', item.buyerId, '-option'].join('');
+                            item.label = [item.buyerId, ': ', item.buyerName].join('');
                             return item;
                         });
                     }
@@ -194,11 +194,12 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
     			});
             };
 
+            var currentMode = $stateParams.mode;
             vm.initialPage = function() {
-
-                //		groupId = selectedItem.groupId;
-                //	    vm.model = selectedItem;
-                //	    vm.sponsorId = selectedItem.ownerId;
+            	if(currentMode == mode.EDIT){
+        		    vm.isEditMode = true;
+        		}
+            	
                 var customerCodeURL = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/customer-codes';
                 vm.pagingController = PagingController.create(customerCodeURL, vm.searchCriteria, 'GET');
                 vm.search();
@@ -333,7 +334,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
                     controller: 'CustomerCodeDiaglogController',
                     controllerAs: 'ctrl',
                     data: {
-                        sponsorId: ownerId,
+                        buyerId: ownerId,
                         model: model,
                         isNewCusotmerCode: vm.isNewCusotmerCode,
                         isAddMoreCustomerCode: vm.isAddMoreCustomerCode,

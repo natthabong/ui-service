@@ -38,7 +38,7 @@
 
                     <div class="row">
                         <div class="col-md-12 text-right">
-                            <scf-button id="new-button" class="btn-default gec-btn-action" ng-disabled="ctrl.unauthen()" ng-click="ctrl.customerCodeSetup()">
+                            <scf-button id="new-button" class="btn-default gec-btn-action" ng-disabled="ctrl.unauthen()" ng-click="ctrl.customerCodeSetup()" ng-show="ctrl.isEditMode">
                                 <i class="fa fa-plus" aria-hidden="true"></i></scf-button>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
 											<th ng-bind="'Active date' | translate"></th>
 											<th ng-bind="'Expire date' | translate"></th>
 											<th ng-bind="'Remark' | translate"></th>
-											<th></th>
+											<th ng-show="ctrl.isEditMode"></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -103,7 +103,7 @@
 											<td class="text-left"><span
 												id="remark-{{record.customerCode}}-label"
 												ng-bind="record.remark | translate"></span></td>
-											<td class="text-center">
+											<td class="text-center" ng-show="ctrl.isEditMode">
 												<scf-button id="{{record.customerCode}}-edit-button" class="btn-default gec-btn-action" ng-disabled="ctrl.unauthen()" ng-click="ctrl.customerCodeSetup(record)" title="Setup customer code"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>
                             					<scf-button id="{{record.customerCode}}-delete-button"  class="btn-default gec-btn-action" ng-disabled="ctrl.unauthen()" ng-click="ctrl.deleteCustomerCode(record)" title="Delete customer code"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>
                             				</td>

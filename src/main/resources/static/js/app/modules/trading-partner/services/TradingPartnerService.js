@@ -26,7 +26,7 @@ tpModule.factory('TradingPartnerService', ['$http', '$q', 'Service', function ($
 	var createTradingPartner = function (tp, editMode) {
 		var serviceUrl = '';
 		if (editMode) {
-			serviceUrl = 'api/v1/organize-customers/' + tp.sponsorId + '/trading-partners/' + tp.supplierId;
+			serviceUrl = 'api/v1/organize-customers/' + tp.buyerId + '/trading-partners/' + tp.supplierId;
 		} else {
 			serviceUrl = 'api/v1/trading-partners';
 		}
@@ -51,12 +51,12 @@ tpModule.factory('TradingPartnerService', ['$http', '$q', 'Service', function ($
 		return deferred;
 	}
 
-	var findTradingPartnerBySponsorIdAndSupplierId = function (sponsorId, supplierId) {
-		return Service.doGet('api/v1/organize-customers/' + sponsorId + '/trading-partners/' + supplierId);
+	var findTradingPartnerByBuyerIdAndSupplierId = function (buyerId, supplierId) {
+		return Service.doGet('api/v1/organize-customers/' + buyerId + '/trading-partners/' + supplierId);
 	}
 
 	var deleteTradingPartner = function (trading) {
-		var serviceUrl = '/api/v1/organize-customers/' + trading.sponsorId + '/trading-partners/' + trading.supplierId
+		var serviceUrl = '/api/v1/organize-customers/' + trading.buyerId + '/trading-partners/' + trading.supplierId
 		var deferred = $q.defer();
 		$http({
 			method: 'POST',
@@ -93,7 +93,7 @@ tpModule.factory('TradingPartnerService', ['$http', '$q', 'Service', function ($
 	}
 
 	var updateDebitPaymentInformation = function (tp) {
-		var serviceUrl = 'api/v1/organize-customers/' + tp.sponsorId + '/debit-payment-information/' + tp.supplierId;
+		var serviceUrl = 'api/v1/organize-customers/' + tp.buyerId + '/debit-payment-information/' + tp.supplierId;
 		var req = {
 			method: 'POST',
 			url: serviceUrl,
@@ -118,7 +118,7 @@ tpModule.factory('TradingPartnerService', ['$http', '$q', 'Service', function ($
 		getPayeeAccounts: getPayeeAccounts,
 		getOrganizeByNameOrCodeLike: getOrganizeByNameOrCodeLike,
 		createTradingPartner: createTradingPartner,
-		findTradingPartnerBySponsorIdAndSupplierId: findTradingPartnerBySponsorIdAndSupplierId,
+		findTradingPartnerByBuyerIdAndSupplierId: findTradingPartnerByBuyerIdAndSupplierId,
 		deleteTradingPartner: deleteTradingPartner,
 		_prepareItem: _prepareItem
 	}

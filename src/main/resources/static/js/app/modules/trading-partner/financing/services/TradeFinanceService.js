@@ -1,7 +1,7 @@
 'use strict';
 var tradeFinanceModule = angular.module('gecscf.tradingPartner.financing');
 tradeFinanceModule.factory('TradeFinanceService', ['$http', '$q', 'Service', function ($http, $q, Service) {
-	function createTradeFinance(sponsorId, supplierId, data, isSupplier) {
+	function createTradeFinance(buyerId, supplierId, data, isSupplier) {
 		var borrowerType = null;
 
 		if (isSupplier) {
@@ -10,7 +10,7 @@ tradeFinanceModule.factory('TradeFinanceService', ['$http', '$q', 'Service', fun
 			borrowerType = "BUYER";
 		}
 
-		var url = '/api/v1/organize-customers/' + sponsorId + '/trading-partners/' + supplierId + '/trade-finance';
+		var url = '/api/v1/organize-customers/' + buyerId + '/trading-partners/' + supplierId + '/trade-finance';
 		var deferred = $q.defer();
 		$http({
 			method: 'POST',
@@ -25,8 +25,8 @@ tradeFinanceModule.factory('TradeFinanceService', ['$http', '$q', 'Service', fun
 		return deferred;
 	}
 
-	function updateTradeFinance(sponsorId, supplierId, accountId, data) {
-		var url = '/api/v1/organize-customers/' + sponsorId + '/trading-partners/' + supplierId + '/trade-finance/' + accountId;
+	function updateTradeFinance(buyerId, supplierId, accountId, data) {
+		var url = '/api/v1/organize-customers/' + buyerId + '/trading-partners/' + supplierId + '/trade-finance/' + accountId;
 		var deferred = $q.defer();
 		$http({
 			method: 'POST',
@@ -44,8 +44,8 @@ tradeFinanceModule.factory('TradeFinanceService', ['$http', '$q', 'Service', fun
 		return deferred;
 	}
 
-	function getTradeFinanceInfo(sponsorId, supplierId, accountId) {
-		var url = '/api/v1/organize-customers/' + sponsorId + '/trading-partners/' + supplierId + '/trade-finance/' + accountId;
+	function getTradeFinanceInfo(buyerId, supplierId, accountId) {
+		var url = '/api/v1/organize-customers/' + buyerId + '/trading-partners/' + supplierId + '/trade-finance/' + accountId;
 		return Service.doGet(url);
 	}
 

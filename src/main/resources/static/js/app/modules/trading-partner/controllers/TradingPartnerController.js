@@ -39,10 +39,10 @@ tpModule.controller('TradingPartnerController', [
                     vm.isNewMode = false;
                     vm.isEditMode = true;
 
-                    var sponsorId = $stateParams.selectedItem.sponsorId;
+                    var buyerId = $stateParams.selectedItem.buyerId;
                     var supplierId = $stateParams.selectedItem.supplierId;
 
-                    var deffered = TradingPartnerService.findTradingPartnerBySponsorIdAndSupplierId(sponsorId, supplierId);
+                    var deffered = TradingPartnerService.findTradingPartnerByBuyerIdAndSupplierId(buyerId, supplierId);
                     deffered.promise.then(function(response) {
                         vm.tradingPartner = response.data;
                         var sponsorOrganize = _prepareItem(vm.tradingPartner.sponsorOrganize);
@@ -135,10 +135,10 @@ tpModule.controller('TradingPartnerController', [
                 $scope.errors = {};
                 var valid = true;
                 if(angular.isDefined(vm.organizeListModel.buyer) && !isRequire(vm.organizeListModel.buyer.memberId) ){
-                    vm.tradingPartner.sponsorId = vm.organizeListModel.buyer.memberId;
+                    vm.tradingPartner.buyerId = vm.organizeListModel.buyer.memberId;
                 }else{
                     valid = false;
-				    $scope.errors.sponsorId = {
+				    $scope.errors.buyerId = {
 					message : 'Buyer is required.'
 				    }
                 }

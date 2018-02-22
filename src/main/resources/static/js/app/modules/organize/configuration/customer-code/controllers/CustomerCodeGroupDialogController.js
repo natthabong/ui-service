@@ -1,8 +1,8 @@
 'use strict';
-var scfApp = angular.module('scfApp');
+var scfApp = angular.module('gecscf.organize.configuration');
 scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIFactory', '$http', 'SCFCommonService', function($scope, $rootScope, UIFactory, $http, SCFCommonService) {
 	var vm = this;
-	var ownerId = $scope.ngDialogData.sponsorId;
+	var ownerId = $scope.ngDialogData.buyerId;
 	$scope.errors = {};
 	vm.submitForm = false;
 	vm.model = angular.copy($scope.ngDialogData.model);
@@ -54,8 +54,8 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 				});
 			}else{
 				return response.data.map(function(item) {	
-					item.identity = ['customer-',item.sponsorId,'-option'].join('');
-					item.label = [item.sponsorId, ': ',item.sponsorName].join('');
+					item.identity = ['customer-',item.buyerId,'-option'].join('');
+					item.label = [item.buyerId, ': ',item.buyerName].join('');
 					return item;
 				});
 			}
@@ -77,7 +77,7 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 						vm.customerSuggestModel = value;
 					}
 				}else{
-					if(value.sponsorId == vm.model.organizeId){
+					if(value.buyerId == vm.model.organizeId){
 						vm.customerSuggestModel = value;
 					}
 				}
@@ -143,7 +143,7 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 			if(accountingTransactionType=="PAYABLE"){
 				vm.model.organizeId = vm.customerSuggestModel.supplierId;
 			}else{
-				vm.model.organizeId = vm.customerSuggestModel.sponsorId;
+				vm.model.organizeId = vm.customerSuggestModel.buyerId;
 			}
 		}
 		

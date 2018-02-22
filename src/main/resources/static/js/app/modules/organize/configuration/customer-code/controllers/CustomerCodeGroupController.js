@@ -108,9 +108,23 @@ scfApp.controller(
                 };
 
                 if (accountingTransactionType == 'PAYABLE') {
-                    PageNavigation.gotoPage('/customer-organize/supplier-code-list', params)
+                    PageNavigation.gotoPage('/customer-organize/supplier-code-list/edit', params)
                 } else if (accountingTransactionType == 'RECEIVABLE') {
-                    PageNavigation.gotoPage('/customer-organize/buyer-code-list', params)
+                    PageNavigation.gotoPage('/customer-organize/buyer-code-list/edit', params)
+                }
+
+            }
+            
+            vm.view = function(customerCodeGroup, accountingTransactionType) {
+                var params = {
+                    organizeId: $stateParams.organizeId,
+                    accountingTransactionType: accountingTransactionType
+                };
+
+                if (accountingTransactionType == 'PAYABLE') {
+                    PageNavigation.gotoPage('/customer-organize/supplier-code-list/view', params)
+                } else if (accountingTransactionType == 'RECEIVABLE') {
+                    PageNavigation.gotoPage('/customer-organize/buyer-code-list/view', params)
                 }
 
             }

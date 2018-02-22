@@ -144,8 +144,16 @@ public class OrganizationConfigurationController {
 		return AR_MAPPING_DATA;
 	}
 
-	@RequestMapping(path = "/customer-code-groups/buyer-code-list/settings", method = RequestMethod.GET)
+	@RequestMapping(path = "/customer-code-groups/buyer-code-list/edit", method = RequestMethod.GET)
 	public String buyerCodeGroupsConfig(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETTINGS_BUYER_CODE_GROUPS.concat(" :: content");
+		}
+		return SETTINGS_BUYER_CODE_GROUPS;
+	}
+	
+	@RequestMapping(path = "/customer-code-groups/buyer-code-list/view", method = RequestMethod.GET)
+	public String buyerCodeGroupsView(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_BUYER_CODE_GROUPS.concat(" :: content");
 		}
@@ -186,6 +194,16 @@ public class OrganizationConfigurationController {
 
 	@RequestMapping(path = "/mapping-data/edit", method = RequestMethod.GET)
 	public String editMappingData(@RequestHeader("X-Requested-With") String requestedWith) {
+
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return EDIT_MAPPING_DATA.concat(" :: content");
+		}
+		return EDIT_MAPPING_DATA;
+
+	}
+	
+	@RequestMapping(path = "/mapping-data/view", method = RequestMethod.GET)
+	public String viewMappingData(@RequestHeader("X-Requested-With") String requestedWith) {
 
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return EDIT_MAPPING_DATA.concat(" :: content");
@@ -434,8 +452,16 @@ public class OrganizationConfigurationController {
 		return SPONSOR_CONFIGURATION;
 	}
 
-	@RequestMapping(path = "/customer-code-groups/supplier-code-list/settings", method = RequestMethod.GET)
+	@RequestMapping(path = "/customer-code-groups/supplier-code-list/edit", method = RequestMethod.GET)
 	public String supplierCodeGroupsConfig(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETTINGS_SUPPLIER_CODE_GROUPS.concat(" :: content");
+		}
+		return SETTINGS_SUPPLIER_CODE_GROUPS;
+	}
+	
+	@RequestMapping(path = "/customer-code-groups/supplier-code-list/view", method = RequestMethod.GET)
+	public String supplierCodeGroupsView(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_SUPPLIER_CODE_GROUPS.concat(" :: content");
 		}

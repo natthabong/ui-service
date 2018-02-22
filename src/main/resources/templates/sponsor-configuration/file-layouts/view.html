@@ -1,0 +1,566 @@
+<div id="content" th:fragment="content"
+	sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS_OF_ALL_FUNDING')">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft">{{ctrl.headerName
+						| translate}}</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<form name="createForm" class="form-horizontal"
+				ng-submit="ctrl.save()">
+				<div class="panel panel-default col-md-12 padding-0">
+					<div class="panel-body">
+						<div class="form-group">
+						<label  id="layout-name-label"
+							class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Layout	name' | translate}}: </label>
+	
+						<div class="col-md-4 col-sm-5 col-xs-12">
+							<label id="layout-name-label" ng-bind="ctrl.model.displayName"></label>
+						</div>
+						<div class="col-md-4 col-sm-4"></div>
+					</div>
+					<div class="form-group">
+						<label  id="file-type-label"
+							class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
+							type' | translate}}: </label>
+						<div class="col-md-3 col-sm-4 col-xs-12">
+							<label class="radio-inline"> <scf-radio
+									id="fixedLength-file-type-radio" name="file-type-radio"
+									ng-value="ctrl.fileType.fixedLength"
+									ng-change="ctrl.fileTypeChange()"
+									ng-disabled="!ctrl.manageAll" ng-model="ctrl.model.fileType"></scf-radio>
+								{{'Fixed length' | translate}}
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label 
+							class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+						<div class="col-md-1 col-sm-2 col-xs-12">
+							<label class="radio-inline"> <scf-radio
+									id="delimited-file-type-radio"
+									ng-value="ctrl.fileType.delimited"
+									ng-change="ctrl.fileTypeChange()"
+									ng-disabled="!ctrl.manageAll" name="file-type-radio"
+									ng-model="ctrl.model.fileType"></scf-radio> {{'Delimited' |
+								translate}}
+							</label>
+						</div>
+						<label  id="delimiters-label"
+							class="col-md-1 col-sm-2 col-xs-12 control-label">{{'Delimiter'
+							| translate}}: </label>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<label
+								id="delimiters-value-label" ng-bind="ctrl.delimeter"
+								translate-label="true"></label>
+						</div>
+						<div class="col-md-1 col-sm-1 col-xs-12">
+							<label id="delimiters-label"
+								ng-disabled="ctrl.delimeter!='Other' || !ctrl.manageAll"
+								maxlength="1" ng-model="ctrl.delimeterOther"></label>
+						</div>
+						<div class="col-md-3 col-sm-4 col-xs-0"></div>
+					</div>
+					<div class="form-group">
+						<label 
+							class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+						<div class="col-md-1 col-sm-2 col-xs-12">
+							<label class="radio-inline"> <scf-radio
+									id="specific-file-type-radio" name="file-type-radio"
+									ng-value="ctrl.fileType.specific"
+									ng-change="ctrl.fileTypeChange()"
+									ng-disabled="!ctrl.manageAll" ng-model="ctrl.model.fileType"></scf-radio>
+								{{'Specific' | translate}}
+							</label>
+						</div>
+						<label  id="specific-label"
+							class="col-md-1 col-sm-2 col-xs-12 control-label"></label>
+						<div class="col-md-3 col-sm-5 col-xs-12">
+							<scf-dropdown
+								ng-disabled="ctrl.model.fileType != ctrl.fileType.specific || !ctrl.manageAll"
+								id="specific-dropdown" ng-model="ctrl.specificModel"
+								component-data="ctrl.specificsDropdown" translate-label="true"></scf-dropdown>
+						</div>
+					</div>
+					<div class="form-group">
+						<label  id="file-encode-label"
+							class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
+							encode' | translate}}: </label>
+						<div class="col-md-2 col-sm-3 col-xs-12">
+							<label id="file-encode-value-label"
+								ng-bind="ctrl.model.charsetName"></label>
+						</div>
+					</div>
+					<div ng-show="ctrl.displayLayout">
+						<div class="form-group"
+							ng-hide="ctrl.model.fileType == ctrl.fileType.specific">
+							<label 
+								class="col-md-2 col-sm-3 col-xs-12 control-label"
+								id="row-format-label">{{'Row format' | translate}}: </label>
+							<div class="col-md-2 col-sm-3 col-xs-12">
+								<label class="checkbox-inline"> <scf-checkbox
+										id="row-format-header-checkbox" ng-model="ctrl.configHeader"
+										ng-disabled="ctrl.unauthenConfig()"
+										ng-click="ctrl.clearHeaderConfig()"></scf-checkbox> <span
+									ng-bind="'Header' | translate" id="header-label"></span>
+								</label> <br /> <label class="checkbox-inline"> <scf-checkbox
+										id="row-format-detail-checkbox" ng-checked="true"
+										ng-disabled="true || !ctrl.manageAll"></scf-checkbox> <span
+									ng-bind="'Detail' | translate" id="detail-label"></span>
+								</label> <br /> <label class="checkbox-inline"> <scf-checkbox
+										id="row-format-footer-checkbox" ng-model="ctrl.configFooter"
+										ng-disabled="ctrl.unauthenConfig()"
+										ng-click="ctrl.clearFooterConfig()"></scf-checkbox> <span
+									ng-bind="'Footer' | translate" id="footer-label"></span>
+								</label>
+							</div>
+						</div>
+	
+						<div class="form-group"
+							ng-hide="ctrl.model.fileType == ctrl.fileType.specific">
+							<div class="col-md-2 col-sm-3 col-xs-12">
+								<label  class="checkbox-inline"> <scf-checkbox
+										id="offset-row-no-checkbox" ng-disabled="!ctrl.manageAll"
+										ng-model="ctrl.isConfigOffsetRowNo"></scf-checkbox> <span
+									ng-bind="'Offset row no.' | translate"
+									id="offset-row-no-label"></span>
+								</label>
+							</div>
+							<div class="col-md-1 col-sm-1 col-xs-12">
+								<label id="offset-row-no-label" 
+									ng-bind="ctrl.model.offsetRowNo"></label>
+							</div>
+						</div>
+					</div>
+
+						<fieldset ng-show="ctrl.showHeaderConfig()">
+							<legend id="header-field-layout-label"
+								ng-bind="'Header field layout' | translate"></legend>
+							<div class="responsive-table">
+								<table id="config-header-table"
+									class="table table-striped table-bordered" width="100%"
+									cellspacing="0">
+
+									<thead>
+										<tr>
+											<th ng-bind=""></th>
+											<th ng-bind="'No' | translate" id="header-no-header-label">No</th>
+											<th ng-bind="'Sponsor field name' | translate"
+												id="header-sponsor-field-name-header-label">Sponsor
+												field name</th>
+											<th ng-bind="'GECSCF field name' | translate"
+												id="header-gecscf-field-name-header-label">GECSCF field
+												name</th>
+											<th ng-bind="'Length' | translate"
+												id="header-length-header-label">Length</th>
+											<th id="header-start-index-header-label"
+												ng-bind="ctrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index  (start 0)'| translate">{{ctrl.model.fileType=='FIXED_LENGTH'?'Start
+												index':'Index (start 0)'}}</th>
+											<th ng-bind="'End index' | translate"
+												id="header-end-index-header-label"
+												ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat-start="record in ctrl.headerItems track by $index"
+											ng-class="$even?'tr-odd':'tr-even'">
+											<td class="text-right" style="width: 3%"></td>
+											<td class="text-right" style="width: 3%"><label
+												id="header-layout-item-{{$index+1}}-no-label"
+												class="text-right control-label">{{$index+1}}</label></td>
+
+											<td class="text-center" style="width: 24%"><label
+													id="header-sponsor-field-name-{{$index+1}}-value-label"
+													
+													ng-bind="record.displayValue"  /></td>
+
+											<td class="text-center" style="width: 24%"><scf-dropdown
+													id="header-gecscf-field-name-{{$index+1}}-dropdown"
+													ng-bind="record.documentFieldId"
+													component-data="ctrl.dataTypeHeaderDropdown"
+													 translate-label="true"
+													></scf-dropdown></td>
+											<td class="text-center" style="width: 10%"><label
+													id="header-length-{{$index+1}}-value-label"
+													 style="text-align: right;"
+													 ng-bind="record.dataLength"/></td>
+											<td class="text-center" style="width: 10%"><label
+													id="header-start-index-{{$index+1}}-value-label"
+													 style="text-align: right;"
+													 ng-bind="record.startIndex"
+													/></td>
+											<td class="text-center" style="width: 10%"
+												ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"><label
+													id="header-end-index-{{$index+1}}-value-label"
+													ng-bind="{{(record.startIndex==null||record.dataLength==null||record.startIndex=='NaN'||record.dataLength=='NaN')?null:((record.startIndex-0 + (record.dataLength-0)-1 )|number)}}"
+													 style="text-align: right;"
+													/></td>
+										</tr>
+										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
+											<td colspan="9">
+												<p id="header-description-{{$index+1}}-value-label"
+													ng-bind="ctrl.displayExample(record)"></p>
+											</td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+						<br ng-hide="ctrl.model.fileType == ctrl.fileType.specific" /> <br
+							ng-hide="ctrl.model.fileType == ctrl.fileType.specific" />
+						<div ng-show="ctrl.displayLayout">
+							<fieldset ng-hide="ctrl.model.fileType == ctrl.fileType.specific">
+								<legend id="detail-field-layout-label"
+									ng-bind="'Detail field layout' | translate"></legend>
+								<div class="responsive-table">
+									<table id="config-item-table"
+										class="table table-striped table-bordered" width="100%"
+										cellspacing="0">
+										<thead>
+											<tr>
+												<th><i class="fa fa-key" aria-hidden="true"></i></th>
+												<th id="no-header-label" ng-bind="'No' | translate">No</th>
+												<th id="sponsor-field-name-header-label"
+													ng-bind="'Sponsor field name' | translate">Sponsor
+													field name</th>
+												<th  id="gecscf-field-name-header-label"
+													ng-bind="'GECSCF field name' | translate">GECSCF field
+													name</th>
+												<th id="length-header-label" ng-bind="'Length' | translate">Length</th>
+												<th id="start-index-header-label"
+													ng-bind="ctrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index  (start 0)'| translate">{{ctrl.model.fileType=='FIXED_LENGTH'?'Start
+													index':'Index (start 0)'}}</th>
+												<th id="end-index-header-label"
+													ng-bind="'End index' | translate"
+													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat-start="record in ctrl.items track by $index"
+												ng-class="$even?'tr-odd':'tr-even'">
+
+												<td class="text-center" style="width: 3%"><input
+													id="key-{{$index+1}}-checkbox" type="checkbox"
+													
+													ng-bind="record.primaryKeyField" /></td>
+
+												<td class="text-right" style="width: 3%"><label
+													id="layout-item-{{$index+1}}-no-label"
+													class="text-right control-label">{{$index+1}}</label></td>
+
+												<td class="text-center" style="width: 24%"><label
+														id="sponsor-field-name-{{$index+1}}-value-label"
+														
+														ng-bind="record.displayValue"  /></td>
+
+												<td class="text-center" style="width: 21%"><scf-dropdown
+														id="gecscf-field-name-{{$index+1}}-dropdown"
+														ng-bind="record.documentFieldId"
+														component-data="ctrl.dataTypeDropdown"
+														ng-change="ctrl.isChangeDataType(record)"
+														 translate-label="true"
+														></scf-dropdown></td>
+												<td class="text-center" style="width: 10%"><label
+														id="length-{{$index+1}}-value-label"
+														style="text-align: right;" 
+														 ng-bind="record.dataLength"
+														/></td>
+												<td class="text-center" style="width: 10%"><label
+														id="detail-start-index-{{$index+1}}-value-label"
+														style="text-align: right;" 
+														 ng-bind="record.startIndex"
+														/></td>
+												<td class="text-center" style="width: 10%"
+													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"><label
+														ng-bind="{{(record.startIndex==null||record.dataLength==null||record.startIndex=='NaN'||record.dataLength=='NaN')?null:((record.startIndex-0 + (record.dataLength-0)-1 )|number)}}"
+														id="detail-end-index-{{$index+1}}-value-label"
+														 style="text-align: right;"
+														/></td>
+											</tr>
+											<tr ng-repeat="cloneFieldRecord in record.valueCloningFields"
+												ng-class="$even?'tr-odd':'tr-even'">
+
+												<td class="text-center" style="width: 3%"></td>
+												<td class="text-right" style="width: 3%"></td>
+												<td class="text-center" style="width: 24%"></td>
+												<td class="text-center" style="width: 21%"><scf-dropdown
+														id="gecscf-field-name-{{$parent.$index+1}}-{{$index+1}}-dropdown"
+														ng-bind="cloneFieldRecord.documentFieldId"
+														component-data="ctrl.getAllSameDataTypes(record)"
+														 translate-label="true"
+														></scf-dropdown></td>
+												<td class="text-center" style="width: 10%"></td>
+												<td class="text-center" style="width: 10%"></td>
+												<td class="text-center" style="width: 10%"
+													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></td>
+											</tr>
+											<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
+
+												<td colspan="8"
+													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength">
+													<p
+														id="description-{{$index+1}}-value-label{{ctrl.model.fileType == ctrl.fileType.fixedLength?'':'-ignore'}}"
+														ng-bind="ctrl.displayExample(record)"></p>
+												</td>
+												<td colspan="7"
+													ng-show="ctrl.model.fileType == ctrl.fileType.delimited">
+													<p
+														id="description-{{$index+1}}-value-label{{ctrl.model.fileType == ctrl.fileType.delimited?'':'-ignore'}}"
+														ng-bind="ctrl.displayExample(record)"></p>
+												</td>
+											</tr>
+											<!-- Detail Data -->
+											<tr
+												ng-repeat-start="record in ctrl.dataDetailItems track by $index"
+												ng-class="ctrl.isEven(ctrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
+
+												<td class="text-center" style="width: 3%"><input
+													type="checkbox" 
+													ng-bind="record.primaryKeyField" /></td>
+
+
+												<td class="text-right" style="width: 3%"><label
+													id="layout-item-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-no-label"
+													class="text-right control-label">{{ctrl.dataRowNo(ctrl.getDetailFieldSize(),
+														$index)}}</label></td>
+												<td class="text-center" style="width: 24%"></td>
+
+												<td  class="text-center" style="width: 24%"><scf-dropdown
+														id="gecscf-field-name-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-dropdown"
+														ng-bind="record.documentFieldId"
+														component-data="ctrl.documentFieldDropdown"
+														 translate-label="true"
+														></scf-dropdown></td>
+
+												<td class="text-center" style="width: 10%"></td>
+												<td class="text-center" style="width: 10%"></td>
+												<td class="text-center" style="width: 10%"
+													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></td>
+											</tr>
+
+											<tr ng-repeat-end=""
+												ng-class="ctrl.isEven(ctrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
+												<td colspan="9"
+													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength">
+													<p
+														id="description-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-value-label"
+														ng-bind="ctrl.displayExample(record)"></p>
+												</td>
+												<td colspan="8"
+													ng-show="ctrl.model.fileType == ctrl.fileType.delimited">
+													<p
+														id="description-{{ctrl.dataRowNo(ctrl.getDetailFieldSize(), $index)}}-value-label"
+														ng-bind="ctrl.displayExample(record)"></p>
+												</td>
+											</tr>
+
+										</tbody>
+									</table>
+
+								</div>
+
+							</fieldset>
+							<br ng-hide="ctrl.model.fileType == ctrl.fileType.specific" /> <br
+								ng-hide="ctrl.model.fileType == ctrl.fileType.specific" />
+							<fieldset ng-show="ctrl.showFooterConfig()">
+								<legend id="footer-field-layout-label"
+									ng-bind="'Footer field layout' | translate"></legend>
+								<div class="responsive-table">
+									<table id="config-footer-table"
+										class="table table-striped table-bordered" width="100%"
+										cellspacing="0">
+										<thead>
+											<tr>
+												<th ng-bind=""></th>
+												<th ng-bind="'No' | translate" id="footer-no-header-label">No</th>
+												<th ng-bind="'Sponsor field name' | translate"
+													id="footer-sponsor-field-name-header-label">Sponsor
+													field name</th>
+												<th ng-bind="'GECSCF field name' | translate"
+													id="footer-gecscf-field-name-header-label">GECSCF
+													field name</th>
+												<th ng-bind="'Length' | translate"
+													id="footer-length-header-label">Length</th>
+												<th id="footer-start-index-header-label"
+													ng-bind="ctrl.model.fileType=='FIXED_LENGTH'?'Start index':'Index (start 0)'| translate">{{ctrl.model.fileType=='FIXED_LENGTH'?'Start
+													index':'Index (start 0)'}}</th>
+												<th ng-bind="'End index' | translate"
+													id="footer-end-index-header-label"
+													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr
+												ng-repeat-start="record in ctrl.footerItems track by $index"
+												ng-class="$even?'tr-odd':'tr-even'">
+												<td class="text-right" style="width: 3%"></td>
+												<td class="text-right" style="width: 3%"><label
+													id="footer-layout-item-{{$index+1}}-no-label"
+													class="text-right control-label">{{$index+1}}</label></td>
+
+												<td class="text-center" style="width: 24%"><label
+														id="footer-sponsor-field-name-{{$index+1}}-value-label"
+														
+														ng-bind="record.displayValue"  /></td>
+
+												<td class="text-center" style="width: 24%"><scf-dropdown
+														id="footer-gecscf-field-name-{{$index+1}}-dropdown"
+														ng-bind="record.documentFieldId"
+														component-data="ctrl.dataTypeFooterDropdown"
+														 translate-label="true"
+														></scf-dropdown></td>
+												<td class="text-center" style="width: 10%"><label
+														id="footer-length-{{$index+1}}-value-label"
+														style="text-align: right;" ng-bind="record.dataLength"
+														 
+														/></td>
+												<td class="text-center" style="width: 10%"><label
+														id="footer-start-index-{{$index+1}}-value-label"
+														style="text-align: right;" ng-bind="record.startIndex"
+														 
+														/></td>
+												<td class="text-center" style="width: 10%"
+													ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"><label
+														id="footer-end-index-{{$index+1}}-value-label"
+														ng-bind="{{(record.startIndex==null||record.dataLength==null||record.startIndex=='NaN'||record.dataLength=='NaN')?null:((record.startIndex-0 + (record.dataLength-0)-1 )|number)}}"
+														 style="text-align: right;"
+														/></td>
+											</tr>
+											<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
+												<td colspan="9">
+													<p id="footer-description-{{$index+1}}-value-label"
+														ng-bind="ctrl.displayExample(record)"></p>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+							<br
+								ng-hide="ctrl.model.fileType == ctrl.fileType.specific || ctrl.processType=='AR_DOCUMENT'" />
+							<br
+								ng-hide="ctrl.model.fileType == ctrl.fileType.specific || ctrl.processType=='AR_DOCUMENT'" />
+							<div class="form-group"
+								ng-hide="ctrl.model.fileType == ctrl.fileType.specific || ctrl.processType=='AR_DOCUMENT'">
+								<label id="payment-date-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'payment-date'
+									| translate}}: </label>
+								<div class="col-sm-9 col-xs-12">
+									<div class="row">
+										<div class="col-xs-3 col-sm-2">
+											<label class="radio-inline"> <input type="radio"
+												id="payment-date-type-field" name="payment-date-type-radio"
+												ng-bind="ctrl.model.paymentDateConfig.strategy"
+												ng-click="ctrl.changePaymentDate()"
+												
+												ng-value="ctrl.paymentDateConfigStrategy.FIELD" />{{'Field'
+												| translate}}
+											</label>
+										</div>
+										<div class="col-xs-6">
+											<scf-dropdown id="payment-date-field-dropdown"
+												ng-disabled="ctrl.model.paymentDateConfig.strategy != 'FIELD' || !ctrl.manageAll"
+												ng-bind="ctrl.model.paymentDateConfig.documentDateField"
+												component-data="ctrl.paymentDateFieldDropdown"
+												translate-label="true"></scf-dropdown>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group"
+								ng-hide="ctrl.model.fileType == ctrl.fileType.specific || ctrl.processType=='AR_DOCUMENT'">
+								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+								<div class="col-sm-9 col-xs-12">
+									<div class="row">
+										<div class="col-xs-3 col-sm-2">
+											<label class="radio-inline"> <input type="radio"
+												id="payment-date-type-formula"
+												name="payment-date-type-radio"
+												ng-bind="ctrl.model.paymentDateConfig.strategy"
+												ng-click="ctrl.changePaymentDate()"
+												
+												ng-value="ctrl.paymentDateConfigStrategy.FORMULA" />{{'Formula'
+												| translate}}
+											</label>
+										</div>
+										<div class="col-xs-6">
+											<scf-dropdown id="payment-date-formula-dropdown"
+												ng-disabled="ctrl.model.paymentDateConfig.strategy != 'FORMULA' || !ctrl.manageAll"
+												ng-bind="ctrl.model.paymentDateConfig.paymentDateFormulaId"
+												component-data="ctrl.paymentDateFormularModelDropdowns"
+												translate-label="true" ></scf-dropdown>
+										</div>
+										<div class="col-xs-3">
+											<scf-button id="payment-date-formula-new-button"
+												ng-click="ctrl.openNewFormula()"
+												ng-disabled="ctrl.model.paymentDateConfig.strategy != 'FORMULA' || !ctrl.manageAll"
+												class="btn-default gec-btn-action" title="New a formular">
+											<i class="fa fa-plus" aria-hidden="true"></i></scf-button>
+										</div>
+									</div>
+
+									<div class="row top15"
+										ng-hide="ctrl.model.paymentDateConfig.strategy == 'FIELD'">
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<fieldset>
+												<legend class="gec-font-size-namal"
+													ng-bind="'Fields for payment date formula' | translate"></legend>
+											</fieldset>
+											<div class="form-group">
+												<label class="col-md-4 col-sm-4 col-xs-4 control-label"><span
+													ng-bind="'Formula type' | translate"></span>:</label>
+												<div class="col-md-5 col-sm-5 col-xs-5 control-label"
+													id="formula-type-name-label"
+													ng-bind="ctrl.formulaTypeDisplay(ctrl.model.paymentDateConfig.paymentDateFormulaId) | translate">
+												</div>
+												<div class="col-md-4 col-sm-4 col-xs-4"></div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-4 col-sm-4 col-xs-4 control-label">
+													<span ng-bind="'Credit term code field' | translate"></span>:
+												</label>
+												<div class="col-md-5 col-sm-5 col-xs-5">
+													<scf-dropdown id="credit-term-code-field-dropdown"
+														ng-bind="ctrl.model.paymentDateConfig.creditTermField"
+														
+														component-data="ctrl.credittermFieldDropdown"
+														translate-label="true"></scf-dropdown>
+												</div>
+												<div class="col-md-4 col-sm-4 col-xs-4"></div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-4 col-sm-4 col-xs-4 control-label"><span
+													ng-bind="'Document date field' | translate"></span>:</label>
+												<div class="col-md-5 col-sm-5 col-xs-5">
+													<scf-dropdown id="document-date-field-dropdown"
+														ng-bind="ctrl.model.paymentDateConfig.documentDateField"
+														
+														component-data="ctrl.paymentDateFieldDropdown"
+														translate-label="true"></scf-dropdown>
+												</div>
+												<div class="col-md-4 col-sm-4 col-xs-4"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-12 col-sm-12 text-right">
+							<scf-button id="layout-back-button" class="popup-button"
+								data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
+								ng-bind="'Back' | translate"></scf-button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
