@@ -9,8 +9,8 @@ sciModule.factory('SupplierCreditInformationService', ['$http', '$q', 'Service',
 	}
 	
 	var _prepareItemBuyers = function (item) {
-		item.identity = ['buyer-', item.sponsorId, '-option'].join('');
-		item.label = [item.sponsorId, ': ', item.sponsorName].join('');
+		item.identity = ['buyer-', item.buyerId, '-option'].join('');
+		item.label = [item.buyerId, ': ', item.buyerName].join('');
 		return item;
 	}
 	

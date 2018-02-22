@@ -46,6 +46,7 @@ bciModule.controller('BuyerCreditInformationController', [
 				} else if (viewModeData.partner == $stateParams.viewMode) {
 					supplierId = organizeId;
 					if (angular.isObject(vm.buyer)) {
+						console.log(vm.buyer);
 						buyerId = vm.buyer.buyerId;
 					}
 				} else if (viewModeData.customer == $stateParams.viewMode) {
