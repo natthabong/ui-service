@@ -1224,13 +1224,17 @@ module.controller('ViewFileLayoutController', [
 		
 		var _documentFieldName = null;
 		function getDocumentFieldObject(item) {
-    		return (item.documentField.documentFieldName == _documentFieldName);
+    		return (item.documentFieldName == _documentFieldName);
 		}
 
 		vm.getDocumentFieldName = function(fieldname) {
-			_documentFieldName = fieldname;
-		    var obj = vm.items.filter(getDocumentFieldObject);
-			return obj[0].documentField.displayFieldName;
+			if(fieldname != null){
+				_documentFieldName = fieldname;
+		    	var obj = vm.dataTypes.filter(getDocumentFieldObject);
+				return obj[0].displayFieldName;
+			}else{
+				return "";
+			}
 		}
 
 	}]);

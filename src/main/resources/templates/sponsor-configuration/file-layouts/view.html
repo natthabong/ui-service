@@ -420,7 +420,7 @@
 										<div class="col-xs-6">
 											<label id = "payment-date-field-value-label" 
 												ng-show="ctrl.model.paymentDateConfig.strategy == 'FIELD'"
-												ng-bind="ctrl.getDocumentFieldObject(ctrl.model.paymentDateConfig.documentDateField)"></label>
+												ng-bind="ctrl.getDocumentFieldName(ctrl.model.paymentDateConfig.documentDateField)"></label>
 										</div>
 									</div>
 								</div>
@@ -439,7 +439,7 @@
 												ng-value="ctrl.paymentDateConfigStrategy.FORMULA" />{{'Formula'	| translate}}
 											</label>
 										</div>
-										<div class="col-xs-6">
+										<div class="col-xs-6" style="padding-top: 7px;">
 											<label id="payment-date-formula-value-label" 
 											ng-show="ctrl.model.paymentDateConfig.strategy == 'FORMULA'"
 											ng-bind="ctrl.model.paymentDateConfig.formula.formulaName"></label>
@@ -469,8 +469,8 @@
 													<span ng-bind="'Credit term code field' | translate"></span>:
 												</label>
 												<div class="col-md-5 col-sm-5 col-xs-5">
-													<label id = "credit-term-code-field-value-label" 
-														ng-bind="ctrl.getDocumentFieldObject(ctrl.model.paymentDateConfig.creditTermField)"></label>
+													<label class="control-label" id = "credit-term-code-field-value-label" 
+														ng-bind="ctrl.getDocumentFieldName(ctrl.model.paymentDateConfig.creditTermField)"></label>
 												</div>
 												<div class="col-md-4 col-sm-4 col-xs-4"></div>
 											</div>
@@ -478,8 +478,8 @@
 												<label class="col-md-4 col-sm-4 col-xs-4 control-label"><span
 													ng-bind="'Document date field' | translate"></span>:</label>
 												<div class="col-md-5 col-sm-5 col-xs-5">
-													<label id = "document-date-field-value-label" 
-														ng-bind="ctrl.getDocumentFieldObject(ctrl.model.paymentDateConfig.documentDateField)"></label>
+													<label class="control-label" id = "document-date-field-value-label" 
+														ng-bind="ctrl.getDocumentFieldName(ctrl.model.paymentDateConfig.documentDateField)"></label>
 												</div>
 												<div class="col-md-4 col-sm-4 col-xs-4"></div>
 											</div>
