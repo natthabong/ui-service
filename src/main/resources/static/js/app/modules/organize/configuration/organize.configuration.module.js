@@ -88,15 +88,16 @@ angular.module('gecscf.organize.configuration', [
       'js/app/common/scf-component.js',
       'js/app/common/scf-component.css'
     ])
-  }).state('/sponsor-configuration/file-layouts/view-file-layout', {
-    url: '/sponsor-configuration/file-layouts/view-file-layout/:organizeId',
+  }).state('/organizations/file-layouts/view', {
+    url: '/organizations/:organizeId/file-layouts/view',
     controller: 'FileLayoutController',
     controllerAs: 'ctrl',
     templateUrl: '/sponsor-configuration/file-layouts/view-file-layout',
     params: {
       fileLayoutModel: null,
       processType: null,
-      integrateType: null
+      integrateType: null,
+      organizeId: null
     },
     resolve: WebHelper.loadScript([
       'js/app/modules/organize/configuration/file-layout/controllers/FileLayoutController.js',

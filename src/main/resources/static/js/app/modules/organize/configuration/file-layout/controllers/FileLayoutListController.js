@@ -50,7 +50,7 @@ module
                 
                 vm.viewFileLayout = function(data, processType, integrateType) {
                     var params = { fileLayoutModel: data, processType: processType, integrateType: integrateType, organizeId: $stateParams.organizeId };
-                    PageNavigation.gotoPage('/sponsor-configuration/file-layouts/view-file-layout', params);
+                    PageNavigation.gotoPage('/organizations/file-layouts/view', params);
                 }
 
                 vm.newFileLayoutPopup = function(data, processType, integrateType) {
