@@ -10,8 +10,7 @@
 			</div>
 		</div>
 		<div class="form-element">
-			<form name="createForm" class="form-horizontal"
-				ng-submit="ctrl.save()">
+			<form name="createForm" class="form-horizontal">
 				<div class="panel panel-default col-md-12 padding-0">
 					<div class="panel-body">
 						<div class="form-group">
@@ -28,7 +27,6 @@
 							<label class="radio-inline"> <scf-radio
 									id="fixedLength-file-type-radio" name="file-type-radio"
 									ng-value="ctrl.fileType.fixedLength"
-									ng-change="ctrl.fileTypeChange()"
 									ng-disabled="true" ng-model="ctrl.model.fileType"></scf-radio>
 								{{'Fixed length' | translate}}
 							</label>
@@ -41,7 +39,6 @@
 							<label class="radio-inline"> <scf-radio
 									id="delimited-file-type-radio"
 									ng-value="ctrl.fileType.delimited"
-									ng-change="ctrl.fileTypeChange()"
 									ng-disabled="true" name="file-type-radio"
 									ng-model="ctrl.model.fileType"></scf-radio> {{'Delimited' |
 								translate}}
@@ -92,17 +89,15 @@
 							<div class="col-md-2 col-sm-3 col-xs-12">
 								<label class="checkbox-inline"> <scf-checkbox
 										id="row-format-header-checkbox" ng-model="ctrl.configHeader"
-										ng-disabled="ctrl.unauthenConfig()"
-										ng-click="ctrl.clearHeaderConfig()"></scf-checkbox> <span
+										ng-disabled="true"	></scf-checkbox> <span
 									ng-bind="'Header' | translate" id="header-label"></span>
 								</label> <br /> <label class="checkbox-inline"> <scf-checkbox
 										id="row-format-detail-checkbox" ng-checked="true"
-										ng-disabled="true || !ctrl.manageAll"></scf-checkbox> <span
+										ng-disabled="true"></scf-checkbox> <span
 									ng-bind="'Detail' | translate" id="detail-label"></span>
 								</label> <br /> <label class="checkbox-inline"> <scf-checkbox
 										id="row-format-footer-checkbox" ng-model="ctrl.configFooter"
-										ng-disabled="ctrl.unauthenConfig()"
-										ng-click="ctrl.clearFooterConfig()"></scf-checkbox> <span
+										ng-disabled="true"></scf-checkbox> <span
 									ng-bind="'Footer' | translate" id="footer-label"></span>
 								</label>
 							</div>
@@ -162,28 +157,25 @@
 												id="header-layout-item-{{$index+1}}-no-label"
 												class="text-right control-label">{{$index+1}}</label></td>
 
-											<td class="text-center" style="width: 24%"><label
+											<td class="text-left" style="width: 24%"><label
 													id="header-sponsor-field-name-{{$index+1}}-value-label"
 													
 													ng-bind="record.displayValue"  /></td>
 
-											<td class="text-center" style="width: 24%">
+											<td class="text-left" style="width: 24%">
 												<label ng-bind="record.documentField.displayFieldName"></label>
 											</td>
-											<td class="text-center" style="width: 10%"><label
+											<td class="text-right" style="width: 10%"><label
 													id="header-length-{{$index+1}}-value-label"
-													 style="text-align: right;"
 													 ng-bind="record.dataLength"/></td>
-											<td class="text-center" style="width: 10%"><label
+											<td class="text-right" style="width: 10%"><label
 													id="header-start-index-{{$index+1}}-value-label"
-													 style="text-align: right;"
 													 ng-bind="record.startIndex"
 													/></td>
-											<td class="text-center" style="width: 10%"
+											<td class="text-right" style="width: 10%"
 												ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"><label
 													id="header-end-index-{{$index+1}}-value-label"
 													ng-bind="{{(record.startIndex==null||record.dataLength==null||record.startIndex=='NaN'||record.dataLength=='NaN')?null:((record.startIndex-0 + (record.dataLength-0)-1 )|number)}}"
-													 style="text-align: right;"
 													/></td>
 										</tr>
 										<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
