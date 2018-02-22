@@ -11,6 +11,12 @@
             <div class="panel panel-default col-md-12 padding-0">
                 <div class="panel-body">
                     <form name="manageForm" class="form-horizontal">
+                    	<div class="form-group">
+                            <label for="dealer" id="funding-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'FUNDING' | translate}}: </label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <scf-dropdown id="funding-dropdown" ng-model="ctrl.criteria.fundingId" component-data="ctrl.fundingDropdown" translate-label="true"></scf-dropdown>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label id="customer-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer'
 								| translate}}: </label>
@@ -83,6 +89,7 @@
 												id="{{record.rowNo}}-{{record.customerCode}}-label"
 												ng-bind="record.rowNo"></span></td>
 											<td class="text-center" ng-hide="ctrl.hiddenFundingColumn">
+												{{record.funding}}
 												<organization-logo ng-model="record.funding"></organization-logo>
 											</td>
 											<td class="text-left"><span

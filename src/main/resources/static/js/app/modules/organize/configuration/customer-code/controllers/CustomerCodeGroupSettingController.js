@@ -28,6 +28,11 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
             vm.criteria = {};
 
             vm.statusDropdown = CustomerCodeStatus;
+            
+            vm.fundingDropdown = [{
+				label: 'All',
+				value: ''
+			}];
 
             vm.backToSponsorConfigPage = function() {
                 var params = { organizeId: ownerId };
@@ -114,34 +119,34 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
                 customerCode: '',
                 suspend: '',
                 status: '',
-                organizeId: ''
+                organizeId: '',
+                fundingId: ''
             }
             var prepareSearchCriteria = function() {
+        		vm.searchCriteria.fundingId = vm.criteria.fundingId;
+                vm.searchCriteria.customerCode = vm.criteria.customerCode || '';
 
-
-                    vm.searchCriteria.customerCode = vm.criteria.customerCode || '';
-
-                    if (angular.isDefined(vm.criteria.customer)) {
-                        if (accountingTransactionType == "PAYABLE") {
-                            vm.searchCriteria.organizeId = vm.criteria.customer.supplierId;
-                        } else {
-                            vm.searchCriteria.organizeId = vm.criteria.customer.buyerId;
-                        }
+                if (angular.isDefined(vm.criteria.customer)) {
+                    if (accountingTransactionType == "PAYABLE") {
+                        vm.searchCriteria.organizeId = vm.criteria.customer.supplierId;
                     } else {
-                        vm.searchCriteria.organizeId = '';
+                        vm.searchCriteria.organizeId = vm.criteria.customer.buyerId;
                     }
-                    CustomerCodeStatus.forEach(function(item) {
-                        if (item.value == vm.criteria.status) {
-                            if (item.valueObject == null) {
-                                vm.searchCriteria.suspend = undefined;
-                                vm.searchCriteria.status = undefined;
-                            } else {
-                                vm.searchCriteria.suspend = item.valueObject.suspend;
-                                vm.searchCriteria.status = item.valueObject.status;
-                            }
-                        }
-                    });
+                } else {
+                    vm.searchCriteria.organizeId = '';
                 }
+                CustomerCodeStatus.forEach(function(item) {
+                    if (item.value == vm.criteria.status) {
+                        if (item.valueObject == null) {
+                            vm.searchCriteria.suspend = undefined;
+                            vm.searchCriteria.status = undefined;
+                        } else {
+                            vm.searchCriteria.suspend = item.valueObject.suspend;
+                            vm.searchCriteria.status = item.valueObject.status;
+                        }
+                    }
+                });
+            }
                 // vm.pagingController = PagingController.create(customerCodeURL,
                 // vm.searchCriteria, 'GET');
 
@@ -177,6 +182,24 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
                 itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
                 query: queryCustomerCode
             });
+            
+            vm.loadFundings = function () {
+				var fundingsDefered = Service.doGet('api/v1/fundings');
+				fundingsDefered.promise.then(function (response) {
+					var fundingsList = response.data;
+					if (fundingsList !== undefined) {
+						fundingsList.forEach(function (obj) {
+							var selectObj = {
+								label: obj.fundingName,
+								value: obj.fundingId
+							}
+							vm.fundingDropdown.push(selectObj);
+						});
+					}
+				}).catch(function (response) {
+					$log.error('Load fundings Fail');
+				});
+			};
 
             vm.search = function(pageModel) {
                 prepareSearchCriteria();
@@ -200,6 +223,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$scope', '$state
         		    vm.isEditMode = true;
         		}
             	
+            	vm.loadFundings();
                 var customerCodeURL = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/customer-codes';
                 vm.pagingController = PagingController.create(customerCodeURL, vm.searchCriteria, 'GET');
                 vm.search();
