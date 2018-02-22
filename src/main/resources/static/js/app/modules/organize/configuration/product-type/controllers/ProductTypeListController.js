@@ -20,19 +20,19 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
             vm.pagingController = PagingController.create(url, vm.criteria, 'GET');
         }
 
-        function searchProductType(pageModel) {
-            vm.pagingController.search(pageModel, function (criteriaData, response) {
-                $scope.currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
-                $scope.pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
-            });
-        }
-
         function setMode() {
             vm.configMode = $location.url().indexOf('configuration') != -1;
         }
 
         var loadData = function () {
-            searchProductType();
+            vm.searchProductType();
+        }
+
+        vm.searchProductType = function (pageModel) {
+            vm.pagingController.search(pageModel, function (criteriaData, response) {
+                $scope.currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
+                $scope.pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
+            });
         }
 
         vm.newProductType = function () {
@@ -108,7 +108,7 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
         function main() {
             setMode();
             initVariable();
-            searchProductType();
+            vm.searchProductType();
         }
         main();
 
