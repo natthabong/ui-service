@@ -10,8 +10,9 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
     function ($location, $scope, $stateParams, PageNavigation, PagingController, ProductTypeService, UIFactory) {
         var vm = this;
         var organizeId = $stateParams.organizeId;
+        var modes = ['configuration', 'list'];
 
-        vm.configMode = undefined;
+        vm.currentMode = undefined;
         vm.criteria = undefined;
 
         function initVariable() {
@@ -21,11 +22,20 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
         }
 
         function setMode() {
-            vm.configMode = $location.url().indexOf('configuration') != -1;
+            var params = $location.url().split('/');
+            vm.currentMode = params[params.length - 1];
         }
 
         var loadData = function () {
             vm.searchProductType();
+        }
+
+        vm.isConfigMode = function () {
+            return modes[0] === vm.currentMode;
+        }
+
+        vm.isViewMode = function () {
+            return modes[1] === vm.currentMode;
         }
 
         vm.searchProductType = function (pageModel) {
@@ -40,7 +50,7 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
                 organizeId: organizeId
             };
 
-            PageNavigation.gotoPage('/organizations/product-types/setup', params, {
+            PageNavigation.gotoPage('/organizations/product-types/configuration/new', params, {
                 organizeId: organizeId,
                 criteria: vm.criteria
             });
@@ -53,7 +63,7 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
                 model: data
             };
 
-            PageNavigation.gotoPage('/organizations/product-types/setup', params, {
+            PageNavigation.gotoPage('/organizations/product-types/configuration/edit', params, {
                 organizeId: organizeId,
                 criteria: vm.criteria
             });
@@ -111,6 +121,5 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
             vm.searchProductType();
         }
         main();
-
     }
 ]);

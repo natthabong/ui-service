@@ -2,8 +2,7 @@
 angular.module('gecscf.organize.configuration.productType').controller('ProductTypeController', [
 	'$stateParams',
 	'PageNavigation',
-	'ProductTypeService',
-	function ($stateParams, PageNavigation, ProductTypeService) {
+	function ($stateParams, PageNavigation) {
 		var vm = this;
 		var organizeId = $stateParams.organizeId;
 

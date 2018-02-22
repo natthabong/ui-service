@@ -1,138 +1,58 @@
 'use strict';
-var productTypeModule = angular.module('gecscf.organize.configuration.productType');
-productTypeModule.controller('ProductTypeSetupController', [
-    'PageNavigation',
-    'PagingController',
-    'UIFactory',
-    '$log',
-    '$scope',
+angular.module('gecscf.organize.configuration.productType').controller('ProductTypeSetupController', [
+    '$location',
     '$stateParams',
+    'PageNavigation',
     'ProductTypeService',
-    function (PageNavigation, PagingController, UIFactory, $log, $scope, $stateParams, ProductTypeService) {
+    function ($location, $stateParams, PageNavigation, ProductTypeService) {
         var vm = this;
-        var log = $log;
         var organizeId = $stateParams.organizeId;
+        var modes = ['new', 'edit'];
 
-        vm.manageAllConfig = false;
-        vm.manageMyOrgConfig = false;
-        vm.viewAction = false;
+        vm.currentMode = undefined;
+        vm.headerLabel = undefined;
 
-        var url = '/api/v1/organize-customers/' + organizeId + '/product-types';
+        function setMode() {
+            var urlParams = $location.url().split('/');
+            vm.currentMode = urlParams[urlParams.length - 1];
 
-        vm.criteria = $stateParams.criteria || {};
-        vm.pagingController = PagingController.create(url, vm.criteria, 'GET');
-
-        vm.gotoListPage = function () {
-            var params = {
-                organizeId: organizeId
-            };
-
-            PageNavigation.gotoPage('/customer-organize/product-types', params);
-        }
-
-        vm.newProductType = function () {
-            var params = {
-                organizeId: organizeId
-            };
-
-            PageNavigation.gotoPage('/customer-organize/product-types/setup', params, {
-                organizeId: organizeId,
-                criteria: vm.criteria
-            });
-        }
-
-        vm.editProductType = function (data) {
-            var params = {
-                organizeId: organizeId,
-                productType: data.productType,
-                model: data
-            };
-
-            PageNavigation.gotoPage('/customer-organize/product-types/setup', params, {
-                organizeId: organizeId,
-                criteria: vm.criteria
-            });
-        }
-
-        vm.deleteProductType = function (data) {
-            UIFactory
-                .showConfirmDialog({
-                    data: {
-                        headerMessage: 'Confirm delete?'
-                    },
-                    confirm: function () {
-                        return ProductTypeService
-                            .removeProductType(data);
-                    },
-                    onFail: function (response) {
-                        var status = response.status;
-                        if (status != 400) {
-                            var msg = {
-                                404: "Product type has been deleted.",
-                                409: "Product type has been modified.",
-                                405: "Product type has already use."
-                            }
-                            UIFactory
-                                .showFailDialog({
-                                    data: {
-                                        headerMessage: 'Delete Product type fail.',
-                                        bodyMessage: msg[status] ? msg[status] : response.errorMessage
-                                    },
-                                    preCloseCallback: loadData
-                                });
-                        }
-
-                    },
-                    onSuccess: function (response) {
-                        UIFactory
-                            .showSuccessDialog({
-                                data: {
-                                    headerMessage: 'Delete Product type success.',
-                                    bodyMessage: ''
-                                },
-                                preCloseCallback: loadData
-                            });
-                    }
-                });
-        }
-
-        vm.gotoPreviousPage = function () {
-            var params = {
-                organizeId: organizeId
-            };
-            PageNavigation.gotoPage("/sponsor-configuration", params);
-        }
-
-        vm.unauthenConfig = function () {
-            if (vm.manageAllConfig) {
-                return false;
+            if (vm.isNewMode()) {
+                vm.headerLabel = 'Add product type';
+            } else if (vm.isEditMode()) {
+                vm.headerLabel = 'Edit product type';
             } else {
-                return true;
+                vm.headerLabel = 'Product type';
             }
         }
 
-        vm.unauthenView = function () {
-            if (vm.viewAction) {
-                return false;
-            } else {
-                return true;
-            }
+        function gotoConfigPage() {
+            var params = {
+                organizeId: organizeId
+            };
+            PageNavigation.gotoPage('/organizations/product-types/configuration', params);
         }
 
-        vm.searchProductType = function (pageModel) {
-            vm.pagingController.search(pageModel, function (criteriaData, response) {
-                $scope.currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
-                $scope.pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
-            });
+        vm.isNewMode = function () {
+            return modes[0] === vm.currentMode;
         }
 
-        var loadData = function () {
-            vm.searchProductType();
+        vm.isEditMode = function () {
+            return modes[1] === vm.currentMode;
         }
 
-        var init = function () {
-            vm.searchProductType();
-        }();
+        vm.save = function () {
+                
 
+            gotoConfigPage();
+        }
+
+        vm.cancel = function () {
+            gotoConfigPage();
+        }
+
+        function init() {
+            setMode();
+        }
+        init();
     }
 ]);

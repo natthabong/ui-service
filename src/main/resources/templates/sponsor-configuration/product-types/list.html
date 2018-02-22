@@ -4,7 +4,7 @@
             <div class="panel box-shadow-none content-header">
                 <div class="panel-body">
                     <div class="col-md-12">
-                        <h3 id="header-message-label" class="animated fadeInLeft">{{'Product type list' | translate}}</h3>
+                        <h3 id="header-message-label" class="animated fadeInLeft ng-cloak" >{{'Product type list' | translate}}</h3>
                     </div>
                 </div>
             </div>
@@ -13,7 +13,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12 text-right" style="margin-bottom: 5px;">
-                                <scf-button id="new-button" class="btn-default gec-btn-action" ng-show="ctrl.configMode" ng-click="ctrl.newProductType()">
+                                <scf-button id="new-button" class="btn-default gec-btn-action" ng-show="ctrl.isConfigMode()" ng-click="ctrl.newProductType()">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                 </scf-button>
                             </div>
@@ -38,7 +38,7 @@
                                                 <th id="product-type-header-label" ng-bind="'Product type' | translate" width="20%">Product type
                                                 </th>
                                                 <th id="display-name-header-label" ng-bind="'Name' | translate">Name</th>
-                                                <th width="10%" id="action-header-label" ng-show="ctrl.configMode">&nbsp;</th>
+                                                <th width="10%" id="action-header-label" ng-show="ctrl.isConfigMode()">&nbsp;</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -52,7 +52,7 @@
                                                 <td class="text-left">
                                                     <span id="display-name-{{record.productType}}-label" ng-bind="record.displayName"></span>
                                                 </td>
-                                                <td class="text-center" ng-show="ctrl.configMode">
+                                                <td class="text-center" ng-show="ctrl.isConfigMode()">
                                                     <scf-button id="{{record.productType}}-edit-button" class="btn-default gec-btn-action" ng-click="ctrl.editProductType(record)"
                                                         title="Setup product type">
                                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>

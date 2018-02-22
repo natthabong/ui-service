@@ -37,7 +37,6 @@ angular.module('gecscf.organize.configuration', [
     'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
     'js/app/sponsor-configuration/ExportPaymentConfigController.js',
     'js/app/modules/organize/configuration/product-type/controllers/ProductTypeController.js',
-    'js/app/modules/organize/configuration/product-type/services/ProductTypeService.js',
     'js/app/modules/organize/configuration/channel/import/controllers/ImportChannelController.js',
     'js/app/modules/organize/configuration/channel/import/controllers/ImportChannelListController.js',
     'js/app/modules/organize/configuration/channel/import/controllers/ImportChannelNewPopupController.js',
