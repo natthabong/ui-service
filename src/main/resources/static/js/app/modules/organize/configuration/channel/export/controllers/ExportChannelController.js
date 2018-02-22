@@ -25,6 +25,19 @@ exportChannelModule.constant('EXTENSION_DROPDOWN',[
 	{label:'.txt', value: 'TXT'},
    	{label:'.csv', value: 'CSV'}
    	]);
+
+exportChannelModule.filter('exportDataTypeDisplay', function() {
+    return function(dataTypeValue) {  	
+    	if('ALL'==dataTypeValue){
+			return 'All Product type';
+		}else if('SPECIFIED'==dataTypeValue){
+			return 'Specified product type';
+		}else{
+			return '';
+		}
+    };
+});
+
 exportChannelModule.controller('ExportChannelController', [
 			'$log','$scope','$state','$stateParams','Service','ChannelDropdown','EXPORT_DATA_TYPE_DROPDOWN','FileLayoutService',
 			'PageNavigation','UIFactory','blockUI','$q','$http','PROTOCOL_DROPDOWN','FREQUENCY_DROPDOWN','ngDialog',
@@ -731,16 +744,3 @@ exportChannelModule.controller('SetupFileEncryptionController', [ '$scope', '$ro
 		 }
 	 }
 } ]);
-
-
-exportChannelModule.filter('exportDataTypeDisplay', function(EXPORT_DATA_TYPE_DROPDOWN) {
-    return function(dataTypeValue) {
-    	if('ALL'==dataTypeValue){
-    		return 'All Product type';
-    	}else if('SPECIFIED'==dataTypeValue){
-    		return 'Specified product type';
-    	}else{
-    		return '';
-    	}
-    };
-});

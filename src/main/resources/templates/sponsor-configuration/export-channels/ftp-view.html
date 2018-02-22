@@ -58,17 +58,25 @@
 				<label id="filename-pattern-label"> {{'File name pattern' |
 					translate}}: </label>
 			</div>
-			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
-				<label id="filename-pattern-value-label">
-					{{ctrl.channelModel.jobInformation.ftpDetail.remoteFilenamePattern}}</label>
+			<div class="col-md-2 col-sm-3 col-xs-11">
+				<label class="control-label"
+					style="vertical-align: bottom; float: left; display: inline-block; margin-right: 0px;"
+					id="file-encryption-value-label">
+					FundingCode_&nbsp;&nbsp;&nbsp;&nbsp;{{ctrl.channelModel.prefixFileName}}</label>
 			</div>
-			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-				<label id="limited-file-size-label"> {{'Limited file size
-					(MB)' | translate}}: </label>
+			<div class="col-md-1 col-sm-3 col-xs-11">
+				<label class="control-label"
+					style="vertical-align: bottom; float: left; display: inline-block; margin-right: 0px;"
+					id="file-encryption-value-label">
+					{{ctrl.channelModel.filenamePattern}}</label>
 			</div>
-			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
-				<label id="limited-file-size-value-label">
-					{{ctrl.channelModel.jobInformation.ftpDetail.limitedFileSize}}</label>
+			<div class="col-md-1 col-sm-3 col-xs-11">
+				<div style="width: 85px;">
+					<label class="control-label"
+						style="vertical-align: bottom; float: left; display: inline-block; margin-right: 0px;"
+						id="file-encryption-value-label">
+						.{{ctrl.channelModel.fileExtension | translate}}</label>
+				</div>
 			</div>
 		</div>
 
@@ -78,8 +86,8 @@
 					translate}}: </label>
 			</div>
 
-			<div class="col-md-3 col-sm-3 col-xs-12">
-				<label id="file-encryption-value-label control-label">
+			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+				<label id="file-encryption-value-label">
 					{{ctrl.channelModel.jobInformation.ftpDetail.encryptType |
 					translate}}</label>
 			</div>
@@ -94,7 +102,7 @@
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 				<label id="retry-label"> {{'Retry' | translate}}: </label>
 			</div>
-			<div class="col-md-3 col-sm-3 col-xs-12">
+			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
 				<label id="retry-label">
 					{{ctrl.channelModel.jobInformation.ftpDetail.connectionRetry}}</label>
 			</div>
@@ -117,7 +125,8 @@
 
 			<div class="col-md-3 col-sm-3 col-xs-12 control-label">
 				<label id="post-process-value-label">
-					{{ctrl.channelModel.jobInformation.ftpDetail.postProcessType  | translate}}</label>
+					{{ctrl.channelModel.jobInformation.ftpDetail.postProcessType |
+					translate}}</label>
 			</div>
 			<div class="col-md-6 col-sm-4 col-hidden-xs"></div>
 		</div>
@@ -241,62 +250,54 @@
 			</div>
 			<div class="form-group">
 				<div class="col-md-8 col-sm-9 col-xs-12">
-					<label class="radio-inline"><scf-radio ng-disabled="true"
-							id="runtime-type-interval-radio"
-							name="runtime-type-interval-radio" value="INTERVAL"
-							ng-model="ctrl.channelModel.runtimeType"></scf-radio> {{
-						'Interval' | translate}} </label> <br />
-					<div class="form-group" >
-						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-							<label id="begin-time-label"> {{'Begin time' |
-								translate}}: </label>
+					<div ng-if="ctrl.channelModel.runtimeType == 'INTERVAL'">
+						<label class="radio-inline">{{'Interval' | translate}} </label> <br />
+						<div class="form-group">
+							<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+								<label id="begin-time-label"> {{'Begin time' |
+									translate}}: </label>
+							</div>
+							<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+								<label id="begin-time-value-label"
+									ng-show="ctrl.channelModel.runtimeType == 'INTERVAL'">
+									{{ctrl.channelModel.beginTime}}</label>
+							</div>
+							<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+								<label id="end-time-label"> {{'End time' | translate}}:
+								</label>
+							</div>
+							<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+								<label id="end-time-value-label"
+									ng-show="ctrl.channelModel.runtimeType == 'INTERVAL'">
+									{{ctrl.channelModel.endTime}}</label>
+							</div>
 						</div>
-						<div class="col-md-3 col-sm-3 col-xs-12 control-label">
-							<label id="begin-time-value-label" ng-show="ctrl.channelModel.runtimeType == 'INTERVAL'">
-								{{ctrl.channelModel.beginTime}}</label>
-						</div>
-						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-							<label id="end-time-label"> {{'End time' | translate}}: </label>
-						</div>
-						<div class="col-md-3 col-sm-3 col-xs-12 control-label">
-							<label id="end-time-value-label" ng-show="ctrl.channelModel.runtimeType == 'INTERVAL'">
-								{{ctrl.channelModel.endTime}}</label>
+
+
+						<div class="form-group">
+							<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+								<label id="delayed-interval-label"> {{'Delayed interval
+									(sec)' | translate}}: </label>
+							</div>
+							<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+								<label id="delayed-interval-value-label"
+									ng-show="ctrl.channelModel.runtimeType == 'INTERVAL'">
+									{{ctrl.channelModel.jobInformation.triggerInformations[0].intervalInMinutes}}</label>
+							</div>
+							<div class="col-md-6 col-sm-4 col-hidden-xs"></div>
 						</div>
 					</div>
+					<div ng-if="ctrl.channelModel.runtimeType == 'FIXED'">
+						<label class="radio-inline">{{ 'Fixed' | translate}}</label>
+						<div class="form-group">
+							<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+								<span id="{{runtime}}-label"
+									ng-repeat-start="runtime in ctrl.runTimes" href="#">{{runtime}}</span><span
+									ng-repeat-end="" ng-if="!$last">, &nbsp;</span>
+							</div>
 
-
-					<div class="form-group" >
-						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-							<label id="delayed-interval-label"> {{'Delayed interval
-								(sec)' | translate}}: </label>
 						</div>
-						<div class="col-md-3 col-sm-3 col-xs-12 control-label">
-							<label id="delayed-interval-value-label" ng-show="ctrl.channelModel.runtimeType == 'INTERVAL'">
-								{{ctrl.channelModel.jobInformation.triggerInformations[0].intervalInMinutes}}</label>
-						</div>
-						<div class="col-md-6 col-sm-4 col-hidden-xs"></div>
 					</div>
-
-<!-- 					<div class="form-group" ng-show="errors.intervalInMinutes" > -->
-<!-- 						<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> -->
-<!-- 						<span class="col-md-3 col-sm-3 col-xs-12 error-msg" -->
-<!-- 							id="delayed-interval-warning-message-label" -->
-<!-- 							ng-bind="errors.intervalInMinutes.message"> </span> -->
-<!-- 					</div> -->
-					<label class="radio-inline"> <scf-radio ng-disabled="true"
-							id="runtime-type-fixed-radio" name="runtime-type-fixed-radio"
-							value="FIXED" ng-model="ctrl.channelModel.runtimeType"></scf-radio>
-						{{ 'Fixed' | translate}}
-					</label>
-					<div class="form-group">
-						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-							<span id="{{runtime}}-label"
-								ng-repeat-start="runtime in ctrl.runTimes" href="#">{{runtime}}</span><span
-								ng-repeat-end="" ng-if="!$last">, &nbsp;</span>
-						</div>
-
-					</div>
-
 				</div>
 			</div>
 		</div>

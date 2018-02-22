@@ -656,5 +656,7 @@
 	"WORKFLOW_TYPE": "Type",
 	"WORKFLOW_NAME": "Workflow",
 	
-	"Account name": "Account name"
+	"Account name": "Account name",
+	
+	"DAILY":"Daily"
 }
