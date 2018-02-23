@@ -59,7 +59,7 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
             var params = {
                 organizeId: vm.model.organizeId
             };
-            PageNavigation.gotoPage('/organizations/product-types/configuration', params);
+            PageNavigation.gotoPage('/organizations/product-types/setup', params);
         }
 
         vm.isNewMode = function () {

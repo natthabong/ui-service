@@ -14,7 +14,7 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
 			var params = {
 				organizeId: organizeId
 			};
-			PageNavigation.gotoPage('/organizations/product-types/configuration', params);
+			PageNavigation.gotoPage('/organizations/product-types/setup', params);
 		}
 
 		vm.gotoListPage = function () {

@@ -26,8 +26,8 @@ angular.module('gecscf.organize.configuration.productType', ['ui.router', 'gecsc
 				organizeId: null
 			},
 			resolve: WebHelper.loadScript([resources[1], resources[3]])
-		}).state('/organizations/product-types/configuration', {
-			url: '/organizations/:organizeId/product-types/configuration',
+		}).state('/organizations/product-types/setup', {
+			url: '/organizations/:organizeId/product-types/setup',
 			controller: 'ProductTypeListController',
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/product-type-list',
@@ -35,8 +35,8 @@ angular.module('gecscf.organize.configuration.productType', ['ui.router', 'gecsc
 				organizeId: null
 			},
 			resolve: WebHelper.loadScript([resources[1], resources[3]])
-		}).state('/organizations/product-types/configuration/new', {
-			url: '/organizations/:organizeId/product-types/configuration/new',
+		}).state('/organizations/product-types/setup/new', {
+			url: '/organizations/:organizeId/product-types/setup/new',
 			controller: 'ProductTypeSetupController',
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/product-types-setup',
@@ -44,8 +44,8 @@ angular.module('gecscf.organize.configuration.productType', ['ui.router', 'gecsc
 				organizeId: null
 			},
 			resolve: WebHelper.loadScript([resources[2], resources[3]])
-		}).state('/organizations/product-types/configuration/edit', {
-			url: '/organizations/:organizeId/product-types/configuration/:productType/edit',
+		}).state('/organizations/product-types/setup/edit', {
+			url: '/organizations/:organizeId/product-types/setup/:productType/edit',
 			controller: 'ProductTypeSetupController',
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/product-types-setup',

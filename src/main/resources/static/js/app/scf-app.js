@@ -304,30 +304,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						'js/app/dashboard/payment-journey/wait-for-approve.js',
 						'js/app/dashboard/payment-journey/future-payment.js'
 					])
-				}).state('/sponsor-configuration/export-payments/settings', {
-					url: '/sponsor-configuration/export-payments/settings/:organizeId',
-					controller: 'ExportPaymentController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/export-payments/settings',
-					params: {
-						layoutConfigId: ':layoutConfigId'
-					},
-					resolve: WebHelper.loadScript(
-						[
-							'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/ExportPaymentController.js',
-							'js/app/modules/organize/configuration/export-payment/services/ExportPaymentService.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/SpecificTextExportLayoutConfigController.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/FillerExportLayoutConfigController.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/SignFlagExportLayoutConfigController.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/DateTimeExportLayoutConfigController.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/PaymentTypeExportLayoutConfigController.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/NumericExportLayoutConfigController.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/CountExportLayoutConfigController.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/SummaryExportLayoutConfigController.js'
-						])
 				}).state('/sponsor-configuration/organize-logo/settings', {
-					url: '/sponsor-configuration/organize-logo/settings/:organizeId',
+					url: '/organizations/:organizeId/organize-logo/setup',
 					controller: 'OrganizeLogoSettingController',
 					controllerAs: 'ctrl',
 					templateUrl: '/sponsor-configuration/organize-logo/settings',
@@ -336,7 +314,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					},
 					resolve: WebHelper.loadScript(['js/app/sponsor-configuration/organize-logo/organize-logo-setting-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/sponsor-configuration/workflow/setup', {
-					url: '/sponsor-configuration/workflow/setup/:organizeId',
+					url: '/organizations/:organizeId/workflow/setup',
 					controller: 'SetupWorkflowController',
 					controllerAs: 'ctrl',
 					templateUrl: '/sponsor-configuration/workflow/setup',

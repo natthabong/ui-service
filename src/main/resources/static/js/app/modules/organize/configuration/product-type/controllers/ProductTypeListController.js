@@ -46,7 +46,7 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
                 organizeId: organizeId
             };
 
-            PageNavigation.gotoPage('/organizations/product-types/configuration/new', params, {
+            PageNavigation.gotoPage('/organizations/product-types/setup/new', params, {
                 organizeId: organizeId,
                 criteria: vm.criteria
             });
@@ -59,7 +59,7 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
                 model: data
             };
 
-            PageNavigation.gotoPage('/organizations/product-types/configuration/edit', params, {
+            PageNavigation.gotoPage('/organizations/product-types/setup/edit', params, {
                 organizeId: organizeId,
                 criteria: vm.criteria
             });

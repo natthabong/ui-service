@@ -1,6 +1,6 @@
-<div id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS_OF_ALL_FUNDING', 'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS')">
-	<input type="hidden" ng-init="ctrl.manageAll=true" sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS_OF_ALL_FUNDING', 'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS')" />
+<div id="content" th:fragment="content" sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS_OF_ALL_FUNDING', 'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS')">
+	<input type="hidden" ng-init="ctrl.manageAll=true" sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS_OF_ALL_FUNDING', 'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT/EXPORT_FILE_LAYOUTS')"
+	/>
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
@@ -13,42 +13,27 @@
 			<form name="createForm" class="form-horizontal" ng-submit="ctrl.save()">
 				<div class="panel panel-default col-md-12 padding-0">
 					<div class="panel-body">
-						<div class="form-group"
-							data-ng-if="ctrl.processType != 'AP_DOCUMENT'">
-							<label for="dealer" id="layout-name-label"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Layout
-								name' | translate}}: </label>
-
+						<div class="form-group" data-ng-if="ctrl.processType != 'AP_DOCUMENT'">
+							<label for="dealer" id="layout-name-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Layout name' | translate}}: </label>
 							<div class="col-md-4 col-sm-5 col-xs-12">
-								<scf-input-text id="layout-name-textbox" maxlength="255"
-									ng-disabled="!ctrl.manageAll" ng-model="ctrl.model.displayName"></scf-input-text>
+								<scf-input-text id="layout-name-textbox" maxlength="100" ng-disabled="!ctrl.manageAll" ng-model="ctrl.model.displayName"></scf-input-text>
 							</div>
 							<div class="col-md-4 col-sm-4"></div>
 						</div>
 						<div class="form-group">
-							<label for="dealer"
-								class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-							<div
-								ng-show="errors.duplicateLayoutName || errors.requireLayoutName">
-								<span ng-show="errors.duplicateLayoutName"
-									class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
-									id="layout-name-error-message-label">{{'Layout name is
-									duplicate' | translate}}.</span> <span
-									ng-show="errors.requireLayoutName"
-									class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
-									id="layout-name-warning-message-label">{{'Layout name is
-									required' | translate}}.</span>
+							<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<div ng-show="errors.duplicateLayoutName || errors.requireLayoutName">
+								<span ng-show="errors.duplicateLayoutName" class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-error-message-label">{{'Layout name is duplicate' | translate}}.</span>
+								<span ng-show="errors.requireLayoutName" class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-warning-message-label">{{'Layout name is required' | translate}}.</span>
 							</div>
 							<div class="col-md-4 col-sm-4"></div>
-						</div>					
+						</div>
 						<div class="form-group">
-							<label for="dealer" id="file-type-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
-								type' | translate}}: </label>
+							<label for="dealer" id="file-type-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File type' | translate}}: </label>
 							<div class="col-md-3 col-sm-4 col-xs-12">
-								<label class="radio-inline"> <scf-radio
-										id="fixedLength-file-type-radio" name="file-type-radio"
-										ng-value="ctrl.fileType.fixedLength"
-										ng-disabled="!ctrl.manageAll" ng-model="ctrl.model.fileType"></scf-radio>
+								<label class="radio-inline">
+									<scf-radio id="fixedLength-file-type-radio" name="file-type-radio" ng-value="ctrl.fileType.fixedLength" ng-disabled="!ctrl.manageAll"
+									    ng-model="ctrl.model.fileType"></scf-radio>
 									{{'Fixed length' | translate}}
 								</label>
 							</div>
@@ -56,20 +41,15 @@
 						<div class="form-group">
 							<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 							<div class="col-md-1 col-sm-2 col-xs-12">
-								<label class="radio-inline"> <scf-radio
-										id="delimited-file-type-radio"
-										ng-value="ctrl.fileType.delimited"
-										ng-disabled="!ctrl.manageAll" name="file-type-radio"
-										ng-model="ctrl.model.fileType"></scf-radio> {{'Delimited' |
-									translate}}
+								<label class="radio-inline">
+									<scf-radio id="delimited-file-type-radio" ng-value="ctrl.fileType.delimited" ng-disabled="!ctrl.manageAll" name="file-type-radio"
+									    ng-model="ctrl.model.fileType"></scf-radio> {{'Delimited' | translate}}
 								</label>
 							</div>
-							<label for="dealer" id="delimiters-label" class="col-md-1 col-sm-2 col-xs-12 control-label">{{'Delimiter'
-								| translate}}: </label>
+							<label for="dealer" id="delimiters-label" class="col-md-1 col-sm-2 col-xs-12 control-label">{{'Delimiter' | translate}}: </label>
 							<div class="col-md-3 col-sm-3 col-xs-12">
-								<scf-dropdown ng-disabled="ctrl.model.fileType != ctrl.fileType.delimited || !ctrl.manageAll" 
-									id="delimiters-dropdown" ng-model="ctrl.delimeter"
-									ng-change="ctrl.delimeterChange()" component-data="ctrl.delimitersDropdown" translate-label="true"></scf-dropdown>
+								<scf-dropdown ng-disabled="ctrl.model.fileType != ctrl.fileType.delimited || !ctrl.manageAll" id="delimiters-dropdown" ng-model="ctrl.delimeter"
+								    ng-change="ctrl.delimeterChange()" component-data="ctrl.delimitersDropdown" translate-label="true"></scf-dropdown>
 							</div>
 							<div class="col-md-1 col-sm-1 col-xs-12">
 								<scf-input-text id="delimiters-textbox" ng-disabled="ctrl.delimeter!='Other' || !ctrl.manageAll" maxlength="1" ng-model="ctrl.delimeterOther"></scf-input-text>
@@ -79,54 +59,51 @@
 						<div class="form-group">
 							<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 							<div class="col-md-1 col-sm-2 col-xs-12">
-								<label class="radio-inline"> <scf-radio
-										id="specific-file-type-radio" name="file-type-radio"
-										ng-value="ctrl.fileType.specific"
-										ng-disabled="!ctrl.manageAll" ng-model="ctrl.model.fileType"></scf-radio>
+								<label class="radio-inline">
+									<scf-radio id="specific-file-type-radio" name="file-type-radio" ng-value="ctrl.fileType.specific" ng-disabled="!ctrl.manageAll"
+									    ng-model="ctrl.model.fileType"></scf-radio>
 									{{'Specific' | translate}}
 								</label>
 							</div>
 							<label for="dealer" id="specific-label" class="col-md-1 col-sm-2 col-xs-12 control-label"></label>
 							<div class="col-md-3 col-sm-5 col-xs-12">
 								<scf-dropdown ng-disabled="ctrl.model.fileType != ctrl.fileType.specific || !ctrl.manageAll" id="specific-dropdown" ng-model="ctrl.specificModel"
-									component-data="ctrl.specificsDropdown" translate-label="true"></scf-dropdown>
+								    component-data="ctrl.specificsDropdown" translate-label="true"></scf-dropdown>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="dealer" id="file-encode-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
-								encode' | translate}}: </label>
+							<label for="dealer" id="file-encode-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File encode' | translate}}: </label>
 							<div class="col-md-2 col-sm-3 col-xs-12">
 								<scf-dropdown id="file-encode-dropdown" ng-model="ctrl.model.charsetName" component-data="ctrl.fileEncodeDropdown" ng-disabled="!ctrl.manageAll"
-									translate-label="true"></scf-dropdown>
+								    translate-label="true"></scf-dropdown>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label" id="row-format-label">{{'Row format' | translate}}: </label>
 							<div class="col-md-2 col-sm-3 col-xs-12">
-								<label class="checkbox-inline"> <scf-checkbox
-                                        id="row-format-header-checkbox" ng-model="ctrl.headerSelected"
-                                        ng-disabled="ctrl.isDelimited || !ctrl.manageAll"
-                                        ng-click="ctrl.clearSectionItem(ctrl.headerSelected,'HEADER')"></scf-checkbox> <span
-                                    ng-bind="'Header' | translate" id="header-label"></span>
-                                </label> <br />
-								<label class="checkbox-inline"> <scf-checkbox
-                                        id="row-format-payment-checkbox" ng-model="ctrl.paymentSelected"
-										ng-disabled="ctrl.isDelimited || !ctrl.manageAll"
-										ng-click="ctrl.clearSectionItem(ctrl.paymentSelected,'PAYMENT')">
-										</scf-checkbox> <span
-                                    ng-bind="'Payment' | translate" id="payment-label"></span>
-                                </label> <br />
-								<label class="checkbox-inline"> <scf-checkbox
-                                        id="row-format-document-checkbox" ng-checked="true"
-                                        ng-disabled="true"></scf-checkbox> <span
-                                    ng-bind="'Document' | translate" id="document-label"></span>
-                                </label> <br />
-								<label class="checkbox-inline"> <scf-checkbox
-                                        id="row-format-footer-checkbox" ng-model="ctrl.footerSelected"
-                                       	ng-disabled="ctrl.isDelimited || !ctrl.manageAll"
-                                        ng-click="ctrl.clearSectionItem(ctrl.footerSelected,'FOOTER')">></scf-checkbox> <span
-                                    ng-bind="'Footer' | translate" id="footer-label"></span>
-                                </label>
+								<label class="checkbox-inline">
+									<scf-checkbox id="row-format-header-checkbox" ng-model="ctrl.headerSelected" ng-disabled="ctrl.isDelimited || !ctrl.manageAll"
+									    ng-click="ctrl.clearSectionItem(ctrl.headerSelected,'HEADER')"></scf-checkbox>
+									<span ng-bind="'Header' | translate" id="header-label"></span>
+								</label>
+								<br />
+								<label class="checkbox-inline">
+									<scf-checkbox id="row-format-payment-checkbox" ng-model="ctrl.paymentSelected" ng-disabled="ctrl.isDelimited || !ctrl.manageAll"
+									    ng-click="ctrl.clearSectionItem(ctrl.paymentSelected,'PAYMENT')">
+									</scf-checkbox>
+									<span ng-bind="'Payment' | translate" id="payment-label"></span>
+								</label>
+								<br />
+								<label class="checkbox-inline">
+									<scf-checkbox id="row-format-document-checkbox" ng-checked="true" ng-disabled="true"></scf-checkbox>
+									<span ng-bind="'Document' | translate" id="document-label"></span>
+								</label>
+								<br />
+								<label class="checkbox-inline">
+									<scf-checkbox id="row-format-footer-checkbox" ng-model="ctrl.footerSelected" ng-disabled="ctrl.isDelimited || !ctrl.manageAll"
+									    ng-click="ctrl.clearSectionItem(ctrl.footerSelected,'FOOTER')">></scf-checkbox>
+									<span ng-bind="'Footer' | translate" id="footer-label"></span>
+								</label>
 							</div>
 						</div>
 						<div ng-show="ctrl.headerSelected">
@@ -146,53 +123,41 @@
 										</thead>
 										<tbody>
 											<tr ng-repeat-start="record in ctrl.headerItem track by $index" ng-class="$even?'tr-odd':'tr-even'">
-
 												<td class="text-right" style="width: 3%">
 													<label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label>
 												</td>
-
 												<td class="text-center" style="width: 71%">
-													<scf-dropdown id="gecscf-field-name-{{$index+1}}-header-dropdown" 
-														ng-model="record.documentFieldId" component-data="ctrl.headerGECDropdown "
-														ng-disabled="!ctrl.manageAll"
-														ng-change="ctrl.isChangeDataType(record, ctrl.headerGECDropdown)" translate-label="true" 
-														convert-to-number="true"></scf-dropdown>
-												</td>
-
-												<td class="text-center" style="width: 8%">
-													<scf-input-text id="length-{{$index+1}}-header-textbox"
-														ng-disabled="!ctrl.manageAll"
-														style="text-align: right;" convert-to-number="" ng-model="record.dataLength"
-														maxlength="3" />
+													<scf-dropdown id="gecscf-field-name-{{$index+1}}-header-dropdown" ng-model="record.documentFieldId" component-data="ctrl.headerGECDropdown "
+													    ng-disabled="!ctrl.manageAll" ng-change="ctrl.isChangeDataType(record, ctrl.headerGECDropdown)" translate-label="true"
+													    convert-to-number="true"></scf-dropdown>
 												</td>
 												<td class="text-center" style="width: 8%">
-													<scf-input-text id="detail-start-index-{{$index+1}}-header-textbox"
-														ng-disabled="!ctrl.manageAll"
-														style="text-align: right;" convert-to-number="" ng-model="record.startIndex"
-														maxlength="3" />
+													<scf-input-text id="length-{{$index+1}}-header-textbox" ng-disabled="!ctrl.manageAll" style="text-align: right;" convert-to-number=""
+													    ng-model="record.dataLength" maxlength="3" />
+												</td>
+												<td class="text-center" style="width: 8%">
+													<scf-input-text id="detail-start-index-{{$index+1}}-header-textbox" ng-disabled="!ctrl.manageAll" style="text-align: right;"
+													    convert-to-number="" ng-model="record.startIndex" maxlength="3" />
 												</td>
 												<td class="text-center" style="width: 10%">
-													<scf-button type="button" id="field-setup-{{$index+1}}-header-button" 
-														ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll"
-														class="btn-default gec-btn-action" ng-click="ctrl.openSetting($index, record)">
-                                                        <i class="fa fa-cog" aria-hidden="true"></i> </scf-button>
-													<scf-button type="button" id="delete-{{$index+1}}-header-button"
-														ng-disabled="ctrl.headerItem.length == 1 || !ctrl.manageAll" 
-														class="btn-default gec-btn-action" ng-click="ctrl.removeDataItem($index,'HEADER')">
-														<i class="fa fa-trash" aria-hidden="true"></i> </scf-button>
+													<scf-button type="button" id="field-setup-{{$index+1}}-header-button" ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll"
+													    class="btn-default gec-btn-action" ng-click="ctrl.openSetting($index, record)">
+														<i class="fa fa-cog" aria-hidden="true"></i>
+													</scf-button>
+													<scf-button type="button" id="delete-{{$index+1}}-header-button" ng-disabled="ctrl.headerItem.length == 1 || !ctrl.manageAll"
+													    class="btn-default gec-btn-action" ng-click="ctrl.removeDataItem($index,'HEADER')">
+														<i class="fa fa-trash" aria-hidden="true"></i>
+													</scf-button>
 												</td>
 											</tr>
 											<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'"></tr>
 										</tbody>
 									</table>
 									<div>
-										<button id="add-another-field-header-button" type="button" class="btn btn-default"
-											ng-disabled="!ctrl.manageAll" 
-											ng-click="ctrl.addItem('HEADER')" ng-bind="'Add another field' | translate">Add
-											another field</button>
+										<button id="add-another-field-header-button" type="button" class="btn btn-default" ng-disabled="!ctrl.manageAll" ng-click="ctrl.addItem('HEADER')"
+										    ng-bind="'Add another field' | translate">Add another field</button>
 									</div>
 								</div>
-
 							</fieldset>
 							<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Header!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 						</div>
@@ -212,56 +177,43 @@
 												<th></th>
 											</tr>
 										</thead>
-
 										<tbody>
 											<tr ng-repeat-start="record in ctrl.paymentItem track by $index" ng-class="$even?'tr-odd':'tr-even'">
-
-												<td class="text-right" style="width: 3%"><label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label></td>
-
+												<td class="text-right" style="width: 3%">
+													<label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label>
+												</td>
 												<td class="text-center" style="width: 71%">
-													<scf-dropdown id="gecscf-field-name-{{$index+1}}-payment-dropdown" 
-														ng-model="record.documentFieldId" component-data="ctrl.paymentGECDropdown"
-														ng-disabled="!ctrl.manageAll"
-														ng-change="ctrl.isChangeDataType(record, ctrl.paymentGECDropdown)" translate-label="true" 
-														convert-to-number="true"></scf-dropdown>
-												</td>
-
-												<td class="text-center" style="width: 8%">
-													<scf-input-text id="length-{{$index+1}}-payment-textbox" style="text-align: right;" 
-														ng-disabled="!ctrl.manageAll"
-														convert-to-number="" ng-model="record.dataLength"
-														maxlength="3" />
+													<scf-dropdown id="gecscf-field-name-{{$index+1}}-payment-dropdown" ng-model="record.documentFieldId" component-data="ctrl.paymentGECDropdown"
+													    ng-disabled="!ctrl.manageAll" ng-change="ctrl.isChangeDataType(record, ctrl.paymentGECDropdown)" translate-label="true"
+													    convert-to-number="true"></scf-dropdown>
 												</td>
 												<td class="text-center" style="width: 8%">
-													<scf-input-text id="detail-start-index-{{$index+1}}-payment-textbox" 
-														style="text-align: right;" convert-to-number="" ng-model="record.startIndex"
-														ng-disabled="!ctrl.manageAll"
-														maxlength="3" />
+													<scf-input-text id="length-{{$index+1}}-payment-textbox" style="text-align: right;" ng-disabled="!ctrl.manageAll" convert-to-number=""
+													    ng-model="record.dataLength" maxlength="3" />
+												</td>
+												<td class="text-center" style="width: 8%">
+													<scf-input-text id="detail-start-index-{{$index+1}}-payment-textbox" style="text-align: right;" convert-to-number="" ng-model="record.startIndex"
+													    ng-disabled="!ctrl.manageAll" maxlength="3" />
 												</td>
 												<td class="text-center" style="width: 10%">
-													<scf-button type="button" id="field-setup-{{$index+1}}-payment-button" class="btn-default gec-btn-action"
-														ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll"
-														ng-click="ctrl.openSetting($index, record)">
-                                                        <i class="fa fa-cog" aria-hidden="true"></i> </scf-button>
-													<scf-button type="button" id="delete-{{$index+1}}-payment-button" class="btn-default gec-btn-action"
-														ng-disabled="ctrl.paymentItem.length == 1 || !ctrl.manageAll"
-														ng-click="ctrl.removeDataItem($index,'PAYMENT')">
-														<i class="fa fa-trash" aria-hidden="true"></i> </scf-button>
+													<scf-button type="button" id="field-setup-{{$index+1}}-payment-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll"
+													    ng-click="ctrl.openSetting($index, record)">
+														<i class="fa fa-cog" aria-hidden="true"></i>
+													</scf-button>
+													<scf-button type="button" id="delete-{{$index+1}}-payment-button" class="btn-default gec-btn-action" ng-disabled="ctrl.paymentItem.length == 1 || !ctrl.manageAll"
+													    ng-click="ctrl.removeDataItem($index,'PAYMENT')">
+														<i class="fa fa-trash" aria-hidden="true"></i>
+													</scf-button>
 												</td>
 											</tr>
 											<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'"></tr>
-
 										</tbody>
 									</table>
 									<div>
-										<button id="add-another-field-payment-button" type="button" 
-											class="btn btn-default" ng-click="ctrl.addItem('PAYMENT')" 
-											ng-disabled="!ctrl.manageAll"
-											ng-bind="'Add another field' | translate">Add
-											another field</button>
+										<button id="add-another-field-payment-button" type="button" class="btn btn-default" ng-click="ctrl.addItem('PAYMENT')" ng-disabled="!ctrl.manageAll"
+										    ng-bind="'Add another field' | translate">Add another field</button>
 									</div>
 								</div>
-
 							</fieldset>
 							<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Payment!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 						</div>
@@ -271,11 +223,9 @@
 							<fieldset>
 								<legend class="col-md-3 col-sm-3 col-xs-12" id="detail-field-layout-label" ng-bind="'Document field layout' | translate"></legend>
 								<label class="checkbox-inline">
-									<scf-checkbox id="print-header-checkbox" 
-										ng-model="ctrl.model.displayHeaderColumn"
-										ng-disabled="!(ctrl.model.fileType == 'CSV') || !ctrl.manageAll">
-										</scf-checkbox>
-										<span>Print header label</span>
+									<scf-checkbox id="print-header-checkbox" ng-model="ctrl.model.displayHeaderColumn" ng-disabled="!(ctrl.model.fileType == 'CSV') || !ctrl.manageAll">
+									</scf-checkbox>
+									<span>Print header label</span>
 								</label>
 								<div class="responsive-table">
 									<table id="config-item-table" class="table table-striped table-bordered" width="100%" cellspacing="0">
@@ -289,64 +239,47 @@
 												<th></th>
 											</tr>
 										</thead>
-
 										<tbody>
 											<tr ng-repeat-start="record in ctrl.documentItem track by $index" ng-class="$even?'tr-odd':'tr-even'">
-
 												<td class="text-right" style="width: 3%">
-													<label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label></td>
-
+													<label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label>
+												</td>
 												<td class="text-center" style="width: 35%">
-													<scf-dropdown id="gecscf-field-name-{{$index+1}}-document-dropdown"
-														ng-disabled="!ctrl.manageAll"
-														ng-model="record.documentFieldId" component-data="ctrl.doucmentGECDropdown"
-														ng-change="ctrl.isChangeDataType(record, ctrl.doucmentGECDropdown)" translate-label="true" convert-to-number="true"></scf-dropdown>
+													<scf-dropdown id="gecscf-field-name-{{$index+1}}-document-dropdown" ng-disabled="!ctrl.manageAll" ng-model="record.documentFieldId"
+													    component-data="ctrl.doucmentGECDropdown" ng-change="ctrl.isChangeDataType(record, ctrl.doucmentGECDropdown)"
+													    translate-label="true" convert-to-number="true"></scf-dropdown>
 												</td>
-
 												<td class="text-center" style="width: 36%">
-													<scf-input-text id="header-label-{{$index+1}}-document-textbox" 
-														style="text-align:left;" maxlength="25"
-														ng-disabled="!ctrl.manageAll"
-														ng-model="record.displayValue" />
-												</td>
-
-												<td class="text-center" style="width: 8%">
-													<scf-input-text id="length-{{$index+1}}-document-textbox" 
-														style="text-align: right;" convert-to-number="" 
-														ng-disabled="!ctrl.manageAll"
-														ng-model="record.dataLength"
-														maxlength="3" />
+													<scf-input-text id="header-label-{{$index+1}}-document-textbox" style="text-align:left;" maxlength="25" ng-disabled="!ctrl.manageAll"
+													    ng-model="record.displayValue" />
 												</td>
 												<td class="text-center" style="width: 8%">
-													<scf-input-text id="detail-start-index-{{$index+1}}-document-textbox" 
-														style="text-align: right;" convert-to-number=""
-														ng-disabled="!ctrl.manageAll" 
-														ng-model="record.startIndex"
-														maxlength="3" />
+													<scf-input-text id="length-{{$index+1}}-document-textbox" style="text-align: right;" convert-to-number="" ng-disabled="!ctrl.manageAll"
+													    ng-model="record.dataLength" maxlength="3" />
+												</td>
+												<td class="text-center" style="width: 8%">
+													<scf-input-text id="detail-start-index-{{$index+1}}-document-textbox" style="text-align: right;" convert-to-number="" ng-disabled="!ctrl.manageAll"
+													    ng-model="record.startIndex" maxlength="3" />
 												</td>
 												<td class="text-center" style="width: 10%">
-													<scf-button type="button" id="field-setup-{{$index+1}}-document-button" class="btn-default gec-btn-action" 
-														ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll"
-														ng-click="ctrl.openSetting($index, record)">
-                                                        <i class="fa fa-cog" aria-hidden="true"></i> </scf-button>
-													<scf-button type="button" id="delete-{{$index+1}}-document-button"
-														ng-disabled="ctrl.documentItem.length == 1 || !ctrl.manageAll"
-														class="btn-default gec-btn-action" ng-click="ctrl.removeDataItem($index,'DOCUMENT')">
-														<i class="fa fa-trash" aria-hidden="true"></i> </scf-button>
+													<scf-button type="button" id="field-setup-{{$index+1}}-document-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll"
+													    ng-click="ctrl.openSetting($index, record)">
+														<i class="fa fa-cog" aria-hidden="true"></i>
+													</scf-button>
+													<scf-button type="button" id="delete-{{$index+1}}-document-button" ng-disabled="ctrl.documentItem.length == 1 || !ctrl.manageAll"
+													    class="btn-default gec-btn-action" ng-click="ctrl.removeDataItem($index,'DOCUMENT')">
+														<i class="fa fa-trash" aria-hidden="true"></i>
+													</scf-button>
 												</td>
 											</tr>
 											<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'"></tr>
-
 										</tbody>
 									</table>
 									<div>
-										<button id="add-another-field-document-button" type="button" class="btn btn-default"
-											ng-disabled="!ctrl.manageAll"
-											ng-click="ctrl.addItem('DOCUMENT')" ng-bind="'Add another field' | translate">Add
-											another field</button>
+										<button id="add-another-field-document-button" type="button" class="btn btn-default" ng-disabled="!ctrl.manageAll" ng-click="ctrl.addItem('DOCUMENT')"
+										    ng-bind="'Add another field' | translate">Add another field</button>
 									</div>
 								</div>
-
 							</fieldset>
 							<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Document!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 						</div>
@@ -366,79 +299,60 @@
 												<th></th>
 											</tr>
 										</thead>
-
 										<tbody>
 											<tr ng-repeat-start="record in ctrl.footerItem track by $index" ng-class="$even?'tr-odd':'tr-even'">
-
 												<td class="text-right" style="width: 3%">
-													<label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label></td>
-
+													<label id="layout-item-{{$index+1}}-no-label" class="text-right control-label">{{$index+1}}</label>
+												</td>
 												<td class="text-center" style="width: 71%">
-													<scf-dropdown id="gecscf-field-name-{{$index+1}}-footer-dropdown" 
-														ng-disabled="!ctrl.manageAll"
-														ng-model="record.documentFieldId" component-data="ctrl.footerGECDropdown"
-														ng-change="ctrl.isChangeDataType(record, ctrl.footerGECDropdown)" translate-label="true" 
-														convert-to-number="true"></scf-dropdown>
-												</td>
-
-												<td class="text-center" style="width: 8%">
-													<scf-input-text id="length-{{$index+1}}-footer-textbox" style="text-align: right;"
-														ng-disabled="!ctrl.manageAll"
-														convert-to-number="" ng-model="record.dataLength"
-														maxlength="3" />
+													<scf-dropdown id="gecscf-field-name-{{$index+1}}-footer-dropdown" ng-disabled="!ctrl.manageAll" ng-model="record.documentFieldId"
+													    component-data="ctrl.footerGECDropdown" ng-change="ctrl.isChangeDataType(record, ctrl.footerGECDropdown)" translate-label="true"
+													    convert-to-number="true"></scf-dropdown>
 												</td>
 												<td class="text-center" style="width: 8%">
-													<scf-input-text id="detail-start-index-{{$index+1}}-footer-textbox"
-														ng-disabled="!ctrl.manageAll"
-														style="text-align: right;" convert-to-number="" ng-model="record.startIndex"
-														maxlength="3" />
+													<scf-input-text id="length-{{$index+1}}-footer-textbox" style="text-align: right;" ng-disabled="!ctrl.manageAll" convert-to-number=""
+													    ng-model="record.dataLength" maxlength="3" />
+												</td>
+												<td class="text-center" style="width: 8%">
+													<scf-input-text id="detail-start-index-{{$index+1}}-footer-textbox" ng-disabled="!ctrl.manageAll" style="text-align: right;"
+													    convert-to-number="" ng-model="record.startIndex" maxlength="3" />
 												</td>
 												<td class="text-center" style="width: 10%">
-													<scf-button type="button" id="field-setup-{{$index+1}}-footer-button" class="btn-default gec-btn-action"
-														ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll" 
-														ng-click="ctrl.openSetting($index, record)">
-                                                        <i class="fa fa-cog" aria-hidden="true"></i> </scf-button>
-													<scf-button type="button" id="delete-{{$index+1}}-footer-button"
-														ng-disabled="ctrl.footerItem.length == 1 || !ctrl.manageAll"
-														class="btn-default gec-btn-action" ng-click="ctrl.removeDataItem($index,'FOOTER')">
-														<i class="fa fa-trash" aria-hidden="true"></i> </scf-button>
+													<scf-button type="button" id="field-setup-{{$index+1}}-footer-button" class="btn-default gec-btn-action" ng-disabled="ctrl.disableSetting(record) || !ctrl.manageAll"
+													    ng-click="ctrl.openSetting($index, record)">
+														<i class="fa fa-cog" aria-hidden="true"></i>
+													</scf-button>
+													<scf-button type="button" id="delete-{{$index+1}}-footer-button" ng-disabled="ctrl.footerItem.length == 1 || !ctrl.manageAll"
+													    class="btn-default gec-btn-action" ng-click="ctrl.removeDataItem($index,'FOOTER')">
+														<i class="fa fa-trash" aria-hidden="true"></i>
+													</scf-button>
 												</td>
 											</tr>
 											<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'"></tr>
-
 										</tbody>
 									</table>
 									<div>
-										<button id="add-another-field-footer-button" type="button" 
-											ng-disabled="!ctrl.manageAll"
-											class="btn btn-default" ng-click="ctrl.addItem('FOOTER')" ng-bind="'Add another field' | translate">Add
-											another field</button>
+										<button id="add-another-field-footer-button" type="button" ng-disabled="!ctrl.manageAll" class="btn btn-default" ng-click="ctrl.addItem('FOOTER')"
+										    ng-bind="'Add another field' | translate">Add another field</button>
 									</div>
 								</div>
-
 							</fieldset>
 							<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Footer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 						</div>
 					</div>
 					<div class="panel-body">
 						<div ng-show="errors.duplicateLayoutName">
-							<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
-								id="layout-name-error-bottom-message-label">{{'Layout name is
-								duplicate' | translate}}.</span>
+							<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-error-bottom-message-label">{{'Layout name is duplicate' | translate}}.</span>
 						</div>
 						<div ng-show="errors.requireLayoutName">
-							<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
-								id="layout-name-warning-bottom-message-label">{{'Layout name is
-								required' | translate}}.</span>
+							<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-warning-bottom-message-label">{{'Layout name is required' | translate}}.</span>
 						</div>
 					</div>
 					<div class="panel-body">
 						<div class="col-md-12 col-sm-12 text-right">
-							<scf-button id="layout-cancel-button" class="popup-button" 
-								data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
-								ng-bind="'Cancel' | translate"></scf-button>
-							<scf-button id="layout-save-button" type="submit" 
-								ng-disabled="!ctrl.manageAll">{{'Save' | translate}}
+							<scf-button id="layout-cancel-button" class="popup-button" data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
+							    ng-bind="'Cancel' | translate"></scf-button>
+							<scf-button id="layout-save-button" type="submit" ng-disabled="!ctrl.manageAll">{{'Save' | translate}}
 							</scf-button>
 						</div>
 					</div>
