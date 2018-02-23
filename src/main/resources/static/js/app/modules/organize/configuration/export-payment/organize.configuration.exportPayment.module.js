@@ -17,8 +17,17 @@ var exportPayment = angular.module('gecscf.organize.configuration.exportPayment'
 			'js/app/modules/organize/configuration/export-payment/controllers/SummaryExportLayoutConfigController.js'
 		];
 
-		$stateProvider.state('/sponsor-configuration/export-payments/settings', {
-			url: '/organizations/:organizeId/export-payments/settings',
+		$stateProvider.state('/organizations/export-payments/setup', {
+			url: '/organizations/:organizeId/export-payments/:layoutConfigId/setup',
+			controller: 'ExportPaymentController',
+			controllerAs: 'ctrl',
+			templateUrl: '/sponsor-configuration/export-payments/settings',
+			params: {
+				layoutConfigId: ':layoutConfigId'
+			},
+			resolve: WebHelper.loadScript(resources)
+		}).state('/organizations/export-payments/view', {
+			url: '/organizations/:organizeId/export-payments/:layoutConfigId/view',
 			controller: 'ExportPaymentController',
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/export-payments/settings',

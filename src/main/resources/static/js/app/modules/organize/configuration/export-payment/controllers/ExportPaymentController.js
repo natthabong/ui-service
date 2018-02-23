@@ -9,7 +9,8 @@ module.controller('ExportPaymentController', [
     'ngDialog',
     'UIFactory',
     'PageNavigation',
-    'blockUI', 'FileLayoutService',
+    'blockUI',
+    'FileLayoutService',
     'FILE_TYPE_ITEM',
     'DELIMITER_TYPE_TEM',
     'CHARSET_ITEM',
@@ -71,7 +72,7 @@ module.controller('ExportPaymentController', [
         var watchCount = 0;
 
         // <----------------------- initial varible end --------------------->
-        
+
         var loadDocumentFields = function (sectionType, dropDownData) {
             var deffered = SCFCommonService.getDocumentFields('EXPORT', sectionType, null);
             deffered.promise.then(function (response) {
@@ -89,7 +90,6 @@ module.controller('ExportPaymentController', [
             }).catch(function (response) {
                 log.error('Load data error');
             });
-
         }
 
         var loadFileEncode = function () {
@@ -150,8 +150,8 @@ module.controller('ExportPaymentController', [
                 checkBinaryFile: false,
                 processType: "EXPORT_DOCUMENT",
                 completed: false,
-                displayHeaderColumn : false,
-                layoutConfigId : layoutConfigId
+                displayHeaderColumn: false,
+                layoutConfigId: layoutConfigId
             };
 
             vm.delimeter = ',';
@@ -171,23 +171,23 @@ module.controller('ExportPaymentController', [
             return str.join('');
         }
 
-        var loadSectionItem = function (owner,layoutId,section,data) {
-            var deferred = FileLayoutService.getFileLayoutItems(owner,layoutId,section);
-            deferred.promise.then(function(response){
-                if(response.data.length > 0){
-                    if(section == 'HEADER'){
+        var loadSectionItem = function (owner, layoutId, section, data) {
+            var deferred = FileLayoutService.getFileLayoutItems(owner, layoutId, section);
+            deferred.promise.then(function (response) {
+                if (response.data.length > 0) {
+                    if (section == 'HEADER') {
                         vm.headerSelected = true;
-                    }else if(section == 'PAYMENT'){
+                    } else if (section == 'PAYMENT') {
                         vm.paymentSelected = true;
-                    }else if(section == 'FOOTER'){
+                    } else if (section == 'FOOTER') {
                         vm.footerSelected = true;
                     }
-                    response.data.forEach(function(obj){
+                    response.data.forEach(function (obj) {
                         data.push(obj);
                     });
                 }
-                
-            }).catch(function(response){
+
+            }).catch(function (response) {
 
             });
         }
@@ -200,24 +200,23 @@ module.controller('ExportPaymentController', [
                     model = response.data;
                 }
                 initialModel(model);
-                loadSectionItem(ownerId,layoutConfigId,'HEADER',vm.headerItem);
-                loadSectionItem(ownerId,layoutConfigId,'PAYMENT',vm.paymentItem);
-                loadSectionItem(ownerId,layoutConfigId,'DOCUMENT',vm.documentItem);
-                loadSectionItem(ownerId,layoutConfigId,'FOOTER',vm.footerItem);
-            }).catch(function (response) {
-            });
+                loadSectionItem(ownerId, layoutConfigId, 'HEADER', vm.headerItem);
+                loadSectionItem(ownerId, layoutConfigId, 'PAYMENT', vm.paymentItem);
+                loadSectionItem(ownerId, layoutConfigId, 'DOCUMENT', vm.documentItem);
+                loadSectionItem(ownerId, layoutConfigId, 'FOOTER', vm.footerItem);
+            }).catch(function (response) {});
             return defferd;
         }
 
-        var initial = function () {        	
-        	var defferd = loadFileLayout(layoutConfigId);
-        	defferd.promise.then(function (response) {
-              loadDocumentFields('HEADER', vm.headerGECDropdown);
-              loadDocumentFields('FOOTER', vm.footerGECDropdown);
-              loadDocumentFields('PAYMENT', vm.paymentGECDropdown);
-              loadDocumentFields('DOCUMENT', vm.doucmentGECDropdown);        		
-        	});
-        } ();
+        var initial = function () {
+            var defferd = loadFileLayout(layoutConfigId);
+            defferd.promise.then(function (response) {
+                loadDocumentFields('HEADER', vm.headerGECDropdown);
+                loadDocumentFields('FOOTER', vm.footerGECDropdown);
+                loadDocumentFields('PAYMENT', vm.paymentGECDropdown);
+                loadDocumentFields('DOCUMENT', vm.doucmentGECDropdown);
+            });
+        }();
 
         //<---------------- function for user action  ---------------->
         vm.addItem = function (section) {
@@ -232,30 +231,32 @@ module.controller('ExportPaymentController', [
                 recordType: section
             };
 
-            if(section == 'HEADER'){
+            if (section == 'HEADER') {
                 vm.headerItem.push(itemConfig);
-            }else if(section == 'PAYMENT'){
+            } else if (section == 'PAYMENT') {
                 vm.paymentItem.push(itemConfig)
-            }else if(section == 'DOCUMENT'){
+            } else if (section == 'DOCUMENT') {
                 vm.documentItem.push(itemConfig)
-            }else if(section == 'FOOTER'){
+            } else if (section == 'FOOTER') {
                 vm.footerItem.push(itemConfig)
             }
         }
 
-        vm.clearItem = function(section){
-            if(section == 'HEADER'){
+        vm.clearItem = function (section) {
+            if (section == 'HEADER') {
                 vm.headerItem = [];
-            }else if(section == 'PAYMENT'){
+            } else if (section == 'PAYMENT') {
                 vm.paymentItem = [];
-            }else if(section == 'FOOTER'){
+            } else if (section == 'FOOTER') {
                 vm.footerItem = [];
             }
         }
 
         vm.backToSponsorConfigPage = function () {
-        	var params = {organizeId: ownerId};
-			PageNavigation.gotoPage("/sponsor-configuration",params);
+            var params = {
+                organizeId: ownerId
+            };
+            PageNavigation.gotoPage("/sponsor-configuration", params);
         }
 
         vm.openSetting = function (index, record) {
@@ -309,194 +310,194 @@ module.controller('ExportPaymentController', [
             });
         }
 
-        var addSectionItems = function(section){
+        var addSectionItems = function (section) {
             var sectionItem = null;
-            if(section == 'HEADER'){
+            if (section == 'HEADER') {
                 sectionItem = vm.headerItem;
-            }else if(section == 'PAYMENT'){
+            } else if (section == 'PAYMENT') {
                 sectionItem = vm.paymentItem;
-            }else if(section == 'DOCUMENT'){
+            } else if (section == 'DOCUMENT') {
                 sectionItem = vm.documentItem;
-            }else if(section == 'FOOTER'){
+            } else if (section == 'FOOTER') {
                 sectionItem = vm.footerItem;
             }
 
-            if(sectionItem.length > 0){
-                sectionItem.forEach(function(obj){
+            if (sectionItem.length > 0) {
+                sectionItem.forEach(function (obj) {
                     vm.items.push(obj)
                 });
             }
         }
 
         $scope.confirmSave = function (sponsorLayout) {
-            var fileLayoutDiferred = FileLayoutService.updateFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT',sponsorLayout.layoutConfigId,sponsorLayout);
-		    return fileLayoutDiferred;
+            var fileLayoutDiferred = FileLayoutService.updateFileLayout(ownerId, 'EXPORT_DOCUMENT', 'EXPORT', sponsorLayout.layoutConfigId, sponsorLayout);
+            return fileLayoutDiferred;
         };
-        
-		var onFail = function (errors) {
-			$scope.errors = errors;
-		}
+
+        var onFail = function (errors) {
+            $scope.errors = errors;
+        }
 
         vm.save = function () {
             var sponsorLayout = null;
             vm.model.completed = true;
             vm.model.processType = 'EXPORT_DOCUMENT';
             $scope.errors = [];
-            
+
             if (vm.model.displayName == '') {
                 var errors = {
                     requireLayoutName: true
                 }
                 onFail(errors)
-            }else{
-	            if (vm.model.fileType == 'CSV') {
-	                if (vm.delimeter == 'Other') {
-	                    vm.model.delimeter = vm.delimeterOther;
-	                } else {
-	                    vm.model.delimeter = vm.delimeter;
-	                }
-	                vm.model.wrapper = '"';
-	                vm.model.headerRecordType = null;
-					vm.model.detailRecordType = null;
-					vm.model.footerRecordType = null;
-	            }
-	            sponsorLayout = angular.copy(vm.model);
-	
-	            vm.items = [];
-	            addSectionItems('HEADER');
-	            addSectionItems('PAYMENT');
-	            addSectionItems('DOCUMENT');
-	            addSectionItems('FOOTER');
-	            sponsorLayout.items = angular.copy(vm.items);
-	
-	            sponsorLayout.items.forEach(function (obj, index) {
-	                var dataType = vm.dataTypeByIds[obj.documentFieldId];
-	                if(angular.isDefined(dataType)){
-	                    obj.dataType = dataType.dataType;
-	                    obj.transient = dataType.transient;
-	                    if (dataType.dataType == 'CUSTOMER_CODE') {
-	                        obj.validationType = 'IN_CUSTOMER_CODE_GROUP';
-	                    }
-	                }
-	            });
-	
-	            UIFactory.showConfirmDialog({
-	                data: {
-	                    headerMessage: 'Confirm save?'
-	                },
-	                confirm: function () { 
-	                	blockUI.start();
-	                	return $scope.confirmSave(sponsorLayout) 
-	                },
-	                onSuccess: function (response) {
-	                    UIFactory.showSuccessDialog({
-	                        data: {
-	                            headerMessage: 'Edit file layout complete.',
-	                            bodyMessage: ''
-	                        },
-	                        preCloseCallback: function () {
-	                            vm.backToSponsorConfigPage();
-	                        }
-	                    });
-	                    blockUI.stop();
-	                },
-	                onFail: function (response) {
-						if (response.status != 400) {
-							var msg = {};
-							UIFactory.showFailDialog({
-								data : {
-									headerMessage : 'Edit file layout fail.',
-									bodyMessage : msg[response.status] ? msg[response.status]
-											: response.data.message
-								},preCloseCallback: function () {
-                                   
+            } else {
+                if (vm.model.fileType == 'CSV') {
+                    if (vm.delimeter == 'Other') {
+                        vm.model.delimeter = vm.delimeterOther;
+                    } else {
+                        vm.model.delimeter = vm.delimeter;
+                    }
+                    vm.model.wrapper = '"';
+                    vm.model.headerRecordType = null;
+                    vm.model.detailRecordType = null;
+                    vm.model.footerRecordType = null;
+                }
+                sponsorLayout = angular.copy(vm.model);
+
+                vm.items = [];
+                addSectionItems('HEADER');
+                addSectionItems('PAYMENT');
+                addSectionItems('DOCUMENT');
+                addSectionItems('FOOTER');
+                sponsorLayout.items = angular.copy(vm.items);
+
+                sponsorLayout.items.forEach(function (obj, index) {
+                    var dataType = vm.dataTypeByIds[obj.documentFieldId];
+                    if (angular.isDefined(dataType)) {
+                        obj.dataType = dataType.dataType;
+                        obj.transient = dataType.transient;
+                        if (dataType.dataType == 'CUSTOMER_CODE') {
+                            obj.validationType = 'IN_CUSTOMER_CODE_GROUP';
+                        }
+                    }
+                });
+
+                UIFactory.showConfirmDialog({
+                    data: {
+                        headerMessage: 'Confirm save?'
+                    },
+                    confirm: function () {
+                        blockUI.start();
+                        return $scope.confirmSave(sponsorLayout)
+                    },
+                    onSuccess: function (response) {
+                        UIFactory.showSuccessDialog({
+                            data: {
+                                headerMessage: 'Edit file layout complete.',
+                                bodyMessage: ''
+                            },
+                            preCloseCallback: function () {
+                                vm.backToSponsorConfigPage();
+                            }
+                        });
+                        blockUI.stop();
+                    },
+                    onFail: function (response) {
+                        if (response.status != 400) {
+                            var msg = {};
+                            UIFactory.showFailDialog({
+                                data: {
+                                    headerMessage: 'Edit file layout fail.',
+                                    bodyMessage: msg[response.status] ? msg[response.status] : response.data.message
+                                },
+                                preCloseCallback: function () {
+
                                 }
-							});
-						} else {
-							$scope.errors = {};
-							$scope.errors[response.data.reference] = {
-								message : response.data.errorMessage
-							}
-							
-							var errors = {
-								duplicateLayoutName : true
-							}
-							
-							onFail(errors)
-						}
-						blockUI.stop();
-	                }
-	            });
+                            });
+                        } else {
+                            $scope.errors = {};
+                            $scope.errors[response.data.reference] = {
+                                message: response.data.errorMessage
+                            }
+
+                            var errors = {
+                                duplicateLayoutName: true
+                            }
+
+                            onFail(errors)
+                        }
+                        blockUI.stop();
+                    }
+                });
             }
         }
 
-        vm.clearSectionItem = function(selected,section){
-            if(selected){
+        vm.clearSectionItem = function (selected, section) {
+            if (selected) {
                 vm.clearItem(section);
                 vm.addItem(section);
-            }else{
+            } else {
                 vm.clearItem(section);
             }
         }
 
-        vm.removeDataItem = function(index,section){
-            if(section == 'HEADER'){
-                vm.headerItem.splice(index,1);
-            }else if(section == 'PAYMENT'){
-                vm.paymentItem.splice(index,1);
-            }else if(section == 'DOCUMENT'){
-                vm.documentItem.splice(index,1);
-            }else if(section == 'FOOTER'){
-                vm.footerItem.splice(index,1);
+        vm.removeDataItem = function (index, section) {
+            if (section == 'HEADER') {
+                vm.headerItem.splice(index, 1);
+            } else if (section == 'PAYMENT') {
+                vm.paymentItem.splice(index, 1);
+            } else if (section == 'DOCUMENT') {
+                vm.documentItem.splice(index, 1);
+            } else if (section == 'FOOTER') {
+                vm.footerItem.splice(index, 1);
             }
         }
-        
-        vm.clearPaddingCharacter = function(sectionObjectItems){
-        	sectionObjectItems.forEach(function (rowItem) {
-        		var dataType = rowItem.dataType.toUpperCase();
-        		if(dataType == 'NUMERIC' || dataType == 'COUNT' || dataType == 'SUMMARY'){
-        			rowItem.paddingCharacter = "";
-        		}
-			});
-		}
-		
-		vm.setPaddingCharacter = function(sectionObjectItems, pad){
-        	sectionObjectItems.forEach(function (rowItem) {
-        		var dataType = rowItem.dataType.toUpperCase();
-        		if(dataType == 'NUMERIC' || dataType == 'COUNT' || dataType == 'SUMMARY'){
-        			rowItem.paddingCharacter = pad;
-        		}
-			});
-		}
-		
-		vm.isChangeDataType = function (recordChanged, dropdownItems){
-			
-			function findByFieldId(item) {
-    			return item.value == recordChanged.documentFieldId;
-			}
 
-			function getChangedDataType() {
-    			return dropdownItems.find(findByFieldId).dataType;
-			}	
-			
-			var dataType = getChangedDataType();
-			if(!isDataTypeNumeric(dataType.toUpperCase())){
-				recordChanged.paddingCharacter = "";
-			}else if(isDataTypeNumeric(dataType.toUpperCase()) && (recordChanged.paddingCharacter == undefined || recordChanged.paddingCharacter.length == 0)){
-				recordChanged.paddingCharacter = "0";
-			}
-		}
-		
-		function isDataTypeNumeric(dataType){
-			var dataTypeUpperCase = dataType.toUpperCase();
-			if(dataTypeUpperCase == 'COUNT' || dataTypeUpperCase == 'NUMERIC' || dataTypeUpperCase == 'SUMMARY' ){
-				return true;
-			}
-			
-			return false;
-		}
+        vm.clearPaddingCharacter = function (sectionObjectItems) {
+            sectionObjectItems.forEach(function (rowItem) {
+                var dataType = rowItem.dataType.toUpperCase();
+                if (dataType == 'NUMERIC' || dataType == 'COUNT' || dataType == 'SUMMARY') {
+                    rowItem.paddingCharacter = "";
+                }
+            });
+        }
 
-        vm.disableSetting = function(record){
+        vm.setPaddingCharacter = function (sectionObjectItems, pad) {
+            sectionObjectItems.forEach(function (rowItem) {
+                var dataType = rowItem.dataType.toUpperCase();
+                if (dataType == 'NUMERIC' || dataType == 'COUNT' || dataType == 'SUMMARY') {
+                    rowItem.paddingCharacter = pad;
+                }
+            });
+        }
+
+        vm.isChangeDataType = function (recordChanged, dropdownItems) {
+
+            function findByFieldId(item) {
+                return item.value == recordChanged.documentFieldId;
+            }
+
+            function getChangedDataType() {
+                return dropdownItems.find(findByFieldId).dataType;
+            }
+
+            var dataType = getChangedDataType();
+            if (!isDataTypeNumeric(dataType.toUpperCase())) {
+                recordChanged.paddingCharacter = "";
+            } else if (isDataTypeNumeric(dataType.toUpperCase()) && (recordChanged.paddingCharacter == undefined || recordChanged.paddingCharacter.length == 0)) {
+                recordChanged.paddingCharacter = "0";
+            }
+        }
+
+        function isDataTypeNumeric(dataType) {
+            var dataTypeUpperCase = dataType.toUpperCase();
+            if (dataTypeUpperCase == 'COUNT' || dataTypeUpperCase == 'NUMERIC' || dataTypeUpperCase == 'SUMMARY') {
+                return true;
+            }
+
+            return false;
+        }
+
+        vm.disableSetting = function (record) {
             var disable = false;
             var documentFieldId = record.documentFieldId;
             var recordType = record.recordType;
@@ -511,53 +512,53 @@ module.controller('ExportPaymentController', [
             } else if (recordType == "FOOTER") {
                 dataTypeDropdowns = vm.dataTypes["FOOTER"];
             }
-            if(documentFieldId != null && dataTypeDropdowns != null){
+            if (documentFieldId != null && dataTypeDropdowns != null) {
                 var index = dataTypeDropdowns.findIndex(i => i.documentFieldId == documentFieldId);
-                if(index >=0 ){
-                    if(dataTypeDropdowns[index].configUrl == '' || dataTypeDropdowns[index].configUrl == null){
+                if (index >= 0) {
+                    if (dataTypeDropdowns[index].configUrl == '' || dataTypeDropdowns[index].configUrl == null) {
                         disable = true;
                     }
-                }else{
+                } else {
                     disable = true;
                 }
-            }else{
+            } else {
                 disable = true;
             }
             return disable;
         }
 
         $scope.$watch('ctrl.model.fileType', function () {
-            if(vm.model.fileType != null){
-                if(vm.model.fileType == vm.fileType.fixedLength){
+            if (vm.model.fileType != null) {
+                if (vm.model.fileType == vm.fileType.fixedLength) {
                     vm.isDelimited = false;
                     vm.model.fileExtensions = 'txt';
                     vm.delimeter = ',';
                     vm.delimeterOther = '';
                     vm.model.displayHeaderColumn = false;
-                    vm.setPaddingCharacter(vm.documentItem, '0');        
+                    vm.setPaddingCharacter(vm.documentItem, '0');
 
-                }else if(vm.model.fileType == vm.fileType.delimited){
+                } else if (vm.model.fileType == vm.fileType.delimited) {
                     vm.isDelimited = true;
 
                     vm.headerSelected = false;
-                    vm.clearSectionItem(vm.headerSelected,'HEADER');
+                    vm.clearSectionItem(vm.headerSelected, 'HEADER');
                     vm.paymentSelected = false;
-                    vm.clearSectionItem(vm.paymentSelected,'PAYMENT');
+                    vm.clearSectionItem(vm.paymentSelected, 'PAYMENT');
                     vm.footerSelected = false;
-                    vm.clearSectionItem(vm.footerSelected,'FOOTER');
+                    vm.clearSectionItem(vm.footerSelected, 'FOOTER');
                     vm.model.fileExtensions = 'csv';
                     vm.clearPaddingCharacter(vm.documentItem);
 
-                    if(vm.model.delimeter != null){
+                    if (vm.model.delimeter != null) {
                         var index = vm.delimitersDropdown.findIndex(i => i.value == vm.model.delimeter);
-                        if(index < 0){
+                        if (index < 0) {
                             vm.delimeter = 'Other';
                             vm.delimeterOther = vm.model.delimeter;
                         }
                     }
-                    
-                    
-                }else if(vm.model.fileType == vm.fileType.specific){
+
+
+                } else if (vm.model.fileType == vm.fileType.specific) {
                     vm.isDelimited = false;
                     vm.delimeter = ',';
                     vm.delimeterOther = '';
