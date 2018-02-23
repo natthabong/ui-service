@@ -12,10 +12,10 @@ module.controller('ViewFileLayoutController', [
 	'PageNavigation',
 	'blockUI', 'FileLayoutService',
 	'FILE_TYPE_ITEM',
-	'DELIMITER_TYPE_TEM',
+	'DELIMITER_TYPE_ITEM',
 	 'Service','SCFCommonService',
 	function (log, $rootScope, $scope, $state, $stateParams, $injector, ngDialog, UIFactory, PageNavigation,
-		blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, Service, SCFCommonService) {
+		blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_ITEM, Service, SCFCommonService) {
 
 		var vm = this;
 
@@ -173,7 +173,7 @@ module.controller('ViewFileLayoutController', [
 						vm.delimeter = 'Other';
 						vm.delimeterOther = vm.model.delimeter;
 
-						DELIMITER_TYPE_TEM.forEach(function (obj) {
+						DELIMITER_TYPE_ITEM.forEach(function (obj) {
 							if (obj.delimiterId == vm.model.delimeter) {
 								vm.delimeter = vm.model.delimeter;
 								vm.delimeterOther = '';
@@ -302,7 +302,7 @@ module.controller('ViewFileLayoutController', [
 		}
 
 		vm.getDelimiterName = function() {
-		    var obj = DELIMITER_TYPE_TEM.filter(getDelimiterObject);
+		    var obj = DELIMITER_TYPE_ITEM.filter(getDelimiterObject);
 		    if(obj.length == 0){
 		    	return "Other";
 		    }
@@ -335,7 +335,7 @@ app.constant('FILE_TYPE_ITEM', {
 	specific: 'SPECIFIC'
 });
 
-app.constant('DELIMITER_TYPE_TEM', [{
+app.constant('DELIMITER_TYPE_ITEM', [{
 	delimiterName: 'Comma (,)',
 	delimiterId: ','
 }, {

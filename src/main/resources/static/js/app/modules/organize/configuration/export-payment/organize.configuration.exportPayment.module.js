@@ -47,7 +47,7 @@ exportPayment.constant('FILE_TYPE_ITEM', {
 	specific: 'SPECIFIC'
 });
 
-exportPayment.constant('DELIMITER_TYPE_TEM', [{
+exportPayment.constant('DELIMITER_TYPE_ITEM', [{
 		delimiterName: 'Comma (,)',
 		delimiterId: ','
 	},

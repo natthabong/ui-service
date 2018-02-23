@@ -3,7 +3,7 @@
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft">{{ctrl.headerName | translate}}</h3>
+					<h3 id="header-message-label" class="animated fadeInLeft ng-cloak" ng-bind="'Payment result file layout' | translate"></h3>
 				</div>
 			</div>
 		</div>
@@ -30,11 +30,14 @@
 							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 							<div class="col-md-1 col-sm-2 col-xs-12">
 								<label class="radio-inline">
-									<scf-radio id="delimited-file-type-radio" ng-value="ctrl.fileType.delimited" ng-disabled="true" name="file-type-radio" ng-model="ctrl.model.fileType"></scf-radio> {{'Delimited' | translate}}
+									<scf-radio id="delimited-file-type-radio" ng-value="ctrl.fileType.delimited" ng-disabled="true" name="file-type-radio" ng-model="ctrl.model.fileType"></scf-radio>
+									{{'Delimited' | translate}}
 								</label>
 							</div>
 							<div class="col-md-7 col-sm-5 col-xs-12" style="padding-top: 7px;">
-								<label ng-show="ctrl.model.fileType == ctrl.fileType.delimited" id="delimiters-label">{{'Delimiter' | translate}}: </label>
+								<label ng-show="ctrl.model.fileType == ctrl.fileType.delimited" id="delimiters-label">
+									{{'Delimiter' | translate}}:
+								</label>
 								<label ng-show="ctrl.model.fileType == ctrl.fileType.delimited" id="delimiters-value-label" ng-bind="ctrl.getDelimiterName()"
 								    translate-label="true"></label>
 								<label id="delimiters-label" ng-show="ctrl.delimeter=='Other'" ng-bind="' (' + ctrl.delimeterOther + ')'"></label>

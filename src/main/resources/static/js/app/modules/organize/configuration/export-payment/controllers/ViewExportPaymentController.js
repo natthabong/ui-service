@@ -3,7 +3,9 @@ angular.module('gecscf.organize.configuration.exportPayment').controller('ViewEx
 	'$log',
 	'$stateParams',
 	'FileLayoutService',
-	function ($log, $stateParams, FileLayoutService) {
+	'DELIMITER_TYPE_ITEM',
+	'FILE_TYPE_ITEM',
+	function ($log, $stateParams, FileLayoutService, DELIMITER_TYPE_ITEM, FILE_TYPE_ITEM) {
 		var vm = this;
 		var log = $log;
 		var organizeId = $stateParams.organizeId;
@@ -17,6 +19,9 @@ angular.module('gecscf.organize.configuration.exportPayment').controller('ViewEx
 
 		vm.model = undefined;
 
+		// Radio button
+		vm.fileType = FILE_TYPE_ITEM;
+
 		// Check box
 		vm.headerSelected = false;
 		vm.paymentSelected = false;
@@ -29,6 +34,10 @@ angular.module('gecscf.organize.configuration.exportPayment').controller('ViewEx
 		vm.documentItem = [];
 		vm.paymentItem = [];
 		vm.footerItem = [];
+
+		function getDelimiterObject(item) {
+			return (item.delimiterId == vm.model.delimeter);
+		}
 
 		function loadSectionItem(organizeId, layoutConfigId, section, data) {
 			var deferred = FileLayoutService.getFileLayoutItems(organizeId, layoutConfigId, section);
@@ -57,6 +66,8 @@ angular.module('gecscf.organize.configuration.exportPayment').controller('ViewEx
 			defferd.promise.then(function (response) {
 				if (response.data != null) {
 					vm.model = response.data;
+					console.log(vm.model)
+					console.log(vm.fileType)
 				}
 				// initialModel(model);
 				loadSectionItem(organizeId, layoutConfigId, sections.HEADER, vm.headerItem);
@@ -67,6 +78,15 @@ angular.module('gecscf.organize.configuration.exportPayment').controller('ViewEx
 				log.error('Fail to load file layout.');
 			});
 			return defferd;
+		}
+
+		vm.getDelimiterName = function () {
+			var obj = DELIMITER_TYPE_ITEM.filter(getDelimiterObject);
+			if (obj.length == 0) {
+				return "Other";
+			} else {
+				return obj[0].delimiterName;
+			}
 		}
 
 		function init() {
@@ -229,7 +249,7 @@ angular.module('gecscf.organize.configuration.exportPayment').controller('ViewEx
 // 						vm.delimeter = 'Other';
 // 						vm.delimeterOther = vm.model.delimeter;
 
-// 						DELIMITER_TYPE_TEM.forEach(function (obj) {
+// 						DELIMITER_TYPE_ITEM.forEach(function (obj) {
 // 							if (obj.delimiterId == vm.model.delimeter) {
 // 								vm.delimeter = vm.model.delimeter;
 // 								vm.delimeterOther = '';
@@ -358,7 +378,7 @@ angular.module('gecscf.organize.configuration.exportPayment').controller('ViewEx
 // 		}
 
 // 		vm.getDelimiterName = function() {
-// 		    var obj = DELIMITER_TYPE_TEM.filter(getDelimiterObject);
+// 		    var obj = DELIMITER_TYPE_ITEM.filter(getDelimiterObject);
 // 		    if(obj.length == 0){
 // 		    	return "Other";
 // 		    }
@@ -391,7 +411,7 @@ angular.module('gecscf.organize.configuration.exportPayment').controller('ViewEx
 // 	specific: 'SPECIFIC'
 // });
 
-// app.constant('DELIMITER_TYPE_TEM', [{
+// app.constant('DELIMITER_TYPE_ITEM', [{
 // 	delimiterName: 'Comma (,)',
 // 	delimiterId: ','
 // }, {

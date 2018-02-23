@@ -12,11 +12,11 @@ module.controller('ExportPaymentController', [
     'blockUI',
     'FileLayoutService',
     'FILE_TYPE_ITEM',
-    'DELIMITER_TYPE_TEM',
+    'DELIMITER_TYPE_ITEM',
     'CHARSET_ITEM',
     'SCFCommonService',
     function (log, $rootScope, $scope, $state, $stateParams, ngDialog, UIFactory, PageNavigation,
-        blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, CHARSET_ITEM, SCFCommonService) {
+        blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_ITEM, CHARSET_ITEM, SCFCommonService) {
 
         // <----------------------- initial variable start --------------------->
         var vm = this;
@@ -104,7 +104,7 @@ module.controller('ExportPaymentController', [
         }();
 
         var loadDelimiters = function () {
-            DELIMITER_TYPE_TEM.forEach(function (obj) {
+            DELIMITER_TYPE_ITEM.forEach(function (obj) {
                 var selectObj = {
                     label: obj.delimiterName,
                     value: obj.delimiterId
