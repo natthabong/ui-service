@@ -6,6 +6,7 @@ var exportPayment = angular.module('gecscf.organize.configuration.exportPayment'
 		var resources = [
 			'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
 			'js/app/modules/organize/configuration/export-payment/controllers/ExportPaymentController.js',
+			'js/app/modules/organize/configuration/export-payment/controllers/ViewExportPaymentController.js',
 			'js/app/modules/organize/configuration/export-payment/services/ExportPaymentService.js',
 			'js/app/modules/organize/configuration/export-payment/controllers/SpecificTextExportLayoutConfigController.js',
 			'js/app/modules/organize/configuration/export-payment/controllers/FillerExportLayoutConfigController.js',
@@ -21,16 +22,16 @@ var exportPayment = angular.module('gecscf.organize.configuration.exportPayment'
 			url: '/organizations/:organizeId/export-payments/:layoutConfigId/setup',
 			controller: 'ExportPaymentController',
 			controllerAs: 'ctrl',
-			templateUrl: '/sponsor-configuration/export-payments/settings',
+			templateUrl: '/sponsor-configuration/export-payments/setup',
 			params: {
 				layoutConfigId: ':layoutConfigId'
 			},
 			resolve: WebHelper.loadScript(resources)
 		}).state('/organizations/export-payments/view', {
 			url: '/organizations/:organizeId/export-payments/:layoutConfigId/view',
-			controller: 'ExportPaymentController',
+			controller: 'ViewExportPaymentController',
 			controllerAs: 'ctrl',
-			templateUrl: '/sponsor-configuration/export-payments/settings',
+			templateUrl: '/sponsor-configuration/export-payments/view',
 			params: {
 				layoutConfigId: ':layoutConfigId'
 			},

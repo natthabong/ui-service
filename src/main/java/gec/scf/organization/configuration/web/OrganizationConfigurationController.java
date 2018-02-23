@@ -40,7 +40,7 @@ public class OrganizationConfigurationController {
 	private static final String AP_FILE_LAYOUTS = "sponsor-configuration/ap-document-config/import-layouts";
 
 	private static final String SETTING_FILE_LAYOUT = "sponsor-configuration/file-layouts/settings";
-	
+
 	private static final String VIEW_FILE_LAYOUT = "sponsor-configuration/file-layouts/view";
 
 	private static final String PAYMENT_AMOUNT_FORMULA = "sponsor-configuration/payment-amount-formula/payment-amount-formula";
@@ -76,7 +76,7 @@ public class OrganizationConfigurationController {
 
 	private static final String VIEW_IMPORT_CHANNEL = "sponsor-configuration/import-channels/view";
 	private static final String VIEW_IMPORT_CHANNEL_FTP = "sponsor-configuration/import-channels/ftp-view";
-	
+
 	private static final String VIEW_EXPORT_CHANNEL = "sponsor-configuration/export-channels/view";
 	private static final String VIEW_EXPORT_CHANNEL_FTP = "sponsor-configuration/export-channels/ftp-view";
 
@@ -85,6 +85,7 @@ public class OrganizationConfigurationController {
 	private static final String MAPPING_DATA_CODE = "sponsor-configuration/mapping-data-code/mapping-data-code";
 
 	private static final String SETTINGS_EXPORT_PAYMENT = "sponsor-configuration/export-payments/settings";
+	private static final String VIEW_EXPORT_PAYMENT = "sponsor-configuration/export-payments/view";
 
 	@RequestMapping(path = "/create-transaction-display-configs", method = RequestMethod.GET)
 	public String apCreateTransactionDisplay(@RequestHeader("X-Requested-With") String requestedWith) {
@@ -153,7 +154,7 @@ public class OrganizationConfigurationController {
 		}
 		return SETTINGS_BUYER_CODE_GROUPS;
 	}
-	
+
 	@RequestMapping(path = "/customer-code-groups/buyer-code-list/view", method = RequestMethod.GET)
 	public String buyerCodeGroupsView(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
@@ -203,7 +204,7 @@ public class OrganizationConfigurationController {
 		return EDIT_MAPPING_DATA;
 
 	}
-	
+
 	@RequestMapping(path = "/mapping-data/view", method = RequestMethod.GET)
 	public String viewMappingData(@RequestHeader("X-Requested-With") String requestedWith) {
 
@@ -286,7 +287,7 @@ public class OrganizationConfigurationController {
 		}
 		return SETTING_FILE_LAYOUT;
 	}
-	
+
 	@RequestMapping(path = "/file-layouts/view-file-layout", method = RequestMethod.GET)
 	public String viewFileLayout(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
@@ -397,8 +398,7 @@ public class OrganizationConfigurationController {
 		}
 		return VIEW_IMPORT_CHANNEL;
 	}
-	
-	
+
 	@RequestMapping(path = "/export-channels/view", method = RequestMethod.GET)
 	public String viewExportChannel(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
@@ -406,7 +406,7 @@ public class OrganizationConfigurationController {
 		}
 		return VIEW_EXPORT_CHANNEL;
 	}
-	
+
 	@RequestMapping(path = "/import-channels/ftp-view", method = RequestMethod.GET)
 	public String viewImportChannelFTP(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
@@ -430,7 +430,7 @@ public class OrganizationConfigurationController {
 		}
 		return SETTINGS_PAYMENT_DATE_FORMULA;
 	}
-	
+
 	@RequestMapping(path = "/payment-date-formulas/view", method = RequestMethod.GET)
 	public String viewPaymentDateFormula(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
@@ -447,12 +447,20 @@ public class OrganizationConfigurationController {
 		return SETUP_DISPLAY_FIELDS;
 	}
 
-	@RequestMapping(path = "/export-payments/settings", method = RequestMethod.GET)
+	@RequestMapping(path = "/export-payments/setup", method = RequestMethod.GET)
 	public String setupExportPayment(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTINGS_EXPORT_PAYMENT.concat(" :: content");
 		}
 		return SETTINGS_EXPORT_PAYMENT;
+	}
+
+	@RequestMapping(path = "/export-payments/view", method = RequestMethod.GET)
+	public String viewExportPayment(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return VIEW_EXPORT_PAYMENT.concat(" :: content");
+		}
+		return VIEW_EXPORT_PAYMENT;
 	}
 
 	@RequestMapping(path = "/workflow/setup", method = RequestMethod.GET)
@@ -478,7 +486,7 @@ public class OrganizationConfigurationController {
 		}
 		return SETTINGS_SUPPLIER_CODE_GROUPS;
 	}
-	
+
 	@RequestMapping(path = "/customer-code-groups/supplier-code-list/view", method = RequestMethod.GET)
 	public String supplierCodeGroupsView(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {

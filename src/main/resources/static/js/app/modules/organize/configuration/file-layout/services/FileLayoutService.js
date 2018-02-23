@@ -1,10 +1,8 @@
 'use strict';
-var module = angular.module('gecscf.organize.configuration.fileLayout');
-module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, $q, Service) {
- 
+angular.module('gecscf.organize.configuration.fileLayout').service('FileLayoutService', ['$http', '$q', 'Service', function ($http, $q, Service) {
+
 	this.getDocumentFields = function (fileLayoutType, sectionType, dataType) {
 		var deffered = $q.defer();
-
 		var uri = 'api/v1/configs/file-layout-types/' + fileLayoutType + '/section-types/' + sectionType + '/document-field';
 		$http({
 			url: uri,
@@ -20,7 +18,7 @@ module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		});
 		return deffered;
 	}
-	
+
 	this.getFundings = function () {
 		var url = '/api/v1/fundings';
 		var serviceDiferred = Service.doGet(url);
@@ -48,42 +46,39 @@ module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		var serviceUrl = 'api/v1/organize-customers/' + owner + '/process-types/' + processTypes + '/integrate-types/' + integrateTypes + '/layouts';
 		var deferred = $q.defer();
 		$http({
-			method : 'POST',
-			url : serviceUrl,
-			data : layoutConfigData
-		  }).then(function(response){
-		      return deferred.resolve(response);
-		 }).catch(function(response){
-		      return deferred.reject(response);
-		 });
-		 return deferred;
+			method: 'POST',
+			url: serviceUrl,
+			data: layoutConfigData
+		}).then(function (response) {
+			return deferred.resolve(response);
+		}).catch(function (response) {
+			return deferred.reject(response);
+		});
+		return deferred;
 	}
 
-	this.updateFileLayout = function(owner, processTypes, integrateTypes, layoutId, layoutConfigData){
-	    
+	this.updateFileLayout = function (owner, processTypes, integrateTypes, layoutId, layoutConfigData) {
 		var serviceUrl = 'api/v1/organize-customers/' + owner +
-			 '/process-types/' + processTypes + '/integrate-types/' + integrateTypes + '/layouts/' + layoutId;
+			'/process-types/' + processTypes + '/integrate-types/' + integrateTypes + '/layouts/' + layoutId;
 		var deferred = $q.defer();
 		$http({
-			method : 'POST',
-			url : serviceUrl,
-			data : layoutConfigData,
-			headers : {
+			method: 'POST',
+			url: serviceUrl,
+			data: layoutConfigData,
+			headers: {
 				'X-HTTP-Method-Override': 'PUT'
 			}
-		  }).then(function(response){
-		      return deferred.resolve(response);
-		 }).catch(function(response){
-		      return deferred.reject(response);
-		 });
-		 return deferred;
+		}).then(function (response) {
+			return deferred.resolve(response);
+		}).catch(function (response) {
+			return deferred.reject(response);
+		});
+		return deferred;
 	}
 
 	this.getSpecificData = function () {
-
 		var deffered = $q.defer();
 		var uri = 'js/app/modules/organize/configuration/file-layout/data/specifics_data.json';
-
 		$http({
 			url: uri,
 			method: 'GET'
@@ -116,18 +111,16 @@ module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 	}
 
 	this.validate = function (layout, docFieldList, messageFunc) {
-
 		var documentFieldIdList = [];
-
 		if (layout.processType == 'AR_DOCUMENT') {
 			var errors = {
-				requireLayoutName : true,
+				requireLayoutName: true,
 				requireDocDueDate: true,
 				requireNetAmount: true,
 				documentFieldIdListDupplicate: []
 			}
-			
-			if(layout.displayName != ''){
+
+			if (layout.displayName != '') {
 				errors.requireLayoutName = false;
 			}
 
@@ -173,11 +166,11 @@ module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 
 		} else if (layout.processType == 'AP_DOCUMENT') {
 			var errors = {
-				requireLayoutName : true,
+				requireLayoutName: true,
 				documentFieldIdListDupplicate: []
 			}
-			
-			if(layout.displayName != ''){
+
+			if (layout.displayName != '') {
 				errors.requireLayoutName = false;
 			}
 
@@ -189,7 +182,6 @@ module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 							errors.documentFieldIdListDupplicate.push(item.documentFieldId);
 						}
 					} else if (item.documentFieldId != null && docFieldData.documentFieldName != null) {
-
 						documentFieldIdList.push(item.documentFieldId);
 					}
 
@@ -200,7 +192,6 @@ module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 									errors.documentFieldIdListDupplicate.push(itemClone.documentFieldId);
 								}
 							} else if (itemClone.documentFieldId != null && docFieldData.documentFieldName != null) {
-
 								documentFieldIdList.push(itemClone.documentFieldId);
 							}
 						});
@@ -218,39 +209,36 @@ module.service('FileLayoutService', ['$http', '$q', 'Service', function ($http, 
 		return true;
 	}
 
-	this.getFileLayoutItems = function(ownerId,layoutId,section){
-		var uri = 'api/v1/organize-customers/' + ownerId + 
-                '/process-types/EXPORT_DOCUMENT/integrate-types/EXPORT/layouts/' + layoutId + '/items';
+	this.getFileLayoutItems = function (ownerId, layoutId, section) {
+		var uri = 'api/v1/organize-customers/' + ownerId +
+			'/process-types/EXPORT_DOCUMENT/integrate-types/EXPORT/layouts/' + layoutId + '/items';
 		var deffered = Service.doGet(uri, {
 			recordType: section
 		});
 
 		return deffered;
 	}
-	
-	this.deleteLayout = function(model, processTypes, integrateTypes){
-	  var uri = 'api/v1/organize-customers/' +  model.sponsorId  + 
-    '/process-types/'+processTypes+'/integrate-types/'+integrateTypes+'/layouts/' + model.layoutConfigId;
-	  
-    var deffered = $q.defer();
 
-    $http({
-            url: uri,
-            method: 'POST',
-            headers: {
-                'If-Match': model.version,
-                'X-HTTP-Method-Override': 'DELETE'
-            },
-            data: model
-        })
-        .then(function(response) {
-            deffered.resolve(response);
-        })
-        .catch(function(response) {
-            deffered.reject(response);
-        });
+	this.deleteLayout = function (model, processTypes, integrateTypes) {
+		var uri = 'api/v1/organize-customers/' + model.sponsorId + '/process-types/' + processTypes + '/integrate-types/' + integrateTypes + '/layouts/' + model.layoutConfigId;
+		var deffered = $q.defer();
+		$http({
+				url: uri,
+				method: 'POST',
+				headers: {
+					'If-Match': model.version,
+					'X-HTTP-Method-Override': 'DELETE'
+				},
+				data: model
+			})
+			.then(function (response) {
+				deffered.resolve(response);
+			})
+			.catch(function (response) {
+				deffered.reject(response);
+			});
 
-    return deffered;
-
+		return deffered;
 	}
+
 }]);
