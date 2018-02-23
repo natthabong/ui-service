@@ -21,11 +21,11 @@
 								<label class="col-md-4 col-sm-4 col-xs-12  control-label"
 									id="funding-value-label"
 									sec:authorize="hasAnyAuthority('MONITOR_BANK_INTEGRATION')"
-									ng-bind="ctrl.funding.fundingName"> </label>
-								<div class="col-md-4 col-sm-4 col-xs-12">
+									ng-bind="ctrl.funding.fundingName"></label>
+								<div class="col-md-4 col-sm-4 col-xs-12" 
+									sec:authorize="hasAnyAuthority('MONITOR_BANK_INTEGRATION_OF_ALL_FUNDING')">
 									<scf-dropdown
 										id="channel-dropdown" 
-										sec:authorize="hasAnyAuthority('MONITOR_BANK_INTEGRATION_OF_ALL_FUNDING')"
 										ng-model="ctrl.funding.fundingId"
 										component-data="ctrl.fundingDropdown" ></scf-dropdown>
 								</div>
