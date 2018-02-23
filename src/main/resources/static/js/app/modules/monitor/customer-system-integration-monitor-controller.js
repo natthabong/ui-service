@@ -1,31 +1,31 @@
 'use strict';
 var scfApp = angular.module('scfApp');
-scfApp.controller('SponsorSystemIntegrationMonitorController', [ '$scope', 'Service', '$stateParams', '$log', 'UIFactory', '$q',
+scfApp.controller('CustomerSystemIntegrationMonitorController', [ '$scope', 'Service', '$stateParams', '$log', 'UIFactory', '$q',
 	'$rootScope', '$http','PageNavigation','SystemIntegrationMonitorService','ngDialog',
 	function($scope, Service, $stateParams, $log, UIFactory, $q, $rootScope, $http, PageNavigation, SystemIntegrationMonitorService, ngDialog) {
 
         var vm = this; 
 
-        vm.sponsorModel;
+        vm.customerModel;
         vm.showDetails = false;
-        vm.requireSponsor = false;
+        vm.requireCustomer = false;
         var organizeId = null;
 
         vm.check = function(){
             if(validateOrganizeValue()){
-                $scope.organize = vm.sponsorModel;
+                $scope.organize = vm.customerModel;
                 $scope.$broadcast('onload');
             }
         }
 
         var validateOrganizeValue= function(){
 			var validate;
-            if(typeof vm.sponsorModel != 'object'){
-                vm.requireSponsor = true;
+            if(typeof vm.customerModel != 'object'){
+                vm.requireCustomer = true;
                 vm.showDetails = false;
                 validate = false;
             }else{
-                vm.requireSponsor = false;
+                vm.requireCustomer = false;
                 vm.showDetails = true;
                 validate = true;
             }
@@ -33,7 +33,7 @@ scfApp.controller('SponsorSystemIntegrationMonitorController', [ '$scope', 'Serv
 		}
 
         // Prepare Auto Suggest
-		var querySponsorCode = function(value) {
+		var queryCustomerCode = function(value) {
 			value = value = UIFactory.createCriteria(value);
 			return $http.get('api/v1/organizes', {
 			params : {
@@ -49,14 +49,14 @@ scfApp.controller('SponsorSystemIntegrationMonitorController', [ '$scope', 'Serv
 			});
 		};
 
-		vm.sponsorAutoSuggestModel = UIFactory.createAutoSuggestModel({
+		vm.customerAutoSuggestModel = UIFactory.createAutoSuggestModel({
 			placeholder : 'Please enter organization name or code',
 			itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
-			query : querySponsorCode
+			query : queryCustomerCode
 			});
 		
 		var prepareAutoSuggestLabel = function(item) {
-			item.identity = [ 'sponsor-', item.memberId, '-option' ].join('');
+			item.identity = [ 'customer-', item.memberId, '-option' ].join('');
 			item.label = [ item.memberCode, ': ', item.memberName ].join('');
 			return item;
 		}

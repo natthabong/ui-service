@@ -19,7 +19,7 @@ public class SystemIntegrationMonitorController {
 
 	private static final String GEC_SYSTEM_INTEGRATION_MONITOR_TEMPLATE = "monitor/gec-system-integration-monitor-template";
 	private static final String BANK_SYSTEM_INTEGRATION_MONITOR = "monitor/bank-system-integration-monitor-template";
-	private static final String SPONSOR_SYSTEM_INTEGRATION_MONITOR = "monitor/sponsor-system-integration-monitor-template";
+	private static final String SPONSOR_SYSTEM_INTEGRATION_MONITOR = "monitor/customer-system-integration-monitor-template";
 
 	@RequestMapping(path = {"/web-service-monitor"}, method = RequestMethod.GET)
 	public String webServiceMonitor(@RequestHeader("X-Requested-With") String requestedWith) {
