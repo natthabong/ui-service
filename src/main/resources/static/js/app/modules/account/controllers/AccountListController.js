@@ -6,8 +6,9 @@ accountModule.controller('AccountListController', [
 		'PagingController',
 		'$stateParams',
 		'$http',
+		'$filter',
 		function(AccountService, AccountStatus, UIFactory, PagingController,
-				$stateParams, $http) {
+				$stateParams, $http, $filter) {
 			var vm = this;
 
 			vm.accountStatusDrpodowns = AccountStatus;
@@ -16,7 +17,8 @@ accountModule.controller('AccountListController', [
 				organizeId : undefined,
 				suspend : undefined
 			};
-			
+
+			vm.canManage=false;
 			vm.organize = $stateParams.organize || null;
 
 			// The pagingController is a tool for navigate the
@@ -57,36 +59,63 @@ accountModule.controller('AccountListController', [
 
 			// Data table model
 			vm.dataTable = {
+				options : {
+					displayRowNo: {
+						idValueField: 'template',
+						id: '$rowNo-{value}-label',
+						cssTemplate : 'text-right'
+					}
+				},
 				columns : [ {
-					fieldName : '$rowNo',
-					labelEN : 'No.',
-					headerId : 'no-header-label',
-					cssTemplate : 'text-right'
-				}, {
+					label : 'Organization name',
+					field: 'organizeName',
 					fieldName : 'organizeName',
 					headerId : 'organizeName-header-label',
-					labelEN : 'Organization name',
-					labelTH : 'Organization name',
-					id : 'organizeName-{value}',
+					idValueField : 'template',
+					id : 'organizeName-{value}-label',
 					sortable : false,
 					cssTemplate : 'text-left',
 				}, {
+					label : 'Account No.',
+					field : 'accountNo',
 					fieldName : 'accountNo',
 					headerId : 'accountNo-header-label',
-					labelEN : 'Account No.',
-					labelTH : 'Account No.',
-					filterType : 'accountNo',
-					id : 'accountNo-{value}',
+					idValueField : 'template',
+					id : 'accountNo-{value}-label',
+					sortable : false,
+					dataRenderer: function (record) {
+						console.log();
+						if (record.format) {
+							return ($filter('accountNoDisplay')(record.accountNo));
+						} else {
+							return record.accountNo;
+						}
+					}
+				}, {
+					label : 'Account type',
+					field: 'accountType',
+					fieldName : 'accountType',
+					headerId : 'accountType-header-label',
+					idValueField : 'template',
+					filterType : 'translate',
+					id : 'accountType-{value}-label',
+					sortable : false,
+					cssTemplate : 'text-center',
+				}, {
+					label : 'Status',
+					field : 'status',
+					fieldName : 'status',
+					headerId : 'status-header-label',
+					idValueField : 'template',
+					filterType : 'translate',
+					id : 'status-{value}-label',
 					sortable : false,
 					cssTemplate : 'text-center'
 				}, {
-					fieldName : 'status',
-					labelEN : 'Status',
-					labelTH : 'Status',
-					filterType : 'translate',
-					id : 'status-{value}',
-					sortable : false,
-					cssTemplate : 'text-center'
+					cssTemplate: 'text-center',
+					sortable: false,
+					cellTemplate: '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+					+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.deleteTradeFinance(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 				} ]
 			}
 			// All functions of a controller.

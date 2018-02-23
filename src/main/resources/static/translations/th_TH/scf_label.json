@@ -607,6 +607,8 @@
 	
 	"download-payment-result-supplier": "Download payment result",
 	"LOAN": "Loan",
+	"CURRENT_SAVING": "Current/Saving",
+	"OVERDRAFT": "Overdraft",
 	"TERM_LOAN": "Loan",
 	"DEBIT": "Direct debit",
 	"DEBIT_SPECIAL": "Special direct debit",
