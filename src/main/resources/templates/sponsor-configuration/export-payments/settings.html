@@ -18,7 +18,6 @@
 							<div class="col-md-4 col-sm-5 col-xs-12">
 								<scf-input-text id="layout-name-textbox" maxlength="100" ng-disabled="!ctrl.manageAll" ng-model="ctrl.model.displayName"></scf-input-text>
 							</div>
-							<div class="col-md-4 col-sm-4"></div>
 						</div>
 						<div class="form-group">
 							<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
@@ -26,7 +25,6 @@
 								<span ng-show="errors.duplicateLayoutName" class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-error-message-label">{{'Layout name is duplicate' | translate}}.</span>
 								<span ng-show="errors.requireLayoutName" class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-warning-message-label">{{'Layout name is required' | translate}}.</span>
 							</div>
-							<div class="col-md-4 col-sm-4"></div>
 						</div>
 						<div class="form-group">
 							<label for="dealer" id="file-type-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File type' | translate}}: </label>
@@ -54,7 +52,6 @@
 							<div class="col-md-1 col-sm-1 col-xs-12">
 								<scf-input-text id="delimiters-textbox" ng-disabled="ctrl.delimeter!='Other' || !ctrl.manageAll" maxlength="1" ng-model="ctrl.delimeterOther"></scf-input-text>
 							</div>
-							<div class="col-md-3 col-sm-4 col-xs-0"></div>
 						</div>
 						<div class="form-group">
 							<label for="dealer" class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
@@ -352,8 +349,7 @@
 						<div class="col-md-12 col-sm-12 text-right">
 							<scf-button id="layout-cancel-button" class="popup-button" data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
 							    ng-bind="'Cancel' | translate"></scf-button>
-							<scf-button id="layout-save-button" type="submit" ng-disabled="!ctrl.manageAll">{{'Save' | translate}}
-							</scf-button>
+							<scf-button id="layout-save-button" type="submit" ng-disabled="!ctrl.manageAll">{{'Save' | translate}}</scf-button>
 						</div>
 					</div>
 				</div>
