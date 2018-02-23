@@ -1,11 +1,11 @@
 <div id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('MONITOR_CUSTOMER_INTEGRATION')">
+	sec:authorize="hasAnyAuthority('MONITOR_CUSTOMER_INTEGRATION','MONITOR_CUSTOMER_INTEGRATION_OF_ALL_FUNDING')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
 					<h3 id="header-message-label" class="animated fadeInLeft"
-						ng-bind="'Sponsor system integration monitor' | translate"></h3>
+						ng-bind="'Customer system integration monitor' | translate"></h3>
 				</div>
 			</div>
         </div>
@@ -16,23 +16,23 @@
                         <form name="organizeForm" ng-submit="ctrl.check()"
                             autocomplete="off" class="form-horizontal">
                             <div class="form-group">
-                                    <label for="sponsor-auto-suggest" id="sponsor-label"
-                                    class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor'
+                                    <label for="customer-auto-suggest" id="customer-label"
+                                    class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Organization'
                                     | translate}}: </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <gec-auto-suggest id="sponsor-auto-suggest"
-                                        model="ctrl.sponsorAutoSuggestModel" name="sponsorCode"
-                                        ng-model="ctrl.sponsorModel" maxlength="100"></gec-auto-suggest>
+                                    <gec-auto-suggest id="customer-auto-suggest"
+                                        model="ctrl.customerAutoSuggestModel" name="customerCode"
+                                        ng-model="ctrl.customerModel" maxlength="100"></gec-auto-suggest>
                                 </div>
                                 <div class="col-md-3 col-sm-2">
-                                    <scf-button type="submit" id="sponsor-check-button"
+                                    <scf-button type="submit" id="customer-check-button"
                                         class="btn-default">{{'Check' | translate}}</scf-button>
                                 </div>
                             </div>
-                            <div class="form-group" ng-show="ctrl.requireSponsor">
+                            <div class="form-group" ng-show="ctrl.requireCustomer">
                                 <label class="col-md-2 col-sm-3 col-xs-12 control-label" ></label>
                                 <span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-                                    id="sponsor-warning-message-label">{{'Sponsor is
+                                    id="customer-warning-message-label">{{'Customer is
                                     required' | translate}}.</span>
                             </div>
                             <div class="form-group" ng-show="ctrl.showDetails">
