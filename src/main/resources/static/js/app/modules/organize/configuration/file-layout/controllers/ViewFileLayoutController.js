@@ -163,7 +163,6 @@ module.controller('ViewFileLayoutController', [
 
 				sendRequestGetFileLayout(vm.model.layoutConfigId, function (response) {
 					vm.model = response.data;
-					console.log(vm.model.paymentDateConfig);
 					vm.oldStateFileType = vm.model.fileType;
 					if (angular.isDefined(vm.model.offsetRowNo) && vm.model.offsetRowNo != null) {
 						vm.isConfigOffsetRowNo = true;
@@ -190,19 +189,9 @@ module.controller('ViewFileLayoutController', [
 					vm.displayLayout = true;
 				});
 
-				vm.customerCodeGroup = '';
-				sendRequest(reqCustomerCodeConfg, function (response) {
-					vm.customerCodeItem = response.data;
-					if (vm.customerCodeItem.length == 1) {
-						vm.customerCodeGroup = vm.customerCodeItem[0].expectedValue;
-					}
-				});
 
 				sendRequest(reqUrlField, function (response) {
 					vm.items = response.data;
-					if (vm.items.length < 1) {
-						vm.addItem();
-					}
 				});
 
 				sendRequest(reqUrlData, function (response) {
@@ -238,159 +227,6 @@ module.controller('ViewFileLayoutController', [
 
 			}
 		}();
-
-		vm.tempDocFieldName = [];
-
-		var _convertToHumanize = function (str) {
-			str = str.toLowerCase().split('_');
-
-			for (var i = 0; i < str.length; i++) {
-				str[i] = str[i].split('');
-				str[i][0] = str[i][0].toUpperCase();
-				str[i] = str[i].join('');
-			}
-			return str.join('');
-		}
-
-
-		vm.openSetting = function (index, record) {
-			var documentFieldId = record.documentFieldId;
-			var recordType = record.recordType;
-			var dataTypeDropdowns = vm.dataTypes;
-			if (recordType == vm.recordType.HEADER) {
-				dataTypeDropdowns = vm.dataTypeHeaders;
-			} else if (recordType == vm.recordType.FOOTER) {
-				dataTypeDropdowns = vm.dataTypeFooters;
-			}
-
-			if(record.itemType == 'FIELD'){
-				dataTypeDropdowns.forEach(function (obj) {
-					if (documentFieldId == obj.documentFieldId) {
-						var dataType = obj.dataType;
-						var dialog = ngDialog.open({
-							id: 'layout-setting-dialog-' + index,
-							template: obj.configUrl,
-							className: 'ngdialog-theme-default',
-							controller: _convertToHumanize(dataType) + 'LayoutConfigController',
-							controllerAs: 'ctrl',
-							scope: $scope,
-							data: {
-								processType: vm.processType,
-								owner: ownerId,
-								record: record,
-								index: index,
-								config: obj,
-								headerItems: vm.headerItems,
-								detailItems: vm.items,
-								footerItems: vm.footerItems,
-								dataTypeByIds: vm.dataTypeByIds
-	
-							},
-							cache: false,
-							preCloseCallback: function (value) {
-								if (value != null) {
-									angular.copy(value, record);
-									record.completed = true;
-									if(value.dataType='TEXT'){
-										loadMappingData();
-									}
-								}
-							}
-						});
-					}
-				});
-			
-			}else if(record.itemType == 'DATA'){
-				dataTypeDropdowns.forEach(function (obj) {
-					if (documentFieldId == obj.documentFieldId) {
-						var dialog = ngDialog.open({
-							id: 'layout-setting-dialog-' + index,
-							template: 'js/app/modules/organize/configuration/file-layout/templates/dialog-data-field-format.html',
-							className: 'ngdialog-theme-default',
-							controller: 'DataLayoutConfigController',
-							controllerAs: 'ctrl',
-							scope: $scope,
-							data: {
-								processType: vm.processType,
-								owner: ownerId,
-								record: record,
-								index: index,
-								config: obj,
-								dataTypeByIds: vm.dataTypeByIds
-	
-							},
-							cache: false,
-							preCloseCallback: function (value) {
-								if (value != null) {
-									angular.copy(value, record);
-									record.completed = true;
-								}
-							}
-						});
-					}	
-				});
-			}
-		}
-
-		vm.addItem = function () {
-			var itemConfig = {
-				primaryKeyField: false,
-				docFieldName: null,
-				dataType: null,
-				dataLength: null,
-				startIndex: null,
-				endIndex: null,
-				isTransient: false,
-				recordType: "DETAIL",
-				itemType: 'FIELD'
-			};
-			vm.items.push(itemConfig);
-		}
-
-		vm.addHeaderItem = function () {
-			var headerItemConfig = {
-				primaryKeyField: false,
-				docFieldName: null,
-				dataType: null,
-				dataLength: null,
-				startIndex: null,
-				endIndex: null,
-				isTransient: true,
-				recordType: "HEADER",
-				itemType: 'FIELD'
-			};
-			vm.headerItems.push(headerItemConfig);
-		}
-
-		vm.addFooterItem = function () {
-			var footerItemConfig = {
-				primaryKeyField: false,
-				docFieldName: null,
-				dataType: null,
-				dataLength: null,
-				startIndex: null,
-				endIndex: null,
-				isTransient: true,
-				recordType: "FOOTER",
-				itemType: 'FIELD'
-			};
-			vm.footerItems.push(footerItemConfig);
-		}
-
-		vm.removeItem = function (record) {
-			var index = vm.itemsindexOf(record);
-			vm.items.splice(index, 1);
-		}
-
-		vm.formula = {
-			paymentDateFormulaId: null,
-			formulaName: '',
-			formulaType: 'CREDIT_TERM',
-			sponsorId: ownerId,
-			isCompleted: '0'
-		};
-
-		
 
 		vm.displayExample = function (record) {
 			var msg = '';
@@ -480,11 +316,12 @@ module.controller('ViewFileLayoutController', [
     		return (item.documentFieldName == _documentFieldName);
 		}
 
-		vm.getDocumentFieldName = function(fieldname) {
-			if(fieldname != null){
-				_documentFieldName = fieldname;
-		    	var obj = vm.dataTypes.filter(getDocumentFieldObject);
-				return obj[0].displayFieldName;
+		//from detail sector items
+		vm.getDisplayDocumentFieldName = function(fieldname) {
+			_documentFieldName = fieldname;
+		    var obj = vm.items.filter(getDocumentFieldObject);
+			if(obj[0] != null && obj[0] != 'undefined'){
+				return obj[0].displayValue;
 			}else{
 				return "";
 			}

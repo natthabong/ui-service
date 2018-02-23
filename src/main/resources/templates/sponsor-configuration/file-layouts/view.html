@@ -75,7 +75,7 @@
 						<label  id="file-encode-label"
 							class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
 							encode' | translate}}: </label>
-						<div class="col-md-2 col-sm-3 col-xs-12">
+						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 							<label id="file-encode-value-label"
 								ng-bind="ctrl.model.charsetName"></label>
 						</div>
@@ -407,9 +407,9 @@
 											</label>
 										</div>
 										<div class="col-xs-6">
-											<label id = "payment-date-field-value-label" 
+											<label class="control-label" id = "payment-date-field-value-label" 
 												ng-show="ctrl.model.paymentDateConfig.strategy == 'FIELD'"
-												ng-bind="ctrl.getDocumentFieldName(ctrl.model.paymentDateConfig.documentDateField)"></label>
+												ng-bind="ctrl.getDisplayDocumentFieldName(ctrl.model.paymentDateConfig.documentDateField)"></label>
 										</div>
 									</div>
 								</div>
@@ -459,7 +459,7 @@
 												</label>
 												<div class="col-md-5 col-sm-5 col-xs-5">
 													<label class="control-label" id = "credit-term-code-field-value-label" 
-														ng-bind="ctrl.getDocumentFieldName(ctrl.model.paymentDateConfig.creditTermField)"></label>
+														ng-bind="ctrl.getDisplayDocumentFieldName(ctrl.model.paymentDateConfig.creditTermField)"></label>
 												</div>
 												<div class="col-md-4 col-sm-4 col-xs-4"></div>
 											</div>
@@ -468,7 +468,7 @@
 													ng-bind="'Document date field' | translate"></span>:</label>
 												<div class="col-md-5 col-sm-5 col-xs-5">
 													<label class="control-label" id = "document-date-field-value-label" 
-														ng-bind="ctrl.getDocumentFieldName(ctrl.model.paymentDateConfig.documentDateField)"></label>
+														ng-bind="ctrl.getDisplayDocumentFieldName(ctrl.model.paymentDateConfig.documentDateField)"></label>
 												</div>
 												<div class="col-md-4 col-sm-4 col-xs-4"></div>
 											</div>
