@@ -1,11 +1,11 @@
 <div id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('MONITOR_GEC_INTEGRATION')">
+	sec:authorize="hasAnyAuthority('MONITOR_GECSCF_INTEGRATION')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
 					<h3 id="header-message-label" class="animated fadeInLeft"
-						ng-bind="'GEC system integration monitor' | translate"></h3>
+						>System integration monitor ({{ctrl.organize.organizeName}})</h3>
 				</div>
 			</div>
         </div>
@@ -16,12 +16,6 @@
                         <form name="organizeForm" ng-submit="ctrl.check()"
                             autocomplete="off" class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-2 col-sm-3 col-xs-12 control-label"
-                                    id="organize-label">{{'Organization'| translate}}: </label> 
-                                <label id="organize-value-label"
-                                    class="col-md-6 col-sm-6 col-xs-12  control-label"
-                                    ng-bind="ctrl.organize.organizeName">
-                                    </label>
                                 <div class="col-md-3 col-sm-2">
                                     <scf-button type="submit" id="check-button"
                                         class="btn-default">{{'Check' | translate}}</scf-button>

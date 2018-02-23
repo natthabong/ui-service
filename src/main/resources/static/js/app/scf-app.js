@@ -661,14 +661,14 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					resolve: WebHelper.loadScript(['js/app/modules/monitor/customer-system-integration-monitor-controller.js', 'js/app/modules/monitor/web-service-monitor-controller.js', 'js/app/modules/monitor/ftp-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-service.js', 'js/app/modules/monitor/system-integration-monitor-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/monitoring/system-integration', {
 					url: '/monitoring/system-integration',
-					controller: 'GECSystemIntegrationMonitorController',
+					controller: 'MySystemIntegrationMonitorController',
 					controllerAs: 'ctrl',
 					templateUrl: '/system-integration-monitor/gec',
 					params: {
 						mode: 'gec',
 						organize: []
 					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/gec-system-integration-monitor-controller.js', 'js/app/modules/monitor/web-service-monitor-controller.js', 'js/app/modules/monitor/ftp-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-service.js', 'js/app/modules/monitor/system-integration-monitor-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+					resolve: WebHelper.loadScript(['js/app/modules/monitor/my-system-integration-monitor-controller.js', 'js/app/modules/monitor/web-service-monitor-controller.js', 'js/app/modules/monitor/ftp-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-service.js', 'js/app/modules/monitor/system-integration-monitor-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/monitoring/transaction-tracking', {
 					url: '/monitoring/transaction-tracking',
 					controller: 'TransactionTrackingController',
