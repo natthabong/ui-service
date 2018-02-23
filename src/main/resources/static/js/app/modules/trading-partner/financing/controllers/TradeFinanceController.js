@@ -433,7 +433,10 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		vm.save = function () {
 			if (_validate()) {
 				var preCloseCallback = function (confirm) {
-					PageNavigation.gotoPreviousPage();
+					var params = {
+							setupModel : borrower
+					};
+					PageNavigation.gotoPage('/trade-finance/config',params);
 				}
 
 				UIFactory.showConfirmDialog({
@@ -484,7 +487,10 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		}
 
 		vm.cancel = function () {
-			PageNavigation.gotoPreviousPage();
+			var params = {
+					setupModel : borrower
+			};
+			PageNavigation.gotoPage('/trade-finance/config',params);
 		}
 
 		var _clearCriteria = function () {
