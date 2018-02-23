@@ -20,6 +20,9 @@ txnMod.controller('CreatePaymentController', [
         var log = $log;
         var supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
         var ownerId = $rootScope.userInfo.organizeId;
+        vm.hasPrivilegeEnqAcctBalance = false;
+        vm.hasPrivilegeEnqCreditLimit = false;
+        vm.showEnquiryButton = false;
 
         function prepareCriteria() {
             return $stateParams.criteria || {
@@ -1052,6 +1055,7 @@ txnMod.controller('CreatePaymentController', [
 
         vm.accountChange = function () {
             var accountId = vm.transactionModel.payerAccountId;
+            var isLoanAccount = true;
             vm.accountDropDown.forEach(function (account) {
                 if (accountId == account.item.accountId) {
                     vm.transactionModel.payerAccountNo = account.item.accountNo;
@@ -1074,9 +1078,18 @@ txnMod.controller('CreatePaymentController', [
                             vm.transactionModel.transactionMethod = 'DEBIT';
                         }
                         vm.isLoanPayment = false;
+                        isLoanAccount = false;
                     }
                 }
             });
+            
+            if(isLoanAccount && vm.hasPrivilegeEnqCreditLimit){
+            	vm.showEnquiryButton = true;
+            }else if(!isLoanAccount && vm.hasPrivilegeEnqAcctBalance){
+            	vm.showEnquiryButton = true;
+            }else{
+            	vm.showEnquiryButton = false;
+            }
         }
 
         vm.supplierChange = function () {
