@@ -13,9 +13,9 @@ module.controller('ViewFileLayoutController', [
 	'blockUI', 'FileLayoutService',
 	'FILE_TYPE_ITEM',
 	'DELIMITER_TYPE_TEM',
-	 'Service', 'MappingDataService','SCFCommonService',
+	 'Service','SCFCommonService',
 	function (log, $rootScope, $scope, $state, $stateParams, $injector, ngDialog, UIFactory, PageNavigation,
-		blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, Service, MappingDataService,SCFCommonService) {
+		blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_TEM, Service, SCFCommonService) {
 
 		var vm = this;
 
@@ -163,7 +163,7 @@ module.controller('ViewFileLayoutController', [
 
 				sendRequestGetFileLayout(vm.model.layoutConfigId, function (response) {
 					vm.model = response.data;
-
+					console.log(vm.model.paymentDateConfig);
 					vm.oldStateFileType = vm.model.fileType;
 					if (angular.isDefined(vm.model.offsetRowNo) && vm.model.offsetRowNo != null) {
 						vm.isConfigOffsetRowNo = true;
