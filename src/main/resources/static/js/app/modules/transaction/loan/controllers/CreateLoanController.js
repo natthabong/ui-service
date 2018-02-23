@@ -382,8 +382,8 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     if (sponsorCodeList !== undefined) {
                         sponsorCodeList.forEach(function (obj) {
                             var selectObj = {
-                                label: obj.sponsorName,
-                                value: obj.sponsorId
+                                label: obj.buyerName,
+                                value: obj.buyerId
                             }
                             vm.sponsorCodes.push(selectObj);
                         });
@@ -414,7 +414,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                         var transactionModel = $stateParams.transactionModel;
                         vm.tradingpartnerInfoModel = tradingPartnerInfo;
                         vm.createTransactionModel = {
-                            sponsorCode: tradingPartnerInfo.sponsorId,
+                            sponsorCode: tradingPartnerInfo.buyerId,
                             supplierCode: tradingPartnerInfo.supplierCodeSelected,
                             sponsorPaymentDate: SCFCommonService.convertDate(transactionModel.sponsorPaymentDate),
                             transactionDate: SCFCommonService.convertDate(transactionModel.transactionDate)
