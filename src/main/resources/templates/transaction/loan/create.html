@@ -180,9 +180,9 @@
 													<span ng-bind="ctrl.tradingpartnerInfoModel.interestRate"></span>
 													<span>)</span>
 										  </label>
-										  <scf-button id="transaction-{{data.transactionNo}}-re-check-button" 
-										  	class="btn-default gec-btn-action" title="Inquiry account">
-										  	<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+										  <scf-button id="enquiry-account-button" sec:authorize="hasAuthority('CREATE_LOANS_OF_MY_ORGANIZATION_CAN_ENQUIRY_CREDIT_LIMIT')"
+										  	class="btn-default gec-btn-action" title="Enquiry">
+										  	<span class="fa fa-repeat" aria-hidden="true"></span>
 										  </scf-button>
 									  </div>
 									  
