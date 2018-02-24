@@ -26,6 +26,13 @@ accountModule.controller('AccountListController', [
 			vm.pagingController = PagingController.create('/api/v1/accounts',
 					vm.criteria, 'GET');
 
+			var prepareAutoSuggestOrganizeLabel = function(item,module) {
+				item.identity = [ module,'-', item.memberId, '-option' ].join('');
+				item.label = [ item.memberCode, ': ', item.memberName ].join('');
+				item.value = item.memberId;
+				return item;
+			}
+			
 			var organizeAutoSuggestServiceUrl = 'api/v1/organizes';
 			var searchOrganizeTypeHead = function(value) {
 				value = UIFactory.createCriteria(value);
@@ -38,15 +45,12 @@ accountModule.controller('AccountListController', [
 						limit : 5
 					}
 				}).then(
-						function(response) {
-							return response.data.map(function(item) {
-								item.identity = [ 'organize-', item.organizeId,
-										'-option' ].join('');
-								item.label = [ item.organizeId, ': ',
-										item.organizeName ].join('');
-								return item;
-							});
+					function(response) {
+						return response.data.map(function(item) {
+							item = prepareAutoSuggestOrganizeLabel(item,'organize');
+							return item;
 						});
+				});
 			}
 			
 			var orgAutoSuggest = {
@@ -121,20 +125,28 @@ accountModule.controller('AccountListController', [
 			// All functions of a controller.
 			vm.search = function(pageModel) {
 				var organizeId = undefined;
-				if (angular.isObject(vm.organize)) {
-					vm.criteria.organizeId = vm.organize.organizeId;
+				if (angular.isObject(vm.criteria.organize)) {
+					vm.criteria.organizeId = vm.criteria.organize.memberId;
 				} else {
 					vm.criteria.organizeId = undefined;
 				}
+				console.log(vm.criteria);
 				vm.pagingController.search(pageModel
 						|| ($stateParams.backAction ? {
 							offset : vm.criteria.offset,
 							limit : vm.criteria.limit
 						} : undefined));
-				$stateParams.backAction = false;
+				if($stateParams.backAction){
+		    		$stateParams.backAction = false;
+		    	}
 			}
 			
 			var init = function(){
+				var backAction = $stateParams.backAction;
+				if(backAction){
+					vm.criteria = $stateParams.criteria;
+					prepareAutoSuggestOrganizeLabel(vm.criteria.organize,'organize');
+				}
 				vm.search();
 			}();
 		} ]);
