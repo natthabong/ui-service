@@ -106,8 +106,8 @@ accountModule.controller('AccountListController', [
 					cssTemplate : 'text-center',
 				}, {
 					label : 'Status',
-					field : 'status',
-					fieldName : 'status',
+					field : 'actualStatus',
+					fieldName : 'actualStatus',
 					headerId : 'status-header-label',
 					idValueField : 'template',
 					filterType : 'translate',

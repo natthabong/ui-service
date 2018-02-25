@@ -6,27 +6,26 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 		var vm = this;
 		var dialogData = $scope.ngDialogData;
 		vm.page = dialogData.page;
-		vm.organize = undefined;
-		if(vm.page === 'accountList'){
-			vm.accountTypeDropDown = [
-	  			{
-	  				label : "Current/Saving",
-	  				value : "CURRENT_SAVING"
-	  			},{
-	  				label : "Overdraft",
-	  				value : "OVERDRAFT"
-	  			},{
-	  				label : "Term loan",
-	  				value : "LOAN"
-	  			}
-	  		]
-		}else{
-			vm.organizationLabel = dialogData.organizeCode + ': ' + dialogData.organizeName;
-			vm.organize = {memberId: '', memberCode: '', memberName: ''};
-			vm.organize.memberId = dialogData.organizeId;
-			vm.organize.memberCode = dialogData.organizeCode;
-			vm.organize.memberName = dialogData.organizeName;
-			
+		vm.organize = {memberId: '', memberCode: '', memberName: ''};
+		vm.organize.memberId = dialogData.organizeId;
+		vm.organize.memberCode = dialogData.organizeCode;
+		vm.organize.memberName = dialogData.organizeName;
+		
+		vm.accountTypeDropDown = [
+  			{
+  				label : "Current/Saving",
+  				value : "CURRENT_SAVING"
+  			},{
+  				label : "Overdraft",
+  				value : "OVERDRAFT"
+  			},{
+  				label : "Term loan",
+  				value : "LOAN"
+  			}
+  		];
+		
+		if(vm.page === 'tradeFinance'){
+//			vm.organizationLabel = dialogData.organizeCode + ': ' + dialogData.organizeName;
 			vm.accountTypeDropDown = [
       			{
       				label : "Overdraft",
@@ -36,6 +35,8 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
       				value : "LOAN"
       			}
       		]
+		}else if(vm.page === 'accountList'){
+			vm.organize = undefined;
 		}
 		
 		vm.formatType = {
@@ -47,6 +48,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 		vm.accountType = vm.accountTypeDropDown[0].value;
 		vm.accountNo = null;
 		vm.termLoan = null;
+		vm.isSuspend = false;
 
 		var prepareAutoSuggestOrganizeLabel = function(item,module) {
 			item.identity = [ module,'-', item.memberId, '-option' ].join('');
@@ -124,7 +126,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 			} else {
 				accountNo = vm.termLoan;
 			}
-			if(vm.page === 'tradeFinance' || _validateOrganize(vm.organize)){
+			if(vm.page !== 'accountList' || _validateOrganize(vm.organize)){
 				if (_validateAccountNo(accountNo)) {
 					var data = {
 						accountType : vm.accountType,
@@ -151,7 +153,8 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 										organizeId: vm.organize.memberId,
 										accountNo: data.accountNo,
 										format: data.format,
-										accountType : data.accountType
+										accountType: data.accountType,
+										suspend: vm.isSuspend
 									});
 							},
 							onFail: function (response) {
