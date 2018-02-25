@@ -262,13 +262,16 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		vm.add = function () {
 			var organizeId = null;
 			var organizeName = null;
+			var organizeCode = null;
 
 			if (vm.tradeFinanceModel.borrower == "BUYER") {
 				organizeId = borrower.buyerId;
 				organizeName = borrower.buyer.memberName;
+				organizeCode = borrower.buyer.memberCode;
 			} else {
 				organizeId = borrower.supplierId;
 				organizeName = borrower.supplier.memberName;
+				organizeCode = borrower.supplier.memberCode;
 			}
 
 			if (vm.tradeFinanceModel.borrower) {
@@ -278,7 +281,8 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 					data: {
 						page: 'tradeFinance',
 						organizeId: organizeId,
-						organizeName: organizeName
+						organizeName: organizeName,
+						organizeCode: organizeCode
 					},
 					preCloseCallback: function (data) {
 						if (data) {

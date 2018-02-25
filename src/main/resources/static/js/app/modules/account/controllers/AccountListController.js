@@ -88,7 +88,6 @@ accountModule.controller('AccountListController', [
 					id : 'accountNo-{value}-label',
 					sortable : false,
 					dataRenderer: function (record) {
-						console.log();
 						if (record.format) {
 							return ($filter('accountNoDisplay')(record.accountNo));
 						} else {
@@ -130,7 +129,7 @@ accountModule.controller('AccountListController', [
 				} else {
 					vm.criteria.organizeId = undefined;
 				}
-				console.log(vm.criteria);
+				
 				vm.pagingController.search(pageModel
 						|| ($stateParams.backAction ? {
 							offset : vm.criteria.offset,

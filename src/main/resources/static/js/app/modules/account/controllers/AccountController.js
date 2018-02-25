@@ -6,8 +6,8 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 		var vm = this;
 		var dialogData = $scope.ngDialogData;
 		vm.page = dialogData.page;
-
-		if(vm.page = 'accountList'){
+		vm.organize = undefined;
+		if(vm.page === 'accountList'){
 			vm.accountTypeDropDown = [
 	  			{
 	  				label : "Current/Saving",
@@ -21,7 +21,11 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 	  			}
 	  		]
 		}else{
-			vm.organize = dialogData.organizeId + ': ' + dialogData.organizeName;
+			vm.organizationLabel = dialogData.organizeCode + ': ' + dialogData.organizeName;
+			vm.organize = {memberId: '', memberCode: '', memberName: ''};
+			vm.organize.memberId = dialogData.organizeId;
+			vm.organize.memberCode = dialogData.organizeCode;
+			vm.organize.memberName = dialogData.organizeName;
 			
 			vm.accountTypeDropDown = [
       			{
@@ -82,7 +86,6 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 		var _validateOrganize = function (data) {
 			$scope.errors = {};
 			var valid = true;
-
 			if (!angular.isDefined(data) || data == null || data == "") {
 				valid = false;
 				$scope.errors.organize = {
@@ -121,7 +124,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 			} else {
 				accountNo = vm.termLoan;
 			}
-			if(_validateOrganize(vm.organize)){
+			if(vm.page === 'tradeFinance' || _validateOrganize(vm.organize)){
 				if (_validateAccountNo(accountNo)) {
 					var data = {
 						accountType : vm.accountType,
@@ -145,7 +148,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 							confirm: function () {
 								return AccountService
 									.save({
-										organizeId: dialogData.organizeId,
+										organizeId: vm.organize.memberId,
 										accountNo: data.accountNo,
 										format: data.format,
 										accountType : data.accountType
@@ -161,8 +164,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 												headerMessage: 'Add new account fail.',
 												bodyMessage: msg[response.status] ? msg[response.status]
 													: response.data.message
-											},
-											preCloseCallback: preCloseCallback
+											}
 										});
 								}
 							},
