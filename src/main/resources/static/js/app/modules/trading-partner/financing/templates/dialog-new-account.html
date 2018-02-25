@@ -12,29 +12,39 @@
 		<div class="modal-body">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
-
 					<div class="form-group">
-						<label for="group-name" id="organization-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"><span
-							ng-bind="'Organization' | translate"></span>:</label>
-						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left : 3px">
-							<scf-input-text id="organization-textbox" ng-disabled="true" ng-model="ctrl.organize" maxlength="100"></scf-input-text>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="padding-top:7px">
+								<label for="group-name" id="organization-label"><span
+									ng-bind="'Organization' | translate"></span>:</label>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" ng-show="ctrl.page=='accountList'">
+								<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
+											ng-model="ctrl.criteria.organize" id="organize-auto-suggest"></gec-auto-suggest>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" ng-show="ctrl.page=='tradeFinance'">
+								<label id="organization-textbox" ng-model="ctrl.organize" ng-bind="ctrl.criteria.organize"></label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="padding-top:7px">
+								<label for="group-name" id="mapping-type-label"><span
+									ng-bind="'Account type' | translate"></span>:</label>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+								<scf-dropdown id="account-type-dropdown" 
+									ng-model="ctrl.accountType"
+									component-data="ctrl.accountTypeDropDown">
+								</scf-dropdown>
+							</div>
 						</div>
 					</div>
 
 					<div class="form-group">
-						<label for="group-name" id="mapping-type-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"><span
-							ng-bind="'Account type' | translate"></span>:</label>
-						<div class="col-log-3 col-md-5 col-sm-4 col-xs-12" style="padding-left : 3px">
-							<scf-dropdown id="account-type-dropdown" 
-								ng-model="ctrl.accountType"
-								component-data="ctrl.accountTypeDropDown">
-							</scf-dropdown>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="col-log-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="col-log-3 col-md-3 col-sm-3 col-xs-3">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 								<label class="radio-inline">
 									<scf-radio id="account-no-format"
 										ng-value="ctrl.formatType.ACCOUNT_NO"
@@ -45,19 +55,18 @@
 									<label id="account-no-label">{{'Account No.' | translate}}:<label>
 								</label>
 							</div>
-							<div class="col-log-6 col-md-6 col-sm-6 col-xs-6">
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 								<scf-account-no id="account-no-textbox" ng-disabled="ctrl.format != ctrl.formatType.ACCOUNT_NO" ng-model="ctrl.accountNo"></scf-account-no>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<div class="form-group">
-						<div class="col-log-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="col-log-3 col-md-3 col-sm-3 col-xs-3">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 								<label class="radio-inline">
 									<scf-radio id="term-loan-format"
 										ng-value="ctrl.formatType.TERM_LOAN"
@@ -68,7 +77,7 @@
 									<label id="term-loan-label">{{'Account name' | translate}}:<label>
 								</label>
 							</div>
-							<div class="col-log-6 col-md-6 col-sm-6 col-xs-6">
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 								<scf-input-text id="term-loan-textbox" ng-disabled="ctrl.format != ctrl.formatType.TERM_LOAN" ng-model="ctrl.termLoan" maxlength="100"></scf-input-text>
 							</div>
 						</div>
@@ -78,6 +87,21 @@
 					<div class="form-group" ng-show="errors.accountNo">
 						<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 						<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="account-no-warning-message-label" ng-bind="errors.accountNo.message | translate"></span>
+					</div>
+				</div>
+				<div class="col-md-12 col-sm-12 col-xs-12" ng-show="ctrl.page=='accountList'">
+					<div class="form-group">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+								<scf-checkbox id="suspend-checkbox" ng-disabled="ctrl.isViewMode"
+									ng-model="ctrl.tradeFinanceModel.isSuspend"></scf-checkbox>
+								<label class="checkbox-inline" id="suspend-label"
+									style="padding-bottom: 10px;">{{'Suspend' | translate}}</label>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

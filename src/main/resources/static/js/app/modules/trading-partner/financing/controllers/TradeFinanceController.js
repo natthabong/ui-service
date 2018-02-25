@@ -276,6 +276,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 					templateUrl: '/js/app/modules/trading-partner/financing/templates/dialog-new-account.html',
 					controller: 'AccountController',
 					data: {
+						page: 'tradeFinance',
 						organizeId: organizeId,
 						organizeName: organizeName
 					},

@@ -149,4 +149,19 @@ accountModule.controller('AccountListController', [
 				}
 				vm.search();
 			}();
+			
+			vm.addAccount = function () {
+				UIFactory.showDialog({
+					templateUrl: '/js/app/modules/trading-partner/financing/templates/dialog-new-account.html',
+					controller: 'AccountController',
+					data: {
+						page: 'accountList'
+					},
+					preCloseCallback: function (data) {
+						if (data) {
+							vm.search();
+						}
+					}
+				});
+			}
 		} ]);
