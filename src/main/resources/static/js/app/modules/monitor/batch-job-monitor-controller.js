@@ -138,7 +138,6 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', '$stateParams', 'Serv
 			var loadBatchDeferred = BatchJobMonitorService.getBatchJobExportChannel(vm.organizeId ,data.jobId );
 			loadBatchDeferred.promise.then(function(response){
 				console.log("test");
-				console.log(data);
 				var sunday = false;
 				var monday = false;
 				var tuesday = false;
@@ -188,6 +187,8 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', '$stateParams', 'Serv
 				} else {
 					if(data.triggerInformations.length > 0){
 						data.triggerInformations.forEach(function(info){
+							console.log("test2");
+							console.log(info);
 							if(info.startHour != null && info.startMinute != null){
 				 				var hour = info.startHour.length == 1 ? "0"+info.startHour : info.startHour;
 				 				var minute = info.startMinute.length == 1 ? "0"+info.startMinute : info.startMinute;
@@ -198,11 +199,12 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', '$stateParams', 'Serv
 						if (runTimes.length > 2){
 							runTimes = runTimes.substring(2 , runTimes.length);
 						}
+						console.log(runTimes);
 					}
 				}
 				vm.batchJobInfo = {
 					jobName : data.jobName,
-					runtimes : runTimes,
+					runTimes : runTimes,
 					sunday : sunday,
 					monday : monday,
 					tuesday : tuesday,

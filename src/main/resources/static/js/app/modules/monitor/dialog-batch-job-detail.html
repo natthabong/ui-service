@@ -113,65 +113,45 @@
 						</div>
 						<div class="form-group">
 							<label id="run-time-label" 
-							 class="col-md-3 col-sm-4 col-xs-12 control-label" style="text-align: right;"> {{'Run time' | translate}}: </label>
-							<div class="form-group">
-								<div class="col-md-8 col-sm-9 col-xs-12">
-									<div ng-if="ctrl.jobInfo.runtimeType == 'INTERVAL'">
-										<div class="form-group">
-											<div class="col-md-3 col-sm-3 col-xs-12 control-label">
-												<label id="run-time-value-label" class="control-label">{{'Interval' | translate}} </label> <br />
-											</div>
-											<div class="col-md-9 col-sm-4 col-hidden-xs"></div>
-										</div>
-										<div class="form-group">
-											<div class="col-md-3 col-sm-3 col-xs-12 control-label">
-												<label id="begin-time-label"> {{'Begin time' |
+								class="col-md-3 col-sm-4 col-xs-12 control-label" style="text-align: right;"> {{'Run time' | translate}}: </label>
+				
+							<label id="run-time-value-interval-label" ng-show="ctrl.jobInfo.runtimeType == 'INTERVAL'"
+								class="col-md-6 col-sm-6 col-xs-12 control-label">
+									{{'Interval' | translate}}</label>
+							<label id="run-time-value-fixed-label"  ng-show="ctrl.jobInfo.runtimeType == 'FIXED'"
+								class="col-md-6 col-sm-6 col-xs-12 control-label">
+									{{'Fixed' | translate}}</label>
+							<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+						</div>
+						<div class="form-group">
+							<div class="row" ng-if="ctrl.jobInfo.runtimeType == 'INTERVAL'" >
+								<label class="col-md-3 col-sm-4 col-xs-12 control-label" style="text-align: right;"></label>
+								<label class="col-md-2 col-sm-4 col-xs-12 control-label" id="begin-time-label" > {{'Begin time' |
 													translate}}: </label>
-											</div>
-											<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-												<label id="begin-time-value-label"
+								<label class="col-md-1 col-sm-4 col-xs-12 control-label" id="begin-time-value-label" style="text-align: left;"
 													ng-show="ctrl.jobInfo.runtimeType == 'INTERVAL'">
 													{{ctrl.jobInfo.beginTime}}</label>
-											</div>
-											<div class="col-md-3 col-sm-3 col-xs-12 control-label">
-												<label id="end-time-label"> {{'End time' | translate}}:
+								<label class="col-md-2 col-sm-4 col-xs-12 control-label" id="end-time-label" > {{'End time' | translate}}: 
 												</label>
-											</div>
-											<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-												<label id="end-time-value-label"
+								<label  class="col-md-1 col-sm-4 col-xs-12 control-label"  id="end-time-value-label" style="text-align: left;"
 													ng-show="ctrl.jobInfo.runtimeType == 'INTERVAL'">
 													{{ctrl.jobInfo.endTime}}</label>
-											</div>
-										</div>
 				
-				
-										<div class="form-group">
-											<div class="col-md-4 col-sm-3 col-xs-12 control-label">
-												<label id="delayed-interval-label"> {{'Delayed interval
+								<label class="col-md-3 col-sm-4 col-xs-12 control-label" style="text-align: right;"></label>
+							</div>
+							<div class="row" ng-if="ctrl.jobInfo.runtimeType == 'INTERVAL'" >
+								<label class="col-md-3 col-sm-4 col-xs-12 control-label" style="text-align: right;"></label>
+								<label class="col-md-3 col-sm-4 col-xs-12 control-label" id="delayed-interval-label"> {{'Delayed interval
 													(sec)' | translate}}: </label>
-											</div>
-											<div class="col-md-3 col-sm-3 col-xs-12 control-label">
-												<label id="delayed-interval-value-label"
+								<label class="col-md-3 col-sm-4 col-xs-12 control-label"  id="delayed-interval-value-label" style="text-align: left;"
 													ng-show="ctrl.jobInfo.runtimeType == 'INTERVAL'">
 													{{ctrl.jobInfo.intervalInMinutes}}</label>
-											</div>
-											<div class="col-md-5 col-sm-4 col-hidden-xs"></div>
-										</div>
-									</div>
-									<div ng-if="ctrl.jobInfo.runtimeType == 'FIXED'">
-										<div class="form-group">
-											<div class="col-md-3 col-sm-3 col-xs-12 control-label">
-												<label id="run-time-value-label" class="control-label">{{'Fixed' | translate}} </label> <br />
-											</div>
-											<div class="col-md-9 col-sm-4 col-hidden-xs"></div>
-										</div>
-										<div class="form-group">
-											<div class="col-md-12 col-sm-12 col-xs-12 control-label">
-												<label id="run-time-value-label" class="control-label">{{ctrl.jobInfo.runTimes}} </label> <br />
-											</div>
-										</div>
-									</div>
-								</div>
+								<label class="col-md-3 col-sm-12 col-xs-12 control-label" style="text-align: right;"></label>
+							</div>
+							<div class="row" ng-if="ctrl.jobInfo.runtimeType == 'FIXED'" >
+								<label class="col-md-3 col-sm-4 col-xs-12 control-label" style="text-align: right;"></label>
+								<label class="col-md-6 col-sm-8 col-xs-12 control-label" id="run-time-value-label" style="text-align: left;">{{ctrl.jobInfo.runTimes}} </label>
+								<label class="col-md-3 col-sm-12 col-xs-12 control-label" style="text-align: right;"></label>
 							</div>
 						</div>
 					</form>
