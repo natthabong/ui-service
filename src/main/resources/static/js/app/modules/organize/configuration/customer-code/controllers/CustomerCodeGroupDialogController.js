@@ -116,6 +116,10 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 				vm.isUseExpireDate = true;
 			}
 			
+			if(vm.model.actualStatus == 'SUSPEND'){
+				vm.model.suspend = true;
+			}
+			
 			prepreOrganizeDisplay();
 		}
 	}();
