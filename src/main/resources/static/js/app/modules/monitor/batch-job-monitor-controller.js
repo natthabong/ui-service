@@ -65,10 +65,10 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', '$stateParams', 'Serv
 		var currentMode = $stateParams.mode;
 		$scope.$on('onload', function(e) {
 			if(currentMode == mode.BANK){
-				getBatchJobInfo($rootScope.userInfo.fundingId);
+//				getBatchJobInfo($rootScope.userInfo.fundingId);
 			}else if(currentMode == mode.GEC){
 				getMyOrganize();
-				getBatchJobInfo($rootScope.userInfo.organizeId);
+//				getBatchJobInfo($rootScope.userInfo.organizeId);
 			}else{
 				//For Customer
 				getBatchJobInfo( $scope.organize.memberId);

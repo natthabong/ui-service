@@ -25,7 +25,8 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 					vm.sponsorModel = $scope.organize;
 					getFTPList();
 				}else if(currentMode == mode.BANK){
-					systemFTPChecking();
+					var organize = getBankCode();
+					getFTPList(organize);
 				}
 			});
 	
@@ -76,15 +77,19 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 			}
 	
 			var systemFTPChecking = function(){
-				if(validateDoubleClickFTPChecking()){
-					if(vm.ftpModel != null){
-						vm.ftpModel.forEach(function(ftpModel){
-							verifyStatusFTP(ftpModel);
-						});
-					}
-				}else{
-					console.log("please wait system processing");
-				}
+//				if(validateDoubleClickFTPChecking()){
+//					if(vm.ftpModel != null){
+//						vm.ftpModel.forEach(function(ftpModel){
+//							verifyStatusFTP(ftpModel);
+//						});
+//					}
+//				}else{
+//					console.log("please wait system processing");
+//				}
+				
+				vm.ftpModel.forEach(function(ftpModel){
+					verifyStatusFTP(ftpModel);
+				});
 			}
 	
 			var validateOrganizeForCheck = function(){
@@ -134,6 +139,7 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 							systemFTPChecking();
 						}
 					}else{
+						console.log(organize);
 						var deffered = SystemIntegrationMonitorService.getFTPList(organize);
 						deffered.promise.then(function(response) {
 								vm.ftpModel = response.data;
@@ -152,7 +158,11 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 			}
 	
 			var getBankCode = function(){
-				return $rootScope.userInfo.fundingId;
+				if($scope.useFundingFromDropdown){
+					return $scope.fundingModel.fundingId;
+				} else {
+					return $rootScope.userInfo.fundingId;
+				}
 			}
 	
 			vm.initLoad = function() {
