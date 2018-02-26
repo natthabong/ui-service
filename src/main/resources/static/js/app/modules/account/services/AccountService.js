@@ -2,6 +2,7 @@ angular.module('gecscf.account').factory('AccountService', ['$http', '$q', funct
     return {
     	getAccounts: getAccounts,
     	save: save,
+    	deleteAccount: deleteAccount,
     	enquiryCreditLimit: enquiryCreditLimit,
     	enquiryAccountBalance: enquiryAccountBalance
     };	
@@ -21,6 +22,25 @@ angular.module('gecscf.account').factory('AccountService', ['$http', '$q', funct
     
     }
 
+function deleteAccount(account){		
+		var serviceUrl = '/api/v1/organize-customers/'+account.organizeId+'/accounts/'+account.accountId;
+		var deferred = $q.defer();
+		$http({
+			method : 'POST',
+			url : serviceUrl,
+			headers : {
+				'If-Match' : account.version,
+				'X-HTTP-Method-Override': 'DELETE'
+			},
+			data: account
+		}).then(function(response) {
+			return deferred.resolve(response);
+		}).catch(function(response) {
+			return deferred.reject(response);
+		});
+		return deferred;
+	}
+	
     function getAccounts(organizeId, offset, limit) {
         var deffered = $q.defer();
 

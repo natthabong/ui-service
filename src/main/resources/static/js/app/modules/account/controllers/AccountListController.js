@@ -117,15 +117,15 @@ accountModule.controller('AccountListController', [
 				}, {
 					cssTemplate: 'text-center',
 					sortable: false,
-					cellTemplate: '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
-					+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.deleteTradeFinance(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+					cellTemplate: '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.editAccount(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+					+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.deleteAccount(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 				} ]
 			}
 			// All functions of a controller.
 			vm.search = function(pageModel) {
 				var organizeId = undefined;
-				if (angular.isObject(vm.criteria.organize)) {
-					vm.criteria.organizeId = vm.criteria.organize.memberId;
+				if (angular.isObject(vm.organize)) {
+					vm.criteria.organizeId = vm.organize.memberId;
 				} else {
 					vm.criteria.organizeId = undefined;
 				}
@@ -160,6 +160,43 @@ accountModule.controller('AccountListController', [
 						if (data) {
 							vm.search();
 						}
+					}
+				});
+			}
+			
+			vm.deleteAccount = function (record) {
+				var preCloseCallback = function (confirm) {
+					vm.search();
+				}
+
+				UIFactory.showConfirmDialog({
+					data: {
+						headerMessage: 'Confirm delete?'
+					},
+					confirm: function () {
+						return AccountService.deleteAccount(record);
+					},
+					onFail: function (response) {
+						var msg = {
+							405: 'Account has been used.',
+							409: 'Account has been modified.'
+						};
+						UIFactory.showFailDialog({
+							data: {
+								headerMessage: 'Delete account fail.',
+								bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
+							},
+							preCloseCallback: preCloseCallback
+						});
+					},
+					onSuccess: function (response) {
+						UIFactory.showSuccessDialog({
+							data: {
+								headerMessage: 'Delete account success.',
+								bodyMessage: ''
+							},
+							preCloseCallback: preCloseCallback
+						});
 					}
 				});
 			}
