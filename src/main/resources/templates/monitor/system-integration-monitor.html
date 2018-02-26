@@ -1,154 +1,157 @@
-<div id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('MONITOR_GECSCF_INTEGRATION','MONITOR_BANK_INTEGRATION','MONITOR_CUSTOMER_INTEGRATION')">
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft"
-						ng-bind="ctrl.headerName | translate"></h3>
-				</div>
-			</div>
-		</div>
-		<div class="form-element">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">		
-						<form name="organizeForm" ng-submit="ctrl.systemChecking()"
-							autocomplete="off" class="form-horizontal">
-						<div class="form-group" ng-show="ctrl.isBank">
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label"
-								id="organize-label">{{'Organization'| translate}}: </label> 
-							<label id="organize-value-label"
-								class="col-md-6 col-sm-6 col-xs-12  control-label"
-								ng-bind="ctrl.organize.organizeName">
-								</label>
-							<div class="col-md-3 col-sm-2">
-								<scf-button type="submit" id="bank-check-button"
-									class="btn-default">{{'Check' | translate}}</scf-button>
-							</div>
-						</div>
-						<div class="form-group" ng-hide="ctrl.isBank">
-							<label for="sponsor-auto-suggest" id="sponsor-label"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor'
-								| translate}}: </label>
-							<div class="col-md-6 col-sm-6 col-xs-12">
-								<gec-auto-suggest id="sponsor-auto-suggest"
-									model="ctrl.sponsorAutoSuggestModel" name="sponsorCode"
-									ng-model="ctrl.sponsorModel" maxlength="100"></gec-auto-suggest>
-							</div>
-							<div class="col-md-3 col-sm-2">
-								<scf-button type="submit" id="sponsor-check-button"
-									class="btn-default">{{'Check' | translate}}</scf-button>
-							</div>
-						</div>
-						<div class="form-group" ng-hide="ctrl.isBank">
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label" ng-show="ctrl.requireSponsor"></label>
-							<span class="col-md-6 col-sm-4 col-xs-12 error-msg" ng-show="ctrl.requireSponsor"
-								id="sponsor-warning-message-label">{{'Sponsor is
-								required' | translate}}.</span>
-						</div>
-						<div class="row" style="margin-left: 10px; margin-right: 10px;"
-							ng-show="ctrl.showDetails">
-							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"
-								ng-show="ctrl.isBank">
-								<div class="panel">
-									<div class="panel-body">
-										<h3 id="web-service-label" class="animated fadeInLeft"
-											ng-bind="'Web service' | translate"></h3>
-										<div class="form-group control-label"
-											ng-repeat="record in ctrl.webServiceModel track by $index">
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-7"
-												style="padding-top: 5px">
-												<span id="{{record.displayName}}-label"
-													ng-bind="record.displayName"></span>
-											</div>
-											<div class="col-md-2" style="padding-top: 5px">
-												<scf-button class="btn-default gec-btn-action"
-													id="{{record.displayName}}-view-button"
-													ng-click="ctrl.viewSystemInfo('gateway',record)">
-												<span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
-											</div>
-											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
-												style="margin-top: 10px" ng-show="record.status=='success'">
-												<span id="{{record.displayName}}-status-ready-label">
-													<span class="icon-ready"> <span
-														class="glyphicon glyphicon-ok-sign"></span> Ready
-												</span>
-												</span>
-											</div>
-											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
-												style="margin-top: 5px; padding-left: 5px;"
-												ng-show="record.status=='loading'">
-												<img src="/img/loading_spinner.gif" alt="loading_spinner"
-													width="30" height="30"></img><span>Checking</span>
-											</div>
-											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
-												style="margin-top: 10px" ng-show="record.status=='fail'">
-												<a class="mouse-pointer"
-													id="{{record.displayName}}-status-problem-link"
-													ng-click="ctrl.viewProblemDetail('gateway',record,$index)">
-													<span class="icon-problem"> <span
-														class="glyphicon glyphicon-remove-sign"
-														id="{{record.displayName}}-status-problem-link"> </span>
-												</span> <span class="text-hyperlink">Problem</span>
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-								<div class="panel">
-									<div class="panel-body">
-										<h3 id="FTP-label" class="animated fadeInLeft"
-											ng-bind="'FTP' | translate"></h3>
-										<div class="form-group control-label"
-											ng-repeat="record in ctrl.ftpModel track by $index">
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-7"
-												style="padding-top: 5px">
-												<span id="{{record.displayName}}-label"
-													ng-bind="record.displayName"></span>
-											</div>
-											<div class="col-md-2" style="padding-top: 5px">
-												<scf-button class="btn-default gec-btn-action"
-													id="{{record.displayName}}-view-button"
-													ng-click="ctrl.viewSystemInfo('ftp',record)">
-												<span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
-											</div>
-											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
-												style="margin-top: 10px" ng-show="record.status=='success'">
-												<span id="{{record.displayName}}-status-ready-label">
-													<span class="icon-ready"> <span
-														class="glyphicon glyphicon-ok-sign"></span> Ready
-												</span>
-												</span>
-											</div>
-											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
-												style="margin-top: 5px; padding-left: 5px;"
-												ng-show="record.status=='loading'">
-												<img src="/img/loading_spinner.gif" alt="loading_spinner"
-													width="30" height="30"></img><span>Checking</span>
-											</div>
-											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
-												style="margin-top: 10px" ng-show="record.status=='fail'">
-												<a class="mouse-pointer"
-													id="{{record.displayName}}-status-problem-link"
-													ng-click="ctrl.viewProblemDetail('ftp',record,$index)">
-													<span class="icon-problem"> <span
-														class="glyphicon glyphicon-remove-sign"
-														id="{{record.displayName}}-status-problem-link"> </span>
-												</span> <span class="text-hyperlink">Problem</span>
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<!-- waiting for delete file -->
+
+
+<!-- <div id="content" th:fragment="content" -->
+<!-- 	sec:authorize="hasAnyAuthority('MONITOR_GECSCF_INTEGRATION','MONITOR_BANK_INTEGRATION','MONITOR_CUSTOMER_INTEGRATION')"> -->
+<!-- 	<div id="wrapper"> -->
+<!-- 		<div class="panel box-shadow-none content-header"> -->
+<!-- 			<div class="panel-body"> -->
+<!-- 				<div class="col-md-12"> -->
+<!-- 					<h3 id="header-message-label" class="animated fadeInLeft" -->
+<!-- 						ng-bind="ctrl.headerName | translate"></h3> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 		<div class="form-element"> -->
+<!-- 			<div class="panel panel-default col-md-12 padding-0"> -->
+<!-- 				<div class="panel-body"> -->
+<!-- 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">		 -->
+<!-- 						<form name="organizeForm" ng-submit="ctrl.systemChecking()" -->
+<!-- 							autocomplete="off" class="form-horizontal"> -->
+<!-- 						<div class="form-group" ng-show="ctrl.isBank"> -->
+<!-- 							<label class="col-md-2 col-sm-3 col-xs-12 control-label" -->
+<!-- 								id="organize-label">{{'Organization'| translate}}: </label>  -->
+<!-- 							<label id="organize-value-label" -->
+<!-- 								class="col-md-6 col-sm-6 col-xs-12  control-label" -->
+<!-- 								ng-bind="ctrl.organize.organizeName"> -->
+<!-- 								</label> -->
+<!-- 							<div class="col-md-3 col-sm-2"> -->
+<!-- 								<scf-button type="submit" id="bank-check-button" -->
+<!-- 									class="btn-default">{{'Check' | translate}}</scf-button> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div class="form-group" ng-hide="ctrl.isBank"> -->
+<!-- 							<label for="sponsor-auto-suggest" id="sponsor-label" -->
+<!-- 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor' -->
+<!-- 								| translate}}: </label> -->
+<!-- 							<div class="col-md-6 col-sm-6 col-xs-12"> -->
+<!-- 								<gec-auto-suggest id="sponsor-auto-suggest" -->
+<!-- 									model="ctrl.sponsorAutoSuggestModel" name="sponsorCode" -->
+<!-- 									ng-model="ctrl.sponsorModel" maxlength="100"></gec-auto-suggest> -->
+<!-- 							</div> -->
+<!-- 							<div class="col-md-3 col-sm-2"> -->
+<!-- 								<scf-button type="submit" id="sponsor-check-button" -->
+<!-- 									class="btn-default">{{'Check' | translate}}</scf-button> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div class="form-group" ng-hide="ctrl.isBank"> -->
+<!-- 							<label class="col-md-2 col-sm-3 col-xs-12 control-label" ng-show="ctrl.requireSponsor"></label> -->
+<!-- 							<span class="col-md-6 col-sm-4 col-xs-12 error-msg" ng-show="ctrl.requireSponsor" -->
+<!-- 								id="sponsor-warning-message-label">{{'Sponsor is -->
+<!-- 								required' | translate}}.</span> -->
+<!-- 						</div> -->
+<!-- 						<div class="row" style="margin-left: 10px; margin-right: 10px;" -->
+<!-- 							ng-show="ctrl.showDetails"> -->
+<!-- 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" -->
+<!-- 								ng-show="ctrl.isBank"> -->
+<!-- 								<div class="panel"> -->
+<!-- 									<div class="panel-body"> -->
+<!-- 										<h3 id="web-service-label" class="animated fadeInLeft" -->
+<!-- 											ng-bind="'Web service' | translate"></h3> -->
+<!-- 										<div class="form-group control-label" -->
+<!-- 											ng-repeat="record in ctrl.webServiceModel track by $index"> -->
+<!-- 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-7" -->
+<!-- 												style="padding-top: 5px"> -->
+<!-- 												<span id="{{record.displayName}}-label" -->
+<!-- 													ng-bind="record.displayName"></span> -->
+<!-- 											</div> -->
+<!-- 											<div class="col-md-2" style="padding-top: 5px"> -->
+<!-- 												<scf-button class="btn-default gec-btn-action" -->
+<!-- 													id="{{record.displayName}}-view-button" -->
+<!-- 													ng-click="ctrl.viewSystemInfo('gateway',record)"> -->
+<!-- 												<span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button> -->
+<!-- 											</div> -->
+<!-- 											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" -->
+<!-- 												style="margin-top: 10px" ng-show="record.status=='success'"> -->
+<!-- 												<span id="{{record.displayName}}-status-ready-label"> -->
+<!-- 													<span class="icon-ready"> <span -->
+<!-- 														class="glyphicon glyphicon-ok-sign"></span> Ready -->
+<!-- 												</span> -->
+<!-- 												</span> -->
+<!-- 											</div> -->
+<!-- 											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" -->
+<!-- 												style="margin-top: 5px; padding-left: 5px;" -->
+<!-- 												ng-show="record.status=='loading'"> -->
+<!-- 												<img src="/img/loading_spinner.gif" alt="loading_spinner" -->
+<!-- 													width="30" height="30"></img><span>Checking</span> -->
+<!-- 											</div> -->
+<!-- 											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" -->
+<!-- 												style="margin-top: 10px" ng-show="record.status=='fail'"> -->
+<!-- 												<a class="mouse-pointer" -->
+<!-- 													id="{{record.displayName}}-status-problem-link" -->
+<!-- 													ng-click="ctrl.viewProblemDetail('gateway',record,$index)"> -->
+<!-- 													<span class="icon-problem"> <span -->
+<!-- 														class="glyphicon glyphicon-remove-sign" -->
+<!-- 														id="{{record.displayName}}-status-problem-link"> </span> -->
+<!-- 												</span> <span class="text-hyperlink">Problem</span> -->
+<!-- 												</a> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> -->
+<!-- 								<div class="panel"> -->
+<!-- 									<div class="panel-body"> -->
+<!-- 										<h3 id="FTP-label" class="animated fadeInLeft" -->
+<!-- 											ng-bind="'FTP' | translate"></h3> -->
+<!-- 										<div class="form-group control-label" -->
+<!-- 											ng-repeat="record in ctrl.ftpModel track by $index"> -->
+<!-- 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-7" -->
+<!-- 												style="padding-top: 5px"> -->
+<!-- 												<span id="{{record.displayName}}-label" -->
+<!-- 													ng-bind="record.displayName"></span> -->
+<!-- 											</div> -->
+<!-- 											<div class="col-md-2" style="padding-top: 5px"> -->
+<!-- 												<scf-button class="btn-default gec-btn-action" -->
+<!-- 													id="{{record.displayName}}-view-button" -->
+<!-- 													ng-click="ctrl.viewSystemInfo('ftp',record)"> -->
+<!-- 												<span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button> -->
+<!-- 											</div> -->
+<!-- 											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" -->
+<!-- 												style="margin-top: 10px" ng-show="record.status=='success'"> -->
+<!-- 												<span id="{{record.displayName}}-status-ready-label"> -->
+<!-- 													<span class="icon-ready"> <span -->
+<!-- 														class="glyphicon glyphicon-ok-sign"></span> Ready -->
+<!-- 												</span> -->
+<!-- 												</span> -->
+<!-- 											</div> -->
+<!-- 											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" -->
+<!-- 												style="margin-top: 5px; padding-left: 5px;" -->
+<!-- 												ng-show="record.status=='loading'"> -->
+<!-- 												<img src="/img/loading_spinner.gif" alt="loading_spinner" -->
+<!-- 													width="30" height="30"></img><span>Checking</span> -->
+<!-- 											</div> -->
+<!-- 											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" -->
+<!-- 												style="margin-top: 10px" ng-show="record.status=='fail'"> -->
+<!-- 												<a class="mouse-pointer" -->
+<!-- 													id="{{record.displayName}}-status-problem-link" -->
+<!-- 													ng-click="ctrl.viewProblemDetail('ftp',record,$index)"> -->
+<!-- 													<span class="icon-problem"> <span -->
+<!-- 														class="glyphicon glyphicon-remove-sign" -->
+<!-- 														id="{{record.displayName}}-status-problem-link"> </span> -->
+<!-- 												</span> <span class="text-hyperlink">Problem</span> -->
+<!-- 												</a> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</form> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- </div> -->

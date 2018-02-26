@@ -1,5 +1,5 @@
 <div th:fragment="content" 
-	sec:authorize="hasAnyAuthority('MONITOR_BANK_INTEGRATION')">
+	sec:authorize="hasAnyAuthority('MONITOR_FUNDING_INTEGRATION','MONITOR_FUNDING_INTEGRATION_OF_ALL_FUNDING')">
 	<div id="wrapper" ng-controller="WebServiceMonitorController as ctrl">
         <div class="panel">
             <div class="panel-body">

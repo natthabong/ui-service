@@ -11,7 +11,7 @@ import gec.scf.util.AjaxUtils;
 @RequestMapping("/system-integration-monitor")
 public class SystemIntegrationMonitorController {
 
-	private static final String SYSTEM_INTEGRATION_MONITOR = "monitor/system-integration-monitor";
+//	private static final String SYSTEM_INTEGRATION_MONITOR = "monitor/system-integration-monitor";
 	
 	private static final String WEB_SERVICE_MONITOR = "monitor/web-service-monitor";
 	private static final String BATCH_JOB_MONITOR = "monitor/batch-job-monitor";
