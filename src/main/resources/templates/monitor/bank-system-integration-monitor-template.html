@@ -1,5 +1,5 @@
 <div id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('MONITOR_BANK_INTEGRATION','MONITOR_BANK_INTEGRATION_OF_ALL_FUNDING')">
+	sec:authorize="hasAnyAuthority('MONITOR_FUNDING_INTEGRATION','MONITOR_FUNDING_INTEGRATION_OF_ALL_FUNDING')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
@@ -20,10 +20,10 @@
 									id="funding-label">{{'Funding'| translate}}: </label> 
 								<label class="col-md-4 col-sm-4 col-xs-12  control-label"
 									id="funding-value-label"
-									sec:authorize="hasAnyAuthority('MONITOR_BANK_INTEGRATION')"
+									sec:authorize="hasAnyAuthority('MONITOR_FUNDING_INTEGRATION')"
 									ng-bind="ctrl.funding.fundingName"></label>
 								<div class="col-md-4 col-sm-4 col-xs-12" 
-									sec:authorize="hasAnyAuthority('MONITOR_BANK_INTEGRATION_OF_ALL_FUNDING')">
+									sec:authorize="hasAnyAuthority('MONITOR_FUNDING_INTEGRATION_OF_ALL_FUNDING')">
 									<scf-dropdown
 										id="channel-dropdown" 
 										ng-model="ctrl.funding.fundingId"
