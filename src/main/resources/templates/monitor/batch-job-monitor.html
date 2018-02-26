@@ -1,5 +1,5 @@
 <div th:fragment="content"
-	sec:authorize="hasAnyAuthority('MONITOR_GEC_INTEGRATION', 'MONITOR_BANK_INTEGRATION', 'MONITOR_CUSTOMER_INTEGRATION')">
+	sec:authorize="hasAnyAuthority('MONITOR_INTEGRATION_OF_MY_ORGANIZATION', 'MONITOR_FUNDING_INTEGRATION', 'MONITOR_FUNDING_INTEGRATION_OF_ALL_FUNDING', 'MONITOR_CUSTOMER_INTEGRATION')">
 	<div id="wrapper" ng-controller="BatchJobMonitorController as ctrl">
 		<div class="panel">
 			<div class="panel-body">

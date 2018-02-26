@@ -1,5 +1,5 @@
 <div th:fragment="content" 
-	sec:authorize="hasAnyAuthority('MONITOR_BANK_INTEGRATION', 'MONITOR_CUSTOMER_INTEGRATION')">
+	sec:authorize="hasAnyAuthority('MONITOR_FUNDING_INTEGRATION', 'MONITOR_FUNDING_INTEGRATION_OF_ALL_FUNDING', 'MONITOR_CUSTOMER_INTEGRATION')">
 	<div id="wrapper" ng-controller="FtpMonitorController as ctrl">
         <div class="panel">
             <div class="panel-body">
