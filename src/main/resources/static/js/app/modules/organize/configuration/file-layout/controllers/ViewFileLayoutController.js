@@ -13,7 +13,7 @@ module.controller('ViewFileLayoutController', [
 	'blockUI', 'FileLayoutService',
 	'FILE_TYPE_ITEM',
 	'DELIMITER_TYPE_ITEM',
-	 'Service','SCFCommonService',
+	'Service', 'SCFCommonService',
 	function (log, $rootScope, $scope, $state, $stateParams, $injector, ngDialog, UIFactory, PageNavigation,
 		blockUI, FileLayoutService, FILE_TYPE_ITEM, DELIMITER_TYPE_ITEM, Service, SCFCommonService) {
 
@@ -31,11 +31,10 @@ module.controller('ViewFileLayoutController', [
 				paymentDateFormulaId: null
 			} : null
 		};
-		
 
 		vm.headerName = vm.processType == 'AP_DOCUMENT' ? "AP Document file layout" : "AR Document file layout";
 
-		var BASE_URI = 'api/v1/organize-customers/' + ownerId + '/process-types/' + vm.processType + '/integrate-types/' + vm.integrateType ;
+		var BASE_URI = 'api/v1/organize-customers/' + ownerId + '/process-types/' + vm.processType + '/integrate-types/' + vm.integrateType;
 
 		var reqUrlFormula = '';
 
@@ -61,7 +60,6 @@ module.controller('ViewFileLayoutController', [
 
 		vm.fileType = FILE_TYPE_ITEM;
 
-
 		vm.headerItems = [];
 
 		vm.items = [];
@@ -70,33 +68,31 @@ module.controller('ViewFileLayoutController', [
 		vm.footerItems = [];
 
 		vm.backToSponsorConfigPage = function () {
-			var params = {organizeId: ownerId};
-			PageNavigation.gotoPage("/sponsor-configuration",params);
+			var params = {
+				organizeId: ownerId
+			};
+			PageNavigation.gotoPage("/sponsor-configuration", params);
 		}
 
-
 		var loadDataTypes = function () {
-			var deffered = FileLayoutService.getDocumentFields('IMPORT','DETAIL',null);
+			var deffered = FileLayoutService.getDocumentFields('IMPORT', 'DETAIL', null);
 			deffered.promise.then(function (response) {
 				vm.dataTypes = response.data;
 				vm.dataTypes.forEach(function (obj) {
 					vm.dataTypeByIds[obj.documentFieldId] = obj;
 				})
-
 			}).catch(function (response) {
 				log.error('Load gecscf document field error');
 			});
 		}
 
-		
-		var sendRequestGetFileLayout = function(layoutId, succcesFunc, failedFunc){
+		var sendRequestGetFileLayout = function (layoutId, succcesFunc, failedFunc) {
 			var serviceDiferred = FileLayoutService.getFileLayout(ownerId, vm.processType, vm.integrateType, layoutId);
 			var failedFunc = failedFunc | function (response) {
 				log.error('Load data error');
 			};
 			serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
 		}
-
 
 		var sendRequest = function (uri, succcesFunc, failedFunc) {
 			var serviceDiferred = Service.doGet(BASE_URI + uri);
@@ -106,25 +102,24 @@ module.controller('ViewFileLayoutController', [
 			};
 			serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
 		}
-		
+
 		var sendRequestFormula = function (uri, succcesFunc, failedFunc) {
-			if(vm.processType == 'AP_DOCUMENT'){
+			if (vm.processType == 'AP_DOCUMENT') {
 				var serviceDiferred = Service.doGet(uri);
-	
+
 				var failedFunc = failedFunc | function (response) {
 					log.error('Load data error');
 				};
 				serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
 			}
 		}
-		
+
 		var isEmptyValue = function (value) {
 			if (angular.isUndefined(value) || value == null) {
 				return true;
 			}
 			return false;
 		}
-
 
 		vm.paymentDateFormularModelDropdowns = [];
 		var addPaymentDateFormulaDropdown = function (formulaData) {
@@ -144,15 +139,14 @@ module.controller('ViewFileLayoutController', [
 					}
 					vm.paymentDateFormularModelDropdowns.push(paymentDateFormulaItem);
 				})
-
 			}
 		}
 
 		vm.displayLayout = false;
 
-		var setup = function () {			
+		var setup = function () {
 			loadDataTypes();
-		
+
 			if (vm.model.layoutConfigId != null) {
 				var reqUrlHeaderField = '/layouts/' + vm.model.layoutConfigId + '/items?itemType=FIELD&recordType=HEADER';
 				var reqUrlFooterField = '/layouts/' + vm.model.layoutConfigId + '/items?itemType=FIELD&recordType=FOOTER';
@@ -167,7 +161,6 @@ module.controller('ViewFileLayoutController', [
 					if (angular.isDefined(vm.model.offsetRowNo) && vm.model.offsetRowNo != null) {
 						vm.isConfigOffsetRowNo = true;
 					}
-
 
 					if (vm.model.delimeter != null && vm.model.delimeter != '') {
 						vm.delimeter = 'Other';
@@ -189,7 +182,6 @@ module.controller('ViewFileLayoutController', [
 					vm.displayLayout = true;
 				});
 
-
 				sendRequest(reqUrlField, function (response) {
 					vm.items = response.data;
 				});
@@ -201,12 +193,10 @@ module.controller('ViewFileLayoutController', [
 					})
 				});
 
-				
 				sendRequestFormula(reqUrlFormula, function (response) {
 					var formulaData = response.data;
 					addPaymentDateFormulaDropdown(formulaData);
 				});
-				
 
 				sendRequest(reqUrlHeaderField, function (response) {
 					var headerItems = response.data;
@@ -223,8 +213,6 @@ module.controller('ViewFileLayoutController', [
 						vm.footerItems = footerItems;
 					}
 				});
-				
-
 			}
 		}();
 
@@ -232,13 +220,12 @@ module.controller('ViewFileLayoutController', [
 			var msg = '';
 			var dataTypeObject = vm.dataTypeByIds[record.documentFieldId];
 			if (angular.isDefined(dataTypeObject)) {
-				if(dataTypeObject.dataType == 'TEXT'){
+				if (dataTypeObject.dataType == 'TEXT') {
 					msg = $injector.get('FileLayerExampleDisplayService')[dataTypeObject.dataType + '_DisplayExample'](record, dataTypeObject, vm.expectedInDataList);
-				}else{
+				} else {
 					msg = $injector.get('FileLayerExampleDisplayService')[dataTypeObject.dataType + '_DisplayExample'](record, dataTypeObject);
 				}
 			}
-
 			return msg;
 		}
 
@@ -261,7 +248,7 @@ module.controller('ViewFileLayoutController', [
 		vm.dataRowNo = function (fieldSize, currentIndex) {
 			return (fieldSize + currentIndex) + 1;
 		}
-		
+
 		vm.formularTypeDisplayMsg = '';
 		vm.formulaTypeDisplay = function (paymentDateFormulaId) {
 			var displayResult = '';
@@ -298,36 +285,36 @@ module.controller('ViewFileLayoutController', [
 		}
 
 		function getDelimiterObject(item) {
-    		return (item.delimiterId == vm.model.delimeter);
+			return (item.delimiterId == vm.model.delimeter);
 		}
 
-		vm.getDelimiterName = function() {
-		    var obj = DELIMITER_TYPE_ITEM.filter(getDelimiterObject);
-		    if(obj.length == 0){
-		    	return "Other";
-		    }
-			else{
+		vm.getDelimiterName = function () {
+			var obj = DELIMITER_TYPE_ITEM.filter(getDelimiterObject);
+			if (obj.length == 0) {
+				return "Other";
+			} else {
 				return obj[0].delimiterName;
 			}
 		}
-		
+
 		var _documentFieldName = null;
+
 		function getDocumentFieldObject(item) {
-    		return (item.documentFieldName == _documentFieldName);
+			return (item.documentFieldName == _documentFieldName);
 		}
 
 		//from detail sector items
-		vm.getDisplayDocumentFieldName = function(fieldname) {
+		vm.getDisplayDocumentFieldName = function (fieldname) {
 			_documentFieldName = fieldname;
-		    var obj = vm.items.filter(getDocumentFieldObject);
-			if(obj[0] != null && obj[0] != 'undefined'){
+			var obj = vm.items.filter(getDocumentFieldObject);
+			if (obj[0] != null && obj[0] != 'undefined') {
 				return obj[0].displayValue;
-			}else{
+			} else {
 				return "";
 			}
 		}
-
-	}]);
+	}
+]);
 
 app.constant('FILE_TYPE_ITEM', {
 	fixedLength: 'FIXED_LENGTH',
@@ -351,4 +338,3 @@ app.constant('DELIMITER_TYPE_ITEM', [{
 	delimiterName: 'Other',
 	delimiterId: 'Other'
 }]);
-
