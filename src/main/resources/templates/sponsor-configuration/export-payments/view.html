@@ -97,17 +97,17 @@
 										</thead>
 										<tbody>
 											<tr ng-repeat="record in ctrl.headerItems track by $index" ng-class="$even?'tr-odd':'tr-even'">
-												<td class="text-right" style="width: 3%">
-													<label id="body-no-{{$index+1}}-header-config-label" class="text-right control-label" ng-bind="$index+1"></label>
+												<td class="text-center" style="width: 10%">
+													<label id="body-no-{{$index+1}}-header-config-label" class="control-label" ng-bind="$index+1"></label>
 												</td>
-												<td class="text-center" style="width: 71%">
-													<label id="body-gecscf-field-name-{{$index+1}}-header-config-label" class="text-right control-label" ng-bind="record.documentFieldId"></label>
+												<td class="text-left" style="width: 60%">
+													<label id="body-gecscf-field-name-{{$index+1}}-header-config-label" class="control-label" ng-bind="record.documentField.displayFieldName"></label>
 												</td>
-												<td class="text-right" style="width: 8%">
-													<label id="body-length-{{$index+1}}-header-config-label" class="text-right control-label" ng-bind="record.dataLength"></label>
+												<td class="text-left" style="width: 15%">
+													<label id="body-length-{{$index+1}}-header-config-label" class="control-label" ng-bind="record.dataLength"></label>
 												</td>
-												<td class="text-right" style="width: 8%">
-													<label id="body-index-{{$index+1}}-header-config-label" class="text-right control-label" ng-bind="record.startIndex"></label>
+												<td class="text-left" style="width: 15%">
+													<label id="body-index-{{$index+1}}-header-config-label" class="control-label" ng-bind="record.startIndex"></label>
 												</td>
 											</tr>
 										</tbody>
@@ -132,19 +132,16 @@
 										</thead>
 										<tbody>
 											<tr ng-repeat="record in ctrl.paymentItems track by $index" ng-class="$even?'tr-odd':'tr-even'">
-												<td class="text-right" style="width: 3%">
+												<td class="text-center" style="width: 10%">
 													<label id="body-no-{{$index+1}}-payment-config-label" class="text-right control-label" ng-bind="$index+1"></label>
 												</td>
-												<td class="text-center" style="width: 71%">
-													<label id="body-gecscf-field-name-{{$index+1}}-payment-config-label" class="text-right control-label" ng-bind="record.documentFieldId"></label>
-													<scf-dropdown id="body-gecscf-field-name-{{$index+1}}-payment-config-dropdown" ng-model="record.documentFieldId" component-data="ctrl.paymentGECDropdown"
-													    ng-disabled="!ctrl.manageAll" ng-change="ctrl.isChangeDataType(record, ctrl.paymentGECDropdown)" translate-label="true"
-													    convert-to-number="true"></scf-dropdown>
+												<td class="text-left" style="width: 60%">
+													<label id="body-gecscf-field-name-{{$index+1}}-payment-config-label" class="text-right control-label" ng-bind="record.documentField.displayFieldName"></label>
 												</td>
-												<td class="text-right" style="width: 8%">
+												<td class="text-left" style="width: 15%">
 													<label id="body-length-{{$index+1}}-payment-config-label" class="text-right control-label" ng-bind="record.dataLength"></label>
 												</td>
-												<td class="text-right" style="width: 8%">
+												<td class="text-left" style="width: 15%">
 													<label id="body-index-{{$index+1}}-payment-config-label" class="text-right control-label" ng-bind="record.startIndex"></label>
 												</td>
 											</tr>
@@ -175,23 +172,20 @@
 										</thead>
 										<tbody>
 											<tr ng-repeat="record in ctrl.documentItems track by $index" ng-class="$even?'tr-odd':'tr-even'">
-												<td class="text-right" style="width: 3%">
-													<label id="body-no-{{$index+1}}-document-config-label" class="text-right control-label" ng-bind="$index+1"></label>
+												<td class="text-center" style="width: 10%">
+													<label id="body-no-{{$index+1}}-document-config-label" class="control-label" ng-bind="$index+1"></label>
 												</td>
-												<td class="text-center" style="width: 35%">
-													<label id="body-gecscf-field-name-{{$index+1}}-document-config-label" class="text-right control-label" ng-bind="record.documentFieldId"></label>
-													<scf-dropdown id="gecscf-field-name-{{$index+1}}-document-dropdown" ng-disabled="!ctrl.manageAll" ng-model="record.documentFieldId"
-													    component-data="ctrl.doucmentGECDropdown" ng-change="ctrl.isChangeDataType(record, ctrl.doucmentGECDropdown)"
-													    translate-label="true" convert-to-number="true"></scf-dropdown>
+												<td class="text-left" style="width: 30%">
+													<label id="body-gecscf-field-name-{{$index+1}}-document-config-label" class="control-label" ng-bind="record.documentField.displayFieldName"></label>
 												</td>
-												<td class="text-center" style="width: 36%">
-													<label id="body-header-label-{{$index+1}}-document-config-label" class="text-left control-label" ng-bind="record.displayValue"></label>
+												<td class="text-left" style="width: 30%">
+													<label id="body-header-label-{{$index+1}}-document-config-label" class="control-label" ng-bind="record.displayValue"></label>
 												</td>
-												<td class="text-right" style="width: 8%">
-													<label id="body-length-{{$index+1}}-document-config-label" class="text-right control-label" ng-bind="record.dataLength"></label>
+												<td class="text-left" style="width: 15%">
+													<label id="body-length-{{$index+1}}-document-config-label" class="control-label" ng-bind="record.dataLength"></label>
 												</td>
-												<td class="text-right" style="width: 8%">
-													<label id="body-index-{{$index+1}}-document-config-label" class="text-right control-label" ng-bind="record.startIndex"></label>
+												<td class="text-left" style="width: 15%">
+													<label id="body-index-{{$index+1}}-document-config-label" class="control-label" ng-bind="record.startIndex"></label>
 												</td>
 											</tr>
 										</tbody>
@@ -216,20 +210,17 @@
 										</thead>
 										<tbody>
 											<tr ng-repeat="record in ctrl.footerItems track by $index" ng-class="$even?'tr-odd':'tr-even'">
-												<td class="text-right" style="width: 3%">
-													<label id="body-no-{{$index+1}}-footer-config-label" class="text-right control-label" ng-bind="$index+1"></label>
+												<td class="text-center" style="width: 10%">
+													<label id="body-no-{{$index+1}}-footer-config-label" class="control-label" ng-bind="$index+1"></label>
 												</td>
-												<td class="text-center" style="width: 71%">
-													<label id="body-gecscf-field-name-{{$index+1}}-footer-config-label" class="text-right control-label" ng-bind="record.documentFieldId"></label>
-													<scf-dropdown id="gecscf-field-name-{{$index+1}}-footer-dropdown" ng-disabled="!ctrl.manageAll" ng-model="record.documentFieldId"
-													    component-data="ctrl.footerGECDropdown" ng-change="ctrl.isChangeDataType(record, ctrl.footerGECDropdown)" translate-label="true"
-													    convert-to-number="true"></scf-dropdown>
+												<td class="text-left" style="width: 60%">
+													<label id="body-gecscf-field-name-{{$index+1}}-footer-config-label" class="control-label" ng-bind="record.documentField.displayFieldName"></label>
 												</td>
-												<td class="text-right" style="width: 8%">
-													<label id="body-length-{{$index+1}}-footer-config-label" class="text-right control-label" ng-bind="record.dataLength"></label>
+												<td class="text-left" style="width: 15%">
+													<label id="body-length-{{$index+1}}-footer-config-label" class="control-label" ng-bind="record.dataLength"></label>
 												</td>
-												<td class="text-right" style="width: 8%">
-													<label id="body-index-{{$index+1}}-footer-config-label" class="text-right control-label" ng-bind="record.startIndex"></label>
+												<td class="text-left" style="width: 15%">
+													<label id="body-index-{{$index+1}}-footer-config-label" class="control-label" ng-bind="record.startIndex"></label>
 												</td>
 											</tr>
 										</tbody>
