@@ -2,11 +2,26 @@ angular.module('scfApp').factory('BatchJobMonitorService', ['$http', '$q', Batch
 function BatchJobMonitorService($http, $q) {
     return {
     	getBatchJobs: getBatchJobs,
-    	runJob: runJob
+    	runJob: runJob,
+    	getBatchJobExportChannel : getBatchJobExportChannel
     };
     
     function getBatchJobs(organizeId){
     	var url = '/api/v1/organizes/'+ organizeId +'/batch-jobs';
+    	var deffered = $q.defer();
+ 	    $http({
+ 	       method: 'GET',
+ 	       url: url
+ 	    }).then(function(response) {
+ 	       deffered.resolve(response);
+ 	    }).catch(function(response) {
+ 	       deffered.reject(response);
+ 	    });
+ 	    return deffered;
+	}
+    
+    function getBatchJobExportChannel( organizeId , jobId){
+    	var url = '/api/v1/organizes/'+ organizeId +'/channel/'+ jobId;
     	var deffered = $q.defer();
  	    $http({
  	       method: 'GET',
