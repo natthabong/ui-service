@@ -124,112 +124,96 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', '$stateParams', 'Serv
 		}
 		
 		vm.view = function(data){
-			vm.organizeId = '';
-			if(currentMode == mode.BANK){
-				getMyOrganize();
-				vm.organizeId = response.fundingId;
-			}else if(currentMode == mode.GEC){
-				getMyOrganize();
-				vm.organizeId = response.organizeId;
-			}else{
-				vm.organizeId = $scope.organize.organizeId;
-			}
+
+			var sunday = false;
+			var monday = false;
+			var tuesday = false;
+			var wednesday = false;
+			var thursday = false;
+			var friday = false;
+			var saturday = false;
 			
-			var loadBatchDeferred = BatchJobMonitorService.getBatchJobExportChannel(vm.organizeId ,data.jobId );
-			loadBatchDeferred.promise.then(function(response){
-				console.log(data);
-				var sunday = false;
-				var monday = false;
-				var tuesday = false;
-				var wednesday = false;
-				var thursday = false;
-				var friday = false;
-				var saturday = false;
+			var daysOfWeek = data.triggerInformations[0].daysOfWeek.replace("[","").replace("]","").split(",");
+			daysOfWeek.forEach(function(data){
+				if(data == dayOfWeekFrequency.SUNDAY){
+					sunday = true
+				}
+				if(data == dayOfWeekFrequency.MONDAY){
+					monday = true;
+				}
+				if(data == dayOfWeekFrequency.TUESDAY){
+					tuesday = true
+				}
+				if(data == dayOfWeekFrequency.WEDNESDAY){
+					wednesday = true
+				}
+				if(data == dayOfWeekFrequency.THURSDAY){
+					thursday = true
+				}
+				if(data == dayOfWeekFrequency.FRIDAY){
+					friday = true
+				}
+				if(data == dayOfWeekFrequency.SATURDAY){
+					saturday = true
+				}
+			});
+			
+			var beginTime = '';
+			var endTime = '';
+			var runTimes  = '';
+			
+			if(data.interval){
+				var triggerInformation = data.triggerInformations[0];
+				var hour = triggerInformation.startHour.length == 1 ? "0"+ triggerInformation.startHour : triggerInformation.startHour;
+ 				var minute = triggerInformation.startMinute.length == 1 ? "0"+triggerInformation.startMinute : triggerInformation.startMinute;
+ 				beginTime = hour + ':' + minute;
 				
-				var daysOfWeek = data.triggerInformations[0].daysOfWeek.replace("[","").replace("]","").split(",");
-				daysOfWeek.forEach(function(data){
-					if(data == dayOfWeekFrequency.SUNDAY){
-						sunday = true
-					}
-					if(data == dayOfWeekFrequency.MONDAY){
-						monday = true;
-					}
-					if(data == dayOfWeekFrequency.TUESDAY){
-						tuesday = true
-					}
-					if(data == dayOfWeekFrequency.WEDNESDAY){
-						wednesday = true
-					}
-					if(data == dayOfWeekFrequency.THURSDAY){
-						thursday = true
-					}
-					if(data == dayOfWeekFrequency.FRIDAY){
-						friday = true
-					}
-					if(data == dayOfWeekFrequency.SATURDAY){
-						saturday = true
-					}
-				});
-				
-				var beginTime = '';
-				var endTime = '';
-				var runTimes  = '';
-				
-				if(response.data.runtimeType == 'INTERVAL'){
-					var triggerInformation = data.triggerInformations[0];
-					var hour = triggerInformation.startHour.length == 1 ? "0"+ triggerInformation.startHour : triggerInformation.startHour;
-	 				var minute = triggerInformation.startMinute.length == 1 ? "0"+triggerInformation.startMinute : triggerInformation.startMinute;
-	 				beginTime = hour + ':' + minute;
-					
-					hour = triggerInformation.endHour.length == 1 ? "0"+ triggerInformation.endHour : triggerInformation.endHour;
-	 				minute = triggerInformation.endMinute.length == 1 ? "0"+triggerInformation.endMinute : triggerInformation.endMinute;
-	 				endTime = hour + ':' + minute;
-				} else {
-					if(data.triggerInformations.length > 0){
-						data.triggerInformations.forEach(function(info){
-							if(info.startHour != null && info.startMinute != null){
-				 				var hour = info.startHour.length == 1 ? "0"+info.startHour : info.startHour;
-				 				var minute = info.startMinute.length == 1 ? "0"+info.startMinute : info.startMinute;
-								var time = hour + ":" +minute;
-				 				runTimes = runTimes + ', ' + time;
-							}
-			 			});
-						if (runTimes.length > 2){
-							runTimes = runTimes.substring(2 , runTimes.length);
+				hour = triggerInformation.endHour.length == 1 ? "0"+ triggerInformation.endHour : triggerInformation.endHour;
+ 				minute = triggerInformation.endMinute.length == 1 ? "0"+triggerInformation.endMinute : triggerInformation.endMinute;
+ 				endTime = hour + ':' + minute;
+			} else {
+				if(data.triggerInformations.length > 0){
+					data.triggerInformations.forEach(function(info){
+						if(info.startHour != null && info.startMinute != null){
+			 				var hour = info.startHour.length == 1 ? "0"+info.startHour : info.startHour;
+			 				var minute = info.startMinute.length == 1 ? "0"+info.startMinute : info.startMinute;
+							var time = hour + ":" +minute;
+			 				runTimes = runTimes + ', ' + time;
 						}
-						console.log(runTimes);
+		 			});
+					if (runTimes.length > 2){
+						runTimes = runTimes.substring(2 , runTimes.length);
 					}
 				}
-				vm.batchJobInfo = {
-					jobName : data.jobName,
-					runTimes : runTimes,
-					sunday : sunday,
-					monday : monday,
-					tuesday : tuesday,
-					wednesday : wednesday,
-					thursday : thursday,
-					friday : friday,
-					saturday : saturday,
-					runtimeType : response.data.runtimeType,
-					intervalInMinutes : data.triggerInformations[0].intervalInMinutes,
-					beginTime : beginTime ,
-					endTime : endTime,
-					frequencyType : 'Daily'
-				};
-				var systemInfo = ngDialog.open({
-					id : 'batch-job-detail-dialog',
-					template : '/js/app/modules/monitor/dialog-batch-job-detail.html',
-					className : 'ngdialog-theme-default',
-					controller: 'ViewBatchJobController',
-					controllerAs: 'ctrl',
-					scope : $scope,
-					data : {
-						jobInfo : vm.batchJobInfo
-					}
-				})
-			}).catch(function(response){
-				console.log("can not get batch job information.")
-			});
+			}
+			vm.batchJobInfo = {
+				jobName : data.jobName,
+				runTimes : runTimes,
+				sunday : sunday,
+				monday : monday,
+				tuesday : tuesday,
+				wednesday : wednesday,
+				thursday : thursday,
+				friday : friday,
+				saturday : saturday,
+				runtimeType : data.interval ? "INTERVAL" : "FIXED",
+				intervalInMinutes : data.triggerInformations[0].intervalInMinutes,
+				beginTime : beginTime ,
+				endTime : endTime,
+				frequencyType : 'Daily'
+			};
+			var systemInfo = ngDialog.open({
+				id : 'batch-job-detail-dialog',
+				template : '/js/app/modules/monitor/dialog-batch-job-detail.html',
+				className : 'ngdialog-theme-default',
+				controller: 'ViewBatchJobController',
+				controllerAs: 'ctrl',
+				scope : $scope,
+				data : {
+					jobInfo : vm.batchJobInfo
+				}
+			})
+		
 		}
 		
 		vm.runJob = function(job){
