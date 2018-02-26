@@ -475,7 +475,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 					deffered = AccountService.enquiryCreditLimit(criteria);
 				}
 				else{
-					//current, saving, overdraft
+					//overdraft
 					deffered = AccountService.enquiryAccountBalance(criteria);
 				}
 				            	
