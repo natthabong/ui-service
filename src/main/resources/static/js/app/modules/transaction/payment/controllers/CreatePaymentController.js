@@ -14,8 +14,8 @@ txnMod.controller('CreatePaymentController', [
     'ProductTypeService',
     'UIFactory',
     '$window',
-    'scfFactory',
-    function ($rootScope, $scope, $log, $stateParams, $q, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, ProductTypeService, UIFactory, $window, scfFactory) {
+    'scfFactory','AccountService',
+    function ($rootScope, $scope, $log, $stateParams, $q, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, ProductTypeService, UIFactory, $window, scfFactory, AccountService) {
         var vm = this;
         var log = $log;
         var supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
@@ -35,7 +35,6 @@ txnMod.controller('CreatePaymentController', [
         }
 
         function prepareTransactionModel() {
-            var ownerId = $rootScope.userInfo.organizeId;
             return $stateParams.transactionModel || {
                 sponsorId: ownerId,
                 transactionAmount: 0.0,
@@ -46,7 +45,6 @@ txnMod.controller('CreatePaymentController', [
         }
 
         function prepareTradingpartnerInfoModel() {
-            var ownerId = $rootScope.userInfo.organizeId;
             return $stateParams.tradingpartnerInfoModel || {
                 available: '0.00',
                 tenor: null,
@@ -106,7 +104,6 @@ txnMod.controller('CreatePaymentController', [
             });
             if (result[0].createTransactionType !== undefined && result[0].createTransactionType == 'WITHOUT_INVOICE') {
                 vm.displayPaymentPage = false;
-                var ownerId = $rootScope.userInfo.organizeId;
                 var params = {
                     supplierModel: tradingPartnerList,
                     criteria: {
@@ -217,7 +214,6 @@ txnMod.controller('CreatePaymentController', [
         function _loadAccount(supplierId) {
             vm.accountDropDown = [];
             var deffered = $q.defer();
-            var ownerId = $rootScope.userInfo.organizeId;
             var defferedAccounts = TransactionService.getAccounts(ownerId, supplierId);
             defferedAccounts.promise.then(function (response) {
                 var accounts = response.data;
@@ -1068,6 +1064,7 @@ txnMod.controller('CreatePaymentController', [
                     if (vm.accountType == 'LOAN') {
                         vm.transactionModel.transactionMethod = 'TERM_LOAN';
                         vm.isLoanPayment = true;
+                        _loadMaturityDate();
                     }else if(vm.accountType == 'OVERDRAFT'){
                     	vm.transactionModel.transactionMethod = 'OD';
                     	vm.isLoanPayment = false;
@@ -1175,7 +1172,7 @@ txnMod.controller('CreatePaymentController', [
                 $scope.errors.message = 'Maturity date is required.';
                 vm.errorDisplay = true;
             } else {
-                vm.transactionModel.sponsorId = $rootScope.userInfo.organizeId;
+                vm.transactionModel.sponsorId = ownerId;
                 vm.transactionModel.supplierId = vm.criteria.supplierId;
                 vm.transactionModel.documents = vm.documentSelects;
                 vm.transactionModel.sponsorPaymentDate = SCFCommonService.convertStringTodate(vm.paymentModel);
@@ -1239,6 +1236,47 @@ txnMod.controller('CreatePaymentController', [
 
         vm.backStep = function () {
             PageNavigation.gotoPreviousPage(true);
+        }
+        
+        vm.enquiryAvailableBalance = function(){
+        	var deffered = null;
+        	var criteria ={
+ 	    		buyerId: ownerId,
+				supplierId: vm.criteria.supplierId,
+				accountId: vm.transactionModel.payerAccountId
+			}
+				
+			if(vm.transactionModel.transactionMethod  == 'TERM_LOAN'){
+				deffered = AccountService.enquiryCreditLimit(criteria);
+			}
+			else{
+				//current, saving, overdraft
+				deffered = AccountService.enquiryAccountBalance(criteria);
+			}
+				            	
+			deffered.promise.then(function(response) {
+				var defferedAccounts = _loadAccount(vm.criteria.supplierId);
+				defferedAccounts.promise.then(function (response) {
+					vm.accountList = response;
+					var _accounts = [];
+					angular.copy(vm.accountList, _accounts);
+					
+						var result = $.grep(_accounts, function (account) {
+							return account.accountId == vm.transactionModel.payerAccountId;
+						});
+						vm.accountType = result[0].accountType;
+						vm.tradingpartnerInfoModel.updateTime = result[0].accountUpdatedTime;
+				
+						if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
+							_setTradingpartnerInfoModel(_accounts[0]);
+						} else {
+							_setTransactionMethod(vm.supportSpecialDebit);
+						}
+					
+					vm.accountChange();
+				             
+				});
+			});
         }
     }
 ]);

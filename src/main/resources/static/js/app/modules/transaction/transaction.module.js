@@ -7,7 +7,8 @@ angular.module('gecscf.transaction', [ 'ui.router', 'gecscf.ui', 'gecscf.organiz
 				'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js', 
 				'js/app/modules/organize/configuration/product-type/services/ProductTypeService.js',
 				'js/app/modules/transaction/payment/reason-code/controllers/SelectReasonCodePopupController.js',
-				'js/app/modules/transaction/payment/controllers/ValidateSubmitController.js'];
+				'js/app/modules/transaction/payment/controllers/ValidateSubmitController.js',
+				'js/app/modules/account/services/AccountService.js'];
 			
 			$stateProvider.state('/my-organize/create-payment', {
 				url: '/my-organize/create-payment',
@@ -22,7 +23,7 @@ angular.module('gecscf.transaction', [ 'ui.router', 'gecscf.ui', 'gecscf.organiz
 				controllerAs: 'ctrl',				
 				templateUrl: '/payment/create-woip',
 				params: {transactionModel: null, tradingpartnerInfoModel: null, criteria: null, supplierModel: null, backAction: false , documents: null},
-				resolve: WebHelper.loadScript(['js/app/modules/transaction/services/TransactionService.js','js/app/modules/transaction/payment/controllers/CreatePaymentWithoutInvoiceController.js'])
+				resolve: WebHelper.loadScript(['js/app/modules/transaction/services/TransactionService.js','js/app/modules/transaction/payment/controllers/CreatePaymentWithoutInvoiceController.js', 'js/app/modules/account/services/AccountService.js'])
 			}).state('/create-payment/validate-submit', {
 				url: '/create-payment/validate-submit',
 				controller: 'ValidateSubmitController',
