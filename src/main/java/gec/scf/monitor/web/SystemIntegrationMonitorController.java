@@ -17,9 +17,9 @@ public class SystemIntegrationMonitorController {
 	private static final String BATCH_JOB_MONITOR = "monitor/batch-job-monitor";
 	private static final String FTP_MONITOR = "monitor/ftp-monitor";
 
-	private static final String GEC_SYSTEM_INTEGRATION_MONITOR_TEMPLATE = "monitor/gec-system-integration-monitor-template";
+	private static final String MY_SYSTEM_INTEGRATION_MONITOR_TEMPLATE = "monitor/my-system-integration-monitor-template";
 	private static final String BANK_SYSTEM_INTEGRATION_MONITOR = "monitor/bank-system-integration-monitor-template";
-	private static final String SPONSOR_SYSTEM_INTEGRATION_MONITOR = "monitor/customer-system-integration-monitor-template";
+	private static final String CUSTOMER_SYSTEM_INTEGRATION_MONITOR = "monitor/customer-system-integration-monitor-template";
 
 	@RequestMapping(path = {"/web-service-monitor"}, method = RequestMethod.GET)
 	public String webServiceMonitor(@RequestHeader("X-Requested-With") String requestedWith) {
@@ -60,9 +60,9 @@ public class SystemIntegrationMonitorController {
 	public String systemIntegrationMonitor(@RequestHeader("X-Requested-With") String requestedWith) {
 
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return SPONSOR_SYSTEM_INTEGRATION_MONITOR.concat(" :: content");
+			return CUSTOMER_SYSTEM_INTEGRATION_MONITOR.concat(" :: content");
 		}
-		return SPONSOR_SYSTEM_INTEGRATION_MONITOR;
+		return CUSTOMER_SYSTEM_INTEGRATION_MONITOR;
 
 	}
 
@@ -70,9 +70,9 @@ public class SystemIntegrationMonitorController {
 	public String gecSystemIntegrationMonitor(@RequestHeader("X-Requested-With") String requestedWith) {
 
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return GEC_SYSTEM_INTEGRATION_MONITOR_TEMPLATE.concat(" :: content");
+			return MY_SYSTEM_INTEGRATION_MONITOR_TEMPLATE.concat(" :: content");
 		}
-		return GEC_SYSTEM_INTEGRATION_MONITOR_TEMPLATE;
+		return MY_SYSTEM_INTEGRATION_MONITOR_TEMPLATE;
 
 	}
 }

@@ -1,7 +1,7 @@
 'use strict';
 var scfApp = angular.module('scfApp');
-scfApp.controller('BatchJobMonitorController', [ '$scope', '$stateParams', 'Service', 'BatchJobMonitorService', 'UIFactory', 'PageNavigation','scfFactory',
-	function($scope, $stateParams, Service, BatchJobMonitorService, UIFactory, PageNavigation, scfFactory) {
+scfApp.controller('BatchJobMonitorController', [ '$scope', '$stateParams', 'Service', 'BatchJobMonitorService', 'UIFactory', 'PageNavigation' ,'ngDialog', 'scfFactory',
+	function($scope, $stateParams, Service, BatchJobMonitorService, UIFactory, PageNavigation,ngDialog, scfFactory) {
     
 	var vm = this; 
 	vm.canRunNow = false;
@@ -15,6 +15,51 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', '$stateParams', 'Serv
 			BANK : 'bank',
 			GEC : 'gec',
 			SPONSOR : 'sponsor'
+		}
+		
+		var dayOfWeekFrequency = {
+    			SUNDAY : 1,
+    			MONDAY : 2,
+    			TUESDAY : 3,
+    			WEDNESDAY : 4,
+    			THURSDAY : 5,
+    			FRIDAY : 6,
+    			SATURDAY : 7
+		}
+      
+		vm.getRunDate = function(time) {
+			var daysOfWeek = time.replace("[","").replace("]","").replace( "1" ,"Sun").replace( "2" ,"Mon").replace( "3" ,"Tue").replace( "4" ,"Wed").replace( "5" ,"Thu").replace( "6" ,"Fri").replace( "7" ,"Sat");
+			return daysOfWeek;
+		}
+		
+		vm.getRunTime = function(time) {
+			var startHour = "23";
+			var startMin = "59";
+			var endHour = "0";
+			var endMin = "0";
+			time.forEach(function(data){
+				if (parseInt(data.startHour, 10) < parseInt(startHour, 10)){
+					startHour = data.startHour;
+					startMin = data.startMinute;
+				}else if (parseInt(data.startHour, 10) == parseInt(startHour, 10)){
+					if ( parseInt(data.startMinute, 10) < parseInt(startMin, 10)){
+						startHour = data.startHour;
+						startMin = data.startMinute;
+					}
+				}
+				if (parseInt(data.endHour, 10) > parseInt(endHour, 10)){
+					endHour = data.endHour;
+					endMin = data.endMinute;
+				}else if (parseInt(data.endHour, 10) == parseInt(endHour, 10)){
+					if (parseInt(data.endMinute, 10) > parseInt(endMin, 10)){
+						endHour = data.endHour;
+						endMin = data.endMinute;
+					}
+				}
+			});
+			var pad = "00";
+			var runtime = pad.substring(0, pad.length - startHour.length) + startHour + ":" + pad.substring(0, pad.length - startMin.length) + startMin + " - " + pad.substring(0, pad.length - endHour.length) + endHour + ":" + pad.substring(0, pad.length - endMin.length) + endMin;
+			return runtime;
 		}
 
 		var currentMode = $stateParams.mode;
@@ -73,9 +118,67 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', '$stateParams', 'Serv
 		initial();
 		
 		
-		vm.view = function(data){
+		vm.historyJob = function(data){
 			var params = {params: data};
 			PageNavigation.gotoPage('/batch-job-tracking', params,params.params);
+		}
+		
+		vm.view = function(data){
+			console.log(data);
+			var sunday = false;
+			var monday = false;
+			var tuesday = false;
+			var wednesday = false;
+			var thursday = false;
+			var friday = false;
+			var saturday = false;
+			
+			var daysOfWeek = data.triggerInformations[0].daysOfWeek.replace("[","").replace("]","").split(",");
+			daysOfWeek.forEach(function(data){
+				if(data == dayOfWeekFrequency.SUNDAY){
+					sunday = true
+				}
+				if(data == dayOfWeekFrequency.MONDAY){
+					monday = true;
+				}
+				if(data == dayOfWeekFrequency.TUESDAY){
+					tuesday = true
+				}
+				if(data == dayOfWeekFrequency.WEDNESDAY){
+					wednesday = true
+				}
+				if(data == dayOfWeekFrequency.THURSDAY){
+					thursday = true
+				}
+				if(data == dayOfWeekFrequency.FRIDAY){
+					friday = true
+				}
+				if(data == dayOfWeekFrequency.SATURDAY){
+					saturday = true
+				}
+			});
+			vm.batchJobInfo = {
+				jobName : data.jobName,
+				runetimes : [],
+				sunday : sunday,
+				monday : monday,
+				tuesday : tuesday,
+				wednesday : wednesday,
+				thursday : thursday,
+				friday : friday,
+				saturday : saturday
+			};
+			var systemInfo = ngDialog.open({
+				id : 'batch-job-detail-dialog',
+				template : '/js/app/modules/monitor/dialog-batch-job-detail.html',
+				className : 'ngdialog-theme-default',
+				controller: 'ViewBatchJobController',
+				controllerAs: 'ctrl',
+				scope : $scope,
+				data : {
+					jobInfo : vm.batchJobInfo
+				}
+			})
 		}
 		
 		vm.runJob = function(job){
@@ -126,3 +229,7 @@ scfApp.controller('BatchJobMonitorController', [ '$scope', '$stateParams', 'Serv
 		}
     });
 } ]);
+scfApp.controller('ViewBatchJobController', [ '$scope', '$rootScope', function($scope, $rootScope) {
+	 var vm = this;
+	 vm.jobInfo = angular.copy($scope.ngDialogData.jobInfo);
+	} ]);

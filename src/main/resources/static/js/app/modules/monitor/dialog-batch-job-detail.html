@@ -1,0 +1,186 @@
+<div class="modal-content" id="batch-job-detail-dialog">
+	<div id="wrapper" ng-controller="ViewBatchJobController as ctrl">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<h3>
+						<span id="batch-job-popup-header-label"
+							class="popup-text" ng-bind="'Service information' | translate">Batch Job</span>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<form name="serviceInfo" class="form-horizontal">
+						<div class="form-group">
+							<label id="batch-job-popup-name-label" 
+								class="col-md-3 col-sm-4 col-xs-12 control-label" style="text-align: right;">
+								{{'Name' | translate}}: </label>
+							<label id="batch-job-popup-name-value-label" 
+								class="col-md-6 col-sm-6 col-xs-12 control-label">
+								{{ctrl.jobInfo.jobName}}</label>
+						</div>
+						<div class="form-group">
+							<label id="frequency-label" 
+								class="col-md-3 col-sm-4 col-xs-12 control-label" style="text-align: right;"> {{'Frequency' | translate}}: </label>
+				
+							<label id="frequency-value-label" 
+								class="col-md-6 col-sm-6 col-xs-12 control-label">
+									{{ctrl.jobInfo.frequencyType | translate}}</label>
+							<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<label class="col-md-3 col-sm-4 col-xs-12 control-label" style="text-align: right;"></label>
+								<div class="col-md-3 col-sm-3 col-xs-12">
+									&nbsp;&nbsp;
+									<scf-checkbox id="monday-checkbox" ng-disabled="true"
+										ng-model="ctrl.jobInfo.monday"></scf-checkbox>
+									<label class="checkbox-inline" id="monday-label"
+										style="padding-bottom: 10px;">{{'Monday' | translate}}</label>
+								</div>
+				
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+									<scf-checkbox id="tuesday-checkbox" ng-disabled="true"
+										ng-model="ctrl.jobInfo.tuesday"></scf-checkbox>
+									<label class="checkbox-inline" id="tuesday-label"
+										style="padding-bottom: 10px;">{{'Tuesday' | translate}}</label>
+								</div>
+				
+								<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+							</div>
+				
+							<div class="row">
+								<label class="col-md-3 col-sm-4 col-xs-12 control-label" style="text-align: right;"></label>
+				
+								<div class="col-md-3 col-sm-3 col-xs-12">
+									&nbsp;&nbsp;
+									<scf-checkbox id="wednesday-checkbox" ng-disabled="true"
+										ng-model="ctrl.jobInfo.wednesday"></scf-checkbox>
+									<label class="checkbox-inline" id="wednesday-label"
+										style="padding-bottom: 10px;">{{'Wednesday' | translate}}</label>
+								</div>
+				
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+									<scf-checkbox id="thursday-checkbox" ng-disabled="true"
+										ng-model="ctrl.jobInfo.thursday"></scf-checkbox>
+									<label class="checkbox-inline" id="thursday-label"
+										style="padding-bottom: 10px;">{{'Thursday' | translate}}</label>
+								</div>
+				
+								<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+							</div>
+				
+							<div class="row">
+								<label class="col-md-3 col-sm-4 col-xs-12 control-label" style="text-align: right;"></label>
+				
+								<div class="col-md-3 col-sm-3 col-xs-12">
+									&nbsp;&nbsp;
+									<scf-checkbox id="friday-checkbox" ng-disabled="true"
+										ng-model="ctrl.jobInfo.friday"></scf-checkbox>
+									<label class="checkbox-inline" id="friday-label"
+										style="padding-bottom: 10px;">{{'Friday' | translate}}</label>
+								</div>
+				
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+									<scf-checkbox id="saturday-checkbox" ng-disabled="true"
+										ng-model="ctrl.jobInfo.saturday"></scf-checkbox>
+									<label class="checkbox-inline" id="saturday-label"
+										style="padding-bottom: 10px;">{{'Saturday' | translate}}</label>
+								</div>
+				
+								<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+							</div>
+				
+							<div class="row">
+				
+								<label class="col-md-3 col-sm-4 col-xs-12 control-label" style="text-align: right;"></label>
+				
+								<div class="col-md-3 col-sm-3 col-xs-12">
+									&nbsp;&nbsp;
+									<scf-checkbox id="sunday-checkbox" ng-disabled="true"
+										ng-model="ctrl.jobInfo.sunday"></scf-checkbox>
+									<label class="checkbox-inline" id="sunday-label"
+										style="padding-bottom: 4px;">{{'Sunday' | translate}}</label>
+								</div>
+				
+								<div class="col-md-2 col-sm-3 col-hidden-xs"></div>
+								<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+				
+							</div>
+						</div>
+						<div class="form-group">
+							<label id="run-time-label" 
+							 class="col-md-3 col-sm-4 col-xs-12 control-label" style="text-align: right;"> {{'Run time' | translate}}: </label>
+							<div class="form-group">
+								<div class="col-md-8 col-sm-9 col-xs-12">
+									<div ng-if="ctrl.jobInfo.runtimeType == 'INTERVAL'">
+										<label id="run-time-value-label" class="control-label">{{'Interval' | translate}} </label> <br />
+										<div class="form-group">
+											<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+												<label id="begin-time-label"> {{'Begin time' |
+													translate}}: </label>
+											</div>
+											<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+												<label id="begin-time-value-label"
+													ng-show="ctrl.jobInfo.runtimeType == 'INTERVAL'">
+													{{ctrl.jobInfo.beginTime}}</label>
+											</div>
+											<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+												<label id="end-time-label"> {{'End time' | translate}}:
+												</label>
+											</div>
+											<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+												<label id="end-time-value-label"
+													ng-show="ctrl.jobInfo.runtimeType == 'INTERVAL'">
+													{{ctrl.jobInfo.endTime}}</label>
+											</div>
+										</div>
+				
+				
+										<div class="form-group">
+											<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+												<label id="delayed-interval-label"> {{'Delayed interval
+													(sec)' | translate}}: </label>
+											</div>
+											<div class="col-md-3 col-sm-3 col-xs-12 control-label">
+												<label id="delayed-interval-value-label"
+													ng-show="ctrl.jobInfo.runtimeType == 'INTERVAL'">
+													{{ctrl.jobInfo.intervalInMinutes}}</label>
+											</div>
+											<div class="col-md-6 col-sm-4 col-hidden-xs"></div>
+										</div>
+									</div>
+									<div ng-if="ctrl.jobInfo.runtimeType == 'FIXED'">
+										<label id="run-time-value-label" class="control-label">{{ 'Fixed' | translate}}</label>
+										<div class="form-group">
+											<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+												<span id="{{runtime}}-label"
+													ng-repeat-start="runtime in ctrl.jobInfo.runTimes" href="#">{{runtime}}</span><span
+													ng-repeat-end="" ng-if="!$last">, &nbsp;</span>
+											</div>
+				
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+		
+			<div class="modal-footer">
+				<div class="row">
+					<div class="col-xs-12 text-right">
+						<scf-button id="service-information-close-button"
+							class="popup-button" ng-click="closeThisDialog();"
+							ng-bind="'Close' | translate"></scf-button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
