@@ -8,8 +8,7 @@ scfApp.controller('WebServiceMonitorController', [ '$scope', 'Service', '$stateP
 		
 	    var defered = scfFactory.getUserInfo();
 	    defered.promise.then(function(response) {	    	
-		    	
-			var firstTimeWebServiceChecking = true;
+	    	
 			vm.webServiceModel;
 			vm.organize = {
 				organizeId : null,
@@ -17,22 +16,15 @@ scfApp.controller('WebServiceMonitorController', [ '$scope', 'Service', '$stateP
 			};
 	
 			$scope.$on('onload', function(e) {
-				systemWebServiceChecking();
+				getWebServiceList();
 			});
 	
 			var getBankCode = function(){
-				return $rootScope.userInfo.fundingId;
-			}
-	
-			var getBankProfile = function(bankCode){
-				var serviceUrl = '/api/v1/organize-customers/'+bankCode+'/profile';
-				var serviceDiferred = Service.doGet(serviceUrl, {});		
-				serviceDiferred.promise.then(function(response){
-					vm.organize.organizeId= response.data.organizeId;
-					vm.organize.organizeName = response.data.organizeName;
-				}).catch(function(response){
-					log.error('Load customer code group data error');
-				});
+				if($scope.useFundingFromDropdown){
+					return $scope.fundingModel.fundingId;
+				} else {
+					return $rootScope.userInfo.fundingId;
+				}
 			}
 	
 			var verifySystemStatusWebService = function(index){
@@ -50,31 +42,12 @@ scfApp.controller('WebServiceMonitorController', [ '$scope', 'Service', '$stateP
 					});
 			}
 	
-			var validateDoubleClickWebServiceChecking = function(){
-				var validate = true;
-				if(firstTimeWebServiceChecking){
-					firstTimeWebServiceChecking = false;
-				}else{
-					for(var i=0; i<vm.webServiceModel.length;i++){
-						if(vm.webServiceModel[i].status=='loading'){
-							validate = false;
-						}
-					}
-				}
-				return validate;
-			}
-	
 			var systemWebServiceChecking = function(){
-				if(validateDoubleClickWebServiceChecking()){
-					for(var i=0; i<vm.webServiceModel.length;i++){
-						vm.webServiceModel[i].status = "loading";
-						verifySystemStatusWebService(i);
-					}
-				}else{
-					console.log("please wait system processing");
+				for(var i=0; i<vm.webServiceModel.length;i++){
+					vm.webServiceModel[i].status = "loading";
+					verifySystemStatusWebService(i);
 				}
 			}
-	
 	
 			var validateOrganizeForCheck = function(){
 				var validate;
@@ -87,7 +60,6 @@ scfApp.controller('WebServiceMonitorController', [ '$scope', 'Service', '$stateP
 				}
 				return validate
 			}
-	
 	
 			// initial Display Name
 			var getWebServiceList = function(){
@@ -110,8 +82,6 @@ scfApp.controller('WebServiceMonitorController', [ '$scope', 'Service', '$stateP
 			}
 			
 	        var initLoad = function() {
-				var organize = getBankCode();
-				getBankProfile(organize);			
 				getWebServiceList();
 			}
 	

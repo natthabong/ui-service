@@ -19,14 +19,14 @@
 								<label class="col-md-1 col-sm-1 col-xs-12 control-label"
 									id="funding-label">{{'Funding'| translate}}: </label> 
 								<label class="col-md-4 col-sm-4 col-xs-12  control-label"
-									id="funding-value-label"
+									id="funding-value-label" ng-init="ctrl.useFundingFromDropdown=false"
 									sec:authorize="hasAnyAuthority('MONITOR_FUNDING_INTEGRATION')"
-									ng-bind="ctrl.funding.fundingName"></label>
-								<div class="col-md-4 col-sm-4 col-xs-12" 
+									ng-bind="ctrl.fundingModel.fundingName"></label>
+								<div class="col-md-4 col-sm-4 col-xs-12" ng-init="ctrl.useFundingFromDropdown=true"
 									sec:authorize="hasAnyAuthority('MONITOR_FUNDING_INTEGRATION_OF_ALL_FUNDING')">
 									<scf-dropdown
-										id="channel-dropdown" 
-										ng-model="ctrl.funding.fundingId"
+										id="funding-dropdown" 
+										ng-model="ctrl.fundingModel.fundingId"
 										component-data="ctrl.fundingDropdown" ></scf-dropdown>
 								</div>
 								<div class="col-md-3 col-sm-2">
@@ -34,15 +34,16 @@
 									| translate}}</scf-button>
 								</div>
 							</div>
-							<div class="form-group">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <div ng-include="'/system-integration-monitor/web-service-monitor'"></div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <div ng-include="'/system-integration-monitor/ftp-monitor'"></div>
-                                </div>
-                            </div>
-                            <div class="form-group">
+							<div class="form-group" ng-show="ctrl.readyToShow">
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+									<div
+										ng-include="'/system-integration-monitor/web-service-monitor'"></div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+									<div ng-include="'/system-integration-monitor/ftp-monitor'"></div>
+								</div>
+							</div>
+							<div class="form-group" ng-show="ctrl.readyToShow">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div ng-include="'/system-integration-monitor/batch-job-monitor'"></div>
                                 </div>
