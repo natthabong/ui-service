@@ -1,7 +1,9 @@
 angular.module('gecscf.account').factory('AccountService', ['$http', '$q', function($http, $q) {
     return {
     	getAccounts: getAccounts,
-    	save: save
+    	save: save,
+    	enquiryCreditLimit: enquiryCreditLimit,
+    	enquiryAccountBalance: enquiryAccountBalance
     };	
     function save(account){
         var serviceUrl = '/api/v1/organize-customers/'+account.organizeId+'/accounts';
@@ -37,5 +39,38 @@ angular.module('gecscf.account').factory('AccountService', ['$http', '$q', funct
             });
         return deffered;
     }
+    
+    function enquiryCreditLimit(tpAccountModel) {
+        var deffered = $q.defer();
+        
+		$http({
+			url: '/api/v1/update-credit-limit-from-bank',
+			method: 'POST',
+			data: tpAccountModel
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject('Cannot update account credit limit');
+		});	
+		
+		return deffered;
+    }
+    
+    function enquiryAccountBalance(accountModel) {
+        var deffered = $q.defer();
+  
+		$http({
+			url: '/api/v1/update-account-balance-from-bank',
+			method: 'POST',
+			data: accountModel
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject('Cannot update account balance');
+		});	
+		
+		return deffered;
+    }
+   
      
 }]);

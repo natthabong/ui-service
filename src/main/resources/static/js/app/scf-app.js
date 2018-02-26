@@ -66,7 +66,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						criteria: null
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/transaction/services/TransactionService.js', 'js/app/modules/transaction/loan/controllers/CreateLoanController.js',
-						'js/app/common/scf-component.js'
+						'js/app/common/scf-component.js',
+						'js/app/modules/account/services/AccountService.js'
 					])
 				}).state('/create-transaction/validate-submit', {
 					url: '/create-transaction/validate-submit',
