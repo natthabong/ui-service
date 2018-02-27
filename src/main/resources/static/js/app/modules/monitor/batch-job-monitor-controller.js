@@ -21,13 +21,22 @@ scfApp.controller('BatchJobMonitorController', [
 			}
 
 			vm.getRunTime = function(batchJob) {
+				
+				var isSingleFixedTime = function(triggerInformation){
+					var today = new Date();
+					var startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), triggerInformation.startHour, triggerInformation.startMinute, 0);
+					var endTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), triggerInformation.endHour, triggerInformation.endMinute, 0);
+					var diffMilliseconds  = endTime - startTime;
+					var diffSeconds = ((diffMilliseconds % 60000) / 1000).toFixed(0);
+					return triggerInformation.intervalInMinutes > diffSeconds;
+				}
 
-				var generateTime = function(startHour,startMinute,endHour,endMinute){
+				var generateRangeTime = function(startHour,startMinute,endHour,endMinute){
 					var pad = "00";
 					var startHourText = pad.substring(0, pad.length - startHour.length) + startHour;
-					var startMinuteText =  pad.substring(0, pad.length - startMinute.length)+ startMinute;
-					var endHourText = pad.substring(0, pad.length - endHour.length)+ endHour;
-					var endMinuteText =  pad.substring(0, pad.length - endMinute.length)+ endMinute;
+					var startMinuteText =  pad.substring(0, pad.length - startMinute.length) + startMinute;
+					var endHourText = pad.substring(0, pad.length - endHour.length) + endHour;
+					var endMinuteText =  pad.substring(0, pad.length - endMinute.length) + endMinute;
 					return startHourText+":"+startMinuteText+" - "+endHourText+":"+endMinuteText;
 				}
 				
@@ -35,7 +44,14 @@ scfApp.controller('BatchJobMonitorController', [
 									
 				if(batchJob.triggerInformations.length == 1){
 					var triggerInformation = batchJob.triggerInformations[0];
-					runtime = generateTime(triggerInformation.startHour,triggerInformation.startMinute,triggerInformation.endHour,triggerInformation.endMinute);
+					if(isSingleFixedTime(triggerInformation)){
+						var pad = "00";
+						var startHourText = pad.substring(0, pad.length - triggerInformation.startHour.length) + triggerInformation.startHour;
+						var startMinuteText =  pad.substring(0, pad.length - triggerInformation.startMinute.length)+ triggerInformation.startMinute;
+						runtime = startHourText+":"+startMinuteText;
+					}else{
+						runtime = generateRangeTime(triggerInformation.startHour,triggerInformation.startMinute,triggerInformation.endHour,triggerInformation.endMinute);
+					}					
 				}else{
 
 					var max = batchJob.triggerInformations.length;
@@ -51,7 +67,7 @@ scfApp.controller('BatchJobMonitorController', [
 						  return new Date(a) - new Date(b);
 					});
 					
-					runtime = generateTime(times[0].getHours().toString(),times[0].getMinutes().toString(),times[max-1].getHours().toString(),times[max-1].getMinutes().toString());
+					runtime = generateRangeTime(times[0].getHours().toString(),times[0].getMinutes().toString(),times[max-1].getHours().toString(),times[max-1].getMinutes().toString());
 				}			
 				
 				return runtime;
