@@ -133,6 +133,7 @@ var displayListCtrl = function (PageNavigation, PagingController, UIFactory, Con
 
     var loadData = function () {
         vm.pagingController.search();
+        console.log(ctrl.pagingController.tableRowCollection);
     }
 
     var setting = function (params) {
