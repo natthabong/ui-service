@@ -1,53 +1,50 @@
-<div th:fragment="content" 
+<div th:fragment="content"
 	sec:authorize="hasAnyAuthority('MONITOR_FUNDING_INTEGRATION','MONITOR_FUNDING_INTEGRATION_OF_ALL_FUNDING')">
 	<div id="wrapper" ng-controller="WebServiceMonitorController as ctrl">
-        <div class="panel">
-            <div class="panel-body">
-                <h3 id="web-service-label" class="animated fadeInLeft"
-                    ng-bind="'Web service' | translate"></h3>
-                <div class="form-group control-label"
-                    ng-repeat="record in ctrl.webServiceModel track by $index">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-7"
-                        style="padding-top: 5px">
-                        <span id="{{record.displayName}}-label"
-                            ng-bind="record.displayName"></span>
-                    </div>
-                    <div class="col-md-2" style="padding-top: 5px">
-                        <scf-button class="btn-default gec-btn-action"
-                            id="{{record.displayName}}-view-button"
-                            ng-click="ctrl.viewSystemInfo('gateway',record)">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
-                        style="margin-top: 10px" ng-show="record.status=='success'">
-                        <span id="{{record.displayName}}-status-ready-label">
-                            <span class="icon-ready"> <span
-                                class="glyphicon glyphicon-ok-sign"></span> Ready
-                            </span>
-                        </span>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
-                        style="margin-top: 5px; padding-left: 5px;"
-                        ng-show="record.status=='loading'">
-                        <img src="/img/loading_spinner.gif" alt="loading_spinner"
-                            width="30" height="30">
-                        </img><span>Checking</span>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
-                        style="margin-top: 10px" ng-show="record.status=='fail'">
-                        <a class="mouse-pointer"
-                            id="{{record.displayName}}-status-problem-link"
-                            ng-click="ctrl.viewProblemDetail('gateway',record,$index)">
-                            <span class="icon-problem"> 
-                                <span class="glyphicon glyphicon-remove-sign"
-                                    id="{{record.displayName}}-status-problem-link"> 
-                                </span>
-                            </span> 
-                            <span class="text-hyperlink">Problem</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+		<div class="panel">
+			<div class="panel-body">
+				<h3 id="web-service-label" class="animated fadeInLeft"
+					ng-bind="'Web service' | translate"></h3>
+				<div class="form-group control-label"
+					ng-repeat="record in ctrl.webServices track by $index">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-7"
+						style="padding-top: 5px">
+						<span id="{{record.displayName}}-label"
+							ng-bind="record.displayName"></span>
+					</div>
+					<div class="col-md-2" style="padding-top: 5px">
+						<scf-button class="btn-default gec-btn-action"
+							id="{{record.displayName}}-view-button"
+							ng-click="ctrl.viewInfo('gateway',record)"> <span
+							class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
+						style="margin-top: 10px" ng-show="record.status=='success'">
+						<span id="{{record.displayName}}-status-ready-label"> <span
+							class="icon-ready"> <span
+								class="glyphicon glyphicon-ok-sign"></span> Ready
+						</span>
+						</span>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
+						style="margin-top: 5px; padding-left: 5px;"
+						ng-show="record.status=='loading'">
+						<img src="/img/loading_spinner.gif" alt="loading_spinner"
+							width="30" height="30"> </img><span>Checking</span>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
+						style="margin-top: 10px" ng-show="record.status=='fail'">
+						<a class="mouse-pointer"
+							id="{{record.displayName}}-status-problem-link"
+							ng-click="ctrl.viewProblem('gateway',record,$index)"> <span
+							class="icon-problem"> <span
+								class="glyphicon glyphicon-remove-sign"
+								id="{{record.displayName}}-status-problem-link"> </span>
+						</span> <span class="text-hyperlink">Problem</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

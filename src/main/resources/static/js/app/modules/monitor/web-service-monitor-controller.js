@@ -1,92 +1,16 @@
 'use strict';
 var scfApp = angular.module('scfApp');
-scfApp.controller('WebServiceMonitorController', [ '$scope', 'Service', '$stateParams', '$log', 'UIFactory', '$q',
-	'$rootScope', '$http','PageNavigation','SystemIntegrationMonitorService','ngDialog','scfFactory',
-	function($scope, Service, $stateParams, $log, UIFactory, $q, $rootScope, $http, PageNavigation, SystemIntegrationMonitorService,ngDialog,scfFactory) {
+scfApp.controller('WebServiceMonitorController', [ '$scope', 'Service',
+		'$stateParams', '$log', 'UIFactory', '$q', '$rootScope', '$http',
+		'PageNavigation', 'SystemIntegrationMonitorService', 'ngDialog',
+		'scfFactory', function($scope, Service, $stateParams, $log, UIFactory,
+				$q, $rootScope, $http, PageNavigation, SystemIntegrationMonitorService,
+				ngDialog, scfFactory) {
 
-		var vm = this;
-		
-	    var defered = scfFactory.getUserInfo();
-	    defered.promise.then(function(response) {	    	
-	    	
-			vm.webServiceModel;
-			vm.organize = {
-				organizeId : null,
-				organizeName : null
-			};
-	
-			$scope.$on('onload', function(e) {
-				getWebServiceList();
-			});
-	
-			var getBankCode = function(){
-				if($scope.useFundingFromDropdown){
-					return $scope.fundingModel.fundingId;
-				} else {
-					return $rootScope.userInfo.fundingId;
-				}
-			}
-	
-			var verifySystemStatusWebService = function(index){
-				var deffered = SystemIntegrationMonitorService.verifySystemStatusWebService(vm.webServiceModel[index]);
-					deffered.promise.then(function(response) {
-						if(response.data.status == "UP"){
-							vm.webServiceModel[index].status = "success";
-						}else{
-							vm.webServiceModel[index].errorMessage = response.data.code + ' - ' + response.data.message;
-							vm.webServiceModel[index].status = "fail";
-						}
-					}).catch(function(response) {
-						vm.webServiceModel[index].errorMessage = response.status + ' - ' + response.statusText;
-						vm.webServiceModel[index].status = "fail";
-					});
-			}
-	
-			var systemWebServiceChecking = function(){
-				for(var i=0; i<vm.webServiceModel.length;i++){
-					vm.webServiceModel[i].status = "loading";
-					verifySystemStatusWebService(i);
-				}
-			}
-	
-			var validateOrganizeForCheck = function(){
-				var validate;
-				if(getBankCode == null){
-					vm.showDetails = false;
-					validate = false;
-				}else{
-					vm.showDetails = true;
-					validate = true;
-				}
-				return validate
-			}
-	
-			// initial Display Name
-			var getWebServiceList = function(){
-				if(validateOrganizeForCheck){
-					var deffered = SystemIntegrationMonitorService.getWebServiceList(getBankCode());
-					deffered.promise.then(function(response) {
-							vm.webServiceModel = response.data;
-							for(var i=0; i<vm.webServiceModel.length;i++){
-								vm.webServiceModel[i].status = 'loading';
-								vm.webServiceModel[i].isFTP = false;
-							}
-							systemWebServiceChecking();
-						}).catch(function(response) {
-							console.log("connect api fail.");
-						});
-				}else{
-					console.log("validate organization fail.");
-				}
-				return deffered;
-			}
+			var vm = this;
 			
-	        var initLoad = function() {
-				getWebServiceList();
-			}
-	
-			vm.viewSystemInfo = function(serviceType, updateModel){
-				var deffered = SystemIntegrationMonitorService.updateWebServiceInfomation(updateModel);
+			vm.viewInfo = function(serviceType, webServiceModel){
+				var deffered = SystemIntegrationMonitorService.updateWebServiceInfomation(webServiceModel);
 				deffered.promise.then(function(response) {
 					console.log(response);
 					var data = response.data[0];
@@ -114,31 +38,10 @@ scfApp.controller('WebServiceMonitorController', [ '$scope', 'Service', '$stateP
 					});
 				}).catch(function(response) {
 					console.log("Load data fail.");
-				});
+				});				
 			}
-	
-			var verifySystemStatusWebServiceRecheck = function(value){
-				var deffered = SystemIntegrationMonitorService.verifySystemStatusWebService(value);
-					deffered.promise.then(function(response) {
-						if(response.data.status == "UP"){
-							vm.webServiceModel[value.recordNo].status = "success";
-						}else{
-							vm.webServiceModel[value.recordNo].errorMessage = response.data.code + ' - ' + response.data.message;
-							vm.webServiceModel[value.recordNo].status = "fail";
-						}
-					}).catch(function(response) {
-						vm.webServiceModel[value.recordNo].errorMessage = response.status + ' - ' + response.statusText;
-						vm.webServiceModel[value.recordNo].status = "fail";
-					});
-			}
-	
-			vm.recheck = function(value) {
-				vm.webServiceModel[value.recordNo].status = "loading";
-				verifySystemStatusWebServiceRecheck(value);
-			}
-	
-			vm.viewProblemDetail = function(serviceType, data , index){
-				
+			
+			vm.viewProblem = function(serviceType, data , index){
 				vm.serviceInfo = {
 					jobId : null,
 					bankCode : data.bankCode,
@@ -147,34 +50,73 @@ scfApp.controller('WebServiceMonitorController', [ '$scope', 'Service', '$stateP
 					errorMessage : data.errorMessage,
 					recordNo:index
 				};
-				
+					
 				var problemDialog = ngDialog.open({
 					id : 'problem-detail-dialog',
 					template : '/js/app/modules/monitor/dialog-problem-detail.html',
 					className : 'ngdialog-theme-default',
 					controller: 'ViewProblemDetailController',
 					controllerAs: 'ctrl',
-					scope : $scope,
-					data : {
-						serviceInfo : vm.serviceInfo
-					},
-					preCloseCallback : function(value) {
-						if (value != null) {
-							vm.recheck(value);
+						scope : $scope,
+						data : {
+							serviceInfo : vm.serviceInfo
+						},
+						preCloseCallback : function(value) {
+							if (value != null) {
+								vm.recheck(value);
+							}
 						}
-					}
-				});
+				});				
 			}
-	
-			initLoad();
 
-	    });
-} ]);
-scfApp.controller('ViewServiceInformationController', [ '$scope', '$rootScope', function($scope, $rootScope) {
- var vm = this;
- vm.serviceInfo = angular.copy($scope.ngDialogData.serviceInfo);
-} ]);
-scfApp.controller('ViewProblemDetailController', [ '$scope', '$rootScope', function($scope, $rootScope) {
- var vm = this;
- vm.serviceInfo = angular.copy($scope.ngDialogData.serviceInfo);
-} ]);
+			var defered = scfFactory.getUserInfo();
+			defered.promise.then(function(response) {
+				
+				$scope.$on('onload', function(e) {
+					getWebServices();
+				});
+				
+				var verify = function(webServiceModel){
+					var deffered = SystemIntegrationMonitorService.verifySystemStatusWebService(webServiceModel);
+					deffered.promise.then(function(response) {
+						if(response.data.status == "UP"){
+							webServiceModel.status = "success";
+						}else{
+							webServiceModel.errorMessage = response.data.code + ' - ' + response.data.message;
+							webServiceModel.status = "fail";
+						}
+					}).catch(function(response) {
+						webServiceModel.errorMessage = response.status + ' - ' + response.statusText;
+						webServiceModel.status = "fail";
+					});			
+				}
+				
+				var getWebServices = function(){
+					var deffered = SystemIntegrationMonitorService.getWebServiceList($scope.monitorOwnerModel.id);
+					deffered.promise.then(function(response) {
+						vm.webServices = response.data;
+						angular.forEach(vm.webServices, function(service){
+							service.status = 'loading';
+							service.isFTP = false;
+							verify(service);
+						});
+					}).catch(function(response) {
+						console.log("connect api fail.");
+					});			
+				}
+				
+				var initialization = function() {
+					getWebServices();
+				}();
+			});
+		}]);
+scfApp.controller('ViewServiceInformationController', [ '$scope', '$rootScope',
+		function($scope, $rootScope) {
+			var vm = this;
+			vm.serviceInfo = angular.copy($scope.ngDialogData.serviceInfo);
+		} ]);
+scfApp.controller('ViewProblemDetailController', [ '$scope', '$rootScope',
+		function($scope, $rootScope) {
+			var vm = this;
+			vm.serviceInfo = angular.copy($scope.ngDialogData.serviceInfo);
+		} ]);

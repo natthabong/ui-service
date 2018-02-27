@@ -6,7 +6,7 @@
                 <h3 id="FTP-label" class="animated fadeInLeft"
                     ng-bind="'FTP' | translate"></h3>
                 <div class="form-group control-label"
-                    ng-repeat="record in ctrl.ftpModel track by $index">
+                    ng-repeat="record in ctrl.channels track by $index">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-7"
                         style="padding-top: 5px">
                         <span id="{{record.displayName}}-label"
@@ -15,7 +15,7 @@
                     <div class="col-md-2" style="padding-top: 5px">
                         <scf-button class="btn-default gec-btn-action"
                             id="{{record.displayName}}-view-button"
-                            ng-click="ctrl.viewSystemInfo(record)">
+                            ng-click="ctrl.viewInfo(record)">
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3"
@@ -36,7 +36,7 @@
                         style="margin-top: 10px" ng-show="record.status=='fail'">
                         <a class="mouse-pointer"
                             id="{{record.displayName}}-status-problem-link"
-                            ng-click="ctrl.viewProblemDetail(record,$index)">
+                            ng-click="ctrl.viewProblem(record,$index)">
                             <span class="icon-problem"> 
                                 <span class="glyphicon glyphicon-remove-sign"
                                     id="{{record.displayName}}-status-problem-link"> 

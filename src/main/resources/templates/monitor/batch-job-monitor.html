@@ -5,58 +5,57 @@
 			<div class="panel-body">
 				<h3 id="batch-job-label" class="animated fadeInLeft"
 					ng-bind="'Batch job' | translate"></h3>
-					
-					<table id="batch-job-table"
-								class="table table-striped table-bordered" cellspacing="0">
-								<thead>
-									<th id="channel-header-label" ng-bind="'Job' | translate"
-											width="15%">Job</th>
-									<th id="channel-header-label" ng-bind="'Run Date' | translate"
-											width="30%">Run Date</th>
-									<th id="channel-header-label" ng-bind="'Run Time' | translate"
-											width="30%">Run Time</th>
-									<th id="channel-header-label" ng-bind="'' | translate"
-											width="15%"></th>
-								</thead>
-								<tbody>
-									<tr ng-repeat="record in ctrl.batchJobModel track by $index">
-										<td class="text-left">
-											<span id="{{record.jobName}}-label" ng-bind="record.jobName"></span>
-										</td>
-										<td class="text-left">
-											<span id="{{record.jobName}}-run-date-label" ng-bind="ctrl.getRunDate(record.triggerInformations[0].daysOfWeek)"></span>
-										</td>
-										<td class="text-left">
-											<span id="{{record.jobName}}-run-time-label" ng-bind="ctrl.getRunTime(record.triggerInformations)"></span>
-										</td>
-										<td class="text-center">
-											<scf-button class="btn-default gec-btn-action"
-												id="{{record.jobName}}-history-button" ng-click="ctrl.historyJob(record)"
-												title="Tracking log"> <span class="fa fa-history"
-												aria-hidden="true"></span></scf-button>
-											<scf-button class="btn-default gec-btn-action"
-												sec:authorize="!hasAnyAuthority('MONITOR_ALL_TRACKING_LOG')"
-												id="{{record.jobName}}-view-button"
-												title="View batch job"> <span
-												class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
-											<scf-button class="btn-default gec-btn-action"
-												sec:authorize="hasAnyAuthority('MONITOR_ALL_TRACKING_LOG')"
-												id="{{record.jobName}}-view-button" ng-click="ctrl.view(record)"
-												title="View batch job"> <span
-												class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
-											<scf-button class="btn-default gec-btn-action"
-												id="{{record.jobName}}-run-button" ng-click="ctrl.runJob(record)"
-												ng-disabled="!ctrl.canRunNow"
-												title="Run now"> <span class="glyphicon glyphicon-play"
-												aria-hidden="true"></span></scf-button>
-										</td>
-									</tr>
-								</tbody>
-					</table>
-				
+
+				<table id="batch-job-table"
+					class="table table-striped table-bordered" cellspacing="0">
+					<thead>
+						<th id="channel-header-label" ng-bind="'Job' | translate"
+							width="15%">Job</th>
+						<th id="channel-header-label" ng-bind="'Run Date' | translate"
+							width="30%">Run Date</th>
+						<th id="channel-header-label" ng-bind="'Run Time' | translate"
+							width="30%">Run Time</th>
+						<th id="channel-header-label" ng-bind="'' | translate" width="15%"></th>
+					</thead>
+					<tbody>
+						<tr ng-repeat="record in ctrl.batchJobs track by $index">
+							<td class="text-left"><span id="{{record.jobName}}-label"
+								ng-bind="record.jobName"></span></td>
+							<td class="text-left"><span
+								id="{{record.jobName}}-run-date-label"
+								ng-bind="ctrl.getRunDate(record.triggerInformations[0].daysOfWeek)"></span>
+							</td>
+							<td class="text-left"><span
+								id="{{record.jobName}}-run-time-label"
+								ng-bind="ctrl.getRunTime(record.triggerInformations)"></span></td>
+							<td class="text-center"><scf-button
+									sec:authorize="hasAnyAuthority('MONITOR_ALL_TRACKING_LOG')"
+									class="btn-default gec-btn-action"
+									id="{{record.jobName}}-job-history-button"
+									ng-click="ctrl.historyJob(record)" title="Tracking log">
+								<span class="fa fa-history" aria-hidden="true"></span></scf-button> <scf-button
+									sec:authorize="!hasAnyAuthority('MONITOR_ALL_TRACKING_LOG')"
+									class="btn-default gec-btn-action"
+									id="{{record.jobName}}-job-history-button" ng-disabled="true"
+									title="Tracking log"> <span class="fa fa-history"
+									aria-hidden="true"></span></scf-button> <scf-button
+									class="btn-default gec-btn-action"
+									id="{{record.jobName}}-job-view-button"
+									ng-click="ctrl.viewInfo(record)" title="View batch job">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
+								<scf-button class="btn-default gec-btn-action"
+									id="{{record.jobName}}-job-run-button"
+									ng-click="ctrl.runJob(record)" ng-disabled="!ctrl.canRunNow"
+									title="Run now"> <span
+									class="glyphicon glyphicon-play" aria-hidden="true"></span></scf-button></td>
+						</tr>
+					</tbody>
+				</table>
+
 			</div>
-			<input type="hidden" ng-init="ctrl.canRunNow=true" sec:authorize="hasAuthority('RUN_MANUAL_BATCH_JOB')" />
+			<input type="hidden" ng-init="ctrl.canRunNow=true"
+				sec:authorize="hasAuthority('RUN_MANUAL_BATCH_JOB')" />
 		</div>
 	</div>
-	
+
 </div>

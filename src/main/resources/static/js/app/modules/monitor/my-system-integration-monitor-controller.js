@@ -1,30 +1,31 @@
 'use strict';
 var scfApp = angular.module('scfApp');
 scfApp.controller('MySystemIntegrationMonitorController', [ '$scope', 'Service', '$stateParams', '$log', 'UIFactory', '$q',
-	'$rootScope', '$http','PageNavigation','SystemIntegrationMonitorService','ngDialog',
-	function($scope, Service, $stateParams, $log, UIFactory, $q, $rootScope, $http, PageNavigation, SystemIntegrationMonitorService, ngDialog) {
+	'$rootScope', '$http','PageNavigation','SystemIntegrationMonitorService','ngDialog', 'scfFactory',
+	function($scope, Service, $stateParams, $log, UIFactory, $q, $rootScope, $http, PageNavigation, SystemIntegrationMonitorService, ngDialog, scfFactory) {
 
         var vm = this; 
-        vm.organize = {
-        		organizeId : null,
-        		organizeName : null
-        }
-
+		vm.isDisplay = false;
+		vm.readyToShow = false;
+		vm.monitorOwnerModel = {
+			id : "",
+			name : ""
+		}
+		
         vm.check = function(){
+			$scope.isMultiProfile = false;
+			$scope.monitorOwnerModel = vm.monitorOwnerModel;
+			vm.readyToShow = true;
             $scope.$broadcast('onload');
         }
-
-        var validateHasOrganize = function(){
-            var validate = true;
-            if(vm.organize == null){
-                validate = false;
-            }
-            return validate;
-        }
-
-        var initial = function(){
-        	vm.organize.organizeId = $rootScope.userInfo.organizeId;
-           	vm.organize.organizeName = $rootScope.userInfo.organizeName;
-        }
-        initial();
+		
+		var defered = scfFactory.getUserInfo();
+		defered.promise.then(function(response) {
+	        var initialization = function(){
+	        	vm.monitorOwnerModel.id = $rootScope.userInfo.organizeId;
+	           	vm.monitorOwnerModel.name = $rootScope.userInfo.organizeName;
+	           	vm.isDisplay = true;
+	           	vm.check();
+	        }();
+		});
 } ]);

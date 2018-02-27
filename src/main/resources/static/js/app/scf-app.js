@@ -509,7 +509,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					controllerAs: 'ctrl',
 					templateUrl: '/system-integration-monitor/bank',
 					params: {
-						mode: 'bank'
+						params: []
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/monitor/bank-system-integration-monitor-controller.js', 'js/app/modules/monitor/web-service-monitor-controller.js', 'js/app/modules/monitor/ftp-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-service.js', 'js/app/modules/monitor/system-integration-monitor-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/monitoring/customer-system-integration', {
@@ -518,8 +518,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					controllerAs: 'ctrl',
 					templateUrl: '/system-integration-monitor/sponsor',
 					params: {
-						mode: 'sponsor',
-						organize: []
+						params: []
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/monitor/customer-system-integration-monitor-controller.js', 'js/app/modules/monitor/web-service-monitor-controller.js', 'js/app/modules/monitor/ftp-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-service.js', 'js/app/modules/monitor/system-integration-monitor-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/monitoring/system-integration', {
@@ -528,8 +527,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					controllerAs: 'ctrl',
 					templateUrl: '/system-integration-monitor/gec',
 					params: {
-						mode: 'gec',
-						organize: []
+						params: []
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/monitor/my-system-integration-monitor-controller.js', 'js/app/modules/monitor/web-service-monitor-controller.js', 'js/app/modules/monitor/ftp-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-service.js', 'js/app/modules/monitor/system-integration-monitor-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/monitoring/transaction-tracking', {
