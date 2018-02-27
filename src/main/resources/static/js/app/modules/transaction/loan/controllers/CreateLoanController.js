@@ -408,7 +408,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
                         // Check action come from page validate
                         // and sumbit
-                        else if (backAction == false && dashboardParams == null) {
+                        else if (!backAction && dashboardParams == null) {
                             vm.createTransactionModel.sponsorCode = vm.sponsorCodes[0].value;
                         }
 
@@ -424,7 +424,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             var initLoad = function () {
                 if (backAction) {
                     var tradingPartnerInfo = $stateParams.tradingpartnerInfoModel;
-                    var txnModel = $stateParams.transactionModel;
                     vm.showBackButton = $stateParams.showBackButton;
                     if (tradingPartnerInfo !== null) {
                         var transactionModel = $stateParams.transactionModel;
@@ -434,7 +433,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                             supplierCode: tradingPartnerInfo.supplierCodeSelected,
                             sponsorPaymentDate: SCFCommonService.convertDate(transactionModel.sponsorPaymentDate),
                             transactionDate: SCFCommonService.convertDate(transactionModel.transactionDate),
-                            payerAccountId: txnModel.payerAccountId
+                            payerAccountId: transactionModel.payerAccountId
                         };
                         hasSponsorPaymentDate = true;
                     } else {
@@ -444,7 +443,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     }
                 }
                 _loadSponsor();
-//                vm.accountChange();
             }();
 
             var watchCheckAll = function () {
@@ -481,6 +479,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             	
 				if(vm.createTransactionModel.transactionMethod == 'TERM_LOAN'){
 					deffered = AccountService.enquiryCreditLimit(criteria);
+					console.log(deffered.promise);
 				}
 				else{
 					//overdraft

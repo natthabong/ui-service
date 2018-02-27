@@ -14,12 +14,16 @@ txnMod.controller('CreatePaymentController', [
     'ProductTypeService',
     'UIFactory',
     '$window',
-    'scfFactory','AccountService',
+    'scfFactory',
+    'AccountService',
     function ($rootScope, $scope, $log, $stateParams, $q, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, ProductTypeService, UIFactory, $window, scfFactory, AccountService) {
         var vm = this;
         var log = $log;
         var supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
         var ownerId = $rootScope.userInfo.organizeId;
+        var dashboardParams = $stateParams.dashboardParams;
+        var backAction = $stateParams.backAction || false;
+        
         vm.hasPrivilegeEnqAcctBalance = false;
         vm.hasPrivilegeEnqCreditLimit = false;
         vm.showEnquiryButton = false;
@@ -52,60 +56,43 @@ txnMod.controller('CreatePaymentController', [
             }
         }
 
-        function _loadSuppliers(dashboardParams) {
+        function _loadSuppliers() {
             vm.suppliers = [];
-            var tradingPartnerList = [];
-            var deffered = $q.defer();
-            if ($stateParams.supplierModel !== undefined && $stateParams.supplierModel !== null) {
-                tradingPartnerList = $stateParams.supplierModel;
-                tradingPartnerList.forEach(function (supplier) {
-                    var selectObj = {
-                        label: supplier.supplierName,
-                        value: supplier.supplierId
-                    }
-                    vm.suppliers.push(selectObj);
-                    if (vm.suppliers.length == tradingPartnerList.length) {
-                        deffered.resolve(tradingPartnerList);
-                    }
-                });
-                return deffered;
-            } else {
-                var subDeffered = TransactionService.getSuppliers('RECEIVABLE');
-                subDeffered.promise.then(function (response) {
-                    tradingPartnerList = response.data;
-                    if (tradingPartnerList !== undefined) {
-                        tradingPartnerList.forEach(function (supplier) {
-                            var selectObj = {
-                                label: supplier.supplierName,
-                                value: supplier.supplierId
-                            }
-                            vm.suppliers.push(selectObj);
-                        });
-
-                        if (!$stateParams.backAction && dashboardParams == null) {
-                            vm.criteria.supplierId = tradingPartnerList[0].supplierId;
-                        } else if (dashboardParams != null) {
-                            vm.criteria.supplierId = dashboardParams.supplierId;
-                            vm.criteria.customerCode = dashboardParams.buyerCode;
+            var supplierDeffered = TransactionService.getSuppliers('RECEIVABLE');
+            supplierDeffered.promise.then(function (response) {
+            	vm.tradingPartnerList = response.data;
+                if (vm.tradingPartnerList !== undefined) {
+                	vm.tradingPartnerList.forEach(function (supplier) {
+                        var selectObj = {
+                            label: supplier.supplierName,
+                            value: supplier.supplierId
                         }
+                        vm.suppliers.push(selectObj);
+                    });
+                    
+                    if (dashboardParams != null) {
+                    	vm.criteria.supplierId = dashboardParams.supplierId;
+                        vm.criteria.customerCode = dashboardParams.buyerCode;
+                    }else if (!backAction && dashboardParams == null) {
+                        vm.criteria.supplierId = vm.suppliers[0].value;
                     }
-                    deffered.resolve(tradingPartnerList);
-                }).catch(function (response) {
-                    log.error(response);
-                });
-                return deffered;
-            }
+                    
+                    _checkCreatePaymentType();
+                }
+            }).catch(function (response) {
+                log.error(response);
+            });
         }
 
-        function _checkCreatePaymentType(tradingPartnerList, supplierId) {
+        function _checkCreatePaymentType() {
             var deferred = $q.defer();
-            var result = $.grep(tradingPartnerList, function (supplier) {
-                return supplier.supplierId == supplierId;
+            var result = $.grep(vm.tradingPartnerList, function (supplier) {
+                return supplier.supplierId == vm.criteria.supplierId;
             });
             if (result[0].createTransactionType !== undefined && result[0].createTransactionType == 'WITHOUT_INVOICE') {
                 vm.displayPaymentPage = false;
                 var params = {
-                    supplierModel: tradingPartnerList,
+                    supplierModel: vm.tradingPartnerList,
                     criteria: {
                         accountingTransactionType: 'RECEIVABLE',
                         supplierId: result[0].supplierId,
@@ -115,16 +102,14 @@ txnMod.controller('CreatePaymentController', [
                 PageNavigation.gotoPage('/my-organize/create-payment-woip', params);
             } else {
                 vm.displayPaymentPage = true;
-                deferred.resolve();
+                _loadProducTypes();
             }
-            return deferred;
         }
 
-        function _loadProducTypes(supplierId) {
+        function _loadProducTypes() {
             vm.criteria.productType = null;
             vm.productTypes = [];
-            var deffered = $q.defer();
-            var defferedProductTypes = ProductTypeService.getProductTypes(supplierId);
+            var defferedProductTypes = ProductTypeService.getProductTypes(vm.criteria.supplierId);
             defferedProductTypes.promise.then(function (response) {
                 var _productTypes = response.data;
                 if (angular.isDefined(_productTypes)) {
@@ -138,29 +123,31 @@ txnMod.controller('CreatePaymentController', [
 
                     if (_productTypes.length > 0) {
                         vm.hasProductType = true;
-                        var dashboardParams = $stateParams.dashboardParams;
+                        
                         if (dashboardParams != null) {
                             vm.criteria.productType = dashboardParams.productType;
-                        } else if (!$stateParams.backAction) {
+                        } else if (!backAction) {
                             vm.criteria.productType = _productTypes[0].productType;
                         } else {
                             vm.criteria.productType = $stateParams.transactionModel.productType;
                         }
                     }
-
-                    deffered.resolve();
-                } else {
-                    deffered.resolve();
                 }
-            })
-            return deffered;
+
+                var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig();
+                defferedDocumentDisplayConfig.promise.then(function (response) {
+                    _loadBuyerCodes();
+                    _loadAccount();
+                });
+                
+            }).catch(function (response) {
+                log.error(response);
+            });
         };
 
-        function _loadBuyerCodes(supplierId) {
+        function _loadBuyerCodes() {
             vm.customerCodes = [];
-            var deffered = $q.defer();
-            var dashboardParams = $stateParams.dashboardParams;
-            var defferedBuyerCodes = TransactionService.getBuyerCodes(supplierId);
+            var defferedBuyerCodes = TransactionService.getBuyerCodes(vm.criteria.supplierId);
             defferedBuyerCodes.promise.then(function (response) {
                 if (supplierCodeSelectionMode == 'MULTIPLE_PER_TRANSACTION') {
                     var customerCode = {
@@ -179,29 +166,16 @@ txnMod.controller('CreatePaymentController', [
                         vm.customerCodes.push(selectObj);
                     });
 
-                    if (!$stateParams.backAction && dashboardParams == null) {
+                    if (!backAction && dashboardParams == null) {
                         vm.criteria.customerCode = vm.customerCodes[0].value;;
                     } else if (dashboardParams != null) {
                         vm.criteria.customerCode = dashboardParams.buyerCode;
                     }
-                    deffered.resolve();
-                } else {
-                    deffered.resolve();
                 }
             }).catch(function (response) {
                 log.error(response);
             });
-            return deffered;
         };
-
-        function _setTransactionMethod(supportSpecialDebit) {
-            if (supportSpecialDebit) {
-                vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
-            } else {
-                vm.transactionModel.transactionMethod = 'DEBIT';
-            }
-            vm.isLoanPayment = false;
-        }
 
         function _setTradingpartnerInfoModel(account) {
             vm.transactionModel.transactionMethod = 'TERM_LOAN';
@@ -211,15 +185,15 @@ txnMod.controller('CreatePaymentController', [
             vm.isLoanPayment = true;
         }
 
-        function _loadAccount(supplierId) {
+        function _loadAccount() {
             vm.accountDropDown = [];
             var deffered = $q.defer();
-            var defferedAccounts = TransactionService.getAccounts(ownerId, supplierId);
+            var defferedAccounts = TransactionService.getAccounts(ownerId, vm.criteria.supplierId);
             defferedAccounts.promise.then(function (response) {
-                var accounts = response.data;
+            	vm.accountList = response.data;
                 vm.isLoanPayment = false;
-                if (accounts.length > 0) {
-                    accounts.forEach(function (account, index) {
+                if (vm.accountList.length > 0) {
+                	vm.accountList.forEach(function (account, index) {
                         if (index == 0 && vm.supportSpecialDebit) {
                             if (account.defaultLoanNo) {
                                 vm.accountNotSupportSpecialDirectDebit = false;
@@ -242,9 +216,64 @@ txnMod.controller('CreatePaymentController', [
                         vm.accountNotSupportSpecialDirectDebit = false;
                     }
                 }
-                deffered.resolve(accounts);
+                
+                if (!backAction && dashboardParams == null) {
+                	vm.transactionModel.payerAccountId = vm.accountDropDown[0].value;
+                	vm.transactionModel.payerAccountNo = vm.accountDropDown[0].item.accountNo;
+                	vm.accountType = vm.accountDropDown[0].item.accountType;
+                }
+             
+                _loadTradingPartnerInfo();
             });
-            return deffered;
+        }
+        
+        function _loadTradingPartnerInfo() {
+        	var accountId = vm.transactionModel.payerAccountId;
+        	vm.accountDropDown.forEach(function (account) {
+                if (accountId == account.item.accountId) {
+                    vm.transactionModel.payerAccountNo = account.item.accountNo;
+                    vm.accountType = account.item.accountType;
+                }
+            });
+        	
+			var accountSelected = $.grep(vm.accountList, function (account) {
+			    return account.accountId == accountId;
+			});
+            
+            var deferred = null;
+            var tradingInfo = TransactionService.getTradingInfo(ownerId, vm.criteria.supplierId, accountId);
+            tradingInfo.promise.then(function (response) {
+                vm.tradingpartnerInfoModel = response.data;
+
+                var isLoanAccount = true;
+    			if (vm.accountType == 'LOAN') {
+                    vm.transactionModel.transactionMethod = 'TERM_LOAN';
+                    vm.isLoanPayment = true;
+                    _loadMaturityDate();
+                }else if(vm.accountType == 'OVERDRAFT'){
+                	vm.transactionModel.transactionMethod = 'OD';
+                	vm.isLoanPayment = false;
+                } else {
+                    if (vm.supportSpecialDebit) {
+                        vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
+                    } else {
+                        vm.transactionModel.transactionMethod = 'DEBIT';
+                    }
+                    vm.isLoanPayment = false;
+                    isLoanAccount = false;
+                }
+    			
+                if(isLoanAccount && vm.hasPrivilegeEnqCreditLimit){
+                	vm.showEnquiryButton = true;
+                }else if(!isLoanAccount && vm.hasPrivilegeEnqAcctBalance){
+                	vm.showEnquiryButton = true;
+                }else{
+                	vm.showEnquiryButton = false;
+                }
+            }).catch(function (response) {
+                log.error("Load trading partner fail !");
+            });
+            return deferred;
         }
 
         function _loadMaturityDate() {
@@ -262,8 +291,10 @@ txnMod.controller('CreatePaymentController', [
                     if (vm.maturityDateDropDown.length != 0) {
                         vm.maturityDateModel = vm.maturityDateDropDown[0].value;
                     }
-                    if ($stateParams.backAction && vm.transactionModel.maturityDate != null) {
+                    
+                    if (backAction && vm.transactionModel.maturityDate != null) {
                         vm.maturityDateModel = SCFCommonService.convertDate(vm.transactionModel.maturityDate);
+                        backAction = false;
                     }
                 }).catch(function (response) {
                     log.error(response);
@@ -288,11 +319,10 @@ txnMod.controller('CreatePaymentController', [
                     });
 
                     vm.paymentModel = vm.paymentDropDown[0].value;
-                    if ($stateParams.backAction) {
+                    if (backAction) {
                         if (vm.transactionModel.transactionDate != null) {
                             vm.paymentModel = SCFCommonService.convertDate(vm.transactionModel.transactionDate);
                         }
-                        $stateParams.backAction = false;
                     }
                     _loadMaturityDate();
 
@@ -402,12 +432,12 @@ txnMod.controller('CreatePaymentController', [
             vm.dataTable.expansion.columns.push(columnReasonCodeDropdown);
         }
 
-        function _loadDocumentDisplayConfig(supplierId, productType) {
+        function _loadDocumentDisplayConfig() {
             vm.dataTable.expansion.columns = [];
             vm.supportPartial = false;
 
             var deffered = $q.defer();
-            var defferedDocumentDisplay = SCFCommonService.getDocumentDisplayConfig(supplierId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT', productType);
+            var defferedDocumentDisplay = SCFCommonService.getDocumentDisplayConfig(vm.criteria.supplierId, 'RECEIVABLE', 'TRANSACTION_DOCUMENT', vm.criteria.productType);
             defferedDocumentDisplay.promise.then(function (response) {
                 vm.dataTable.columns = response.items;
                 vm.supportPartial = response.supportPartial;
@@ -444,8 +474,9 @@ txnMod.controller('CreatePaymentController', [
                     deffered.resolve(response);
                 }
 
+                _loadDocument();
             });
-
+            
             return deffered;
         }
 
@@ -550,14 +581,14 @@ txnMod.controller('CreatePaymentController', [
             angular.copy(vm.criteria, _criteria);
             _criteria.searchMatching = false;
 
-            var deffered = vm.pagingController.search(pagingModel || ($stateParams.backAction ? {
+            var deffered = vm.pagingController.search(pagingModel || (backAction ? {
                 page: $stateParams.criteria.pagingModel.currentPage,
                 pageSize: $stateParams.criteria.pagingModel.pageSizeSelectModel
             } : undefined));
 
             deffered.promise.then(function (response) {
 
-                if ($stateParams.backAction) {
+                if (backAction) {
                     vm.pagingController.pagingModel.pageSizeSelectModel = $stateParams.criteria.pagingModel.pageSizeSelectModel;
                 }
 
@@ -587,11 +618,11 @@ txnMod.controller('CreatePaymentController', [
                 });
                 defferedGetAllDocument.promise.then(function (response) {
                     vm.temporalDocuments = vm.pagingAllController.tableRowCollection;
-                    if ($stateParams.backAction) {
+                    if (backAction) {
 
-                    } else if (!$stateParams.backAction && $stateParams.dashboardParams != null) {
+                    } else if (!backAction && dashboardParams != null) {
                         vm.selectAllDocument();
-                        $stateParams.dashboardParams = null;
+                        dashboardParams = null;
                     } else {
                         if (!vm.display) {
                             vm.clearSelectDocument();
@@ -764,93 +795,37 @@ txnMod.controller('CreatePaymentController', [
             vm.initFlag = true;
             
             var init = function () {
-                vm.showBackButton = $stateParams.showBackButton;
-                var dashboardParams = $stateParams.dashboardParams;
-                var defferedSupplier = _loadSuppliers(dashboardParams);
-                defferedSupplier.promise.then(function (response) {
-                    vm.tradingPartnerList = response;
-                    var defferedCheckCreatePaymentType = _checkCreatePaymentType(vm.tradingPartnerList, vm.criteria.supplierId);
-                    defferedCheckCreatePaymentType.promise.then(function (response) {
-                        var defferedProducTypes = _loadProducTypes(vm.criteria.supplierId);
-                        defferedProducTypes.promise.then(function (response) {
-
-                            var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
-                            defferedDocumentDisplayConfig.promise.then(function (response) {
-                                if (vm.initFlag) {
-                                    vm.criteria.offset = 0;
-                                    vm.criteria.limit = 20;
-                                    var displayDocumentConfig = response;
-                                    vm.initFlag = false;
-                                }
-                                
-                                var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
-                                defferedBuyerCodes.promise.then(function (response) {
-                                	
-                                	var defferedDocument = _loadDocument();
-                                	var defferedAccounts = _loadAccount(vm.criteria.supplierId);
-                                    defferedAccounts.promise.then(function (response) {
-                                        vm.accountList = response;
-                                        var _accounts = [];
-                                        angular.copy(vm.accountList, _accounts);
-                                        if (!$stateParams.backAction) {
-                                            if (_accounts.length > 0) {
-                                                vm.transactionModel.payerAccountId = _accounts[0].accountId;
-                                                vm.transactionModel.payerAccountNo = _accounts[0].accountNo;
-                                                vm.accountType = _accounts[0].accountType;
-                                                vm.tradingpartnerInfoModel.updateTime = _accounts[0].accountUpdatedTime;
-
-                                                if (_accounts[0].accountType == 'LOAN') {
-                                                    _setTradingpartnerInfoModel(_accounts[0]);
-                                                } else {
-                                                    _setTransactionMethod(vm.supportSpecialDebit);
-                                                }
-                                                _loadMaturityDate();
-                                            }
-                                        } else {
-                                            var result = $.grep(_accounts, function (account) {
-                                                return account.accountId == vm.transactionModel.payerAccountId;
-                                            });
-                                            vm.accountType = result[0].accountType;
-                                            vm.tradingpartnerInfoModel.updateTime = result[0].accountUpdatedTime;
-
-                                            if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
-                                                _setTradingpartnerInfoModel(_accounts[0]);
-                                            } else {
-                                                _setTransactionMethod(vm.supportSpecialDebit);
-                                            }
-                                            
-                                        }
-                                       
-                                       	vm.accountChange();
-                                        
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-
+            	if (backAction) {
+            		var tradingPartnerInfo = $stateParams.tradingpartnerInfoModel;
+            		vm.showBackButton = $stateParams.showBackButton;
+            		if (tradingPartnerInfo !== null) {
+                        var transactionModel = $stateParams.transactionModel;
+                        vm.tradingpartnerInfoModel = tradingPartnerInfo;
+                    } else {
+                        $timeout(function () {
+                            PageNavigation.gotoPage('/');
+                        }, 10);
+                    }
+            	}
+                
                 if (dashboardParams != null) {
                     vm.criteria.dueDateFrom = dashboardParams.dueDate;
                     vm.criteria.dueDateTo = dashboardParams.dueDate;
                     vm.showBackButton = true;
                 }
                 
+                _loadSuppliers();
+                
             }();
         });
 
         vm.searchDocument = function () {
             if (_validateForSearch()) {
-                var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
-                defferedDocumentDisplayConfig.promise.then(function (response) {
-                    var defferedDocument = _loadDocument();
-                    vm.transactionModel.payerAccountId = vm.accountDropDown[0].value;
-                });
+                _loadDocumentDisplayConfig();
             } else {
                 vm.display = false;
             }
         }
-
 
         vm.loadDocument = function (pagingModel) {
             _loadDocument(pagingModel);
@@ -1050,100 +1025,14 @@ txnMod.controller('CreatePaymentController', [
         }
 
         vm.accountChange = function () {
-            var accountId = vm.transactionModel.payerAccountId;
-            var isLoanAccount = true;
-            vm.accountDropDown.forEach(function (account) {
-                if (accountId == account.item.accountId) {
-                    vm.transactionModel.payerAccountNo = account.item.accountNo;
-                    vm.tradingpartnerInfoModel.available = account.item.remainingAmount - account.item.pendingAmount;
-                    vm.tradingpartnerInfoModel.tenor = account.item.tenor;
-                    vm.tradingpartnerInfoModel.interestRate = account.item.interestRate;
-                    vm.accountType = account.item.accountType;
-                    vm.tradingpartnerInfoModel.updateTime = account.item.accountUpdatedTime;
-
-                    if (vm.accountType == 'LOAN') {
-                        vm.transactionModel.transactionMethod = 'TERM_LOAN';
-                        vm.isLoanPayment = true;
-                        _loadMaturityDate();
-                    }else if(vm.accountType == 'OVERDRAFT'){
-                    	vm.transactionModel.transactionMethod = 'OD';
-                    	vm.isLoanPayment = false;
-                    } else {
-                        if (vm.supportSpecialDebit) {
-                            vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
-                        } else {
-                            vm.transactionModel.transactionMethod = 'DEBIT';
-                        }
-                        vm.isLoanPayment = false;
-                        isLoanAccount = false;
-                    }
-                }
-            });
-            
-            if(isLoanAccount && vm.hasPrivilegeEnqCreditLimit){
-            	vm.showEnquiryButton = true;
-            }else if(!isLoanAccount && vm.hasPrivilegeEnqAcctBalance){
-            	vm.showEnquiryButton = true;
-            }else{
-            	vm.showEnquiryButton = false;
-            }
+            _loadTradingPartnerInfo();
         }
 
         vm.supplierChange = function () {
             vm.errorDisplay = false;
             vm.display = false;
             vm.maturityDateModel = null;
-            var defferedCheckCreatePaymentType = _checkCreatePaymentType(vm.tradingPartnerList, vm.criteria.supplierId);
-            defferedCheckCreatePaymentType.promise.then(function (response) {
-                var defferedProducTypes = _loadProducTypes(vm.criteria.supplierId);
-                defferedProducTypes.promise.then(function (response) {
-
-                    var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig(vm.criteria.supplierId, vm.criteria.productType);
-                    defferedDocumentDisplayConfig.promise.then(function (response) {
-                    	var defferedBuyerCodes = _loadBuyerCodes(vm.criteria.supplierId);
-                        defferedBuyerCodes.promise.then(function (response) {
-                        	vm.criteria.offset = 0;
-                            vm.criteria.limit = 20;
-                            _loadDocument();
-                            var defferedAccounts = _loadAccount(vm.criteria.supplierId);
-                            defferedAccounts.promise.then(function (response) {
-                                vm.accountList = response;
-                                var _accounts = [];
-                                angular.copy(vm.accountList, _accounts);
-                                if (!$stateParams.backAction) {
-                                    if (_accounts.length > 0) {
-                                        vm.transactionModel.payerAccountId = _accounts[0].accountId;
-                                        vm.transactionModel.payerAccountNo = _accounts[0].accountNo;
-                                        vm.accountType = _accounts[0].accountType;
-                                        vm.tradingpartnerInfoModel.updateTime = _accounts[0].accountUpdatedTime;
-
-                                        if (_accounts[0].accountType == 'LOAN') {
-                                            _setTradingpartnerInfoModel(_accounts[0]);
-                                        } else {
-                                            _setTransactionMethod(vm.supportSpecialDebit);
-                                        }
-                                        _loadMaturityDate();
-                                    }
-                                } else {
-                                    var result = $.grep(_accounts, function (account) {
-                                        return account.accountId == vm.transactionModel.payerAccountId;
-                                    });
-                                    vm.accountType = result[0].accountType;
-                                    vm.tradingpartnerInfoModel.updateTime = result[0].accountUpdatedTime;
-
-                                    if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
-                                        _setTradingpartnerInfoModel(_accounts[0]);
-                                    } else {
-                                        _setTransactionMethod(vm.supportSpecialDebit);
-                                    }
-                                    _loadPaymentDate();
-                                }
-                            });
-                        	
-                        });
-                    });
-                });
-            });
+            _checkCreatePaymentType();
         }
 
         vm.customerCodeChange = function () {
@@ -1172,16 +1061,10 @@ txnMod.controller('CreatePaymentController', [
                 $scope.errors.message = 'Maturity date is required.';
                 vm.errorDisplay = true;
             } else {
-                vm.transactionModel.sponsorId = ownerId;
-                vm.transactionModel.supplierId = vm.criteria.supplierId;
-                vm.transactionModel.documents = vm.documentSelects;
                 vm.transactionModel.sponsorPaymentDate = SCFCommonService.convertStringTodate(vm.paymentModel);
                 vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.paymentModel);
                 vm.transactionModel.maturityDate = SCFCommonService.convertStringTodate(vm.maturityDateModel);
-                vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
-                vm.transactionModel.transactionType = 'PAYMENT';
                 vm.transactionModel.productType = vm.criteria.productType;
-                vm.tradingpartnerInfoModel.createTransactionType = vm.createTransactionType;
                 vm.transactionModel.documents.forEach(function (document) {
                     document.reasonCodeDisplay = vm.reasonCodes[document.reasonCode];
                 });
@@ -1193,20 +1076,6 @@ txnMod.controller('CreatePaymentController', [
                 });
                 var formatAccount = accountSelected[0].format || false;
 
-                if (accountSelected[0].accountType != 'LOAN' && accountSelected[0].accountType != 'OVERDRAFT') {
-                    vm.transactionModel.payerLoanAccountId = _accountList[0].defaultLoanNo ? _accountList[0].accountId : null;
-                    if (vm.supportSpecialDebit) {
-                        vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
-                    } else {
-                        vm.transactionModel.transactionMethod = 'DEBIT';
-                    }
-                }else if(accountSelected[0].accountType == 'OVERDRAFT'){
-                	vm.transactionModel.transactionMethod = 'OD';
-                
-                } else {
-                    vm.transactionModel.transactionMethod = 'TERM_LOAN';
-                }
-                
                 var deffered = TransactionService.verifyTransaction(vm.transactionModel);
                 deffered.promise.then(function (response) {
                     var transaction = response.data;
@@ -1255,27 +1124,7 @@ txnMod.controller('CreatePaymentController', [
 			}
 				            	
 			deffered.promise.then(function(response) {
-				var defferedAccounts = _loadAccount(vm.criteria.supplierId);
-				defferedAccounts.promise.then(function (response) {
-					vm.accountList = response;
-					var _accounts = [];
-					angular.copy(vm.accountList, _accounts);
-					
-						var result = $.grep(_accounts, function (account) {
-							return account.accountId == vm.transactionModel.payerAccountId;
-						});
-						vm.accountType = result[0].accountType;
-						vm.tradingpartnerInfoModel.updateTime = result[0].accountUpdatedTime;
-				
-						if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
-							_setTradingpartnerInfoModel(_accounts[0]);
-						} else {
-							_setTransactionMethod(vm.supportSpecialDebit);
-						}
-					
-					vm.accountChange();
-				             
-				});
+				_loadTradingPartnerInfo();
 			});
         }
     }

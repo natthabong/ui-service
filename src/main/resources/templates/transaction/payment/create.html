@@ -134,7 +134,7 @@
                                     <label id="available-label" class="col-md-2 col-sm-2 col-lg-2 col-xs-12 control-label">
                                         <b ng-bind="'Available' | translate">Available</b>:</label>
                                     <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12 control-label">
-                                        <span id="available-value-label" ng-bind="ctrl.tradingpartnerInfoModel.available | number: 2">0.00</span>&nbsp;
+                                        <span id="available-value-label" ng-bind="ctrl.tradingpartnerInfoModel.supplierAvailableAmount | number: 2">0.00</span>&nbsp;
                                         <span ng-bind="'THB' | translate"></span>&nbsp;
                                         <label id="interest-rate-value-label" ng-show="ctrl.isLoanPayment">
                                             <span>(Int.</span>
@@ -147,7 +147,7 @@
                                             <i class="fa fa-repeat" aria-hidden="true"></i>
                                         </scf-button>
                                         <div>
-                                        	(Updated: <span id="account-updated-time-value-label" ng-bind="ctrl.tradingpartnerInfoModel.updateTime | date: 'dd/MM/yyyy HH:mm' : 'UTC+0700'"></span>)
+                                        	(Updated: <span id="account-updated-time-value-label" ng-bind="ctrl.tradingpartnerInfoModel.accountUpdatedTime | date: 'dd/MM/yyyy HH:mm' : 'UTC+0700'"></span>)
                                         </div>
 
                                     </div>

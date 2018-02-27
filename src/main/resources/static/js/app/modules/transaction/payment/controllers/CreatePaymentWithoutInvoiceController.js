@@ -11,7 +11,8 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
     'blockUI',
     '$q',
     'scfFactory',
-    function ($scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, blockUI, $q, scfFactory) {
+    'AccountService',
+    function ($scope, $log, $stateParams, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, blockUI, $q, scfFactory, AccountService) {
         var vm = this;
         var log = $log;
         var _criteria = {};
@@ -83,12 +84,14 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
             interestRate: null
         }
 
-        var _checkCreatePaymentType = function (supplierId) {
-            var result = $.grep(tradingPartnerList, function (td) {
-                return td.supplierId == supplierId;
+        var _checkCreatePaymentType = function (tradingPartnerList, supplierId) {
+        	var deferred = $q.defer();
+            var result = $.grep(tradingPartnerList, function (supplier) {
+                return supplier.supplierId == supplierId;
             });
             if (result[0].createTransactionType !== undefined && result[0].createTransactionType == 'WITH_INVOICE') {
-                var params = {
+            	vm.displayPaymentPage = true;
+            	var params = {
                     supplierModel: tradingPartnerList,
                     criteria: {
                         accountingTransactionType: 'RECEIVABLE',
@@ -100,7 +103,8 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                 }
                 PageNavigation.gotoPage('/my-organize/create-payment', params);
             } else {
-                _loadAccount(ownerId, supplierId);
+            	vm.displayPaymentPage = false;
+                deferred.resolve();
             }
         }
 
@@ -120,16 +124,16 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                     if (vm.maturityDateDropDown.length != 0) {
                         vm.maturityDateModel = vm.maturityDateDropDown[0].value;
                     }
-
+                    
                     if ($stateParams.backAction && vm.transactionModel.maturityDate != null) {
                         vm.maturityDateModel = SCFCommonService.convertDate(vm.transactionModel.maturityDate);
+                        $stateParams.backAction = false;
                     }
 
                 }).catch(function (response) {
                     log.error(response);
                 });
             }
-            $stateParams.backAction = false;
         }
 
         function _loadPaymentDate() {
@@ -149,7 +153,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
 
                 if ($stateParams.backAction && vm.transactionModel.transactionDate != null) {
                     vm.paymentModel = SCFCommonService.convertDate(vm.transactionModel.transactionDate);
-                    vm.accountChange();
                 } else {
                     vm.paymentModel = vm.paymentDropDown[0].value;
                 }
@@ -176,7 +179,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
             vm.isLoanPayment = true;
         }
 
-        function _loadAccount(ownerId, supplierId) {
+        function _loadAccount(supplierId) {
             vm.accountDropDown = [];
             var deffered = TransactionService.getAccounts(ownerId, supplierId);
             deffered.promise.then(function (response) {
@@ -242,7 +245,8 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
             deffered.promise.then(function (response) {
                 supportSpecialDebit = response.supportSpecialDebit;
                 vm.loanRequestMode = response.loanRequestMode;
-                _loadAccount(ownerId, vm.criteria.supplierId);
+                _loadAccount(vm.criteria.supplierId);
+                vm.accountChange();
             });
         }
 
@@ -250,12 +254,10 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
             var deferred = scfFactory.getUserInfo();
             deferred.promise.then(function (response) {
                 ownerId = response.organizeId;
-                vm.accountChange();
+                _loadDocumentDisplayConfig();
             }).catch(function (response) {
 
             });
-            _loadDocumentDisplayConfig();
-            
         }();
 
         $scope.sum = function (documents) {
@@ -396,7 +398,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
         vm.accountChange = function () {
             var accountId = vm.transactionModel.payerAccountId;
              var isLoanAccount = true;
-             
             vm.accountDropDown.forEach(function (account) {
                 if (accountId == account.item.accountId) {
                     vm.transactionModel.payerAccountNo = account.item.accountNo;
@@ -421,7 +422,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                         vm.isLoanPayment = false;
                         isLoanAccount = false;
                     }
-
+                    console.log('Load payment');
                     _loadPaymentDate();
                 }
             });
@@ -444,6 +445,47 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                 }
             });
             return supplierName;
+        }
+        
+        vm.enquiryAvailableBalance = function(){
+        	var deffered = null;
+        	var criteria ={
+ 	    		buyerId: ownerId,
+				supplierId: vm.criteria.supplierId,
+				accountId: vm.transactionModel.payerAccountId
+			}
+				
+			if(vm.transactionModel.transactionMethod  == 'TERM_LOAN'){
+				deffered = AccountService.enquiryCreditLimit(criteria);
+			}
+			else{
+				//current, saving, overdraft
+				deffered = AccountService.enquiryAccountBalance(criteria);
+			}
+				            	
+			deffered.promise.then(function(response) {
+				var defferedAccounts = _loadAccount(vm.criteria.supplierId);
+				defferedAccounts.promise.then(function (response) {
+					vm.accountList = response;
+					var _accounts = [];
+					angular.copy(vm.accountList, _accounts);
+					
+						var result = $.grep(_accounts, function (account) {
+							return account.accountId == vm.transactionModel.payerAccountId;
+						});
+						vm.accountType = result[0].accountType;
+						vm.tradingpartnerInfoModel.updateTime = result[0].accountUpdatedTime;
+				
+						if (result[0].accountType !== undefined && result[0].accountType == 'LOAN') {
+							_setTradingpartnerInfoModel(_accounts[0]);
+						} else {
+							_setTransactionMethod(vm.supportSpecialDebit);
+						}
+					
+					vm.accountChange();
+				             
+				});
+			});
         }
         
         // <---------------------------------- User Action ---------------------------------->
