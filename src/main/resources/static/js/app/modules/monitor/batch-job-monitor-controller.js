@@ -47,7 +47,7 @@ scfApp.controller('BatchJobMonitorController', [
 //				});
 //				var pad = "00";
 //				var runtime = pad.substring(0, pad.length - startHour.length) + startHour + ":" + pad.substring(0, pad.length - startMin.length) + startMin + " - " + pad.substring(0, pad.length - endHour.length) + endHour + ":" + pad.substring(0, pad.length - endMin.length) + endMin;
-				var runtime = "00:00-23:59";
+				var runtime = "06:00 - 23:59";
 				
 				return runtime;
 			}
