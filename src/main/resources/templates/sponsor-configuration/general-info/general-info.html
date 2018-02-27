@@ -30,9 +30,8 @@
 									<span id="general-info-code-{{record.memberId}}-{{record.memberCode}}-label" ng-bind="record.memberCode"></span>
 								</td>
 								<td class="text-center">
-									<img id="general-info-organization-{{record.memberId}}-{{record.memberCode}}-img" title="{{record.funding.organizeName}}"
-									    style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.memberLogo)}}"
-									/>
+									<img id="general-info-organization-{{record.memberId}}-{{record.memberCode}}-img" title="{{record.memberName}}" style="height: 32px; width: 32px;"
+									    data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.memberLogo)}}" />
 								</td>
 							</tr>
 						</tbody>
