@@ -969,7 +969,7 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 
 		// Begin Code Change Organize
 		vm.changeOrganize = function (index) {
-			var organize_id = vm.orgList[index].organizeId;
+			var organize_id = vm.orgList[index].memberId;
 			var defered = scfFactory.changeOrganize(organize_id);
 			defered.promise.then(function (response) {
 				window.location.href = "/";
