@@ -20,34 +20,39 @@ scfApp.controller('BatchJobMonitorController', [
 				return daysOfWeek;
 			}
 
-			vm.getRunTime = function(triggerTime) {
-//				var startHour = "00";
-//				var startMin = "00";
-//				var endHour = "23";
-//				var endMin = "59";
-//				time.forEach(function(data){
-//					if (parseInt(data.startHour, 10) < parseInt(startHour, 10)){
-//						startHour = data.startHour;
-//						startMin = data.startMinute;
-//					}else if (parseInt(data.startHour, 10) == parseInt(startHour, 10)){
-//						if ( parseInt(data.startMinute, 10) < parseInt(startMin, 10)){
-//							startHour = data.startHour;
-//							startMin = data.startMinute;
-//						}
-//					}
-//					if (parseInt(data.endHour, 10) > parseInt(endHour, 10)){
-//						endHour = data.endHour;
-//						endMin = data.endMinute;
-//					}else if (parseInt(data.endHour, 10) == parseInt(endHour, 10)){
-//						if (parseInt(data.endMinute, 10) > parseInt(endMin, 10)){
-//							endHour = data.endHour;
-//							endMin = data.endMinute;
-//						}
-//					}
-//				});
-//				var pad = "00";
-//				var runtime = pad.substring(0, pad.length - startHour.length) + startHour + ":" + pad.substring(0, pad.length - startMin.length) + startMin + " - " + pad.substring(0, pad.length - endHour.length) + endHour + ":" + pad.substring(0, pad.length - endMin.length) + endMin;
-				var runtime = "06:00 - 23:59";
+			vm.getRunTime = function(batchJob) {
+
+				var generateTime = function(startHour,startMinute,endHour,endMinute){
+					var pad = "00";
+					var startHourText = pad.substring(0, pad.length - startHour.length) + startHour;
+					var startMinuteText =  pad.substring(0, pad.length - startMinute.length)+ startMinute;
+					var endHourText = pad.substring(0, pad.length - endHour.length)+ endHour;
+					var endMinuteText =  pad.substring(0, pad.length - endMinute.length)+ endMinute;
+					return startHourText+":"+startMinuteText+" - "+endHourText+":"+endMinuteText;
+				}
+				
+				var runtime;
+									
+				if(batchJob.triggerInformations.length == 1){
+					var triggerInformation = batchJob.triggerInformations[0];
+					runtime = generateTime(triggerInformation.startHour,triggerInformation.startMinute,triggerInformation.endHour,triggerInformation.endMinute);
+				}else{
+
+					var max = batchJob.triggerInformations.length;
+					var today = new Date();
+					var times = [];
+
+					angular.forEach(batchJob.triggerInformations, function(triggerInformation){
+						var time = new Date(today.getFullYear(), today.getMonth(), today.getDate(), triggerInformation.startHour, triggerInformation.startMinute, 0);
+						times.push(time);
+					});
+					
+					times.sort(function (a, b) {
+						  return new Date(a) - new Date(b);
+					});
+					
+					runtime = generateTime(times[0].getHours().toString(),times[0].getMinutes().toString(),times[max-1].getHours().toString(),times[max-1].getMinutes().toString());
+				}			
 				
 				return runtime;
 			}
