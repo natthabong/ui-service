@@ -10,7 +10,7 @@ angular.module('gecscf.organize.configuration.productType').controller('ProductT
     function ($location, $scope, $stateParams, PageNavigation, PagingController, ProductTypeService, UIFactory) {
         var vm = this;
         var organizeId = $stateParams.organizeId;
-        var modes = ['configuration', 'list'];
+        var modes = ['setup', 'list'];
         var url = '/api/v1/organize-customers/' + organizeId + '/product-types';
 
         vm.currentMode = undefined;

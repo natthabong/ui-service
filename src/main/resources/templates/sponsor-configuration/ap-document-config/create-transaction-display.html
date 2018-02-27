@@ -24,7 +24,6 @@
                     <div class="col-md-12 col-sm-12 text-right">
                         <scf-table id="ap-create-transaction-display-table" component-config="ctrl.dataTable" component-datas="ctrl.pagingController.tableRowCollection"
                             current-page="ctrl.pagingController.pagingModel.currentPage" record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"></scf-table>
-
                         <div class="responsive-table">
                             <table id="ap-create-transaction-display-table" class="table table-striped table-bordered" cellspacing="0">
                                 <thead>
@@ -36,7 +35,6 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
-
                                         <td class="text-center" ng-hide="ctrl.hiddenFundingColumn">
                                             <span ng-bind="record.fundingId"></span>
                                             <img id="PAYABLE-create-transaction-display-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" title="{{record.funding.fundingName}}"
