@@ -39,14 +39,15 @@
 
                                         <td class="text-center" ng-hide="ctrl.hiddenFundingColumn">
                                             <span ng-bind="record.fundingId"></span>
-                                            <img id="PAYABLE-create-transaction-display-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" title="{{record.funding.fundingName}}" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.fundingLogo)}}"></img>
+                                            <img id="PAYABLE-create-transaction-display-funding-{{$index}}-name-label" style="height: 32px; width: 32px;" title="{{record.funding.fundingName}}"
+                                                data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.fundingLogo)}}"></img>
                                         </td>
                                         <td class="text-left">
                                             <span id="PAYABLE-{{record.displayName}}-label" ng-bind="record.displayName | translate"></span>
                                         </td>
                                         <td class="text-center">
-                                            <scf-button class="btn-default gec-btn-action" id="transaction-display-{{record.displayName}}-view-button" ng-disabled="ctrl.unauthenView()"
-                                                title="View a create transaction display">
+                                            <scf-button id="transaction-display-{{record.displayName}}-view-button" class="btn-default gec-btn-action" ng-click="ctrl.viewDocumentDisplay(record)"
+                                                ng-disabled="ctrl.unauthenView()" title="View a create transaction display">
                                                 <i class="fa fa-search" aria-hidden="true"></i>
                                             </scf-button>
                                             <scf-button id="transaction-display-{{record.displayName}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.editDocumentDisplay(record)"

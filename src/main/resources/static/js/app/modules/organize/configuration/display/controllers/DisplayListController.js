@@ -1,150 +1,155 @@
 'use strict';
-var displayListCtrl = function (PageNavigation, PagingController, UIFactory, ConfigurationUtils, DisplayService) {
-    var vm = this;
-    var parameters = PageNavigation.getParameters();
-    var ownerId = parameters.organizeId;
-    var _criteria = {};
+angular.module('gecscf.organize.configuration.display').controller('DisplayListController', [
+    'PageNavigation',
+    'PagingController',
+    'UIFactory',
+    'ConfigurationUtils',
+    'DisplayService',
+    function (PageNavigation, PagingController, UIFactory, ConfigurationUtils, DisplayService) {
+        var vm = this;
+        var parameters = PageNavigation.getParameters();
+        var ownerId = parameters.organizeId;
+        var _criteria = {};
 
-    vm.hiddenFundingColumn = true;
-    vm.manageAction = false;
-    vm.viewAction = false;
+        vm.hiddenFundingColumn = true;
+        vm.manageAction = false;
+        vm.viewAction = false;
 
-    vm.decodeBase64 = function (data) {
-        return (data ? atob(data) :
-            UIFactory.constants.NOLOGO);
-    };
+        vm.decodeBase64 = function (data) {
+            return (data ? atob(data) :
+                UIFactory.constants.NOLOGO);
+        };
 
-    vm.pagingController = null;
+        vm.pagingController = null;
 
-    function loadData() {
-        vm.pagingController.search();
-    }
-
-    vm.init = function (type, mode) {
-        vm.mode = mode;
-        var reqUrl = ['/api/v1/organize-customers',
-                ownerId,
-                'accounting-transactions',
-                type,
-                'display-modes',
-                mode,
-                'displays'
-            ]
-            .join('/');
-        vm.pagingController = PagingController.create(reqUrl, _criteria, 'GET');
-
-        loadData();
-    };
-
-    vm.unauthenMangeAction = function () {
-        if (vm.manageAction) {
-            return false;
-        } else {
-            return true;
+        function loadData() {
+            vm.pagingController.search();
         }
-    }
 
-    vm.unauthenView = function () {
-        if (vm.viewAction) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+        vm.init = function (type, mode) {
+            vm.mode = mode;
+            var reqUrl = ['/api/v1/organize-customers',
+                    ownerId,
+                    'accounting-transactions',
+                    type,
+                    'display-modes',
+                    mode,
+                    'displays'
+                ]
+                .join('/');
+            vm.pagingController = PagingController.create(reqUrl, _criteria, 'GET');
 
-    vm.addNewDocumentDisplay = function (type, mode) {
-        ConfigurationUtils.showCreateNewCreateDisplayDialog({
-            data: {
-                ownerId: ownerId,
-                accountingTransactionType: type,
-                displayMode: mode
-            },
-            preCloseCallback: function () {
-                vm.init(type, mode);
+            loadData();
+        };
+
+        vm.unauthenMangeAction = function () {
+            if (vm.manageAction) {
+                return false;
+            } else {
+                return true;
             }
-        });
-    }
-
-    vm.viewDocumentDisplay = function (record) {
-        var params = {
-            accountingTransactionType: record.accountingTransactionType,
-            displayMode: record.displayMode,
-            organizeId: ownerId,
-            documentDisplayId: record.documentDisplayId
         }
 
-        if (record.displayMode == 'DOCUMENT') {
-            PageNavigation.gotoPage('/sponsor-configuration/document-display/view', params);
-
-        } else if (record.displayMode == 'TRANSACTION_DOCUMENT') {
-            PageNavigation.gotoPage('/sponsor-configuration/create-transaction-displays/view', params);
+        vm.unauthenView = function () {
+            if (vm.viewAction) {
+                return false;
+            } else {
+                return true;
+            }
         }
-    }
 
-    vm.editDocumentDisplay = function (record) {
-        setting({
-            accountingTransactionType: record.accountingTransactionType,
-            displayMode: record.displayMode,
-            organizeId: ownerId,
-            documentDisplayId: record.documentDisplayId
-        })
-    }
-
-    vm.deleteDocumentDisplay = function (record) {
-        UIFactory
-            .showConfirmDialog({
+        vm.addNewDocumentDisplay = function (type, mode) {
+            ConfigurationUtils.showCreateNewCreateDisplayDialog({
                 data: {
-                    headerMessage: 'Confirm delete?'
+                    ownerId: ownerId,
+                    accountingTransactionType: type,
+                    displayMode: mode
                 },
-                confirm: function () {
-                    return DisplayService
-                        .removeDisplay(ownerId, vm.accountingTransactionType, record.displayMode, record);
-                },
-                onFail: function (response) {
-                    var status = response.status;
-                    if (status != 400) {
-                        var msg = {
-                            404: "Display has been deleted.",
-                            409: "Display has been modified."
+                preCloseCallback: function () {
+                    vm.init(type, mode);
+                }
+            });
+        }
+
+        vm.viewDocumentDisplay = function (record) {
+            var params = {
+                accountingTransactionType: record.accountingTransactionType,
+                displayMode: record.displayMode,
+                organizeId: ownerId,
+                documentDisplayId: record.documentDisplayId
+            }
+
+            if (record.displayMode == 'DOCUMENT') {
+                PageNavigation.gotoPage('/sponsor-configuration/document-display/view', params);
+
+            } else if (record.displayMode == 'TRANSACTION_DOCUMENT') {
+                PageNavigation.gotoPage('/sponsor-configuration/create-transaction-displays/view', params);
+            }
+        }
+
+        vm.editDocumentDisplay = function (record) {
+            setting({
+                accountingTransactionType: record.accountingTransactionType,
+                displayMode: record.displayMode,
+                organizeId: ownerId,
+                documentDisplayId: record.documentDisplayId
+            })
+        }
+
+        vm.deleteDocumentDisplay = function (record) {
+            UIFactory
+                .showConfirmDialog({
+                    data: {
+                        headerMessage: 'Confirm delete?'
+                    },
+                    confirm: function () {
+                        return DisplayService
+                            .removeDisplay(ownerId, vm.accountingTransactionType, record.displayMode, record);
+                    },
+                    onFail: function (response) {
+                        var status = response.status;
+                        if (status != 400) {
+                            var msg = {
+                                404: "Display has been deleted.",
+                                409: "Display has been modified."
+                            }
+                            UIFactory
+                                .showFailDialog({
+                                    data: {
+                                        headerMessage: 'Delete Display fail.',
+                                        bodyMessage: msg[status] ? msg[status] : response.errorMessage
+                                    },
+                                    preCloseCallback: loadData
+                                });
                         }
+
+                    },
+                    onSuccess: function (response) {
                         UIFactory
-                            .showFailDialog({
+                            .showSuccessDialog({
                                 data: {
-                                    headerMessage: 'Delete Display fail.',
-                                    bodyMessage: msg[status] ? msg[status] : response.errorMessage
+                                    headerMessage: 'Delete Display success.',
+                                    bodyMessage: ''
                                 },
                                 preCloseCallback: loadData
                             });
                     }
+                });
+        }
 
-                },
-                onSuccess: function (response) {
-                    UIFactory
-                        .showSuccessDialog({
-                            data: {
-                                headerMessage: 'Delete Display success.',
-                                bodyMessage: ''
-                            },
-                            preCloseCallback: loadData
-                        });
-                }
-            });
-    }
+        var loadData = function () {
+            vm.pagingController.search();
+        }
 
-    var loadData = function () {
-        vm.pagingController.search();
-    }
-
-    var setting = function (params) {
-        if (vm.mode == 'TRANSACTION_DOCUMENT') {
-            PageNavigation.gotoPage(
-                '/sponsor-configuration/create-transaction-displays/settings',
-                params);
-        } else if (vm.mode == 'DOCUMENT') {
-            PageNavigation.gotoPage(
-                '/sponsor-configuration/document-display/settings', params);
+        var setting = function (params) {
+            if (vm.mode == 'TRANSACTION_DOCUMENT') {
+                PageNavigation.gotoPage(
+                    '/sponsor-configuration/create-transaction-displays/settings',
+                    params);
+            } else if (vm.mode == 'DOCUMENT') {
+                PageNavigation.gotoPage(
+                    '/sponsor-configuration/document-display/settings', params);
+            }
         }
     }
-}
-angular.module('gecscf.organize.configuration.display').controller(
-    'DisplayListController', ['PageNavigation', 'PagingController', 'UIFactory', 'ConfigurationUtils', 'DisplayService', displayListCtrl]);
+]);
