@@ -90,6 +90,12 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 vm.submitTransactionAmount = TransactionService.calculateTotalDocumentAmountWithPrePercentTage(vm.totalDocumentAmount, prepercentagDrawdown);
             }
 
+            vm.accountChange = function () {
+                var sponsorCode = vm.createTransactionModel.sponsorCode;
+                var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
+                _loadTradingPartnerInfo(sponsorCode, sponsorPaymentDate);
+            }
+
             vm.loadDocument = function (pagingModel) {
                 _criteria.buyerId = vm.createTransactionModel.sponsorCode;
                 _criteria.customerCode = vm.createTransactionModel.supplierCode;
@@ -172,10 +178,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 });
 
 				var isODAccount = false;
-                if (accountSelected[0].accountType == 'LOAN') {
+                if (vm.tradingpartnerInfoModel.accountType == 'LOAN') {
                     vm.createTransactionModel.transactionMethod = 'TERM_LOAN';
                     isODAccount = false;
-                } else if (accountSelected[0].accountType == 'OVERDRAFT') {
+                } else if (vm.tradingpartnerInfoModel.accountType == 'OVERDRAFT') {
                     vm.createTransactionModel.transactionMethod = 'OD';
                     isODAccount = true;
                 }
@@ -418,6 +424,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             var initLoad = function () {
                 if (backAction) {
                     var tradingPartnerInfo = $stateParams.tradingpartnerInfoModel;
+                    var txnModel = $stateParams.transactionModel;
                     vm.showBackButton = $stateParams.showBackButton;
                     if (tradingPartnerInfo !== null) {
                         var transactionModel = $stateParams.transactionModel;
@@ -426,7 +433,8 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                             sponsorCode: tradingPartnerInfo.buyerId,
                             supplierCode: tradingPartnerInfo.supplierCodeSelected,
                             sponsorPaymentDate: SCFCommonService.convertDate(transactionModel.sponsorPaymentDate),
-                            transactionDate: SCFCommonService.convertDate(transactionModel.transactionDate)
+                            transactionDate: SCFCommonService.convertDate(transactionModel.transactionDate),
+                            payerAccountId: txnModel.payerAccountId
                         };
                         hasSponsorPaymentDate = true;
                     } else {
@@ -436,7 +444,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     }
                 }
                 _loadSponsor();
-                vm.accountChange;
+//                vm.accountChange();
             }();
 
             var watchCheckAll = function () {
@@ -470,7 +478,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 					supplierId: ownerId,
 					accountId: vm.createTransactionModel.payerAccountId
 				}
-				
+            	
 				if(vm.createTransactionModel.transactionMethod == 'TERM_LOAN'){
 					deffered = AccountService.enquiryCreditLimit(criteria);
 				}
@@ -497,12 +505,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             vm.paymentDateChange = function () {
                 _setDefualtValue(false);
                 vm.requireSponsorPaymentDate = false;
-            }
-
-            vm.accountChange = function () {
-                var sponsorCode = vm.createTransactionModel.sponsorCode;
-                var sponsorPaymentDate = vm.createTransactionModel.sponsorPaymentDate;
-                _loadTradingPartnerInfo(sponsorCode, sponsorPaymentDate);
             }
 
             vm.backStep = function () {
@@ -619,7 +621,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     transactionModel.sponsorPaymentDate = SCFCommonService.convertStringTodate(transactionModel.sponsorPaymentDate);
                     transactionModel.transactionDate = SCFCommonService.convertStringTodate(transactionModel.transactionDate);
                     transactionModel.transactionType = 'DRAWDOWN';
-
+                    
                     var deffered = TransactionService.verifyTransaction(transactionModel);
                     deffered.promise.then(function (response) {
                         var tradingpartnerInfoExtend = angular.extend(vm.tradingpartnerInfoModel, {
