@@ -66,7 +66,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						criteria: null
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/transaction/services/TransactionService.js', 'js/app/modules/transaction/loan/controllers/CreateLoanController.js',
-						'js/app/common/scf-component.js'
+						'js/app/common/scf-component.js',
+						'js/app/modules/account/services/AccountService.js'
 					])
 				}).state('/create-transaction/validate-submit', {
 					url: '/create-transaction/validate-submit',
@@ -304,82 +305,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						'js/app/dashboard/payment-journey/wait-for-approve.js',
 						'js/app/dashboard/payment-journey/future-payment.js'
 					])
-				}).state('/sponsor-configuration/mapping-data/edit', {
-					url: '/sponsor-configuration/mapping-data/edit/:organizeId',
-					controller: 'EditMappingDataController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/mapping-data/edit',
-					params: {
-						mappingData: null,
-						backAction: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/mapping-data/controllers/EditMappingDataController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/sponsor-configuration/mapping-data/code/new', {
-					url: '/sponsor-configuration/mapping-data/code/new/:organizeId',
-					controller: 'MappingDataCodeController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/mapping-data/code/new',
-					params: {
-						mappingData: null,
-						mode: "newCode",
-						mappingDataItem: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/mapping-data/controllers/MappingDataCodeController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/sponsor-configuration/mapping-data/code/edit', {
-					url: '/sponsor-configuration/mapping-data/code/edit/:organizeId',
-					controller: 'MappingDataCodeController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/mapping-data/code/new',
-					params: {
-						mappingData: null,
-						mode: "editCode",
-						mappingDataItem: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/mapping-data/controllers/MappingDataCodeController.js', 'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-
-				})
-				.state('/sponsor-configuration/export-payments/settings', {
-					url: '/sponsor-configuration/export-payments/settings/:organizeId',
-					controller: 'ExportPaymentController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/export-payments/settings',
-					params: {
-						layoutConfigId: ':layoutConfigId'
-					},
-					resolve: WebHelper.loadScript(
-						[
-							'js/app/modules/organize/configuration/file-layout/services/FileLayoutService.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/ExportPaymentController.js',
-							'js/app/modules/organize/configuration/export-payment/services/ExportPaymentService.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/SpecificTextExportLayoutConfigController.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/FillerExportLayoutConfigController.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/SignFlagExportLayoutConfigController.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/DateTimeExportLayoutConfigController.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/PaymentTypeExportLayoutConfigController.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/NumericExportLayoutConfigController.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/CountExportLayoutConfigController.js',
-							'js/app/modules/organize/configuration/export-payment/controllers/SummaryExportLayoutConfigController.js'
-						])
-				}).state('/sponsor-configuration/payment-date-formulas/settings', {
-					url: '/sponsor-configuration/payment-date-formulas/settings/:organizeId',
-					controller: 'PaymentDateFormulaSettingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/payment-date-formulas/settings',
-					params: {
-						paymentDateFormulaModel: null
-					},
-					resolve: WebHelper.loadScript(['js/app/sponsor-configuration/payment-date-formulas/payment-date-formula-setting-controller.js', 'js/app/sponsor-configuration/payment-date-formulas/payment-date-formula-setting-service.js', 'js/app/sponsor-configuration/credit-terms/credit-terms-setting-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/sponsor-configuration/customer-code-groups/settings', {
-					url: '/sponsor-configuration/customer-code-groups/settings',
-					controller: 'CustomerCodeGroupSettingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/customer-code-groups/settings',
-					params: {
-						selectedItem: null,
-						mode: 'all'
-					}
 				}).state('/sponsor-configuration/organize-logo/settings', {
-					url: '/sponsor-configuration/organize-logo/settings/:organizeId',
+					url: '/organizations/:organizeId/organize-logo/setup',
 					controller: 'OrganizeLogoSettingController',
 					controllerAs: 'ctrl',
 					templateUrl: '/sponsor-configuration/organize-logo/settings',
@@ -388,7 +315,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					},
 					resolve: WebHelper.loadScript(['js/app/sponsor-configuration/organize-logo/organize-logo-setting-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/sponsor-configuration/workflow/setup', {
-					url: '/sponsor-configuration/workflow/setup/:organizeId',
+					url: '/organizations/:organizeId/workflow/setup',
 					controller: 'SetupWorkflowController',
 					controllerAs: 'ctrl',
 					templateUrl: '/sponsor-configuration/workflow/setup',
@@ -536,70 +463,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					},
 					templateUrl: '/change-password',
 					resolve: WebHelper.loadScript(['js/app/modules/profile/change-password/password-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/my-organize/supplier-code-list', {
-					url: '/my-organize/supplier-code-list',
-					controller: 'CustomerCodeGroupSettingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/customer-code-groups/supplier-code-list/settings',
-					params: {
-						viewMode: 'MY_ORGANIZE',
-						organizeId: null,
-						accountingTransactionType: 'PAYABLE'
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
-						'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
-						'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
-				}).state('/my-organize/buyer-code-list', {
-					url: '/my-organize/buyer-code-list',
-					controller: 'CustomerCodeGroupSettingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/customer-code-groups/buyer-code-list/settings',
-					params: {
-						viewMode: 'MY_ORGANIZE',
-						organizeId: null,
-						accountingTransactionType: 'RECEIVABLE'
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
-						'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
-						'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
-				}).state('/customer-organize/supplier-code-list', {
-					url: '/customer-organize/supplier-code-list/:organizeId/:accountingTransactionType',
-					controller: 'CustomerCodeGroupSettingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/customer-code-groups/supplier-code-list/settings',
-					params: {
-						viewMode: 'CUSTOMER',
-						organizeId: null,
-						accountingTransactionType: 'PAYABLE'
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
-						'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
-						'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
-				}).state('/customer-organize/buyer-code-list', {
-					url: '/customer-organize/buyer-code-list/:organizeId/:accountingTransactionType',
-					controller: 'CustomerCodeGroupSettingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/sponsor-configuration/customer-code-groups/buyer-code-list/settings',
-					params: {
-						viewMode: 'CUSTOMER',
-						organizeId: null,
-						accountingTransactionType: 'RECEIVABLE'
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupSettingController.js',
-						'js/app/modules/organize/configuration/customer-code/services/CustomerCodeGroupService.js',
-						'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupDialogController.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
 				}).state('/my-organize/document-upload-log', {
 					url: '/my-organize/document-upload-log',
 					controller: 'DocumentUploadLogController',

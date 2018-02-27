@@ -16,6 +16,11 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
         var log = $log;
         var _criteria = {};
         var ownerId = $stateParams.criteria.buyerId;
+        
+        vm.hasPrivilegeEnqAcctBalance = false;
+        vm.hasPrivilegeEnqCreditLimit = false;
+        vm.showEnquiryButton = false;
+        
         var createTransactionType = 'WITHOUT_INVOICE';
         vm.paymentModel = null;
         $scope.validateDataFailPopup = false;
@@ -206,7 +211,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                         vm.accountType = accounts[0].accountType;
                         vm.tradingpartnerInfoModel.updateTime = accounts[0].accountUpdatedTime;
 
-                        if (accounts[0].accountType === 'LOAN' || accounts[0].accountType === 'OVERDRAFT') {
+                        if (accounts[0].accountType === 'LOAN') {
                             setTradingpartnerInfoModel(accounts[0]);
                         } else {
                             setTransactionMethod(supportSpecialDebit);
@@ -219,7 +224,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                     vm.accountType = result[0].accountType;
                     vm.tradingpartnerInfoModel.updateTime = result[0].accountUpdatedTime;
 
-                    if (result[0].accountType !== undefined && (result[0].accountType === 'LOAN' || result[0].accountType === 'OVERDRAFT')) {
+                    if (result[0].accountType !== undefined && (result[0].accountType === 'LOAN')) {
                         setTradingpartnerInfoModel(accounts[0]);
                     } else {
                         setTransactionMethod(supportSpecialDebit);
@@ -245,10 +250,12 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
             var deferred = scfFactory.getUserInfo();
             deferred.promise.then(function (response) {
                 ownerId = response.organizeId;
+                vm.accountChange();
             }).catch(function (response) {
 
             });
             _loadDocumentDisplayConfig();
+            
         }();
 
         $scope.sum = function (documents) {
@@ -388,6 +395,8 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
 
         vm.accountChange = function () {
             var accountId = vm.transactionModel.payerAccountId;
+             var isLoanAccount = true;
+             
             vm.accountDropDown.forEach(function (account) {
                 if (accountId == account.item.accountId) {
                     vm.transactionModel.payerAccountNo = account.item.accountNo;
@@ -402,7 +411,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                         vm.isLoanPayment = true;
                     } else if (vm.accountType === 'OVERDRAFT') {
                         vm.transactionModel.transactionMethod = 'OD';
-                        vm.isLoanPayment = true;
+                        vm.isLoanPayment = false;
                     } else {
                         if (supportSpecialDebit) {
                             vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
@@ -410,11 +419,21 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                             vm.transactionModel.transactionMethod = 'DEBIT';
                         }
                         vm.isLoanPayment = false;
+                        isLoanAccount = false;
                     }
 
                     _loadPaymentDate();
                 }
             });
+            
+			if(isLoanAccount && vm.hasPrivilegeEnqCreditLimit){
+            	vm.showEnquiryButton = true;
+            }else if(!isLoanAccount && vm.hasPrivilegeEnqAcctBalance){
+            	vm.showEnquiryButton = true;
+            }else{
+            	vm.showEnquiryButton = false;
+            }
+            
         }
 
         function getSupplierName(supplierId) {
@@ -426,88 +445,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
             });
             return supplierName;
         }
-
-        vm.inquiryAccount = function (data) {
-            var preCloseCallback = function (confirm) {
-                $scope.closeThisDialog();
-            }
-
-            blockUI.start("Processing...");
-            var deffered = $q.defer();
-            var tpAccountModel = {
-                sponsorId: data.buyerId,
-                supplierId: data.supplierId,
-                accountId: data.accountId,
-            }
-            var inquiryAccountDeffered = inquiryAccountToApi(tpAccountModel);
-            inquiryAccountDeffered.promise.then(function (response) {
-                blockUI.stop();
-                if (response.status == 200) {
-                    dialogPopup = UIFactory.showSuccessDialog({
-                        data: {
-                            headerMessage: 'Inquiry credit information success.',
-                            bodyMessage: ''
-                        },
-                        buttons: [{
-                            id: 'ok-button',
-                            label: 'OK',
-                            action: function () {
-                                vm.getCreditInformation();
-                                closeDialogSucccess();
-                            }
-                        }],
-                        preCloseCallback: null
-                    });
-                } else {
-                    dialogPopup = UIFactory.showFailDialog({
-                        data: {
-                            headerMessage: 'Inquiry credit information failure',
-                            bodyMessage: 'please try again.'
-                        },
-                        buttons: [{
-                            id: 'ok-button',
-                            label: 'OK',
-                            action: function () {
-                                closeDialogFail();
-                            }
-                        }],
-                        preCloseCallback: null
-                    });
-                }
-            }).catch(function (response) {
-                blockUI.stop();
-                dialogPopup = UIFactory.showFailDialog({
-                    data: {
-                        headerMessage: 'Inquiry credit information failure',
-                        bodyMessage: ' please try again.'
-                    },
-                    buttons: [{
-                        id: 'ok-button',
-                        label: 'OK',
-                        action: function () {
-                            closeDialogFail();
-                        }
-                    }],
-                    preCloseCallback: null
-                });
-            });
-
-        }
-
-        function inquiryAccountToApi(tpAccountModel) {
-            var deffered = $q.defer();
-            $http({
-                url: '/api/v1/update-credit-limit-from-bank',
-                method: 'POST',
-                data: tpAccountModel
-            }).then(function (response) {
-                deffered.resolve(response);
-            }).catch(function (response) {
-                deffered.reject(response);
-            });
-            return deffered;
-        }
-
+        
         // <---------------------------------- User Action ---------------------------------->
     }
 ]);

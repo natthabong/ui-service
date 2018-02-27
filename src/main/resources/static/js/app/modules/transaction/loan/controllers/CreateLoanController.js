@@ -1,7 +1,7 @@
 var createapp = angular.module('gecscf.transaction');
 createapp.controller('CreateLoanController', ['TransactionService', '$state',
-    '$scope', 'SCFCommonService', '$stateParams', '$log', 'PageNavigation', '$q', 'PagingController', '$rootScope', 'blockUI', 'scfFactory', '$filter',
-    function (TransactionService, $state, $scope, SCFCommonService, $stateParams, $log, PageNavigation, $q, PagingController, $rootScope, blockUI, scfFactory, $filter) {
+    '$scope', 'SCFCommonService', '$stateParams', '$log', 'PageNavigation', '$q', 'PagingController', '$rootScope', 'blockUI', 'scfFactory', '$filter','AccountService',
+    function (TransactionService, $state, $scope, SCFCommonService, $stateParams, $log, PageNavigation, $q, PagingController, $rootScope, blockUI, scfFactory, $filter, AccountService) {
 
         var vm = this;
         var defered = scfFactory.getUserInfo();
@@ -13,15 +13,13 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             $scope.validateDataFailPopup = false;
 
             vm.errorMsgPopup = 'Insufficient Fund'
-            //      vm.showErrorMsg = false;
-            //      vm.errorMsgGroups = '';
             vm.errorDisplay = false;
             vm.showBackButton = false;
             vm.selectedAccountInfo = [];
 
             // SponsorCode dropdown
             vm.sponsorCodes = [];
-            //var ownerId = $rootScope.userInfo.organizeId;
+            vm.showEnquiryButton = false;
 
             vm.loanRequestMode = null;
             var supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
@@ -173,11 +171,22 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     return account.accountId == accountId;
                 });
 
+				var isODAccount = false;
                 if (accountSelected[0].accountType == 'LOAN') {
                     vm.createTransactionModel.transactionMethod = 'TERM_LOAN';
+                    isODAccount = false;
                 } else if (accountSelected[0].accountType == 'OVERDRAFT') {
                     vm.createTransactionModel.transactionMethod = 'OD';
+                    isODAccount = true;
                 }
+                
+                if(!isODAccount && vm.hasPrivilegeEnqCreditLimit){
+            		vm.showEnquiryButton = true;
+	            }else if(isODAccount && vm.hasPrivilegeEnqAcctBalance){
+	            	vm.showEnquiryButton = true;
+	            }else{
+	            	vm.showEnquiryButton = false;
+	            }
 
                 var deferred = null;
                 var tradingInfo = TransactionService.getTradingInfo(sponsorCode, ownerId, accountId);
@@ -453,6 +462,27 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             };
 
             // <------------------------------------- User Action ------------------------------->
+            
+            vm.enquiryAvailableBalance = function(){
+            	var deffered = null;
+            	var criteria ={
+ 	           		buyerId: vm.createTransactionModel.sponsorIdSelected,
+					supplierId: ownerId,
+					accountId: vm.createTransactionModel.payerAccountId
+				}
+				
+				if(vm.createTransactionModel.transactionMethod == 'TERM_LOAN'){
+					deffered = AccountService.enquiryCreditLimit(criteria);
+				}
+				else{
+					//overdraft
+					deffered = AccountService.enquiryAccountBalance(criteria);
+				}
+				            	
+				deffered.promise.then(function(response) {
+					vm.accountChange();
+				});
+            }
 
             vm.sponsorChange = function () {
                 _setDefualtValue(true);
@@ -569,8 +599,6 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             vm.nextStep = function () {
                 vm.errorDisplay = false;
                 if (vm.documentSelects.length === 0) {
-                    //                vm.errorMsgGroups = 'Please select document.';
-                    //                vm.showErrorMsg = true;
                     $scope.errors.message = 'Please select document.';
                     vm.errorDisplay = true;
                 } else {

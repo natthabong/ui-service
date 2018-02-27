@@ -387,7 +387,8 @@
 								field: 'no',
 								label: '<span ng-bind="\'numbero\' | translate"></span>',
 								id: tableOption.displayRowNo['id'],
-								idValueField: tableOption.displayRowNo['idValueField']
+								idValueField: tableOption.displayRowNo['idValueField'],
+								cssTemplate: tableOption.displayRowNo['cssTemplate']
 							};
 							vm.tableColumns.splice(0, 0, rowData);
 						}

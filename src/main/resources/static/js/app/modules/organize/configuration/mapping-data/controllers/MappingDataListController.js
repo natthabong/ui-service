@@ -39,7 +39,7 @@ tpModule
                             label: '',
                             cssTemplate: 'text-center',
                             sortData: false,
-                            cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenView()" id="{{ctrl.accountingTransactionType}}-mapping-data-{{data.mappingDataName}}-view-button"><i class="fa fa-search" aria-hidden="true"></i></scf-button>' +
+                            cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenView()" id="{{ctrl.accountingTransactionType}}-mapping-data-{{data.mappingDataName}}-view-button" ng-click="ctrl.view(data)"><i class="fa fa-search" aria-hidden="true"></i></scf-button>' +
                                 '<scf-button id="{{ctrl.accountingTransactionType}}-mapping-data-{{data.mappingDataName}}-edit-button" ng-disabled="ctrl.unauthenConfig()" class="btn-default gec-btn-action" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>' +
                                 '<scf-button id="{{ctrl.accountingTransactionType}}-mapping-data-{{data.mappingDataName}}-delete-button" class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenDelete(data)" ng-click="ctrl.deleteMappingData(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
                         }
@@ -83,11 +83,24 @@ tpModule
                 vm.edit = function(data) {
                     var params = {
                         mappingData: data,
-                        organizeId: ownerId
+                        organizeId: ownerId,
+                        accountingTransactionType: vm.accountingTransactionType
                     };
                     PageNavigation
                         .gotoPage(
                             '/sponsor-configuration/mapping-data/edit',
+                            params, {});
+                }
+                
+                vm.view = function(data) {
+                    var params = {
+                        mappingData: data,
+                        organizeId: ownerId,
+                        accountingTransactionType: vm.accountingTransactionType
+                    };
+                    PageNavigation
+                        .gotoPage(
+                            '/sponsor-configuration/mapping-data/view',
                             params, {});
                 }
 

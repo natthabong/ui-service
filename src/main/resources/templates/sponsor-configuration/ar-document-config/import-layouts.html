@@ -33,9 +33,8 @@
                                     <span id="layout-{{data.displayName}}-label" ng-bind="data.displayName"> </span>
                                 </td>
                                 <td class="text-center">
-                                    <scf-button class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenView()" id="layout-{{data.displayName}}-view-button">
-                                        <i class="fa fa-search" aria-hidden="true"></i>
-                                    </scf-button>
+                                	<scf-button class="btn-default gec-btn-action" id="layout-{{data.displayName}}-view-button" ng-disabled="ctrl.unauthenView()" title="View a file layout" ng-click="ctrl.viewFileLayout(data ,ctrl.processType , ctrl.integrateType)">
+                                		<i class="fa fa-search" aria-hidden="true"></i></scf-button>
                                     <scf-button id="layout-{{data.displayName}}-setup-button" ng-disabled="ctrl.unauthenMangeAction()" class="btn-default gec-btn-action"
                                         ng-click="ctrl.newFileLayout(data ,ctrl.processType , ctrl.integrateType)" title="Config a file layout">
                                         <i class="fa fa-cog" aria-hidden="true"></i>

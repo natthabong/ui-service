@@ -1,4 +1,7 @@
-<div id="content" th:fragment="content">
+<div id="content" th:fragment="content"
+	sec:authorize="hasAuthority('VIEW_ALL_ACCOUNTS')">
+<input type="hidden" ng-init="ctrl.canManage=true"
+		sec:authorize="hasAuthority('MANAGE_ALL_ACCOUNTS')" />
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
@@ -43,6 +46,13 @@
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								<div>
 									<div class="col-md-12 col-sm-12 text-right">
+				                        <br/>
+				                        <scf-button class="btn-default gec-btn-action" id="account-new-button" title="New an account" ng-click="ctrl.addAccount()"
+				                            ng-disabled="ctrl.unauthenMangeAction()">
+				                            <i class="fa fa-plus" aria-hidden="true"></i>
+				                        </scf-button>
+				                    </div>
+									<div class="col-md-12 col-sm-12 text-right">
 										<div class="row">
 											<div class="col-md-12 col-sm-12">
 												<span> <b
@@ -61,12 +71,12 @@
 									</div>
 									<div class="row">
 										<div class="col-md-12">
-											<scf-table id="account-list-table"
+											<scf-data-table id="account-list-table"
 												component-config="ctrl.dataTable"
 												component-datas="ctrl.pagingController.tableRowCollection"
 												current-page="ctrl.pagingController.pagingModel.currentPage"
 												record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-												clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+												clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-data-table>
 										</div>
 									</div>
 								</div>

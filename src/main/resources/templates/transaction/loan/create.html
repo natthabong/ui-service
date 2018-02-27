@@ -1,5 +1,7 @@
 <div id="content" th:fragment="content"
 	sec:authorize="hasAuthority('CREATE_LOANS_OF_MY_ORGANIZATION')">
+	<input type="hidden" ng-init="ctrl.hasPrivilegeEnqAcctBalance=true" sec:authorize="hasAuthority('CREATE_LOANS_OF_MY_ORGANIZATION_CAN_ENQUIRY_ACCOUNT_BALANCE')" />
+	<input type="hidden" ng-init="ctrl.hasPrivilegeEnqCreditLimit=true" sec:authorize="hasAuthority('CREATE_LOANS_OF_MY_ORGANIZATION_CAN_ENQUIRY_CREDIT_LIMIT')" />
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
@@ -180,9 +182,9 @@
 													<span ng-bind="ctrl.tradingpartnerInfoModel.interestRate"></span>
 													<span>)</span>
 										  </label>
-										  <scf-button id="transaction-{{data.transactionNo}}-re-check-button" 
-										  	class="btn-default gec-btn-action" title="Inquiry account">
-										  	<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+										  <scf-button id="enquiry-account-button" ng-show="ctrl.showEnquiryButton"
+										  	class="btn-default gec-btn-action" title="Enquiry" ng-click="ctrl.enquiryAvailableBalance()">
+										  	<span class="fa fa-repeat" aria-hidden="true"></span>
 										  </scf-button>
 									  </div>
 									  

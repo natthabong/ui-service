@@ -28,7 +28,7 @@
                                         <span id="supplier-code-list-label">{{'Supplier code list' | translate}}</span>
                                     </td>
                                     <td class="text-center">
-                                        <scf-button ng-disabled="ctrl.unauthenView()" class="btn-default gec-btn-action" id="supplier-code-list-view-button" title="View a supplier code"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
+                                        <scf-button ng-disabled="ctrl.unauthenView()" class="btn-default gec-btn-action" id="supplier-code-list-view-button" ng-click="ctrl.view(ctrl.supplierdata, 'PAYABLE')" title="View a supplier code"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
                                         <scf-button ng-disabled="ctrl.unauthenConfig()" id="supplier-code-list-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.supplierdata, 'PAYABLE')" title="Config a supplier code"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>
                                     </td>
                                 </tr>

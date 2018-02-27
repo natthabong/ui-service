@@ -12,7 +12,7 @@ fileLayoutModule.constant('FILE_TYPE_ITEM', {
 	specific : 'SPECIFIC'
 });
 
-fileLayoutModule.constant('DELIMITER_TYPE_TEM', [ {
+fileLayoutModule.constant('DELIMITER_TYPE_ITEM', [ {
 	delimiterName : 'Comma (,)',
 	delimiterId : ','
 }, {

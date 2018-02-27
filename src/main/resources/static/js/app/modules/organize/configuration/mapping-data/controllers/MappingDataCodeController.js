@@ -38,7 +38,6 @@ mappingDataModule.controller('MappingDataCodeController', [
         
         if(vm.mappingDataModel.mappingType == 'SIGN_FLAG_MAPPING'){
         	vm.isSignFlagMapping = true;
-        	vm.mappingDataItemModel.signFlag = 1;
         }else{
         	vm.mappingDataItemModel.signFlag = null;
         }

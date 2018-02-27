@@ -1,8 +1,8 @@
 'use strict';
-var scfApp = angular.module('scfApp');
+var scfApp = angular.module('gecscf.organize.configuration');
 scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIFactory', '$http', 'SCFCommonService', function($scope, $rootScope, UIFactory, $http, SCFCommonService) {
 	var vm = this;
-	var ownerId = $scope.ngDialogData.sponsorId;
+	var ownerId = $scope.ngDialogData.buyerId;
 	$scope.errors = {};
 	vm.submitForm = false;
 	vm.model = angular.copy($scope.ngDialogData.model);
@@ -114,6 +114,10 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 			if(vm.model.expiryDate != null){
 		        vm.model.expiryDate = new Date(vm.model.expiryDate);
 				vm.isUseExpireDate = true;
+			}
+			
+			if(vm.model.actualStatus == 'SUSPEND'){
+				vm.model.suspend = true;
 			}
 			
 			prepreOrganizeDisplay();

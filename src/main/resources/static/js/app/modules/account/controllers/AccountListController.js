@@ -6,8 +6,9 @@ accountModule.controller('AccountListController', [
 		'PagingController',
 		'$stateParams',
 		'$http',
+		'$filter',
 		function(AccountService, AccountStatus, UIFactory, PagingController,
-				$stateParams, $http) {
+				$stateParams, $http, $filter) {
 			var vm = this;
 
 			vm.accountStatusDrpodowns = AccountStatus;
@@ -16,7 +17,8 @@ accountModule.controller('AccountListController', [
 				organizeId : undefined,
 				suspend : undefined
 			};
-			
+
+			vm.canManage=false;
 			vm.organize = $stateParams.organize || null;
 
 			// The pagingController is a tool for navigate the
@@ -24,6 +26,13 @@ accountModule.controller('AccountListController', [
 			vm.pagingController = PagingController.create('/api/v1/accounts',
 					vm.criteria, 'GET');
 
+			var prepareAutoSuggestOrganizeLabel = function(item,module) {
+				item.identity = [ module,'-', item.memberId, '-option' ].join('');
+				item.label = [ item.memberCode, ': ', item.memberName ].join('');
+				item.value = item.memberId;
+				return item;
+			}
+			
 			var organizeAutoSuggestServiceUrl = 'api/v1/organizes';
 			var searchOrganizeTypeHead = function(value) {
 				value = UIFactory.createCriteria(value);
@@ -36,15 +45,12 @@ accountModule.controller('AccountListController', [
 						limit : 5
 					}
 				}).then(
-						function(response) {
-							return response.data.map(function(item) {
-								item.identity = [ 'organize-', item.organizeId,
-										'-option' ].join('');
-								item.label = [ item.organizeId, ': ',
-										item.organizeName ].join('');
-								return item;
-							});
+					function(response) {
+						return response.data.map(function(item) {
+							item = prepareAutoSuggestOrganizeLabel(item,'organize');
+							return item;
 						});
+				});
 			}
 			
 			var orgAutoSuggest = {
@@ -57,55 +63,141 @@ accountModule.controller('AccountListController', [
 
 			// Data table model
 			vm.dataTable = {
+				options : {
+					displayRowNo: {
+						idValueField: 'template',
+						id: '$rowNo-{value}-label',
+						cssTemplate : 'text-right'
+					}
+				},
 				columns : [ {
-					fieldName : '$rowNo',
-					labelEN : 'No.',
-					headerId : 'no-header-label',
-					cssTemplate : 'text-right'
-				}, {
+					label : 'Organization name',
+					field: 'organizeName',
 					fieldName : 'organizeName',
 					headerId : 'organizeName-header-label',
-					labelEN : 'Organization name',
-					labelTH : 'Organization name',
-					id : 'organizeName-{value}',
+					idValueField : 'template',
+					id : 'organizeName-{value}-label',
 					sortable : false,
 					cssTemplate : 'text-left',
 				}, {
+					label : 'Account No.',
+					field : 'accountNo',
 					fieldName : 'accountNo',
 					headerId : 'accountNo-header-label',
-					labelEN : 'Account No.',
-					labelTH : 'Account No.',
-					filterType : 'accountNo',
-					id : 'accountNo-{value}',
+					idValueField : 'template',
+					id : 'accountNo-{value}-label',
+					sortable : false,
+					dataRenderer: function (record) {
+						if (record.format) {
+							return ($filter('accountNoDisplay')(record.accountNo));
+						} else {
+							return record.accountNo;
+						}
+					}
+				}, {
+					label : 'Account type',
+					field: 'accountType',
+					fieldName : 'accountType',
+					headerId : 'accountType-header-label',
+					idValueField : 'template',
+					filterType : 'translate',
+					id : 'accountType-{value}-label',
+					sortable : false,
+					cssTemplate : 'text-center',
+				}, {
+					label : 'Status',
+					field : 'actualStatus',
+					fieldName : 'actualStatus',
+					headerId : 'status-header-label',
+					idValueField : 'template',
+					filterType : 'translate',
+					id : 'status-{value}-label',
 					sortable : false,
 					cssTemplate : 'text-center'
 				}, {
-					fieldName : 'status',
-					labelEN : 'Status',
-					labelTH : 'Status',
-					filterType : 'translate',
-					id : 'status-{value}',
-					sortable : false,
-					cssTemplate : 'text-center'
+					cssTemplate: 'text-center',
+					sortable: false,
+					cellTemplate: '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.editAccount(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+					+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.deleteAccount(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
 				} ]
 			}
 			// All functions of a controller.
 			vm.search = function(pageModel) {
 				var organizeId = undefined;
 				if (angular.isObject(vm.organize)) {
-					vm.criteria.organizeId = vm.organize.organizeId;
+					vm.criteria.organizeId = vm.organize.memberId;
 				} else {
 					vm.criteria.organizeId = undefined;
 				}
+				
 				vm.pagingController.search(pageModel
 						|| ($stateParams.backAction ? {
 							offset : vm.criteria.offset,
 							limit : vm.criteria.limit
 						} : undefined));
-				$stateParams.backAction = false;
+				if($stateParams.backAction){
+		    		$stateParams.backAction = false;
+		    	}
 			}
 			
 			var init = function(){
+				var backAction = $stateParams.backAction;
+				if(backAction){
+					vm.criteria = $stateParams.criteria;
+					prepareAutoSuggestOrganizeLabel(vm.criteria.organize,'organize');
+				}
 				vm.search();
 			}();
+			
+			vm.addAccount = function () {
+				UIFactory.showDialog({
+					templateUrl: '/js/app/modules/trading-partner/financing/templates/dialog-new-account.html',
+					controller: 'AccountController',
+					data: {
+						page: 'accountList'
+					},
+					preCloseCallback: function (data) {
+						if (data) {
+							vm.search();
+						}
+					}
+				});
+			}
+			
+			vm.deleteAccount = function (record) {
+				var preCloseCallback = function (confirm) {
+					vm.search();
+				}
+
+				UIFactory.showConfirmDialog({
+					data: {
+						headerMessage: 'Confirm delete?'
+					},
+					confirm: function () {
+						return AccountService.deleteAccount(record);
+					},
+					onFail: function (response) {
+						var msg = {
+							405: 'Account has been used.',
+							409: 'Account has been modified.'
+						};
+						UIFactory.showFailDialog({
+							data: {
+								headerMessage: 'Delete account fail.',
+								bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
+							},
+							preCloseCallback: preCloseCallback
+						});
+					},
+					onSuccess: function (response) {
+						UIFactory.showSuccessDialog({
+							data: {
+								headerMessage: 'Delete account success.',
+								bodyMessage: ''
+							},
+							preCloseCallback: preCloseCallback
+						});
+					}
+				});
+			}
 		} ]);

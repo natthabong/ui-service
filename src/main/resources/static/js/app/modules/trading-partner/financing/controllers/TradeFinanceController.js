@@ -259,16 +259,24 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			vm.openExpireDate = true;
 		};
 
-		vm.add = function () {
+		vm.add = function (accountType) {
 			var organizeId = null;
 			var organizeName = null;
+			var organizeCode = null;
 
-			if (vm.tradeFinanceModel.borrower == "BUYER") {
+			if (vm.tradeFinanceModel.borrower === 'BUYER') {
 				organizeId = borrower.buyerId;
 				organizeName = borrower.buyer.memberName;
-			} else {
+				organizeCode = borrower.buyer.memberCode;
+			} else if(vm.tradeFinanceModel.borrower === 'SUPPLIER' || accountType === 'PAYEE_ACCOUNT'){
 				organizeId = borrower.supplierId;
 				organizeName = borrower.supplier.memberName;
+				organizeCode = borrower.supplier.memberCode;
+			}
+			
+			pageName = 'tradeFinance';
+			if(accountType === 'PAYEE_ACCOUNT'){
+				pageName = 'tradeFinance_payeeAccount';
 			}
 
 			if (vm.tradeFinanceModel.borrower) {
@@ -276,8 +284,10 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 					templateUrl: '/js/app/modules/trading-partner/financing/templates/dialog-new-account.html',
 					controller: 'AccountController',
 					data: {
+						page: pageName,
 						organizeId: organizeId,
-						organizeName: organizeName
+						organizeName: organizeName,
+						organizeCode: organizeCode
 					},
 					preCloseCallback: function (data) {
 						if (data) {
