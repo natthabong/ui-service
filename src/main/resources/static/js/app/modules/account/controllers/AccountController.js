@@ -272,7 +272,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 								bodyMessage: ''
 							},
 							preCloseCallback: function () {
-								preCloseCallback(response.data);
+								callback(response.data);
 							}
 						});
 				}
