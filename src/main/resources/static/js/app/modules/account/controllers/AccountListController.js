@@ -175,7 +175,7 @@ accountModule.controller('AccountListController', [
 						record: record,
 						organizeId: record.organizeId,
 						organizeName: record.organizeName,
-						organizeCode: 'org code???',
+						organizeCode: record.organizeCode,
 					},
 					preCloseCallback: function (data) {
 						if (data) {
