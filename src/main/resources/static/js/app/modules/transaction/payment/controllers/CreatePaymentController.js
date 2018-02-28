@@ -1065,6 +1065,7 @@ txnMod.controller('CreatePaymentController', [
                 vm.transactionModel.transactionDate = SCFCommonService.convertStringTodate(vm.paymentModel);
                 vm.transactionModel.maturityDate = SCFCommonService.convertStringTodate(vm.maturityDateModel);
                 vm.transactionModel.productType = vm.criteria.productType;
+                vm.transactionModel.transactionType = 'PAYMENT';
                 vm.transactionModel.documents.forEach(function (document) {
                     document.reasonCodeDisplay = vm.reasonCodes[document.reasonCode];
                 });
