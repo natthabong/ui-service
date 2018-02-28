@@ -244,6 +244,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 					return AccountService
 						.update({
 							accountId: record.accountId,
+							organizeId: record.organizeId,
 							suspend: vm.isSuspend,
 							version: record.version
 						});

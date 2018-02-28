@@ -178,9 +178,7 @@ accountModule.controller('AccountListController', [
 						organizeCode: record.organizeCode,
 					},
 					preCloseCallback: function (data) {
-						if (data) {
-							vm.search();
-						}
+						vm.search();
 					}
 				});
 			}
