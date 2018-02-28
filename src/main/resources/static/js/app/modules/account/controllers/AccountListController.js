@@ -154,7 +154,28 @@ accountModule.controller('AccountListController', [
 					templateUrl: '/js/app/modules/trading-partner/financing/templates/dialog-new-account.html',
 					controller: 'AccountController',
 					data: {
-						page: 'accountList'
+						page: 'accountList',
+						mode: 'ADD'
+					},
+					preCloseCallback: function (data) {
+						if (data) {
+							vm.search();
+						}
+					}
+				});
+			}
+			
+			vm.editAccount = function (record) {
+				UIFactory.showDialog({
+					templateUrl: '/js/app/modules/trading-partner/financing/templates/dialog-new-account.html',
+					controller: 'AccountController',
+					data: {
+						page: 'accountList',
+						mode: 'EDIT',
+						record: record,
+						organizeId: record.organizeId,
+						organizeName: record.organizeName,
+						organizeCode: 'org code???',
 					},
 					preCloseCallback: function (data) {
 						if (data) {

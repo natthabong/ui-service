@@ -10,6 +10,28 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 		vm.organize.memberId = dialogData.organizeId;
 		vm.organize.memberCode = dialogData.organizeCode;
 		vm.organize.memberName = dialogData.organizeName;
+		var record = dialogData.record;
+		var mode = dialogData.mode;
+		vm.isEditMode = true;
+		
+		if(mode == 'ADD'){
+			vm.isEditMode = false;
+		}
+		
+		vm.formatType = {
+			ACCOUNT_NO: "ACCOUNT_NO",
+			ACCOUNT_NAME: "ACCOUNT_NAME"
+		}
+		
+		
+		
+		vm.getHeaderMessage = function(){
+			if(mode == 'ADD'){
+				return 'Add new account';
+			}else{
+				return 'Edit account';
+			}
+		}
 		
 		vm.accountTypeDropDown = [
   			{
@@ -24,31 +46,46 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
   			}
   		];
 		
-		if(vm.page === 'tradeFinance'){
-//			vm.organizationLabel = dialogData.organizeCode + ': ' + dialogData.organizeName;
-			vm.accountTypeDropDown = [
-      			{
-      				label : "Overdraft",
-      				value : "OVERDRAFT"
-      			},{
-      				label : "Term loan",
-      				value : "LOAN"
-      			}
-      		]
-		}else if(vm.page === 'accountList'){
-			vm.organize = undefined;
-		}
+		init();
+		function init(){
+			if(mode == 'ADD'){
+				if(vm.page === 'accountList'){
+					vm.organize = undefined;
+				}
+				
+				if(vm.page === 'tradeFinance'){
+					vm.accountTypeDropDown = [
+		      			{
+		      				label : "Overdraft",
+		      				value : "OVERDRAFT"
+		      			},{
+		      				label : "Term loan",
+		      				value : "LOAN"
+		      			}
+		      		]
+				}
+				
+				vm.format = vm.formatType.ACCOUNT_NO;
+				vm.accountType = vm.accountTypeDropDown[0].value;
+				vm.accountNo = null;
+				vm.accountName = null;
+				vm.isSuspend = false;
+				
+			}else if(mode == 'EDIT'){
+				vm.organize = vm.organize.memberCode + ": " + vm.organize.memberName;
+				vm.accountType = record.accountType;
+				
+				if(record.format){
+					vm.format = vm.formatType.ACCOUNT_NO;
+					vm.accountNo = record.accountNo;
+				}else{
+					vm.format = vm.formatType.ACCOUNT_NAME;
+					vm.accountName = record.accountNo;
+				}
 		
-		vm.formatType = {
-			ACCOUNT_NO: "ACCOUNT_NO",
-			TERM_LOAN: "TERM_LOAN"
+				vm.isSuspend = record.suspend;
+			}
 		}
-		
-		vm.format = vm.formatType.ACCOUNT_NO;
-		vm.accountType = vm.accountTypeDropDown[0].value;
-		vm.accountNo = null;
-		vm.termLoan = null;
-		vm.isSuspend = false;
 
 		var prepareAutoSuggestOrganizeLabel = function(item,module) {
 			item.identity = [ module,'-', item.memberId, '-option' ].join('');
@@ -118,13 +155,22 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 			
 			return valid;
 		}
-
-		vm.save = function (callback) {
+		
+		
+		vm.save = function (callback){
+			if(mode == 'ADD'){
+				vm.add(callback);
+			}else{
+				vm.edit(callback);
+			}
+		}
+		
+		vm.add = function (callback) {
 			var accountNo = null;
 			if (vm.format === vm.formatType.ACCOUNT_NO) {
 				accountNo = vm.accountNo;
 			} else {
-				accountNo = vm.termLoan;
+				accountNo = vm.accountName;
 			}
 			if(vm.page !== 'accountList' || _validateOrganize(vm.organize)){
 				if (_validateAccountNo(accountNo)) {
@@ -187,10 +233,55 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 				}
 			}
 		}
+		
+		vm.edit = function(callback){
+			UIFactory
+			.showConfirmDialog({
+				data: {
+					headerMessage: 'Confirm save?'
+				},
+				confirm: function () {
+					return AccountService
+						.update({
+							accountId: record.accountId,
+							suspend: vm.isSuspend,
+							version: record.version
+						});
+				},
+				onFail: function (response) {
+					if (response.status != 400) {
+						var msg = {
+								404: 'Account has been deleted.',
+								409: 'Account has been modified.'
+						}
+						UIFactory
+							.showFailDialog({
+								data: {
+									headerMessage: 'Edit account fail.',
+									bodyMessage: msg[response.status] ? msg[response.status]
+										: response.data.message
+								}
+							});
+					}
+				},
+				onSuccess: function (response) {
+					UIFactory
+						.showSuccessDialog({
+							data: {
+								headerMessage: 'Edit account complete.',
+								bodyMessage: ''
+							},
+							preCloseCallback: function () {
+								preCloseCallback(response.data);
+							}
+						});
+				}
+			});
+		}
 
 		vm.changeFormat = function () {
 			if (vm.format === vm.formatType.ACCOUNT_NO) {
-				vm.termLoan = null;
+				vm.accountName = null;
 			} else {
 				vm.accountNo = null;
 			}

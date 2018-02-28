@@ -287,7 +287,8 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 						page: pageName,
 						organizeId: organizeId,
 						organizeName: organizeName,
-						organizeCode: organizeCode
+						organizeCode: organizeCode,
+						mode: 'ADD'
 					},
 					preCloseCallback: function (data) {
 						if (data) {

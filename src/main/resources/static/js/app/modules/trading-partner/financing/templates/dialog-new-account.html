@@ -1,10 +1,10 @@
 <div class="modal-content">
-	<form name="newAccountForm" class="form-horizontal" ng-submit="ctrl.save(closeThisDialog)">
+	<form name="accountForm" class="form-horizontal" ng-submit="ctrl.save(closeThisDialog)">
 		<div class="modal-header">
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
 					<h3>
-						<span id="account-popup-header-message-label" class="popup-text" ng-bind="'Add new account' | translate">Add new account</span>
+						<span id="account-popup-header-message-label" class="popup-text" ng-bind="ctrl.getHeaderMessage() | translate"></span>
 					</h3>
 				</div>
 			</div>
@@ -19,8 +19,10 @@
 									ng-bind="'Organization' | translate"></span>:</label>
 							</div>
 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-								<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
-											ng-model="ctrl.organize" id="organize-auto-suggest-popup"></gec-auto-suggest>
+								<gec-auto-suggest model="ctrl.organizeAutoSuggestModel" ng-hide="ctrl.isEditMode"
+									ng-model="ctrl.organize" id="organize-auto-suggest-popup"></gec-auto-suggest>
+									
+								<input type="text" class="form-control" id="organization-textbox" ng-model="ctrl.organize" ng-show="ctrl.isEditMode" ng-disabled="ctrl.isEditMode"></input>
 							</div>
 						</div>
 					</div>
@@ -43,7 +45,8 @@
 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 								<scf-dropdown id="account-type-dropdown" 
 									ng-model="ctrl.accountType"
-									component-data="ctrl.accountTypeDropDown">
+									component-data="ctrl.accountTypeDropDown"
+									ng-disabled="ctrl.isEditMode">
 								</scf-dropdown>
 							</div>
 						</div>
@@ -57,13 +60,14 @@
 										ng-value="ctrl.formatType.ACCOUNT_NO"
 										name="date-type-radio"
 										ng-model="ctrl.format"
-										ng-change="ctrl.changeFormat()">
+										ng-change="ctrl.changeFormat()"
+										ng-disabled="ctrl.isEditMode">
 									</scf-radio>
 									<label id="account-no-label">{{'Account No.' | translate}}:<label>
 								</label>
 							</div>
 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-								<scf-account-no id="account-no-textbox" ng-disabled="ctrl.format != ctrl.formatType.ACCOUNT_NO" ng-model="ctrl.accountNo"></scf-account-no>
+								<scf-account-no id="account-no-textbox" ng-disabled="ctrl.isEditMode || ctrl.format != ctrl.formatType.ACCOUNT_NO" ng-model="ctrl.accountNo"></scf-account-no>
 							</div>
 						</div>
 					</div>
@@ -76,16 +80,17 @@
 							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 								<label class="radio-inline">
 									<scf-radio id="term-loan-format"
-										ng-value="ctrl.formatType.TERM_LOAN"
+										ng-value="ctrl.formatType.ACCOUNT_NAME"
 										name="date-type-radio"
 										ng-model="ctrl.format"
-										ng-change="ctrl.changeFormat()">
+										ng-change="ctrl.changeFormat()"
+										ng-disabled="ctrl.isEditMode">
 									</scf-radio>
 									<label id="term-loan-label">{{'Account name' | translate}}:<label>
 								</label>
 							</div>
 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-								<scf-input-text id="term-loan-textbox" ng-disabled="ctrl.format != ctrl.formatType.TERM_LOAN" ng-model="ctrl.termLoan" maxlength="100"></scf-input-text>
+								<scf-input-text id="term-loan-textbox" ng-disabled="ctrl.isEditMode || ctrl.format != ctrl.formatType.ACCOUNT_NAME" ng-model="ctrl.accountName" maxlength="100"></scf-input-text>
 							</div>
 						</div>
 					</div>
