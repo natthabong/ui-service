@@ -80,7 +80,7 @@ public class OrganizationConfigurationController {
 	private static final String VIEW_EXPORT_CHANNEL = "sponsor-configuration/export-channels/view";
 	private static final String VIEW_EXPORT_CHANNEL_FTP = "sponsor-configuration/export-channels/ftp-view";
 
-	private static final String EDIT_MAPPING_DATA = "sponsor-configuration/edit-mapping-data";
+	private static final String EDIT_MAPPING_DATA = "sponsor-configuration/mapping-data-code/edit-mapping-data";
 
 	private static final String MAPPING_DATA_CODE = "sponsor-configuration/mapping-data-code/mapping-data-code";
 
