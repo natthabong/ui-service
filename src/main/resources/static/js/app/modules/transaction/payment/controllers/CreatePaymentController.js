@@ -85,7 +85,6 @@ txnMod.controller('CreatePaymentController', [
         }
 
         function _checkCreatePaymentType() {
-            var deferred = $q.defer();
             var result = $.grep(vm.tradingPartnerList, function (supplier) {
                 return supplier.supplierId == vm.criteria.supplierId;
             });
@@ -177,17 +176,8 @@ txnMod.controller('CreatePaymentController', [
             });
         };
 
-        function _setTradingpartnerInfoModel(account) {
-            vm.transactionModel.transactionMethod = 'TERM_LOAN';
-            vm.tradingpartnerInfoModel.available = account.remainingAmount - account.pendingAmount;
-            vm.tradingpartnerInfoModel.tenor = account.tenor;
-            vm.tradingpartnerInfoModel.interestRate = account.interestRate;
-            vm.isLoanPayment = true;
-        }
-
         function _loadAccount() {
             vm.accountDropDown = [];
-            var deffered = $q.defer();
             var defferedAccounts = TransactionService.getAccounts(ownerId, vm.criteria.supplierId);
             defferedAccounts.promise.then(function (response) {
             	vm.accountList = response.data;
@@ -310,7 +300,6 @@ txnMod.controller('CreatePaymentController', [
                 var deffered = TransactionService.getPaymentDate(vm.transactionModel, vm.createTransactionType, vm.accountType, vm.criteria.loanRequestMode, vm.criteria.productType);
                 deffered.promise.then(function (response) {
                     var paymentDates = response.data;
-                    vm.paymentDropDown = [];
                     paymentDates.forEach(function (data) {
                         vm.paymentDropDown.push({
                             label: data,
@@ -710,16 +699,6 @@ txnMod.controller('CreatePaymentController', [
             resetReasonCode(row, record)
         }
 
-        function getSupplierName(supplierId) {
-            var supplierName = null;
-            vm.suppliers.map(function (obj) {
-                if (obj.value == supplierId) {
-                    supplierName = obj.label;
-                }
-            });
-            return supplierName;
-        }
-
         function showSelectReasonCodePopup(record) {
             var dialog = UIFactory.showDialog({
                 templateUrl: '/js/app/modules/transaction/payment/reason-code/templates/dialog-partial-payment-reason-code.html',
@@ -791,8 +770,6 @@ txnMod.controller('CreatePaymentController', [
                 },
                 columns: []
             };
-            
-            vm.initFlag = true;
             
             var init = function () {
             	if (backAction) {
@@ -1069,7 +1046,9 @@ txnMod.controller('CreatePaymentController', [
                 vm.transactionModel.documents.forEach(function (document) {
                     document.reasonCodeDisplay = vm.reasonCodes[document.reasonCode];
                 });
-
+                vm.transactionModel.supplierName = getSupplierName(vm.transactionModel.supplierId);
+                vm.tradingpartnerInfoModel.createTransactionType = vm.createTransactionType;
+                
                 var _accountList = [];
                 angular.copy(vm.accountList, _accountList);
                 var accountSelected = $.grep(_accountList, function (account) {
@@ -1102,6 +1081,16 @@ txnMod.controller('CreatePaymentController', [
                     $scope.validateDataFailPopup = true;
                 });
             }
+        }
+        
+        function getSupplierName(supplierId) {
+            var supplierName = null;
+            vm.suppliers.map(function (obj) {
+                if (obj.value == supplierId) {
+                    supplierName = obj.label;
+                }
+            });
+            return supplierName;
         }
 
         vm.backStep = function () {
