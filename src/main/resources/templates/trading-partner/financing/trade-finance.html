@@ -22,7 +22,7 @@
 							<div class="col-md-8 col-sm-12 col-xs-12">
 								<scf-dropdown id="borrower-dropdown"
 									ng-disabled="!ctrl.isNewMode"
-									ng-model="ctrl.tradeFinanceModel.borrower"
+									ng-model="ctrl.tradeFinanceModel.borrowerType"
 									ng-change="ctrl.changeBorrower()"
 									component-data="ctrl.borrowerModel" translate-label="true"></scf-dropdown>
 							</div>
@@ -63,10 +63,12 @@
 								<scf-dropdown id="payee-account-dropdown"
 									ng-disabled="ctrl.isViewMode"
 									ng-model="ctrl.tradeFinanceModel.payeeAccountId"
-									ng-change="ctrl.changePayeeAccount()"
 									component-data="ctrl.payeeAccountDropdown"
 									translate-label="true"></scf-dropdown>
 							</div>
+							<scf-button id="add-payee-account-button" class="btn-default gec-btn-action col-md-6 col-sm-4 col-xs-3"
+								ng-disabled="!ctrl.isNewMode" ng-click="ctrl.add('PAYEE_ACCOUNT')">
+							<i class="fa fa-plus" aria-hidden="true"></i></scf-button>
 						</div>
 						<div class="form-group" ng-show="errors.payeeAccountId">
 							<div>

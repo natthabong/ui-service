@@ -64,12 +64,7 @@ tradeFinanceModule.factory('ConfigTradeFinanceService', [ '$http', '$q', 'Servic
 		return deffered;
 	}
 
-	function getTradingPartner(buyerId, supplierId){
-		return Service.doGet('api/v1/organize-customers/' + buyerId + '/trading-partners/' + supplierId);
-	}
-
 	return {
-		getTradingPartner:getTradingPartner,
 		getTradeFinanceInfo : getTradeFinanceInfo,
 		deleteTradeFinance : deleteTradeFinance,
         setDefaultCode: setDefaultCode,

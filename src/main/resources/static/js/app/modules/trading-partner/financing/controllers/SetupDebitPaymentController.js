@@ -13,12 +13,12 @@ tradeFinanceModule.controller('SetupDebitPaymentController', ['$scope', '$stateP
 
         vm.accountDropdown = [
             {
-                label: "Please select",
-                value: ""
+                label: 'Please select',
+                value: 'PLEASE_SELECT'
             },
             {
-                label: "Undefined",
-                value: 0
+                label: 'Undefined',
+                value: 'UNDEFINED_ACCOUNT'
             }
         ];
 
@@ -39,11 +39,16 @@ tradeFinanceModule.controller('SetupDebitPaymentController', ['$scope', '$stateP
 
         var initload = function () {
             loadPayeeAccounts();
+            if(vm.tradingPartnerModel.debitPayeeAccountId == null){
+				vm.tradingPartnerModel.debitPayeeAccountId = 'UNDEFINED_ACCOUNT';
+			}else{
+				vm.tradingPartnerModel.debitPayeeAccountId = vm.tradingPartnerModel.debitPayeeAccountId.toString();
+			}
         } ();
 
         var validateBeforeSave = function () {
             var valid = true;
-            if (vm.tradingPartnerModel.supportDebit && vm.tradingPartnerModel.debitPayeeAccount == null) {
+            if (vm.tradingPartnerModel.supportDebit && vm.tradingPartnerModel.debitPayeeAccountId == 'PLEASE_SELECT') {
                 valid = false;
                 vm.payeeAccountIsRequired = true;
             } else {
@@ -64,7 +69,12 @@ tradeFinanceModule.controller('SetupDebitPaymentController', ['$scope', '$stateP
                             headerMessage: 'Confirm save?'
                         },
                         confirm: function () {
-                            return TradingPartnerService
+                        	if(vm.tradingPartnerModel.debitPayeeAccountId == 'UNDEFINED_ACCOUNT'){
+                        		vm.tradingPartnerModel.debitPayeeAccount = null;
+                        	}else{
+                        		vm.tradingPartnerModel.debitPayeeAccount = vm.tradingPartnerModel.debitPayeeAccountId
+                        	}
+                        	return TradingPartnerService
                                 .updateDebitPaymentInformation(vm.tradingPartnerModel);
                         },
                         onFail: function (response) {
@@ -97,7 +107,7 @@ tradeFinanceModule.controller('SetupDebitPaymentController', ['$scope', '$stateP
 
         vm.changeSupportPaymentByDebit = function () {
             if (!vm.tradingPartnerModel.supportDebit) {
-                vm.tradingPartnerModel.debitPayeeAccount = null;
+                vm.tradingPartnerModel.debitPayeeAccountId = 'UNDEFINED_ACCOUNT';
             }
             vm.payeeAccountIsRequired = false;
         }

@@ -42,18 +42,18 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		}
 
 		vm.borrowerModel = [{
-				label: '[Buyer] ' + borrower.buyerId + ': ' + borrower.buyer.memberName,
+				label: '[Buyer] ' + borrower.buyerId + ': ' + borrower.buyerName,
 				value: "BUYER"
 			},
 			{
-				label: '[Supplier] ' + borrower.supplierId + ': ' + borrower.supplier.memberName,
+				label: '[Supplier] ' + borrower.supplierId + ': ' + borrower.supplierName,
 				value: "SUPPLIER"
 			}
 		];
 
 		vm.payeeAccountDropdown = [];
 
-		function setPayeeAccountDropdown() {
+		function setPayeeAccountDropdown(accountId) {
 			vm.payeeAccountDropdown = [{
 				label: 'Please select',
 				value: 'PLEASE_SELECT'
@@ -71,6 +71,10 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 						value: data.accountId
 					})
 				});
+				
+				if(accountId !== undefined){
+					vm.tradeFinanceModel.payeeAccountId = accountId;
+				}
 			}).catch(function (response) {
 				log.error('Get payee account fail');
 			});
@@ -80,7 +84,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 
 		var queryAccount = function (value) {
 			supplierId = borrower.supplierId;
-			if (vm.tradeFinanceModel.borrower == "BUYER") {
+			if (vm.tradeFinanceModel.borrowerType == "BUYER") {
 				organizeId = borrower.buyerId;
 			} else {
 				organizeId = borrower.supplierId;
@@ -132,9 +136,10 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 			query: queryAccount
 		});
-
+		
 		vm.tradeFinanceModel = {
-			borrower: vm.borrowerModel[0].value,
+			borrower: borrower,
+			borrowerType: vm.borrowerModel[0].value,
 			financeAccount: null,
 			tenor: null,
 			percentageLoan: null,
@@ -172,9 +177,9 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				vm.isUseExpireDate = true;
 			}
 			if (tradeFinanceData != null) {
-				vm.tradeFinanceModel.borrower = tradeFinanceData.borrowerType;
-
-				if (vm.tradeFinanceModel.borrower == "SUPPLIER") {
+				vm.tradeFinanceModel.borrowerType = tradeFinanceData.borrowerType;
+				vm.tradeFinanceModel.borrowerId = tradeFinanceData.borrowerId;
+				if (vm.tradeFinanceModel.borrowerType == "SUPPLIER") {
 					vm.isSupplier = true;
 				} else {
 					vm.isSupplier = false;
@@ -223,7 +228,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			if (currentMode == 'NEW') {
 				vm.isNewMode = true;
 				vm.isSupplier = false;
-				vm.tradeFinanceModel.payeeAccountId = 'PLEASE_SELECT'; 
+				vm.tradeFinanceModel.payeeAccountId = 'PLEASE_SELECT';
 			} else if (currentMode == 'EDIT' || currentMode == 'VIEW') {
 				vm.isNewMode = false;
 				if (currentMode == 'VIEW') {
@@ -263,18 +268,13 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			var organizeId = null;
 			var organizeName = null;
 			var organizeCode = null;
-
-			if (vm.tradeFinanceModel.borrower === 'BUYER') {
-				organizeId = borrower.buyerId;
-				organizeName = borrower.buyer.memberName;
-				organizeCode = borrower.buyer.memberCode;
-			} else if(vm.tradeFinanceModel.borrower === 'SUPPLIER' || accountType === 'PAYEE_ACCOUNT'){
-				organizeId = borrower.supplierId;
-				organizeName = borrower.supplier.memberName;
-				organizeCode = borrower.supplier.memberCode;
+			if(vm.tradeFinanceModel.borrowerType === 'SUPPLIER' || accountType === 'PAYEE_ACCOUNT'){
+				organizeId = vm.tradeFinanceModel.borrower.supplierId;
+			} else if (vm.tradeFinanceModel.borrowerType === 'BUYER') {
+				organizeId = vm.tradeFinanceModel.borrower.buyerId;
 			}
 			
-			pageName = 'tradeFinance';
+			var pageName = 'tradeFinance';
 			if(accountType === 'PAYEE_ACCOUNT'){
 				pageName = 'tradeFinance_payeeAccount';
 			}
@@ -292,9 +292,12 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 					},
 					preCloseCallback: function (data) {
 						if (data) {
-							vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(data);
-							setPayeeAccountDropdown();
-							changeAccountType(data.accountType);
+							if(accountType === 'LOAN_ACCOUNT'){
+								vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(data);
+								changeAccountType(data.accountType);
+							}else{
+								setPayeeAccountDropdown(data.accountId.toString());
+							}
 						}
 					}
 				});
@@ -522,7 +525,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			vm.tradeFinanceModel.tenor = '';
 			vm.tradeFinanceModel.interestRate = '';
 			vm.isUseExpireDate = false;
-			if (vm.tradeFinanceModel.borrower == "SUPPLIER") {
+			if (vm.tradeFinanceModel.borrowerType == "SUPPLIER") {
 				vm.isSupplier = true;
 			} else {
 				vm.isSupplier = false;

@@ -36,11 +36,11 @@
 							ng-bind="'Payee account' | translate"></span>:</label>
 						<div class="col-md-6 col-sm-4 col-xs-12">
 							<scf-dropdown id="payee-account-dropdown" 
-								ng-model="ctrl.tradingPartnerModel.debitPayeeAccount" 
+								ng-model="ctrl.tradingPartnerModel.debitPayeeAccountId" 
 								component-data="ctrl.accountDropdown"
 								ng-change="ctrl.changePayeeAccount()"
 								ng-disabled="!ctrl.tradingPartnerModel.supportDebit"
-								convert-to-number="true">
+								translate-label="true">
 							</scf-dropdown>
 						</div>
 					</div>

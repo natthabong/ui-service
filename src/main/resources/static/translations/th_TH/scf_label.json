@@ -659,5 +659,8 @@
 	
 	"Account name": "Account name",
 
-	"DAILY":"Daily"
+	"DAILY":"Daily",
+	
+	"Buyer name": "Buyer name",
+	"Supplier name": "Supplier name"
 }

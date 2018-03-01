@@ -51,10 +51,6 @@ tpModule.factory('TradingPartnerService', ['$http', '$q', 'Service', function ($
 		return deferred;
 	}
 
-	var findTradingPartnerByBuyerIdAndSupplierId = function (buyerId, supplierId) {
-		return Service.doGet('api/v1/organize-customers/' + buyerId + '/trading-partners/' + supplierId);
-	}
-
 	var deleteTradingPartner = function (trading) {
 		var serviceUrl = '/api/v1/organize-customers/' + trading.buyerId + '/trading-partners/' + trading.supplierId
 		var deferred = $q.defer();
@@ -92,6 +88,20 @@ tpModule.factory('TradingPartnerService', ['$http', '$q', 'Service', function ($
 		return deferred;
 	}
 
+	function getTradingPartner(buyerId, supplierId){
+		var serviceUrl = 'api/v1/organize-customers/' + buyerId + '/trading-partners/' + supplierId;
+		var deferred = $q.defer();
+		$http({
+			method: 'GET',
+			url: serviceUrl
+		}).then(function (response) {
+			return deferred.resolve(response);
+		}).catch(function (response) {
+			return deferred.reject(response);
+		});
+		return deferred;
+	}
+	
 	var updateDebitPaymentInformation = function (tp) {
 		var serviceUrl = 'api/v1/organize-customers/' + tp.buyerId + '/debit-payment-information/' + tp.supplierId;
 		var req = {
@@ -114,11 +124,11 @@ tpModule.factory('TradingPartnerService', ['$http', '$q', 'Service', function ($
 	}
 
 	return {
+		getTradingPartner: getTradingPartner,
 		updateDebitPaymentInformation : updateDebitPaymentInformation,
 		getPayeeAccounts: getPayeeAccounts,
 		getOrganizeByNameOrCodeLike: getOrganizeByNameOrCodeLike,
 		createTradingPartner: createTradingPartner,
-		findTradingPartnerByBuyerIdAndSupplierId: findTradingPartnerByBuyerIdAndSupplierId,
 		deleteTradingPartner: deleteTradingPartner,
 		_prepareItem: _prepareItem
 	}

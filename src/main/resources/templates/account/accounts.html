@@ -48,7 +48,7 @@
 									<div class="col-md-12 col-sm-12 text-right">
 				                        <br/>
 				                        <scf-button class="btn-default gec-btn-action" id="account-new-button" title="New an account" ng-click="ctrl.addAccount()"
-				                            ng-disabled="ctrl.unauthenMangeAction()">
+				                            ng-disabled="!ctrl.canManage">
 				                            <i class="fa fa-plus" aria-hidden="true"></i>
 				                        </scf-button>
 				                    </div>

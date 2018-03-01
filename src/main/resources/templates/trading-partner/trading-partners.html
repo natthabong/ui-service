@@ -62,27 +62,24 @@
 											class="table table-striped table-bordered" cellspacing="0">
 											<thead>
 												<tr>
-													<th id="$rowNo-header-label" ng-bind="'No.' | translate">No.</th>
-													<th id="buyer-name-header-label"
-														ng-bind="'Buyer Name' | translate">Buyer Name</th>
-													<th id="supplier-name-header-label"
-														ng-bind="'Supplier Name' | translate">Supplier Name</th>
-
-													<th id="status-header-label" ng-bind="'Status' | translate">Status</th>
-													<th id="action-header-label"></th>
+													<th ng-bind="'numbero' | translate">No.</th>
+													<th ng-bind="'Buyer name' | translate"></th>
+													<th ng-bind="'Supplier name' | translate"></th>
+													<th ng-bind="'status' | translate"></th>
+													<th></th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr
 													ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
-													<td class="text-center"><span
+													<td class="text-right"><span
 														id="$rowNo-{{$index + 1}}-label" ng-bind="{{$index + 1}}"></span></td>
 													<td class="text-left"><span
 														id="buyer-name-{{$index + 1}}-label"
-														ng-bind="record.buyer.memberName | translate"></span></td>
+														ng-bind="record.buyerName | translate"></span></td>
 													<td class="text-left"><span
 														id="supplier-name-{{$index + 1}}-label"
-														ng-bind="record.supplier.memberName | translate"></span></td>
+														ng-bind="record.supplierName | translate"></span></td>
 													<td class="text-center"><span
 														id="status-{{$index + 1}}-label" ng-bind="record.status | translate"></span></td>
 													<td class="text-center"><scf-button

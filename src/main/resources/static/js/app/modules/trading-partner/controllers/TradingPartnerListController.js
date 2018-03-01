@@ -29,51 +29,6 @@ tpModule.controller('TradingPartnerListController',['$scope','$stateParams','UIF
 			query : _organizeTypeHead
 		});
 
-		// Data table model
-		vm.dataTable = {
-			columns : [
-				{
-					fieldName : '$rowNo',
-					labelEN : 'No.',
-					cssTemplate : 'text-right'
-				},
-				{
-					fieldName : 'sponsorName',
-					headerId : 'buyer-header-label',
-					labelEN : 'Buyer',
-					labelTH : 'Buyer',
-					id : 'buyer-{value}',
-					sortable : false,
-					cssTemplate : 'text-center',
-				},
-				{
-					fieldName : 'supplierName',
-					headerId : 'supplier-header-label',
-					labelEN : 'Supplier',
-					labelTH : 'Supplier',
-					id : 'supplier-{value}',
-					sortable : false,
-					cssTemplate : 'text-left'
-				},
-				{
-					fieldName : 'status',
-					labelEN : 'Status',
-					labelTH : 'Status',
-					filterType : 'translate',
-					id : 'status-{value}',
-					sortable : false,
-					cssTemplate : 'text-center'
-				},
-				{
-					fieldName : 'action',
-					label : '',
-					cssTemplate : 'text-center',
-					sortData : false,
-					cellTemplate : '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
-							+ '<scf-button id="{{$parent.$index + 1}}-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.setup(data)" title="Configure a trade finance"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>'
-							+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.deleteTP(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
-				} ]
-		}
 		// All functions of a controller.
 		vm.search = function(pageModel) {
 			var organizeId = undefined;

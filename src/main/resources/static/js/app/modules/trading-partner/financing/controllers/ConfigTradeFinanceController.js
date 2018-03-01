@@ -1,8 +1,8 @@
 'use strict';
 var tradeFinanceModule = angular.module('gecscf.tradingPartner.financing');
 tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$stateParams', 'UIFactory',
-	'PageNavigation', 'PagingController', 'ConfigTradeFinanceService', '$log', 'SCFCommonService', '$state', '$cookieStore', '$timeout', '$filter',
-	function ($scope, $stateParams, UIFactory, PageNavigation, PagingController, ConfigTradeFinanceService, $log, SCFCommonService, $state, $cookieStore, $timeout, $filter) {
+	'PageNavigation', 'PagingController', 'ConfigTradeFinanceService', 'TradingPartnerService', '$log', 'SCFCommonService', '$state', '$cookieStore', '$timeout', '$filter',
+	function ($scope, $stateParams, UIFactory, PageNavigation, PagingController, ConfigTradeFinanceService, TradingPartnerService, $log, SCFCommonService, $state, $cookieStore, $timeout, $filter) {
 
 		var vm = this;
 		vm.canManage = false;
@@ -95,31 +95,22 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 			});
 		}
 
-		var getPayeeAccountDetails = function (supplierId, accountId) {
-			var defered = ConfigTradeFinanceService.getPayeeAccountDetails(supplierId, accountId);
-			defered.promise.then(function (response) {
-				var account = response.data;
-				if(account != null){
-					vm.payeeAccount = account.format ? ($filter('accountNoDisplay')(account.accountNo)) : account.accountNo;
-				}
-			}).catch(function (response) {
-				log.error('Get payee account details fail');
-				vm.payeeAccount = "Undefined";
-			});
+		var getPayeeAccountDetails = function (debitPayeeAccountNo, formatAccount) {
+			if(debitPayeeAccountNo != null){
+				vm.payeeAccount = formatAccount ? ($filter('accountNoDisplay')(debitPayeeAccountNo)) : debitPayeeAccountNo;
+			}
 		}
 
 		var loadTradingPartner = function (buyerId, supplierId) {
-			var deffered = ConfigTradeFinanceService.getTradingPartner(buyerId, supplierId);
+			var deffered = TradingPartnerService.getTradingPartner(buyerId, supplierId);
 			deffered.promise.then(function (response) {
 				vm.tradingPartner = response.data;
 				if (vm.tradingPartner != null) {
 					vm.supportedPaymentBy = vm.tradingPartner.supportDebit ? "Supported payment by debit" : "Not supported payment by debit";
-					if (vm.tradingPartner.debitPayeeAccount == null) {
-						vm.payeeAccount = "";
-					} else if (vm.tradingPartner.debitPayeeAccount == 0) {
+					if (vm.tradingPartner.debitPayeeAccountId == null) {
 						vm.payeeAccount = "Undefined";
 					} else {
-						getPayeeAccountDetails(supplierId, vm.tradingPartner.debitPayeeAccount);
+						getPayeeAccountDetails(vm.tradingPartner.debitPayeeAccountNo, vm.tradingPartner.formatAccount);
 					}
 				}
 			}).catch(function (response) {
@@ -142,7 +133,6 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 			
 			buyerId = vm.financeModel.buyerId;
 			supplierId = vm.financeModel.supplierId;
-
 			loadTradingPartner(buyerId, supplierId);
 			getFinanceInfo(buyerId, supplierId);
 		} ();

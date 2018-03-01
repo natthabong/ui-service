@@ -42,9 +42,10 @@ tpModule.controller('TradingPartnerController', [
                     var buyerId = $stateParams.selectedItem.buyerId;
                     var supplierId = $stateParams.selectedItem.supplierId;
 
-                    var deffered = TradingPartnerService.findTradingPartnerByBuyerIdAndSupplierId(buyerId, supplierId);
+                    var deffered = TradingPartnerService.getTradingPartner(buyerId, supplierId);
                     deffered.promise.then(function(response) {
                         vm.tradingPartner = response.data;
+                        
                         var sponsorOrganize = _prepareItem(vm.tradingPartner.buyer);
                         vm.organizeListModel.buyer = sponsorOrganize;
                         var supplierOrganize = _prepareItem(vm.tradingPartner.supplier);
