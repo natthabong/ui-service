@@ -207,15 +207,15 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 							onFail: function (response) {
 								if (response.status != 400) {
 									var msg = {
+											409: 'Account No. is existed.'
 									};
-									UIFactory
-										.showFailDialog({
-											data: {
-												headerMessage: 'Add new account fail.',
-												bodyMessage: msg[response.status] ? msg[response.status]
-													: response.data.message
-											}
-										});
+									UIFactory.showFailDialog({
+										data: {
+											headerMessage: 'Add new account fail.',
+											bodyMessage: msg[response.status] ? msg[response.status]
+												: response.data.message
+										}
+									});
 								}
 							},
 							onSuccess: function (response) {
@@ -245,6 +245,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 					return AccountService
 						.update({
 							accountId: record.accountId,
+							accountNo: record.accountNo,
 							organizeId: record.organizeId,
 							suspend: vm.isSuspend,
 							version: record.version
@@ -254,16 +255,16 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 					if (response.status != 400) {
 						var msg = {
 								404: 'Account has been deleted.',
+								405: 'Account has been used.',
 								409: 'Account has been modified.'
 						}
-						UIFactory
-							.showFailDialog({
-								data: {
-									headerMessage: 'Edit account fail.',
-									bodyMessage: msg[response.status] ? msg[response.status]
-										: response.data.message
-								}
-							});
+						UIFactory.showFailDialog({
+							data: {
+								headerMessage: 'Edit account fail.',
+								bodyMessage: msg[response.status] ? msg[response.status]
+									: response.data.message
+							}
+						});
 					}
 				},
 				onSuccess: function (response) {
