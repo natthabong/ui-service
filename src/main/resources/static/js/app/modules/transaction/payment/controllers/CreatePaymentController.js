@@ -243,6 +243,7 @@ txnMod.controller('CreatePaymentController', [
                 }else if(vm.accountType == 'OVERDRAFT'){
                 	vm.transactionModel.transactionMethod = 'OD';
                 	vm.isLoanPayment = false;
+                	isLoanAccount = false;
                 } else {
                     if (vm.supportSpecialDebit) {
                         vm.transactionModel.transactionMethod = 'DEBIT_SPECIAL';
