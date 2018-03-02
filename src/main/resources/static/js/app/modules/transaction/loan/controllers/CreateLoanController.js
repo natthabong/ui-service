@@ -170,6 +170,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 vm.accountDropDown.forEach(function (account) {
                     if (accountId == account.item.accountId) {
                         vm.createTransactionModel.payerAccountNo = account.item.accountNo;
+                        vm.tradingpartnerInfoModel.accountType = account.item.accountType;
                     }
                 });
 
