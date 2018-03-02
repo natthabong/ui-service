@@ -19,7 +19,8 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 		vm.logTimeToMinute = '';
 		
 		vm.batchJobTracking = $stateParams.params;
-		var ownerId = vm.batchJobTracking.ownerId;
+		console.log(vm.batchJobTracking);
+		var ownerId = vm.batchJobTracking.jobGroup;
 		var jobId = vm.batchJobTracking.jobId;
 		
         vm.backPage = function(){
