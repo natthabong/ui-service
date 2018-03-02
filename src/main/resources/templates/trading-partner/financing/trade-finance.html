@@ -67,7 +67,7 @@
 									translate-label="true"></scf-dropdown>
 							</div>
 							<scf-button id="add-payee-account-button" class="btn-default gec-btn-action col-md-6 col-sm-4 col-xs-3"
-								ng-disabled="!ctrl.isNewMode" ng-click="ctrl.add('PAYEE_ACCOUNT')">
+								ng-disabled="ctrl.isViewMode" ng-click="ctrl.add('PAYEE_ACCOUNT')">
 							<i class="fa fa-plus" aria-hidden="true"></i></scf-button>
 						</div>
 						<div class="form-group" ng-show="errors.payeeAccountId">
