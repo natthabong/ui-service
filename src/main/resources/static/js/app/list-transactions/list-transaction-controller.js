@@ -867,13 +867,21 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			}
 
 			var initSponsorAutoSuggest = function () {
-				var sponsorInfo = angular.copy($rootScope.userInfo);
+				var sponsorInfo = {
+		        			memberId : $rootScope.userInfo.organizeId,
+		        		  memberCode : $rootScope.userInfo.organizeCode,
+		        		  memberName : $rootScope.userInfo.organizeName
+		        }
 				sponsorInfo = prepareAutoSuggestLabel(sponsorInfo, 'sponsor');
 				vm.documentListModel.sponsor = sponsorInfo;
 			}
 
 			var initSupplierAutoSuggest = function () {
-				var supplierInfo = angular.copy($rootScope.userInfo);
+				var supplierInfo = {
+		        			memberId : $rootScope.userInfo.organizeId,
+		        		  memberCode : $rootScope.userInfo.organizeCode,
+		        		  memberName : $rootScope.userInfo.organizeName
+				}
 				supplierInfo = prepareAutoSuggestLabel(supplierInfo, 'supplier');
 				vm.documentListModel.supplier = supplierInfo;
 			}
