@@ -194,7 +194,6 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 								headerMessage: 'Confirm save?'
 							},
 							confirm: function () {
-								console.log(vm.organize.memberId);
 								return AccountService
 									.save({
 										organizeId: vm.organize.memberId,
