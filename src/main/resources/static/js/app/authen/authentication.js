@@ -24,9 +24,14 @@
         $translateProvider.useSanitizeValueStrategy('escapeParameters');
         
     }]);
-    app.controller('LoginController', ['$window', 'AuthenticationService', '$state', 'ngDialog', function ($window, AuthenticationService, $state, ngDialog) {
+    app.controller('LoginController', ['$window', 'AuthenticationService', '$state', 'ngDialog', '$http', function ($window, AuthenticationService, $state, ngDialog, $http) {
         var self = this;
 
+        $http.get('assets/theme.json')
+		.then(function (res) {
+			self.title = res.data.title;
+		});
+        
         self.login = login;
         self.error = false;
         self.errorMessage = '';
