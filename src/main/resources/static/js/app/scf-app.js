@@ -93,7 +93,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						criteria: null,
 						organize: null
 					},
-					resolve: WebHelper.loadScript(['js/app/modules/supplier-credit-information/controllers/SupplierCreditInformationController.js', 'js/app/modules/supplier-credit-information/services/SupplierCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+					resolve: WebHelper.loadScript(['js/app/modules/supplier-credit-information/controllers/SupplierCreditInformationController.js', 'js/app/modules/supplier-credit-information/services/SupplierCreditInformationService.js', 'js/app/modules/account/services/AccountService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				})
 				.state('/my-organize/supplier-credit-information', {
 					url: '/my-organize/supplier-credit-information',
@@ -106,7 +106,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						criteria: null,
 						organize: null
 					},
-					resolve: WebHelper.loadScript(['js/app/modules/supplier-credit-information/controllers/SupplierCreditInformationController.js', 'js/app/modules/supplier-credit-information/services/SupplierCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+					resolve: WebHelper.loadScript(['js/app/modules/supplier-credit-information/controllers/SupplierCreditInformationController.js', 'js/app/modules/supplier-credit-information/services/SupplierCreditInformationService.js', 'js/app/modules/account/services/AccountService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				})
 				.state('/customer-registration/buyer-credit-information', {
 					url: '/customer-registration/buyer-credit-information',
@@ -119,7 +119,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						criteria: null,
 						organize: null
 					},
-					resolve: WebHelper.loadScript(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+					resolve: WebHelper.loadScript(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/modules/account/services/AccountService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				})
 				.state('/my-organize/buyer-credit-information', {
 					url: '/my-organize/buyer-credit-information',
@@ -132,7 +132,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						criteria: null,
 						organize: null
 					},
-					resolve: WebHelper.loadScript(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+					resolve: WebHelper.loadScript(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/modules/account/services/AccountService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				})
 				.state('/partner-organize/buyer-credit-information', {
 					url: '/partner-organize/buyer-credit-information',
@@ -145,7 +145,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						criteria: null,
 						organize: null
 					},
-					resolve: WebHelper.loadScript(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+					resolve: WebHelper.loadScript(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/modules/account/services/AccountService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				})
 				.state('/verify-transaction', {
 					url: '/verify-transaction',

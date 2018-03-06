@@ -13,7 +13,8 @@ sciModule.controller('SupplierCreditInformationController', [
 	'blockUI',
 	'scfFactory',
 	'$filter',
-	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, SupplierCreditInformationService, SCFCommonService, $http, $q, blockUI,scfFactory,$filter) {
+	'AccountService',
+	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, SupplierCreditInformationService, SCFCommonService, $http, $q, blockUI,scfFactory,$filter, AccountService) {
 		var vm = this;
 		
 		vm.buyer = $stateParams.buyer || null;
@@ -126,39 +127,24 @@ sciModule.controller('SupplierCreditInformationController', [
 			
 		}
 		
-		function inquiryAccountToApi(tpAccountModel) {
-			var deffered = $q.defer();
-			$http({
-				url: '/api/v1/supplier-credit-information/' + tpAccountModel.accountId + '/inquiry',
-				method: 'POST',
-				data: tpAccountModel
-			}).then(function (response) {
-				deffered.resolve(response);
-			}).catch(function (response) {
-				deffered.reject(response);
-			});
-			return deffered;
-		}
-
-		function getRecordIndexByAccountId(accountId) {
-			for (var i = 0; i < vm.data.length; ++i) {
-				if (vm.data[i].accountId == accountId) {
-					return i;
-				}
-			}
-			return -1;
-		}
-
-		vm.inquiryAccount = function (record) {
+		vm.enquiryAvailableBalance = function(data){
 			blockUI.start("Processing...");
-			var deffered = $q.defer();
-			var tpAccountModel = {
-				accountId: record.accountId,
-				sponsorId: record.buyerId,
-				supplierId: record.supplierId
+        	var deffered = null;
+        	var criteria ={
+	           	buyerId: data.buyerId,
+				supplierId: data.ownerId,
+				accountId: data.accountId
 			}
-			var inquiryAccountDeffered = inquiryAccountToApi(tpAccountModel);
-			inquiryAccountDeffered.promise.then(function (response) {
+        	
+			if(data.accountType == 'LOAN'){
+				deffered = AccountService.enquiryCreditLimit(criteria);
+			}
+			else{
+				//overdraft
+				deffered = AccountService.enquiryAccountBalance(criteria);
+			}
+			            	
+			deffered.promise.then(function(response) {
 				blockUI.stop();
 				if (response.status == 200) {
 					vm.search();
@@ -188,6 +174,14 @@ sciModule.controller('SupplierCreditInformationController', [
 					showOkButton: true,
 				});
 			});
-		}
+        }
 
+		function getRecordIndexByAccountId(accountId) {
+			for (var i = 0; i < vm.data.length; ++i) {
+				if (vm.data[i].accountId == accountId) {
+					return i;
+				}
+			}
+			return -1;
+		}
 	}]);

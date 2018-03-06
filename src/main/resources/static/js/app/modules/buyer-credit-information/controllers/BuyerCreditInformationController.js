@@ -13,7 +13,8 @@ bciModule.controller('BuyerCreditInformationController', [
 	'blockUI',
 	'scfFactory',
 	'$filter',
-	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, BuyerCreditInformationService, SCFCommonService, $http, $q, blockUI, scfFactory, $filter) {
+	'AccountService',
+	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, BuyerCreditInformationService, SCFCommonService, $http, $q, blockUI, scfFactory, $filter, AccountService) {
 		var vm = this;
 		
 		vm.buyer = $stateParams.buyer || null;
@@ -137,49 +138,25 @@ bciModule.controller('BuyerCreditInformationController', [
 				return accountId == data[index - 1].accountId;
 			}
 		}
-
-		function inquiryAccountToApi(tpAccountModel) {
-			var deffered = $q.defer();
-			$http({
-				url: '/api/v1/buyer-credit-information/' + tpAccountModel.accountId + '/inquiry',
-				method: 'POST',
-				data: tpAccountModel
-			}).then(function (response) {
-				deffered.resolve(response);
-			}).catch(function (response) {
-				deffered.reject(response);
-			});
-			return deffered;
-		}
-
-		function getRecordIndexByAccountId(accountId) {
-			for (var i = 0; i < vm.data.length; ++i) {
-				if (vm.data[i].accountId == accountId) {
-					return i;
-				}
-			}
-			return -1;
-		}
-
-		vm.getAccountNoToDisplay = function(record){
-			if(record.format){
-				return $filter('accountNoDisplay')(record.accountNo);
-			}else{
-				return record.accountNo;
-			}
-			
-		}
 		
-		vm.inquiryAccount = function (record) {
+		vm.enquiryAvailableBalance = function(data){
 			blockUI.start("Processing...");
-			var deffered = $q.defer();
-			var tpAccountModel = {
-				accountId: record.accountId,
-				sponsorId: record.buyerId,
-				supplierId: record.supplierId
+        	var deffered = null;
+        	var criteria ={
+	           	buyerId: data.buyerId,
+				supplierId: data.supplierId,
+				accountId: data.accountId
 			}
-			var inquiryAccountDeffered = inquiryAccountToApi(tpAccountModel);
-			inquiryAccountDeffered.promise.then(function (response) {
+        	
+			if(data.accountType == 'LOAN'){
+				deffered = AccountService.enquiryCreditLimit(criteria);
+			}
+			else{
+				//overdraft
+				deffered = AccountService.enquiryAccountBalance(criteria);
+			}
+			            	
+			deffered.promise.then(function(response) {
 				blockUI.stop();
 				if (response.status == 200) {
 					vm.search();
@@ -209,6 +186,23 @@ bciModule.controller('BuyerCreditInformationController', [
 					showOkButton: true,
 				});
 			});
+        }
+
+		function getRecordIndexByAccountId(accountId) {
+			for (var i = 0; i < vm.data.length; ++i) {
+				if (vm.data[i].accountId == accountId) {
+					return i;
+				}
+			}
+			return -1;
 		}
 
+		vm.getAccountNoToDisplay = function(record){
+			if(record.format){
+				return $filter('accountNoDisplay')(record.accountNo);
+			}else{
+				return record.accountNo;
+			}
+			
+		}
 	}]);
