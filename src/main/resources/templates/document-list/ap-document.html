@@ -1,167 +1,110 @@
-<div ng-if="ctrl.getUserInfoSuccess" id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('VIEW_ALL_AP_DOCUMENTS','VIEW_AP_DOCUMENTS_REFER_TO_MY_ORGANIZATION','VIEW_AP_DOCUMENTS_OF_MY_ORGANIZATION')">
-	<input type="hidden" ng-init="ctrl.deleteAuthority=true"
-		sec:authorize="hasAnyAuthority('DELETE_ALL_DOCUMENTS','DELETE_AP_DOCUMENTS_OF_MY_ORGANIZATION')" />
+<div ng-if="ctrl.getUserInfoSuccess" id="content" th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_AP_DOCUMENTS','VIEW_AP_DOCUMENTS_REFER_TO_MY_ORGANIZATION','VIEW_AP_DOCUMENTS_OF_MY_ORGANIZATION')">
+	<input type="hidden" ng-init="ctrl.deleteAuthority=true" sec:authorize="hasAnyAuthority('DELETE_ALL_DOCUMENTS','DELETE_AP_DOCUMENTS_OF_MY_ORGANIZATION')"
+	/>
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft"
-						ng-bind="'AP document' | translate"></h3>
+					<h3 id="header-message-label" class="animated fadeInLeft" ng-bind="'AP document' | translate"></h3>
 				</div>
 			</div>
 		</div>
-
 		<div class="form-element">
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body">
 					<!-- Start Column Panel-->
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<form name="ctrl.documentListSponsorForm" class="form-horizontal"
-							novalidate="" ng-submit="ctrl.searchDocument()"
-							autocomplete="off">
-
+						<form name="ctrl.documentListSponsorForm" class="form-horizontal" novalidate="" ng-submit="ctrl.searchDocument()" autocomplete="off">
 							<div class="form-group">
-								<label for="sponsor-auto-suggest" id="sponsor-label"
-									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor'
-									| translate}}:</label>
+								<label for="sponsor-auto-suggest" id="sponsor-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor' | translate}}:</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<gec-auto-suggest id="sponsor-auto-suggest" required="required"
-										disable="ctrl.sponsorTxtDisable"
-										model="ctrl.sponsorAutoSuggestModel" name="sponsorCode"
-										ng-model="ctrl.documentListModel.sponsor" maxlength="100"></gec-auto-suggest>
-
+									<gec-auto-suggest id="sponsor-auto-suggest" required="required" disable="ctrl.sponsorTxtDisable" model="ctrl.sponsorAutoSuggestModel"
+									    name="sponsorCode" ng-model="ctrl.documentListModel.sponsor" maxlength="100"></gec-auto-suggest>
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
 							<div class="form-group" ng-show="ctrl.requireSponsor">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-									id="sponsor-warning-message-label">{{'Sponsor is
-									required' | translate}}.</span>
+								<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="sponsor-warning-message-label">{{'Sponsor is required' | translate}}.</span>
 							</div>
-
 							<div class="form-group">
-								<label for="supplier-auto-suggest" id="supplier-label"
-									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'|
-									translate}}: </label>
+								<label for="supplier-auto-suggest" id="supplier-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'| translate}}: </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<gec-auto-suggest model="ctrl.supplierAutoSuggestModel"
-										ng-model="ctrl.documentListModel.supplier"
-										id="supplier-auto-suggest"
-										disable="ctrl.disableSupplierSuggest()" name="supplierCode"
-										maxlength="100"></gec-auto-suggest>
+									<gec-auto-suggest model="ctrl.supplierAutoSuggestModel" ng-model="ctrl.documentListModel.supplier" id="supplier-auto-suggest"
+									    disable="ctrl.disableSupplierSuggest()" name="supplierCode" maxlength="100"></gec-auto-suggest>
 								</div>
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
-
 							<div class="form-group">
-								<label for="supplier-code-textbox" id="supplier-code-label"
-									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier
-									code' | translate}}: </label>
+								<label for="supplier-code-textbox" id="supplier-code-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier code' | translate}}: </label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
-									<scf-input-text id="supplier-code-textbox"
-										ng-disabled="ctrl.supplierCodeDisable"
-										ng-model="ctrl.documentListModel.supplierCode" maxlength="100"></scf-input-text>
+									<scf-input-text id="supplier-code-textbox" ng-disabled="ctrl.supplierCodeDisable" ng-model="ctrl.documentListModel.supplierCode"
+									    maxlength="100"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-4"></div>
 							</div>
-
 							<div class="form-group">
-								<label id="date-label" class="col-md-2 col-sm-3 control-label">{{'Last upload date'
-									| translate}}:</label>
+								<label id="date-label" class="col-md-2 col-sm-3 control-label">{{'Last upload date' | translate}}:</label>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
-									<label id="from-label" for="date-from-calendar"
-										class="control-label">{{'From' | translate}}: </label>
-									<scf-date-picker-from text-id="upload-date-from-textbox"
-										button-id="date-from-calendar-button"
-										text-model="ctrl.documentListModel.uploadDateFrom"
-										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
-										open-calendar-action="ctrl.openCalendarDateFrom()"
-										max-date="ctrl.documentListModel.uploadDateTo">
+									<label id="from-label" for="date-from-calendar" class="control-label">{{'From' | translate}}: </label>
+									<scf-date-picker-from text-id="upload-date-from-textbox" button-id="date-from-calendar-button" text-model="ctrl.documentListModel.uploadDateFrom"
+									    date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom" open-calendar-action="ctrl.openCalendarDateFrom()"
+									    max-date="ctrl.documentListModel.uploadDateTo">
 									</scf-date-picker-from>
-
 								</div>
 								<div class="col-md-3 col-sm-4 gec-calendar-group">
-									<label id="to-label" for="date-to-calendar"
-										class="control-label">{{'to' | translate}}: </label>
-									<scf-date-picker-to text-id="upload-date-to-textbox"
-										button-id="date-to-calendar-button"
-										text-model="ctrl.documentListModel.uploadDateTo"
-										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
-										open-calendar-action="ctrl.openCalendarDateTo()"
-										min-date="ctrl.documentListModel.uploadDateFrom">
+									<label id="to-label" for="date-to-calendar" class="control-label">{{'to' | translate}}: </label>
+									<scf-date-picker-to text-id="upload-date-to-textbox" button-id="date-to-calendar-button" text-model="ctrl.documentListModel.uploadDateTo"
+									    date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo" open-calendar-action="ctrl.openCalendarDateTo()" min-date="ctrl.documentListModel.uploadDateFrom">
 									</scf-date-picker-to>
 								</div>
 								<div class="col-md-3"></div>
 							</div>
 							<div class="form-group" ng-show="ctrl.wrongDateFormat">
 								<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
-								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-									id="date-format-warning-message-label">{{'Wrong date
-									format data' | translate}}.</span>
+								<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="date-format-warning-message-label">{{'Wrong date format data' | translate}}.</span>
 							</div>
-
 							<div class="form-group" ng-show="ctrl.wrongDateFromLessThanDateTo">
 								<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
-								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-									id="date-from-less-than-warning-message-label">{{'From date must be less than or equal to To date' | translate}}.</span>
+								<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="date-from-less-than-warning-message-label">{{'From date must be less than or equal to To date' | translate}}.</span>
 							</div>
-
 							<div class="form-group">
-								<label for="document-no-textbox" id="document-no-label"
-									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Document
-									No.' | translate}}: </label>
-
+								<label for="document-no-textbox" id="document-no-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Document No.' | translate}}: </label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
-									<scf-input-text id="document-no-textbox"
-										ng-model="ctrl.documentListModel.documentNo" maxlength="100"></scf-input-text>
+									<scf-input-text id="document-no-textbox" ng-model="ctrl.documentListModel.documentNo" maxlength="100"></scf-input-text>
 								</div>
 								<div class="col-md-6 col-sm-5"></div>
 							</div>
-
 							<div class="form-group">
-								<label for="status" id="status-label"
-									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status'
-									| translate}}:</label>
+								<label for="status" id="status-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status' | translate}}:</label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="status-dropdown"
-										ng-model="ctrl.documentListModel.documentStatus"
-										component-data="ctrl.documentStatusDrpodowns"></scf-dropdown>
+									<scf-dropdown id="status-dropdown" ng-model="ctrl.documentListModel.documentStatus" component-data="ctrl.documentStatusDropdowns"></scf-dropdown>
 								</div>
 								<div class="col-md-6 col-sm-5">
-									<scf-button type="submit" id="search-button"
-										class="btn-default" ng-bind="'Search' | translate"
-										ng-click="ctrl.submitted = true"></scf-button>
-
+									<scf-button type="submit" id="search-button" class="btn-default" ng-bind="'Search' | translate" ng-click="ctrl.submitted = true"></scf-button>
 								</div>
 							</div>
-
 						</form>
 						<!-- End Payment Field-->
-
 						<div ng-show="ctrl.showInfomation">
 							<div class="row">
 								<div class="col-md-1 col-sm-1 gec-select text-center">
 									<div ng-show="false">
-										<input type="checkbox" id="select-all-page-checkbox" /> <b><span
-											ng-bind="'All' | translate"></span></b>
+										<input type="checkbox" id="select-all-page-checkbox" />
+										<b>
+											<span ng-bind="'All' | translate"></span>
+										</b>
 									</div>
 								</div>
 								<div class="col-md-11 col-sm-11 text-right">
 									<div class="row">
 										<div class="col-md-12 col-sm-12">
-											<span> <b
-												ng-bind="ctrl.pagingController.splitePageTxt"
-												id="document-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-													dropdown-id="page-limit-dropdown" name="document"
-													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-													total-page="ctrl.pagingController.pagingModel.totalPage"
-													current-page="ctrl.pagingController.pagingModel.currentPage"
-													page-size-list="ctrl.pageSizeList"
-													page-action="ctrl.searchDocument"></scf-pagination>
+											<span>
+												<b ng-bind="ctrl.pagingController.splitePageTxt" id="document-paging-label"></b> &nbsp;&nbsp;
+												<scf-pagination dropdown-id="page-limit-dropdown" name="document" page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+												    total-page="ctrl.pagingController.pagingModel.totalPage" current-page="ctrl.pagingController.pagingModel.currentPage"
+												    page-size-list="ctrl.pageSizeList" page-action="ctrl.searchDocument"></scf-pagination>
 											</span>
-
 										</div>
 									</div>
 								</div>
@@ -169,61 +112,48 @@
 							<!-- Start Table-->
 							<div class="row">
 								<div class="col-md-12">
-									<scf-table id="document-table"
-										component-config="ctrl.dataTable"
-										component-datas="ctrl.pagingController.tableRowCollection"
-										current-page="ctrl.pagingController.pagingModel.currentPage"
-										record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-										clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+									<scf-table id="document-table" component-config="ctrl.dataTable" component-datas="ctrl.pagingController.tableRowCollection"
+									    current-page="ctrl.pagingController.pagingModel.currentPage" record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+									    clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
 								</div>
 								<div id="fixed-bottom" class="col-md-12"></div>
 							</div>
 						</div>
-
 					</div>
 				</div>
-
 				<div class="panel-body" ng-show="ctrl.showInfomation">
 					<div class="row">
 						<div id="bottom-sticker">
 							<div class="col-md-12 col-sm-12">
 								<div class="form-horizontal">
-									<label class="col-md-2 col-sm-3" id="total-amount-label"><b>{{'Total
-											amount' | translate}}:</b></label>
+									<label class="col-md-2 col-sm-3" id="total-amount-label">
+										<b>{{'Total amount' | translate}}:</b>
+									</label>
 									<div class="col-md-2 col-sm-3 text-right">
-										<span id="total-amount-value-label"
-											ng-bind="ctrl.documentSummaryDisplay.totalDocumentAmount | number:2"></span>
+										<span id="total-amount-value-label" ng-bind="ctrl.documentSummaryDisplay.totalDocumentAmount | number:2"></span>
 									</div>
 									<div class="col-md-1 col-sm-7">
-										<span id="wait-for-approve-amount-label"
-											ng-bind="'THB' | translate"></span>
+										<span id="wait-for-approve-amount-label" ng-bind="'THB' | translate"></span>
 									</div>
 								</div>
 							</div>
-
-							<div class="col-md-12 col-sm-12"
-								ng-repeat="document in ctrl.documentSummaryDisplay.documents track by $id(document)">
+							<div class="col-md-12 col-sm-12" ng-repeat="document in ctrl.documentSummaryDisplay.documents track by $id(document)">
 								<div class="form-horizontal">
-									<label class="col-md-2 col-sm-3"
-										id="{{document.status}}-amount-label"><b>{{document.status
-											| translate}}:</b></label>
+									<label class="col-md-2 col-sm-3" id="{{document.status}}-amount-label">
+										<b>{{document.status | translate}}:</b>
+									</label>
 									<div class="col-md-2 col-sm-3 text-right">
-										<span id="{{document.status}}-amount-value-label"
-											ng-bind="document.totalOutstandingAmount | number:2"></span>
+										<span id="{{document.status}}-amount-value-label" ng-bind="document.totalOutstandingAmount | number:2"></span>
 									</div>
 									<div class="col-md-1 col-sm-7">
 										<span ng-bind="'THB' | translate"></span>
-
 									</div>
 								</div>
 							</div>
-
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
-
 	</div>
 </div>
