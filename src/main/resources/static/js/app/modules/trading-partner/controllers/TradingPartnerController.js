@@ -45,12 +45,24 @@ tpModule.controller('TradingPartnerController', [
                     var deffered = TradingPartnerService.getTradingPartner(buyerId, supplierId);
                     deffered.promise.then(function(response) {
                         vm.tradingPartner = response.data;
-                        
+                        vm.tradingPartner.buyer = {
+                        		memberId : response.data.buyerId,
+                        		memberName : response.data.buyerName
+                        }
+                        vm.tradingPartner.supplier = {
+                        		memberId : response.data.supplierId,
+                        		memberName : response.data.supplierName
+                        }
                         var sponsorOrganize = _prepareItem(vm.tradingPartner.buyer);
                         vm.organizeListModel.buyer = sponsorOrganize;
                         var supplierOrganize = _prepareItem(vm.tradingPartner.supplier);
                         vm.organizeListModel.supplier = supplierOrganize;
-
+                        
+                        if(response.data.status == "SUSPEND"){
+                        	vm.tradingPartner.suspend = true;
+                        } else {
+                        	vm.tradingPartner.suspend = false;
+                        }
                     
                     }).catch(function(response) {
                         log.error('Get trading partner fail');
