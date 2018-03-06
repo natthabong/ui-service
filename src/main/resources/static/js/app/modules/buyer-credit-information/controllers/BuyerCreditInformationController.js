@@ -12,7 +12,8 @@ bciModule.controller('BuyerCreditInformationController', [
 	'$q',
 	'blockUI',
 	'scfFactory',
-	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, BuyerCreditInformationService, SCFCommonService, $http, $q, blockUI, scfFactory) {
+	'$filter',
+	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, BuyerCreditInformationService, SCFCommonService, $http, $q, blockUI, scfFactory, $filter) {
 		var vm = this;
 		
 		vm.buyer = $stateParams.buyer || null;
@@ -160,6 +161,15 @@ bciModule.controller('BuyerCreditInformationController', [
 			return -1;
 		}
 
+		vm.getAccountNoToDisplay = function(record){
+			if(record.format){
+				return $filter('accountNoDisplay')(record.accountNo);
+			}else{
+				return record.accountNo;
+			}
+			
+		}
+		
 		vm.inquiryAccount = function (record) {
 			blockUI.start("Processing...");
 			var deffered = $q.defer();

@@ -45,20 +45,11 @@
 									<thead>
 										<tr>
 											<th id="$rowNo-header-label" ng-bind="'No.' | translate">No.</th>
+											<th id="account-no-header-label" ng-bind="'Account No.' | translate">Account No.</th>
 											<th id="credit-limit-header-label" ng-bind="'Credit limit' | translate">Credit limit</th>
-											<th id="outstanding-header-label" ng-bind="'Outstanding' | translate">Outstanding</th>
-											<th id="future-header-label" ng-bind="'Future' | translate">Future</th>
 											<th id="supplier-header-label" ng-bind="'Supplier' | translate" ng-show="ctrl.showSupplier">Supplier</th>
 											<th id="buyer-header-label" ng-bind="'Buyer' | translate">Buyer</th>
-											<th id="trading-status-header-label" ng-bind="'Trading status' | translate">Trading status</th>
-											<th id="internal-header-label" ng-bind="'Internal' | translate">Internal</th>
 											<th id="available-header-label" ng-bind="'Available' | translate">Available</th>
-											<th id="remaining-header-label" ng-bind="'Remaining' | translate" title="{{'Remaining' | translate}} = {{'Credit limit' | translate}} - ({{'Outstanding' | translate}} + {{'Future drawdown' | translate}})">Remaining</th>
-											<th id="tenor-header-label" ng-bind="'Tenor(days)' | translate">Tenor(days)</th>
-											<th id="pre-drawdown-header-label" ng-bind="'Pre-drawdown(%)' | translate">Pre-drawdown(%)</th>
-											<th id="interest-rate-header-label" ng-bind="'Interest rate' | translate">Interest rate</th>
-											<th id="expiry-date-header-label" ng-bind="'Expire date' | translate">Expire date</th>
-											<th id="credit-status-header-label" ng-bind="'Credit status' | translate">Credit status</th>
 											<th></th>
 										</tr>
 									</thead>
@@ -67,14 +58,11 @@
 											<td class="text-center">
 												<span id="$rowNo-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.rowNo"></span>
 											</td>
+											<td class="text-center">
+												<span ng-show="record.showAccountFlag" id="account-no-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="ctrl.getAccountNoToDisplay(record)"></span>
+											</td>
 											<td class="text-right">
 												<span ng-show="record.showAccountFlag" id="credit-limit-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.creditLimit | number : 2"></span>
-											</td>
-											<td class="text-right">
-												<span ng-show="record.showAccountFlag" id="outstanding-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.outstanding | number : 2"></span>
-											</td>
-											<td class="text-right">
-												<span ng-show="record.showAccountFlag" id="future-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.futureDrawdown | number : 2"></span>
 											</td>
 											<td class="text-left" ng-show="ctrl.showSupplier">
 												<span id="supplier-name-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.supplierName | translate"></span>
@@ -84,33 +72,12 @@
 												/>
 											</td>
 											<td class="text-right">
-												<span id="trading-status-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.tradingStatus | translate"></span>
-											</td>
-											<td class="text-right">
-												<span id="internal-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.internalStep | number : 2"></span>
-											</td>
-											<td class="text-right">
 												<span ng-show="record.showAccountFlag" id="available-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.available | number : 2"></span>
 											</td>
-											<td class="text-right">
-												<span ng-show="record.showAccountFlag" id="remaining-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.bankRemaining | number : 2"></span>
-											</td>
 											<td class="text-center">
-												<span id="tenor-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.tenor"></span>
-											</td>
-											<td class="text-center">
-												<span id="pre-drawdown-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.prePercentageDrawdown"></span>
-											</td>
-											<td class="text-center">
-												<span id="interest-rate-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.interestRate"></span>
-											</td>
-											<td class="text-center">
-												<span id="expiry-date-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.limitExpiryDate | date: 'dd/MM/yyyy': 'UTC+0700'"></span>
-											</td>
-											<td class="text-center">
-												<span ng-show="record.showAccountFlag" id="credit-status-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.accountStatus | translate"></span>
-											</td>
-											<td class="text-center">
+												<scf-button class="btn-default gec-btn-action" id="view-{{record.accountId}}-{{record.buyerName}}-button" ng-show="record.showAccountFlag" title="View">
+													<i class="fa fa-search" aria-hidden="true"></i>
+												</scf-button>
 												<button type="button" ng-disabled="" class="btn-default gec-btn-action btn" ng-show="record.showAccountFlag" id="credit-information-{{record.accountId}}-{{record.buyerName}}-button"
 												    ng-click="ctrl.inquiryAccount(record)" title="Inquiry Account">
 													<i class="fa fa-repeat" aria-hidden="true"></i>

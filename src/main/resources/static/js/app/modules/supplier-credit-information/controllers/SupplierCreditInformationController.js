@@ -12,7 +12,8 @@ sciModule.controller('SupplierCreditInformationController', [
 	'$q',
 	'blockUI',
 	'scfFactory',
-	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, SupplierCreditInformationService, SCFCommonService, $http, $q, blockUI,scfFactory) {
+	'$filter',
+	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, SupplierCreditInformationService, SCFCommonService, $http, $q, blockUI,scfFactory,$filter) {
 		var vm = this;
 		
 		vm.buyer = $stateParams.buyer || null;
@@ -116,6 +117,15 @@ sciModule.controller('SupplierCreditInformationController', [
 			}
 		}
 	
+		vm.getAccountNoToDisplay = function(record){
+			if(record.format){
+				return $filter('accountNoDisplay')(record.accountNo);
+			}else{
+				return record.accountNo;
+			}
+			
+		}
+		
 		function inquiryAccountToApi(tpAccountModel) {
 			var deffered = $q.defer();
 			$http({
