@@ -18,6 +18,18 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
         vm.fileTypeDropdowns = [];
         vm.docStatusDropdowns = docStatus;
         vm.docChannelDropdowns = docChannel;
+        
+        vm.decodeBase64 = function(data) {
+            return (data ? atob(data) : UIFactory.constants.NOLOGO);
+        };
+        
+        var isSameProcessNo = function (processNo, data, index) {
+			if (index == 0) {
+				return false;
+			} else {
+				return processNo == data[index - 1].processNo;
+			}
+		}
 
         vm.criteria = $stateParams.criteria || {
         	organizeId: null,
@@ -62,7 +74,7 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
             query: querySponsorCode
         });
 
-        var prepareAutoSuggestLabel = function(item) {
+        var prepareAutoSuggestLabel = function(item) {  //TODO AutoSuggest && File type
             item.identity = ['sponsor-', item.organizeId, '-option'].join('');
             item.label = [item.organizeId, ': ', item.organizeName].join('');
             return item;
@@ -161,11 +173,20 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
             }
 
             if (isValid()) {
-                vm.pagingController.search(pagingModel || ($stateParams.backAction ? {
-                    offset: vm.criteria.offset,
-                    limit: vm.criteria.limit
-                } : undefined));
-                $stateParams.backAction = false;
+            	vm.pagingController.search(pagingModel, function (criteria, response) {
+    				var data = response.data;
+    				var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
+    				var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
+    				var i = 0;
+    				var baseRowNo = pageSize * currentPage; 
+    				angular.forEach(data, function (value, idx) {		        						
+    					if (isSameProcessNo(value.processNo, data, idx)) {
+    						value.isSameProcessNo = true;
+    					}
+    					++i;
+    					value.rowNo = baseRowNo+i;
+    				});
+    			});
             }
         }
 
@@ -195,122 +216,6 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
             vm.searchLog();
         }();
 
-        vm.dataTable = {
-            columns: [{
-                    fieldName: 'startUploadTime',
-                    labelEN: 'Upload date',
-                    labelTH: 'Upload date',
-                    idValueField: '$rowNo',
-                    id: 'upload-date-{value}',
-                    sortable: false,
-                    filterType: 'date',
-                    format: 'dd/MM/yyyy HH:mm',
-                    cssTemplate: 'text-center'
-                },
-                {
-                    fieldName: 'organizeLogo',
-                    labelEN: 'Customer',
-                    labelTH: 'Customer',
-                    idValueField: '$rowNo',
-                    id: 'module-{value}',
-                    sortable: false,
-                    cssTemplate: 'text-center',
-                    dataRenderer: function(data) {
-                        return '<img style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,' + atob(data.organize.memberLogo) + '"></img>';
-                    },
-                    hiddenColumn: vm.hideColSponsor
-                },
-                {
-                    fieldName: 'channel',
-                    labelEN: 'Channel',
-                    labelTH: 'Channel',
-                    idValueField: '$rowNo',
-                    id: 'channel-{value}',
-                    filterType: 'translate',
-                    sortable: false,
-                    cssTemplate: 'text-center'
-                },
-                {
-                    fieldName: 'fileType',
-                    labelEN: 'File type',
-                    labelTH: 'File type',
-                    idValueField: '$rowNo',
-                    id: 'file-type-{value}',
-                    filterType: 'translate',
-                    sortable: false,
-                    cssTemplate: 'text-left',
-                    hiddenColumn: vm.hideColFileType
-                },
-                {
-                    fieldName: 'fileName',
-                    labelEN: 'File name',
-                    labelTH: 'File name',
-                    idValueField: '$rowNo',
-                    id: 'file-name-{value}',
-                    sortable: false,
-                    cssTemplate: 'text-left'
-                }, {
-                    fieldName: 'success',
-                    labelEN: 'Success',
-                    labelTH: 'Success',
-                    idValueField: '$rowNo',
-                    id: 'success-{value}',
-                    sortable: false,
-                    cssTemplate: 'text-right'
-                }, {
-                    fieldName: 'fail',
-                    labelEN: 'Fail',
-                    labelTH: 'Fail',
-                    idValueField: '$rowNo',
-                    id: 'fail-{value}',
-                    sortable: false,
-                    cssTemplate: 'text-right',
-                    dataRenderer: function(data) {
-                        if (data != undefined) {
-                            if (data.fail == null) {
-                                return 'N/A';
-                            } else {
-                                return data.fail;
-                            }
-                        }
-                    }
-                }, {
-                    fieldName: 'total',
-                    labelEN: 'Total',
-                    labelTH: 'Total',
-                    idValueField: '$rowNo',
-                    id: 'total-{value}',
-                    sortable: false,
-                    cssTemplate: 'text-right',
-                    dataRenderer: function(data) {
-                        if (data != undefined) {
-                            if (data.fail == null) {
-                                return 'N/A';
-                            } else {
-                                return data.fail + data.success;
-                            }
-                        }
-                    }
-                },
-                {
-                    fieldName: 'status',
-                    labelEN: 'Status',
-                    labelTH: 'Status',
-                    idValueField: '$rowNo',
-                    id: 'status-{value}',
-                    sortable: false,
-                    filterType: 'translate',
-                    cssTemplate: 'text-center'
-                },
-                {
-                    fieldName: 'action',
-                    labelEN: 'Action',
-                    labelTH: 'Action',
-                    cellTemplate: '<scf-button id="document-upload-log-{{$parent.$index + 1}}-view-button" class="btn-default gec-btn-action" ng-click="ctrl.viewLog(data)" title="View log details"><i class="glyphicon glyphicon-search" ></i></scf-button>'
-                }
-            ]
-        };
-
         vm.viewLog = function(data) {
             var params = {
                 documentUploadLogModel: data,
@@ -331,7 +236,7 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
 ]);
 scfApp.constant("docStatus", [{
         label: 'All',
-        value: '',
+        value: null,
         valueObject: null
     },
     {
