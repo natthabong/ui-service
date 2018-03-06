@@ -1,8 +1,4 @@
-FROM frolvlad/alpine-oraclejdk8:slim
-RUN echo "http://dl-4.alpinelinux.org/alpine/v3.3/main" > /etc/apk/repositories 
-RUN apk update
-RUN apk add tzdata
-RUN cp /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
+FROM openjdk:8-jdk-slim
 RUN echo "Asia/Bangkok" >  /etc/timezone
 RUN apk del tzdata
 VOLUME /tmp
