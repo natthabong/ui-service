@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
+<div ng-controller="ErrorController as ctrl">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>GEC Supply Chain Financing</title>
+    <title ng-bind="ctrl.title"></title>
 
     <!-- WRO4J CSS -->
     <link th:href="@{/css/angular-bootstrap.css}" href="../static/css/angular-bootstrap.css" rel="stylesheet"/>
@@ -16,7 +17,7 @@
     <link th:href="@{/css/login.css}" href="../static/css/login.css" rel="stylesheet" />
 </head>
 
-<body>
+<body ng-app="scfError">
     <!--
     you can substitue the span of reauth email for a input with the email and
     include the remember me checkbox
@@ -27,5 +28,6 @@
     <p th:text="${message}"/>
     </div>
  </body>
+ </div>
  </html>
     
