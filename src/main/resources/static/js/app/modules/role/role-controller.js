@@ -12,6 +12,9 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
         }
 
         vm.button = 'Cancel';
+        vm.comparePrivilege = function(obj1, obj2){
+            return obj1.privilegeId === obj2.privilegeId;
+        };
 
         var mode = $stateParams.mode;
         vm.viewMode = false;
@@ -160,39 +163,46 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
             RoleService.getRole(roleId).promise.then(function(response) {
               vm.model = response.data;
               if(vm.model.privileges!=null){
-                vm.model.privileges.forEach(function(p){
-                  $scope.selection.push(p.privilegeId);
-                });
+
+              }else{
+            	  vm.model.privileges = [];
               }
+
             }).catch(function(response) {
                log.error('Save role fail');
                return deferred.reject(response);
             });
         }
         
-    $scope.selection = [];
+        var isDuplicate = function(privileges, privilege){
+        	var result = false;
+        	if(privileges !=null && privileges.length >0){
+			    angular.forEach(privileges, function(eachPrivilege){
+			    	if(!result){
+			    		if(eachPrivilege.privilegeId === privilege.privilegeId){
+			    			result = true;
+				    	}
+			    	}
+				});
+			}
+        	return result;
+        }
+        
+        
     $scope.toggleSelection =  function(event, privilege){
-		if(vm.model.privileges==null){
-			vm.model.privileges = [];
-		}
-		if($scope.selection.indexOf(privilege.privilegeId) === -1) {
-			$scope.selection.push(privilege.privilegeId);
-			vm.model.privileges.push(privilege);
-		} else {
-			$scope.selection.splice($scope.selection.indexOf(privilege.privilegeId), 1);
-			vm.model.privileges.splice(vm.model.privileges.indexOf(privilege), 1);
-		}
-		  
-		console.log(privilege);
-		if(event.target.checked == true){			
+    	
+		if(event.target.checked == true){
 			 RoleService.getPrivilegeDependencies(privilege.privilegeId).promise.then(function(response)
 			 {
 				var privileges = response.data;
-				if(privileges !=null && privileges.length >0){
-				    console.log($scope.selection);				
-				    angular.forEach(privileges, function(privilege){
-				    	privilege.isDisable = true;
-						$scope.selection.push(privilege.privilegeId);
+				console.log("PrivilegeDependencies");
+				console.log(privileges);
+				if(privileges !=null && privileges.length >0){	
+				    angular.forEach(privileges, function(eachPrivilege){
+				    	eachPrivilege.isDisable = true;
+				    	if(!isDuplicate(vm.model.privileges, eachPrivilege)) {
+				    		vm.model.privileges.push(eachPrivilege)
+				        }
 					});
 				}
 			 }).catch(function(response) {
