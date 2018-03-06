@@ -174,8 +174,23 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
             });
         }
         
+        var isDuplicate = function(privileges, privilege){
+        	var result = false;
+        	if(privileges !=null && privileges.length >0){
+			    angular.forEach(privileges, function(eachPrivilege){
+			    	if(!result){
+			    		if(eachPrivilege.privilegeId === privilege.privilegeId){
+			    			result = true;
+				    	}
+			    	}
+				});
+			}
+        	return result;
+        }
+        
+        
     $scope.toggleSelection =  function(event, privilege){
-
+    	
 		if(event.target.checked == true){
 			 RoleService.getPrivilegeDependencies(privilege.privilegeId).promise.then(function(response)
 			 {
@@ -183,9 +198,11 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
 				console.log("PrivilegeDependencies");
 				console.log(privileges);
 				if(privileges !=null && privileges.length >0){	
-				    angular.forEach(privileges, function(privilege){
-				    	privilege.isDisable = true;
-				    	vm.model.privileges.push(privilege);
+				    angular.forEach(privileges, function(eachPrivilege){
+				    	eachPrivilege.isDisable = true;
+				    	if(!isDuplicate(vm.model.privileges, eachPrivilege)) {
+				    		vm.model.privileges.push(eachPrivilege)
+				        }
 					});
 				}
 			 }).catch(function(response) {
