@@ -20,7 +20,7 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
         vm.docChannelDropdowns = docChannel;
 
         vm.criteria = $stateParams.criteria || {
-            oraganizeId: null,
+        	organizeId: null,
             fileType: null,
             uploadDateFrom: null,
             uploadDateTo: null,
@@ -157,7 +157,7 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
             var sponsorObject = vm.documentUploadLogModel.sponsor;
 
             if (sponsorObject != undefined && (sponsorObject.organizeId != undefined || sponsorObject == '')) {
-                vm.criteria.oraganizeId = sponsorObject.organizeId;
+                vm.criteria.organizeId = sponsorObject.organizeId;
             }
 
             if (isValid()) {
@@ -216,7 +216,7 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
                     sortable: false,
                     cssTemplate: 'text-center',
                     dataRenderer: function(data) {
-                        return '<img style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,' + atob(data.organizeLogo) + '"></img>';
+                        return '<img style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,' + atob(data.organize.memberLogo) + '"></img>';
                     },
                     hiddenColumn: vm.hideColSponsor
                 },
