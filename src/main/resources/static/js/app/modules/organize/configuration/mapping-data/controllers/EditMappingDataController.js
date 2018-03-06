@@ -61,14 +61,16 @@ tpModule.controller('EditMappingDataController', [
         	if(currentMode == mode.EDIT){
     		    vm.isEditMode = true;
     		}
-        	
             var uri = 'api/v1/organize-customers/' + criteria.ownerId + '/accounting-transactions/' + criteria.accountingTransactionType + '/mapping-datas/' + criteria.mappingDataId + '/items';
             vm.pagingController = PagingController.create(uri, vm.criteria, 'GET');
             vm.loadData();
         }
 
         var init = function () {
-            if (model.mappingDataId != undefined) {
+            if ($stateParams.mappingDataId != undefined) {
+            	model.ownerId = $stateParams.organizeId;
+            	model.accountingTransactionType = $stateParams.accountingTransactionType;
+            	model.mappingDataId = $stateParams.mappingDataId;
                 var deffered = MappingDataService.getMappingData(model);
                 deffered.promise.then(function (response) {
                     vm.criteria = response.data;
@@ -144,7 +146,9 @@ tpModule.controller('EditMappingDataController', [
             var params = {
                 mappingData: model,
                 organizeId: $stateParams.organizeId,
-                accountingTransactionType: vm.criteria.accountingTransactionType
+                accountingTransactionType: $stateParams.accountingTransactionType,
+                mappingDataId: $stateParams.mappingDataId,
+                mappingType: $stateParams.mappingType
             };
 
             PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/new', params);
@@ -161,7 +165,9 @@ tpModule.controller('EditMappingDataController', [
                 mappingData: model,
                 mappingDataItem: data,
                 organizeId: $stateParams.organizeId,
-                accountingTransactionType: vm.criteria.accountingTransactionType
+                accountingTransactionType: $stateParams.accountingTransactionType,
+                mappingDataId: $stateParams.mappingDataId,
+                mappingType: $stateParams.mappingType
             };
 
             PageNavigation.gotoPage('/sponsor-configuration/mapping-data/code/edit', params);

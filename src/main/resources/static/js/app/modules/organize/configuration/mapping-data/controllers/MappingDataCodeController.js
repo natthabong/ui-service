@@ -14,7 +14,12 @@ mappingDataModule.controller('MappingDataCodeController', [
 
         var vm = this;
         vm.manageAction = false;
-        vm.mappingDataModel = $stateParams.mappingData;
+        vm.mappingDataModel = $stateParams.mappingData || {
+        	ownerId: $stateParams.organizeId,
+        	accountingTransactionType: $stateParams.accountingTransactionType,
+            mappingDataId: $stateParams.mappingDataId,
+            mappingType: $stateParams.mappingType
+        };
         vm.isNewMode = false;
         vm.isSignFlagMapping = false;
         var mode = {
@@ -31,7 +36,7 @@ mappingDataModule.controller('MappingDataCodeController', [
             code: '',
             display: '',
             signFlag: 1,
-            mappingDataId: vm.mappingDataModel.mappingDataId,
+            mappingDataId: $stateParams.mappingDataId,
             mappingData: vm.mappingDataModel,
             defaultCode: 0
         }
@@ -55,7 +60,10 @@ mappingDataModule.controller('MappingDataCodeController', [
         vm.cancel = function(){
         	var params = {
 					mappingData : $stateParams.mappingData,
-					organizeId : $stateParams.organizeId
+					organizeId : $stateParams.organizeId,
+	                accountingTransactionType: $stateParams.accountingTransactionType,
+                    mappingDataId: $stateParams.mappingDataId,
+                    mappingType: $stateParams.mappingType
 				};
 				PageNavigation
 						.gotoPage(
@@ -84,7 +92,10 @@ mappingDataModule.controller('MappingDataCodeController', [
         	var preCloseCallback = function(confirm) {
         		var params = {
     					mappingData : $stateParams.mappingData,
-    					organizeId : $stateParams.organizeId
+    					organizeId : $stateParams.organizeId,
+    	                accountingTransactionType: $stateParams.accountingTransactionType,
+                        mappingDataId: $stateParams.mappingDataId,
+                        mappingType: $stateParams.mappingType
     				};
     				PageNavigation
     						.gotoPage(

@@ -84,7 +84,9 @@ tpModule
                     var params = {
                         mappingData: data,
                         organizeId: ownerId,
-                        accountingTransactionType: vm.accountingTransactionType
+                        accountingTransactionType: vm.accountingTransactionType,
+                        mappingDataId: data.mappingDataId,
+                        mappingType: data.mappingType
                     };
                     PageNavigation
                         .gotoPage(
@@ -96,7 +98,9 @@ tpModule
                     var params = {
                         mappingData: data,
                         organizeId: ownerId,
-                        accountingTransactionType: vm.accountingTransactionType
+                        accountingTransactionType: vm.accountingTransactionType,
+                        mappingDataId: data.mappingDataId,
+                        mappingType: data.mappingType
                     };
                     PageNavigation
                         .gotoPage(
