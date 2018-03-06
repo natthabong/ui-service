@@ -50,14 +50,20 @@
 <!--                                             ng-change="ctrl.checkDependValue(privilege)" -->
 <!--                                             ng-checked="selection.indexOf(fruitName) > -1" -->
 <!--                                             ng-disabled="ctrl.viewMode || privilege.isDisable"></scf-checkbox> -->
-										 <input
-										    id="{{privilege.privilegeId}}-checkbox"
-										    ng-disabled="ctrl.viewMode || privilege.isDisable"
-										    type="checkbox"
-										    ng-checked="selection.indexOf(privilege.privilegeId) > -1"
-										    ng-click="toggleSelection($event, privilege)"
-										  /> 
-                                        <span id="{{privilege.privilegeId}}-label">{{privilege.name}}</span>
+
+<!-- 										 <input id="{{privilege.privilegeId}}-checkbox" -->
+<!-- 											ng-disabled="ctrl.viewMode || privilege.isDisable" -->
+<!-- 											type="checkbox" -->
+<!-- 											ng-checked="selection.indexOf(privilege.privilegeId) > -1" -->
+<!-- 											ng-click="toggleSelection($event, privilege)" /> -->
+
+											<input
+												type="checkbox" checklist-model="ctrl.model.privileges"
+												checklist-value="privilege" checklist-comparator="ctrl.comparePrivilege"
+												ng-disabled="ctrl.viewMode || privilege.disable"
+												ng-click="toggleSelection($event, privilege)"
+												id="{{privilege.privilegeId}}-checkbox" />
+											<span id="{{privilege.privilegeId}}-label">{{privilege.name}}</span>
                                         </label>
                                     </div>
                                 </div>
