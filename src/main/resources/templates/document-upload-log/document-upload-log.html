@@ -1,5 +1,5 @@
 <div ng-if="ctrl.getUserInfoSuccess" id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('VIEW_ALL_UPLOAD_DOCUMENT_LOGS_OF_ALL_FUNDING','VIEW_ALL_UPLOAD_DOCUMENTS_LOG','VIEW_UPLOAD_DOCUMENT_LOGS_OF_MY_ORGANIZATION')">
+	sec:authorize="hasAnyAuthority('VIEW_ALL_UPLOAD_DOCUMENT_LOGS_OF_ALL_FUNDING','VIEW_ALL_UPLOAD_DOCUMENT_LOGS','VIEW_UPLOAD_DOCUMENT_LOGS_OF_MY_ORGANIZATION')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
@@ -19,8 +19,8 @@
 							
 							<div class="form-group" sec:authorize="hasAnyAuthority('VIEW_ALL_UPLOAD_DOCUMENT_LOGS_OF_ALL_FUNDING')">
 								<label for="funding-dropdown" id="funding-label"
-									ng-bind="'Funding' | translate"
-									class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Funding'
+									| translate}}:</label>
 								<div class="col-md-2 col-sm-3 col-xs-12">
 									<scf-dropdown id="funding-dropdown"
 										ng-model="ctrl.criteria.fundingId"

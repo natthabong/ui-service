@@ -1,6 +1,6 @@
 'use strict';
-var scfApp = angular.module('scfApp');
-scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stateParams', '$log', '$http', 'PagingController', 'UIFactory',
+var app = angular.module('gecscf.documentUploadLog');
+app.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stateParams', '$log', '$http', 'PagingController', 'UIFactory',
      'docStatus', 'PageNavigation', 'docChannel', 'DocumentUploadLogService', 'scfFactory',
     function( $rootScope, $scope, $stateParams, $log, $http,  PagingController, UIFactory, docStatus, PageNavigation, docChannel, DocumentUploadLogService, scfFactory) {
         var vm = this;
@@ -271,7 +271,7 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
         }
     })
   }]);
-scfApp.constant("docStatus", [{
+app.constant("docStatus", [{
         label: 'All',
         value: null,
         valueObject: null
@@ -288,7 +288,7 @@ scfApp.constant("docStatus", [{
 
     }
 ]);
-scfApp.constant("docChannel", [{
+app.constant("docChannel", [{
     label: 'All',
     value: '',
     valueObject: null

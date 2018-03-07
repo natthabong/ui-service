@@ -1,5 +1,5 @@
 angular
-	.module('scfApp')
+	.module('gecscf.documentUploadLog')
 	.controller(
 		'ViewDocumentUplaodLogController', [
 			'SCFCommonService',

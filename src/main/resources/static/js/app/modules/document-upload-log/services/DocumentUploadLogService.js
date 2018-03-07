@@ -1,5 +1,5 @@
 'use strict';
-angular.module('scfApp').factory('DocumentUploadLogService', ['$http', '$q', 'blockUI', DocumentUploadLogService]);
+angular.module('gecscf.documentUploadLog').factory('DocumentUploadLogService', ['$http', '$q', 'blockUI', DocumentUploadLogService]);
 
 function DocumentUploadLogService($http, $q, blockUI) {
     function getFileType(currentMode, ownerId, integrateType) {

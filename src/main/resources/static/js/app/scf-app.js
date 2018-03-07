@@ -1,6 +1,6 @@
 var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'ui.mask', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
-		'legendDirectives', 'chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing', 'gecscf.supplierCreditInformation', 'gecscf.buyerCreditInformation', 'gecscf.sponsorConfiguration.workflow', 'gecscf.document', 'gecscf.organize.configuration.exportPayment', 'gecscf.organize.configuration.display', 'gecscf.downloadPaymentResult'
+		'legendDirectives', 'chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing', 'gecscf.supplierCreditInformation', 'gecscf.buyerCreditInformation', 'gecscf.sponsorConfiguration.workflow', 'gecscf.document', 'gecscf.organize.configuration.exportPayment', 'gecscf.organize.configuration.display', 'gecscf.downloadPaymentResult', 'gecscf.documentUploadLog'
 	])
 	.config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider', 'blockUIConfig', '$logProvider', '$compileProvider', '$urlRouterProvider', 'ngDialogProvider',
 		function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider, $compileProvider, $urlRouterProvider, ngDialogProvider) {
@@ -437,53 +437,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					},
 					templateUrl: '/change-password',
 					resolve: WebHelper.loadScript(['js/app/modules/profile/change-password/password-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/my-organize/document-upload-log', {
-					url: '/my-organize/document-upload-log',
-					controller: 'DocumentUploadLogController',
-					controllerAs: 'ctrl',
-					params: {
-						viewMode: 'MY_ORGANIZE',
-						criteria: null,
-						backAction: false
-					},
-					templateUrl: '/document-upload-log',
-					resolve: WebHelper.loadScript(['js/app/modules/document-upload-log/controllers/DocumentUploadLogController.js',
-						'js/app/modules/document-upload-log/services/DocumentUploadLogService.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
-				}).state('/customer-organize/upload-document-logs', {
-					url: '/customer-organize/upload-document-logs',
-					controller: 'DocumentUploadLogController',
-					controllerAs: 'ctrl',
-					params: {
-						viewMode: 'FUNDING',
-						criteria: null,
-						organize : null,
-						backAction: false
-					},
-					templateUrl: '/document-upload-log/funding',
-					resolve: WebHelper.loadScript(['js/app/modules/document-upload-log/controllers/DocumentUploadLogController.js',
-						'js/app/modules/document-upload-log/services/DocumentUploadLogService.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
-				}).state('/customer-organize/upload-document-logs/all-funding', {
-					url: '/customer-organize/upload-document-logs/all-funding',
-					controller: 'DocumentUploadLogController',
-					controllerAs: 'ctrl',
-					params: {
-						viewMode: 'ALLFUNDING',
-						criteria: null,
-						organize : null,
-						backAction: false
-					},
-					templateUrl: '/document-upload-log/funding',
-					resolve: WebHelper.loadScript(['js/app/modules/document-upload-log/controllers/DocumentUploadLogController.js',
-						'js/app/modules/document-upload-log/services/DocumentUploadLogService.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
 				}).state('/document-upload-log/view-log', {
 					url: '/document-upload-log/view-log',
 					controller: 'ViewDocumentUplaodLogController',
