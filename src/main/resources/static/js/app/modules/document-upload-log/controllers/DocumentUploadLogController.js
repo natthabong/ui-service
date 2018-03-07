@@ -1,11 +1,28 @@
 'use strict';
 var scfApp = angular.module('scfApp');
 scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stateParams', '$log', '$http', 'PagingController', 'UIFactory',
-     'docStatus', 'PageNavigation', 'docChannel', 'DocumentUploadLogService',
-    function( $rootScope, $scope, $stateParams, $log, $http,  PagingController, UIFactory, docStatus, PageNavigation, docChannel, DocumentUploadLogService) {
+     'docStatus', 'PageNavigation', 'docChannel', 'DocumentUploadLogService', 'scfFactory',
+    function( $rootScope, $scope, $stateParams, $log, $http,  PagingController, UIFactory, docStatus, PageNavigation, docChannel, DocumentUploadLogService, scfFactory) {
         var vm = this;
+        vm.getUserInfoSuccess = false;
+        var deferred = scfFactory.getUserInfo();
+        
+        deferred.promise.then(function (response) {
+        vm.getUserInfoSuccess = true;
         var log = $log;
-
+        
+        vm.criteria = $stateParams.criteria || {
+        	organizeId: null,
+            fileType: null,
+            uploadDateFrom: null,
+            uploadDateTo: null,
+            channel: null,
+            status: null,
+            isBankDoc: false
+        };
+        
+        vm.organize = $stateParams.organize || undefined;
+        
         vm.dateFormat = "dd/MM/yyyy";
         vm.openDateFrom = false;
         vm.openDateTo = false;
@@ -32,15 +49,6 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
 			}
 		}
 
-        vm.criteria = $stateParams.criteria || {
-        	organizeId: null,
-            fileType: null,
-            uploadDateFrom: null,
-            uploadDateTo: null,
-            channel: null,
-            status: null,
-            isBankDoc: false
-        };
         var viewMode = {
             MY_ORGANIZE : 'MY_ORGANIZE',
             FUNDING : 'FUNDING',
@@ -76,7 +84,7 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
             query: querySponsorCode
         });
 
-        var prepareAutoSuggestLabel = function(item) {  //TODO File type
+        var prepareAutoSuggestLabel = function(item) {
             item.identity = [ 'organize-', item.memberId, '-', item.memberCode, '-option' ].join('');
             item.label = [ item.memberCode, ': ', item.memberName ] .join('');
 		return item;
@@ -125,9 +133,9 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
         }
 
 
-        $scope.$watch('ctrl.documentUploadLogModel.sponsor', function() {
-            if (vm.documentUploadLogModel.sponsor != '' && angular.isDefined(vm.documentUploadLogModel.sponsor) && angular.isObject(vm.documentUploadLogModel.sponsor)) {
-                vm.fileTypeDropdowns = getFileType(vm.documentUploadLogModel.sponsor.memberId, "IMPORT");
+        $scope.$watch('ctrl.organize', function() {
+            if (vm.organize != '' && angular.isDefined(vm.organize) && angular.isObject(vm.organize)) {
+                vm.fileTypeDropdowns = getFileType(vm.organize.memberId, "IMPORT");
             } else {
                 var docType = [];
                 docType.push({
@@ -178,7 +186,7 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
         }
 
         vm.searchLog = function(pagingModel) {
-            var sponsorObject = vm.documentUploadLogModel.sponsor;
+            var sponsorObject = vm.organize;
 
             if (sponsorObject != undefined && (sponsorObject.memberId != undefined || sponsorObject == '')) {
                 vm.criteria.organizeId = sponsorObject.memberId;
@@ -214,37 +222,44 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
 
         var initLoad = function() {
             if (currentMode == viewMode.MY_ORGANIZE) {
+            	vm.criteria.organizeId = $rootScope.userInfo.organizeId;
                 vm.hideColSponsor = true;
                 vm.sponsorTxtDisable = true;
-                vm.documentUploadLogModel.roleType = 'MY_ORGANIZE';
+                vm.viewMode = 'MY_ORGANIZE';
                 vm.showSponsor = false;
                 var owner = angular.copy($rootScope.userInfo);
                 owner = prepareAutoSuggestLabel(owner);
-                vm.documentUploadLogModel.sponsor = owner;
+                vm.organize = owner;
                 vm.fileTypeDropdowns = getFileType(owner.memberId, "IMPORT");
                 if(vm.criteria.fileType == null){
                 	 vm.criteria.fileType = vm.fileTypeDropdowns[0].value;
                 }
-               
             } else if (currentMode == viewMode.FUNDING) {
                 vm.sponsorTxtDisable = false;
-                vm.documentUploadLogModel.roleType = 'FUNDING';
+                vm.viewMode = 'FUNDING';
                 vm.hideColSponsor = false;
                 vm.showSponsor = true;
                 vm.hideColFileType = true;
+                if(vm.organize != undefined){
+                	vm.organize = prepareAutoSuggestLabel(vm.organize);
+                }
             } else if (currentMode == viewMode.ALLFUNDING) {
-                vm.documentUploadLogModel.roleType = 'ALLFUNDING';
+                vm.viewMode = 'ALLFUNDING';
                 vm.fundingDropdowns = getFunding();
+                console.log(vm.organize);
+                if(vm.organize != undefined){
+                	vm.organize = prepareAutoSuggestLabel(vm.organize);
+                }
             }
             vm.searchLog();
         }();
 
         vm.viewLog = function(data) {
             var params = {
-                documentUploadLogModel: data,
-                roleType: vm.documentUploadLogModel.roleType
+            	recordModel: data,
+                viewMode: vm.viewMode
             }
-            PageNavigation.nextStep('/document-upload-log/view-log', params, { criteria: vm.criteria })
+            PageNavigation.nextStep('/document-upload-log/view-log', params, { criteria: vm.criteria ,organize: vm.organize})
         }
 
         vm.openCalendarDateFrom = function() {
@@ -254,9 +269,8 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
         vm.openCalendarDateTo = function() {
             vm.openDateTo = true;
         }
-
-    }
-]);
+    })
+  }]);
 scfApp.constant("docStatus", [{
         label: 'All',
         value: null,

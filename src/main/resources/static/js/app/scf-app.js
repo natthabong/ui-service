@@ -459,6 +459,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					params: {
 						viewMode: 'FUNDING',
 						criteria: null,
+						organize : null,
 						backAction: false
 					},
 					templateUrl: '/document-upload-log/funding',
@@ -474,6 +475,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					params: {
 						viewMode: 'ALLFUNDING',
 						criteria: null,
+						organize : null,
 						backAction: false
 					},
 					templateUrl: '/document-upload-log/funding',
@@ -488,8 +490,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					controllerAs: 'ctrl',
 					templateUrl: '/document-upload-log/view-log',
 					params: {
-						documentUploadLogModel: null,
-						roleType: null
+						recordModel: null,
+						viewMode: null
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/document-upload-log/controllers/ViewDocumentUplaodLogController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/monitoring/bank-system-integration', {
