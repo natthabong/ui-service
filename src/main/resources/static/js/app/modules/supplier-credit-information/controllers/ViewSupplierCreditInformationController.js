@@ -1,11 +1,10 @@
 'use strict';
 var sciModule = angular.module('gecscf.supplierCreditInformation');
-sciModule.controller('SupplierCreditInformationController', [
+sciModule.controller('ViewSupplierCreditInformationController', [
 	'$rootScope',
 	'$scope',
 	'$stateParams',
 	'UIFactory',
-    'PageNavigation',
 	'PagingController',
 	'SupplierCreditInformationService',
 	'SCFCommonService',
@@ -15,10 +14,9 @@ sciModule.controller('SupplierCreditInformationController', [
 	'scfFactory',
 	'$filter',
 	'AccountService',
-	function ($rootScope, $scope, $stateParams, UIFactory, PageNavigation, PagingController, SupplierCreditInformationService, SCFCommonService, $http, $q, blockUI,scfFactory,$filter, AccountService) {
+	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, SupplierCreditInformationService, SCFCommonService, $http, $q, blockUI,scfFactory,$filter, AccountService) {
 		var vm = this;
 		
-		var page = null;
 		vm.buyer = $stateParams.buyer || null;
 		vm.supplier = $stateParams.supplier || null;
 		vm.showSupplier = true;
@@ -52,7 +50,6 @@ sciModule.controller('SupplierCreditInformationController', [
 					if (angular.isObject(vm.buyer)) {
 						buyer = vm.buyer.buyerId;
 					}
-					page = '/my-organize/supplier-credit-information/view';
 				} else {
 					// mode CUSTOMER
 					if (angular.isObject(vm.buyer)) {
@@ -61,7 +58,6 @@ sciModule.controller('SupplierCreditInformationController', [
 					if (angular.isObject(vm.supplier)) {
 						supplier = vm.supplier.memberId;
 					}
-					page = '/customer-registration/supplier-credit-information/view';
 				}
 				
 				vm.criteria.buyerId = buyer;
@@ -144,7 +140,10 @@ sciModule.controller('SupplierCreditInformationController', [
             var params = {
                 accountId: data.accountId
             };
-            PageNavigation.gotoPage(page, params, {});
+            PageNavigation
+                .gotoPage(
+                    '/sponsor-configuration/mapping-data/view',
+                    params, {});
         }
 		
 		vm.enquiryAvailableBalance = function(data){

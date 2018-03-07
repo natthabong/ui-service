@@ -660,5 +660,10 @@
 
 	"Buyer name": "Buyer name",
 	"Supplier name": "Supplier name",
-	"Account No.": "Account No."
+	"Account No.": "Account No.",
+	"Account type": "Account type",
+	"Trade finance account": "Trade finance account",
+	"Credit status": "Credit status",
+	"Future": "Future",
+	"Remaining": "Remaining"
 }
