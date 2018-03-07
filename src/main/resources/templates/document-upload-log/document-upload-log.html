@@ -1,5 +1,5 @@
 <div id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('VIEW_ALL_UPLOAD_DOCUMENTS_LOG','VIEW_UPLOAD_DOCUMENT_LOGS_OF_MY_ORGANIZATION')">
+	sec:authorize="hasAnyAuthority('VIEW_ALL_UPLOAD_DOCUMENT_LOGS_OF_ALL_FUNDING','VIEW_ALL_UPLOAD_DOCUMENTS_LOG','VIEW_UPLOAD_DOCUMENT_LOGS_OF_MY_ORGANIZATION')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
@@ -151,8 +151,8 @@
 												<th id="upload-date-id-header-label" ng-bind="'Upload date' | translate" />
 												<th id="channel-id-header-label" ng-bind="'Channel' | translate" />
 												<th id="file-type-id-header-label" ng-bind="'File type' | translate" />
-												<th id="customer-id-header-label" ng-bind="'Customer' | translate" />
-												<th id="funding-id-header-label" ng-bind="'Funding' | translate" />
+												<th id="customer-id-header-label" ng-bind="'Customer' | translate" ng-show="ctrl.showSponsor" />
+												<th id="funding-id-header-label" ng-bind="'Funding' | translate" sec:authorize="hasAnyAuthority('VIEW_ALL_UPLOAD_DOCUMENT_LOGS_OF_ALL_FUNDING')" />
 												<th id="file-name-id-header-label" ng-bind="'File name' | translate" />
 												<th id="success-id-header-label" ng-bind="'Success' | translate" />
 												<th id="fail-id-header-label" ng-bind="'Fail' | translate" />
@@ -168,12 +168,12 @@
 												<td class="text-center"><span ng-hide="record.isSameProcessNo" id="upload-date-{{record.uploadDocumentLogId}}-label" ng-bind="record.startUploadTime | date:'dd/MM/yyyy HH:mm'"></span></td>
 												<td class="text-center"><span ng-hide="record.isSameProcessNo" id="channel-{{record.uploadDocumentLogId}}-label" ng-bind="record.channel | translate"></span></td>
 												<td class="text-left"><span ng-hide="record.isSameProcessNo" id="file-type-{{record.uploadDocumentLogId}}-label" ng-bind="record.fileType | translate"></span></td>
-												<td class="text-center"><img id="customer-{{record.uploadDocumentLogId}}-img" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.organize.memberLogo)}}" title="{{record.organize.memberName}}" style="height: 32px; width: 32px;"></img></td>
-												<td class="text-center"><img id="funding-{{record.uploadDocumentLogId}}-img" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.fundingLogo)}}" title="{{record.funding.fundingName}}" style="height: 32px; width: 32px;"></img></td>
+												<td class="text-center" ng-show="ctrl.showSponsor"><img id="customer-{{record.uploadDocumentLogId}}-img" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.organize.memberLogo)}}" title="{{record.organize.memberName}}" style="height: 32px; width: 32px;"></img></td>
+												<td class="text-center" sec:authorize="hasAnyAuthority('VIEW_ALL_UPLOAD_DOCUMENT_LOGS_OF_ALL_FUNDING')"><img id="funding-{{record.uploadDocumentLogId}}-img" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.fundingLogo)}}" title="{{record.funding.fundingName}}" style="height: 32px; width: 32px;"></img></td>
 												<td class="text-left"><span id="file-name-{{record.uploadDocumentLogId}}-label" ng-bind="record.fileName"></span></td>
-												<td class="text-center"><span id="success-{{record.uploadDocumentLogId}}-label" ng-bind="record.success || '0' || 'N/A'"></span></td>
-												<td class="text-center"><span id="fail-{{record.uploadDocumentLogId}}-label" ng-bind="record.fail || '0' || 'N/A'"></span></td>
-												<td class="text-center"><span id="total-{{record.uploadDocumentLogId}}-label">{{record.success + record.fail || '0' || 'N/A'}}</span></td>
+												<td class="text-center"><span id="success-{{record.uploadDocumentLogId}}-label" ng-bind="(record.success != null) ? record.success : 'N/A'"></span></td>
+												<td class="text-center"><span id="fail-{{record.uploadDocumentLogId}}-label" ng-bind="(record.fail != null) ? record.fail : 'N/A'"></span></td>
+												<td class="text-center"><span id="total-{{record.uploadDocumentLogId}}-label">{{record.success == null ? 'N/A' : record.fail == null ? 'N/A' : record.success + record.fail }}</span></td>
 												<td class="text-center"><span id="status-{{record.uploadDocumentLogId}}-label" ng-bind="record.status | translate"></span></td>
 												<td class="text-center">
 													<button id="{{record.uploadDocumentLogId}}-view-button" class="btn-default gec-btn-action" ng-click="ctrl.viewLog(record)" title="View log details">

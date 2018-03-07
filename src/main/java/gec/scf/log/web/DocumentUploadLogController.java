@@ -24,15 +24,15 @@ public class DocumentUploadLogController {
 		return DOCUMENT_UPLOAD_LOG_URL;	
 	}
 	
-	@RequestMapping(method=RequestMethod.GET, path="/bank")
-	public String documentUploadLogBank(@RequestHeader("X-Requested-With") String requestedWith){
-		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return DOCUMENT_UPLOAD_LOG_URL.concat(" :: content");
-		}
-		return DOCUMENT_UPLOAD_LOG_URL;	
-	}
+//	@RequestMapping(method=RequestMethod.GET, path="/bank")
+//	public String documentUploadLogBank(@RequestHeader("X-Requested-With") String requestedWith){
+//		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+//			return DOCUMENT_UPLOAD_LOG_URL.concat(" :: content");
+//		}
+//		return DOCUMENT_UPLOAD_LOG_URL;	
+//	}
 
-    @RequestMapping(method=RequestMethod.GET, path="/sponsor")
+    @RequestMapping(method=RequestMethod.GET, path="/funding")
 	public String documentUploadLogSponsor(@RequestHeader("X-Requested-With") String requestedWith){
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return DOCUMENT_UPLOAD_LOG_URL.concat(" :: content");

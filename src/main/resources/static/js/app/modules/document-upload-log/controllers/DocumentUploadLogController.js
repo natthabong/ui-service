@@ -41,8 +41,9 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
             isBankDoc: false
         };
         var viewMode = {
-            MY_ORGANIZE: 'MY_ORGANIZE',
-            CUSTOMER: 'CUSTOMER'
+            MY_ORGANIZE : 'MY_ORGANIZE',
+            FUNDING : 'FUNDING',
+            ALLFUNDING : 'ALLFUNDING'
         }
         var currentMode = $stateParams.viewMode;
         vm.headerName = currentMode == viewMode.MY_ORGANIZE ? "Upload document logs" : "Customer document upload log";
@@ -74,10 +75,10 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
             query: querySponsorCode
         });
 
-        var prepareAutoSuggestLabel = function(item) {  //TODO AutoSuggest && File type
-            item.identity = ['sponsor-', item.organizeId, '-option'].join('');
-            item.label = [item.organizeId, ': ', item.organizeName].join('');
-            return item;
+        var prepareAutoSuggestLabel = function(item) {  //TODO File type
+            item.identity = [ 'organize-', item.memberId, '-', item.memberCode, '-option' ].join('');
+            item.label = [ item.memberCode, ': ', item.memberName ] .join('');
+		return item;
         }
 
         var getFileType = function(ownerId, integrateType) {
@@ -86,7 +87,7 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
                 label: 'All',
                 value: null
             });
-            var deffered = DocumentUploadLogService.getFileType(ownerId, integrateType);
+            var deffered = DocumentUploadLogService.getFileType(currentMode, ownerId, integrateType);
             deffered.promise.then(function(response) {
                 response.data.forEach(function(type) {
                     fileType.push({
@@ -94,18 +95,8 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
                         value: type
                     });
                 });
-                if (fileType.length > 0) {
-                    vm.hiddenColumn = false;
-                } else {
-                    vm.hiddenColumn = true;
-                }
             }).catch(function(response) {
                 log.error('Get file type fail');
-                vm.hiddenColumn = true;
-                vm.pagingController = PagingController.create(pagingUrl, vm.criteria, 'GET');
-                if (currentMode == viewMode.MY_ORGANIZE) {
-                    vm.searchLog();
-                }
             });
 
             return fileType;
@@ -114,7 +105,7 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
 
         $scope.$watch('ctrl.documentUploadLogModel.sponsor', function() {
             if (vm.documentUploadLogModel.sponsor != '' && angular.isDefined(vm.documentUploadLogModel.sponsor) && angular.isObject(vm.documentUploadLogModel.sponsor)) {
-                vm.fileTypeDropdowns = getFileType(vm.documentUploadLogModel.sponsor.organizeId, "IMPORT");
+                vm.fileTypeDropdowns = getFileType(vm.documentUploadLogModel.sponsor.memberId, "IMPORT");
             } else {
                 var docType = [];
                 docType.push({
@@ -168,8 +159,12 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
         vm.searchLog = function(pagingModel) {
             var sponsorObject = vm.documentUploadLogModel.sponsor;
 
-            if (sponsorObject != undefined && (sponsorObject.organizeId != undefined || sponsorObject == '')) {
-                vm.criteria.organizeId = sponsorObject.organizeId;
+            if (sponsorObject != undefined && (sponsorObject.memberId != undefined || sponsorObject == '')) {
+                vm.criteria.organizeId = sponsorObject.memberId;
+            }
+            
+            if (vm.criteria.fileType == undefined || vm.criteria.fileType == '') {
+				vm.criteria.fileType = null;
             }
 
             if (isValid()) {
@@ -196,19 +191,19 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
             if (currentMode == viewMode.MY_ORGANIZE) {
                 vm.hideColSponsor = true;
                 vm.sponsorTxtDisable = true;
-                vm.documentUploadLogModel.roleType = ' ';
+                vm.documentUploadLogModel.roleType = 'MY_ORGANIZE';
                 vm.showSponsor = false;
                 var owner = angular.copy($rootScope.userInfo);
                 owner = prepareAutoSuggestLabel(owner);
                 vm.documentUploadLogModel.sponsor = owner;
-                vm.fileTypeDropdowns = getFileType(owner.organizeId, "IMPORT");
+                vm.fileTypeDropdowns = getFileType(owner.memberId, "IMPORT");
                 if(vm.criteria.fileType == null){
                 	 vm.criteria.fileType = vm.fileTypeDropdowns[0].value;
                 }
                
-            } else if (currentMode == viewMode.CUSTOMER) {
+            } else if (currentMode == viewMode.FUNDING) {
                 vm.sponsorTxtDisable = false;
-                vm.documentUploadLogModel.roleType = 'sponsor';
+                vm.documentUploadLogModel.roleType = 'FUNDING';
                 vm.hideColSponsor = false;
                 vm.showSponsor = true;
                 vm.hideColFileType = true;

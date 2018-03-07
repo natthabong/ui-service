@@ -483,11 +483,26 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					controller: 'DocumentUploadLogController',
 					controllerAs: 'ctrl',
 					params: {
-						viewMode: 'CUSTOMER',
+						viewMode: 'FUNDING',
 						criteria: null,
 						backAction: false
 					},
-					templateUrl: '/document-upload-log/sponsor',
+					templateUrl: '/document-upload-log/funding',
+					resolve: WebHelper.loadScript(['js/app/modules/document-upload-log/controllers/DocumentUploadLogController.js',
+						'js/app/modules/document-upload-log/services/DocumentUploadLogService.js',
+						'js/app/common/scf-component.js',
+						'js/app/common/scf-component.css'
+					])
+				}).state('/customer-organize/upload-document-logs/all-funding', {
+					url: '/customer-organize/upload-document-logs/all-funding',
+					controller: 'DocumentUploadLogController',
+					controllerAs: 'ctrl',
+					params: {
+						viewMode: 'ALLFUNDING',
+						criteria: null,
+						backAction: false
+					},
+					templateUrl: '/document-upload-log/funding',
 					resolve: WebHelper.loadScript(['js/app/modules/document-upload-log/controllers/DocumentUploadLogController.js',
 						'js/app/modules/document-upload-log/services/DocumentUploadLogService.js',
 						'js/app/common/scf-component.js',

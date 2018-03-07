@@ -22,9 +22,9 @@ angular
 				var vm = this;
 				var log = $log;
 				
-				vm.headerMsg = 'View document upload log';
-				
 				vm.roleType = $stateParams.roleType;
+				vm.headerMsg = vm.roleType == 'MY_ORGANIZE' ? "View upload document logs" : "View customer document upload log";
+				
 				vm.isSponsor = true;
 				vm.documentUploadLogModel = $stateParams.documentUploadLogModel;
 				var uploadLogId = vm.documentUploadLogModel.uploadDocumentLogId;
