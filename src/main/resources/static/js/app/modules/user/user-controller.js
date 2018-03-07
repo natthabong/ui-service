@@ -163,7 +163,6 @@ userModule
 				}
 			    }
 			    var _addOrganize = function(data){
-			      console.log(data)
 				var filtered = vm.organizeLinks.filter(function(d){
 				    return (d.roleId == data.roleId && d.organizeId == data.organizeId);
 				});

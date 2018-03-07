@@ -8,6 +8,7 @@ sciModule.controller('SupplierCreditInformationController', [
     'PageNavigation',
 	'PagingController',
 	'SupplierCreditInformationService',
+	'$timeout',
 	'SCFCommonService',
 	'$http',
 	'$q',
@@ -15,7 +16,7 @@ sciModule.controller('SupplierCreditInformationController', [
 	'scfFactory',
 	'$filter',
 	'AccountService',
-	function ($rootScope, $scope, $stateParams, UIFactory, PageNavigation, PagingController, SupplierCreditInformationService, SCFCommonService, $http, $q, blockUI,scfFactory,$filter, AccountService) {
+	function ($rootScope, $scope, $stateParams, UIFactory, PageNavigation, PagingController, SupplierCreditInformationService, $timeout, SCFCommonService, $http, $q, blockUI,scfFactory,$filter, AccountService) {
 		var vm = this;
 		
 		var page = null;
@@ -23,13 +24,25 @@ sciModule.controller('SupplierCreditInformationController', [
 		vm.supplier = $stateParams.supplier || null;
 		vm.showSupplier = true;
 		vm.data = [];
-		vm.criteria = $stateParams.criteria || {};
-		vm.pagingController = PagingController.create('/api/v1/supplier-credit-information', vm.criteria,'GET');
 		
         var viewModeData = {
             myOrganize: 'MY_ORGANIZE',
             customer: 'CUSTOMER'
         }
+        
+        var _criteria = {};
+	    
+	    vm.criteria = $stateParams.criteria || {
+	    	buyerId : null,
+	    	buyer : {buyerId: '', buyerName: ''},
+	    	supplierId : null,
+	    	supplier : {memberId: '', memberCode: '', memberName: ''}
+	    }
+        
+        vm.criteriaModel = {
+        	buyer : undefined,
+        	supplier : undefined
+	    }
         
         vm.viewAction = false;
         vm.unauthenView = function() {
@@ -39,33 +52,43 @@ sciModule.controller('SupplierCreditInformationController', [
                 return true;
             }
         }
-        
+
+		vm.pagingController = PagingController.create('/api/v1/supplier-credit-information', _criteria,'GET');
 		vm.search = function (pageModel) {
         	var buyer = undefined;
+        	var buyerName = undefined;
 			var supplier = undefined;
+			var supplierName = undefined;
 			var defered = scfFactory.getUserInfo();
-				defered.promise.then(function(response){
-			var organizeId = response.organizeId;
+			defered.promise.then(function(response){
+				var organizeId = response.organizeId;
 				// mode MY_ORGANIZE
 				if(viewModeData.myOrganize == $stateParams.viewMode){
 					supplier = organizeId;
 					if (angular.isObject(vm.buyer)) {
 						buyer = vm.buyer.buyerId;
+						buyerName = vm.buyer.buyerName;
 					}
 					page = '/my-organize/supplier-credit-information/view';
 				} else {
 					// mode CUSTOMER
 					if (angular.isObject(vm.buyer)) {
 						buyer = vm.buyer.memberId;
+						buyerName = vm.buyer.memberName;
 					}
 					if (angular.isObject(vm.supplier)) {
 						supplier = vm.supplier.memberId;
+						supplierName = vm.supplier.memberName;
 					}
 					page = '/customer-registration/supplier-credit-information/view';
 				}
 				
 				vm.criteria.buyerId = buyer;
 				vm.criteria.supplierId = supplier;
+				vm.criteria.buyer = vm.buyer;
+				vm.criteria.supplier = vm.supplier;
+				console.log(vm.criteria);
+				_storeCriteria();
 				vm.pagingController.search(pageModel, function (criteriaData, response) {
 					var data = response.data;
 					var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
@@ -81,8 +104,15 @@ sciModule.controller('SupplierCreditInformationController', [
 						value.rowNo = baseRowNo+i;
 					});
 				});
+				if($stateParams.backAction){
+		    		$stateParams.backAction = false;
+		    	}
 			});
 		};
+		
+		function _storeCriteria() {
+			angular.copy(vm.criteria, _criteria);
+		}
 
 		// Organize auto suggestion model.
 		var _organizeTypeHead = function (q) {
@@ -113,6 +143,13 @@ sciModule.controller('SupplierCreditInformationController', [
 
 		// Main of program
 		var initLoad = function () {
+			var backAction = $stateParams.backAction;
+			if(backAction){
+				vm.criteria = $stateParams.criteria;
+				vm.buyer = vm.criteria.buyer;
+				vm.supplier = vm.criteria.supplier;
+			}
+			
 			vm.search();
 			if(viewModeData.myOrganize == $stateParams.viewMode){
 				vm.showSupplier = false;
@@ -144,7 +181,9 @@ sciModule.controller('SupplierCreditInformationController', [
             var params = {
                 accountId: data.accountId
             };
-            PageNavigation.gotoPage(page, params, {});
+            $timeout(function() {
+				PageNavigation.nextStep(page, params, {criteria : _criteria});
+			}, 10);
         }
 		
 		vm.enquiryAvailableBalance = function(data){

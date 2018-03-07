@@ -7,28 +7,23 @@ sciModule.controller('ViewSupplierCreditInformationController', [
 	'UIFactory',
 	'PagingController',
 	'SupplierCreditInformationService',
+	'$timeout',
 	'SCFCommonService',
 	'$http',
 	'$q',
 	'blockUI',
 	'scfFactory',
+	'PageNavigation', 
 	'$filter',
 	'AccountService',
-	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, SupplierCreditInformationService, SCFCommonService, $http, $q, blockUI,scfFactory,$filter, AccountService) {
+	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, SupplierCreditInformationService, $timeout, SCFCommonService, $http, $q, blockUI,scfFactory,PageNavigation, $filter, AccountService) {
 		var vm = this;
-		
-		vm.buyer = $stateParams.buyer || null;
-		vm.supplier = $stateParams.supplier || null;
-		vm.showSupplier = true;
+		vm.accountId = $stateParams.accountId || null;
 		vm.data = [];
-		vm.criteria = $stateParams.criteria || {};
-		vm.pagingController = PagingController.create('/api/v1/supplier-credit-information', vm.criteria,'GET');
+		vm.tradeFinanceModel = {};
+		var _criteria = {};
+		vm.pagingController = PagingController.create('/api/v1/supplier-credit-information/accounts/'+vm.accountId, _criteria,'GET');
 		
-        var viewModeData = {
-            myOrganize: 'MY_ORGANIZE',
-            customer: 'CUSTOMER'
-        }
-        
         vm.viewAction = false;
         vm.unauthenView = function() {
             if (vm.viewAction) {
@@ -39,29 +34,9 @@ sciModule.controller('ViewSupplierCreditInformationController', [
         }
         
 		vm.search = function (pageModel) {
-        	var buyer = undefined;
-			var supplier = undefined;
+        	var accountId = undefined;
 			var defered = scfFactory.getUserInfo();
-				defered.promise.then(function(response){
-			var organizeId = response.organizeId;
-				// mode MY_ORGANIZE
-				if(viewModeData.myOrganize == $stateParams.viewMode){
-					supplier = organizeId;
-					if (angular.isObject(vm.buyer)) {
-						buyer = vm.buyer.buyerId;
-					}
-				} else {
-					// mode CUSTOMER
-					if (angular.isObject(vm.buyer)) {
-						buyer = vm.buyer.memberId;
-					}
-					if (angular.isObject(vm.supplier)) {
-						supplier = vm.supplier.memberId;
-					}
-				}
-				
-				vm.criteria.buyerId = buyer;
-				vm.criteria.supplierId = supplier;
+			defered.promise.then(function(response){
 				vm.pagingController.search(pageModel, function (criteriaData, response) {
 					var data = response.data;
 					var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
@@ -69,56 +44,47 @@ sciModule.controller('ViewSupplierCreditInformationController', [
 					var i = 0;
 					var baseRowNo = pageSize * currentPage; 
 					angular.forEach(data, function (value, idx) {
+						if(isSameSupplier(value.supplierId, data, idx)){
+							value.showSupplierFlag = true;
+						}
 						if (isSameAccount(value.accountId, data, idx)) {
-							
 							value.showAccountFlag = true;
 						}
 						++i;
 						value.rowNo = baseRowNo+i;
 					});
+					
+					var item = response.data[0];
+					vm.tradeFinanceModel.accountNo = vm.getAccountNoToDisplay(item);
+					vm.tradeFinanceModel.format = item.format;
+					vm.tradeFinanceModel.accountType = item.accountType;
+					vm.tradeFinanceModel.creditStatus = item.accountStatus;
+					vm.tradeFinanceModel.creditLimit = item.creditLimit;
+					vm.tradeFinanceModel.outstandingAmount = item.outstanding;
+					vm.tradeFinanceModel.futureAmount = item.futureDrawdown;
+					vm.tradeFinanceModel.remainingAmount = item.bankRemaining;
+					vm.tradeFinanceModel.available = item.available;
 				});
 			});
 		};
 
-		// Organize auto suggestion model.
-		var _organizeTypeHead = function (q) {
-			q = UIFactory.createCriteria(q);
-			return SupplierCreditInformationService.getOrganizeByNameOrCodeLike(q);
-		}
-		
-		var _buyerTypeHead = function (q) {
-			q = UIFactory.createCriteria(q);
-			if(viewModeData.myOrganize == $stateParams.viewMode){
-				return SupplierCreditInformationService.getBuyerNameOrCodeLike($rootScope.userInfo.organizeId,q);
-			} else {
-				return SupplierCreditInformationService.getBuyerForBankByNameOrCodeLike(q);
-			}
-		}
-
-		vm.organizeAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder: 'Enter organization name or code',
-			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
-			query: _organizeTypeHead
-		});
-		
-		vm.buyerAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder: 'Enter organization name or code',
-			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
-			query: _buyerTypeHead
-		});
-
 		// Main of program
 		var initLoad = function () {
 			vm.search();
-			if(viewModeData.myOrganize == $stateParams.viewMode){
-				vm.showSupplier = false;
-			}
 		}();
 
 		vm.decodeBase64 = function (data) {
 			return  (data?atob(data):UIFactory.constants.NOLOGO);
 		};
 
+		var isSameSupplier = function (supplierId, data, index) {
+			if (index == 0) {
+				return true;
+			} else {
+				return supplierId != data[index - 1].supplierId;
+			}
+		}
+		
 		var isSameAccount = function (accountId, data, index) {
 			if (index == 0) {
 				return true;
@@ -136,71 +102,18 @@ sciModule.controller('ViewSupplierCreditInformationController', [
 			
 		}
 		
-		vm.view = function(data) {
-            var params = {
-                accountId: data.accountId
-            };
-            PageNavigation
-                .gotoPage(
-                    '/sponsor-configuration/mapping-data/view',
-                    params, {});
-        }
+		vm.getPayeeAccountNoToDisplay = function(record){
+			if(record.formatPayeeAccount){
+				return $filter('accountNoDisplay')(record.payeeAccountNo);
+			}else{
+				return record.payeeAccountNo;
+			}
+			
+		}
 		
-		vm.enquiryAvailableBalance = function(data){
-			blockUI.start("Processing...");
-        	var deffered = null;
-        	var criteria ={
-	           	buyerId: data.buyerId,
-				supplierId: data.ownerId,
-				accountId: data.accountId
-			}
-        	
-			if(data.accountType == 'LOAN'){
-				deffered = AccountService.enquiryCreditLimit(criteria);
-			}
-			else{
-				//overdraft
-				deffered = AccountService.enquiryAccountBalance(criteria);
-			}
-			            	
-			deffered.promise.then(function(response) {
-				blockUI.stop();
-				if (response.status == 200) {
-					vm.search();
-					UIFactory.showSuccessDialog({
-						data: {
-							headerMessage: 'Inquiry credit information success.',
-							bodyMessage: ''
-						},
-						showOkButton: true,
-					});
-				} else {
-					UIFactory.showFailDialog({
-						data: {
-							headerMessage: 'Inquiry credit information failure',
-							bodyMessage: 'please try again.'
-						},
-						showOkButton: true,
-					});
-				}
-			}).catch(function (response) {
-				blockUI.stop();
-				UIFactory.showFailDialog({
-					data: {
-						headerMessage: 'Inquiry credit information failure',
-						bodyMessage: ' please try again.'
-					},
-					showOkButton: true,
-				});
-			});
-        }
-
-		function getRecordIndexByAccountId(accountId) {
-			for (var i = 0; i < vm.data.length; ++i) {
-				if (vm.data[i].accountId == accountId) {
-					return i;
-				}
-			}
-			return -1;
+		vm.back = function(){
+			$timeout(function () {
+                PageNavigation.backStep();
+            }, 10);
 		}
 	}]);

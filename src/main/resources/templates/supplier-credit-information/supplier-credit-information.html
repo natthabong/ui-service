@@ -69,8 +69,7 @@
 												<span id="supplier-name-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.supplierName | translate"></span>
 											</td>
 											<td class="text-center">
-												<img id="sponsor-" title="{{record.buyerName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.buyerLogo)}}"
-												/>
+												<img id="sponsor-" title="{{record.buyerName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.buyerLogo)}}"/>
 											</td>
 											<td class="text-right">
 												<span ng-show="record.showAccountFlag" id="available-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.available | number : 2"></span>

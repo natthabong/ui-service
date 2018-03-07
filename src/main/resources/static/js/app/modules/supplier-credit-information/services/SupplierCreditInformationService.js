@@ -66,17 +66,9 @@ sciModule.factory('SupplierCreditInformationService', ['$http', '$q', 'Service',
 
 		return http;
 	}
-
-	var getCreditInformation = function (buyerId, supplierId) {
-		var dataSource = $http({ url: '/api/v1/supplier-credit-information', method: 'GET', params: { buyerId: buyerId, supplierId: supplierId } });
-		dataSource.success(function (response) {
-			return response.content;
-		});
-	}
-
+	
 	return {
 		getOrganizeByNameOrCodeLike: getOrganizeByNameOrCodeLike,
-		getCreditInformation: getCreditInformation,
 		getBuyerNameOrCodeLike: getBuyerNameOrCodeLike,
 		getBuyerForBankByNameOrCodeLike: getBuyerForBankByNameOrCodeLike,
 		_prepareItem: _prepareItem,
