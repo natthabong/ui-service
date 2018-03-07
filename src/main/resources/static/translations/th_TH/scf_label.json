@@ -34,6 +34,7 @@
 	"customer-organize-remittance-advice": "Remittance advice",
 	"customer-organize-ap-documents": "AP documents",
 	"customer-organize-upload-document-logs": "Upload document logs",
+	"customer-organize-upload-document-logs-of-all-funding": "Upload document logs",
 	"monitoring": "Monitoring",
 	"monitoring-bank-system-integration": "Funding system integration",
 	"monitoring-customer-system-integration": "Customer system integration",
@@ -476,7 +477,8 @@
 	"No logo": "No logo",
 	"Organization logo is required": "Organization logo is required",
 
-	"View document upload log": "View {{roleName}} document upload log",
+	"View document upload log": "View document upload log",
+    "View customer document upload log": "View customer document upload log",
 	"Channel": "Channel",
 	"Upload date": "Upload date",
 	"SUCCESS": "Success",

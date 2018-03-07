@@ -16,6 +16,7 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
         vm.sponsorTxtDisable = false;
         vm.hideColSponsor = false;
         vm.fileTypeDropdowns = [];
+        vm.fundingDropdowns = [];
         vm.docStatusDropdowns = docStatus;
         vm.docChannelDropdowns = docChannel;
         
@@ -101,6 +102,27 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
 
             return fileType;
         }
+        
+        var getFunding = function() {
+            var funding = [];
+            funding.push({
+                label: 'All',
+                value: null
+            });
+            var deffered = DocumentUploadLogService.getFunding();
+            deffered.promise.then(function(response) {
+                response.data.forEach(function(each) {
+                	funding.push({
+                        label: each.fundingName,
+                        value: each.fundingId
+                    });
+                });
+            }).catch(function(response) {
+                log.error('Get funding fail');
+            });
+
+            return funding;
+        }
 
 
         $scope.$watch('ctrl.documentUploadLogModel.sponsor', function() {
@@ -116,7 +138,6 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
                 vm.criteria.fileType = docType[0].value;
             }
         });
-
 
         var isValid = function() {
             var valid = true;
@@ -166,6 +187,10 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
             if (vm.criteria.fileType == undefined || vm.criteria.fileType == '') {
 				vm.criteria.fileType = null;
             }
+            
+            if (vm.criteria.fundingId == undefined || vm.criteria.fundingId == '') {
+				vm.criteria.fundingId = null;
+            }
 
             if (isValid()) {
             	vm.pagingController.search(pagingModel, function (criteria, response) {
@@ -207,6 +232,9 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
                 vm.hideColSponsor = false;
                 vm.showSponsor = true;
                 vm.hideColFileType = true;
+            } else if (currentMode == viewMode.ALLFUNDING) {
+                vm.documentUploadLogModel.roleType = 'ALLFUNDING';
+                vm.fundingDropdowns = getFunding();
             }
             vm.searchLog();
         }();

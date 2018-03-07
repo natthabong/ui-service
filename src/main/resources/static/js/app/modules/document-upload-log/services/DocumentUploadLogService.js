@@ -21,7 +21,21 @@ function DocumentUploadLogService($http, $q, blockUI) {
         });
         return deffered;
     }
+    function getFunding() {
+        var serviceUrl = 'api/v1/fundings';
+        var deffered = $q.defer();
+        $http({
+            url: serviceUrl,
+            method: 'GET',
+        }).then(function (response) {
+            deffered.resolve(response);
+        }).catch(function (response) {
+            deffered.reject(response);
+        });
+        return deffered;
+    }
     return {
-        getFileType: getFileType
+        getFileType : getFileType,
+        getFunding : getFunding
     }
 }
