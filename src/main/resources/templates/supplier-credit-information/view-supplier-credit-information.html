@@ -3,7 +3,7 @@
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft" ng-bind="'Trade finance account' | translate">Trade finance account</h3>
+					<h3 id="header-message-label" class="animated fadeInLeft" ng-bind="'Trade finance account' | translate"></h3>
 				</div>
 			</div>
 		</div>
@@ -17,65 +17,56 @@
 									<div class="panel-body">
 										<div class="row">
 											<div class="col-lg-1 col-md-2 col-sm-2">
-												<label id="account-no-label">{{'Account No.'
-													|translate}}:</label>
+												<label id="account-no-label" ng-bind="'Account No.:' | translate"></label>
 											</div>
 											<div class="col-lg-2 col-md-2 col-sm-3">
 												<label id="account-no-value-label" ng-bind="ctrl.tradeFinanceModel.accountNo"></label>
 											</div>
 											<div class="col-lg-1 col-md-1 col-sm-1"></div>
 											<div class="col-lg-1 col-md-2 col-sm-2">
-												<label id="credit-limit-label">{{'Credit limit' | translate}}:</label>
+												<label id="credit-limit-label" ng-bind="'Credit limit:' | translate"></label>
 											</div>
 											<div class="col-lg-2 col-md-2 col-sm-3 text-right">
 												<label id="credit-limit-value-label" ng-bind="ctrl.tradeFinanceModel.creditLimit | number:2"></label>
 											</div>
 											<div class="col-lg-1 col-md-3 col-sm-1">
-												<span id="credit-limit-thb-label"
-													ng-bind="'THB' | translate"></span>
+												<span id="credit-limit-thb-label" ng-bind="'THB' | translate"></span>
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-lg-1 col-md-2 col-sm-2">
-												<label id="account-type-label">{{'Account type' |
-													translate}}:</label>
+												<label id="account-type-label" ng-bind="'Account type:' | translate"></label>
 											</div>
 											<div class="col-lg-2 col-md-2 col-sm-3">
-												<label id="account-type-value-label"
-													ng-bind="ctrl.tradeFinanceModel.accountType | translate"></label>
+												<label id="account-type-value-label" ng-bind="ctrl.tradeFinanceModel.accountType"></label>
 											</div>
 											<div class="col-lg-1 col-md-1 col-sm-1"></div>
 											<div class="col-lg-1 col-md-2 col-sm-2">
-												<label id="outstanding-label">{{'Outstanding' | translate}}:</label>
+												<label id="outstanding-label" ng-bind="'Outstanding:' | translate"></label>
 											</div>
 											<div class="col-lg-2 col-md-2 col-sm-3 text-right">
-												<span id="outstanding-value-label"
-													ng-bind="ctrl.tradeFinanceModel.outstandingAmount | number:2"></span>
+												<span id="outstanding-value-label" ng-bind="ctrl.tradeFinanceModel.outstandingAmount | number:2"></span>
 											</div>
 											<div class="col-lg-1 col-md-3 col-sm-1">
-												<span id="outstanding-thb-label"
-													ng-bind="'THB' | translate"></span>
+												<span id="outstanding-thb-label" ng-bind="'THB' | translate"></span>
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-lg-1 col-md-2 col-sm-2">
-												<label id="credit-status-label">{{'Credit status' | translate}}:</label>
+												<label id="credit-status-label" ng-bind="'Credit status:' | translate"></label>
 											</div>
 											<div class="col-lg-2 col-md-2 col-sm-3">
-												<span id="credit-status-value-label"
-													ng-bind="ctrl.tradeFinanceModel.creditStatus | translate"></span>
+												<span id="credit-status-value-label" ng-bind="ctrl.tradeFinanceModel.creditStatus | translate"></span>
 											</div>
 											<div class="col-lg-1 col-md-1 col-sm-1"></div>
 											<div class="col-lg-1 col-md-2 col-sm-2">
-												<label id="future-label">{{'Future' | translate}}:</label>
+												<label id="future-label" ng-bind="'Future:' | translate"></label>
 											</div>
 											<div class="col-lg-2 col-md-2 col-sm-3 text-right">
-												<span id="future-value-label"
-													ng-bind="ctrl.tradeFinanceModel.futureAmount | number:2"></span>
+												<span id="future-value-label" ng-bind="ctrl.tradeFinanceModel.futureAmount | number:2"></span>
 											</div>
 											<div class="col-lg-1 col-md-3 col-sm-1">
-												<span id="future-thb-label"
-													ng-bind="'THB' | translate"></span>
+												<span id="future-thb-label" ng-bind="'THB' | translate"></span>
 											</div>
 										</div>
 										<div class="row">
@@ -83,15 +74,13 @@
 											<div class="col-lg-2 col-md-2 col-sm-3"></div>
 											<div class="col-lg-1 col-md-1 col-sm-1"></div>
 											<div class="col-lg-1 col-md-2 col-sm-2">
-												<label id="remaining-label">{{'Remaining' | translate}}:</label>
+												<label id="remaining-label" ng-bind="'Remaining:' | translate"></label>
 											</div>
 											<div class="col-lg-2 col-md-2 col-sm-3 text-right">
-												<span id="remaining-value-label"
-													ng-bind="ctrl.tradeFinanceModel.remainingAmount | number:2"></span>
+												<span id="remaining-value-label" ng-bind="ctrl.tradeFinanceModel.remainingAmount | number:2"></span>
 											</div>
 											<div class="col-lg-1 col-md-3 col-sm-1">
-												<span id="remaining-thb-label"
-													ng-bind="'THB' | translate"></span>
+												<span id="remaining-thb-label" ng-bind="'THB' | translate"></span>
 											</div>
 										</div>
 										<div class="row">
@@ -99,15 +88,13 @@
 											<div class="col-lg-2 col-md-2 col-sm-3"></div>
 											<div class="col-lg-1 col-md-1 col-sm-1"></div>
 											<div class="col-lg-1 col-md-2 col-sm-2">
-												<label id="available-label">{{'Available' | translate}}:</label>
-												</div>
-												<div class="col-lg-2 col-md-2 col-sm-3 text-right">
-												<span id="available-value-label"
-													ng-bind="ctrl.tradeFinanceModel.available | number:2"></span>
+												<label id="available-label" ng-bind="'Available:' | translate"></label>
+											</div>
+											<div class="col-lg-2 col-md-2 col-sm-3 text-right">
+												<span id="available-value-label" ng-bind="ctrl.tradeFinanceModel.available | number:2"></span>
 											</div>
 											<div class="col-lg-1 col-md-3 col-sm-1">
-												<span id="available-thb-label"
-													ng-bind="'THB' | translate"></span>
+												<span id="available-thb-label" ng-bind="'THB' | translate"></span>
 											</div>
 										</div>
 									</div>
@@ -140,7 +127,8 @@
 											<span ng-show="record.showSupplierFlag" id="supplier-{{record.buyerId}}-{{record.supplierId}}-label" ng-bind="record.supplierName"></span>
 										</td>
 										<td class="text-center">
-											<img id="buyer-{{record.buyerId}}-{{record.supplierId}}-label" title="{{record.buyerName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.buyerLogo)}}"/>
+											<img id="buyer-{{record.buyerId}}-{{record.supplierId}}-label" title="{{record.buyerName}}" style="height: 32px; width: 32px;"
+											    data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.buyerLogo)}}" />
 										</td>
 										<td class="text-center">
 											<span ng-show="record.showAccountFlag" id="payee-account-{{record.buyerId}}-{{record.supplierId}}-label" ng-bind="ctrl.getPayeeAccountNoToDisplay(record)"></span>
@@ -169,11 +157,9 @@
 									</tr>
 								</tbody>
 							</table>
-						</div> 
+						</div>
 						<div class="col-md-12 text-right">
-							<scf-button id="back-button" class="btn btn-default"
-								type="submit" ng-click="ctrl.back()">{{ 'Back' |
-							translate}}</scf-button>
+							<scf-button id="back-button" class="btn btn-default" type="submit" ng-click="ctrl.back()" ng-bind="'Back' | translate"></scf-button>
 						</div>
 					</div>
 				</div>

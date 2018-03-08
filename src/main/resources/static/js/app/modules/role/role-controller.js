@@ -195,8 +195,6 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
 			 RoleService.getPrivilegeDependencies(privilege.privilegeId).promise.then(function(response)
 			 {
 				var privileges = response.data;
-				console.log("PrivilegeDependencies");
-				console.log(privileges);
 				if(privileges !=null && privileges.length >0){	
 				    angular.forEach(privileges, function(eachPrivilege){
 				    	eachPrivilege.isDisable = true;
