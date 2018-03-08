@@ -17,8 +17,7 @@ app.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$statePa
             uploadDateFrom: null,
             uploadDateTo: null,
             channel: null,
-            status: null,
-            isBankDoc: false
+            status: null
         };
         
         vm.organize = $stateParams.organize || undefined;
