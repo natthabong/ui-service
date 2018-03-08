@@ -99,7 +99,7 @@ angular.module('gecscf.supplierCreditInformation').controller('ViewSupplierCredi
 			if (record.formatPayeeAccount) {
 				return $filter('accountNoDisplay')(record.payeeAccountNo);
 			} else {
-				return record.payeeAccountNo;
+				return 'Undefined';
 			}
 		}
 
