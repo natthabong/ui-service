@@ -674,5 +674,12 @@
 	"Tenor(days)": "Tenor(days)",
 	"Pre-drawdown(%)": "Pre-drawdown(%)",
 	"Agreement date": "Agreement date",
-	"Credit expiration date": "Credit expiration date"
+	"Credit expiration date": "Credit expiration date",
+	
+	"Batch job tracking": "Batch job tracking",
+	"Batch job": "Batch job",
+	"Log date": "Log date",
+	"Node": "Node",
+	"IP": "IP",
+	"Action": "Action"
 }
