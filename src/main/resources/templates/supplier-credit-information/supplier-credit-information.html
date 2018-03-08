@@ -56,7 +56,7 @@
 									</thead>
 									<tbody>
 										<tr ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
-											<td class="text-center">
+											<td class="text-right">
 												<span id="$rowNo-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.rowNo"></span>
 											</td>
 											<td class="text-center">
@@ -69,6 +69,7 @@
 												<span id="supplier-name-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.supplierName | translate"></span>
 											</td>
 											<td class="text-center">
+<!-- 												<organization-logo ng-model="record.fundings"></organization-logo> -->
 												<img id="sponsor-" title="{{record.buyerName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.buyerLogo)}}"/>
 											</td>
 											<td class="text-right">

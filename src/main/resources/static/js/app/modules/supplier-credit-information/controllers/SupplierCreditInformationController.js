@@ -33,39 +33,30 @@ sciModule.controller('SupplierCreditInformationController', [
 		var _criteria = {};
 
 		vm.criteria = $stateParams.criteria || {
-			buyerId: null,
-			buyer: {
-				buyerId: '',
-				buyerName: ''
-			},
-			supplierId: null,
-			supplier: {
-				memberId: '',
-				memberCode: '',
-				memberName: ''
-			}
-		}
-
-		vm.criteriaModel = {
-			buyer: undefined,
-			supplier: undefined
-		}
+	    	buyerId : null,
+	    	buyerName: null,
+	    	supplierId: null, 
+	    	memberId: null, 
+	    	memberCode: null, 
+	    	memberName: null
+	    }
 
 		vm.viewAction = false;
-		vm.unauthenView = function () {
-			if (vm.viewAction) {
-				return false;
-			} else {
-				return true;
-			}
-		}
+        vm.unauthenView = function() {
+            if (vm.viewAction) {
+                return false;
+            } else {
+                return true;
+            }
+        }
 
-		vm.pagingController = PagingController.create('/api/v1/supplier-credit-information', _criteria, 'GET');
+		vm.pagingController = PagingController.create('/api/v1/supplier-credit-information', _criteria,'GET');
 		vm.search = function (pageModel) {
 			var buyer = undefined;
 			var buyerName = undefined;
 			var supplier = undefined;
 			var supplierName = undefined;
+			var supplierCode = undefined;
 			var defered = scfFactory.getUserInfo();
 			defered.promise.then(function (response) {
 				var organizeId = response.organizeId;
@@ -86,14 +77,17 @@ sciModule.controller('SupplierCreditInformationController', [
 					if (angular.isObject(vm.supplier)) {
 						supplier = vm.supplier.memberId;
 						supplierName = vm.supplier.memberName;
+						supplierCode = vm.supplier.memberCode;
 					}
 					page = '/customer-registration/supplier-credit-information/view';
 				}
 
 				vm.criteria.buyerId = buyer;
+				vm.criteria.buyerName = buyerName;
 				vm.criteria.supplierId = supplier;
-				vm.criteria.buyer = vm.buyer;
-				vm.criteria.supplier = vm.supplier;
+				vm.criteria.memberId = supplier;
+				vm.criteria.memberCode = supplierCode; 
+				vm.criteria.memberName = supplierName;
 				_storeCriteria();
 				vm.pagingController.search(pageModel, function (criteriaData, response) {
 					var data = response.data;
@@ -102,8 +96,7 @@ sciModule.controller('SupplierCreditInformationController', [
 					var i = 0;
 					var baseRowNo = pageSize * currentPage;
 					angular.forEach(data, function (value, idx) {
-						if (isSameAccount(value.accountId, data, idx)) {
-
+						if (!isSameAccount(value.accountId, data, idx)) {
 							value.showAccountFlag = true;
 						}
 						++i;
@@ -150,10 +143,19 @@ sciModule.controller('SupplierCreditInformationController', [
 		// Main of program
 		var initLoad = function () {
 			var backAction = $stateParams.backAction;
-			if (backAction) {
+			if(backAction){
 				vm.criteria = $stateParams.criteria;
-				vm.buyer = vm.criteria.buyer;
-				vm.supplier = vm.criteria.supplier;
+				vm.buyer = {buyerId: '', buyerName: '', memberId: '', memberName: ''};
+				vm.buyer.buyerId = vm.criteria.buyerId;
+				vm.buyer.buyerName = vm.criteria.buyerName;
+				vm.buyer.memberId = vm.criteria.buyerId;
+				vm.buyer.memberName = vm.criteria.buyerName;
+				vm.supplier = {memberId: '', memberName: '', memberCode: ''};
+				vm.supplier.memberId = vm.criteria.memberId;
+				vm.supplier.memberName = vm.criteria.memberName;
+				vm.supplier.memberCode = vm.criteria.memberCode;
+				SupplierCreditInformationService._prepareItem(vm.supplier);
+				SupplierCreditInformationService._prepareItemBuyers(vm.buyer);
 			}
 
 			vm.search();
@@ -168,9 +170,9 @@ sciModule.controller('SupplierCreditInformationController', [
 
 		var isSameAccount = function (accountId, data, index) {
 			if (index == 0) {
-				return true;
+				return false;
 			} else {
-				return accountId != data[index - 1].accountId;
+				return accountId == data[index - 1].accountId;
 			}
 		}
 
@@ -187,10 +189,8 @@ sciModule.controller('SupplierCreditInformationController', [
 			var params = {
 				accountId: data.accountId
 			};
-			$timeout(function () {
-				PageNavigation.nextStep(page, params, {
-					criteria: _criteria
-				});
+			$timeout(function() {
+				PageNavigation.nextStep(page, params, {criteria : _criteria});
 			}, 10);
 		}
 

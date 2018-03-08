@@ -82,45 +82,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/transaction/loan/services/ValidateAndSubmitService.js', 'js/app/modules/transaction/loan/controllers/ValidateAndSubmitController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				})
-				.state('/customer-registration/buyer-credit-information', {
-					url: '/customer-registration/buyer-credit-information',
-					controller: 'BuyerCreditInformationController',
-					controllerAs: 'ctrl',
-					templateUrl: '/buyer-credit-information',
-					params: {
-						viewMode: 'CUSTOMER',
-						backAction: false,
-						criteria: null,
-						organize: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/modules/account/services/AccountService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				})
-				.state('/my-organize/buyer-credit-information', {
-					url: '/my-organize/buyer-credit-information',
-					controller: 'BuyerCreditInformationController',
-					controllerAs: 'ctrl',
-					templateUrl: '/buyer-credit-information',
-					params: {
-						viewMode: 'MY_ORGANIZE',
-						backAction: false,
-						criteria: null,
-						organize: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/modules/account/services/AccountService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				})
-				.state('/partner-organize/buyer-credit-information', {
-					url: '/partner-organize/buyer-credit-information',
-					controller: 'BuyerCreditInformationController',
-					controllerAs: 'ctrl',
-					templateUrl: '/buyer-credit-information',
-					params: {
-						viewMode: 'PARTNER',
-						backAction: false,
-						criteria: null,
-						organize: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/modules/account/services/AccountService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				})
 				.state('/verify-transaction', {
 					url: '/verify-transaction',
 					controller: 'VerifyTransactionController',

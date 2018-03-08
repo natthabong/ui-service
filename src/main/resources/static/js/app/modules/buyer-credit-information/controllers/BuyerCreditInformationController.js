@@ -5,8 +5,10 @@ bciModule.controller('BuyerCreditInformationController', [
 	'$scope',
 	'$stateParams',
 	'UIFactory',
+    'PageNavigation',
 	'PagingController',
 	'BuyerCreditInformationService',
+	'$timeout',
 	'SCFCommonService',
 	'$http',
 	'$q',
@@ -14,9 +16,10 @@ bciModule.controller('BuyerCreditInformationController', [
 	'scfFactory',
 	'$filter',
 	'AccountService',
-	function ($rootScope, $scope, $stateParams, UIFactory, PagingController, BuyerCreditInformationService, SCFCommonService, $http, $q, blockUI, scfFactory, $filter, AccountService) {
+	function ($rootScope, $scope, $stateParams, UIFactory, PageNavigation, PagingController, BuyerCreditInformationService, $timeout, SCFCommonService, $http, $q, blockUI, scfFactory, $filter, AccountService) {
 		var vm = this;
 
+		var page = null;
 		vm.buyer = $stateParams.buyer || null;
 		vm.supplier = $stateParams.supplier || null;
 		vm.showSupplier = true;
@@ -26,17 +29,45 @@ bciModule.controller('BuyerCreditInformationController', [
 		vm.supplierMode = false;
 		vm.data = [];
 		vm.criteria = $stateParams.criteria || {};
-		vm.pagingController = PagingController.create('/api/v1/buyer-credit-information', vm.criteria, 'GET');
-
+		
 		var viewModeData = {
 			customer: 'CUSTOMER',
 			myOrganize: 'MY_ORGANIZE',
 			partner: 'PARTNER'
 		}
 
+		var _criteria = {};
+	    
+	    vm.criteria = $stateParams.criteria || {
+	    	buyerId : null,
+	    	buyerName: null, 
+	    	memberBuyerId: null, 
+	    	memberBuyerCode: null, 
+	    	memberBuyerName: null,
+	    	supplierId: null, 
+	    	supplierName: null, 
+	    	memberSupplierId: null, 
+	    	memberSupplierCode: null, 
+	    	memberSupplierName: null
+	    }
+        
+        vm.viewAction = false;
+        vm.unauthenView = function() {
+            if (vm.viewAction) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        
+        vm.pagingController = PagingController.create('/api/v1/buyer-credit-information', vm.criteria,'GET');
 		vm.search = function (pageModel) {
-			var buyerId = undefined;
-			var supplierId = undefined;
+			var buyer = undefined;
+        	var buyerName = undefined;
+        	var buyerCode = undefined;
+			var supplier = undefined;
+			var supplierName = undefined;
+			var supplierCode = undefined;
 			var defered = scfFactory.getUserInfo();
 			defered.promise.then(function (response) {
 				var organizeId = response.organizeId;
@@ -44,26 +75,44 @@ bciModule.controller('BuyerCreditInformationController', [
 					buyerId = organizeId;
 					if (angular.isObject(vm.supplier)) {
 						supplierId = vm.supplier.supplierId;
+						supplierName = vm.supplier.supplierName;
 					}
+					page = '/my-organize/buyer-credit-information/view';
 				} else if (viewModeData.partner == $stateParams.viewMode) {
-					supplierId = organizeId;
-					if (angular.isObject(vm.buyer)) {
-						buyerId = vm.buyer.buyerId;
+					buyer = organizeId;
+					if (angular.isObject(vm.supplier)) {
+						supplier = vm.supplier.supplierId;
+						supplierName = vm.supplier.supplierName;
 					}
+					page = '/partner-organize/buyer-credit-information/view';
 				} else if (viewModeData.customer == $stateParams.viewMode) {
 					if (angular.isObject(vm.buyer)) {
-						buyerId = vm.buyer.memberId;
+						buyer = vm.buyer.memberId;
+						buyerName = vm.buyer.memberName;
+						buyerCode = vm.buyer.memberCode;
 					}
 					if (angular.isObject(vm.supplier)) {
-						supplierId = vm.supplier.memberId;
+						supplier = vm.supplier.memberId;
+						supplierName = vm.supplier.memberName;
+						supplierCode = vm.supplier.memberCode;
 					}
+					page = '/customer-registration/buyer-credit-information/view';
 				} else {
 					buyerId = null;
 					supplierId = null;
 				}
 
-				vm.criteria.buyerId = buyerId;
-				vm.criteria.supplierId = supplierId;
+				vm.criteria.buyerId = buyer;
+				vm.criteria.buyerName = buyerName;
+				vm.criteria.memberBuyerId = buyer;
+				vm.criteria.memberBuyerCode = buyerCode; 
+				vm.criteria.memberBuyerName = buyerName;
+				vm.criteria.supplierId = supplier;
+				vm.criteria.supplierName = supplierName;
+				vm.criteria.memberSupplierId = supplier;
+				vm.criteria.memberSupplierCode = supplierCode; 
+				vm.criteria.memberSupplierName = supplierName;
+				_storeCriteria();
 				vm.pagingController.search(pageModel, function (criteriaData, response) {
 					var data = response.data;
 					var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
@@ -71,15 +120,22 @@ bciModule.controller('BuyerCreditInformationController', [
 					var i = 0;
 					var baseRowNo = pageSize * currentPage;
 					angular.forEach(data, function (value, idx) {
-						if (isSameAccount(value.accountId, data, idx)) {
-							value.isSameAccount = true;
+						if (!isSameAccount(value.accountId, data, idx)) {
+							value.showAccountFlag = true;
 						}
 						++i;
 						value.rowNo = baseRowNo + i;
 					});
 				});
+				if($stateParams.backAction){
+		    		$stateParams.backAction = false;
+		    	}
 			});
 		};
+		
+		function _storeCriteria() {
+			angular.copy(vm.criteria, _criteria);
+		}
 
 		var _supplierTypeAhead = function (q) {
 			q = UIFactory.createCriteria(q);
@@ -113,6 +169,27 @@ bciModule.controller('BuyerCreditInformationController', [
 
 		// Main of program
 		var initLoad = function () {
+			var backAction = $stateParams.backAction;
+			if(backAction){
+				vm.criteria = $stateParams.criteria;
+				vm.buyer = {buyerId: '', buyerName: '', memberId: '', memberName: '', memberCode: ''};
+				vm.buyer.buyerId = vm.criteria.buyerId;
+				vm.buyer.buyerName = vm.criteria.buyerName;
+				vm.buyer.memberId = vm.criteria.memberBuyerId;
+				vm.buyer.memberName = vm.criteria.memberBuyerName;
+				vm.buyer.memberCode = vm.criteria.memberBuyerCode;
+				vm.supplier = {supplierId: '', supplierName: '', memberId: '', memberName: '', memberCode: ''};
+				vm.supplier.supplierId = vm.criteria.supplierId;
+				vm.supplier.supplierName = vm.criteria.supplierName;
+				vm.supplier.memberId = vm.criteria.memberSupplierId;
+				vm.supplier.memberName = vm.criteria.memberSupplierName;
+				vm.supplier.memberCode = vm.criteria.memberSupplierCode;
+				BuyerCreditInformationService._prepareItemSupplier(vm.supplier);
+				BuyerCreditInformationService._prepareItemSupplierForBuyer(vm.supplier);
+				BuyerCreditInformationService._prepareItemBuyers(vm.buyer);
+				BuyerCreditInformationService._prepareItemBuyersForBank(vm.buyer);
+			}
+			
 			vm.search();
 			if (viewModeData.myOrganize == $stateParams.viewMode) {
 				vm.showSupplier = true;
@@ -137,6 +214,24 @@ bciModule.controller('BuyerCreditInformationController', [
 				return accountId == data[index - 1].accountId;
 			}
 		}
+		
+		vm.getAccountNoToDisplay = function(record){
+			if(record.format){
+				return $filter('accountNoDisplay')(record.accountNo);
+			}else{
+				return record.accountNo;
+			}
+			
+		}
+		
+		vm.view = function(data) {
+            var params = {
+                accountId: data.accountId
+            };
+            $timeout(function() {
+				PageNavigation.nextStep(page, params, {criteria : _criteria});
+			}, 10);
+        }
 
 		vm.enquiryAvailableBalance = function (data) {
 			blockUI.start("Processing...");
@@ -193,15 +288,6 @@ bciModule.controller('BuyerCreditInformationController', [
 				}
 			}
 			return -1;
-		}
-
-		vm.getAccountNoToDisplay = function (record) {
-			if (record.format) {
-				return $filter('accountNoDisplay')(record.accountNo);
-			} else {
-				return record.accountNo;
-			}
-
 		}
 	}
 ]);
