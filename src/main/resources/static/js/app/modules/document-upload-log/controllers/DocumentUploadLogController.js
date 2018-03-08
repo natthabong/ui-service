@@ -12,6 +12,8 @@ app.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$statePa
         var log = $log;
         
         vm.criteria = $stateParams.criteria || {
+        	viewMode: null,
+        	fundingId: null,
         	organizeId: null,
             fileType: null,
             uploadDateFrom: null,
@@ -234,6 +236,7 @@ app.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$statePa
                 	 vm.criteria.fileType = vm.fileTypeDropdowns[0].value;
                 }
             } else if (currentMode == viewMode.FUNDING) {
+            	vm.criteria.fundingId = $rootScope.userInfo.fundingId;
                 vm.sponsorTxtDisable = false;
                 vm.viewMode = 'FUNDING';
                 vm.hideColSponsor = false;
@@ -250,6 +253,7 @@ app.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$statePa
                 	vm.organize = prepareAutoSuggestLabel(vm.organize);
                 }
             }
+            vm.criteria.viewMode = vm.viewMode;
             vm.searchLog();
         }();
 
