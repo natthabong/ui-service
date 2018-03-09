@@ -41,14 +41,11 @@ bciModule.controller('BuyerCreditInformationController', [
 	    vm.criteria = $stateParams.criteria || {
 	    	buyerId : null,
 	    	buyerName: null, 
-	    	memberBuyerId: null, 
-	    	memberBuyerCode: null, 
-	    	memberBuyerName: null,
 	    	supplierId: null, 
 	    	supplierName: null, 
-	    	memberSupplierId: null, 
-	    	memberSupplierCode: null, 
-	    	memberSupplierName: null
+	    	memberId: null, 
+	    	memberCode: null, 
+	    	memberName: null
 	    }
         
         vm.viewAction = false;
@@ -72,17 +69,18 @@ bciModule.controller('BuyerCreditInformationController', [
 			defered.promise.then(function (response) {
 				var organizeId = response.organizeId;
 				if (viewModeData.myOrganize == $stateParams.viewMode) {
-					buyerId = organizeId;
-					if (angular.isObject(vm.supplier)) {
-						supplierId = vm.supplier.supplierId;
-						supplierName = vm.supplier.supplierName;
-					}
-					page = '/my-organize/buyer-credit-information/view';
-				} else if (viewModeData.partner == $stateParams.viewMode) {
 					buyer = organizeId;
 					if (angular.isObject(vm.supplier)) {
 						supplier = vm.supplier.supplierId;
 						supplierName = vm.supplier.supplierName;
+					}
+					page = '/my-organize/buyer-credit-information/view';
+				} else if (viewModeData.partner == $stateParams.viewMode) {
+					supplier = organizeId;
+					if (angular.isObject(vm.buyer)) {
+						buyer = vm.buyer.buyerId;
+						buyerName = vm.buyer.buyerName;
+						buyerCode = vm.buyer.memberCode;
 					}
 					page = '/partner-organize/buyer-credit-information/view';
 				} else if (viewModeData.customer == $stateParams.viewMode) {
@@ -98,20 +96,17 @@ bciModule.controller('BuyerCreditInformationController', [
 					}
 					page = '/customer-registration/buyer-credit-information/view';
 				} else {
-					buyerId = null;
-					supplierId = null;
+					buyer = null;
+					supplier = null;
 				}
 
 				vm.criteria.buyerId = buyer;
 				vm.criteria.buyerName = buyerName;
-				vm.criteria.memberBuyerId = buyer;
-				vm.criteria.memberBuyerCode = buyerCode; 
-				vm.criteria.memberBuyerName = buyerName;
 				vm.criteria.supplierId = supplier;
 				vm.criteria.supplierName = supplierName;
-				vm.criteria.memberSupplierId = supplier;
-				vm.criteria.memberSupplierCode = supplierCode; 
-				vm.criteria.memberSupplierName = supplierName;
+				vm.criteria.memberId = supplier;
+				vm.criteria.memberCode = supplierCode; 
+				vm.criteria.memberName = supplierName;
 				_storeCriteria();
 				vm.pagingController.search(pageModel, function (criteriaData, response) {
 					var data = response.data;
@@ -172,22 +167,25 @@ bciModule.controller('BuyerCreditInformationController', [
 			var backAction = $stateParams.backAction;
 			if(backAction){
 				vm.criteria = $stateParams.criteria;
-				vm.buyer = {buyerId: '', buyerName: '', memberId: '', memberName: '', memberCode: ''};
-				vm.buyer.buyerId = vm.criteria.buyerId;
-				vm.buyer.buyerName = vm.criteria.buyerName;
-				vm.buyer.memberId = vm.criteria.memberBuyerId;
-				vm.buyer.memberName = vm.criteria.memberBuyerName;
-				vm.buyer.memberCode = vm.criteria.memberBuyerCode;
-				vm.supplier = {supplierId: '', supplierName: '', memberId: '', memberName: '', memberCode: ''};
-				vm.supplier.supplierId = vm.criteria.supplierId;
-				vm.supplier.supplierName = vm.criteria.supplierName;
-				vm.supplier.memberId = vm.criteria.memberSupplierId;
-				vm.supplier.memberName = vm.criteria.memberSupplierName;
-				vm.supplier.memberCode = vm.criteria.memberSupplierCode;
-				BuyerCreditInformationService._prepareItemSupplier(vm.supplier);
-				BuyerCreditInformationService._prepareItemSupplierForBuyer(vm.supplier);
-				BuyerCreditInformationService._prepareItemBuyers(vm.buyer);
-				BuyerCreditInformationService._prepareItemBuyersForBank(vm.buyer);
+				if(angular.isDefined(vm.criteria.buyerName)){
+					vm.buyer = {buyerId: '', buyerName: ''};
+					vm.buyer.buyerId = vm.criteria.buyerId;
+					vm.buyer.buyerName = vm.criteria.buyerName;
+					BuyerCreditInformationService._prepareItemBuyers(vm.buyer);
+				}
+				if(angular.isDefined(vm.criteria.supplierName)){
+					vm.supplier = {supplierId: '', supplierName: '', memberId: '', memberName: '', memberCode: ''};
+					vm.supplier.supplierId = vm.criteria.supplierId;
+					vm.supplier.supplierName = vm.criteria.supplierName;
+					vm.supplier.memberId = vm.criteria.memberId;
+					vm.supplier.memberName = vm.criteria.memberName;
+					vm.supplier.memberCode = vm.criteria.memberCode;
+					if (viewModeData.myOrganize == $stateParams.viewMode) {
+						BuyerCreditInformationService._prepareItemSupplierForBuyer(vm.supplier);
+					} else {
+						BuyerCreditInformationService._prepareItemSupplier(vm.supplier);
+					}
+				}
 			}
 			
 			vm.search();

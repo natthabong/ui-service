@@ -145,17 +145,19 @@ sciModule.controller('SupplierCreditInformationController', [
 			var backAction = $stateParams.backAction;
 			if(backAction){
 				vm.criteria = $stateParams.criteria;
-				vm.buyer = {buyerId: '', buyerName: '', memberId: '', memberName: ''};
-				vm.buyer.buyerId = vm.criteria.buyerId;
-				vm.buyer.buyerName = vm.criteria.buyerName;
-				vm.buyer.memberId = vm.criteria.buyerId;
-				vm.buyer.memberName = vm.criteria.buyerName;
-				vm.supplier = {memberId: '', memberName: '', memberCode: ''};
-				vm.supplier.memberId = vm.criteria.memberId;
-				vm.supplier.memberName = vm.criteria.memberName;
-				vm.supplier.memberCode = vm.criteria.memberCode;
-				SupplierCreditInformationService._prepareItem(vm.supplier);
-				SupplierCreditInformationService._prepareItemBuyers(vm.buyer);
+				if(angular.isDefined(vm.criteria.buyerName)){
+					vm.buyer = {buyerId: '', buyerName: ''};
+					vm.buyer.buyerId = vm.criteria.buyerId;
+					vm.buyer.buyerName = vm.criteria.buyerName;
+					SupplierCreditInformationService._prepareItemBuyers(vm.buyer);
+				}
+				if(angular.isDefined(vm.criteria.memberName)){
+					vm.supplier = {memberId: '', memberName: '', memberCode: ''};
+					vm.supplier.memberId = vm.criteria.memberId;
+					vm.supplier.memberName = vm.criteria.memberName;
+					vm.supplier.memberCode = vm.criteria.memberCode;
+					SupplierCreditInformationService._prepareItem(vm.supplier);
+				}
 			}
 
 			vm.search();
