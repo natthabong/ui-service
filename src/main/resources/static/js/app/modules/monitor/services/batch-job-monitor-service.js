@@ -1,4 +1,4 @@
-angular.module('scfApp').factory('BatchJobMonitorService', ['$http', '$q', BatchJobMonitorService]);
+angular.module('gecscf.monitoring').factory('BatchJobMonitorService', ['$http', '$q', BatchJobMonitorService]);
 function BatchJobMonitorService($http, $q) {
     return {
     	getBatchJobs: getBatchJobs,

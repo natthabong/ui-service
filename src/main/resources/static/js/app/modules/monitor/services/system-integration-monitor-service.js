@@ -1,4 +1,4 @@
-angular.module('scfApp').factory('SystemIntegrationMonitorService', ['$http', '$q', SystemIntegrationMonitorService]);
+angular.module('gecscf.monitoring').factory('SystemIntegrationMonitorService', ['$http', '$q', SystemIntegrationMonitorService]);
 function SystemIntegrationMonitorService($http, $q) {
     return {
         getWebServiceList: getWebServiceList,

@@ -1,6 +1,8 @@
 var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'ui.mask', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
-		'legendDirectives', 'chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing', 'gecscf.supplierCreditInformation', 'gecscf.buyerCreditInformation', 'gecscf.sponsorConfiguration.workflow', 'gecscf.document', 'gecscf.organize.configuration.exportPayment', 'gecscf.organize.configuration.display', 'gecscf.downloadPaymentResult', 'gecscf.documentUploadLog'
+		'legendDirectives', 'chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing',
+		'gecscf.supplierCreditInformation', 'gecscf.buyerCreditInformation', 'gecscf.sponsorConfiguration.workflow', 'gecscf.document', 'gecscf.organize.configuration.exportPayment', 'gecscf.organize.configuration.display',
+		'gecscf.downloadPaymentResult', 'gecscf.documentUploadLog', 'gecscf.monitoring'
 	])
 	.config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider', 'blockUIConfig', '$logProvider', '$compileProvider', '$urlRouterProvider', 'ngDialogProvider',
 		function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider, $compileProvider, $urlRouterProvider, ngDialogProvider) {
@@ -408,70 +410,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						viewMode: null
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/document-upload-log/controllers/ViewDocumentUplaodLogController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/monitoring/bank-system-integration', {
-					url: '/monitoring/bank-system-integration',
-					controller: 'BankSystemIntegrationMonitorController',
-					controllerAs: 'ctrl',
-					templateUrl: '/system-integration-monitor/bank',
-					params: {
-						params: []
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/bank-system-integration-monitor-controller.js', 'js/app/modules/monitor/web-service-monitor-controller.js', 'js/app/modules/monitor/ftp-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-service.js', 'js/app/modules/monitor/system-integration-monitor-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/monitoring/customer-system-integration', {
-					url: '/monitoring/customer-system-integration',
-					controller: 'CustomerSystemIntegrationMonitorController',
-					controllerAs: 'ctrl',
-					templateUrl: '/system-integration-monitor/sponsor',
-					params: {
-						params: []
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/customer-system-integration-monitor-controller.js', 'js/app/modules/monitor/web-service-monitor-controller.js', 'js/app/modules/monitor/ftp-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-service.js', 'js/app/modules/monitor/system-integration-monitor-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/monitoring/system-integration', {
-					url: '/monitoring/system-integration',
-					controller: 'MySystemIntegrationMonitorController',
-					controllerAs: 'ctrl',
-					templateUrl: '/system-integration-monitor/gec',
-					params: {
-						params: []
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/my-system-integration-monitor-controller.js', 'js/app/modules/monitor/web-service-monitor-controller.js', 'js/app/modules/monitor/ftp-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-service.js', 'js/app/modules/monitor/system-integration-monitor-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/monitoring/transaction-tracking', {
-					url: '/monitoring/transaction-tracking',
-					controller: 'TransactionTrackingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/transaction-tracking',
-					params: {
-						backAction: false,
-						criteria: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/transaction-tracking-controller.js', 'js/app/modules/monitor/transaction-tracking-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/view-transaction-tracking-message', {
-					url: '/view-transaction-tracking-message',
-					controller: 'ViewTransactionTrackingMessageController',
-					controllerAs: 'ctrl',
-					templateUrl: '/view-transaction-tracking-message',
-					params: {
-						params: []
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/view-transaction-tracking-message-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/batch-job-tracking', {
-					url: '/batch-job-tracking',
-					controller: 'BatchJobTrackingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/batch-job-tracking',
-					params: {
-						params: []
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/batch-job-tracking-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/view-batch-job-tracking-message', {
-					url: '/view-batch-job-tracking-message',
-					controller: 'ViewBatchJobTrackingMessageController',
-					controllerAs: 'ctrl',
-					templateUrl: '/view-batch-job-tracking-message',
-					params: {
-						params: []
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/view-batch-job-tracking-message-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/customer-registration/account', {
 					url: '/customer-registration/account',
 					controller: 'AccountListController',
