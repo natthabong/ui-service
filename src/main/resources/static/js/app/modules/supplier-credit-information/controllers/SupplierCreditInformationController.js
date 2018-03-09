@@ -146,9 +146,11 @@ sciModule.controller('SupplierCreditInformationController', [
 			if(backAction){
 				vm.criteria = $stateParams.criteria;
 				if(angular.isDefined(vm.criteria.buyerName)){
-					vm.buyer = {buyerId: '', buyerName: ''};
+					vm.buyer = {buyerId: '', buyerName: '', memberId: '', memberName: ''};
 					vm.buyer.buyerId = vm.criteria.buyerId;
 					vm.buyer.buyerName = vm.criteria.buyerName;
+					vm.buyer.memberId = vm.criteria.buyerId;
+					vm.buyer.memberName = vm.criteria.buyerName;
 					SupplierCreditInformationService._prepareItemBuyers(vm.buyer);
 				}
 				if(angular.isDefined(vm.criteria.memberName)){
