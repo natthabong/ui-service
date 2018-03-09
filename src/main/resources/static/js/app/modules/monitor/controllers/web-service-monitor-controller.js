@@ -68,6 +68,37 @@ scfApp.controller('WebServiceMonitorController', ['$scope', 'Service',
 				}
 			});
 		}
+		
+		vm.recheck = function(value) {
+			vm.webServices[value.recordNo].status = "loading";
+			var deffered = SystemIntegrationMonitorService.verifySystemStatusWebService(value);
+			deffered.promise.then(function (response) {
+				if (response.data.status == "UP") {
+					vm.webServices[value.recordNo].status = "success";
+				} else {
+					vm.webServices[value.recordNo].errorMessage = response.data.code + ' - ' + response.data.message;
+					vm.webServices[value.recordNo].status = "fail";
+				}
+			}).catch(function (response) {
+				vm.webServices[value.recordNo].errorMessage = response.status + ' - ' + response.statusText;
+				vm.webServices[value.recordNo].status = "fail";
+			});
+		}
+		
+		var verify = function (webServiceModel) {
+			var deffered = SystemIntegrationMonitorService.verifySystemStatusWebService(webServiceModel);
+			deffered.promise.then(function (response) {
+				if (response.data.status == "UP") {
+					webServiceModel.status = "success";
+				} else {
+					webServiceModel.errorMessage = response.data.code + ' - ' + response.data.message;
+					webServiceModel.status = "fail";
+				}
+			}).catch(function (response) {
+				webServiceModel.errorMessage = response.status + ' - ' + response.statusText;
+				webServiceModel.status = "fail";
+			});
+		}
 
 		var defered = scfFactory.getUserInfo();
 		defered.promise.then(function (response) {
@@ -75,21 +106,6 @@ scfApp.controller('WebServiceMonitorController', ['$scope', 'Service',
 			$scope.$on('onload', function (e) {
 				getWebServices();
 			});
-
-			var verify = function (webServiceModel) {
-				var deffered = SystemIntegrationMonitorService.verifySystemStatusWebService(webServiceModel);
-				deffered.promise.then(function (response) {
-					if (response.data.status == "UP") {
-						webServiceModel.status = "success";
-					} else {
-						webServiceModel.errorMessage = response.data.code + ' - ' + response.data.message;
-						webServiceModel.status = "fail";
-					}
-				}).catch(function (response) {
-					webServiceModel.errorMessage = response.status + ' - ' + response.statusText;
-					webServiceModel.status = "fail";
-				});
-			}
 
 			var getWebServices = function () {
 				var deffered = SystemIntegrationMonitorService.getWebServiceList($scope.monitorOwnerModel.id);
