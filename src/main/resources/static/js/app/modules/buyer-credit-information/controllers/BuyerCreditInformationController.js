@@ -173,7 +173,6 @@ bciModule.controller('BuyerCreditInformationController', [
 			var backAction = $stateParams.backAction;
 			if(backAction){
 				vm.criteria = $stateParams.criteria;
-				console.log(vm.criteria);
 				if(angular.isDefined(vm.criteria.buyerName) || angular.isDefined(vm.criteria.memberBuyerName)){
 					vm.buyer = {buyerId: '', buyerName: '', memberId: '', memberName: '', memberCode: ''};
 					vm.buyer.buyerId = vm.criteria.buyerId;
