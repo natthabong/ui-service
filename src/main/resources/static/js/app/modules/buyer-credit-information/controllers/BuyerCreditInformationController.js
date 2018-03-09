@@ -41,11 +41,14 @@ bciModule.controller('BuyerCreditInformationController', [
 	    vm.criteria = $stateParams.criteria || {
 	    	buyerId : null,
 	    	buyerName: null, 
+	    	memberBuyerId: null, 
+	    	memberBuyerCode: null, 
+	    	memberBuyerName: null,
 	    	supplierId: null, 
 	    	supplierName: null, 
-	    	memberId: null, 
-	    	memberCode: null, 
-	    	memberName: null
+	    	memberSupplierId: null, 
+	    	memberSupplierCode: null, 
+	    	memberSupplierName: null
 	    }
         
         vm.viewAction = false;
@@ -102,11 +105,14 @@ bciModule.controller('BuyerCreditInformationController', [
 
 				vm.criteria.buyerId = buyer;
 				vm.criteria.buyerName = buyerName;
+				vm.criteria.memberBuyerId = buyer;
+				vm.criteria.memberBuyerCode = buyerCode; 
+				vm.criteria.memberBuyerName = buyerName;
 				vm.criteria.supplierId = supplier;
 				vm.criteria.supplierName = supplierName;
-				vm.criteria.memberId = supplier;
-				vm.criteria.memberCode = supplierCode; 
-				vm.criteria.memberName = supplierName;
+				vm.criteria.memberSupplierId = supplier;
+				vm.criteria.memberSupplierCode = supplierCode; 
+				vm.criteria.memberSupplierName = supplierName;
 				_storeCriteria();
 				vm.pagingController.search(pageModel, function (criteriaData, response) {
 					var data = response.data;
@@ -167,19 +173,23 @@ bciModule.controller('BuyerCreditInformationController', [
 			var backAction = $stateParams.backAction;
 			if(backAction){
 				vm.criteria = $stateParams.criteria;
-				if(angular.isDefined(vm.criteria.buyerName)){
-					vm.buyer = {buyerId: '', buyerName: ''};
+				console.log(vm.criteria);
+				if(angular.isDefined(vm.criteria.buyerName) || angular.isDefined(vm.criteria.memberBuyerName)){
+					vm.buyer = {buyerId: '', buyerName: '', memberId: '', memberName: '', memberCode: ''};
 					vm.buyer.buyerId = vm.criteria.buyerId;
 					vm.buyer.buyerName = vm.criteria.buyerName;
+					vm.buyer.memberId = vm.criteria.memberBuyerId;
+					vm.buyer.memberName = vm.criteria.memberBuyerName;
+					vm.buyer.memberCode = vm.criteria.memberBuyerCode;
 					BuyerCreditInformationService._prepareItemBuyers(vm.buyer);
 				}
-				if(angular.isDefined(vm.criteria.supplierName)){
+				if(angular.isDefined(vm.criteria.supplierName) || angular.isDefined(vm.criteria.memberSupplierName)){
 					vm.supplier = {supplierId: '', supplierName: '', memberId: '', memberName: '', memberCode: ''};
 					vm.supplier.supplierId = vm.criteria.supplierId;
 					vm.supplier.supplierName = vm.criteria.supplierName;
-					vm.supplier.memberId = vm.criteria.memberId;
-					vm.supplier.memberName = vm.criteria.memberName;
-					vm.supplier.memberCode = vm.criteria.memberCode;
+					vm.supplier.memberId = vm.criteria.memberSupplierId;
+					vm.supplier.memberName = vm.criteria.memberSupplierName;
+					vm.supplier.memberCode = vm.criteria.memberSupplierCode;
 					if (viewModeData.myOrganize == $stateParams.viewMode) {
 						BuyerCreditInformationService._prepareItemSupplierForBuyer(vm.supplier);
 					} else {
