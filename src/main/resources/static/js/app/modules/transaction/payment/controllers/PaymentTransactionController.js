@@ -31,7 +31,8 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	    var ownerId = $rootScope.userInfo.organizeId;
 	
 	    var organizeInfo = {
-	        memberCode : $rootScope.userInfo.organizeId,
+	    	memberId : $rootScope.userInfo.organizeId,
+	    	memberCode : $rootScope.userInfo.organizeId,
 	        memberName : $rootScope.userInfo.organizeName
 	    }
 	
