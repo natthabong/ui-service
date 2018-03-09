@@ -109,7 +109,8 @@
 												id="{{record.rowNo}}-{{record.customerCode}}-label"
 												ng-bind="record.rowNo"></span></td>
 											<td class="text-center" ng-hide="ctrl.hiddenFundingColumn">
-												<organization-logo ng-model="record.funding"></organization-logo>
+												<img id="funding-logo-{{record.rowNo}}-{{record.customerCode}}-img" title="{{record.funding.fundingName}}" style="height: 32px; width: 32px;"
+											    data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.funding.fundingLogo)}}" />
 											</td>
 											<td class="text-left"><span
 												id="customer-{{record.customerCode}}-label"
