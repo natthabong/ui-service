@@ -43,8 +43,14 @@ angular.module('scfApp').controller('JourneyWaitForVerifyPaymentController',
 		    }
 
 		    vm.paymentList = function() {
+		    	var criteria = {
+					statusGroup: 'INTERNAL_STEP'
+				}
+				
 		    	if($rootScope.isDesktopDevice){
-			        $state.go('/my-organize/payment-transaction');
+			        $state.go('/my-organize/payment-transaction', {
+                    	criteria: criteria
+                	});
 		    	}
 		    }
 		    
