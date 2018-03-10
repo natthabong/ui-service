@@ -180,7 +180,11 @@ bciModule.controller('BuyerCreditInformationController', [
 					vm.buyer.memberId = vm.criteria.memberBuyerId;
 					vm.buyer.memberName = vm.criteria.memberBuyerName;
 					vm.buyer.memberCode = vm.criteria.memberBuyerCode;
-					BuyerCreditInformationService._prepareItemBuyers(vm.buyer);
+					if (viewModeData.myOrganize == $stateParams.viewMode) {
+						BuyerCreditInformationService._prepareItemBuyersForBank(vm.buyer);
+					} else {
+						BuyerCreditInformationService._prepareItemBuyers(vm.buyer);
+					}
 				}
 				if(angular.isDefined(vm.criteria.supplierName) || angular.isDefined(vm.criteria.memberSupplierName)){
 					vm.supplier = {supplierId: '', supplierName: '', memberId: '', memberName: '', memberCode: ''};
