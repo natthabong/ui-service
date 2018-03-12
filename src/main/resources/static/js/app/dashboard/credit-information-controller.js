@@ -38,7 +38,7 @@ angular.module('scfApp').controller(
 					vm.getCreditInformation();
 					
 					vm.decodeBase64 = function(data){
-						return atob(data);
+						return (data ? atob(data) : UIFactory.constants.NOLOGO);
 					}
 					
 					vm.isSameAccount = function(accountId, data, index){
