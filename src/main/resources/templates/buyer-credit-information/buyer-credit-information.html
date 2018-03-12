@@ -71,10 +71,10 @@
 												<span ng-show="record.showAccountFlag" id="credit-limit-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.creditLimit | number : 2"></span>
 											</td>
 											<td class="text-left" ng-show="!ctrl.buyerMode">
-												<span id="supplier-name-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.buyerName | translate"></span>
+												<span id="buyer-name-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.buyerName | translate"></span>
 											</td>
 											<td class="text-center" ng-show="!ctrl.supplierMode">
-												<img id="sponsor-" title="{{record.supplierName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.supplierLogo)}}"
+												<img id="supplier-" title="{{record.supplierName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.supplierLogo)}}"
 												/>
 											</td>
 											<td class="text-right">
