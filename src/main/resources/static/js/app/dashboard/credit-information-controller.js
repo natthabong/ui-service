@@ -13,8 +13,10 @@ angular.module('scfApp').controller(
 				'blockUI',
 				'$q',
 				'UIFactory',
+				'$filter',
+				'AccountService',
 				function($log, $scope, $state, $stateParams, $timeout,
-						PageNavigation, Service, $rootScope, $http, blockUI, $q, UIFactory) {
+						PageNavigation, Service, $rootScope, $http, blockUI, $q, UIFactory, $filter, AccountService) {
 					var vm = this;
 					var organizeId = $rootScope.userInfo.organizeId;
 					var log = $log;
@@ -67,86 +69,51 @@ angular.module('scfApp').controller(
 						dialogPopup.close();
 					}
 					
-					vm.inquiryAccount = function(data) {
-						
-						var preCloseCallback = function(confirm) {
-							$scope.closeThisDialog();
-						}
-						
+					vm.enquiryAvailableBalance = function (data) {
 						blockUI.start("Processing...");
-						var deffered = $q.defer();
-						var tpAccountModel = {
-							buyerId : data.buyerId,
-							supplierId : data.supplierId,
-							accountId : data.accountId,
-						}			
-						var inquiryAccountDeffered = inquiryAccountToApi(tpAccountModel);
-						inquiryAccountDeffered.promise.then(function(response) {
+						var deffered = null;
+						var criteria = {
+							buyerId: data.buyerId,
+							supplierId: data.supplierId,
+							accountId: data.accountId
+						}
+
+						if (data.accountType == 'LOAN') {
+							deffered = AccountService.enquiryCreditLimit(criteria);
+						} else {
+							//overdraft
+							deffered = AccountService.enquiryAccountBalance(criteria);
+						}
+
+						deffered.promise.then(function (response) {
 							blockUI.stop();
-							if(response.status==200){
-								dialogPopup = UIFactory.showSuccessDialog({
+							if (response.status == 200) {
+								vm.getCreditInformation();
+								UIFactory.showSuccessDialog({
 									data: {
-									    headerMessage: 'Inquiry credit information success.',
-									    bodyMessage: ''
+										headerMessage: 'Enquiry credit information success.',
+										bodyMessage: ''
 									},
-									buttons : [{
-										id: 'ok-button',
-										label: 'OK',
-										action:function(){
-											vm.getCreditInformation();
-											closeDialogSucccess();
-										}
-									}],
-									preCloseCallback: null
-							    });
-							}else{
-							    dialogPopup = UIFactory.showFailDialog({
+									showOkButton: true,
+								});
+							} else {
+								UIFactory.showFailDialog({
 									data: {
-									    headerMessage: 'Inquiry credit information failure',
-									    bodyMessage: 'please try again.'
+										headerMessage: 'Enquiry credit information failure',
+										bodyMessage: 'please try again.'
 									},
-									buttons : [{
-										id: 'ok-button',
-										label: 'OK',
-										action:function(){
-											closeDialogFail();
-										}
-									}],
-									preCloseCallback: null
-								});					
+									showOkButton: true,
+								});
 							}
-						}).catch(function(response) {
+						}).catch(function (response) {
 							blockUI.stop();
-						    dialogPopup = UIFactory.showFailDialog({
+							UIFactory.showFailDialog({
 								data: {
-								    headerMessage: 'Inquiry credit information failure',
-								    bodyMessage: ' please try again.'
+									headerMessage: 'Enquiry credit information failure',
+									bodyMessage: ' please try again.'
 								},
-								buttons : [{
-										id: 'ok-button',
-										label: 'OK',
-										action:function(){
-											closeDialogFail();
-										}
-									}],
-								preCloseCallback: null
+								showOkButton: true,
 							});
-				        });
-						
-					}
-					
-					
-					function inquiryAccountToApi(tpAccountModel){
-						var deffered = $q.defer();	
-						$http({
-							url: '/api/v1/update-credit-limit-from-bank',
-							method: 'POST',
-							data: tpAccountModel
-						}).then(function(response){
-							deffered.resolve(response);
-						}).catch(function(response){
-							deffered.reject(response);
-						});	
-						return deffered;
+						});
 					}
 				}]);

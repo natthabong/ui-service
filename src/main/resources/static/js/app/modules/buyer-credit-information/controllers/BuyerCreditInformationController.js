@@ -266,7 +266,7 @@ bciModule.controller('BuyerCreditInformationController', [
 					vm.search();
 					UIFactory.showSuccessDialog({
 						data: {
-							headerMessage: 'Inquiry credit information success.',
+							headerMessage: 'Enquiry credit information success.',
 							bodyMessage: ''
 						},
 						showOkButton: true,
@@ -274,7 +274,7 @@ bciModule.controller('BuyerCreditInformationController', [
 				} else {
 					UIFactory.showFailDialog({
 						data: {
-							headerMessage: 'Inquiry credit information failure',
+							headerMessage: 'Enquiry credit information failure',
 							bodyMessage: 'please try again.'
 						},
 						showOkButton: true,
@@ -284,7 +284,7 @@ bciModule.controller('BuyerCreditInformationController', [
 				blockUI.stop();
 				UIFactory.showFailDialog({
 					data: {
-						headerMessage: 'Inquiry credit information failure',
+						headerMessage: 'Enquiry credit information failure',
 						bodyMessage: ' please try again.'
 					},
 					showOkButton: true,

@@ -220,7 +220,7 @@ sciModule.controller('SupplierCreditInformationController', [
 					vm.search();
 					UIFactory.showSuccessDialog({
 						data: {
-							headerMessage: 'Inquiry credit information success.',
+							headerMessage: 'Enquiry credit information success.',
 							bodyMessage: ''
 						},
 						showOkButton: true,
@@ -228,7 +228,7 @@ sciModule.controller('SupplierCreditInformationController', [
 				} else {
 					UIFactory.showFailDialog({
 						data: {
-							headerMessage: 'Inquiry credit information failure',
+							headerMessage: 'Enquiry credit information failure',
 							bodyMessage: 'please try again.'
 						},
 						showOkButton: true,
@@ -238,7 +238,7 @@ sciModule.controller('SupplierCreditInformationController', [
 				blockUI.stop();
 				UIFactory.showFailDialog({
 					data: {
-						headerMessage: 'Inquiry credit information failure',
+						headerMessage: 'Enquiry credit information failure',
 						bodyMessage: ' please try again.'
 					},
 					showOkButton: true,
