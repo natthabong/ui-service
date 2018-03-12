@@ -14,7 +14,7 @@ angular.module('scfApp').controller('JourneyNewDocumentPaymentController', [
         vm.payableAmount = '0';
 
         vm.load = function () {
-            var newDocumentDeferred = Service.doGet('/api/view-summary-ar-document');
+            var newDocumentDeferred = Service.doGet('/api/v1/view-summary-ar-document');
             newDocumentDeferred.promise.then(function (response) {
 
                 if (response.data != "") {
