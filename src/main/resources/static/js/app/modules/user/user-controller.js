@@ -242,7 +242,7 @@ userModule
       				
       				if (_validate(user)) {
       				    var preCloseCallback = function(confirm) {
-      					PageNavigation.gotoPreviousPage(true);
+      				    	PageNavigation.backStep();
       				    }
       
       				    UIFactory.showConfirmDialog({
