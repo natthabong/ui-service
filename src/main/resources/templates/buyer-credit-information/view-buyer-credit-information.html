@@ -121,37 +121,37 @@
 								<tbody>
 									<tr ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
 										<td class="text-right">
-											<span id="$rowNo-{{record.buyerId}}-{{record.supplierId}}-label" ng-bind="record.rowNo"></span>
+											<span id="$rowNo-{{record.rowNo}}-label" ng-bind="record.rowNo"></span>
 										</td>
 										<td class="text-left">
-											<span ng-show="record.showBuyerFlag" id="buyer-{{record.buyerId}}-{{record.supplierId}}-label" ng-bind="record.buyerName"></span>
+											<span ng-show="record.showBuyerFlag" id="buyer-{{record.rowNo}}-label" ng-bind="record.buyerName"></span>
 										</td>
 										<td class="text-center">
-											<img id="supplier-{{record.buyerId}}-{{record.supplierId}}-label" title="{{record.supplierName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.supplierLogo)}}"/>
+											<img id="supplier-{{record.rowNo}}-label" title="{{record.supplierName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.supplierLogo)}}"/>
 										</td>
 										<td class="text-center">
-											<span id="payee-account-{{record.buyerId}}-{{record.supplierId}}-label" ng-bind="ctrl.getPayeeAccountNoToDisplay(record)"></span>
+											<span id="payee-account-{{record.rowNo}}-label" ng-bind="ctrl.getPayeeAccountNoToDisplay(record)"></span>
 										</td>
 										<td class="text-right">
-											<span id="internal-pending-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.internalStep | number : 2"></span>
+											<span id="internal-pending-{{record.rowNo}}-label" ng-bind="record.internalStep | number : 2"></span>
 										</td>
 										<td class="text-center">
-											<span id="trading-status-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.tradingStatus | translate"></span>
+											<span id="trading-status-{{record.rowNo}}-label" ng-bind="record.tradingStatus | translate"></span>
 										</td>
 										<td class="text-center">
-											<span id="tenor-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.tenor"></span>
+											<span id="tenor-{{record.rowNo}}-label" ng-bind="record.tenor"></span>
 										</td>
 										<td class="text-center">
-											<span id="pre-drawdown-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.prePercentageDrawdown"></span>
+											<span id="pre-drawdown-{{record.rowNo}}-label" ng-bind="record.prePercentageDrawdown"></span>
 										</td>
 										<td class="text-left">
-											<span id="interest-rate-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.interestRate"></span>
+											<span id="interest-rate-{{record.rowNo}}-label" ng-bind="record.interestRate"></span>
 										</td>
 										<td class="text-center">
-											<span id="agreement-date-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.agreementDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+											<span id="agreement-date-{{record.rowNo}}-label" ng-bind="record.agreementDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
 										</td>
 										<td class="text-center">
-											<span id="credit-expiration-date-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.limitExpiryDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+											<span id="credit-expiration-date-{{record.rowNo}}-label" ng-bind="record.limitExpiryDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
 										</td>
 									</tr>
 								</tbody>
