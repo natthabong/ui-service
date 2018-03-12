@@ -20,6 +20,15 @@ angular.module('scfApp').controller(
 					var log = $log;
 					vm.index = 0;
 					
+					vm.getAccountNoToDisplay = function(record){
+						if(record.format){
+							return $filter('accountNoDisplay')(record.accountNo);
+						}else{
+							return record.accountNo;
+						}
+						
+					}
+					
 					vm.getCreditInformation = function(){
 						var dataSource = $http({url:'/api/credit-information/get', method: 'GET',params: {organizeId:organizeId}});
 						
