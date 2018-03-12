@@ -222,6 +222,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					resolve: WebHelper.loadScript(['js/app/dashboard/dashboard-controller.js', 'js/app/dashboard/transaction/newduedate-group-controller.js',
 						'js/app/dashboard/credit-information-controller.js',
 						'js/app/dashboard/credit-information-summary-controller.js',
+						'js/app/modules/account/services/AccountService.js',
 						'js/app/dashboard/twelve-months-credit-movement-controller.js',
 						'js/app/dashboard/transaction/internal-step-controller.js',
 						'js/app/dashboard/transaction/transaction-todolist-controller.js',
