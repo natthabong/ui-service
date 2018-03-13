@@ -50,7 +50,6 @@
 	"customer-registration-supplier-credit-information": "Supplier credit information",
 	"customer-registration-buyer-credit-information": "Buyer credit information",
 	"customer-report": "Customer report",
-
 	"myprofile": "ข้อมูลของฉัน",
 	"dashboard": "กระดานข่าว",
 	"loan-request": "คำขอเงินกู้",
@@ -139,7 +138,6 @@
 	"ar_status_booked": "Paid",
 	"ar_status_in_progress": "In process",
 	"ar_status_wait_for_bank_processing": "Approve to pay",
-
 	"_comment": "Menu",
 	"transaction": "Transaction",
 	"transaction-list": "Transaction list",
@@ -154,7 +152,6 @@
 	"user-and-password-policy": "User and password policy",
 	"trading-partner-list": "Trading partner list",
 	"account-list": "Account",
-
 	"_comment": "Page Create Transaction",
 	"Create transaction": "Create transaction",
 	"Credit limit": "วงเงินกู้",
@@ -167,19 +164,15 @@
 	"Transaction no": "Transaction no",
 	"txn no": "Transaction no.",
 	"Please select document.": "กรุณาเลือกเอกสาร",
-
 	"_comment": "Page Validate Create Transaction",
 	"validate-create-popup-confirm": "ยืนยันทำรายการขอกู้",
-
 	"_comment": "Page List Transaction",
 	"Transaction list": "Transaction list",
 	"Date": "วันที่",
-
 	"_comment": "Page New due date group (Top 10)",
 	"New due date group (Top 10)": "New due date group (Top 10)",
 	"Summary of outstanding amount": "Summary of outstanding amount",
 	"Invoice to pay (Top 10)": "Invoice to pay (Top 10)",
-
 	"wait_for_verify": "Wait for verify",
 	"wait_for_approve": "Wait for approve",
 	"reject_by_checker": "Rejected by checker",
@@ -187,7 +180,6 @@
 	"cancelled_by_supplier": "Cancel by supplier",
 	"wait_for_drawdown_result": "Wait for drawdown result",
 	"expired": "Expired",
-
 	"CANCELLED_BY_BANK": "Cancelled by bank",
 	"CANCELLED_BY_SUPPLIER": "Cancelled by supplier",
 	"CANCELLED_BY_BUYER": "Cancelled by buyer",
@@ -212,14 +204,11 @@
 	"WAIT_FOR_PAYMENT_RESULT": "Wait for payment result",
 	"fail_to_payment": "Fail to pay",
 	"FAIL_TO_PAYMENT": "Fail to pay",
-
 	"_comment": "Page Verify Transaction",
 	"Confirm approval ?": "Confirm approval ?",
 	"Confirm reject ?": "Confirm reject ?",
-
 	"_comment": "Page View Transaction",
 	"View transaction": "View transaction",
-
 	"_comment": "Page Approve Transaction",
 	"Approve transaction": "Approve transaction",
 	"contract header loan": "Please read the following evidence of reciept of drawdown and check below before proceed",
@@ -233,7 +222,6 @@
 	"Re-check fail": "Re-check fail.",
 	"Result": "Result",
 	"Transaction incomplete": "Transaction incomplete",
-
 	"_comment": "System Error Code",
 	"E1001": "ระบบไม่สามารถทำรายการได้ เนื่องจากจำนวนเงินที่ทำรายการต้องมากกว่าศูนย์",
 	"E1002": "ระบบไม่สามารถทำรายการได้ เนื่องจากวงเงินคงเหลือไม่พอ",
@@ -253,7 +241,6 @@
 	"E1016": "รหัสวิธีการกันวงเงินไม่ถูกต้อง",
 	"Today is bank holiday.": "Can't create transaction. Please create next working day.",
 	"ULE1001": "ช่องทางนำเข้าเอกสารผ่านเว็ปถูกปิด (Inactive)",
-
 	"drawdown_fail": "Drawdown fail",
 	"drawdown_success": "Drawdown success",
 	"payment_success": "Payment success",
@@ -272,7 +259,6 @@
 	"monitor": "Monitor",
 	"bank-system-integration-monitor": "Bank system integration monitor",
 	"sponsor-system-integration-monitor": "Sponsor system integration monitor",
-
 	"_comment": "Page Upload document",
 	"Upload document": "Upload document",
 	"File type": "File type",
@@ -287,10 +273,8 @@
 	"Total net amount": "Total net amount",
 	"upload-document-bank": "Upload document",
 	"upload-document-supplier": "Upload document",
-
 	"organize": "Organization",
 	"organize-list": "Organization list",
-
 	"Document list": "Document list",
 	"document-list-sponsor": "Document list",
 	"document-supplier": "Document",
@@ -298,26 +282,21 @@
 	"document-list-supplier": "Document list",
 	"document-bank": "Document",
 	"document-list-bank": "Document list",
-
 	"transaction-sponsor": "Transaction",
 	"transaction-list-sponsor": "Transaction list",
 	"transaction-supplier": "Transaction",
 	"transaction-list-supplier": "Transaction list",
 	"transaction-bank": "Transaction",
 	"transaction-list-bank": "Transaction list",
-
 	"transaction-buyer": "Transaction",
 	"create-payment": "Create payment",
-
 	"organize-sponsor": "Organization",
 	"supplier-code-list": "Supplier code list",
-
 	"user-list": "User list",
 	"BOOKED": "Booked",
 	"UNBOOK": "Unbook",
 	"All": "All",
 	"Sponsor is required": "Sponsor is required",
-
 	"File layout": "File layout",
 	"File layout name": "File layout name",
 	"Fixed length": "Fixed length",
@@ -332,7 +311,6 @@
 	"Add another data": "Add another data",
 	"Header field layout": "Header field layout",
 	"Detail field layout": "Detail field layout",
-
 	"Text field format": "Text field format",
 	"Date time field format": "Date time field format",
 	"Numeric field format": "Numeric field format",
@@ -399,7 +377,6 @@
 	"PENDING": "Pending",
 	"COMPLETED": "Completed",
 	"INCOMPLETE": "Incomplete",
-
 	"Display document configuration": "ตั้งค่าหน้าจอแสดงเอกสาร",
 	"Document display": "ตั้งค่าหน้าจอแสดงเอกสาร",
 	"Credit term": "Credit term",
@@ -422,37 +399,30 @@
 	"Payment period": "Payment period",
 	"Every period": "Use all period",
 	"Specific period": "Use specific period",
-
 	"Loan request mode": "Loan request mode",
 	"Current and future": "Current and future",
 	"Current": "Current",
 	"Document selection": "Document selection",
 	"Any document": "Any document",
 	"Group by matching ref no": "Group by matching ref no",
-
 	"Tenor": "Tenor",
 	"Days": "Days",
-
 	"User activity log": "User activity log",
 	"My activity log": "My activity log",
 	"Log date": "Log date",
 	"Module": "Module",
 	"Ref no": "Ref no",
 	"Message": "Message",
-
 	"Current password": "Current password",
 	"New password": "New password",
 	"Confirm password": "Confirm password",
 	"List of password policy": "List of password policy",
 	"Change password": "Change password",
 	"Force change password": "Force change password",
-
 	"Password is required": "Password is required.",
 	"Invalid current password": "Invalid current password.",
-
 	"ENABLED": "Enable",
 	"LOCK": "Lock",
-
 	"Frist name": "Frist name",
 	"Frist name is required": "Frist name is required",
 	"Last name": "Last name",
@@ -467,18 +437,15 @@
 	"Birth date is required": "Birth date is required",
 	"Organization links": "Organization links",
 	"Organization links is required": "Organization links is required",
-
 	"Could not be create transaction because the document not found.": "Could not be create transaction because the document not found.",
 	"Supplier credit information": "Supplier credit information",
 	"supplier-credit-information": "Supplier credit information",
-
 	"Edit organization logo": "Edit organization logo",
 	"Organization logo": "Organization logo",
 	"No logo": "No logo",
 	"Organization logo is required": "Organization logo is required",
-
 	"View document upload log": "View document upload log",
-    "View customer document upload log": "View customer document upload log",
+	"View customer document upload log": "View customer document upload log",
 	"Channel": "Channel",
 	"Upload date": "Upload date",
 	"SUCCESS": "Success",
@@ -493,7 +460,6 @@
 	"DEBIT_ADVICE": "Debit advice",
 	"TRADING_PROFILE": "Trading profile",
 	"REMITTANCE_ADVICE": "Remittance advice",
-
 	"Service information": "Service information",
 	"Service name": "Service name",
 	"Service type": "Service type",
@@ -505,15 +471,12 @@
 	"Problem detail": "Problem detail",
 	"Problem message": "Problem message",
 	"Re-check": "Re-check",
-
 	"Add new credit term success": "Add new credit term success",
 	"Edit credit term success": "Edit credit term success",
 	"Simulate": "Simulate",
 	"Buyer payment date simulation": "Buyer payment date simulation",
-
 	"Edit import channel": "Edit import channel",
 	"Clear existing documents before import file": "Clear existing documents before import file",
-
 	"Setup FTP user": "Setup FTP user",
 	"Username Require": "User name is required",
 	"Setup File encryption": "Setup File encryption",
@@ -523,11 +486,9 @@
 	"NONE": "None",
 	"role-list": "Role list",
 	"transaction-tracking": "Transaction tracking",
-
 	"Can not calculate.": "Can not calculate.",
 	"Reject transaction success.": "Reject transaction success.",
 	"gec-system-integration-monitor": "Gec system integration monitor",
-
 	"SEND_DRAWDOWN_FAIL_CREDIT_EXPIRES": "Send drawdown request fail. Credit limit expired.",
 	"SEND_DRAWDOWN_FAIL_UNAUTHORIZED_ACCESS": "Send drawdown request fail. unauthorized access.",
 	"SEND_DRAWDOWN_FAIL_INVALIDATE_AUTHORITY": "Send drawdown request fail. invalidate authority.",
@@ -557,8 +518,7 @@
 	"SEND_INQURY_ACCOUNT_RESPONSE_TO_CLIENT": "Send enquiry account response to client.",
 	"RECEIVED_INQURY_ACCOUNT_RESPONSE_FROM_GATEWAY": "Receive enquiry account response from gateway.",
 	"UPDATE_RESULT_TIMEOUT": "Receive queue for resend drawdown response.",
-
-	"START_JOB": "Start job.",
+	"START_JOB": "Start batch job.",
 	"END_JOB_SUCCESS": "Finish job.",
 	"END_JOB_FAIL": "Job fail.",
 	"START_FIND_FILE": "Start find file.",
@@ -600,15 +560,12 @@
 	"SIGN_FLAG_MAPPING": "Sign flag mapping",
 	"TEXT_MAPPING_WITH_DEFAULT": "Text mapping with default",
 	"REASON_CODE": "Reason code",
-
 	"payment_fail": "Payment fail",
 	"fail_to_payment": "Fail to pay",
 	"FAIL_TO_PAYMENT": "Fail to pay",
 	"ar_status_paid": "Paid",
-
 	"Loan account": "Loan account",
 	"SUPPLIER_FINANCING": "Supplier financing",
-
 	"download-payment-result-supplier": "Download payment result",
 	"LOAN": "Loan",
 	"CURRENT_SAVING": "Current/Saving",
@@ -618,7 +575,6 @@
 	"DEBIT_SPECIAL": "Special direct debit",
 	"wait_for_payment_result": "Wait for payment result",
 	"Payment amount": "Payment amount",
-
 	"Document display column": "Document display column",
 	"Setup create transaction display": "Setup create transaction display",
 	"Setup document display": "Setup document display",
@@ -627,20 +583,16 @@
 	"Buyer code group selection": "Buyer code group selection",
 	"GECSCF field name": "GECSCF field name",
 	"Support partial payment": "Support partial payment",
-
 	"Specific value": "Value",
 	"Loan value": "'Loan' value",
 	"Debit value": "'Debit' value",
-
 	"Sign flag with in field": "Sign flag with in field; Recommend for delimeter format",
-
 	"SEND_DEBIT_REQUEST_TO_GATEWAY": "Send debit request to gateway.",
 	"RECEIVED_TRANSACTION_REQUEST_FROM_CLIENT": "Received transaction request from client.",
 	"SEND_DEBIT_REQUEST_TO_BANK": "Send debit request to bank.",
 	"RECEIVED_DEBIT_RESPONSE_FROM_BANK": "Received debit response from bank.",
 	"SEND_DEBIT_RESPONSE_TO_CLIENT": "Send debit response to client.",
 	"RECEIVED_DEBIT_RESPONSE_FROM_GATEWAY": "Received debit response from gateway.",
-
 	"ACCOUNT": "Account",
 	"BATCH_JOB": "Batch job",
 	"CHANGE_PASSWORD": "Change password",
@@ -654,18 +606,13 @@
 	"TRANSACTION": "Transaction",
 	"UPLOAD_DOCUMENT": "Upload document",
 	"USER": "User",
-
 	"SELECT_REASON_CODE": "Select partial payment reason code",
 	"REASON_CODE": "Reason code",
-
 	"FUNDING": "Funding",
 	"WORKFLOW_TYPE": "Type",
 	"WORKFLOW_NAME": "Workflow",
-
 	"Account name": "Account name",
-
 	"DAILY": "Daily",
-
 	"Buyer name": "Buyer name",
 	"Supplier name": "Supplier name",
 	"Account No.": "Account No.",
@@ -682,11 +629,30 @@
 	"Agreement date": "Agreement date",
 	"Credit expiration date": "Credit expiration date",
 	"TP": "TP",
-	
 	"Batch job tracking": "Batch job tracking",
 	"Batch job": "Batch job",
 	"Log date": "Log date",
 	"Node": "Node",
 	"IP": "IP",
-	"Action": "Action"
+	"Action": "Action",
+	"START_SEND_APPLICATION_REQUEST": "Send request to API.",
+	"RECEIVE_REQUEST_FROM_CLIENT": "Receive request from client.",
+	"START_PROCESS": "Start process.",
+	"PROCESS_COMPLETED": "Process completed.",
+	"PROCESS_INCOMPLETED": "Process incompleted.",
+	"END_BATCH_JOB": "End batch job.",
+	
+	"START_GENERATING_FILE": "Start generating file",
+	"GENERATE_FILE_SUCCESS": "Generate file($) success.",
+	"RETURN_FILE_TO_CLIENT": "Return file ($) to client.",
+	"RECEIVE_FILE_FROM_API": "Receive file ($) from API.",
+	"START_ENCRYPT_FILE": "	Start encrypting file ($).",
+	"ENCRYPT_FILE_SUCCESS": "Encrypt file ($) success.",
+	"ENCRYPT_FILE_FAIL": "Encrypt file ($) fail.",
+	"START_UPLOAD_FILE": "Start uploading file ($) to FTP server.",
+	"UPLOAD_FILE_SUCCESS": "Upload file ($) success.",
+	"UPLOAD_FILE_FAIL": "Upload file ($) fail. $",
+	"START_DELETE_TEMPORARY_FILE": "Start deleting temporary file ($).",
+	"DELETE_TEMPORARY_FILE_SUCCESS": "Delete temporary file ($) success.",
+	"DELETE_TEMPORARY_FILE_FAIL": "Delete temporary file ($) fail."
 }
