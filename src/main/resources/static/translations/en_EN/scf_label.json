@@ -688,5 +688,12 @@
 	"Log date": "Log date",
 	"Node": "Node",
 	"IP": "IP",
-	"Action": "Action"
+	"Action": "Action",
+	"START_JOB": "Start batch job.",
+	"START_SEND_APPLICATION_REQUEST": "Send request to API.",
+	"RECEIVE_REQUEST_FROM_CLIENT": "Receive request from client.",
+	"START_PROCESS": "Start process.",
+	"PROCESS_COMPLETED": "Process completed.",
+	"END_BATCH_JOB": "End batch job."
+	
 }
