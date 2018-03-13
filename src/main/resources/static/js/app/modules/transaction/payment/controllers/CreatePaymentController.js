@@ -23,8 +23,7 @@ txnMod.controller('CreatePaymentController', [
         var ownerId = $rootScope.userInfo.organizeId;
         var dashboardParams = $stateParams.dashboardParams;
         var backAction = $stateParams.backAction || false;
-        var fromWOIP = $stateParams.fromWOIP || false;
-        console.log($stateParams);
+        
         vm.hasPrivilegeEnqAcctBalance = false;
         vm.hasPrivilegeEnqCreditLimit = false;
         vm.showEnquiryButton = false;
@@ -792,13 +791,9 @@ txnMod.controller('CreatePaymentController', [
                     vm.criteria.dueDateTo = dashboardParams.dueDate;
                     vm.showBackButton = true;
                 }
-                console.log(fromWOIP);
-                if (fromWOIP) {
-                	_loadProducTypes();
-                } else {
-                	_loadSuppliers();
-                }
-     
+                
+                _loadSuppliers();
+                
             }();
         });
 
