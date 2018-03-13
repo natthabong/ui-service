@@ -374,7 +374,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 	
 	        $scope.$watch('ctrl.documentListModel.supplier', function() {
 	            if (angular.isDefined(vm.documentListModel.supplier) && angular.isObject(vm.documentListModel.supplier)) {
-	                var deffered = DocumentService.getProductTypes(vm.documentListModel.supplier.organizeId);
+	                var deffered = DocumentService.getProductTypes(vm.documentListModel.supplier.memberId);
 		              deffered.promise.then(function (response) {
 		                    var productTypes = response.data;
 		                    if (productTypes != null) {
@@ -397,7 +397,7 @@ docMod.controller('ARDocumentController', ['$rootScope', '$scope', '$log',
 		                    
 		                    if (viewMode == viewModeData.myOrganize) {
 		    	                if (isValidateCriteriaPass()) {
-		    		            	var diffredDisplay = vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.organizeId, accountingTransactionType, displayMode,  vm.documentListModel.productType);
+		    		            	var diffredDisplay = vm.loadDocumentDisplayConfig(vm.documentListModel.supplier.memberId, accountingTransactionType, displayMode,  vm.documentListModel.productType);
 		    		            	diffredDisplay.promise.then(function(response) {
 		    			                var criteria = prepareCriteria();
 		    			                var pagingModel = {
