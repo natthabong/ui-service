@@ -23,7 +23,8 @@ txnMod.controller('CreatePaymentController', [
         var ownerId = $rootScope.userInfo.organizeId;
         var dashboardParams = $stateParams.dashboardParams;
         var backAction = $stateParams.backAction || false;
-        var isSupplierChange = false;
+        var formWIOP = $stateParams.formWIOP || false;
+        
         vm.hasPrivilegeEnqAcctBalance = false;
         vm.hasPrivilegeEnqCreditLimit = false;
         vm.showEnquiryButton = false;
@@ -792,10 +793,12 @@ txnMod.controller('CreatePaymentController', [
                     vm.showBackButton = true;
                 }
                 
-                if (!isSupplierChange) {
+                if (formWIOP) {
+                	_loadProducTypes();
+                } else {
                 	_loadSuppliers();
                 }
-                
+     
             }();
         });
 
@@ -1012,7 +1015,6 @@ txnMod.controller('CreatePaymentController', [
             vm.errorDisplay = false;
             vm.display = false;
             vm.maturityDateModel = null;
-            isSupplierChange = true;
             _checkCreatePaymentType();
         }
 
