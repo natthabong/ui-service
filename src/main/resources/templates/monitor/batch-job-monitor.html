@@ -9,13 +9,12 @@
 				<table id="batch-job-table"
 					class="table table-striped table-bordered" cellspacing="0">
 					<thead>
-						<th id="channel-header-label" ng-bind="'Job' | translate"
-							width="15%">Job</th>
-						<th id="channel-header-label" ng-bind="'Run Date' | translate"
-							width="30%">Run Date</th>
-						<th id="channel-header-label" ng-bind="'Run Time' | translate"
-							width="30%">Run Time</th>
-						<th id="channel-header-label" ng-bind="'' | translate" width="15%"></th>
+						<th id="channel-header-label" ng-bind="'Job' | translate">Job</th>
+						<th id="channel-header-label" ng-bind="'Run Date' | translate">Run
+							Date</th>
+						<th id="channel-header-label" ng-bind="'Run Time' | translate">Run
+							Time</th>
+						<th id="channel-header-label" ng-bind="'' | translate"></th>
 					</thead>
 					<tbody>
 						<tr ng-repeat="record in ctrl.batchJobs track by $index">
