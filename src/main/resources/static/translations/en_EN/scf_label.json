@@ -567,7 +567,7 @@
 	"RECEIVED_INQURY_ACCOUNT_RESPONSE_FROM_GATEWAY": "Receive enquiry account response from gateway.",
 	"UPDATE_RESULT_TIMEOUT": "Receive queue for resend drawdown response.",
 
-	"START_JOB": "Start job.",
+	"START_JOB": "Start batch job.",
 	"END_JOB_SUCCESS": "Finish job.",
 	"END_JOB_FAIL": "Job fail.",
 	"START_FIND_FILE": "Start find file.",
@@ -689,7 +689,6 @@
 	"Node": "Node",
 	"IP": "IP",
 	"Action": "Action",
-	"START_JOB": "Start batch job.",
 	"START_SEND_APPLICATION_REQUEST": "Send request to API.",
 	"RECEIVE_REQUEST_FROM_CLIENT": "Receive request from client.",
 	"START_PROCESS": "Start process.",
