@@ -96,13 +96,13 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
             	vm.displayPaymentPage = true;
             	var params = {
                     supplierModel: vm.tradingPartnerList,
+                    fromWOIP: true,
                     criteria: {
                         accountingTransactionType: 'RECEIVABLE',
                         documentStatus: 'NEW',
                         supplierId: result[0].supplierId,
                         buyerId: ownerId,
                         overDuePeriod: null,
-                        fromWOIP: true,
                         displayNegativeDocument: true
                     }
                 }
