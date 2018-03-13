@@ -693,6 +693,7 @@
 	"RECEIVE_REQUEST_FROM_CLIENT": "Receive request from client.",
 	"START_PROCESS": "Start process.",
 	"PROCESS_COMPLETED": "Process completed.",
+	"PROCESS_INCOMPLETED": "Process incompleted.",
 	"END_BATCH_JOB": "End batch job.",
 	
 	"START_GENERATING_FILE": "Start generating file",
