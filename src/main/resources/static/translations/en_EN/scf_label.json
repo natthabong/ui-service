@@ -693,6 +693,20 @@
 	"RECEIVE_REQUEST_FROM_CLIENT": "Receive request from client.",
 	"START_PROCESS": "Start process.",
 	"PROCESS_COMPLETED": "Process completed.",
-	"END_BATCH_JOB": "End batch job."
+	"END_BATCH_JOB": "End batch job.",
+	
+	"START_GENERATING_FILE": "Start generating file",
+	"GENERATE_FILE_SUCCESS": "Generate file($) success.",
+	"RETURN_FILE_TO_CLIENT": "Return file ($) to client.",
+	"RECEIVE_FILE_FROM_API": "Receive file ($) from API.",
+	"START_ENCRYPT_FILE": "	Start encrypting file ($).",
+	"ENCRYPT_FILE_SUCCESS": "Encrypt file ($) success.",
+	"ENCRYPT_FILE_FAIL": "ENCRYPT_FILE_FAIL (XXXXX)",
+	"START_UPLOAD_FILE": "Start uploading file ($) to FTP server.",
+	"UPLOAD_FILE_SUCCESS": "Upload file ($) success.",
+	"UPLOAD_FILE_FAIL": "Upload file ($) fail. <message>",
+	"START_DELETE_TEMPORARY_FILE": "Start deleting temporary file ($).",
+	"DELETE_TEMPORARY_FILE_SUCCESS": "Delete temporary file ($) success.",
+	"DELETE_TEMPORARY_FILE_FAIL": "DELETE_TEMPORARY_FILE_FAIL (XXXXX)"
 	
 }
