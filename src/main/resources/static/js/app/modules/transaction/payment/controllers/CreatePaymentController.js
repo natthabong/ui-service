@@ -24,7 +24,7 @@ txnMod.controller('CreatePaymentController', [
         var dashboardParams = $stateParams.dashboardParams;
         var backAction = $stateParams.backAction || false;
         var fromWIOP = $stateParams.fromWIOP || false;
-        
+        console.log($stateParams);
         vm.hasPrivilegeEnqAcctBalance = false;
         vm.hasPrivilegeEnqCreditLimit = false;
         vm.showEnquiryButton = false;
