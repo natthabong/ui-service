@@ -96,7 +96,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
             	vm.displayPaymentPage = true;
             	var params = {
                     supplierModel: vm.tradingPartnerList,
-                    fromWOIP: true,
                     criteria: {
                         accountingTransactionType: 'RECEIVABLE',
                         documentStatus: 'NEW',
@@ -106,7 +105,6 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                         displayNegativeDocument: true
                     }
                 }
-            	console.log(params);
                 PageNavigation.gotoPage('/my-organize/create-payment', params);
             } else {
             	vm.displayPaymentPage = false;
