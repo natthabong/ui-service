@@ -23,7 +23,7 @@ txnMod.controller('CreatePaymentController', [
         var ownerId = $rootScope.userInfo.organizeId;
         var dashboardParams = $stateParams.dashboardParams;
         var backAction = $stateParams.backAction || false;
-        var fromWOIP = $stateParams.criteria.fromWOIP || false;
+        var fromWOIP = $stateParams.fromWOIP || false;
         console.log($stateParams);
         vm.hasPrivilegeEnqAcctBalance = false;
         vm.hasPrivilegeEnqCreditLimit = false;
