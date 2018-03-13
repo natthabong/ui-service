@@ -106,6 +106,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                         displayNegativeDocument: true
                     }
                 }
+            	console.log(params);
                 PageNavigation.gotoPage('/my-organize/create-payment', params);
             } else {
             	vm.displayPaymentPage = false;
