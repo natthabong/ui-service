@@ -72,7 +72,7 @@ angular.module('scfApp').controller(
 				                cssTemplate: 'text-center',
 				            },{
 				            	fieldName: 'sponsorPaymentDate',
-				                label: 'Sponsor payment date',
+				                label: 'Buyer payment date',
 				                idValueField: 'template',
 				                id: 'wait-for-verify-transaction-{value}-sponsor-payment-date',
 				                filterType: 'date',
