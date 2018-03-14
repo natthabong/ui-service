@@ -8787,6 +8787,9 @@ td.uib-separator {
     border: none !important;
 }
 
+.message-warnning{
+	color: red;
+}
 .message-warnning-text-left{
 	color: red;
 	text-align: left;
