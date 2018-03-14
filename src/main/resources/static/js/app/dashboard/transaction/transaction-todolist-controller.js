@@ -11,8 +11,9 @@ angular.module('scfApp').controller(
 				'Service', 
 				'SCFCommonService',
 				'$rootScope', 
+				'UIFactory',
 				function($log, $scope, $state, $stateParams, $timeout,
-						PageNavigation, PagingController, Service, SCFCommonService, $rootScope) {
+						PageNavigation, PagingController, Service, SCFCommonService, $rootScope, UIFactory) {
 					var vm = this;
 					var log = $log;
 					var organizeId = $rootScope.userInfo.organizeId;
@@ -26,7 +27,6 @@ angular.module('scfApp').controller(
 							orders: vm.dashboardItem.orderItems,
 					}
 					
-					vm.verify = false;
 					vm.approve = false;
 					
 					vm.statusTransaction = {
@@ -34,12 +34,9 @@ angular.module('scfApp').controller(
 						waitForApprove: 'WAIT_FOR_APPROVE'
 					}
 					
-					vm.decodeBase64 = function(data){
-						if(angular.isUndefined(data)){
-							return '';
-						}
-						return atob(data);
-					}
+					vm.decodeBase64 = function (data) {
+						return (data ? atob(data) : UIFactory.constants.NOLOGO);
+					};
 					
 					vm.verifyTransaction = function(data){
 						PageNavigation.gotoPage('/verify-transaction', {
@@ -65,7 +62,7 @@ angular.module('scfApp').controller(
 								'data-ng-src="data:image/png;base64,{{txnTodoListCtrl.decodeBase64(data.sponsorLogo)}}" data-err-src="images/png/avatar.png" />'
 				            },{
 				            	fieldName: 'transactionNo',
-				                label: 'Transaction No',
+				                label: 'Transaction No.',
 				                idValueField: 'template',
 				                id: 'wait-for-verify-transaction-{value}-transaction-no',
 				                sortable: false,
@@ -99,7 +96,7 @@ angular.module('scfApp').controller(
 								label: '',
 								cssTemplate: 'text-center',
 								sortable: false,
-								cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="(txnTodoListCtrl.verify && (data.statusCode === txnTodoListCtrl.statusTransaction.waitForVerify))" id="wait-for-verify-transaction-{{data.transactionNo}}-button" ng-click="txnTodoListCtrl.verifyTransaction(data)" title="Verify a transaction"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'
+								cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="(data.statusCode === txnTodoListCtrl.statusTransaction.waitForVerify)" id="wait-for-verify-transaction-{{data.transactionNo}}-button" ng-click="txnTodoListCtrl.verifyTransaction(data)" title="Verify a transaction"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'
 							}]
 				    };
 				    

@@ -11,8 +11,9 @@ angular.module('scfApp').controller(
 				'Service', 
 				'SCFCommonService',
 				'$rootScope', 
+				'UIFactory',
 				function($log, $scope, $state, $stateParams, $timeout,
-						PageNavigation, PagingController, Service, SCFCommonService, $rootScope) {
+						PageNavigation, PagingController, Service, SCFCommonService, $rootScope, UIFactory) {
 					var vm = this;
 					var log = $log;
 					var organizeId = $rootScope.userInfo.organizeId;
@@ -33,12 +34,9 @@ angular.module('scfApp').controller(
 						waitForApprove: 'WAIT_FOR_APPROVE'
 					}
 					
-					vm.decodeBase64 = function(data){
-						if(angular.isUndefined(data)){
-							return '';
-						}
-						return atob(data);
-					}
+					vm.decodeBase64 = function (data) {
+						return (data ? atob(data) : UIFactory.constants.NOLOGO);
+					};
 					
 					vm.approveTransaction = function(data){
 						PageNavigation.gotoPage('/approve-transaction/approve', {
@@ -63,8 +61,8 @@ angular.module('scfApp').controller(
 				                labelTH: 'TP',
 				                sortData: true,
 				                cssTemplate: 'text-center',
-								cellTemplate: '<img	title="{{data.sponsor}}" style="height: 32px; width: 32px;"	'+
-								'data-ng-src="data:image/png;base64,{{approveTxnTodoListCtrl.decodeBase64(data.sponsorLogo)}}" data-err-src="images/png/avatar.png" />'
+				                cellTemplate: '<img	id="buyer-" title="{{data.sponsor}}" style="height: 32px; width: 32px;"	'+
+								'data-ng-src="data:image/png;base64,{{approveTxnTodoListCtrl.decodeBase64(data.sponsorLogo)}}" />'
 				            },{
 				                fieldName: 'transactionNo',
 				                labelEN: 'Transaction No',
