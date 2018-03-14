@@ -113,7 +113,7 @@
 													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 													total-page="ctrl.pagingController.pagingModel.totalPage"
 													current-page="ctrl.pagingController.pagingModel.currentPage"
-													page-size-list="ctrl.pageSizeList"
+													page-size-list="ctrl.pagingController.pageSizeList"
 													page-action="ctrl.searchBatchJobLog"></scf-pagination>
 											</span>
 										</div>
@@ -134,7 +134,7 @@
 												<th id="node-header-label" ng-bind="'Node' | translate">Node</th>
 												<th id="ip-address-header-label" ng-bind="'IP' | translate">IP</th>
 												<th id="action-header-label" ng-bind="'Action' | translate">Action</th>
-												<th></th>
+												<th ng-if="false"></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -145,23 +145,23 @@
 													ng-bind="record.actionTime | date: 'dd/MM/yyyy HH:mm:ss': 'UTC+0700'"></span>
 												</td>
 												<td class="text-left"><span
-													id="process-no-{{record.trackingId}}-label"
+													id="process-no-{{record.id}}-label"
 													ng-bind="record.processNo"></span></td>
 												<td class="text-left"><span
-													id="batch-job-{{record.trackingId}}-label"
-													ng-bind="record.jobName | translate"></span></td>
+													id="batch-job-{{record.id}}-label"
+													ng-bind="ctrl.logListModel.batchJobName"></span></td>
 												<td class="text-left"><span
-													id="node-{{record.trackingId}}-label"
+													id="node-{{record.id}}-label"
 													ng-bind="record.node | translate"></span></td>
 												<td class="text-left"><span
-													id="ip-address-{{record.trackingId}}-label"
+													id="ip-address-{{record.id}}-label"
 													ng-bind="record.ipAddress"></span></td>
-												<td class="text-right"><span
-													id="action-{{record.trackingId}}-label"
-													ng-bind="record.action | translate"></span></td>
-												<td class="text-center"><scf-button
+												<td class="text-left"><span
+													id="action-{{record.id}}-label"
+													ng-bind="(record.action) | translate"></span></td>
+												<td class="text-center" ng-if="false"><scf-button
 														class="btn-default gec-btn-action"
-														id="view-{{record.trackingId}}-button" title="View">
+														id="view-{{record.id}}-button" title="View">
 													<i class="fa fa-search" aria-hidden="true"></i> </scf-button></td>
 											</tr>
 										</tbody>
