@@ -445,6 +445,7 @@
 	"Organization logo": "Organization logo",
 	"No logo": "No logo",
 	"Organization logo is required": "Organization logo is required",
+	"This organization be a member of funding sources as follows": "This organization be a member of funding sources as follows",
 	"View document upload log": "View document upload log",
 	"View customer document upload log": "View customer document upload log",
 	"Channel": "Channel",
@@ -642,7 +643,7 @@
 	"PROCESS_COMPLETED": "Process completed.",
 	"PROCESS_INCOMPLETED": "Process incompleted.",
 	"END_BATCH_JOB": "End batch job.",
-	
+
 	"START_GENERATING_FILE": "Start generating file",
 	"GENERATE_FILE_SUCCESS": "Generate file($) success.",
 	"RETURN_FILE_TO_CLIENT": "Return file ($) to client.",
