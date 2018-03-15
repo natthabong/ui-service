@@ -261,6 +261,7 @@ txnMod.controller('CreatePaymentController', [
                 }else{
                 	vm.showEnquiryButton = false;
                 }
+                _loadPaymentDate();
             }).catch(function (response) {
                 log.error("Load trading partner fail !");
             });
@@ -608,22 +609,19 @@ txnMod.controller('CreatePaymentController', [
                 });
                 defferedGetAllDocument.promise.then(function (response) {
                     vm.temporalDocuments = vm.pagingAllController.tableRowCollection;
-                    if (backAction) {
-
-                    } else if (!backAction && dashboardParams != null) {
+                    if (!backAction && dashboardParams != null) {
                         vm.selectAllDocument();
-                        dashboardParams = null;
                     } else {
-                        if (!vm.display) {
-                            vm.clearSelectDocument();
-                        }
+                    	if (!vm.display) {
+                    		vm.clearSelectDocument();
+                    	}
                     }
                     _watchCheckAll();
                 });
 
-                if (vm.documentSelects.length > 0) {
-                	_loadPaymentDate();
-                }
+//                if (vm.documentSelects.length > 0) {
+//                	_loadPaymentDate();
+//                }
 
                 if (_validateForSearch()) {
                     vm.display = true;
@@ -912,7 +910,11 @@ txnMod.controller('CreatePaymentController', [
             }
 
             _calculateTransactionAmount(vm.documentSelects);
-            _loadPaymentDate();
+            if (dashboardParams == null) {
+            	_loadPaymentDate();
+            }else{
+            	dashboardParams = null;
+            }
         }
 
         vm.changeSelectedDocument = function (element, row, record) {
