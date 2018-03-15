@@ -5,7 +5,18 @@ angular
 				[
 						'$stateProvider',
 						function($stateProvider) {
-
+						  var requiredLibs = [
+                'js/app/modules/monitor/controllers/BankSystemIntegrationMonitorController.js',
+                'js/app/modules/monitor/controllers/CustomerSystemIntegrationMonitorController.js',
+                'js/app/modules/monitor/controllers/MySystemIntegrationMonitorController.js',
+                'js/app/modules/monitor/controllers/WebServiceMonitorController.js',
+                'js/app/modules/monitor/controllers/FtpMonitorController.js',
+                'js/app/modules/monitor/controllers/BatchJobMonitorController.js',
+                'js/app/modules/monitor/services/BatchJobMonitorService.js',
+                'js/app/modules/monitor/services/SystemIntegrationMonitorService.js',
+                'js/app/common/scf-component.js',
+                'js/app/common/scf-component.css' ]
+						  
 							$stateProvider
 									.state(
 											'/monitoring/bank-system-integration',
@@ -18,15 +29,7 @@ angular
 													params : []
 												},
 												resolve : WebHelper
-														.loadScript([
-																'js/app/modules/monitor/controllers/bank-system-integration-monitor-controller.js',
-																'js/app/modules/monitor/controllers/web-service-monitor-controller.js',
-																'js/app/modules/monitor/controllers/ftp-monitor-controller.js',
-																'js/app/modules/monitor/controllers/batch-job-monitor-controller.js',
-																'js/app/modules/monitor/services/batch-job-monitor-service.js',
-																'js/app/modules/monitor/services/system-integration-monitor-service.js',
-																'js/app/common/scf-component.js',
-																'js/app/common/scf-component.css' ])
+														.loadScript(requiredLibs)
 											})
 									.state(
 											'/monitoring/customer-system-integration',
@@ -39,15 +42,7 @@ angular
 													params : []
 												},
 												resolve : WebHelper
-														.loadScript([
-																'js/app/modules/monitor/controllers/customer-system-integration-monitor-controller.js',
-																'js/app/modules/monitor/controllers/web-service-monitor-controller.js',
-																'js/app/modules/monitor/controllers/ftp-monitor-controller.js',
-																'js/app/modules/monitor/controllers/batch-job-monitor-controller.js',
-																'js/app/modules/monitor/services/batch-job-monitor-service.js',
-																'js/app/modules/monitor/services/system-integration-monitor-service.js',
-																'js/app/common/scf-component.js',
-																'js/app/common/scf-component.css' ])
+														.loadScript(requiredLibs)
 											})
 									.state(
 											'/monitoring/system-integration',
@@ -60,15 +55,7 @@ angular
 													params : []
 												},
 												resolve : WebHelper
-														.loadScript([
-																'js/app/modules/monitor/controllers/my-system-integration-monitor-controller.js',
-																'js/app/modules/monitor/controllers/web-service-monitor-controller.js',
-																'js/app/modules/monitor/controllers/ftp-monitor-controller.js',
-																'js/app/modules/monitor/controllers/batch-job-monitor-controller.js',
-																'js/app/modules/monitor/services/batch-job-monitor-service.js',
-																'js/app/modules/monitor/services/system-integration-monitor-service.js',
-																'js/app/common/scf-component.js',
-																'js/app/common/scf-component.css' ])
+														.loadScript(requiredLibs)
 											})
 									.state(
 											'/monitoring/transaction-tracking',
@@ -83,8 +70,8 @@ angular
 												},
 												resolve : WebHelper
 														.loadScript([
-																'js/app/modules/monitor/controllers/transaction-tracking-controller.js',
-																'js/app/modules/monitor/services/transaction-tracking-service.js',
+																'js/app/modules/monitor/controllers/TransactionTrackingController.js',
+																'js/app/modules/monitor/services/TransactionTrackingService.js',
 																'js/app/common/scf-component.js',
 																'js/app/common/scf-component.css' ])
 											})
@@ -100,7 +87,7 @@ angular
 												},
 												resolve : WebHelper
 														.loadScript([
-																'js/app/modules/monitor/controllers/view-transaction-tracking-message-controller.js',
+																'js/app/modules/monitor/controllers/ViewTransactionTrackingMessageController.js',
 																'js/app/common/scf-component.js',
 																'js/app/common/scf-component.css' ])
 											})
@@ -116,23 +103,7 @@ angular
 												},
 												resolve : WebHelper
 														.loadScript([
-																'js/app/modules/monitor/controllers/batch-job-tracking-controller.js',
-																'js/app/common/scf-component.js',
-																'js/app/common/scf-component.css' ])
-											})
-									.state(
-											'/view-batch-job-tracking-message',
-											{
-												url : '/view-batch-job-tracking-message',
-												controller : 'ViewBatchJobTrackingMessageController',
-												controllerAs : 'ctrl',
-												templateUrl : '/view-batch-job-tracking-message',
-												params : {
-													params : []
-												},
-												resolve : WebHelper
-														.loadScript([
-																'js/app/modules/monitor/controllers/view-batch-job-tracking-message-controller.js',
+																'js/app/modules/monitor/controllers/BatchJobTrackingController.js',
 																'js/app/common/scf-component.js',
 																'js/app/common/scf-component.css' ])
 											});

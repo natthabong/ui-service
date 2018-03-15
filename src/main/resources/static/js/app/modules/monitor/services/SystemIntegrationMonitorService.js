@@ -1,14 +1,7 @@
-angular.module('gecscf.monitoring').factory('SystemIntegrationMonitorService', ['$http', '$q', SystemIntegrationMonitorService]);
+angular.module('gecscf.monitoring').service('SystemIntegrationMonitorService', ['$http', '$q', SystemIntegrationMonitorService]);
 function SystemIntegrationMonitorService($http, $q) {
-    return {
-        getWebServiceList: getWebServiceList,
-		verifySystemStatusWebService:verifySystemStatusWebService,
-		getFTPList:getFTPList,
-		verifySystemStatusFTP:verifySystemStatusFTP,
-		updateWebServiceInfomation:updateWebServiceInfomation,
-		updateFTPInfomation:updateFTPInfomation,
-    };
-    function getWebServiceList(bankCode){
+
+    this.getWebServiceList = function(bankCode){
          var deffered = $q.defer();
 	    $http({
 	       method: 'GET',
@@ -20,7 +13,8 @@ function SystemIntegrationMonitorService($http, $q) {
 	    });
 	    return deffered;
     }
-	function getFTPList(bankCode){
+    
+    this.getFTPList = function(bankCode){
         var deffered = $q.defer();
 	    $http({
 	       method: 'GET',
@@ -32,7 +26,7 @@ function SystemIntegrationMonitorService($http, $q) {
 	    });
 	    return deffered;
     }
-	function verifySystemStatusWebService(systemModel){
+	 this.verifySystemStatusWebService = function(systemModel){
 		var bankCode = systemModel.bankCode;
 		var requestType = systemModel.requestDataType;
 		var requestMode = systemModel.requestMode;
@@ -48,7 +42,7 @@ function SystemIntegrationMonitorService($http, $q) {
 	    return deffered;
     }
 	
-	function verifySystemStatusFTP(systemModel){
+	this.verifySystemStatusFTP = function(systemModel){
 		var jobId = systemModel;
         var deffered = $q.defer();
 	    $http({
@@ -61,7 +55,7 @@ function SystemIntegrationMonitorService($http, $q) {
 	    });
 	    return deffered;
     }
-	function updateWebServiceInfomation(webServiceModel){
+	 this.updateWebServiceInfomation = function(webServiceModel){
 		var uri = '/api/v1/bank-connection-info/banks/'+webServiceModel.bankCode+'/data/'+webServiceModel.requestDataType+'/modes/'+webServiceModel.requestMode;
 		var deffered = $q.defer();
 		$http({
@@ -74,7 +68,7 @@ function SystemIntegrationMonitorService($http, $q) {
 		});
 		return deffered;
 	}
-	function updateFTPInfomation(jobId){
+	 this.updateFTPInfomation = function(jobId){
         var deffered = $q.defer();
 	    $http({
 	       method: 'POST',
