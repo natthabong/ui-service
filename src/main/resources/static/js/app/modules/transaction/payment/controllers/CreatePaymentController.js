@@ -132,13 +132,13 @@ txnMod.controller('CreatePaymentController', [
                         }
                     }
                 }
-
-                var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig();
-                defferedDocumentDisplayConfig.promise.then(function (response) {
+                
+                var defferedAccount = _loadAccount();
+                defferedAccount.promise.then(function (response) {
                     _loadBuyerCodes();
-                    _loadAccount();
+                	_loadDocumentDisplayConfig();
                 });
-
+                
             }).catch(function (response) {
                 log.error(response);
             });
@@ -178,6 +178,7 @@ txnMod.controller('CreatePaymentController', [
 
         function _loadAccount() {
             vm.accountDropDown = [];
+            var deffered = $q.defer();
             var defferedAccounts = TransactionService.getAccounts(ownerId, vm.criteria.supplierId);
             defferedAccounts.promise.then(function (response) {
                 vm.accountList = response.data;
@@ -212,7 +213,11 @@ txnMod.controller('CreatePaymentController', [
                 }
 
                 _loadTradingPartnerInfo();
+                deffered.resolve();
+            }).catch(function (response) {
+                log.error("Load account fail !");
             });
+            return deffered;
         }
 
         function _loadTradingPartnerInfo() {
@@ -232,7 +237,6 @@ txnMod.controller('CreatePaymentController', [
             var tradingInfo = TransactionService.getTradingInfo(ownerId, vm.criteria.supplierId, accountId);
             tradingInfo.promise.then(function (response) {
                 vm.tradingpartnerInfoModel = response.data;
-
                 var isLoanAccount = true;
                 if (vm.accountType == 'LOAN') {
                     vm.transactionModel.transactionMethod = 'TERM_LOAN';
@@ -259,7 +263,6 @@ txnMod.controller('CreatePaymentController', [
                 } else {
                     vm.showEnquiryButton = false;
                 }
-                _loadPaymentDate();
             }).catch(function (response) {
                 log.error("Load trading partner fail !");
             });
@@ -314,7 +317,6 @@ txnMod.controller('CreatePaymentController', [
                         }
                     }
                     _loadMaturityDate();
-
                 }).catch(function (response) {
                     log.error(response);
                 });
@@ -458,12 +460,12 @@ txnMod.controller('CreatePaymentController', [
                 if (vm.supportPartial) {
                     defferedReasonCode.promise.then(function (response) {
                         deffered.resolve(response);
+                        _loadDocument();
                     });
                 } else {
                     deffered.resolve(response);
+                    _loadDocument();
                 }
-
-                _loadDocument();
             });
 
             return deffered;
@@ -576,11 +578,9 @@ txnMod.controller('CreatePaymentController', [
             } : undefined));
 
             deffered.promise.then(function (response) {
-
                 if (backAction) {
                     vm.pagingController.pagingModel.pageSizeSelectModel = $stateParams.criteria.pagingModel.pageSizeSelectModel;
                 }
-
                 if (vm.supportPartial) {
                     vm.pagingController.tableRowCollection.forEach(function (data) {
                         data.reasonCode = vm.reasonCodeDropdown[0].value;
@@ -609,6 +609,7 @@ txnMod.controller('CreatePaymentController', [
                     vm.temporalDocuments = vm.pagingAllController.tableRowCollection;
                     if (!backAction && dashboardParams != null) {
                         vm.selectAllDocument();
+                        _loadPaymentDate();
                     } else {
                         if (!vm.display) {
                             vm.clearSelectDocument();
@@ -626,8 +627,6 @@ txnMod.controller('CreatePaymentController', [
                 } else {
                     vm.display = false;
                 }
-
-
             }).catch(function (response) {
                 log.error(response);
             });
@@ -1005,17 +1004,27 @@ txnMod.controller('CreatePaymentController', [
         vm.accountChange = function () {
             _loadTradingPartnerInfo();
         }
+        
+        var clearData = function (){
+        	vm.transactionModel.payerAccountId = vm.accountDropDown[0].value;
+            vm.accountChange();
+            vm.documentSelects = [];
+            vm.paymentDropDown = [];
+            vm.paymentModel = undefined;
+            vm.maturityDateModel = null;
+        }
 
         vm.supplierChange = function () {
             vm.errorDisplay = false;
             vm.display = false;
-            vm.maturityDateModel = null;
+            clearData();
             _checkCreatePaymentType();
         }
 
         vm.customerCodeChange = function () {
             vm.errorDisplay = false;
             vm.display = false;
+            clearData();
         }
 
         vm.paymentDateChange = function () {
