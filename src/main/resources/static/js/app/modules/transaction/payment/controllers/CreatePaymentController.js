@@ -207,10 +207,8 @@ txnMod.controller('CreatePaymentController', [
                     }
                 }
 
-                if (!backAction && dashboardParams == null) {
-                    vm.transactionModel.payerAccountId = vm.accountDropDown[0].value;
-                    vm.transactionModel.payerAccountNo = vm.accountDropDown[0].item.accountNo;
-                    vm.accountType = vm.accountDropDown[0].item.accountType;
+                if (!backAction) {
+                	vm.transactionModel.payerAccountId = vm.accountDropDown[0].value;
                 }
 
                 _loadTradingPartnerInfo();
