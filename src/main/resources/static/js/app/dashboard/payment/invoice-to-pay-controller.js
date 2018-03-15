@@ -3,45 +3,19 @@ angular.module('scfApp').controller('InvoiceToPayDashboardController', [
 	'$log',
 	'$q',
 	'$rootScope',
-	'$scope',
-	'$state',
-	'$stateParams',
-	'$timeout',
 	'PageNavigation',
-	'Service',
 	'UIFactory',
-	function ($http, $log, $q, $rootScope, $scope, $state, $stateParams, $timeout, PageNavigation, Service, UIFactory) {
+	function ($http, $log, $q, $rootScope, PageNavigation, UIFactory) {
 		var vm = this;
 		var log = $log;
 		var organizeId = $rootScope.userInfo.organizeId;
+
+		vm.canCreatePayment = false;
 
 		vm.decodeBase64 = function (data) {
 			return (data ? atob(data) :
 				UIFactory.constants.NOLOGO);
 		};
-
-		vm.getInvoiceToPay = function () {
-			var deffered = $q.defer();
-
-			$http({
-				method: 'GET',
-				url: 'api/v1/create-transaction/document-groupby-duedate',
-				params: {
-					buyerId: organizeId
-				}
-			}).then(function (response) {
-				deffered.resolve(response);
-			}).catch(function (response) {
-				deffered.reject(response);
-			});
-			return deffered;
-		}
-
-		var dataSource = vm.getInvoiceToPay();
-
-		dataSource.promise.then(function (response) {
-			vm.data = response.data;
-		}).catch();
 
 		vm.create = function (data) {
 			var duedate = moment(data.dueDate);
@@ -54,5 +28,24 @@ angular.module('scfApp').controller('InvoiceToPayDashboardController', [
 				}
 			})
 		}
+
+		vm.getInvoiceToPay = function () {
+			$http({
+				method: 'GET',
+				url: 'api/v1/create-transaction/document-groupby-duedate',
+				params: {
+					buyerId: organizeId
+				}
+			}).then(function (response) {
+				vm.data = response.data;
+			}).catch(function (response) {
+				log.error('Fail to load invoice to pay (top 10).');
+			});
+		}
+
+		function init() {
+			vm.getInvoiceToPay();
+		}
+		init();
 	}
 ]);

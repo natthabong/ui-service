@@ -30,7 +30,7 @@
 							<td class="text-right" id="invoice-to-pay-{{$index+1}}-no-of-document-label" ng-bind="record.noOfDocument | number"></td>
 							<td class="text-right" id="invoice-to-pay-{{$index+1}}-payment-amount-label" ng-bind="record.paymentAmount | number : 2"></td>
 							<td class="text-center">
-								<button class="btn-default gec-btn-action" ng-disabled="!(ctrl.createPriviledge)" id="doc-group-{{$index+1}}-button" title="Create a transaction"
+								<button class="btn-default gec-btn-action" ng-disabled="!(ctrl.canCreatePayment)" id="doc-group-{{$index+1}}-button" title="Create a transaction"
 								    ng-click="ctrl.create(record)">
 									<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>
 								</button>
@@ -39,6 +39,10 @@
 					</tbody>
 				</table>
 			</div>
+			<ng-form>
+				<input type="hidden" ng-init="ctrl.canCreatePayment=true" sec:authorize="hasAuthority('CREATE_PAYMENTS_OF_MY_ORGANIZATION')"
+				/>
+			</ng-form>
 		</div>
 	</div>
 </div>
