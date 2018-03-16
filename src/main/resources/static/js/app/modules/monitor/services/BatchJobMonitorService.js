@@ -1,12 +1,7 @@
-angular.module('scfApp').factory('BatchJobMonitorService', ['$http', '$q', BatchJobMonitorService]);
+angular.module('gecscf.monitoring').service('BatchJobMonitorService', ['$http', '$q', BatchJobMonitorService]);
 function BatchJobMonitorService($http, $q) {
-    return {
-    	getBatchJobs: getBatchJobs,
-    	runJob: runJob,
-    	getBatchJobExportChannel : getBatchJobExportChannel
-    };
     
-    function getBatchJobs(organizeId){
+    this.getBatchJobs = function(organizeId){
     	var url = '/api/v1/organizes/'+ organizeId +'/batch-jobs';
     	var deffered = $q.defer();
  	    $http({
@@ -20,7 +15,7 @@ function BatchJobMonitorService($http, $q) {
  	    return deffered;
 	}
     
-    function getBatchJobExportChannel( organizeId , jobId){
+  this.getBatchJobExportChannel = function( organizeId , jobId){
     	var url = '/api/v1/organizes/'+ organizeId +'/channel/'+ jobId;
     	var deffered = $q.defer();
  	    $http({
@@ -34,7 +29,7 @@ function BatchJobMonitorService($http, $q) {
  	    return deffered;
 	}
     
-    function runJob(organizeId, jobId){
+    this.runJob = function(organizeId, jobId){
     	var url = '/api/v1/organizes/'+organizeId+'/batch-jobs/'+jobId+'/run';
     	var deffered = $q.defer();
  	    $http({

@@ -2,12 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 
-
+<div ng-controller="ErrorController as ctrl">
 <head th:replace="errors/head :: headTag"></head>
 
+<title ng-bind="ctrl.title"></title>
 <body ng-app="scfError">
 
-	<div id="wrapper" ng-controller="ErrorController as ctrl">
+	<div id="wrapper">
 		<header th:replace="errors/header :: header"></header>
 
 		<div id="content" th:fragment="content">
@@ -31,5 +32,5 @@
 		src="../static/js/js/app/modules/errors/errors.module.js"></script>
 	<footer th:replace="fragments/footer :: footer"></footer>
 </body>
-
+</div>
 </html>

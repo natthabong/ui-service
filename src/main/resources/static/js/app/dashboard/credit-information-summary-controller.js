@@ -90,39 +90,31 @@ angular
 								};
 							}
 							
-							vm.canViewTrading=false;
 							$scope.options = { legend: { display: false } };
 							vm.isOpenPopup = true;
 							$scope.$on('elementClick.directive',
 								function(event) {
-								console.log(vm.canViewTrading);
-									if (vm.canViewTrading) {
-										ngDialog
-											.open({
-												template : '/js/app/dashboard/credit-information-dialog.html',
-												controller : 'CreditInformationDashboardController',
-												controllerAs : 'creditInfoCtrl',
-												width : 900,
-												preCloseCallback : function(value) {
-													renderPiechart();
-												}
-											});
-									}
+									ngDialog.open({
+										template : '/js/app/dashboard/credit-information-dialog.html',
+										controller : 'CreditInformationDashboardController',
+										controllerAs : 'creditInfoCtrl',
+										width : 900,
+										preCloseCallback : function(value) {
+											renderPiechart();
+										}
+									});
 								}
 							);
 							
 							vm.view = function(){
-								if (vm.canViewTrading) {
-									ngDialog
-										.open({
-											template : '/js/app/dashboard/credit-information-dialog.html',
-											controller : 'CreditInformationDashboardController',
-											controllerAs : 'creditInfoCtrl',
-											width : 900,
-											preCloseCallback : function(value) {
-												renderPiechart();
-											}
-										});
-								}
+								ngDialog.open({
+									template : '/js/app/dashboard/credit-information-dialog.html',
+									controller : 'CreditInformationDashboardController',
+									controllerAs : 'creditInfoCtrl',
+									width : 900,
+									preCloseCallback : function(value) {
+										renderPiechart();
+									}
+								});
 							}
 						} ]);

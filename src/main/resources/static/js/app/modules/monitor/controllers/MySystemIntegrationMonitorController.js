@@ -1,5 +1,5 @@
 'use strict';
-var scfApp = angular.module('scfApp');
+var scfApp = angular.module('gecscf.monitoring');
 scfApp.controller('MySystemIntegrationMonitorController', [ '$scope', 'Service', '$stateParams', '$log', 'UIFactory', '$q',
 	'$rootScope', '$http','PageNavigation','SystemIntegrationMonitorService','ngDialog', 'scfFactory',
 	function($scope, Service, $stateParams, $log, UIFactory, $q, $rootScope, $http, PageNavigation, SystemIntegrationMonitorService, ngDialog, scfFactory) {

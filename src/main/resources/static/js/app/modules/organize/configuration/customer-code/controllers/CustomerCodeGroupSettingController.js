@@ -6,14 +6,11 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
         var vm = this;
         var log = $log;
         
-        var isFirstSearch = true;
         vm.getUserInfoSuccess = false;
         var defered = scfFactory.getUserInfo();
         defered.promise.then(function(response) {
             vm.getUserInfoSuccess = true;
             vm.manageAll = false;
-            //vm.manageMyOrg = false;
-            //	var selectedItem;
 
             var mode = {
         		VIEW : 'viewCustCode',
@@ -26,7 +23,6 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
             vm.hiddenFundingColumn = false;
             var viewMode = $stateParams.viewMode;
             var ownerId = viewMode == 'MY_ORGANIZE' ? $rootScope.userInfo.organizeId : $stateParams.organizeId;
-            //	var groupId = null;
             vm.criteria = {};
 
             vm.statusDropdown = CustomerCodeStatus;
@@ -64,23 +60,6 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
                 });
                 return deferred;
             }
-
-            /* Edit a customer code group name */
-            //	vm.edit = function(model) {
-            //		
-            //		vm.editCustCodeDialog = ngDialog.open({
-            //			id : 'new-customer-code-setting-dialog',
-            //			template : '/js/app/modules/organize/configuration/customer-code/templates/dialog-edit-customer-code-group.html',
-            //			className : 'ngdialog-theme-default',
-            //			scope : $scope,
-            //			controller : 'CustomerCodeGroupDiaglogController',
-            //			controllerAs : 'ctrl',
-            //			data : {
-            //				sponsorId : $scope.sponsorId,
-            //				model: vm.model
-            //			}
-            //		});
-            //	}
 
             vm.deleteCustomerCode = function(customerCode) {
                 var preCloseCallback = function(confirm) {
@@ -125,7 +104,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
                 fundingId: ''
             }
             var prepareSearchCriteria = function() {
-        		vm.searchCriteria.fundingId = vm.criteria.fundingId;
+        		vm.searchCriteria.fundingId = vm.criteria.fundingId || '';
                 vm.searchCriteria.customerCode = vm.criteria.customerCode || '';
 
                 if (angular.isDefined(vm.criteria.customer)) {
@@ -140,8 +119,8 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
                 CustomerCodeStatus.forEach(function(item) {
                     if (item.value == vm.criteria.status) {
                         if (item.valueObject == null) {
-                            vm.searchCriteria.suspend = undefined;
-                            vm.searchCriteria.status = undefined;
+                            vm.searchCriteria.suspend = '';
+                            vm.searchCriteria.status = '';
                         } else {
                             vm.searchCriteria.suspend = item.valueObject.suspend;
                             vm.searchCriteria.status = item.valueObject.status;
@@ -149,10 +128,9 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
                     }
                 });
             }
-                // vm.pagingController = PagingController.create(customerCodeURL,
-                // vm.searchCriteria, 'GET');
+               
 
-            var queryCustomerCode = function(value) {
+            var queryCustomerAutosuggest = function(value) {
 
                 var serviceUrl = 'api/v1/organize-customers/' + ownerId + '/trading-partners'
                 return $http.get(serviceUrl, {
@@ -182,7 +160,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
             vm.customerAutoSuggestModel = UIFactory.createAutoSuggestModel({
                 placeholder: 'Enter organization name or code',
                 itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
-                query: queryCustomerCode
+                query: queryCustomerAutosuggest
             });
             
             vm.loadFundings = function () {
@@ -205,7 +183,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
 
             vm.search = function(pageModel) {
                 prepareSearchCriteria();
-                var criteria = vm.criteria;
+                var criteria = vm.searchCriteria;
                 vm.pagingController.search(pageModel, function (criteria, response) {
     				var data = response.data;
     				var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
@@ -217,13 +195,6 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
     					value.rowNo = baseRowNo + i;
     				});
     				
-    				if(isFirstSearch){
-    					isFirstSearch = false;
-    					
-    					if(!vm.hiddenFundingColumn){
-    	                	vm.loadFundings();
-    	            	}
-    				}
     			});
             };
 
@@ -233,9 +204,12 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
         		    vm.isEditMode = true;
         		}
             	
+            	if(!vm.hiddenFundingColumn){
+    	            vm.loadFundings();
+    	        }
                 var customerCodeURL = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/customer-codes';
                 vm.pagingController = PagingController.create(customerCodeURL, vm.searchCriteria, 'GET');
-                vm.search();
+               	vm.search();
             }
 
             vm.initialPage();
@@ -380,6 +354,10 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
                 }
             }
         })
+        
+        vm.decodeBase64 = function (data) {
+			return (data ? atob(data) : UIFactory.constants.NOLOGO);
+		};
     }
 ]);
 scfApp.constant('CustomerCodeStatus', [{

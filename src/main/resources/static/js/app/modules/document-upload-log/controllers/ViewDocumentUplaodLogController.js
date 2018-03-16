@@ -1,5 +1,5 @@
 angular
-	.module('scfApp')
+	.module('gecscf.documentUploadLog')
 	.controller(
 		'ViewDocumentUplaodLogController', [
 			'SCFCommonService',
@@ -22,13 +22,12 @@ angular
 				var vm = this;
 				var log = $log;
 				
-				vm.headerMsg = 'View document upload log';
+				vm.viewMode = $stateParams.viewMode;
+				vm.headerMsg = vm.viewMode == 'MY_ORGANIZE' ? "View upload document logs" : "View customer document upload log";
 				
-				vm.roleType = $stateParams.roleType;
-				vm.isSponsor = true;
-				vm.documentUploadLogModel = $stateParams.documentUploadLogModel;
-				var uploadLogId = vm.documentUploadLogModel.uploadDocumentLogId;
-				var organizeId = vm.documentUploadLogModel.organizeName;
+				vm.isFunding = true;
+				vm.recordModel = $stateParams.recordModel;
+				var uploadLogId = vm.recordModel.uploadDocumentLogId;
 				
 				vm.viewCriteria = {};
 				
@@ -43,27 +42,6 @@ angular
 			        value: '50'
 			    }];
 				
-				vm.dataTable = {
-			        columns: [{
-						fieldName: 'lineNo',
-			            labelEN: 'Line no.',
-		            	labelTH: 'Line no.',
-			            idValueField: '$rowNo',
-			            id: 'line-no-{value}',
-			            sortData: false,
-			            cellTemplate: '<span ng-bind="data.lineNo == null ? \'N/A\': data.lineNo">N/A</span>',
-						cssTemplate: 'text-center'
-			        },{
-			        	fieldName: 'description',
-			            labelEN: 'Description',
-		            	    labelTH: 'Description.',
-			            idValueField: '$rowNo',
-			            id: 'description-{value}',
-		            	sortData: false,
-		            	cssTemplate: 'text-left'
-			        }]
-			    }
-
 				vm.backToDocumentUploadLogPage = function() {
 					$timeout(function(){
 						PageNavigation.backStep();
@@ -77,8 +55,8 @@ angular
 				}
 				
 				vm.initLoad = function() {
-					if(vm.roleType==='bank'){
-						vm.isSponsor = false;
+					if(vm.viewMode === 'MY_ORGANIZE'){
+						vm.isFunding = false;
 					}
 					
 					vm.searchListLog();
@@ -96,7 +74,7 @@ angular
 			          var a         = document.createElement('a');
 			             a.href        = fileURL; 
 			             a.target      = '_blank';
-			             a.download    = vm.documentUploadLogModel.fileName;
+			             a.download    = vm.recordModel.fileName;
 			             document.body.appendChild(a);
 			             a.click();
 			         }).error(function(response) {

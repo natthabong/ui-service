@@ -4,7 +4,7 @@ function transactionService($http, $q, blockUI, $window) {
 
     //payment
     function getSuppliers(accountingTransactionType) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
 
         $http({
                 url: 'api/v1/create-transaction/suppliers',
@@ -14,17 +14,17 @@ function transactionService($http, $q, blockUI, $window) {
                 }
             })
             .then(function (response) {
-                deffered.resolve(response);
+                deferred.resolve(response);
             })
             .catch(function (response) {
-                deffered.reject('Cannot load supplierCode');
+                deferred.reject(response);
             });
-        return deffered;
+        return deferred;
     }
 
     //loan
     function getSupplier(sponsorId) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
 
         $http({
             method: 'GET',
@@ -33,32 +33,32 @@ function transactionService($http, $q, blockUI, $window) {
                 sponsorId: sponsorId
             }
         }).then(function (response) {
-            deffered.resolve(response);
+            deferred.resolve(response);
         }).catch(function (response) {
-            deffered.reject(response);
+            deferred.reject(response);
         });
-        return deffered;
+        return deferred;
     }
 
     function getBuyerCodes(ownerId) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
 
         $http({
                 url: 'api/v1/organize-customers/' + ownerId + '/customer-code-groups/me/customer-codes',
                 method: 'GET'
             })
             .then(function (response) {
-                deffered.resolve(response);
+                deferred.resolve(response);
             })
             .catch(function (response) {
-                deffered.reject('Cannot load customer code');
+                deferred.reject(response);
             });
-        return deffered;
+        return deferred;
     }
 
     function getAccounts(organizeId, supplierId) {
         var sort = ["-defaultLoanNo", "accountNo"];
-        var deffered = $q.defer();
+        var deferred = $q.defer();
         $http({
                 url: 'api/v1/organize-customers/' + organizeId + '/trading-partners/' + supplierId + '/accounts',
                 method: 'GET',
@@ -67,17 +67,17 @@ function transactionService($http, $q, blockUI, $window) {
                 }
             })
             .then(function (response) {
-                deffered.resolve(response);
+                deferred.resolve(response);
             })
             .catch(function (response) {
-                deffered.reject('Cannot load account');
+                deferred.reject(response);
             });
-        return deffered;
+        return deferred;
     }
 
     function getAccountsByTenor(organizeId, supplierId, paymentDate, loanRequestMode) {
         var sort = ["-defaultLoanNo", "accountNo"];
-        var deffered = $q.defer();
+        var deferred = $q.defer();
         $http({
                 url: 'api/v1/organize-customers/' + organizeId + '/trading-partners/' + supplierId + '/accounts-by-tenor',
                 method: 'GET',
@@ -88,39 +88,39 @@ function transactionService($http, $q, blockUI, $window) {
                 }
             })
             .then(function (response) {
-                deffered.resolve(response);
+                deferred.resolve(response);
             })
             .catch(function (response) {
-                deffered.reject('Cannot load account');
+                deferred.reject(response);
             });
-        return deffered;
+        return deferred;
     }
 
     function getDocuments(criteria) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
         $http({
                 url: 'api/v1/documents',
                 method: 'GET',
                 params: criteria
             }).then(function (response) {
-                deffered.resolve(response);
+                deferred.resolve(response);
             })
             .catch(function (response) {
-                deffered.reject(response);
+                deferred.reject(response);
             });
-        return deffered;
+        return deferred;
     }
 
     function getPaymentDate(transactionModel, type, accType, loanRequestMode, prodType) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
         $http({
                 url: 'api/v1/create-transaction/payment-dates/calculate',
                 method: 'POST',
                 data: {
                     sponsorId: transactionModel.sponsorId,
                     supplierId: transactionModel.supplierId,
-                    documents: transactionModel.documents,
-                    transactionMethod: transactionModel.transactionMethod
+                    transactionMethod: transactionModel.transactionMethod,
+                    documents: transactionModel.documents
                 },
                 params: {
                     loanRequestMode: loanRequestMode,
@@ -130,32 +130,32 @@ function transactionService($http, $q, blockUI, $window) {
                 }
             })
             .then(function (response) {
-                deffered.resolve(response);
+                deferred.resolve(response);
             })
             .catch(function (response) {
-                deffered.reject('Cannot load payment date');
+                deferred.reject(response);
             });
-        return deffered;
+        return deferred;
     }
 
     function submitTransaction(transactionModel) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
         $http({
                 url: 'api/v1/create-transaction/payment/submit',
                 method: 'POST',
                 data: transactionModel
             })
             .then(function (response) {
-                deffered.resolve(response);
+                deferred.resolve(response);
             })
             .catch(function (response) {
-                deffered.reject(response);
+                deferred.reject(response);
             });
-        return deffered;
+        return deferred;
     }
 
     function getSponsorPaymentDate(sponsorId, supplierCode, loanRequestMode) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
 
         $http({
                 url: 'api/v1/create-transaction/sponsor-payment-dates/get',
@@ -173,16 +173,16 @@ function transactionService($http, $q, blockUI, $window) {
                 }
             })
             .then(function (response) {
-                deffered.resolve(response);
+                deferred.resolve(response);
             })
             .catch(function (response) {
-                deffered.reject('Cannot load supplierCode');
+                deferred.reject(response);
             });
-        return deffered;
+        return deferred;
     }
 
     function getTransactionDate(sponsorId, sponsorPaymentDate, loanRequestMode, tenor) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
 
         $http({
                 url: 'api/v1/create-transaction/transaction-dates/get',
@@ -204,16 +204,16 @@ function transactionService($http, $q, blockUI, $window) {
                 }
             })
             .then(function (response) {
-                deffered.resolve(response);
+                deferred.resolve(response);
             })
             .catch(function (response) {
-                deffered.reject(response);
+                deferred.reject(response);
             });
-        return deffered;
+        return deferred;
     }
 
     function getTradingInfo(sponsorId, supplierId, accountId) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
         blockUI.start();
         $http({
             method: 'POST',
@@ -234,42 +234,42 @@ function transactionService($http, $q, blockUI, $window) {
             }
         }).then(function (response) {
             blockUI.stop();
-            deffered.resolve(response);
+            deferred.resolve(response);
         }).catch(function (response) {
             blockUI.stop();
-            deffered.reject(response);
+            deferred.reject(response);
         });
-        return deffered;
+        return deferred;
     }
 
     function verifyTransaction(transaction) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
         $http.post('api/v1/create-transaction/transaction/verify', transaction)
             .then(function (response) {
-                deffered.resolve(response);
+                deferred.resolve(response);
 
             })
             .catch(function (response) {
-                deffered.reject(response);
+                deferred.reject(response);
             });
-        return deffered;
+        return deferred;
     }
 
     function getSponsor() {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
 
         $http.get('api/v1/create-transaction/sponsor')
             .then(function (response) {
-                deffered.resolve(response);
+                deferred.resolve(response);
             })
             .catch(function (response) {
-                deffered.reject(response);
+                deferred.reject(response);
             });
-        return deffered;
+        return deferred;
     }
 
     function verifyTradingPartner() {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
         $http({
                 url: 'api/v1/create-transaction/trading-partner/verify',
                 method: 'POST',
@@ -287,12 +287,12 @@ function transactionService($http, $q, blockUI, $window) {
                 }
             })
             .then(function (response) {
-                deffered.resolve(response);
+                deferred.resolve(response);
             })
             .catch(function (response) {
-                deffered.reject(response);
+                deferred.reject(response);
             });
-        return deffered;
+        return deferred;
     }
 
     function calculateTotalDocumentAmountWithPrePercentTage(totalAmount, preDradowPercentag) {
@@ -343,7 +343,7 @@ function transactionService($http, $q, blockUI, $window) {
     }
 
     function retry(transactionApproveModel) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
         blockUI.start();
         $http({
             method: 'POST',
@@ -351,16 +351,16 @@ function transactionService($http, $q, blockUI, $window) {
             data: transactionApproveModel
         }).then(function (response) {
             blockUI.stop();
-            deffered.resolve(response);
+            deferred.resolve(response);
         }).catch(function (response) {
             blockUI.stop();
-            deffered.reject(response);
+            deferred.reject(response);
         });
-        return deffered;
+        return deferred;
     }
 
     function reject(transactionModel) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
         blockUI.start();
         $http({
             method: 'POST',
@@ -368,16 +368,16 @@ function transactionService($http, $q, blockUI, $window) {
             data: transactionModel
         }).then(function (response) {
             blockUI.stop();
-            deffered.resolve(response);
+            deferred.resolve(response);
         }).catch(function (response) {
             blockUI.stop();
             if (response.status == 403) {
                 $window.location.href = "/error/403";
             } else {
-                deffered.reject(response);
+                deferred.reject(response);
             }
         });
-        return deffered;
+        return deferred;
     }
 
     function getTransactionDialogErrorUrl(errorCode, action) {
@@ -412,7 +412,7 @@ function transactionService($http, $q, blockUI, $window) {
     }
 
     function getAvailableMaturityDates(paymentDate, tenor) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
 
         $http({
             method: 'POST',
@@ -422,11 +422,11 @@ function transactionService($http, $q, blockUI, $window) {
                 tenor: tenor
             }
         }).then(function (response) {
-            deffered.resolve(response);
+            deferred.resolve(response);
         }).catch(function (response) {
-            deffered.reject(response);
+            deferred.reject(response);
         });
-        return deffered;
+        return deferred;
 
     }
 
@@ -462,7 +462,7 @@ function transactionService($http, $q, blockUI, $window) {
     }
 
     function getTransaction(transaction) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
         $http({
             method: 'GET',
             url: 'api/v1/transactions/' + transaction.transactionId,
@@ -473,11 +473,11 @@ function transactionService($http, $q, blockUI, $window) {
                 mode: 'view'
             }
         }).then(function (response) {
-            deffered.resolve(response);
+            deferred.resolve(response);
         }).catch(function (response) {
-            deffered.reject(response);
+            deferred.reject(response);
         });
-        return deffered;
+        return deferred;
     }
 
     function generateEvidenceForm(transactionModel) {
@@ -521,32 +521,32 @@ function transactionService($http, $q, blockUI, $window) {
     }
 
     function summaryStatusGroup(listTransactionModel) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
         $http({
             url: 'api/v1/list-transaction/summary-status-group',
             method: 'POST',
             data: listTransactionModel
         }).then(function (response) {
-            deffered.resolve(response);
+            deferred.resolve(response);
         }).catch(function (response) {
-            deffered.reject(response);
+            deferred.reject(response);
         });
-        return deffered;
+        return deferred;
     }
 
     function searchMatchingField(params, data) {
-        var deffered = $q.defer();
+        var deferred = $q.defer();
         $http({
             url: 'api/v1/documents/matching-by-fields',
             method: 'POST',
             params: params,
             data: data
         }).then(function (response) {
-            deffered.resolve(response);
+            deferred.resolve(response);
         }).catch(function (response) {
-            deffered.reject(response);
+            deferred.reject(response);
         });
-        return deffered;
+        return deferred;
     }
 
     function isAfterToday(data, serverTime) {

@@ -24,18 +24,16 @@
 		<!-- Start Table-->
 		<div class="row">
 			<div class="col-md-12">
-				<scf-table id="wait-for-verify-payments-table"
+				<scf-data-table id="wait-for-verify-payments-table"
 					class="transaction-table"
 					component-config="paymentTodoListCtrl.dataTable"
 					component-datas="paymentTodoListCtrl.pagingController.tableRowCollection"
 					current-page="paymentTodoListCtrl.pagingController.pagingModel.currentPage"
 					record-per-page="paymentTodoListCtrl.pagingController.pagingModel.pageSizeSelectModel"
-					clear-sort-order="paymentTodoListCtrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+					clear-sort-order="paymentTodoListCtrl.pagingController.pagingModel.clearSortOrder"></scf-data-table>
 			</div>
 			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
-		<input type="hidden" ng-init="paymentTodoListCtrl.verify=true"
-			sec:authorize="hasAuthority('VERIFY_PAYMENTS_OF_MY_ORGANIZATION')" />
 	</div>
 
 </div>

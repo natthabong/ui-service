@@ -1,5 +1,5 @@
 'use strict';
-var scfApp = angular.module('scfApp');
+var scfApp = angular.module('gecscf.monitoring');
 scfApp.controller('ViewTransactionTrackingMessageController', 
 [ '$scope', 'Service', '$stateParams', 'UIFactory', '$q','$rootScope', '$http','PageNavigation','$timeout',
 	function($scope, Service, $stateParams, UIFactory, $q, $rootScope, $http, PageNavigation, $timeout) {

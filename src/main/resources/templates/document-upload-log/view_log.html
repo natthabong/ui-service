@@ -1,11 +1,11 @@
 <div id="content" th:fragment="content"
-	sec:authorize="hasAnyAuthority('VIEW_ALL_UPLOAD_DOCUMENTS_LOG', 'VIEW_UPLOAD_DOCUMENT_LOGS_OF_MY_ORGANIZATION')">
+	sec:authorize="hasAnyAuthority('VIEW_ALL_UPLOAD_DOCUMENT_LOGS_OF_ALL_FUNDING','VIEW_ALL_UPLOAD_DOCUMENT_LOGS', 'VIEW_UPLOAD_DOCUMENT_LOGS_OF_MY_ORGANIZATION')">
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
 					<h3 id="header-message-label" class="animated fadeInLeft"
-						ng-bind="ctrl.headerMsg | translate: {roleName: ctrl.roleType}"></h3>
+						ng-bind="ctrl.headerMsg | translate"></h3>
 				</div>
 			</div>
 		</div>
@@ -15,13 +15,14 @@
 		<div class="panel panel-default col-md-12 padding-0">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<div class="row" ng-show="ctrl.isSponsor" style="padding-top: 20px;">
+					<div class="row" ng-show="ctrl.isFunding"
+						style="padding-top: 20px;">
 						<div class="col-sm-2 col-md-2">
-							<label id="sponsor-label" >{{'Sponsor' | translate}}: </label>
+							<label id="sponsor-label">{{'Customer' | translate}}: </label>
 						</div>
 						<div class="col-sm-10 col-md-10">
 							<span id="sponsor-value-label"
-								ng-bind="ctrl.documentUploadLogModel.organizeName"></span>
+								ng-bind="ctrl.recordModel.organize.memberName"></span>
 						</div>
 					</div>
 					<div class="row" style="padding-top: 20px;">
@@ -30,31 +31,35 @@
 						</div>
 						<div class="col-sm-2 col-md-4">
 							<span id="channel-value-label"
-								ng-bind="ctrl.documentUploadLogModel.channel | translate"></span>
+								ng-bind="ctrl.recordModel.channel | translate"></span>
 						</div>
 						<div class="col-sm-2 col-md-2">
-							<label id="upload-date-label">{{'Upload date' | translate}}: </label>
+							<label id="upload-date-label">{{'Upload date' |
+								translate}}: </label>
 						</div>
 						<div class="col-sm-6 col-md-4">
 							<span id="upload-date-value-label"
-								ng-bind="ctrl.documentUploadLogModel.startUploadTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+								ng-bind="ctrl.recordModel.startUploadTime | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
 						</div>
 					</div>
 					<div class="row" style="padding-top: 20px;">
 						<div class="col-sm-2 col-md-2">
-							<label id="file-type-label">{{'File type' | translate}}: </label>
+							<label id="file-type-label">{{'File type' | translate}}:
+							</label>
 						</div>
 						<div class="col-sm-2 col-md-4">
 							<span id="file-type-value-label"
-								ng-bind="(ctrl.documentUploadLogModel.fileType=='null'?'':ctrl.documentUploadLogModel.fileType) | translate"></span>
+								ng-bind="(ctrl.recordModel.fileType=='null'?'':ctrl.recordModel.fileType) | translate"></span>
 						</div>
 						<div class="col-sm-2 col-md-2">
-							<label id="file-name-label">{{'File name' | translate}}: </label>
+							<label id="file-name-label">{{'File name' | translate}}:
+							</label>
 						</div>
 						<div class="col-sm-6 col-md-4">
 							<span id="file-name-value-label"
-								ng-bind="ctrl.documentUploadLogModel.fileName"></span>
-							<span> <scf-button id="download-button" ng-show="ctrl.documentUploadLogModel.fileName!=null"
+								ng-bind="ctrl.recordModel.fileName"></span> <span>
+								<scf-button id="download-button"
+									ng-show="ctrl.recordModel.fileName!=null"
 									class="popup-button" ng-click="ctrl.downloadFile()">{{'Download'
 								| translate}}</scf-button>
 							</span>
@@ -66,14 +71,14 @@
 						</div>
 						<div class="col-sm-2 col-md-4">
 							<span id="success-value-label"
-								ng-bind="(ctrl.documentUploadLogModel.success | number) || 'N/A'"></span>
+								ng-bind="(ctrl.recordModel.success | number) || 'N/A'"></span>
 						</div>
 						<div class="col-sm-2 col-md-2">
-							<label id="fail-label">{{'Fail' | translate}}:</label> 
+							<label id="fail-label">{{'Fail' | translate}}:</label>
 						</div>
 						<div class="col-sm-4 col-md-4">
 							<span id="fail-value-label"
-								ng-bind="(ctrl.documentUploadLogModel.fail | number) || 'N/A'"></span>
+								ng-bind="(ctrl.recordModel.fail | number) || 'N/A'"></span>
 						</div>
 					</div>
 					<div class="row" style="padding-top: 20px;">
@@ -82,7 +87,7 @@
 						</div>
 						<div class="col-sm-2 col-md-3">
 							<span id="status-value-label"
-								ng-bind="ctrl.documentUploadLogModel.status | translate"></span>
+								ng-bind="ctrl.recordModel.status | translate"></span>
 						</div>
 					</div>
 					<div class="row">
@@ -93,42 +98,61 @@
 
 					<div class="row">
 						<div class="col-md-4 col-sm-4 gec-select">
-							<b><span id="data-incorrection-list-label" ng-bind="'Data incorrection list' | translate"></span></b>
+							<b><span id="data-incorrection-list-label"
+								ng-bind="'Data incorrection list' | translate"></span></b>
 						</div>
 						<div class="col-md-8 col-sm-8 text-right">
 							<div class="row">
 								<div class="col-md-12 col-sm-12">
 									<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
-										id="view-document-upload-log-label"></b> &nbsp;&nbsp; <scf-pagination
-											dropdown-id="page-limit-dropdown"
-											name="view-document-upload-log"
+										id="organize-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+											dropdown-id="page-limit-dropdown" name="organize"
 											page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
 											total-page="ctrl.pagingController.pagingModel.totalPage"
 											current-page="ctrl.pagingController.pagingModel.currentPage"
-											page-size-list="ctrl.pageSizeList"
-											page-action="ctrl.searchListLog"></scf-pagination>
+											page-size-list="ctrl.pagingController.pageSizeList"
+											page-action="ctrl.searchListLog"
+											first-page-button-id="organize-first-page-button"
+											back-page-button-id="organize-back-page-button"
+											next-page-button-id="organize-next-page-button"
+											last-page-button-id="organize-last-page-button"></scf-pagination>
 									</span>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-12">
-							<scf-table id="view-document-upload-log-table"
-									component-config="ctrl.dataTable"
-									component-datas="ctrl.pagingController.tableRowCollection"
-									current-page="ctrl.pagingController.pagingModel.currentPage"
-									record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-									clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+						<div class="responsive-table">
+							<table id="document-upload-log-item-table"
+								class="table table-striped table-bordered" cellspacing="0">
+								<thead>
+									<tr>
+										<th id="line-no-id-header-label" class="col-md-2 col-sm-2"
+											ng-bind="'Line no.' | translate" />
+										<th id="description-id-header-label" class="col-md-10 col-sm-10"
+											ng-bind="'Description' | translate" />
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
+										<td class="text-center"><span
+											id="line-no-{{record.uploadDocumentLogItemId}}-label"
+											ng-bind="record.lineNo == null ? 'N/A': (record.lineNo | number)"></span>
+										</td>
+										<td class="text-left"><span
+											id="description-{{record.uploadDocumentLogItemId}}-label"
+											ng-bind="record.description"></span></td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
-						<div id="fixed-bottom" class="col-md-12"></div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 text-right">
-							<scf-button id="back-button" type="button"
-								class="popup-button"
-								ng-click="ctrl.backToDocumentUploadLogPage()">{{'Back' |
-							translate}}</scf-button>
+							<scf-button id="back-button" type="button" class="popup-button"
+								ng-click="ctrl.backToDocumentUploadLogPage()">{{'Back'
+							| translate}}</scf-button>
 						</div>
 					</div>
 

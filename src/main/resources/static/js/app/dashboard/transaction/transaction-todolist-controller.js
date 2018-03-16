@@ -11,8 +11,9 @@ angular.module('scfApp').controller(
 				'Service', 
 				'SCFCommonService',
 				'$rootScope', 
+				'UIFactory',
 				function($log, $scope, $state, $stateParams, $timeout,
-						PageNavigation, PagingController, Service, SCFCommonService, $rootScope) {
+						PageNavigation, PagingController, Service, SCFCommonService, $rootScope, UIFactory) {
 					var vm = this;
 					var log = $log;
 					var organizeId = $rootScope.userInfo.organizeId;
@@ -26,20 +27,15 @@ angular.module('scfApp').controller(
 							orders: vm.dashboardItem.orderItems,
 					}
 					
-					vm.verify = false;
 					vm.approve = false;
 					
 					vm.statusTransaction = {
-						waitForVerify: 'WAIT_FOR_VERIFY',
-						waitForApprove: 'WAIT_FOR_APPROVE'
+						waitForVerify: 'WAIT_FOR_VERIFY'
 					}
 					
-					vm.decodeBase64 = function(data){
-						if(angular.isUndefined(data)){
-							return '';
-						}
-						return atob(data);
-					}
+					vm.decodeBase64 = function (data) {
+						return (data ? atob(data) : UIFactory.constants.NOLOGO);
+					};
 					
 					vm.verifyTransaction = function(data){
 						PageNavigation.gotoPage('/verify-transaction', {
@@ -49,30 +45,37 @@ angular.module('scfApp').controller(
 					
 					vm.pagingController = PagingController.create(transactionTodoListUrl, vm.criteria, 'GET');
 					
-				    vm.dataTable = {			            
+				    vm.dataTable = {	
+				    		options : {
+								displayRowNo: {
+									idValueField: 'template',
+									id: 'wait-for-verify-transaction-{value}-row-no-label',
+									cssTemplate : 'text-right'
+								}
+							},
 				            columns: [{
-							    fieldName: '$rowNo',
-								labelEN: 'No.',
-							    labelTH: 'ลำดับที่',
-							    idValueField: '$rowNo',
-							    id: 'wait-for-verify-transaction-{value}-row-no-label',
-							    cssTemplate: 'text-center',	
-							},{
-				                label: 'TP',
-				                sortData: true,
-				                cssTemplate: 'text-center',
-								cellTemplate: '<img	title="{{data.sponsor}}" style="height: 32px; width: 32px;"	'+
-								'data-ng-src="data:image/png;base64,{{txnTodoListCtrl.decodeBase64(data.sponsorLogo)}}" data-err-src="images/png/avatar.png" />'
+				            	fieldName: 'sponsor',
+					            field: 'sponsorLogo',
+					            label: 'TP',
+					            idValueField: 'template',
+					            sortData: true,
+					            cssTemplate: 'text-center',
+								dataRenderer: function(record){
+									return '<img	id="buyer-" title="{{data.sponsor}}" style="height: 32px; width: 32px;"'+
+									'data-ng-src="data:image/png;base64,{{txnTodoListCtrl.decodeBase64(data.sponsorLogo)}}" />';
+								}
 				            },{
 				            	fieldName: 'transactionNo',
-				                label: 'Transaction No',
+				            	field: 'transactionNo',
+				                label: 'Transaction No.',
 				                idValueField: 'template',
 				                id: 'wait-for-verify-transaction-{value}-transaction-no',
 				                sortable: false,
 				                cssTemplate: 'text-center',
 				            },{
 				            	fieldName: 'sponsorPaymentDate',
-				                label: 'Sponsor payment date',
+				            	field: 'sponsorPaymentDate',
+				                label: 'Buyer payment date',
 				                idValueField: 'template',
 				                id: 'wait-for-verify-transaction-{value}-sponsor-payment-date',
 				                filterType: 'date',
@@ -81,12 +84,14 @@ angular.module('scfApp').controller(
 				                cssTemplate: 'text-center'
 				            }, {
 				            	fieldName: 'noOfDocument',
+				            	field: 'noOfDocument',
 				                label: 'No of document',
 				                idValueField: 'template',
 				                id: 'wait-for-verify-transaction-{value}-no-of-document',
 				                cssTemplate: 'text-right',
 				            }, {
 				            	fieldName: 'transactionAmount',
+				            	field: 'transactionAmount',
 				                label: 'Transaction amount',
 				                idValueField: 'template',
 				                id: 'wait-for-verify-transaction-{value}-transaction-amount',
@@ -99,7 +104,7 @@ angular.module('scfApp').controller(
 								label: '',
 								cssTemplate: 'text-center',
 								sortable: false,
-								cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="(txnTodoListCtrl.verify && (data.statusCode === txnTodoListCtrl.statusTransaction.waitForVerify))" id="wait-for-verify-transaction-{{data.transactionNo}}-button" ng-click="txnTodoListCtrl.verifyTransaction(data)" title="Verify a transaction"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'
+								cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="data.statusCode === txnTodoListCtrl.statusTransaction.waitForVerify" id="wait-for-verify-transaction-{{data.transactionNo}}-button" ng-click="txnTodoListCtrl.verifyTransaction(data)" title="Verify a transaction"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'
 							}]
 				    };
 				    

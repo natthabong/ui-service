@@ -71,15 +71,15 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 						value: data.accountId
 					})
 				});
-				
-				if(accountId !== undefined){
+
+				if (accountId !== undefined) {
 					vm.tradeFinanceModel.payeeAccountId = accountId;
 				}
 			}).catch(function (response) {
 				log.error('Get payee account fail');
 			});
 		}
-		
+
 		setPayeeAccountDropdown();
 
 		var queryAccount = function (value) {
@@ -116,7 +116,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				});
 			});
 		};
-		
+
 		function changeAccountType(accountType) {
 			if (accountType === 'LOAN') {
 				vm.isLoanType = true;
@@ -136,7 +136,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
 			query: queryAccount
 		});
-		
+
 		vm.tradeFinanceModel = {
 			borrower: borrower,
 			borrowerType: vm.borrowerModel[0].value,
@@ -184,9 +184,9 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				} else {
 					vm.isSupplier = false;
 				}
-				
+
 				changeAccountType(tradeFinanceData.accountType);
-				
+
 				vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(tradeFinanceData);
 				vm.tradeFinanceModel.tenor = tradeFinanceData.tenor;
 				vm.tradeFinanceModel.percentageLoan = tradeFinanceData.prePercentageDrawdown;
@@ -194,10 +194,9 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				vm.tradeFinanceModel.agreementDate = new Date(tradeFinanceData.agreementDate);
 				vm.tradeFinanceModel.creditExpirationDate = new Date(tradeFinanceData.limitExpiryDate);
 				vm.tradeFinanceModel.isSuspend = tradeFinanceData.suspend;
-				if(tradeFinanceData.payeeAccountId != undefined && tradeFinanceData.payeeAccountId != null){
+				if (tradeFinanceData.payeeAccountId != undefined && tradeFinanceData.payeeAccountId != null) {
 					vm.tradeFinanceModel.payeeAccountId = tradeFinanceData.payeeAccountId.toString();
-				}else if(tradeFinanceData.payeeAccountId == null){
-					console.log("init null payee");
+				} else if (tradeFinanceData.payeeAccountId == null) {
 					vm.tradeFinanceModel.payeeAccountId = 'UNDEFINED_ACCOUNT';
 				}
 			}
@@ -245,7 +244,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				}
 			}
 		}
-		
+
 		initLoad();
 
 		vm.openCalendarAgreementDate = function () {
@@ -268,14 +267,14 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			var organizeId = null;
 			var organizeName = null;
 			var organizeCode = null;
-			if(vm.tradeFinanceModel.borrowerType === 'SUPPLIER' || accountType === 'PAYEE_ACCOUNT'){
+			if (vm.tradeFinanceModel.borrowerType === 'SUPPLIER' || accountType === 'PAYEE_ACCOUNT') {
 				organizeId = vm.tradeFinanceModel.borrower.supplierId;
 			} else if (vm.tradeFinanceModel.borrowerType === 'BUYER') {
 				organizeId = vm.tradeFinanceModel.borrower.buyerId;
 			}
-			
+
 			var pageName = 'tradeFinance';
-			if(accountType === 'PAYEE_ACCOUNT'){
+			if (accountType === 'PAYEE_ACCOUNT') {
 				pageName = 'tradeFinance_payeeAccount';
 			}
 
@@ -292,10 +291,10 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 					},
 					preCloseCallback: function (data) {
 						if (data) {
-							if(accountType === 'LOAN_ACCOUNT'){
+							if (accountType === 'LOAN_ACCOUNT') {
 								vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(data);
 								changeAccountType(data.accountType);
-							}else{
+							} else {
 								setPayeeAccountDropdown(data.accountId.toString());
 							}
 						}
@@ -318,7 +317,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				agreementDate: vm.tradeFinanceModel.agreementDate,
 				suspend: vm.tradeFinanceModel.isSuspend,
 				borrowerType: vm.isSupplier ? "SUPPLIER" : "BUYER",
-				payeeAccountId: vm.tradeFinanceModel.payeeAccountId == 'UNDEFINED_ACCOUNT'? null : vm.tradeFinanceModel.payeeAccountId
+				payeeAccountId: vm.tradeFinanceModel.payeeAccountId == 'UNDEFINED_ACCOUNT' ? null : vm.tradeFinanceModel.payeeAccountId
 			}
 
 			var deferred = TradeFinanceService.createTradeFinance(buyerId, supplierId, tradeFinanceModule, vm.isSupplier);
@@ -355,7 +354,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				interestRate: vm.tradeFinanceModel.interestRate,
 				agreementDate: vm.tradeFinanceModel.agreementDate,
 				suspend: vm.tradeFinanceModel.isSuspend,
-				payeeAccountId: vm.tradeFinanceModel.payeeAccountId == 'UNDEFINED_ACCOUNT'? null : vm.tradeFinanceModel.payeeAccountId,
+				payeeAccountId: vm.tradeFinanceModel.payeeAccountId == 'UNDEFINED_ACCOUNT' ? null : vm.tradeFinanceModel.payeeAccountId,
 				version: $stateParams.data.version
 			}
 
@@ -448,9 +447,9 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			if (_validate()) {
 				var preCloseCallback = function (confirm) {
 					var params = {
-							setupModel : borrower
+						setupModel: borrower
 					};
-					PageNavigation.gotoPage('/trade-finance/config',params);
+					PageNavigation.gotoPage('/trade-finance/config', params);
 				}
 
 				UIFactory.showConfirmDialog({
@@ -502,9 +501,9 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 
 		vm.cancel = function () {
 			var params = {
-					setupModel : borrower
+				setupModel: borrower
 			};
-			PageNavigation.gotoPage('/trade-finance/config',params);
+			PageNavigation.gotoPage('/trade-finance/config', params);
 		}
 
 		var _clearCriteria = function () {

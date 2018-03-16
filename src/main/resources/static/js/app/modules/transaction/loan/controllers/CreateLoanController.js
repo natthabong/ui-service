@@ -1,6 +1,6 @@
 var createapp = angular.module('gecscf.transaction');
 createapp.controller('CreateLoanController', ['TransactionService', '$state',
-    '$scope', 'SCFCommonService', '$stateParams', '$log', 'PageNavigation', '$q', 'PagingController', '$rootScope', 'blockUI', 'scfFactory', '$filter','AccountService',
+    '$scope', 'SCFCommonService', '$stateParams', '$log', 'PageNavigation', '$q', 'PagingController', '$rootScope', 'blockUI', 'scfFactory', '$filter', 'AccountService',
     function (TransactionService, $state, $scope, SCFCommonService, $stateParams, $log, PageNavigation, $q, PagingController, $rootScope, blockUI, scfFactory, $filter, AccountService) {
 
         var vm = this;
@@ -178,7 +178,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     return account.accountId == accountId;
                 });
 
-				var isODAccount = false;
+                var isODAccount = false;
                 if (vm.tradingpartnerInfoModel.accountType == 'LOAN') {
                     vm.createTransactionModel.transactionMethod = 'TERM_LOAN';
                     isODAccount = false;
@@ -186,14 +186,14 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     vm.createTransactionModel.transactionMethod = 'OD';
                     isODAccount = true;
                 }
-                
-                if(!isODAccount && vm.hasPrivilegeEnqCreditLimit){
-            		vm.showEnquiryButton = true;
-	            }else if(isODAccount && vm.hasPrivilegeEnqAcctBalance){
-	            	vm.showEnquiryButton = true;
-	            }else{
-	            	vm.showEnquiryButton = false;
-	            }
+
+                if (!isODAccount && vm.hasPrivilegeEnqCreditLimit) {
+                    vm.showEnquiryButton = true;
+                } else if (isODAccount && vm.hasPrivilegeEnqAcctBalance) {
+                    vm.showEnquiryButton = true;
+                } else {
+                    vm.showEnquiryButton = false;
+                }
 
                 var deferred = null;
                 var tradingInfo = TransactionService.getTradingInfo(sponsorCode, ownerId, accountId);
@@ -469,27 +469,25 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
             };
 
             // <------------------------------------- User Action ------------------------------->
-            
-            vm.enquiryAvailableBalance = function(){
-            	var deffered = null;
-            	var criteria ={
- 	           		buyerId: vm.createTransactionModel.sponsorIdSelected,
-					supplierId: ownerId,
-					accountId: vm.createTransactionModel.payerAccountId
-				}
-            	
-				if(vm.createTransactionModel.transactionMethod == 'TERM_LOAN'){
-					deffered = AccountService.enquiryCreditLimit(criteria);
-					console.log(deffered.promise);
-				}
-				else{
-					//overdraft
-					deffered = AccountService.enquiryAccountBalance(criteria);
-				}
-				            	
-				deffered.promise.then(function(response) {
-					vm.accountChange();
-				});
+
+            vm.enquiryAvailableBalance = function () {
+                var deffered = null;
+                var criteria = {
+                    buyerId: vm.createTransactionModel.sponsorIdSelected,
+                    supplierId: ownerId,
+                    accountId: vm.createTransactionModel.payerAccountId
+                }
+
+                if (vm.createTransactionModel.transactionMethod == 'TERM_LOAN') {
+                    deffered = AccountService.enquiryCreditLimit(criteria);
+                } else {
+                    //overdraft
+                    deffered = AccountService.enquiryAccountBalance(criteria);
+                }
+
+                deffered.promise.then(function (response) {
+                    vm.accountChange();
+                });
             }
 
             vm.sponsorChange = function () {
@@ -621,7 +619,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     transactionModel.sponsorPaymentDate = SCFCommonService.convertStringTodate(transactionModel.sponsorPaymentDate);
                     transactionModel.transactionDate = SCFCommonService.convertStringTodate(transactionModel.transactionDate);
                     transactionModel.transactionType = 'DRAWDOWN';
-                    
+
                     var deffered = TransactionService.verifyTransaction(transactionModel);
                     deffered.promise.then(function (response) {
                         var tradingpartnerInfoExtend = angular.extend(vm.tradingpartnerInfoModel, {

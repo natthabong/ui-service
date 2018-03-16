@@ -1,5 +1,5 @@
 <div th:fragment="content"
-	sec:authorize="hasAnyAuthority('VERIFY_LOANS_OF_MY_ORGANIZATION','VIEW_LOANS_OF_MY_ORGANIZATION')">
+	sec:authorize="hasAnyAuthority('VERIFY_LOANS_OF_MY_ORGANIZATION')">
 	<div
 		ng-controller="TransactionTodoListDashboardController as txnTodoListCtrl">
 		<h3 class="animated fadeInLeft"
@@ -23,20 +23,16 @@
 		<!-- Start Table-->
 		<div class="row">
 			<div class="col-md-12">
-				<scf-table id="wait-for-verify-transaction-table"
+				<scf-data-table id="wait-for-verify-transaction-table"
 					class="transaction-table"
 					component-config="txnTodoListCtrl.dataTable"
 					component-datas="txnTodoListCtrl.pagingController.tableRowCollection"
 					current-page="txnTodoListCtrl.pagingController.pagingModel.currentPage"
 					record-per-page="txnTodoListCtrl.pagingController.pagingModel.pageSizeSelectModel"
-					clear-sort-order="txnTodoListCtrl.pagingController.pagingModel.clearSortOrder"></scf-table>
+					clear-sort-order="txnTodoListCtrl.pagingController.pagingModel.clearSortOrder"></scf-data-table>
 			</div>
 			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
-		<input type="hidden" ng-init="txnTodoListCtrl.verify=true"
-			sec:authorize="hasAuthority('VERIFY_LOANS_OF_MY_ORGANIZATION')" />
-		<input type="hidden" ng-init="txnTodoListCtrl.canViewLoansOfMyOrganize=true"
-			sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZATION')" />
 	</div>
 
 </div>

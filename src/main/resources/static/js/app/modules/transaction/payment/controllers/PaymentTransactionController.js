@@ -70,7 +70,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	
 	    var _criteria = {};
 	   
-	    vm.criteria = $stateParams.criteria || {
+	    vm.criteria = {
 	        sponsorId : null,
 	        supplierId : null,
 	        supplierCode : null,
@@ -79,6 +79,10 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	        transactionNo : null,
 	        statusGroup : '',
 	        transactionType: 'PAYMENT'
+		}
+		
+		if($stateParams.criteria && $stateParams.criteria.statusGroup){
+			vm.criteria.statusGroup = $stateParams.criteria.statusGroup;
 		}
 	
 	    _clearSummaryStatus = function(){

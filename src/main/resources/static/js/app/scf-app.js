@@ -1,6 +1,8 @@
 var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'ui.mask', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
-		'legendDirectives', 'chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing', 'gecscf.supplierCreditInformation', 'gecscf.buyerCreditInformation', 'gecscf.sponsorConfiguration.workflow', 'gecscf.document', 'gecscf.organize.configuration.exportPayment', 'gecscf.organize.configuration.display', 'gecscf.downloadPaymentResult'
+		'legendDirectives', 'chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing',
+		'gecscf.supplierCreditInformation', 'gecscf.buyerCreditInformation', 'gecscf.sponsorConfiguration.workflow', 'gecscf.document', 'gecscf.organize.configuration.exportPayment', 'gecscf.organize.configuration.display',
+		'gecscf.downloadPaymentResult', 'gecscf.documentUploadLog', 'gecscf.monitoring'
 	])
 	.config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider', 'blockUIConfig', '$logProvider', '$compileProvider', '$urlRouterProvider', 'ngDialogProvider',
 		function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider, $compileProvider, $urlRouterProvider, ngDialogProvider) {
@@ -81,71 +83,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						documentSelects: null
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/transaction/loan/services/ValidateAndSubmitService.js', 'js/app/modules/transaction/loan/controllers/ValidateAndSubmitController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				})
-				.state('/customer-registration/supplier-credit-information', {
-					url: '/customer-registration/supplier-credit-information',
-					controller: 'SupplierCreditInformationController',
-					controllerAs: 'ctrl',
-					templateUrl: '/supplier-credit-information',
-					params: {
-						viewMode: 'CUSTOMER',
-						backAction: false,
-						criteria: null,
-						organize: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/supplier-credit-information/controllers/SupplierCreditInformationController.js', 'js/app/modules/supplier-credit-information/services/SupplierCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				})
-				.state('/my-organize/supplier-credit-information', {
-					url: '/my-organize/supplier-credit-information',
-					controller: 'SupplierCreditInformationController',
-					controllerAs: 'ctrl',
-					templateUrl: '/supplier-credit-information',
-					params: {
-						viewMode: 'MY_ORGANIZE',
-						backAction: false,
-						criteria: null,
-						organize: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/supplier-credit-information/controllers/SupplierCreditInformationController.js', 'js/app/modules/supplier-credit-information/services/SupplierCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				})
-				.state('/customer-registration/buyer-credit-information', {
-					url: '/customer-registration/buyer-credit-information',
-					controller: 'BuyerCreditInformationController',
-					controllerAs: 'ctrl',
-					templateUrl: '/buyer-credit-information',
-					params: {
-						viewMode: 'CUSTOMER',
-						backAction: false,
-						criteria: null,
-						organize: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				})
-				.state('/my-organize/buyer-credit-information', {
-					url: '/my-organize/buyer-credit-information',
-					controller: 'BuyerCreditInformationController',
-					controllerAs: 'ctrl',
-					templateUrl: '/buyer-credit-information',
-					params: {
-						viewMode: 'MY_ORGANIZE',
-						backAction: false,
-						criteria: null,
-						organize: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				})
-				.state('/partner-organize/buyer-credit-information', {
-					url: '/partner-organize/buyer-credit-information',
-					controller: 'BuyerCreditInformationController',
-					controllerAs: 'ctrl',
-					templateUrl: '/buyer-credit-information',
-					params: {
-						viewMode: 'PARTNER',
-						backAction: false,
-						criteria: null,
-						organize: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/buyer-credit-information/controllers/BuyerCreditInformationController.js', 'js/app/modules/buyer-credit-information/services/BuyerCreditInformationService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				})
 				.state('/verify-transaction', {
 					url: '/verify-transaction',
@@ -285,6 +222,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					resolve: WebHelper.loadScript(['js/app/dashboard/dashboard-controller.js', 'js/app/dashboard/transaction/newduedate-group-controller.js',
 						'js/app/dashboard/credit-information-controller.js',
 						'js/app/dashboard/credit-information-summary-controller.js',
+						'js/app/modules/account/services/AccountService.js',
 						'js/app/dashboard/twelve-months-credit-movement-controller.js',
 						'js/app/dashboard/transaction/internal-step-controller.js',
 						'js/app/dashboard/transaction/transaction-todolist-controller.js',
@@ -463,110 +401,16 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					},
 					templateUrl: '/change-password',
 					resolve: WebHelper.loadScript(['js/app/modules/profile/change-password/password-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/my-organize/document-upload-log', {
-					url: '/my-organize/document-upload-log',
-					controller: 'DocumentUploadLogController',
-					controllerAs: 'ctrl',
-					params: {
-						viewMode: 'MY_ORGANIZE',
-						criteria: null,
-						backAction: false
-					},
-					templateUrl: '/document-upload-log',
-					resolve: WebHelper.loadScript(['js/app/modules/document-upload-log/controllers/DocumentUploadLogController.js',
-						'js/app/modules/document-upload-log/services/DocumentUploadLogService.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
-				}).state('/customer-organize/upload-document-logs', {
-					url: '/customer-organize/upload-document-logs',
-					controller: 'DocumentUploadLogController',
-					controllerAs: 'ctrl',
-					params: {
-						viewMode: 'CUSTOMER',
-						criteria: null,
-						backAction: false
-					},
-					templateUrl: '/document-upload-log/sponsor',
-					resolve: WebHelper.loadScript(['js/app/modules/document-upload-log/controllers/DocumentUploadLogController.js',
-						'js/app/modules/document-upload-log/services/DocumentUploadLogService.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
 				}).state('/document-upload-log/view-log', {
 					url: '/document-upload-log/view-log',
 					controller: 'ViewDocumentUplaodLogController',
 					controllerAs: 'ctrl',
 					templateUrl: '/document-upload-log/view-log',
 					params: {
-						documentUploadLogModel: null,
-						roleType: null
+						recordModel: null,
+						viewMode: null
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/document-upload-log/controllers/ViewDocumentUplaodLogController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/monitoring/bank-system-integration', {
-					url: '/monitoring/bank-system-integration',
-					controller: 'BankSystemIntegrationMonitorController',
-					controllerAs: 'ctrl',
-					templateUrl: '/system-integration-monitor/bank',
-					params: {
-						params: []
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/bank-system-integration-monitor-controller.js', 'js/app/modules/monitor/web-service-monitor-controller.js', 'js/app/modules/monitor/ftp-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-service.js', 'js/app/modules/monitor/system-integration-monitor-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/monitoring/customer-system-integration', {
-					url: '/monitoring/customer-system-integration',
-					controller: 'CustomerSystemIntegrationMonitorController',
-					controllerAs: 'ctrl',
-					templateUrl: '/system-integration-monitor/sponsor',
-					params: {
-						params: []
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/customer-system-integration-monitor-controller.js', 'js/app/modules/monitor/web-service-monitor-controller.js', 'js/app/modules/monitor/ftp-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-service.js', 'js/app/modules/monitor/system-integration-monitor-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/monitoring/system-integration', {
-					url: '/monitoring/system-integration',
-					controller: 'MySystemIntegrationMonitorController',
-					controllerAs: 'ctrl',
-					templateUrl: '/system-integration-monitor/gec',
-					params: {
-						params: []
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/my-system-integration-monitor-controller.js', 'js/app/modules/monitor/web-service-monitor-controller.js', 'js/app/modules/monitor/ftp-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-controller.js', 'js/app/modules/monitor/batch-job-monitor-service.js', 'js/app/modules/monitor/system-integration-monitor-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/monitoring/transaction-tracking', {
-					url: '/monitoring/transaction-tracking',
-					controller: 'TransactionTrackingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/transaction-tracking',
-					params: {
-						backAction: false,
-						criteria: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/transaction-tracking-controller.js', 'js/app/modules/monitor/transaction-tracking-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/view-transaction-tracking-message', {
-					url: '/view-transaction-tracking-message',
-					controller: 'ViewTransactionTrackingMessageController',
-					controllerAs: 'ctrl',
-					templateUrl: '/view-transaction-tracking-message',
-					params: {
-						params: []
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/view-transaction-tracking-message-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/batch-job-tracking', {
-					url: '/batch-job-tracking',
-					controller: 'BatchJobTrackingController',
-					controllerAs: 'ctrl',
-					templateUrl: '/batch-job-tracking',
-					params: {
-						params: []
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/batch-job-tracking-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/view-batch-job-tracking-message', {
-					url: '/view-batch-job-tracking-message',
-					controller: 'ViewBatchJobTrackingMessageController',
-					controllerAs: 'ctrl',
-					templateUrl: '/view-batch-job-tracking-message',
-					params: {
-						params: []
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/monitor/view-batch-job-tracking-message-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/customer-registration/account', {
 					url: '/customer-registration/account',
 					controller: 'AccountListController',
@@ -768,7 +612,8 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 	'Service', '$window', '$rootScope', '$http',
 	function ($translate, $translatePartialLoader, scfFactory, $scope, Service, $window, $rootScope, $http) {
 		var vm = this;
-		vm.title = 'Loading...';
+		vm.title = '';
+		vm.banner = 'Loading...';
 		vm.sysMessage = "";
 		vm.menus = [];
 		vm.changeLanguage = function (lang) {
@@ -785,10 +630,10 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 
 		};
 
-		$http.get('assets/theme.json')
-			.then(function (res) {
-				vm.title = res.data.title;
-			});
+		$http.get('assets/theme.json').then(function (res) {
+			vm.title = res.data.title;
+			vm.banner = res.data.banner;
+		});
 
 		// Begin Code Get Organize List
 		vm.organizeHeader;

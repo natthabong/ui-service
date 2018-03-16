@@ -1,8 +1,16 @@
-(function(exports) {
-    "use strict";
+(function (exports) {
+	"use strict";
+	var app = angular.module('scfError', ['pascalprecht.translate']);
+	app.controller('ErrorController', ['$scope', '$element', '$attrs', '$http',
+		function ($scope, $element, $attrs, $http) {
+			var vm = this;
+			vm.title = '';
+			vm.banner = 'Loading...';
 
-    var app = angular.module('scfError', ['pascalprecht.translate']);
-    app.controller('ErrorController', [ '$scope', '$element', '$attrs',
-	    function($scope, $element, $attrs) {
-	    } ]);
+			$http.get('../assets/theme.json').then(function (res) {
+				vm.title = res.data.title;
+				vm.banner = res.data.banner;
+			});
+		}
+	]);
 })(window);

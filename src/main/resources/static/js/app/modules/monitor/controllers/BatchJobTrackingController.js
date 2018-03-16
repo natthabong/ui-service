@@ -1,5 +1,5 @@
 'use strict';
-var scfApp = angular.module('scfApp');
+var scfApp = angular.module('gecscf.monitoring');
 scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$stateParams', '$log', 'PagingController', 'UIFactory', '$q',
 	'$rootScope', '$http','PageNavigation','ngDialog',
 	function($scope, Service, $stateParams, $log, PagingController, UIFactory, $q, $rootScope, $http, PageNavigation, ngDialog) {
@@ -19,7 +19,6 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 		vm.logTimeToMinute = '';
 		
 		vm.batchJobTracking = $stateParams.params;
-		console.log(vm.batchJobTracking);
 		var ownerId = vm.batchJobTracking.jobGroup;
 		var jobId = vm.batchJobTracking.jobId;
 		
@@ -53,80 +52,6 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 				return 'text-'+align
 		}
 		
-		vm.dataTable = {
-			options : {
-				
-			},
-			columns : [
-				{
-					fieldName : 'date',
-					field : 'actionTime',
-					label : 'Date',
-					idValueField : 'template',
-					id : 'date-{value}-label',
-					sortable : false,
-	                filterType : 'date',
-	                filterFormat : 'dd/MM/yyyy HH:mm:ss',
-					cssTemplate : function(record){
-						return cssTemplate(record,'left')
-					}
-				},{
-					fieldName : 'processNo',
-					field : 'processNo',
-					label : 'Process no',
-					idValueField : 'template',
-					id : 'process-no-{value}-label',
-					sortable : false,
-					cssTemplate : function(record){
-						return cssTemplate(record,'left')
-					}
-				},{
-					fieldName : 'jobName',
-					field : 'jobName',
-					label : 'Batch job',
-					idValueField : 'template',
-					id : 'batch-job-{value}-label',
-					sortable : false,
-					cssTemplate : function(record){
-						return cssTemplate(record,'left')
-					}
-				},{
-					fieldName : 'node',
-					field : 'node',
-					label : 'Node',
-					idValueField : 'template',
-					id : 'node-{value}-label',
-					sortable : false,
-					cssTemplate : function(record){
-						return cssTemplate(record,'left')
-					}
-				},{
-					fieldName : 'ipAddress',
-					field : 'ipAddress',
-					label : 'IP',
-					idValueField : 'template',
-					id : 'ip-address-{value}-label',
-					sortable : false,
-					cssTemplate : function(record){
-						return cssTemplate(record,'left')
-					}
-				},{
-					fieldName : 'action',
-					field : 'action',
-					label : 'Action',
-					idValueField : 'template',
-					id : 'action-{value}-label',
-					sortable : false,
-					cellTemplate : '{{data | batchJob}}',
-					cssTemplate : function(record){
-						return cssTemplate(record,'left')
-					}
-				},{
-					cssTemplate : 'text-center',
-					sortable : false,
-					cellTemplate : '<scf-button ng-disabled="!data.errorMessage" class="btn-default gec-btn-action" id="{{$parent.$index + 1}}-view-button" ng-click="ctrl.viewMessage(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
-				} ]
-		}
 		
 		vm.searchCriteria = {
 			batchJobId: undefined,
@@ -190,8 +115,9 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 			return vm.searchCriteria;
 		}
 
-		vm.pagingController = PagingController.create('api/v1/organizes/'+ownerId+'/batch-jobs/'+jobId+"/logs", vm.searchCriteria, 'GET');
-
+		vm.pagingController = PagingController.create('/api/v1/organizes/'+ownerId+'/batch-jobs/'+jobId+"/logs", vm.searchCriteria, 'GET');
+		vm.pagingController.offsetBase = false;
+		
 		vm.viewMessage = function(data){
 			var params = {params: data};
 			PageNavigation.gotoPage('/view-batch-job-tracking-message', params,[]);

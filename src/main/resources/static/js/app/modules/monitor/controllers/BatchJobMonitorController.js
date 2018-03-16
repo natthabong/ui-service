@@ -1,5 +1,5 @@
 'use strict';
-var scfApp = angular.module('scfApp');
+var scfApp = angular.module('gecscf.monitoring');
 scfApp.controller('BatchJobMonitorController', [
 		'$scope',
 		'$stateParams',
@@ -169,7 +169,7 @@ scfApp.controller('BatchJobMonitorController', [
 				};
 				var systemInfo = ngDialog.open({
 					id : 'batch-job-detail-dialog',
-					template : '/js/app/modules/monitor/dialog-batch-job-detail.html',
+					template : '/js/app/modules/monitor/templates/dialog-batch-job-detail.html',
 					className : 'ngdialog-theme-default',
 					controller: 'ViewBatchJobController',
 					controllerAs: 'ctrl',

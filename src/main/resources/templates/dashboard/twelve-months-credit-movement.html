@@ -1,5 +1,5 @@
-<div th:fragment="content">
-
+<div th:fragment="content"
+	sec:authorize="hasAnyAuthority('VIEW_SUPPLIER_CREDIT_INFORMATION_OF_MY_ORGANIZATION', 'VIEW_BUYER_CREDIT_INFORMATION_OF_MY_ORGANIZATION')">
 	<div
 		ng-controller="TwelveMonthsCreditMovementDashboardController as ctrl">
 		<h3 class="animated fadeInLeft"

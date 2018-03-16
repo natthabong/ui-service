@@ -44,7 +44,7 @@
                                             <span id="RECEIVABLE-document-display-layout-name-{{record.documentDisplayId}}-label" ng-bind="record.displayName | translate"></span>
                                         </td>
                                         <td class="text-left">
-                                            <span id="RECEIVABLE-document-display-product-type-{{record.documentDisplayId}}-label" ng-bind="(record.product.productType ? (record.product.productType +' : '+ record.product.displayName) : 'Default') | translate"></span>
+                                            <span id="RECEIVABLE-document-display-product-type-{{record.documentDisplayId}}-label" ng-bind="(record.product.productType ? (record.product.productType +': '+ record.product.displayName) : 'Default') | translate"></span>
                                         </td>
                                         <td class="text-center">
                                             <scf-button class="btn-default gec-btn-action" id="display-{{record.displayName}}-view-button" ng-disabled="ctrl.unauthenView()"

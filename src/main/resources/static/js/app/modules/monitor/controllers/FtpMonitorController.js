@@ -1,5 +1,5 @@
 'use strict';
-var scfApp = angular.module('scfApp');
+var scfApp = angular.module('gecscf.monitoring');
 scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams', '$log', 'UIFactory', '$q',
 	'$rootScope', '$http','PageNavigation','SystemIntegrationMonitorService','ngDialog','scfFactory',
 	function($scope, Service, $stateParams, $log, UIFactory, $q, $rootScope, $http, PageNavigation, SystemIntegrationMonitorService,ngDialog,scfFactory) {
@@ -22,7 +22,7 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 				};
 				var systemInfo = ngDialog.open({
 					id : 'service-information-dialog',
-					template : '/js/app/modules/monitor/dialog-service-information.html',
+					template : '/js/app/modules/monitor/templates/dialog-service-information.html',
 					className : 'ngdialog-theme-default',
 					controller: 'ViewServiceInformationController',
 					controllerAs: 'ctrl',
@@ -63,7 +63,7 @@ scfApp.controller('FtpMonitorController', [ '$scope', 'Service', '$stateParams',
 			};
 			var problemDialog = ngDialog.open({
 				id : 'problem-detail-dialog',
-				template : '/js/app/modules/monitor/dialog-problem-detail.html',
+				template : '/js/app/modules/monitor/templates/dialog-problem-detail.html',
 				className : 'ngdialog-theme-default',
 				controller: 'ViewProblemDetailController',
 				controllerAs: 'ctrl',

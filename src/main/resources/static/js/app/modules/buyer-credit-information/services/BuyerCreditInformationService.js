@@ -82,6 +82,10 @@ bciModule.factory('BuyerCreditInformationService', ['$http', '$q', 'Service', fu
 	}
 
 	return {
+		_prepareItemSupplier: _prepareItemSupplier,
+		_prepareItemSupplierForBuyer: _prepareItemSupplierForBuyer,
+		_prepareItemBuyers: _prepareItemBuyers,
+		_prepareItemBuyersForBank: _prepareItemBuyersForBank,
 		getItemSuggestBuyers: getItemSuggestBuyers,
 		getItemSuggestSuppliers: getItemSuggestSuppliers,
 		getItemSuggestBuyersBySupplierId: getItemSuggestBuyersBySupplierId,

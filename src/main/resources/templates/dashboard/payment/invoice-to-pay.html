@@ -1,70 +1,48 @@
-<div th:fragment="content"
-	sec:authorize="hasAnyAuthority('CREATE_PAYMENTS_OF_MY_ORGANIZATION','VIEW_PAYMENTS_OF_MY_ORGANIZATION','VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZATION')">
-	<div
-		ng-controller="InvoiceToPayDashboardController as invoiceToPayCtrl">
-		<h3 class="animated fadeInLeft" id="invoice-to-pay-header-label">{{dashboardItem.headerLabel}}</h3>
-
+<div th:fragment="content" sec:authorize="hasAnyAuthority('CREATE_PAYMENTS_OF_MY_ORGANIZATION', 'VIEW_PAYMENTS_OF_MY_ORGANIZATION', 'VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZATION')">
+	<div ng-controller="InvoiceToPayDashboardController as ctrl">
+		<h3 class="animated fadeInLeft" id="invoice-to-pay-header-label" ng-bind="dashboardItem.headerLabel"></h3>
 		<div class="panel-body">
 			<p class="animated fadeInDown">
-				<span id="summary-outstanding-amount-label">Summary of
-					outstanding amount</span>&nbsp;<span
-					id="summary-outstanding-amount-value-label">{{invoiceToPayCtrl.data.totalPaymentAmount
-					| number: 2}}</span>&nbsp;<span
-					id="summary-outstanding-amount-currency-label">THB</span>
+				<span id="summary-outstanding-amount-label">Summary of outstanding amount</span>&nbsp;
+				<span id="summary-outstanding-amount-value-label" ng-bind="ctrl.data.totalPaymentAmount | number: 2"></span>&nbsp;
+				<span id="summary-outstanding-amount-currency-label">THB</span>
 			</p>
 			<div class="responsive-table">
-				<table id="invoice-to-pay-table"
-					class="table table-striped table-bordered" width="100%"
-					cellspacing="0">
+				<table id="invoice-to-pay-table" class="table table-striped table-bordered" width="100%" cellspacing="0">
 					<thead>
 						<tr>
 							<th ng-bind="'TP' | translate">TP</th>
 							<th ng-bind="'Due date' | translate">Due date</th>
 							<th ng-bind="'Buyer code' | translate">Buyer code</th>
 							<th ng-bind="'No of document' | translate">No of document</th>
-							<th ng-bind="'Outstanding amount (THB)' | translate">Outstanding
-								amount (THB)</th>
+							<th ng-bind="'Outstanding amount (THB)' | translate">Outstanding amount (THB)</th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr
-							ng-repeat="record in invoiceToPayCtrl.data.documentGroupByDuedateList track by $index">
-							<td class="text-center"><img title="{{record.supplierName}}"
-								style="height: 32px; width: 32px;"
-								data-ng-src="data:image/png;base64,{{invoiceToPayCtrl.decodeBase64(record.supplierLogo)}}"
-								data-err-src="images/png/avatar.png" /><span
-								data-ng-show="{{record.productTypeDisplay!='NONE'}}"
-								id="invoice-to-pay-{{$index+1}}-product-type-display-label"> ({{record.productTypeDisplay}})</span></td>
-							<td class="text-center"
-								id="invoice-to-pay-{{$index+1}}-due-date-label"
-								ng-bind="record.dueDate | date : 'dd/MM/yyyy'"></td>
-							<td class="text-center"
-								id="invoice-to-pay-{{$index+1}}-buyer-code-label"
-								ng-bind="record.buyerCode"></td>
-							<td class="text-right"
-								id="invoice-to-pay-{{$index+1}}-no-of-document-label"
-								ng-bind="record.noOfDocument | number"></td>
-							<td class="text-right"
-								id="invoice-to-pay-{{$index+1}}-payment-amount-label"
-								ng-bind="record.paymentAmount | number : 2"></td>
-							<td class="text-center"><button
-									class="btn-default gec-btn-action"
-									ng-disabled="!(invoiceToPayCtrl.createPriviledge)"
-									id="doc-group-{{$index+1}}-button" title="Create a transaction"
-									ng-click="invoiceToPayCtrl.create(record)">
+						<tr ng-repeat="record in ctrl.data.documentGroupByDuedateList track by $index">
+							<td class="text-center">
+								<img id="general-info-funding-{{$index+1}}-img" title="{{record.supplierName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.supplierLogo)}}"
+								/>
+							</td>
+							<td class="text-center" id="invoice-to-pay-{{$index+1}}-due-date-label" ng-bind="record.dueDate | date : 'dd/MM/yyyy'"></td>
+							<td class="text-center" id="invoice-to-pay-{{$index+1}}-buyer-code-label" ng-bind="record.buyerCode"></td>
+							<td class="text-right" id="invoice-to-pay-{{$index+1}}-no-of-document-label" ng-bind="record.noOfDocument | number"></td>
+							<td class="text-right" id="invoice-to-pay-{{$index+1}}-payment-amount-label" ng-bind="record.paymentAmount | number : 2"></td>
+							<td class="text-center">
+								<button class="btn-default gec-btn-action" ng-disabled="!(ctrl.canCreatePayment)" id="doc-group-{{$index+1}}-button" title="Create a transaction"
+								    ng-click="ctrl.create(record)">
 									<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>
-								</button></td>
+								</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
+			<ng-form>
+				<input type="hidden" ng-init="ctrl.canCreatePayment=true" sec:authorize="hasAuthority('CREATE_PAYMENTS_OF_MY_ORGANIZATION')"
+				/>
+			</ng-form>
 		</div>
-		<ng-form> <input type="hidden"
-			ng-init="invoiceToPayCtrl.createPriviledge=true"
-			sec:authorize="hasAuthority('CREATE_PAYMENTS_OF_MY_ORGANIZATION')" /></ng-form>
-		<ng-form> <input type="hidden"
-			ng-init="invoiceToPayCtrl.canViewDocsReferOrg=true"
-			sec:authorize="hasAnyAuthority('VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZATION','VIEW_PAYMENTS_OF_MY_ORGANIZATION')" /></ng-form>
 	</div>
 </div>

@@ -278,6 +278,7 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 	
 	var ctrl = {
 	   clientMode: false,
+	   offsetBase: true,
 	   tableRowCollection: {},
 	   plitePageTxt: '',
 	   pagingModel: {
@@ -370,8 +371,14 @@ app.service('PagingController', ['$http', '$log', '$q', 'Service', 'SCFCommonSer
 	    },
 	    _prepareCriteria: function(pagingModel, postParams) {
 	        var criteria = postParams;
-	        criteria.limit = pagingModel.pageSizeSelectModel;
-	        criteria.offset = pagingModel.offset || (pagingModel.currentPage * pagingModel.pageSizeSelectModel);
+	        if(this.offsetBase){
+	          criteria.limit = pagingModel.pageSizeSelectModel;
+	          criteria.offset = pagingModel.offset || (pagingModel.currentPage * pagingModel.pageSizeSelectModel);
+	        }
+	        else{
+	          criteria.size = pagingModel.pageSizeSelectModel;
+            criteria.page = pagingModel.currentPage;
+	        }
 	        return criteria;
 	    }
 	};

@@ -1,11 +1,29 @@
 'use strict';
-var scfApp = angular.module('scfApp');
-scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stateParams', '$log', '$http', 'PagingController', 'UIFactory',
-     'docStatus', 'PageNavigation', 'docChannel', 'DocumentUploadLogService',
-    function( $rootScope, $scope, $stateParams, $log, $http,  PagingController, UIFactory, docStatus, PageNavigation, docChannel, DocumentUploadLogService) {
+var app = angular.module('gecscf.documentUploadLog');
+app.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stateParams', '$log', '$http', 'PagingController', 'UIFactory',
+     'docStatus', 'PageNavigation', 'docChannel', 'DocumentUploadLogService', 'scfFactory',
+    function( $rootScope, $scope, $stateParams, $log, $http,  PagingController, UIFactory, docStatus, PageNavigation, docChannel, DocumentUploadLogService, scfFactory) {
         var vm = this;
+        vm.getUserInfoSuccess = false;
+        var deferred = scfFactory.getUserInfo();
+        
+        deferred.promise.then(function (response) {
+        vm.getUserInfoSuccess = true;
         var log = $log;
-
+        
+        vm.criteria = $stateParams.criteria || {
+        	viewMode: null,
+        	fundingId: null,
+        	organizeId: null,
+            fileType: null,
+            uploadDateFrom: null,
+            uploadDateTo: null,
+            channel: null,
+            status: null
+        };
+        
+        vm.organize = $stateParams.organize || undefined;
+        
         vm.dateFormat = "dd/MM/yyyy";
         vm.openDateFrom = false;
         vm.openDateTo = false;
@@ -16,21 +34,26 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
         vm.sponsorTxtDisable = false;
         vm.hideColSponsor = false;
         vm.fileTypeDropdowns = [];
+        vm.fundingDropdowns = [];
         vm.docStatusDropdowns = docStatus;
         vm.docChannelDropdowns = docChannel;
-
-        vm.criteria = $stateParams.criteria || {
-            oraganizeId: null,
-            fileType: null,
-            uploadDateFrom: null,
-            uploadDateTo: null,
-            channel: null,
-            status: null,
-            isBankDoc: false
+        
+        vm.decodeBase64 = function(data) {
+            return (data ? atob(data) : UIFactory.constants.NOLOGO);
         };
+        
+        var isSameProcessNo = function (processNo, data, index) {
+			if (index == 0) {
+				return false;
+			} else {
+				return processNo == data[index - 1].processNo;
+			}
+		}
+
         var viewMode = {
-            MY_ORGANIZE: 'MY_ORGANIZE',
-            CUSTOMER: 'CUSTOMER'
+            MY_ORGANIZE : 'MY_ORGANIZE',
+            FUNDING : 'FUNDING',
+            ALLFUNDING : 'ALLFUNDING'
         }
         var currentMode = $stateParams.viewMode;
         vm.headerName = currentMode == viewMode.MY_ORGANIZE ? "Upload document logs" : "Customer document upload log";
@@ -63,9 +86,9 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
         });
 
         var prepareAutoSuggestLabel = function(item) {
-            item.identity = ['sponsor-', item.organizeId, '-option'].join('');
-            item.label = [item.organizeId, ': ', item.organizeName].join('');
-            return item;
+            item.identity = [ 'organize-', item.memberId, '-', item.memberCode, '-option' ].join('');
+            item.label = [ item.memberCode, ': ', item.memberName ] .join('');
+		return item;
         }
 
         var getFileType = function(ownerId, integrateType) {
@@ -74,7 +97,7 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
                 label: 'All',
                 value: null
             });
-            var deffered = DocumentUploadLogService.getFileType(ownerId, integrateType);
+            var deffered = DocumentUploadLogService.getFileType(currentMode, ownerId, integrateType);
             deffered.promise.then(function(response) {
                 response.data.forEach(function(type) {
                     fileType.push({
@@ -82,27 +105,38 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
                         value: type
                     });
                 });
-                if (fileType.length > 0) {
-                    vm.hiddenColumn = false;
-                } else {
-                    vm.hiddenColumn = true;
-                }
             }).catch(function(response) {
                 log.error('Get file type fail');
-                vm.hiddenColumn = true;
-                vm.pagingController = PagingController.create(pagingUrl, vm.criteria, 'GET');
-                if (currentMode == viewMode.MY_ORGANIZE) {
-                    vm.searchLog();
-                }
             });
 
             return fileType;
         }
+        
+        var getFunding = function() {
+            var funding = [];
+            funding.push({
+                label: 'All',
+                value: null
+            });
+            var deffered = DocumentUploadLogService.getFunding();
+            deffered.promise.then(function(response) {
+                response.data.forEach(function(each) {
+                	funding.push({
+                        label: each.fundingName,
+                        value: each.fundingId
+                    });
+                });
+            }).catch(function(response) {
+                log.error('Get funding fail');
+            });
+
+            return funding;
+        }
 
 
-        $scope.$watch('ctrl.documentUploadLogModel.sponsor', function() {
-            if (vm.documentUploadLogModel.sponsor != '' && angular.isDefined(vm.documentUploadLogModel.sponsor) && angular.isObject(vm.documentUploadLogModel.sponsor)) {
-                vm.fileTypeDropdowns = getFileType(vm.documentUploadLogModel.sponsor.organizeId, "IMPORT");
+        $scope.$watch('ctrl.organize', function() {
+            if (vm.organize != '' && angular.isDefined(vm.organize) && angular.isObject(vm.organize)) {
+                vm.fileTypeDropdowns = getFileType(vm.organize.memberId, "IMPORT");
             } else {
                 var docType = [];
                 docType.push({
@@ -113,7 +147,6 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
                 vm.criteria.fileType = docType[0].value;
             }
         });
-
 
         var isValid = function() {
             var valid = true;
@@ -154,18 +187,35 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
         }
 
         vm.searchLog = function(pagingModel) {
-            var sponsorObject = vm.documentUploadLogModel.sponsor;
+            var sponsorObject = vm.organize;
 
-            if (sponsorObject != undefined && (sponsorObject.organizeId != undefined || sponsorObject == '')) {
-                vm.criteria.oraganizeId = sponsorObject.organizeId;
+            if (sponsorObject != undefined && (sponsorObject.memberId != undefined || sponsorObject == '')) {
+                vm.criteria.organizeId = sponsorObject.memberId;
+            }
+            
+            if (vm.criteria.fileType == undefined || vm.criteria.fileType == '') {
+				vm.criteria.fileType = null;
+            }
+            
+            if (vm.criteria.fundingId == undefined || vm.criteria.fundingId == '') {
+				vm.criteria.fundingId = null;
             }
 
             if (isValid()) {
-                vm.pagingController.search(pagingModel || ($stateParams.backAction ? {
-                    offset: vm.criteria.offset,
-                    limit: vm.criteria.limit
-                } : undefined));
-                $stateParams.backAction = false;
+            	vm.pagingController.search(pagingModel, function (criteria, response) {
+    				var data = response.data;
+    				var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
+    				var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
+    				var i = 0;
+    				var baseRowNo = pageSize * currentPage; 
+    				angular.forEach(data, function (value, idx) {		        						
+    					if (isSameProcessNo(value.processNo, data, idx)) {
+    						value.isSameProcessNo = true;
+    					}
+    					++i;
+    					value.rowNo = baseRowNo+i;
+    				});
+    			});
             }
         }
 
@@ -173,150 +223,46 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
 
         var initLoad = function() {
             if (currentMode == viewMode.MY_ORGANIZE) {
+            	vm.criteria.organizeId = $rootScope.userInfo.organizeId;
                 vm.hideColSponsor = true;
                 vm.sponsorTxtDisable = true;
-                vm.documentUploadLogModel.roleType = ' ';
+                vm.viewMode = 'MY_ORGANIZE';
                 vm.showSponsor = false;
                 var owner = angular.copy($rootScope.userInfo);
                 owner = prepareAutoSuggestLabel(owner);
-                vm.documentUploadLogModel.sponsor = owner;
-                vm.fileTypeDropdowns = getFileType(owner.organizeId, "IMPORT");
+                vm.organize = owner;
+                vm.fileTypeDropdowns = getFileType(owner.memberId, "IMPORT");
                 if(vm.criteria.fileType == null){
                 	 vm.criteria.fileType = vm.fileTypeDropdowns[0].value;
                 }
-               
-            } else if (currentMode == viewMode.CUSTOMER) {
+            } else if (currentMode == viewMode.FUNDING) {
+            	vm.criteria.fundingId = $rootScope.userInfo.fundingId;
                 vm.sponsorTxtDisable = false;
-                vm.documentUploadLogModel.roleType = 'sponsor';
+                vm.viewMode = 'FUNDING';
                 vm.hideColSponsor = false;
                 vm.showSponsor = true;
                 vm.hideColFileType = true;
+                if(vm.organize != undefined){
+                	vm.organize = prepareAutoSuggestLabel(vm.organize);
+                }
+            } else if (currentMode == viewMode.ALLFUNDING) {
+                vm.viewMode = 'ALLFUNDING';
+                vm.fundingDropdowns = getFunding();
+                console.log(vm.organize);
+                if(vm.organize != undefined){
+                	vm.organize = prepareAutoSuggestLabel(vm.organize);
+                }
             }
+            vm.criteria.viewMode = vm.viewMode;
             vm.searchLog();
         }();
 
-        vm.dataTable = {
-            columns: [{
-                    fieldName: 'startUploadTime',
-                    labelEN: 'Upload date',
-                    labelTH: 'Upload date',
-                    idValueField: '$rowNo',
-                    id: 'upload-date-{value}',
-                    sortable: false,
-                    filterType: 'date',
-                    format: 'dd/MM/yyyy HH:mm',
-                    cssTemplate: 'text-center'
-                },
-                {
-                    fieldName: 'organizeLogo',
-                    labelEN: 'Customer',
-                    labelTH: 'Customer',
-                    idValueField: '$rowNo',
-                    id: 'module-{value}',
-                    sortable: false,
-                    cssTemplate: 'text-center',
-                    dataRenderer: function(data) {
-                        return '<img style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,' + atob(data.organizeLogo) + '"></img>';
-                    },
-                    hiddenColumn: vm.hideColSponsor
-                },
-                {
-                    fieldName: 'channel',
-                    labelEN: 'Channel',
-                    labelTH: 'Channel',
-                    idValueField: '$rowNo',
-                    id: 'channel-{value}',
-                    filterType: 'translate',
-                    sortable: false,
-                    cssTemplate: 'text-center'
-                },
-                {
-                    fieldName: 'fileType',
-                    labelEN: 'File type',
-                    labelTH: 'File type',
-                    idValueField: '$rowNo',
-                    id: 'file-type-{value}',
-                    filterType: 'translate',
-                    sortable: false,
-                    cssTemplate: 'text-left',
-                    hiddenColumn: vm.hideColFileType
-                },
-                {
-                    fieldName: 'fileName',
-                    labelEN: 'File name',
-                    labelTH: 'File name',
-                    idValueField: '$rowNo',
-                    id: 'file-name-{value}',
-                    sortable: false,
-                    cssTemplate: 'text-left'
-                }, {
-                    fieldName: 'success',
-                    labelEN: 'Success',
-                    labelTH: 'Success',
-                    idValueField: '$rowNo',
-                    id: 'success-{value}',
-                    sortable: false,
-                    cssTemplate: 'text-right'
-                }, {
-                    fieldName: 'fail',
-                    labelEN: 'Fail',
-                    labelTH: 'Fail',
-                    idValueField: '$rowNo',
-                    id: 'fail-{value}',
-                    sortable: false,
-                    cssTemplate: 'text-right',
-                    dataRenderer: function(data) {
-                        if (data != undefined) {
-                            if (data.fail == null) {
-                                return 'N/A';
-                            } else {
-                                return data.fail;
-                            }
-                        }
-                    }
-                }, {
-                    fieldName: 'total',
-                    labelEN: 'Total',
-                    labelTH: 'Total',
-                    idValueField: '$rowNo',
-                    id: 'total-{value}',
-                    sortable: false,
-                    cssTemplate: 'text-right',
-                    dataRenderer: function(data) {
-                        if (data != undefined) {
-                            if (data.fail == null) {
-                                return 'N/A';
-                            } else {
-                                return data.fail + data.success;
-                            }
-                        }
-                    }
-                },
-                {
-                    fieldName: 'status',
-                    labelEN: 'Status',
-                    labelTH: 'Status',
-                    idValueField: '$rowNo',
-                    id: 'status-{value}',
-                    sortable: false,
-                    filterType: 'translate',
-                    cssTemplate: 'text-center'
-                },
-                {
-                    fieldName: 'action',
-                    labelEN: 'Action',
-                    labelTH: 'Action',
-                    cellTemplate: '<scf-button id="document-upload-log-{{$parent.$index + 1}}-view-button" class="btn-default gec-btn-action" ng-click="ctrl.viewLog(data)" title="View log details"><i class="glyphicon glyphicon-search" ></i></scf-button>'
-                }
-            ]
-        };
-
         vm.viewLog = function(data) {
             var params = {
-                documentUploadLogModel: data,
-                roleType: vm.documentUploadLogModel.roleType
+            	recordModel: data,
+                viewMode: vm.viewMode
             }
-            PageNavigation.nextStep('/document-upload-log/view-log', params, { criteria: vm.criteria })
+            PageNavigation.nextStep('/document-upload-log/view-log', params, { criteria: vm.criteria ,organize: vm.organize})
         }
 
         vm.openCalendarDateFrom = function() {
@@ -326,12 +272,11 @@ scfApp.controller('DocumentUploadLogController', ['$rootScope', '$scope', '$stat
         vm.openCalendarDateTo = function() {
             vm.openDateTo = true;
         }
-
-    }
-]);
-scfApp.constant("docStatus", [{
+    })
+  }]);
+app.constant("docStatus", [{
         label: 'All',
-        value: '',
+        value: null,
         valueObject: null
     },
     {
@@ -346,7 +291,7 @@ scfApp.constant("docStatus", [{
 
     }
 ]);
-scfApp.constant("docChannel", [{
+app.constant("docChannel", [{
     label: 'All',
     value: '',
     valueObject: null
