@@ -438,6 +438,10 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                     });
                     var formatAccount = accountSelected[0].format || false;
                     
+                    if (accountSelected[0].accountType != 'LOAN' && accountSelected[0].accountType != 'OVERDRAFT') {
+                        vm.transactionModel.payerLoanAccountId = _accountList[0].defaultLoanNo ? _accountList[0].accountId : null;
+                    }
+                    
                     var deffered = TransactionService.verifyTransaction(vm.transactionModel);
                     deffered.promise.then(function (response) {
                         var transaction = response.data;
