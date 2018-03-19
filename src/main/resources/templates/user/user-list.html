@@ -1,4 +1,5 @@
-<div id="content" th:fragment="content" scc:authorize = "hasAnyAuthority('VIEW_ALL_USERS', 'VIEW_ALL_CUSTOMER_USERS', 'MANAGE_ALL_USERS')">
+<div id="content" th:fragment="content"
+	scc:authorize="hasAnyAuthority('VIEW_ALL_USERS', 'VIEW_ALL_CUSTOMER_USERS')">
 
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
@@ -67,7 +68,8 @@
 							<div class="col-md-12 col-sm-12 text-right">
 								<div class="row">
 									<div class="col-md-12 col-sm-12 text-right">
-										<span> <scf-button id="new-button" ng-disabled="!ctrl.manageAll"
+										<span> <scf-button id="new-button"
+												th:attr="ng-disabled=${#authorization.expression('!hasAnyAuthority(''MANAGE_ALL_USERS'' )')}"
 												class="btn btn-default" ng-click="ctrl.newUser()">{{'New'
 											| translate}}</scf-button>
 										</span> <br /> <br />
@@ -104,6 +106,8 @@
 
 	</div>
 
-	<input type="hidden" ng-init="ctrl.manageAll=true" sec:authorize="hasAuthority('MANAGE_ALL_USERS')" />
-	<input type="hidden" ng-init="ctrl.canResetPwd=true" sec:authorize="hasAnyAuthority('RESET_ALL_USER_PASSWORDS', 'RESET_ALL_CUSTOMER_USER_PASSWORDS')" />
+	<input type="hidden" ng-init="ctrl.manageAll=true"
+		sec:authorize="hasAuthority('MANAGE_ALL_USERS')" /> <input
+		type="hidden" ng-init="ctrl.canResetPwd=true"
+		sec:authorize="hasAnyAuthority('RESET_ALL_USER_PASSWORDS', 'RESET_ALL_CUSTOMER_USER_PASSWORDS')" />
 </div>
