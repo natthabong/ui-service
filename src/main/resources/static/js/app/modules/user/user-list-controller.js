@@ -36,14 +36,12 @@ userModule
 			    
 			    vm.criteria = $stateParams.criteria || {
 			    	userId : null,
-			    	user : {userId: '', displayName: ''},
 					organizeId : null,
-					organize : {memberId: '', memberCode: '', memberName: ''},
 					userStatus : null,
 					passwordStatus : null
 			    }
 			    
-			    vm.userListModel = {
+			    vm.userListModel = $stateParams.userListModel || {
 					user : undefined,
 					organize : undefined,
 					userStatus : vm.userStatusDropdowns[0].value,
@@ -186,19 +184,29 @@ userModule
 
 			    vm.pagingController = PagingController.create(
 				    '/api/v1/users', _criteria, 'GET');
+			    vm.loadData = function(pageModel) {
+                    vm.pagingController.search(pageModel
+                            || ($stateParams.backAction ? {
+                              offset: _criteria.offset,
+                              limit: _criteria.limit
+                            } : undefined));
+
+                    if ($stateParams.backAction) {
+                      $stateParams.backAction = false;
+                    }
+                  }
 
 			    vm.searchUser = function(pageModel) {
-					if (angular.isDefined(vm.userListModel.user)) {
+					if (angular.isObject(vm.userListModel.user)) {
 						vm.criteria.userId = vm.userListModel.user.userId;
-				    	vm.criteria.user.userId = vm.userListModel.user.userId;
-				    	vm.criteria.user.displayName = vm.userListModel.user.displayName;
+					}else {
+						vm.criteria.userId = undefined;
 					}
 
-					if (angular.isDefined(vm.userListModel.organize)) {
+					if (angular.isObject(vm.userListModel.organize)) {
 						vm.criteria.organizeId = vm.userListModel.organize.memberId;
-						vm.criteria.organize.memberId = vm.userListModel.organize.memberId;
-				    	vm.criteria.organize.memberCode = vm.userListModel.organize.memberCode;
-				    	vm.criteria.organize.memberName = vm.userListModel.organize.memberName;
+					}else {
+						vm.criteria.organizeId = undefined;
 					}
 
 					UserStatus.forEach(function(status) {
@@ -214,13 +222,7 @@ userModule
 						});
 
 			    	_storeCriteria();
-					vm.pagingController.search(pageModel || ( $stateParams.backAction? {
-			    		offset : _criteria.offset,
-						limit : _criteria.limit,
-			    	}: undefined));
-					if($stateParams.backAction){
-			    		$stateParams.backAction = false;
-			    	}
+			    	vm.loadData(pageModel);
 			    }
 
 			    vm.dataTable = {
@@ -307,9 +309,8 @@ userModule
 			    vm.initLoad = function() {
 					var backAction = $stateParams.backAction;
 					if(backAction){
-						vm.userListModel = $stateParams.criteria;
-						prepareAutoSuggestUserLabel(vm.userListModel.user,'user');
-						prepareAutoSuggestOrganizeLabel(vm.userListModel.organize,'organize');
+						vm.userListModel = $stateParams.userListModel;
+						vm.criteria = $stateParams.criteria;
 					}
 					vm.searchUser();
 			    }
@@ -321,7 +322,7 @@ userModule
 						userModel : null
 					};
 					
-					PageNavigation.nextStep('/user/new', params, {criteria : _criteria});
+					PageNavigation.nextStep('/user/new', params, {criteria : _criteria ,userListModel : vm.userListModel});
 			    }
 
 			    vm.viewUser = function(data) {
@@ -329,7 +330,7 @@ userModule
 						userModel : data
 					};
 					$timeout(function() {
-						PageNavigation.nextStep('/user/view', params, {criteria : _criteria});
+						PageNavigation.nextStep('/user/view', params, {criteria : _criteria ,userListModel : vm.userListModel});
 					}, 10);
 			    }
 
@@ -338,7 +339,7 @@ userModule
 						userModel : data
 					};
 					$timeout(function() {
-						PageNavigation.nextStep('/user/edit', params, {criteria : _criteria});
+						PageNavigation.nextStep('/user/edit', params, {criteria : _criteria ,userListModel : vm.userListModel});
 					}, 10);
 			    }
 
