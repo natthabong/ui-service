@@ -20,8 +20,8 @@
 							<label id="funding-label"
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Funding'
 								| translate}}: </label>
-							<div class="col-md-2 col-sm-3 col-xs-11">
-								<label ng-repeat="funding in ctrl.fundings"> <input
+							<div class="col-md-4 col-sm-3 col-xs-11">
+								<label ng-repeat="funding in ctrl.fundings" class="col-md-10 col-sm-10 col-xs-10 padding-0"> <input
 									type="checkbox" checklist-model="ctrl.channelModel.fundings"
 									checklist-value="funding" checklist-comparator="ctrl.compareFunding"
 									id="funding-{{funding.fundingName}}-checkbox" />
