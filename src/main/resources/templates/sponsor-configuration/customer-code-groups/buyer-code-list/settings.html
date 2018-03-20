@@ -74,15 +74,15 @@
 									class="table table-striped table-bordered" cellspacing="0">
 									<thead>
 										<tr>
-											<th ng-bind="'numbero' | translate"></th>
+											<th ng-bind="'numbero' | translate" id="$rowNo-header-label"></th>
 											<th ng-hide="ctrl.hiddenFundingColumn"
-												ng-bind="'FUNDING' | translate"></th>
-											<th ng-bind="'Buyer' | translate"></th>
-											<th ng-bind="'Buyer code' | translate"></th>
-											<th ng-bind="'status' | translate"></th>
-											<th ng-bind="'Active date' | translate"></th>
-											<th ng-bind="'Expire date' | translate"></th>
-											<th ng-bind="'Remark' | translate"></th>
+												ng-bind="'FUNDING' | translate" id="funding-header-label"></th>
+											<th ng-bind="'Buyer' | translate" id="customerName-header-label"></th>
+											<th ng-bind="'Buyer code' | translate" id="customerCode-header-label"></th>
+											<th ng-bind="'Status' | translate" id="status-header-label"></th>
+											<th ng-bind="'Active date' | translate" id="activeDate-header-label"></th>
+											<th ng-bind="'Expire date' | translate" id="expiryDate-header-label"></th>
+											<th ng-bind="'Remark' | translate" id="remark-header-label"></th>
 											<th ng-show="ctrl.isEditMode"></th>
 										</tr>
 									</thead>
@@ -90,7 +90,7 @@
 										<tr
 											ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
 											<td class="text-right"><span
-												id="{{record.rowNo}}-{{record.customerCode}}-label"
+												id="$rowNo-{{record.customerCode}}-label"
 												ng-bind="record.rowNo"></span></td>
 											<td class="text-center" ng-hide="ctrl.hiddenFundingColumn">
 												<organization-logo ng-model="record.funding"></organization-logo>
@@ -108,7 +108,7 @@
 												id="active-date-{{record.customerCode}}-label"
 												ng-bind="record.activeDate | date: 'dd/MM/yyyy'"></span></td>
 											<td class="text-center"><span
-												id="expiry-date-{{record.customerCode}}-label"
+												id="expire-date-{{record.customerCode}}-label"
 												ng-bind="record.expiryDate | date: 'dd/MM/yyyy'"></span></td>
 											<td class="text-left"><span
 												id="remark-{{record.customerCode}}-label"
