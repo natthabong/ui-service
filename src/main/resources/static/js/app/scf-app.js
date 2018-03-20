@@ -2,7 +2,7 @@ var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'ui.mask', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
 		'legendDirectives', 'chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing',
 		'gecscf.supplierCreditInformation', 'gecscf.buyerCreditInformation', 'gecscf.sponsorConfiguration.workflow', 'gecscf.document', 'gecscf.organize.configuration.exportPayment', 'gecscf.organize.configuration.display',
-		'gecscf.downloadPaymentResult', 'gecscf.documentUploadLog', 'gecscf.monitoring'
+		'gecscf.downloadPaymentResult', 'gecscf.documentUploadLog', 'gecscf.monitoring' , 'gecscf.fundingProfile'
 	])
 	.config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider', 'blockUIConfig', '$logProvider', '$compileProvider', '$urlRouterProvider', 'ngDialogProvider',
 		function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider, $compileProvider, $urlRouterProvider, ngDialogProvider) {
@@ -423,18 +423,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						organize: null
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/account/controllers/AccountListController.js', 'js/app/modules/account/controllers/AccountController.js', 'js/app/modules/account/services/AccountService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/customer-registration/funding-profile', {
-					url: '/customer-registration/funding-profile',
-					controller: 'FundingProfileListController',
-					controllerAs: 'ctrl',
-					templateUrl: '/funding-profile',
-					params: {
-						params: [],
-						backAction: false,
-						criteria: null,
-						organize: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/funding-profile/controllers/FundingProfileListController.js', 'js/app/modules/funding-profile/services/FundingProfileService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/customer-registration/trading-partners', {
 					url: '/customer-registration/trading-partners',
 					controller: 'TradingPartnerListController',
