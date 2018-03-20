@@ -554,6 +554,7 @@ exportChannelModule.controller('ExportChannelController', [
 		}
 
 		$scope.confirmSave = function () {
+			blockUI.start();
 			var serviceUrl = BASE_URI + '/export-channels/' + vm.channelModel.channelId;
 			var deffered = $q.defer();
 			var serviceDiferred = $http({
