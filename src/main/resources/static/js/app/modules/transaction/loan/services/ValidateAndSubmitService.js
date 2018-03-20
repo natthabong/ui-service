@@ -1,5 +1,5 @@
-angular.module('scfApp').factory('ValidateAndSubmitService', ['$http', '$q', validateAndSubmitService]);
-function validateAndSubmitService($http, $q) {
+angular.module('scfApp').factory('ValidateAndSubmitService', ['$http', '$q', 'blockUI', validateAndSubmitService]);
+function validateAndSubmitService($http, $q, blockUI) {
     return {
     	prepareTransactionOnValidatePage: prepareTransactionOnValidatePage,
     	getDocumentOnValidatePage: getDocumentOnValidatePage,
@@ -38,13 +38,15 @@ function validateAndSubmitService($http, $q) {
     }
     
     function submitTransaction(transaction) {
+        blockUI.start();
         var deffered = $q.defer();
-
         $http.post('api/v1/create-transaction/validate-submit/transaction/submit',transaction)
             .then(function(response) {
+            	blockUI.stop();
                 deffered.resolve(response);
             })
             .catch(function(response) {
+            	blockUI.stop();
                 deffered.reject(response);
             });
         return deffered;

@@ -139,6 +139,7 @@ function transactionService($http, $q, blockUI, $window) {
     }
 
     function submitTransaction(transactionModel) {
+        blockUI.start();
         var deferred = $q.defer();
         $http({
                 url: 'api/v1/create-transaction/payment/submit',
@@ -146,9 +147,11 @@ function transactionService($http, $q, blockUI, $window) {
                 data: transactionModel
             })
             .then(function (response) {
+            	blockUI.stop();
                 deferred.resolve(response);
             })
             .catch(function (response) {
+            	blockUI.stop();
                 deferred.reject(response);
             });
         return deferred;
