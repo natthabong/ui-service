@@ -1,0 +1,74 @@
+<div id="content" th:fragment="content"
+	sec:authorize="hasAnyAuthority('MANAGE_ALL_FUNDING_PROFILE')">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft">{{'Edit
+						funding logo' | translate}}</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<form name="manageForm" class="form-horizontal" ng-submit="save()">
+					<div class="panel-body">
+						<div class="form-group">
+							<label id="file-name-label"
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
+								name' | translate}}: </label>
+							<div class="col-sm-3 col-md-3">
+								<scf-file-upload browse-file-id="select-button"
+									input-text-id="file-name-textbox"
+									file-upload="ctrl.uploadModel.file"
+									accept-file-extention="ctrl.acceptFileExtention"
+									ng-disabled="!ctrl.manageAll"></scf-file-upload>
+							</div>
+							<div class="col-sm-3 col-md-3">
+								<scf-button type="button" id="upload-button"
+									class="popup-button" ng-click="ctrl.uploadAction()">Upload</scf-button>
+							</div>
+						</div>
+						<div class="form-group" ng-show="ctrl.showErrorMsg">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<span class="col-md-4 col-sm-4 col-xs-12 error-msg"
+								id="warning-message-label"
+								ng-bind="ctrl.errorMsgKey | translate: {fileFormat: ctrl.acceptFileExtentionLabel}"></span>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"
+								id="funding-logo-header-label">{{'Funding logo' |
+								translate}}: </label>
+
+							<div class="col-md-2 col-sm-3 col-xs-12">
+								<label class="control-label" id="funding-logo-label"
+									ng-show="!ctrl.hasLogo">{{'No logo' | translate}}</label> <img
+									id="{{ctrl.fundingInfo.fundingId}}-funding-logo"
+									title="{{ctrl.fundingInfo.fundingName}}"
+									style="height: 32px; width: 32px;"
+									data-ng-src="data:image/png;base64,{{ctrl.fundingLogo}}"
+									data-err-src="images/png/avatar.png" ng-show="ctrl.hasLogo" />
+							</div>
+						</div>
+						<div class="form-group" ng-show="ctrl.showErrorMsgLogo">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<span class="col-md-4 col-sm-4 col-xs-12 error-msg"
+								id="logo-warning-message-label"
+								ng-bind="ctrl.errorMsgKeyLogo | translate">.</span>
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-12 col-sm-12 text-right">
+							<scf-button id="cancel-button" class="popup-button"
+								data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
+								ng-bind="'Cancel' | translate"></scf-button>
+							<scf-button id="save-button" type="submit">{{'Save'
+							| translate}}</scf-button>
+
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
