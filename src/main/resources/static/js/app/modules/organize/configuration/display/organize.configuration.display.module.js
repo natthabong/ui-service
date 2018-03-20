@@ -9,7 +9,8 @@ angular
                     'js/app/modules/organize/configuration/display/controllers/DisplayController.js',
                     'js/app/modules/organize/configuration/display/controllers/ViewDisplayController.js',
                     'js/app/modules/organize/configuration/mapping-data/services/MappingDataService.js',
-                    'js/app/modules/organize/configuration/display/services/DisplayService.js'
+                    'js/app/modules/organize/configuration/display/services/DisplayService.js',
+                    'js/app/modules/organize/configuration/display/services/DocumentDisplayConfigurationExampleService.js'
                 ];
 
                 $stateProvider
