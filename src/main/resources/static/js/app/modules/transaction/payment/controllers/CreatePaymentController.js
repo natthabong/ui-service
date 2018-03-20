@@ -135,7 +135,6 @@ txnMod.controller('CreatePaymentController', [
                 
                 var defferedAccount = _loadAccount();
                 defferedAccount.promise.then(function (response) {
-                    _loadBuyerCodes();
                 	_loadDocumentDisplayConfig();
                 });
                 
@@ -466,6 +465,7 @@ txnMod.controller('CreatePaymentController', [
                     deffered.resolve(response);
                     _loadDocument();
                 }
+                _loadBuyerCodes();
             });
 
             return deffered;
