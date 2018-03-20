@@ -23,6 +23,7 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
             vm.hiddenFundingColumn = false;
             var viewMode = $stateParams.viewMode;
             var ownerId = viewMode == 'MY_ORGANIZE' ? $rootScope.userInfo.organizeId : $stateParams.organizeId;
+            vm.personalMode = viewMode == 'MY_ORGANIZE' ? true: false;
             vm.criteria = {};
 
             vm.statusDropdown = CustomerCodeStatus;
@@ -204,9 +205,10 @@ scfApp.controller('CustomerCodeGroupSettingController', ['$q', '$log', '$scope',
         		    vm.isEditMode = true;
         		}
             	
-            	if(!vm.hiddenFundingColumn){
+            	if(!vm.personalMode && !vm.hiddenFundingColumn){
     	            vm.loadFundings();
     	        }
+            	
                 var customerCodeURL = '/api/v1/organize-customers/' + ownerId + '/accounting-transactions/' + accountingTransactionType + '/customer-codes';
                 vm.pagingController = PagingController.create(customerCodeURL, vm.searchCriteria, 'GET');
                	vm.search();
