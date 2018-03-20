@@ -1,6 +1,6 @@
 <div id="content" th:fragment="content">
 	<div id="wrapper">
-		<input type="hidden" ng-init="ctrl.manageAction=true" sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_DATA_MAPPING_OF_ALL_FUNDING')" />
+		<input type="hidden" ng-init="ctrl.manageAction=true" sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_DATA_MAPPING_OF_ALL_FUNDING', 'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_DATA_MAPPING')" />
 		
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
@@ -69,12 +69,12 @@
 				                        <table id="mapping-data-table" class="table table-striped table-bordered" cellspacing="0">
 				                            <thead>
 				                                <tr>
-				                                    <th ng-bind="'numbero' | translate"></th>
-				                                    <th ng-bind="'Code' | translate"></th>
-													<th ng-bind="'Display' | translate"></th>
-													<th ng-bind="'Sign flag' | translate" ng-hide="ctrl.hideSignFlagColumn"></th>
-													<th ng-bind="'Default code' | translate" ng-hide="ctrl.hideDefaultCodeColumn"></th>
-				                                    <th ng-show="ctrl.isEditMode"></th>
+				                                    <th id="no-header-label" ng-bind="'numbero' | translate"></th>
+				                                    <th id="code-header-label" ng-bind="'Code' | translate"></th>
+													<th id="display-header-label" ng-bind="'Display' | translate"></th>
+													<th id="sign-flag-header-label" ng-bind="'Sign flag' | translate" ng-if="!ctrl.hideSignFlagColumn"></th>
+													<th id="default-code-header-label" ng-bind="'Default code' | translate" ng-if="!ctrl.hideDefaultCodeColumn"></th>
+				                                    <th id="action-header-label" ng-show="ctrl.isEditMode"></th>
 				                                </tr>
 				                            </thead>
 				                            <tbody>
@@ -83,22 +83,22 @@
 														id="{{record.rowNo}}-{{record.code}}-label"
 														ng-bind="record.rowNo"></span></td>
 				                                    <td class="text-left">
-				                                        <span id="code-{{record.code}-label" ng-bind="record.code | translate"></span>
+				                                        <span id="code-{{record.code}}-label" ng-bind="record.code | translate"></span>
 				                                    </td>
 				                                    <td class="text-left">
-				                                        <span id="display-{{record.code}-label" ng-bind="record.display | translate"></span>
+				                                        <span id="display-{{record.code}}-label" ng-bind="record.display | translate"></span>
 				                                    </td>
-				                                    <td class="text-left" ng-hide="ctrl.hideSignFlagColumn">
+				                                    <td class="text-left" ng-if="!ctrl.hideSignFlagColumn">
 				                                        <span id="sign-flag-{{$index}}-label" ng-show="record.signFlag" ng-bind="'Negative' | translate"></span>
 				                                        <span id="sign-flag-{{$index}}-label" ng-show="!record.signFlag" ng-bind="'Positive' | translate"></span>
 				                                    </td>
-													<td class="text-center" ng-hide="ctrl.hideDefaultCodeColumn">
-														<img style="height: 16px; width: 16px;" ng-show="record.defaultCode" data-ng-src="img/checkmark.png"/>
+													<td class="text-center" ng-if="!ctrl.hideDefaultCodeColumn">
+														<img id="default-code-{{record.code}}-img" style="height: 16px; width: 16px;" ng-show="record.defaultCode" data-ng-src="img/checkmark.png"/>
 				                                    </td>
 				                                    <td class="text-center" ng-show="ctrl.isEditMode">
 				                                        <scf-button id="{{record.code}}-edit-button" class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenConfig()" ng-click="ctrl.editMappingDataCode(record)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>
                 										<scf-button id="{{record.code}}-delete-button" class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenConfig(record.defaultCode)" ng-click="ctrl.deleteMappingData(record)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>
-                										<scf-button id="{{record.code}}-set-default-button" class="btn-default gec-btn-action" ng-hide="ctrl.hideDefaultCodeColumn" ng-disabled="ctrl.unauthenConfig()" ng-click="ctrl.setDefaultCode(record)" title="Set default"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>
+                										<scf-button id="{{record.code}}-set-default-button" class="btn-default gec-btn-action" ng-if="!ctrl.hideDefaultCodeColumn" ng-disabled="ctrl.unauthenConfig()" ng-click="ctrl.setDefaultCode(record)" title="Set default"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>
 				                                    </td>
 				                                </tr>
 				                            </tbody>
