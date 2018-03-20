@@ -1,0 +1,34 @@
+<div id="content" th:fragment="content"
+	sec:authorize="hasAuthority('VIEW_ALL_FUNDING_PROFILE')">
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft"
+						ng-bind="'funding-profile-list' | translate">Funding Profile List</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div>
+							<div class="col-md-12 col-sm-12 text-right">
+								<div class="row">
+									<div class="col-md-12 col-sm-12 text-right">
+										<span> 
+											<scf-button id="new-button" class="btn btn-default">
+												New
+											</scf-button>
+										</span> <br /> <br />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

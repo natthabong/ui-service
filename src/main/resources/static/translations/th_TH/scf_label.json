@@ -27,6 +27,7 @@
 	"settings-roles": "Roles",
 	"settings-users": "Users",
 	"settings-organizes": "Organizations",
+	"settings-organizes-of-all-funding": "Organizations",
 	"customer-organize": "Customer organization",
 	"customer-organize-payment-transactions": "Payment transactions",
 	"customer-organize-ar-documents": "AR documents",
@@ -51,6 +52,8 @@
 	"customer-registration-buyer-credit-information": "Buyer credit information",
 	"customer-registration-funding-profiles": "Funding Profile",
 	"customer-report": "Customer report",
+	"funding-profile-list": "Funding Profile List",
+	
 	"myprofile": "ข้อมูลของฉัน",
 	"dashboard": "กระดานข่าว",
 	"loan-request": "คำขอเงินกู้",

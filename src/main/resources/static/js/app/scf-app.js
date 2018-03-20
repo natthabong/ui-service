@@ -423,6 +423,18 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						organize: null
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/account/controllers/AccountListController.js', 'js/app/modules/account/controllers/AccountController.js', 'js/app/modules/account/services/AccountService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				}).state('/customer-registration/funding-profile', {
+					url: '/customer-registration/funding-profile',
+					controller: 'FundingProfileListController',
+					controllerAs: 'ctrl',
+					templateUrl: '/funding-profile',
+					params: {
+						params: [],
+						backAction: false,
+						criteria: null,
+						organize: null
+					},
+					resolve: WebHelper.loadScript(['js/app/modules/funding-profile/controllers/FundingProfileListController.js', 'js/app/modules/funding-profile/services/FundingProfileService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/customer-registration/trading-partners', {
 					url: '/customer-registration/trading-partners',
 					controller: 'TradingPartnerListController',
