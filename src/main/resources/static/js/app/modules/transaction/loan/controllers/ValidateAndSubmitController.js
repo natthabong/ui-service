@@ -70,7 +70,6 @@ validateandsubmit.controller('ValidateAndSubmitController', [
         };
 
         vm.submitTransaction = function() {
-
             var deffered = ValidateAndSubmitService.submitTransaction(vm.transactionModel);
             deffered.promise.then(function(response) {
                 vm.transactionModel = response.data;

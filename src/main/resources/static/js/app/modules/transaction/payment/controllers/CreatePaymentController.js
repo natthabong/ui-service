@@ -13,10 +13,11 @@ txnMod.controller('CreatePaymentController', [
     'MappingDataService',
     'ProductTypeService',
     'UIFactory',
+    'blockUI',
     '$window',
     'scfFactory',
     'AccountService',
-    function ($rootScope, $scope, $log, $stateParams, $q, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, ProductTypeService, UIFactory, $window, scfFactory, AccountService) {
+    function ($rootScope, $scope, $log, $stateParams, $q, SCFCommonService, TransactionService, PagingController, PageNavigation, $filter, MappingDataService, ProductTypeService, UIFactory, blockUI, $window, scfFactory, AccountService) {
         var vm = this;
         var log = $log;
         var supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
@@ -567,7 +568,7 @@ txnMod.controller('CreatePaymentController', [
         }
 
         function _loadDocument(pagingModel) {
-
+        	blockUI.start();
             var _criteria = {};
             angular.copy(vm.criteria, _criteria);
             _criteria.searchMatching = false;
@@ -578,6 +579,7 @@ txnMod.controller('CreatePaymentController', [
             } : undefined));
 
             deffered.promise.then(function (response) {
+                blockUI.stop();
                 if (backAction) {
                     vm.pagingController.pagingModel.pageSizeSelectModel = $stateParams.criteria.pagingModel.pageSizeSelectModel;
                 }
@@ -628,6 +630,7 @@ txnMod.controller('CreatePaymentController', [
                     vm.display = false;
                 }
             }).catch(function (response) {
+                blockUI.stop();
                 log.error(response);
             });
 
