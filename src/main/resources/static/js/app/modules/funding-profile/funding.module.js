@@ -2,6 +2,12 @@
 angular.module('gecscf.fundingProfile', [ 'ui.router', 'gecscf.ui' ]).config(
 		[ '$stateProvider', function($stateProvider) {
 			
+			var resources = ['js/app/modules/funding-profile/controllers/FundingProfileListController.js'
+				, 'js/app/modules/funding-profile/controllers/FundingProfileConfigurationController.js'
+				, 'js/app/modules/funding-profile/services/FundingProfileService.js'
+				, 'js/app/common/scf-component.js'
+				, 'js/app/common/scf-component.css'];
+			
 			$stateProvider.state('/customer-registration/funding-profile'
 					, {
 						url: '/customer-registration/funding-profile',
@@ -14,10 +20,27 @@ angular.module('gecscf.fundingProfile', [ 'ui.router', 'gecscf.ui' ]).config(
 							criteria: null,
 							organize: null
 						},
-						resolve: WebHelper.loadScript(['js/app/modules/funding-profile/controllers/FundingProfileListController.js'
-							, 'js/app/modules/funding-profile/services/FundingProfileService.js'
-							, 'js/app/common/scf-component.js'
-							, 'js/app/common/scf-component.css'])
+						resolve: WebHelper.loadScript(resources)
+			}).state('/customer-registration/funding-profile/config', {
+				url: '/customer-registration/funding-profile/config/:taxId',
+				controller: 'FundingProfileConfigurationController',
+				controllerAs: 'ctrl',
+				templateUrl: '/funding-profile/configuration',
+				params: {
+					taxId: null,
+					mode: 'EDIT'
+				},
+				resolve: WebHelper.loadScript(resources)
+			}).state('/customer-registration/funding-profile/new', {
+				url: '/customer-registration/funding-profile/new',
+				controller: 'FundingProfileConfigurationController',
+				controllerAs: 'ctrl',
+				templateUrl: '/funding-profile/configuration',
+				params: {
+					taxId: null,
+					mode: 'NEW'
+				},
+				resolve: WebHelper.loadScript(resources)
 			});
 			
 } ]);

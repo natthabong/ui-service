@@ -28,7 +28,11 @@ fpModule.controller('FundingProfileListController',['$scope','$stateParams','UIF
 	
 	// Edit Button Action
 	vm.edit = function(record) {
-		
+		var params = {
+				taxId: record.taxId,
+				mode: 'EDIT'
+		};
+		PageNavigation.gotoPage('/customer-registration/funding-profile/config',params);
 	}
 	
 	// Main of program
