@@ -53,10 +53,11 @@ displayModule.controller('ViewDisplayController', [
         }
 
         var loadDisplayConfig = function(ownerId, accountingTransactionType, displayMode, displayId) {
-            var deffered = DisplayService.getDocumentDisplayConfig(ownerId, accountingTransactionType, displayMode, displayId);
-            deffered.promise.then(function(response) {
-                var data = response.data;
-
+           var deffered = DisplayService.getDocumentDisplayConfig(ownerId, accountingTransactionType, displayMode, displayId);
+           return deffered;
+        }
+        
+        var prepareDisplayConfig = function(data){
                 vm.dataModel = data || {
                     displayName: null,
                     items: [newDisplayConfig()],
@@ -70,10 +71,13 @@ displayModule.controller('ViewDisplayController', [
                     supportSpecialDebit: null,
                     productType: null
                 };
-
-            }).catch(function(response) {
-                log.error('Load data error');
-            });
+        }
+        
+        var newDisplayConfig = function() {
+            return {
+                documentFieldId: null,
+                sortType: null
+            }
         }
 
         var loadDataTypes = function() {
@@ -83,6 +87,33 @@ displayModule.controller('ViewDisplayController', [
             }).catch(function(response) {
                 log.error('Load data type error');
             });
+        }
+        
+        vm.checkedForDebit = false;
+        vm.checkedForDrawdown = false;
+        vm.checkedForSpecialDebit = false;
+        vm.checkForOverdraft = false;
+
+		var initialCheckBoxPayOnlyBankWorkingDay = function() {
+            vm.dataModel.allowablePaymentDays.forEach(function(data) {
+                if (data.transactionMethod == "DEBIT") {
+                    vm.checkedForDebit = checkIsWorkingDay(data);
+                } else if (data.transactionMethod == "TERM_LOAN") {
+                    vm.checkedForDrawdown = checkIsWorkingDay(data);
+                } else if (data.transactionMethod == "DEBIT_SPECIAL") {
+                    vm.checkedForSpecialDebit = checkIsWorkingDay(data);
+                } else if (data.transactionMethod = "OD") {
+                    vm.checkForOverdraft = checkIsWorkingDay(data);
+                }
+            });
+        }
+        
+        var checkIsWorkingDay = function(data) {
+            var isWorkingDay = true
+            if (data.allowablePaymentDay == "ALL_DAY") {
+                isWorkingDay = false;
+            }
+            return isWorkingDay;
         }
 
         vm.backToSponsorConfigPage = function() {
@@ -101,11 +132,58 @@ displayModule.controller('ViewDisplayController', [
             });
             return msg;
         };
+        
+        vm.overdueConfig = function(){
+        	if(vm.dataModel != undefined){
+	        	if(vm.dataModel.displayOverdue){
+	        		return 'Display overdue invoice';
+	        	}else{
+	        		return 'Not display overdue invoice';
+	        	}
+	        }
+        }
+        
+        vm.gracePeriodConfig = function(){
+        	if(vm.dataModel != undefined){
+	        	if(vm.dataModel.supportGracePeriod){
+	        		return 'Support invoice grace period';
+	        	}else{
+	        		return 'Not support invoice grace period';
+	        	}
+	        }
+        }
+        
+        vm.transactionDateConfig = function(){
+        	if(vm.dataModel != undefined){
+	        	if(vm.dataModel.loanRequestMode == 'CURRENT'){
+	        		return 'Current date';
+	        	}else{
+	        		return 'Current date - Min due date';
+	        	}
+	        }
+        }
+        
 
         var init = function() {
             loadDataTypes();
-            loadDisplayConfig(ownerId, vm.accountingTransactionType, vm.displayMode, vm.displayId);
+            var deffered = loadDisplayConfig(ownerId, vm.accountingTransactionType, vm.displayMode, vm.displayId);
+            
+            deffered.promise.then(function(response) {
+            	var data = response.data;
+            	prepareDisplayConfig(data);
+            	console.log(vm.dataModel);
+            	initialCheckBoxPayOnlyBankWorkingDay();
+            	
+            	if(vm.dataModel.documentSelection != DOCUMENT_SELECTION_ITEM.anyDocument){
+                	vm.groupDocumentType = angular.copy(vm.dataModel.documentSelection);
+                	vm.dataModel.documentSelection = DOCUMENT_SELECTION_ITEM.groupBy;
+                }
+                
+        	}).catch(function(response) {
+                log.error('Load data error');
+            });
         }();
+        
     }
 ]).constant('DOCUMENT_SELECTION_ITEM', {
     anyDocument: 'ANY_DOCUMENT',

@@ -229,7 +229,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label id="overdue-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Payment date' | translate}}:
+                            	<label id="transaction-date-label" 
+		                    		class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label" translate-label="true"
+		                    		ng-bind="(ctrl.accountingTransactionType == 'RECEIVABLE' ? 'Payment date' : 'Transaction date')">:
 								</label>
                                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                                     <scf-dropdown id="payment-date-dropdown" ng-model="ctrl.dataModel.loanRequestMode" translate-label="true" component-data="ctrl.paymentDropDown"></scf-dropdown>
