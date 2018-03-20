@@ -25,6 +25,7 @@ angular.module('gecscf.organize.configuration.customerCode', ['ui.router', 'gecs
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/customer-code-groups/supplier-code-list/edit',
 			params: {
+				mode: 'editCustCode',
 				viewMode: 'MY_ORGANIZE',
 				organizeId: null,
 				accountingTransactionType: 'PAYABLE'
@@ -36,6 +37,7 @@ angular.module('gecscf.organize.configuration.customerCode', ['ui.router', 'gecs
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/customer-code-groups/buyer-code-list/edit',
 			params: {
+				mode: 'editCustCode',
 				viewMode: 'MY_ORGANIZE',
 				organizeId: null,
 				accountingTransactionType: 'RECEIVABLE'

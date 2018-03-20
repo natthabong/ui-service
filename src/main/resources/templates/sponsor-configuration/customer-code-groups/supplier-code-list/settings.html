@@ -1,7 +1,7 @@
 <div ng-if="ctrl.getUserInfoSuccess" id="content" th:fragment="content"
 	sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_SUPPLIER_CODES_OF_ALL_FUNDING','VIEW_ALL_CUSTOMER_ORGANIZATIONS_SUPPLIER_CODES','VIEW_SUPPLIER_CODES_REFER_TO_MY_ORGANIZATION')">
 	<input type="hidden" ng-init="ctrl.manageAll=true"
-		sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_SUPPLIER_CODES')" />
+		sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_SUPPLIER_CODES', 'MANAGE_SUPPLIER_CODES_OF_MY_ORGANIZATION')" />
 	<input type="hidden" ng-init="ctrl.hiddenFundingColumn=true"
 		sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_SUPPLIER_CODES','VIEW_SUPPLIER_CODES_REFER_TO_MY_ORGANIZATION')" />
 	<div id="wrapper">
