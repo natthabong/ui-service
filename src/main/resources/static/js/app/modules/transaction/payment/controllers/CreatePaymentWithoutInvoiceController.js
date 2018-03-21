@@ -18,6 +18,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
         var log = $log;
         var ownerId = $rootScope.userInfo.organizeId;
         var dashboardParams = $stateParams.dashboardParams;
+        var criteriaParams = $stateParams.criteria;
         var backAction = $stateParams.backAction || false;
         
         vm.hasPrivilegeEnqAcctBalance = false;
@@ -29,7 +30,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
         }
 
         function prepareCriteria() {
-            return $stateParams.criteria || {
+            return criteriaParams || {
                 accountingTransactionType: 'RECEIVABLE',
                 sponsorId: ownerId,
                 buyerId: ownerId,
@@ -100,6 +101,7 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                         accountingTransactionType: 'RECEIVABLE',
                         documentStatus: 'NEW',
                         supplierId: result[0].supplierId,
+                        supplierIdSelected: result[0].supplierId,
                         buyerId: ownerId,
                         overDuePeriod: null,
                         displayNegativeDocument: true
@@ -107,6 +109,10 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
                 }
                 PageNavigation.gotoPage('/my-organize/create-payment', params);
             } else {
+            	if(criteriaParams != null && criteriaParams.supplierIdSelected != null){
+            		vm.criteria.supplierId = criteriaParams.supplierIdSelected;
+            		criteriaParams.supplierIdSelected = null;
+            	}
             	vm.displayPaymentPage = false;
             	var defferedDocumentDisplayConfig = _loadDocumentDisplayConfig();
                 defferedDocumentDisplayConfig.promise.then(function (response) {
