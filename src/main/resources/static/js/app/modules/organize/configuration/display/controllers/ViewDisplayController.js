@@ -13,7 +13,7 @@ displayModule.controller('ViewDisplayController', [
     '$q',
     '$rootScope',
     '$injector',
-    'DocumentDisplayConfigExampleService',
+    'DocumentDisplayConfigurationExampleService',
     'LOAN_REQUEST_MODE_ITEM',
     'DOCUMENT_SELECTION_ITEM',
     'SUPPLIER_CODE_GROUP_SELECTION_ITEM',
@@ -27,7 +27,7 @@ displayModule.controller('ViewDisplayController', [
     'GRACE_PERIOD_DROPDOWN_ITEM',
     function($log, $scope, $state, SCFCommonService,
         $stateParams, $timeout, ngDialog,
-        PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigExampleService,
+        PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigurationExampleService,
         LOAN_REQUEST_MODE_ITEM, DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM,
         UIFactory, blockUI, DisplayService, ConfigurationUtils, scfFactory,
         OVERDUE_DROPDOWN_ITEM, PAYMENT_DATE_DROPDOWN_ITEM, GRACE_PERIOD_DROPDOWN_ITEM) {
@@ -127,7 +127,7 @@ displayModule.controller('ViewDisplayController', [
             vm.documentFieldData.forEach(function(obj) {
 
                 if (record.documentField != null && record.documentField.documentFieldId == obj.documentFieldId) {
-                    msg = $injector.get('DocumentDisplayConfigExampleService')[obj.dataType + '_DisplayExample'](record, obj);
+                    msg = $injector.get('DocumentDisplayConfigurationExampleService')[obj.dataType + '_DisplayExample'](record, obj);
                 }
             });
             return msg;
@@ -171,7 +171,6 @@ displayModule.controller('ViewDisplayController', [
             deffered.promise.then(function(response) {
             	var data = response.data;
             	prepareDisplayConfig(data);
-            	console.log(vm.dataModel);
             	initialCheckBoxPayOnlyBankWorkingDay();
             	
             	if(vm.dataModel.documentSelection != DOCUMENT_SELECTION_ITEM.anyDocument){
@@ -198,54 +197,4 @@ displayModule.controller('ViewDisplayController', [
 }).constant('SUPPLIER_CODE_GROUP_SELECTION_ITEM', {
     singlePerTransaction: 'SINGLE_PER_TRANSACTION',
     multiplePerTransaction: 'MULTIPLE_PER_TRANSACTION'
-}).factory('DocumentDisplayConfigExampleService', ['$filter', 'SCFCommonService', function($filter, SCFCommonService) {
-    return {
-        TEXT_DisplayExample: TEXT_DisplayExample,
-        CUSTOMER_CODE_DisplayExample: CUSTOMER_CODE_DisplayExample,
-        NUMERIC_DisplayExample: NUMERIC_DisplayExample,
-        DATE_TIME_DisplayExample: DATE_TIME_DisplayExample
-    }
-
-    function TEXT_DisplayExample(record, config) {
-        var displayMessage = config.detailExamplePattern;
-        var replacements = [SCFCommonService.camelize(record.alignment), config.defaultExampleValue];
-        return SCFCommonService.replacementStringFormat(displayMessage, replacements);
-    }
-
-    function CUSTOMER_CODE_DisplayExample(record, config) {
-        var displayMessage = config.detailExamplePattern;
-        var replacements = [SCFCommonService.camelize(record.alignment), config.defaultExampleValue];
-        return SCFCommonService.replacementStringFormat(displayMessage, replacements);
-    }
-
-    function NUMERIC_DisplayExample(record, config) {
-        var displayMessage = config.detailExamplePattern;
-        var exampleRawData = parseFloat(config.defaultExampleValue).toFixed(2);
-        var examplePosDataDisplay = '';
-        var exampleNegDataDisplay = '';
-        if (record.filterType != null) {
-            examplePosDataDisplay = $filter(record.filterType)(exampleRawData, 2);
-            exampleNegDataDisplay = $filter(record.filterType)(-exampleRawData, 2);
-        } else {
-            examplePosDataDisplay = $filter('number')(exampleRawData, 2);
-            exampleNegDataDisplay = $filter('number')(-exampleRawData, 2);
-        }
-        var replacements = [SCFCommonService.camelize(record.alignment), examplePosDataDisplay, exampleNegDataDisplay];
-        return SCFCommonService.replacementStringFormat(displayMessage, replacements);
-    }
-
-    function DATE_TIME_DisplayExample(record, config) {
-        var displayMessage = config.detailExamplePattern;
-        var date = new Date(config.defaultExampleValue);
-        var exampleDataDisplay = '';
-        var replacements = '';
-        if (record.format != null) {
-            exampleDataDisplay = $filter('date')(date, record.format);
-            replacements = [SCFCommonService.camelize(record.alignment), record.format.toUpperCase(), exampleDataDisplay];
-        } else {
-            replacements = [SCFCommonService.camelize(record.alignment), '-', config.defaultExampleValue];
-        }
-        return SCFCommonService.replacementStringFormat(displayMessage, replacements);
-    }
-
-}]);
+});
