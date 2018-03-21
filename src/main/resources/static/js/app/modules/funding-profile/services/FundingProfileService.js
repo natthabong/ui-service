@@ -5,10 +5,19 @@ fpModule.factory('FundingProfileService', ['$http', '$q', 'Service', function ($
 	var createFundingProfile = function(fundingInfo) {
 	    var deferred = $q.defer();
 	    var serviceUrl = '/api/v1/fundings';
+	    var fundingProfile = {
+	    		bankCode: fundingInfo.fundingCode,
+	    		fundingName: fundingInfo.fundingName,
+	    		fundingId: fundingInfo.taxId,
+                creditPendingMethod: fundingInfo.creditPendingMethod
+	    }
+	    var fundingProfilePaylod = {
+	    		fundingProfile: fundingProfile
+	    }
 	    $http({
 	      method : 'POST',
 	      url : serviceUrl,
-	      data : fundingInfo
+	      data : fundingProfilePaylod
 	      }).then(function(response){
 	          return deferred.resolve(response);
 	     }).catch(function(response){

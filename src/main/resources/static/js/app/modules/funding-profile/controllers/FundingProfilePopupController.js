@@ -20,7 +20,8 @@ module
                               : {
                             	fundingCode: null,
                                 fundingName: null,
-                                taxId: null
+                                taxId: null,
+                                creditPendingMethod: 'AT_GEC'
                               }
 
                       vm.hasError = false;
