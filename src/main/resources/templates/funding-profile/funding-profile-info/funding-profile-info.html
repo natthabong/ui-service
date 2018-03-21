@@ -54,10 +54,7 @@
 						<label id="funding-name-label"> {{'Funding name' |
 							translate}}: </label>
 					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12" ng-if="ctrl.newMode" >
-						<scf-input-text id="funding-name-textbox" maxlength="100" ng-model="ctrl.fundingProfile.fundingName"></scf-input-text>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12" ng-if="ctrl.editMode">
+					<div class="col-md-6 col-sm-6 col-xs-12" >
 						<label id="funding-name-value-label" ng-bind="ctrl.fundingProfile.fundingName" ></label>
 					</div>
 				</div>

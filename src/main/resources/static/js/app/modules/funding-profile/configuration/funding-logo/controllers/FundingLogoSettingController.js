@@ -119,7 +119,7 @@ angular
 							data : {
 							    headerMessage : 'Confirm save?'
 							},
-							confirm : FundingLogoService.save(vm.fundingInfo),
+							confirm : $scope.confirmSave,
 							onSuccess : function(response) {
 							    blockUI.stop();
 							    _success();
@@ -148,6 +148,11 @@ angular
 					}
 			    }
 			    
+				$scope.confirmSave = function () {
+					blockUI.start();
+					return  FundingLogoService.save(vm.fundingInfo);
+				}
+				
 			    function validateFileUpload(data, acceptFileExtention, errorMsgKey) {
 			        var validateResult = true;
 			        if (angular.equals(data.file, '')) {

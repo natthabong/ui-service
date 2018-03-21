@@ -17,21 +17,10 @@ fundingProfileModule.controller(
 			var vm = this;
 			var log = $log;
 			vm.pendingOnDropdown = PendingOnDropdown;
-			vm.newMode = false;
-			vm.editMode = false;
 			vm.fundingLogo = null;
 			var parameters = PageNavigation.getParameters();
 			vm.fundingProfile = {};
 			var fundingId = parameters.fundingId;
-			var mode = parameters.mode;
-			if('NEW' == mode){
-				vm.newMode = true;
-				vm.editMode = false;
-				vm.fundingProfile.creditPendingMethod = 'AT_GEC';
-			} else {
-				vm.newMode = false;
-				vm.editMode = true;
-			}
 			
 			vm.backAction = function () {
 				PageNavigation.gotoPage('/customer-registration/funding-profile');
@@ -136,9 +125,7 @@ fundingProfileModule.controller(
 			}
 			
 			vm.initLoad = function () {
-				if(vm.editMode){
-					vm.search();
-				}
+				vm.search();
 			}();
 		}
 	]);

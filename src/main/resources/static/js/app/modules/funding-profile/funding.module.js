@@ -28,18 +28,7 @@ angular.module('gecscf.fundingProfile', [ 'ui.router', 'gecscf.ui', 'gecscf.fund
 				controllerAs: 'ctrl',
 				templateUrl: '/funding-profile/configuration',
 				params: {
-					taxId: null,
-					mode: 'EDIT'
-				},
-				resolve: WebHelper.loadScript(resources)
-			}).state('/customer-registration/funding-profile/new', {
-				url: '/customer-registration/funding-profile/new',
-				controller: 'FundingProfileConfigurationController',
-				controllerAs: 'ctrl',
-				templateUrl: '/funding-profile/configuration',
-				params: {
-					taxId: null,
-					mode: 'NEW'
+					taxId: null
 				},
 				resolve: WebHelper.loadScript(resources)
 			});

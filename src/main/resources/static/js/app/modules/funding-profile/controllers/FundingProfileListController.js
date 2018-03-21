@@ -40,8 +40,7 @@ fpModule.controller('FundingProfileListController',['$scope','$stateParams','UIF
 	// Edit Button Action
 	vm.edit = function(record) {
 		var params = {
-				fundingId: record.fundingId,
-				mode: 'EDIT'
+				fundingId: record.fundingId
 		};
 		PageNavigation.gotoPage('/customer-registration/funding-profile/config',params);
 	}
