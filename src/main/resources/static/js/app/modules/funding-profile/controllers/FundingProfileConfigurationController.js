@@ -10,13 +10,16 @@ fundingProfileModule.constant('PendingOnDropdown', [{
 ]);
 fundingProfileModule.controller(
 	'FundingProfileConfigurationController',
-			['$log','$stateParams','PageNavigation','$scope','$rootScope','PendingOnDropdown','$q','$http','Service',
-	function ($log,  $stateParams,  PageNavigation,  $scope,  $rootScope,  PendingOnDropdown,  $q,  $http,  Service) {
+			['$log','$stateParams','PageNavigation','$scope','$rootScope','PendingOnDropdown','$q','$http','Service','UIFactory','blockUI',
+			'FundingProfileService',
+	function ($log,  $stateParams,  PageNavigation,  $scope,  $rootScope,  PendingOnDropdown,  $q,  $http,  Service , UIFactory , blockUI,
+			 FundingProfileService) {
 			var vm = this;
 			var log = $log;
 			vm.pendingOnDropdown = PendingOnDropdown;
 			vm.newMode = false;
 			vm.editMode = false;
+			vm.fundingLogo = null;
 			var parameters = PageNavigation.getParameters();
 			vm.fundingProfile = {};
 			var fundingId = parameters.fundingId;
@@ -51,10 +54,15 @@ fundingProfileModule.controller(
 				PageNavigation.gotoPage('/customer-registration/funding-configuration/logo/settings',params);
 			}
 			
-			vm.decodeBase64 = function(data) {
-				if (data == null || angular.isUndefined(data)) {
+			vm.hasLogo = false;
+			
+			vm.decodeBase64 = function(data){
+				if(data==null||angular.isUndefined(data)){
+					vm.hasLogo = false;
 					return '';
 				}
+				vm.hasLogo = true;
+				console.log(vm.hasLogo);
 				return atob(data);
 			}
 			
@@ -65,7 +73,6 @@ fundingProfileModule.controller(
 			var validSave = function () {
 				$scope.errors = {};
 				var isValid = true;
-				var channel = vm.channelModel;
 
 //				if (vm.channelModel.displayName == null || vm.channelModel.displayName == "") {
 //					isValid = false;
@@ -79,26 +86,10 @@ fundingProfileModule.controller(
 			
 			$scope.confirmSave = function () {
 				blockUI.start();
-				var serviceUrl = BASE_URI + '/channels/' + vm.channelModel.channelId;
-				var deffered = $q.defer();
-				var serviceDiferred = $http({
-					method: 'POST',
-					url: serviceUrl,
-					headers: {
-						'If-Match': vm.channelModel.version,
-						'X-HTTP-Method-Override': 'PUT'
-					},
-					data: vm.fundingProdile
-				}).then(function (response) {
-					deffered.resolve(response.data)
-				}).catch(function (response) {
-					deffered.reject(response);
-				});
-				return deffered;
+				return FundingProfileService.updateFundingProfile(vm.fundingProfile);
 			}
 			
 			vm.save = function () {
-				setupPrepareData();
 				if (validSave()) {
 					var preCloseCallback = function (confirm) {
 						$scope.backAction();
@@ -138,6 +129,9 @@ fundingProfileModule.controller(
 			vm.search = function () {
 				sendRequest('api/v1/fundings/' + fundingId, function (response) {
 					vm.fundingProfile = response.data;
+					if (vm.fundingProfile.fundingLogo != null) {
+						vm.fundingLogo = vm.decodeBase64(vm.fundingProfile.fundingLogo);
+					}
 				});
 			}
 			

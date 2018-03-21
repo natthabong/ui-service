@@ -15,13 +15,15 @@ angular
 												controllerAs : 'ctrl',
 												templateUrl : '/funding-configuration/logo/settings',
 												params : {
-													fundingId : null
+													fundingId : null,
+													fundingInfo: null
 												},
 												resolve : WebHelper
 														.loadScript([
 																'js/app/common/scf-component.js',
 																'js/app/common/scf-component.css',
 																'js/app/modules/funding-profile/configuration/funding-logo/controllers/FundingLogoSettingController.js',
-																'js/app/modules/funding-profile/configuration/funding-logo/services/FundingLogoService.js' ])
+																'js/app/modules/funding-profile/configuration/funding-logo/services/FundingLogoService.js'
+																])
 											})
 						} ]);

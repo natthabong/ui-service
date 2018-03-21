@@ -16,7 +16,7 @@ angular
 			'ngDialog',
 			'$q', 
 			'UIFactory', 
-			function(SCFCommonService, $log, $scope, $stateParams, $timeout, $rootScope,
+			function(FundingLogoService, SCFCommonService, $log, $scope, $stateParams, $timeout, $rootScope,
 				PageNavigation, Service, $http, blockUI, ngDialog, $q, UIFactory) {
 		
 				var vm = this;
@@ -34,8 +34,11 @@ angular
 				
 				vm.fundingInfo = $stateParams.fundingInfo;
 				if(vm.fundingInfo == null || angular.isUndefined(vm.fundingInfo)){
-					var params = {fundingId: fundingId};
-					PageNavigation.gotoPage("/funding-configuration",params);
+					var params = {
+						fundingId: fundingId,
+						mode: 'EDIT'
+					};
+					PageNavigation.gotoPage('/customer-registration/funding-profile/config',params);
 				}
 				var fundingId = vm.fundingInfo.fundingId;
 		
@@ -59,8 +62,11 @@ angular
 				}
 				
 				vm.backToSponsorConfigPage = function() {
-					var params = {fundingId: fundingId};
-					PageNavigation.gotoPage("/funding-configuration",params);
+					var params = {
+							fundingId: fundingId,
+							mode: 'EDIT'
+						};
+						PageNavigation.gotoPage('/customer-registration/funding-profile/config',params);
 				}
 				
 				var reader = new FileReader();
@@ -142,11 +148,6 @@ angular
 					}
 			    }
 			    
-//			    $scope.confirmSave = function() {
-//			    	vm.fundingInfo.fundingLogo = vm.fundingLogo;
-//			    	return FundingLogoService.save(vm.fundingInfo);
-//	            }
-
 			    function validateFileUpload(data, acceptFileExtention, errorMsgKey) {
 			        var validateResult = true;
 			        if (angular.equals(data.file, '')) {

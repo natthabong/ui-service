@@ -4,6 +4,7 @@ angular.module('gecscf.fundingProfile', [ 'ui.router', 'gecscf.ui', 'gecscf.fund
 			
 			var resources = ['js/app/modules/funding-profile/controllers/FundingProfileListController.js'
 				, 'js/app/modules/funding-profile/controllers/FundingProfileConfigurationController.js'
+				, 'js/app/modules/funding-profile/controllers/FundingProfilePopupController.js'
 				, 'js/app/modules/funding-profile/services/FundingProfileService.js'
 				, 'js/app/common/scf-component.js'
 				, 'js/app/common/scf-component.css'];

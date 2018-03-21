@@ -24,10 +24,17 @@ fpModule.controller('FundingProfileListController',['$scope','$stateParams','UIF
 	
 	// New Button Action
 	vm.createNew = function() {
-		var params = {
-				mode: 'NEW'
-		};
-		PageNavigation.gotoPage('/customer-registration/funding-profile/new',params);
+        UIFactory
+        .showDialog({
+          templateUrl: '/js/app/modules/funding-profile/templates/dialog-funding-profile.html',
+          controller: 'FundingProfilePopupController',
+          data: {
+            preCloseCallback: function(confirm) {
+              vm.search();
+            },
+            editionMode: false
+          }
+        });
 	}
 	
 	// Edit Button Action

@@ -16,28 +16,21 @@
 					<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 						<label id="tax-id-label"> {{'Tax ID' | translate}}: </label>
 					</div>
-					<div class="col-md-3 col-sm-3 col-xs-12" ng-if="ctrl.newMode">
-						<scf-input-text id="tax-id-textbox" maxlength="13" ng-model="ctrl.fundingProfile.fundingId"></scf-input-text>
-					</div>
-					<div class="col-md-3 col-sm-3 col-xs-12"  ng-if="ctrl.editMode">
+					<div class="col-md-3 col-sm-3 col-xs-12" >
 						<label id="tax-id-value-label" ng-bind="ctrl.fundingProfile.fundingId"></label>
 					</div>
-					<div class="col-md-2 col-sm-3 col-xs-12 control-label" ng-if="ctrl.newMode">
-						<label id="limited-digit-label"> {{'(13 digits)' | translate}}</label>
-					</div>
-
 					<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 						<label id="funding-logo-header-label"> {{'Funding logo' |
 							translate}}: </label>
 					</div>
 					<div class="col-md-3 col-sm-3 col-xs-12" >
-						<img title="{{ctrl.fundingProfile.fundingName}}"
+						<label class="control-label" id="funding-logo-label"
+							ng-show="!ctrl.hasLogo">{{'No logo' | translate}}</label> <img
+							id="{{ctrl.fundingProfile.fundingId}}-funding-logo"
+							title="{{ctrl.fundingProfile.fundingName}}"
 							style="height: 32px; width: 32px;"
-							data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(ctrl.fundingProfile.fundingLogo)}}"
-							data-err-src="images/png/avatar.png" ng-if="ctrl.completed"
-							id="{{ctrl.fundingProfile.fundingId}}-funding-logo" /> <label
-							class="control-label" id="funding-profile-logo-label"
-							ng-show="!ctrl.completed">{{'No logo' | translate}}</label>
+							data-ng-src="data:image/png;base64,{{ctrl.fundingLogo}}"
+							data-err-src="images/png/avatar.png" ng-show="ctrl.hasLogo" />
 						&nbsp;
 						<scf-button id="funding-profile-logo-setup-button"
 							class="btn-default gec-btn-action"
@@ -51,14 +44,8 @@
 					<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 						<label id="funding-code-label"> {{'Funding code' | translate}}: </label>
 					</div>
-					<div class="col-md-3 col-sm-3 col-xs-12" ng-if="ctrl.newMode">
-						<scf-input-text id="funding-code-textbox" maxlength="20" ng-model="ctrl.fundingProfile.bankCode"></scf-input-text>
-					</div>
-					<div class="col-md-3 col-sm-3 col-xs-12" ng-if="ctrl.editMode">
+					<div class="col-md-3 col-sm-3 col-xs-12" >
 						<label id="funding-code-value-label" ng-bind="ctrl.fundingProfile.bankCode" ></label>
-					</div>
-					<div class="col-md-2 col-sm-3 col-xs-12 control-label" ng-if="ctrl.newMode">
-						<label id="desc-funding-code-label"> {{'(GECSCF Hub Ref. Code)' | translate}}</label>
 					</div>
 				</div>
 				<br/><br/>
