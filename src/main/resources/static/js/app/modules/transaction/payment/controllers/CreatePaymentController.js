@@ -23,14 +23,14 @@ txnMod.controller('CreatePaymentController', [
         var supplierCodeSelectionMode = 'SINGLE_PER_TRANSACTION';
         var ownerId = $rootScope.userInfo.organizeId;
         var dashboardParams = $stateParams.dashboardParams;
+        var criteriaParams = $stateParams.criteria;
         var backAction = $stateParams.backAction || false;
-
         vm.hasPrivilegeEnqAcctBalance = false;
         vm.hasPrivilegeEnqCreditLimit = false;
         vm.showEnquiryButton = false;
 
         function prepareCriteria() {
-            return $stateParams.criteria || {
+            return criteriaParams || {
                 accountingTransactionType: 'RECEIVABLE',
                 sponsorId: ownerId,
                 buyerId: ownerId,
@@ -96,11 +96,16 @@ txnMod.controller('CreatePaymentController', [
                     criteria: {
                         accountingTransactionType: 'RECEIVABLE',
                         supplierId: result[0].supplierId,
+                        supplierIdSelected: result[0].supplierId,
                         buyerId: ownerId,
                     }
                 }
                 PageNavigation.gotoPage('/my-organize/create-payment-woip', params);
             } else {
+            	if(criteriaParams != null && criteriaParams.supplierIdSelected != null){
+            		vm.criteria.supplierId = criteriaParams.supplierIdSelected;
+            		criteriaParams.supplierIdSelected = null;
+            	}
                 vm.displayPaymentPage = true;
                 _loadProducTypes();
             }
@@ -146,6 +151,7 @@ txnMod.controller('CreatePaymentController', [
 
         function _loadBuyerCodes() {
             vm.customerCodes = [];
+            var deffered = $q.defer();
             var defferedBuyerCodes = TransactionService.getBuyerCodes(vm.criteria.supplierId);
             defferedBuyerCodes.promise.then(function (response) {
                 if (supplierCodeSelectionMode == 'MULTIPLE_PER_TRANSACTION') {
@@ -171,9 +177,22 @@ txnMod.controller('CreatePaymentController', [
                         vm.criteria.customerCode = dashboardParams.buyerCode;
                     }
                 }
+                
+                if (vm.supportPartial) {
+                    var defferedReasonCode = _loadReasonCodeMappingDatas();
+                    addColumnForCreatePartial();
+                    defferedReasonCode.promise.then(function (response) {
+                        deffered.resolve();
+                        _loadDocument();
+                    });
+                } else {
+                    deffered.resolve();
+                    _loadDocument();
+                }
             }).catch(function (response) {
                 log.error(response);
             });
+            return deffered;
         };
 
         function _loadAccount() {
@@ -433,10 +452,6 @@ txnMod.controller('CreatePaymentController', [
                 vm.dataTable.columns = response.items;
                 vm.supportPartial = response.supportPartial;
                 vm.supportSpecialDebit = response.supportSpecialDebit;
-                if (vm.supportPartial) {
-                    var defferedReasonCode = _loadReasonCodeMappingDatas();
-                    addColumnForCreatePartial();
-                }
 
                 var _criteria = {};
 
@@ -447,25 +462,12 @@ txnMod.controller('CreatePaymentController', [
                 vm.criteria.loanRequestMode = response.loanRequestMode;
                 supplierCodeSelectionMode = response.supplierCodeSelectionMode;
 
-                angular.copy(vm.criteria, _criteria);
-                vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
-                vm.pagingController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
-
                 if (vm.documentSelection != 'ANY_DOCUMENT') {
                     vm.checkSelectMatchingRef = true;
                 } else {
                     vm.checkSelectMatchingRef = false;
                 }
 
-                if (vm.supportPartial) {
-                    defferedReasonCode.promise.then(function (response) {
-                        deffered.resolve(response);
-                        _loadDocument();
-                    });
-                } else {
-                    deffered.resolve(response);
-                    _loadDocument();
-                }
                 _loadBuyerCodes();
             });
 
@@ -572,16 +574,18 @@ txnMod.controller('CreatePaymentController', [
             var _criteria = {};
             angular.copy(vm.criteria, _criteria);
             _criteria.searchMatching = false;
-
+            angular.copy(vm.criteria, _criteria);
+            vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
+            vm.pagingController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
             var deffered = vm.pagingController.search(pagingModel || (backAction ? {
-                page: $stateParams.criteria.pagingModel.currentPage,
-                pageSize: $stateParams.criteria.pagingModel.pageSizeSelectModel
+                page: criteriaParams.pagingModel.currentPage,
+                pageSize: criteriaParams.pagingModel.pageSizeSelectModel
             } : undefined));
 
             deffered.promise.then(function (response) {
                 blockUI.stop();
                 if (backAction) {
-                    vm.pagingController.pagingModel.pageSizeSelectModel = $stateParams.criteria.pagingModel.pageSizeSelectModel;
+                    vm.pagingController.pagingModel.pageSizeSelectModel = criteriaParams.pagingModel.pageSizeSelectModel;
                 }
                 if (vm.supportPartial) {
                     vm.pagingController.tableRowCollection.forEach(function (data) {
@@ -797,7 +801,7 @@ txnMod.controller('CreatePaymentController', [
 
         vm.searchDocument = function () {
             if (_validateForSearch()) {
-                _loadDocumentDisplayConfig();
+            	_loadDocument();
             } else {
                 vm.display = false;
             }
