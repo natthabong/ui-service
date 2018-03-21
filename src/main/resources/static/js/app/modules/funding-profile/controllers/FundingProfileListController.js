@@ -24,12 +24,16 @@ fpModule.controller('FundingProfileListController',['$scope','$stateParams','UIF
 	
 	// New Button Action
 	vm.createNew = function() {
+		var params = {
+				mode: 'NEW'
+		};
+		PageNavigation.gotoPage('/customer-registration/funding-profile/new',params);
 	}
 	
 	// Edit Button Action
 	vm.edit = function(record) {
 		var params = {
-				taxId: record.taxId,
+				fundingId: record.fundingId,
 				mode: 'EDIT'
 		};
 		PageNavigation.gotoPage('/customer-registration/funding-profile/config',params);

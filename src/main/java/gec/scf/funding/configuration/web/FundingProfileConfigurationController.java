@@ -11,7 +11,7 @@ import gec.scf.util.AjaxUtils;
 @RequestMapping(path = "/funding-configuration")
 public class FundingProfileConfigurationController {
 
-	private String SETTING_FUNDING_LOGO = "funding-profile/configuration/funding-logo/settings";
+	private String SETTING_FUNDING_LOGO = "funding-profile/funding-logo/settings";
 
 	@RequestMapping(path = { "/logo/settings" }, method = RequestMethod.GET)
 	public String settingFundingLogo(@RequestHeader("X-Requested-With") String requestedWith) {

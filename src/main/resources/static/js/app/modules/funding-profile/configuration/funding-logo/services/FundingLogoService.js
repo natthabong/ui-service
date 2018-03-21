@@ -1,5 +1,5 @@
 'use strict';
-var module = angular.module('funding-profile.configuration.module');
+var module = angular.module('gecscf.fundingProfile.configuration');
 module.service('FundingLogoService', [ '$http', '$q', function($http, $q) {
 
 	this.save = function(fundingInfo) {

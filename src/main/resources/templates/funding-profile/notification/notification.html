@@ -9,26 +9,28 @@
 							ng-bind="'Notification' | translate">Notification</h3>
 					</div>
 				</div>
+				<br/>
 				<div class="form-group">
 					<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 						<label id="sender-name-label"> {{'Sender name' | translate}}: </label>
 					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-3 col-sm-3 col-xs-12">
 						<scf-input-text id="sender-name-textbox" maxlength="100" 
-							ng-model="ctrl.fundingProfile.senderName">
+							ng-model="ctrl.fundingProfile.contact.name">
 						</scf-input-text>
 					</div>
 				</div>
+				<br/><br/>
 				<div class="form-group">
 					<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 						<label id="sender-email-label"> {{'Sender email' | translate}}: </label>
 					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-3 col-sm-3 col-xs-12">
 						<scf-input-text id="sender-email-textbox" maxlength="100" 
-							ng-model="ctrl.fundingProfile.senderEmail">
+							ng-model="ctrl.fundingProfile.contact.email">
 						</scf-input-text>
 					</div>
-				</div>
+				</div><br/><br/>
 			</div>
 		</div>
 	</div>

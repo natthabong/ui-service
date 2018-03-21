@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import gec.scf.util.AjaxUtils;
 
 @Controller
-@RequestMapping(path = "/customer-registration")
 public class FundingProfileController {
 	
 	private static final String FUNDING_PROFILE_LIST = "funding-profile/funding-profile-list";

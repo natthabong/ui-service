@@ -10,34 +10,45 @@ fundingProfileModule.constant('PendingOnDropdown', [{
 ]);
 fundingProfileModule.controller(
 	'FundingProfileConfigurationController',
-	['$log', '$stateParams', 'PageNavigation', '$scope', '$rootScope','PendingOnDropdown',
-		function ($log, $stateParams, PageNavigation, $scope, $rootScope, PendingOnDropdown) {
+			['$log','$stateParams','PageNavigation','$scope','$rootScope','PendingOnDropdown','$q','$http','Service',
+	function ($log,  $stateParams,  PageNavigation,  $scope,  $rootScope,  PendingOnDropdown,  $q,  $http,  Service) {
 			var vm = this;
 			var log = $log;
 			vm.pendingOnDropdown = PendingOnDropdown;
 			vm.newMode = false;
 			vm.editMode = false;
 			var parameters = PageNavigation.getParameters();
-			var taxId = parameters.taxId;
+			vm.fundingProfile = {};
+			var fundingId = parameters.fundingId;
 			var mode = parameters.mode;
 			if('NEW' == mode){
 				vm.newMode = true;
 				vm.editMode = false;
+				vm.fundingProfile.creditPendingMethod = 'AT_GEC';
 			} else {
 				vm.newMode = false;
 				vm.editMode = true;
 			}
 			
-			$scope.backAction = function () {
-				PageNavigation.backStep(false);
+			vm.backAction = function () {
+				PageNavigation.gotoPage('/customer-registration/funding-profile');
 			}
 
+			var sendRequest = function (uri, succcesFunc, failedFunc) {
+				var serviceDiferred = Service.doGet(uri);
+
+				var failedFunc = failedFunc | function (response) {
+					log.error('Load data error');
+				};
+				serviceDiferred.promise.then(succcesFunc).catch(failedFunc);
+			}
 					
 			vm.config = function(data){
 				var params = {
-					fundingProfileInfo: data
+						fundingInfo: data,
+						fundingId: data.fundingId
 				};
-				PageNavigation.gotoPage('/funding-profile-configuration/funding-logo/settings',params);
+				PageNavigation.gotoPage('/customer-registration/funding-configuration/logo/settings',params);
 			}
 			
 			vm.decodeBase64 = function(data) {
@@ -123,9 +134,17 @@ fundingProfileModule.controller(
 					});
 				}
 			}
-			function init() {
-				
+			
+			vm.search = function () {
+				sendRequest('api/v1/fundings/' + fundingId, function (response) {
+					vm.fundingProfile = response.data;
+				});
 			}
-			init();
+			
+			vm.initLoad = function () {
+				if(vm.editMode){
+					vm.search();
+				}
+			}();
 		}
 	]);

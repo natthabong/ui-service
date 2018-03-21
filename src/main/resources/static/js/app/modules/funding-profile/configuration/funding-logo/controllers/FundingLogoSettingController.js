@@ -1,5 +1,5 @@
 angular
-	.module('funding-profile.configuration.module')
+	.module('gecscf.fundingProfile.configuration')
 	.controller(
 		'FundingLogoSettingController', [
 			'FundingLogoService',
@@ -29,8 +29,8 @@ angular
 				vm.manageAll=false;
 				vm.fundingLogo = null;
 				
-				var params = PageNavigation.getParameters();
-				var fundingId = params.fundingId;
+				var parameters = PageNavigation.getParameters();
+				var fundingId = parameters.fundingId;
 				
 				vm.fundingInfo = $stateParams.fundingInfo;
 				if(vm.fundingInfo == null || angular.isUndefined(vm.fundingInfo)){

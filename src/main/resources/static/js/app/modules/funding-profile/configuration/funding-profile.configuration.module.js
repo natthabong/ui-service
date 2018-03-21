@@ -8,9 +8,9 @@ angular
 						function($stateProvider) {
 							$stateProvider
 									.state(
-											'/funding-configuration/logo/settings',
+											'/customer-registration/funding-configuration/logo/settings',
 											{
-												url : '/funding-configuration/:fundingId/logo/settings',
+												url : '/customer-registration/funding-configuration/:fundingId/logo/settings',
 												controller : 'FundingLogoSettingController',
 												controllerAs : 'ctrl',
 												templateUrl : '/funding-configuration/logo/settings',

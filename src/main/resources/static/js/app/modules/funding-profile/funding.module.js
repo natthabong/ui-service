@@ -1,5 +1,5 @@
 'use strict';
-angular.module('gecscf.fundingProfile', [ 'ui.router', 'gecscf.ui' ]).config(
+angular.module('gecscf.fundingProfile', [ 'ui.router', 'gecscf.ui', 'gecscf.fundingProfile.configuration' ]).config(
 		[ '$stateProvider', function($stateProvider) {
 			
 			var resources = ['js/app/modules/funding-profile/controllers/FundingProfileListController.js'
@@ -22,7 +22,7 @@ angular.module('gecscf.fundingProfile', [ 'ui.router', 'gecscf.ui' ]).config(
 						},
 						resolve: WebHelper.loadScript(resources)
 			}).state('/customer-registration/funding-profile/config', {
-				url: '/customer-registration/funding-profile/config/:taxId',
+				url: '/customer-registration/funding-profile/config/:fundingId',
 				controller: 'FundingProfileConfigurationController',
 				controllerAs: 'ctrl',
 				templateUrl: '/funding-profile/configuration',
