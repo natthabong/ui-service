@@ -9,6 +9,7 @@ fpModule.factory('FundingProfileService', ['$http', '$q', 'Service', function ($
 	    		bankCode: fundingInfo.fundingCode,
 	    		fundingName: fundingInfo.fundingName,
 	    		fundingId: fundingInfo.taxId,
+	    		contact: fundingInfo.contact,
                 creditPendingMethod: fundingInfo.creditPendingMethod
 	    }
 	    var fundingProfilePaylod = {
@@ -29,6 +30,9 @@ fpModule.factory('FundingProfileService', ['$http', '$q', 'Service', function ($
 	var updateFundingProfile = function(fundingInfo) {
 	    var deferred = $q.defer();
 	    var serviceUrl = '/api/v1/fundings/' + fundingInfo.fundingId;
+	    var fundingProfilePaylod = {
+	    		fundingProfile: fundingInfo
+	    }
 	    $http({
 	      method : 'POST',
 	      headers: {
@@ -36,7 +40,7 @@ fpModule.factory('FundingProfileService', ['$http', '$q', 'Service', function ($
 	        'X-HTTP-Method-Override': 'PUT'
 	      },
 	      url : serviceUrl,
-	      data: fundingInfo
+	      data: fundingProfilePaylod
 	      }).then(function(response){
 	          return deferred.resolve(response);
 	     }).catch(function(response){

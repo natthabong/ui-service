@@ -21,6 +21,10 @@ module
                             	fundingCode: null,
                                 fundingName: null,
                                 taxId: null,
+                                contact: {
+                                	name: null,
+                                	email: null
+                                }
                                 creditPendingMethod: 'AT_GEC'
                               }
 

@@ -81,7 +81,7 @@ fundingProfileModule.controller(
 			vm.save = function () {
 				if (validSave()) {
 					var preCloseCallback = function (confirm) {
-						$scope.backAction();
+						vm.backAction();
 					}
 					UIFactory.showConfirmDialog({
 						data: {
