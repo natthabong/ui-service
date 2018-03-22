@@ -70,11 +70,14 @@ txnMod.controller('CreatePaymentController', [
                         }
                         vm.suppliers.push(selectObj);
                     });
-
+                    
+                    console.log($stateParams);
                     if (dashboardParams != null) {
                         vm.criteria.supplierId = dashboardParams.supplierId;
                         vm.criteria.customerCode = dashboardParams.buyerCode;
-                    } else if (!backAction && dashboardParams == null) {
+                    }else if($stateParams.criteria != null && angular.isDefined($stateParams.criteria.supplierIdSelected)){
+                    	vm.criteria.supplierId = $stateParams.criteria.supplierIdSelected;
+                    }else if (!backAction && dashboardParams == null) {
                         vm.criteria.supplierId = vm.suppliers[0].value;
                     }
 
@@ -624,9 +627,9 @@ txnMod.controller('CreatePaymentController', [
                     _watchCheckAll();
                 });
 
-                //                if (vm.documentSelects.length > 0) {
-                //                	_loadPaymentDate();
-                //                }
+                // if (vm.documentSelects.length > 0) {
+                // _loadPaymentDate();
+                // }
 
                 if (_validateForSearch()) {
                     vm.display = true;
@@ -689,12 +692,17 @@ txnMod.controller('CreatePaymentController', [
 
         function resetReasonCode(row, record) {
             var reasonCodeDropdown = getReasonCodeDropdownElement(row);
-            record.reasonCode = vm.reasonCodeDropdown[0].value; //reset to default reason code
+            record.reasonCode = vm.reasonCodeDropdown[0].value; // reset to
+																// default
+																// reason code
             reasonCodeDropdown.disabled = true;
         }
 
         function resetPaymentAmount(row, record) {
-            record.calculatedPaymentAmount = record.calculatedNetAmount; //reset to default value
+            record.calculatedPaymentAmount = record.calculatedNetAmount; // reset
+																			// to
+																			// default
+																			// value
         }
 
         function deselectDocument(row, record) {
@@ -943,19 +951,22 @@ txnMod.controller('CreatePaymentController', [
         vm.validatePaymentAmount = function (row, record) {
             var reasonCodeDropdown = getReasonCodeDropdownElement(row);
 
-            /** for case invalid format---after blur payment amount textbox, 
-                the 'format' directive will correct the data after. So, this condition is just 
-                for control the appearing of reason code dropdown.
-            **/
+            /**
+			 * for case invalid format---after blur payment amount textbox, the
+			 * 'format' directive will correct the data after. So, this
+			 * condition is just for control the appearing of reason code
+			 * dropdown.
+			 */
             if (record.calculatedPaymentAmount == 0 || record.calculatedPaymentAmount < 0 ||
                 isNaN(Number(record.calculatedPaymentAmount.replace(/,/g, ""))) ||
                 typeof (record.calculatedPaymentAmount) === "boolean") {
                 resetReasonCode(row, record);
             }
 
-            /** for case valid format--- control the appearing of reason code dropdown
-                        according to business rules.
-            **/
+            /**
+			 * for case valid format--- control the appearing of reason code
+			 * dropdown according to business rules.
+			 */
             else if (record.calculatedPaymentAmount < record.calculatedNetAmount) {
                 reasonCodeDropdown.disabled = false;
                 showSelectReasonCodePopup(record);
@@ -1129,7 +1140,7 @@ txnMod.controller('CreatePaymentController', [
             if (vm.transactionModel.transactionMethod == 'TERM_LOAN') {
                 deffered = AccountService.enquiryCreditLimit(criteria);
             } else {
-                //current, saving, overdraft
+                // current, saving, overdraft
                 deffered = AccountService.enquiryAccountBalance(criteria);
             }
 
