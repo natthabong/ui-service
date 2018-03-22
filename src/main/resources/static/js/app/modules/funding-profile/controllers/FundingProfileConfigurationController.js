@@ -92,7 +92,7 @@ fundingProfileModule.controller(
 							blockUI.stop();
 							UIFactory.showSuccessDialog({
 								data: {
-									headerMessage: 'Edit funding profile complete.',
+									headerMessage: 'Edit funding profile success.',
 									bodyMessage: ''
 								},
 								preCloseCallback: preCloseCallback
