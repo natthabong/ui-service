@@ -24,7 +24,7 @@ module
                                 contact: {
                                 	name: null,
                                 	email: null
-                                }
+                                },
                                 creditPendingMethod: 'AT_GEC'
                               }
 
