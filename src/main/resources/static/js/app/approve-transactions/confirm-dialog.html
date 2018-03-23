@@ -9,7 +9,7 @@
 		<div class="modal-body">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
-					<form name="confirmApprove" class="form-horizontal">
+					<form name="confirmApprove" class="form-horizontal" ng-submit="closeThisDialog();ctrl.approve()">
 						<div class="form-group">
 							<label for="username" class="col-xs-4 col-md-3 col-sm-3 control-label"><span
 								ng-bind="'Username' | translate"></span>:</label>
