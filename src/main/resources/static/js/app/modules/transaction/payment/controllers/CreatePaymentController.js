@@ -1004,7 +1004,7 @@ txnMod.controller('CreatePaymentController', [
         }
 
         vm.disableDocment = function (document) {
-            if (vm.documentSelection == 'AT_LEAST_ONE_DOCUMENT' && document.netAmount < 0) {
+            if (vm.documentSelection == 'AT_LEAST_ONE_DOCUMENT' && document.netAmount < 0 && document.hasPositiveDocument) {
                 return true;
             } else {
                 return false;
