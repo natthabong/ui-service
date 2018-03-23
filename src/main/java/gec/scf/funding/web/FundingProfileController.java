@@ -15,6 +15,8 @@ public class FundingProfileController {
 	private static final String FUNDING_PROFILE_INFO = "funding-profile/funding-profile-info/funding-profile-info";
 	private static final String FUNDING_PROFILE_NOTIFICATION = "funding-profile/notification/notification";
 	private static final String FUNDING_PROFILE_TXN_METHOD = "funding-profile/advance-approval-transaction-method/advance-approval-transaction-method";
+	private static final String FUNDING_PROFILE_FINANCE_SOLUTION = "funding-profile/finance-solution/finance-solution";
+	
 	
 	@RequestMapping(path = {"/funding-profile"}, method = RequestMethod.GET)
 	public String fundingProfileList(@RequestHeader("X-Requested-With") String requestedWith) {
@@ -63,6 +65,17 @@ public class FundingProfileController {
 			return FUNDING_PROFILE_TXN_METHOD.concat(" :: content");
 		}
 		return FUNDING_PROFILE_TXN_METHOD;
+
+	}
+	
+	
+	@RequestMapping(path = {"/funding-profile/finance-solution"}, method = RequestMethod.GET)
+	public String fundingProfileFinanceSolution(@RequestHeader("X-Requested-With") String requestedWith) {
+
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return FUNDING_PROFILE_FINANCE_SOLUTION.concat(" :: content");
+		}
+		return FUNDING_PROFILE_FINANCE_SOLUTION;
 
 	}
 
