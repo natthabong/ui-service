@@ -1,8 +1,8 @@
 'use strict';
 var tradeFinanceModule = angular.module('gecscf.tradingPartner.financing');
 tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams', 'UIFactory',
-	'PageNavigation', 'PagingController', '$log', '$http', '$filter', 'TradeFinanceService', '$q',
-	function ($scope, $stateParams, UIFactory, PageNavigation, PagingController, $log, $http, $filter, TradeFinanceService, $q) {
+	'PageNavigation', 'PagingController', '$log', '$http', '$filter', 'TradeFinanceService', 'AccountService', '$q',
+	function ($scope, $stateParams, UIFactory, PageNavigation, PagingController, $log, $http, $filter, TradeFinanceService, AccountService, $q) {
 
 		var vm = this;
 		var log = $log;
@@ -21,7 +21,6 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		vm.accountType = '';
 		vm.isSupplier = undefined;
 		vm.isLoanType = false;
-		vm.loanAccountList = null;
 
 		if (currentMode == 'NEW') {
 			vm.isNewMode = true;
@@ -50,6 +49,18 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				value: "SUPPLIER"
 			}
 		];
+
+		vm.tradeFinanceModel = {
+			borrower: borrower,
+			borrowerType: vm.borrowerModel[0].value,
+			financeAccount: null,
+			tenor: null,
+			percentageLoan: null,
+			interestRate: null,
+			agreementDate: currentDate,
+			creditExpirationDate: null,
+			isSuspend: false
+		};
 
 		vm.payeeAccountDropdown = [];
 
@@ -81,43 +92,43 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		}
 
 		setPayeeAccountDropdown();
-
-		var queryAccount = function (value) {
-			supplierId = borrower.supplierId;
-			if (vm.tradeFinanceModel.borrowerType == "BUYER") {
-				organizeId = borrower.buyerId;
-			} else {
-				organizeId = borrower.supplierId;
+		
+		function setLoanAccountDropdown(borrowerType) {
+			vm.loanAccountDropdown = [];
+			vm.loanAccountDropdown = [{
+				label: 'Please select',
+				value: 'PLEASE_SELECT'
+			}];
+			
+			var accountType = ['LOAN', 'OVERDRAFT'];
+			if (borrowerType !== undefined) {
+				vm.tradeFinanceModel.borrowerType = borrowerType;
 			}
-			var url = 'api/v1/organize-customers/' + organizeId + '/accounts';
-
-			value = value = UIFactory.createCriteria(value);
-
-			return $http.get(url, {
-				params: {
-					q: value,
-					offset: 0,
-					limit: 5,
-					accountType: ['LOAN', 'OVERDRAFT']
-				}
-			}).then(function (response) {
-				vm.loanAccountList = response.data;
-				return response.data.map(function (item) {
-					var accountNo = null;
-					if (item.format) {
-						var accountNo = ($filter('accountNoDisplay')(item.accountNo));
-					} else {
-						var accountNo = item.accountNo;
-					}
-
-					item.identity = ['account-', item.accountNo, '-option'].join('');
-					item.label = [accountNo].join('');
-					return item;
+			organizeId = vm.tradeFinanceModel.borrowerType == 'BUYER'? borrower.buyerId: borrower.supplierId;
+			var deffered = AccountService.getAccountsByAccountType(organizeId, accountType);
+			deffered.promise.then(function (response) {
+				var account = response.data;
+				account.forEach(function (data) {
+					vm.loanAccountDropdown.push({
+						label: data.format ? ($filter('accountNoDisplay')(data.accountNo)) : data.accountNo,
+						value: data.accountId,
+						type: data.accountType
+					})
 				});
+				vm.changeAccountType();
+			}).catch(function (response) {
+				log.error('Get payee account fail');
 			});
-		};
-
-		function changeAccountType(accountType) {
+		}
+		
+		vm.changeAccountType = function () {
+			var accountId = vm.tradeFinanceModel.financeAccount;
+			var accountType = "";
+			vm.loanAccountDropdown.forEach(function (account, index) {
+                if (account.value == accountId) {
+                	accountType = account.type;
+                }
+            });
 			if (accountType === 'LOAN') {
 				vm.isLoanType = true;
 				vm.accountType = 'Term loan';
@@ -128,42 +139,10 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				vm.tradeFinanceModel.tenor = '';
 				vm.tradeFinanceModel.interestRate = '';
 				vm.isUseExpireDate = false;
+			}else{
+				vm.isLoanType = false;
+				vm.accountType = '';
 			}
-		}
-
-		vm.financeAccountAutoSuggestModel = UIFactory.createAutoSuggestModel({
-			placeholder: 'Please enter borrower account no.',
-			itemTemplateUrl: 'ui/template/autoSuggestTemplate.html',
-			query: queryAccount
-		});
-
-		vm.tradeFinanceModel = {
-			borrower: borrower,
-			borrowerType: vm.borrowerModel[0].value,
-			financeAccount: null,
-			tenor: null,
-			percentageLoan: null,
-			interestRate: null,
-			agreementDate: currentDate,
-			creditExpirationDate: null,
-			isSuspend: false
-		};
-
-		var prepareAutoSuggestLabel = function (data) {
-			var accountNoSetFormat = null;
-			if (data.format) {
-				accountNoSetFormat = ($filter('accountNoDisplay')(data.accountNo));
-			} else {
-				accountNoSetFormat = data.accountNo;
-			}
-
-			var item = {
-				accountId: data.accountId,
-				accountNo: data.accountNo,
-				identity: ['account-', data.accountNo, '-option'].join(''),
-				label: [accountNoSetFormat].join(''),
-			}
-			return item;
 		}
 
 		var initialTradeFinance = function (data) {
@@ -184,10 +163,8 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				} else {
 					vm.isSupplier = false;
 				}
-
-				changeAccountType(tradeFinanceData.accountType);
-
-				vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(tradeFinanceData);
+				
+				vm.tradeFinanceModel.financeAccount = tradeFinanceData.accountId.toString();
 				vm.tradeFinanceModel.tenor = tradeFinanceData.tenor;
 				vm.tradeFinanceModel.percentageLoan = tradeFinanceData.prePercentageDrawdown;
 				vm.tradeFinanceModel.interestRate = tradeFinanceData.interestRate;
@@ -211,22 +188,13 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			});
 		}
 
-		$scope.$watch('ctrl.tradeFinanceModel.financeAccount', function () {
-			if (vm.loanAccountList != null && vm.tradeFinanceModel.financeAccount != null) {
-				for (var i = 0; i < vm.loanAccountList.length; i++) {
-					if (vm.loanAccountList[i].accountNo === vm.tradeFinanceModel.financeAccount.accountNo) {
-						changeAccountType(vm.loanAccountList[i].accountType);
-						break;
-					}
-				}
-			}
-		});
-
 		function initLoad() {
 			vm.headerName = currentMode.charAt(0).toUpperCase() + currentMode.slice(1).toLowerCase() + " trade finance";
+			var borrowerType = 'BUYER';
 			if (currentMode == 'NEW') {
 				vm.isNewMode = true;
 				vm.isSupplier = false;
+				vm.tradeFinanceModel.financeAccount = 'PLEASE_SELECT';
 				vm.tradeFinanceModel.payeeAccountId = 'PLEASE_SELECT';
 			} else if (currentMode == 'EDIT' || currentMode == 'VIEW') {
 				vm.isNewMode = false;
@@ -241,8 +209,10 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 					var supplierId = $stateParams.data.supplierId;
 					var accountId = $stateParams.data.accountId;
 					_getTradeFinanceInfo(buyerId, supplierId, accountId);
+					borrowerType = $stateParams.data.borrowerType;
 				}
 			}
+			setLoanAccountDropdown(borrowerType);
 		}
 
 		initLoad();
@@ -263,53 +233,13 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			vm.openExpireDate = true;
 		};
 
-		vm.add = function (accountType) {
-			var organizeId = null;
-			var organizeName = null;
-			var organizeCode = null;
-			if (vm.tradeFinanceModel.borrowerType === 'SUPPLIER' || accountType === 'PAYEE_ACCOUNT') {
-				organizeId = vm.tradeFinanceModel.borrower.supplierId;
-			} else if (vm.tradeFinanceModel.borrowerType === 'BUYER') {
-				organizeId = vm.tradeFinanceModel.borrower.buyerId;
-			}
-
-			var pageName = 'tradeFinance';
-			if (accountType === 'PAYEE_ACCOUNT') {
-				pageName = 'tradeFinance_payeeAccount';
-			}
-
-			if (vm.tradeFinanceModel.borrower) {
-				UIFactory.showDialog({
-					templateUrl: '/js/app/modules/trading-partner/financing/templates/dialog-new-account.html',
-					controller: 'AccountController',
-					data: {
-						page: pageName,
-						organizeId: organizeId,
-						organizeName: organizeName,
-						organizeCode: organizeCode,
-						mode: 'ADD'
-					},
-					preCloseCallback: function (data) {
-						if (data) {
-							if (accountType === 'LOAN_ACCOUNT') {
-								vm.tradeFinanceModel.financeAccount = prepareAutoSuggestLabel(data);
-								changeAccountType(data.accountType);
-							} else {
-								setPayeeAccountDropdown(data.accountId.toString());
-							}
-						}
-					}
-				});
-			}
-		}
-
 		var _save = function () {
 			var buyerId = borrower.buyerId;
 			var supplierId = borrower.supplierId;
 			var tradeFinanceModule = {
 				buyerId: vm.isSupplier ? borrower.supplierId : borrower.buyerId,
 				supplierId: vm.isSupplier ? borrower.buyerId : borrower.supplierId,
-				accountId: vm.tradeFinanceModel.financeAccount.accountId,
+				accountId: vm.tradeFinanceModel.financeAccount,
 				limitExpiryDate: vm.tradeFinanceModel.creditExpirationDate,
 				tenor: vm.tradeFinanceModel.tenor,
 				prePercentageDrawdown: vm.tradeFinanceModel.percentageLoan,
@@ -347,7 +277,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			var tradeFinanceModule = {
 				buyerId: buyerId,
 				supplierId: supplierId,
-				accountId: vm.tradeFinanceModel.financeAccount.accountId,
+				accountId: vm.tradeFinanceModel.financeAccount,
 				limitExpiryDate: vm.tradeFinanceModel.creditExpirationDate,
 				tenor: vm.tradeFinanceModel.tenor,
 				prePercentageDrawdown: vm.tradeFinanceModel.percentageLoan,
@@ -385,10 +315,10 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				}
 			}
 
-			if (!angular.isObject(vm.tradeFinanceModel.financeAccount)) {
+			if (vm.tradeFinanceModel.financeAccount == 'PLEASE_SELECT') {
 				valid = false;
 				$scope.errors.financeAccount = {
-					message: 'Loan account is required.'
+					message: 'Borrower loan account is required.'
 				}
 			}
 
@@ -507,7 +437,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		}
 
 		var _clearCriteria = function () {
-			vm.tradeFinanceModel.financeAccount = null;
+			vm.tradeFinanceModel.financeAccount = 'PLEASE_SELECT';
 			vm.tradeFinanceModel.tenor = null;
 			vm.tradeFinanceModel.percentageLoan = null;
 			vm.tradeFinanceModel.interestRate = null;
@@ -529,6 +459,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			} else {
 				vm.isSupplier = false;
 			}
+			setLoanAccountDropdown();
 			_clearCriteria();
 		}
 	}
