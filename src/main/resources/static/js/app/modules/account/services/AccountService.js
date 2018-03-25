@@ -46,7 +46,7 @@ angular.module('gecscf.account').factory('AccountService', ['$http', '$q', funct
     }
 
     function deleteAccount(account){		
-		var serviceUrl = '/api/v1/organize-customers/'+account.organizeId+'/accounts/'+account.accountId;
+		var serviceUrl = '/api/v1/organize-customers/accounts/'+account.accountId;
 		var deferred = $q.defer();
 		$http({
 			method : 'POST',
