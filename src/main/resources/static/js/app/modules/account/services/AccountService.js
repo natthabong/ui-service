@@ -26,7 +26,7 @@ angular.module('gecscf.account').factory('AccountService', ['$http', '$q', funct
     }
     
      function update(account){
-        var serviceUrl = '/api/v1/organize-customers/'+account.organizeId+'/accounts/'+account.accountId;
+        var serviceUrl = '/api/v1/organize-customers/accounts/'+account.accountId;
 		var deferred = $q.defer();
 		$http({
 			method : 'POST',
@@ -85,10 +85,11 @@ angular.module('gecscf.account').factory('AccountService', ['$http', '$q', funct
     
     function getAccountsByAccountType(organizeId, accountType, offset, limit) {
         var deffered = $q.defer();
-        $http.get('api/v1/organize-customers/' + organizeId + '/accounts', {
+        $http.get('api/v1/organize-customers/accounts', {
                 params: {
                 	offset: offset,
                 	limit: limit,
+                	organizeId: organizeId,
                 	accountType: accountType
                 }
             })

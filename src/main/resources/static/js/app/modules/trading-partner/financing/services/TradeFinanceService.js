@@ -50,12 +50,13 @@ tradeFinanceModule.factory('TradeFinanceService', ['$http', '$q', 'Service', fun
 	}
 
 	function getPayeeAccounts(organizeId) {
-		var serviceUrl = '/api/v1/organize-customers/' + organizeId + '/accounts';
+		var serviceUrl = '/api/v1/organize-customers/accounts';
 		var deferred = $q.defer();
 		$http({
 			method: 'GET',
 			url: serviceUrl,
 			params: {
+				organizeId: organizeId,
 				offset: 0,
 				limit: 999
 			}
