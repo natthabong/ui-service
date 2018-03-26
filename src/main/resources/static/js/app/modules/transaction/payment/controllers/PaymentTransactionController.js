@@ -69,22 +69,27 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	   }
 	
 	    var _criteria = {};
-	   
-	    vm.criteria = {
-	        sponsorId : null,
-	        supplierId : null,
-	        supplierCode : null,
-	        dateFrom : null,
-	        dateTo: null,
-	        transactionNo : null,
-	        statusGroup : '',
-	        transactionType: 'PAYMENT'
+		vm.criteria = $stateParams.criteria;
+		
+	    if(!$stateParams.criteria || !$stateParams.criteria.offset){
+	    	vm.criteria = {
+	    	    	sponsorId : null,
+	    	        supplierId : null,
+	    	        supplierCode : null,
+	    	        dateFrom : null,
+	    	        dateTo: null,
+	    	        transactionNo : null,
+	    	        statusGroup : '',
+	    	        transactionType: 'PAYMENT',
+	    	        offset : 0,
+	    	        limit : "20",
+	    		}
 		}
 		
 		if($stateParams.criteria && $stateParams.criteria.statusGroup){
 			vm.criteria.statusGroup = $stateParams.criteria.statusGroup;
 		}
-	
+		
 	    _clearSummaryStatus = function(){
 			vm.summaryInternalStep = {
 				wait_for_verify: {
