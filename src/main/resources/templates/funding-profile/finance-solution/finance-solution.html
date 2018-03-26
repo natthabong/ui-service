@@ -21,43 +21,43 @@
 					<div class="form-group">
 						<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
 						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-							<label id="pn-label"> {{'P/N' | translate}}</label>
+							<label id="bfp-pn-label"> {{'P/N' | translate}}</label>
 						</div><br/><br/>
 						<div class="panel-body">
 							<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
 							<div class="panel panel-default col-md-10 padding-0">
 								<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-									<label id="pn-service-time-label"> {{'Service time' | translate}}: </label>
+									<label id="bfp-pn-service-time-label"> {{'Service time' | translate}}: </label>
 								</div>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<div class="form-group">
 										<div class="col-md-4 col-sm-4 col-xs-12">
 											<label class="radio-inline"><scf-radio
-													id="pn-24-radio" name="pn-24hrs-radio" value="24HR"
-													ng-model="ctrl.fundingProfile.pnServiceTime"></scf-radio>
+													id="bfp-pn-24hrs-radio" name="bfp-pn-24hrs-radio" value="24HR"
+													ng-model="ctrl.fundingProfile.bfpPnServiceTime"></scf-radio>
 												{{ '24 hrs.' | translate}} </label> <label
-												class="radio-inline"><scf-radio id="pn-period-radio"
-													name="pn-period-radio" value="PERIOD"
-													ng-model="ctrl.fundingProfile.pnServiceTime"></scf-radio>
+												class="radio-inline"><scf-radio id="bfp-pn-period-radio"
+													name="bfp-pn-period-radio" value="PERIOD"
+													ng-model="ctrl.fundingProfile.bfpPnServiceTime"></scf-radio>
 												{{ 'Period' | translate}} </label>
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
-											<scf-input-text id="begin-time-textbox"
-												ng-model="ctrl.fundingProfile.period.beginTime" name="beginTime"
+											<scf-input-text id="bfp-begin-time-textbox"
+												ng-model="ctrl.fundingProfile.bfpPnPeriod.beginTime" name="beginTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
 										<div class="col-md-1 col-sm-1 col-xs-12">
-											<label id="end-time-label"> - </label>
+											<label> - </label>
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
-											<scf-input-text id="end-time-textbox"
-												ng-model="ctrl.fundingProfile.period.endTime" name="endTime"
+											<scf-input-text id="bfp-end-time-textbox"
+												ng-model="ctrl.fundingProfile.bfpPnPeriod.endTime" name="endTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
 										<div class="col-md-1 col-sm-1 col-xs-12">
-											<label id="format-time-label">{{ 'hh:mm' | translate}}</label>
+											<label id="bfp-pn-format-time-label">{{ 'hh:mm' | translate}}</label>
 										</div>
 									</div>
 								</div>
@@ -65,9 +65,9 @@
 								<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
 								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
 									<div class="col-md-3 col-sm-3 col-xs-12">
-										<scf-checkbox id="pn-suspend-checkbox"
-											ng-model="ctrl.fundingProfile.pnSuspend"></scf-checkbox>
-										<label class="checkbox-inline" id="pn-suspend-label"
+										<scf-checkbox id="bfp-pn-suspend-checkbox"
+											ng-model="ctrl.fundingProfile.bfpPnSuspend"></scf-checkbox>
+										<label class="checkbox-inline" id="bfp-pn-suspend-label"
 											style="padding-bottom: 10px;">{{'Suspend' |
 											translate}}</label>
 									</div>
@@ -76,47 +76,46 @@
 							</div>
 						</div>
 					</div>
-					/////////////////////////////////////////
 					<div class="form-group">
 						<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
 						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-							<label id="pn-label"> {{'Overdraft' | translate}}</label>
+							<label id="bfp-od-label"> {{'Overdraft' | translate}}</label>
 						</div><br/>
 						<div class="panel-body">
 							<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
 							<div class="panel panel-default col-md-10 padding-0">
 								<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-									<label id="pn-service-time-label"> {{'Service time' | translate}}: </label>
+									<label id="bfp-od-service-time-label"> {{'Service time' | translate}}: </label>
 								</div>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<div class="form-group">
 										<div class="col-md-4 col-sm-4 col-xs-12">
 											<label class="radio-inline"><scf-radio
-													id="pn-24-radio" name="pn-24hrs-radio" value="24HR"
-													ng-model="ctrl.fundingProfile.pnServiceTime"></scf-radio>
+													id="bfp-od-24hrs-radio" name="bfp-od-24hrs-radio" value="24HR"
+													ng-model="ctrl.fundingProfile.bfpOdServiceTime"></scf-radio>
 												{{ '24 hrs.' | translate}} </label> <label
-												class="radio-inline"><scf-radio id="pn-period-radio"
-													name="pn-period-radio" value="PERIOD"
-													ng-model="ctrl.fundingProfile.pnServiceTime"></scf-radio>
+												class="radio-inline"><scf-radio id="bfp-od-period-radio"
+													name="bfp-od-period-radio" value="PERIOD"
+													ng-model="ctrl.fundingProfile.bfpOdServiceTime"></scf-radio>
 												{{ 'Period' | translate}} </label>
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
-											<scf-input-text id="begin-time-textbox"
-												ng-model="ctrl.fundingProfile.period.beginTime" name="beginTime"
+											<scf-input-text id="bfp-od-begin-time-textbox"
+												ng-model="ctrl.fundingProfile.bfpOdperiod.beginTime" name="beginTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
 										<div class="col-md-1 col-sm-1 col-xs-12">
-											<label id="end-time-label"> - </label>
+											<label> - </label>
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
-											<scf-input-text id="end-time-textbox"
-												ng-model="ctrl.fundingProfile.period.endTime" name="endTime"
+											<scf-input-text id="bfp-od-end-time-textbox"
+												ng-model="ctrl.fundingProfile.bfpOdperiod.endTime" name="endTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
 										<div class="col-md-1 col-sm-1 col-xs-12">
-											<label id="format-time-label">{{ 'hh:mm' | translate}}</label>
+											<label id="bfp-od-format-time-label">{{ 'hh:mm' | translate}}</label>
 										</div>
 									</div>
 								</div>
@@ -124,9 +123,67 @@
 								<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
 								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
 									<div class="col-md-3 col-sm-3 col-xs-12">
-										<scf-checkbox id="pn-suspend-checkbox"
-											ng-model="ctrl.fundingProfile.pnSuspend"></scf-checkbox>
-										<label class="checkbox-inline" id="pn-suspend-label"
+										<scf-checkbox id="bfp-od-suspend-checkbox"
+											ng-model="ctrl.fundingProfile.bfpOdSuspend"></scf-checkbox>
+										<label class="checkbox-inline" id="bfp-od-suspend-label"
+											style="padding-bottom: 10px;">{{'Suspend' |
+											translate}}</label>
+									</div>
+								</div>
+								<br/><br/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
+						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+							<label id="bfp-saving-label"> {{'Saving' | translate}}</label>
+						</div><br/>
+						<div class="panel-body">
+							<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
+							<div class="panel panel-default col-md-10 padding-0">
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+									<label id="bfp-saving-service-time-label"> {{'Service time' | translate}}: </label>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<div class="form-group">
+										<div class="col-md-4 col-sm-4 col-xs-12">
+											<label class="radio-inline"><scf-radio
+													id="bfp-saving-24hrs-radio" name="bfp-saving-24hrs-radio" value="24HR"
+													ng-model="ctrl.fundingProfile.bfpSavingServiceTime"></scf-radio>
+												{{ '24 hrs.' | translate}} </label> <label
+												class="radio-inline"><scf-radio id="bfp-od-period-radio"
+													name="bfp-saving-period-radio" value="PERIOD"
+													ng-model="ctrl.fundingProfile.bfpSavingServiceTime"></scf-radio>
+												{{ 'Period' | translate}} </label>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<scf-input-text id="bfp-saving-begin-time-textbox"
+												ng-model="ctrl.fundingProfile.bfpSavingPeriod.beginTime" name="beginTime"
+												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+											</scf-input-text>
+										</div>
+										<div class="col-md-1 col-sm-1 col-xs-12">
+											<label> - </label>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<scf-input-text id="bfp-saving-end-time-textbox"
+												ng-model="ctrl.fundingProfile.bfpSavingPeriod.endTime" name="endTime"
+												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+											</scf-input-text>
+										</div>
+										<div class="col-md-1 col-sm-1 col-xs-12">
+											<label id="bfp-saving-format-time-label">{{ 'hh:mm' | translate}}</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div><br/><br/>
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
+								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
+									<div class="col-md-3 col-sm-3 col-xs-12">
+										<scf-checkbox id="bfp-saving-suspend-checkbox"
+											ng-model="ctrl.fundingProfile.bfpSavingSuspend"></scf-checkbox>
+										<label class="checkbox-inline" id="bfp-saving-suspend-label"
 											style="padding-bottom: 10px;">{{'Suspend' |
 											translate}}</label>
 									</div>
@@ -136,7 +193,254 @@
 						</div>
 					</div>
 				</div>
-				<br/><br/><br/>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-xs-12">
+						<h4 class="animated fadeInLeft"
+							id="supplier-financing-header-label"
+							ng-bind="'Supplier financing' | translate">Supplier financing</h4>
+					</div><br/>
+					<div class="form-group">
+						<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
+						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+							<label id="sfp-pn-label"> {{'P/N' | translate}}</label>
+						</div><br/><br/>
+						<div class="panel-body">
+							<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
+							<div class="panel panel-default col-md-10 padding-0">
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+									<label id="sfp-pn-service-time-label"> {{'Service time' | translate}}: </label>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<div class="form-group">
+										<div class="col-md-4 col-sm-4 col-xs-12">
+											<label class="radio-inline"><scf-radio
+													id="sfp-pn-24hrs-radio" name="sfp-pn-24hrs-radio" value="24HR"
+													ng-model="ctrl.fundingProfile.sfpPnServiceTime"></scf-radio>
+												{{ '24 hrs.' | translate}} </label> <label
+												class="radio-inline"><scf-radio id="sfp-pn-period-radio"
+													name="sfp-pn-period-radio" value="PERIOD"
+													ng-model="ctrl.fundingProfile.sfpPnServiceTime"></scf-radio>
+												{{ 'Period' | translate}} </label>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<scf-input-text id="sfp-begin-time-textbox"
+												ng-model="ctrl.fundingProfile.sfpPnPeriod.beginTime" name="beginTime"
+												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+											</scf-input-text>
+										</div>
+										<div class="col-md-1 col-sm-1 col-xs-12">
+											<label> - </label>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<scf-input-text id="sfp-end-time-textbox"
+												ng-model="ctrl.fundingProfile.sfpPnPeriod.endTime" name="endTime"
+												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+											</scf-input-text>
+										</div>
+										<div class="col-md-1 col-sm-1 col-xs-12">
+											<label id="sfp-pn-format-time-label">{{ 'hh:mm' | translate}}</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div><br/><br/>
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
+								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
+									<div class="col-md-3 col-sm-3 col-xs-12">
+										<scf-checkbox id="sfp-pn-suspend-checkbox"
+											ng-model="ctrl.fundingProfile.sfpPnSuspend"></scf-checkbox>
+										<label class="checkbox-inline" id="sfp-pn-suspend-label"
+											style="padding-bottom: 10px;">{{'Suspend' |
+											translate}}</label>
+									</div>
+								</div>
+								<br/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
+						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+							<label id="sfp-od-label"> {{'Overdraft' | translate}}</label>
+						</div><br/>
+						<div class="panel-body">
+							<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
+							<div class="panel panel-default col-md-10 padding-0">
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+									<label id="sfp-od-service-time-label"> {{'Service time' | translate}}: </label>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<div class="form-group">
+										<div class="col-md-4 col-sm-4 col-xs-12">
+											<label class="radio-inline"><scf-radio
+													id="sfp-od-24hrs-radio" name="sfp-od-24hrs-radio" value="24HR"
+													ng-model="ctrl.fundingProfile.sfpOdServiceTime"></scf-radio>
+												{{ '24 hrs.' | translate}} </label> <label
+												class="radio-inline"><scf-radio id="sfp-od-period-radio"
+													name="sfp-od-period-radio" value="PERIOD"
+													ng-model="ctrl.fundingProfile.sfpOdServiceTime"></scf-radio>
+												{{ 'Period' | translate}} </label>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<scf-input-text id="sfp-od-begin-time-textbox"
+												ng-model="ctrl.fundingProfile.sfpOdperiod.beginTime" name="beginTime"
+												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+											</scf-input-text>
+										</div>
+										<div class="col-md-1 col-sm-1 col-xs-12">
+											<label> - </label>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<scf-input-text id="sfp-od-end-time-textbox"
+												ng-model="ctrl.fundingProfile.sfpOdperiod.endTime" name="endTime"
+												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+											</scf-input-text>
+										</div>
+										<div class="col-md-1 col-sm-1 col-xs-12">
+											<label id="sfp-od-format-time-label">{{ 'hh:mm' | translate}}</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div><br/><br/>
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
+								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
+									<div class="col-md-3 col-sm-3 col-xs-12">
+										<scf-checkbox id="sfp-od-suspend-checkbox"
+											ng-model="ctrl.fundingProfile.sfpOdSuspend"></scf-checkbox>
+										<label class="checkbox-inline" id="sfp-od-suspend-label"
+											style="padding-bottom: 10px;">{{'Suspend' |
+											translate}}</label>
+									</div>
+								</div>
+								<br/><br/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-xs-12">
+						<h4 class="animated fadeInLeft"
+							id="enquiry-balance-header-label"
+							ng-bind="'Enquiry balance' | translate">Enquiry balance</h4>
+					</div><br/>
+					<div class="form-group">
+						<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
+						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+							<label id="enquiry-pn-label"> {{'P/N' | translate}}</label>
+						</div><br/><br/>
+						<div class="panel-body">
+							<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
+							<div class="panel panel-default col-md-10 padding-0">
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+									<label id="enquiry-pn-service-time-label"> {{'Service time' | translate}}: </label>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<div class="form-group">
+										<div class="col-md-4 col-sm-4 col-xs-12">
+											<label class="radio-inline"><scf-radio
+													id="enquiry-pn-24hrs-radio" name="enquiry-pn-24hrs-radio" value="24HR"
+													ng-model="ctrl.fundingProfile.enquiryPnServiceTime"></scf-radio>
+												{{ '24 hrs.' | translate}} </label> <label
+												class="radio-inline"><scf-radio id="enquiry-pn-period-radio"
+													name="enquiry-pn-period-radio" value="PERIOD"
+													ng-model="ctrl.fundingProfile.enquiryPnServiceTime"></scf-radio>
+												{{ 'Period' | translate}} </label>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<scf-input-text id="enquiry-begin-time-textbox"
+												ng-model="ctrl.fundingProfile.enquiryPnPeriod.beginTime" name="beginTime"
+												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+											</scf-input-text>
+										</div>
+										<div class="col-md-1 col-sm-1 col-xs-12">
+											<label> - </label>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<scf-input-text id="enquiry-end-time-textbox"
+												ng-model="ctrl.fundingProfile.enquiryPnPeriod.endTime" name="endTime"
+												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+											</scf-input-text>
+										</div>
+										<div class="col-md-1 col-sm-1 col-xs-12">
+											<label id="enquiry-pn-format-time-label">{{ 'hh:mm' | translate}}</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div><br/><br/>
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
+								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
+									<div class="col-md-3 col-sm-3 col-xs-12">
+										<scf-checkbox id="enquiry-pn-suspend-checkbox"
+											ng-model="ctrl.fundingProfile.enquiryPnSuspend"></scf-checkbox>
+										<label class="checkbox-inline" id="enquiry-pn-suspend-label"
+											style="padding-bottom: 10px;">{{'Suspend' |
+											translate}}</label>
+									</div>
+								</div>
+								<br/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
+						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+							<label id="enquiry-od-label"> {{'Overdraft' | translate}}</label>
+						</div><br/>
+						<div class="panel-body">
+							<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
+							<div class="panel panel-default col-md-10 padding-0">
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+									<label id="enquiry-od-service-time-label"> {{'Service time' | translate}}: </label>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<div class="form-group">
+										<div class="col-md-4 col-sm-4 col-xs-12">
+											<label class="radio-inline"><scf-radio
+													id="enquiry-od-24hrs-radio" name="enquiry-od-24hrs-radio" value="24HR"
+													ng-model="ctrl.fundingProfile.enquiryOdServiceTime"></scf-radio>
+												{{ '24 hrs.' | translate}} </label> <label
+												class="radio-inline"><scf-radio id="enquiry-od-period-radio"
+													name="enquiry-od-period-radio" value="PERIOD"
+													ng-model="ctrl.fundingProfile.enquiryOdServiceTime"></scf-radio>
+												{{ 'Period' | translate}} </label>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<scf-input-text id="enquiry-od-begin-time-textbox"
+												ng-model="ctrl.fundingProfile.enquiryOdperiod.beginTime" name="beginTime"
+												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+											</scf-input-text>
+										</div>
+										<div class="col-md-1 col-sm-1 col-xs-12">
+											<label> - </label>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<scf-input-text id="enquiry-od-end-time-textbox"
+												ng-model="ctrl.fundingProfile.enquiryOdperiod.endTime" name="endTime"
+												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+											</scf-input-text>
+										</div>
+										<div class="col-md-1 col-sm-1 col-xs-12">
+											<label id="enquiry-od-format-time-label">{{ 'hh:mm' | translate}}</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div><br/><br/>
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
+								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
+									<div class="col-md-3 col-sm-3 col-xs-12">
+										<scf-checkbox id="enquiry-od-suspend-checkbox"
+											ng-model="ctrl.fundingProfile.enquiryOdSuspend"></scf-checkbox>
+										<label class="checkbox-inline" id="enquiry-od-suspend-label"
+											style="padding-bottom: 10px;">{{'Suspend' |
+											translate}}</label>
+									</div>
+								</div>
+								<br/><br/>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<br/>
 			</div>
 		</div>
 	</div>
