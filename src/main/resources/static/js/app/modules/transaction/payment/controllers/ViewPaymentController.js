@@ -85,8 +85,8 @@ paymentModule.controller('ViewPaymentController', [
             deffered.promise.then(function (response) {
 
                 vm.transactionModel = response.data;
-                vm.transactionModel.supplier = response.data.supplierOrganize.organizeName;
-                vm.transactionModel.sponsor = response.data.sponsorOrganize.organizeName;
+                vm.transactionModel.supplier = response.data.supplierOrganize.memberName;
+                vm.transactionModel.sponsor = response.data.sponsorOrganize.memberName;
                 vm.transactionModel.documents = response.data.documents;
                 vm.displayTransactionType = vm.transactionModel.transactionMethod;
                 if(vm.transactionModel.transactionMethod == 'OD'){

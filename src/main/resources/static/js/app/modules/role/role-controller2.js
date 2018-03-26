@@ -100,7 +100,7 @@ angular.module('scfApp').controller('RoleController', ['$scope', 'Service', '$st
                         return _save(rolePrivilegeModel);
                     },
                     onFail: function (response) {
-                        if (response.data == 403) {
+                        if (response.data == 405) {
                             vm.roleMessageError = vm.isNewMode ? 'New role fail. Role name is exits' : 'Edit role fail. Role name is exits';
                             $scope.error.roleNameIsRequired = true;
                         } else {
