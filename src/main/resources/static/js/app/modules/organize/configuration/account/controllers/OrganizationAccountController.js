@@ -35,6 +35,22 @@ angular.module('gecscf.organize.configuration').controller('OrganizationAccountC
 			}
 
 		}
+		
+		vm.addAccount = function () {
+			UIFactory.showDialog({
+				templateUrl: '/js/app/modules/organize/configuration/account/templates/dialog-new-account.html',
+				controller: 'AccountController',
+				data: {
+					mode: 'ADD',
+					organizeId: vm.criteria.organizeId
+				},
+				preCloseCallback: function (data) {
+					if (data) {
+						vm.search();
+					}
+				}
+			});
+		}
 
 		function init() {
 			loadTableData();

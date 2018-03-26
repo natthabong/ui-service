@@ -5,16 +5,12 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 
 		var vm = this;
 		var dialogData = $scope.ngDialogData;
-		vm.page = dialogData.page;
-		vm.organize = {memberId: '', memberCode: '', memberName: ''};
-		vm.organize.memberId = dialogData.organizeId;
-		vm.organize.memberCode = dialogData.organizeCode;
-		vm.organize.memberName = dialogData.organizeName;
+		vm.organizeId = dialogData.organizeId;
 		var record = dialogData.record;
-		var mode = dialogData.mode;
+		vm.mode = dialogData.mode;
 		vm.isEditMode = true;
 		
-		if(mode == 'ADD'){
+		if(vm.mode == 'ADD'){
 			vm.isEditMode = false;
 		}
 		
@@ -23,10 +19,8 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 			ACCOUNT_NAME: "ACCOUNT_NAME"
 		}
 		
-		
-		
 		vm.getHeaderMessage = function(){
-			if(mode == 'ADD'){
+			if(vm.mode == 'ADD'){
 				return 'Add new account';
 			}else{
 				return 'Edit account';
@@ -48,22 +42,19 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 		
 		init();
 		function init(){
-			if(mode == 'ADD'){
-				if(vm.page === 'accountList'){
-					vm.organize = undefined;
-				}
-				
-				if(vm.page === 'tradeFinance'){
-					vm.accountTypeDropDown = [
-		      			{
-		      				label : "Overdraft",
-		      				value : "OVERDRAFT"
-		      			},{
-		      				label : "Term loan",
-		      				value : "LOAN"
-		      			}
-		      		]
-				}
+			if(vm.mode == 'ADD'){
+				vm.accountTypeDropDown = [
+	      			{
+	      				label : "Current/Saving",
+	      				value : "CURRENT_SAVING"
+	      			},{
+	      				label : "Overdraft",
+	      				value : "OVERDRAFT"
+	      			},{
+	      				label : "Term loan",
+	      				value : "LOAN"
+	      			}
+	      		]
 				
 				vm.format = vm.formatType.ACCOUNT_NO;
 				vm.accountType = vm.accountTypeDropDown[0].value;
@@ -71,8 +62,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 				vm.accountName = null;
 				vm.isSuspend = false;
 				
-			}else if(mode == 'EDIT'){
-				vm.organize = vm.organize.memberCode + ": " + vm.organize.memberName;
+			}else if(vm.mode == 'EDIT'){
 				vm.accountType = record.accountType;
 				
 				if(record.format){
@@ -87,54 +77,6 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 			}
 		}
 
-		var prepareAutoSuggestOrganizeLabel = function(item,module) {
-			item.identity = [ module,'-', item.memberId, '-option' ].join('');
-			item.label = [ item.memberCode, ': ', item.memberName ].join('');
-			item.value = item.memberId;
-			return item;
-		}
-		
-		var organizeAutoSuggestServiceUrl = 'api/v1/organizes';
-		var searchOrganizeTypeHead = function(value) {
-			value = UIFactory.createCriteria(value);
-			return $http.get(organizeAutoSuggestServiceUrl, {
-				params : {
-					q : value,
-					founder : false,
-					supporter : false,
-					offset : 0,
-					limit : 5
-				}
-			}).then(
-				function(response) {
-					return response.data.map(function(item) {
-						item = prepareAutoSuggestOrganizeLabel(item,'organize');
-						return item;
-					});
-			});
-		}
-		
-		var orgAutoSuggest = {
-			placeholder : 'Enter organization name or code',
-			itemTemplateUrl : 'ui/template/autoSuggestTemplate.html',
-			query : searchOrganizeTypeHead
-		}
-		
-		vm.organizeAutoSuggestModel = UIFactory.createAutoSuggestModel(orgAutoSuggest);
-		
-		var _validateOrganize = function (data) {
-			$scope.errors = {};
-			var valid = true;
-			if (!angular.isDefined(data) || data == null || data == "") {
-				valid = false;
-				$scope.errors.organize = {
-					message: 'Organization is required.'
-				}
-			}
-			
-			return valid;
-		}
-		
 		var _validateAccountNo = function (data) {
 			$scope.errors = {};
 			var valid = true;
@@ -158,7 +100,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 		
 		
 		vm.save = function (callback){
-			if(mode == 'ADD'){
+			if(vm.mode == 'ADD'){
 				vm.add(callback);
 			}else{
 				vm.edit(callback);
@@ -172,65 +114,64 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 			} else {
 				accountNo = vm.accountName;
 			}
-			if(vm.page !== 'accountList' || _validateOrganize(vm.organize)){
-				if (_validateAccountNo(accountNo)) {
-					var data = {
-						accountType : vm.accountType,
-						accountNo: accountNo
-					}
-
-					if (vm.format == vm.formatType.ACCOUNT_NO) {
-						data.format = true;
-					} else {
-						data.format = false;
-					}
-
-					var preCloseCallback = function (account) {
-						callback(account);
-					}
-					UIFactory
-						.showConfirmDialog({
-							data: {
-								headerMessage: 'Confirm save?'
-							},
-							confirm: function () {
-								return AccountService
-									.save({
-										organizeId: vm.organize.memberId,
-										accountNo: data.accountNo,
-										format: data.format,
-										accountType: data.accountType,
-										suspend: vm.isSuspend
-									});
-							},
-							onFail: function (response) {
-								if (response.status != 400) {
-									var msg = {
-											409: 'Account No. is existed.'
-									};
-									UIFactory.showFailDialog({
-										data: {
-											headerMessage: 'Add new account fail.',
-											bodyMessage: msg[response.status] ? msg[response.status]
-												: response.data.message
-										}
-									});
-								}
-							},
-							onSuccess: function (response) {
-								UIFactory
-									.showSuccessDialog({
-										data: {
-											headerMessage: 'Add new account success.',
-											bodyMessage: ''
-										},
-										preCloseCallback: function () {
-											preCloseCallback(response.data);
-										}
-									});
-							}
-						});
+			
+			if (_validateAccountNo(accountNo)) {
+				var data = {
+					accountType : vm.accountType,
+					accountNo: accountNo
 				}
+
+				if (vm.format == vm.formatType.ACCOUNT_NO) {
+					data.format = true;
+				} else {
+					data.format = false;
+				}
+
+				var preCloseCallback = function (account) {
+					callback(account);
+				}
+				UIFactory
+					.showConfirmDialog({
+						data: {
+							headerMessage: 'Confirm save?'
+						},
+						confirm: function () {
+							return AccountService
+								.save({
+									organizeId: vm.organizeId,
+									accountNo: data.accountNo,
+									format: data.format,
+									accountType: data.accountType,
+									suspend: false
+								});
+						},
+						onFail: function (response) {
+							if (response.status != 400) {
+								var msg = {
+										409: 'Account No. is existed.'
+								};
+								UIFactory.showFailDialog({
+									data: {
+										headerMessage: 'Add new account fail.',
+										bodyMessage: msg[response.status] ? msg[response.status]
+											: response.data.message
+									}
+								});
+							}
+						},
+						onSuccess: function (response) {
+							UIFactory
+								.showSuccessDialog({
+									data: {
+										headerMessage: 'Add new account success.',
+										bodyMessage: ''
+									},
+									preCloseCallback: function () {
+										preCloseCallback(response.data);
+									}
+								});
+						}
+					});
 			}
 		}
 		
@@ -253,8 +194,6 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 				onFail: function (response) {
 					if (response.status != 400) {
 						var msg = {
-								404: 'Account has been deleted.',
-								405: 'Account has been used.',
 								409: 'Account has been modified.'
 						}
 						UIFactory.showFailDialog({
