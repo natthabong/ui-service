@@ -71,10 +71,11 @@ txnMod.controller('CreatePaymentController', [
                         vm.suppliers.push(selectObj);
                     });
                     
-                    console.log($stateParams);
                     if (dashboardParams != null) {
                         vm.criteria.supplierId = dashboardParams.supplierId;
                         vm.criteria.customerCode = dashboardParams.buyerCode;
+                    }else if (backAction) {
+                        vm.criteria.supplierId = $stateParams.tradingpartnerInfoModel.supplierId;
                     }else if($stateParams.criteria != null && angular.isDefined($stateParams.criteria.supplierIdSelected)){
                     	vm.criteria.supplierId = $stateParams.criteria.supplierIdSelected;
                     }else if (!backAction && dashboardParams == null) {
@@ -627,9 +628,9 @@ txnMod.controller('CreatePaymentController', [
                     _watchCheckAll();
                 });
 
-                // if (vm.documentSelects.length > 0) {
-                // _loadPaymentDate();
-                // }
+                 if (vm.documentSelects.length > 0) {
+                	 _loadPaymentDate();
+                 }
 
                 if (_validateForSearch()) {
                     vm.display = true;
