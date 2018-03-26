@@ -48,7 +48,7 @@ txnMod.controller('CreatePaymentController', [
                 maturityDate: null
             }
         }
-
+ 
         function prepareTradingpartnerInfoModel() {
             return $stateParams.tradingpartnerInfoModel || {
                 available: '0.00',
