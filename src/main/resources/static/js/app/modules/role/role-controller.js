@@ -94,7 +94,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
                         return _save(vm.model);
                     },
                     onFail : function(response) {
-                        if(response.data == 403){
+                        if(response.status == 405){
                             vm.roleMessageError = vm.isNewMode? 'New role fail. Role name is exits' : 'Edit role fail. Role name is exits';
                             $scope.error.roleNameIsRequired = true;
                         }else{
@@ -102,6 +102,7 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
                                 "001" : 'Role has been deleted.',
                                 "002" : 'Role has been modified.'
                             };
+                            var msg = {400:'Version data invalid.' ,404:'Role has been deleted.' , 409:'Role has been modified.'};
                             UIFactory.showFailDialog({
                                 data : {
                                     headerMessage : vm.isNewMode? 'Add new role fail.':'Edit role fail.',

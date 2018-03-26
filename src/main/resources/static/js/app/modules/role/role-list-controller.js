@@ -109,7 +109,7 @@ angular.module('scfApp').controller('RoleListController',['$scope','Service', '$
 			    return deleteRole(role);
 			},
 			onFail: function(response){
-			    var msg = {409:'Role has been deleted.', 405:'Role has been used.'};
+			    var msg = {400:'Version data invalid.' ,404:'Role has been deleted.', 405:'Role has been used.' , 409:'Role has been modified.'};
 			    UIFactory.showFailDialog({
 				data: {
 				    headerMessage: 'Delete role fail.',
