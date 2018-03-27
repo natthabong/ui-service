@@ -127,7 +127,8 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 								accountNo: accountData.accountNo,
 								format: accountData.format,
 								accountType: accountData.accountType,
-								suspend: false
+								suspend: false,
+								showShareAccount: false
 							});
 						},
 						onFail: function (response) {
@@ -222,7 +223,8 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 									accountNo: accountData.accountNo,
 									format: accountData.format,
 									accountType: accountData.accountType,
-									suspend: false
+									suspend: false,
+									showShareAccount: true
 								});
 							},
 							onFail: function (response) {
