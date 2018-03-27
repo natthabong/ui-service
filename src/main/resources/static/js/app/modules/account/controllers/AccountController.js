@@ -163,7 +163,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 				if (response.status != 400) {
 					var msg = {
 							400: 'Account No. is wrong format.',
-							404: 'Add organization account fail. Account No. is existed but account type mismatch. ('+data.accountNo+')',
+							404: 'Account No. is existed but account type mismatch.',
 							409: 'Organization account is existed.'
 					};
 					UIFactory.showFailDialog({
