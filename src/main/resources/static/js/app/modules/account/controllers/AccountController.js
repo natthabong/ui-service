@@ -99,6 +99,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 		}
 		
 		var isValid = false;
+		var shareAccountStatus = false;
 		var _validateOrganizationAccount = function (accountData) {
 			var deffered = $q.defer();
 			var defferedAccount = AccountService.verifyAccount({
@@ -111,56 +112,11 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 			});
 			defferedAccount.promise.then(function (response) {
 				isValid = true;
+				if(response.status == 202){
+					shareAccountStatus = true;
+				}
 				deffered.resolve();
 			}).catch(function (response) {
-				if(response.status == 202){
-					UIFactory
-					.showConfirmDialog({
-						data: {
-							headerMessage: 'Do you want to share account with another organization ?',
-							bodyMessage: 'Press \'Yes\' to confirm.'
-						},
-						confirm: function () {
-							return AccountService
-							.save({
-								organizeId: accountData.organizeId,
-								accountNo: accountData.accountNo,
-								format: accountData.format,
-								accountType: accountData.accountType,
-								suspend: false,
-								showShareAccount: false
-							});
-						},
-						onFail: function (response) {
-							if (response.status != 400) {
-								var msg = {
-										400: 'Account No. is wrong format.',
-										404: 'Account No. is existed but account type mismatch.',
-										409: 'Organization account is existed.'
-								};
-								UIFactory.showFailDialog({
-									data: {
-										headerMessage: 'Add new account fail.',
-										bodyMessage: msg[response.status] ? msg[response.status]
-											: response.data.message
-									}
-								});
-							}
-						},
-						onSuccess: function (response) {
-							UIFactory
-								.showSuccessDialog({
-									data: {
-										headerMessage: 'Add new account success.',
-										bodyMessage: ''
-									},
-									preCloseCallback: function () {
-										preCloseCallback(response.data);
-									}
-								});
-						}
-					});
-				}
 				if (response.status != 400) {
 					var msg = {
 							400: 'Account No. is wrong format.',
@@ -211,10 +167,20 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 					var preCloseCallback = function (account) {
 						callback(account);
 					}
+					var headerMessage = 'Confirm save?';
+					var bodyMessage = null;
+					var isShowShareAccount = true;
+					if(shareAccountStatus){
+						headerMessage = 'Do you want to share account with another organization ? Press \'Yes\' to confirm.';
+						bodyMessage = null;
+						isShowShareAccount = false;
+						shareAccountStatus = false;
+					}
 					UIFactory
 						.showConfirmDialog({
 							data: {
-								headerMessage: 'Confirm save?'
+								headerMessage: headerMessage,
+								bodyMessage: bodyMessage,
 							},
 							confirm: function () {
 								return AccountService
@@ -224,13 +190,13 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 									format: accountData.format,
 									accountType: accountData.accountType,
 									suspend: false,
-									showShareAccount: true
+									showShareAccount: isShowShareAccount
 								});
 							},
 							onFail: function (response) {
 								if (response.status != 400) {
 									var msg = {
-											409: 'Account No. is existed.'
+											409: 'Organization account is existed.'
 									};
 									UIFactory.showFailDialog({
 										data: {
@@ -242,7 +208,11 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 								}
 							},
 							onSuccess: function (response) {
-								UIFactory
+								console.log(response.status);
+								if(response.status == 202){
+									_validateOrganizationAccount(accountData);
+								}else{
+									UIFactory
 									.showSuccessDialog({
 										data: {
 											headerMessage: 'Add new account success.',
@@ -252,6 +222,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 											preCloseCallback(response.data);
 										}
 									});
+								}
 							}
 						});
 				}
