@@ -735,6 +735,16 @@
 	"Pending on": "Pending on",
 	"Add new funding profile": "Add new funding profile",
 	"13 digits": "13 digits",
-	"GECSCF Hub Ref. Code": "GECSCF Hub Ref. Code"
-
+	"GECSCF Hub Ref. Code": "GECSCF Hub Ref. Code",
+	"Finance solution": "Finance solution",
+	"Buyer financing": "Buyer financing",
+	"P/N": "P/N",
+	"Service time": "Service time",
+	"24 hrs.": "24 hrs.",
+	"Period": "Period",
+	"hh:mm": "hh:mm",
+	"Overdraft": "Overdraft",
+	"Saving": "Saving",
+	"Supplier financing": "Supplier financing",
+	"Enquiry balance": "Enquiry balance"
 }

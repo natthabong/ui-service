@@ -27,16 +27,17 @@ fpModule.factory('FundingProfileService', ['$http', '$q', 'Service', function ($
 	     return deferred;
 	}
 	
-	var updateFundingProfile = function(fundingInfo) {
+	var updateFundingProfile = function(fundingProfile,fundingFinanceSolutions) {
 	    var deferred = $q.defer();
-	    var serviceUrl = '/api/v1/fundings/' + fundingInfo.fundingId;
+	    var serviceUrl = '/api/v1/fundings/' + fundingProfile.fundingId;
 	    var fundingProfilePaylod = {
-	    		fundingProfile: fundingInfo
+	    		fundingProfile: fundingProfile,
+	    		financialServiceProfiles: fundingFinanceSolutions
 	    }
 	    $http({
 	      method : 'POST',
 	      headers: {
-	        'If-Match': fundingInfo.version,
+	        'If-Match': fundingProfile.version,
 	        'X-HTTP-Method-Override': 'PUT'
 	      },
 	      url : serviceUrl,
