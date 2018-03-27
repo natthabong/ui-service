@@ -46,7 +46,7 @@ angular.module('gecscf.organize.configuration').controller('OrganizationAccountC
 				},
 				preCloseCallback: function (data) {
 					if (data) {
-						vm.search();
+						loadTableData();
 					}
 				}
 			});
