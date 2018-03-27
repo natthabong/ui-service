@@ -1,7 +1,7 @@
 'use strict';
 var ac = angular.module('gecscf.account');
-ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactory', 'blockUI', 'AccountService',
-	function ($scope, $stateParams, $http, UIFactory, blockUI, AccountService) {
+ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UIFactory', 'blockUI', 'AccountService',
+	function ($scope, $stateParams, $http, $q, UIFactory, blockUI, AccountService) {
 
 		var vm = this;
 		var dialogData = $scope.ngDialogData;
@@ -98,31 +98,20 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 			return valid;
 		}
 		
-		var confirmSave = function (data) {
-			blockUI.start();
-			return AccountService
-				.save({
-					organizeId: data.organizeId,
-					accountNo: data.accountNo,
-					format: data.format,
-					accountType: data.accountType,
-					suspend: false
-				});
-		}
-		
-		var _validateOrganizationAccount = function (data) {
-			var valid = false;
-			
-			var deffered = AccountService.verifyAccount({
-				organizeId: data.organizeId,
-				accountNo: data.accountNo,
-				format: data.format,
-				accountType: data.accountType,
+		var isValid = false;
+		var _validateOrganizationAccount = function (accountData) {
+			var deffered = $q.defer();
+			var defferedAccount = AccountService.verifyAccount({
+				organizeId: accountData.organizeId,
+				accountNo: accountData.accountNo,
+				format: accountData.format,
+				accountType: accountData.accountType,
 				suspend: false,
 				showShareAccount: true
 			});
-			deffered.promise.then(function (response) {
-				valid = true;
+			defferedAccount.promise.then(function (response) {
+				isValid = true;
+				deffered.resolve();
 			}).catch(function (response) {
 				if(response.status == 202){
 					UIFactory
@@ -131,9 +120,17 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 							headerMessage: 'Do you want to share account with another organization ?',
 							bodyMessage: 'Press \'Yes\' to confirm.'
 						},
-						confirm: confirmSave,
+						confirm: function () {
+							return AccountService
+							.save({
+								organizeId: accountData.organizeId,
+								accountNo: accountData.accountNo,
+								format: accountData.format,
+								accountType: accountData.accountType,
+								suspend: false
+							});
+						},
 						onFail: function (response) {
-							blockUI.stop();
 							if (response.status != 400) {
 								var msg = {
 										400: 'Account No. is wrong format.',
@@ -150,7 +147,6 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 							}
 						},
 						onSuccess: function (response) {
-							blockUI.stop();
 							UIFactory
 								.showSuccessDialog({
 									data: {
@@ -178,9 +174,11 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 						}
 					});
 				}
+
+				isValid = false;
+				deffered.resolve();
 			});
-			
-			return valid;
+			return deffered;
 		}
 		
 		vm.save = function (callback){
@@ -206,45 +204,56 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 				accountData.format = false;
 			}
 			
-			if (_validateAccountNo(accountData.accountNo) && _validateOrganizationAccount(accountData)) {
-
-				var preCloseCallback = function (account) {
-					callback(account);
-				}
-				UIFactory
-					.showConfirmDialog({
-						data: {
-							headerMessage: 'Confirm save?'
-						},
-						confirm: confirmSave(accountData),
-						onFail: function (response) {
-							if (response.status != 400) {
-								var msg = {
-										409: 'Account No. is existed.'
-								};
-								UIFactory.showFailDialog({
-									data: {
-										headerMessage: 'Add new account fail.',
-										bodyMessage: msg[response.status] ? msg[response.status]
-											: response.data.message
-									}
+			var validateAccountDeffered = _validateOrganizationAccount(accountData);
+			validateAccountDeffered.promise.then(function (response) {
+				if (_validateAccountNo(accountData.accountNo) && isValid) {
+					var preCloseCallback = function (account) {
+						callback(account);
+					}
+					UIFactory
+						.showConfirmDialog({
+							data: {
+								headerMessage: 'Confirm save?'
+							},
+							confirm: function () {
+								return AccountService
+								.save({
+									organizeId: accountData.organizeId,
+									accountNo: accountData.accountNo,
+									format: accountData.format,
+									accountType: accountData.accountType,
+									suspend: false
 								});
+							},
+							onFail: function (response) {
+								if (response.status != 400) {
+									var msg = {
+											409: 'Account No. is existed.'
+									};
+									UIFactory.showFailDialog({
+										data: {
+											headerMessage: 'Add new account fail.',
+											bodyMessage: msg[response.status] ? msg[response.status]
+												: response.data.message
+										}
+									});
+								}
+							},
+							onSuccess: function (response) {
+								UIFactory
+									.showSuccessDialog({
+										data: {
+											headerMessage: 'Add new account success.',
+											bodyMessage: ''
+										},
+										preCloseCallback: function () {
+											preCloseCallback(response.data);
+										}
+									});
 							}
-						},
-						onSuccess: function (response) {
-							UIFactory
-								.showSuccessDialog({
-									data: {
-										headerMessage: 'Add new account success.',
-										bodyMessage: ''
-									},
-									preCloseCallback: function () {
-										preCloseCallback(response.data);
-									}
-								});
-						}
-					});
-			}
+						});
+				}
+            });
 		}
 		
 		vm.edit = function(callback){
