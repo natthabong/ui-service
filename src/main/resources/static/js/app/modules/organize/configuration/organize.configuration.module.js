@@ -20,6 +20,8 @@ angular.module('gecscf.organize.configuration', [
     'js/app/sponsor-configuration/workflow/controllers/workflow-controller.js',
     'js/app/sponsor-configuration/workflow/controllers/setup-workflow-controller.js',
     'js/app/sponsor-configuration/workflow/services/workflow-service.js',
+    'js/app/modules/account/controllers/AccountController.js',
+    'js/app/modules/account/services/AccountService.js',
     'js/app/modules/organize/configuration/account/controllers/OrganizationAccountController.js',
     'js/app/modules/organize/configuration/account/services/OrganizationAccountService.js',
     'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupController.js',

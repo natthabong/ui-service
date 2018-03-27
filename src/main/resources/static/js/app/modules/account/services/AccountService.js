@@ -2,6 +2,7 @@ angular.module('gecscf.account').factory('AccountService', ['$http', '$q', funct
     return {
     	getAccounts: getAccounts,
     	getAccountsByAccountType: getAccountsByAccountType,
+    	verifyAccount: verifyAccount,
     	save: save,
     	update: update,
     	deleteAccount: deleteAccount,
@@ -9,6 +10,23 @@ angular.module('gecscf.account').factory('AccountService', ['$http', '$q', funct
     	enquiryAccountBalance: enquiryAccountBalance
     	
     };	
+    
+    function verifyAccount(account){
+        var serviceUrl = '/api/v1/organize-customers/'+account.organizeId+'/accounts/verify-account';
+        var deferred = $q.defer();
+        $http({
+            method : 'POST',
+            url : serviceUrl,
+            data: account
+        }).then(function(response) {
+            return deferred.resolve(response);
+        }).catch(function(response) {
+            return deferred.reject(response);
+        });
+        return deferred;
+    
+    }
+    
     function save(account){
         var serviceUrl = '/api/v1/organize-customers/'+account.organizeId+'/accounts';
         var deferred = $q.defer();

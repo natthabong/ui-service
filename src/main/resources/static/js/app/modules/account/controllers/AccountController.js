@@ -1,7 +1,7 @@
 'use strict';
 var ac = angular.module('gecscf.account');
-ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactory', 'AccountService',
-	function ($scope, $stateParams, $http, UIFactory, AccountService) {
+ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactory', 'blockUI', 'AccountService',
+	function ($scope, $stateParams, $http, UIFactory, blockUI, AccountService) {
 
 		var vm = this;
 		var dialogData = $scope.ngDialogData;
@@ -98,6 +98,90 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 			return valid;
 		}
 		
+		var confirmSave = function (data) {
+			blockUI.start();
+			return AccountService
+				.save({
+					organizeId: data.organizeId,
+					accountNo: data.accountNo,
+					format: data.format,
+					accountType: data.accountType,
+					suspend: false
+				});
+		}
+		
+		var _validateOrganizationAccount = function (data) {
+			var valid = false;
+			
+			var deffered = AccountService.verifyAccount({
+				organizeId: data.organizeId,
+				accountNo: data.accountNo,
+				format: data.format,
+				accountType: data.accountType,
+				suspend: false,
+				showShareAccount: true
+			});
+			deffered.promise.then(function (response) {
+				valid = true;
+			}).catch(function (response) {
+				if(response.status == 202){
+					UIFactory
+					.showConfirmDialog({
+						data: {
+							headerMessage: 'Do you want to share account with another organization ?',
+							bodyMessage: 'Press \'Yes\' to confirm.'
+						},
+						confirm: confirmSave,
+						onFail: function (response) {
+							blockUI.stop();
+							if (response.status != 400) {
+								var msg = {
+										400: 'Account No. is wrong format.',
+										404: 'Account No. is existed but account type mismatch.',
+										409: 'Organization account is existed.'
+								};
+								UIFactory.showFailDialog({
+									data: {
+										headerMessage: 'Add new account fail.',
+										bodyMessage: msg[response.status] ? msg[response.status]
+											: response.data.message
+									}
+								});
+							}
+						},
+						onSuccess: function (response) {
+							blockUI.stop();
+							UIFactory
+								.showSuccessDialog({
+									data: {
+										headerMessage: 'Add new account success.',
+										bodyMessage: ''
+									},
+									preCloseCallback: function () {
+										preCloseCallback(response.data);
+									}
+								});
+						}
+					});
+				}
+				if (response.status != 400) {
+					var msg = {
+							400: 'Account No. is wrong format.',
+							404: 'Add organization account fail. Account No. is existed but account type mismatch. ('+data.accountNo+')',
+							409: 'Organization account is existed.'
+					};
+					UIFactory.showFailDialog({
+						data: {
+							headerMessage: 'Add new account fail.',
+							bodyMessage: msg[response.status] ? msg[response.status]
+								: response.data.message
+						}
+					});
+				}
+			});
+			
+			return valid;
+		}
 		
 		vm.save = function (callback){
 			if(vm.mode == 'ADD'){
@@ -108,24 +192,21 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 		}
 		
 		vm.add = function (callback) {
-			var accountNo = null;
+			var accountData = {
+				organizeId: vm.organizeId,
+				accountNo: null,
+				format: null,
+				accountType : vm.accountType
+			}
 			if (vm.format === vm.formatType.ACCOUNT_NO) {
-				accountNo = vm.accountNo;
+				accountData.accountNo = vm.accountNo;
+				accountData.format = true;
 			} else {
-				accountNo = vm.accountName;
+				accountData.accountNo = vm.accountName;
+				accountData.format = false;
 			}
 			
-			if (_validateAccountNo(accountNo)) {
-				var data = {
-					accountType : vm.accountType,
-					accountNo: accountNo
-				}
-
-				if (vm.format == vm.formatType.ACCOUNT_NO) {
-					data.format = true;
-				} else {
-					data.format = false;
-				}
+			if (_validateAccountNo(accountData.accountNo) && _validateOrganizationAccount(accountData)) {
 
 				var preCloseCallback = function (account) {
 					callback(account);
@@ -135,16 +216,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', 'UIFactor
 						data: {
 							headerMessage: 'Confirm save?'
 						},
-						confirm: function () {
-							return AccountService
-								.save({
-									organizeId: vm.organizeId,
-									accountNo: data.accountNo,
-									format: data.format,
-									accountType: data.accountType,
-									suspend: false
-								});
-						},
+						confirm: confirmSave(accountData),
 						onFail: function (response) {
 							if (response.status != 400) {
 								var msg = {
