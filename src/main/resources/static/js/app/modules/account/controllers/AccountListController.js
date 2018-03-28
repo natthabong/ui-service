@@ -54,7 +54,6 @@ angular.module('gecscf.account').controller('AccountListController', [
 
 		// Account number auto suggest
 		function prepareAccountNoAutoSuggestItem(item, module) {
-			console.log(vm.pagingController.tableRowCollection)
 			item.identity = [module, '-', item.accountId, '-option'].join('');
 			if (item.format) {
 				item.label = $filter('accountNoDisplay')(item.accountNo);
@@ -90,19 +89,16 @@ angular.module('gecscf.account').controller('AccountListController', [
 		vm.accountNoAutoSuggestModel = UIFactory.createAutoSuggestModel(accountNoAutoSuggest);
 
 		// Class function
+		vm.getFormattedAccountNumber = function (record) {
+			if (record.format) {
+				return $filter('accountNoDisplay')(record.accountNo);
+			} else {
+				return record.accountNo;
+			}
+		}
+
 		vm.search = function (pageModel) {
 			var organizeId = undefined;
-
-			var accountTypeMapping = {
-				'CURRENT_SAVING': 'Current/Saving',
-				'OVERDRAFT': 'Overdraft',
-				'LOAN': 'Term loan'
-			};
-
-			var statusMapping = {
-				'ACTIVE': 'Active',
-				'SUSPEND': 'Suspend'
-			};
 
 			if (angular.isObject(vm.organize)) {
 				vm.criteria.organizeId = vm.organize.memberId;
@@ -124,8 +120,6 @@ angular.module('gecscf.account').controller('AccountListController', [
 					var baseRowNo = pageSize * currentPage;
 
 					angular.forEach(data, function (value, idx) {
-						value.accountNo = $filter('accountNoDisplay')(value.accountNo);
-
 						if (value.accountId in existingAccountId) {
 							value.hide = true;
 						} else {
