@@ -27,9 +27,9 @@ function SystemIntegrationMonitorService($http, $q) {
 	    return deffered;
     }
 	 this.verifySystemStatusWebService = function(systemModel){
-		var bankCode = systemModel.bankCode;
-		var requestType = systemModel.requestDataType;
-		var requestMode = systemModel.requestMode;
+		var bankCode = systemModel.fundingId;
+		var requestType = systemModel.serviceType;
+		var requestMode = systemModel.serviceMethod;
         var deffered = $q.defer();
 	    $http({
 	       method: 'POST',
@@ -56,7 +56,7 @@ function SystemIntegrationMonitorService($http, $q) {
 	    return deffered;
     }
 	 this.updateWebServiceInfomation = function(webServiceModel){
-		var uri = '/api/v1/bank-connection-info/banks/'+webServiceModel.bankCode+'/data/'+webServiceModel.requestDataType+'/modes/'+webServiceModel.requestMode;
+		var uri = '/api/v1/fundings/'+webServiceModel.fundingId+'/service-connections/'+webServiceModel.financialServiceId;
 		var deffered = $q.defer();
 		$http({
 			method: 'GET',
