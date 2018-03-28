@@ -8,6 +8,8 @@ angular.module('gecscf.account').controller('AccountListController', [
 	'UIFactory',
 	function ($filter, $http, $stateParams, AccountService, AccountStatus, PagingController, UIFactory) {
 		var vm = this;
+		var existingAccountNo = {};
+		var existingAccountType = {};
 
 		vm.canManage = false;
 		vm.organize = $stateParams.organize || null;
@@ -20,65 +22,29 @@ angular.module('gecscf.account').controller('AccountListController', [
 		};
 		vm.pagingController = PagingController.create('/api/v1/accounts', vm.criteria, 'GET');
 
+		vm.accountType = {
+			'CURRENT_SAVING': 'Current/Saving',
+			'OVERDRAFT': 'Overdraft',
+			'LOAN': 'Term loan'
+		};
+
 		// Data table model
-		vm.dataTable = {
-			options: {
-				displayRowNo: {
-					idValueField: 'template',
-					id: '$rowNo-{value}-label',
-					cssTemplate: 'text-right'
-				}
-			},
-			columns: [{
-				label: 'Organization name',
-				field: 'organizeName',
-				fieldName: 'organizeName',
-				headerId: 'organizeName-header-label',
-				idValueField: 'template',
-				id: 'organizeName-{value}-label',
-				sortable: false,
-				cssTemplate: 'text-left',
-			}, {
-				label: 'Account No.',
-				field: 'accountNo',
-				fieldName: 'accountNo',
-				headerId: 'accountNo-header-label',
-				idValueField: 'template',
-				id: 'accountNo-{value}-label',
-				sortable: false,
-				dataRenderer: function (record) {
-					if (record.format) {
-						return ($filter('accountNoDisplay')(record.accountNo));
-					} else {
-						return record.accountNo;
-					}
-				}
-			}, {
-				label: 'Account type',
-				field: 'accountType',
-				fieldName: 'accountType',
-				headerId: 'accountType-header-label',
-				idValueField: 'template',
-				filterType: 'translate',
-				id: 'accountType-{value}-label',
-				sortable: false,
-				cssTemplate: 'text-center',
-			}, {
-				label: 'Status',
-				field: 'actualStatus',
-				fieldName: 'actualStatus',
-				headerId: 'status-header-label',
-				idValueField: 'template',
-				filterType: 'translate',
-				id: 'status-{value}-label',
-				sortable: false,
-				cssTemplate: 'text-center'
-			}, {
-				cssTemplate: 'text-center',
-				sortable: false,
-				cellTemplate: '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.editAccount(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>' +
-					'<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.deleteAccount(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
-			}]
+		function hideAccountNo(accountId) {
+			if (accountId in existingAccountNo) {
+				return true;
+			} else {
+				existingAccountNo[accountId] = true;
+				return false;
+			}
+		}
+
+		function hideAccountType(accountId) {
+			if (accountId in existingAccountType) {
+				return true;
+			} else {
+				existingAccountType[accountId] = true;
+				return false;
+			}
 		}
 
 		// Organization auto suggest
@@ -115,6 +81,7 @@ angular.module('gecscf.account').controller('AccountListController', [
 
 		// Account number auto suggest
 		function prepareAccountNoAutoSuggestItem(item, module) {
+			console.log(vm.pagingController.tableRowCollection)
 			item.identity = [module, '-', item.accountId, '-option'].join('');
 			if (item.format) {
 				item.label = $filter('accountNoDisplay')(item.accountNo);
@@ -162,7 +129,21 @@ angular.module('gecscf.account').controller('AccountListController', [
 				($stateParams.backAction ? {
 					offset: vm.criteria.offset,
 					limit: vm.criteria.limit
-				} : undefined));
+				} : undefined),
+				function (criteriaData, response) {
+					var data = response.data;
+					var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
+					var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
+					var i = 1;
+					var baseRowNo = pageSize * currentPage;
+					angular.forEach(data, function (value, idx) {
+						value.accountType = vm.accountType[value.accountType];
+						value.rowNo = baseRowNo + i;
+						++i;
+					})
+				}
+			);
+
 			if ($stateParams.backAction) {
 				$stateParams.backAction = false;
 			}
