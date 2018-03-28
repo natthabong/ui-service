@@ -8,8 +8,6 @@ angular.module('gecscf.account').controller('AccountListController', [
 	'UIFactory',
 	function ($filter, $http, $stateParams, AccountService, AccountStatus, PagingController, UIFactory) {
 		var vm = this;
-		var existingAccountNo = {};
-		var existingAccountType = {};
 
 		vm.canManage = false;
 		vm.organize = $stateParams.organize || null;
@@ -21,31 +19,6 @@ angular.module('gecscf.account').controller('AccountListController', [
 			suspend: undefined
 		};
 		vm.pagingController = PagingController.create('/api/v1/accounts', vm.criteria, 'GET');
-
-		vm.accountType = {
-			'CURRENT_SAVING': 'Current/Saving',
-			'OVERDRAFT': 'Overdraft',
-			'LOAN': 'Term loan'
-		};
-
-		// Data table model
-		function hideAccountNo(accountId) {
-			if (accountId in existingAccountNo) {
-				return true;
-			} else {
-				existingAccountNo[accountId] = true;
-				return false;
-			}
-		}
-
-		function hideAccountType(accountId) {
-			if (accountId in existingAccountType) {
-				return true;
-			} else {
-				existingAccountType[accountId] = true;
-				return false;
-			}
-		}
 
 		// Organization auto suggest
 		function prepareOrganizationAutoSuggestItem(item, module) {
@@ -119,6 +92,18 @@ angular.module('gecscf.account').controller('AccountListController', [
 		// Class function
 		vm.search = function (pageModel) {
 			var organizeId = undefined;
+
+			var accountTypeMapping = {
+				'CURRENT_SAVING': 'Current/Saving',
+				'OVERDRAFT': 'Overdraft',
+				'LOAN': 'Term loan'
+			};
+
+			var statusMapping = {
+				'ACTIVE': 'Active',
+				'SUSPEND': 'Suspend'
+			};
+
 			if (angular.isObject(vm.organize)) {
 				vm.criteria.organizeId = vm.organize.memberId;
 			} else {
@@ -132,12 +117,22 @@ angular.module('gecscf.account').controller('AccountListController', [
 				} : undefined),
 				function (criteriaData, response) {
 					var data = response.data;
+					var existingAccountId = {};
 					var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
 					var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
 					var i = 1;
 					var baseRowNo = pageSize * currentPage;
+
 					angular.forEach(data, function (value, idx) {
-						value.accountType = vm.accountType[value.accountType];
+						value.accountNo = $filter('accountNoDisplay')(value.accountNo);
+
+						if (value.accountId in existingAccountId) {
+							value.hide = true;
+						} else {
+							existingAccountId[value.accountId] = null;
+							value.hide = false;
+						}
+
 						value.rowNo = baseRowNo + i;
 						++i;
 					})
