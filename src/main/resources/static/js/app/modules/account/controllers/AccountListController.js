@@ -81,28 +81,26 @@ angular.module('gecscf.account').controller('AccountListController', [
 			}]
 		}
 
-		function prepareAutoSuggestOrganizeLabel(item, module) {
+		// Organization auto suggest
+		function prepareOrganizationAutoSuggestItem(item, module) {
 			item.identity = [module, '-', item.memberId, '-option'].join('');
 			item.label = [item.memberCode, ': ', item.memberName].join('');
 			item.value = item.memberId;
 			return item;
 		}
 
-		// Organization auto suggest
 		var searchOrganizeTypeHead = function (value) {
 			var url = 'api/v1/organizes';
 			value = UIFactory.createCriteria(value);
 			return $http.get(url, {
 				params: {
 					q: value,
-					founder: false,
-					supporter: false,
 					offset: 0,
 					limit: 5
 				}
 			}).then(function (response) {
 				return response.data.map(function (item) {
-					return prepareAutoSuggestOrganizeLabel(item, 'organize');
+					return prepareOrganizationAutoSuggestItem(item, 'organize');
 				});
 			});
 		}
@@ -116,20 +114,29 @@ angular.module('gecscf.account').controller('AccountListController', [
 		vm.organizeAutoSuggestModel = UIFactory.createAutoSuggestModel(organizeAutoSuggest);
 
 		// Account number auto suggest
+		function prepareAccountNoAutoSuggestItem(item, module) {
+			item.identity = [module, '-', item.accountId, '-option'].join('');
+			if (item.format) {
+				item.label = $filter('accountNoDisplay')(item.accountNo);
+			} else {
+				item.label = item.accountNo;
+			}
+			item.value = item.accountId;
+			return item;
+		}
+
 		var searchAccountNoTypeHead = function (value) {
-			var url = 'api/v1/organizes';
+			var url = 'api/v1/accounts';
 			value = UIFactory.createCriteria(value);
 			return $http.get(url, {
 				params: {
 					q: value,
-					founder: false,
-					supporter: false,
 					offset: 0,
 					limit: 5
 				}
 			}).then(function (response) {
 				return response.data.map(function (item) {
-					return prepareAutoSuggestOrganizeLabel(item, 'account');
+					return prepareAccountNoAutoSuggestItem(item, 'account');
 				});
 			});
 		}
@@ -217,7 +224,6 @@ angular.module('gecscf.account').controller('AccountListController', [
 			var backAction = $stateParams.backAction;
 			if (backAction) {
 				vm.criteria = $stateParams.criteria;
-				prepareAutoSuggestOrganizeLabel(vm.criteria.organize, 'organize');
 			}
 			vm.search();
 		}
