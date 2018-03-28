@@ -61,26 +61,26 @@
 							<tbody>
 								<tr ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
 									<td class="text-center">
-										<span id="$rowNo-{{$index + 1}}-label" ng-bind="record.rowNo"></span>
+										<span id="$rowNo-{{record.rowNo}}-label" ng-bind="record.rowNo"></span>
 									</td>
 									<td class="text-center">
-										<span id="account-no-{{$index + 1}}-label" ng-hide="record.hide" ng-bind="ctrl.getFormattedAccountNumber(record)"></span>
+										<span id="account-no-{{record.rowNo}}-label" ng-hide="record.hide" ng-bind="ctrl.getFormattedAccountNumber(record)"></span>
 									</td>
 									<td class="text-center">
-										<span id="account-type-{{$index + 1}}-label" ng-hide="record.hide" ng-bind="record.accountType | translate"></span>
+										<span id="account-type-{{record.rowNo}}-label" ng-hide="record.hide" ng-bind="record.accountType | translate"></span>
 									</td>
 									<td class="text-left">
-										<span id="organization-name-{{$index + 1}}-label" ng-bind="record.organizeName"></span>
+										<span id="organization-name-{{record.rowNo}}-label" ng-bind="record.organizeName"></span>
 									</td>
 									<td class="text-center">
-										<span id="status-{{$index + 1}}-label" ng-hide="record.hide" ng-bind="record.actualStatus | translate"></span>
+										<span id="status-{{record.rowNo}}-label" ng-hide="record.hide" ng-bind="record.actualStatus | translate"></span>
 									</td>
 									<td class="text-center">
-										<scf-button id="{{$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.editAccount(record)"
+										<scf-button id="{{record.rowNo}}-edit-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.editAccount(record)"
 										    title="Edit">
 											<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 										</scf-button>
-										<scf-button id="{{$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.deleteAccount(record)"
+										<scf-button id="{{record.rowNo}}-delete-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.deleteAccount(record)"
 										    title="Delete">
 											<i class="fa fa-trash-o" aria-hidden="true"></i>
 										</scf-button>
