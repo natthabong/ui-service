@@ -11,7 +11,7 @@ angular.module('gecscf.account').controller('AccountListController', [
 
 		vm.canManage = false;
 		vm.organize = $stateParams.organize || null;
-		vm.accountNo = null;
+		vm.account = null;
 		vm.accountStatusDrpodowns = AccountStatus;
 
 		vm.criteria = $stateParams.criteria || {
@@ -106,6 +106,13 @@ angular.module('gecscf.account').controller('AccountListController', [
 				vm.criteria.organizeId = undefined;
 			}
 
+			console.log(vm.account)
+			if (angular.isObject(vm.account)) {
+				vm.criteria.accountNo = vm.account.accountNo;
+			} else {
+				vm.criteria.accountNo = undefined;
+			}
+
 			vm.pagingController.search(pageModel ||
 				($stateParams.backAction ? {
 					offset: vm.criteria.offset,
@@ -174,8 +181,7 @@ angular.module('gecscf.account').controller('AccountListController', [
 						data: {
 							headerMessage: 'Delete account fail.',
 							bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
-						},
-						preCloseCallback: preCloseCallback
+						}
 					});
 				},
 				onSuccess: function (response) {

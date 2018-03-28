@@ -22,7 +22,7 @@
 							<div class="form-group">
 								<label for="account-no-textbox" class="col-md-2 col-sm-3 col-xs-12 control-label" id="account-no-label" ng-bind="'Account No.: ' | translate">Account No.: </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<gec-auto-suggest model="ctrl.accountNoAutoSuggestModel" ng-model="ctrl.accountNo" id="account-no-auto-suggest"></gec-auto-suggest>
+									<gec-auto-suggest model="ctrl.accountNoAutoSuggestModel" ng-model="ctrl.account" id="account-no-auto-suggest"></gec-auto-suggest>
 								</div>
 							</div>
 							<div class="form-group">
@@ -63,7 +63,7 @@
 									<td class="text-center">
 										<span id="$rowNo-{{$index + 1}}-label" ng-bind="record.rowNo"></span>
 									</td>
-									<td class="text-left">
+									<td class="text-center">
 										<span id="buyer-name-{{$index + 1}}-label" ng-hide="record.hide" ng-bind="ctrl.getFormattedAccountNumber(record)"></span>
 									</td>
 									<td class="text-center">
