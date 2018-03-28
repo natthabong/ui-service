@@ -23,52 +23,58 @@ fundingProfileModule.controller(
 			vm.fundingProfile = {};
 			vm.financeSolutions = {
 				buyerFinancing: {
-					PnServiceTime : null,
-					PnPeriod : {
+					pnServiceTime : null,
+					pnPeriod : {
 						beginTime : null,
 						endTime : null
 					},
-					PnSuspend : null,
-					OdServiceTime : null,
-					OdPeriod : {
+					pnSuspend : null,
+					odServiceTime : null,
+					odPeriod : {
 						beginTime : null,
 						endTime : null
 					},
-					OdSuspend : null,
-					SavingServiceTime: null,
-					SavingPeriod : {
+					odSuspend : null,
+					savingServiceTime: null,
+					savingPeriod : {
 						beginTime : null,
 						endTime : null
 					},
-					SavingSuspend : null
+					savingSuspend : null
 				},	
 				supplierFinancing : {
-					PnServiceTime : null,
-					PnPeriod : {
+					pnServiceTime : null,
+					pnPeriod : {
 						beginTime : null,
 						endTime : null
 					},
-					PnSuspend : null,
-					OdServiceTime : null,
-					OdPeriod : {
+					pnSuspend : null,
+					odServiceTime : null,
+					odPeriod : {
 						beginTime : null,
 						endTime : null
 					},
-					OdSuspend : null
+					odSuspend : null
 				},
 				enquiry : {
-					PnServiceTime : null,
-					PnPeriod : {
+					pnServiceTime : null,
+					pnPeriod : {
 						beginTime : null,
 						endTime : null
 					},
-					PnSuspend : null,
-					OdServiceTime : null,
-					OdPeriod : {
+					pnSuspend : null,
+					odServiceTime : null,
+					odPeriod : {
 						beginTime : null,
 						endTime : null
 					},
-					OdSuspend : null
+					odSuspend : null,
+					savingServiceTime: null,
+					savingPeriod : {
+						beginTime : null,
+						endTime : null
+					},
+					savingSuspend : null
 				}
 			};
 			vm.fundingFinanceSolutions = [];
@@ -112,10 +118,10 @@ fundingProfileModule.controller(
 						fundingId : fundingId,
 						serviceType : 'PAYMENT',
 						serviceMethod : 'TERM_LOAN',
-						openAllHours : vm.financeSolutions.buyerFinancing.PnServiceTime == '24HR' ? true : false ,
-						suspend : vm.financeSolutions.buyerFinancing.PnSuspend,
-						startServiceHour : vm.financeSolutions.buyerFinancing.PnPeriod.beginTime,
-						endServiceHour : vm.financeSolutions.buyerFinancing.PnPeriod.endTime
+						openAllHours : vm.financeSolutions.buyerFinancing.pnServiceTime == '24HR' ? true : false ,
+						suspend : vm.financeSolutions.buyerFinancing.pnSuspend,
+						startServiceHour : vm.financeSolutions.buyerFinancing.pnPeriod.beginTime,
+						endServiceHour : vm.financeSolutions.buyerFinancing.pnPeriod.endTime
 				}
 				vm.fundingFinanceSolutions.push(financeSolutionPaymentPN);
 				
@@ -123,10 +129,10 @@ fundingProfileModule.controller(
 						fundingId : fundingId,
 						serviceType : 'PAYMENT',
 						serviceMethod : 'OD',
-						openAllHours : vm.financeSolutions.buyerFinancing.OdServiceTime == '24HR' ? true : false ,
-						suspend : vm.financeSolutions.buyerFinancing.OdSuspend,
-						startServiceHour : vm.financeSolutions.buyerFinancing.OdPeriod.beginTime,
-						endServiceHour : vm.financeSolutions.buyerFinancing.OdPeriod.endTime
+						openAllHours : vm.financeSolutions.buyerFinancing.odServiceTime == '24HR' ? true : false ,
+						suspend : vm.financeSolutions.buyerFinancing.odSuspend,
+						startServiceHour : vm.financeSolutions.buyerFinancing.odPeriod.beginTime,
+						endServiceHour : vm.financeSolutions.buyerFinancing.odPeriod.endTime
 				}
 				vm.fundingFinanceSolutions.push(financeSolutionPaymentOD);
 				
@@ -134,10 +140,10 @@ fundingProfileModule.controller(
 						fundingId : fundingId,
 						serviceType : 'PAYMENT',
 						serviceMethod : 'DEBIT',
-						openAllHours : vm.financeSolutions.buyerFinancing.SavingServiceTime == '24HR' ? true : false ,
-						suspend : vm.financeSolutions.buyerFinancing.SavingSuspend,
-						startServiceHour : vm.financeSolutions.buyerFinancing.SavingPeriod.beginTime,
-						endServiceHour : vm.financeSolutions.buyerFinancing.SavingPeriod.endTime
+						openAllHours : vm.financeSolutions.buyerFinancing.savingServiceTime == '24HR' ? true : false ,
+						suspend : vm.financeSolutions.buyerFinancing.savingSuspend,
+						startServiceHour : vm.financeSolutions.buyerFinancing.savingPeriod.beginTime,
+						endServiceHour : vm.financeSolutions.buyerFinancing.savingPeriod.endTime
 				}
 				vm.fundingFinanceSolutions.push(financeSolutionPaymentSaving);
 				
@@ -145,10 +151,10 @@ fundingProfileModule.controller(
 						fundingId : fundingId,
 						serviceType : 'LOAN',
 						serviceMethod : 'TERM_LOAN',
-						openAllHours : vm.financeSolutions.supplierFinancing.PnServiceTime == '24HR' ? true : false ,
-						suspend : vm.financeSolutions.supplierFinancing.PnSuspend,
-						startServiceHour : vm.financeSolutions.supplierFinancing.PnPeriod.beginTime,
-						endServiceHour : vm.financeSolutions.supplierFinancing.PnPeriod.endTime
+						openAllHours : vm.financeSolutions.supplierFinancing.pnServiceTime == '24HR' ? true : false ,
+						suspend : vm.financeSolutions.supplierFinancing.pnSuspend,
+						startServiceHour : vm.financeSolutions.supplierFinancing.pnPeriod.beginTime,
+						endServiceHour : vm.financeSolutions.supplierFinancing.pnPeriod.endTime
 				}
 				vm.fundingFinanceSolutions.push(financeSolutionLoanPN);
 				
@@ -156,10 +162,10 @@ fundingProfileModule.controller(
 						fundingId : fundingId,
 						serviceType : 'LOAN',
 						serviceMethod : 'OD',
-						openAllHours : vm.financeSolutions.supplierFinancing.OdServiceTime == '24HR' ? true : false ,
-						suspend : vm.financeSolutions.supplierFinancing.OdSuspend,
-						startServiceHour : vm.financeSolutions.supplierFinancing.OdPeriod.beginTime,
-						endServiceHour : vm.financeSolutions.supplierFinancing.OdPeriod.endTime
+						openAllHours : vm.financeSolutions.supplierFinancing.odServiceTime == '24HR' ? true : false ,
+						suspend : vm.financeSolutions.supplierFinancing.odSuspend,
+						startServiceHour : vm.financeSolutions.supplierFinancing.odPeriod.beginTime,
+						endServiceHour : vm.financeSolutions.supplierFinancing.odPeriod.endTime
 				}
 				vm.fundingFinanceSolutions.push(financeSolutionLoanOD);
 				
@@ -167,10 +173,10 @@ fundingProfileModule.controller(
 						fundingId : fundingId,
 						serviceType : 'ENQUIRY',
 						serviceMethod : 'TERM_LOAN',
-						openAllHours : vm.financeSolutions.enquiry.PnServiceTime == '24HR' ? true : false ,
-						suspend : vm.financeSolutions.enquiry.PnSuspend,
-						startServiceHour : vm.financeSolutions.enquiry.PnPeriod.beginTime,
-						endServiceHour : vm.financeSolutions.enquiry.PnPeriod.endTime
+						openAllHours : vm.financeSolutions.enquiry.pnServiceTime == '24HR' ? true : false ,
+						suspend : vm.financeSolutions.enquiry.pnSuspend,
+						startServiceHour : vm.financeSolutions.enquiry.pnPeriod.beginTime,
+						endServiceHour : vm.financeSolutions.enquiry.pnPeriod.endTime
 				}
 				vm.fundingFinanceSolutions.push(financeSolutionEnquiryPN);
 				
@@ -178,38 +184,49 @@ fundingProfileModule.controller(
 						fundingId : fundingId,
 						serviceType : 'ENQUIRY',
 						serviceMethod : 'OD',
-						openAllHours : vm.financeSolutions.enquiry.OdServiceTime == '24HR' ? true : false ,
-						suspend : vm.financeSolutions.enquiry.OdSuspend,
-						startServiceHour : vm.financeSolutions.enquiry.OdPeriod.beginTime,
-						endServiceHour : vm.financeSolutions.enquiry.OdPeriod.endTime
+						openAllHours : vm.financeSolutions.enquiry.odServiceTime == '24HR' ? true : false ,
+						suspend : vm.financeSolutions.enquiry.odSuspend,
+						startServiceHour : vm.financeSolutions.enquiry.odPeriod.beginTime,
+						endServiceHour : vm.financeSolutions.enquiry.odPeriod.endTime
 				}
 				vm.fundingFinanceSolutions.push(financeSolutionEnquiryOD);
+				
+				var financeSolutionEnquiryDebit = {
+						fundingId : fundingId,
+						serviceType : 'ENQUIRY',
+						serviceMethod : 'DEBIT',
+						openAllHours : vm.financeSolutions.enquiry.savingServiceTime == '24HR' ? true : false ,
+						suspend : vm.financeSolutions.enquiry.savingSuspend,
+						startServiceHour : vm.financeSolutions.enquiry.savingPeriod.beginTime,
+						endServiceHour : vm.financeSolutions.enquiry.savingPeriod.endTime
+				}
+				vm.fundingFinanceSolutions.push(financeSolutionEnquiryDebit);
 			}
 			
 			var validSave = function () {
 				$scope.errors = {};
 				var isValid = true;
-				if (vm.financeSolutions.buyerFinancing.PnServiceTime == 'PERIOD') {
-					if(vm.financeSolutions.buyerFinancing.PnPeriod.beginTime == null ||
-							vm.financeSolutions.buyerFinancing.PnPeriod.endTime == null){
+				if (vm.financeSolutions.buyerFinancing.pnServiceTime == 'PERIOD') {
+					if(vm.financeSolutions.buyerFinancing.pnPeriod.beginTime == null ||
+							vm.financeSolutions.buyerFinancing.pnPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.buyerFinancingPnServiceTime = {
 							message: 'P/N service time is required.'
 						}
 					}
 				}
-				if (vm.financeSolutions.buyerFinancing.OdServiceTime == 'PERIOD') {
-					if(vm.financeSolutions.buyerFinancing.OdPeriod.beginTime == null ||
-							vm.financeSolutions.buyerFinancing.OdPeriod.endTime == null){
+				if (vm.financeSolutions.buyerFinancing.odServiceTime == 'PERIOD') {
+					if(vm.financeSolutions.buyerFinancing.odPeriod.beginTime == null ||
+							vm.financeSolutions.buyerFinancing.odPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.buyerFinancingOdServiceTime = {
 							message: 'Overdraft service time is required.'
 						}
 					}
 				}
-				if (vm.financeSolutions.buyerFinancing.SavingServiceTime == 'PERIOD') {
-					if(vm.financeSolutions.buyerFinancing.SavingPeriod.beginTime == null ||
-							vm.financeSolutions.buyerFinancing.SavingPeriod.endTime == null){
+				if (vm.financeSolutions.buyerFinancing.savingServiceTime == 'PERIOD') {
+					if(vm.financeSolutions.buyerFinancing.savingPeriod.beginTime == null ||
+							vm.financeSolutions.buyerFinancing.savingPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.buyerFinancingSavingServiceTime = {
 							message: 'Saving service time is required.'
@@ -217,18 +234,18 @@ fundingProfileModule.controller(
 					}
 				}
 				
-				if (vm.financeSolutions.supplierFinancing.PnServiceTime == 'PERIOD') {
-					if(vm.financeSolutions.supplierFinancing.PnPeriod.beginTime == null ||
-							vm.financeSolutions.supplierFinancing.PnPeriod.endTime == null){
+				if (vm.financeSolutions.supplierFinancing.pnServiceTime == 'PERIOD') {
+					if(vm.financeSolutions.supplierFinancing.pnPeriod.beginTime == null ||
+							vm.financeSolutions.supplierFinancing.pnPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.supplierFinancingPnServiceTime = {
 							message: 'P/N service time is required.'
 						}
 					}
 				}
-				if (vm.financeSolutions.supplierFinancing.OdServiceTime == 'PERIOD') {
-					if(vm.financeSolutions.supplierFinancing.OdPeriod.beginTime == null ||
-							vm.financeSolutions.supplierFinancing.OdPeriod.endTime == null){
+				if (vm.financeSolutions.supplierFinancing.odServiceTime == 'PERIOD') {
+					if(vm.financeSolutions.supplierFinancing.odPeriod.beginTime == null ||
+							vm.financeSolutions.supplierFinancing.odPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.supplierFinancingOdServiceTime = {
 							message: 'Overdraft service time is required.'
@@ -236,21 +253,30 @@ fundingProfileModule.controller(
 					}
 				}
 				
-				if (vm.financeSolutions.enquiry.PnServiceTime == 'PERIOD') {
-					if(vm.financeSolutions.enquiry.PnPeriod.beginTime == null ||
-							vm.financeSolutions.enquiry.PnPeriod.endTime == null){
+				if (vm.financeSolutions.enquiry.pnServiceTime == 'PERIOD') {
+					if(vm.financeSolutions.enquiry.pnPeriod.beginTime == null ||
+							vm.financeSolutions.enquiry.pnPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.enquiryPnServiceTime = {
 							message: 'P/N service time is required.'
 						}
 					}
 				}
-				if (vm.financeSolutions.enquiry.OdServiceTime == 'PERIOD') {
-					if(vm.financeSolutions.enquiry.OdPeriod.beginTime == null ||
-							vm.financeSolutions.enquiry.OdPeriod.endTime == null){
+				if (vm.financeSolutions.enquiry.odServiceTime == 'PERIOD') {
+					if(vm.financeSolutions.enquiry.odPeriod.beginTime == null ||
+							vm.financeSolutions.enquiry.odPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.enquiryOdServiceTime = {
 							message: 'Overdraft service time is required.'
+						}
+					}
+				}
+				if (vm.financeSolutions.enquiry.savingServiceTime == 'PERIOD') {
+					if(vm.financeSolutions.enquiry.savingPeriod.beginTime == null ||
+							vm.financeSolutions.enquiry.savingPeriod.endTime == null){
+						isValid = false;
+						$scope.errors.enquirySavingServiceTime = {
+							message: 'Saving service time is required.'
 						}
 					}
 				}
@@ -324,77 +350,87 @@ fundingProfileModule.controller(
 							if(financialService.serviceType == 'PAYMENT'){
 								if(financialService.serviceMethod == 'TERM_LOAN'){
 									if(financialService.openAllHours){
-										vm.financeSolutions.buyerFinancing.PnServiceTime = '24HR';
+										vm.financeSolutions.buyerFinancing.pnServiceTime = '24HR';
 									} else {
-										vm.financeSolutions.buyerFinancing.PnServiceTime = 'PERIOD';
-										vm.financeSolutions.buyerFinancing.PnPeriod.beginTime = financialService.startServiceHour;
-										vm.financeSolutions.buyerFinancing.PnPeriod.endTime = financialService.endServiceHour;
+										vm.financeSolutions.buyerFinancing.pnServiceTime = 'PERIOD';
+										vm.financeSolutions.buyerFinancing.pnPeriod.beginTime = financialService.startServiceHour;
+										vm.financeSolutions.buyerFinancing.pnPeriod.endTime = financialService.endServiceHour;
 									}
-									vm.financeSolutions.buyerFinancing.PnSuspend = financialService.suspend;
+									vm.financeSolutions.buyerFinancing.pnSuspend = financialService.suspend;
 								}
 								if(financialService.serviceMethod == 'OD'){
 									if(financialService.openAllHours){
-										vm.financeSolutions.buyerFinancing.OdServiceTime = '24HR';
+										vm.financeSolutions.buyerFinancing.odServiceTime = '24HR';
 									} else {
-										vm.financeSolutions.buyerFinancing.OdServiceTime = 'PERIOD';
-										vm.financeSolutions.buyerFinancing.OdPeriod.beginTime = financialService.startServiceHour;
-										vm.financeSolutions.buyerFinancing.OdPeriod.endTime = financialService.endServiceHour;
+										vm.financeSolutions.buyerFinancing.odServiceTime = 'PERIOD';
+										vm.financeSolutions.buyerFinancing.odPeriod.beginTime = financialService.startServiceHour;
+										vm.financeSolutions.buyerFinancing.odPeriod.endTime = financialService.endServiceHour;
 									}
-									vm.financeSolutions.buyerFinancing.OdSuspend = financialService.suspend;
+									vm.financeSolutions.buyerFinancing.odSuspend = financialService.suspend;
 								}
 								if(financialService.serviceMethod == 'DEBIT'){
 									if(financialService.openAllHours){
-										vm.financeSolutions.buyerFinancing.SavingServiceTime = '24HR';
+										vm.financeSolutions.buyerFinancing.savingServiceTime = '24HR';
 									} else {
-										vm.financeSolutions.buyerFinancing.SavingServiceTime = 'PERIOD';
-										vm.financeSolutions.buyerFinancing.SavingPeriod.beginTime = financialService.startServiceHour;
-										vm.financeSolutions.buyerFinancing.SavingPeriod.endTime = financialService.endServiceHour;
+										vm.financeSolutions.buyerFinancing.savingServiceTime = 'PERIOD';
+										vm.financeSolutions.buyerFinancing.savingPeriod.beginTime = financialService.startServiceHour;
+										vm.financeSolutions.buyerFinancing.savingPeriod.endTime = financialService.endServiceHour;
 									}
-									vm.financeSolutions.buyerFinancing.SavingSuspend = financialService.suspend;
+									vm.financeSolutions.buyerFinancing.savingSuspend = financialService.suspend;
 								}
 							}
 							if(financialService.serviceType == 'LOAN'){
 								if(financialService.serviceMethod == 'TERM_LOAN'){
 									if(financialService.openAllHours){
-										vm.financeSolutions.supplierFinancing.PnServiceTime = '24HR';
+										vm.financeSolutions.supplierFinancing.pnServiceTime = '24HR';
 									} else {
-										vm.financeSolutions.supplierFinancing.PnServiceTime = 'PERIOD';
-										vm.financeSolutions.supplierFinancing.PnPeriod.beginTime = financialService.startServiceHour;
-										vm.financeSolutions.supplierFinancing.PnPeriod.endTime = financialService.endServiceHour;
+										vm.financeSolutions.supplierFinancing.pnServiceTime = 'PERIOD';
+										vm.financeSolutions.supplierFinancing.pnPeriod.beginTime = financialService.startServiceHour;
+										vm.financeSolutions.supplierFinancing.pnPeriod.endTime = financialService.endServiceHour;
 									}
-									vm.financeSolutions.supplierFinancing.PnSuspend = financialService.suspend;
+									vm.financeSolutions.supplierFinancing.pnSuspend = financialService.suspend;
 								}
 								if(financialService.serviceMethod == 'OD'){
 									if(financialService.openAllHours){
-										vm.financeSolutions.supplierFinancing.OdServiceTime = '24HR';
+										vm.financeSolutions.supplierFinancing.odServiceTime = '24HR';
 									} else {
-										vm.financeSolutions.supplierFinancing.OdServiceTime = 'PERIOD';
-										vm.financeSolutions.supplierFinancing.OdPeriod.beginTime = financialService.startServiceHour;
-										vm.financeSolutions.supplierFinancing.OdPeriod.endTime = financialService.endServiceHour;
+										vm.financeSolutions.supplierFinancing.odServiceTime = 'PERIOD';
+										vm.financeSolutions.supplierFinancing.odPeriod.beginTime = financialService.startServiceHour;
+										vm.financeSolutions.supplierFinancing.odPeriod.endTime = financialService.endServiceHour;
 									}
-									vm.financeSolutions.supplierFinancing.OdSuspend = financialService.suspend;
+									vm.financeSolutions.supplierFinancing.odSuspend = financialService.suspend;
 								}
 							}
 							if(financialService.serviceType == 'ENQUIRY'){
 								if(financialService.serviceMethod == 'TERM_LOAN'){
 									if(financialService.openAllHours){
-										vm.financeSolutions.enquiry.PnServiceTime = '24HR';
+										vm.financeSolutions.enquiry.pnServiceTime = '24HR';
 									} else {
-										vm.financeSolutions.enquiry.PnServiceTime = 'PERIOD';
-										vm.financeSolutions.enquiry.PnPeriod.beginTime = financialService.startServiceHour;
-										vm.financeSolutions.enquiry.PnPeriod.endTime = financialService.endServiceHour;
+										vm.financeSolutions.enquiry.pnServiceTime = 'PERIOD';
+										vm.financeSolutions.enquiry.pnPeriod.beginTime = financialService.startServiceHour;
+										vm.financeSolutions.enquiry.pnPeriod.endTime = financialService.endServiceHour;
 									}
-									vm.financeSolutions.enquiry.PnSuspend = financialService.suspend;
+									vm.financeSolutions.enquiry.pnSuspend = financialService.suspend;
 								}
 								if(financialService.serviceMethod == 'OD'){
 									if(financialService.openAllHours){
-										vm.financeSolutions.enquiry.OdServiceTime = '24HR';
+										vm.financeSolutions.enquiry.odServiceTime = '24HR';
 									} else {
-										vm.financeSolutions.enquiry.OdServiceTime = 'PERIOD';
-										vm.financeSolutions.enquiry.OdPeriod.beginTime = financialService.startServiceHour;
-										vm.financeSolutions.enquiry.OdPeriod.endTime = financialService.endServiceHour;
+										vm.financeSolutions.enquiry.odServiceTime = 'PERIOD';
+										vm.financeSolutions.enquiry.odPeriod.beginTime = financialService.startServiceHour;
+										vm.financeSolutions.enquiry.odPeriod.endTime = financialService.endServiceHour;
 									}
-									vm.financeSolutions.enquiry.OdSuspend = financialService.suspend;
+									vm.financeSolutions.enquiry.odSuspend = financialService.suspend;
+								}
+								if(financialService.serviceMethod == 'DEBIT'){
+									if(financialService.openAllHours){
+										vm.financeSolutions.enquiry.savingServiceTime = '24HR';
+									} else {
+										vm.financeSolutions.enquiry.savingServiceTime = 'PERIOD';
+										vm.financeSolutions.enquiry.savingPeriod.beginTime = financialService.startServiceHour;
+										vm.financeSolutions.enquiry.savingPeriod.endTime = financialService.endServiceHour;
+									}
+									vm.financeSolutions.enquiry.savingSuspend = financialService.suspend;
 								}
 							}
 						});

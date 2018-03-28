@@ -33,17 +33,17 @@
 										<div class="col-md-4 col-sm-4 col-xs-12">
 											<label class="radio-inline"><scf-radio
 													id="buyer-financing-pn-24hrs-radio" name="buyer-financing-pn-24hrs-radio" value="24HR"
-													ng-model="ctrl.financeSolutions.buyerFinancing.PnServiceTime"></scf-radio>
+													ng-model="ctrl.financeSolutions.buyerFinancing.pnServiceTime"></scf-radio>
 												{{ '24 hrs.' | translate}} </label> <label
 												class="radio-inline"><scf-radio id="buyer-financing-pn-period-radio"
 													name="buyer-financing-pn-period-radio" value="PERIOD"
-													ng-model="ctrl.financeSolutions.buyerFinancing.PnServiceTime"></scf-radio>
+													ng-model="ctrl.financeSolutions.buyerFinancing.pnServiceTime"></scf-radio>
 												{{ 'Period' | translate}} </label>
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
 											<scf-input-text id="buyer-financing-begin-time-textbox" 
-												ng-disabled="ctrl.financeSolutions.buyerFinancing.PnServiceTime=='24HR'"
-												ng-model="ctrl.financeSolutions.buyerFinancing.PnPeriod.beginTime" name="beginTime"
+												ng-disabled="ctrl.financeSolutions.buyerFinancing.pnServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.buyerFinancing.pnPeriod.beginTime" name="beginTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
@@ -52,8 +52,8 @@
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
 											<scf-input-text id="buyer-financing-end-time-textbox"
-												ng-disabled="ctrl.financeSolutions.buyerFinancing.PnServiceTime=='24HR'"
-												ng-model="ctrl.financeSolutions.buyerFinancing.PnPeriod.endTime" name="endTime"
+												ng-disabled="ctrl.financeSolutions.buyerFinancing.pnServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.buyerFinancing.pnPeriod.endTime" name="endTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
@@ -67,7 +67,7 @@
 								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
 									<div class="col-md-3 col-sm-3 col-xs-12">
 										<scf-checkbox id="buyer-financing-pn-suspend-checkbox"
-											ng-model="ctrl.financeSolutions.buyerFinancing.PnSuspend"></scf-checkbox>
+											ng-model="ctrl.financeSolutions.buyerFinancing.pnSuspend"></scf-checkbox>
 										<label class="checkbox-inline" id="buyer-financing-pn-suspend-label"
 											style="padding-bottom: 10px;">{{'Suspend' |
 											translate}}</label>
@@ -103,17 +103,17 @@
 										<div class="col-md-4 col-sm-4 col-xs-12">
 											<label class="radio-inline"><scf-radio
 													id="buyer-financing-od-24hrs-radio" name="buyer-financing-od-24hrs-radio" value="24HR"
-													ng-model="ctrl.financeSolutions.buyerFinancing.OdServiceTime"></scf-radio>
+													ng-model="ctrl.financeSolutions.buyerFinancing.odServiceTime"></scf-radio>
 												{{ '24 hrs.' | translate}} </label> <label
 												class="radio-inline"><scf-radio id="buyer-financing-od-period-radio"
 													name="buyer-financing-od-period-radio" value="PERIOD"
-													ng-model="ctrl.financeSolutions.buyerFinancing.OdServiceTime"></scf-radio>
+													ng-model="ctrl.financeSolutions.buyerFinancing.odServiceTime"></scf-radio>
 												{{ 'Period' | translate}} </label>
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
 											<scf-input-text id="buyer-financing-od-begin-time-textbox"
-												ng-disabled="ctrl.financeSolutions.buyerFinancing.OdServiceTime=='24HR'"
-												ng-model="ctrl.financeSolutions.buyerFinancing.OdPeriod.beginTime" name="beginTime"
+												ng-disabled="ctrl.financeSolutions.buyerFinancing.odServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.buyerFinancing.odPeriod.beginTime" name="beginTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
@@ -122,8 +122,8 @@
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
 											<scf-input-text id="buyer-financing-od-end-time-textbox"
-												ng-disabled="ctrl.financeSolutions.buyerFinancing.OdServiceTime=='24HR'"
-												ng-model="ctrl.financeSolutions.buyerFinancing.OdPeriod.endTime" name="endTime"
+												ng-disabled="ctrl.financeSolutions.buyerFinancing.odServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.buyerFinancing.odPeriod.endTime" name="endTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
@@ -137,7 +137,7 @@
 								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
 									<div class="col-md-3 col-sm-3 col-xs-12">
 										<scf-checkbox id="buyer-financing-od-suspend-checkbox"
-											ng-model="ctrl.financeSolutions.buyerFinancing.OdSuspend"></scf-checkbox>
+											ng-model="ctrl.financeSolutions.buyerFinancing.odSuspend"></scf-checkbox>
 										<label class="checkbox-inline" id="buyer-financing-od-suspend-label"
 											style="padding-bottom: 10px;">{{'Suspend' |
 											translate}}</label>
@@ -173,17 +173,17 @@
 										<div class="col-md-4 col-sm-4 col-xs-12">
 											<label class="radio-inline"><scf-radio
 													id="buyer-financing-saving-24hrs-radio" name="buyer-financing-saving-24hrs-radio" value="24HR"
-													ng-model="ctrl.financeSolutions.buyerFinancing.SavingServiceTime"></scf-radio>
+													ng-model="ctrl.financeSolutions.buyerFinancing.savingServiceTime"></scf-radio>
 												{{ '24 hrs.' | translate}} </label> <label
 												class="radio-inline"><scf-radio id="buyer-financing-od-period-radio"
 													name="buyer-financing-saving-period-radio" value="PERIOD"
-													ng-model="ctrl.financeSolutions.buyerFinancing.SavingServiceTime"></scf-radio>
+													ng-model="ctrl.financeSolutions.buyerFinancing.savingServiceTime"></scf-radio>
 												{{ 'Period' | translate}} </label>
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
 											<scf-input-text id="buyer-financing-saving-begin-time-textbox"
-												ng-disabled="ctrl.financeSolutions.buyerFinancing.SavingServiceTime=='24HR'"
-												ng-model="ctrl.financeSolutions.buyerFinancing.SavingPeriod.beginTime" name="beginTime"
+												ng-disabled="ctrl.financeSolutions.buyerFinancing.savingServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.buyerFinancing.savingPeriod.beginTime" name="beginTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
@@ -192,8 +192,8 @@
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
 											<scf-input-text id="buyer-financing-saving-end-time-textbox"
-												ng-disabled="ctrl.financeSolutions.buyerFinancing.SavingServiceTime=='24HR'"
-												ng-model="ctrl.financeSolutions.buyerFinancing.SavingPeriod.endTime" name="endTime"
+												ng-disabled="ctrl.financeSolutions.buyerFinancing.savingServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.buyerFinancing.savingPeriod.endTime" name="endTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
@@ -207,7 +207,7 @@
 								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
 									<div class="col-md-3 col-sm-3 col-xs-12">
 										<scf-checkbox id="buyer-financing-saving-suspend-checkbox"
-											ng-model="ctrl.financeSolutions.buyerFinancing.SavingSuspend"></scf-checkbox>
+											ng-model="ctrl.financeSolutions.buyerFinancing.savingSuspend"></scf-checkbox>
 										<label class="checkbox-inline" id="buyer-financing-saving-suspend-label"
 											style="padding-bottom: 10px;">{{'Suspend' |
 											translate}}</label>
@@ -250,17 +250,17 @@
 										<div class="col-md-4 col-sm-4 col-xs-12">
 											<label class="radio-inline"><scf-radio
 													id="supplier-financing-pn-24hrs-radio" name="supplier-financing-pn-24hrs-radio" value="24HR"
-													ng-model="ctrl.financeSolutions.supplierFinancing.PnServiceTime"></scf-radio>
+													ng-model="ctrl.financeSolutions.supplierFinancing.pnServiceTime"></scf-radio>
 												{{ '24 hrs.' | translate}} </label> <label
 												class="radio-inline"><scf-radio id="supplier-financing-pn-period-radio"
 													name="supplier-financing-pn-period-radio" value="PERIOD"
-													ng-model="ctrl.financeSolutions.supplierFinancing.PnServiceTime"></scf-radio>
+													ng-model="ctrl.financeSolutions.supplierFinancing.pnServiceTime"></scf-radio>
 												{{ 'Period' | translate}} </label>
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
 											<scf-input-text id="supplier-financing-begin-time-textbox"
-												ng-disabled="ctrl.financeSolutions.supplierFinancing.PnServiceTime=='24HR'"
-												ng-model="ctrl.financeSolutions.supplierFinancing.PnPeriod.beginTime" name="beginTime"
+												ng-disabled="ctrl.financeSolutions.supplierFinancing.pnServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.supplierFinancing.pnPeriod.beginTime" name="beginTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
@@ -269,8 +269,8 @@
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
 											<scf-input-text id="supplier-financing-end-time-textbox"
-												ng-disabled="ctrl.financeSolutions.supplierFinancing.PnServiceTime=='24HR'"
-												ng-model="ctrl.financeSolutions.supplierFinancing.PnPeriod.endTime" name="endTime"
+												ng-disabled="ctrl.financeSolutions.supplierFinancing.pnServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.supplierFinancing.pnPeriod.endTime" name="endTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
@@ -284,7 +284,7 @@
 								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
 									<div class="col-md-3 col-sm-3 col-xs-12">
 										<scf-checkbox id="supplier-financing-pn-suspend-checkbox"
-											ng-model="ctrl.financeSolutions.supplierFinancing.PnSuspend"></scf-checkbox>
+											ng-model="ctrl.financeSolutions.supplierFinancing.pnSuspend"></scf-checkbox>
 										<label class="checkbox-inline" id="supplier-financing-pn-suspend-label"
 											style="padding-bottom: 10px;">{{'Suspend' |
 											translate}}</label>
@@ -320,17 +320,17 @@
 										<div class="col-md-4 col-sm-4 col-xs-12">
 											<label class="radio-inline"><scf-radio
 													id="supplier-financing-od-24hrs-radio" name="supplier-financing-od-24hrs-radio" value="24HR"
-													ng-model="ctrl.financeSolutions.supplierFinancing.OdServiceTime"></scf-radio>
+													ng-model="ctrl.financeSolutions.supplierFinancing.odServiceTime"></scf-radio>
 												{{ '24 hrs.' | translate}} </label> <label
 												class="radio-inline"><scf-radio id="supplier-financing-od-period-radio"
 													name="supplier-financing-od-period-radio" value="PERIOD"
-													ng-model="ctrl.financeSolutions.supplierFinancing.OdServiceTime"></scf-radio>
+													ng-model="ctrl.financeSolutions.supplierFinancing.odServiceTime"></scf-radio>
 												{{ 'Period' | translate}} </label>
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
 											<scf-input-text id="supplier-financing-od-begin-time-textbox"
-												ng-disabled="ctrl.financeSolutions.supplierFinancing.OdServiceTime=='24HR'"
-												ng-model="ctrl.financeSolutions.supplierFinancing.OdPeriod.beginTime" name="beginTime"
+												ng-disabled="ctrl.financeSolutions.supplierFinancing.odServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.supplierFinancing.odPeriod.beginTime" name="beginTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
@@ -339,8 +339,8 @@
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
 											<scf-input-text id="supplier-financing-od-end-time-textbox"
-												ng-disabled="ctrl.financeSolutions.supplierFinancing.OdServiceTime=='24HR'"
-												ng-model="ctrl.financeSolutions.supplierFinancing.OdPeriod.endTime" name="endTime"
+												ng-disabled="ctrl.financeSolutions.supplierFinancing.odServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.supplierFinancing.odPeriod.endTime" name="endTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
@@ -354,7 +354,7 @@
 								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
 									<div class="col-md-3 col-sm-3 col-xs-12">
 										<scf-checkbox id="supplier-financing-od-suspend-checkbox"
-											ng-model="ctrl.financeSolutions.supplierFinancing.OdSuspend"></scf-checkbox>
+											ng-model="ctrl.financeSolutions.supplierFinancing.odSuspend"></scf-checkbox>
 										<label class="checkbox-inline" id="supplier-financing-od-suspend-label"
 											style="padding-bottom: 10px;">{{'Suspend' |
 											translate}}</label>
@@ -397,17 +397,17 @@
 										<div class="col-md-4 col-sm-4 col-xs-12">
 											<label class="radio-inline"><scf-radio
 													id="enquiry-pn-24hrs-radio" name="enquiry-pn-24hrs-radio" value="24HR"
-													ng-model="ctrl.financeSolutions.enquiry.PnServiceTime"></scf-radio>
+													ng-model="ctrl.financeSolutions.enquiry.pnServiceTime"></scf-radio>
 												{{ '24 hrs.' | translate}} </label> <label
 												class="radio-inline"><scf-radio id="enquiry-pn-period-radio"
 													name="enquiry-pn-period-radio" value="PERIOD"
-													ng-model="ctrl.financeSolutions.enquiry.PnServiceTime"></scf-radio>
+													ng-model="ctrl.financeSolutions.enquiry.pnServiceTime"></scf-radio>
 												{{ 'Period' | translate}} </label>
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
 											<scf-input-text id="enquiry-begin-time-textbox"
-												ng-disabled="ctrl.financeSolutions.enquiry.PnServiceTime=='24HR'"
-												ng-model="ctrl.financeSolutions.enquiry.PnPeriod.beginTime" name="beginTime"
+												ng-disabled="ctrl.financeSolutions.enquiry.pnServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.enquiry.pnPeriod.beginTime" name="beginTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
@@ -416,8 +416,8 @@
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
 											<scf-input-text id="enquiry-end-time-textbox"
-												ng-disabled="ctrl.financeSolutions.enquiry.PnServiceTime=='24HR'"
-												ng-model="ctrl.financeSolutions.enquiry.PnPeriod.endTime" name="endTime"
+												ng-disabled="ctrl.financeSolutions.enquiry.pnServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.enquiry.pnPeriod.endTime" name="endTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
@@ -431,7 +431,7 @@
 								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
 									<div class="col-md-3 col-sm-3 col-xs-12">
 										<scf-checkbox id="enquiry-pn-suspend-checkbox"
-											ng-model="ctrl.financeSolutions.enquiry.PnSuspend"></scf-checkbox>
+											ng-model="ctrl.financeSolutions.enquiry.pnSuspend"></scf-checkbox>
 										<label class="checkbox-inline" id="enquiry-pn-suspend-label"
 											style="padding-bottom: 10px;">{{'Suspend' |
 											translate}}</label>
@@ -467,17 +467,17 @@
 										<div class="col-md-4 col-sm-4 col-xs-12">
 											<label class="radio-inline"><scf-radio
 													id="enquiry-od-24hrs-radio" name="enquiry-od-24hrs-radio" value="24HR"
-													ng-model="ctrl.financeSolutions.enquiry.OdServiceTime"></scf-radio>
+													ng-model="ctrl.financeSolutions.enquiry.odServiceTime"></scf-radio>
 												{{ '24 hrs.' | translate}} </label> <label
 												class="radio-inline"><scf-radio id="enquiry-od-period-radio"
 													name="enquiry-od-period-radio" value="PERIOD"
-													ng-model="ctrl.financeSolutions.enquiry.OdServiceTime"></scf-radio>
+													ng-model="ctrl.financeSolutions.enquiry.odServiceTime"></scf-radio>
 												{{ 'Period' | translate}} </label>
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
 											<scf-input-text id="enquiry-od-begin-time-textbox"
-												ng-disabled="ctrl.financeSolutions.enquiry.OdServiceTime=='24HR'"
-												ng-model="ctrl.financeSolutions.enquiry.Odperiod.beginTime" name="beginTime"
+												ng-disabled="ctrl.financeSolutions.enquiry.odServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.enquiry.odPeriod.beginTime" name="beginTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
@@ -486,8 +486,8 @@
 										</div>
 										<div class="col-md-2 col-sm-2 col-xs-12">
 											<scf-input-text id="enquiry-od-end-time-textbox"
-												ng-disabled="ctrl.financeSolutions.enquiry.OdServiceTime=='24HR'"
-												ng-model="ctrl.financeSolutions.enquiry.Odperiod.endTime" name="endTime"
+												ng-disabled="ctrl.financeSolutions.enquiry.odServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.enquiry.odPeriod.endTime" name="endTime"
 												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
 											</scf-input-text>
 										</div>
@@ -501,7 +501,7 @@
 								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
 									<div class="col-md-3 col-sm-3 col-xs-12">
 										<scf-checkbox id="enquiry-od-suspend-checkbox"
-											ng-model="ctrl.financeSolutions.enquiry.OdSuspend"></scf-checkbox>
+											ng-model="ctrl.financeSolutions.enquiry.odSuspend"></scf-checkbox>
 										<label class="checkbox-inline" id="enquiry-od-suspend-label"
 											style="padding-bottom: 10px;">{{'Suspend' |
 											translate}}</label>
@@ -514,6 +514,76 @@
 										<span class="col-md-6 col-sm-6 col-xs-12 error-msg"
 											id="errors-enquiry-od-period-service-time-warning-message-label"
 											ng-bind="errors.enquiryOdServiceTime.message">
+										</span>
+									</div>
+								</div>
+								<br/><br/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
+						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+							<label id="enquiry-saving-label"> {{'Saving' | translate}}</label>
+						</div><br/>
+						<div class="panel-body">
+							<div class="col-md-1 col-sm-1 col-xs-12 control-label"></div>
+							<div class="panel panel-default col-md-10 padding-0">
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+									<label id="enquiry-saving-service-time-label"> {{'Service time' | translate}}: </label>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<div class="form-group">
+										<div class="col-md-4 col-sm-4 col-xs-12">
+											<label class="radio-inline"><scf-radio
+													id="enquiry-saving-24hrs-radio" name="enquiry-saving-24hrs-radio" value="24HR"
+													ng-model="ctrl.financeSolutions.enquiry.savingServiceTime"></scf-radio>
+												{{ '24 hrs.' | translate}} </label> <label
+												class="radio-inline"><scf-radio id="enquiry-saving-period-radio"
+													name="enquiry-saving-period-radio" value="PERIOD"
+													ng-model="ctrl.financeSolutions.enquiry.savingServiceTime"></scf-radio>
+												{{ 'Period' | translate}} </label>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<scf-input-text id="enquiry-saving-begin-time-textbox"
+												ng-disabled="ctrl.financeSolutions.enquiry.savingServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.enquiry.savingPeriod.beginTime" name="beginTime"
+												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+											</scf-input-text>
+										</div>
+										<div class="col-md-1 col-sm-1 col-xs-12">
+											<label> - </label>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<scf-input-text id="enquiry-saving-end-time-textbox"
+												ng-disabled="ctrl.financeSolutions.enquiry.savingServiceTime=='24HR'"
+												ng-model="ctrl.financeSolutions.enquiry.savingPeriod.endTime" name="endTime"
+												ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+											</scf-input-text>
+										</div>
+										<div class="col-md-1 col-sm-1 col-xs-12">
+											<label id="enquiry-saving-format-time-label">{{ 'hh:mm' | translate}}</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div><br/><br/>
+								<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
+								<div class="col-md-9 col-sm-9 col-xs-12 control-label">
+									<div class="col-md-3 col-sm-3 col-xs-12">
+										<scf-checkbox id="enquiry-saving-suspend-checkbox"
+											ng-model="ctrl.financeSolutions.enquiry.savingSuspend"></scf-checkbox>
+										<label class="checkbox-inline" id="enquiry-saving-suspend-label"
+											style="padding-bottom: 10px;">{{'Suspend' |
+											translate}}</label>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12"
+									ng-show="errors.enquirySavingServiceTime">
+									<div class="form-group">
+										<label class="col-md-1 col-sm-2 col-xs-12 control-label"></label>
+										<span class="col-md-6 col-sm-6 col-xs-12 error-msg"
+											id="errors-enquiry-saving-period-service-time-warning-message-label"
+											ng-bind="errors.enquirySavingServiceTime.message">
 										</span>
 									</div>
 								</div>
