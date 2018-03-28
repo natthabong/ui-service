@@ -106,7 +106,6 @@ angular.module('gecscf.account').controller('AccountListController', [
 				vm.criteria.organizeId = undefined;
 			}
 
-			console.log(vm.account)
 			if (angular.isObject(vm.account)) {
 				vm.criteria.accountNo = vm.account.accountNo;
 			} else {
