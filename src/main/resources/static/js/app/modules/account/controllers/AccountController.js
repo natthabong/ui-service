@@ -89,7 +89,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 					}
 				} else {
 					$scope.errors.accountNo = {
-						message: 'Term loan is required.'
+						message: 'Account name is required.'
 					}
 				}
 
@@ -125,7 +125,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 					};
 					UIFactory.showFailDialog({
 						data: {
-							headerMessage: 'Add new account fail.',
+							headerMessage: 'Add organization account fail.',
 							bodyMessage: msg[response.status] ? msg[response.status]
 								: response.data.message
 						}
@@ -200,7 +200,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 									};
 									UIFactory.showFailDialog({
 										data: {
-											headerMessage: 'Add new account fail.',
+											headerMessage: 'Add organization account fail.',
 											bodyMessage: msg[response.status] ? msg[response.status]
 												: response.data.message
 										}
@@ -208,14 +208,13 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 								}
 							},
 							onSuccess: function (response) {
-								console.log(response.status);
 								if(response.status == 202){
-									_validateOrganizationAccount(accountData);
+									vm.add(callback);
 								}else{
 									UIFactory
 									.showSuccessDialog({
 										data: {
-											headerMessage: 'Add new account success.',
+											headerMessage: 'Add organization account complete.',
 											bodyMessage: ''
 										},
 										preCloseCallback: function () {
