@@ -21,6 +21,7 @@ fundingProfileModule.controller(
 			vm.endTime = null;
 			var parameters = PageNavigation.getParameters();
 			vm.fundingProfile = {};
+			vm.holidays = [];
 			vm.financeSolutions = {
 				buyerFinancing: {
 					pnServiceTime : null,
@@ -337,6 +338,16 @@ fundingProfileModule.controller(
 					vm.fundingProfile = response.data;
 					if (vm.fundingProfile.fundingLogo != null) {
 						vm.fundingLogo = vm.decodeBase64(vm.fundingProfile.fundingLogo);
+					}
+				});
+				
+				sendRequest('/api/v1/fundings/' + fundingId + '/holidays/all-years', function (response) {
+					var _holidays = response.data;
+					console.log(_holidays);
+					if (angular.isDefined(_holidays)) {
+						_holidays.forEach(function (holiday) {
+							vm.holidays.push(holiday);
+						});
 					}
 				});
 				

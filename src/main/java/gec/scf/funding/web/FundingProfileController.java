@@ -14,6 +14,7 @@ public class FundingProfileController {
 	private static final String FUNDING_PROFILE_CONFIG = "funding-profile/funding-profile-configuration-template";
 	private static final String FUNDING_PROFILE_INFO = "funding-profile/funding-profile-info/funding-profile-info";
 	private static final String FUNDING_PROFILE_NOTIFICATION = "funding-profile/notification/notification";
+	private static final String FUNDING_PROFILE_HOLIDAY = "funding-profile/holiday/holiday";
 	private static final String FUNDING_PROFILE_TXN_METHOD = "funding-profile/advance-approval-transaction-method/advance-approval-transaction-method";
 	private static final String FUNDING_PROFILE_FINANCE_SOLUTION = "funding-profile/finance-solution/finance-solution";
 	
@@ -55,6 +56,16 @@ public class FundingProfileController {
 			return FUNDING_PROFILE_NOTIFICATION.concat(" :: content");
 		}
 		return FUNDING_PROFILE_NOTIFICATION;
+
+	}
+	
+	@RequestMapping(path = {"/funding-profile/holiday"}, method = RequestMethod.GET)
+	public String fundingProfileHoliday(@RequestHeader("X-Requested-With") String requestedWith) {
+
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return FUNDING_PROFILE_HOLIDAY.concat(" :: content");
+		}
+		return FUNDING_PROFILE_HOLIDAY;
 
 	}
 	
