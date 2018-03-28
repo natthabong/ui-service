@@ -2,10 +2,11 @@
 angular.module('gecscf.organize.configuration').controller('OrganizationAccountController', [
 	'$stateParams',
 	'OrganizationAccountService',
+	'AccountService',
 	'PagingController',
 	'UIFactory',
 	'$filter',
-	function ($stateParams, OrganizationAccountService, PagingController, UIFactory, $filter) {
+	function ($stateParams, OrganizationAccountService, AccountService, PagingController, UIFactory, $filter) {
 		var vm = this;
 		vm.canManage=false;
 		vm.criteria = {
@@ -48,6 +49,42 @@ angular.module('gecscf.organize.configuration').controller('OrganizationAccountC
 					if (data) {
 						loadTableData();
 					}
+				}
+			});
+		}
+		
+		vm.deleteAccount = function (record) {
+			var preCloseCallback = function (confirm) {
+				loadTableData();
+			}
+
+			UIFactory.showConfirmDialog({
+				data: {
+					headerMessage: 'Confirm delete?'
+				},
+				confirm: function () {
+					return AccountService.deleteAccountOwner(vm.criteria.organizeId, record);
+				},
+				onFail: function (response) {
+					var msg = {
+						404: 'Organization account has been deleted.',
+						405: 'Organization account has been used.'
+					};
+					UIFactory.showFailDialog({
+						data: {
+							headerMessage: 'Delete organization account fail.',
+							bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
+						}
+					});
+				},
+				onSuccess: function (response) {
+					UIFactory.showSuccessDialog({
+						data: {
+							headerMessage: 'Delete organization account success.',
+							bodyMessage: ''
+						},
+						preCloseCallback: preCloseCallback
+					});
 				}
 			});
 		}
