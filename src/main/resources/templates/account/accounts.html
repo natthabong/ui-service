@@ -1,13 +1,10 @@
-<div id="content" th:fragment="content"
-	sec:authorize="hasAuthority('VIEW_ALL_ACCOUNTS')">
-<input type="hidden" ng-init="ctrl.canManage=true"
-		sec:authorize="hasAuthority('MANAGE_ALL_ACCOUNTS')" />
+<div id="content" th:fragment="content" sec:authorize="hasAuthority('VIEW_ALL_ACCOUNTS')">
+	<input type="hidden" ng-init="ctrl.canManage=true" sec:authorize="hasAuthority('MANAGE_ALL_ACCOUNTS')" />
 	<div id="wrapper">
 		<div class="panel box-shadow-none content-header">
 			<div class="panel-body">
 				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft"
-						ng-bind="'Account' | translate">Account</h3>
+					<h3 id="header-message-label" class="animated fadeInLeft" ng-bind="'Account list' | translate">Account list</h3>
 				</div>
 			</div>
 		</div>
@@ -15,73 +12,82 @@
 			<div class="panel panel-default col-md-12 padding-0">
 				<div class="panel-body">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<form name="accountSearchForm" ng-submit="ctrl.search()"
-							autocomplete="off" class="form-horizontal">
+						<form name="accountSearchForm" ng-submit="ctrl.search()" autocomplete="off" class="form-horizontal">
 							<div class="form-group">
-								<label for="sponsor-textbox"
-									class="col-md-2 col-sm-3 col-xs-12 control-label"
-									id="organize-label">{{'Organization'| translate}}: </label>
+								<label for="organization-textbox" class="col-md-2 col-sm-3 col-xs-12 control-label" id="organization-label" ng-bind="'Organization: ' | translate">Organization: </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
-										ng-model="ctrl.organize" id="organize-auto-suggest"></gec-auto-suggest>
+									<gec-auto-suggest model="ctrl.organizeAutoSuggestModel" ng-model="ctrl.organize" id="organization-auto-suggest"></gec-auto-suggest>
 								</div>
 							</div>
-							
 							<div class="form-group">
-								<label for="status" id="status-label"
-									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status'
-									| translate}} :</label>
+								<label for="account-no-textbox" class="col-md-2 col-sm-3 col-xs-12 control-label" id="account-no-label" ng-bind="'Account No.: ' | translate">Account No.: </label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<gec-auto-suggest model="ctrl.accountNoAutoSuggestModel" ng-model="ctrl.account" id="account-no-auto-suggest"></gec-auto-suggest>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="status" id="status-label" class="col-md-2 col-sm-3 col-xs-12 control-label" ng-bind="'Status: ' | translate">Status: </label>
 								<div class="col-md-3 col-sm-4 col-xs-12">
-									<scf-dropdown id="status-dropdown"
-										ng-model="ctrl.criteria.suspend"
-										component-data="ctrl.accountStatusDrpodowns"></scf-dropdown>
+									<scf-dropdown id="status-dropdown" ng-model="ctrl.criteria.suspend" component-data="ctrl.accountStatusDrpodowns"></scf-dropdown>
 								</div>
 								<div class="col-md-6 col-sm-5">
-									<scf-button type="submit" id="search-button"
-										class="btn-default" ng-bind="'Search' | translate"
-										ng-click="ctrl.submitted = true"></scf-button>
-
-								</div>
-							</div>
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<div>
-									<div class="col-md-12 col-sm-12 text-right">
-				                        <br/>
-				                        <scf-button class="btn-default gec-btn-action" id="account-new-button" title="New an account" ng-click="ctrl.addAccount()"
-				                            ng-disabled="!ctrl.canManage">
-				                            <i class="fa fa-plus" aria-hidden="true"></i>
-				                        </scf-button>
-				                    </div>
-									<div class="col-md-12 col-sm-12 text-right">
-										<div class="row">
-											<div class="col-md-12 col-sm-12">
-												<span> <b
-													ng-bind="ctrl.pagingController.splitePageTxt"
-													id="account-list-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-														dropdown-id="account-page-limit-dropdown"
-														name="account"
-														page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-														total-page="ctrl.pagingController.pagingModel.totalPage"
-														current-page="ctrl.pagingController.pagingModel.currentPage"
-														page-size-list="ctrl.pagingController.pageSizeList"
-														page-action="ctrl.search"></scf-pagination>
-												</span>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-12">
-											<scf-data-table id="account-list-table"
-												component-config="ctrl.dataTable"
-												component-datas="ctrl.pagingController.tableRowCollection"
-												current-page="ctrl.pagingController.pagingModel.currentPage"
-												record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-												clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-data-table>
-										</div>
-									</div>
+									<scf-button type="submit" id="search-button" class="btn-default" ng-bind="'Search' | translate" ng-click="ctrl.submitted = true">Search</scf-button>
 								</div>
 							</div>
 						</form>
+					</div>
+					<div class="text-right">
+						<div class="col-md-12 col-sm-12">
+							<span>
+								<b ng-bind="ctrl.pagingController.splitePageTxt" id="account-list-paging-label"></b> &nbsp;&nbsp;
+								<scf-pagination dropdown-id="account-page-limit-dropdown" name="account" page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+								    total-page="ctrl.pagingController.pagingModel.totalPage" current-page="ctrl.pagingController.pagingModel.currentPage"
+								    page-size-list="ctrl.pagingController.pageSizeList" page-action="ctrl.search"></scf-pagination>
+							</span>
+						</div>
+					</div>
+					<div class="responsive-table">
+						<table id="account-table" class="table table-striped table-bordered" cellspacing="0">
+							<thead>
+								<tr>
+									<th id="$rowNo-header-label" ng-bind="'No.' | translate">No.</th>
+									<th id="account-no-header-label" ng-bind="'Account No.' | translate">Account No.</th>
+									<th id="account-type-header-label" ng-bind="'Account type' | translate">Account type</th>
+									<th id="organization-name-header-label" ng-bind="'Organization name' | translate">Organization name</th>
+									<th id="status-header-label" ng-bind="'Status' | translate">Status</th>
+									<th id="tool-header-label"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
+									<td class="text-center">
+										<span id="$rowNo-{{record.rowNo}}-label" ng-bind="record.rowNo"></span>
+									</td>
+									<td class="text-center">
+										<span id="account-no-{{record.rowNo}}-label" ng-hide="record.hide" ng-bind="ctrl.getFormattedAccountNumber(record)"></span>
+									</td>
+									<td class="text-center">
+										<span id="account-type-{{record.rowNo}}-label" ng-hide="record.hide" ng-bind="record.accountType | translate"></span>
+									</td>
+									<td class="text-left">
+										<span id="organization-name-{{record.rowNo}}-label" ng-bind="record.organizeName"></span>
+									</td>
+									<td class="text-center">
+										<span id="status-{{record.rowNo}}-label" ng-hide="record.hide" ng-bind="record.actualStatus | translate"></span>
+									</td>
+									<td class="text-center">
+										<scf-button id="{{record.rowNo}}-edit-button" class="btn-default gec-btn-action" ng-hide="record.hide" ng-disabled="!ctrl.canManage"
+										    ng-click="ctrl.editAccount(record)" title="Edit">
+											<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+										</scf-button>
+										<scf-button id="{{record.rowNo}}-delete-button" class="btn-default gec-btn-action" ng-hide="record.hide" ng-disabled="!ctrl.canManage"
+										    ng-click="ctrl.deleteAccount(record)" title="Delete">
+											<i class="fa fa-trash-o" aria-hidden="true"></i>
+										</scf-button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>

@@ -1,13 +1,33 @@
 angular.module('gecscf.account').factory('AccountService', ['$http', '$q', function($http, $q) {
     return {
     	getAccounts: getAccounts,
+    	getAccountsByAccountType: getAccountsByAccountType,
+    	verifyAccount: verifyAccount,
     	save: save,
     	update: update,
     	deleteAccount: deleteAccount,
+    	deleteAccountOwner: deleteAccountOwner,
     	enquiryCreditLimit: enquiryCreditLimit,
     	enquiryAccountBalance: enquiryAccountBalance
     	
     };	
+    
+    function verifyAccount(account){
+        var serviceUrl = '/api/v1/organize-customers/'+account.organizeId+'/accounts/verify-account';
+        var deferred = $q.defer();
+        $http({
+            method : 'POST',
+            url : serviceUrl,
+            data: account
+        }).then(function(response) {
+            return deferred.resolve(response);
+        }).catch(function(response) {
+            return deferred.reject(response);
+        });
+        return deferred;
+    
+    }
+    
     function save(account){
         var serviceUrl = '/api/v1/organize-customers/'+account.organizeId+'/accounts';
         var deferred = $q.defer();
@@ -25,7 +45,7 @@ angular.module('gecscf.account').factory('AccountService', ['$http', '$q', funct
     }
     
      function update(account){
-        var serviceUrl = '/api/v1/organize-customers/'+account.organizeId+'/accounts/'+account.accountId;
+        var serviceUrl = '/api/v1/organize-customers/accounts/'+account.accountId;
 		var deferred = $q.defer();
 		$http({
 			method : 'POST',
@@ -45,6 +65,25 @@ angular.module('gecscf.account').factory('AccountService', ['$http', '$q', funct
     }
 
     function deleteAccount(account){		
+		var serviceUrl = '/api/v1/organize-customers/accounts/'+account.accountId;
+		var deferred = $q.defer();
+		$http({
+			method : 'POST',
+			url : serviceUrl,
+			headers : {
+				'If-Match' : account.version,
+				'X-HTTP-Method-Override': 'DELETE'
+			},
+			data: account
+		}).then(function(response) {
+			return deferred.resolve(response);
+		}).catch(function(response) {
+			return deferred.reject(response);
+		});
+		return deferred;
+	}
+    
+    function deleteAccountOwner(organizeId, account){		
 		var serviceUrl = '/api/v1/organize-customers/'+account.organizeId+'/accounts/'+account.accountId;
 		var deferred = $q.defer();
 		$http({
@@ -66,11 +105,30 @@ angular.module('gecscf.account').factory('AccountService', ['$http', '$q', funct
     function getAccounts(organizeId, offset, limit) {
         var deffered = $q.defer();
 
-        $http.post('api/v1/accounts', {
+        $http.get('api/v1/accounts', {
                 params: {
                 	offset: offset,
                 	limit: limit,
                 	organizeId: organizeId
+                }
+            })
+            .then(function(response) {
+                deffered.resolve(response);
+            })
+            .catch(function(response) {
+                deffered.reject('Cannot load page, pageSize ');
+            });
+        return deffered;
+    }
+    
+    function getAccountsByAccountType(organizeId, accountType, offset, limit) {
+        var deffered = $q.defer();
+        $http.get('api/v1/organize-customers/accounts', {
+                params: {
+                	offset: offset,
+                	limit: limit,
+                	organizeId: organizeId,
+                	accountType: accountType
                 }
             })
             .then(function(response) {

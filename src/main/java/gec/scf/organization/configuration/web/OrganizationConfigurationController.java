@@ -17,6 +17,7 @@ public class OrganizationConfigurationController {
 	private static final String GENERAL_INFO = "sponsor-configuration/general-info/general-info";
 
 	private static final String WORKFLOW = "sponsor-configuration/workflow/workflow";
+	private static final String ACCOUNT = "sponsor-configuration/account/organization-account";
 	private static final String SETUP_WORKFLOW = "sponsor-configuration/workflow/setup";
 
 	private static final String BUYER_CODE = "sponsor-configuration/ar-document-config/buyer-code";
@@ -270,6 +271,14 @@ public class OrganizationConfigurationController {
 			return WORKFLOW.concat(" :: content");
 		}
 		return WORKFLOW;
+	}
+
+	@RequestMapping(path = "/organization-account", method = RequestMethod.GET)
+	public String getOrganizationAccount(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return ACCOUNT.concat(" :: content");
+		}
+		return ACCOUNT;
 	}
 
 	@RequestMapping(path = "/mapping-data", method = RequestMethod.GET)
