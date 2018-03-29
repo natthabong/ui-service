@@ -236,7 +236,8 @@ displayModule.controller('DisplayController', [
         }
 
         var loadDocumentCondition = function() {
-            var deffered = SCFCommonService.getDocumentFields('DISPLAY', 'DETAIL', 'TEXT', false);
+        	var layoutType = displayMode == "TRANSACTION_DOCUMENT" ? 'CREATE_DISPLAY' : 'DISPLAY';
+            var deffered = SCFCommonService.getDocumentFields(layoutType, 'DETAIL', 'TEXT', false);
             deffered.promise.then(function(response) {
                 var documentFieldData = response.data;
 
@@ -253,7 +254,8 @@ displayModule.controller('DisplayController', [
         }
 
         var loadDataTypes = function() {
-            var deffered = SCFCommonService.getDocumentFields('DISPLAY', 'DETAIL');
+        	var layoutType = displayMode == "TRANSACTION_DOCUMENT" ? 'CREATE_DISPLAY' : 'DISPLAY';
+            var deffered = SCFCommonService.getDocumentFields(layoutType, 'DETAIL');
             deffered.promise.then(function(response) {
                 vm.documentFieldData = response.data;
 
@@ -610,7 +612,7 @@ displayModule.controller('DisplayController', [
             var dataSaveModel = jQuery.extend(true, {}, vm.dataModel);
             dataSaveModel.items.forEach(function(obj, index) {
                 if (obj.documentField != null) {
-                    var dataType = vm.documentFields[obj.documentField.documentFieldId];
+                	var dataType = vm.documentFields.find(x => x.value === obj.documentField.documentFieldId);
                     if (angular.isDefined(dataType)) {
                         obj.sequenceNo = index + 1;
                         dataSaveModel.items[index].documentFieldId = obj.documentField.documentFieldId;
