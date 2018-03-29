@@ -219,7 +219,7 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
                 PageNavigation.gotoPage('/my-organize/transaction-list');
             } else {
                 var params = {
-                    bankCode: vm.transactionApproveModel.transaction.bankCode,
+                    transactionType: vm.transactionApproveModel.transaction.transactionType,
                     transactionMethod: vm.transactionApproveModel.transaction.transactionMethod,
                     transactionDate: vm.transactionApproveModel.transaction.transactionDate
                 };
