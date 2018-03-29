@@ -65,7 +65,7 @@ angular.module('gecscf.account').controller('AccountListController', [
 		}
 
 		var searchAccountNoTypeHead = function (value) {
-			var url = 'api/v1/accounts';
+			var url = 'api/v1/get-auto-suggest-accounts';
 			value = UIFactory.createCriteria(value);
 			return $http.get(url, {
 				params: {
@@ -122,9 +122,8 @@ angular.module('gecscf.account').controller('AccountListController', [
 					var existingAccountId = {};
 					var pageSize = parseInt(vm.pagingController.pagingModel.pageSizeSelectModel);
 					var currentPage = parseInt(vm.pagingController.pagingModel.currentPage);
-					var i = 1;
+					var i = 0;
 					var baseRowNo = pageSize * currentPage;
-
 					angular.forEach(data, function (value, idx) {
 						if (value.accountId in existingAccountId) {
 							value.hide = true;
@@ -133,8 +132,8 @@ angular.module('gecscf.account').controller('AccountListController', [
 							value.hide = false;
 						}
 
-						value.rowNo = baseRowNo + i;
 						++i;
+						value.rowNo = baseRowNo + i;
 					})
 				}
 			);
