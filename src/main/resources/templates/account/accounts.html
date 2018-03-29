@@ -76,12 +76,12 @@
 										<span id="status-{{record.rowNo}}-label" ng-hide="record.hide" ng-bind="record.actualStatus | translate"></span>
 									</td>
 									<td class="text-center">
-										<scf-button id="{{record.rowNo}}-edit-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.editAccount(record)"
-										    title="Edit">
+										<scf-button id="{{record.rowNo}}-edit-button" class="btn-default gec-btn-action" ng-hide="record.hide" ng-disabled="!ctrl.canManage"
+										    ng-click="ctrl.editAccount(record)" title="Edit">
 											<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 										</scf-button>
-										<scf-button id="{{record.rowNo}}-delete-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.deleteAccount(record)"
-										    title="Delete">
+										<scf-button id="{{record.rowNo}}-delete-button" class="btn-default gec-btn-action" ng-hide="record.hide" ng-disabled="!ctrl.canManage"
+										    ng-click="ctrl.deleteAccount(record)" title="Delete">
 											<i class="fa fa-trash-o" aria-hidden="true"></i>
 										</scf-button>
 									</td>
