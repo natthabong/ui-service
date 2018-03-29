@@ -63,14 +63,16 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
                 var deffered = ApprovePaymentService.checkTransactionHour(vm.transactionApproveModel.transaction);
                 deffered.promise.then(function(response) {
                     vm.txnHour = response.data;
-                    if (!vm.txnHour.allowSendToBank) {
+                    if (!vm.txnHour.allowSendToBank || vm.txnHour.suspend ) {
+                    	var message = vm.txnHour.suspend?'Please try again later.':'Please approve transaction within';
                         UIFactory.showHourDialog({
                             data: {
                                 mode: 'transaction',
-                                headerMessage: 'Transaction hour',
-                                bodyMessage: 'Please approve transaction within',
+                                headerMessage: 'Service unavailable.',
+                                bodyMessage: message,
                                 startTransactionHour: vm.txnHour.startTransactionHour,
-                                endTransactionHour: vm.txnHour.endTransactionHour
+                                endTransactionHour: vm.txnHour.endTransactionHour,
+                                suspend: vm.txnHour.suspend
                             },
                         });
                     }

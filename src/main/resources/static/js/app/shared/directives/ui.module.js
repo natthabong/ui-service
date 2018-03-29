@@ -219,7 +219,8 @@ angular
 						});
 				}
 				
-				var showHourDialog = function(config) {					
+				var showHourDialog = function(config) {	
+					console.log(config);
 						return ngDialog
 							.open({
 								template : BASE_TEMPLATE_URL + 'hour-dialog.html',
