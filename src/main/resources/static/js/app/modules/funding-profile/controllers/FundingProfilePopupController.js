@@ -37,7 +37,7 @@ module
                         $scope.errors = {};
                         var valid = true;
                         if (isEmpty(vm.model.fundingCode)) {
-                          $scope.errors.fundingCode = 'Funding code is required';
+                          $scope.errors.bankCode = 'Funding code is required';
                           valid = false;
                         }
                         if (isEmpty(vm.model.fundingName)) {

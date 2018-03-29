@@ -212,7 +212,13 @@ fundingProfileModule.controller(
 							vm.financeSolutions.buyerFinancing.pnPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.buyerFinancingPnServiceTime = {
-							message: 'P/N service time is required.'
+							message: 'P/N Service time (Period) is required.'
+						}
+					}
+					else if(vm.financeSolutions.buyerFinancing.pnPeriod.beginTime == vm.financeSolutions.buyerFinancing.pnPeriod.endTime){
+						isValid = false;
+						$scope.errors.buyerFinancingPnServiceTime = {
+							message: 'P/N Service time (Period) from - to is same time.'
 						}
 					}
 				}
@@ -221,7 +227,13 @@ fundingProfileModule.controller(
 							vm.financeSolutions.buyerFinancing.odPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.buyerFinancingOdServiceTime = {
-							message: 'Overdraft service time is required.'
+							message: 'Overdraft Service time (Period) is required.'
+						}
+					}
+					else if(vm.financeSolutions.buyerFinancing.odPeriod.beginTime == vm.financeSolutions.buyerFinancing.odPeriod.endTime){
+						isValid = false;
+						$scope.errors.buyerFinancingOdServiceTime = {
+							message: 'Overdraft Service time (Period) from - to is same time.'
 						}
 					}
 				}
@@ -230,7 +242,13 @@ fundingProfileModule.controller(
 							vm.financeSolutions.buyerFinancing.savingPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.buyerFinancingSavingServiceTime = {
-							message: 'Saving service time is required.'
+							message: 'Saving Service time (Period) is required.'
+						}
+					}
+					else if(vm.financeSolutions.buyerFinancing.savingPeriod.beginTime == vm.financeSolutions.buyerFinancing.savingPeriod.endTime){
+						isValid = false;
+						$scope.errors.buyerFinancingSavingServiceTime = {
+							message: 'Saving Service time (Period) from - to is same time.'
 						}
 					}
 				}
@@ -240,7 +258,13 @@ fundingProfileModule.controller(
 							vm.financeSolutions.supplierFinancing.pnPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.supplierFinancingPnServiceTime = {
-							message: 'P/N service time is required.'
+							message: 'P/N Service time (Period) is required.'
+						}
+					}
+					else if(vm.financeSolutions.supplierFinancing.pnPeriod.beginTime == vm.financeSolutions.supplierFinancing.pnPeriod.endTime){
+						isValid = false;
+						$scope.errors.supplierFinancingPnServiceTime = {
+							message: 'P/N Service time (Period) from - to is same time.'
 						}
 					}
 				}
@@ -249,7 +273,13 @@ fundingProfileModule.controller(
 							vm.financeSolutions.supplierFinancing.odPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.supplierFinancingOdServiceTime = {
-							message: 'Overdraft service time is required.'
+							message: 'Overdraft Service time (Period) is required.'
+						}
+					}
+					else if(vm.financeSolutions.supplierFinancing.odPeriod.beginTime == vm.financeSolutions.supplierFinancing.odPeriod.endTime){
+						isValid = false;
+						$scope.errors.supplierFinancingOdServiceTime = {
+							message: 'Overdraft Service time (Period) from - to is same time.'
 						}
 					}
 				}
@@ -259,7 +289,13 @@ fundingProfileModule.controller(
 							vm.financeSolutions.enquiry.pnPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.enquiryPnServiceTime = {
-							message: 'P/N service time is required.'
+							message: 'P/N Service time (Period) is required.'
+						}
+					}
+					else if(vm.financeSolutions.enquiry.pnPeriod.beginTime == vm.financeSolutions.enquiry.pnPeriod.endTime){
+						isValid = false;
+						$scope.errors.enquiryPnServiceTime = {
+							message: 'P/N Service time (Period) from - to is same time.'
 						}
 					}
 				}
@@ -268,7 +304,13 @@ fundingProfileModule.controller(
 							vm.financeSolutions.enquiry.odPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.enquiryOdServiceTime = {
-							message: 'Overdraft service time is required.'
+							message: 'Overdraft Service time (Period) is required.'
+						}
+					}
+					else if(vm.financeSolutions.enquiry.odPeriod.beginTime == vm.financeSolutions.enquiry.odPeriod.endTime){
+						isValid = false;
+						$scope.errors.enquiryOdServiceTime = {
+							message: 'Overdraft Service time (Period) from - to is same time.'
 						}
 					}
 				}
@@ -277,7 +319,13 @@ fundingProfileModule.controller(
 							vm.financeSolutions.enquiry.savingPeriod.endTime == null){
 						isValid = false;
 						$scope.errors.enquirySavingServiceTime = {
-							message: 'Saving service time is required.'
+							message: 'Saving Service time (Period) is required.'
+						}
+					}
+					else if(vm.financeSolutions.enquiry.savingPeriod.beginTime == vm.financeSolutions.enquiry.savingPeriod.endTime){
+						isValid = false;
+						$scope.errors.enquirySavingServiceTime = {
+							message: 'Saving Service time (Period) from - to is same time.'
 						}
 					}
 				}
