@@ -113,11 +113,11 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3 col-sm-3">
-							<label id="loan-maturity-label" ng-show="ctrl.isTypeLoan || ctrl.accountType == 'OVERDRAFT'">{{'Loan
+							<label id="loan-maturity-label" ng-show="ctrl.accountType == 'LOAN'">{{'Loan
 								maturity date' | translate}}:</label>
 						</div>
 						<div class="col-md-2 col-sm-2 text-right">
-							<span id="loan-maturity-value-label" ng-show="ctrl.isTypeLoan || ctrl.accountType == 'OVERDRAFT'" ng-bind="ctrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
+							<span id="loan-maturity-value-label" ng-show="ctrl.accountType == 'LOAN'" ng-bind="ctrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></span>
 						</div>
 						<div class="col-md-1 col-sm-1"></div>
 						<div class="col-md-3 col-sm-3">
