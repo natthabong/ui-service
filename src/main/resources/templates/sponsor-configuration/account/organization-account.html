@@ -35,7 +35,7 @@
 									<span id="account-type-{{record.accountNo}}-label" ng-bind="record.accountType | translate"></span>
 								</td>
 								<td class="text-center">
-									<span id="account-status-{{record.accountNo}}-label" ng-bind="record.status | translate"></span>
+									<span id="account-status-{{record.accountNo}}-label" ng-bind="record.actualStatus | translate"></span>
 								</td>
 								<td class="text-center">
 									<scf-button id="account-{{record.accountNo}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteAccount(record)"
