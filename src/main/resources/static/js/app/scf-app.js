@@ -2,7 +2,7 @@ var $stateProviderRef = null;
 var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.bootstrap', 'ui.mask', 'authenApp', 'oc.lazyLoad', 'checklist-model', 'blockUI', 'scf-ui', 'ngDialog', 'nvd3ChartDirectives',
 		'legendDirectives', 'chart.js', 'gecscf.ui', 'ngCookies', 'gecscf.organize', 'gecscf.profile', 'gecscf.user', 'gecscf.tradingPartner', 'gecscf.account', 'gecscf.transaction', 'gecscf.tradingPartner.financing',
 		'gecscf.supplierCreditInformation', 'gecscf.buyerCreditInformation', 'gecscf.sponsorConfiguration.workflow', 'gecscf.document', 'gecscf.organize.configuration.exportPayment', 'gecscf.organize.configuration.display',
-		'gecscf.downloadPaymentResult', 'gecscf.documentUploadLog', 'gecscf.monitoring'
+		'gecscf.downloadPaymentResult', 'gecscf.documentUploadLog', 'gecscf.monitoring' , 'gecscf.fundingProfile'
 	])
 	.config(['$httpProvider', '$translateProvider', '$translatePartialLoaderProvider', '$stateProvider', '$locationProvider', 'blockUIConfig', '$logProvider', '$compileProvider', '$urlRouterProvider', 'ngDialogProvider',
 		function ($httpProvider, $translateProvider, $translatePartialLoaderProvider, $stateProvider, $locationProvider, blockUIConfig, $logProvider, $compileProvider, $urlRouterProvider, ngDialogProvider) {

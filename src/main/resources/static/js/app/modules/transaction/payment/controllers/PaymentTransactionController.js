@@ -526,13 +526,15 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 					vm.confirmRejectPopup(vm.transactionPayload.transaction,'error');
 				}
 				else if(response.data.errorCode == 'INVALID'){
+					var message = response.data.attributes.suspend?'Please try again later.':'Please approve transaction within';
 					UIFactory.showHourDialog({
 						data : {
 							mode: 'transaction',
-							headerMessage : 'Transaction hour.',
-							bodyMessage: 'Please reject transaction within',
+							headerMessage : 'Service unavailable.',
+							bodyMessage: message,
 							startTransactionHour : response.data.attributes.startTransactionHour,
-							endTransactionHour : response.data.attributes.endTransactionHour
+							endTransactionHour : response.data.attributes.endTransactionHour,
+                            suspend: response.data.attributes.isSuspend
 						},
 					});	
 				} 

@@ -52,6 +52,11 @@
 	"customer-registration-buyer-credit-information": "Buyer credit information",
 	"customer-registration-funding-profiles": "Funding Profile",
 	"customer-report": "Customer report",
+	"funding-profile-list": "Funding Profile List",
+	
+	"Tax ID": "Tax ID",
+	"Funding code": "Funding code",
+	"Funding name": "Funding name",
 
 	"myprofile": "My profile",
 	"dashboard": "Dashboard",
@@ -613,8 +618,9 @@
 	"TEXT_MAPPING_WITH_DEFAULT": "Text mapping with default",
 	"REASON_CODE": "Reason code",
 
-	"Loan account": "Loan account",
 	"SUPPLIER_FINANCING": "Supplier financing",
+	"Borrower loan account": "Borrower loan account",
+	"Supplier payee account": "Supplier payee account",
 
 	"download-payment-result-supplier": "Download payment result",
 	"LOAN": "Loan",
@@ -717,6 +723,33 @@
 	"UPLOAD_FILE_FAIL": "Upload file ({{fileName}}) fail. {{message}}",
 	"START_DELETE_TEMPORARY_FILE": "Start deleting temporary file ({{fileName}}).",
 	"DELETE_TEMPORARY_FILE_SUCCESS": "Delete temporary file ({{fileName}}) success.",
-	"DELETE_TEMPORARY_FILE_FAIL": "Delete temporary file ({{fileName}}) fail."
-
+	"DELETE_TEMPORARY_FILE_FAIL": "Delete temporary file ({{fileName}}) fail.",
+	
+	"Edit funding profile": "Edit funding profile",
+	"Edit funding logo": "Edit funding logo",
+	"Funding logo": "Funding logo",
+	"Funding profile": "Funding profile",
+	"Notification": "Notification",
+	"Sender name": "Sender name",
+	"Sender email": "Sender email",
+	"Advance approval transaction method": "Advance approval transaction method",
+	"Pending on": "Pending on",
+	"Add new funding profile": "Add new funding profile",
+	"13 digits": "13 digits",
+	"GECSCF Hub Ref. Code": "GECSCF Hub Ref. Code",
+	
+	"Account": "Account",
+	"Finance solution": "Finance solution",
+	"Buyer financing": "Buyer financing",
+	"P/N": "P/N",
+	"Service time": "Service time",
+	"24 hrs.": "24 hrs.",
+	"Period": "Period",
+	"hh:mm": "hh:mm",
+	"Overdraft": "Overdraft",
+	"Current/Saving": "Current/Saving",
+	"Supplier financing": "Supplier financing",
+	"Enquiry balance": "Enquiry balance",
+	"Holiday":"Holiday",
+	"Year":"Year"
 }

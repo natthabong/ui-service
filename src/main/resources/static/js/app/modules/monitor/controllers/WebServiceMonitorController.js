@@ -13,12 +13,12 @@ scfApp.controller('WebServiceMonitorController', ['$scope', 'Service',
 		vm.viewInfo = function (serviceType, webServiceModel) {
 			var deffered = SystemIntegrationMonitorService.updateWebServiceInfomation(webServiceModel);
 			deffered.promise.then(function (response) {
-				var data = response.data[0];
+				var data = response.data;
 				vm.serviceInfo = {
 					serviceName: data.displayName,
-					serviceType: 'Web service',
+					serviceType: data.serviceType,
 					protocal: 'https',
-					url: data.bankUrl,
+					url: data.connection.url,
 					userName: '-',
 					host: null,
 					port: null,

@@ -71,12 +71,13 @@ tpModule.factory('TradingPartnerService', ['$http', '$q', 'Service', function ($
 	}
 
 	var getPayeeAccounts = function (organizeId) {
-		var serviceUrl = '/api/v1/organize-customers/' + organizeId + '/accounts';
+		var serviceUrl = '/api/v1/organize-customers/accounts';
 		var deferred = $q.defer();
 		$http({
 			method: 'GET',
 			url: serviceUrl,
 			params: {
+				organizeId: organizeId,
 				offset: 0,
 				limit: 999
 			}

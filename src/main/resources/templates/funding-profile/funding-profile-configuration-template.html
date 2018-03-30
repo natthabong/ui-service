@@ -1,0 +1,59 @@
+<div id="content" th:fragment="content">
+	<div id="wrapper"
+		ng-controller="FundingProfileConfigurationController as ctrl">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12" >
+					<h3 id="funding-profile-configuration-header-label"
+						class="animated fadeInLeft"
+						ng-bind="'Edit funding profile' | translate">Edit funding
+						profile</h3>
+				</div>
+			</div>
+		</div>
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div ng-include="'/funding-profile/funding-profile-info'"></div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div ng-include="'/funding-profile/notification'"></div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div ng-include="'/funding-profile/holiday'"></div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div
+							ng-include="'/funding-profile/advance-approval-transaction-method'"></div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div
+							ng-include="'/funding-profile/finance-solution'"></div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div id="bottom-sticker">
+							<div class="col-md-12 col-sm-12 text-right">
+								<scf-button id="cancel-button" class="popup-button"
+									data-dismiss="modal" ng-click="ctrl.backAction()"
+									ng-bind="'Cancel' | translate"></scf-button>
+								<scf-button id="save-button" type="submit"
+									ng-click="ctrl.save()" ng-bind="'Save' | translate"></scf-button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

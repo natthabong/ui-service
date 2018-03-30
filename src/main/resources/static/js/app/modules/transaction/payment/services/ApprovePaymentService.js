@@ -87,8 +87,8 @@ function ApprovePaymentService($http, $q, blockUI, $window, Service) {
 
     function checkTransactionHour(transaction) {
         var params = {
-            bankCode: transaction.bankCode,
-            transactionMethod: transaction.transactionMethod,
+            transactionType: transaction.transactionType,
+        	transactionMethod: transaction.transactionMethod,
             transactionDate: transaction.transactionDate
         };
 

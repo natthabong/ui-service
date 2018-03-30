@@ -29,20 +29,14 @@
 						</div>
 						<div class="form-group">
 							<label for="sponsor-auto-suggest" id="finance-account-label"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Loan
-								account' | translate}}: </label>
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Borrower loan account' | translate}}: </label>
 							<div class="col-md-3 col-sm-6 col-xs-12">
-								<gec-auto-suggest id="finance-account-auto-suggest"
-									disable="!ctrl.isNewMode"
-									model="ctrl.financeAccountAutoSuggestModel"
-									name="financeAccount"
+								<scf-dropdown id="loan-account-dropdown"
+									ng-disabled="ctrl.isViewMode"
+									ng-change="ctrl.changeAccountType()"
 									ng-model="ctrl.tradeFinanceModel.financeAccount"
-									maxlength="100">
-								</gec-auto-suggest>
+									component-data="ctrl.loanAccountDropdown"></scf-dropdown>
 							</div>
-							<scf-button id="add-loan-account-button" class="btn-default gec-btn-action col-md-6 col-sm-4 col-xs-3"
-								ng-disabled="!ctrl.isNewMode" ng-click="ctrl.add('LOAN_ACCOUNT')">
-							<i class="fa fa-plus" aria-hidden="true"></i></scf-button>
 							<div class="col-md-6 col-sm-4 col-xs-3">
 								<label id="account-type-label"
 									class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Account type' | translate}}: </label>
@@ -58,16 +52,13 @@
 						</div>
 						<div class="form-group">
 							<label id="tenor-label"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Payee account (Supplier)' | translate}}: </label>
+								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier payee account' | translate}}: </label>
 							<div class="col-md-3 col-sm-8 col-xs-12">
 								<scf-dropdown id="payee-account-dropdown"
 									ng-disabled="ctrl.isViewMode"
 									ng-model="ctrl.tradeFinanceModel.payeeAccountId"
 									component-data="ctrl.payeeAccountDropdown"></scf-dropdown>
 							</div>
-							<scf-button id="add-payee-account-button" class="btn-default gec-btn-action col-md-6 col-sm-4 col-xs-3"
-								ng-disabled="ctrl.isViewMode" ng-click="ctrl.add('PAYEE_ACCOUNT')">
-							<i class="fa fa-plus" aria-hidden="true"></i></scf-button>
 						</div>
 						<div class="form-group" ng-show="errors.payeeAccountId">
 							<div>
