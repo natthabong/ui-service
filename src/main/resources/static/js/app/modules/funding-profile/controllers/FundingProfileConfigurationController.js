@@ -366,7 +366,8 @@ fundingProfileModule.controller(
 						},
 						onFail: function (response) {
 							var msg = {
-								405: 'Funding profile has been modified.'
+								405: 'Funding profile has been modified.',
+								422: 'Service time format invalid.'
 							};
 							blockUI.stop();
 							UIFactory.showFailDialog({
