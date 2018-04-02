@@ -398,7 +398,6 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 						if (status != 400) {
 							var msg = {
 								404: "Trade finance has been deleted.",
-								405: "Trade finance has been used.",
 								409: (vm.isNewMode ? "Trade finance is existed." : 'Trade finance has been modified.')
 							}
 							UIFactory.showFailDialog({
