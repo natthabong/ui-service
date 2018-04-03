@@ -279,6 +279,9 @@
 	"E1014": "Invalid transaction number.",
 	"E1015": "Invalid transaction method.",
 	"E1016": "Invalid credit pending method.",
+	"E1017": "Trade finance has been suspended.",
+	"E1018": "Account has been suspended.",
+	"E1019": "Trading partner has been suspended.",
 	"Today is bank holiday.": "Can't create transaction. Please create next working day.",
 	"ULE1001": "Could not upload file because channel is inactive.",
 
