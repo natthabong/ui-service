@@ -232,7 +232,9 @@ txnMod.controller('CreatePaymentController', [
                 }
 
                 if (!backAction) {
-                	vm.transactionModel.payerAccountId = vm.accountDropDown[0].value;
+                	if(vm.accountDropDown.length > 0){
+                    	vm.transactionModel.payerAccountId = vm.accountDropDown[0].value;
+                	}
                 }
 
                 _loadTradingPartnerInfo();
