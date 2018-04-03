@@ -387,13 +387,17 @@ function transactionService($http, $q, blockUI, $window) {
         var errorMessageCode = {
             incomplete: 'INCOMPLETE',
             transactionHour: 'E1012',
-            concurency: 'E1003'
+            concurency: 'E1003' ,
+            tradeFinanceSuspend : 'E1017',
+            accountSuspend : 'E1018' ,
+            tradePartnerSuspend : 'E1019',
         }
         var version = (new Date()).getTime();
         var templateUrl = '/js/app/approve-transactions/fail-dialog.html?v=' + version;
         if (action === 'approve') {
             if (angular.isDefined(errorCode)) {
-                if (errorCode == errorMessageCode.incomplete) {
+                if (errorCode == errorMessageCode.incomplete || errorCode == errorMessageCode.tradeFinanceSuspend 
+                		|| errorCode == errorMessageCode.accountSuspend || errorCode == errorMessageCode.tradePartnerSuspend) {
                     templateUrl = '/js/app/approve-transactions/incomplete-dialog.html?v=' + version;
                 } else if (errorCode == errorMessageCode.concurency) {
 

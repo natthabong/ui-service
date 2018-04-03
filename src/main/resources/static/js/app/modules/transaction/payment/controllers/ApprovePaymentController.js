@@ -200,7 +200,8 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
                         });
                     }
                 });
-            } else {
+            }
+            else {
                 $scope.response.showViewRecentBtn = false;
                 $scope.response.showViewHistoryBtn = true;
                 $scope.response.showCloseBtn = $scope.response.errorCode == 'E1012' ? true : false;
@@ -209,8 +210,17 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
                     vm.disableButton = true;
                 }
                 $scope.response.showBackBtn = true;
-                if ($scope.response.errorCode != 'E0403') {
+                if ($scope.response.errorCode != 'E0403' ) {
                     vm.errorMessageModel = response.data;
+                    var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode, 'approve');
+                    ngDialog.open({
+                        template: dialogUrl,
+                        scope: $scope,
+                        disableAnimation: true
+                    });
+                }else if ($scope.response.errorCode == "E1017" || $scope.response.errorCode == "E1018" || $scope.response.errorCode == "E1019"){
+                	vm.errorMessageModel = response.data;
+                	$scope.response.errorMessage = $scope.response.errorCode;
                     var dialogUrl = TransactionService.getTransactionDialogErrorUrl($scope.response.errorCode, 'approve');
                     ngDialog.open({
                         template: dialogUrl,
