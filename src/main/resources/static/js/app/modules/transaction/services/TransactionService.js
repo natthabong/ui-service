@@ -184,7 +184,7 @@ function transactionService($http, $q, blockUI, $window) {
         return deferred;
     }
 
-    function getTransactionDate(sponsorId, sponsorPaymentDate, loanRequestMode, tenor) {
+    function getTransactionDate(sponsorId, sponsorPaymentDate, loanRequestMode, tenor, limitExpiryDate) {
         var deferred = $q.defer();
 
         $http({
@@ -197,7 +197,8 @@ function transactionService($http, $q, blockUI, $window) {
                     sponsorId: sponsorId,
                     sponsorPaymentDate: sponsorPaymentDate,
                     loanRequestMode: loanRequestMode,
-                    tenor: tenor
+                    tenor: tenor,
+                    limitExpiryDate: limitExpiryDate
                 },
                 transformRequest: function (data) {
                     if (data === undefined) {
