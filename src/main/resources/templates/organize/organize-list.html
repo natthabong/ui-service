@@ -31,7 +31,8 @@
 							<div class="row">
 								<div class="col-md-12 col-sm-12 text-right">
 									<span> <scf-button id="new-organize-button"
-											title="Add new an organization" class="btn btn-default"
+											th:attr="ng-disabled=${#authorization.expression('!hasAnyAuthority(''MANAGE_ALL_CUSTOMER_ORGANIZATION_PROFILES'')')}"
+											title="Add new an organization" class="btn-default gec-btn-action"
 											ng-click="ctrl.newOrganization()"> <i
 											class="fa fa-plus" aria-hidden="true"></i></scf-button>
 									</span> <br /> <br />
