@@ -111,7 +111,7 @@ function transactionService($http, $q, blockUI, $window) {
         return deferred;
     }
 
-    function getPaymentDate(transactionModel, type, accType, loanRequestMode, prodType) {
+    function getPaymentDate(transactionModel, type, accType, loanRequestMode, prodType, limitExpiryDate) {
         var deferred = $q.defer();
         $http({
                 url: 'api/v1/create-transaction/payment-dates/calculate',
@@ -126,7 +126,8 @@ function transactionService($http, $q, blockUI, $window) {
                     loanRequestMode: loanRequestMode,
                     createTransactionType: type,
                     accountType: accType,
-                    productType: prodType
+                    productType: prodType,
+                    limitExpiryDate: limitExpiryDate
                 }
             })
             .then(function (response) {
