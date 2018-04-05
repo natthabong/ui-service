@@ -1,10 +1,7 @@
 <div class="row">
 	<div class="form-group">
-		<scf-checkbox id="password-history-checkbox" ng-model="policy.active"
-			ng-disabled="true"> </scf-checkbox>
 		<label class="checkbox-inline" style=" margin-top: -11px;"> 
-		<span id="password-history-1-label"
-			ng-bind="'New password must not be in the last previous' | translate"></span>
+		<span id="password-history-1-label">9. {{'New password must not be in the last previous' | translate}}</span>
 
 		<input name="passHistory" id="password-history-number" type="number" min="1"     
 			required="true" ng-model="policy.numericValue1" maxlength="3"
