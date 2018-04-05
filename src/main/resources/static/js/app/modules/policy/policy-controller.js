@@ -61,7 +61,8 @@ angular.module('scfApp').controller(
 				},
 				onFail : function(response) {
 					var msg = {
-							400: 'Policy is wrong format.'
+							400: 'Policy is wrong format.',
+							409: 'Policy has been modified.',
 						};
 						blockUI.stop();
 						UIFactory.showFailDialog({
@@ -88,6 +89,7 @@ angular.module('scfApp').controller(
     				method : 'POST',
     				url : url,
     				headers : {
+    					'If-Match' : model.version,
     					'X-HTTP-Method-Override': 'PUT'
     				},
     				data: model

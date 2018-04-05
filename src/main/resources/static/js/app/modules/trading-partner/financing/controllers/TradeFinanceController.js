@@ -122,7 +122,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		}
 		
 		vm.changeAccountType = function () {
-			var accountId = $stateParams.data.accountId;;
+			var accountId = $stateParams.data.accountId;
 			var accountType = "";
 			vm.loanAccountDropdown.forEach(function (account, index) {
                 if (account.value == accountId) {
