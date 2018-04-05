@@ -33,9 +33,7 @@ angular.module('scfApp').controller('InvoiceToPayDashboardController', [
 			$http({
 				method: 'GET',
 				url: 'api/v1/create-transaction/document-groupby-duedate',
-				params: {
-					buyerId: organizeId
-				}
+				params: {}
 			}).then(function (response) {
 				vm.data = response.data;
 			}).catch(function (response) {
