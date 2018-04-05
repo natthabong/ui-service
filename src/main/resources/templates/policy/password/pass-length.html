@@ -17,7 +17,7 @@
 		<label ng-if="policyForm.passLengthMin.$error.required || policyForm.passLengthMax.$error.required" style="margin-left: 7px;" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg"
 			id="password-length-warning-message-label">{{'Both field are required.' | translate}}</label> 
 
-		<label ng-if="policyForm.passLengthMin.$error.min || policyForm.passLengthMax.$error.max ||policy.numericValue1 > policy.numericValue2"
+		<label ng-if="policyForm.passLengthMin.$error.min || policyForm.passLengthMin.$error.max || policyForm.passLengthMax.$error.min || policyForm.passLengthMax.$error.max ||policy.numericValue1 > policy.numericValue2"
 		class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" style="margin-left: 7px;" id="password-length-warning-message-label">{{'Both field are required and value must be more than 0 and no more than 100. 
 		First field value must be less than second field value.'
 		| translate}}</label>
