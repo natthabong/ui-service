@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<div ng-controller="ScfHomeCtrl as scfCtrl">
+<head th:replace="fragments/head :: headTag"></head>
+<title ng-bind="scfCtrl.title"></title>
+
+<body ng-app="scfApp">
+		
+	<div id="wrapper">
+		<header th:replace="fragments/header :: header"></header>
+		<nav th:replace="fragments/sidebar :: sidebar"></nav>
+		<nav th:replace="fragments/notification :: notification"></nav>
+
+		<div class="container-fluid mimin-wrapper" ui-view="">
+
+		</div>
+	</div>
+	<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</div>
+</html>
