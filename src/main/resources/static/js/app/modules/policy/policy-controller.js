@@ -40,7 +40,7 @@ angular.module('scfApp').controller(
 			UIFactory
 				.showSuccessDialog({
 				    data : {
-					headerMessage : 'Saved policies success.',
+					headerMessage : 'Edit policy complete.',
 					bodyMessage : ''
 				    },
 				    preCloseCallback : function() {
