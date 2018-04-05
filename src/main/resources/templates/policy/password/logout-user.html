@@ -2,7 +2,8 @@
 	<div class="form-group">
 	<label class="checkbox-inline" style="margin-top: -11px;">
 		<span id="password-logout-user-1-label">10. {{'If any user inputs the current password incorrectly' | translate}}</span>
-		<input id="password-logout-user-number" type="number" min="1" name="logoutUser" required="true" ng-model="policy.numericValue1" maxlength="3"  class="form-control-input" ng-disabled="ctrl.viewMode" ></input>
+		<input id="password-logout-user-number" type="number" min="1" max="999" name="logoutUser" required="true" restrict-to="[0-9]"
+			ng-model="policy.numericValue1" maxlength="3"  class="form-control-input" ng-disabled="ctrl.viewMode" ></input>
 	</label>
 	<label class="checkbox-inline" style="margin-top: -11px;">
 		<span id="password-logout-user-2-label" style="margin-left: 7px;" ng-bind="'times when changing the password, the user will be logged out from the system automatically.' | translate"></span>
@@ -11,7 +12,6 @@
 	<label ng-if="policyForm.logoutUser.$error.required" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" style="margin-left: 7px;"
 			id="password-logout-user-warning-message-label">{{'This field is required.' | translate}}</label>
 			
-	<label ng-if="policyForm.logoutUser.$error.min" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" style="margin-left: 7px;"
-		id="password-logout-user-warning-message-label">{{'This field is required and value must be greater than zero.'
-		| translate}}</label>
+	<label ng-if="policyForm.logoutUser.$error.min || policyForm.logoutUser.$error.max" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" style="margin-left: 7px;"
+		id="password-logout-user-warning-message-label">{{'This field is required and value must be more than 0 and no more than 999.' | translate}}</label>
 </div>
