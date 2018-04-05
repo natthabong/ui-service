@@ -26,11 +26,11 @@ angular.module('scfApp').controller(
 			    
 			    response.data.policyItems.forEach(function(data) {
 				
-				if (data.policyType == 'USER') {
-				    $scope.userPolicies.push(data);
-				} else if(data.policyType == 'PASSWORD') {
-				    $scope.passwordPolicies.push(data);
-				}
+					if (data.policyType == 'USER') {
+					    $scope.userPolicies.push(data);
+					} else if(data.policyType == 'PASSWORD') {
+					    $scope.passwordPolicies.push(data);
+					}
 			    });
 			});
 		    }
@@ -60,9 +60,19 @@ angular.module('scfApp').controller(
 				    _success();
 				},
 				onFail : function(response) {
-				    blockUI.stop();
-				}
-			    });
+					var msg = {
+							400: 'Policy is wrong format.'
+						};
+						blockUI.stop();
+						UIFactory.showFailDialog({
+							data: {
+								headerMessage: 'Edit policy fail.',
+								bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
+							},
+							preCloseCallback: null
+						});
+					}
+				});
 		    }
 		    
 		    $scope.confirmSave = function() { 
@@ -90,7 +100,7 @@ angular.module('scfApp').controller(
     	    }
 		    
 		    var init = function() {
-			getPolicies();
+		    	getPolicies();
 		    }();
 
 		} ]);
