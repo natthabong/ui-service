@@ -19,6 +19,9 @@ public class HomeController {
 	@Value(value = "${scf.ui.header.fixed:true}")
 	private boolean fixedHeader;
 
+	@Value("${scf.product.version}")
+	String productVersion;
+
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(path = { "/", "/home" }, method = RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest req) {
@@ -26,11 +29,10 @@ public class HomeController {
 		String requestedWith = req.getHeader("X-Requested-With");
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			view = HOME_VIEW_NAME.concat(" :: content");
-		}
-		else {
+		} else {
 			view = HOME_VIEW_NAME;
 		}
-		return new ModelAndView(view, "fixedHeader", fixedHeader);
+		return new ModelAndView(view, "fixedHeader", fixedHeader).addObject("productVersion", productVersion);
 	}
 
 }
