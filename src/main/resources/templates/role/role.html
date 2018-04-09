@@ -61,7 +61,8 @@
 												type="checkbox" checklist-model="ctrl.model.privileges"
 												checklist-value="privilege" checklist-comparator="ctrl.comparePrivilege"
 												ng-disabled="ctrl.viewMode"
-												ng-click="toggleSelection($event, privilege)"
+												ng-click="toggleSelection()"
+												ng-init="toggleSelection()"
 												id="{{privilege.privilegeId}}-checkbox" />
 											<span id="{{privilege.privilegeId}}-label">{{privilege.name}}</span>
                                         </label>
