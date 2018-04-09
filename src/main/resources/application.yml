@@ -30,3 +30,5 @@ scf:
       host: localhost
       port: 8443
       context-path: /api
+  product:
+    version: ${PRODUCT_VERSION:N/a}
