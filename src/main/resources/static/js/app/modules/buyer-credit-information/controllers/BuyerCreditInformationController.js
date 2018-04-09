@@ -60,7 +60,7 @@ bciModule.controller('BuyerCreditInformationController', [
             }
         }
         
-        vm.pagingController = PagingController.create('/api/v1/buyer-credit-information', vm.criteria,'GET');
+        vm.pagingController = PagingController.create('/api/v1/buyer-credit-informations', vm.criteria,'GET');
 		vm.search = function (pageModel) {
 			var buyer = undefined;
         	var buyerName = undefined;
@@ -121,9 +121,7 @@ bciModule.controller('BuyerCreditInformationController', [
 					var i = 0;
 					var baseRowNo = pageSize * currentPage;
 					angular.forEach(data, function (value, idx) {
-						if (!isSameAccount(value.accountId, data, idx)) {
 							value.showAccountFlag = true;
-						}
 						++i;
 						value.rowNo = baseRowNo + i;
 					});

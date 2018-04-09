@@ -57,29 +57,30 @@
 									<tbody>
 										<tr ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
 											<td class="text-right">
-												<span id="$rowNo-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.rowNo"></span>
+												<span id="$rowNo-{{record.accountId}}-label" ng-bind="record.rowNo"></span>
 											</td>
 											<td class="text-center">
-												<span ng-show="record.showAccountFlag" id="account-no-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="ctrl.getAccountNoToDisplay(record)"></span>
+												<span ng-show="record.showAccountFlag" id="account-no-{{record.accountId}}-label" ng-bind="ctrl.getAccountNoToDisplay(record)"></span>
 											</td>
 											<td class="text-right">
-												<span ng-show="record.showAccountFlag" id="credit-limit-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.creditLimit | number : 2"></span>
+												<span ng-show="record.showAccountFlag" id="credit-limit-{{record.accountId}}-label" ng-bind="record.creditLimit | number : 2"></span>
 											</td>
-											<td class="text-left" ng-show="ctrl.showSupplier">
-												<span id="supplier-name-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.supplierName | translate"></span>
+											<td class="text-center" ng-show="ctrl.showSupplier">
+<!-- 												<span id="supplier-name-{{record.accountId}}-label" ng-bind="record.supplier.memberName"></span> -->
+													<organization-logo ng-model="record.tradeFinances" obj-attr="supplier" logo-attr="memberLogo" name-attr="memberName" id-attr="memberId"></organization-logo>
 											</td>
 											<td class="text-center">
-<!-- 												<organization-logo ng-model="record.fundings"></organization-logo> -->
-												<img id="sponsor-" title="{{record.buyerName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.buyerLogo)}}"/>
+												<organization-logo ng-model="record.tradeFinances" obj-attr="buyer" logo-attr="memberLogo" name-attr="memberName" id-attr="memberId"></organization-logo>
+<!-- 												<img id="sponsor-" title="{{record.buyerName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.buyerLogo)}}"/> -->
 											</td>
 											<td class="text-right">
-												<span ng-show="record.showAccountFlag" id="available-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.available | number : 2"></span>
+												<span ng-show="record.showAccountFlag" id="available-{{record.accountId}}-label" ng-bind="(record.remainingAmount - record.pendingAmount) | number : 2"></span>
 											</td>
 											<td class="text-center">
-												<scf-button class="btn-default gec-btn-action" id="view-{{record.accountId}}-{{record.buyerName}}-button" ng-click="ctrl.view(record)" ng-disabled="ctrl.unauthenView()" ng-show="record.showAccountFlag" title="View">
+												<scf-button class="btn-default gec-btn-action" id="view-{{record.accountId}}-button" ng-click="ctrl.view(record)" ng-disabled="ctrl.unauthenView()" ng-show="record.showAccountFlag" title="View">
 													<i class="fa fa-search" aria-hidden="true"></i>
 												</scf-button>
-												<button type="button" ng-disabled="" class="btn-default gec-btn-action btn" ng-show="record.showAccountFlag" id="credit-information-{{record.accountId}}-{{record.buyerName}}-button"
+												<button type="button" ng-disabled="" class="btn-default gec-btn-action btn" ng-show="record.showAccountFlag" id="credit-information-{{record.accountId}}-button"
 												    ng-click="ctrl.enquiryAvailableBalance(record)" title="Enquiry">
 													<i class="fa fa-repeat" aria-hidden="true"></i>
 												</button>
