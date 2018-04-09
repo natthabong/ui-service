@@ -18,9 +18,9 @@ public class HomeController {
 
 	@Value(value = "${scf.ui.header.fixed:true}")
 	private boolean fixedHeader;
-
-	@Value("${scf.product.version}")
-	String productVersion;
+	
+    @Value("${scf.product.version}")
+    private String productVersion;
 
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(path = { "/", "/home" }, method = RequestMethod.GET)
