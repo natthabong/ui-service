@@ -340,7 +340,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					params: {
 						backAction: false,
 						criteria: null,
-						userListModel: null
+						userListModel: null,
+						page: 'all-users'
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/user/user-list-controller.js',
 						'js/app/modules/user/user-service.js',
@@ -355,7 +356,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					params: {
 						backAction: false,
 						criteria: null,
-						userListModel: null
+						userListModel: null,
+						page: 'customer-users'
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/user/user-list-controller.js',
 						'js/app/modules/user/user-service.js',

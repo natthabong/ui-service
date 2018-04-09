@@ -28,6 +28,7 @@ userModule
 			    var log = $log;
 				vm.manageAll = false;
 				vm.canResetPwd = false;
+				var page = $stateParams.page;
 
 			    vm.userStatusDropdowns = UserStatus;
 			    vm.passwordStatusDropdowns = PasswordStatus;
@@ -38,7 +39,8 @@ userModule
 			    	userId : null,
 					organizeId : null,
 					userStatus : null,
-					passwordStatus : null
+					passwordStatus : null,
+					page: page
 			    }
 			    
 			    vm.userListModel = $stateParams.userListModel || {
@@ -135,6 +137,7 @@ userModule
 				return $http
 					.get(userAutoSuggestServiceUrl, {
 					    params : {
+					    page: page,
 						q : value,
 						offset : 0,
 						limit : 5
