@@ -93,22 +93,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						transactionModel: null
 					},
 					resolve: WebHelper.loadScript(['js/app/verify-transactions/verify-transaction-service.js', 'js/app/verify-transactions/verify-transaction-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/view-transaction', {
-					url: '/view-transaction',
-					controller: 'ViewTransactionController',
-					controllerAs: 'viewTxnCtrl',
-					templateUrl: '/view-transaction',
-					params: {
-						viewMode: null,
-						transactionModel: null,
-						listTransactionModel: null,
-						backAction: false,
-						isShowBackButton: false,
-						isShowBackButton: false,
-						isShowViewHistoryButton: false,
-						isDisplayReason: 'none'
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/transaction/loan/services/ViewTransactionService.js', 'js/app/modules/transaction/loan/controllers/ViewTransactionController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/approve-transaction/approve', {
 					url: '/approve-transaction/approve',
 					controller: 'ApproveController',
