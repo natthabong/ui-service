@@ -332,68 +332,6 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						roleId: null
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/role/role-controller.js', 'js/app/modules/role/role-service.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/settings/users', {
-					url: '/settings/users',
-					controller: 'UserListController',
-					controllerAs: 'ctrl',
-					templateUrl: '/user',
-					params: {
-						backAction: false,
-						criteria: null,
-						userListModel: null,
-						page: 'all-users'
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/user/user-list-controller.js',
-						'js/app/modules/user/user-service.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
-				}).state('/customer-registration/customer-users', {
-					url: '/customer-registration/customer-users',
-					controller: 'UserListController',
-					controllerAs: 'ctrl',
-					templateUrl: '/user',
-					params: {
-						backAction: false,
-						criteria: null,
-						userListModel: null,
-						page: 'customer-users'
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/user/user-list-controller.js',
-						'js/app/modules/user/user-service.js',
-						'js/app/common/scf-component.js',
-						'js/app/common/scf-component.css'
-					])
-				}).state('/user/new', {
-					url: '/user/new',
-					controller: 'UserController',
-					controllerAs: 'ctrl',
-					templateUrl: '/user/new',
-					params: {
-						mode: 'newUser',
-						userModel: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/user/user-list-controller.js', 'js/app/modules/user/user-service.js', 'js/app/modules/user/user-organize-controller.js', 'js/app/modules/user/user-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/user/edit', {
-					url: '/user/edit',
-					controller: 'UserController',
-					controllerAs: 'ctrl',
-					templateUrl: '/user/new',
-					params: {
-						mode: 'editUser',
-						userModel: null
-					},
-					resolve: WebHelper.loadScript(['js/app/modules/user/user-list-controller.js', 'js/app/modules/user/user-service.js', 'js/app/modules/user/user-organize-controller.js', 'js/app/modules/user/user-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
-				}).state('/user/view', {
-					url: '/user/view',
-					controller: 'UserController',
-					controllerAs: 'ctrl',
-					params: {
-						mode: 'viewUser',
-						userModel: null
-					},
-					templateUrl: '/user/view',
-					resolve: WebHelper.loadScript(['js/app/modules/user/user-list-controller.js', 'js/app/modules/user/user-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/change-password', {
 					url: '/change-password',
 					controller: 'PasswordController',
