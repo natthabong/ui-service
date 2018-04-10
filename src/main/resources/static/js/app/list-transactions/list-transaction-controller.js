@@ -32,6 +32,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			vm.verify = false;
 			vm.approve = false;
 			vm.reject = false;
+			vm.canAdjustStatus = false;
 			vm.transactionIdForRetry = '';
 			vm.transaction = {};
 			vm.statusDocuments = {
@@ -41,7 +42,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 				rejectByApprover: 'REJECT_BY_APPROVER',
 				canceledBySupplier: 'CANCELLED_BY_SUPPLIER',
 				waitForDrawdownResult: 'WAIT_FOR_DRAWDOWN_RESULT',
-				rejectIncomplete: 'REJECT_INCOMPLETE'
+				rejectIncomplete: 'REJECT_INCOMPLETE',
+				incomplete: 'INCOMPLETE'
 			}
 
 			vm.storeSearchCriteria = undefined;
@@ -542,7 +544,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 						'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-view-button" ng-disabled="{{!ctrl.canView}}" ng-click="ctrl.view(data)" title="View"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>' +
 						'<scf-button id="transaction-{{data.transactionNo}}-re-check-button" class="btn-default gec-btn-action" ng-disabled="{{!(data.retriable && ctrl.canRetry)}}" ng-click="ctrl.retry(data)" title="Re-check"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>' +
 						'<scf-button id="transaction-{{data.transactionNo}}-print-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledPrint(data.returnStatus)" ng-click="ctrl.printEvidenceFormAction(data)" title="Print"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>' +
-						'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+						'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>' + 
+						'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-adjust-status-button" ng-if="ctrl.showAdjustStatus(data)" ng-click="ctrl.adjustStatus(data)" title="Adjust status"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
 				}]
 			};
 			vm.openCalendarDateFrom = function () {
@@ -773,6 +776,21 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 				}
 				PageNavigation.gotoPage('/view-transaction', params, params)
 			}
+			
+			vm.adjustStatus = function (data) {
+				SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+				vm.storeCriteria();
+				var isShowBackButton = true;
+
+				var params = {
+					transactionModel: data,
+					viewMode: viewMode,
+					isShowViewHistoryButton: false,
+					isShowBackButton: true,
+					criteria: _criteria
+				}
+				PageNavigation.gotoPage('/view-transaction', params, params)
+			}
 
 			vm.disabledPrint = function (returnStatus) {
 				if (!vm.canPrint || returnStatus !== vm.transactionStatus.book) {
@@ -790,6 +808,16 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 					return false;
 				} else {
 					return true;
+				}
+			}
+			
+			vm.showAdjustStatus = function (data) {
+				var condition1 = vm.canAdjustStatus != undefined && vm.canAdjustStatus == true;
+				var condition2 = data.statusCode == vm.statusDocuments.incomplete
+				if (condition1 && condition2) {
+					return true;
+				} else {
+					return false;
 				}
 			}
 
