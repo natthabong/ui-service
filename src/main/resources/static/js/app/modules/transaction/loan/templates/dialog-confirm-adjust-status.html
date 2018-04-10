@@ -1,0 +1,75 @@
+<div class="modal-content">
+	<form name="newOrganizeForm" class="form-horizontal"
+		ng-submit="ctrl.save(closeThisDialog)">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+					<h3>
+						<span id="adjust-status-popup-header-message-label" class="popup-text"
+							ng-bind="'Confirm adjusted status?' | translate">Confirm adjusted status?</span>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12 padding-10">
+					<div class="form-group">
+						<label for="group-name" id="password-label"
+							class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"><span
+							ng-bind="'Password' | translate"></span>:</label>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+							<scf-input-password id="password-textbox" name="password"
+								ng-model="ctrl.model.password"	maxlength="100"></scf-input-password>
+						</div>
+					</div>
+					<div class="form-group" ng-show="errors.password">
+						<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 error-msg"
+							id="password-warning-message-label"
+							ng-bind="errors.password | translate"></span>
+					</div>
+					<br/><br/>
+					<div class="form-group">
+						<label for="group-name" id="result-label"
+							class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"><span
+							ng-bind="'Result' | translate"></span>:</label>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" ng-if="ctrl.modeAdjust=='failToDrawdown'">
+							<label><span ng-bind="'Fail to drawdown' | translate"></span></label>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" ng-if="ctrl.modeAdjust=='drawdownSuccess'">
+							<label><span ng-bind="'Drawdown success ' | translate"></span></label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="group-name" id="reason-label"
+							class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"><span
+							ng-bind="'Reason' | translate"></span>:</label>
+					</div>
+					<div class="form-group">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<scf-input-text id="reason-textbox"
+								ng-model="ctrl.model.reason" maxlength="100"></scf-input-text>
+						</div>
+					</div>
+					<div class="form-group" ng-show="errors.reason">
+						<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+						<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 error-msg"
+							id="reason-warning-message-label"
+							ng-bind="errors.reason | translate"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="popup-no-button" class="popup-button"
+						ng-click="closeThisDialog()" ng-bind="'No' | translate"></scf-button>
+					<scf-button id="popup-yes-button" class="popup-button"
+						type="submit" ng-bind="'Yes' | translate"></scf-button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

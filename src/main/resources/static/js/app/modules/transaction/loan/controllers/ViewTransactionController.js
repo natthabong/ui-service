@@ -1,13 +1,13 @@
-angular.module('scfApp').controller(
+angular.module('gecscf.transaction').controller(
 		'ViewTransactionController',
-		[ 'ViewTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state','$log', 'PageNavigation', '$filter',
-				function(ViewTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state, $log, PageNavigation, $filter) {
+		[ 'ViewTransactionService','$stateParams','SCFCommonService','$scope','$timeout','$state','$log','PageNavigation','$filter','UIFactory',
+  function(ViewTransactionService , $stateParams , SCFCommonService , $scope , $timeout , $state , $log , PageNavigation , $filter , UIFactory) {
 					var vm = this;
 					var log = $log;
 					$scope.showConfirmPopup = false; 
 					$scope.verifyFailPopup = false;
 					$scope.successPopup = false;
-					
+					vm.isAdjustStatus = $stateParams.isAdjustStatus;
 					vm.isSponsor = false;
 					vm.isSupplier = false;
 					vm.isBank = false;
@@ -88,7 +88,7 @@ angular.module('scfApp').controller(
 						var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId,'PAYABLE','TRANSACTION_DOCUMENT');
 						return displayConfig;
 					}
-					init();
+					
 					vm.pageSizeList = [ {
 						label : '10',
 						value : '10'
@@ -151,5 +151,31 @@ angular.module('scfApp').controller(
 						    	}
 						}, 10);
 					};
-
+					
+					vm.failToDrawdown = function() {
+	                      UIFactory.showDialog({
+	                             templateUrl: '/js/app/modules/transaction/loan/templates/dialog-confirm-adjust-status.html',
+	                             controller: 'AdjustStatusPopupController',
+	                             data: {
+	                                preCloseCallback: function(confirm) {
+	                                	init();
+	                                },
+	                                modeAdjust : 'failToDrawdown'
+	                             }
+	                      });
+	                }
+					
+					vm.drawdownSuccess = function() {
+	                     UIFactory.showDialog({
+	                            templateUrl: '/js/app/modules/transaction/loan/templates/dialog-confirm-adjust-status.html',
+	                            controller: 'AdjustStatusPopupController',
+	                            data: {
+	                                preCloseCallback: function(confirm) {
+	                                	init();
+	                                },
+	                                modeAdjust : 'drawdownSuccess'
+	                            }
+                        });
+					}
+					init();
 				} ]);

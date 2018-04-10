@@ -772,6 +772,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 					viewMode: viewMode,
 					isShowViewHistoryButton: false,
 					isShowBackButton: true,
+					isAdjustStatus: false,
 					criteria: _criteria
 				}
 				PageNavigation.gotoPage('/view-transaction', params, params)
@@ -787,9 +788,10 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 					viewMode: viewMode,
 					isShowViewHistoryButton: false,
 					isShowBackButton: true,
+					isAdjustStatus: true,
 					criteria: _criteria
 				}
-				PageNavigation.gotoPage('/view-transaction', params, params)
+				PageNavigation.gotoPage('/adjust-status-transaction', params, params)
 			}
 
 			vm.disabledPrint = function (returnStatus) {
