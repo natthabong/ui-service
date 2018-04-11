@@ -1,0 +1,36 @@
+<div class="modal-content">
+	<div class="modal-header">
+		<div class="row">
+			<div class="col-md-2 col-sm-2">
+				<image width="70" height="70" ng-src="img/error-icon.png"></image>
+			</div>
+			<div class="col-md-10 col-sm-10" style="color: red;">
+				<h2><span id="adjust-status-fail-header" ng-bind="'Adjusted transaction status fail.' | translate">Adjusted transaction status fail.</span></h2>
+			</div>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-2 col-sm-2"></div>
+			<div class="col-md-10 col-sm-10">
+				<label ng-bind="'Transaction No.' | translate"></label>:&nbsp;<span
+					id="fail-transaction-no-label" ng-bind="ctrl.transactionNo"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 col-sm-2"></div>
+			<div class="col-md-10 col-sm-10">
+				<label ng-bind="'Reason' | translate"></label>:&nbsp;<span
+					id="fail-reason-label" ng-bind="ctrl.errorMessage | translate"></span>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-xs-12 text-right">
+				<scf-button id="fail-back-button" class="popup-button" data-dismiss="modal" 
+					ng-click="closeThisDialog();ctrl.backPage()" ng-bind="'Back' | translate"></scf-button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -697,5 +697,12 @@
 	"Supplier financing": "Supplier financing",
 	"Enquiry balance": "Enquiry balance",
 	"Holiday":"Holiday",
-	"Year":"Year"
+	"Year":"Year",
+	
+	"Adjust transaction status":"Adjust transaction status",
+	"Fail to drawdown":"Fail to drawdown",
+	"Drawdown success":"Drawdown success",
+	"Confirm adjusted status?":"Confirm adjusted status?",
+	"Adjusted transaction status success.":"Adjusted transaction status success.",
+	"Adjusted transaction status fail.":"Adjusted transaction status fail."
 }

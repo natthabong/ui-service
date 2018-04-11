@@ -160,7 +160,11 @@ angular.module('gecscf.transaction').controller(
 	                                preCloseCallback: function(confirm) {
 	                                	init();
 	                                },
-	                                modeAdjust : 'failToDrawdown'
+	                                modeAdjust : 'failToDrawdown',
+	                                transactionModel : vm.transactionModel,
+	                                transactionId : vm.transactionModel.transactionId,
+	                                transactionNo : vm.transactionModel.transactionNo,
+	                                reason : null
 	                             }
 	                      });
 	                }
@@ -173,7 +177,11 @@ angular.module('gecscf.transaction').controller(
 	                                preCloseCallback: function(confirm) {
 	                                	init();
 	                                },
-	                                modeAdjust : 'drawdownSuccess'
+	                                modeAdjust : 'drawdownSuccess',
+	                                transactionModel : vm.transactionModel,
+	                                transactionId : vm.transactionModel.transactionId,
+	                                transactionNo : vm.transactionModel.transactionNo,
+	                                reason : null
 	                            }
                         });
 					}
