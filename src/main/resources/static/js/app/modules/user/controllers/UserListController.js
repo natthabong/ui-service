@@ -155,7 +155,7 @@ userModule
 					query : searchUserTypeHead
 				    });
 
-			    var organizeAutoSuggestServiceUrl = '/api/v1/organizes';
+			    var organizeAutoSuggestServiceUrl = (mode=='ALL'? '/api/v1/all-organizes' : '/api/v1/organizes');
 			    var searchOrganizeTypeHead = function(value) {
 				value = UIFactory.createCriteria(value);
 				return $http
