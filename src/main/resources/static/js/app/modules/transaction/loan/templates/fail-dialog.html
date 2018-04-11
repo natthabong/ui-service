@@ -28,8 +28,10 @@
 	<div class="modal-footer">
 		<div class="row">
 			<div class="col-xs-12 text-right">
-				<scf-button id="fail-back-button" class="popup-button" data-dismiss="modal" 
+				<scf-button id="fail-back-button" class="popup-button" data-dismiss="modal"  ng-if="!ctrl.isTokenExpired"
 					ng-click="closeThisDialog();ctrl.backPage()" ng-bind="'Back' | translate"></scf-button>
+				<scf-button id="ok-button" class="popup-button" data-dismiss="modal" ng-if="ctrl.isTokenExpired"
+					ng-click="closeThisDialog()" ng-bind="'OK' | translate"></scf-button>
 			</div>
 		</div>
 	</div>
