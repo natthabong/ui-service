@@ -137,7 +137,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
 
             function _loadTransactionDate(sponsorCode, sponsorPaymentDate) {
                 var tenor = vm.tradingpartnerInfoModel.tenor;
-                var limitExpiryDate = vm.tradingpartnerInfoModel.limitExpiryDate;
+                var limitExpiryDate = SCFCommonService.convertDate(vm.tradingpartnerInfoModel.limitExpiryDate);
                 var loanRequestMode = vm.loanRequestMode;
                 var deffered = TransactionService.getTransactionDate(sponsorCode, sponsorPaymentDate, loanRequestMode, tenor, limitExpiryDate);
                 deffered.promise.then(function (response) {

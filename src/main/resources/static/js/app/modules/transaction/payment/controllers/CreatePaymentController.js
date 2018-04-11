@@ -325,7 +325,7 @@ txnMod.controller('CreatePaymentController', [
             vm.transactionModel.documents = vm.documentSelects;
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             if (vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
-            	var limitExpiryDate = vm.tradingpartnerInfoModel.limitExpiryDate;
+            	var limitExpiryDate = SCFCommonService.convertDate(vm.tradingpartnerInfoModel.limitExpiryDate);
                 var deffered = TransactionService.getPaymentDate(vm.transactionModel, vm.createTransactionType, vm.accountType, vm.criteria.loanRequestMode, vm.criteria.productType, limitExpiryDate);
                 deffered.promise.then(function (response) {
                     var paymentDates = response.data;
