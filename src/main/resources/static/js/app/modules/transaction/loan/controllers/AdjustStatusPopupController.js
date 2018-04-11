@@ -45,7 +45,7 @@ angular.module('gecscf.transaction').controller(
                             console.log($scope.ngDialogData)
                             $scope.ngDialogData.preCloseCallback(confirm);
                           }
-                          var deffered = ViewTransactionService.adjustStatus(vm.transactionNo,vm.model,confirmToken);
+                          var deffered = ViewTransactionService.adjustStatus(transactionId,vm.model,confirmToken);
     						deffered.promise.then(function (response) {
     							console.log(response);
     							callback();
@@ -111,7 +111,7 @@ angular.module('gecscf.transaction').controller(
                     		vm.result = 'Drawdown success';
                     	}
                     	
-                    	var deffered = ViewTransactionService.getConfirmToken(vm.transactionNo);
+                    	var deffered = ViewTransactionService.getConfirmToken(transactionId);
   						deffered.promise.then(function (response) {
   							confirmToken = response.data.confirmToken;
   							console.log(confirmToken);
