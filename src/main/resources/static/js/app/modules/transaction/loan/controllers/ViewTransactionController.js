@@ -152,7 +152,36 @@ angular.module('gecscf.transaction').controller(
 						}, 10);
 					};
 					
-					vm.failToDrawdown = function() {
+					
+					var adjust = function(modeAdjust){
+						var deffered = ViewTransactionService.getConfirmToken(vm.transactionModel);
+  						deffered.promise.then(function (response) {
+  							if(response.status==200){
+  	  							confirmToken = response.data.confirmToken;
+  	  							confirmPopup(modeAdjust, confirmToken);
+  							}
+  						})
+  						.catch(function (response) {
+  							UIFactory.showDialog({
+	                            templateUrl: '/js/app/modules/transaction/loan/templates/fail-dialog.html',
+	                            controller: 'AdjustStatusPopupController',
+	                            data: {
+	                                preCloseCallback: function(confirm) {
+	                                
+	                                },
+	                                modeAdjust : vm.modeAdjust,
+	                                transactionModel : vm.transactionModel,
+	                                transactionId : vm.transactionModel.transactionId,
+	                                transactionNo :  vm.transactionModel.transactionNo,
+	                                reason : response.reason,
+	                                errorMessage : 'Transaction has been modified',
+	                                isTokenExpired : false
+	                            }
+							});
+  						});
+					}
+					
+					var confirmPopup = function(modeAdjust, confirmToken) {
 	                      UIFactory.showDialog({
 	                             templateUrl: '/js/app/modules/transaction/loan/templates/dialog-confirm-adjust-status.html',
 	                             controller: 'AdjustStatusPopupController',
@@ -160,30 +189,51 @@ angular.module('gecscf.transaction').controller(
 	                                preCloseCallback: function(confirm) {
 	                                	init();
 	                                },
-	                                modeAdjust : 'failToDrawdown',
+	                                modeAdjust : modeAdjust,
 	                                transactionModel : vm.transactionModel,
 	                                transactionId : vm.transactionModel.transactionId,
 	                                transactionNo : vm.transactionModel.transactionNo,
-	                                reason : null
+	                                reason : null,
+	                                confirmToken : confirmToken
 	                             }
 	                      });
 	                }
 					
+					
+					vm.failToDrawdown = function() {
+						  adjust('failToDrawdown');
+//	                      UIFactory.showDialog({
+//	                             templateUrl: '/js/app/modules/transaction/loan/templates/dialog-confirm-adjust-status.html',
+//	                             controller: 'AdjustStatusPopupController',
+//	                             data: {
+//	                                preCloseCallback: function(confirm) {
+//	                                	init();
+//	                                },
+//	                                modeAdjust : 'failToDrawdown',
+//	                                transactionModel : vm.transactionModel,
+//	                                transactionId : vm.transactionModel.transactionId,
+//	                                transactionNo : vm.transactionModel.transactionNo,
+//	                                reason : null
+//	                             }
+//	                      });
+	                }
+					
 					vm.drawdownSuccess = function() {
-	                     UIFactory.showDialog({
-	                            templateUrl: '/js/app/modules/transaction/loan/templates/dialog-confirm-adjust-status.html',
-	                            controller: 'AdjustStatusPopupController',
-	                            data: {
-	                                preCloseCallback: function(confirm) {
-	                                	init();
-	                                },
-	                                modeAdjust : 'drawdownSuccess',
-	                                transactionModel : vm.transactionModel,
-	                                transactionId : vm.transactionModel.transactionId,
-	                                transactionNo : vm.transactionModel.transactionNo,
-	                                reason : null
-	                            }
-                        });
+						 adjust('drawdownSuccess');
+//	                     UIFactory.showDialog({
+//	                            templateUrl: '/js/app/modules/transaction/loan/templates/dialog-confirm-adjust-status.html',
+//	                            controller: 'AdjustStatusPopupController',
+//	                            data: {
+//	                                preCloseCallback: function(confirm) {
+//	                                	init();
+//	                                },
+//	                                modeAdjust : 'drawdownSuccess',
+//	                                transactionModel : vm.transactionModel,
+//	                                transactionId : vm.transactionModel.transactionId,
+//	                                transactionNo : vm.transactionModel.transactionNo,
+//	                                reason : null
+//	                            }
+//                        });
 					}
 					init();
 				} ]);

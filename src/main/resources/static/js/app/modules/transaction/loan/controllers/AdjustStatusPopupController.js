@@ -14,7 +14,7 @@ angular.module('gecscf.transaction').controller(
                       vm.reason  = $scope.ngDialogData.reason;
                       vm.isTokenExpired = $scope.ngDialogData.isTokenExpired;
                       vm.errorMessage  = $scope.ngDialogData.errorMessage;
-                      var confirmToken = undefined;
+                      var confirmToken = $scope.ngDialogData.confirmToken;
                       vm.model = {
                           credential: null,
                           reason: null
@@ -47,7 +47,7 @@ angular.module('gecscf.transaction').controller(
                             console.log($scope.ngDialogData)
                             $scope.ngDialogData.preCloseCallback(confirm);
                           }
-                          var deffered = ViewTransactionService.adjustStatus(transactionId,vm.model,confirmToken);
+                          var deffered = ViewTransactionService.adjustStatus(vm.transactionModel,vm.model,confirmToken);
     						deffered.promise.then(function (response) {
     							callback();
     							UIFactory.showDialog({
@@ -61,7 +61,8 @@ angular.module('gecscf.transaction').controller(
     		                                transactionModel : vm.transactionModel,
     		                                transactionId : transactionId,
     		                                transactionNo : response.transactionNo,
-    		                                reason : response.reason
+    		                                reason : vm.model.reason,
+    		                                result : response.statusCode
     		                            }
     	                        });
     					  })
@@ -73,22 +74,21 @@ angular.module('gecscf.transaction').controller(
     							    console.log(response.data);
     							   if(response.data.reference == 'token'){
     							     callback();
-                       UIFactory.showDialog({
-                                     templateUrl: '/js/app/modules/transaction/loan/templates/fail-dialog.html',
-                                     controller: 'AdjustStatusPopupController',
-                                     data: {
-                                         preCloseCallback: function(confirm) {
-                                           init();
-                                         },
-                                         modeAdjust : vm.modeAdjust,
-                                         transactionModel : vm.transactionModel,
-                                         transactionId : transactionId,
-                                         transactionNo :  vm.transactionNo,
-                                         reason : response.data.errorMessage,
-                                         errorMessage : response.errorMessage,
-                                         isTokenExpired : true
-                                     }
-                       });
+    							     UIFactory.showDialog({
+	                                     templateUrl: '/js/app/modules/transaction/loan/templates/fail-dialog.html',
+	                                     controller: 'AdjustStatusPopupController',
+	                                     data: {
+	                                         preCloseCallback: function(confirm) {
+	                                           init();
+	                                         },
+	                                         modeAdjust : vm.modeAdjust,
+	                                         transactionModel : vm.transactionModel,
+	                                         transactionId : transactionId,
+	                                         transactionNo :  vm.transactionNo,
+	                                         errorMessage : 'You have exceeded the maximum session idle time',
+	                                         isTokenExpired : true
+	                                     }
+    							     });
     							   }
     							   else{
     							      $scope.errors.credential = 'Invalid current password.';
@@ -108,8 +108,7 @@ angular.module('gecscf.transaction').controller(
     		                                transactionModel : vm.transactionModel,
     		                                transactionId : transactionId,
     		                                transactionNo :  vm.transactionNo,
-    		                                reason : response.reason,
-    		                                errorMessage : response.errorMessage,
+    		                                errorMessage : 'Transaction has been modified',
     		                                isTokenExpired : false
     		                            }
         							});
@@ -145,14 +144,14 @@ angular.module('gecscf.transaction').controller(
                     	  vm.model.status = 'DRAWDOWN_SUCCESS';
                     	}
                     	
-                    	var deffered = ViewTransactionService.getConfirmToken(transactionId);
-  						deffered.promise.then(function (response) {
-  							confirmToken = response.data.confirmToken;
-  							console.log(confirmToken);
-  						})
-  						.catch(function (response) {
-  							console.log('View Transaction load error');
-  						});
+//                    	var deffered = ViewTransactionService.getConfirmToken(transactionId);
+//  						deffered.promise.then(function (response) {
+//  							confirmToken = response.data.confirmToken;
+//  							console.log(confirmToken);
+//  						})
+//  						.catch(function (response) {
+//  							console.log('View Transaction load error');
+//  						});
 
   					}
                     init();

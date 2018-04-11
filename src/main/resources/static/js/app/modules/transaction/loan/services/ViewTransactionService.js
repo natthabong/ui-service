@@ -46,10 +46,13 @@ function ViewTransactionService($http, $q){
 		return deffered;
 	}
 	
-	function getConfirmToken(txnId){
+	function getConfirmToken(transaction){
 		var deffered = $q.defer();
 		$http({
-			url: 'api/v1/transactions/'+txnId+'/adjustments',
+			url: 'api/v1/transactions/'+transaction.transactionId+'/adjustments',
+			headers : {
+				'If-Match' : transaction.version
+			},
 			method: 'POST'
 		}).then(function(response){
 			deffered.resolve(response);
@@ -59,10 +62,13 @@ function ViewTransactionService($http, $q){
 		return deffered;
 	}
 	
-	function adjustStatus(txnId,model,confirmToken){
+	function adjustStatus(transaction,model,confirmToken){
 		var deffered = $q.defer();
 		$http({
-			url: 'api/v1/transactions/'+txnId+'/adjustments/'+confirmToken,
+			url: 'api/v1/transactions/'+transaction.transactionId+'/adjustments/'+confirmToken,
+			headers : {
+				'If-Match' : transaction.version
+			},
 			method: 'POST',
 			data: model
 		}).then(function(response){
