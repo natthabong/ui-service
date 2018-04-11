@@ -16,7 +16,7 @@ angular.module('gecscf.transaction').controller(
                       vm.errorMessage  = $scope.ngDialogData.errorMessage;
                       var confirmToken = undefined;
                       vm.model = {
-                          password: null,
+                          credential: null,
                           reason: null
                       }
 
@@ -28,8 +28,8 @@ angular.module('gecscf.transaction').controller(
                       var _isValid = function() {
                         $scope.errors = {};
                         var valid = true;
-                        if (isEmpty(vm.model.password)) {
-                          $scope.errors.password = 'Password is required.';
+                        if (isEmpty(vm.model.credential)) {
+                          $scope.errors.credential = 'Password is required.';
                           valid = false;
                         }
                         if (isEmpty(vm.model.reason)) {
@@ -49,7 +49,6 @@ angular.module('gecscf.transaction').controller(
                           }
                           var deffered = ViewTransactionService.adjustStatus(transactionId,vm.model,confirmToken);
     						deffered.promise.then(function (response) {
-    							console.log(response);
     							callback();
     							UIFactory.showDialog({
     		                            templateUrl: '/js/app/modules/transaction/loan/templates/success-dialog.html',
@@ -67,34 +66,35 @@ angular.module('gecscf.transaction').controller(
     	                        });
     					  })
     					  .catch(function (response) {
-    							console.log('Confirm status error');
-    							console.log(response);
+    					    console.log(response.status)
     							if(response.status == 403){
-    								countFail++;
-    								if(countFail < 3){
-    									$scope.errors.password = 'Invalid current password.';
-    								} else {
     									$window.location.href = "/error/403";
-    								}
-    								
-    							} else if(response.status == 498){
-    								callback();
-        							UIFactory.showDialog({
-    		                            templateUrl: '/js/app/modules/transaction/loan/templates/fail-dialog.html',
-    		                            controller: 'AdjustStatusPopupController',
-    		                            data: {
-    		                                preCloseCallback: function(confirm) {
-    		                                	init();
-    		                                },
-    		                                modeAdjust : vm.modeAdjust,
-    		                                transactionModel : vm.transactionModel,
-    		                                transactionId : transactionId,
-    		                                transactionNo : response.transactionNo,
-    		                                reason : response.reason,
-    		                                errorMessage : response.errorMessage,
-    		                                isTokenExpired : true
-    		                            }
-        							});
+    							} else if(response.status == 400){
+    							    console.log(response.data);
+    							   if(response.data.reference == 'token'){
+    							     callback();
+                       UIFactory.showDialog({
+                                     templateUrl: '/js/app/modules/transaction/loan/templates/fail-dialog.html',
+                                     controller: 'AdjustStatusPopupController',
+                                     data: {
+                                         preCloseCallback: function(confirm) {
+                                           init();
+                                         },
+                                         modeAdjust : vm.modeAdjust,
+                                         transactionModel : vm.transactionModel,
+                                         transactionId : transactionId,
+                                         transactionNo :  vm.transactionNo,
+                                         reason : response.data.errorMessage,
+                                         errorMessage : response.errorMessage,
+                                         isTokenExpired : true
+                                     }
+                       });
+    							   }
+    							   else{
+    							      $scope.errors.credential = 'Invalid current password.';
+    							   }
+    							  
+    								 
     							} else {
     								callback();
         							UIFactory.showDialog({
@@ -107,7 +107,7 @@ angular.module('gecscf.transaction').controller(
     		                                modeAdjust : vm.modeAdjust,
     		                                transactionModel : vm.transactionModel,
     		                                transactionId : transactionId,
-    		                                transactionNo : response.transactionNo,
+    		                                transactionNo :  vm.transactionNo,
     		                                reason : response.reason,
     		                                errorMessage : response.errorMessage,
     		                                isTokenExpired : false
@@ -139,8 +139,10 @@ angular.module('gecscf.transaction').controller(
                     function init(){
                     	if(vm.modeAdjust == 'failToDrawdown'){
                     		vm.result = 'Fail to drawdown';
+                    		vm.model.status = 'FAIL_TO_DRAWDOWN';
                     	} else {
                     		vm.result = 'Drawdown success';
+                    	  vm.model.status = 'DRAWDOWN_SUCCESS';
                     	}
                     	
                     	var deffered = ViewTransactionService.getConfirmToken(transactionId);
