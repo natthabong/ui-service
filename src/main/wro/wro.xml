@@ -1,6 +1,6 @@
 <groups xmlns="http://www.isdc.ro/wro">
 	<group name="angular-bootstrap">
-		<css>webjar:bootstrap/3.3.6/less/bootstrap.less</css>	
+		<css>webjar:bootstrap/4.0.0/less/bootstrap.less</css>	
 		<css>file:@project.basedir@/src/main/wro/main.less</css>
 		<css>webjar:font-awesome/4.5.0/less/font-awesome.less</css>
 		<js>webjar:jquery/1.11.3/dist/jquery.min.js</js>	

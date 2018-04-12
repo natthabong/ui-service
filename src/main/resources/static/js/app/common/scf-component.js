@@ -3,13 +3,13 @@
 
 	angular.module('ui/template/scftemplate', []).run(["$templateCache", function ($templateCache) {
 		$templateCache.put('ui/template/calendar.html',
-			'<p class="input-group">' + '<input type="text" name="{{textName}}" ng-required="textRequired" placeholder="DD/MM/YYYY" ng-model-options="{timezone: \'UTC+0700\'}" show-weeks="false" class="form-control" ng-disabled="ngDisabled" ng-model="textModel" uib-datepicker-popup="{{dateFormat}}" is-open="isOpen" close-text="Close" min-date="minDate" max-date="maxDate"/>' + '<span class="input-group-btn">' + '<button type="button" ng-disabled="ngDisabled" class="btn btn-default" ng-click="openCalendarAction()">' + '<i class="glyphicon glyphicon-calendar"></i>' + '</button>' + "</span>" + '</p>');
+			'<p class="input-group">' + '<input type="text" name="{{textName}}" ng-required="textRequired" placeholder="DD/MM/YYYY" ng-model-options="{timezone: \'UTC+0700\'}" show-weeks="false" class="form-control" ng-disabled="ngDisabled" ng-model="textModel" uib-datepicker-popup="{{dateFormat}}" is-open="isOpen" close-text="Close" min-date="minDate" max-date="maxDate"/>' + '<span class="input-group-btn">' + '<button type="button" ng-disabled="ngDisabled" class="btn btn-default" ng-click="openCalendarAction()">' + '<i class="fa fa-calendar"></i>' + '</button>' + "</span>" + '</p>');
 
 		$templateCache.put('ui/template/timepicker.html',
 			'<p class="input-group">' + '<div uib-timepicker="true" show-spinners="false" show-meridian="false"></div>' + '</p>');
 
 		$templateCache.put('ui/template/data_table.html',
-			'<table st-table="componentDatas" class="table table-bordered">'
+			'<table st-table="componentDatas" class="table table-bordered table-striped">'
 			+ '<thead><tr><th class="text-center" scf-th="column" ng-repeat="column in tableColumns track by $index"></th>'
 			+ '</tr>'
 			+ '</thead>'
@@ -21,7 +21,7 @@
 			+ '</talbe>'
 		);
 		$templateCache.put('ui/template/data_table_collapse.html',
-			'<table class="table table-bordered">'
+			'<table class="table table-bordered table-striped">'
 			+ '<thead><tr><th scf-table-th="column" ng-repeat="column in tableColumns track by $index"></th>'
 			+ '</tr>'
 			+ '</thead>'
@@ -38,7 +38,7 @@
 		);
 
 		$templateCache.put('ui/template/table_template.html',
-			'<table class="table table-bordered">'
+			'<table class="table table-bordered table-striped">'
 			+ '<thead><tr><th scf-table-th="column" ng-repeat="column in tableColumns track by $index"></th>'
 			+ '</tr>'
 			+ '</thead>'
@@ -755,7 +755,7 @@
 			}
 
 			function fieldTemplate(element, attrs) {
-				var template = '<ul class="scf-paging form-inline">' + '<li><button type="button" ng-click="scfPaginationAction(\'first\')" class="btn btn-sm" id="{{firstPageButtonId}}"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></button></li>' + '<li><button type="button" ng-click="scfPaginationAction(\'back\')" class="btn btn-sm" id="{{backPageButtonId}}"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></button></li>' + '<li><scf-dropdown ng-model="pageSizeModel" ng-change="scfPaginationAction(\'changeSize\')" component-data="pageSizeList" id="{{dropdownPageLimitId}}"></scf-dropdown</li>' + '<li><button type="button" ng-click="scfPaginationAction(\'next\')" class="btn btn-sm" id="{{nextPageButtonId}}"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button></li>' + '<li><button type="button" ng-click="scfPaginationAction(\'last\')" class="btn btn-sm" id="{{lastPageButtonId}}"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button></li>' + '</ul>';
+				var template = '<ul class="scf-paging form-inline">' + '<li><button type="button" ng-click="scfPaginationAction(\'first\')" class="btn btn-sm" id="{{firstPageButtonId}}"><span class="fa fa-angle-double-left" aria-hidden="true"></span></button></li>' + '<li><button type="button" ng-click="scfPaginationAction(\'back\')" class="btn btn-sm" id="{{backPageButtonId}}"><span class="fa fa-angle-left" aria-hidden="true"></span></button></li>' + '<li><scf-dropdown ng-model="pageSizeModel" ng-change="scfPaginationAction(\'changeSize\')" component-data="pageSizeList" id="{{dropdownPageLimitId}}"></scf-dropdown</li>' + '<li><button type="button" ng-click="scfPaginationAction(\'next\')" class="btn btn-sm" id="{{nextPageButtonId}}"><span class="fa fa-angle-right" aria-hidden="true"></span></button></li>' + '<li><button type="button" ng-click="scfPaginationAction(\'last\')" class="btn btn-sm" id="{{lastPageButtonId}}"><span class="fa fa-angle-double-right" aria-hidden="true"></span></button></li>' + '</ul>';
 				return template;
 			}
 		}])

@@ -113,6 +113,25 @@ address {
   line-height: inherit;
 }
 
+table .btn-sm{
+	width:30px !important;
+}
+
+table td {
+	vertical-align : middle !important;
+	padding: 5px !important;
+}
+
+table {
+	line-height: 1;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: #e2ffe6; // Choose your own color here
+ }
+
+
 ol,
 ul,
 dl {
@@ -139,6 +158,14 @@ dd {
 blockquote {
   margin: 0 0 1rem;
 }
+
+/* .btn .icon, .btn .fa{ */
+/* 	font-size:10px; */
+/* 	margin-top:-15px; */
+/* 	margin-left:-3px; */
+/* 	vertical-align:middle; */
+/* 	padding:0px; */
+/* } */
 
 dfn {
   font-style: italic;
