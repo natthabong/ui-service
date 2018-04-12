@@ -240,6 +240,7 @@ txnMod.controller('CreatePaymentController', [
                 _loadTradingPartnerInfo();
                 deffered.resolve();
             }).catch(function (response) {
+            	deffered.resolve();
                 log.error("Load account fail !");
             });
             return deffered;
@@ -258,7 +259,7 @@ txnMod.controller('CreatePaymentController', [
                 return account.accountId == accountId;
             });
 
-            var deferred = null;
+            var deffered = $q.defer();
             var tradingInfo = TransactionService.getTradingInfo(ownerId, vm.criteria.supplierId, accountId);
             tradingInfo.promise.then(function (response) {
                 vm.tradingpartnerInfoModel = response.data;
@@ -288,10 +289,12 @@ txnMod.controller('CreatePaymentController', [
                 } else {
                     vm.showEnquiryButton = false;
                 }
+                deffered.resolve();
             }).catch(function (response) {
+            	deffered.resolve();
                 log.error("Load trading partner fail !");
             });
-            return deferred;
+            return deffered;
         }
 
         function _loadMaturityDate() {
@@ -325,7 +328,7 @@ txnMod.controller('CreatePaymentController', [
             vm.transactionModel.documents = vm.documentSelects;
             vm.transactionModel.supplierId = vm.criteria.supplierId;
             if (vm.transactionModel.documents != [] && vm.transactionModel.documents.length != 0) {
-            	var limitExpiryDate = vm.tradingpartnerInfoModel.limitExpiryDate;
+            	var limitExpiryDate = vm.tradingpartnerInfoModel.limitExpiryDate == null? null: SCFCommonService.convertDate(vm.tradingpartnerInfoModel.limitExpiryDate);
                 var deffered = TransactionService.getPaymentDate(vm.transactionModel, vm.createTransactionType, vm.accountType, vm.criteria.loanRequestMode, vm.criteria.productType, limitExpiryDate);
                 deffered.promise.then(function (response) {
                     var paymentDates = response.data;
@@ -1024,7 +1027,10 @@ txnMod.controller('CreatePaymentController', [
         }
 
         vm.accountChange = function () {
-            _loadTradingPartnerInfo();
+        	var defferedTradingPartnerInfo = _loadTradingPartnerInfo();
+        	defferedTradingPartnerInfo.promise.then(function (response) {
+        		_loadPaymentDate();
+            });
         }
         
         var clearData = function (){

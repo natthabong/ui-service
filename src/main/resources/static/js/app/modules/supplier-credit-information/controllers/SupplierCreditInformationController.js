@@ -203,8 +203,8 @@ sciModule.controller('SupplierCreditInformationController', [
 			blockUI.start("Processing...");
 			var deffered = null;
 			var criteria = {
-				buyerId: data.buyerId,
-				supplierId: data.ownerId,
+				buyerId: data.tradeFinances[0].buyer.memberId,
+				supplierId: data.tradeFinances[0].supplier.memberId,
 				accountId: data.accountId
 			}
 

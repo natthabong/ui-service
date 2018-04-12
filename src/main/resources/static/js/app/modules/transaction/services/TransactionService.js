@@ -198,7 +198,9 @@ function transactionService($http, $q, blockUI, $window) {
                     sponsorId: sponsorId,
                     sponsorPaymentDate: sponsorPaymentDate,
                     loanRequestMode: loanRequestMode,
-                    tenor: tenor,
+                    tenor: tenor
+                },
+                params: {
                     limitExpiryDate: limitExpiryDate
                 },
                 transformRequest: function (data) {

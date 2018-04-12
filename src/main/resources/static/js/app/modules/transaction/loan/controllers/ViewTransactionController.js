@@ -1,13 +1,13 @@
-angular.module('scfApp').controller(
+angular.module('gecscf.transaction').controller(
 		'ViewTransactionController',
-		[ 'ViewTransactionService', '$stateParams','SCFCommonService','$scope','$timeout','$state','$log', 'PageNavigation', '$filter',
-				function(ViewTransactionService, $stateParams, SCFCommonService,$scope,$timeout,$state, $log, PageNavigation, $filter) {
+		[ 'ViewTransactionService','$stateParams','SCFCommonService','$scope','$timeout','$state','$log','PageNavigation','$filter','UIFactory',
+  function(ViewTransactionService , $stateParams , SCFCommonService , $scope , $timeout , $state , $log , PageNavigation , $filter , UIFactory) {
 					var vm = this;
 					var log = $log;
 					$scope.showConfirmPopup = false; 
 					$scope.verifyFailPopup = false;
 					$scope.successPopup = false;
-					
+					vm.isAdjustStatus = $stateParams.isAdjustStatus;
 					vm.isSponsor = false;
 					vm.isSupplier = false;
 					vm.isBank = false;
@@ -88,7 +88,7 @@ angular.module('scfApp').controller(
 						var displayConfig = SCFCommonService.getDocumentDisplayConfig(sponsorId,'PAYABLE','TRANSACTION_DOCUMENT');
 						return displayConfig;
 					}
-					init();
+					
 					vm.pageSizeList = [ {
 						label : '10',
 						value : '10'
@@ -151,5 +151,89 @@ angular.module('scfApp').controller(
 						    	}
 						}, 10);
 					};
-
+					
+					
+					var adjust = function(modeAdjust){
+						var deffered = ViewTransactionService.getConfirmToken(vm.transactionModel);
+  						deffered.promise.then(function (response) {
+  							if(response.status==200){
+  	  							confirmToken = response.data.confirmToken;
+  	  							confirmPopup(modeAdjust, confirmToken);
+  							}
+  						})
+  						.catch(function (response) {
+  							UIFactory.showDialog({
+	                            templateUrl: '/js/app/modules/transaction/loan/templates/fail-dialog.html',
+	                            controller: 'AdjustStatusPopupController',
+	                            data: {
+	                                preCloseCallback: function(confirm) {
+	                                
+	                                },
+	                                modeAdjust : vm.modeAdjust,
+	                                transactionModel : vm.transactionModel,
+	                                transactionId : vm.transactionModel.transactionId,
+	                                transactionNo :  vm.transactionModel.transactionNo,
+	                                reason : response.reason,
+	                                errorMessage : 'Transaction has been modified',
+	                                isTokenExpired : false
+	                            }
+							});
+  						});
+					}
+					
+					var confirmPopup = function(modeAdjust, confirmToken) {
+	                      UIFactory.showDialog({
+	                             templateUrl: '/js/app/modules/transaction/loan/templates/dialog-confirm-adjust-status.html',
+	                             controller: 'AdjustStatusPopupController',
+	                             data: {
+	                                preCloseCallback: function(confirm) {
+	                                	init();
+	                                },
+	                                modeAdjust : modeAdjust,
+	                                transactionModel : vm.transactionModel,
+	                                transactionId : vm.transactionModel.transactionId,
+	                                transactionNo : vm.transactionModel.transactionNo,
+	                                reason : null,
+	                                confirmToken : confirmToken
+	                             }
+	                      });
+	                }
+					
+					
+					vm.failToDrawdown = function() {
+						  adjust('failToDrawdown');
+//	                      UIFactory.showDialog({
+//	                             templateUrl: '/js/app/modules/transaction/loan/templates/dialog-confirm-adjust-status.html',
+//	                             controller: 'AdjustStatusPopupController',
+//	                             data: {
+//	                                preCloseCallback: function(confirm) {
+//	                                	init();
+//	                                },
+//	                                modeAdjust : 'failToDrawdown',
+//	                                transactionModel : vm.transactionModel,
+//	                                transactionId : vm.transactionModel.transactionId,
+//	                                transactionNo : vm.transactionModel.transactionNo,
+//	                                reason : null
+//	                             }
+//	                      });
+	                }
+					
+					vm.drawdownSuccess = function() {
+						 adjust('drawdownSuccess');
+//	                     UIFactory.showDialog({
+//	                            templateUrl: '/js/app/modules/transaction/loan/templates/dialog-confirm-adjust-status.html',
+//	                            controller: 'AdjustStatusPopupController',
+//	                            data: {
+//	                                preCloseCallback: function(confirm) {
+//	                                	init();
+//	                                },
+//	                                modeAdjust : 'drawdownSuccess',
+//	                                transactionModel : vm.transactionModel,
+//	                                transactionId : vm.transactionModel.transactionId,
+//	                                transactionNo : vm.transactionModel.transactionNo,
+//	                                reason : null
+//	                            }
+//                        });
+					}
+					init();
 				} ]);

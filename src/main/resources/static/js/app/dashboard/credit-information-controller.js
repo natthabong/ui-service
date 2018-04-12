@@ -75,7 +75,8 @@ angular.module('scfApp').controller(
 						var criteria = {
 							buyerId: data.buyerId,
 							supplierId: data.supplierId,
-							accountId: data.accountId
+							accountId: data.accountId,
+							fundingId: data.fundingId
 						}
 
 						if (data.accountType == 'LOAN') {

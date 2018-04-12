@@ -150,7 +150,7 @@ fundingProfileModule.controller(
 				
 				var financeSolutionLoanPN = {
 						fundingId : fundingId,
-						serviceType : 'LOAN',
+						serviceType : 'DRAWDOWN',
 						serviceMethod : 'TERM_LOAN',
 						openAllHours : vm.financeSolutions.supplierFinancing.pnServiceTime == '24HR' ? true : false ,
 						suspend : vm.financeSolutions.supplierFinancing.pnSuspend,
@@ -161,7 +161,7 @@ fundingProfileModule.controller(
 				
 				var financeSolutionLoanOD = {
 						fundingId : fundingId,
-						serviceType : 'LOAN',
+						serviceType : 'DRAWDOWN',
 						serviceMethod : 'OD',
 						openAllHours : vm.financeSolutions.supplierFinancing.odServiceTime == '24HR' ? true : false ,
 						suspend : vm.financeSolutions.supplierFinancing.odSuspend,
@@ -439,7 +439,7 @@ fundingProfileModule.controller(
 									vm.financeSolutions.buyerFinancing.savingSuspend = financialService.suspend;
 								}
 							}
-							if(financialService.serviceType == 'LOAN'){
+							if(financialService.serviceType == 'DRAWDOWN'){
 								if(financialService.serviceMethod == 'TERM_LOAN'){
 									if(financialService.openAllHours){
 										vm.financeSolutions.supplierFinancing.pnServiceTime = '24HR';
