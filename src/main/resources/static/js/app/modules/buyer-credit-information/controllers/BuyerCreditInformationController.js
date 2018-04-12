@@ -246,8 +246,8 @@ bciModule.controller('BuyerCreditInformationController', [
 			blockUI.start("Processing...");
 			var deffered = null;
 			var criteria = {
-				buyerId: data.buyerId,
-				supplierId: data.supplierId,
+				buyerId: data.tradeFinances[0].buyer.memberId,
+				supplierId: data.tradeFinances[0].supplier.memberId,
 				accountId: data.accountId
 			}
 
