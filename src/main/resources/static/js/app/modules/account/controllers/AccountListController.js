@@ -153,7 +153,9 @@ angular.module('gecscf.account').controller('AccountListController', [
 					organizeId: record.organizeId
 				},
 				preCloseCallback: function (data) {
-					vm.search();
+					if(angular.isDefined(data)){
+						vm.search();
+					}
 				}
 			});
 		}
