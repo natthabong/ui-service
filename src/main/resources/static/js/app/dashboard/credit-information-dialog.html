@@ -57,12 +57,13 @@
 										ng-show="record.showAccountFlag"
 										id="credit-information-{{$index+1}}-future-drawdown-label"
 										ng-bind="record.futureDrawdown | number : 2"></span></td>
-									<td class="text-center"><img
+									<td class="text-center">
+										<img id="credit-information-{{$index+1}}-logo"
 										data-ng-if="record.borrowerType=='SUPPLIER'"
 										title="{{record.buyerName}}"
 										style="height: 32px; width: 32px;"
-										data-ng-src="data:image/png;base64,{{creditInfoCtrl.decodeBase64(record.buyerLogo)}}"/><img
-										data-ng-if="record.borrowerType=='BUYER'"
+										data-ng-src="data:image/png;base64,{{creditInfoCtrl.decodeBase64(record.buyerLogo)}}"/>
+										<img id="credit-information-{{$index+1}}-logo" data-ng-if="record.borrowerType=='BUYER'"
 										title="{{record.supplierName}}"
 										style="height: 32px; width: 32px;"
 										data-ng-src="data:image/png;base64,{{creditInfoCtrl.decodeBase64(record.supplierLogo)}}"/></td>
