@@ -250,7 +250,7 @@ exportChannelModule.controller('ExportChannelController', [
 							hour = triggerInformation.endHour.length == 1 ? "0" + triggerInformation.endHour : triggerInformation.endHour;
 							minute = triggerInformation.endMinute.length == 1 ? "0" + triggerInformation.endMinute : triggerInformation.endMinute;
 							vm.channelModel.intervalEndTime = hour + ':' + minute;
-							vm.channelModel.delayedInterval = triggerInformation.intervalInMinutes;
+							vm.channelModel.delayedInterval = triggerInformation.intervalInSeconds;
 						} else {
 							if (response.data.jobInformation.triggerInformations.length > 0) {
 								response.data.jobInformation.triggerInformations.forEach(function (data) {
@@ -359,7 +359,7 @@ exportChannelModule.controller('ExportChannelController', [
 						triggerInformation.endHour = endTime[0].toString();
 						triggerInformation.endMinute = endTime[1].toString();
 					}
-					triggerInformation.intervalInMinutes = vm.channelModel.delayedInterval;
+					triggerInformation.intervalInSeconds = vm.channelModel.delayedInterval;
 					triggerInformation.daysOfWeek = daysOfWeek;
 
 					vm.channelModel.jobInformation.triggerInformations = [];
@@ -378,7 +378,7 @@ exportChannelModule.controller('ExportChannelController', [
 						var endHour = parseInt(beginTime[1]) + 1 == 60 ? parseInt(beginTime[0]) + 1 : parseInt(beginTime[0]);
 						triggerInformation.endHour = endHour.toString();
 						triggerInformation.endMinute = endTime.toString();
-						triggerInformation.intervalInMinutes = 120;
+						triggerInformation.intervalInSeconds = 120;
 						triggerInformation.daysOfWeek = daysOfWeek;
 
 						vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
@@ -522,9 +522,9 @@ exportChannelModule.controller('ExportChannelController', [
 					}
 				}
 
-				if (jobInformation.triggerInformations[0].intervalInMinutes == null || jobInformation.triggerInformations[0].intervalInMinutes == '') {
+				if (jobInformation.triggerInformations[0].intervalInSeconds == null || jobInformation.triggerInformations[0].intervalInSeconds == '') {
 					isValid = false;
-					$scope.errors.intervalInMinutes = {
+					$scope.errors.intervalInSeconds = {
 						message: 'Delayed interval (sec) is required.'
 					}
 				}
