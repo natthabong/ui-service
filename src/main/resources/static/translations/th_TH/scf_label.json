@@ -624,6 +624,7 @@
 	"SELECT_REASON_CODE": "Select partial payment reason code",
 	"REASON_CODE": "Reason code",
 	"FUNDING": "Funding",
+	"Funding": "Funding",
 	"WORKFLOW_TYPE": "Type",
 	"WORKFLOW_NAME": "Workflow",
 	"Account name": "Account name",
