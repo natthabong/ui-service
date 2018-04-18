@@ -9,10 +9,10 @@
 		<span
 			id="password-history-2-label" ng-bind="'password.' | translate"></span>
 		</label>
-	</div>
-	<label ng-if="policyForm.passHistory.$error.required" style="margin-left: 7px;" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg"
+		<label ng-if="policyForm.passHistory.$error.required" style="margin-left: 7px;" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg"
 			id="password-history-warning-message-label">{{'This field is required.' | translate}}</label> 
 
-	<label ng-if="policyForm.passHistory.$error.min || policyForm.passHistory.$error.max" style="margin-left: 7px;" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" 
-	id="password-history-warning-message-label">{{'This field is required and value must be more than 0 and no more than 999.' | translate}}</label>
+		<label ng-if="policyForm.passHistory.$error.min || policyForm.passHistory.$error.max" style="margin-left: 7px;" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" 
+		id="password-history-warning-message-label">{{'This field is required and value must be more than 0 and no more than 999.' | translate}}</label>
+	</div>
 </div>
