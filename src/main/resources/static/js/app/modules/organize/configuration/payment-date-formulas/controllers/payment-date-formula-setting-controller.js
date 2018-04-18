@@ -191,27 +191,27 @@ app.controller('PaymentDateFormulaSettingController', [
 				field: 'creditTermCode',
 				label : 'Credit term code',
 				idValueField : 'template',
-				id : 'credit-term-code-{value}',
+				id : 'credit-term-code-{value}-label',
 				sortData : true,
 				cssTemplate : 'text-left',
 			}, {
 				label : 'Document date',
 				idValueField : 'template',
-				id : 'document-date-{value}',
+				id : 'document-date-{value}-label',
 				sortData : true,
 				cellTemplate : '{{data | documentDateRuleType}}',
 				cssTemplate : 'text-left',
 			},{
 				label : 'Formula',
 				idValueField : 'template',
-				id : 'formula-{value}',
+				id : 'formula-{value}-label',
 				sortData : true,
 				cssTemplate : 'text-left',
 				cellTemplate : '{{data | paymentDateFormula}}'
 			}, {
 				label : 'Period',
 				idValueField : 'template',
-				id : 'period-{value}',
+				id : 'period-{value}-label',
 				sortData : true,
 				cssTemplate : 'text-left',
 				cellTemplate : '{{data | paymentPeriod}}'
