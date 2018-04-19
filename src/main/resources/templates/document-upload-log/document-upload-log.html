@@ -179,7 +179,7 @@
 												<td class="text-center"><span id="total-{{record.uploadDocumentLogId}}-label">{{record.success == null ? 'N/A' : record.fail == null ? 'N/A' : (record.success + record.fail | number) }}</span></td>
 												<td class="text-center"><span id="status-{{record.uploadDocumentLogId}}-label" ng-bind="record.status | translate"></span></td>
 												<td class="text-center">
-													<button id="{{record.uploadDocumentLogId}}-view-button" class="btn-default gec-btn-action" ng-click="ctrl.viewLog(record)" title="View log details">
+													<button id="{{$index + 1}}-view-button" class="btn-default gec-btn-action" ng-click="ctrl.viewLog(record)" title="View log details">
 														<i class="glyphicon glyphicon-search"></i>
 													</button>
 												</td>
