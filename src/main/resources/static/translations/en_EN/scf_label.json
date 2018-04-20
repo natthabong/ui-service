@@ -239,6 +239,8 @@
 	"WAIT_FOR_PAYMENT_RESULT": "Wait for payment result",
 	"fail_to_payment": "Fail to pay",
 	"FAIL_TO_PAYMENT": "Fail to pay",
+	"INSUFFICIENT_FUNDS":"Insufficient funds",
+	"insufficient_funds":"Insufficient funds",
 
 	"_comment": "Page Verify Transaction",
 	"Confirm approve ?": "Confirm approve ?",

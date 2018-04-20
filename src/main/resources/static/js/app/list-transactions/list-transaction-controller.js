@@ -32,6 +32,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			vm.verify = false;
 			vm.approve = false;
 			vm.reject = false;
+			vm.resend = false;
 			vm.canAdjustStatus = false;
 			vm.transactionIdForRetry = '';
 			vm.transaction = {};
@@ -43,7 +44,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 				canceledBySupplier: 'CANCELLED_BY_SUPPLIER',
 				waitForDrawdownResult: 'WAIT_FOR_DRAWDOWN_RESULT',
 				rejectIncomplete: 'REJECT_INCOMPLETE',
-				incomplete: 'INCOMPLETE'
+				incomplete: 'INCOMPLETE',
+				insufficientFunds: 'INSUFFICIENT_FUNDS'
 			}
 
 			vm.storeSearchCriteria = undefined;
@@ -339,6 +341,29 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 					}
 				});
 			};
+			
+			vm.resendLoan = function (data) {
+				var deffered = TransactionService.resend(data);
+				deffered.promise.then(function (response) {
+					UIFactory.showSuccessDialog({
+                        data: {
+                            mode: 'transactionComplete',
+                            headerMessage: 'Resend success.',
+                            bodyMessage: vm.transaction,
+                            viewRecent: vm.viewRecent,
+                            viewHistory: vm.viewHistory,
+                            backAndReset: vm.backPage,
+                            hideBackButton: true,
+                            hideViewRecentButton: false,
+                            hideViewHistoryButton: true,
+                            showOkButton: true
+                        },
+                    });
+					vm.searchTransactionService();
+				}).catch(function (response) {
+					vm.handleDialogFail(response);
+				});
+			}
 
 			vm.handleDialogFail = function (response) {
 				if (response.status == 400) {
@@ -542,9 +567,10 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 					cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!(ctrl.verify && (data.statusCode === ctrl.statusDocuments.waitForVerify))" id="transaction-{{data.transactionNo}}-verify-button" ng-click="ctrl.verifyTransaction(data)" title="Verify"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>' +
 						'<scf-button id="transaction-{{data.transactionNo}}-approve-button" ng-disabled="!(ctrl.approve &&(data.statusCode === ctrl.statusDocuments.waitForApprove))" class="btn-default gec-btn-action"  ng-click="ctrl.approveTransaction(data)" title="Approve"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
 						'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-view-button" ng-disabled="{{!ctrl.canView}}" ng-click="ctrl.view(data)" title="View"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>' +
-						'<scf-button id="transaction-{{data.transactionNo}}-re-check-button" class="btn-default gec-btn-action" ng-disabled="{{!(data.retriable && ctrl.canRetry)}}" ng-click="ctrl.retry(data)" title="Re-check"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>' +
+						'<scf-button id="transaction-{{data.transactionNo}}-re-check-button" class="btn-default gec-btn-action" ng-disabled="{{!(data.retriable && ctrl.canRetry && data.statusCode != ctrl.statusDocuments.insufficientFunds)}}" ng-click="ctrl.retry(data)" title="Re-check"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>' +
 						'<scf-button id="transaction-{{data.transactionNo}}-print-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledPrint(data.returnStatus)" ng-click="ctrl.printEvidenceFormAction(data)" title="Print"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>' +
-						'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>' + 
+						'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>' +
+						'<scf-button id="transaction-{{data.transactionNo}}-resend-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledResend(data)" ng-click="ctrl.resendLoan(data)" title="Resend"><i class="fa fa-share" aria-hidden="true"></i></scf-button>' + 
 						'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-adjust-status-button" ng-if="ctrl.showAdjustStatus(data)" ng-click="ctrl.adjustStatus(data)" title="Adjust status"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
 				}]
 			};
@@ -807,6 +833,16 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 				var condition2 = data.statusCode == vm.statusDocuments.waitForDrawdownResult
 				var condition3 = TransactionService.isAfterToday(data, vm.serverTime);
 				if (condition1 && condition2 && condition3) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+			
+			vm.disabledResend = function (data) {
+				var condition1 = vm.resend != undefined && vm.resend == true;
+				var condition2 = data.statusCode == vm.statusDocuments.insufficientFunds;
+				if (condition1 && condition2) {
 					return false;
 				} else {
 					return true;

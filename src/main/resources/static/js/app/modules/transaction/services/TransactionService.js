@@ -386,6 +386,23 @@ function transactionService($http, $q, blockUI, $window) {
         });
         return deferred;
     }
+    
+    function resend(transactionModel) {
+        var deferred = $q.defer();
+        blockUI.start();
+        $http({
+            method: 'POST',
+            url: '/api/transaction/resend',
+            data: transactionModel
+        }).then(function (response) {
+            blockUI.stop();
+            deferred.resolve(response);
+        }).catch(function (response) {
+            blockUI.stop();
+            deferred.reject(response);
+        });
+        return deferred;
+    }
 
     function getTransactionDialogErrorUrl(errorCode, action) {
         var errorMessageCode = {
@@ -617,6 +634,7 @@ function transactionService($http, $q, blockUI, $window) {
     this.submitTransaction = submitTransaction;
     this.retry = retry;
     this.reject = reject;
+    this.resend = resend;
     this.getAvailableMaturityDates = getAvailableMaturityDates;
     this.getTransactionDialogErrorUrl = getTransactionDialogErrorUrl;
     this.getTransaction = getTransaction;
