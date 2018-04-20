@@ -343,12 +343,23 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			};
 			
 			vm.resendLoan = function (data) {
-				var deffered = TransactionService.resend(data);
+				vm.transaction = {};
+				if (angular.isUndefined(data)) {
+					vm.transaction.transactionId = vm.transactionIdForRetry;
+				} else {
+					vm.transaction.transactionId = data.transactionId;
+					vm.transaction.transactionNo = data.transactionNo;
+					vm.transaction.version = data.version;
+					vm.transaction.statusCode = data.statusCode;
+					vm.transactionIdForRetry = vm.transaction.transactionId;
+				}
+				vm.storeCriteria();				
+				var deffered = TransactionService.resend(vm.transaction);
 				deffered.promise.then(function (response) {
 					UIFactory.showSuccessDialog({
                         data: {
                             mode: 'transactionComplete',
-                            headerMessage: 'Resend success.',
+                            headerMessage: 'Resend transaction success.',
                             bodyMessage: vm.transaction,
                             viewRecent: vm.viewRecent,
                             viewHistory: vm.viewHistory,
@@ -361,11 +372,11 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
                     });
 					vm.searchTransactionService();
 				}).catch(function (response) {
-					vm.handleDialogFail(response);
+					vm.handleDialogFail(response,'Resend transaction');
 				});
 			}
 
-			vm.handleDialogFail = function (response) {
+			vm.handleDialogFail = function (response, action) {
 				if (response.status == 400) {
 					if (response.data.errorCode == 'E0400') {
 						vm.wrongPassword = true;
@@ -384,12 +395,34 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 							},
 						});
 					}
+				} else if(response.status == 402){
+					vm.transaction.transactionNo = response.data.attributes.transactionNo;
+					vm.transaction.returnCode = response.data.attributes.returnCode;
+					vm.transaction.returnMessage = response.data.attributes.returnMessage;
+			    	vm.transaction.retriable = response.data.attributes.retriable;
+			    	vm.transaction.version = response.data.attributes.version;					
+					UIFactory.showFailDialog({
+						data: {
+							mode: 'transaction',
+							headerMessage: action+' fail.',
+							transaction: vm.transaction,
+							resend: vm.resendLoan,
+							backAndReset: vm.backAndReset,
+							viewRecent: vm.viewRecent,
+							viewHistory: vm.searchTransactionService,
+							hideBackButton: true,
+							hideViewRecentButton: true,
+							hideViewHistoryButton: true,
+							showOkButton: true,
+							showContactInfo: true
+						},
+					});
 				} else if (response.status == 409) {
 					if (response.data.errorCode == 'FAILED') {
 						UIFactory.showFailDialog({
 							data: {
 								mode: 'transaction',
-								headerMessage: 'Reject transaction fail.',
+								headerMessage: action+' fail.',
 								backAndReset: vm.backAndReset,
 								viewHistory: vm.searchTransactionService,
 								errorCode: response.data.errorCode,
@@ -409,7 +442,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 						UIFactory.showIncompleteDialog({
 							data: {
 								mode: 'transaction',
-								headerMessage: 'Reject transaction incomplete.',
+								headerMessage: action+' incomplete.',
 								transaction: vm.transaction,
 								retry: vm.retryReject,
 								viewHistory: vm.searchTransactionService,
@@ -429,7 +462,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 						UIFactory.showFailDialog({
 							data: {
 								mode: 'transaction',
-								headerMessage: 'Reject transaction fail.',
+								headerMessage: action+' fail.',
 								transaction: vm.transaction,
 								retry: vm.retryReject,
 								backAndReset: vm.backAndReset,
@@ -447,7 +480,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 					UIFactory.showFailDialog({
 						data: {
 							mode: 'transaction',
-							headerMessage: 'Reject transaction fail',
+							headerMessage: action+' fail',
 							backAndReset: vm.backAndReset,
 							viewHistory: vm.searchTransactionService,
 							errorCode: response.data.errorCode,

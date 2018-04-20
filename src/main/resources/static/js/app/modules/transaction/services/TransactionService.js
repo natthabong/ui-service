@@ -392,7 +392,7 @@ function transactionService($http, $q, blockUI, $window) {
         blockUI.start();
         $http({
             method: 'POST',
-            url: '/api/transaction/resend',
+            url: '/api/v1/transactions/resend',
             data: transactionModel
         }).then(function (response) {
             blockUI.stop();

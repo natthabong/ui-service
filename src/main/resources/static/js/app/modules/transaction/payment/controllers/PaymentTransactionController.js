@@ -390,7 +390,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	        deffered.promise.then(function(response) {
 	        	 vm.searchTransaction();
 	        }).catch(function(response) {
-	        	vm.handleDialogFail(response);
+	        	vm.handleDialogFail(response,"Recheck transaction");
 	        });
 	    }
 		
@@ -449,10 +449,10 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	    				});	    				
 	    			}
 	    		}else{
-	    			vm.handleDialogFail(response);
+	    			vm.handleDialogFail(response,'Reject transaction');
 	    		}
 	        }).catch(function(response) {
-	        	vm.handleDialogFail(response);
+	        	vm.handleDialogFail(response,'Reject transaction');
 	        });    	
 	    };   
 	    
@@ -499,7 +499,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 					}
 				},
 				onFail : function(response) {	
-					vm.handleDialogFail(response);					
+					vm.handleDialogFail(response, 'Reject transaction');					
 				},
 				onSuccess : function(response) {
 					UIFactory.showSuccessDialog({
@@ -520,12 +520,23 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	    };
 	    
 	    vm.resendPayment = function(data) {	
-	        var deffered = TransactionService.resend(data);
+			vm.transaction = {};
+			if (angular.isUndefined(data)) {
+				vm.transaction.transactionId = vm.transactionIdForRetry;
+			} else {
+				vm.transaction.transactionId = data.transactionId;
+				vm.transaction.transactionNo = data.transactionNo;
+				vm.transaction.version = data.version;
+				vm.transaction.statusCode = data.statusCode;
+				vm.transactionIdForRetry = vm.transaction.transactionId;
+			}
+
+	        var deffered = TransactionService.resend(vm.transaction);
 	        deffered.promise.then(function(response) {
 				UIFactory.showSuccessDialog({
                     data: {
                         mode: 'transactionComplete',
-                        headerMessage: 'Resend success.',
+                        headerMessage: 'Resend transaction success.',
                         bodyMessage: vm.transaction,
                         viewRecent: vm.viewRecent,
                         viewHistory: vm.viewHistory,
@@ -538,11 +549,11 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
                 });	        	
 	        	vm.searchTransaction();
 	        }).catch(function(response) {
-	        	vm.handleDialogFail(response);
+	        	vm.handleDialogFail(response,'Resend transaction');
 	        });	    	
 	    };
 	    
-	    vm.handleDialogFail = function(response){
+	    vm.handleDialogFail = function(response, action){
 	    	vm.searchTransaction();
 	    	
 	    	if(response.status == 400){
@@ -564,13 +575,35 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 						},
 					});	
 				} 
+			}else if(response.status == 402){
+				vm.transaction.transactionNo = response.data.attributes.transactionNo;
+				vm.transaction.returnCode = response.data.attributes.returnCode;
+				vm.transaction.returnMessage = response.data.attributes.returnMessage;
+		    	vm.transaction.retriable = response.data.attributes.retriable;
+		    	vm.transaction.version = response.data.attributes.version;
+				UIFactory.showFailDialog({
+					data: {
+						mode: 'transaction',
+						headerMessage: action+' fail.',
+						transaction: vm.transaction,
+						resend: vm.resendPayment,
+						backAndReset: vm.backAndReset,
+						viewRecent: vm.viewRecent,
+						viewHistory: vm.searchTransactionService,
+						hideBackButton: true,
+						hideViewRecentButton: true,
+						hideViewHistoryButton: true,
+						showOkButton: true,
+						showContactInfo: true
+					},
+				});	
 			}
 			else if(response.status == 409){
 				if(response.data.errorCode == 'FAILED'){
 					UIFactory.showFailDialog({
 						data : {
 							mode: 'transaction',
-							headerMessage : 'Reject transaction fail.',
+							headerMessage : action+' fail.',
 							backAndReset : vm.backAndReset,
 							viewHistory : vm.searchTransactionService,
 							errorCode : response.data.errorCode,
@@ -589,7 +622,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 					UIFactory.showIncompleteDialog({
 						data : {
 							mode: 'transaction',
-							headerMessage : 'Reject transaction incomplete.',						
+							headerMessage : action+' incomplete.',						
 							transaction : vm.transaction,
 							retry : vm.retryReject,
 							viewHistory: vm.searchTransactionService,
@@ -609,7 +642,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 					UIFactory.showFailDialog({
 						data : {
 							mode: 'transaction',
-							headerMessage : 'Reject transaction fail.',						
+							headerMessage : action+' fail.',						
 							transaction : vm.transaction,
 							retry : vm.retryReject,
 							backAndReset : vm.backAndReset,
@@ -628,7 +661,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 				UIFactory.showFailDialog({
 					data : {
 						mode: 'transaction',
-						headerMessage : 'Reject transaction fail',
+						headerMessage : action+' fail',
 						backAndReset : vm.backAndReset,
 						viewHistory : vm.searchTransactionService,
 						errorCode : response.data.errorCode,
