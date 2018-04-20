@@ -10,11 +10,11 @@
 			</h1>
 			<p>AR documents appropriate to the billing function.</p>
 		</div>
-		<ul class="app-breadcrumb breadcrumb">
-			<li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-			<li class="breadcrumb-item"><a href="#">{{'AR Document' |
-					translate}}</a></li>
-		</ul>
+<!-- 		<ul class="app-breadcrumb breadcrumb"> -->
+<!-- 			<li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li> -->
+<!-- 			<li class="breadcrumb-item"><a href="#">{{'AR Document' | -->
+<!-- 					translate}}</a></li> -->
+<!-- 		</ul> -->
 	</div>
 	<div class="row">
 		<div class="col-md-12">
@@ -165,14 +165,20 @@
 							<div id="fixed-bottom" class="col-md-12"></div>
 						</div>
 						<div class="row">
-							<div class="col-md-1 col-sm-1 gec-select text-center">
-								<div ng-show="false">
-									<input type="checkbox" id="select-all-page-checkbox" /> <b>
-										<span ng-bind="'All' | translate"></span>
-									</b>
+							<div class="col-md-6 col-sm-12 flex" ng-show="ctrl.showInfomation">
+								<div class="col-md-4 col-sm-4">
+									<label id="total-amount-label"> <b>{{'Total net
+											amount' | translate}}:</b>
+									</label>
+								</div>
+								<div class="col-md-7 col-sm-7 text-left">
+									<span id="total-amount-value-label"
+										ng-bind="ctrl.totalNetAmount | number:2"></span>
+									<span id="wait-for-approve-amount-label"
+										ng-bind="'THB' | translate"></span>
 								</div>
 							</div>
-							<div class="col-md-11 col-sm-11 text-right">
+							<div class="col-md-6 col-sm-12 text-right">
 								<div class="row">
 									<div class="col-md-12 col-sm-12">
 										<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
@@ -190,23 +196,23 @@
 						</div>
 					</div>
 				</div>
-				<div class="row" ng-show="ctrl.showInfomation">
-					<div id="bottom-sticker">
-						<div class="col-md-12 col-sm-12">
-							<label id="total-amount-label"> <b>{{'Total net
-									amount' | translate}}:</b>
-							</label>
-							<div class="col-md-1 col-sm-3 text-right">
-								<span id="total-amount-value-label"
-									ng-bind="ctrl.totalNetAmount | number:2"></span>
-							</div>
-							<div class="col-md-8 col-sm-6">
-								<span id="wait-for-approve-amount-label"
-									ng-bind="'THB' | translate"></span>
-							</div>
-						</div>
-					</div>
-				</div>
+<!-- 				<div class="row" ng-show="ctrl.showInfomation"> -->
+<!-- 					<div id="bottom-sticker"  class="col-md-12 col-sm-12"> -->
+<!-- 						<div class="col-md-12 col-sm-12 flex"> -->
+<!-- 							<div class="col-md-2 col-sm-6 text-right"> -->
+<!-- 								<label id="total-amount-label"> <b>{{'Total net -->
+<!-- 										amount' | translate}}:</b> -->
+<!-- 								</label> -->
+<!-- 							</div> -->
+<!-- 							<div class="col-md-2 col-sm-6 text-left"> -->
+<!-- 								<span id="total-amount-value-label" -->
+<!-- 									ng-bind="ctrl.totalNetAmount | number:2"></span> -->
+<!-- 								<span id="wait-for-approve-amount-label" -->
+<!-- 									ng-bind="'THB' | translate"></span> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
 			</div>
 		</div>
 	</div>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" >
+<div ng-controller="LoginController as controller">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title ng-bind="controller.title"></title>
+
+<!-- WRO4J CSS -->
+<link th:href="@{/css/angular-bootstrap.css}"
+	href="../static/css/angular-bootstrap.css" rel="stylesheet" />
+<script th:src="@{/js/angular-bootstrap.js}"
+	src="../static/js/angular-bootstrap.js"></script>
+<script th:src="@{/js/plugins/loading-overlay.js}"
+	src="../static/js/plugins/loading-overlay.js"></script>
+<link th:href="@{/css/common.css}" href="../static/css/common.css"
+	rel="stylesheet" />
+<link th:href="@{/css/gecscf.css}" href="../static/css/gecscf.css"
+	rel="stylesheet" />
+<link th:href="@{/css/login.css}" href="../static/css/login.css"
+	rel="stylesheet" />
+<link th:href="@{/css/loading-overlay.css}"
+	href="../static/css/loading-overlay.css" rel="stylesheet" />
+<link th:href="@{/assets/css/theme.css}"
+	href="../static/assets/css/theme.css}" rel="stylesheet" />
+<link th:href="@{/assets/css/login.css}"
+	href="../static/assets/css/login.css}" rel="stylesheet" />
+<!-- controller -->
+<script th:src="@{/js/app/scf-app.js}" src="../static/js/app/scf-app.js"></script>
+
+<script th:src="@{/js/app/authen/authentication.js}"
+	src="../static/js/app/authentication.js"></script>
+
+<!-- Mimin Theme -->
+<!-- plugins -->
+<script th:src="@{/js/plugins/jquery.nicescroll.js}"
+	src="../static/js/plugins/jquery.nicescroll.js"></script>
+
+<!-- End Mimin Theme -->
+<script th:src="@{/js/plugins/loading-overlay.js}"
+	src="../static/js/plugins/loading-overlay.js"></script>
+<script th:src="@{/js/plugins/ngDialog.js}"
+	src="../static/js/plugins/ngDialog.js"></script>
+
+<!-- GECSCF Component -->
+<script th:src="@{/js/app/common/scf-component.js}"
+	src="../static/js/app/common/scf-component.js"></script>
+<script th:src="@{/js/app/components/scfjs.js}"
+	src="../static/js/app/components/scfjs.js"></script>
+
+<script th:src="@{/js/app/common/scf-common-service.js}"
+	src="../static/js/app/common/scf-common-service.js"></script>
+
+<script th:src="@{/js/app/shared/directives/ui.module.js}"
+	src="../static/js/app/shared/directives/ui.module.js"></script>
+
+<script th:src="@{/js/app/modules/profile/profile.module.js}"
+	src="../static/js/app/modules/profile/profile.module.js"></script>
+</head>
+
+<body ng-app="authenApp">
+	<!--
+    you can substitue the span of reauth email for a input with the email and
+    include the remember me checkbox
+    -->
+
+	<div class="container">
+		<div class="wrapper">
+
+			<form id="loginForm" role="form" method="post" name="Login_Form"
+				class="form-signin" autocomplete="off"
+				ng-submit="controller.login()">
+				<h3 class="form-signin-heading text-center">
+					<img ng-src="assets/img/logo_login.png" alt="" />
+				</h3>
+				<hr class="spartan" />
+				<div class="alert alert-danger" role="alert"
+					ng-if="controller.error">
+					<span id="login-message-label">{{controller.errorMessage}}</span>
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon" id="sizing-addon1"> <i
+						class="fa fa-user"></i>
+					</span> <input type="text" class="form-control" id="username"
+						name="username" ng-model="controller.username"
+						placeholder="Username" />
+				</div>
+				<div role="alert" ng-if="controller.usernameRequired">
+					<span id="username-error-message-label" style="color: red">username
+						is required.</span>
+				</div>
+				<br ng-if="controller.usernameRequired" />
+				<div class="input-group">
+					<span class="input-group-addon" id="sizing-addon1"> <i
+						class="fa fa-lock"></i>
+					</span> <input type="password" class="form-control" id="password"
+						ng-model="controller.password" name="password"
+						placeholder="Password" /> <input type="hidden"
+						th:attr="ng-init='controller.funding=\''+ ${funding} +'\''"
+						ng-model="controller.funding" name="funding" /> <input
+						type="hidden"
+						th:attr="ng-init='controller.clientId=\''+ ${clientId} +'\''"
+						ng-model="controller.clientId" name="clientId" /> <input
+						type="hidden"
+						th:attr="ng-init='controller.clientSecret=\''+ ${clientSecret} +'\''"
+						ng-model="controller.clientSecret" name="clientSecret" />
+				</div>
+				<div role="alert" ng-if="controller.passwordRequired">
+					<span id="password-error-message-label" style="color: red">password
+						is required.</span>
+				</div>
+				<button class="btn btn-lg btn-primary btn-block" name="Submit"
+					type="submit">Login</button>
+			</form>
+		</div>
+	</div>
+	<!-- /container -->
+
+	<!-- Placed at the end of the document so the pages load faster -->
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- controller -->
+	<script
+		th:src="@{/js/app/modules/profile/change-password/password-controller.js}"
+		src="../static/js/app/modules/profile/change-password/password-controller.js"></script>
+
+
+</body>
+</div>
+</html>

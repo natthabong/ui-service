@@ -4815,6 +4815,7 @@ tbody.collapse.show {
 }
 
 .page-link {
+  height: 36px !important;
   position: relative;
   display: block;
   padding: 0.5rem 0.75rem;

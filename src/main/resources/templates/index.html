@@ -23,7 +23,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <!-- Main CSS-->
-<link rel="stylesheet" type="text/css" href="css/main.css"></link>
+<link th:href="@{/assets/css/main.css}" href="../static/assets/css/main.css}" rel="stylesheet" />
+<!-- <link rel="stylesheet" type="text/css" href="css/main.css"></link> -->
+<!-- Custom Style CSS-->
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<!-- <link th:href="@{/assets/css/style.css}" href="../static/assets/css/style.css}" rel="stylesheet" /> -->
 <!-- Font-icon css-->
 <link rel="stylesheet" type="text/css"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></link>
@@ -179,17 +183,15 @@
 <body class="app sidebar-mini rtl" ng-app="scfApp">
 	<!-- Navbar-->
 	<header class="app-header">
-		<a class="app-header__logo" href="index.html">Vali</a>
 		<!-- Sidebar toggle button-->
 		<a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
 			aria-label="Hide Sidebar"></a>
+		<a class="app-header__logo" href="index.html"><img
+					ng-src="assets/img/logo.png" class="logo-img" alt="user name" ui-sref="/dashboard" id="gec-home-link" 
+					ui-sref-opts="{reload: true, inherit: false}"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" /></a>
 		<!-- Navbar Right Menu-->
 		<ul class="app-nav">
-			<li class="app-search"><input class="app-search__input"
-				type="search" placeholder="Search" />
-				<button class="app-search__button">
-					<i class="fa fa-search"></i>
-				</button></li>
 			<!--Notification Menu-->
 			<li class="dropdown"><a class="app-nav__item" href="#"
 				data-toggle="dropdown" aria-label="Show notifications"><i
@@ -272,6 +274,10 @@
 					<li><a class="dropdown-item" href="page-login.html"><i
 							class="fa fa-sign-out fa-lg"></i> Logout</a></li>
 				</ul></li>
+			<li ng-controller="LogoutController as logoutCtroller" class="dropdown"><a
+					id="logout-link" href="#" ng-click="logoutCtroller.logout()"
+					class="app-nav__item" title="Sign Out"><span
+						class="fa fa-power-off "></span></a></li>
 		</ul>
 	</header>
 	<!-- Sidebar menu-->
@@ -282,9 +288,9 @@
 				src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"
 				alt="User Image" />
 			<div>
-				<p class="app-sidebar__user-name"><span id="display-name" class="user-name" ng-bind="userInfo.displayName">Avanta</span></p>
+				<p class="app-sidebar__user-name"><span id="display-name" title="{{userInfo.displayName}}" class="user-name" ng-bind="userInfo.displayName">Avanta</span></p>
 				<p class="app-sidebar__user-designation">
-					<span class="user-name" ng-bind="ctrl.organizeHeader.organizeName"></span>
+					<span class="user-name ellipsis" title="{{ctrl.organizeHeader.organizeName}}" ng-bind="ctrl.organizeHeader.organizeName"></span>
 				</p>
 			</div>
 		</div>
@@ -447,6 +453,20 @@
 		</div>
 	</div>
 	</main>
+	<div class="footer-below footer">
+		<div class="footer-container">
+			<div class="row">
+				<div class="col-lg-10">
+					<span
+						th:text="${'All rights reserved 2016 General Electronic Commerce Services Co., Ltd.' }"></span>
+				</div>
+				<div class="col-lg-2 text-right">
+					<span>Version 1.0-b4</span>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- 	<footer th:replace="fragments/footer :: footer"></footer> -->
 	<!-- Essential javascripts for application to work-->
 
 	<script src="js/main.js"></script>

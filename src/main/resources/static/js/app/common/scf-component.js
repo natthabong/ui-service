@@ -9,27 +9,27 @@
 			'<p class="input-group">' + '<div uib-timepicker="true" show-spinners="false" show-meridian="false"></div>' + '</p>');
 
 		$templateCache.put('ui/template/data_table.html',
-			'<table st-table="componentDatas" class="table table-bordered table-striped">'
+			'<table st-table="componentDatas" class="table table-hover table-bordered table-striped">'
 			+ '<thead><tr><th class="text-center" scf-th="column" ng-repeat="column in tableColumns track by $index"></th>'
 			+ '</tr>'
 			+ '</thead>'
 			+ '<tbody>'
-			+ '<tr ng-repeat="data in componentDatas track by $id(data)" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
+			+ '<tr ng-repeat="data in componentDatas track by $id(data)">'
 			+ '<td scf-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>'
 			+ '</tr>'
 			+ '</tbody>'
 			+ '</talbe>'
 		);
 		$templateCache.put('ui/template/data_table_collapse.html',
-			'<table class="table table-bordered table-striped">'
+			'<table class="table table-hover table-bordered table-striped">'
 			+ '<thead><tr><th scf-table-th="column" ng-repeat="column in tableColumns track by $index"></th>'
 			+ '</tr>'
 			+ '</thead>'
 			+ '<tbody>'
-			+ '<tr ng-repeat-start="data in componentDatas track by $id(data)" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
+			+ '<tr ng-repeat-start="data in componentDatas track by $id(data)">'
 			+ '<td scf-table-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>'
 			+ '</tr>'
-			+ '<tr ng-repeat-end ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
+			+ '<tr ng-repeat-end>'
 			+ '<td colspan="{{tableColumns.length - exceptedMergeColumn}}" scf-td-collapes="data" ng-repeat="column in tableCollapseColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions">'
 			+ '</td>'
 			+ '</tr>'
@@ -38,12 +38,12 @@
 		);
 
 		$templateCache.put('ui/template/table_template.html',
-			'<table class="table table-bordered table-striped">'
+			'<table class="table table-hover table-bordered table-striped">'
 			+ '<thead><tr><th scf-table-th="column" ng-repeat="column in tableColumns track by $index"></th>'
 			+ '</tr>'
 			+ '</thead>'
 			+ '<tbody>'
-			+ '<tr ng-repeat="data in componentDatas track by $id(data)" ng-class-odd="\'tr-odd\'" ng-class-even="\'tr-even\'">'
+			+ '<tr ng-repeat="data in componentDatas track by $id(data)">'
 			+ '<td scf-table-td="data" ng-repeat="column in tableColumns" column-render="column" index-no="$parent.$index" page-options="pageOptions"></td>'
 			+ '</tr>'
 			+ '</tbody>'
@@ -755,7 +755,7 @@
 			}
 
 			function fieldTemplate(element, attrs) {
-				var template = '<ul class="scf-paging form-inline">' + '<li><button type="button" ng-click="scfPaginationAction(\'first\')" class="btn btn-sm" id="{{firstPageButtonId}}"><span class="fa fa-angle-double-left" aria-hidden="true"></span></button></li>' + '<li><button type="button" ng-click="scfPaginationAction(\'back\')" class="btn btn-sm" id="{{backPageButtonId}}"><span class="fa fa-angle-left" aria-hidden="true"></span></button></li>' + '<li><scf-dropdown ng-model="pageSizeModel" ng-change="scfPaginationAction(\'changeSize\')" component-data="pageSizeList" id="{{dropdownPageLimitId}}"></scf-dropdown</li>' + '<li><button type="button" ng-click="scfPaginationAction(\'next\')" class="btn btn-sm" id="{{nextPageButtonId}}"><span class="fa fa-angle-right" aria-hidden="true"></span></button></li>' + '<li><button type="button" ng-click="scfPaginationAction(\'last\')" class="btn btn-sm" id="{{lastPageButtonId}}"><span class="fa fa-angle-double-right" aria-hidden="true"></span></button></li>' + '</ul>';
+				var template = '<ul class="scf-paging form-inline">' + '<li class="paginate_button"><button  ng-click="scfPaginationAction(\'first\')" class="btn page-link" id="{{firstPageButtonId}}"><span class="fa fa-angle-double-left" aria-hidden="true"></span></button></li>' + '<li class="paginate_button"><button ng-click="scfPaginationAction(\'back\')" class="btn page-link" id="{{backPageButtonId}}"><span class="fa fa-angle-left" aria-hidden="true"></span></button></li>' + '<li class="paginate_button"><scf-dropdown ng-model="pageSizeModel" ng-change="scfPaginationAction(\'changeSize\')" component-data="pageSizeList" id="{{dropdownPageLimitId}}" class="page-link"></scf-dropdown</li>' + '<li><button  ng-click="scfPaginationAction(\'next\')" class="btn page-link" id="{{nextPageButtonId}}"><span class="fa fa-angle-right" aria-hidden="true"></span></button></li>' + '<li><button ng-click="scfPaginationAction(\'last\')" class="btn page-link" id="{{lastPageButtonId}}"><span class="fa fa-angle-double-right" aria-hidden="true"></span></button></li>' + '</ul>';
 				return template;
 			}
 		}])
