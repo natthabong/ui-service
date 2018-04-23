@@ -82,7 +82,7 @@
 			<div class="row" ng-if="ngDialogData.data.mode == 'transaction' || ngDialogData.data.mode == 'concurrency'">
 				<div class="col-xs-12 text-right">
 					<scf-button id="popup-re-send-button" class="popup-button"
-						data-dismiss="modal" ng-show="ngDialogData.data.resend != undefined"
+						data-dismiss="modal" ng-show="ngDialogData.data.showResend != undefined && ngDialogData.data.showResend == true""
 						ng-click="closeThisDialog(false);ngDialogData.data.resend()">{{'Re-send'
 					| translate}}</scf-button>					
 					<scf-button id="popup-re-check-button" class="popup-button"

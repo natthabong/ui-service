@@ -129,7 +129,26 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
 
                 }).catch(function(response) {
                     $scope.response = response.data;
-                    if ($scope.response.errorCode == 'E0400') {
+                    if(response.status == 402){		
+    					UIFactory.showFailDialog({
+    						data: {
+    							mode: 'transaction',
+    							headerMessage: 'Approve transaction fail.',
+    							transaction: vm.transaction,
+    							resend: vm.resendLoan,
+    							viewRecent: vm.viewRecent,
+    							viewHistory: vm.viewHistory,
+    							backAndReset: vm.backPage,
+    							hideBackButton: false,
+    							hideViewRecentButton: true,
+    							hideViewHistoryButton: false,
+    							showOkButton: false,
+    							showContactInfo: true,
+    							showResend: true
+    						},
+    					});
+                    	
+                    } else if ($scope.response.errorCode == 'E0400') {
                         vm.confirmPopup();
                         vm.wrongPassword = true;
                         vm.passwordErrorMsg = $scope.response.attributes.errorMessage;
@@ -203,6 +222,47 @@ angular.module('scfApp').controller('ApproveController', ['$scope', 'ApproveTran
             });
         }
 
+		vm.resendLoan = function (data) {
+			vm.transaction = vm.transactionApproveModel.transaction;
+			
+			var deffered = TransactionService.resend(vm.transaction);
+			deffered.promise.then(function (response) {
+				UIFactory.showSuccessDialog({
+                    data: {
+                        mode: 'transactionComplete',
+                        headerMessage: 'Resend transaction success.',
+                        bodyMessage: vm.transaction,
+                        viewRecent: vm.viewRecent,
+                        viewHistory: vm.viewHistory,
+                        backAndReset: vm.backPage,
+                        hideBackButton: true,
+                        hideViewRecentButton: false,
+                        hideViewHistoryButton: true,
+                        showOkButton: true
+                    },
+                });
+				vm.searchTransactionService();
+			}).catch(function (response) {
+				UIFactory.showFailDialog({
+					data: {
+						mode: 'transaction',
+						headerMessage: 'Resend transaction fail.',
+						transaction: vm.transaction,
+						resend: vm.resendLoan,
+						viewRecent: vm.viewRecent,
+						viewHistory: vm.viewHistory,
+						backAndReset: vm.backPage,
+						hideBackButton: false,
+						hideViewRecentButton: true,
+						hideViewHistoryButton: false,
+						showOkButton: false,
+						showContactInfo: true,
+						showResend: true
+					},
+				});
+			});
+		}
+		
         vm.getTransaction = function() {
             var deffered = ApproveTransactionService.getTransaction(vm.transactionApproveModel.transaction);
             deffered.promise.then(function(response) {

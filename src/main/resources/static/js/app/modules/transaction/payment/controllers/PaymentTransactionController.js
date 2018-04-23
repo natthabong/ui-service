@@ -594,7 +594,8 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 						hideViewRecentButton: true,
 						hideViewHistoryButton: true,
 						showOkButton: true,
-						showContactInfo: true
+						showContactInfo: true,
+						showResend: true
 					},
 				});	
 			}

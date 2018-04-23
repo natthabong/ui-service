@@ -414,7 +414,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 							hideViewRecentButton: true,
 							hideViewHistoryButton: true,
 							showOkButton: true,
-							showContactInfo: true
+							showContactInfo: true,
+							showResend: true
 						},
 					});
 				} else if (response.status == 409) {
