@@ -111,7 +111,7 @@ function transactionService($http, $q, blockUI, $window) {
         return deferred;
     }
 
-    function getPaymentDate(transactionModel, type, accType, loanRequestMode, prodType) {
+    function getPaymentDate(transactionModel, type, accType, loanRequestMode, prodType, limitExpiryDate) {
         var deferred = $q.defer();
         $http({
                 url: 'api/v1/create-transaction/payment-dates/calculate',
@@ -126,7 +126,8 @@ function transactionService($http, $q, blockUI, $window) {
                     loanRequestMode: loanRequestMode,
                     createTransactionType: type,
                     accountType: accType,
-                    productType: prodType
+                    productType: prodType,
+                    limitExpiryDate: limitExpiryDate
                 }
             })
             .then(function (response) {
@@ -197,7 +198,9 @@ function transactionService($http, $q, blockUI, $window) {
                     sponsorId: sponsorId,
                     sponsorPaymentDate: sponsorPaymentDate,
                     loanRequestMode: loanRequestMode,
-                    tenor: tenor,
+                    tenor: tenor
+                },
+                params: {
                     limitExpiryDate: limitExpiryDate
                 },
                 transformRequest: function (data) {
@@ -380,6 +383,23 @@ function transactionService($http, $q, blockUI, $window) {
             } else {
                 deferred.reject(response);
             }
+        });
+        return deferred;
+    }
+    
+    function resend(transactionModel) {
+        var deferred = $q.defer();
+        blockUI.start();
+        $http({
+            method: 'POST',
+            url: '/api/v1/transactions/resend',
+            data: transactionModel
+        }).then(function (response) {
+            blockUI.stop();
+            deferred.resolve(response);
+        }).catch(function (response) {
+            blockUI.stop();
+            deferred.reject(response);
         });
         return deferred;
     }
@@ -614,6 +634,7 @@ function transactionService($http, $q, blockUI, $window) {
     this.submitTransaction = submitTransaction;
     this.retry = retry;
     this.reject = reject;
+    this.resend = resend;
     this.getAvailableMaturityDates = getAvailableMaturityDates;
     this.getTransactionDialogErrorUrl = getTransactionDialogErrorUrl;
     this.getTransaction = getTransaction;

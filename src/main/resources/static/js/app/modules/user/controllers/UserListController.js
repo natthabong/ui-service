@@ -28,6 +28,7 @@ userModule
 			    var log = $log;
 				vm.manageAll = false;
 				vm.canResetPwd = false;
+				var mode = $stateParams.mode;
 
 			    vm.userStatusDropdowns = UserStatus;
 			    vm.passwordStatusDropdowns = PasswordStatus;
@@ -36,9 +37,9 @@ userModule
 			    
 			    vm.criteria = $stateParams.criteria || {
 			    	userId : null,
-					organizeId : null,
-					userStatus : null,
-					passwordStatus : null
+					  organizeId : null,
+					  userStatus : null,
+					  passwordStatus : null 
 			    }
 			    
 			    vm.userListModel = $stateParams.userListModel || {
@@ -129,15 +130,14 @@ userModule
 					return item;
 				}
 			    
-			    var userAutoSuggestServiceUrl = 'api/v1/users';
-			    var searchUserTypeHead = function(value) {
+			  var uri = (mode=='ALL'? '/api/v1/users' : '/api/v1/customer-users');
+			  var searchUserTypeHead = function(value) {
 				value = UIFactory.createCriteria(value);
-				return $http
-					.get(userAutoSuggestServiceUrl, {
+				return $http.get(uri, {
 					    params : {
-						q : value,
-						offset : 0,
-						limit : 5
+						    q : value,
+						    offset : 0,
+						    limit : 5
 					    }
 					})
 					.then(
@@ -155,7 +155,7 @@ userModule
 					query : searchUserTypeHead
 				    });
 
-			    var organizeAutoSuggestServiceUrl = '/api/v1/organizes';
+			    var organizeAutoSuggestServiceUrl = (mode=='ALL'? '/api/v1/all-organizes' : '/api/v1/organizes');
 			    var searchOrganizeTypeHead = function(value) {
 				value = UIFactory.createCriteria(value);
 				return $http
@@ -182,8 +182,7 @@ userModule
 					query : searchOrganizeTypeHead
 				    });
 
-			    vm.pagingController = PagingController.create(
-				    '/api/v1/users', _criteria, 'GET');
+			    vm.pagingController = PagingController.create(uri, _criteria, 'GET');
 			    vm.loadData = function(pageModel) {
                     vm.pagingController.search(pageModel
                             || ($stateParams.backAction ? {

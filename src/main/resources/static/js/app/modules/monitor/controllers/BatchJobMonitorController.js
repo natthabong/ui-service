@@ -28,7 +28,7 @@ scfApp.controller('BatchJobMonitorController', [
 					var endTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), triggerInformation.endHour, triggerInformation.endMinute, 0);
 					var diffMilliseconds  = endTime - startTime;
 					var diffSeconds = (diffMilliseconds / 1000).toFixed(0);
-					return triggerInformation.intervalInMinutes > diffSeconds;
+					return triggerInformation.intervalInSeconds > diffSeconds;
 				}
 
 				var generateRangeTime = function(startHour,startMinute,endHour,endMinute){
@@ -162,7 +162,7 @@ scfApp.controller('BatchJobMonitorController', [
 					friday : friday,
 					saturday : saturday,
 					runtimeType : batchJob.interval ? "INTERVAL" : "FIXED",
-					intervalInMinutes : batchJob.triggerInformations[0].intervalInMinutes,
+					intervalInSeconds : batchJob.triggerInformations[0].intervalInSeconds,
 					beginTime : beginTime ,
 					endTime : endTime,
 					frequencyType : 'Daily'

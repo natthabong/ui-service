@@ -29,7 +29,11 @@ pipeline {
   }
   post { 
     success {
-        build "${downstream_job}"
+       script {
+            if(params.downstream_job){
+       		    build(params.downstream_job)
+       		}
+       }
     }
   }
 }

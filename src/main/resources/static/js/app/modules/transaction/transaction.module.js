@@ -52,6 +52,40 @@ angular.module('gecscf.transaction', [ 'ui.router', 'gecscf.ui', 'gecscf.organiz
 				templateUrl: '/payment-transaction/all',
                 params: {viewMode: 'CUSTOMER', transactionModel: null, backAction: false, criteria : null,buyer : null, supplier : null},
 				resolve: WebHelper.loadScript(['js/app/modules/transaction/payment/services/PaymentTransactionService.js','js/app/modules/transaction/payment/controllers/PaymentTransactionController.js','js/app/modules/transaction/services/TransactionService.js'])
+			}).state('/view-transaction', {
+				url: '/view-transaction',
+				controller: 'ViewTransactionController',
+				controllerAs: 'viewTxnCtrl',
+				templateUrl: '/view-transaction',
+				params: {
+					viewMode: null,
+					transactionModel: null,
+					listTransactionModel: null,
+					backAction: false,
+					isShowBackButton: false,
+					isShowBackButton: false,
+					isShowViewHistoryButton: false,
+					isDisplayReason: 'none',
+					isAdjustStatus: false
+				},
+				resolve: WebHelper.loadScript(['js/app/modules/transaction/loan/services/ViewTransactionService.js', 'js/app/modules/transaction/loan/controllers/ViewTransactionController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+			}).state('/adjust-status-transaction', {
+				url: '/adjust-status-transaction',
+				controller: 'ViewTransactionController',
+				controllerAs: 'viewTxnCtrl',
+				templateUrl: '/adjust-status-transaction',
+				params: {
+					viewMode: null,
+					transactionModel: null,
+					listTransactionModel: null,
+					backAction: false,
+					isShowBackButton: false,
+					isShowBackButton: false,
+					isShowViewHistoryButton: false,
+					isDisplayReason: 'none',
+					isAdjustStatus: true
+				},
+				resolve: WebHelper.loadScript(['js/app/modules/transaction/loan/services/ViewTransactionService.js', 'js/app/modules/transaction/loan/controllers/ViewTransactionController.js', 'js/app/modules/transaction/loan/controllers/AdjustStatusPopupController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
 			
 		} ]).filter('accountNoDisplay', function() {
@@ -65,9 +99,6 @@ angular.module('gecscf.transaction', [ 'ui.router', 'gecscf.ui', 'gecscf.organiz
 		    		var word4 = accountNo.substring(9,10);
 		    		accountNoDisplay = word1+'-'+word2+'-'+word3+'-'+word4;    		
 		    	}
-				// else{
-		    	// 	accountNoDisplay = accountNo.charAt(0).toUpperCase() + accountNo.slice(1).toLowerCase();
-		    	// }
 				return accountNoDisplay;
 		    };
 		});

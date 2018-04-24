@@ -122,7 +122,11 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 		}
 		
 		vm.changeAccountType = function () {
-			var accountId = $stateParams.data.accountId;;
+			$scope.errors = {};
+			var accountId = vm.tradeFinanceModel.financeAccount;
+			if(!angular.isDefined(accountId) || accountId == null){
+				accountId = $stateParams.data.accountId;
+			}
 			var accountType = "";
 			vm.loanAccountDropdown.forEach(function (account, index) {
                 if (account.value == accountId) {
@@ -338,9 +342,9 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 				}
 			}
 
-			if (!angular.isDefined(vm.tradeFinanceModel.agreementDate) || vm.tradeFinanceModel.agreementDate == null) {
+			if (vm.isLoanType && (!angular.isDefined(vm.tradeFinanceModel.agreementDate) || vm.tradeFinanceModel.agreementDate == null)) {
 				var agreementDate = document.getElementById("agreement-date-textbox").value;
-				if (vm.isLoanType && agreementDate != null && agreementDate != '') {
+				if (agreementDate != null && agreementDate != '') {
 					valid = false;
 					$scope.errors.agreementDate = {
 						message: 'Wrong date format data.'
@@ -354,7 +358,7 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 
 			}
 
-			if (vm.isUseExpireDate) {
+			if (vm.isLoanType && vm.isUseExpireDate) {
 				if (!angular.isDefined(vm.tradeFinanceModel.creditExpirationDate) || vm.tradeFinanceModel.creditExpirationDate == null) {
 					var creditExpirationDate = document.getElementById("credit-expiration-date-textbox").value;
 					if (vm.isLoanType && creditExpirationDate != null && creditExpirationDate != '') {
@@ -460,6 +464,10 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
 			}
 			setLoanAccountDropdown();
 			_clearCriteria();
+		}
+		
+		vm.changePayeeAccount = function () {
+			$scope.errors.payeeAccountId = null;
 		}
 	}
 ]);

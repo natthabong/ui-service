@@ -124,6 +124,30 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
         vm.printEvidenceFormAction = function() {
             TransactionService.generateEvidenceForm(vm.transaction);
         }
+        
+        
+	    vm.resendPayment = function(data) {	
+	    	vm.transaction = vm.transactionApproveModel.transaction;
+	        var deffered = TransactionService.resend(vm.transaction);
+	        deffered.promise.then(function(response) {
+				UIFactory.showSuccessDialog({
+                    data: {
+                        mode: 'transactionComplete',
+                        headerMessage: 'Resend transaction success.',
+                        bodyMessage: vm.transaction,
+                        viewRecent: vm.viewRecent,
+                        viewHistory: vm.viewHistory,
+                        backAndReset: vm.backPage,
+                        hideBackButton: true,
+                        hideViewRecentButton: false,
+                        hideViewHistoryButton: true,
+                        showOkButton: true
+                    },
+                });	        	
+	        }).catch(function(response) {
+	        	vm.handleDialogFail(response);
+	        });	    	
+	    };
 
         vm.retry = function() {
             vm.transaction = vm.transactionApproveModel.transaction;
@@ -153,7 +177,26 @@ txnMod.controller('ApprovePaymentController', ['$rootScope', '$scope', '$log',
 
         vm.handleDialogFail = function(response) {
             $scope.response = response.data;
-            if (response.data.errorCode == "E0400") {
+            if(response.status == 402){		
+				UIFactory.showFailDialog({
+					data: {
+						mode: 'transaction',
+						headerMessage: 'Approve fail',
+						transaction: vm.transactionApproveModel.transaction,
+						resend: vm.resendPayment,
+						viewRecent: vm.viewRecent,
+						viewHistory: vm.viewHistory,
+						backAndReset: vm.backPage,
+						hideBackButton: false,
+						hideViewRecentButton: true,
+						hideViewHistoryButton: false,
+						showOkButton: false,
+						showContactInfo: true,
+						showResend: true
+					},
+				});
+            	
+            }else if (response.data.errorCode == "E0400") {
                 vm.wrongPassword = true;
                 vm.passwordErrorMsg = $scope.response.attributes.errorMessage;
                 dialogPopup = UIFactory.showConfirmDialog({

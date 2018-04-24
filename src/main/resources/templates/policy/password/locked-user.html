@@ -3,20 +3,21 @@
 		<label class="checkbox-inline" style=" margin-top: -11px;"> 
 		<span id="password-locked-user-1-label">1. {{'Password must be disabled
 				after at most' | translate}} </span>
-		<input name="lockedUser"
+		<input name="lockedUser" restrict-to="[0-9]"
 			id="password-locked-user-number" type="number" min="1" max="100"
 			required="true" ng-model="policy.numericValue1" maxlength="3"  class="form-control-input" ng-disabled="ctrl.viewMode"></input>
 		<span id="password-locked-user-2-label">{{'(1-100) incorrect
 				signon(s).' | translate}}</span>
 		</label>
-	</div>
-	<label ng-if="policyForm.lockedUser.$error.required" style="margin-left: 7px;" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg"
+		<label ng-if="policyForm.lockedUser.$error.required" style="margin-left: 7px;" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg"
 		id="password-locked-user-warning-message-label">{{'This field
 		is required.' | translate}}</label> 
-	<label
+		<label
 		ng-if="policyForm.lockedUser.$error.min || policyForm.lockedUser.$error.max"
 		class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" style="margin-left: 7px;" id="password-locked-user-warning-message-label">{{'This
 		field is required and value must be more than 0 and no more than 100.'
 		| translate}}</label>
+	</div>
+	
 </div>
 

@@ -16,19 +16,5 @@ roleModule.service('RoleService', ['$http', '$q', 'Service',
 			});
 			return deferred;
         }
-        
-		this.getPrivilegeDependencies = function (privilegeId) {
-			var serviceUrl = '/api/v1/privileges/'+privilegeId+'/dependencies';
-			var deferred = $q.defer();
-			$http({
-				method: 'GET',
-				url: serviceUrl
-			}).then(function (response) {
-				return deferred.resolve(response);
-			}).catch(function (response) {
-				return deferred.reject(response);
-			});
-			return deferred;
-        }
     }
 ]);

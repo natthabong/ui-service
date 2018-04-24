@@ -10,11 +10,17 @@ app.directive('organizationLogo', ['UIFactory', function(UIFactory) {
     scope: {
       model: '=',
       ngModel: '=',
-      id: '@',
-      name: '@'
+      id: '=',
+      name: '=',
+      logoAttr: '@',
+      nameAttr: '@',
+      objAttr: '@',
+      idAttr: '@'
     },
     link: function(scope, elements, attrs) {
-
+      var logoAttr = scope.logoAttr || 'fundingLogo';
+      var nameAttr = scope.nameAttr || 'fundingName';
+      var idAttr = scope.idAttr || 'fundingId';
       scope.decodeBase64 = function(data) {
         return (data ? atob(data) : UIFactory.constants.NOLOGO);
       };
@@ -22,7 +28,17 @@ app.directive('organizationLogo', ['UIFactory', function(UIFactory) {
       if (!angular.isArray(scope.ngModel)) {
         scope.ngModel = [scope.ngModel];
       }
-      scope.fundings = scope.ngModel;
+      scope.$watch("ngModel",function(newValue,oldValue) {
+        scope.organizations = {};
+        angular.forEach(newValue, function(value) {
+          var val = scope.objAttr==undefined?value:value[scope.objAttr];
+          this[val[idAttr]] = {
+              logo: val[logoAttr],
+              name: val[nameAttr]
+          };
+        }, scope.organizations);
+      });
+
     },
     templateUrl: 'ui/template/organizationLogo.html'
   }

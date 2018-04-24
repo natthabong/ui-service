@@ -32,7 +32,7 @@
 								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Borrower loan account' | translate}}: </label>
 							<div class="col-md-3 col-sm-6 col-xs-12">
 								<scf-dropdown id="loan-account-dropdown"
-									ng-disabled="ctrl.isViewMode"
+									ng-disabled="!ctrl.isNewMode"
 									ng-change="ctrl.changeAccountType()"
 									ng-model="ctrl.tradeFinanceModel.financeAccount"
 									component-data="ctrl.loanAccountDropdown"></scf-dropdown>
@@ -56,6 +56,7 @@
 							<div class="col-md-3 col-sm-8 col-xs-12">
 								<scf-dropdown id="payee-account-dropdown"
 									ng-disabled="ctrl.isViewMode"
+									ng-change="ctrl.changePayeeAccount()"
 									ng-model="ctrl.tradeFinanceModel.payeeAccountId"
 									component-data="ctrl.payeeAccountDropdown"></scf-dropdown>
 							</div>

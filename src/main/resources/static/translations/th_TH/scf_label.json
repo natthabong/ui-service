@@ -212,6 +212,8 @@
 	"WAIT_FOR_PAYMENT_RESULT": "Wait for payment result",
 	"fail_to_payment": "Fail to pay",
 	"FAIL_TO_PAYMENT": "Fail to pay",
+	"INSUFFICIENT_FUNDS":"Insufficient funds",
+	"insufficient_funds":"Insufficient funds",
 	"_comment": "Page Verify Transaction",
 	"Confirm approval ?": "Confirm approval ?",
 	"Confirm reject ?": "Confirm reject ?",
@@ -624,6 +626,7 @@
 	"SELECT_REASON_CODE": "Select partial payment reason code",
 	"REASON_CODE": "Reason code",
 	"FUNDING": "Funding",
+	"Funding": "Funding",
 	"WORKFLOW_TYPE": "Type",
 	"WORKFLOW_NAME": "Workflow",
 	"Account name": "Account name",
@@ -697,5 +700,12 @@
 	"Supplier financing": "Supplier financing",
 	"Enquiry balance": "Enquiry balance",
 	"Holiday":"Holiday",
-	"Year":"Year"
+	"Year":"Year",
+	
+	"Adjust transaction status":"Adjust transaction status",
+	"Fail to drawdown":"Fail to drawdown",
+	"Drawdown success":"Drawdown success",
+	"Confirm adjusted status?":"Confirm adjusted status?",
+	"Adjusted transaction status success.":"Adjusted transaction status success.",
+	"Adjusted transaction status fail.":"Adjusted transaction status fail."
 }

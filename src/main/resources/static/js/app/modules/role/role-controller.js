@@ -163,12 +163,9 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
             var roleId = $stateParams.roleId;
             RoleService.getRole(roleId).promise.then(function(response) {
               vm.model = response.data;
-              if(vm.model.privileges!=null){
-
-              }else{
+              if(vm.model.privileges==null){
             	  vm.model.privileges = [];
               }
-
             }).catch(function(response) {
                log.error('Save role fail');
                return deferred.reject(response);
@@ -190,46 +187,48 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
         }
         
         
-    $scope.toggleSelection =  function(event, privilege){
+    $scope.toggleSelection =  function(){
+    	var inputs = document.getElementsByTagName("input");
+    	for (var i = 0; i < inputs.length; i++) {
+        	if(inputs[i].type == "checkbox"){
+        		inputs[i].disabled = false;
+        	}
+    	}
     	
-		if(event.target.checked == true){
-			 RoleService.getPrivilegeDependencies(privilege.privilegeId).promise.then(function(response)
-			 {
-				var privileges = response.data;
-				if(privileges !=null && privileges.length >0){	
-				    angular.forEach(privileges, function(eachPrivilege){
-				    	eachPrivilege.isDisable = true;
-				    	if(!isDuplicate(vm.model.privileges, eachPrivilege)) {
-				    		vm.model.privileges.push(eachPrivilege)
-				        }
-					});
-				}
-			 }).catch(function(response) {
-				 log.error('Save role fail');
-				 return deferred.reject(response);
-			 });
-		}
+    	vm.model.privileges.forEach(function(privilege){
+    		if(document.getElementById(privilege.privilegeId+"-checkbox")!=null){ 
+	    		privilege.dependencies.forEach(function(dependency){
+	    			if(document.getElementById(privilege.privilegeId+"-checkbox").checked){
+	    				document.getElementById(dependency.privilegeId+"-checkbox").disabled = true;
+	    			}else{
+	    		    	document.getElementById(dependency.privilegeId+"-checkbox").disabled = false;
+	    			}
+	    			if(!isDuplicate(vm.model.privileges, dependency)) {
+	    	    		vm.model.privileges.push(dependency);
+	    	        }
+	    		});
+    		}
+	    });
     }
     
-		var initial = function(){
-            if(mode!=""){
-                if(mode === 'NEW'){
-                    vm.isNewMode = true;
-                    vm.headerMessage = page.NEW;
-                }else if(mode === 'EDIT'){
-                    vm.headerMessage = page.EDIT;
-                    initialRoleInformation();
-                }else if(mode === 'VIEW'){
-                    vm.button = 'Back';
-                    vm.viewMode = true;
-                    vm.headerMessage = page.VIEW;
-                    initialRoleInformation();
-                }
-                initialPrivilegeGroup();
-            }else{
-                PageNavigation.gotoPage("/dashboard",undefined,undefined);
+	var initial = function(){
+        if(mode!=""){
+            if(mode === 'NEW'){
+                vm.isNewMode = true;
+                vm.headerMessage = page.NEW;
+            }else if(mode === 'EDIT'){
+                vm.headerMessage = page.EDIT;
+                initialRoleInformation();
+            }else if(mode === 'VIEW'){
+                vm.button = 'Back';
+                vm.viewMode = true;
+                vm.headerMessage = page.VIEW;
+                initialRoleInformation();
             }
-            
-		}
-		initial();
+            initialPrivilegeGroup();
+        }else{
+            PageNavigation.gotoPage("/dashboard",undefined,undefined);
+        }
+	}
+	initial();
 }]);

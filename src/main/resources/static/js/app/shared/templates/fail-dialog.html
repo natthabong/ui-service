@@ -74,15 +74,19 @@
 				<div class="col-md-2 col-sm-2"></div>
 				<div class="col-md-10 col-sm-10">
 					<span id="popup-message-label"
-						ng-bind="ngDialogData.data.bodyMessage"></span>
+						ng-bind="ngDialogData.data.bodyMessage"></span> 
 				</div>
 			</div>
 		</div>
 		<div class="modal-footer">
 			<div class="row" ng-if="ngDialogData.data.mode == 'transaction' || ngDialogData.data.mode == 'concurrency'">
 				<div class="col-xs-12 text-right">
+					<scf-button id="popup-re-send-button" class="popup-button"
+						data-dismiss="modal" ng-show="ngDialogData.data.showResend != undefined && ngDialogData.data.showResend == true""
+						ng-click="closeThisDialog(false);ngDialogData.data.resend()">{{'Re-send'
+					| translate}}</scf-button>					
 					<scf-button id="popup-re-check-button" class="popup-button"
-						data-dismiss="modal" ng-show="ngDialogData.data.transaction.retriable"
+						data-dismiss="modal" ng-show="ngDialogData.data.transaction.retriable && ngDialogData.data.resend == undefined"
 						ng-click="closeThisDialog(false);ngDialogData.data.retry()">{{'Re-check'
 					| translate}}</scf-button>				
 					<scf-button id="popup-back-button" class="popup-button"

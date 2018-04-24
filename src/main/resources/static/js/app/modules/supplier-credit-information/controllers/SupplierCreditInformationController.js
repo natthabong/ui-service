@@ -50,7 +50,7 @@ sciModule.controller('SupplierCreditInformationController', [
             }
         }
 
-		vm.pagingController = PagingController.create('/api/v1/supplier-credit-information', _criteria,'GET');
+		vm.pagingController = PagingController.create('/api/v1/supplier-credit-informations', _criteria,'GET');
 		vm.search = function (pageModel) {
 			var buyer = undefined;
 			var buyerName = undefined;
@@ -99,6 +99,7 @@ sciModule.controller('SupplierCreditInformationController', [
 						if (!isSameAccount(value.accountId, data, idx)) {
 							value.showAccountFlag = true;
 						}
+						value.showAccountFlag = true;
 						++i;
 						value.rowNo = baseRowNo + i;
 					});
@@ -202,8 +203,8 @@ sciModule.controller('SupplierCreditInformationController', [
 			blockUI.start("Processing...");
 			var deffered = null;
 			var criteria = {
-				buyerId: data.buyerId,
-				supplierId: data.ownerId,
+				buyerId: data.tradeFinances[0].buyer.memberId,
+				supplierId: data.tradeFinances[0].supplier.memberId,
 				accountId: data.accountId
 			}
 

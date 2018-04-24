@@ -137,11 +137,11 @@
 									<tr
 										ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
 										<td class="text-center"><span
-											id="line-no-{{record.uploadDocumentLogItemId}}-label"
+											id="line-no-{{$index + 1}}-label"
 											ng-bind="record.lineNo == null ? 'N/A': (record.lineNo | number)"></span>
 										</td>
 										<td class="text-left"><span
-											id="description-{{record.uploadDocumentLogItemId}}-label"
+											id="description-{{$index + 1}}-label"
 											ng-bind="record.description"></span></td>
 									</tr>
 								</tbody>

@@ -11,6 +11,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     vm.reject = false;
     vm.canRetry = false;
     vm.canView = false;
+    vm.resend = false;
     
     var defered = scfFactory.getUserInfo();
     defered.promise.then(function(response) {
@@ -65,7 +66,9 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			rejectByApprover: 'REJECT_BY_APPROVER',
 			canceledBySupplier: 'CANCELLED_BY_SUPPLIER',
 			rejectIncomplete: 'REJECT_INCOMPLETE',
-			waitForPaymentResult: 'WAIT_FOR_PAYMENT_RESULT'
+			waitForPaymentResult: 'WAIT_FOR_PAYMENT_RESULT',
+			incomplete: 'INCOMPLETE',
+			insufficientFunds: 'INSUFFICIENT_FUNDS'
 	   }
 	
 	    var _criteria = {};
@@ -387,7 +390,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	        deffered.promise.then(function(response) {
 	        	 vm.searchTransaction();
 	        }).catch(function(response) {
-	        	vm.handleDialogFail(response);
+	        	vm.handleDialogFail(response,"Recheck transaction");
 	        });
 	    }
 		
@@ -446,10 +449,10 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	    				});	    				
 	    			}
 	    		}else{
-	    			vm.handleDialogFail(response);
+	    			vm.handleDialogFail(response,'Reject transaction');
 	    		}
 	        }).catch(function(response) {
-	        	vm.handleDialogFail(response);
+	        	vm.handleDialogFail(response,'Reject transaction');
 	        });    	
 	    };   
 	    
@@ -496,7 +499,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 					}
 				},
 				onFail : function(response) {	
-					vm.handleDialogFail(response);					
+					vm.handleDialogFail(response, 'Reject transaction');					
 				},
 				onSuccess : function(response) {
 					UIFactory.showSuccessDialog({
@@ -516,7 +519,41 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			});    	   
 	    };
 	    
-	    vm.handleDialogFail = function(response){
+	    vm.resendPayment = function(data) {	
+			vm.transaction = {};
+			if (angular.isUndefined(data)) {
+				vm.transaction.transactionId = vm.transactionIdForRetry;
+			} else {
+				vm.transaction.transactionId = data.transactionId;
+				vm.transaction.transactionNo = data.transactionNo;
+				vm.transaction.version = data.version;
+				vm.transaction.statusCode = data.statusCode;
+				vm.transactionIdForRetry = vm.transaction.transactionId;
+			}
+
+	        var deffered = TransactionService.resend(vm.transaction);
+	        deffered.promise.then(function(response) {
+				UIFactory.showSuccessDialog({
+                    data: {
+                        mode: 'transactionComplete',
+                        headerMessage: 'Resend transaction success.',
+                        bodyMessage: vm.transaction,
+                        viewRecent: vm.viewRecent,
+                        viewHistory: vm.viewHistory,
+                        backAndReset: vm.backPage,
+                        hideBackButton: true,
+                        hideViewRecentButton: false,
+                        hideViewHistoryButton: true,
+                        showOkButton: true
+                    },
+                });	        	
+	        	vm.searchTransaction();
+	        }).catch(function(response) {
+	        	vm.handleDialogFail(response,'Resend transaction');
+	        });	    	
+	    };
+	    
+	    vm.handleDialogFail = function(response, action){
 	    	vm.searchTransaction();
 	    	
 	    	if(response.status == 400){
@@ -538,13 +575,36 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 						},
 					});	
 				} 
+			}else if(response.status == 402){
+				vm.transaction.transactionNo = response.data.attributes.transactionNo;
+				vm.transaction.returnCode = response.data.attributes.returnCode;
+				vm.transaction.returnMessage = response.data.attributes.returnMessage;
+		    	vm.transaction.retriable = response.data.attributes.retriable;
+		    	vm.transaction.version = response.data.attributes.version;
+				UIFactory.showFailDialog({
+					data: {
+						mode: 'transaction',
+						headerMessage: action+' fail.',
+						transaction: vm.transaction,
+						resend: vm.resendPayment,
+						backAndReset: vm.backAndReset,
+						viewRecent: vm.viewRecent,
+						viewHistory: vm.searchTransactionService,
+						hideBackButton: true,
+						hideViewRecentButton: true,
+						hideViewHistoryButton: true,
+						showOkButton: true,
+						showContactInfo: true,
+						showResend: true
+					},
+				});	
 			}
 			else if(response.status == 409){
 				if(response.data.errorCode == 'FAILED'){
 					UIFactory.showFailDialog({
 						data : {
 							mode: 'transaction',
-							headerMessage : 'Reject transaction fail.',
+							headerMessage : action+' fail.',
 							backAndReset : vm.backAndReset,
 							viewHistory : vm.searchTransactionService,
 							errorCode : response.data.errorCode,
@@ -563,7 +623,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 					UIFactory.showIncompleteDialog({
 						data : {
 							mode: 'transaction',
-							headerMessage : 'Reject transaction incomplete.',						
+							headerMessage : action+' incomplete.',						
 							transaction : vm.transaction,
 							retry : vm.retryReject,
 							viewHistory: vm.searchTransactionService,
@@ -583,7 +643,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 					UIFactory.showFailDialog({
 						data : {
 							mode: 'transaction',
-							headerMessage : 'Reject transaction fail.',						
+							headerMessage : action+' fail.',						
 							transaction : vm.transaction,
 							retry : vm.retryReject,
 							backAndReset : vm.backAndReset,
@@ -602,7 +662,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 				UIFactory.showFailDialog({
 					data : {
 						mode: 'transaction',
-						headerMessage : 'Reject transaction fail',
+						headerMessage : action+' fail',
 						backAndReset : vm.backAndReset,
 						viewHistory : vm.searchTransactionService,
 						errorCode : response.data.errorCode,
@@ -707,7 +767,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 				cellTemplate:'<scf-button class="btn-default gec-btn-action" ng-disabled="!(ctrl.verify && (data.statusCode === ctrl.statusDocuments.waitForVerify))" id="transaction-{{data.transactionNo}}-verify-button" ng-click="ctrl.verifyTransaction(data)" title="Verify"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
 				'<scf-button id="transaction-{{data.transactionNo}}-approve-button" ng-disabled="!(ctrl.approve &&(data.statusCode === ctrl.statusDocuments.waitForApprove))" class="btn-default gec-btn-action"  ng-click="ctrl.approveTransaction(data)" title="Approve"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
 				'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-view-button" ng-disabled="{{!ctrl.canView}}" ng-click="ctrl.viewTransaction(data)" title="View"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
-				'<scf-button id="transaction-{{data.transactionNo}}-re-check-button" class="btn-default gec-btn-action" ng-disabled="{{!(data.retriable && ctrl.canRetry)}}" ng-click="ctrl.retry(data)" title="Re-check"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
+				'<scf-button id="transaction-{{data.transactionNo}}-re-check-button" class="btn-default gec-btn-action" ng-disabled="{{!(data.retriable && ctrl.canRetry && (data.statusCode != ctrl.statusDocuments.insufficientFunds))}}" ng-click="ctrl.retry(data)" title="Re-check"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
 	            '<scf-button class="btn-default gec-btn-action" ng-show ="data.statusCode == ctrl.statusPaymentSuccess" ng-disabled="data.statusCode != ctrl.statusPaymentSuccess" title="Print">'+
 				'<span class="dropdown"><span class="dropdown-toggle" data-toggle="dropdown" id="transaction-{{data.transactionNo}}-print-button">'+
 	            '<i class="fa fa-print" aria-hidden="true"></i></span>'+
@@ -716,7 +776,8 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	            '<li role="separator" class="divider"></li>'+
 	            '<li><a id="credit-advice-form-button" ng-click="ctrl.generateCreditAdviceForm(data)">{{"Credit advice form" | translate}}</a></li></ul></span></scf-button>'+
 	            '<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-print-button-disable" ng-hide ="data.statusCode == ctrl.statusPaymentSuccess" ng-disabled="true" title="Print"><i class="fa fa-print" aria-hidden="true"></i></scf-button>'+
-				'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+				'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'+
+	            '<scf-button id="transaction-{{data.transactionNo}}-resend-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledResend(data)" ng-click="ctrl.resendPayment(data)" title="Resend"><i class="fa fa-share" aria-hidden="true"></i></scf-button>'
 			}]
 	    };
 	
@@ -735,11 +796,22 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	    vm.disabledPrint = function(){
 	    	return true;
 	    }
+	    
 	    vm.disabledReject = function(data){
 			var condition1 = vm.reject!= undefined && vm.reject == true;
 			var condition2 = data.statusCode == vm.statusDocuments.waitForPaymentResult
 			var condition3 = TransactionService.isAfterToday(data, vm.serverTime);
 			if(condition1 && condition2 && condition3){
+				return false;
+			}else{
+				return true;
+			}
+	    }
+	    
+	    vm.disabledResend = function(data){
+			var condition1 = vm.resend!= undefined && vm.resend == true;
+			var condition2 = data.statusCode == vm.statusDocuments.insufficientFunds;
+			if(condition1 && condition2){
 				return false;
 			}else{
 				return true;

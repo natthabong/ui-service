@@ -2,9 +2,13 @@
 	sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS','VIEW_LOANS_REFER_TO_MY_ORGANIZATION','VIEW_LOANS_OF_MY_ORGANIZATION')">
 	<div class="panel box-shadow-none content-header">
 		<div class="panel-body">
-			<div class="col-md-12">
+			<div class="col-md-12" ng-if="!viewTxnCtrl.isAdjustStatus">
 				<h3 id="header-message-label" class="animated fadeInLeft">{{
 					'View transaction' | translate}}</h3>
+			</div>
+			<div class="col-md-12" ng-if="viewTxnCtrl.isAdjustStatus">
+				<h3 id="header-message-label" class="animated fadeInLeft">{{
+					'Adjust transaction status' | translate}}</h3>
 			</div>
 		</div>
 	</div>
@@ -384,6 +388,12 @@
 								ng-click="viewTxnCtrl.viewHistory()" type="submit"
 								ng-bind="'View History' | translate"
 								ng-hide="!viewTxnCtrl.isShowViewHistoryButton"> </scf-button>
+							<scf-button id="fail-to-drawdown-button" class="btn btn-default"
+								type="submit" ng-click="viewTxnCtrl.failToDrawdown()"
+								ng-if="viewTxnCtrl.isAdjustStatus">{{ 'Fail to drawdown' |	translate}}</scf-button>
+							<scf-button id="drawdown-success-button" class="btn btn-default"
+								type="submit" ng-click="viewTxnCtrl.drawdownSuccess()"
+								ng-if="viewTxnCtrl.isAdjustStatus">{{ 'Drawdown success' |	translate}}</scf-button>
 						</div>
 					</div>
 				</div>

@@ -5,7 +5,9 @@ angular.module('scfApp').factory('ViewTransactionService', ['$http', '$q', ViewT
 function ViewTransactionService($http, $q){
 	return {
 		prepare: prepare,
-		getDocuments: getDocuments
+		getDocuments: getDocuments,
+		getConfirmToken: getConfirmToken,
+		adjustStatus: adjustStatus
 	}
 	
 
@@ -43,4 +45,38 @@ function ViewTransactionService($http, $q){
 		});
 		return deffered;
 	}
+	
+	function getConfirmToken(transaction){
+		var deffered = $q.defer();
+		$http({
+			url: 'api/v1/transactions/'+transaction.transactionId+'/adjustments',
+			headers : {
+				'If-Match' : transaction.version
+			},
+			method: 'POST'
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});
+		return deffered;
+	}
+	
+	function adjustStatus(transaction,model,confirmToken){
+		var deffered = $q.defer();
+		$http({
+			url: 'api/v1/transactions/'+transaction.transactionId+'/adjustments/'+confirmToken,
+			headers : {
+				'If-Match' : transaction.version
+			},
+			method: 'POST',
+			data: model
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});
+		return deffered;
+	}
+	
 }

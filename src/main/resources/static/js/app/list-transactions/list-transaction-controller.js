@@ -32,6 +32,8 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			vm.verify = false;
 			vm.approve = false;
 			vm.reject = false;
+			vm.resend = false;
+			vm.canAdjustStatus = false;
 			vm.transactionIdForRetry = '';
 			vm.transaction = {};
 			vm.statusDocuments = {
@@ -41,7 +43,9 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 				rejectByApprover: 'REJECT_BY_APPROVER',
 				canceledBySupplier: 'CANCELLED_BY_SUPPLIER',
 				waitForDrawdownResult: 'WAIT_FOR_DRAWDOWN_RESULT',
-				rejectIncomplete: 'REJECT_INCOMPLETE'
+				rejectIncomplete: 'REJECT_INCOMPLETE',
+				incomplete: 'INCOMPLETE',
+				insufficientFunds: 'INSUFFICIENT_FUNDS'
 			}
 
 			vm.storeSearchCriteria = undefined;
@@ -337,8 +341,42 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 					}
 				});
 			};
+			
+			vm.resendLoan = function (data) {
+				vm.transaction = {};
+				if (angular.isUndefined(data)) {
+					vm.transaction.transactionId = vm.transactionIdForRetry;
+				} else {
+					vm.transaction.transactionId = data.transactionId;
+					vm.transaction.transactionNo = data.transactionNo;
+					vm.transaction.version = data.version;
+					vm.transaction.statusCode = data.statusCode;
+					vm.transactionIdForRetry = vm.transaction.transactionId;
+				}
+				vm.storeCriteria();				
+				var deffered = TransactionService.resend(vm.transaction);
+				deffered.promise.then(function (response) {
+					UIFactory.showSuccessDialog({
+                        data: {
+                            mode: 'transactionComplete',
+                            headerMessage: 'Resend transaction success.',
+                            bodyMessage: vm.transaction,
+                            viewRecent: vm.viewRecent,
+                            viewHistory: vm.viewHistory,
+                            backAndReset: vm.backPage,
+                            hideBackButton: true,
+                            hideViewRecentButton: false,
+                            hideViewHistoryButton: true,
+                            showOkButton: true
+                        },
+                    });
+					vm.searchTransactionService();
+				}).catch(function (response) {
+					vm.handleDialogFail(response,'Resend transaction');
+				});
+			}
 
-			vm.handleDialogFail = function (response) {
+			vm.handleDialogFail = function (response, action) {
 				if (response.status == 400) {
 					if (response.data.errorCode == 'E0400') {
 						vm.wrongPassword = true;
@@ -357,12 +395,35 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 							},
 						});
 					}
+				} else if(response.status == 402){
+					vm.transaction.transactionNo = response.data.attributes.transactionNo;
+					vm.transaction.returnCode = response.data.attributes.returnCode;
+					vm.transaction.returnMessage = response.data.attributes.returnMessage;
+			    	vm.transaction.retriable = response.data.attributes.retriable;
+			    	vm.transaction.version = response.data.attributes.version;					
+					UIFactory.showFailDialog({
+						data: {
+							mode: 'transaction',
+							headerMessage: action+' fail.',
+							transaction: vm.transaction,
+							resend: vm.resendLoan,
+							backAndReset: vm.backAndReset,
+							viewRecent: vm.viewRecent,
+							viewHistory: vm.searchTransactionService,
+							hideBackButton: true,
+							hideViewRecentButton: true,
+							hideViewHistoryButton: true,
+							showOkButton: true,
+							showContactInfo: true,
+							showResend: true
+						},
+					});
 				} else if (response.status == 409) {
 					if (response.data.errorCode == 'FAILED') {
 						UIFactory.showFailDialog({
 							data: {
 								mode: 'transaction',
-								headerMessage: 'Reject transaction fail.',
+								headerMessage: action+' fail.',
 								backAndReset: vm.backAndReset,
 								viewHistory: vm.searchTransactionService,
 								errorCode: response.data.errorCode,
@@ -382,7 +443,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 						UIFactory.showIncompleteDialog({
 							data: {
 								mode: 'transaction',
-								headerMessage: 'Reject transaction incomplete.',
+								headerMessage: action+' incomplete.',
 								transaction: vm.transaction,
 								retry: vm.retryReject,
 								viewHistory: vm.searchTransactionService,
@@ -402,7 +463,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 						UIFactory.showFailDialog({
 							data: {
 								mode: 'transaction',
-								headerMessage: 'Reject transaction fail.',
+								headerMessage: action+' fail.',
 								transaction: vm.transaction,
 								retry: vm.retryReject,
 								backAndReset: vm.backAndReset,
@@ -420,7 +481,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 					UIFactory.showFailDialog({
 						data: {
 							mode: 'transaction',
-							headerMessage: 'Reject transaction fail',
+							headerMessage: action+' fail',
 							backAndReset: vm.backAndReset,
 							viewHistory: vm.searchTransactionService,
 							errorCode: response.data.errorCode,
@@ -540,9 +601,11 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 					cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-disabled="!(ctrl.verify && (data.statusCode === ctrl.statusDocuments.waitForVerify))" id="transaction-{{data.transactionNo}}-verify-button" ng-click="ctrl.verifyTransaction(data)" title="Verify"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>' +
 						'<scf-button id="transaction-{{data.transactionNo}}-approve-button" ng-disabled="!(ctrl.approve &&(data.statusCode === ctrl.statusDocuments.waitForApprove))" class="btn-default gec-btn-action"  ng-click="ctrl.approveTransaction(data)" title="Approve"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
 						'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-view-button" ng-disabled="{{!ctrl.canView}}" ng-click="ctrl.view(data)" title="View"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>' +
-						'<scf-button id="transaction-{{data.transactionNo}}-re-check-button" class="btn-default gec-btn-action" ng-disabled="{{!(data.retriable && ctrl.canRetry)}}" ng-click="ctrl.retry(data)" title="Re-check"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>' +
+						'<scf-button id="transaction-{{data.transactionNo}}-re-check-button" class="btn-default gec-btn-action" ng-disabled="{{!(data.retriable && ctrl.canRetry && data.statusCode != ctrl.statusDocuments.insufficientFunds)}}" ng-click="ctrl.retry(data)" title="Re-check"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>' +
 						'<scf-button id="transaction-{{data.transactionNo}}-print-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledPrint(data.returnStatus)" ng-click="ctrl.printEvidenceFormAction(data)" title="Print"><span class="glyphicon glyphicon-print" aria-hidden="true"></scf-button>' +
-						'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+						'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>' +
+						'<scf-button id="transaction-{{data.transactionNo}}-resend-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledResend(data)" ng-click="ctrl.resendLoan(data)" title="Resend"><i class="fa fa-share" aria-hidden="true"></i></scf-button>' + 
+						'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-adjust-status-button" ng-if="ctrl.showAdjustStatus(data)" ng-click="ctrl.adjustStatus(data)" title="Adjust status"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
 				}]
 			};
 			vm.openCalendarDateFrom = function () {
@@ -769,9 +832,26 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 					viewMode: viewMode,
 					isShowViewHistoryButton: false,
 					isShowBackButton: true,
+					isAdjustStatus: false,
 					criteria: _criteria
 				}
 				PageNavigation.gotoPage('/view-transaction', params, params)
+			}
+			
+			vm.adjustStatus = function (data) {
+				SCFCommonService.parentStatePage().saveCurrentState($state.current.name);
+				vm.storeCriteria();
+				var isShowBackButton = true;
+
+				var params = {
+					transactionModel: data,
+					viewMode: viewMode,
+					isShowViewHistoryButton: false,
+					isShowBackButton: true,
+					isAdjustStatus: true,
+					criteria: _criteria
+				}
+				PageNavigation.gotoPage('/adjust-status-transaction', params, params)
 			}
 
 			vm.disabledPrint = function (returnStatus) {
@@ -790,6 +870,26 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 					return false;
 				} else {
 					return true;
+				}
+			}
+			
+			vm.disabledResend = function (data) {
+				var condition1 = vm.resend != undefined && vm.resend == true;
+				var condition2 = data.statusCode == vm.statusDocuments.insufficientFunds;
+				if (condition1 && condition2) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+			
+			vm.showAdjustStatus = function (data) {
+				var condition1 = vm.canAdjustStatus != undefined && vm.canAdjustStatus == true;
+				var condition2 = data.statusCode == vm.statusDocuments.incomplete
+				if (condition1 && condition2) {
+					return true;
+				} else {
+					return false;
 				}
 			}
 

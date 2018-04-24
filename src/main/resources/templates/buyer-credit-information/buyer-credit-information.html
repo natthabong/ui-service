@@ -70,15 +70,17 @@
 											<td class="text-right">
 												<span ng-show="record.showAccountFlag" id="credit-limit-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.creditLimit | number : 2"></span>
 											</td>
-											<td class="text-left" ng-show="!ctrl.buyerMode">
-												<span id="buyer-name-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.buyerName | translate"></span>
+											<td class="text-center" ng-show="!ctrl.buyerMode">
+											<organization-logo ng-model="record.tradeFinances" obj-attr="buyer" logo-attr="memberLogo" name-attr="memberName" id-attr="memberId"></organization-logo>
+<!-- 												<span id="buyer-name-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.buyerName | translate"></span> -->
 											</td>
 											<td class="text-center" ng-show="!ctrl.supplierMode">
-												<img id="supplier-" title="{{record.supplierName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.supplierLogo)}}"
-												/>
+											<organization-logo ng-model="record.tradeFinances" obj-attr="supplier" logo-attr="memberLogo" name-attr="memberName" id-attr="memberId"></organization-logo>
+<!-- 												<img id="supplier-" title="{{record.supplierName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.supplierLogo)}}" -->
+<!-- 												/> -->
 											</td>
 											<td class="text-right">
-												<span ng-show="record.showAccountFlag" id="available-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.available | number : 2"></span>
+												<span ng-show="record.showAccountFlag" id="available-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="(record.remainingAmount - record.pendingAmount)  | number : 2"></span>
 											</td>
 											<td class="text-center">
 												<scf-button class="btn-default gec-btn-action" id="view-{{record.accountId}}-{{record.buyerName}}-button" ng-click="ctrl.view(record)" ng-disabled="ctrl.unauthenView()" ng-show="record.showAccountFlag" title="View">
