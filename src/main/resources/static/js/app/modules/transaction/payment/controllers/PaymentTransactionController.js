@@ -12,6 +12,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     vm.canRetry = false;
     vm.canView = false;
     vm.resend = false;
+    vm.rejectInsufficientFunds = false;
     
     var defered = scfFactory.getUserInfo();
     defered.promise.then(function(response) {
@@ -798,12 +799,18 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	    }
 	    
 	    vm.disabledReject = function(data){
-			var condition1 = vm.reject!= undefined && vm.reject == true;
-			var condition2 = data.statusCode == vm.statusDocuments.waitForPaymentResult
-			var condition3 = TransactionService.isAfterToday(data, vm.serverTime);
-			if(condition1 && condition2 && condition3){
+			var hasReject = vm.reject != undefined && vm.reject == true;
+			var isWaitForPaymentResult = data.statusCode == vm.statusDocuments.waitForPaymentResult;
+			var isAfterToday = TransactionService.isAfterToday(data, vm.serverTime);
+			
+			var hasRejectInsufficientFunds = vm.rejectInsufficientFunds != undefined && vm.rejectInsufficientFunds == true;
+			var isInsufficientFunds = data.statusCode == vm.statusDocuments.insufficientFunds;
+			
+			if (hasReject && isWaitForPaymentResult && isAfterToday) {
 				return false;
-			}else{
+			}else if(hasRejectInsufficientFunds && isInsufficientFunds){
+				return false;
+			} else {
 				return true;
 			}
 	    }

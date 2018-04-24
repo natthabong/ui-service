@@ -32,6 +32,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			vm.verify = false;
 			vm.approve = false;
 			vm.reject = false;
+			vm.rejectInsufficientFunds = false;
 			vm.resend = false;
 			vm.canAdjustStatus = false;
 			vm.transactionIdForRetry = '';
@@ -863,10 +864,16 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 			}
 
 			vm.disabledReject = function (data) {
-				var condition1 = vm.reject != undefined && vm.reject == true;
-				var condition2 = data.statusCode == vm.statusDocuments.waitForDrawdownResult
-				var condition3 = TransactionService.isAfterToday(data, vm.serverTime);
-				if (condition1 && condition2 && condition3) {
+				var hasReject = vm.reject != undefined && vm.reject == true;
+				var isWaitForDrawdownResult = data.statusCode == vm.statusDocuments.waitForDrawdownResult;
+				var isAfterToday = TransactionService.isAfterToday(data, vm.serverTime);
+				
+				var hasRejectInsufficientFunds = vm.rejectInsufficientFunds != undefined && vm.rejectInsufficientFunds == true;
+				var isInsufficientFunds = data.statusCode == vm.statusDocuments.insufficientFunds;
+				
+				if (hasReject && isWaitForDrawdownResult && isAfterToday) {
+					return false;
+				}else if(hasRejectInsufficientFunds && isInsufficientFunds){
 					return false;
 				} else {
 					return true;

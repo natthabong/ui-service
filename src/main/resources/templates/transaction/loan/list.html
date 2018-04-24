@@ -1,33 +1,47 @@
-<div ng-if="ctrl.getUserInfoSuccess" id="content" th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS','VIEW_LOANS_REFER_TO_MY_ORGANIZATION','VIEW_LOANS_OF_MY_ORGANIZATION')">
-    <input type="hidden" ng-init="ctrl.reject=true" sec:authorize="hasAuthority('REJECT_ALL_WAIT_FOR_LOANS')" />
-    <input type="hidden" ng-init="ctrl.verify=true" sec:authorize="hasAuthority('VERIFY_LOANS_OF_MY_ORGANIZATION')" /> 
-    <input type="hidden" ng-init="ctrl.approve=true" sec:authorize="hasAuthority('APPROVE_LOANS_OF_MY_ORGANIZATION')" /> 
-    <input type="hidden" ng-init="ctrl.resend=true" sec:authorize="hasAuthority('RE-SEND_ONLY_INSUFFICIENT_FUNDS_LOANS_OF_MY_ORGANIZATION')" />
-    <input type="hidden" ng-init="ctrl.canRetry=true" sec:authorize="hasAnyAuthority('RE-CHECK_ALL_REJECT_INCOMPLETE_LOANS', 'RE-CHECK_ALL_INCOMPLETE_LOANS', 'RE-CHECK_ONLY_INCOMPLETE_LOANS_OF_MY_ORGANIZATION')" />
-    <input type="hidden" ng-init="ctrl.canView=true" sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS', 'VIEW_LOANS_OF_MY_ORGANIZATION', 'VIEW_LOANS_REFER_TO_MY_ORGANIZATION')" />
-    <input type="hidden" ng-init="ctrl.canPrint=true" sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS', 'VIEW_LOANS_OF_MY_ORGANIZATION', 'VIEW_LOANS_REFER_TO_MY_ORGANIZATION')" />
-    <input type="hidden" ng-init="ctrl.canExport=true" sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS', 'VIEW_LOANS_OF_MY_ORGANIZATION', 'VIEW_LOANS_REFER_TO_MY_ORGANIZATION')" />
-    <input type="hidden" ng-init="ctrl.canAdjustStatus=true" sec:authorize="hasAuthority('ADJUST_STATUS_OF_ALL_INCOMPLETE_STATUS_LOANS')" />
-    <div id="wrapper">
-        <div class="panel box-shadow-none content-header">
-            <div class="panel-body">
-                <div class="col-md-12">
-                    <h3 id="header-message-label" class="animated fadeInLeft" ng-bind="'Transaction list' | translate">Transaction List</h3>
-                </div>
-            </div>
-        </div>
+<div ng-if="ctrl.getUserInfoSuccess" id="content" th:fragment="content"
+	sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS','VIEW_LOANS_REFER_TO_MY_ORGANIZATION','VIEW_LOANS_OF_MY_ORGANIZATION')">
+	<input type="hidden" ng-init="ctrl.reject=true"
+		sec:authorize="hasAuthority('REJECT_ALL_WAIT_FOR_LOANS')" /> <input
+		type="hidden" ng-init="ctrl.rejectInsufficientFunds=true"
+		sec:authorize="hasAnyAuthority('REJECT_ALL_INSUFFICIENT_FUNDS_LOANS','CANCEL_ONLY_INSUFFICIENT_FUNDS_LOANS_OF_MY_ORGANIZATION')" />
+	<input type="hidden" ng-init="ctrl.verify=true"
+		sec:authorize="hasAuthority('VERIFY_LOANS_OF_MY_ORGANIZATION')" /> <input
+		type="hidden" ng-init="ctrl.approve=true"
+		sec:authorize="hasAuthority('APPROVE_LOANS_OF_MY_ORGANIZATION')" /> <input
+		type="hidden" ng-init="ctrl.resend=true"
+		sec:authorize="hasAuthority('RE-SEND_ONLY_INSUFFICIENT_FUNDS_LOANS_OF_MY_ORGANIZATION')" />
+	<input type="hidden" ng-init="ctrl.canRetry=true"
+		sec:authorize="hasAnyAuthority('RE-CHECK_ALL_REJECT_INCOMPLETE_LOANS', 'RE-CHECK_ALL_INCOMPLETE_LOANS', 'RE-CHECK_ONLY_INCOMPLETE_LOANS_OF_MY_ORGANIZATION')" />
+	<input type="hidden" ng-init="ctrl.canView=true"
+		sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS', 'VIEW_LOANS_OF_MY_ORGANIZATION', 'VIEW_LOANS_REFER_TO_MY_ORGANIZATION')" />
+	<input type="hidden" ng-init="ctrl.canPrint=true"
+		sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS', 'VIEW_LOANS_OF_MY_ORGANIZATION', 'VIEW_LOANS_REFER_TO_MY_ORGANIZATION')" />
+	<input type="hidden" ng-init="ctrl.canExport=true"
+		sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS', 'VIEW_LOANS_OF_MY_ORGANIZATION', 'VIEW_LOANS_REFER_TO_MY_ORGANIZATION')" />
+	<input type="hidden" ng-init="ctrl.canAdjustStatus=true"
+		sec:authorize="hasAuthority('ADJUST_STATUS_OF_ALL_INCOMPLETE_STATUS_LOANS')" />
+	<div id="wrapper">
+		<div class="panel box-shadow-none content-header">
+			<div class="panel-body">
+				<div class="col-md-12">
+					<h3 id="header-message-label" class="animated fadeInLeft"
+						ng-bind="'Transaction list' | translate">Transaction List</h3>
+				</div>
+			</div>
+		</div>
 
-        <div class="form-element">
-            <div class="panel panel-default col-md-12 padding-0">
-                <div class="panel-body">
+		<div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
 
-                    <!-- Start Column Panel-->
-                    <div class="col-md-12" block-ui="summary-internal-block">
-                        <form name="createForm" class="form-horizontal">
-                            <div class="form-group">
-                                <label for="dateTypeRadio" class="col-md-2 col-sm-3 control-label"></label>
-                                <div class="col-md-9 col-sm-8">
-                                    <label class="radio-inline"> <scf-radio
+					<!-- Start Column Panel-->
+					<div class="col-md-12" block-ui="summary-internal-block">
+						<form name="createForm" class="form-horizontal">
+							<div class="form-group">
+								<label for="dateTypeRadio"
+									class="col-md-2 col-sm-3 control-label"></label>
+								<div class="col-md-9 col-sm-8">
+									<label class="radio-inline"> <scf-radio
 											id="transaction-date-type"
 											ng-value="ctrl.transactionType.transactionDate"
 											name="date-type-radio"
@@ -40,96 +54,127 @@
 											ng-model="ctrl.listTransactionModel.dateType"></scf-radio>
 										{{'Maturity date' | translate}}
 									</label>
-                                </div>
-                                <div class="col-md-1 col-sm-1"></div>
-                            </div>
+								</div>
+								<div class="col-md-1 col-sm-1"></div>
+							</div>
 
-                            <div class="form-group">
-                                <label id="date-label" class="col-md-2 col-sm-3 control-label">{{'Date'
+							<div class="form-group">
+								<label id="date-label" class="col-md-2 col-sm-3 control-label">{{'Date'
 									| translate}}:</label>
-                                <div class="col-md-3 col-sm-3 gec-calendar-group">
-                                    <label id="from-label" for="date-from-calendar" class="control-label">{{'From' | translate}}: </label>
-                                    <scf-date-picker-from text-id="date-from-textbox" button-id="date-from-calendar-button" text-model="ctrl.dateModel.dateFrom" date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom" open-calendar-action="ctrl.openCalendarDateFrom()" max-date="ctrl.dateModel.dateTo">
-                                    </scf-date-picker-from>
+								<div class="col-md-3 col-sm-3 gec-calendar-group">
+									<label id="from-label" for="date-from-calendar"
+										class="control-label">{{'From' | translate}}: </label>
+									<scf-date-picker-from text-id="date-from-textbox"
+										button-id="date-from-calendar-button"
+										text-model="ctrl.dateModel.dateFrom"
+										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
+										open-calendar-action="ctrl.openCalendarDateFrom()"
+										max-date="ctrl.dateModel.dateTo"> </scf-date-picker-from>
 
-                                </div>
-                                <div class="col-md-3 col-sm-3 gec-calendar-group">
-                                    <label id="to-label" for="date-to-calendar" class="control-label">{{'to' | translate}}: </label>
-                                    <scf-date-picker-to text-id="date-to-textbox" button-id="date-to-calendar-button" text-model="ctrl.dateModel.dateTo" date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo" open-calendar-action="ctrl.openCalendarDateTo()" min-date="ctrl.dateModel.dateFrom">
-                                    </scf-date-picker-to>
-                                </div>
-                                <div class="col-md-4 col-sm-3"></div>
-                            </div>
-                            <div class="form-group" ng-show="ctrl.invalidDateCriteria">
-                                <label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
-                                <span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="date-format-warning-message-label" ng-bind="ctrl.invalidDateCriteriaMsg.message | translate"></span>
-                            </div>
+								</div>
+								<div class="col-md-3 col-sm-3 gec-calendar-group">
+									<label id="to-label" for="date-to-calendar"
+										class="control-label">{{'to' | translate}}: </label>
+									<scf-date-picker-to text-id="date-to-textbox"
+										button-id="date-to-calendar-button"
+										text-model="ctrl.dateModel.dateTo"
+										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
+										open-calendar-action="ctrl.openCalendarDateTo()"
+										min-date="ctrl.dateModel.dateFrom"> </scf-date-picker-to>
+								</div>
+								<div class="col-md-4 col-sm-3"></div>
+							</div>
+							<div class="form-group" ng-show="ctrl.invalidDateCriteria">
+								<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
+								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+									id="date-format-warning-message-label"
+									ng-bind="ctrl.invalidDateCriteriaMsg.message | translate"></span>
+							</div>
 
-                            <div class="form-group">
-                                <label for="sponsor-auto-suggest" id="sponsor-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor'
+							<div class="form-group">
+								<label for="sponsor-auto-suggest" id="sponsor-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Sponsor'
 									| translate}}: </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <gec-auto-suggest id="sponsor-auto-suggest" disable="ctrl.sponsorTxtDisable" model="ctrl.sponsorAutoSuggestModel" name="sponsorCode" ng-model="ctrl.documentListModel.sponsor" maxlength="100"></gec-auto-suggest>
-                                </div>
-                                <div class="col-md-3 col-sm-2"></div>
-                            </div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<gec-auto-suggest id="sponsor-auto-suggest"
+										disable="ctrl.sponsorTxtDisable"
+										model="ctrl.sponsorAutoSuggestModel" name="sponsorCode"
+										ng-model="ctrl.documentListModel.sponsor" maxlength="100"></gec-auto-suggest>
+								</div>
+								<div class="col-md-3 col-sm-2"></div>
+							</div>
 
-                            <div class="form-group">
-                                <label for="supplier-auto-suggest" id="supplier-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
+							<div class="form-group">
+								<label for="supplier-auto-suggest" id="supplier-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
 									| translate}}: </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <gec-auto-suggest id="supplier-auto-suggest" disable="ctrl.supplierTxtDisable" model="ctrl.supplierAutoSuggestModel" name="supplierCode" ng-model="ctrl.documentListModel.supplier" maxlength="100"></gec-auto-suggest>
-                                </div>
-                                <div class="col-md-3 col-sm-2"></div>
-                            </div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<gec-auto-suggest id="supplier-auto-suggest"
+										disable="ctrl.supplierTxtDisable"
+										model="ctrl.supplierAutoSuggestModel" name="supplierCode"
+										ng-model="ctrl.documentListModel.supplier" maxlength="100"></gec-auto-suggest>
+								</div>
+								<div class="col-md-3 col-sm-2"></div>
+							</div>
 
-                            <div class="form-group">
-                                <label for="dealer" id="supplier-code-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier
+							<div class="form-group">
+								<label for="dealer" id="supplier-code-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier
 									code' | translate}}: </label>
 
-                                <div class="col-md-3 col-sm-3 col-xs-12">
-                                    <scf-input-text id="supplier-code-textbox" ng-model="ctrl.listTransactionModel.supplierCode" maxlength="20"></scf-input-text>
-                                </div>
-                                <!--style="padding-right:40px"-->
-                                <div class="hidden-lg hidden-md col-sm-12 hidden-xs">
-                                    <br />
-                                </div>
-                                <label id="transaction-no-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Transaction
+								<div class="col-md-3 col-sm-3 col-xs-12">
+									<scf-input-text id="supplier-code-textbox"
+										ng-model="ctrl.listTransactionModel.supplierCode"
+										maxlength="20"></scf-input-text>
+								</div>
+								<!--style="padding-right:40px"-->
+								<div class="hidden-lg hidden-md col-sm-12 hidden-xs">
+									<br />
+								</div>
+								<label id="transaction-no-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Transaction
 									no' | translate}}: </label>
-                                <!--style="padding-right:35px;padding-left:40px;"-->
-                                <div class="col-md-3 col-sm-3 col-xs-12">
-                                    <scf-input-text id="transaction-no-textbox" ng-model="ctrl.listTransactionModel.transactionNo" maxlength="20"></scf-input-text>
-                                </div>
-                            </div>
+								<!--style="padding-right:35px;padding-left:40px;"-->
+								<div class="col-md-3 col-sm-3 col-xs-12">
+									<scf-input-text id="transaction-no-textbox"
+										ng-model="ctrl.listTransactionModel.transactionNo"
+										maxlength="20"></scf-input-text>
+								</div>
+							</div>
 
 
 
-                            <div class="form-group">
-                                <label for="dealer" id="status-step-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status
+							<div class="form-group">
+								<label for="dealer" id="status-step-label"
+									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status
 									step' | translate}}: </label>
 
-                                <div class="col-md-3 col-sm-3 col-xs-12">
-                                    <scf-dropdown id="status-step-dropdown" ng-model="ctrl.listTransactionModel.statusGroup" component-data="ctrl.transactionStatusGroupDropdown" translate-label="true"></scf-dropdown>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <scf-button id="search-button" class="popup-button btn" ng-click="ctrl.searchTransaction()">{{'Search' | translate}}
-                                    </scf-button>
-                                </div>
-                            </div>
+								<div class="col-md-3 col-sm-3 col-xs-12">
+									<scf-dropdown id="status-step-dropdown"
+										ng-model="ctrl.listTransactionModel.statusGroup"
+										component-data="ctrl.transactionStatusGroupDropdown"
+										translate-label="true"></scf-dropdown>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<scf-button id="search-button" class="popup-button btn"
+										ng-click="ctrl.searchTransaction()">{{'Search' |
+									translate}} </scf-button>
+								</div>
+							</div>
 
-                        </form>
+						</form>
 
-                        <div ng-if="ctrl.showInfomation">
-                            <div class="row">
-                                <div class="col-md-12 col-sm-12 text-right">
-                                    <span> <scf-button id="export-button"
+						<div ng-if="ctrl.showInfomation">
+							<div class="row">
+								<div class="col-md-12 col-sm-12 text-right">
+									<span> <scf-button id="export-button"
 											ng-disabled="{{!ctrl.canExport}}" class="btn-default"
 											ng-click="ctrl.exportCSVFile()">{{'Export' |
 										translate}}</scf-button>
 									</span>
-                                </div>
-                                <div class="col-md-12 col-sm-12 text-right">
-                                    <span> <b ng-bind="ctrl.splitePageTxt"
+								</div>
+								<div class="col-md-12 col-sm-12 text-right">
+									<span> <b ng-bind="ctrl.splitePageTxt"
 										id="transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 											dropdown-id="page-limit-dropdown" name="transaction"
 											page-size-model="ctrl.pageModel.pageSizeSelectModel"
@@ -139,208 +184,258 @@
 											page-action="ctrl.searchTransaction"></scf-pagination>
 									</span>
 
-                                </div>
-                            </div>
+								</div>
+							</div>
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <scf-data-table id="transaction-table" template-url="/js/app/list-transactions/table-template.html" component-config="ctrl.dataTable" component-datas="ctrl.tableRowCollection" current-page="ctrl.pageModel.currentPage" record-per-page="ctrl.pageModel.pageSizeSelectModel"
-                                        clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
-                                </div>
-                                <div id="fixed-bottom" class="col-md-12"></div>
-                            </div>
-                        </div>
+							<div class="row">
+								<div class="col-md-12">
+									<scf-data-table id="transaction-table"
+										template-url="/js/app/list-transactions/table-template.html"
+										component-config="ctrl.dataTable"
+										component-datas="ctrl.tableRowCollection"
+										current-page="ctrl.pageModel.currentPage"
+										record-per-page="ctrl.pageModel.pageSizeSelectModel"
+										clear-sort-order="ctrl.pageModel.clearSortOrder"></scf-data-table>
+								</div>
+								<div id="fixed-bottom" class="col-md-12"></div>
+							</div>
+						</div>
 
-                    </div>
-                </div>
+					</div>
+				</div>
 
-                <div class="panel-body" ng-if="ctrl.showInfomation" block-ui="summary-internal-block" sec:authorize="hasAnyAuthority('VIEW_LOANS_REFER_TO_MY_ORGANIZATION','VIEW_LOANS_OF_MY_ORGANIZATION')">
-                    <div class="row">
-                        <div id="bottom-sticker">
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <span class="col-md-2 col-sm-3" id="internal-step-label"><b>{{'Internal
+				<div class="panel-body" ng-if="ctrl.showInfomation"
+					block-ui="summary-internal-block"
+					sec:authorize="hasAnyAuthority('VIEW_LOANS_REFER_TO_MY_ORGANIZATION','VIEW_LOANS_OF_MY_ORGANIZATION')">
+					<div class="row">
+						<div id="bottom-sticker">
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<span class="col-md-2 col-sm-3" id="internal-step-label"><b>{{'Internal
 											step' | translate}}</b>:</span>
-                                    <div class="col-md-3 col-sm-3">
-                                        <span id="wait-for-verify-label" ng-bind="'wait_for_verify' | translate">list-transaction-wait-for-verify</span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="wait-for-verify-record-label" ng-bind="ctrl.summaryInternalStep.wait_for_verify.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="wait-for-verify-amount-label" ng-bind="ctrl.summaryInternalStep.wait_for_verify.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-1"></div>
-                                </div>
-                            </div>
+									<div class="col-md-3 col-sm-3">
+										<span id="wait-for-verify-label"
+											ng-bind="'wait_for_verify' | translate">list-transaction-wait-for-verify</span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="wait-for-verify-record-label"
+											ng-bind="ctrl.summaryInternalStep.wait_for_verify.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="wait-for-verify-amount-label"
+											ng-bind="ctrl.summaryInternalStep.wait_for_verify.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-1"></div>
+								</div>
+							</div>
 
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <label class="col-md-2 col-sm-3"></label>
-                                    <div class="col-md-3 col-sm-3">
-                                        <span id="wait-for-approve-label" ng-bind="'wait_for_approve' | translate">list-transaction-wait-for-approve</span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="wait-for-approve-record-label" ng-bind="ctrl.summaryInternalStep.wait_for_approve.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="wait-for-approve-amount-label" ng-bind="ctrl.summaryInternalStep.wait_for_approve.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-1"></div>
-                                </div>
-                            </div>
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<label class="col-md-2 col-sm-3"></label>
+									<div class="col-md-3 col-sm-3">
+										<span id="wait-for-approve-label"
+											ng-bind="'wait_for_approve' | translate">list-transaction-wait-for-approve</span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="wait-for-approve-record-label"
+											ng-bind="ctrl.summaryInternalStep.wait_for_approve.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="wait-for-approve-amount-label"
+											ng-bind="ctrl.summaryInternalStep.wait_for_approve.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-1"></div>
+								</div>
+							</div>
 
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <label class="col-md-2 col-sm-3"></label>
-                                    <div class="col-md-3 col-sm-3">
-                                        <span id="reject-by-checker-label" ng-bind="'reject_by_checker' | translate">Rejected by
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<label class="col-md-2 col-sm-3"></label>
+									<div class="col-md-3 col-sm-3">
+										<span id="reject-by-checker-label"
+											ng-bind="'reject_by_checker' | translate">Rejected by
 											Checker</span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="reject-by-checker-record-label" ng-bind="ctrl.summaryInternalStep.reject_by_checker.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="reject-by-checker-amount-label" ng-bind="ctrl.summaryInternalStep.reject_by_checker.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-1"></div>
-                                </div>
-                            </div>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="reject-by-checker-record-label"
+											ng-bind="ctrl.summaryInternalStep.reject_by_checker.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="reject-by-checker-amount-label"
+											ng-bind="ctrl.summaryInternalStep.reject_by_checker.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-1"></div>
+								</div>
+							</div>
 
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <label class="col-md-2 col-sm-3"></label>
-                                    <div class="col-md-3 col-sm-3">
-                                        <span id="reject-by-approver-label" ng-bind="'reject_by_approver'  | translate">Rejected by
-											Approver</span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="reject-by-approver-record-label" ng-bind="ctrl.summaryInternalStep.reject_by_approver.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="reject-by-approver-amount-label" ng-bind="ctrl.summaryInternalStep.reject_by_approver.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-1"></div>
-                                </div>
-                            </div>
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<label class="col-md-2 col-sm-3"></label>
+									<div class="col-md-3 col-sm-3">
+										<span id="reject-by-approver-label"
+											ng-bind="'reject_by_approver'  | translate">Rejected
+											by Approver</span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="reject-by-approver-record-label"
+											ng-bind="ctrl.summaryInternalStep.reject_by_approver.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="reject-by-approver-amount-label"
+											ng-bind="ctrl.summaryInternalStep.reject_by_approver.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-1"></div>
+								</div>
+							</div>
 
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <label class="col-md-2 col-sm-3"></label>
-                                    <div class="col-md-3 col-sm-3">
-                                        <span id="cancel-by-supplier-label" ng-bind="'cancelled_by_supplier' | translate">Cancel
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<label class="col-md-2 col-sm-3"></label>
+									<div class="col-md-3 col-sm-3">
+										<span id="cancel-by-supplier-label"
+											ng-bind="'cancelled_by_supplier' | translate">Cancel
 											by Supplier</span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="cancel-by-supplier-record-label" ng-bind="ctrl.summaryInternalStep.cancelled_by_supplier.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="cancel-by-supplier-amount-label" ng-bind="ctrl.summaryInternalStep.cancelled_by_supplier.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-1"></div>
-                                </div>
-                            </div>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="cancel-by-supplier-record-label"
+											ng-bind="ctrl.summaryInternalStep.cancelled_by_supplier.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="cancel-by-supplier-amount-label"
+											ng-bind="ctrl.summaryInternalStep.cancelled_by_supplier.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-1"></div>
+								</div>
+							</div>
 
 
-                        </div>
-                    </div>
-                </div>
+						</div>
+					</div>
+				</div>
 
-                <div class="panel-body" ng-if="ctrl.showInfomation" block-ui="summary-internal-block" sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS')">
-                    <div class="row">
-                        <div id="bottom-sticker">
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <span class="col-md-2 col-sm-3"></span>
-                                    <div class="col-md-3 col-sm-3">
-                                        <span id="internal-step-label">{{'Internal step' |
+				<div class="panel-body" ng-if="ctrl.showInfomation"
+					block-ui="summary-internal-block"
+					sec:authorize="hasAnyAuthority('VIEW_ALL_LOANS')">
+					<div class="row">
+						<div id="bottom-sticker">
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<span class="col-md-2 col-sm-3"></span>
+									<div class="col-md-3 col-sm-3">
+										<span id="internal-step-label">{{'Internal step' |
 											translate}}</span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="internal-step-record-label" ng-bind="ctrl.summaryStatusGroup.INTERNAL_STEP.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="internal-step-amount-label" ng-bind="ctrl.summaryStatusGroup.INTERNAL_STEP.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-1"></div>
-                                </div>
-                            </div>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="internal-step-record-label"
+											ng-bind="ctrl.summaryStatusGroup.INTERNAL_STEP.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="internal-step-amount-label"
+											ng-bind="ctrl.summaryStatusGroup.INTERNAL_STEP.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-1"></div>
+								</div>
+							</div>
 
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <span class="col-md-2 col-sm-3"></span>
-                                    <div class="col-md-3 col-sm-3">
-                                        <span id="wait-for-drawdown-result-label">{{'Wait for
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<span class="col-md-2 col-sm-3"></span>
+									<div class="col-md-3 col-sm-3">
+										<span id="wait-for-drawdown-result-label">{{'Wait for
 											drawdown result' | translate}}</span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="wait-for-drawdown-result-record-label" ng-bind="ctrl.summaryStatusGroup.WAIT_FOR_DRAWDOWN_RESULT.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="wait-for-drawdown-result-amount-label" ng-bind="ctrl.summaryStatusGroup.WAIT_FOR_DRAWDOWN_RESULT.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-1"></div>
-                                </div>
-                            </div>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="wait-for-drawdown-result-record-label"
+											ng-bind="ctrl.summaryStatusGroup.WAIT_FOR_DRAWDOWN_RESULT.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="wait-for-drawdown-result-amount-label"
+											ng-bind="ctrl.summaryStatusGroup.WAIT_FOR_DRAWDOWN_RESULT.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-1"></div>
+								</div>
+							</div>
 
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <span class="col-md-2 col-sm-3"></span>
-                                    <div class="col-md-3 col-sm-3">
-                                        <span id="drawdown-success-label">{{'Drawdown success'
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<span class="col-md-2 col-sm-3"></span>
+									<div class="col-md-3 col-sm-3">
+										<span id="drawdown-success-label">{{'Drawdown success'
 											| translate}}</span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="drawdown-success-record-label" ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_SUCCESS.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="drawdown-success-amount-label" ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_SUCCESS.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-1"></div>
-                                </div>
-                            </div>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="drawdown-success-record-label"
+											ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_SUCCESS.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="drawdown-success-amount-label"
+											ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_SUCCESS.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-1"></div>
+								</div>
+							</div>
 
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <span class="col-md-2 col-sm-3"></span>
-                                    <div class="col-md-3 col-sm-3">
-                                        <span id="drawdown-fail-label">{{'Drawdown fail' |
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<span class="col-md-2 col-sm-3"></span>
+									<div class="col-md-3 col-sm-3">
+										<span id="drawdown-fail-label">{{'Drawdown fail' |
 											translate}}</span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="drawdown-fail-record-label" ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_FAIL.totalRecord"></span>&nbsp;<span ng-bind="'records' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="drawdown-fail-amount-label" ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_FAIL.totalAmount | number: 2"></span>&nbsp;<span ng-bind="'THB' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-1"></div>
-                                </div>
-                            </div>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="drawdown-fail-record-label"
+											ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_FAIL.totalRecord"></span>&nbsp;<span
+											ng-bind="'records' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<span id="drawdown-fail-amount-label"
+											ng-bind="ctrl.summaryStatusGroup.DRAWDOWN_FAIL.totalAmount | number: 2"></span>&nbsp;<span
+											ng-bind="'THB' | translate"></span>
+									</div>
+									<div class="col-md-2 col-sm-1"></div>
+								</div>
+							</div>
 
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <span class="col-md-2 col-sm-3"></span>
-                                    <div class="col-md-3 col-sm-3">
-                                        <b><span id="grand-total-label">{{'Grand total' |
+							<div class="col-md-12 col-sm-12">
+								<div class="form-horizontal">
+									<span class="col-md-2 col-sm-3"></span>
+									<div class="col-md-3 col-sm-3">
+										<b><span id="grand-total-label">{{'Grand total' |
 												translate}}</span></b>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <b><span id="grand-total-record-label"
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<b><span id="grand-total-record-label"
 											ng-bind="ctrl.summaryStatusGroup.GRAND_TOTAL.totalRecord"></span>&nbsp;<span
 											ng-bind="'records' | translate"></span></b>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <b><span id="grand-total-amount-label"
+									</div>
+									<div class="col-md-2 col-sm-2 text-right">
+										<b><span id="grand-total-amount-label"
 											ng-bind="ctrl.summaryStatusGroup.GRAND_TOTAL.totalAmount | number: 2"></span>&nbsp;<span
 											ng-bind="'THB' | translate"></span></b>
-                                    </div>
-                                    <div class="col-md-2 col-sm-1"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+									</div>
+									<div class="col-md-2 col-sm-1"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
