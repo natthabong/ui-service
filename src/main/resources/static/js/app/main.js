@@ -586,6 +586,13 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
       $translate.use(lang);
       $translate.refresh(lang);
     };
+    
+    vm.decodeBase64 = function(data){
+		if(data==null||angular.isUndefined(data)){
+			return '';
+		}
+		return atob(data);
+	}
 
     vm.getMessage = function () {
       var defered = scfFactory.getErrorMsg($translate.use());
@@ -609,6 +616,9 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
         $rootScope.userInfo = response;
         vm.organizeHeader = $rootScope.userInfo;
         vm.getListUserOrgranize();
+        if (vm.organizeHeader.memberLogo != null) {
+			vm.organizeHeader.memberLogo = vm.decodeBase64(vm.organizeHeader.memberLogo);
+		}
       });
     };
 
