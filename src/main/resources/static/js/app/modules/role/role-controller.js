@@ -188,27 +188,29 @@ angular.module('scfApp').controller('RoleController',['$scope','Service', '$stat
         
         
     $scope.toggleSelection =  function(){
-    	var inputs = document.getElementsByTagName("input");
-    	for (var i = 0; i < inputs.length; i++) {
-        	if(inputs[i].type == "checkbox"){
-        		inputs[i].disabled = false;
+    	if(mode != 'VIEW'){
+    		var inputs = document.getElementsByTagName("input");
+        	for (var i = 0; i < inputs.length; i++) {
+            	if(inputs[i].type == "checkbox"){
+            		inputs[i].disabled = false;
+            	}
         	}
-    	}
-    	
-    	vm.model.privileges.forEach(function(privilege){
-    		if(document.getElementById(privilege.privilegeId+"-checkbox")!=null){ 
-	    		privilege.dependencies.forEach(function(dependency){
-	    			if(document.getElementById(privilege.privilegeId+"-checkbox").checked){
-	    				document.getElementById(dependency.privilegeId+"-checkbox").disabled = true;
-	    			}else{
-	    		    	document.getElementById(dependency.privilegeId+"-checkbox").disabled = false;
-	    			}
-	    			if(!isDuplicate(vm.model.privileges, dependency)) {
-	    	    		vm.model.privileges.push(dependency);
-	    	        }
-	    		});
-    		}
-	    });
+        	
+        	vm.model.privileges.forEach(function(privilege){
+        		if(document.getElementById(privilege.privilegeId+"-checkbox")!=null){ 
+    	    		privilege.dependencies.forEach(function(dependency){
+    	    			if(document.getElementById(privilege.privilegeId+"-checkbox").checked){
+    	    				document.getElementById(dependency.privilegeId+"-checkbox").disabled = true;
+    	    			}else{
+    	    		    	document.getElementById(dependency.privilegeId+"-checkbox").disabled = false;
+    	    			}
+    	    			if(!isDuplicate(vm.model.privileges, dependency)) {
+    	    	    		vm.model.privileges.push(dependency);
+    	    	        }
+    	    		});
+        		}
+    	    });
+		}
     }
     
 	var initial = function(){

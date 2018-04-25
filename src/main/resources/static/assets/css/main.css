@@ -126,11 +126,6 @@ table {
 	line-height: 1;
 }
 
-.table-striped>tbody>tr:nth-child(odd)>td, 
-.table-striped>tbody>tr:nth-child(odd)>th {
-   background-color: #e2ffe6; // Choose your own color here
- }
-
 
 ol,
 ul,
