@@ -1,8 +1,8 @@
 'use strict';
 var scfApp = angular.module('gecscf.monitoring');
 scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$stateParams', '$log', 'PagingController', 'UIFactory', '$q',
-	'$rootScope', '$http','PageNavigation','ngDialog',
-	function($scope, Service, $stateParams, $log, PagingController, UIFactory, $q, $rootScope, $http, PageNavigation, ngDialog) {
+	'$rootScope', '$http','PageNavigation','ngDialog','$timeout',
+	function($scope, Service, $stateParams, $log, PagingController, UIFactory, $q, $rootScope, $http, PageNavigation, ngDialog, $timeout) {
         var vm = this;
 
         vm.splitePageTxt = '';
@@ -19,11 +19,14 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 		vm.logTimeToMinute = '';
 		
 		vm.batchJobTracking = $stateParams.params;
+		var customerModel = $stateParams.customerModel;
 		var ownerId = vm.batchJobTracking.jobGroup;
 		var jobId = vm.batchJobTracking.jobId;
 		
         vm.backPage = function(){
-            PageNavigation.gotoPreviousPage();
+        	$timeout(function () {
+                PageNavigation.backStep();
+            }, 10);
         }
 
 		vm.pageModel = {
