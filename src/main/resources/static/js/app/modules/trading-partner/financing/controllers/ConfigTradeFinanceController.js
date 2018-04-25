@@ -64,10 +64,10 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 				}, {
 					cssTemplate: 'text-center',
 					sortable: false,
-					cellTemplate: '<scf-button id="{{$parent.$index + 1}}-view-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canView" ng-click="ctrl.view(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
-					+ '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
-					+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage || data.defaultLoanNo" ng-click="ctrl.deleteTradeFinance(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
-					+ '<scf-button id="{{$parent.$index + 1}}-set-default-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.canManage || ctrl.isSupplier(data.borrowerType)" ng-click="ctrl.setDefaultCode(data)" title="Set default"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>'
+					cellTemplate: '<scf-button id="{{$parent.$index + 1}}-view-button" class="btn btn-sm" ng-disabled="!ctrl.canView" ng-click="ctrl.view(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
+					+ '<scf-button id="{{$parent.$index + 1}}-edit-button" class="btn btn-sm" ng-disabled="!ctrl.canManage" ng-click="ctrl.edit(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+					+ '<scf-button id="{{$parent.$index + 1}}-delete-button" class="btn btn-sm" ng-disabled="!ctrl.canManage || data.defaultLoanNo" ng-click="ctrl.deleteTradeFinance(data)" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>'
+					+ '<scf-button id="{{$parent.$index + 1}}-set-default-button" class="btn btn-sm" ng-disabled="!ctrl.canManage || ctrl.isSupplier(data.borrowerType)" ng-click="ctrl.setDefaultCode(data)" title="Set default"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>'
 				}]
 		}
 
