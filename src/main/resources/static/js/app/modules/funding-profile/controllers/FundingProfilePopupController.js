@@ -37,11 +37,11 @@ module
                         $scope.errors = {};
                         var valid = true;
                         if (isEmpty(vm.model.fundingCode)) {
-                          $scope.errors.bankCode = 'Funding code is required';
+                          $scope.errors.bankCode = 'Lender code is required';
                           valid = false;
                         }
                         if (isEmpty(vm.model.fundingName)) {
-                          $scope.errors.fundingName = 'Funding name is required';
+                          $scope.errors.fundingName = 'Lender name is required';
                           valid = false;
                         }
                         if (isEmpty(vm.model.taxId)) {
@@ -73,14 +73,14 @@ module
                                       var status = response.status;
                                       if (status != 400) {
                                         var msg = {
-                                          404: "Funding profile has been deleted."
+                                          404: "Lender profile has been deleted."
                                         }
                                         UIFactory
                                                 .showFailDialog({
                                                   data: {
                                                     headerMessage: ($scope.editionMode
-                                                            ? 'Edit new funding profile fail.'
-                                                            : 'Add new funding profile fail.'),
+                                                            ? 'Edit new lender profile fail.'
+                                                            : 'Add new lender profile fail.'),
                                                     bodyMessage: msg[status]
                                                             ? msg[status]
                                                             : response.errorMessage
@@ -100,8 +100,8 @@ module
                                               .showSuccessDialog({
                                                 data: {
                                                   headerMessage: ($scope.editionMode
-                                                          ? 'Edit funding profile success.'
-                                                          : 'Add new funding profile success.'),
+                                                          ? 'Edit lender profile success.'
+                                                          : 'Add new lender profile success.'),
                                                   bodyMessage: ''
                                                 },
                                                 preCloseCallback: preCloseCallback(response)

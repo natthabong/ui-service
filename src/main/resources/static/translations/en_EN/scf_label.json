@@ -37,12 +37,12 @@
 	"customer-organize-upload-document-logs": "Upload document logs",
 	"customer-organize-upload-document-logs-of-all-funding": "Upload document logs",
 	"monitoring": "Monitoring",
-	"monitoring-bank-system-integration": "Funding system integration",
+	"monitoring-bank-system-integration": "Lender system integration",
 	"monitoring-customer-system-integration": "Customer system integration",
 	"monitoring-gec-system-integration": "System integration",
 	"monitoring-activity-log": "Activity logs",
 	"monitoring-transaction-tracking": "Transaction tracking",
-	"monitoring-bank-system-integration-of-all-funding": "Funding system integration",
+	"monitoring-bank-system-integration-of-all-funding": "Lender system integration",
 	"monitoring-customer-system-integration-of-all-funding": "Customer system integration",
 	"customer-registration": "Customer registration",
 	"customer-registration-trading-partners": "Trading partners",
@@ -50,13 +50,13 @@
 	"customer-registration-customer-users": "Users",
 	"customer-registration-supplier-credit-information": "Supplier credit information",
 	"customer-registration-buyer-credit-information": "Buyer credit information",
-	"customer-registration-funding-profiles": "Funding Profile",
+	"customer-registration-funding-profiles": "Lender Profile",
 	"customer-report": "Customer report",
-	"funding-profile-list": "Funding Profile List",
+	"funding-profile-list": "Lender Profile List",
 	
 	"Tax ID": "Tax ID",
-	"Funding code": "Funding code",
-	"Funding name": "Funding name",
+	"Funding code": "Lender code",
+	"Funding name": "Lender name",
 
 	"myprofile": "My profile",
 	"dashboard": "Dashboard",
@@ -497,7 +497,7 @@
 	"No logo": "No logo",
 	"Organization logo is required": "Organization logo is required",
 
-	"This organization be a member of funding sources as follows": "This organization be a member of funding sources as follows",
+	"This organization be a member of funding sources as follows": "This organization be a member of lender sources as follows",
 
 	"View document upload log": "View document upload log",
 	"View customer document upload log": "View customer document upload log",
@@ -678,8 +678,8 @@
 	"SELECT_REASON_CODE": "Select partial payment reason code",
 	"REASON_CODE": "Reason code",
 
-	"FUNDING": "Funding",
-	"Funding": "Funding",
+	"FUNDING": "Lender",
+	"Funding": "Lender",
 	"WORKFLOW_TYPE": "Type",
 	"WORKFLOW_NAME": "Workflow",
 
@@ -731,16 +731,16 @@
 	"DELETE_TEMPORARY_FILE_SUCCESS": "Delete temporary file ({{fileName}}) success.",
 	"DELETE_TEMPORARY_FILE_FAIL": "Delete temporary file ({{fileName}}) fail.",
 	
-	"Edit funding profile": "Edit funding profile",
-	"Edit funding logo": "Edit funding logo",
-	"Funding logo": "Funding logo",
-	"Funding profile": "Funding profile",
+	"Edit funding profile": "Edit lender profile",
+	"Edit funding logo": "Edit lender logo",
+	"Funding logo": "Lender logo",
+	"Funding profile": "Lender profile",
 	"Notification": "Notification",
 	"Sender name": "Sender name",
 	"Sender email": "Sender email",
 	"Advance approval transaction method": "Advance approval transaction method",
 	"Pending on": "Pending on",
-	"Add new funding profile": "Add new funding profile",
+	"Add new funding profile": "Add new lender profile",
 	"13 digits": "13 digits",
 	"GECSCF Hub Ref. Code": "GECSCF Hub Ref. Code",
 	
@@ -764,5 +764,6 @@
 	"Drawdown success":"Drawdown success",
 	"Confirm adjusted status?":"Confirm adjusted status?",
 	"Adjusted transaction status success.":"Adjusted transaction status success.",
-	"Adjusted transaction status fail.":"Adjusted transaction status fail."
+	"Adjusted transaction status fail.":"Adjusted transaction status fail.",
+	"Funding system integration monitor":"Lender system integration monitor"
 }
