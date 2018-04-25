@@ -11,7 +11,7 @@ import gec.scf.util.AjaxUtils;
 public class BatchJobTrackingController {
 
 	private static final String BATCH_JOB_TRACKING = "monitor/batch-job-tracking";
-	private static final String VIEW_BATCH_JOB_TRACKING_MESSAGE = "monitor/view-batch-job-tracking-message";
+	private static final String VIEW_BATCH_JOB_TRACKING_DETAIL = "monitor/view-batch-job-tracking-detail";
 
 	@RequestMapping(path = {"/batch-job-tracking"}, method = RequestMethod.GET)
 	public String transactionTracking(@RequestHeader("X-Requested-With") String requestedWith) {
@@ -23,13 +23,13 @@ public class BatchJobTrackingController {
 
 	}
 	
-	@RequestMapping(path = {"/view-batch-job-tracking-message"}, method = RequestMethod.GET)
-	public String viewBatchJobTrackingMessage(@RequestHeader("X-Requested-With") String requestedWith) {
+	@RequestMapping(path = {"/view-batch-job-tracking-detail"}, method = RequestMethod.GET)
+	public String viewBatchJobTrackingDetail(@RequestHeader("X-Requested-With") String requestedWith) {
 					
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
-			return VIEW_BATCH_JOB_TRACKING_MESSAGE.concat(" :: content");
+			return VIEW_BATCH_JOB_TRACKING_DETAIL.concat(" :: content");
 		}
-		return VIEW_BATCH_JOB_TRACKING_MESSAGE;
+		return VIEW_BATCH_JOB_TRACKING_DETAIL;
 
 	}
 }

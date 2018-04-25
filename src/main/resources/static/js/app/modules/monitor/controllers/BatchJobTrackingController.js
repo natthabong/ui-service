@@ -13,11 +13,6 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 		vm.defaultPageSize = '20';
 		vm.defaultPage = 0;
 		
-		vm.logTimeFromHour = '';
-		vm.logTimeFromMinute = '';
-		vm.logTimeToHour = '';
-		vm.logTimeToMinute = '';
-		
 		vm.batchJobTracking = $stateParams.params;
 		var customerModel = $stateParams.customerModel;
 		var ownerId = vm.batchJobTracking.jobGroup;
@@ -64,12 +59,21 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 		}
 		
 		vm.initLoad = function() {
+			var backAction = $stateParams.backAction;
+			var currentPage = 0;
+			if(backAction){
+				vm.batchJobTracking = $stateParams.params;
+				vm.logListModel = $stateParams.logListModel;
+				currentPage = $stateParams.pagingModel.currentPage;
+			}
+			
 			if($stateParams.params.length == 0){
-            	PageNavigation.gotoPreviousPage();
+				PageNavigation.gotoPage("/monitoring/customer-system-integration",undefined,undefined);
             }
 			
 			vm.logListModel.batchJobName = vm.batchJobTracking.jobName;
 			vm.searchBatchJobLog();
+			vm.pagingController.pagingModel.currentPage = currentPage;
 		}
 		
 		function prepareCriteria() {
@@ -79,9 +83,9 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 				var hour = 0;
 				var min = 0;
 				
-				if(vm.logTimeFromHour!==''&&vm.logTimeFromMinute!==''){
-					hour = vm.logTimeFromHour;
-					min = vm.logTimeFromMinute;
+				if(vm.logListModel.logTimeFromHour!==''&&vm.logListModel.logTimeFromMinute!==''){
+					hour = vm.logListModel.logTimeFromHour;
+					min = vm.logListModel.logTimeFromMinute;
 				}		
 				
 				var datetime = new Date(vm.logListModel.logDateFrom.getFullYear(), 
@@ -99,9 +103,9 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 				var hour = 23;
 				var min = 59;
 				
-				if(vm.logTimeToHour!==''&&vm.logTimeToMinute!==''){
-					hour = vm.logTimeToHour;
-					min = vm.logTimeToMinute;
+				if(vm.logListModel.logTimeToHour!==''&&vm.logListModel.logTimeToMinute!==''){
+					hour = vm.logListModel.logTimeToHour;
+					min = vm.logListModel.logTimeToMinute;
 				}		
 				
 				var datetime = new Date(vm.logListModel.logDateTo.getFullYear(), 
@@ -121,9 +125,9 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 		vm.pagingController = PagingController.create('/api/v1/organizes/'+ownerId+'/batch-jobs/'+jobId+"/logs", vm.searchCriteria, 'GET');
 		vm.pagingController.offsetBase = false;
 		
-		vm.viewMessage = function(data){
-			var params = {params: data};
-			PageNavigation.gotoPage('/view-batch-job-tracking-message', params,[]);
+		vm.viewDetail = function(data){
+			var params = {params: vm.batchJobTracking, customerModel: customerModel, logListModel: vm.logListModel, pagingModel: vm.pagingController.pagingModel, trackingDetailModel: data};
+			PageNavigation.nextStep('/view-batch-job-tracking-detail', params,{params : params.params ,customerModel : params.customerModel, logListModel : params.logListModel, pagingModel : params.pagingModel, trackingDetailModel : params.trackingDetailModel});
 		}
 
 		vm.searchBatchJobLog = function(pageModel){
@@ -151,22 +155,22 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 			if (angular.isUndefined(vm.logListModel.logDateFrom)||angular.isUndefined(vm.logListModel.logDateTo)) {
 				valid = false;
 			}else{
-				if(vm.logTimeFromHour!==''&&vm.logTimeFromMinute!==''&&!angular.isDate(vm.logListModel.logDateFrom)){
+				if(vm.logListModel.logTimeFromHour!==''&&vm.logListModel.logTimeFromMinute!==''&&!angular.isDate(vm.logListModel.logDateFrom)){
 					valid = false;
-				}else if(vm.logTimeToHour!==''&&vm.logTimeToMinute!==''&&!angular.isDate(vm.logListModel.logDateTo)){
+				}else if(vm.logListModel.logTimeToHour!==''&&vm.logListModel.logTimeToMinute!==''&&!angular.isDate(vm.logListModel.logDateTo)){
 					valid = false;
 				}
 			}
 			
 			//Wrong time format
 			if(angular.isDefined(vm.logListModel.logDateFrom)){
-				if(vm.logTimeFromHour===''&&vm.logTimeFromMinute===''){
+				if(vm.logListModel.logTimeFromHour===''&&vm.logListModel.logTimeFromMinute===''){
 					valid = true;
-				}else if(vm.logTimeFromHour!==''&&vm.logTimeFromMinute!==''){
-					if(isNaN(parseInt(vm.logTimeFromHour)) || vm.logTimeFromHour.length == 1 || vm.logTimeFromHour<0 || vm.logTimeFromHour>=24){
+				}else if(vm.logListModel.logTimeFromHour!==''&&vm.logListModel.logTimeFromMinute!==''){
+					if(isNaN(parseInt(vm.logListModel.logTimeFromHour)) || vm.logListModel.logTimeFromHour.length == 1 || vm.logListModel.logTimeFromHour<0 || vm.logListModel.logTimeFromHour>=24){
 						valid = false;
 					}else{
-						if (isNaN(parseInt(vm.logTimeFromMinute)) || vm.logTimeFromMinute.length == 1 || vm.logTimeFromMinute<0 || vm.logTimeFromMinute>=60) {
+						if (isNaN(parseInt(vm.logListModel.logTimeFromMinute)) || vm.logListModel.logTimeFromMinute.length == 1 || vm.logListModel.logTimeFromMinute<0 || vm.logListModel.logTimeFromMinute>=60) {
 							valid = false;
 						}
 					}
@@ -177,13 +181,13 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 			
 			if(valid){
 				if(angular.isDefined(vm.logListModel.logDateTo)){
-					if(vm.logTimeToHour===''&&vm.logTimeToMinute===''){
+					if(vm.logListModel.logTimeToHour===''&&vm.logListModel.logTimeToMinute===''){
 						valid = true;
-					}else if((vm.logTimeToHour!==''&&vm.logTimeToMinute!=='')){
-						if(isNaN(parseInt(vm.logTimeToHour)) || vm.logTimeToHour.length == 1 || vm.logTimeToHour<0 || vm.logTimeToHour>=24){
+					}else if((vm.logListModel.logTimeToHour!==''&&vm.logListModel.logTimeToMinute!=='')){
+						if(isNaN(parseInt(vm.logListModel.logTimeToHour)) || vm.logListModel.logTimeToHour.length == 1 || vm.logListModel.logTimeToHour<0 || vm.logListModel.logTimeToHour>=24){
 							valid = false;
 						}else{
-							if (isNaN(parseInt(vm.logTimeToMinute)) || vm.logTimeToMinute.length == 1 || vm.logTimeToMinute<0 || vm.logTimeToMinute>=60) {
+							if (isNaN(parseInt(vm.logListModel.logTimeToMinute)) || vm.logListModel.logTimeToMinute.length == 1 || vm.logListModel.logTimeToMinute<0 || vm.logListModel.logTimeToMinute>=60) {
 								valid = false;
 							}
 						}
@@ -200,10 +204,10 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 			}else{
 				//Wrong date from to
 				if (angular.isDate(vm.logListModel.logDateFrom)&&angular.isDate(vm.logListModel.logDateTo)) {
-					var hourFrom = vm.logTimeFromHour;
-					var minuteFrom = vm.logTimeFromMinute;
-					var hourTo = vm.logTimeToHour;
-					var minuteTo = vm.logTimeToMinute;
+					var hourFrom = vm.logListModel.logTimeFromHour;
+					var minuteFrom = vm.logListModel.logTimeFromMinute;
+					var hourTo = vm.logListModel.logTimeToHour;
+					var minuteTo = vm.logListModel.logTimeToMinute;
 					
 					if(hourFrom===''){
 						hourFrom = 0;
@@ -242,6 +246,10 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 			batchJobName : undefined,
 			logDateFrom : '',
 			logDateTo : '',
+			logTimeFromHour: '',
+			logTimeFromMinute: '',
+			logTimeToHour: '',
+			logTimeToMinute: '',
 			processNo : undefined
 		}
 		

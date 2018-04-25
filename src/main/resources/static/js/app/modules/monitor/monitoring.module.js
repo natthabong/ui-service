@@ -102,13 +102,35 @@ angular
 												templateUrl : '/batch-job-tracking',
 												params : {
 													params : [],
-													customerModel : null
+													backAction: false,
+													customerModel : null,
+													logListModel: null,
+													pagingModel: null
 												},
 												resolve : WebHelper
 														.loadScript([
 																'js/app/modules/monitor/controllers/BatchJobTrackingController.js',
 																'js/app/common/scf-component.js',
 																'js/app/common/scf-component.css' ])
+											})
+									.state(
+											'/view-batch-job-tracking-detail',
+											{
+												url : '/view-batch-job-tracking-detail',
+												controller : 'ViewBatchJobMonitorDetailController',
+												controllerAs : 'ctrl',
+												templateUrl : '/view-batch-job-tracking-detail',
+												params : {
+													params : [],
+													customerModel : null,
+													logListModel: null,
+													pagingModel: null,
+													trackingDetailModel: null
+												},
+												resolve : WebHelper
+														.loadScript([
+																'js/app/modules/monitor/controllers/ViewBatchJobMonitorDetailController.js',
+																'js/app/common/scf-component.js',
+																'js/app/common/scf-component.css' ])
 											});
-
 						} ]);
