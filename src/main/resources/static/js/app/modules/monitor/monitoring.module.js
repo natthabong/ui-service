@@ -39,7 +39,9 @@ angular
 												controllerAs : 'ctrl',
 												templateUrl : '/system-integration-monitor/sponsor',
 												params : {
-													params : []
+													params : [],
+													backAction : false,
+													customerModel : null
 												},
 												resolve : WebHelper
 														.loadScript(requiredLibs)
@@ -99,7 +101,8 @@ angular
 												controllerAs : 'ctrl',
 												templateUrl : '/batch-job-tracking',
 												params : {
-													params : []
+													params : [],
+													customerModel : null
 												},
 												resolve : WebHelper
 														.loadScript([

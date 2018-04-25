@@ -24,6 +24,8 @@ scfApp.controller('CustomerSystemIntegrationMonitorController', [
 				id : "",
 				name : ""
 			}
+			
+			vm.customerModel = $scope.customerModel || undefined;
 
 	        var validateOrganizeValue= function(){
 				var validate = false;
@@ -47,6 +49,7 @@ scfApp.controller('CustomerSystemIntegrationMonitorController', [
 					$scope.isMultiProfile = false;
 					$scope.monitorOwnerModel = vm.monitorOwnerModel;
 					$scope.$broadcast('onload');
+					$scope.customerModel = vm.customerModel;
 				}
 			}
 
@@ -84,4 +87,12 @@ scfApp.controller('CustomerSystemIntegrationMonitorController', [
 				
 				vm.isDisplay = true;
 			});
+			
+			vm.initLoad = function() {
+				var backAction = $stateParams.backAction;
+				if(backAction){
+					vm.customerModel = $stateParams.customerModel;
+					vm.check();
+				}
+		    }();
 }]);

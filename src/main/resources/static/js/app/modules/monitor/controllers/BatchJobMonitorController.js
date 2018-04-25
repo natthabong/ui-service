@@ -74,8 +74,8 @@ scfApp.controller('BatchJobMonitorController', [
 			}
 			
 			vm.historyJob = function(batchJob){
-				var params = {params: batchJob};
-				PageNavigation.gotoPage('/batch-job-tracking', params,params.params);
+				var params = {params: batchJob, customerModel: $scope.customerModel};
+				PageNavigation.nextStep('/batch-job-tracking', params,{params : params.params ,customerModel : params.customerModel});
 			}
 			
 			vm.viewInfo = function(batchJob){
