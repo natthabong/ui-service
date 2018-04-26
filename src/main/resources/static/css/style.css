@@ -12,6 +12,10 @@ table .btn-sm{
 	width:30px !important;
 }
 
+.btn-icon{
+	width:30px !important;
+}
+
 .ellipsis {
   text-overflow: ellipsis;
 

@@ -6,10 +6,9 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-10 col-md-10 col-xs-10">
-						<h3 class="animated fadeInLeft" id="account-header-label" ng-bind="'Account' | translate"></h3>
+						<h5 class="animated fadeInLeft" id="account-header-label" ng-bind="'Account' | translate"></h5>
 					</div>
 					<div class="col-lg-2 col-md-2 col-xs-2 text-right">
-                        <br />
                         <scf-button class="btn-default gec-btn-action" id="account-new-button" title="New an account" ng-click="ctrl.addAccount()"
                             ng-disabled="ctrl.unauthenManage()">
                             <i class="fa fa-plus" aria-hidden="true"></i>
@@ -38,7 +37,7 @@
 									<span id="account-status-{{record.accountNo}}-label" ng-bind="record.actualStatus | translate"></span>
 								</td>
 								<td class="text-center">
-									<scf-button id="account-{{record.accountNo}}-delete-button" class="btn-default gec-btn-action" ng-click="ctrl.deleteAccount(record)"
+									<scf-button id="account-{{record.accountNo}}-delete-button" class="btn btn-sm" ng-click="ctrl.deleteAccount(record)"
                                         ng-disabled="ctrl.unauthenManage()" title="Delete">
                                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                                     </scf-button>

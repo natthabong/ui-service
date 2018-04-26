@@ -4,7 +4,7 @@
         />
         <input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES_OF_ALL_FUNDING', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_PRODUCT_TYPES')"
         />
-        <div class="panel panel-default">
+        <div class="panel panel-default  col-md-12 padding-0">
             <div class="panel-body" style="min-height: 200px;">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 text-right">
@@ -23,11 +23,11 @@
                                         <span id="product-type-list-label">{{'Product type list' | translate}}</span>
                                     </td>
                                     <td class="text-center">
-                                        <scf-button ng-disabled="ctrl.unauthenView()" class="btn-default gec-btn-action" id="product-type-list-view-button" title="View product type"
+                                        <scf-button ng-disabled="ctrl.unauthenView()" class="btn btn-sm" id="product-type-list-view-button" title="View product type"
                                             ng-click="ctrl.gotoListPage()">
                                             <i class="fa fa-search" aria-hidden="true"></i>
                                         </scf-button>
-                                        <scf-button ng-disabled="ctrl.unauthenConfig()" class="btn-default gec-btn-action" id="product-type-setup-button" title="Config product type"
+                                        <scf-button ng-disabled="ctrl.unauthenConfig()" class="btn btn-sm" id="product-type-setup-button" title="Config product type"
                                             ng-click="ctrl.gotoConfigPage()">
                                             <i class="fa fa-cog" aria-hidden="true"></i>
                                         </scf-button>
