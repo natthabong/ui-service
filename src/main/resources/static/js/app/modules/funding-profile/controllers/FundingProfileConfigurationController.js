@@ -4,7 +4,7 @@ fundingProfileModule.constant('PendingOnDropdown', [{
 		value: 'AT_GEC'
 	},
 	{
-		label: 'Funding',
+		label: 'Lender',
 		value: 'AT_FUNDING'
 	}
 ]);
@@ -358,7 +358,7 @@ fundingProfileModule.controller(
 							blockUI.stop();
 							UIFactory.showSuccessDialog({
 								data: {
-									headerMessage: 'Edit funding profile success.',
+									headerMessage: 'Edit lender profile complete.',
 									bodyMessage: ''
 								},
 								preCloseCallback: preCloseCallback
@@ -366,13 +366,13 @@ fundingProfileModule.controller(
 						},
 						onFail: function (response) {
 							var msg = {
-								405: 'Funding profile has been modified.',
+								405: 'Lender profile has been modified.',
 								422: 'Service time format invalid.'
 							};
 							blockUI.stop();
 							UIFactory.showFailDialog({
 								data: {
-									headerMessage: 'Edit funding profile fail.',
+									headerMessage: 'Edit lender profile fail.',
 									bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
 								},
 								preCloseCallback: null

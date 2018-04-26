@@ -90,7 +90,7 @@ angular
 					UIFactory
 					.showSuccessDialog({
 					    data : {
-						headerMessage : 'Edit logo success.',
+						headerMessage : 'Edit logo complete.',
 						bodyMessage : ''
 					    },
 					    preCloseCallback : function() {

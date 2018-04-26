@@ -126,6 +126,7 @@ scfApp.controller('BatchJobTrackingController', [ '$scope', 'Service', '$statePa
 		vm.pagingController.offsetBase = false;
 		
 		vm.viewDetail = function(data){
+			console.log(data);
 			var params = {params: vm.batchJobTracking, customerModel: customerModel, logListModel: vm.logListModel, pagingModel: vm.pagingController.pagingModel, trackingDetailModel: data};
 			PageNavigation.nextStep('/view-batch-job-tracking-detail', params,{params : params.params ,customerModel : params.customerModel, logListModel : params.logListModel, pagingModel : params.pagingModel, trackingDetailModel : params.trackingDetailModel});
 		}
