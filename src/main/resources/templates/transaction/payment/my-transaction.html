@@ -1,28 +1,23 @@
 <div id="content" th:fragment="content" sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZATION')">
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft" ng-bind="'Payment transaction' | translate">Payment transaction
-					</h3>
-				</div>
-			</div>
+	
+	<div class="app-title" >
+		<div>
+			<h1>
+				<i class="fa fa-file-text-o"></i> {{'Payment transaction' | translate}}
+			</h1>
+			<p>The act of paying.</p>
 		</div>
-		<div class="form-element" ng-if="ctrl.getUserInfoSuccess">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<div class="col-md-12">
-						<div ng-include="'/payment-transaction/components/criteria-search'"></div>
-					</div>
-					<div class="col-md-12">
-						<div ng-include="'/payment-transaction/components/list-transaction'"></div>
-					</div>
-				</div>
-
-				<div class="panel-body" block-ui="summary-internal-block">
-					<div ng-include="'/payment-transaction/components/result-summary'"></div>
-				</div>
-			</div>
+		<ul class="app-breadcrumb breadcrumb">
+			<li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+			<li class="breadcrumb-item"><a href="#">{{'Payment transaction' | translate}}</a></li>
+		</ul>
+	</div>
+	<div class="row">
+	   <div class="col-md-12">
+			<div ng-include="'/payment-transaction/components/criteria-search'"></div>
+		</div>
+		<div class="col-md-12">
+			<div ng-include="'/payment-transaction/components/list-transaction'"></div>
 		</div>
 	</div>
 </div>

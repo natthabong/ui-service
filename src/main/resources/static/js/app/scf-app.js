@@ -553,6 +553,13 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 			});
 
 		};
+		
+		vm.decodeBase64 = function(data){
+			if(data==null||angular.isUndefined(data)){
+				return '';
+			}
+			return atob(data);
+		}
 
 		$http.get('assets/theme.json').then(function (res) {
 			vm.title = res.data.title;
@@ -568,6 +575,9 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 				$rootScope.userInfo = response;
 				vm.organizeHeader = $rootScope.userInfo;
 				vm.getListUserOrgranize();
+				if (vm.organizeHeader.memberLogo != null) {
+					vm.organizeHeader.memberLogo = vm.decodeBase64(vm.organizeHeader.memberLogo);
+				}
 			});
 		};
 

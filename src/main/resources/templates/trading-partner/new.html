@@ -1,25 +1,20 @@
 <div id="content" th:fragment="content" sec:authorize="hasAuthority('MANAGE_ALL_TRADING_PARTNERS')">      
-
-    <div class="panel box-shadow-none content-header">
-		<div class="panel-body">
-			<div class="col-md-12">
-				<h3 ng-if="ctrl.isNewMode" id="header-message-label" class="animated fadeInLeft"
-					ng-bind="'New trading partner' | translate"></h3>
-				<h3 ng-if="ctrl.isEditMode" id="header-message-label" class="animated fadeInLeft"
-					ng-bind="'Edit trading partner' | translate"></h3>
-				
-			</div>
+	<div class="app-title">
+		<div>
+			<h1 ng-if="ctrl.isNewMode" id="header-message-label" 
+				ng-bind="'New trading partner' | translate"></h1>
+			<h1 ng-if="ctrl.isEditMode" id="header-message-label" 
+				ng-bind="'Edit trading partner' | translate"></h1>
 		</div>
-	</div>    
+	</div>	
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<form name="tradingPartnerForm" class="form-horizontal" ng-submit="save()">
 
-    <div class="form-element">
-        <div class="panel panel-default col-md-12 padding-0">
-            <div class="panel-body">
-
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <form name="tradingPartnerForm" class="form-horizontal" ng-submit="save()">
-
-                        <div class="form-group">
+                        <div class="form-group row">
 							<label id="buyer-label"
 								class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Buyer' | translate}}: </label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
@@ -31,14 +26,14 @@
 							<div class="col-md-3 col-sm-2"></div>
 						</div>
 
-						<div class="form-group" ng-show="errors.buyerId">
+						<div class="form-group row" ng-show="errors.buyerId">
 							<label class="col-md-3 col-sm-3 col-xs-12 control-label"></label>
 							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
 								id="buyer-warning-message-label"
 								ng-bind="errors.buyerId.message | translate"></span>
 						</div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
 							<label id="supplier-label"
 								class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Supplier' | translate}}:</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
@@ -50,14 +45,14 @@
 							<div class="col-md-3 col-sm-2"></div>
 						</div>
 
-						<div class="form-group" ng-show="errors.supplierId">
+						<div class="form-group row" ng-show="errors.supplierId">
 							<label class="col-md-3 col-sm-3 col-xs-12 control-label"></label>
 							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
 								id="supplier-warning-message-label"
 								ng-bind="errors.supplierId.message | translate"></span>
 						</div>
 						
-						 <div class="form-group">
+						 <div class="form-group row">
 							<label id="createppayment-mode-label"
 								class="col-md-3 col-sm-3 col-hidden-xs control-label">{{'Create payment mode' | translate}}:</label>
 							<div class="col-md-6 col-sm-6 col-xs-12" style="padding-left: 25px;">
@@ -82,14 +77,7 @@
 							<div class="col-md-3 col-sm-2"></div>
 						</div>
 						
-						<div class="form-group">
-							<!--<label class="col-md-3 col-sm-3 col-hidden-xs  control-label"></label>
-							<div class="col-md-6 col-sm-6 col-xs-12" style="padding-left: 25px;">
-								<scf-checkbox id="support-debit-checkbox" 
-									ng-model="ctrl.tradingPartner.supportDebit" ></scf-checkbox>
-								<label id="support-debit-label" class="checkbox-inline"
-									style="padding-bottom: 10px;">{{'Support payment by debit' | translate}}</label>
-							</div>-->
+						<div class="form-group row">
 							<label class="col-md-3 col-sm-3 col-hidden-xs  control-label"></label>
 							<div class="col-md-6 col-sm-6 col-xs-12" style="padding-left: 25px;">
 								<scf-checkbox id="suspend-checkbox" 
@@ -100,9 +88,9 @@
 							<div class="col-md-3 col-sm-2 col-hidden-xs"></div>
 						</div>
 						
-						<div class="form-group">
+<!-- 						<div class="form-group"> -->
 							
-						</div>
+<!-- 						</div> -->
 
 						<div class="col-md-12 col-sm-12 text-right">
 							<div class="form-group">
@@ -112,10 +100,10 @@
 						</div>
 
                     </form>
-                </div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-            </div>
-        </div>
-    </div>        
 
 </div>

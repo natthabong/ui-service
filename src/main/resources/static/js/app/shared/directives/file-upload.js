@@ -24,7 +24,7 @@ app.directive('scfFileUpload', [ function() {
 				},
 				template : '<div class="input-group">'
 					+ '<scf-input-text id="{{inputTextId}}" ng-model="fileName" maxlength="n/a" readOnly="true"></scf-input-text>'
-					+ '<div class="fileUpload btn input-group-addon">'
+					+ '<div class="fileUpload btn input-group-addon btn-primary">'
 					+ '<span>Select</span>'
 					+ '<input type="file" accept="{{acceptFileExtention}}" file-model="fileUpload" id="{{browseFileId}}" class="upload"/>'
 					+ '</div>'

@@ -1,41 +1,24 @@
 <div id="content" th:fragment="content"
 	sec:authorize="hasAnyAuthority('MANAGE_ALL_ROLES','VIEW_ALL_ROLES')">
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3>
-						<span id="header-message-label" class="animated fadeInLeft">{{'Role
+	
+	<div class="app-title">
+		<div>
+			<h1>
+				<i class="fa fa-file-text-o"></i> <span id="header-message-label" class="animated fadeInLeft">{{'Role
 							list' | translate}}</span>
-					</h3>
-				</div>
-			</div>
+			</h1>
+			<p>Page for manage roles.</p>
 		</div>
-		<div class="form-element">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<div class="row">
-						<div class="col-md-12 col-sm-12 text-right">
-							<div class="row">
-								<div class="col-md-12 col-sm-12 text-right">
-									<span> <scf-button id="new-button"
-											class="btn btn-default" ng-click="ctrl.newRole()">{{'New'
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="col-md-12 text-right">
+						<scf-button id="new-button"
+											class="btn btn-default" ng-click="ctrl.newRole()"><i class="fa fa-lg fa-plus"></i>{{'New'
 										| translate}}</scf-button>
-									</span> <br /> <br />
-								</div>
-								<div class="col-md-12 col-sm-12">
-									<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
-										id="role-list-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-											dropdown-id="page-limit-dropdown" name="role-list"
-											page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-											total-page="ctrl.pagingController.pagingModel.totalPage"
-											current-page="ctrl.pagingController.pagingModel.currentPage"
-											page-size-list="ctrl.pagingController.pageSizeList"
-											page-action="ctrl.searchRole"></scf-pagination>
-									</span>
-								</div>
-							</div>
-						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
@@ -47,8 +30,24 @@
 								clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-table>
 						</div>
 					</div>
+					<div class="col-md-12 col-sm-12 text-right">
+						<div class="row">
+							<div class="col-md-12 col-sm-12">
+								<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
+										id="role-list-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+											dropdown-id="page-limit-dropdown" name="role-list"
+											page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+											total-page="ctrl.pagingController.pagingModel.totalPage"
+											current-page="ctrl.pagingController.pagingModel.currentPage"
+											page-size-list="ctrl.pagingController.pageSizeList"
+											page-action="ctrl.searchRole"></scf-pagination>
+								</span>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
 </div>

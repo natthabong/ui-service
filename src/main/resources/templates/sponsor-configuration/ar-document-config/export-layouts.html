@@ -8,10 +8,9 @@
             <div class="panel-body" style="min-height: 360px;">
                 <div class="row">
                     <div class="col-lg-10 col-md-10 col-xs-10">
-                        <h3 class="animated fadeInLeft" id="ar-export-payment-header-label">Export file layout</h3>
+                        <h5 class="animated fadeInLeft" id="ar-export-payment-header-label">Export file layout</h5>
                     </div>
                     <div class="col-lg-2 col-md-2 col-xs-2 text-right">
-                        <br />
                         <scf-button class="btn-default gec-btn-action" ng-disabled="ctrl.unauthenMangeAction()" id="ar-export-layout-new-button"
                             title="New Export File Layout" ng-click="ctrl.newExportFileLayout(ctrl.data,'EXPORT_DOCUMENT', 'EXPORT')">
                             <i class="fa fa-plus" aria-hidden="true"></i>
@@ -33,15 +32,15 @@
                                 </td>
                                 <td class="text-center">
                                     <scf-button id="{{ctrl.processType}}-export-layout-{{record.displayName}}-view-button" ng-disabled="ctrl.unauthenView()"
-                                        class="btn-default gec-btn-action" ng-click="ctrl.viewExportPayment(record)" title="View file layout">
+                                        class="btn btn-sm" ng-click="ctrl.viewExportPayment(record)" title="View file layout">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </scf-button>
                                     <scf-button id="{{ctrl.processType}}-export-layout-{{record.displayName}}-setup-button" ng-disabled="ctrl.unauthenMangeAction()"
-                                        class="btn-default gec-btn-action" ng-click="ctrl.setupExportPayment(record)" title="Config file layout">
+                                        class="btn btn-sm" ng-click="ctrl.setupExportPayment(record)" title="Config file layout">
                                         <i class="fa fa-cog" aria-hidden="true"></i>
                                     </scf-button>
                                     <scf-button id="{{ctrl.processType}}-export-layout-{{record.displayName}}-delete-button" ng-disabled="ctrl.unauthenMangeAction()"
-                                        class="btn-default gec-btn-action" ng-click="ctrl.deleteLayout(record)" title="Delete file layout">
+                                        class="btn btn-sm" ng-click="ctrl.deleteLayout(record)" title="Delete file layout">
                                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                                     </scf-button>
                                 </td>

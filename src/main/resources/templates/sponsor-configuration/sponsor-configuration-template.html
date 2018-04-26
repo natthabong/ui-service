@@ -1,110 +1,124 @@
 <div id="content" th:fragment="content">
-    <div id="wrapper">
-        <div class="panel box-shadow-none content-header">
-            <div class="panel-body">
-                <div class="col-md-12">
-                    <h3 id="organize-configuration-header-label" class="animated fadeInLeft" ng-bind="'Organization configuration' | translate">Organize configuration
-                    </h3>
-                </div>
-            </div>
-        </div>
-        <div class="form-element">
-            <div class="panel panel-default col-md-12 padding-0">
-                <div class="panel-body">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div ng-include="'/sponsor-configuration/profile'"></div>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div ng-include="'/sponsor-configuration/general-info'"></div>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div ng-include="'/sponsor-configuration/workflow'"></div>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div ng-include="'/sponsor-configuration/organization-account'"></div>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div class="col-md-12">
-                        <h3 class="animated fadeInLeft" id="ar-document-configuration-header-label">AR document configuration
-                        </h3>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div ng-include="'/sponsor-configuration/buyer-code-list'"></div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div ng-include="'/sponsor-configuration/product-types'"></div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div ng-include="'/sponsor-configuration/payment-amount-formula'"></div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div ng-include="'/sponsor-configuration/ar-mapping-data'"></div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div ng-include="'/sponsor-configuration/ar-file-layouts'"></div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div ng-include="'/sponsor-configuration/export-layouts'"></div>
-                    </div>
-                    <div class="col-md-12">
-                        <div ng-include="'/sponsor-configuration/ar-channel-configs'"></div>
-                    </div>
-                    <div class="col-md-12">
-                        <div ng-include="'/sponsor-configuration/document-display-configs'"></div>
-                    </div>
-                    <div class="col-md-12">
-                        <div ng-include="'/sponsor-configuration/create-payment-display-configs'"></div>
-                    </div>
-                    <div class="col-md-12">
-                        <div ng-include="'/sponsor-configuration/export-channel-configs'"></div>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div class="col-md-12">
-                        <h3 class="animated fadeInLeft" id="ap-document-configuration-header-label">AP document configuration
-                        </h3>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div ng-include="'/sponsor-configuration/supplier-code-list'"></div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div ng-include="'/sponsor-configuration/file-layouts'"></div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div ng-include="'/sponsor-configuration/payment-date-formulas'"></div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div ng-include="'/sponsor-configuration/mapping-data'"></div>
-                    </div>
-                    <div class="col-md-12">
-                        <div ng-include="'/sponsor-configuration/channel-configs'"></div>
-                    </div>
-                    <div class="col-md-12">
-                        <div ng-include="'/sponsor-configuration/ap-document-display-configs'"></div>
-                    </div>
-                    <div class="col-md-12">
-                        <div ng-include="'/sponsor-configuration/create-transaction-display-configs'"></div>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div id="bottom-sticker">
-                            <div class="col-md-12 col-sm-12 text-right">
-                                <div class="form-horizontal">
-                                    <scf-button id="back-button" class="popup-button btn" ng-click="backAction()">{{'Back' | translate}}</scf-button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+
+	<div class="app-title">
+		<div>
+			<h1 id="organize-configuration-header-label"
+				ng-bind="'Organization configuration' | translate">Organize
+				configuration</h1>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="form-element">
+						<div class="panel panel-default col-md-12 padding-0">
+							<div class="panel-body">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div ng-include="'/sponsor-configuration/profile'"></div>
+								</div>
+							</div>
+							<div class="panel-body">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div ng-include="'/sponsor-configuration/general-info'"></div>
+								</div>
+							</div>
+							<div class="panel-body">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div ng-include="'/sponsor-configuration/workflow'"></div>
+								</div>
+							</div>
+							<div class="panel-body">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div ng-include="'/sponsor-configuration/organization-account'"></div>
+								</div>
+							</div>
+							<div class="panel-body row">
+								<div class="col-md-12">
+									<h5 class="animated fadeInLeft"
+										id="ar-document-configuration-header-label">AR document
+										configuration</h5>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div ng-include="'/sponsor-configuration/buyer-code-list'"></div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div ng-include="'/sponsor-configuration/product-types'"></div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div
+										ng-include="'/sponsor-configuration/payment-amount-formula'"></div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div ng-include="'/sponsor-configuration/ar-mapping-data'"></div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div ng-include="'/sponsor-configuration/ar-file-layouts'"></div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div ng-include="'/sponsor-configuration/export-layouts'"></div>
+								</div>
+								<div class="col-md-12">
+									<div ng-include="'/sponsor-configuration/ar-channel-configs'"></div>
+								</div>
+								<div class="col-md-12">
+									<div
+										ng-include="'/sponsor-configuration/document-display-configs'"></div>
+								</div>
+								<div class="col-md-12">
+									<div
+										ng-include="'/sponsor-configuration/create-payment-display-configs'"></div>
+								</div>
+								<div class="col-md-12">
+									<div
+										ng-include="'/sponsor-configuration/export-channel-configs'"></div>
+								</div>
+							</div>
+							<div class="panel-body row">
+								<div class="col-md-12">
+									<h5 class="animated fadeInLeft"
+										id="ap-document-configuration-header-label">AP document
+										configuration</h5>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div ng-include="'/sponsor-configuration/supplier-code-list'"></div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div ng-include="'/sponsor-configuration/file-layouts'"></div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div
+										ng-include="'/sponsor-configuration/payment-date-formulas'"></div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div ng-include="'/sponsor-configuration/mapping-data'"></div>
+								</div>
+								<div class="col-md-12">
+									<div ng-include="'/sponsor-configuration/channel-configs'"></div>
+								</div>
+								<div class="col-md-12">
+									<div
+										ng-include="'/sponsor-configuration/ap-document-display-configs'"></div>
+								</div>
+								<div class="col-md-12">
+									<div
+										ng-include="'/sponsor-configuration/create-transaction-display-configs'"></div>
+								</div>
+							</div>
+							<div class="panel-body">
+								<div id="bottom-sticker">
+									<div class="col-md-12 col-sm-12 text-right">
+										<scf-button id="back-button" class="popup-button btn"
+											ng-click="backAction()">{{'Back' | translate}}</scf-button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
