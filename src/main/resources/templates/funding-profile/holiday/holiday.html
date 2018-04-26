@@ -1,42 +1,45 @@
 <div th:fragment="content"
 	sec:authorize="hasAnyAuthority('MANAGE_ALL_FUNDING_PROFILE','VIEW_ALL_FUNDING_PROFILE')">
-	<div id="wrapper">
-		<div class="panel panel-default col-md-12 padding-0">
-			<div class="panel-body">
-				<div class="row">
-					<div class="col-lg-10 col-md-10 col-xs-10">
-						<h3 class="animated fadeInLeft" id="notification-header-label"
-							ng-bind="'Holiday' | translate">Holiday</h3>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-10 col-md-10 col-xs-10">
+								<h3 class="animated fadeInLeft" id="notification-header-label"
+									ng-bind="'Holiday' | translate">Holiday</h3>
+							</div>
+						</div>
+						<br />
+						<div class="responsive-table">
+							<table id="funding-profile-holiday-table"
+								class="table table-striped table-bordered" cellspacing="0">
+								<thead>
+									<tr>
+										<th id="year-header-label" ng-bind="'Year' | translate">Year</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="record in ctrl.holidays">
+										<td class="text-center"><span id="year-{{record}}-label"
+											ng-bind="record"></span></td>
+										<td class="text-center">
+											<button type="button" ng-disabled="true"
+												class="btn-default gec-btn-action btn-sm btn"
+												id="view-{{record}}-button" ng-click="ctrl.view(record)"
+												title="View">
+												<ng-transclude> <i class="fa fa-search"
+													aria-hidden="true"></i></ng-transclude>
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
-				<br />
-				<div class="responsive-table">
-					<table id="funding-profile-holiday-table"
-						class="table table-striped table-bordered" cellspacing="0">
-						<thead>
-							<tr>
-								<th id="year-header-label"
-									ng-bind="'Year' | translate">Year</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr	ng-repeat="record in ctrl.holidays">
-								<td class="text-center"><span
-									id="year-{{record}}-label"
-									ng-bind="record"></span></td>
-								<td class="text-center"><scf-button
-										class="btn-default gec-btn-action"
-										id="view-{{record}}-button"
-										ng-click="ctrl.view(record)" ng-disabled="true"
-										title="View"> <i class="fa fa-search" aria-hidden="true"></i> </scf-button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<br />
-				<br />
 			</div>
 		</div>
 	</div>

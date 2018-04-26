@@ -3,7 +3,7 @@
 		ng-submit="ctrl.save(closeThisDialog)">
 		<div class="modal-header">
 			<div class="row">
-				<div class="col-md-10 col-sm-10">
+				<div class="col-md-12 col-sm-12">
 					<h3>
 						<span id="funding-profile-popup-header-message-label" class="popup-text"
 							ng-bind="'Add new funding profile' | translate">Add
@@ -15,7 +15,7 @@
 		<div class="modal-body">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
-					<div class="form-group">
+					<div class="form-group row">
 						<label for="group-name" id="funding-profile-tax-id-label"
 							class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"><span
 							ng-bind="'TAX ID' | translate"></span>:</label>
@@ -26,13 +26,13 @@
 						</div>
 						<label id="limited-digit-label"> ({{'13 digits' | translate}})</label>
 					</div>
-					<div class="form-group" ng-show="errors.taxId">
+					<div class="form-group row" ng-show="errors.taxId">
 						<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
-						<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 error-msg"
+						<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 error-msg" style="color:red"
 							id="funding-profile-tax-id-warning-message-label"
 							ng-bind="errors.taxId | translate"></span>
 					</div>
-					<div class="form-group">
+					<div class="form-group row">
 						<label for="group-name" id="funding-profile-code-label"
 							class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"><span
 							ng-bind="'Funding code' | translate"></span>:</label>
@@ -43,13 +43,13 @@
 						</div>
 						<label id="desc-funding-code-label"> ({{'GECSCF Hub Ref. Code' | translate}})</label>
 					</div>
-					<div class="form-group" ng-show="errors.bankCode">
+					<div class="form-group row" ng-show="errors.bankCode">
 						<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
-						<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 error-msg"
+						<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 error-msg" style="color:red"
 							id="funding-profile-code-warning-message-label"
 							ng-bind="errors.bankCode | translate"></span>
 					</div>
-					<div class="form-group">
+					<div class="form-group row">
 						<label for="group-name" id="funding-profile-name-label"
 							class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"><span
 							ng-bind="'Funding name' | translate"></span>:</label>
@@ -58,9 +58,9 @@
 								ng-model="ctrl.model.fundingName" maxlength="100"></scf-input-text>
 						</div>
 					</div>
-					<div class="form-group" ng-show="errors.fundingName">
+					<div class="form-group row" ng-show="errors.fundingName">
 						<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
-						<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 error-msg"
+						<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 error-msg" style="color:red"
 							id="funding-profile-name-warning-message-label"
 							ng-bind="errors.fundingName | translate"></span>
 					</div>
@@ -68,7 +68,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<div class="row">
+			<div class="row col-md-3 col-sm-3">
 				<div class="col-xs-12 text-right">
 					<scf-button id="popup-cancel-button" class="popup-button"
 						ng-click="closeThisDialog()" ng-bind="'Cancel' | translate"></scf-button>
