@@ -802,6 +802,10 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			var hasReject = vm.reject != undefined && vm.reject == true;
 			var isWaitForPaymentResult = data.statusCode == vm.statusDocuments.waitForPaymentResult;
 			var isAfterToday = TransactionService.isAfterToday(data, vm.serverTime);
+			console.log(data.transactionNo);
+			console.log(hasReject);
+			console.log(isWaitForPaymentResult);
+			console.log(isAfterToday);
 			
 			var hasRejectInsufficientFunds = vm.rejectInsufficientFunds != undefined && vm.rejectInsufficientFunds == true;
 			var isInsufficientFunds = data.statusCode == vm.statusDocuments.insufficientFunds;
