@@ -214,6 +214,9 @@
 	"FAIL_TO_PAYMENT": "Fail to pay",
 	"INSUFFICIENT_FUNDS":"Insufficient funds",
 	"insufficient_funds":"Insufficient funds",
+	"REJECTED":"Rejected",
+	"rejected":"Rejected",
+	
 	"_comment": "Page Verify Transaction",
 	"Confirm approval ?": "Confirm approval ?",
 	"Confirm reject ?": "Confirm reject ?",
