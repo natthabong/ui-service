@@ -1,47 +1,72 @@
 <div id="content" th:fragment="content"
 	sec:authorize="hasAnyAuthority('VIEW_ALL_USER_AND_PASSWORD_POLICIES', 'MANAGE_ALL_USER_AND_PASSWORD_POLICIES')">
 
-	<div class="panel box-shadow-none content-header">
-		<div class="panel-body">
-			<div class="col-md-12">
-				<h3 class="animated fadeInLeft"
+	<!-- 	<div class="panel box-shadow-none content-header"> -->
+	<!-- 		<div class="panel-body"> -->
+	<!-- 			<div class="col-md-12"> -->
+	<!-- 				<h3 class="animated fadeInLeft" -->
+	<!-- 					ng-bind="'User and password policy' | translate">User and -->
+	<!-- 					password policy</h3> -->
+	<!-- 			</div> -->
+	<!-- 		</div> -->
+	<!-- 	</div> -->
+
+	<div class="app-title">
+		<div>
+			<h1>
+				<i class="fa fa-file-text-o"></i> <span id="header-message-label"
+					class="animated fadeInLeft"
 					ng-bind="'User and password policy' | translate">User and
-					password policy</h3>
+					password policy</span>
+			</h1>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<form name="policyForm" novalidate="" class="form-horizontal"
+						ng-submit="save()">
+
+						<label class="control-label">{{'User policy' | translate}}
+						</label>
+						<div class="panel-body">
+							<div>
+								<ol>
+									<li style="margin-bottom: 1em;"
+										ng-repeat="policy in userPolicies" id="{{policy.policyTopic}}"><ng-include
+											src="'/policy/user/'+ policy.policyTopic"></ng-include></li>
+								</ol>
+							</div>
+						</div>
+
+						<label class="control-label">{{'Password policy' |
+							translate}} </label>
+						<div class="panel-body">
+							<div>
+								<ol>
+									<li style="margin-bottom: 1em;"
+										ng-repeat="policy in passwordPolicies"
+										id="{{policy.policyTopic}}"><ng-include
+											src="'/policy/password/'+ policy.policyTopic"></ng-include></li>
+								</ol>
+							</div>
+						</div>
+
+						<div class="col-md-12 col-sm-12 text-right">
+							<scf-button id="save-button" type="submit"
+								ng-disabled="ctrl.viewMode">{{'Save' | translate}}</scf-button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="panel">
-		<form name="policyForm" novalidate="" class="form-horizontal" ng-submit="save()">
-			<div class="panel-heading bg-white border-none">
-				<h4>{{'User policy' | translate}}</h4>
-			</div>
-			<div class="panel-body">
-				<ul>
-					<li ng-repeat="policy in userPolicies" id="{{policy.policyTopic}}">
-						<ng-include src="'/policy/user/'+ policy.policyTopic"></ng-include>
-					</li>
-				</ul>
-			</div>
-			<div class="panel-heading bg-white border-none">
-				<h4>{{'Password policy' | translate}}</h4>
-			</div>
-			<div class="panel-body">
-				<ul>
-					<li ng-repeat="policy in passwordPolicies"
-						id="{{policy.policyTopic}}"><ng-include
-							src="'/policy/password/'+ policy.policyTopic"></ng-include></li>
-				</ul>
-			</div>
-			<div class="panel-body">
-				<div class="col-md-12 col-sm-12 text-right">
-					<scf-button id="save-button" type="submit" ng-disabled="ctrl.viewMode">{{'Save'
-					| translate}}</scf-button>
-				</div>
-			</div>
-		</form>
-	</div>
-	
-	<input type="hidden" ng-init="ctrl.viewMode=true" sec:authorize="hasAuthority('VIEW_ALL_USER_AND_PASSWORD_POLICIES')" />
-	<input type="hidden" ng-init="ctrl.viewMode=fase" sec:authorize="hasAuthority('MANAGE_ALL_USER_AND_PASSWORD_POLICIES') and hasAuthority('VIEW_ALL_USER_AND_PASSWORD_POLICIES')" />
-	
+
+	<input type="hidden" ng-init="ctrl.viewMode=true"
+		sec:authorize="hasAuthority('VIEW_ALL_USER_AND_PASSWORD_POLICIES')" />
+	<input type="hidden" ng-init="ctrl.viewMode=fase"
+		sec:authorize="hasAuthority('MANAGE_ALL_USER_AND_PASSWORD_POLICIES') and hasAuthority('VIEW_ALL_USER_AND_PASSWORD_POLICIES')" />
+
 </div>

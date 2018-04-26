@@ -1,7 +1,5 @@
-<div class="row">
-	<div class="form-group">
 		<label class="checkbox-inline" style=" margin-top: -11px;"> 
-		<span id="password-history-1-label">9. {{'New password must not be in the last previous' | translate}}</span>
+		<span id="password-history-1-label">{{'New password must not be in the last previous' | translate}}</span>
 
 		<input name="passHistory" id="password-history-number" type="number" min="1" max="999"  restrict-to="[0-9]"    
 			required="true" ng-model="policy.numericValue1" maxlength="3"
@@ -14,5 +12,3 @@
 
 		<label ng-if="policyForm.passHistory.$error.min || policyForm.passHistory.$error.max" style="margin-left: 7px;" class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" 
 		id="password-history-warning-message-label">{{'This field is required and value must be more than 0 and no more than 999.' | translate}}</label>
-	</div>
-</div>

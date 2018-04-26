@@ -1,7 +1,5 @@
-<div class="row">
-	<div class="form-group">
 			<label class="checkbox-inline" style=" margin-top: -11px;">
-				<span id="password-length-1-label">2. {{'Password must be a minimum of' | translate}}</span>&nbsp;
+				<span id="password-length-1-label">{{'Password must be a minimum of' | translate}}</span>&nbsp;
 				
 				<input name="passLengthMin" id="password-length-minimum-number" type="number" min="1" max="100" required="true" restrict-to="[0-9]"
 				ng-model="policy.numericValue1" maxlength="3"  class="form-control-input" ng-disabled="ctrl.viewMode"></input>
@@ -20,8 +18,6 @@
 			class="col-lg-10 col-md-6 col-sm-4 col-xs-12 error-msg" style="margin-left: 7px;" id="password-length-warning-message-label">{{'Both field are required and value must be more than 0 and no more than 100. 
 			First field value must be less than second field value.'
 			| translate}}</label>	
-	</div>
-</div>
 
 
 
