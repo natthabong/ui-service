@@ -8,7 +8,7 @@
 		<input type="hidden" ng-init="ctrl.resend=true"
 			sec:authorize="hasAuthority('RE-SEND_ONLY_INSUFFICIENT_FUNDS_PAYMENT_OF_MY_ORGANIZATION')" />
 		<input type="hidden" ng-init="ctrl.reject=true"
-			sec:authorize="hasAuthority('REJECT_ALL_WAIT_FOR_BANK_PAYMENTS')" />
+			sec:authorize="hasAnyAuthority('REJECT_ALL_WAIT_FOR_BANK_PAYMENTS','CANCEL_ONLY_WAIT_FOR_PAYMENT_RESULT_OF_MY_ORGANIZATION')" />
 		<input type="hidden" ng-init="ctrl.rejectInsufficientFunds=true"
 			sec:authorize="hasAnyAuthority('REJECT_ALL_INSUFFICIENT_FUNDS_PAYMENTS','CANCEL_ONLY_INSUFFICIENT_FUNDS_PAYMENT_OF_MY_ORGANIZATION')" />
 		<input type="hidden" ng-init="ctrl.canRetry=true"
