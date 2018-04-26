@@ -711,5 +711,7 @@
 	"Confirm adjusted status?":"Confirm adjusted status?",
 	"Adjusted transaction status success.":"Adjusted transaction status success.",
 	"Adjusted transaction status fail.":"Adjusted transaction status fail.",
-	"Funding system integration monitor":"Lender system integration monitor"
+	"Funding system integration monitor":"Lender system integration monitor",
+	
+	"SEND_TRANSACTION": "Send future transaction. ({{transactionNo}})"
 }
