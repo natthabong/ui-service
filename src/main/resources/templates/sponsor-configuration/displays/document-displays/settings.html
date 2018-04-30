@@ -1,63 +1,96 @@
-<div id="content" th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT','MANAGE_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUTS')">
-    <div id="wrapper">
-        <div class="panel box-shadow-none content-header">
-            <div class="panel-body">
-                <div class="col-md-12">
-                    <h3 id="header-message-label" class="animated fadeInLeft">{{ctrl.headerMessageLabel | translate}}</h3>
-                </div>
-            </div>
-        </div>
-        <div class="form-element">
-            <div class="panel panel-default col-md-12 padding-0">
-                <div class="panel-body">
-                    <form name="createForm" class="form-horizontal">
-                        <div>
-                            <div class="form-group">
-                                <label id="display-name-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Display
-									name' | translate}}: </label>
-                                <div class="col-md-6 col-sm-6 col-sm-6 col-xs-12">
-                                    <scf-input-text id="display-name-textbox" ng-model="ctrl.dataModel.displayName" maxlength="255"></scf-input-text>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="display-name-textbox" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
-                                <div ng-show="errors.duplicateLayoutName || errors.requireLayoutName">
-                                    <span ng-show="errors.duplicateLayoutName" class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-error-message-label">{{'Display name is
-										duplicate' | translate}}.</span> <span ng-show="errors.requireLayoutName" class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-warning-message-label">{{'Display name
-										is required' | translate}}.</span>
-                                </div>
-                                <div class="col-md-4 col-sm-4"></div>
-                            </div>
-                            <div class="form-group">
-                                <label id="product-type-label" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Product
-									type' | translate}}: </label>
-                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-                                    <scf-dropdown id="product-type-dropdown" ng-model="ctrl.dataModel.productType" translate-label="true" component-data="ctrl.productTypeDropDown"></scf-dropdown>
-                                </div>
-                            </div>
-                            <br />
-                            <div ng-include="'/sponsor-configuration/components/setup-display-fields'"></div>
-                        </div>
-                    </form>
-                </div>
-                <div class="panel-body">
-                    <div ng-show="errors.duplicateLayoutName">
-                        <span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-error-bottom-message-label">{{'Display
-							name is duplicate' | translate}}.</span>
-                    </div>
-                    <div ng-show="errors.requireLayoutName">
-                        <span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg" id="layout-name-warning-bottom-message-label">{{'Display
-							name is required' | translate}}.</span>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div class="col-md-12 col-sm-12 text-right">
-                        <scf-button id="document-display-cancel-button" class="popup-button" data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()" ng-bind="'Cancel' | translate"></scf-button>
-                        <scf-button id="document-display-save-button" type="submit" ng-disabled="!ctrl.manageAll" ng-click="ctrl.save()">{{'Save' | translate}}</scf-button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <input type="hidden" ng-init="ctrl.manageAll=true" sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUTS')" />
+<div id="content" th:fragment="content"
+	sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT','MANAGE_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUTS')">
+
+	<div class="app-title">
+		<div>
+			<h1>
+				<span id="header-message-label" class="animated fadeInLeft">{{ctrl.headerMessageLabel
+					| translate}}</span>
+			</h1>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="form-element">
+						<div class="panel panel-default col-md-12 padding-0">
+							<div class="panel-body">
+								<form name="createForm" class="form-horizontal">
+									<div>
+										<div class="form-group row">
+											<label id="display-name-label"
+												class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Display
+												name' | translate}}: </label>
+											<div class="col-md-6 col-sm-6 col-sm-6 col-xs-12">
+												<scf-input-text id="display-name-textbox"
+													ng-model="ctrl.dataModel.displayName" maxlength="255"></scf-input-text>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label for="display-name-textbox"
+												class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
+											<div
+												ng-show="errors.duplicateLayoutName || errors.requireLayoutName">
+												<span ng-show="errors.duplicateLayoutName"
+													class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+													id="layout-name-error-message-label">{{'Display name
+													is duplicate' | translate}}.</span> <span
+													ng-show="errors.requireLayoutName"
+													class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+													id="layout-name-warning-message-label">{{'Display
+													name is required' | translate}}.</span>
+											</div>
+											<div class="col-md-4 col-sm-4"></div>
+										</div>
+										<div class="form-group row">
+											<label id="product-type-label"
+												class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label">{{'Product
+												type' | translate}}: </label>
+											<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+												<scf-dropdown id="product-type-dropdown"
+													ng-model="ctrl.dataModel.productType"
+													translate-label="true"
+													component-data="ctrl.productTypeDropDown"></scf-dropdown>
+											</div>
+										</div>
+										<br />
+										<div
+											ng-include="'/sponsor-configuration/components/setup-display-fields'"></div>
+									</div>
+								</form>
+							</div>
+							<div class="panel-body">
+								<div ng-show="errors.duplicateLayoutName">
+									<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+										id="layout-name-error-bottom-message-label">{{'Display
+										name is duplicate' | translate}}.</span>
+								</div>
+								<div ng-show="errors.requireLayoutName">
+									<span class="col-md-4 col-sm-5 col-xs-12 text-left error-msg"
+										id="layout-name-warning-bottom-message-label">{{'Display
+										name is required' | translate}}.</span>
+								</div>
+							</div>
+							<div class="panel-body">
+								<div class="col-md-12 col-sm-12 text-right">
+									<scf-button id="document-display-cancel-button"
+										class="popup-button" data-dismiss="modal"
+										ng-click="ctrl.backToSponsorConfigPage()"
+										ng-bind="'Cancel' | translate"></scf-button>
+									<scf-button id="document-display-save-button" type="submit"
+										ng-disabled="!ctrl.manageAll" ng-click="ctrl.save()">{{'Save'
+									| translate}}</scf-button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<input type="hidden" ng-init="ctrl.manageAll=true"
+		sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUTS')" />
 </div>

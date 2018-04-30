@@ -777,8 +777,8 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	            '<li role="separator" class="divider"></li>'+
 	            '<li><a id="credit-advice-form-button" ng-click="ctrl.generateCreditAdviceForm(data)">{{"Credit advice form" | translate}}</a></li></ul></span></scf-button>'+
 	            '<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-print-button-disable" ng-hide ="data.statusCode == ctrl.statusPaymentSuccess" ng-disabled="true" title="Print"><i class="fa fa-print" aria-hidden="true"></i></scf-button>'+
-				'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'+
-	            '<scf-button id="transaction-{{data.transactionNo}}-resend-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledResend(data)" ng-click="ctrl.resendPayment(data)" title="Resend"><i class="fa fa-share" aria-hidden="true"></i></scf-button>'
+				'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+	            //+ '<scf-button id="transaction-{{data.transactionNo}}-resend-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledResend(data)" ng-click="ctrl.resendPayment(data)" title="Resend"><i class="fa fa-share" aria-hidden="true"></i></scf-button>'
 			}]
 	    };
 	

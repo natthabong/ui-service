@@ -45,19 +45,19 @@
 							ng-disabled="!record.sortType||!ctrl.manageAll" maxlength="255" />
 					</td>
 					<td class="text-center">
-						<scf-button type="button" id="arrow-up-{{$index+1}}-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.manageAll"
+						<scf-button type="button" id="arrow-up-{{$index+1}}-button" class="btn btn-sm" ng-disabled="!ctrl.manageAll"
 							ng-click="ctrl.moveItemUp(record)">
 							<i class="fa fa-sort-up" aria-hidden="true"></i>
 						</scf-button>
-						<scf-button type="button" id="arrow-down-{{$index+1}}-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.manageAll"
+						<scf-button type="button" id="arrow-down-{{$index+1}}-button" class="btn btn-sm" ng-disabled="!ctrl.manageAll"
 							ng-click="ctrl.moveItemDown(record)">
 							<i class="fa fa-sort-down" aria-hidden="true"></i>
 						</scf-button>
-						<scf-button type="button" id="field-setup-{{$index+1}}-button" class="btn-default gec-btn-action" ng-disabled="ctrl.cannotSetup(record)"
+						<scf-button type="button" id="field-setup-{{$index+1}}-button" class="btn btn-sm" ng-disabled="ctrl.cannotSetup(record)"
 							ng-click="ctrl.openSetting($index, record)">
 							<i class="fa fa-cog" aria-hidden="true"></i>
 						</scf-button>
-						<scf-button type="button" id="delete-{{$index+1}}-button" class="btn-default gec-btn-action" ng-disabled="!ctrl.manageAll"
+						<scf-button type="button" id="delete-{{$index+1}}-button" class="btn btn-sm" ng-disabled="!ctrl.manageAll"
 							ng-click="ctrl.removeItem(record)">
 							<i class="fa fa-trash" aria-hidden="true"></i>
 						</scf-button>
