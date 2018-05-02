@@ -197,6 +197,46 @@ html.ngdialog-open, body.ngdialog-open {
 	float: right;
 }
 
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 10rem;
+  padding: 0 0;
+  margin: 0 0 0;
+  font-size: 0.875rem;
+  color: #212529;
+  text-align: left;
+  list-style: none;
+  background-color: #FFF;
+  background-clip: padding-box;
+  border: 0 solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+}
+
+.modal-header .row {
+	width: 100%;
+}
+
+.modal-body {
+	padding-left: 20px;
+}
+
+/* .modal-body .row { */
+/* 	padding-left: 20px; */
+/* } */
+
+.modal-footer {
+    padding-right: 20px;
+}
+
+.hh-ss-input {
+	width: 70px !important;
+}
+
 /* .table-striped>tbody>tr:nth-child(odd)>td,  */
 /* .table-striped>tbody>tr:nth-child(odd)>th { */
 /*    background-color: #e5efff; // Choose your own color here */

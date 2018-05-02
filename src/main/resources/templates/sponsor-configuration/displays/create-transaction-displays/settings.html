@@ -137,7 +137,7 @@
 												</label>
 											</div>
 
-											<div ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+											<div ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 row">
 												<label
 													class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
 												<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
@@ -150,7 +150,7 @@
 													</label>
 												</div>
 											</div>
-											<div ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+											<div ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 row">
 												<label
 													class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
 												<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
@@ -169,17 +169,16 @@
 											<label
 												class="col-lg-12 col-md-12 col-sm-12 col-xs-12 control-label"></label>
 											<label
-												class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
+												class="col-lg-3 col-md-3 col-sm-3 col-xs-12 control-label"></label>
 											<label class="col-lg-7 col-md-7 col-sm-7 col-xs-12"
 												id="group-document-condition-field-label"> {{'Group
 												document condition field' | translate}}: </label>
 
-											<div
-												ng-repeat="field in ctrl.dataModel.documentGroupingFields track by $index">
+											<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 row" ng-repeat="field in ctrl.dataModel.documentGroupingFields track by $index">
 												<label
 													class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label"></label>
-												<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-													<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 row">
+													<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 														<scf-dropdown
 															id="group-document-condition-field-{{$index+1}}-dropdown"
 															ng-model="field.documentFieldId"

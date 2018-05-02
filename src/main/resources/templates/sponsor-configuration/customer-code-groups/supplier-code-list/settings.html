@@ -29,7 +29,7 @@
 					</div>
 					<div id="advance-search">
 						<form name="manageForm" class="form-horizontal">
-							<div class="form-group" ng-hide="ctrl.hiddenFundingColumn">
+							<div class="form-group row" ng-hide="ctrl.hiddenFundingColumn">
 								<label for="dealer" id="funding-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'FUNDING'
 									| translate}}: </label>
@@ -39,7 +39,7 @@
 										component-data="ctrl.fundingDropdown" translate-label="true"></scf-dropdown>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group row">
 								<label id="customer-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
 									| translate}}: </label>
@@ -48,6 +48,8 @@
 									<gec-auto-suggest model="ctrl.customerAutoSuggestModel"
 										ng-model="ctrl.criteria.customer" id="customer-auto-suggest"></gec-auto-suggest>
 								</div>
+							</div>
+							<div class="form-group row">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"
 									id="customer-code-label">{{'Supplier code' |
 									translate}}: </label>
@@ -56,7 +58,7 @@
 										ng-model="ctrl.criteria.customerCode"></scf-input-text>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group row">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"
 									id="status-label">{{'Status' | translate}}: </label>
 
