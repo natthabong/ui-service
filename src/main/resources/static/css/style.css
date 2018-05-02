@@ -3,6 +3,7 @@
 }
 
 table td {
+	height : 35px;
 	padding-top: 2px !important;
 	padding-bottom: 2px !important;
 	vertical-align: middle !important;
