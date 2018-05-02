@@ -265,6 +265,52 @@ html.ngdialog-open, body.ngdialog-open {
 	font-size: 15px;
 }
 
+.app-content-error {
+/*   min-height: calc(100vh - 50px); */
+  margin-top: 50px;
+  padding: 30px;
+  background-color: #E5E5E5;
+  -webkit-transition: margin-left 0.3s ease;
+  -o-transition: margin-left 0.3s ease;
+  transition: margin-left 0.3s ease;
+}
+
+.app-footer {
+  min-height: 30px;
+  -webkit-transition: margin-left 0.3s ease;
+  -o-transition: margin-left 0.3s ease;
+  transition: margin-left 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .app-footer {
+    margin-left: 230px;
+  }
+}
+
+@media (max-width: 767px) {
+  .app-footer {
+    min-width: 100%;
+  }
+}
+
+
+@media print {
+  .app-footer {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.space-20, [class*=vspace-20] {
+    max-height: 1px;
+    min-height: 1px;
+    overflow: hidden;
+    margin: 20px 0 19px;
+}
+
+
+
 /* .table-striped>tbody>tr:nth-child(odd)>td,  */
 /* .table-striped>tbody>tr:nth-child(odd)>th { */
 /*    background-color: #e5efff; // Choose your own color here */
