@@ -1,77 +1,101 @@
-<div th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_PAYMENTS','VIEW_PAYMENTS_REFER_TO_MY_ORGANIZATION','VIEW_PAYMENTS_OF_MY_ORGANIZATION')">
+<div th:fragment="content"
+	sec:authorize="hasAnyAuthority('VIEW_ALL_PAYMENTS','VIEW_PAYMENTS_REFER_TO_MY_ORGANIZATION','VIEW_PAYMENTS_OF_MY_ORGANIZATION')">
 	<div id="wrapper" ng-if="ctrl.getUserInfoSuccess">
 		<form name="transactionForm" class="form-horizontal">
-			<div class="form-group">
-				<label id="transaction-date-label" class="col-md-2 col-sm-3 control-label">{{'Payment
-					date' | translate}}:</label>
+			<div class="form-group row">
+				<label id="transaction-date-label"
+					class="col-md-2 col-sm-3 control-label">{{'Payment date' |
+					translate}}:</label>
 				<div class="col-md-3 col-sm-4 gec-calendar-group">
-					<label id="transaction-date-from-label" for="transaction-date-from-textbox" class="control-label">{{'from'
+					<label id="transaction-date-from-label"
+						for="transaction-date-from-textbox" class="control-label">{{'from'
 						| translate}}: </label>
-					<scf-date-picker-from text-id="transaction-date-from-textbox" button-id="transaction-date-from-calendar-button" text-model="ctrl.criteria.dateFrom"
-						date-format="dd/MM/yyyy" is-open="ctrl.openDateFrom" open-calendar-action="ctrl.openCalendarDateFrom()" max-date="ctrl.criteria.dateTo">
-					</scf-date-picker-from>
+					<scf-date-picker-from text-id="transaction-date-from-textbox"
+						button-id="transaction-date-from-calendar-button"
+						text-model="ctrl.criteria.dateFrom" date-format="dd/MM/yyyy"
+						is-open="ctrl.openDateFrom"
+						open-calendar-action="ctrl.openCalendarDateFrom()"
+						max-date="ctrl.criteria.dateTo"> </scf-date-picker-from>
 
 				</div>
 				<div class="col-md-3 col-sm-4 gec-calendar-group">
-					<label id="transaction-date-to-label" for="transaction-date-to-textbox" class="control-label">{{'to'
+					<label id="transaction-date-to-label"
+						for="transaction-date-to-textbox" class="control-label">{{'to'
 						| translate}}: </label>
-					<scf-date-picker-to text-id="transaction-date-to-textbox" button-id="transaction-date-to-calendar-button" date-format="dd/MM/yyyy"
-						text-model="ctrl.criteria.dateTo" is-open="ctrl.openDateTo" open-calendar-action="ctrl.openCalendarDateTo()" min-date="ctrl.criteria.dateFrom">
-					</scf-date-picker-to>
+					<scf-date-picker-to text-id="transaction-date-to-textbox"
+						button-id="transaction-date-to-calendar-button"
+						date-format="dd/MM/yyyy" text-model="ctrl.criteria.dateTo"
+						is-open="ctrl.openDateTo"
+						open-calendar-action="ctrl.openCalendarDateTo()"
+						min-date="ctrl.criteria.dateFrom"> </scf-date-picker-to>
 				</div>
 			</div>
-			<div class="form-group" ng-show="errors.transactionDateFormat">
-				<label class="col-md-2 col-sm-3 col-xs-12  control-label"></label>
-
-
-				<span class="col-md-6 col-sm-6 col-xs-12 error-msg" ng-show="errors.transactionDateFormat" id="transaction-date-format-warning-message-label"
+			<div class="form-group row" ng-show="errors.transactionDateFormat">
+				<label class="col-md-2 col-sm-3 col-xs-12  control-label"></label> <span
+					class="col-md-6 col-sm-6 col-xs-12 error-msg"
+					ng-show="errors.transactionDateFormat"
+					id="transaction-date-format-warning-message-label"
 					ng-bind="errors.transactionDateFormat.message | translate"></span>
 			</div>
-			<div class="form-group">
-				<label for="supplier-auto-suggest" id="supplier-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
+			<div class="form-group row">
+				<label for="supplier-auto-suggest" id="supplier-label"
+					class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
 					| translate}}: </label>
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					<gec-auto-suggest id="supplier-auto-suggest" disable="ctrl.disableSupplierAutoSuggest" model="ctrl.supplierAutoSuggestModel" name="supplier" ng-model="ctrl.supplier"
-						maxlength="100"></gec-auto-suggest>
+					<gec-auto-suggest id="supplier-auto-suggest"
+						disable="ctrl.disableSupplierAutoSuggest"
+						model="ctrl.supplierAutoSuggestModel" name="supplier"
+						ng-model="ctrl.supplier" maxlength="100"></gec-auto-suggest>
 				</div>
 				<div class="col-md-3 col-sm-2"></div>
 			</div>
 
-			<div class="form-group">
-				<label for="buyer-auto-suggest" id="buyer-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer'
+			<div class="form-group row">
+				<label for="buyer-auto-suggest" id="buyer-label"
+					class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer'
 					| translate}}: </label>
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					<gec-auto-suggest id="buyer-auto-suggest" disable="ctrl.disableBuyerAutoSuggest" model="ctrl.buyerAutoSuggestModel" name="buyer" ng-model="ctrl.buyer"
-						maxlength="100"></gec-auto-suggest>
+					<gec-auto-suggest id="buyer-auto-suggest"
+						disable="ctrl.disableBuyerAutoSuggest"
+						model="ctrl.buyerAutoSuggestModel" name="buyer"
+						ng-model="ctrl.buyer" maxlength="100"></gec-auto-suggest>
 				</div>
 				<div class="col-md-3 col-sm-2"></div>
 			</div>
 
-			<div class="form-group">
-				<label id="buyer-code-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer
+			<div class="form-group row">
+				<label id="buyer-code-label"
+					class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer
 					code' | translate}}: </label>
 				<div class="col-md-3 col-sm-3 col-xs-12">
-					<scf-input-text id="buyer-code-textbox" ng-model="ctrl.criteria.supplierCode" maxlength="20"></scf-input-text>
+					<scf-input-text id="buyer-code-textbox"
+						ng-model="ctrl.criteria.supplierCode" maxlength="20"></scf-input-text>
 				</div>
 				<div class="hidden-lg hidden-md col-sm-12 hidden-xs">
 					<br />
 				</div>
-				<label id="transaction-no-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Transaction
+				<label id="transaction-no-label"
+					class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Transaction
 					no' | translate}}: </label>
 				<div class="col-md-3 col-sm-3 col-xs-12">
-					<scf-input-text id="transaction-no-textbox" ng-model="ctrl.criteria.transactionNo" maxlength="20"></scf-input-text>
+					<scf-input-text id="transaction-no-textbox"
+						ng-model="ctrl.criteria.transactionNo" maxlength="20"></scf-input-text>
 				</div>
 			</div>
 
-			<div class="form-group">
-				<label id="status-step-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status
+			<div class="form-group row">
+				<label id="status-step-label"
+					class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Status
 					step' | translate}}: </label>
 				<div class="col-md-3 col-sm-3 col-xs-12">
-					<scf-dropdown id="status-step-dropdown" ng-model="ctrl.criteria.statusGroup" component-data="ctrl.statusStepDropDown" translate-label="true"></scf-dropdown>
+					<scf-dropdown id="status-step-dropdown"
+						ng-model="ctrl.criteria.statusGroup"
+						component-data="ctrl.statusStepDropDown" translate-label="true"></scf-dropdown>
 				</div>
 				<div class="col-md-3 col-sm-3">
-					<scf-button id="search-button" type="submit" class="btn-default btn" ng-click="ctrl.searchTransaction()">{{'Search' | translate}}
-					</scf-button>
+					<scf-button id="search-button" type="submit"
+						class="btn-default btn" ng-click="ctrl.searchTransaction()">{{'Search'
+					| translate}} </scf-button>
 				</div>
 			</div>
 		</form>
