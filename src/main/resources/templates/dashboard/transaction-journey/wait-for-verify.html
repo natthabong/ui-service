@@ -1,41 +1,40 @@
 <div th:fragment="content"
-    sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZATION')">
-    <div class="panel wait-for-verify-panel panel-shadow" ng-controller="JourneyWaitForVerifyController as waitForVerifyCtrl">
-        <a class="mouse-pointer " id="wait-for-verify-transaction-journey-link" ng-click="waitForVerifyCtrl.transactionList()">
-            <div class="panel-heading txn-journey">
-                <span class="pull-left" ng-bind="waitForVerifyCtrl.headerLabel"></span> <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                <div class="clearfix"></div>
-            </div>
-        </a>
+	sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZATION')">
+	<div class="card mb-3"
+		ng-controller="JourneyWaitForVerifyController as waitForVerifyCtrl">
+		<a class="card-header mouse-pointer "
+			id="wait-for-verify-transaction-journey-link"
+			ng-click="waitForVerifyCtrl.transactionList()"> <span
+			class="pull-left" ng-bind="it.headerLabel"></span> <span
+			class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+			<div class="clearfix"></div>
+		</a>
+		<div class="card-body row">
+			<div class="col-lg-2 col-xs-2">
+				<i class="fa fa-search fa-3x"></i>
+			</div>
+			<div class="col-lg-9 col-xs-10 text-right transaction-journey-lg">
+				<div class="col-xs-12 text-right">
+					<span id="wait-for-verify-total-lable" class="huge"
+						ng-bind="waitForVerifyCtrl.waitForVerifyModel.totalTransaction"></span>
+				</div>
+				<div class="col-xs-12 text-right">
+					<span id="wait-for-verify-drawdown-amount-lable"
+						ng-bind="waitForVerifyCtrl.waitForVerifyModel.totalAmount"></span>
+					<span ng-bind="'THB' | translate"></span>
+				</div>
+				<div class="col-xs-12 text-right">
+					<span ng-bind="'Max age' | translate"></span> <span
+						id="wait-for-verify-max-age-lable"
+						ng-bind="waitForVerifyCtrl.waitForVerifyModel.maxAge"></span> <span
+						ng-bind="'days' | translate"></span>
+				</div>
 
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-lg-2 col-xs-2">
-                    <i class="fa fa-search fa-3x"></i>
-                </div>
-                <div class="col-lg-9 col-xs-10 text-right transaction-journey-lg">
-                    <div class="row">
-                        <div class="col-xs-12 text-right">
-                            <span id="wait-for-verify-total-lable" class="huge" ng-bind="waitForVerifyCtrl.waitForVerifyModel.totalTransaction"></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 text-right">
-                        <span id="wait-for-verify-drawdown-amount-lable" ng-bind="waitForVerifyCtrl.waitForVerifyModel.totalAmount"></span>
-                        <span ng-bind="'THB' | translate"></span></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 text-right"><span ng-bind="'Max age' | translate"></span>
-                        <span id="wait-for-verify-max-age-lable" ng-bind="waitForVerifyCtrl.waitForVerifyModel.maxAge"></span>
-                        <span ng-bind="'days' | translate"></span></div>
-                       
-                    </div>
-                </div>
-            </div>
+			</div>
+		</div>
 
-        </div>
-        <ng-form> <input type="hidden"
-			ng-init="waitForVerifyCtrl.canViewLoans=true"
+		<ng-form> <input type="hidden"
+			ng-init="resultCtrl.canViewLoans=true"
 			sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZATION')" /></ng-form>
-    </div>
+	</div>
 </div>

@@ -1,39 +1,35 @@
 <div th:fragment="content"
-    sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZATION')">
-    <div class="panel future-drawdown-panel panel-shadow" ng-controller="JourneyFutureDrawdownController as futureDrawdownCtrl">
-        <a class="mouse-pointer " id="future-drawdown-transaction-journey-link">
-            <div class="panel-heading txn-journey">
-                <span class="pull-left" ng-bind="futureDrawdownCtrl.headerLabel"></span>
-                <div class="clearfix"></div>
-            </div>
-        </a>
+	sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZATION')">
+	<div class="card mb-3"
+		ng-controller="JourneyFutureDrawdownController as futureDrawdownCtrl">
+		<a class="card-header mouse-pointer "
+			id="future-drawdown-transaction-journey-link"> <span
+			class="pull-left" ng-bind="it.headerLabel"></span>
+			<div class="clearfix"></div>
+		</a>
+		<div class="card-body row">
+			<div class="col-lg-2 col-xs-2">
+				<i class="fa fa-hourglass-start fa-3x"></i>
+			</div>
+			<div class="col-lg-9 col-xs-10 transaction-journey-lg">
+				<div id="future-total-lable" class="col-xs-12 text-right huge"
+					ng-bind="futureDrawdownCtrl.futureDrawdownModel.totalTransaction"></div>
 
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-lg-2 col-xs-2">
-                    <i class="fa fa-hourglass-start fa-3x"></i>
-                </div>
-                <div class="col-lg-9 col-xs-10 transaction-journey-lg">
-                    <div class="row">
-                        <div id="future-total-lable" class="col-xs-12 text-right huge" ng-bind="futureDrawdownCtrl.futureDrawdownModel.totalTransaction"></div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 text-right">
-                            <span id="future-drawdown-amount-lable" ng-bind="futureDrawdownCtrl.futureDrawdownModel.totalAmount"></span>&nbsp;
-                            <span ng-bind="'THB' | translate"></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 text-right"><span ng-bind="'Max age' | translate"></span>
-                        <span id="future-max-age-lable" ng-bind="futureDrawdownCtrl.futureDrawdownModel.maxAge"></span>
-                        <span ng-bind="'days' | translate"></span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <ng-form> <input type="hidden"
-			ng-init="futureDrawdownCtrl.canViewLoans=true"
+				<div class="col-xs-12 text-right">
+					<span id="future-drawdown-amount-lable"
+						ng-bind="futureDrawdownCtrl.futureDrawdownModel.totalAmount"></span>&nbsp;
+					<span ng-bind="'THB' | translate"></span>
+				</div>
+				<div class="col-xs-12 text-right">
+					<span ng-bind="'Max age' | translate"></span> <span
+						id="future-max-age-lable"
+						ng-bind="futureDrawdownCtrl.futureDrawdownModel.maxAge"></span> <span
+						ng-bind="'days' | translate"></span>
+				</div>
+			</div>
+		</div>
+		<ng-form> <input type="hidden"
+			ng-init="resultCtrl.canViewLoans=true"
 			sec:authorize="hasAuthority('VIEW_LOANS_OF_MY_ORGANIZATION')" /></ng-form>
-    </div>
+	</div>
 </div>
