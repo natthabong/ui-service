@@ -25,15 +25,13 @@
                             	</div>
                                <div class="col-sm-9 col-xs-12 control-label" ng-if="ctrl.serviceInfo.status=='success'">
                                		<label id="test-connection-result-popup-test-result-value-label" >
-                               			<span class="icon-ready"> 
-                                        <span class="glyphicon glyphicon-ok-sign"></span> Ready
+                               			<span style="color: green;" class="fa fa-check-circle"></span> Ready
 	                                </label>
                                </div>
                                
                                <div class="col-sm-9 col-xs-12 control-label" ng-if="ctrl.serviceInfo.status=='fail'">
                                		<label id="test-connection-result-popup-test-result-value-label" >
-                                        <span class="icon-problem"> 
-                                        <span class="glyphicon glyphicon-remove-sign"></span> Problem
+                                        <span style="color:red;" class="fa fa-times-circle"></span> Problem
 	                                </label>
                                </div>
                                

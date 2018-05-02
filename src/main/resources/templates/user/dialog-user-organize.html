@@ -14,19 +14,19 @@
 		<div class="modal-body">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
-					<div class="form-group">
-						<label class="col-md-3 col-sm-4 col-xs-12 control-label">
+					<div class="form-group row">
+						<label class="col-md-3 col-sm-3 col-xs-3 control-label">
 							<span ng-bind="'Organization' | translate"></span>
 						</label>
-						<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="col-md-8 col-sm-8 col-xs-8">
 							<gec-auto-suggest model="ctrl.organizeAutoSuggestModel"
 								ng-model="ctrl.organize" id="organize-auto-suggest"
 								maxlength="100"> </gec-auto-suggest>
 						</div>
 					</div>
 					<div class="form-group row" ng-show="ctrl.errorOrganize">
-						<div class="col-md-3 col-sm-4 col-xs-12"></div>
-						<label class="col-md-6 col-sm-6 col-xs-12 error-msg"> <span
+						<div class="col-md-3 col-sm-3 col-xs-3"></div>
+						<label class="col-md-8 col-sm-8 col-xs-8 error-msg"> <span
 							id="organize-warning-message-label"
 							ng-bind="'Organization is required.' | translate"></span>
 						</label>

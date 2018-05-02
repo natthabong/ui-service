@@ -1360,7 +1360,10 @@
 			function scfShowOnMobileLink(scope, elements, attrs) {
 				var isShowOnMobile = scope.$eval(attrs.scfShowOnMobile);
 				if (!isShowOnMobile) {
-					elements.addClass('hidden-sm hidden-xs');
+					elements.addClass('hidden-sm-down');
+				}
+				else{
+				  elements.addClass('hidden-md-up');
 				}
 			}
 		}])

@@ -1,0 +1,31 @@
+.txn-journey {
+	color: #fff;
+}
+
+.txn-journey-disabled {
+	color: #CCCCCC;
+}
+
+.new-document-panel .panel-heading {
+	background-color: #1B80E4;
+}
+
+.wait-for-verify-panel .panel-heading {
+	background-color: #862D86;
+}
+
+.wait-for-approve-panel .panel-heading {
+	background-color: #FF8C1A;
+}
+
+.future-drawdown-panel .panel-heading {
+	background-color: #8C8C8C;
+}
+
+.result-panel .panel-heading {
+	background-color: #66CC00;
+}
+
+.mouse-pointer {
+	cursor: pointer;
+}

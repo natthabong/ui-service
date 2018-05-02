@@ -14,18 +14,18 @@
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<form name="newFormula" class="form-horizontal">
-						<div class="form-group">
+						<div class="form-group row">
 							<label id="payment-date-formula-name-popup-label" for="formula-name" class="col-md-3 col-sm-4 col-xs-12 control-label">
 								<span ng-bind="'Formula name' | translate"></span>:</label>
 							<div class="col-md-6 col-sm-4 col-xs-12">
 								<scf-input-text id="payment-date-formula-name-textbox" maxlength="255" autofocus="autofocus" ng-model="ctrl.formula.formulaName"></scf-input-text>
 							</div>
 						</div>
-						<div class="form-group" ng-show="ctrl.showMessageError">
+						<div class="form-group row" ng-show="ctrl.showMessageError">
 							<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
 							<span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="formula-name-warning-message-label">{{ctrl.messageError | translate}}.</span>
 						</div>
-						<div class="form-group">
+						<div class="form-group row">
 							<label id="payment-date-formula-type-popup-label" for="formula-type" class="col-md-3 col-sm-4 col-xs-12 control-label">
 								<span ng-bind="'Formula type' | translate"></span>:</label>
 							<div class="col-md-6 col-sm-4 col-xs-12">

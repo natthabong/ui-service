@@ -11,62 +11,51 @@
 			</div>
 		</div>
 		<div class="modal-body">
-			<div class="row">
+			<div class="row col-md-12 col-sm-12 col-xs-12">
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<form name="newPeriod" class="form-horizontal">
-						
-						<div class="form-group">
-							<div class="col-xs-11 col-xs-offset-1">
-								<div class="row">
-									<div class="col-xs-3">
-										<label class="radio-inline"> <scf-radio
-												id="period-type-date-of-month" 
-												name="payment-period-type-radio"
-												ng-value="ctrl.periodType.DateOfMonth"
-												ng-model="ctrl.period.paymentPeriodType"></scf-radio>
-												<div id="payment-period-type-date-label">
-													<span ng-bind="'Date' | translate"></span>:
-												</div>
-										</label> 
-									</div>
-									<div class="col-xs-8">
-										<scf-dropdown id="payment-period-date-dropdown"
-											ng-model="ctrl.period.dateOfMonth"
-											component-data="ctrl.datePeriodDropdown"
-											convert-to-number="true"
-											ng-disabled="ctrl.period.paymentPeriodType != 'DATE_OF_MONTH'"></scf-dropdown>
-									
-									</div>
-								</div>
+
+						<div class="form-group row col-md-12 col-sm-12 col-xs-12">
+							<div class="form-group row col-md-3 col-sm-3 col-xs-3">
+									<label class="radio-inline"> <scf-radio
+											id="period-type-date-of-month"
+											name="payment-period-type-radio"
+											ng-value="ctrl.periodType.DateOfMonth"
+											ng-model="ctrl.period.paymentPeriodType"></scf-radio>
+											<span id="payment-period-type-date-label" ng-bind="'Date' | translate"></span>:
+									</label>
+							</div>
+							<div class="col-xs-8">
+								<scf-dropdown id="payment-period-date-dropdown"
+									ng-model="ctrl.period.dateOfMonth"
+									component-data="ctrl.datePeriodDropdown"
+									convert-to-number="true"
+									ng-disabled="ctrl.period.paymentPeriodType != 'DATE_OF_MONTH'"></scf-dropdown>
+
 							</div>
 						</div>
-						<div class="form-group">
-							<div class="col-xs-11 col-xs-offset-1">
-								<div class="row">
-									<div class="col-xs-3">
-										<label class="radio-inline"> <scf-radio
-												id="period-type-day-of-week"
-												name="payment-period-type-radio"
-												ng-value="ctrl.periodType.dayOfWeek"
-												ng-model="ctrl.period.paymentPeriodType"></scf-radio>
-												<div id="payment-period-type-day-of-week-label">
-													<span ng-bind="'Day of week' | translate"></span>:
-												</div>
-										</label>
-									</div>
-									<div class="col-xs-4">
-										<scf-dropdown id="payment-period-occurrence-week-dropdown"
-											ng-model="ctrl.period.occurrenceWeek"
-											component-data="ctrl.occWeekTypes" translate-label="true"
-											ng-disabled="ctrl.period.paymentPeriodType != 'DAY_OF_WEEK'"/>
-									</div>
-									<div class="col-xs-4">
-										<scf-dropdown id="payment-period-day-of-week-dropdown"
-											ng-model="ctrl.period.dayOfWeek"
-											component-data="ctrl.dayOfWeekTypes" translate-label="true"
-											ng-disabled="ctrl.period.paymentPeriodType != 'DAY_OF_WEEK'"/>
-									</div>
-								</div>
+
+						<div class="form-group row col-md-12 col-sm-12 col-xs-12">
+							<div class="form-group row col-md-3 col-sm-3 col-xs-3">
+								<label class="radio-inline"> <scf-radio
+										id="period-type-day-of-week" name="payment-period-type-radio"
+										ng-value="ctrl.periodType.dayOfWeek"
+										ng-model="ctrl.period.paymentPeriodType"></scf-radio> <span
+									id="payment-period-type-day-of-week-label"
+									ng-bind="'Day of week' | translate"></span>:
+								</label>
+							</div>
+							<div class="col-xs-4">
+								<scf-dropdown id="payment-period-occurrence-week-dropdown"
+									ng-model="ctrl.period.occurrenceWeek"
+									component-data="ctrl.occWeekTypes" translate-label="true"
+									ng-disabled="ctrl.period.paymentPeriodType != 'DAY_OF_WEEK'" />
+							</div>
+							<div class="col-xs-4">
+								<scf-dropdown id="payment-period-day-of-week-dropdown"
+									ng-model="ctrl.period.dayOfWeek"
+									component-data="ctrl.dayOfWeekTypes" translate-label="true"
+									ng-disabled="ctrl.period.paymentPeriodType != 'DAY_OF_WEEK'" />
 							</div>
 						</div>
 					</form>

@@ -14,7 +14,7 @@
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<form name="setupUser" class="form-horizontal">
-						<div class="form-group">
+						<div class="form-group row">
 							<label for="user-name"
 								id="setup-ftp-user-popup-user-name-label"
 								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
@@ -25,12 +25,12 @@
 									ng-model="ctrl.userInfo.username"></scf-input-text>
 							</div>
 						</div>
-						<div class="form-group" ng-show="ctrl.showUserNameMessageError">
+						<div class="form-group row" ng-show="ctrl.showUserNameMessageError">
 							<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
 							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
 								id="setup-ftp-user-popup-user-name-warning-message-label">{{ctrl.usernameMessageError | translate}}.</span>
 						</div>
-						<div class="form-group">
+						<div class="form-group row">
 							<label for="user-name"
 								id="setup-ftp-user-popup-password-label"
 								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
@@ -40,7 +40,7 @@
 									name="newPassword" ng-model="ctrl.userInfo.password"></scf-input-password>
 							</div>
 						</div>
-						<div class="form-group" ng-show="ctrl.showPasswordMessageError">
+						<div class="form-group row" ng-show="ctrl.showPasswordMessageError">
 							<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
 							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
 								id="setup-ftp-user-popup-password-warning-message-label">{{ctrl.passwordMessageError | translate}}.</span>
