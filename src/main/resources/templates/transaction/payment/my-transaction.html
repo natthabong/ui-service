@@ -1,23 +1,49 @@
-<div id="content" th:fragment="content" sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZATION')">
-	
-	<div class="app-title" >
+<div id="content" th:fragment="content"
+	sec:authorize="hasAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZATION')">
+
+	<div class="app-title">
 		<div>
 			<h1>
-				<i class="fa fa-file-text-o"></i> {{'Payment transaction' | translate}}
+				<i class="fa fa-file-text-o"></i> {{'Payment transaction' |
+				translate}}
 			</h1>
 			<p>The act of paying.</p>
 		</div>
 		<ul class="app-breadcrumb breadcrumb">
 			<li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-			<li class="breadcrumb-item"><a href="#">{{'Payment transaction' | translate}}</a></li>
+			<li class="breadcrumb-item"><a href="#">{{'Payment
+					transaction' | translate}}</a></li>
 		</ul>
 	</div>
-	<div class="row">
-	   <div class="col-md-12">
-			<div ng-include="'/payment-transaction/components/criteria-search'"></div>
-		</div>
+
+	<div class="row" ng-if="ctrl.getUserInfoSuccess">
 		<div class="col-md-12">
-			<div ng-include="'/payment-transaction/components/list-transaction'"></div>
+			<div class="tile">
+				<div class="tile-body">
+					<div class="col-md-12 text-right">
+						<button type="button" class="btn btn-primary"
+							data-toggle="collapse" data-target="#advance-search">
+							<i class="fa fa-fw fa-lg fa-search"></i> Search
+						</button>
+					</div>
+					<div id="advance-search">
+						<div class="col-md-12">
+							<div
+								ng-include="'/payment-transaction/components/criteria-search'"></div>
+						</div>
+					</div>
+					<div
+						ng-include="'/payment-transaction/components/list-transaction'"></div>
+						
+					<div ng-controller="PaymentTransactionController as ctrl">
+						<div class="panel-body" block-ui="summary-internal-block">
+							<div
+								ng-include="'/payment-transaction/components/result-summary'"></div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
+
 </div>
