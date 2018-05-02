@@ -153,7 +153,7 @@
 												</div></td>
 											<td class="text-center"><scf-button class="btn btn-sm"
 													id="view-{{record.id}}-button" title="View"
-													ng-disabled="record.items"
+													ng-disabled="!record.hasDetail"
 													ng-click="ctrl.viewDetail(record)"> <i
 													class="fa fa-search" aria-hidden="true"></i> </scf-button></td>
 										</tr>

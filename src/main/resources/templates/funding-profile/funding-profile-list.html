@@ -46,7 +46,7 @@
 									<td class="text-center">
 										<button type="button" ng-disabled="!ctrl.canManage"
 											class="btn-default gec-btn-action btn-sm btn"
-											id="edit-GEC User-button" ng-click="ctrl.edit(record)"
+											id="edit-{{record.fundingId}}-button" ng-click="ctrl.edit(record)"
 											title="Edit">
 											<ng-transclude>
 											<i class="fa fa-pencil-square-o" aria-hidden="true"></i></ng-transclude>
