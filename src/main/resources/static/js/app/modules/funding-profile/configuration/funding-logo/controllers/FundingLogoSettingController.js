@@ -144,7 +144,7 @@ angular
 						    });
 					} else {
 						vm.showErrorMsgLogo = true;
-						vm.errorMsgKeyLogo = 'Funding logo is required';
+						vm.errorMsgKeyLogo = 'Lender logo is required';
 					}
 			    }
 			    
