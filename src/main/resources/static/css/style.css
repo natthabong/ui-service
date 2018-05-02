@@ -251,6 +251,20 @@ html.ngdialog-open, body.ngdialog-open {
 	border-radius: 4px;
 }
 
+.gec-pop-up-font-size {
+	font-size: 15px;
+}
+
+.gec-pop-up-font-size-green {
+	font-weight: bold;
+	color: green;
+	font-size: 1.53125rem;
+}
+
+.gec-font-size-namal {
+	font-size: 15px;
+}
+
 /* .table-striped>tbody>tr:nth-child(odd)>td,  */
 /* .table-striped>tbody>tr:nth-child(odd)>th { */
 /*    background-color: #e5efff; // Choose your own color here */
