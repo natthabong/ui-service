@@ -303,6 +303,7 @@ html.ngdialog-open, body.ngdialog-open {
 }
 
 .space-20, [class*=vspace-20] {
+	border-top: 3px double #E5E5E5;
     max-height: 1px;
     min-height: 1px;
     overflow: hidden;
