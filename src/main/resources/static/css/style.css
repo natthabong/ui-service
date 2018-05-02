@@ -230,11 +230,25 @@ html.ngdialog-open, body.ngdialog-open {
 /* } */
 
 .modal-footer {
-    padding-right: 20px;
+    padding-right: 50px;
 }
 
 .hh-ss-input {
 	width: 70px !important;
+}
+
+.error-msg{
+	color: red;
+}
+
+.form-control-input {
+	width: 65px;
+	height: 34px;  
+	padding: 3px 6px;   
+	color: #555555;  
+	background-color: #fff;  
+	border: 1px solid #ccc;  
+	border-radius: 4px;
 }
 
 /* .table-striped>tbody>tr:nth-child(odd)>td,  */
