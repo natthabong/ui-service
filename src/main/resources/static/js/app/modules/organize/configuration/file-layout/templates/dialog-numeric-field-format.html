@@ -18,7 +18,7 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<fieldset>
 						<legend>Format</legend>
-						<div class="form-group">
+						<div class="form-group row">
 							<div class="col-md-6 col-sm-4 col-xs-12">
 								<label class="radio-inline"> <scf-radio
 										id="any-numeric-type"
@@ -37,7 +37,7 @@
 								</label>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group row">
 							<label for="dealer"
 								class="col-md-1 col-sm-2 col-xs-12 control-label"></label>
 							<div class="col-md-4 col-sm-5 col-xs-12">
@@ -69,7 +69,7 @@
 							</div>
 							<div class="col-md-8 col-sm-2 col-xs-12"></div>
 						</div>
-						<div class="form-group">
+						<div class="form-group row">
 							<label for="decimal-place-format"
 								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 								ng-bind="'Decimal places' | translate"></span>:</label>
@@ -81,7 +81,7 @@
 							</div>
 							<div class="col-md-7 col-sm-5 col-xs-12"></div>
 						</div>
-						<div class="form-group">
+						<div class="form-group row">
 							<label for="sign-flag-format"
 								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
 								ng-bind="'Sign flag' | translate"></span>:</label>
@@ -93,7 +93,7 @@
 							</div>
 							<div class="col-md-2 col-sm-2 col-xs-12"></div>
 						</div>
-						<div class="form-group"
+						<div class="form-group row"
 							ng-show="ctrl.numericeModel.signFlag=='Sign flag field'">
 							<label for="sign-flag-format"
 								class="col-md-3 col-sm-4 col-xs-12 control-label"><span
@@ -110,7 +110,7 @@
 							</div>
 							<div class="col-md-3 col-sm-3 col-xs-12"></div>
 						</div>
-						<div class="form-group"
+						<div class="form-group row"
 							ng-show="ctrl.numericeModel.signFlag=='Within field'">
 							<label for="sign-flag-format"
 								class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
@@ -136,7 +136,7 @@
 								</label>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group row">
 							<label for="numeric-label"
 								class="col-md-12 col-sm-12 col-xs-12 control-label"> Ex.
 								Positive: <span
@@ -148,7 +148,7 @@
 					</fieldset>
 					<fieldset>
 						<legend>Validation</legend>
-						<div class="form-group">
+						<div class="form-group row">
 							<label for="dealer"
 								class="col-md-2 col-sm-3 col-xs-12 control-label"> <scf-checkbox
 									id="numeric-field-format-popup-require-checkbox"
@@ -156,7 +156,7 @@
 								ng-bind="'Require' | translate" id="require-label"></span>
 							</label>
 						</div>
-						<div class="form-group"
+						<div class="form-group row"
 							ng-hide="ctrl.model.recordType != 'FOOTER'">
 							<label for="dealer"
 								class="col-md-1 col-sm-1 col-xs-1 control-label"><scf-checkbox
@@ -173,7 +173,7 @@
 									component-data="ctrl.relationalSummary" translate-label="true"></scf-dropdown>
 							</div>
 						</div>
-						<div class="form-group"
+						<div class="form-group row"
 							ng-show="ctrl.model.recordType == 'FOOTER'">
 							<label class="col-md-1 col-sm-1 col-xs-1 control-label"></label>
 							<div class="col-md-9 col-sm-11 col-xs-11">
