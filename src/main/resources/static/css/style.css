@@ -265,6 +265,9 @@ html.ngdialog-open, body.ngdialog-open {
 	font-size: 15px;
 }
 
+.paginate_button select {
+	margin-top: -5px;
+}
 /* .table-striped>tbody>tr:nth-child(odd)>td,  */
 /* .table-striped>tbody>tr:nth-child(odd)>th { */
 /*    background-color: #e5efff; // Choose your own color here */

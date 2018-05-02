@@ -6,6 +6,18 @@
 			id="wait-for-approve-transaction-header-label"
 			ng-bind="dashboardItem.headerLabel"></h3>
 
+		<!-- Start Table-->
+		<div class="row">
+			<div class="col-md-12">
+				<scf-data-table id="wait-for-approve-transaction-table"
+					class="transaction-table"
+					component-config="approveTxnTodoListCtrl.dataTable"
+					component-datas="approveTxnTodoListCtrl.pagingController.tableRowCollection"
+					current-page="approveTxnTodoListCtrl.pagingController.pagingModel.currentPage"
+					record-per-page="approveTxnTodoListCtrl.pagingController.pagingModel.pageSizeSelectModel"
+					clear-sort-order="approveTxnTodoListCtrl.pagingController.pagingModel.clearSortOrder"></scf-data-table>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-md-12 col-sm-12 text-right">
 				<span> <b ng-bind="approveTxnTodoListCtrl.pagingController.splitePageTxt"
@@ -18,20 +30,6 @@
 						page-action="approveTxnTodoListCtrl.loadData"></scf-pagination>
 				</span>
 			</div>
-		</div>
-		
-		<!-- Start Table-->
-		<div class="row">
-			<div class="col-md-12">
-				<scf-data-table id="wait-for-approve-transaction-table"
-					class="transaction-table"
-					component-config="approveTxnTodoListCtrl.dataTable"
-					component-datas="approveTxnTodoListCtrl.pagingController.tableRowCollection"
-					current-page="approveTxnTodoListCtrl.pagingController.pagingModel.currentPage"
-					record-per-page="approveTxnTodoListCtrl.pagingController.pagingModel.pageSizeSelectModel"
-					clear-sort-order="approveTxnTodoListCtrl.pagingController.pagingModel.clearSortOrder"></scf-data-table>
-			</div>
-			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
 	</div>
 </div>
