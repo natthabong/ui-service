@@ -4,13 +4,13 @@
 		sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_SUPPLIER_CODES', 'MANAGE_SUPPLIER_CODES_OF_MY_ORGANIZATION')" />
 	<input type="hidden" ng-init="ctrl.hiddenFundingColumn=true"
 		sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_SUPPLIER_CODES','VIEW_SUPPLIER_CODES_REFER_TO_MY_ORGANIZATION')" />
-
 	<div class="app-title">
 		<div>
 			<h1>
-				<span id="header-message-label" class="animated fadeInLeft">{{'Supplier
+				<i class="fa fa-file-text-o"></i> <span id="header-message-label" class="animated fadeInLeft">{{'Supplier
 					code list' | translate}}</span>
 			</h1>
+			<p>Page for manage supplier codes.</p>
 		</div>
 	</div>
 	<div class="row">
@@ -25,10 +25,11 @@
 						<scf-button id="new-button" class="btn-default gec-btn-action"
 							ng-disabled="ctrl.unauthen()" ng-click="ctrl.customerCodeSetup()"
 							ng-show="ctrl.isEditMode"> <i class="fa fa-plus"
-							aria-hidden="true"></i></scf-button>
+							aria-hidden="true"></i>{{'New' | translate}}</scf-button>
 					</div>
 					<div id="advance-search">
 						<form name="manageForm" class="form-horizontal">
+							<br />
 							<div class="form-group row" ng-hide="ctrl.hiddenFundingColumn">
 								<label for="dealer" id="funding-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'FUNDING'
@@ -48,8 +49,6 @@
 									<gec-auto-suggest model="ctrl.customerAutoSuggestModel"
 										ng-model="ctrl.criteria.customer" id="customer-auto-suggest"></gec-auto-suggest>
 								</div>
-							</div>
-							<div class="form-group row">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"
 									id="customer-code-label">{{'Supplier code' |
 									translate}}: </label>
@@ -80,7 +79,7 @@
 							<table id="customer-code-table"
 								class="table table-striped table-bordered" cellspacing="0">
 								<thead>
-									<tr>
+									<tr class="text-center">
 										<th ng-bind="'numbero' | translate" id="$rowNo-header-label"></th>
 										<th ng-hide="ctrl.hiddenFundingColumn"
 											ng-bind="'FUNDING' | translate" id="funding-header-label"></th>
@@ -133,14 +132,14 @@
 												class="btn btn-sm"
 												ng-disabled="ctrl.unauthen()"
 												ng-click="ctrl.customerCodeSetup(record)"
-												title="Setup customer code"> <i
-												class="btn btn-sm" aria-hidden="true"></i></scf-button> <scf-button
+												title="Setup customer code">
+											<i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button> <scf-button
 												id="{{record.customerCode}}-delete-button"
-												class="btn-default gec-btn-action"
+												class="btn btn-sm"
 												ng-disabled="ctrl.unauthen()"
 												ng-click="ctrl.deleteCustomerCode(record)"
-												title="Delete customer code"> <i
-												class="btn btn-sm" aria-hidden="true"></i></scf-button></td>
+												title="Delete customer code">
+											<i class="fa fa-trash-o" aria-hidden="true"></i></scf-button></td>
 									</tr>
 								</tbody>
 							</table>

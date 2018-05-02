@@ -7,12 +7,12 @@
 	<div class="app-title">
 		<div>
 			<h1>
-				<span id="header-message-label" class="animated fadeInLeft">{{'Buyer
+				<i class="fa fa-file-text-o"></i> <span id="header-message-label" class="animated fadeInLeft">{{'Buyer
 					code list' | translate}}</span>
 			</h1>
+			<p>Page for manage buyer codes.</p>
 		</div>
 	</div>
-
 	<div class="row">
 		<div class="col-md-12">
 			<div class="tile">
@@ -29,6 +29,7 @@
 					</div>
 					<div id="advance-search">
 						<form name="manageForm" class="form-horizontal">
+							<br />
 							<div class="form-group row" ng-hide="ctrl.hiddenFundingColumn">
 								<label for="dealer" id="funding-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'FUNDING'
@@ -48,8 +49,6 @@
 									<gec-auto-suggest model="ctrl.customerAutoSuggestModel"
 										ng-model="ctrl.criteria.customer" id="customer-auto-suggest"></gec-auto-suggest>
 								</div>
-							</div>
-							<div class="form-group row">
 								<label class="col-md-2 col-sm-3 col-xs-12 control-label"
 									id="customer-code-label">{{'Buyer code' | translate}}:
 								</label>
@@ -81,7 +80,7 @@
 							<table id="customer-code-table"
 								class="table table-striped table-bordered" cellspacing="0">
 								<thead>
-									<tr>
+									<tr class="text-center">
 										<th ng-bind="'numbero' | translate" id="$rowNo-header-label"></th>
 										<th ng-hide="ctrl.hiddenFundingColumn"
 											ng-bind="'FUNDING' | translate" id="funding-header-label"></th>

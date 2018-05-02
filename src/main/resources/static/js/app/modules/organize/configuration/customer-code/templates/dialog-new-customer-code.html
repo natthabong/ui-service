@@ -2,7 +2,7 @@
 	<form name="newEditCustCode" novalidate class="form-horizontal"
 		ng-submit="ctrl.saveCustomer();">
 		<div class="modal-header">
-			<div class="row">
+			<div class="row col-md-12 col-sm-12">
 				<div class="col-md-10 col-sm-10">
 					<h3>
 						<span ng-show="ctrl.isNewCusotmerCode"
@@ -21,7 +21,7 @@
 		<div class="modal-body">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
-					<div class="form-group">
+					<div class="form-group row">
 						<label for="customer-code-customer-textbox"
 							id="customer-code-customer-label"
 							class="col-md-2 col-sm-4 col-xs-12 control-label"><span
@@ -34,7 +34,7 @@
 							</gec-auto-suggest>
 						</div>
 					</div>
-					<div class="form-group"
+					<div class="form-group row"
 						ng-show="ctrl.submitted && newEditCustCode.customer.$error.required">
 						<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
 						<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
@@ -42,7 +42,7 @@
 							{{ctrl.initialLabel.customer+' is required' | translate}}.</span>
 					</div>
 
-					<div class="form-group" ng-show="ctrl.isSetSupplierCode">
+					<div class="form-group row" ng-show="ctrl.isSetSupplierCode">
 						<label for="customer-code-supplier-textbox"
 							id="customer-code-supplier-code-label"
 							class="col-md-2 col-sm-4 col-xs-12 control-label"><span
@@ -55,7 +55,7 @@
 						</div>
 					</div>
 
-					<div class="form-group" ng-hide="ctrl.isSetSupplierCode">
+					<div class="form-group row" ng-hide="ctrl.isSetSupplierCode">
 						<label for="customer-code-buyer-textbox"
 							id="customer-code-buyer-code-label"
 							class="col-md-2 col-sm-4 col-xs-12 control-label"><span
@@ -68,7 +68,7 @@
 						</div>
 					</div>
 
-					<div class="form-group"
+					<div class="form-group row"
 						ng-show="ctrl.submitted && newEditCustCode.supplier.$error.required">
 						<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
 						<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
@@ -76,7 +76,7 @@
 							{{ctrl.initialLabel.customer+' code is required' | translate}}.</span>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group row">
 						<label for="customer-code-remark-label"
 							id="customer-code-remark-label"
 							class="col-md-2 col-sm-4 col-xs-12 control-label"><span
@@ -87,7 +87,7 @@
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group row">
 						<label for="customer-code-active-date-label"
 							id="customer-code-active-date-label"
 							class="col-md-2 col-sm-4 col-xs-12 control-label"><span
@@ -118,28 +118,19 @@
 								min-date="ctrl.model.activeDate"> </scf-date-picker-to>
 						</div>
 					</div>
-					<div class="form-group">
-						<div ng-show="errors.activeDate">
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-							<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
-								id="customer-code-active-date-warning-message-label"
-								ng-bind="errors.activeDate.message"> </span> 
-						</div>
-						<div ng-show="errors.activeDateLessThan">
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-							<span class="col-md-6 col-sm-3 col-xs-12 error-msg"
-								id="customer-code-active-date-less-than-warning-message-label"
-								ng-bind="errors.activeDateLessThan.message"> </span> 
-						</div>
-						<div ng-show="errors.expiryDate">
-							<label class="col-md-5 col-sm-3 col-xs-12 control-label" ng-show="!errors.activeDate"></label>
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-							<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+					<div class="form-group row" ng-show="errors.activeDate || errors.activeDateLessThan || errors.expiryDate">
+						<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
+						<span class="col-md-10 col-sm-6 col-xs-12 error-msg"
+							id="customer-code-active-date-warning-message-label"
+							ng-bind="errors.activeDate.message" ng-show="errors.activeDate"> </span> 
+						<span class="col-md-10 col-sm-6 col-xs-12 error-msg"
+							id="customer-code-active-date-less-than-warning-message-label"
+							ng-bind="errors.activeDateLessThan.message" ng-show="!errors.activeDate && errors.activeDateLessThan"> </span> 
+						<span class="col-md-10 col-sm-6 col-xs-12 error-msg"
 								id="customer-code-expire-date-warning-message-label"
-								ng-bind="errors.expiryDate.message"> </span> 
-						</div>
+								ng-bind="errors.expiryDate.message" ng-show="!errors.activeDate && errors.expiryDate"> </span> 
 					</div>
-					<div class="form-group">
+					<div class="form-group row">
 						<label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
 						<div class="col-md-8 col-sm-7 col-xs-12">
 							<label class="checkbox-inline"><scf-checkbox
