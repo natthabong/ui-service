@@ -101,7 +101,7 @@
 					<div class="col-md-12 responsive-table">
 						<table id="trade-finance-account-table" class="table table-striped table-bordered" cellspacing="0">
 							<thead>
-								<tr>
+								<tr class="text-center">
 									<th id="$rowNo-header-label" ng-bind="'No.' | translate"></th>
 									<th id="buyer-header-label" ng-bind="'Buyer' | translate"></th>
 									<th id="supplier-header-label" ng-bind="'Supplier' | translate"></th>
@@ -155,9 +155,7 @@
 						</table>
 					</div> 
 					<div class="col-md-12 text-right">
-						<scf-button id="back-button" class="btn btn-default"
-							type="submit" ng-click="ctrl.back()">{{ 'Back' |
-						translate}}</scf-button>
+						<scf-button id="back-button" class="btn btn-default" type="submit" ng-click="ctrl.back()" ng-bind="'Back' | translate"></scf-button>
 					</div>
 				</div>
 			</div>
